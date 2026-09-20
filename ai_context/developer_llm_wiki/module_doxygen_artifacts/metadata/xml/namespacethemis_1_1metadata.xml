@@ -1,0 +1,577 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1metadata" kind="namespace" language="C++">
+    <compoundname>themis::metadata</compoundname>
+    <innerclass refid="classthemis_1_1metadata_1_1_always_export_policy" prot="public">themis::metadata::AlwaysExportPolicy</innerclass>
+    <innerclass refid="structthemis_1_1metadata_1_1_column_access" prot="public">themis::metadata::ColumnAccess</innerclass>
+    <innerclass refid="structthemis_1_1metadata_1_1_column_diff" prot="public">themis::metadata::ColumnDiff</innerclass>
+    <innerclass refid="structthemis_1_1metadata_1_1_column_lineage_entry" prot="public">themis::metadata::ColumnLineageEntry</innerclass>
+    <innerclass refid="structthemis_1_1metadata_1_1_column_lineage_record" prot="public">themis::metadata::ColumnLineageRecord</innerclass>
+    <innerclass refid="classthemis_1_1metadata_1_1_column_lineage_tracker" prot="public">themis::metadata::ColumnLineageTracker</innerclass>
+    <innerclass refid="structthemis_1_1metadata_1_1_column_ref" prot="public">themis::metadata::ColumnRef</innerclass>
+    <innerclass refid="structthemis_1_1metadata_1_1_column_ref_hash" prot="public">themis::metadata::ColumnRefHash</innerclass>
+    <innerclass refid="classthemis_1_1metadata_1_1_field_set_metadata_encryption_provider" prot="public">themis::metadata::FieldSetMetadataEncryptionProvider</innerclass>
+    <innerclass refid="classthemis_1_1metadata_1_1_filtered_export_policy" prot="public">themis::metadata::FilteredExportPolicy</innerclass>
+    <innerclass refid="classthemis_1_1metadata_1_1_i_metadata_change_listener" prot="public">themis::metadata::IMetadataChangeListener</innerclass>
+    <innerclass refid="classthemis_1_1metadata_1_1_i_metadata_encryption_provider" prot="public">themis::metadata::IMetadataEncryptionProvider</innerclass>
+    <innerclass refid="classthemis_1_1metadata_1_1_i_metadata_export_policy" prot="public">themis::metadata::IMetadataExportPolicy</innerclass>
+    <innerclass refid="classthemis_1_1metadata_1_1_i_metadata_security_provider" prot="public">themis::metadata::IMetadataSecurityProvider</innerclass>
+    <innerclass refid="classthemis_1_1metadata_1_1_i_metadata_snapshot_store" prot="public">themis::metadata::IMetadataSnapshotStore</innerclass>
+    <innerclass refid="structthemis_1_1metadata_1_1_index_diff" prot="public">themis::metadata::IndexDiff</innerclass>
+    <innerclass refid="structthemis_1_1metadata_1_1_index_recommendation" prot="public">themis::metadata::IndexRecommendation</innerclass>
+    <innerclass refid="classthemis_1_1metadata_1_1_index_recommender" prot="public">themis::metadata::IndexRecommender</innerclass>
+    <innerclass refid="classthemis_1_1metadata_1_1_in_memory_metadata_snapshot_store" prot="public">themis::metadata::InMemoryMetadataSnapshotStore</innerclass>
+    <innerclass refid="classthemis_1_1metadata_1_1_in_memory_rbac_metadata_security_provider" prot="public">themis::metadata::InMemoryRbacMetadataSecurityProvider</innerclass>
+    <innerclass refid="classthemis_1_1metadata_1_1_metadata_access_denied_exception" prot="public">themis::metadata::MetadataAccessDeniedException</innerclass>
+    <innerclass refid="structthemis_1_1metadata_1_1_metadata_change_event" prot="public">themis::metadata::MetadataChangeEvent</innerclass>
+    <innerclass refid="classthemis_1_1metadata_1_1_metadata_encryption_exception" prot="public">themis::metadata::MetadataEncryptionException</innerclass>
+    <innerclass refid="structthemis_1_1metadata_1_1_metadata_snapshot" prot="public">themis::metadata::MetadataSnapshot</innerclass>
+    <innerclass refid="classthemis_1_1metadata_1_1_metadata_snapshot_exception" prot="public">themis::metadata::MetadataSnapshotException</innerclass>
+    <innerclass refid="classthemis_1_1metadata_1_1_never_export_policy" prot="public">themis::metadata::NeverExportPolicy</innerclass>
+    <innerclass refid="classthemis_1_1metadata_1_1_no_op_metadata_encryption_provider" prot="public">themis::metadata::NoOpMetadataEncryptionProvider</innerclass>
+    <innerclass refid="classthemis_1_1metadata_1_1_no_op_metadata_security_provider" prot="public">themis::metadata::NoOpMetadataSecurityProvider</innerclass>
+    <innerclass refid="classthemis_1_1metadata_1_1_recording_metadata_change_listener" prot="public">themis::metadata::RecordingMetadataChangeListener</innerclass>
+    <innerclass refid="structthemis_1_1metadata_1_1_schema_diff" prot="public">themis::metadata::SchemaDiff</innerclass>
+    <innerclass refid="classthemis_1_1metadata_1_1_schema_diff_engine" prot="public">themis::metadata::SchemaDiffEngine</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1metadata_1aae7ca3e7a55cd13ba52c35097bc8b085" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>TransformationType</name>
+        <qualifiedname>themis::metadata::TransformationType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1metadata_1aae7ca3e7a55cd13ba52c35097bc8b085a869f7a49d94bf28c279b78d4f8cffce3" prot="public">
+          <name>DIRECT_COPY</name>
+          <briefdescription>
+<para>Target is a direct (verbatim) copy of a single source column. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1metadata_1aae7ca3e7a55cd13ba52c35097bc8b085a507f09f72160920edb481656c350e76c" prot="public">
+          <name>RENAME</name>
+          <briefdescription>
+<para>Column was renamed; content identical to source. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1metadata_1aae7ca3e7a55cd13ba52c35097bc8b085a283929907641c5acaf4c5b67986fc1db" prot="public">
+          <name>CAST</name>
+          <briefdescription>
+<para>Column value was type-cast from the source. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1metadata_1aae7ca3e7a55cd13ba52c35097bc8b085a6be453b0bddc1cb07f6ac2cf460e77fd" prot="public">
+          <name>COMPUTED</name>
+          <briefdescription>
+<para>Computed from one or more source columns (arithmetic, concat, etc.). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1metadata_1aae7ca3e7a55cd13ba52c35097bc8b085af4c9f5462147735029052b713da1ce44" prot="public">
+          <name>AGGREGATION</name>
+          <briefdescription>
+<para>Aggregation of source column values (SUM, AVG, COUNT, …). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1metadata_1aae7ca3e7a55cd13ba52c35097bc8b085a0a5d774452fc707b70a657fec29b2bc4" prot="public">
+          <name>ANONYMIZATION</name>
+          <briefdescription>
+<para>PII/PHI in source column was anonymized or pseudonymized. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1metadata_1aae7ca3e7a55cd13ba52c35097bc8b085a7c9cb569785ae44f42a6a7cae0ba1082" prot="public">
+          <name>ENRICHMENT</name>
+          <briefdescription>
+<para>Source column was enriched with additional data from another source. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1metadata_1aae7ca3e7a55cd13ba52c35097bc8b085a72baef04098f035e8a320b03ad197818" prot="public">
+          <name>CUSTOM</name>
+          <briefdescription>
+<para>Any other transformation; description is in transformation_expression. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Type of transformation that was applied to derive a target column. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/column_lineage.h" line="64" column="1" bodyfile="include/metadata/column_lineage.h" bodystart="64" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1metadata_1afd7078e993135071573cd065ff801f2e" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>MetadataChangeType</name>
+        <qualifiedname>themis::metadata::MetadataChangeType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1metadata_1afd7078e993135071573cd065ff801f2ea0af71b5d145bdefec7d0a4c3462d6d6b" prot="public">
+          <name>TABLE_CREATED</name>
+          <briefdescription>
+<para>A new table/collection was discovered or created. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1metadata_1afd7078e993135071573cd065ff801f2eaa1cee174e9c791328c1af7772dd067d5" prot="public">
+          <name>TABLE_MODIFIED</name>
+          <briefdescription>
+<para>An existing table schema was updated. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1metadata_1afd7078e993135071573cd065ff801f2ea2a8be65a2352ae30992d761652a62c2b" prot="public">
+          <name>TABLE_DROPPED</name>
+          <briefdescription>
+<para>A table was removed from the catalog. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1metadata_1afd7078e993135071573cd065ff801f2ea86ee4980cc6980afbc38fb0f1f034027" prot="public">
+          <name>CONSTRAINT_ADDED</name>
+          <briefdescription>
+<para>A new schema constraint was defined. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1metadata_1afd7078e993135071573cd065ff801f2eaf4904c340f8ded8475e73f3bec15150c" prot="public">
+          <name>CONSTRAINT_DROPPED</name>
+          <briefdescription>
+<para>A schema constraint was removed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1metadata_1afd7078e993135071573cd065ff801f2ea858f5f763846af80062a9146fc31b648" prot="public">
+          <name>STATISTICS_UPDATED</name>
+          <briefdescription>
+<para>Statistics for a table were refreshed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Classifies the kind of metadata change that occurred. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_change_listener.h" line="54" column="1" bodyfile="include/metadata/imetadata_change_listener.h" bodystart="54" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1metadata_1ae8a63ada5feda4c6b2b124e296f2ed77" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>MetadataEncryptionAlgorithm</name>
+        <qualifiedname>themis::metadata::MetadataEncryptionAlgorithm</qualifiedname>
+        <enumvalue id="namespacethemis_1_1metadata_1ae8a63ada5feda4c6b2b124e296f2ed77ab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <briefdescription>
+<para>No encryption (pass-through). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1metadata_1ae8a63ada5feda4c6b2b124e296f2ed77a6a692ab98af1360ca0b50ab9d876b16a" prot="public">
+          <name>XOR_BASIC</name>
+          <briefdescription>
+<para>Byte-wise XOR with repeating key (demo / test only). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1metadata_1ae8a63ada5feda4c6b2b124e296f2ed77a3730dc2834a0ba05335af0f429a66e81" prot="public">
+          <name>AES_GCM_256</name>
+          <briefdescription>
+<para>AES-256 in GCM mode (production-grade; external impl required). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1metadata_1ae8a63ada5feda4c6b2b124e296f2ed77a72baef04098f035e8a320b03ad197818" prot="public">
+          <name>CUSTOM</name>
+          <briefdescription>
+<para>Caller-supplied algorithm (documentation via algorithm()). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Identifies the encryption algorithm used by a provider instance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_encryption_provider.h" line="27" column="1" bodyfile="include/metadata/imetadata_encryption_provider.h" bodystart="27" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1metadata_1aa82119ef5e71ceb2723014216f3a7ac4" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>MetadataExportTrigger</name>
+        <qualifiedname>themis::metadata::MetadataExportTrigger</qualifiedname>
+        <enumvalue id="namespacethemis_1_1metadata_1aa82119ef5e71ceb2723014216f3a7ac4ab6aaf17d2aa32b5f96260eb91ff85b0f" prot="public">
+          <name>SCHEMA_CREATED</name>
+          <briefdescription>
+<para>A new table was discovered or created. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1metadata_1aa82119ef5e71ceb2723014216f3a7ac4ab7bafc4da3b01f18e5f99e54b3aad618" prot="public">
+          <name>SCHEMA_MODIFIED</name>
+          <briefdescription>
+<para>An existing table schema was updated. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1metadata_1aa82119ef5e71ceb2723014216f3a7ac4a80a1d098868713c037dfa4827e295664" prot="public">
+          <name>SCHEMA_DROPPED</name>
+          <briefdescription>
+<para>A table was removed from the catalog. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1metadata_1aa82119ef5e71ceb2723014216f3a7ac4a858f5f763846af80062a9146fc31b648" prot="public">
+          <name>STATISTICS_UPDATED</name>
+          <briefdescription>
+<para>Statistics for a table were refreshed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Events that can trigger an export to an external metadata catalog. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_export_policy.h" line="51" column="1" bodyfile="include/metadata/imetadata_export_policy.h" bodystart="51" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1metadata_1a9eefab387602cdb9d88b817331642fb8" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>MetadataOperation</name>
+        <qualifiedname>themis::metadata::MetadataOperation</qualifiedname>
+        <enumvalue id="namespacethemis_1_1metadata_1a9eefab387602cdb9d88b817331642fb8aa69c5667eb138400b1cfe907b120290e" prot="public">
+          <name>READ_SCHEMA</name>
+          <briefdescription>
+<para>Read schema: getTables(), getColumns(), INFORMATION_SCHEMA. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1metadata_1a9eefab387602cdb9d88b817331642fb8ada731cb77a482e42259b0a2e8142944f" prot="public">
+          <name>WRITE_SCHEMA</name>
+          <briefdescription>
+<para>Modify schema: createSchemaVersion(), rollback(), constraints. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1metadata_1a9eefab387602cdb9d88b817331642fb8a1398a2a3e2a00cadd44a59bd930db2f0" prot="public">
+          <name>READ_STATISTICS</name>
+          <briefdescription>
+<para>Read statistics: getStats(), histogram queries. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1metadata_1a9eefab387602cdb9d88b817331642fb8ad84a31253f504ac9032029f1a437ee2c" prot="public">
+          <name>WRITE_STATISTICS</name>
+          <briefdescription>
+<para>Update statistics: refreshStats(), manual overrides. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1metadata_1a9eefab387602cdb9d88b817331642fb8a9a98ff7f99fb70004e1c3b9489955821" prot="public">
+          <name>READ_LINEAGE</name>
+          <briefdescription>
+<para>Query lineage: getLineage(), upstream/downstream traversal. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1metadata_1a9eefab387602cdb9d88b817331642fb8addf7df9c6ba2414d259d27e9d267f191" prot="public">
+          <name>WRITE_LINEAGE</name>
+          <briefdescription>
+<para>Record lineage: recordTransformation(). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1metadata_1a9eefab387602cdb9d88b817331642fb8a3db31b19493d2ded4db9a7aa2cfc71bf" prot="public">
+          <name>READ_AUDIT_LOG</name>
+          <briefdescription>
+<para>Access audit log: queryAuditLog(). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1metadata_1a9eefab387602cdb9d88b817331642fb8a73acd9a5972130b75066c82595a1fae3" prot="public">
+          <name>ADMIN</name>
+          <briefdescription>
+<para>Full administrative control (implies all other operations). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Operations that can be performed on metadata resources. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Used by <ref refid="classthemis_1_1metadata_1_1_i_metadata_security_provider" kindref="compound">IMetadataSecurityProvider</ref> to authorise access. Ordered from most-specific (READ_SCHEMA) to broadest (ADMIN). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_security_provider.h" line="55" column="1" bodyfile="include/metadata/imetadata_security_provider.h" bodystart="55" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1metadata_1afde008584960d594d7896db8ffdd3b64" prot="public" static="no" strong="yes">
+        <type>int32_t</type>
+        <name>MetaError</name>
+        <qualifiedname>themis::metadata::MetaError</qualifiedname>
+        <enumvalue id="namespacethemis_1_1metadata_1afde008584960d594d7896db8ffdd3b64adaeefd49e3ec67a221b3d25459a924a3" prot="public">
+          <name>kCollectionNotFound</name>
+          <initializer>= 7900</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1metadata_1afde008584960d594d7896db8ffdd3b64a687dbdb1ee81fc5e3b7b89a6a186ec92" prot="public">
+          <name>kFieldNotFound</name>
+          <initializer>= 7901</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1metadata_1afde008584960d594d7896db8ffdd3b64ab79d97a35d835a7c1b9614360f808ff6" prot="public">
+          <name>kSchemaMismatch</name>
+          <initializer>= 7902</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1metadata_1afde008584960d594d7896db8ffdd3b64a797ffa4b2d6944dedd466a142de3368b" prot="public">
+          <name>kExportFailed</name>
+          <initializer>= 7903</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/metadata_api_contract.h" line="46" column="1" bodyfile="include/metadata/metadata_api_contract.h" bodystart="46" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1metadata_1a91eab0959c6776ca72d9a8f23261fb71" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ColumnDiffType</name>
+        <qualifiedname>themis::metadata::ColumnDiffType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1metadata_1a91eab0959c6776ca72d9a8f23261fb71a55771bcb939a8afbf4d119d6e0099317" prot="public">
+          <name>ADDED</name>
+          <briefdescription>
+<para>Column was added in the new schema. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1metadata_1a91eab0959c6776ca72d9a8f23261fb71ab3461745d64b12346503b2980e436db5" prot="public">
+          <name>REMOVED</name>
+          <briefdescription>
+<para>Column was removed in the new schema. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1metadata_1a91eab0959c6776ca72d9a8f23261fb71aac23e08054818971b3ada2d7f41067db" prot="public">
+          <name>TYPE_CHANGED</name>
+          <briefdescription>
+<para>Column data type changed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1metadata_1a91eab0959c6776ca72d9a8f23261fb71abc1add8229a79b13290183ae5cd8711d" prot="public">
+          <name>NULLABILITY_CHANGED</name>
+          <briefdescription>
+<para>Column nullability changed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1metadata_1a91eab0959c6776ca72d9a8f23261fb71abd73534c0f0105a0890eacf71dedade1" prot="public">
+          <name>INDEX_CHANGED</name>
+          <briefdescription>
+<para>Column index presence or type changed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Classifies a column-level schema difference. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_diff.h" line="32" column="1" bodyfile="include/metadata/schema_diff.h" bodystart="32" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1metadata_1a00a8434370094c9481c98aa213a7570b" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>IndexDiffType</name>
+        <qualifiedname>themis::metadata::IndexDiffType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1metadata_1a00a8434370094c9481c98aa213a7570ba55771bcb939a8afbf4d119d6e0099317" prot="public">
+          <name>ADDED</name>
+          <briefdescription>
+<para>Index was added in the new schema. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1metadata_1a00a8434370094c9481c98aa213a7570bab3461745d64b12346503b2980e436db5" prot="public">
+          <name>REMOVED</name>
+          <briefdescription>
+<para>Index was removed in the new schema. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1metadata_1a00a8434370094c9481c98aa213a7570bae6b94e58bfd13b21bc786578d9f8ba4a" prot="public">
+          <name>CHANGED</name>
+          <briefdescription>
+<para>Index with the same name has different attributes. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Classifies an index-level schema difference. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_diff.h" line="87" column="1" bodyfile="include/metadata/schema_diff.h" bodystart="87" bodyend="91"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1metadata_1a8efd44656ac5d0cf26226df8e9a7fbc2" prot="public" static="no">
+        <type>nlohmann::json</type>
+        <definition>using themis::metadata::json = nlohmann::json</definition>
+        <argsstring></argsstring>
+        <name>json</name>
+        <qualifiedname>themis::metadata::json</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_change_listener.h" line="47" column="1" bodyfile="include/metadata/imetadata_change_listener.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1metadata_1a4244e347bd3c10198e0a0fef093ca26c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::metadata::transformationTypeToString</definition>
+        <argsstring>(TransformationType t)</argsstring>
+        <name>transformationTypeToString</name>
+        <qualifiedname>themis::metadata::transformationTypeToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1metadata_1aae7ca3e7a55cd13ba52c35097bc8b085" kindref="member">TransformationType</ref></type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+<para>Convert <ref refid="namespacethemis_1_1metadata_1aae7ca3e7a55cd13ba52c35097bc8b085" kindref="member">TransformationType</ref> to a string label. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>─── <ref refid="namespacethemis_1_1metadata_1aae7ca3e7a55cd13ba52c35097bc8b085" kindref="member">TransformationType</ref> helpers ──────────────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements transformationTypeToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/metadata/column_lineage.cpp" line="67" column="13" bodyfile="src/metadata/column_lineage.cpp" bodystart="67" bodyend="79" declfile="include/metadata/column_lineage.h" declline="76" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1metadata_1a1d2c14e52a681cd2c50748580b0e25fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1metadata_1aae7ca3e7a55cd13ba52c35097bc8b085" kindref="member">TransformationType</ref></type>
+        <definition>TransformationType themis::metadata::transformationTypeFromString</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>transformationTypeFromString</name>
+        <qualifiedname>themis::metadata::transformationTypeFromString</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Convert a string label back to <ref refid="namespacethemis_1_1metadata_1aae7ca3e7a55cd13ba52c35097bc8b085" kindref="member">TransformationType</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Transformation Type From String.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transformation label to parse (case-insensitive). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Matching <ref refid="namespacethemis_1_1metadata_1aae7ca3e7a55cd13ba52c35097bc8b085" kindref="member">TransformationType</ref> value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::transform(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/metadata/column_lineage.cpp" line="87" column="20" bodyfile="src/metadata/column_lineage.cpp" bodystart="87" bodyend="112" declfile="include/metadata/column_lineage.h" declline="83" declcolumn="20"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/metadata/column_lineage.h" line="27" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,392 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1governance_1_1_policy_metrics_collector" kind="class" language="C++" prot="public">
+    <compoundname>themis::governance::PolicyMetricsCollector</compoundname>
+    <includes refid="policy__validation_8h" local="no">policy_validation.h</includes>
+    <innerclass refid="structthemis_1_1governance_1_1_policy_metrics_collector_1_1_rule_metrics" prot="public">themis::governance::PolicyMetricsCollector::RuleMetrics</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_policy_metrics_collector_1_1_performance_impact" prot="public">themis::governance::PolicyMetricsCollector::PerformanceImpact</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_policy_metrics_collector_1afeed6edeb4dee448cbe5ee3cb416d6dd" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::governance::PolicyMetricsCollector::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::governance::PolicyMetricsCollector::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validation.h" line="275" column="24" bodyfile="include/governance/policy_validation.h" bodystart="275" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_policy_metrics_collector_1aa4ca3cfa8f5b9d07e64fc058fb5409c2" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1governance_1_1_policy_metrics_collector_1_1_rule_metrics" kindref="compound">RuleMetrics</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, RuleMetrics&gt; themis::governance::PolicyMetricsCollector::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::governance::PolicyMetricsCollector::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validation.h" line="276" column="24" bodyfile="include/governance/policy_validation.h" bodystart="276" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_metrics_collector_1a55ed8f8cb3c33d5e7869a8395e518d1c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::PolicyMetricsCollector::recordEvaluation</definition>
+        <argsstring>(const std::string &amp;rule_id, bool matched, int64_t evaluation_time_us)</argsstring>
+        <name>recordEvaluation</name>
+        <qualifiedname>themis::governance::PolicyMetricsCollector::recordEvaluation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>matched</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>evaluation_time_us</declname>
+        </param>
+        <briefdescription>
+<para>Record Evaluation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>========== <ref refid="classthemis_1_1governance_1_1_policy_metrics_collector" kindref="compound">PolicyMetricsCollector</ref> Implementation ==========</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">matched</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">evaluation_time_us</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">matched</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">evaluation_time_us</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::chrono::system_clock::now(), time_since_epoch(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validation.h" line="231" column="10" bodyfile="src/governance/policy_validation.cpp" bodystart="876" bodyend="896"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_metrics_collector_1a7d5a6303d7cee411be5e4cd0932b308f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1governance_1_1_policy_metrics_collector_1_1_rule_metrics" kindref="compound">RuleMetrics</ref> &gt;</type>
+        <definition>std::optional&lt; PolicyMetricsCollector::RuleMetrics &gt; themis::governance::PolicyMetricsCollector::getRuleMetrics</definition>
+        <argsstring>(const std::string &amp;rule_id) const</argsstring>
+        <name>getRuleMetrics</name>
+        <qualifiedname>themis::governance::PolicyMetricsCollector::getRuleMetrics</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Rule Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/policy_validation.h" line="238" column="19" bodyfile="src/governance/policy_validation.cpp" bodystart="899" bodyend="912"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_metrics_collector_1abfee920304c8668136f0de708abbc3ec" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1governance_1_1_policy_metrics_collector_1_1_rule_metrics" kindref="compound">RuleMetrics</ref> &gt;</type>
+        <definition>std::unordered_map&lt; std::string, PolicyMetricsCollector::RuleMetrics &gt; themis::governance::PolicyMetricsCollector::getAllMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllMetrics</name>
+        <qualifiedname>themis::governance::PolicyMetricsCollector::getAllMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/policy_validation.h" line="240" column="24" bodyfile="src/governance/policy_validation.cpp" bodystart="914" bodyend="922"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_metrics_collector_1ac0b8ce07cff1ff12416511e405126f9e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_policy_metrics_collector_1_1_performance_impact" kindref="compound">PerformanceImpact</ref> &gt;</type>
+        <definition>std::vector&lt; PolicyMetricsCollector::PerformanceImpact &gt; themis::governance::PolicyMetricsCollector::analyzePerformanceImpact</definition>
+        <argsstring>() const</argsstring>
+        <name>analyzePerformanceImpact</name>
+        <qualifiedname>themis::governance::PolicyMetricsCollector::analyzePerformanceImpact</qualifiedname>
+        <briefdescription>
+<para>Analyze Performance Impact. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/policy_validation.h" line="246" column="17" bodyfile="src/governance/policy_validation.cpp" bodystart="924" bodyend="967"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_metrics_collector_1ab08a5a308600a486ac25a5e4f2fbad94" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::governance::PolicyMetricsCollector::getSlowRules</definition>
+        <argsstring>(int64_t threshold_us=1000) const</argsstring>
+        <name>getSlowRules</name>
+        <qualifiedname>themis::governance::PolicyMetricsCollector::getSlowRules</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>threshold_us</declname>
+          <defval>1000</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/policy_validation.h" line="248" column="17" bodyfile="src/governance/policy_validation.cpp" bodystart="969" bodyend="986"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_metrics_collector_1af5efdbcc2116f0b69e847f5199126b74" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::PolicyMetricsCollector::exportMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>exportMetrics</name>
+        <qualifiedname>themis::governance::PolicyMetricsCollector::exportMetrics</qualifiedname>
+        <briefdescription>
+<para>Export Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/policy_validation.h" line="254" column="20" bodyfile="src/governance/policy_validation.cpp" bodystart="988" bodyend="1003"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_metrics_collector_1a456e37cc4584ac101a4d2bfe21cbb4c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::PolicyMetricsCollector::importMetrics</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>importMetrics</name>
+        <qualifiedname>themis::governance::PolicyMetricsCollector::importMetrics</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>Import Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: is_array(), THEMIS_ERROR(), lock(), contains(), empty(), THEMIS_INFO(), size(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validation.h" line="261" column="10" bodyfile="src/governance/policy_validation.cpp" bodystart="1011" bodyend="1056"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_metrics_collector_1a8225931136d6310594d5767666b3bd6c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::PolicyMetricsCollector::resetMetrics</definition>
+        <argsstring>()</argsstring>
+        <name>resetMetrics</name>
+        <qualifiedname>themis::governance::PolicyMetricsCollector::resetMetrics</qualifiedname>
+        <briefdescription>
+<para>Reset Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), clear(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validation.h" line="266" column="10" bodyfile="src/governance/policy_validation.cpp" bodystart="1062" bodyend="1066"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_metrics_collector_1a4820f0b92b54819f90d9803f14051964" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::PolicyMetricsCollector::resetRuleMetrics</definition>
+        <argsstring>(const std::string &amp;rule_id)</argsstring>
+        <name>resetRuleMetrics</name>
+        <qualifiedname>themis::governance::PolicyMetricsCollector::resetRuleMetrics</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <briefdescription>
+<para>Reset Rule Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), erase(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validation.h" line="272" column="10" bodyfile="src/governance/policy_validation.cpp" bodystart="1073" bodyend="1077"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/policy_validation.h" line="193" column="1" bodyfile="include/governance/policy_validation.h" bodystart="193" bodyend="277"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1governance_1_1_policy_metrics_collector_1ac0b8ce07cff1ff12416511e405126f9e" prot="public" virt="non-virtual"><scope>themis::governance::PolicyMetricsCollector</scope><name>analyzePerformanceImpact</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_metrics_collector_1af5efdbcc2116f0b69e847f5199126b74" prot="public" virt="non-virtual"><scope>themis::governance::PolicyMetricsCollector</scope><name>exportMetrics</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_metrics_collector_1abfee920304c8668136f0de708abbc3ec" prot="public" virt="non-virtual"><scope>themis::governance::PolicyMetricsCollector</scope><name>getAllMetrics</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_metrics_collector_1a7d5a6303d7cee411be5e4cd0932b308f" prot="public" virt="non-virtual"><scope>themis::governance::PolicyMetricsCollector</scope><name>getRuleMetrics</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_metrics_collector_1ab08a5a308600a486ac25a5e4f2fbad94" prot="public" virt="non-virtual"><scope>themis::governance::PolicyMetricsCollector</scope><name>getSlowRules</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_metrics_collector_1a456e37cc4584ac101a4d2bfe21cbb4c6" prot="public" virt="non-virtual"><scope>themis::governance::PolicyMetricsCollector</scope><name>importMetrics</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_metrics_collector_1aa4ca3cfa8f5b9d07e64fc058fb5409c2" prot="private" virt="non-virtual"><scope>themis::governance::PolicyMetricsCollector</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_metrics_collector_1afeed6edeb4dee448cbe5ee3cb416d6dd" prot="private" virt="non-virtual"><scope>themis::governance::PolicyMetricsCollector</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_metrics_collector_1a55ed8f8cb3c33d5e7869a8395e518d1c" prot="public" virt="non-virtual"><scope>themis::governance::PolicyMetricsCollector</scope><name>recordEvaluation</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_metrics_collector_1a8225931136d6310594d5767666b3bd6c" prot="public" virt="non-virtual"><scope>themis::governance::PolicyMetricsCollector</scope><name>resetMetrics</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_metrics_collector_1a4820f0b92b54819f90d9803f14051964" prot="public" virt="non-virtual"><scope>themis::governance::PolicyMetricsCollector</scope><name>resetRuleMetrics</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_spoof_analysis" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::SpoofAnalysis</compoundname>
+    <includes refid="voice__anti__spoof__engine_8h" local="no">voice_anti_spoof_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_spoof_analysis_1abbf6fcfe322f17f5931c6006a547cef5" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::voice::SpoofAnalysis::audio_freshness_score</definition>
+        <argsstring></argsstring>
+        <name>audio_freshness_score</name>
+        <qualifiedname>themis::voice::SpoofAnalysis::audio_freshness_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>0.0-1.0: How &quot;live&quot; the audio appears (1.0 = definitely live) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_anti_spoof_engine.h" line="61" column="12" bodyfile="include/voice/voice_anti_spoof_engine.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_spoof_analysis_1af14906dc364e35ee3930641762d9ada4" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::voice::SpoofAnalysis::speaker_match_score</definition>
+        <argsstring></argsstring>
+        <name>speaker_match_score</name>
+        <qualifiedname>themis::voice::SpoofAnalysis::speaker_match_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>0.0-1.0: How well speaker matches baseline (1.0 = exact match) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_anti_spoof_engine.h" line="62" column="12" bodyfile="include/voice/voice_anti_spoof_engine.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_spoof_analysis_1afe6557f525a3f1c907dddd557ac9870e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::voice::SpoofAnalysis::noise_consistency_score</definition>
+        <argsstring></argsstring>
+        <name>noise_consistency_score</name>
+        <qualifiedname>themis::voice::SpoofAnalysis::noise_consistency_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>0.0-1.0: How consistent background noise is (1.0 = perfectly consistent) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_anti_spoof_engine.h" line="63" column="12" bodyfile="include/voice/voice_anti_spoof_engine.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_spoof_analysis_1afbbb16730f63f1db081165b9ab6ad3a1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::SpoofAnalysis::is_likely_spoofed</definition>
+        <argsstring></argsstring>
+        <name>is_likely_spoofed</name>
+        <qualifiedname>themis::voice::SpoofAnalysis::is_likely_spoofed</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Composite verdict: true if likely spoofed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_anti_spoof_engine.h" line="65" column="10" bodyfile="include/voice/voice_anti_spoof_engine.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_spoof_analysis_1ada246421c195a95a7303c36654ea0f17" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::voice::SpoofAnalysis::spoof_probability</definition>
+        <argsstring></argsstring>
+        <name>spoof_probability</name>
+        <qualifiedname>themis::voice::SpoofAnalysis::spoof_probability</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Probability of spoofing (0-1). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_anti_spoof_engine.h" line="66" column="12" bodyfile="include/voice/voice_anti_spoof_engine.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_spoof_analysis_1aeaf5eab3cbfb077065ae2838025604a9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::SpoofAnalysis::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::voice::SpoofAnalysis::reason</qualifiedname>
+        <briefdescription>
+<para>Why verdict was reached. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_anti_spoof_engine.h" line="67" column="17" bodyfile="include/voice/voice_anti_spoof_engine.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_spoof_analysis_1a6cd9381b3385fe79d710c43573a68738" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::voice::SpoofAnalysis::overall_confidence</definition>
+        <argsstring></argsstring>
+        <name>overall_confidence</name>
+        <qualifiedname>themis::voice::SpoofAnalysis::overall_confidence</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Confidence in verdict (0-1). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_anti_spoof_engine.h" line="69" column="12" bodyfile="include/voice/voice_anti_spoof_engine.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of spoofing analysis. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_anti_spoof_engine.h" line="60" column="1" bodyfile="include/voice/voice_anti_spoof_engine.h" bodystart="60" bodyend="70"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_spoof_analysis_1abbf6fcfe322f17f5931c6006a547cef5" prot="public" virt="non-virtual"><scope>themis::voice::SpoofAnalysis</scope><name>audio_freshness_score</name></member>
+      <member refid="structthemis_1_1voice_1_1_spoof_analysis_1afbbb16730f63f1db081165b9ab6ad3a1" prot="public" virt="non-virtual"><scope>themis::voice::SpoofAnalysis</scope><name>is_likely_spoofed</name></member>
+      <member refid="structthemis_1_1voice_1_1_spoof_analysis_1afe6557f525a3f1c907dddd557ac9870e" prot="public" virt="non-virtual"><scope>themis::voice::SpoofAnalysis</scope><name>noise_consistency_score</name></member>
+      <member refid="structthemis_1_1voice_1_1_spoof_analysis_1a6cd9381b3385fe79d710c43573a68738" prot="public" virt="non-virtual"><scope>themis::voice::SpoofAnalysis</scope><name>overall_confidence</name></member>
+      <member refid="structthemis_1_1voice_1_1_spoof_analysis_1aeaf5eab3cbfb077065ae2838025604a9" prot="public" virt="non-virtual"><scope>themis::voice::SpoofAnalysis</scope><name>reason</name></member>
+      <member refid="structthemis_1_1voice_1_1_spoof_analysis_1af14906dc364e35ee3930641762d9ada4" prot="public" virt="non-virtual"><scope>themis::voice::SpoofAnalysis</scope><name>speaker_match_score</name></member>
+      <member refid="structthemis_1_1voice_1_1_spoof_analysis_1ada246421c195a95a7303c36654ea0f17" prot="public" virt="non-virtual"><scope>themis::voice::SpoofAnalysis</scope><name>spoof_probability</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

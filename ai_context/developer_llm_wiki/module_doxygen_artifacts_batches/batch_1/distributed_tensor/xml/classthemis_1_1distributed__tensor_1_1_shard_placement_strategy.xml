@@ -1,0 +1,271 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1distributed__tensor_1_1_shard_placement_strategy" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::distributed_tensor::ShardPlacementStrategy</compoundname>
+    <derivedcompoundref refid="classthemis_1_1distributed__tensor_1_1_default_shard_placement_strategy" prot="public" virt="non-virtual">themis::distributed_tensor::DefaultShardPlacementStrategy</derivedcompoundref>
+    <includes refid="shard__placement_8h" local="no">shard_placement.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_shard_placement_strategy_1ae3f8911709eec97a46bbde03b5b9bfff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_tensor::ShardPlacementStrategy::ShardPlacementStrategy</definition>
+        <argsstring>()=default</argsstring>
+        <name>ShardPlacementStrategy</name>
+        <qualifiedname>themis::distributed_tensor::ShardPlacementStrategy::ShardPlacementStrategy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/shard_placement.h" line="94" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_shard_placement_strategy_1ab69bbacb10b8f72dd4171298a54808c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_tensor::ShardPlacementStrategy::ShardPlacementStrategy</definition>
+        <argsstring>(const ShardPlacementStrategy &amp;)=delete</argsstring>
+        <name>ShardPlacementStrategy</name>
+        <qualifiedname>themis::distributed_tensor::ShardPlacementStrategy::ShardPlacementStrategy</qualifiedname>
+        <param>
+          <type>const ShardPlacementStrategy &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/shard_placement.h" line="96" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_shard_placement_strategy_1ae3abc73bc1405f714f5108100c5b3d94" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_tensor::ShardPlacementStrategy::ShardPlacementStrategy</definition>
+        <argsstring>(ShardPlacementStrategy &amp;&amp;) noexcept=default</argsstring>
+        <name>ShardPlacementStrategy</name>
+        <qualifiedname>themis::distributed_tensor::ShardPlacementStrategy::ShardPlacementStrategy</qualifiedname>
+        <param>
+          <type>ShardPlacementStrategy &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/shard_placement.h" line="98" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_shard_placement_strategy_1a507775e8bce566fedb62e21a000faed9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1distributed__tensor_1_1_shard_placement_strategy_1ae3f8911709eec97a46bbde03b5b9bfff" kindref="member">ShardPlacementStrategy</ref> &amp;</type>
+        <definition>ShardPlacementStrategy &amp; themis::distributed_tensor::ShardPlacementStrategy::operator=</definition>
+        <argsstring>(const ShardPlacementStrategy &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::distributed_tensor::ShardPlacementStrategy::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1distributed__tensor_1_1_shard_placement_strategy_1ae3f8911709eec97a46bbde03b5b9bfff" kindref="member">ShardPlacementStrategy</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/shard_placement.h" line="100" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_shard_placement_strategy_1af7f8148ecd036aaac5bd51b69ba97cb5" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1distributed__tensor_1_1_shard_placement_strategy_1ae3f8911709eec97a46bbde03b5b9bfff" kindref="member">ShardPlacementStrategy</ref> &amp;</type>
+        <definition>ShardPlacementStrategy &amp; themis::distributed_tensor::ShardPlacementStrategy::operator=</definition>
+        <argsstring>(ShardPlacementStrategy &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::distributed_tensor::ShardPlacementStrategy::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1distributed__tensor_1_1_shard_placement_strategy_1ae3f8911709eec97a46bbde03b5b9bfff" kindref="member">ShardPlacementStrategy</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/shard_placement.h" line="102" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_shard_placement_strategy_1a03331abb3f3d1038a66c0aa7dfc3d8b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::distributed_tensor::ShardPlacementStrategy::~ShardPlacementStrategy</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ShardPlacementStrategy</name>
+        <qualifiedname>themis::distributed_tensor::ShardPlacementStrategy::~ShardPlacementStrategy</qualifiedname>
+        <briefdescription>
+<para>Shard Placement Strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/shard_placement.h" line="108" column="11"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_shard_placement_strategy_1af4f052407ed5bb4d9266bcf162ac383d" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1distributed__tensor_1_1_placement_plan" kindref="compound">PlacementPlan</ref></type>
+        <definition>virtual PlacementPlan themis::distributed_tensor::ShardPlacementStrategy::compute_placement</definition>
+        <argsstring>(const std::string &amp;artifact_id, uint32_t num_shards, uint64_t shard_size_bytes, const std::vector&lt; NodeCapacity &gt; &amp;available_nodes, const std::optional&lt; FactorizationPlacementHint &gt; &amp;factorization_hint=std::nullopt, PlacementConstraint constraints=PlacementConstraint::NONE) noexcept=0</argsstring>
+        <name>compute_placement</name>
+        <qualifiedname>themis::distributed_tensor::ShardPlacementStrategy::compute_placement</qualifiedname>
+        <reimplementedby refid="classthemis_1_1distributed__tensor_1_1_default_shard_placement_strategy_1ad9d71920c4008f063147dd1265c0a07c">compute_placement</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>artifact_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>num_shards</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>shard_size_bytes</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1distributed__tensor_1_1_node_capacity" kindref="compound">NodeCapacity</ref> &gt; &amp;</type>
+          <declname>available_nodes</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="structthemis_1_1distributed__tensor_1_1_factorization_placement_hint" kindref="compound">FactorizationPlacementHint</ref> &gt; &amp;</type>
+          <declname>factorization_hint</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1distributed__tensor_1a2fe16684805760d406eb969b0ec37834" kindref="member">PlacementConstraint</ref></type>
+          <declname>constraints</declname>
+          <defval><ref refid="namespacethemis_1_1distributed__tensor_1a2fe16684805760d406eb969b0ec37834ab50339a10e1de285ac99d4c3990b8693" kindref="member">PlacementConstraint::NONE</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/shard_placement.h" line="110" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_shard_placement_strategy_1ab168548b41ae087e4d7b066cfa95766c" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::distributed_tensor::ShardPlacementStrategy::validate_placement</definition>
+        <argsstring>(const PlacementPlan &amp;plan, PlacementConstraint constraints) const noexcept=0</argsstring>
+        <name>validate_placement</name>
+        <qualifiedname>themis::distributed_tensor::ShardPlacementStrategy::validate_placement</qualifiedname>
+        <reimplementedby refid="classthemis_1_1distributed__tensor_1_1_default_shard_placement_strategy_1a0005276dcfce9f0fcd547105f3eebf16">validate_placement</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1distributed__tensor_1_1_placement_plan" kindref="compound">PlacementPlan</ref> &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1distributed__tensor_1a2fe16684805760d406eb969b0ec37834" kindref="member">PlacementConstraint</ref></type>
+          <declname>constraints</declname>
+        </param>
+        <briefdescription>
+<para>Validate placement. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">constraints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/shard_placement.h" line="126" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_shard_placement_strategy_1aec9dd9dacd6f282fd5dde8a056f44856" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1distributed__tensor_1_1_placement_plan" kindref="compound">PlacementPlan</ref></type>
+        <definition>virtual PlacementPlan themis::distributed_tensor::ShardPlacementStrategy::optimize_placement</definition>
+        <argsstring>(const PlacementPlan &amp;current_plan, const std::vector&lt; NodeCapacity &gt; &amp;available_nodes) noexcept=0</argsstring>
+        <name>optimize_placement</name>
+        <qualifiedname>themis::distributed_tensor::ShardPlacementStrategy::optimize_placement</qualifiedname>
+        <reimplementedby refid="classthemis_1_1distributed__tensor_1_1_default_shard_placement_strategy_1ac8703d3514ac7f14930529fd1ed48091">optimize_placement</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1distributed__tensor_1_1_placement_plan" kindref="compound">PlacementPlan</ref> &amp;</type>
+          <declname>current_plan</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1distributed__tensor_1_1_node_capacity" kindref="compound">NodeCapacity</ref> &gt; &amp;</type>
+          <declname>available_nodes</declname>
+        </param>
+        <briefdescription>
+<para>Optimize placement. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">current_plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">available_nodes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/shard_placement.h" line="137" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::distributed_tensor::DefaultShardPlacementStrategy</label>
+        <link refid="classthemis_1_1distributed__tensor_1_1_default_shard_placement_strategy"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::distributed_tensor::ShardPlacementStrategy</label>
+        <link refid="classthemis_1_1distributed__tensor_1_1_shard_placement_strategy"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/distributed_tensor/shard_placement.h" line="92" column="1" bodyfile="include/distributed_tensor/shard_placement.h" bodystart="92" bodyend="140"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1distributed__tensor_1_1_shard_placement_strategy_1af4f052407ed5bb4d9266bcf162ac383d" prot="public" virt="pure-virtual"><scope>themis::distributed_tensor::ShardPlacementStrategy</scope><name>compute_placement</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_shard_placement_strategy_1a507775e8bce566fedb62e21a000faed9" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ShardPlacementStrategy</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_shard_placement_strategy_1af7f8148ecd036aaac5bd51b69ba97cb5" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ShardPlacementStrategy</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_shard_placement_strategy_1aec9dd9dacd6f282fd5dde8a056f44856" prot="public" virt="pure-virtual"><scope>themis::distributed_tensor::ShardPlacementStrategy</scope><name>optimize_placement</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_shard_placement_strategy_1ae3f8911709eec97a46bbde03b5b9bfff" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ShardPlacementStrategy</scope><name>ShardPlacementStrategy</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_shard_placement_strategy_1ab69bbacb10b8f72dd4171298a54808c4" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ShardPlacementStrategy</scope><name>ShardPlacementStrategy</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_shard_placement_strategy_1ae3abc73bc1405f714f5108100c5b3d94" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ShardPlacementStrategy</scope><name>ShardPlacementStrategy</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_shard_placement_strategy_1ab168548b41ae087e4d7b066cfa95766c" prot="public" virt="pure-virtual"><scope>themis::distributed_tensor::ShardPlacementStrategy</scope><name>validate_placement</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_shard_placement_strategy_1a03331abb3f3d1038a66c0aa7dfc3d8b5" prot="public" virt="virtual"><scope>themis::distributed_tensor::ShardPlacementStrategy</scope><name>~ShardPlacementStrategy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_o_auth2_provider_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::OAuth2Provider::Config</compoundname>
+    <includes refid="oauth2__provider_8h" local="no">oauth2_provider.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_o_auth2_provider_1_1_config_1a5b40e7a2af5cdae04107eb417452b56c" prot="public" static="no" mutable="no">
+        <type>auth::OIDCProviderConfig</type>
+        <definition>auth::OIDCProviderConfig themis::server::OAuth2Provider::Config::oidc</definition>
+        <argsstring></argsstring>
+        <name>oidc</name>
+        <qualifiedname>themis::server::OAuth2Provider::Config::oidc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/oauth2_provider.h" line="35" column="34" bodyfile="include/server/oauth2_provider.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_o_auth2_provider_1_1_config_1ac83f978be47067085cee391e2a55ae69" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::OAuth2Provider::Config::redirect_uri</definition>
+        <argsstring></argsstring>
+        <name>redirect_uri</name>
+        <qualifiedname>themis::server::OAuth2Provider::Config::redirect_uri</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/oauth2_provider.h" line="37" column="21" bodyfile="include/server/oauth2_provider.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_o_auth2_provider_1_1_config_1a120452b1873ed5078ca5a683f436b136" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::server::OAuth2Provider::Config::max_state_length</definition>
+        <argsstring></argsstring>
+        <name>max_state_length</name>
+        <qualifiedname>themis::server::OAuth2Provider::Config::max_state_length</qualifiedname>
+        <initializer>{256}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/oauth2_provider.h" line="39" column="21" bodyfile="include/server/oauth2_provider.h" bodystart="39" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_o_auth2_provider_1_1_config_1ad7bf0d972bba6a8f5d61fc650d7eca74" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::server::OAuth2Provider::Config::state_ttl</definition>
+        <argsstring></argsstring>
+        <name>state_ttl</name>
+        <qualifiedname>themis::server::OAuth2Provider::Config::state_ttl</qualifiedname>
+        <initializer>{600}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/oauth2_provider.h" line="41" column="30" bodyfile="include/server/oauth2_provider.h" bodystart="41" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_o_auth2_provider_1_1_config_1ac3f3a7f794494d737a30f68c4e8ad2b9" prot="public" static="no" mutable="no">
+        <type>std::function&lt; std::string(const std::string &amp;access_token)&gt;</type>
+        <definition>std::function&lt;std::string(const std::string&amp; access_token)&gt; themis::server::OAuth2Provider::Config::token_factory</definition>
+        <argsstring></argsstring>
+        <name>token_factory</name>
+        <qualifiedname>themis::server::OAuth2Provider::Config::token_factory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/oauth2_provider.h" line="43" column="23" bodyfile="include/server/oauth2_provider.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/oauth2_provider.h" line="34" column="5" bodyfile="include/server/oauth2_provider.h" bodystart="34" bodyend="44"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_o_auth2_provider_1_1_config_1a120452b1873ed5078ca5a683f436b136" prot="public" virt="non-virtual"><scope>themis::server::OAuth2Provider::Config</scope><name>max_state_length</name></member>
+      <member refid="structthemis_1_1server_1_1_o_auth2_provider_1_1_config_1a5b40e7a2af5cdae04107eb417452b56c" prot="public" virt="non-virtual"><scope>themis::server::OAuth2Provider::Config</scope><name>oidc</name></member>
+      <member refid="structthemis_1_1server_1_1_o_auth2_provider_1_1_config_1ac83f978be47067085cee391e2a55ae69" prot="public" virt="non-virtual"><scope>themis::server::OAuth2Provider::Config</scope><name>redirect_uri</name></member>
+      <member refid="structthemis_1_1server_1_1_o_auth2_provider_1_1_config_1ad7bf0d972bba6a8f5d61fc650d7eca74" prot="public" virt="non-virtual"><scope>themis::server::OAuth2Provider::Config</scope><name>state_ttl</name></member>
+      <member refid="structthemis_1_1server_1_1_o_auth2_provider_1_1_config_1ac3f3a7f794494d737a30f68c4e8ad2b9" prot="public" virt="non-virtual"><scope>themis::server::OAuth2Provider::Config</scope><name>token_factory</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

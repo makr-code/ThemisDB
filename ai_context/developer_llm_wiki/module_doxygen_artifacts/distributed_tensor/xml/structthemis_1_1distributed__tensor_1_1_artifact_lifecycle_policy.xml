@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__tensor_1_1_artifact_lifecycle_policy" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::ArtifactLifecyclePolicy</compoundname>
+    <includes refid="src_2distributed__tensor_2include_2artifact__manifest_8h" local="no">artifact_manifest.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1distributed__tensor_1_1_artifact_lifecycle_policy_1a6cef78494a0a798322edead90975838f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::ArtifactLifecyclePolicy::stateToString</definition>
+        <argsstring>(LifecycleState state)</argsstring>
+        <name>stateToString</name>
+        <qualifiedname>themis::distributed_tensor::ArtifactLifecyclePolicy::stateToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1distributed__tensor_1af3b313410b5d33bc1458846e0b17f9f1" kindref="member">LifecycleState</ref></type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>State To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements stateToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/artifact_manifest.h" line="193" column="24" bodyfile="src/distributed_tensor/src/artifact_manifest.cc" bodystart="37" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1distributed__tensor_1_1_artifact_lifecycle_policy_1a5e5931a6b23211ad08764901ef39b355" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1distributed__tensor_1af3b313410b5d33bc1458846e0b17f9f1" kindref="member">LifecycleState</ref> &gt;</type>
+        <definition>std::optional&lt; LifecycleState &gt; themis::distributed_tensor::ArtifactLifecyclePolicy::stringToState</definition>
+        <argsstring>(const std::string &amp;state_str)</argsstring>
+        <name>stringToState</name>
+        <qualifiedname>themis::distributed_tensor::ArtifactLifecyclePolicy::stringToState</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>state_str</declname>
+        </param>
+        <briefdescription>
+<para>String To State. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements stringToState without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/artifact_manifest.h" line="200" column="26" bodyfile="src/distributed_tensor/src/artifact_manifest.cc" bodystart="54" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1distributed__tensor_1_1_artifact_lifecycle_policy_1a56788ed3c9375adab112b19e5757d147" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::ArtifactLifecyclePolicy::isUsableForPlanning</definition>
+        <argsstring>(LifecycleState state) noexcept</argsstring>
+        <name>isUsableForPlanning</name>
+        <qualifiedname>themis::distributed_tensor::ArtifactLifecyclePolicy::isUsableForPlanning</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1distributed__tensor_1af3b313410b5d33bc1458846e0b17f9f1" kindref="member">LifecycleState</ref></type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>Is Usable For Planning. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/artifact_manifest.h" line="208" column="17" bodyfile="src/distributed_tensor/src/artifact_manifest.cc" bodystart="74" bodyend="76"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/distributed_tensor/include/artifact_manifest.h" line="187" column="1" bodyfile="src/distributed_tensor/include/artifact_manifest.h" bodystart="187" bodyend="209"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__tensor_1_1_artifact_lifecycle_policy_1a56788ed3c9375adab112b19e5757d147" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ArtifactLifecyclePolicy</scope><name>isUsableForPlanning</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_artifact_lifecycle_policy_1a6cef78494a0a798322edead90975838f" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ArtifactLifecyclePolicy</scope><name>stateToString</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_artifact_lifecycle_policy_1a5e5931a6b23211ad08764901ef39b355" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ArtifactLifecyclePolicy</scope><name>stringToState</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

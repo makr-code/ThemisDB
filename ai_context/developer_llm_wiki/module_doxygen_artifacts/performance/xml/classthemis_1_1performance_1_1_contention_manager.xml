@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1performance_1_1_contention_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::performance::ContentionManager</compoundname>
+    <includes refid="cicada_8h" local="no">cicada.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_contention_manager_1ad1267ec66cb434b8fa6a423301b8cbf0" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::performance::ContentionManager::abort_count_</definition>
+        <argsstring></argsstring>
+        <name>abort_count_</name>
+        <qualifiedname>themis::performance::ContentionManager::abort_count_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cicada.h" line="178" column="17" bodyfile="include/performance/cicada.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_contention_manager_1a827fe674d951afe89a3c693dc0b0a727" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::performance::ContentionManager::commit_count_</definition>
+        <argsstring></argsstring>
+        <name>commit_count_</name>
+        <qualifiedname>themis::performance::ContentionManager::commit_count_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cicada.h" line="179" column="17" bodyfile="include/performance/cicada.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_contention_manager_1a3073656afac50c0ea7a3d1f178dd3fe7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::ContentionManager::ContentionManager</definition>
+        <argsstring>()</argsstring>
+        <name>ContentionManager</name>
+        <qualifiedname>themis::performance::ContentionManager::ContentionManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cicada.h" line="146" column="5" bodyfile="include/performance/cicada.h" bodystart="146" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_contention_manager_1a46ad25c9d529b80511e43231b131876a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::ContentionManager::record_commit</definition>
+        <argsstring>()</argsstring>
+        <name>record_commit</name>
+        <qualifiedname>themis::performance::ContentionManager::record_commit</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cicada.h" line="149" column="10" bodyfile="include/performance/cicada.h" bodystart="149" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_contention_manager_1aa198f1f660d061f47c6edcb3bc1996f2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::ContentionManager::record_abort</definition>
+        <argsstring>()</argsstring>
+        <name>record_abort</name>
+        <qualifiedname>themis::performance::ContentionManager::record_abort</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cicada.h" line="153" column="10" bodyfile="include/performance/cicada.h" bodystart="153" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_contention_manager_1ae9b87c1e058b6e548931ebc0eac0a4ba" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::performance::ContentionManager::get_abort_rate</definition>
+        <argsstring>() const</argsstring>
+        <name>get_abort_rate</name>
+        <qualifiedname>themis::performance::ContentionManager::get_abort_rate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cicada.h" line="158" column="12" bodyfile="include/performance/cicada.h" bodystart="158" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_contention_manager_1ad974d1a255b97f7160b8f9a4bae19d60" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::ContentionManager::should_backoff</definition>
+        <argsstring>() const</argsstring>
+        <name>should_backoff</name>
+        <qualifiedname>themis::performance::ContentionManager::should_backoff</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cicada.h" line="168" column="10" bodyfile="include/performance/cicada.h" bodystart="168" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_contention_manager_1a118e9a61b0df0d88573d28b782e863b2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::ContentionManager::reset_stats</definition>
+        <argsstring>()</argsstring>
+        <name>reset_stats</name>
+        <qualifiedname>themis::performance::ContentionManager::reset_stats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cicada.h" line="172" column="10" bodyfile="include/performance/cicada.h" bodystart="172" bodyend="175"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Contention manager for Cicada Regulates contention to reduce abort rate </para>
+    </detaileddescription>
+    <location file="include/performance/cicada.h" line="144" column="1" bodyfile="include/performance/cicada.h" bodystart="144" bodyend="180"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1performance_1_1_contention_manager_1ad1267ec66cb434b8fa6a423301b8cbf0" prot="private" virt="non-virtual"><scope>themis::performance::ContentionManager</scope><name>abort_count_</name></member>
+      <member refid="classthemis_1_1performance_1_1_contention_manager_1a827fe674d951afe89a3c693dc0b0a727" prot="private" virt="non-virtual"><scope>themis::performance::ContentionManager</scope><name>commit_count_</name></member>
+      <member refid="classthemis_1_1performance_1_1_contention_manager_1a3073656afac50c0ea7a3d1f178dd3fe7" prot="public" virt="non-virtual"><scope>themis::performance::ContentionManager</scope><name>ContentionManager</name></member>
+      <member refid="classthemis_1_1performance_1_1_contention_manager_1ae9b87c1e058b6e548931ebc0eac0a4ba" prot="public" virt="non-virtual"><scope>themis::performance::ContentionManager</scope><name>get_abort_rate</name></member>
+      <member refid="classthemis_1_1performance_1_1_contention_manager_1aa198f1f660d061f47c6edcb3bc1996f2" prot="public" virt="non-virtual"><scope>themis::performance::ContentionManager</scope><name>record_abort</name></member>
+      <member refid="classthemis_1_1performance_1_1_contention_manager_1a46ad25c9d529b80511e43231b131876a" prot="public" virt="non-virtual"><scope>themis::performance::ContentionManager</scope><name>record_commit</name></member>
+      <member refid="classthemis_1_1performance_1_1_contention_manager_1a118e9a61b0df0d88573d28b782e863b2" prot="public" virt="non-virtual"><scope>themis::performance::ContentionManager</scope><name>reset_stats</name></member>
+      <member refid="classthemis_1_1performance_1_1_contention_manager_1ad974d1a255b97f7160b8f9a4bae19d60" prot="public" virt="non-virtual"><scope>themis::performance::ContentionManager</scope><name>should_backoff</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

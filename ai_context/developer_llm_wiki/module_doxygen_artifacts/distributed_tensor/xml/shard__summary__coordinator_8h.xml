@@ -1,0 +1,484 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="shard__summary__coordinator_8h" kind="file" language="C++">
+    <compoundname>shard_summary_coordinator.h</compoundname>
+    <includes refid="src_2distributed__tensor_2include_2artifact__manifest_8h" local="yes">artifact_manifest.h</includes>
+    <includes refid="manifest__store_8h" local="yes">manifest_store.h</includes>
+    <includes local="yes">tensor/tensor_summary_types.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="shard__summary__coordinator_8cc" local="yes">src/distributed_tensor/src/shard_summary_coordinator.cc</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>artifact_manifest.h</label>
+        <link refid="src_2distributed__tensor_2include_2artifact__manifest_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>manifest_store.h</label>
+        <link refid="manifest__store_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>src/distributed_tensor/include/shard_summary_coordinator.h</label>
+        <link refid="shard__summary__coordinator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="11">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>map</label>
+      </node>
+      <node id="12">
+        <label>memory</label>
+      </node>
+      <node id="13">
+        <label>mutex</label>
+      </node>
+      <node id="10">
+        <label>observability/metrics_collector.h</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="15">
+        <label>tensor/tensor_summary_types.h</label>
+      </node>
+      <node id="14">
+        <label>unordered_map</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>src/distributed_tensor/include/shard_summary_coordinator.h</label>
+        <link refid="shard__summary__coordinator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/distributed_tensor/src/shard_summary_coordinator.cc</label>
+        <link refid="shard__summary__coordinator_8cc"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_shard_freshness_record" prot="public">themis::distributed_tensor::ShardFreshnessRecord</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_shard_summary_refresh_result" prot="public">themis::distributed_tensor::ShardSummaryRefreshResult</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_routing_decision" prot="public">themis::distributed_tensor::RoutingDecision</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_exact_fetch_request" prot="public">themis::distributed_tensor::ExactFetchRequest</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_exact_fetch_result" prot="public">themis::distributed_tensor::ExactFetchResult</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_freshness_consensus_result" prot="public">themis::distributed_tensor::FreshnessConsensusResult</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_i_shard_fetcher" prot="public">themis::distributed_tensor::IShardFetcher</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_shard_summary_coordinator" prot="public">themis::distributed_tensor::ShardSummaryCoordinator</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_config" prot="public">themis::distributed_tensor::ShardSummaryCoordinator::Config</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_stats" prot="public">themis::distributed_tensor::ShardSummaryCoordinator::Stats</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1distributed__tensor">themis::distributed_tensor</innernamespace>
+    <briefdescription>
+<para>Phase C: distributed shard summary refresh, summary-first routing, and exact-on-demand tensor fetch for multi-shard coordination. </para>
+    </briefdescription>
+    <detaileddescription>
+<sect1 id="shard__summary__coordinator_8h_1autotoc_md10_1s1"><sect2 id="shard__summary__coordinator_8h_1autotoc_md10">
+<title>Phase C Overview</title><para>Phase C extends the distributed tensor infrastructure with:<orderedlist>
+<listitem><para><bold>Shard summary refresh</bold> — per-shard advisory summaries carry freshness timestamps and are refreshed on a configurable TTL schedule.</para>
+</listitem><listitem><para><bold>Summary-first routing with escalation</bold> — the planner uses advisory summaries to select shards cheaply; if a shard&apos;s summary exceeds the freshness threshold the planner escalates to exact-on-demand fetch.</para>
+</listitem><listitem><para><bold>Exact-on-demand tensor fetch</bold> — replaces the advisory summary when accuracy is required; the exact fragment is fetched from the shard and validated before being used in the query result.</para>
+</listitem><listitem><para><bold>Multi-shard freshness consensus</bold> — a quorum of shards must agree that their summaries are fresh before the planner skips exact fetch.</para>
+</listitem></orderedlist>
+</para>
+</sect2></sect1>
+<sect1 id="shard__summary__coordinator_8h_1autotoc_md11_1s1"><sect2 id="shard__summary__coordinator_8h_1autotoc_md11">
+<title>Advisory-Only Invariant (preserved from Phase A/B)</title><para>Shard summaries are still advisory only. Callers MUST NOT treat a summary as a final query result. The exact-on-demand path is mandatory whenever:<itemizedlist>
+<listitem><para>a shard&apos;s summary is STALE or INVALID, OR</para>
+</listitem><listitem><para>the requested accuracy mode is EXACT, OR</para>
+</listitem><listitem><para>consensus quorum is not met across shards.</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="shard__summary__coordinator_8h_1autotoc_md12_1s1"><sect2 id="shard__summary__coordinator_8h_1autotoc_md12">
+<title>Byzantine Fault Tolerance and Quorum Safety (SG-DT-01)</title><para>Quorum-based consensus decisions (e.g., &quot;skip exact fetch&quot;) require strict majority participation to ensure Byzantine Fault Tolerance:<itemizedlist>
+<listitem><para>Minimum quorum ratio: 0.5f (50% + 1 participant) — simple majority</para>
+</listitem><listitem><para>Recommended quorum ratio: 0.666f (66.7%) or 0.75f (75%) for Byzantine safety</para>
+</listitem><listitem><para>All quorum_ratio values are validated at construction and configuration time</para>
+</listitem><listitem><para>Attempting to set quorum_ratio &lt; 0.5f will be rejected with error logging</para>
+</listitem></itemizedlist>
+</para>
+<para>Reference: PRODUCTION_REQUIREMENTS.md §2.3 Safety Gates (SG-DT-01)</para>
+</sect2></sect1>
+<sect1 id="shard__summary__coordinator_8h_1autotoc_md13_1s1"><sect2 id="shard__summary__coordinator_8h_1autotoc_md13">
+<title>Thread Safety</title><para><computeroutput>ShardSummaryCoordinator</computeroutput> is thread-safe for concurrent <computeroutput>refresh()</computeroutput>, <computeroutput>route()</computeroutput>, and <computeroutput>fetchExact()</computeroutput> calls. Internal per-shard state is protected by a <computeroutput>std::mutex</computeroutput>; the freshness consensus check is lock-free after the state snapshot is taken. </para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="src_2distributed__tensor_2include_2artifact__manifest_8h" kindref="compound">artifact_manifest.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="manifest__store_8h" kindref="compound">manifest_store.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;tensor/tensor_summary_types.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1distributed__tensor" kindref="compound">distributed_tensor</ref><sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ShardFreshnessRecord<sp/>—<sp/>per-shard<sp/>freshness<sp/>state<sp/>with<sp/>timestamps</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1distributed__tensor_1_1_shard_freshness_record" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1distributed__tensor_1_1_shard_freshness_record" kindref="compound">ShardFreshnessRecord</ref><sp/>{</highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1distributed__tensor_1_1_shard_freshness_record_1a88819e71c58aa24662645d059af2cc0c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_shard_freshness_record_1a88819e71c58aa24662645d059af2cc0c" kindref="member">shard_id</ref>;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1distributed__tensor_1_1_shard_freshness_record_1ac9605ac64574869d9fe8e5a4b4be1c7e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_shard_freshness_record_1ac9605ac64574869d9fe8e5a4b4be1c7e" kindref="member">last_refresh_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1distributed__tensor_1_1_shard_freshness_record_1a3754ff783d8454f325794c9402cacb1b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_shard_freshness_record_1a3754ff783d8454f325794c9402cacb1b" kindref="member">ttl_seconds</ref><sp/>=<sp/>3600;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1distributed__tensor_1_1_shard_freshness_record_1a4d95f9be3e9dd9ffb9819b384b9cb6b5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_shard_freshness_record_1a4d95f9be3e9dd9ffb9819b384b9cb6b5" kindref="member">refresh_generation</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1distributed__tensor_1_1_shard_freshness_record_1a9c4b601e3d4cb3a45fc4cb0b46b6a171" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>tensor::SummaryFreshnessState<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_shard_freshness_record_1a9c4b601e3d4cb3a45fc4cb0b46b6a171" kindref="member">freshness_state</ref><sp/>=<sp/>tensor::SummaryFreshnessState::STALE;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1distributed__tensor_1_1_shard_freshness_record_1a60bcfaaeb58dfcf2f757dc4baa53a6ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_shard_freshness_record_1a60bcfaaeb58dfcf2f757dc4baa53a6ef" kindref="member">exact_fetch_pending</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1distributed__tensor_1_1_shard_freshness_record_1a2d504f9b0bf32004f3e9b271a579d1a0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_shard_freshness_record_1a2d504f9b0bf32004f3e9b271a579d1a0" kindref="member">last_refresh_error</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_shard_freshness_record_1ae278e1333fedb55f00185ba66cd17e61" kindref="member">isExpired</ref>(int64_t<sp/>now_ms<sp/>=<sp/>0)<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_shard_freshness_record_1add934656bac4e0bb6474db41aa2b8050" kindref="member">markRefreshed</ref>(int64_t<sp/>refresh_time_ms)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ShardSummaryRefreshResult<sp/>—<sp/>outcome<sp/>of<sp/>a<sp/>single<sp/>shard<sp/>refresh</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1distributed__tensor_1_1_shard_summary_refresh_result" refkind="compound"><highlight class="normal">struct<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_shard_summary_refresh_result" kindref="compound">ShardSummaryRefreshResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1distributed__tensor_1_1_shard_summary_refresh_result_1aae643672e04409c736a76d82383406ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_shard_summary_refresh_result_1aae643672e04409c736a76d82383406ec" kindref="member">shard_id</ref>;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1distributed__tensor_1_1_shard_summary_refresh_result_1a7f7fb3de236c79f23e7c864ee0b7a4f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_shard_summary_refresh_result_1a7f7fb3de236c79f23e7c864ee0b7a4f2" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1distributed__tensor_1_1_shard_summary_refresh_result_1af8b82b168eb2bcf773c53a91f3094fb7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_shard_summary_refresh_result_1af8b82b168eb2bcf773c53a91f3094fb7" kindref="member">error_reason</ref>;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1distributed__tensor_1_1_shard_summary_refresh_result_1af8b3b6a00bf679b069e0a1aac80df538" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>tensor::SummaryFreshnessState<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_shard_summary_refresh_result_1af8b3b6a00bf679b069e0a1aac80df538" kindref="member">freshness_state</ref><sp/>=<sp/>tensor::SummaryFreshnessState::STALE;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1distributed__tensor_1_1_shard_summary_refresh_result_1a33603bef1d402c0e6bf2d3048a3a74b1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_shard_summary_refresh_result_1a33603bef1d402c0e6bf2d3048a3a74b1" kindref="member">refreshed_at_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1distributed__tensor_1_1_shard_summary_refresh_result_1a6536a28e98b8815297d7b3de6c858c08" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_shard_summary_refresh_result_1a6536a28e98b8815297d7b3de6c858c08" kindref="member">generation</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RoutingDecision<sp/>—<sp/>outcome<sp/>of<sp/>summary-first<sp/>routing<sp/>for<sp/>a<sp/>single<sp/>shard</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1distributed__tensor_1_1_routing_decision" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1distributed__tensor_1_1_routing_decision" kindref="compound">RoutingDecision</ref><sp/>{</highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1distributed__tensor_1_1_routing_decision_1a2f68cdc2dd78b826dcfc4c7ca10cc910" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_routing_decision_1a2f68cdc2dd78b826dcfc4c7ca10cc910" kindref="member">shard_id</ref>;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1distributed__tensor_1_1_routing_decision_1a4677346bb6b6df7e6af3c69caf3e42c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_routing_decision_1a4677346bb6b6df7e6af3c69caf3e42c9" kindref="member">include_shard</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1distributed__tensor_1_1_routing_decision_1aaf440b88bf3ba6dedef7d9632305e501" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_routing_decision_1aaf440b88bf3ba6dedef7d9632305e501" kindref="member">escalate_to_exact</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1distributed__tensor_1_1_routing_decision_1a617efed089cd2206da8f05ce9b6e9f0a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_routing_decision_1a617efed089cd2206da8f05ce9b6e9f0a" kindref="member">reason</ref>;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1distributed__tensor_1_1_routing_decision_1a9043271f9b2a5986a6431ad5bf739672" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>tensor::SummaryFreshnessState<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_routing_decision_1a9043271f9b2a5986a6431ad5bf739672" kindref="member">summary_freshness</ref><sp/>=<sp/>tensor::SummaryFreshnessState::STALE;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127" refid="structthemis_1_1distributed__tensor_1_1_routing_decision_1ad3ae01935c40253e45de4f85ab8d7d23" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_routing_decision_1ad3ae01935c40253e45de4f85ab8d7d23" kindref="member">advisory_score</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AccuracyMode<sp/>—<sp/>controls<sp/>whether<sp/>exact<sp/>fetch<sp/>is<sp/>forced</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134" refid="namespacethemis_1_1distributed__tensor_1abd5015ec2c2901dae8cff30dbdd8f44e" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1distributed__tensor_1abd5015ec2c2901dae8cff30dbdd8f44e" kindref="member">AccuracyMode</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="135" refid="namespacethemis_1_1distributed__tensor_1abd5015ec2c2901dae8cff30dbdd8f44ea040229420d76868f24fae4859aaf0939" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1abd5015ec2c2901dae8cff30dbdd8f44ea040229420d76868f24fae4859aaf0939" kindref="member">ADVISORY</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="136" refid="namespacethemis_1_1distributed__tensor_1abd5015ec2c2901dae8cff30dbdd8f44eac41e056424136b6e8c4e23dd6326efa1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a4761712de85777b9ba08e83681a65d8fac41e056424136b6e8c4e23dd6326efa1" kindref="member">EXACT</ref><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="137"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ExactFetchRequest<sp/>—<sp/>request<sp/>for<sp/>exact-on-demand<sp/>tensor<sp/>fragment</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143" refid="structthemis_1_1distributed__tensor_1_1_exact_fetch_request" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1distributed__tensor_1_1_exact_fetch_request" kindref="compound">ExactFetchRequest</ref><sp/>{</highlight></codeline>
+<codeline lineno="144" refid="structthemis_1_1distributed__tensor_1_1_exact_fetch_request_1ac473b415da13f3c33ed2a5c77529585b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_exact_fetch_request_1ac473b415da13f3c33ed2a5c77529585b" kindref="member">shard_id</ref>;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146" refid="structthemis_1_1distributed__tensor_1_1_exact_fetch_request_1aae8be0d99a9d96d4744561b7e3587395" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_exact_fetch_request_1aae8be0d99a9d96d4744561b7e3587395" kindref="member">artifact_id</ref>;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148" refid="structthemis_1_1distributed__tensor_1_1_exact_fetch_request_1a44e77a522c99c502a3b36229d237a1de" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_exact_fetch_request_1a44e77a522c99c502a3b36229d237a1de" kindref="member">timeout_ms</ref><sp/>=<sp/>5000;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150" refid="structthemis_1_1distributed__tensor_1_1_exact_fetch_request_1afb599e5f0fdc6b9f87c132f4c504a89d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_exact_fetch_request_1afb599e5f0fdc6b9f87c132f4c504a89d" kindref="member">background_refresh</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152" refid="structthemis_1_1distributed__tensor_1_1_exact_fetch_request_1aa87710958d036c2697a89c88b981a760" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_exact_fetch_request_1aa87710958d036c2697a89c88b981a760" kindref="member">correlation_id</ref>;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ExactFetchResult<sp/>—<sp/>result<sp/>of<sp/>an<sp/>exact-on-demand<sp/>tensor<sp/>fetch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159" refid="structthemis_1_1distributed__tensor_1_1_exact_fetch_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1distributed__tensor_1_1_exact_fetch_result" kindref="compound">ExactFetchResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="160" refid="structthemis_1_1distributed__tensor_1_1_exact_fetch_result_1ad5a4757a2c5fb4d0c74b08fb3aa80750" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_exact_fetch_result_1ad5a4757a2c5fb4d0c74b08fb3aa80750" kindref="member">shard_id</ref>;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162" refid="structthemis_1_1distributed__tensor_1_1_exact_fetch_result_1ac19caa91d55d04769b2e82a6f7637b8b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_exact_fetch_result_1ac19caa91d55d04769b2e82a6f7637b8b" kindref="member">artifact_id</ref>;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164" refid="structthemis_1_1distributed__tensor_1_1_exact_fetch_result_1a41fafc3d6cf8a2fed9b0eab3a425c9ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_exact_fetch_result_1a41fafc3d6cf8a2fed9b0eab3a425c9ee" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166" refid="structthemis_1_1distributed__tensor_1_1_exact_fetch_result_1a0b9e1c5d84b87ecbd02cadc27b7e0674" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_exact_fetch_result_1a0b9e1c5d84b87ecbd02cadc27b7e0674" kindref="member">error_reason</ref>;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168" refid="structthemis_1_1distributed__tensor_1_1_exact_fetch_result_1a7da16b133501c0fa3093f53078a81ed1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_exact_fetch_result_1a7da16b133501c0fa3093f53078a81ed1" kindref="member">fragment_data</ref>;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170" refid="structthemis_1_1distributed__tensor_1_1_exact_fetch_result_1ad3a796855fe994d009ebdfb5c88b353a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_exact_fetch_result_1ad3a796855fe994d009ebdfb5c88b353a" kindref="member">content_hash</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172" refid="structthemis_1_1distributed__tensor_1_1_exact_fetch_result_1aa4a8ffc9f958e0558f99c8d78966d66d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_exact_fetch_result_1aa4a8ffc9f958e0558f99c8d78966d66d" kindref="member">fetched_at_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174" refid="structthemis_1_1distributed__tensor_1_1_exact_fetch_result_1a2eb82661763ba7a8397a03cfb5b5c171" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_exact_fetch_result_1a2eb82661763ba7a8397a03cfb5b5c171" kindref="member">fetch_latency_ms</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176" refid="structthemis_1_1distributed__tensor_1_1_exact_fetch_result_1ae9a8d49b3e4a3e0e2ddf26f8658994e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_exact_fetch_result_1ae9a8d49b3e4a3e0e2ddf26f8658994e1" kindref="member">integrity_verified</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FreshnessConsensusResult<sp/>—<sp/>multi-shard<sp/>quorum<sp/>outcome</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183" refid="structthemis_1_1distributed__tensor_1_1_freshness_consensus_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1distributed__tensor_1_1_freshness_consensus_result" kindref="compound">FreshnessConsensusResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="184" refid="structthemis_1_1distributed__tensor_1_1_freshness_consensus_result_1aa63d90c2b265eb478b09cfff8334bed1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_freshness_consensus_result_1aa63d90c2b265eb478b09cfff8334bed1" kindref="member">total_shards</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186" refid="structthemis_1_1distributed__tensor_1_1_freshness_consensus_result_1a23823d8dc7381fcd0e480fa59d762dd7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_freshness_consensus_result_1a23823d8dc7381fcd0e480fa59d762dd7" kindref="member">fresh_shards</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188" refid="structthemis_1_1distributed__tensor_1_1_freshness_consensus_result_1ab86ec67e3d2dd89dc7059fc1844e8564" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_freshness_consensus_result_1ab86ec67e3d2dd89dc7059fc1844e8564" kindref="member">stale_shards</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190" refid="structthemis_1_1distributed__tensor_1_1_freshness_consensus_result_1a96a9e6a5630b733f40ff38531f1757c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_freshness_consensus_result_1a96a9e6a5630b733f40ff38531f1757c6" kindref="member">invalid_shards</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192" refid="structthemis_1_1distributed__tensor_1_1_freshness_consensus_result_1a999d5de2debc1a16929269f4067d4dd4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_freshness_consensus_result_1a999d5de2debc1a16929269f4067d4dd4" kindref="member">quorum_met</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194" refid="structthemis_1_1distributed__tensor_1_1_freshness_consensus_result_1a65e8dca4eea760ed07e73dbc749bdb2b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_freshness_consensus_result_1a65e8dca4eea760ed07e73dbc749bdb2b" kindref="member">quorum_ratio</ref><sp/>=<sp/>0.75f;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IShardFetcher<sp/>—<sp/>interface<sp/>for<sp/>exact<sp/>fragment<sp/>retrieval</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201" refid="classthemis_1_1distributed__tensor_1_1_i_shard_fetcher" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1distributed__tensor_1_1_i_shard_fetcher" kindref="compound">IShardFetcher</ref><sp/>{</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="207" refid="classthemis_1_1distributed__tensor_1_1_i_shard_fetcher_1aa5e9683fbd3f7ca53a98710681aa4584" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_i_shard_fetcher_1aa5e9683fbd3f7ca53a98710681aa4584" kindref="member">~IShardFetcher</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209" refid="classthemis_1_1distributed__tensor_1_1_i_shard_fetcher_1ac63aec5acd1f9426ef0cb22e421f7b3d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_exact_fetch_result" kindref="compound">ExactFetchResult</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_i_shard_fetcher_1ac63aec5acd1f9426ef0cb22e421f7b3d" kindref="member">fetch</ref>(</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_exact_fetch_request" kindref="compound">ExactFetchRequest</ref>&amp;<sp/>request)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ShardSummaryCoordinator<sp/>—<sp/>Phase<sp/>C<sp/>coordinator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217" refid="classthemis_1_1distributed__tensor_1_1_shard_summary_coordinator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1afeb6eab1d7d6abdc9e68c9a9ba0f6bb8" kindref="member">ShardSummaryCoordinator</ref><sp/>{</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="219" refid="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_config_1af8670d2580f3187bac6b07998a04c5fb" kindref="member">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="220" refid="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_config_1afd1285bd2e3a6280825d450690a99254" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_config_1afd1285bd2e3a6280825d450690a99254" kindref="member">default_ttl_seconds</ref>;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222" refid="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_config_1a09ad5077141fedcb0b6dbdf97e18237f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_config_1a09ad5077141fedcb0b6dbdf97e18237f" kindref="member">freshness_quorum_ratio</ref>;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224" refid="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_config_1a85433ad8a9d7d405ed2ac75b1f45b6f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_config_1a85433ad8a9d7d405ed2ac75b1f45b6f2" kindref="member">exact_fetch_timeout_ms</ref>;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226" refid="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_config_1a28e18daede0315f4c1d18cabecaef3e4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_config_1a28e18daede0315f4c1d18cabecaef3e4" kindref="member">escalate_stale_shards</ref>;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228" refid="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_config_1ad3609d57eeabd7a66f84ec776113cc39" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_config_1ad3609d57eeabd7a66f84ec776113cc39" kindref="member">skip_invalid_shards</ref>;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230" refid="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_config_1af8670d2580f3187bac6b07998a04c5fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_config_1af8670d2580f3187bac6b07998a04c5fb" kindref="member">Config</ref>()<sp/>noexcept</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_config_1afd1285bd2e3a6280825d450690a99254" kindref="member">default_ttl_seconds</ref>(3600),</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_config_1a09ad5077141fedcb0b6dbdf97e18237f" kindref="member">freshness_quorum_ratio</ref>(0.75f),</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_config_1a85433ad8a9d7d405ed2ac75b1f45b6f2" kindref="member">exact_fetch_timeout_ms</ref>(5000),</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_config_1a28e18daede0315f4c1d18cabecaef3e4" kindref="member">escalate_stale_shards</ref>(true),</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_config_1ad3609d57eeabd7a66f84ec776113cc39" kindref="member">skip_invalid_shards</ref>(true)<sp/>{</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_config_1afc77e1ac9ce10530b56117afa6723a2a" kindref="member">validateAndClamp</ref>();</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>validateAndClamp()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245" refid="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_config_1a1edbb95765f7605a715840624f0afc25" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_config_1a1edbb95765f7605a715840624f0afc25" kindref="member">isQuorumSafe</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_config_1a09ad5077141fedcb0b6dbdf97e18237f" kindref="member">freshness_quorum_ratio</ref><sp/>&gt;=<sp/>0.5f;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_shard_summary_coordinator" kindref="compound">ShardSummaryCoordinator</ref>(</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;IShardFetcher&gt;<sp/>fetcher<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_manifest_store" kindref="compound">ManifestStore</ref>*<sp/>manifest_store<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Config<sp/>config<sp/>=<sp/>Config())<sp/>noexcept;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255" refid="classthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1addf0b3295867fb5e42b33b194c0e9005" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>~<ref refid="classthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1afeb6eab1d7d6abdc9e68c9a9ba0f6bb8" kindref="member">ShardSummaryCoordinator</ref>()<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prevent<sp/>copy;<sp/>mutex<sp/>and<sp/>atomics<sp/>are<sp/>non-movable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258" refid="classthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1ab0ee7390a6032882e7479ab36d2be842" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1afeb6eab1d7d6abdc9e68c9a9ba0f6bb8" kindref="member">ShardSummaryCoordinator</ref>(const<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1afeb6eab1d7d6abdc9e68c9a9ba0f6bb8" kindref="member">ShardSummaryCoordinator</ref>&amp;)<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="259" refid="classthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1a72a35ab5064b07de51dc227480528bb8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1afeb6eab1d7d6abdc9e68c9a9ba0f6bb8" kindref="member">ShardSummaryCoordinator</ref>&amp;<sp/>operator=(const<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1afeb6eab1d7d6abdc9e68c9a9ba0f6bb8" kindref="member">ShardSummaryCoordinator</ref>&amp;)<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="260" refid="classthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1abcde261865438e03b91818b16f1b7eb5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1afeb6eab1d7d6abdc9e68c9a9ba0f6bb8" kindref="member">ShardSummaryCoordinator</ref>(<ref refid="classthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1afeb6eab1d7d6abdc9e68c9a9ba0f6bb8" kindref="member">ShardSummaryCoordinator</ref>&amp;&amp;)<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="261" refid="classthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1ab54e31adb2196bd60b4b5f2083a7f56e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1afeb6eab1d7d6abdc9e68c9a9ba0f6bb8" kindref="member">ShardSummaryCoordinator</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1afeb6eab1d7d6abdc9e68c9a9ba0f6bb8" kindref="member">ShardSummaryCoordinator</ref>&amp;&amp;)<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Shard<sp/>Registration<sp/>───────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1ae7897ec4ce284f25ae1149f18ac20614" kindref="member">registerShard</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>shard_id,</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>ttl_seconds<sp/>=<sp/>0)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1a9cbc591b7eab60842f4f78acbe99c9e7" kindref="member">unregisterShard</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>shard_id)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Summary<sp/>Refresh<sp/>─────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_shard_summary_refresh_result" kindref="compound">ShardSummaryRefreshResult</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1ac7458941ea16916baafe99715ebe39cd" kindref="member">refreshShard</ref>(</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>shard_id,</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tensor::ShardSummary&amp;<sp/>summary,</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>now_ms<sp/>=<sp/>0)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;<ref refid="structthemis_1_1distributed__tensor_1_1_shard_summary_refresh_result" kindref="compound">ShardSummaryRefreshResult</ref>&gt;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1aafb3313bfa51633a7fc6d1f1b38a6a73" kindref="member">refreshAll</ref>(</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">,<sp/>tensor::ShardSummary&gt;&amp;<sp/>summaries,</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>now_ms<sp/>=<sp/>0)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Freshness<sp/>Queries<sp/>────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::optional&lt;<ref refid="structthemis_1_1distributed__tensor_1_1_shard_freshness_record" kindref="compound">ShardFreshnessRecord</ref>&gt;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1a1267c2ec0b5992d81acaa2d3afe48fa7" kindref="member">getFreshnessRecord</ref>(</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>shard_id)<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1a10a7e46f2adf02209e33fdbe57c847af" kindref="member">isFresh</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>shard_id,</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>now_ms<sp/>=<sp/>0)<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_freshness_consensus_result" kindref="compound">FreshnessConsensusResult</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1a608473da78d94e2959eda818e73bcc0d" kindref="member">checkFreshnessConsensus</ref>(</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&gt;&amp;<sp/>shard_ids,</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>now_ms<sp/>=<sp/>0)<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Summary-First<sp/>Routing<sp/>with<sp/>Escalation<sp/>───────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;<ref refid="structthemis_1_1distributed__tensor_1_1_routing_decision" kindref="compound">RoutingDecision</ref>&gt;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1a56b48c774e5bd6845a634454b4a9e808" kindref="member">routeSummaryFirst</ref>(</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;tensor::ShardSummary&gt;&amp;<sp/>summaries,</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1abd5015ec2c2901dae8cff30dbdd8f44e" kindref="member">AccuracyMode</ref><sp/>mode<sp/>=<sp/><ref refid="namespacethemis_1_1distributed__tensor_1abd5015ec2c2901dae8cff30dbdd8f44e" kindref="member">AccuracyMode</ref>::ADVISORY,</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>now_ms<sp/>=<sp/>0)<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Exact-On-Demand<sp/>Fetch<sp/>────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_exact_fetch_result" kindref="compound">ExactFetchResult</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1a44e1fc53af17084fe93b31bec0eb7a26" kindref="member">fetchExact</ref>(</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_exact_fetch_request" kindref="compound">ExactFetchRequest</ref>&amp;<sp/>request)<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;<ref refid="structthemis_1_1distributed__tensor_1_1_exact_fetch_result" kindref="compound">ExactFetchResult</ref>&gt;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1a8a23aed870f3d5fe381e4029a78ccd71" kindref="member">fetchEscalated</ref>(</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;<ref refid="structthemis_1_1distributed__tensor_1_1_routing_decision" kindref="compound">RoutingDecision</ref>&gt;&amp;<sp/>decisions,</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>artifact_id,</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>correlation_id<sp/>=<sp/>{})<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>setConfig(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Config&amp;<sp/>config)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>Config<sp/>config()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight></codeline>
+<codeline lineno="325" refid="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/>struct<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_stats" kindref="compound">Stats</ref><sp/>{</highlight></codeline>
+<codeline lineno="326" refid="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_stats_1ac72c1aa48d8cd5a0acf15340e0eab188" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_stats_1ac72c1aa48d8cd5a0acf15340e0eab188" kindref="member">total_refreshes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight></codeline>
+<codeline lineno="328" refid="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_stats_1a5dd9df97c480a3fe60273a54eec540fc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_stats_1a5dd9df97c480a3fe60273a54eec540fc" kindref="member">total_refresh_failures</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight></codeline>
+<codeline lineno="330" refid="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_stats_1ab4d1d60964a2b9ccfe785ca319ee9b11" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_stats_1ab4d1d60964a2b9ccfe785ca319ee9b11" kindref="member">total_routing_decisions</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"></highlight></codeline>
+<codeline lineno="332" refid="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_stats_1ad43443e29cc1530bcd4ffc6beb951d6c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_stats_1ad43443e29cc1530bcd4ffc6beb951d6c" kindref="member">total_escalations</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"></highlight></codeline>
+<codeline lineno="334" refid="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_stats_1a67f346ee01e9da936f105e945a879ae9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_stats_1a67f346ee01e9da936f105e945a879ae9" kindref="member">total_exact_fetches</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight></codeline>
+<codeline lineno="336" refid="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_stats_1a0b3f9f15bd0a21257bff7a564abbb7f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_stats_1a0b3f9f15bd0a21257bff7a564abbb7f2" kindref="member">total_exact_fetch_successes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_stats" kindref="compound">Stats</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1a6c38e16e3be05277da35b95a2a529959" kindref="member">stats</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>mutable<sp/>std::mutex<sp/>records_mutex_;</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_shard_freshness_record" kindref="compound">ShardFreshnessRecord</ref>&gt;<sp/>records_;</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;<ref refid="classthemis_1_1distributed__tensor_1_1_i_shard_fetcher" kindref="compound">IShardFetcher</ref>&gt;<sp/>fetcher_;</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_manifest_store" kindref="compound">ManifestStore</ref>*<sp/>manifest_store_<sp/>=<sp/></highlight><highlight class="keywordtype">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_config" kindref="compound">Config</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Mutable<sp/>atomics<sp/>for<sp/>lock-free<sp/>stats</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/>mutable<sp/>std::atomic&lt;uint64_t&gt;<sp/>stat_refreshes_{0};</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;<sp/>stat_refresh_failures_{0};</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;<sp/>stat_routing_decisions_{0};</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;<sp/>stat_escalations_{0};</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;<sp/>stat_exact_fetches_{0};</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;<sp/>stat_exact_fetch_successes_{0};</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>int64_t<sp/>resolveNow(int64_t<sp/>hint_ms)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="358"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"></highlight></codeline>
+<codeline lineno="360"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>distributed_tensor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="361"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="src/distributed_tensor/include/shard_summary_coordinator.h"/>
+  </compounddef>
+</doxygen>

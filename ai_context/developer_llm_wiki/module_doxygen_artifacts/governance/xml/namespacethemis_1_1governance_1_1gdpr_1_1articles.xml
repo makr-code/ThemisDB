@@ -1,0 +1,178 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1governance_1_1gdpr_1_1articles" kind="namespace" language="C++">
+    <compoundname>themis::governance::gdpr::articles</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1gdpr_1_1articles_1a20f27a63a0d1f3ea8740795786cad1c3" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::gdpr::articles::kDataProtectionByDesign</definition>
+        <argsstring></argsstring>
+        <name>kDataProtectionByDesign</name>
+        <qualifiedname>themis::governance::gdpr::articles::kDataProtectionByDesign</qualifiedname>
+        <initializer>= &quot;Article 25&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="251" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="251" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1gdpr_1_1articles_1a469424222110a14eca4bfc54fc7e1e3d" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::gdpr::articles::kSecurity</definition>
+        <argsstring></argsstring>
+        <name>kSecurity</name>
+        <qualifiedname>themis::governance::gdpr::articles::kSecurity</qualifiedname>
+        <initializer>= &quot;Article 32&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="252" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="252" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1gdpr_1_1articles_1a10db477a148017d9cdc62691a0ebe89a" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::gdpr::articles::kDataBreach</definition>
+        <argsstring></argsstring>
+        <name>kDataBreach</name>
+        <qualifiedname>themis::governance::gdpr::articles::kDataBreach</qualifiedname>
+        <initializer>= &quot;Article 33&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="253" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="253" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1gdpr_1_1articles_1a1ae15a6bd6570567f8f335f66dbb4a16" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::gdpr::articles::kNotification</definition>
+        <argsstring></argsstring>
+        <name>kNotification</name>
+        <qualifiedname>themis::governance::gdpr::articles::kNotification</qualifiedname>
+        <initializer>= &quot;Article 34&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="254" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="254" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1gdpr_1_1articles_1a6738c716f37949d3a58baa8317181715" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::gdpr::articles::kDpia</definition>
+        <argsstring></argsstring>
+        <name>kDpia</name>
+        <qualifiedname>themis::governance::gdpr::articles::kDpia</qualifiedname>
+        <initializer>= &quot;Article 35&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="255" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="255" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1gdpr_1_1articles_1a8815ddeed32ec71542c7477b3aa6c344" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::gdpr::articles::kConsent</definition>
+        <argsstring></argsstring>
+        <name>kConsent</name>
+        <qualifiedname>themis::governance::gdpr::articles::kConsent</qualifiedname>
+        <initializer>= &quot;Article 7&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="256" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="256" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1gdpr_1_1articles_1a4f2cc1a6956008234cc4d4fb921d1a93" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::gdpr::articles::kLawfulness</definition>
+        <argsstring></argsstring>
+        <name>kLawfulness</name>
+        <qualifiedname>themis::governance::gdpr::articles::kLawfulness</qualifiedname>
+        <initializer>= &quot;Article 6&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="257" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="257" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1gdpr_1_1articles_1a64f97e613a3e96b2d7baa8ec91d194dc" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::gdpr::articles::kMinimization</definition>
+        <argsstring></argsstring>
+        <name>kMinimization</name>
+        <qualifiedname>themis::governance::gdpr::articles::kMinimization</qualifiedname>
+        <initializer>= &quot;Article 5&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="258" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="258" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1gdpr_1_1articles_1aa43e92b8e8982cb935023dca60d5771f" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::gdpr::articles::kTransparency</definition>
+        <argsstring></argsstring>
+        <name>kTransparency</name>
+        <qualifiedname>themis::governance::gdpr::articles::kTransparency</qualifiedname>
+        <initializer>= &quot;Article 13&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="259" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="259" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1gdpr_1_1articles_1a01f87db2ee66ef27e74e2956eb489344" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::gdpr::articles::kSubjectRights</definition>
+        <argsstring></argsstring>
+        <name>kSubjectRights</name>
+        <qualifiedname>themis::governance::gdpr::articles::kSubjectRights</qualifiedname>
+        <initializer>= &quot;Chapter III&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="260" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="260" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1gdpr_1_1articles_1a93c238ab0b1d258c79dbb1d2f9552d78" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::gdpr::articles::kDataRetention</definition>
+        <argsstring></argsstring>
+        <name>kDataRetention</name>
+        <qualifiedname>themis::governance::gdpr::articles::kDataRetention</qualifiedname>
+        <initializer>= &quot;Article 5(1)(e)&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="261" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="261" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/compliance_mapping.h" line="250" column="1"/>
+  </compounddef>
+</doxygen>

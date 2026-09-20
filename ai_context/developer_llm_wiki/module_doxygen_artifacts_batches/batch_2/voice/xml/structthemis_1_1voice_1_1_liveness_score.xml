@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_liveness_score" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::LivenessScore</compoundname>
+    <includes refid="voice__auth_8h" local="no">voice_auth.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_liveness_score_1a52e63e7e9bf7e81f54ee2405fe943344" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::LivenessScore::is_live</definition>
+        <argsstring></argsstring>
+        <name>is_live</name>
+        <qualifiedname>themis::voice::LivenessScore::is_live</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when input appears to be live speech. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="117" column="17" bodyfile="include/voice/voice_auth.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_liveness_score_1a4c8c5dd0676c3ccca540b5086b4f74ee" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::LivenessScore::score</definition>
+        <argsstring></argsstring>
+        <name>score</name>
+        <qualifiedname>themis::voice::LivenessScore::score</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Liveness confidence [0, 1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="118" column="17" bodyfile="include/voice/voice_auth.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_liveness_score_1a2fef5968b5e105518a80c90d26096368" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::LivenessScore::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::voice::LivenessScore::reason</qualifiedname>
+        <briefdescription>
+<para>Explanation (e.g. &quot;replay_detected&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="119" column="17" bodyfile="include/voice/voice_auth.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Liveness detection result (anti-spoofing). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_auth.h" line="116" column="1" bodyfile="include/voice/voice_auth.h" bodystart="116" bodyend="120"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_liveness_score_1a52e63e7e9bf7e81f54ee2405fe943344" prot="public" virt="non-virtual"><scope>themis::voice::LivenessScore</scope><name>is_live</name></member>
+      <member refid="structthemis_1_1voice_1_1_liveness_score_1a2fef5968b5e105518a80c90d26096368" prot="public" virt="non-virtual"><scope>themis::voice::LivenessScore</scope><name>reason</name></member>
+      <member refid="structthemis_1_1voice_1_1_liveness_score_1a4c8c5dd0676c3ccca540b5086b4f74ee" prot="public" virt="non-virtual"><scope>themis::voice::LivenessScore</scope><name>score</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

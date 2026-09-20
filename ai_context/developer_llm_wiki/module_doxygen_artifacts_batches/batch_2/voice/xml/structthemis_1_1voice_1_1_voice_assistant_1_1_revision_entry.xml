@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_voice_assistant_1_1_revision_entry" kind="struct" language="C++" prot="private">
+    <compoundname>themis::voice::VoiceAssistant::RevisionEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_assistant_1_1_revision_entry_1a700d9425782ec9f28dce14049d83d790" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::VoiceAssistant::RevisionEntry::entity_id</definition>
+        <argsstring></argsstring>
+        <name>entity_id</name>
+        <qualifiedname>themis::voice::VoiceAssistant::RevisionEntry::entity_id</qualifiedname>
+        <briefdescription>
+<para>Owning entity key. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_assistant.h" line="482" column="21" bodyfile="include/voice/voice_assistant.h" bodystart="482" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_assistant_1_1_revision_entry_1a4800ab15a9b0f49bc1cc97282a5c664e" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::voice::VoiceAssistant::RevisionEntry::data_hash</definition>
+        <argsstring></argsstring>
+        <name>data_hash</name>
+        <qualifiedname>themis::voice::VoiceAssistant::RevisionEntry::data_hash</qualifiedname>
+        <briefdescription>
+<para>FNV-1a hash of the data payload. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_assistant.h" line="483" column="21" bodyfile="include/voice/voice_assistant.h" bodystart="483" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_assistant_1_1_revision_entry_1a6aa13594370b8f56565388877c13ace0" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref></type>
+        <definition>json themis::voice::VoiceAssistant::RevisionEntry::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::voice::VoiceAssistant::RevisionEntry::metadata</qualifiedname>
+        <briefdescription>
+<para>Caller-supplied metadata snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_assistant.h" line="484" column="21" bodyfile="include/voice/voice_assistant.h" bodystart="484" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_assistant_1_1_revision_entry_1aa6d352e5dd1216921ef89d5d89335fcc" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::VoiceAssistant::RevisionEntry::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::voice::VoiceAssistant::RevisionEntry::timestamp</qualifiedname>
+        <briefdescription>
+<para>Epoch nanoseconds at entry creation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_assistant.h" line="485" column="21" bodyfile="include/voice/voice_assistant.h" bodystart="485" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_assistant.h" line="481" column="5" bodyfile="include/voice/voice_assistant.h" bodystart="481" bodyend="486"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_voice_assistant_1_1_revision_entry_1a4800ab15a9b0f49bc1cc97282a5c664e" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAssistant::RevisionEntry</scope><name>data_hash</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_assistant_1_1_revision_entry_1a700d9425782ec9f28dce14049d83d790" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAssistant::RevisionEntry</scope><name>entity_id</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_assistant_1_1_revision_entry_1a6aa13594370b8f56565388877c13ace0" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAssistant::RevisionEntry</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_assistant_1_1_revision_entry_1aa6d352e5dd1216921ef89d5d89335fcc" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAssistant::RevisionEntry</scope><name>timestamp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

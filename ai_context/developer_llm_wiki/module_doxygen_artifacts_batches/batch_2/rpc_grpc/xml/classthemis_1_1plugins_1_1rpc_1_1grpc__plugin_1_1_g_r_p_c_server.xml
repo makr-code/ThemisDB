@@ -1,0 +1,1178 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::rpc::grpc_plugin::GRPCServer</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">IRPCServer</basecompoundref>
+    <includes refid="grpc__plugin_8h" local="no">grpc_plugin.h</includes>
+    <innerclass refid="structthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1_1_method_metrics" prot="private">themis::plugins::rpc::grpc_plugin::GRPCServer::MethodMetrics</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a80635116afa7556260c0a745176254ea" prot="private" static="no" mutable="no">
+        <type>RPCServerConfig</type>
+        <definition>RPCServerConfig themis::plugins::rpc::grpc_plugin::GRPCServer::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::GRPCServer::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rpc_grpc/grpc_plugin.h" line="103" column="21" bodyfile="src/rpc_grpc/grpc_plugin.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a9a119e2600f0edc2f5450f0668121b6d" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; grpc::Server &gt;</type>
+        <definition>std::unique_ptr&lt;grpc::Server&gt; themis::plugins::rpc::grpc_plugin::GRPCServer::server_</definition>
+        <argsstring></argsstring>
+        <name>server_</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::GRPCServer::server_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rpc_grpc/grpc_plugin.h" line="104" column="21" bodyfile="src/rpc_grpc/grpc_plugin.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a0734f27797d8110c26d31462b2c48d7d" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::plugins::rpc::grpc_plugin::GRPCServer::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::GRPCServer::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rpc_grpc/grpc_plugin.h" line="105" column="17" bodyfile="src/rpc_grpc/grpc_plugin.h" bodystart="105" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1ad7647d31d3c41f17224c625b22c4c36f" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::plugins::rpc::grpc_plugin::GRPCServer::stats_mutex_</definition>
+        <argsstring></argsstring>
+        <name>stats_mutex_</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::GRPCServer::stats_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rpc_grpc/grpc_plugin.h" line="106" column="24" bodyfile="src/rpc_grpc/grpc_plugin.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a42be86b4f9528236bc0bd252d4d02300" prot="private" static="no" mutable="no">
+        <type>RPCServerStats</type>
+        <definition>RPCServerStats themis::plugins::rpc::grpc_plugin::GRPCServer::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::GRPCServer::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rpc_grpc/grpc_plugin.h" line="107" column="20" bodyfile="src/rpc_grpc/grpc_plugin.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a932b2a3e7753467672369cae34bb09c8" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::rpc::grpc_plugin::GRPCServer::server_address_</definition>
+        <argsstring></argsstring>
+        <name>server_address_</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::GRPCServer::server_address_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rpc_grpc/grpc_plugin.h" line="108" column="17" bodyfile="src/rpc_grpc/grpc_plugin.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1af1f404c90f59abc1b20e3be7d1656d16" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::rpc::grpc_plugin::GRPCServer::admin_address_</definition>
+        <argsstring></argsstring>
+        <name>admin_address_</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::GRPCServer::admin_address_</qualifiedname>
+        <briefdescription>
+<para>Non-empty when admin port is bound. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rpc_grpc/grpc_plugin.h" line="109" column="17" bodyfile="src/rpc_grpc/grpc_plugin.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1ab3361bc4382e33581b4a7cff4ee4bd28" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::plugins::rpc::grpc_plugin::GRPCServer::start_time_</definition>
+        <argsstring></argsstring>
+        <name>start_time_</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::GRPCServer::start_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rpc_grpc/grpc_plugin.h" line="110" column="43" bodyfile="src/rpc_grpc/grpc_plugin.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a4ffa0bdd36be39483b86b0d169a37b57" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::plugins::rpc::grpc_plugin::GRPCServer::tls_mutex_</definition>
+        <argsstring></argsstring>
+        <name>tls_mutex_</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::GRPCServer::tls_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rpc_grpc/grpc_plugin.h" line="113" column="24" bodyfile="src/rpc_grpc/grpc_plugin.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a205735a0d62a2f99e1438b4c76c469ec" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; grpc::ServerCredentials &gt;</type>
+        <definition>std::shared_ptr&lt;grpc::ServerCredentials&gt; themis::plugins::rpc::grpc_plugin::GRPCServer::credentials_</definition>
+        <argsstring></argsstring>
+        <name>credentials_</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::GRPCServer::credentials_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rpc_grpc/grpc_plugin.h" line="114" column="21" bodyfile="src/rpc_grpc/grpc_plugin.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a1689e764b5f9d1011fbc4f818ecc458a" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; grpc::Service * &gt;</type>
+        <definition>std::vector&lt;grpc::Service*&gt; themis::plugins::rpc::grpc_plugin::GRPCServer::services_</definition>
+        <argsstring></argsstring>
+        <name>services_</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::GRPCServer::services_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rpc_grpc/grpc_plugin.h" line="117" column="17" bodyfile="src/rpc_grpc/grpc_plugin.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a584526e389fdd41c697a59559288422a" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; grpc::ServerCompletionQueue &gt;</type>
+        <definition>std::unique_ptr&lt;grpc::ServerCompletionQueue&gt; themis::plugins::rpc::grpc_plugin::GRPCServer::idle_cq_</definition>
+        <argsstring></argsstring>
+        <name>idle_cq_</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::GRPCServer::idle_cq_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rpc_grpc/grpc_plugin.h" line="120" column="21" bodyfile="src/rpc_grpc/grpc_plugin.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a6c85658dbaf2b1fb4110687223a5125a" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::plugins::rpc::grpc_plugin::GRPCServer::metrics_mutex_</definition>
+        <argsstring></argsstring>
+        <name>metrics_mutex_</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::GRPCServer::metrics_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rpc_grpc/grpc_plugin.h" line="138" column="24" bodyfile="src/rpc_grpc/grpc_plugin.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1ab1e7e655d8ff75fa5292411eb70f5096" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::unique_ptr&lt; MethodMetrics &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::unique_ptr&lt;MethodMetrics&gt; &gt; themis::plugins::rpc::grpc_plugin::GRPCServer::method_metrics_</definition>
+        <argsstring></argsstring>
+        <name>method_metrics_</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::GRPCServer::method_metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rpc_grpc/grpc_plugin.h" line="139" column="24" bodyfile="src/rpc_grpc/grpc_plugin.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1afafa1e7991631fe42b8bd5f0204f4d07" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::plugins::rpc::grpc_plugin::GRPCServer::health_mutex_</definition>
+        <argsstring></argsstring>
+        <name>health_mutex_</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::GRPCServer::health_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rpc_grpc/grpc_plugin.h" line="141" column="24" bodyfile="src/rpc_grpc/grpc_plugin.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1acd6cc431e1cd39ac0a75346fc9214f77" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, bool &gt;</type>
+        <definition>std::map&lt;std::string, bool&gt; themis::plugins::rpc::grpc_plugin::GRPCServer::health_states_</definition>
+        <argsstring></argsstring>
+        <name>health_states_</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::GRPCServer::health_states_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rpc_grpc/grpc_plugin.h" line="142" column="14" bodyfile="src/rpc_grpc/grpc_plugin.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a0ea716631eecfc3f5d830fefda5f60c1" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::plugins::rpc::grpc_plugin::GRPCServer::log_sink_mutex_</definition>
+        <argsstring></argsstring>
+        <name>log_sink_mutex_</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::GRPCServer::log_sink_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rpc_grpc/grpc_plugin.h" line="144" column="24" bodyfile="src/rpc_grpc/grpc_plugin.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1ac5db382dfb5b020aec4690782f1a530e" prot="private" static="no" mutable="no">
+        <type>std::function&lt; void(const std::string &amp;)&gt;</type>
+        <definition>std::function&lt;void(const std::string&amp;)&gt; themis::plugins::rpc::grpc_plugin::GRPCServer::access_log_sink_</definition>
+        <argsstring></argsstring>
+        <name>access_log_sink_</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::GRPCServer::access_log_sink_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rpc_grpc/grpc_plugin.h" line="145" column="19" bodyfile="src/rpc_grpc/grpc_plugin.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a7ddfa861dc12e86da170e6e76a765562" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::rpc::grpc_plugin::GRPCServer::GRPCServer</definition>
+        <argsstring>()</argsstring>
+        <name>GRPCServer</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::GRPCServer::GRPCServer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rpc_grpc/grpc_plugin.h" line="33" column="5" bodyfile="src/rpc_grpc/grpc_plugin.cpp" bodystart="43" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a857bb8320624e94390f08a2ecf4e1ad5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::rpc::grpc_plugin::GRPCServer::~GRPCServer</definition>
+        <argsstring>() override</argsstring>
+        <name>~GRPCServer</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::GRPCServer::~GRPCServer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rpc_grpc/grpc_plugin.h" line="34" column="5" bodyfile="src/rpc_grpc/grpc_plugin.cpp" bodystart="50" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1aad37538b1e04a23d405aa686a42f4f6b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>RPCProtocol</type>
+        <definition>RPCProtocol themis::plugins::rpc::grpc_plugin::GRPCServer::getProtocol</definition>
+        <argsstring>() const override</argsstring>
+        <name>getProtocol</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::GRPCServer::getProtocol</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rpc_grpc/grpc_plugin.h" line="37" column="17" bodyfile="src/rpc_grpc/grpc_plugin.cpp" bodystart="56" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1afff74513b7b6bc5484127b2062d42309" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::rpc::grpc_plugin::GRPCServer::initialize</definition>
+        <argsstring>(const RPCServerConfig &amp;config) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::GRPCServer::initialize</qualifiedname>
+        <param>
+          <type>const RPCServerConfig &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rpc_grpc/grpc_plugin.h" line="38" column="10" bodyfile="src/rpc_grpc/grpc_plugin.cpp" bodystart="66" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a189c67ab2820f04817ee979f95b82188" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::rpc::grpc_plugin::GRPCServer::start</definition>
+        <argsstring>() override</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::GRPCServer::start</qualifiedname>
+        <briefdescription>
+<para>Start. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: configureCredentials(), what(), clear(), AddListeningPort(), find(), end(), tryParseConfigInt(), AddChannelArgument(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rpc_grpc/grpc_plugin.h" line="39" column="10" bodyfile="src/rpc_grpc/grpc_plugin.cpp" bodystart="77" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a9d21c8a638542208d940a5ea8bfcf94b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::rpc::grpc_plugin::GRPCServer::stop</definition>
+        <argsstring>() override</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::GRPCServer::stop</qualifiedname>
+        <briefdescription>
+<para>Stop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), Shutdown(), Next(), reset(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rpc_grpc/grpc_plugin.h" line="40" column="10" bodyfile="src/rpc_grpc/grpc_plugin.cpp" bodystart="190" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a5d02ac591fb6b2b64e47df24c5e20468" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::rpc::grpc_plugin::GRPCServer::isRunning</definition>
+        <argsstring>() const override</argsstring>
+        <name>isRunning</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::GRPCServer::isRunning</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rpc_grpc/grpc_plugin.h" line="41" column="10" bodyfile="src/rpc_grpc/grpc_plugin.cpp" bodystart="267" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a719dbaa66828f5bdcc77ba720bdfe383" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>RPCServerStats</type>
+        <definition>RPCServerStats themis::plugins::rpc::grpc_plugin::GRPCServer::getStats</definition>
+        <argsstring>() const override</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::GRPCServer::getStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/rpc_grpc/grpc_plugin.h" line="42" column="20" bodyfile="src/rpc_grpc/grpc_plugin.cpp" bodystart="271" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a9f9eeded462b4d97bd5068c2afc24bc7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::rpc::grpc_plugin::GRPCServer::registerService</definition>
+        <argsstring>(void *service_impl) override</argsstring>
+        <name>registerService</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::GRPCServer::registerService</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>service_impl</declname>
+        </param>
+        <briefdescription>
+<para>Register Service. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">service_impl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rpc_grpc/grpc_plugin.h" line="43" column="10" bodyfile="src/rpc_grpc/grpc_plugin.cpp" bodystart="236" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a86d0cc1b224cb24ad2bfa2262d4c78d1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::rpc::grpc_plugin::GRPCServer::getAddress</definition>
+        <argsstring>() const override</argsstring>
+        <name>getAddress</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::GRPCServer::getAddress</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rpc_grpc/grpc_plugin.h" line="44" column="17" bodyfile="src/rpc_grpc/grpc_plugin.cpp" bodystart="263" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1acb2aa417de59c34df08c124716b591f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::rpc::grpc_plugin::GRPCServer::resetStats</definition>
+        <argsstring>() override</argsstring>
+        <name>resetStats</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::GRPCServer::resetStats</qualifiedname>
+        <briefdescription>
+<para>Reset Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rpc_grpc/grpc_plugin.h" line="45" column="10" bodyfile="src/rpc_grpc/grpc_plugin.cpp" bodystart="285" bodyend="288"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1ad9c14e3a998b7be6e1df686eee2bdf41" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::rpc::grpc_plugin::GRPCServer::reloadTls</definition>
+        <argsstring>(const std::string &amp;cert_path, const std::string &amp;key_path, const std::string &amp;ca_path)</argsstring>
+        <name>reloadTls</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::GRPCServer::reloadTls</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cert_path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ca_path</declname>
+        </param>
+        <briefdescription>
+<para>--------------------------------------------------------------------<mdash/> v0. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ v0.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cert_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the cert. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ca_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the ca. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+2.0 extensions --------------------------------------------------------------------<mdash/></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cert_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the cert. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ca_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the ca. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+2.0 — TLS Hot-Reload (Phase 3: Fail-Safe, Deterministic Hardening) ============================================================================ </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tls_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/rpc_grpc/grpc_plugin.h" line="56" column="10" bodyfile="src/rpc_grpc/grpc_plugin.cpp" bodystart="299" bodyend="370"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a69e4ed4cacf3f18f748027f7a7279824" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::rpc::grpc_plugin::GRPCServer::getAdminAddress</definition>
+        <argsstring>() const</argsstring>
+        <name>getAdminAddress</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::GRPCServer::getAdminAddress</qualifiedname>
+        <briefdescription>
+<para>Get Admin Address. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rpc_grpc/grpc_plugin.h" line="64" column="17" bodyfile="src/rpc_grpc/grpc_plugin.cpp" bodystart="376" bodyend="378"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a36d8eb32f671e7771e0425cb081e9538" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::rpc::grpc_plugin::GRPCServer::setServiceHealth</definition>
+        <argsstring>(const std::string &amp;service_name, bool serving)</argsstring>
+        <name>setServiceHealth</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::GRPCServer::setServiceHealth</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>service_name</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>serving</declname>
+        </param>
+        <briefdescription>
+<para>--------------------------------------------------------------------<mdash/> v0. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ v0.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">service_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the service. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">serving</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+3.0 — Health &amp; Observability --------------------------------------------------------------------<mdash/></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">service_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the service. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">serving</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+3.0 — Health Service ============================================================================ Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rpc_grpc/grpc_plugin.h" line="73" column="10" bodyfile="src/rpc_grpc/grpc_plugin.cpp" bodystart="387" bodyend="390"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a40196402c32ea4118e3791c37873eeb9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::rpc::grpc_plugin::GRPCServer::isServiceHealthy</definition>
+        <argsstring>(const std::string &amp;service_name) const</argsstring>
+        <name>isServiceHealthy</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::GRPCServer::isServiceHealthy</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>service_name</declname>
+        </param>
+        <briefdescription>
+<para>Is Service Healthy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">service_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the service. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">health_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/rpc_grpc/grpc_plugin.h" line="80" column="10" bodyfile="src/rpc_grpc/grpc_plugin.cpp" bodystart="392" bodyend="402"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a8a4ddc1fa04b792623d8eafd6c5029c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::rpc::grpc_plugin::GRPCServer::recordRPC</definition>
+        <argsstring>(const std::string &amp;method, bool success, uint64_t duration_ms)</argsstring>
+        <name>recordRPC</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::GRPCServer::recordRPC</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>method</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>duration_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record RPC. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">duration_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/rpc_grpc/grpc_plugin.h" line="88" column="10" bodyfile="src/rpc_grpc/grpc_plugin.cpp" bodystart="426" bodyend="461"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a06dbc492bf5c13951cebc88fe9766d21" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::rpc::grpc_plugin::GRPCServer::getMetricsText</definition>
+        <argsstring>() const</argsstring>
+        <name>getMetricsText</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::GRPCServer::getMetricsText</qualifiedname>
+        <briefdescription>
+<para>Get Metrics Text. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/rpc_grpc/grpc_plugin.h" line="94" column="17" bodyfile="src/rpc_grpc/grpc_plugin.cpp" bodystart="467" bodyend="527"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1aecc982c382780dd981b81fcb3d594694" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::rpc::grpc_plugin::GRPCServer::setAccessLogSink</definition>
+        <argsstring>(std::function&lt; void(const std::string &amp;)&gt; sink)</argsstring>
+        <name>setAccessLogSink</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::GRPCServer::setAccessLogSink</qualifiedname>
+        <param>
+          <type>std::function&lt; void(const std::string &amp;)&gt;</type>
+          <declname>sink</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">log_sink_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/rpc_grpc/grpc_plugin.h" line="96" column="10" bodyfile="src/rpc_grpc/grpc_plugin.cpp" bodystart="533" bodyend="541"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1af46b780c993f879dc197abd225bb4863" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::rpc::grpc_plugin::GRPCServer::logAccess</definition>
+        <argsstring>(const std::string &amp;method, int status_code, uint64_t duration_ms, const std::string &amp;client_cn=&quot;&quot;)</argsstring>
+        <name>logAccess</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::GRPCServer::logAccess</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>method</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>status_code</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>duration_ms</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>client_cn</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Log Access. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">status_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">duration_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">client_cn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">log_sink_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/rpc_grpc/grpc_plugin.h" line="98" column="10" bodyfile="src/rpc_grpc/grpc_plugin.cpp" bodystart="550" bodyend="596"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a2b4aaa6b3de3128db8e81bd4718c5413" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::rpc::grpc_plugin::GRPCServer::loadFile</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>loadFile</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::GRPCServer::loadFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Load File. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: file(), rdbuf(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rpc_grpc/grpc_plugin.h" line="152" column="17" bodyfile="src/rpc_grpc/grpc_plugin.cpp" bodystart="609" bodyend="617"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a03695b9e845380df38d5d0f2e35dc080" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; grpc::ServerCredentials &gt;</type>
+        <definition>std::shared_ptr&lt; grpc::ServerCredentials &gt; themis::plugins::rpc::grpc_plugin::GRPCServer::configureCredentials</definition>
+        <argsstring>()</argsstring>
+        <name>configureCredentials</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::GRPCServer::configureCredentials</qualifiedname>
+        <briefdescription>
+<para>Configure Credentials. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tls_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/rpc_grpc/grpc_plugin.h" line="158" column="21" bodyfile="src/rpc_grpc/grpc_plugin.cpp" bodystart="620" bodyend="668"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1af10404861c4a819cca285cf8f2975d17" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; grpc::ServerCredentials &gt;</type>
+        <definition>std::shared_ptr&lt; grpc::ServerCredentials &gt; themis::plugins::rpc::grpc_plugin::GRPCServer::buildSslCredentials</definition>
+        <argsstring>(const std::string &amp;cert_pem, const std::string &amp;key_pem, const std::string &amp;ca_pem, bool require_client_cert)</argsstring>
+        <name>buildSslCredentials</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::GRPCServer::buildSslCredentials</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cert_pem</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_pem</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ca_pem</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>require_client_cert</declname>
+        </param>
+        <briefdescription>
+<para>Build Ssl Credentials. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cert_pem</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_pem</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ca_pem</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">require_client_cert</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rpc_grpc/grpc_plugin.h" line="168" column="21" bodyfile="src/rpc_grpc/grpc_plugin.cpp" bodystart="671" bodyend="706"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1afced9c6bbce6e9df49877c79be947ee5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>MethodMetrics &amp;</type>
+        <definition>GRPCServer::MethodMetrics &amp; themis::plugins::rpc::grpc_plugin::GRPCServer::methodMetricsLocked</definition>
+        <argsstring>(const std::string &amp;method)</argsstring>
+        <name>methodMetricsLocked</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::GRPCServer::methodMetricsLocked</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>method</declname>
+        </param>
+        <briefdescription>
+<para>Method Metrics Locked. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ v0.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+3.0 — Interceptor Metrics ============================================================================ Calls: find(), end(), emplace(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rpc_grpc/grpc_plugin.h" line="179" column="19" bodyfile="src/rpc_grpc/grpc_plugin.cpp" bodystart="411" bodyend="418"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>IRPCServer</label>
+      </node>
+      <node id="1">
+        <label>themis::plugins::rpc::grpc_plugin::GRPCServer</label>
+        <link refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>IRPCServer</label>
+      </node>
+      <node id="1">
+        <label>themis::plugins::rpc::grpc_plugin::GRPCServer</label>
+        <link refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/rpc_grpc/grpc_plugin.h" line="31" column="1" bodyfile="src/rpc_grpc/grpc_plugin.h" bodystart="31" bodyend="180"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1ac5db382dfb5b020aec4690782f1a530e" prot="private" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::GRPCServer</scope><name>access_log_sink_</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1af1f404c90f59abc1b20e3be7d1656d16" prot="private" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::GRPCServer</scope><name>admin_address_</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1af10404861c4a819cca285cf8f2975d17" prot="private" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::GRPCServer</scope><name>buildSslCredentials</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a80635116afa7556260c0a745176254ea" prot="private" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::GRPCServer</scope><name>config_</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a03695b9e845380df38d5d0f2e35dc080" prot="private" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::GRPCServer</scope><name>configureCredentials</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a205735a0d62a2f99e1438b4c76c469ec" prot="private" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::GRPCServer</scope><name>credentials_</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a86d0cc1b224cb24ad2bfa2262d4c78d1" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::GRPCServer</scope><name>getAddress</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a69e4ed4cacf3f18f748027f7a7279824" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::GRPCServer</scope><name>getAdminAddress</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a06dbc492bf5c13951cebc88fe9766d21" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::GRPCServer</scope><name>getMetricsText</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1aad37538b1e04a23d405aa686a42f4f6b" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::GRPCServer</scope><name>getProtocol</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a719dbaa66828f5bdcc77ba720bdfe383" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::GRPCServer</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a7ddfa861dc12e86da170e6e76a765562" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::GRPCServer</scope><name>GRPCServer</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1afafa1e7991631fe42b8bd5f0204f4d07" prot="private" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::GRPCServer</scope><name>health_mutex_</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1acd6cc431e1cd39ac0a75346fc9214f77" prot="private" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::GRPCServer</scope><name>health_states_</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a584526e389fdd41c697a59559288422a" prot="private" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::GRPCServer</scope><name>idle_cq_</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1afff74513b7b6bc5484127b2062d42309" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::GRPCServer</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a5d02ac591fb6b2b64e47df24c5e20468" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::GRPCServer</scope><name>isRunning</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a40196402c32ea4118e3791c37873eeb9" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::GRPCServer</scope><name>isServiceHealthy</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a2b4aaa6b3de3128db8e81bd4718c5413" prot="private" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::GRPCServer</scope><name>loadFile</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a0ea716631eecfc3f5d830fefda5f60c1" prot="private" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::GRPCServer</scope><name>log_sink_mutex_</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1af46b780c993f879dc197abd225bb4863" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::GRPCServer</scope><name>logAccess</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1ab1e7e655d8ff75fa5292411eb70f5096" prot="private" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::GRPCServer</scope><name>method_metrics_</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1afced9c6bbce6e9df49877c79be947ee5" prot="private" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::GRPCServer</scope><name>methodMetricsLocked</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a6c85658dbaf2b1fb4110687223a5125a" prot="private" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::GRPCServer</scope><name>metrics_mutex_</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a8a4ddc1fa04b792623d8eafd6c5029c6" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::GRPCServer</scope><name>recordRPC</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a9f9eeded462b4d97bd5068c2afc24bc7" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::GRPCServer</scope><name>registerService</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1ad9c14e3a998b7be6e1df686eee2bdf41" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::GRPCServer</scope><name>reloadTls</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1acb2aa417de59c34df08c124716b591f8" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::GRPCServer</scope><name>resetStats</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a0734f27797d8110c26d31462b2c48d7d" prot="private" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::GRPCServer</scope><name>running_</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a9a119e2600f0edc2f5450f0668121b6d" prot="private" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::GRPCServer</scope><name>server_</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a932b2a3e7753467672369cae34bb09c8" prot="private" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::GRPCServer</scope><name>server_address_</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a1689e764b5f9d1011fbc4f818ecc458a" prot="private" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::GRPCServer</scope><name>services_</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1aecc982c382780dd981b81fcb3d594694" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::GRPCServer</scope><name>setAccessLogSink</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a36d8eb32f671e7771e0425cb081e9538" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::GRPCServer</scope><name>setServiceHealth</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a189c67ab2820f04817ee979f95b82188" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::GRPCServer</scope><name>start</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1ab3361bc4382e33581b4a7cff4ee4bd28" prot="private" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::GRPCServer</scope><name>start_time_</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a42be86b4f9528236bc0bd252d4d02300" prot="private" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::GRPCServer</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1ad7647d31d3c41f17224c625b22c4c36f" prot="private" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::GRPCServer</scope><name>stats_mutex_</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a9d21c8a638542208d940a5ea8bfcf94b" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::GRPCServer</scope><name>stop</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a4ffa0bdd36be39483b86b0d169a37b57" prot="private" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::GRPCServer</scope><name>tls_mutex_</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a857bb8320624e94390f08a2ecf4e1ad5" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::grpc_plugin::GRPCServer</scope><name>~GRPCServer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

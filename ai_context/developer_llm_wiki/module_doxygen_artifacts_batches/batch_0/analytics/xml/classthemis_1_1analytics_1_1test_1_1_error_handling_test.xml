@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1analytics_1_1test_1_1_error_handling_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::analytics::test::ErrorHandlingTest</compoundname>
+    <basecompoundref refid="classtesting_1_1_test" prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1test_1_1_error_handling_test_1af55fffeeca97a35da924339c2683306d" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1analytics_1_1test_1_1_error_context" kindref="compound">ErrorContext</ref></type>
+        <definition>ErrorContext themis::analytics::test::ErrorHandlingTest::makeErrorContext</definition>
+        <argsstring>(AnalyticsErrorCode code, const std::string &amp;message, const std::string &amp;module=&quot;test&quot;, const std::string &amp;context=&quot;&quot;)</argsstring>
+        <name>makeErrorContext</name>
+        <qualifiedname>themis::analytics::test::ErrorHandlingTest::makeErrorContext</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160" kindref="member">AnalyticsErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>module</declname>
+          <defval>&quot;test&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>context</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_error_handling_focused.cpp" line="145" column="18" bodyfile="tests/analytics/test_analytics_error_handling_focused.cpp" bodystart="145" bodyend="151"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+        <link refid="classtesting_1_1_test"/>
+      </node>
+      <node id="1">
+        <label>themis::analytics::test::ErrorHandlingTest</label>
+        <link refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+        <link refid="classtesting_1_1_test"/>
+      </node>
+      <node id="1">
+        <label>themis::analytics::test::ErrorHandlingTest</label>
+        <link refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/analytics/test_analytics_error_handling_focused.cpp" line="143" column="1" bodyfile="tests/analytics/test_analytics_error_handling_focused.cpp" bodystart="143" bodyend="152"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test_1af55fffeeca97a35da924339c2683306d" prot="protected" virt="non-virtual"><scope>themis::analytics::test::ErrorHandlingTest</scope><name>makeErrorContext</name></member>
+      <member refid="classtesting_1_1_test_1a57a4116f39f6636a80710ded7d42e889" prot="protected" virt="non-virtual"><scope>themis::analytics::test::ErrorHandlingTest</scope><name>SetUp</name></member>
+      <member refid="classtesting_1_1_test_1a2889fd829b6c712d98fb3896d28f64a3" prot="protected" virt="non-virtual"><scope>themis::analytics::test::ErrorHandlingTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

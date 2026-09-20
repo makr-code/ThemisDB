@@ -1,0 +1,450 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_reed_solomon_coder" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::ReedSolomonCoder</compoundname>
+    <basecompoundref refid="classthemis_1_1sharding_1_1_erasure_coder" prot="public" virt="non-virtual">themis::sharding::ErasureCoder</basecompoundref>
+    <includes refid="redundancy__strategy_8h" local="no">redundancy_strategy.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_reed_solomon_coder_1a7289e95ad59a31c9b20e8a8f5cba4f91" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>std::vector&lt; std::vector&lt; uint8_t &gt; &gt; themis::sharding::ReedSolomonCoder::encode</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data, uint32_t data_shards, uint32_t parity_shards) override</argsstring>
+        <name>encode</name>
+        <qualifiedname>themis::sharding::ReedSolomonCoder::encode</qualifiedname>
+        <reimplements refid="classthemis_1_1sharding_1_1_erasure_coder_1a34d0060f7cc4611a3e3540d300ba903e">encode</reimplements>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>data_shards</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>parity_shards</declname>
+        </param>
+        <briefdescription>
+<para>Encode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data_shards</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">parity_shards</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), reserve(), chunk(), std::min(), std::memcpy(), data(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="364" column="17" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="405" bodyend="443"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_reed_solomon_coder_1a9fa040c40b120d123938699a04ad4c68" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::sharding::ReedSolomonCoder::decode</definition>
+        <argsstring>(const std::map&lt; uint32_t, std::vector&lt; uint8_t &gt; &gt; &amp;available_chunks, const std::vector&lt; uint32_t &gt; &amp;missing_indices, uint32_t data_shards, uint32_t parity_shards) override</argsstring>
+        <name>decode</name>
+        <qualifiedname>themis::sharding::ReedSolomonCoder::decode</qualifiedname>
+        <reimplements refid="classthemis_1_1sharding_1_1_erasure_coder_1a5dfbe05b158429f4c286db593bd5a40d">decode</reimplements>
+        <param>
+          <type>const std::map&lt; uint32_t, std::vector&lt; uint8_t &gt; &gt; &amp;</type>
+          <declname>available_chunks</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint32_t &gt; &amp;</type>
+          <declname>missing_indices</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>data_shards</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>parity_shards</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Available bytes. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data_shards</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="370" column="17" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="445" bodyend="542"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_reed_solomon_coder_1af7ecb7597a1185632d22ba47887cfd12" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::sharding::ReedSolomonCoder::gf_mul</definition>
+        <argsstring>(uint8_t a, uint8_t b)</argsstring>
+        <name>gf_mul</name>
+        <qualifiedname>themis::sharding::ReedSolomonCoder::gf_mul</qualifiedname>
+        <param>
+          <type>uint8_t</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>Gf mul. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements gf_mul without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="379" column="13" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="551" bodyend="567"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_reed_solomon_coder_1ae824ae14c5d781cfe783f83645b52076" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::sharding::ReedSolomonCoder::gf_inv</definition>
+        <argsstring>(uint8_t a)</argsstring>
+        <name>gf_inv</name>
+        <qualifiedname>themis::sharding::ReedSolomonCoder::gf_inv</qualifiedname>
+        <param>
+          <type>uint8_t</type>
+          <declname>a</declname>
+        </param>
+        <briefdescription>
+<para>Gf inv. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: gf_mul(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="380" column="13" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="575" bodyend="589"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_reed_solomon_coder_1af14d80701d7be75bad6a9562da49aca3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::sharding::ReedSolomonCoder::gf_div</definition>
+        <argsstring>(uint8_t a, uint8_t b)</argsstring>
+        <name>gf_div</name>
+        <qualifiedname>themis::sharding::ReedSolomonCoder::gf_div</qualifiedname>
+        <param>
+          <type>uint8_t</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>Gf div. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: gf_mul(), gf_inv(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="381" column="13" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="598" bodyend="600"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_reed_solomon_coder_1ad89401cad7655e0bbcacde69277e40a4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::sharding::ReedSolomonCoder::gf_pow</definition>
+        <argsstring>(uint8_t a, uint8_t exp)</argsstring>
+        <name>gf_pow</name>
+        <qualifiedname>themis::sharding::ReedSolomonCoder::gf_pow</qualifiedname>
+        <param>
+          <type>uint8_t</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>exp</declname>
+        </param>
+        <briefdescription>
+<para>Gf pow. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">exp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: gf_mul(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="382" column="13" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="609" bodyend="615"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_reed_solomon_coder_1a94c79a6932d3b9b067dec3b7a6908579" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::ReedSolomonCoder::gf_matrix_mul</definition>
+        <argsstring>(const std::vector&lt; std::vector&lt; uint8_t &gt; &gt; &amp;matrix, const std::vector&lt; uint8_t &gt; &amp;vec, std::vector&lt; uint8_t &gt; &amp;result)</argsstring>
+        <name>gf_matrix_mul</name>
+        <qualifiedname>themis::sharding::ReedSolomonCoder::gf_matrix_mul</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; uint8_t &gt; &gt; &amp;</type>
+          <declname>matrix</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>vec</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Gf matrix mul. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">matrix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(), assign(), gf_mul(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="383" column="10" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="624" bodyend="638"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_reed_solomon_coder_1a85ee7867e3367d0cff9b8a844efc56d4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>std::vector&lt; std::vector&lt; uint8_t &gt; &gt; themis::sharding::ReedSolomonCoder::buildVandermondeMatrix</definition>
+        <argsstring>(uint32_t rows, uint32_t cols)</argsstring>
+        <name>buildVandermondeMatrix</name>
+        <qualifiedname>themis::sharding::ReedSolomonCoder::buildVandermondeMatrix</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>rows</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>cols</declname>
+        </param>
+        <briefdescription>
+<para>Build Vandermonde parity matrix (parity_shards x data_shards). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cols</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+V[p][j] = gf_pow(p+1, j) so each row uses a distinct evaluation point {1,2,...,m}. Calls: matrix(), gf_pow(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="388" column="17" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="333" bodyend="347"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_reed_solomon_coder_1ac6f870163cac7e6a4c013fd96fa3a537" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::ReedSolomonCoder::invertMatrix</definition>
+        <argsstring>(std::vector&lt; std::vector&lt; uint8_t &gt; &gt; &amp;matrix)</argsstring>
+        <name>invertMatrix</name>
+        <qualifiedname>themis::sharding::ReedSolomonCoder::invertMatrix</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::vector&lt; uint8_t &gt; &gt; &amp;</type>
+          <declname>matrix</declname>
+        </param>
+        <briefdescription>
+<para>Gaussian elimination in GF(2^8) to invert an n×n matrix in-place. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">matrix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: size(), aug(), std::swap(), gf_inv(), gf_mul(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="390" column="10" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="355" bodyend="395"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Reed-Solomon Erasure Coder Uses a systematic Vandermonde-based encoding matrix for full multi-chunk erasure recovery (up to parity_shards simultaneous failures). </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::sharding::ErasureCoder</label>
+        <link refid="classthemis_1_1sharding_1_1_erasure_coder"/>
+      </node>
+      <node id="1">
+        <label>themis::sharding::ReedSolomonCoder</label>
+        <link refid="classthemis_1_1sharding_1_1_reed_solomon_coder"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::sharding::ErasureCoder</label>
+        <link refid="classthemis_1_1sharding_1_1_erasure_coder"/>
+      </node>
+      <node id="1">
+        <label>themis::sharding::ReedSolomonCoder</label>
+        <link refid="classthemis_1_1sharding_1_1_reed_solomon_coder"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/sharding/redundancy_strategy.h" line="362" column="1" bodyfile="include/sharding/redundancy_strategy.h" bodystart="362" bodyend="391"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_reed_solomon_coder_1a85ee7867e3367d0cff9b8a844efc56d4" prot="private" virt="non-virtual"><scope>themis::sharding::ReedSolomonCoder</scope><name>buildVandermondeMatrix</name></member>
+      <member refid="classthemis_1_1sharding_1_1_erasure_coder_1a5248ba694168c808d46a622afeb38359" prot="public" virt="non-virtual"><scope>themis::sharding::ReedSolomonCoder</scope><name>create</name></member>
+      <member refid="classthemis_1_1sharding_1_1_reed_solomon_coder_1a9fa040c40b120d123938699a04ad4c68" prot="public" virt="virtual"><scope>themis::sharding::ReedSolomonCoder</scope><name>decode</name></member>
+      <member refid="classthemis_1_1sharding_1_1_reed_solomon_coder_1a7289e95ad59a31c9b20e8a8f5cba4f91" prot="public" virt="virtual"><scope>themis::sharding::ReedSolomonCoder</scope><name>encode</name></member>
+      <member refid="classthemis_1_1sharding_1_1_reed_solomon_coder_1af14d80701d7be75bad6a9562da49aca3" prot="private" virt="non-virtual"><scope>themis::sharding::ReedSolomonCoder</scope><name>gf_div</name></member>
+      <member refid="classthemis_1_1sharding_1_1_reed_solomon_coder_1ae824ae14c5d781cfe783f83645b52076" prot="private" virt="non-virtual"><scope>themis::sharding::ReedSolomonCoder</scope><name>gf_inv</name></member>
+      <member refid="classthemis_1_1sharding_1_1_reed_solomon_coder_1a94c79a6932d3b9b067dec3b7a6908579" prot="private" virt="non-virtual"><scope>themis::sharding::ReedSolomonCoder</scope><name>gf_matrix_mul</name></member>
+      <member refid="classthemis_1_1sharding_1_1_reed_solomon_coder_1af7ecb7597a1185632d22ba47887cfd12" prot="private" virt="non-virtual"><scope>themis::sharding::ReedSolomonCoder</scope><name>gf_mul</name></member>
+      <member refid="classthemis_1_1sharding_1_1_reed_solomon_coder_1ad89401cad7655e0bbcacde69277e40a4" prot="private" virt="non-virtual"><scope>themis::sharding::ReedSolomonCoder</scope><name>gf_pow</name></member>
+      <member refid="classthemis_1_1sharding_1_1_reed_solomon_coder_1ac6f870163cac7e6a4c013fd96fa3a537" prot="private" virt="non-virtual"><scope>themis::sharding::ReedSolomonCoder</scope><name>invertMatrix</name></member>
+      <member refid="classthemis_1_1sharding_1_1_erasure_coder_1aeefb61c591a606c2f8fdb23e7e3f933d" prot="public" virt="virtual"><scope>themis::sharding::ReedSolomonCoder</scope><name>~ErasureCoder</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

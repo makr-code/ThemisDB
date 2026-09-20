@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_time_series_point" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::TimeSeriesPoint</compoundname>
+    <includes refid="root__cause__analyzer_8h" local="no">root_cause_analyzer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_time_series_point_1a37d63bcbf3fd284edba6956079d638f3" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::observability::TimeSeriesPoint::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::observability::TimeSeriesPoint::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/root_cause_analyzer.h" line="35" column="43" bodyfile="include/observability/root_cause_analyzer.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_time_series_point_1ad5aeefad9bd026172c72b66de6ad477b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::TimeSeriesPoint::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::observability::TimeSeriesPoint::value</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/root_cause_analyzer.h" line="36" column="12" bodyfile="include/observability/root_cause_analyzer.h" bodystart="36" bodyend="36"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single data point in a time series. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/root_cause_analyzer.h" line="34" column="1" bodyfile="include/observability/root_cause_analyzer.h" bodystart="34" bodyend="37"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_time_series_point_1a37d63bcbf3fd284edba6956079d638f3" prot="public" virt="non-virtual"><scope>themis::observability::TimeSeriesPoint</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1observability_1_1_time_series_point_1ad5aeefad9bd026172c72b66de6ad477b" prot="public" virt="non-virtual"><scope>themis::observability::TimeSeriesPoint</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_emotion_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::EmotionConfig</compoundname>
+    <includes refid="emotion__analyzer_8h" local="no">emotion_analyzer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_emotion_config_1ab7cf69ee01ed08a948c70890d6b934e8" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::voice::EmotionConfig::analysis_window_ms</definition>
+        <argsstring></argsstring>
+        <name>analysis_window_ms</name>
+        <qualifiedname>themis::voice::EmotionConfig::analysis_window_ms</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+<para>Segment window for analysis (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/emotion_analyzer.h" line="143" column="11" bodyfile="include/voice/emotion_analyzer.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_emotion_config_1a659938d35460b819f269c79b0574cc8f" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::EmotionConfig::confidence_threshold</definition>
+        <argsstring></argsstring>
+        <name>confidence_threshold</name>
+        <qualifiedname>themis::voice::EmotionConfig::confidence_threshold</qualifiedname>
+        <initializer>= 0.6f</initializer>
+        <briefdescription>
+<para>Minimum confidence to report primary emotion. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/emotion_analyzer.h" line="144" column="11" bodyfile="include/voice/emotion_analyzer.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_emotion_config_1ab34c31ac0d41215c161ec8d6ff2c2daa" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::EmotionConfig::track_sentiment</definition>
+        <argsstring></argsstring>
+        <name>track_sentiment</name>
+        <qualifiedname>themis::voice::EmotionConfig::track_sentiment</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Compute sentiment score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/emotion_analyzer.h" line="145" column="11" bodyfile="include/voice/emotion_analyzer.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_emotion_config_1ac87dde87bcdbed32fca3ae739ff3cf49" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::EmotionConfig::track_stress</definition>
+        <argsstring></argsstring>
+        <name>track_stress</name>
+        <qualifiedname>themis::voice::EmotionConfig::track_stress</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Compute stress level. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/emotion_analyzer.h" line="146" column="11" bodyfile="include/voice/emotion_analyzer.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_emotion_config_1a9a319336bf49f8cb1fa9d747994232be" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::EmotionConfig::track_engagement</definition>
+        <argsstring></argsstring>
+        <name>track_engagement</name>
+        <qualifiedname>themis::voice::EmotionConfig::track_engagement</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Compute engagement score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/emotion_analyzer.h" line="147" column="11" bodyfile="include/voice/emotion_analyzer.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_emotion_config_1a13272aee4d8d46b5a13a0bddabf68215" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::EmotionConfig::skip_on_unavailable</definition>
+        <argsstring></argsstring>
+        <name>skip_on_unavailable</name>
+        <qualifiedname>themis::voice::EmotionConfig::skip_on_unavailable</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Skip emotion step if analyzer unavailable. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/emotion_analyzer.h" line="150" column="11" bodyfile="include/voice/emotion_analyzer.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_emotion_config_1a6c5644db7242e4d38aacf458bd83589f" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::EmotionConfig::fallback_confidence</definition>
+        <argsstring></argsstring>
+        <name>fallback_confidence</name>
+        <qualifiedname>themis::voice::EmotionConfig::fallback_confidence</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Default confidence when skipping. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/emotion_analyzer.h" line="151" column="11" bodyfile="include/voice/emotion_analyzer.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_emotion_config_1ac84c5c33644c45d64c90e34be5c1384c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::EmotionConfig::use_timeout_protection</definition>
+        <argsstring></argsstring>
+        <name>use_timeout_protection</name>
+        <qualifiedname>themis::voice::EmotionConfig::use_timeout_protection</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enforce timeout with safe defaults. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/emotion_analyzer.h" line="152" column="11" bodyfile="include/voice/emotion_analyzer.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_emotion_config_1a01ba278d891f3dd115cbc3e862a5f195" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::EmotionConfig::timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>timeout_ms</name>
+        <qualifiedname>themis::voice::EmotionConfig::timeout_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+<para>Max time for emotion analysis (5 seconds). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/emotion_analyzer.h" line="153" column="13" bodyfile="include/voice/emotion_analyzer.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for emotion analysis. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/emotion_analyzer.h" line="142" column="1" bodyfile="include/voice/emotion_analyzer.h" bodystart="142" bodyend="154"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_emotion_config_1ab7cf69ee01ed08a948c70890d6b934e8" prot="public" virt="non-virtual"><scope>themis::voice::EmotionConfig</scope><name>analysis_window_ms</name></member>
+      <member refid="structthemis_1_1voice_1_1_emotion_config_1a659938d35460b819f269c79b0574cc8f" prot="public" virt="non-virtual"><scope>themis::voice::EmotionConfig</scope><name>confidence_threshold</name></member>
+      <member refid="structthemis_1_1voice_1_1_emotion_config_1a6c5644db7242e4d38aacf458bd83589f" prot="public" virt="non-virtual"><scope>themis::voice::EmotionConfig</scope><name>fallback_confidence</name></member>
+      <member refid="structthemis_1_1voice_1_1_emotion_config_1a13272aee4d8d46b5a13a0bddabf68215" prot="public" virt="non-virtual"><scope>themis::voice::EmotionConfig</scope><name>skip_on_unavailable</name></member>
+      <member refid="structthemis_1_1voice_1_1_emotion_config_1a01ba278d891f3dd115cbc3e862a5f195" prot="public" virt="non-virtual"><scope>themis::voice::EmotionConfig</scope><name>timeout_ms</name></member>
+      <member refid="structthemis_1_1voice_1_1_emotion_config_1a9a319336bf49f8cb1fa9d747994232be" prot="public" virt="non-virtual"><scope>themis::voice::EmotionConfig</scope><name>track_engagement</name></member>
+      <member refid="structthemis_1_1voice_1_1_emotion_config_1ab34c31ac0d41215c161ec8d6ff2c2daa" prot="public" virt="non-virtual"><scope>themis::voice::EmotionConfig</scope><name>track_sentiment</name></member>
+      <member refid="structthemis_1_1voice_1_1_emotion_config_1ac87dde87bcdbed32fca3ae739ff3cf49" prot="public" virt="non-virtual"><scope>themis::voice::EmotionConfig</scope><name>track_stress</name></member>
+      <member refid="structthemis_1_1voice_1_1_emotion_config_1ac84c5c33644c45d64c90e34be5c1384c" prot="public" virt="non-virtual"><scope>themis::voice::EmotionConfig</scope><name>use_timeout_protection</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

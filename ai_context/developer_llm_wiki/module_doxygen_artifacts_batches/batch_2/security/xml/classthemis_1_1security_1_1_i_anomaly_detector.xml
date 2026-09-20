@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1_i_anomaly_detector" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::security::IAnomalyDetector</compoundname>
+    <derivedcompoundref refid="classthemis_1_1security_1_1_behavioral_anomaly_detector" prot="public" virt="non-virtual">themis::security::BehavioralAnomalyDetector</derivedcompoundref>
+    <includes refid="behavioral__anomaly__detector_8h" local="no">behavioral_anomaly_detector.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_i_anomaly_detector_1a2ad2b0d8d5ca4cbe7b9993d4208a4917" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::security::IAnomalyDetector::~IAnomalyDetector</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IAnomalyDetector</name>
+        <qualifiedname>themis::security::IAnomalyDetector::~IAnomalyDetector</qualifiedname>
+        <briefdescription>
+<para>IAnomaly Detector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/behavioral_anomaly_detector.h" line="61" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_i_anomaly_detector_1ae3d263337a4df6e89143a0c8e112fc84" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_threat_score" kindref="compound">ThreatScore</ref></type>
+        <definition>virtual ThreatScore themis::security::IAnomalyDetector::scoreEvent</definition>
+        <argsstring>(const AccessEvent &amp;event)=0</argsstring>
+        <name>scoreEvent</name>
+        <qualifiedname>themis::security::IAnomalyDetector::scoreEvent</qualifiedname>
+        <reimplementedby refid="classthemis_1_1security_1_1_behavioral_anomaly_detector_1a119a3a42a8da7d260f651ee9c650a18a">scoreEvent</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1security_1_1_access_event" kindref="compound">AccessEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/behavioral_anomaly_detector.h" line="63" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_i_anomaly_detector_1a69d53a6dde9c97b1af63ebf50740e00a" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::security::IAnomalyDetector::clearSession</definition>
+        <argsstring>(const std::string &amp;session_id)=0</argsstring>
+        <name>clearSession</name>
+        <qualifiedname>themis::security::IAnomalyDetector::clearSession</qualifiedname>
+        <reimplementedby refid="classthemis_1_1security_1_1_behavioral_anomaly_detector_1ae3a35d4fdd3b7ee8bfc40e2c8475d6b4">clearSession</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <briefdescription>
+<para>Clear Session. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/behavioral_anomaly_detector.h" line="69" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::security::BehavioralAnomalyDetector</label>
+        <link refid="classthemis_1_1security_1_1_behavioral_anomaly_detector"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::security::IAnomalyDetector</label>
+        <link refid="classthemis_1_1security_1_1_i_anomaly_detector"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/security/behavioral_anomaly_detector.h" line="55" column="1" bodyfile="include/security/behavioral_anomaly_detector.h" bodystart="55" bodyend="70"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1_i_anomaly_detector_1a69d53a6dde9c97b1af63ebf50740e00a" prot="public" virt="pure-virtual"><scope>themis::security::IAnomalyDetector</scope><name>clearSession</name></member>
+      <member refid="classthemis_1_1security_1_1_i_anomaly_detector_1ae3d263337a4df6e89143a0c8e112fc84" prot="public" virt="pure-virtual"><scope>themis::security::IAnomalyDetector</scope><name>scoreEvent</name></member>
+      <member refid="classthemis_1_1security_1_1_i_anomaly_detector_1a2ad2b0d8d5ca4cbe7b9993d4208a4917" prot="public" virt="virtual"><scope>themis::security::IAnomalyDetector</scope><name>~IAnomalyDetector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

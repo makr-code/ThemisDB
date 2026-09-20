@@ -1,0 +1,165 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_continuous_profiler_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::ContinuousProfilerConfig</compoundname>
+    <includes refid="continuous__profiler_8h" local="no">continuous_profiler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_continuous_profiler_config_1abb087a1442056dd29c7dae8c9361b0bf" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::ContinuousProfilerConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::observability::ContinuousProfilerConfig::enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/continuous_profiler.h" line="94" column="10" bodyfile="include/observability/continuous_profiler.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_continuous_profiler_config_1a5e17a7b3189b8a7cee06b6855feed525" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::ContinuousProfilerConfig::cpu_sample_rate</definition>
+        <argsstring></argsstring>
+        <name>cpu_sample_rate</name>
+        <qualifiedname>themis::observability::ContinuousProfilerConfig::cpu_sample_rate</qualifiedname>
+        <initializer>= 0.01</initializer>
+        <briefdescription>
+<para>Target CPU overhead fraction (0.01 = 1 %). Controls sampling frequency. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/continuous_profiler.h" line="96" column="12" bodyfile="include/observability/continuous_profiler.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_continuous_profiler_config_1ac2cf170651f3b3c3c4e5393f943dca22" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::observability::ContinuousProfilerConfig::snapshot_interval</definition>
+        <argsstring></argsstring>
+        <name>snapshot_interval</name>
+        <qualifiedname>themis::observability::ContinuousProfilerConfig::snapshot_interval</qualifiedname>
+        <initializer>{60}</initializer>
+        <briefdescription>
+<para>How often a snapshot is automatically flushed to disk. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/continuous_profiler.h" line="98" column="26" bodyfile="include/observability/continuous_profiler.h" bodystart="98" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_continuous_profiler_config_1a61ef5f31c7e3eb7ed8328a3097cfd126" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::ContinuousProfilerConfig::max_snapshots_retained</definition>
+        <argsstring></argsstring>
+        <name>max_snapshots_retained</name>
+        <qualifiedname>themis::observability::ContinuousProfilerConfig::max_snapshots_retained</qualifiedname>
+        <initializer>= 1440</initializer>
+        <briefdescription>
+<para>Maximum number of in-memory snapshots retained per profile type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/continuous_profiler.h" line="100" column="12" bodyfile="include/observability/continuous_profiler.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_continuous_profiler_config_1a4a60c6cd579f3b1c4c9bb38ad2370aa5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::ContinuousProfilerConfig::output_dir</definition>
+        <argsstring></argsstring>
+        <name>output_dir</name>
+        <qualifiedname>themis::observability::ContinuousProfilerConfig::output_dir</qualifiedname>
+        <initializer>= &quot;/var/lib/themisdb/profiles&quot;</initializer>
+        <briefdescription>
+<para>Directory where snapshots are persisted. Empty string disables persistence. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/continuous_profiler.h" line="102" column="17" bodyfile="include/observability/continuous_profiler.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_continuous_profiler_config_1ab26467cd7e856c4fa2b04cad60b575f3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::ContinuousProfilerConfig::enable_cpu_profiling</definition>
+        <argsstring></argsstring>
+        <name>enable_cpu_profiling</name>
+        <qualifiedname>themis::observability::ContinuousProfilerConfig::enable_cpu_profiling</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/continuous_profiler.h" line="103" column="10" bodyfile="include/observability/continuous_profiler.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_continuous_profiler_config_1a2652cd172bfac73d8508f534c7cde173" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::ContinuousProfilerConfig::enable_heap_profiling</definition>
+        <argsstring></argsstring>
+        <name>enable_heap_profiling</name>
+        <qualifiedname>themis::observability::ContinuousProfilerConfig::enable_heap_profiling</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/continuous_profiler.h" line="104" column="10" bodyfile="include/observability/continuous_profiler.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_continuous_profiler_config_1a3a67664342cb1ae807c1d17641d789ac" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::ContinuousProfilerConfig::enable_mutex_profiling</definition>
+        <argsstring></argsstring>
+        <name>enable_mutex_profiling</name>
+        <qualifiedname>themis::observability::ContinuousProfilerConfig::enable_mutex_profiling</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/continuous_profiler.h" line="105" column="10" bodyfile="include/observability/continuous_profiler.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_continuous_profiler_config_1af9e3cbfe8501fd921823ccebc27ee7d8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::ContinuousProfilerConfig::enable_block_profiling</definition>
+        <argsstring></argsstring>
+        <name>enable_block_profiling</name>
+        <qualifiedname>themis::observability::ContinuousProfilerConfig::enable_block_profiling</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/continuous_profiler.h" line="106" column="10" bodyfile="include/observability/continuous_profiler.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for the continuous profiler. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/continuous_profiler.h" line="93" column="1" bodyfile="include/observability/continuous_profiler.h" bodystart="93" bodyend="107"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_continuous_profiler_config_1a5e17a7b3189b8a7cee06b6855feed525" prot="public" virt="non-virtual"><scope>themis::observability::ContinuousProfilerConfig</scope><name>cpu_sample_rate</name></member>
+      <member refid="structthemis_1_1observability_1_1_continuous_profiler_config_1af9e3cbfe8501fd921823ccebc27ee7d8" prot="public" virt="non-virtual"><scope>themis::observability::ContinuousProfilerConfig</scope><name>enable_block_profiling</name></member>
+      <member refid="structthemis_1_1observability_1_1_continuous_profiler_config_1ab26467cd7e856c4fa2b04cad60b575f3" prot="public" virt="non-virtual"><scope>themis::observability::ContinuousProfilerConfig</scope><name>enable_cpu_profiling</name></member>
+      <member refid="structthemis_1_1observability_1_1_continuous_profiler_config_1a2652cd172bfac73d8508f534c7cde173" prot="public" virt="non-virtual"><scope>themis::observability::ContinuousProfilerConfig</scope><name>enable_heap_profiling</name></member>
+      <member refid="structthemis_1_1observability_1_1_continuous_profiler_config_1a3a67664342cb1ae807c1d17641d789ac" prot="public" virt="non-virtual"><scope>themis::observability::ContinuousProfilerConfig</scope><name>enable_mutex_profiling</name></member>
+      <member refid="structthemis_1_1observability_1_1_continuous_profiler_config_1abb087a1442056dd29c7dae8c9361b0bf" prot="public" virt="non-virtual"><scope>themis::observability::ContinuousProfilerConfig</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1observability_1_1_continuous_profiler_config_1a61ef5f31c7e3eb7ed8328a3097cfd126" prot="public" virt="non-virtual"><scope>themis::observability::ContinuousProfilerConfig</scope><name>max_snapshots_retained</name></member>
+      <member refid="structthemis_1_1observability_1_1_continuous_profiler_config_1a4a60c6cd579f3b1c4c9bb38ad2370aa5" prot="public" virt="non-virtual"><scope>themis::observability::ContinuousProfilerConfig</scope><name>output_dir</name></member>
+      <member refid="structthemis_1_1observability_1_1_continuous_profiler_config_1ac2cf170651f3b3c3c4e5393f943dca22" prot="public" virt="non-virtual"><scope>themis::observability::ContinuousProfilerConfig</scope><name>snapshot_interval</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

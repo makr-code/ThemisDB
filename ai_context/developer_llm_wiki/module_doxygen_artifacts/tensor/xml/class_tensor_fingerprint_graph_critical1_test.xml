@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_tensor_fingerprint_graph_critical1_test" kind="class" language="C++" prot="public">
+    <compoundname>TensorFingerprintGraphCritical1Test</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_tensor_fingerprint_graph_critical1_test_1aa9083b48484f429a7adbc7ec2544b562" prot="protected" static="no" mutable="no">
+        <type>FieldDiagnosticsCollector *</type>
+        <definition>FieldDiagnosticsCollector* TensorFingerprintGraphCritical1Test::collector_</definition>
+        <argsstring></argsstring>
+        <name>collector_</name>
+        <qualifiedname>TensorFingerprintGraphCritical1Test::collector_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_fingerprint_graph_critical1_diagnostics_focused.cpp" line="75" column="31" bodyfile="tests/tensor/test_tensor_fingerprint_graph_critical1_diagnostics_focused.cpp" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_tensor_fingerprint_graph_critical1_test_1a7ca4c1e63ceb4113377dee20504d08b5" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1tensor_1_1_tensor_fingerprint_graph" kindref="compound">TensorFingerprintGraph</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;TensorFingerprintGraph&gt; TensorFingerprintGraphCritical1Test::graph_</definition>
+        <argsstring></argsstring>
+        <name>graph_</name>
+        <qualifiedname>TensorFingerprintGraphCritical1Test::graph_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_fingerprint_graph_critical1_diagnostics_focused.cpp" line="76" column="21" bodyfile="tests/tensor/test_tensor_fingerprint_graph_critical1_diagnostics_focused.cpp" bodystart="76" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_tensor_fingerprint_graph_critical1_test_1a0def6be9af5061393482730ce5cb02ac" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TensorFingerprintGraphCritical1Test::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>TensorFingerprintGraphCritical1Test::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_fingerprint_graph_critical1_diagnostics_focused.cpp" line="45" column="10" bodyfile="tests/tensor/test_tensor_fingerprint_graph_critical1_diagnostics_focused.cpp" bodystart="45" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="class_tensor_fingerprint_graph_critical1_test_1adf963b5d0f4b71892651b2d2fdb5fb1f" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TensorFingerprintGraphCritical1Test::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>TensorFingerprintGraphCritical1Test::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_fingerprint_graph_critical1_diagnostics_focused.cpp" line="53" column="10" bodyfile="tests/tensor/test_tensor_fingerprint_graph_critical1_diagnostics_focused.cpp" bodystart="53" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="class_tensor_fingerprint_graph_critical1_test_1a7394a175a86299133175db751f14e712" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t TensorFingerprintGraphCritical1Test::countDiagnosticsWithCode</definition>
+        <argsstring>(const std::string &amp;error_code)</argsstring>
+        <name>countDiagnosticsWithCode</name>
+        <qualifiedname>TensorFingerprintGraphCritical1Test::countDiagnosticsWithCode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error_code</declname>
+        </param>
+        <briefdescription>
+<para>Count emitted diagnostics matching a specific error code. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>error_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The TENSOR error code to search for (e.g., &quot;TENSOR-9510&quot;) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of matching diagnostic events </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_fingerprint_graph_critical1_diagnostics_focused.cpp" line="63" column="12" bodyfile="tests/tensor/test_tensor_fingerprint_graph_critical1_diagnostics_focused.cpp" bodystart="63" bodyend="73"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Test fixture for CRITICAL-1 diagnostics. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Sets up a <ref refid="classthemis_1_1tensor_1_1_tensor_fingerprint_graph" kindref="compound">TensorFingerprintGraph</ref> and diagnostic collector for testing error path diagnostics. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>TensorFingerprintGraphCritical1Test</label>
+        <link refid="class_tensor_fingerprint_graph_critical1_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>TensorFingerprintGraphCritical1Test</label>
+        <link refid="class_tensor_fingerprint_graph_critical1_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/tensor/test_tensor_fingerprint_graph_critical1_diagnostics_focused.cpp" line="43" column="1" bodyfile="tests/tensor/test_tensor_fingerprint_graph_critical1_diagnostics_focused.cpp" bodystart="43" bodyend="77"/>
+    <listofallmembers>
+      <member refid="class_tensor_fingerprint_graph_critical1_test_1aa9083b48484f429a7adbc7ec2544b562" prot="protected" virt="non-virtual"><scope>TensorFingerprintGraphCritical1Test</scope><name>collector_</name></member>
+      <member refid="class_tensor_fingerprint_graph_critical1_test_1a7394a175a86299133175db751f14e712" prot="protected" virt="non-virtual"><scope>TensorFingerprintGraphCritical1Test</scope><name>countDiagnosticsWithCode</name></member>
+      <member refid="class_tensor_fingerprint_graph_critical1_test_1a7ca4c1e63ceb4113377dee20504d08b5" prot="protected" virt="non-virtual"><scope>TensorFingerprintGraphCritical1Test</scope><name>graph_</name></member>
+      <member refid="class_tensor_fingerprint_graph_critical1_test_1a0def6be9af5061393482730ce5cb02ac" prot="protected" virt="non-virtual"><scope>TensorFingerprintGraphCritical1Test</scope><name>SetUp</name></member>
+      <member refid="class_tensor_fingerprint_graph_critical1_test_1adf963b5d0f4b71892651b2d2fdb5fb1f" prot="protected" virt="non-virtual"><scope>TensorFingerprintGraphCritical1Test</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

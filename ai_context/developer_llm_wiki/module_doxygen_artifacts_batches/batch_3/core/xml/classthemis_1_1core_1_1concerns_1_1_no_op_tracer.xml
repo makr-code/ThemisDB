@@ -1,0 +1,180 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1core_1_1concerns_1_1_no_op_tracer" kind="class" language="C++" prot="public">
+    <compoundname>themis::core::concerns::NoOpTracer</compoundname>
+    <basecompoundref refid="classthemis_1_1core_1_1concerns_1_1_i_tracer" prot="public" virt="non-virtual">themis::core::concerns::ITracer</basecompoundref>
+    <includes refid="noop__implementations_8h" local="no">noop_implementations.h</includes>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_no_op_tracer_1_1_no_op_span" prot="public">themis::core::concerns::NoOpTracer::NoOpSpan</innerclass>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_tracer_1a18cf9eea862853035ed9f7b02ccd5f3c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1_1_i_span" kindref="compound">ISpan</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; ISpan &gt; themis::core::concerns::NoOpTracer::startSpan</definition>
+        <argsstring>(const std::string &amp;name) override</argsstring>
+        <name>startSpan</name>
+        <qualifiedname>themis::core::concerns::NoOpTracer::startSpan</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1ade5274037780d28fdaa149bb091f317d">startSpan</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="82" column="21" bodyfile="include/core/concerns/noop_implementations.h" bodystart="82" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_tracer_1afc5480536dd49901399db8fcb32d63a5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1_1_i_span" kindref="compound">ISpan</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; ISpan &gt; themis::core::concerns::NoOpTracer::startChildSpan</definition>
+        <argsstring>(const std::string &amp;name, const ISpan &amp;parent) override</argsstring>
+        <name>startChildSpan</name>
+        <qualifiedname>themis::core::concerns::NoOpTracer::startChildSpan</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1a5ea098dc9baf798a4272cc0cd09c4448">startChildSpan</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1_1_i_span" kindref="compound">ISpan</ref> &amp;</type>
+          <declname>parent</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="86" column="21" bodyfile="include/core/concerns/noop_implementations.h" bodystart="86" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_tracer_1a118f4ef5712e15cd0d21633b11e8e6d6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::core::concerns::NoOpTracer::initialize</definition>
+        <argsstring>(const std::string &amp;serviceName, const std::string &amp;endpoint) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::core::concerns::NoOpTracer::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1a480e61380517bbc332934eb9e128c1a4">initialize</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>serviceName</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>endpoint</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="90" column="10" bodyfile="include/core/concerns/noop_implementations.h" bodystart="90" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_tracer_1acba86aceb2241ab606650adc9d2756cc" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::NoOpTracer::shutdown</definition>
+        <argsstring>() noexcept override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::core::concerns::NoOpTracer::shutdown</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1a67ca225528cabbbbe0053038eebd6210">shutdown</reimplements>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="94" column="10" bodyfile="include/core/concerns/noop_implementations.h" bodystart="94" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_tracer_1a8190ba822b73240c57155f24d13b1a31" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::core::concerns::NoOpTracer::isInitialized</definition>
+        <argsstring>() const override</argsstring>
+        <name>isInitialized</name>
+        <qualifiedname>themis::core::concerns::NoOpTracer::isInitialized</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1a6a32f83bcc54bc627427ff4ce8a4d34c">isInitialized</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="95" column="10" bodyfile="include/core/concerns/noop_implementations.h" bodystart="95" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_tracer_1af9136302480731abcbc2a16db353b33f" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::NoOpTracer::flush</definition>
+        <argsstring>() noexcept override</argsstring>
+        <name>flush</name>
+        <qualifiedname>themis::core::concerns::NoOpTracer::flush</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1a0002c4a9f062583e107b625f37ac832e">flush</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="97" column="10" bodyfile="include/core/concerns/noop_implementations.h" bodystart="97" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_tracer_1a2e5abe598a34e9822882906554d6d90e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1core_1_1concerns_1_1_probe_result" kindref="compound">ProbeResult</ref></type>
+        <definition>ProbeResult themis::core::concerns::NoOpTracer::isHealthy</definition>
+        <argsstring>() const override</argsstring>
+        <name>isHealthy</name>
+        <qualifiedname>themis::core::concerns::NoOpTracer::isHealthy</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1a70e24d90a3bfab09b431c70e22e799b3">isHealthy</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="98" column="17" bodyfile="include/core/concerns/noop_implementations.h" bodystart="98" bodyend="98"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>No-op tracer implementation for testing or when tracing is disabled. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Span creation always returns invalid <ref refid="classthemis_1_1core_1_1concerns_1_1_no_op_tracer_1_1_no_op_span" kindref="compound">NoOpSpan</ref> instances. <ref refid="classthemis_1_1core_1_1concerns_1_1_no_op_tracer_1a118f4ef5712e15cd0d21633b11e8e6d6" kindref="member">initialize()</ref> reports success and <ref refid="classthemis_1_1core_1_1concerns_1_1_no_op_tracer_1a8190ba822b73240c57155f24d13b1a31" kindref="member">isInitialized()</ref> always returns true so startup flows that require an initialized tracer can proceed in no-tracing deployments. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::core::concerns::ITracer</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_i_tracer"/>
+      </node>
+      <node id="1">
+        <label>themis::core::concerns::NoOpTracer</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_no_op_tracer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::core::concerns::ITracer</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_i_tracer"/>
+      </node>
+      <node id="1">
+        <label>themis::core::concerns::NoOpTracer</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_no_op_tracer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/core/concerns/noop_implementations.h" line="67" column="1" bodyfile="include/core/concerns/noop_implementations.h" bodystart="67" bodyend="99"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_tracer_1af9136302480731abcbc2a16db353b33f" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpTracer</scope><name>flush</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_tracer_1a118f4ef5712e15cd0d21633b11e8e6d6" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpTracer</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1a72a1f3e019ae0887da0a5b183ad30d8c" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpTracer</scope><name>injectContext</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_tracer_1a2e5abe598a34e9822882906554d6d90e" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpTracer</scope><name>isHealthy</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_tracer_1a8190ba822b73240c57155f24d13b1a31" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpTracer</scope><name>isInitialized</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_tracer_1acba86aceb2241ab606650adc9d2756cc" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpTracer</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_tracer_1afc5480536dd49901399db8fcb32d63a5" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpTracer</scope><name>startChildSpan</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_tracer_1a18cf9eea862853035ed9f7b02ccd5f3c" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpTracer</scope><name>startSpan</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1a9f1315fac9d96be4e9b13920f9d59721" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpTracer</scope><name>startSpanFromHeaders</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1ab3c6a864f40c851a25c4d0118fa5ccd1" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpTracer</scope><name>~ITracer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

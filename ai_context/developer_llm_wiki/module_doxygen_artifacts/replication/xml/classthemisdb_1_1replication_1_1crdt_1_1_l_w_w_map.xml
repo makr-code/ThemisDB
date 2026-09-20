@@ -1,0 +1,206 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1replication_1_1crdt_1_1_l_w_w_map" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::replication::crdt::LWWMap</compoundname>
+    <includes refid="crdt__types_8h" local="no">crdt_types.h</includes>
+    <innerclass refid="structthemisdb_1_1replication_1_1crdt_1_1_l_w_w_map_1_1_slot" prot="private">themisdb::replication::crdt::LWWMap::Slot</innerclass>
+    <templateparamlist>
+      <param>
+        <type>typename K</type>
+      </param>
+      <param>
+        <type>typename V</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1crdt_1_1_l_w_w_map_1ae6066c31c6b25064b63b1e550431069e" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::crdt::LWWMap&lt; K, V &gt;::node_id_</definition>
+        <argsstring></argsstring>
+        <name>node_id_</name>
+        <qualifiedname>themisdb::replication::crdt::LWWMap::node_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="490" column="26" bodyfile="include/replication/crdt_types.h" bodystart="490" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1crdt_1_1_l_w_w_map_1aa26c72a88973f6bca8b796e546f1103f" prot="private" static="no" mutable="no">
+        <type>std::map&lt; K, Slot &gt;</type>
+        <definition>std::map&lt;K, Slot&gt; themisdb::replication::crdt::LWWMap&lt; K, V &gt;::entries_</definition>
+        <argsstring></argsstring>
+        <name>entries_</name>
+        <qualifiedname>themisdb::replication::crdt::LWWMap::entries_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="491" column="17" bodyfile="include/replication/crdt_types.h" bodystart="491" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1crdt_1_1_l_w_w_map_1a0d137b1f2e2db537550126651399de1f" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::crdt::LWWMap&lt; K, V &gt;::LWWMap</definition>
+        <argsstring>(const std::string &amp;node_id)</argsstring>
+        <name>LWWMap</name>
+        <qualifiedname>themisdb::replication::crdt::LWWMap::LWWMap</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="434" column="14" bodyfile="include/replication/crdt_types.h" bodystart="434" bodyend="434"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1crdt_1_1_l_w_w_map_1aa06eaf365a62ac5df80afdd68f23b979" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::crdt::LWWMap&lt; K, V &gt;::put</definition>
+        <argsstring>(const K &amp;key, V value, uint64_t timestamp_us)</argsstring>
+        <name>put</name>
+        <qualifiedname>themisdb::replication::crdt::LWWMap::put</qualifiedname>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>V</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>timestamp_us</declname>
+        </param>
+        <briefdescription>
+<para>Set <computeroutput>key</computeroutput> to <computeroutput>value</computeroutput> with <computeroutput>timestamp_us</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="437" column="10" bodyfile="include/replication/crdt_types.h" bodystart="437" bodyend="446"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1crdt_1_1_l_w_w_map_1a2429b2f5fdf72186caa489ad2df0ec4e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::crdt::LWWMap&lt; K, V &gt;::remove</definition>
+        <argsstring>(const K &amp;key, uint64_t timestamp_us)</argsstring>
+        <name>remove</name>
+        <qualifiedname>themisdb::replication::crdt::LWWMap::remove</qualifiedname>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>timestamp_us</declname>
+        </param>
+        <briefdescription>
+<para>Mark <computeroutput>key</computeroutput> as removed with <computeroutput>timestamp_us</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="449" column="10" bodyfile="include/replication/crdt_types.h" bodystart="449" bodyend="458"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1crdt_1_1_l_w_w_map_1afc9bb7b2fd525891d1fb84e54c954b6e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; V &gt;</type>
+        <definition>std::optional&lt; V &gt; themisdb::replication::crdt::LWWMap&lt; K, V &gt;::get</definition>
+        <argsstring>(const K &amp;key) const</argsstring>
+        <name>get</name>
+        <qualifiedname>themisdb::replication::crdt::LWWMap::get</qualifiedname>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Returns the value for <computeroutput>key</computeroutput>, or empty optional if absent/removed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="461" column="19" bodyfile="include/replication/crdt_types.h" bodystart="461" bodyend="465"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1crdt_1_1_l_w_w_map_1a5e3e4ac5fb065203f2d8c39d2f593865" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::crdt::LWWMap&lt; K, V &gt;::contains</definition>
+        <argsstring>(const K &amp;key) const</argsstring>
+        <name>contains</name>
+        <qualifiedname>themisdb::replication::crdt::LWWMap::contains</qualifiedname>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="467" column="10" bodyfile="include/replication/crdt_types.h" bodystart="467" bodyend="470"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1crdt_1_1_l_w_w_map_1ad3acc4fc27f7972e8bf371729d7b7b26" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::crdt::LWWMap&lt; K, V &gt;::merge</definition>
+        <argsstring>(const LWWMap&lt; K, V &gt; &amp;other)</argsstring>
+        <name>merge</name>
+        <qualifiedname>themisdb::replication::crdt::LWWMap::merge</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1replication_1_1crdt_1_1_l_w_w_map_1a0d137b1f2e2db537550126651399de1f" kindref="member">LWWMap</ref>&lt; K, V &gt; &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="472" column="10" bodyfile="include/replication/crdt_types.h" bodystart="472" bodyend="480"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A Last-Write-Wins Map. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Each key independently follows LWW semantics: the most-recently-timestamped value wins.</para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key type (must be less-than-comparable). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Value type (must be copy-constructible). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <location file="include/replication/crdt_types.h" line="432" column="1" bodyfile="include/replication/crdt_types.h" bodystart="432" bodyend="492"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_l_w_w_map_1a5e3e4ac5fb065203f2d8c39d2f593865" prot="public" virt="non-virtual"><scope>themisdb::replication::crdt::LWWMap</scope><name>contains</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_l_w_w_map_1aa26c72a88973f6bca8b796e546f1103f" prot="private" virt="non-virtual"><scope>themisdb::replication::crdt::LWWMap</scope><name>entries_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_l_w_w_map_1afc9bb7b2fd525891d1fb84e54c954b6e" prot="public" virt="non-virtual"><scope>themisdb::replication::crdt::LWWMap</scope><name>get</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_l_w_w_map_1a0d137b1f2e2db537550126651399de1f" prot="public" virt="non-virtual"><scope>themisdb::replication::crdt::LWWMap</scope><name>LWWMap</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_l_w_w_map_1ad3acc4fc27f7972e8bf371729d7b7b26" prot="public" virt="non-virtual"><scope>themisdb::replication::crdt::LWWMap</scope><name>merge</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_l_w_w_map_1ae6066c31c6b25064b63b1e550431069e" prot="private" virt="non-virtual"><scope>themisdb::replication::crdt::LWWMap</scope><name>node_id_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_l_w_w_map_1aa06eaf365a62ac5df80afdd68f23b979" prot="public" virt="non-virtual"><scope>themisdb::replication::crdt::LWWMap</scope><name>put</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_l_w_w_map_1a2429b2f5fdf72186caa489ad2df0ec4e" prot="public" virt="non-virtual"><scope>themisdb::replication::crdt::LWWMap</scope><name>remove</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

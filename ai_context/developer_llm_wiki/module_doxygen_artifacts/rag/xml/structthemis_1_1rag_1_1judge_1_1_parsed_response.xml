@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_parsed_response" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::ParsedResponse</compoundname>
+    <includes refid="response__parser_8h" local="no">response_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_parsed_response_1a4902cb174f7a9a57008dcbac6af1862e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::ParsedResponse::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::rag::judge::ParsedResponse::success</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/response_parser.h" line="24" column="10" bodyfile="include/rag/response_parser.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_parsed_response_1a5b1b1f205190fbdfd7687131f57cb851" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; double &gt;</type>
+        <definition>std::optional&lt;double&gt; themis::rag::judge::ParsedResponse::score</definition>
+        <argsstring></argsstring>
+        <name>score</name>
+        <qualifiedname>themis::rag::judge::ParsedResponse::score</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/response_parser.h" line="25" column="19" bodyfile="include/rag/response_parser.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_parsed_response_1a18ceecd60e7ef77e81ea0ed8fa7af028" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; double &gt;</type>
+        <definition>std::optional&lt;double&gt; themis::rag::judge::ParsedResponse::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::rag::judge::ParsedResponse::confidence</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/response_parser.h" line="26" column="19" bodyfile="include/rag/response_parser.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_parsed_response_1a0b34def7c4b7fe00ba3f271b8d396597" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::ParsedResponse::reasoning</definition>
+        <argsstring></argsstring>
+        <name>reasoning</name>
+        <qualifiedname>themis::rag::judge::ParsedResponse::reasoning</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/response_parser.h" line="27" column="17" bodyfile="include/rag/response_parser.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_parsed_response_1af78be66fa3d32985f7332c4d56fa2885" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::rag::judge::ParsedResponse::supporting_claims</definition>
+        <argsstring></argsstring>
+        <name>supporting_claims</name>
+        <qualifiedname>themis::rag::judge::ParsedResponse::supporting_claims</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/response_parser.h" line="28" column="17" bodyfile="include/rag/response_parser.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_parsed_response_1aff90cbbafa3fb34ffce2a13db1029352" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::rag::judge::ParsedResponse::unsupported_claims</definition>
+        <argsstring></argsstring>
+        <name>unsupported_claims</name>
+        <qualifiedname>themis::rag::judge::ParsedResponse::unsupported_claims</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/response_parser.h" line="29" column="17" bodyfile="include/rag/response_parser.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_parsed_response_1aafd6a416bcb87f7d1eef38bbdec20fb4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::ParsedResponse::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::rag::judge::ParsedResponse::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/response_parser.h" line="30" column="17" bodyfile="include/rag/response_parser.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_parsed_response_1a336e06f01223e5561d3cda7ea9f1f398" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::ParsedResponse::is_mock</definition>
+        <argsstring></argsstring>
+        <name>is_mock</name>
+        <qualifiedname>themis::rag::judge::ParsedResponse::is_mock</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Compatibility field retained for callers that previously distinguished mock results. Mock-mode fallback has been removed, so production and unavailable paths both leave this field false. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/response_parser.h" line="34" column="10" bodyfile="include/rag/response_parser.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Parsed response from LLM judge. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/response_parser.h" line="23" column="1" bodyfile="include/rag/response_parser.h" bodystart="23" bodyend="35"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_parsed_response_1a18ceecd60e7ef77e81ea0ed8fa7af028" prot="public" virt="non-virtual"><scope>themis::rag::judge::ParsedResponse</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_parsed_response_1aafd6a416bcb87f7d1eef38bbdec20fb4" prot="public" virt="non-virtual"><scope>themis::rag::judge::ParsedResponse</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_parsed_response_1a336e06f01223e5561d3cda7ea9f1f398" prot="public" virt="non-virtual"><scope>themis::rag::judge::ParsedResponse</scope><name>is_mock</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_parsed_response_1a0b34def7c4b7fe00ba3f271b8d396597" prot="public" virt="non-virtual"><scope>themis::rag::judge::ParsedResponse</scope><name>reasoning</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_parsed_response_1a5b1b1f205190fbdfd7687131f57cb851" prot="public" virt="non-virtual"><scope>themis::rag::judge::ParsedResponse</scope><name>score</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_parsed_response_1a4902cb174f7a9a57008dcbac6af1862e" prot="public" virt="non-virtual"><scope>themis::rag::judge::ParsedResponse</scope><name>success</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_parsed_response_1af78be66fa3d32985f7332c4d56fa2885" prot="public" virt="non-virtual"><scope>themis::rag::judge::ParsedResponse</scope><name>supporting_claims</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_parsed_response_1aff90cbbafa3fb34ffce2a13db1029352" prot="public" virt="non-virtual"><scope>themis::rag::judge::ParsedResponse</scope><name>unsupported_claims</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

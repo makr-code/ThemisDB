@@ -1,0 +1,219 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_validation_stub_index" kind="class" language="C++" prot="public">
+    <compoundname>ValidationStubIndex</compoundname>
+    <basecompoundref refid="classthemis_1_1index_1_1_i_ann_index" prot="public" virt="non-virtual">themis::index::IAnnIndex</basecompoundref>
+    <innerclass refid="struct_validation_stub_index_1_1_entry" prot="public">ValidationStubIndex::Entry</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_validation_stub_index_1a7f0dd62e4b500db9eec2a6201dc89ea4" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="struct_validation_stub_index_1_1_entry" kindref="compound">Entry</ref> &gt;</type>
+        <definition>std::vector&lt;Entry&gt; ValidationStubIndex::data_</definition>
+        <argsstring></argsstring>
+        <name>data_</name>
+        <qualifiedname>ValidationStubIndex::data_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_frontdoor_validation_focused.cpp" line="83" column="17" bodyfile="tests/index/test_ann_frontdoor_validation_focused.cpp" bodystart="83" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_validation_stub_index_1af66dfc335462d915d923d5d45102fdd9" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>ValidationStubIndex::ValidationStubIndex</definition>
+        <argsstring>(std::vector&lt; Entry &gt; data)</argsstring>
+        <name>ValidationStubIndex</name>
+        <qualifiedname>ValidationStubIndex::ValidationStubIndex</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="struct_validation_stub_index_1_1_entry" kindref="compound">Entry</ref> &gt;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Construct with a result list. The stub returns ALL entries regardless of the <computeroutput>k</computeroutput> argument (to exercise the cardinality guard). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_frontdoor_validation_focused.cpp" line="59" column="14" bodyfile="tests/index/test_ann_frontdoor_validation_focused.cpp" bodystart="59" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="class_validation_stub_index_1a7722233b3e71784e117236ffc8dba3eb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool ValidationStubIndex::build</definition>
+        <argsstring>(const float *, const int64_t *, size_t, size_t) override</argsstring>
+        <name>build</name>
+        <qualifiedname>ValidationStubIndex::build</qualifiedname>
+        <reimplements refid="classthemis_1_1index_1_1_i_ann_index_1a08ee17d6a1ff89a68b672568bf2f29c2">build</reimplements>
+        <param>
+          <type>const float *</type>
+          <declname>vectors</declname>
+        </param>
+        <param>
+          <type>const int64_t *</type>
+          <declname>ids</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>dim</declname>
+        </param>
+        <briefdescription>
+<para>Build. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">vectors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_frontdoor_validation_focused.cpp" line="62" column="10" bodyfile="tests/index/test_ann_frontdoor_validation_focused.cpp" bodystart="62" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="class_validation_stub_index_1a48dd26ca853d1ff3c4dfc805e4602c73" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool ValidationStubIndex::add</definition>
+        <argsstring>(int64_t, const float *, size_t) override</argsstring>
+        <name>add</name>
+        <qualifiedname>ValidationStubIndex::add</qualifiedname>
+        <reimplements refid="classthemis_1_1index_1_1_i_ann_index_1a4cfa5afd89bd1ab7baf49fb694574c8f">add</reimplements>
+        <param>
+          <type>int64_t</type>
+        </param>
+        <param>
+          <type>const float *</type>
+        </param>
+        <param>
+          <type>size_t</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_frontdoor_validation_focused.cpp" line="65" column="11" bodyfile="tests/index/test_ann_frontdoor_validation_focused.cpp" bodystart="65" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="class_validation_stub_index_1a454b7f265499ef8004b0385461d7a476" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1index_1_1_ann_search_result" kindref="compound">AnnSearchResult</ref> &gt;</type>
+        <definition>std::vector&lt; AnnSearchResult &gt; ValidationStubIndex::search</definition>
+        <argsstring>(const float *, size_t, int) const override</argsstring>
+        <name>search</name>
+        <qualifiedname>ValidationStubIndex::search</qualifiedname>
+        <reimplements refid="classthemis_1_1index_1_1_i_ann_index_1a66af8daad73bd7ff73dea815e4ad85f7">search</reimplements>
+        <param>
+          <type>const float *</type>
+        </param>
+        <param>
+          <type>size_t</type>
+        </param>
+        <param>
+          <type>int</type>
+        </param>
+        <briefdescription>
+<para>Return ALL entries — ignores k on purpose to test cardinality guard. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_frontdoor_validation_focused.cpp" line="70" column="17" bodyfile="tests/index/test_ann_frontdoor_validation_focused.cpp" bodystart="70" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="class_validation_stub_index_1af0fcf001f251adb6ccb3915e62b63320" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t ValidationStubIndex::size</definition>
+        <argsstring>() const override</argsstring>
+        <name>size</name>
+        <qualifiedname>ValidationStubIndex::size</qualifiedname>
+        <reimplements refid="classthemis_1_1index_1_1_i_ann_index_1a1dcbf3570258251ecde3b3fbc91ee7b4">size</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_frontdoor_validation_focused.cpp" line="80" column="18" bodyfile="tests/index/test_ann_frontdoor_validation_focused.cpp" bodystart="80" bodyend="80"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="classthemis_1_1index_1_1_i_ann_index" kindref="compound">IAnnIndex</ref> stub that returns a fixed, unfiltered result list. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Intentionally ignores the <computeroutput>k</computeroutput> parameter to always return its full result set, allowing tests to trigger the cardinality guard in <computeroutput><ref refid="classthemis_1_1index_1_1_ann_frontdoor_1a03ee3efc87eb19d0a05c81e4c60b7d9b" kindref="member">AnnFrontdoor::search()</ref></computeroutput>. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ValidationStubIndex</label>
+        <link refid="class_validation_stub_index"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::index::IAnnIndex</label>
+        <link refid="classthemis_1_1index_1_1_i_ann_index"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ValidationStubIndex</label>
+        <link refid="class_validation_stub_index"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::index::IAnnIndex</label>
+        <link refid="classthemis_1_1index_1_1_i_ann_index"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/index/test_ann_frontdoor_validation_focused.cpp" line="53" column="1" bodyfile="tests/index/test_ann_frontdoor_validation_focused.cpp" bodystart="53" bodyend="84"/>
+    <listofallmembers>
+      <member refid="class_validation_stub_index_1a48dd26ca853d1ff3c4dfc805e4602c73" prot="public" virt="virtual"><scope>ValidationStubIndex</scope><name>add</name></member>
+      <member refid="class_validation_stub_index_1a7722233b3e71784e117236ffc8dba3eb" prot="public" virt="virtual"><scope>ValidationStubIndex</scope><name>build</name></member>
+      <member refid="class_validation_stub_index_1a7f0dd62e4b500db9eec2a6201dc89ea4" prot="private" virt="non-virtual"><scope>ValidationStubIndex</scope><name>data_</name></member>
+      <member refid="classthemis_1_1index_1_1_i_ann_index_1a4e2c38210a05670457d233117d0b668d" prot="public" virt="virtual"><scope>ValidationStubIndex</scope><name>load</name></member>
+      <member refid="classthemis_1_1index_1_1_i_ann_index_1a3414fa6ccd0f02eafa7e71cf8670898f" prot="public" virt="virtual"><scope>ValidationStubIndex</scope><name>save</name></member>
+      <member refid="class_validation_stub_index_1a454b7f265499ef8004b0385461d7a476" prot="public" virt="virtual"><scope>ValidationStubIndex</scope><name>search</name></member>
+      <member refid="class_validation_stub_index_1af0fcf001f251adb6ccb3915e62b63320" prot="public" virt="virtual"><scope>ValidationStubIndex</scope><name>size</name></member>
+      <member refid="class_validation_stub_index_1af66dfc335462d915d923d5d45102fdd9" prot="public" virt="non-virtual"><scope>ValidationStubIndex</scope><name>ValidationStubIndex</name></member>
+      <member refid="classthemis_1_1index_1_1_i_ann_index_1a6be55350cefa2fb417b5c25f3a37d320" prot="public" virt="virtual"><scope>ValidationStubIndex</scope><name>~IAnnIndex</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

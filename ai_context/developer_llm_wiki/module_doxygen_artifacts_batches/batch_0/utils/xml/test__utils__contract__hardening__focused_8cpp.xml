@@ -1,0 +1,554 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__utils__contract__hardening__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_utils_contract_hardening_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="utils__api__contract_8h" local="yes">utils/utils_api_contract.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">random</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>utils/utils_api_contract.h</label>
+        <link refid="utils__api__contract_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/utils/test_utils_contract_hardening_focused.cpp</label>
+        <link refid="test__utils__contract__hardening__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>algorithm</label>
+      </node>
+      <node id="8">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="9">
+        <label>random</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_utils_contract_test" prot="public">UtilsContractTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__utils__contract__hardening__focused_8cpp_1a1428430d31ead4c9b4e57c853dc9bdc0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(UtilsContractTest, UTL01_ErrorCodesAreUnique)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_utils_contract_test" kindref="compound">UtilsContractTest</ref></type>
+        </param>
+        <param>
+          <type>UTL01_ErrorCodesAreUnique</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_contract_hardening_focused.cpp" line="29" column="1" bodyfile="tests/utils/test_utils_contract_hardening_focused.cpp" bodystart="29" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__contract__hardening__focused_8cpp_1ae3b03922c2c5d788b7820cdf46955b90" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(UtilsContractTest, UTL02_ErrorCodesInRange)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_utils_contract_test" kindref="compound">UtilsContractTest</ref></type>
+        </param>
+        <param>
+          <type>UTL02_ErrorCodesInRange</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_contract_hardening_focused.cpp" line="43" column="1" bodyfile="tests/utils/test_utils_contract_hardening_focused.cpp" bodystart="43" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__contract__hardening__focused_8cpp_1a689aebf9d39fba6688e27331873d00ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(UtilsContractTest, UTL03_BloomFilterConfigDefaults)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_utils_contract_test" kindref="compound">UtilsContractTest</ref></type>
+        </param>
+        <param>
+          <type>UTL03_BloomFilterConfigDefaults</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_contract_hardening_focused.cpp" line="57" column="1" bodyfile="tests/utils/test_utils_contract_hardening_focused.cpp" bodystart="57" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__contract__hardening__focused_8cpp_1aefa431b164222f0c5d83bc755e363b39" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(UtilsContractTest, UTL04_BloomFPRBounded)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_utils_contract_test" kindref="compound">UtilsContractTest</ref></type>
+        </param>
+        <param>
+          <type>UTL04_BloomFPRBounded</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_contract_hardening_focused.cpp" line="65" column="1" bodyfile="tests/utils/test_utils_contract_hardening_focused.cpp" bodystart="65" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__contract__hardening__focused_8cpp_1a74a06b6aa8de538879c801b62ce2311d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(UtilsContractTest, UTL05_RetryPolicyDefaults)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_utils_contract_test" kindref="compound">UtilsContractTest</ref></type>
+        </param>
+        <param>
+          <type>UTL05_RetryPolicyDefaults</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_contract_hardening_focused.cpp" line="73" column="1" bodyfile="tests/utils/test_utils_contract_hardening_focused.cpp" bodystart="73" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__contract__hardening__focused_8cpp_1aa6329b51bdfa2be2c2b6bc30d732b871" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(UtilsContractTest, UTL06_SingleAttemptRetryPolicy)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_utils_contract_test" kindref="compound">UtilsContractTest</ref></type>
+        </param>
+        <param>
+          <type>UTL06_SingleAttemptRetryPolicy</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_contract_hardening_focused.cpp" line="81" column="1" bodyfile="tests/utils/test_utils_contract_hardening_focused.cpp" bodystart="81" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__contract__hardening__focused_8cpp_1aa428b0144334134893996f8575f2c080" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(UtilsContractTest, UTL07_NoJitterPolicyReproducible)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_utils_contract_test" kindref="compound">UtilsContractTest</ref></type>
+        </param>
+        <param>
+          <type>UTL07_NoJitterPolicyReproducible</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_contract_hardening_focused.cpp" line="88" column="1" bodyfile="tests/utils/test_utils_contract_hardening_focused.cpp" bodystart="88" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__contract__hardening__focused_8cpp_1a73e4842b071eaa29f819f0d42c13170c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(UtilsContractTest, UTL08_BatchErrorsAreDistinct)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_utils_contract_test" kindref="compound">UtilsContractTest</ref></type>
+        </param>
+        <param>
+          <type>UTL08_BatchErrorsAreDistinct</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_contract_hardening_focused.cpp" line="95" column="1" bodyfile="tests/utils/test_utils_contract_hardening_focused.cpp" bodystart="95" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__contract__hardening__focused_8cpp_1a527cdfaeb3b1e9354727bd286176d91e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(UtilsContractTest, UTL09_DeserDistinctFromAuditOverflow)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_utils_contract_test" kindref="compound">UtilsContractTest</ref></type>
+        </param>
+        <param>
+          <type>UTL09_DeserDistinctFromAuditOverflow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_contract_hardening_focused.cpp" line="101" column="1" bodyfile="tests/utils/test_utils_contract_hardening_focused.cpp" bodystart="101" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__contract__hardening__focused_8cpp_1a226fb65f41dbc98de3f6114ccc73e685" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(UtilsContractTest, UTL10_BloomConfigDefaultConstructible)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_utils_contract_test" kindref="compound">UtilsContractTest</ref></type>
+        </param>
+        <param>
+          <type>UTL10_BloomConfigDefaultConstructible</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_contract_hardening_focused.cpp" line="107" column="1" bodyfile="tests/utils/test_utils_contract_hardening_focused.cpp" bodystart="107" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__contract__hardening__focused_8cpp_1a4f3afe59cdaf14316c2cec1d03ea4d8b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(UtilsContractTest, UTL11_RetryPolicyCopyConstructible)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_utils_contract_test" kindref="compound">UtilsContractTest</ref></type>
+        </param>
+        <param>
+          <type>UTL11_RetryPolicyCopyConstructible</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_contract_hardening_focused.cpp" line="113" column="1" bodyfile="tests/utils/test_utils_contract_hardening_focused.cpp" bodystart="113" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__contract__hardening__focused_8cpp_1a4cb23c5261e490f74b293b503001a662" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(UtilsContractTest, UTL12_BackoffMultiplierOne)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_utils_contract_test" kindref="compound">UtilsContractTest</ref></type>
+        </param>
+        <param>
+          <type>UTL12_BackoffMultiplierOne</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_contract_hardening_focused.cpp" line="121" column="1" bodyfile="tests/utils/test_utils_contract_hardening_focused.cpp" bodystart="121" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__contract__hardening__focused_8cpp_1ae6bfee2c38cf2d25b5e605758d84ee9f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(UtilsContractTest, UTL13_ErrorSwitchDispatch)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_utils_contract_test" kindref="compound">UtilsContractTest</ref></type>
+        </param>
+        <param>
+          <type>UTL13_ErrorSwitchDispatch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_contract_hardening_focused.cpp" line="128" column="1" bodyfile="tests/utils/test_utils_contract_hardening_focused.cpp" bodystart="128" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__contract__hardening__focused_8cpp_1af762105ff6ef79ff2a38bca2e8ede49e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(UtilsContractTest, UTL14_LargeBloomFilter)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_utils_contract_test" kindref="compound">UtilsContractTest</ref></type>
+        </param>
+        <param>
+          <type>UTL14_LargeBloomFilter</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_contract_hardening_focused.cpp" line="143" column="1" bodyfile="tests/utils/test_utils_contract_hardening_focused.cpp" bodystart="143" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__contract__hardening__focused_8cpp_1abf4a20f4b270f83a811cc9555d953b38" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(UtilsContractTest, UTL15_RetryPolicyDelayInChrono)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_utils_contract_test" kindref="compound">UtilsContractTest</ref></type>
+        </param>
+        <param>
+          <type>UTL15_RetryPolicyDelayInChrono</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_contract_hardening_focused.cpp" line="150" column="1" bodyfile="tests/utils/test_utils_contract_hardening_focused.cpp" bodystart="150" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__contract__hardening__focused_8cpp_1af9c4e448867f2bcfe6efad289c1b303b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(UtilsContractTest, UTL16_ErrorCodeRoundTrip)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_utils_contract_test" kindref="compound">UtilsContractTest</ref></type>
+        </param>
+        <param>
+          <type>UTL16_ErrorCodeRoundTrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_contract_hardening_focused.cpp" line="157" column="1" bodyfile="tests/utils/test_utils_contract_hardening_focused.cpp" bodystart="157" bodyend="171"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Phase 1–6 contract-hardening tests for the utils module. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="note"><para>Test IDs: UTL-01..UTL-16 </para>
+</simplesect>
+<simplesect kind="note"><para>Coverage: audit overflow, batch rollback, size limits, retry exhaustion, deserialisation errors, pool exhaustion, Bloom filter contracts, retry policy configuration. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="utils__api__contract_8h" kindref="compound">utils/utils_api_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1utils" kindref="compound">themis::utils</ref>;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22" refid="class_utils_contract_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_utils_contract_test" kindref="compound">UtilsContractTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="class_utils_contract_test_1a4950eea68e779d18656f9b0a9edcbc7c" kindref="member">kSeed</ref><sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937<sp/><ref refid="class_utils_contract_test_1ac180e509e57b16bdb01174826b66d109" kindref="member">rng_</ref>{<ref refid="class_utils_contract_test_1a4950eea68e779d18656f9b0a9edcbc7c" kindref="member">kSeed</ref>};</highlight></codeline>
+<codeline lineno="26"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>UTL-01:<sp/>Error<sp/>codes<sp/>are<sp/>unique</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1aee0e074de3d254b29b2a64eff5024303" kindref="member">TEST_F</ref>(<ref refid="class_utils_contract_test" kindref="compound">UtilsContractTest</ref>,<sp/>UTL01_ErrorCodesAreUnique)<sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int32_t&gt;<sp/>codes<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2a9f346b27328ea1f407fbc7bc41dc548d" kindref="member">UtilsError::kAuditOverflow</ref>),</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2a05a52003bd7425f0c96bc3fb1b42fd3b" kindref="member">UtilsError::kBatchRollback</ref>),</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2a5e3fc7a8f5efce4382f4659761ed39ba" kindref="member">UtilsError::kBatchSizeExceeded</ref>),</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2a34730488a8f6b02017292a45ed049919" kindref="member">UtilsError::kRetryExhausted</ref>),</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2ad9384981d2a56923e1537bff31a22469" kindref="member">UtilsError::kDeserInvalid</ref>),</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2a1b2b165717a1de7a26bb87921998ae69" kindref="member">UtilsError::kPoolExhausted</ref>),</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>std::sort(codes.begin(),<sp/>codes.end());</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(std::unique(codes.begin(),<sp/>codes.end()),<sp/>codes.end());</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>UTL-02:<sp/>Error<sp/>codes<sp/>in<sp/>range<sp/>[7300,<sp/>7399]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1aee0e074de3d254b29b2a64eff5024303" kindref="member">TEST_F</ref>(<ref refid="class_utils_contract_test" kindref="compound">UtilsContractTest</ref>,<sp/>UTL02_ErrorCodesInRange)<sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>check<sp/>=<sp/>[](<ref refid="namespacethemis_1_1utils_1a912d19420f88a73b3633d2aa53afd4ab" kindref="member">UtilsError</ref><sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int32_t<sp/>v<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(e);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(v,<sp/>7300);<sp/>EXPECT_LE(v,<sp/>7399);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>check(<ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2a9f346b27328ea1f407fbc7bc41dc548d" kindref="member">UtilsError::kAuditOverflow</ref>);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>check(<ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2a05a52003bd7425f0c96bc3fb1b42fd3b" kindref="member">UtilsError::kBatchRollback</ref>);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>check(<ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2a5e3fc7a8f5efce4382f4659761ed39ba" kindref="member">UtilsError::kBatchSizeExceeded</ref>);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>check(<ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2a34730488a8f6b02017292a45ed049919" kindref="member">UtilsError::kRetryExhausted</ref>);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>check(<ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2ad9384981d2a56923e1537bff31a22469" kindref="member">UtilsError::kDeserInvalid</ref>);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>check(<ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2a1b2b165717a1de7a26bb87921998ae69" kindref="member">UtilsError::kPoolExhausted</ref>);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>UTL-03:<sp/>BloomFilterConfig<sp/>defaults<sp/>are<sp/>sane</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1aee0e074de3d254b29b2a64eff5024303" kindref="member">TEST_F</ref>(<ref refid="class_utils_contract_test" kindref="compound">UtilsContractTest</ref>,<sp/>UTL03_BloomFilterConfigDefaults)<sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_bloom_filter_config" kindref="compound">BloomFilterConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(cfg.<ref refid="structthemis_1_1utils_1_1_bloom_filter_config_1a70f975dc8c2008b1234438b6d6cfb479" kindref="member">expectedItems</ref>,<sp/>0u);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(cfg.<ref refid="structthemis_1_1utils_1_1_bloom_filter_config_1aeb9bf9bb6e51dde4f81c925c4f176da2" kindref="member">targetFalsePositiveRate</ref>,<sp/>0.0);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(cfg.<ref refid="structthemis_1_1utils_1_1_bloom_filter_config_1aeb9bf9bb6e51dde4f81c925c4f176da2" kindref="member">targetFalsePositiveRate</ref>,<sp/>1.0);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>UTL-04:<sp/>BloomFilterConfig<sp/>FPR<sp/>is<sp/>bounded<sp/>(0,<sp/>1)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1aee0e074de3d254b29b2a64eff5024303" kindref="member">TEST_F</ref>(<ref refid="class_utils_contract_test" kindref="compound">UtilsContractTest</ref>,<sp/>UTL04_BloomFPRBounded)<sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_bloom_filter_config" kindref="compound">BloomFilterConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1utils_1_1_bloom_filter_config_1aeb9bf9bb6e51dde4f81c925c4f176da2" kindref="member">targetFalsePositiveRate</ref><sp/>=<sp/>0.001;<sp/></highlight><highlight class="comment">//<sp/>0.1%</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(cfg.<ref refid="structthemis_1_1utils_1_1_bloom_filter_config_1aeb9bf9bb6e51dde4f81c925c4f176da2" kindref="member">targetFalsePositiveRate</ref>,<sp/>0.0);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(cfg.<ref refid="structthemis_1_1utils_1_1_bloom_filter_config_1aeb9bf9bb6e51dde4f81c925c4f176da2" kindref="member">targetFalsePositiveRate</ref>,<sp/>1.0);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>UTL-05:<sp/>RetryPolicy<sp/>defaults<sp/>are<sp/>sane</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1aee0e074de3d254b29b2a64eff5024303" kindref="member">TEST_F</ref>(<ref refid="class_utils_contract_test" kindref="compound">UtilsContractTest</ref>,<sp/>UTL05_RetryPolicyDefaults)<sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_retry_policy" kindref="compound">RetryPolicy</ref><sp/>p;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(p.<ref refid="structthemis_1_1utils_1_1_retry_policy_1a3e350acb1f80e5ba7bd5310a588d90bf" kindref="member">maxAttempts</ref>,<sp/>1u);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(p.<ref refid="structthemis_1_1utils_1_1_retry_policy_1abecb63bfdcc66317370751ff9a830d86" kindref="member">initialDelay</ref>.count(),<sp/>0);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(p.<ref refid="structthemis_1_1utils_1_1_retry_policy_1a27e8803f0408ca45321a062502766e97" kindref="member">backoffMultiplier</ref>,<sp/>1.0);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>UTL-06:<sp/>RetryPolicy<sp/>maxAttempts=1<sp/>means<sp/>no<sp/>retry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1aee0e074de3d254b29b2a64eff5024303" kindref="member">TEST_F</ref>(<ref refid="class_utils_contract_test" kindref="compound">UtilsContractTest</ref>,<sp/>UTL06_SingleAttemptRetryPolicy)<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_retry_policy" kindref="compound">RetryPolicy</ref><sp/>p;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>p.<ref refid="structthemis_1_1utils_1_1_retry_policy_1a3e350acb1f80e5ba7bd5310a588d90bf" kindref="member">maxAttempts</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(p.<ref refid="structthemis_1_1utils_1_1_retry_policy_1a3e350acb1f80e5ba7bd5310a588d90bf" kindref="member">maxAttempts</ref>,<sp/>1u);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>UTL-07:<sp/>RetryPolicy<sp/>with<sp/>jitter<sp/>disabled<sp/>is<sp/>reproducible</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1aee0e074de3d254b29b2a64eff5024303" kindref="member">TEST_F</ref>(<ref refid="class_utils_contract_test" kindref="compound">UtilsContractTest</ref>,<sp/>UTL07_NoJitterPolicyReproducible)<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_retry_policy" kindref="compound">RetryPolicy</ref><sp/>p;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>p.<ref refid="structthemis_1_1utils_1_1_retry_policy_1a58da3b205be3e60132594a69a34cd4c2" kindref="member">withJitter</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(p.<ref refid="structthemis_1_1utils_1_1_retry_policy_1a58da3b205be3e60132594a69a34cd4c2" kindref="member">withJitter</ref>);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>UTL-08:<sp/>kBatchRollback<sp/>is<sp/>distinct<sp/>from<sp/>kBatchSizeExceeded</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1aee0e074de3d254b29b2a64eff5024303" kindref="member">TEST_F</ref>(<ref refid="class_utils_contract_test" kindref="compound">UtilsContractTest</ref>,<sp/>UTL08_BatchErrorsAreDistinct)<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2a05a52003bd7425f0c96bc3fb1b42fd3b" kindref="member">UtilsError::kBatchRollback</ref>),</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2a5e3fc7a8f5efce4382f4659761ed39ba" kindref="member">UtilsError::kBatchSizeExceeded</ref>));</highlight></codeline>
+<codeline lineno="98"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>UTL-09:<sp/>kDeserInvalid<sp/>is<sp/>distinct<sp/>from<sp/>kAuditOverflow</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1aee0e074de3d254b29b2a64eff5024303" kindref="member">TEST_F</ref>(<ref refid="class_utils_contract_test" kindref="compound">UtilsContractTest</ref>,<sp/>UTL09_DeserDistinctFromAuditOverflow)<sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2ad9384981d2a56923e1537bff31a22469" kindref="member">UtilsError::kDeserInvalid</ref>),</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2a9f346b27328ea1f407fbc7bc41dc548d" kindref="member">UtilsError::kAuditOverflow</ref>));</highlight></codeline>
+<codeline lineno="104"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/>UTL-10:<sp/>BloomFilterConfig<sp/>is<sp/>default-constructible</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1aee0e074de3d254b29b2a64eff5024303" kindref="member">TEST_F</ref>(<ref refid="class_utils_contract_test" kindref="compound">UtilsContractTest</ref>,<sp/>UTL10_BloomConfigDefaultConstructible)<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_bloom_filter_config" kindref="compound">BloomFilterConfig</ref><sp/>cfg{};</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(cfg.<ref refid="structthemis_1_1utils_1_1_bloom_filter_config_1a70f975dc8c2008b1234438b6d6cfb479" kindref="member">expectedItems</ref>,<sp/>0u);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>UTL-11:<sp/>RetryPolicy<sp/>is<sp/>copy-constructible</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1aee0e074de3d254b29b2a64eff5024303" kindref="member">TEST_F</ref>(<ref refid="class_utils_contract_test" kindref="compound">UtilsContractTest</ref>,<sp/>UTL11_RetryPolicyCopyConstructible)<sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_retry_policy" kindref="compound">RetryPolicy</ref><sp/>orig;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>orig.<ref refid="structthemis_1_1utils_1_1_retry_policy_1a3e350acb1f80e5ba7bd5310a588d90bf" kindref="member">maxAttempts</ref><sp/>=<sp/>7;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_retry_policy" kindref="compound">RetryPolicy</ref><sp/>copy<sp/>=<sp/>orig;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(copy.<ref refid="structthemis_1_1utils_1_1_retry_policy_1a3e350acb1f80e5ba7bd5310a588d90bf" kindref="member">maxAttempts</ref>,<sp/>7u);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">//<sp/>UTL-12:<sp/>RetryPolicy<sp/>backoffMultiplier<sp/>can<sp/>be<sp/>set<sp/>to<sp/>1.0<sp/>(no<sp/>backoff)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1aee0e074de3d254b29b2a64eff5024303" kindref="member">TEST_F</ref>(<ref refid="class_utils_contract_test" kindref="compound">UtilsContractTest</ref>,<sp/>UTL12_BackoffMultiplierOne)<sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_retry_policy" kindref="compound">RetryPolicy</ref><sp/>p;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>p.<ref refid="structthemis_1_1utils_1_1_retry_policy_1a27e8803f0408ca45321a062502766e97" kindref="member">backoffMultiplier</ref><sp/>=<sp/>1.0;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(p.<ref refid="structthemis_1_1utils_1_1_retry_policy_1a27e8803f0408ca45321a062502766e97" kindref="member">backoffMultiplier</ref>,<sp/>1.0);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>UTL-13:<sp/>UtilsError<sp/>switch<sp/>dispatch<sp/>compiles<sp/>and<sp/>covers<sp/>all<sp/>codes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1aee0e074de3d254b29b2a64eff5024303" kindref="member">TEST_F</ref>(<ref refid="class_utils_contract_test" kindref="compound">UtilsContractTest</ref>,<sp/>UTL13_ErrorSwitchDispatch)<sp/>{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a912d19420f88a73b3633d2aa53afd4ab" kindref="member">UtilsError</ref><sp/>err<sp/>=<sp/><ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2a34730488a8f6b02017292a45ed049919" kindref="member">UtilsError::kRetryExhausted</ref>;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>handled<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(err)<sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2a9f346b27328ea1f407fbc7bc41dc548d" kindref="member">UtilsError::kAuditOverflow</ref>:<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2a05a52003bd7425f0c96bc3fb1b42fd3b" kindref="member">UtilsError::kBatchRollback</ref>:<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2a5e3fc7a8f5efce4382f4659761ed39ba" kindref="member">UtilsError::kBatchSizeExceeded</ref>:<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2a34730488a8f6b02017292a45ed049919" kindref="member">UtilsError::kRetryExhausted</ref>:<sp/><sp/><sp/><sp/>handled<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2ad9384981d2a56923e1537bff31a22469" kindref="member">UtilsError::kDeserInvalid</ref>:<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2a1b2b165717a1de7a26bb87921998ae69" kindref="member">UtilsError::kPoolExhausted</ref>:<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(handled);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>UTL-14:<sp/>BloomFilterConfig<sp/>expectedItems<sp/>can<sp/>be<sp/>large<sp/>(1M)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1aee0e074de3d254b29b2a64eff5024303" kindref="member">TEST_F</ref>(<ref refid="class_utils_contract_test" kindref="compound">UtilsContractTest</ref>,<sp/>UTL14_LargeBloomFilter)<sp/>{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_bloom_filter_config" kindref="compound">BloomFilterConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1utils_1_1_bloom_filter_config_1a70f975dc8c2008b1234438b6d6cfb479" kindref="member">expectedItems</ref><sp/>=<sp/>1&apos;000&apos;000;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="structthemis_1_1utils_1_1_bloom_filter_config_1a70f975dc8c2008b1234438b6d6cfb479" kindref="member">expectedItems</ref>,<sp/>1&apos;000&apos;000u);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/>UTL-15:<sp/>RetryPolicy<sp/>initialDelay<sp/>is<sp/>in<sp/>chrono<sp/>units</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1aee0e074de3d254b29b2a64eff5024303" kindref="member">TEST_F</ref>(<ref refid="class_utils_contract_test" kindref="compound">UtilsContractTest</ref>,<sp/>UTL15_RetryPolicyDelayInChrono)<sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_retry_policy" kindref="compound">RetryPolicy</ref><sp/>p;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>p.<ref refid="structthemis_1_1utils_1_1_retry_policy_1abecb63bfdcc66317370751ff9a830d86" kindref="member">initialDelay</ref><sp/>=<sp/>std::chrono::milliseconds{500};</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(p.<ref refid="structthemis_1_1utils_1_1_retry_policy_1abecb63bfdcc66317370751ff9a830d86" kindref="member">initialDelay</ref>.count(),<sp/>500);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="comment">//<sp/>UTL-16:<sp/>Randomised<sp/>error<sp/>code<sp/>round-trip<sp/>via<sp/>static_cast</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1aee0e074de3d254b29b2a64eff5024303" kindref="member">TEST_F</ref>(<ref refid="class_utils_contract_test" kindref="compound">UtilsContractTest</ref>,<sp/>UTL16_ErrorCodeRoundTrip)<sp/>{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1utils_1a912d19420f88a73b3633d2aa53afd4ab" kindref="member">UtilsError</ref><sp/>kCodes[]<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2a9f346b27328ea1f407fbc7bc41dc548d" kindref="member">UtilsError::kAuditOverflow</ref>,</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2a05a52003bd7425f0c96bc3fb1b42fd3b" kindref="member">UtilsError::kBatchRollback</ref>,</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2a5e3fc7a8f5efce4382f4659761ed39ba" kindref="member">UtilsError::kBatchSizeExceeded</ref>,</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2a34730488a8f6b02017292a45ed049919" kindref="member">UtilsError::kRetryExhausted</ref>,</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2ad9384981d2a56923e1537bff31a22469" kindref="member">UtilsError::kDeserInvalid</ref>,</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2a1b2b165717a1de7a26bb87921998ae69" kindref="member">UtilsError::kPoolExhausted</ref>,</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>e<sp/>:<sp/>kCodes)<sp/>{</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int32_t<sp/>v<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(e);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(v,<sp/>7300);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LE(v,<sp/>7399);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="171"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/utils/test_utils_contract_hardening_focused.cpp"/>
+  </compounddef>
+</doxygen>

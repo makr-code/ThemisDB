@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_participant_transaction" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::ParticipantTransaction</compoundname>
+    <includes refid="two__phase__commit__participant_8h" local="no">two_phase_commit_participant.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_participant_transaction_1aafe038f90c292fa791bf26e6e906c913" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ParticipantTransaction::transaction_id</definition>
+        <argsstring></argsstring>
+        <name>transaction_id</name>
+        <qualifiedname>themis::sharding::ParticipantTransaction::transaction_id</qualifiedname>
+        <briefdescription>
+<para>Globale Transaktions-ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/two_phase_commit_participant.h" line="59" column="29" bodyfile="include/sharding/two_phase_commit_participant.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_participant_transaction_1ab5b1f67072df712fe8121377b51f612e" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1sharding_1a301ac35079836ef31e24408196870beb" kindref="member">ParticipantTxnState</ref></type>
+        <definition>ParticipantTxnState themis::sharding::ParticipantTransaction::state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <qualifiedname>themis::sharding::ParticipantTransaction::state</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1sharding_1a301ac35079836ef31e24408196870beba6bbfc22048d63183dd626a026e63e497" kindref="member">ParticipantTxnState::PREPARED</ref></initializer>
+        <briefdescription>
+<para>Aktueller Teilnehmerzustand. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/two_phase_commit_participant.h" line="60" column="29" bodyfile="include/sharding/two_phase_commit_participant.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_participant_transaction_1a602e2e0c9d0a80a83ef12a23734936da" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::ParticipantTransaction::operations</definition>
+        <argsstring></argsstring>
+        <name>operations</name>
+        <qualifiedname>themis::sharding::ParticipantTransaction::operations</qualifiedname>
+        <briefdescription>
+<para>Gepufferte Operationen fuer spaeteres COMMIT. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/two_phase_commit_participant.h" line="61" column="29" bodyfile="include/sharding/two_phase_commit_participant.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_participant_transaction_1ab573d0349fd62df3544b87109c9cf22f" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::sharding::ParticipantTransaction::prepared_at</definition>
+        <argsstring></argsstring>
+        <name>prepared_at</name>
+        <qualifiedname>themis::sharding::ParticipantTransaction::prepared_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/two_phase_commit_participant.h" line="62" column="43" bodyfile="include/sharding/two_phase_commit_participant.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_participant_transaction_1ac19f0c211f7ed5e6e09079e1ca033263" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::sharding::ParticipantTransaction::prepare_timestamp</definition>
+        <argsstring></argsstring>
+        <name>prepare_timestamp</name>
+        <qualifiedname>themis::sharding::ParticipantTransaction::prepare_timestamp</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Optionaler PREPARE-Zeitstempel vom Coordinator. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/two_phase_commit_participant.h" line="63" column="29" bodyfile="include/sharding/two_phase_commit_participant.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_participant_transaction_1a4cfa3885fc327e7643b04a051d0b4cbe" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::sharding::ParticipantTransaction::commit_timestamp</definition>
+        <argsstring></argsstring>
+        <name>commit_timestamp</name>
+        <qualifiedname>themis::sharding::ParticipantTransaction::commit_timestamp</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>MVCC-COMMIT-Zeitstempel (auf COMMIT gesetzt). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/two_phase_commit_participant.h" line="64" column="29" bodyfile="include/sharding/two_phase_commit_participant.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_participant_transaction_1a9a1b26e088b196a9d4552fce15719437" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::ParticipantTransaction::vote_committed</definition>
+        <argsstring></argsstring>
+        <name>vote_committed</name>
+        <qualifiedname>themis::sharding::ParticipantTransaction::vote_committed</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Gespeicherte PREPARE-Stimme (idempotente Antworten). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/two_phase_commit_participant.h" line="65" column="29" bodyfile="include/sharding/two_phase_commit_participant.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Metadata tracked per prepared transaction at the participant. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/two_phase_commit_participant.h" line="58" column="1" bodyfile="include/sharding/two_phase_commit_participant.h" bodystart="58" bodyend="66"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_participant_transaction_1a4cfa3885fc327e7643b04a051d0b4cbe" prot="public" virt="non-virtual"><scope>themis::sharding::ParticipantTransaction</scope><name>commit_timestamp</name></member>
+      <member refid="structthemis_1_1sharding_1_1_participant_transaction_1a602e2e0c9d0a80a83ef12a23734936da" prot="public" virt="non-virtual"><scope>themis::sharding::ParticipantTransaction</scope><name>operations</name></member>
+      <member refid="structthemis_1_1sharding_1_1_participant_transaction_1ac19f0c211f7ed5e6e09079e1ca033263" prot="public" virt="non-virtual"><scope>themis::sharding::ParticipantTransaction</scope><name>prepare_timestamp</name></member>
+      <member refid="structthemis_1_1sharding_1_1_participant_transaction_1ab573d0349fd62df3544b87109c9cf22f" prot="public" virt="non-virtual"><scope>themis::sharding::ParticipantTransaction</scope><name>prepared_at</name></member>
+      <member refid="structthemis_1_1sharding_1_1_participant_transaction_1ab5b1f67072df712fe8121377b51f612e" prot="public" virt="non-virtual"><scope>themis::sharding::ParticipantTransaction</scope><name>state</name></member>
+      <member refid="structthemis_1_1sharding_1_1_participant_transaction_1aafe038f90c292fa791bf26e6e906c913" prot="public" virt="non-virtual"><scope>themis::sharding::ParticipantTransaction</scope><name>transaction_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_participant_transaction_1a9a1b26e088b196a9d4552fce15719437" prot="public" virt="non-virtual"><scope>themis::sharding::ParticipantTransaction</scope><name>vote_committed</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

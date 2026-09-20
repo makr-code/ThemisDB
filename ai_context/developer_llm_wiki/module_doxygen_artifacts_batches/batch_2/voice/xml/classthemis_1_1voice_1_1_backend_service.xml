@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1voice_1_1_backend_service" kind="class" language="C++" prot="public">
+    <compoundname>themis::voice::BackendService</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_backend_service_1aa4778e51474e072bb1b4c3d7117cd669" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1voice_1_1_circuit_breaker" kindref="compound">CircuitBreaker</ref></type>
+        <definition>CircuitBreaker themis::voice::BackendService::breaker_</definition>
+        <argsstring></argsstring>
+        <name>breaker_</name>
+        <qualifiedname>themis::voice::BackendService::breaker_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_backend_degradation_focused.cpp" line="116" column="20" bodyfile="tests/voice/test_voice_backend_degradation_focused.cpp" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_backend_service_1a2058b8c480b05a583fe6b84f300d86e9" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::BackendService::available_</definition>
+        <argsstring></argsstring>
+        <name>available_</name>
+        <qualifiedname>themis::voice::BackendService::available_</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_backend_degradation_focused.cpp" line="117" column="10" bodyfile="tests/voice/test_voice_backend_degradation_focused.cpp" bodystart="117" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_backend_service_1a00f4a82e60474d9c142b722d69a83325" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::BackendService::isAvailable</definition>
+        <argsstring>() const</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::voice::BackendService::isAvailable</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_backend_degradation_focused.cpp" line="120" column="10" bodyfile="tests/voice/test_voice_backend_degradation_focused.cpp" bodystart="120" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_backend_service_1a669773529816f88be786fd3cf484394b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::BackendService::setAvailable</definition>
+        <argsstring>(bool available)</argsstring>
+        <name>setAvailable</name>
+        <qualifiedname>themis::voice::BackendService::setAvailable</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>available</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_backend_degradation_focused.cpp" line="122" column="10" bodyfile="tests/voice/test_voice_backend_degradation_focused.cpp" bodystart="122" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_backend_service_1a38313a57d6835252a71ad69546a6da97" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1voice_1_1_circuit_breaker" kindref="compound">CircuitBreaker</ref> &amp;</type>
+        <definition>CircuitBreaker &amp; themis::voice::BackendService::getBreaker</definition>
+        <argsstring>()</argsstring>
+        <name>getBreaker</name>
+        <qualifiedname>themis::voice::BackendService::getBreaker</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_backend_degradation_focused.cpp" line="124" column="20" bodyfile="tests/voice/test_voice_backend_degradation_focused.cpp" bodystart="124" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_backend_service_1a92b80cbe1214a11287e48e3c4bdde02b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::voice::BackendService::call</definition>
+        <argsstring>(const std::string &amp;request)</argsstring>
+        <name>call</name>
+        <qualifiedname>themis::voice::BackendService::call</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_backend_degradation_focused.cpp" line="126" column="17" bodyfile="tests/voice/test_voice_backend_degradation_focused.cpp" bodystart="126" bodyend="138"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/voice/test_voice_backend_degradation_focused.cpp" line="114" column="1" bodyfile="tests/voice/test_voice_backend_degradation_focused.cpp" bodystart="114" bodyend="139"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1voice_1_1_backend_service_1a2058b8c480b05a583fe6b84f300d86e9" prot="private" virt="non-virtual"><scope>themis::voice::BackendService</scope><name>available_</name></member>
+      <member refid="classthemis_1_1voice_1_1_backend_service_1aa4778e51474e072bb1b4c3d7117cd669" prot="private" virt="non-virtual"><scope>themis::voice::BackendService</scope><name>breaker_</name></member>
+      <member refid="classthemis_1_1voice_1_1_backend_service_1a92b80cbe1214a11287e48e3c4bdde02b" prot="public" virt="non-virtual"><scope>themis::voice::BackendService</scope><name>call</name></member>
+      <member refid="classthemis_1_1voice_1_1_backend_service_1a38313a57d6835252a71ad69546a6da97" prot="public" virt="non-virtual"><scope>themis::voice::BackendService</scope><name>getBreaker</name></member>
+      <member refid="classthemis_1_1voice_1_1_backend_service_1a00f4a82e60474d9c142b722d69a83325" prot="public" virt="non-virtual"><scope>themis::voice::BackendService</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1voice_1_1_backend_service_1a669773529816f88be786fd3cf484394b" prot="public" virt="non-virtual"><scope>themis::voice::BackendService</scope><name>setAvailable</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

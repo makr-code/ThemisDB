@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1exporters_1_1_augmentation_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::exporters::AugmentationConfig</compoundname>
+    <includes refid="data__augmentation_8h" local="no">data_augmentation.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_augmentation_config_1ab2f88a6668928bc757005847cb64cd40" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1exporters_1_1_augmentation_strategy_config" kindref="compound">AugmentationStrategyConfig</ref> &gt;</type>
+        <definition>std::vector&lt;AugmentationStrategyConfig&gt; themis::exporters::AugmentationConfig::strategies</definition>
+        <argsstring></argsstring>
+        <name>strategies</name>
+        <qualifiedname>themis::exporters::AugmentationConfig::strategies</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/data_augmentation.h" line="41" column="17" bodyfile="include/exporters/data_augmentation.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_augmentation_config_1a1dc9ebb6088546caf563b7265d435d84" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::AugmentationConfig::instruction_field</definition>
+        <argsstring></argsstring>
+        <name>instruction_field</name>
+        <qualifiedname>themis::exporters::AugmentationConfig::instruction_field</qualifiedname>
+        <initializer>= &quot;question&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/data_augmentation.h" line="43" column="17" bodyfile="include/exporters/data_augmentation.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_augmentation_config_1a9b2e584b28a105144c32d67dead41e77" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::exporters::AugmentationConfig::augment_fields</definition>
+        <argsstring></argsstring>
+        <name>augment_fields</name>
+        <qualifiedname>themis::exporters::AugmentationConfig::augment_fields</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/data_augmentation.h" line="45" column="17" bodyfile="include/exporters/data_augmentation.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_augmentation_config_1a0e2cfca0367cf40bcd846b6ad300c47a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::exporters::AugmentationConfig::include_originals</definition>
+        <argsstring></argsstring>
+        <name>include_originals</name>
+        <qualifiedname>themis::exporters::AugmentationConfig::include_originals</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/data_augmentation.h" line="47" column="10" bodyfile="include/exporters/data_augmentation.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_augmentation_config_1a2fc193e734d12370e7554244c5c46260" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::AugmentationConfig::augmented_key_prefix</definition>
+        <argsstring></argsstring>
+        <name>augmented_key_prefix</name>
+        <qualifiedname>themis::exporters::AugmentationConfig::augmented_key_prefix</qualifiedname>
+        <initializer>= &quot;aug_&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/data_augmentation.h" line="49" column="17" bodyfile="include/exporters/data_augmentation.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_augmentation_config_1aaa2091dd98192f341bd02a11d041bed4" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::exporters::AugmentationConfig::custom_synonyms</definition>
+        <argsstring></argsstring>
+        <name>custom_synonyms</name>
+        <qualifiedname>themis::exporters::AugmentationConfig::custom_synonyms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/data_augmentation.h" line="51" column="14" bodyfile="include/exporters/data_augmentation.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/exporters/data_augmentation.h" line="40" column="1" bodyfile="include/exporters/data_augmentation.h" bodystart="40" bodyend="52"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1exporters_1_1_augmentation_config_1a9b2e584b28a105144c32d67dead41e77" prot="public" virt="non-virtual"><scope>themis::exporters::AugmentationConfig</scope><name>augment_fields</name></member>
+      <member refid="structthemis_1_1exporters_1_1_augmentation_config_1a2fc193e734d12370e7554244c5c46260" prot="public" virt="non-virtual"><scope>themis::exporters::AugmentationConfig</scope><name>augmented_key_prefix</name></member>
+      <member refid="structthemis_1_1exporters_1_1_augmentation_config_1aaa2091dd98192f341bd02a11d041bed4" prot="public" virt="non-virtual"><scope>themis::exporters::AugmentationConfig</scope><name>custom_synonyms</name></member>
+      <member refid="structthemis_1_1exporters_1_1_augmentation_config_1a0e2cfca0367cf40bcd846b6ad300c47a" prot="public" virt="non-virtual"><scope>themis::exporters::AugmentationConfig</scope><name>include_originals</name></member>
+      <member refid="structthemis_1_1exporters_1_1_augmentation_config_1a1dc9ebb6088546caf563b7265d435d84" prot="public" virt="non-virtual"><scope>themis::exporters::AugmentationConfig</scope><name>instruction_field</name></member>
+      <member refid="structthemis_1_1exporters_1_1_augmentation_config_1ab2f88a6668928bc757005847cb64cd40" prot="public" virt="non-virtual"><scope>themis::exporters::AugmentationConfig</scope><name>strategies</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

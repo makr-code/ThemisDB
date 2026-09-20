@@ -1,0 +1,570 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1network_1_1_geo_topology_router" kind="class" language="C++" prot="public">
+    <compoundname>themis::network::GeoTopologyRouter</compoundname>
+    <includes refid="geo__topology__router_8h" local="no">geo_topology_router.h</includes>
+    <innerclass refid="structthemis_1_1network_1_1_geo_topology_router_1_1_config" prot="public">themis::network::GeoTopologyRouter::Config</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_geo_topology_router_1_1_stats" prot="public">themis::network::GeoTopologyRouter::Stats</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1network_1_1_geo_topology_router_1a4ebe77273866838c0e9d69e904acf50b" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Strategy</name>
+        <qualifiedname>themis::network::GeoTopologyRouter::Strategy</qualifiedname>
+        <enumvalue id="classthemis_1_1network_1_1_geo_topology_router_1a4ebe77273866838c0e9d69e904acf50ba6d1313ba7ab8afcb895591481871ef89" prot="public">
+          <name>PREFER_LOCAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Prefer shards co-located with this node (same region &gt; zone &gt; datacenter). Falls back to the nearest remote region when no local shard is available and <computeroutput>fallback_cross_region</computeroutput> is true. </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1network_1_1_geo_topology_router_1a4ebe77273866838c0e9d69e904acf50bac206f99d8dc24fc9e4502b9d46605608" prot="public">
+          <name>LOWEST_LATENCY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Route to the region with the lowest configured latency hint (see <computeroutput>region_latency_hints</computeroutput>). Falls back to PREFER_LOCAL when no hints are configured. </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1network_1_1_geo_topology_router_1a4ebe77273866838c0e9d69e904acf50ba1ebd8dbf8c34e255f5cbf28f35860b71" prot="public">
+          <name>ROUND_ROBIN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Distribute requests evenly across all healthy shards in a round-robin fashion, ignoring topology locality. </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Controls how the router selects among healthy shard candidates. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/geo_topology_router.h" line="85" column="5" bodyfile="include/network/geo_topology_router.h" bodystart="85" bodyend="99"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_geo_topology_router_1aad6efe1dd6c8da01b158d8b270817c05" prot="private" static="no" mutable="no">
+        <type><ref refid="struct_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::network::GeoTopologyRouter::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::network::GeoTopologyRouter::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/geo_topology_router.h" line="229" column="46" bodyfile="include/network/geo_topology_router.h" bodystart="229" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_geo_topology_router_1ae1ad723078d6f3376c92ddc864c1e9cb" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; sharding::ShardTopology &gt;</type>
+        <definition>std::shared_ptr&lt;sharding::ShardTopology&gt; themis::network::GeoTopologyRouter::topology_</definition>
+        <argsstring></argsstring>
+        <name>topology_</name>
+        <qualifiedname>themis::network::GeoTopologyRouter::topology_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/geo_topology_router.h" line="230" column="21" bodyfile="include/network/geo_topology_router.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_geo_topology_router_1a9bc9c105d34255357bcda96ac14a0dab" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::network::GeoTopologyRouter::round_robin_counter_</definition>
+        <argsstring></argsstring>
+        <name>round_robin_counter_</name>
+        <qualifiedname>themis::network::GeoTopologyRouter::round_robin_counter_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/geo_topology_router.h" line="232" column="25" bodyfile="include/network/geo_topology_router.h" bodystart="232" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_geo_topology_router_1a214043164370b094c3e3de9f77ab11f5" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::network::GeoTopologyRouter::stats_mutex_</definition>
+        <argsstring></argsstring>
+        <name>stats_mutex_</name>
+        <qualifiedname>themis::network::GeoTopologyRouter::stats_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/geo_topology_router.h" line="234" column="24" bodyfile="include/network/geo_topology_router.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_geo_topology_router_1afcd75e872d8127465520d5179d8f73b7" prot="private" static="no" mutable="yes">
+        <type><ref refid="structthemis_1_1network_1_1_geo_topology_router_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Stats themis::network::GeoTopologyRouter::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::network::GeoTopologyRouter::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/geo_topology_router.h" line="235" column="24" bodyfile="include/network/geo_topology_router.h" bodystart="235" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_geo_topology_router_1ab62f2cdd7779720333efe701732f97d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::GeoTopologyRouter::GeoTopologyRouter</definition>
+        <argsstring>(const Config &amp;config, std::shared_ptr&lt; sharding::ShardTopology &gt; topology)</argsstring>
+        <name>GeoTopologyRouter</name>
+        <qualifiedname>themis::network::GeoTopologyRouter::GeoTopologyRouter</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; sharding::ShardTopology &gt;</type>
+          <declname>topology</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Routing configuration (topology position + strategy). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>topology</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Live cluster topology provider. Must remain valid for the lifetime of this router. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/geo_topology_router.h" line="147" column="5" bodyfile="src/network/geo_topology_router.cpp" bodystart="31" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_geo_topology_router_1a011414522c4b103d8d72d572dc79e0bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::GeoTopologyRouter::~GeoTopologyRouter</definition>
+        <argsstring>()=default</argsstring>
+        <name>~GeoTopologyRouter</name>
+        <qualifiedname>themis::network::GeoTopologyRouter::~GeoTopologyRouter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/geo_topology_router.h" line="150" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_geo_topology_router_1ae49f9c4996dede26efe9d92163f4c95c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::GeoTopologyRouter::GeoTopologyRouter</definition>
+        <argsstring>(const GeoTopologyRouter &amp;)=delete</argsstring>
+        <name>GeoTopologyRouter</name>
+        <qualifiedname>themis::network::GeoTopologyRouter::GeoTopologyRouter</qualifiedname>
+        <param>
+          <type>const GeoTopologyRouter &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/geo_topology_router.h" line="153" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_geo_topology_router_1a620e8d54c291c0f80ae642ea787a534a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1network_1_1_geo_topology_router_1ab62f2cdd7779720333efe701732f97d4" kindref="member">GeoTopologyRouter</ref> &amp;</type>
+        <definition>GeoTopologyRouter &amp; themis::network::GeoTopologyRouter::operator=</definition>
+        <argsstring>(const GeoTopologyRouter &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::network::GeoTopologyRouter::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1network_1_1_geo_topology_router_1ab62f2cdd7779720333efe701732f97d4" kindref="member">GeoTopologyRouter</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/geo_topology_router.h" line="154" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_geo_topology_router_1aedee4643f3a9cd924c7b07cd2f6c6965" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::GeoTopologyRouter::GeoTopologyRouter</definition>
+        <argsstring>(GeoTopologyRouter &amp;&amp;)=delete</argsstring>
+        <name>GeoTopologyRouter</name>
+        <qualifiedname>themis::network::GeoTopologyRouter::GeoTopologyRouter</qualifiedname>
+        <param>
+          <type>GeoTopologyRouter &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/geo_topology_router.h" line="155" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_geo_topology_router_1a1578f9ed75fe5c02d0cd6448f1b83e2c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1network_1_1_geo_topology_router_1ab62f2cdd7779720333efe701732f97d4" kindref="member">GeoTopologyRouter</ref> &amp;</type>
+        <definition>GeoTopologyRouter &amp; themis::network::GeoTopologyRouter::operator=</definition>
+        <argsstring>(GeoTopologyRouter &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::network::GeoTopologyRouter::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_geo_topology_router_1ab62f2cdd7779720333efe701732f97d4" kindref="member">GeoTopologyRouter</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/geo_topology_router.h" line="156" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_geo_topology_router_1adad37887c3cc8c86ceda4375a833e348" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::network::GeoTopologyRouter::selectEndpoint</definition>
+        <argsstring>() const</argsstring>
+        <name>selectEndpoint</name>
+        <qualifiedname>themis::network::GeoTopologyRouter::selectEndpoint</qualifiedname>
+        <briefdescription>
+<para>Select the primary endpoint of the best available shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Applies the configured strategy to the current set of healthy shards and returns the <computeroutput>primary_endpoint</computeroutput> of the selected shard.</para>
+<para><simplesect kind="return"><para>Endpoint address string (e.g., &quot;host:port&quot;), or empty string when no suitable healthy shard is available. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/network/geo_topology_router.h" line="169" column="17" bodyfile="src/network/geo_topology_router.cpp" bodystart="132" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_geo_topology_router_1a40790b4662b6299bb99c11e2864c00d0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::network::GeoTopologyRouter::selectEndpointInRegion</definition>
+        <argsstring>(const std::string &amp;region) const</argsstring>
+        <name>selectEndpointInRegion</name>
+        <qualifiedname>themis::network::GeoTopologyRouter::selectEndpointInRegion</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>region</declname>
+        </param>
+        <briefdescription>
+<para>Select the primary endpoint of the best shard in a named region. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Within the target region, sub-region affinity (zone/datacenter) is applied using the same locality scoring as PREFER_LOCAL.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>region</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target region name (e.g., &quot;us-east&quot;). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Endpoint address string, or empty string when the region has no healthy shards. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/network/geo_topology_router.h" line="181" column="17" bodyfile="src/network/geo_topology_router.cpp" bodystart="227" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_geo_topology_router_1a4ee7d781baab063920d9ebeb41e76e4d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; sharding::ShardInfo &gt;</type>
+        <definition>std::vector&lt; sharding::ShardInfo &gt; themis::network::GeoTopologyRouter::getRankedShards</definition>
+        <argsstring>() const</argsstring>
+        <name>getRankedShards</name>
+        <qualifiedname>themis::network::GeoTopologyRouter::getRankedShards</qualifiedname>
+        <briefdescription>
+<para>Return healthy shards ranked by routing preference. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The returned vector is ordered from most-preferred (index 0) to least-preferred under the configured strategy.</para>
+<para><simplesect kind="return"><para>Ordered list of healthy <computeroutput>ShardInfo</computeroutput> objects. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/geo_topology_router.h" line="191" column="17" bodyfile="src/network/geo_topology_router.cpp" bodystart="289" bodyend="324"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_geo_topology_router_1ab8b3e76676bb36f5e211260bce5ac66c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1network_1_1_geo_topology_router_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>GeoTopologyRouter::Stats themis::network::GeoTopologyRouter::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::network::GeoTopologyRouter::getStats</qualifiedname>
+        <briefdescription>
+<para>Return a snapshot of accumulated routing statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/network/geo_topology_router.h" line="196" column="11" bodyfile="src/network/geo_topology_router.cpp" bodystart="330" bodyend="338"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_geo_topology_router_1a7993205572e289211aeb795ec9151ec5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="struct_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const Config &amp; themis::network::GeoTopologyRouter::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::network::GeoTopologyRouter::getConfig</qualifiedname>
+        <briefdescription>
+<para>Return the routing configuration used at construction time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/geo_topology_router.h" line="199" column="18" bodyfile="include/network/geo_topology_router.h" bodystart="199" bodyend="199"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_geo_topology_router_1ae58146ff7c77eb481ced0d9678874ce7" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::network::GeoTopologyRouter::localityScore</definition>
+        <argsstring>(const sharding::ShardInfo &amp;shard) const</argsstring>
+        <name>localityScore</name>
+        <qualifiedname>themis::network::GeoTopologyRouter::localityScore</qualifiedname>
+        <param>
+          <type>const sharding::ShardInfo &amp;</type>
+          <declname>shard</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Compute a non-negative locality score for <computeroutput>shard</computeroutput>. Higher values mean the shard is topologically closer to this node. +4 : same region +2 : same zone +1 : same datacenter </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/geo_topology_router.h" line="209" column="9" bodyfile="src/network/geo_topology_router.cpp" bodystart="48" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_geo_topology_router_1afe55f7d0237def35a8e519d8d84a3e99" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const sharding::ShardInfo *</type>
+        <definition>const sharding::ShardInfo * themis::network::GeoTopologyRouter::selectPreferLocal</definition>
+        <argsstring>(const std::vector&lt; sharding::ShardInfo &gt; &amp;healthy) const</argsstring>
+        <name>selectPreferLocal</name>
+        <qualifiedname>themis::network::GeoTopologyRouter::selectPreferLocal</qualifiedname>
+        <param>
+          <type>const std::vector&lt; sharding::ShardInfo &gt; &amp;</type>
+          <declname>healthy</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Select the best shard by locality score (PREFER_LOCAL strategy). Returns nullptr when <computeroutput>healthy</computeroutput> is empty. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/geo_topology_router.h" line="213" column="31" bodyfile="src/network/geo_topology_router.cpp" bodystart="68" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_geo_topology_router_1a025f4758b9c4a9634999f5d38d766e36" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const sharding::ShardInfo *</type>
+        <definition>const sharding::ShardInfo * themis::network::GeoTopologyRouter::selectLowestLatency</definition>
+        <argsstring>(const std::vector&lt; sharding::ShardInfo &gt; &amp;healthy) const</argsstring>
+        <name>selectLowestLatency</name>
+        <qualifiedname>themis::network::GeoTopologyRouter::selectLowestLatency</qualifiedname>
+        <param>
+          <type>const std::vector&lt; sharding::ShardInfo &gt; &amp;</type>
+          <declname>healthy</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Select the shard whose region has the lowest configured latency hint (LOWEST_LATENCY strategy). Falls back to selectPreferLocal() when <computeroutput>region_latency_hints</computeroutput> is empty. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/geo_topology_router.h" line="219" column="31" bodyfile="src/network/geo_topology_router.cpp" bodystart="88" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_geo_topology_router_1a2c5881b0560df182986d90615c4d39e5" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const sharding::ShardInfo *</type>
+        <definition>const sharding::ShardInfo * themis::network::GeoTopologyRouter::selectRoundRobin</definition>
+        <argsstring>(const std::vector&lt; sharding::ShardInfo &gt; &amp;healthy) const</argsstring>
+        <name>selectRoundRobin</name>
+        <qualifiedname>themis::network::GeoTopologyRouter::selectRoundRobin</qualifiedname>
+        <param>
+          <type>const std::vector&lt; sharding::ShardInfo &gt; &amp;</type>
+          <declname>healthy</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Select the next shard in round-robin order (ROUND_ROBIN strategy). Returns nullptr when <computeroutput>healthy</computeroutput> is empty. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/geo_topology_router.h" line="224" column="31" bodyfile="src/network/geo_topology_router.cpp" bodystart="116" bodyend="126"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Topology-aware request router for geo-distributed ThemisDB clusters. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Selects the most suitable shard endpoint for each request by scoring candidates according to their network proximity to this node (region → zone → datacenter → rack) and applying the configured routing strategy.</para>
+<para>Usage: <programlisting><codeline><highlight class="normal">GeoTopologyRouter::Config<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.local_region<sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;us-east&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">cfg.local_zone<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;us-east-1a&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">cfg.local_datacenter<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;dc1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">cfg.strategy<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="classthemis_1_1network_1_1_geo_topology_router_1a4ebe77273866838c0e9d69e904acf50ba6d1313ba7ab8afcb895591481871ef89" kindref="member">GeoTopologyRouter::Strategy::PREFER_LOCAL</ref>;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1network_1_1_geo_topology_router_1ab62f2cdd7779720333efe701732f97d4" kindref="member">GeoTopologyRouter</ref><sp/>router(cfg,<sp/>shard_topology);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">std::string<sp/>endpoint<sp/>=<sp/>router.selectEndpoint();</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!endpoint.empty())<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>acquire<sp/>connection<sp/>from<sp/>WireProtocolConnectionPool</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>pool.acquireConnection(endpoint);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para>Thread safety: all public methods are safe to call concurrently. </para>
+    </detaileddescription>
+    <location file="include/network/geo_topology_router.h" line="78" column="1" bodyfile="include/network/geo_topology_router.h" bodystart="78" bodyend="236"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1network_1_1_geo_topology_router_1aad6efe1dd6c8da01b158d8b270817c05" prot="private" virt="non-virtual"><scope>themis::network::GeoTopologyRouter</scope><name>config_</name></member>
+      <member refid="classthemis_1_1network_1_1_geo_topology_router_1ab62f2cdd7779720333efe701732f97d4" prot="public" virt="non-virtual"><scope>themis::network::GeoTopologyRouter</scope><name>GeoTopologyRouter</name></member>
+      <member refid="classthemis_1_1network_1_1_geo_topology_router_1ae49f9c4996dede26efe9d92163f4c95c" prot="public" virt="non-virtual"><scope>themis::network::GeoTopologyRouter</scope><name>GeoTopologyRouter</name></member>
+      <member refid="classthemis_1_1network_1_1_geo_topology_router_1aedee4643f3a9cd924c7b07cd2f6c6965" prot="public" virt="non-virtual"><scope>themis::network::GeoTopologyRouter</scope><name>GeoTopologyRouter</name></member>
+      <member refid="classthemis_1_1network_1_1_geo_topology_router_1a7993205572e289211aeb795ec9151ec5" prot="public" virt="non-virtual"><scope>themis::network::GeoTopologyRouter</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1network_1_1_geo_topology_router_1a4ee7d781baab063920d9ebeb41e76e4d" prot="public" virt="non-virtual"><scope>themis::network::GeoTopologyRouter</scope><name>getRankedShards</name></member>
+      <member refid="classthemis_1_1network_1_1_geo_topology_router_1ab8b3e76676bb36f5e211260bce5ac66c" prot="public" virt="non-virtual"><scope>themis::network::GeoTopologyRouter</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1network_1_1_geo_topology_router_1ae58146ff7c77eb481ced0d9678874ce7" prot="private" virt="non-virtual"><scope>themis::network::GeoTopologyRouter</scope><name>localityScore</name></member>
+      <member refid="classthemis_1_1network_1_1_geo_topology_router_1a620e8d54c291c0f80ae642ea787a534a" prot="public" virt="non-virtual"><scope>themis::network::GeoTopologyRouter</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1network_1_1_geo_topology_router_1a1578f9ed75fe5c02d0cd6448f1b83e2c" prot="public" virt="non-virtual"><scope>themis::network::GeoTopologyRouter</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1network_1_1_geo_topology_router_1a9bc9c105d34255357bcda96ac14a0dab" prot="private" virt="non-virtual"><scope>themis::network::GeoTopologyRouter</scope><name>round_robin_counter_</name></member>
+      <member refid="classthemis_1_1network_1_1_geo_topology_router_1adad37887c3cc8c86ceda4375a833e348" prot="public" virt="non-virtual"><scope>themis::network::GeoTopologyRouter</scope><name>selectEndpoint</name></member>
+      <member refid="classthemis_1_1network_1_1_geo_topology_router_1a40790b4662b6299bb99c11e2864c00d0" prot="public" virt="non-virtual"><scope>themis::network::GeoTopologyRouter</scope><name>selectEndpointInRegion</name></member>
+      <member refid="classthemis_1_1network_1_1_geo_topology_router_1a025f4758b9c4a9634999f5d38d766e36" prot="private" virt="non-virtual"><scope>themis::network::GeoTopologyRouter</scope><name>selectLowestLatency</name></member>
+      <member refid="classthemis_1_1network_1_1_geo_topology_router_1afe55f7d0237def35a8e519d8d84a3e99" prot="private" virt="non-virtual"><scope>themis::network::GeoTopologyRouter</scope><name>selectPreferLocal</name></member>
+      <member refid="classthemis_1_1network_1_1_geo_topology_router_1a2c5881b0560df182986d90615c4d39e5" prot="private" virt="non-virtual"><scope>themis::network::GeoTopologyRouter</scope><name>selectRoundRobin</name></member>
+      <member refid="classthemis_1_1network_1_1_geo_topology_router_1afcd75e872d8127465520d5179d8f73b7" prot="private" virt="non-virtual"><scope>themis::network::GeoTopologyRouter</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1network_1_1_geo_topology_router_1a214043164370b094c3e3de9f77ab11f5" prot="private" virt="non-virtual"><scope>themis::network::GeoTopologyRouter</scope><name>stats_mutex_</name></member>
+      <member refid="classthemis_1_1network_1_1_geo_topology_router_1a4ebe77273866838c0e9d69e904acf50b" prot="public" virt="non-virtual"><scope>themis::network::GeoTopologyRouter</scope><name>Strategy</name></member>
+      <member refid="classthemis_1_1network_1_1_geo_topology_router_1ae1ad723078d6f3376c92ddc864c1e9cb" prot="private" virt="non-virtual"><scope>themis::network::GeoTopologyRouter</scope><name>topology_</name></member>
+      <member refid="classthemis_1_1network_1_1_geo_topology_router_1a011414522c4b103d8d72d572dc79e0bf" prot="public" virt="non-virtual"><scope>themis::network::GeoTopologyRouter</scope><name>~GeoTopologyRouter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

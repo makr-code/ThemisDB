@@ -1,0 +1,200 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_network_span_event" kind="struct" language="C++" prot="public">
+    <compoundname>themis::network::NetworkSpanEvent</compoundname>
+    <includes refid="network__observability_8h" local="no">network_observability.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_network_span_event_1a077e485b504347505a4fd3d5bba84481" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1network_1a4231eea11760549a1f964cb85962655f" kindref="member">NetworkSpanKind</ref></type>
+        <definition>NetworkSpanKind themis::network::NetworkSpanEvent::kind</definition>
+        <argsstring></argsstring>
+        <name>kind</name>
+        <qualifiedname>themis::network::NetworkSpanEvent::kind</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1network_1a4231eea11760549a1f964cb85962655fa72baef04098f035e8a320b03ad197818" kindref="member">NetworkSpanKind::CUSTOM</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="177" column="23" bodyfile="include/network/network_observability.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_network_span_event_1a3ca52f8689c35b01a31c34680ed74439" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1network_1a82a6c265c978a1d9c7b1e56bc41443c2" kindref="member">NetworkResultCode</ref></type>
+        <definition>NetworkResultCode themis::network::NetworkSpanEvent::result</definition>
+        <argsstring></argsstring>
+        <name>result</name>
+        <qualifiedname>themis::network::NetworkSpanEvent::result</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1network_1a82a6c265c978a1d9c7b1e56bc41443c2ac69f06e1a9b016d133907b4e5f5864d2" kindref="member">NetworkResultCode::PENDING</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="178" column="23" bodyfile="include/network/network_observability.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_network_span_event_1a69d61ab55e0ac1e8ee986e2a678d2b28" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::NetworkSpanEvent::connection_id</definition>
+        <argsstring></argsstring>
+        <name>connection_id</name>
+        <qualifiedname>themis::network::NetworkSpanEvent::connection_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Opaque connection identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="180" column="23" bodyfile="include/network/network_observability.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_network_span_event_1addbdb55945e59e5b04e1f827931128a7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::NetworkSpanEvent::session_id</definition>
+        <argsstring></argsstring>
+        <name>session_id</name>
+        <qualifiedname>themis::network::NetworkSpanEvent::session_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Optional session ID (0 = none). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="181" column="23" bodyfile="include/network/network_observability.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_network_span_event_1a791ee0d7e6eb7fdeb0fac31315401e6a" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t themis::network::NetworkSpanEvent::opcode</definition>
+        <argsstring></argsstring>
+        <name>opcode</name>
+        <qualifiedname>themis::network::NetworkSpanEvent::opcode</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Wire-protocol opcode (if applicable). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="182" column="23" bodyfile="include/network/network_observability.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_network_span_event_1a744a5aaf17bb98d3cbce1ca357169b44" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t themis::network::NetworkSpanEvent::transport_tag</definition>
+        <argsstring></argsstring>
+        <name>transport_tag</name>
+        <qualifiedname>themis::network::NetworkSpanEvent::transport_tag</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Transport type tag (TCP=1,WS=2,UDP=3,QUIC=4,gRPC=5). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="183" column="23" bodyfile="include/network/network_observability.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_network_span_event_1a3f248d1b8b26d066c6240c74b052dbf3" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::NetworkSpanEvent::payload_bytes</definition>
+        <argsstring></argsstring>
+        <name>payload_bytes</name>
+        <qualifiedname>themis::network::NetworkSpanEvent::payload_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Payload size in bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="185" column="23" bodyfile="include/network/network_observability.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_network_span_event_1ace03d3574dc1b056b252d86bbca2c278" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::NetworkSpanEvent::latency_us</definition>
+        <argsstring></argsstring>
+        <name>latency_us</name>
+        <qualifiedname>themis::network::NetworkSpanEvent::latency_us</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Operation latency in microseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="186" column="23" bodyfile="include/network/network_observability.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_network_span_event_1a99c099dc8bba78584e09e86fc8dc06f8" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::network::NetworkSpanEvent::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::network::NetworkSpanEvent::timestamp</qualifiedname>
+        <briefdescription>
+<para>Wall-clock timestamp at the start of the operation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="189" column="43" bodyfile="include/network/network_observability.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_network_span_event_1a716a4f700054e72edcf83c65bf24178f" prot="public" static="no" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::network::NetworkSpanEvent::label</definition>
+        <argsstring></argsstring>
+        <name>label</name>
+        <qualifiedname>themis::network::NetworkSpanEvent::label</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Optional free-form label (e.g., route name, error class, span name). Points into caller-owned storage; valid only during <computeroutput>onSpan()</computeroutput>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="193" column="23" bodyfile="include/network/network_observability.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_network_span_event_1ab41e219dd5e5a422fa7b4391d4a2d59a" prot="public" static="no" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::network::NetworkSpanEvent::error_detail</definition>
+        <argsstring></argsstring>
+        <name>error_detail</name>
+        <qualifiedname>themis::network::NetworkSpanEvent::error_detail</qualifiedname>
+        <briefdescription>
+<para>Optional error message (empty string = no error detail). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="196" column="23" bodyfile="include/network/network_observability.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Structured event representing a single observed network operation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Built on the stack by the emitting component. No heap allocation occurs until the sink&apos;s <computeroutput>onSpan()</computeroutput> implementation decides to store the event. </para>
+    </detaileddescription>
+    <location file="include/network/network_observability.h" line="176" column="1" bodyfile="include/network/network_observability.h" bodystart="176" bodyend="197"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_network_span_event_1a69d61ab55e0ac1e8ee986e2a678d2b28" prot="public" virt="non-virtual"><scope>themis::network::NetworkSpanEvent</scope><name>connection_id</name></member>
+      <member refid="structthemis_1_1network_1_1_network_span_event_1ab41e219dd5e5a422fa7b4391d4a2d59a" prot="public" virt="non-virtual"><scope>themis::network::NetworkSpanEvent</scope><name>error_detail</name></member>
+      <member refid="structthemis_1_1network_1_1_network_span_event_1a077e485b504347505a4fd3d5bba84481" prot="public" virt="non-virtual"><scope>themis::network::NetworkSpanEvent</scope><name>kind</name></member>
+      <member refid="structthemis_1_1network_1_1_network_span_event_1a716a4f700054e72edcf83c65bf24178f" prot="public" virt="non-virtual"><scope>themis::network::NetworkSpanEvent</scope><name>label</name></member>
+      <member refid="structthemis_1_1network_1_1_network_span_event_1ace03d3574dc1b056b252d86bbca2c278" prot="public" virt="non-virtual"><scope>themis::network::NetworkSpanEvent</scope><name>latency_us</name></member>
+      <member refid="structthemis_1_1network_1_1_network_span_event_1a791ee0d7e6eb7fdeb0fac31315401e6a" prot="public" virt="non-virtual"><scope>themis::network::NetworkSpanEvent</scope><name>opcode</name></member>
+      <member refid="structthemis_1_1network_1_1_network_span_event_1a3f248d1b8b26d066c6240c74b052dbf3" prot="public" virt="non-virtual"><scope>themis::network::NetworkSpanEvent</scope><name>payload_bytes</name></member>
+      <member refid="structthemis_1_1network_1_1_network_span_event_1a3ca52f8689c35b01a31c34680ed74439" prot="public" virt="non-virtual"><scope>themis::network::NetworkSpanEvent</scope><name>result</name></member>
+      <member refid="structthemis_1_1network_1_1_network_span_event_1addbdb55945e59e5b04e1f827931128a7" prot="public" virt="non-virtual"><scope>themis::network::NetworkSpanEvent</scope><name>session_id</name></member>
+      <member refid="structthemis_1_1network_1_1_network_span_event_1a99c099dc8bba78584e09e86fc8dc06f8" prot="public" virt="non-virtual"><scope>themis::network::NetworkSpanEvent</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1network_1_1_network_span_event_1a744a5aaf17bb98d3cbce1ca357169b44" prot="public" virt="non-virtual"><scope>themis::network::NetworkSpanEvent</scope><name>transport_tag</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

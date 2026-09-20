@@ -1,0 +1,593 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1content_1_1_p_d_f_processor" kind="class" language="C++" prot="public">
+    <compoundname>themis::content::PDFProcessor</compoundname>
+    <basecompoundref refid="classthemis_1_1content_1_1_i_content_processor" prot="public" virt="non-virtual">themis::content::IContentProcessor</basecompoundref>
+    <includes refid="pdf__processor_8h" local="no">pdf_processor.h</includes>
+    <innerclass refid="structthemis_1_1content_1_1_p_d_f_processor_1_1_config" prot="public">themis::content::PDFProcessor::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_p_d_f_processor_1a80040c565d524da50d1e2225d18b116b" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1content_1_1_p_d_f_processor_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::content::PDFProcessor::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::content::PDFProcessor::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pdf_processor.h" line="106" column="12" bodyfile="include/content/pdf_processor.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_p_d_f_processor_1a42023b18aee433f7b45154ae68f41de7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::PDFProcessor::PDFProcessor</definition>
+        <argsstring>()</argsstring>
+        <name>PDFProcessor</name>
+        <qualifiedname>themis::content::PDFProcessor::PDFProcessor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pdf_processor.h" line="65" column="5" bodyfile="src/content/pdf_processor.cpp" bodystart="44" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_p_d_f_processor_1a5346f7223aeafaf4d7d94697d1f7fc01" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::PDFProcessor::PDFProcessor</definition>
+        <argsstring>(Config config)</argsstring>
+        <name>PDFProcessor</name>
+        <qualifiedname>themis::content::PDFProcessor::PDFProcessor</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1content_1_1_p_d_f_processor_1_1_config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemis_1_1content_1_1_p_d_f_processor" kindref="compound">PDFProcessor</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pdf_processor.h" line="71" column="14" bodyfile="src/content/pdf_processor.cpp" bodystart="46" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_p_d_f_processor_1a56fd3376c4d0a6fa25bb3c2b763cd58e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::PDFProcessor::~PDFProcessor</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~PDFProcessor</name>
+        <qualifiedname>themis::content::PDFProcessor::~PDFProcessor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pdf_processor.h" line="72" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_p_d_f_processor_1a373493882e5df20453bbb46bfabf04ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1content_1_1_extraction_result" kindref="compound">ExtractionResult</ref></type>
+        <definition>ExtractionResult themis::content::PDFProcessor::extract</definition>
+        <argsstring>(const std::string &amp;blob, const ContentType &amp;content_type) override</argsstring>
+        <name>extract</name>
+        <qualifiedname>themis::content::PDFProcessor::extract</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_1a638d82433a5fd1e4cc50bba304ffcd32">extract</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_content_type" kindref="compound">ContentType</ref> &amp;</type>
+          <declname>content_type</declname>
+        </param>
+        <briefdescription>
+<para>Extract. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: json::object(), isPDFValid(), size(), substr(), version_regex(), std::regex_search(), str(), data(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pdf_processor.h" line="74" column="22" bodyfile="src/content/pdf_processor.cpp" bodystart="96" bodyend="263"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_p_d_f_processor_1a4e124482c9432f143e75994a351117f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref> &gt;</type>
+        <definition>std::vector&lt; json &gt; themis::content::PDFProcessor::chunk</definition>
+        <argsstring>(const ExtractionResult &amp;extraction_result, int chunk_size, int overlap) override</argsstring>
+        <name>chunk</name>
+        <qualifiedname>themis::content::PDFProcessor::chunk</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_1ad7a72eb8186023fc9ee450906d9fb632">chunk</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_extraction_result" kindref="compound">ExtractionResult</ref> &amp;</type>
+          <declname>extraction_result</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>chunk_size</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>overlap</declname>
+        </param>
+        <briefdescription>
+<para>Chunk. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">extraction_result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">chunk_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">overlap</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), sentence_regex(), iter(), begin(), end(), str(), push_back(), countTokens(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pdf_processor.h" line="79" column="17" bodyfile="src/content/pdf_processor.cpp" bodystart="502" bodyend="564"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_p_d_f_processor_1af62ae8bd3384462f9eae2251750b402a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::content::PDFProcessor::generateEmbedding</definition>
+        <argsstring>(const std::string &amp;chunk_data) override</argsstring>
+        <name>generateEmbedding</name>
+        <qualifiedname>themis::content::PDFProcessor::generateEmbedding</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_1a84aba018f92d394ed51094bba497de8c">generateEmbedding</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>chunk_data</declname>
+        </param>
+        <briefdescription>
+<para>Generate Embedding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">chunk_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: embedding(), empty(), iss(), push_back(), size(), hasher(), std::sin(), std::sqrt(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pdf_processor.h" line="85" column="17" bodyfile="src/content/pdf_processor.cpp" bodystart="572" bodyend="623"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_p_d_f_processor_1ad2e652698ca257cc3fbed42d32bc5f37" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::PDFProcessor::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::content::PDFProcessor::getName</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_1a893353e264c76ec1bcc9b4f4a375f37a">getName</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pdf_processor.h" line="87" column="17" bodyfile="include/content/pdf_processor.h" bodystart="87" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_p_d_f_processor_1ac7339cca3a816621d9e49fceb4836bc4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1content_1_1_content_category" kindref="compound">ContentCategory</ref> &gt;</type>
+        <definition>std::vector&lt; ContentCategory &gt; themis::content::PDFProcessor::getSupportedCategories</definition>
+        <argsstring>() const override</argsstring>
+        <name>getSupportedCategories</name>
+        <qualifiedname>themis::content::PDFProcessor::getSupportedCategories</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_1ab2b446811cbac33cecb30d3fa55680f0">getSupportedCategories</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pdf_processor.h" line="89" column="17" bodyfile="include/content/pdf_processor.h" bodystart="89" bodyend="91"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_p_d_f_processor_1a9f9b2d711f85adc65ba82cf8b63f1282" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::content::PDFProcessor::isAvailable</definition>
+        <argsstring>()</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::content::PDFProcessor::isAvailable</qualifiedname>
+        <briefdescription>
+<para>Is Available. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements isAvailable without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pdf_processor.h" line="97" column="17" bodyfile="src/content/pdf_processor.cpp" bodystart="53" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_p_d_f_processor_1aa78bd2e8c3e9e372029b6134144be720" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::PDFProcessor::getLibraryVersion</definition>
+        <argsstring>()</argsstring>
+        <name>getLibraryVersion</name>
+        <qualifiedname>themis::content::PDFProcessor::getLibraryVersion</qualifiedname>
+        <briefdescription>
+<para>Get Library Version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::string(), poppler::version_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pdf_processor.h" line="103" column="24" bodyfile="src/content/pdf_processor.cpp" bodystart="66" bodyend="72"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_p_d_f_processor_1a2ec153b039d0a939798b56a41c6480d5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_p_d_f_metadata" kindref="compound">PDFMetadata</ref></type>
+        <definition>PDFMetadata themis::content::PDFProcessor::extractMetadata</definition>
+        <argsstring>(const std::string &amp;blob)</argsstring>
+        <name>extractMetadata</name>
+        <qualifiedname>themis::content::PDFProcessor::extractMetadata</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+<para>Extract Metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: data(), begin(), end(), doc(), poppler::document::load_from_raw_data(), size(), to_utf8(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pdf_processor.h" line="114" column="17" bodyfile="src/content/pdf_processor.cpp" bodystart="271" bodyend="333"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_p_d_f_processor_1a6959a14f20739a5f02c56681ee5084cb" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1content_1_1_p_d_f_page_info" kindref="compound">PDFPageInfo</ref> &gt;</type>
+        <definition>std::vector&lt; PDFPageInfo &gt; themis::content::PDFProcessor::extractPages</definition>
+        <argsstring>(const std::string &amp;blob)</argsstring>
+        <name>extractPages</name>
+        <qualifiedname>themis::content::PDFProcessor::extractPages</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+<para>Extract Pages. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="pdf__processor_8cpp_1af7178f3e46a7474873da50327eebc02b" kindref="member">PDF_LIBRARY_AVAILABLE()</ref>, data(), begin(), end(), doc(), poppler::document::load_from_raw_data(), size(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pdf_processor.h" line="120" column="17" bodyfile="src/content/pdf_processor.cpp" bodystart="341" bodyend="386"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_p_d_f_processor_1a23ee8284f61ad2a568511d631b325b70" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::PDFProcessor::extractAllText</definition>
+        <argsstring>(const std::vector&lt; PDFPageInfo &gt; &amp;pages)</argsstring>
+        <name>extractAllText</name>
+        <qualifiedname>themis::content::PDFProcessor::extractAllText</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1content_1_1_p_d_f_page_info" kindref="compound">PDFPageInfo</ref> &gt; &amp;</type>
+          <declname>pages</declname>
+        </param>
+        <briefdescription>
+<para>Extract All Text. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pages</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pages</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pdf_processor.h" line="126" column="17" bodyfile="src/content/pdf_processor.cpp" bodystart="483" bodyend="492"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_p_d_f_processor_1a5d2cf1fcc09aef32686a12f355975cc1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::content::PDFProcessor::countTokens</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>countTokens</name>
+        <qualifiedname>themis::content::PDFProcessor::countTokens</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Count Tokens. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::isspace(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pdf_processor.h" line="133" column="9" bodyfile="src/content/pdf_processor.cpp" bodystart="631" bodyend="650"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_p_d_f_processor_1ae107abf39d1d74f08656915ca3ddcaf2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::PDFProcessor::parsePDFDate</definition>
+        <argsstring>(const std::string &amp;pdf_date)</argsstring>
+        <name>parsePDFDate</name>
+        <qualifiedname>themis::content::PDFProcessor::parsePDFDate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pdf_date</declname>
+        </param>
+        <briefdescription>
+<para>Parse PDFDate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pdf_date</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pdf_date</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), substr(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pdf_processor.h" line="140" column="17" bodyfile="src/content/pdf_processor.cpp" bodystart="658" bodyend="683"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_p_d_f_processor_1a7e62e01b158c990e74eacd3049dbca95" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::content::PDFProcessor::isPDFValid</definition>
+        <argsstring>(const std::string &amp;blob)</argsstring>
+        <name>isPDFValid</name>
+        <qualifiedname>themis::content::PDFProcessor::isPDFValid</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+<para>Is PDFValid. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: size(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pdf_processor.h" line="147" column="10" bodyfile="src/content/pdf_processor.cpp" bodystart="80" bodyend="87"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::content::IContentProcessor</label>
+        <link refid="classthemis_1_1content_1_1_i_content_processor"/>
+      </node>
+      <node id="1">
+        <label>themis::content::PDFProcessor</label>
+        <link refid="classthemis_1_1content_1_1_p_d_f_processor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::content::IContentProcessor</label>
+        <link refid="classthemis_1_1content_1_1_i_content_processor"/>
+      </node>
+      <node id="1">
+        <label>themis::content::PDFProcessor</label>
+        <link refid="classthemis_1_1content_1_1_p_d_f_processor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/content/pdf_processor.h" line="52" column="1" bodyfile="include/content/pdf_processor.h" bodystart="52" bodyend="158"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1content_1_1_p_d_f_processor_1a4e124482c9432f143e75994a351117f2" prot="public" virt="virtual"><scope>themis::content::PDFProcessor</scope><name>chunk</name></member>
+      <member refid="classthemis_1_1content_1_1_p_d_f_processor_1a80040c565d524da50d1e2225d18b116b" prot="private" virt="non-virtual"><scope>themis::content::PDFProcessor</scope><name>config_</name></member>
+      <member refid="classthemis_1_1content_1_1_p_d_f_processor_1a5d2cf1fcc09aef32686a12f355975cc1" prot="private" virt="non-virtual"><scope>themis::content::PDFProcessor</scope><name>countTokens</name></member>
+      <member refid="classthemis_1_1content_1_1_p_d_f_processor_1a373493882e5df20453bbb46bfabf04ae" prot="public" virt="virtual"><scope>themis::content::PDFProcessor</scope><name>extract</name></member>
+      <member refid="classthemis_1_1content_1_1_p_d_f_processor_1a23ee8284f61ad2a568511d631b325b70" prot="private" virt="non-virtual"><scope>themis::content::PDFProcessor</scope><name>extractAllText</name></member>
+      <member refid="classthemis_1_1content_1_1_p_d_f_processor_1a2ec153b039d0a939798b56a41c6480d5" prot="private" virt="non-virtual"><scope>themis::content::PDFProcessor</scope><name>extractMetadata</name></member>
+      <member refid="classthemis_1_1content_1_1_p_d_f_processor_1a6959a14f20739a5f02c56681ee5084cb" prot="private" virt="non-virtual"><scope>themis::content::PDFProcessor</scope><name>extractPages</name></member>
+      <member refid="classthemis_1_1content_1_1_p_d_f_processor_1af62ae8bd3384462f9eae2251750b402a" prot="public" virt="virtual"><scope>themis::content::PDFProcessor</scope><name>generateEmbedding</name></member>
+      <member refid="classthemis_1_1content_1_1_p_d_f_processor_1aa78bd2e8c3e9e372029b6134144be720" prot="public" virt="non-virtual"><scope>themis::content::PDFProcessor</scope><name>getLibraryVersion</name></member>
+      <member refid="classthemis_1_1content_1_1_p_d_f_processor_1ad2e652698ca257cc3fbed42d32bc5f37" prot="public" virt="virtual"><scope>themis::content::PDFProcessor</scope><name>getName</name></member>
+      <member refid="classthemis_1_1content_1_1_p_d_f_processor_1ac7339cca3a816621d9e49fceb4836bc4" prot="public" virt="virtual"><scope>themis::content::PDFProcessor</scope><name>getSupportedCategories</name></member>
+      <member refid="classthemis_1_1content_1_1_p_d_f_processor_1a9f9b2d711f85adc65ba82cf8b63f1282" prot="public" virt="non-virtual"><scope>themis::content::PDFProcessor</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1content_1_1_p_d_f_processor_1a7e62e01b158c990e74eacd3049dbca95" prot="private" virt="non-virtual"><scope>themis::content::PDFProcessor</scope><name>isPDFValid</name></member>
+      <member refid="classthemis_1_1content_1_1_p_d_f_processor_1ae107abf39d1d74f08656915ca3ddcaf2" prot="private" virt="non-virtual"><scope>themis::content::PDFProcessor</scope><name>parsePDFDate</name></member>
+      <member refid="classthemis_1_1content_1_1_p_d_f_processor_1a42023b18aee433f7b45154ae68f41de7" prot="public" virt="non-virtual"><scope>themis::content::PDFProcessor</scope><name>PDFProcessor</name></member>
+      <member refid="classthemis_1_1content_1_1_p_d_f_processor_1a5346f7223aeafaf4d7d94697d1f7fc01" prot="public" virt="non-virtual"><scope>themis::content::PDFProcessor</scope><name>PDFProcessor</name></member>
+      <member refid="classthemis_1_1content_1_1_i_content_processor_1a134e78148633727400cd4d1a1466eedc" prot="public" virt="virtual"><scope>themis::content::PDFProcessor</scope><name>~IContentProcessor</name></member>
+      <member refid="classthemis_1_1content_1_1_p_d_f_processor_1a56fd3376c4d0a6fa25bb3c2b763cd58e" prot="public" virt="non-virtual"><scope>themis::content::PDFProcessor</scope><name>~PDFProcessor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

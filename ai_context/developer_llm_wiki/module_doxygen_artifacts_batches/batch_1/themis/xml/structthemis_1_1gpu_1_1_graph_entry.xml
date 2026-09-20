@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_graph_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::GraphEntry</compoundname>
+    <includes refid="graph__cache_8h" local="no">graph_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_graph_entry_1a168fd4b2939cd0ca469124f76376540a" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1gpu_1_1_query_shape" kindref="compound">QueryShape</ref></type>
+        <definition>QueryShape themis::gpu::GraphEntry::shape</definition>
+        <argsstring></argsstring>
+        <name>shape</name>
+        <qualifiedname>themis::gpu::GraphEntry::shape</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/graph_cache.h" line="74" column="16" bodyfile="include/themis/gpu/graph_cache.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_graph_entry_1a7913d07c9062989a110fc9428181f511" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::GraphEntry::capture_count</definition>
+        <argsstring></argsstring>
+        <name>capture_count</name>
+        <qualifiedname>themis::gpu::GraphEntry::capture_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>How many times this shape was captured. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/graph_cache.h" line="76" column="14" bodyfile="include/themis/gpu/graph_cache.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_graph_entry_1a5b6eaff3d70cf9de4c83ca25e5b10a14" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::GraphEntry::replay_count</definition>
+        <argsstring></argsstring>
+        <name>replay_count</name>
+        <qualifiedname>themis::gpu::GraphEntry::replay_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>How many times it was served from cache. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/graph_cache.h" line="77" column="14" bodyfile="include/themis/gpu/graph_cache.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_graph_entry_1a5026133621d6c8ee32d54a220832255e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::GraphEntry::last_access</definition>
+        <argsstring></argsstring>
+        <name>last_access</name>
+        <qualifiedname>themis::gpu::GraphEntry::last_access</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Monotonic counter for LRU eviction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/graph_cache.h" line="78" column="14" bodyfile="include/themis/gpu/graph_cache.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::gpu::GraphEntry</label>
+        <link refid="structthemis_1_1gpu_1_1_graph_entry"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>shape</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::gpu::QueryShape</label>
+        <link refid="structthemis_1_1gpu_1_1_query_shape"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/themis/gpu/graph_cache.h" line="73" column="1" bodyfile="include/themis/gpu/graph_cache.h" bodystart="73" bodyend="85"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_graph_entry_1a7913d07c9062989a110fc9428181f511" prot="public" virt="non-virtual"><scope>themis::gpu::GraphEntry</scope><name>capture_count</name></member>
+      <member refid="structthemis_1_1gpu_1_1_graph_entry_1a5026133621d6c8ee32d54a220832255e" prot="public" virt="non-virtual"><scope>themis::gpu::GraphEntry</scope><name>last_access</name></member>
+      <member refid="structthemis_1_1gpu_1_1_graph_entry_1a5b6eaff3d70cf9de4c83ca25e5b10a14" prot="public" virt="non-virtual"><scope>themis::gpu::GraphEntry</scope><name>replay_count</name></member>
+      <member refid="structthemis_1_1gpu_1_1_graph_entry_1a168fd4b2939cd0ca469124f76376540a" prot="public" virt="non-virtual"><scope>themis::gpu::GraphEntry</scope><name>shape</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

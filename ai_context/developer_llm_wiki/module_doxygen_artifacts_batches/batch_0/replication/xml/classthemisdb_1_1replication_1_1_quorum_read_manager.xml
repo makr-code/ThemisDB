@@ -1,0 +1,417 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1replication_1_1_quorum_read_manager" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::replication::QuorumReadManager</compoundname>
+    <includes refid="replication__manager_8h" local="no">replication_manager.h</includes>
+    <innerclass refid="structthemisdb_1_1replication_1_1_quorum_read_manager_1_1_quorum_read_config" prot="public">themisdb::replication::QuorumReadManager::QuorumReadConfig</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_quorum_read_manager_1_1_quorum_read_result" prot="public">themisdb::replication::QuorumReadManager::QuorumReadResult</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_quorum_read_manager_1_1_replica_response" prot="private">themisdb::replication::QuorumReadManager::ReplicaResponse</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemisdb_1_1replication_1_1_quorum_read_manager_1a4f002c30a2770fea8e801c841c6b0d9f" prot="public" static="no">
+        <type>std::function&lt; std::string(const std::string &amp;, const std::string &amp;, const std::string &amp;)&gt;</type>
+        <definition>using themisdb::replication::QuorumReadManager::DocumentFetchFn = std::function&lt;
+       std::string(const std::string&amp; ,
+                   const std::string&amp; ,
+                   const std::string&amp; )&gt;</definition>
+        <argsstring></argsstring>
+        <name>DocumentFetchFn</name>
+        <qualifiedname>themisdb::replication::QuorumReadManager::DocumentFetchFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Callback type for fetching a document from a specific replica. Arguments: endpoint, collection, document_id. Returns the serialised document data, or an empty string when the replica does not hold the document or the fetch fails. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1192" column="5" bodyfile="include/replication/replication_manager.h" bodystart="1192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemisdb_1_1replication_1_1_quorum_read_manager_1a01e9341c619c1d3414f8806a8605e928" prot="public" static="no">
+        <type>std::function&lt; std::pair&lt; std::string, uint64_t &gt;(const std::string &amp;, const std::string &amp;)&gt;</type>
+        <definition>using themisdb::replication::QuorumReadManager::LocalDocumentFetchFn = std::function&lt;
+       std::pair&lt;std::string, uint64_t&gt;(const std::string&amp; ,
+                                        const std::string&amp; )&gt;</definition>
+        <argsstring></argsstring>
+        <name>LocalDocumentFetchFn</name>
+        <qualifiedname>themisdb::replication::QuorumReadManager::LocalDocumentFetchFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Callback type for fetching a document from the local storage engine when no replicas are configured (single-node deployment). Arguments: collection, document_id. Returns: {serialised document data, version}. An empty data string is valid when the document does not exist; version 0 means unknown.</para>
+<para>Injection API for the single-node local read path. Provides concrete document content/version when no replica topology is present. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1211" column="5" bodyfile="include/replication/replication_manager.h" bodystart="1211" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_quorum_read_manager_1a00c4731c92a2dd91f8924fa870aa1bc1" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1replication_1_1_quorum_read_manager_1_1_quorum_read_config" kindref="compound">QuorumReadConfig</ref></type>
+        <definition>QuorumReadConfig themisdb::replication::QuorumReadManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::replication::QuorumReadManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1221" column="22" bodyfile="include/replication/replication_manager.h" bodystart="1221" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_quorum_read_manager_1ac013f6df82164ce45cdda268e1cbc207" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_replica_info" kindref="compound">ReplicaInfo</ref> &gt;</type>
+        <definition>std::vector&lt;ReplicaInfo&gt; themisdb::replication::QuorumReadManager::replicas_</definition>
+        <argsstring></argsstring>
+        <name>replicas_</name>
+        <qualifiedname>themisdb::replication::QuorumReadManager::replicas_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1222" column="17" bodyfile="include/replication/replication_manager.h" bodystart="1222" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_quorum_read_manager_1a697c0c3549740f7fa4b0f5e214563773" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themisdb::replication::QuorumReadManager::replicas_mutex_</definition>
+        <argsstring></argsstring>
+        <name>replicas_mutex_</name>
+        <qualifiedname>themisdb::replication::QuorumReadManager::replicas_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1223" column="31" bodyfile="include/replication/replication_manager.h" bodystart="1223" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_quorum_read_manager_1a3cb36450e4684850a301e29a9541b50c" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1replication_1_1_quorum_read_manager_1a4f002c30a2770fea8e801c841c6b0d9f" kindref="member">DocumentFetchFn</ref></type>
+        <definition>DocumentFetchFn themisdb::replication::QuorumReadManager::doc_fetch_fn_</definition>
+        <argsstring></argsstring>
+        <name>doc_fetch_fn_</name>
+        <qualifiedname>themisdb::replication::QuorumReadManager::doc_fetch_fn_</qualifiedname>
+        <briefdescription>
+<para>Optional RPC / storage data fetcher. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1224" column="26" bodyfile="include/replication/replication_manager.h" bodystart="1224" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_quorum_read_manager_1a8d134eea9fb966fa093cb3cd076fde9b" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1replication_1_1_quorum_read_manager_1a01e9341c619c1d3414f8806a8605e928" kindref="member">LocalDocumentFetchFn</ref></type>
+        <definition>LocalDocumentFetchFn themisdb::replication::QuorumReadManager::local_doc_fetch_fn_</definition>
+        <argsstring></argsstring>
+        <name>local_doc_fetch_fn_</name>
+        <qualifiedname>themisdb::replication::QuorumReadManager::local_doc_fetch_fn_</qualifiedname>
+        <briefdescription>
+<para>Optional local-storage read for single-node mode. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1225" column="26" bodyfile="include/replication/replication_manager.h" bodystart="1225" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_quorum_read_manager_1ab76c1d938d154b74168869e45315772d" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::QuorumReadManager::QuorumReadManager</definition>
+        <argsstring>(const QuorumReadConfig &amp;config, const std::vector&lt; ReplicaInfo &gt; &amp;replicas)</argsstring>
+        <name>QuorumReadManager</name>
+        <qualifiedname>themisdb::replication::QuorumReadManager::QuorumReadManager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_quorum_read_manager_1_1_quorum_read_config" kindref="compound">QuorumReadConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_replica_info" kindref="compound">ReplicaInfo</ref> &gt; &amp;</type>
+          <declname>replicas</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1173" column="14" bodyfile="src/replication/replication_manager.cpp" bodystart="5042" bodyend="5048"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_quorum_read_manager_1aeb74fe733df273b37dc6b4eee8b22ab7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1replication_1_1_quorum_read_manager_1_1_quorum_read_result" kindref="compound">QuorumReadResult</ref></type>
+        <definition>QuorumReadManager::QuorumReadResult themisdb::replication::QuorumReadManager::read</definition>
+        <argsstring>(const std::string &amp;collection, const std::string &amp;document_id, uint32_t quorum=0, const std::string &amp;session_token=&quot;&quot;)</argsstring>
+        <name>read</name>
+        <qualifiedname>themisdb::replication::QuorumReadManager::read</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>quorum</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_token</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Read. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">document_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the document. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">quorum</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">session_token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">replicas_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">replicas_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1178" column="22" bodyfile="src/replication/replication_manager.cpp" bodystart="5058" bodyend="5248"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_quorum_read_manager_1afb2c7968f95d07e2840fc4dafa9d8e4c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::QuorumReadManager::setReplicas</definition>
+        <argsstring>(const std::vector&lt; ReplicaInfo &gt; &amp;replicas)</argsstring>
+        <name>setReplicas</name>
+        <qualifiedname>themisdb::replication::QuorumReadManager::setReplicas</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_replica_info" kindref="compound">ReplicaInfo</ref> &gt; &amp;</type>
+          <declname>replicas</declname>
+        </param>
+        <briefdescription>
+<para>Set Replicas. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">replicas</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1186" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="5308" bodyend="5311"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_quorum_read_manager_1ab878a3077ceda15628f6470970d08ce7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::QuorumReadManager::setDocumentFetchCallback</definition>
+        <argsstring>(DocumentFetchFn fn)</argsstring>
+        <name>setDocumentFetchCallback</name>
+        <qualifiedname>themisdb::replication::QuorumReadManager::setDocumentFetchCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1replication_1_1_quorum_read_manager_1a4f002c30a2770fea8e801c841c6b0d9f" kindref="member">DocumentFetchFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Document Fetch Callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Inject a data-fetch function so that queryReplica() can return real document content. The storage / RPC layer sets this at startup; tests inject a local-memory lookup. Without a callback the data field of every ReplicaResponse remains empty (original behaviour).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1201" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="5318" bodyend="5321"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_quorum_read_manager_1ab1f72d7ff43f5aa2a8da27cf88e59b03" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::QuorumReadManager::setLocalDocumentFetchFn</definition>
+        <argsstring>(LocalDocumentFetchFn fn)</argsstring>
+        <name>setLocalDocumentFetchFn</name>
+        <qualifiedname>themisdb::replication::QuorumReadManager::setLocalDocumentFetchFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1replication_1_1_quorum_read_manager_1a01e9341c619c1d3414f8806a8605e928" kindref="member">LocalDocumentFetchFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Local Document Fetch Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Inject a local-storage read function used by <ref refid="classthemisdb_1_1replication_1_1_quorum_read_manager_1aeb74fe733df273b37dc6b4eee8b22ab7" kindref="member">read()</ref> when the replica list is empty (single-node deployments). Without a callback the data field remains empty and version=0 (original behaviour).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1218" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="5328" bodyend="5331"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_quorum_read_manager_1af85a8c5ee26a4826c002897df106424c" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>ReplicaResponse</type>
+        <definition>QuorumReadManager::ReplicaResponse themisdb::replication::QuorumReadManager::queryReplica</definition>
+        <argsstring>(const ReplicaInfo &amp;replica, const std::string &amp;collection, const std::string &amp;document_id) const</argsstring>
+        <name>queryReplica</name>
+        <qualifiedname>themisdb::replication::QuorumReadManager::queryReplica</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_replica_info" kindref="compound">ReplicaInfo</ref> &amp;</type>
+          <declname>replica</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1235" column="21" bodyfile="src/replication/replication_manager.cpp" bodystart="5333" bodyend="5359"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_quorum_read_manager_1af7c9df74f50d39633361298e046e7d7c" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::QuorumReadManager::generateSessionToken</definition>
+        <argsstring>(uint64_t version) const</argsstring>
+        <name>generateSessionToken</name>
+        <qualifiedname>themisdb::replication::QuorumReadManager::generateSessionToken</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Generate an opaque session token encoding <computeroutput>version</computeroutput> and an expiry timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1242" column="17" bodyfile="src/replication/replication_manager.cpp" bodystart="5250" bodyend="5259"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_quorum_read_manager_1a4d3642b5fd31f110dc66341d6e167fbb" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::QuorumReadManager::parseSessionToken</definition>
+        <argsstring>(const std::string &amp;token) const</argsstring>
+        <name>parseSessionToken</name>
+        <qualifiedname>themisdb::replication::QuorumReadManager::parseSessionToken</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>token</declname>
+        </param>
+        <briefdescription>
+<para>Parse <computeroutput>token</computeroutput> and return the embedded version (0 on error or expiry). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1245" column="14" bodyfile="src/replication/replication_manager.cpp" bodystart="5261" bodyend="5301"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemisdb_1_1replication_1_1_quorum_read_manager" kindref="compound">QuorumReadManager</ref></para>
+<para>Issues a read to multiple replicas concurrently, waits for at least <computeroutput>read_quorum</computeroutput> responses, reconciles any divergence using the latest sequence number, and optionally triggers read-repair. </para>
+    </detaileddescription>
+    <location file="include/replication/replication_manager.h" line="1155" column="1" bodyfile="include/replication/replication_manager.h" bodystart="1155" bodyend="1246"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1replication_1_1_quorum_read_manager_1a00c4731c92a2dd91f8924fa870aa1bc1" prot="private" virt="non-virtual"><scope>themisdb::replication::QuorumReadManager</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_quorum_read_manager_1a3cb36450e4684850a301e29a9541b50c" prot="private" virt="non-virtual"><scope>themisdb::replication::QuorumReadManager</scope><name>doc_fetch_fn_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_quorum_read_manager_1a4f002c30a2770fea8e801c841c6b0d9f" prot="public" virt="non-virtual"><scope>themisdb::replication::QuorumReadManager</scope><name>DocumentFetchFn</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_quorum_read_manager_1af7c9df74f50d39633361298e046e7d7c" prot="private" virt="non-virtual"><scope>themisdb::replication::QuorumReadManager</scope><name>generateSessionToken</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_quorum_read_manager_1a8d134eea9fb966fa093cb3cd076fde9b" prot="private" virt="non-virtual"><scope>themisdb::replication::QuorumReadManager</scope><name>local_doc_fetch_fn_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_quorum_read_manager_1a01e9341c619c1d3414f8806a8605e928" prot="public" virt="non-virtual"><scope>themisdb::replication::QuorumReadManager</scope><name>LocalDocumentFetchFn</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_quorum_read_manager_1a4d3642b5fd31f110dc66341d6e167fbb" prot="private" virt="non-virtual"><scope>themisdb::replication::QuorumReadManager</scope><name>parseSessionToken</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_quorum_read_manager_1af85a8c5ee26a4826c002897df106424c" prot="private" virt="non-virtual"><scope>themisdb::replication::QuorumReadManager</scope><name>queryReplica</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_quorum_read_manager_1ab76c1d938d154b74168869e45315772d" prot="public" virt="non-virtual"><scope>themisdb::replication::QuorumReadManager</scope><name>QuorumReadManager</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_quorum_read_manager_1aeb74fe733df273b37dc6b4eee8b22ab7" prot="public" virt="non-virtual"><scope>themisdb::replication::QuorumReadManager</scope><name>read</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_quorum_read_manager_1ac013f6df82164ce45cdda268e1cbc207" prot="private" virt="non-virtual"><scope>themisdb::replication::QuorumReadManager</scope><name>replicas_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_quorum_read_manager_1a697c0c3549740f7fa4b0f5e214563773" prot="private" virt="non-virtual"><scope>themisdb::replication::QuorumReadManager</scope><name>replicas_mutex_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_quorum_read_manager_1ab878a3077ceda15628f6470970d08ce7" prot="public" virt="non-virtual"><scope>themisdb::replication::QuorumReadManager</scope><name>setDocumentFetchCallback</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_quorum_read_manager_1ab1f72d7ff43f5aa2a8da27cf88e59b03" prot="public" virt="non-virtual"><scope>themisdb::replication::QuorumReadManager</scope><name>setLocalDocumentFetchFn</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_quorum_read_manager_1afb2c7968f95d07e2840fc4dafa9d8e4c" prot="public" virt="non-virtual"><scope>themisdb::replication::QuorumReadManager</scope><name>setReplicas</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

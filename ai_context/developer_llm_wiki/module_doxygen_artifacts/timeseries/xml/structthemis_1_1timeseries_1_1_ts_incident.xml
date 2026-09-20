@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1timeseries_1_1_ts_incident" kind="struct" language="C++" prot="public">
+    <compoundname>themis::timeseries::TsIncident</compoundname>
+    <includes refid="ts__operator__diagnostics_8h" local="no">ts_operator_diagnostics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1timeseries_1_1_ts_incident_1a23c5b88e05b531c7b0f8f11b295f791c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::timeseries::TsIncident::incident_id</definition>
+        <argsstring></argsstring>
+        <name>incident_id</name>
+        <qualifiedname>themis::timeseries::TsIncident::incident_id</qualifiedname>
+        <briefdescription>
+<para>Unique incident identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_operator_diagnostics.h" line="73" column="37" bodyfile="include/timeseries/ts_operator_diagnostics.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1timeseries_1_1_ts_incident_1ab051ff16c7a971d9f9a1775c1a4ba476" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1timeseries_1a333ce4ed0482c4e76e0a87773b1baca6" kindref="member">TsIncidentSeverity</ref></type>
+        <definition>TsIncidentSeverity themis::timeseries::TsIncident::severity</definition>
+        <argsstring></argsstring>
+        <name>severity</name>
+        <qualifiedname>themis::timeseries::TsIncident::severity</qualifiedname>
+        <briefdescription>
+<para>Severity level. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_operator_diagnostics.h" line="74" column="37" bodyfile="include/timeseries/ts_operator_diagnostics.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1timeseries_1_1_ts_incident_1a389d2e2c218f9750f769d6fa12ead4c7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::timeseries::TsIncident::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::timeseries::TsIncident::description</qualifiedname>
+        <briefdescription>
+<para>Human-readable description. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_operator_diagnostics.h" line="75" column="37" bodyfile="include/timeseries/ts_operator_diagnostics.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1timeseries_1_1_ts_incident_1a782beff3bc45b61173ae083ea5081344" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::timeseries::TsIncident::remediation</definition>
+        <argsstring></argsstring>
+        <name>remediation</name>
+        <qualifiedname>themis::timeseries::TsIncident::remediation</qualifiedname>
+        <briefdescription>
+<para>Operator action hint. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_operator_diagnostics.h" line="76" column="37" bodyfile="include/timeseries/ts_operator_diagnostics.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1timeseries_1_1_ts_incident_1a81070e5dd67df52a08236d758710a86e" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::timeseries::TsIncident::timestamp_ns</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ns</name>
+        <qualifiedname>themis::timeseries::TsIncident::timestamp_ns</qualifiedname>
+        <briefdescription>
+<para>Unix timestamp (nanoseconds). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_operator_diagnostics.h" line="77" column="37" bodyfile="include/timeseries/ts_operator_diagnostics.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1timeseries_1_1_ts_incident_1af248b0f7642d1c73507332669ca9da92" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217" kindref="member">TimeseriesErrorCode</ref> &gt;</type>
+        <definition>std::optional&lt;TimeseriesErrorCode&gt; themis::timeseries::TsIncident::error_code</definition>
+        <argsstring></argsstring>
+        <name>error_code</name>
+        <qualifiedname>themis::timeseries::TsIncident::error_code</qualifiedname>
+        <briefdescription>
+<para>Associated error code (optional). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_operator_diagnostics.h" line="78" column="19" bodyfile="include/timeseries/ts_operator_diagnostics.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single timeseries module incident record. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/timeseries/ts_operator_diagnostics.h" line="72" column="1" bodyfile="include/timeseries/ts_operator_diagnostics.h" bodystart="72" bodyend="79"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1timeseries_1_1_ts_incident_1a389d2e2c218f9750f769d6fa12ead4c7" prot="public" virt="non-virtual"><scope>themis::timeseries::TsIncident</scope><name>description</name></member>
+      <member refid="structthemis_1_1timeseries_1_1_ts_incident_1af248b0f7642d1c73507332669ca9da92" prot="public" virt="non-virtual"><scope>themis::timeseries::TsIncident</scope><name>error_code</name></member>
+      <member refid="structthemis_1_1timeseries_1_1_ts_incident_1a23c5b88e05b531c7b0f8f11b295f791c" prot="public" virt="non-virtual"><scope>themis::timeseries::TsIncident</scope><name>incident_id</name></member>
+      <member refid="structthemis_1_1timeseries_1_1_ts_incident_1a782beff3bc45b61173ae083ea5081344" prot="public" virt="non-virtual"><scope>themis::timeseries::TsIncident</scope><name>remediation</name></member>
+      <member refid="structthemis_1_1timeseries_1_1_ts_incident_1ab051ff16c7a971d9f9a1775c1a4ba476" prot="public" virt="non-virtual"><scope>themis::timeseries::TsIncident</scope><name>severity</name></member>
+      <member refid="structthemis_1_1timeseries_1_1_ts_incident_1a81070e5dd67df52a08236d758710a86e" prot="public" virt="non-virtual"><scope>themis::timeseries::TsIncident</scope><name>timestamp_ns</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

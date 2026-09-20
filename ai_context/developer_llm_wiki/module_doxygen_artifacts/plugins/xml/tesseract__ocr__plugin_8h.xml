@@ -1,0 +1,199 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="tesseract__ocr__plugin_8h" kind="file" language="C++">
+    <compoundname>tesseract_ocr_plugin.h</compoundname>
+    <includes refid="image__analysis__interface_8h" local="yes">plugins/image_analysis_interface.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="2">
+        <label>plugins/image_analysis_interface.h</label>
+        <link refid="image__analysis__interface_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/plugins/tesseract_ocr_plugin.h</label>
+        <link refid="tesseract__ocr__plugin_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>atomic</label>
+      </node>
+      <node id="7">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>mutex</label>
+      </node>
+      <node id="8">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="structthemis_1_1plugins_1_1image_1_1_ocr_word" prot="public">themis::plugins::image::OcrWord</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1image_1_1_ocr_result" prot="public">themis::plugins::image::OcrResult</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin" prot="public">themis::plugins::image::TesseractOCRPlugin</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1plugins">themis::plugins</innernamespace>
+    <innernamespace refid="namespacethemis_1_1plugins_1_1image">themis::plugins::image</innernamespace>
+    <briefdescription>
+<para>Tesseract OCR plugin implementing IImageAnalysisBackend. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Wraps the Tesseract C API to extract text and layout regions from raw image bytes. The plugin maps onto the standard ThemisDB image analysis interface: text content is returned via a custom OcrResult structure (exposed through <computeroutput>getStatistics()</computeroutput>), while the primary detectObjects override returns layout bounding boxes so that OCR regions are visible to consumers that only know the generic detection API.</para>
+<sect1 id="tesseract__ocr__plugin_8h_1autotoc_md5_1s1"><sect2 id="tesseract__ocr__plugin_8h_1autotoc_md5">
+<title>Configuration keys (PluginConfig)</title><para><itemizedlist>
+<listitem><para><computeroutput>tessdata_path</computeroutput> (string, optional) – path to <computeroutput>tessdata/</computeroutput> directory. Defaults to the TESSDATA_PREFIX environment variable or <computeroutput>/usr/share/tesseract-ocr/4.00/tessdata</computeroutput>.</para>
+</listitem><listitem><para><computeroutput>language</computeroutput> (string, default: &quot;eng&quot;) – Tesseract language string, e.g. <computeroutput>"eng"</computeroutput>, <computeroutput>"eng+deu"</computeroutput>.</para>
+</listitem><listitem><para><computeroutput>page_seg_mode</computeroutput> (int, default: 3) – Tesseract PSM constant (0–13).</para>
+</listitem><listitem><para><computeroutput>dpi</computeroutput> (int, default: 70) – source DPI hint for Tesseract.</para>
+</listitem><listitem><para><computeroutput>whitelist_chars</computeroutput> (string, optional) – restrict recognised characters.</para>
+</listitem><listitem><para><computeroutput>min_confidence</computeroutput> (float, default: 0.0) – drop word results below this confidence (0–100 scale as returned by Tesseract).</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="tesseract__ocr__plugin_8h_1autotoc_md6_1s1"><sect2 id="tesseract__ocr__plugin_8h_1autotoc_md6">
+<title>OCR result access</title><para>After a <computeroutput>detectObjects()</computeroutput> call the full OCR transcript is available via <computeroutput>getLastOcrResult()</computeroutput>. The result includes per-word bounding boxes, word confidence scores, and the full page text.</para>
+</sect2></sect1>
+<sect1 id="tesseract__ocr__plugin_8h_1autotoc_md7_1s1"><sect2 id="tesseract__ocr__plugin_8h_1autotoc_md7">
+<title>Thread-Safety</title><para>Each plugin instance holds its own <computeroutput>TessBaseAPI</computeroutput> object; instances may be used concurrently across threads. Do <bold>not</bold> share a single instance across threads.</para>
+</sect2></sect1>
+<sect1 id="tesseract__ocr__plugin_8h_1autotoc_md8_1s1"><sect2 id="tesseract__ocr__plugin_8h_1autotoc_md8">
+<title>Metrics (via getStatistics())</title><para><itemizedlist>
+<listitem><para><computeroutput>ocr_inference_total</computeroutput> – total OCR calls</para>
+</listitem><listitem><para><computeroutput>ocr_inference_errors</computeroutput> – failed calls</para>
+</listitem><listitem><para><computeroutput>ocr_latency_ms_avg</computeroutput> – rolling average latency</para>
+</listitem><listitem><para><computeroutput>ocr_words_total</computeroutput> – total words recognised </para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="image__analysis__interface_8h" kindref="compound">plugins/image_analysis_interface.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins" kindref="compound">plugins</ref><sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1_1image" kindref="compound">image</ref><sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1plugins_1_1image_1_1_ocr_word" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1plugins_1_1image_1_1_ocr_word" kindref="compound">OcrWord</ref><sp/>{</highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1plugins_1_1image_1_1_ocr_word_1a7ceff29b1ab5d668ddac7561e476fce0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1image_1_1_ocr_word_1a7ceff29b1ab5d668ddac7561e476fce0" kindref="member">text</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1plugins_1_1image_1_1_ocr_word_1a78a5231a3e4ae968a84f7fe408f3cc39" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1image_1_1_ocr_word_1a78a5231a3e4ae968a84f7fe408f3cc39" kindref="member">confidence</ref><sp/>=<sp/>0.0f;<sp/></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1plugins_1_1image_1_1_ocr_word_1ac91d39e93690f32d42d125dd021961f1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1image_1_1_ocr_word_1ac91d39e93690f32d42d125dd021961f1" kindref="member">x</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1plugins_1_1image_1_1_ocr_word_1a2f8fead24f32d8e9ee9d455063cec201" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1image_1_1_ocr_word_1a2f8fead24f32d8e9ee9d455063cec201" kindref="member">y</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1plugins_1_1image_1_1_ocr_word_1aaef10aa8a91252b6d0785b6d9048dd4b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1image_1_1_ocr_word_1aaef10aa8a91252b6d0785b6d9048dd4b" kindref="member">width</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1plugins_1_1image_1_1_ocr_word_1a2bd4df70d7790810f81a775b650170b3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1image_1_1_ocr_word_1a2bd4df70d7790810f81a775b650170b3" kindref="member">height</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1plugins_1_1image_1_1_ocr_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1plugins_1_1image_1_1_ocr_result" kindref="compound">OcrResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1plugins_1_1image_1_1_ocr_result_1a126e0ddb7e9832a1810a6e4c26cdd061" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1image_1_1_ocr_result_1a126e0ddb7e9832a1810a6e4c26cdd061" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1plugins_1_1image_1_1_ocr_result_1acb8bccc81d2cc2baa94795c23f0dc6db" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1image_1_1_ocr_result_1acb8bccc81d2cc2baa94795c23f0dc6db" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1plugins_1_1image_1_1_ocr_result_1a940e6144311bcd3004a3357d616c7978" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1image_1_1_ocr_result_1a940e6144311bcd3004a3357d616c7978" kindref="member">full_text</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1plugins_1_1image_1_1_ocr_result_1ab61a70f3df20403f29c88b4691fbd0ff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;OcrWord&gt;<sp/><ref refid="structthemis_1_1plugins_1_1image_1_1_ocr_result_1ab61a70f3df20403f29c88b4691fbd0ff" kindref="member">words</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1plugins_1_1image_1_1_ocr_result_1a57a83f0db055c8b0f4c841696d447b7b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1plugins_1_1image_1_1_ocr_result_1a57a83f0db055c8b0f4c841696d447b7b" kindref="member">inference_time_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1ab14947d353eafa49b27f23d530879a06" kindref="member">TesseractOCRPlugin</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend" kindref="compound">IImageAnalysisBackend</ref><sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="92" refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1ab14947d353eafa49b27f23d530879a06" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1ab14947d353eafa49b27f23d530879a06" kindref="member">TesseractOCRPlugin</ref>();</highlight></codeline>
+<codeline lineno="93" refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1a8d1750837eea122e3a876b4b394fab1a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1a8d1750837eea122e3a876b4b394fab1a" kindref="member">~TesseractOCRPlugin</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>IImageAnalysisBackend<sp/>interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1a102e04ee512c306f7620583430021e86" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1image_1_1_plugin_info" kindref="compound">PluginInfo</ref><sp/><ref refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1a102e04ee512c306f7620583430021e86" kindref="member">getInfo</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1a4f9216469f2ba63116ee9c407ae67937" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1a4f9216469f2ba63116ee9c407ae67937" kindref="member">initialize</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1image_1_1_plugin_config" kindref="compound">PluginConfig</ref>&amp;<sp/>config,</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1_1image_1ae7baa7bd29a8b3a4b107bb23456a4e3e" kindref="member">BackendType</ref><sp/>backend<sp/>=<sp/><ref refid="namespacethemis_1_1plugins_1_1image_1ae7baa7bd29a8b3a4b107bb23456a4e3eae1f2d5134ed2543d38a0de9751cf75d9" kindref="member">BackendType::AUTO</ref>)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1a81a84e99bb942abab5ed58d62e91bd04" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1a81a84e99bb942abab5ed58d62e91bd04" kindref="member">shutdown</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116" refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1a5135729111d305190474e85ac1d338cf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1a5135729111d305190474e85ac1d338cf" kindref="member">isReady</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1ac71f736d0149f045272138c162b9722a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1_1image_1ae7baa7bd29a8b3a4b107bb23456a4e3e" kindref="member">BackendType</ref><sp/><ref refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1ac71f736d0149f045272138c162b9722a" kindref="member">getBackend</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1adf5dcca25088b14bd69b49644ea5576b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1image_1_1_detection_result" kindref="compound">DetectionResult</ref><sp/><ref refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1adf5dcca25088b14bd69b49644ea5576b" kindref="member">detectObjects</ref>(</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>image_data,</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1image_1_1_image_metadata" kindref="compound">ImageMetadata</ref>*<sp/>metadata<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>confidence_threshold<sp/>=<sp/>0.0f)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145" refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1a98bcd8ea26266d43f9b2f5a27ca7d85c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1image_1_1_embedding_result" kindref="compound">EmbeddingResult</ref><sp/><ref refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1a98bcd8ea26266d43f9b2f5a27ca7d85c" kindref="member">generateEmbedding</ref>(</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>image_data,</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1image_1_1_image_metadata" kindref="compound">ImageMetadata</ref>*<sp/>metadata<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150" refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1a3fe34076a6f721481487574c0a40b6ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1a3fe34076a6f721481487574c0a40b6ae" kindref="member">healthCheck</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158" refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1a3dd5e80131112df175220fd308cfc83d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1a3dd5e80131112df175220fd308cfc83d" kindref="member">getStatistics</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>OCR-specific<sp/>accessors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171" refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1ac7255496c0d2a5bb4c52d10656c4c0f6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1image_1_1_ocr_result" kindref="compound">OcrResult</ref><sp/><ref refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1ac7255496c0d2a5bb4c52d10656c4c0f6" kindref="member">getLastOcrResult</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">Impl;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>last_result_mtx_;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1image_1_1_ocr_result" kindref="compound">OcrResult</ref><sp/>last_ocr_result_;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>image</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>plugins</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_IMAGE_PLUGIN_DISABLE_EXPORT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><ref refid="image__analysis__interface_8h_1a77758a451a7562ae505f73d4646c80a1" kindref="member">THEMIS_IMAGE_PLUGIN</ref>(<ref refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin" kindref="compound">themis::plugins::image::TesseractOCRPlugin</ref>)</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="include/plugins/tesseract_ocr_plugin.h"/>
+  </compounddef>
+</doxygen>

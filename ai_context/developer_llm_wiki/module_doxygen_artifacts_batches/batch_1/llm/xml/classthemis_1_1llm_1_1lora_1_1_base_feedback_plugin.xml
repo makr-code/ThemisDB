@@ -1,0 +1,180 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_base_feedback_plugin" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::BaseFeedbackPlugin</compoundname>
+    <basecompoundref refid="classthemis_1_1llm_1_1lora_1_1_feedback_plugin" prot="public" virt="non-virtual">themis::llm::lora::FeedbackPlugin</basecompoundref>
+    <derivedcompoundref refid="classthemis_1_1llm_1_1lora_1_1_cache_aware_weighting_plugin" prot="public" virt="non-virtual">themis::llm::lora::CacheAwareWeightingPlugin</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1llm_1_1lora_1_1_content_validation_plugin" prot="public" virt="non-virtual">themis::llm::lora::ContentValidationPlugin</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1llm_1_1lora_1_1_privacy_filter_plugin" prot="public" virt="non-virtual">themis::llm::lora::PrivacyFilterPlugin</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1llm_1_1lora_1_1_training_trigger_plugin" prot="public" virt="non-virtual">themis::llm::lora::TrainingTriggerPlugin</derivedcompoundref>
+    <includes refid="feedback__plugin_8h" local="no">feedback_plugin.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_base_feedback_plugin_1afe83ca0c780ba5f6b3802898bd688c68" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::BaseFeedbackPlugin::~BaseFeedbackPlugin</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~BaseFeedbackPlugin</name>
+        <qualifiedname>themis::llm::lora::BaseFeedbackPlugin::~BaseFeedbackPlugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/feedback_plugin.h" line="46" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_base_feedback_plugin_1a1bfad4661bb7411cfce7ce0989f4696e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::BaseFeedbackPlugin::validate</definition>
+        <argsstring>(const Feedback &amp;feedback) const override</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::llm::lora::BaseFeedbackPlugin::validate</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1lora_1_1_feedback_plugin_1a7674d732bbec8157ec33dff2d7e450be">validate</reimplements>
+        <reimplementedby refid="classthemis_1_1llm_1_1lora_1_1_content_validation_plugin_1a7a97bfc1c292f35372577f2b80a26f73">validate</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_feedback" kindref="compound">Feedback</ref> &amp;</type>
+          <declname>feedback</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/feedback_plugin.h" line="48" column="10" bodyfile="include/llm/lora_framework/feedback_plugin.h" bodystart="48" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_base_feedback_plugin_1a7d3d8625b623aa482e2db4d8773ed51a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::BaseFeedbackPlugin::process</definition>
+        <argsstring>(Feedback &amp;feedback) override</argsstring>
+        <name>process</name>
+        <qualifiedname>themis::llm::lora::BaseFeedbackPlugin::process</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1lora_1_1_feedback_plugin_1a1395d4f7232032e0cf518e9c131a0c54">process</reimplements>
+        <reimplementedby refid="classthemis_1_1llm_1_1lora_1_1_cache_aware_weighting_plugin_1a954d84e01c3437ad572cec2ba12bc9f6">process</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1lora_1_1_privacy_filter_plugin_1a166870581df09601aa1134f949a3fedb">process</reimplementedby>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback" kindref="compound">Feedback</ref> &amp;</type>
+          <declname>feedback</declname>
+        </param>
+        <briefdescription>
+<para>Process. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">feedback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/feedback_plugin.h" line="62" column="10" bodyfile="include/llm/lora_framework/feedback_plugin.h" bodystart="62" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_base_feedback_plugin_1a65ab7213e5ed159aa019a0b5294abe5d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::BaseFeedbackPlugin::onTrainingTrigger</definition>
+        <argsstring>(const std::vector&lt; Feedback &gt; &amp;batch) const override</argsstring>
+        <name>onTrainingTrigger</name>
+        <qualifiedname>themis::llm::lora::BaseFeedbackPlugin::onTrainingTrigger</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1lora_1_1_feedback_plugin_1a43fcb1eb5210c145b7852e1e02f4b49e">onTrainingTrigger</reimplements>
+        <reimplementedby refid="classthemis_1_1llm_1_1lora_1_1_training_trigger_plugin_1a24f0457751499cf67275bf6fef926ac7">onTrainingTrigger</reimplementedby>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_feedback" kindref="compound">Feedback</ref> &gt; &amp;</type>
+          <declname>batch</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/feedback_plugin.h" line="66" column="10" bodyfile="include/llm/lora_framework/feedback_plugin.h" bodystart="66" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_base_feedback_plugin_1a7e5acd991ac8a9d81b2fa500caac48c0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::BaseFeedbackPlugin::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::llm::lora::BaseFeedbackPlugin::getName</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1lora_1_1_feedback_plugin_1ad25aaae44d29c01be1b0e355827cc1da">getName</reimplements>
+        <reimplementedby refid="classthemis_1_1llm_1_1lora_1_1_cache_aware_weighting_plugin_1a13e68d4166dfac95b3bd52b263aded73">getName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1lora_1_1_content_validation_plugin_1a7db9460faa839782caf653d148cc2264">getName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1lora_1_1_privacy_filter_plugin_1a06454ff4f00a061838515435fac5d054">getName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1lora_1_1_training_trigger_plugin_1ae0bec248d96a5b3c692b47048f107d30">getName</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/feedback_plugin.h" line="71" column="17" bodyfile="include/llm/lora_framework/feedback_plugin.h" bodystart="71" bodyend="73"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::llm::lora::BaseFeedbackPlugin</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_base_feedback_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::llm::lora::CacheAwareWeightingPlugin</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_cache_aware_weighting_plugin"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::llm::lora::ContentValidationPlugin</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_content_validation_plugin"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::lora::FeedbackPlugin</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_feedback_plugin"/>
+      </node>
+      <node id="5">
+        <label>themis::llm::lora::PrivacyFilterPlugin</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_privacy_filter_plugin"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>themis::llm::lora::TrainingTriggerPlugin</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_training_trigger_plugin"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::llm::lora::BaseFeedbackPlugin</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_base_feedback_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::lora::FeedbackPlugin</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_feedback_plugin"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/lora_framework/feedback_plugin.h" line="44" column="1" bodyfile="include/llm/lora_framework/feedback_plugin.h" bodystart="44" bodyend="74"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_base_feedback_plugin_1a7e5acd991ac8a9d81b2fa500caac48c0" prot="public" virt="virtual"><scope>themis::llm::lora::BaseFeedbackPlugin</scope><name>getName</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_base_feedback_plugin_1a65ab7213e5ed159aa019a0b5294abe5d" prot="public" virt="virtual"><scope>themis::llm::lora::BaseFeedbackPlugin</scope><name>onTrainingTrigger</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_base_feedback_plugin_1a7d3d8625b623aa482e2db4d8773ed51a" prot="public" virt="virtual"><scope>themis::llm::lora::BaseFeedbackPlugin</scope><name>process</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_base_feedback_plugin_1a1bfad4661bb7411cfce7ce0989f4696e" prot="public" virt="virtual"><scope>themis::llm::lora::BaseFeedbackPlugin</scope><name>validate</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_base_feedback_plugin_1afe83ca0c780ba5f6b3802898bd688c68" prot="public" virt="non-virtual"><scope>themis::llm::lora::BaseFeedbackPlugin</scope><name>~BaseFeedbackPlugin</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_feedback_plugin_1a389b7d5762d2f99a345aa3a11b76eb4c" prot="public" virt="virtual"><scope>themis::llm::lora::BaseFeedbackPlugin</scope><name>~FeedbackPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_r_a_g_context_assembler_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::RAGContextAssemblerConfig</compoundname>
+    <includes refid="rag__context__assembler_8h" local="no">rag_context_assembler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a13e5ab2f22d47aa4b5835158be6b15df" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::RAGContextAssemblerConfig::model_context_tokens</definition>
+        <argsstring></argsstring>
+        <name>model_context_tokens</name>
+        <qualifiedname>themis::rag::RAGContextAssemblerConfig::model_context_tokens</qualifiedname>
+        <initializer>= 4096u</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Model context window in tokens. Set from ModelInfo::context_length; 0 → kDefaultContextWindowTokens. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_context_assembler.h" line="59" column="12" bodyfile="include/rag/rag_context_assembler.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a6cf44584ed0bbcc0d69482250d670263" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::RAGContextAssemblerConfig::min_response_tokens</definition>
+        <argsstring></argsstring>
+        <name>min_response_tokens</name>
+        <qualifiedname>themis::rag::RAGContextAssemblerConfig::min_response_tokens</qualifiedname>
+        <initializer>= 512u</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Minimum tokens reserved for the model&apos;s answer. The actual reservation is max(min_response_tokens, 20% of the window). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_context_assembler.h" line="63" column="12" bodyfile="include/rag/rag_context_assembler.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a1d3b3ad14b88171b68b474762c79079c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::RAGContextAssemblerConfig::truncation_marker</definition>
+        <argsstring></argsstring>
+        <name>truncation_marker</name>
+        <qualifiedname>themis::rag::RAGContextAssemblerConfig::truncation_marker</qualifiedname>
+        <initializer>= &quot; [TRUNCATED]&quot;</initializer>
+        <briefdescription>
+<para>Marker appended to a truncated chunk so readers know content was cut. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_context_assembler.h" line="66" column="17" bodyfile="include/rag/rag_context_assembler.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a5498a8c21c6d3f142fa34c35a9c5c490" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::RAGContextAssemblerConfig::allow_partial_chunk</definition>
+        <argsstring></argsstring>
+        <name>allow_partial_chunk</name>
+        <qualifiedname>themis::rag::RAGContextAssemblerConfig::allow_partial_chunk</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When true, the last chunk that does not fully fit is truncated rather than dropped. Set to false to always include only complete chunks. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_context_assembler.h" line="70" column="10" bodyfile="include/rag/rag_context_assembler.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for <ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler" kindref="compound">RAGContextAssembler</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/rag_context_assembler.h" line="56" column="1" bodyfile="include/rag/rag_context_assembler.h" bodystart="56" bodyend="71"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a5498a8c21c6d3f142fa34c35a9c5c490" prot="public" virt="non-virtual"><scope>themis::rag::RAGContextAssemblerConfig</scope><name>allow_partial_chunk</name></member>
+      <member refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a6cf44584ed0bbcc0d69482250d670263" prot="public" virt="non-virtual"><scope>themis::rag::RAGContextAssemblerConfig</scope><name>min_response_tokens</name></member>
+      <member refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a13e5ab2f22d47aa4b5835158be6b15df" prot="public" virt="non-virtual"><scope>themis::rag::RAGContextAssemblerConfig</scope><name>model_context_tokens</name></member>
+      <member refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config_1a1d3b3ad14b88171b68b474762c79079c" prot="public" virt="non-virtual"><scope>themis::rag::RAGContextAssemblerConfig</scope><name>truncation_marker</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

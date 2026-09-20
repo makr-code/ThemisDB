@@ -1,0 +1,323 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="paged__optimizer_8h" kind="file" language="C++">
+    <compoundname>paged_optimizer.h</compoundname>
+    <includes refid="lora__layers_8h" local="yes">lora_layers.h</includes>
+    <includes refid="paged__memory__manager_8h" local="yes">paged_memory_manager.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">unordered_map</includes>
+    <includedby refid="paged__optimizer_8cpp" local="yes">src/llm/lora_framework/paged_optimizer.cpp</includedby>
+    <incdepgraph>
+      <node id="12">
+        <label>llm/lora_framework/gpu_memory.h</label>
+        <link refid="gpu__memory_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>lora_layers.h</label>
+        <link refid="lora__layers_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>paged_memory_manager.h</label>
+        <link refid="paged__memory__manager_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/llm/lora_framework/paged_optimizer.h</label>
+        <link refid="paged__optimizer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>llm/lora_framework/vram_allocator.h</label>
+        <link refid="vram__allocator_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>acceleration/compute_backend.h</label>
+      </node>
+      <node id="14">
+        <label>algorithm</label>
+      </node>
+      <node id="6">
+        <label>cstddef</label>
+      </node>
+      <node id="13">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>mutex</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>unordered_map</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/llm/lora_framework/paged_optimizer.h</label>
+        <link refid="paged__optimizer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/llm/lora_framework/paged_optimizer.cpp</label>
+        <link refid="paged__optimizer_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_config" prot="public">themis::llm::lora::PagedOptimizerConfig</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_state" prot="public">themis::llm::lora::PagedOptimizerState</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_paging_metrics" prot="public">themis::llm::lora::PagingMetrics</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer" prot="public">themis::llm::lora::PagedAdamWOptimizer</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_paged_optimizer_state_manager" prot="public">themis::llm::lora::PagedOptimizerStateManager</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm_1_1lora">themis::llm::lora</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="lora__layers_8h" kindref="compound">lora_layers.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="paged__memory__manager_8h" kindref="compound">paged_memory_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1lora" kindref="compound">lora</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24" refid="namespacethemis_1_1llm_1_1lora_1a4a618c0d47d9f00b5878b825dd74abb7" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a4a618c0d47d9f00b5878b825dd74abb7" kindref="member">EvictionPolicy</ref><sp/>{</highlight></codeline>
+<codeline lineno="25" refid="namespacethemis_1_1llm_1_1lora_1a4a618c0d47d9f00b5878b825dd74abb7a875ecb34f6d21d13d4b9fd4980a8b5af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a4a618c0d47d9f00b5878b825dd74abb7a875ecb34f6d21d13d4b9fd4980a8b5af" kindref="member">LRU</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Least<sp/>Recently<sp/>Used</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="namespacethemis_1_1llm_1_1lora_1a4a618c0d47d9f00b5878b825dd74abb7a96a74b4240085d5b2a73287deef3a5fa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a4a618c0d47d9f00b5878b825dd74abb7a96a74b4240085d5b2a73287deef3a5fa" kindref="member">LFU</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Least<sp/>Frequently<sp/>Used</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="namespacethemis_1_1llm_1_1lora_1a4a618c0d47d9f00b5878b825dd74abb7ac589858dbe1d06c46544266ae4cd2c6f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a4a618c0d47d9f00b5878b825dd74abb7ac589858dbe1d06c46544266ae4cd2c6f" kindref="member">FIFO</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>In<sp/>First<sp/>Out</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1llm_1_1lora_1a4a618c0d47d9f00b5878b825dd74abb7a90cff4f81e21a20801df4abe9cbf0cbe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a4a618c0d47d9f00b5878b825dd74abb7a90cff4f81e21a20801df4abe9cbf0cbe" kindref="member">ADAPTIVE</ref><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Adaptive<sp/>based<sp/>on<sp/>access<sp/>pattern</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_config" kindref="compound">PagedOptimizerConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>paging<sp/>(default:<sp/>true<sp/>if<sp/>memory<sp/>constrained)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_config_1a0646089ddce28a2821bc26b97fdcaa66" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_config_1a0646089ddce28a2821bc26b97fdcaa66" kindref="member">enable_paging</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Page<sp/>size<sp/>(default:<sp/>64<sp/>MB)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_config_1a823b4a9f95af793eb11b4a1cfc60c59e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_config_1a823b4a9f95af793eb11b4a1cfc60c59e" kindref="member">page_size_bytes</ref><sp/>=<sp/>64<sp/>*<sp/>1024<sp/>*<sp/>1024;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Active<sp/>set<sp/>size<sp/>(states<sp/>to<sp/>keep<sp/>on<sp/>GPU)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_config_1a3f54a935124ed05625477a17ecb93d06" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_config_1a3f54a935124ed05625477a17ecb93d06" kindref="member">active_set_size</ref><sp/>=<sp/>1024;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prefetch<sp/>distance<sp/>(batches<sp/>ahead)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_config_1a4214c1165afffc3665fd50b13acb6ff0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_config_1a4214c1165afffc3665fd50b13acb6ff0" kindref="member">prefetch_distance</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>unified<sp/>memory<sp/>(if<sp/>available)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_config_1a332649940125527328f71a7c5a2dd871" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_config_1a332649940125527328f71a7c5a2dd871" kindref="member">use_unified_memory</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Eviction<sp/>policy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_config_1a49f7e424f05c7e3599f68eddecf5d76b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a4a618c0d47d9f00b5878b825dd74abb7" kindref="member">EvictionPolicy</ref><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_config_1a49f7e424f05c7e3599f68eddecf5d76b" kindref="member">eviction_policy</ref><sp/>=<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a4a618c0d47d9f00b5878b825dd74abb7a875ecb34f6d21d13d4b9fd4980a8b5af" kindref="member">EvictionPolicy::LRU</ref>;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_state" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_state" kindref="compound">PagedOptimizerState</ref><sp/>{</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_state_1a8fa6f752f74b5b75571c62d9bfa0f126" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_paged_buffer" kindref="compound">PagedBuffer</ref><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_state_1a8fa6f752f74b5b75571c62d9bfa0f126" kindref="member">momentum</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>moment<sp/>(Adam)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_state_1a98b7bfd2fc71e8f9ca2c4ff6278cc67d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_paged_buffer" kindref="compound">PagedBuffer</ref><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_state_1a98b7bfd2fc71e8f9ca2c4ff6278cc67d" kindref="member">variance</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Second<sp/>moment<sp/>(Adam)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_state_1a8b74ea5b798169419adb7bce76b83c5d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_paged_buffer" kindref="compound">PagedBuffer</ref><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_state_1a8b74ea5b798169419adb7bce76b83c5d" kindref="member">gradient</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Current<sp/>gradient<sp/>(optional)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_state_1a5e5fb9e0857bb4840b7ba6df2f30e2f8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_state_1a5e5fb9e0857bb4840b7ba6df2f30e2f8" kindref="member">momentum_on_gpu</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_state_1addacb661e5a379a61dd012f1563320b8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_state_1addacb661e5a379a61dd012f1563320b8" kindref="member">variance_on_gpu</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_state_1aa655857743113931e4b60d3602bf94fc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_state_1aa655857743113931e4b60d3602bf94fc" kindref="member">gradient_on_gpu</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1llm_1_1lora_1_1_paging_metrics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1lora_1_1_paging_metrics" kindref="compound">PagingMetrics</ref><sp/>{</highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1llm_1_1lora_1_1_paging_metrics_1aae8493be5cada6fcdf1a5e3ba83b0773" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_paging_metrics_1aae8493be5cada6fcdf1a5e3ba83b0773" kindref="member">~PagingMetrics</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1llm_1_1lora_1_1_paging_metrics_1ab07543f9f83965e95a7c5ea634952a04" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_paging_metrics_1ab07543f9f83965e95a7c5ea634952a04" kindref="member">num_page_ins</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1llm_1_1lora_1_1_paging_metrics_1af020b9b62e0ed787f1a20ff5a2ee9ce1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_paging_metrics_1af020b9b62e0ed787f1a20ff5a2ee9ce1" kindref="member">num_page_outs</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1llm_1_1lora_1_1_paging_metrics_1a9ac1b91ab066ab9c5b8d96c5ef11761b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_paging_metrics_1a9ac1b91ab066ab9c5b8d96c5ef11761b" kindref="member">bytes_transferred</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1llm_1_1lora_1_1_paging_metrics_1a56f56644863a517be1aa0c081a4edda1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_paging_metrics_1a56f56644863a517be1aa0c081a4edda1" kindref="member">transfer_time_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1llm_1_1lora_1_1_paging_metrics_1a1b08b1341def2dc50ba5ad19eab9f2ce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_paging_metrics_1a1b08b1341def2dc50ba5ad19eab9f2ce" kindref="member">avg_transfer_bandwidth</ref><sp/>=<sp/>0.0;<sp/><sp/></highlight><highlight class="comment">//<sp/>GB/s</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Memory<sp/>usage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1llm_1_1lora_1_1_paging_metrics_1aec0f27f3a0d1403e52acd4d6ea186eac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_paging_metrics_1aec0f27f3a0d1403e52acd4d6ea186eac" kindref="member">gpu_memory_used</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1llm_1_1lora_1_1_paging_metrics_1a1078e807afb426f20fbef7b9a9e2a19b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_paging_metrics_1a1078e807afb426f20fbef7b9a9e2a19b" kindref="member">cpu_memory_used</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1llm_1_1lora_1_1_paging_metrics_1a685d751b840a55efe2d49698113f7a75" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_paging_metrics_1a685d751b840a55efe2d49698113f7a75" kindref="member">peak_gpu_memory</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reset<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1llm_1_1lora_1_1_paging_metrics_1a1dd82f4ad66593bf9eedc18306f098c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_paging_metrics_1a1dd82f4ad66593bf9eedc18306f098c2" kindref="member">reset</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_paging_metrics_1ab07543f9f83965e95a7c5ea634952a04" kindref="member">num_page_ins</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_paging_metrics_1af020b9b62e0ed787f1a20ff5a2ee9ce1" kindref="member">num_page_outs</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_paging_metrics_1a9ac1b91ab066ab9c5b8d96c5ef11761b" kindref="member">bytes_transferred</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_paging_metrics_1a56f56644863a517be1aa0c081a4edda1" kindref="member">transfer_time_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_paging_metrics_1a1b08b1341def2dc50ba5ad19eab9f2ce" kindref="member">avg_transfer_bandwidth</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_paging_metrics_1aec0f27f3a0d1403e52acd4d6ea186eac" kindref="member">gpu_memory_used</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_paging_metrics_1a1078e807afb426f20fbef7b9a9e2a19b" kindref="member">cpu_memory_used</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_paging_metrics_1a685d751b840a55efe2d49698113f7a75" kindref="member">peak_gpu_memory</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1affce3834e05e6eea5a643f21748c09e7" kindref="member">PagedAdamWOptimizer</ref><sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1affce3834e05e6eea5a643f21748c09e7" kindref="member">PagedAdamWOptimizer</ref>(</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1a0791cf4c329b8af5a555446abae2afe2" kindref="member">learning_rate</ref><sp/>=<sp/>1e-3f,</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>beta1<sp/>=<sp/>0.9f,</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>beta2<sp/>=<sp/>0.999f,</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>weight_decay<sp/>=<sp/>0.01f,</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>epsilon<sp/>=<sp/>1e-8f,</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_config" kindref="compound">PagedOptimizerConfig</ref>&amp;<sp/>config<sp/>=<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_config" kindref="compound">PagedOptimizerConfig</ref>()</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="106" refid="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1ae15f915fe28644e1cfaff05ae493a869" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1ae15f915fe28644e1cfaff05ae493a869" kindref="member">~PagedAdamWOptimizer</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1a0731903b8bcb46c70b7eb72daacd68d2" kindref="member">add_parameters</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;Tensor*&gt;&amp;<sp/>params);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1a72a83d9b9cbaf342d8366ef2f50b3e3c" kindref="member">step</ref>();</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1ad14a6148096a2d375211eab77da26253" kindref="member">zero_grad</ref>();</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="124" refid="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1a0791cf4c329b8af5a555446abae2afe2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1a0791cf4c329b8af5a555446abae2afe2" kindref="member">learning_rate</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>learning_rate_;<sp/>}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="131" refid="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1ae171c977b755b3aedd31df276c8a611d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1ae171c977b755b3aedd31df276c8a611d" kindref="member">set_learning_rate</ref>(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>lr)<sp/>{<sp/>learning_rate_<sp/>=<sp/>lr;<sp/>}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="133" refid="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1a2dacd82407390da1dbb59a1a4bda3c1b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1a2dacd82407390da1dbb59a1a4bda3c1b" kindref="member">step_count</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>step_count_;<sp/>}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="135" refid="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1ad50ac1abab64e9dadd31f84b1ac7cedc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_paging_metrics" kindref="compound">PagingMetrics</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1ad50ac1abab64e9dadd31f84b1ac7cedc" kindref="member">get_metrics</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>metrics_;<sp/>}</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="141" refid="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1aeb28ea92c7ed4af46971a2ce62ea732a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1aeb28ea92c7ed4af46971a2ce62ea732a" kindref="member">reset_metrics</ref>()<sp/>{<sp/>metrics_.reset();<sp/>}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="143" refid="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1afe8a3b7a8d1adcb07d5ce59a1e50fb7e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1afe8a3b7a8d1adcb07d5ce59a1e50fb7e" kindref="member">is_paging_enabled</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_.enable_paging;<sp/>}</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="145" refid="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1a379aa946e42e09645b3d95971b04990e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1a379aa946e42e09645b3d95971b04990e" kindref="member">is_cuda_available</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>memory_manager_<sp/>?<sp/>memory_manager_-&gt;is_cuda_available()<sp/>:<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optimizer<sp/>hyperparameters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>learning_rate_<sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>beta1_<sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>beta2_<sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>epsilon_<sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>weight_decay_<sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>step_count_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_config" kindref="compound">PagedOptimizerConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Memory<sp/>manager</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;PagedMemoryManager&gt;<sp/>memory_manager_;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Parameters<sp/>being<sp/>optimized</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Tensor*&gt;<sp/>parameters_;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optimizer<sp/>states<sp/>(paged)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;Tensor*,<sp/>PagedOptimizerState&gt;<sp/>states_;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_paging_metrics" kindref="compound">PagingMetrics</ref><sp/>metrics_;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CUDA<sp/>stream<sp/>for<sp/>async<sp/>transfers<sp/>(nullptr<sp/>for<sp/>sync)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>compute_stream_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ensureStateOnGPU(<ref refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_state" kindref="compound">PagedOptimizerState</ref>&amp;<sp/>state);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>updateParameterCPU(<ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref>*<sp/>param,<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_state" kindref="compound">PagedOptimizerState</ref>&amp;<sp/>state);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>updateParameterGPU(<ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref>*<sp/>param,<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_state" kindref="compound">PagedOptimizerState</ref>&amp;<sp/>state);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198" refid="classthemis_1_1llm_1_1lora_1_1_paged_optimizer_state_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1lora_1_1_paged_optimizer_state_manager_1a51b3a217206ade99fa2b87b81c7c8376" kindref="member">PagedOptimizerStateManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="205" refid="classthemis_1_1llm_1_1lora_1_1_paged_optimizer_state_manager_1a51b3a217206ade99fa2b87b81c7c8376" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_paged_optimizer_state_manager_1a51b3a217206ade99fa2b87b81c7c8376" kindref="member">PagedOptimizerStateManager</ref>(<ref refid="classthemis_1_1llm_1_1lora_1_1_paged_memory_manager" kindref="compound">PagedMemoryManager</ref>*<sp/>memory_manager)</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>memory_manager_(memory_manager)<sp/>{}</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_paged_optimizer_state_manager_1a14ee31af6d0ea80ea591b7cbdfa36e93" kindref="member">ensureOnGPU</ref>(<ref refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_state" kindref="compound">PagedOptimizerState</ref>&amp;<sp/>state,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>stream<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_paged_optimizer_state_manager_1a59374f84cb918da7b241178626abf5fb" kindref="member">evictUnused</ref>(std::unordered_map&lt;Tensor*,<sp/>PagedOptimizerState&gt;&amp;<sp/>states,</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>num_to_evict,</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>stream<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_paged_memory_manager" kindref="compound">PagedMemoryManager</ref>*<sp/>memory_manager_;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>lora</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/lora_framework/paged_optimizer.h"/>
+  </compounddef>
+</doxygen>

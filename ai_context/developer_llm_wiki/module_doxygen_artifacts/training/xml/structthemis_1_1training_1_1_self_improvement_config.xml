@@ -1,0 +1,349 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_self_improvement_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::SelfImprovementConfig</compoundname>
+    <includes refid="lora__data__selection_8h" local="no">lora_data_selection.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_self_improvement_config_1a211a7b5538e87ff5e5f03fe87f501fb6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::SelfImprovementConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::training::SelfImprovementConfig::enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="401" column="12" bodyfile="include/training/lora_data_selection.h" bodystart="401" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_self_improvement_config_1a547b4e32a7b9fcfe6f6ae497f2ead663" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::SelfImprovementConfig::period_seconds</definition>
+        <argsstring></argsstring>
+        <name>period_seconds</name>
+        <qualifiedname>themis::training::SelfImprovementConfig::period_seconds</qualifiedname>
+        <initializer>= 86400</initializer>
+        <briefdescription>
+<para>Re-selection period (default: 24 h). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="402" column="12" bodyfile="include/training/lora_data_selection.h" bodystart="402" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_self_improvement_config_1a17ab5db2cfeb22765dcb7f84e1c0bdb5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::SelfImprovementConfig::threshold_auto_adjust</definition>
+        <argsstring></argsstring>
+        <name>threshold_auto_adjust</name>
+        <qualifiedname>themis::training::SelfImprovementConfig::threshold_auto_adjust</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Adapt thresholds from monitoring data. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="403" column="12" bodyfile="include/training/lora_data_selection.h" bodystart="403" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_self_improvement_config_1a67584760740976f56a4763e4632d0da1" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::SelfImprovementConfig::latency_target_ms</definition>
+        <argsstring></argsstring>
+        <name>latency_target_ms</name>
+        <qualifiedname>themis::training::SelfImprovementConfig::latency_target_ms</qualifiedname>
+        <initializer>= 5000.0</initializer>
+        <briefdescription>
+<para>Target max inference latency. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="404" column="12" bodyfile="include/training/lora_data_selection.h" bodystart="404" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_self_improvement_config_1a7b1237414f3b38b463a3a51315e6dbc6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::SelfImprovementConfig::accuracy_monitoring</definition>
+        <argsstring></argsstring>
+        <name>accuracy_monitoring</name>
+        <qualifiedname>themis::training::SelfImprovementConfig::accuracy_monitoring</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Track accuracy metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="405" column="12" bodyfile="include/training/lora_data_selection.h" bodystart="405" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_self_improvement_config_1a119678aa66cafb1c85fa2ae5044ee729" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::SelfImprovementConfig::accuracy_rollback_threshold</definition>
+        <argsstring></argsstring>
+        <name>accuracy_rollback_threshold</name>
+        <qualifiedname>themis::training::SelfImprovementConfig::accuracy_rollback_threshold</qualifiedname>
+        <initializer>= 0.10</initializer>
+        <briefdescription>
+<para>Trigger rollback when accuracy drops &gt; this. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="408" column="12" bodyfile="include/training/lora_data_selection.h" bodystart="408" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_self_improvement_config_1abc2582f5efd590698826234525fa07ec" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::SelfImprovementConfig::min_avg_quality_score</definition>
+        <argsstring></argsstring>
+        <name>min_avg_quality_score</name>
+        <qualifiedname>themis::training::SelfImprovementConfig::min_avg_quality_score</qualifiedname>
+        <initializer>= 0.50</initializer>
+        <briefdescription>
+<para>Minimum acceptable avg quality score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="409" column="12" bodyfile="include/training/lora_data_selection.h" bodystart="409" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_self_improvement_config_1af46f5885ac464b8dbcc8668cfc39da72" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::SelfImprovementConfig::max_error_rate</definition>
+        <argsstring></argsstring>
+        <name>max_error_rate</name>
+        <qualifiedname>themis::training::SelfImprovementConfig::max_error_rate</qualifiedname>
+        <initializer>= 0.05</initializer>
+        <briefdescription>
+<para>Maximum acceptable error rate. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="410" column="12" bodyfile="include/training/lora_data_selection.h" bodystart="410" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_self_improvement_config_1a8dd2262f95e7260f8e7827b319118390" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::SelfImprovementConfig::cooldown_hours</definition>
+        <argsstring></argsstring>
+        <name>cooldown_hours</name>
+        <qualifiedname>themis::training::SelfImprovementConfig::cooldown_hours</qualifiedname>
+        <initializer>= 6</initializer>
+        <briefdescription>
+<para>Minimum hours between rollbacks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="411" column="12" bodyfile="include/training/lora_data_selection.h" bodystart="411" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_self_improvement_config_1a9df82a2c4146c3c2fd13e9bb4b56db0d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::SelfImprovementConfig::diversity_monitoring</definition>
+        <argsstring></argsstring>
+        <name>diversity_monitoring</name>
+        <qualifiedname>themis::training::SelfImprovementConfig::diversity_monitoring</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="414" column="12" bodyfile="include/training/lora_data_selection.h" bodystart="414" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_self_improvement_config_1a37fc02766cdfd267ffd271c93981a89c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::SelfImprovementConfig::min_diversity_score</definition>
+        <argsstring></argsstring>
+        <name>min_diversity_score</name>
+        <qualifiedname>themis::training::SelfImprovementConfig::min_diversity_score</qualifiedname>
+        <initializer>= 0.30</initializer>
+        <briefdescription>
+<para>Minimum acceptable type-token ratio. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="415" column="12" bodyfile="include/training/lora_data_selection.h" bodystart="415" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_self_improvement_config_1ad31bd58022d6609953e7241cca447bfb" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1training_1_1_adaptive_rule" kindref="compound">AdaptiveRule</ref> &gt;</type>
+        <definition>std::vector&lt;AdaptiveRule&gt; themis::training::SelfImprovementConfig::adaptive_rules</definition>
+        <argsstring></argsstring>
+        <name>adaptive_rules</name>
+        <qualifiedname>themis::training::SelfImprovementConfig::adaptive_rules</qualifiedname>
+        <briefdescription>
+<para>Rules loaded from YAML. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="417" column="17" bodyfile="include/training/lora_data_selection.h" bodystart="417" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1training_1_1_self_improvement_config_1aa8db4f25673a01c1c0477a2cb4826cf0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::SelfImprovementConfig::SelfImprovementConfig</definition>
+        <argsstring>()=default</argsstring>
+        <name>SelfImprovementConfig</name>
+        <qualifiedname>themis::training::SelfImprovementConfig::SelfImprovementConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="419" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1training_1_1_self_improvement_config_1ae7fdbc9a7daf1e76258e62421aadd241" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_self_improvement_config_1aa8db4f25673a01c1c0477a2cb4826cf0" kindref="member">SelfImprovementConfig</ref></type>
+        <definition>SelfImprovementConfig themis::training::SelfImprovementConfig::loadFromYAML</definition>
+        <argsstring>(const std::string &amp;path, const std::string &amp;section=&quot;self_improvement&quot;)</argsstring>
+        <name>loadFromYAML</name>
+        <qualifiedname>themis::training::SelfImprovementConfig::loadFromYAML</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>section</declname>
+          <defval>&quot;self_improvement&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Load configuration from a YAML file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load From YAML.</para>
+<para>Reads the <computeroutput>self_improvement:</computeroutput> section (or a custom <computeroutput>section</computeroutput>) from the file at <computeroutput>path</computeroutput>. Uses the same built-in line parser as <computeroutput><ref refid="structthemis_1_1training_1_1_lo_r_a_data_selection_config_1abcc84ea797099241760f02873616c7f4" kindref="member">LoRADataSelectionConfig::loadFromYAML()</ref></computeroutput>.</para>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if the file cannot be opened.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">section</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: f(), is_open(), rdbuf(), yaml_detail::parseSelfImprovementYAML(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="430" column="34" bodyfile="src/training/lora_data_selection.cpp" bodystart="1425" bodyend="1434"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1training_1_1_self_improvement_config_1a98783144c9867c14090a0ba5cd9877de" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_self_improvement_config_1aa8db4f25673a01c1c0477a2cb4826cf0" kindref="member">SelfImprovementConfig</ref></type>
+        <definition>SelfImprovementConfig themis::training::SelfImprovementConfig::fromYAMLString</definition>
+        <argsstring>(const std::string &amp;yaml_text, const std::string &amp;section=&quot;self_improvement&quot;)</argsstring>
+        <name>fromYAMLString</name>
+        <qualifiedname>themis::training::SelfImprovementConfig::fromYAMLString</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>yaml_text</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>section</declname>
+          <defval>&quot;self_improvement&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Parse configuration from an in-memory YAML string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>From YAMLString.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">yaml_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">section</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: yaml_detail::parseSelfImprovementYAML(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="437" column="34" bodyfile="src/training/lora_data_selection.cpp" bodystart="1443" bodyend="1447"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for the adaptive self-improvement module. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Controls automatic periodic re-selection and threshold adaptation. </para>
+    </detaileddescription>
+    <location file="include/training/lora_data_selection.h" line="400" column="1" bodyfile="include/training/lora_data_selection.h" bodystart="400" bodyend="440"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_self_improvement_config_1a7b1237414f3b38b463a3a51315e6dbc6" prot="public" virt="non-virtual"><scope>themis::training::SelfImprovementConfig</scope><name>accuracy_monitoring</name></member>
+      <member refid="structthemis_1_1training_1_1_self_improvement_config_1a119678aa66cafb1c85fa2ae5044ee729" prot="public" virt="non-virtual"><scope>themis::training::SelfImprovementConfig</scope><name>accuracy_rollback_threshold</name></member>
+      <member refid="structthemis_1_1training_1_1_self_improvement_config_1ad31bd58022d6609953e7241cca447bfb" prot="public" virt="non-virtual"><scope>themis::training::SelfImprovementConfig</scope><name>adaptive_rules</name></member>
+      <member refid="structthemis_1_1training_1_1_self_improvement_config_1a8dd2262f95e7260f8e7827b319118390" prot="public" virt="non-virtual"><scope>themis::training::SelfImprovementConfig</scope><name>cooldown_hours</name></member>
+      <member refid="structthemis_1_1training_1_1_self_improvement_config_1a9df82a2c4146c3c2fd13e9bb4b56db0d" prot="public" virt="non-virtual"><scope>themis::training::SelfImprovementConfig</scope><name>diversity_monitoring</name></member>
+      <member refid="structthemis_1_1training_1_1_self_improvement_config_1a211a7b5538e87ff5e5f03fe87f501fb6" prot="public" virt="non-virtual"><scope>themis::training::SelfImprovementConfig</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1training_1_1_self_improvement_config_1a98783144c9867c14090a0ba5cd9877de" prot="public" virt="non-virtual"><scope>themis::training::SelfImprovementConfig</scope><name>fromYAMLString</name></member>
+      <member refid="structthemis_1_1training_1_1_self_improvement_config_1a67584760740976f56a4763e4632d0da1" prot="public" virt="non-virtual"><scope>themis::training::SelfImprovementConfig</scope><name>latency_target_ms</name></member>
+      <member refid="structthemis_1_1training_1_1_self_improvement_config_1ae7fdbc9a7daf1e76258e62421aadd241" prot="public" virt="non-virtual"><scope>themis::training::SelfImprovementConfig</scope><name>loadFromYAML</name></member>
+      <member refid="structthemis_1_1training_1_1_self_improvement_config_1af46f5885ac464b8dbcc8668cfc39da72" prot="public" virt="non-virtual"><scope>themis::training::SelfImprovementConfig</scope><name>max_error_rate</name></member>
+      <member refid="structthemis_1_1training_1_1_self_improvement_config_1abc2582f5efd590698826234525fa07ec" prot="public" virt="non-virtual"><scope>themis::training::SelfImprovementConfig</scope><name>min_avg_quality_score</name></member>
+      <member refid="structthemis_1_1training_1_1_self_improvement_config_1a37fc02766cdfd267ffd271c93981a89c" prot="public" virt="non-virtual"><scope>themis::training::SelfImprovementConfig</scope><name>min_diversity_score</name></member>
+      <member refid="structthemis_1_1training_1_1_self_improvement_config_1a547b4e32a7b9fcfe6f6ae497f2ead663" prot="public" virt="non-virtual"><scope>themis::training::SelfImprovementConfig</scope><name>period_seconds</name></member>
+      <member refid="structthemis_1_1training_1_1_self_improvement_config_1aa8db4f25673a01c1c0477a2cb4826cf0" prot="public" virt="non-virtual"><scope>themis::training::SelfImprovementConfig</scope><name>SelfImprovementConfig</name></member>
+      <member refid="structthemis_1_1training_1_1_self_improvement_config_1a17ab5db2cfeb22765dcb7f84e1c0bdb5" prot="public" virt="non-virtual"><scope>themis::training::SelfImprovementConfig</scope><name>threshold_auto_adjust</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

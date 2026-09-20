@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_608ee1f485a002ddf3cfce46ffc2935a" kind="dir">
+    <compoundname>tests/user_storage_encrypted</compoundname>
+    <innerfile refid="test__backend__command__injection__focused_8cpp">test_backend_command_injection_focused.cpp</innerfile>
+    <innerfile refid="test__backend__io__timeout__focused_8cpp">test_backend_io_timeout_focused.cpp</innerfile>
+    <innerfile refid="test__phase2__error__codes__focused_8cpp">test_phase2_error_codes_focused.cpp</innerfile>
+    <innerfile refid="test__user__storage__encrypted__contract__hardening__focused_8cpp">test_user_storage_encrypted_contract_hardening_focused.cpp</innerfile>
+    <innerfile refid="test__user__storage__encrypted__e2e__vault__integration__focused_8cpp">test_user_storage_encrypted_e2e_vault_integration_focused.cpp</innerfile>
+    <innerfile refid="test__user__storage__encrypted__highcardinality__stress_8cpp">test_user_storage_encrypted_highcardinality_stress.cpp</innerfile>
+    <innerfile refid="test__user__storage__encrypted__phase1__hardening_8cpp">test_user_storage_encrypted_phase1_hardening.cpp</innerfile>
+    <innerfile refid="test__user__storage__encrypted__stress__focused_8cpp">test_user_storage_encrypted_stress_focused.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/user_storage_encrypted/"/>
+  </compounddef>
+</doxygen>

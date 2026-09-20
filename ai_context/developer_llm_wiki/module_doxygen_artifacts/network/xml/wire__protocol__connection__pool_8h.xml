@@ -1,0 +1,407 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="wire__protocol__connection__pool_8h" kind="file" language="C++">
+    <compoundname>wire_protocol_connection_pool.h</compoundname>
+    <includes local="no">boost/asio.hpp</includes>
+    <includes local="no">boost/asio/ssl.hpp</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">queue</includes>
+    <includes local="no">condition_variable</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="wire__protocol__connection__pool_8cpp" local="yes">src/network/wire_protocol_connection_pool.cpp</includedby>
+    <includedby refid="test__wire__protocol__connection__pool_8cpp" local="yes">tests/network/test_wire_protocol_connection_pool.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/network/wire_protocol_connection_pool.h</label>
+        <link refid="wire__protocol__connection__pool_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>atomic</label>
+      </node>
+      <node id="2">
+        <label>boost/asio.hpp</label>
+      </node>
+      <node id="3">
+        <label>boost/asio/ssl.hpp</label>
+      </node>
+      <node id="8">
+        <label>chrono</label>
+      </node>
+      <node id="7">
+        <label>condition_variable</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>mutex</label>
+      </node>
+      <node id="6">
+        <label>queue</label>
+      </node>
+      <node id="10">
+        <label>string</label>
+      </node>
+      <node id="11">
+        <label>thread</label>
+      </node>
+      <node id="12">
+        <label>unordered_map</label>
+      </node>
+      <node id="13">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/network/wire_protocol_connection_pool.h</label>
+        <link refid="wire__protocol__connection__pool_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/network/wire_protocol_connection_pool.cpp</label>
+        <link refid="wire__protocol__connection__pool_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/network/test_wire_protocol_connection_pool.cpp</label>
+        <link refid="test__wire__protocol__connection__pool_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1network_1_1_i_pooling_strategy" prot="public">themis::network::IPoolingStrategy</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_adaptive_pooling_strategy" prot="public">themis::network::AdaptivePoolingStrategy</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_adaptive_pooling_strategy_1_1_config" prot="public">themis::network::AdaptivePoolingStrategy::Config</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_socket_wrapper" prot="public">themis::network::SocketWrapper</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_wire_protocol_connection_pool" prot="public">themis::network::WireProtocolConnectionPool</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config" prot="public">themis::network::WireProtocolConnectionPool::Config</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_connection_handle" prot="public">themis::network::WireProtocolConnectionPool::ConnectionHandle</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_stats" prot="public">themis::network::WireProtocolConnectionPool::Stats</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_pooled_connection" prot="private">themis::network::WireProtocolConnectionPool::PooledConnection</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_target_pool" prot="private">themis::network::WireProtocolConnectionPool::TargetPool</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1network">themis::network</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ThemisDB<sp/>Wire<sp/>Protocol<sp/>Connection<sp/>Pool</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Client-side<sp/>connection<sp/>pooling<sp/>for<sp/>Wire<sp/>Protocol<sp/>connections</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;boost/asio.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;boost/asio/ssl.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;queue&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;condition_variable&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1network" kindref="compound">network</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">net<sp/>=<sp/>boost::asio;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">ssl<sp/>=<sp/>net::ssl;</highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1network_1a7c0ea458b8c694bc6d3c7e2c14f67649" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1network_1a7c0ea458b8c694bc6d3c7e2c14f67649" kindref="member">tcp</ref><sp/>=<sp/>net::ip::tcp;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Pluggable<sp/>Pool<sp/>Sizing<sp/>Strategy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="classthemis_1_1network_1_1_i_pooling_strategy" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1network_1_1_i_pooling_strategy" kindref="compound">IPoolingStrategy</ref><sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="49" refid="classthemis_1_1network_1_1_i_pooling_strategy_1af58960c1ae69b35c44c29eae2ce5a350" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_i_pooling_strategy_1af58960c1ae69b35c44c29eae2ce5a350" kindref="member">~IPoolingStrategy</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="classthemis_1_1network_1_1_i_pooling_strategy_1a1cf75c504fcb589058b9cf99eef6d2e7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_i_pooling_strategy_1a1cf75c504fcb589058b9cf99eef6d2e7" kindref="member">getIdealConnectionCount</ref>(</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>current_count,</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>active_count,</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>load)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="classthemis_1_1network_1_1_i_pooling_strategy_1a6ab52c52ee8be17d5280b02509f26d17" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_i_pooling_strategy_1a6ab52c52ee8be17d5280b02509f26d17" kindref="member">shouldCreateConnection</ref>(</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>current_count,</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>max_count,</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>available_count)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="classthemis_1_1network_1_1_i_pooling_strategy_1aea8ed73d89551cce067e69199fd568e5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_i_pooling_strategy_1aea8ed73d89551cce067e69199fd568e5" kindref="member">shouldRemoveConnection</ref>(</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>current_count,</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>min_count,</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>available_count,</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/>idle_time)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="classthemis_1_1network_1_1_adaptive_pooling_strategy" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1network_1_1_adaptive_pooling_strategy_1ad419cd0efff53acfaa0e8d33fee75147" kindref="member">AdaptivePoolingStrategy</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_i_pooling_strategy" kindref="compound">IPoolingStrategy</ref><sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1network_1_1_adaptive_pooling_strategy_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1network_1_1_adaptive_pooling_strategy_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1network_1_1_adaptive_pooling_strategy_1_1_config_1af476c7a9a0b73b13ac2c599c2cce1dcf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_adaptive_pooling_strategy_1_1_config_1af476c7a9a0b73b13ac2c599c2cce1dcf" kindref="member">target_utilization</ref><sp/><sp/>=<sp/>0.7;</highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1network_1_1_adaptive_pooling_strategy_1_1_config_1a9b5a6d184ac55af3608a82bac3394026" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_adaptive_pooling_strategy_1_1_config_1a9b5a6d184ac55af3608a82bac3394026" kindref="member">scale_up_threshold</ref><sp/><sp/>=<sp/>0.8;</highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1network_1_1_adaptive_pooling_strategy_1_1_config_1a89eb1aaed6f7af09f15211e6889362fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_adaptive_pooling_strategy_1_1_config_1a89eb1aaed6f7af09f15211e6889362fd" kindref="member">scale_down_threshold</ref><sp/>=<sp/>0.3;</highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1network_1_1_adaptive_pooling_strategy_1_1_config_1a108c193cf42b97a550b67ccebaee924b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_adaptive_pooling_strategy_1_1_config_1a108c193cf42b97a550b67ccebaee924b" kindref="member">scale_up_factor</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>1.5;</highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1network_1_1_adaptive_pooling_strategy_1_1_config_1a7f4daa15d0f642d1f46dcf2b480c6197" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_adaptive_pooling_strategy_1_1_config_1a7f4daa15d0f642d1f46dcf2b480c6197" kindref="member">scale_down_factor</ref><sp/><sp/><sp/>=<sp/>0.7;</highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1network_1_1_adaptive_pooling_strategy_1_1_config_1a88e52b85399870a7b5f03fe171c02dff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1network_1_1_adaptive_pooling_strategy_1_1_config_1a88e52b85399870a7b5f03fe171c02dff" kindref="member">min_idle_time</ref>{300};</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_adaptive_pooling_strategy_1a7d812b5756c8e1c4c8680801ab636a6a" kindref="member">AdaptivePoolingStrategy</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_adaptive_pooling_strategy_1a7d812b5756c8e1c4c8680801ab636a6a" kindref="member">AdaptivePoolingStrategy</ref>();</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_adaptive_pooling_strategy_1acbb8b1d1f5c889e4ccab77d5fa54ab8b" kindref="member">getIdealConnectionCount</ref>(</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>current_count,</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>active_count,</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>load)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_adaptive_pooling_strategy_1a050208446efb081cfa74db57b5fa0851" kindref="member">shouldCreateConnection</ref>(</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>current_count,</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>max_count,</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>available_count)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_adaptive_pooling_strategy_1a90a20792409236b9dd258bab42327f7a" kindref="member">shouldRemoveConnection</ref>(</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>current_count,</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>min_count,</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>available_count,</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/>idle_time)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136" refid="classthemis_1_1network_1_1_adaptive_pooling_strategy_1abebc7cd226897f64d4f604ba8e1a3b78" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_adaptive_pooling_strategy_1_1_config" kindref="compound">Config</ref>&amp;<sp/><ref refid="classthemis_1_1network_1_1_adaptive_pooling_strategy_1abebc7cd226897f64d4f604ba8e1a3b78" kindref="member">strategyConfig</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_config" kindref="compound">Config</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145" refid="classthemis_1_1network_1_1_socket_wrapper" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1network_1_1_socket_wrapper_1a4cd7563b9152dc717de2162b631a3bdb" kindref="member">SocketWrapper</ref><sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_socket_wrapper_1a4cd7563b9152dc717de2162b631a3bdb" kindref="member">SocketWrapper</ref>(std::shared_ptr&lt;tcp::socket&gt;<sp/><ref refid="classthemis_1_1network_1_1_socket_wrapper_1a8cae12835cd7938a2f272093bdca452b" kindref="member">plain_socket</ref>);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_socket_wrapper_1a4cd7563b9152dc717de2162b631a3bdb" kindref="member">SocketWrapper</ref>(std::shared_ptr&lt;ssl::stream&lt;tcp::socket&gt;&gt;<sp/><ref refid="classthemis_1_1network_1_1_socket_wrapper_1a4507ceeeb88a9bf4e3e83561c9671014" kindref="member">ssl_socket</ref>);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_socket_wrapper_1a3feaa9b05b1de159c387846d084d719e" kindref="member">is_open</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_socket_wrapper_1af446fb60136dcdfbb5e74becd01d80e6" kindref="member">close</ref>(boost::system::error_code&amp;<sp/>ec);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>if<sp/>this<sp/>is<sp/>an<sp/>SSL<sp/>socket</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154" refid="classthemis_1_1network_1_1_socket_wrapper_1adf999979284d4cb4b7a23fa085a8033f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_socket_wrapper_1adf999979284d4cb4b7a23fa085a8033f" kindref="member">is_ssl</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ssl_socket_<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Get<sp/>the<sp/>plain<sp/>or<sp/>SSL<sp/>socket</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157" refid="classthemis_1_1network_1_1_socket_wrapper_1a8cae12835cd7938a2f272093bdca452b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>tcp::socket*<sp/><ref refid="classthemis_1_1network_1_1_socket_wrapper_1a8cae12835cd7938a2f272093bdca452b" kindref="member">plain_socket</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>plain_socket_.get();<sp/>}</highlight></codeline>
+<codeline lineno="158" refid="classthemis_1_1network_1_1_socket_wrapper_1a4507ceeeb88a9bf4e3e83561c9671014" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>ssl::stream&lt;tcp::socket&gt;*<sp/><ref refid="classthemis_1_1network_1_1_socket_wrapper_1a4507ceeeb88a9bf4e3e83561c9671014" kindref="member">ssl_socket</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ssl_socket_.get();<sp/>}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;tcp::socket&gt;<sp/>plain_socket_;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ssl::stream&lt;tcp::socket&gt;&gt;<sp/>ssl_socket_;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186" refid="classthemis_1_1network_1_1_wire_protocol_connection_pool" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1ae9e4156a31f3598afb6db9d78cb2a439" kindref="member">WireProtocolConnectionPool</ref><sp/>{</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="188" refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="189" refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1a52482a385ae9ac46ed5c308fb8ffe829" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1a52482a385ae9ac46ed5c308fb8ffe829" kindref="member">min_connections_per_target</ref><sp/>=<sp/>2;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="190" refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1ad1a49a72c393d1f86b7d5f2e76158a7d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1ad1a49a72c393d1f86b7d5f2e76158a7d" kindref="member">max_connections_per_target</ref><sp/>=<sp/>20;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="191" refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1a8c17c23c5f5ea7a52b0f128f1bd41b95" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1a8c17c23c5f5ea7a52b0f128f1bd41b95" kindref="member">idle_timeout</ref>{60};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="192" refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1afee845cc2586ac104c676da712760e39" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1afee845cc2586ac104c676da712760e39" kindref="member">connect_timeout</ref>{5};<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="193" refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1ab858a1ac59a6b18aaf8ac4e85a2e4f23" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1ab858a1ac59a6b18aaf8ac4e85a2e4f23" kindref="member">acquire_timeout</ref>{10};<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="194" refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1a5586ab86fdcfeb51d7ce916b5d469dba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1a5586ab86fdcfeb51d7ce916b5d469dba" kindref="member">keepalive_interval</ref>{30};<sp/><sp/></highlight></codeline>
+<codeline lineno="195" refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1ac27449389fcc1d1b047e5e8e36359249" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1ac27449389fcc1d1b047e5e8e36359249" kindref="member">enable_ssl</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="196" refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1a982cf87b747d29005bbef70e81463f9e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1a982cf87b747d29005bbef70e81463f9e" kindref="member">enable_mtls</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="197" refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1afdaf377240a9100689fbe2286271c191" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1afdaf377240a9100689fbe2286271c191" kindref="member">ssl_cert_path</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="198" refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1a625d57efb41f0a00801b69d5ac6d687b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1a625d57efb41f0a00801b69d5ac6d687b" kindref="member">ssl_key_path</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="199" refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1aff14dd91a21f002ddf0dfa6394fe90ab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1aff14dd91a21f002ddf0dfa6394fe90ab" kindref="member">ssl_ca_cert_path</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="200" refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1a8e903f9cec1054dc3d35ff78580f89c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1a8e903f9cec1054dc3d35ff78580f89c2" kindref="member">max_retries</ref><sp/>=<sp/>3;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="201" refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1a8beb8dd74f4fc7c3e727e151c2e74714" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1a8beb8dd74f4fc7c3e727e151c2e74714" kindref="member">enable_warmup</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="203" refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1aece7016cc2f76478854dee41055cec24" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1aece7016cc2f76478854dee41055cec24" kindref="member">enable_adaptive_sizing</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="206" refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1a1a87a04ddb4e0d2bd768cd8102c3da8a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;IPoolingStrategy&gt;<sp/><ref refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1a1a87a04ddb4e0d2bd768cd8102c3da8a" kindref="member">adaptive_strategy</ref>;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1a99aa491e72123a4bbb0cc574deadd75b" kindref="member">WireProtocolConnectionPool</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1a99aa491e72123a4bbb0cc574deadd75b" kindref="member">WireProtocolConnectionPool</ref>();</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1ab379fe900041bf2d901eb5c1baf839e2" kindref="member">~WireProtocolConnectionPool</ref>();</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Disable<sp/>copy<sp/>and<sp/>move<sp/>(maintenance<sp/>thread<sp/>captures<sp/>this)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214" refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1add0b248e8a9040aff17e954945718b18" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1add0b248e8a9040aff17e954945718b18" kindref="member">WireProtocolConnectionPool</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1ae9e4156a31f3598afb6db9d78cb2a439" kindref="member">WireProtocolConnectionPool</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="215" refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1a58121a3fe396b4e7cfc9938d18816295" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1ae9e4156a31f3598afb6db9d78cb2a439" kindref="member">WireProtocolConnectionPool</ref>&amp;<sp/><ref refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1a58121a3fe396b4e7cfc9938d18816295" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1ae9e4156a31f3598afb6db9d78cb2a439" kindref="member">WireProtocolConnectionPool</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="216" refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1ad398ed05dba26a7c165c54382da43373" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1ad398ed05dba26a7c165c54382da43373" kindref="member">WireProtocolConnectionPool</ref>(<ref refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1ae9e4156a31f3598afb6db9d78cb2a439" kindref="member">WireProtocolConnectionPool</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="217" refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1a5df9ae7965ba43d523b0e6943ba218b9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1ae9e4156a31f3598afb6db9d78cb2a439" kindref="member">WireProtocolConnectionPool</ref>&amp;<sp/><ref refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1a5df9ae7965ba43d523b0e6943ba218b9" kindref="member">operator=</ref>(<ref refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1ae9e4156a31f3598afb6db9d78cb2a439" kindref="member">WireProtocolConnectionPool</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="224" refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_connection_handle" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_connection_handle_1a56f4d797f113f141fd63e8c8babf62e9" kindref="member">ConnectionHandle</ref><sp/>{</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_connection_handle_1a56f4d797f113f141fd63e8c8babf62e9" kindref="member">ConnectionHandle</ref>(</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;SocketWrapper&gt;<sp/><ref refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_connection_handle_1a67c8c3c05d3760964002e13509f29746" kindref="member">socket</ref>,</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1ae9e4156a31f3598afb6db9d78cb2a439" kindref="member">WireProtocolConnectionPool</ref>*<sp/>pool,</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_connection_handle_1a53b4b8fc43ceaf48e790412af36e0010" kindref="member">~ConnectionHandle</ref>();</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Disable<sp/>copy,<sp/>allow<sp/>move</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234" refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_connection_handle_1a987d8bd7d7503f56ea4153a6d6d8b377" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_connection_handle_1a987d8bd7d7503f56ea4153a6d6d8b377" kindref="member">ConnectionHandle</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_connection_handle_1a56f4d797f113f141fd63e8c8babf62e9" kindref="member">ConnectionHandle</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="235" refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_connection_handle_1aab5d55e807c4e5a4f27fc3064cd8d1e3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_connection_handle_1a56f4d797f113f141fd63e8c8babf62e9" kindref="member">ConnectionHandle</ref>&amp;<sp/><ref refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_connection_handle_1aab5d55e807c4e5a4f27fc3064cd8d1e3" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_connection_handle_1a56f4d797f113f141fd63e8c8babf62e9" kindref="member">ConnectionHandle</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_connection_handle_1a56f4d797f113f141fd63e8c8babf62e9" kindref="member">ConnectionHandle</ref>(<ref refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_connection_handle_1a56f4d797f113f141fd63e8c8babf62e9" kindref="member">ConnectionHandle</ref>&amp;&amp;<sp/>other)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_connection_handle_1a56f4d797f113f141fd63e8c8babf62e9" kindref="member">ConnectionHandle</ref>&amp;<sp/><ref refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_connection_handle_1aab5d55e807c4e5a4f27fc3064cd8d1e3" kindref="member">operator=</ref>(<ref refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_connection_handle_1a56f4d797f113f141fd63e8c8babf62e9" kindref="member">ConnectionHandle</ref>&amp;&amp;<sp/>other)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Backward-compatible<sp/>accessor<sp/>returning<sp/>the<sp/>underlying<sp/>TCP<sp/>socket</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Only<sp/>works<sp/>for<sp/>plain<sp/>(non-SSL)<sp/>sockets</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241" refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_connection_handle_1a67c8c3c05d3760964002e13509f29746" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tcp::socket&amp;<sp/><ref refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_connection_handle_1a67c8c3c05d3760964002e13509f29746" kindref="member">socket</ref>()<sp/>{<sp/></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!socket_-&gt;is_ssl()<sp/>&amp;&amp;<sp/>socket_-&gt;plain_socket())<sp/>{</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*socket_-&gt;plain_socket();</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;socket()<sp/>accessor<sp/>not<sp/>available<sp/>for<sp/>SSL<sp/>connections;<sp/>use<sp/>socketWrapper()<sp/>instead&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Access<sp/>to<sp/>the<sp/>SocketWrapper<sp/>for<sp/>advanced<sp/>usage<sp/>(SSL<sp/>vs<sp/>plain)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249" refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_connection_handle_1a51fe636ebf08b6cdd70346e25555fb3f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_socket_wrapper" kindref="compound">SocketWrapper</ref>&amp;<sp/><ref refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_connection_handle_1a51fe636ebf08b6cdd70346e25555fb3f" kindref="member">socketWrapper</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*socket_;<sp/>}</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="251" refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_connection_handle_1a8b2a8b938c571fe57251ad85711e36b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_connection_handle_1a8b2a8b938c571fe57251ad85711e36b2" kindref="member">isValid</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>socket_<sp/>&amp;&amp;<sp/>socket_-&gt;is_open();<sp/>}</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;SocketWrapper&gt;<sp/>socket_;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1ae9e4156a31f3598afb6db9d78cb2a439" kindref="member">WireProtocolConnectionPool</ref>*<sp/>pool_;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>target_;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>ConnectionHandle<sp/><ref refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1ada717c9b6ca42dbc3c8db218a4f81a9b" kindref="member">acquireConnection</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target);</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="270" refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_stats" kindref="compound">Stats</ref><sp/>{</highlight></codeline>
+<codeline lineno="271" refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_stats_1a132a63b54eab92fa61996ceadb7adf0d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_stats_1a132a63b54eab92fa61996ceadb7adf0d" kindref="member">total_connections</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="272" refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_stats_1a42d89d06f2032feff009ecc0a7818d91" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_stats_1a42d89d06f2032feff009ecc0a7818d91" kindref="member">available_connections</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="273" refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_stats_1a4cb7d3ef57a646cb001279ae484badd6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_stats_1a4cb7d3ef57a646cb001279ae484badd6" kindref="member">in_use_connections</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="274" refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_stats_1ab54b88acb867f78571d9a805e3fde84b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_stats_1ab54b88acb867f78571d9a805e3fde84b" kindref="member">stale_connections_removed</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="275" refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_stats_1a837243341f9d3c923b246552fce61105" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_stats_1a837243341f9d3c923b246552fce61105" kindref="member">failed_connections</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="276" refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_stats_1ad0a709301a96c2d201b1d12a42db7fd8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_stats_1ad0a709301a96c2d201b1d12a42db7fd8" kindref="member">acquire_timeouts</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="277" refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_stats_1ab36a8d1ae3991eda03e1f4660f99538d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_stats_1ab36a8d1ae3991eda03e1f4660f99538d" kindref="member">connections_created</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="278" refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_stats_1af8151b48aa1e0fa106f6e0daae4d57c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_stats_1af8151b48aa1e0fa106f6e0daae4d57c1" kindref="member">connections_reused</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="279" refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_stats_1aeef269d731ca8cee1ac8d81acf7ece85" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_stats_1aeef269d731ca8cee1ac8d81acf7ece85" kindref="member">keepalive_checks_sent</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="281" refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_stats_1abbbfb3ad137c368c417522684b113abb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_stats_1abbbfb3ad137c368c417522684b113abb" kindref="member">utilization</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="283" refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_stats_1ac19acd66732a5deb53421171b704ab13" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_stats_1ac19acd66732a5deb53421171b704ab13" kindref="member">pool_size_adaptations</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="288" refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_stats_1aa528b08190b7b9bbb4ae5ee88f81ad0b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_stats_1aa528b08190b7b9bbb4ae5ee88f81ad0b" kindref="member">getReuseRate</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>total<sp/>=<sp/><ref refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_stats_1ab36a8d1ae3991eda03e1f4660f99538d" kindref="member">connections_created</ref><sp/>+<sp/><ref refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_stats_1af8151b48aa1e0fa106f6e0daae4d57c1" kindref="member">connections_reused</ref>;</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(total<sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0.0;</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_stats_1af8151b48aa1e0fa106f6e0daae4d57c1" kindref="member">connections_reused</ref>)<sp/>/<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(total);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>Stats<sp/><ref refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1a4477b645666ebc6e1a398887ef71b9bb" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1a6382dc57641b7781559405991e9f5c0d" kindref="member">warmup</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target);</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1a1db1d2bf14bdfdafaeca91444c6ae91d" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1a9dc83505757af9f254f2251b69a87f84" kindref="member">pruneStaleConnections</ref>();</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">PooledConnection<sp/>{</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;SocketWrapper&gt;<sp/>socket;</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>last_used;</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>created_at;</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>in_use<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>authenticated<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isStale(std::chrono::seconds<sp/>timeout)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>now<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::chrono::duration_cast&lt;std::chrono::seconds&gt;(now<sp/>-<sp/>last_used)<sp/>&gt;<sp/>timeout;</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isHealthy()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>socket<sp/>&amp;&amp;<sp/>socket-&gt;is_open();</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">TargetPool<sp/>{</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::mutex<sp/>mutex;</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::condition_variable<sp/>cv;</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::queue&lt;std::shared_ptr&lt;PooledConnection&gt;&gt;<sp/>available;</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;void*,<sp/>std::shared_ptr&lt;PooledConnection&gt;&gt;<sp/>all_connections;</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>active_count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/>std::pair&lt;std::string,<sp/>std::string&gt;<sp/>parseTarget(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target);</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;SocketWrapper&gt;<sp/>createConnection(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target);</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>releaseConnection(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target,<sp/>std::shared_ptr&lt;SocketWrapper&gt;<sp/>socket);</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;TargetPool&gt;<sp/>getOrCreateTargetPool(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target);</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>performHealthCheck(SocketWrapper&amp;<sp/>socket);</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>initializeSSLContext();</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>adaptPoolSize();</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"></highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config" kindref="compound">Config</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;net::io_context&gt;<sp/>io_context_;</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ssl::context&gt;<sp/>ssl_context_;</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>pools_mutex_;</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::shared_ptr&lt;TargetPool&gt;&gt;<sp/>target_pools_;</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Background<sp/>thread<sp/>for<sp/>maintenance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>maintenance_thread_;</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>shutdown_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mutex<sp/>shutdown_mutex_;</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/>std::condition_variable<sp/>shutdown_cv_;</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>total_connections_{0};</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>connections_created_{0};</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>connections_reused_{0};</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>stale_removed_{0};</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>failed_connections_{0};</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>acquire_timeouts_{0};</highlight></codeline>
+<codeline lineno="403"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>keepalive_checks_{0};</highlight></codeline>
+<codeline lineno="404"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>pool_size_adaptations_{0};</highlight></codeline>
+<codeline lineno="405"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="406"><highlight class="normal"></highlight></codeline>
+<codeline lineno="407"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>network</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="408"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/network/wire_protocol_connection_pool.h"/>
+  </compounddef>
+</doxygen>

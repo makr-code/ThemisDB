@@ -1,0 +1,215 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1metadata_1_1_i_metadata_encryption_provider" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::metadata::IMetadataEncryptionProvider</compoundname>
+    <derivedcompoundref refid="classthemis_1_1metadata_1_1_field_set_metadata_encryption_provider" prot="public" virt="non-virtual">themis::metadata::FieldSetMetadataEncryptionProvider</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1metadata_1_1_no_op_metadata_encryption_provider" prot="public" virt="non-virtual">themis::metadata::NoOpMetadataEncryptionProvider</derivedcompoundref>
+    <includes refid="imetadata__encryption__provider_8h" local="no">imetadata_encryption_provider.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_i_metadata_encryption_provider_1ab3d20e5fba48511ede33cdacc1f85dd7" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::metadata::IMetadataEncryptionProvider::~IMetadataEncryptionProvider</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IMetadataEncryptionProvider</name>
+        <qualifiedname>themis::metadata::IMetadataEncryptionProvider::~IMetadataEncryptionProvider</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_encryption_provider.h" line="75" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_i_metadata_encryption_provider_1a576f1562e506ed42eab60a0a7db0ff87" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::metadata::IMetadataEncryptionProvider::shouldEncrypt</definition>
+        <argsstring>(std::string_view field_name) const =0</argsstring>
+        <name>shouldEncrypt</name>
+        <qualifiedname>themis::metadata::IMetadataEncryptionProvider::shouldEncrypt</qualifiedname>
+        <reimplementedby refid="classthemis_1_1metadata_1_1_field_set_metadata_encryption_provider_1a77bf8b6c8ca17d4ef6c6020f45dfd73b">shouldEncrypt</reimplementedby>
+        <reimplementedby refid="classthemis_1_1metadata_1_1_no_op_metadata_encryption_provider_1acce5d0ad9115f85df273ddcf15a82258">shouldEncrypt</reimplementedby>
+        <param>
+          <type>std::string_view</type>
+          <declname>field_name</declname>
+        </param>
+        <briefdescription>
+<para>Returns true if the named field should be encrypted. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>field_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Metadata field name (e.g. &quot;connection_string&quot;). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if this provider will encrypt values for that field. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_encryption_provider.h" line="83" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_i_metadata_encryption_provider_1a804f125f11ac848688e67620ac412ffb" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::metadata::IMetadataEncryptionProvider::encrypt</definition>
+        <argsstring>(std::string_view field_name, std::string_view value) const =0</argsstring>
+        <name>encrypt</name>
+        <qualifiedname>themis::metadata::IMetadataEncryptionProvider::encrypt</qualifiedname>
+        <reimplementedby refid="classthemis_1_1metadata_1_1_field_set_metadata_encryption_provider_1aef42dd526c88bdaae0f0e2a1f4e25323">encrypt</reimplementedby>
+        <reimplementedby refid="classthemis_1_1metadata_1_1_no_op_metadata_encryption_provider_1a89a58ea489a5e503a2a53fa07ebae6ec">encrypt</reimplementedby>
+        <param>
+          <type>std::string_view</type>
+          <declname>field_name</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Encrypt <computeroutput>value</computeroutput> for the field identified by <computeroutput>field_name</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>field_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Metadata field name; used for key-derivation or AAD. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plain-text value to encrypt. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Cipher-text representation (algorithm-specific encoding). </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>MetadataEncryptionException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>on key / configuration errors. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_encryption_provider.h" line="93" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_i_metadata_encryption_provider_1a4183cc9936717b32603d31b4839d735f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::metadata::IMetadataEncryptionProvider::decrypt</definition>
+        <argsstring>(std::string_view field_name, std::string_view cipher_text) const =0</argsstring>
+        <name>decrypt</name>
+        <qualifiedname>themis::metadata::IMetadataEncryptionProvider::decrypt</qualifiedname>
+        <reimplementedby refid="classthemis_1_1metadata_1_1_field_set_metadata_encryption_provider_1afc89eea4773e2d4812f595e029613c6c">decrypt</reimplementedby>
+        <reimplementedby refid="classthemis_1_1metadata_1_1_no_op_metadata_encryption_provider_1aed717a6a7ca2a4b83bd36ead973afd11">decrypt</reimplementedby>
+        <param>
+          <type>std::string_view</type>
+          <declname>field_name</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>cipher_text</declname>
+        </param>
+        <briefdescription>
+<para>Decrypt <computeroutput>cipher_text</computeroutput> for the field identified by <computeroutput>field_name</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>field_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Metadata field name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cipher_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Cipher-text previously produced by <ref refid="classthemis_1_1metadata_1_1_i_metadata_encryption_provider_1a804f125f11ac848688e67620ac412ffb" kindref="member">encrypt()</ref>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Recovered plain-text value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>MetadataEncryptionException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>on key / configuration errors or if the cipher-text is malformed. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_encryption_provider.h" line="105" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_i_metadata_encryption_provider_1a6a3c8f793873883058f7e0ac78ac59d5" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1metadata_1ae8a63ada5feda4c6b2b124e296f2ed77" kindref="member">MetadataEncryptionAlgorithm</ref></type>
+        <definition>virtual MetadataEncryptionAlgorithm themis::metadata::IMetadataEncryptionProvider::algorithm</definition>
+        <argsstring>() const =0</argsstring>
+        <name>algorithm</name>
+        <qualifiedname>themis::metadata::IMetadataEncryptionProvider::algorithm</qualifiedname>
+        <reimplementedby refid="classthemis_1_1metadata_1_1_field_set_metadata_encryption_provider_1a5644c1a8926b776d77fdc2790f396550">algorithm</reimplementedby>
+        <reimplementedby refid="classthemis_1_1metadata_1_1_no_op_metadata_encryption_provider_1ab3614287cf40b2861c5319133ff57909">algorithm</reimplementedby>
+        <briefdescription>
+<para>Returns the algorithm identifier for this provider. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_encryption_provider.h" line="111" column="42"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstract interface for field-level metadata encryption. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implementations MUST be thread-safe and stateless with respect to the <ref refid="classthemis_1_1metadata_1_1_i_metadata_encryption_provider_1a804f125f11ac848688e67620ac412ffb" kindref="member">encrypt()</ref> / <ref refid="classthemis_1_1metadata_1_1_i_metadata_encryption_provider_1a4183cc9936717b32603d31b4839d735f" kindref="member">decrypt()</ref> operations (i.e. concurrent calls with different field names must not interfere with each other). </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::metadata::FieldSetMetadataEncryptionProvider</label>
+        <link refid="classthemis_1_1metadata_1_1_field_set_metadata_encryption_provider"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::metadata::IMetadataEncryptionProvider</label>
+        <link refid="classthemis_1_1metadata_1_1_i_metadata_encryption_provider"/>
+      </node>
+      <node id="3">
+        <label>themis::metadata::NoOpMetadataEncryptionProvider</label>
+        <link refid="classthemis_1_1metadata_1_1_no_op_metadata_encryption_provider"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/metadata/imetadata_encryption_provider.h" line="73" column="1" bodyfile="include/metadata/imetadata_encryption_provider.h" bodystart="73" bodyend="112"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1metadata_1_1_i_metadata_encryption_provider_1a6a3c8f793873883058f7e0ac78ac59d5" prot="public" virt="pure-virtual"><scope>themis::metadata::IMetadataEncryptionProvider</scope><name>algorithm</name></member>
+      <member refid="classthemis_1_1metadata_1_1_i_metadata_encryption_provider_1a4183cc9936717b32603d31b4839d735f" prot="public" virt="pure-virtual"><scope>themis::metadata::IMetadataEncryptionProvider</scope><name>decrypt</name></member>
+      <member refid="classthemis_1_1metadata_1_1_i_metadata_encryption_provider_1a804f125f11ac848688e67620ac412ffb" prot="public" virt="pure-virtual"><scope>themis::metadata::IMetadataEncryptionProvider</scope><name>encrypt</name></member>
+      <member refid="classthemis_1_1metadata_1_1_i_metadata_encryption_provider_1a576f1562e506ed42eab60a0a7db0ff87" prot="public" virt="pure-virtual"><scope>themis::metadata::IMetadataEncryptionProvider</scope><name>shouldEncrypt</name></member>
+      <member refid="classthemis_1_1metadata_1_1_i_metadata_encryption_provider_1ab3d20e5fba48511ede33cdacc1f85dd7" prot="public" virt="virtual"><scope>themis::metadata::IMetadataEncryptionProvider</scope><name>~IMetadataEncryptionProvider</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_non_retryable_rpc_error" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::NonRetryableRpcError</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">std::runtime_error</basecompoundref>
+    <includes refid="shard__rpc__client_8h" local="no">shard_rpc_client.h</includes>
+    <briefdescription>
+<para>Exception thrown for non-retryable RPC errors. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Thrown when a gRPC status code is classified as non-retryable (e.g., INVALID_ARGUMENT, ALREADY_EXISTS, PERMISSION_DENIED). The retry loop will rethrow this immediately without further attempts. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::sharding::NonRetryableRpcError</label>
+        <link refid="classthemis_1_1sharding_1_1_non_retryable_rpc_error"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::sharding::NonRetryableRpcError</label>
+        <link refid="classthemis_1_1sharding_1_1_non_retryable_rpc_error"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/sharding/shard_rpc_client.h" line="45" column="1" bodyfile="include/sharding/shard_rpc_client.h" bodystart="45" bodyend="48"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

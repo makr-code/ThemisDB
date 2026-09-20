@@ -1,0 +1,712 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_request_validation_middleware" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::RequestValidationMiddleware</compoundname>
+    <includes refid="request__validation__middleware_8h" local="no">request_validation_middleware.h</includes>
+    <innerclass refid="structthemis_1_1server_1_1_request_validation_middleware_1_1_validation_result" prot="public">themis::server::RequestValidationMiddleware::ValidationResult</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_request_validation_middleware_1_1_metrics" prot="public">themis::server::RequestValidationMiddleware::Metrics</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_request_validation_middleware_1_1_endpoint_key" prot="private">themis::server::RequestValidationMiddleware::EndpointKey</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_request_validation_middleware_1_1_endpoint_key_hash" prot="private">themis::server::RequestValidationMiddleware::EndpointKeyHash</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_request_validation_middleware_1a3d8ae7d0eba0255ee02f189efc93f96c" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::server::RequestValidationMiddleware::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::server::RequestValidationMiddleware::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_validation_middleware.h" line="139" column="24" bodyfile="include/server/request_validation_middleware.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_request_validation_middleware_1aeda71142c43d7e33aa2b09d16b485fa0" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; EndpointKey, nlohmann::json, EndpointKeyHash &gt;</type>
+        <definition>std::unordered_map&lt;EndpointKey, nlohmann::json, EndpointKeyHash&gt; themis::server::RequestValidationMiddleware::schemas_</definition>
+        <argsstring></argsstring>
+        <name>schemas_</name>
+        <qualifiedname>themis::server::RequestValidationMiddleware::schemas_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_validation_middleware.h" line="140" column="24" bodyfile="include/server/request_validation_middleware.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_request_validation_middleware_1a3bd22dba030fcb082c55b3a14698ad89" prot="private" static="no" mutable="yes">
+        <type><ref refid="structthemis_1_1server_1_1_request_validation_middleware_1_1_metrics" kindref="compound">Metrics</ref></type>
+        <definition>Metrics themis::server::RequestValidationMiddleware::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::server::RequestValidationMiddleware::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_validation_middleware.h" line="141" column="21" bodyfile="include/server/request_validation_middleware.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_request_validation_middleware_1afabbf67492d155d599a717da45488a4f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::RequestValidationMiddleware::RequestValidationMiddleware</definition>
+        <argsstring>()=default</argsstring>
+        <name>RequestValidationMiddleware</name>
+        <qualifiedname>themis::server::RequestValidationMiddleware::RequestValidationMiddleware</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_validation_middleware.h" line="46" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_request_validation_middleware_1a8763a89d338ecb4d3faa9b0beaefddcb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::RequestValidationMiddleware::~RequestValidationMiddleware</definition>
+        <argsstring>()=default</argsstring>
+        <name>~RequestValidationMiddleware</name>
+        <qualifiedname>themis::server::RequestValidationMiddleware::~RequestValidationMiddleware</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_validation_middleware.h" line="47" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_request_validation_middleware_1a61a8b825ddc6f94fa6849b3f4d2e5164" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::RequestValidationMiddleware::RequestValidationMiddleware</definition>
+        <argsstring>(const RequestValidationMiddleware &amp;)=delete</argsstring>
+        <name>RequestValidationMiddleware</name>
+        <qualifiedname>themis::server::RequestValidationMiddleware::RequestValidationMiddleware</qualifiedname>
+        <param>
+          <type>const RequestValidationMiddleware &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_validation_middleware.h" line="50" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_request_validation_middleware_1a8e78101433bfa732bf00a0426cead1b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1server_1_1_request_validation_middleware_1afabbf67492d155d599a717da45488a4f" kindref="member">RequestValidationMiddleware</ref> &amp;</type>
+        <definition>RequestValidationMiddleware &amp; themis::server::RequestValidationMiddleware::operator=</definition>
+        <argsstring>(const RequestValidationMiddleware &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::server::RequestValidationMiddleware::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1server_1_1_request_validation_middleware_1afabbf67492d155d599a717da45488a4f" kindref="member">RequestValidationMiddleware</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_validation_middleware.h" line="51" column="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_request_validation_middleware_1ade1a5c09ee29b615b40989cafbf00809" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::RequestValidationMiddleware::RequestValidationMiddleware</definition>
+        <argsstring>(RequestValidationMiddleware &amp;&amp;)=delete</argsstring>
+        <name>RequestValidationMiddleware</name>
+        <qualifiedname>themis::server::RequestValidationMiddleware::RequestValidationMiddleware</qualifiedname>
+        <param>
+          <type>RequestValidationMiddleware &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_validation_middleware.h" line="52" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_request_validation_middleware_1a72c8071344d5005d078105a996a0abbf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1server_1_1_request_validation_middleware_1afabbf67492d155d599a717da45488a4f" kindref="member">RequestValidationMiddleware</ref> &amp;</type>
+        <definition>RequestValidationMiddleware &amp; themis::server::RequestValidationMiddleware::operator=</definition>
+        <argsstring>(RequestValidationMiddleware &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::server::RequestValidationMiddleware::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1_request_validation_middleware_1afabbf67492d155d599a717da45488a4f" kindref="member">RequestValidationMiddleware</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_validation_middleware.h" line="53" column="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_request_validation_middleware_1ae276fe8a0f44370d9a7b0c71455ec115" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::RequestValidationMiddleware::registerSchema</definition>
+        <argsstring>(const std::string &amp;method, const std::string &amp;path, nlohmann::json schema)</argsstring>
+        <name>registerSchema</name>
+        <qualifiedname>themis::server::RequestValidationMiddleware::registerSchema</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>method</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>nlohmann::json</type>
+          <declname>schema</declname>
+        </param>
+        <briefdescription>
+<para>Register Schema. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), normalizeMethod(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_validation_middleware.h" line="61" column="10" bodyfile="src/server/request_validation_middleware.cpp" bodystart="49" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_request_validation_middleware_1a43615682f6392593502c3cf037b3a8c9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1server_1_1_request_validation_middleware_1_1_validation_result" kindref="compound">ValidationResult</ref></type>
+        <definition>RequestValidationMiddleware::ValidationResult themis::server::RequestValidationMiddleware::validate</definition>
+        <argsstring>(const std::string &amp;method, const std::string &amp;path, const std::string &amp;body) const</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::server::RequestValidationMiddleware::validate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>method</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+<para>Validate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/request_validation_middleware.h" line="70" column="22" bodyfile="src/server/request_validation_middleware.cpp" bodystart="204" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_request_validation_middleware_1a2e1c807a1063c8bcc3c2570c3bd86cb3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1server_1_1_request_validation_middleware_1_1_validation_result" kindref="compound">ValidationResult</ref></type>
+        <definition>RequestValidationMiddleware::ValidationResult themis::server::RequestValidationMiddleware::validate</definition>
+        <argsstring>(const std::string &amp;method, const std::string &amp;path, const nlohmann::json &amp;body) const</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::server::RequestValidationMiddleware::validate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>method</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+<para>Validate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/request_validation_middleware.h" line="81" column="22" bodyfile="src/server/request_validation_middleware.cpp" bodystart="175" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_request_validation_middleware_1a758105662b604cf3f63bc68613455742" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::RequestValidationMiddleware::hasSchema</definition>
+        <argsstring>(const std::string &amp;method, const std::string &amp;path) const</argsstring>
+        <name>hasSchema</name>
+        <qualifiedname>themis::server::RequestValidationMiddleware::hasSchema</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>method</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Has Schema. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/request_validation_middleware.h" line="91" column="10" bodyfile="src/server/request_validation_middleware.cpp" bodystart="148" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_request_validation_middleware_1acfe27061b733653b82f0416526240735" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::RequestValidationMiddleware::removeSchema</definition>
+        <argsstring>(const std::string &amp;method, const std::string &amp;path)</argsstring>
+        <name>removeSchema</name>
+        <qualifiedname>themis::server::RequestValidationMiddleware::removeSchema</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>method</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Remove Schema. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), normalizeMethod(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_validation_middleware.h" line="99" column="10" bodyfile="src/server/request_validation_middleware.cpp" bodystart="64" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_request_validation_middleware_1a888ba1cf378df40d2e791a24c951972c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::RequestValidationMiddleware::clearSchemas</definition>
+        <argsstring>()</argsstring>
+        <name>clearSchemas</name>
+        <qualifiedname>themis::server::RequestValidationMiddleware::clearSchemas</qualifiedname>
+        <briefdescription>
+<para>Clear Schemas. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_validation_middleware.h" line="104" column="10" bodyfile="src/server/request_validation_middleware.cpp" bodystart="75" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_request_validation_middleware_1ac48d57d24e8ec84bd98b1a99eae5a737" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::server::RequestValidationMiddleware::schemaCount</definition>
+        <argsstring>() const</argsstring>
+        <name>schemaCount</name>
+        <qualifiedname>themis::server::RequestValidationMiddleware::schemaCount</qualifiedname>
+        <briefdescription>
+<para>Schema Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/request_validation_middleware.h" line="110" column="12" bodyfile="src/server/request_validation_middleware.cpp" bodystart="80" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_request_validation_middleware_1ab9fe6bf30e733514ee795aabdce34368" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1server_1_1_request_validation_middleware_1_1_metrics" kindref="compound">Metrics</ref> &amp;</type>
+        <definition>const Metrics &amp; themis::server::RequestValidationMiddleware::getMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>getMetrics</name>
+        <qualifiedname>themis::server::RequestValidationMiddleware::getMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_validation_middleware.h" line="119" column="19" bodyfile="include/server/request_validation_middleware.h" bodystart="119" bodyend="119"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_request_validation_middleware_1af4a86f1ea5219c6d4b808f7a486958c5" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::RequestValidationMiddleware::normalizeMethod</definition>
+        <argsstring>(const std::string &amp;method)</argsstring>
+        <name>normalizeMethod</name>
+        <qualifiedname>themis::server::RequestValidationMiddleware::normalizeMethod</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>method</declname>
+        </param>
+        <briefdescription>
+<para>Normalize Method. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: upper(), std::transform(), begin(), end(), std::toupper(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_validation_middleware.h" line="148" column="24" bodyfile="src/server/request_validation_middleware.cpp" bodystart="31" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_request_validation_middleware_1af8d898145139a308d5b2177c842bfe03" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1server_1_1_request_validation_middleware_1_1_validation_result" kindref="compound">ValidationResult</ref></type>
+        <definition>RequestValidationMiddleware::ValidationResult themis::server::RequestValidationMiddleware::applySchema</definition>
+        <argsstring>(const nlohmann::json &amp;body, const nlohmann::json &amp;schema)</argsstring>
+        <name>applySchema</name>
+        <qualifiedname>themis::server::RequestValidationMiddleware::applySchema</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>schema</declname>
+        </param>
+        <briefdescription>
+<para>Apply Schema. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_validation_middleware.h" line="165" column="29" bodyfile="src/server/request_validation_middleware.cpp" bodystart="165" bodyend="172"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_request_validation_middleware_1a13b7cbf90fa19c2256c8ef73c9ceadba" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const nlohmann::json *</type>
+        <definition>const nlohmann::json * themis::server::RequestValidationMiddleware::findSchemaLocked</definition>
+        <argsstring>(const std::string &amp;method, const std::string &amp;path) const</argsstring>
+        <name>findSchemaLocked</name>
+        <qualifiedname>themis::server::RequestValidationMiddleware::findSchemaLocked</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>method</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Find Schema Locked. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_validation_middleware.h" line="156" column="26" bodyfile="src/server/request_validation_middleware.cpp" bodystart="94" bodyend="146"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/request_validation_middleware.h" line="25" column="1" bodyfile="include/server/request_validation_middleware.h" bodystart="25" bodyend="167"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_request_validation_middleware_1af8d898145139a308d5b2177c842bfe03" prot="private" virt="non-virtual"><scope>themis::server::RequestValidationMiddleware</scope><name>applySchema</name></member>
+      <member refid="classthemis_1_1server_1_1_request_validation_middleware_1a888ba1cf378df40d2e791a24c951972c" prot="public" virt="non-virtual"><scope>themis::server::RequestValidationMiddleware</scope><name>clearSchemas</name></member>
+      <member refid="classthemis_1_1server_1_1_request_validation_middleware_1a13b7cbf90fa19c2256c8ef73c9ceadba" prot="private" virt="non-virtual"><scope>themis::server::RequestValidationMiddleware</scope><name>findSchemaLocked</name></member>
+      <member refid="classthemis_1_1server_1_1_request_validation_middleware_1ab9fe6bf30e733514ee795aabdce34368" prot="public" virt="non-virtual"><scope>themis::server::RequestValidationMiddleware</scope><name>getMetrics</name></member>
+      <member refid="classthemis_1_1server_1_1_request_validation_middleware_1a758105662b604cf3f63bc68613455742" prot="public" virt="non-virtual"><scope>themis::server::RequestValidationMiddleware</scope><name>hasSchema</name></member>
+      <member refid="classthemis_1_1server_1_1_request_validation_middleware_1a3bd22dba030fcb082c55b3a14698ad89" prot="private" virt="non-virtual"><scope>themis::server::RequestValidationMiddleware</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1server_1_1_request_validation_middleware_1a3d8ae7d0eba0255ee02f189efc93f96c" prot="private" virt="non-virtual"><scope>themis::server::RequestValidationMiddleware</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1server_1_1_request_validation_middleware_1af4a86f1ea5219c6d4b808f7a486958c5" prot="private" virt="non-virtual"><scope>themis::server::RequestValidationMiddleware</scope><name>normalizeMethod</name></member>
+      <member refid="classthemis_1_1server_1_1_request_validation_middleware_1a8e78101433bfa732bf00a0426cead1b0" prot="public" virt="non-virtual"><scope>themis::server::RequestValidationMiddleware</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1server_1_1_request_validation_middleware_1a72c8071344d5005d078105a996a0abbf" prot="public" virt="non-virtual"><scope>themis::server::RequestValidationMiddleware</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1server_1_1_request_validation_middleware_1ae276fe8a0f44370d9a7b0c71455ec115" prot="public" virt="non-virtual"><scope>themis::server::RequestValidationMiddleware</scope><name>registerSchema</name></member>
+      <member refid="classthemis_1_1server_1_1_request_validation_middleware_1acfe27061b733653b82f0416526240735" prot="public" virt="non-virtual"><scope>themis::server::RequestValidationMiddleware</scope><name>removeSchema</name></member>
+      <member refid="classthemis_1_1server_1_1_request_validation_middleware_1afabbf67492d155d599a717da45488a4f" prot="public" virt="non-virtual"><scope>themis::server::RequestValidationMiddleware</scope><name>RequestValidationMiddleware</name></member>
+      <member refid="classthemis_1_1server_1_1_request_validation_middleware_1a61a8b825ddc6f94fa6849b3f4d2e5164" prot="public" virt="non-virtual"><scope>themis::server::RequestValidationMiddleware</scope><name>RequestValidationMiddleware</name></member>
+      <member refid="classthemis_1_1server_1_1_request_validation_middleware_1ade1a5c09ee29b615b40989cafbf00809" prot="public" virt="non-virtual"><scope>themis::server::RequestValidationMiddleware</scope><name>RequestValidationMiddleware</name></member>
+      <member refid="classthemis_1_1server_1_1_request_validation_middleware_1ac48d57d24e8ec84bd98b1a99eae5a737" prot="public" virt="non-virtual"><scope>themis::server::RequestValidationMiddleware</scope><name>schemaCount</name></member>
+      <member refid="classthemis_1_1server_1_1_request_validation_middleware_1aeda71142c43d7e33aa2b09d16b485fa0" prot="private" virt="non-virtual"><scope>themis::server::RequestValidationMiddleware</scope><name>schemas_</name></member>
+      <member refid="classthemis_1_1server_1_1_request_validation_middleware_1a43615682f6392593502c3cf037b3a8c9" prot="public" virt="non-virtual"><scope>themis::server::RequestValidationMiddleware</scope><name>validate</name></member>
+      <member refid="classthemis_1_1server_1_1_request_validation_middleware_1a2e1c807a1063c8bcc3c2570c3bd86cb3" prot="public" virt="non-virtual"><scope>themis::server::RequestValidationMiddleware</scope><name>validate</name></member>
+      <member refid="classthemis_1_1server_1_1_request_validation_middleware_1a8763a89d338ecb4d3faa9b0beaefddcb" prot="public" virt="non-virtual"><scope>themis::server::RequestValidationMiddleware</scope><name>~RequestValidationMiddleware</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

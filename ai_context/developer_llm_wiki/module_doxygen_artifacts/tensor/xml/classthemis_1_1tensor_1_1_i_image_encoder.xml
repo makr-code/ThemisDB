@@ -1,0 +1,190 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1tensor_1_1_i_image_encoder" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::tensor::IImageEncoder</compoundname>
+    <includes refid="encoder__interface_8h" local="no">encoder_interface.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_i_image_encoder_1ad737d4fbbc17934998b905db702b5541" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::tensor::IImageEncoder::~IImageEncoder</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IImageEncoder</name>
+        <qualifiedname>themis::tensor::IImageEncoder::~IImageEncoder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/encoder_interface.h" line="117" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_i_image_encoder_1a6c71cc37e6b704e5b52c9544610e0bb4" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>storage::TTTrain</type>
+        <definition>virtual storage::TTTrain themis::tensor::IImageEncoder::encode</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;pixels, std::size_t h, std::size_t w, std::size_t c, const UTRConfig &amp;cfg) const =0</argsstring>
+        <name>encode</name>
+        <qualifiedname>themis::tensor::IImageEncoder::encode</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>pixels</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>h</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>w</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>c</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_u_t_r_config" kindref="compound">UTRConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Encode an HWC image into a TT-train. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pixels</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Flat HWC float buffer (length = h × w × c, raw not pre-normalised). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>h</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Image height in pixels (&gt; 0). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>w</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Image width in pixels (&gt; 0). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>c</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of channels (&gt; 0). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>UTR configuration (eps, max_rank, etc.) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A non-empty TTTrain encoding the image.</para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if the encoder is unavailable or fails to produce a valid output. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if h, w, or c is 0, or <computeroutput>pixels.size() != h * w * c</computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/encoder_interface.h" line="136" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_i_image_encoder_1ac0a25869a53721b6254ef883fde92692" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::tensor::IImageEncoder::isAvailable</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::tensor::IImageEncoder::isAvailable</qualifiedname>
+        <briefdescription>
+<para>Returns true when the encoder is ready to accept requests. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>A false return causes <computeroutput><ref refid="classthemis_1_1tensor_1_1_u_t_r_converter_1a388e051b30cb68134118609883f7c718" kindref="member">UTRConverter::fromImage()</ref></computeroutput> to fall back to the next lower-tier encoder without throwing. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/encoder_interface.h" line="146" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_i_image_encoder_1a5a8e07cd43604570da8e1afe62b35b57" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1tensor_1a5c36d5b11ba3b59e660be8b8642040d4" kindref="member">EncoderQuality</ref></type>
+        <definition>virtual EncoderQuality themis::tensor::IImageEncoder::quality</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>quality</name>
+        <qualifiedname>themis::tensor::IImageEncoder::quality</qualifiedname>
+        <briefdescription>
+<para>Returns the semantic quality tier of this encoder. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/encoder_interface.h" line="151" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_i_image_encoder_1a35282ec669a5dfd5ca6052850dd8eeb6" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>std::string_view</type>
+        <definition>virtual std::string_view themis::tensor::IImageEncoder::description</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>description</name>
+        <qualifiedname>themis::tensor::IImageEncoder::description</qualifiedname>
+        <briefdescription>
+<para>Human-readable description for logging and diagnostics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>A stable, non-null string view (e.g. &quot;ViT-B/16 patch encoder&quot;). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/encoder_interface.h" line="158" column="31"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstract interface for image-to-TTTrain encoders. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implementations must be thread-safe: <computeroutput><ref refid="classthemis_1_1tensor_1_1_i_image_encoder_1a6c71cc37e6b704e5b52c9544610e0bb4" kindref="member">encode()</ref></computeroutput> may be called concurrently from multiple threads.</para>
+<para><heading level="3">Contract</heading>
+</para>
+<para><itemizedlist>
+<listitem><para>The returned <computeroutput>TTTrain</computeroutput> MUST be non-empty (at least one core).</para>
+</listitem><listitem><para>If the encoder cannot produce an output it MUST throw <computeroutput>std::runtime_error</computeroutput>.</para>
+</listitem><listitem><para><computeroutput><ref refid="classthemis_1_1tensor_1_1_i_image_encoder_1ac0a25869a53721b6254ef883fde92692" kindref="member">isAvailable()</ref></computeroutput> MUST be cheap and stable within a single <computeroutput><ref refid="classthemis_1_1tensor_1_1_u_t_r_converter_1a388e051b30cb68134118609883f7c718" kindref="member">UTRConverter::fromImage()</ref></computeroutput> call. </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/tensor/encoder_interface.h" line="115" column="1" bodyfile="include/tensor/encoder_interface.h" bodystart="115" bodyend="159"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1tensor_1_1_i_image_encoder_1a35282ec669a5dfd5ca6052850dd8eeb6" prot="public" virt="pure-virtual"><scope>themis::tensor::IImageEncoder</scope><name>description</name></member>
+      <member refid="classthemis_1_1tensor_1_1_i_image_encoder_1a6c71cc37e6b704e5b52c9544610e0bb4" prot="public" virt="pure-virtual"><scope>themis::tensor::IImageEncoder</scope><name>encode</name></member>
+      <member refid="classthemis_1_1tensor_1_1_i_image_encoder_1ac0a25869a53721b6254ef883fde92692" prot="public" virt="pure-virtual"><scope>themis::tensor::IImageEncoder</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1tensor_1_1_i_image_encoder_1a5a8e07cd43604570da8e1afe62b35b57" prot="public" virt="pure-virtual"><scope>themis::tensor::IImageEncoder</scope><name>quality</name></member>
+      <member refid="classthemis_1_1tensor_1_1_i_image_encoder_1ad737d4fbbc17934998b905db702b5541" prot="public" virt="virtual"><scope>themis::tensor::IImageEncoder</scope><name>~IImageEncoder</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

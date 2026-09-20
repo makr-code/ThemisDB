@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1_numa_node" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::NumaNode</compoundname>
+    <includes refid="numa__topology_8h" local="no">numa_topology.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_numa_node_1ae40d6ab0158c5b3a166c2019a7b273a3" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::performance::NumaNode::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themis::performance::NumaNode::node_id</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_topology.h" line="29" column="9" bodyfile="include/performance/numa_topology.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_numa_node_1ae06602947a6be4f651c71f96586b4486" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; themis::performance::NumaNode::cpu_ids</definition>
+        <argsstring></argsstring>
+        <name>cpu_ids</name>
+        <qualifiedname>themis::performance::NumaNode::cpu_ids</qualifiedname>
+        <briefdescription>
+<para>Logical CPU IDs belonging to this node. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_topology.h" line="30" column="17" bodyfile="include/performance/numa_topology.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_numa_node_1a1629df6931976ee2182880b16cbc229b" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::NumaNode::memory_bytes</definition>
+        <argsstring></argsstring>
+        <name>memory_bytes</name>
+        <qualifiedname>themis::performance::NumaNode::memory_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total memory on this node (bytes). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_topology.h" line="31" column="14" bodyfile="include/performance/numa_topology.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_numa_node_1a4bef278dda33e5ff85cdb76db1ac374e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; themis::performance::NumaNode::distances</definition>
+        <argsstring></argsstring>
+        <name>distances</name>
+        <qualifiedname>themis::performance::NumaNode::distances</qualifiedname>
+        <briefdescription>
+<para>Relative access cost to every other node. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_topology.h" line="32" column="17" bodyfile="include/performance/numa_topology.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>NUMA node descriptor. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Captures per-node CPU list, available memory, and inter-node distances as reported by the OS topology interfaces. </para>
+    </detaileddescription>
+    <location file="include/performance/numa_topology.h" line="28" column="1" bodyfile="include/performance/numa_topology.h" bodystart="28" bodyend="33"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1_numa_node_1ae06602947a6be4f651c71f96586b4486" prot="public" virt="non-virtual"><scope>themis::performance::NumaNode</scope><name>cpu_ids</name></member>
+      <member refid="structthemis_1_1performance_1_1_numa_node_1a4bef278dda33e5ff85cdb76db1ac374e" prot="public" virt="non-virtual"><scope>themis::performance::NumaNode</scope><name>distances</name></member>
+      <member refid="structthemis_1_1performance_1_1_numa_node_1a1629df6931976ee2182880b16cbc229b" prot="public" virt="non-virtual"><scope>themis::performance::NumaNode</scope><name>memory_bytes</name></member>
+      <member refid="structthemis_1_1performance_1_1_numa_node_1ae40d6ab0158c5b3a166c2019a7b273a3" prot="public" virt="non-virtual"><scope>themis::performance::NumaNode</scope><name>node_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

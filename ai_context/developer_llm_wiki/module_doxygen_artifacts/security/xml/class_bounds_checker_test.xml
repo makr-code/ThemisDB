@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_bounds_checker_test" kind="class" language="C++" prot="public">
+    <compoundname>BoundsCheckerTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_bounds_checker_test_1a9ba64e45b5bf4eb55546665f2f29b177" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; BoundsCheckerTest::vec_</definition>
+        <argsstring></argsstring>
+        <name>vec_</name>
+        <qualifiedname>BoundsCheckerTest::vec_</qualifiedname>
+        <initializer>{1, 2, 3, 4, 5}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_iterator.cpp" line="17" column="17" bodyfile="tests/security/test_safe_iterator.cpp" bodystart="17" bodyend="17"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_bounds_checker_test_1a29aa15b45f7e3852ad38ed5518886ce9" prot="protected" static="no" mutable="no">
+        <type>std::deque&lt; int &gt;</type>
+        <definition>std::deque&lt;int&gt; BoundsCheckerTest::deque_</definition>
+        <argsstring></argsstring>
+        <name>deque_</name>
+        <qualifiedname>BoundsCheckerTest::deque_</qualifiedname>
+        <initializer>{10, 20, 30, 40, 50}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_iterator.cpp" line="18" column="16" bodyfile="tests/security/test_safe_iterator.cpp" bodystart="18" bodyend="18"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_bounds_checker_test_1a9b5ee644cc5d9da3dfff10419507d604" prot="protected" static="no" mutable="no">
+        <type>std::list&lt; int &gt;</type>
+        <definition>std::list&lt;int&gt; BoundsCheckerTest::list_</definition>
+        <argsstring></argsstring>
+        <name>list_</name>
+        <qualifiedname>BoundsCheckerTest::list_</qualifiedname>
+        <initializer>{100, 200, 300, 400, 500}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_iterator.cpp" line="19" column="15" bodyfile="tests/security/test_safe_iterator.cpp" bodystart="19" bodyend="19"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>BoundsCheckerTest</label>
+        <link refid="class_bounds_checker_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>BoundsCheckerTest</label>
+        <link refid="class_bounds_checker_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/security/test_safe_iterator.cpp" line="15" column="1" bodyfile="tests/security/test_safe_iterator.cpp" bodystart="15" bodyend="20"/>
+    <listofallmembers>
+      <member refid="class_bounds_checker_test_1a29aa15b45f7e3852ad38ed5518886ce9" prot="protected" virt="non-virtual"><scope>BoundsCheckerTest</scope><name>deque_</name></member>
+      <member refid="class_bounds_checker_test_1a9b5ee644cc5d9da3dfff10419507d604" prot="protected" virt="non-virtual"><scope>BoundsCheckerTest</scope><name>list_</name></member>
+      <member refid="class_bounds_checker_test_1a9ba64e45b5bf4eb55546665f2f29b177" prot="protected" virt="non-virtual"><scope>BoundsCheckerTest</scope><name>vec_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_hash_chain_audit_log_adapter_test" kind="class" language="C++" prot="public">
+    <compoundname>HashChainAuditLogAdapterTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="class_hash_chain_audit_log_adapter_test_1a54900a9c406e06aad190c988723d0872" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* HashChainAuditLogAdapterTest::kLog</definition>
+        <argsstring></argsstring>
+        <name>kLog</name>
+        <qualifiedname>HashChainAuditLogAdapterTest::kLog</qualifiedname>
+        <initializer>= &quot;/tmp/test_iaudit_chain.jsonl&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_interfaces.cpp" line="247" column="33" bodyfile="tests/utils/test_utils_interfaces.cpp" bodystart="247" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_hash_chain_audit_log_adapter_test_1a0842218311673b6e50d9ea4ac21dd0df" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* HashChainAuditLogAdapterTest::kHead</definition>
+        <argsstring></argsstring>
+        <name>kHead</name>
+        <qualifiedname>HashChainAuditLogAdapterTest::kHead</qualifiedname>
+        <initializer>= &quot;/tmp/test_iaudit_head.bin&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_interfaces.cpp" line="248" column="33" bodyfile="tests/utils/test_utils_interfaces.cpp" bodystart="248" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_hash_chain_audit_log_adapter_test_1a3393da3caa68212779d0d4f24153e9ff" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1utils_1_1_hash_chain_audit_log_adapter" kindref="compound">HashChainAuditLogAdapter</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;HashChainAuditLogAdapter&gt; HashChainAuditLogAdapterTest::log_</definition>
+        <argsstring></argsstring>
+        <name>log_</name>
+        <qualifiedname>HashChainAuditLogAdapterTest::log_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_interfaces.cpp" line="250" column="21" bodyfile="tests/utils/test_utils_interfaces.cpp" bodystart="250" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_hash_chain_audit_log_adapter_test_1a4c138d3658f88981c56ee50a4c3b03da" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HashChainAuditLogAdapterTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>HashChainAuditLogAdapterTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_interfaces.cpp" line="252" column="10" bodyfile="tests/utils/test_utils_interfaces.cpp" bodystart="252" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="function" id="class_hash_chain_audit_log_adapter_test_1a6fd940e6ecb0312fe8692443d361a95d" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HashChainAuditLogAdapterTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>HashChainAuditLogAdapterTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_interfaces.cpp" line="260" column="10" bodyfile="tests/utils/test_utils_interfaces.cpp" bodystart="260" bodyend="264"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>HashChainAuditLogAdapterTest</label>
+        <link refid="class_hash_chain_audit_log_adapter_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>HashChainAuditLogAdapterTest</label>
+        <link refid="class_hash_chain_audit_log_adapter_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/utils/test_utils_interfaces.cpp" line="245" column="1" bodyfile="tests/utils/test_utils_interfaces.cpp" bodystart="245" bodyend="265"/>
+    <listofallmembers>
+      <member refid="class_hash_chain_audit_log_adapter_test_1a0842218311673b6e50d9ea4ac21dd0df" prot="protected" virt="non-virtual"><scope>HashChainAuditLogAdapterTest</scope><name>kHead</name></member>
+      <member refid="class_hash_chain_audit_log_adapter_test_1a54900a9c406e06aad190c988723d0872" prot="protected" virt="non-virtual"><scope>HashChainAuditLogAdapterTest</scope><name>kLog</name></member>
+      <member refid="class_hash_chain_audit_log_adapter_test_1a3393da3caa68212779d0d4f24153e9ff" prot="protected" virt="non-virtual"><scope>HashChainAuditLogAdapterTest</scope><name>log_</name></member>
+      <member refid="class_hash_chain_audit_log_adapter_test_1a4c138d3658f88981c56ee50a4c3b03da" prot="protected" virt="non-virtual"><scope>HashChainAuditLogAdapterTest</scope><name>SetUp</name></member>
+      <member refid="class_hash_chain_audit_log_adapter_test_1a6fd940e6ecb0312fe8692443d361a95d" prot="protected" virt="non-virtual"><scope>HashChainAuditLogAdapterTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

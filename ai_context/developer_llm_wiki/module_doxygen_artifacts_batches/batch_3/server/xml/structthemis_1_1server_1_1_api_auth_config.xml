@@ -1,0 +1,196 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_api_auth_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::ApiAuthConfig</compoundname>
+    <includes refid="api__auth__config_8h" local="no">api_auth_config.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_api_auth_config_1ab0166e8bb016b04d4136524ae919a5fd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::ApiAuthConfig::auth_enabled</definition>
+        <argsstring></argsstring>
+        <name>auth_enabled</name>
+        <qualifiedname>themis::server::ApiAuthConfig::auth_enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_auth_config.h" line="47" column="10" bodyfile="include/server/api_auth_config.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_api_auth_config_1a6285e495efc597d64429cf2805d5cebe" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::ApiAuthConfig::rate_limiting_enabled</definition>
+        <argsstring></argsstring>
+        <name>rate_limiting_enabled</name>
+        <qualifiedname>themis::server::ApiAuthConfig::rate_limiting_enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_auth_config.h" line="48" column="10" bodyfile="include/server/api_auth_config.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_api_auth_config_1a7e9eb2fa2dc116e6bbfb782b79062a2b" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::ApiAuthConfig::global_rate_limit_per_minute</definition>
+        <argsstring></argsstring>
+        <name>global_rate_limit_per_minute</name>
+        <qualifiedname>themis::server::ApiAuthConfig::global_rate_limit_per_minute</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_auth_config.h" line="49" column="14" bodyfile="include/server/api_auth_config.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_api_auth_config_1add01296656eb669011a8f59bfac7462b" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::ApiAuthConfig::global_rate_limit_burst</definition>
+        <argsstring></argsstring>
+        <name>global_rate_limit_burst</name>
+        <qualifiedname>themis::server::ApiAuthConfig::global_rate_limit_burst</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_auth_config.h" line="50" column="14" bodyfile="include/server/api_auth_config.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_api_auth_config_1a56e4243ba2123197423535310ab37f81" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::ApiAuthConfig::audit_rate_limit_per_minute</definition>
+        <argsstring></argsstring>
+        <name>audit_rate_limit_per_minute</name>
+        <qualifiedname>themis::server::ApiAuthConfig::audit_rate_limit_per_minute</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_auth_config.h" line="53" column="14" bodyfile="include/server/api_auth_config.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_api_auth_config_1a2a2a740a81ad5234620d6ba7f7d1085c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::server::ApiAuthConfig::whitelist_ips</definition>
+        <argsstring></argsstring>
+        <name>whitelist_ips</name>
+        <qualifiedname>themis::server::ApiAuthConfig::whitelist_ips</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_auth_config.h" line="56" column="17" bodyfile="include/server/api_auth_config.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_api_auth_config_1a1576977b8a41aca09e9330db601c1ccc" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1server_1_1_endpoint_auth_config" kindref="compound">EndpointAuthConfig</ref> &gt;</type>
+        <definition>std::vector&lt;EndpointAuthConfig&gt; themis::server::ApiAuthConfig::endpoint_configs</definition>
+        <argsstring></argsstring>
+        <name>endpoint_configs</name>
+        <qualifiedname>themis::server::ApiAuthConfig::endpoint_configs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_auth_config.h" line="59" column="17" bodyfile="include/server/api_auth_config.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1server_1_1_api_auth_config_1a3dad7b08fd5cec5c12302b3a0f5b02c2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1server_1_1_endpoint_auth_config" kindref="compound">EndpointAuthConfig</ref> &gt;</type>
+        <definition>std::optional&lt; EndpointAuthConfig &gt; themis::server::ApiAuthConfig::getEndpointConfig</definition>
+        <argsstring>(const std::string &amp;path, const std::string &amp;method=&quot;*&quot;) const</argsstring>
+        <name>getEndpointConfig</name>
+        <qualifiedname>themis::server::ApiAuthConfig::getEndpointConfig</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>method</declname>
+          <defval>&quot;*&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_auth_config.h" line="61" column="19" bodyfile="src/server/api_auth_config.cpp" bodystart="17" bodyend="58"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1server_1_1_api_auth_config_1a39a0fc96b0a819c686cecb6297301f42" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1server_1_1_api_auth_config" kindref="compound">ApiAuthConfig</ref></type>
+        <definition>ApiAuthConfig themis::server::ApiAuthConfig::createSecureDefaults</definition>
+        <argsstring>()</argsstring>
+        <name>createSecureDefaults</name>
+        <qualifiedname>themis::server::ApiAuthConfig::createSecureDefaults</qualifiedname>
+        <briefdescription>
+<para>Create Secure Defaults. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createSecureDefaults without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_auth_config.h" line="67" column="26" bodyfile="src/server/api_auth_config.cpp" bodystart="65" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1server_1_1_api_auth_config_1abd3f6bedb190951b42116f3a1c9a5002" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1server_1_1_api_auth_config" kindref="compound">ApiAuthConfig</ref></type>
+        <definition>ApiAuthConfig themis::server::ApiAuthConfig::createDevDefaults</definition>
+        <argsstring>()</argsstring>
+        <name>createDevDefaults</name>
+        <qualifiedname>themis::server::ApiAuthConfig::createDevDefaults</qualifiedname>
+        <briefdescription>
+<para>Create Dev Defaults. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createDevDefaults without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_auth_config.h" line="73" column="26" bodyfile="src/server/api_auth_config.cpp" bodystart="177" bodyend="189"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/api_auth_config.h" line="45" column="1" bodyfile="include/server/api_auth_config.h" bodystart="45" bodyend="74"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_api_auth_config_1a56e4243ba2123197423535310ab37f81" prot="public" virt="non-virtual"><scope>themis::server::ApiAuthConfig</scope><name>audit_rate_limit_per_minute</name></member>
+      <member refid="structthemis_1_1server_1_1_api_auth_config_1ab0166e8bb016b04d4136524ae919a5fd" prot="public" virt="non-virtual"><scope>themis::server::ApiAuthConfig</scope><name>auth_enabled</name></member>
+      <member refid="structthemis_1_1server_1_1_api_auth_config_1abd3f6bedb190951b42116f3a1c9a5002" prot="public" virt="non-virtual"><scope>themis::server::ApiAuthConfig</scope><name>createDevDefaults</name></member>
+      <member refid="structthemis_1_1server_1_1_api_auth_config_1a39a0fc96b0a819c686cecb6297301f42" prot="public" virt="non-virtual"><scope>themis::server::ApiAuthConfig</scope><name>createSecureDefaults</name></member>
+      <member refid="structthemis_1_1server_1_1_api_auth_config_1a1576977b8a41aca09e9330db601c1ccc" prot="public" virt="non-virtual"><scope>themis::server::ApiAuthConfig</scope><name>endpoint_configs</name></member>
+      <member refid="structthemis_1_1server_1_1_api_auth_config_1a3dad7b08fd5cec5c12302b3a0f5b02c2" prot="public" virt="non-virtual"><scope>themis::server::ApiAuthConfig</scope><name>getEndpointConfig</name></member>
+      <member refid="structthemis_1_1server_1_1_api_auth_config_1add01296656eb669011a8f59bfac7462b" prot="public" virt="non-virtual"><scope>themis::server::ApiAuthConfig</scope><name>global_rate_limit_burst</name></member>
+      <member refid="structthemis_1_1server_1_1_api_auth_config_1a7e9eb2fa2dc116e6bbfb782b79062a2b" prot="public" virt="non-virtual"><scope>themis::server::ApiAuthConfig</scope><name>global_rate_limit_per_minute</name></member>
+      <member refid="structthemis_1_1server_1_1_api_auth_config_1a6285e495efc597d64429cf2805d5cebe" prot="public" virt="non-virtual"><scope>themis::server::ApiAuthConfig</scope><name>rate_limiting_enabled</name></member>
+      <member refid="structthemis_1_1server_1_1_api_auth_config_1a2a2a740a81ad5234620d6ba7f7d1085c" prot="public" virt="non-virtual"><scope>themis::server::ApiAuthConfig</scope><name>whitelist_ips</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

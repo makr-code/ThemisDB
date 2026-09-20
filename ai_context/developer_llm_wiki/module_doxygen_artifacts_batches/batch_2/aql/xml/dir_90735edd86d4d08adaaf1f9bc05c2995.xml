@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_90735edd86d4d08adaaf1f9bc05c2995" kind="dir">
+    <compoundname>benchmarks/aql</compoundname>
+    <innerfile refid="bench__aql__assistance__gates_8cpp">bench_aql_assistance_gates.cpp</innerfile>
+    <innerfile refid="bench__aql__consistency__performance__gates_8cpp">bench_aql_consistency_performance_gates.cpp</innerfile>
+    <innerfile refid="bench__aql__functions_8cpp">bench_aql_functions.cpp</innerfile>
+    <innerfile refid="bench__aql__geo__filter_8cpp">bench_aql_geo_filter.cpp</innerfile>
+    <innerfile refid="bench__aql__helper__paths_8cpp">bench_aql_helper_paths.cpp</innerfile>
+    <innerfile refid="bench__aql__mutations_8cpp">bench_aql_mutations.cpp</innerfile>
+    <innerfile refid="bench__aql__translation_8cpp">bench_aql_translation.cpp</innerfile>
+    <innerfile refid="bench__hybrid__aql__sugar_8cpp">bench_hybrid_aql_sugar.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/aql/"/>
+  </compounddef>
+</doxygen>

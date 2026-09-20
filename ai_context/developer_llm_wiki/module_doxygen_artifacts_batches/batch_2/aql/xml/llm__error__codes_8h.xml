@@ -1,0 +1,516 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="llm__error__codes_8h" kind="file" language="C++">
+    <compoundname>llm_error_codes.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">stdexcept</includes>
+    <includedby refid="aql__agent_8h" local="yes">include/aql/aql_agent.h</includedby>
+    <includedby refid="aql__token__stream_8h" local="yes">include/aql/aql_token_stream.h</includedby>
+    <includedby refid="llm__aql__handler_8h" local="yes">include/aql/llm_aql_handler.h</includedby>
+    <includedby refid="llm__semantic__validator_8h" local="yes">include/aql/llm_semantic_validator.h</includedby>
+    <includedby refid="llm__timeout__manager_8h" local="yes">include/aql/llm_timeout_manager.h</includedby>
+    <includedby refid="llm__aql__handler_8cpp" local="yes">src/aql/llm_aql_handler.cpp</includedby>
+    <includedby refid="test__aql__api__stability_8cpp" local="yes">tests/aql/test_aql_api_stability.cpp</includedby>
+    <includedby refid="test__aql__query__validator_8cpp" local="yes">tests/aql/test_aql_query_validator.cpp</includedby>
+    <includedby refid="test__aql__translation__recovery_8cpp" local="yes">tests/aql/test_aql_translation_recovery.cpp</includedby>
+    <includedby refid="test__aql__validation__error__handling_8cpp" local="yes">tests/aql/test_aql_validation_error_handling.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/aql/llm_error_codes.h</label>
+        <link refid="llm__error__codes_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>stdexcept</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/aql/aql_agent.h</label>
+        <link refid="aql__agent_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>include/aql/aql_conversation_context.h</label>
+        <link refid="aql__conversation__context_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>include/aql/aql_token_stream.h</label>
+        <link refid="aql__token__stream_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>include/aql/llm_aql_handler.h</label>
+        <link refid="llm__aql__handler_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/aql/llm_error_codes.h</label>
+        <link refid="llm__error__codes_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>include/aql/llm_extractive_compressor.h</label>
+        <link refid="llm__extractive__compressor_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>include/aql/llm_semantic_validator.h</label>
+        <link refid="llm__semantic__validator_8h"/>
+        <childnode refid="26" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>include/aql/llm_timeout_manager.h</label>
+        <link refid="llm__timeout__manager_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/aql/aql_agent.cpp</label>
+        <link refid="aql__agent_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/aql/aql_conversation_context.cpp</label>
+        <link refid="aql__conversation__context_8cpp"/>
+      </node>
+      <node id="16">
+        <label>src/aql/aql_query_builder.cpp</label>
+        <link refid="aql__query__builder_8cpp"/>
+      </node>
+      <node id="17">
+        <label>src/aql/llm_aql_embedding_bridge.cpp</label>
+        <link refid="llm__aql__embedding__bridge_8cpp"/>
+      </node>
+      <node id="18">
+        <label>src/aql/llm_aql_handler.cpp</label>
+        <link refid="llm__aql__handler_8cpp"/>
+      </node>
+      <node id="14">
+        <label>src/aql/llm_extractive_compressor.cpp</label>
+        <link refid="llm__extractive__compressor_8cpp"/>
+      </node>
+      <node id="26">
+        <label>src/aql/llm_semantic_validator.cpp</label>
+        <link refid="llm__semantic__validator_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/aql/test_aql_agent.cpp</label>
+        <link refid="test__aql__agent_8cpp"/>
+      </node>
+      <node id="19">
+        <label>tests/aql/test_aql_api_stability.cpp</label>
+        <link refid="test__aql__api__stability_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/aql/test_aql_conversation_context.cpp</label>
+        <link refid="test__aql__conversation__context_8cpp"/>
+      </node>
+      <node id="20">
+        <label>tests/aql/test_aql_llm_validation_pipeline_phase04.cpp</label>
+        <link refid="test__aql__llm__validation__pipeline__phase04_8cpp"/>
+      </node>
+      <node id="21">
+        <label>tests/aql/test_aql_query_builder.cpp</label>
+        <link refid="test__aql__query__builder_8cpp"/>
+      </node>
+      <node id="22">
+        <label>tests/aql/test_aql_query_validator.cpp</label>
+        <link refid="test__aql__query__validator_8cpp"/>
+      </node>
+      <node id="23">
+        <label>tests/aql/test_aql_schema_aware.cpp</label>
+        <link refid="test__aql__schema__aware_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/aql/test_aql_token_stream.cpp</label>
+        <link refid="test__aql__token__stream_8cpp"/>
+      </node>
+      <node id="28">
+        <label>tests/aql/test_aql_translation_recovery.cpp</label>
+        <link refid="test__aql__translation__recovery_8cpp"/>
+      </node>
+      <node id="29">
+        <label>tests/aql/test_aql_validation_error_handling.cpp</label>
+        <link refid="test__aql__validation__error__handling_8cpp"/>
+      </node>
+      <node id="15">
+        <label>tests/aql/test_episodic_compaction.cpp</label>
+        <link refid="test__episodic__compaction_8cpp"/>
+      </node>
+      <node id="24">
+        <label>tests/aql/test_llm_aql_handler_phase03.cpp</label>
+        <link refid="test__llm__aql__handler__phase03_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/aql/test_p2_d05_runtime_integration.cpp</label>
+        <link refid="test__p2__d05__runtime__integration_8cpp"/>
+      </node>
+      <node id="12">
+        <label>tests/aql/test_p2_d06_benchmarks.cpp</label>
+        <link refid="test__p2__d06__benchmarks_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1aql_1_1_l_l_m_exception" prot="public">themis::aql::LLMException</innerclass>
+    <innerclass refid="structthemis_1_1aql_1_1_validation_limits_config" prot="public">themis::aql::ValidationLimitsConfig</innerclass>
+    <innerclass refid="classthemis_1_1aql_1_1_l_l_m_validator" prot="public">themis::aql::LLMValidator</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1aql">themis::aql</innernamespace>
+    <innernamespace refid="namespacethemis_1_1aql_1_1_validation_limits">themis::aql::ValidationLimits</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20" refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217" kindref="member">LLMErrorCode</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Input<sp/>validation<sp/>errors<sp/>(1xxx)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22" refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a96a4f99744f9ddc8a93f79e5f97b909e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a96a4f99744f9ddc8a93f79e5f97b909e" kindref="member">INVALID_PROMPT</ref><sp/>=<sp/>1001,</highlight></codeline>
+<codeline lineno="23" refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217ac4010e270bab1c12468f18698c5bfe29" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217ac4010e270bab1c12468f18698c5bfe29" kindref="member">PROMPT_TOO_LONG</ref><sp/>=<sp/>1002,</highlight></codeline>
+<codeline lineno="24" refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a688545e1a10e09c7c2184364f7b3295b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a688545e1a10e09c7c2184364f7b3295b" kindref="member">INVALID_MODEL_ID</ref><sp/>=<sp/>1003,</highlight></codeline>
+<codeline lineno="25" refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217af6aaed6c00dc050d45098f8d4e5514ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217af6aaed6c00dc050d45098f8d4e5514ef" kindref="member">INVALID_LORA_ID</ref><sp/>=<sp/>1004,</highlight></codeline>
+<codeline lineno="26" refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a2b43360f8b6312705b78e5a0f220c267" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a2b43360f8b6312705b78e5a0f220c267" kindref="member">INVALID_COLLECTION</ref><sp/>=<sp/>1005,</highlight></codeline>
+<codeline lineno="27" refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a6a45bdd1c43c7204aba8a400a62b7543" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a6a45bdd1c43c7204aba8a400a62b7543" kindref="member">INVALID_OPTIONS</ref><sp/>=<sp/>1006,</highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217aa6ac4db48d599bfc1c70461012c07c9c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217aa6ac4db48d599bfc1c70461012c07c9c" kindref="member">PROMPT_INJECTION</ref><sp/>=<sp/>1007,<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Input<sp/>rejected<sp/>due<sp/>to<sp/>detected<sp/>prompt<sp/>injection<sp/>attempt</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a2eaec33b2d6224f90e7222e4b7a49183" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a2eaec33b2d6224f90e7222e4b7a49183" kindref="member">ACCESS_DENIED</ref><sp/><sp/><sp/><sp/>=<sp/>1008,<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Generated<sp/>AQL<sp/>references<sp/>a<sp/>collection<sp/>the<sp/>caller<sp/>may<sp/>not<sp/>access</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Model<sp/>errors<sp/>(2xxx)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a7910c61dde2815d5f45995864ffb7f15" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a7910c61dde2815d5f45995864ffb7f15" kindref="member">MODEL_NOT_FOUND</ref><sp/>=<sp/>2001,</highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a0c25b747ba39f7d804872b71faa583a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a0c25b747ba39f7d804872b71faa583a7" kindref="member">MODEL_LOAD_FAILED</ref><sp/>=<sp/>2002,</highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a4d6f2a4016645123ae6c9b68f963b668" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a4d6f2a4016645123ae6c9b68f963b668" kindref="member">MODEL_UNLOAD_FAILED</ref><sp/>=<sp/>2003,</highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217ac4a871a5e43e174abb4faf731da4b3da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217ac4a871a5e43e174abb4faf731da4b3da" kindref="member">MODEL_NOT_LOADED</ref><sp/>=<sp/>2004,</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LoRA<sp/>errors<sp/>(3xxx)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a703d17982b46efd820b764e23ec7a2c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a703d17982b46efd820b764e23ec7a2c9" kindref="member">LORA_NOT_FOUND</ref><sp/>=<sp/>3001,</highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a817c3a6e3a7800c536d3080a03c65d8f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a817c3a6e3a7800c536d3080a03c65d8f" kindref="member">LORA_LOAD_FAILED</ref><sp/>=<sp/>3002,</highlight></codeline>
+<codeline lineno="40" refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217aae8218ba26d4ecfb716d5464e3b1b7f1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217aae8218ba26d4ecfb716d5464e3b1b7f1" kindref="member">LORA_UNLOAD_FAILED</ref><sp/>=<sp/>3003,</highlight></codeline>
+<codeline lineno="41" refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a8bf827e50622c1ca03d5f6c4bda42116" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a8bf827e50622c1ca03d5f6c4bda42116" kindref="member">LORA_NOT_LOADED</ref><sp/>=<sp/>3004,</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Execution<sp/>errors<sp/>(4xxx)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217acc6010972c9fec39edc95265b65c3a51" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217acc6010972c9fec39edc95265b65c3a51" kindref="member">INFERENCE_FAILED</ref><sp/>=<sp/>4001,</highlight></codeline>
+<codeline lineno="45" refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a4b07ccfaa6e57aaad57f691c90f09cf1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a4b07ccfaa6e57aaad57f691c90f09cf1" kindref="member">RAG_FAILED</ref><sp/>=<sp/>4002,</highlight></codeline>
+<codeline lineno="46" refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217ac2c493aeaa8b2688a3f57aa008ce58b6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217ac2c493aeaa8b2688a3f57aa008ce58b6" kindref="member">EMBEDDING_FAILED</ref><sp/>=<sp/>4003,</highlight></codeline>
+<codeline lineno="47" refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a070a0fb40f6c308ab544b227660aadff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a070a0fb40f6c308ab544b227660aadff" kindref="member">TIMEOUT</ref><sp/>=<sp/>4004,</highlight></codeline>
+<codeline lineno="48" refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a44cb7794c92b9335a32aa002181ec23e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a44cb7794c92b9335a32aa002181ec23e" kindref="member">INVALID_RESPONSE</ref><sp/>=<sp/>4005,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Resource<sp/>errors<sp/>(5xxx)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217ac56ddb8056b120c9d5fee05981f219c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217ac56ddb8056b120c9d5fee05981f219c6" kindref="member">OUT_OF_MEMORY</ref><sp/>=<sp/>5001,</highlight></codeline>
+<codeline lineno="52" refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a4f71a79f0aca2e20353e6dbfad579115" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a4f71a79f0aca2e20353e6dbfad579115" kindref="member">CACHE_FULL</ref><sp/>=<sp/>5002,</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Provider<sp/>/<sp/>capability<sp/>errors<sp/>(6xxx)<sp/>—<sp/>frozen<sp/>contract<sp/>(Q3<sp/>2026)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217aa91837fab925aba985fb714103790406" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217aa91837fab925aba985fb714103790406" kindref="member">PROVIDER_UNSUPPORTED</ref><sp/>=<sp/>6001,</highlight></codeline>
+<codeline lineno="56" refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a65f0c931a19338f27f21d5d188a61cc9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a65f0c931a19338f27f21d5d188a61cc9" kindref="member">CAPABILITY_UNSUPPORTED</ref><sp/>=<sp/>6002,</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Internal<sp/>errors<sp/>(9xxx)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217ae8c0c70879b5895c615677261d64a1ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217ae8c0c70879b5895c615677261d64a1ee" kindref="member">INTERNAL_ERROR</ref><sp/>=<sp/>9001,</highlight></codeline>
+<codeline lineno="60" refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a9a10f345b0f755d461a8673a5e9ef6b4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a9a10f345b0f755d461a8673a5e9ef6b4" kindref="member">UNKNOWN_ERROR</ref><sp/>=<sp/>9999</highlight></codeline>
+<codeline lineno="61"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="classthemis_1_1aql_1_1_l_l_m_exception" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1aql_1_1_l_l_m_exception_1a26f39f95ba29da1039fd571e0ff326f0" kindref="member">LLMException</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>std::runtime_error<sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="65" refid="classthemis_1_1aql_1_1_l_l_m_exception_1a26f39f95ba29da1039fd571e0ff326f0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_exception_1a26f39f95ba29da1039fd571e0ff326f0" kindref="member">LLMException</ref>(<ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217" kindref="member">LLMErrorCode</ref><sp/>code,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message)</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>std::runtime_error(message)</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>,<sp/>error_code_(code)</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>,<sp/>correlation_id_(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>{}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71" refid="classthemis_1_1aql_1_1_l_l_m_exception_1ad554b39ba7fe55cdfcb647e6a66492c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_exception_1ad554b39ba7fe55cdfcb647e6a66492c5" kindref="member">LLMException</ref>(<ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217" kindref="member">LLMErrorCode</ref><sp/>code,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>correlation_id)</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>std::runtime_error(message)</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>,<sp/>error_code_(code)</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>,<sp/>correlation_id_(correlation_id)</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>{}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77" refid="classthemis_1_1aql_1_1_l_l_m_exception_1a4eafe6a03c32fba45bfc92b7eb648a88" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217" kindref="member">LLMErrorCode</ref><sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_exception_1a4eafe6a03c32fba45bfc92b7eb648a88" kindref="member">getErrorCode</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>error_code_;<sp/>}</highlight></codeline>
+<codeline lineno="78" refid="classthemis_1_1aql_1_1_l_l_m_exception_1a4fb6b3083d4b6328d24285ff66e33b20" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_exception_1a4fb6b3083d4b6328d24285ff66e33b20" kindref="member">getCorrelationId</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>correlation_id_;<sp/>}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80" refid="classthemis_1_1aql_1_1_l_l_m_exception_1a39c254419cdd4ebdf2ca3792096c825a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_exception_1a39c254419cdd4ebdf2ca3792096c825a" kindref="member">getSafeMessage</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>formatErrorMessage(error_code_,<sp/>what());</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="90" refid="classthemis_1_1aql_1_1_l_l_m_exception_1a719dde355552028aca1124fbc6e81f5f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_exception_1a719dde355552028aca1124fbc6e81f5f" kindref="member">getErrorCodeString</ref>(<ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217" kindref="member">LLMErrorCode</ref><sp/>code)<sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(code)<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a96a4f99744f9ddc8a93f79e5f97b909e" kindref="member">LLMErrorCode::INVALID_PROMPT</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;LLM_INVALID_PROMPT&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217ac4010e270bab1c12468f18698c5bfe29" kindref="member">LLMErrorCode::PROMPT_TOO_LONG</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;LLM_PROMPT_TOO_LONG&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a688545e1a10e09c7c2184364f7b3295b" kindref="member">LLMErrorCode::INVALID_MODEL_ID</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;LLM_INVALID_MODEL_ID&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217af6aaed6c00dc050d45098f8d4e5514ef" kindref="member">LLMErrorCode::INVALID_LORA_ID</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;LLM_INVALID_LORA_ID&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a2b43360f8b6312705b78e5a0f220c267" kindref="member">LLMErrorCode::INVALID_COLLECTION</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;LLM_INVALID_COLLECTION&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a6a45bdd1c43c7204aba8a400a62b7543" kindref="member">LLMErrorCode::INVALID_OPTIONS</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;LLM_INVALID_OPTIONS&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a2eaec33b2d6224f90e7222e4b7a49183" kindref="member">LLMErrorCode::ACCESS_DENIED</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;LLM_ACCESS_DENIED&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a7910c61dde2815d5f45995864ffb7f15" kindref="member">LLMErrorCode::MODEL_NOT_FOUND</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;LLM_MODEL_NOT_FOUND&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a0c25b747ba39f7d804872b71faa583a7" kindref="member">LLMErrorCode::MODEL_LOAD_FAILED</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;LLM_MODEL_LOAD_FAILED&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a4d6f2a4016645123ae6c9b68f963b668" kindref="member">LLMErrorCode::MODEL_UNLOAD_FAILED</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;LLM_MODEL_UNLOAD_FAILED&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217ac4a871a5e43e174abb4faf731da4b3da" kindref="member">LLMErrorCode::MODEL_NOT_LOADED</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;LLM_MODEL_NOT_LOADED&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a703d17982b46efd820b764e23ec7a2c9" kindref="member">LLMErrorCode::LORA_NOT_FOUND</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;LLM_LORA_NOT_FOUND&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a817c3a6e3a7800c536d3080a03c65d8f" kindref="member">LLMErrorCode::LORA_LOAD_FAILED</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;LLM_LORA_LOAD_FAILED&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217aae8218ba26d4ecfb716d5464e3b1b7f1" kindref="member">LLMErrorCode::LORA_UNLOAD_FAILED</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;LLM_LORA_UNLOAD_FAILED&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a8bf827e50622c1ca03d5f6c4bda42116" kindref="member">LLMErrorCode::LORA_NOT_LOADED</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;LLM_LORA_NOT_LOADED&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217acc6010972c9fec39edc95265b65c3a51" kindref="member">LLMErrorCode::INFERENCE_FAILED</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;LLM_INFERENCE_FAILED&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a4b07ccfaa6e57aaad57f691c90f09cf1" kindref="member">LLMErrorCode::RAG_FAILED</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;LLM_RAG_FAILED&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217ac2c493aeaa8b2688a3f57aa008ce58b6" kindref="member">LLMErrorCode::EMBEDDING_FAILED</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;LLM_EMBEDDING_FAILED&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a070a0fb40f6c308ab544b227660aadff" kindref="member">LLMErrorCode::TIMEOUT</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;LLM_TIMEOUT&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a44cb7794c92b9335a32aa002181ec23e" kindref="member">LLMErrorCode::INVALID_RESPONSE</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;LLM_INVALID_RESPONSE&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217ac56ddb8056b120c9d5fee05981f219c6" kindref="member">LLMErrorCode::OUT_OF_MEMORY</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;LLM_OUT_OF_MEMORY&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a4f71a79f0aca2e20353e6dbfad579115" kindref="member">LLMErrorCode::CACHE_FULL</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;LLM_CACHE_FULL&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217ae8c0c70879b5895c615677261d64a1ee" kindref="member">LLMErrorCode::INTERNAL_ERROR</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;LLM_INTERNAL_ERROR&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a9a10f345b0f755d461a8673a5e9ef6b4" kindref="member">LLMErrorCode::UNKNOWN_ERROR</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;LLM_UNKNOWN_ERROR&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;LLM_UNKNOWN_ERROR&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217" kindref="member">LLMErrorCode</ref><sp/>error_code_;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>correlation_id_;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>formatErrorMessage(<ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217" kindref="member">LLMErrorCode</ref><sp/>code,<sp/>[[maybe_unused]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>internal_msg)<sp/>{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>user-facing<sp/>errors,<sp/>provide<sp/>generic<sp/>safe<sp/>messages</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(code)<sp/>{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a96a4f99744f9ddc8a93f79e5f97b909e" kindref="member">LLMErrorCode::INVALID_PROMPT</ref>:</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Invalid<sp/>prompt<sp/>provided&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217ac4010e270bab1c12468f18698c5bfe29" kindref="member">LLMErrorCode::PROMPT_TOO_LONG</ref>:</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Prompt<sp/>exceeds<sp/>maximum<sp/>allowed<sp/>length&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a688545e1a10e09c7c2184364f7b3295b" kindref="member">LLMErrorCode::INVALID_MODEL_ID</ref>:</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Invalid<sp/>model<sp/>identifier&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217af6aaed6c00dc050d45098f8d4e5514ef" kindref="member">LLMErrorCode::INVALID_LORA_ID</ref>:</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Invalid<sp/>LoRA<sp/>adapter<sp/>identifier&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a2b43360f8b6312705b78e5a0f220c267" kindref="member">LLMErrorCode::INVALID_COLLECTION</ref>:</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Invalid<sp/>collection<sp/>name&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a6a45bdd1c43c7204aba8a400a62b7543" kindref="member">LLMErrorCode::INVALID_OPTIONS</ref>:</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Invalid<sp/>options<sp/>provided&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217aa6ac4db48d599bfc1c70461012c07c9c" kindref="member">LLMErrorCode::PROMPT_INJECTION</ref>:</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Input<sp/>rejected:<sp/>potentially<sp/>unsafe<sp/>content<sp/>detected&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a2eaec33b2d6224f90e7222e4b7a49183" kindref="member">LLMErrorCode::ACCESS_DENIED</ref>:</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Access<sp/>denied:<sp/>generated<sp/>query<sp/>references<sp/>unauthorized<sp/>collection(s)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a7910c61dde2815d5f45995864ffb7f15" kindref="member">LLMErrorCode::MODEL_NOT_FOUND</ref>:</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Requested<sp/>model<sp/>not<sp/>found&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a0c25b747ba39f7d804872b71faa583a7" kindref="member">LLMErrorCode::MODEL_LOAD_FAILED</ref>:</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Failed<sp/>to<sp/>load<sp/>model&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a4d6f2a4016645123ae6c9b68f963b668" kindref="member">LLMErrorCode::MODEL_UNLOAD_FAILED</ref>:</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Failed<sp/>to<sp/>unload<sp/>model&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217ac4a871a5e43e174abb4faf731da4b3da" kindref="member">LLMErrorCode::MODEL_NOT_LOADED</ref>:</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Model<sp/>is<sp/>not<sp/>loaded&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a703d17982b46efd820b764e23ec7a2c9" kindref="member">LLMErrorCode::LORA_NOT_FOUND</ref>:</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Requested<sp/>LoRA<sp/>adapter<sp/>not<sp/>found&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a817c3a6e3a7800c536d3080a03c65d8f" kindref="member">LLMErrorCode::LORA_LOAD_FAILED</ref>:</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Failed<sp/>to<sp/>load<sp/>LoRA<sp/>adapter&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217aae8218ba26d4ecfb716d5464e3b1b7f1" kindref="member">LLMErrorCode::LORA_UNLOAD_FAILED</ref>:</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Failed<sp/>to<sp/>unload<sp/>LoRA<sp/>adapter&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a8bf827e50622c1ca03d5f6c4bda42116" kindref="member">LLMErrorCode::LORA_NOT_LOADED</ref>:</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;LoRA<sp/>adapter<sp/>is<sp/>not<sp/>loaded&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217acc6010972c9fec39edc95265b65c3a51" kindref="member">LLMErrorCode::INFERENCE_FAILED</ref>:</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;LLM<sp/>inference<sp/>failed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a4b07ccfaa6e57aaad57f691c90f09cf1" kindref="member">LLMErrorCode::RAG_FAILED</ref>:</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;RAG<sp/>query<sp/>failed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217ac2c493aeaa8b2688a3f57aa008ce58b6" kindref="member">LLMErrorCode::EMBEDDING_FAILED</ref>:</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Embedding<sp/>generation<sp/>failed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a070a0fb40f6c308ab544b227660aadff" kindref="member">LLMErrorCode::TIMEOUT</ref>:</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Operation<sp/>timed<sp/>out&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a44cb7794c92b9335a32aa002181ec23e" kindref="member">LLMErrorCode::INVALID_RESPONSE</ref>:</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;LLM<sp/>generated<sp/>an<sp/>invalid<sp/>or<sp/>structurally<sp/>broken<sp/>response&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217ac56ddb8056b120c9d5fee05981f219c6" kindref="member">LLMErrorCode::OUT_OF_MEMORY</ref>:</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Insufficient<sp/>memory<sp/>for<sp/>operation&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a4f71a79f0aca2e20353e6dbfad579115" kindref="member">LLMErrorCode::CACHE_FULL</ref>:</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Cache<sp/>is<sp/>full&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217ae8c0c70879b5895c615677261d64a1ee" kindref="member">LLMErrorCode::INTERNAL_ERROR</ref>:</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a9a10f345b0f755d461a8673a5e9ef6b4" kindref="member">LLMErrorCode::UNKNOWN_ERROR</ref>:</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Mask<sp/>internal<sp/>error<sp/>details</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;An<sp/>internal<sp/>error<sp/>occurred.<sp/>Please<sp/>contact<sp/>support.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182" refid="namespacethemis_1_1aql_1_1_validation_limits" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1aql_1_1_validation_limits" kindref="compound">ValidationLimits</ref><sp/>{</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Maximum<sp/>prompt<sp/>length<sp/>(approximately<sp/>32K<sp/>tokens<sp/>at<sp/>4<sp/>chars/token)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184" refid="namespacethemis_1_1aql_1_1_validation_limits_1a26e729d5393f7c72f0f7ce5714e71159" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1_1_validation_limits_1a26e729d5393f7c72f0f7ce5714e71159" kindref="member">MAX_PROMPT_LENGTH</ref><sp/>=<sp/>128000;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Maximum<sp/>collection<sp/>name<sp/>length</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187" refid="namespacethemis_1_1aql_1_1_validation_limits_1a8cf9c099245b3e62abcadd999fe7bc0f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1_1_validation_limits_1a8cf9c099245b3e62abcadd999fe7bc0f" kindref="member">MAX_COLLECTION_NAME_LENGTH</ref><sp/>=<sp/>256;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Maximum<sp/>model/LoRA<sp/>ID<sp/>length</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190" refid="namespacethemis_1_1aql_1_1_validation_limits_1a3472aa2d775c9932e34ab6b129c5b573" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1_1_validation_limits_1a3472aa2d775c9932e34ab6b129c5b573" kindref="member">MAX_ID_LENGTH</ref><sp/>=<sp/>128;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Maximum<sp/>number<sp/>of<sp/>documents<sp/>for<sp/>RAG<sp/>(top_k)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193" refid="namespacethemis_1_1aql_1_1_validation_limits_1a4d0715f67eeb8dd075d96ae0f02011d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1_1_validation_limits_1a4d0715f67eeb8dd075d96ae0f02011d9" kindref="member">MAX_RAG_TOP_K</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Minimum<sp/>number<sp/>of<sp/>documents<sp/>for<sp/>RAG<sp/>(top_k)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196" refid="namespacethemis_1_1aql_1_1_validation_limits_1a29cf8283aaa042aeb1c3565520ed9c9f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1_1_validation_limits_1a29cf8283aaa042aeb1c3565520ed9c9f" kindref="member">MIN_RAG_TOP_K</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Default<sp/>execution<sp/>timeout<sp/>in<sp/>seconds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199" refid="namespacethemis_1_1aql_1_1_validation_limits_1a6884cec21a93f5e67ca278cd97006bd5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1_1_validation_limits_1a6884cec21a93f5e67ca278cd97006bd5" kindref="member">DEFAULT_TIMEOUT_SECONDS</ref><sp/>=<sp/>300;<sp/></highlight><highlight class="comment">//<sp/>5<sp/>minutes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Maximum<sp/>length<sp/>for<sp/>a<sp/>natural-language<sp/>query<sp/>passed<sp/>to<sp/>translateNLToAQL()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(4<sp/>096<sp/>chars<sp/>≈<sp/>1<sp/>024<sp/>tokens<sp/>–<sp/>more<sp/>than<sp/>enough<sp/>for<sp/>any<sp/>realistic<sp/>NL<sp/>query)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203" refid="namespacethemis_1_1aql_1_1_validation_limits_1a8d569744ab237f009740da8139c1d766" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1_1_validation_limits_1a8d569744ab237f009740da8139c1d766" kindref="member">MAX_NL_QUERY_LENGTH</ref><sp/>=<sp/>4096;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Maximum<sp/>length<sp/>for<sp/>schema<sp/>context<sp/>passed<sp/>to<sp/>translateNLToAQL()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(32<sp/>768<sp/>chars<sp/>≈<sp/>8<sp/>192<sp/>tokens)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207" refid="namespacethemis_1_1aql_1_1_validation_limits_1a49e45d1335a3d59cca48241dc6f08397" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1_1_validation_limits_1a49e45d1335a3d59cca48241dc6f08397" kindref="member">MAX_SCHEMA_CONTEXT_LENGTH</ref><sp/>=<sp/>32768;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210" refid="structthemis_1_1aql_1_1_validation_limits_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1aql_1_1_validation_limits_config" kindref="compound">ValidationLimitsConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="211" refid="structthemis_1_1aql_1_1_validation_limits_config_1aac14febde17d82dc0aaa55e44e1eb886" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1aql_1_1_validation_limits_config_1aac14febde17d82dc0aaa55e44e1eb886" kindref="member">max_prompt_length</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1aql_1_1_validation_limits_1a26e729d5393f7c72f0f7ce5714e71159" kindref="member">ValidationLimits::MAX_PROMPT_LENGTH</ref>;</highlight></codeline>
+<codeline lineno="212" refid="structthemis_1_1aql_1_1_validation_limits_config_1a0bd632fb5fd9c8e8993a2c5bf7aa0b67" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1aql_1_1_validation_limits_config_1a0bd632fb5fd9c8e8993a2c5bf7aa0b67" kindref="member">max_nl_query_length</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1aql_1_1_validation_limits_1a8d569744ab237f009740da8139c1d766" kindref="member">ValidationLimits::MAX_NL_QUERY_LENGTH</ref>;</highlight></codeline>
+<codeline lineno="213" refid="structthemis_1_1aql_1_1_validation_limits_config_1a47dde8e5913045b24e341a7a682c2fc9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1aql_1_1_validation_limits_config_1a47dde8e5913045b24e341a7a682c2fc9" kindref="member">max_schema_context_length</ref><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1aql_1_1_validation_limits_1a49e45d1335a3d59cca48241dc6f08397" kindref="member">ValidationLimits::MAX_SCHEMA_CONTEXT_LENGTH</ref>;</highlight></codeline>
+<codeline lineno="214" refid="structthemis_1_1aql_1_1_validation_limits_config_1a86dccf12ea20c619c89fb18b44b005a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_validation_limits_config_1a86dccf12ea20c619c89fb18b44b005a5" kindref="member">max_rag_top_k</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1aql_1_1_validation_limits_1a4d0715f67eeb8dd075d96ae0f02011d9" kindref="member">ValidationLimits::MAX_RAG_TOP_K</ref>;</highlight></codeline>
+<codeline lineno="215" refid="structthemis_1_1aql_1_1_validation_limits_config_1a2355eca27e472ef4ad94ebffcf904448" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_validation_limits_config_1a2355eca27e472ef4ad94ebffcf904448" kindref="member">min_rag_top_k</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1aql_1_1_validation_limits_1a29cf8283aaa042aeb1c3565520ed9c9f" kindref="member">ValidationLimits::MIN_RAG_TOP_K</ref>;</highlight></codeline>
+<codeline lineno="216" refid="structthemis_1_1aql_1_1_validation_limits_config_1a54c4afc4b9975355814fe9681bb1290d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_validation_limits_config_1a54c4afc4b9975355814fe9681bb1290d" kindref="member">default_timeout_seconds</ref><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1aql_1_1_validation_limits_1a6884cec21a93f5e67ca278cd97006bd5" kindref="member">ValidationLimits::DEFAULT_TIMEOUT_SECONDS</ref>;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219" refid="classthemis_1_1aql_1_1_l_l_m_validator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1aql_1_1_l_l_m_validator" kindref="compound">LLMValidator</ref><sp/>{</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="227" refid="classthemis_1_1aql_1_1_l_l_m_validator_1a7f4e066c48c067a260219d42c87c492f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_validator_1a7f4e066c48c067a260219d42c87c492f" kindref="member">validatePrompt</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt)<sp/>{</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(prompt.empty())<sp/>{</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_exception" kindref="compound">LLMException</ref>(<ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a96a4f99744f9ddc8a93f79e5f97b909e" kindref="member">LLMErrorCode::INVALID_PROMPT</ref>,<sp/></highlight><highlight class="stringliteral">&quot;Prompt<sp/>cannot<sp/>be<sp/>empty&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(prompt.length()<sp/>&gt;<sp/><ref refid="namespacethemis_1_1aql_1_1_validation_limits_1a26e729d5393f7c72f0f7ce5714e71159" kindref="member">ValidationLimits::MAX_PROMPT_LENGTH</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_exception" kindref="compound">LLMException</ref>(<ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217ac4010e270bab1c12468f18698c5bfe29" kindref="member">LLMErrorCode::PROMPT_TOO_LONG</ref>,</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Prompt<sp/>length<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(prompt.length())<sp/>+</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;<sp/>exceeds<sp/>maximum<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(<ref refid="namespacethemis_1_1aql_1_1_validation_limits_1a26e729d5393f7c72f0f7ce5714e71159" kindref="member">ValidationLimits::MAX_PROMPT_LENGTH</ref>));</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="238" refid="classthemis_1_1aql_1_1_l_l_m_validator_1a5a53d32927464ff2f3f1e8440accca82" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_validator_1a5a53d32927464ff2f3f1e8440accca82" kindref="member">validateId</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_lora<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">.empty())<sp/>{</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>Empty<sp/>IDs<sp/>are<sp/>allowed<sp/>(use<sp/>default)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">.length()<sp/>&gt;<sp/><ref refid="namespacethemis_1_1aql_1_1_validation_limits_1a3472aa2d775c9932e34ab6b129c5b573" kindref="member">ValidationLimits::MAX_ID_LENGTH</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_exception" kindref="compound">LLMException</ref>(</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>is_lora<sp/>?<sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217af6aaed6c00dc050d45098f8d4e5514ef" kindref="member">LLMErrorCode::INVALID_LORA_ID</ref><sp/>:<sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a688545e1a10e09c7c2184364f7b3295b" kindref="member">LLMErrorCode::INVALID_MODEL_ID</ref>,</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;ID<sp/>length<sp/>exceeds<sp/>maximum<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(<ref refid="namespacethemis_1_1aql_1_1_validation_limits_1a3472aa2d775c9932e34ab6b129c5b573" kindref="member">ValidationLimits::MAX_ID_LENGTH</ref>)</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>for<sp/>valid<sp/>characters:<sp/>alphanumeric,<sp/>dash,<sp/>underscore,<sp/>dot</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>c<sp/>:<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!std::isalnum(c)<sp/>&amp;&amp;<sp/>c<sp/>!=<sp/></highlight><highlight class="charliteral">&apos;-&apos;</highlight><highlight class="normal"><sp/>&amp;&amp;<sp/>c<sp/>!=<sp/></highlight><highlight class="charliteral">&apos;_&apos;</highlight><highlight class="normal"><sp/>&amp;&amp;<sp/>c<sp/>!=<sp/></highlight><highlight class="charliteral">&apos;.&apos;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_exception" kindref="compound">LLMException</ref>(</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>is_lora<sp/>?<sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217af6aaed6c00dc050d45098f8d4e5514ef" kindref="member">LLMErrorCode::INVALID_LORA_ID</ref><sp/>:<sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a688545e1a10e09c7c2184364f7b3295b" kindref="member">LLMErrorCode::INVALID_MODEL_ID</ref>,</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;ID<sp/>contains<sp/>invalid<sp/>characters.<sp/>Only<sp/>alphanumeric,<sp/>dash,<sp/>underscore,<sp/>and<sp/>dot<sp/>are<sp/>allowed&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="267" refid="classthemis_1_1aql_1_1_l_l_m_validator_1a5a32a3a1e80c146d438dcc2cb7fe7fb4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_validator_1a5a32a3a1e80c146d438dcc2cb7fe7fb4" kindref="member">validateCollection</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection)<sp/>{</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(collection.empty())<sp/>{</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_exception" kindref="compound">LLMException</ref>(<ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a2b43360f8b6312705b78e5a0f220c267" kindref="member">LLMErrorCode::INVALID_COLLECTION</ref>,<sp/></highlight><highlight class="stringliteral">&quot;Collection<sp/>name<sp/>cannot<sp/>be<sp/>empty&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(collection.length()<sp/>&gt;<sp/><ref refid="namespacethemis_1_1aql_1_1_validation_limits_1a8cf9c099245b3e62abcadd999fe7bc0f" kindref="member">ValidationLimits::MAX_COLLECTION_NAME_LENGTH</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_exception" kindref="compound">LLMException</ref>(<ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a2b43360f8b6312705b78e5a0f220c267" kindref="member">LLMErrorCode::INVALID_COLLECTION</ref>,</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Collection<sp/>name<sp/>length<sp/>exceeds<sp/>maximum<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(<ref refid="namespacethemis_1_1aql_1_1_validation_limits_1a8cf9c099245b3e62abcadd999fe7bc0f" kindref="member">ValidationLimits::MAX_COLLECTION_NAME_LENGTH</ref>));</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="283" refid="classthemis_1_1aql_1_1_l_l_m_validator_1a870bfdcc9455f1cd0a593a0b9d6ff53a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_validator_1a870bfdcc9455f1cd0a593a0b9d6ff53a" kindref="member">validateTopK</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>top_k)<sp/>{</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(top_k<sp/>&lt;<sp/>ValidationLimits::MIN_RAG_TOP_K<sp/>||<sp/>top_k<sp/>&gt;<sp/><ref refid="namespacethemis_1_1aql_1_1_validation_limits_1a4d0715f67eeb8dd075d96ae0f02011d9" kindref="member">ValidationLimits::MAX_RAG_TOP_K</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_exception" kindref="compound">LLMException</ref>(<ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a6a45bdd1c43c7204aba8a400a62b7543" kindref="member">LLMErrorCode::INVALID_OPTIONS</ref>,</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;top_k<sp/>must<sp/>be<sp/>between<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(<ref refid="namespacethemis_1_1aql_1_1_validation_limits_1a29cf8283aaa042aeb1c3565520ed9c9f" kindref="member">ValidationLimits::MIN_RAG_TOP_K</ref>)<sp/>+</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;<sp/>and<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(<ref refid="namespacethemis_1_1aql_1_1_validation_limits_1a4d0715f67eeb8dd075d96ae0f02011d9" kindref="member">ValidationLimits::MAX_RAG_TOP_K</ref>));</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="290"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>aql</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/aql/llm_error_codes.h"/>
+  </compounddef>
+</doxygen>

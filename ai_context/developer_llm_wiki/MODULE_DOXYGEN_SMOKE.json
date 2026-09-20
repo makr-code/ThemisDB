@@ -1,0 +1,35 @@
+{
+  "tool": "generate_module_doxygen_xml.py",
+  "generated_at": "2026-09-20T08:28:30Z",
+  "selection_mode": "explicit_modules",
+  "workers": 1,
+  "batch_count": 1,
+  "batch_index": 0,
+  "include_root_fallback": false,
+  "write_module_markdown": true,
+  "repo_root": "C:\\Projects\\ThemisDB",
+  "doxyfile": "Doxyfile.audit",
+  "output_root": "C:\\Projects\\ThemisDB\\ai_context\\developer_llm_wiki\\module_doxygen_artifacts_smoke",
+  "modules": [
+    {
+      "module": "retrieval",
+      "status": "PASS",
+      "reason": "",
+      "cpp_file_count": 8,
+      "xml_index": "retrieval\\xml\\index.xml",
+      "warnings_log": "retrieval\\doxygen-warnings.log",
+      "duration_seconds": 0.268,
+      "doxygen_exit_code": 0,
+      "compound_total": 42,
+      "class_struct_total": 15,
+      "namespace_total": 8,
+      "file_total": 8
+    }
+  ],
+  "totals": {
+    "requested": 1,
+    "pass": 1,
+    "skip": 0,
+    "fail": 0
+  }
+}

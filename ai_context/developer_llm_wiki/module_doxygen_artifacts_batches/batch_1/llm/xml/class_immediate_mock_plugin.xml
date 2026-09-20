@@ -1,0 +1,395 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_immediate_mock_plugin" kind="class" language="C++" prot="public">
+    <compoundname>ImmediateMockPlugin</compoundname>
+    <basecompoundref refid="classthemis_1_1llm_1_1_i_l_l_m_plugin" prot="public" virt="non-virtual">themis::llm::ILLMPlugin</basecompoundref>
+    <derivedcompoundref refid="class_blocking_mock_plugin" prot="public" virt="non-virtual">BlockingMockPlugin</derivedcompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_immediate_mock_plugin_1adb9058e0d3bf38d4540e93003fe1d59d" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; ImmediateMockPlugin::call_count_</definition>
+        <argsstring></argsstring>
+        <name>call_count_</name>
+        <qualifiedname>ImmediateMockPlugin::call_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_hardening_phase4.cpp" line="85" column="17" bodyfile="tests/llm/test_llm_hardening_phase4.cpp" bodystart="85" bodyend="85"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_immediate_mock_plugin_1a6b695ba9029e8749dfc6365cecd086a3" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string ImmediateMockPlugin::response_text_</definition>
+        <argsstring></argsstring>
+        <name>response_text_</name>
+        <qualifiedname>ImmediateMockPlugin::response_text_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_hardening_phase4.cpp" line="88" column="17" bodyfile="tests/llm/test_llm_hardening_phase4.cpp" bodystart="88" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_immediate_mock_plugin_1a6b159b93901f2a87e2d781ba45698b39" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>ImmediateMockPlugin::ImmediateMockPlugin</definition>
+        <argsstring>(std::string response_text=&quot;ok&quot;)</argsstring>
+        <name>ImmediateMockPlugin</name>
+        <qualifiedname>ImmediateMockPlugin::ImmediateMockPlugin</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>response_text</declname>
+          <defval>&quot;ok&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_hardening_phase4.cpp" line="47" column="14" bodyfile="tests/llm/test_llm_hardening_phase4.cpp" bodystart="47" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="class_immediate_mock_plugin_1a34d33e39195b763ec026f1273e61a3f3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool ImmediateMockPlugin::loadModel</definition>
+        <argsstring>(const std::string &amp;, const json &amp;) override</argsstring>
+        <name>loadModel</name>
+        <qualifiedname>ImmediateMockPlugin::loadModel</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1ab2f6318ca437d31318a0beca0c5d4742">loadModel</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_hardening_phase4.cpp" line="50" column="10" bodyfile="tests/llm/test_llm_hardening_phase4.cpp" bodystart="50" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="class_immediate_mock_plugin_1a15e4399e033488488cc3663bdf65ba4f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void ImmediateMockPlugin::unloadModel</definition>
+        <argsstring>() override</argsstring>
+        <name>unloadModel</name>
+        <qualifiedname>ImmediateMockPlugin::unloadModel</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a20a8a402b6aca0e9a79b87e5a6c2fd20">unloadModel</reimplements>
+        <briefdescription>
+<para>Unload Model. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_hardening_phase4.cpp" line="51" column="10" bodyfile="tests/llm/test_llm_hardening_phase4.cpp" bodystart="51" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="class_immediate_mock_plugin_1adb0f4c5b92ca80ac24c8a6d9f61c9a79" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool ImmediateMockPlugin::isModelLoaded</definition>
+        <argsstring>() const override</argsstring>
+        <name>isModelLoaded</name>
+        <qualifiedname>ImmediateMockPlugin::isModelLoaded</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a016365da7a906c3a2c6c81a440591698">isModelLoaded</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_hardening_phase4.cpp" line="52" column="10" bodyfile="tests/llm/test_llm_hardening_phase4.cpp" bodystart="52" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="class_immediate_mock_plugin_1a9663e4edcb21fae70cdf2e3196d84967" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1_model_info" kindref="compound">ModelInfo</ref> &gt;</type>
+        <definition>std::optional&lt; ModelInfo &gt; ImmediateMockPlugin::getModelInfo</definition>
+        <argsstring>() const override</argsstring>
+        <name>getModelInfo</name>
+        <qualifiedname>ImmediateMockPlugin::getModelInfo</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a3bfc697aeb24baf7fc2fdf4d697d389c">getModelInfo</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_hardening_phase4.cpp" line="53" column="19" bodyfile="tests/llm/test_llm_hardening_phase4.cpp" bodystart="53" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="class_immediate_mock_plugin_1a318c2a6869006675a9f4a01ac68a9fe3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="struct_inference_response" kindref="compound">InferenceResponse</ref></type>
+        <definition>InferenceResponse ImmediateMockPlugin::generate</definition>
+        <argsstring>(const InferenceRequest &amp;req) override</argsstring>
+        <name>generate</name>
+        <qualifiedname>ImmediateMockPlugin::generate</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a0554007ed2a748e84472f01a30369a1d">generate</reimplements>
+        <param>
+          <type>const <ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref> &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_hardening_phase4.cpp" line="60" column="23" bodyfile="tests/llm/test_llm_hardening_phase4.cpp" bodystart="60" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="class_immediate_mock_plugin_1a7827de49cfbaa0274e49927715cbd9d9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="struct_inference_response" kindref="compound">InferenceResponse</ref></type>
+        <definition>InferenceResponse ImmediateMockPlugin::generateRAG</definition>
+        <argsstring>(const RAGContext &amp;, const InferenceRequest &amp;req) override</argsstring>
+        <name>generateRAG</name>
+        <qualifiedname>ImmediateMockPlugin::generateRAG</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a6166ce75f4c3572cab7b4b1c487dfc94">generateRAG</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_r_a_g_context" kindref="compound">RAGContext</ref> &amp;</type>
+        </param>
+        <param>
+          <type>const <ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref> &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_hardening_phase4.cpp" line="70" column="23" bodyfile="tests/llm/test_llm_hardening_phase4.cpp" bodystart="70" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="class_immediate_mock_plugin_1a8a30a287ab49b99dc5849f05cb5599f3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; ImmediateMockPlugin::embed</definition>
+        <argsstring>(const std::string &amp;) override</argsstring>
+        <name>embed</name>
+        <qualifiedname>ImmediateMockPlugin::embed</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a14195e7bc658ae90b32b7374169ee239">embed</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_hardening_phase4.cpp" line="75" column="19" bodyfile="tests/llm/test_llm_hardening_phase4.cpp" bodystart="75" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="class_immediate_mock_plugin_1a747e2c3c9eb0bb6cfb4b286926257e4a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_l_l_m_capabilities" kindref="compound">LLMCapabilities</ref></type>
+        <definition>LLMCapabilities ImmediateMockPlugin::getCapabilities</definition>
+        <argsstring>() const override</argsstring>
+        <name>getCapabilities</name>
+        <qualifiedname>ImmediateMockPlugin::getCapabilities</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a66a14a28b9ddc624c8886eaaaf6abbfa">getCapabilities</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_hardening_phase4.cpp" line="76" column="26" bodyfile="tests/llm/test_llm_hardening_phase4.cpp" bodystart="76" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="class_immediate_mock_plugin_1a584838ea34d8990b4afc8b99ece105ab" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json ImmediateMockPlugin::getMemoryStats</definition>
+        <argsstring>() const override</argsstring>
+        <name>getMemoryStats</name>
+        <qualifiedname>ImmediateMockPlugin::getMemoryStats</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1afbc46d4815c236a390d9f17789bb9a99">getMemoryStats</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_hardening_phase4.cpp" line="77" column="26" bodyfile="tests/llm/test_llm_hardening_phase4.cpp" bodystart="77" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="class_immediate_mock_plugin_1af70fd856d1dbf2c82d84a6d0f1431337" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json ImmediateMockPlugin::getPerformanceStats</definition>
+        <argsstring>() const override</argsstring>
+        <name>getPerformanceStats</name>
+        <qualifiedname>ImmediateMockPlugin::getPerformanceStats</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a8817d5900eff52785e71a314d39f0b47">getPerformanceStats</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_hardening_phase4.cpp" line="78" column="26" bodyfile="tests/llm/test_llm_hardening_phase4.cpp" bodystart="78" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="class_immediate_mock_plugin_1a4a39bd4cbb49b10fe8109ba3eb5bede7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool ImmediateMockPlugin::loadLoRA</definition>
+        <argsstring>(const std::string &amp;, const std::string &amp;, float) override</argsstring>
+        <name>loadLoRA</name>
+        <qualifiedname>ImmediateMockPlugin::loadLoRA</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a2c33ddf52b0dc03bc395d8346c805e6b">loadLoRA</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>float</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_hardening_phase4.cpp" line="79" column="11" bodyfile="tests/llm/test_llm_hardening_phase4.cpp" bodystart="79" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="class_immediate_mock_plugin_1a8c3aad3325fa7b874d7bf350239c4bd4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool ImmediateMockPlugin::unloadLoRA</definition>
+        <argsstring>(const std::string &amp;) override</argsstring>
+        <name>unloadLoRA</name>
+        <qualifiedname>ImmediateMockPlugin::unloadLoRA</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1ab72da450bc0dc2904fe7eff875d71667">unloadLoRA</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_hardening_phase4.cpp" line="80" column="11" bodyfile="tests/llm/test_llm_hardening_phase4.cpp" bodystart="80" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="class_immediate_mock_plugin_1a1e8e603e0d7cc5bb3c506b4d1d5b0237" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_lo_r_a_info" kindref="compound">LoRAInfo</ref> &gt;</type>
+        <definition>std::vector&lt; LoRAInfo &gt; ImmediateMockPlugin::listLoRAs</definition>
+        <argsstring>() const override</argsstring>
+        <name>listLoRAs</name>
+        <qualifiedname>ImmediateMockPlugin::listLoRAs</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1aa4a9a794e561f78c5ed77d2d59343d12">listLoRAs</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_hardening_phase4.cpp" line="81" column="17" bodyfile="tests/llm/test_llm_hardening_phase4.cpp" bodystart="81" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="class_immediate_mock_plugin_1a8ccc0dbaa5b098ecbd3a8893f7724596" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; ImmediateMockPlugin::exportLoRA</definition>
+        <argsstring>(const std::string &amp;) override</argsstring>
+        <name>exportLoRA</name>
+        <qualifiedname>ImmediateMockPlugin::exportLoRA</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a5bceecb2024467d70f4e67c951111d9a">exportLoRA</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_hardening_phase4.cpp" line="82" column="18" bodyfile="tests/llm/test_llm_hardening_phase4.cpp" bodystart="82" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="class_immediate_mock_plugin_1a7e9b495a31a9b23b7062001d081b73f3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool ImmediateMockPlugin::importLoRA</definition>
+        <argsstring>(const std::string &amp;, const std::vector&lt; uint8_t &gt; &amp;) override</argsstring>
+        <name>importLoRA</name>
+        <qualifiedname>ImmediateMockPlugin::importLoRA</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1aca1ef263bd70ffc0d1c04c92a1cd00fc">importLoRA</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_hardening_phase4.cpp" line="83" column="11" bodyfile="tests/llm/test_llm_hardening_phase4.cpp" bodystart="83" bodyend="83"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Minimal mock plugin — responds immediately with a fixed token. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tracks call count so tests can assert how many times inference ran. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>BlockingMockPlugin</label>
+        <link refid="class_blocking_mock_plugin"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>ImmediateMockPlugin</label>
+        <link refid="class_immediate_mock_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::ILLMPlugin</label>
+        <link refid="classthemis_1_1llm_1_1_i_l_l_m_plugin"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ImmediateMockPlugin</label>
+        <link refid="class_immediate_mock_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::ILLMPlugin</label>
+        <link refid="classthemis_1_1llm_1_1_i_l_l_m_plugin"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_llm_hardening_phase4.cpp" line="45" column="1" bodyfile="tests/llm/test_llm_hardening_phase4.cpp" bodystart="45" bodyend="89"/>
+    <listofallmembers>
+      <member refid="class_immediate_mock_plugin_1adb9058e0d3bf38d4540e93003fe1d59d" prot="public" virt="non-virtual"><scope>ImmediateMockPlugin</scope><name>call_count_</name></member>
+      <member refid="class_immediate_mock_plugin_1a8a30a287ab49b99dc5849f05cb5599f3" prot="public" virt="virtual"><scope>ImmediateMockPlugin</scope><name>embed</name></member>
+      <member refid="class_immediate_mock_plugin_1a8ccc0dbaa5b098ecbd3a8893f7724596" prot="public" virt="virtual"><scope>ImmediateMockPlugin</scope><name>exportLoRA</name></member>
+      <member refid="class_immediate_mock_plugin_1a318c2a6869006675a9f4a01ac68a9fe3" prot="public" virt="virtual"><scope>ImmediateMockPlugin</scope><name>generate</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1aa5297bc971b879d93360f913a76e9469" prot="public" virt="virtual"><scope>ImmediateMockPlugin</scope><name>generateDraftTokens</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a113e6f344509f115a632b0ee1614b6c2" prot="public" virt="non-virtual"><scope>ImmediateMockPlugin</scope><name>GenerateDraftTokensFn</name></member>
+      <member refid="class_immediate_mock_plugin_1a7827de49cfbaa0274e49927715cbd9d9" prot="public" virt="virtual"><scope>ImmediateMockPlugin</scope><name>generateRAG</name></member>
+      <member refid="class_immediate_mock_plugin_1a747e2c3c9eb0bb6cfb4b286926257e4a" prot="public" virt="virtual"><scope>ImmediateMockPlugin</scope><name>getCapabilities</name></member>
+      <member refid="class_immediate_mock_plugin_1a584838ea34d8990b4afc8b99ece105ab" prot="public" virt="virtual"><scope>ImmediateMockPlugin</scope><name>getMemoryStats</name></member>
+      <member refid="class_immediate_mock_plugin_1a9663e4edcb21fae70cdf2e3196d84967" prot="public" virt="virtual"><scope>ImmediateMockPlugin</scope><name>getModelInfo</name></member>
+      <member refid="class_immediate_mock_plugin_1af70fd856d1dbf2c82d84a6d0f1431337" prot="public" virt="virtual"><scope>ImmediateMockPlugin</scope><name>getPerformanceStats</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a5570aa4f4dec749da0d2d0b9a5d7e549" prot="public" virt="non-virtual"><scope>ImmediateMockPlugin</scope><name>ILLMPlugin</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1ae20ccb33c21564f563810ed78f50c6cf" prot="public" virt="non-virtual"><scope>ImmediateMockPlugin</scope><name>ILLMPlugin</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a617f63576be5c553550530c3a72c5f53" prot="protected" virt="non-virtual"><scope>ImmediateMockPlugin</scope><name>ILLMPlugin</name></member>
+      <member refid="class_immediate_mock_plugin_1a6b159b93901f2a87e2d781ba45698b39" prot="public" virt="non-virtual"><scope>ImmediateMockPlugin</scope><name>ImmediateMockPlugin</name></member>
+      <member refid="class_immediate_mock_plugin_1a7e9b495a31a9b23b7062001d081b73f3" prot="public" virt="virtual"><scope>ImmediateMockPlugin</scope><name>importLoRA</name></member>
+      <member refid="class_immediate_mock_plugin_1adb0f4c5b92ca80ac24c8a6d9f61c9a79" prot="public" virt="virtual"><scope>ImmediateMockPlugin</scope><name>isModelLoaded</name></member>
+      <member refid="class_immediate_mock_plugin_1a1e8e603e0d7cc5bb3c506b4d1d5b0237" prot="public" virt="virtual"><scope>ImmediateMockPlugin</scope><name>listLoRAs</name></member>
+      <member refid="class_immediate_mock_plugin_1a4a39bd4cbb49b10fe8109ba3eb5bede7" prot="public" virt="virtual"><scope>ImmediateMockPlugin</scope><name>loadLoRA</name></member>
+      <member refid="class_immediate_mock_plugin_1a34d33e39195b763ec026f1273e61a3f3" prot="public" virt="virtual"><scope>ImmediateMockPlugin</scope><name>loadModel</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a06828a4415efeab05bd0d69c7d54828c" prot="public" virt="non-virtual"><scope>ImmediateMockPlugin</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a379dc1e0152b9197835c0a05f95d234c" prot="public" virt="non-virtual"><scope>ImmediateMockPlugin</scope><name>operator=</name></member>
+      <member refid="class_immediate_mock_plugin_1a6b695ba9029e8749dfc6365cecd086a3" prot="private" virt="non-virtual"><scope>ImmediateMockPlugin</scope><name>response_text_</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1abbcb81e46949a1afe9c567de3f8f6d61" prot="public" virt="non-virtual"><scope>ImmediateMockPlugin</scope><name>setDefaultGenerateDraftTokensFn</name></member>
+      <member refid="class_immediate_mock_plugin_1a8c3aad3325fa7b874d7bf350239c4bd4" prot="public" virt="virtual"><scope>ImmediateMockPlugin</scope><name>unloadLoRA</name></member>
+      <member refid="class_immediate_mock_plugin_1a15e4399e033488488cc3663bdf65ba4f" prot="public" virt="virtual"><scope>ImmediateMockPlugin</scope><name>unloadModel</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a9c52c9bc3ec16061fceacc8963da3176" prot="public" virt="virtual"><scope>ImmediateMockPlugin</scope><name>~ILLMPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,362 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1scheduler_1_1_task_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::scheduler::TaskStatistics</compoundname>
+    <includes refid="task__anomaly__detector_8h" local="no">task_anomaly_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_statistics_1ae38243d26ab8c0a72ce65b3006cb3244" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::scheduler::TaskStatistics::total_executions</definition>
+        <argsstring></argsstring>
+        <name>total_executions</name>
+        <qualifiedname>themis::scheduler::TaskStatistics::total_executions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="72" column="12" bodyfile="include/scheduler/task_anomaly_detector.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_statistics_1ac5221bf10d41800172be4972ce94fed9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::scheduler::TaskStatistics::executions_per_hour</definition>
+        <argsstring></argsstring>
+        <name>executions_per_hour</name>
+        <qualifiedname>themis::scheduler::TaskStatistics::executions_per_hour</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="73" column="12" bodyfile="include/scheduler/task_anomaly_detector.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_statistics_1a9c429b10f9cf539254213483a2fa574f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::scheduler::TaskStatistics::mean_execution_frequency</definition>
+        <argsstring></argsstring>
+        <name>mean_execution_frequency</name>
+        <qualifiedname>themis::scheduler::TaskStatistics::mean_execution_frequency</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="74" column="12" bodyfile="include/scheduler/task_anomaly_detector.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_statistics_1aa92a9d464b4a1ac279172b01d49c9fe5" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::scheduler::TaskStatistics::stddev_execution_frequency</definition>
+        <argsstring></argsstring>
+        <name>stddev_execution_frequency</name>
+        <qualifiedname>themis::scheduler::TaskStatistics::stddev_execution_frequency</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="75" column="12" bodyfile="include/scheduler/task_anomaly_detector.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_statistics_1afea65e4c8f6524f2195826a67221da5d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::scheduler::TaskStatistics::mean_execution_time_ms</definition>
+        <argsstring></argsstring>
+        <name>mean_execution_time_ms</name>
+        <qualifiedname>themis::scheduler::TaskStatistics::mean_execution_time_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="78" column="12" bodyfile="include/scheduler/task_anomaly_detector.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_statistics_1aea0978276a032fcfc3b1629b2b8e8699" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::scheduler::TaskStatistics::stddev_execution_time_ms</definition>
+        <argsstring></argsstring>
+        <name>stddev_execution_time_ms</name>
+        <qualifiedname>themis::scheduler::TaskStatistics::stddev_execution_time_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="79" column="12" bodyfile="include/scheduler/task_anomaly_detector.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_statistics_1aff99637fc2c46410772293324ecc9352" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::scheduler::TaskStatistics::min_execution_time_ms</definition>
+        <argsstring></argsstring>
+        <name>min_execution_time_ms</name>
+        <qualifiedname>themis::scheduler::TaskStatistics::min_execution_time_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="80" column="12" bodyfile="include/scheduler/task_anomaly_detector.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_statistics_1a206a157cfc6078954c77c0f105f47c0b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::scheduler::TaskStatistics::max_execution_time_ms</definition>
+        <argsstring></argsstring>
+        <name>max_execution_time_ms</name>
+        <qualifiedname>themis::scheduler::TaskStatistics::max_execution_time_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="81" column="12" bodyfile="include/scheduler/task_anomaly_detector.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_statistics_1a5cc5f5333378361a5bf39c15fb7b3346" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::scheduler::TaskStatistics::mean_cpu_time_ms</definition>
+        <argsstring></argsstring>
+        <name>mean_cpu_time_ms</name>
+        <qualifiedname>themis::scheduler::TaskStatistics::mean_cpu_time_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="84" column="12" bodyfile="include/scheduler/task_anomaly_detector.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_statistics_1aa30dba4d46c3afb7f9a85b0e56927ac9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::scheduler::TaskStatistics::stddev_cpu_time_ms</definition>
+        <argsstring></argsstring>
+        <name>stddev_cpu_time_ms</name>
+        <qualifiedname>themis::scheduler::TaskStatistics::stddev_cpu_time_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="85" column="12" bodyfile="include/scheduler/task_anomaly_detector.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_statistics_1a4aeabac14702613e247d970a5af69e5a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::scheduler::TaskStatistics::mean_memory_bytes</definition>
+        <argsstring></argsstring>
+        <name>mean_memory_bytes</name>
+        <qualifiedname>themis::scheduler::TaskStatistics::mean_memory_bytes</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="86" column="12" bodyfile="include/scheduler/task_anomaly_detector.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_statistics_1a8b2db902434f1f4da743c8ad4dbc2466" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::scheduler::TaskStatistics::stddev_memory_bytes</definition>
+        <argsstring></argsstring>
+        <name>stddev_memory_bytes</name>
+        <qualifiedname>themis::scheduler::TaskStatistics::stddev_memory_bytes</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="87" column="12" bodyfile="include/scheduler/task_anomaly_detector.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_statistics_1ae3a80d234788b6cc321521d8e23e6669" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::scheduler::TaskStatistics::total_failures</definition>
+        <argsstring></argsstring>
+        <name>total_failures</name>
+        <qualifiedname>themis::scheduler::TaskStatistics::total_failures</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="90" column="12" bodyfile="include/scheduler/task_anomaly_detector.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_statistics_1a5ffdc8414165ffa4d272d95084cac768" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::scheduler::TaskStatistics::failure_rate</definition>
+        <argsstring></argsstring>
+        <name>failure_rate</name>
+        <qualifiedname>themis::scheduler::TaskStatistics::failure_rate</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="91" column="12" bodyfile="include/scheduler/task_anomaly_detector.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_statistics_1a5b2640985900c9b30847d88c725cfcd6" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::scheduler::TaskStatistics::recent_failure_rate</definition>
+        <argsstring></argsstring>
+        <name>recent_failure_rate</name>
+        <qualifiedname>themis::scheduler::TaskStatistics::recent_failure_rate</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="92" column="12" bodyfile="include/scheduler/task_anomaly_detector.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_statistics_1ab638c0cf84f7a25d1a8a62890f818b82" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::scheduler::TaskStatistics::first_execution</definition>
+        <argsstring></argsstring>
+        <name>first_execution</name>
+        <qualifiedname>themis::scheduler::TaskStatistics::first_execution</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="95" column="43" bodyfile="include/scheduler/task_anomaly_detector.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_statistics_1a25cf19e5ea2a7cbd2642398110d9eb12" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::scheduler::TaskStatistics::last_execution</definition>
+        <argsstring></argsstring>
+        <name>last_execution</name>
+        <qualifiedname>themis::scheduler::TaskStatistics::last_execution</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="96" column="43" bodyfile="include/scheduler/task_anomaly_detector.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_statistics_1a3c5876e78dbb05245611c62a4c709c36" prot="public" static="no" mutable="no">
+        <type>std::deque&lt; std::chrono::system_clock::time_point &gt;</type>
+        <definition>std::deque&lt;std::chrono::system_clock::time_point&gt; themis::scheduler::TaskStatistics::execution_times</definition>
+        <argsstring></argsstring>
+        <name>execution_times</name>
+        <qualifiedname>themis::scheduler::TaskStatistics::execution_times</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="99" column="16" bodyfile="include/scheduler/task_anomaly_detector.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_statistics_1aa1af38315e9bb640f0e914244b083dc3" prot="public" static="no" mutable="no">
+        <type>std::deque&lt; double &gt;</type>
+        <definition>std::deque&lt;double&gt; themis::scheduler::TaskStatistics::execution_durations</definition>
+        <argsstring></argsstring>
+        <name>execution_durations</name>
+        <qualifiedname>themis::scheduler::TaskStatistics::execution_durations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="100" column="16" bodyfile="include/scheduler/task_anomaly_detector.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_statistics_1a47b452279fe36bbd043808c158124755" prot="public" static="no" mutable="no">
+        <type>std::deque&lt; bool &gt;</type>
+        <definition>std::deque&lt;bool&gt; themis::scheduler::TaskStatistics::execution_results</definition>
+        <argsstring></argsstring>
+        <name>execution_results</name>
+        <qualifiedname>themis::scheduler::TaskStatistics::execution_results</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="101" column="16" bodyfile="include/scheduler/task_anomaly_detector.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_statistics_1a312115eba48f457cb163b30d299ccd63" prot="public" static="no" mutable="no">
+        <type>std::deque&lt; double &gt;</type>
+        <definition>std::deque&lt;double&gt; themis::scheduler::TaskStatistics::cpu_usage</definition>
+        <argsstring></argsstring>
+        <name>cpu_usage</name>
+        <qualifiedname>themis::scheduler::TaskStatistics::cpu_usage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="102" column="16" bodyfile="include/scheduler/task_anomaly_detector.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_statistics_1a02ccc8315df5df64d3fb4cff0215ee53" prot="public" static="no" mutable="no">
+        <type>std::deque&lt; double &gt;</type>
+        <definition>std::deque&lt;double&gt; themis::scheduler::TaskStatistics::memory_usage</definition>
+        <argsstring></argsstring>
+        <name>memory_usage</name>
+        <qualifiedname>themis::scheduler::TaskStatistics::memory_usage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="103" column="16" bodyfile="include/scheduler/task_anomaly_detector.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Statistics for a single task. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/scheduler/task_anomaly_detector.h" line="70" column="1" bodyfile="include/scheduler/task_anomaly_detector.h" bodystart="70" bodyend="104"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1scheduler_1_1_task_statistics_1a312115eba48f457cb163b30d299ccd63" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskStatistics</scope><name>cpu_usage</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_statistics_1aa1af38315e9bb640f0e914244b083dc3" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskStatistics</scope><name>execution_durations</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_statistics_1a47b452279fe36bbd043808c158124755" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskStatistics</scope><name>execution_results</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_statistics_1a3c5876e78dbb05245611c62a4c709c36" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskStatistics</scope><name>execution_times</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_statistics_1ac5221bf10d41800172be4972ce94fed9" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskStatistics</scope><name>executions_per_hour</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_statistics_1a5ffdc8414165ffa4d272d95084cac768" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskStatistics</scope><name>failure_rate</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_statistics_1ab638c0cf84f7a25d1a8a62890f818b82" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskStatistics</scope><name>first_execution</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_statistics_1a25cf19e5ea2a7cbd2642398110d9eb12" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskStatistics</scope><name>last_execution</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_statistics_1a206a157cfc6078954c77c0f105f47c0b" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskStatistics</scope><name>max_execution_time_ms</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_statistics_1a5cc5f5333378361a5bf39c15fb7b3346" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskStatistics</scope><name>mean_cpu_time_ms</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_statistics_1a9c429b10f9cf539254213483a2fa574f" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskStatistics</scope><name>mean_execution_frequency</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_statistics_1afea65e4c8f6524f2195826a67221da5d" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskStatistics</scope><name>mean_execution_time_ms</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_statistics_1a4aeabac14702613e247d970a5af69e5a" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskStatistics</scope><name>mean_memory_bytes</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_statistics_1a02ccc8315df5df64d3fb4cff0215ee53" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskStatistics</scope><name>memory_usage</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_statistics_1aff99637fc2c46410772293324ecc9352" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskStatistics</scope><name>min_execution_time_ms</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_statistics_1a5b2640985900c9b30847d88c725cfcd6" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskStatistics</scope><name>recent_failure_rate</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_statistics_1aa30dba4d46c3afb7f9a85b0e56927ac9" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskStatistics</scope><name>stddev_cpu_time_ms</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_statistics_1aa92a9d464b4a1ac279172b01d49c9fe5" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskStatistics</scope><name>stddev_execution_frequency</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_statistics_1aea0978276a032fcfc3b1629b2b8e8699" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskStatistics</scope><name>stddev_execution_time_ms</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_statistics_1a8b2db902434f1f4da743c8ad4dbc2466" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskStatistics</scope><name>stddev_memory_bytes</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_statistics_1ae38243d26ab8c0a72ce65b3006cb3244" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskStatistics</scope><name>total_executions</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_statistics_1ae3a80d234788b6cc321521d8e23e6669" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskStatistics</scope><name>total_failures</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

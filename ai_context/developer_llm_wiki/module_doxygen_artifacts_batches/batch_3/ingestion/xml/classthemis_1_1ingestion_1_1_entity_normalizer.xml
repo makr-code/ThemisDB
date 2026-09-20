@@ -1,0 +1,291 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1_entity_normalizer" kind="class" language="C++" prot="public">
+    <compoundname>themis::ingestion::EntityNormalizer</compoundname>
+    <includes refid="entity__assembler_8h" local="no">entity_assembler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_entity_normalizer_1aa8c2216e40c226331d5fa852a6b28a8a" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1ingestion_1_1_entity_normalizer_config" kindref="compound">EntityNormalizerConfig</ref></type>
+        <definition>EntityNormalizerConfig themis::ingestion::EntityNormalizer::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>themis::ingestion::EntityNormalizer::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/entity_assembler.h" line="104" column="28" bodyfile="include/ingestion/entity_assembler.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_entity_normalizer_1ac1371b0d8b67860e5a134be7329ab072" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::EntityNormalizer::EntityNormalizer</definition>
+        <argsstring>(EntityNormalizerConfig cfg={})</argsstring>
+        <name>EntityNormalizer</name>
+        <qualifiedname>themis::ingestion::EntityNormalizer::EntityNormalizer</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1ingestion_1_1_entity_normalizer_config" kindref="compound">EntityNormalizerConfig</ref></type>
+          <declname>cfg</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/entity_assembler.h" line="76" column="14" bodyfile="src/ingestion/entity_assembler.cpp" bodystart="27" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_entity_normalizer_1a102586b426cf001b7c59ddc25e49fc05" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::EntityNormalizer::normalize</definition>
+        <argsstring>(ExtractionContext &amp;ctx) const</argsstring>
+        <name>normalize</name>
+        <qualifiedname>themis::ingestion::EntityNormalizer::normalize</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">ExtractionContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Normalise and deduplicate <computeroutput>ctx.entities</computeroutput> in-place. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Steps:<orderedlist>
+<listitem><para>Assign canonical IDs to entities that lack them.</para>
+</listitem><listitem><para>Filter by <computeroutput>min_confidence</computeroutput>.</para>
+</listitem><listitem><para>Deduplicate by canonical ID (if configured).</para>
+</listitem></orderedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Extraction context whose <computeroutput>entities</computeroutput> vector is modified. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/entity_assembler.h" line="88" column="10" bodyfile="src/ingestion/entity_assembler.cpp" bodystart="189" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_entity_normalizer_1a75f6c9470fe15be48fddf3e6f66c3cb2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::EntityNormalizer::canonicalId</definition>
+        <argsstring>(const BaseEntity &amp;ent, const std::string &amp;file_id, std::size_t seq=0) const</argsstring>
+        <name>canonicalId</name>
+        <qualifiedname>themis::ingestion::EntityNormalizer::canonicalId</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_base_entity" kindref="compound">BaseEntity</ref> &amp;</type>
+          <declname>ent</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>file_id</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>seq</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Compute a canonical ID for a single entity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Does NOT modify the entity; the caller must assign the result.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ent</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Entity to compute the ID for. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>file_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>SHA-256 of the originating file. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>seq</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Sequence number within the file (for CHUNK types). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/entity_assembler.h" line="99" column="17" bodyfile="src/ingestion/entity_assembler.cpp" bodystart="107" bodyend="187"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_entity_normalizer_1af629fe0278b08b61c7ea99b827fc1943" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt; std::string, std::string &gt; themis::ingestion::EntityNormalizer::parseLegalRef</definition>
+        <argsstring>(const std::string &amp;text) const</argsstring>
+        <name>parseLegalRef</name>
+        <qualifiedname>themis::ingestion::EntityNormalizer::parseLegalRef</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Extract law abbreviation and section from a legal norm text. Returns {&quot;abbr&quot;: &quot;BImSchG&quot;, &quot;section&quot;: &quot;4&quot;, &quot;abs&quot;: &quot;1&quot;} or empty map. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/entity_assembler.h" line="109" column="5" bodyfile="src/ingestion/entity_assembler.cpp" bodystart="74" bodyend="105"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_entity_normalizer_1a77c64156835cda96b9efb73b64165727" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::EntityNormalizer::toIdToken</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>toIdToken</name>
+        <qualifiedname>themis::ingestion::EntityNormalizer::toIdToken</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Normalise a string for use in IDs (replace spaces/special chars with _). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), std::isalnum(), push_back(), std::tolower(), empty(), back(), pop_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/entity_assembler.h" line="112" column="24" bodyfile="src/ingestion/entity_assembler.cpp" bodystart="36" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_entity_normalizer_1aa4f4854925fdc7866d4e3e3275b0dbf7" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::EntityNormalizer::shortHash</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>shortHash</name>
+        <qualifiedname>themis::ingestion::EntityNormalizer::shortHash</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>FNV-1a 32-bit hash of a string (for non-legal entity IDs). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::setw(), std::setfill(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/entity_assembler.h" line="115" column="24" bodyfile="src/ingestion/entity_assembler.cpp" bodystart="61" bodyend="71"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Post-processes and deduplicates <computeroutput><ref refid="structthemis_1_1ingestion_1_1_base_entity" kindref="compound">BaseEntity</ref></computeroutput> collections. </para>
+    </briefdescription>
+    <detaileddescription>
+<sect1 id="classthemis_1_1ingestion_1_1_entity_normalizer_1autotoc_md0_1s1"><sect2 id="classthemis_1_1ingestion_1_1_entity_normalizer_1autotoc_md0">
+<title>Canonical ID scheme (legal domain)</title><para><table rows="8" cols="3"><row>
+<entry thead="yes"><para>Entity type  </para>
+</entry><entry thead="yes"><para>ID pattern  </para>
+</entry><entry thead="yes"><para>Example  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>LEGAL_PROVISION  </para>
+</entry><entry thead="no"><para><computeroutput>law:&lt;Abbr&gt;:§&lt;n&gt;[:Abs&lt;m&gt;]</computeroutput>  </para>
+</entry><entry thead="no"><para><computeroutput>law:BImSchG:§4:Abs1</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>LEGAL_NORM_REF  </para>
+</entry><entry thead="no"><para><computeroutput>normref:&lt;Abbr&gt;:§&lt;n&gt;</computeroutput>  </para>
+</entry><entry thead="no"><para><computeroutput>normref:BGB:§823</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>LEGAL_DECISION  </para>
+</entry><entry thead="no"><para><computeroutput>bescheid:&lt;aktenzeichen&gt;</computeroutput>  </para>
+</entry><entry thead="no"><para><computeroutput>bescheid:12_A_345_24</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>PERSON  </para>
+</entry><entry thead="no"><para><computeroutput>person:&lt;hash(text)&gt;</computeroutput>  </para>
+</entry><entry thead="no"><para><computeroutput>person:abc123</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>ORGANIZATION  </para>
+</entry><entry thead="no"><para><computeroutput>org:&lt;hash(text)&gt;</computeroutput>  </para>
+</entry><entry thead="no"><para><computeroutput>org:def456</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>CHUNK  </para>
+</entry><entry thead="no"><para><computeroutput>chunk:&lt;file_id&gt;:&lt;seq&gt;</computeroutput>  </para>
+</entry><entry thead="no"><para><computeroutput>chunk:sha256:abc:0</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Default  </para>
+</entry><entry thead="no"><para><computeroutput>&lt;type&gt;:&lt;file_id&gt;:&lt;hash(text)&gt;</computeroutput>  </para>
+</entry><entry thead="no"><para><computeroutput>date:sha256:abc:789</computeroutput>  </para>
+</entry></row>
+</table>
+</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1ingestion_1_1_entity_normalizer_1autotoc_md1_1s1"><sect2 id="classthemis_1_1ingestion_1_1_entity_normalizer_1autotoc_md1">
+<title>Deduplication</title><para>When <computeroutput>dedup_strategy == "canonical_id"</computeroutput>, entities with the same canonical ID are merged: the one with higher <computeroutput>confidence</computeroutput> is retained; properties from the lower-confidence duplicate are merged in if the key is absent.</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1ingestion_1_1_entity_normalizer_1autotoc_md2_1s1"><sect2 id="classthemis_1_1ingestion_1_1_entity_normalizer_1autotoc_md2">
+<title>Usage</title><para><programlisting><codeline><highlight class="normal">EntityNormalizerConfig<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.known_law_abbreviations<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;BImSchG&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;BGB&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;StGB&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_entity_normalizer_1ac1371b0d8b67860e5a134be7329ab072" kindref="member">EntityNormalizer</ref><sp/>normalizer(cfg);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">normalizer.normalize(ctx);<sp/><sp/></highlight><highlight class="comment">//<sp/>updates<sp/>ctx.entities<sp/>in-place</highlight></codeline>
+</programlisting> </para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/ingestion/entity_assembler.h" line="74" column="1" bodyfile="include/ingestion/entity_assembler.h" bodystart="74" bodyend="116"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1_entity_normalizer_1a75f6c9470fe15be48fddf3e6f66c3cb2" prot="public" virt="non-virtual"><scope>themis::ingestion::EntityNormalizer</scope><name>canonicalId</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_entity_normalizer_1aa8c2216e40c226331d5fa852a6b28a8a" prot="private" virt="non-virtual"><scope>themis::ingestion::EntityNormalizer</scope><name>cfg_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_entity_normalizer_1ac1371b0d8b67860e5a134be7329ab072" prot="public" virt="non-virtual"><scope>themis::ingestion::EntityNormalizer</scope><name>EntityNormalizer</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_entity_normalizer_1a102586b426cf001b7c59ddc25e49fc05" prot="public" virt="non-virtual"><scope>themis::ingestion::EntityNormalizer</scope><name>normalize</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_entity_normalizer_1af629fe0278b08b61c7ea99b827fc1943" prot="private" virt="non-virtual"><scope>themis::ingestion::EntityNormalizer</scope><name>parseLegalRef</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_entity_normalizer_1aa4f4854925fdc7866d4e3e3275b0dbf7" prot="private" virt="non-virtual"><scope>themis::ingestion::EntityNormalizer</scope><name>shortHash</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_entity_normalizer_1a77c64156835cda96b9efb73b64165727" prot="private" virt="non-virtual"><scope>themis::ingestion::EntityNormalizer</scope><name>toIdToken</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

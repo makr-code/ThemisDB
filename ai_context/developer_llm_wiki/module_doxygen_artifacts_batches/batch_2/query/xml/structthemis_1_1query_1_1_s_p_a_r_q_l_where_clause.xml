@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_s_p_a_r_q_l_where_clause" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::SPARQLWhereClause</compoundname>
+    <includes refid="sparql__parser_8h" local="no">sparql_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_s_p_a_r_q_l_where_clause_1a4c3d0cb0de122eaaee39daa7455fe84c" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1query_1a2df10c528f4d70e8fa7dbff916c938a5" kindref="member">SPARQLClauseKind</ref></type>
+        <definition>SPARQLClauseKind themis::query::SPARQLWhereClause::kind</definition>
+        <argsstring></argsstring>
+        <name>kind</name>
+        <qualifiedname>themis::query::SPARQLWhereClause::kind</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sparql_parser.h" line="114" column="39" bodyfile="include/query/sparql_parser.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_s_p_a_r_q_l_where_clause_1ad2fce81928f342d61431026962da341e" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_triple_pattern" kindref="compound">SPARQLTriplePattern</ref> &gt;</type>
+        <definition>std::optional&lt;SPARQLTriplePattern&gt; themis::query::SPARQLWhereClause::triple</definition>
+        <argsstring></argsstring>
+        <name>triple</name>
+        <qualifiedname>themis::query::SPARQLWhereClause::triple</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sparql_parser.h" line="115" column="19" bodyfile="include/query/sparql_parser.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_s_p_a_r_q_l_where_clause_1a76ac03ec2e59a70e864a4e54485c494c" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_expr" kindref="compound">SPARQLExpr</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;SPARQLExpr&gt; themis::query::SPARQLWhereClause::filter_expr</definition>
+        <argsstring></argsstring>
+        <name>filter_expr</name>
+        <qualifiedname>themis::query::SPARQLWhereClause::filter_expr</qualifiedname>
+        <briefdescription>
+<para>set when kind == Filter </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sparql_parser.h" line="116" column="28" bodyfile="include/query/sparql_parser.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/sparql_parser.h" line="113" column="1" bodyfile="include/query/sparql_parser.h" bodystart="113" bodyend="117"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_s_p_a_r_q_l_where_clause_1a76ac03ec2e59a70e864a4e54485c494c" prot="public" virt="non-virtual"><scope>themis::query::SPARQLWhereClause</scope><name>filter_expr</name></member>
+      <member refid="structthemis_1_1query_1_1_s_p_a_r_q_l_where_clause_1a4c3d0cb0de122eaaee39daa7455fe84c" prot="public" virt="non-virtual"><scope>themis::query::SPARQLWhereClause</scope><name>kind</name></member>
+      <member refid="structthemis_1_1query_1_1_s_p_a_r_q_l_where_clause_1ad2fce81928f342d61431026962da341e" prot="public" virt="non-virtual"><scope>themis::query::SPARQLWhereClause</scope><name>triple</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,526 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__geo__json__geometry_8cpp" kind="file" language="C++">
+    <compoundname>test_geo_json_geometry.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="geo__json__geometry_8h" local="yes">geo/geo_json_geometry.h</includes>
+    <includes local="no">cmath</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>geo/geo_json_geometry.h</label>
+        <link refid="geo__json__geometry_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/geo/test_geo_json_geometry.cpp</label>
+        <link refid="test__geo__json__geometry_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>cmath</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>utils/geo/ewkb.h</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__geo__json__geometry_8cpp_1a92f92b874e868fdc0516762dc5392639" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoJsonGeometry, GJS01_GeoPoint_ToGeoJson)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoJsonGeometry</type>
+        </param>
+        <param>
+          <type>GJS01_GeoPoint_ToGeoJson</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_json_geometry.cpp" line="56" column="1" bodyfile="tests/geo/test_geo_json_geometry.cpp" bodystart="56" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__json__geometry_8cpp_1a0d1d039229965867c46107c1bc8928b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoJsonGeometry, GJS02_GeoPoint_Validate_Valid)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoJsonGeometry</type>
+        </param>
+        <param>
+          <type>GJS02_GeoPoint_Validate_Valid</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_json_geometry.cpp" line="71" column="1" bodyfile="tests/geo/test_geo_json_geometry.cpp" bodystart="71" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__json__geometry_8cpp_1a0f2248b017ba880fecbf73d4f7e9ced4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoJsonGeometry, GJS03_GeoPoint_Validate_NaN)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoJsonGeometry</type>
+        </param>
+        <param>
+          <type>GJS03_GeoPoint_Validate_NaN</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_json_geometry.cpp" line="81" column="1" bodyfile="tests/geo/test_geo_json_geometry.cpp" bodystart="81" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__json__geometry_8cpp_1a6ce8b0948c8e0af387e96969dddc26f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoJsonGeometry, GJS04_GeoPoint_Validate_LongitudeOutOfRange)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoJsonGeometry</type>
+        </param>
+        <param>
+          <type>GJS04_GeoPoint_Validate_LongitudeOutOfRange</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_json_geometry.cpp" line="93" column="1" bodyfile="tests/geo/test_geo_json_geometry.cpp" bodystart="93" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__json__geometry_8cpp_1a403f714efe5104a7029315587d008403" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoJsonGeometry, GJS05_GeoLineString_BboxAndValidate)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoJsonGeometry</type>
+        </param>
+        <param>
+          <type>GJS05_GeoLineString_BboxAndValidate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_json_geometry.cpp" line="108" column="1" bodyfile="tests/geo/test_geo_json_geometry.cpp" bodystart="108" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__json__geometry_8cpp_1a76f45b0f190e501fde288d0cb4b2b55c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoJsonGeometry, GJS06_GeoLineString_Validate_TooFewPoints)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoJsonGeometry</type>
+        </param>
+        <param>
+          <type>GJS06_GeoLineString_Validate_TooFewPoints</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_json_geometry.cpp" line="123" column="1" bodyfile="tests/geo/test_geo_json_geometry.cpp" bodystart="123" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__json__geometry_8cpp_1a7e2ca160e1e4bcaa90f2434a9f47286d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoJsonGeometry, GJS07_GeoPolygon_ConstructionAndBbox)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoJsonGeometry</type>
+        </param>
+        <param>
+          <type>GJS07_GeoPolygon_ConstructionAndBbox</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_json_geometry.cpp" line="135" column="1" bodyfile="tests/geo/test_geo_json_geometry.cpp" bodystart="135" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__json__geometry_8cpp_1aeb25974abc52864ec405b1773f485487" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoJsonGeometry, GJS08_GeoPolygon_Validate_CCW_Passes)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoJsonGeometry</type>
+        </param>
+        <param>
+          <type>GJS08_GeoPolygon_Validate_CCW_Passes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_json_geometry.cpp" line="153" column="1" bodyfile="tests/geo/test_geo_json_geometry.cpp" bodystart="153" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__json__geometry_8cpp_1af1cc3909120319d5fdea6be815b0cd22" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoJsonGeometry, GJS09_GeoPolygon_Validate_CW_ExteriorRing)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoJsonGeometry</type>
+        </param>
+        <param>
+          <type>GJS09_GeoPolygon_Validate_CW_ExteriorRing</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_json_geometry.cpp" line="164" column="1" bodyfile="tests/geo/test_geo_json_geometry.cpp" bodystart="164" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__json__geometry_8cpp_1aa4f6e02e4679799c3b4c8909b16c7e76" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoJsonGeometry, GJS10_GeoPolygon_Validate_UnclosedRing)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoJsonGeometry</type>
+        </param>
+        <param>
+          <type>GJS10_GeoPolygon_Validate_UnclosedRing</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_json_geometry.cpp" line="179" column="1" bodyfile="tests/geo/test_geo_json_geometry.cpp" bodystart="179" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__json__geometry_8cpp_1a4ceb18c5cabdac86aa5638d71001514e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoJsonGeometry, GJS11_GeoMultiPolygon_BboxSpansAll)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoJsonGeometry</type>
+        </param>
+        <param>
+          <type>GJS11_GeoMultiPolygon_BboxSpansAll</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_json_geometry.cpp" line="195" column="1" bodyfile="tests/geo/test_geo_json_geometry.cpp" bodystart="195" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__json__geometry_8cpp_1aca80e3924000416182456933ec931128" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoJsonGeometry, GJS12_GeoGeometryCollection_PropagatesErrors)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoJsonGeometry</type>
+        </param>
+        <param>
+          <type>GJS12_GeoGeometryCollection_PropagatesErrors</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_json_geometry.cpp" line="214" column="1" bodyfile="tests/geo/test_geo_json_geometry.cpp" bodystart="214" bodyend="232"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"><sp/>*<sp/>Test<sp/>suite:<sp/>GeoJSON<sp/>Geometry<sp/>Type<sp/>API<sp/>(geo_json_geometry.h)</highlight></codeline>
+<codeline lineno="3"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="4"><highlight class="comment"><sp/>*<sp/>Tests:<sp/>GJS-01<sp/>…<sp/>GJS-12</highlight></codeline>
+<codeline lineno="5"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="6"><highlight class="comment"><sp/>*<sp/>Covers:</highlight></codeline>
+<codeline lineno="7"><highlight class="comment"><sp/>*<sp/><sp/>GJS-01<sp/><sp/>GeoPoint:<sp/>construction<sp/>and<sp/>toGeoJSON</highlight></codeline>
+<codeline lineno="8"><highlight class="comment"><sp/>*<sp/><sp/>GJS-02<sp/><sp/>GeoPoint:<sp/>validate()<sp/>—<sp/>valid<sp/>WGS-84<sp/>coordinate</highlight></codeline>
+<codeline lineno="9"><highlight class="comment"><sp/>*<sp/><sp/>GJS-03<sp/><sp/>GeoPoint:<sp/>validate()<sp/>—<sp/>NaN/infinity<sp/>→<sp/>NON_FINITE_COORDINATE</highlight></codeline>
+<codeline lineno="10"><highlight class="comment"><sp/>*<sp/><sp/>GJS-04<sp/><sp/>GeoPoint:<sp/>validate()<sp/>—<sp/>longitude<sp/>out<sp/>of<sp/>WGS-84<sp/>range</highlight></codeline>
+<codeline lineno="11"><highlight class="comment"><sp/>*<sp/><sp/>GJS-05<sp/><sp/>GeoLineString:<sp/>bbox()<sp/>and<sp/>validate()<sp/>—<sp/>valid<sp/>3-point<sp/>line</highlight></codeline>
+<codeline lineno="12"><highlight class="comment"><sp/>*<sp/><sp/>GJS-06<sp/><sp/>GeoLineString:<sp/>validate()<sp/>—<sp/>single-point<sp/>(invalid)</highlight></codeline>
+<codeline lineno="13"><highlight class="comment"><sp/>*<sp/><sp/>GJS-07<sp/><sp/>GeoPolygon:<sp/>construction,<sp/>bbox(),<sp/>toGeoJSON</highlight></codeline>
+<codeline lineno="14"><highlight class="comment"><sp/>*<sp/><sp/>GJS-08<sp/><sp/>GeoPolygon:<sp/>validate()<sp/>—<sp/>right-hand-rule<sp/>CCW<sp/>exterior<sp/>ring<sp/>passes</highlight></codeline>
+<codeline lineno="15"><highlight class="comment"><sp/>*<sp/><sp/>GJS-09<sp/><sp/>GeoPolygon:<sp/>validate()<sp/>—<sp/>CW<sp/>exterior<sp/>ring<sp/>→<sp/>WINDING_ORDER_VIOLATION</highlight></codeline>
+<codeline lineno="16"><highlight class="comment"><sp/>*<sp/><sp/>GJS-10<sp/><sp/>GeoPolygon:<sp/>validate()<sp/>—<sp/>unclosed<sp/>ring<sp/>→<sp/>RING_NOT_CLOSED</highlight></codeline>
+<codeline lineno="17"><highlight class="comment"><sp/>*<sp/><sp/>GJS-11<sp/><sp/>GeoMultiPolygon:<sp/>bbox()<sp/>spans<sp/>all<sp/>sub-polygons</highlight></codeline>
+<codeline lineno="18"><highlight class="comment"><sp/>*<sp/><sp/>GJS-12<sp/><sp/>GeoGeometryCollection:<sp/>validate()<sp/>propagates<sp/>member<sp/>errors</highlight></codeline>
+<codeline lineno="19"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="geo__json__geometry_8h" kindref="compound">geo/geo_json_geometry.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1geo" kindref="compound">themis::geo</ref>;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><ref refid="class_geo_polygon_1aa124eb6e1a25c52e06b1b425e6eb7ba5" kindref="member">GeoPolygon::Ring</ref><sp/>ccwSquare()<sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{0.0,<sp/>0.0},<sp/>{1.0,<sp/>0.0},<sp/>{1.0,<sp/>1.0},<sp/>{0.0,<sp/>1.0},<sp/>{0.0,<sp/>0.0}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="41"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><ref refid="class_geo_polygon_1aa124eb6e1a25c52e06b1b425e6eb7ba5" kindref="member">GeoPolygon::Ring</ref><sp/>cwSquare()<sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{0.0,<sp/>0.0},<sp/>{0.0,<sp/>1.0},<sp/>{1.0,<sp/>1.0},<sp/>{1.0,<sp/>0.0},<sp/>{0.0,<sp/>0.0}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>anonymous<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GJS-01<sp/>GeoPoint:<sp/>construction<sp/>and<sp/>toGeoJSON</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><ref refid="test__geo__json__geometry_8cpp_1a92f92b874e868fdc0516762dc5392639" kindref="member">TEST</ref>(GeoJsonGeometry,<sp/>GJS01_GeoPoint_ToGeoJson)<sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_geo_point" kindref="compound">GeoPoint</ref><sp/>p({13.4050,<sp/>52.5200},<sp/><ref refid="namespacethemis_1_1geo_1a30da0e4ade2a2eeb9047c7a93d5d87d6a5dda43a21474cf33e7088b8247f19c4b" kindref="member">CrsId::WGS84</ref>);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(p.type(),<sp/></highlight><highlight class="stringliteral">&quot;Point&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(p.crs(),<sp/><ref refid="namespacethemis_1_1geo_1a30da0e4ade2a2eeb9047c7a93d5d87d6a5dda43a21474cf33e7088b8247f19c4b" kindref="member">CrsId::WGS84</ref>);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="test__aql__st__functions_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>=<sp/>p.toGeoJSON();</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="test__aql__st__functions_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref>.find(</highlight><highlight class="stringliteral">&quot;\&quot;type\&quot;:\&quot;Point\&quot;&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="test__aql__st__functions_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref>.find(</highlight><highlight class="stringliteral">&quot;13.405&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="test__aql__st__functions_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref>.find(</highlight><highlight class="stringliteral">&quot;52.52&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GJS-02<sp/>GeoPoint:<sp/>validate()<sp/>—<sp/>valid<sp/>WGS-84<sp/>coordinate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><ref refid="test__geo__json__geometry_8cpp_1a92f92b874e868fdc0516762dc5392639" kindref="member">TEST</ref>(GeoJsonGeometry,<sp/>GJS02_GeoPoint_Validate_Valid)<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_geo_point" kindref="compound">GeoPoint</ref><sp/>p({13.4050,<sp/>52.5200},<sp/><ref refid="namespacethemis_1_1geo_1a30da0e4ade2a2eeb9047c7a93d5d87d6a5dda43a21474cf33e7088b8247f19c4b" kindref="member">CrsId::WGS84</ref>);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>vr<sp/>=<sp/>p.<ref refid="classthemis_1_1geo_1_1_geo_point_1afbfcdb43e9942213896a58014685e8de" kindref="member">validate</ref>();</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(vr.ok())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>no<sp/>errors<sp/>for<sp/>valid<sp/>Berlin<sp/>coordinate&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GJS-03<sp/>GeoPoint:<sp/>validate()<sp/>—<sp/>NaN<sp/>coordinate<sp/>→<sp/>NON_FINITE_COORDINATE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><ref refid="test__geo__json__geometry_8cpp_1a92f92b874e868fdc0516762dc5392639" kindref="member">TEST</ref>(GeoJsonGeometry,<sp/>GJS03_GeoPoint_Validate_NaN)<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_geo_point" kindref="compound">GeoPoint</ref><sp/>p({std::numeric_limits&lt;double&gt;::quiet_NaN(),<sp/>52.52},<sp/><ref refid="namespacethemis_1_1geo_1a30da0e4ade2a2eeb9047c7a93d5d87d6a5dda43a21474cf33e7088b8247f19c4b" kindref="member">CrsId::WGS84</ref>);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>vr<sp/>=<sp/>p.<ref refid="classthemis_1_1geo_1_1_geo_point_1afbfcdb43e9942213896a58014685e8de" kindref="member">validate</ref>();</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(vr.ok());</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(vr.errors().empty());</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(vr.errors()[0].code,<sp/></highlight><highlight class="stringliteral">&quot;NON_FINITE_COORDINATE&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GJS-04<sp/>GeoPoint:<sp/>validate()<sp/>—<sp/>longitude<sp/>out<sp/>of<sp/>WGS-84<sp/>range</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><ref refid="test__geo__json__geometry_8cpp_1a92f92b874e868fdc0516762dc5392639" kindref="member">TEST</ref>(GeoJsonGeometry,<sp/>GJS04_GeoPoint_Validate_LongitudeOutOfRange)<sp/>{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_geo_point" kindref="compound">GeoPoint</ref><sp/>p({200.0,<sp/>52.52},<sp/><ref refid="namespacethemis_1_1geo_1a30da0e4ade2a2eeb9047c7a93d5d87d6a5dda43a21474cf33e7088b8247f19c4b" kindref="member">CrsId::WGS84</ref>);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>vr<sp/>=<sp/>p.<ref refid="classthemis_1_1geo_1_1_geo_point_1afbfcdb43e9942213896a58014685e8de" kindref="member">validate</ref>();</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(vr.ok());</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>found<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>e<sp/>:<sp/>vr.errors())<sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(e.code<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;LONGITUDE_OUT_OF_RANGE&quot;</highlight><highlight class="normal">)<sp/>{<sp/>found<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(found)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>LONGITUDE_OUT_OF_RANGE<sp/>for<sp/>x=200&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GJS-05<sp/>GeoLineString:<sp/>bbox()<sp/>and<sp/>validate()<sp/>—<sp/>valid<sp/>3-point<sp/>line</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><ref refid="test__geo__json__geometry_8cpp_1a92f92b874e868fdc0516762dc5392639" kindref="member">TEST</ref>(GeoJsonGeometry,<sp/>GJS05_GeoLineString_BboxAndValidate)<sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_geo_line_string" kindref="compound">GeoLineString</ref><sp/>ls({{{0.0,<sp/>0.0},<sp/>{5.0,<sp/>0.0},<sp/>{5.0,<sp/>5.0}}},<sp/><ref refid="namespacethemis_1_1geo_1a30da0e4ade2a2eeb9047c7a93d5d87d6a96eca974349831577fdc1f87b235c39b" kindref="member">CrsId::EPSG3857</ref>);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ls.type(),<sp/></highlight><highlight class="stringliteral">&quot;LineString&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>bb<sp/>=<sp/>ls.bbox();</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(bb.min_x,<sp/>0.0);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(bb.max_x,<sp/>5.0);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(bb.min_y,<sp/>0.0);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(bb.max_y,<sp/>5.0);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ls.validate().ok());</highlight></codeline>
+<codeline lineno="117"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GJS-06<sp/>GeoLineString:<sp/>validate()<sp/>—<sp/>single-position<sp/>(invalid)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><ref refid="test__geo__json__geometry_8cpp_1a92f92b874e868fdc0516762dc5392639" kindref="member">TEST</ref>(GeoJsonGeometry,<sp/>GJS06_GeoLineString_Validate_TooFewPoints)<sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_geo_line_string" kindref="compound">GeoLineString</ref><sp/>ls({{{1.0,<sp/>2.0}}},<sp/><ref refid="namespacethemis_1_1geo_1a30da0e4ade2a2eeb9047c7a93d5d87d6a5dda43a21474cf33e7088b8247f19c4b" kindref="member">CrsId::WGS84</ref>);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>vr<sp/>=<sp/>ls.<ref refid="classthemis_1_1geo_1_1_geo_line_string_1a14c4e54f3df5fb28d2cd508a1db1db4b" kindref="member">validate</ref>();</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(vr.ok());</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(vr.errors().empty());</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(vr.errors()[0].code,<sp/></highlight><highlight class="stringliteral">&quot;INSUFFICIENT_POSITIONS&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GJS-07<sp/>GeoPolygon:<sp/>construction,<sp/>bbox(),<sp/>toGeoJSON</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><ref refid="test__geo__json__geometry_8cpp_1a92f92b874e868fdc0516762dc5392639" kindref="member">TEST</ref>(GeoJsonGeometry,<sp/>GJS07_GeoPolygon_ConstructionAndBbox)<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_geo_polygon" kindref="compound">GeoPolygon</ref><sp/>poly({ccwSquare()},<sp/><ref refid="namespacethemis_1_1geo_1a30da0e4ade2a2eeb9047c7a93d5d87d6a5dda43a21474cf33e7088b8247f19c4b" kindref="member">CrsId::WGS84</ref>);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(poly.type(),<sp/></highlight><highlight class="stringliteral">&quot;Polygon&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>bb<sp/>=<sp/>poly.bbox();</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(bb.min_x,<sp/>0.0);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(bb.max_x,<sp/>1.0);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(bb.min_y,<sp/>0.0);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(bb.max_y,<sp/>1.0);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="test__aql__st__functions_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>=<sp/>poly.toGeoJSON();</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="test__aql__st__functions_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref>.find(</highlight><highlight class="stringliteral">&quot;\&quot;type\&quot;:\&quot;Polygon\&quot;&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="test__aql__st__functions_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref>.find(</highlight><highlight class="stringliteral">&quot;\&quot;coordinates\&quot;&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GJS-08<sp/>GeoPolygon:<sp/>validate()<sp/>—<sp/>CCW<sp/>exterior<sp/>ring<sp/>passes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><ref refid="test__geo__json__geometry_8cpp_1a92f92b874e868fdc0516762dc5392639" kindref="member">TEST</ref>(GeoJsonGeometry,<sp/>GJS08_GeoPolygon_Validate_CCW_Passes)<sp/>{</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_geo_polygon" kindref="compound">GeoPolygon</ref><sp/>poly({ccwSquare()},<sp/><ref refid="namespacethemis_1_1geo_1a30da0e4ade2a2eeb9047c7a93d5d87d6a5dda43a21474cf33e7088b8247f19c4b" kindref="member">CrsId::WGS84</ref>);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>vr<sp/>=<sp/>poly.<ref refid="classthemis_1_1geo_1_1_geo_polygon_1a353ab121fa955971dd09b690dec88676" kindref="member">validate</ref>();</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Note:<sp/>WGS-84<sp/>range<sp/>check<sp/>passes<sp/>for<sp/>coords<sp/>in<sp/>[0,1]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(vr.ok())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;CCW<sp/>exterior<sp/>ring<sp/>should<sp/>pass<sp/>winding-order<sp/>check&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GJS-09<sp/>GeoPolygon:<sp/>validate()<sp/>—<sp/>CW<sp/>exterior<sp/>ring<sp/>→<sp/>WINDING_ORDER_VIOLATION</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><ref refid="test__geo__json__geometry_8cpp_1a92f92b874e868fdc0516762dc5392639" kindref="member">TEST</ref>(GeoJsonGeometry,<sp/>GJS09_GeoPolygon_Validate_CW_ExteriorRing)<sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_geo_polygon" kindref="compound">GeoPolygon</ref><sp/>poly({cwSquare()},<sp/><ref refid="namespacethemis_1_1geo_1a30da0e4ade2a2eeb9047c7a93d5d87d6a5dda43a21474cf33e7088b8247f19c4b" kindref="member">CrsId::WGS84</ref>);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>vr<sp/>=<sp/>poly.<ref refid="classthemis_1_1geo_1_1_geo_polygon_1a353ab121fa955971dd09b690dec88676" kindref="member">validate</ref>();</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(vr.ok());</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>found<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>e<sp/>:<sp/>vr.errors())<sp/>{</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(e.code<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;WINDING_ORDER_VIOLATION&quot;</highlight><highlight class="normal">)<sp/>{<sp/>found<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(found)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>WINDING_ORDER_VIOLATION<sp/>for<sp/>CW<sp/>exterior<sp/>ring&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GJS-10<sp/>GeoPolygon:<sp/>validate()<sp/>—<sp/>unclosed<sp/>ring<sp/>→<sp/>RING_NOT_CLOSED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><ref refid="test__geo__json__geometry_8cpp_1a92f92b874e868fdc0516762dc5392639" kindref="member">TEST</ref>(GeoJsonGeometry,<sp/>GJS10_GeoPolygon_Validate_UnclosedRing)<sp/>{</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_geo_polygon_1aa124eb6e1a25c52e06b1b425e6eb7ba5" kindref="member">GeoPolygon::Ring</ref><sp/>unclosed<sp/>=<sp/>{{0.0,<sp/>0.0},<sp/>{1.0,<sp/>0.0},<sp/>{1.0,<sp/>1.0},<sp/>{0.0,<sp/>1.0}};</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_geo_polygon" kindref="compound">GeoPolygon</ref><sp/>poly({unclosed},<sp/><ref refid="namespacethemis_1_1geo_1a30da0e4ade2a2eeb9047c7a93d5d87d6a5dda43a21474cf33e7088b8247f19c4b" kindref="member">CrsId::WGS84</ref>);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>vr<sp/>=<sp/>poly.<ref refid="classthemis_1_1geo_1_1_geo_polygon_1a353ab121fa955971dd09b690dec88676" kindref="member">validate</ref>();</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(vr.ok());</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>found<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>e<sp/>:<sp/>vr.errors())<sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(e.code<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;RING_NOT_CLOSED&quot;</highlight><highlight class="normal">)<sp/>{<sp/>found<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(found)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>RING_NOT_CLOSED<sp/>for<sp/>unclosed<sp/>ring&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GJS-11<sp/>GeoMultiPolygon:<sp/>bbox()<sp/>spans<sp/>all<sp/>sub-polygons</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><ref refid="test__geo__json__geometry_8cpp_1a92f92b874e868fdc0516762dc5392639" kindref="member">TEST</ref>(GeoJsonGeometry,<sp/>GJS11_GeoMultiPolygon_BboxSpansAll)<sp/>{</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_geo_polygon_1aa124eb6e1a25c52e06b1b425e6eb7ba5" kindref="member">GeoPolygon::Ring</ref><sp/>ring1<sp/>=<sp/>{{0.0,0.0},{2.0,0.0},{2.0,2.0},{0.0,2.0},{0.0,0.0}};</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_geo_polygon_1aa124eb6e1a25c52e06b1b425e6eb7ba5" kindref="member">GeoPolygon::Ring</ref><sp/>ring2<sp/>=<sp/>{{5.0,5.0},{7.0,5.0},{7.0,7.0},{5.0,7.0},{5.0,5.0}};</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_geo_multi_polygon" kindref="compound">GeoMultiPolygon</ref><sp/>mp(</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<ref refid="classthemis_1_1geo_1_1_geo_polygon" kindref="compound">GeoPolygon</ref>({ring1},<sp/><ref refid="namespacethemis_1_1geo_1a30da0e4ade2a2eeb9047c7a93d5d87d6a5dda43a21474cf33e7088b8247f19c4b" kindref="member">CrsId::WGS84</ref>),<sp/><ref refid="classthemis_1_1geo_1_1_geo_polygon" kindref="compound">GeoPolygon</ref>({ring2},<sp/><ref refid="namespacethemis_1_1geo_1a30da0e4ade2a2eeb9047c7a93d5d87d6a5dda43a21474cf33e7088b8247f19c4b" kindref="member">CrsId::WGS84</ref>)},</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1a30da0e4ade2a2eeb9047c7a93d5d87d6a5dda43a21474cf33e7088b8247f19c4b" kindref="member">CrsId::WGS84</ref>);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mp.type(),<sp/></highlight><highlight class="stringliteral">&quot;MultiPolygon&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>bb<sp/>=<sp/>mp.bbox();</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(bb.min_x,<sp/>0.0);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(bb.max_x,<sp/>7.0);</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(bb.min_y,<sp/>0.0);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(bb.max_y,<sp/>7.0);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GJS-12<sp/>GeoGeometryCollection:<sp/>validate()<sp/>propagates<sp/>member<sp/>errors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><ref refid="test__geo__json__geometry_8cpp_1a92f92b874e868fdc0516762dc5392639" kindref="member">TEST</ref>(GeoJsonGeometry,<sp/>GJS12_GeoGeometryCollection_PropagatesErrors)<sp/>{</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Good<sp/>point</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>good<sp/>=<sp/>std::make_shared&lt;GeoPoint&gt;(Coordinate{10.0,<sp/>50.0},<sp/><ref refid="namespacethemis_1_1geo_1a30da0e4ade2a2eeb9047c7a93d5d87d6a5dda43a21474cf33e7088b8247f19c4b" kindref="member">CrsId::WGS84</ref>);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Bad<sp/>point<sp/>(latitude<sp/>out<sp/>of<sp/>range)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>bad<sp/><sp/>=<sp/>std::make_shared&lt;GeoPoint&gt;(Coordinate{10.0,<sp/>200.0},<sp/><ref refid="namespacethemis_1_1geo_1a30da0e4ade2a2eeb9047c7a93d5d87d6a5dda43a21474cf33e7088b8247f19c4b" kindref="member">CrsId::WGS84</ref>);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_geo_geometry_collection" kindref="compound">GeoGeometryCollection</ref><sp/>coll({good,<sp/>bad},<sp/><ref refid="namespacethemis_1_1geo_1a30da0e4ade2a2eeb9047c7a93d5d87d6a5dda43a21474cf33e7088b8247f19c4b" kindref="member">CrsId::WGS84</ref>);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(coll.type(),<sp/></highlight><highlight class="stringliteral">&quot;GeometryCollection&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>vr<sp/>=<sp/>coll.validate();</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(vr.ok())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Collection<sp/>with<sp/>invalid<sp/>member<sp/>should<sp/>fail<sp/>validation&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>found<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>e<sp/>:<sp/>vr.errors())<sp/>{</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(e.code.find(</highlight><highlight class="stringliteral">&quot;LATITUDE_OUT_OF_RANGE&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos)<sp/>{</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>found<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(found)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>propagated<sp/>LATITUDE_OUT_OF_RANGE<sp/>in<sp/>collection&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/geo/test_geo_json_geometry.cpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_c_r_d_t_resolver_test" kind="class" language="C++" prot="public">
+    <compoundname>CRDTResolverTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_c_r_d_t_resolver_test_1ae316e28a1a8bcc1729b56faa45b6bb82" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1replication_1_1_c_r_d_t_conflict_resolver" kindref="compound">CRDTConflictResolver</ref></type>
+        <definition>CRDTConflictResolver CRDTResolverTest::resolver</definition>
+        <argsstring></argsstring>
+        <name>resolver</name>
+        <qualifiedname>CRDTResolverTest::resolver</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_ha.cpp" line="317" column="26" bodyfile="tests/replication/test_replication_ha.cpp" bodystart="317" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>CRDTResolverTest</label>
+        <link refid="class_c_r_d_t_resolver_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>CRDTResolverTest</label>
+        <link refid="class_c_r_d_t_resolver_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>resolver</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themisdb::replication::CRDTConflictResolver</label>
+        <link refid="classthemisdb_1_1replication_1_1_c_r_d_t_conflict_resolver"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themisdb::replication::IConflictResolver</label>
+        <link refid="classthemisdb_1_1replication_1_1_i_conflict_resolver"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/replication/test_replication_ha.cpp" line="315" column="1" bodyfile="tests/replication/test_replication_ha.cpp" bodystart="315" bodyend="318"/>
+    <listofallmembers>
+      <member refid="class_c_r_d_t_resolver_test_1ae316e28a1a8bcc1729b56faa45b6bb82" prot="protected" virt="non-virtual"><scope>CRDTResolverTest</scope><name>resolver</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

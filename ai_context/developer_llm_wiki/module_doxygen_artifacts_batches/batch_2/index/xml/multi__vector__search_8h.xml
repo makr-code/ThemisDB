@@ -1,0 +1,208 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="multi__vector__search_8h" kind="file" language="C++">
+    <compoundname>multi_vector_search.h</compoundname>
+    <includes local="yes">utils/expected.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">memory</includes>
+    <includedby refid="multi__vector__search_8cpp" local="yes">src/index/multi_vector_search.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/index/multi_vector_search.h</label>
+        <link refid="multi__vector__search_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="2">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/index/multi_vector_search.h</label>
+        <link refid="multi__vector__search_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/index/multi_vector_search.cpp</label>
+        <link refid="multi__vector__search_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1vector_1_1_multi_vector_search" prot="public">themis::vector::MultiVectorSearch</innerclass>
+    <innerclass refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_search_config" prot="public">themis::vector::MultiVectorSearch::SearchConfig</innerclass>
+    <innerclass refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_multi_query" prot="public">themis::vector::MultiVectorSearch::MultiQuery</innerclass>
+    <innerclass refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_search_result" prot="public">themis::vector::MultiVectorSearch::SearchResult</innerclass>
+    <innerclass refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_multi_search_result" prot="public">themis::vector::MultiVectorSearch::MultiSearchResult</innerclass>
+    <innerclass refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_statistics" prot="public">themis::vector::MultiVectorSearch::Statistics</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1vector">themis::vector</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/expected.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_vector_index_manager" kindref="compound">VectorIndexManager</ref>;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1vector" kindref="compound">vector</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="classthemis_1_1vector_1_1_multi_vector_search" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1vector_1_1_multi_vector_search_1a6cc2d5b58211ccac9dc1809a19dfaf7c" kindref="member">MultiVectorSearch</ref><sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="58" refid="classthemis_1_1vector_1_1_multi_vector_search_1a8a0651160cf0a1d74d1d5f64c54715d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1vector_1_1_multi_vector_search_1a8a0651160cf0a1d74d1d5f64c54715d0" kindref="member">FusionStrategy</ref><sp/>{</highlight></codeline>
+<codeline lineno="59" refid="classthemis_1_1vector_1_1_multi_vector_search_1a8a0651160cf0a1d74d1d5f64c54715d0ab49c37d6e057e476664914b855aae796" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1vector_1_1_multi_vector_search_1a8a0651160cf0a1d74d1d5f64c54715d0ab49c37d6e057e476664914b855aae796" kindref="member">LINEAR_COMBINATION</ref>,<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Weighted<sp/>sum:<sp/>w1*s1<sp/>+<sp/>w2*s2<sp/>+<sp/>...</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="classthemis_1_1vector_1_1_multi_vector_search_1a8a0651160cf0a1d74d1d5f64c54715d0ac5bf8d44ce357874ec94f2f105d0cbf8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1vector_1_1_multi_vector_search_1a8a0651160cf0a1d74d1d5f64c54715d0ac5bf8d44ce357874ec94f2f105d0cbf8" kindref="member">MAX_SCORE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Take<sp/>maximum<sp/>score<sp/>across<sp/>vectors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="classthemis_1_1vector_1_1_multi_vector_search_1a8a0651160cf0a1d74d1d5f64c54715d0ac55ae44ba7c694ffa90278fcdb245319" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1vector_1_1_multi_vector_search_1a8a0651160cf0a1d74d1d5f64c54715d0ac55ae44ba7c694ffa90278fcdb245319" kindref="member">MIN_SCORE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Take<sp/>minimum<sp/>score<sp/>across<sp/>vectors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="classthemis_1_1vector_1_1_multi_vector_search_1a8a0651160cf0a1d74d1d5f64c54715d0a15560756679350ac8d8767ec12f62dac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1vector_1_1_multi_vector_search_1a8a0651160cf0a1d74d1d5f64c54715d0a15560756679350ac8d8767ec12f62dac" kindref="member">AVG_SCORE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Average<sp/>score<sp/>across<sp/>vectors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="classthemis_1_1vector_1_1_multi_vector_search_1a8a0651160cf0a1d74d1d5f64c54715d0a94f6b0811432b6e9d7e56c8871940ff7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1vector_1_1_multi_vector_search_1a8a0651160cf0a1d74d1d5f64c54715d0a94f6b0811432b6e9d7e56c8871940ff7" kindref="member">RANK_FUSION</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Combine<sp/>based<sp/>on<sp/>ranks<sp/>(Borda<sp/>count)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="classthemis_1_1vector_1_1_multi_vector_search_1a8a0651160cf0a1d74d1d5f64c54715d0a43972d17ffca99f404a6139a8194b4c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1vector_1_1_multi_vector_search_1a8a0651160cf0a1d74d1d5f64c54715d0a43972d17ffca99f404a6139a8194b4c3" kindref="member">RECIPROCAL_RANK</ref>,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reciprocal<sp/>rank<sp/>fusion<sp/>(RRF)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="classthemis_1_1vector_1_1_multi_vector_search_1a8a0651160cf0a1d74d1d5f64c54715d0aa80a4403461e9a27fbebd4a1bd9790d1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1vector_1_1_multi_vector_search_1a8a0651160cf0a1d74d1d5f64c54715d0aa80a4403461e9a27fbebd4a1bd9790d1" kindref="member">LEARNED_FUSION</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Machine-learned<sp/>fusion<sp/>(future)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_search_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_search_config" kindref="compound">SearchConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_search_config_1a5f7bdb05ce52f9d107f63dc67b0b5b5e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1vector_1_1_multi_vector_search_1a8a0651160cf0a1d74d1d5f64c54715d0" kindref="member">FusionStrategy</ref><sp/><ref refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_search_config_1a5f7bdb05ce52f9d107f63dc67b0b5b5e" kindref="member">fusion</ref><sp/>=<sp/><ref refid="classthemis_1_1vector_1_1_multi_vector_search_1a8a0651160cf0a1d74d1d5f64c54715d0ab49c37d6e057e476664914b855aae796" kindref="member">FusionStrategy::LINEAR_COMBINATION</ref>;</highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_search_config_1a2a07a2f449eef25ef1fea9e7f04d250c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_search_config_1a2a07a2f449eef25ef1fea9e7f04d250c" kindref="member">weights</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Weights<sp/>for<sp/>linear<sp/>combination</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_search_config_1a0bf0d4456eaea65ea14d52303827f574" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_search_config_1a0bf0d4456eaea65ea14d52303827f574" kindref="member">top_k</ref><sp/>=<sp/>10;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Number<sp/>of<sp/>results</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_search_config_1a97ef723be279db53e9c4a5c8d7e85b6f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_search_config_1a97ef723be279db53e9c4a5c8d7e85b6f" kindref="member">rrf_k</ref><sp/>=<sp/>60.0f;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RRF<sp/>constant<sp/>(default:<sp/>60)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_search_config_1aa77ecb404156c427d13e865808ddbcc4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_search_config_1aa77ecb404156c427d13e865808ddbcc4" kindref="member">normalize_scores</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Normalize<sp/>scores<sp/>before<sp/>fusion</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_search_config_1a0c9abcdec4a80bff444091c8fb447ba1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_search_config_1a0c9abcdec4a80bff444091c8fb447ba1" kindref="member">index_name</ref>;<sp/></highlight><highlight class="comment">//<sp/>Optional<sp/>index<sp/>filter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_search_config_1acb5ce83bf9f4e9ecf9b4e694e32bc3e4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_search_config_1acb5ce83bf9f4e9ecf9b4e694e32bc3e4" kindref="member">ef_search</ref><sp/>=<sp/>64;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>HNSW<sp/>search<sp/>parameter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_multi_query" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_multi_query" kindref="compound">MultiQuery</ref><sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Multiple<sp/>query<sp/>vectors<sp/>with<sp/>optional<sp/>weights</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_multi_query_1a8b0f2fead6f8447f4d7fb8d88ab1b06b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;float&gt;&gt;<sp/><ref refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_multi_query_1a8b0f2fead6f8447f4d7fb8d88ab1b06b" kindref="member">vectors</ref>;</highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_multi_query_1a97e5e7e0a715c8438b7490048c7f4df3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_multi_query_1a97e5e7e0a715c8438b7490048c7f4df3" kindref="member">weights</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Weight<sp/>per<sp/>query<sp/>vector</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Multiple<sp/>field<sp/>names<sp/>if<sp/>searching<sp/>across<sp/>fields</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_multi_query_1a327231aca6875ba46ee6bb05c6b6ca72" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_multi_query_1a327231aca6875ba46ee6bb05c6b6ca72" kindref="member">field_names</ref>;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optional:<sp/>require<sp/>matching<sp/>on<sp/>all<sp/>fields<sp/>vs.<sp/>any<sp/>field</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_multi_query_1a54b6966365208d294e14ad52c05915f8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_multi_query_1a54b6966365208d294e14ad52c05915f8" kindref="member">require_all_fields</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_search_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_search_result" kindref="compound">SearchResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_search_result_1adb58e5ac362a15495e5408931a6784fc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_search_result_1a277bd73ae3c089d55fb9103dfa7ec403" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_search_result_1a277bd73ae3c089d55fb9103dfa7ec403" kindref="member">fused_score</ref><sp/>=<sp/>0.0f;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Final<sp/>combined<sp/>score</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_search_result_1abe1df67e2c737d983ab62261f14b3263" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_search_result_1abe1df67e2c737d983ab62261f14b3263" kindref="member">individual_scores</ref>;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Scores<sp/>per<sp/>query<sp/>vector</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_search_result_1a768d641720e333ddbe2374ca1a3edabe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;int&gt;<sp/><ref refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_search_result_1a768d641720e333ddbe2374ca1a3edabe" kindref="member">individual_ranks</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Ranks<sp/>per<sp/>query<sp/>vector</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_search_result_1a85b6bcae4c546243a63cb3bed48c03d8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>float&gt;<sp/><ref refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_search_result_1a85b6bcae4c546243a63cb3bed48c03d8" kindref="member">field_scores</ref>;<sp/></highlight><highlight class="comment">//<sp/>Scores<sp/>per<sp/>field</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_multi_search_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_multi_search_result" kindref="compound">MultiSearchResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_multi_search_result_1a16e034fa7bde8d7e87eb2ed914017e30" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;SearchResult&gt;<sp/><ref refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_multi_search_result_1a16e034fa7bde8d7e87eb2ed914017e30" kindref="member">results</ref>;</highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_multi_search_result_1ad1a5d39904f57a0d6053ac828806e3f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1vector_1_1_multi_vector_search_1a8a0651160cf0a1d74d1d5f64c54715d0" kindref="member">FusionStrategy</ref><sp/><ref refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_multi_search_result_1ad1a5d39904f57a0d6053ac828806e3f5" kindref="member">strategy_used</ref>;</highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_multi_search_result_1a0b670a925dc32e230b7ffddf2ae21d3f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_multi_search_result_1a0b670a925dc32e230b7ffddf2ae21d3f" kindref="member">total_candidates</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_multi_search_result_1a5a3cc4342599445e5586843942787447" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_multi_search_result_1a5a3cc4342599445e5586843942787447" kindref="member">computation_time_ms</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_multi_search_result_1a0f6930dda72596d6966acdda1f7ac735" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_multi_search_result_1a0f6930dda72596d6966acdda1f7ac735" kindref="member">weights_used</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Actual<sp/>weights<sp/>applied</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1vector_1_1_multi_vector_search_1a6cc2d5b58211ccac9dc1809a19dfaf7c" kindref="member">MultiVectorSearch</ref>(<ref refid="classthemis_1_1_vector_index_manager" kindref="compound">VectorIndexManager</ref>&amp;<sp/>vector_manager);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;MultiSearchResult&gt;<sp/><ref refid="classthemis_1_1vector_1_1_multi_vector_search_1ae5999115c16d4d33fe67971e2cef4a72" kindref="member">search</ref>(</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_multi_query" kindref="compound">MultiQuery</ref>&amp;<sp/>query,</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_search_config" kindref="compound">SearchConfig</ref>&amp;<sp/>config</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;MultiSearchResult&gt;<sp/><ref refid="classthemis_1_1vector_1_1_multi_vector_search_1a44e20e76e1b1b0f8600e0d6def1f4652" kindref="member">searchMultiField</ref>(</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>query_vector,</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>field_names,</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_search_config" kindref="compound">SearchConfig</ref>&amp;<sp/>config</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;MultiSearchResult&gt;<sp/><ref refid="classthemis_1_1vector_1_1_multi_vector_search_1a7df9aeffed4d14b30a5b13e94d55d68e" kindref="member">searchWithExpansion</ref>(</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::vector&lt;float&gt;&gt;&amp;<sp/>query_variants,</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_search_config" kindref="compound">SearchConfig</ref>&amp;<sp/>config</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;MultiSearchResult&gt;<sp/><ref refid="classthemis_1_1vector_1_1_multi_vector_search_1a715652400c07937bd23561e22bd41ad0" kindref="member">hybridSearch</ref>(</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>query_vector,</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>float&gt;&amp;<sp/>keyword_scores,</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_search_config" kindref="compound">SearchConfig</ref>&amp;<sp/>config</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;std::vector&lt;MultiSearchResult&gt;&gt;<sp/><ref refid="classthemis_1_1vector_1_1_multi_vector_search_1ac86b12d75a746455fd1401af8044f866" kindref="member">batchSearch</ref>(</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;MultiQuery&gt;&amp;<sp/>queries,</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_search_config" kindref="compound">SearchConfig</ref>&amp;<sp/>config</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;std::vector&lt;float&gt;&gt;<sp/><ref refid="classthemis_1_1vector_1_1_multi_vector_search_1a3cffca14b1995d7970df0dcb1ed9d898" kindref="member">optimizeWeights</ref>(</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;MultiQuery&gt;&amp;<sp/>queries,</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::vector&lt;std::string&gt;&gt;&amp;<sp/>relevance_judgments</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189" refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_statistics" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_statistics" kindref="compound">Statistics</ref><sp/>{</highlight></codeline>
+<codeline lineno="190" refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_statistics_1a1982ef63fad4aa220e8820152029d597" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_statistics_1a1982ef63fad4aa220e8820152029d597" kindref="member">total_searches</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="191" refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_statistics_1a7c5a1bb3b4fd78289bf9a1b71431667c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_statistics_1a7c5a1bb3b4fd78289bf9a1b71431667c" kindref="member">avg_time_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="192" refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_statistics_1ac86959d2decdd9214f54dc52da4b7305" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;FusionStrategy,<sp/>size_t&gt;<sp/><ref refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_statistics_1ac86959d2decdd9214f54dc52da4b7305" kindref="member">strategy_usage</ref>;</highlight></codeline>
+<codeline lineno="193" refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_statistics_1a5967d84600b4712949e826949353e94a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_statistics_1a5967d84600b4712949e826949353e94a" kindref="member">avg_results_per_search</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196" refid="classthemis_1_1vector_1_1_multi_vector_search_1ab460f8b1da14c5ec49a091632a957462" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_statistics" kindref="compound">Statistics</ref>&amp;<sp/><ref refid="classthemis_1_1vector_1_1_multi_vector_search_1ab460f8b1da14c5ec49a091632a957462" kindref="member">getStatistics</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>stats_;<sp/>}</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1vector_1_1_multi_vector_search_1a71398eb8b87a8c8558ae7c680522312e" kindref="member">resetStatistics</ref>();</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_vector_index_manager" kindref="compound">VectorIndexManager</ref>&amp;<sp/>vector_manager_;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>Statistics<sp/>stats_;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>vector</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/index/multi_vector_search.h"/>
+  </compounddef>
+</doxygen>

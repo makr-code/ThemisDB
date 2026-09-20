@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_conflict_analysis" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::ConflictAnalysis</compoundname>
+    <includes refid="process__diagnostics__api_8h" local="no">process_diagnostics_api.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_conflict_analysis_1a9bfad358bd545a321eb3f8f13f7cc48e" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; int32_t &gt;</type>
+        <definition>std::optional&lt;int32_t&gt; themis::process::ConflictAnalysis::conflict_count</definition>
+        <argsstring></argsstring>
+        <name>conflict_count</name>
+        <qualifiedname>themis::process::ConflictAnalysis::conflict_count</qualifiedname>
+        <briefdescription>
+<para>Number of conflicts detected during this operation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_diagnostics_api.h" line="149" column="19" bodyfile="include/process/process_diagnostics_api.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_conflict_analysis_1a278e8f29de2188a855c270f157a27b2f" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; int32_t &gt;</type>
+        <definition>std::optional&lt;int32_t&gt; themis::process::ConflictAnalysis::retry_count</definition>
+        <argsstring></argsstring>
+        <name>retry_count</name>
+        <qualifiedname>themis::process::ConflictAnalysis::retry_count</qualifiedname>
+        <briefdescription>
+<para>Number of retry attempts before failure. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_diagnostics_api.h" line="151" column="19" bodyfile="include/process/process_diagnostics_api.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_conflict_analysis_1abf1c1578599d6f81ed202e3df05a6f08" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; int64_t &gt;</type>
+        <definition>std::optional&lt;int64_t&gt; themis::process::ConflictAnalysis::conflicting_version</definition>
+        <argsstring></argsstring>
+        <name>conflicting_version</name>
+        <qualifiedname>themis::process::ConflictAnalysis::conflicting_version</qualifiedname>
+        <briefdescription>
+<para>Monotonic version clock of conflicting update (if available). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_diagnostics_api.h" line="153" column="19" bodyfile="include/process/process_diagnostics_api.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1process_1_1_conflict_analysis_1a65f74710a8cf6446160dc129f1735831" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::process::ConflictAnalysis::format</definition>
+        <argsstring>() const</argsstring>
+        <name>format</name>
+        <qualifiedname>themis::process::ConflictAnalysis::format</qualifiedname>
+        <briefdescription>
+<para>Format conflict analysis as a string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>&quot;conflicts=N, retries=M, version=V&quot; or empty string if no data </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_diagnostics_api.h" line="159" column="18" bodyfile="include/process/process_diagnostics_api.h" bodystart="409" bodyend="432"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Conflict analysis captured at time of incident. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tracks write-write conflicts and retry counts to help operators understand contention patterns.</para>
+<para><simplesect kind="invariant"><para>conflict_count &gt;= 0 </para>
+</simplesect>
+<simplesect kind="invariant"><para>retry_count &gt;= 0 </para>
+</simplesect>
+<simplesect kind="invariant"><para>Both fields are optional for non-conflict incidents </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/process/process_diagnostics_api.h" line="147" column="1" bodyfile="include/process/process_diagnostics_api.h" bodystart="147" bodyend="160"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_conflict_analysis_1a9bfad358bd545a321eb3f8f13f7cc48e" prot="public" virt="non-virtual"><scope>themis::process::ConflictAnalysis</scope><name>conflict_count</name></member>
+      <member refid="structthemis_1_1process_1_1_conflict_analysis_1abf1c1578599d6f81ed202e3df05a6f08" prot="public" virt="non-virtual"><scope>themis::process::ConflictAnalysis</scope><name>conflicting_version</name></member>
+      <member refid="structthemis_1_1process_1_1_conflict_analysis_1a65f74710a8cf6446160dc129f1735831" prot="public" virt="non-virtual"><scope>themis::process::ConflictAnalysis</scope><name>format</name></member>
+      <member refid="structthemis_1_1process_1_1_conflict_analysis_1a278e8f29de2188a855c270f157a27b2f" prot="public" virt="non-virtual"><scope>themis::process::ConflictAnalysis</scope><name>retry_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_test_item" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::TestItem</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_test_item_1a065a3c59d390ff8ef0eac8635a67f08d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::ingestion::TestItem::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::ingestion::TestItem::id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_queue_saturation_stress.cpp" line="47" column="9" bodyfile="tests/ingestion/test_ingestion_queue_saturation_stress.cpp" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_test_item_1af9e34743c36d9f03a9bd6c9b59f6e3d8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::TestItem::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themis::ingestion::TestItem::data</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_queue_saturation_stress.cpp" line="48" column="17" bodyfile="tests/ingestion/test_ingestion_queue_saturation_stress.cpp" bodystart="48" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_test_item_1a646ebc77397bc904094fe34c87bdafb8" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; char &gt;</type>
+        <definition>std::vector&lt;char&gt; themis::ingestion::TestItem::payload</definition>
+        <argsstring></argsstring>
+        <name>payload</name>
+        <qualifiedname>themis::ingestion::TestItem::payload</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_queue_saturation_stress.cpp" line="49" column="17" bodyfile="tests/ingestion/test_ingestion_queue_saturation_stress.cpp" bodystart="49" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_test_item_1a68f5ed644f9a71475b5ad4475099d212" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::TestItem::TestItem</definition>
+        <argsstring>(int id=0, const std::string &amp;d=&quot;&quot;, std::size_t payload_size=0)</argsstring>
+        <name>TestItem</name>
+        <qualifiedname>themis::ingestion::TestItem::TestItem</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>id</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>d</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>payload_size</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_queue_saturation_stress.cpp" line="51" column="14" bodyfile="tests/ingestion/test_ingestion_queue_saturation_stress.cpp" bodystart="51" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_test_item_1aea39901714adfb9209b640b912c47f52" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::TestItem::TestItem</definition>
+        <argsstring>(const TestItem &amp;other)=default</argsstring>
+        <name>TestItem</name>
+        <qualifiedname>themis::ingestion::TestItem::TestItem</qualifiedname>
+        <param>
+          <type>const TestItem &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_queue_saturation_stress.cpp" line="55" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_test_item_1a319b3d7d40fc17447c1b5470c8209c32" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1ingestion_1_1_test_item_1a68f5ed644f9a71475b5ad4475099d212" kindref="member">TestItem</ref> &amp;</type>
+        <definition>TestItem &amp; themis::ingestion::TestItem::operator=</definition>
+        <argsstring>(const TestItem &amp;other)=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::ingestion::TestItem::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_test_item_1a68f5ed644f9a71475b5ad4475099d212" kindref="member">TestItem</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_queue_saturation_stress.cpp" line="56" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_test_item_1a854001ba830fdeecd428fb91518c830e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::TestItem::TestItem</definition>
+        <argsstring>(TestItem &amp;&amp;other)=default</argsstring>
+        <name>TestItem</name>
+        <qualifiedname>themis::ingestion::TestItem::TestItem</qualifiedname>
+        <param>
+          <type>TestItem &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_queue_saturation_stress.cpp" line="57" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_test_item_1ae8960fd51c0c185ce670e58e6013aac5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1ingestion_1_1_test_item_1a68f5ed644f9a71475b5ad4475099d212" kindref="member">TestItem</ref> &amp;</type>
+        <definition>TestItem &amp; themis::ingestion::TestItem::operator=</definition>
+        <argsstring>(TestItem &amp;&amp;other)=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::ingestion::TestItem::operator=</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1ingestion_1_1_test_item_1a68f5ed644f9a71475b5ad4475099d212" kindref="member">TestItem</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_queue_saturation_stress.cpp" line="58" column="14"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/ingestion/test_ingestion_queue_saturation_stress.cpp" line="46" column="1" bodyfile="tests/ingestion/test_ingestion_queue_saturation_stress.cpp" bodystart="46" bodyend="59"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_test_item_1af9e34743c36d9f03a9bd6c9b59f6e3d8" prot="public" virt="non-virtual"><scope>themis::ingestion::TestItem</scope><name>data</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_test_item_1a065a3c59d390ff8ef0eac8635a67f08d" prot="public" virt="non-virtual"><scope>themis::ingestion::TestItem</scope><name>id</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_test_item_1a319b3d7d40fc17447c1b5470c8209c32" prot="public" virt="non-virtual"><scope>themis::ingestion::TestItem</scope><name>operator=</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_test_item_1ae8960fd51c0c185ce670e58e6013aac5" prot="public" virt="non-virtual"><scope>themis::ingestion::TestItem</scope><name>operator=</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_test_item_1a646ebc77397bc904094fe34c87bdafb8" prot="public" virt="non-virtual"><scope>themis::ingestion::TestItem</scope><name>payload</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_test_item_1a68f5ed644f9a71475b5ad4475099d212" prot="public" virt="non-virtual"><scope>themis::ingestion::TestItem</scope><name>TestItem</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_test_item_1aea39901714adfb9209b640b912c47f52" prot="public" virt="non-virtual"><scope>themis::ingestion::TestItem</scope><name>TestItem</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_test_item_1a854001ba830fdeecd428fb91518c830e" prot="public" virt="non-virtual"><scope>themis::ingestion::TestItem</scope><name>TestItem</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

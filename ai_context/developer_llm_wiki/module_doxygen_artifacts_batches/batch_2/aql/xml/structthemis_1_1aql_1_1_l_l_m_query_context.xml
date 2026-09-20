@@ -1,0 +1,232 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1_l_l_m_query_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::LLMQueryContext</compoundname>
+    <includes refid="llm__query__context_8h" local="no">llm_query_context.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_l_l_m_query_context_1a1c8c34622086e27a7bcbcc6af2fc1ae1" prot="public" static="no" mutable="no">
+        <type>HLCTimestamp</type>
+        <definition>HLCTimestamp themis::aql::LLMQueryContext::snapshot_ts</definition>
+        <argsstring></argsstring>
+        <name>snapshot_ts</name>
+        <qualifiedname>themis::aql::LLMQueryContext::snapshot_ts</qualifiedname>
+        <briefdescription>
+<para>HLC timestamp that anchors all DB reads for this LLM request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>All vector, graph, and relational retrievals contributing to the prompt must read data committed at or before this timestamp. A zero-value timestamp means &quot;use the latest committed version&quot; (consistent with default RocksDB snapshot behaviour). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_query_context.h" line="59" column="18" bodyfile="include/aql/llm_query_context.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_l_l_m_query_context_1a19defcc81afa7fc3e5d897fa569ff91e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::LLMQueryContext::isolation_mode</definition>
+        <argsstring></argsstring>
+        <name>isolation_mode</name>
+        <qualifiedname>themis::aql::LLMQueryContext::isolation_mode</qualifiedname>
+        <initializer>= &quot;no-snapshot&quot;</initializer>
+        <briefdescription>
+<para>Human-readable description of the read isolation used. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Carries <computeroutput>"snapshot-isolated"</computeroutput> when a valid snapshot_ts was captured, or <computeroutput>"no-snapshot"</computeroutput> when the context was built without an explicit timestamp (legacy path — avoid in new code). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_query_context.h" line="68" column="17" bodyfile="include/aql/llm_query_context.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_l_l_m_query_context_1ab5713dff0d2599ddd9762fce936ab621" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::LLMQueryContext::trace_id</definition>
+        <argsstring></argsstring>
+        <name>trace_id</name>
+        <qualifiedname>themis::aql::LLMQueryContext::trace_id</qualifiedname>
+        <briefdescription>
+<para>Optional W3C trace-id for end-to-end observability correlation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>If set, must be a 32-character lower-case hex string (128-bit). Forwarded verbatim into the downstream <computeroutput>InferenceRequest::trace_id</computeroutput>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_query_context.h" line="76" column="17" bodyfile="include/aql/llm_query_context.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_l_l_m_query_context_1a41c5e065667e167cc76de8933fa569fc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::LLMQueryContext::span_id</definition>
+        <argsstring></argsstring>
+        <name>span_id</name>
+        <qualifiedname>themis::aql::LLMQueryContext::span_id</qualifiedname>
+        <briefdescription>
+<para>Optional W3C parent-span-id for nested observability spans. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>If set, must be a 16-character lower-case hex string (64-bit). Forwarded verbatim into the downstream <computeroutput>InferenceRequest::span_id</computeroutput>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_query_context.h" line="84" column="17" bodyfile="include/aql/llm_query_context.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_l_l_m_query_context_1afa7a413a49196bcea4ad7ca2eef05b06" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::aql::LLMQueryContext::request_seq</definition>
+        <argsstring></argsstring>
+        <name>request_seq</name>
+        <qualifiedname>themis::aql::LLMQueryContext::request_seq</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Monotonically incrementing request counter for this DB instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Used by the audit log to correlate the retrieval snapshot with the inference invocation. Set by the handler, not by the caller. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_query_context.h" line="92" column="14" bodyfile="include/aql/llm_query_context.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1aql_1_1_l_l_m_query_context_1aa3553639ad7c54abf73ed388c2863bfc" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1aql_1_1_l_l_m_query_context" kindref="compound">LLMQueryContext</ref></type>
+        <definition>static LLMQueryContext themis::aql::LLMQueryContext::fromSnapshot</definition>
+        <argsstring>(HLCTimestamp ts, std::string trace_id={}, std::string span_id={}) noexcept</argsstring>
+        <name>fromSnapshot</name>
+        <qualifiedname>themis::aql::LLMQueryContext::fromSnapshot</qualifiedname>
+        <param>
+          <type>HLCTimestamp</type>
+          <declname>ts</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>trace_id</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>span_id</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Create a snapshot-isolated context from the provided HLC timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>HLC timestamp captured from the DB&apos;s HLC clock before any retrieval reads. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>trace_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional W3C trace-id. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>span_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional W3C parent-span-id. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1aql_1_1_l_l_m_query_context" kindref="compound">LLMQueryContext</ref> with isolation_mode = &quot;snapshot-isolated&quot;. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_query_context.h" line="107" column="29" bodyfile="include/aql/llm_query_context.h" bodystart="107" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1aql_1_1_l_l_m_query_context_1a2c3d05da8343f2212ee2c203a80f626b" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1aql_1_1_l_l_m_query_context" kindref="compound">LLMQueryContext</ref></type>
+        <definition>static LLMQueryContext themis::aql::LLMQueryContext::withoutSnapshot</definition>
+        <argsstring>(std::string trace_id={}, std::string span_id={}) noexcept</argsstring>
+        <name>withoutSnapshot</name>
+        <qualifiedname>themis::aql::LLMQueryContext::withoutSnapshot</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>trace_id</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>span_id</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Create a legacy (no-snapshot) context for backward compatibility. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Prefer <computeroutput><ref refid="structthemis_1_1aql_1_1_l_l_m_query_context_1aa3553639ad7c54abf73ed388c2863bfc" kindref="member">fromSnapshot()</ref></computeroutput> in all new code paths. This factory is provided solely for migration purposes while existing callers are updated.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>trace_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional W3C trace-id. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>span_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional W3C parent-span-id. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1aql_1_1_l_l_m_query_context" kindref="compound">LLMQueryContext</ref> with isolation_mode = &quot;no-snapshot&quot; and a zero snapshot_ts. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_query_context.h" line="131" column="29" bodyfile="include/aql/llm_query_context.h" bodystart="131" bodyend="141"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1aql_1_1_l_l_m_query_context_1a09d2c3d37d86b2e40a6016b8935fea5b" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::aql::LLMQueryContext::hasSnapshot</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>hasSnapshot</name>
+        <qualifiedname>themis::aql::LLMQueryContext::hasSnapshot</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true when snapshot_ts is non-zero (snapshot isolation active). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_query_context.h" line="150" column="11" bodyfile="include/aql/llm_query_context.h" bodystart="150" bodyend="152"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Snapshot context for a single LLM inference request. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Binds all DB reads that contribute to the LLM prompt to a single HLC read-timestamp, enforcing snapshot isolation in the retrieval phase. </para>
+    </detaileddescription>
+    <location file="include/aql/llm_query_context.h" line="50" column="1" bodyfile="include/aql/llm_query_context.h" bodystart="50" bodyend="153"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1_l_l_m_query_context_1aa3553639ad7c54abf73ed388c2863bfc" prot="public" virt="non-virtual"><scope>themis::aql::LLMQueryContext</scope><name>fromSnapshot</name></member>
+      <member refid="structthemis_1_1aql_1_1_l_l_m_query_context_1a09d2c3d37d86b2e40a6016b8935fea5b" prot="public" virt="non-virtual"><scope>themis::aql::LLMQueryContext</scope><name>hasSnapshot</name></member>
+      <member refid="structthemis_1_1aql_1_1_l_l_m_query_context_1a19defcc81afa7fc3e5d897fa569ff91e" prot="public" virt="non-virtual"><scope>themis::aql::LLMQueryContext</scope><name>isolation_mode</name></member>
+      <member refid="structthemis_1_1aql_1_1_l_l_m_query_context_1afa7a413a49196bcea4ad7ca2eef05b06" prot="public" virt="non-virtual"><scope>themis::aql::LLMQueryContext</scope><name>request_seq</name></member>
+      <member refid="structthemis_1_1aql_1_1_l_l_m_query_context_1a1c8c34622086e27a7bcbcc6af2fc1ae1" prot="public" virt="non-virtual"><scope>themis::aql::LLMQueryContext</scope><name>snapshot_ts</name></member>
+      <member refid="structthemis_1_1aql_1_1_l_l_m_query_context_1a41c5e065667e167cc76de8933fa569fc" prot="public" virt="non-virtual"><scope>themis::aql::LLMQueryContext</scope><name>span_id</name></member>
+      <member refid="structthemis_1_1aql_1_1_l_l_m_query_context_1ab5713dff0d2599ddd9762fce936ab621" prot="public" virt="non-virtual"><scope>themis::aql::LLMQueryContext</scope><name>trace_id</name></member>
+      <member refid="structthemis_1_1aql_1_1_l_l_m_query_context_1a2c3d05da8343f2212ee2c203a80f626b" prot="public" virt="non-virtual"><scope>themis::aql::LLMQueryContext</scope><name>withoutSnapshot</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

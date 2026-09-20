@@ -1,0 +1,155 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_rebalance_operation_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::RebalanceOperationConfig</compoundname>
+    <includes refid="rebalance__operation_8h" local="no">rebalance_operation.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_rebalance_operation_config_1a117f92f1fc1680b2cee944208f0c0f83" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::RebalanceOperationConfig::source_shard_id</definition>
+        <argsstring></argsstring>
+        <name>source_shard_id</name>
+        <qualifiedname>themis::sharding::RebalanceOperationConfig::source_shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/rebalance_operation.h" line="47" column="17" bodyfile="include/sharding/rebalance_operation.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_rebalance_operation_config_1a4d8617387bd4d82bfb03861f020247b9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::RebalanceOperationConfig::target_shard_id</definition>
+        <argsstring></argsstring>
+        <name>target_shard_id</name>
+        <qualifiedname>themis::sharding::RebalanceOperationConfig::target_shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/rebalance_operation.h" line="48" column="17" bodyfile="include/sharding/rebalance_operation.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_rebalance_operation_config_1afa9f2832a71852d6d80cb000b1275abb" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::RebalanceOperationConfig::token_range_start</definition>
+        <argsstring></argsstring>
+        <name>token_range_start</name>
+        <qualifiedname>themis::sharding::RebalanceOperationConfig::token_range_start</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/rebalance_operation.h" line="49" column="14" bodyfile="include/sharding/rebalance_operation.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_rebalance_operation_config_1a054c83d3c3ed6bf1884ff680bea88bc9" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::RebalanceOperationConfig::token_range_end</definition>
+        <argsstring></argsstring>
+        <name>token_range_end</name>
+        <qualifiedname>themis::sharding::RebalanceOperationConfig::token_range_end</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/rebalance_operation.h" line="50" column="14" bodyfile="include/sharding/rebalance_operation.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_rebalance_operation_config_1a035dfe3bf333f147ac7b57790db42074" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::RebalanceOperationConfig::operator_cert_path</definition>
+        <argsstring></argsstring>
+        <name>operator_cert_path</name>
+        <qualifiedname>themis::sharding::RebalanceOperationConfig::operator_cert_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/rebalance_operation.h" line="51" column="17" bodyfile="include/sharding/rebalance_operation.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_rebalance_operation_config_1ad63b7606155350df688f17882610dc75" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::RebalanceOperationConfig::ca_cert_path</definition>
+        <argsstring></argsstring>
+        <name>ca_cert_path</name>
+        <qualifiedname>themis::sharding::RebalanceOperationConfig::ca_cert_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/rebalance_operation.h" line="52" column="17" bodyfile="include/sharding/rebalance_operation.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_rebalance_operation_config_1a9f7d231ce7156634ae9ea3076b5c0f91" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::RebalanceOperationConfig::batch_size</definition>
+        <argsstring></argsstring>
+        <name>batch_size</name>
+        <qualifiedname>themis::sharding::RebalanceOperationConfig::batch_size</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/rebalance_operation.h" line="53" column="14" bodyfile="include/sharding/rebalance_operation.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_rebalance_operation_config_1ab3fa7b6055600b091e376cfe56f2f718" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::RebalanceOperationConfig::verify_data</definition>
+        <argsstring></argsstring>
+        <name>verify_data</name>
+        <qualifiedname>themis::sharding::RebalanceOperationConfig::verify_data</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/rebalance_operation.h" line="54" column="10" bodyfile="include/sharding/rebalance_operation.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_rebalance_operation_config_1af262b98e056e8e7b2e801dab7f5a13c6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::RebalanceOperationConfig::enable_rollback</definition>
+        <argsstring></argsstring>
+        <name>enable_rollback</name>
+        <qualifiedname>themis::sharding::RebalanceOperationConfig::enable_rollback</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/rebalance_operation.h" line="55" column="10" bodyfile="include/sharding/rebalance_operation.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Immutable execution configuration for a rebalance operation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/rebalance_operation.h" line="46" column="1" bodyfile="include/sharding/rebalance_operation.h" bodystart="46" bodyend="56"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_rebalance_operation_config_1a9f7d231ce7156634ae9ea3076b5c0f91" prot="public" virt="non-virtual"><scope>themis::sharding::RebalanceOperationConfig</scope><name>batch_size</name></member>
+      <member refid="structthemis_1_1sharding_1_1_rebalance_operation_config_1ad63b7606155350df688f17882610dc75" prot="public" virt="non-virtual"><scope>themis::sharding::RebalanceOperationConfig</scope><name>ca_cert_path</name></member>
+      <member refid="structthemis_1_1sharding_1_1_rebalance_operation_config_1af262b98e056e8e7b2e801dab7f5a13c6" prot="public" virt="non-virtual"><scope>themis::sharding::RebalanceOperationConfig</scope><name>enable_rollback</name></member>
+      <member refid="structthemis_1_1sharding_1_1_rebalance_operation_config_1a035dfe3bf333f147ac7b57790db42074" prot="public" virt="non-virtual"><scope>themis::sharding::RebalanceOperationConfig</scope><name>operator_cert_path</name></member>
+      <member refid="structthemis_1_1sharding_1_1_rebalance_operation_config_1a117f92f1fc1680b2cee944208f0c0f83" prot="public" virt="non-virtual"><scope>themis::sharding::RebalanceOperationConfig</scope><name>source_shard_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_rebalance_operation_config_1a4d8617387bd4d82bfb03861f020247b9" prot="public" virt="non-virtual"><scope>themis::sharding::RebalanceOperationConfig</scope><name>target_shard_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_rebalance_operation_config_1a054c83d3c3ed6bf1884ff680bea88bc9" prot="public" virt="non-virtual"><scope>themis::sharding::RebalanceOperationConfig</scope><name>token_range_end</name></member>
+      <member refid="structthemis_1_1sharding_1_1_rebalance_operation_config_1afa9f2832a71852d6d80cb000b1275abb" prot="public" virt="non-virtual"><scope>themis::sharding::RebalanceOperationConfig</scope><name>token_range_start</name></member>
+      <member refid="structthemis_1_1sharding_1_1_rebalance_operation_config_1ab3fa7b6055600b091e376cfe56f2f718" prot="public" virt="non-virtual"><scope>themis::sharding::RebalanceOperationConfig</scope><name>verify_data</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

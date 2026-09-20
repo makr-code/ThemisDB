@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_cancellation_token" kind="class" language="C++" prot="public">
+    <compoundname>StubCancellationToken</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_cancellation_token_1a0eee1efbf672cec0f5ac799f8113a1ce" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; StubCancellationToken::cancelled_</definition>
+        <argsstring></argsstring>
+        <name>cancelled_</name>
+        <qualifiedname>StubCancellationToken::cancelled_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_api_contract_hardening_focused.cpp" line="58" column="17" bodyfile="tests/llm/test_llm_api_contract_hardening_focused.cpp" bodystart="58" bodyend="58"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_cancellation_token_1a5034ec5767f522d76c16e9be643b6d77" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StubCancellationToken::cancel</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>cancel</name>
+        <qualifiedname>StubCancellationToken::cancel</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_api_contract_hardening_focused.cpp" line="55" column="10" bodyfile="tests/llm/test_llm_api_contract_hardening_focused.cpp" bodystart="55" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_cancellation_token_1ac899f22d18c96f5e04f7481522defd30" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool StubCancellationToken::isCancelled</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isCancelled</name>
+        <qualifiedname>StubCancellationToken::isCancelled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_api_contract_hardening_focused.cpp" line="56" column="10" bodyfile="tests/llm/test_llm_api_contract_hardening_focused.cpp" bodystart="56" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Stub cancellation token (contract §5). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/llm/test_llm_api_contract_hardening_focused.cpp" line="53" column="1" bodyfile="tests/llm/test_llm_api_contract_hardening_focused.cpp" bodystart="53" bodyend="59"/>
+    <listofallmembers>
+      <member refid="class_stub_cancellation_token_1a5034ec5767f522d76c16e9be643b6d77" prot="public" virt="non-virtual"><scope>StubCancellationToken</scope><name>cancel</name></member>
+      <member refid="class_stub_cancellation_token_1a0eee1efbf672cec0f5ac799f8113a1ce" prot="private" virt="non-virtual"><scope>StubCancellationToken</scope><name>cancelled_</name></member>
+      <member refid="class_stub_cancellation_token_1ac899f22d18c96f5e04f7481522defd30" prot="public" virt="non-virtual"><scope>StubCancellationToken</scope><name>isCancelled</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

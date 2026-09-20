@@ -1,0 +1,339 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_i_rewrite_engine" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::prompt_engineering::IRewriteEngine</compoundname>
+    <derivedcompoundref refid="classthemis_1_1prompt__engineering_1_1_rewrite_engine" prot="public" virt="non-virtual">themis::prompt_engineering::RewriteEngine</derivedcompoundref>
+    <includes refid="rewrite__engine_8h" local="no">rewrite_engine.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_rewrite_engine_1a4bc8d191e6dcc118cd0df2e931c8a23e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::prompt_engineering::IRewriteEngine::~IRewriteEngine</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IRewriteEngine</name>
+        <qualifiedname>themis::prompt_engineering::IRewriteEngine::~IRewriteEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_engine.h" line="229" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_rewrite_engine_1a864adceffd5be80c142252037a5c6983" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::prompt_engineering::IRewriteEngine::register_rule</definition>
+        <argsstring>(std::shared_ptr&lt; IRewriteRule &gt; rule)=0</argsstring>
+        <name>register_rule</name>
+        <qualifiedname>themis::prompt_engineering::IRewriteEngine::register_rule</qualifiedname>
+        <reimplementedby refid="classthemis_1_1prompt__engineering_1_1_rewrite_engine_1a70a3f58b4443808da2e0032423f58f29">register_rule</reimplementedby>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_rule" kindref="compound">IRewriteRule</ref> &gt;</type>
+          <declname>rule</declname>
+        </param>
+        <briefdescription>
+<para>Register a rewrite rule for execution. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Ownership transferred to engine </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if registration succeeded, false if rule_id already registered</para>
+</simplesect>
+Rules cannot be re-registered; must unregister then re-register. Rules are locked once execution begins. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_engine.h" line="240" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_rewrite_engine_1ac9ca3b7e6adc488c72d4858bc784800e" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::prompt_engineering::IRewriteEngine::unregister_rule</definition>
+        <argsstring>(const std::string &amp;rule_id)=0</argsstring>
+        <name>unregister_rule</name>
+        <qualifiedname>themis::prompt_engineering::IRewriteEngine::unregister_rule</qualifiedname>
+        <reimplementedby refid="classthemis_1_1prompt__engineering_1_1_rewrite_engine_1a20ac0b2a9b3f4e41512c7c779350b5fb">unregister_rule</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <briefdescription>
+<para>Unregister a previously registered rule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ID of rule to remove </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if rule existed and was removed</para>
+</simplesect>
+Cannot unregister while rewrite is in progress. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_engine.h" line="250" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_rewrite_engine_1ad4b49d5ac70c49c41a514f82639b0485" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::shared_ptr&lt; const <ref refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_rule" kindref="compound">IRewriteRule</ref> &gt;</type>
+        <definition>virtual std::shared_ptr&lt; const IRewriteRule &gt; themis::prompt_engineering::IRewriteEngine::get_rule</definition>
+        <argsstring>(const std::string &amp;rule_id) const =0</argsstring>
+        <name>get_rule</name>
+        <qualifiedname>themis::prompt_engineering::IRewriteEngine::get_rule</qualifiedname>
+        <reimplementedby refid="classthemis_1_1prompt__engineering_1_1_rewrite_engine_1a43b36119bf03d38b131d498106a3b17a">get_rule</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <briefdescription>
+<para>Get registered rule by ID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ID of rule to retrieve </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Shared pointer to rule, or nullptr if not found </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_engine.h" line="258" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_rewrite_engine_1a58c9c2aee26214cc5366a7ada4ce417f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>virtual std::vector&lt; std::string &gt; themis::prompt_engineering::IRewriteEngine::list_rules</definition>
+        <argsstring>() const =0</argsstring>
+        <name>list_rules</name>
+        <qualifiedname>themis::prompt_engineering::IRewriteEngine::list_rules</qualifiedname>
+        <reimplementedby refid="classthemis_1_1prompt__engineering_1_1_rewrite_engine_1a0e282d9be4a60d696aae82ff275fdbed">list_rules</reimplementedby>
+        <briefdescription>
+<para>List all registered rules. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Vector of all registered rule IDs </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_engine.h" line="265" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_rewrite_engine_1a266a55e933114b2745240f990b0d69da" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::prompt_engineering::IRewriteEngine::load_rules_from_yaml</definition>
+        <argsstring>(const std::string &amp;yaml_path)=0</argsstring>
+        <name>load_rules_from_yaml</name>
+        <qualifiedname>themis::prompt_engineering::IRewriteEngine::load_rules_from_yaml</qualifiedname>
+        <reimplementedby refid="classthemis_1_1prompt__engineering_1_1_rewrite_engine_1a70259a7020957a5a05ef946c4c6266af">load_rules_from_yaml</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>yaml_path</declname>
+        </param>
+        <briefdescription>
+<para>Load rewrite rules from YAML configuration file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Only low-risk lexical rules (regex, dictionary) are loadable from YAML. Semantic and policy rules must be registered programmatically in C++.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>yaml_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to YAML rule file </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if load succeeded</para>
+</simplesect>
+If load fails, no rules are modified (all-or-nothing semantics). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_engine.h" line="278" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_rewrite_engine_1a0b8adac0288ae5ad88a12ebe276aab27" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_result" kindref="compound">RewriteResult</ref></type>
+        <definition>virtual RewriteResult themis::prompt_engineering::IRewriteEngine::rewrite</definition>
+        <argsstring>(RewriteDocument &amp;doc, const RewriteContext &amp;ctx)=0</argsstring>
+        <name>rewrite</name>
+        <qualifiedname>themis::prompt_engineering::IRewriteEngine::rewrite</qualifiedname>
+        <reimplementedby refid="classthemis_1_1prompt__engineering_1_1_rewrite_engine_1a692c71c1ce1f18b9d7397882387aeb01">rewrite</reimplementedby>
+        <param>
+          <type><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_document" kindref="compound">RewriteDocument</ref> &amp;</type>
+          <declname>doc</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_context" kindref="compound">RewriteContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Execute all phases of rewrite on a document. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Phases execute in strict order: 1 → 2 → 3 → 4. Within each phase, rules execute by priority, then registration order.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>doc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input document (content will be modified in-place on success) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Execution context </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result with transformed content or error</para>
+</simplesect>
+If any phase returns an error or blocks the document, execution stops immediately. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_engine.h" line="292" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_rewrite_engine_1a13a7db0087fd05aeb5960e043b2afaf3" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_result" kindref="compound">RewriteResult</ref></type>
+        <definition>virtual RewriteResult themis::prompt_engineering::IRewriteEngine::rewrite_phase</definition>
+        <argsstring>(RewritePhase phase, RewriteDocument &amp;doc, const RewriteContext &amp;ctx)=0</argsstring>
+        <name>rewrite_phase</name>
+        <qualifiedname>themis::prompt_engineering::IRewriteEngine::rewrite_phase</qualifiedname>
+        <reimplementedby refid="classthemis_1_1prompt__engineering_1_1_rewrite_engine_1a5c4dccaec335673c5436c200bed41b50">rewrite_phase</reimplementedby>
+        <param>
+          <type><ref refid="namespacethemis_1_1prompt__engineering_1a0e0489332fbdaaab49373ca37e69bd29" kindref="member">RewritePhase</ref></type>
+          <declname>phase</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_document" kindref="compound">RewriteDocument</ref> &amp;</type>
+          <declname>doc</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_context" kindref="compound">RewriteContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Execute a specific phase only. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>phase</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Which phase to execute </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>doc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input document (content will be modified in-place on success) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Execution context </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result with transformed content or error</para>
+</simplesect>
+For testing and diagnostic purposes only. Normal operation uses full <ref refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_engine_1a0b8adac0288ae5ad88a12ebe276aab27" kindref="member">rewrite()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_engine.h" line="304" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_rewrite_engine_1ac5b4a677fb6ab4f9b66293f9258d9626" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::prompt_engineering::IRewriteEngine::get_stats_json</definition>
+        <argsstring>() const =0</argsstring>
+        <name>get_stats_json</name>
+        <qualifiedname>themis::prompt_engineering::IRewriteEngine::get_stats_json</qualifiedname>
+        <reimplementedby refid="classthemis_1_1prompt__engineering_1_1_rewrite_engine_1a6f478fc1a1929703daedf9cc659b0847">get_stats_json</reimplementedby>
+        <briefdescription>
+<para>Get execution statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON object with rule counts, total executions, latency stats </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_engine.h" line="315" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_rewrite_engine_1a7aea6f3710ff3f4412515fbed49de6ac" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::prompt_engineering::IRewriteEngine::reset_stats</definition>
+        <argsstring>()=0</argsstring>
+        <name>reset_stats</name>
+        <qualifiedname>themis::prompt_engineering::IRewriteEngine::reset_stats</qualifiedname>
+        <reimplementedby refid="classthemis_1_1prompt__engineering_1_1_rewrite_engine_1a23b45620346bd55b167b71fad9e75564">reset_stats</reimplementedby>
+        <briefdescription>
+<para>Reset all execution statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_engine.h" line="320" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Main orchestration interface for rewrite operations. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>THREAD-SAFE: Rewrite execution is thread-safe. All phase transitions are deterministic and reproducible. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::prompt_engineering::IRewriteEngine</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_engine"/>
+      </node>
+      <node id="2">
+        <label>themis::prompt_engineering::RewriteEngine</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_rewrite_engine"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/prompt_engineering/rewrite_engine.h" line="227" column="1" bodyfile="include/prompt_engineering/rewrite_engine.h" bodystart="227" bodyend="321"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_engine_1ad4b49d5ac70c49c41a514f82639b0485" prot="public" virt="pure-virtual"><scope>themis::prompt_engineering::IRewriteEngine</scope><name>get_rule</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_engine_1ac5b4a677fb6ab4f9b66293f9258d9626" prot="public" virt="pure-virtual"><scope>themis::prompt_engineering::IRewriteEngine</scope><name>get_stats_json</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_engine_1a58c9c2aee26214cc5366a7ada4ce417f" prot="public" virt="pure-virtual"><scope>themis::prompt_engineering::IRewriteEngine</scope><name>list_rules</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_engine_1a266a55e933114b2745240f990b0d69da" prot="public" virt="pure-virtual"><scope>themis::prompt_engineering::IRewriteEngine</scope><name>load_rules_from_yaml</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_engine_1a864adceffd5be80c142252037a5c6983" prot="public" virt="pure-virtual"><scope>themis::prompt_engineering::IRewriteEngine</scope><name>register_rule</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_engine_1a7aea6f3710ff3f4412515fbed49de6ac" prot="public" virt="pure-virtual"><scope>themis::prompt_engineering::IRewriteEngine</scope><name>reset_stats</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_engine_1a0b8adac0288ae5ad88a12ebe276aab27" prot="public" virt="pure-virtual"><scope>themis::prompt_engineering::IRewriteEngine</scope><name>rewrite</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_engine_1a13a7db0087fd05aeb5960e043b2afaf3" prot="public" virt="pure-virtual"><scope>themis::prompt_engineering::IRewriteEngine</scope><name>rewrite_phase</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_engine_1ac9ca3b7e6adc488c72d4858bc784800e" prot="public" virt="pure-virtual"><scope>themis::prompt_engineering::IRewriteEngine</scope><name>unregister_rule</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_engine_1a4bc8d191e6dcc118cd0df2e931c8a23e" prot="public" virt="virtual"><scope>themis::prompt_engineering::IRewriteEngine</scope><name>~IRewriteEngine</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

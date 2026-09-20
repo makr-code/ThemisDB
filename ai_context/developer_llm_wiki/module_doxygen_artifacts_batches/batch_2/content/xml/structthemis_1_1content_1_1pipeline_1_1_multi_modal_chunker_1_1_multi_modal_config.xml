@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1_1_multi_modal_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::pipeline::MultiModalChunker::MultiModalConfig</compoundname>
+    <includes refid="multimodal__chunker_8h" local="no">multimodal_chunker.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1_1_multi_modal_config_1a9e78fa51755e5039f91d9c373c7a9c52" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1content_1_1pipeline_1ac95b28779db7865ee8bac448cd648888" kindref="member">ContentType</ref></type>
+        <definition>ContentType themis::content::pipeline::MultiModalChunker::MultiModalConfig::content_type</definition>
+        <argsstring></argsstring>
+        <name>content_type</name>
+        <qualifiedname>themis::content::pipeline::MultiModalChunker::MultiModalConfig::content_type</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1content_1_1pipeline_1ac95b28779db7865ee8bac448cd648888a98ad0e8750ae10ad556ed7a62affb452" kindref="member">ContentType::BINARY</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/multimodal_chunker.h" line="35" column="21" bodyfile="include/content/pipeline/multimodal_chunker.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1_1_multi_modal_config_1ab73ae2f3176919fcdff786873dcf503c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::content::pipeline::MultiModalChunker::MultiModalConfig::chunk_size</definition>
+        <argsstring></argsstring>
+        <name>chunk_size</name>
+        <qualifiedname>themis::content::pipeline::MultiModalChunker::MultiModalConfig::chunk_size</qualifiedname>
+        <initializer>= 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/multimodal_chunker.h" line="36" column="16" bodyfile="include/content/pipeline/multimodal_chunker.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1_1_multi_modal_config_1aa70de25c1b1bf55e630dc66859a50288" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::content::pipeline::MultiModalChunker::MultiModalConfig::overlap</definition>
+        <argsstring></argsstring>
+        <name>overlap</name>
+        <qualifiedname>themis::content::pipeline::MultiModalChunker::MultiModalConfig::overlap</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/multimodal_chunker.h" line="37" column="16" bodyfile="include/content/pipeline/multimodal_chunker.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1_1_multi_modal_config_1aa4151286e39fe3b31b629639d2804a56" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::pipeline::MultiModalChunker::MultiModalConfig::respect_sentences</definition>
+        <argsstring></argsstring>
+        <name>respect_sentences</name>
+        <qualifiedname>themis::content::pipeline::MultiModalChunker::MultiModalConfig::respect_sentences</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/multimodal_chunker.h" line="40" column="14" bodyfile="include/content/pipeline/multimodal_chunker.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1_1_multi_modal_config_1ae733b50dab904b686955b214a33c56e0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::pipeline::MultiModalChunker::MultiModalConfig::respect_paragraphs</definition>
+        <argsstring></argsstring>
+        <name>respect_paragraphs</name>
+        <qualifiedname>themis::content::pipeline::MultiModalChunker::MultiModalConfig::respect_paragraphs</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/multimodal_chunker.h" line="41" column="14" bodyfile="include/content/pipeline/multimodal_chunker.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1_1_multi_modal_config_1a0e5f000493d3100bb264ba335744bcf4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::pipeline::MultiModalChunker::MultiModalConfig::tile_based</definition>
+        <argsstring></argsstring>
+        <name>tile_based</name>
+        <qualifiedname>themis::content::pipeline::MultiModalChunker::MultiModalConfig::tile_based</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/multimodal_chunker.h" line="44" column="14" bodyfile="include/content/pipeline/multimodal_chunker.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1_1_multi_modal_config_1a3cee6175936698a631a8bc2a5e1a4b57" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::content::pipeline::MultiModalChunker::MultiModalConfig::tile_width</definition>
+        <argsstring></argsstring>
+        <name>tile_width</name>
+        <qualifiedname>themis::content::pipeline::MultiModalChunker::MultiModalConfig::tile_width</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/multimodal_chunker.h" line="45" column="16" bodyfile="include/content/pipeline/multimodal_chunker.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1_1_multi_modal_config_1a15c176b148bd81152560c40beb7c5035" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::content::pipeline::MultiModalChunker::MultiModalConfig::tile_height</definition>
+        <argsstring></argsstring>
+        <name>tile_height</name>
+        <qualifiedname>themis::content::pipeline::MultiModalChunker::MultiModalConfig::tile_height</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/multimodal_chunker.h" line="46" column="16" bodyfile="include/content/pipeline/multimodal_chunker.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1_1_multi_modal_config_1a8075d1195ebda508b278351cc87eb677" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::pipeline::MultiModalChunker::MultiModalConfig::time_based</definition>
+        <argsstring></argsstring>
+        <name>time_based</name>
+        <qualifiedname>themis::content::pipeline::MultiModalChunker::MultiModalConfig::time_based</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/multimodal_chunker.h" line="49" column="14" bodyfile="include/content/pipeline/multimodal_chunker.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1_1_multi_modal_config_1a3586e1b9e0e1345c5b73ca15bd5eb320" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::content::pipeline::MultiModalChunker::MultiModalConfig::chunk_duration_seconds</definition>
+        <argsstring></argsstring>
+        <name>chunk_duration_seconds</name>
+        <qualifiedname>themis::content::pipeline::MultiModalChunker::MultiModalConfig::chunk_duration_seconds</qualifiedname>
+        <initializer>= 10.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/multimodal_chunker.h" line="50" column="16" bodyfile="include/content/pipeline/multimodal_chunker.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/pipeline/multimodal_chunker.h" line="34" column="5" bodyfile="include/content/pipeline/multimodal_chunker.h" bodystart="34" bodyend="51"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1_1_multi_modal_config_1a3586e1b9e0e1345c5b73ca15bd5eb320" prot="public" virt="non-virtual"><scope>themis::content::pipeline::MultiModalChunker::MultiModalConfig</scope><name>chunk_duration_seconds</name></member>
+      <member refid="structthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1_1_multi_modal_config_1ab73ae2f3176919fcdff786873dcf503c" prot="public" virt="non-virtual"><scope>themis::content::pipeline::MultiModalChunker::MultiModalConfig</scope><name>chunk_size</name></member>
+      <member refid="structthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1_1_multi_modal_config_1a9e78fa51755e5039f91d9c373c7a9c52" prot="public" virt="non-virtual"><scope>themis::content::pipeline::MultiModalChunker::MultiModalConfig</scope><name>content_type</name></member>
+      <member refid="structthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1_1_multi_modal_config_1aa70de25c1b1bf55e630dc66859a50288" prot="public" virt="non-virtual"><scope>themis::content::pipeline::MultiModalChunker::MultiModalConfig</scope><name>overlap</name></member>
+      <member refid="structthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1_1_multi_modal_config_1ae733b50dab904b686955b214a33c56e0" prot="public" virt="non-virtual"><scope>themis::content::pipeline::MultiModalChunker::MultiModalConfig</scope><name>respect_paragraphs</name></member>
+      <member refid="structthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1_1_multi_modal_config_1aa4151286e39fe3b31b629639d2804a56" prot="public" virt="non-virtual"><scope>themis::content::pipeline::MultiModalChunker::MultiModalConfig</scope><name>respect_sentences</name></member>
+      <member refid="structthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1_1_multi_modal_config_1a0e5f000493d3100bb264ba335744bcf4" prot="public" virt="non-virtual"><scope>themis::content::pipeline::MultiModalChunker::MultiModalConfig</scope><name>tile_based</name></member>
+      <member refid="structthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1_1_multi_modal_config_1a15c176b148bd81152560c40beb7c5035" prot="public" virt="non-virtual"><scope>themis::content::pipeline::MultiModalChunker::MultiModalConfig</scope><name>tile_height</name></member>
+      <member refid="structthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1_1_multi_modal_config_1a3cee6175936698a631a8bc2a5e1a4b57" prot="public" virt="non-virtual"><scope>themis::content::pipeline::MultiModalChunker::MultiModalConfig</scope><name>tile_width</name></member>
+      <member refid="structthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1_1_multi_modal_config_1a8075d1195ebda508b278351cc87eb677" prot="public" virt="non-virtual"><scope>themis::content::pipeline::MultiModalChunker::MultiModalConfig</scope><name>time_based</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

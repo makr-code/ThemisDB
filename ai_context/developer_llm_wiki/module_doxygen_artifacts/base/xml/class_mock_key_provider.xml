@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_mock_key_provider" kind="class" language="C++" prot="public">
+    <compoundname>MockKeyProvider</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">IKeyProvider</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_mock_key_provider_1a4f087c8b9f9eebfb33b679dbb485eb7a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; MockKeyProvider::get_key</definition>
+        <argsstring>(const std::string &amp;) override</argsstring>
+        <name>get_key</name>
+        <qualifiedname>MockKeyProvider::get_key</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="166" column="17" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="166" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_key_provider_1a40550a14dc36a96ba9911404edbe3b6d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; MockKeyProvider::rotate_key</definition>
+        <argsstring>(const std::string &amp;) override</argsstring>
+        <name>rotate_key</name>
+        <qualifiedname>MockKeyProvider::rotate_key</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="170" column="17" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="170" bodyend="172"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>IKeyProvider</label>
+      </node>
+      <node id="1">
+        <label>MockKeyProvider</label>
+        <link refid="class_mock_key_provider"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>IKeyProvider</label>
+      </node>
+      <node id="1">
+        <label>MockKeyProvider</label>
+        <link refid="class_mock_key_provider"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/base/test_base_interfaces.cpp" line="164" column="1" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="164" bodyend="173"/>
+    <listofallmembers>
+      <member refid="class_mock_key_provider_1a4f087c8b9f9eebfb33b679dbb485eb7a" prot="public" virt="non-virtual"><scope>MockKeyProvider</scope><name>get_key</name></member>
+      <member refid="class_mock_key_provider_1a40550a14dc36a96ba9911404edbe3b6d" prot="public" virt="non-virtual"><scope>MockKeyProvider</scope><name>rotate_key</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,241 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="log__search__engine_8h" kind="file" language="C++">
+    <compoundname>log_search_engine.h</compoundname>
+    <includes refid="log__aggregator_8h" local="yes">observability/log_aggregator.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="log__search__engine_8cpp" local="yes">src/observability/log_search_engine.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>observability/log_aggregator.h</label>
+        <link refid="log__aggregator_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/observability/log_search_engine.h</label>
+        <link refid="log__search__engine_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>atomic</label>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="6">
+        <label>condition_variable</label>
+      </node>
+      <node id="3">
+        <label>core/concerns/i_async_logger.h</label>
+      </node>
+      <node id="7">
+        <label>deque</label>
+      </node>
+      <node id="8">
+        <label>functional</label>
+      </node>
+      <node id="9">
+        <label>future</label>
+      </node>
+      <node id="10">
+        <label>map</label>
+      </node>
+      <node id="11">
+        <label>memory</label>
+      </node>
+      <node id="12">
+        <label>mutex</label>
+      </node>
+      <node id="13">
+        <label>queue</label>
+      </node>
+      <node id="14">
+        <label>string</label>
+      </node>
+      <node id="15">
+        <label>thread</label>
+      </node>
+      <node id="16">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/observability/log_search_engine.h</label>
+        <link refid="log__search__engine_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/observability/log_search_engine.cpp</label>
+        <link refid="log__search__engine_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1observability_1_1_log_field_filter" prot="public">themis::observability::LogFieldFilter</innerclass>
+    <innerclass refid="structthemis_1_1observability_1_1_log_search_query" prot="public">themis::observability::LogSearchQuery</innerclass>
+    <innerclass refid="structthemis_1_1observability_1_1_log_search_result" prot="public">themis::observability::LogSearchResult</innerclass>
+    <innerclass refid="classthemis_1_1observability_1_1_log_search_engine" prot="public">themis::observability::LogSearchEngine</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1observability">themis::observability</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.10 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="log__aggregator_8h" kindref="compound">observability/log_aggregator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1observability" kindref="compound">observability</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Field<sp/>match<sp/>operator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1observability_1a7753687381d513c818f663bab36d8701" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1observability_1a7753687381d513c818f663bab36d8701" kindref="member">FieldMatchOp</ref><sp/>{</highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1observability_1a7753687381d513c818f663bab36d8701a6837aeca94b8f55801166eb031e26a5a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a7753687381d513c818f663bab36d8701a6837aeca94b8f55801166eb031e26a5a" kindref="member">EQUALS</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1observability_1a7753687381d513c818f663bab36d8701a7c8b81e077a45b6d2c9c03d3a22c0d5b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a7753687381d513c818f663bab36d8701a7c8b81e077a45b6d2c9c03d3a22c0d5b" kindref="member">CONTAINS</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1observability_1a7753687381d513c818f663bab36d8701a1a1fe0fcacfcb22095aee25fa9c20ec1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a7753687381d513c818f663bab36d8701a1a1fe0fcacfcb22095aee25fa9c20ec1" kindref="member">STARTS_WITH</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1observability_1a7753687381d513c818f663bab36d8701ad898a01a21468f1ad0c7d1c216844db2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a7753687381d513c818f663bab36d8701ad898a01a21468f1ad0c7d1c216844db2" kindref="member">NOT_EQUALS</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="34"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LogFieldFilter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1observability_1_1_log_field_filter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_log_field_filter" kindref="compound">LogFieldFilter</ref><sp/>{</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1observability_1_1_log_field_filter_1ab6930d109e027d7f4e04c35b33909979" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_log_field_filter_1ab6930d109e027d7f4e04c35b33909979" kindref="member">key</ref>;</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1observability_1_1_log_field_filter_1a67a2fc4a65dcb289787d5ba13743bc46" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_log_field_filter_1a67a2fc4a65dcb289787d5ba13743bc46" kindref="member">value</ref>;</highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1observability_1_1_log_field_filter_1a9df9029f82816b28cae91afc871c0d99" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a7753687381d513c818f663bab36d8701" kindref="member">FieldMatchOp</ref><sp/><ref refid="structthemis_1_1observability_1_1_log_field_filter_1a9df9029f82816b28cae91afc871c0d99" kindref="member">op</ref>{<ref refid="namespacethemis_1_1observability_1a7753687381d513c818f663bab36d8701a6837aeca94b8f55801166eb031e26a5a" kindref="member">FieldMatchOp::EQUALS</ref>};</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_log_field_filter_1a474764b5dca5e5b7ff7cd75015a4ae67" kindref="member">matches</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_log_entry" kindref="compound">LogEntry</ref>&amp;<sp/>entry)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LogSearchQuery</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1observability_1_1_log_search_query" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_log_search_query" kindref="compound">LogSearchQuery</ref><sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---<sp/>Level<sp/>filter<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1observability_1_1_log_search_query_1a928d8c8e1de00961a4276834462437be" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>core::concerns::ILogger::Level<sp/><ref refid="structthemis_1_1observability_1_1_log_search_query_1a928d8c8e1de00961a4276834462437be" kindref="member">min_level</ref>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>core::concerns::ILogger::Level::TRACE};</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---<sp/>Time<sp/>range<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1observability_1_1_log_search_query_1a6a595109138be4eeebd40b5fdc81bd66" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1observability_1_1_log_search_query_1a6a595109138be4eeebd40b5fdc81bd66" kindref="member">from_time</ref>{};</highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1observability_1_1_log_search_query_1a2b0ea0a0281db6c9720c4091e69d2e3c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_log_search_query_1a2b0ea0a0281db6c9720c4091e69d2e3c" kindref="member">has_from_time</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1observability_1_1_log_search_query_1a21b3f68896866913e64586564df73003" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1observability_1_1_log_search_query_1a21b3f68896866913e64586564df73003" kindref="member">to_time</ref>{};</highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1observability_1_1_log_search_query_1ac4807fc4508a71f8b7c2f22adca68a3d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_log_search_query_1ac4807fc4508a71f8b7c2f22adca68a3d" kindref="member">has_to_time</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---<sp/>Message<sp/>search<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1observability_1_1_log_search_query_1aae617f4cc33063e1fb3f11e5d698b6e3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_log_search_query_1aae617f4cc33063e1fb3f11e5d698b6e3" kindref="member">message_contains</ref>;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---<sp/>Field<sp/>filters<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1observability_1_1_log_search_query_1ac6eb5449dd2db35ca44562081617d968" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;LogFieldFilter&gt;<sp/><ref refid="structthemis_1_1observability_1_1_log_search_query_1ac6eb5449dd2db35ca44562081617d968" kindref="member">field_filters</ref>;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---<sp/>Pagination<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1observability_1_1_log_search_query_1aab5d38eb41c3fd63014b944433fad2f3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_log_search_query_1aab5d38eb41c3fd63014b944433fad2f3" kindref="member">limit</ref>{0};</highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1observability_1_1_log_search_query_1abf6daffc2f234c2794640a15f61ad932" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_log_search_query_1abf6daffc2f234c2794640a15f61ad932" kindref="member">offset</ref>{0};</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---<sp/>Sort<sp/>order<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1observability_1_1_log_search_query_1a32c9a293e928a0fcd09b81570037bb8c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_log_search_query_1a32c9a293e928a0fcd09b81570037bb8c" kindref="member">ascending</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LogSearchResult</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1observability_1_1_log_search_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_log_search_result" kindref="compound">LogSearchResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1observability_1_1_log_search_result_1abeda4225164105581639b74788d45f53" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;LogEntry&gt;<sp/><ref refid="structthemis_1_1observability_1_1_log_search_result_1abeda4225164105581639b74788d45f53" kindref="member">entries</ref>;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1observability_1_1_log_search_result_1a91bbf5e892057f3422c97f06f9399d45" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_log_search_result_1a91bbf5e892057f3422c97f06f9399d45" kindref="member">total_matched</ref>{0};</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1observability_1_1_log_search_result_1aedbd3798a98608d563d8aab34b4cf1ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_log_search_result_1aedbd3798a98608d563d8aab34b4cf1ed" kindref="member">offset</ref>{0};</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1observability_1_1_log_search_result_1ad75b36739e4f578d8b7b96b213bd47a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_log_search_result_1ad75b36739e4f578d8b7b96b213bd47a7" kindref="member">limit</ref>{0};</highlight></codeline>
+<codeline lineno="122"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LogSearchEngine</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140" refid="classthemis_1_1observability_1_1_log_search_engine" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_log_search_engine_1a6790b424435eb6587788057532ebf171" kindref="member">LogSearchEngine</ref><sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="142" refid="classthemis_1_1observability_1_1_log_search_engine_1a6790b424435eb6587788057532ebf171" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_log_search_engine_1a6790b424435eb6587788057532ebf171" kindref="member">LogSearchEngine</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="143" refid="classthemis_1_1observability_1_1_log_search_engine_1a48baa52752d6197d7e802a3bf70ac7b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_log_search_engine_1a48baa52752d6197d7e802a3bf70ac7b2" kindref="member">~LogSearchEngine</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1observability_1_1_log_search_result" kindref="compound">LogSearchResult</ref><sp/><ref refid="classthemis_1_1observability_1_1_log_search_engine_1af6103a2dee0f5d1b33c5ea93e6dfe960" kindref="member">search</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;LogEntry&gt;&amp;<sp/>entries,</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_log_search_query" kindref="compound">LogSearchQuery</ref>&amp;<sp/>query)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_log_search_engine_1a1f0107cddec1d0b9c2866b0676d73fe7" kindref="member">count</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;LogEntry&gt;&amp;<sp/>entries,</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_log_search_query" kindref="compound">LogSearchQuery</ref>&amp;<sp/>query)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1observability_1_1_log_search_engine_1a43f9213780857139d21ca91e9a8d98ad" kindref="member">distinctFieldValues</ref>(</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;LogEntry&gt;&amp;<sp/>entries,</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>field_key)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>matchesQuery(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_log_entry" kindref="compound">LogEntry</ref>&amp;<sp/>entry,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_log_search_query" kindref="compound">LogSearchQuery</ref>&amp;<sp/>query)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>observability</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/observability/log_search_engine.h"/>
+  </compounddef>
+</doxygen>

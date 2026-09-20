@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1llm_1_1_0d131103277027266047167231274210217302250341214213" kind="namespace" language="C++">
+    <compoundname>themis::llm::@131103277027266047167231274210217302250341214213</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/llm/gpu_memory_manager.cpp" line="184" column="1"/>
+  </compounddef>
+</doxygen>

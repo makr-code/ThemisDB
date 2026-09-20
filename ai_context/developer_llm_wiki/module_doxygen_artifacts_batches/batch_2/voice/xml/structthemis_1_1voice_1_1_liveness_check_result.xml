@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_liveness_check_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::LivenessCheckResult</compoundname>
+    <includes refid="voice__liveness__checker_8h" local="no">voice_liveness_checker.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_liveness_check_result_1ad0bcaed6012104cae5fd546826dea070" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::LivenessCheckResult::is_live</definition>
+        <argsstring></argsstring>
+        <name>is_live</name>
+        <qualifiedname>themis::voice::LivenessCheckResult::is_live</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True if audio appears to be genuine live speech. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_checker.h" line="103" column="10" bodyfile="include/voice/voice_liveness_checker.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_liveness_check_result_1a31bacf99418c282b0e89488f0533f873" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::voice::LivenessCheckResult::liveness_confidence</definition>
+        <argsstring></argsstring>
+        <name>liveness_confidence</name>
+        <qualifiedname>themis::voice::LivenessCheckResult::liveness_confidence</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Confidence level for liveness (0-100, higher = more confident it&apos;s live). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_checker.h" line="106" column="13" bodyfile="include/voice/voice_liveness_checker.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_liveness_check_result_1addddf7dc507e310cf0a4db52467d81f6" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::voice::LivenessCheckResult::spoof_confidence</definition>
+        <argsstring></argsstring>
+        <name>spoof_confidence</name>
+        <qualifiedname>themis::voice::LivenessCheckResult::spoof_confidence</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Confidence level for spoof detection (0-100, higher = more likely spoof). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_checker.h" line="109" column="13" bodyfile="include/voice/voice_liveness_checker.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_liveness_check_result_1ad7317d30d46f47a686b4889993206721" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::LivenessCheckResult::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::voice::LivenessCheckResult::reason</qualifiedname>
+        <briefdescription>
+<para>Reason for pass/fail. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_checker.h" line="112" column="17" bodyfile="include/voice/voice_liveness_checker.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_liveness_check_result_1a270bed34d530db8442f31be9df67cc3b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::LivenessCheckResult::diagnostic_details</definition>
+        <argsstring></argsstring>
+        <name>diagnostic_details</name>
+        <qualifiedname>themis::voice::LivenessCheckResult::diagnostic_details</qualifiedname>
+        <briefdescription>
+<para>Diagnostic details (for logging). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_checker.h" line="115" column="17" bodyfile="include/voice/voice_liveness_checker.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of a liveness check on audio chunk. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_liveness_checker.h" line="101" column="1" bodyfile="include/voice/voice_liveness_checker.h" bodystart="101" bodyend="116"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_liveness_check_result_1a270bed34d530db8442f31be9df67cc3b" prot="public" virt="non-virtual"><scope>themis::voice::LivenessCheckResult</scope><name>diagnostic_details</name></member>
+      <member refid="structthemis_1_1voice_1_1_liveness_check_result_1ad0bcaed6012104cae5fd546826dea070" prot="public" virt="non-virtual"><scope>themis::voice::LivenessCheckResult</scope><name>is_live</name></member>
+      <member refid="structthemis_1_1voice_1_1_liveness_check_result_1a31bacf99418c282b0e89488f0533f873" prot="public" virt="non-virtual"><scope>themis::voice::LivenessCheckResult</scope><name>liveness_confidence</name></member>
+      <member refid="structthemis_1_1voice_1_1_liveness_check_result_1ad7317d30d46f47a686b4889993206721" prot="public" virt="non-virtual"><scope>themis::voice::LivenessCheckResult</scope><name>reason</name></member>
+      <member refid="structthemis_1_1voice_1_1_liveness_check_result_1addddf7dc507e310cf0a4db52467d81f6" prot="public" virt="non-virtual"><scope>themis::voice::LivenessCheckResult</scope><name>spoof_confidence</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

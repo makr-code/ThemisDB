@@ -1,0 +1,347 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1document_1_1_in_memory_document_store" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::document::InMemoryDocumentStore</compoundname>
+    <basecompoundref refid="classthemis_1_1document_1_1_i_document_store" prot="public" virt="non-virtual">themis::document::IDocumentStore</basecompoundref>
+    <includes refid="document__store_8h" local="no">document_store.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1document_1_1_in_memory_document_store_1a532d9aee6d4dec27328ba5bb1c8f683c" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::document::InMemoryDocumentStore::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>themis::document::InMemoryDocumentStore::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_store.h" line="239" column="24" bodyfile="include/document/document_store.h" bodystart="239" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1document_1_1_in_memory_document_store_1a2abcca9a432b0f696639d7fc2a7c7e5b" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1document_1_1_document_record" kindref="compound">DocumentRecord</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, DocumentRecord&gt; themis::document::InMemoryDocumentStore::store_</definition>
+        <argsstring></argsstring>
+        <name>store_</name>
+        <qualifiedname>themis::document::InMemoryDocumentStore::store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_store.h" line="240" column="24" bodyfile="include/document/document_store.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1document_1_1_in_memory_document_store_1a706575442e947591dc97515958330fb7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>Result&lt; <ref refid="namespacethemis_1_1document_1a3c6c1b6d9d76b5429342187edefbc1f5" kindref="member">DocumentId</ref> &gt;</type>
+        <definition>Result&lt; DocumentId &gt; themis::document::InMemoryDocumentStore::put</definition>
+        <argsstring>(const DocumentRecord &amp;record) override</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::document::InMemoryDocumentStore::put</qualifiedname>
+        <reimplements refid="classthemis_1_1document_1_1_i_document_store_1a142a6a946ee1d6105ce28012dfdc4e88">put</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1document_1_1_document_record" kindref="compound">DocumentRecord</ref> &amp;</type>
+          <declname>record</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/document/document_store.h" line="98" column="12" bodyfile="include/document/document_store.h" bodystart="98" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_in_memory_document_store_1a21169003764d7b64a2c46e174bde68b8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>Result&lt; std::optional&lt; <ref refid="structthemis_1_1document_1_1_document_record" kindref="compound">DocumentRecord</ref> &gt; &gt;</type>
+        <definition>Result&lt; std::optional&lt; DocumentRecord &gt; &gt; themis::document::InMemoryDocumentStore::get</definition>
+        <argsstring>(const CollectionId &amp;collection, const DocumentId &amp;id) const override</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::document::InMemoryDocumentStore::get</qualifiedname>
+        <reimplements refid="classthemis_1_1document_1_1_i_document_store_1a5ec9719451012ae85e1439f4b02a7e15">get</reimplements>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref> &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1document_1a3c6c1b6d9d76b5429342187edefbc1f5" kindref="member">DocumentId</ref> &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/document/document_store.h" line="122" column="12" bodyfile="include/document/document_store.h" bodystart="122" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_in_memory_document_store_1a082b9931b441d7e61ade6d54780eee04" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::document::InMemoryDocumentStore::update</definition>
+        <argsstring>(const CollectionId &amp;collection, const DocumentId &amp;id, const nlohmann::json &amp;body) override</argsstring>
+        <name>update</name>
+        <qualifiedname>themis::document::InMemoryDocumentStore::update</qualifiedname>
+        <reimplements refid="classthemis_1_1document_1_1_i_document_store_1acba2770c0a5bb980218f59e216a9bf0f">update</reimplements>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref> &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1document_1a3c6c1b6d9d76b5429342187edefbc1f5" kindref="member">DocumentId</ref> &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/document/document_store.h" line="139" column="12" bodyfile="include/document/document_store.h" bodystart="139" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_in_memory_document_store_1a4ab55d158eb9c6d4a773662e44914a76" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::document::InMemoryDocumentStore::remove</definition>
+        <argsstring>(const CollectionId &amp;collection, const DocumentId &amp;id) override</argsstring>
+        <name>remove</name>
+        <qualifiedname>themis::document::InMemoryDocumentStore::remove</qualifiedname>
+        <reimplements refid="classthemis_1_1document_1_1_i_document_store_1ab5b20361bdb06d902e637e43cf0434f3">remove</reimplements>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref> &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1document_1a3c6c1b6d9d76b5429342187edefbc1f5" kindref="member">DocumentId</ref> &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/document/document_store.h" line="159" column="12" bodyfile="include/document/document_store.h" bodystart="159" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_in_memory_document_store_1a5d743760f5305c5d3331aa8f0099bf9d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>Result&lt; std::vector&lt; <ref refid="namespacethemis_1_1document_1a3c6c1b6d9d76b5429342187edefbc1f5" kindref="member">DocumentId</ref> &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; DocumentId &gt; &gt; themis::document::InMemoryDocumentStore::list</definition>
+        <argsstring>(const CollectionId &amp;collection) const override</argsstring>
+        <name>list</name>
+        <qualifiedname>themis::document::InMemoryDocumentStore::list</qualifiedname>
+        <reimplements refid="classthemis_1_1document_1_1_i_document_store_1a446952d7f303a554ff6993a70eab8612">list</reimplements>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref> &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/document/document_store.h" line="172" column="12" bodyfile="include/document/document_store.h" bodystart="172" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_in_memory_document_store_1a49422163c52731182f88e249e14c1fee" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>Result&lt; std::size_t &gt;</type>
+        <definition>Result&lt; std::size_t &gt; themis::document::InMemoryDocumentStore::count</definition>
+        <argsstring>(const CollectionId &amp;collection) const override</argsstring>
+        <name>count</name>
+        <qualifiedname>themis::document::InMemoryDocumentStore::count</qualifiedname>
+        <reimplements refid="classthemis_1_1document_1_1_i_document_store_1a86d3bb0031e19bfd52fe1fc17c3d758f">count</reimplements>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref> &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/document/document_store.h" line="194" column="12" bodyfile="include/document/document_store.h" bodystart="194" bodyend="213"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1document_1_1_in_memory_document_store_1a654fd05e0b8810c52951a227b26ebd6f" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::document::InMemoryDocumentStore::makeKey</definition>
+        <argsstring>(const CollectionId &amp;col, const DocumentId &amp;id)</argsstring>
+        <name>makeKey</name>
+        <qualifiedname>themis::document::InMemoryDocumentStore::makeKey</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref> &amp;</type>
+          <declname>col</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1document_1a3c6c1b6d9d76b5429342187edefbc1f5" kindref="member">DocumentId</ref> &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Make Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">col</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_store.h" line="222" column="24" bodyfile="include/document/document_store.h" bodystart="222" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_in_memory_document_store_1a6c4792841d16635431def58a03545705" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>static int64_t themis::document::InMemoryDocumentStore::nowMs</definition>
+        <argsstring>()</argsstring>
+        <name>nowMs</name>
+        <qualifiedname>themis::document::InMemoryDocumentStore::nowMs</qualifiedname>
+        <briefdescription>
+<para>Now Ms. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: system_clock::now(), time_since_epoch(), <ref refid="classthemis_1_1document_1_1_in_memory_document_store_1a49422163c52731182f88e249e14c1fee" kindref="member">count()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_store.h" line="233" column="20" bodyfile="include/document/document_store.h" bodystart="233" bodyend="237"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::document::IDocumentStore</label>
+        <link refid="classthemis_1_1document_1_1_i_document_store"/>
+      </node>
+      <node id="1">
+        <label>themis::document::InMemoryDocumentStore</label>
+        <link refid="classthemis_1_1document_1_1_in_memory_document_store"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::document::IDocumentStore</label>
+        <link refid="classthemis_1_1document_1_1_i_document_store"/>
+      </node>
+      <node id="1">
+        <label>themis::document::InMemoryDocumentStore</label>
+        <link refid="classthemis_1_1document_1_1_in_memory_document_store"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/document/document_store.h" line="96" column="1" bodyfile="include/document/document_store.h" bodystart="96" bodyend="241"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1document_1_1_in_memory_document_store_1a49422163c52731182f88e249e14c1fee" prot="public" virt="virtual"><scope>themis::document::InMemoryDocumentStore</scope><name>count</name></member>
+      <member refid="classthemis_1_1document_1_1_in_memory_document_store_1a21169003764d7b64a2c46e174bde68b8" prot="public" virt="virtual"><scope>themis::document::InMemoryDocumentStore</scope><name>get</name></member>
+      <member refid="classthemis_1_1document_1_1_in_memory_document_store_1a5d743760f5305c5d3331aa8f0099bf9d" prot="public" virt="virtual"><scope>themis::document::InMemoryDocumentStore</scope><name>list</name></member>
+      <member refid="classthemis_1_1document_1_1_in_memory_document_store_1a654fd05e0b8810c52951a227b26ebd6f" prot="private" virt="non-virtual"><scope>themis::document::InMemoryDocumentStore</scope><name>makeKey</name></member>
+      <member refid="classthemis_1_1document_1_1_in_memory_document_store_1a532d9aee6d4dec27328ba5bb1c8f683c" prot="private" virt="non-virtual"><scope>themis::document::InMemoryDocumentStore</scope><name>mu_</name></member>
+      <member refid="classthemis_1_1document_1_1_in_memory_document_store_1a6c4792841d16635431def58a03545705" prot="private" virt="non-virtual"><scope>themis::document::InMemoryDocumentStore</scope><name>nowMs</name></member>
+      <member refid="classthemis_1_1document_1_1_in_memory_document_store_1a706575442e947591dc97515958330fb7" prot="public" virt="virtual"><scope>themis::document::InMemoryDocumentStore</scope><name>put</name></member>
+      <member refid="classthemis_1_1document_1_1_in_memory_document_store_1a4ab55d158eb9c6d4a773662e44914a76" prot="public" virt="virtual"><scope>themis::document::InMemoryDocumentStore</scope><name>remove</name></member>
+      <member refid="classthemis_1_1document_1_1_in_memory_document_store_1a2abcca9a432b0f696639d7fc2a7c7e5b" prot="private" virt="non-virtual"><scope>themis::document::InMemoryDocumentStore</scope><name>store_</name></member>
+      <member refid="classthemis_1_1document_1_1_in_memory_document_store_1a082b9931b441d7e61ade6d54780eee04" prot="public" virt="virtual"><scope>themis::document::InMemoryDocumentStore</scope><name>update</name></member>
+      <member refid="classthemis_1_1document_1_1_i_document_store_1a50b63cfe26b577de827c9cc48f765a06" prot="public" virt="virtual"><scope>themis::document::InMemoryDocumentStore</scope><name>~IDocumentStore</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

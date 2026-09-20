@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1config_1_1_l_r_u_cache_with_t_t_l_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::config::LRUCacheWithTTL::Stats</compoundname>
+    <includes refid="lru__cache_8h" local="no">lru_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1config_1_1_l_r_u_cache_with_t_t_l_1_1_stats_1a49e0aa40ba87e75b80c8cddd0a70b7dd" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::config::LRUCacheWithTTL&lt; Key, Value &gt;::Stats::hits</definition>
+        <argsstring></argsstring>
+        <name>hits</name>
+        <qualifiedname>themis::config::LRUCacheWithTTL::Stats::hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/lru_cache.h" line="150" column="18" bodyfile="include/config/lru_cache.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1config_1_1_l_r_u_cache_with_t_t_l_1_1_stats_1aea82b665da7512be9b0ecdb744736a57" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::config::LRUCacheWithTTL&lt; Key, Value &gt;::Stats::misses</definition>
+        <argsstring></argsstring>
+        <name>misses</name>
+        <qualifiedname>themis::config::LRUCacheWithTTL::Stats::misses</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/lru_cache.h" line="151" column="18" bodyfile="include/config/lru_cache.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1config_1_1_l_r_u_cache_with_t_t_l_1_1_stats_1a86bc36a8fb2e134a310c51076fb087ce" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::config::LRUCacheWithTTL&lt; Key, Value &gt;::Stats::evictions</definition>
+        <argsstring></argsstring>
+        <name>evictions</name>
+        <qualifiedname>themis::config::LRUCacheWithTTL::Stats::evictions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/lru_cache.h" line="152" column="18" bodyfile="include/config/lru_cache.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1config_1_1_l_r_u_cache_with_t_t_l_1_1_stats_1a0e4e686f82017b421a52845d3485a984" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::config::LRUCacheWithTTL&lt; Key, Value &gt;::Stats::expirations</definition>
+        <argsstring></argsstring>
+        <name>expirations</name>
+        <qualifiedname>themis::config::LRUCacheWithTTL::Stats::expirations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/lru_cache.h" line="153" column="18" bodyfile="include/config/lru_cache.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1config_1_1_l_r_u_cache_with_t_t_l_1_1_stats_1ac61e55f33a46f256f3c7c28b9f6007cf" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::config::LRUCacheWithTTL&lt; Key, Value &gt;::Stats::size</definition>
+        <argsstring></argsstring>
+        <name>size</name>
+        <qualifiedname>themis::config::LRUCacheWithTTL::Stats::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/lru_cache.h" line="154" column="16" bodyfile="include/config/lru_cache.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1config_1_1_l_r_u_cache_with_t_t_l_1_1_stats_1ab58fae9a8d210b9db03d93daa26a560b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::config::LRUCacheWithTTL&lt; Key, Value &gt;::Stats::capacity</definition>
+        <argsstring></argsstring>
+        <name>capacity</name>
+        <qualifiedname>themis::config::LRUCacheWithTTL::Stats::capacity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/lru_cache.h" line="155" column="16" bodyfile="include/config/lru_cache.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1config_1_1_l_r_u_cache_with_t_t_l_1_1_stats_1a73db5be0d481fbd947c8c8977e1d7df3" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::config::LRUCacheWithTTL&lt; Key, Value &gt;::Stats::hit_rate</definition>
+        <argsstring></argsstring>
+        <name>hit_rate</name>
+        <qualifiedname>themis::config::LRUCacheWithTTL::Stats::hit_rate</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/lru_cache.h" line="156" column="16" bodyfile="include/config/lru_cache.h" bodystart="156" bodyend="156"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/config/lru_cache.h" line="149" column="5" bodyfile="include/config/lru_cache.h" bodystart="149" bodyend="157"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1config_1_1_l_r_u_cache_with_t_t_l_1_1_stats_1ab58fae9a8d210b9db03d93daa26a560b" prot="public" virt="non-virtual"><scope>themis::config::LRUCacheWithTTL::Stats</scope><name>capacity</name></member>
+      <member refid="structthemis_1_1config_1_1_l_r_u_cache_with_t_t_l_1_1_stats_1a86bc36a8fb2e134a310c51076fb087ce" prot="public" virt="non-virtual"><scope>themis::config::LRUCacheWithTTL::Stats</scope><name>evictions</name></member>
+      <member refid="structthemis_1_1config_1_1_l_r_u_cache_with_t_t_l_1_1_stats_1a0e4e686f82017b421a52845d3485a984" prot="public" virt="non-virtual"><scope>themis::config::LRUCacheWithTTL::Stats</scope><name>expirations</name></member>
+      <member refid="structthemis_1_1config_1_1_l_r_u_cache_with_t_t_l_1_1_stats_1a73db5be0d481fbd947c8c8977e1d7df3" prot="public" virt="non-virtual"><scope>themis::config::LRUCacheWithTTL::Stats</scope><name>hit_rate</name></member>
+      <member refid="structthemis_1_1config_1_1_l_r_u_cache_with_t_t_l_1_1_stats_1a49e0aa40ba87e75b80c8cddd0a70b7dd" prot="public" virt="non-virtual"><scope>themis::config::LRUCacheWithTTL::Stats</scope><name>hits</name></member>
+      <member refid="structthemis_1_1config_1_1_l_r_u_cache_with_t_t_l_1_1_stats_1aea82b665da7512be9b0ecdb744736a57" prot="public" virt="non-virtual"><scope>themis::config::LRUCacheWithTTL::Stats</scope><name>misses</name></member>
+      <member refid="structthemis_1_1config_1_1_l_r_u_cache_with_t_t_l_1_1_stats_1ac61e55f33a46f256f3c7c28b9f6007cf" prot="public" virt="non-virtual"><scope>themis::config::LRUCacheWithTTL::Stats</scope><name>size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1training_1_1graph__aql" kind="namespace" language="C++">
+    <compoundname>themis::training::graph_aql</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1training_1_1graph__aql_1adefbd3975e79157e6e2dd07fc365706e" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::training::graph_aql::RELATED_PROVISIONS</definition>
+        <argsstring></argsstring>
+        <name>RELATED_PROVISIONS</name>
+        <qualifiedname>themis::training::graph_aql::RELATED_PROVISIONS</qualifiedname>
+        <initializer>                                    =
+&quot;FOR doc IN @@documents FILTER doc._key == @document_id &quot;
+&quot;FOR provision, edge IN 1..@depth OUTBOUND doc @@references &quot;
+&quot;LIMIT @max_results &quot;
+&quot;RETURN provision._key&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/knowledge_graph_enricher.cpp" line="32" column="26" bodyfile="src/training/knowledge_graph_enricher.cpp" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1training_1_1graph__aql_1a242462282b32d0e81a979e9a65e25ed6" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::training::graph_aql::RELATED_CASE_LAW</definition>
+        <argsstring></argsstring>
+        <name>RELATED_CASE_LAW</name>
+        <qualifiedname>themis::training::graph_aql::RELATED_CASE_LAW</qualifiedname>
+        <initializer>                                  =
+&quot;FOR doc IN @@documents FILTER doc._key == @document_id &quot;
+&quot;FOR related, edge IN 1..@depth OUTBOUND doc @@cites &quot;
+&quot;FILTER related.document_type == &apos;case_law&apos; &quot;
+&quot;LIMIT @max_results &quot;
+&quot;RETURN related._key&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/knowledge_graph_enricher.cpp" line="39" column="26" bodyfile="src/training/knowledge_graph_enricher.cpp" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1training_1_1graph__aql_1a87308535ca9abe05eaa69c03d94e6f03" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::training::graph_aql::SIMILAR_DOCUMENTS</definition>
+        <argsstring></argsstring>
+        <name>SIMILAR_DOCUMENTS</name>
+        <qualifiedname>themis::training::graph_aql::SIMILAR_DOCUMENTS</qualifiedname>
+        <initializer>                                   =
+&quot;FOR doc IN @@documents FILTER doc._key == @document_id &quot;
+&quot;LET query_vec = doc.embedding &quot;
+&quot;FOR candidate IN @@documents &quot;
+&quot;FILTER candidate._key != @document_id &quot;
+&quot;LET score = COSINE_SIMILARITY(query_vec, candidate.embedding) &quot;
+&quot;FILTER score &gt;= @threshold &quot;
+&quot;SORT score DESC &quot;
+&quot;LIMIT @max_results &quot;
+&quot;RETURN {doc_id: candidate._key, score: score}&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/knowledge_graph_enricher.cpp" line="47" column="26" bodyfile="src/training/knowledge_graph_enricher.cpp" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1training_1_1graph__aql_1af98631d5e92679810f23ffd9fabc6569" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::training::graph_aql::UPDATE_SAMPLE_CONTEXT</definition>
+        <argsstring></argsstring>
+        <name>UPDATE_SAMPLE_CONTEXT</name>
+        <qualifiedname>themis::training::graph_aql::UPDATE_SAMPLE_CONTEXT</qualifiedname>
+        <initializer>                                       =
+&quot;UPDATE @sample_id WITH { &quot;
+&quot;  graph_context: @context, &quot;
+&quot;  enrichment_sources: @sources, &quot;
+&quot;  context_quality_score: @quality_score, &quot;
+&quot;  updated_at: DATE_NOW() &quot;
+&quot;} IN @@collection&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/knowledge_graph_enricher.cpp" line="59" column="26" bodyfile="src/training/knowledge_graph_enricher.cpp" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1training_1_1graph__aql_1a94ac959e81e5879ebfed670440ad44c8" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::training::graph_aql::FETCH_ALL_SAMPLES</definition>
+        <argsstring></argsstring>
+        <name>FETCH_ALL_SAMPLES</name>
+        <qualifiedname>themis::training::graph_aql::FETCH_ALL_SAMPLES</qualifiedname>
+        <initializer>                                   =
+&quot;FOR sample IN @@collection &quot;
+&quot;FILTER sample.input != null &quot;
+&quot;RETURN sample._key&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/knowledge_graph_enricher.cpp" line="68" column="26" bodyfile="src/training/knowledge_graph_enricher.cpp" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1training_1_1graph__aql_1a22a614df4c88decf48bf802dbdea2b74" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::training::graph_aql::RELATED_GUIDANCE</definition>
+        <argsstring></argsstring>
+        <name>RELATED_GUIDANCE</name>
+        <qualifiedname>themis::training::graph_aql::RELATED_GUIDANCE</qualifiedname>
+        <initializer>                                  =
+&quot;FOR doc IN @@documents FILTER doc._key == @document_id &quot;
+&quot;FOR guidance, edge IN 1..@depth OUTBOUND doc @@references &quot;
+&quot;FILTER guidance.document_type == &apos;guidance&apos; &quot;
+&quot;LIMIT @max_results &quot;
+&quot;RETURN guidance._key&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/knowledge_graph_enricher.cpp" line="74" column="26" bodyfile="src/training/knowledge_graph_enricher.cpp" bodystart="74" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/training/knowledge_graph_enricher.cpp" line="30" column="1"/>
+  </compounddef>
+</doxygen>

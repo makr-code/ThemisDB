@@ -1,0 +1,1105 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__plugin__health__monitor_8cpp" kind="file" language="C++">
+    <compoundname>test_plugin_health_monitor.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="plugin__health__monitor_8h" local="yes">plugins/plugin_health_monitor.h</includes>
+    <includes refid="self__healing__plugin_8h" local="yes">plugins/self_healing_plugin.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>plugins/plugin_health_monitor.h</label>
+        <link refid="plugin__health__monitor_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>plugins/self_healing_plugin.h</label>
+        <link refid="self__healing__plugin_8h"/>
+      </node>
+      <node id="1">
+        <label>tests/plugins/test_plugin_health_monitor.cpp</label>
+        <link refid="test__plugin__health__monitor_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>atomic</label>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="13">
+        <label>core/concerns/i_metrics.h</label>
+      </node>
+      <node id="6">
+        <label>cstdint</label>
+      </node>
+      <node id="7">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="8">
+        <label>mutex</label>
+      </node>
+      <node id="9">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>thread</label>
+      </node>
+      <node id="11">
+        <label>unordered_map</label>
+      </node>
+      <node id="15">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="12">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_mock_self_healing_plugin" prot="public">MockSelfHealingPlugin</innerclass>
+    <innerclass refid="class_plugin_health_monitor_test" prot="public">PluginHealthMonitorTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__plugin__health__monitor_8cpp_1ab4f92cf1dc166734c694e78e9596bb75" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginHealthMonitorTest, RegisterPlugin_Success)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref></type>
+        </param>
+        <param>
+          <type>RegisterPlugin_Success</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_health_monitor.cpp" line="105" column="1" bodyfile="tests/plugins/test_plugin_health_monitor.cpp" bodystart="105" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__health__monitor_8cpp_1abde333f2d223f29c9f254df54d50a025" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginHealthMonitorTest, RegisterPlugin_NullPointerRejected)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref></type>
+        </param>
+        <param>
+          <type>RegisterPlugin_NullPointerRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_health_monitor.cpp" line="110" column="1" bodyfile="tests/plugins/test_plugin_health_monitor.cpp" bodystart="110" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__health__monitor_8cpp_1ad0f0f189495a7520a0e6acd15a010482" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginHealthMonitorTest, RegisterPlugin_DuplicateRejected)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref></type>
+        </param>
+        <param>
+          <type>RegisterPlugin_DuplicateRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_health_monitor.cpp" line="114" column="1" bodyfile="tests/plugins/test_plugin_health_monitor.cpp" bodystart="114" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__health__monitor_8cpp_1a1b476805de107f3f0d6bae60aebedfa1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginHealthMonitorTest, UnregisterPlugin_Success)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref></type>
+        </param>
+        <param>
+          <type>UnregisterPlugin_Success</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_health_monitor.cpp" line="120" column="1" bodyfile="tests/plugins/test_plugin_health_monitor.cpp" bodystart="120" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__health__monitor_8cpp_1a0a242c9113b1ce3ce8b52db644ffe43e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginHealthMonitorTest, UnregisterPlugin_UnknownReturnsFalse)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref></type>
+        </param>
+        <param>
+          <type>UnregisterPlugin_UnknownReturnsFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_health_monitor.cpp" line="126" column="1" bodyfile="tests/plugins/test_plugin_health_monitor.cpp" bodystart="126" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__health__monitor_8cpp_1acfeb26354125f89afc1fa6076b8b482f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginHealthMonitorTest, StartMonitoring_Succeeds)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref></type>
+        </param>
+        <param>
+          <type>StartMonitoring_Succeeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_health_monitor.cpp" line="134" column="1" bodyfile="tests/plugins/test_plugin_health_monitor.cpp" bodystart="134" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__health__monitor_8cpp_1acdb2cea1feb725ec8966ae1e9a1f1bdd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginHealthMonitorTest, StartMonitoring_IdempotentReturnsFalse)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref></type>
+        </param>
+        <param>
+          <type>StartMonitoring_IdempotentReturnsFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_health_monitor.cpp" line="139" column="1" bodyfile="tests/plugins/test_plugin_health_monitor.cpp" bodystart="139" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__health__monitor_8cpp_1a0d90c5e8058c1e500f38737fcfebf9af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginHealthMonitorTest, StopMonitoring_StopsThread)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref></type>
+        </param>
+        <param>
+          <type>StopMonitoring_StopsThread</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_health_monitor.cpp" line="145" column="1" bodyfile="tests/plugins/test_plugin_health_monitor.cpp" bodystart="145" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__health__monitor_8cpp_1a0f130d0a1b9002d279a60cd2152c6275" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginHealthMonitorTest, StopMonitoring_NotRunning_IsNoOp)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref></type>
+        </param>
+        <param>
+          <type>StopMonitoring_NotRunning_IsNoOp</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_health_monitor.cpp" line="151" column="1" bodyfile="tests/plugins/test_plugin_health_monitor.cpp" bodystart="151" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__health__monitor_8cpp_1a1e8d57f94bca03d7427d190383a0cfb7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginHealthMonitorTest, CheckPluginHealth_HealthyPlugin)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref></type>
+        </param>
+        <param>
+          <type>CheckPluginHealth_HealthyPlugin</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_health_monitor.cpp" line="161" column="1" bodyfile="tests/plugins/test_plugin_health_monitor.cpp" bodystart="161" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__health__monitor_8cpp_1a391f95336fe675d11184b9cb442d850a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginHealthMonitorTest, CheckPluginHealth_UnhealthyPlugin)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref></type>
+        </param>
+        <param>
+          <type>CheckPluginHealth_UnhealthyPlugin</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_health_monitor.cpp" line="172" column="1" bodyfile="tests/plugins/test_plugin_health_monitor.cpp" bodystart="172" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__health__monitor_8cpp_1a3c12fe258734b6ca395c70dd653db020" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginHealthMonitorTest, CheckPluginHealth_UnknownPluginReturnsError)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref></type>
+        </param>
+        <param>
+          <type>CheckPluginHealth_UnknownPluginReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_health_monitor.cpp" line="182" column="1" bodyfile="tests/plugins/test_plugin_health_monitor.cpp" bodystart="182" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__health__monitor_8cpp_1af866a7c2acd91856357d722127a2bbdf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginHealthMonitorTest, CheckPluginHealth_IncrementsTotalChecks)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref></type>
+        </param>
+        <param>
+          <type>CheckPluginHealth_IncrementsTotalChecks</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_health_monitor.cpp" line="187" column="1" bodyfile="tests/plugins/test_plugin_health_monitor.cpp" bodystart="187" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__health__monitor_8cpp_1a4bad60d5a331f20767969d49401b2b7d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginHealthMonitorTest, TriggerRecovery_SuccessfulRecovery)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref></type>
+        </param>
+        <param>
+          <type>TriggerRecovery_SuccessfulRecovery</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_health_monitor.cpp" line="202" column="1" bodyfile="tests/plugins/test_plugin_health_monitor.cpp" bodystart="202" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__health__monitor_8cpp_1a602cbca520934ebfccbebf791fc6b30b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginHealthMonitorTest, TriggerRecovery_UnknownPluginReturnsError)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref></type>
+        </param>
+        <param>
+          <type>TriggerRecovery_UnknownPluginReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_health_monitor.cpp" line="213" column="1" bodyfile="tests/plugins/test_plugin_health_monitor.cpp" bodystart="213" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__health__monitor_8cpp_1a42ed12729af2a2672db1949275ec3645" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginHealthMonitorTest, TriggerRecovery_FailedRecovery)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref></type>
+        </param>
+        <param>
+          <type>TriggerRecovery_FailedRecovery</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_health_monitor.cpp" line="218" column="1" bodyfile="tests/plugins/test_plugin_health_monitor.cpp" bodystart="218" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__health__monitor_8cpp_1a435d011da828313dd91f66b030b7fc10" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginHealthMonitorTest, GetPluginStats_RegisteredPlugin)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref></type>
+        </param>
+        <param>
+          <type>GetPluginStats_RegisteredPlugin</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_health_monitor.cpp" line="235" column="1" bodyfile="tests/plugins/test_plugin_health_monitor.cpp" bodystart="235" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__health__monitor_8cpp_1abbaeb8174606b6a19d7372bc0880eb1a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginHealthMonitorTest, GetPluginStats_UnknownReturnsError)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref></type>
+        </param>
+        <param>
+          <type>GetPluginStats_UnknownReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_health_monitor.cpp" line="245" column="1" bodyfile="tests/plugins/test_plugin_health_monitor.cpp" bodystart="245" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__health__monitor_8cpp_1afc5abb4808bfcb4a4ad2a47e30cf92e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginHealthMonitorTest, GetAllPluginStats_EmptyMap)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref></type>
+        </param>
+        <param>
+          <type>GetAllPluginStats_EmptyMap</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_health_monitor.cpp" line="250" column="1" bodyfile="tests/plugins/test_plugin_health_monitor.cpp" bodystart="250" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__health__monitor_8cpp_1a5b490da681b8f56a50ae927b1be95d5e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginHealthMonitorTest, GetAllPluginStats_MultiplePlugins)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref></type>
+        </param>
+        <param>
+          <type>GetAllPluginStats_MultiplePlugins</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_health_monitor.cpp" line="255" column="1" bodyfile="tests/plugins/test_plugin_health_monitor.cpp" bodystart="255" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__health__monitor_8cpp_1a3c5c493e784a859cfcb21c540d7282e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginHealthMonitorTest, GlobalStats_ReflectsPluginCount)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref></type>
+        </param>
+        <param>
+          <type>GlobalStats_ReflectsPluginCount</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_health_monitor.cpp" line="266" column="1" bodyfile="tests/plugins/test_plugin_health_monitor.cpp" bodystart="266" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__health__monitor_8cpp_1a61f5fe6834e54c6dce16bbf07c7d180d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginHealthMonitorTest, SetPluginMonitoringEnabled_DisablesPlugin)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref></type>
+        </param>
+        <param>
+          <type>SetPluginMonitoringEnabled_DisablesPlugin</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_health_monitor.cpp" line="279" column="1" bodyfile="tests/plugins/test_plugin_health_monitor.cpp" bodystart="279" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__health__monitor_8cpp_1aaae12e7c8eb2f6d383f28acf2ad6ca72" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginHealthMonitorTest, SetPluginMonitoringEnabled_ReEnablesPlugin)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref></type>
+        </param>
+        <param>
+          <type>SetPluginMonitoringEnabled_ReEnablesPlugin</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_health_monitor.cpp" line="289" column="1" bodyfile="tests/plugins/test_plugin_health_monitor.cpp" bodystart="289" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__health__monitor_8cpp_1ab27e33dc63f3dacd91fb153d3eac7240" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginHealthMonitorTest, SetPluginMonitoringEnabled_UnknownReturnsFalse)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref></type>
+        </param>
+        <param>
+          <type>SetPluginMonitoringEnabled_UnknownReturnsFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_health_monitor.cpp" line="300" column="1" bodyfile="tests/plugins/test_plugin_health_monitor.cpp" bodystart="300" bodyend="302"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__health__monitor_8cpp_1a02db485ae68858263fbf1c88fcd840b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginHealthMonitorTest, RegisterEventCallback_CalledOnRegistration)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref></type>
+        </param>
+        <param>
+          <type>RegisterEventCallback_CalledOnRegistration</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_health_monitor.cpp" line="308" column="1" bodyfile="tests/plugins/test_plugin_health_monitor.cpp" bodystart="308" bodyend="319"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__health__monitor_8cpp_1af8277074f50b489e2e7b770f64870610" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginHealthMonitorTest, RegisterEventCallback_CalledOnUnregistration)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref></type>
+        </param>
+        <param>
+          <type>RegisterEventCallback_CalledOnUnregistration</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_health_monitor.cpp" line="321" column="1" bodyfile="tests/plugins/test_plugin_health_monitor.cpp" bodystart="321" bodyend="333"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__health__monitor_8cpp_1ae09cfd6d4e92c43ff444bdfb5775d7df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginHealthMonitorTest, ClearEventCallbacks_NoCallbackAfterClear)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref></type>
+        </param>
+        <param>
+          <type>ClearEventCallbacks_NoCallbackAfterClear</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_health_monitor.cpp" line="335" column="1" bodyfile="tests/plugins/test_plugin_health_monitor.cpp" bodystart="335" bodyend="346"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__health__monitor_8cpp_1a8ba4c5bf7559bc7e52c4625a24d65664" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginHealthMonitorTest, GetConfig_ReturnsCurrentConfig)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref></type>
+        </param>
+        <param>
+          <type>GetConfig_ReturnsCurrentConfig</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_health_monitor.cpp" line="352" column="1" bodyfile="tests/plugins/test_plugin_health_monitor.cpp" bodystart="352" bodyend="356"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__health__monitor_8cpp_1a114b1fc95ffc09043dc3f806a77d895b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginHealthMonitorTest, UpdateConfig_ChangesConfig)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref></type>
+        </param>
+        <param>
+          <type>UpdateConfig_ChangesConfig</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_health_monitor.cpp" line="358" column="1" bodyfile="tests/plugins/test_plugin_health_monitor.cpp" bodystart="358" bodyend="363"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__health__monitor_8cpp_1acb362232412df7f7ddc664d9f51f68ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PluginHealthMonitorSingleton, InstanceReturnsSameObject)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PluginHealthMonitorSingleton</type>
+        </param>
+        <param>
+          <type>InstanceReturnsSameObject</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_health_monitor.cpp" line="369" column="1" bodyfile="tests/plugins/test_plugin_health_monitor.cpp" bodystart="369" bodyend="373"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__health__monitor_8cpp_1a4d4e58914a223c905d13516d4e2f3794" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginHealthMonitorTest, AutoDisable_AfterMaxRecoveryAttempts)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref></type>
+        </param>
+        <param>
+          <type>AutoDisable_AfterMaxRecoveryAttempts</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_health_monitor.cpp" line="379" column="1" bodyfile="tests/plugins/test_plugin_health_monitor.cpp" bodystart="379" bodyend="405"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unit tests for <ref refid="classthemis_1_1plugins_1_1_plugin_health_monitor" kindref="compound">PluginHealthMonitor</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tests cover:<itemizedlist>
+<listitem><para>Plugin registration and unregistration</para>
+</listitem><listitem><para>Monitoring lifecycle (start/stop)</para>
+</listitem><listitem><para>Manual health checks and recovery</para>
+</listitem><listitem><para>Automatic recovery with backoff</para>
+</listitem><listitem><para>Event callbacks</para>
+</listitem><listitem><para>Global statistics</para>
+</listitem><listitem><para>Per-plugin enable/disable </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="plugin__health__monitor_8h" kindref="compound">plugins/plugin_health_monitor.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="self__healing__plugin_8h" kindref="compound">plugins/self_healing_plugin.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins" kindref="compound">themis::plugins</ref>;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Mock<sp/>ISelfHealingPlugin<sp/>implementation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="class_mock_self_healing_plugin" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_mock_self_healing_plugin" kindref="compound">MockSelfHealingPlugin</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_i_self_healing_plugin" kindref="compound">ISelfHealingPlugin</ref><sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Controls<sp/>returned<sp/>by<sp/>individual<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1a4983d42b198325e2b99195e4cafdc606" kindref="member">PluginHealthStatus</ref><sp/><ref refid="class_mock_self_healing_plugin_1ae15d4bec943546d47cc44e65b473f1ec" kindref="member">next_status</ref><sp/>=<sp/><ref refid="namespacethemis_1_1plugins_1a4983d42b198325e2b99195e4cafdc606af068ebe4133e3e6563080836268ea979" kindref="member">PluginHealthStatus::HEALTHY</ref>;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_mock_self_healing_plugin_1a3af244c1e98ea71dc98395d2267ac30c" kindref="member">repair_result</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_mock_self_healing_plugin_1aed74db0837388f3f3c6d773ede39b189" kindref="member">cleanup_result</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_mock_self_healing_plugin_1a4f722e50df1a3b5706684eb96ed22c9d" kindref="member">rollback_result</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/><ref refid="class_mock_self_healing_plugin_1ae679c01e05772af605e72d26c3f6cba7" kindref="member">health_check_count</ref>{0};</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/><ref refid="class_mock_self_healing_plugin_1a271dc4f0cacf7285ee9a521c6f89cee6" kindref="member">repair_count</ref>{0};</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/><ref refid="class_mock_self_healing_plugin_1a3f734b517c32a28061f07093a8baa38e" kindref="member">cleanup_count</ref>{0};</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/><ref refid="class_mock_self_healing_plugin_1a44159c4ebfa13d0499562f4aa8684721" kindref="member">rollback_count</ref>{0};</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/><ref refid="class_mock_self_healing_plugin_1a27c3a6dd00db9265c446128f241f5d7d" kindref="member">checkpoint_count</ref>{0};</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1_plugin_diagnostics" kindref="compound">PluginDiagnostics</ref><sp/><ref refid="class_mock_self_healing_plugin_1abd81fe460876cd7d0da996f9af12f59b" kindref="member">performHealthCheck</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_mock_self_healing_plugin_1ae679c01e05772af605e72d26c3f6cba7" kindref="member">health_check_count</ref>++;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1_plugin_diagnostics" kindref="compound">PluginDiagnostics</ref><sp/>d;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>d.<ref refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1af1a9d82f6af4ca05c30f572f04747959" kindref="member">status</ref><sp/>=<sp/><ref refid="class_mock_self_healing_plugin_1ae15d4bec943546d47cc44e65b473f1ec" kindref="member">next_status</ref>;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="class_mock_self_healing_plugin_1ae15d4bec943546d47cc44e65b473f1ec" kindref="member">next_status</ref><sp/>!=<sp/><ref refid="namespacethemis_1_1plugins_1a4983d42b198325e2b99195e4cafdc606af068ebe4133e3e6563080836268ea979" kindref="member">PluginHealthStatus::HEALTHY</ref><sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_mock_self_healing_plugin_1ae15d4bec943546d47cc44e65b473f1ec" kindref="member">next_status</ref><sp/>!=<sp/><ref refid="namespacethemis_1_1plugins_1a4983d42b198325e2b99195e4cafdc606a0021017005f0e5134b204c2e69d3d4ed" kindref="member">PluginHealthStatus::DEGRADED</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>d.<ref refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1a268790c042aa44f84882ba7ff56469ae" kindref="member">error_message</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;mock<sp/>error&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>d;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_mock_self_healing_plugin_1aa129bb388997cdf243dd810fd0331590" kindref="member">attemptSelfRepair</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1_plugin_diagnostics" kindref="compound">PluginDiagnostics</ref>&amp;)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_mock_self_healing_plugin_1a271dc4f0cacf7285ee9a521c6f89cee6" kindref="member">repair_count</ref>++;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_mock_self_healing_plugin_1a3af244c1e98ea71dc98395d2267ac30c" kindref="member">repair_result</ref>;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_mock_self_healing_plugin_1a9cbcee8196e886169e7d09e0b6131614" kindref="member">cleanupResources</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_mock_self_healing_plugin_1a3f734b517c32a28061f07093a8baa38e" kindref="member">cleanup_count</ref>++;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_mock_self_healing_plugin_1aed74db0837388f3f3c6d773ede39b189" kindref="member">cleanup_result</ref>;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_mock_self_healing_plugin_1a1fd9923eb8f5a20bbddbad760af91206" kindref="member">rollbackToLastGoodState</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_mock_self_healing_plugin_1a44159c4ebfa13d0499562f4aa8684721" kindref="member">rollback_count</ref>++;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_mock_self_healing_plugin_1a4f722e50df1a3b5706684eb96ed22c9d" kindref="member">rollback_result</ref>;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_mock_self_healing_plugin_1a540170508c663ccdaad118a5cf3f7dd3" kindref="member">saveCheckpoint</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_mock_self_healing_plugin_1a27c3a6dd00db9265c446128f241f5d7d" kindref="member">checkpoint_count</ref>++;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RecoveryAction&gt;<sp/><ref refid="class_mock_self_healing_plugin_1ad6de40538c7190ac33c98c7a951eb006" kindref="member">getRecoveryStrategies</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{<ref refid="namespacethemis_1_1plugins_1a8eeee246c798f0d40ad1cd4bda660f1da97c72aba842ef984c5a90c3687130f1a" kindref="member">RecoveryAction::CLEANUP_RESOURCES</ref>,<sp/><ref refid="namespacethemis_1_1plugins_1a8eeee246c798f0d40ad1cd4bda660f1dadb95e162e0f51597da37aaf2d9c15e41" kindref="member">RecoveryAction::RESTART_PLUGIN</ref>};</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>fixture</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="class_plugin_health_monitor_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_plugin_health_monitor_test_1aa22ed6cb75d1843a093000f96de643ed" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>a<sp/>fast<sp/>check<sp/>interval<sp/>for<sp/>unit<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1_health_monitor_config" kindref="compound">HealthMonitorConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1plugins_1_1_health_monitor_config_1a14b32f0448050c2b142144270da05463" kindref="member">check_interval</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::seconds{3600};<sp/></highlight><highlight class="comment">//<sp/>prevent<sp/>auto-cycle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1plugins_1_1_health_monitor_config_1a6cf8adc8a288a151419c440ca0a18f30" kindref="member">max_recovery_attempts</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1plugins_1_1_health_monitor_config_1a3b55361e29c95b2b04e841bc4a4b39f2" kindref="member">backoff_strategy</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;none&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1plugins_1_1_health_monitor_config_1a3b3b7f03751aa16cb257e160154004ca" kindref="member">auto_disable_on_failure</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_plugin_health_monitor_test_1ad869313e9f7c4bea625e1767d1eed882" kindref="member">monitor_</ref><sp/>=<sp/>std::make_unique&lt;PluginHealthMonitor&gt;(cfg);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_plugin_health_monitor_test_1ab5909375107763f6d33f4416cce534fa" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_plugin_health_monitor_test_1ad869313e9f7c4bea625e1767d1eed882" kindref="member">monitor_</ref>-&gt;stopMonitoring();</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;PluginHealthMonitor&gt;<sp/><ref refid="class_plugin_health_monitor_test_1ad869313e9f7c4bea625e1767d1eed882" kindref="member">monitor_</ref>;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Registration<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><ref refid="test__plugin__health__monitor_8cpp_1ab4f92cf1dc166734c694e78e9596bb75" kindref="member">TEST_F</ref>(<ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref>,<sp/>RegisterPlugin_Success)<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_mock_self_healing_plugin" kindref="compound">MockSelfHealingPlugin</ref><sp/>plugin;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(monitor_-&gt;registerPlugin(</highlight><highlight class="stringliteral">&quot;p1&quot;</highlight><highlight class="normal">,<sp/>&amp;plugin));</highlight></codeline>
+<codeline lineno="108"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><ref refid="test__plugin__health__monitor_8cpp_1ab4f92cf1dc166734c694e78e9596bb75" kindref="member">TEST_F</ref>(<ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref>,<sp/>RegisterPlugin_NullPointerRejected)<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(monitor_-&gt;registerPlugin(</highlight><highlight class="stringliteral">&quot;null_plugin&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="112"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><ref refid="test__plugin__health__monitor_8cpp_1ab4f92cf1dc166734c694e78e9596bb75" kindref="member">TEST_F</ref>(<ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref>,<sp/>RegisterPlugin_DuplicateRejected)<sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_mock_self_healing_plugin" kindref="compound">MockSelfHealingPlugin</ref><sp/>plugin;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(monitor_-&gt;registerPlugin(</highlight><highlight class="stringliteral">&quot;dup&quot;</highlight><highlight class="normal">,<sp/>&amp;plugin));</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(monitor_-&gt;registerPlugin(</highlight><highlight class="stringliteral">&quot;dup&quot;</highlight><highlight class="normal">,<sp/>&amp;plugin));</highlight></codeline>
+<codeline lineno="118"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><ref refid="test__plugin__health__monitor_8cpp_1ab4f92cf1dc166734c694e78e9596bb75" kindref="member">TEST_F</ref>(<ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref>,<sp/>UnregisterPlugin_Success)<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_mock_self_healing_plugin" kindref="compound">MockSelfHealingPlugin</ref><sp/>plugin;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>monitor_-&gt;registerPlugin(</highlight><highlight class="stringliteral">&quot;p2&quot;</highlight><highlight class="normal">,<sp/>&amp;plugin);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(monitor_-&gt;unregisterPlugin(</highlight><highlight class="stringliteral">&quot;p2&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><ref refid="test__plugin__health__monitor_8cpp_1ab4f92cf1dc166734c694e78e9596bb75" kindref="member">TEST_F</ref>(<ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref>,<sp/>UnregisterPlugin_UnknownReturnsFalse)<sp/>{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(monitor_-&gt;unregisterPlugin(</highlight><highlight class="stringliteral">&quot;does_not_exist&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="128"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Monitoring<sp/>lifecycle<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><ref refid="test__plugin__health__monitor_8cpp_1ab4f92cf1dc166734c694e78e9596bb75" kindref="member">TEST_F</ref>(<ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref>,<sp/>StartMonitoring_Succeeds)<sp/>{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(monitor_-&gt;startMonitoring());</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(monitor_-&gt;isRunning());</highlight></codeline>
+<codeline lineno="137"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><ref refid="test__plugin__health__monitor_8cpp_1ab4f92cf1dc166734c694e78e9596bb75" kindref="member">TEST_F</ref>(<ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref>,<sp/>StartMonitoring_IdempotentReturnsFalse)<sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>monitor_-&gt;startMonitoring();</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(monitor_-&gt;startMonitoring());<sp/></highlight><highlight class="comment">//<sp/>second<sp/>start<sp/>should<sp/>fail</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(monitor_-&gt;isRunning());</highlight></codeline>
+<codeline lineno="143"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><ref refid="test__plugin__health__monitor_8cpp_1ab4f92cf1dc166734c694e78e9596bb75" kindref="member">TEST_F</ref>(<ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref>,<sp/>StopMonitoring_StopsThread)<sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>monitor_-&gt;startMonitoring();</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>monitor_-&gt;stopMonitoring();</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(monitor_-&gt;isRunning());</highlight></codeline>
+<codeline lineno="149"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><ref refid="test__plugin__health__monitor_8cpp_1ab4f92cf1dc166734c694e78e9596bb75" kindref="member">TEST_F</ref>(<ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref>,<sp/>StopMonitoring_NotRunning_IsNoOp)<sp/>{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(monitor_-&gt;isRunning());</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>not<sp/>throw</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(monitor_-&gt;stopMonitoring());</highlight></codeline>
+<codeline lineno="155"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Manual<sp/>health<sp/>check<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><ref refid="test__plugin__health__monitor_8cpp_1ab4f92cf1dc166734c694e78e9596bb75" kindref="member">TEST_F</ref>(<ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref>,<sp/>CheckPluginHealth_HealthyPlugin)<sp/>{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_mock_self_healing_plugin" kindref="compound">MockSelfHealingPlugin</ref><sp/>plugin;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>plugin.<ref refid="class_mock_self_healing_plugin_1ae15d4bec943546d47cc44e65b473f1ec" kindref="member">next_status</ref><sp/>=<sp/><ref refid="namespacethemis_1_1plugins_1a4983d42b198325e2b99195e4cafdc606af068ebe4133e3e6563080836268ea979" kindref="member">PluginHealthStatus::HEALTHY</ref>;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>monitor_-&gt;registerPlugin(</highlight><highlight class="stringliteral">&quot;healthy&quot;</highlight><highlight class="normal">,<sp/>&amp;plugin);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>monitor_-&gt;checkPluginHealth(</highlight><highlight class="stringliteral">&quot;healthy&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result-&gt;status,<sp/><ref refid="namespacethemis_1_1plugins_1a4983d42b198325e2b99195e4cafdc606af068ebe4133e3e6563080836268ea979" kindref="member">PluginHealthStatus::HEALTHY</ref>);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(plugin.<ref refid="class_mock_self_healing_plugin_1ae679c01e05772af605e72d26c3f6cba7" kindref="member">health_check_count</ref>.load(),<sp/>1);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><ref refid="test__plugin__health__monitor_8cpp_1ab4f92cf1dc166734c694e78e9596bb75" kindref="member">TEST_F</ref>(<ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref>,<sp/>CheckPluginHealth_UnhealthyPlugin)<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_mock_self_healing_plugin" kindref="compound">MockSelfHealingPlugin</ref><sp/>plugin;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>plugin.<ref refid="class_mock_self_healing_plugin_1ae15d4bec943546d47cc44e65b473f1ec" kindref="member">next_status</ref><sp/>=<sp/><ref refid="namespacethemis_1_1plugins_1a4983d42b198325e2b99195e4cafdc606a7438a7e4e4f36f04fda32fa100121e47" kindref="member">PluginHealthStatus::UNHEALTHY</ref>;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>monitor_-&gt;registerPlugin(</highlight><highlight class="stringliteral">&quot;unhealthy&quot;</highlight><highlight class="normal">,<sp/>&amp;plugin);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>monitor_-&gt;checkPluginHealth(</highlight><highlight class="stringliteral">&quot;unhealthy&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result-&gt;status,<sp/><ref refid="namespacethemis_1_1plugins_1a4983d42b198325e2b99195e4cafdc606a7438a7e4e4f36f04fda32fa100121e47" kindref="member">PluginHealthStatus::UNHEALTHY</ref>);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><ref refid="test__plugin__health__monitor_8cpp_1ab4f92cf1dc166734c694e78e9596bb75" kindref="member">TEST_F</ref>(<ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref>,<sp/>CheckPluginHealth_UnknownPluginReturnsError)<sp/>{</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>monitor_-&gt;checkPluginHealth(</highlight><highlight class="stringliteral">&quot;unknown&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><ref refid="test__plugin__health__monitor_8cpp_1ab4f92cf1dc166734c694e78e9596bb75" kindref="member">TEST_F</ref>(<ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref>,<sp/>CheckPluginHealth_IncrementsTotalChecks)<sp/>{</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_mock_self_healing_plugin" kindref="compound">MockSelfHealingPlugin</ref><sp/>plugin;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>monitor_-&gt;registerPlugin(</highlight><highlight class="stringliteral">&quot;stats_plugin&quot;</highlight><highlight class="normal">,<sp/>&amp;plugin);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>monitor_-&gt;checkPluginHealth(</highlight><highlight class="stringliteral">&quot;stats_plugin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>monitor_-&gt;checkPluginHealth(</highlight><highlight class="stringliteral">&quot;stats_plugin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>gs<sp/>=<sp/>monitor_-&gt;getGlobalStats();</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(gs.total_health_checks,<sp/>2u);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Manual<sp/>recovery<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><ref refid="test__plugin__health__monitor_8cpp_1ab4f92cf1dc166734c694e78e9596bb75" kindref="member">TEST_F</ref>(<ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref>,<sp/>TriggerRecovery_SuccessfulRecovery)<sp/>{</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_mock_self_healing_plugin" kindref="compound">MockSelfHealingPlugin</ref><sp/>plugin;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>plugin.<ref refid="class_mock_self_healing_plugin_1ae15d4bec943546d47cc44e65b473f1ec" kindref="member">next_status</ref><sp/>=<sp/><ref refid="namespacethemis_1_1plugins_1a4983d42b198325e2b99195e4cafdc606a7438a7e4e4f36f04fda32fa100121e47" kindref="member">PluginHealthStatus::UNHEALTHY</ref>;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>plugin.<ref refid="class_mock_self_healing_plugin_1aed74db0837388f3f3c6d773ede39b189" kindref="member">cleanup_result</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>monitor_-&gt;registerPlugin(</highlight><highlight class="stringliteral">&quot;recover_ok&quot;</highlight><highlight class="normal">,<sp/>&amp;plugin);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>monitor_-&gt;triggerRecovery(</highlight><highlight class="stringliteral">&quot;recover_ok&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result-&gt;successful);</highlight></codeline>
+<codeline lineno="211"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><ref refid="test__plugin__health__monitor_8cpp_1ab4f92cf1dc166734c694e78e9596bb75" kindref="member">TEST_F</ref>(<ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref>,<sp/>TriggerRecovery_UnknownPluginReturnsError)<sp/>{</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>monitor_-&gt;triggerRecovery(</highlight><highlight class="stringliteral">&quot;no_such_plugin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><ref refid="test__plugin__health__monitor_8cpp_1ab4f92cf1dc166734c694e78e9596bb75" kindref="member">TEST_F</ref>(<ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref>,<sp/>TriggerRecovery_FailedRecovery)<sp/>{</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_mock_self_healing_plugin" kindref="compound">MockSelfHealingPlugin</ref><sp/>plugin;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>plugin.<ref refid="class_mock_self_healing_plugin_1ae15d4bec943546d47cc44e65b473f1ec" kindref="member">next_status</ref><sp/>=<sp/><ref refid="namespacethemis_1_1plugins_1a4983d42b198325e2b99195e4cafdc606a7438a7e4e4f36f04fda32fa100121e47" kindref="member">PluginHealthStatus::UNHEALTHY</ref>;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>plugin.<ref refid="class_mock_self_healing_plugin_1aed74db0837388f3f3c6d773ede39b189" kindref="member">cleanup_result</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>plugin.<ref refid="class_mock_self_healing_plugin_1a3af244c1e98ea71dc98395d2267ac30c" kindref="member">repair_result</ref><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>plugin.<ref refid="class_mock_self_healing_plugin_1a4f722e50df1a3b5706684eb96ed22c9d" kindref="member">rollback_result</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>monitor_-&gt;registerPlugin(</highlight><highlight class="stringliteral">&quot;recover_fail&quot;</highlight><highlight class="normal">,<sp/>&amp;plugin);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>monitor_-&gt;triggerRecovery(</highlight><highlight class="stringliteral">&quot;recover_fail&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result-&gt;successful);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Statistics<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><ref refid="test__plugin__health__monitor_8cpp_1ab4f92cf1dc166734c694e78e9596bb75" kindref="member">TEST_F</ref>(<ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref>,<sp/>GetPluginStats_RegisteredPlugin)<sp/>{</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_mock_self_healing_plugin" kindref="compound">MockSelfHealingPlugin</ref><sp/>plugin;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>monitor_-&gt;registerPlugin(</highlight><highlight class="stringliteral">&quot;stat_p&quot;</highlight><highlight class="normal">,<sp/>&amp;plugin);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>monitor_-&gt;getPluginStats(</highlight><highlight class="stringliteral">&quot;stat_p&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(stats);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats-&gt;name,<sp/></highlight><highlight class="stringliteral">&quot;stat_p&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(stats-&gt;enabled);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><ref refid="test__plugin__health__monitor_8cpp_1ab4f92cf1dc166734c694e78e9596bb75" kindref="member">TEST_F</ref>(<ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref>,<sp/>GetPluginStats_UnknownReturnsError)<sp/>{</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>monitor_-&gt;getPluginStats(</highlight><highlight class="stringliteral">&quot;ghost&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(stats);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><ref refid="test__plugin__health__monitor_8cpp_1ab4f92cf1dc166734c694e78e9596bb75" kindref="member">TEST_F</ref>(<ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref>,<sp/>GetAllPluginStats_EmptyMap)<sp/>{</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>all<sp/>=<sp/>monitor_-&gt;getAllPluginStats();</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(all.empty());</highlight></codeline>
+<codeline lineno="253"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><ref refid="test__plugin__health__monitor_8cpp_1ab4f92cf1dc166734c694e78e9596bb75" kindref="member">TEST_F</ref>(<ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref>,<sp/>GetAllPluginStats_MultiplePlugins)<sp/>{</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_mock_self_healing_plugin" kindref="compound">MockSelfHealingPlugin</ref><sp/>p1,<sp/>p2;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>monitor_-&gt;registerPlugin(</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">,<sp/>&amp;p1);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>monitor_-&gt;registerPlugin(</highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">,<sp/>&amp;p2);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>all<sp/>=<sp/>monitor_-&gt;getAllPluginStats();</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(all.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(all.find(</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">),<sp/>all.end());</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(all.find(</highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">),<sp/>all.end());</highlight></codeline>
+<codeline lineno="264"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><ref refid="test__plugin__health__monitor_8cpp_1ab4f92cf1dc166734c694e78e9596bb75" kindref="member">TEST_F</ref>(<ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref>,<sp/>GlobalStats_ReflectsPluginCount)<sp/>{</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_mock_self_healing_plugin" kindref="compound">MockSelfHealingPlugin</ref><sp/>p1,<sp/>p2;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>monitor_-&gt;registerPlugin(</highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">,<sp/>&amp;p1);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>monitor_-&gt;registerPlugin(</highlight><highlight class="stringliteral">&quot;y&quot;</highlight><highlight class="normal">,<sp/>&amp;p2);</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>gs<sp/>=<sp/>monitor_-&gt;getGlobalStats();</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(gs.monitored_plugins_count,<sp/>2u);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Enable<sp/>/<sp/>disable<sp/>per-plugin<sp/>monitoring</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><ref refid="test__plugin__health__monitor_8cpp_1ab4f92cf1dc166734c694e78e9596bb75" kindref="member">TEST_F</ref>(<ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref>,<sp/>SetPluginMonitoringEnabled_DisablesPlugin)<sp/>{</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_mock_self_healing_plugin" kindref="compound">MockSelfHealingPlugin</ref><sp/>plugin;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>monitor_-&gt;registerPlugin(</highlight><highlight class="stringliteral">&quot;toggled&quot;</highlight><highlight class="normal">,<sp/>&amp;plugin);</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(monitor_-&gt;setPluginMonitoringEnabled(</highlight><highlight class="stringliteral">&quot;toggled&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>monitor_-&gt;getPluginStats(</highlight><highlight class="stringliteral">&quot;toggled&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(stats);</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(stats-&gt;enabled);</highlight></codeline>
+<codeline lineno="287"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><ref refid="test__plugin__health__monitor_8cpp_1ab4f92cf1dc166734c694e78e9596bb75" kindref="member">TEST_F</ref>(<ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref>,<sp/>SetPluginMonitoringEnabled_ReEnablesPlugin)<sp/>{</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_mock_self_healing_plugin" kindref="compound">MockSelfHealingPlugin</ref><sp/>plugin;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>monitor_-&gt;registerPlugin(</highlight><highlight class="stringliteral">&quot;toggled2&quot;</highlight><highlight class="normal">,<sp/>&amp;plugin);</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>monitor_-&gt;setPluginMonitoringEnabled(</highlight><highlight class="stringliteral">&quot;toggled2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(monitor_-&gt;setPluginMonitoringEnabled(</highlight><highlight class="stringliteral">&quot;toggled2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>monitor_-&gt;getPluginStats(</highlight><highlight class="stringliteral">&quot;toggled2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(stats);</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(stats-&gt;enabled);</highlight></codeline>
+<codeline lineno="298"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><ref refid="test__plugin__health__monitor_8cpp_1ab4f92cf1dc166734c694e78e9596bb75" kindref="member">TEST_F</ref>(<ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref>,<sp/>SetPluginMonitoringEnabled_UnknownReturnsFalse)<sp/>{</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(monitor_-&gt;setPluginMonitoringEnabled(</highlight><highlight class="stringliteral">&quot;no_plugin&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="302"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Event<sp/>callback<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><ref refid="test__plugin__health__monitor_8cpp_1ab4f92cf1dc166734c694e78e9596bb75" kindref="member">TEST_F</ref>(<ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref>,<sp/>RegisterEventCallback_CalledOnRegistration)<sp/>{</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MonitoringEvent&gt;<sp/>received_events;</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>monitor_-&gt;registerEventCallback([&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1_monitoring_event_data" kindref="compound">MonitoringEventData</ref>&amp;<sp/>ev)<sp/>{</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>received_events.push_back(ev.<ref refid="structthemis_1_1plugins_1_1_monitoring_event_data_1a68af55b20e5d399e1b5483a02d552982" kindref="member">event</ref>);</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_mock_self_healing_plugin" kindref="compound">MockSelfHealingPlugin</ref><sp/>plugin;</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>monitor_-&gt;registerPlugin(</highlight><highlight class="stringliteral">&quot;cb_plugin&quot;</highlight><highlight class="normal">,<sp/>&amp;plugin);</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(received_events.empty());</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(received_events.front(),<sp/><ref refid="namespacethemis_1_1plugins_1a8d8d15fd925fd078d883553ea49649e3a6748096aa39a46fe2681a74366cb3cc8" kindref="member">MonitoringEvent::PLUGIN_REGISTERED</ref>);</highlight></codeline>
+<codeline lineno="319"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><ref refid="test__plugin__health__monitor_8cpp_1ab4f92cf1dc166734c694e78e9596bb75" kindref="member">TEST_F</ref>(<ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref>,<sp/>RegisterEventCallback_CalledOnUnregistration)<sp/>{</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_mock_self_healing_plugin" kindref="compound">MockSelfHealingPlugin</ref><sp/>plugin;</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>monitor_-&gt;registerPlugin(</highlight><highlight class="stringliteral">&quot;unregcb&quot;</highlight><highlight class="normal">,<sp/>&amp;plugin);</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MonitoringEvent&gt;<sp/>events;</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/>monitor_-&gt;registerEventCallback([&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1_monitoring_event_data" kindref="compound">MonitoringEventData</ref>&amp;<sp/>ev)<sp/>{</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>events.push_back(ev.<ref refid="structthemis_1_1plugins_1_1_monitoring_event_data_1a68af55b20e5d399e1b5483a02d552982" kindref="member">event</ref>);</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/>monitor_-&gt;unregisterPlugin(</highlight><highlight class="stringliteral">&quot;unregcb&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(events.empty());</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(events.front(),<sp/><ref refid="namespacethemis_1_1plugins_1a8d8d15fd925fd078d883553ea49649e3afbed9892b6d2596bb15602d60f478bf0" kindref="member">MonitoringEvent::PLUGIN_UNREGISTERED</ref>);</highlight></codeline>
+<codeline lineno="333"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><ref refid="test__plugin__health__monitor_8cpp_1ab4f92cf1dc166734c694e78e9596bb75" kindref="member">TEST_F</ref>(<ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref>,<sp/>ClearEventCallbacks_NoCallbackAfterClear)<sp/>{</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>call_count{0};</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/>monitor_-&gt;registerEventCallback([&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1_monitoring_event_data" kindref="compound">MonitoringEventData</ref>&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>call_count++;</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>monitor_-&gt;clearEventCallbacks();</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_mock_self_healing_plugin" kindref="compound">MockSelfHealingPlugin</ref><sp/>plugin;</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>monitor_-&gt;registerPlugin(</highlight><highlight class="stringliteral">&quot;nocb&quot;</highlight><highlight class="normal">,<sp/>&amp;plugin);</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(call_count.load(),<sp/>0);</highlight></codeline>
+<codeline lineno="346"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Configuration<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><ref refid="test__plugin__health__monitor_8cpp_1ab4f92cf1dc166734c694e78e9596bb75" kindref="member">TEST_F</ref>(<ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref>,<sp/>GetConfig_ReturnsCurrentConfig)<sp/>{</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>cfg<sp/>=<sp/>monitor_-&gt;getConfig();</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.max_recovery_attempts,<sp/>3u);</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.backoff_strategy,<sp/></highlight><highlight class="stringliteral">&quot;none&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="356"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"></highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><ref refid="test__plugin__health__monitor_8cpp_1ab4f92cf1dc166734c694e78e9596bb75" kindref="member">TEST_F</ref>(<ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref>,<sp/>UpdateConfig_ChangesConfig)<sp/>{</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1_health_monitor_config" kindref="compound">HealthMonitorConfig</ref><sp/>new_cfg;</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/>new_cfg.<ref refid="structthemis_1_1plugins_1_1_health_monitor_config_1a6cf8adc8a288a151419c440ca0a18f30" kindref="member">max_recovery_attempts</ref><sp/>=<sp/>7;</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/>monitor_-&gt;updateConfig(new_cfg);</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(monitor_-&gt;getConfig().max_recovery_attempts,<sp/>7u);</highlight></codeline>
+<codeline lineno="363"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"></highlight></codeline>
+<codeline lineno="365"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Singleton<sp/>access</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="368"><highlight class="normal"></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><ref refid="test__plugin__health__monitor_8cpp_1acb362232412df7f7ddc664d9f51f68ae" kindref="member">TEST</ref>(PluginHealthMonitorSingleton,<sp/>InstanceReturnsSameObject)<sp/>{</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>a<sp/>=<sp/><ref refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1a369a75a09048019a88462daaf3d5fdfd" kindref="member">PluginHealthMonitor::instance</ref>();</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>b<sp/>=<sp/><ref refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1a369a75a09048019a88462daaf3d5fdfd" kindref="member">PluginHealthMonitor::instance</ref>();</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(&amp;a,<sp/>&amp;b);</highlight></codeline>
+<codeline lineno="373"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"></highlight></codeline>
+<codeline lineno="375"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="376"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Auto-disable<sp/>after<sp/>max<sp/>recovery<sp/>attempts</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="377"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="378"><highlight class="normal"></highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><ref refid="test__plugin__health__monitor_8cpp_1ab4f92cf1dc166734c694e78e9596bb75" kindref="member">TEST_F</ref>(<ref refid="class_plugin_health_monitor_test" kindref="compound">PluginHealthMonitorTest</ref>,<sp/>AutoDisable_AfterMaxRecoveryAttempts)<sp/>{</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1_health_monitor_config" kindref="compound">HealthMonitorConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1plugins_1_1_health_monitor_config_1a14b32f0448050c2b142144270da05463" kindref="member">check_interval</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::seconds{3600};</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1plugins_1_1_health_monitor_config_1a6cf8adc8a288a151419c440ca0a18f30" kindref="member">max_recovery_attempts</ref><sp/><sp/><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1plugins_1_1_health_monitor_config_1a3b55361e29c95b2b04e841bc4a4b39f2" kindref="member">backoff_strategy</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;none&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1plugins_1_1_health_monitor_config_1a3b3b7f03751aa16cb257e160154004ca" kindref="member">auto_disable_on_failure</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>mon<sp/>=<sp/>std::make_unique&lt;PluginHealthMonitor&gt;(cfg);</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"></highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_mock_self_healing_plugin" kindref="compound">MockSelfHealingPlugin</ref><sp/>plugin;</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/>plugin.<ref refid="class_mock_self_healing_plugin_1ae15d4bec943546d47cc44e65b473f1ec" kindref="member">next_status</ref><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1plugins_1a4983d42b198325e2b99195e4cafdc606a7438a7e4e4f36f04fda32fa100121e47" kindref="member">PluginHealthStatus::UNHEALTHY</ref>;</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/>plugin.<ref refid="class_mock_self_healing_plugin_1aed74db0837388f3f3c6d773ede39b189" kindref="member">cleanup_result</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/>plugin.<ref refid="class_mock_self_healing_plugin_1a3af244c1e98ea71dc98395d2267ac30c" kindref="member">repair_result</ref><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/>plugin.<ref refid="class_mock_self_healing_plugin_1a4f722e50df1a3b5706684eb96ed22c9d" kindref="member">rollback_result</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/>mon-&gt;registerPlugin(</highlight><highlight class="stringliteral">&quot;exhausted&quot;</highlight><highlight class="normal">,<sp/>&amp;plugin);</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"></highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Exhaust<sp/>recovery<sp/>attempts</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(uint32_t<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>cfg.<ref refid="structthemis_1_1plugins_1_1_health_monitor_config_1a6cf8adc8a288a151419c440ca0a18f30" kindref="member">max_recovery_attempts</ref>;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mon-&gt;triggerRecovery(</highlight><highlight class="stringliteral">&quot;exhausted&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"></highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>One<sp/>more<sp/>recovery<sp/>attempt<sp/>should<sp/>be<sp/>blocked<sp/>(max<sp/>reached)<sp/>and<sp/>plugin<sp/>auto-disabled</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/>mon-&gt;triggerRecovery(</highlight><highlight class="stringliteral">&quot;exhausted&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"></highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>mon-&gt;getPluginStats(</highlight><highlight class="stringliteral">&quot;exhausted&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="403"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(stats);</highlight></codeline>
+<codeline lineno="404"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(stats-&gt;total_recovery_attempts,<sp/>cfg.<ref refid="structthemis_1_1plugins_1_1_health_monitor_config_1a6cf8adc8a288a151419c440ca0a18f30" kindref="member">max_recovery_attempts</ref>);</highlight></codeline>
+<codeline lineno="405"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/plugins/test_plugin_health_monitor.cpp"/>
+  </compounddef>
+</doxygen>

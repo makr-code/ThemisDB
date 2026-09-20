@@ -1,0 +1,1374 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__geospatial__optimizer_8cpp" kind="file" language="C++">
+    <compoundname>test_geospatial_optimizer.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="geospatial__cost__model_8h" local="yes">query/geospatial_cost_model.h</includes>
+    <includes refid="geospatial__optimizer__hints_8h" local="yes">query/geospatial_optimizer_hints.h</includes>
+    <includes refid="geospatial__index__selector_8h" local="yes">query/geospatial_index_selector.h</includes>
+    <includes refid="geospatial__query__rewrite_8h" local="yes">query/geospatial_query_rewrite.h</includes>
+    <includes local="no">cmath</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>query/geospatial_cost_model.h</label>
+        <link refid="geospatial__cost__model_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>query/geospatial_index_selector.h</label>
+        <link refid="geospatial__index__selector_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>query/geospatial_optimizer_hints.h</label>
+        <link refid="geospatial__optimizer__hints_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>query/geospatial_query_rewrite.h</label>
+        <link refid="geospatial__query__rewrite_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>query/optimizer_cost_model_enhancements.h</label>
+        <link refid="optimizer__cost__model__enhancements_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/query/test_geospatial_optimizer.cpp</label>
+        <link refid="test__geospatial__optimizer_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>algorithm</label>
+      </node>
+      <node id="7">
+        <label>cmath</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>map</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_geospatial_cost_model_test" prot="public">GeospatialCostModelTest</innerclass>
+    <innerclass refid="class_geospatial_hints_test" prot="public">GeospatialHintsTest</innerclass>
+    <innerclass refid="class_geospatial_index_selector_test" prot="public">GeospatialIndexSelectorTest</innerclass>
+    <innerclass refid="class_geospatial_query_rewrite_test" prot="public">GeospatialQueryRewriteTest</innerclass>
+    <innerclass refid="class_geospatial_regression_gates_test" prot="public">GeospatialRegressionGatesTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__geospatial__optimizer_8cpp_1a30dcf6a7bdf1367dc01b7b063511cffc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeospatialCostModelTest, GEO_OPT_01_BuildHistogram)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geospatial_cost_model_test" kindref="compound">GeospatialCostModelTest</ref></type>
+        </param>
+        <param>
+          <type>GEO_OPT_01_BuildHistogram</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_geospatial_optimizer.cpp" line="52" column="1" bodyfile="tests/query/test_geospatial_optimizer.cpp" bodystart="52" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geospatial__optimizer_8cpp_1a3435fa9e15418c38781d9a7baad40c78" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeospatialCostModelTest, GEO_OPT_02_DistanceCostWithIndex)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geospatial_cost_model_test" kindref="compound">GeospatialCostModelTest</ref></type>
+        </param>
+        <param>
+          <type>GEO_OPT_02_DistanceCostWithIndex</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_geospatial_optimizer.cpp" line="59" column="1" bodyfile="tests/query/test_geospatial_optimizer.cpp" bodystart="59" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geospatial__optimizer_8cpp_1a7e79e85d8a1e470cd9734394dac14095" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeospatialCostModelTest, GEO_OPT_03_DistanceCostWithoutIndex)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geospatial_cost_model_test" kindref="compound">GeospatialCostModelTest</ref></type>
+        </param>
+        <param>
+          <type>GEO_OPT_03_DistanceCostWithoutIndex</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_geospatial_optimizer.cpp" line="68" column="1" bodyfile="tests/query/test_geospatial_optimizer.cpp" bodystart="68" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geospatial__optimizer_8cpp_1af4dafff782529533cc32ae9ad7f30526" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeospatialCostModelTest, GEO_OPT_04_ContainsCostEstimate)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geospatial_cost_model_test" kindref="compound">GeospatialCostModelTest</ref></type>
+        </param>
+        <param>
+          <type>GEO_OPT_04_ContainsCostEstimate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_geospatial_optimizer.cpp" line="76" column="1" bodyfile="tests/query/test_geospatial_optimizer.cpp" bodystart="76" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geospatial__optimizer_8cpp_1a6ff890183d417e610cfbcb1331362c73" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeospatialCostModelTest, GEO_OPT_05_IntersectsCostEstimate)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geospatial_cost_model_test" kindref="compound">GeospatialCostModelTest</ref></type>
+        </param>
+        <param>
+          <type>GEO_OPT_05_IntersectsCostEstimate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_geospatial_optimizer.cpp" line="85" column="1" bodyfile="tests/query/test_geospatial_optimizer.cpp" bodystart="85" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geospatial__optimizer_8cpp_1a265e7a9b191afbe7b1fbf15865ce2728" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeospatialCostModelTest, GEO_OPT_06_SelectivityEstimation)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geospatial_cost_model_test" kindref="compound">GeospatialCostModelTest</ref></type>
+        </param>
+        <param>
+          <type>GEO_OPT_06_SelectivityEstimation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_geospatial_optimizer.cpp" line="93" column="1" bodyfile="tests/query/test_geospatial_optimizer.cpp" bodystart="93" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geospatial__optimizer_8cpp_1a99b0ad1ba1cdc29fd1524fde9a063b42" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeospatialCostModelTest, GEO_OPT_07_HistogramPointEstimation)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geospatial_cost_model_test" kindref="compound">GeospatialCostModelTest</ref></type>
+        </param>
+        <param>
+          <type>GEO_OPT_07_HistogramPointEstimation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_geospatial_optimizer.cpp" line="101" column="1" bodyfile="tests/query/test_geospatial_optimizer.cpp" bodystart="101" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geospatial__optimizer_8cpp_1aead8af1530271f216601607520db898d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeospatialCostModelTest, GEO_OPT_08_CostMetricsRecording)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geospatial_cost_model_test" kindref="compound">GeospatialCostModelTest</ref></type>
+        </param>
+        <param>
+          <type>GEO_OPT_08_CostMetricsRecording</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_geospatial_optimizer.cpp" line="108" column="1" bodyfile="tests/query/test_geospatial_optimizer.cpp" bodystart="108" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geospatial__optimizer_8cpp_1abc53e68b7dcd48440cdb206d101de7ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeospatialHintsTest, GEO_OPT_09_ParseUseIndexHint)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geospatial_hints_test" kindref="compound">GeospatialHintsTest</ref></type>
+        </param>
+        <param>
+          <type>GEO_OPT_09_ParseUseIndexHint</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_geospatial_optimizer.cpp" line="134" column="1" bodyfile="tests/query/test_geospatial_optimizer.cpp" bodystart="134" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geospatial__optimizer_8cpp_1a601bcf8f3d77af45fb5e8ee8412d493d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeospatialHintsTest, GEO_OPT_10_ParseForceScanHint)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geospatial_hints_test" kindref="compound">GeospatialHintsTest</ref></type>
+        </param>
+        <param>
+          <type>GEO_OPT_10_ParseForceScanHint</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_geospatial_optimizer.cpp" line="143" column="1" bodyfile="tests/query/test_geospatial_optimizer.cpp" bodystart="143" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geospatial__optimizer_8cpp_1abc22265b9624059e5ac0a3af317b3dd8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeospatialHintsTest, GEO_OPT_11_ParsePriorityHint)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geospatial_hints_test" kindref="compound">GeospatialHintsTest</ref></type>
+        </param>
+        <param>
+          <type>GEO_OPT_11_ParsePriorityHint</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_geospatial_optimizer.cpp" line="151" column="1" bodyfile="tests/query/test_geospatial_optimizer.cpp" bodystart="151" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geospatial__optimizer_8cpp_1a654fbb53c193966096e6dbaed9000750" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeospatialHintsTest, GEO_OPT_12_ParseDistanceOrderHint)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geospatial_hints_test" kindref="compound">GeospatialHintsTest</ref></type>
+        </param>
+        <param>
+          <type>GEO_OPT_12_ParseDistanceOrderHint</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_geospatial_optimizer.cpp" line="159" column="1" bodyfile="tests/query/test_geospatial_optimizer.cpp" bodystart="159" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geospatial__optimizer_8cpp_1ad7811dad3e9f68867b1cd7238247c242" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeospatialHintsTest, GEO_OPT_13_ValidateHint)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geospatial_hints_test" kindref="compound">GeospatialHintsTest</ref></type>
+        </param>
+        <param>
+          <type>GEO_OPT_13_ValidateHint</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_geospatial_optimizer.cpp" line="167" column="1" bodyfile="tests/query/test_geospatial_optimizer.cpp" bodystart="167" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geospatial__optimizer_8cpp_1a8c31abd977ea1e56cb7d8dcb117eb2fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeospatialHintsTest, GEO_OPT_14_InvalidIndexHint)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geospatial_hints_test" kindref="compound">GeospatialHintsTest</ref></type>
+        </param>
+        <param>
+          <type>GEO_OPT_14_InvalidIndexHint</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_geospatial_optimizer.cpp" line="174" column="1" bodyfile="tests/query/test_geospatial_optimizer.cpp" bodystart="174" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geospatial__optimizer_8cpp_1a0c3a8ea6202f3fc30579c67d04bdde40" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeospatialHintsTest, GEO_OPT_15_SpatialPlanHints)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geospatial_hints_test" kindref="compound">GeospatialHintsTest</ref></type>
+        </param>
+        <param>
+          <type>GEO_OPT_15_SpatialPlanHints</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_geospatial_optimizer.cpp" line="181" column="1" bodyfile="tests/query/test_geospatial_optimizer.cpp" bodystart="181" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geospatial__optimizer_8cpp_1ac338cc016502a05557e02f116db5d491" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeospatialHintsTest, GEO_OPT_16_HintContextLookup)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geospatial_hints_test" kindref="compound">GeospatialHintsTest</ref></type>
+        </param>
+        <param>
+          <type>GEO_OPT_16_HintContextLookup</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_geospatial_optimizer.cpp" line="192" column="1" bodyfile="tests/query/test_geospatial_optimizer.cpp" bodystart="192" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geospatial__optimizer_8cpp_1a26ff7e3e89a99c2bdf026bc7ad9485d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeospatialIndexSelectorTest, GEO_OPT_17_SelectIndexForDistance)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geospatial_index_selector_test" kindref="compound">GeospatialIndexSelectorTest</ref></type>
+        </param>
+        <param>
+          <type>GEO_OPT_17_SelectIndexForDistance</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_geospatial_optimizer.cpp" line="230" column="1" bodyfile="tests/query/test_geospatial_optimizer.cpp" bodystart="230" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geospatial__optimizer_8cpp_1af40910cc8a7233582dd88934d55cc1ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeospatialIndexSelectorTest, GEO_OPT_18_SelectIndexForContains)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geospatial_index_selector_test" kindref="compound">GeospatialIndexSelectorTest</ref></type>
+        </param>
+        <param>
+          <type>GEO_OPT_18_SelectIndexForContains</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_geospatial_optimizer.cpp" line="241" column="1" bodyfile="tests/query/test_geospatial_optimizer.cpp" bodystart="241" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geospatial__optimizer_8cpp_1aced7e5061837e6ab984b14499fb9c2e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeospatialIndexSelectorTest, GEO_OPT_19_SelectIndexForIntersects)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geospatial_index_selector_test" kindref="compound">GeospatialIndexSelectorTest</ref></type>
+        </param>
+        <param>
+          <type>GEO_OPT_19_SelectIndexForIntersects</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_geospatial_optimizer.cpp" line="251" column="1" bodyfile="tests/query/test_geospatial_optimizer.cpp" bodystart="251" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geospatial__optimizer_8cpp_1a52a6149cb8c9ba6d6727ab2364cca9d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeospatialIndexSelectorTest, GEO_OPT_20_RankIndexes)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geospatial_index_selector_test" kindref="compound">GeospatialIndexSelectorTest</ref></type>
+        </param>
+        <param>
+          <type>GEO_OPT_20_RankIndexes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_geospatial_optimizer.cpp" line="261" column="1" bodyfile="tests/query/test_geospatial_optimizer.cpp" bodystart="261" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geospatial__optimizer_8cpp_1a4faadde7f708d4e291cb738401a44c38" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeospatialIndexSelectorTest, GEO_OPT_21_InferDistributionUniform)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geospatial_index_selector_test" kindref="compound">GeospatialIndexSelectorTest</ref></type>
+        </param>
+        <param>
+          <type>GEO_OPT_21_InferDistributionUniform</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_geospatial_optimizer.cpp" line="272" column="1" bodyfile="tests/query/test_geospatial_optimizer.cpp" bodystart="272" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geospatial__optimizer_8cpp_1a0f0f863ba4dab88c59befd90d5467bdf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeospatialIndexSelectorTest, GEO_OPT_22_SelectivityGain)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geospatial_index_selector_test" kindref="compound">GeospatialIndexSelectorTest</ref></type>
+        </param>
+        <param>
+          <type>GEO_OPT_22_SelectivityGain</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_geospatial_optimizer.cpp" line="286" column="1" bodyfile="tests/query/test_geospatial_optimizer.cpp" bodystart="286" bodyend="291"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geospatial__optimizer_8cpp_1af18773a6308b065fc14bfa74fa01034b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeospatialIndexSelectorTest, GEO_OPT_23_IndexStatisticsEfficiency)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geospatial_index_selector_test" kindref="compound">GeospatialIndexSelectorTest</ref></type>
+        </param>
+        <param>
+          <type>GEO_OPT_23_IndexStatisticsEfficiency</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_geospatial_optimizer.cpp" line="293" column="1" bodyfile="tests/query/test_geospatial_optimizer.cpp" bodystart="293" bodyend="302"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geospatial__optimizer_8cpp_1acb5a4bac4df9d685e6149d2a93aff8c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeospatialIndexSelectorTest, GEO_OPT_24_SmallDatasetFallback)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geospatial_index_selector_test" kindref="compound">GeospatialIndexSelectorTest</ref></type>
+        </param>
+        <param>
+          <type>GEO_OPT_24_SmallDatasetFallback</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_geospatial_optimizer.cpp" line="304" column="1" bodyfile="tests/query/test_geospatial_optimizer.cpp" bodystart="304" bodyend="313"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geospatial__optimizer_8cpp_1a1fe7f40ff5d48f73a97f93d1fc00766e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeospatialQueryRewriteTest, GEO_OPT_25_IndexPathReordering)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geospatial_query_rewrite_test" kindref="compound">GeospatialQueryRewriteTest</ref></type>
+        </param>
+        <param>
+          <type>GEO_OPT_25_IndexPathReordering</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_geospatial_optimizer.cpp" line="325" column="1" bodyfile="tests/query/test_geospatial_optimizer.cpp" bodystart="325" bodyend="329"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geospatial__optimizer_8cpp_1a5039f3720c63f95234359e4a1876a241" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeospatialQueryRewriteTest, GEO_OPT_26_DistanceOrdering)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geospatial_query_rewrite_test" kindref="compound">GeospatialQueryRewriteTest</ref></type>
+        </param>
+        <param>
+          <type>GEO_OPT_26_DistanceOrdering</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_geospatial_optimizer.cpp" line="331" column="1" bodyfile="tests/query/test_geospatial_optimizer.cpp" bodystart="331" bodyend="334"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geospatial__optimizer_8cpp_1a714278f476eedc03791e3078e3b9857d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeospatialQueryRewriteTest, GEO_OPT_27_IntersectionOptimization)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geospatial_query_rewrite_test" kindref="compound">GeospatialQueryRewriteTest</ref></type>
+        </param>
+        <param>
+          <type>GEO_OPT_27_IntersectionOptimization</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_geospatial_optimizer.cpp" line="336" column="1" bodyfile="tests/query/test_geospatial_optimizer.cpp" bodystart="336" bodyend="339"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geospatial__optimizer_8cpp_1a7bc7a3fb3f2e1d628bd17d5ea65f82c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeospatialQueryRewriteTest, GEO_OPT_28_RedundantPredicateElimination)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geospatial_query_rewrite_test" kindref="compound">GeospatialQueryRewriteTest</ref></type>
+        </param>
+        <param>
+          <type>GEO_OPT_28_RedundantPredicateElimination</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_geospatial_optimizer.cpp" line="341" column="1" bodyfile="tests/query/test_geospatial_optimizer.cpp" bodystart="341" bodyend="344"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geospatial__optimizer_8cpp_1aa2eb3daada275ee09c8d8dcc91392907" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeospatialQueryRewriteTest, GEO_OPT_29_PredicatePushdown)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geospatial_query_rewrite_test" kindref="compound">GeospatialQueryRewriteTest</ref></type>
+        </param>
+        <param>
+          <type>GEO_OPT_29_PredicatePushdown</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_geospatial_optimizer.cpp" line="346" column="1" bodyfile="tests/query/test_geospatial_optimizer.cpp" bodystart="346" bodyend="349"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geospatial__optimizer_8cpp_1a6d3cb92ac6e599c9308c525aaadce29c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeospatialQueryRewriteTest, GEO_OPT_30_PlanValidation)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geospatial_query_rewrite_test" kindref="compound">GeospatialQueryRewriteTest</ref></type>
+        </param>
+        <param>
+          <type>GEO_OPT_30_PlanValidation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_geospatial_optimizer.cpp" line="351" column="1" bodyfile="tests/query/test_geospatial_optimizer.cpp" bodystart="351" bodyend="354"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geospatial__optimizer_8cpp_1ac2fbc19b43216bc4c51737cd0a7f460f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeospatialQueryRewriteTest, GEO_OPT_31_MultiRuleOptimization)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geospatial_query_rewrite_test" kindref="compound">GeospatialQueryRewriteTest</ref></type>
+        </param>
+        <param>
+          <type>GEO_OPT_31_MultiRuleOptimization</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_geospatial_optimizer.cpp" line="356" column="1" bodyfile="tests/query/test_geospatial_optimizer.cpp" bodystart="356" bodyend="359"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geospatial__optimizer_8cpp_1af0e55f7318378c9706d3912d78de7973" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeospatialQueryRewriteTest, GEO_OPT_32_NoOptimizationNeeded)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geospatial_query_rewrite_test" kindref="compound">GeospatialQueryRewriteTest</ref></type>
+        </param>
+        <param>
+          <type>GEO_OPT_32_NoOptimizationNeeded</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_geospatial_optimizer.cpp" line="361" column="1" bodyfile="tests/query/test_geospatial_optimizer.cpp" bodystart="361" bodyend="364"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geospatial__optimizer_8cpp_1a75a334d71f6e877e6b99e5cb7fe0f99f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeospatialRegressionGatesTest, GEO_OPT_33_CostAccuracyGate)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geospatial_regression_gates_test" kindref="compound">GeospatialRegressionGatesTest</ref></type>
+        </param>
+        <param>
+          <type>GEO_OPT_33_CostAccuracyGate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_geospatial_optimizer.cpp" line="377" column="1" bodyfile="tests/query/test_geospatial_optimizer.cpp" bodystart="377" bodyend="392"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geospatial__optimizer_8cpp_1ab3e8cc98938d862b21af33ade5524c4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeospatialRegressionGatesTest, GEO_OPT_34_IndexSelectionQuality)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geospatial_regression_gates_test" kindref="compound">GeospatialRegressionGatesTest</ref></type>
+        </param>
+        <param>
+          <type>GEO_OPT_34_IndexSelectionQuality</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_geospatial_optimizer.cpp" line="394" column="1" bodyfile="tests/query/test_geospatial_optimizer.cpp" bodystart="394" bodyend="410"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geospatial__optimizer_8cpp_1a6df3b25afdfb3e0c6109e8541fcea70e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeospatialRegressionGatesTest, GEO_OPT_35_HintParsing)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geospatial_regression_gates_test" kindref="compound">GeospatialRegressionGatesTest</ref></type>
+        </param>
+        <param>
+          <type>GEO_OPT_35_HintParsing</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_geospatial_optimizer.cpp" line="412" column="1" bodyfile="tests/query/test_geospatial_optimizer.cpp" bodystart="412" bodyend="415"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geospatial__optimizer_8cpp_1a5f51d543da26e0031c408275775a8c15" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeospatialRegressionGatesTest, GEO_OPT_36_DistanceCostConsistency)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geospatial_regression_gates_test" kindref="compound">GeospatialRegressionGatesTest</ref></type>
+        </param>
+        <param>
+          <type>GEO_OPT_36_DistanceCostConsistency</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_geospatial_optimizer.cpp" line="417" column="1" bodyfile="tests/query/test_geospatial_optimizer.cpp" bodystart="417" bodyend="425"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geospatial__optimizer_8cpp_1a8a64a68e5daff94e6b58b4642762c61d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeospatialRegressionGatesTest, GEO_OPT_37_SelectivityBounds)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geospatial_regression_gates_test" kindref="compound">GeospatialRegressionGatesTest</ref></type>
+        </param>
+        <param>
+          <type>GEO_OPT_37_SelectivityBounds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_geospatial_optimizer.cpp" line="427" column="1" bodyfile="tests/query/test_geospatial_optimizer.cpp" bodystart="427" bodyend="433"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geospatial__optimizer_8cpp_1aab3c7de5cf6709654d12d23f4a36f912" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeospatialRegressionGatesTest, GEO_OPT_38_IndexTypeSuitability)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geospatial_regression_gates_test" kindref="compound">GeospatialRegressionGatesTest</ref></type>
+        </param>
+        <param>
+          <type>GEO_OPT_38_IndexTypeSuitability</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_geospatial_optimizer.cpp" line="435" column="1" bodyfile="tests/query/test_geospatial_optimizer.cpp" bodystart="435" bodyend="444"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geospatial__optimizer_8cpp_1af5bf4bbd63d840bbbfc6fba77d68ded2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeospatialRegressionGatesTest, GEO_OPT_39_NoRegressionInMetrics)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geospatial_regression_gates_test" kindref="compound">GeospatialRegressionGatesTest</ref></type>
+        </param>
+        <param>
+          <type>GEO_OPT_39_NoRegressionInMetrics</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_geospatial_optimizer.cpp" line="446" column="1" bodyfile="tests/query/test_geospatial_optimizer.cpp" bodystart="446" bodyend="461"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geospatial__optimizer_8cpp_1a168e369cb4f296d0c4a4a846bad4375c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeospatialRegressionGatesTest, GEO_OPT_40_E2ERegressionSanity)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geospatial_regression_gates_test" kindref="compound">GeospatialRegressionGatesTest</ref></type>
+        </param>
+        <param>
+          <type>GEO_OPT_40_E2ERegressionSanity</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_geospatial_optimizer.cpp" line="463" column="1" bodyfile="tests/query/test_geospatial_optimizer.cpp" bodystart="463" bodyend="480"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unit tests for Phase 6C geospatial optimizer components. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Phase 6C Q3 2026 Delivery</para>
+</simplesect>
+ThemisDB | <ref refid="structthemis_1_1query_1_1_query" kindref="compound">Query</ref> Module Phase 6C: Geospatial Phase 2</para>
+<para>Test suite with 40+ test cases covering:<itemizedlist>
+<listitem><para>Cost estimation (GEO_OPT_01-08)</para>
+</listitem><listitem><para>Hint parsing and application (GEO_OPT_09-16)</para>
+</listitem><listitem><para>Index selection (GEO_OPT_17-24)</para>
+</listitem><listitem><para><ref refid="structthemis_1_1query_1_1_query" kindref="compound">Query</ref> rewrite rules (GEO_OPT_25-32)</para>
+</listitem><listitem><para>Regression gates (GEO_OPT_33-40) </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="geospatial__cost__model_8h" kindref="compound">query/geospatial_cost_model.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="geospatial__optimizer__hints_8h" kindref="compound">query/geospatial_optimizer_hints.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="geospatial__index__selector_8h" kindref="compound">query/geospatial_index_selector.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="geospatial__query__rewrite_8h" kindref="compound">query/geospatial_query_rewrite.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query" kindref="compound">themis::query</ref>;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GEO_OPT_01-08:<sp/>Cost<sp/>Estimator<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="class_geospatial_cost_model_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_geospatial_cost_model_test" kindref="compound">GeospatialCostModelTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_spatial_histogram" kindref="compound">SpatialHistogram</ref><sp/><ref refid="class_geospatial_cost_model_test_1a9c047efccff39a84bcea9cceda34d82d" kindref="member">histogram</ref>;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_geospatial_cost_model_test_1aca1a7f07981dc90b03c1665ade7c5b34" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>test<sp/>histogram</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;double,<sp/>double&gt;&gt;<sp/>points;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cluster<sp/>around<sp/>equator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>100;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>points.push_back({</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i<sp/>%<sp/>10)<sp/>*<sp/>10.0,<sp/>0.0});</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cluster<sp/>around<sp/>45°N</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>50;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>points.push_back({</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i<sp/>%<sp/>10)<sp/>*<sp/>10.0,<sp/>45.0});</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_geospatial_cost_model_test_1a9c047efccff39a84bcea9cceda34d82d" kindref="member">histogram</ref><sp/>=<sp/><ref refid="classthemis_1_1query_1_1_geospatial_cost_estimator_1a9c5dbfeea73a9e96a01c490e09f618fe" kindref="member">GeospatialCostEstimator::buildSpatialHistogram</ref>(points,<sp/>5);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_geospatial_cost_model_test" kindref="compound">GeospatialCostModelTest</ref>,<sp/>GEO_OPT_01_BuildHistogram)<sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(histogram.totalPoints,<sp/>150);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(histogram.grid.empty());</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(histogram.globalMaxLon,<sp/>-180.0);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(histogram.globalMinLon,<sp/>180.0);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_geospatial_cost_model_test" kindref="compound">GeospatialCostModelTest</ref>,<sp/>GEO_OPT_02_DistanceCostWithIndex)<sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cost<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_geospatial_cost_estimator_1a718e66f632442efe44ffe4e335a8d321" kindref="member">GeospatialCostEstimator::estimateDistanceCost</ref>(</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1000000,<sp/>10000.0,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/>&amp;histogram);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(cost.cpuCostUs,<sp/>150.0);<sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>be<sp/>fast<sp/>with<sp/>index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(cost.selectivity,<sp/>0.0);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cost.indexUsed,<sp/></highlight><highlight class="stringliteral">&quot;RTREE&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_geospatial_cost_model_test" kindref="compound">GeospatialCostModelTest</ref>,<sp/>GEO_OPT_03_DistanceCostWithoutIndex)<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cost<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_geospatial_cost_estimator_1a718e66f632442efe44ffe4e335a8d321" kindref="member">GeospatialCostEstimator::estimateDistanceCost</ref>(</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>10000,<sp/>10000.0,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(cost.cpuCostUs,<sp/>cost.cpuCostUs);<sp/><sp/></highlight><highlight class="comment">//<sp/>Full<sp/>scan<sp/>is<sp/>expensive</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cost.indexUsed,<sp/></highlight><highlight class="stringliteral">&quot;FULL_SCAN&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_geospatial_cost_model_test" kindref="compound">GeospatialCostModelTest</ref>,<sp/>GEO_OPT_04_ContainsCostEstimate)<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cost<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_geospatial_cost_estimator_1ae9fa6d3a10cbc4a155177b0a75854aef" kindref="member">GeospatialCostEstimator::estimateContainsCost</ref>(</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1000000,<sp/>25,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/>&amp;histogram);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(cost.cpuCostUs,<sp/>200.0);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(cost.selectivity,<sp/>0.0);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cost.indexUsed,<sp/></highlight><highlight class="stringliteral">&quot;RTREE&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_geospatial_cost_model_test" kindref="compound">GeospatialCostModelTest</ref>,<sp/>GEO_OPT_05_IntersectsCostEstimate)<sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cost<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_geospatial_cost_estimator_1acdf514cca78963c0ed4eb1586df6c345" kindref="member">GeospatialCostEstimator::estimateIntersectsCost</ref>(</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1000000,<sp/>10,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/>&amp;histogram);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(cost.cpuCostUs,<sp/>250.0);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(cost.selectivity,<sp/>0.0);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_geospatial_cost_model_test" kindref="compound">GeospatialCostModelTest</ref>,<sp/>GEO_OPT_06_SelectivityEstimation)<sp/>{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>distanceSelectivity<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_geospatial_cost_estimator_1a08dd3c1d026a58da088e2f1db2633978" kindref="member">GeospatialCostEstimator::estimateSpatialSelectivity</ref>(</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;DISTANCE&quot;</highlight><highlight class="normal">,<sp/>10000.0,<sp/>0,<sp/>&amp;histogram);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(distanceSelectivity,<sp/>0.0);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(distanceSelectivity,<sp/>1.0);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_geospatial_cost_model_test" kindref="compound">GeospatialCostModelTest</ref>,<sp/>GEO_OPT_07_HistogramPointEstimation)<sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>pointsInBox<sp/>=<sp/>histogram.estimatePointsInBox(-45.0,<sp/>45.0,<sp/>-45.0,<sp/>45.0);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(pointsInBox,<sp/>0);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(pointsInBox,<sp/>histogram.totalPoints);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_geospatial_cost_model_test" kindref="compound">GeospatialCostModelTest</ref>,<sp/>GEO_OPT_08_CostMetricsRecording)<sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_geospatial_cost_estimator_1a3644e5703bf329d76f5e38cc1e87d9b6" kindref="member">GeospatialCostEstimator::clearMetrics</ref>();</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>estimate<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_geospatial_cost_estimator_1a718e66f632442efe44ffe4e335a8d321" kindref="member">GeospatialCostEstimator::estimateDistanceCost</ref>(</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>100000,<sp/>10000.0,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/>&amp;histogram);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_geospatial_cost_estimator_1aeaab80f7383b91f5993282e9bf1ae4e9" kindref="member">GeospatialCostEstimator::recordActualCost</ref>(</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>estimate,<sp/>1050,<sp/>estimate.cpuCostUs<sp/>*<sp/>0.95,<sp/></highlight><highlight class="stringliteral">&quot;DISTANCE&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>metrics<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_geospatial_cost_estimator_1a31c40a589939397f7f0660ca8dd4481d" kindref="member">GeospatialCostEstimator::getMetrics</ref>();</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.samples.size(),<sp/>1);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GEO_OPT_09-16:<sp/>Optimizer<sp/>Hints<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125" refid="class_geospatial_hints_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_geospatial_hints_test" kindref="compound">GeospatialHintsTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="class_geospatial_hints_test_1a269b9a9afbdcfa21a687434db0fca8d5" kindref="member">availableIndexes</ref>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;idx_location_rtree&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;SPATIAL&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;idx_city_grid&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;SPATIAL&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;idx_id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;HASH&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="132"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_geospatial_hints_test" kindref="compound">GeospatialHintsTest</ref>,<sp/>GEO_OPT_09_ParseUseIndexHint)<sp/>{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>hint<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_spatial_hint_parser_1a1b888a5c3038f521a58d9f4f4c53df25" kindref="member">SpatialHintParser::parseHint</ref>(</highlight><highlight class="stringliteral">&quot;USE_INDEX(doc.location,<sp/>\&quot;idx_location_rtree\&quot;)&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(hint.type,<sp/><ref refid="namespacethemis_1_1query_1af1ea3b158d67f26263789a47f033ca33a2e9a4d854028c6c9339917d56316a787" kindref="member">SpatialHintType::USE_INDEX</ref>);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(hint.fieldName,<sp/></highlight><highlight class="stringliteral">&quot;doc.location&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(hint.indexName,<sp/></highlight><highlight class="stringliteral">&quot;idx_location_rtree&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hint.isValid());</highlight></codeline>
+<codeline lineno="141"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_geospatial_hints_test" kindref="compound">GeospatialHintsTest</ref>,<sp/>GEO_OPT_10_ParseForceScanHint)<sp/>{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>hint<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_spatial_hint_parser_1a1b888a5c3038f521a58d9f4f4c53df25" kindref="member">SpatialHintParser::parseHint</ref>(</highlight><highlight class="stringliteral">&quot;FORCE_SCAN(doc.location)&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(hint.type,<sp/><ref refid="namespacethemis_1_1query_1af1ea3b158d67f26263789a47f033ca33af52ecb5860fa83cd664002b1d305ed95" kindref="member">SpatialHintType::FORCE_SCAN</ref>);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(hint.fieldName,<sp/></highlight><highlight class="stringliteral">&quot;doc.location&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hint.isValid());</highlight></codeline>
+<codeline lineno="149"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_geospatial_hints_test" kindref="compound">GeospatialHintsTest</ref>,<sp/>GEO_OPT_11_ParsePriorityHint)<sp/>{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>hint<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_spatial_hint_parser_1a1b888a5c3038f521a58d9f4f4c53df25" kindref="member">SpatialHintParser::parseHint</ref>(</highlight><highlight class="stringliteral">&quot;INDEX_PRIORITY(doc.location,<sp/>2.0)&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(hint.type,<sp/><ref refid="namespacethemis_1_1query_1af1ea3b158d67f26263789a47f033ca33a38444da1c2e265e87e21ce5bac58c4d3" kindref="member">SpatialHintType::INDEX_PRIORITY</ref>);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(hint.priorityFactor,<sp/>2.0);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hint.isValid());</highlight></codeline>
+<codeline lineno="157"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_geospatial_hints_test" kindref="compound">GeospatialHintsTest</ref>,<sp/>GEO_OPT_12_ParseDistanceOrderHint)<sp/>{</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>hint<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_spatial_hint_parser_1a1b888a5c3038f521a58d9f4f4c53df25" kindref="member">SpatialHintParser::parseHint</ref>(</highlight><highlight class="stringliteral">&quot;DISTANCE_ORDER(doc.location,<sp/>\&quot;ascending\&quot;)&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(hint.type,<sp/><ref refid="namespacethemis_1_1query_1af1ea3b158d67f26263789a47f033ca33ac6138fbe7ce4204cbae4a6ff9aef8694" kindref="member">SpatialHintType::DISTANCE_ORDER</ref>);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(hint.orderDirection,<sp/></highlight><highlight class="stringliteral">&quot;ascending&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hint.isValid());</highlight></codeline>
+<codeline lineno="165"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_geospatial_hints_test" kindref="compound">GeospatialHintsTest</ref>,<sp/>GEO_OPT_13_ValidateHint)<sp/>{</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>hint<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_spatial_hint_parser_1a1b888a5c3038f521a58d9f4f4c53df25" kindref="member">SpatialHintParser::parseHint</ref>(</highlight><highlight class="stringliteral">&quot;USE_INDEX(doc.location,<sp/>\&quot;idx_location_rtree\&quot;)&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>valid<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_spatial_hint_parser_1a39916b5d295ad9f326a847ce14490aa0" kindref="member">SpatialHintParser::validateHint</ref>(hint,<sp/>availableIndexes);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(valid);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_geospatial_hints_test" kindref="compound">GeospatialHintsTest</ref>,<sp/>GEO_OPT_14_InvalidIndexHint)<sp/>{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>hint<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_spatial_hint_parser_1a1b888a5c3038f521a58d9f4f4c53df25" kindref="member">SpatialHintParser::parseHint</ref>(</highlight><highlight class="stringliteral">&quot;USE_INDEX(doc.location,<sp/>\&quot;nonexistent\&quot;)&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>valid<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_spatial_hint_parser_1a39916b5d295ad9f326a847ce14490aa0" kindref="member">SpatialHintParser::validateHint</ref>(hint,<sp/>availableIndexes);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(valid);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_geospatial_hints_test" kindref="compound">GeospatialHintsTest</ref>,<sp/>GEO_OPT_15_SpatialPlanHints)<sp/>{</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_spatial_plan" kindref="compound">SpatialPlan</ref><sp/>plan;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>plan.<ref refid="structthemis_1_1query_1_1_spatial_plan_1a7187eebc7c6fade66c5796156dd07c08" kindref="member">predicateId</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;pred1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>hint<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_spatial_hint_parser_1a1b888a5c3038f521a58d9f4f4c53df25" kindref="member">SpatialHintParser::parseHint</ref>(</highlight><highlight class="stringliteral">&quot;USE_INDEX(doc.location,<sp/>\&quot;idx_location_rtree\&quot;)&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>plan.<ref refid="structthemis_1_1query_1_1_spatial_plan_1add96952b7cb24efa5f143712d49f67ea" kindref="member">addHint</ref>(hint);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(plan.<ref refid="structthemis_1_1query_1_1_spatial_plan_1a160ac1062eda75ccf05316bd86b0d5a8" kindref="member">hasHint</ref>(<ref refid="namespacethemis_1_1query_1af1ea3b158d67f26263789a47f033ca33a2e9a4d854028c6c9339917d56316a787" kindref="member">SpatialHintType::USE_INDEX</ref>));</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(plan.<ref refid="structthemis_1_1query_1_1_spatial_plan_1aae0785980c0d9fb669ba853c1b8d0b7a" kindref="member">getHint</ref>(<ref refid="namespacethemis_1_1query_1af1ea3b158d67f26263789a47f033ca33a2e9a4d854028c6c9339917d56316a787" kindref="member">SpatialHintType::USE_INDEX</ref>)-&gt;<ref refid="structthemis_1_1query_1_1_spatial_hint_1af12ff69fb3f8e9fd09a6dcaf41fa344e" kindref="member">indexName</ref>,<sp/></highlight><highlight class="stringliteral">&quot;idx_location_rtree&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_geospatial_hints_test" kindref="compound">GeospatialHintsTest</ref>,<sp/>GEO_OPT_16_HintContextLookup)<sp/>{</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_spatial_hint_context" kindref="compound">SpatialHintContext</ref><sp/>context;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_spatial_plan" kindref="compound">SpatialPlan</ref><sp/>plan1;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>plan1.<ref refid="structthemis_1_1query_1_1_spatial_plan_1a7187eebc7c6fade66c5796156dd07c08" kindref="member">predicateId</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;pred1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>hint<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_spatial_hint_parser_1a1b888a5c3038f521a58d9f4f4c53df25" kindref="member">SpatialHintParser::parseHint</ref>(</highlight><highlight class="stringliteral">&quot;USE_INDEX(doc.location,<sp/>\&quot;idx_location_rtree\&quot;)&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>plan1.<ref refid="structthemis_1_1query_1_1_spatial_plan_1add96952b7cb24efa5f143712d49f67ea" kindref="member">addHint</ref>(hint);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>context.<ref refid="structthemis_1_1query_1_1_spatial_hint_context_1a37af1150f7434292e8696ddddec91e96" kindref="member">plans</ref>.push_back(plan1);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(context.<ref refid="structthemis_1_1query_1_1_spatial_hint_context_1a245ae05a55503665b7a0954782d1b8f2" kindref="member">shouldUseIndex</ref>(</highlight><highlight class="stringliteral">&quot;pred1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(context.<ref refid="structthemis_1_1query_1_1_spatial_hint_context_1a7a74655812c90bc555712710768866b6" kindref="member">getRecommendedIndex</ref>(</highlight><highlight class="stringliteral">&quot;pred1&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;idx_location_rtree&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GEO_OPT_17-24:<sp/>Index<sp/>Selection<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209" refid="class_geospatial_index_selector_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_geospatial_index_selector_test" kindref="compound">GeospatialIndexSelectorTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>IndexStatistics&gt;<sp/><ref refid="class_geospatial_index_selector_test_1a94583fe8aa258ff5113ee2433b08f107" kindref="member">indexes</ref>;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_geospatial_index_selector_test_1a594347c05dd68af953963fbcd5e4916f" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_index_statistics" kindref="compound">IndexStatistics</ref><sp/>rtree;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rtree.<ref refid="structthemis_1_1query_1_1_index_statistics_1a43b1efc5c111b321cdacfa534a276201" kindref="member">indexName</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;idx_loc_rtree&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rtree.<ref refid="structthemis_1_1query_1_1_index_statistics_1a7557fa9be5a2ac06b56893fec8e7efe2" kindref="member">type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1query_1aa0a3f6b50c16afa51e724c88b7901960af133c45ddb97fdeb71d58bb70087eb60" kindref="member">SpatialIndexType::RTREE</ref>;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rtree.<ref refid="structthemis_1_1query_1_1_index_statistics_1ab64919135d9cd2a35e0a7f72a86f5e54" kindref="member">averageHitRate</ref><sp/>=<sp/>0.85;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rtree.<ref refid="structthemis_1_1query_1_1_index_statistics_1a0baad07c9ac45477f0c7ee719562d3ec" kindref="member">maintenanceOverhead</ref><sp/>=<sp/>0.05;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_geospatial_index_selector_test_1a94583fe8aa258ff5113ee2433b08f107" kindref="member">indexes</ref>[</highlight><highlight class="stringliteral">&quot;idx_loc_rtree&quot;</highlight><highlight class="normal">]<sp/>=<sp/>rtree;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_index_statistics" kindref="compound">IndexStatistics</ref><sp/>grid;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>grid.<ref refid="structthemis_1_1query_1_1_index_statistics_1a43b1efc5c111b321cdacfa534a276201" kindref="member">indexName</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;idx_loc_grid&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>grid.<ref refid="structthemis_1_1query_1_1_index_statistics_1a7557fa9be5a2ac06b56893fec8e7efe2" kindref="member">type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1query_1aa0a3f6b50c16afa51e724c88b7901960abc899ea5d6a94a8e4e60c16244919ba0" kindref="member">SpatialIndexType::GRID</ref>;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>grid.<ref refid="structthemis_1_1query_1_1_index_statistics_1ab64919135d9cd2a35e0a7f72a86f5e54" kindref="member">averageHitRate</ref><sp/>=<sp/>0.80;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>grid.<ref refid="structthemis_1_1query_1_1_index_statistics_1a0baad07c9ac45477f0c7ee719562d3ec" kindref="member">maintenanceOverhead</ref><sp/>=<sp/>0.03;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_geospatial_index_selector_test_1a94583fe8aa258ff5113ee2433b08f107" kindref="member">indexes</ref>[</highlight><highlight class="stringliteral">&quot;idx_loc_grid&quot;</highlight><highlight class="normal">]<sp/>=<sp/>grid;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="228"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_geospatial_index_selector_test" kindref="compound">GeospatialIndexSelectorTest</ref>,<sp/>GEO_OPT_17_SelectIndexForDistance)<sp/>{</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_data_distribution" kindref="compound">DataDistribution</ref><sp/>uniform;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>uniform.<ref refid="structthemis_1_1query_1_1_data_distribution_1ac6387d9b66d3144bc17c1d3e8e21db65" kindref="member">type</ref><sp/>=<sp/><ref refid="structthemis_1_1query_1_1_data_distribution_1aaf2202823b529625cca9a2e702810856a315cf7f3eceafbd9d878501113dcb4cc" kindref="member">DataDistribution::UNIFORM</ref>;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>selected<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_geospatial_index_selector_1a9487de8c840e3c474915d1191b8659d7" kindref="member">GeospatialIndexSelector::selectIndex</ref>(</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;DISTANCE&quot;</highlight><highlight class="normal">,<sp/>1000000,<sp/>indexes,<sp/>uniform,<sp/>10000.0);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(selected.indexName,<sp/></highlight><highlight class="stringliteral">&quot;FULL_SCAN&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(selected.selectivityGain,<sp/>1.0);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_geospatial_index_selector_test" kindref="compound">GeospatialIndexSelectorTest</ref>,<sp/>GEO_OPT_18_SelectIndexForContains)<sp/>{</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_data_distribution" kindref="compound">DataDistribution</ref><sp/>uniform;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>uniform.<ref refid="structthemis_1_1query_1_1_data_distribution_1ac6387d9b66d3144bc17c1d3e8e21db65" kindref="member">type</ref><sp/>=<sp/><ref refid="structthemis_1_1query_1_1_data_distribution_1aaf2202823b529625cca9a2e702810856a315cf7f3eceafbd9d878501113dcb4cc" kindref="member">DataDistribution::UNIFORM</ref>;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>selected<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_geospatial_index_selector_1a9487de8c840e3c474915d1191b8659d7" kindref="member">GeospatialIndexSelector::selectIndex</ref>(</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;CONTAINS&quot;</highlight><highlight class="normal">,<sp/>1000000,<sp/>indexes,<sp/>uniform,<sp/>25);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(selected.indexName,<sp/></highlight><highlight class="stringliteral">&quot;FULL_SCAN&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_geospatial_index_selector_test" kindref="compound">GeospatialIndexSelectorTest</ref>,<sp/>GEO_OPT_19_SelectIndexForIntersects)<sp/>{</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_data_distribution" kindref="compound">DataDistribution</ref><sp/>uniform;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>uniform.<ref refid="structthemis_1_1query_1_1_data_distribution_1ac6387d9b66d3144bc17c1d3e8e21db65" kindref="member">type</ref><sp/>=<sp/><ref refid="structthemis_1_1query_1_1_data_distribution_1aaf2202823b529625cca9a2e702810856a315cf7f3eceafbd9d878501113dcb4cc" kindref="member">DataDistribution::UNIFORM</ref>;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>selected<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_geospatial_index_selector_1a9487de8c840e3c474915d1191b8659d7" kindref="member">GeospatialIndexSelector::selectIndex</ref>(</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;INTERSECTS&quot;</highlight><highlight class="normal">,<sp/>1000000,<sp/>indexes,<sp/>uniform,<sp/>10);</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(selected.indexName,<sp/></highlight><highlight class="stringliteral">&quot;FULL_SCAN&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_geospatial_index_selector_test" kindref="compound">GeospatialIndexSelectorTest</ref>,<sp/>GEO_OPT_20_RankIndexes)<sp/>{</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_data_distribution" kindref="compound">DataDistribution</ref><sp/>uniform;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>uniform.<ref refid="structthemis_1_1query_1_1_data_distribution_1ac6387d9b66d3144bc17c1d3e8e21db65" kindref="member">type</ref><sp/>=<sp/><ref refid="structthemis_1_1query_1_1_data_distribution_1aaf2202823b529625cca9a2e702810856a315cf7f3eceafbd9d878501113dcb4cc" kindref="member">DataDistribution::UNIFORM</ref>;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ranked<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_geospatial_index_selector_1aa4f34f83a9eac7beed37973171bd2fc4" kindref="member">GeospatialIndexSelector::rankIndexes</ref>(</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;DISTANCE&quot;</highlight><highlight class="normal">,<sp/>1000000,<sp/>indexes,<sp/>uniform,<sp/>10000.0);</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(ranked.size(),<sp/>2);<sp/><sp/></highlight><highlight class="comment">//<sp/>At<sp/>least<sp/>2<sp/>indexes<sp/>+<sp/>fallback</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(ranked[0].score,<sp/>0);</highlight></codeline>
+<codeline lineno="270"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_geospatial_index_selector_test" kindref="compound">GeospatialIndexSelectorTest</ref>,<sp/>GEO_OPT_21_InferDistributionUniform)<sp/>{</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;double,<sp/>double&gt;&gt;<sp/>points;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>100;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>points.push_back({</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i<sp/>%<sp/>10)<sp/>*<sp/>10.0,<sp/></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i<sp/>/<sp/>10)<sp/>*<sp/>10.0});</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>histogram<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_geospatial_cost_estimator_1a9c5dbfeea73a9e96a01c490e09f618fe" kindref="member">GeospatialCostEstimator::buildSpatialHistogram</ref>(points,<sp/>5);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>dist<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_geospatial_index_selector_1a61869cd7f4bd653413fe9052ae211199" kindref="member">GeospatialIndexSelector::inferDistribution</ref>(histogram);</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(dist.type,<sp/><ref refid="structthemis_1_1query_1_1_data_distribution_1aaf2202823b529625cca9a2e702810856a315cf7f3eceafbd9d878501113dcb4cc" kindref="member">DataDistribution::UNIFORM</ref>);</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(dist.clusteringRatio,<sp/>0.3);</highlight></codeline>
+<codeline lineno="284"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_geospatial_index_selector_test" kindref="compound">GeospatialIndexSelectorTest</ref>,<sp/>GEO_OPT_22_SelectivityGain)<sp/>{</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>gain<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_geospatial_index_selector_1afa44da5d5494b4a2cd7ee56dd235aea0" kindref="member">GeospatialIndexSelector::calculateSelectivityGain</ref>(</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1aa0a3f6b50c16afa51e724c88b7901960af133c45ddb97fdeb71d58bb70087eb60" kindref="member">SpatialIndexType::RTREE</ref>,<sp/>1000000,<sp/></highlight><highlight class="stringliteral">&quot;DISTANCE&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(gain,<sp/>1.0);<sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>have<sp/>positive<sp/>gain</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_geospatial_index_selector_test" kindref="compound">GeospatialIndexSelectorTest</ref>,<sp/>GEO_OPT_23_IndexStatisticsEfficiency)<sp/>{</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_index_statistics" kindref="compound">IndexStatistics</ref><sp/>stats;</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>stats.<ref refid="structthemis_1_1query_1_1_index_statistics_1a7557fa9be5a2ac06b56893fec8e7efe2" kindref="member">type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1query_1aa0a3f6b50c16afa51e724c88b7901960af133c45ddb97fdeb71d58bb70087eb60" kindref="member">SpatialIndexType::RTREE</ref>;</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>stats.<ref refid="structthemis_1_1query_1_1_index_statistics_1ab64919135d9cd2a35e0a7f72a86f5e54" kindref="member">averageHitRate</ref><sp/>=<sp/>0.8;</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>stats.<ref refid="structthemis_1_1query_1_1_index_statistics_1a0baad07c9ac45477f0c7ee719562d3ec" kindref="member">maintenanceOverhead</ref><sp/>=<sp/>0.1;</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>efficiency<sp/>=<sp/>stats.<ref refid="structthemis_1_1query_1_1_index_statistics_1a62669919e53e594eeee54a6a1623a8d0" kindref="member">getEfficiencyScore</ref>();</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(efficiency,<sp/>0.0);</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(efficiency,<sp/>1.0);</highlight></codeline>
+<codeline lineno="302"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_geospatial_index_selector_test" kindref="compound">GeospatialIndexSelectorTest</ref>,<sp/>GEO_OPT_24_SmallDatasetFallback)<sp/>{</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_data_distribution" kindref="compound">DataDistribution</ref><sp/>uniform;</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>uniform.<ref refid="structthemis_1_1query_1_1_data_distribution_1ac6387d9b66d3144bc17c1d3e8e21db65" kindref="member">type</ref><sp/>=<sp/><ref refid="structthemis_1_1query_1_1_data_distribution_1aaf2202823b529625cca9a2e702810856a315cf7f3eceafbd9d878501113dcb4cc" kindref="member">DataDistribution::UNIFORM</ref>;</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>selected<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_geospatial_index_selector_1a9487de8c840e3c474915d1191b8659d7" kindref="member">GeospatialIndexSelector::selectIndex</ref>(</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;DISTANCE&quot;</highlight><highlight class="normal">,<sp/>50,<sp/>indexes,<sp/>uniform,<sp/>10000.0);<sp/><sp/></highlight><highlight class="comment">//<sp/>Only<sp/>50<sp/>rows</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>small<sp/>datasets,<sp/>full<sp/>scan<sp/>might<sp/>be<sp/>selected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(selected.indexName,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="313"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GEO_OPT_25-32:<sp/>Query<sp/>Rewrite<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight></codeline>
+<codeline lineno="319" refid="class_geospatial_query_rewrite_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_geospatial_query_rewrite_test" kindref="compound">GeospatialQueryRewriteTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Placeholder<sp/>ExecutionPlan<sp/>for<sp/>testing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>In<sp/>production,<sp/>would<sp/>use<sp/>actual<sp/>QueryEngine&apos;s<sp/>ExecutionPlan</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_geospatial_query_rewrite_test" kindref="compound">GeospatialQueryRewriteTest</ref>,<sp/>GEO_OPT_25_IndexPathReordering)<sp/>{</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Placeholder<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Would<sp/>test:<sp/>FILTER<sp/>a<sp/>&gt;<sp/>5<sp/>AND<sp/>ST_CONTAINS(...)<sp/>-&gt;<sp/>ST_CONTAINS<sp/>first</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>Placeholder</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_geospatial_query_rewrite_test" kindref="compound">GeospatialQueryRewriteTest</ref>,<sp/>GEO_OPT_26_DistanceOrdering)<sp/>{</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Placeholder<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="334"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_geospatial_query_rewrite_test" kindref="compound">GeospatialQueryRewriteTest</ref>,<sp/>GEO_OPT_27_IntersectionOptimization)<sp/>{</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Placeholder<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="339"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_geospatial_query_rewrite_test" kindref="compound">GeospatialQueryRewriteTest</ref>,<sp/>GEO_OPT_28_RedundantPredicateElimination)<sp/>{</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Placeholder<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="344"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_geospatial_query_rewrite_test" kindref="compound">GeospatialQueryRewriteTest</ref>,<sp/>GEO_OPT_29_PredicatePushdown)<sp/>{</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Placeholder<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="349"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_geospatial_query_rewrite_test" kindref="compound">GeospatialQueryRewriteTest</ref>,<sp/>GEO_OPT_30_PlanValidation)<sp/>{</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Placeholder<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="354"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_geospatial_query_rewrite_test" kindref="compound">GeospatialQueryRewriteTest</ref>,<sp/>GEO_OPT_31_MultiRuleOptimization)<sp/>{</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Placeholder<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="359"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_geospatial_query_rewrite_test" kindref="compound">GeospatialQueryRewriteTest</ref>,<sp/>GEO_OPT_32_NoOptimizationNeeded)<sp/>{</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Placeholder<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="364"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GEO_OPT_33-40:<sp/>Regression<sp/>Gate<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="368"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"></highlight></codeline>
+<codeline lineno="370" refid="class_geospatial_regression_gates_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_geospatial_regression_gates_test" kindref="compound">GeospatialRegressionGatesTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_geospatial_regression_gates_test_1abf7f62d0c1ec92059d5b2641ae3eb80b" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_geospatial_cost_estimator_1a3644e5703bf329d76f5e38cc1e87d9b6" kindref="member">GeospatialCostEstimator::clearMetrics</ref>();</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="375"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"></highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_geospatial_regression_gates_test" kindref="compound">GeospatialRegressionGatesTest</ref>,<sp/>GEO_OPT_33_CostAccuracyGate)<sp/>{</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_spatial_histogram" kindref="compound">SpatialHistogram</ref><sp/>histogram;</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/>histogram.<ref refid="structthemis_1_1query_1_1_spatial_histogram_1a48274d7d0873ad123c1e5527f7d1603f" kindref="member">totalPoints</ref><sp/>=<sp/>100000;</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cost<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_geospatial_cost_estimator_1a718e66f632442efe44ffe4e335a8d321" kindref="member">GeospatialCostEstimator::estimateDistanceCost</ref>(</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>100000,<sp/>10000.0,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/>&amp;histogram);</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Record<sp/>actual<sp/>that&apos;s<sp/>close<sp/>to<sp/>estimate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_geospatial_cost_estimator_1aeaab80f7383b91f5993282e9bf1ae4e9" kindref="member">GeospatialCostEstimator::recordActualCost</ref>(</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cost,<sp/>cost.estimatedRows,<sp/>cost.cpuCostUs,<sp/></highlight><highlight class="stringliteral">&quot;DISTANCE&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>metrics<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_geospatial_cost_estimator_1a31c40a589939397f7f0660ca8dd4481d" kindref="member">GeospatialCostEstimator::getMetrics</ref>();</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>mape<sp/>=<sp/>metrics.computeMAPE();</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(mape,<sp/>0.20);<sp/><sp/></highlight><highlight class="comment">//<sp/>Accuracy<sp/>gate:<sp/>&lt;20%<sp/>MAPE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="392"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"></highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_geospatial_regression_gates_test" kindref="compound">GeospatialRegressionGatesTest</ref>,<sp/>GEO_OPT_34_IndexSelectionQuality)<sp/>{</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>IndexStatistics&gt;<sp/>indexes;</highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_index_statistics" kindref="compound">IndexStatistics</ref><sp/>stats;</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/>stats.<ref refid="structthemis_1_1query_1_1_index_statistics_1a43b1efc5c111b321cdacfa534a276201" kindref="member">indexName</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;idx&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/>stats.<ref refid="structthemis_1_1query_1_1_index_statistics_1a7557fa9be5a2ac06b56893fec8e7efe2" kindref="member">type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1query_1aa0a3f6b50c16afa51e724c88b7901960af133c45ddb97fdeb71d58bb70087eb60" kindref="member">SpatialIndexType::RTREE</ref>;</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/>stats.<ref refid="structthemis_1_1query_1_1_index_statistics_1ab64919135d9cd2a35e0a7f72a86f5e54" kindref="member">averageHitRate</ref><sp/>=<sp/>0.8;</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/>indexes[</highlight><highlight class="stringliteral">&quot;idx&quot;</highlight><highlight class="normal">]<sp/>=<sp/>stats;</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_data_distribution" kindref="compound">DataDistribution</ref><sp/>uniform;</highlight></codeline>
+<codeline lineno="403"><highlight class="normal"><sp/><sp/><sp/><sp/>uniform.<ref refid="structthemis_1_1query_1_1_data_distribution_1ac6387d9b66d3144bc17c1d3e8e21db65" kindref="member">type</ref><sp/>=<sp/><ref refid="structthemis_1_1query_1_1_data_distribution_1aaf2202823b529625cca9a2e702810856a315cf7f3eceafbd9d878501113dcb4cc" kindref="member">DataDistribution::UNIFORM</ref>;</highlight></codeline>
+<codeline lineno="404"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="405"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>selected<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_geospatial_index_selector_1a9487de8c840e3c474915d1191b8659d7" kindref="member">GeospatialIndexSelector::selectIndex</ref>(</highlight></codeline>
+<codeline lineno="406"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;DISTANCE&quot;</highlight><highlight class="normal">,<sp/>100000,<sp/>indexes,<sp/>uniform,<sp/>10000.0);</highlight></codeline>
+<codeline lineno="407"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="408"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Gate:<sp/>index<sp/>must<sp/>provide<sp/>some<sp/>benefit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(selected.selectivityGain,<sp/>1.0);</highlight></codeline>
+<codeline lineno="410"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="411"><highlight class="normal"></highlight></codeline>
+<codeline lineno="412"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_geospatial_regression_gates_test" kindref="compound">GeospatialRegressionGatesTest</ref>,<sp/>GEO_OPT_35_HintParsing)<sp/>{</highlight></codeline>
+<codeline lineno="413"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>hint<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_spatial_hint_parser_1a1b888a5c3038f521a58d9f4f4c53df25" kindref="member">SpatialHintParser::parseHint</ref>(</highlight><highlight class="stringliteral">&quot;USE_INDEX(doc.loc,<sp/>\&quot;idx\&quot;)&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="414"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hint.isValid());</highlight></codeline>
+<codeline lineno="415"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="416"><highlight class="normal"></highlight></codeline>
+<codeline lineno="417"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_geospatial_regression_gates_test" kindref="compound">GeospatialRegressionGatesTest</ref>,<sp/>GEO_OPT_36_DistanceCostConsistency)<sp/>{</highlight></codeline>
+<codeline lineno="418"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cost1<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_geospatial_cost_estimator_1a718e66f632442efe44ffe4e335a8d321" kindref="member">GeospatialCostEstimator::estimateDistanceCost</ref>(</highlight></codeline>
+<codeline lineno="419"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>100000,<sp/>10000.0,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="420"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="421"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cost2<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_geospatial_cost_estimator_1a718e66f632442efe44ffe4e335a8d321" kindref="member">GeospatialCostEstimator::estimateDistanceCost</ref>(</highlight></codeline>
+<codeline lineno="422"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>100000,<sp/>10000.0,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="423"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="424"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cost1.cpuCostUs,<sp/>cost2.cpuCostUs);<sp/><sp/></highlight><highlight class="comment">//<sp/>Deterministic</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="425"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="426"><highlight class="normal"></highlight></codeline>
+<codeline lineno="427"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_geospatial_regression_gates_test" kindref="compound">GeospatialRegressionGatesTest</ref>,<sp/>GEO_OPT_37_SelectivityBounds)<sp/>{</highlight></codeline>
+<codeline lineno="428"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cost<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_geospatial_cost_estimator_1a718e66f632442efe44ffe4e335a8d321" kindref="member">GeospatialCostEstimator::estimateDistanceCost</ref>(</highlight></codeline>
+<codeline lineno="429"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>100000,<sp/>1000.0,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="430"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="431"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(cost.selectivity,<sp/>0.0);</highlight></codeline>
+<codeline lineno="432"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(cost.selectivity,<sp/>1.0);</highlight></codeline>
+<codeline lineno="433"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="434"><highlight class="normal"></highlight></codeline>
+<codeline lineno="435"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_geospatial_regression_gates_test" kindref="compound">GeospatialRegressionGatesTest</ref>,<sp/>GEO_OPT_38_IndexTypeSuitability)<sp/>{</highlight></codeline>
+<codeline lineno="436"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_data_distribution" kindref="compound">DataDistribution</ref><sp/>clustered;</highlight></codeline>
+<codeline lineno="437"><highlight class="normal"><sp/><sp/><sp/><sp/>clustered.<ref refid="structthemis_1_1query_1_1_data_distribution_1ac6387d9b66d3144bc17c1d3e8e21db65" kindref="member">type</ref><sp/>=<sp/><ref refid="structthemis_1_1query_1_1_data_distribution_1aaf2202823b529625cca9a2e702810856a6803285b9c18333b8a16d263ca7f5691" kindref="member">DataDistribution::CLUSTERED</ref>;</highlight></codeline>
+<codeline lineno="438"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="439"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Quadtree<sp/>should<sp/>be<sp/>good<sp/>for<sp/>clustered</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="440"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>gain<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_geospatial_index_selector_1afa44da5d5494b4a2cd7ee56dd235aea0" kindref="member">GeospatialIndexSelector::calculateSelectivityGain</ref>(</highlight></codeline>
+<codeline lineno="441"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1aa0a3f6b50c16afa51e724c88b7901960a7256c1a26158d9848bac01fd5b00a277" kindref="member">SpatialIndexType::QUADTREE</ref>,<sp/>100000,<sp/></highlight><highlight class="stringliteral">&quot;DISTANCE&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="442"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="443"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(gain,<sp/>1.0);</highlight></codeline>
+<codeline lineno="444"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="445"><highlight class="normal"></highlight></codeline>
+<codeline lineno="446"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_geospatial_regression_gates_test" kindref="compound">GeospatialRegressionGatesTest</ref>,<sp/>GEO_OPT_39_NoRegressionInMetrics)<sp/>{</highlight></codeline>
+<codeline lineno="447"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Record<sp/>multiple<sp/>estimates</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="448"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="449"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cost<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_geospatial_cost_estimator_1a718e66f632442efe44ffe4e335a8d321" kindref="member">GeospatialCostEstimator::estimateDistanceCost</ref>(</highlight></codeline>
+<codeline lineno="450"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>100000,<sp/>10000.0,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="451"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="452"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_geospatial_cost_estimator_1aeaab80f7383b91f5993282e9bf1ae4e9" kindref="member">GeospatialCostEstimator::recordActualCost</ref>(</highlight></codeline>
+<codeline lineno="453"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cost,<sp/>cost.estimatedRows,<sp/>cost.cpuCostUs<sp/>*<sp/>0.95,<sp/></highlight><highlight class="stringliteral">&quot;DISTANCE&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="454"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="455"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="456"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>metrics<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_geospatial_cost_estimator_1a31c40a589939397f7f0660ca8dd4481d" kindref="member">GeospatialCostEstimator::getMetrics</ref>();</highlight></codeline>
+<codeline lineno="457"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="458"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>systematic<sp/>bias<sp/>should<sp/>be<sp/>detected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="459"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(metrics.hasSystematicUnderestimation());</highlight></codeline>
+<codeline lineno="460"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(metrics.hasSystematicOverestimation());</highlight></codeline>
+<codeline lineno="461"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="462"><highlight class="normal"></highlight></codeline>
+<codeline lineno="463"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_geospatial_regression_gates_test" kindref="compound">GeospatialRegressionGatesTest</ref>,<sp/>GEO_OPT_40_E2ERegressionSanity)<sp/>{</highlight></codeline>
+<codeline lineno="464"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>End-to-end<sp/>sanity<sp/>check</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="465"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>IndexStatistics&gt;<sp/>indexes;</highlight></codeline>
+<codeline lineno="466"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_index_statistics" kindref="compound">IndexStatistics</ref><sp/>rtree;</highlight></codeline>
+<codeline lineno="467"><highlight class="normal"><sp/><sp/><sp/><sp/>rtree.<ref refid="structthemis_1_1query_1_1_index_statistics_1a43b1efc5c111b321cdacfa534a276201" kindref="member">indexName</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;idx&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="468"><highlight class="normal"><sp/><sp/><sp/><sp/>rtree.<ref refid="structthemis_1_1query_1_1_index_statistics_1a7557fa9be5a2ac06b56893fec8e7efe2" kindref="member">type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1query_1aa0a3f6b50c16afa51e724c88b7901960af133c45ddb97fdeb71d58bb70087eb60" kindref="member">SpatialIndexType::RTREE</ref>;</highlight></codeline>
+<codeline lineno="469"><highlight class="normal"><sp/><sp/><sp/><sp/>rtree.<ref refid="structthemis_1_1query_1_1_index_statistics_1ab64919135d9cd2a35e0a7f72a86f5e54" kindref="member">averageHitRate</ref><sp/>=<sp/>0.85;</highlight></codeline>
+<codeline lineno="470"><highlight class="normal"><sp/><sp/><sp/><sp/>indexes[</highlight><highlight class="stringliteral">&quot;idx&quot;</highlight><highlight class="normal">]<sp/>=<sp/>rtree;</highlight></codeline>
+<codeline lineno="471"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="472"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_data_distribution" kindref="compound">DataDistribution</ref><sp/>dist;</highlight></codeline>
+<codeline lineno="473"><highlight class="normal"><sp/><sp/><sp/><sp/>dist.<ref refid="structthemis_1_1query_1_1_data_distribution_1ac6387d9b66d3144bc17c1d3e8e21db65" kindref="member">type</ref><sp/>=<sp/><ref refid="structthemis_1_1query_1_1_data_distribution_1aaf2202823b529625cca9a2e702810856a315cf7f3eceafbd9d878501113dcb4cc" kindref="member">DataDistribution::UNIFORM</ref>;</highlight></codeline>
+<codeline lineno="474"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="475"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>selected<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_geospatial_index_selector_1a9487de8c840e3c474915d1191b8659d7" kindref="member">GeospatialIndexSelector::selectIndex</ref>(</highlight></codeline>
+<codeline lineno="476"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;DISTANCE&quot;</highlight><highlight class="normal">,<sp/>1000000,<sp/>indexes,<sp/>dist,<sp/>10000.0);</highlight></codeline>
+<codeline lineno="477"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="478"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(selected.indexName,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="479"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(selected.score,<sp/>0);</highlight></codeline>
+<codeline lineno="480"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/query/test_geospatial_optimizer.cpp"/>
+  </compounddef>
+</doxygen>

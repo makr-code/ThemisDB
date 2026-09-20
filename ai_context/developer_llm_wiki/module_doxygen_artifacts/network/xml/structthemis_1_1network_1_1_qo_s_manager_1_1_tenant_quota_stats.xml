@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_qo_s_manager_1_1_tenant_quota_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::network::QoSManager::TenantQuotaStats</compoundname>
+    <includes refid="qos__manager_8h" local="no">qos_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_qo_s_manager_1_1_tenant_quota_stats_1aab8488dab590d68f7bf4f17ecf92b5a6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::network::QoSManager::TenantQuotaStats::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>themis::network::QoSManager::TenantQuotaStats::tenant_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="713" column="21" bodyfile="include/network/qos_manager.h" bodystart="713" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_qo_s_manager_1_1_tenant_quota_stats_1ab8cbb05ad8b3c1f4eb062dff35baf480" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::QoSManager::TenantQuotaStats::rate_bps</definition>
+        <argsstring></argsstring>
+        <name>rate_bps</name>
+        <qualifiedname>themis::network::QoSManager::TenantQuotaStats::rate_bps</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Configured sustained rate (bps). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="714" column="18" bodyfile="include/network/qos_manager.h" bodystart="714" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_qo_s_manager_1_1_tenant_quota_stats_1a91865da9794fac6af909871e692f45b3" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::QoSManager::TenantQuotaStats::burst_bytes</definition>
+        <argsstring></argsstring>
+        <name>burst_bytes</name>
+        <qualifiedname>themis::network::QoSManager::TenantQuotaStats::burst_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Configured burst size (bytes). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="715" column="18" bodyfile="include/network/qos_manager.h" bodystart="715" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_qo_s_manager_1_1_tenant_quota_stats_1a7de86d8ab55b142d2bcfdddabe776fef" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::QoSManager::TenantQuotaStats::bytes_sent</definition>
+        <argsstring></argsstring>
+        <name>bytes_sent</name>
+        <qualifiedname>themis::network::QoSManager::TenantQuotaStats::bytes_sent</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total bytes sent by all tenant connections. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="716" column="18" bodyfile="include/network/qos_manager.h" bodystart="716" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_qo_s_manager_1_1_tenant_quota_stats_1a03ccd12d1f5f810c5571e72400289d39" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::QoSManager::TenantQuotaStats::bytes_shaped</definition>
+        <argsstring></argsstring>
+        <name>bytes_shaped</name>
+        <qualifiedname>themis::network::QoSManager::TenantQuotaStats::bytes_shaped</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Bytes delayed/rejected by tenant quota. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="717" column="18" bodyfile="include/network/qos_manager.h" bodystart="717" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_qo_s_manager_1_1_tenant_quota_stats_1acb6400b297b58676966230989a2f5246" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::QoSManager::TenantQuotaStats::active_connections</definition>
+        <argsstring></argsstring>
+        <name>active_connections</name>
+        <qualifiedname>themis::network::QoSManager::TenantQuotaStats::active_connections</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Currently assigned connections. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="718" column="18" bodyfile="include/network/qos_manager.h" bodystart="718" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Statistics snapshot for a single tenant quota. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/network/qos_manager.h" line="712" column="5" bodyfile="include/network/qos_manager.h" bodystart="712" bodyend="719"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_qo_s_manager_1_1_tenant_quota_stats_1acb6400b297b58676966230989a2f5246" prot="public" virt="non-virtual"><scope>themis::network::QoSManager::TenantQuotaStats</scope><name>active_connections</name></member>
+      <member refid="structthemis_1_1network_1_1_qo_s_manager_1_1_tenant_quota_stats_1a91865da9794fac6af909871e692f45b3" prot="public" virt="non-virtual"><scope>themis::network::QoSManager::TenantQuotaStats</scope><name>burst_bytes</name></member>
+      <member refid="structthemis_1_1network_1_1_qo_s_manager_1_1_tenant_quota_stats_1a7de86d8ab55b142d2bcfdddabe776fef" prot="public" virt="non-virtual"><scope>themis::network::QoSManager::TenantQuotaStats</scope><name>bytes_sent</name></member>
+      <member refid="structthemis_1_1network_1_1_qo_s_manager_1_1_tenant_quota_stats_1a03ccd12d1f5f810c5571e72400289d39" prot="public" virt="non-virtual"><scope>themis::network::QoSManager::TenantQuotaStats</scope><name>bytes_shaped</name></member>
+      <member refid="structthemis_1_1network_1_1_qo_s_manager_1_1_tenant_quota_stats_1ab8cbb05ad8b3c1f4eb062dff35baf480" prot="public" virt="non-virtual"><scope>themis::network::QoSManager::TenantQuotaStats</scope><name>rate_bps</name></member>
+      <member refid="structthemis_1_1network_1_1_qo_s_manager_1_1_tenant_quota_stats_1aab8488dab590d68f7bf4f17ecf92b5a6" prot="public" virt="non-virtual"><scope>themis::network::QoSManager::TenantQuotaStats</scope><name>tenant_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

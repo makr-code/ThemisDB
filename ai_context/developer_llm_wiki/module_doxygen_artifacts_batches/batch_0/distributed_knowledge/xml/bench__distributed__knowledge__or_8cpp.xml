@@ -1,0 +1,572 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bench__distributed__knowledge__or_8cpp" kind="file" language="C++">
+    <compoundname>bench_distributed_knowledge_or.cpp</compoundname>
+    <includes local="no">benchmark/benchmark.h</includes>
+    <includes refid="cross__shard__feedback__sync_8h" local="yes">distributed_knowledge/cross_shard_feedback_sync.h</includes>
+    <includes refid="federated__rag__merger_8h" local="yes">distributed_knowledge/federated_rag_merger.h</includes>
+    <includes refid="lora__federation__coordinator_8h" local="yes">distributed_knowledge/lora_federation_coordinator.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>benchmarks/distributed_knowledge/bench_distributed_knowledge_or.cpp</label>
+        <link refid="bench__distributed__knowledge__or_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>distributed_knowledge/adapter_capability_announcement.h</label>
+        <link refid="adapter__capability__announcement_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>distributed_knowledge/cross_shard_feedback_sync.h</label>
+        <link refid="cross__shard__feedback__sync_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>distributed_knowledge/federated_rag_merger.h</label>
+        <link refid="federated__rag__merger_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>distributed_knowledge/lora_federation_coordinator.h</label>
+        <link refid="lora__federation__coordinator_8h"/>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark/benchmark.h</label>
+      </node>
+      <node id="10">
+        <label>chrono</label>
+      </node>
+      <node id="7">
+        <label>functional</label>
+      </node>
+      <node id="20">
+        <label>governance/cross_border_transfer.h</label>
+      </node>
+      <node id="13">
+        <label>governance/gdpr_subject_rights.h</label>
+      </node>
+      <node id="17">
+        <label>limits</label>
+      </node>
+      <node id="14">
+        <label>llm/decision_record_yaml_processor.h</label>
+      </node>
+      <node id="16">
+        <label>map</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="12">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="11">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>unordered_set</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="bench__distributed__knowledge__or_8cpp_1a63f294a2ee43dac2610cd848010d5b47" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_TriggerAggregation_NoTimeout</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_TriggerAggregation_NoTimeout</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/distributed_knowledge/bench_distributed_knowledge_or.cpp" line="90" column="13" bodyfile="benchmarks/distributed_knowledge/bench_distributed_knowledge_or.cpp" bodystart="90" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__distributed__knowledge__or_8cpp_1a0383b545a9355479982850ec20d2f27f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_TriggerAggregation_NoTimeout) -&gt; Arg(4) -&gt;Arg(8) -&gt;Arg(16)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_TriggerAggregation_NoTimeout</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/distributed_knowledge/bench_distributed_knowledge_or.cpp" line="107" column="1" declfile="benchmarks/distributed_knowledge/bench_distributed_knowledge_or.cpp" declline="107" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__distributed__knowledge__or_8cpp_1a214b60313681f885ef4b57e5581cd6fc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_FeedbackPublish_BackpressureSkip</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_FeedbackPublish_BackpressureSkip</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/distributed_knowledge/bench_distributed_knowledge_or.cpp" line="114" column="13" bodyfile="benchmarks/distributed_knowledge/bench_distributed_knowledge_or.cpp" bodystart="114" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__distributed__knowledge__or_8cpp_1a4bb006d79b6ac75ac57d5c5d8211d7c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_FeedbackPublish_BackpressureSkip)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_FeedbackPublish_BackpressureSkip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/distributed_knowledge/bench_distributed_knowledge_or.cpp" line="129" column="1" declfile="benchmarks/distributed_knowledge/bench_distributed_knowledge_or.cpp" declline="129" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__distributed__knowledge__or_8cpp_1ad118853fc2bdd06c846900885ba84a68" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_MergeWithTimedOutShards</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_MergeWithTimedOutShards</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/distributed_knowledge/bench_distributed_knowledge_or.cpp" line="136" column="13" bodyfile="benchmarks/distributed_knowledge/bench_distributed_knowledge_or.cpp" bodystart="136" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__distributed__knowledge__or_8cpp_1ae0642234643bfdfa1b458004082288c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Args</definition>
+        <argsstring>({8, 0}) -&gt; Args({8, 50}) -&gt;Args({16, 25})</argsstring>
+        <name>Args</name>
+        <param>
+          <type>{8, 0}</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/distributed_knowledge/bench_distributed_knowledge_or.cpp" line="164" column="5" declfile="benchmarks/distributed_knowledge/bench_distributed_knowledge_or.cpp" declline="164" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__distributed__knowledge__or_8cpp_1a596dad003999fef561d1672c32d852cf" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_Erase_FederationCoordinator</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_Erase_FederationCoordinator</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/distributed_knowledge/bench_distributed_knowledge_or.cpp" line="173" column="13" bodyfile="benchmarks/distributed_knowledge/bench_distributed_knowledge_or.cpp" bodystart="173" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__distributed__knowledge__or_8cpp_1a353c5f05659b1a5c75dcc6ba74a6f623" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_Erase_FederationCoordinator) -&gt; Arg(4) -&gt;Arg(16) -&gt;Arg(64)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_Erase_FederationCoordinator</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/distributed_knowledge/bench_distributed_knowledge_or.cpp" line="190" column="1" declfile="benchmarks/distributed_knowledge/bench_distributed_knowledge_or.cpp" declline="190" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__distributed__knowledge__or_8cpp_1a911dc26b7427f14c064a3f29ac70a079" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_ZeroTrust_LowRiskPath</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_ZeroTrust_LowRiskPath</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/distributed_knowledge/bench_distributed_knowledge_or.cpp" line="197" column="13" bodyfile="benchmarks/distributed_knowledge/bench_distributed_knowledge_or.cpp" bodystart="197" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__distributed__knowledge__or_8cpp_1a9f29eaa3caa672343edfb139fd5e2df3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_ZeroTrust_LowRiskPath)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_ZeroTrust_LowRiskPath</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/distributed_knowledge/bench_distributed_knowledge_or.cpp" line="217" column="1" declfile="benchmarks/distributed_knowledge/bench_distributed_knowledge_or.cpp" declline="217" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__distributed__knowledge__or_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_MAIN</definition>
+        <argsstring>()</argsstring>
+        <name>BENCHMARK_MAIN</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/distributed_knowledge/bench_distributed_knowledge_or.cpp" line="219" column="1" declfile="benchmarks/distributed_knowledge/bench_distributed_knowledge_or.cpp" declline="219" declcolumn="1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>DK-OR (S-15): Operational Resilience benchmarks for federated knowledge layer. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Performance targets (binding):<itemizedlist>
+<listitem><para>BM_TriggerAggregation_TimeoutOverhead : overhead ≤ 2 ms vs. no-timeout path</para>
+</listitem><listitem><para>BM_FeedbackPublish_Backpressure : skipped-publish path ≤ 0.5 µs/call</para>
+</listitem><listitem><para>BM_MergeWithTimedOutShards_50pct : ≤ 110% of baseline (no timeout)</para>
+</listitem><listitem><para>BM_Erase_FederationCoordinator : p99 ≤ 5 µs</para>
+</listitem><listitem><para>BM_ZeroTrust_LowRiskPath : p99 ≤ 0.2 µs/msg overhead </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Copyright<sp/>2026<sp/>ThemisDB<sp/>—<sp/>Licensed<sp/>under<sp/>MIT<sp/>License</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;benchmark/benchmark.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="cross__shard__feedback__sync_8h" kindref="compound">distributed_knowledge/cross_shard_feedback_sync.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="federated__rag__merger_8h" kindref="compound">distributed_knowledge/federated_rag_merger.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="lora__federation__coordinator_8h" kindref="compound">distributed_knowledge/lora_federation_coordinator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1distributed__knowledge" kindref="compound">themis::distributed_knowledge</ref>;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Shared<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><ref refid="structthemis_1_1distributed__knowledge_1_1_federation_config" kindref="compound">FederationConfig</ref><sp/>makeFedConfig(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>n<sp/>=<sp/>8)<sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_federation_config" kindref="compound">FederationConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1distributed__knowledge_1_1_federation_config_1a3456accf27076c816b2eabc9ce84458a" kindref="member">min_participants</ref><sp/>=<sp/>n;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1distributed__knowledge_1_1_federation_config_1a6b59c18592945cbc88500c957796d055" kindref="member">dp_epsilon</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.5;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1distributed__knowledge_1_1_federation_config_1af2a03beff6c1824965877df7c624c01d" kindref="member">dp_delta</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1e-5;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1distributed__knowledge_1_1_federation_config_1a3b77c6a498a304b21f4a93b2f16f7aa0" kindref="member">dp_sensitivity</ref><sp/><sp/><sp/>=<sp/>1.0;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cfg;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><ref refid="structthemis_1_1distributed__knowledge_1_1_encrypted_gradient" kindref="compound">EncryptedGradient</ref><sp/>makeGradN(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id,<sp/>uint64_t<sp/>round,</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>num_keys)<sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_encrypted_gradient" kindref="compound">EncryptedGradient</ref><sp/>g;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>g.<ref refid="structthemis_1_1distributed__knowledge_1_1_encrypted_gradient_1a415475ae9c6a4b6359ab753515bb24be" kindref="member">shard_id</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>shard_id;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>g.<ref refid="structthemis_1_1distributed__knowledge_1_1_encrypted_gradient_1afe16b0feca405d063fa55e3481a22b7c" kindref="member">round</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>round;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>g.<ref refid="structthemis_1_1distributed__knowledge_1_1_encrypted_gradient_1abeacf6d828d3a44ffdb04210dad24a7c" kindref="member">sample_count</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>k<sp/>=<sp/>0;<sp/>k<sp/>&lt;<sp/>num_keys;<sp/>++k)<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g.<ref refid="structthemis_1_1distributed__knowledge_1_1_encrypted_gradient_1af874c478c4dcc9cd60f096922ae97d74" kindref="member">data</ref>[</highlight><highlight class="stringliteral">&quot;key_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(k)]<sp/>=<sp/>0.001<sp/>*<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(k);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>g;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><ref refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result" kindref="compound">ShardRetrievalResult</ref><sp/>makeShardResultOR(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id,</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>num_docs,</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>timed_out<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result" kindref="compound">ShardRetrievalResult</ref><sp/>sr;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>sr.<ref refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result_1ab6974bbe8ab12905731cbb15dc0dddd3" kindref="member">shard_id</ref><sp/><sp/>=<sp/>shard_id;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>sr.<ref refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result_1a5e6d0935fbb904a360f9bf7bd1cbb18c" kindref="member">ok</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>sr.<ref refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result_1afa5b372339833639f4c8f369862f7aa7" kindref="member">timed_out</ref><sp/>=<sp/>timed_out;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>sr.<ref refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result_1afcf1705a753bc7b6e33cc63c394744a7" kindref="member">documents</ref>.reserve(num_docs);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>num_docs;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref><sp/>doc;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>doc.<ref refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document_1a6c74caf375c09d2fba2bd35188613b5c" kindref="member">doc_id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>shard_id<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>doc.<ref refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document_1a2bf3e383bb3ab0b604307e40fa05ed58" kindref="member">content</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;doc&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>doc.<ref refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document_1ac749dcccd101362f0b2a54ba7dd1143c" kindref="member">shard_id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>shard_id;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>doc.<ref refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document_1a8cf0dfb764955e1163970f0945d8ff02" kindref="member">relevance_score</ref><sp/>=<sp/>1.0<sp/>-<sp/>0.01<sp/>*<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>doc.<ref refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document_1a2469d3d8aca456c8f1faf9d44566844f" kindref="member">rank_in_shard</ref><sp/><sp/><sp/>=<sp/>i<sp/>+<sp/>1;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sr.<ref refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result_1afcf1705a753bc7b6e33cc63c394744a7" kindref="member">documents</ref>.push_back(std::move(doc));</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>sr;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary" kindref="compound">FeedbackSummary</ref><sp/>makeFeedback(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>summary_id,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>embed_dim<sp/>=<sp/>64)<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary" kindref="compound">FeedbackSummary</ref><sp/>fs;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>fs.<ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1a751495b630e07c3bbfb24be5a7a9f52c" kindref="member">summary_id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>summary_id;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>fs.<ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1a335529705f3c4978def22eaef7da4e01" kindref="member">feedback_type_label</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;USER_NEGATIVE&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>fs.<ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1a45eeaff3721941db019d6e2a9511c39f" kindref="member">shard_origin</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ANON&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>fs.<ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1ae76ac87d79775879fbfd10d2b6a01214" kindref="member">reason_embedding</ref>.assign(embed_dim,<sp/>0.1f);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>fs;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>anonymous<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BM_TriggerAggregation_NoTimeout</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Baseline:<sp/>standard<sp/>triggerAggregation()<sp/>with<sp/>N=8<sp/>shards,<sp/>50<sp/>keys.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_TriggerAggregation_NoTimeout(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>n<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.range(0));</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>num_keys<sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.PauseTiming();</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/>makeFedConfig(n);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator" kindref="compound">LoRAFederationCoordinator</ref><sp/>coord(cfg);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>0;<sp/>s<sp/>&lt;<sp/>n;<sp/>++s)<sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>coord.submitGradient(makeGradN(</highlight><highlight class="stringliteral">&quot;shard-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(s),<sp/>1,<sp/>num_keys));</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.ResumeTiming();</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(coord.triggerAggregation());</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="106"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><ref refid="bench__distributed__knowledge__or_8cpp_1a0383b545a9355479982850ec20d2f27f" kindref="member">BENCHMARK</ref>(BM_TriggerAggregation_NoTimeout)-&gt;Arg(4)-&gt;Arg(8)-&gt;Arg(16);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BM_FeedbackPublish_BackpressureSkip</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Measures<sp/>the<sp/>overhead<sp/>of<sp/>the<sp/>non-blocking<sp/>skipped-publish<sp/>path<sp/>(gossip<sp/>throws).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_FeedbackPublish_BackpressureSkip(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_sync_config" kindref="compound">FeedbackSyncConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_sync_config_1aad201301214f1daa10b47603cdaf0dd1" kindref="member">max_embedding_dim</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_sync_config_1a3cfc57e6934115d3e03d20fc34eb1de7" kindref="member">validate_embedding_dim</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Gossip<sp/>sink<sp/>always<sp/>throws<sp/>→<sp/>tests<sp/>the<sp/>skipped-publish<sp/>path</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync" kindref="compound">CrossShardFeedbackSync</ref><sp/>sync(cfg,<sp/></highlight><highlight class="stringliteral">&quot;bench-shard&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](nlohmann::json)<sp/>{<sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;queue<sp/>full&quot;</highlight><highlight class="normal">);<sp/>});</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sync.publishFeedback(makeFeedback(</highlight><highlight class="stringliteral">&quot;fs-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">++)));</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="128"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><ref refid="bench__distributed__knowledge__or_8cpp_1a0383b545a9355479982850ec20d2f27f" kindref="member">BENCHMARK</ref>(BM_FeedbackPublish_BackpressureSkip);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BM_MergeWithTimedOutShards</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="comment">//<sp/>N<sp/>shards,<sp/>M%<sp/>timed<sp/>out.<sp/>Measures<sp/>merge<sp/>performance<sp/>with<sp/>partial<sp/>timeouts.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_MergeWithTimedOutShards(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>total_shards<sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.range(0));</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>timed_out_pct<sp/><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.range(1));</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>timed_out_cnt<sp/><sp/>=<sp/>(total_shards<sp/>*<sp/>timed_out_pct)<sp/>/<sp/>100;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>docs_per_shard<sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config" kindref="compound">FederatedRAGMergerConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config_1aaa00195a982d3df94d0e232806656064" kindref="member">top_k</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>20;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config_1a0d7482e1f89555d6fc349ee46b00daa9" kindref="member">shard_timeout_ms</ref><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ShardRetrievalResult&gt;<sp/>shard_results;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>shard_results.reserve(total_shards);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>0;<sp/>s<sp/>&lt;<sp/>total_shards;<sp/>++s)<sp/>{</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shard_results.push_back(</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeShardResultOR(</highlight><highlight class="stringliteral">&quot;shard-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(s),<sp/>docs_per_shard,</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>s<sp/>&lt;<sp/>timed_out_cnt));</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger" kindref="compound">FederatedRAGMerger</ref><sp/>merger(cfg);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(merger.merge(shard_results));</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;shards=&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(total_shards)<sp/>+</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;<sp/>timed_out=&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(timed_out_pct)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;%&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><ref refid="bench__distributed__knowledge__or_8cpp_1a0383b545a9355479982850ec20d2f27f" kindref="member">BENCHMARK</ref>(BM_MergeWithTimedOutShards)</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Args({8,<sp/><sp/>0})<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>0%<sp/>timeout<sp/>—<sp/>baseline</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;<ref refid="bench__distributed__knowledge__or_8cpp_1ae0642234643bfdfa1b458004082288c2" kindref="member">Args</ref>({8,<sp/><sp/>50})<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>50%<sp/>timeout</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;<ref refid="bench__distributed__knowledge__or_8cpp_1ae0642234643bfdfa1b458004082288c2" kindref="member">Args</ref>({16,<sp/>25});<sp/><sp/></highlight><highlight class="comment">//<sp/>25%<sp/>timeout,<sp/>16<sp/>shards</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BM_Erase_FederationCoordinator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Measures<sp/>GDPR<sp/>erase<sp/>latency<sp/>(clear<sp/>pending_gradients_,<sp/>reset<sp/>round).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_Erase_FederationCoordinator(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>n<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.range(0));</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.PauseTiming();</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/>makeFedConfig(n);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator" kindref="compound">LoRAFederationCoordinator</ref><sp/>coord(cfg);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>0;<sp/>s<sp/>&lt;<sp/>n;<sp/>++s)<sp/>{</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>coord.submitGradient(makeGradN(</highlight><highlight class="stringliteral">&quot;shard-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(s),<sp/>1,<sp/>20));</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.ResumeTiming();</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>coord.erase(</highlight><highlight class="stringliteral">&quot;subject-bench&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::ClobberMemory();</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="189"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><ref refid="bench__distributed__knowledge__or_8cpp_1a0383b545a9355479982850ec20d2f27f" kindref="member">BENCHMARK</ref>(BM_Erase_FederationCoordinator)-&gt;Arg(4)-&gt;Arg(16)-&gt;Arg(64);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BM_ZeroTrust_LowRiskPath</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Overhead<sp/>of<sp/>the<sp/>ZeroTrust<sp/>enforcer<sp/>(trusted<sp/>path,<sp/>returns<sp/>true).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_ZeroTrust_LowRiskPath(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_sync_config" kindref="compound">FeedbackSyncConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_sync_config_1aad201301214f1daa10b47603cdaf0dd1" kindref="member">max_embedding_dim</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_sync_config_1a3cfc57e6934115d3e03d20fc34eb1de7" kindref="member">validate_embedding_dim</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;nlohmann::json&gt;<sp/>sent;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync" kindref="compound">CrossShardFeedbackSync</ref><sp/>sync(cfg,<sp/></highlight><highlight class="stringliteral">&quot;bench-shard&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;sent](nlohmann::json<sp/>j)<sp/>{<sp/>sent.push_back(std::move(j));<sp/>});</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Low-risk<sp/>enforcer<sp/>(always<sp/>trusted)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>sync.<ref refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a7078fc5bccfc10b276c5242b897fe4fe" kindref="member">setZeroTrustEnforcer</ref>([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary" kindref="compound">FeedbackSummary</ref>&amp;)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>});</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary" kindref="compound">FeedbackSummary</ref><sp/>fs<sp/>=<sp/>makeFeedback(</highlight><highlight class="stringliteral">&quot;zt-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">++));</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sync.handleInboundSummary(fs.<ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1acad34323eb3107a8852b88a51d023f14" kindref="member">toJson</ref>());</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::ClobberMemory();</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="216"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><ref refid="bench__distributed__knowledge__or_8cpp_1a0383b545a9355479982850ec20d2f27f" kindref="member">BENCHMARK</ref>(BM_ZeroTrust_LowRiskPath);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><ref refid="bench__distributed__knowledge__or_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kindref="member">BENCHMARK_MAIN</ref>();</highlight></codeline>
+    </programlisting>
+    <location file="benchmarks/distributed_knowledge/bench_distributed_knowledge_or.cpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,401 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_wiki_index_store_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::WikiIndexStore::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_wiki_index_store_1_1_impl_1a7203775456119c628c610c24aa18f6cc" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1rag_1_1_wiki_index_store_1afc955bc478e27ce364faff8f2fd688b1" kindref="member">Config</ref></type>
+        <definition>Config themis::rag::WikiIndexStore::Impl::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::rag::WikiIndexStore::Impl::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/wiki_index_store.cpp" line="189" column="12" bodyfile="src/rag/wiki_index_store.cpp" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_wiki_index_store_1_1_impl_1a46af0bc155dbf0180396b69edf82957e" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::rag::WikiIndexStore::Impl::idx_mutex</definition>
+        <argsstring></argsstring>
+        <name>idx_mutex</name>
+        <qualifiedname>themis::rag::WikiIndexStore::Impl::idx_mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/wiki_index_store.cpp" line="192" column="49" bodyfile="src/rag/wiki_index_store.cpp" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_wiki_index_store_1_1_impl_1a5fb0effad884c3ae059ba74a00fa5fd7" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::rag::WikiIndexStore::Impl::docs</definition>
+        <argsstring></argsstring>
+        <name>docs</name>
+        <qualifiedname>themis::rag::WikiIndexStore::Impl::docs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/wiki_index_store.cpp" line="193" column="24" bodyfile="src/rag/wiki_index_store.cpp" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_wiki_index_store_1_1_impl_1a8cea654bf718be7455b99ee5a25e7d65" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::unordered_map&lt; std::string, std::vector&lt; size_t &gt; &gt; &gt;</type>
+        <definition>std::unordered_map&lt; std::string, std::unordered_map&lt;std::string, std::vector&lt;size_t&gt; &gt; &gt; themis::rag::WikiIndexStore::Impl::positional_index_</definition>
+        <argsstring></argsstring>
+        <name>positional_index_</name>
+        <qualifiedname>themis::rag::WikiIndexStore::Impl::positional_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/wiki_index_store.cpp" line="199" column="2" bodyfile="src/rag/wiki_index_store.cpp" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_wiki_index_store_1_1_impl_1af5bf54251a8e860103682952c6a6f037" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, float &gt;</type>
+        <definition>std::unordered_map&lt;std::string, float&gt; themis::rag::WikiIndexStore::Impl::idf_cache</definition>
+        <argsstring></argsstring>
+        <name>idf_cache</name>
+        <qualifiedname>themis::rag::WikiIndexStore::Impl::idf_cache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/wiki_index_store.cpp" line="203" column="29" bodyfile="src/rag/wiki_index_store.cpp" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_wiki_index_store_1_1_impl_1a711d7688da32304d5eeb32b02948b29b" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; float &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;float&gt; &gt; themis::rag::WikiIndexStore::Impl::hnsw_vectors_fallback</definition>
+        <argsstring></argsstring>
+        <name>hnsw_vectors_fallback</name>
+        <qualifiedname>themis::rag::WikiIndexStore::Impl::hnsw_vectors_fallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/wiki_index_store.cpp" line="280" column="24" bodyfile="src/rag/wiki_index_store.cpp" bodystart="280" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_wiki_index_store_1_1_impl_1ac5081d18c71dbadaf5a24bc752ee77aa" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::WikiIndexStore::Impl::hnsw_dim</definition>
+        <argsstring></argsstring>
+        <name>hnsw_dim</name>
+        <qualifiedname>themis::rag::WikiIndexStore::Impl::hnsw_dim</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/wiki_index_store.cpp" line="283" column="12" bodyfile="src/rag/wiki_index_store.cpp" bodystart="283" bodyend="283"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_wiki_index_store_1_1_impl_1a3c16c95642585cf271287a4a00ebc2d8" prot="public" static="no" mutable="no">
+        <type>std::list&lt; std::string &gt;</type>
+        <definition>std::list&lt;std::string&gt; themis::rag::WikiIndexStore::Impl::cache_lru</definition>
+        <argsstring></argsstring>
+        <name>cache_lru</name>
+        <qualifiedname>themis::rag::WikiIndexStore::Impl::cache_lru</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/wiki_index_store.cpp" line="335" column="15" bodyfile="src/rag/wiki_index_store.cpp" bodystart="335" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_wiki_index_store_1_1_impl_1ac611929dd6c17d263db2bf10393f2008" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; float &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;float&gt; &gt; themis::rag::WikiIndexStore::Impl::embedding_cache</definition>
+        <argsstring></argsstring>
+        <name>embedding_cache</name>
+        <qualifiedname>themis::rag::WikiIndexStore::Impl::embedding_cache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/wiki_index_store.cpp" line="336" column="24" bodyfile="src/rag/wiki_index_store.cpp" bodystart="336" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1rag_1_1_wiki_index_store_1_1_impl_1a12c746388767e3e068ac9a30de19994d" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::WikiIndexStore::Impl::Impl</definition>
+        <argsstring>(Config cfg)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::rag::WikiIndexStore::Impl::Impl</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1rag_1_1_wiki_index_store_1afc955bc478e27ce364faff8f2fd688b1" kindref="member">Config</ref></type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/wiki_index_store.cpp" line="205" column="14" bodyfile="src/rag/wiki_index_store.cpp" bodystart="205" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1rag_1_1_wiki_index_store_1_1_impl_1a943ba7b2514957a2432de87edd9042bf" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::WikiIndexStore::Impl::rebuildIDF</definition>
+        <argsstring>()</argsstring>
+        <name>rebuildIDF</name>
+        <qualifiedname>themis::rag::WikiIndexStore::Impl::rebuildIDF</qualifiedname>
+        <briefdescription>
+<para>Rebuild IDF. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: tokenise(), <ref refid="classthemis_1_1rag_1_1_wiki_index_store_1a408ce02a73085a41f39e7cf5c6dec7d8" kindref="member">size()</ref>, <ref refid="classthemis_1_1rag_1_1_wiki_index_store_1a311f1c574ee76d2090d5c92f4347dc63" kindref="member">clear()</ref>, std::log(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/wiki_index_store.cpp" line="211" column="10" bodyfile="src/rag/wiki_index_store.cpp" bodystart="211" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1rag_1_1_wiki_index_store_1_1_impl_1adb68f21949839f6e164a64f6282b43b4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::WikiIndexStore::Impl::rebuildPositionalIndex</definition>
+        <argsstring>()</argsstring>
+        <name>rebuildPositionalIndex</name>
+        <qualifiedname>themis::rag::WikiIndexStore::Impl::rebuildPositionalIndex</qualifiedname>
+        <briefdescription>
+<para>Rebuild Positional Index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: <ref refid="classthemis_1_1rag_1_1_wiki_index_store_1a311f1c574ee76d2090d5c92f4347dc63" kindref="member">clear()</ref>, tokenise(), <ref refid="classthemis_1_1rag_1_1_wiki_index_store_1a408ce02a73085a41f39e7cf5c6dec7d8" kindref="member">size()</ref>, push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/wiki_index_store.cpp" line="242" column="10" bodyfile="src/rag/wiki_index_store.cpp" bodystart="242" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1rag_1_1_wiki_index_store_1_1_impl_1a76fbdc600c18c6a7534ab1d396432437" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::rag::WikiIndexStore::Impl::computeAvgDocLen</definition>
+        <argsstring>() const</argsstring>
+        <name>computeAvgDocLen</name>
+        <qualifiedname>themis::rag::WikiIndexStore::Impl::computeAvgDocLen</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/wiki_index_store.cpp" line="252" column="11" bodyfile="src/rag/wiki_index_store.cpp" bodystart="252" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1rag_1_1_wiki_index_store_1_1_impl_1a34a1f3ced6a79421f7da5e4cb30432a7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::WikiIndexStore::Impl::cacheInsert</definition>
+        <argsstring>(const std::string &amp;key, std::vector&lt; float &gt; emb)</argsstring>
+        <name>cacheInsert</name>
+        <qualifiedname>themis::rag::WikiIndexStore::Impl::cacheInsert</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; float &gt;</type>
+          <declname>emb</declname>
+        </param>
+        <briefdescription>
+<para>Cache Insert. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">emb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: find(), end(), remove(), <ref refid="classthemis_1_1rag_1_1_wiki_index_store_1a408ce02a73085a41f39e7cf5c6dec7d8" kindref="member">size()</ref>, erase(), back(), pop_back(), push_front(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/wiki_index_store.cpp" line="443" column="10" bodyfile="src/rag/wiki_index_store.cpp" bodystart="443" bodyend="457"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1rag_1_1_wiki_index_store_1_1_impl_1aa7233d888332cb594dd0584369b9514f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::WikiIndexStore::Impl::~Impl</definition>
+        <argsstring>()</argsstring>
+        <name>~Impl</name>
+        <qualifiedname>themis::rag::WikiIndexStore::Impl::~Impl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/wiki_index_store.cpp" line="459" column="5" bodyfile="src/rag/wiki_index_store.cpp" bodystart="459" bodyend="463"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1rag_1_1_wiki_index_store_1_1_impl_1ad552fece8d0cfac82ad97d1e3b79c8cf" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>static float themis::rag::WikiIndexStore::Impl::cosineSim</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;a, const std::vector&lt; float &gt; &amp;b)</argsstring>
+        <name>cosineSim</name>
+        <qualifiedname>themis::rag::WikiIndexStore::Impl::cosineSim</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>Cosine Sim. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1rag_1_1_wiki_index_store_1a408ce02a73085a41f39e7cf5c6dec7d8" kindref="member">size()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/wiki_index_store.cpp" line="292" column="18" bodyfile="src/rag/wiki_index_store.cpp" bodystart="292" bodyend="300"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1rag_1_1_wiki_index_store_1_1_impl_1ae58f534d3715a0f9e0b54ca832a3ca6e" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>static std::vector&lt; float &gt; themis::rag::WikiIndexStore::Impl::unitNorm</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;v)</argsstring>
+        <name>unitNorm</name>
+        <qualifiedname>themis::rag::WikiIndexStore::Impl::unitNorm</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+<para>Unit Norm. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::sqrt(), reserve(), <ref refid="classthemis_1_1rag_1_1_wiki_index_store_1a408ce02a73085a41f39e7cf5c6dec7d8" kindref="member">size()</ref>, push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/wiki_index_store.cpp" line="308" column="24" bodyfile="src/rag/wiki_index_store.cpp" bodystart="308" bodyend="324"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1rag_1_1_wiki_index_store_1_1_impl_1a9fa5fcbfd0e0dc56444247ffe0580798" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::rag::WikiIndexStore::Impl::sha256Hex</definition>
+        <argsstring>(const std::string &amp;input)</argsstring>
+        <name>sha256Hex</name>
+        <qualifiedname>themis::rag::WikiIndexStore::Impl::sha256Hex</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Sha256 Hex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: EVP_Digest(), data(), <ref refid="classthemis_1_1rag_1_1_wiki_index_store_1a408ce02a73085a41f39e7cf5c6dec7d8" kindref="member">size()</ref>, EVP_sha256(), std::string(), std::setfill(), std::setw(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/wiki_index_store.cpp" line="421" column="24" bodyfile="src/rag/wiki_index_store.cpp" bodystart="421" bodyend="435"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::rag::WikiIndexStore::Impl</label>
+        <link refid="structthemis_1_1rag_1_1_wiki_index_store_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::rag::WikiIndexStoreConfig</label>
+        <link refid="structthemis_1_1rag_1_1_wiki_index_store_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/rag/wiki_index_store.cpp" line="188" column="1" bodyfile="src/rag/wiki_index_store.cpp" bodystart="188" bodyend="464"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_wiki_index_store_1_1_impl_1a3c16c95642585cf271287a4a00ebc2d8" prot="public" virt="non-virtual"><scope>themis::rag::WikiIndexStore::Impl</scope><name>cache_lru</name></member>
+      <member refid="structthemis_1_1rag_1_1_wiki_index_store_1_1_impl_1a34a1f3ced6a79421f7da5e4cb30432a7" prot="public" virt="non-virtual"><scope>themis::rag::WikiIndexStore::Impl</scope><name>cacheInsert</name></member>
+      <member refid="structthemis_1_1rag_1_1_wiki_index_store_1_1_impl_1a76fbdc600c18c6a7534ab1d396432437" prot="public" virt="non-virtual"><scope>themis::rag::WikiIndexStore::Impl</scope><name>computeAvgDocLen</name></member>
+      <member refid="structthemis_1_1rag_1_1_wiki_index_store_1_1_impl_1a7203775456119c628c610c24aa18f6cc" prot="public" virt="non-virtual"><scope>themis::rag::WikiIndexStore::Impl</scope><name>config</name></member>
+      <member refid="structthemis_1_1rag_1_1_wiki_index_store_1_1_impl_1ad552fece8d0cfac82ad97d1e3b79c8cf" prot="public" virt="non-virtual"><scope>themis::rag::WikiIndexStore::Impl</scope><name>cosineSim</name></member>
+      <member refid="structthemis_1_1rag_1_1_wiki_index_store_1_1_impl_1a5fb0effad884c3ae059ba74a00fa5fd7" prot="public" virt="non-virtual"><scope>themis::rag::WikiIndexStore::Impl</scope><name>docs</name></member>
+      <member refid="structthemis_1_1rag_1_1_wiki_index_store_1_1_impl_1ac611929dd6c17d263db2bf10393f2008" prot="public" virt="non-virtual"><scope>themis::rag::WikiIndexStore::Impl</scope><name>embedding_cache</name></member>
+      <member refid="structthemis_1_1rag_1_1_wiki_index_store_1_1_impl_1ac5081d18c71dbadaf5a24bc752ee77aa" prot="public" virt="non-virtual"><scope>themis::rag::WikiIndexStore::Impl</scope><name>hnsw_dim</name></member>
+      <member refid="structthemis_1_1rag_1_1_wiki_index_store_1_1_impl_1a711d7688da32304d5eeb32b02948b29b" prot="public" virt="non-virtual"><scope>themis::rag::WikiIndexStore::Impl</scope><name>hnsw_vectors_fallback</name></member>
+      <member refid="structthemis_1_1rag_1_1_wiki_index_store_1_1_impl_1af5bf54251a8e860103682952c6a6f037" prot="public" virt="non-virtual"><scope>themis::rag::WikiIndexStore::Impl</scope><name>idf_cache</name></member>
+      <member refid="structthemis_1_1rag_1_1_wiki_index_store_1_1_impl_1a46af0bc155dbf0180396b69edf82957e" prot="public" virt="non-virtual"><scope>themis::rag::WikiIndexStore::Impl</scope><name>idx_mutex</name></member>
+      <member refid="structthemis_1_1rag_1_1_wiki_index_store_1_1_impl_1a12c746388767e3e068ac9a30de19994d" prot="public" virt="non-virtual"><scope>themis::rag::WikiIndexStore::Impl</scope><name>Impl</name></member>
+      <member refid="structthemis_1_1rag_1_1_wiki_index_store_1_1_impl_1a8cea654bf718be7455b99ee5a25e7d65" prot="public" virt="non-virtual"><scope>themis::rag::WikiIndexStore::Impl</scope><name>positional_index_</name></member>
+      <member refid="structthemis_1_1rag_1_1_wiki_index_store_1_1_impl_1a943ba7b2514957a2432de87edd9042bf" prot="public" virt="non-virtual"><scope>themis::rag::WikiIndexStore::Impl</scope><name>rebuildIDF</name></member>
+      <member refid="structthemis_1_1rag_1_1_wiki_index_store_1_1_impl_1adb68f21949839f6e164a64f6282b43b4" prot="public" virt="non-virtual"><scope>themis::rag::WikiIndexStore::Impl</scope><name>rebuildPositionalIndex</name></member>
+      <member refid="structthemis_1_1rag_1_1_wiki_index_store_1_1_impl_1a9fa5fcbfd0e0dc56444247ffe0580798" prot="public" virt="non-virtual"><scope>themis::rag::WikiIndexStore::Impl</scope><name>sha256Hex</name></member>
+      <member refid="structthemis_1_1rag_1_1_wiki_index_store_1_1_impl_1ae58f534d3715a0f9e0b54ca832a3ca6e" prot="public" virt="non-virtual"><scope>themis::rag::WikiIndexStore::Impl</scope><name>unitNorm</name></member>
+      <member refid="structthemis_1_1rag_1_1_wiki_index_store_1_1_impl_1aa7233d888332cb594dd0584369b9514f" prot="public" virt="non-virtual"><scope>themis::rag::WikiIndexStore::Impl</scope><name>~Impl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

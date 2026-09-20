@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_g_p_u_module_1_1_submit_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUModule::SubmitResult</compoundname>
+    <includes refid="gpu__module_8h" local="no">gpu_module.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_module_1_1_submit_result_1aaf0e5b0939f52667ec066f06943cd061" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUModule::SubmitResult::submitted</definition>
+        <argsstring></argsstring>
+        <name>submitted</name>
+        <qualifiedname>themis::gpu::GPUModule::SubmitResult::submitted</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_module.h" line="71" column="21" bodyfile="include/themis/gpu/gpu_module.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_module_1_1_submit_result_1a441c8f60fdeae51a138f0ca03fd3d792" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUModule::SubmitResult::via_gpu</definition>
+        <argsstring></argsstring>
+        <name>via_gpu</name>
+        <qualifiedname>themis::gpu::GPUModule::SubmitResult::via_gpu</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>false = CPU fallback used </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_module.h" line="72" column="21" bodyfile="include/themis/gpu/gpu_module.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_module_1_1_submit_result_1a6ff8ccdbac0dd43e601a1c41e3f9708b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::GPUModule::SubmitResult::error</definition>
+        <argsstring></argsstring>
+        <name>error</name>
+        <qualifiedname>themis::gpu::GPUModule::SubmitResult::error</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_module.h" line="73" column="21" bodyfile="include/themis/gpu/gpu_module.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/gpu/gpu_module.h" line="70" column="5" bodyfile="include/themis/gpu/gpu_module.h" bodystart="70" bodyend="74"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_module_1_1_submit_result_1a6ff8ccdbac0dd43e601a1c41e3f9708b" prot="public" virt="non-virtual"><scope>themis::gpu::GPUModule::SubmitResult</scope><name>error</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_module_1_1_submit_result_1aaf0e5b0939f52667ec066f06943cd061" prot="public" virt="non-virtual"><scope>themis::gpu::GPUModule::SubmitResult</scope><name>submitted</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_module_1_1_submit_result_1a441c8f60fdeae51a138f0ca03fd3d792" prot="public" virt="non-virtual"><scope>themis::gpu::GPUModule::SubmitResult</scope><name>via_gpu</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

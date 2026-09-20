@@ -1,0 +1,491 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_prompt_library_i_o" kind="class" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::PromptLibraryIO</compoundname>
+    <includes refid="prompt__library__io_8h" local="no">prompt_library_io.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_library_i_o_1aac44bbc844a5949b4c33559956fbd5fd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::PromptLibraryIO::exportToJson</definition>
+        <argsstring>(PromptLibraryBundle bundle)</argsstring>
+        <name>exportToJson</name>
+        <qualifiedname>themis::prompt_engineering::PromptLibraryIO::exportToJson</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_library_bundle" kindref="compound">PromptLibraryBundle</ref></type>
+          <declname>bundle</declname>
+        </param>
+        <briefdescription>
+<para>Serialise <computeroutput>bundle</computeroutput> to a pretty-printed JSON string (indent 2). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Export To Json.</para>
+<para>If <computeroutput>bundle.checksum</computeroutput> is empty, the checksum is computed automatically.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>bundle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Library bundle to serialise. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>JSON string; never empty on success.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bundle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), <ref refid="classthemis_1_1prompt__engineering_1_1_prompt_library_i_o_1a2d531f7b2e59c8a1af676ac5c5681fb9" kindref="member">computeChecksum()</ref>, std::chrono::system_clock::now(), toJson(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_library_io.h" line="126" column="24" bodyfile="src/prompt_engineering/prompt_library_io.cpp" bodystart="221" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_library_i_o_1a43d87822923b4281d7086f3f84aff9e1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::PromptLibraryIO::exportToYaml</definition>
+        <argsstring>(PromptLibraryBundle bundle)</argsstring>
+        <name>exportToYaml</name>
+        <qualifiedname>themis::prompt_engineering::PromptLibraryIO::exportToYaml</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_library_bundle" kindref="compound">PromptLibraryBundle</ref></type>
+          <declname>bundle</declname>
+        </param>
+        <briefdescription>
+<para>Serialise <computeroutput>bundle</computeroutput> to a YAML string (via yaml-cpp emitter). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Export To Yaml.</para>
+<para>If <computeroutput>bundle.checksum</computeroutput> is empty, the checksum is computed automatically. Template <computeroutput>metadata</computeroutput> is serialised as a JSON sub-string within the YAML.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>bundle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Library bundle to serialise. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>YAML string; never empty on success.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bundle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), <ref refid="classthemis_1_1prompt__engineering_1_1_prompt_library_i_o_1a2d531f7b2e59c8a1af676ac5c5681fb9" kindref="member">computeChecksum()</ref>, std::chrono::system_clock::now(), toUnixTime(), dump(), std::string(), c_str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_library_io.h" line="137" column="24" bodyfile="src/prompt_engineering/prompt_library_io.cpp" bodystart="237" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_library_i_o_1ae3832e69abadbc586929300ca8f11db5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_export_result" kindref="compound">ExportResult</ref></type>
+        <definition>ExportResult themis::prompt_engineering::PromptLibraryIO::exportToFile</definition>
+        <argsstring>(PromptLibraryBundle bundle, const std::string &amp;path, ExportFormat fmt=ExportFormat::JSON)</argsstring>
+        <name>exportToFile</name>
+        <qualifiedname>themis::prompt_engineering::PromptLibraryIO::exportToFile</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_library_bundle" kindref="compound">PromptLibraryBundle</ref></type>
+          <declname>bundle</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1prompt__engineering_1a2e4aa3ee42c80c88ad1c81b855195206" kindref="member">ExportFormat</ref></type>
+          <declname>fmt</declname>
+          <defval><ref refid="namespacethemis_1_1prompt__engineering_1a2e4aa3ee42c80c88ad1c81b855195206a0ecd11c1d7a287401d148a23bbd7a2f8" kindref="member">ExportFormat::JSON</ref></defval>
+        </param>
+        <briefdescription>
+<para>Write <computeroutput>bundle</computeroutput> to the file at <computeroutput>path</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Export To File.</para>
+<para>Format selection:<itemizedlist>
+<listitem><para><computeroutput>fmt == <ref refid="namespacethemis_1_1prompt__engineering_1a2e4aa3ee42c80c88ad1c81b855195206a9463f87bbed1fcdacfb8d40e185ca2bc" kindref="member">ExportFormat::YAML</ref></computeroutput>, <bold>or</bold> <computeroutput>path</computeroutput> ends with <computeroutput>.yaml</computeroutput>/<computeroutput>.yml</computeroutput> → YAML output.</para>
+</listitem><listitem><para>Otherwise → JSON output.</para>
+</listitem></itemizedlist>
+</para>
+<para>Parent directories must already exist.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>bundle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Library bundle. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Destination file path. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fmt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Explicit format override (default: JSON; see above). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput><ref refid="structthemis_1_1prompt__engineering_1_1_export_result" kindref="compound">ExportResult</ref></computeroutput>; <computeroutput>success</computeroutput> is <computeroutput>false</computeroutput> if the file cannot be written.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bundle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fmt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), isYamlPath(), <ref refid="classthemis_1_1prompt__engineering_1_1_prompt_library_i_o_1a43d87822923b4281d7086f3f84aff9e1" kindref="member">exportToYaml()</ref>, <ref refid="classthemis_1_1prompt__engineering_1_1_prompt_library_i_o_1aac44bbc844a5949b4c33559956fbd5fd" kindref="member">exportToJson()</ref>, ofs(), is_open(), fail(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_library_io.h" line="154" column="25" bodyfile="src/prompt_engineering/prompt_library_io.cpp" bodystart="305" bodyend="336"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_library_i_o_1a601bb5c04a06a43e8559b361fedaf931" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_prompt_library_bundle" kindref="compound">PromptLibraryBundle</ref> &gt;</type>
+        <definition>std::optional&lt; PromptLibraryBundle &gt; themis::prompt_engineering::PromptLibraryIO::importFromJson</definition>
+        <argsstring>(const std::string &amp;json_str)</argsstring>
+        <name>importFromJson</name>
+        <qualifiedname>themis::prompt_engineering::PromptLibraryIO::importFromJson</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>json_str</declname>
+        </param>
+        <briefdescription>
+<para>Parse a bundle from a JSON string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Import From Json.</para>
+<para><simplesect kind="return"><para><computeroutput>nullopt</computeroutput> if parsing fails (empty string, malformed JSON, missing required fields).</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">json_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), nlohmann::json::parse(), <ref refid="structthemis_1_1prompt__engineering_1_1_prompt_library_bundle_1aa8966272238f4c44267ec3b33fd158e9" kindref="member">PromptLibraryBundle::fromJson()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_library_io.h" line="167" column="26" bodyfile="src/prompt_engineering/prompt_library_io.cpp" bodystart="348" bodyend="357"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_library_i_o_1a8469added24f136ce05c1b294bc69978" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_prompt_library_bundle" kindref="compound">PromptLibraryBundle</ref> &gt;</type>
+        <definition>std::optional&lt; PromptLibraryBundle &gt; themis::prompt_engineering::PromptLibraryIO::importFromYaml</definition>
+        <argsstring>(const std::string &amp;yaml_str)</argsstring>
+        <name>importFromYaml</name>
+        <qualifiedname>themis::prompt_engineering::PromptLibraryIO::importFromYaml</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>yaml_str</declname>
+        </param>
+        <briefdescription>
+<para>Parse a bundle from a YAML string (via yaml-cpp). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Import From Yaml.</para>
+<para><simplesect kind="return"><para><computeroutput>nullopt</computeroutput> if parsing fails.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">yaml_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), YAML::Load(), IsMap(), fromUnixTime(), IsSequence(), push_back(), templateFromYaml(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_library_io.h" line="174" column="26" bodyfile="src/prompt_engineering/prompt_library_io.cpp" bodystart="365" bodyend="391"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_library_i_o_1aebe1634576018ec4f701037d9f109448" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_import_result" kindref="compound">ImportResult</ref></type>
+        <definition>ImportResult themis::prompt_engineering::PromptLibraryIO::importFromFile</definition>
+        <argsstring>(const std::string &amp;path, PromptLibraryBundle &amp;out_bundle)</argsstring>
+        <name>importFromFile</name>
+        <qualifiedname>themis::prompt_engineering::PromptLibraryIO::importFromFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_library_bundle" kindref="compound">PromptLibraryBundle</ref> &amp;</type>
+          <declname>out_bundle</declname>
+        </param>
+        <briefdescription>
+<para>Read and parse a bundle from the file at <computeroutput>path</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Import From File.</para>
+<para>Format auto-detected from extension (<computeroutput>.yaml</computeroutput>/<computeroutput>.yml</computeroutput> → YAML; otherwise JSON). Checksum is validated after parsing; <computeroutput>result.checksum_valid</computeroutput> is <computeroutput>false</computeroutput> on mismatch but the bundle is still returned.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source file path. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>out_bundle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Populated on success. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput><ref refid="structthemis_1_1prompt__engineering_1_1_import_result" kindref="compound">ImportResult</ref></computeroutput>; <computeroutput>success</computeroutput> is <computeroutput>false</computeroutput> if the file cannot be read or parsed.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">out_bundle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::filesystem::exists(), ifs(), is_open(), <ref refid="bench__rewrite__engine_8cpp_1ab0f5e79a4809a73e46767641aa4e7dac" kindref="member">content()</ref>, isYamlPath(), <ref refid="classthemis_1_1prompt__engineering_1_1_prompt_library_i_o_1a8469added24f136ce05c1b294bc69978" kindref="member">importFromYaml()</ref>, <ref refid="classthemis_1_1prompt__engineering_1_1_prompt_library_i_o_1a601bb5c04a06a43e8559b361fedaf931" kindref="member">importFromJson()</ref>, has_value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_library_io.h" line="189" column="25" bodyfile="src/prompt_engineering/prompt_library_io.cpp" bodystart="400" bodyend="441"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_library_i_o_1a2d531f7b2e59c8a1af676ac5c5681fb9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::PromptLibraryIO::computeChecksum</definition>
+        <argsstring>(const PromptLibraryBundle &amp;bundle)</argsstring>
+        <name>computeChecksum</name>
+        <qualifiedname>themis::prompt_engineering::PromptLibraryIO::computeChecksum</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_prompt_library_bundle" kindref="compound">PromptLibraryBundle</ref> &amp;</type>
+          <declname>bundle</declname>
+        </param>
+        <briefdescription>
+<para>Compute the FNV-1a 64-bit checksum of <computeroutput>bundle.templates</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compute Checksum.</para>
+<para>Algorithm:<orderedlist>
+<listitem><para>For each template, call <computeroutput>toJson().dump()</computeroutput> to get a canonical string.</para>
+</listitem><listitem><para>Sort the strings by the <computeroutput>id</computeroutput> field for determinism.</para>
+</listitem><listitem><para>Concatenate all strings and compute FNV-1a 64-bit hash.</para>
+</listitem><listitem><para>Return as a zero-padded 16-character lowercase hex string.</para>
+</listitem></orderedlist>
+</para>
+<para><simplesect kind="return"><para>16-character lowercase hex string.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bundle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), push_back(), toJson(), dump(), std::sort(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_library_io.h" line="207" column="24" bodyfile="src/prompt_engineering/prompt_library_io.cpp" bodystart="184" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_library_i_o_1a2f8cff71233cadc49e28da0a075bfe94" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::PromptLibraryIO::verifyChecksum</definition>
+        <argsstring>(const PromptLibraryBundle &amp;bundle)</argsstring>
+        <name>verifyChecksum</name>
+        <qualifiedname>themis::prompt_engineering::PromptLibraryIO::verifyChecksum</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_prompt_library_bundle" kindref="compound">PromptLibraryBundle</ref> &amp;</type>
+          <declname>bundle</declname>
+        </param>
+        <briefdescription>
+<para>Verify that <computeroutput>bundle.checksum == computeChecksum(bundle)</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verify Checksum.</para>
+<para><simplesect kind="return"><para><computeroutput>true</computeroutput> iff the stored checksum matches the freshly computed one.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bundle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1prompt__engineering_1_1_prompt_library_i_o_1a2d531f7b2e59c8a1af676ac5c5681fb9" kindref="member">computeChecksum()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_library_io.h" line="213" column="17" bodyfile="src/prompt_engineering/prompt_library_io.cpp" bodystart="207" bodyend="209"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_library_i_o_1ab01728847ff0905330a250226276b6ac" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::PromptLibraryIO::isYamlPath</definition>
+        <argsstring>(const std::string &amp;path) noexcept</argsstring>
+        <name>isYamlPath</name>
+        <qualifiedname>themis::prompt_engineering::PromptLibraryIO::isYamlPath</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Detect YAML format from file extension. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>P. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_library_io.h" line="217" column="17" bodyfile="src/prompt_engineering/prompt_library_io.cpp" bodystart="282" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_library_i_o_1a9d163076c929d39b8d64768eaabc758d" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template" kindref="compound">PromptManager::PromptTemplate</ref></type>
+        <definition>PromptManager::PromptTemplate themis::prompt_engineering::PromptLibraryIO::templateFromYamlNode</definition>
+        <argsstring>(const void *node_ptr)</argsstring>
+        <name>templateFromYamlNode</name>
+        <qualifiedname>themis::prompt_engineering::PromptLibraryIO::templateFromYamlNode</qualifiedname>
+        <param>
+          <type>const void *</type>
+          <declname>node_ptr</declname>
+        </param>
+        <briefdescription>
+<para>Parse a single PromptTemplate from a YAML::Node. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Template From Yaml Node.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node_ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: templateFromYaml(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_library_io.h" line="220" column="42" bodyfile="src/prompt_engineering/prompt_library_io.cpp" bodystart="453" bodyend="460"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>All-static import/export utilities for prompt library bundles. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All methods are thread-safe; they operate on value types and hold no shared state. Callers are responsible for creating the <computeroutput><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_library_bundle" kindref="compound">PromptLibraryBundle</ref></computeroutput> and populating <computeroutput>bundle.templates</computeroutput>; the IO methods handle serialisation only.</para>
+<para>Typical write path: <programlisting><codeline><highlight class="normal">PromptLibraryBundle<sp/>bundle;</highlight></codeline>
+<codeline><highlight class="normal">bundle.name<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;contracts&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">bundle.version<sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;2.0.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">bundle.templates<sp/><sp/><sp/>=<sp/>manager.listTemplates();</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>checksum<sp/>is<sp/>computed<sp/>automatically:</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">ExportResult<sp/>r<sp/>=<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_library_i_o_1ae3832e69abadbc586929300ca8f11db5" kindref="member">PromptLibraryIO::exportToFile</ref>(bundle,<sp/></highlight><highlight class="stringliteral">&quot;/tmp/contracts.yaml&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">assert(r.success);</highlight></codeline>
+</programlisting></para>
+<para>Typical read path: <programlisting><codeline><highlight class="normal">PromptLibraryBundle<sp/>loaded;</highlight></codeline>
+<codeline><highlight class="normal">ImportResult<sp/>r<sp/>=<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_library_i_o_1aebe1634576018ec4f701037d9f109448" kindref="member">PromptLibraryIO::importFromFile</ref>(</highlight><highlight class="stringliteral">&quot;/tmp/contracts.yaml&quot;</highlight><highlight class="normal">,<sp/>loaded);</highlight></codeline>
+<codeline><highlight class="normal">assert(r.success<sp/>&amp;&amp;<sp/>r.checksum_valid);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>tpl<sp/>:<sp/>loaded.templates)<sp/>{<sp/>manager.createTemplate(tpl);<sp/>}</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/prompt_engineering/prompt_library_io.h" line="112" column="1" bodyfile="include/prompt_engineering/prompt_library_io.h" bodystart="112" bodyend="222"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_library_i_o_1a2d531f7b2e59c8a1af676ac5c5681fb9" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptLibraryIO</scope><name>computeChecksum</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_library_i_o_1ae3832e69abadbc586929300ca8f11db5" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptLibraryIO</scope><name>exportToFile</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_library_i_o_1aac44bbc844a5949b4c33559956fbd5fd" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptLibraryIO</scope><name>exportToJson</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_library_i_o_1a43d87822923b4281d7086f3f84aff9e1" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptLibraryIO</scope><name>exportToYaml</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_library_i_o_1aebe1634576018ec4f701037d9f109448" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptLibraryIO</scope><name>importFromFile</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_library_i_o_1a601bb5c04a06a43e8559b361fedaf931" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptLibraryIO</scope><name>importFromJson</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_library_i_o_1a8469added24f136ce05c1b294bc69978" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptLibraryIO</scope><name>importFromYaml</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_library_i_o_1ab01728847ff0905330a250226276b6ac" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptLibraryIO</scope><name>isYamlPath</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_library_i_o_1a9d163076c929d39b8d64768eaabc758d" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptLibraryIO</scope><name>templateFromYamlNode</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_library_i_o_1a2f8cff71233cadc49e28da0a075bfe94" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptLibraryIO</scope><name>verifyChecksum</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

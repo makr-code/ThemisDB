@@ -1,0 +1,844 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_graph_api_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::GraphApiHandler</compoundname>
+    <includes refid="graph__api__handler_8h" local="no">graph_api_handler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_graph_api_handler_1aed1756226c861e98ce369dcb2ae31634" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; themis::server::GraphApiHandler::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>themis::server::GraphApiHandler::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/graph_api_handler.h" line="126" column="21" bodyfile="include/server/graph_api_handler.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_graph_api_handler_1aa2828ac32163c97a680cbd7e048db28a" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; GraphIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;GraphIndexManager&gt; themis::server::GraphApiHandler::graph_index_</definition>
+        <argsstring></argsstring>
+        <name>graph_index_</name>
+        <qualifiedname>themis::server::GraphApiHandler::graph_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/graph_api_handler.h" line="127" column="21" bodyfile="include/server/graph_api_handler.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_graph_api_handler_1a1c35e60dd43e542a9295caf1b2d919ed" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">themis::AuthMiddleware</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;themis::AuthMiddleware&gt; themis::server::GraphApiHandler::auth_</definition>
+        <argsstring></argsstring>
+        <name>auth_</name>
+        <qualifiedname>themis::server::GraphApiHandler::auth_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/graph_api_handler.h" line="128" column="21" bodyfile="include/server/graph_api_handler.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_graph_api_handler_1ae4cc27072b59d3cd4e6afcf4e5123a2a" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::graph::GraphQueryOptimizer &gt;</type>
+        <definition>std::unique_ptr&lt;themis::graph::GraphQueryOptimizer&gt; themis::server::GraphApiHandler::optimizer_</definition>
+        <argsstring></argsstring>
+        <name>optimizer_</name>
+        <qualifiedname>themis::server::GraphApiHandler::optimizer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/graph_api_handler.h" line="129" column="21" bodyfile="include/server/graph_api_handler.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_graph_api_handler_1a686470109674bd27b20b86c2499165da" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; themis::graph::GraphQueryOptimizer::IncrementalQueryHandle, themis::graph::GraphQueryOptimizer::IncrementalQueryResult &gt;</type>
+        <definition>std::unordered_map&lt; themis::graph::GraphQueryOptimizer::IncrementalQueryHandle, themis::graph::GraphQueryOptimizer::IncrementalQueryResult &gt; themis::server::GraphApiHandler::incremental_results_</definition>
+        <argsstring></argsstring>
+        <name>incremental_results_</name>
+        <qualifiedname>themis::server::GraphApiHandler::incremental_results_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/graph_api_handler.h" line="134" column="2" bodyfile="include/server/graph_api_handler.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_graph_api_handler_1a8ef1351715378e4b4126de7a360e16cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::GraphApiHandler::GraphApiHandler</definition>
+        <argsstring>(std::shared_ptr&lt; RocksDBWrapper &gt; storage, std::shared_ptr&lt; GraphIndexManager &gt; graph_index, std::shared_ptr&lt; themis::AuthMiddleware &gt; auth)</argsstring>
+        <name>GraphApiHandler</name>
+        <qualifiedname>themis::server::GraphApiHandler::GraphApiHandler</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+          <declname>storage</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; GraphIndexManager &gt;</type>
+          <declname>graph_index</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">themis::AuthMiddleware</ref> &gt;</type>
+          <declname>auth</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/graph_api_handler.h" line="35" column="5" bodyfile="src/server/graph_api_handler.cpp" bodystart="28" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_graph_api_handler_1a095ad9b336f9041d204ce027d3de528f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::GraphApiHandler::handleTraverse</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleTraverse</name>
+        <qualifiedname>themis::server::GraphApiHandler::handleTraverse</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Traverse. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), setAttribute(), json::parse(), body(), contains(), setStatus(), makeErrorResponse(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/graph_api_handler.h" line="46" column="20" bodyfile="src/server/graph_api_handler.cpp" bodystart="48" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_graph_api_handler_1a7b72f1169c198b1eccc1f920b1c2cc85" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::GraphApiHandler::handleEdgeCreate</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleEdgeCreate</name>
+        <qualifiedname>themis::server::GraphApiHandler::handleEdgeCreate</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Edge Create. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), setAttribute(), json::parse(), body(), contains(), setStatus(), makeErrorResponse(), items(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/graph_api_handler.h" line="53" column="20" bodyfile="src/server/graph_api_handler.cpp" bodystart="120" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_graph_api_handler_1adf5bd0c0aaf18d4cb6058ea0dc2b41f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::GraphApiHandler::handleEdgeDelete</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleEdgeDelete</name>
+        <qualifiedname>themis::server::GraphApiHandler::handleEdgeDelete</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Edge Delete. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), setAttribute(), std::string(), target(), extractPathParam(), empty(), setStatus(), makeErrorResponse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/graph_api_handler.h" line="60" column="20" bodyfile="src/server/graph_api_handler.cpp" bodystart="216" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_graph_api_handler_1a1ae816837e1197bf57d6b4adbe6c01bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::GraphApiHandler::handleMetrics</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleMetrics</name>
+        <qualifiedname>themis::server::GraphApiHandler::handleMetrics</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), setAttribute(), setStatus(), makeErrorResponse(), getQueryMetrics(), load(), avgExecutionTimeMs(), errorRate(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/graph_api_handler.h" line="67" column="20" bodyfile="src/server/graph_api_handler.cpp" bodystart="300" bodyend="333"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_graph_api_handler_1a992688f1bd838201b266ae46b46949e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::GraphApiHandler::handleMetricsPrometheus</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleMetricsPrometheus</name>
+        <qualifiedname>themis::server::GraphApiHandler::handleMetricsPrometheus</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Metrics Prometheus. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), setAttribute(), setStatus(), makeErrorResponse(), getQueryMetrics(), reserve(), std::to_string(), counter(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/graph_api_handler.h" line="74" column="20" bodyfile="src/server/graph_api_handler.cpp" bodystart="341" bodyend="455"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_graph_api_handler_1a5c0d69c2e109c7d1d68d7de4c98cc909" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::GraphApiHandler::handleIncrementalQueryRegister</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleIncrementalQueryRegister</name>
+        <qualifiedname>themis::server::GraphApiHandler::handleIncrementalQueryRegister</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Incremental Query Register. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), setAttribute(), setStatus(), makeErrorResponse(), json::parse(), body(), contains(), registerIncrementalBFS(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/graph_api_handler.h" line="81" column="20" bodyfile="src/server/graph_api_handler.cpp" bodystart="530" bodyend="614"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_graph_api_handler_1a8a238aabf720815a899a6a4e62346623" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::GraphApiHandler::handleIncrementalQueryUnregister</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleIncrementalQueryUnregister</name>
+        <qualifiedname>themis::server::GraphApiHandler::handleIncrementalQueryUnregister</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Incremental Query Unregister. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), setAttribute(), setStatus(), makeErrorResponse(), std::string(), target(), extractPathParam(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/graph_api_handler.h" line="88" column="20" bodyfile="src/server/graph_api_handler.cpp" bodystart="622" bodyend="669"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_graph_api_handler_1a8bd0b08bf106f1a4be8c2d2561171b65" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::GraphApiHandler::handleGraphChanges</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleGraphChanges</name>
+        <qualifiedname>themis::server::GraphApiHandler::handleGraphChanges</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Graph Changes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), setAttribute(), setStatus(), makeErrorResponse(), json::parse(), body(), contains(), is_array(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/graph_api_handler.h" line="95" column="20" bodyfile="src/server/graph_api_handler.cpp" bodystart="677" bodyend="724"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_graph_api_handler_1a76f03a0e58284e6121a4f40264d0a6e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::GraphApiHandler::handleCostModelCalibrate</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleCostModelCalibrate</name>
+        <qualifiedname>themis::server::GraphApiHandler::handleCostModelCalibrate</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Cost Model Calibrate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/graph_api_handler.h" line="102" column="20" bodyfile="src/server/graph_api_handler.cpp" bodystart="752" bodyend="795"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_graph_api_handler_1a5564b02af21f4067b5ecd52ac4e6fe3e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::GraphApiHandler::handleCostModelExport</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleCostModelExport</name>
+        <qualifiedname>themis::server::GraphApiHandler::handleCostModelExport</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Cost Model Export. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/graph_api_handler.h" line="109" column="20" bodyfile="src/server/graph_api_handler.cpp" bodystart="802" bodyend="824"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_graph_api_handler_1a933880b4f21baf8b4705738315e76b12" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::GraphApiHandler::handleCostModelImport</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleCostModelImport</name>
+        <qualifiedname>themis::server::GraphApiHandler::handleCostModelImport</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Cost Model Import. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/graph_api_handler.h" line="116" column="20" bodyfile="src/server/graph_api_handler.cpp" bodystart="831" bodyend="869"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_graph_api_handler_1a88b158b14bd54141f1348c2ba20c4281" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::GraphApiHandler::handleQueryExplain</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleQueryExplain</name>
+        <qualifiedname>themis::server::GraphApiHandler::handleQueryExplain</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Query Explain. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/graph_api_handler.h" line="123" column="20" bodyfile="src/server/graph_api_handler.cpp" bodystart="997" bodyend="1197"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_graph_api_handler_1a73fac08b98a0c7f3d1c2276d505aded7" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>themis::graph::GraphQueryOptimizer::GraphChangeSet</type>
+        <definition>themis::graph::GraphQueryOptimizer::GraphChangeSet themis::server::GraphApiHandler::parseChangeSet</definition>
+        <argsstring>(const nlohmann::json &amp;changes_array)</argsstring>
+        <name>parseChangeSet</name>
+        <qualifiedname>themis::server::GraphApiHandler::parseChangeSet</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>changes_array</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/graph_api_handler.h" line="137" column="5" bodyfile="src/server/graph_api_handler.cpp" bodystart="492" bodyend="522"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_graph_api_handler_1a5d1fe1839e42232bee86b66e3ce751ec" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::GraphApiHandler::extractPathParam</definition>
+        <argsstring>(const std::string &amp;target, const std::string &amp;prefix)</argsstring>
+        <name>extractPathParam</name>
+        <qualifiedname>themis::server::GraphApiHandler::extractPathParam</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prefix</declname>
+        </param>
+        <briefdescription>
+<para>Extract Path Param. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), substr(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/graph_api_handler.h" line="146" column="17" bodyfile="src/server/graph_api_handler.cpp" bodystart="464" bodyend="485"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_graph_api_handler_1a04d8b560f6bf48958ab7bdb2d1fd992d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::GraphApiHandler::makeErrorResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;message, const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>makeErrorResponse</name>
+        <qualifiedname>themis::server::GraphApiHandler::makeErrorResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make Error <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: makeResponse(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/graph_api_handler.h" line="154" column="20" bodyfile="src/server/graph_api_handler.cpp" bodystart="1207" bodyend="1217"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_graph_api_handler_1af481475ed845983d20d2f75d98588552" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::GraphApiHandler::makeResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;body, const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>makeResponse</name>
+        <qualifiedname>themis::server::GraphApiHandler::makeResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: version(), set(), keep_alive(), body(), prepare_payload(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/graph_api_handler.h" line="163" column="20" bodyfile="src/server/graph_api_handler.cpp" bodystart="1227" bodyend="1238"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/graph_api_handler.h" line="33" column="1" bodyfile="include/server/graph_api_handler.h" bodystart="33" bodyend="165"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_graph_api_handler_1a1c35e60dd43e542a9295caf1b2d919ed" prot="private" virt="non-virtual"><scope>themis::server::GraphApiHandler</scope><name>auth_</name></member>
+      <member refid="classthemis_1_1server_1_1_graph_api_handler_1a5d1fe1839e42232bee86b66e3ce751ec" prot="private" virt="non-virtual"><scope>themis::server::GraphApiHandler</scope><name>extractPathParam</name></member>
+      <member refid="classthemis_1_1server_1_1_graph_api_handler_1aa2828ac32163c97a680cbd7e048db28a" prot="private" virt="non-virtual"><scope>themis::server::GraphApiHandler</scope><name>graph_index_</name></member>
+      <member refid="classthemis_1_1server_1_1_graph_api_handler_1a8ef1351715378e4b4126de7a360e16cf" prot="public" virt="non-virtual"><scope>themis::server::GraphApiHandler</scope><name>GraphApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_graph_api_handler_1a76f03a0e58284e6121a4f40264d0a6e3" prot="public" virt="non-virtual"><scope>themis::server::GraphApiHandler</scope><name>handleCostModelCalibrate</name></member>
+      <member refid="classthemis_1_1server_1_1_graph_api_handler_1a5564b02af21f4067b5ecd52ac4e6fe3e" prot="public" virt="non-virtual"><scope>themis::server::GraphApiHandler</scope><name>handleCostModelExport</name></member>
+      <member refid="classthemis_1_1server_1_1_graph_api_handler_1a933880b4f21baf8b4705738315e76b12" prot="public" virt="non-virtual"><scope>themis::server::GraphApiHandler</scope><name>handleCostModelImport</name></member>
+      <member refid="classthemis_1_1server_1_1_graph_api_handler_1a7b72f1169c198b1eccc1f920b1c2cc85" prot="public" virt="non-virtual"><scope>themis::server::GraphApiHandler</scope><name>handleEdgeCreate</name></member>
+      <member refid="classthemis_1_1server_1_1_graph_api_handler_1adf5bd0c0aaf18d4cb6058ea0dc2b41f6" prot="public" virt="non-virtual"><scope>themis::server::GraphApiHandler</scope><name>handleEdgeDelete</name></member>
+      <member refid="classthemis_1_1server_1_1_graph_api_handler_1a8bd0b08bf106f1a4be8c2d2561171b65" prot="public" virt="non-virtual"><scope>themis::server::GraphApiHandler</scope><name>handleGraphChanges</name></member>
+      <member refid="classthemis_1_1server_1_1_graph_api_handler_1a5c0d69c2e109c7d1d68d7de4c98cc909" prot="public" virt="non-virtual"><scope>themis::server::GraphApiHandler</scope><name>handleIncrementalQueryRegister</name></member>
+      <member refid="classthemis_1_1server_1_1_graph_api_handler_1a8a238aabf720815a899a6a4e62346623" prot="public" virt="non-virtual"><scope>themis::server::GraphApiHandler</scope><name>handleIncrementalQueryUnregister</name></member>
+      <member refid="classthemis_1_1server_1_1_graph_api_handler_1a1ae816837e1197bf57d6b4adbe6c01bc" prot="public" virt="non-virtual"><scope>themis::server::GraphApiHandler</scope><name>handleMetrics</name></member>
+      <member refid="classthemis_1_1server_1_1_graph_api_handler_1a992688f1bd838201b266ae46b46949e4" prot="public" virt="non-virtual"><scope>themis::server::GraphApiHandler</scope><name>handleMetricsPrometheus</name></member>
+      <member refid="classthemis_1_1server_1_1_graph_api_handler_1a88b158b14bd54141f1348c2ba20c4281" prot="public" virt="non-virtual"><scope>themis::server::GraphApiHandler</scope><name>handleQueryExplain</name></member>
+      <member refid="classthemis_1_1server_1_1_graph_api_handler_1a095ad9b336f9041d204ce027d3de528f" prot="public" virt="non-virtual"><scope>themis::server::GraphApiHandler</scope><name>handleTraverse</name></member>
+      <member refid="classthemis_1_1server_1_1_graph_api_handler_1a686470109674bd27b20b86c2499165da" prot="private" virt="non-virtual"><scope>themis::server::GraphApiHandler</scope><name>incremental_results_</name></member>
+      <member refid="classthemis_1_1server_1_1_graph_api_handler_1a04d8b560f6bf48958ab7bdb2d1fd992d" prot="private" virt="non-virtual"><scope>themis::server::GraphApiHandler</scope><name>makeErrorResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_graph_api_handler_1af481475ed845983d20d2f75d98588552" prot="private" virt="non-virtual"><scope>themis::server::GraphApiHandler</scope><name>makeResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_graph_api_handler_1ae4cc27072b59d3cd4e6afcf4e5123a2a" prot="private" virt="non-virtual"><scope>themis::server::GraphApiHandler</scope><name>optimizer_</name></member>
+      <member refid="classthemis_1_1server_1_1_graph_api_handler_1a73fac08b98a0c7f3d1c2276d505aded7" prot="private" virt="non-virtual"><scope>themis::server::GraphApiHandler</scope><name>parseChangeSet</name></member>
+      <member refid="classthemis_1_1server_1_1_graph_api_handler_1aed1756226c861e98ce369dcb2ae31634" prot="private" virt="non-virtual"><scope>themis::server::GraphApiHandler</scope><name>storage_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,511 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classchimera_1_1_transaction_context" kind="class" language="C++" prot="public">
+    <compoundname>chimera::TransactionContext</compoundname>
+    <includes refid="transaction_8hpp" local="no">transaction.hpp</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classchimera_1_1_transaction_context_1a0e70df09bf4bcb112e9313ba32fe88c0" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string chimera::TransactionContext::transaction_id_</definition>
+        <argsstring></argsstring>
+        <name>transaction_id_</name>
+        <qualifiedname>chimera::TransactionContext::transaction_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/transaction.hpp" line="153" column="17" bodyfile="include/chimera/transaction.hpp" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classchimera_1_1_transaction_context_1a78fcd551ad22a87d24a27e51ad7f0744" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacechimera_1af60dde6e35ebe61bfef457662321dc81" kindref="member">IsolationLevel</ref></type>
+        <definition>IsolationLevel chimera::TransactionContext::isolation_level_</definition>
+        <argsstring></argsstring>
+        <name>isolation_level_</name>
+        <qualifiedname>chimera::TransactionContext::isolation_level_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/transaction.hpp" line="154" column="20" bodyfile="include/chimera/transaction.hpp" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classchimera_1_1_transaction_context_1ab8ec4d4409a8d58448c338b682f12a41" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacechimera_1a049810d1c4a4924e492bc235cff6f16c" kindref="member">TransactionState</ref></type>
+        <definition>TransactionState chimera::TransactionContext::state_</definition>
+        <argsstring></argsstring>
+        <name>state_</name>
+        <qualifiedname>chimera::TransactionContext::state_</qualifiedname>
+        <initializer>= <ref refid="namespacechimera_1a049810d1c4a4924e492bc235cff6f16ca17130e6c806885e23770df1519b18eb7" kindref="member">TransactionState::STARTED</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/transaction.hpp" line="155" column="22" bodyfile="include/chimera/transaction.hpp" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classchimera_1_1_transaction_context_1a837d41b6aebd96230694283f69f9a470" prot="private" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point chimera::TransactionContext::start_time_</definition>
+        <argsstring></argsstring>
+        <name>start_time_</name>
+        <qualifiedname>chimera::TransactionContext::start_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/transaction.hpp" line="156" column="43" bodyfile="include/chimera/transaction.hpp" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classchimera_1_1_transaction_context_1a103f340a872e1d886a18189c44a7cd3f" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structchimera_1_1_operation" kindref="compound">Operation</ref> &gt;</type>
+        <definition>std::vector&lt;Operation&gt; chimera::TransactionContext::operations_</definition>
+        <argsstring></argsstring>
+        <name>operations_</name>
+        <qualifiedname>chimera::TransactionContext::operations_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/transaction.hpp" line="157" column="17" bodyfile="include/chimera/transaction.hpp" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classchimera_1_1_transaction_context_1aaea46e71dbe434b2afc6740a03ae9671" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, size_t &gt;</type>
+        <definition>std::map&lt;std::string, size_t&gt; chimera::TransactionContext::savepoints_</definition>
+        <argsstring></argsstring>
+        <name>savepoints_</name>
+        <qualifiedname>chimera::TransactionContext::savepoints_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/transaction.hpp" line="158" column="14" bodyfile="include/chimera/transaction.hpp" bodystart="158" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classchimera_1_1_transaction_context_1aa652c3acfd92b16d37c815677e10c5e3" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>chimera::TransactionContext::TransactionContext</definition>
+        <argsstring>(const std::string &amp;transaction_id, IsolationLevel isolation_level=IsolationLevel::READ_COMMITTED)</argsstring>
+        <name>TransactionContext</name>
+        <qualifiedname>chimera::TransactionContext::TransactionContext</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacechimera_1af60dde6e35ebe61bfef457662321dc81" kindref="member">IsolationLevel</ref></type>
+          <declname>isolation_level</declname>
+          <defval><ref refid="namespacechimera_1af60dde6e35ebe61bfef457662321dc81a1671fb17b5ce9bd0af0cf47f3f4ea337" kindref="member">IsolationLevel::READ_COMMITTED</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/transaction.hpp" line="47" column="14" bodyfile="src/chimera/transaction.cpp" bodystart="13" bodyend="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_transaction_context_1a9036730abfd8205245f75953492803be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>chimera::TransactionContext::~TransactionContext</definition>
+        <argsstring>()=default</argsstring>
+        <name>~TransactionContext</name>
+        <qualifiedname>chimera::TransactionContext::~TransactionContext</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/transaction.hpp" line="52" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_transaction_context_1a7e3274bc5e67adbfc382a7cef79a2d62" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string chimera::TransactionContext::get_id</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>get_id</name>
+        <qualifiedname>chimera::TransactionContext::get_id</qualifiedname>
+        <briefdescription>
+<para>Get id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/transaction.hpp" line="59" column="17" bodyfile="src/chimera/transaction.cpp" bodystart="23" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_transaction_context_1a69b6c3127aaaa83beb965d2d1ab6c19d" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacechimera_1a049810d1c4a4924e492bc235cff6f16c" kindref="member">TransactionState</ref></type>
+        <definition>TransactionState chimera::TransactionContext::get_state</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>get_state</name>
+        <qualifiedname>chimera::TransactionContext::get_state</qualifiedname>
+        <briefdescription>
+<para>Get state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/transaction.hpp" line="65" column="22" bodyfile="src/chimera/transaction.cpp" bodystart="27" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_transaction_context_1a2e34144f45def479c1034669d3543227" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacechimera_1af60dde6e35ebe61bfef457662321dc81" kindref="member">IsolationLevel</ref></type>
+        <definition>IsolationLevel chimera::TransactionContext::get_isolation_level</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>get_isolation_level</name>
+        <qualifiedname>chimera::TransactionContext::get_isolation_level</qualifiedname>
+        <briefdescription>
+<para>Get isolation level. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/transaction.hpp" line="71" column="20" bodyfile="src/chimera/transaction.cpp" bodystart="31" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_transaction_context_1a0b70856db4ee6b65bebb987133215c98" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point chimera::TransactionContext::get_start_time</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>get_start_time</name>
+        <qualifiedname>chimera::TransactionContext::get_start_time</qualifiedname>
+        <briefdescription>
+<para>Get start time. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/transaction.hpp" line="77" column="43" bodyfile="src/chimera/transaction.cpp" bodystart="36" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_transaction_context_1a85b23ac6d461b7dbc5ed1ce80b47131a" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void chimera::TransactionContext::mark_active</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>mark_active</name>
+        <qualifiedname>chimera::TransactionContext::mark_active</qualifiedname>
+        <briefdescription>
+<para>Mark active. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/transaction.hpp" line="83" column="10" bodyfile="src/chimera/transaction.cpp" bodystart="40" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_transaction_context_1aa2985bffbc5bf0926e8fedcf35833703" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void chimera::TransactionContext::mark_committed</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>mark_committed</name>
+        <qualifiedname>chimera::TransactionContext::mark_committed</qualifiedname>
+        <briefdescription>
+<para>Mark committed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/transaction.hpp" line="88" column="10" bodyfile="src/chimera/transaction.cpp" bodystart="44" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_transaction_context_1af398df61e3129acf5ddebfec7e6d29f8" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void chimera::TransactionContext::mark_aborted</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>mark_aborted</name>
+        <qualifiedname>chimera::TransactionContext::mark_aborted</qualifiedname>
+        <briefdescription>
+<para>Mark aborted. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/transaction.hpp" line="93" column="10" bodyfile="src/chimera/transaction.cpp" bodystart="48" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_transaction_context_1ab12bc1bd8d06c86f08e697dd8282a68d" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void chimera::TransactionContext::mark_failed</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>mark_failed</name>
+        <qualifiedname>chimera::TransactionContext::mark_failed</qualifiedname>
+        <briefdescription>
+<para>Mark failed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/transaction.hpp" line="98" column="10" bodyfile="src/chimera/transaction.cpp" bodystart="52" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_transaction_context_1a26d5525ace634bae9224e71d34c2f9b2" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool chimera::TransactionContext::is_active</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>is_active</name>
+        <qualifiedname>chimera::TransactionContext::is_active</qualifiedname>
+        <briefdescription>
+<para>Is active. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/transaction.hpp" line="105" column="10" bodyfile="src/chimera/transaction.cpp" bodystart="56" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_transaction_context_1a2649054aad447db756f4109a3a213362" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool chimera::TransactionContext::is_terminal</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>is_terminal</name>
+        <qualifiedname>chimera::TransactionContext::is_terminal</qualifiedname>
+        <briefdescription>
+<para>Is terminal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/transaction.hpp" line="111" column="10" bodyfile="src/chimera/transaction.cpp" bodystart="60" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_transaction_context_1aeb17c2de1e4d23ea853d445be347645f" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void chimera::TransactionContext::record_operation</definition>
+        <argsstring>(const Operation &amp;op) noexcept</argsstring>
+        <name>record_operation</name>
+        <qualifiedname>chimera::TransactionContext::record_operation</qualifiedname>
+        <param>
+          <type>const <ref refid="structchimera_1_1_operation" kindref="compound">Operation</ref> &amp;</type>
+          <declname>op</declname>
+        </param>
+        <briefdescription>
+<para>Record operation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">op</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/transaction.hpp" line="118" column="10" bodyfile="src/chimera/transaction.cpp" bodystart="66" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_transaction_context_1a02c194db1e36b890d13f9ce382525735" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="structchimera_1_1_operation" kindref="compound">Operation</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt; Operation &gt; &amp; chimera::TransactionContext::get_operations</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>get_operations</name>
+        <qualifiedname>chimera::TransactionContext::get_operations</qualifiedname>
+        <briefdescription>
+<para>Get operations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/transaction.hpp" line="124" column="23" bodyfile="src/chimera/transaction.cpp" bodystart="70" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_transaction_context_1a7b0f62f03567bed1f77a4799e4034722" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void chimera::TransactionContext::clear_operations</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>clear_operations</name>
+        <qualifiedname>chimera::TransactionContext::clear_operations</qualifiedname>
+        <briefdescription>
+<para>Clear operations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/transaction.hpp" line="129" column="10" bodyfile="src/chimera/transaction.cpp" bodystart="74" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_transaction_context_1a572393e7295edb590c476bb392987d52" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool chimera::TransactionContext::create_savepoint</definition>
+        <argsstring>(const std::string &amp;savepoint_name) noexcept</argsstring>
+        <name>create_savepoint</name>
+        <qualifiedname>chimera::TransactionContext::create_savepoint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>savepoint_name</declname>
+        </param>
+        <briefdescription>
+<para>Create savepoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">savepoint_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the savepoint. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/transaction.hpp" line="137" column="10" bodyfile="src/chimera/transaction.cpp" bodystart="78" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_transaction_context_1ab652b22dfcdab6ed7b32a1ae17b7ecb3" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; chimera::TransactionContext::get_savepoints</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>get_savepoints</name>
+        <qualifiedname>chimera::TransactionContext::get_savepoints</qualifiedname>
+        <briefdescription>
+<para>Get savepoints. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/transaction.hpp" line="143" column="17" bodyfile="src/chimera/transaction.cpp" bodystart="88" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_transaction_context_1ae3e1d11783de049af13e7378b5ac2e0b" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t chimera::TransactionContext::get_savepoint_operation_count</definition>
+        <argsstring>(const std::string &amp;savepoint_name) const noexcept</argsstring>
+        <name>get_savepoint_operation_count</name>
+        <qualifiedname>chimera::TransactionContext::get_savepoint_operation_count</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>savepoint_name</declname>
+        </param>
+        <briefdescription>
+<para>Get savepoint operation count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">savepoint_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the savepoint. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/transaction.hpp" line="150" column="12" bodyfile="src/chimera/transaction.cpp" bodystart="98" bodyend="106"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/chimera/transaction.hpp" line="45" column="1" bodyfile="include/chimera/transaction.hpp" bodystart="45" bodyend="159"/>
+    <listofallmembers>
+      <member refid="classchimera_1_1_transaction_context_1a7b0f62f03567bed1f77a4799e4034722" prot="public" virt="non-virtual"><scope>chimera::TransactionContext</scope><name>clear_operations</name></member>
+      <member refid="classchimera_1_1_transaction_context_1a572393e7295edb590c476bb392987d52" prot="public" virt="non-virtual"><scope>chimera::TransactionContext</scope><name>create_savepoint</name></member>
+      <member refid="classchimera_1_1_transaction_context_1a7e3274bc5e67adbfc382a7cef79a2d62" prot="public" virt="non-virtual"><scope>chimera::TransactionContext</scope><name>get_id</name></member>
+      <member refid="classchimera_1_1_transaction_context_1a2e34144f45def479c1034669d3543227" prot="public" virt="non-virtual"><scope>chimera::TransactionContext</scope><name>get_isolation_level</name></member>
+      <member refid="classchimera_1_1_transaction_context_1a02c194db1e36b890d13f9ce382525735" prot="public" virt="non-virtual"><scope>chimera::TransactionContext</scope><name>get_operations</name></member>
+      <member refid="classchimera_1_1_transaction_context_1ae3e1d11783de049af13e7378b5ac2e0b" prot="public" virt="non-virtual"><scope>chimera::TransactionContext</scope><name>get_savepoint_operation_count</name></member>
+      <member refid="classchimera_1_1_transaction_context_1ab652b22dfcdab6ed7b32a1ae17b7ecb3" prot="public" virt="non-virtual"><scope>chimera::TransactionContext</scope><name>get_savepoints</name></member>
+      <member refid="classchimera_1_1_transaction_context_1a0b70856db4ee6b65bebb987133215c98" prot="public" virt="non-virtual"><scope>chimera::TransactionContext</scope><name>get_start_time</name></member>
+      <member refid="classchimera_1_1_transaction_context_1a69b6c3127aaaa83beb965d2d1ab6c19d" prot="public" virt="non-virtual"><scope>chimera::TransactionContext</scope><name>get_state</name></member>
+      <member refid="classchimera_1_1_transaction_context_1a26d5525ace634bae9224e71d34c2f9b2" prot="public" virt="non-virtual"><scope>chimera::TransactionContext</scope><name>is_active</name></member>
+      <member refid="classchimera_1_1_transaction_context_1a2649054aad447db756f4109a3a213362" prot="public" virt="non-virtual"><scope>chimera::TransactionContext</scope><name>is_terminal</name></member>
+      <member refid="classchimera_1_1_transaction_context_1a78fcd551ad22a87d24a27e51ad7f0744" prot="private" virt="non-virtual"><scope>chimera::TransactionContext</scope><name>isolation_level_</name></member>
+      <member refid="classchimera_1_1_transaction_context_1af398df61e3129acf5ddebfec7e6d29f8" prot="public" virt="non-virtual"><scope>chimera::TransactionContext</scope><name>mark_aborted</name></member>
+      <member refid="classchimera_1_1_transaction_context_1a85b23ac6d461b7dbc5ed1ce80b47131a" prot="public" virt="non-virtual"><scope>chimera::TransactionContext</scope><name>mark_active</name></member>
+      <member refid="classchimera_1_1_transaction_context_1aa2985bffbc5bf0926e8fedcf35833703" prot="public" virt="non-virtual"><scope>chimera::TransactionContext</scope><name>mark_committed</name></member>
+      <member refid="classchimera_1_1_transaction_context_1ab12bc1bd8d06c86f08e697dd8282a68d" prot="public" virt="non-virtual"><scope>chimera::TransactionContext</scope><name>mark_failed</name></member>
+      <member refid="classchimera_1_1_transaction_context_1a103f340a872e1d886a18189c44a7cd3f" prot="private" virt="non-virtual"><scope>chimera::TransactionContext</scope><name>operations_</name></member>
+      <member refid="classchimera_1_1_transaction_context_1aeb17c2de1e4d23ea853d445be347645f" prot="public" virt="non-virtual"><scope>chimera::TransactionContext</scope><name>record_operation</name></member>
+      <member refid="classchimera_1_1_transaction_context_1aaea46e71dbe434b2afc6740a03ae9671" prot="private" virt="non-virtual"><scope>chimera::TransactionContext</scope><name>savepoints_</name></member>
+      <member refid="classchimera_1_1_transaction_context_1a837d41b6aebd96230694283f69f9a470" prot="private" virt="non-virtual"><scope>chimera::TransactionContext</scope><name>start_time_</name></member>
+      <member refid="classchimera_1_1_transaction_context_1ab8ec4d4409a8d58448c338b682f12a41" prot="private" virt="non-virtual"><scope>chimera::TransactionContext</scope><name>state_</name></member>
+      <member refid="classchimera_1_1_transaction_context_1a0e70df09bf4bcb112e9313ba32fe88c0" prot="private" virt="non-virtual"><scope>chimera::TransactionContext</scope><name>transaction_id_</name></member>
+      <member refid="classchimera_1_1_transaction_context_1aa652c3acfd92b16d37c815677e10c5e3" prot="public" virt="non-virtual"><scope>chimera::TransactionContext</scope><name>TransactionContext</name></member>
+      <member refid="classchimera_1_1_transaction_context_1a9036730abfd8205245f75953492803be" prot="public" virt="non-virtual"><scope>chimera::TransactionContext</scope><name>~TransactionContext</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

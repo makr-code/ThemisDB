@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1modules_1_1_wasm_module_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::modules::WasmModuleInfo</compoundname>
+    <includes refid="wasm__plugin__sandbox_8h" local="no">wasm_plugin_sandbox.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_wasm_module_info_1ac5b8a76eae694b098936f14e3b92b2bf" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::modules::WasmModuleInfo::valid</definition>
+        <argsstring></argsstring>
+        <name>valid</name>
+        <qualifiedname>themis::modules::WasmModuleInfo::valid</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true iff the binary starts with <computeroutput>\0asm</computeroutput> </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="61" column="13" bodyfile="include/themis/base/wasm_plugin_sandbox.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_wasm_module_info_1ac09fa04fc8f6fd9686a36d1934c40209" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::modules::WasmModuleInfo::wasm_version</definition>
+        <argsstring></argsstring>
+        <name>wasm_version</name>
+        <qualifiedname>themis::modules::WasmModuleInfo::wasm_version</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>WASM binary format version (usually 1). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="62" column="14" bodyfile="include/themis/base/wasm_plugin_sandbox.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_wasm_module_info_1afe1c3d3c06ec3a5c15ad6d83b0871f81" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::modules::WasmModuleInfo::byte_size</definition>
+        <argsstring></argsstring>
+        <name>byte_size</name>
+        <qualifiedname>themis::modules::WasmModuleInfo::byte_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total byte size of the .wasm binary. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="63" column="14" bodyfile="include/themis/base/wasm_plugin_sandbox.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_wasm_module_info_1a3662c7432b7efdb5949362ae4f90d804" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::WasmModuleInfo::module_name</definition>
+        <argsstring></argsstring>
+        <name>module_name</name>
+        <qualifiedname>themis::modules::WasmModuleInfo::module_name</qualifiedname>
+        <briefdescription>
+<para>From custom &quot;name&quot; section, if present. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="64" column="17" bodyfile="include/themis/base/wasm_plugin_sandbox.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_wasm_module_info_1aaae44654b2dbb858660a090cbced7858" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::modules::WasmModuleInfo::imports</definition>
+        <argsstring></argsstring>
+        <name>imports</name>
+        <qualifiedname>themis::modules::WasmModuleInfo::imports</qualifiedname>
+        <briefdescription>
+<para>Import descriptors (&quot;module.name&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="65" column="17" bodyfile="include/themis/base/wasm_plugin_sandbox.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_wasm_module_info_1af68fef163d8972b3e8d70fe3a9c40ddb" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::modules::WasmModuleInfo::exports</definition>
+        <argsstring></argsstring>
+        <name>exports</name>
+        <qualifiedname>themis::modules::WasmModuleInfo::exports</qualifiedname>
+        <briefdescription>
+<para>Export names found in the export section. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="66" column="17" bodyfile="include/themis/base/wasm_plugin_sandbox.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1modules_1_1_wasm_module_info_1ab1509c74f4d8603a558c463ac2520c45" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::modules::WasmModuleInfo::summary</definition>
+        <argsstring>() const</argsstring>
+        <name>summary</name>
+        <qualifiedname>themis::modules::WasmModuleInfo::summary</qualifiedname>
+        <briefdescription>
+<para>Human-readable one-liner summary. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="69" column="17"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Lightweight metadata extracted from a WebAssembly binary. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Only the module header and the custom &quot;name&quot; section (if present) are read; no full decode of the module is performed at this stage. </para>
+    </detaileddescription>
+    <location file="include/themis/base/wasm_plugin_sandbox.h" line="60" column="1" bodyfile="include/themis/base/wasm_plugin_sandbox.h" bodystart="60" bodyend="70"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1modules_1_1_wasm_module_info_1afe1c3d3c06ec3a5c15ad6d83b0871f81" prot="public" virt="non-virtual"><scope>themis::modules::WasmModuleInfo</scope><name>byte_size</name></member>
+      <member refid="structthemis_1_1modules_1_1_wasm_module_info_1af68fef163d8972b3e8d70fe3a9c40ddb" prot="public" virt="non-virtual"><scope>themis::modules::WasmModuleInfo</scope><name>exports</name></member>
+      <member refid="structthemis_1_1modules_1_1_wasm_module_info_1aaae44654b2dbb858660a090cbced7858" prot="public" virt="non-virtual"><scope>themis::modules::WasmModuleInfo</scope><name>imports</name></member>
+      <member refid="structthemis_1_1modules_1_1_wasm_module_info_1a3662c7432b7efdb5949362ae4f90d804" prot="public" virt="non-virtual"><scope>themis::modules::WasmModuleInfo</scope><name>module_name</name></member>
+      <member refid="structthemis_1_1modules_1_1_wasm_module_info_1ab1509c74f4d8603a558c463ac2520c45" prot="public" virt="non-virtual"><scope>themis::modules::WasmModuleInfo</scope><name>summary</name></member>
+      <member refid="structthemis_1_1modules_1_1_wasm_module_info_1ac5b8a76eae694b098936f14e3b92b2bf" prot="public" virt="non-virtual"><scope>themis::modules::WasmModuleInfo</scope><name>valid</name></member>
+      <member refid="structthemis_1_1modules_1_1_wasm_module_info_1ac09fa04fc8f6fd9686a36d1934c40209" prot="public" virt="non-virtual"><scope>themis::modules::WasmModuleInfo</scope><name>wasm_version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

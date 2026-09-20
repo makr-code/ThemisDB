@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::training::RLAIFConfig</compoundname>
+    <includes refid="rlaif__trainer_8h" local="no">rlaif_trainer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_config_1a472bf7ab370f732a67c98020c180d8b3" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::rag::training::RLAIFConfig::max_revision_iterations</definition>
+        <argsstring></argsstring>
+        <name>max_revision_iterations</name>
+        <qualifiedname>themis::rag::training::RLAIFConfig::max_revision_iterations</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Max critique-revision cycles. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="235" column="12" bodyfile="include/rag/rlaif_trainer.h" bodystart="235" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_config_1a138b7e2dc9e99b68722459ca4311a306" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::training::RLAIFConfig::min_quality_threshold</definition>
+        <argsstring></argsstring>
+        <name>min_quality_threshold</name>
+        <qualifiedname>themis::rag::training::RLAIFConfig::min_quality_threshold</qualifiedname>
+        <initializer>= 0.6</initializer>
+        <briefdescription>
+<para>Min score to accept a response. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="236" column="12" bodyfile="include/rag/rlaif_trainer.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_config_1aeb5374475eeac0966dcba332b8b433ad" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::training::RLAIFConfig::improvement_threshold</definition>
+        <argsstring></argsstring>
+        <name>improvement_threshold</name>
+        <qualifiedname>themis::rag::training::RLAIFConfig::improvement_threshold</qualifiedname>
+        <initializer>= 0.05</initializer>
+        <briefdescription>
+<para>Min δ to continue iterating. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="237" column="12" bodyfile="include/rag/rlaif_trainer.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_config_1af11aa40fc4cdb7b495fdbc2528450c6b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::training::RLAIFConfig::min_preference_score</definition>
+        <argsstring></argsstring>
+        <name>min_preference_score</name>
+        <qualifiedname>themis::rag::training::RLAIFConfig::min_preference_score</qualifiedname>
+        <initializer>= 0.55</initializer>
+        <briefdescription>
+<para>Min judge score to create a pair. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="240" column="12" bodyfile="include/rag/rlaif_trainer.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_config_1a7de78b55ca70c27570cd76352454e633" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::training::RLAIFConfig::include_rationale</definition>
+        <argsstring></argsstring>
+        <name>include_rationale</name>
+        <qualifiedname>themis::rag::training::RLAIFConfig::include_rationale</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Include judge rationale in pair. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="241" column="12" bodyfile="include/rag/rlaif_trainer.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_config_1a1bb1deb41e8ae1517432abd1d5efa9e1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::training::RLAIFConfig::max_dataset_size</definition>
+        <argsstring></argsstring>
+        <name>max_dataset_size</name>
+        <qualifiedname>themis::rag::training::RLAIFConfig::max_dataset_size</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+<para>Maximum stored preference pairs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="244" column="12" bodyfile="include/rag/rlaif_trainer.h" bodystart="244" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_config_1a2c213024f4eae5bb97d1e45d2b7e3d7a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1training_1_1_a_i_principle" kindref="compound">AIPrinciple</ref> &gt;</type>
+        <definition>std::vector&lt;AIPrinciple&gt; themis::rag::training::RLAIFConfig::principles</definition>
+        <argsstring></argsstring>
+        <name>principles</name>
+        <qualifiedname>themis::rag::training::RLAIFConfig::principles</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="247" column="17" bodyfile="include/rag/rlaif_trainer.h" bodystart="247" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for <ref refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer" kindref="compound">RLAIFTrainer</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/rlaif_trainer.h" line="233" column="1" bodyfile="include/rag/rlaif_trainer.h" bodystart="233" bodyend="248"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_config_1aeb5374475eeac0966dcba332b8b433ad" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFConfig</scope><name>improvement_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_config_1a7de78b55ca70c27570cd76352454e633" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFConfig</scope><name>include_rationale</name></member>
+      <member refid="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_config_1a1bb1deb41e8ae1517432abd1d5efa9e1" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFConfig</scope><name>max_dataset_size</name></member>
+      <member refid="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_config_1a472bf7ab370f732a67c98020c180d8b3" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFConfig</scope><name>max_revision_iterations</name></member>
+      <member refid="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_config_1af11aa40fc4cdb7b495fdbc2528450c6b" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFConfig</scope><name>min_preference_score</name></member>
+      <member refid="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_config_1a138b7e2dc9e99b68722459ca4311a306" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFConfig</scope><name>min_quality_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_config_1a2c213024f4eae5bb97d1e45d2b7e3d7a" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFConfig</scope><name>principles</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

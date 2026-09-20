@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_ccpa_rule_eval_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::CcpaRuleEvalResult</compoundname>
+    <includes refid="ccpa__rules_8h" local="no">ccpa_rules.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_ccpa_rule_eval_result_1aed38124a58552af3e4f21dd075cf6867" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::CcpaRuleEvalResult::rule_id</definition>
+        <argsstring></argsstring>
+        <name>rule_id</name>
+        <qualifiedname>themis::governance::CcpaRuleEvalResult::rule_id</qualifiedname>
+        <briefdescription>
+<para>ID of the evaluated <ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/ccpa_rules.h" line="44" column="17" bodyfile="include/governance/ccpa_rules.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_ccpa_rule_eval_result_1a56b34c7a06e3ddb946440667ee0151f9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::CcpaRuleEvalResult::ccpa_check_id</definition>
+        <argsstring></argsstring>
+        <name>ccpa_check_id</name>
+        <qualifiedname>themis::governance::CcpaRuleEvalResult::ccpa_check_id</qualifiedname>
+        <briefdescription>
+<para>ID of the CCPA rule that was evaluated. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/ccpa_rules.h" line="45" column="17" bodyfile="include/governance/ccpa_rules.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_ccpa_rule_eval_result_1a200689a1c879bb0ba434f5cafd8496dd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::CcpaRuleEvalResult::compliant</definition>
+        <argsstring></argsstring>
+        <name>compliant</name>
+        <qualifiedname>themis::governance::CcpaRuleEvalResult::compliant</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether the rule is CCPA-compliant. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/ccpa_rules.h" line="46" column="10" bodyfile="include/governance/ccpa_rules.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_ccpa_rule_eval_result_1a9cddee09c05bde281d9fdea35ade18f3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::CcpaRuleEvalResult::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::governance::CcpaRuleEvalResult::description</qualifiedname>
+        <briefdescription>
+<para>Human-readable result description. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/ccpa_rules.h" line="47" column="17" bodyfile="include/governance/ccpa_rules.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_ccpa_rule_eval_result_1acfaa0ccdd3183eb71d028abbe30629b7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::CcpaRuleEvalResult::recommendation</definition>
+        <argsstring></argsstring>
+        <name>recommendation</name>
+        <qualifiedname>themis::governance::CcpaRuleEvalResult::recommendation</qualifiedname>
+        <briefdescription>
+<para>Remediation recommendation if not compliant. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/ccpa_rules.h" line="48" column="17" bodyfile="include/governance/ccpa_rules.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_ccpa_rule_eval_result_1a06750d1566c66b56b8a19e67c75bb260" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::CcpaRuleEvalResult::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::governance::CcpaRuleEvalResult::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/ccpa_rules.h" line="54" column="20" bodyfile="src/governance/ccpa_rules.cpp" bodystart="30" bodyend="36"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/ccpa_rules.h" line="43" column="1" bodyfile="include/governance/ccpa_rules.h" bodystart="43" bodyend="55"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_ccpa_rule_eval_result_1a56b34c7a06e3ddb946440667ee0151f9" prot="public" virt="non-virtual"><scope>themis::governance::CcpaRuleEvalResult</scope><name>ccpa_check_id</name></member>
+      <member refid="structthemis_1_1governance_1_1_ccpa_rule_eval_result_1a200689a1c879bb0ba434f5cafd8496dd" prot="public" virt="non-virtual"><scope>themis::governance::CcpaRuleEvalResult</scope><name>compliant</name></member>
+      <member refid="structthemis_1_1governance_1_1_ccpa_rule_eval_result_1a9cddee09c05bde281d9fdea35ade18f3" prot="public" virt="non-virtual"><scope>themis::governance::CcpaRuleEvalResult</scope><name>description</name></member>
+      <member refid="structthemis_1_1governance_1_1_ccpa_rule_eval_result_1acfaa0ccdd3183eb71d028abbe30629b7" prot="public" virt="non-virtual"><scope>themis::governance::CcpaRuleEvalResult</scope><name>recommendation</name></member>
+      <member refid="structthemis_1_1governance_1_1_ccpa_rule_eval_result_1aed38124a58552af3e4f21dd075cf6867" prot="public" virt="non-virtual"><scope>themis::governance::CcpaRuleEvalResult</scope><name>rule_id</name></member>
+      <member refid="structthemis_1_1governance_1_1_ccpa_rule_eval_result_1a06750d1566c66b56b8a19e67c75bb260" prot="public" virt="non-virtual"><scope>themis::governance::CcpaRuleEvalResult</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

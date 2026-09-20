@@ -1,0 +1,1235 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_import_api_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::ImportApiHandler</compoundname>
+    <includes refid="import__api__handler_8h" local="no">import_api_handler.h</includes>
+    <sectiondef kind="private-type">
+      <memberdef kind="typedef" id="classthemis_1_1server_1_1_import_api_handler_1a85509a761f850632943d6d517cc4663f" prot="private" static="no">
+        <type>std::function&lt; nlohmann::json(const std::string &amp;source_path)&gt;</type>
+        <definition>using themis::server::ImportApiHandler::SchemaInspectorFn = std::function&lt;nlohmann::json(const std::string&amp; source_path)&gt;</definition>
+        <argsstring></argsstring>
+        <name>SchemaInspectorFn</name>
+        <qualifiedname>themis::server::ImportApiHandler::SchemaInspectorFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/import_api_handler.h" line="159" column="5" bodyfile="include/server/import_api_handler.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1server_1_1_import_api_handler_1a398b28ae44c3c57c0f059ca90800ded4" prot="private" static="no">
+        <type>std::function&lt; nlohmann::json(const std::string &amp;source_path, const nlohmann::json &amp;overrides)&gt;</type>
+        <definition>using themis::server::ImportApiHandler::SchemaValidatorFn = std::function&lt;nlohmann::json(const std::string&amp; source_path,
+                                                           const nlohmann::json&amp; overrides)&gt;</definition>
+        <argsstring></argsstring>
+        <name>SchemaValidatorFn</name>
+        <qualifiedname>themis::server::ImportApiHandler::SchemaValidatorFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/import_api_handler.h" line="161" column="5" bodyfile="include/server/import_api_handler.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_import_api_handler_1a7d5ef045e92857f2e4f8674586b2a2b0" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; importers::ImportJobRegistry &gt;</type>
+        <definition>std::shared_ptr&lt;importers::ImportJobRegistry&gt; themis::server::ImportApiHandler::registry_</definition>
+        <argsstring></argsstring>
+        <name>registry_</name>
+        <qualifiedname>themis::server::ImportApiHandler::registry_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/import_api_handler.h" line="148" column="21" bodyfile="include/server/import_api_handler.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_import_api_handler_1a2d92428b99089a161edbff4a590ceb5c" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; importers::IImporter &gt;</type>
+        <definition>std::shared_ptr&lt;importers::IImporter&gt; themis::server::ImportApiHandler::importer_</definition>
+        <argsstring></argsstring>
+        <name>importer_</name>
+        <qualifiedname>themis::server::ImportApiHandler::importer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/import_api_handler.h" line="149" column="29" bodyfile="include/server/import_api_handler.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_import_api_handler_1ae35cf692c56d46b66db3ac3999fac142" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; importers::IImporter &gt;</type>
+        <definition>std::shared_ptr&lt;importers::IImporter&gt; themis::server::ImportApiHandler::s3_importer_</definition>
+        <argsstring></argsstring>
+        <name>s3_importer_</name>
+        <qualifiedname>themis::server::ImportApiHandler::s3_importer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/import_api_handler.h" line="150" column="29" bodyfile="include/server/import_api_handler.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_import_api_handler_1a9dfd1fec34c817932ceb91f117043169" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::server::ImportApiHandler::rel_mutex_</definition>
+        <argsstring></argsstring>
+        <name>rel_mutex_</name>
+        <qualifiedname>themis::server::ImportApiHandler::rel_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/import_api_handler.h" line="154" column="51" bodyfile="include/server/import_api_handler.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_import_api_handler_1ad2b42d781a5ee05de909eebde87c0311" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, nlohmann::json &gt;</type>
+        <definition>std::map&lt;std::string, nlohmann::json&gt; themis::server::ImportApiHandler::relationship_overrides_</definition>
+        <argsstring></argsstring>
+        <name>relationship_overrides_</name>
+        <qualifiedname>themis::server::ImportApiHandler::relationship_overrides_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/import_api_handler.h" line="155" column="22" bodyfile="include/server/import_api_handler.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_import_api_handler_1a3f59a186c11d0fbda67054668d65d281" prot="private" static="no" mutable="no">
+        <type>SchemaInspectorFn</type>
+        <definition>SchemaInspectorFn themis::server::ImportApiHandler::schemaInspectorFn_</definition>
+        <argsstring></argsstring>
+        <name>schemaInspectorFn_</name>
+        <qualifiedname>themis::server::ImportApiHandler::schemaInspectorFn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/import_api_handler.h" line="186" column="23" bodyfile="include/server/import_api_handler.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_import_api_handler_1ae98f960b4d39573d6199b2722346371e" prot="private" static="no" mutable="no">
+        <type>SchemaValidatorFn</type>
+        <definition>SchemaValidatorFn themis::server::ImportApiHandler::schemaValidatorFn_</definition>
+        <argsstring></argsstring>
+        <name>schemaValidatorFn_</name>
+        <qualifiedname>themis::server::ImportApiHandler::schemaValidatorFn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/import_api_handler.h" line="187" column="23" bodyfile="include/server/import_api_handler.h" bodystart="187" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_import_api_handler_1ac4e9f0cae421c352301ed09a3d11e236" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::ImportApiHandler::ImportApiHandler</definition>
+        <argsstring>(std::shared_ptr&lt; importers::ImportJobRegistry &gt; registry, std::shared_ptr&lt; importers::IImporter &gt; importer, std::shared_ptr&lt; importers::IImporter &gt; s3_importer=nullptr)</argsstring>
+        <name>ImportApiHandler</name>
+        <qualifiedname>themis::server::ImportApiHandler::ImportApiHandler</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; importers::ImportJobRegistry &gt;</type>
+          <declname>registry</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; importers::IImporter &gt;</type>
+          <declname>importer</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; importers::IImporter &gt;</type>
+          <declname>s3_importer</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/import_api_handler.h" line="34" column="14" bodyfile="src/server/import_api_handler.cpp" bodystart="130" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_import_api_handler_1ae44b326dc2dd373eac740b4a87c31f57" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::ImportApiHandler::~ImportApiHandler</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ImportApiHandler</name>
+        <qualifiedname>themis::server::ImportApiHandler::~ImportApiHandler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/import_api_handler.h" line="40" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_import_api_handler_1ad489a770c856a96ea01777e78851bfd9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::ImportApiHandler::registerRoutes</definition>
+        <argsstring>(httplib::Server &amp;server)</argsstring>
+        <name>registerRoutes</name>
+        <qualifiedname>themis::server::ImportApiHandler::registerRoutes</qualifiedname>
+        <param>
+          <type>httplib::Server &amp;</type>
+          <declname>server</declname>
+        </param>
+        <briefdescription>
+<para>Register Routes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">server</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">server</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: Post(), handleStartImport(), handleStartMySQLImport(), handleStartS3Import(), Get(), handleListJobs(), handleMetrics(), handleJobStatus(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/import_api_handler.h" line="46" column="10" bodyfile="src/server/import_api_handler.cpp" bodystart="146" bodyend="214"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_import_api_handler_1a683959273df313a76711e2cea05abda5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::ImportApiHandler::handleStartImport</definition>
+        <argsstring>(const httplib::Request &amp;req, httplib::Response &amp;res)</argsstring>
+        <name>handleStartImport</name>
+        <qualifiedname>themis::server::ImportApiHandler::handleStartImport</qualifiedname>
+        <param>
+          <type>const httplib::Request &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>httplib::Response &amp;</type>
+          <declname>res</declname>
+        </param>
+        <briefdescription>
+<para>Handle Start Import. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: Tracer::startSpan(), parseRequestBody(), jsonError(), std::string(), what(), contains(), is_string(), is_object(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/import_api_handler.h" line="55" column="10" bodyfile="src/server/import_api_handler.cpp" bodystart="226" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_import_api_handler_1a4d33e1a7c10a9b70340a90aab4ca31ff" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::ImportApiHandler::handleStartMySQLImport</definition>
+        <argsstring>(const httplib::Request &amp;req, httplib::Response &amp;res)</argsstring>
+        <name>handleStartMySQLImport</name>
+        <qualifiedname>themis::server::ImportApiHandler::handleStartMySQLImport</qualifiedname>
+        <param>
+          <type>const httplib::Request &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>httplib::Response &amp;</type>
+          <declname>res</declname>
+        </param>
+        <briefdescription>
+<para>Handle Start My SQLImport. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: Tracer::startSpan(), IImporterPluginRegistry::instance(), resolve(), jsonError(), parseRequestBody(), std::string(), what(), contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/import_api_handler.h" line="61" column="10" bodyfile="src/server/import_api_handler.cpp" bodystart="264" bodyend="317"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_import_api_handler_1aad1559d4609398507c7bc5c6ea5d08d3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::ImportApiHandler::handleStartS3Import</definition>
+        <argsstring>(const httplib::Request &amp;req, httplib::Response &amp;res)</argsstring>
+        <name>handleStartS3Import</name>
+        <qualifiedname>themis::server::ImportApiHandler::handleStartS3Import</qualifiedname>
+        <param>
+          <type>const httplib::Request &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>httplib::Response &amp;</type>
+          <declname>res</declname>
+        </param>
+        <briefdescription>
+<para>Handle Start S3 Import. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: Tracer::startSpan(), jsonError(), parseRequestBody(), std::string(), what(), contains(), is_string(), importers::S3Importer::parseS3Url(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/import_api_handler.h" line="67" column="10" bodyfile="src/server/import_api_handler.cpp" bodystart="325" bodyend="378"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_import_api_handler_1af21a37a9737148eca987b85afc8de812" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::ImportApiHandler::handleJobStatus</definition>
+        <argsstring>(const httplib::Request &amp;req, httplib::Response &amp;res)</argsstring>
+        <name>handleJobStatus</name>
+        <qualifiedname>themis::server::ImportApiHandler::handleJobStatus</qualifiedname>
+        <param>
+          <type>const httplib::Request &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>httplib::Response &amp;</type>
+          <declname>res</declname>
+        </param>
+        <briefdescription>
+<para>Handle Job Status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: Tracer::startSpan(), getJsonSnapshot(), has_value(), jsonError(), jsonOk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/import_api_handler.h" line="73" column="10" bodyfile="src/server/import_api_handler.cpp" bodystart="386" bodyend="396"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_import_api_handler_1a189301546fc6130a97800502badb36ce" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::ImportApiHandler::handleCancelJob</definition>
+        <argsstring>(const httplib::Request &amp;req, httplib::Response &amp;res)</argsstring>
+        <name>handleCancelJob</name>
+        <qualifiedname>themis::server::ImportApiHandler::handleCancelJob</qualifiedname>
+        <param>
+          <type>const httplib::Request &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>httplib::Response &amp;</type>
+          <declname>res</declname>
+        </param>
+        <briefdescription>
+<para>Handle Cancel Job. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: Tracer::startSpan(), getRunningAndJsonSnapshot(), has_value(), jsonError(), value(), cancel(), THEMIS_INFO(), getJsonSnapshot(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/import_api_handler.h" line="79" column="10" bodyfile="src/server/import_api_handler.cpp" bodystart="404" bodyend="426"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_import_api_handler_1a327588cd641e391269e1cb5a4a39f3dd" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::ImportApiHandler::handleListJobs</definition>
+        <argsstring>(const httplib::Request &amp;req, httplib::Response &amp;res)</argsstring>
+        <name>handleListJobs</name>
+        <qualifiedname>themis::server::ImportApiHandler::handleListJobs</qualifiedname>
+        <param>
+          <type>const httplib::Request &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>httplib::Response &amp;</type>
+          <declname>res</declname>
+        </param>
+        <briefdescription>
+<para>Handle List Jobs. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: Tracer::startSpan(), allJsonSnapshots(), jsonOk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/import_api_handler.h" line="85" column="10" bodyfile="src/server/import_api_handler.cpp" bodystart="434" bodyend="439"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_import_api_handler_1af644c781c7460461340994f855c3178b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::ImportApiHandler::handleMetrics</definition>
+        <argsstring>(const httplib::Request &amp;req, httplib::Response &amp;res)</argsstring>
+        <name>handleMetrics</name>
+        <qualifiedname>themis::server::ImportApiHandler::handleMetrics</qualifiedname>
+        <param>
+          <type>const httplib::Request &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>httplib::Response &amp;</type>
+          <declname>res</declname>
+        </param>
+        <briefdescription>
+<para>Handle Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: Tracer::startSpan(), allJsonSnapshots(), value(), find(), end(), is_object(), set_content(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/import_api_handler.h" line="91" column="10" bodyfile="src/server/import_api_handler.cpp" bodystart="447" bodyend="489"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_import_api_handler_1a4a4afa82067d35c7978d8ca23bfe1f46" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::ImportApiHandler::handleImportWizard</definition>
+        <argsstring>(const httplib::Request &amp;req, httplib::Response &amp;res)</argsstring>
+        <name>handleImportWizard</name>
+        <qualifiedname>themis::server::ImportApiHandler::handleImportWizard</qualifiedname>
+        <param>
+          <type>const httplib::Request &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>httplib::Response &amp;</type>
+          <declname>res</declname>
+        </param>
+        <briefdescription>
+<para>Handle Import Wizard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ Import wizard UI (web-based single-page application) ============================================================================</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: Tracer::startSpan(), set_content(), <ref refid="namespacethemis_1_1server_1a45d9c77f187e33a580eba33f5e232789" kindref="member">buildImportWizardHtml()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/import_api_handler.h" line="97" column="10" bodyfile="src/server/import_api_handler.cpp" bodystart="498" bodyend="502"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_import_api_handler_1a7df9ca3091821f8a8bf3689fc6eac24d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::ImportApiHandler::handleGetSchema</definition>
+        <argsstring>(const httplib::Request &amp;req, httplib::Response &amp;res)</argsstring>
+        <name>handleGetSchema</name>
+        <qualifiedname>themis::server::ImportApiHandler::handleGetSchema</qualifiedname>
+        <param>
+          <type>const httplib::Request &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>httplib::Response &amp;</type>
+          <declname>res</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get Schema. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ v2.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+0 Handlers ============================================================================ Calls: Tracer::startSpan(), getSourcePathSnapshot(), has_value(), jsonError(), empty(), rfind(). </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rel_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/import_api_handler.h" line="104" column="10" bodyfile="src/server/import_api_handler.cpp" bodystart="622" bodyend="678"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_import_api_handler_1a66094565a0bc31fb65a1f36a6648329e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::ImportApiHandler::handleValidateSchema</definition>
+        <argsstring>(const httplib::Request &amp;req, httplib::Response &amp;res)</argsstring>
+        <name>handleValidateSchema</name>
+        <qualifiedname>themis::server::ImportApiHandler::handleValidateSchema</qualifiedname>
+        <param>
+          <type>const httplib::Request &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>httplib::Response &amp;</type>
+          <declname>res</declname>
+        </param>
+        <briefdescription>
+<para>Handle Validate Schema. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: Tracer::startSpan(), parseRequestBody(), jsonError(), std::string(), what(), contains(), is_string(), rfind(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/import_api_handler.h" line="110" column="10" bodyfile="src/server/import_api_handler.cpp" bodystart="686" bodyend="777"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_import_api_handler_1aee67bf3e8b8c40e6f844f15020ef75d1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::ImportApiHandler::handleUpdateRelationships</definition>
+        <argsstring>(const httplib::Request &amp;req, httplib::Response &amp;res)</argsstring>
+        <name>handleUpdateRelationships</name>
+        <qualifiedname>themis::server::ImportApiHandler::handleUpdateRelationships</qualifiedname>
+        <param>
+          <type>const httplib::Request &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>httplib::Response &amp;</type>
+          <declname>res</declname>
+        </param>
+        <briefdescription>
+<para>Handle Update Relationships. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: Tracer::startSpan(), getSourcePathSnapshot(), has_value(), jsonError(), parseRequestBody(), std::string(), what(), is_array(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/import_api_handler.h" line="116" column="10" bodyfile="src/server/import_api_handler.cpp" bodystart="785" bodyend="833"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_import_api_handler_1a1f7bd048905dec3b5c5fe927e4118dc8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::ImportApiHandler::setSchemaInspectorFn</definition>
+        <argsstring>(SchemaInspectorFn fn)</argsstring>
+        <name>setSchemaInspectorFn</name>
+        <qualifiedname>themis::server::ImportApiHandler::setSchemaInspectorFn</qualifiedname>
+        <param>
+          <type>SchemaInspectorFn</type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Schema Inspector Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/import_api_handler.h" line="168" column="10" bodyfile="src/server/import_api_handler.cpp" bodystart="97" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_import_api_handler_1a377757efb92e579bcf72bed8364147a8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::ImportApiHandler::clearSchemaInspectorFn</definition>
+        <argsstring>()</argsstring>
+        <name>clearSchemaInspectorFn</name>
+        <qualifiedname>themis::server::ImportApiHandler::clearSchemaInspectorFn</qualifiedname>
+        <briefdescription>
+<para>Clear Schema Inspector Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements clearSchemaInspectorFn without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/import_api_handler.h" line="173" column="10" bodyfile="src/server/import_api_handler.cpp" bodystart="105" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_import_api_handler_1ae8732edf6438da2dffc02ec536d21cda" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::ImportApiHandler::setSchemaValidatorFn</definition>
+        <argsstring>(SchemaValidatorFn fn)</argsstring>
+        <name>setSchemaValidatorFn</name>
+        <qualifiedname>themis::server::ImportApiHandler::setSchemaValidatorFn</qualifiedname>
+        <param>
+          <type>SchemaValidatorFn</type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Schema Validator Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/import_api_handler.h" line="179" column="10" bodyfile="src/server/import_api_handler.cpp" bodystart="114" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_import_api_handler_1a6146c46e14ba79c1a4149d92dfe51b28" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::ImportApiHandler::clearSchemaValidatorFn</definition>
+        <argsstring>()</argsstring>
+        <name>clearSchemaValidatorFn</name>
+        <qualifiedname>themis::server::ImportApiHandler::clearSchemaValidatorFn</qualifiedname>
+        <briefdescription>
+<para>Clear Schema Validator Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements clearSchemaValidatorFn without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/import_api_handler.h" line="184" column="10" bodyfile="src/server/import_api_handler.cpp" bodystart="122" bodyend="124"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_import_api_handler_1a81c017669ffea32b63aca91436639d03" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::server::ImportApiHandler::parseRequestBody</definition>
+        <argsstring>(const std::string &amp;body)</argsstring>
+        <name>parseRequestBody</name>
+        <qualifiedname>themis::server::ImportApiHandler::parseRequestBody</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+<para>Parse <ref refid="structthemis_1_1server_1_1_request" kindref="compound">Request</ref> Body. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: json::parse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/import_api_handler.h" line="124" column="27" bodyfile="src/server/import_api_handler.cpp" bodystart="514" bodyend="516"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_import_api_handler_1ac25597bbb7c5dd677153f4c09ae13b75" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>importers::ImportOptions</type>
+        <definition>ImportOptions themis::server::ImportApiHandler::optionsFromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>optionsFromJson</name>
+        <qualifiedname>themis::server::ImportApiHandler::optionsFromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>Options From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(), is_boolean(), is_number_unsigned(), spdlog::warn(), std::min(), is_string(), is_array(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/import_api_handler.h" line="130" column="37" bodyfile="src/server/import_api_handler.cpp" bodystart="524" bodyend="584"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_import_api_handler_1a75376d215ab1754e411857b2c1c0ddd1" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>httplib::Response &amp;</type>
+        <definition>httplib::Response &amp; themis::server::ImportApiHandler::jsonOk</definition>
+        <argsstring>(httplib::Response &amp;res, const nlohmann::json &amp;body)</argsstring>
+        <name>jsonOk</name>
+        <qualifiedname>themis::server::ImportApiHandler::jsonOk</qualifiedname>
+        <param>
+          <type>httplib::Response &amp;</type>
+          <declname>res</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+<para>Json Ok. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: set_content(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/import_api_handler.h" line="137" column="30" bodyfile="src/server/import_api_handler.cpp" bodystart="593" bodyend="597"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_import_api_handler_1a9c31d6c7e236a03f519a406ade510770" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>httplib::Response &amp;</type>
+        <definition>httplib::Response &amp; themis::server::ImportApiHandler::jsonError</definition>
+        <argsstring>(httplib::Response &amp;res, int status, const std::string &amp;message)</argsstring>
+        <name>jsonError</name>
+        <qualifiedname>themis::server::ImportApiHandler::jsonError</qualifiedname>
+        <param>
+          <type>httplib::Response &amp;</type>
+          <declname>res</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Json Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: set_content(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/import_api_handler.h" line="145" column="30" bodyfile="src/server/import_api_handler.cpp" bodystart="607" bodyend="613"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/import_api_handler.h" line="32" column="1" bodyfile="include/server/import_api_handler.h" bodystart="32" bodyend="188"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_import_api_handler_1a377757efb92e579bcf72bed8364147a8" prot="private" virt="non-virtual"><scope>themis::server::ImportApiHandler</scope><name>clearSchemaInspectorFn</name></member>
+      <member refid="classthemis_1_1server_1_1_import_api_handler_1a6146c46e14ba79c1a4149d92dfe51b28" prot="private" virt="non-virtual"><scope>themis::server::ImportApiHandler</scope><name>clearSchemaValidatorFn</name></member>
+      <member refid="classthemis_1_1server_1_1_import_api_handler_1a189301546fc6130a97800502badb36ce" prot="private" virt="non-virtual"><scope>themis::server::ImportApiHandler</scope><name>handleCancelJob</name></member>
+      <member refid="classthemis_1_1server_1_1_import_api_handler_1a7df9ca3091821f8a8bf3689fc6eac24d" prot="private" virt="non-virtual"><scope>themis::server::ImportApiHandler</scope><name>handleGetSchema</name></member>
+      <member refid="classthemis_1_1server_1_1_import_api_handler_1a4a4afa82067d35c7978d8ca23bfe1f46" prot="private" virt="non-virtual"><scope>themis::server::ImportApiHandler</scope><name>handleImportWizard</name></member>
+      <member refid="classthemis_1_1server_1_1_import_api_handler_1af21a37a9737148eca987b85afc8de812" prot="private" virt="non-virtual"><scope>themis::server::ImportApiHandler</scope><name>handleJobStatus</name></member>
+      <member refid="classthemis_1_1server_1_1_import_api_handler_1a327588cd641e391269e1cb5a4a39f3dd" prot="private" virt="non-virtual"><scope>themis::server::ImportApiHandler</scope><name>handleListJobs</name></member>
+      <member refid="classthemis_1_1server_1_1_import_api_handler_1af644c781c7460461340994f855c3178b" prot="private" virt="non-virtual"><scope>themis::server::ImportApiHandler</scope><name>handleMetrics</name></member>
+      <member refid="classthemis_1_1server_1_1_import_api_handler_1a683959273df313a76711e2cea05abda5" prot="private" virt="non-virtual"><scope>themis::server::ImportApiHandler</scope><name>handleStartImport</name></member>
+      <member refid="classthemis_1_1server_1_1_import_api_handler_1a4d33e1a7c10a9b70340a90aab4ca31ff" prot="private" virt="non-virtual"><scope>themis::server::ImportApiHandler</scope><name>handleStartMySQLImport</name></member>
+      <member refid="classthemis_1_1server_1_1_import_api_handler_1aad1559d4609398507c7bc5c6ea5d08d3" prot="private" virt="non-virtual"><scope>themis::server::ImportApiHandler</scope><name>handleStartS3Import</name></member>
+      <member refid="classthemis_1_1server_1_1_import_api_handler_1aee67bf3e8b8c40e6f844f15020ef75d1" prot="private" virt="non-virtual"><scope>themis::server::ImportApiHandler</scope><name>handleUpdateRelationships</name></member>
+      <member refid="classthemis_1_1server_1_1_import_api_handler_1a66094565a0bc31fb65a1f36a6648329e" prot="private" virt="non-virtual"><scope>themis::server::ImportApiHandler</scope><name>handleValidateSchema</name></member>
+      <member refid="classthemis_1_1server_1_1_import_api_handler_1ac4e9f0cae421c352301ed09a3d11e236" prot="public" virt="non-virtual"><scope>themis::server::ImportApiHandler</scope><name>ImportApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_import_api_handler_1a2d92428b99089a161edbff4a590ceb5c" prot="private" virt="non-virtual"><scope>themis::server::ImportApiHandler</scope><name>importer_</name></member>
+      <member refid="classthemis_1_1server_1_1_import_api_handler_1a9c31d6c7e236a03f519a406ade510770" prot="private" virt="non-virtual"><scope>themis::server::ImportApiHandler</scope><name>jsonError</name></member>
+      <member refid="classthemis_1_1server_1_1_import_api_handler_1a75376d215ab1754e411857b2c1c0ddd1" prot="private" virt="non-virtual"><scope>themis::server::ImportApiHandler</scope><name>jsonOk</name></member>
+      <member refid="classthemis_1_1server_1_1_import_api_handler_1ac25597bbb7c5dd677153f4c09ae13b75" prot="private" virt="non-virtual"><scope>themis::server::ImportApiHandler</scope><name>optionsFromJson</name></member>
+      <member refid="classthemis_1_1server_1_1_import_api_handler_1a81c017669ffea32b63aca91436639d03" prot="private" virt="non-virtual"><scope>themis::server::ImportApiHandler</scope><name>parseRequestBody</name></member>
+      <member refid="classthemis_1_1server_1_1_import_api_handler_1ad489a770c856a96ea01777e78851bfd9" prot="public" virt="non-virtual"><scope>themis::server::ImportApiHandler</scope><name>registerRoutes</name></member>
+      <member refid="classthemis_1_1server_1_1_import_api_handler_1a7d5ef045e92857f2e4f8674586b2a2b0" prot="private" virt="non-virtual"><scope>themis::server::ImportApiHandler</scope><name>registry_</name></member>
+      <member refid="classthemis_1_1server_1_1_import_api_handler_1a9dfd1fec34c817932ceb91f117043169" prot="private" virt="non-virtual"><scope>themis::server::ImportApiHandler</scope><name>rel_mutex_</name></member>
+      <member refid="classthemis_1_1server_1_1_import_api_handler_1ad2b42d781a5ee05de909eebde87c0311" prot="private" virt="non-virtual"><scope>themis::server::ImportApiHandler</scope><name>relationship_overrides_</name></member>
+      <member refid="classthemis_1_1server_1_1_import_api_handler_1ae35cf692c56d46b66db3ac3999fac142" prot="private" virt="non-virtual"><scope>themis::server::ImportApiHandler</scope><name>s3_importer_</name></member>
+      <member refid="classthemis_1_1server_1_1_import_api_handler_1a85509a761f850632943d6d517cc4663f" prot="private" virt="non-virtual"><scope>themis::server::ImportApiHandler</scope><name>SchemaInspectorFn</name></member>
+      <member refid="classthemis_1_1server_1_1_import_api_handler_1a3f59a186c11d0fbda67054668d65d281" prot="private" virt="non-virtual"><scope>themis::server::ImportApiHandler</scope><name>schemaInspectorFn_</name></member>
+      <member refid="classthemis_1_1server_1_1_import_api_handler_1a398b28ae44c3c57c0f059ca90800ded4" prot="private" virt="non-virtual"><scope>themis::server::ImportApiHandler</scope><name>SchemaValidatorFn</name></member>
+      <member refid="classthemis_1_1server_1_1_import_api_handler_1ae98f960b4d39573d6199b2722346371e" prot="private" virt="non-virtual"><scope>themis::server::ImportApiHandler</scope><name>schemaValidatorFn_</name></member>
+      <member refid="classthemis_1_1server_1_1_import_api_handler_1a1f7bd048905dec3b5c5fe927e4118dc8" prot="private" virt="non-virtual"><scope>themis::server::ImportApiHandler</scope><name>setSchemaInspectorFn</name></member>
+      <member refid="classthemis_1_1server_1_1_import_api_handler_1ae8732edf6438da2dffc02ec536d21cda" prot="private" virt="non-virtual"><scope>themis::server::ImportApiHandler</scope><name>setSchemaValidatorFn</name></member>
+      <member refid="classthemis_1_1server_1_1_import_api_handler_1ae44b326dc2dd373eac740b4a87c31f57" prot="public" virt="non-virtual"><scope>themis::server::ImportApiHandler</scope><name>~ImportApiHandler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,782 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__server__gateway__resilience__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_server_gateway_resilience_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="server__api__contract_8h" local="yes">server/server_api_contract.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>server/server_api_contract.h</label>
+        <link refid="server__api__contract_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/server/test_server_gateway_resilience_focused.cpp</label>
+        <link refid="test__server__gateway__resilience__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>algorithm</label>
+      </node>
+      <node id="8">
+        <label>atomic</label>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>cstddef</label>
+      </node>
+      <node id="9">
+        <label>cstdint</label>
+      </node>
+      <node id="10">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="11">
+        <label>memory</label>
+      </node>
+      <node id="12">
+        <label>mutex</label>
+      </node>
+      <node id="13">
+        <label>optional</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="14">
+        <label>thread</label>
+      </node>
+      <node id="15">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="struct_fake_cluster_quorum" prot="public">FakeClusterQuorum</innerclass>
+    <innerclass refid="class_stub_gateway" prot="public">StubGateway</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="test__server__gateway__resilience__focused_8cpp_1a9ad1be8d3d7183566ac631d51fde5977" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>WriteResult</name>
+        <enumvalue id="test__server__gateway__resilience__focused_8cpp_1a9ad1be8d3d7183566ac631d51fde5977aa806f1d2c42338ef5fa6497b66153e79" prot="public">
+          <name>ACCEPTED</name>
+          <briefdescription>
+<para><ref refid="structthemis_1_1server_1_1_request" kindref="compound">Request</ref> succeeded (quorum available, leader elected). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="test__server__gateway__resilience__focused_8cpp_1a9ad1be8d3d7183566ac631d51fde5977ac07ff7b5d7be3b8a5d8435d9827dea76" prot="public">
+          <name>QUORUM_UNAVAILABLE</name>
+          <briefdescription>
+<para>Rejected fail-closed: quorum lost. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="test__server__gateway__resilience__focused_8cpp_1a9ad1be8d3d7183566ac631d51fde5977a960b1bbfd74ecfd6e7289f66791025b5" prot="public">
+          <name>SPLIT_BRAIN</name>
+          <briefdescription>
+<para>Rejected fail-closed: partition detected. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Write request result modelling the server&apos;s quorum-aware write path. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_gateway_resilience_focused.cpp" line="83" column="1" bodyfile="tests/server/test_server_gateway_resilience_focused.cpp" bodystart="83" bodyend="87"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="test__server__gateway__resilience__focused_8cpp_1aec4ccc826e0471fd250ca22d63c2ee42" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t kGatewayResilienceSeed</definition>
+        <argsstring></argsstring>
+        <name>kGatewayResilienceSeed</name>
+        <initializer>= 1337U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_gateway_resilience_focused.cpp" line="51" column="27" bodyfile="tests/server/test_server_gateway_resilience_focused.cpp" bodystart="51" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__server__gateway__resilience__focused_8cpp_1aaa42876b6a785d27e90738c07c500334" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ServerGatewayResilience, SGR01_QuorumLossWritesFailClosed)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ServerGatewayResilience</type>
+        </param>
+        <param>
+          <type>SGR01_QuorumLossWritesFailClosed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_gateway_resilience_focused.cpp" line="161" column="1" bodyfile="tests/server/test_server_gateway_resilience_focused.cpp" bodystart="161" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="test__server__gateway__resilience__focused_8cpp_1a68d510c156b02356ac0ed67a23244e95" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ServerGatewayResilience, SGR02_QuorumLossRejectsMutations)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ServerGatewayResilience</type>
+        </param>
+        <param>
+          <type>SGR02_QuorumLossRejectsMutations</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_gateway_resilience_focused.cpp" line="184" column="1" bodyfile="tests/server/test_server_gateway_resilience_focused.cpp" bodystart="184" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="test__server__gateway__resilience__focused_8cpp_1afdb39c4a15e918f4f0678145dbb8dcd1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ServerGatewayResilience, SGR03_QuorumLossProposeConfigReturnsFalse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ServerGatewayResilience</type>
+        </param>
+        <param>
+          <type>SGR03_QuorumLossProposeConfigReturnsFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_gateway_resilience_focused.cpp" line="202" column="1" bodyfile="tests/server/test_server_gateway_resilience_focused.cpp" bodystart="202" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="test__server__gateway__resilience__focused_8cpp_1aba69c12f31171b2d6053c0afd99906d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ServerGatewayResilience, SGR04_QuorumUnavailableIsFailClosed)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ServerGatewayResilience</type>
+        </param>
+        <param>
+          <type>SGR04_QuorumUnavailableIsFailClosed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_gateway_resilience_focused.cpp" line="220" column="1" bodyfile="tests/server/test_server_gateway_resilience_focused.cpp" bodystart="220" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="test__server__gateway__resilience__focused_8cpp_1a88fd547ec652e425eddc5ae671d6cc56" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ServerGatewayResilience, SGR05_LastKnownConfigUsedOnQuorumLoss)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ServerGatewayResilience</type>
+        </param>
+        <param>
+          <type>SGR05_LastKnownConfigUsedOnQuorumLoss</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_gateway_resilience_focused.cpp" line="230" column="1" bodyfile="tests/server/test_server_gateway_resilience_focused.cpp" bodystart="230" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="test__server__gateway__resilience__focused_8cpp_1ac0a7059d733026283edb760375ea9199" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ServerGatewayResilience, SGR06_QuorumRestoredAcceptsWrites)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ServerGatewayResilience</type>
+        </param>
+        <param>
+          <type>SGR06_QuorumRestoredAcceptsWrites</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_gateway_resilience_focused.cpp" line="262" column="1" bodyfile="tests/server/test_server_gateway_resilience_focused.cpp" bodystart="262" bodyend="278"/>
+      </memberdef>
+      <memberdef kind="function" id="test__server__gateway__resilience__focused_8cpp_1ada3d137450ee103da34e63ab88b4fd52" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ServerGatewayResilience, SGR07_SplitBrainPartitionARejectsWrites)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ServerGatewayResilience</type>
+        </param>
+        <param>
+          <type>SGR07_SplitBrainPartitionARejectsWrites</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_gateway_resilience_focused.cpp" line="283" column="1" bodyfile="tests/server/test_server_gateway_resilience_focused.cpp" bodystart="283" bodyend="291"/>
+      </memberdef>
+      <memberdef kind="function" id="test__server__gateway__resilience__focused_8cpp_1adee2729bcac10f7683f67ac40a983a8b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ServerGatewayResilience, SGR08_SplitBrainPartitionBRejectsWrites)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ServerGatewayResilience</type>
+        </param>
+        <param>
+          <type>SGR08_SplitBrainPartitionBRejectsWrites</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_gateway_resilience_focused.cpp" line="296" column="1" bodyfile="tests/server/test_server_gateway_resilience_focused.cpp" bodystart="296" bodyend="304"/>
+      </memberdef>
+      <memberdef kind="function" id="test__server__gateway__resilience__focused_8cpp_1abe8dd268815036dd6c5f9d8f2e7aa3c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ServerGatewayResilience, SGR09_SplitBrainBothHalvesFailClosed)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ServerGatewayResilience</type>
+        </param>
+        <param>
+          <type>SGR09_SplitBrainBothHalvesFailClosed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_gateway_resilience_focused.cpp" line="309" column="1" bodyfile="tests/server/test_server_gateway_resilience_focused.cpp" bodystart="309" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="function" id="test__server__gateway__resilience__focused_8cpp_1ad2e69142f82667b322cd8d500b34005f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ServerGatewayResilience, SGR10_RejoinMergedClusterAcceptsWrites)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ServerGatewayResilience</type>
+        </param>
+        <param>
+          <type>SGR10_RejoinMergedClusterAcceptsWrites</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_gateway_resilience_focused.cpp" line="326" column="1" bodyfile="tests/server/test_server_gateway_resilience_focused.cpp" bodystart="326" bodyend="339"/>
+      </memberdef>
+      <memberdef kind="function" id="test__server__gateway__resilience__focused_8cpp_1a6492b67e992d318ab677f8ea66c70f1f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ServerGatewayResilience, SGR11_LeaderChurnRoutingTableConsistent)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ServerGatewayResilience</type>
+        </param>
+        <param>
+          <type>SGR11_LeaderChurnRoutingTableConsistent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_gateway_resilience_focused.cpp" line="344" column="1" bodyfile="tests/server/test_server_gateway_resilience_focused.cpp" bodystart="344" bodyend="369"/>
+      </memberdef>
+      <memberdef kind="function" id="test__server__gateway__resilience__focused_8cpp_1a0f47ce3cf4ff177c83fd24446e1fa2f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ServerGatewayResilience, SGR12_LeaderChurnInFlightRequestNotSilentlyLost)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ServerGatewayResilience</type>
+        </param>
+        <param>
+          <type>SGR12_LeaderChurnInFlightRequestNotSilentlyLost</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_gateway_resilience_focused.cpp" line="374" column="1" bodyfile="tests/server/test_server_gateway_resilience_focused.cpp" bodystart="374" bodyend="403"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Server Module — Distributed Gateway Resilience focused regression tests. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Phase 2 Protocol Hardening acceptance tests for quorum loss, split-brain partition/rejoin, and leader churn scenarios in the <ref refid="classthemis_1_1server_1_1_distributed_gateway" kindref="compound">DistributedGateway</ref>.</para>
+<para>Test IDs (Phase 2, Gateway Resilience):<itemizedlist>
+<listitem><para><bold>SGR-01</bold> — Quorum loss (2-of-3 → 1-of-3): gateway transitions fail-closed for writes</para>
+</listitem><listitem><para><bold>SGR-02</bold> — Quorum loss: read-only mode allows reads, rejects writes</para>
+</listitem><listitem><para><bold>SGR-03</bold> — Quorum loss: config mutation (proposeConfig) returns false</para>
+</listitem><listitem><para><bold>SGR-04</bold> — Quorum loss: QUORUM_UNAVAILABLE is in the fail-closed set</para>
+</listitem><listitem><para><bold>SGR-05</bold> — Quorum loss: gateway uses last-known config (graceful degradation)</para>
+</listitem><listitem><para><bold>SGR-06</bold> — Quorum restored: gateway returns to normal write-accept state</para>
+</listitem><listitem><para><bold>SGR-07</bold> — Split-brain: partition A rejects conflicting writes (no leader elected)</para>
+</listitem><listitem><para><bold>SGR-08</bold> — Split-brain: partition B rejects conflicting writes (no quorum)</para>
+</listitem><listitem><para><bold>SGR-09</bold> — Split-brain: both halves report QUORUM_UNAVAILABLE (fail-closed)</para>
+</listitem><listitem><para><bold>SGR-10</bold> — Rejoin: merged cluster accepts writes after quorum is restored</para>
+</listitem><listitem><para><bold>SGR-11</bold> — Leader churn: 3 rapid elections, routing table remains consistent</para>
+</listitem><listitem><para><bold>SGR-12</bold> — Leader churn: in-flight request gets QUORUM_UNAVAILABLE, not silent data loss</para>
+</listitem></itemizedlist>
+</para>
+<para>All infrastructure is fully in-process; no real TCP/Raft connections are opened. Deterministic seed: kGatewayResilienceSeed = 1337.</para>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="note"><para>CTest labels: release_critical;server;phase2;gateway </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="server__api__contract_8h" kindref="compound">server/server_api_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std::chrono_literals;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1server" kindref="compound">themis::server</ref>;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Canonical<sp/>seed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/>kGatewayResilienceSeed<sp/>=<sp/>1337U;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Stubs<sp/>and<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="struct_fake_cluster_quorum" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_fake_cluster_quorum_1ad51dacd80c4713ab9c991a8b79766df5" kindref="member">FakeClusterQuorum</ref><sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="struct_fake_cluster_quorum_1a3ce00df389285f6d0412b8fccb415d83" kindref="member">cluster_size</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/><ref refid="struct_fake_cluster_quorum_1ae8c2030e3b232e1de97f077e80cb13bd" kindref="member">live_nodes</ref>;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="struct_fake_cluster_quorum_1ad51dacd80c4713ab9c991a8b79766df5" kindref="member">FakeClusterQuorum</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>size)<sp/>:<sp/><ref refid="struct_fake_cluster_quorum_1a3ce00df389285f6d0412b8fccb415d83" kindref="member">cluster_size</ref>(size),<sp/><ref refid="struct_fake_cluster_quorum_1ae8c2030e3b232e1de97f077e80cb13bd" kindref="member">live_nodes</ref>(size)<sp/>{}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_fake_cluster_quorum_1a4272b6a4d9b715ea08bf94e2aae868fd" kindref="member">hasQuorum</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="struct_fake_cluster_quorum_1ae8c2030e3b232e1de97f077e80cb13bd" kindref="member">live_nodes</ref>.load(std::memory_order_acquire)</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&gt;=<sp/>(<ref refid="struct_fake_cluster_quorum_1a3ce00df389285f6d0412b8fccb415d83" kindref="member">cluster_size</ref><sp/>/<sp/>2<sp/>+<sp/>1);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="struct_fake_cluster_quorum_1a26506d1a66f2f6c5e740459cf8669775" kindref="member">removeNode</ref>()<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_fake_cluster_quorum_1ae8c2030e3b232e1de97f077e80cb13bd" kindref="member">live_nodes</ref>.fetch_sub(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="struct_fake_cluster_quorum_1ac4d11323d2d9be3e76a97b02f507306c" kindref="member">addNode</ref>()<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>prev<sp/>=<sp/><ref refid="struct_fake_cluster_quorum_1ae8c2030e3b232e1de97f077e80cb13bd" kindref="member">live_nodes</ref>.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(prev<sp/>+<sp/>1<sp/>&gt;<sp/><ref refid="struct_fake_cluster_quorum_1a3ce00df389285f6d0412b8fccb415d83" kindref="member">cluster_size</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_fake_cluster_quorum_1ae8c2030e3b232e1de97f077e80cb13bd" kindref="member">live_nodes</ref>.store(<ref refid="struct_fake_cluster_quorum_1a3ce00df389285f6d0412b8fccb415d83" kindref="member">cluster_size</ref>,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="test__server__gateway__resilience__focused_8cpp_1a9ad1be8d3d7183566ac631d51fde5977" kindref="member">WriteResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__server__gateway__resilience__focused_8cpp_1a9ad1be8d3d7183566ac631d51fde5977aa806f1d2c42338ef5fa6497b66153e79" kindref="member">ACCEPTED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161ac07ff7b5d7be3b8a5d8435d9827dea76" kindref="member">QUORUM_UNAVAILABLE</ref>,<sp/></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__server__gateway__resilience__focused_8cpp_1a9ad1be8d3d7183566ac631d51fde5977a960b1bbfd74ecfd6e7289f66791025b5" kindref="member">SPLIT_BRAIN</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="class_stub_gateway" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_stub_gateway_1a2b7ac61c5e903b0ad1d9068089dd9f9c" kindref="member">StubGateway</ref><sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="class_stub_gateway_1ad27d0901adfcb79f2cff4fb2c6fc7bbc" kindref="member">PartitionHalf</ref><sp/>{<sp/><ref refid="class_stub_gateway_1ad27d0901adfcb79f2cff4fb2c6fc7bbcab50339a10e1de285ac99d4c3990b8693" kindref="member">NONE</ref>,<sp/><ref refid="class_stub_gateway_1ad27d0901adfcb79f2cff4fb2c6fc7bbcae31b87921374f3adf50b786759689d98" kindref="member">PARTITION_A</ref>,<sp/><ref refid="class_stub_gateway_1ad27d0901adfcb79f2cff4fb2c6fc7bbca247328f0e63ce4a499efd8f0da717de6" kindref="member">PARTITION_B</ref><sp/>};</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_stub_gateway_1a2b7ac61c5e903b0ad1d9068089dd9f9c" kindref="member">StubGateway</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>cluster_size)</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>quorum_(cluster_size)<sp/>{}</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="test__server__gateway__resilience__focused_8cpp_1a9ad1be8d3d7183566ac631d51fde5977" kindref="member">WriteResult</ref><sp/><ref refid="class_stub_gateway_1aceb1a0e5d69bbff8e1bb31e97ec3f537" kindref="member">write</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*key*/</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*value*/</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(partition_half_<sp/>!=<sp/><ref refid="class_stub_gateway_1ad27d0901adfcb79f2cff4fb2c6fc7bbcab50339a10e1de285ac99d4c3990b8693" kindref="member">PartitionHalf::NONE</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Both<sp/>halves<sp/>of<sp/>a<sp/>split<sp/>brain<sp/>refuse<sp/>writes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="test__server__gateway__resilience__focused_8cpp_1a9ad1be8d3d7183566ac631d51fde5977a960b1bbfd74ecfd6e7289f66791025b5" kindref="member">WriteResult::SPLIT_BRAIN</ref>;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!quorum_.hasQuorum())<sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="test__server__gateway__resilience__focused_8cpp_1a9ad1be8d3d7183566ac631d51fde5977ac07ff7b5d7be3b8a5d8435d9827dea76" kindref="member">WriteResult::QUORUM_UNAVAILABLE</ref>;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="test__server__gateway__resilience__focused_8cpp_1a9ad1be8d3d7183566ac631d51fde5977aa806f1d2c42338ef5fa6497b66153e79" kindref="member">WriteResult::ACCEPTED</ref>;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_stub_gateway_1a3fc12a5bda78cbc6fbe09283135f1532" kindref="member">proposeConfig</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>quorum_.hasQuorum()<sp/>&amp;&amp;<sp/>is_leader_;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_stub_gateway_1ad8a00097388047f94f4176575d49168a" kindref="member">simulateNodeLoss</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>count)<sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>count;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>quorum_.removeNode();</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_stub_gateway_1a9536afb7cb6a4c96328031fb5207ca57" kindref="member">simulateNodeRejoin</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>count)<sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>count;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>quorum_.addNode();</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_stub_gateway_1aaf2d2272d5c24a70db7bd03d8bde1a4b" kindref="member">simulateSplitBrain</ref>(<ref refid="class_stub_gateway_1ad27d0901adfcb79f2cff4fb2c6fc7bbc" kindref="member">PartitionHalf</ref><sp/>half)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>partition_half_<sp/>=<sp/>half;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Split-brain<sp/>⟹<sp/>both<sp/>halves<sp/>lose<sp/>quorum<sp/>(&lt;<sp/>majority)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(half<sp/>!=<sp/><ref refid="class_stub_gateway_1ad27d0901adfcb79f2cff4fb2c6fc7bbcab50339a10e1de285ac99d4c3990b8693" kindref="member">PartitionHalf::NONE</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>quorum_.live_nodes.store(quorum_.cluster_size<sp/>/<sp/>2,</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_stub_gateway_1a81b0dffb0fe2491640b7e0bdf67a2b26" kindref="member">simulateRejoin</ref>()<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>partition_half_<sp/>=<sp/><ref refid="class_stub_gateway_1ad27d0901adfcb79f2cff4fb2c6fc7bbcab50339a10e1de285ac99d4c3990b8693" kindref="member">PartitionHalf::NONE</ref>;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>quorum_.live_nodes.store(quorum_.cluster_size,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_stub_gateway_1a0fa94a693a91c9e05872db443f90d9f6" kindref="member">setLeader</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_leader)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{<sp/>is_leader_<sp/>=<sp/>is_leader;<sp/>}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_stub_gateway_1a3bb0f7e45d349bd0662311d4ff603b3f" kindref="member">hasQuorum</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>quorum_.hasQuorum();<sp/>}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_stub_gateway_1a41f5ababee86235ae2ed9fbb58dc6423" kindref="member">isLeader</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>is_leader_;<sp/>}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_stub_gateway_1aaeb2c8c3a042c57b97cc598a0ef8b68b" kindref="member">simulateLeaderElection</ref>(uint32_t<sp/>round)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Leader<sp/>is<sp/>deterministically<sp/>elected<sp/>based<sp/>on<sp/>node-0<sp/>always<sp/>winning</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>if<sp/>live;<sp/>this<sp/>mirrors<sp/>Raft&apos;s<sp/>lowest-term-first<sp/>election<sp/>semantics.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;node-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(round<sp/>%<sp/>quorum_.cluster_size);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_fake_cluster_quorum" kindref="compound">FakeClusterQuorum</ref><sp/>quorum_;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>is_leader_{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_stub_gateway_1ad27d0901adfcb79f2cff4fb2c6fc7bbc" kindref="member">PartitionHalf</ref><sp/><sp/><sp/><sp/><sp/>partition_half_{<ref refid="class_stub_gateway_1ad27d0901adfcb79f2cff4fb2c6fc7bbcab50339a10e1de285ac99d4c3990b8693" kindref="member">PartitionHalf::NONE</ref>};</highlight></codeline>
+<codeline lineno="156"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SGR-01:<sp/>Quorum<sp/>loss<sp/>(2-of-3<sp/>→<sp/>1-of-3):<sp/>writes<sp/>fail-closed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><ref refid="test__server__gateway__resilience__focused_8cpp_1aaa42876b6a785d27e90738c07c500334" kindref="member">TEST</ref>(ServerGatewayResilience,<sp/>SGR01_QuorumLossWritesFailClosed)<sp/>{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_stub_gateway" kindref="compound">StubGateway</ref><sp/>gw(3);<sp/><sp/></highlight><highlight class="comment">//<sp/>3-node<sp/>cluster:<sp/>quorum<sp/>=<sp/>2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Healthy<sp/>cluster<sp/>→<sp/>write<sp/>accepted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(gw.write(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">),<sp/><ref refid="test__server__gateway__resilience__focused_8cpp_1a9ad1be8d3d7183566ac631d51fde5977aa806f1d2c42338ef5fa6497b66153e79" kindref="member">WriteResult::ACCEPTED</ref>)</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Healthy<sp/>3-node<sp/>cluster<sp/>must<sp/>accept<sp/>writes&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Lose<sp/>one<sp/>node:<sp/>still<sp/>2-of-3,<sp/>quorum<sp/>intact</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>gw.simulateNodeLoss(1);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(gw.write(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">),<sp/><ref refid="test__server__gateway__resilience__focused_8cpp_1a9ad1be8d3d7183566ac631d51fde5977aa806f1d2c42338ef5fa6497b66153e79" kindref="member">WriteResult::ACCEPTED</ref>)</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;2-of-3<sp/>nodes<sp/>still<sp/>meets<sp/>quorum;<sp/>write<sp/>must<sp/>be<sp/>accepted&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Lose<sp/>another<sp/>node:<sp/>now<sp/>1-of-3,<sp/>quorum<sp/>lost</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>gw.simulateNodeLoss(1);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(gw.hasQuorum())</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;1-of-3<sp/>nodes<sp/>must<sp/>NOT<sp/>satisfy<sp/>quorum&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(gw.write(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">),<sp/><ref refid="test__server__gateway__resilience__focused_8cpp_1a9ad1be8d3d7183566ac631d51fde5977ac07ff7b5d7be3b8a5d8435d9827dea76" kindref="member">WriteResult::QUORUM_UNAVAILABLE</ref>)</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Write<sp/>must<sp/>be<sp/>rejected<sp/>fail-closed<sp/>when<sp/>quorum<sp/>is<sp/>lost&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SGR-02:<sp/>Quorum<sp/>loss<sp/>—<sp/>writes<sp/>rejected,<sp/>reads<sp/>conceptually<sp/>allowed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><ref refid="test__server__gateway__resilience__focused_8cpp_1aaa42876b6a785d27e90738c07c500334" kindref="member">TEST</ref>(ServerGatewayResilience,<sp/>SGR02_QuorumLossRejectsMutations)<sp/>{</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_stub_gateway" kindref="compound">StubGateway</ref><sp/>gw(5);<sp/><sp/></highlight><highlight class="comment">//<sp/>5-node<sp/>cluster:<sp/>quorum<sp/>=<sp/>3</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Lose<sp/>3<sp/>nodes<sp/>→<sp/>below<sp/>quorum</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>gw.simulateNodeLoss(3);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(gw.hasQuorum());</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Multiple<sp/>write<sp/>attempts<sp/>must<sp/>all<sp/>fail<sp/>with<sp/>QUORUM_UNAVAILABLE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(gw.write(</highlight><highlight class="stringliteral">&quot;key-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/></highlight><highlight class="stringliteral">&quot;val&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="test__server__gateway__resilience__focused_8cpp_1a9ad1be8d3d7183566ac631d51fde5977ac07ff7b5d7be3b8a5d8435d9827dea76" kindref="member">WriteResult::QUORUM_UNAVAILABLE</ref>)</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;All<sp/>writes<sp/>must<sp/>be<sp/>rejected<sp/>when<sp/>quorum<sp/>is<sp/>lost<sp/>(attempt<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>i<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="197"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SGR-03:<sp/>Quorum<sp/>loss<sp/>—<sp/>config<sp/>mutation<sp/>(proposeConfig)<sp/>returns<sp/>false</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><ref refid="test__server__gateway__resilience__focused_8cpp_1aaa42876b6a785d27e90738c07c500334" kindref="member">TEST</ref>(ServerGatewayResilience,<sp/>SGR03_QuorumLossProposeConfigReturnsFalse)<sp/>{</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_stub_gateway" kindref="compound">StubGateway</ref><sp/>gw(3);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Healthy:<sp/>proposeConfig<sp/>must<sp/>succeed<sp/>(leader<sp/>+<sp/>quorum)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(gw.proposeConfig())</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Config<sp/>mutation<sp/>must<sp/>succeed<sp/>when<sp/>leader<sp/>and<sp/>quorum<sp/>are<sp/>available&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Lose<sp/>quorum</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>gw.simulateNodeLoss(2);</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(gw.hasQuorum());</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(gw.proposeConfig())</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Config<sp/>mutation<sp/>must<sp/>be<sp/>rejected<sp/>when<sp/>quorum<sp/>is<sp/>lost&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SGR-04:<sp/>QUORUM_UNAVAILABLE<sp/>is<sp/>in<sp/>the<sp/>fail-closed<sp/>set</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><ref refid="test__server__gateway__resilience__focused_8cpp_1aaa42876b6a785d27e90738c07c500334" kindref="member">TEST</ref>(ServerGatewayResilience,<sp/>SGR04_QuorumUnavailableIsFailClosed)<sp/>{</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>the<sp/>server_api_contract.h<sp/>categorises<sp/>QUORUM_UNAVAILABLE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>as<sp/>a<sp/>fail-closed<sp/>class<sp/>(§6<sp/>—<sp/>Error<sp/>Taxonomy).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1server_1a374934d4da895b2393c2e2c939acb6f9" kindref="member">isServerFailClosedClass</ref>(<ref refid="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161ac07ff7b5d7be3b8a5d8435d9827dea76" kindref="member">ServerErrorClass::QUORUM_UNAVAILABLE</ref>))</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;QUORUM_UNAVAILABLE<sp/>must<sp/>be<sp/>in<sp/>the<sp/>fail-closed<sp/>error<sp/>class<sp/>set&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SGR-05:<sp/>Quorum<sp/>loss<sp/>—<sp/>gateway<sp/>uses<sp/>last-known<sp/>config<sp/>(graceful<sp/>degradation)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><ref refid="test__server__gateway__resilience__focused_8cpp_1aaa42876b6a785d27e90738c07c500334" kindref="member">TEST</ref>(ServerGatewayResilience,<sp/>SGR05_LastKnownConfigUsedOnQuorumLoss)<sp/>{</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>the<sp/>DistributedGateway::continue_on_quorum_loss<sp/>=<sp/>true<sp/>path.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>When<sp/>quorum<sp/>is<sp/>lost,<sp/>the<sp/>gateway<sp/>must<sp/>continue<sp/>serving<sp/>requests<sp/>from</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>the<sp/>last<sp/>committed<sp/>config<sp/>rather<sp/>than<sp/>crashing<sp/>or<sp/>returning<sp/>errors<sp/>for<sp/>reads.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="test__server__integration__complete_8cpp_1abbae112e09a650b420da55146a2ca8b1" kindref="member">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/>version{0};</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>primary_route;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>valid{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__server__integration__complete_8cpp_1abbae112e09a650b420da55146a2ca8b1" kindref="member">Config</ref><sp/>last_known_config{5,<sp/></highlight><highlight class="stringliteral">&quot;/api/v1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/>quorum_lost<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>quorum<sp/>loss</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>gateway&apos;s<sp/>degraded-mode<sp/>contract:<sp/>last-known<sp/>config<sp/>is<sp/>served</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>getEffectiveConfig<sp/>=<sp/>[&amp;](</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">/*quorum_ok*/</highlight><highlight class="normal">)<sp/>-&gt;<sp/><ref refid="test__server__integration__complete_8cpp_1abbae112e09a650b420da55146a2ca8b1" kindref="member">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Whether<sp/>quorum<sp/>is<sp/>lost<sp/>or<sp/>not,<sp/>the<sp/>last<sp/>committed<sp/>config<sp/>is<sp/>used</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(config<sp/>changes<sp/>require<sp/>quorum;<sp/>reads<sp/>from<sp/>last-known<sp/>are<sp/>always<sp/>safe)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>last_known_config;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__server__integration__complete_8cpp_1abbae112e09a650b420da55146a2ca8b1" kindref="member">Config</ref><sp/>effective<sp/>=<sp/>getEffectiveConfig(!quorum_lost);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(effective.valid)</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Last-known<sp/>config<sp/>must<sp/>be<sp/>available<sp/>for<sp/>serving<sp/>requests&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(effective.version,<sp/>5u)</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Config<sp/>version<sp/>must<sp/>match<sp/>the<sp/>last<sp/>committed<sp/>version&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(effective.primary_route,<sp/></highlight><highlight class="stringliteral">&quot;/api/v1&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Primary<sp/>route<sp/>must<sp/>match<sp/>last-known<sp/>config&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SGR-06:<sp/>Quorum<sp/>restored<sp/>—<sp/>gateway<sp/>returns<sp/>to<sp/>normal<sp/>write-accept<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><ref refid="test__server__gateway__resilience__focused_8cpp_1aaa42876b6a785d27e90738c07c500334" kindref="member">TEST</ref>(ServerGatewayResilience,<sp/>SGR06_QuorumRestoredAcceptsWrites)<sp/>{</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_stub_gateway" kindref="compound">StubGateway</ref><sp/>gw(3);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Lose<sp/>quorum</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>gw.simulateNodeLoss(2);</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(gw.hasQuorum());</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(gw.write(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">),<sp/><ref refid="test__server__gateway__resilience__focused_8cpp_1a9ad1be8d3d7183566ac631d51fde5977ac07ff7b5d7be3b8a5d8435d9827dea76" kindref="member">WriteResult::QUORUM_UNAVAILABLE</ref>);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Restore<sp/>quorum</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>gw.simulateNodeRejoin(2);</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(gw.hasQuorum());</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(gw.write(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">),<sp/><ref refid="test__server__gateway__resilience__focused_8cpp_1a9ad1be8d3d7183566ac631d51fde5977aa806f1d2c42338ef5fa6497b66153e79" kindref="member">WriteResult::ACCEPTED</ref>)</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Writes<sp/>must<sp/>be<sp/>accepted<sp/>once<sp/>quorum<sp/>is<sp/>restored&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(gw.proposeConfig())</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Config<sp/>mutations<sp/>must<sp/>be<sp/>allowed<sp/>once<sp/>quorum<sp/>is<sp/>restored&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SGR-07:<sp/>Split-brain<sp/>—<sp/>partition<sp/>A<sp/>refuses<sp/>conflicting<sp/>writes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><ref refid="test__server__gateway__resilience__focused_8cpp_1aaa42876b6a785d27e90738c07c500334" kindref="member">TEST</ref>(ServerGatewayResilience,<sp/>SGR07_SplitBrainPartitionARejectsWrites)<sp/>{</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_stub_gateway" kindref="compound">StubGateway</ref><sp/>gw_a(3);</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>gw_a.simulateSplitBrain(<ref refid="class_stub_gateway_1ad27d0901adfcb79f2cff4fb2c6fc7bbcae31b87921374f3adf50b786759689d98" kindref="member">StubGateway::PartitionHalf::PARTITION_A</ref>);</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(gw_a.write(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">),<sp/><ref refid="test__server__gateway__resilience__focused_8cpp_1a9ad1be8d3d7183566ac631d51fde5977a960b1bbfd74ecfd6e7289f66791025b5" kindref="member">WriteResult::SPLIT_BRAIN</ref>)</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Partition<sp/>A<sp/>must<sp/>refuse<sp/>conflicting<sp/>writes<sp/>during<sp/>split-brain&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(gw_a.hasQuorum())</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Partition<sp/>A<sp/>must<sp/>not<sp/>satisfy<sp/>quorum<sp/>in<sp/>a<sp/>3-node<sp/>split&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SGR-08:<sp/>Split-brain<sp/>—<sp/>partition<sp/>B<sp/>refuses<sp/>conflicting<sp/>writes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><ref refid="test__server__gateway__resilience__focused_8cpp_1aaa42876b6a785d27e90738c07c500334" kindref="member">TEST</ref>(ServerGatewayResilience,<sp/>SGR08_SplitBrainPartitionBRejectsWrites)<sp/>{</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_stub_gateway" kindref="compound">StubGateway</ref><sp/>gw_b(3);</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>gw_b.simulateSplitBrain(<ref refid="class_stub_gateway_1ad27d0901adfcb79f2cff4fb2c6fc7bbca247328f0e63ce4a499efd8f0da717de6" kindref="member">StubGateway::PartitionHalf::PARTITION_B</ref>);</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(gw_b.write(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">),<sp/><ref refid="test__server__gateway__resilience__focused_8cpp_1a9ad1be8d3d7183566ac631d51fde5977a960b1bbfd74ecfd6e7289f66791025b5" kindref="member">WriteResult::SPLIT_BRAIN</ref>)</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Partition<sp/>B<sp/>must<sp/>refuse<sp/>conflicting<sp/>writes<sp/>during<sp/>split-brain&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(gw_b.hasQuorum())</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Partition<sp/>B<sp/>must<sp/>not<sp/>satisfy<sp/>quorum<sp/>in<sp/>a<sp/>3-node<sp/>split&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SGR-09:<sp/>Split-brain<sp/>—<sp/>both<sp/>halves<sp/>report<sp/>fail-closed<sp/>error<sp/>class</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><ref refid="test__server__gateway__resilience__focused_8cpp_1aaa42876b6a785d27e90738c07c500334" kindref="member">TEST</ref>(ServerGatewayResilience,<sp/>SGR09_SplitBrainBothHalvesFailClosed)<sp/>{</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Both<sp/>split-brain<sp/>result<sp/>codes<sp/>must<sp/>map<sp/>to<sp/>fail-closed<sp/>contract<sp/>class</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>QUORUM_UNAVAILABLE<sp/>(closest<sp/>canonical<sp/>class<sp/>for<sp/>split-brain<sp/>in<sp/>§6)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1server_1a374934d4da895b2393c2e2c939acb6f9" kindref="member">isServerFailClosedClass</ref>(<ref refid="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161ac07ff7b5d7be3b8a5d8435d9827dea76" kindref="member">ServerErrorClass::QUORUM_UNAVAILABLE</ref>))</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Split-brain<sp/>quorum<sp/>loss<sp/>must<sp/>be<sp/>represented<sp/>by<sp/>a<sp/>fail-closed<sp/>error<sp/>class&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>PROTOCOL_VIOLATION<sp/>is<sp/>also<sp/>fail-closed<sp/>(used<sp/>when<sp/>a<sp/>partition<sp/>refuses</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>writes<sp/>due<sp/>to<sp/>conflicting<sp/>leader<sp/>claims)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1server_1a374934d4da895b2393c2e2c939acb6f9" kindref="member">isServerFailClosedClass</ref>(<ref refid="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161ad5396b5bf47321267f6db180394b4582" kindref="member">ServerErrorClass::RATE_LIMIT_EXCEEDED</ref>))</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Rate<sp/>limit<sp/>exceeded<sp/>must<sp/>NOT<sp/>be<sp/>fail-closed<sp/>(retryable)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1server_1a374934d4da895b2393c2e2c939acb6f9" kindref="member">isServerFailClosedClass</ref>(<ref refid="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161ac777724408cff35227adfacc541b55e0" kindref="member">ServerErrorClass::INPUT_VALIDATION_ERROR</ref>))</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Input<sp/>validation<sp/>must<sp/>NOT<sp/>be<sp/>fail-closed<sp/>(client<sp/>error,<sp/>retryable<sp/>with<sp/>fix)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="321"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SGR-10:<sp/>Rejoin<sp/>—<sp/>merged<sp/>cluster<sp/>accepts<sp/>writes<sp/>after<sp/>quorum<sp/>restored</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><ref refid="test__server__gateway__resilience__focused_8cpp_1aaa42876b6a785d27e90738c07c500334" kindref="member">TEST</ref>(ServerGatewayResilience,<sp/>SGR10_RejoinMergedClusterAcceptsWrites)<sp/>{</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_stub_gateway" kindref="compound">StubGateway</ref><sp/>gw(3);</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>full<sp/>partition</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/>gw.simulateSplitBrain(<ref refid="class_stub_gateway_1ad27d0901adfcb79f2cff4fb2c6fc7bbcae31b87921374f3adf50b786759689d98" kindref="member">StubGateway::PartitionHalf::PARTITION_A</ref>);</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(gw.write(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">),<sp/><ref refid="test__server__gateway__resilience__focused_8cpp_1a9ad1be8d3d7183566ac631d51fde5977a960b1bbfd74ecfd6e7289f66791025b5" kindref="member">WriteResult::SPLIT_BRAIN</ref>);</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>rejoin<sp/>(partition<sp/>healed)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>gw.simulateRejoin();</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(gw.hasQuorum())</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Quorum<sp/>must<sp/>be<sp/>restored<sp/>after<sp/>partition<sp/>rejoin&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(gw.write(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">),<sp/><ref refid="test__server__gateway__resilience__focused_8cpp_1a9ad1be8d3d7183566ac631d51fde5977aa806f1d2c42338ef5fa6497b66153e79" kindref="member">WriteResult::ACCEPTED</ref>)</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Writes<sp/>must<sp/>succeed<sp/>after<sp/>partition<sp/>heals<sp/>and<sp/>quorum<sp/>is<sp/>restored&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="339"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SGR-11:<sp/>Leader<sp/>churn<sp/>—<sp/>routing<sp/>table<sp/>consistent<sp/>across<sp/>3<sp/>elections</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><ref refid="test__server__gateway__resilience__focused_8cpp_1aaa42876b6a785d27e90738c07c500334" kindref="member">TEST</ref>(ServerGatewayResilience,<sp/>SGR11_LeaderChurnRoutingTableConsistent)<sp/>{</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_stub_gateway" kindref="compound">StubGateway</ref><sp/>gw(3);</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>3<sp/>rapid<sp/>successive<sp/>leader<sp/>elections</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>elected_leaders<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(uint32_t<sp/>round<sp/>=<sp/>0;<sp/>round<sp/>&lt;<sp/>3;<sp/>++round)<sp/>{</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>leader<sp/>=<sp/>gw.simulateLeaderElection(round);</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(leader.empty())</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;A<sp/>leader<sp/>must<sp/>be<sp/>elected<sp/>in<sp/>every<sp/>round&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>elected_leaders.push_back(leader);</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>elected<sp/>leaders<sp/>must<sp/>be<sp/>within<sp/>the<sp/>known<sp/>cluster<sp/>(deterministic<sp/>routing)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>leader<sp/>:<sp/>elected_leaders)<sp/>{</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NE(leader,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Leader<sp/>identifier<sp/>must<sp/>never<sp/>be<sp/>empty<sp/>after<sp/>election&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Routing<sp/>key<sp/>must<sp/>be<sp/>a<sp/>valid<sp/>node<sp/>identifier<sp/>(prefix<sp/>&quot;node-&quot;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(leader.substr(0,<sp/>5),<sp/></highlight><highlight class="stringliteral">&quot;node-&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Leader<sp/>key<sp/>format<sp/>must<sp/>be<sp/>&apos;node-N&apos;<sp/>for<sp/>consistent<sp/>routing&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>all<sp/>elections,<sp/>writes<sp/>must<sp/>still<sp/>be<sp/>accepted<sp/>(quorum<sp/>intact)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(gw.write(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">),<sp/><ref refid="test__server__gateway__resilience__focused_8cpp_1a9ad1be8d3d7183566ac631d51fde5977aa806f1d2c42338ef5fa6497b66153e79" kindref="member">WriteResult::ACCEPTED</ref>)</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Writes<sp/>must<sp/>remain<sp/>accepted<sp/>after<sp/>leader<sp/>churn<sp/>(quorum<sp/>not<sp/>broken)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="369"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"></highlight></codeline>
+<codeline lineno="371"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="372"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SGR-12:<sp/>Leader<sp/>churn<sp/>—<sp/>in-flight<sp/>request<sp/>gets<sp/>QUORUM_UNAVAILABLE,<sp/>not<sp/>silent<sp/>loss</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="373"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><ref refid="test__server__gateway__resilience__focused_8cpp_1aaa42876b6a785d27e90738c07c500334" kindref="member">TEST</ref>(ServerGatewayResilience,<sp/>SGR12_LeaderChurnInFlightRequestNotSilentlyLost)<sp/>{</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_stub_gateway" kindref="compound">StubGateway</ref><sp/>gw(3);</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"></highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>a<sp/>sudden<sp/>quorum<sp/>loss<sp/>mid-churn<sp/>(all<sp/>elections<sp/>trigger<sp/>node<sp/>failures)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>to<sp/>verify<sp/>the<sp/>error<sp/>surface<sp/>is<sp/>explicit,<sp/>not<sp/>silent.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;WriteResult&gt;<sp/>captured_result{<ref refid="test__server__gateway__resilience__focused_8cpp_1a9ad1be8d3d7183566ac631d51fde5977aa806f1d2c42338ef5fa6497b66153e79" kindref="member">WriteResult::ACCEPTED</ref>};</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>churn_done{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"></highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Thread<sp/>simulating<sp/>an<sp/>in-flight<sp/>write<sp/>during<sp/>leadership<sp/>churn</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>write_thread([&amp;]()<sp/>{</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Wait<sp/>until<sp/>churn<sp/>is<sp/>about<sp/>to<sp/>complete<sp/>(quorum<sp/>lost)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(!churn_done.load(std::memory_order_acquire))<sp/>{</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::yield();</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>captured_result.store(gw.write(</highlight><highlight class="stringliteral">&quot;in-flight-key&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;value&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::memory_order_release);</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"></highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Lose<sp/>quorum<sp/>while<sp/>elections<sp/>are<sp/>happening<sp/>(worst-case<sp/>churn<sp/>scenario)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/>gw.simulateNodeLoss(2);</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/>churn_done.store(</highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/>std::memory_order_release);</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"></highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/>write_thread.join();</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"></highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>in-flight<sp/>write<sp/>must<sp/>surface<sp/>QUORUM_UNAVAILABLE,<sp/>not<sp/>silently<sp/>succeed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>with<sp/>potentially<sp/>inconsistent<sp/>state.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(captured_result.load(),<sp/><ref refid="test__server__gateway__resilience__focused_8cpp_1a9ad1be8d3d7183566ac631d51fde5977ac07ff7b5d7be3b8a5d8435d9827dea76" kindref="member">WriteResult::QUORUM_UNAVAILABLE</ref>)</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;In-flight<sp/>request<sp/>during<sp/>leader<sp/>churn<sp/>must<sp/>receive<sp/>QUORUM_UNAVAILABLE,<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;never<sp/>silently<sp/>lose<sp/>data&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="403"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/server/test_server_gateway_resilience_focused.cpp"/>
+  </compounddef>
+</doxygen>

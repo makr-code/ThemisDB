@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_inference_quality_test" kind="class" language="C++" prot="public">
+    <compoundname>InferenceQualityTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_inference_quality_test_1a40575a06337a0a283bdca9a058ac8cdd" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string InferenceQualityTest::model_path_</definition>
+        <argsstring></argsstring>
+        <name>model_path_</name>
+        <qualifiedname>InferenceQualityTest::model_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_inference_quality.cpp" line="138" column="17" bodyfile="tests/llm/test_inference_quality.cpp" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_inference_quality_test_1ad960a1da50a6d7bc72808e7fb5472141" prot="protected" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool InferenceQualityTest::model_available_</definition>
+        <argsstring></argsstring>
+        <name>model_available_</name>
+        <qualifiedname>InferenceQualityTest::model_available_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_inference_quality.cpp" line="139" column="10" bodyfile="tests/llm/test_inference_quality.cpp" bodystart="139" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_inference_quality_test_1a4469cc7e42d74a622300af996009478f" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void InferenceQualityTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>InferenceQualityTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_inference_quality.cpp" line="61" column="10" bodyfile="tests/llm/test_inference_quality.cpp" bodystart="61" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="class_inference_quality_test_1a0cd1ec549a7345976768184a7405db8b" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void InferenceQualityTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>InferenceQualityTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_inference_quality.cpp" line="88" column="10" bodyfile="tests/llm/test_inference_quality.cpp" bodystart="88" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="class_inference_quality_test_1a9952226f04fb52b076272015d641e60a" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t InferenceQualityTest::approximateTokenCount</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>approximateTokenCount</name>
+        <qualifiedname>InferenceQualityTest::approximateTokenCount</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Simple token-count approximation (4 chars / token for English). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_inference_quality.cpp" line="93" column="12" bodyfile="tests/llm/test_inference_quality.cpp" bodystart="93" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="class_inference_quality_test_1a2edcfc0a6675bfc113feff3e081d7872" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool InferenceQualityTest::containsUnsafeContent</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>containsUnsafeContent</name>
+        <qualifiedname>InferenceQualityTest::containsUnsafeContent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Naïve safety-keyword checker used by structural unit tests. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_inference_quality.cpp" line="98" column="10" bodyfile="tests/llm/test_inference_quality.cpp" bodystart="98" bodyend="110"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Test fixture for inference quality tests.</para>
+<para>Model discovery follows the same pattern as <ref refid="class_real_embeddings_test" kindref="compound">RealEmbeddingsTest</ref> and <ref refid="class_inference_performance_test" kindref="compound">InferencePerformanceTest</ref>:<orderedlist>
+<listitem><para>THEMIS_TEST_MODEL_PATH env var</para>
+</listitem><listitem><para>Filesystem scan for well-known TinyLlama GGUF names</para>
+</listitem></orderedlist>
+</para>
+<para>Every test that requires real inference calls GTEST_SKIP() when<itemizedlist>
+<listitem><para>THEMIS_ENABLE_LLM is not defined, OR</para>
+</listitem><listitem><para>No GGUF model is found on the filesystem. </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>InferenceQualityTest</label>
+        <link refid="class_inference_quality_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>InferenceQualityTest</label>
+        <link refid="class_inference_quality_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_inference_quality.cpp" line="59" column="1" bodyfile="tests/llm/test_inference_quality.cpp" bodystart="59" bodyend="140"/>
+    <listofallmembers>
+      <member refid="class_inference_quality_test_1a9952226f04fb52b076272015d641e60a" prot="protected" virt="non-virtual"><scope>InferenceQualityTest</scope><name>approximateTokenCount</name></member>
+      <member refid="class_inference_quality_test_1a2edcfc0a6675bfc113feff3e081d7872" prot="protected" virt="non-virtual"><scope>InferenceQualityTest</scope><name>containsUnsafeContent</name></member>
+      <member refid="class_inference_quality_test_1ad960a1da50a6d7bc72808e7fb5472141" prot="protected" virt="non-virtual"><scope>InferenceQualityTest</scope><name>model_available_</name></member>
+      <member refid="class_inference_quality_test_1a40575a06337a0a283bdca9a058ac8cdd" prot="protected" virt="non-virtual"><scope>InferenceQualityTest</scope><name>model_path_</name></member>
+      <member refid="class_inference_quality_test_1a4469cc7e42d74a622300af996009478f" prot="protected" virt="non-virtual"><scope>InferenceQualityTest</scope><name>SetUp</name></member>
+      <member refid="class_inference_quality_test_1a0cd1ec549a7345976768184a7405db8b" prot="protected" virt="non-virtual"><scope>InferenceQualityTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

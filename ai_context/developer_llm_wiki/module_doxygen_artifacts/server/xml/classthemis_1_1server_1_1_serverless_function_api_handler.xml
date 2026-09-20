@@ -1,0 +1,715 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_serverless_function_api_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::ServerlessFunctionApiHandler</compoundname>
+    <includes refid="serverless__function__api__handler_8h" local="no">serverless_function_api_handler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_serverless_function_api_handler_1a66cbb46b1bf23b856889b2ac27a37f54" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::server::ServerlessFunctionApiHandler::registry_mutex_</definition>
+        <argsstring></argsstring>
+        <name>registry_mutex_</name>
+        <qualifiedname>themis::server::ServerlessFunctionApiHandler::registry_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/serverless_function_api_handler.h" line="125" column="24" bodyfile="include/server/serverless_function_api_handler.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_serverless_function_api_handler_1a734e7787a66d90e46d053f04b99e91f6" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1server_1_1_serverless_function" kindref="compound">ServerlessFunction</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, ServerlessFunction&gt; themis::server::ServerlessFunctionApiHandler::registry_</definition>
+        <argsstring></argsstring>
+        <name>registry_</name>
+        <qualifiedname>themis::server::ServerlessFunctionApiHandler::registry_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/serverless_function_api_handler.h" line="126" column="24" bodyfile="include/server/serverless_function_api_handler.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_serverless_function_api_handler_1ad5c1d8a5022e42edfb1f7bd1ac170b53" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; <ref refid="structthemis_1_1server_1_1_serverless_function" kindref="compound">ServerlessFunction</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;ServerlessFunction&gt; &gt; themis::server::ServerlessFunctionApiHandler::version_history_</definition>
+        <argsstring></argsstring>
+        <name>version_history_</name>
+        <qualifiedname>themis::server::ServerlessFunctionApiHandler::version_history_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/serverless_function_api_handler.h" line="128" column="24" bodyfile="include/server/serverless_function_api_handler.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_serverless_function_api_handler_1abaf45f9f295f3dd35b8bd15e31f4784e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::ServerlessFunctionApiHandler::ServerlessFunctionApiHandler</definition>
+        <argsstring>()=default</argsstring>
+        <name>ServerlessFunctionApiHandler</name>
+        <qualifiedname>themis::server::ServerlessFunctionApiHandler::ServerlessFunctionApiHandler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/serverless_function_api_handler.h" line="51" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_serverless_function_api_handler_1ac124918ac7e489bc3305c8f0ed827ade" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ServerlessFunctionApiHandler::handleRegister</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleRegister</name>
+        <qualifiedname>themis::server::ServerlessFunctionApiHandler::handleRegister</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Register. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">registry_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/serverless_function_api_handler.h" line="59" column="20" bodyfile="src/server/serverless_function_api_handler.cpp" bodystart="280" bodyend="342"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_serverless_function_api_handler_1a996f44126c1613a71b3bdfe3e93c716c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ServerlessFunctionApiHandler::handleList</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleList</name>
+        <qualifiedname>themis::server::ServerlessFunctionApiHandler::handleList</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle List. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">registry_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/serverless_function_api_handler.h" line="67" column="20" bodyfile="src/server/serverless_function_api_handler.cpp" bodystart="349" bodyend="401"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_serverless_function_api_handler_1ad3ce5b64475ef3c1d843c90719a3da6e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ServerlessFunctionApiHandler::handleGet</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;id)</argsstring>
+        <name>handleGet</name>
+        <qualifiedname>themis::server::ServerlessFunctionApiHandler::handleGet</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">registry_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/serverless_function_api_handler.h" line="76" column="20" bodyfile="src/server/serverless_function_api_handler.cpp" bodystart="408" bodyend="429"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_serverless_function_api_handler_1a5042e5e08baa2c11b67e274c5370c2f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ServerlessFunctionApiHandler::handleUpdate</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;id)</argsstring>
+        <name>handleUpdate</name>
+        <qualifiedname>themis::server::ServerlessFunctionApiHandler::handleUpdate</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Handle Update. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">registry_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/serverless_function_api_handler.h" line="86" column="20" bodyfile="src/server/serverless_function_api_handler.cpp" bodystart="436" bodyend="520"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_serverless_function_api_handler_1adcd548272302a1f5785715708c637fd9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ServerlessFunctionApiHandler::handleDelete</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;id)</argsstring>
+        <name>handleDelete</name>
+        <qualifiedname>themis::server::ServerlessFunctionApiHandler::handleDelete</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Handle Delete. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">registry_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/serverless_function_api_handler.h" line="96" column="20" bodyfile="src/server/serverless_function_api_handler.cpp" bodystart="527" bodyend="551"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_serverless_function_api_handler_1ad74a6d60c6e9bc8b3909412c4f77b4f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ServerlessFunctionApiHandler::handleInvoke</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;id)</argsstring>
+        <name>handleInvoke</name>
+        <qualifiedname>themis::server::ServerlessFunctionApiHandler::handleInvoke</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Handle Invoke. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">registry_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/serverless_function_api_handler.h" line="107" column="20" bodyfile="src/server/serverless_function_api_handler.cpp" bodystart="558" bodyend="624"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_serverless_function_api_handler_1af1935e748f35417fb50ea57b9c399f64" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ServerlessFunctionApiHandler::handleVersions</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;id)</argsstring>
+        <name>handleVersions</name>
+        <qualifiedname>themis::server::ServerlessFunctionApiHandler::handleVersions</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Handle Versions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">registry_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/serverless_function_api_handler.h" line="118" column="20" bodyfile="src/server/serverless_function_api_handler.cpp" bodystart="631" bodyend="657"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_serverless_function_api_handler_1a1e53ef5f6c60eac33f94a56494b41741" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::ServerlessFunctionApiHandler::executeFunction</definition>
+        <argsstring>(const ServerlessFunction &amp;fn, const nlohmann::json &amp;input, nlohmann::json &amp;output, std::string &amp;error) const</argsstring>
+        <name>executeFunction</name>
+        <qualifiedname>themis::server::ServerlessFunctionApiHandler::executeFunction</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_serverless_function" kindref="compound">ServerlessFunction</ref> &amp;</type>
+          <declname>fn</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>nlohmann::json &amp;</type>
+          <declname>output</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>error</declname>
+        </param>
+        <briefdescription>
+<para>Execute Function. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/serverless_function_api_handler.h" line="139" column="10" bodyfile="src/server/serverless_function_api_handler.cpp" bodystart="155" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_serverless_function_api_handler_1ad8e4da015335f799b0479726dead16fc" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ServerlessFunctionApiHandler::makeJsonResponse</definition>
+        <argsstring>(http::status status, const nlohmann::json &amp;body, const http::request&lt; http::string_body &gt; &amp;req) const</argsstring>
+        <name>makeJsonResponse</name>
+        <qualifiedname>themis::server::ServerlessFunctionApiHandler::makeJsonResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make Json <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/serverless_function_api_handler.h" line="152" column="20" bodyfile="src/server/serverless_function_api_handler.cpp" bodystart="252" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_serverless_function_api_handler_1a48657a6037cdc774883cd7aa7d155e4d" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ServerlessFunctionApiHandler::makeErrorResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;message, const http::request&lt; http::string_body &gt; &amp;req) const</argsstring>
+        <name>makeErrorResponse</name>
+        <qualifiedname>themis::server::ServerlessFunctionApiHandler::makeErrorResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make Error <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/serverless_function_api_handler.h" line="164" column="20" bodyfile="src/server/serverless_function_api_handler.cpp" bodystart="267" bodyend="273"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_serverless_function_api_handler_1aa1026a1089ce1775c67db1f9f46ce54d" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::ServerlessFunctionApiHandler::generateId</definition>
+        <argsstring>()</argsstring>
+        <name>generateId</name>
+        <qualifiedname>themis::server::ServerlessFunctionApiHandler::generateId</qualifiedname>
+        <briefdescription>
+<para>Generate Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), fetch_add(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/serverless_function_api_handler.h" line="174" column="24" bodyfile="src/server/serverless_function_api_handler.cpp" bodystart="78" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_serverless_function_api_handler_1af6f7e0a93864575777551b6290485719" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::ServerlessFunctionApiHandler::utcNow</definition>
+        <argsstring>()</argsstring>
+        <name>utcNow</name>
+        <qualifiedname>themis::server::ServerlessFunctionApiHandler::utcNow</qualifiedname>
+        <briefdescription>
+<para>Utc Now. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), std::chrono::system_clock::to_time_t(), gmtime_s(), gmtime_r(), std::put_time(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/serverless_function_api_handler.h" line="180" column="24" bodyfile="src/server/serverless_function_api_handler.cpp" bodystart="94" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_serverless_function_api_handler_1ace4d2504fc2e051aaf439ecc159c6a35" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::ServerlessFunctionApiHandler::validateCode</definition>
+        <argsstring>(const nlohmann::json &amp;code)</argsstring>
+        <name>validateCode</name>
+        <qualifiedname>themis::server::ServerlessFunctionApiHandler::validateCode</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Validate Code. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: is_object(), contains(), is_array(), is_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/serverless_function_api_handler.h" line="187" column="24" bodyfile="src/server/serverless_function_api_handler.cpp" bodystart="114" bodyend="149"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/serverless_function_api_handler.h" line="49" column="1" bodyfile="include/server/serverless_function_api_handler.h" bodystart="49" bodyend="188"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_serverless_function_api_handler_1a1e53ef5f6c60eac33f94a56494b41741" prot="private" virt="non-virtual"><scope>themis::server::ServerlessFunctionApiHandler</scope><name>executeFunction</name></member>
+      <member refid="classthemis_1_1server_1_1_serverless_function_api_handler_1aa1026a1089ce1775c67db1f9f46ce54d" prot="private" virt="non-virtual"><scope>themis::server::ServerlessFunctionApiHandler</scope><name>generateId</name></member>
+      <member refid="classthemis_1_1server_1_1_serverless_function_api_handler_1adcd548272302a1f5785715708c637fd9" prot="public" virt="non-virtual"><scope>themis::server::ServerlessFunctionApiHandler</scope><name>handleDelete</name></member>
+      <member refid="classthemis_1_1server_1_1_serverless_function_api_handler_1ad3ce5b64475ef3c1d843c90719a3da6e" prot="public" virt="non-virtual"><scope>themis::server::ServerlessFunctionApiHandler</scope><name>handleGet</name></member>
+      <member refid="classthemis_1_1server_1_1_serverless_function_api_handler_1ad74a6d60c6e9bc8b3909412c4f77b4f5" prot="public" virt="non-virtual"><scope>themis::server::ServerlessFunctionApiHandler</scope><name>handleInvoke</name></member>
+      <member refid="classthemis_1_1server_1_1_serverless_function_api_handler_1a996f44126c1613a71b3bdfe3e93c716c" prot="public" virt="non-virtual"><scope>themis::server::ServerlessFunctionApiHandler</scope><name>handleList</name></member>
+      <member refid="classthemis_1_1server_1_1_serverless_function_api_handler_1ac124918ac7e489bc3305c8f0ed827ade" prot="public" virt="non-virtual"><scope>themis::server::ServerlessFunctionApiHandler</scope><name>handleRegister</name></member>
+      <member refid="classthemis_1_1server_1_1_serverless_function_api_handler_1a5042e5e08baa2c11b67e274c5370c2f9" prot="public" virt="non-virtual"><scope>themis::server::ServerlessFunctionApiHandler</scope><name>handleUpdate</name></member>
+      <member refid="classthemis_1_1server_1_1_serverless_function_api_handler_1af1935e748f35417fb50ea57b9c399f64" prot="public" virt="non-virtual"><scope>themis::server::ServerlessFunctionApiHandler</scope><name>handleVersions</name></member>
+      <member refid="classthemis_1_1server_1_1_serverless_function_api_handler_1a48657a6037cdc774883cd7aa7d155e4d" prot="private" virt="non-virtual"><scope>themis::server::ServerlessFunctionApiHandler</scope><name>makeErrorResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_serverless_function_api_handler_1ad8e4da015335f799b0479726dead16fc" prot="private" virt="non-virtual"><scope>themis::server::ServerlessFunctionApiHandler</scope><name>makeJsonResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_serverless_function_api_handler_1a734e7787a66d90e46d053f04b99e91f6" prot="private" virt="non-virtual"><scope>themis::server::ServerlessFunctionApiHandler</scope><name>registry_</name></member>
+      <member refid="classthemis_1_1server_1_1_serverless_function_api_handler_1a66cbb46b1bf23b856889b2ac27a37f54" prot="private" virt="non-virtual"><scope>themis::server::ServerlessFunctionApiHandler</scope><name>registry_mutex_</name></member>
+      <member refid="classthemis_1_1server_1_1_serverless_function_api_handler_1abaf45f9f295f3dd35b8bd15e31f4784e" prot="public" virt="non-virtual"><scope>themis::server::ServerlessFunctionApiHandler</scope><name>ServerlessFunctionApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_serverless_function_api_handler_1af6f7e0a93864575777551b6290485719" prot="private" virt="non-virtual"><scope>themis::server::ServerlessFunctionApiHandler</scope><name>utcNow</name></member>
+      <member refid="classthemis_1_1server_1_1_serverless_function_api_handler_1ace4d2504fc2e051aaf439ecc159c6a35" prot="private" virt="non-virtual"><scope>themis::server::ServerlessFunctionApiHandler</scope><name>validateCode</name></member>
+      <member refid="classthemis_1_1server_1_1_serverless_function_api_handler_1ad5c1d8a5022e42edfb1f7bd1ac170b53" prot="private" virt="non-virtual"><scope>themis::server::ServerlessFunctionApiHandler</scope><name>version_history_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

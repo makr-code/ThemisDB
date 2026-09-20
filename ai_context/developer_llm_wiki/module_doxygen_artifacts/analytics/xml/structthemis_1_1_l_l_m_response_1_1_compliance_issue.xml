@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_l_l_m_response_1_1_compliance_issue" kind="struct" language="C++" prot="public">
+    <compoundname>themis::LLMResponse::ComplianceIssue</compoundname>
+    <includes refid="llm__process__analyzer_8h" local="no">llm_process_analyzer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_response_1_1_compliance_issue_1aa8ec6c5c3f9392f1b2044030e96f773e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::LLMResponse::ComplianceIssue::rule</definition>
+        <argsstring></argsstring>
+        <name>rule</name>
+        <qualifiedname>themis::LLMResponse::ComplianceIssue::rule</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="107" column="21" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_response_1_1_compliance_issue_1a9bc030ca39eb0caaf8d96afebcf971bb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::LLMResponse::ComplianceIssue::violation</definition>
+        <argsstring></argsstring>
+        <name>violation</name>
+        <qualifiedname>themis::LLMResponse::ComplianceIssue::violation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="108" column="21" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_response_1_1_compliance_issue_1a9c03d60e4cceef60d0d80fce79295625" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::LLMResponse::ComplianceIssue::severity</definition>
+        <argsstring></argsstring>
+        <name>severity</name>
+        <qualifiedname>themis::LLMResponse::ComplianceIssue::severity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="109" column="21" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_response_1_1_compliance_issue_1a10773b8dfad4c5eb2b9693836b83cb21" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::LLMResponse::ComplianceIssue::remediation</definition>
+        <argsstring></argsstring>
+        <name>remediation</name>
+        <qualifiedname>themis::LLMResponse::ComplianceIssue::remediation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="110" column="21" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/llm_process_analyzer.h" line="106" column="5" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="106" bodyend="111"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_l_l_m_response_1_1_compliance_issue_1a10773b8dfad4c5eb2b9693836b83cb21" prot="public" virt="non-virtual"><scope>themis::LLMResponse::ComplianceIssue</scope><name>remediation</name></member>
+      <member refid="structthemis_1_1_l_l_m_response_1_1_compliance_issue_1aa8ec6c5c3f9392f1b2044030e96f773e" prot="public" virt="non-virtual"><scope>themis::LLMResponse::ComplianceIssue</scope><name>rule</name></member>
+      <member refid="structthemis_1_1_l_l_m_response_1_1_compliance_issue_1a9c03d60e4cceef60d0d80fce79295625" prot="public" virt="non-virtual"><scope>themis::LLMResponse::ComplianceIssue</scope><name>severity</name></member>
+      <member refid="structthemis_1_1_l_l_m_response_1_1_compliance_issue_1a9bc030ca39eb0caaf8d96afebcf971bb" prot="public" virt="non-virtual"><scope>themis::LLMResponse::ComplianceIssue</scope><name>violation</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

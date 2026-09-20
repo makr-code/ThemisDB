@@ -1,0 +1,268 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1_connector_plugin_registry" kind="class" language="C++" prot="public">
+    <compoundname>themis::ingestion::ConnectorPluginRegistry</compoundname>
+    <includes refid="ingestion__manager_8h" local="no">ingestion_manager.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_connector_plugin_registry_1a90887311b98b0b1c359f6cf020c50c29" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::ingestion::ConnectorPluginRegistry::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::ingestion::ConnectorPluginRegistry::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1471" column="24" bodyfile="include/ingestion/ingestion_manager.h" bodystart="1471" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_connector_plugin_registry_1aa5d33243168f04e6c310af09e8d315aa" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="namespacethemis_1_1ingestion_1a8c07b97537327bffabda2bb574e1edb1" kindref="member">ConnectorFactory</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, ConnectorFactory&gt; themis::ingestion::ConnectorPluginRegistry::factories_</definition>
+        <argsstring></argsstring>
+        <name>factories_</name>
+        <qualifiedname>themis::ingestion::ConnectorPluginRegistry::factories_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1472" column="24" bodyfile="include/ingestion/ingestion_manager.h" bodystart="1472" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_connector_plugin_registry_1a4ed625b83926ed1ff65835f69c5724ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::ConnectorPluginRegistry::ConnectorPluginRegistry</definition>
+        <argsstring>()=default</argsstring>
+        <name>ConnectorPluginRegistry</name>
+        <qualifiedname>themis::ingestion::ConnectorPluginRegistry::ConnectorPluginRegistry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1433" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_connector_plugin_registry_1a28d9ff49a66aafff27d8dfe8fa129871" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::ConnectorPluginRegistry::registerFactory</definition>
+        <argsstring>(const std::string &amp;plugin_name, ConnectorFactory factory)</argsstring>
+        <name>registerFactory</name>
+        <qualifiedname>themis::ingestion::ConnectorPluginRegistry::registerFactory</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin_name</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1ingestion_1a8c07b97537327bffabda2bb574e1edb1" kindref="member">ConnectorFactory</ref></type>
+          <declname>factory</declname>
+        </param>
+        <briefdescription>
+<para>Register a factory under the given plugin name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register Factory.</para>
+<para>Re-registering an existing name silently replaces the previous factory.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>plugin_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Non-empty identifier for the plugin </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>factory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Zero-argument callable returning a new connector</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the plugin. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">factory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1443" column="10" bodyfile="src/ingestion/ingestion_manager.cpp" bodystart="1957" bodyend="1961"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_connector_plugin_registry_1a1f8246ddac14ee70604bbbaca2220e7b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::ConnectorPluginRegistry::unregisterFactory</definition>
+        <argsstring>(const std::string &amp;plugin_name)</argsstring>
+        <name>unregisterFactory</name>
+        <qualifiedname>themis::ingestion::ConnectorPluginRegistry::unregisterFactory</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin_name</declname>
+        </param>
+        <briefdescription>
+<para>Remove the factory registered under <computeroutput>plugin_name</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Unregister Factory.</para>
+<para><simplesect kind="return"><para>true if the name was registered and has been removed</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the plugin. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1450" column="10" bodyfile="src/ingestion/ingestion_manager.cpp" bodystart="1969" bodyend="1972"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_connector_plugin_registry_1a62ab8fcff1251156d33af16470bcdb79" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::ConnectorPluginRegistry::isRegistered</definition>
+        <argsstring>(const std::string &amp;plugin_name) const</argsstring>
+        <name>isRegistered</name>
+        <qualifiedname>themis::ingestion::ConnectorPluginRegistry::isRegistered</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin_name</declname>
+        </param>
+        <briefdescription>
+<para>Check whether a factory is registered for <computeroutput>plugin_name</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1455" column="10" bodyfile="src/ingestion/ingestion_manager.cpp" bodystart="1974" bodyend="1982"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_connector_plugin_registry_1a6a94dcac9c1bf30fe5a181f23acac8ec" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_i_source_connector" kindref="compound">ISourceConnector</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; ISourceConnector &gt; themis::ingestion::ConnectorPluginRegistry::create</definition>
+        <argsstring>(const std::string &amp;plugin_name) const</argsstring>
+        <name>create</name>
+        <qualifiedname>themis::ingestion::ConnectorPluginRegistry::create</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin_name</declname>
+        </param>
+        <briefdescription>
+<para>Invoke the factory for <computeroutput>plugin_name</computeroutput> and return a new connector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>New connector instance, or nullptr if the name is not registered or the factory returns nullptr. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1463" column="21" bodyfile="src/ingestion/ingestion_manager.cpp" bodystart="1984" bodyend="1997"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_connector_plugin_registry_1a5e00ad446809039993220ef4396962cf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::ingestion::ConnectorPluginRegistry::listPlugins</definition>
+        <argsstring>() const</argsstring>
+        <name>listPlugins</name>
+        <qualifiedname>themis::ingestion::ConnectorPluginRegistry::listPlugins</qualifiedname>
+        <briefdescription>
+<para>Return a sorted list of all registered plugin names. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1468" column="17" bodyfile="src/ingestion/ingestion_manager.cpp" bodystart="1999" bodyend="2014"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Thread-safe registry for third-party source connector factories. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><computeroutput><ref refid="classthemis_1_1ingestion_1_1_connector_plugin_registry" kindref="compound">ConnectorPluginRegistry</ref></computeroutput> maps string plugin names to <computeroutput><ref refid="namespacethemis_1_1ingestion_1a8c07b97537327bffabda2bb574e1edb1" kindref="member">ConnectorFactory</ref></computeroutput> callables. An <computeroutput><ref refid="classthemis_1_1ingestion_1_1_ingestion_manager" kindref="compound">IngestionManager</ref></computeroutput> holds one instance; sources registered with <computeroutput><ref refid="namespacethemis_1_1ingestion_1ac26ea3ec62832c4278b31929df0e755fafd87a731781e74f4c784fa78bd4835b3" kindref="member">SourceType::PLUGIN</ref></computeroutput> look up their factory here at ingestion time.</para>
+<para>Example – register a custom connector and ingest: <programlisting><codeline><highlight class="normal">mgr.registerConnectorPlugin(</highlight><highlight class="stringliteral">&quot;csv_reader&quot;</highlight><highlight class="normal">,<sp/>[]()<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::make_unique&lt;CsvSourceConnector&gt;();</highlight></codeline>
+<codeline><highlight class="normal">});</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">mgr.registerSource({</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.source_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;sales_data&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.type<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1ac26ea3ec62832c4278b31929df0e755fafd87a731781e74f4c784fa78bd4835b3" kindref="member">SourceType::PLUGIN</ref>,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.location<sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/data/sales.csv&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.options<sp/><sp/><sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;plugin_name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;csv_reader&quot;</highlight><highlight class="normal">}}</highlight></codeline>
+<codeline><highlight class="normal">});</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>report<sp/>=<sp/>mgr.ingestAll();</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/ingestion/ingestion_manager.h" line="1431" column="1" bodyfile="include/ingestion/ingestion_manager.h" bodystart="1431" bodyend="1473"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1_connector_plugin_registry_1a4ed625b83926ed1ff65835f69c5724ef" prot="public" virt="non-virtual"><scope>themis::ingestion::ConnectorPluginRegistry</scope><name>ConnectorPluginRegistry</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_connector_plugin_registry_1a6a94dcac9c1bf30fe5a181f23acac8ec" prot="public" virt="non-virtual"><scope>themis::ingestion::ConnectorPluginRegistry</scope><name>create</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_connector_plugin_registry_1aa5d33243168f04e6c310af09e8d315aa" prot="private" virt="non-virtual"><scope>themis::ingestion::ConnectorPluginRegistry</scope><name>factories_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_connector_plugin_registry_1a62ab8fcff1251156d33af16470bcdb79" prot="public" virt="non-virtual"><scope>themis::ingestion::ConnectorPluginRegistry</scope><name>isRegistered</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_connector_plugin_registry_1a5e00ad446809039993220ef4396962cf" prot="public" virt="non-virtual"><scope>themis::ingestion::ConnectorPluginRegistry</scope><name>listPlugins</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_connector_plugin_registry_1a90887311b98b0b1c359f6cf020c50c29" prot="private" virt="non-virtual"><scope>themis::ingestion::ConnectorPluginRegistry</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_connector_plugin_registry_1a28d9ff49a66aafff27d8dfe8fa129871" prot="public" virt="non-virtual"><scope>themis::ingestion::ConnectorPluginRegistry</scope><name>registerFactory</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_connector_plugin_registry_1a1f8246ddac14ee70604bbbaca2220e7b" prot="public" virt="non-virtual"><scope>themis::ingestion::ConnectorPluginRegistry</scope><name>unregisterFactory</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

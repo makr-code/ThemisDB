@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1examples_1_1_vec4f" kind="struct" language="C++" prot="public">
+    <compoundname>themis::examples::Vec4f</compoundname>
+    <includes refid="alignment__examples_8h" local="no">alignment_examples.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1examples_1_1_vec4f_1a498a288e3eec837fe7f1caffd3272e12" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::examples::Vec4f::x</definition>
+        <argsstring></argsstring>
+        <name>x</name>
+        <qualifiedname>themis::examples::Vec4f::x</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_examples.h" line="73" column="11" bodyfile="include/performance/alignment_examples.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1examples_1_1_vec4f_1af053f6e6b410b34c9dc8c00339cf750e" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::examples::Vec4f::y</definition>
+        <argsstring></argsstring>
+        <name>y</name>
+        <qualifiedname>themis::examples::Vec4f::y</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_examples.h" line="73" column="13" bodyfile="include/performance/alignment_examples.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1examples_1_1_vec4f_1a0f3eb079b208e094f6709af552914709" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::examples::Vec4f::z</definition>
+        <argsstring></argsstring>
+        <name>z</name>
+        <qualifiedname>themis::examples::Vec4f::z</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_examples.h" line="73" column="15" bodyfile="include/performance/alignment_examples.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1examples_1_1_vec4f_1a05cb3fa4d27af6835d698581877f0504" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::examples::Vec4f::w</definition>
+        <argsstring></argsstring>
+        <name>w</name>
+        <qualifiedname>themis::examples::Vec4f::w</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_examples.h" line="73" column="17" bodyfile="include/performance/alignment_examples.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1examples_1_1_vec4f_1a98fff165213f12f2ee85d1935068c0d7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::examples::Vec4f::Vec4f</definition>
+        <argsstring>()</argsstring>
+        <name>Vec4f</name>
+        <qualifiedname>themis::examples::Vec4f::Vec4f</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_examples.h" line="75" column="5" bodyfile="include/performance/alignment_examples.h" bodystart="75" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1examples_1_1_vec4f_1a5c4eb1ab72555d8a7cd73e6c9fb138f0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::examples::Vec4f::Vec4f</definition>
+        <argsstring>(float x_, float y_, float z_, float w_)</argsstring>
+        <name>Vec4f</name>
+        <qualifiedname>themis::examples::Vec4f::Vec4f</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>x_</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>y_</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>z_</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>w_</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_examples.h" line="76" column="5" bodyfile="include/performance/alignment_examples.h" bodystart="76" bodyend="76"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>4-component float vector for SIMD operations </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Required for:<itemizedlist>
+<listitem><para>SSE/SSE2/SSE4 instructions (x86)</para>
+</listitem><listitem><para>NEON instructions (ARM)</para>
+</listitem><listitem><para>Aligned load/store instructions (_mm_load_ps, vld1q_f32)</para>
+</listitem></itemizedlist>
+</para>
+<para>Unaligned access:<itemizedlist>
+<listitem><para>Can cause crashes on some ARM processors</para>
+</listitem><listitem><para>Forces slower unaligned load instructions</para>
+</listitem><listitem><para>Degrades performance by 2-10x </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/performance/alignment_examples.h" line="72" column="1" bodyfile="include/performance/alignment_examples.h" bodystart="72" bodyend="77"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1examples_1_1_vec4f_1a98fff165213f12f2ee85d1935068c0d7" prot="public" virt="non-virtual"><scope>themis::examples::Vec4f</scope><name>Vec4f</name></member>
+      <member refid="structthemis_1_1examples_1_1_vec4f_1a5c4eb1ab72555d8a7cd73e6c9fb138f0" prot="public" virt="non-virtual"><scope>themis::examples::Vec4f</scope><name>Vec4f</name></member>
+      <member refid="structthemis_1_1examples_1_1_vec4f_1a05cb3fa4d27af6835d698581877f0504" prot="public" virt="non-virtual"><scope>themis::examples::Vec4f</scope><name>w</name></member>
+      <member refid="structthemis_1_1examples_1_1_vec4f_1a498a288e3eec837fe7f1caffd3272e12" prot="public" virt="non-virtual"><scope>themis::examples::Vec4f</scope><name>x</name></member>
+      <member refid="structthemis_1_1examples_1_1_vec4f_1af053f6e6b410b34c9dc8c00339cf750e" prot="public" virt="non-virtual"><scope>themis::examples::Vec4f</scope><name>y</name></member>
+      <member refid="structthemis_1_1examples_1_1_vec4f_1a0f3eb079b208e094f6709af552914709" prot="public" virt="non-virtual"><scope>themis::examples::Vec4f</scope><name>z</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_stateful_mock_coordinator_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>StatefulMockCoordinator::Config</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_stateful_mock_coordinator_1_1_config_1af55222bc76912b9bbb0891950ac610c1" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1transaction_1afc769200a9b379f277622191f028a20d" kindref="member">CommitProtocol</ref></type>
+        <definition>CommitProtocol StatefulMockCoordinator::Config::protocol</definition>
+        <argsstring></argsstring>
+        <name>protocol</name>
+        <qualifiedname>StatefulMockCoordinator::Config::protocol</qualifiedname>
+        <initializer>= CommitProtocol::TWO_PHASE_COMMIT</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_itransaction_coordinator.cpp" line="80" column="28" bodyfile="tests/transaction/test_itransaction_coordinator.cpp" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_stateful_mock_coordinator_1_1_config_1aa628df0083795894c057748b887369b4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string StatefulMockCoordinator::Config::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>StatefulMockCoordinator::Config::name</qualifiedname>
+        <initializer>= &quot;2PC-mock&quot;</initializer>
+        <briefdescription>
+<para>Owned string — no lifetime hazard. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_itransaction_coordinator.cpp" line="81" column="28" bodyfile="tests/transaction/test_itransaction_coordinator.cpp" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_stateful_mock_coordinator_1_1_config_1ad24280f1d1d5057587352d7ba76df890" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1transaction_1_1_coordinator_capabilities" kindref="compound">CoordinatorCapabilities</ref></type>
+        <definition>CoordinatorCapabilities StatefulMockCoordinator::Config::caps</definition>
+        <argsstring></argsstring>
+        <name>caps</name>
+        <qualifiedname>StatefulMockCoordinator::Config::caps</qualifiedname>
+        <initializer>                             = <ref refid="structthemis_1_1transaction_1_1_coordinator_capabilities" kindref="compound">CoordinatorCapabilities</ref>{
+     true,
+     false,
+     false,
+     false,
+     false,
+     true,
+     false
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_itransaction_coordinator.cpp" line="82" column="33" bodyfile="tests/transaction/test_itransaction_coordinator.cpp" bodystart="82" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_stateful_mock_coordinator_1_1_config_1a1e7d8526c04ec8f9c2394a658aeabbc2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool StatefulMockCoordinator::Config::prepare_returns_abort</definition>
+        <argsstring></argsstring>
+        <name>prepare_returns_abort</name>
+        <qualifiedname>StatefulMockCoordinator::Config::prepare_returns_abort</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Simulate a participant ABORT vote. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_itransaction_coordinator.cpp" line="91" column="14" bodyfile="tests/transaction/test_itransaction_coordinator.cpp" bodystart="91" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Construction-time configuration. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>StatefulMockCoordinator::Config</label>
+        <link refid="struct_stateful_mock_coordinator_1_1_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>caps</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::transaction::CoordinatorCapabilities</label>
+        <link refid="structthemis_1_1transaction_1_1_coordinator_capabilities"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/transaction/test_itransaction_coordinator.cpp" line="79" column="5" bodyfile="tests/transaction/test_itransaction_coordinator.cpp" bodystart="79" bodyend="92"/>
+    <listofallmembers>
+      <member refid="struct_stateful_mock_coordinator_1_1_config_1ad24280f1d1d5057587352d7ba76df890" prot="public" virt="non-virtual"><scope>StatefulMockCoordinator::Config</scope><name>caps</name></member>
+      <member refid="struct_stateful_mock_coordinator_1_1_config_1aa628df0083795894c057748b887369b4" prot="public" virt="non-virtual"><scope>StatefulMockCoordinator::Config</scope><name>name</name></member>
+      <member refid="struct_stateful_mock_coordinator_1_1_config_1a1e7d8526c04ec8f9c2394a658aeabbc2" prot="public" virt="non-virtual"><scope>StatefulMockCoordinator::Config</scope><name>prepare_returns_abort</name></member>
+      <member refid="struct_stateful_mock_coordinator_1_1_config_1af55222bc76912b9bbb0891950ac610c1" prot="public" virt="non-virtual"><scope>StatefulMockCoordinator::Config</scope><name>protocol</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

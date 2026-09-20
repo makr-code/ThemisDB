@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_import_batch" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::ImportBatch</compoundname>
+    <includes refid="importer__interfaces_8h" local="no">importer_interfaces.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_batch_1a460c2ad620d75f6175c0fbf0b362d828" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::ImportBatch::source_table</definition>
+        <argsstring></argsstring>
+        <name>source_table</name>
+        <qualifiedname>themis::importers::ImportBatch::source_table</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interfaces.h" line="185" column="17" bodyfile="include/importers/importer_interfaces.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_batch_1a4ccebeda5760a66ca8bfc6af2b4c92fe" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref> &gt;</type>
+        <definition>std::vector&lt;json&gt; themis::importers::ImportBatch::records</definition>
+        <argsstring></argsstring>
+        <name>records</name>
+        <qualifiedname>themis::importers::ImportBatch::records</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interfaces.h" line="187" column="17" bodyfile="include/importers/importer_interfaces.h" bodystart="187" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1importers_1_1_import_batch_1a83eb9625939ebdfdb44da01c2c12c320" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::ImportBatch::empty</definition>
+        <argsstring>() const</argsstring>
+        <name>empty</name>
+        <qualifiedname>themis::importers::ImportBatch::empty</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interfaces.h" line="189" column="12" bodyfile="include/importers/importer_interfaces.h" bodystart="189" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1importers_1_1_import_batch_1a1d6a42d2938053870691421be0a34fd3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::importers::ImportBatch::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::importers::ImportBatch::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interfaces.h" line="190" column="12" bodyfile="include/importers/importer_interfaces.h" bodystart="190" bodyend="190"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/importer_interfaces.h" line="184" column="1" bodyfile="include/importers/importer_interfaces.h" bodystart="184" bodyend="191"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_import_batch_1a83eb9625939ebdfdb44da01c2c12c320" prot="public" virt="non-virtual"><scope>themis::importers::ImportBatch</scope><name>empty</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_batch_1a4ccebeda5760a66ca8bfc6af2b4c92fe" prot="public" virt="non-virtual"><scope>themis::importers::ImportBatch</scope><name>records</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_batch_1a1d6a42d2938053870691421be0a34fd3" prot="public" virt="non-virtual"><scope>themis::importers::ImportBatch</scope><name>size</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_batch_1a460c2ad620d75f6175c0fbf0b362d828" prot="public" virt="non-virtual"><scope>themis::importers::ImportBatch</scope><name>source_table</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

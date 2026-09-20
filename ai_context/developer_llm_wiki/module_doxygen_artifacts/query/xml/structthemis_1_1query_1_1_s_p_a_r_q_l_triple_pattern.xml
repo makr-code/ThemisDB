@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_s_p_a_r_q_l_triple_pattern" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::SPARQLTriplePattern</compoundname>
+    <includes refid="sparql__parser_8h" local="no">sparql_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_s_p_a_r_q_l_triple_pattern_1a22449a4ef602b2e52b138311ec52f4d0" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_term" kindref="compound">SPARQLTerm</ref></type>
+        <definition>SPARQLTerm themis::query::SPARQLTriplePattern::subject</definition>
+        <argsstring></argsstring>
+        <name>subject</name>
+        <qualifiedname>themis::query::SPARQLTriplePattern::subject</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sparql_parser.h" line="103" column="16" bodyfile="include/query/sparql_parser.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_s_p_a_r_q_l_triple_pattern_1a5a8c70b39c13a292e40b534500c3dcf2" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_term" kindref="compound">SPARQLTerm</ref></type>
+        <definition>SPARQLTerm themis::query::SPARQLTriplePattern::predicate</definition>
+        <argsstring></argsstring>
+        <name>predicate</name>
+        <qualifiedname>themis::query::SPARQLTriplePattern::predicate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sparql_parser.h" line="104" column="16" bodyfile="include/query/sparql_parser.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_s_p_a_r_q_l_triple_pattern_1a07c4b6ca4bd3ca6a59f61eac52c6b4ad" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_term" kindref="compound">SPARQLTerm</ref></type>
+        <definition>SPARQLTerm themis::query::SPARQLTriplePattern::object</definition>
+        <argsstring></argsstring>
+        <name>object</name>
+        <qualifiedname>themis::query::SPARQLTriplePattern::object</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sparql_parser.h" line="105" column="16" bodyfile="include/query/sparql_parser.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::query::SPARQLTerm</label>
+        <link refid="structthemis_1_1query_1_1_s_p_a_r_q_l_term"/>
+      </node>
+      <node id="1">
+        <label>themis::query::SPARQLTriplePattern</label>
+        <link refid="structthemis_1_1query_1_1_s_p_a_r_q_l_triple_pattern"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>object</edgelabel>
+          <edgelabel>predicate</edgelabel>
+          <edgelabel>subject</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/sparql_parser.h" line="102" column="1" bodyfile="include/query/sparql_parser.h" bodystart="102" bodyend="106"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_s_p_a_r_q_l_triple_pattern_1a07c4b6ca4bd3ca6a59f61eac52c6b4ad" prot="public" virt="non-virtual"><scope>themis::query::SPARQLTriplePattern</scope><name>object</name></member>
+      <member refid="structthemis_1_1query_1_1_s_p_a_r_q_l_triple_pattern_1a5a8c70b39c13a292e40b534500c3dcf2" prot="public" virt="non-virtual"><scope>themis::query::SPARQLTriplePattern</scope><name>predicate</name></member>
+      <member refid="structthemis_1_1query_1_1_s_p_a_r_q_l_triple_pattern_1a22449a4ef602b2e52b138311ec52f4d0" prot="public" virt="non-virtual"><scope>themis::query::SPARQLTriplePattern</scope><name>subject</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

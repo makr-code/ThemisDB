@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_status" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::ComplianceGapDetector::ComplianceStatus</compoundname>
+    <includes refid="compliance__reporting_8h" local="no">compliance_reporting.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_status_1a0161c28948d7be5106cd3fe64386bf3e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ComplianceGapDetector::ComplianceStatus::framework</definition>
+        <argsstring></argsstring>
+        <name>framework</name>
+        <qualifiedname>themis::governance::ComplianceGapDetector::ComplianceStatus::framework</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="155" column="21" bodyfile="include/governance/compliance_reporting.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_status_1a4fd4e3ddfbaa31e7dc3d4fd29045c057" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::governance::ComplianceGapDetector::ComplianceStatus::total_requirements</definition>
+        <argsstring></argsstring>
+        <name>total_requirements</name>
+        <qualifiedname>themis::governance::ComplianceGapDetector::ComplianceStatus::total_requirements</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="156" column="13" bodyfile="include/governance/compliance_reporting.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_status_1a1f941625f3fe40dc54d4eed0da0c095d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::governance::ComplianceGapDetector::ComplianceStatus::met_requirements</definition>
+        <argsstring></argsstring>
+        <name>met_requirements</name>
+        <qualifiedname>themis::governance::ComplianceGapDetector::ComplianceStatus::met_requirements</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="157" column="13" bodyfile="include/governance/compliance_reporting.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_status_1a87c25b559b302e3056780508499ef1d3" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::governance::ComplianceGapDetector::ComplianceStatus::unmet_requirements</definition>
+        <argsstring></argsstring>
+        <name>unmet_requirements</name>
+        <qualifiedname>themis::governance::ComplianceGapDetector::ComplianceStatus::unmet_requirements</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="158" column="13" bodyfile="include/governance/compliance_reporting.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_status_1a550035afe2f0c7bc34fe99430d625780" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::governance::ComplianceGapDetector::ComplianceStatus::compliance_percentage</definition>
+        <argsstring></argsstring>
+        <name>compliance_percentage</name>
+        <qualifiedname>themis::governance::ComplianceGapDetector::ComplianceStatus::compliance_percentage</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="159" column="16" bodyfile="include/governance/compliance_reporting.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_status_1aca5ce5f9fee0624e48b9f55e34f91bf8" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_gap" kindref="compound">ComplianceGap</ref> &gt;</type>
+        <definition>std::vector&lt;ComplianceGap&gt; themis::governance::ComplianceGapDetector::ComplianceStatus::gaps</definition>
+        <argsstring></argsstring>
+        <name>gaps</name>
+        <qualifiedname>themis::governance::ComplianceGapDetector::ComplianceStatus::gaps</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="160" column="21" bodyfile="include/governance/compliance_reporting.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_status_1a084c395e0ed6f99b419cd243da58c6cf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::ComplianceGapDetector::ComplianceStatus::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::governance::ComplianceGapDetector::ComplianceStatus::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="166" column="24" bodyfile="src/governance/compliance_reporting.cpp" bodystart="470" bodyend="485"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/compliance_reporting.h" line="154" column="5" bodyfile="include/governance/compliance_reporting.h" bodystart="154" bodyend="167"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_status_1a550035afe2f0c7bc34fe99430d625780" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceGapDetector::ComplianceStatus</scope><name>compliance_percentage</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_status_1a0161c28948d7be5106cd3fe64386bf3e" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceGapDetector::ComplianceStatus</scope><name>framework</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_status_1aca5ce5f9fee0624e48b9f55e34f91bf8" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceGapDetector::ComplianceStatus</scope><name>gaps</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_status_1a1f941625f3fe40dc54d4eed0da0c095d" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceGapDetector::ComplianceStatus</scope><name>met_requirements</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_status_1a084c395e0ed6f99b419cd243da58c6cf" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceGapDetector::ComplianceStatus</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_status_1a4fd4e3ddfbaa31e7dc3d4fd29045c057" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceGapDetector::ComplianceStatus</scope><name>total_requirements</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_status_1a87c25b559b302e3056780508499ef1d3" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceGapDetector::ComplianceStatus</scope><name>unmet_requirements</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,241 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1tensor_1_1_chunk_summary" kind="struct" language="C++" prot="public">
+    <compoundname>themis::tensor::ChunkSummary</compoundname>
+    <basecompoundref refid="structthemis_1_1tensor_1_1_base_tensor_summary" prot="public" virt="non-virtual">themis::tensor::BaseTensorSummary</basecompoundref>
+    <includes refid="tensor__summary__types_8h" local="no">tensor_summary_types.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_chunk_summary_1a52c94efc94680416f399c51a30d8f620" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::ChunkSummary::chunk_id</definition>
+        <argsstring></argsstring>
+        <name>chunk_id</name>
+        <qualifiedname>themis::tensor::ChunkSummary::chunk_id</qualifiedname>
+        <briefdescription>
+<para>Chunk identifier (e.g., &quot;doc_123#chunk_5&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_summary_types.h" line="293" column="17" bodyfile="include/tensor/tensor_summary_types.h" bodystart="293" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_chunk_summary_1a568f26a01c5180ea0efb951b43dbf952" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::ChunkSummary::document_id</definition>
+        <argsstring></argsstring>
+        <name>document_id</name>
+        <qualifiedname>themis::tensor::ChunkSummary::document_id</qualifiedname>
+        <briefdescription>
+<para>Source document identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_summary_types.h" line="296" column="17" bodyfile="include/tensor/tensor_summary_types.h" bodystart="296" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_chunk_summary_1aa0bd493f7fb7a60512bd87de25453e70" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::ChunkSummary::document_title</definition>
+        <argsstring></argsstring>
+        <name>document_title</name>
+        <qualifiedname>themis::tensor::ChunkSummary::document_title</qualifiedname>
+        <briefdescription>
+<para>Document title or name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_summary_types.h" line="299" column="17" bodyfile="include/tensor/tensor_summary_types.h" bodystart="299" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_chunk_summary_1a53afab7d62ef926ba4aaeb4e37f79edf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::ChunkSummary::chunk_content</definition>
+        <argsstring></argsstring>
+        <name>chunk_content</name>
+        <qualifiedname>themis::tensor::ChunkSummary::chunk_content</qualifiedname>
+        <briefdescription>
+<para>Chunk content (may be truncated or abstracted). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_summary_types.h" line="302" column="17" bodyfile="include/tensor/tensor_summary_types.h" bodystart="302" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_chunk_summary_1a8aa0ad2e6417e845b325db40557ba10c" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::ChunkSummary::chunk_position</definition>
+        <argsstring></argsstring>
+        <name>chunk_position</name>
+        <qualifiedname>themis::tensor::ChunkSummary::chunk_position</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Chunk position in the document (byte offset or chunk number). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_summary_types.h" line="305" column="17" bodyfile="include/tensor/tensor_summary_types.h" bodystart="305" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_chunk_summary_1a4e83f06940d0b6bbe2ba24272add40c5" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::ChunkSummary::content_length</definition>
+        <argsstring></argsstring>
+        <name>content_length</name>
+        <qualifiedname>themis::tensor::ChunkSummary::content_length</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Chunk content length in characters. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_summary_types.h" line="308" column="17" bodyfile="include/tensor/tensor_summary_types.h" bodystart="308" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_chunk_summary_1a996242400f1ef92fb124516d09af0514" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::tensor::ChunkSummary::bm25_score</definition>
+        <argsstring></argsstring>
+        <name>bm25_score</name>
+        <qualifiedname>themis::tensor::ChunkSummary::bm25_score</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>BM25 relevance score from full-text search (if available). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_summary_types.h" line="311" column="11" bodyfile="include/tensor/tensor_summary_types.h" bodystart="311" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_chunk_summary_1a1d421b9e8f77336f30654bf5be42dd0a" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::tensor::ChunkSummary::tfidf_score</definition>
+        <argsstring></argsstring>
+        <name>tfidf_score</name>
+        <qualifiedname>themis::tensor::ChunkSummary::tfidf_score</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>TF-IDF score for the query terms. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_summary_types.h" line="314" column="11" bodyfile="include/tensor/tensor_summary_types.h" bodystart="314" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_chunk_summary_1a10528545131bfa76532d7be7081bfa05" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::tensor::ChunkSummary::chunk_embedding</definition>
+        <argsstring></argsstring>
+        <name>chunk_embedding</name>
+        <qualifiedname>themis::tensor::ChunkSummary::chunk_embedding</qualifiedname>
+        <briefdescription>
+<para>Chunk embedding or features (compressed). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_summary_types.h" line="317" column="17" bodyfile="include/tensor/tensor_summary_types.h" bodystart="317" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_chunk_summary_1a3b252938b6e746c7e30fd388c57b5a84" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::ChunkSummary::document_metadata</definition>
+        <argsstring></argsstring>
+        <name>document_metadata</name>
+        <qualifiedname>themis::tensor::ChunkSummary::document_metadata</qualifiedname>
+        <briefdescription>
+<para>Document metadata (author, date, source, etc.). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_summary_types.h" line="320" column="17" bodyfile="include/tensor/tensor_summary_types.h" bodystart="320" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_chunk_summary_1a7b6ade2911b34130991d1c96db5b4ea8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::tensor::ChunkSummary::verified_source</definition>
+        <argsstring></argsstring>
+        <name>verified_source</name>
+        <qualifiedname>themis::tensor::ChunkSummary::verified_source</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether chunk is from a trusted/verified source. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_summary_types.h" line="323" column="10" bodyfile="include/tensor/tensor_summary_types.h" bodystart="323" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Tensor summary for a document chunk or passage. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Represents compressed chunk with metadata about source document, relevance, and embeddings. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::tensor::BaseTensorSummary</label>
+        <link refid="structthemis_1_1tensor_1_1_base_tensor_summary"/>
+      </node>
+      <node id="1">
+        <label>themis::tensor::ChunkSummary</label>
+        <link refid="structthemis_1_1tensor_1_1_chunk_summary"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::tensor::BaseTensorSummary</label>
+        <link refid="structthemis_1_1tensor_1_1_base_tensor_summary"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>compression_info</edgelabel>
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::tensor::ChunkSummary</label>
+        <link refid="structthemis_1_1tensor_1_1_chunk_summary"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::tensor::CompressionResult</label>
+        <link refid="structthemis_1_1tensor_1_1_compression_result"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/tensor/tensor_summary_types.h" line="291" column="1" bodyfile="include/tensor/tensor_summary_types.h" bodystart="291" bodyend="324"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1tensor_1_1_chunk_summary_1a996242400f1ef92fb124516d09af0514" prot="public" virt="non-virtual"><scope>themis::tensor::ChunkSummary</scope><name>bm25_score</name></member>
+      <member refid="structthemis_1_1tensor_1_1_chunk_summary_1a53afab7d62ef926ba4aaeb4e37f79edf" prot="public" virt="non-virtual"><scope>themis::tensor::ChunkSummary</scope><name>chunk_content</name></member>
+      <member refid="structthemis_1_1tensor_1_1_chunk_summary_1a10528545131bfa76532d7be7081bfa05" prot="public" virt="non-virtual"><scope>themis::tensor::ChunkSummary</scope><name>chunk_embedding</name></member>
+      <member refid="structthemis_1_1tensor_1_1_chunk_summary_1a52c94efc94680416f399c51a30d8f620" prot="public" virt="non-virtual"><scope>themis::tensor::ChunkSummary</scope><name>chunk_id</name></member>
+      <member refid="structthemis_1_1tensor_1_1_chunk_summary_1a8aa0ad2e6417e845b325db40557ba10c" prot="public" virt="non-virtual"><scope>themis::tensor::ChunkSummary</scope><name>chunk_position</name></member>
+      <member refid="structthemis_1_1tensor_1_1_base_tensor_summary_1a262766ce8623272fd51a89243f694687" prot="public" virt="non-virtual"><scope>themis::tensor::ChunkSummary</scope><name>compression_info</name></member>
+      <member refid="structthemis_1_1tensor_1_1_base_tensor_summary_1a161a274c6b0209c4704e776e1f3b7b39" prot="public" virt="non-virtual"><scope>themis::tensor::ChunkSummary</scope><name>compression_strategy</name></member>
+      <member refid="structthemis_1_1tensor_1_1_base_tensor_summary_1adcda9163e400eed8923e92b457c04057" prot="public" virt="non-virtual"><scope>themis::tensor::ChunkSummary</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1tensor_1_1_chunk_summary_1a4e83f06940d0b6bbe2ba24272add40c5" prot="public" virt="non-virtual"><scope>themis::tensor::ChunkSummary</scope><name>content_length</name></member>
+      <member refid="structthemis_1_1tensor_1_1_base_tensor_summary_1a642e98edb63b4c79f113cd07df747046" prot="public" virt="non-virtual"><scope>themis::tensor::ChunkSummary</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1tensor_1_1_chunk_summary_1a568f26a01c5180ea0efb951b43dbf952" prot="public" virt="non-virtual"><scope>themis::tensor::ChunkSummary</scope><name>document_id</name></member>
+      <member refid="structthemis_1_1tensor_1_1_chunk_summary_1a3b252938b6e746c7e30fd388c57b5a84" prot="public" virt="non-virtual"><scope>themis::tensor::ChunkSummary</scope><name>document_metadata</name></member>
+      <member refid="structthemis_1_1tensor_1_1_chunk_summary_1aa0bd493f7fb7a60512bd87de25453e70" prot="public" virt="non-virtual"><scope>themis::tensor::ChunkSummary</scope><name>document_title</name></member>
+      <member refid="structthemis_1_1tensor_1_1_base_tensor_summary_1a11d14d4114d5df375b2c948660e92ec2" prot="public" virt="non-virtual"><scope>themis::tensor::ChunkSummary</scope><name>domain</name></member>
+      <member refid="structthemis_1_1tensor_1_1_base_tensor_summary_1a64892e40aa70517d46e09e6d11842741" prot="public" virt="non-virtual"><scope>themis::tensor::ChunkSummary</scope><name>id</name></member>
+      <member refid="structthemis_1_1tensor_1_1_base_tensor_summary_1a21d90f934dee6c82ea89128e9cd02570" prot="public" virt="non-virtual"><scope>themis::tensor::ChunkSummary</scope><name>routing_reason</name></member>
+      <member refid="structthemis_1_1tensor_1_1_base_tensor_summary_1af80994cc65277d71b3a6eca31ad4dfc2" prot="public" virt="non-virtual"><scope>themis::tensor::ChunkSummary</scope><name>similarity_score</name></member>
+      <member refid="structthemis_1_1tensor_1_1_base_tensor_summary_1ac6acd2dff1ca02aaf504b1d97c3163f2" prot="public" virt="non-virtual"><scope>themis::tensor::ChunkSummary</scope><name>tenant_id</name></member>
+      <member refid="structthemis_1_1tensor_1_1_chunk_summary_1a1d421b9e8f77336f30654bf5be42dd0a" prot="public" virt="non-virtual"><scope>themis::tensor::ChunkSummary</scope><name>tfidf_score</name></member>
+      <member refid="structthemis_1_1tensor_1_1_base_tensor_summary_1a8784066e1ff14eed769e135d36b06c2b" prot="public" virt="non-virtual"><scope>themis::tensor::ChunkSummary</scope><name>validated</name></member>
+      <member refid="structthemis_1_1tensor_1_1_chunk_summary_1a7b6ade2911b34130991d1c96db5b4ea8" prot="public" virt="non-virtual"><scope>themis::tensor::ChunkSummary</scope><name>verified_source</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

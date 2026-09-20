@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1test_1_1wave__d" kind="namespace" language="C++">
+    <compoundname>themis::test::wave_d</compoundname>
+    <innerclass refid="structthemis_1_1test_1_1wave__d_1_1_stub_inference_store" prot="public">themis::test::wave_d::StubInferenceStore</innerclass>
+    <innerclass refid="structthemis_1_1test_1_1wave__d_1_1_stub_model_registry" prot="public">themis::test::wave_d::StubModelRegistry</innerclass>
+    <innerclass refid="structthemis_1_1test_1_1wave__d_1_1_stub_acceleration_guard" prot="public">themis::test::wave_d::StubAccelerationGuard</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1test_1_1wave__d_1a83c40afe157b2684d265b9493ebf5efa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::wave_d::TEST</definition>
+        <argsstring>(WaveD_StableDiffusionStress, HighCardinalityInferenceBatch)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::test::wave_d::TEST</qualifiedname>
+        <param>
+          <type>WaveD_StableDiffusionStress</type>
+        </param>
+        <param>
+          <type>HighCardinalityInferenceBatch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" line="130" column="1" bodyfile="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" bodystart="130" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1_1wave__d_1a56ca908388d9a936a9bb50250a3bc418" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::wave_d::TEST</definition>
+        <argsstring>(WaveD_StableDiffusionStress, ConcurrentModelLoadStress)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::test::wave_d::TEST</qualifiedname>
+        <param>
+          <type>WaveD_StableDiffusionStress</type>
+        </param>
+        <param>
+          <type>ConcurrentModelLoadStress</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" line="161" column="1" bodyfile="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" bodystart="161" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1_1wave__d_1a6ee6642c3bc08dc17c59cfa908f48cc6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::wave_d::TEST</definition>
+        <argsstring>(WaveD_StableDiffusionStress, AccelerationFailClosedStress)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::test::wave_d::TEST</qualifiedname>
+        <param>
+          <type>WaveD_StableDiffusionStress</type>
+        </param>
+        <param>
+          <type>AccelerationFailClosedStress</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" line="190" column="1" bodyfile="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" bodystart="190" bodyend="220"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" line="35" column="1"/>
+  </compounddef>
+</doxygen>

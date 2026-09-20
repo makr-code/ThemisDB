@@ -1,0 +1,180 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_training_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::TrainingMetrics</compoundname>
+    <includes refid="lora__training__service_8h" local="no">lora_training_service.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_training_metrics_1a75cdc4518ba5eb208c6665992ac6cbdd" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::TrainingMetrics::current_epoch</definition>
+        <argsstring></argsstring>
+        <name>current_epoch</name>
+        <qualifiedname>themis::llm::lora::TrainingMetrics::current_epoch</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="150" column="9" bodyfile="include/llm/lora_framework/lora_training_service.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_training_metrics_1a8011636a4bd6ed3de82382b79e5bde77" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::TrainingMetrics::total_epochs</definition>
+        <argsstring></argsstring>
+        <name>total_epochs</name>
+        <qualifiedname>themis::llm::lora::TrainingMetrics::total_epochs</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="151" column="9" bodyfile="include/llm/lora_framework/lora_training_service.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_training_metrics_1a87093806b42388f29eb98f8573e9ce26" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::TrainingMetrics::current_step</definition>
+        <argsstring></argsstring>
+        <name>current_step</name>
+        <qualifiedname>themis::llm::lora::TrainingMetrics::current_step</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="152" column="9" bodyfile="include/llm/lora_framework/lora_training_service.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_training_metrics_1a965a502488eb0c6f3b63eee63bbd2552" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::TrainingMetrics::total_steps</definition>
+        <argsstring></argsstring>
+        <name>total_steps</name>
+        <qualifiedname>themis::llm::lora::TrainingMetrics::total_steps</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="153" column="9" bodyfile="include/llm/lora_framework/lora_training_service.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_training_metrics_1a162843db0e16737efb115816432b1ea3" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::TrainingMetrics::current_loss</definition>
+        <argsstring></argsstring>
+        <name>current_loss</name>
+        <qualifiedname>themis::llm::lora::TrainingMetrics::current_loss</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="154" column="11" bodyfile="include/llm/lora_framework/lora_training_service.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_training_metrics_1ae3af17ba04c26efc29dd1eb76ec32351" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::TrainingMetrics::learning_rate</definition>
+        <argsstring></argsstring>
+        <name>learning_rate</name>
+        <qualifiedname>themis::llm::lora::TrainingMetrics::learning_rate</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="155" column="11" bodyfile="include/llm/lora_framework/lora_training_service.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_training_metrics_1a9f2b564962b123fec5bc994560fb1064" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::TrainingMetrics::progress</definition>
+        <argsstring></argsstring>
+        <name>progress</name>
+        <qualifiedname>themis::llm::lora::TrainingMetrics::progress</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="156" column="11" bodyfile="include/llm/lora_framework/lora_training_service.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_training_metrics_1a3b7d446cf2d41ffd7252870c8bab5bda" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::TrainingMetrics::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::llm::lora::TrainingMetrics::status</qualifiedname>
+        <initializer>= &quot;idle&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="157" column="17" bodyfile="include/llm/lora_framework/lora_training_service.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_training_metrics_1af64a7c541ea998c5f8273c054e77528f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::lora::TrainingMetrics::~TrainingMetrics</definition>
+        <argsstring>()=default</argsstring>
+        <name>~TrainingMetrics</name>
+        <qualifiedname>themis::llm::lora::TrainingMetrics::~TrainingMetrics</qualifiedname>
+        <briefdescription>
+<para>Training Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="149" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_training_metrics_1aa6afeedfe97ba621047b373833b537d1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref></type>
+        <definition>json themis::llm::lora::TrainingMetrics::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::llm::lora::TrainingMetrics::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="159" column="10" bodyfile="include/llm/lora_framework/lora_training_service.h" bodystart="159" bodyend="170"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/lora_training_service.h" line="144" column="1" bodyfile="include/llm/lora_framework/lora_training_service.h" bodystart="144" bodyend="171"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_training_metrics_1a75cdc4518ba5eb208c6665992ac6cbdd" prot="public" virt="non-virtual"><scope>themis::llm::lora::TrainingMetrics</scope><name>current_epoch</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_training_metrics_1a162843db0e16737efb115816432b1ea3" prot="public" virt="non-virtual"><scope>themis::llm::lora::TrainingMetrics</scope><name>current_loss</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_training_metrics_1a87093806b42388f29eb98f8573e9ce26" prot="public" virt="non-virtual"><scope>themis::llm::lora::TrainingMetrics</scope><name>current_step</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_training_metrics_1ae3af17ba04c26efc29dd1eb76ec32351" prot="public" virt="non-virtual"><scope>themis::llm::lora::TrainingMetrics</scope><name>learning_rate</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_training_metrics_1a9f2b564962b123fec5bc994560fb1064" prot="public" virt="non-virtual"><scope>themis::llm::lora::TrainingMetrics</scope><name>progress</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_training_metrics_1a3b7d446cf2d41ffd7252870c8bab5bda" prot="public" virt="non-virtual"><scope>themis::llm::lora::TrainingMetrics</scope><name>status</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_training_metrics_1aa6afeedfe97ba621047b373833b537d1" prot="public" virt="non-virtual"><scope>themis::llm::lora::TrainingMetrics</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_training_metrics_1a8011636a4bd6ed3de82382b79e5bde77" prot="public" virt="non-virtual"><scope>themis::llm::lora::TrainingMetrics</scope><name>total_epochs</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_training_metrics_1a965a502488eb0c6f3b63eee63bbd2552" prot="public" virt="non-virtual"><scope>themis::llm::lora::TrainingMetrics</scope><name>total_steps</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_training_metrics_1af64a7c541ea998c5f8273c054e77528f" prot="public" virt="virtual"><scope>themis::llm::lora::TrainingMetrics</scope><name>~TrainingMetrics</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

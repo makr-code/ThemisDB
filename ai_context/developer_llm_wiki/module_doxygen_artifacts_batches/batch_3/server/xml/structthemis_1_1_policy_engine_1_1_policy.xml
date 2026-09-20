@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_policy_engine_1_1_policy" kind="struct" language="C++" prot="public">
+    <compoundname>themis::PolicyEngine::Policy</compoundname>
+    <includes refid="policy__engine_8h" local="no">policy_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_policy_engine_1_1_policy_1a5024bce387c33f070bc1a9022771940c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::PolicyEngine::Policy::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::PolicyEngine::Policy::id</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_engine.h" line="48" column="21" bodyfile="include/server/policy_engine.h" bodystart="48" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_policy_engine_1_1_policy_1a4feab67291f43f00be1895b2a3542ebd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::PolicyEngine::Policy::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::PolicyEngine::Policy::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_engine.h" line="49" column="21" bodyfile="include/server/policy_engine.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_policy_engine_1_1_policy_1aea382b0f46312ea63ee2d3455a5706eb" prot="public" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; themis::PolicyEngine::Policy::subjects</definition>
+        <argsstring></argsstring>
+        <name>subjects</name>
+        <qualifiedname>themis::PolicyEngine::Policy::subjects</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_engine.h" line="50" column="28" bodyfile="include/server/policy_engine.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_policy_engine_1_1_policy_1a53b1a992ccd1698844badbb3758d8360" prot="public" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; themis::PolicyEngine::Policy::actions</definition>
+        <argsstring></argsstring>
+        <name>actions</name>
+        <qualifiedname>themis::PolicyEngine::Policy::actions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_engine.h" line="51" column="28" bodyfile="include/server/policy_engine.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_policy_engine_1_1_policy_1a326f2bc1bad9593431d1032d93ec3dc9" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::PolicyEngine::Policy::resources</definition>
+        <argsstring></argsstring>
+        <name>resources</name>
+        <qualifiedname>themis::PolicyEngine::Policy::resources</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_engine.h" line="52" column="21" bodyfile="include/server/policy_engine.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_policy_engine_1_1_policy_1ab8acb5bf69ae2354cbc30522802a68f4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::PolicyEngine::Policy::effect_allow</definition>
+        <argsstring></argsstring>
+        <name>effect_allow</name>
+        <qualifiedname>themis::PolicyEngine::Policy::effect_allow</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_engine.h" line="53" column="14" bodyfile="include/server/policy_engine.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_policy_engine_1_1_policy_1aa6332923b5fd74e09a86c9b7c51f20bc" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::PolicyEngine::Policy::allowed_ip_prefixes</definition>
+        <argsstring></argsstring>
+        <name>allowed_ip_prefixes</name>
+        <qualifiedname>themis::PolicyEngine::Policy::allowed_ip_prefixes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_engine.h" line="55" column="21" bodyfile="include/server/policy_engine.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_policy_engine_1_1_policy_1a43c532fdf97a86286a0feaa5ce11a141" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::PolicyEngine::Policy::time_window_utc_hours_start</definition>
+        <argsstring></argsstring>
+        <name>time_window_utc_hours_start</name>
+        <qualifiedname>themis::PolicyEngine::Policy::time_window_utc_hours_start</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_engine.h" line="57" column="13" bodyfile="include/server/policy_engine.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_policy_engine_1_1_policy_1a97760cfa264b4a6a6ba4ed1544dae09f" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::PolicyEngine::Policy::time_window_utc_hours_end</definition>
+        <argsstring></argsstring>
+        <name>time_window_utc_hours_end</name>
+        <qualifiedname>themis::PolicyEngine::Policy::time_window_utc_hours_end</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_engine.h" line="58" column="13" bodyfile="include/server/policy_engine.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_policy_engine_1_1_policy_1aeef456c09bfd5ff6357ad98b084f9124" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::PolicyEngine::Policy::allowed_user_agent_patterns</definition>
+        <argsstring></argsstring>
+        <name>allowed_user_agent_patterns</name>
+        <qualifiedname>themis::PolicyEngine::Policy::allowed_user_agent_patterns</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_engine.h" line="60" column="21" bodyfile="include/server/policy_engine.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/policy_engine.h" line="47" column="5" bodyfile="include/server/policy_engine.h" bodystart="47" bodyend="61"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_policy_engine_1_1_policy_1a53b1a992ccd1698844badbb3758d8360" prot="public" virt="non-virtual"><scope>themis::PolicyEngine::Policy</scope><name>actions</name></member>
+      <member refid="structthemis_1_1_policy_engine_1_1_policy_1aa6332923b5fd74e09a86c9b7c51f20bc" prot="public" virt="non-virtual"><scope>themis::PolicyEngine::Policy</scope><name>allowed_ip_prefixes</name></member>
+      <member refid="structthemis_1_1_policy_engine_1_1_policy_1aeef456c09bfd5ff6357ad98b084f9124" prot="public" virt="non-virtual"><scope>themis::PolicyEngine::Policy</scope><name>allowed_user_agent_patterns</name></member>
+      <member refid="structthemis_1_1_policy_engine_1_1_policy_1ab8acb5bf69ae2354cbc30522802a68f4" prot="public" virt="non-virtual"><scope>themis::PolicyEngine::Policy</scope><name>effect_allow</name></member>
+      <member refid="structthemis_1_1_policy_engine_1_1_policy_1a5024bce387c33f070bc1a9022771940c" prot="public" virt="non-virtual"><scope>themis::PolicyEngine::Policy</scope><name>id</name></member>
+      <member refid="structthemis_1_1_policy_engine_1_1_policy_1a4feab67291f43f00be1895b2a3542ebd" prot="public" virt="non-virtual"><scope>themis::PolicyEngine::Policy</scope><name>name</name></member>
+      <member refid="structthemis_1_1_policy_engine_1_1_policy_1a326f2bc1bad9593431d1032d93ec3dc9" prot="public" virt="non-virtual"><scope>themis::PolicyEngine::Policy</scope><name>resources</name></member>
+      <member refid="structthemis_1_1_policy_engine_1_1_policy_1aea382b0f46312ea63ee2d3455a5706eb" prot="public" virt="non-virtual"><scope>themis::PolicyEngine::Policy</scope><name>subjects</name></member>
+      <member refid="structthemis_1_1_policy_engine_1_1_policy_1a97760cfa264b4a6a6ba4ed1544dae09f" prot="public" virt="non-virtual"><scope>themis::PolicyEngine::Policy</scope><name>time_window_utc_hours_end</name></member>
+      <member refid="structthemis_1_1_policy_engine_1_1_policy_1a43c532fdf97a86286a0feaa5ce11a141" prot="public" virt="non-virtual"><scope>themis::PolicyEngine::Policy</scope><name>time_window_utc_hours_start</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

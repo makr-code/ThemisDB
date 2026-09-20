@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_workflow_validation_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::WorkflowValidationResult</compoundname>
+    <includes refid="workflow__definition_8h" local="no">workflow_definition.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_workflow_validation_result_1ae5f945d955cdf72e39c91c95147823dd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::WorkflowValidationResult::valid</definition>
+        <argsstring></argsstring>
+        <name>valid</name>
+        <qualifiedname>themis::llm::WorkflowValidationResult::valid</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/workflow_definition.h" line="116" column="10" bodyfile="include/llm/workflow_definition.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_workflow_validation_result_1af2304e261a4161bcda30466e7ed1da93" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_workflow_validation_error" kindref="compound">WorkflowValidationError</ref> &gt;</type>
+        <definition>std::vector&lt;WorkflowValidationError&gt; themis::llm::WorkflowValidationResult::errors</definition>
+        <argsstring></argsstring>
+        <name>errors</name>
+        <qualifiedname>themis::llm::WorkflowValidationResult::errors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/workflow_definition.h" line="117" column="17" bodyfile="include/llm/workflow_definition.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_workflow_validation_result_1a1e5e2d1e3d03d927eac09a91e59e3e23" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::WorkflowValidationResult::addError</definition>
+        <argsstring>(const std::string &amp;step_id, const std::string &amp;message)</argsstring>
+        <name>addError</name>
+        <qualifiedname>themis::llm::WorkflowValidationResult::addError</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>step_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Add Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">step_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the step. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/workflow_definition.h" line="125" column="10" bodyfile="include/llm/workflow_definition.h" bodystart="125" bodyend="128"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/workflow_definition.h" line="115" column="1" bodyfile="include/llm/workflow_definition.h" bodystart="115" bodyend="129"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_workflow_validation_result_1a1e5e2d1e3d03d927eac09a91e59e3e23" prot="public" virt="non-virtual"><scope>themis::llm::WorkflowValidationResult</scope><name>addError</name></member>
+      <member refid="structthemis_1_1llm_1_1_workflow_validation_result_1af2304e261a4161bcda30466e7ed1da93" prot="public" virt="non-virtual"><scope>themis::llm::WorkflowValidationResult</scope><name>errors</name></member>
+      <member refid="structthemis_1_1llm_1_1_workflow_validation_result_1ae5f945d955cdf72e39c91c95147823dd" prot="public" virt="non-virtual"><scope>themis::llm::WorkflowValidationResult</scope><name>valid</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

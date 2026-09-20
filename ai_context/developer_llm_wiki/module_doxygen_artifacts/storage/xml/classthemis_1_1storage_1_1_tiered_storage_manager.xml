@@ -1,0 +1,970 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1storage_1_1_tiered_storage_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::storage::TieredStorageManager</compoundname>
+    <includes refid="tiered__storage_8h" local="no">tiered_storage.h</includes>
+    <innerclass refid="structthemis_1_1storage_1_1_tiered_storage_manager_1_1_stats" prot="public">themis::storage::TieredStorageManager::Stats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_tiered_storage_manager_1afc2e13011f4b8c03b5106abca1f080f2" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1storage_1_1_tiered_storage_config" kindref="compound">TieredStorageConfig</ref></type>
+        <definition>TieredStorageConfig themis::storage::TieredStorageManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::storage::TieredStorageManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="245" column="25" bodyfile="include/storage/tiered_storage.h" bodystart="245" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_tiered_storage_manager_1ae4632cb649c07ddb0e4570ef76d07d18" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1storage_1_1_access_tracker" kindref="compound">AccessTracker</ref></type>
+        <definition>AccessTracker themis::storage::TieredStorageManager::tracker_</definition>
+        <argsstring></argsstring>
+        <name>tracker_</name>
+        <qualifiedname>themis::storage::TieredStorageManager::tracker_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="246" column="25" bodyfile="include/storage/tiered_storage.h" bodystart="246" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_tiered_storage_manager_1aa186f80510d53fa8cdaadde587812126" prot="private" static="no" mutable="no">
+        <type>access_model::PromotionListener *</type>
+        <definition>access_model::PromotionListener* themis::storage::TieredStorageManager::promotion_listener_</definition>
+        <argsstring></argsstring>
+        <name>promotion_listener_</name>
+        <qualifiedname>themis::storage::TieredStorageManager::promotion_listener_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="250" column="37" bodyfile="include/storage/tiered_storage.h" bodystart="250" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_tiered_storage_manager_1aeed901953c45bca9e9f5738cdc35dead" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::storage::TieredStorageManager::promotion_listener_mutex_</definition>
+        <argsstring></argsstring>
+        <name>promotion_listener_mutex_</name>
+        <qualifiedname>themis::storage::TieredStorageManager::promotion_listener_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="251" column="24" bodyfile="include/storage/tiered_storage.h" bodystart="251" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_tiered_storage_manager_1a3c47027b9e3cc73cd4613d2a5e4fc4e5" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::storage::TieredStorageManager::stat_migrations_hot_to_warm_</definition>
+        <argsstring></argsstring>
+        <name>stat_migrations_hot_to_warm_</name>
+        <qualifiedname>themis::storage::TieredStorageManager::stat_migrations_hot_to_warm_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="254" column="17" bodyfile="include/storage/tiered_storage.h" bodystart="254" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_tiered_storage_manager_1ab47911d9f73d689d19a0ea9746324e24" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::storage::TieredStorageManager::stat_migrations_warm_to_cold_</definition>
+        <argsstring></argsstring>
+        <name>stat_migrations_warm_to_cold_</name>
+        <qualifiedname>themis::storage::TieredStorageManager::stat_migrations_warm_to_cold_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="255" column="17" bodyfile="include/storage/tiered_storage.h" bodystart="255" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_tiered_storage_manager_1afba52e78e7849b76a2b762853a56b0bf" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::storage::TieredStorageManager::stat_migrations_size_based_</definition>
+        <argsstring></argsstring>
+        <name>stat_migrations_size_based_</name>
+        <qualifiedname>themis::storage::TieredStorageManager::stat_migrations_size_based_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="256" column="17" bodyfile="include/storage/tiered_storage.h" bodystart="256" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_tiered_storage_manager_1ae5395045428f41b713bbfc1389919c62" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::storage::TieredStorageManager::stat_migration_errors_</definition>
+        <argsstring></argsstring>
+        <name>stat_migration_errors_</name>
+        <qualifiedname>themis::storage::TieredStorageManager::stat_migration_errors_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="257" column="17" bodyfile="include/storage/tiered_storage.h" bodystart="257" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_tiered_storage_manager_1a6b7f73e1e9454d20ec9fc5dbbe84712c" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::storage::TieredStorageManager::worker_thread_</definition>
+        <argsstring></argsstring>
+        <name>worker_thread_</name>
+        <qualifiedname>themis::storage::TieredStorageManager::worker_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="260" column="29" bodyfile="include/storage/tiered_storage.h" bodystart="260" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_tiered_storage_manager_1a328c8e15b808641d90abb60ee4cd27b2" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::storage::TieredStorageManager::worker_running_</definition>
+        <argsstring></argsstring>
+        <name>worker_running_</name>
+        <qualifiedname>themis::storage::TieredStorageManager::worker_running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="261" column="23" bodyfile="include/storage/tiered_storage.h" bodystart="261" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_tiered_storage_manager_1af5a00481e93ee9b3c208f2b7032c182a" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::storage::TieredStorageManager::worker_mutex_</definition>
+        <argsstring></argsstring>
+        <name>worker_mutex_</name>
+        <qualifiedname>themis::storage::TieredStorageManager::worker_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="262" column="29" bodyfile="include/storage/tiered_storage.h" bodystart="262" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_tiered_storage_manager_1a05d4e482e98efa1a6981cbbc42e43100" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::storage::TieredStorageManager::worker_cv_</definition>
+        <argsstring></argsstring>
+        <name>worker_cv_</name>
+        <qualifiedname>themis::storage::TieredStorageManager::worker_cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="263" column="29" bodyfile="include/storage/tiered_storage.h" bodystart="263" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tiered_storage_manager_1ab6a999578f93f50b80cd95277a3db79b" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::TieredStorageManager::TieredStorageManager</definition>
+        <argsstring>(const TieredStorageConfig &amp;config=TieredStorageConfig{})</argsstring>
+        <name>TieredStorageManager</name>
+        <qualifiedname>themis::storage::TieredStorageManager::TieredStorageManager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_tiered_storage_config" kindref="compound">TieredStorageConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1storage_1_1_tiered_storage_config" kindref="compound">TieredStorageConfig</ref>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="153" column="14" bodyfile="src/storage/tiered_storage.cpp" bodystart="178" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tiered_storage_manager_1a2c229d005f7f6fdeae4df48ee755fb9e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::TieredStorageManager::~TieredStorageManager</definition>
+        <argsstring>()</argsstring>
+        <name>~TieredStorageManager</name>
+        <qualifiedname>themis::storage::TieredStorageManager::~TieredStorageManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="154" column="5" bodyfile="src/storage/tiered_storage.cpp" bodystart="189" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tiered_storage_manager_1a2d09e9a64ba121374408f9af068874a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::TieredStorageManager::TieredStorageManager</definition>
+        <argsstring>(const TieredStorageManager &amp;)=delete</argsstring>
+        <name>TieredStorageManager</name>
+        <qualifiedname>themis::storage::TieredStorageManager::TieredStorageManager</qualifiedname>
+        <param>
+          <type>const TieredStorageManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="157" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tiered_storage_manager_1a93f115188b5c019c10f1294d7743f009" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1storage_1_1_tiered_storage_manager_1ab6a999578f93f50b80cd95277a3db79b" kindref="member">TieredStorageManager</ref> &amp;</type>
+        <definition>TieredStorageManager &amp; themis::storage::TieredStorageManager::operator=</definition>
+        <argsstring>(const TieredStorageManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::storage::TieredStorageManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1storage_1_1_tiered_storage_manager_1ab6a999578f93f50b80cd95277a3db79b" kindref="member">TieredStorageManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="158" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tiered_storage_manager_1a4a20f2492f030a9788298ae25824364a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::TieredStorageManager::TieredStorageManager</definition>
+        <argsstring>(TieredStorageManager &amp;&amp;)=delete</argsstring>
+        <name>TieredStorageManager</name>
+        <qualifiedname>themis::storage::TieredStorageManager::TieredStorageManager</qualifiedname>
+        <param>
+          <type>TieredStorageManager &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="159" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tiered_storage_manager_1aa5a410ba9546411e7469e400cf2ff671" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1storage_1_1_tiered_storage_manager_1ab6a999578f93f50b80cd95277a3db79b" kindref="member">TieredStorageManager</ref> &amp;</type>
+        <definition>TieredStorageManager &amp; themis::storage::TieredStorageManager::operator=</definition>
+        <argsstring>(TieredStorageManager &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::storage::TieredStorageManager::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1storage_1_1_tiered_storage_manager_1ab6a999578f93f50b80cd95277a3db79b" kindref="member">TieredStorageManager</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="160" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tiered_storage_manager_1a4dced9388f1939451e921aeeb100c826" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::TieredStorageManager::put</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;value)</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::storage::TieredStorageManager::put</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Write a value to the hot tier. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Put.</para>
+<para><simplesect kind="return"><para>false on I/O failure.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: writeToTier(), deleteFromTier(), recordWrite(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="168" column="10" bodyfile="src/storage/tiered_storage.cpp" bodystart="298" bodyend="308"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tiered_storage_manager_1aece8231359045e15c4966f3c7863199b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::storage::TieredStorageManager::get</definition>
+        <argsstring>(const std::string &amp;key)</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::storage::TieredStorageManager::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Read a value from whichever tier holds it. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get.</para>
+<para><simplesect kind="return"><para>empty string if not found.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: snapshot(), find(), end(), existsInTier(), recordRead(), std::chrono::system_clock::now(), std::chrono::system_clock::from_time_t(), std::chrono::system_clock::to_time_t(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="174" column="17" bodyfile="src/storage/tiered_storage.cpp" bodystart="316" bodyend="373"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tiered_storage_manager_1a2a580801c3a2a8a9e3c7bc08c0c21429" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::TieredStorageManager::del</definition>
+        <argsstring>(const std::string &amp;key)</argsstring>
+        <name>del</name>
+        <qualifiedname>themis::storage::TieredStorageManager::del</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Delete a key from all tiers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Del.</para>
+<para><simplesect kind="return"><para>true if the key existed in at least one tier.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: deleteFromTier(), remove(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="180" column="10" bodyfile="src/storage/tiered_storage.cpp" bodystart="381" bodyend="392"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tiered_storage_manager_1a70cc527cae942c454f91af7c05e351e4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1storage_1a3c530ac7dba036fbcb9a1094749b56ee" kindref="member">StorageTierLevel</ref></type>
+        <definition>StorageTierLevel themis::storage::TieredStorageManager::tierOf</definition>
+        <argsstring>(const std::string &amp;key) const</argsstring>
+        <name>tierOf</name>
+        <qualifiedname>themis::storage::TieredStorageManager::tierOf</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Return the current tier of a key (HOT if unknown). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="185" column="22" bodyfile="src/storage/tiered_storage.cpp" bodystart="394" bodyend="411"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tiered_storage_manager_1af2f31aab31b731d88ffa1afd10903662" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::TieredStorageManager::startMigrationWorker</definition>
+        <argsstring>()</argsstring>
+        <name>startMigrationWorker</name>
+        <qualifiedname>themis::storage::TieredStorageManager::startMigrationWorker</qualifiedname>
+        <briefdescription>
+<para>Start the background migration worker (idempotent). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start Migration Worker.</para>
+<para>Calls: exchange(), std::thread(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="190" column="10" bodyfile="src/storage/tiered_storage.cpp" bodystart="594" bodyend="597"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tiered_storage_manager_1ab536757e142eacf5635df1934ead720b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::TieredStorageManager::stopMigrationWorker</definition>
+        <argsstring>()</argsstring>
+        <name>stopMigrationWorker</name>
+        <qualifiedname>themis::storage::TieredStorageManager::stopMigrationWorker</qualifiedname>
+        <briefdescription>
+<para>Stop the background migration worker and wait for it to finish. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stop Migration Worker.</para>
+<para>Calls: exchange(), lock(), notify_all(), joinable(), utils::joinThreadWithin(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="193" column="10" bodyfile="src/storage/tiered_storage.cpp" bodystart="603" bodyend="613"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tiered_storage_manager_1a9f14b6e6fc13b8f74d8b2c0ce5bb81b6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1storage_1_1_tiered_storage_manager_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>TieredStorageManager::Stats themis::storage::TieredStorageManager::stats</definition>
+        <argsstring>() const</argsstring>
+        <name>stats</name>
+        <qualifiedname>themis::storage::TieredStorageManager::stats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="207" column="11" bodyfile="src/storage/tiered_storage.cpp" bodystart="619" bodyend="635"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tiered_storage_manager_1a706e32a0004566b188e0b1467e85702f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1storage_1_1_tiered_storage_config" kindref="compound">TieredStorageConfig</ref> &amp;</type>
+        <definition>const TieredStorageConfig &amp; themis::storage::TieredStorageManager::config</definition>
+        <argsstring>() const</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::storage::TieredStorageManager::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="209" column="31" bodyfile="include/storage/tiered_storage.h" bodystart="209" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tiered_storage_manager_1ad95e72084fd3a42b42eed38bcadb2a57" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1storage_1_1_access_tracker" kindref="compound">AccessTracker</ref> &amp;</type>
+        <definition>AccessTracker &amp; themis::storage::TieredStorageManager::accessTracker</definition>
+        <argsstring>()</argsstring>
+        <name>accessTracker</name>
+        <qualifiedname>themis::storage::TieredStorageManager::accessTracker</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="210" column="31" bodyfile="include/storage/tiered_storage.h" bodystart="210" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tiered_storage_manager_1ab4919b32d6da43ab18b9406ef7a28ebc" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="classthemis_1_1storage_1_1_access_tracker" kindref="compound">AccessTracker</ref> &amp;</type>
+        <definition>const AccessTracker &amp; themis::storage::TieredStorageManager::accessTracker</definition>
+        <argsstring>() const</argsstring>
+        <name>accessTracker</name>
+        <qualifiedname>themis::storage::TieredStorageManager::accessTracker</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="211" column="31" bodyfile="include/storage/tiered_storage.h" bodystart="211" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tiered_storage_manager_1a3628c6a97b78a7e99685cd87bb76a978" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::TieredStorageManager::setPromotionListener</definition>
+        <argsstring>(access_model::PromotionListener *listener) noexcept</argsstring>
+        <name>setPromotionListener</name>
+        <qualifiedname>themis::storage::TieredStorageManager::setPromotionListener</qualifiedname>
+        <param>
+          <type>access_model::PromotionListener *</type>
+          <declname>listener</declname>
+        </param>
+        <briefdescription>
+<para>Register a promotion listener for AccessCoordinator integration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Once registered, the <ref refid="classthemis_1_1storage_1_1_tiered_storage_manager" kindref="compound">TieredStorageManager</ref> notifies the listener when detecting hot access patterns (candidates for promotion to cache L3). Pass nullptr to unregister.</para>
+<para>Typical usage: <programlisting><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>coordinator<sp/>=<sp/>std::make_shared&lt;access_model::AccessCoordinator&gt;();</highlight></codeline>
+<codeline><highlight class="normal">storage-&gt;setPromotionListener(coordinator.get());</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>listener</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to a PromotionListener implementation; nullptr disables promotion notifications.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="see"><para>include/access_model/access_coordinator.h </para>
+</simplesect>
+<simplesect kind="see"><para>docs/architecture/UNIFIED_ACCESS_MODEL.md </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">promotion_listener_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="234" column="10" bodyfile="src/storage/tiered_storage.cpp" bodystart="668" bodyend="681"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tiered_storage_manager_1a70236693fb3a105019a5bf6a47bc1e3d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::storage::TieredStorageManager::runMigrationCycle</definition>
+        <argsstring>()</argsstring>
+        <name>runMigrationCycle</name>
+        <qualifiedname>themis::storage::TieredStorageManager::runMigrationCycle</qualifiedname>
+        <briefdescription>
+<para>Immediately evaluate migration candidates and move them. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Run Migration Cycle.</para>
+<para><simplesect kind="return"><para>Number of keys migrated.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: snapshot(), migrateKey(), daysSince(), existsInTier(), std::chrono::system_clock::now(), count(), emitPromotionEvent(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="242" column="14" bodyfile="src/storage/tiered_storage.cpp" bodystart="474" bodyend="554"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tiered_storage_manager_1a0baf90785b1ecf27e41047aa6a217048" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::TieredStorageManager::workerLoop</definition>
+        <argsstring>()</argsstring>
+        <name>workerLoop</name>
+        <qualifiedname>themis::storage::TieredStorageManager::workerLoop</qualifiedname>
+        <briefdescription>
+<para>Worker Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: THEMIS_INFO(), load(), lock(), wait_for(), std::chrono::seconds(), unlock(), <ref refid="classthemis_1_1storage_1_1_tiered_storage_manager_1a70236693fb3a105019a5bf6a47bc1e3d" kindref="member">runMigrationCycle()</ref>, THEMIS_ERROR(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="265" column="10" bodyfile="src/storage/tiered_storage.cpp" bodystart="564" bodyend="588"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tiered_storage_manager_1ad7598cc15f69957546deaae6813ff088" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::TieredStorageManager::emitPromotionEvent</definition>
+        <argsstring>(const std::string &amp;key, access_model::TierLevel from_tier, uint64_t access_count, int64_t access_window_secs)</argsstring>
+        <name>emitPromotionEvent</name>
+        <qualifiedname>themis::storage::TieredStorageManager::emitPromotionEvent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>access_model::TierLevel</type>
+          <declname>from_tier</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>access_count</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>access_window_secs</declname>
+        </param>
+        <briefdescription>
+<para>───────────────────────────────────────────────────────────────────────────── Phase 5: BLOCK 3 Storage Integration — Promotion Event Emission ───────────────────────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">from_tier</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">access_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">access_window_secs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), onStorageAccess(), std::chrono::seconds(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="268" column="10" bodyfile="src/storage/tiered_storage.cpp" bodystart="650" bodyend="662"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tiered_storage_manager_1affac435c7ebd4bcc79c2ea7bb3484616" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::storage::TieredStorageManager::tierPath</definition>
+        <argsstring>(StorageTierLevel tier) const</argsstring>
+        <name>tierPath</name>
+        <qualifiedname>themis::storage::TieredStorageManager::tierPath</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1storage_1a3c530ac7dba036fbcb9a1094749b56ee" kindref="member">StorageTierLevel</ref></type>
+          <declname>tier</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="272" column="17" bodyfile="src/storage/tiered_storage.cpp" bodystart="197" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tiered_storage_manager_1a3be2fb2202403da8d3317d67e98f9830" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::storage::TieredStorageManager::keyFilePath</definition>
+        <argsstring>(const std::string &amp;key, StorageTierLevel tier) const</argsstring>
+        <name>keyFilePath</name>
+        <qualifiedname>themis::storage::TieredStorageManager::keyFilePath</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1storage_1a3c530ac7dba036fbcb9a1094749b56ee" kindref="member">StorageTierLevel</ref></type>
+          <declname>tier</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="273" column="17" bodyfile="src/storage/tiered_storage.cpp" bodystart="206" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tiered_storage_manager_1a3c6f9ea290b4aca6f01f787ecdc039c3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::TieredStorageManager::writeToTier</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;value, StorageTierLevel tier)</argsstring>
+        <name>writeToTier</name>
+        <qualifiedname>themis::storage::TieredStorageManager::writeToTier</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1storage_1a3c530ac7dba036fbcb9a1094749b56ee" kindref="member">StorageTierLevel</ref></type>
+          <declname>tier</declname>
+        </param>
+        <briefdescription>
+<para>Write To Tier. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tier</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: keyFilePath(), f(), THEMIS_ERROR(), write(), data(), size(), good(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="275" column="10" bodyfile="src/storage/tiered_storage.cpp" bodystart="219" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tiered_storage_manager_1af8db1569fddeab0e3ee09e2933bab821" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::storage::TieredStorageManager::readFromTier</definition>
+        <argsstring>(const std::string &amp;key, StorageTierLevel tier) const</argsstring>
+        <name>readFromTier</name>
+        <qualifiedname>themis::storage::TieredStorageManager::readFromTier</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1storage_1a3c530ac7dba036fbcb9a1094749b56ee" kindref="member">StorageTierLevel</ref></type>
+          <declname>tier</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>F. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">binary</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="277" column="17" bodyfile="src/storage/tiered_storage.cpp" bodystart="237" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tiered_storage_manager_1afcfae412aab9338e46079422376cede9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::TieredStorageManager::deleteFromTier</definition>
+        <argsstring>(const std::string &amp;key, StorageTierLevel tier)</argsstring>
+        <name>deleteFromTier</name>
+        <qualifiedname>themis::storage::TieredStorageManager::deleteFromTier</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1storage_1a3c530ac7dba036fbcb9a1094749b56ee" kindref="member">StorageTierLevel</ref></type>
+          <declname>tier</declname>
+        </param>
+        <briefdescription>
+<para>Delete From Tier. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tier</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: keyFilePath(), fs::exists(), fs::remove(), THEMIS_WARN(), message(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="278" column="10" bodyfile="src/storage/tiered_storage.cpp" bodystart="267" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tiered_storage_manager_1ada4eb9548eb2b1c89cee6a3131938504" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::TieredStorageManager::existsInTier</definition>
+        <argsstring>(const std::string &amp;key, StorageTierLevel tier) const</argsstring>
+        <name>existsInTier</name>
+        <qualifiedname>themis::storage::TieredStorageManager::existsInTier</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1storage_1a3c530ac7dba036fbcb9a1094749b56ee" kindref="member">StorageTierLevel</ref></type>
+          <declname>tier</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="279" column="10" bodyfile="src/storage/tiered_storage.cpp" bodystart="282" bodyend="285"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tiered_storage_manager_1a2b8379eb50350d85485cf6b23b877f67" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::TieredStorageManager::migrateKey</definition>
+        <argsstring>(const std::string &amp;key, StorageTierLevel from, StorageTierLevel to)</argsstring>
+        <name>migrateKey</name>
+        <qualifiedname>themis::storage::TieredStorageManager::migrateKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1storage_1a3c530ac7dba036fbcb9a1094749b56ee" kindref="member">StorageTierLevel</ref></type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1storage_1a3c530ac7dba036fbcb9a1094749b56ee" kindref="member">StorageTierLevel</ref></type>
+          <declname>to</declname>
+        </param>
+        <briefdescription>
+<para>Migrate Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">from</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: existsInTier(), THEMIS_WARN(), readFromTier(), empty(), writeToTier(), THEMIS_ERROR(), deleteFromTier(), setTier(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="283" column="10" bodyfile="src/storage/tiered_storage.cpp" bodystart="425" bodyend="467"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Manages a three-tier (hot / warm / cold) storage hierarchy. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides transparent put/get/del operations that route to the correct tier, and runs a background TierMigrationWorker that moves data between tiers according to the configured age- and access-based policies.</para>
+<para>Data integrity guarantee: migration uses copy-then-delete so that a crash mid-migration always leaves at least one valid copy.</para>
+<para>Thread-Safety: All public methods are thread-safe. </para>
+    </detaileddescription>
+    <location file="include/storage/tiered_storage.h" line="151" column="1" bodyfile="include/storage/tiered_storage.h" bodystart="151" bodyend="286"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1storage_1_1_tiered_storage_manager_1ad95e72084fd3a42b42eed38bcadb2a57" prot="public" virt="non-virtual"><scope>themis::storage::TieredStorageManager</scope><name>accessTracker</name></member>
+      <member refid="classthemis_1_1storage_1_1_tiered_storage_manager_1ab4919b32d6da43ab18b9406ef7a28ebc" prot="public" virt="non-virtual"><scope>themis::storage::TieredStorageManager</scope><name>accessTracker</name></member>
+      <member refid="classthemis_1_1storage_1_1_tiered_storage_manager_1a706e32a0004566b188e0b1467e85702f" prot="public" virt="non-virtual"><scope>themis::storage::TieredStorageManager</scope><name>config</name></member>
+      <member refid="classthemis_1_1storage_1_1_tiered_storage_manager_1afc2e13011f4b8c03b5106abca1f080f2" prot="private" virt="non-virtual"><scope>themis::storage::TieredStorageManager</scope><name>config_</name></member>
+      <member refid="classthemis_1_1storage_1_1_tiered_storage_manager_1a2a580801c3a2a8a9e3c7bc08c0c21429" prot="public" virt="non-virtual"><scope>themis::storage::TieredStorageManager</scope><name>del</name></member>
+      <member refid="classthemis_1_1storage_1_1_tiered_storage_manager_1afcfae412aab9338e46079422376cede9" prot="private" virt="non-virtual"><scope>themis::storage::TieredStorageManager</scope><name>deleteFromTier</name></member>
+      <member refid="classthemis_1_1storage_1_1_tiered_storage_manager_1ad7598cc15f69957546deaae6813ff088" prot="private" virt="non-virtual"><scope>themis::storage::TieredStorageManager</scope><name>emitPromotionEvent</name></member>
+      <member refid="classthemis_1_1storage_1_1_tiered_storage_manager_1ada4eb9548eb2b1c89cee6a3131938504" prot="private" virt="non-virtual"><scope>themis::storage::TieredStorageManager</scope><name>existsInTier</name></member>
+      <member refid="classthemis_1_1storage_1_1_tiered_storage_manager_1aece8231359045e15c4966f3c7863199b" prot="public" virt="non-virtual"><scope>themis::storage::TieredStorageManager</scope><name>get</name></member>
+      <member refid="classthemis_1_1storage_1_1_tiered_storage_manager_1a3be2fb2202403da8d3317d67e98f9830" prot="private" virt="non-virtual"><scope>themis::storage::TieredStorageManager</scope><name>keyFilePath</name></member>
+      <member refid="classthemis_1_1storage_1_1_tiered_storage_manager_1a2b8379eb50350d85485cf6b23b877f67" prot="private" virt="non-virtual"><scope>themis::storage::TieredStorageManager</scope><name>migrateKey</name></member>
+      <member refid="classthemis_1_1storage_1_1_tiered_storage_manager_1a93f115188b5c019c10f1294d7743f009" prot="public" virt="non-virtual"><scope>themis::storage::TieredStorageManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1storage_1_1_tiered_storage_manager_1aa5a410ba9546411e7469e400cf2ff671" prot="public" virt="non-virtual"><scope>themis::storage::TieredStorageManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1storage_1_1_tiered_storage_manager_1aa186f80510d53fa8cdaadde587812126" prot="private" virt="non-virtual"><scope>themis::storage::TieredStorageManager</scope><name>promotion_listener_</name></member>
+      <member refid="classthemis_1_1storage_1_1_tiered_storage_manager_1aeed901953c45bca9e9f5738cdc35dead" prot="private" virt="non-virtual"><scope>themis::storage::TieredStorageManager</scope><name>promotion_listener_mutex_</name></member>
+      <member refid="classthemis_1_1storage_1_1_tiered_storage_manager_1a4dced9388f1939451e921aeeb100c826" prot="public" virt="non-virtual"><scope>themis::storage::TieredStorageManager</scope><name>put</name></member>
+      <member refid="classthemis_1_1storage_1_1_tiered_storage_manager_1af8db1569fddeab0e3ee09e2933bab821" prot="private" virt="non-virtual"><scope>themis::storage::TieredStorageManager</scope><name>readFromTier</name></member>
+      <member refid="classthemis_1_1storage_1_1_tiered_storage_manager_1a70236693fb3a105019a5bf6a47bc1e3d" prot="public" virt="non-virtual"><scope>themis::storage::TieredStorageManager</scope><name>runMigrationCycle</name></member>
+      <member refid="classthemis_1_1storage_1_1_tiered_storage_manager_1a3628c6a97b78a7e99685cd87bb76a978" prot="public" virt="non-virtual"><scope>themis::storage::TieredStorageManager</scope><name>setPromotionListener</name></member>
+      <member refid="classthemis_1_1storage_1_1_tiered_storage_manager_1af2f31aab31b731d88ffa1afd10903662" prot="public" virt="non-virtual"><scope>themis::storage::TieredStorageManager</scope><name>startMigrationWorker</name></member>
+      <member refid="classthemis_1_1storage_1_1_tiered_storage_manager_1ae5395045428f41b713bbfc1389919c62" prot="private" virt="non-virtual"><scope>themis::storage::TieredStorageManager</scope><name>stat_migration_errors_</name></member>
+      <member refid="classthemis_1_1storage_1_1_tiered_storage_manager_1a3c47027b9e3cc73cd4613d2a5e4fc4e5" prot="private" virt="non-virtual"><scope>themis::storage::TieredStorageManager</scope><name>stat_migrations_hot_to_warm_</name></member>
+      <member refid="classthemis_1_1storage_1_1_tiered_storage_manager_1afba52e78e7849b76a2b762853a56b0bf" prot="private" virt="non-virtual"><scope>themis::storage::TieredStorageManager</scope><name>stat_migrations_size_based_</name></member>
+      <member refid="classthemis_1_1storage_1_1_tiered_storage_manager_1ab47911d9f73d689d19a0ea9746324e24" prot="private" virt="non-virtual"><scope>themis::storage::TieredStorageManager</scope><name>stat_migrations_warm_to_cold_</name></member>
+      <member refid="classthemis_1_1storage_1_1_tiered_storage_manager_1a9f14b6e6fc13b8f74d8b2c0ce5bb81b6" prot="public" virt="non-virtual"><scope>themis::storage::TieredStorageManager</scope><name>stats</name></member>
+      <member refid="classthemis_1_1storage_1_1_tiered_storage_manager_1ab536757e142eacf5635df1934ead720b" prot="public" virt="non-virtual"><scope>themis::storage::TieredStorageManager</scope><name>stopMigrationWorker</name></member>
+      <member refid="classthemis_1_1storage_1_1_tiered_storage_manager_1ab6a999578f93f50b80cd95277a3db79b" prot="public" virt="non-virtual"><scope>themis::storage::TieredStorageManager</scope><name>TieredStorageManager</name></member>
+      <member refid="classthemis_1_1storage_1_1_tiered_storage_manager_1a2d09e9a64ba121374408f9af068874a8" prot="public" virt="non-virtual"><scope>themis::storage::TieredStorageManager</scope><name>TieredStorageManager</name></member>
+      <member refid="classthemis_1_1storage_1_1_tiered_storage_manager_1a4a20f2492f030a9788298ae25824364a" prot="public" virt="non-virtual"><scope>themis::storage::TieredStorageManager</scope><name>TieredStorageManager</name></member>
+      <member refid="classthemis_1_1storage_1_1_tiered_storage_manager_1a70cc527cae942c454f91af7c05e351e4" prot="public" virt="non-virtual"><scope>themis::storage::TieredStorageManager</scope><name>tierOf</name></member>
+      <member refid="classthemis_1_1storage_1_1_tiered_storage_manager_1affac435c7ebd4bcc79c2ea7bb3484616" prot="private" virt="non-virtual"><scope>themis::storage::TieredStorageManager</scope><name>tierPath</name></member>
+      <member refid="classthemis_1_1storage_1_1_tiered_storage_manager_1ae4632cb649c07ddb0e4570ef76d07d18" prot="private" virt="non-virtual"><scope>themis::storage::TieredStorageManager</scope><name>tracker_</name></member>
+      <member refid="classthemis_1_1storage_1_1_tiered_storage_manager_1a05d4e482e98efa1a6981cbbc42e43100" prot="private" virt="non-virtual"><scope>themis::storage::TieredStorageManager</scope><name>worker_cv_</name></member>
+      <member refid="classthemis_1_1storage_1_1_tiered_storage_manager_1af5a00481e93ee9b3c208f2b7032c182a" prot="private" virt="non-virtual"><scope>themis::storage::TieredStorageManager</scope><name>worker_mutex_</name></member>
+      <member refid="classthemis_1_1storage_1_1_tiered_storage_manager_1a328c8e15b808641d90abb60ee4cd27b2" prot="private" virt="non-virtual"><scope>themis::storage::TieredStorageManager</scope><name>worker_running_</name></member>
+      <member refid="classthemis_1_1storage_1_1_tiered_storage_manager_1a6b7f73e1e9454d20ec9fc5dbbe84712c" prot="private" virt="non-virtual"><scope>themis::storage::TieredStorageManager</scope><name>worker_thread_</name></member>
+      <member refid="classthemis_1_1storage_1_1_tiered_storage_manager_1a0baf90785b1ecf27e41047aa6a217048" prot="private" virt="non-virtual"><scope>themis::storage::TieredStorageManager</scope><name>workerLoop</name></member>
+      <member refid="classthemis_1_1storage_1_1_tiered_storage_manager_1a3c6f9ea290b4aca6f01f787ecdc039c3" prot="private" virt="non-virtual"><scope>themis::storage::TieredStorageManager</scope><name>writeToTier</name></member>
+      <member refid="classthemis_1_1storage_1_1_tiered_storage_manager_1a2c229d005f7f6fdeae4df48ee755fb9e" prot="public" virt="non-virtual"><scope>themis::storage::TieredStorageManager</scope><name>~TieredStorageManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

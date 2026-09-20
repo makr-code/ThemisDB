@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_http_response" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::HttpResponse</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_http_response_1a912322cc2ed9de7be8115d6aa4ecb947" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::ingestion::HttpResponse::status_code</definition>
+        <argsstring></argsstring>
+        <name>status_code</name>
+        <qualifiedname>themis::ingestion::HttpResponse::status_code</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/huggingface_connector.cpp" line="31" column="9" bodyfile="src/ingestion/huggingface_connector.cpp" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_http_response_1a8537be5d5dc996031d2672d44b5454af" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::HttpResponse::body</definition>
+        <argsstring></argsstring>
+        <name>body</name>
+        <qualifiedname>themis::ingestion::HttpResponse::body</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/huggingface_connector.cpp" line="32" column="17" bodyfile="src/ingestion/huggingface_connector.cpp" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_http_response_1a31df8b242a95814374851d0a09b12612" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::HttpResponse::error</definition>
+        <argsstring></argsstring>
+        <name>error</name>
+        <qualifiedname>themis::ingestion::HttpResponse::error</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/huggingface_connector.cpp" line="33" column="17" bodyfile="src/ingestion/huggingface_connector.cpp" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/ingestion/huggingface_connector.cpp" line="30" column="1" bodyfile="src/ingestion/huggingface_connector.cpp" bodystart="30" bodyend="34"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_http_response_1a8537be5d5dc996031d2672d44b5454af" prot="public" virt="non-virtual"><scope>themis::ingestion::HttpResponse</scope><name>body</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_http_response_1a31df8b242a95814374851d0a09b12612" prot="public" virt="non-virtual"><scope>themis::ingestion::HttpResponse</scope><name>error</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_http_response_1a912322cc2ed9de7be8115d6aa4ecb947" prot="public" virt="non-virtual"><scope>themis::ingestion::HttpResponse</scope><name>status_code</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

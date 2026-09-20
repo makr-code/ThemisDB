@@ -1,0 +1,326 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::GraphQueryOptimizer::QueryConstraints</compoundname>
+    <includes refid="graph__query__optimizer_8h" local="no">graph_query_optimizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints_1a4e479324ca540cafc647d9c5cfaed104" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; int &gt;</type>
+        <definition>std::optional&lt;int&gt; themis::graph::GraphQueryOptimizer::QueryConstraints::max_depth</definition>
+        <argsstring></argsstring>
+        <name>max_depth</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::QueryConstraints::max_depth</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="81" column="23" bodyfile="include/graph/graph_query_optimizer.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints_1aa2866ef9973d9d5834861fa5b5b0a229" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; size_t &gt;</type>
+        <definition>std::optional&lt;size_t&gt; themis::graph::GraphQueryOptimizer::QueryConstraints::max_results</definition>
+        <argsstring></argsstring>
+        <name>max_results</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::QueryConstraints::max_results</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="82" column="23" bodyfile="include/graph/graph_query_optimizer.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints_1aae5287ce7a3b213b4ef36c62e568e3e4" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::graph::GraphQueryOptimizer::QueryConstraints::edge_type</definition>
+        <argsstring></argsstring>
+        <name>edge_type</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::QueryConstraints::edge_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="83" column="23" bodyfile="include/graph/graph_query_optimizer.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints_1a1f1aed96746e1e921c27b77a476f6399" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::graph::GraphQueryOptimizer::QueryConstraints::graph_id</definition>
+        <argsstring></argsstring>
+        <name>graph_id</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::QueryConstraints::graph_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="84" column="23" bodyfile="include/graph/graph_query_optimizer.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints_1a2229d51e81e5258f2717da9704109d7c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::graph::GraphQueryOptimizer::QueryConstraints::unique_vertices</definition>
+        <argsstring></argsstring>
+        <name>unique_vertices</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::QueryConstraints::unique_vertices</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="85" column="14" bodyfile="include/graph/graph_query_optimizer.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints_1a211a5819441ea793a5d34794f64e6eb8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::graph::GraphQueryOptimizer::QueryConstraints::unique_edges</definition>
+        <argsstring></argsstring>
+        <name>unique_edges</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::QueryConstraints::unique_edges</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="86" column="14" bodyfile="include/graph/graph_query_optimizer.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints_1a0dd3689faff8e3c36a734166155b8ef5" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::graph::GraphQueryOptimizer::QueryConstraints::forbidden_vertices</definition>
+        <argsstring></argsstring>
+        <name>forbidden_vertices</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::QueryConstraints::forbidden_vertices</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="87" column="21" bodyfile="include/graph/graph_query_optimizer.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints_1a4fc81059b85b7bce92a96679a76fb499" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::graph::GraphQueryOptimizer::QueryConstraints::required_vertices</definition>
+        <argsstring></argsstring>
+        <name>required_vertices</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::QueryConstraints::required_vertices</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="88" column="21" bodyfile="include/graph/graph_query_optimizer.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints_1a937e3e5623f0296d74ff5a6b65d43ae0" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::graph::GraphQueryOptimizer::QueryConstraints::timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>timeout_ms</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::QueryConstraints::timeout_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="89" column="18" bodyfile="include/graph/graph_query_optimizer.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints_1a3f01a2e1da5a15962b039135a3670b55" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::graph::GraphQueryOptimizer::QueryConstraints::enable_parallel</definition>
+        <argsstring></argsstring>
+        <name>enable_parallel</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::QueryConstraints::enable_parallel</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="90" column="14" bodyfile="include/graph/graph_query_optimizer.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints_1a6278a5b6c1fa3c038070843d5ad0965a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::graph::GraphQueryOptimizer::QueryConstraints::num_threads</definition>
+        <argsstring></argsstring>
+        <name>num_threads</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::QueryConstraints::num_threads</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="91" column="18" bodyfile="include/graph/graph_query_optimizer.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints_1a075b09b3002dd98bf74f2d38709468dc" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; int64_t &gt;</type>
+        <definition>std::optional&lt;int64_t&gt; themis::graph::GraphQueryOptimizer::QueryConstraints::time_range_start_ms</definition>
+        <argsstring></argsstring>
+        <name>time_range_start_ms</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::QueryConstraints::time_range_start_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="94" column="23" bodyfile="include/graph/graph_query_optimizer.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints_1a594ef73372648065c6f8975b1852d0de" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; int64_t &gt;</type>
+        <definition>std::optional&lt;int64_t&gt; themis::graph::GraphQueryOptimizer::QueryConstraints::time_range_end_ms</definition>
+        <argsstring></argsstring>
+        <name>time_range_end_ms</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::QueryConstraints::time_range_end_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="95" column="23" bodyfile="include/graph/graph_query_optimizer.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints_1a14e3fb0be4cbb2c123eca62e1637d2da" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::graph::GraphQueryOptimizer::QueryConstraints::time_range_require_containment</definition>
+        <argsstring></argsstring>
+        <name>time_range_require_containment</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::QueryConstraints::time_range_require_containment</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="96" column="14" bodyfile="include/graph/graph_query_optimizer.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints_1a0b887f5f9e246ecba0eddaeb467bf74c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::graph::GraphQueryOptimizer::QueryConstraints::node_labels</definition>
+        <argsstring></argsstring>
+        <name>node_labels</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::QueryConstraints::node_labels</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="106" column="21" bodyfile="include/graph/graph_query_optimizer.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints_1a576add8d12b1ffa9fbe7422afbe75195" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::graph::GraphQueryOptimizer::QueryConstraints::excluded_edge_types</definition>
+        <argsstring></argsstring>
+        <name>excluded_edge_types</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::QueryConstraints::excluded_edge_types</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="108" column="21" bodyfile="include/graph/graph_query_optimizer.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints_1af4b443578a90f93e9f9b643826408689" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::graph::GraphQueryOptimizer::QueryConstraints::use_gpu</definition>
+        <argsstring></argsstring>
+        <name>use_gpu</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::QueryConstraints::use_gpu</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="109" column="14" bodyfile="include/graph/graph_query_optimizer.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints_1ac6bc2cee6e731d9491b8d3a47869771d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::graph::GraphQueryOptimizer::QueryConstraints::gpu_device</definition>
+        <argsstring></argsstring>
+        <name>gpu_device</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::QueryConstraints::gpu_device</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="110" column="13" bodyfile="include/graph/graph_query_optimizer.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints_1aa331914411b2cb104bb38362dc302af0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graph::GraphQueryOptimizer::QueryConstraints::hasTemporalRange</definition>
+        <argsstring>() const</argsstring>
+        <name>hasTemporalRange</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::QueryConstraints::hasTemporalRange</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="98" column="14" bodyfile="include/graph/graph_query_optimizer.h" bodystart="98" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints_1a8adb46e48b23cddb4792c7d7b97ed3a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::GraphQueryOptimizer::QueryConstraints::QueryConstraints</definition>
+        <argsstring>()=default</argsstring>
+        <name>QueryConstraints</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::QueryConstraints::QueryConstraints</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="112" column="9"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/graph_query_optimizer.h" line="80" column="5" bodyfile="include/graph/graph_query_optimizer.h" bodystart="80" bodyend="113"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints_1aae5287ce7a3b213b4ef36c62e568e3e4" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::QueryConstraints</scope><name>edge_type</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints_1a3f01a2e1da5a15962b039135a3670b55" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::QueryConstraints</scope><name>enable_parallel</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints_1a576add8d12b1ffa9fbe7422afbe75195" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::QueryConstraints</scope><name>excluded_edge_types</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints_1a0dd3689faff8e3c36a734166155b8ef5" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::QueryConstraints</scope><name>forbidden_vertices</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints_1ac6bc2cee6e731d9491b8d3a47869771d" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::QueryConstraints</scope><name>gpu_device</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints_1a1f1aed96746e1e921c27b77a476f6399" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::QueryConstraints</scope><name>graph_id</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints_1aa331914411b2cb104bb38362dc302af0" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::QueryConstraints</scope><name>hasTemporalRange</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints_1a4e479324ca540cafc647d9c5cfaed104" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::QueryConstraints</scope><name>max_depth</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints_1aa2866ef9973d9d5834861fa5b5b0a229" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::QueryConstraints</scope><name>max_results</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints_1a0b887f5f9e246ecba0eddaeb467bf74c" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::QueryConstraints</scope><name>node_labels</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints_1a6278a5b6c1fa3c038070843d5ad0965a" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::QueryConstraints</scope><name>num_threads</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints_1a8adb46e48b23cddb4792c7d7b97ed3a7" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::QueryConstraints</scope><name>QueryConstraints</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints_1a4fc81059b85b7bce92a96679a76fb499" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::QueryConstraints</scope><name>required_vertices</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints_1a594ef73372648065c6f8975b1852d0de" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::QueryConstraints</scope><name>time_range_end_ms</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints_1a14e3fb0be4cbb2c123eca62e1637d2da" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::QueryConstraints</scope><name>time_range_require_containment</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints_1a075b09b3002dd98bf74f2d38709468dc" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::QueryConstraints</scope><name>time_range_start_ms</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints_1a937e3e5623f0296d74ff5a6b65d43ae0" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::QueryConstraints</scope><name>timeout_ms</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints_1a211a5819441ea793a5d34794f64e6eb8" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::QueryConstraints</scope><name>unique_edges</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints_1a2229d51e81e5258f2717da9704109d7c" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::QueryConstraints</scope><name>unique_vertices</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints_1af4b443578a90f93e9f9b643826408689" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::QueryConstraints</scope><name>use_gpu</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

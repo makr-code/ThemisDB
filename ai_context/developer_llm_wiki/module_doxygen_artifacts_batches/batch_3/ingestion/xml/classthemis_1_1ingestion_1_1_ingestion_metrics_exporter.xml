@@ -1,0 +1,186 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1_ingestion_metrics_exporter" kind="class" language="C++" prot="public">
+    <compoundname>themis::ingestion::IngestionMetricsExporter</compoundname>
+    <includes refid="ingestion__manager_8h" local="no">ingestion_manager.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_ingestion_metrics_exporter_1af2fd07511080407a42e4be4aa7c7f6cb" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::IngestionMetricsExporter::prefix_</definition>
+        <argsstring></argsstring>
+        <name>prefix_</name>
+        <qualifiedname>themis::ingestion::IngestionMetricsExporter::prefix_</qualifiedname>
+        <initializer>= &quot;themis_ingestion&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1526" column="17" bodyfile="include/ingestion/ingestion_manager.h" bodystart="1526" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_metrics_exporter_1ac3dc9ddd2791a87a37ad0ba5024e2cb9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::IngestionMetricsExporter::IngestionMetricsExporter</definition>
+        <argsstring>()=default</argsstring>
+        <name>IngestionMetricsExporter</name>
+        <qualifiedname>themis::ingestion::IngestionMetricsExporter::IngestionMetricsExporter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1495" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_metrics_exporter_1a7d819e556e3487d6b706bfbbf9768484" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::IngestionMetricsExporter::setPrefix</definition>
+        <argsstring>(const std::string &amp;prefix)</argsstring>
+        <name>setPrefix</name>
+        <qualifiedname>themis::ingestion::IngestionMetricsExporter::setPrefix</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prefix</declname>
+        </param>
+        <briefdescription>
+<para>Set the metric name prefix (default: &quot;themis_ingestion&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1500" column="10" bodyfile="include/ingestion/ingestion_manager.h" bodystart="1500" bodyend="1500"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_metrics_exporter_1a344d4d138e9dafb9648ad74897367914" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::IngestionMetricsExporter::exportText</definition>
+        <argsstring>(const IngestionReport &amp;report) const</argsstring>
+        <name>exportText</name>
+        <qualifiedname>themis::ingestion::IngestionMetricsExporter::exportText</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_ingestion_report" kindref="compound">IngestionReport</ref> &amp;</type>
+          <declname>report</declname>
+        </param>
+        <briefdescription>
+<para>Export an <ref refid="structthemis_1_1ingestion_1_1_ingestion_report" kindref="compound">IngestionReport</ref> as Prometheus text. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>report</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The report to export </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Prometheus text exposition format string </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>source_type is not directly in <ref refid="structthemis_1_1ingestion_1_1_ingestion_stats" kindref="compound">IngestionStats</ref>, so we pass empty <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1507" column="17" bodyfile="src/ingestion/ingestion_manager.cpp" bodystart="2485" bodyend="2553"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_metrics_exporter_1a5181627b2b95fa7482b47b402b4f597a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::IngestionMetricsExporter::exportText</definition>
+        <argsstring>(const IngestionStats &amp;stats, const std::string &amp;source_id, const std::string &amp;source_type=&quot;&quot;) const</argsstring>
+        <name>exportText</name>
+        <qualifiedname>themis::ingestion::IngestionMetricsExporter::exportText</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_ingestion_stats" kindref="compound">IngestionStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_type</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Export a single <ref refid="structthemis_1_1ingestion_1_1_ingestion_stats" kindref="compound">IngestionStats</ref> as Prometheus text. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Labels included: <computeroutput>source_id</computeroutput>, <computeroutput>source_type</computeroutput> (if provided). Error breakdown by code emitted as <computeroutput>errors_by_code_total</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The stats to export </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>source_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Label value for the source_id label </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>source_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional label value for the source_type label (e.g., &quot;FILESYSTEM&quot;, &quot;HUGGINGFACE&quot;) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Prometheus text exposition format string </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1521" column="17" bodyfile="src/ingestion/ingestion_manager.cpp" bodystart="2555" bodyend="2626"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Prometheus-compatible text-format metrics exporter for the ingestion module. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Converts an <computeroutput><ref refid="structthemis_1_1ingestion_1_1_ingestion_report" kindref="compound">IngestionReport</ref></computeroutput> to the Prometheus text exposition format (<ulink url="https://prometheus.io/docs/instrumenting/exposition_formats/">https://prometheus.io/docs/instrumenting/exposition_formats/</ulink>).</para>
+<para>Usage (without requiring prometheus-cpp at the call site): <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_ingestion_metrics_exporter_1ac3dc9ddd2791a87a37ad0ba5024e2cb9" kindref="member">IngestionMetricsExporter</ref><sp/>exporter;</highlight></codeline>
+<codeline><highlight class="normal">exporter.setPrefix(</highlight><highlight class="stringliteral">&quot;themis_ingestion&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">std::string<sp/>prom_text<sp/>=<sp/>exporter.exportText(report);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Write<sp/>prom_text<sp/>to<sp/>HTTP<sp/>/metrics<sp/>endpoint</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/ingestion/ingestion_manager.h" line="1493" column="1" bodyfile="include/ingestion/ingestion_manager.h" bodystart="1493" bodyend="1527"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_metrics_exporter_1a344d4d138e9dafb9648ad74897367914" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionMetricsExporter</scope><name>exportText</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_metrics_exporter_1a5181627b2b95fa7482b47b402b4f597a" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionMetricsExporter</scope><name>exportText</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_metrics_exporter_1ac3dc9ddd2791a87a37ad0ba5024e2cb9" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionMetricsExporter</scope><name>IngestionMetricsExporter</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_metrics_exporter_1af2fd07511080407a42e4be4aa7c7f6cb" prot="private" virt="non-virtual"><scope>themis::ingestion::IngestionMetricsExporter</scope><name>prefix_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_metrics_exporter_1a7d819e556e3487d6b706bfbbf9768484" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionMetricsExporter</scope><name>setPrefix</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

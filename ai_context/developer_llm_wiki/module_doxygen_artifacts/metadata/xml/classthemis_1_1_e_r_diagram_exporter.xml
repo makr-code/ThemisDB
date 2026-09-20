@@ -1,0 +1,352 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_e_r_diagram_exporter" kind="class" language="C++" prot="public">
+    <compoundname>themis::ERDiagramExporter</compoundname>
+    <includes refid="er__diagram__exporter_8h" local="no">er_diagram_exporter.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_e_r_diagram_exporter_1abbb93c620046c59bb54bd06056fc1d12" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ERDiagramExporter::ERDiagramExporter</definition>
+        <argsstring>()=default</argsstring>
+        <name>ERDiagramExporter</name>
+        <qualifiedname>themis::ERDiagramExporter::ERDiagramExporter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/er_diagram_exporter.h" line="59" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_e_r_diagram_exporter_1afab21e45d8888c75b89f882e016e54ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ERDiagramExporter::~ERDiagramExporter</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ERDiagramExporter</name>
+        <qualifiedname>themis::ERDiagramExporter::~ERDiagramExporter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/er_diagram_exporter.h" line="60" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_e_r_diagram_exporter_1a5c7ec801704d0ececf33c4287a1ebcc7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ERDiagramExporter::ERDiagramExporter</definition>
+        <argsstring>(const ERDiagramExporter &amp;)=default</argsstring>
+        <name>ERDiagramExporter</name>
+        <qualifiedname>themis::ERDiagramExporter::ERDiagramExporter</qualifiedname>
+        <param>
+          <type>const ERDiagramExporter &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/er_diagram_exporter.h" line="62" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_e_r_diagram_exporter_1ae5022bfce2842180a706aeac0ab02c0e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_e_r_diagram_exporter_1abbb93c620046c59bb54bd06056fc1d12" kindref="member">ERDiagramExporter</ref> &amp;</type>
+        <definition>ERDiagramExporter &amp; themis::ERDiagramExporter::operator=</definition>
+        <argsstring>(const ERDiagramExporter &amp;)=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::ERDiagramExporter::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_e_r_diagram_exporter_1abbb93c620046c59bb54bd06056fc1d12" kindref="member">ERDiagramExporter</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/er_diagram_exporter.h" line="63" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_e_r_diagram_exporter_1a93f369b55944263c5da964bb24b128f5" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::ERDiagramExporter::ERDiagramExporter</definition>
+        <argsstring>(ERDiagramExporter &amp;&amp;) noexcept=default</argsstring>
+        <name>ERDiagramExporter</name>
+        <qualifiedname>themis::ERDiagramExporter::ERDiagramExporter</qualifiedname>
+        <param>
+          <type>ERDiagramExporter &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/er_diagram_exporter.h" line="64" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_e_r_diagram_exporter_1af3bb0c538039d4ff6982c48424d22a7c" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_e_r_diagram_exporter_1abbb93c620046c59bb54bd06056fc1d12" kindref="member">ERDiagramExporter</ref> &amp;</type>
+        <definition>ERDiagramExporter &amp; themis::ERDiagramExporter::operator=</definition>
+        <argsstring>(ERDiagramExporter &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::ERDiagramExporter::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_e_r_diagram_exporter_1abbb93c620046c59bb54bd06056fc1d12" kindref="member">ERDiagramExporter</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/er_diagram_exporter.h" line="65" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_e_r_diagram_exporter_1afbb25b8cfb5969d15ee6888fe9bba34a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::ERDiagramExporter::exportMermaid</definition>
+        <argsstring>(const std::vector&lt; SchemaManager::TableSchema &gt; &amp;tables, const std::vector&lt; SchemaManager::RelationshipSchema &gt; &amp;relationships) const</argsstring>
+        <name>exportMermaid</name>
+        <qualifiedname>themis::ERDiagramExporter::exportMermaid</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1_schema_manager_1_1_table_schema" kindref="compound">SchemaManager::TableSchema</ref> &gt; &amp;</type>
+          <declname>tables</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1_schema_manager_1_1_relationship_schema" kindref="compound">SchemaManager::RelationshipSchema</ref> &gt; &amp;</type>
+          <declname>relationships</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Export as Mermaid erDiagram syntax.</para>
+<para>The output is a valid Mermaid <computeroutput>erDiagram</computeroutput> block that can be embedded in Markdown fences:</para>
+<para>Relationship cardinality notation:<itemizedlist>
+<listitem><para>graph_edge relationships use <computeroutput>||--o{</computeroutput> (one-to-many)</para>
+</listitem><listitem><para>when from_table == to_table the edge is rendered as <computeroutput>}o--o{</computeroutput> (many-to-many)</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tables</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>All table/collection schemas (nodes) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>relationships</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>All edge/relationship schemas (edges) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Mermaid erDiagram string (UTF-8) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/er_diagram_exporter.h" line="95" column="17" bodyfile="src/metadata/er_diagram_exporter.cpp" bodystart="78" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_e_r_diagram_exporter_1a06e76600258da3b05752c6c236e36389" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::ERDiagramExporter::exportDOT</definition>
+        <argsstring>(const std::vector&lt; SchemaManager::TableSchema &gt; &amp;tables, const std::vector&lt; SchemaManager::RelationshipSchema &gt; &amp;relationships) const</argsstring>
+        <name>exportDOT</name>
+        <qualifiedname>themis::ERDiagramExporter::exportDOT</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1_schema_manager_1_1_table_schema" kindref="compound">SchemaManager::TableSchema</ref> &gt; &amp;</type>
+          <declname>tables</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1_schema_manager_1_1_relationship_schema" kindref="compound">SchemaManager::RelationshipSchema</ref> &gt; &amp;</type>
+          <declname>relationships</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Export as Graphviz DOT language.</para>
+<para>Produces a directed graph (<computeroutput>digraph schema { ... }</computeroutput>) with record-shaped nodes listing each entity&apos;s properties and labelled directed edges for each relationship.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tables</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>All table/collection schemas (nodes) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>relationships</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>All edge/relationship schemas (edges) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>DOT language string (UTF-8) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/er_diagram_exporter.h" line="109" column="17" bodyfile="src/metadata/er_diagram_exporter.cpp" bodystart="127" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_e_r_diagram_exporter_1a8e72ecdb09fed68b6198798626853dd5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::ERDiagramExporter::exportJSON</definition>
+        <argsstring>(const std::vector&lt; SchemaManager::TableSchema &gt; &amp;tables, const std::vector&lt; SchemaManager::RelationshipSchema &gt; &amp;relationships) const</argsstring>
+        <name>exportJSON</name>
+        <qualifiedname>themis::ERDiagramExporter::exportJSON</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1_schema_manager_1_1_table_schema" kindref="compound">SchemaManager::TableSchema</ref> &gt; &amp;</type>
+          <declname>tables</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1_schema_manager_1_1_relationship_schema" kindref="compound">SchemaManager::RelationshipSchema</ref> &gt; &amp;</type>
+          <declname>relationships</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Export as a JSON graph (nodes + edges).</para>
+<para>Schema: <programlisting filename=".json"><codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>&quot;nodes&quot;:<sp/>[</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{<sp/>&quot;id&quot;:<sp/>&quot;users&quot;,<sp/>&quot;type&quot;:<sp/>&quot;relational&quot;,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>&quot;properties&quot;:<sp/>[<sp/>{<sp/>&quot;name&quot;:<sp/>&quot;id&quot;,<sp/>&quot;type&quot;:<sp/>&quot;integer&quot;<sp/>},<sp/>...<sp/>]<sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>],</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>&quot;edges&quot;:<sp/>[</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{<sp/>&quot;from&quot;:<sp/>&quot;users&quot;,<sp/>&quot;to&quot;:<sp/>&quot;orders&quot;,<sp/>&quot;label&quot;:<sp/>&quot;placed&quot;,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>&quot;properties&quot;:<sp/>[]<sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>]</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tables</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>All table/collection schemas (nodes) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>relationships</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>All edge/relationship schemas (edges) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>JSON object with &quot;nodes&quot; and &quot;edges&quot; arrays </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/er_diagram_exporter.h" line="133" column="20" bodyfile="src/metadata/er_diagram_exporter.cpp" bodystart="178" bodyend="243"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1_e_r_diagram_exporter_1a923f9984d6123b00ea2c3037d101bcc1" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::ERDiagramExporter::escapeMermaid</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>escapeMermaid</name>
+        <qualifiedname>themis::ERDiagramExporter::escapeMermaid</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Escape a string for safe inclusion inside a Mermaid entity/attribute name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Escape Mermaid.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), std::isalnum(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/er_diagram_exporter.h" line="144" column="24" bodyfile="src/metadata/er_diagram_exporter.cpp" bodystart="33" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_e_r_diagram_exporter_1a56c935056a40c0b9d709860ce83e3d1b" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::ERDiagramExporter::escapeDOT</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>escapeDOT</name>
+        <qualifiedname>themis::ERDiagramExporter::escapeDOT</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Escape a string for safe inclusion inside a DOT record label. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Escape DOT.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/er_diagram_exporter.h" line="147" column="24" bodyfile="src/metadata/er_diagram_exporter.cpp" bodystart="54" bodyend="72"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemis_1_1_e_r_diagram_exporter" kindref="compound">ERDiagramExporter</ref> - Cross-collection Relationship Graph Export</para>
+<para>Generates Entity-Relationship (ER) diagrams from ThemisDB schema metadata, visualising cross-collection relationships (graph edges and foreign-key-style links discovered by <ref refid="classthemis_1_1_schema_manager" kindref="compound">SchemaManager</ref>).</para>
+<para>Supported output formats:<itemizedlist>
+<listitem><para>Mermaid <computeroutput>erDiagram</computeroutput> – embeddable in Markdown documentation and GitHub</para>
+</listitem><listitem><para>DOT (Graphviz) – renderable with <computeroutput>dot -Tsvg schema.dot -o schema.svg</computeroutput></para>
+</listitem><listitem><para>JSON graph – machine-readable node/edge representation for custom renderers</para>
+</listitem></itemizedlist>
+</para>
+<para>Architecture: <ref refid="classthemis_1_1_e_r_diagram_exporter" kindref="compound">ERDiagramExporter</ref> ├─→ <ref refid="structthemis_1_1_schema_manager_1_1_table_schema" kindref="compound">SchemaManager::TableSchema</ref> (nodes) └─→ <ref refid="structthemis_1_1_schema_manager_1_1_relationship_schema" kindref="compound">SchemaManager::RelationshipSchema</ref> (edges)</para>
+<para>Thread-Safety:<itemizedlist>
+<listitem><para>All export methods are const and stateless; safe to call concurrently.</para>
+</listitem></itemizedlist>
+</para>
+<para>Usage: auto tables = schema_mgr.getAllTables(); auto relationships = schema_mgr.getAllRelationships();</para>
+<para><ref refid="classthemis_1_1_e_r_diagram_exporter" kindref="compound">ERDiagramExporter</ref> exporter; std::string mermaid = exporter.exportMermaid(tables, relationships); std::string dot = exporter.exportDOT(tables, relationships); auto graph = exporter.exportJSON(tables, relationships);</para>
+<para>Issue: makr-code/ThemisDB#1993 </para>
+    </detaileddescription>
+    <location file="include/metadata/er_diagram_exporter.h" line="53" column="1" bodyfile="include/metadata/er_diagram_exporter.h" bodystart="53" bodyend="148"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_e_r_diagram_exporter_1abbb93c620046c59bb54bd06056fc1d12" prot="public" virt="non-virtual"><scope>themis::ERDiagramExporter</scope><name>ERDiagramExporter</name></member>
+      <member refid="classthemis_1_1_e_r_diagram_exporter_1a5c7ec801704d0ececf33c4287a1ebcc7" prot="public" virt="non-virtual"><scope>themis::ERDiagramExporter</scope><name>ERDiagramExporter</name></member>
+      <member refid="classthemis_1_1_e_r_diagram_exporter_1a93f369b55944263c5da964bb24b128f5" prot="public" virt="non-virtual"><scope>themis::ERDiagramExporter</scope><name>ERDiagramExporter</name></member>
+      <member refid="classthemis_1_1_e_r_diagram_exporter_1a56c935056a40c0b9d709860ce83e3d1b" prot="private" virt="non-virtual"><scope>themis::ERDiagramExporter</scope><name>escapeDOT</name></member>
+      <member refid="classthemis_1_1_e_r_diagram_exporter_1a923f9984d6123b00ea2c3037d101bcc1" prot="private" virt="non-virtual"><scope>themis::ERDiagramExporter</scope><name>escapeMermaid</name></member>
+      <member refid="classthemis_1_1_e_r_diagram_exporter_1a06e76600258da3b05752c6c236e36389" prot="public" virt="non-virtual"><scope>themis::ERDiagramExporter</scope><name>exportDOT</name></member>
+      <member refid="classthemis_1_1_e_r_diagram_exporter_1a8e72ecdb09fed68b6198798626853dd5" prot="public" virt="non-virtual"><scope>themis::ERDiagramExporter</scope><name>exportJSON</name></member>
+      <member refid="classthemis_1_1_e_r_diagram_exporter_1afbb25b8cfb5969d15ee6888fe9bba34a" prot="public" virt="non-virtual"><scope>themis::ERDiagramExporter</scope><name>exportMermaid</name></member>
+      <member refid="classthemis_1_1_e_r_diagram_exporter_1ae5022bfce2842180a706aeac0ab02c0e" prot="public" virt="non-virtual"><scope>themis::ERDiagramExporter</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_e_r_diagram_exporter_1af3bb0c538039d4ff6982c48424d22a7c" prot="public" virt="non-virtual"><scope>themis::ERDiagramExporter</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_e_r_diagram_exporter_1afab21e45d8888c75b89f882e016e54ce" prot="public" virt="non-virtual"><scope>themis::ERDiagramExporter</scope><name>~ERDiagramExporter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

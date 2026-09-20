@@ -1,0 +1,538 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__kernel__fusion__cpu__fallback_8cpp" kind="file" language="C++">
+    <compoundname>test_kernel_fusion_cpu_fallback.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="kernel__fusion_8h" local="yes">llm/kernel_fusion.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">cmath</includes>
+    <includes local="no">numeric</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>llm/kernel_fusion.h</label>
+        <link refid="kernel__fusion_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/llm/test_kernel_fusion_cpu_fallback.cpp</label>
+        <link refid="test__kernel__fusion__cpu__fallback_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>algorithm</label>
+      </node>
+      <node id="8">
+        <label>cmath</label>
+      </node>
+      <node id="4">
+        <label>cstddef</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="9">
+        <label>numeric</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__kernel__fusion__cpu__fallback_8cpp_1a494bc2bad158e657969e0a06914db650" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool allFinite</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;v)</argsstring>
+        <name>allFinite</name>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_kernel_fusion_cpu_fallback.cpp" line="36" column="13" bodyfile="tests/llm/test_kernel_fusion_cpu_fallback.cpp" bodystart="36" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="test__kernel__fusion__cpu__fallback_8cpp_1aeff2eb3834b082b2e3df9a3bbde47534" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool noNaN</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;v)</argsstring>
+        <name>noNaN</name>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_kernel_fusion_cpu_fallback.cpp" line="45" column="13" bodyfile="tests/llm/test_kernel_fusion_cpu_fallback.cpp" bodystart="45" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="test__kernel__fusion__cpu__fallback_8cpp_1a95f7917aefccf5988d1c3488664149b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KernelFusionCPUFallback, ManagerDefaultConfig_DoesNotCrash)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KernelFusionCPUFallback</type>
+        </param>
+        <param>
+          <type>ManagerDefaultConfig_DoesNotCrash</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_kernel_fusion_cpu_fallback.cpp" line="58" column="1" bodyfile="tests/llm/test_kernel_fusion_cpu_fallback.cpp" bodystart="58" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="test__kernel__fusion__cpu__fallback_8cpp_1a1145dd6255e6be1fe94d850aa6044d98" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KernelFusionCPUFallback, ManagerDisabledFusion_ShouldNotFuse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KernelFusionCPUFallback</type>
+        </param>
+        <param>
+          <type>ManagerDisabledFusion_ShouldNotFuse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_kernel_fusion_cpu_fallback.cpp" line="63" column="1" bodyfile="tests/llm/test_kernel_fusion_cpu_fallback.cpp" bodystart="63" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="test__kernel__fusion__cpu__fallback_8cpp_1a5d18d31608f88a3dcced519d4ca563a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KernelFusionCPUFallback, ManagerStats_InitialCountersZero)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KernelFusionCPUFallback</type>
+        </param>
+        <param>
+          <type>ManagerStats_InitialCountersZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_kernel_fusion_cpu_fallback.cpp" line="73" column="1" bodyfile="tests/llm/test_kernel_fusion_cpu_fallback.cpp" bodystart="73" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="test__kernel__fusion__cpu__fallback_8cpp_1aac591a21edbf5cc8a676a43acc928abb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KernelFusionCPUFallback, LayerNormLinearResidual_OutputFinite)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KernelFusionCPUFallback</type>
+        </param>
+        <param>
+          <type>LayerNormLinearResidual_OutputFinite</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_kernel_fusion_cpu_fallback.cpp" line="86" column="1" bodyfile="tests/llm/test_kernel_fusion_cpu_fallback.cpp" bodystart="86" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="test__kernel__fusion__cpu__fallback_8cpp_1a1a4a3d625851312bbf29640d9af3c5ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KernelFusionCPUFallback, LayerNormLinearResidual_NoNaN)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KernelFusionCPUFallback</type>
+        </param>
+        <param>
+          <type>LayerNormLinearResidual_NoNaN</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_kernel_fusion_cpu_fallback.cpp" line="109" column="1" bodyfile="tests/llm/test_kernel_fusion_cpu_fallback.cpp" bodystart="109" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="test__kernel__fusion__cpu__fallback_8cpp_1af602f8de90fb4b9f811a62f362f0b12d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KernelFusionCPUFallback, AttentionQKV_OutputFinite)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KernelFusionCPUFallback</type>
+        </param>
+        <param>
+          <type>AttentionQKV_OutputFinite</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_kernel_fusion_cpu_fallback.cpp" line="138" column="1" bodyfile="tests/llm/test_kernel_fusion_cpu_fallback.cpp" bodystart="138" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="test__kernel__fusion__cpu__fallback_8cpp_1a2338218f74d34784cc35532cb174150a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KernelFusionCPUFallback, SoftmaxDropoutAttention_OutputFinite)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KernelFusionCPUFallback</type>
+        </param>
+        <param>
+          <type>SoftmaxDropoutAttention_OutputFinite</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_kernel_fusion_cpu_fallback.cpp" line="163" column="1" bodyfile="tests/llm/test_kernel_fusion_cpu_fallback.cpp" bodystart="163" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="test__kernel__fusion__cpu__fallback_8cpp_1ad457ca173c56a1fcaed41c415b20ac0f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KernelFusionCPUFallback, GatedFFN_OutputFinite)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KernelFusionCPUFallback</type>
+        </param>
+        <param>
+          <type>GatedFFN_OutputFinite</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_kernel_fusion_cpu_fallback.cpp" line="190" column="1" bodyfile="tests/llm/test_kernel_fusion_cpu_fallback.cpp" bodystart="190" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="test__kernel__fusion__cpu__fallback_8cpp_1aebe5c4b47f0251ead8cf214df8902f0e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KernelFusionCPUFallback, RMSNormLinear_OutputFinite)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KernelFusionCPUFallback</type>
+        </param>
+        <param>
+          <type>RMSNormLinear_OutputFinite</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_kernel_fusion_cpu_fallback.cpp" line="214" column="1" bodyfile="tests/llm/test_kernel_fusion_cpu_fallback.cpp" bodystart="214" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="test__kernel__fusion__cpu__fallback_8cpp_1a501fc2a33d1a20d1acc196a2e30923f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KernelFusionCPUFallback, LayerNormLinearResidual_ZeroBatch_DoesNotCrash)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KernelFusionCPUFallback</type>
+        </param>
+        <param>
+          <type>LayerNormLinearResidual_ZeroBatch_DoesNotCrash</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_kernel_fusion_cpu_fallback.cpp" line="237" column="1" bodyfile="tests/llm/test_kernel_fusion_cpu_fallback.cpp" bodystart="237" bodyend="245"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Chaos / fallback tests for kernel fusion — no GPU required. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>These tests exercise the kernel fusion CPU fallback path and validate that all fused kernel functions produce numerically stable output (no NaN/Inf, no crash) when CUDA is unavailable. They run in any standard CI environment that does not have a CUDA-capable GPU.</para>
+<para>Coverage:<itemizedlist>
+<listitem><para><ref refid="classthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager" kindref="compound">KernelFusionManager</ref> construction and configuration</para>
+</listitem><listitem><para>fusedLayerNormLinearResidual: output finite, residual applied</para>
+</listitem><listitem><para>fusedAttentionQKV: output finite with unit weights</para>
+</listitem><listitem><para>fusedSoftmaxDropoutAttention: rows sum to ≈1, output finite</para>
+</listitem><listitem><para>fusedGatedFFN: output finite</para>
+</listitem><listitem><para>fusedRMSNormLinear: output finite</para>
+</listitem><listitem><para>KernelFusionManager::shouldFuse*: decision logic smoke test</para>
+</listitem><listitem><para>Stats: counters start at zero</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="see"><para>docs/llm_roadmap.md — Q3 Testing checklist (chaos / CPU-fallback) </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="kernel__fusion_8h" kindref="compound">llm/kernel_fusion.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;numeric&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1kernels" kindref="compound">themis::llm::kernels</ref>;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>allFinite(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>v)<sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>x<sp/>:<sp/>v)<sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!std::isfinite(x))<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>noNaN(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>v)<sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>x<sp/>:<sp/>v)<sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(std::isnan(x))<sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>KernelFusionManager<sp/>construction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><ref refid="test__kernel__fusion__cpu__fallback_8cpp_1a95f7917aefccf5988d1c3488664149b4" kindref="member">TEST</ref>(KernelFusionCPUFallback,<sp/>ManagerDefaultConfig_DoesNotCrash)<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1_1_config" kindref="compound">KernelFusionManager::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(<ref refid="classthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager" kindref="compound">KernelFusionManager</ref><sp/>mgr(cfg));</highlight></codeline>
+<codeline lineno="61"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><ref refid="test__kernel__fusion__cpu__fallback_8cpp_1a95f7917aefccf5988d1c3488664149b4" kindref="member">TEST</ref>(KernelFusionCPUFallback,<sp/>ManagerDisabledFusion_ShouldNotFuse)<sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1_1_config" kindref="compound">KernelFusionManager::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1_1_config_1a54ddc22153fed7dcec97d0c9cd2527bf" kindref="member">enable_fusion</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager" kindref="compound">KernelFusionManager</ref><sp/>mgr(cfg);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>With<sp/>fusion<sp/>disabled,<sp/>all<sp/>&apos;should<sp/>fuse&apos;<sp/>methods<sp/>return<sp/>false.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(mgr.shouldFuseLayerNormLinear(1,<sp/>8,<sp/>64));</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(mgr.shouldFuseQKV(1,<sp/>8,<sp/>64));</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(mgr.shouldFuseFFN(1,<sp/>8,<sp/>64));</highlight></codeline>
+<codeline lineno="71"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><ref refid="test__kernel__fusion__cpu__fallback_8cpp_1a95f7917aefccf5988d1c3488664149b4" kindref="member">TEST</ref>(KernelFusionCPUFallback,<sp/>ManagerStats_InitialCountersZero)<sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager" kindref="compound">KernelFusionManager</ref><sp/>mgr(<ref refid="structthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1_1_config" kindref="compound">KernelFusionManager::Config</ref>{});</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>mgr.<ref refid="classthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1a2341a1db38badb4750bbf780d79945ec" kindref="member">getStats</ref>();</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.ln_linear_fusions,<sp/>0u);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.qkv_fusions,<sp/>0u);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.ffn_fusions,<sp/>0u);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.total_fusions,<sp/>0u);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>fusedLayerNormLinearResidual<sp/>—<sp/>CPU<sp/>fallback<sp/>smoke<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><ref refid="test__kernel__fusion__cpu__fallback_8cpp_1a95f7917aefccf5988d1c3488664149b4" kindref="member">TEST</ref>(KernelFusionCPUFallback,<sp/>LayerNormLinearResidual_OutputFinite)<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>B<sp/>=<sp/>1,<sp/>S<sp/>=<sp/>4,<sp/>H<sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>N<sp/>=<sp/>B<sp/>*<sp/>S<sp/>*<sp/>H;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>input(N,<sp/>1.0f);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>weight(H<sp/>*<sp/>H,<sp/>0.1f);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>bias(H,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>residual(N,<sp/>0.5f);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>ln_weight(H,<sp/>1.0f);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>ln_bias(H,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>output(N,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1kernels_1a3619d0eec179c81cd377c4c44d6f2115" kindref="member">fusedLayerNormLinearResidual</ref>(</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>output.data(),<sp/>input.data(),</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>weight.data(),<sp/>bias.data(),</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>residual.data(),<sp/>ln_weight.data(),<sp/>ln_bias.data(),</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>B,<sp/>S,<sp/>H)</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(allFinite(output))<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Output<sp/>contains<sp/>non-finite<sp/>values&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><ref refid="test__kernel__fusion__cpu__fallback_8cpp_1a95f7917aefccf5988d1c3488664149b4" kindref="member">TEST</ref>(KernelFusionCPUFallback,<sp/>LayerNormLinearResidual_NoNaN)<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>B<sp/>=<sp/>2,<sp/>S<sp/>=<sp/>2,<sp/>H<sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>N<sp/>=<sp/>B<sp/>*<sp/>S<sp/>*<sp/>H;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>input(N);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>std::iota<sp/>with<sp/>0.1f<sp/>produces<sp/>0.1,<sp/>1.1,<sp/>2.1,<sp/>…<sp/>(increment<sp/>step<sp/>=<sp/>1.0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>—<sp/>we<sp/>just<sp/>need<sp/>varied<sp/>non-zero<sp/>values<sp/>to<sp/>exercise<sp/>the<sp/>kernel<sp/>path.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>std::iota(input.begin(),<sp/>input.end(),<sp/>0.1f);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>weight(H<sp/>*<sp/>H,<sp/>0.01f);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>bias(H,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>residual(N,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>ln_weight(H,<sp/>1.0f);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>ln_bias(H,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>output(N,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1kernels_1a3619d0eec179c81cd377c4c44d6f2115" kindref="member">fusedLayerNormLinearResidual</ref>(</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>output.data(),<sp/>input.data(),</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>weight.data(),<sp/>bias.data(),</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>residual.data(),<sp/>ln_weight.data(),<sp/>ln_bias.data(),</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>B,<sp/>S,<sp/>H);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(noNaN(output))<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Output<sp/>contains<sp/>NaN&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/>fusedAttentionQKV<sp/>—<sp/>CPU<sp/>fallback<sp/>smoke<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><ref refid="test__kernel__fusion__cpu__fallback_8cpp_1a95f7917aefccf5988d1c3488664149b4" kindref="member">TEST</ref>(KernelFusionCPUFallback,<sp/>AttentionQKV_OutputFinite)<sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>B<sp/>=<sp/>1,<sp/>S<sp/>=<sp/>4,<sp/>H<sp/>=<sp/>8,<sp/>NUM_HEADS<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>N<sp/>=<sp/>B<sp/>*<sp/>S<sp/>*<sp/>H;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>input(N,<sp/>0.5f);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>qkv_weight(3<sp/>*<sp/>H<sp/>*<sp/>H,<sp/>0.1f);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>qkv_bias(3<sp/>*<sp/>H,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>Q(N,<sp/>0.0f),<sp/>K(N,<sp/>0.0f),<sp/>V(N,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1kernels_1a324b435ad94563f4617c1c78c94d2e72" kindref="member">fusedAttentionQKV</ref>(</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Q.data(),<sp/>K.data(),<sp/>V.data(),</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>input.data(),<sp/>qkv_weight.data(),<sp/>qkv_bias.data(),</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>B,<sp/>S,<sp/>H,<sp/>NUM_HEADS)</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(allFinite(Q))<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Query<sp/>tensor<sp/>contains<sp/>non-finite<sp/>values&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(allFinite(K))<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Key<sp/>tensor<sp/>contains<sp/>non-finite<sp/>values&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(allFinite(V))<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Value<sp/>tensor<sp/>contains<sp/>non-finite<sp/>values&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="comment">//<sp/>fusedSoftmaxDropoutAttention<sp/>—<sp/>rows<sp/>should<sp/>sum<sp/>to<sp/>≈1<sp/>(softmax<sp/>property)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><ref refid="test__kernel__fusion__cpu__fallback_8cpp_1a95f7917aefccf5988d1c3488664149b4" kindref="member">TEST</ref>(KernelFusionCPUFallback,<sp/>SoftmaxDropoutAttention_OutputFinite)<sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>B<sp/>=<sp/>1,<sp/>NUM_HEADS<sp/>=<sp/>1,<sp/>SQ<sp/>=<sp/>4,<sp/>SKV<sp/>=<sp/>4,<sp/>HD<sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>N<sp/>=<sp/>B<sp/>*<sp/>NUM_HEADS<sp/>*<sp/>SQ<sp/>*<sp/>HD;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>score_size<sp/>=<sp/>B<sp/>*<sp/>NUM_HEADS<sp/>*<sp/>SQ<sp/>*<sp/>SKV;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>scores(score_size,<sp/>1.0f);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>values(B<sp/>*<sp/>NUM_HEADS<sp/>*<sp/>SKV<sp/>*<sp/>HD,<sp/>0.5f);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>output(N,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>attn_weights(score_size,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1kernels_1a9820efa0d40eadebe8beb9a6c87e91a5" kindref="member">fusedSoftmaxDropoutAttention</ref>(</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>output.data(),<sp/>attn_weights.data(),</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>scores.data(),<sp/>values.data(),</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*mask=*/</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>B,<sp/>NUM_HEADS,<sp/>SQ,<sp/>SKV,<sp/>HD,</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*dropout=*/</highlight><highlight class="normal">0.0f,<sp/></highlight><highlight class="comment">/*causal=*/</highlight><highlight class="keyword">false</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(allFinite(output))<sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Attention<sp/>output<sp/>contains<sp/>non-finite<sp/>values&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(allFinite(attn_weights))<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Attention<sp/>weights<sp/>contain<sp/>non-finite<sp/>values&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="comment">//<sp/>fusedGatedFFN<sp/>—<sp/>CPU<sp/>fallback<sp/>smoke<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><ref refid="test__kernel__fusion__cpu__fallback_8cpp_1a95f7917aefccf5988d1c3488664149b4" kindref="member">TEST</ref>(KernelFusionCPUFallback,<sp/>GatedFFN_OutputFinite)<sp/>{</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>B<sp/>=<sp/>1,<sp/>S<sp/>=<sp/>2,<sp/>H<sp/>=<sp/>4,<sp/>I<sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>N<sp/>=<sp/>B<sp/>*<sp/>S<sp/>*<sp/>H;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>input(N,<sp/>1.0f);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>gate_w(I<sp/>*<sp/>H,<sp/>0.05f);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>up_w(I<sp/>*<sp/>H,<sp/>0.05f);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>down_w(H<sp/>*<sp/>I,<sp/>0.05f);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>output(N,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1kernels_1a3250bc4ab48e81545bdb2e7b52f51106" kindref="member">fusedGatedFFN</ref>(</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>output.data(),<sp/>input.data(),</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gate_w.data(),<sp/>up_w.data(),<sp/>down_w.data(),</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>B,<sp/>S,<sp/>H,<sp/>I)</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(allFinite(output))<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;FFN<sp/>output<sp/>contains<sp/>non-finite<sp/>values&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight><highlight class="comment">//<sp/>fusedRMSNormLinear<sp/>—<sp/>CPU<sp/>fallback<sp/>smoke<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><ref refid="test__kernel__fusion__cpu__fallback_8cpp_1a95f7917aefccf5988d1c3488664149b4" kindref="member">TEST</ref>(KernelFusionCPUFallback,<sp/>RMSNormLinear_OutputFinite)<sp/>{</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>B<sp/>=<sp/>1,<sp/>S<sp/>=<sp/>4,<sp/>H<sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>N<sp/>=<sp/>B<sp/>*<sp/>S<sp/>*<sp/>H;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>input(N,<sp/>2.0f);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>weight(H<sp/>*<sp/>H,<sp/>0.1f);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>rms_weight(H,<sp/>1.0f);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>output(N,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1kernels_1a75e4bd8ad9b7c99f92de928bcf351d16" kindref="member">fusedRMSNormLinear</ref>(</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>output.data(),<sp/>input.data(),</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>weight.data(),<sp/>rms_weight.data(),</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>B,<sp/>S,<sp/>H)</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(allFinite(output))<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;RMSNorm+Linear<sp/>output<sp/>contains<sp/>non-finite<sp/>values&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Zero-size<sp/>batch:<sp/>edge<sp/>case<sp/>—<sp/>must<sp/>not<sp/>crash<sp/>or<sp/>produce<sp/>garbage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><ref refid="test__kernel__fusion__cpu__fallback_8cpp_1a95f7917aefccf5988d1c3488664149b4" kindref="member">TEST</ref>(KernelFusionCPUFallback,<sp/>LayerNormLinearResidual_ZeroBatch_DoesNotCrash)<sp/>{</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>output;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>batch_size<sp/>==<sp/>0<sp/>→<sp/>nothing<sp/>to<sp/>compute;<sp/>function<sp/>must<sp/>return<sp/>without<sp/>crash.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1kernels_1a3619d0eec179c81cd377c4c44d6f2115" kindref="member">fusedLayerNormLinearResidual</ref>(</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*batch=*/</highlight><highlight class="normal">0,<sp/></highlight><highlight class="comment">/*seq=*/</highlight><highlight class="normal">4,<sp/></highlight><highlight class="comment">/*hidden=*/</highlight><highlight class="normal">8)</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/llm/test_kernel_fusion_cpu_fallback.cpp"/>
+  </compounddef>
+</doxygen>

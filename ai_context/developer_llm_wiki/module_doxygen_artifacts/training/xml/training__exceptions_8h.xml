@@ -1,0 +1,464 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="training__exceptions_8h" kind="file" language="C++">
+    <compoundname>training_exceptions.h</compoundname>
+    <includes refid="training__error__codes_8h" local="yes">training/training_error_codes.h</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">string</includes>
+    <includes local="no">memory</includes>
+    <includedby refid="adapter__serving_8h" local="yes">include/training/adapter_serving.h</includedby>
+    <includedby refid="auto__labeler_8h" local="yes">include/training/auto_labeler.h</includedby>
+    <includedby refid="incremental__lora__trainer_8h" local="yes">include/training/incremental_lora_trainer.h</includedby>
+    <includedby refid="knowledge__graph__enricher_8h" local="yes">include/training/knowledge_graph_enricher.h</includedby>
+    <includedby refid="lora__adapter__merger_8h" local="yes">include/training/lora_adapter_merger.h</includedby>
+    <includedby refid="lora__checkpoint__manager_8h" local="yes">include/training/lora_checkpoint_manager.h</includedby>
+    <includedby refid="provenance__tracker_8h" local="yes">include/training/provenance_tracker.h</includedby>
+    <includedby refid="training__pipeline_8h" local="yes">include/training/training_pipeline.h</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>training/training_error_codes.h</label>
+        <link refid="training__error__codes_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/training/training_exceptions.h</label>
+        <link refid="training__exceptions_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>stdexcept</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>unordered_map</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="27">
+        <label>benchmarks/training/bench_training_lifecycle_gates.cpp</label>
+        <link refid="bench__training__lifecycle__gates_8cpp"/>
+      </node>
+      <node id="2">
+        <label>include/training/adapter_serving.h</label>
+        <link refid="adapter__serving_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>include/training/auto_labeler.h</label>
+        <link refid="auto__labeler_8h"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>include/training/database_domain_auto_labeler.h</label>
+        <link refid="database__domain__auto__labeler_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/training/incremental_lora_trainer.h</label>
+        <link refid="incremental__lora__trainer_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>include/training/knowledge_graph_enricher.h</label>
+        <link refid="knowledge__graph__enricher_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>include/training/lora_adapter_merger.h</label>
+        <link refid="lora__adapter__merger_8h"/>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>include/training/lora_checkpoint_manager.h</label>
+        <link refid="lora__checkpoint__manager_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>include/training/modality_parser.h</label>
+        <link refid="modality__parser_8h"/>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>include/training/provenance_tracker.h</label>
+        <link refid="provenance__tracker_8h"/>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/training/training_exceptions.h</label>
+        <link refid="training__exceptions_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>include/training/training_interfaces.h</label>
+        <link refid="training__interfaces_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/training/training_pipeline.h</label>
+        <link refid="training__pipeline_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>src/training/adapter_serving.cpp</label>
+        <link refid="adapter__serving_8cpp"/>
+      </node>
+      <node id="19">
+        <label>src/training/auto_labeler.cpp</label>
+        <link refid="auto__labeler_8cpp"/>
+      </node>
+      <node id="16">
+        <label>src/training/database_domain_auto_labeler.cpp</label>
+        <link refid="database__domain__auto__labeler_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/training/examples/database_optimizer_labeler.cpp</label>
+        <link refid="database__optimizer__labeler_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/training/incremental_lora_trainer.cpp</label>
+        <link refid="incremental__lora__trainer_8cpp"/>
+      </node>
+      <node id="25">
+        <label>src/training/knowledge_graph_enricher.cpp</label>
+        <link refid="knowledge__graph__enricher_8cpp"/>
+      </node>
+      <node id="28">
+        <label>src/training/lora_adapter_merger.cpp</label>
+        <link refid="lora__adapter__merger_8cpp"/>
+      </node>
+      <node id="32">
+        <label>src/training/lora_checkpoint_manager.cpp</label>
+        <link refid="lora__checkpoint__manager_8cpp"/>
+      </node>
+      <node id="20">
+        <label>src/training/modality_parser.cpp</label>
+        <link refid="modality__parser_8cpp"/>
+      </node>
+      <node id="23">
+        <label>src/training/provenance_tracker.cpp</label>
+        <link refid="provenance__tracker_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/training/training_pipeline.cpp</label>
+        <link refid="training__pipeline_8cpp"/>
+      </node>
+      <node id="33">
+        <label>tests/training/test_checkpoint_recovery.cpp</label>
+        <link refid="test__checkpoint__recovery_8cpp"/>
+      </node>
+      <node id="34">
+        <label>tests/training/test_checkpoint_resume_gpu_stress.cpp</label>
+        <link refid="test__checkpoint__resume__gpu__stress_8cpp"/>
+      </node>
+      <node id="29">
+        <label>tests/training/test_deterministic_training_lifecycle.cpp</label>
+        <link refid="test__deterministic__training__lifecycle_8cpp"/>
+      </node>
+      <node id="30">
+        <label>tests/training/test_merge_conflicts.cpp</label>
+        <link refid="test__merge__conflicts_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/training/test_training_convergence.cpp</label>
+        <link refid="test__training__convergence_8cpp"/>
+      </node>
+      <node id="17">
+        <label>tests/training/test_training_database_optimizer.cpp</label>
+        <link refid="test__training__database__optimizer_8cpp"/>
+      </node>
+      <node id="13">
+        <label>tests/training/test_training_diagnostics_consistency.cpp</label>
+        <link refid="test__training__diagnostics__consistency_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/training/test_training_phase2.cpp</label>
+        <link refid="test__training__phase2_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/training/test_training_pipeline_e2e.cpp</label>
+        <link refid="test__training__pipeline__e2e_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/training/test_training_pipeline_injection_qw40.cpp</label>
+        <link refid="test__training__pipeline__injection__qw40_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1training_1_1_training_exception" prot="public">themis::training::TrainingException</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_checkpoint_exception" prot="public">themis::training::CheckpointException</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_training_failure_exception" prot="public">themis::training::TrainingFailureException</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_merge_exception" prot="public">themis::training::MergeException</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_enrichment_exception" prot="public">themis::training::EnrichmentException</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_labeling_exception" prot="public">themis::training::LabelingException</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_serving_exception" prot="public">themis::training::ServingException</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_provenance_exception" prot="public">themis::training::ProvenanceException</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_dataset_exception" prot="public">themis::training::DatasetException</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1training">themis::training</innernamespace>
+    <briefdescription>
+<para>Training Module Exception Classes (Phase 3). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Defines exception hierarchy for training module components with structured error information, error codes, and recovery semantics.</para>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="date"><para>2026-08-07 </para>
+</simplesect>
+<simplesect kind="author"><para>ThemisDB Training Module Hardening</para>
+</simplesect>
+<simplesect kind="since"><para>v2.4.0 (Phase 3: Error Handling &amp; Edge Cases) </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="training__error__codes_8h" kindref="compound">training/training_error_codes.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1training" kindref="compound">training</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="classthemis_1_1training_1_1_training_exception" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1training_1_1_training_exception_1a50a6d48c50d9b1b385e85b566b0c64a0" kindref="member">TrainingException</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>std::runtime_error<sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="50" refid="classthemis_1_1training_1_1_training_exception_1a50a6d48c50d9b1b385e85b566b0c64a0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_training_exception_1a50a6d48c50d9b1b385e85b566b0c64a0" kindref="member">TrainingException</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message,</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841b" kindref="member">TrainingErrorCode</ref><sp/>code<sp/>=<sp/><ref refid="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841bad0749aaba8b833466dfcbb0428e4f89c" kindref="member">TrainingErrorCode::SUCCESS</ref>,</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>recoverable<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1training_1_1_training_exception_1a5e0028cc1a974133a55560f5bb035975" kindref="member">context</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>std::runtime_error(message),</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1training_1_1_training_exception_1a5a6943e3854b3df3571766b1cd826ccf" kindref="member">code_</ref>(code),</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1training_1_1_training_exception_1aadb2094b7d5f9ecffbec35ad68d52bbe" kindref="member">recoverable_</ref>(recoverable),</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1training_1_1_training_exception_1ad41f8d190eee1f630f67f98eca9f7545" kindref="member">context_</ref>(<ref refid="classthemis_1_1training_1_1_training_exception_1a5e0028cc1a974133a55560f5bb035975" kindref="member">context</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="classthemis_1_1training_1_1_training_exception_1a438b646b5f5998cdbdb3a50764aa960b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_training_exception_1a438b646b5f5998cdbdb3a50764aa960b" kindref="member">~TrainingException</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="classthemis_1_1training_1_1_training_exception_1a28d709e7710cdf765cc4d0ba98937cb7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841b" kindref="member">TrainingErrorCode</ref><sp/><ref refid="classthemis_1_1training_1_1_training_exception_1a28d709e7710cdf765cc4d0ba98937cb7" kindref="member">error_code</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_training_exception_1a5a6943e3854b3df3571766b1cd826ccf" kindref="member">code_</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="classthemis_1_1training_1_1_training_exception_1a282e2f86ab5fe3f357810c471726a085" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="classthemis_1_1training_1_1_training_exception_1a282e2f86ab5fe3f357810c471726a085" kindref="member">error_code_value</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="classthemis_1_1training_1_1_training_exception_1a5a6943e3854b3df3571766b1cd826ccf" kindref="member">code_</ref>);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="classthemis_1_1training_1_1_training_exception_1aeb0d1f8f5ba5b3bf4852702ae797aad1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_training_exception_1aeb0d1f8f5ba5b3bf4852702ae797aad1" kindref="member">is_recoverable</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_training_exception_1aadb2094b7d5f9ecffbec35ad68d52bbe" kindref="member">recoverable_</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="classthemis_1_1training_1_1_training_exception_1a5e0028cc1a974133a55560f5bb035975" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1training_1_1_training_exception_1a5e0028cc1a974133a55560f5bb035975" kindref="member">context</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_training_exception_1ad41f8d190eee1f630f67f98eca9f7545" kindref="member">context_</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="classthemis_1_1training_1_1_training_exception_1a0fb647f12be0dfe1b36cc6e84fe433cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1training_1_1_training_exception_1a0fb647f12be0dfe1b36cc6e84fe433cb" kindref="member">diagnostic_message</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>msg<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;[&quot;</highlight><highlight class="normal"><sp/>+<sp/><ref refid="namespacethemis_1_1training_1a91b2c23fd6eda90af0ed4952dbb8f532" kindref="member">trainingErrorCodeToString</ref>(<ref refid="classthemis_1_1training_1_1_training_exception_1a5a6943e3854b3df3571766b1cd826ccf" kindref="member">code_</ref>)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;]<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>what();</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!<ref refid="classthemis_1_1training_1_1_training_exception_1ad41f8d190eee1f630f67f98eca9f7545" kindref="member">context_</ref>.empty())<sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>msg<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;<sp/>(&quot;</highlight><highlight class="normal"><sp/>+<sp/><ref refid="classthemis_1_1training_1_1_training_exception_1ad41f8d190eee1f630f67f98eca9f7545" kindref="member">context_</ref><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>msg;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="107" refid="classthemis_1_1training_1_1_training_exception_1a5a6943e3854b3df3571766b1cd826ccf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841b" kindref="member">TrainingErrorCode</ref><sp/><ref refid="classthemis_1_1training_1_1_training_exception_1a5a6943e3854b3df3571766b1cd826ccf" kindref="member">code_</ref>;</highlight></codeline>
+<codeline lineno="108" refid="classthemis_1_1training_1_1_training_exception_1aadb2094b7d5f9ecffbec35ad68d52bbe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_training_exception_1aadb2094b7d5f9ecffbec35ad68d52bbe" kindref="member">recoverable_</ref>;</highlight></codeline>
+<codeline lineno="109" refid="classthemis_1_1training_1_1_training_exception_1ad41f8d190eee1f630f67f98eca9f7545" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1training_1_1_training_exception_1ad41f8d190eee1f630f67f98eca9f7545" kindref="member">context_</ref>;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="classthemis_1_1training_1_1_checkpoint_exception" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1training_1_1_checkpoint_exception_1a8e09d4bb45dd7c69d389e404bd659b04" kindref="member">CheckpointException</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_training_exception_1a50a6d48c50d9b1b385e85b566b0c64a0" kindref="member">TrainingException</ref><sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="121" refid="classthemis_1_1training_1_1_checkpoint_exception_1a8e09d4bb45dd7c69d389e404bd659b04" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_checkpoint_exception_1a8e09d4bb45dd7c69d389e404bd659b04" kindref="member">CheckpointException</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message,</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841b" kindref="member">TrainingErrorCode</ref><sp/>code<sp/>=<sp/><ref refid="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba1837afd8df668f58b00316449eb5ebcc" kindref="member">TrainingErrorCode::CHECKPOINT_DIR_INVALID</ref>,</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>recoverable<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1training_1_1_training_exception_1a5e0028cc1a974133a55560f5bb035975" kindref="member">context</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="classthemis_1_1training_1_1_training_exception_1a50a6d48c50d9b1b385e85b566b0c64a0" kindref="member">TrainingException</ref>(message,<sp/>code,<sp/>recoverable,<sp/><ref refid="classthemis_1_1training_1_1_training_exception_1a5e0028cc1a974133a55560f5bb035975" kindref="member">context</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="127"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136" refid="classthemis_1_1training_1_1_training_failure_exception" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1training_1_1_training_failure_exception_1ad027663add0130da6e50c4cb3eb5dac8" kindref="member">TrainingFailureException</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_training_exception_1a50a6d48c50d9b1b385e85b566b0c64a0" kindref="member">TrainingException</ref><sp/>{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="138" refid="classthemis_1_1training_1_1_training_failure_exception_1ad027663add0130da6e50c4cb3eb5dac8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_training_failure_exception_1ad027663add0130da6e50c4cb3eb5dac8" kindref="member">TrainingFailureException</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message,</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841b" kindref="member">TrainingErrorCode</ref><sp/>code<sp/>=<sp/><ref refid="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba64141d44f99dcc8f0241590366a4117a" kindref="member">TrainingErrorCode::TRAINING_CONFIG_INVALID</ref>,</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>recoverable<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1training_1_1_training_exception_1a5e0028cc1a974133a55560f5bb035975" kindref="member">context</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="classthemis_1_1training_1_1_training_exception_1a50a6d48c50d9b1b385e85b566b0c64a0" kindref="member">TrainingException</ref>(message,<sp/>code,<sp/>recoverable,<sp/><ref refid="classthemis_1_1training_1_1_training_exception_1a5e0028cc1a974133a55560f5bb035975" kindref="member">context</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="144"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153" refid="classthemis_1_1training_1_1_merge_exception" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1training_1_1_merge_exception_1a7aced3be959bfaec049bf460a5db382a" kindref="member">MergeException</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_training_exception_1a50a6d48c50d9b1b385e85b566b0c64a0" kindref="member">TrainingException</ref><sp/>{</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="155" refid="classthemis_1_1training_1_1_merge_exception_1a7aced3be959bfaec049bf460a5db382a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_merge_exception_1a7aced3be959bfaec049bf460a5db382a" kindref="member">MergeException</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message,</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841b" kindref="member">TrainingErrorCode</ref><sp/>code<sp/>=<sp/><ref refid="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba7cb9525b59bbde573b650f2fc231c6df" kindref="member">TrainingErrorCode::MERGE_NO_ADAPTERS</ref>,</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>recoverable<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1training_1_1_training_exception_1a5e0028cc1a974133a55560f5bb035975" kindref="member">context</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="classthemis_1_1training_1_1_training_exception_1a50a6d48c50d9b1b385e85b566b0c64a0" kindref="member">TrainingException</ref>(message,<sp/>code,<sp/>recoverable,<sp/><ref refid="classthemis_1_1training_1_1_training_exception_1a5e0028cc1a974133a55560f5bb035975" kindref="member">context</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="161"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169" refid="classthemis_1_1training_1_1_enrichment_exception" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1training_1_1_enrichment_exception_1ad7cec007d0a09c4e864138c46ed4fcee" kindref="member">EnrichmentException</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_training_exception_1a50a6d48c50d9b1b385e85b566b0c64a0" kindref="member">TrainingException</ref><sp/>{</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="171" refid="classthemis_1_1training_1_1_enrichment_exception_1ad7cec007d0a09c4e864138c46ed4fcee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_enrichment_exception_1ad7cec007d0a09c4e864138c46ed4fcee" kindref="member">EnrichmentException</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message,</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841b" kindref="member">TrainingErrorCode</ref><sp/>code<sp/>=<sp/><ref refid="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841baf6e922b1e6fd97002c0336095cc5bdfc" kindref="member">TrainingErrorCode::ENRICHMENT_GRAPH_NOT_INITIALIZED</ref>,</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>recoverable<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1training_1_1_training_exception_1a5e0028cc1a974133a55560f5bb035975" kindref="member">context</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="classthemis_1_1training_1_1_training_exception_1a50a6d48c50d9b1b385e85b566b0c64a0" kindref="member">TrainingException</ref>(message,<sp/>code,<sp/>recoverable,<sp/><ref refid="classthemis_1_1training_1_1_training_exception_1a5e0028cc1a974133a55560f5bb035975" kindref="member">context</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="177"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186" refid="classthemis_1_1training_1_1_labeling_exception" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1training_1_1_labeling_exception_1a66678cc331e9ff7d67ed9b40c330b3ff" kindref="member">LabelingException</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_training_exception_1a50a6d48c50d9b1b385e85b566b0c64a0" kindref="member">TrainingException</ref><sp/>{</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="188" refid="classthemis_1_1training_1_1_labeling_exception_1a66678cc331e9ff7d67ed9b40c330b3ff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_labeling_exception_1a66678cc331e9ff7d67ed9b40c330b3ff" kindref="member">LabelingException</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message,</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841b" kindref="member">TrainingErrorCode</ref><sp/>code<sp/>=<sp/><ref refid="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba75addcc2e173b62dc55e35a6186c9fa7" kindref="member">TrainingErrorCode::LABELING_NO_CONTENT</ref>,</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>recoverable<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1training_1_1_training_exception_1a5e0028cc1a974133a55560f5bb035975" kindref="member">context</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="classthemis_1_1training_1_1_training_exception_1a50a6d48c50d9b1b385e85b566b0c64a0" kindref="member">TrainingException</ref>(message,<sp/>code,<sp/>recoverable,<sp/><ref refid="classthemis_1_1training_1_1_training_exception_1a5e0028cc1a974133a55560f5bb035975" kindref="member">context</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="194"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202" refid="classthemis_1_1training_1_1_serving_exception" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1training_1_1_serving_exception_1a925d78a8d5c7d10dfac4775cf476e663" kindref="member">ServingException</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_training_exception_1a50a6d48c50d9b1b385e85b566b0c64a0" kindref="member">TrainingException</ref><sp/>{</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="204" refid="classthemis_1_1training_1_1_serving_exception_1a925d78a8d5c7d10dfac4775cf476e663" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_serving_exception_1a925d78a8d5c7d10dfac4775cf476e663" kindref="member">ServingException</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message,</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841b" kindref="member">TrainingErrorCode</ref><sp/>code<sp/>=<sp/><ref refid="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841bab4fcd729f1bec8baa23f6fe213c1be3e" kindref="member">TrainingErrorCode::SERVING_ADAPTER_NOT_FOUND</ref>,</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>recoverable<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1training_1_1_training_exception_1a5e0028cc1a974133a55560f5bb035975" kindref="member">context</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="classthemis_1_1training_1_1_training_exception_1a50a6d48c50d9b1b385e85b566b0c64a0" kindref="member">TrainingException</ref>(message,<sp/>code,<sp/>recoverable,<sp/><ref refid="classthemis_1_1training_1_1_training_exception_1a5e0028cc1a974133a55560f5bb035975" kindref="member">context</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="210"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218" refid="classthemis_1_1training_1_1_provenance_exception" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1training_1_1_provenance_exception_1a7fc3d31c89c21f4e494856158bdbe4df" kindref="member">ProvenanceException</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_training_exception_1a50a6d48c50d9b1b385e85b566b0c64a0" kindref="member">TrainingException</ref><sp/>{</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="220" refid="classthemis_1_1training_1_1_provenance_exception_1a7fc3d31c89c21f4e494856158bdbe4df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_provenance_exception_1a7fc3d31c89c21f4e494856158bdbe4df" kindref="member">ProvenanceException</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message,</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841b" kindref="member">TrainingErrorCode</ref><sp/>code<sp/>=<sp/><ref refid="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba1a76682d43f886144950329a9d68e01b" kindref="member">TrainingErrorCode::PROVENANCE_RECORD_INVALID</ref>,</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>recoverable<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1training_1_1_training_exception_1a5e0028cc1a974133a55560f5bb035975" kindref="member">context</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="classthemis_1_1training_1_1_training_exception_1a50a6d48c50d9b1b385e85b566b0c64a0" kindref="member">TrainingException</ref>(message,<sp/>code,<sp/>recoverable,<sp/><ref refid="classthemis_1_1training_1_1_training_exception_1a5e0028cc1a974133a55560f5bb035975" kindref="member">context</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="226"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234" refid="classthemis_1_1training_1_1_dataset_exception" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1training_1_1_dataset_exception_1af66677bd1181a879f4c835395ce95e50" kindref="member">DatasetException</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_training_exception_1a50a6d48c50d9b1b385e85b566b0c64a0" kindref="member">TrainingException</ref><sp/>{</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="236" refid="classthemis_1_1training_1_1_dataset_exception_1af66677bd1181a879f4c835395ce95e50" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_dataset_exception_1af66677bd1181a879f4c835395ce95e50" kindref="member">DatasetException</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message,</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841b" kindref="member">TrainingErrorCode</ref><sp/>code<sp/>=<sp/><ref refid="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841bab59e5b7ac7f441a0770b716fd242296a" kindref="member">TrainingErrorCode::DATASET_PATH_INVALID</ref>,</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>recoverable<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1training_1_1_training_exception_1a5e0028cc1a974133a55560f5bb035975" kindref="member">context</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="classthemis_1_1training_1_1_training_exception_1a50a6d48c50d9b1b385e85b566b0c64a0" kindref="member">TrainingException</ref>(message,<sp/>code,<sp/>recoverable,<sp/><ref refid="classthemis_1_1training_1_1_training_exception_1a5e0028cc1a974133a55560f5bb035975" kindref="member">context</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="242"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>training</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/training/training_exceptions.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,269 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="abuse__detector_8h" kind="file" language="C++">
+    <compoundname>abuse_detector.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">map</includes>
+    <includes local="no">regex</includes>
+    <includes local="no">cstdint</includes>
+    <includedby refid="content__security_8h" local="yes">include/content/content_security.h</includedby>
+    <includedby refid="abuse__detector_8cpp" local="yes">src/content/abuse_detector.cpp</includedby>
+    <includedby refid="test__content__security_8cpp" local="yes">tests/content/test_content_security.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/content/abuse_detector.h</label>
+        <link refid="abuse__detector_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>map</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>regex</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/content/abuse_detector.h</label>
+        <link refid="abuse__detector_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/content/archive_processor.h</label>
+        <link refid="archive__processor_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/content/content_security.h</label>
+        <link refid="content__security_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>src/content/abuse_detector.cpp</label>
+        <link refid="abuse__detector_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/content/adapters/archive_extractor_adapter.cpp</label>
+        <link refid="archive__extractor__adapter_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/content/archive_processor.cpp</label>
+        <link refid="archive__processor_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/content/archive_processor_enhancements.cpp</label>
+        <link refid="archive__processor__enhancements_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/content/content_manager.cpp</label>
+        <link refid="content__manager_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/content/content_security.cpp</label>
+        <link refid="content__security_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/content/test_archive_processor_validation.cpp</label>
+        <link refid="test__archive__processor__validation_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/content/test_content_security.cpp</label>
+        <link refid="test__content__security_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1content_1_1_abuse_detection_result" prot="public">themis::content::AbuseDetectionResult</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_abuse_detector_metadata" prot="public">themis::content::AbuseDetectorMetadata</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_i_abuse_detector" prot="public">themis::content::IAbuseDetector</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_photo_d_n_a_abuse_detector" prot="public">themis::content::PhotoDNAAbuseDetector</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_photo_d_n_a_abuse_detector_1_1_blocklist_entry" prot="public">themis::content::PhotoDNAAbuseDetector::BlocklistEntry</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_text_abuse_detector" prot="public">themis::content::TextAbuseDetector</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_text_abuse_detector_1_1_pattern" prot="public">themis::content::TextAbuseDetector::Pattern</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1content">themis::content</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.12 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;regex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21" refid="namespacethemis" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="22" refid="namespacethemis_1_1content" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1content" kindref="compound">content</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24" refid="namespacethemis_1_1content_1a8fcb9bcf92892bc4086c74c1440b806c" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1content_1a8fcb9bcf92892bc4086c74c1440b806c" kindref="member">AbuseAction</ref><sp/>{</highlight></codeline>
+<codeline lineno="25" refid="namespacethemis_1_1content_1a8fcb9bcf92892bc4086c74c1440b806ca40908e0f79c647b844c42f5babdc3feb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a8fcb9bcf92892bc4086c74c1440b806ca40908e0f79c647b844c42f5babdc3feb" kindref="member">ALLOW</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="26" refid="namespacethemis_1_1content_1a8fcb9bcf92892bc4086c74c1440b806ca0f4d0db3668dd58cabb9eb409657eaa8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a8fcb9bcf92892bc4086c74c1440b806ca0f4d0db3668dd58cabb9eb409657eaa8" kindref="member">FLAG</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="27" refid="namespacethemis_1_1content_1a8fcb9bcf92892bc4086c74c1440b806ca4d34f53389ed7f28ca91fc31ea360a66" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a8fcb9bcf92892bc4086c74c1440b806ca4d34f53389ed7f28ca91fc31ea360a66" kindref="member">BLOCK</ref><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="28"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1content_1ae0661bd7627382723c4cd002f341cd36" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="namespacethemis_1_1content_1ae0661bd7627382723c4cd002f341cd36" kindref="member">abuseActionToString</ref>(<ref refid="namespacethemis_1_1content_1a8fcb9bcf92892bc4086c74c1440b806c" kindref="member">AbuseAction</ref><sp/>action)<sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(action)<sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1content_1a8fcb9bcf92892bc4086c74c1440b806ca40908e0f79c647b844c42f5babdc3feb" kindref="member">AbuseAction::ALLOW</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;ALLOW&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1content_1a8fcb9bcf92892bc4086c74c1440b806ca0f4d0db3668dd58cabb9eb409657eaa8" kindref="member">AbuseAction::FLAG</ref>:<sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;FLAG&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1content_1a8fcb9bcf92892bc4086c74c1440b806ca4d34f53389ed7f28ca91fc31ea360a66" kindref="member">AbuseAction::BLOCK</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;BLOCK&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;UNKNOWN&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1content_1_1_abuse_detection_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1content_1_1_abuse_detection_result" kindref="compound">AbuseDetectionResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1content_1_1_abuse_detection_result_1aa4301b91147f2b4970594f3bd898a15f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a8fcb9bcf92892bc4086c74c1440b806c" kindref="member">AbuseAction</ref><sp/><ref refid="structthemis_1_1content_1_1_abuse_detection_result_1aa4301b91147f2b4970594f3bd898a15f" kindref="member">action</ref><sp/>=<sp/><ref refid="namespacethemis_1_1content_1a8fcb9bcf92892bc4086c74c1440b806ca40908e0f79c647b844c42f5babdc3feb" kindref="member">AbuseAction::ALLOW</ref>;<sp/></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1content_1_1_abuse_detection_result_1a7d06568b5db5422809997ecc23e7ab3e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_abuse_detection_result_1a7d06568b5db5422809997ecc23e7ab3e" kindref="member">detector_type</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1content_1_1_abuse_detection_result_1aa7d29451beea3d9eb57aef386e4fbb19" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_abuse_detection_result_1aa7d29451beea3d9eb57aef386e4fbb19" kindref="member">pattern_name</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1content_1_1_abuse_detection_result_1a1658f219d44e6c83f66416f53ea88fd8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_abuse_detection_result_1a1658f219d44e6c83f66416f53ea88fd8" kindref="member">reason</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1content_1_1_abuse_detector_metadata" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1content_1_1_abuse_detector_metadata" kindref="compound">AbuseDetectorMetadata</ref><sp/>{</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1content_1_1_abuse_detector_metadata_1adc1289c3f5a1ae8404950671f3235990" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_abuse_detector_metadata_1adc1289c3f5a1ae8404950671f3235990" kindref="member">content_id</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1content_1_1_abuse_detector_metadata_1ab1bf57cf3b102c05be24c88eacab3311" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_abuse_detector_metadata_1ab1bf57cf3b102c05be24c88eacab3311" kindref="member">mime_type</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1content_1_1_abuse_detector_metadata_1aa14f062f4fd771856b977bc9051b9a8a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_abuse_detector_metadata_1aa14f062f4fd771856b977bc9051b9a8a" kindref="member">content_hash</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="56"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="classthemis_1_1content_1_1_i_abuse_detector" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1content_1_1_i_abuse_detector" kindref="compound">IAbuseDetector</ref><sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="64" refid="classthemis_1_1content_1_1_i_abuse_detector_1a274cb22468d3ece04c97c18ad7edd51a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1_i_abuse_detector_1a274cb22468d3ece04c97c18ad7edd51a" kindref="member">~IAbuseDetector</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="classthemis_1_1content_1_1_i_abuse_detector_1a5835e4f891a19d84015dafa369149f3b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_abuse_detection_result" kindref="compound">AbuseDetectionResult</ref><sp/><ref refid="classthemis_1_1content_1_1_i_abuse_detector_1a5835e4f891a19d84015dafa369149f3b" kindref="member">detect</ref>(</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>content_data,</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_abuse_detector_metadata" kindref="compound">AbuseDetectorMetadata</ref>&amp;<sp/>metadata</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="classthemis_1_1content_1_1_i_abuse_detector_1a6518cb07e46f176795dc95c432f7faac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1content_1_1_i_abuse_detector_1a6518cb07e46f176795dc95c432f7faac" kindref="member">detectorType</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PhotoDNAAbuseDetector</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="classthemis_1_1content_1_1_photo_d_n_a_abuse_detector" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1content_1_1_photo_d_n_a_abuse_detector_1aa9868afc162643c31f4aa0cac43fd79b" kindref="member">PhotoDNAAbuseDetector</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1_i_abuse_detector" kindref="compound">IAbuseDetector</ref><sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1content_1_1_photo_d_n_a_abuse_detector_1_1_blocklist_entry" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1content_1_1_photo_d_n_a_abuse_detector_1_1_blocklist_entry" kindref="compound">BlocklistEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1content_1_1_photo_d_n_a_abuse_detector_1_1_blocklist_entry_1ac3c9179a4b094cff4ba4fe92217d549f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1content_1_1_photo_d_n_a_abuse_detector_1_1_blocklist_entry_1ac3c9179a4b094cff4ba4fe92217d549f" kindref="member">hash</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1content_1_1_photo_d_n_a_abuse_detector_1_1_blocklist_entry_1a5f119c760a5f2b9e949af2d779f7c39d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_photo_d_n_a_abuse_detector_1_1_blocklist_entry_1a5f119c760a5f2b9e949af2d779f7c39d" kindref="member">label</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1content_1_1_photo_d_n_a_abuse_detector_1_1_blocklist_entry_1aa9d65fd99504d788d8c63264d60e1cc3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a8fcb9bcf92892bc4086c74c1440b806c" kindref="member">AbuseAction</ref><sp/><ref refid="structthemis_1_1content_1_1_photo_d_n_a_abuse_detector_1_1_blocklist_entry_1aa9d65fd99504d788d8c63264d60e1cc3" kindref="member">action</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1_photo_d_n_a_abuse_detector_1aa9868afc162643c31f4aa0cac43fd79b" kindref="member">PhotoDNAAbuseDetector</ref>(</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;BlocklistEntry&gt;<sp/>blocklist,</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>match_threshold<sp/>=<sp/>10</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_abuse_detection_result" kindref="compound">AbuseDetectionResult</ref><sp/><ref refid="classthemis_1_1content_1_1_photo_d_n_a_abuse_detector_1a927aa64083214b81acbc59e111aa2fb9" kindref="member">detect</ref>(</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>content_data,</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_abuse_detector_metadata" kindref="compound">AbuseDetectorMetadata</ref>&amp;<sp/>metadata</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="classthemis_1_1content_1_1_photo_d_n_a_abuse_detector_1ad30fe9bd297f65896d9f3f0a212a0a5c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1content_1_1_photo_d_n_a_abuse_detector_1ad30fe9bd297f65896d9f3f0a212a0a5c" kindref="member">detectorType</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;PhotoDNA&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>uint64_t<sp/><ref refid="classthemis_1_1content_1_1_photo_d_n_a_abuse_detector_1a51b103de8cfdb718e79353b971584a3e" kindref="member">computeHash</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>data);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1_photo_d_n_a_abuse_detector_1aba09797890dd43cdc40cc026f9d198bf" kindref="member">hammingDistance</ref>(uint64_t<sp/>a,<sp/>uint64_t<sp/>b);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;BlocklistEntry&gt;<sp/>blocklist_;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>match_threshold_;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TextAbuseDetector</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122" refid="classthemis_1_1content_1_1_text_abuse_detector" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1content_1_1_text_abuse_detector_1ab3912c25d3f560eac33d411cc74bf38d" kindref="member">TextAbuseDetector</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1_i_abuse_detector" kindref="compound">IAbuseDetector</ref><sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1content_1_1_text_abuse_detector_1_1_pattern" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1content_1_1_text_abuse_detector_1_1_pattern" kindref="compound">Pattern</ref><sp/>{</highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1content_1_1_text_abuse_detector_1_1_pattern_1a768b11b23f223026d5339547ae69d951" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_text_abuse_detector_1_1_pattern_1a768b11b23f223026d5339547ae69d951" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="126" refid="structthemis_1_1content_1_1_text_abuse_detector_1_1_pattern_1a64a67a1d61326987f9658f6cb7c1a51b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::regex<sp/><sp/><ref refid="structthemis_1_1content_1_1_text_abuse_detector_1_1_pattern_1a64a67a1d61326987f9658f6cb7c1a51b" kindref="member">compiled</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="127" refid="structthemis_1_1content_1_1_text_abuse_detector_1_1_pattern_1aadf2010716c8b1013a472a6e5593e25d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a8fcb9bcf92892bc4086c74c1440b806c" kindref="member">AbuseAction</ref><sp/><ref refid="structthemis_1_1content_1_1_text_abuse_detector_1_1_pattern_1aadf2010716c8b1013a472a6e5593e25d" kindref="member">action</ref>;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1_text_abuse_detector_1ab3912c25d3f560eac33d411cc74bf38d" kindref="member">TextAbuseDetector</ref>(std::vector&lt;Pattern&gt;<sp/>patterns);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;TextAbuseDetector&gt;<sp/><ref refid="classthemis_1_1content_1_1_text_abuse_detector_1a83f8847a015816d69d6002f5694bd2d3" kindref="member">loadFromYAML</ref>(</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>yaml_path,</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string&amp;<sp/>error</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_abuse_detection_result" kindref="compound">AbuseDetectionResult</ref><sp/><ref refid="classthemis_1_1content_1_1_text_abuse_detector_1a23ef96a009214a6bbfb7c1e6c19de04e" kindref="member">detect</ref>(</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>content_data,</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_abuse_detector_metadata" kindref="compound">AbuseDetectorMetadata</ref>&amp;<sp/>metadata</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153" refid="classthemis_1_1content_1_1_text_abuse_detector_1a043acbd46c3462e2bd673272416b06a4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1content_1_1_text_abuse_detector_1a043acbd46c3462e2bd673272416b06a4" kindref="member">detectorType</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Text&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155" refid="classthemis_1_1content_1_1_text_abuse_detector_1a4f62106faa37608a371b6bf3591777b1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="classthemis_1_1content_1_1_text_abuse_detector_1a4f62106faa37608a371b6bf3591777b1" kindref="member">patternCount</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>patterns_.size();<sp/>}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Pattern&gt;<sp/>patterns_;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>content</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/content/abuse_detector.h"/>
+  </compounddef>
+</doxygen>

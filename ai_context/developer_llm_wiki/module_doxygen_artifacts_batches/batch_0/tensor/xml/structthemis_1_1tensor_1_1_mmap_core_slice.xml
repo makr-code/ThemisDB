@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1tensor_1_1_mmap_core_slice" kind="struct" language="C++" prot="public">
+    <compoundname>themis::tensor::MmapCoreSlice</compoundname>
+    <includes refid="tensor__mmap__bridge_8h" local="no">tensor_mmap_bridge.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_mmap_core_slice_1a83e8800c9a23dd619e1807dc815f265e" prot="public" static="no" mutable="no">
+        <type>const float *</type>
+        <definition>const float* themis::tensor::MmapCoreSlice::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themis::tensor::MmapCoreSlice::data</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>Start of the pinned float data. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mmap_bridge.h" line="34" column="17" bodyfile="include/tensor/tensor_mmap_bridge.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_mmap_core_slice_1a978e7ff92c409254d48ee6f7aa2bb4d3" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::MmapCoreSlice::bytes</definition>
+        <argsstring></argsstring>
+        <name>bytes</name>
+        <qualifiedname>themis::tensor::MmapCoreSlice::bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Byte length of the region. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mmap_bridge.h" line="35" column="18" bodyfile="include/tensor/tensor_mmap_bridge.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_mmap_core_slice_1aeb8343090470f0101f4deaae160f454a" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::MmapCoreSlice::core_idx</definition>
+        <argsstring></argsstring>
+        <name>core_idx</name>
+        <qualifiedname>themis::tensor::MmapCoreSlice::core_idx</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Index of this core in the TTTrain. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mmap_bridge.h" line="36" column="18" bodyfile="include/tensor/tensor_mmap_bridge.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_mmap_core_slice_1af0a9966635a6fd40b9e29db71c4e04b7" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::MmapCoreSlice::num_elems</definition>
+        <argsstring></argsstring>
+        <name>num_elems</name>
+        <qualifiedname>themis::tensor::MmapCoreSlice::num_elems</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of floats (bytes / sizeof(float)). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mmap_bridge.h" line="37" column="18" bodyfile="include/tensor/tensor_mmap_bridge.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Lightweight view of one pinned TT-core array. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Lifetime is tied to the parent <computeroutput><ref refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge" kindref="compound">TensorMmapBridge</ref></computeroutput>. Do NOT store slices beyond the bridge&apos;s lifetime. </para>
+    </detaileddescription>
+    <location file="include/tensor/tensor_mmap_bridge.h" line="33" column="1" bodyfile="include/tensor/tensor_mmap_bridge.h" bodystart="33" bodyend="38"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1tensor_1_1_mmap_core_slice_1a978e7ff92c409254d48ee6f7aa2bb4d3" prot="public" virt="non-virtual"><scope>themis::tensor::MmapCoreSlice</scope><name>bytes</name></member>
+      <member refid="structthemis_1_1tensor_1_1_mmap_core_slice_1aeb8343090470f0101f4deaae160f454a" prot="public" virt="non-virtual"><scope>themis::tensor::MmapCoreSlice</scope><name>core_idx</name></member>
+      <member refid="structthemis_1_1tensor_1_1_mmap_core_slice_1a83e8800c9a23dd619e1807dc815f265e" prot="public" virt="non-virtual"><scope>themis::tensor::MmapCoreSlice</scope><name>data</name></member>
+      <member refid="structthemis_1_1tensor_1_1_mmap_core_slice_1af0a9966635a6fd40b9e29db71c4e04b7" prot="public" virt="non-virtual"><scope>themis::tensor::MmapCoreSlice</scope><name>num_elems</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

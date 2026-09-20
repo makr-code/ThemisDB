@@ -1,0 +1,211 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__search__highlighter_8cpp" kind="file" language="C++">
+    <compoundname>test_search_highlighter.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="search__highlighter_8h" local="yes">search/search_highlighter.h</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>search/search_highlighter.h</label>
+        <link refid="search__highlighter_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/search/test_search_highlighter.cpp</label>
+        <link refid="test__search__highlighter_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="search__highlighter_8h" kindref="compound">search/search_highlighter.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/>tokenize()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><ref refid="test__search__analytics_8cpp_1aa7412a2af5b56f079dc4edb0f2ea6780" kindref="member">TEST</ref>(SearchHighlighterTokenize,<sp/>EmptyStringReturnsEmptyVector)<sp/>{</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>toks<sp/>=<sp/><ref refid="classthemis_1_1_search_highlighter_1a0b450b2caf5058d352426b4f112c337b" kindref="member">SearchHighlighter::tokenize</ref>(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(toks.empty());</highlight></codeline>
+<codeline lineno="14"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><ref refid="test__search__analytics_8cpp_1aa7412a2af5b56f079dc4edb0f2ea6780" kindref="member">TEST</ref>(SearchHighlighterTokenize,<sp/>SingleWordReturnsOneToken)<sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>toks<sp/>=<sp/><ref refid="classthemis_1_1_search_highlighter_1a0b450b2caf5058d352426b4f112c337b" kindref="member">SearchHighlighter::tokenize</ref>(</highlight><highlight class="stringliteral">&quot;hello&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(toks.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(toks[0],<sp/></highlight><highlight class="stringliteral">&quot;hello&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="20"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><ref refid="test__search__analytics_8cpp_1aa7412a2af5b56f079dc4edb0f2ea6780" kindref="member">TEST</ref>(SearchHighlighterTokenize,<sp/>CaseInsensitiveLowercases)<sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>toks<sp/>=<sp/><ref refid="classthemis_1_1_search_highlighter_1a0b450b2caf5058d352426b4f112c337b" kindref="member">SearchHighlighter::tokenize</ref>(</highlight><highlight class="stringliteral">&quot;Hello<sp/>World&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(toks.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(toks[0],<sp/></highlight><highlight class="stringliteral">&quot;hello&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(toks[1],<sp/></highlight><highlight class="stringliteral">&quot;world&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="27"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><ref refid="test__search__analytics_8cpp_1aa7412a2af5b56f079dc4edb0f2ea6780" kindref="member">TEST</ref>(SearchHighlighterTokenize,<sp/>PunctuationActsAsSeparator)<sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>toks<sp/>=<sp/><ref refid="classthemis_1_1_search_highlighter_1a0b450b2caf5058d352426b4f112c337b" kindref="member">SearchHighlighter::tokenize</ref>(</highlight><highlight class="stringliteral">&quot;one,two;three&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(toks.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>applyHighlight()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><ref refid="test__search__analytics_8cpp_1aa7412a2af5b56f079dc4edb0f2ea6780" kindref="member">TEST</ref>(SearchHighlighterApply,<sp/>EmptyOffsets_ReturnOriginal)<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>text<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;no<sp/>match<sp/>here&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="classthemis_1_1_search_highlighter_1aecea2125d2c4ea086405afb370e81dff" kindref="member">SearchHighlighter::applyHighlight</ref>(text,<sp/>{},<sp/></highlight><highlight class="stringliteral">&quot;&lt;mark&gt;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&lt;/mark&gt;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result,<sp/>text);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><ref refid="test__search__analytics_8cpp_1aa7412a2af5b56f079dc4edb0f2ea6780" kindref="member">TEST</ref>(SearchHighlighterApply,<sp/>SingleMatch_WrapsCorrectly)<sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>text<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;hello<sp/>world&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Match<sp/>&quot;world&quot;<sp/>at<sp/>[6,<sp/>11)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="classthemis_1_1_search_highlighter_1aecea2125d2c4ea086405afb370e81dff" kindref="member">SearchHighlighter::applyHighlight</ref>(text,<sp/>{{6,<sp/>11}},<sp/></highlight><highlight class="stringliteral">&quot;&lt;mark&gt;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&lt;/mark&gt;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result,<sp/></highlight><highlight class="stringliteral">&quot;hello<sp/>&lt;mark&gt;world&lt;/mark&gt;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><ref refid="test__search__analytics_8cpp_1aa7412a2af5b56f079dc4edb0f2ea6780" kindref="member">TEST</ref>(SearchHighlighterApply,<sp/>MultipleMatches)<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>text<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;the<sp/>cat<sp/>sat<sp/>on<sp/>the<sp/>mat&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>&quot;the&quot;<sp/>at<sp/>[0,3)<sp/>and<sp/>[18,21)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;size_t,size_t&gt;&gt;<sp/>offsets<sp/>=<sp/>{{0,3},<sp/>{18,21}};</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="classthemis_1_1_search_highlighter_1aecea2125d2c4ea086405afb370e81dff" kindref="member">SearchHighlighter::applyHighlight</ref>(text,<sp/>offsets,<sp/></highlight><highlight class="stringliteral">&quot;&lt;b&gt;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&lt;/b&gt;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(result.find(</highlight><highlight class="stringliteral">&quot;&lt;b&gt;the&lt;/b&gt;&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>bestWindowOffset()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><ref refid="test__search__analytics_8cpp_1aa7412a2af5b56f079dc4edb0f2ea6780" kindref="member">TEST</ref>(SearchHighlighterWindow,<sp/>EmptyTextReturnsZero)<sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemis_1_1_search_highlighter_1a39b4754ba143262772814766ec4040f3" kindref="member">SearchHighlighter::bestWindowOffset</ref>(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;foo&quot;</highlight><highlight class="normal">},<sp/>50),<sp/>0u);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><ref refid="test__search__analytics_8cpp_1aa7412a2af5b56f079dc4edb0f2ea6780" kindref="member">TEST</ref>(SearchHighlighterWindow,<sp/>TextShorterThanWindow_ReturnsZero)<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemis_1_1_search_highlighter_1a39b4754ba143262772814766ec4040f3" kindref="member">SearchHighlighter::bestWindowOffset</ref>(</highlight><highlight class="stringliteral">&quot;short<sp/>text&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;text&quot;</highlight><highlight class="normal">},<sp/>100),<sp/>0u);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><ref refid="test__search__analytics_8cpp_1aa7412a2af5b56f079dc4edb0f2ea6780" kindref="member">TEST</ref>(SearchHighlighterWindow,<sp/>PreferWindowWithMoreTerms)<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;alpha<sp/>beta<sp/>gamma&quot;<sp/>is<sp/>at<sp/>the<sp/>end;<sp/>window<sp/>should<sp/>prefer<sp/>that<sp/>region</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>text<sp/>=</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;nothing<sp/>here<sp/>aaa<sp/>bbb<sp/>ccc<sp/>ddd<sp/>eee<sp/>fff<sp/>ggg<sp/>hhh<sp/>iii<sp/>jjj<sp/>kkk<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;alpha<sp/>beta<sp/>gamma<sp/>delta&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>terms<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;alpha&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;beta&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;gamma&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>offset<sp/>=<sp/><ref refid="classthemis_1_1_search_highlighter_1a39b4754ba143262772814766ec4040f3" kindref="member">SearchHighlighter::bestWindowOffset</ref>(text,<sp/>terms,<sp/>30);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>offset<sp/>should<sp/>be<sp/>past<sp/>the<sp/>&quot;nothing<sp/>here...&quot;<sp/>prefix</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(offset,<sp/>0u);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>highlight()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><ref refid="test__search__analytics_8cpp_1aa7412a2af5b56f079dc4edb0f2ea6780" kindref="member">TEST</ref>(SearchHighlighterHighlight,<sp/>EmptyTextReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_search_highlighter" kindref="compound">SearchHighlighter</ref><sp/>h;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(h.highlight(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;term&quot;</highlight><highlight class="normal">}).empty());</highlight></codeline>
+<codeline lineno="89"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><ref refid="test__search__analytics_8cpp_1aa7412a2af5b56f079dc4edb0f2ea6780" kindref="member">TEST</ref>(SearchHighlighterHighlight,<sp/>NoMatchReturnsOriginalText)<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_search_highlighter" kindref="compound">SearchHighlighter</ref><sp/>h;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>text<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;nothing<sp/>to<sp/>match<sp/>here&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(h.highlight(text,<sp/>{</highlight><highlight class="stringliteral">&quot;xyz&quot;</highlight><highlight class="normal">}),<sp/>text);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><ref refid="test__search__analytics_8cpp_1aa7412a2af5b56f079dc4edb0f2ea6780" kindref="member">TEST</ref>(SearchHighlighterHighlight,<sp/>SingleTermHighlighted)<sp/>{</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_search_highlighter" kindref="compound">SearchHighlighter</ref><sp/>h;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>h.<ref refid="classthemis_1_1_search_highlighter_1a6738e95615772f58f1c1f5adb95a77b4" kindref="member">highlight</ref>(</highlight><highlight class="stringliteral">&quot;the<sp/>quick<sp/>brown<sp/>fox&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;quick&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(result.find(</highlight><highlight class="stringliteral">&quot;&lt;mark&gt;quick&lt;/mark&gt;&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(result.find(</highlight><highlight class="stringliteral">&quot;the<sp/>&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(result.find(</highlight><highlight class="stringliteral">&quot;<sp/>brown<sp/>fox&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><ref refid="test__search__analytics_8cpp_1aa7412a2af5b56f079dc4edb0f2ea6780" kindref="member">TEST</ref>(SearchHighlighterHighlight,<sp/>MultipleTermsHighlighted)<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_search_highlighter" kindref="compound">SearchHighlighter</ref><sp/>h;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>h.<ref refid="classthemis_1_1_search_highlighter_1a6738e95615772f58f1c1f5adb95a77b4" kindref="member">highlight</ref>(</highlight><highlight class="stringliteral">&quot;the<sp/>quick<sp/>brown<sp/>fox&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;quick&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;fox&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(result.find(</highlight><highlight class="stringliteral">&quot;&lt;mark&gt;quick&lt;/mark&gt;&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(result.find(</highlight><highlight class="stringliteral">&quot;&lt;mark&gt;fox&lt;/mark&gt;&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><ref refid="test__search__analytics_8cpp_1aa7412a2af5b56f079dc4edb0f2ea6780" kindref="member">TEST</ref>(SearchHighlighterHighlight,<sp/>CaseInsensitiveMatch)<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_search_highlighter" kindref="compound">SearchHighlighter</ref><sp/>h;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>h.<ref refid="classthemis_1_1_search_highlighter_1a6738e95615772f58f1c1f5adb95a77b4" kindref="member">highlight</ref>(</highlight><highlight class="stringliteral">&quot;The<sp/>Quick<sp/>Brown<sp/>Fox&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;quick&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;Quick&quot;<sp/>should<sp/>be<sp/>highlighted<sp/>(case-insensitive<sp/>match)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(result.find(</highlight><highlight class="stringliteral">&quot;&lt;mark&gt;&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><ref refid="test__search__analytics_8cpp_1aa7412a2af5b56f079dc4edb0f2ea6780" kindref="member">TEST</ref>(SearchHighlighterHighlight,<sp/>CustomHighlightTags)<sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_search_highlighter_1_1_config" kindref="compound">SearchHighlighter::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_search_highlighter_1_1_config_1af938e63bcfe7b1dba48369a638340f2b" kindref="member">highlight_open</ref><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&lt;em&gt;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.highlight_close<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&lt;/em&gt;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_search_highlighter" kindref="compound">SearchHighlighter</ref><sp/>h(cfg);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>h.highlight(</highlight><highlight class="stringliteral">&quot;hello<sp/>world&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;world&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(result.find(</highlight><highlight class="stringliteral">&quot;&lt;em&gt;world&lt;/em&gt;&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/>snippet()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><ref refid="test__search__analytics_8cpp_1aa7412a2af5b56f079dc4edb0f2ea6780" kindref="member">TEST</ref>(SearchHighlighterSnippet,<sp/>EmptyTextReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_search_highlighter" kindref="compound">SearchHighlighter</ref><sp/>h;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(h.snippet(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;term&quot;</highlight><highlight class="normal">}).empty());</highlight></codeline>
+<codeline lineno="135"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><ref refid="test__search__analytics_8cpp_1aa7412a2af5b56f079dc4edb0f2ea6780" kindref="member">TEST</ref>(SearchHighlighterSnippet,<sp/>ShortTextReturnedFully)<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_search_highlighter" kindref="compound">SearchHighlighter</ref><sp/>h;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>text<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;short<sp/>doc&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>h.<ref refid="classthemis_1_1_search_highlighter_1ab15fb4473d40ed6ba2fe384670c478eb" kindref="member">snippet</ref>(text,<sp/>{</highlight><highlight class="stringliteral">&quot;doc&quot;</highlight><highlight class="normal">},<sp/>200);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(result.find(</highlight><highlight class="stringliteral">&quot;doc&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><ref refid="test__search__analytics_8cpp_1aa7412a2af5b56f079dc4edb0f2ea6780" kindref="member">TEST</ref>(SearchHighlighterSnippet,<sp/>LongTextTruncatedWithEllipsis)<sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_search_highlighter_1_1_config" kindref="compound">SearchHighlighter::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_search_highlighter_1_1_config_1ab498074b6136cf50b0711b78546c226d" kindref="member">max_snippet_len</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_search_highlighter" kindref="compound">SearchHighlighter</ref><sp/>h(cfg);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>long_text(500,<sp/></highlight><highlight class="charliteral">&apos;x&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>long_text<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;<sp/>target<sp/>&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>long_text<sp/>+=<sp/>std::string(500,<sp/></highlight><highlight class="charliteral">&apos;y&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>h.snippet(long_text,<sp/>{</highlight><highlight class="stringliteral">&quot;target&quot;</highlight><highlight class="normal">},<sp/>50);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Result<sp/>should<sp/>be<sp/>shorter<sp/>than<sp/>the<sp/>full<sp/>text</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(result.size(),<sp/>long_text.size());</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><ref refid="test__search__analytics_8cpp_1aa7412a2af5b56f079dc4edb0f2ea6780" kindref="member">TEST</ref>(SearchHighlighterSnippet,<sp/>SnippetContainsMatchedTerm)<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_search_highlighter" kindref="compound">SearchHighlighter</ref><sp/>h;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>text<sp/>=</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;This<sp/>is<sp/>the<sp/>beginning.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;The<sp/>key<sp/>term<sp/>appears<sp/>here<sp/>in<sp/>the<sp/>middle.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;And<sp/>here<sp/>is<sp/>some<sp/>tail<sp/>content<sp/>that<sp/>goes<sp/>on<sp/>for<sp/>a<sp/>while<sp/>more<sp/>text<sp/>here.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>h.<ref refid="classthemis_1_1_search_highlighter_1ab15fb4473d40ed6ba2fe384670c478eb" kindref="member">snippet</ref>(text,<sp/>{</highlight><highlight class="stringliteral">&quot;key&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;term&quot;</highlight><highlight class="normal">},<sp/>60);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>snippet<sp/>should<sp/>contain<sp/>the<sp/>matched<sp/>terms<sp/>somewhere</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(result.find(</highlight><highlight class="stringliteral">&quot;key&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>anonymous<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/search/test_search_highlighter.cpp"/>
+  </compounddef>
+</doxygen>

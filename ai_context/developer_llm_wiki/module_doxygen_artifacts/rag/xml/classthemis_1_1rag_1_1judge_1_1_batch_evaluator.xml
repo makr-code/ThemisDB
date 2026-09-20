@@ -1,0 +1,765 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1judge_1_1_batch_evaluator" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::judge::BatchEvaluator</compoundname>
+    <includes refid="batch__evaluator_8h" local="no">batch_evaluator.h</includes>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluator_1_1_queued_evaluation" prot="private">themis::rag::judge::BatchEvaluator::QueuedEvaluation</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1afbf9f8bb03bdae26d217ce684014109c" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge" kindref="compound">RAGJudge</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;RAGJudge&gt; themis::rag::judge::BatchEvaluator::judge_</definition>
+        <argsstring></argsstring>
+        <name>judge_</name>
+        <qualifiedname>themis::rag::judge::BatchEvaluator::judge_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="248" column="21" bodyfile="include/rag/batch_evaluator.h" bodystart="248" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1a5ab414b223fc8408e3814e835368a724" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluator_config" kindref="compound">BatchEvaluatorConfig</ref></type>
+        <definition>BatchEvaluatorConfig themis::rag::judge::BatchEvaluator::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::rag::judge::BatchEvaluator::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="249" column="26" bodyfile="include/rag/batch_evaluator.h" bodystart="249" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1a7ed84cc233172fb5ca7128a7c42987af" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::thread &gt;</type>
+        <definition>std::vector&lt;std::thread&gt; themis::rag::judge::BatchEvaluator::workers_</definition>
+        <argsstring></argsstring>
+        <name>workers_</name>
+        <qualifiedname>themis::rag::judge::BatchEvaluator::workers_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="252" column="17" bodyfile="include/rag/batch_evaluator.h" bodystart="252" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1a69e7c487eeaf555e5c6055c2aa30ab7c" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::rag::judge::BatchEvaluator::stop_requested_</definition>
+        <argsstring></argsstring>
+        <name>stop_requested_</name>
+        <qualifiedname>themis::rag::judge::BatchEvaluator::stop_requested_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="253" column="17" bodyfile="include/rag/batch_evaluator.h" bodystart="253" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1ad7296e3db6b61139a6e8402809475735" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::rag::judge::BatchEvaluator::paused_</definition>
+        <argsstring></argsstring>
+        <name>paused_</name>
+        <qualifiedname>themis::rag::judge::BatchEvaluator::paused_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="254" column="17" bodyfile="include/rag/batch_evaluator.h" bodystart="254" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1a49ed4593cc58431b7cfbcf2f81b9a75c" prot="private" static="no" mutable="no">
+        <type>std::queue&lt; QueuedEvaluation &gt;</type>
+        <definition>std::queue&lt;QueuedEvaluation&gt; themis::rag::judge::BatchEvaluator::eval_queue_</definition>
+        <argsstring></argsstring>
+        <name>eval_queue_</name>
+        <qualifiedname>themis::rag::judge::BatchEvaluator::eval_queue_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="264" column="16" bodyfile="include/rag/batch_evaluator.h" bodystart="264" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1a93652bf67da1a034eb8d7f6508302d82" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::rag::judge::BatchEvaluator::queue_mutex_</definition>
+        <argsstring></argsstring>
+        <name>queue_mutex_</name>
+        <qualifiedname>themis::rag::judge::BatchEvaluator::queue_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="265" column="24" bodyfile="include/rag/batch_evaluator.h" bodystart="265" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1a2f2c6a31d56a86f2e1550692f8bd08fb" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::rag::judge::BatchEvaluator::queue_cv_</definition>
+        <argsstring></argsstring>
+        <name>queue_cv_</name>
+        <qualifiedname>themis::rag::judge::BatchEvaluator::queue_cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="266" column="29" bodyfile="include/rag/batch_evaluator.h" bodystart="266" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1afc5fbdf5b40789ac218523a80cc34ffb" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::rag::judge::BatchEvaluator::total_processed_</definition>
+        <argsstring></argsstring>
+        <name>total_processed_</name>
+        <qualifiedname>themis::rag::judge::BatchEvaluator::total_processed_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="269" column="17" bodyfile="include/rag/batch_evaluator.h" bodystart="269" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1aec28b9e6a4092c7addccb88fb0c35419" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::rag::judge::BatchEvaluator::total_failed_</definition>
+        <argsstring></argsstring>
+        <name>total_failed_</name>
+        <qualifiedname>themis::rag::judge::BatchEvaluator::total_failed_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="270" column="17" bodyfile="include/rag/batch_evaluator.h" bodystart="270" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1ae3e7c49edc99c13845d6b5ad259ade60" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::judge::BatchEvaluator::BatchEvaluator</definition>
+        <argsstring>(std::shared_ptr&lt; RAGJudge &gt; judge)</argsstring>
+        <name>BatchEvaluator</name>
+        <qualifiedname>themis::rag::judge::BatchEvaluator::BatchEvaluator</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge" kindref="compound">RAGJudge</ref> &gt;</type>
+          <declname>judge</declname>
+        </param>
+        <briefdescription>
+<para>Construct batch evaluator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>judge</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Judge instance to use </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="149" column="14" bodyfile="src/rag/batch_evaluator.cpp" bodystart="260" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1a9ef4c145fdd0f610b8ddb0b0412895c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::judge::BatchEvaluator::BatchEvaluator</definition>
+        <argsstring>(std::shared_ptr&lt; RAGJudge &gt; judge, const BatchEvaluatorConfig &amp;config)</argsstring>
+        <name>BatchEvaluator</name>
+        <qualifiedname>themis::rag::judge::BatchEvaluator::BatchEvaluator</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge" kindref="compound">RAGJudge</ref> &gt;</type>
+          <declname>judge</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluator_config" kindref="compound">BatchEvaluatorConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct batch evaluator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>judge</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Judge instance to use </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Batch evaluator configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="155" column="5" bodyfile="src/rag/batch_evaluator.cpp" bodystart="274" bodyend="286"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1abe66ed960634cd9ed946c19f3b990219" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::judge::BatchEvaluator::~BatchEvaluator</definition>
+        <argsstring>()</argsstring>
+        <name>~BatchEvaluator</name>
+        <qualifiedname>themis::rag::judge::BatchEvaluator::~BatchEvaluator</qualifiedname>
+        <briefdescription>
+<para>Destructor - stops worker threads. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="160" column="5" bodyfile="src/rag/batch_evaluator.cpp" bodystart="288" bodyend="290"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1aeeb2493d8270abaf290f4d7d194e3bcf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result" kindref="compound">BatchEvaluationResult</ref></type>
+        <definition>BatchEvaluationResult themis::rag::judge::BatchEvaluator::evaluateBatch</definition>
+        <argsstring>(const std::vector&lt; RAGTestCase &gt; &amp;test_cases)</argsstring>
+        <name>evaluateBatch</name>
+        <qualifiedname>themis::rag::judge::BatchEvaluator::evaluateBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_test_case" kindref="compound">RAGTestCase</ref> &gt; &amp;</type>
+          <declname>test_cases</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate batch of test cases synchronously. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Evaluate Batch.</para>
+<para>Processes all test cases and returns aggregated results.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>test_cases</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector of test cases to evaluate </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Batch evaluation result with all results</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">test_cases</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), THEMIS_ERROR(), reserve(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="170" column="27" bodyfile="src/rag/batch_evaluator.cpp" bodystart="462" bodyend="486"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1a13299aaad54e3fd64e934c3d1694127b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result" kindref="compound">BatchEvaluationResult</ref></type>
+        <definition>BatchEvaluationResult themis::rag::judge::BatchEvaluator::evaluateBatch</definition>
+        <argsstring>(const std::vector&lt; EvaluationInput &gt; &amp;inputs)</argsstring>
+        <name>evaluateBatch</name>
+        <qualifiedname>themis::rag::judge::BatchEvaluator::evaluateBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_input" kindref="compound">EvaluationInput</ref> &gt; &amp;</type>
+          <declname>inputs</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate batch of inputs synchronously. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Evaluate Batch.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>inputs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector of evaluation inputs </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Batch evaluation result</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">inputs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), THEMIS_ERROR(), std::chrono::steady_clock::now(), reserve(), push_back(), processEvaluation(), progress_callback(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="177" column="27" bodyfile="src/rag/batch_evaluator.cpp" bodystart="494" bodyend="730"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1aaafaf788f7ced3244c75a681ed66b52d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1rag_1_1judge_1_1_async_evaluation_handle" kindref="compound">AsyncEvaluationHandle</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; AsyncEvaluationHandle &gt; themis::rag::judge::BatchEvaluator::evaluateAsync</definition>
+        <argsstring>(const EvaluationInput &amp;input)</argsstring>
+        <name>evaluateAsync</name>
+        <qualifiedname>themis::rag::judge::BatchEvaluator::evaluateAsync</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_input" kindref="compound">EvaluationInput</ref> &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate single input asynchronously. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Evaluate Async.</para>
+<para>Returns immediately with a handle to check status and retrieve result.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Evaluation input </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Async evaluation handle</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: store(), get_future(), lock(), std::move(), push(), notify_one(), THEMIS_WARN(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="187" column="21" bodyfile="src/rag/batch_evaluator.cpp" bodystart="742" bodyend="773"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1a385eb0c40ca4509bb2335885bd8aef81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::shared_ptr&lt; <ref refid="classthemis_1_1rag_1_1judge_1_1_async_evaluation_handle" kindref="compound">AsyncEvaluationHandle</ref> &gt; &gt;</type>
+        <definition>std::vector&lt; std::shared_ptr&lt; AsyncEvaluationHandle &gt; &gt; themis::rag::judge::BatchEvaluator::evaluateAsync</definition>
+        <argsstring>(const std::vector&lt; EvaluationInput &gt; &amp;inputs)</argsstring>
+        <name>evaluateAsync</name>
+        <qualifiedname>themis::rag::judge::BatchEvaluator::evaluateAsync</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_input" kindref="compound">EvaluationInput</ref> &gt; &amp;</type>
+          <declname>inputs</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate multiple inputs asynchronously. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Evaluate Async.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>inputs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector of evaluation inputs </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of async handles</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">inputs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="194" column="17" bodyfile="src/rag/batch_evaluator.cpp" bodystart="781" bodyend="789"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1aa4d87b4d5fb427243619784bf03251fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::judge::BatchEvaluator::submit</definition>
+        <argsstring>(const EvaluationInput &amp;input, std::function&lt; void(const EvaluationResult &amp;)&gt; callback)</argsstring>
+        <name>submit</name>
+        <qualifiedname>themis::rag::judge::BatchEvaluator::submit</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_input" kindref="compound">EvaluationInput</ref> &amp;</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>std::function&lt; void(const <ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result" kindref="compound">EvaluationResult</ref> &amp;)&gt;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Submit evaluation to queue. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Adds evaluation to processing queue without blocking. Use progress callback to track completion.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Evaluation input </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback when evaluation completes </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">queue_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="207" column="10" bodyfile="src/rag/batch_evaluator.cpp" bodystart="795" bodyend="809"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1a911829c6d9e8a67ef4ff773e5bcd6114" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::rag::judge::BatchEvaluator::getQueueSize</definition>
+        <argsstring>() const</argsstring>
+        <name>getQueueSize</name>
+        <qualifiedname>themis::rag::judge::BatchEvaluator::getQueueSize</qualifiedname>
+        <briefdescription>
+<para>Get current queue size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Number of pending evaluations </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">queue_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="216" column="12" bodyfile="src/rag/batch_evaluator.cpp" bodystart="811" bodyend="819"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1a731d0199846600063670869fd82c7064" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::BatchEvaluator::waitForAll</definition>
+        <argsstring>(std::chrono::milliseconds timeout=std::chrono::milliseconds::max())</argsstring>
+        <name>waitForAll</name>
+        <qualifiedname>themis::rag::judge::BatchEvaluator::waitForAll</qualifiedname>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>timeout</declname>
+          <defval>std::chrono::milliseconds::max()</defval>
+        </param>
+        <briefdescription>
+<para>Wait for all queued evaluations to complete. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Wait For All.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum time to wait </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if all completed within timeout</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), lock(), empty(), std::chrono::milliseconds::max(), std::this_thread::sleep_for(), std::chrono::milliseconds(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="223" column="10" bodyfile="src/rag/batch_evaluator.cpp" bodystart="827" bodyend="842"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1a20acd3008bfda0f31f6aa46bde42a8c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::judge::BatchEvaluator::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::rag::judge::BatchEvaluator::stop</qualifiedname>
+        <briefdescription>
+<para>Stop processing and clear queue. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stop.</para>
+<para>Calls: store(), notify_all(), joinable(), themis::utils::joinThreadWithin(), THEMIS_WARN(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="228" column="10" bodyfile="src/rag/batch_evaluator.cpp" bodystart="852" bodyend="862"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1a168f3046b40f07f0b257973b48a1ce17" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::judge::BatchEvaluator::resume</definition>
+        <argsstring>()</argsstring>
+        <name>resume</name>
+        <qualifiedname>themis::rag::judge::BatchEvaluator::resume</qualifiedname>
+        <briefdescription>
+<para>Resume processing after stop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Resume.</para>
+<para>Calls: load(), store(), notify_all(), reserve(), emplace_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="233" column="10" bodyfile="src/rag/batch_evaluator.cpp" bodystart="868" bodyend="881"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1aed8c4289cd00bad2ea6d3cd19dc71f22" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::judge::BatchEvaluator::setConfig</definition>
+        <argsstring>(const BatchEvaluatorConfig &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::rag::judge::BatchEvaluator::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluator_config" kindref="compound">BatchEvaluatorConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Update configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Config.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New configuration</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setConfig without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="239" column="10" bodyfile="src/rag/batch_evaluator.cpp" bodystart="892" bodyend="894"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1acbc9d0d38923867b8eaca77c68c18ff9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluator_config" kindref="compound">BatchEvaluatorConfig</ref></type>
+        <definition>BatchEvaluatorConfig themis::rag::judge::BatchEvaluator::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::rag::judge::BatchEvaluator::getConfig</qualifiedname>
+        <briefdescription>
+<para>Get current configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Current configuration </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="245" column="26" bodyfile="src/rag/batch_evaluator.cpp" bodystart="896" bodyend="898"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1a127a7189e0a1c22b12f2285fc586a6f8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::judge::BatchEvaluator::workerThread</definition>
+        <argsstring>()</argsstring>
+        <name>workerThread</name>
+        <qualifiedname>themis::rag::judge::BatchEvaluator::workerThread</qualifiedname>
+        <briefdescription>
+<para>Worker Thread. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), std::chrono::seconds(), wait_for(), load(), empty(), std::move(), front(), pop(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="273" column="10" bodyfile="src/rag/batch_evaluator.cpp" bodystart="300" bodyend="360"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1a47e3f20118167c3669ec5d1ae61172f5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result" kindref="compound">EvaluationResult</ref></type>
+        <definition>EvaluationResult themis::rag::judge::BatchEvaluator::processEvaluation</definition>
+        <argsstring>(const EvaluationInput &amp;input)</argsstring>
+        <name>processEvaluation</name>
+        <qualifiedname>themis::rag::judge::BatchEvaluator::processEvaluation</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_input" kindref="compound">EvaluationInput</ref> &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Process Evaluation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), push_back(), THEMIS_WARN(), sanitize(), themis::llm::prompt_safety::sanitizePromptWithSharedPolicy(), std::move(), evaluate(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="276" column="22" bodyfile="src/rag/batch_evaluator.cpp" bodystart="372" bodyend="450"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1afaa88668969f4eb7a3f4ca3f975456a8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result" kindref="compound">BatchEvaluationResult</ref></type>
+        <definition>BatchEvaluationResult themis::rag::judge::BatchEvaluator::aggregateResults</definition>
+        <argsstring>(const std::vector&lt; EvaluationResult &gt; &amp;results, std::chrono::milliseconds total_time)</argsstring>
+        <name>aggregateResults</name>
+        <qualifiedname>themis::rag::judge::BatchEvaluator::aggregateResults</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result" kindref="compound">EvaluationResult</ref> &gt; &amp;</type>
+          <declname>results</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>total_time</declname>
+        </param>
+        <briefdescription>
+<para>Aggregate Results. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">total_time</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), size(), load(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="279" column="27" bodyfile="src/rag/batch_evaluator.cpp" bodystart="911" bodyend="958"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Batch evaluator for efficient parallel processing. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Features:<itemizedlist>
+<listitem><para>Parallel batch processing with configurable worker threads</para>
+</listitem><listitem><para>Async evaluation with futures/promises</para>
+</listitem><listitem><para>Progress tracking and reporting</para>
+</listitem><listitem><para>Queue-based processing with backpressure handling</para>
+</listitem><listitem><para>Timeout and cancellation support</para>
+</listitem><listitem><para>Comprehensive batch statistics </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/rag/batch_evaluator.h" line="143" column="1" bodyfile="include/rag/batch_evaluator.h" bodystart="143" bodyend="283"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1afaa88668969f4eb7a3f4ca3f975456a8" prot="private" virt="non-virtual"><scope>themis::rag::judge::BatchEvaluator</scope><name>aggregateResults</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1ae3e7c49edc99c13845d6b5ad259ade60" prot="public" virt="non-virtual"><scope>themis::rag::judge::BatchEvaluator</scope><name>BatchEvaluator</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1a9ef4c145fdd0f610b8ddb0b0412895c4" prot="public" virt="non-virtual"><scope>themis::rag::judge::BatchEvaluator</scope><name>BatchEvaluator</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1a5ab414b223fc8408e3814e835368a724" prot="private" virt="non-virtual"><scope>themis::rag::judge::BatchEvaluator</scope><name>config_</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1a49ed4593cc58431b7cfbcf2f81b9a75c" prot="private" virt="non-virtual"><scope>themis::rag::judge::BatchEvaluator</scope><name>eval_queue_</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1aaafaf788f7ced3244c75a681ed66b52d" prot="public" virt="non-virtual"><scope>themis::rag::judge::BatchEvaluator</scope><name>evaluateAsync</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1a385eb0c40ca4509bb2335885bd8aef81" prot="public" virt="non-virtual"><scope>themis::rag::judge::BatchEvaluator</scope><name>evaluateAsync</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1aeeb2493d8270abaf290f4d7d194e3bcf" prot="public" virt="non-virtual"><scope>themis::rag::judge::BatchEvaluator</scope><name>evaluateBatch</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1a13299aaad54e3fd64e934c3d1694127b" prot="public" virt="non-virtual"><scope>themis::rag::judge::BatchEvaluator</scope><name>evaluateBatch</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1acbc9d0d38923867b8eaca77c68c18ff9" prot="public" virt="non-virtual"><scope>themis::rag::judge::BatchEvaluator</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1a911829c6d9e8a67ef4ff773e5bcd6114" prot="public" virt="non-virtual"><scope>themis::rag::judge::BatchEvaluator</scope><name>getQueueSize</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1afbf9f8bb03bdae26d217ce684014109c" prot="private" virt="non-virtual"><scope>themis::rag::judge::BatchEvaluator</scope><name>judge_</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1ad7296e3db6b61139a6e8402809475735" prot="private" virt="non-virtual"><scope>themis::rag::judge::BatchEvaluator</scope><name>paused_</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1a47e3f20118167c3669ec5d1ae61172f5" prot="private" virt="non-virtual"><scope>themis::rag::judge::BatchEvaluator</scope><name>processEvaluation</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1a2f2c6a31d56a86f2e1550692f8bd08fb" prot="private" virt="non-virtual"><scope>themis::rag::judge::BatchEvaluator</scope><name>queue_cv_</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1a93652bf67da1a034eb8d7f6508302d82" prot="private" virt="non-virtual"><scope>themis::rag::judge::BatchEvaluator</scope><name>queue_mutex_</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1a168f3046b40f07f0b257973b48a1ce17" prot="public" virt="non-virtual"><scope>themis::rag::judge::BatchEvaluator</scope><name>resume</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1aed8c4289cd00bad2ea6d3cd19dc71f22" prot="public" virt="non-virtual"><scope>themis::rag::judge::BatchEvaluator</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1a20acd3008bfda0f31f6aa46bde42a8c2" prot="public" virt="non-virtual"><scope>themis::rag::judge::BatchEvaluator</scope><name>stop</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1a69e7c487eeaf555e5c6055c2aa30ab7c" prot="private" virt="non-virtual"><scope>themis::rag::judge::BatchEvaluator</scope><name>stop_requested_</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1aa4d87b4d5fb427243619784bf03251fd" prot="public" virt="non-virtual"><scope>themis::rag::judge::BatchEvaluator</scope><name>submit</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1aec28b9e6a4092c7addccb88fb0c35419" prot="private" virt="non-virtual"><scope>themis::rag::judge::BatchEvaluator</scope><name>total_failed_</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1afc5fbdf5b40789ac218523a80cc34ffb" prot="private" virt="non-virtual"><scope>themis::rag::judge::BatchEvaluator</scope><name>total_processed_</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1a731d0199846600063670869fd82c7064" prot="public" virt="non-virtual"><scope>themis::rag::judge::BatchEvaluator</scope><name>waitForAll</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1a7ed84cc233172fb5ca7128a7c42987af" prot="private" virt="non-virtual"><scope>themis::rag::judge::BatchEvaluator</scope><name>workers_</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1a127a7189e0a1c22b12f2285fc586a6f8" prot="private" virt="non-virtual"><scope>themis::rag::judge::BatchEvaluator</scope><name>workerThread</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1abe66ed960634cd9ed946c19f3b990219" prot="public" virt="non-virtual"><scope>themis::rag::judge::BatchEvaluator</scope><name>~BatchEvaluator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,1039 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__aql__confidence__scorer_8cpp" kind="file" language="C++">
+    <compoundname>test_aql_confidence_scorer.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="aql__confidence__scorer_8h" local="yes">aql/aql_confidence_scorer.h</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>aql/aql_confidence_scorer.h</label>
+        <link refid="aql__confidence__scorer_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/aql/test_aql_confidence_scorer.cpp</label>
+        <link refid="test__aql__confidence__scorer_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>unordered_map</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_a_q_l_confidence_scorer_test" prot="public">AQLConfidenceScorerTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__aql__confidence__scorer_8cpp_1ad0fbe9ae89e98569ccb0b976d78b0468" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLConfidenceScorerTest, EmptyQueryReturnsZeroConfidence)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_confidence_scorer_test" kindref="compound">AQLConfidenceScorerTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyQueryReturnsZeroConfidence</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_confidence_scorer.cpp" line="25" column="1" bodyfile="tests/aql/test_aql_confidence_scorer.cpp" bodystart="25" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__confidence__scorer_8cpp_1a09f991735d7c26d6385c369139d5b833" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLConfidenceScorerTest, MinimalValidQueryScoresHigh)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_confidence_scorer_test" kindref="compound">AQLConfidenceScorerTest</ref></type>
+        </param>
+        <param>
+          <type>MinimalValidQueryScoresHigh</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_confidence_scorer.cpp" line="37" column="1" bodyfile="tests/aql/test_aql_confidence_scorer.cpp" bodystart="37" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__confidence__scorer_8cpp_1a35a965b3cec4f87e2513de40d167ecd7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLConfidenceScorerTest, QueryWithoutReturnHasLowStructuralScore)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_confidence_scorer_test" kindref="compound">AQLConfidenceScorerTest</ref></type>
+        </param>
+        <param>
+          <type>QueryWithoutReturnHasLowStructuralScore</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_confidence_scorer.cpp" line="47" column="1" bodyfile="tests/aql/test_aql_confidence_scorer.cpp" bodystart="47" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__confidence__scorer_8cpp_1a230e7e14549da6707ea1c9d47df4c2a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLConfidenceScorerTest, QueryWithoutForHasLowStructuralScore)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_confidence_scorer_test" kindref="compound">AQLConfidenceScorerTest</ref></type>
+        </param>
+        <param>
+          <type>QueryWithoutForHasLowStructuralScore</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_confidence_scorer.cpp" line="55" column="1" bodyfile="tests/aql/test_aql_confidence_scorer.cpp" bodystart="55" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__confidence__scorer_8cpp_1aa4075ab013c389d93e94d7ce9cab3a52" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLConfidenceScorerTest, ForReturnWithoutInHasReducedStructuralScore)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_confidence_scorer_test" kindref="compound">AQLConfidenceScorerTest</ref></type>
+        </param>
+        <param>
+          <type>ForReturnWithoutInHasReducedStructuralScore</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_confidence_scorer.cpp" line="63" column="1" bodyfile="tests/aql/test_aql_confidence_scorer.cpp" bodystart="63" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__confidence__scorer_8cpp_1a4de507000e122e8be1da41636c643066" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLConfidenceScorerTest, QueryWithFilterScoresHigherCompleteness)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_confidence_scorer_test" kindref="compound">AQLConfidenceScorerTest</ref></type>
+        </param>
+        <param>
+          <type>QueryWithFilterScoresHigherCompleteness</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_confidence_scorer.cpp" line="76" column="1" bodyfile="tests/aql/test_aql_confidence_scorer.cpp" bodystart="76" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__confidence__scorer_8cpp_1a2967ad845d153f8eb457aaedd23abdd7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLConfidenceScorerTest, QueryWithSortAndLimitScoresHigherCompleteness)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_confidence_scorer_test" kindref="compound">AQLConfidenceScorerTest</ref></type>
+        </param>
+        <param>
+          <type>QueryWithSortAndLimitScoresHigherCompleteness</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_confidence_scorer.cpp" line="86" column="1" bodyfile="tests/aql/test_aql_confidence_scorer.cpp" bodystart="86" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__confidence__scorer_8cpp_1af1c2b554d0d777cc9b014af713e72c8d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLConfidenceScorerTest, CompletenessIsCapAtOne)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_confidence_scorer_test" kindref="compound">AQLConfidenceScorerTest</ref></type>
+        </param>
+        <param>
+          <type>CompletenessIsCapAtOne</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_confidence_scorer.cpp" line="96" column="1" bodyfile="tests/aql/test_aql_confidence_scorer.cpp" bodystart="96" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__confidence__scorer_8cpp_1a470b2135d6b7b770d31363da90ccb40a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLConfidenceScorerTest, NoSchemaGivesNeutralSchemaScore)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_confidence_scorer_test" kindref="compound">AQLConfidenceScorerTest</ref></type>
+        </param>
+        <param>
+          <type>NoSchemaGivesNeutralSchemaScore</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_confidence_scorer.cpp" line="114" column="1" bodyfile="tests/aql/test_aql_confidence_scorer.cpp" bodystart="114" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__confidence__scorer_8cpp_1ac8716ed5a5b800049d9059ee0c3ecabb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLConfidenceScorerTest, MatchingCollectionGivesHighSchemaScore)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_confidence_scorer_test" kindref="compound">AQLConfidenceScorerTest</ref></type>
+        </param>
+        <param>
+          <type>MatchingCollectionGivesHighSchemaScore</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_confidence_scorer.cpp" line="120" column="1" bodyfile="tests/aql/test_aql_confidence_scorer.cpp" bodystart="120" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__confidence__scorer_8cpp_1a672992685c027593e1109022581e22de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLConfidenceScorerTest, NoCollectionMatchGivesLowSchemaScore)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_confidence_scorer_test" kindref="compound">AQLConfidenceScorerTest</ref></type>
+        </param>
+        <param>
+          <type>NoCollectionMatchGivesLowSchemaScore</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_confidence_scorer.cpp" line="128" column="1" bodyfile="tests/aql/test_aql_confidence_scorer.cpp" bodystart="128" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__confidence__scorer_8cpp_1ac0d9faa666e7acddf4f805a2122e3e0a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLConfidenceScorerTest, AllCollectionsMatchedGivesFullSchemaScore)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_confidence_scorer_test" kindref="compound">AQLConfidenceScorerTest</ref></type>
+        </param>
+        <param>
+          <type>AllCollectionsMatchedGivesFullSchemaScore</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_confidence_scorer.cpp" line="136" column="1" bodyfile="tests/aql/test_aql_confidence_scorer.cpp" bodystart="136" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__confidence__scorer_8cpp_1aa7cb0639bd5deb88e2ef0530edf4151a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLConfidenceScorerTest, OverallConfidenceIsBoundedBetweenZeroAndOne)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_confidence_scorer_test" kindref="compound">AQLConfidenceScorerTest</ref></type>
+        </param>
+        <param>
+          <type>OverallConfidenceIsBoundedBetweenZeroAndOne</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_confidence_scorer.cpp" line="151" column="1" bodyfile="tests/aql/test_aql_confidence_scorer.cpp" bodystart="151" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__confidence__scorer_8cpp_1a402b074fa39d1bf92d89376ea354cdd4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLConfidenceScorerTest, WellFormedQueryWithSchemaHasHighOverallConfidence)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_confidence_scorer_test" kindref="compound">AQLConfidenceScorerTest</ref></type>
+        </param>
+        <param>
+          <type>WellFormedQueryWithSchemaHasHighOverallConfidence</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_confidence_scorer.cpp" line="158" column="1" bodyfile="tests/aql/test_aql_confidence_scorer.cpp" bodystart="158" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__confidence__scorer_8cpp_1a9d9ba6c2a07f01a4357a6367a48c7477" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLConfidenceScorerTest, ReasoningIsNonEmptyForValidQuery)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_confidence_scorer_test" kindref="compound">AQLConfidenceScorerTest</ref></type>
+        </param>
+        <param>
+          <type>ReasoningIsNonEmptyForValidQuery</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_confidence_scorer.cpp" line="177" column="1" bodyfile="tests/aql/test_aql_confidence_scorer.cpp" bodystart="177" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__confidence__scorer_8cpp_1ad5972d868d8c9d40cdb8a7c0ebc49712" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLConfidenceScorerTest, MissingRequiredKeywordsWarningInReasoning)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_confidence_scorer_test" kindref="compound">AQLConfidenceScorerTest</ref></type>
+        </param>
+        <param>
+          <type>MissingRequiredKeywordsWarningInReasoning</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_confidence_scorer.cpp" line="183" column="1" bodyfile="tests/aql/test_aql_confidence_scorer.cpp" bodystart="183" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__confidence__scorer_8cpp_1ad9cfa5d1e3a9f7ed971aec20f471a3dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLConfidenceScorerTest, ScoringIsCaseInsensitive)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_confidence_scorer_test" kindref="compound">AQLConfidenceScorerTest</ref></type>
+        </param>
+        <param>
+          <type>ScoringIsCaseInsensitive</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_confidence_scorer.cpp" line="194" column="1" bodyfile="tests/aql/test_aql_confidence_scorer.cpp" bodystart="194" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__confidence__scorer_8cpp_1a8aec45a2ee0c712bc60277db3a46dfc4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AQLConfidenceScorerConfigTest, DefaultConfigMatchesHardCodedBehaviour)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AQLConfidenceScorerConfigTest</type>
+        </param>
+        <param>
+          <type>DefaultConfigMatchesHardCodedBehaviour</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_confidence_scorer.cpp" line="210" column="1" bodyfile="tests/aql/test_aql_confidence_scorer.cpp" bodystart="210" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__confidence__scorer_8cpp_1ad393f6dda867db5c652e124e971e7ead" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AQLConfidenceScorerConfigTest, CustomWeightsAreApplied)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AQLConfidenceScorerConfigTest</type>
+        </param>
+        <param>
+          <type>CustomWeightsAreApplied</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_confidence_scorer.cpp" line="224" column="1" bodyfile="tests/aql/test_aql_confidence_scorer.cpp" bodystart="224" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__confidence__scorer_8cpp_1a00125fd0c4de104390999c2b723b7f51" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AQLConfidenceScorerConfigTest, CustomNoSchemaNeutralIsUsed)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AQLConfidenceScorerConfigTest</type>
+        </param>
+        <param>
+          <type>CustomNoSchemaNeutralIsUsed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_confidence_scorer.cpp" line="238" column="1" bodyfile="tests/aql/test_aql_confidence_scorer.cpp" bodystart="238" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__confidence__scorer_8cpp_1aad26029a1d8b15c1837d80a4e0e55536" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AQLConfidenceScorerConfigTest, CustomZeroMatchFloorIsUsed)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AQLConfidenceScorerConfigTest</type>
+        </param>
+        <param>
+          <type>CustomZeroMatchFloorIsUsed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_confidence_scorer.cpp" line="247" column="1" bodyfile="tests/aql/test_aql_confidence_scorer.cpp" bodystart="247" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__confidence__scorer_8cpp_1a4c782964c4e5f84bf403774f3d3f28c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AQLConfidenceScorerConfigTest, CustomKeywordBonusesAreUsed)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AQLConfidenceScorerConfigTest</type>
+        </param>
+        <param>
+          <type>CustomKeywordBonusesAreUsed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_confidence_scorer.cpp" line="257" column="1" bodyfile="tests/aql/test_aql_confidence_scorer.cpp" bodystart="257" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__confidence__scorer_8cpp_1ac4bd9cf7705297347b0dd92a136ff61a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AQLConfidenceScorerConfigTest, ConfigAccessorReturnsCurrentConfig)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AQLConfidenceScorerConfigTest</type>
+        </param>
+        <param>
+          <type>ConfigAccessorReturnsCurrentConfig</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_confidence_scorer.cpp" line="268" column="1" bodyfile="tests/aql/test_aql_confidence_scorer.cpp" bodystart="268" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__confidence__scorer_8cpp_1a384c65b9e48ea1f9abf380fda66f46dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AQLConfidenceScorerKeywordTest, UpsertDoesNotTriggerInsertBonus)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AQLConfidenceScorerKeywordTest</type>
+        </param>
+        <param>
+          <type>UpsertDoesNotTriggerInsertBonus</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_confidence_scorer.cpp" line="280" column="1" bodyfile="tests/aql/test_aql_confidence_scorer.cpp" bodystart="280" bodyend="297"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__confidence__scorer_8cpp_1a15c89dae4713462c61402dadd0934b0d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AQLConfidenceScorerKeywordTest, StandaloneInsertIsMatched)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AQLConfidenceScorerKeywordTest</type>
+        </param>
+        <param>
+          <type>StandaloneInsertIsMatched</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_confidence_scorer.cpp" line="299" column="1" bodyfile="tests/aql/test_aql_confidence_scorer.cpp" bodystart="299" bodyend="308"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__confidence__scorer_8cpp_1af7daa97edc652063225c627c2e9601b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AQLConfidenceScorerAcceptanceTest, EmptyQueryReturnsExactlyZero)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AQLConfidenceScorerAcceptanceTest</type>
+        </param>
+        <param>
+          <type>EmptyQueryReturnsExactlyZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_confidence_scorer.cpp" line="314" column="1" bodyfile="tests/aql/test_aql_confidence_scorer.cpp" bodystart="314" bodyend="318"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__confidence__scorer_8cpp_1a0b08e13a9e8f89c5943cc0977b0c2087" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AQLConfidenceScorerAcceptanceTest, CompleteQueryReturnsAbove0Point7)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AQLConfidenceScorerAcceptanceTest</type>
+        </param>
+        <param>
+          <type>CompleteQueryReturnsAbove0Point7</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_confidence_scorer.cpp" line="320" column="1" bodyfile="tests/aql/test_aql_confidence_scorer.cpp" bodystart="320" bodyend="325"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__confidence__scorer_8cpp_1a2f1c1a07226fd8489200a4bdd8b1b8ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AQLConfidenceScorerCalibrateTest, CalibrateDoesNotCrashOnEmptyInput)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AQLConfidenceScorerCalibrateTest</type>
+        </param>
+        <param>
+          <type>CalibrateDoesNotCrashOnEmptyInput</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_confidence_scorer.cpp" line="331" column="1" bodyfile="tests/aql/test_aql_confidence_scorer.cpp" bodystart="331" bodyend="334"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__confidence__scorer_8cpp_1a7b00555f61aa6d13683cc4afd864d165" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AQLConfidenceScorerCalibrateTest, CalibrateIgnoresEmptyQueryPairs)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AQLConfidenceScorerCalibrateTest</type>
+        </param>
+        <param>
+          <type>CalibrateIgnoresEmptyQueryPairs</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_confidence_scorer.cpp" line="336" column="1" bodyfile="tests/aql/test_aql_confidence_scorer.cpp" bodystart="336" bodyend="342"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__confidence__scorer_8cpp_1a841132cdecedec007984c15615778d85" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AQLConfidenceScorerCalibrateTest, CalibrateWeightsSumToOne)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AQLConfidenceScorerCalibrateTest</type>
+        </param>
+        <param>
+          <type>CalibrateWeightsSumToOne</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_confidence_scorer.cpp" line="344" column="1" bodyfile="tests/aql/test_aql_confidence_scorer.cpp" bodystart="344" bodyend="361"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__confidence__scorer_8cpp_1a830c433f2d596638c802db5eb9bca037" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AQLConfidenceScorerCalibrateTest, CalibrateWeightsAreInZeroOneRange)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AQLConfidenceScorerCalibrateTest</type>
+        </param>
+        <param>
+          <type>CalibrateWeightsAreInZeroOneRange</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_confidence_scorer.cpp" line="363" column="1" bodyfile="tests/aql/test_aql_confidence_scorer.cpp" bodystart="363" bodyend="380"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.39 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="aql__confidence__scorer_8h" kindref="compound">aql/aql_confidence_scorer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1aql" kindref="compound">themis::aql</ref>;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16" refid="class_a_q_l_confidence_scorer_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_q_l_confidence_scorer_test" kindref="compound">AQLConfidenceScorerTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer" kindref="compound">AQLConfidenceScorer</ref><sp/><ref refid="class_a_q_l_confidence_scorer_test_1a042a0c3d006a9ecd3b40aebdf05476d7" kindref="member">scorer</ref>;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Empty<sp/>/<sp/>trivial<sp/>input</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><ref refid="test__aql__confidence__scorer_8cpp_1ad0fbe9ae89e98569ccb0b976d78b0468" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_confidence_scorer_test" kindref="compound">AQLConfidenceScorerTest</ref>,<sp/>EmptyQueryReturnsZeroConfidence)<sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>scorer.score(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(result.overall_confidence,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(result.structural_score,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.has_required_keywords);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.reasoning.empty());</highlight></codeline>
+<codeline lineno="31"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Structural<sp/>score</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><ref refid="test__aql__confidence__scorer_8cpp_1ad0fbe9ae89e98569ccb0b976d78b0468" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_confidence_scorer_test" kindref="compound">AQLConfidenceScorerTest</ref>,<sp/>MinimalValidQueryScoresHigh)<sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Minimal<sp/>valid<sp/>AQL:<sp/>FOR<sp/>+<sp/>IN<sp/>+<sp/>RETURN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>u<sp/>IN<sp/>users<sp/>RETURN<sp/>u&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>scorer.score(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(result.overall_confidence,<sp/>0.5f);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(result.structural_score,<sp/>1.0f);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.has_required_keywords);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><ref refid="test__aql__confidence__scorer_8cpp_1ad0fbe9ae89e98569ccb0b976d78b0468" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_confidence_scorer_test" kindref="compound">AQLConfidenceScorerTest</ref>,<sp/>QueryWithoutReturnHasLowStructuralScore)<sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>u<sp/>IN<sp/>users&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>scorer.score(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(result.structural_score,<sp/>0.5f);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.has_required_keywords);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><ref refid="test__aql__confidence__scorer_8cpp_1ad0fbe9ae89e98569ccb0b976d78b0468" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_confidence_scorer_test" kindref="compound">AQLConfidenceScorerTest</ref>,<sp/>QueryWithoutForHasLowStructuralScore)<sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;RETURN<sp/>42&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>scorer.score(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(result.structural_score,<sp/>0.5f);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.has_required_keywords);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><ref refid="test__aql__confidence__scorer_8cpp_1ad0fbe9ae89e98569ccb0b976d78b0468" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_confidence_scorer_test" kindref="compound">AQLConfidenceScorerTest</ref>,<sp/>ForReturnWithoutInHasReducedStructuralScore)<sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>FOR<sp/>+<sp/>RETURN<sp/>but<sp/>no<sp/>IN<sp/>→<sp/>slightly<sp/>lower<sp/>than<sp/>1.0<sp/>but<sp/>still<sp/>good</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>u<sp/>RETURN<sp/>u&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>scorer.score(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(result.structural_score,<sp/>0.5f);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(result.structural_score,<sp/>1.0f);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Completeness<sp/>score</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><ref refid="test__aql__confidence__scorer_8cpp_1ad0fbe9ae89e98569ccb0b976d78b0468" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_confidence_scorer_test" kindref="compound">AQLConfidenceScorerTest</ref>,<sp/>QueryWithFilterScoresHigherCompleteness)<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>simple<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>u<sp/>IN<sp/>users<sp/>RETURN<sp/>u&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>filtered<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>u<sp/>IN<sp/>users<sp/>FILTER<sp/>u.city<sp/>==<sp/>&apos;Seattle&apos;<sp/>RETURN<sp/>u&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s1<sp/>=<sp/>scorer.score(simple);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s2<sp/>=<sp/>scorer.score(filtered);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(s2.completeness_score,<sp/>s1.completeness_score);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><ref refid="test__aql__confidence__scorer_8cpp_1ad0fbe9ae89e98569ccb0b976d78b0468" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_confidence_scorer_test" kindref="compound">AQLConfidenceScorerTest</ref>,<sp/>QueryWithSortAndLimitScoresHigherCompleteness)<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>base<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>u<sp/>IN<sp/>users<sp/>RETURN<sp/>u&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>paged<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>u<sp/>IN<sp/>users<sp/>SORT<sp/>u.name<sp/>ASC<sp/>LIMIT<sp/>10<sp/>RETURN<sp/>u&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s1<sp/>=<sp/>scorer.score(base);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s2<sp/>=<sp/>scorer.score(paged);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(s2.completeness_score,<sp/>s1.completeness_score);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><ref refid="test__aql__confidence__scorer_8cpp_1ad0fbe9ae89e98569ccb0b976d78b0468" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_confidence_scorer_test" kindref="compound">AQLConfidenceScorerTest</ref>,<sp/>CompletenessIsCapAtOne)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Even<sp/>a<sp/>very<sp/>keyword-rich<sp/>query<sp/>must<sp/>not<sp/>exceed<sp/>1.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>=</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>u<sp/>IN<sp/>users<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;FILTER<sp/>u.age<sp/>&gt;<sp/>18<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;LET<sp/>posts<sp/>=<sp/>(FOR<sp/>p<sp/>IN<sp/>posts<sp/>FILTER<sp/>p.author<sp/>==<sp/>u._id<sp/>RETURN<sp/>p)<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;SORT<sp/>u.name<sp/>ASC<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;LIMIT<sp/>100<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;COLLECT<sp/>city<sp/>=<sp/>u.city<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;RETURN<sp/>{city,<sp/>count:<sp/>LENGTH(posts)}&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>scorer.score(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(result.completeness_score,<sp/>1.0f);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Schema<sp/>match<sp/>score</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><ref refid="test__aql__confidence__scorer_8cpp_1ad0fbe9ae89e98569ccb0b976d78b0468" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_confidence_scorer_test" kindref="compound">AQLConfidenceScorerTest</ref>,<sp/>NoSchemaGivesNeutralSchemaScore)<sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>u<sp/>IN<sp/>users<sp/>RETURN<sp/>u&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>scorer.score(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(result.schema_match_score,<sp/>0.5f);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><ref refid="test__aql__confidence__scorer_8cpp_1ad0fbe9ae89e98569ccb0b976d78b0468" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_confidence_scorer_test" kindref="compound">AQLConfidenceScorerTest</ref>,<sp/>MatchingCollectionGivesHighSchemaScore)<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>schema<sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(</highlight></codeline>
+<codeline lineno="122"><highlight class="stringliteral">Collections:</highlight></codeline>
+<codeline lineno="123"><highlight class="stringliteral">-<sp/>users:<sp/>{name,<sp/>email,<sp/>city}</highlight></codeline>
+<codeline lineno="124"><highlight class="stringliteral">-<sp/>posts:<sp/>{title,<sp/>content}</highlight></codeline>
+<codeline lineno="125"><highlight class="stringliteral">)&quot;;</highlight></codeline>
+<codeline lineno="126"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>u<sp/>IN<sp/>users<sp/>RETURN<sp/>u&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>scorer.score(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>schema);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(result.schema_match_score,<sp/>0.5f);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><ref refid="test__aql__confidence__scorer_8cpp_1ad0fbe9ae89e98569ccb0b976d78b0468" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_confidence_scorer_test" kindref="compound">AQLConfidenceScorerTest</ref>,<sp/>NoCollectionMatchGivesLowSchemaScore)<sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>schema<sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(</highlight></codeline>
+<codeline lineno="134"><highlight class="stringliteral">Collections:</highlight></codeline>
+<codeline lineno="135"><highlight class="stringliteral">-<sp/>users:<sp/>{name,<sp/>email}</highlight></codeline>
+<codeline lineno="136"><highlight class="stringliteral">-<sp/>posts:<sp/>{title}</highlight></codeline>
+<codeline lineno="137"><highlight class="stringliteral">)&quot;;</highlight></codeline>
+<codeline lineno="138"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>x<sp/>IN<sp/>unknown_collection<sp/>RETURN<sp/>x&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>scorer.score(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>schema);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(result.schema_match_score,<sp/>0.5f);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><ref refid="test__aql__confidence__scorer_8cpp_1ad0fbe9ae89e98569ccb0b976d78b0468" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_confidence_scorer_test" kindref="compound">AQLConfidenceScorerTest</ref>,<sp/>AllCollectionsMatchedGivesFullSchemaScore)<sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>schema<sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(</highlight></codeline>
+<codeline lineno="146"><highlight class="stringliteral">Collections:</highlight></codeline>
+<codeline lineno="147"><highlight class="stringliteral">-<sp/>users:<sp/>{name}</highlight></codeline>
+<codeline lineno="148"><highlight class="stringliteral">-<sp/>posts:<sp/>{title}</highlight></codeline>
+<codeline lineno="149"><highlight class="stringliteral">)&quot;;</highlight></codeline>
+<codeline lineno="150"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>=</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>u<sp/>IN<sp/>users<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;LET<sp/>p<sp/>=<sp/>(FOR<sp/>post<sp/>IN<sp/>posts<sp/>FILTER<sp/>post.author<sp/>==<sp/>u._id<sp/>RETURN<sp/>post)<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;RETURN<sp/>{u,<sp/>p}&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>scorer.score(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>schema);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(result.schema_match_score,<sp/>1.0f);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Overall<sp/>confidence</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><ref refid="test__aql__confidence__scorer_8cpp_1ad0fbe9ae89e98569ccb0b976d78b0468" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_confidence_scorer_test" kindref="compound">AQLConfidenceScorerTest</ref>,<sp/>OverallConfidenceIsBoundedBetweenZeroAndOne)<sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>u<sp/>IN<sp/>users<sp/>FILTER<sp/>u.city<sp/>==<sp/>&apos;NYC&apos;<sp/>RETURN<sp/>u&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>scorer.score(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(result.overall_confidence,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(result.overall_confidence,<sp/>1.0f);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><ref refid="test__aql__confidence__scorer_8cpp_1ad0fbe9ae89e98569ccb0b976d78b0468" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_confidence_scorer_test" kindref="compound">AQLConfidenceScorerTest</ref>,<sp/>WellFormedQueryWithSchemaHasHighOverallConfidence)<sp/>{</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>schema<sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(</highlight></codeline>
+<codeline lineno="172"><highlight class="stringliteral">Collections:</highlight></codeline>
+<codeline lineno="173"><highlight class="stringliteral">-<sp/>orders:<sp/>{customer_id,<sp/>total}</highlight></codeline>
+<codeline lineno="174"><highlight class="stringliteral">-<sp/>customers:<sp/>{name,<sp/>email}</highlight></codeline>
+<codeline lineno="175"><highlight class="stringliteral">)&quot;;</highlight></codeline>
+<codeline lineno="176"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>=</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>o<sp/>IN<sp/>orders<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;LET<sp/>c<sp/>=<sp/>DOCUMENT(&apos;customers&apos;,<sp/>o.customer_id)<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;FILTER<sp/>o.total<sp/>&gt;<sp/>100<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;SORT<sp/>o.total<sp/>DESC<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;LIMIT<sp/>50<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;RETURN<sp/>{order:<sp/>o,<sp/>customer:<sp/>c}&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>scorer.score(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>,<sp/></highlight><highlight class="stringliteral">&quot;Find<sp/>large<sp/>orders<sp/>with<sp/>customer<sp/>info&quot;</highlight><highlight class="normal">,<sp/>schema);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(result.overall_confidence,<sp/>0.7f);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.has_required_keywords);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Reasoning<sp/>field</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><ref refid="test__aql__confidence__scorer_8cpp_1ad0fbe9ae89e98569ccb0b976d78b0468" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_confidence_scorer_test" kindref="compound">AQLConfidenceScorerTest</ref>,<sp/>ReasoningIsNonEmptyForValidQuery)<sp/>{</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>u<sp/>IN<sp/>users<sp/>RETURN<sp/>u&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>scorer.score(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.reasoning.empty());</highlight></codeline>
+<codeline lineno="197"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><ref refid="test__aql__confidence__scorer_8cpp_1ad0fbe9ae89e98569ccb0b976d78b0468" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_confidence_scorer_test" kindref="compound">AQLConfidenceScorerTest</ref>,<sp/>MissingRequiredKeywordsWarningInReasoning)<sp/>{</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;SOME<sp/>RANDOM<sp/>TEXT&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>scorer.score(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reasoning<sp/>should<sp/>contain<sp/>warning<sp/>about<sp/>missing<sp/>keywords</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(result.reasoning.find(</highlight><highlight class="stringliteral">&quot;FOR&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Case<sp/>insensitivity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><ref refid="test__aql__confidence__scorer_8cpp_1ad0fbe9ae89e98569ccb0b976d78b0468" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_confidence_scorer_test" kindref="compound">AQLConfidenceScorerTest</ref>,<sp/>ScoringIsCaseInsensitive)<sp/>{</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>upper<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>u<sp/>IN<sp/>users<sp/>RETURN<sp/>u&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>lower<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;for<sp/>u<sp/>in<sp/>users<sp/>return<sp/>u&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r1<sp/>=<sp/>scorer.score(upper);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r2<sp/>=<sp/>scorer.score(lower);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(r1.overall_confidence,<sp/>r2.overall_confidence);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(r1.structural_score,<sp/><sp/><sp/>r2.structural_score);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r1.has_required_keywords,<sp/><sp/><sp/><sp/>r2.has_required_keywords);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Config<sp/>injection<sp/>(runtime-configurable<sp/>weights)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><ref refid="test__aql__confidence__scorer_8cpp_1a8aec45a2ee0c712bc60277db3a46dfc4" kindref="member">TEST</ref>(AQLConfidenceScorerConfigTest,<sp/>DefaultConfigMatchesHardCodedBehaviour)<sp/>{</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer" kindref="compound">AQLConfidenceScorer</ref><sp/>default_scorer;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer" kindref="compound">AQLConfidenceScorer</ref><sp/>config_scorer{<ref refid="structthemis_1_1aql_1_1_a_q_l_confidence_scorer_1_1_config" kindref="compound">AQLConfidenceScorer::Config</ref>{}};</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>u<sp/>IN<sp/>users<sp/>FILTER<sp/>u.age<sp/>&gt;<sp/>18<sp/>RETURN<sp/>u&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r1<sp/>=<sp/>default_scorer.<ref refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1a5d3a3c26cd21aed7092e5ca761b29ff9" kindref="member">score</ref>(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r2<sp/>=<sp/>config_scorer.<ref refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1a5d3a3c26cd21aed7092e5ca761b29ff9" kindref="member">score</ref>(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(r1.overall_confidence,<sp/>r2.overall_confidence);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(r1.structural_score,<sp/><sp/><sp/>r2.structural_score);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(r1.completeness_score,<sp/>r2.completeness_score);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(r1.schema_match_score,<sp/>r2.schema_match_score);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><ref refid="test__aql__confidence__scorer_8cpp_1a8aec45a2ee0c712bc60277db3a46dfc4" kindref="member">TEST</ref>(AQLConfidenceScorerConfigTest,<sp/>CustomWeightsAreApplied)<sp/>{</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_a_q_l_confidence_scorer_1_1_config" kindref="compound">AQLConfidenceScorer::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1aql_1_1_a_q_l_confidence_scorer_1_1_config_1a6d10edacb963a81a8d6749e909172289" kindref="member">structural_weight</ref><sp/><sp/><sp/>=<sp/>1.0f;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1aql_1_1_a_q_l_confidence_scorer_1_1_config_1a9a216f6d70f20d91f0aa3076abf88a28" kindref="member">completeness_weight</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1aql_1_1_a_q_l_confidence_scorer_1_1_config_1a7bf9f2ca1e391a9a2290932e450bb05e" kindref="member">schema_match_weight</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer" kindref="compound">AQLConfidenceScorer</ref><sp/>scorer{cfg};</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>u<sp/>IN<sp/>users<sp/>RETURN<sp/>u&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>scorer.<ref refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1a5d3a3c26cd21aed7092e5ca761b29ff9" kindref="member">score</ref>(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>With<sp/>structural_weight=1,<sp/>the<sp/>overall<sp/>score<sp/>must<sp/>equal<sp/>structural_score</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(result.overall_confidence,<sp/>result.structural_score);</highlight></codeline>
+<codeline lineno="252"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><ref refid="test__aql__confidence__scorer_8cpp_1a8aec45a2ee0c712bc60277db3a46dfc4" kindref="member">TEST</ref>(AQLConfidenceScorerConfigTest,<sp/>CustomNoSchemaNeutralIsUsed)<sp/>{</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_a_q_l_confidence_scorer_1_1_config" kindref="compound">AQLConfidenceScorer::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1aql_1_1_a_q_l_confidence_scorer_1_1_config_1aa8929d6dd0734f07be95e2b6f4f1b568" kindref="member">no_schema_neutral</ref><sp/>=<sp/>0.8f;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer" kindref="compound">AQLConfidenceScorer</ref><sp/>scorer{cfg};</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>scorer.<ref refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1a5d3a3c26cd21aed7092e5ca761b29ff9" kindref="member">score</ref>(</highlight><highlight class="stringliteral">&quot;FOR<sp/>u<sp/>IN<sp/>users<sp/>RETURN<sp/>u&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(result.schema_match_score,<sp/>0.8f);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><ref refid="test__aql__confidence__scorer_8cpp_1a8aec45a2ee0c712bc60277db3a46dfc4" kindref="member">TEST</ref>(AQLConfidenceScorerConfigTest,<sp/>CustomZeroMatchFloorIsUsed)<sp/>{</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_a_q_l_confidence_scorer_1_1_config" kindref="compound">AQLConfidenceScorer::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1aql_1_1_a_q_l_confidence_scorer_1_1_config_1a2d3b3f177ab9a0d522783c8c798fdb2a" kindref="member">zero_match_floor</ref><sp/>=<sp/>0.05f;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer" kindref="compound">AQLConfidenceScorer</ref><sp/>scorer{cfg};</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>schema<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;-<sp/>known_col:<sp/>{field}&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>scorer.<ref refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1a5d3a3c26cd21aed7092e5ca761b29ff9" kindref="member">score</ref>(</highlight><highlight class="stringliteral">&quot;FOR<sp/>x<sp/>IN<sp/>unknown<sp/>RETURN<sp/>x&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>schema);</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(result.schema_match_score,<sp/>0.05f);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><ref refid="test__aql__confidence__scorer_8cpp_1a8aec45a2ee0c712bc60277db3a46dfc4" kindref="member">TEST</ref>(AQLConfidenceScorerConfigTest,<sp/>CustomKeywordBonusesAreUsed)<sp/>{</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_a_q_l_confidence_scorer_1_1_config" kindref="compound">AQLConfidenceScorer::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1aql_1_1_a_q_l_confidence_scorer_1_1_config_1a37ee2ebba9b1041b7e2cc520dd1ca1a9" kindref="member">keyword_bonuses</ref><sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;filter&quot;</highlight><highlight class="normal">,<sp/>0.50f}};</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer" kindref="compound">AQLConfidenceScorer</ref><sp/>scorer{cfg};</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>without_filter<sp/>=<sp/>scorer.<ref refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1a5d3a3c26cd21aed7092e5ca761b29ff9" kindref="member">score</ref>(</highlight><highlight class="stringliteral">&quot;FOR<sp/>u<sp/>IN<sp/>users<sp/>RETURN<sp/>u&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>with_filter<sp/><sp/><sp/><sp/>=<sp/>scorer.<ref refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1a5d3a3c26cd21aed7092e5ca761b29ff9" kindref="member">score</ref>(</highlight><highlight class="stringliteral">&quot;FOR<sp/>u<sp/>IN<sp/>users<sp/>FILTER<sp/>u.x<sp/>==<sp/>1<sp/>RETURN<sp/>u&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(with_filter.completeness_score,<sp/>without_filter.completeness_score);</highlight></codeline>
+<codeline lineno="282"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><ref refid="test__aql__confidence__scorer_8cpp_1a8aec45a2ee0c712bc60277db3a46dfc4" kindref="member">TEST</ref>(AQLConfidenceScorerConfigTest,<sp/>ConfigAccessorReturnsCurrentConfig)<sp/>{</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_a_q_l_confidence_scorer_1_1_config" kindref="compound">AQLConfidenceScorer::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1aql_1_1_a_q_l_confidence_scorer_1_1_config_1a6d10edacb963a81a8d6749e909172289" kindref="member">structural_weight</ref><sp/>=<sp/>0.7f;</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer" kindref="compound">AQLConfidenceScorer</ref><sp/>scorer{cfg};</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(scorer.<ref refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1a46f01f6520b490d21c4e8eb10f998230" kindref="member">config</ref>().<ref refid="structthemis_1_1aql_1_1_a_q_l_confidence_scorer_1_1_config_1a6d10edacb963a81a8d6749e909172289" kindref="member">structural_weight</ref>,<sp/>0.7f);</highlight></codeline>
+<codeline lineno="290"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Whole-word<sp/>keyword<sp/>matching<sp/>(substring<sp/>false-positive<sp/>fix)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><ref refid="test__aql__confidence__scorer_8cpp_1a8aec45a2ee0c712bc60277db3a46dfc4" kindref="member">TEST</ref>(AQLConfidenceScorerKeywordTest,<sp/>UpsertDoesNotTriggerInsertBonus)<sp/>{</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;upsert&quot;<sp/>contains<sp/>&quot;insert&quot;<sp/>as<sp/>a<sp/>substring;<sp/>it<sp/>must<sp/>NOT<sp/>trigger<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;insert&quot;<sp/>bonus.<sp/><sp/>Only<sp/>&quot;upsert&quot;<sp/>should<sp/>be<sp/>credited.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_a_q_l_confidence_scorer_1_1_config" kindref="compound">AQLConfidenceScorer::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1aql_1_1_a_q_l_confidence_scorer_1_1_config_1a37ee2ebba9b1041b7e2cc520dd1ca1a9" kindref="member">keyword_bonuses</ref><sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;insert&quot;</highlight><highlight class="normal">,<sp/>0.10f},<sp/>{</highlight><highlight class="stringliteral">&quot;upsert&quot;</highlight><highlight class="normal">,<sp/>0.10f}};</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer" kindref="compound">AQLConfidenceScorer</ref><sp/>scorer{cfg};</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Query<sp/>contains<sp/>&quot;upsert&quot;<sp/>but<sp/>NOT<sp/>standalone<sp/>&quot;insert&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>upsert_query<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;UPSERT<sp/>{_key:<sp/>&apos;1&apos;}<sp/>INSERT<sp/>{_key:<sp/>&apos;1&apos;,<sp/>x:<sp/>1}<sp/>UPDATE<sp/>{x:<sp/>2}<sp/>IN<sp/>col&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>above<sp/>actually<sp/>contains<sp/>both<sp/>standalone<sp/>INSERT<sp/>and<sp/>UPSERT;<sp/>use<sp/>a</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>simpler<sp/>synthetic<sp/>string<sp/>that<sp/>only<sp/>has<sp/>&quot;upsert&quot;.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>only_upsert<sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;for<sp/>x<sp/>in<sp/>col<sp/>upsert<sp/>x<sp/>return<sp/>x&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>scorer.<ref refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1a5d3a3c26cd21aed7092e5ca761b29ff9" kindref="member">score</ref>(only_upsert);</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;insert&quot;<sp/>is<sp/>NOT<sp/>present<sp/>as<sp/>a<sp/>whole<sp/>word<sp/>→<sp/>its<sp/>bonus<sp/>must<sp/>not<sp/>be<sp/>added</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Base<sp/>(0.40)<sp/>+<sp/>upsert<sp/>bonus<sp/>(0.10)<sp/>=<sp/>0.50</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(result.completeness_score,<sp/>std::min(0.40f<sp/>+<sp/>0.10f,<sp/>1.0f));</highlight></codeline>
+<codeline lineno="313"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><ref refid="test__aql__confidence__scorer_8cpp_1a8aec45a2ee0c712bc60277db3a46dfc4" kindref="member">TEST</ref>(AQLConfidenceScorerKeywordTest,<sp/>StandaloneInsertIsMatched)<sp/>{</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_a_q_l_confidence_scorer_1_1_config" kindref="compound">AQLConfidenceScorer::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1aql_1_1_a_q_l_confidence_scorer_1_1_config_1a37ee2ebba9b1041b7e2cc520dd1ca1a9" kindref="member">keyword_bonuses</ref><sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;insert&quot;</highlight><highlight class="normal">,<sp/>0.10f}};</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer" kindref="compound">AQLConfidenceScorer</ref><sp/>scorer{cfg};</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>query<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;insert<sp/>{_key:<sp/>&apos;1&apos;,<sp/>name:<sp/>&apos;Alice&apos;}<sp/>into<sp/>users&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>scorer.<ref refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1a5d3a3c26cd21aed7092e5ca761b29ff9" kindref="member">score</ref>(query);</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Base<sp/>(0.40)<sp/>+<sp/>insert<sp/>(0.10)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(result.completeness_score,<sp/>std::min(0.40f<sp/>+<sp/>0.10f,<sp/>1.0f));</highlight></codeline>
+<codeline lineno="324"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Acceptance-criteria<sp/>tests<sp/>(as<sp/>per<sp/>issue)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><ref refid="test__aql__confidence__scorer_8cpp_1a8aec45a2ee0c712bc60277db3a46dfc4" kindref="member">TEST</ref>(AQLConfidenceScorerAcceptanceTest,<sp/>EmptyQueryReturnsExactlyZero)<sp/>{</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer" kindref="compound">AQLConfidenceScorer</ref><sp/>scorer;</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>scorer.<ref refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1a5d3a3c26cd21aed7092e5ca761b29ff9" kindref="member">score</ref>(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(result.overall_confidence,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="334"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><ref refid="test__aql__confidence__scorer_8cpp_1a8aec45a2ee0c712bc60277db3a46dfc4" kindref="member">TEST</ref>(AQLConfidenceScorerAcceptanceTest,<sp/>CompleteQueryReturnsAbove0Point7)<sp/>{</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer" kindref="compound">AQLConfidenceScorer</ref><sp/>scorer;</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Canonical<sp/>complete<sp/>query<sp/>from<sp/>issue<sp/>acceptance<sp/>criteria</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>scorer.<ref refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1a5d3a3c26cd21aed7092e5ca761b29ff9" kindref="member">score</ref>(</highlight><highlight class="stringliteral">&quot;FOR<sp/>x<sp/>IN<sp/>c<sp/>FILTER<sp/>x.a<sp/>==<sp/>1<sp/>RETURN<sp/>x&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(result.overall_confidence,<sp/>0.7f);</highlight></codeline>
+<codeline lineno="341"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight><highlight class="comment">//<sp/>calibrate()<sp/>method</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><ref refid="test__aql__confidence__scorer_8cpp_1a8aec45a2ee0c712bc60277db3a46dfc4" kindref="member">TEST</ref>(AQLConfidenceScorerCalibrateTest,<sp/>CalibrateDoesNotCrashOnEmptyInput)<sp/>{</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer" kindref="compound">AQLConfidenceScorer</ref><sp/>scorer;</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(scorer.<ref refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1a7684d35500799f27f84dc886bd73f4db" kindref="member">calibrate</ref>({}));</highlight></codeline>
+<codeline lineno="350"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><ref refid="test__aql__confidence__scorer_8cpp_1a8aec45a2ee0c712bc60277db3a46dfc4" kindref="member">TEST</ref>(AQLConfidenceScorerCalibrateTest,<sp/>CalibrateIgnoresEmptyQueryPairs)<sp/>{</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer" kindref="compound">AQLConfidenceScorer</ref><sp/>scorer;</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>float&gt;&gt;<sp/>pairs<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>0.9f},<sp/>{</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>0.5f}};</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>before<sp/>=<sp/>scorer.<ref refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1a46f01f6520b490d21c4e8eb10f998230" kindref="member">config</ref>().<ref refid="structthemis_1_1aql_1_1_a_q_l_confidence_scorer_1_1_config_1a6d10edacb963a81a8d6749e909172289" kindref="member">structural_weight</ref>;</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/>scorer.<ref refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1a7684d35500799f27f84dc886bd73f4db" kindref="member">calibrate</ref>(pairs);</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(scorer.<ref refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1a46f01f6520b490d21c4e8eb10f998230" kindref="member">config</ref>().<ref refid="structthemis_1_1aql_1_1_a_q_l_confidence_scorer_1_1_config_1a6d10edacb963a81a8d6749e909172289" kindref="member">structural_weight</ref>,<sp/>before);</highlight></codeline>
+<codeline lineno="358"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"></highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><ref refid="test__aql__confidence__scorer_8cpp_1a8aec45a2ee0c712bc60277db3a46dfc4" kindref="member">TEST</ref>(AQLConfidenceScorerCalibrateTest,<sp/>CalibrateWeightsSumToOne)<sp/>{</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer" kindref="compound">AQLConfidenceScorer</ref><sp/>scorer;</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"></highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>float&gt;&gt;<sp/>pairs<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;FOR<sp/>x<sp/>IN<sp/>c<sp/>FILTER<sp/>x.a<sp/>==<sp/>1<sp/>RETURN<sp/>x&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0.95f},</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;FOR<sp/>u<sp/>IN<sp/>users<sp/>RETURN<sp/>u&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0.80f},</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;FOR<sp/>u<sp/>IN<sp/>users<sp/>SORT<sp/>u.name<sp/>LIMIT<sp/>10<sp/>RETURN<sp/>u&quot;</highlight><highlight class="normal">,<sp/><sp/>0.85f},</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;RETURN<sp/>42&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0.10f},</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;FOR<sp/>x<sp/>IN<sp/>c<sp/>RETURN<sp/>x&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0.75f},</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"></highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/>scorer.<ref refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1a7684d35500799f27f84dc886bd73f4db" kindref="member">calibrate</ref>(pairs);</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"></highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>sum<sp/>=<sp/>scorer.<ref refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1a46f01f6520b490d21c4e8eb10f998230" kindref="member">config</ref>().<ref refid="structthemis_1_1aql_1_1_a_q_l_confidence_scorer_1_1_config_1a6d10edacb963a81a8d6749e909172289" kindref="member">structural_weight</ref></highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>+<sp/>scorer.<ref refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1a46f01f6520b490d21c4e8eb10f998230" kindref="member">config</ref>().<ref refid="structthemis_1_1aql_1_1_a_q_l_confidence_scorer_1_1_config_1a9a216f6d70f20d91f0aa3076abf88a28" kindref="member">completeness_weight</ref></highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>+<sp/>scorer.<ref refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1a46f01f6520b490d21c4e8eb10f998230" kindref="member">config</ref>().<ref refid="structthemis_1_1aql_1_1_a_q_l_confidence_scorer_1_1_config_1a7bf9f2ca1e391a9a2290932e450bb05e" kindref="member">schema_match_weight</ref>;</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(sum,<sp/>1.0f,<sp/>1e-5f);</highlight></codeline>
+<codeline lineno="377"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"></highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><ref refid="test__aql__confidence__scorer_8cpp_1a8aec45a2ee0c712bc60277db3a46dfc4" kindref="member">TEST</ref>(AQLConfidenceScorerCalibrateTest,<sp/>CalibrateWeightsAreInZeroOneRange)<sp/>{</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer" kindref="compound">AQLConfidenceScorer</ref><sp/>scorer;</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"></highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>float&gt;&gt;<sp/>pairs<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;FOR<sp/>x<sp/>IN<sp/>c<sp/>FILTER<sp/>x.a<sp/>==<sp/>1<sp/>RETURN<sp/>x&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0.95f},</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;FOR<sp/>u<sp/>IN<sp/>users<sp/>RETURN<sp/>u&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0.80f},</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;FOR<sp/>u<sp/>IN<sp/>users<sp/>SORT<sp/>u.name<sp/>LIMIT<sp/>10<sp/>RETURN<sp/>u&quot;</highlight><highlight class="normal">,<sp/><sp/>0.85f},</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"></highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/>scorer.<ref refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1a7684d35500799f27f84dc886bd73f4db" kindref="member">calibrate</ref>(pairs);</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"></highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(scorer.<ref refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1a46f01f6520b490d21c4e8eb10f998230" kindref="member">config</ref>().<ref refid="structthemis_1_1aql_1_1_a_q_l_confidence_scorer_1_1_config_1a6d10edacb963a81a8d6749e909172289" kindref="member">structural_weight</ref>,<sp/><sp/><sp/>0.0f);</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(scorer.<ref refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1a46f01f6520b490d21c4e8eb10f998230" kindref="member">config</ref>().<ref refid="structthemis_1_1aql_1_1_a_q_l_confidence_scorer_1_1_config_1a6d10edacb963a81a8d6749e909172289" kindref="member">structural_weight</ref>,<sp/><sp/><sp/>1.0f);</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(scorer.<ref refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1a46f01f6520b490d21c4e8eb10f998230" kindref="member">config</ref>().<ref refid="structthemis_1_1aql_1_1_a_q_l_confidence_scorer_1_1_config_1a9a216f6d70f20d91f0aa3076abf88a28" kindref="member">completeness_weight</ref>,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(scorer.<ref refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1a46f01f6520b490d21c4e8eb10f998230" kindref="member">config</ref>().<ref refid="structthemis_1_1aql_1_1_a_q_l_confidence_scorer_1_1_config_1a9a216f6d70f20d91f0aa3076abf88a28" kindref="member">completeness_weight</ref>,<sp/>1.0f);</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(scorer.<ref refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1a46f01f6520b490d21c4e8eb10f998230" kindref="member">config</ref>().<ref refid="structthemis_1_1aql_1_1_a_q_l_confidence_scorer_1_1_config_1a7bf9f2ca1e391a9a2290932e450bb05e" kindref="member">schema_match_weight</ref>,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(scorer.<ref refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1a46f01f6520b490d21c4e8eb10f998230" kindref="member">config</ref>().<ref refid="structthemis_1_1aql_1_1_a_q_l_confidence_scorer_1_1_config_1a7bf9f2ca1e391a9a2290932e450bb05e" kindref="member">schema_match_weight</ref>,<sp/>1.0f);</highlight></codeline>
+<codeline lineno="396"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/aql/test_aql_confidence_scorer.cpp"/>
+  </compounddef>
+</doxygen>

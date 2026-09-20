@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1_1_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::ResourceProfiler::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1_1_impl_1ab5fe596bee1f3d41a4e53595dfc486f0" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_resource_profiler_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::llm::lora::ResourceProfiler::Impl::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::llm::lora::ResourceProfiler::Impl::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/resource_profiler.cpp" line="24" column="12" bodyfile="src/llm/lora_framework/resource_profiler.cpp" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1_1_impl_1a272b28e6684206b795741ec0a2849b1e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::ResourceProfiler::Impl::running</definition>
+        <argsstring></argsstring>
+        <name>running</name>
+        <qualifiedname>themis::llm::lora::ResourceProfiler::Impl::running</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/resource_profiler.cpp" line="25" column="10" bodyfile="src/llm/lora_framework/resource_profiler.cpp" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1_1_impl_1ac7d02f558c2c2701ebe91504f153cc66" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_resource_snapshot" kindref="compound">ResourceSnapshot</ref> &gt;</type>
+        <definition>std::vector&lt;ResourceSnapshot&gt; themis::llm::lora::ResourceProfiler::Impl::snapshots</definition>
+        <argsstring></argsstring>
+        <name>snapshots</name>
+        <qualifiedname>themis::llm::lora::ResourceProfiler::Impl::snapshots</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/resource_profiler.cpp" line="26" column="17" bodyfile="src/llm/lora_framework/resource_profiler.cpp" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1_1_impl_1a5d1e45ca80395b0573f26e08e2077286" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1llm_1_1lora_1a5752101f086871306516c209ea3fc235" kindref="member">ResourceMonitorCallback</ref> &gt;</type>
+        <definition>std::vector&lt;ResourceMonitorCallback&gt; themis::llm::lora::ResourceProfiler::Impl::callbacks</definition>
+        <argsstring></argsstring>
+        <name>callbacks</name>
+        <qualifiedname>themis::llm::lora::ResourceProfiler::Impl::callbacks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/resource_profiler.cpp" line="27" column="17" bodyfile="src/llm/lora_framework/resource_profiler.cpp" bodystart="27" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::llm::lora::ResourceProfiler::Config</label>
+        <link refid="structthemis_1_1llm_1_1lora_1_1_resource_profiler_1_1_config"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::lora::ResourceProfiler::Impl</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/llm/lora_framework/resource_profiler.cpp" line="22" column="1" bodyfile="src/llm/lora_framework/resource_profiler.cpp" bodystart="22" bodyend="28"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1_1_impl_1a5d1e45ca80395b0573f26e08e2077286" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceProfiler::Impl</scope><name>callbacks</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1_1_impl_1ab5fe596bee1f3d41a4e53595dfc486f0" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceProfiler::Impl</scope><name>config</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1_1_impl_1a272b28e6684206b795741ec0a2849b1e" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceProfiler::Impl</scope><name>running</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1_1_impl_1ac7d02f558c2c2701ebe91504f153cc66" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceProfiler::Impl</scope><name>snapshots</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

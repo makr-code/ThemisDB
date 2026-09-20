@@ -1,0 +1,964 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classvcc_1_1_retention_manager" kind="class" language="C++" prot="public">
+    <compoundname>vcc::RetentionManager</compoundname>
+    <includes refid="retention__manager_8h" local="no">retention_manager.h</includes>
+    <innerclass refid="structvcc_1_1_retention_manager_1_1_retention_policy" prot="public">vcc::RetentionManager::RetentionPolicy</innerclass>
+    <innerclass refid="structvcc_1_1_retention_manager_1_1_retention_action" prot="public">vcc::RetentionManager::RetentionAction</innerclass>
+    <innerclass refid="structvcc_1_1_retention_manager_1_1_retention_stats" prot="public">vcc::RetentionManager::RetentionStats</innerclass>
+    <innerclass refid="structvcc_1_1_retention_manager_1_1_compliance_metrics" prot="public">vcc::RetentionManager::ComplianceMetrics</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classvcc_1_1_retention_manager_1a2da9e5984bb28cf058f7444bf902fc80" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structvcc_1_1_retention_manager_1_1_retention_policy" kindref="compound">RetentionPolicy</ref> &gt;</type>
+        <definition>std::map&lt;std::string, RetentionPolicy&gt; vcc::RetentionManager::policies_</definition>
+        <argsstring></argsstring>
+        <name>policies_</name>
+        <qualifiedname>vcc::RetentionManager::policies_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/retention_manager.h" line="246" column="14" bodyfile="include/utils/retention_manager.h" bodystart="246" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classvcc_1_1_retention_manager_1a5538f0471c2b4e33f0885e115089e947" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structvcc_1_1_retention_manager_1_1_retention_action" kindref="compound">RetentionAction</ref> &gt;</type>
+        <definition>std::vector&lt;RetentionAction&gt; vcc::RetentionManager::action_history_</definition>
+        <argsstring></argsstring>
+        <name>action_history_</name>
+        <qualifiedname>vcc::RetentionManager::action_history_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/retention_manager.h" line="247" column="17" bodyfile="include/utils/retention_manager.h" bodystart="247" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classvcc_1_1_retention_manager_1ad6761b6baae6963c944fdef19d126051" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structvcc_1_1_retention_manager_1_1_retention_stats" kindref="compound">RetentionStats</ref> &gt;</type>
+        <definition>std::map&lt;std::string, RetentionStats&gt; vcc::RetentionManager::policy_stats_</definition>
+        <argsstring></argsstring>
+        <name>policy_stats_</name>
+        <qualifiedname>vcc::RetentionManager::policy_stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/retention_manager.h" line="248" column="14" bodyfile="include/utils/retention_manager.h" bodystart="248" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classvcc_1_1_retention_manager_1a9892fbfa2572da57200ba0dffe15093a" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string vcc::RetentionManager::last_error_</definition>
+        <argsstring></argsstring>
+        <name>last_error_</name>
+        <qualifiedname>vcc::RetentionManager::last_error_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/retention_manager.h" line="249" column="17" bodyfile="include/utils/retention_manager.h" bodystart="249" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classvcc_1_1_retention_manager_1a28b6205d26ef49c2d1a88f497aeeb095" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool vcc::RetentionManager::audit_enabled_</definition>
+        <argsstring></argsstring>
+        <name>audit_enabled_</name>
+        <qualifiedname>vcc::RetentionManager::audit_enabled_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/retention_manager.h" line="250" column="10" bodyfile="include/utils/retention_manager.h" bodystart="250" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classvcc_1_1_retention_manager_1a750c4f2bad9918c0205d21616d8153e7" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; vcc::RetentionManager::bg_running_</definition>
+        <argsstring></argsstring>
+        <name>bg_running_</name>
+        <qualifiedname>vcc::RetentionManager::bg_running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/retention_manager.h" line="255" column="20" bodyfile="include/utils/retention_manager.h" bodystart="255" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="variable" id="classvcc_1_1_retention_manager_1a091ab445345d8e7f6513230671c88a3c" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread vcc::RetentionManager::bg_thread_</definition>
+        <argsstring></argsstring>
+        <name>bg_thread_</name>
+        <qualifiedname>vcc::RetentionManager::bg_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/retention_manager.h" line="256" column="26" bodyfile="include/utils/retention_manager.h" bodystart="256" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classvcc_1_1_retention_manager_1a3539a4d14810f210acbabfc297b48fef" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex vcc::RetentionManager::bg_mutex_</definition>
+        <argsstring></argsstring>
+        <name>bg_mutex_</name>
+        <qualifiedname>vcc::RetentionManager::bg_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/retention_manager.h" line="257" column="26" bodyfile="include/utils/retention_manager.h" bodystart="257" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classvcc_1_1_retention_manager_1ae132efbab2a78d253416da6274f408e6" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable vcc::RetentionManager::bg_cv_</definition>
+        <argsstring></argsstring>
+        <name>bg_cv_</name>
+        <qualifiedname>vcc::RetentionManager::bg_cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/retention_manager.h" line="258" column="29" bodyfile="include/utils/retention_manager.h" bodystart="258" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classvcc_1_1_retention_manager_1a96c0908779d45b850c6a703eddca8d86" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool vcc::RetentionManager::bg_stop_</definition>
+        <argsstring></argsstring>
+        <name>bg_stop_</name>
+        <qualifiedname>vcc::RetentionManager::bg_stop_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/retention_manager.h" line="259" column="26" bodyfile="include/utils/retention_manager.h" bodystart="259" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="variable" id="classvcc_1_1_retention_manager_1aa88a58bd60295af08c56e9b4dfc61bad" prot="private" static="no" mutable="no">
+        <type><ref refid="structvcc_1_1_retention_manager_1_1_compliance_metrics" kindref="compound">ComplianceMetrics</ref></type>
+        <definition>ComplianceMetrics vcc::RetentionManager::compliance_metrics_</definition>
+        <argsstring></argsstring>
+        <name>compliance_metrics_</name>
+        <qualifiedname>vcc::RetentionManager::compliance_metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/retention_manager.h" line="260" column="26" bodyfile="include/utils/retention_manager.h" bodystart="260" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classvcc_1_1_retention_manager_1a6fbc9d93a762552b4cf0ad8a8e8115c8" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex vcc::RetentionManager::metrics_mutex_</definition>
+        <argsstring></argsstring>
+        <name>metrics_mutex_</name>
+        <qualifiedname>vcc::RetentionManager::metrics_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/retention_manager.h" line="261" column="26" bodyfile="include/utils/retention_manager.h" bodystart="261" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classvcc_1_1_retention_manager_1a08a24f7867ae61531b6731d1e763a534" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>vcc::RetentionManager::RetentionManager</definition>
+        <argsstring>(const std::string &amp;config_path=&quot;&quot;)</argsstring>
+        <name>RetentionManager</name>
+        <qualifiedname>vcc::RetentionManager::RetentionManager</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>config_path</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Construct retention manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to retention policies configuration (YAML/JSON) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/retention_manager.h" line="78" column="14" bodyfile="src/utils/retention_manager.cpp" bodystart="27" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="classvcc_1_1_retention_manager_1a157faf3687f01ee060f56dc9106c95e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool vcc::RetentionManager::registerPolicy</definition>
+        <argsstring>(const RetentionPolicy &amp;policy)</argsstring>
+        <name>registerPolicy</name>
+        <qualifiedname>vcc::RetentionManager::registerPolicy</qualifiedname>
+        <param>
+          <type>const <ref refid="structvcc_1_1_retention_manager_1_1_retention_policy" kindref="compound">RetentionPolicy</ref> &amp;</type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+<para>Register a retention policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Policy configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if registered successfully</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Retention policy definition to store. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the policy was accepted and stored.</para>
+</simplesect>
+Calls: empty(), count(), find(), end(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/retention_manager.h" line="85" column="10" bodyfile="src/utils/retention_manager.cpp" bodystart="45" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classvcc_1_1_retention_manager_1af7150884da79916c4b73a265dc182154" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool vcc::RetentionManager::removePolicy</definition>
+        <argsstring>(const std::string &amp;policy_name)</argsstring>
+        <name>removePolicy</name>
+        <qualifiedname>vcc::RetentionManager::removePolicy</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>policy_name</declname>
+        </param>
+        <briefdescription>
+<para>Remove a retention policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove a retention policy by name.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>policy_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of policy to remove </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if removed successfully</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the retention policy to remove. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the policy existed and was removed.</para>
+</simplesect>
+Calls: find(), end(), erase(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/retention_manager.h" line="92" column="10" bodyfile="src/utils/retention_manager.cpp" bodystart="75" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="classvcc_1_1_retention_manager_1ac6693d968f3d4f449c1da8dae20228d9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structvcc_1_1_retention_manager_1_1_retention_policy" kindref="compound">RetentionPolicy</ref> &gt;</type>
+        <definition>std::vector&lt; RetentionManager::RetentionPolicy &gt; vcc::RetentionManager::getPolicies</definition>
+        <argsstring>() const</argsstring>
+        <name>getPolicies</name>
+        <qualifiedname>vcc::RetentionManager::getPolicies</qualifiedname>
+        <briefdescription>
+<para>Get all registered policies. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/retention_manager.h" line="97" column="17" bodyfile="src/utils/retention_manager.cpp" bodystart="87" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="classvcc_1_1_retention_manager_1ad495d99e86d12633f65cd302940b1b1e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">themis::Result</ref>&lt; const <ref refid="structvcc_1_1_retention_manager_1_1_retention_policy" kindref="compound">RetentionPolicy</ref> * &gt;</type>
+        <definition>themis::Result&lt; const RetentionManager::RetentionPolicy * &gt; vcc::RetentionManager::getPolicy</definition>
+        <argsstring>(const std::string &amp;policy_name) const</argsstring>
+        <name>getPolicy</name>
+        <qualifiedname>vcc::RetentionManager::getPolicy</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>policy_name</declname>
+        </param>
+        <briefdescription>
+<para>Get a specific policy by name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Result containing pointer to policy, or error if not found </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/retention_manager.h" line="103" column="20" bodyfile="src/utils/retention_manager.cpp" bodystart="99" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="classvcc_1_1_retention_manager_1aa5d3d073f0243a62f9b167e7ff790779" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool vcc::RetentionManager::shouldArchive</definition>
+        <argsstring>(const std::string &amp;entity_id, std::chrono::system_clock::time_point created_at, const std::string &amp;policy_name) const</argsstring>
+        <name>shouldArchive</name>
+        <qualifiedname>vcc::RetentionManager::shouldArchive</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>entity_id</declname>
+        </param>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>created_at</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>policy_name</declname>
+        </param>
+        <briefdescription>
+<para>Check if an entity should be archived. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>entity_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Entity identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>created_at</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Entity creation timestamp </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>policy_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Policy to check against </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if entity should be archived </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/retention_manager.h" line="112" column="10" bodyfile="src/utils/retention_manager.cpp" bodystart="109" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="classvcc_1_1_retention_manager_1a69ce56e475f3e72fe1dd4517ab7fd894" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool vcc::RetentionManager::shouldPurge</definition>
+        <argsstring>(const std::string &amp;entity_id, std::chrono::system_clock::time_point created_at, const std::string &amp;policy_name) const</argsstring>
+        <name>shouldPurge</name>
+        <qualifiedname>vcc::RetentionManager::shouldPurge</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>entity_id</declname>
+        </param>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>created_at</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>policy_name</declname>
+        </param>
+        <briefdescription>
+<para>Check if an entity should be purged. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>entity_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Entity identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>created_at</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Entity creation timestamp </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>policy_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Policy to check against </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if entity should be purged </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/retention_manager.h" line="124" column="10" bodyfile="src/utils/retention_manager.cpp" bodystart="126" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classvcc_1_1_retention_manager_1a043f2a7543489ed0a18e18d6e8bf84e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structvcc_1_1_retention_manager_1_1_retention_action" kindref="compound">RetentionAction</ref></type>
+        <definition>RetentionManager::RetentionAction vcc::RetentionManager::archiveEntity</definition>
+        <argsstring>(const std::string &amp;entity_id, const std::string &amp;policy_name, std::function&lt; bool(const std::string &amp;)&gt; archive_handler)</argsstring>
+        <name>archiveEntity</name>
+        <qualifiedname>vcc::RetentionManager::archiveEntity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>entity_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>policy_name</declname>
+        </param>
+        <param>
+          <type>std::function&lt; bool(const std::string &amp;)&gt;</type>
+          <declname>archive_handler</declname>
+        </param>
+        <briefdescription>
+<para>Archive an entity (move to cold storage). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>entity_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Entity to archive </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>policy_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Policy governing the archiving </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>archive_handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Custom archive implementation </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structvcc_1_1_retention_manager_1_1_retention_action" kindref="compound">RetentionAction</ref> result </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/retention_manager.h" line="136" column="21" bodyfile="src/utils/retention_manager.cpp" bodystart="147" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="classvcc_1_1_retention_manager_1a468f742336430ecc5c3c9dd8035a4c16" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structvcc_1_1_retention_manager_1_1_retention_action" kindref="compound">RetentionAction</ref></type>
+        <definition>RetentionManager::RetentionAction vcc::RetentionManager::purgeEntity</definition>
+        <argsstring>(const std::string &amp;entity_id, const std::string &amp;policy_name, std::function&lt; bool(const std::string &amp;)&gt; purge_handler)</argsstring>
+        <name>purgeEntity</name>
+        <qualifiedname>vcc::RetentionManager::purgeEntity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>entity_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>policy_name</declname>
+        </param>
+        <param>
+          <type>std::function&lt; bool(const std::string &amp;)&gt;</type>
+          <declname>purge_handler</declname>
+        </param>
+        <briefdescription>
+<para>Purge an entity (permanently delete). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>entity_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Entity to purge </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>policy_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Policy governing the purge </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>purge_handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Custom purge implementation </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structvcc_1_1_retention_manager_1_1_retention_action" kindref="compound">RetentionAction</ref> result </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/retention_manager.h" line="148" column="21" bodyfile="src/utils/retention_manager.cpp" bodystart="187" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="classvcc_1_1_retention_manager_1acfc070654e343387d5f225c1f55ded5b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structvcc_1_1_retention_manager_1_1_retention_stats" kindref="compound">RetentionStats</ref></type>
+        <definition>RetentionManager::RetentionStats vcc::RetentionManager::runRetentionCheck</definition>
+        <argsstring>(std::function&lt; std::vector&lt; std::pair&lt; std::string, std::chrono::system_clock::time_point &gt; &gt;(const std::string &amp;)&gt; entity_provider, std::function&lt; bool(const std::string &amp;)&gt; archive_handler, std::function&lt; bool(const std::string &amp;)&gt; purge_handler)</argsstring>
+        <name>runRetentionCheck</name>
+        <qualifiedname>vcc::RetentionManager::runRetentionCheck</qualifiedname>
+        <param>
+          <type>std::function&lt; std::vector&lt; std::pair&lt; std::string, std::chrono::system_clock::time_point &gt; &gt;(const std::string &amp;)&gt;</type>
+          <declname>entity_provider</declname>
+        </param>
+        <param>
+          <type>std::function&lt; bool(const std::string &amp;)&gt;</type>
+          <declname>archive_handler</declname>
+        </param>
+        <param>
+          <type>std::function&lt; bool(const std::string &amp;)&gt;</type>
+          <declname>purge_handler</declname>
+        </param>
+        <briefdescription>
+<para>Run retention check for all entities. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>entity_provider</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback that provides entities to check: (policy_name) -&gt; vector&lt;pair&lt;entity_id, created_at&gt;&gt; </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>archive_handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Archive implementation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>purge_handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Purge implementation </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Statistics for the run </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/retention_manager.h" line="160" column="20" bodyfile="src/utils/retention_manager.cpp" bodystart="236" bodyend="289"/>
+      </memberdef>
+      <memberdef kind="function" id="classvcc_1_1_retention_manager_1a1e5878d89c6be3ff27b0100253ce59c3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structvcc_1_1_retention_manager_1_1_retention_action" kindref="compound">RetentionAction</ref> &gt;</type>
+        <definition>std::vector&lt; RetentionManager::RetentionAction &gt; vcc::RetentionManager::getHistory</definition>
+        <argsstring>(size_t limit=100) const</argsstring>
+        <name>getHistory</name>
+        <qualifiedname>vcc::RetentionManager::getHistory</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>limit</declname>
+          <defval>100</defval>
+        </param>
+        <briefdescription>
+<para>Get retention actions history. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>limit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of actions to return (0 = all) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Recent retention actions </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/retention_manager.h" line="170" column="17" bodyfile="src/utils/retention_manager.cpp" bodystart="291" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="function" id="classvcc_1_1_retention_manager_1a42e70c3caff91657852dd9aa20231503" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structvcc_1_1_retention_manager_1_1_retention_stats" kindref="compound">RetentionStats</ref></type>
+        <definition>RetentionManager::RetentionStats vcc::RetentionManager::getPolicyStats</definition>
+        <argsstring>(const std::string &amp;policy_name) const</argsstring>
+        <name>getPolicyStats</name>
+        <qualifiedname>vcc::RetentionManager::getPolicyStats</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>policy_name</declname>
+        </param>
+        <briefdescription>
+<para>Get statistics for a specific policy. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/retention_manager.h" line="175" column="20" bodyfile="src/utils/retention_manager.cpp" bodystart="301" bodyend="307"/>
+      </memberdef>
+      <memberdef kind="function" id="classvcc_1_1_retention_manager_1a14c59b7891cf557a6ca9afd49ae3c3fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool vcc::RetentionManager::loadPolicies</definition>
+        <argsstring>(const std::string &amp;config_path)</argsstring>
+        <name>loadPolicies</name>
+        <qualifiedname>vcc::RetentionManager::loadPolicies</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>config_path</declname>
+        </param>
+        <briefdescription>
+<para>Load policies from configuration file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load retention policies from a configuration file.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to config file </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if loaded successfully</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the retention policy configuration file. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: YAML::LoadFile(), std::chrono::seconds(), nlohmann::json::object(), <ref refid="classvcc_1_1_retention_manager_1a157faf3687f01ee060f56dc9106c95e9" kindref="member">registerPolicy()</ref>, spdlog::info(), size(), std::string(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/retention_manager.h" line="182" column="10" bodyfile="src/utils/retention_manager.cpp" bodystart="315" bodyend="375"/>
+      </memberdef>
+      <memberdef kind="function" id="classvcc_1_1_retention_manager_1abe3f5eeb786f85ad79dbc5794efcaeae" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; vcc::RetentionManager::getLastError</definition>
+        <argsstring>() const</argsstring>
+        <name>getLastError</name>
+        <qualifiedname>vcc::RetentionManager::getLastError</qualifiedname>
+        <briefdescription>
+<para>Get last error message. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/retention_manager.h" line="187" column="23" bodyfile="include/utils/retention_manager.h" bodystart="187" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="classvcc_1_1_retention_manager_1a0b18e5f06150388b5a812a15277c4e22" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vcc::RetentionManager::startBackgroundJob</definition>
+        <argsstring>(std::chrono::seconds interval, std::function&lt; std::vector&lt; std::pair&lt; std::string, std::chrono::system_clock::time_point &gt; &gt;(const std::string &amp;)&gt; entity_provider, std::function&lt; bool(const std::string &amp;)&gt; archive_handler, std::function&lt; bool(const std::string &amp;)&gt; purge_handler)</argsstring>
+        <name>startBackgroundJob</name>
+        <qualifiedname>vcc::RetentionManager::startBackgroundJob</qualifiedname>
+        <param>
+          <type>std::chrono::seconds</type>
+          <declname>interval</declname>
+        </param>
+        <param>
+          <type>std::function&lt; std::vector&lt; std::pair&lt; std::string, std::chrono::system_clock::time_point &gt; &gt;(const std::string &amp;)&gt;</type>
+          <declname>entity_provider</declname>
+        </param>
+        <param>
+          <type>std::function&lt; bool(const std::string &amp;)&gt;</type>
+          <declname>archive_handler</declname>
+        </param>
+        <param>
+          <type>std::function&lt; bool(const std::string &amp;)&gt;</type>
+          <declname>purge_handler</declname>
+        </param>
+        <briefdescription>
+<para>Start an asynchronous background retention-enforcement job. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The background thread wakes up every <computeroutput>interval</computeroutput>, calls <computeroutput>entity_provider</computeroutput> for each registered policy, and applies archive / purge handlers as appropriate. Call <ref refid="classvcc_1_1_retention_manager_1ab0adb737648a9aa5dfd5e7151b19874d" kindref="member">stopBackgroundJob()</ref> to stop it.</para>
+<para>Only one background job may run at a time. Calling <ref refid="classvcc_1_1_retention_manager_1a0b18e5f06150388b5a812a15277c4e22" kindref="member">startBackgroundJob()</ref> while a job is already running is a no-op.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>interval</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>How often to run the retention check. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>entity_provider</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback that provides entities to check. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>archive_handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Archive implementation. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>purge_handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Purge implementation. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bg_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bg_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Mlk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Mlk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/utils/retention_manager.h" line="220" column="10" bodyfile="src/utils/retention_manager.cpp" bodystart="405" bodyend="471"/>
+      </memberdef>
+      <memberdef kind="function" id="classvcc_1_1_retention_manager_1ab0adb737648a9aa5dfd5e7151b19874d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vcc::RetentionManager::stopBackgroundJob</definition>
+        <argsstring>()</argsstring>
+        <name>stopBackgroundJob</name>
+        <qualifiedname>vcc::RetentionManager::stopBackgroundJob</qualifiedname>
+        <briefdescription>
+<para>Stop the background retention-enforcement job. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stop Background Job.</para>
+<para>Blocks until the current iteration finishes, then joins the thread. Safe to call even if no background job is running.</para>
+<para>Calls: lk(), notify_all(), joinable(), join(), store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/retention_manager.h" line="233" column="10" bodyfile="src/utils/retention_manager.cpp" bodystart="477" bodyend="487"/>
+      </memberdef>
+      <memberdef kind="function" id="classvcc_1_1_retention_manager_1a9e639ff292fc6c886f85e87fbace5905" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool vcc::RetentionManager::isBackgroundJobRunning</definition>
+        <argsstring>() const</argsstring>
+        <name>isBackgroundJobRunning</name>
+        <qualifiedname>vcc::RetentionManager::isBackgroundJobRunning</qualifiedname>
+        <briefdescription>
+<para>Return true if a background job is currently running. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/retention_manager.h" line="238" column="10" bodyfile="src/utils/retention_manager.cpp" bodystart="489" bodyend="491"/>
+      </memberdef>
+      <memberdef kind="function" id="classvcc_1_1_retention_manager_1abea5debc6eee6b9fa762bb4fd92d2dc4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structvcc_1_1_retention_manager_1_1_compliance_metrics" kindref="compound">ComplianceMetrics</ref></type>
+        <definition>RetentionManager::ComplianceMetrics vcc::RetentionManager::getComplianceMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>getComplianceMetrics</name>
+        <qualifiedname>vcc::RetentionManager::getComplianceMetrics</qualifiedname>
+        <briefdescription>
+<para>Get the latest compliance metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/utils/retention_manager.h" line="243" column="23" bodyfile="src/utils/retention_manager.cpp" bodystart="493" bodyend="503"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classvcc_1_1_retention_manager_1a8cc7a4f13978b3115df3b7ec5b7bad5d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vcc::RetentionManager::logAction</definition>
+        <argsstring>(const RetentionAction &amp;action)</argsstring>
+        <name>logAction</name>
+        <qualifiedname>vcc::RetentionManager::logAction</qualifiedname>
+        <param>
+          <type>const <ref refid="structvcc_1_1_retention_manager_1_1_retention_action" kindref="compound">RetentionAction</ref> &amp;</type>
+          <declname>action</declname>
+        </param>
+        <briefdescription>
+<para>Log Action. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">action</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(), size(), erase(), begin(), spdlog::info(), spdlog::warn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/retention_manager.h" line="252" column="10" bodyfile="src/utils/retention_manager.cpp" bodystart="382" bodyend="399"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Retention policies for compliance (DSGVO, eIDAS, etc.). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Manages automatic archiving and purging of sensitive data based on configurable retention periods and legal requirements. </para>
+    </detaileddescription>
+    <location file="include/utils/retention_manager.h" line="35" column="1" bodyfile="include/utils/retention_manager.h" bodystart="35" bodyend="262"/>
+    <listofallmembers>
+      <member refid="classvcc_1_1_retention_manager_1a5538f0471c2b4e33f0885e115089e947" prot="private" virt="non-virtual"><scope>vcc::RetentionManager</scope><name>action_history_</name></member>
+      <member refid="classvcc_1_1_retention_manager_1a043f2a7543489ed0a18e18d6e8bf84e1" prot="public" virt="non-virtual"><scope>vcc::RetentionManager</scope><name>archiveEntity</name></member>
+      <member refid="classvcc_1_1_retention_manager_1a28b6205d26ef49c2d1a88f497aeeb095" prot="private" virt="non-virtual"><scope>vcc::RetentionManager</scope><name>audit_enabled_</name></member>
+      <member refid="classvcc_1_1_retention_manager_1ae132efbab2a78d253416da6274f408e6" prot="private" virt="non-virtual"><scope>vcc::RetentionManager</scope><name>bg_cv_</name></member>
+      <member refid="classvcc_1_1_retention_manager_1a3539a4d14810f210acbabfc297b48fef" prot="private" virt="non-virtual"><scope>vcc::RetentionManager</scope><name>bg_mutex_</name></member>
+      <member refid="classvcc_1_1_retention_manager_1a750c4f2bad9918c0205d21616d8153e7" prot="private" virt="non-virtual"><scope>vcc::RetentionManager</scope><name>bg_running_</name></member>
+      <member refid="classvcc_1_1_retention_manager_1a96c0908779d45b850c6a703eddca8d86" prot="private" virt="non-virtual"><scope>vcc::RetentionManager</scope><name>bg_stop_</name></member>
+      <member refid="classvcc_1_1_retention_manager_1a091ab445345d8e7f6513230671c88a3c" prot="private" virt="non-virtual"><scope>vcc::RetentionManager</scope><name>bg_thread_</name></member>
+      <member refid="classvcc_1_1_retention_manager_1aa88a58bd60295af08c56e9b4dfc61bad" prot="private" virt="non-virtual"><scope>vcc::RetentionManager</scope><name>compliance_metrics_</name></member>
+      <member refid="classvcc_1_1_retention_manager_1abea5debc6eee6b9fa762bb4fd92d2dc4" prot="public" virt="non-virtual"><scope>vcc::RetentionManager</scope><name>getComplianceMetrics</name></member>
+      <member refid="classvcc_1_1_retention_manager_1a1e5878d89c6be3ff27b0100253ce59c3" prot="public" virt="non-virtual"><scope>vcc::RetentionManager</scope><name>getHistory</name></member>
+      <member refid="classvcc_1_1_retention_manager_1abe3f5eeb786f85ad79dbc5794efcaeae" prot="public" virt="non-virtual"><scope>vcc::RetentionManager</scope><name>getLastError</name></member>
+      <member refid="classvcc_1_1_retention_manager_1ac6693d968f3d4f449c1da8dae20228d9" prot="public" virt="non-virtual"><scope>vcc::RetentionManager</scope><name>getPolicies</name></member>
+      <member refid="classvcc_1_1_retention_manager_1ad495d99e86d12633f65cd302940b1b1e" prot="public" virt="non-virtual"><scope>vcc::RetentionManager</scope><name>getPolicy</name></member>
+      <member refid="classvcc_1_1_retention_manager_1a42e70c3caff91657852dd9aa20231503" prot="public" virt="non-virtual"><scope>vcc::RetentionManager</scope><name>getPolicyStats</name></member>
+      <member refid="classvcc_1_1_retention_manager_1a9e639ff292fc6c886f85e87fbace5905" prot="public" virt="non-virtual"><scope>vcc::RetentionManager</scope><name>isBackgroundJobRunning</name></member>
+      <member refid="classvcc_1_1_retention_manager_1a9892fbfa2572da57200ba0dffe15093a" prot="private" virt="non-virtual"><scope>vcc::RetentionManager</scope><name>last_error_</name></member>
+      <member refid="classvcc_1_1_retention_manager_1a14c59b7891cf557a6ca9afd49ae3c3fd" prot="public" virt="non-virtual"><scope>vcc::RetentionManager</scope><name>loadPolicies</name></member>
+      <member refid="classvcc_1_1_retention_manager_1a8cc7a4f13978b3115df3b7ec5b7bad5d" prot="private" virt="non-virtual"><scope>vcc::RetentionManager</scope><name>logAction</name></member>
+      <member refid="classvcc_1_1_retention_manager_1a6fbc9d93a762552b4cf0ad8a8e8115c8" prot="private" virt="non-virtual"><scope>vcc::RetentionManager</scope><name>metrics_mutex_</name></member>
+      <member refid="classvcc_1_1_retention_manager_1a2da9e5984bb28cf058f7444bf902fc80" prot="private" virt="non-virtual"><scope>vcc::RetentionManager</scope><name>policies_</name></member>
+      <member refid="classvcc_1_1_retention_manager_1ad6761b6baae6963c944fdef19d126051" prot="private" virt="non-virtual"><scope>vcc::RetentionManager</scope><name>policy_stats_</name></member>
+      <member refid="classvcc_1_1_retention_manager_1a468f742336430ecc5c3c9dd8035a4c16" prot="public" virt="non-virtual"><scope>vcc::RetentionManager</scope><name>purgeEntity</name></member>
+      <member refid="classvcc_1_1_retention_manager_1a157faf3687f01ee060f56dc9106c95e9" prot="public" virt="non-virtual"><scope>vcc::RetentionManager</scope><name>registerPolicy</name></member>
+      <member refid="classvcc_1_1_retention_manager_1af7150884da79916c4b73a265dc182154" prot="public" virt="non-virtual"><scope>vcc::RetentionManager</scope><name>removePolicy</name></member>
+      <member refid="classvcc_1_1_retention_manager_1a08a24f7867ae61531b6731d1e763a534" prot="public" virt="non-virtual"><scope>vcc::RetentionManager</scope><name>RetentionManager</name></member>
+      <member refid="classvcc_1_1_retention_manager_1acfc070654e343387d5f225c1f55ded5b" prot="public" virt="non-virtual"><scope>vcc::RetentionManager</scope><name>runRetentionCheck</name></member>
+      <member refid="classvcc_1_1_retention_manager_1aa5d3d073f0243a62f9b167e7ff790779" prot="public" virt="non-virtual"><scope>vcc::RetentionManager</scope><name>shouldArchive</name></member>
+      <member refid="classvcc_1_1_retention_manager_1a69ce56e475f3e72fe1dd4517ab7fd894" prot="public" virt="non-virtual"><scope>vcc::RetentionManager</scope><name>shouldPurge</name></member>
+      <member refid="classvcc_1_1_retention_manager_1a0b18e5f06150388b5a812a15277c4e22" prot="public" virt="non-virtual"><scope>vcc::RetentionManager</scope><name>startBackgroundJob</name></member>
+      <member refid="classvcc_1_1_retention_manager_1ab0adb737648a9aa5dfd5e7151b19874d" prot="public" virt="non-virtual"><scope>vcc::RetentionManager</scope><name>stopBackgroundJob</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

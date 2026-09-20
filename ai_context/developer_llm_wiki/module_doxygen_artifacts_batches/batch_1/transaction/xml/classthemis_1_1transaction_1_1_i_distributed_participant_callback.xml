@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1transaction_1_1_i_distributed_participant_callback" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::transaction::IDistributedParticipantCallback</compoundname>
+    <derivedcompoundref refid="class_abort_throwing_participant" prot="public" virt="non-virtual">AbortThrowingParticipant</derivedcompoundref>
+    <derivedcompoundref refid="class_bench_mock_participant" prot="public" virt="non-virtual">BenchMockParticipant</derivedcompoundref>
+    <derivedcompoundref refid="class_mock_participant" prot="public" virt="non-virtual">MockParticipant</derivedcompoundref>
+    <derivedcompoundref refid="class_mock_participant" prot="public" virt="non-virtual">MockParticipant</derivedcompoundref>
+    <derivedcompoundref refid="class_phase2_mock_participant" prot="public" virt="non-virtual">Phase2MockParticipant</derivedcompoundref>
+    <includes refid="distributed__transaction__manager_8h" local="no">distributed_transaction_manager.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_i_distributed_participant_callback_1a8c6c340c8cd2ab3b390cf90c13cac610" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::transaction::IDistributedParticipantCallback::~IDistributedParticipantCallback</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IDistributedParticipantCallback</name>
+        <qualifiedname>themis::transaction::IDistributedParticipantCallback::~IDistributedParticipantCallback</qualifiedname>
+        <briefdescription>
+<para>IDistributed <ref refid="structthemis_1_1transaction_1_1_participant" kindref="compound">Participant</ref> Callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="79" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_i_distributed_participant_callback_1a89abea487b7f9ed7022470ed41faba06" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::transaction::IDistributedParticipantCallback::onPrepare</definition>
+        <argsstring>(const std::string &amp;txn_id, const std::set&lt; std::string &gt; &amp;affected_keys)=0</argsstring>
+        <name>onPrepare</name>
+        <qualifiedname>themis::transaction::IDistributedParticipantCallback::onPrepare</qualifiedname>
+        <reimplementedby refid="class_abort_throwing_participant_1ac48e82e4d2e147bff70756ae8e46ae9f">onPrepare</reimplementedby>
+        <reimplementedby refid="class_bench_mock_participant_1aada577a7b174de3ec91063b877dd12c7">onPrepare</reimplementedby>
+        <reimplementedby refid="class_mock_participant_1a8046873deaa9c7c23657f69bec051556">onPrepare</reimplementedby>
+        <reimplementedby refid="class_mock_participant_1ace7b9162cb13e27f7e862b319d6e199e">onPrepare</reimplementedby>
+        <reimplementedby refid="class_phase2_mock_participant_1ad33093f2a0fc0b772b47df4ee139fed4">onPrepare</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <param>
+          <type>const std::set&lt; std::string &gt; &amp;</type>
+          <declname>affected_keys</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="81" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_i_distributed_participant_callback_1af647d0102bad4e770015b086d7cf399a" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::transaction::IDistributedParticipantCallback::onCommit</definition>
+        <argsstring>(const std::string &amp;txn_id)=0</argsstring>
+        <name>onCommit</name>
+        <qualifiedname>themis::transaction::IDistributedParticipantCallback::onCommit</qualifiedname>
+        <reimplementedby refid="class_abort_throwing_participant_1a5eb431cbf776d382156ceb416339865e">onCommit</reimplementedby>
+        <reimplementedby refid="class_bench_mock_participant_1a8aa7c35ee794d1e832c331687cb780d6">onCommit</reimplementedby>
+        <reimplementedby refid="class_mock_participant_1afcff8d44a0340bf97f3e73c8ce80063a">onCommit</reimplementedby>
+        <reimplementedby refid="class_mock_participant_1a9ad157a1f82ac389843b6ea82d42bca6">onCommit</reimplementedby>
+        <reimplementedby refid="class_phase2_mock_participant_1acdf0b02721f7453a25f38ef6e4e66c52">onCommit</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>On Commit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="90" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_i_distributed_participant_callback_1a683d107218ed5398400b54b9dd8765c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::transaction::IDistributedParticipantCallback::onAbort</definition>
+        <argsstring>(const std::string &amp;txn_id)=0</argsstring>
+        <name>onAbort</name>
+        <qualifiedname>themis::transaction::IDistributedParticipantCallback::onAbort</qualifiedname>
+        <reimplementedby refid="class_abort_throwing_participant_1acd49463a3b2db4099d7c6829bd80a35e">onAbort</reimplementedby>
+        <reimplementedby refid="class_bench_mock_participant_1a8812cbda325aecca34f7f1fd840c6019">onAbort</reimplementedby>
+        <reimplementedby refid="class_mock_participant_1a4a72fde71c3bd3224a2c7eb8280b569b">onAbort</reimplementedby>
+        <reimplementedby refid="class_mock_participant_1aa1fb35148c2cf66558590cbc560a567e">onAbort</reimplementedby>
+        <reimplementedby refid="class_phase2_mock_participant_1aee7b0e39dada230a83160e8fd06077e4">onAbort</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>On Abort. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="96" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>AbortThrowingParticipant</label>
+        <link refid="class_abort_throwing_participant"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>BenchMockParticipant</label>
+        <link refid="class_bench_mock_participant"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>MockParticipant</label>
+        <link refid="class_mock_participant"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>Phase2MockParticipant</label>
+        <link refid="class_phase2_mock_participant"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::transaction::IDistributedParticipantCallback</label>
+        <link refid="classthemis_1_1transaction_1_1_i_distributed_participant_callback"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/transaction/distributed_transaction_manager.h" line="73" column="1" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="73" bodyend="97"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1transaction_1_1_i_distributed_participant_callback_1a683d107218ed5398400b54b9dd8765c8" prot="public" virt="pure-virtual"><scope>themis::transaction::IDistributedParticipantCallback</scope><name>onAbort</name></member>
+      <member refid="classthemis_1_1transaction_1_1_i_distributed_participant_callback_1af647d0102bad4e770015b086d7cf399a" prot="public" virt="pure-virtual"><scope>themis::transaction::IDistributedParticipantCallback</scope><name>onCommit</name></member>
+      <member refid="classthemis_1_1transaction_1_1_i_distributed_participant_callback_1a89abea487b7f9ed7022470ed41faba06" prot="public" virt="pure-virtual"><scope>themis::transaction::IDistributedParticipantCallback</scope><name>onPrepare</name></member>
+      <member refid="classthemis_1_1transaction_1_1_i_distributed_participant_callback_1a8c6c340c8cd2ab3b390cf90c13cac610" prot="public" virt="virtual"><scope>themis::transaction::IDistributedParticipantCallback</scope><name>~IDistributedParticipantCallback</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,1305 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_auth_middleware" kind="class" language="C++" prot="public">
+    <compoundname>themis::AuthMiddleware</compoundname>
+    <includes refid="auth__middleware_8h" local="no">auth_middleware.h</includes>
+    <innerclass refid="structthemis_1_1_auth_middleware_1_1_auth_context" prot="public">themis::AuthMiddleware::AuthContext</innerclass>
+    <innerclass refid="structthemis_1_1_auth_middleware_1_1_auth_result" prot="public">themis::AuthMiddleware::AuthResult</innerclass>
+    <innerclass refid="structthemis_1_1_auth_middleware_1_1_token_config" prot="public">themis::AuthMiddleware::TokenConfig</innerclass>
+    <innerclass refid="structthemis_1_1_auth_middleware_1_1_j_w_t_config" prot="public">themis::AuthMiddleware::JWTConfig</innerclass>
+    <innerclass refid="structthemis_1_1_auth_middleware_1_1_api_key_config" prot="public">themis::AuthMiddleware::ApiKeyConfig</innerclass>
+    <innerclass refid="structthemis_1_1_auth_middleware_1_1_metrics" prot="public">themis::AuthMiddleware::Metrics</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_auth_middleware_1a0e66937fa933f73675ae578b951cf19b" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::AuthMiddleware::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::AuthMiddleware::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="215" column="24" bodyfile="include/server/auth_middleware.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_auth_middleware_1a6509e35b879f39e8d9d24a5295e13fed" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1_auth_middleware_1_1_token_config" kindref="compound">TokenConfig</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, TokenConfig&gt; themis::AuthMiddleware::tokens_</definition>
+        <argsstring></argsstring>
+        <name>tokens_</name>
+        <qualifiedname>themis::AuthMiddleware::tokens_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="216" column="24" bodyfile="include/server/auth_middleware.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_auth_middleware_1a6964d2833400b612bc63b7304dedf775" prot="private" static="no" mutable="yes">
+        <type><ref refid="structthemis_1_1_auth_middleware_1_1_metrics" kindref="compound">Metrics</ref></type>
+        <definition>Metrics themis::AuthMiddleware::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::AuthMiddleware::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="217" column="21" bodyfile="include/server/auth_middleware.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_auth_middleware_1a7514f1a7075655f7e1505b19db7d52bf" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; auth::JWTValidator &gt;</type>
+        <definition>std::unique_ptr&lt;auth::JWTValidator&gt; themis::AuthMiddleware::jwt_validator_</definition>
+        <argsstring></argsstring>
+        <name>jwt_validator_</name>
+        <qualifiedname>themis::AuthMiddleware::jwt_validator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="220" column="21" bodyfile="include/server/auth_middleware.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_auth_middleware_1aa13f947fb1e306bff0f0799a1ce9449f" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_auth_middleware_1_1_j_w_t_config" kindref="compound">JWTConfig</ref></type>
+        <definition>JWTConfig themis::AuthMiddleware::jwt_config_</definition>
+        <argsstring></argsstring>
+        <name>jwt_config_</name>
+        <qualifiedname>themis::AuthMiddleware::jwt_config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="221" column="15" bodyfile="include/server/auth_middleware.h" bodystart="221" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_auth_middleware_1aefac240aa7f3fc6a639a8262e07ab3f8" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::AuthMiddleware::jwt_enabled_</definition>
+        <argsstring></argsstring>
+        <name>jwt_enabled_</name>
+        <qualifiedname>themis::AuthMiddleware::jwt_enabled_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="222" column="10" bodyfile="include/server/auth_middleware.h" bodystart="222" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_auth_middleware_1a60524b545cbfcc15da8b41a79d702505" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; auth::GSSAPIAuthenticator &gt;</type>
+        <definition>std::unique_ptr&lt;auth::GSSAPIAuthenticator&gt; themis::AuthMiddleware::kerberos_auth_</definition>
+        <argsstring></argsstring>
+        <name>kerberos_auth_</name>
+        <qualifiedname>themis::AuthMiddleware::kerberos_auth_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="225" column="21" bodyfile="include/server/auth_middleware.h" bodystart="225" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_auth_middleware_1ae0de41b62a43f8a63d5b8df417168f97" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::AuthMiddleware::kerberos_enabled_</definition>
+        <argsstring></argsstring>
+        <name>kerberos_enabled_</name>
+        <qualifiedname>themis::AuthMiddleware::kerberos_enabled_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="226" column="10" bodyfile="include/server/auth_middleware.h" bodystart="226" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_auth_middleware_1ac86d6084032af571758069f19257d498" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; auth::MTLSAuthenticator &gt;</type>
+        <definition>std::unique_ptr&lt;auth::MTLSAuthenticator&gt; themis::AuthMiddleware::mtls_auth_</definition>
+        <argsstring></argsstring>
+        <name>mtls_auth_</name>
+        <qualifiedname>themis::AuthMiddleware::mtls_auth_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="229" column="21" bodyfile="include/server/auth_middleware.h" bodystart="229" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_auth_middleware_1ab8af520dc2bcf28d20dd30b497c40379" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::AuthMiddleware::mtls_enabled_</definition>
+        <argsstring></argsstring>
+        <name>mtls_enabled_</name>
+        <qualifiedname>themis::AuthMiddleware::mtls_enabled_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="230" column="10" bodyfile="include/server/auth_middleware.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_auth_middleware_1a94a0e996d6bc7aa65ba9ce874aa9474b" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; security::USBAdminAuthenticator &gt;</type>
+        <definition>std::unique_ptr&lt;security::USBAdminAuthenticator&gt; themis::AuthMiddleware::usb_admin_auth_</definition>
+        <argsstring></argsstring>
+        <name>usb_admin_auth_</name>
+        <qualifiedname>themis::AuthMiddleware::usb_admin_auth_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="233" column="21" bodyfile="include/server/auth_middleware.h" bodystart="233" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_auth_middleware_1a2ee3bcdefe370ab288a1859aa69ba48f" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::AuthMiddleware::usb_admin_enabled_</definition>
+        <argsstring></argsstring>
+        <name>usb_admin_enabled_</name>
+        <qualifiedname>themis::AuthMiddleware::usb_admin_enabled_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="234" column="10" bodyfile="include/server/auth_middleware.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_auth_middleware_1a5299709f18b8828426849b070d8ea8d4" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::AuthMiddleware::usb_protected_scopes_</definition>
+        <argsstring></argsstring>
+        <name>usb_protected_scopes_</name>
+        <qualifiedname>themis::AuthMiddleware::usb_protected_scopes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="235" column="17" bodyfile="include/server/auth_middleware.h" bodystart="235" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_auth_middleware_1af2ef72b42518820a5f88db3e9de8fcc1" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; auth::ApiKeyAuthenticator &gt;</type>
+        <definition>std::unique_ptr&lt;auth::ApiKeyAuthenticator&gt; themis::AuthMiddleware::api_key_auth_</definition>
+        <argsstring></argsstring>
+        <name>api_key_auth_</name>
+        <qualifiedname>themis::AuthMiddleware::api_key_auth_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="238" column="21" bodyfile="include/server/auth_middleware.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_auth_middleware_1a42c75d80c5f8fabda467d62fdc45d671" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::AuthMiddleware::api_key_enabled_</definition>
+        <argsstring></argsstring>
+        <name>api_key_enabled_</name>
+        <qualifiedname>themis::AuthMiddleware::api_key_enabled_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="239" column="10" bodyfile="include/server/auth_middleware.h" bodystart="239" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_auth_middleware_1a6dcd794935e5f319e021ae28c50ddc12" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;std::string&gt; &gt; themis::AuthMiddleware::role_scope_map_</definition>
+        <argsstring></argsstring>
+        <name>role_scope_map_</name>
+        <qualifiedname>themis::AuthMiddleware::role_scope_map_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="244" column="24" bodyfile="include/server/auth_middleware.h" bodystart="244" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_auth_middleware_1a1befef6044cdea4acdbfa6189af0a31e" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::AuthMiddleware::role_scope_map_loaded_</definition>
+        <argsstring></argsstring>
+        <name>role_scope_map_loaded_</name>
+        <qualifiedname>themis::AuthMiddleware::role_scope_map_loaded_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="245" column="10" bodyfile="include/server/auth_middleware.h" bodystart="245" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_auth_middleware_1a9886a8997c7a8d6807aa8955af53b3fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::AuthMiddleware::AuthMiddleware</definition>
+        <argsstring>()</argsstring>
+        <name>AuthMiddleware</name>
+        <qualifiedname>themis::AuthMiddleware::AuthMiddleware</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="98" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_auth_middleware_1a673ad9998fea92b00f9d53b415ff5f65" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::AuthMiddleware::~AuthMiddleware</definition>
+        <argsstring>()</argsstring>
+        <name>~AuthMiddleware</name>
+        <qualifiedname>themis::AuthMiddleware::~AuthMiddleware</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="100" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_auth_middleware_1a79ab42e109efe6fd36513880d8540731" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::AuthMiddleware::enableJWT</definition>
+        <argsstring>(const JWTConfig &amp;config)</argsstring>
+        <name>enableJWT</name>
+        <qualifiedname>themis::AuthMiddleware::enableJWT</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_auth_middleware_1_1_j_w_t_config" kindref="compound">JWTConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Enable JWT. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), empty(), loadRoleScopeMapping(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="106" column="10" bodyfile="src/server/auth_middleware.cpp" bodystart="36" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_auth_middleware_1a75e239067f0ef86376c044c629e2c1c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::AuthMiddleware::enableKerberos</definition>
+        <argsstring>(const auth::KerberosConfig &amp;config)</argsstring>
+        <name>enableKerberos</name>
+        <qualifiedname>themis::AuthMiddleware::enableKerberos</qualifiedname>
+        <param>
+          <type>const auth::KerberosConfig &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Enable Kerberos. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), initialize(), THEMIS_ERROR(), reset(), loadRoleScopeMapping(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="112" column="10" bodyfile="src/server/auth_middleware.cpp" bodystart="69" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_auth_middleware_1a4357d412dc72c70a852eb940b71671d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::AuthMiddleware::enableMTLS</definition>
+        <argsstring>(const auth::MTLSAuthenticator::Config &amp;config)</argsstring>
+        <name>enableMTLS</name>
+        <qualifiedname>themis::AuthMiddleware::enableMTLS</qualifiedname>
+        <param>
+          <type>const auth::MTLSAuthenticator::Config &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Enable MTLS. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="118" column="10" bodyfile="src/server/auth_middleware.cpp" bodystart="95" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_auth_middleware_1afc69400be49a81299c031e38fd4a5590" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::AuthMiddleware::enableApiKeyAuth</definition>
+        <argsstring>(const ApiKeyConfig &amp;config=ApiKeyConfig::defaults())</argsstring>
+        <name>enableApiKeyAuth</name>
+        <qualifiedname>themis::AuthMiddleware::enableApiKeyAuth</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_auth_middleware_1_1_api_key_config" kindref="compound">ApiKeyConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1_auth_middleware_1_1_api_key_config_1a73bee61db3951276855382d983b8ca93" kindref="member">ApiKeyConfig::defaults</ref>()</defval>
+        </param>
+        <briefdescription>
+<para>Enable Api Key Auth. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="120" column="10" bodyfile="src/server/auth_middleware.cpp" bodystart="110" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_auth_middleware_1ae5011bc58fd276cff6dc5323c2c73e71" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::AuthMiddleware::addApiKeyCredential</definition>
+        <argsstring>(const auth::ApiKeyCredential &amp;credential)</argsstring>
+        <name>addApiKeyCredential</name>
+        <qualifiedname>themis::AuthMiddleware::addApiKeyCredential</qualifiedname>
+        <param>
+          <type>const auth::ApiKeyCredential &amp;</type>
+          <declname>credential</declname>
+        </param>
+        <briefdescription>
+<para>Add Api Key Credential. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">credential</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">credential</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), THEMIS_WARN(), addCredential(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="126" column="10" bodyfile="src/server/auth_middleware.cpp" bodystart="129" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_auth_middleware_1a542bd70f3239e49f7c45868b29f7ccad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::AuthMiddleware::removeApiKeyCredential</definition>
+        <argsstring>(const std::string &amp;key_id)</argsstring>
+        <name>removeApiKeyCredential</name>
+        <qualifiedname>themis::AuthMiddleware::removeApiKeyCredential</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove Api Key Credential. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), removeCredential(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="132" column="10" bodyfile="src/server/auth_middleware.cpp" bodystart="144" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_auth_middleware_1af9e28f6ae2cec0ea52c0a1d1bc86eb7c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::AuthMiddleware::enableUSBAdminAuth</definition>
+        <argsstring>(const std::string &amp;mount_path=&quot;/mnt/themis-admin&quot;, const std::vector&lt; std::string &gt; &amp;protected_scopes={})</argsstring>
+        <name>enableUSBAdminAuth</name>
+        <qualifiedname>themis::AuthMiddleware::enableUSBAdminAuth</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mount_path</declname>
+          <defval>&quot;/mnt/<ref refid="namespacethemis" kindref="compound">themis</ref>-admin&quot;</defval>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>protected_scopes</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Enable USBAdmin Auth. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mount_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the mount. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">protected_scopes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), empty(), initialize(), THEMIS_INFO(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="134" column="10" bodyfile="src/server/auth_middleware.cpp" bodystart="157" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_auth_middleware_1a410256e893bc314cbc72d22aa7f0bb27" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::AuthMiddleware::addToken</definition>
+        <argsstring>(const TokenConfig &amp;config)</argsstring>
+        <name>addToken</name>
+        <qualifiedname>themis::AuthMiddleware::addToken</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_auth_middleware_1_1_token_config" kindref="compound">TokenConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Add Token. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), THEMIS_INFO(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="143" column="10" bodyfile="src/server/auth_middleware.cpp" bodystart="185" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_auth_middleware_1a5ed9cca4918914634553e6f41194bff4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::AuthMiddleware::removeToken</definition>
+        <argsstring>(std::string_view token)</argsstring>
+        <name>removeToken</name>
+        <qualifiedname>themis::AuthMiddleware::removeToken</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>token</declname>
+        </param>
+        <briefdescription>
+<para>Remove Token. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), erase(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="148" column="10" bodyfile="src/server/auth_middleware.cpp" bodystart="196" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_auth_middleware_1aaf4db8841487f3ac5d12e758fae3f6b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::AuthMiddleware::clearTokens</definition>
+        <argsstring>()</argsstring>
+        <name>clearTokens</name>
+        <qualifiedname>themis::AuthMiddleware::clearTokens</qualifiedname>
+        <briefdescription>
+<para>Clear Tokens. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="152" column="10" bodyfile="src/server/auth_middleware.cpp" bodystart="205" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_auth_middleware_1a9661dfaf388aa4242629d407cc3593b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::AuthMiddleware::setRoleScopeMapping</definition>
+        <argsstring>(std::unordered_map&lt; std::string, std::vector&lt; std::string &gt; &gt; mapping)</argsstring>
+        <name>setRoleScopeMapping</name>
+        <qualifiedname>themis::AuthMiddleware::setRoleScopeMapping</qualifiedname>
+        <param>
+          <type>std::unordered_map&lt; std::string, std::vector&lt; std::string &gt; &gt;</type>
+          <declname>mapping</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="154" column="10" bodyfile="src/server/auth_middleware.cpp" bodystart="210" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_auth_middleware_1a060a78f46c2dee4ba8b32a37fac7563e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_auth_middleware_1_1_auth_result" kindref="compound">AuthResult</ref></type>
+        <definition>AuthMiddleware::AuthResult themis::AuthMiddleware::authorize</definition>
+        <argsstring>(std::string_view token, std::string_view required_scope) const</argsstring>
+        <name>authorize</name>
+        <qualifiedname>themis::AuthMiddleware::authorize</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>token</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>required_scope</declname>
+        </param>
+        <briefdescription>
+<para>Authorize an access control context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">required_scope</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the context is authorized. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+First try API token lookup. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+GAP-008 fixed: instead of relying on the hash-map comparison for the final token-equality check (which can leak information via cache/timing differences), we find candidates by HMAC-SHA256 key digest and confirm with CRYPTO_memcmp (constant-time comparison over equal-length byte sequences). The token value stored in tokens_ is compared character-by-character only in the constant-time branch, so the timing is independent of the token content.</para>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="163" column="16" bodyfile="src/server/auth_middleware.cpp" bodystart="240" bodyend="340"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_auth_middleware_1af6b5d0cffba677c8dbed6ff3fbdddd19" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_auth_middleware_1_1_auth_result" kindref="compound">AuthResult</ref></type>
+        <definition>AuthMiddleware::AuthResult themis::AuthMiddleware::validateToken</definition>
+        <argsstring>(std::string_view token) const</argsstring>
+        <name>validateToken</name>
+        <qualifiedname>themis::AuthMiddleware::validateToken</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>token</declname>
+        </param>
+        <briefdescription>
+<para>Validate Token. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="170" column="16" bodyfile="src/server/auth_middleware.cpp" bodystart="467" bodyend="522"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_auth_middleware_1ad2bfe7054aabd5df319b97d0aef55bc5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1_auth_middleware_1_1_auth_context" kindref="compound">AuthContext</ref> &gt;</type>
+        <definition>std::optional&lt; AuthMiddleware::AuthContext &gt; themis::AuthMiddleware::extractContext</definition>
+        <argsstring>(std::string_view token) const</argsstring>
+        <name>extractContext</name>
+        <qualifiedname>themis::AuthMiddleware::extractContext</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>token</declname>
+        </param>
+        <briefdescription>
+<para>Extract Context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="177" column="19" bodyfile="src/server/auth_middleware.cpp" bodystart="565" bodyend="576"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_auth_middleware_1a191b0156ce6e0c7c84fb4764bf375092" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1_auth_middleware_1_1_metrics" kindref="compound">Metrics</ref> &amp;</type>
+        <definition>const Metrics &amp; themis::AuthMiddleware::getMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>getMetrics</name>
+        <qualifiedname>themis::AuthMiddleware::getMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="194" column="19" bodyfile="include/server/auth_middleware.h" bodystart="194" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_auth_middleware_1a508401677862ba765b440dc8c627d737" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::AuthMiddleware::isEnabled</definition>
+        <argsstring>() const</argsstring>
+        <name>isEnabled</name>
+        <qualifiedname>themis::AuthMiddleware::isEnabled</qualifiedname>
+        <briefdescription>
+<para>Is Enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="200" column="10" bodyfile="src/server/auth_middleware.cpp" bodystart="524" bodyend="532"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_auth_middleware_1a1e6e6c3c2c32637b778c6a259abd4b70" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::AuthMiddleware::isUSBAdminReady</definition>
+        <argsstring>() const</argsstring>
+        <name>isUSBAdminReady</name>
+        <qualifiedname>themis::AuthMiddleware::isUSBAdminReady</qualifiedname>
+        <briefdescription>
+<para>Is USBAdmin Ready. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="206" column="10" bodyfile="src/server/auth_middleware.cpp" bodystart="578" bodyend="589"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_auth_middleware_1ab67a3f33707b19f8f249c2563420dbc3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::AuthMiddleware::setJWKSForTesting</definition>
+        <argsstring>(const nlohmann::json &amp;jwks)</argsstring>
+        <name>setJWKSForTesting</name>
+        <qualifiedname>themis::AuthMiddleware::setJWKSForTesting</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>jwks</declname>
+        </param>
+        <briefdescription>
+<para>Set JWKSFor Testing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">jwks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="212" column="10" bodyfile="src/server/auth_middleware.cpp" bodystart="782" bodyend="793"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1_auth_middleware_1afd9141c415789d07acb119a78724d28b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::AuthMiddleware::extractBearerToken</definition>
+        <argsstring>(std::string_view auth_header)</argsstring>
+        <name>extractBearerToken</name>
+        <qualifiedname>themis::AuthMiddleware::extractBearerToken</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>auth_header</declname>
+        </param>
+        <briefdescription>
+<para>Extract Bearer Token. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">auth_header</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">auth_header</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), substr(), token(), find_first_not_of(), find_last_not_of(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="184" column="26" bodyfile="src/server/auth_middleware.cpp" bodystart="540" bodyend="563"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_auth_middleware_1a106a7acb2a30bf77712ee6fa55f9cdcd" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::AuthMiddleware::isAdminScope</definition>
+        <argsstring>(std::string_view scope) const</argsstring>
+        <name>isAdminScope</name>
+        <qualifiedname>themis::AuthMiddleware::isAdminScope</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>scope</declname>
+        </param>
+        <briefdescription>
+<para>Is Admin Scope. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">scope</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="252" column="10" bodyfile="src/server/auth_middleware.cpp" bodystart="591" bodyend="604"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_auth_middleware_1a205678f0164d3f42c8131d3569f63fc4" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::AuthMiddleware::roleGrantsScope</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;roles, std::string_view required_scope) const</argsstring>
+        <name>roleGrantsScope</name>
+        <qualifiedname>themis::AuthMiddleware::roleGrantsScope</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>roles</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>required_scope</declname>
+        </param>
+        <briefdescription>
+<para>Role Grants Scope. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">roles</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">required_scope</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="260" column="10" bodyfile="src/server/auth_middleware.cpp" bodystart="223" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_auth_middleware_1a97f386f3f63872e5b5c891efc04051c9" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_auth_middleware_1_1_auth_result" kindref="compound">AuthResult</ref></type>
+        <definition>AuthMiddleware::AuthResult themis::AuthMiddleware::authorizeViaJWT</definition>
+        <argsstring>(std::string_view token, std::string_view required_scope) const</argsstring>
+        <name>authorizeViaJWT</name>
+        <qualifiedname>themis::AuthMiddleware::authorizeViaJWT</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>token</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>required_scope</declname>
+        </param>
+        <briefdescription>
+<para>Authorize Via JWT. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">required_scope</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Req. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">required_scope</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="269" column="16" bodyfile="src/server/auth_middleware.cpp" bodystart="342" bodyend="465"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_auth_middleware_1af4a8f415dec1521e3878d0f4120909f5" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_auth_middleware_1_1_auth_result" kindref="compound">AuthResult</ref></type>
+        <definition>AuthMiddleware::AuthResult themis::AuthMiddleware::authorizeViaKerberos</definition>
+        <argsstring>(std::string_view token, std::string_view required_scope) const</argsstring>
+        <name>authorizeViaKerberos</name>
+        <qualifiedname>themis::AuthMiddleware::authorizeViaKerberos</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>token</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>required_scope</declname>
+        </param>
+        <briefdescription>
+<para>Authorize Via Kerberos. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">required_scope</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Req. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">required_scope</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="277" column="16" bodyfile="src/server/auth_middleware.cpp" bodystart="606" bodyend="706"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_auth_middleware_1a76ab52aa9597846fd128960756a34c0e" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_auth_middleware_1_1_auth_result" kindref="compound">AuthResult</ref></type>
+        <definition>AuthMiddleware::AuthResult themis::AuthMiddleware::authorizeViaMTLS</definition>
+        <argsstring>(std::string_view cert_pem, std::string_view required_scope) const</argsstring>
+        <name>authorizeViaMTLS</name>
+        <qualifiedname>themis::AuthMiddleware::authorizeViaMTLS</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>cert_pem</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>required_scope</declname>
+        </param>
+        <briefdescription>
+<para>Authorize Via MTLS. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cert_pem</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">required_scope</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="285" column="16" bodyfile="src/server/auth_middleware.cpp" bodystart="708" bodyend="738"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_auth_middleware_1a35b36fd6401272411b7056b4835d041e" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_auth_middleware_1_1_auth_result" kindref="compound">AuthResult</ref></type>
+        <definition>AuthMiddleware::AuthResult themis::AuthMiddleware::authorizeViaApiKey</definition>
+        <argsstring>(std::string_view combined_token, std::string_view required_scope) const</argsstring>
+        <name>authorizeViaApiKey</name>
+        <qualifiedname>themis::AuthMiddleware::authorizeViaApiKey</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>combined_token</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>required_scope</declname>
+        </param>
+        <briefdescription>
+<para>Authorize Via Api Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">combined_token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">required_scope</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="293" column="16" bodyfile="src/server/auth_middleware.cpp" bodystart="740" bodyend="776"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_auth_middleware_1aa1668519bca969595520b055ad99e126" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::AuthMiddleware::loadRoleScopeMapping</definition>
+        <argsstring>()</argsstring>
+        <name>loadRoleScopeMapping</name>
+        <qualifiedname>themis::AuthMiddleware::loadRoleScopeMapping</qualifiedname>
+        <briefdescription>
+<para>Load Role Scope Mapping. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="298" column="10" bodyfile="src/server/auth_middleware.cpp" bodystart="798" bodyend="840"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/auth_middleware.h" line="40" column="1" bodyfile="include/server/auth_middleware.h" bodystart="40" bodyend="299"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_auth_middleware_1ae5011bc58fd276cff6dc5323c2c73e71" prot="public" virt="non-virtual"><scope>themis::AuthMiddleware</scope><name>addApiKeyCredential</name></member>
+      <member refid="classthemis_1_1_auth_middleware_1a410256e893bc314cbc72d22aa7f0bb27" prot="public" virt="non-virtual"><scope>themis::AuthMiddleware</scope><name>addToken</name></member>
+      <member refid="classthemis_1_1_auth_middleware_1af2ef72b42518820a5f88db3e9de8fcc1" prot="private" virt="non-virtual"><scope>themis::AuthMiddleware</scope><name>api_key_auth_</name></member>
+      <member refid="classthemis_1_1_auth_middleware_1a42c75d80c5f8fabda467d62fdc45d671" prot="private" virt="non-virtual"><scope>themis::AuthMiddleware</scope><name>api_key_enabled_</name></member>
+      <member refid="classthemis_1_1_auth_middleware_1a9886a8997c7a8d6807aa8955af53b3fb" prot="public" virt="non-virtual"><scope>themis::AuthMiddleware</scope><name>AuthMiddleware</name></member>
+      <member refid="classthemis_1_1_auth_middleware_1a060a78f46c2dee4ba8b32a37fac7563e" prot="public" virt="non-virtual"><scope>themis::AuthMiddleware</scope><name>authorize</name></member>
+      <member refid="classthemis_1_1_auth_middleware_1a35b36fd6401272411b7056b4835d041e" prot="private" virt="non-virtual"><scope>themis::AuthMiddleware</scope><name>authorizeViaApiKey</name></member>
+      <member refid="classthemis_1_1_auth_middleware_1a97f386f3f63872e5b5c891efc04051c9" prot="private" virt="non-virtual"><scope>themis::AuthMiddleware</scope><name>authorizeViaJWT</name></member>
+      <member refid="classthemis_1_1_auth_middleware_1af4a8f415dec1521e3878d0f4120909f5" prot="private" virt="non-virtual"><scope>themis::AuthMiddleware</scope><name>authorizeViaKerberos</name></member>
+      <member refid="classthemis_1_1_auth_middleware_1a76ab52aa9597846fd128960756a34c0e" prot="private" virt="non-virtual"><scope>themis::AuthMiddleware</scope><name>authorizeViaMTLS</name></member>
+      <member refid="classthemis_1_1_auth_middleware_1aaf4db8841487f3ac5d12e758fae3f6b4" prot="public" virt="non-virtual"><scope>themis::AuthMiddleware</scope><name>clearTokens</name></member>
+      <member refid="classthemis_1_1_auth_middleware_1afc69400be49a81299c031e38fd4a5590" prot="public" virt="non-virtual"><scope>themis::AuthMiddleware</scope><name>enableApiKeyAuth</name></member>
+      <member refid="classthemis_1_1_auth_middleware_1a79ab42e109efe6fd36513880d8540731" prot="public" virt="non-virtual"><scope>themis::AuthMiddleware</scope><name>enableJWT</name></member>
+      <member refid="classthemis_1_1_auth_middleware_1a75e239067f0ef86376c044c629e2c1c7" prot="public" virt="non-virtual"><scope>themis::AuthMiddleware</scope><name>enableKerberos</name></member>
+      <member refid="classthemis_1_1_auth_middleware_1a4357d412dc72c70a852eb940b71671d6" prot="public" virt="non-virtual"><scope>themis::AuthMiddleware</scope><name>enableMTLS</name></member>
+      <member refid="classthemis_1_1_auth_middleware_1af9e28f6ae2cec0ea52c0a1d1bc86eb7c" prot="public" virt="non-virtual"><scope>themis::AuthMiddleware</scope><name>enableUSBAdminAuth</name></member>
+      <member refid="classthemis_1_1_auth_middleware_1afd9141c415789d07acb119a78724d28b" prot="public" virt="non-virtual"><scope>themis::AuthMiddleware</scope><name>extractBearerToken</name></member>
+      <member refid="classthemis_1_1_auth_middleware_1ad2bfe7054aabd5df319b97d0aef55bc5" prot="public" virt="non-virtual"><scope>themis::AuthMiddleware</scope><name>extractContext</name></member>
+      <member refid="classthemis_1_1_auth_middleware_1a191b0156ce6e0c7c84fb4764bf375092" prot="public" virt="non-virtual"><scope>themis::AuthMiddleware</scope><name>getMetrics</name></member>
+      <member refid="classthemis_1_1_auth_middleware_1a106a7acb2a30bf77712ee6fa55f9cdcd" prot="private" virt="non-virtual"><scope>themis::AuthMiddleware</scope><name>isAdminScope</name></member>
+      <member refid="classthemis_1_1_auth_middleware_1a508401677862ba765b440dc8c627d737" prot="public" virt="non-virtual"><scope>themis::AuthMiddleware</scope><name>isEnabled</name></member>
+      <member refid="classthemis_1_1_auth_middleware_1a1e6e6c3c2c32637b778c6a259abd4b70" prot="public" virt="non-virtual"><scope>themis::AuthMiddleware</scope><name>isUSBAdminReady</name></member>
+      <member refid="classthemis_1_1_auth_middleware_1aa13f947fb1e306bff0f0799a1ce9449f" prot="private" virt="non-virtual"><scope>themis::AuthMiddleware</scope><name>jwt_config_</name></member>
+      <member refid="classthemis_1_1_auth_middleware_1aefac240aa7f3fc6a639a8262e07ab3f8" prot="private" virt="non-virtual"><scope>themis::AuthMiddleware</scope><name>jwt_enabled_</name></member>
+      <member refid="classthemis_1_1_auth_middleware_1a7514f1a7075655f7e1505b19db7d52bf" prot="private" virt="non-virtual"><scope>themis::AuthMiddleware</scope><name>jwt_validator_</name></member>
+      <member refid="classthemis_1_1_auth_middleware_1a60524b545cbfcc15da8b41a79d702505" prot="private" virt="non-virtual"><scope>themis::AuthMiddleware</scope><name>kerberos_auth_</name></member>
+      <member refid="classthemis_1_1_auth_middleware_1ae0de41b62a43f8a63d5b8df417168f97" prot="private" virt="non-virtual"><scope>themis::AuthMiddleware</scope><name>kerberos_enabled_</name></member>
+      <member refid="classthemis_1_1_auth_middleware_1aa1668519bca969595520b055ad99e126" prot="private" virt="non-virtual"><scope>themis::AuthMiddleware</scope><name>loadRoleScopeMapping</name></member>
+      <member refid="classthemis_1_1_auth_middleware_1a6964d2833400b612bc63b7304dedf775" prot="private" virt="non-virtual"><scope>themis::AuthMiddleware</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1_auth_middleware_1ac86d6084032af571758069f19257d498" prot="private" virt="non-virtual"><scope>themis::AuthMiddleware</scope><name>mtls_auth_</name></member>
+      <member refid="classthemis_1_1_auth_middleware_1ab8af520dc2bcf28d20dd30b497c40379" prot="private" virt="non-virtual"><scope>themis::AuthMiddleware</scope><name>mtls_enabled_</name></member>
+      <member refid="classthemis_1_1_auth_middleware_1a0e66937fa933f73675ae578b951cf19b" prot="private" virt="non-virtual"><scope>themis::AuthMiddleware</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1_auth_middleware_1a542bd70f3239e49f7c45868b29f7ccad" prot="public" virt="non-virtual"><scope>themis::AuthMiddleware</scope><name>removeApiKeyCredential</name></member>
+      <member refid="classthemis_1_1_auth_middleware_1a5ed9cca4918914634553e6f41194bff4" prot="public" virt="non-virtual"><scope>themis::AuthMiddleware</scope><name>removeToken</name></member>
+      <member refid="classthemis_1_1_auth_middleware_1a6dcd794935e5f319e021ae28c50ddc12" prot="private" virt="non-virtual"><scope>themis::AuthMiddleware</scope><name>role_scope_map_</name></member>
+      <member refid="classthemis_1_1_auth_middleware_1a1befef6044cdea4acdbfa6189af0a31e" prot="private" virt="non-virtual"><scope>themis::AuthMiddleware</scope><name>role_scope_map_loaded_</name></member>
+      <member refid="classthemis_1_1_auth_middleware_1a205678f0164d3f42c8131d3569f63fc4" prot="private" virt="non-virtual"><scope>themis::AuthMiddleware</scope><name>roleGrantsScope</name></member>
+      <member refid="classthemis_1_1_auth_middleware_1ab67a3f33707b19f8f249c2563420dbc3" prot="public" virt="non-virtual"><scope>themis::AuthMiddleware</scope><name>setJWKSForTesting</name></member>
+      <member refid="classthemis_1_1_auth_middleware_1a9661dfaf388aa4242629d407cc3593b7" prot="public" virt="non-virtual"><scope>themis::AuthMiddleware</scope><name>setRoleScopeMapping</name></member>
+      <member refid="classthemis_1_1_auth_middleware_1a6509e35b879f39e8d9d24a5295e13fed" prot="private" virt="non-virtual"><scope>themis::AuthMiddleware</scope><name>tokens_</name></member>
+      <member refid="classthemis_1_1_auth_middleware_1a94a0e996d6bc7aa65ba9ce874aa9474b" prot="private" virt="non-virtual"><scope>themis::AuthMiddleware</scope><name>usb_admin_auth_</name></member>
+      <member refid="classthemis_1_1_auth_middleware_1a2ee3bcdefe370ab288a1859aa69ba48f" prot="private" virt="non-virtual"><scope>themis::AuthMiddleware</scope><name>usb_admin_enabled_</name></member>
+      <member refid="classthemis_1_1_auth_middleware_1a5299709f18b8828426849b070d8ea8d4" prot="private" virt="non-virtual"><scope>themis::AuthMiddleware</scope><name>usb_protected_scopes_</name></member>
+      <member refid="classthemis_1_1_auth_middleware_1af6b5d0cffba677c8dbed6ff3fbdddd19" prot="public" virt="non-virtual"><scope>themis::AuthMiddleware</scope><name>validateToken</name></member>
+      <member refid="classthemis_1_1_auth_middleware_1a673ad9998fea92b00f9d53b415ff5f65" prot="public" virt="non-virtual"><scope>themis::AuthMiddleware</scope><name>~AuthMiddleware</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

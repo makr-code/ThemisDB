@@ -1,0 +1,360 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="multi__model__training__data_8h" kind="file" language="C++">
+    <compoundname>multi_model_training_data.h</compoundname>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes refid="training__data__iterator_8h" local="yes">training_data_iterator.h</includes>
+    <includedby refid="multi__model__training__data_8cpp" local="yes">src/llm/multi_model_training_data.cpp</includedby>
+    <incdepgraph>
+      <node id="10">
+        <label>llm/adapter_registry.h</label>
+        <link refid="adapter__registry_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>llm/lora_framework/lora_provenance.h</label>
+        <link refid="lora__provenance_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/llm/multi_model_training_data.h</label>
+        <link refid="multi__model__training__data_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>training_data_iterator.h</label>
+        <link refid="training__data__iterator_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>exporters/jsonl_llm_exporter.h</label>
+      </node>
+      <node id="14">
+        <label>functional</label>
+      </node>
+      <node id="13">
+        <label>map</label>
+      </node>
+      <node id="2">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="15">
+        <label>shared_mutex</label>
+      </node>
+      <node id="9">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="11">
+        <label>storage/security_signature_manager.h</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/llm/multi_model_training_data.h</label>
+        <link refid="multi__model__training__data_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/llm/multi_model_training_data.cpp</label>
+        <link refid="multi__model__training__data_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1llm_1_1_graph_context" prot="public">themis::llm::GraphContext</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_vector_similarity" prot="public">themis::llm::VectorSimilarity</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_relational_join" prot="public">themis::llm::RelationalJoin</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_enriched_training_example" prot="public">themis::llm::EnrichedTrainingExample</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_multi_model_enrichment_config" prot="public">themis::llm::MultiModelEnrichmentConfig</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_enrichment_statistics" prot="public">themis::llm::EnrichmentStatistics</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_multi_model_training_data" prot="public">themis::llm::MultiModelTrainingData</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_graph_context_provider" prot="public">themis::llm::GraphContextProvider</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_vector_similarity_provider" prot="public">themis::llm::VectorSimilarityProvider</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_relational_join_provider" prot="public">themis::llm::RelationalJoinProvider</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_multi_model_training_data_factory" prot="public">themis::llm::MultiModelTrainingDataFactory</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2025<sp/>ThemisDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="training__data__iterator_8h" kindref="compound">training_data_iterator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">themis::llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_graph_context_provider" kindref="compound">GraphContextProvider</ref>;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_vector_similarity_provider" kindref="compound">VectorSimilarityProvider</ref>;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_relational_join_provider" kindref="compound">RelationalJoinProvider</ref>;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1llm_1_1_graph_context" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_graph_context" kindref="compound">GraphContext</ref><sp/>{</highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1llm_1_1_graph_context_1a867771dcac83e4643ed4798bcc8d87a6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_graph_context_1a867771dcac83e4643ed4798bcc8d87a6" kindref="member">~GraphContext</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1llm_1_1_graph_context_1af8937d609a1c5e9a67b104802c2076c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_graph_context_1af8937d609a1c5e9a67b104802c2076c0" kindref="member">related_nodes</ref>;</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1llm_1_1_graph_context_1ae7c627d8eb57142f04e5a9f9b5f44b66" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_graph_context_1ae7c627d8eb57142f04e5a9f9b5f44b66" kindref="member">relationship_types</ref>;</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1llm_1_1_graph_context_1acbdf508e1ad8574f4067fa5356ac4533" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_graph_context_1acbdf508e1ad8574f4067fa5356ac4533" kindref="member">paths</ref>;</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1llm_1_1_graph_context_1a548a47a107a55d5caccf8afb38d0bee6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_graph_context_1a548a47a107a55d5caccf8afb38d0bee6" kindref="member">depth</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1llm_1_1_graph_context_1ad8c62393ef4b907a8f4c5758b635bc63" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_graph_context_1ad8c62393ef4b907a8f4c5758b635bc63" kindref="member">toString</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1llm_1_1_graph_context_1a71d0c8146dab81e64600d91d3a10b937" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1llm_1_1_graph_context_1a71d0c8146dab81e64600d91d3a10b937" kindref="member">toJSON</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1llm_1_1_vector_similarity" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_vector_similarity" kindref="compound">VectorSimilarity</ref><sp/>{</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1llm_1_1_vector_similarity_1a7ccafa11791782c68515ee270c85f125" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_vector_similarity_1a7ccafa11791782c68515ee270c85f125" kindref="member">similar_documents</ref>;</highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1llm_1_1_vector_similarity_1ac1b92250635d7aa04cf1ad29dc2dc6be" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="structthemis_1_1llm_1_1_vector_similarity_1ac1b92250635d7aa04cf1ad29dc2dc6be" kindref="member">similarity_scores</ref>;</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1llm_1_1_vector_similarity_1ae2fdd3142986220fef0a580cd853a377" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_vector_similarity_1ae2fdd3142986220fef0a580cd853a377" kindref="member">document_texts</ref>;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1llm_1_1_vector_similarity_1a376a72de8f87a92aafce04e6668738b8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_vector_similarity_1a376a72de8f87a92aafce04e6668738b8" kindref="member">toString</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1llm_1_1_vector_similarity_1ab370c9444849c02a2bcfb620d14c5319" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1llm_1_1_vector_similarity_1ab370c9444849c02a2bcfb620d14c5319" kindref="member">toJSON</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1llm_1_1_relational_join" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_relational_join" kindref="compound">RelationalJoin</ref><sp/>{</highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1llm_1_1_relational_join_1a64e4e6098696afb105c19d8c76fccdae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_relational_join_1a64e4e6098696afb105c19d8c76fccdae" kindref="member">joined_fields</ref>;</highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1llm_1_1_relational_join_1a4955739cdcd6542d80ca389a4bbc0765" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_relational_join_1a4955739cdcd6542d80ca389a4bbc0765" kindref="member">joined_values</ref>;</highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1llm_1_1_relational_join_1ae29c5332b8af901b8f403e6874ec2d3f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_relational_join_1ae29c5332b8af901b8f403e6874ec2d3f" kindref="member">join_type</ref>;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1llm_1_1_relational_join_1a1595e3d1b9aa3f4af8cc1221a8d80c1c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_relational_join_1a1595e3d1b9aa3f4af8cc1221a8d80c1c" kindref="member">toString</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1llm_1_1_relational_join_1a9c17021772917a8c70cb56b2426395d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1llm_1_1_relational_join_1a9c17021772917a8c70cb56b2426395d0" kindref="member">toJSON</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1llm_1_1_enriched_training_example" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_enriched_training_example" kindref="compound">EnrichedTrainingExample</ref><sp/>{</highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1llm_1_1_enriched_training_example_1af1e0c0a8ba4dd7fa7fa57dc8c373d2a0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>TrainingSample<sp/><ref refid="structthemis_1_1llm_1_1_enriched_training_example_1af1e0c0a8ba4dd7fa7fa57dc8c373d2a0" kindref="member">base_example</ref>;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Multi-model<sp/>enrichments</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1llm_1_1_enriched_training_example_1a036f4a5b31ce8263b981aa30f69bd3c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;GraphContext&gt;<sp/><ref refid="structthemis_1_1llm_1_1_enriched_training_example_1a036f4a5b31ce8263b981aa30f69bd3c0" kindref="member">graph_context</ref>;</highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1llm_1_1_enriched_training_example_1a5ef6bfd263ba22232e3d74578e72ddc2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;VectorSimilarity&gt;<sp/><ref refid="structthemis_1_1llm_1_1_enriched_training_example_1a5ef6bfd263ba22232e3d74578e72ddc2" kindref="member">vector_similarity</ref>;</highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1llm_1_1_enriched_training_example_1ab9fa71cd557dd50d2717a634e45c60cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;RelationalJoin&gt;<sp/><ref refid="structthemis_1_1llm_1_1_enriched_training_example_1ab9fa71cd557dd50d2717a634e45c60cb" kindref="member">relational_join</ref>;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1llm_1_1_enriched_training_example_1a5b6996ceb9d9369732ff25bd94d08f35" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_enriched_training_example_1a5b6996ceb9d9369732ff25bd94d08f35" kindref="member">getCombinedContext</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>format<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;default&quot;</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1llm_1_1_enriched_training_example_1a7ae2456731d25afbe3894612a852cbb7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_enriched_training_example_1a7ae2456731d25afbe3894612a852cbb7" kindref="member">getEnrichedInstruction</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1llm_1_1_enriched_training_example_1a5a2acf3b4db09e1dcac7ca23be708415" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1llm_1_1_enriched_training_example_1a5a2acf3b4db09e1dcac7ca23be708415" kindref="member">toJSON</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1llm_1_1_multi_model_enrichment_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_multi_model_enrichment_config" kindref="compound">MultiModelEnrichmentConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Graph<sp/>enrichment</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1llm_1_1_multi_model_enrichment_config_1adef3f93103d6035a4010458daf634729" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_multi_model_enrichment_config_1adef3f93103d6035a4010458daf634729" kindref="member">enable_graph</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1llm_1_1_multi_model_enrichment_config_1ab41120deacc9179119a2f9348cd2feb7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_multi_model_enrichment_config_1ab41120deacc9179119a2f9348cd2feb7" kindref="member">graph_relationships</ref>;</highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1llm_1_1_multi_model_enrichment_config_1a79cc86f0d4e1299a223cbd4fb6894bda" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_multi_model_enrichment_config_1a79cc86f0d4e1299a223cbd4fb6894bda" kindref="member">graph_max_depth</ref><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Vector<sp/>enrichment</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1llm_1_1_multi_model_enrichment_config_1abc8a4dd326481a492388d58be766a545" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_multi_model_enrichment_config_1abc8a4dd326481a492388d58be766a545" kindref="member">enable_vector</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1llm_1_1_multi_model_enrichment_config_1ac4fa5bc56841ffbc5c1fbc48b7b0e616" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_multi_model_enrichment_config_1ac4fa5bc56841ffbc5c1fbc48b7b0e616" kindref="member">vector_field</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;embedding&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1llm_1_1_multi_model_enrichment_config_1afa991252074b58fd9ab8eb51de66f570" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_multi_model_enrichment_config_1afa991252074b58fd9ab8eb51de66f570" kindref="member">vector_threshold</ref><sp/>=<sp/>0.8f;</highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1llm_1_1_multi_model_enrichment_config_1a7d42405413730750c465983a35c65e9f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_multi_model_enrichment_config_1a7d42405413730750c465983a35c65e9f" kindref="member">vector_top_k</ref><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Relational<sp/>enrichment</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1llm_1_1_multi_model_enrichment_config_1af5f5d79a492beb67d2b93bf1f1511853" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_multi_model_enrichment_config_1af5f5d79a492beb67d2b93bf1f1511853" kindref="member">enable_relational</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1llm_1_1_multi_model_enrichment_config_1a56499f5607c746059459759df2a94f8d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_multi_model_enrichment_config_1a56499f5607c746059459759df2a94f8d" kindref="member">join_tables</ref>;</highlight></codeline>
+<codeline lineno="126" refid="structthemis_1_1llm_1_1_multi_model_enrichment_config_1a869f97781b184eabb2e9f43bf890f467" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_multi_model_enrichment_config_1a869f97781b184eabb2e9f43bf890f467" kindref="member">join_type</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;LEFT&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Context<sp/>formatting</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129" refid="structthemis_1_1llm_1_1_multi_model_enrichment_config_1aa83352a264d5e8c3fa216e5d94dfb777" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_multi_model_enrichment_config_1aa83352a264d5e8c3fa216e5d94dfb777" kindref="member">context_format</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;default&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1llm_1_1_multi_model_enrichment_config_1a47d17dab19b4322c66f3e85ccf2fa152" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_multi_model_enrichment_config_1a47d17dab19b4322c66f3e85ccf2fa152" kindref="member">max_context_length</ref><sp/>=<sp/>512;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="136" refid="structthemis_1_1llm_1_1_multi_model_enrichment_config_1a09f9edde5f935cca50601e4c01a289fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1llm_1_1_multi_model_enrichment_config_1a09f9edde5f935cca50601e4c01a289fb" kindref="member">toJSON</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="142" refid="structthemis_1_1llm_1_1_multi_model_enrichment_config_1ae6dc20b1cbc83bc412a4f488008ef2bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_multi_model_enrichment_config" kindref="compound">MultiModelEnrichmentConfig</ref><sp/><ref refid="structthemis_1_1llm_1_1_multi_model_enrichment_config_1ae6dc20b1cbc83bc412a4f488008ef2bd" kindref="member">fromJSON</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145" refid="structthemis_1_1llm_1_1_enrichment_statistics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_enrichment_statistics" kindref="compound">EnrichmentStatistics</ref><sp/>{</highlight></codeline>
+<codeline lineno="150" refid="structthemis_1_1llm_1_1_enrichment_statistics_1a17d9530e872a77b6a297d4ae8a78d5fe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_enrichment_statistics_1a17d9530e872a77b6a297d4ae8a78d5fe" kindref="member">~EnrichmentStatistics</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="151" refid="structthemis_1_1llm_1_1_enrichment_statistics_1a9a4fc25abeef1eca0663cbbcd9b342d5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_enrichment_statistics_1a9a4fc25abeef1eca0663cbbcd9b342d5" kindref="member">total_examples</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="152" refid="structthemis_1_1llm_1_1_enrichment_statistics_1a3bf541a65d8e4be8bb6a665ef418f432" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_enrichment_statistics_1a3bf541a65d8e4be8bb6a665ef418f432" kindref="member">graph_enriched</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="153" refid="structthemis_1_1llm_1_1_enrichment_statistics_1a5d5c8cb959f4ef22aaf3adeddc9c8166" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_enrichment_statistics_1a5d5c8cb959f4ef22aaf3adeddc9c8166" kindref="member">vector_enriched</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="154" refid="structthemis_1_1llm_1_1_enrichment_statistics_1a230083962bbad03c923d9f28f2d000e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_enrichment_statistics_1a230083962bbad03c923d9f28f2d000e1" kindref="member">relational_enriched</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Performance<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157" refid="structthemis_1_1llm_1_1_enrichment_statistics_1adcd7c9ad185420797e4da722977ac92f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_enrichment_statistics_1adcd7c9ad185420797e4da722977ac92f" kindref="member">avg_graph_time_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="158" refid="structthemis_1_1llm_1_1_enrichment_statistics_1a7f20d8d8c95f05af2a013dc32a003b91" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_enrichment_statistics_1a7f20d8d8c95f05af2a013dc32a003b91" kindref="member">avg_vector_time_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="159" refid="structthemis_1_1llm_1_1_enrichment_statistics_1a6ce14af5c5e4bd2a1b97e802216a873e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_enrichment_statistics_1a6ce14af5c5e4bd2a1b97e802216a873e" kindref="member">avg_relational_time_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Context<sp/>statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162" refid="structthemis_1_1llm_1_1_enrichment_statistics_1a0e7ccb01e421eff34e6944c68fa41cee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_enrichment_statistics_1a0e7ccb01e421eff34e6944c68fa41cee" kindref="member">avg_context_length</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="163" refid="structthemis_1_1llm_1_1_enrichment_statistics_1a592cbce9fc8dff05454679de8e572695" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_enrichment_statistics_1a592cbce9fc8dff05454679de8e572695" kindref="member">max_context_length</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="169" refid="structthemis_1_1llm_1_1_enrichment_statistics_1aab7c91a52bdc6f2d074e4f2b1e7ec08e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1llm_1_1_enrichment_statistics_1aab7c91a52bdc6f2d074e4f2b1e7ec08e" kindref="member">toJSON</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172" refid="classthemis_1_1llm_1_1_multi_model_training_data" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_multi_model_training_data_1ad28576131b5b4dd508db31b71169a7d6" kindref="member">MultiModelTrainingData</ref><sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_multi_model_training_data_1ad28576131b5b4dd508db31b71169a7d6" kindref="member">MultiModelTrainingData</ref>(</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;TrainingDataIterator&gt;<sp/>base_iterator,</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_multi_model_enrichment_config" kindref="compound">MultiModelEnrichmentConfig</ref>&amp;<sp/>config</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="179" refid="classthemis_1_1llm_1_1_multi_model_training_data_1acfda90d88f48f899bcc6c6cb5ae7a171" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_multi_model_training_data_1acfda90d88f48f899bcc6c6cb5ae7a171" kindref="member">~MultiModelTrainingData</ref>();</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="185" refid="classthemis_1_1llm_1_1_multi_model_training_data_1a4bae3aca50d8dcd08f507fd5356e3175" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;EnrichedTrainingExample&gt;<sp/><ref refid="classthemis_1_1llm_1_1_multi_model_training_data_1a4bae3aca50d8dcd08f507fd5356e3175" kindref="member">nextExample</ref>();</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="192" refid="classthemis_1_1llm_1_1_multi_model_training_data_1a61539916df4b860174e7d7ab80574f29" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;EnrichedTrainingExample&gt;<sp/><ref refid="classthemis_1_1llm_1_1_multi_model_training_data_1a61539916df4b860174e7d7ab80574f29" kindref="member">nextBatch</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>batch_size);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="197" refid="classthemis_1_1llm_1_1_multi_model_training_data_1adf0a41a1f7d180d53d3281b278e31aaa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_multi_model_training_data_1adf0a41a1f7d180d53d3281b278e31aaa" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="203" refid="classthemis_1_1llm_1_1_multi_model_training_data_1a594eaa80d8b61a63c5b6f0dd5aeb3d4c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_enrichment_statistics" kindref="compound">EnrichmentStatistics</ref><sp/><ref refid="classthemis_1_1llm_1_1_multi_model_training_data_1a594eaa80d8b61a63c5b6f0dd5aeb3d4c" kindref="member">getStatistics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="209" refid="classthemis_1_1llm_1_1_multi_model_training_data_1a7beacfc12335e14e5cf6d9b4bd36502b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_multi_model_training_data_1a7beacfc12335e14e5cf6d9b4bd36502b" kindref="member">setGraphProvider</ref>(std::shared_ptr&lt;GraphContextProvider&gt;<sp/>provider);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="215" refid="classthemis_1_1llm_1_1_multi_model_training_data_1a26e4128c222bf697144e851cb3c99fa7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_multi_model_training_data_1a26e4128c222bf697144e851cb3c99fa7" kindref="member">setVectorProvider</ref>(std::shared_ptr&lt;VectorSimilarityProvider&gt;<sp/>provider);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="221" refid="classthemis_1_1llm_1_1_multi_model_training_data_1a5d340f6ca09782432d5070d52b278a42" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_multi_model_training_data_1a5d340f6ca09782432d5070d52b278a42" kindref="member">setRelationalProvider</ref>(std::shared_ptr&lt;RelationalJoinProvider&gt;<sp/>provider);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Implementation<sp/>details</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">Impl;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enrich<sp/>single<sp/>example</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_enriched_training_example" kindref="compound">EnrichedTrainingExample</ref><sp/>enrichExample(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>TrainingSample&amp;<sp/>example);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Individual<sp/>enrichment<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;GraphContext&gt;<sp/>enrichWithGraph(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>TrainingSample&amp;<sp/>example);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;VectorSimilarity&gt;<sp/>enrichWithVector(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>TrainingSample&amp;<sp/>example);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;RelationalJoin&gt;<sp/>enrichWithRelational(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>TrainingSample&amp;<sp/>example);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257" refid="classthemis_1_1llm_1_1_graph_context_provider" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_graph_context_provider" kindref="compound">GraphContextProvider</ref><sp/>{</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="263" refid="classthemis_1_1llm_1_1_graph_context_provider_1a9b2e524c6b505f15cb649f3475ff002c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_graph_context_provider_1a9b2e524c6b505f15cb649f3475ff002c" kindref="member">~GraphContextProvider</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="272" refid="classthemis_1_1llm_1_1_graph_context_provider_1a3d3e0847b3d5dfb243650fbec5ccd825" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_graph_context" kindref="compound">GraphContext</ref><sp/><ref refid="classthemis_1_1llm_1_1_graph_context_provider_1a3d3e0847b3d5dfb243650fbec5ccd825" kindref="member">getContext</ref>(</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>entity_id,</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>relationships,</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>max_depth</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279" refid="classthemis_1_1llm_1_1_vector_similarity_provider" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_vector_similarity_provider" kindref="compound">VectorSimilarityProvider</ref><sp/>{</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="285" refid="classthemis_1_1llm_1_1_vector_similarity_provider_1a102e570bd57f95400d801db60866f2ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_vector_similarity_provider_1a102e570bd57f95400d801db60866f2ae" kindref="member">~VectorSimilarityProvider</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="294" refid="classthemis_1_1llm_1_1_vector_similarity_provider_1a2a33af57e550fc440c677001a7d24c50" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_vector_similarity" kindref="compound">VectorSimilarity</ref><sp/><ref refid="classthemis_1_1llm_1_1_vector_similarity_provider_1a2a33af57e550fc440c677001a7d24c50" kindref="member">findSimilar</ref>(</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>query_embedding,</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>threshold,</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>top_k</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="299"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301" refid="classthemis_1_1llm_1_1_relational_join_provider" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_relational_join_provider" kindref="compound">RelationalJoinProvider</ref><sp/>{</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="307" refid="classthemis_1_1llm_1_1_relational_join_provider_1a2a2135bc1c285818d624d54692451a1b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_relational_join_provider_1a2a2135bc1c285818d624d54692451a1b" kindref="member">~RelationalJoinProvider</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="317" refid="classthemis_1_1llm_1_1_relational_join_provider_1af6919effea6cc8613aeb5d27b852baaf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_relational_join" kindref="compound">RelationalJoin</ref><sp/><ref refid="classthemis_1_1llm_1_1_relational_join_provider_1af6919effea6cc8613aeb5d27b852baaf" kindref="member">performJoin</ref>(</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>base_table,</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>join_tables,</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>join_type,</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="323"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight></codeline>
+<codeline lineno="325" refid="classthemis_1_1llm_1_1_multi_model_training_data_factory" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_multi_model_training_data_factory" kindref="compound">MultiModelTrainingDataFactory</ref><sp/>{</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="332" refid="classthemis_1_1llm_1_1_multi_model_training_data_factory_1aba90cf7eeeab4cecc626e9cfbe2a6bab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;MultiModelTrainingData&gt;<sp/><ref refid="classthemis_1_1llm_1_1_multi_model_training_data_factory_1aba90cf7eeeab4cecc626e9cfbe2a6bab" kindref="member">create</ref>(</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;TrainingDataIterator&gt;<sp/>base_iterator</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="342" refid="classthemis_1_1llm_1_1_multi_model_training_data_factory_1a015c4ebc6d348d19170a0de5e0badbed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;MultiModelTrainingData&gt;<sp/><ref refid="classthemis_1_1llm_1_1_multi_model_training_data_factory_1a015c4ebc6d348d19170a0de5e0badbed" kindref="member">create</ref>(</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;TrainingDataIterator&gt;<sp/>base_iterator,</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_multi_model_enrichment_config" kindref="compound">MultiModelEnrichmentConfig</ref>&amp;<sp/>config</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="346"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::llm</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/multi_model_training_data.h"/>
+  </compounddef>
+</doxygen>

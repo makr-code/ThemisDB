@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_vector_geo_query" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::VectorGeoQuery</compoundname>
+    <includes refid="query__engine_8h" local="no">query_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_vector_geo_query_1a75cd089d1eae74604ae0b21c7e26051e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::VectorGeoQuery::table</definition>
+        <argsstring></argsstring>
+        <name>table</name>
+        <qualifiedname>themis::query::VectorGeoQuery::table</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="95" column="17" bodyfile="include/query/query_engine.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_vector_geo_query_1a81d01b6b44b0f37a917b86914540dcf1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::VectorGeoQuery::vector_field</definition>
+        <argsstring></argsstring>
+        <name>vector_field</name>
+        <qualifiedname>themis::query::VectorGeoQuery::vector_field</qualifiedname>
+        <initializer>= &quot;embedding&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="96" column="17" bodyfile="include/query/query_engine.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_vector_geo_query_1afbefc4692771d4467ab5d789db391a15" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::VectorGeoQuery::geom_field</definition>
+        <argsstring></argsstring>
+        <name>geom_field</name>
+        <qualifiedname>themis::query::VectorGeoQuery::geom_field</qualifiedname>
+        <initializer>= &quot;location&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="97" column="17" bodyfile="include/query/query_engine.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_vector_geo_query_1a350f900fe7c6af03e57dd825b4c93bdb" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::query::VectorGeoQuery::query_vector</definition>
+        <argsstring></argsstring>
+        <name>query_vector</name>
+        <qualifiedname>themis::query::VectorGeoQuery::query_vector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="98" column="17" bodyfile="include/query/query_engine.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_vector_geo_query_1a4bce83fc9e8d31bda2260994f3f119c6" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::VectorGeoQuery::k</definition>
+        <argsstring></argsstring>
+        <name>k</name>
+        <qualifiedname>themis::query::VectorGeoQuery::k</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="99" column="12" bodyfile="include/query/query_engine.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_vector_geo_query_1a9c08fceb5c607f6efb1a7b59d3181e46" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_expression" kindref="compound">query::Expression</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;query::Expression&gt; themis::query::VectorGeoQuery::spatial_filter</definition>
+        <argsstring></argsstring>
+        <name>spatial_filter</name>
+        <qualifiedname>themis::query::VectorGeoQuery::spatial_filter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="100" column="21" bodyfile="include/query/query_engine.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_vector_geo_query_1a377a3ba1cf03642fbcf91c5804178324" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_expression" kindref="compound">query::Expression</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::shared_ptr&lt;query::Expression&gt; &gt; themis::query::VectorGeoQuery::extra_filters</definition>
+        <argsstring></argsstring>
+        <name>extra_filters</name>
+        <qualifiedname>themis::query::VectorGeoQuery::extra_filters</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="102" column="17" bodyfile="include/query/query_engine.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_engine.h" line="94" column="1" bodyfile="include/query/query_engine.h" bodystart="94" bodyend="103"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_vector_geo_query_1a377a3ba1cf03642fbcf91c5804178324" prot="public" virt="non-virtual"><scope>themis::query::VectorGeoQuery</scope><name>extra_filters</name></member>
+      <member refid="structthemis_1_1query_1_1_vector_geo_query_1afbefc4692771d4467ab5d789db391a15" prot="public" virt="non-virtual"><scope>themis::query::VectorGeoQuery</scope><name>geom_field</name></member>
+      <member refid="structthemis_1_1query_1_1_vector_geo_query_1a4bce83fc9e8d31bda2260994f3f119c6" prot="public" virt="non-virtual"><scope>themis::query::VectorGeoQuery</scope><name>k</name></member>
+      <member refid="structthemis_1_1query_1_1_vector_geo_query_1a350f900fe7c6af03e57dd825b4c93bdb" prot="public" virt="non-virtual"><scope>themis::query::VectorGeoQuery</scope><name>query_vector</name></member>
+      <member refid="structthemis_1_1query_1_1_vector_geo_query_1a9c08fceb5c607f6efb1a7b59d3181e46" prot="public" virt="non-virtual"><scope>themis::query::VectorGeoQuery</scope><name>spatial_filter</name></member>
+      <member refid="structthemis_1_1query_1_1_vector_geo_query_1a75cd089d1eae74604ae0b21c7e26051e" prot="public" virt="non-virtual"><scope>themis::query::VectorGeoQuery</scope><name>table</name></member>
+      <member refid="structthemis_1_1query_1_1_vector_geo_query_1a81d01b6b44b0f37a917b86914540dcf1" prot="public" virt="non-virtual"><scope>themis::query::VectorGeoQuery</scope><name>vector_field</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,225 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_multi_adapter_concurrent_test" kind="class" language="C++" prot="public">
+    <compoundname>MultiAdapterConcurrentTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="class_multi_adapter_concurrent_test_1ac92edb3df0749cb48ed1d07bf6ccfaec" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int MultiAdapterConcurrentTest::NUM_ADAPTERS</definition>
+        <argsstring></argsstring>
+        <name>NUM_ADAPTERS</name>
+        <qualifiedname>MultiAdapterConcurrentTest::NUM_ADAPTERS</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_multi_adapter_concurrent.cpp" line="40" column="26" bodyfile="tests/training/test_multi_adapter_concurrent.cpp" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_multi_adapter_concurrent_test_1ab70f7857c65bfa6f356ad9a0343ad033" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int MultiAdapterConcurrentTest::NUM_THREADS</definition>
+        <argsstring></argsstring>
+        <name>NUM_THREADS</name>
+        <qualifiedname>MultiAdapterConcurrentTest::NUM_THREADS</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_multi_adapter_concurrent.cpp" line="41" column="26" bodyfile="tests/training/test_multi_adapter_concurrent.cpp" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_multi_adapter_concurrent_test_1a26a31c8f7c9805ea2abdf271aa139f09" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int MultiAdapterConcurrentTest::ITERATIONS</definition>
+        <argsstring></argsstring>
+        <name>ITERATIONS</name>
+        <qualifiedname>MultiAdapterConcurrentTest::ITERATIONS</qualifiedname>
+        <initializer>= 50</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_multi_adapter_concurrent.cpp" line="42" column="26" bodyfile="tests/training/test_multi_adapter_concurrent.cpp" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_multi_adapter_concurrent_test_1a63344a8d5b33b654b34ff5e98c3b5a53" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int MultiAdapterConcurrentTest::RANK</definition>
+        <argsstring></argsstring>
+        <name>RANK</name>
+        <qualifiedname>MultiAdapterConcurrentTest::RANK</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_multi_adapter_concurrent.cpp" line="43" column="26" bodyfile="tests/training/test_multi_adapter_concurrent.cpp" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_multi_adapter_concurrent_test_1a23e1016d35fc81db9aaec297c034c659" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>float</type>
+        <definition>float MultiAdapterConcurrentTest::ALPHA</definition>
+        <argsstring></argsstring>
+        <name>ALPHA</name>
+        <qualifiedname>MultiAdapterConcurrentTest::ALPHA</qualifiedname>
+        <initializer>= 8.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_multi_adapter_concurrent.cpp" line="44" column="28" bodyfile="tests/training/test_multi_adapter_concurrent.cpp" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_multi_adapter_concurrent_test_1a441a092dc7469aacaeb7e0fd92f341f9" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int MultiAdapterConcurrentTest::IN_DIM</definition>
+        <argsstring></argsstring>
+        <name>IN_DIM</name>
+        <qualifiedname>MultiAdapterConcurrentTest::IN_DIM</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_multi_adapter_concurrent.cpp" line="45" column="26" bodyfile="tests/training/test_multi_adapter_concurrent.cpp" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_multi_adapter_concurrent_test_1aa3357d688dbcaf03b572ff50c1dc9c33" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int MultiAdapterConcurrentTest::OUT_DIM</definition>
+        <argsstring></argsstring>
+        <name>OUT_DIM</name>
+        <qualifiedname>MultiAdapterConcurrentTest::OUT_DIM</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_multi_adapter_concurrent.cpp" line="46" column="26" bodyfile="tests/training/test_multi_adapter_concurrent.cpp" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_multi_adapter_concurrent_test_1a248cd82c24dca392266334d8cb9fe366" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>unsigned int</type>
+        <definition>unsigned int MultiAdapterConcurrentTest::SEED</definition>
+        <argsstring></argsstring>
+        <name>SEED</name>
+        <qualifiedname>MultiAdapterConcurrentTest::SEED</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_multi_adapter_concurrent.cpp" line="47" column="35" bodyfile="tests/training/test_multi_adapter_concurrent.cpp" bodystart="47" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_multi_adapter_concurrent_test_1a03aafbac4b2e65019896c52a24e5d747" prot="protected" static="no" mutable="no">
+        <type>std::mt19937</type>
+        <definition>std::mt19937 MultiAdapterConcurrentTest::rng_</definition>
+        <argsstring></argsstring>
+        <name>rng_</name>
+        <qualifiedname>MultiAdapterConcurrentTest::rng_</qualifiedname>
+        <initializer>{<ref refid="class_multi_adapter_concurrent_test_1a248cd82c24dca392266334d8cb9fe366" kindref="member">SEED</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_multi_adapter_concurrent.cpp" line="49" column="18" bodyfile="tests/training/test_multi_adapter_concurrent.cpp" bodystart="49" bodyend="49"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_multi_adapter_concurrent_test_1a37107632e280c9eb649ed24f0abefcfd" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::unique_ptr&lt; <ref refid="classthemis_1_1training_1_1_lo_r_a_adapter" kindref="compound">LoRAAdapter</ref> &gt; &gt;</type>
+        <definition>std::vector&lt; std::unique_ptr&lt; LoRAAdapter &gt; &gt; MultiAdapterConcurrentTest::createAdapters</definition>
+        <argsstring>(int count)</argsstring>
+        <name>createAdapters</name>
+        <qualifiedname>MultiAdapterConcurrentTest::createAdapters</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_multi_adapter_concurrent.cpp" line="51" column="17" bodyfile="tests/training/test_multi_adapter_concurrent.cpp" bodystart="51" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="class_multi_adapter_concurrent_test_1ac4d71fcf563d3a72a78159935f208a61" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; MultiAdapterConcurrentTest::generateRandomDelta</definition>
+        <argsstring>(float scale=0.01f)</argsstring>
+        <name>generateRandomDelta</name>
+        <qualifiedname>MultiAdapterConcurrentTest::generateRandomDelta</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>scale</declname>
+          <defval>0.01f</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_multi_adapter_concurrent.cpp" line="63" column="17" bodyfile="tests/training/test_multi_adapter_concurrent.cpp" bodystart="63" bodyend="70"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>MultiAdapterConcurrentTest</label>
+        <link refid="class_multi_adapter_concurrent_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>MultiAdapterConcurrentTest</label>
+        <link refid="class_multi_adapter_concurrent_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/training/test_multi_adapter_concurrent.cpp" line="38" column="1" bodyfile="tests/training/test_multi_adapter_concurrent.cpp" bodystart="38" bodyend="71"/>
+    <listofallmembers>
+      <member refid="class_multi_adapter_concurrent_test_1a23e1016d35fc81db9aaec297c034c659" prot="protected" virt="non-virtual"><scope>MultiAdapterConcurrentTest</scope><name>ALPHA</name></member>
+      <member refid="class_multi_adapter_concurrent_test_1a37107632e280c9eb649ed24f0abefcfd" prot="protected" virt="non-virtual"><scope>MultiAdapterConcurrentTest</scope><name>createAdapters</name></member>
+      <member refid="class_multi_adapter_concurrent_test_1ac4d71fcf563d3a72a78159935f208a61" prot="protected" virt="non-virtual"><scope>MultiAdapterConcurrentTest</scope><name>generateRandomDelta</name></member>
+      <member refid="class_multi_adapter_concurrent_test_1a441a092dc7469aacaeb7e0fd92f341f9" prot="protected" virt="non-virtual"><scope>MultiAdapterConcurrentTest</scope><name>IN_DIM</name></member>
+      <member refid="class_multi_adapter_concurrent_test_1a26a31c8f7c9805ea2abdf271aa139f09" prot="protected" virt="non-virtual"><scope>MultiAdapterConcurrentTest</scope><name>ITERATIONS</name></member>
+      <member refid="class_multi_adapter_concurrent_test_1ac92edb3df0749cb48ed1d07bf6ccfaec" prot="protected" virt="non-virtual"><scope>MultiAdapterConcurrentTest</scope><name>NUM_ADAPTERS</name></member>
+      <member refid="class_multi_adapter_concurrent_test_1ab70f7857c65bfa6f356ad9a0343ad033" prot="protected" virt="non-virtual"><scope>MultiAdapterConcurrentTest</scope><name>NUM_THREADS</name></member>
+      <member refid="class_multi_adapter_concurrent_test_1aa3357d688dbcaf03b572ff50c1dc9c33" prot="protected" virt="non-virtual"><scope>MultiAdapterConcurrentTest</scope><name>OUT_DIM</name></member>
+      <member refid="class_multi_adapter_concurrent_test_1a63344a8d5b33b654b34ff5e98c3b5a53" prot="protected" virt="non-virtual"><scope>MultiAdapterConcurrentTest</scope><name>RANK</name></member>
+      <member refid="class_multi_adapter_concurrent_test_1a03aafbac4b2e65019896c52a24e5d747" prot="protected" virt="non-virtual"><scope>MultiAdapterConcurrentTest</scope><name>rng_</name></member>
+      <member refid="class_multi_adapter_concurrent_test_1a248cd82c24dca392266334d8cb9fe366" prot="protected" virt="non-virtual"><scope>MultiAdapterConcurrentTest</scope><name>SEED</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="hkdf_helper_api" kind="page">
+    <compoundname>hkdf_helper_api</compoundname>
+    <title>HKDF Helper API</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<sect1 id="hkdf_helper_api_1autotoc_md5_1s1"><sect2 id="hkdf_helper_api_1autotoc_md5">
+<title>Purpose</title><para>HKDFHelper provides HKDF-SHA256 key derivation with OpenSSL 3.0+ and 1.1.1+ compatibility. It implements RFC 5869 (HKDF specification) for deterministic key derivation from input key material.</para>
+</sect2></sect1>
+<sect1 id="hkdf_helper_api_1autotoc_md6_1s1"><sect2 id="hkdf_helper_api_1autotoc_md6">
+<title>Key Derivation Process (Per RFC 5869)</title><para><programlisting><codeline><highlight class="normal">PRK<sp/>=<sp/>HMAC-Hash(salt,<sp/>IKM)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Extract:<sp/>compress<sp/>IKM</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">OKM<sp/>=<sp/>HKDF-Expand(PRK,<sp/>info,<sp/>L)<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Expand:<sp/>stretch<sp/>to<sp/>desired<sp/>length</highlight></codeline>
+</programlisting></para>
+</sect2></sect1>
+<sect1 id="hkdf_helper_api_1autotoc_md7_1s1"><sect2 id="hkdf_helper_api_1autotoc_md7">
+<title>Security Properties</title><para><itemizedlist>
+<listitem><para><bold>Deterministic</bold>: Same (ikm, salt, info, length) always produces same output</para>
+</listitem><listitem><para><bold>Pseudo-Random</bold>: Output is indistinguishable from random to attackers</para>
+</listitem><listitem><para><bold>Non-Invertible</bold>: Cannot recover IKM from output</para>
+</listitem><listitem><para><bold>Domain Separation</bold>: Different info strings produce different keys</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="hkdf_helper_api_1autotoc_md8_1s1"><sect2 id="hkdf_helper_api_1autotoc_md8">
+<title>Thread Safety</title><para><itemizedlist>
+<listitem><para>All methods are thread-safe (no static mutable state)</para>
+</listitem><listitem><para>Each derivation is independent</para>
+</listitem><listitem><para>Suitable for multi-threaded key generation</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="hkdf_helper_api_1autotoc_md9_1s1"><sect2 id="hkdf_helper_api_1autotoc_md9">
+<title>OpenSSL Compatibility</title><para><itemizedlist>
+<listitem><para>OpenSSL 3.0+: Uses EVP_KDF API (modern, preferred)</para>
+</listitem><listitem><para>OpenSSL 1.1.1+: Uses EVP_PKEY_CTX API (legacy fallback)</para>
+</listitem><listitem><para>Automatic version detection at compile time</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="see"><para>HKDFCache for cached key derivation </para>
+</simplesect>
+<simplesect kind="see"><para>LEKManager for daily key rotation using HKDF </para>
+</simplesect>
+<simplesect kind="see"><para>RFC 5869 for HKDF specification details </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/utils/hkdf_helper.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,1118 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1_a_q_l_query_builder" kind="class" language="C++" prot="public">
+    <compoundname>themis::aql::AQLQueryBuilder</compoundname>
+    <includes refid="aql__query__builder_8h" local="no">aql_query_builder.h</includes>
+    <innerclass refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1_1_impl" prot="public">themis::aql::AQLQueryBuilder::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_a_q_l_query_builder_1aa143da0319e50a46893e4f87ba22a4f6" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::aql::AQLQueryBuilder::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::aql::AQLQueryBuilder::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_builder.h" line="285" column="21" bodyfile="include/aql/aql_query_builder.h" bodystart="285" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_builder_1a3ce208856d85bb24d56e31c09f0ab7bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::AQLQueryBuilder::AQLQueryBuilder</definition>
+        <argsstring>()</argsstring>
+        <name>AQLQueryBuilder</name>
+        <qualifiedname>themis::aql::AQLQueryBuilder::AQLQueryBuilder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_builder.h" line="32" column="5" bodyfile="src/aql/aql_query_builder.cpp" bodystart="208" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_builder_1a827777605c0815cd927e5cbfcd6690b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::AQLQueryBuilder::~AQLQueryBuilder</definition>
+        <argsstring>()</argsstring>
+        <name>~AQLQueryBuilder</name>
+        <qualifiedname>themis::aql::AQLQueryBuilder::~AQLQueryBuilder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_builder.h" line="33" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_builder_1a576cebf8ebae48ee21b5034a363da2d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::AQLQueryBuilder::AQLQueryBuilder</definition>
+        <argsstring>(const AQLQueryBuilder &amp;)=delete</argsstring>
+        <name>AQLQueryBuilder</name>
+        <qualifiedname>themis::aql::AQLQueryBuilder::AQLQueryBuilder</qualifiedname>
+        <param>
+          <type>const AQLQueryBuilder &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_builder.h" line="36" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_builder_1a3d26f5aa4cc0f98166feb2f233734cda" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1a3ce208856d85bb24d56e31c09f0ab7bf" kindref="member">AQLQueryBuilder</ref> &amp;</type>
+        <definition>AQLQueryBuilder &amp; themis::aql::AQLQueryBuilder::operator=</definition>
+        <argsstring>(const AQLQueryBuilder &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::aql::AQLQueryBuilder::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1a3ce208856d85bb24d56e31c09f0ab7bf" kindref="member">AQLQueryBuilder</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_builder.h" line="37" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_builder_1a1d683db045a84b00fc0a55e61a9243d8" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::AQLQueryBuilder::AQLQueryBuilder</definition>
+        <argsstring>(AQLQueryBuilder &amp;&amp;) noexcept</argsstring>
+        <name>AQLQueryBuilder</name>
+        <qualifiedname>themis::aql::AQLQueryBuilder::AQLQueryBuilder</qualifiedname>
+        <param>
+          <type>AQLQueryBuilder &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_builder.h" line="38" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_builder_1a89a053986217fbbbb385aa9ee83881a3" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1a3ce208856d85bb24d56e31c09f0ab7bf" kindref="member">AQLQueryBuilder</ref> &amp;</type>
+        <definition>AQLQueryBuilder &amp; themis::aql::AQLQueryBuilder::operator=</definition>
+        <argsstring>(AQLQueryBuilder &amp;&amp;) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::aql::AQLQueryBuilder::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1a3ce208856d85bb24d56e31c09f0ab7bf" kindref="member">AQLQueryBuilder</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_builder.h" line="39" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_builder_1a3c8025ed3d61b19692d294f2a12e88c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1a3ce208856d85bb24d56e31c09f0ab7bf" kindref="member">AQLQueryBuilder</ref> &amp;</type>
+        <definition>AQLQueryBuilder &amp; themis::aql::AQLQueryBuilder::forIn</definition>
+        <argsstring>(const std::string &amp;variable, const std::string &amp;collection)</argsstring>
+        <name>forIn</name>
+        <qualifiedname>themis::aql::AQLQueryBuilder::forIn</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>variable</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <briefdescription>
+<para>For In. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">variable</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_builder.h" line="51" column="21" bodyfile="src/aql/aql_query_builder.cpp" bodystart="219" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_builder_1a7d76fc37b654b69b06646936aa94146b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1a3ce208856d85bb24d56e31c09f0ab7bf" kindref="member">AQLQueryBuilder</ref> &amp;</type>
+        <definition>AQLQueryBuilder &amp; themis::aql::AQLQueryBuilder::filter</definition>
+        <argsstring>(const std::string &amp;condition)</argsstring>
+        <name>filter</name>
+        <qualifiedname>themis::aql::AQLQueryBuilder::filter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>condition</declname>
+        </param>
+        <briefdescription>
+<para>Filter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">condition</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_builder.h" line="58" column="21" bodyfile="src/aql/aql_query_builder.cpp" bodystart="230" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_builder_1ae8041f8e92d921259d9c0f5cb1e69135" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1a3ce208856d85bb24d56e31c09f0ab7bf" kindref="member">AQLQueryBuilder</ref> &amp;</type>
+        <definition>AQLQueryBuilder &amp; themis::aql::AQLQueryBuilder::sort</definition>
+        <argsstring>(const std::string &amp;field, bool ascending=true)</argsstring>
+        <name>sort</name>
+        <qualifiedname>themis::aql::AQLQueryBuilder::sort</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>field</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>ascending</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_builder.h" line="60" column="21" bodyfile="src/aql/aql_query_builder.cpp" bodystart="238" bodyend="244"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_builder_1ace014403d3a9899ebdc4d5a224c32433" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1a3ce208856d85bb24d56e31c09f0ab7bf" kindref="member">AQLQueryBuilder</ref> &amp;</type>
+        <definition>AQLQueryBuilder &amp; themis::aql::AQLQueryBuilder::limit</definition>
+        <argsstring>(int count, int offset=0)</argsstring>
+        <name>limit</name>
+        <qualifiedname>themis::aql::AQLQueryBuilder::limit</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>count</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>offset</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_builder.h" line="62" column="21" bodyfile="src/aql/aql_query_builder.cpp" bodystart="246" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_builder_1a4d4a5b33099a27b8857beefe269f117c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1a3ce208856d85bb24d56e31c09f0ab7bf" kindref="member">AQLQueryBuilder</ref> &amp;</type>
+        <definition>AQLQueryBuilder &amp; themis::aql::AQLQueryBuilder::ret</definition>
+        <argsstring>(const std::string &amp;expression)</argsstring>
+        <name>ret</name>
+        <qualifiedname>themis::aql::AQLQueryBuilder::ret</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>expression</declname>
+        </param>
+        <briefdescription>
+<para>Ret. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">expression</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_builder.h" line="69" column="21" bodyfile="src/aql/aql_query_builder.cpp" bodystart="258" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_builder_1ad30b0249b3803a54ec7ba4daedfdeee0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1a3ce208856d85bb24d56e31c09f0ab7bf" kindref="member">AQLQueryBuilder</ref> &amp;</type>
+        <definition>AQLQueryBuilder &amp; themis::aql::AQLQueryBuilder::let</definition>
+        <argsstring>(const std::string &amp;variable, const std::string &amp;expression)</argsstring>
+        <name>let</name>
+        <qualifiedname>themis::aql::AQLQueryBuilder::let</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>variable</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>expression</declname>
+        </param>
+        <briefdescription>
+<para>Let. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">variable</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">expression</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_builder.h" line="77" column="21" bodyfile="src/aql/aql_query_builder.cpp" bodystart="266" bodyend="275"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_builder_1a7b1947498380fd25f84e4eb4290b822f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1a3ce208856d85bb24d56e31c09f0ab7bf" kindref="member">AQLQueryBuilder</ref> &amp;</type>
+        <definition>AQLQueryBuilder &amp; themis::aql::AQLQueryBuilder::collect</definition>
+        <argsstring>(const std::string &amp;variable, const std::string &amp;expression)</argsstring>
+        <name>collect</name>
+        <qualifiedname>themis::aql::AQLQueryBuilder::collect</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>variable</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>expression</declname>
+        </param>
+        <briefdescription>
+<para>Collect. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">variable</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">expression</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_builder.h" line="85" column="21" bodyfile="src/aql/aql_query_builder.cpp" bodystart="277" bodyend="286"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_builder_1a07453608bee77ae85651015eee5e9225" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1a3ce208856d85bb24d56e31c09f0ab7bf" kindref="member">AQLQueryBuilder</ref> &amp;</type>
+        <definition>AQLQueryBuilder &amp; themis::aql::AQLQueryBuilder::forTraverse</definition>
+        <argsstring>(const std::string &amp;vertex_var, const std::string &amp;edge_var, const std::string &amp;path_var, const std::string &amp;start, const std::string &amp;graph, const std::string &amp;direction=&quot;OUTBOUND&quot;, int min_depth=1, int max_depth=1)</argsstring>
+        <name>forTraverse</name>
+        <qualifiedname>themis::aql::AQLQueryBuilder::forTraverse</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>vertex_var</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>edge_var</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path_var</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>start</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>graph</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>direction</declname>
+          <defval>&quot;OUTBOUND&quot;</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>min_depth</declname>
+          <defval>1</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_depth</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_builder.h" line="91" column="21" bodyfile="src/aql/aql_query_builder.cpp" bodystart="297" bodyend="329"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_builder_1a4cc56a66bdab769d90962f4b1b12c42b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1a3ce208856d85bb24d56e31c09f0ab7bf" kindref="member">AQLQueryBuilder</ref> &amp;</type>
+        <definition>AQLQueryBuilder &amp; themis::aql::AQLQueryBuilder::insertInto</definition>
+        <argsstring>(const std::string &amp;collection, const std::string &amp;doc_expr)</argsstring>
+        <name>insertInto</name>
+        <qualifiedname>themis::aql::AQLQueryBuilder::insertInto</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc_expr</declname>
+        </param>
+        <briefdescription>
+<para>Insert Into. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">doc_expr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_builder.h" line="112" column="21" bodyfile="src/aql/aql_query_builder.cpp" bodystart="335" bodyend="344"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_builder_1ad2cef2287c321481107552393a1c8402" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1a3ce208856d85bb24d56e31c09f0ab7bf" kindref="member">AQLQueryBuilder</ref> &amp;</type>
+        <definition>AQLQueryBuilder &amp; themis::aql::AQLQueryBuilder::updateIn</definition>
+        <argsstring>(const std::string &amp;collection, const std::string &amp;doc_expr)</argsstring>
+        <name>updateIn</name>
+        <qualifiedname>themis::aql::AQLQueryBuilder::updateIn</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc_expr</declname>
+        </param>
+        <briefdescription>
+<para>Update In. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">doc_expr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_builder.h" line="120" column="21" bodyfile="src/aql/aql_query_builder.cpp" bodystart="346" bodyend="355"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_builder_1aec4600a005e09f96534e3aae2a0d2882" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1a3ce208856d85bb24d56e31c09f0ab7bf" kindref="member">AQLQueryBuilder</ref> &amp;</type>
+        <definition>AQLQueryBuilder &amp; themis::aql::AQLQueryBuilder::removeIn</definition>
+        <argsstring>(const std::string &amp;collection, const std::string &amp;doc_expr)</argsstring>
+        <name>removeIn</name>
+        <qualifiedname>themis::aql::AQLQueryBuilder::removeIn</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc_expr</declname>
+        </param>
+        <briefdescription>
+<para>Remove In. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">doc_expr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_builder.h" line="128" column="21" bodyfile="src/aql/aql_query_builder.cpp" bodystart="357" bodyend="366"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_builder_1ae32098bfb799e59986461cccf06a49a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1a3ce208856d85bb24d56e31c09f0ab7bf" kindref="member">AQLQueryBuilder</ref> &amp;</type>
+        <definition>AQLQueryBuilder &amp; themis::aql::AQLQueryBuilder::upsertIn</definition>
+        <argsstring>(const std::string &amp;collection, const std::string &amp;filter_expr, const std::string &amp;insert_expr, const std::string &amp;update_expr)</argsstring>
+        <name>upsertIn</name>
+        <qualifiedname>themis::aql::AQLQueryBuilder::upsertIn</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filter_expr</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>insert_expr</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>update_expr</declname>
+        </param>
+        <briefdescription>
+<para>Upsert In. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">filter_expr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">insert_expr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">update_expr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_builder.h" line="138" column="21" bodyfile="src/aql/aql_query_builder.cpp" bodystart="368" bodyend="384"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_builder_1ae2c315a306956bd55bd49c3ba4abd592" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1a3ce208856d85bb24d56e31c09f0ab7bf" kindref="member">AQLQueryBuilder</ref> &amp;</type>
+        <definition>AQLQueryBuilder &amp; themis::aql::AQLQueryBuilder::replaceIn</definition>
+        <argsstring>(const std::string &amp;collection, const std::string &amp;doc_expr)</argsstring>
+        <name>replaceIn</name>
+        <qualifiedname>themis::aql::AQLQueryBuilder::replaceIn</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc_expr</declname>
+        </param>
+        <briefdescription>
+<para>Replace In. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">doc_expr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_builder.h" line="151" column="21" bodyfile="src/aql/aql_query_builder.cpp" bodystart="386" bodyend="395"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_builder_1aa912d24b8d57e40e91a4b5c9a7bfe0eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1a3ce208856d85bb24d56e31c09f0ab7bf" kindref="member">AQLQueryBuilder</ref> &amp;</type>
+        <definition>AQLQueryBuilder &amp; themis::aql::AQLQueryBuilder::withIngestionEnrichment</definition>
+        <argsstring>(bool enabled=true)</argsstring>
+        <name>withIngestionEnrichment</name>
+        <qualifiedname>themis::aql::AQLQueryBuilder::withIngestionEnrichment</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_builder.h" line="157" column="21" bodyfile="src/aql/aql_query_builder.cpp" bodystart="684" bodyend="687"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_builder_1a2d3fb8c4f186db62b7aa0a5846bbacc5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::aql::AQLQueryBuilder::hasIngestionEnrichment</definition>
+        <argsstring>() const</argsstring>
+        <name>hasIngestionEnrichment</name>
+        <qualifiedname>themis::aql::AQLQueryBuilder::hasIngestionEnrichment</qualifiedname>
+        <briefdescription>
+<para>Has Ingestion Enrichment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_builder.h" line="163" column="10" bodyfile="src/aql/aql_query_builder.cpp" bodystart="689" bodyend="691"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_builder_1a14e6dca22b6e463c04006af58123e3dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1a3ce208856d85bb24d56e31c09f0ab7bf" kindref="member">AQLQueryBuilder</ref> &amp;</type>
+        <definition>AQLQueryBuilder &amp; themis::aql::AQLQueryBuilder::window</definition>
+        <argsstring>(const std::string &amp;partition_expr, const std::string &amp;window_spec)</argsstring>
+        <name>window</name>
+        <qualifiedname>themis::aql::AQLQueryBuilder::window</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>partition_expr</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>window_spec</declname>
+        </param>
+        <briefdescription>
+<para>Window. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">partition_expr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">window_spec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_builder.h" line="175" column="21" bodyfile="src/aql/aql_query_builder.cpp" bodystart="401" bodyend="407"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_builder_1ac91c8b5a22ea59aee7161787f268db47" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1a3ce208856d85bb24d56e31c09f0ab7bf" kindref="member">AQLQueryBuilder</ref> &amp;</type>
+        <definition>AQLQueryBuilder &amp; themis::aql::AQLQueryBuilder::subquery</definition>
+        <argsstring>(const std::string &amp;variable, const AQLQueryBuilder &amp;inner)</argsstring>
+        <name>subquery</name>
+        <qualifiedname>themis::aql::AQLQueryBuilder::subquery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>variable</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1a3ce208856d85bb24d56e31c09f0ab7bf" kindref="member">AQLQueryBuilder</ref> &amp;</type>
+          <declname>inner</declname>
+        </param>
+        <briefdescription>
+<para>Subquery. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">variable</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">inner</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_builder.h" line="187" column="21" bodyfile="src/aql/aql_query_builder.cpp" bodystart="413" bodyend="424"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_builder_1a6706001b63b0fa79c5aba680f78d56ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1a3ce208856d85bb24d56e31c09f0ab7bf" kindref="member">AQLQueryBuilder</ref> &amp;</type>
+        <definition>AQLQueryBuilder &amp; themis::aql::AQLQueryBuilder::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::aql::AQLQueryBuilder::reset</qualifiedname>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>None. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_builder.h" line="193" column="21" bodyfile="src/aql/aql_query_builder.cpp" bodystart="288" bodyend="291"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_builder_1a89924de61b793648708706d404ac5f2d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::aql::AQLQueryBuilder::build</definition>
+        <argsstring>() const</argsstring>
+        <name>build</name>
+        <qualifiedname>themis::aql::AQLQueryBuilder::build</qualifiedname>
+        <briefdescription>
+<para>Build. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_builder.h" line="203" column="17" bodyfile="src/aql/aql_query_builder.cpp" bodystart="458" bodyend="460"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_builder_1aa475e571c5ea572d3729e6760c54dae1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::aql::AQLQueryBuilder::getPartialQuery</definition>
+        <argsstring>() const</argsstring>
+        <name>getPartialQuery</name>
+        <qualifiedname>themis::aql::AQLQueryBuilder::getPartialQuery</qualifiedname>
+        <briefdescription>
+<para>Get Partial Query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_builder.h" line="209" column="17" bodyfile="src/aql/aql_query_builder.cpp" bodystart="462" bodyend="464"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_builder_1aa09a2eea509415bc11213f20becc163c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::aql::AQLQueryBuilder::isComplete</definition>
+        <argsstring>() const</argsstring>
+        <name>isComplete</name>
+        <qualifiedname>themis::aql::AQLQueryBuilder::isComplete</qualifiedname>
+        <briefdescription>
+<para>Is Complete. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_builder.h" line="219" column="10" bodyfile="src/aql/aql_query_builder.cpp" bodystart="470" bodyend="478"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_builder_1a34f36767dda101bf4a840450bbee63a3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::aql::AQLQueryBuilder::isValid</definition>
+        <argsstring>() const</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themis::aql::AQLQueryBuilder::isValid</qualifiedname>
+        <briefdescription>
+<para>Is Valid. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_builder.h" line="225" column="10" bodyfile="src/aql/aql_query_builder.cpp" bodystart="480" bodyend="500"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_builder_1a3c92567dceb9f990b858f98b0355d3e0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1aql_1_1_validation_result" kindref="compound">ValidationResult</ref></type>
+        <definition>ValidationResult themis::aql::AQLQueryBuilder::validate</definition>
+        <argsstring>() const</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::aql::AQLQueryBuilder::validate</qualifiedname>
+        <briefdescription>
+<para>Validate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_builder.h" line="231" column="22" bodyfile="src/aql/aql_query_builder.cpp" bodystart="502" bodyend="536"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_builder_1add6c5b8b33f7fdb7dfcd55f838b3c46e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1aql_1_1_validation_result" kindref="compound">ValidationResult</ref></type>
+        <definition>ValidationResult themis::aql::AQLQueryBuilder::validate</definition>
+        <argsstring>(const std::vector&lt; CollectionMetadata &gt; &amp;schema) const</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::aql::AQLQueryBuilder::validate</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1aql_1_1_collection_metadata" kindref="compound">CollectionMetadata</ref> &gt; &amp;</type>
+          <declname>schema</declname>
+        </param>
+        <briefdescription>
+<para>Validate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_builder.h" line="238" column="22" bodyfile="src/aql/aql_query_builder.cpp" bodystart="538" bodyend="543"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_builder_1a1f1e474b3310f8854e8a1a98f346a8c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1a3ce208856d85bb24d56e31c09f0ab7bf" kindref="member">AQLQueryBuilder</ref> &amp;</type>
+        <definition>AQLQueryBuilder &amp; themis::aql::AQLQueryBuilder::setSchema</definition>
+        <argsstring>(const std::vector&lt; CollectionMetadata &gt; &amp;schema)</argsstring>
+        <name>setSchema</name>
+        <qualifiedname>themis::aql::AQLQueryBuilder::setSchema</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1aql_1_1_collection_metadata" kindref="compound">CollectionMetadata</ref> &gt; &amp;</type>
+          <declname>schema</declname>
+        </param>
+        <briefdescription>
+<para>========================================================================= Schema-aware query generation (live collection metadata) ========================================================================= </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_builder.h" line="246" column="21" bodyfile="src/aql/aql_query_builder.cpp" bodystart="430" bodyend="433"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_builder_1a1555cf099928482f27fabd4b80db9338" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::aql::AQLQueryBuilder::getSchemaContext</definition>
+        <argsstring>() const</argsstring>
+        <name>getSchemaContext</name>
+        <qualifiedname>themis::aql::AQLQueryBuilder::getSchemaContext</qualifiedname>
+        <briefdescription>
+<para>Get Schema Context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_builder.h" line="252" column="17" bodyfile="src/aql/aql_query_builder.cpp" bodystart="435" bodyend="437"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_builder_1aef87902e427d5bcafa686aded2f10e4f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::aql::AQLQueryBuilder::getFieldsForCollection</definition>
+        <argsstring>(const std::string &amp;collection) const</argsstring>
+        <name>getFieldsForCollection</name>
+        <qualifiedname>themis::aql::AQLQueryBuilder::getFieldsForCollection</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <briefdescription>
+<para>Get Fields For Collection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_builder.h" line="259" column="17" bodyfile="src/aql/aql_query_builder.cpp" bodystart="439" bodyend="452"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_builder_1aef7bae7e1be4e804e87d3e391e39380a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::aql::AQLQueryBuilder::getNextSteps</definition>
+        <argsstring>() const</argsstring>
+        <name>getNextSteps</name>
+        <qualifiedname>themis::aql::AQLQueryBuilder::getNextSteps</qualifiedname>
+        <briefdescription>
+<para>Get Next Steps. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_builder.h" line="269" column="17" bodyfile="src/aql/aql_query_builder.cpp" bodystart="549" bodyend="588"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_builder_1a497fa4be0496b32f959a0c08c769d797" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::aql::AQLQueryBuilder::getCompletionSuggestions</definition>
+        <argsstring>(LLMAQLHandler &amp;handler, const std::string &amp;schema_context=&quot;&quot;, int max_suggestions=3) const</argsstring>
+        <name>getCompletionSuggestions</name>
+        <qualifiedname>themis::aql::AQLQueryBuilder::getCompletionSuggestions</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler" kindref="compound">LLMAQLHandler</ref> &amp;</type>
+          <declname>handler</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>schema_context</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_suggestions</declname>
+          <defval>3</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Split response by newlines into individual suggestions <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/aql/aql_query_builder.h" line="271" column="17" bodyfile="src/aql/aql_query_builder.cpp" bodystart="594" bodyend="655"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_builder_1a624bfa298f219cab571be64347b8a100" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::aql::AQLQueryBuilder::getLLMSuggestion</definition>
+        <argsstring>(LLMAQLHandler &amp;handler, const std::string &amp;intent, const std::string &amp;schema_context=&quot;&quot;) const</argsstring>
+        <name>getLLMSuggestion</name>
+        <qualifiedname>themis::aql::AQLQueryBuilder::getLLMSuggestion</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler" kindref="compound">LLMAQLHandler</ref> &amp;</type>
+          <declname>handler</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>intent</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>schema_context</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_builder.h" line="277" column="17" bodyfile="src/aql/aql_query_builder.cpp" bodystart="657" bodyend="678"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/aql_query_builder.h" line="30" column="1" bodyfile="include/aql/aql_query_builder.h" bodystart="30" bodyend="286"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1a3ce208856d85bb24d56e31c09f0ab7bf" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryBuilder</scope><name>AQLQueryBuilder</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1a576cebf8ebae48ee21b5034a363da2d0" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryBuilder</scope><name>AQLQueryBuilder</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1a1d683db045a84b00fc0a55e61a9243d8" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryBuilder</scope><name>AQLQueryBuilder</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1a89924de61b793648708706d404ac5f2d" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryBuilder</scope><name>build</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1a7b1947498380fd25f84e4eb4290b822f" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryBuilder</scope><name>collect</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1a7d76fc37b654b69b06646936aa94146b" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryBuilder</scope><name>filter</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1a3c8025ed3d61b19692d294f2a12e88c4" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryBuilder</scope><name>forIn</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1a07453608bee77ae85651015eee5e9225" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryBuilder</scope><name>forTraverse</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1a497fa4be0496b32f959a0c08c769d797" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryBuilder</scope><name>getCompletionSuggestions</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1aef87902e427d5bcafa686aded2f10e4f" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryBuilder</scope><name>getFieldsForCollection</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1a624bfa298f219cab571be64347b8a100" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryBuilder</scope><name>getLLMSuggestion</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1aef7bae7e1be4e804e87d3e391e39380a" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryBuilder</scope><name>getNextSteps</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1aa475e571c5ea572d3729e6760c54dae1" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryBuilder</scope><name>getPartialQuery</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1a1555cf099928482f27fabd4b80db9338" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryBuilder</scope><name>getSchemaContext</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1a2d3fb8c4f186db62b7aa0a5846bbacc5" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryBuilder</scope><name>hasIngestionEnrichment</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1aa143da0319e50a46893e4f87ba22a4f6" prot="private" virt="non-virtual"><scope>themis::aql::AQLQueryBuilder</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1a4cc56a66bdab769d90962f4b1b12c42b" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryBuilder</scope><name>insertInto</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1aa09a2eea509415bc11213f20becc163c" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryBuilder</scope><name>isComplete</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1a34f36767dda101bf4a840450bbee63a3" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryBuilder</scope><name>isValid</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1ad30b0249b3803a54ec7ba4daedfdeee0" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryBuilder</scope><name>let</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1ace014403d3a9899ebdc4d5a224c32433" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryBuilder</scope><name>limit</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1a3d26f5aa4cc0f98166feb2f233734cda" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryBuilder</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1a89a053986217fbbbb385aa9ee83881a3" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryBuilder</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1aec4600a005e09f96534e3aae2a0d2882" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryBuilder</scope><name>removeIn</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1ae2c315a306956bd55bd49c3ba4abd592" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryBuilder</scope><name>replaceIn</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1a6706001b63b0fa79c5aba680f78d56ee" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryBuilder</scope><name>reset</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1a4d4a5b33099a27b8857beefe269f117c" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryBuilder</scope><name>ret</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1a1f1e474b3310f8854e8a1a98f346a8c4" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryBuilder</scope><name>setSchema</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1ae8041f8e92d921259d9c0f5cb1e69135" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryBuilder</scope><name>sort</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1ac91c8b5a22ea59aee7161787f268db47" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryBuilder</scope><name>subquery</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1ad2cef2287c321481107552393a1c8402" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryBuilder</scope><name>updateIn</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1ae32098bfb799e59986461cccf06a49a8" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryBuilder</scope><name>upsertIn</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1a3c92567dceb9f990b858f98b0355d3e0" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryBuilder</scope><name>validate</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1add6c5b8b33f7fdb7dfcd55f838b3c46e" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryBuilder</scope><name>validate</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1a14e6dca22b6e463c04006af58123e3dc" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryBuilder</scope><name>window</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1aa912d24b8d57e40e91a4b5c9a7bfe0eb" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryBuilder</scope><name>withIngestionEnrichment</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_builder_1a827777605c0815cd927e5cbfcd6690b3" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryBuilder</scope><name>~AQLQueryBuilder</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1learning_1_1_group_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::learning::GroupMetrics</compoundname>
+    <includes refid="ab__testing__framework_8h" local="no">ab_testing_framework.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_group_metrics_1a4b96f19ef3d26d0999fa24e07425911a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::learning::GroupMetrics::sample_count</definition>
+        <argsstring></argsstring>
+        <name>sample_count</name>
+        <qualifiedname>themis::rag::learning::GroupMetrics::sample_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ab_testing_framework.h" line="50" column="12" bodyfile="include/rag/ab_testing_framework.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_group_metrics_1a957bdd345eed0897c374bf971dc476e4" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::learning::GroupMetrics::success_rate</definition>
+        <argsstring></argsstring>
+        <name>success_rate</name>
+        <qualifiedname>themis::rag::learning::GroupMetrics::success_rate</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ab_testing_framework.h" line="51" column="12" bodyfile="include/rag/ab_testing_framework.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_group_metrics_1af0d022dd2e4cffc24b9db235f8f98596" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::learning::GroupMetrics::mean</definition>
+        <argsstring></argsstring>
+        <name>mean</name>
+        <qualifiedname>themis::rag::learning::GroupMetrics::mean</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ab_testing_framework.h" line="52" column="12" bodyfile="include/rag/ab_testing_framework.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_group_metrics_1a7e2d27e7c0df6bf8f4d8828c630004b4" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::learning::GroupMetrics::std_dev</definition>
+        <argsstring></argsstring>
+        <name>std_dev</name>
+        <qualifiedname>themis::rag::learning::GroupMetrics::std_dev</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ab_testing_framework.h" line="53" column="12" bodyfile="include/rag/ab_testing_framework.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_group_metrics_1aeadc3af26076055db715cbfbc3c92b7e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themis::rag::learning::GroupMetrics::observations</definition>
+        <argsstring></argsstring>
+        <name>observations</name>
+        <qualifiedname>themis::rag::learning::GroupMetrics::observations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ab_testing_framework.h" line="54" column="17" bodyfile="include/rag/ab_testing_framework.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Metrics for a test group (control or treatment). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/ab_testing_framework.h" line="49" column="1" bodyfile="include/rag/ab_testing_framework.h" bodystart="49" bodyend="55"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_group_metrics_1af0d022dd2e4cffc24b9db235f8f98596" prot="public" virt="non-virtual"><scope>themis::rag::learning::GroupMetrics</scope><name>mean</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_group_metrics_1aeadc3af26076055db715cbfbc3c92b7e" prot="public" virt="non-virtual"><scope>themis::rag::learning::GroupMetrics</scope><name>observations</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_group_metrics_1a4b96f19ef3d26d0999fa24e07425911a" prot="public" virt="non-virtual"><scope>themis::rag::learning::GroupMetrics</scope><name>sample_count</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_group_metrics_1a7e2d27e7c0df6bf8f4d8828c630004b4" prot="public" virt="non-virtual"><scope>themis::rag::learning::GroupMetrics</scope><name>std_dev</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_group_metrics_1a957bdd345eed0897c374bf971dc476e4" prot="public" virt="non-virtual"><scope>themis::rag::learning::GroupMetrics</scope><name>success_rate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

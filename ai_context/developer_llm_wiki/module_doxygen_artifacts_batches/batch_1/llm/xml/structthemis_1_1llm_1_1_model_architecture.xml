@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_model_architecture" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::ModelArchitecture</compoundname>
+    <includes refid="mixed__precision__inference_8h" local="no">mixed_precision_inference.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_architecture_1aa7ab7a656ff11a01e9ace96f334f1784" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ModelArchitecture::model_name</definition>
+        <argsstring></argsstring>
+        <name>model_name</name>
+        <qualifiedname>themis::llm::ModelArchitecture::model_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/mixed_precision_inference.h" line="38" column="17" bodyfile="include/llm/mixed_precision_inference.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_architecture_1a4735edab46c0035f09f262e4a3f237e2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::ModelArchitecture::num_parameters</definition>
+        <argsstring></argsstring>
+        <name>num_parameters</name>
+        <qualifiedname>themis::llm::ModelArchitecture::num_parameters</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/mixed_precision_inference.h" line="39" column="12" bodyfile="include/llm/mixed_precision_inference.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_architecture_1a470c43a05f75a96ada7597a31fa73841" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::ModelArchitecture::num_layers</definition>
+        <argsstring></argsstring>
+        <name>num_layers</name>
+        <qualifiedname>themis::llm::ModelArchitecture::num_layers</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/mixed_precision_inference.h" line="40" column="12" bodyfile="include/llm/mixed_precision_inference.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_architecture_1a88024861ffa4370b0c68c64b3f58be92" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::ModelArchitecture::hidden_dim</definition>
+        <argsstring></argsstring>
+        <name>hidden_dim</name>
+        <qualifiedname>themis::llm::ModelArchitecture::hidden_dim</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/mixed_precision_inference.h" line="41" column="12" bodyfile="include/llm/mixed_precision_inference.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_architecture_1aa4e278366325f9ae7cebd54a7fe6d4b4" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::ModelArchitecture::layer_types</definition>
+        <argsstring></argsstring>
+        <name>layer_types</name>
+        <qualifiedname>themis::llm::ModelArchitecture::layer_types</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/mixed_precision_inference.h" line="42" column="17" bodyfile="include/llm/mixed_precision_inference.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_architecture_1af10554ae6967414492ce627bcfc649db" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; size_t &gt;</type>
+        <definition>std::vector&lt;size_t&gt; themis::llm::ModelArchitecture::layer_sizes</definition>
+        <argsstring></argsstring>
+        <name>layer_sizes</name>
+        <qualifiedname>themis::llm::ModelArchitecture::layer_sizes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/mixed_precision_inference.h" line="43" column="17" bodyfile="include/llm/mixed_precision_inference.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_model_architecture_1a5ab3dac18eef5acf77b76daa8e826bfd" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::ModelArchitecture::~ModelArchitecture</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ModelArchitecture</name>
+        <qualifiedname>themis::llm::ModelArchitecture::~ModelArchitecture</qualifiedname>
+        <briefdescription>
+<para>Model Architecture. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/mixed_precision_inference.h" line="37" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/mixed_precision_inference.h" line="32" column="1" bodyfile="include/llm/mixed_precision_inference.h" bodystart="32" bodyend="44"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_model_architecture_1a88024861ffa4370b0c68c64b3f58be92" prot="public" virt="non-virtual"><scope>themis::llm::ModelArchitecture</scope><name>hidden_dim</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_architecture_1af10554ae6967414492ce627bcfc649db" prot="public" virt="non-virtual"><scope>themis::llm::ModelArchitecture</scope><name>layer_sizes</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_architecture_1aa4e278366325f9ae7cebd54a7fe6d4b4" prot="public" virt="non-virtual"><scope>themis::llm::ModelArchitecture</scope><name>layer_types</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_architecture_1aa7ab7a656ff11a01e9ace96f334f1784" prot="public" virt="non-virtual"><scope>themis::llm::ModelArchitecture</scope><name>model_name</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_architecture_1a470c43a05f75a96ada7597a31fa73841" prot="public" virt="non-virtual"><scope>themis::llm::ModelArchitecture</scope><name>num_layers</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_architecture_1a4735edab46c0035f09f262e4a3f237e2" prot="public" virt="non-virtual"><scope>themis::llm::ModelArchitecture</scope><name>num_parameters</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_architecture_1a5ab3dac18eef5acf77b76daa8e826bfd" prot="public" virt="virtual"><scope>themis::llm::ModelArchitecture</scope><name>~ModelArchitecture</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

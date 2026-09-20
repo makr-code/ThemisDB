@@ -1,0 +1,360 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__config__metrics__scrape_8cpp" kind="file" language="C++">
+    <compoundname>test_config_metrics_scrape.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="config__metrics__exporter_8h" local="yes">config/config_metrics_exporter.h</includes>
+    <includes refid="config__path__resolver_8h" local="yes">config/config_path_resolver.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <incdepgraph>
+      <node id="15">
+        <label>config/config_audit_log.h</label>
+        <link refid="config__audit__log_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>config/config_errors.h</label>
+        <link refid="config__errors_8h"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>config/config_metrics_exporter.h</label>
+        <link refid="config__metrics__exporter_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>config/config_path_resolver.h</label>
+        <link refid="config__path__resolver_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>config/lru_cache.h</label>
+        <link refid="lru__cache_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>config/path_mapping_metadata.h</label>
+        <link refid="path__mapping__metadata_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/config/test_config_metrics_scrape.cpp</label>
+        <link refid="test__config__metrics__scrape_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>atomic</label>
+      </node>
+      <node id="14">
+        <label>chrono</label>
+      </node>
+      <node id="18">
+        <label>csignal</label>
+      </node>
+      <node id="16">
+        <label>cstddef</label>
+      </node>
+      <node id="17">
+        <label>deque</label>
+      </node>
+      <node id="11">
+        <label>filesystem</label>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="23">
+        <label>list</label>
+      </node>
+      <node id="9">
+        <label>map</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>mutex</label>
+      </node>
+      <node id="12">
+        <label>optional</label>
+      </node>
+      <node id="20">
+        <label>stdexcept</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="25">
+        <label>string_view</label>
+      </node>
+      <node id="22">
+        <label>unordered_map</label>
+      </node>
+      <node id="10">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classthemis_1_1config_1_1test_1_1_config_metrics_scrape_test" prot="public">themis::config::test::ConfigMetricsScrapeTest</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1config">themis::config</innernamespace>
+    <innernamespace refid="namespacethemis_1_1config_1_1test">themis::config::test</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="config__metrics__exporter_8h" kindref="compound">config/config_metrics_exporter.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="config__path__resolver_8h" kindref="compound">config/config_path_resolver.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1config" kindref="compound">config</ref><sp/>{</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1config_1_1test" kindref="compound">test</ref><sp/>{</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helper</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/>kScrapeLatencyLimitUs<sp/>=<sp/>1000LL;<sp/></highlight><highlight class="comment">//<sp/>1<sp/>ms<sp/>expressed<sp/>in<sp/>µs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>contains(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text,<sp/>std::string_view<sp/>needle)<sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>text.find(needle)<sp/>!=<sp/>std::string::npos;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Fixture</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="classthemis_1_1config_1_1test_1_1_config_metrics_scrape_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1config_1_1test_1_1_config_metrics_scrape_test" kindref="compound">ConfigMetricsScrapeTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1test_1_1_config_metrics_scrape_test_1a5ec16253448b770357fb9fd3b2fd27a2" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1config_1_1_config_path_resolver_1afc91909f31597538572a335cc278fc3b" kindref="member">ConfigPathResolver::resetMetrics</ref>();</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1config_1_1_config_path_resolver_1a836ab0ed0c1bf3bf0f24380fdaa30ced" kindref="member">ConfigPathResolver::clearCache</ref>();</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1test_1_1_config_metrics_scrape_test_1a29716b29a4cf6957805601546af2b919" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1config_1_1_config_path_resolver_1afc91909f31597538572a335cc278fc3b" kindref="member">ConfigPathResolver::resetMetrics</ref>();</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1config_1_1_config_path_resolver_1a836ab0ed0c1bf3bf0f24380fdaa30ced" kindref="member">ConfigPathResolver::clearCache</ref>();</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>1.<sp/>Scrape<sp/>latency<sp/>–<sp/>core<sp/>performance<sp/>requirement<sp/>(&lt;<sp/>1<sp/>ms)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Cold<sp/>scrape:<sp/>all<sp/>counters<sp/>at<sp/>zero,<sp/>empty<sp/>cache.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><ref refid="namespacethemis_1_1config_1_1test_1a927dfafc8ddc799a7d17acd2a5ef7da0" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1config_1_1test_1_1_config_metrics_scrape_test" kindref="compound">ConfigMetricsScrapeTest</ref>,<sp/>ScrapeLatencyColdBelowOneMillisecond)<sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t0<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>text<sp/>=<sp/><ref refid="classthemis_1_1config_1_1_config_metrics_exporter_1a87e6eed78485c95fe11f6100bb3b1e7f" kindref="member">ConfigMetricsExporter::collect</ref>();</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t1<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/>elapsed_us<sp/>=</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::duration_cast&lt;std::chrono::microseconds&gt;(t1<sp/>-<sp/>t0).count();</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(elapsed_us,<sp/>kScrapeLatencyLimitUs)</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Cold<sp/>scrape<sp/>took<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>elapsed_us<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>µs;<sp/>requirement<sp/>is<sp/>&lt;<sp/>1<sp/>ms<sp/>(1000<sp/>µs)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sanity:<sp/>output<sp/>must<sp/>be<sp/>non-empty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(text.empty());</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Warm<sp/>scrape:<sp/>counters<sp/>populated<sp/>by<sp/>200<sp/>resolve<sp/>attempts<sp/>→<sp/>hits<sp/>+<sp/>misses<sp/>recorded.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><ref refid="namespacethemis_1_1config_1_1test_1a927dfafc8ddc799a7d17acd2a5ef7da0" kindref="member">TEST_F</ref>(ConfigMetricsScrapeTest,<sp/>ScrapeLatencyWarmBelowOneMillisecond)<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Populate<sp/>counters<sp/>without<sp/>touching<sp/>the<sp/>filesystem<sp/>(tryResolve<sp/>on<sp/>a</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>non-existent<sp/>path<sp/>still<sp/>records<sp/>a<sp/>miss<sp/>and<sp/>increments<sp/>unmapped_requests).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>200;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1config_1_1_config_path_resolver_1a851d6398e166e0dcd7bfe9d30f9d871b" kindref="member">ConfigPathResolver::tryResolve</ref>(</highlight><highlight class="stringliteral">&quot;config/lora_training_config.yaml&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1config_1_1_config_path_resolver_1a836ab0ed0c1bf3bf0f24380fdaa30ced" kindref="member">ConfigPathResolver::clearCache</ref>();</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1config_1_1_config_path_resolver_1a851d6398e166e0dcd7bfe9d30f9d871b" kindref="member">ConfigPathResolver::tryResolve</ref>(</highlight><highlight class="stringliteral">&quot;config/lora_training_config.yaml&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t0<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>text<sp/>=<sp/><ref refid="classthemis_1_1config_1_1_config_metrics_exporter_1a87e6eed78485c95fe11f6100bb3b1e7f" kindref="member">ConfigMetricsExporter::collect</ref>();</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t1<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/>elapsed_us<sp/>=</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::duration_cast&lt;std::chrono::microseconds&gt;(t1<sp/>-<sp/>t0).count();</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(elapsed_us,<sp/>kScrapeLatencyLimitUs)</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Warm<sp/>scrape<sp/>took<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>elapsed_us<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>µs;<sp/>requirement<sp/>is<sp/>&lt;<sp/>1<sp/>ms<sp/>(1000<sp/>µs)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Repeated<sp/>scrapes:<sp/>verify<sp/>that<sp/>none<sp/>of<sp/>100<sp/>consecutive<sp/>calls<sp/>exceeds<sp/>the<sp/>limit.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><ref refid="namespacethemis_1_1config_1_1test_1a927dfafc8ddc799a7d17acd2a5ef7da0" kindref="member">TEST_F</ref>(ConfigMetricsScrapeTest,<sp/>RepeatedScrapesAllBelowOneMillisecond)<sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kRuns<sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kRuns;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t0<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>text<sp/>=<sp/><ref refid="classthemis_1_1config_1_1_config_metrics_exporter_1a87e6eed78485c95fe11f6100bb3b1e7f" kindref="member">ConfigMetricsExporter::collect</ref>();</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t1<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/>elapsed_us<sp/>=</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::duration_cast&lt;std::chrono::microseconds&gt;(t1<sp/>-<sp/>t0).count();</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LT(elapsed_us,<sp/>kScrapeLatencyLimitUs)</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Scrape<sp/>#&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>i<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>took<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>elapsed_us</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>µs;<sp/>requirement<sp/>is<sp/>&lt;<sp/>1<sp/>ms<sp/>(1000<sp/>µs)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)text;<sp/></highlight><highlight class="comment">//<sp/>suppress<sp/>unused-variable<sp/>warning</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>2.<sp/>Output<sp/>format<sp/>–<sp/>well-formed<sp/>Prometheus<sp/>text<sp/>exposition</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><ref refid="namespacethemis_1_1config_1_1test_1a927dfafc8ddc799a7d17acd2a5ef7da0" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1config_1_1test_1_1_config_metrics_scrape_test" kindref="compound">ConfigMetricsScrapeTest</ref>,<sp/>OutputContainsAllRequiredMetricNames)<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>text<sp/>=<sp/><ref refid="classthemis_1_1config_1_1_config_metrics_exporter_1a87e6eed78485c95fe11f6100bb3b1e7f" kindref="member">ConfigMetricsExporter::collect</ref>();</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(contains(text,<sp/></highlight><highlight class="stringliteral">&quot;themis_config_resolution_hits_total&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Missing<sp/>metric:<sp/>themis_config_resolution_hits_total&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(contains(text,<sp/></highlight><highlight class="stringliteral">&quot;themis_config_resolution_misses_total&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Missing<sp/>metric:<sp/>themis_config_resolution_misses_total&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(contains(text,<sp/></highlight><highlight class="stringliteral">&quot;themis_config_legacy_fallbacks_total&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Missing<sp/>metric:<sp/>themis_config_legacy_fallbacks_total&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(contains(text,<sp/></highlight><highlight class="stringliteral">&quot;themis_config_legacy_fallbacks_total{category=\&quot;unknown\&quot;&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Missing<sp/>category<sp/>label<sp/>on<sp/>legacy<sp/>fallback<sp/>metric&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(contains(text,<sp/></highlight><highlight class="stringliteral">&quot;themis_config_unmapped_requests_total&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Missing<sp/>metric:<sp/>themis_config_unmapped_requests_total&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(contains(text,<sp/></highlight><highlight class="stringliteral">&quot;themis_config_cache_hit_ratio&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Missing<sp/>metric:<sp/>themis_config_cache_hit_ratio&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(contains(text,<sp/></highlight><highlight class="stringliteral">&quot;themis_config_cache_capacity&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Missing<sp/>metric:<sp/>themis_config_cache_capacity&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(contains(text,<sp/></highlight><highlight class="stringliteral">&quot;themis_config_cache_ttl_seconds&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Missing<sp/>metric:<sp/>themis_config_cache_ttl_seconds&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><ref refid="namespacethemis_1_1config_1_1test_1a927dfafc8ddc799a7d17acd2a5ef7da0" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1config_1_1test_1_1_config_metrics_scrape_test" kindref="compound">ConfigMetricsScrapeTest</ref>,<sp/>OutputContainsHelpAndTypeAnnotations)<sp/>{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>text<sp/>=<sp/><ref refid="classthemis_1_1config_1_1_config_metrics_exporter_1a87e6eed78485c95fe11f6100bb3b1e7f" kindref="member">ConfigMetricsExporter::collect</ref>();</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Every<sp/>metric<sp/>must<sp/>have<sp/>a<sp/>#<sp/>HELP<sp/>and<sp/>a<sp/>#<sp/>TYPE<sp/>line</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(contains(text,<sp/></highlight><highlight class="stringliteral">&quot;#<sp/>HELP<sp/>themis_config_resolution_hits_total&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(contains(text,<sp/></highlight><highlight class="stringliteral">&quot;#<sp/>TYPE<sp/>themis_config_resolution_hits_total<sp/>counter&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(contains(text,<sp/></highlight><highlight class="stringliteral">&quot;#<sp/>HELP<sp/>themis_config_cache_hit_ratio&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(contains(text,<sp/></highlight><highlight class="stringliteral">&quot;#<sp/>TYPE<sp/>themis_config_cache_hit_ratio<sp/>gauge&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(contains(text,<sp/></highlight><highlight class="stringliteral">&quot;#<sp/>HELP<sp/>themis_config_cache_capacity&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(contains(text,<sp/></highlight><highlight class="stringliteral">&quot;#<sp/>TYPE<sp/>themis_config_cache_capacity<sp/>gauge&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="136"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><ref refid="namespacethemis_1_1config_1_1test_1a927dfafc8ddc799a7d17acd2a5ef7da0" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1config_1_1test_1_1_config_metrics_scrape_test" kindref="compound">ConfigMetricsScrapeTest</ref>,<sp/>OutputEndsWithNewline)<sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>text<sp/>=<sp/><ref refid="classthemis_1_1config_1_1_config_metrics_exporter_1a87e6eed78485c95fe11f6100bb3b1e7f" kindref="member">ConfigMetricsExporter::collect</ref>();</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(text.empty());</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(text.back(),<sp/></highlight><highlight class="charliteral">&apos;\n&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Prometheus<sp/>text-exposition<sp/>format<sp/>requires<sp/>a<sp/>trailing<sp/>newline&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="comment">//<sp/>3.<sp/>Counter<sp/>accuracy<sp/>–<sp/>values<sp/>reflect<sp/>actual<sp/>resolver<sp/>activity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><ref refid="namespacethemis_1_1config_1_1test_1a927dfafc8ddc799a7d17acd2a5ef7da0" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1config_1_1test_1_1_config_metrics_scrape_test" kindref="compound">ConfigMetricsScrapeTest</ref>,<sp/>ZeroCountersOnFreshReset)<sp/>{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>text<sp/>=<sp/><ref refid="classthemis_1_1config_1_1_config_metrics_exporter_1a87e6eed78485c95fe11f6100bb3b1e7f" kindref="member">ConfigMetricsExporter::collect</ref>();</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>reset<sp/>all<sp/>counters<sp/>must<sp/>be<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(contains(text,<sp/></highlight><highlight class="stringliteral">&quot;themis_config_resolution_hits_total<sp/>0&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(contains(text,<sp/></highlight><highlight class="stringliteral">&quot;themis_config_resolution_misses_total<sp/>0&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(contains(text,<sp/></highlight><highlight class="stringliteral">&quot;themis_config_legacy_fallbacks_total{category=&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(contains(text,<sp/></highlight><highlight class="stringliteral">&quot;themis_config_legacy_fallbacks_total{category=\&quot;unknown\&quot;}<sp/>0&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(contains(text,<sp/></highlight><highlight class="stringliteral">&quot;themis_config_unmapped_requests_total<sp/>0&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="158"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><ref refid="namespacethemis_1_1config_1_1test_1a927dfafc8ddc799a7d17acd2a5ef7da0" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1config_1_1test_1_1_config_metrics_scrape_test" kindref="compound">ConfigMetricsScrapeTest</ref>,<sp/>CacheHitRatioIsZeroWhenNoLookups)<sp/>{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>text<sp/>=<sp/><ref refid="classthemis_1_1config_1_1_config_metrics_exporter_1a87e6eed78485c95fe11f6100bb3b1e7f" kindref="member">ConfigMetricsExporter::collect</ref>();</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>With<sp/>no<sp/>lookups<sp/>the<sp/>hit<sp/>ratio<sp/>must<sp/>be<sp/>exactly<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(contains(text,<sp/></highlight><highlight class="stringliteral">&quot;themis_config_cache_hit_ratio<sp/>0&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="164"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>config</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/config/test_config_metrics_scrape.cpp"/>
+  </compounddef>
+</doxygen>

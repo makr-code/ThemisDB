@@ -1,0 +1,801 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_advanced_vector_index" kind="class" language="C++" prot="public">
+    <compoundname>themis::AdvancedVectorIndex</compoundname>
+    <includes refid="advanced__vector__index_8h" local="no">advanced_vector_index.h</includes>
+    <innerclass refid="structthemis_1_1_advanced_vector_index_1_1_config" prot="public">themis::AdvancedVectorIndex::Config</innerclass>
+    <innerclass refid="structthemis_1_1_advanced_vector_index_1_1_search_result" prot="public">themis::AdvancedVectorIndex::SearchResult</innerclass>
+    <innerclass refid="structthemis_1_1_advanced_vector_index_1_1_stats" prot="public">themis::AdvancedVectorIndex::Stats</innerclass>
+    <innerclass refid="structthemis_1_1_advanced_vector_index_1_1_stub_callbacks" prot="public">themis::AdvancedVectorIndex::StubCallbacks</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1_advanced_vector_index_1a20bd9a88ec22fa8e8d47bae6b164e1bd" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>WorkloadType</name>
+        <qualifiedname>themis::AdvancedVectorIndex::WorkloadType</qualifiedname>
+        <enumvalue id="classthemis_1_1_advanced_vector_index_1a20bd9a88ec22fa8e8d47bae6b164e1bda3edb9cc3b98f151feb21dbde6323e82a" prot="public">
+          <name>OLTP</name>
+          <briefdescription>
+<para>High-throughput, low-latency queries. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_advanced_vector_index_1a20bd9a88ec22fa8e8d47bae6b164e1bdabe25776fa91444b6d85c015efeddfc0e" prot="public">
+          <name>ANALYTICS</name>
+          <briefdescription>
+<para>Large batch queries, maximize recall. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_advanced_vector_index_1a20bd9a88ec22fa8e8d47bae6b164e1bda516a2342953891f249b58ff1c3943723" prot="public">
+          <name>MIXED</name>
+          <briefdescription>
+<para>Balanced workload. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_advanced_vector_index_1a20bd9a88ec22fa8e8d47bae6b164e1bdafb6a72bbc33faf101b251a60eb3ee087" prot="public">
+          <name>RAG</name>
+          <briefdescription>
+<para>Retrieval-Augmented Generation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_advanced_vector_index_1a20bd9a88ec22fa8e8d47bae6b164e1bda89d9abcd2b9a1a1442a4011c34e1fd0a" prot="public">
+          <name>BATCH_INSERT</name>
+          <briefdescription>
+<para>Bulk data loading. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/advanced_vector_index.h" line="25" column="5" bodyfile="include/index/advanced_vector_index.h" bodystart="25" bodyend="31"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_advanced_vector_index_1aeaa51bab0d1a0d3a5c7aff4bdb9c4219" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::AdvancedVectorIndex::dimension_</definition>
+        <argsstring></argsstring>
+        <name>dimension_</name>
+        <qualifiedname>themis::AdvancedVectorIndex::dimension_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/advanced_vector_index.h" line="213" column="12" bodyfile="include/index/advanced_vector_index.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_advanced_vector_index_1a57c37c5a389dacab414730008770633e" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_advanced_vector_index_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::AdvancedVectorIndex::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::AdvancedVectorIndex::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/advanced_vector_index.h" line="214" column="12" bodyfile="include/index/advanced_vector_index.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_advanced_vector_index_1a39d7ba6e8dfe0ae1237666c10b47be5c" prot="private" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::AdvancedVectorIndex::index_</definition>
+        <argsstring></argsstring>
+        <name>index_</name>
+        <qualifiedname>themis::AdvancedVectorIndex::index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/advanced_vector_index.h" line="215" column="10" bodyfile="include/index/advanced_vector_index.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_advanced_vector_index_1a06814621fd89e5c3dce76782b456755d" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::AdvancedVectorIndex::is_trained_</definition>
+        <argsstring></argsstring>
+        <name>is_trained_</name>
+        <qualifiedname>themis::AdvancedVectorIndex::is_trained_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/advanced_vector_index.h" line="216" column="10" bodyfile="include/index/advanced_vector_index.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_advanced_vector_index_1ade4b6b85740cc3e87c5ccb0b70deb017" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::AdvancedVectorIndex::AdvancedVectorIndex</definition>
+        <argsstring>(size_t dimension, const Config &amp;config)</argsstring>
+        <name>AdvancedVectorIndex</name>
+        <qualifiedname>themis::AdvancedVectorIndex::AdvancedVectorIndex</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>dimension</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_advanced_vector_index_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Advanced Vector Index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dimension</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/advanced_vector_index.h" line="78" column="14" bodyfile="src/index/advanced_vector_index.cpp" bodystart="101" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_advanced_vector_index_1aec8167a7b6c3eac0a3904b61bf027d4a" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::AdvancedVectorIndex::~AdvancedVectorIndex</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~AdvancedVectorIndex</name>
+        <qualifiedname>themis::AdvancedVectorIndex::~AdvancedVectorIndex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/advanced_vector_index.h" line="79" column="5" bodyfile="src/index/advanced_vector_index.cpp" bodystart="111" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_advanced_vector_index_1ac21ebbc91bf8604776f93ccd2d7c677f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::AdvancedVectorIndex::AdvancedVectorIndex</definition>
+        <argsstring>(const AdvancedVectorIndex &amp;)=delete</argsstring>
+        <name>AdvancedVectorIndex</name>
+        <qualifiedname>themis::AdvancedVectorIndex::AdvancedVectorIndex</qualifiedname>
+        <param>
+          <type>const AdvancedVectorIndex &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/advanced_vector_index.h" line="82" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_advanced_vector_index_1a8959578ad3c9efe9c4e85ffb2926b2b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_advanced_vector_index_1ade4b6b85740cc3e87c5ccb0b70deb017" kindref="member">AdvancedVectorIndex</ref> &amp;</type>
+        <definition>AdvancedVectorIndex &amp; themis::AdvancedVectorIndex::operator=</definition>
+        <argsstring>(const AdvancedVectorIndex &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::AdvancedVectorIndex::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_advanced_vector_index_1ade4b6b85740cc3e87c5ccb0b70deb017" kindref="member">AdvancedVectorIndex</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/advanced_vector_index.h" line="83" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_advanced_vector_index_1a9610fbe76bdf8e7fb5334dab12577b46" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::AdvancedVectorIndex::AdvancedVectorIndex</definition>
+        <argsstring>(AdvancedVectorIndex &amp;&amp;) noexcept=default</argsstring>
+        <name>AdvancedVectorIndex</name>
+        <qualifiedname>themis::AdvancedVectorIndex::AdvancedVectorIndex</qualifiedname>
+        <param>
+          <type>AdvancedVectorIndex &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/advanced_vector_index.h" line="84" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_advanced_vector_index_1a25c03473b15bbb5c2ef0ccd67438ad0a" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_advanced_vector_index_1ade4b6b85740cc3e87c5ccb0b70deb017" kindref="member">AdvancedVectorIndex</ref> &amp;</type>
+        <definition>AdvancedVectorIndex &amp; themis::AdvancedVectorIndex::operator=</definition>
+        <argsstring>(AdvancedVectorIndex &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::AdvancedVectorIndex::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_advanced_vector_index_1ade4b6b85740cc3e87c5ccb0b70deb017" kindref="member">AdvancedVectorIndex</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/advanced_vector_index.h" line="85" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_advanced_vector_index_1aa49d75b1a6638a23a1fcf9b7f473a744" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::AdvancedVectorIndex::train</definition>
+        <argsstring>(const float *vectors, size_t count)</argsstring>
+        <name>train</name>
+        <qualifiedname>themis::AdvancedVectorIndex::train</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>vectors</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Train. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">vectors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/advanced_vector_index.h" line="93" column="10" bodyfile="src/index/advanced_vector_index.cpp" bodystart="235" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_advanced_vector_index_1a4e17d98fdde703be7f599db4996fa898" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::AdvancedVectorIndex::add</definition>
+        <argsstring>(const float *vectors, size_t count)</argsstring>
+        <name>add</name>
+        <qualifiedname>themis::AdvancedVectorIndex::add</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>vectors</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Add. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">vectors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/advanced_vector_index.h" line="101" column="10" bodyfile="src/index/advanced_vector_index.cpp" bodystart="294" bodyend="340"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_advanced_vector_index_1a3d9989ef9a9e6a71c4746d681584b238" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::AdvancedVectorIndex::addWithIds</definition>
+        <argsstring>(const float *vectors, const int64_t *ids, size_t count)</argsstring>
+        <name>addWithIds</name>
+        <qualifiedname>themis::AdvancedVectorIndex::addWithIds</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>vectors</declname>
+        </param>
+        <param>
+          <type>const int64_t *</type>
+          <declname>ids</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Add With Ids. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">vectors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/advanced_vector_index.h" line="110" column="10" bodyfile="src/index/advanced_vector_index.cpp" bodystart="342" bodyend="388"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_advanced_vector_index_1a4736aad5f90abf28de4f59d7f23e5b60" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_advanced_vector_index_1_1_search_result" kindref="compound">SearchResult</ref></type>
+        <definition>AdvancedVectorIndex::SearchResult themis::AdvancedVectorIndex::search</definition>
+        <argsstring>(const float *query, size_t k)</argsstring>
+        <name>search</name>
+        <qualifiedname>themis::AdvancedVectorIndex::search</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+<para>Search. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/advanced_vector_index.h" line="118" column="18" bodyfile="src/index/advanced_vector_index.cpp" bodystart="390" bodyend="442"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_advanced_vector_index_1aa50a02185023243ed2d7b97f6e7d2360" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_advanced_vector_index_1_1_search_result" kindref="compound">SearchResult</ref> &gt;</type>
+        <definition>std::vector&lt; AdvancedVectorIndex::SearchResult &gt; themis::AdvancedVectorIndex::searchBatch</definition>
+        <argsstring>(const float *queries, size_t num_queries, size_t k)</argsstring>
+        <name>searchBatch</name>
+        <qualifiedname>themis::AdvancedVectorIndex::searchBatch</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>queries</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>num_queries</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+<para>Search Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">queries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">num_queries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Results. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">num_queries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/advanced_vector_index.h" line="127" column="17" bodyfile="src/index/advanced_vector_index.cpp" bodystart="444" bodyend="532"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_advanced_vector_index_1ae766390fb728a83829ca9a8ce582ed49" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_advanced_vector_index_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>AdvancedVectorIndex::Stats themis::AdvancedVectorIndex::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::AdvancedVectorIndex::getStats</qualifiedname>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1_advanced_vector_index_1_1_stats" kindref="compound">Stats</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/advanced_vector_index.h" line="142" column="11" bodyfile="src/index/advanced_vector_index.cpp" bodystart="534" bodyend="572"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_advanced_vector_index_1a724b4092cb682bc34874ca56650c0830" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::AdvancedVectorIndex::save</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>save</name>
+        <qualifiedname>themis::AdvancedVectorIndex::save</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Save. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/advanced_vector_index.h" line="171" column="10" bodyfile="src/index/advanced_vector_index.cpp" bodystart="574" bodyend="611"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_advanced_vector_index_1aa1b44596c0088efae91147d9a1e41780" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::AdvancedVectorIndex::load</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>load</name>
+        <qualifiedname>themis::AdvancedVectorIndex::load</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Load. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/advanced_vector_index.h" line="178" column="10" bodyfile="src/index/advanced_vector_index.cpp" bodystart="613" bodyend="657"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_advanced_vector_index_1a5296812aefebd664dd8f009649a44e26" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1_advanced_vector_index_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const Config &amp; themis::AdvancedVectorIndex::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::AdvancedVectorIndex::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/advanced_vector_index.h" line="180" column="18" bodyfile="include/index/advanced_vector_index.h" bodystart="180" bodyend="180"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1_advanced_vector_index_1afcc0355a68635a0e9cf2e056c3ba4d28" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::AdvancedVectorIndex::setStubCallbacks</definition>
+        <argsstring>(StubCallbacks callbacks)</argsstring>
+        <name>setStubCallbacks</name>
+        <qualifiedname>themis::AdvancedVectorIndex::setStubCallbacks</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1_advanced_vector_index_1_1_stub_callbacks" kindref="compound">StubCallbacks</ref></type>
+          <declname>callbacks</declname>
+        </param>
+        <briefdescription>
+<para>Set Stub Callbacks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callbacks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), stubCallbacksMutex(), stubCallbacksStorage(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/advanced_vector_index.h" line="161" column="17" bodyfile="include/index/advanced_vector_index.h" bodystart="161" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_advanced_vector_index_1a91f3bb3052948c0b350ea9f8430f342e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_advanced_vector_index_1_1_config" kindref="compound">Config</ref></type>
+        <definition>AdvancedVectorIndex::Config themis::AdvancedVectorIndex::getWorkloadOptimizedConfig</definition>
+        <argsstring>(size_t dataset_size, size_t dimension, WorkloadType workload)</argsstring>
+        <name>getWorkloadOptimizedConfig</name>
+        <qualifiedname>themis::AdvancedVectorIndex::getWorkloadOptimizedConfig</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>dataset_size</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>dimension</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1_advanced_vector_index_1a20bd9a88ec22fa8e8d47bae6b164e1bd" kindref="member">WorkloadType</ref></type>
+          <declname>workload</declname>
+        </param>
+        <briefdescription>
+<para>Get Workload Optimized <ref refid="structthemis_1_1_advanced_vector_index_1_1_config" kindref="compound">Config</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dataset_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dimension</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">workload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dataset_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dimension</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">workload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::sqrt(), std::max(), size_t(), std::min(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/advanced_vector_index.h" line="189" column="19" bodyfile="src/index/advanced_vector_index.cpp" bodystart="667" bodyend="757"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1_advanced_vector_index_1a7b52567f3d60c0c0e340dc6536715574" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::mutex &amp;</type>
+        <definition>static std::mutex &amp; themis::AdvancedVectorIndex::stubCallbacksMutex</definition>
+        <argsstring>()</argsstring>
+        <name>stubCallbacksMutex</name>
+        <qualifiedname>themis::AdvancedVectorIndex::stubCallbacksMutex</qualifiedname>
+        <briefdescription>
+<para>Stub Callbacks Mutex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements stubCallbacksMutex without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/advanced_vector_index.h" line="200" column="23" bodyfile="include/index/advanced_vector_index.h" bodystart="200" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_advanced_vector_index_1ac9d79ef62ff73db8dd9a1a545f4ffdc3" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_advanced_vector_index_1_1_stub_callbacks" kindref="compound">StubCallbacks</ref> &amp;</type>
+        <definition>static StubCallbacks &amp; themis::AdvancedVectorIndex::stubCallbacksStorage</definition>
+        <argsstring>()</argsstring>
+        <name>stubCallbacksStorage</name>
+        <qualifiedname>themis::AdvancedVectorIndex::stubCallbacksStorage</qualifiedname>
+        <briefdescription>
+<para>Stub Callbacks Storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements stubCallbacksStorage without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/advanced_vector_index.h" line="209" column="26" bodyfile="include/index/advanced_vector_index.h" bodystart="209" bodyend="212"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_advanced_vector_index_1a0c3b95b433d6d23d6fe2c54ff754bb39" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::AdvancedVectorIndex::initializeIndex</definition>
+        <argsstring>()</argsstring>
+        <name>initializeIndex</name>
+        <qualifiedname>themis::AdvancedVectorIndex::initializeIndex</qualifiedname>
+        <briefdescription>
+<para>Initialize Index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: get(), release(), THEMIS_INFO(), THEMIS_ERROR(), what(), StubCallbacks(), lk(), AdvancedVectorIndex::stubCallbacksMutex(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/advanced_vector_index.h" line="222" column="10" bodyfile="src/index/advanced_vector_index.cpp" bodystart="133" bodyend="233"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/advanced_vector_index.h" line="23" column="1" bodyfile="include/index/advanced_vector_index.h" bodystart="23" bodyend="223"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_advanced_vector_index_1a4e17d98fdde703be7f599db4996fa898" prot="public" virt="non-virtual"><scope>themis::AdvancedVectorIndex</scope><name>add</name></member>
+      <member refid="classthemis_1_1_advanced_vector_index_1a3d9989ef9a9e6a71c4746d681584b238" prot="public" virt="non-virtual"><scope>themis::AdvancedVectorIndex</scope><name>addWithIds</name></member>
+      <member refid="classthemis_1_1_advanced_vector_index_1ade4b6b85740cc3e87c5ccb0b70deb017" prot="public" virt="non-virtual"><scope>themis::AdvancedVectorIndex</scope><name>AdvancedVectorIndex</name></member>
+      <member refid="classthemis_1_1_advanced_vector_index_1ac21ebbc91bf8604776f93ccd2d7c677f" prot="public" virt="non-virtual"><scope>themis::AdvancedVectorIndex</scope><name>AdvancedVectorIndex</name></member>
+      <member refid="classthemis_1_1_advanced_vector_index_1a9610fbe76bdf8e7fb5334dab12577b46" prot="public" virt="non-virtual"><scope>themis::AdvancedVectorIndex</scope><name>AdvancedVectorIndex</name></member>
+      <member refid="classthemis_1_1_advanced_vector_index_1a57c37c5a389dacab414730008770633e" prot="private" virt="non-virtual"><scope>themis::AdvancedVectorIndex</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_advanced_vector_index_1aeaa51bab0d1a0d3a5c7aff4bdb9c4219" prot="private" virt="non-virtual"><scope>themis::AdvancedVectorIndex</scope><name>dimension_</name></member>
+      <member refid="classthemis_1_1_advanced_vector_index_1a5296812aefebd664dd8f009649a44e26" prot="public" virt="non-virtual"><scope>themis::AdvancedVectorIndex</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1_advanced_vector_index_1ae766390fb728a83829ca9a8ce582ed49" prot="public" virt="non-virtual"><scope>themis::AdvancedVectorIndex</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1_advanced_vector_index_1a91f3bb3052948c0b350ea9f8430f342e" prot="public" virt="non-virtual"><scope>themis::AdvancedVectorIndex</scope><name>getWorkloadOptimizedConfig</name></member>
+      <member refid="classthemis_1_1_advanced_vector_index_1a39d7ba6e8dfe0ae1237666c10b47be5c" prot="private" virt="non-virtual"><scope>themis::AdvancedVectorIndex</scope><name>index_</name></member>
+      <member refid="classthemis_1_1_advanced_vector_index_1a0c3b95b433d6d23d6fe2c54ff754bb39" prot="private" virt="non-virtual"><scope>themis::AdvancedVectorIndex</scope><name>initializeIndex</name></member>
+      <member refid="classthemis_1_1_advanced_vector_index_1a06814621fd89e5c3dce76782b456755d" prot="private" virt="non-virtual"><scope>themis::AdvancedVectorIndex</scope><name>is_trained_</name></member>
+      <member refid="classthemis_1_1_advanced_vector_index_1aa1b44596c0088efae91147d9a1e41780" prot="public" virt="non-virtual"><scope>themis::AdvancedVectorIndex</scope><name>load</name></member>
+      <member refid="classthemis_1_1_advanced_vector_index_1a8959578ad3c9efe9c4e85ffb2926b2b8" prot="public" virt="non-virtual"><scope>themis::AdvancedVectorIndex</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_advanced_vector_index_1a25c03473b15bbb5c2ef0ccd67438ad0a" prot="public" virt="non-virtual"><scope>themis::AdvancedVectorIndex</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_advanced_vector_index_1a724b4092cb682bc34874ca56650c0830" prot="public" virt="non-virtual"><scope>themis::AdvancedVectorIndex</scope><name>save</name></member>
+      <member refid="classthemis_1_1_advanced_vector_index_1a4736aad5f90abf28de4f59d7f23e5b60" prot="public" virt="non-virtual"><scope>themis::AdvancedVectorIndex</scope><name>search</name></member>
+      <member refid="classthemis_1_1_advanced_vector_index_1aa50a02185023243ed2d7b97f6e7d2360" prot="public" virt="non-virtual"><scope>themis::AdvancedVectorIndex</scope><name>searchBatch</name></member>
+      <member refid="classthemis_1_1_advanced_vector_index_1afcc0355a68635a0e9cf2e056c3ba4d28" prot="public" virt="non-virtual"><scope>themis::AdvancedVectorIndex</scope><name>setStubCallbacks</name></member>
+      <member refid="classthemis_1_1_advanced_vector_index_1a7b52567f3d60c0c0e340dc6536715574" prot="private" virt="non-virtual"><scope>themis::AdvancedVectorIndex</scope><name>stubCallbacksMutex</name></member>
+      <member refid="classthemis_1_1_advanced_vector_index_1ac9d79ef62ff73db8dd9a1a545f4ffdc3" prot="private" virt="non-virtual"><scope>themis::AdvancedVectorIndex</scope><name>stubCallbacksStorage</name></member>
+      <member refid="classthemis_1_1_advanced_vector_index_1aa49d75b1a6638a23a1fcf9b7f473a744" prot="public" virt="non-virtual"><scope>themis::AdvancedVectorIndex</scope><name>train</name></member>
+      <member refid="classthemis_1_1_advanced_vector_index_1a20bd9a88ec22fa8e8d47bae6b164e1bd" prot="public" virt="non-virtual"><scope>themis::AdvancedVectorIndex</scope><name>WorkloadType</name></member>
+      <member refid="classthemis_1_1_advanced_vector_index_1aec8167a7b6c3eac0a3904b61bf027d4a" prot="public" virt="non-virtual"><scope>themis::AdvancedVectorIndex</scope><name>~AdvancedVectorIndex</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

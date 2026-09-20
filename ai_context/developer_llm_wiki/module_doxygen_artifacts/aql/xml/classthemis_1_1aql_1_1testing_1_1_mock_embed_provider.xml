@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1testing_1_1_mock_embed_provider" kind="class" language="C++" prot="public">
+    <compoundname>themis::aql::testing::MockEmbedProvider</compoundname>
+    <basecompoundref refid="classthemis_1_1aql_1_1testing_1_1_mock_provider_base" prot="public" virt="non-virtual">themis::aql::testing::MockProviderBase</basecompoundref>
+    <includes refid="mock__provider__factory_8h" local="no">mock_provider_factory.h</includes>
+    <innerclass refid="structthemis_1_1aql_1_1testing_1_1_mock_embed_provider_1_1_embedding_result" prot="public">themis::aql::testing::MockEmbedProvider::EmbeddingResult</innerclass>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_mock_embed_provider_1a6af50605730b249465cb9d15a8001c2e" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::MockEmbedProvider::MockEmbedProvider</definition>
+        <argsstring>(const MockProviderConfig &amp;cfg=MockProviderConfig::AlwaysSucceed(), std::shared_ptr&lt; MockCallTracker &gt; tracker=nullptr)</argsstring>
+        <name>MockEmbedProvider</name>
+        <qualifiedname>themis::aql::testing::MockEmbedProvider::MockEmbedProvider</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1aql_1_1testing_1_1_mock_provider_config" kindref="compound">MockProviderConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+          <defval><ref refid="structthemis_1_1aql_1_1testing_1_1_mock_provider_config_1a5405e644f26ee38184d2fd7e8bb8ab2e" kindref="member">MockProviderConfig::AlwaysSucceed</ref>()</defval>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1aql_1_1testing_1_1_mock_call_tracker" kindref="compound">MockCallTracker</ref> &gt;</type>
+          <declname>tracker</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/fixtures/mock_provider_factory.h" line="239" column="14" bodyfile="tests/aql/fixtures/mock_provider_factory.h" bodystart="239" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_mock_embed_provider_1ae8347bc1e5d6c9c70ae5c681e00cee58" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1aql_1_1testing_1_1_mock_embed_provider_1_1_embedding_result" kindref="compound">EmbeddingResult</ref></type>
+        <definition>EmbeddingResult themis::aql::testing::MockEmbedProvider::embed</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>embed</name>
+        <qualifiedname>themis::aql::testing::MockEmbedProvider::embed</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Simulate an embedding generation call. Returns a 128-dim mock embedding. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/fixtures/mock_provider_factory.h" line="251" column="21" bodyfile="tests/aql/fixtures/mock_provider_factory.h" bodystart="251" bodyend="262"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::aql::testing::MockEmbedProvider</label>
+        <link refid="classthemis_1_1aql_1_1testing_1_1_mock_embed_provider"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::aql::testing::MockProviderBase</label>
+        <link refid="classthemis_1_1aql_1_1testing_1_1_mock_provider_base"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::aql::testing::MockEmbedProvider</label>
+        <link refid="classthemis_1_1aql_1_1testing_1_1_mock_embed_provider"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::aql::testing::MockProviderBase</label>
+        <link refid="classthemis_1_1aql_1_1testing_1_1_mock_provider_base"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/aql/fixtures/mock_provider_factory.h" line="237" column="1" bodyfile="tests/aql/fixtures/mock_provider_factory.h" bodystart="237" bodyend="263"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_mock_embed_provider_1ae8347bc1e5d6c9c70ae5c681e00cee58" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockEmbedProvider</scope><name>embed</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_mock_provider_base_1aefe5e56fa98ee4d299a6e5a2c7b09769" prot="protected" virt="non-virtual"><scope>themis::aql::testing::MockEmbedProvider</scope><name>evaluateCall</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_mock_embed_provider_1a6af50605730b249465cb9d15a8001c2e" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockEmbedProvider</scope><name>MockEmbedProvider</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_mock_provider_base_1aa787e8e54a6873f1f48bd7aad166f499" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockEmbedProvider</scope><name>MockProviderBase</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_mock_provider_base_1a2a4403647e9270fc04ab151785724b27" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockEmbedProvider</scope><name>tracker</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_mock_provider_base_1ad65a2ffa2234a20fefaed795d94b9ac4" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockEmbedProvider</scope><name>tracker</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_mock_provider_base_1ad8d0c100e28a8f73ba2f2c1d6d809384" prot="public" virt="virtual"><scope>themis::aql::testing::MockEmbedProvider</scope><name>~MockProviderBase</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

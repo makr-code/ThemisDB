@@ -1,0 +1,2577 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::CrossShardTransactionCoordinator</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">themis::transaction::IRecoverableTwoPhaseCoordinator</basecompoundref>
+    <includes refid="cross__shard__transaction_8h" local="no">cross_shard_transaction.h</includes>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1_1_recovery_run_result" prot="private">themisdb::sharding::CrossShardTransactionCoordinator::RecoveryRunResult</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1af9b435fe8331c4cd000b3f47ea610117" prot="public" static="no">
+        <type>std::function&lt; bool(const std::string &amp;, const std::string &amp;)&gt;</type>
+        <definition>using themisdb::sharding::CrossShardTransactionCoordinator::PreCommitRpcFn = 
+std::function&lt;bool(const std::string&amp; ,
+                   const std::string&amp; )&gt;</definition>
+        <argsstring></argsstring>
+        <name>PreCommitRpcFn</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::PreCommitRpcFn</qualifiedname>
+        <briefdescription>
+<para>Inject a PreCommit RPC callback for the 3PC protocol. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>In the 3PC protocol, Phase 2 must instruct every participant to durably persist its prepared state (PreCommit) before the coordinator proceeds to Phase 3 (Commit). Without this RPC, 3PC execution fails closed.</para>
+<para>When <computeroutput>fn</computeroutput> is non-null, execute3PC() calls it for each participant in Phase 2 and aborts the transaction if any participant rejects. This activates the full 3PC non-blocking guarantee.</para>
+<para>Pass <computeroutput>nullptr</computeroutput> to remove the callback. Any later attempt to execute 3PC without a callback fails closed and aborts the transaction.</para>
+<para><bold>Exception safety</bold>: The callback must not throw. If it does, the exception is caught by execute3PC(), treated as a NACK (i.e. the participant&apos;s PreCommit is counted as failed), and the transaction is aborted.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callable <computeroutput>bool(shard_id, txn_id)</computeroutput> that sends the PreCommit RPC to the given shard; returns true on acknowledgement, false on NACK; must not throw. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="546" column="5" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="546" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a2476acc924ccfca6aaf1e36767b0c68e" prot="public" static="no">
+        <type>std::function&lt; void(const std::string &amp;, const std::vector&lt; std::string &gt; &amp;)&gt;</type>
+        <definition>using themisdb::sharding::CrossShardTransactionCoordinator::DeferredPreCommitFn = 
+std::function&lt;void(const std::string&amp; ,
+                   const std::vector&lt;std::string&gt;&amp; )&gt;</definition>
+        <argsstring></argsstring>
+        <name>DeferredPreCommitFn</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::DeferredPreCommitFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="550" column="5" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="550" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a39bd796903b3de6ecd1a6182bb60ecdd" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config" kindref="compound">CrossShardTransactionConfig</ref></type>
+        <definition>CrossShardTransactionConfig themisdb::sharding::CrossShardTransactionCoordinator::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::config_</qualifiedname>
+        <briefdescription>
+<para>Runtime coordinator configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="732" column="33" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="732" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a973edd7794e4be04031124fe500bff70" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1sharding_1_1_consensus_module" kindref="compound">ConsensusModule</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ConsensusModule&gt; themisdb::sharding::CrossShardTransactionCoordinator::consensus_</definition>
+        <argsstring></argsstring>
+        <name>consensus_</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::consensus_</qualifiedname>
+        <briefdescription>
+<para>Consensus dependency for replicated decisions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="733" column="21" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="733" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a30ffd5a9b40e9ae81c1afdc01be74894" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_true_time" kindref="compound">themis::sharding::TrueTime</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;themis::sharding::TrueTime&gt; themisdb::sharding::CrossShardTransactionCoordinator::truetime_</definition>
+        <argsstring></argsstring>
+        <name>truetime_</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::truetime_</qualifiedname>
+        <briefdescription>
+<para>Time source for MVCC/external consistency. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="734" column="21" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="734" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a4075672259701fa27627de192a5f4665" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager" kindref="compound">CrossShardSSIManager</ref></type>
+        <definition>CrossShardSSIManager themisdb::sharding::CrossShardTransactionCoordinator::ssi_manager_</definition>
+        <argsstring></argsstring>
+        <name>ssi_manager_</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::ssi_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Distributed SSI manager for cross-shard predicate-lock tracking and conflict detection. Active only for SERIALIZABLE transactions. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="738" column="26" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="738" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a2ca0198639d7f8ebc502d0ab6f98d780" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::CrossShardTransactionCoordinator::transaction_log_path_</definition>
+        <argsstring></argsstring>
+        <name>transaction_log_path_</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::transaction_log_path_</qualifiedname>
+        <briefdescription>
+<para>Absolute transaction log file path. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="741" column="17" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="741" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a5895a84d14939fd861266910c6883030" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="namespacethemisdb_1_1sharding_1a7fdc43d0237c4aef029746e88b2c0583" kindref="member">TransactionWAL</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;TransactionWAL&gt; themisdb::sharding::CrossShardTransactionCoordinator::transaction_wal_</definition>
+        <argsstring></argsstring>
+        <name>transaction_wal_</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::transaction_wal_</qualifiedname>
+        <briefdescription>
+<para>WAL backend for durability/recovery. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="744" column="21" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="744" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a87f6acaaddc689d83c3e53eaf3ffd04e" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="namespacethemisdb_1_1sharding_1a3cb285a67eb4e61141fc230b7b4a77f6" kindref="member">TransactionSnapshotManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;TransactionSnapshotManager&gt; themisdb::sharding::CrossShardTransactionCoordinator::snapshot_manager_</definition>
+        <argsstring></argsstring>
+        <name>snapshot_manager_</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::snapshot_manager_</qualifiedname>
+        <briefdescription>
+<para>Snapshot backend for recovery acceleration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="745" column="21" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="745" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a8f977756926a8be5107e3d12ca8892f2" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::CrossShardTransactionCoordinator::operations_since_snapshot_</definition>
+        <argsstring></argsstring>
+        <name>operations_since_snapshot_</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::operations_since_snapshot_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Operation count since last snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="746" column="17" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="746" bodyend="746"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a564dd13344406ea7e626de92a91db6cd" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref></type>
+        <definition>LSN themisdb::sharding::CrossShardTransactionCoordinator::last_applied_lsn_</definition>
+        <argsstring></argsstring>
+        <name>last_applied_lsn_</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::last_applied_lsn_</qualifiedname>
+        <initializer>{0, 0}</initializer>
+        <briefdescription>
+<para>Last WAL <ref refid="structthemisdb_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref> applied during recovery. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="747" column="9" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="747" bodyend="747"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1aedccede9c845e9459de1dc2bff4c0981" prot="private" static="no" mutable="yes">
+        <type>std::timed_mutex</type>
+        <definition>std::timed_mutex themisdb::sharding::CrossShardTransactionCoordinator::transactions_mutex_</definition>
+        <argsstring></argsstring>
+        <name>transactions_mutex_</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::transactions_mutex_</qualifiedname>
+        <briefdescription>
+<para>Protects transaction map and wait-edge graph. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="750" column="30" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="750" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a60163b6e7f4a89dd99296f49601c528f" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction" kindref="compound">CrossShardTransaction</ref> &gt;</type>
+        <definition>std::map&lt;std::string, CrossShardTransaction&gt; themisdb::sharding::CrossShardTransactionCoordinator::transactions_</definition>
+        <argsstring></argsstring>
+        <name>transactions_</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::transactions_</qualifiedname>
+        <briefdescription>
+<para>Active transaction registry. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="751" column="14" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="751" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1aab2ba974467d0d3395de01a2fd3e01f7" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::set&lt; std::string &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::set&lt;std::string&gt; &gt; themisdb::sharding::CrossShardTransactionCoordinator::distributed_wait_for_edges_</definition>
+        <argsstring></argsstring>
+        <name>distributed_wait_for_edges_</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::distributed_wait_for_edges_</qualifiedname>
+        <briefdescription>
+<para>Cross-shard wait-for edges. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="752" column="14" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="752" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1ab134eac2073396afd3d87284a3b0e296" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::sharding::CrossShardTransactionCoordinator::decision_mutex_</definition>
+        <argsstring></argsstring>
+        <name>decision_mutex_</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::decision_mutex_</qualifiedname>
+        <briefdescription>
+<para>Protects terminal decision guard set. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="753" column="24" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="753" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a77ad247606eba16437f0c1160d023db1" prot="private" static="no" mutable="no">
+        <type>std::set&lt; std::string &gt;</type>
+        <definition>std::set&lt;std::string&gt; themisdb::sharding::CrossShardTransactionCoordinator::terminal_decisions_in_progress_</definition>
+        <argsstring></argsstring>
+        <name>terminal_decisions_in_progress_</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::terminal_decisions_in_progress_</qualifiedname>
+        <briefdescription>
+<para>Transactions currently in commit/abort finalization. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="754" column="14" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="754" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1afa4e566895c41589d398a4a415b38b55" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::sharding::CrossShardTransactionCoordinator::callbacks_mutex_</definition>
+        <argsstring></argsstring>
+        <name>callbacks_mutex_</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::callbacks_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="774" column="24" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="774" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1af4a950086d4ca5be81fe413b66433497" prot="private" static="no" mutable="no">
+        <type>std::function&lt; void(const std::string &amp;, <ref refid="namespacethemisdb_1_1sharding_1a1b27ab7c0aacec2cdf12e8c4902e86c1" kindref="member">TransactionState</ref>, <ref refid="namespacethemisdb_1_1sharding_1a1b27ab7c0aacec2cdf12e8c4902e86c1" kindref="member">TransactionState</ref>)&gt;</type>
+        <definition>std::function&lt;void(const std::string&amp;, TransactionState, TransactionState)&gt; themisdb::sharding::CrossShardTransactionCoordinator::on_state_change_callback_</definition>
+        <argsstring></argsstring>
+        <name>on_state_change_callback_</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::on_state_change_callback_</qualifiedname>
+        <briefdescription>
+<para>Optional state transition callback. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="776" column="9" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="776" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a97f0251883dd95e62982fd24b49e374e" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1af9b435fe8331c4cd000b3f47ea610117" kindref="member">PreCommitRpcFn</ref></type>
+        <definition>PreCommitRpcFn themisdb::sharding::CrossShardTransactionCoordinator::precommit_callback_</definition>
+        <argsstring></argsstring>
+        <name>precommit_callback_</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::precommit_callback_</qualifiedname>
+        <briefdescription>
+<para>Optional injected PreCommit RPC callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Injected 3PC PreCommit RPC callback (CST-6). Protected by callbacks_mutex_. Contract: must not throw; missing callback causes execute3PC() to fail closed. → See docs/architecture/transaction_coordinators.md §4.2 for the full callback contract. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="782" column="20" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="782" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a6a92861bf2e2cfb22b12f801935e6803" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a2476acc924ccfca6aaf1e36767b0c68e" kindref="member">DeferredPreCommitFn</ref></type>
+        <definition>DeferredPreCommitFn themisdb::sharding::CrossShardTransactionCoordinator::deferred_precommit_callback_</definition>
+        <argsstring></argsstring>
+        <name>deferred_precommit_callback_</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::deferred_precommit_callback_</qualifiedname>
+        <briefdescription>
+<para>Optional callback for deferred PreCommit retry. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="784" column="25" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="784" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1aeac9f0f7ad190dc29779e409a275c146" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator" kindref="compound">CrossShardForeignKeyValidator</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;CrossShardForeignKeyValidator&gt; themisdb::sharding::CrossShardTransactionCoordinator::fk_validator_</definition>
+        <argsstring></argsstring>
+        <name>fk_validator_</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::fk_validator_</qualifiedname>
+        <briefdescription>
+<para>Optional FK constraint validator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Injected cross-shard FK validator (issue #5392). Protected by callbacks_mutex_. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="788" column="21" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="788" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a7f6029991e3e48333676080b2c31c3d7" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::vector&lt;std::string&gt; &gt; themisdb::sharding::CrossShardTransactionCoordinator::deferred_precommits_</definition>
+        <argsstring></argsstring>
+        <name>deferred_precommits_</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::deferred_precommits_</qualifiedname>
+        <briefdescription>
+<para>txn_id -&gt; failed shards </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="791" column="14" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="791" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a60456f687944011bf7e31884c0c01537" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::sharding::CrossShardTransactionCoordinator::deferred_mutex_</definition>
+        <argsstring></argsstring>
+        <name>deferred_mutex_</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::deferred_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="792" column="16" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="792" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a8e256d9020d7fb0e5c392803f95b6015" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themisdb::sharding::CrossShardTransactionCoordinator::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::running_</qualifiedname>
+        <briefdescription>
+<para>Lifecycle flag for background workers. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="795" column="17" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="795" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a390be7f403fc524da0c7f8b0fad2e172" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themisdb::sharding::CrossShardTransactionCoordinator::deadlock_detection_thread_</definition>
+        <argsstring></argsstring>
+        <name>deadlock_detection_thread_</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::deadlock_detection_thread_</qualifiedname>
+        <briefdescription>
+<para>Distributed deadlock detector thread. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="796" column="17" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="796" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a0f6a09b01b117750cf650970ecd3327b" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themisdb::sharding::CrossShardTransactionCoordinator::precommit_retry_thread_</definition>
+        <argsstring></argsstring>
+        <name>precommit_retry_thread_</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::precommit_retry_thread_</qualifiedname>
+        <briefdescription>
+<para>Thread for retrying deferred PreCommits. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="797" column="17" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="797" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a1dc5d452c9c79859ec0da1a7dac74670" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::CrossShardTransactionCoordinator::total_transactions_</definition>
+        <argsstring></argsstring>
+        <name>total_transactions_</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::total_transactions_</qualifiedname>
+        <briefdescription>
+<para>Total started transactions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="800" column="17" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="800" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1ae9787a372da449ba4eb0fb9926884104" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::CrossShardTransactionCoordinator::committed_transactions_</definition>
+        <argsstring></argsstring>
+        <name>committed_transactions_</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::committed_transactions_</qualifiedname>
+        <briefdescription>
+<para>Successfully committed transactions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="801" column="17" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="801" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a16124ef9eda998f0e1afe06b361386a0" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::CrossShardTransactionCoordinator::aborted_transactions_</definition>
+        <argsstring></argsstring>
+        <name>aborted_transactions_</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::aborted_transactions_</qualifiedname>
+        <briefdescription>
+<para>Aborted transactions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="802" column="17" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="802" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1aabc9e3929dff0e7ce6352f0ff6769e62" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::CrossShardTransactionCoordinator::deadlocked_transactions_</definition>
+        <argsstring></argsstring>
+        <name>deadlocked_transactions_</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::deadlocked_transactions_</qualifiedname>
+        <briefdescription>
+<para>Deadlock victim count. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="803" column="17" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="803" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a1b03d86e627ab1f746c9370f6a0d5292" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::CrossShardTransactionCoordinator::CrossShardTransactionCoordinator</definition>
+        <argsstring>(const CrossShardTransactionConfig &amp;config, std::shared_ptr&lt; ConsensusModule &gt; consensus, std::shared_ptr&lt; themis::sharding::TrueTime &gt; truetime=nullptr)</argsstring>
+        <name>CrossShardTransactionCoordinator</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::CrossShardTransactionCoordinator</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config" kindref="compound">CrossShardTransactionConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1sharding_1_1_consensus_module" kindref="compound">ConsensusModule</ref> &gt;</type>
+          <declname>consensus</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_true_time" kindref="compound">themis::sharding::TrueTime</ref> &gt;</type>
+          <declname>truetime</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Construct cross-shard coordinator with optional <ref refid="classthemis_1_1sharding_1_1_true_time" kindref="compound">TrueTime</ref> source. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Coordinator behavior and timeout settings. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>consensus</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Consensus module for replicated coordinator decisions. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>truetime</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional <ref refid="classthemis_1_1sharding_1_1_true_time" kindref="compound">TrueTime</ref> provider; created lazily when null. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Invalid argument. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="268" column="14" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="168" bodyend="244"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a5b23a8631f62fba8511b6ff7b09be62a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::CrossShardTransactionCoordinator::~CrossShardTransactionCoordinator</definition>
+        <argsstring>()</argsstring>
+        <name>~CrossShardTransactionCoordinator</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::~CrossShardTransactionCoordinator</qualifiedname>
+        <briefdescription>
+<para>Stop background worker threads and release resources. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="275" column="5" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="246" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a55b508344c2414564d0b471437b2149d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::CrossShardTransactionCoordinator::initialize</definition>
+        <argsstring>()</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::initialize</qualifiedname>
+        <briefdescription>
+<para>Initialize the coordinator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Initialize.</para>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::error(), reset(), runRecoveryBackend(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="280" column="10" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="255" bodyend="289"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a0bbb720ae23567e8cd9199b838bc28d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::CrossShardTransactionCoordinator::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::start</qualifiedname>
+        <briefdescription>
+<para>Start the coordinator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start.</para>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: load(), spdlog::warn(), store(), std::thread(), lk(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="285" column="10" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="384" bodyend="412"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1ac0ace12d276328e6039735ce54858380" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::CrossShardTransactionCoordinator::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::stop</qualifiedname>
+        <briefdescription>
+<para>Stop the coordinator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stop.</para>
+<para>Calls: load(), store(), joinable(), themis::utils::joinThreadWithin(), spdlog::warn(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="290" column="10" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="604" bodyend="627"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1adcc99cc59dfc4baa2140ed332e3e9a99" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::CrossShardTransactionCoordinator::beginTransaction</definition>
+        <argsstring>(const std::string &amp;transaction_id, TransactionProtocol protocol=TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel isolation_level=IsolationLevel::SNAPSHOT_ISOLATION)</argsstring>
+        <name>beginTransaction</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::beginTransaction</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1sharding_1aa6b8f3392853250b3adfc87a17df6ca0" kindref="member">TransactionProtocol</ref></type>
+          <declname>protocol</declname>
+          <defval><ref refid="namespacethemisdb_1_1sharding_1aa6b8f3392853250b3adfc87a17df6ca0a4ac53c5e8c1e144c46d2fa775bbe0578" kindref="member">TransactionProtocol::TWO_PHASE_COMMIT</ref></defval>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1sharding_1ab0ad98c3bfd5aec5094c667564aff927" kindref="member">IsolationLevel</ref></type>
+          <declname>isolation_level</declname>
+          <defval><ref refid="namespacethemisdb_1_1sharding_1ab0ad98c3bfd5aec5094c667564aff927a9eb39169b7db6ecee4ee0980284659bd" kindref="member">IsolationLevel::SNAPSHOT_ISOLATION</ref></defval>
+        </param>
+        <briefdescription>
+<para>Begin a new cross-shard transaction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Begin Transaction.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique transaction identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>protocol</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transaction protocol to use </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>isolation_level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Isolation level </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if transaction started successfully</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the transaction. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">protocol</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">isolation_level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), spdlog::error(), lock(), find(), end(), spdlog::warn(), std::chrono::system_clock::now(), now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="299" column="10" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="637" bodyend="720"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1aa8547cbc26ebc452feb2069aedefcd3e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::CrossShardTransactionCoordinator::addParticipant</definition>
+        <argsstring>(const std::string &amp;transaction_id, const std::string &amp;shard_id, const std::string &amp;endpoint, const std::vector&lt; std::string &gt; &amp;operations)</argsstring>
+        <name>addParticipant</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::addParticipant</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>endpoint</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>operations</declname>
+        </param>
+        <briefdescription>
+<para>Add a shard participant to the transaction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Participant.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transaction ID </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard to add </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard endpoint </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>operations</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Operations to perform on this shard </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if added successfully</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the transaction. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">operations</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), spdlog::error(), lock(), try_lock_for(), find(), end(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="313" column="10" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="731" bodyend="795"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1afd903b37240e60ff79df4675b3d1cf36" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::CrossShardTransactionCoordinator::prepare</definition>
+        <argsstring>(const std::string &amp;transaction_id)</argsstring>
+        <name>prepare</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::prepare</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <briefdescription>
+<para>Prepare transaction (2PC/3PC phase 1). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Prepare.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transaction ID </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if all participants prepared successfully</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the transaction. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), spdlog::error(), tx_lock(), find(), end(), emplace_back(), cb_lock(), validate(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="325" column="10" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="803" bodyend="982"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1af661ccc7e26413d252e3890c794981c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::CrossShardTransactionCoordinator::commit</definition>
+        <argsstring>(const std::string &amp;transaction_id)</argsstring>
+        <name>commit</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::commit</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <briefdescription>
+<para>Commit transaction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Commit.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transaction ID </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if committed successfully</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the transaction. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: tryStartTerminalDecision(), spdlog::warn(), void(), finishTerminalDecision(), lock(), find(), end(), spdlog::error(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="332" column="10" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="990" bodyend="1098"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a86f59ef8d52dafdf5d87b7cc0a2266d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::CrossShardTransactionCoordinator::abort</definition>
+        <argsstring>(const std::string &amp;transaction_id)</argsstring>
+        <name>abort</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::abort</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <briefdescription>
+<para>Abort transaction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Abort.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transaction ID </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if aborted successfully</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the transaction. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: tryStartTerminalDecision(), spdlog::warn(), void(), finishTerminalDecision(), lock(), try_lock_for(), spdlog::error(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="339" column="10" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="1106" bodyend="1225"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a22fed90638ea74614da7cb5009505500" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::CrossShardTransactionCoordinator::recoverInDoubtTransactions</definition>
+        <argsstring>() override</argsstring>
+        <name>recoverInDoubtTransactions</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::recoverInDoubtTransactions</qualifiedname>
+        <briefdescription>
+<para>Re-drive in-doubt transactions using the configured recovery backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Recover In Doubt Transactions.</para>
+<para>Uses WAL+snapshot recovery when the backend is available.</para>
+<para>This method is intended for startup recovery before new transactions are accepted. If called during live traffic, the returned value is best-effort.</para>
+<para><simplesect kind="return"><para>Number of in-doubt transactions resolved by this invocation.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), std::count_if(), begin(), end(), count_in_doubt(), runRecoveryBackend(), spdlog::warn(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="351" column="13" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="419" bodyend="479"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a40e6b1bb8f7039b022472c767525e58c" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::CrossShardTransactionCoordinator::recoveryCoordinatorName</definition>
+        <argsstring>() const override</argsstring>
+        <name>recoveryCoordinatorName</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::recoveryCoordinatorName</qualifiedname>
+        <briefdescription>
+<para>Return the canonical coordinator name for global recovery reports. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Stable coordinator type name. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="357" column="18" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="481" bodyend="483"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a635eea068639e51ea1001f0838e0089e" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::CrossShardTransactionCoordinator::recoveryBackendName</definition>
+        <argsstring>() const override</argsstring>
+        <name>recoveryBackendName</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::recoveryBackendName</qualifiedname>
+        <briefdescription>
+<para>Return the durable backend used by this coordinator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>&quot;WAL/snapshot&quot; when persistence is enabled, otherwise &quot;disabled&quot;. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="363" column="18" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="485" bodyend="487"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1ae2d36c0ba9cf61bea6a6b929dc82f490" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; themis::transaction::RecoverableTwoPhaseTransaction &gt;</type>
+        <definition>std::vector&lt; themis::transaction::RecoverableTwoPhaseTransaction &gt; themisdb::sharding::CrossShardTransactionCoordinator::getRecoverableTransactions</definition>
+        <argsstring>() const override</argsstring>
+        <name>getRecoverableTransactions</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::getRecoverableTransactions</qualifiedname>
+        <briefdescription>
+<para>Snapshot current in-doubt transactions using the shared state model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Normalized non-final transaction list for global recovery orchestration. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">transactions_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="370" column="5" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="490" bodyend="542"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a34ed70322b65ab0fbb279ea94e9af4b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::CrossShardTransactionCoordinator::executeSaga</definition>
+        <argsstring>(const std::string &amp;transaction_id, const std::vector&lt; nlohmann::json &gt; &amp;steps, const std::vector&lt; nlohmann::json &gt; &amp;compensations)</argsstring>
+        <name>executeSaga</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::executeSaga</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; nlohmann::json &gt; &amp;</type>
+          <declname>steps</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; nlohmann::json &gt; &amp;</type>
+          <declname>compensations</declname>
+        </param>
+        <briefdescription>
+<para>Execute a SAGA transaction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Execute Saga.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transaction ID </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>steps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>SAGA steps to execute </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>compensations</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Compensation actions for each step </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if SAGA completed successfully</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the transaction. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">steps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">compensations</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: size(), spdlog::error(), lock(), find(), end(), unlock(), spdlog::info(), contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="379" column="10" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="1235" bodyend="1454"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1af7bee2eae7c1806f502b9fe858c500b9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespacethemisdb_1_1sharding_1a1b27ab7c0aacec2cdf12e8c4902e86c1" kindref="member">TransactionState</ref> &gt;</type>
+        <definition>std::optional&lt; TransactionState &gt; themisdb::sharding::CrossShardTransactionCoordinator::getTransactionState</definition>
+        <argsstring>(const std::string &amp;transaction_id) const</argsstring>
+        <name>getTransactionState</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::getTransactionState</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <briefdescription>
+<para>Get transaction state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transaction ID </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Transaction state or nullopt if not found </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">transactions_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="390" column="19" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="1456" bodyend="1472"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1aaf2c9ccb61d86b2e30e6e2cf613fae96" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction" kindref="compound">CrossShardTransaction</ref> &gt;</type>
+        <definition>std::optional&lt; CrossShardTransaction &gt; themisdb::sharding::CrossShardTransactionCoordinator::getTransaction</definition>
+        <argsstring>(const std::string &amp;transaction_id) const</argsstring>
+        <name>getTransaction</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::getTransaction</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <briefdescription>
+<para>Get transaction details. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transaction ID </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Transaction details or nullopt if not found </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">transactions_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="399" column="19" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="1474" bodyend="1490"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1aee998d1bbfc759900b0b45a1a564c5b3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::CrossShardTransactionCoordinator::isDeadlocked</definition>
+        <argsstring>(const std::string &amp;transaction_id) const</argsstring>
+        <name>isDeadlocked</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::isDeadlocked</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <briefdescription>
+<para>Check if transaction is deadlocked. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transaction ID </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if deadlocked </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="408" column="10" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="1492" bodyend="1499"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a90812fb387ea0c6ef99567c28ee1cee8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::CrossShardTransactionCoordinator::reportDistributedWait</definition>
+        <argsstring>(const std::string &amp;waiting_transaction_id, const std::string &amp;blocking_transaction_id, const std::string &amp;shard_id)</argsstring>
+        <name>reportDistributedWait</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::reportDistributedWait</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>waiting_transaction_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blocking_transaction_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Report a distributed wait edge observed on a shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Report Distributed Wait.</para>
+<para>Records that <computeroutput>waiting_transaction_id</computeroutput> is waiting for <computeroutput>blocking_transaction_id</computeroutput> on <computeroutput>shard_id</computeroutput> so the coordinator can build a cross-shard wait-for graph for deadlock detection.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">waiting_transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the waiting transaction. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">blocking_transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the blocking transaction. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), lock(), find(), end(), spdlog::error(), insert(), spdlog::trace(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="417" column="10" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="298" bodyend="340"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1adafd0482152b95b067994fd10e305d9b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::CrossShardTransactionCoordinator::clearDistributedWaits</definition>
+        <argsstring>(const std::string &amp;transaction_id)</argsstring>
+        <name>clearDistributedWaits</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::clearDistributedWaits</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <briefdescription>
+<para>Clear all distributed wait edges for a transaction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear Distributed Waits.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the transaction.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), clearDistributedWaitEdgesLocked(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="426" column="10" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="347" bodyend="352"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1ad4b8691a1c5d7e6e6f6c19005551a058" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::CrossShardTransactionCoordinator::registerShardReadSet</definition>
+        <argsstring>(const std::string &amp;transaction_id, const std::string &amp;shard_id, const std::vector&lt; CrossShardPredicateLock &gt; &amp;predicates)</argsstring>
+        <name>registerShardReadSet</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::registerShardReadSet</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1sharding_1_1_cross_shard_predicate_lock" kindref="compound">CrossShardPredicateLock</ref> &gt; &amp;</type>
+          <declname>predicates</declname>
+        </param>
+        <briefdescription>
+<para>Register predicate (range) locks observed on <computeroutput>shard_id</computeroutput> for a SERIALIZABLE transaction during its read phase. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register Shard Read Set.</para>
+<para>Must be called by the shard participant (or its proxy) before the transaction enters the prepare phase so that the coordinator has the full cross-shard read-set available for conflict detection.</para>
+<para>No-op when SSI is disabled or when <computeroutput>transaction_id</computeroutput> does not denote an active SERIALIZABLE transaction.</para>
+<para>Thread-safe.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Global transaction identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard that performed the range scan. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>predicates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key ranges observed on <computeroutput>shard_id</computeroutput>.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the transaction. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">predicates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">transactions_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">defer_lock</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="447" column="10" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="3864" bodyend="3888"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1ab5fcd077f94f388f6fdf72d369b3ddfb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::CrossShardTransactionCoordinator::registerShardWriteSet</definition>
+        <argsstring>(const std::string &amp;transaction_id, const std::string &amp;shard_id, const std::vector&lt; std::string &gt; &amp;keys)</argsstring>
+        <name>registerShardWriteSet</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::registerShardWriteSet</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>keys</declname>
+        </param>
+        <briefdescription>
+<para>Register the keys written on <computeroutput>shard_id</computeroutput> by a SERIALIZABLE transaction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register Shard Write Set.</para>
+<para>Must be called by the shard participant (or its proxy) before the transaction enters the prepare phase.</para>
+<para>No-op when SSI is disabled.</para>
+<para>Thread-safe.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Global transaction identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard that performed the writes. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>keys</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Keys written on <computeroutput>shard_id</computeroutput>.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the transaction. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">keys</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="467" column="10" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="3896" bodyend="3902"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1ad355d00eee067b4e7e4658b4dc0d718c" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1sharding_1_1_cross_shard_s_s_i_conflict" kindref="compound">CrossShardSSIConflict</ref> &gt;</type>
+        <definition>std::vector&lt; CrossShardSSIConflict &gt; themisdb::sharding::CrossShardTransactionCoordinator::validateCrossShardSSI</definition>
+        <argsstring>(const std::string &amp;transaction_id) const</argsstring>
+        <name>validateCrossShardSSI</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::validateCrossShardSSI</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <briefdescription>
+<para>Perform cross-shard SSI conflict detection for <computeroutput>transaction_id</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Called internally by <ref refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1afd903b37240e60ff79df4675b3d1cf36" kindref="member">prepare()</ref> for SERIALIZABLE transactions. May also be called explicitly by callers that manage prepare/commit life-cycles outside the coordinator (e.g. testing harnesses).</para>
+<para>Returns an empty vector when no conflict is found. A non-empty result means the transaction must be aborted.</para>
+<para>Thread-safe.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transaction to validate. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>All detected serialization conflicts. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="488" column="5" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="3905" bodyend="3909"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a2ed0a3ac6a68541071778be0f89cd81d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::CrossShardTransactionCoordinator::setSSIConfig</definition>
+        <argsstring>(const CrossShardSSIManager::Config &amp;config)</argsstring>
+        <name>setSSIConfig</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::setSSIConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1_1_config" kindref="compound">CrossShardSSIManager::Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Update the SSI configuration applied to all future transactions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set SSIConfig.</para>
+<para>Thread-safe. New values take effect immediately for subsequent <ref refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1ad4b8691a1c5d7e6e6f6c19005551a058" kindref="member">registerShardReadSet()</ref> / <ref refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1ad355d00eee067b4e7e4658b4dc0d718c" kindref="member">validateCrossShardSSI()</ref> calls.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New SSI tuning parameters.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="498" column="10" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="3915" bodyend="3919"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a66dce5cbf692d5a15e7e365ec8fc65e9" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1_1_config" kindref="compound">CrossShardSSIManager::Config</ref></type>
+        <definition>CrossShardSSIManager::Config themisdb::sharding::CrossShardTransactionCoordinator::getSSIConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getSSIConfig</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::getSSIConfig</qualifiedname>
+        <briefdescription>
+<para>Return the currently active SSI configuration. Thread-safe. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="504" column="35" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="3922" bodyend="3925"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1aaf21aefb95c46660a502c035dd64fa15" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction" kindref="compound">CrossShardTransaction</ref> &gt;</type>
+        <definition>std::vector&lt; CrossShardTransaction &gt; themisdb::sharding::CrossShardTransactionCoordinator::getActiveTransactions</definition>
+        <argsstring>() const</argsstring>
+        <name>getActiveTransactions</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::getActiveTransactions</qualifiedname>
+        <briefdescription>
+<para>Get active transactions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">transactions_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="509" column="17" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="1501" bodyend="1520"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1af1e5352469d07e911e44a4e3ccd2396e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::sharding::CrossShardTransactionCoordinator::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Get transaction statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="514" column="20" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="1522" bodyend="1530"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a4e6a3f1bd933c17e89705e5de9b3bac6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::CrossShardTransactionCoordinator::onTransactionStateChange</definition>
+        <argsstring>(std::function&lt; void(const std::string &amp;, TransactionState, TransactionState)&gt; callback)</argsstring>
+        <name>onTransactionStateChange</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::onTransactionStateChange</qualifiedname>
+        <param>
+          <type>std::function&lt; void(const std::string &amp;, <ref refid="namespacethemisdb_1_1sharding_1a1b27ab7c0aacec2cdf12e8c4902e86c1" kindref="member">TransactionState</ref>, <ref refid="namespacethemisdb_1_1sharding_1a1b27ab7c0aacec2cdf12e8c4902e86c1" kindref="member">TransactionState</ref>)&gt;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Register callback for transaction state changes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callbacks_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="519" column="10" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="1532" bodyend="1542"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1ace6deecf9f3fcaf30a543a9aad00bc0e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::CrossShardTransactionCoordinator::setPreCommitCallback</definition>
+        <argsstring>(PreCommitRpcFn fn)</argsstring>
+        <name>setPreCommitCallback</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::setPreCommitCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1af9b435fe8331c4cd000b3f47ea610117" kindref="member">PreCommitRpcFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Pre Commit Callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="554" column="10" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="1549" bodyend="1552"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1abfac2edcbfd596651de6e20cdcdd53fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::CrossShardTransactionCoordinator::setDeferredPreCommitCallback</definition>
+        <argsstring>(DeferredPreCommitFn fn)</argsstring>
+        <name>setDeferredPreCommitCallback</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::setDeferredPreCommitCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a2476acc924ccfca6aaf1e36767b0c68e" kindref="member">DeferredPreCommitFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set callback for deferred PreCommit retry (3PC non-blocking mode). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Deferred Pre Commit Callback.</para>
+<para>When set, failed PreCommit operations do not immediately abort the transaction. Instead, execute3PC() hands the failed shard list to this callback for deferred retry orchestration.</para>
+<para><bold>Exception safety / contract</bold>:<itemizedlist>
+<listitem><para>The callback must not throw.</para>
+</listitem><listitem><para>If it throws, execute3PC() treats this as a fatal orchestration failure and fails closed (abort path) instead of silently downgrading behavior.</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callable <computeroutput>void(txn_id, failed_shards)</computeroutput> that schedules retry handling for failed PreCommit participants; must not throw.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="571" column="10" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="1559" bodyend="1562"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a3304fa98408f3ac2dd78f1cacf7d4815" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::CrossShardTransactionCoordinator::setForeignKeyValidator</definition>
+        <argsstring>(std::shared_ptr&lt; CrossShardForeignKeyValidator &gt; validator)</argsstring>
+        <name>setForeignKeyValidator</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::setForeignKeyValidator</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator" kindref="compound">CrossShardForeignKeyValidator</ref> &gt;</type>
+          <declname>validator</declname>
+        </param>
+        <briefdescription>
+<para>Inject a cross-shard foreign-key validator (issue #5392). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Foreign Key Validator.</para>
+<para>When a non-null validator is set, <ref refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1afd903b37240e60ff79df4675b3d1cf36" kindref="member">prepare()</ref> invokes <ref refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a3f99171d787b0931802b1ad376e86e23" kindref="member">CrossShardForeignKeyValidator::validate()</ref> <bold>before</bold> dispatching the prepare RPCs to participants. Any non-deferrable FK violation causes <ref refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1afd903b37240e60ff79df4675b3d1cf36" kindref="member">prepare()</ref> to return false (transaction aborted).</para>
+<para>Passing <computeroutput>nullptr</computeroutput> removes a previously installed validator. The coordinator takes shared ownership of the validator so it can be shared across coordinator instances in tests.</para>
+<para><heading level="3">Thread safety</heading>
+</para>
+<para>The method is protected by the callbacks_mutex_ and is safe to call concurrently with ongoing transactions; the validator pointer is snapshotted at the start of each <ref refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1afd903b37240e60ff79df4675b3d1cf36" kindref="member">prepare()</ref> call.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>validator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Fully configured <ref refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator" kindref="compound">CrossShardForeignKeyValidator</ref>, or nullptr to disable cross-shard FK checking.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">validator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callbacks_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="593" column="10" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="1568" bodyend="1578"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a5424862fab4864ed410c9ccb2ae7d846" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::CrossShardTransactionCoordinator::execute2PC</definition>
+        <argsstring>(CrossShardTransaction &amp;txn)</argsstring>
+        <name>execute2PC</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::execute2PC</qualifiedname>
+        <param>
+          <type><ref refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction" kindref="compound">CrossShardTransaction</ref> &amp;</type>
+          <declname>txn</declname>
+        </param>
+        <briefdescription>
+<para>Execute 2PC protocol. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Execute2 PC.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">txn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1afd903b37240e60ff79df4675b3d1cf36" kindref="member">prepare()</ref>, nlohmann::json::array(), push_back(), logCommit(), spdlog::error(), what(), logAbort(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="601" column="10" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="1588" bodyend="1701"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a0ab32425be5d147d26250fb1e1161960" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::CrossShardTransactionCoordinator::execute3PC</definition>
+        <argsstring>(CrossShardTransaction &amp;txn)</argsstring>
+        <name>execute3PC</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::execute3PC</qualifiedname>
+        <param>
+          <type><ref refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction" kindref="compound">CrossShardTransaction</ref> &amp;</type>
+          <declname>txn</declname>
+        </param>
+        <briefdescription>
+<para>Execute 3PC protocol. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Execute3 PC.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">txn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: sendAbort(), spdlog::error(), logAbort(), std::string(), what(), lk(), <ref refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1afd903b37240e60ff79df4675b3d1cf36" kindref="member">prepare()</ref>, failClosedAbortAllParticipants(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="606" column="10" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="1709" bodyend="1964"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a904ad9cf85a408fe380ce193afa8a1e2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::CrossShardTransactionCoordinator::executePercolator</definition>
+        <argsstring>(CrossShardTransaction &amp;txn)</argsstring>
+        <name>executePercolator</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::executePercolator</qualifiedname>
+        <param>
+          <type><ref refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction" kindref="compound">CrossShardTransaction</ref> &amp;</type>
+          <declname>txn</declname>
+        </param>
+        <briefdescription>
+<para>Execute Percolator protocol. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Execute Percolator.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">txn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::chrono::seconds(), perc_coord(), get(), execute(), sendPrepare(), sendCommit(), sendAbort(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="611" column="10" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="1972" bodyend="2022"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a22164c51dc78a301c35126a8cb37bdb7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::CrossShardTransactionCoordinator::executeCalvin</definition>
+        <argsstring>(CrossShardTransaction &amp;txn)</argsstring>
+        <name>executeCalvin</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::executeCalvin</qualifiedname>
+        <param>
+          <type><ref refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction" kindref="compound">CrossShardTransaction</ref> &amp;</type>
+          <declname>txn</declname>
+        </param>
+        <briefdescription>
+<para>Execute Calvin deterministic protocol. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Execute Calvin.</para>
+<para>Implements the Calvin deterministic database protocol:<itemizedlist>
+<listitem><para>Phase 1 (Sequencing): Assign a deterministic global sequence number</para>
+</listitem><listitem><para>Phase 2 (Lock Acquisition): Pre-acquire all locks in a canonical order</para>
+</listitem><listitem><para>Phase 3 (Execution): Execute and commit in the pre-determined order</para>
+</listitem></itemizedlist>
+</para>
+<para>Unlike 2PC, Calvin does not require a voting round; all participants execute the same pre-ordered transaction log, guaranteeing determinism.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">txn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::info(), empty(), spdlog::error(), logPrepare(), spdlog::warn(), what(), propose(), reserve(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="624" column="10" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="2030" bodyend="2219"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1aa9409f95b8af554016366d1f6653df74" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::CrossShardTransactionCoordinator::sendPrepare</definition>
+        <argsstring>(const std::string &amp;shard_id, const std::string &amp;transaction_id)</argsstring>
+        <name>sendPrepare</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::sendPrepare</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <briefdescription>
+<para>Send prepare request to shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Send Prepare.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the transaction. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::debug(), nlohmann::json::array(), lock(), find(), end(), spdlog::error(), count(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="629" column="10" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="2228" bodyend="2303"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1af1964be44355efd09e3c647b177ebcbe" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::CrossShardTransactionCoordinator::sendCommit</definition>
+        <argsstring>(const std::string &amp;shard_id, const std::string &amp;transaction_id)</argsstring>
+        <name>sendCommit</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::sendCommit</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <briefdescription>
+<para>Send commit request to shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Send Commit.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the transaction. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::debug(), lock(), find(), end(), spdlog::error(), generateCommitTimestamp(), count(), rpc_client(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="634" column="10" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="2312" bodyend="2393"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a919e695c328db4820c4db1436e93b088" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::CrossShardTransactionCoordinator::sendAbort</definition>
+        <argsstring>(const std::string &amp;shard_id, const std::string &amp;transaction_id)</argsstring>
+        <name>sendAbort</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::sendAbort</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <briefdescription>
+<para>Send abort request to shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Send Abort.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the transaction. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::debug(), lock(), find(), end(), spdlog::error(), count(), rpc_client(), <ref refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a86f59ef8d52dafdf5d87b7cc0a2266d8" kindref="member">abort()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="639" column="10" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="2402" bodyend="2475"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a229ac4b6c3acd018fde1ce0a74e63eff" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::CrossShardTransactionCoordinator::deadlockDetectionThread</definition>
+        <argsstring>()</argsstring>
+        <name>deadlockDetectionThread</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::deadlockDetectionThread</qualifiedname>
+        <briefdescription>
+<para>Deadlock detection thread. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Deadlock Detection Thread.</para>
+<para>Calls: spdlog::debug(), load(), std::this_thread::sleep_for(), buildWaitForGraph(), empty(), polled_wait_for_edge_collector(), count(), max(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="644" column="10" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="2481" bodyend="2645"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1aaa448702fdbdf29fe6b606cbd29415fa" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::CrossShardTransactionCoordinator::preCommitRetryThread</definition>
+        <argsstring>()</argsstring>
+        <name>preCommitRetryThread</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::preCommitRetryThread</qualifiedname>
+        <briefdescription>
+<para>Background worker that retries deferred 3PC pre-commit RPCs. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>3PC Non-blocking support methods</para>
+<para>Calls: spdlog::info(), load(), lk(), empty(), std::this_thread::sleep_for(), std::chrono::milliseconds(), std::move(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="649" column="10" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="3716" bodyend="3852"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a5ebb91dd2f37eca6e6fe6953183ffbbc" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::map&lt; std::string, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::map&lt; std::string, std::vector&lt; std::string &gt; &gt; themisdb::sharding::CrossShardTransactionCoordinator::buildWaitForGraph</definition>
+        <argsstring>() const</argsstring>
+        <name>buildWaitForGraph</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::buildWaitForGraph</qualifiedname>
+        <briefdescription>
+<para>Build wait-for graph for deadlock detection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">transactions_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="654" column="14" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="2648" bodyend="2692"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a749179fed02eb9dc56434dae9f9f7cbd" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::CrossShardTransactionCoordinator::detectCycle</definition>
+        <argsstring>(const std::map&lt; std::string, std::vector&lt; std::string &gt; &gt; &amp;graph, const std::string &amp;start_node, std::set&lt; std::string &gt; &amp;visited, std::set&lt; std::string &gt; &amp;rec_stack) const</argsstring>
+        <name>detectCycle</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::detectCycle</qualifiedname>
+        <param>
+          <type>const std::map&lt; std::string, std::vector&lt; std::string &gt; &gt; &amp;</type>
+          <declname>graph</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>start_node</declname>
+        </param>
+        <param>
+          <type>std::set&lt; std::string &gt; &amp;</type>
+          <declname>visited</declname>
+        </param>
+        <param>
+          <type>std::set&lt; std::string &gt; &amp;</type>
+          <declname>rec_stack</declname>
+        </param>
+        <briefdescription>
+<para>Detect cycles in wait-for graph. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="659" column="10" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="2714" bodyend="2742"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a01bb7355f3f65429086797baebccfe14" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::CrossShardTransactionCoordinator::clearDistributedWaitEdgesLocked</definition>
+        <argsstring>(const std::string &amp;transaction_id)</argsstring>
+        <name>clearDistributedWaitEdgesLocked</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::clearDistributedWaitEdgesLocked</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove all outgoing and incoming distributed wait edges for a finished transaction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear Distributed Wait Edges Locked.</para>
+<para>Caller must hold transactions_mutex_.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the transaction.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: erase(), begin(), end(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="672" column="10" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="2699" bodyend="2712"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a678085b69fd1f81c98bd9a05b48738cf" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::CrossShardTransactionCoordinator::executeCompensations</definition>
+        <argsstring>(const std::string &amp;transaction_id, const std::vector&lt; nlohmann::json &gt; &amp;executed_steps, const std::vector&lt; nlohmann::json &gt; &amp;compensations)</argsstring>
+        <name>executeCompensations</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::executeCompensations</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; nlohmann::json &gt; &amp;</type>
+          <declname>executed_steps</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; nlohmann::json &gt; &amp;</type>
+          <declname>compensations</declname>
+        </param>
+        <briefdescription>
+<para>Execute compensations for SAGA transaction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Execute Compensations.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the transaction. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">executed_steps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">compensations</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::info(), size(), empty(), contains(), spdlog::error(), wal_lock(), logCompensate(), spdlog::warn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="677" column="10" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="2751" bodyend="2877"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a3ff6f5c437b07e83be892ec5b32be604" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::sharding::CrossShardTransactionCoordinator::generateCommitTimestamp</definition>
+        <argsstring>(const CrossShardTransaction &amp;txn)</argsstring>
+        <name>generateCommitTimestamp</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::generateCommitTimestamp</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction" kindref="compound">CrossShardTransaction</ref> &amp;</type>
+          <declname>txn</declname>
+        </param>
+        <briefdescription>
+<para>Generate MVCC commit timestamp ensuring external consistency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Generate Commit Timestamp.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transaction to generate timestamp for </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Commit timestamp that is definitely after snapshot timestamp</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: now(), count(), waitUntil(), std::chrono::nanoseconds(), spdlog::debug(), getUncertainty(), std::chrono::system_clock::now(), time_since_epoch(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="688" column="13" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="2885" bodyend="2915"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1aed74e775de3ec75a8cdc5a1d31f50d84" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::CrossShardTransactionCoordinator::persistTransactionState</definition>
+        <argsstring>(const std::string &amp;transaction_id, TransactionState state)</argsstring>
+        <name>persistTransactionState</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::persistTransactionState</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1sharding_1a1b27ab7c0aacec2cdf12e8c4902e86c1" kindref="member">TransactionState</ref></type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>Persist transaction state to durable storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Persist Transaction State.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the transaction. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), spdlog::error(), log_file(), is_open(), std::chrono::system_clock::now(), time_since_epoch(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="693" column="10" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="2924" bodyend="2984"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a8f65ef3b83ea8d1fb3c7526f2d6eadc0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::CrossShardTransactionCoordinator::tryStartTerminalDecision</definition>
+        <argsstring>(const std::string &amp;transaction_id)</argsstring>
+        <name>tryStartTerminalDecision</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::tryStartTerminalDecision</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <briefdescription>
+<para>Acquire/release the exclusive terminal-decision guard for a transaction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Try Start Terminal Decision.</para>
+<para>Prevents concurrent <ref refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1af661ccc7e26413d252e3890c794981c7" kindref="member">commit()</ref>/abort() callers from driving conflicting final decisions for the same transaction at the same time.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the transaction. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), insert(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="704" column="10" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="360" bodyend="365"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a08ba18f419af7caef673f0ae03bfc812" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::CrossShardTransactionCoordinator::finishTerminalDecision</definition>
+        <argsstring>(const std::string &amp;transaction_id)</argsstring>
+        <name>finishTerminalDecision</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::finishTerminalDecision</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <briefdescription>
+<para>Finish Terminal Decision. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the transaction.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="705" column="10" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="372" bodyend="377"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1ad86013fa62dcebffb593f0e6430e3f03" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::CrossShardTransactionCoordinator::recoverFromWAL</definition>
+        <argsstring>(BackendRecoveryStats *stats=nullptr)</argsstring>
+        <name>recoverFromWAL</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::recoverFromWAL</qualifiedname>
+        <param>
+          <type><ref refid="structthemisdb_1_1sharding_1_1_backend_recovery_stats" kindref="compound">BackendRecoveryStats</ref> *</type>
+          <declname>stats</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Recover from WAL and snapshot (Phase 2.3.3). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Phase 2.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+3.3: Recover from WAL and snapshot Calls: spdlog::warn(), spdlog::info(), loadLatestSnapshot(), has_value(), value(), verifySnapshot(), spdlog::error(), lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="710" column="10" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="2992" bodyend="3306"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a3baaecf50c5760cd9f6a19312dcdbada" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>RecoveryRunResult</type>
+        <definition>CrossShardTransactionCoordinator::RecoveryRunResult themisdb::sharding::CrossShardTransactionCoordinator::runRecoveryBackend</definition>
+        <argsstring>(const char *context)</argsstring>
+        <name>runRecoveryBackend</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::runRecoveryBackend</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+<para>Run WAL/snapshot recovery and emit consistent telemetry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Caller context used in diagnostics (e.g. &quot;initialize&quot;). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Structured recovery result for caller-side handling. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="725" column="23" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="545" bodyend="598"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a1b059764007b813cba99ef2472675ddf" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::CrossShardTransactionCoordinator::createPeriodicSnapshot</definition>
+        <argsstring>()</argsstring>
+        <name>createPeriodicSnapshot</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::createPeriodicSnapshot</qualifiedname>
+        <briefdescription>
+<para>Create periodic snapshot of active transactions (Phase 2.3.3). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Phase 2.</para>
+<para>3.3: Create periodic snapshot Calls: lock(), to_snapshot_protocol(), to_snapshot_state(), time_since_epoch(), count(), empty(), push_back(), std::chrono::system_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="730" column="10" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="3312" bodyend="3416"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Enhanced Cross-Shard Transaction Coordinator. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides pluggable transaction protocols for distributed transactions across multiple shards. Supports:<itemizedlist>
+<listitem><para>2PC/3PC for strong consistency</para>
+</listitem><listitem><para>SAGA for long-running transactions with compensation</para>
+</listitem><listitem><para>Percolator for optimistic concurrency</para>
+</listitem><listitem><para>Distributed deadlock detection</para>
+</listitem><listitem><para>Snapshot isolation across shards </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::transaction::IRecoverableTwoPhaseCoordinator</label>
+      </node>
+      <node id="1">
+        <label>themisdb::sharding::CrossShardTransactionCoordinator</label>
+        <link refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::transaction::IRecoverableTwoPhaseCoordinator</label>
+      </node>
+      <node id="1">
+        <label>themisdb::sharding::CrossShardTransactionCoordinator</label>
+        <link refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/sharding/cross_shard_transaction.h" line="259" column="1" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="260" bodyend="804"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a86f59ef8d52dafdf5d87b7cc0a2266d8" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>abort</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a16124ef9eda998f0e1afe06b361386a0" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>aborted_transactions_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1aa8547cbc26ebc452feb2069aedefcd3e" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>addParticipant</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1adcc99cc59dfc4baa2140ed332e3e9a99" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>beginTransaction</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a5ebb91dd2f37eca6e6fe6953183ffbbc" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>buildWaitForGraph</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1afa4e566895c41589d398a4a415b38b55" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>callbacks_mutex_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a01bb7355f3f65429086797baebccfe14" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>clearDistributedWaitEdgesLocked</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1adafd0482152b95b067994fd10e305d9b" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>clearDistributedWaits</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1af661ccc7e26413d252e3890c794981c7" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>commit</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1ae9787a372da449ba4eb0fb9926884104" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>committed_transactions_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a39bd796903b3de6ecd1a6182bb60ecdd" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a973edd7794e4be04031124fe500bff70" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>consensus_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a1b059764007b813cba99ef2472675ddf" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>createPeriodicSnapshot</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a1b03d86e627ab1f746c9370f6a0d5292" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>CrossShardTransactionCoordinator</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a390be7f403fc524da0c7f8b0fad2e172" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>deadlock_detection_thread_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a229ac4b6c3acd018fde1ce0a74e63eff" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>deadlockDetectionThread</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1aabc9e3929dff0e7ce6352f0ff6769e62" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>deadlocked_transactions_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1ab134eac2073396afd3d87284a3b0e296" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>decision_mutex_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a60456f687944011bf7e31884c0c01537" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>deferred_mutex_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a6a92861bf2e2cfb22b12f801935e6803" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>deferred_precommit_callback_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a7f6029991e3e48333676080b2c31c3d7" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>deferred_precommits_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a2476acc924ccfca6aaf1e36767b0c68e" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>DeferredPreCommitFn</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a749179fed02eb9dc56434dae9f9f7cbd" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>detectCycle</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1aab2ba974467d0d3395de01a2fd3e01f7" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>distributed_wait_for_edges_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a5424862fab4864ed410c9ccb2ae7d846" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>execute2PC</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a0ab32425be5d147d26250fb1e1161960" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>execute3PC</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a22164c51dc78a301c35126a8cb37bdb7" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>executeCalvin</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a678085b69fd1f81c98bd9a05b48738cf" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>executeCompensations</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a904ad9cf85a408fe380ce193afa8a1e2" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>executePercolator</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a34ed70322b65ab0fbb279ea94e9af4b8" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>executeSaga</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a08ba18f419af7caef673f0ae03bfc812" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>finishTerminalDecision</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1aeac9f0f7ad190dc29779e409a275c146" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>fk_validator_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a3ff6f5c437b07e83be892ec5b32be604" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>generateCommitTimestamp</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1aaf21aefb95c46660a502c035dd64fa15" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>getActiveTransactions</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1ae2d36c0ba9cf61bea6a6b929dc82f490" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>getRecoverableTransactions</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a66dce5cbf692d5a15e7e365ec8fc65e9" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>getSSIConfig</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1af1e5352469d07e911e44a4e3ccd2396e" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>getStatistics</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1aaf2c9ccb61d86b2e30e6e2cf613fae96" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>getTransaction</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1af7bee2eae7c1806f502b9fe858c500b9" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>getTransactionState</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a55b508344c2414564d0b471437b2149d" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>initialize</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1aee998d1bbfc759900b0b45a1a564c5b3" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>isDeadlocked</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a564dd13344406ea7e626de92a91db6cd" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>last_applied_lsn_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1af4a950086d4ca5be81fe413b66433497" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>on_state_change_callback_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a4e6a3f1bd933c17e89705e5de9b3bac6" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>onTransactionStateChange</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a8f977756926a8be5107e3d12ca8892f2" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>operations_since_snapshot_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1aed74e775de3ec75a8cdc5a1d31f50d84" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>persistTransactionState</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a97f0251883dd95e62982fd24b49e374e" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>precommit_callback_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a0f6a09b01b117750cf650970ecd3327b" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>precommit_retry_thread_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1aaa448702fdbdf29fe6b606cbd29415fa" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>preCommitRetryThread</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1af9b435fe8331c4cd000b3f47ea610117" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>PreCommitRpcFn</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1afd903b37240e60ff79df4675b3d1cf36" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>prepare</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1ad86013fa62dcebffb593f0e6430e3f03" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>recoverFromWAL</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a22fed90638ea74614da7cb5009505500" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>recoverInDoubtTransactions</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a635eea068639e51ea1001f0838e0089e" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>recoveryBackendName</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a40e6b1bb8f7039b022472c767525e58c" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>recoveryCoordinatorName</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1ad4b8691a1c5d7e6e6f6c19005551a058" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>registerShardReadSet</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1ab5fcd077f94f388f6fdf72d369b3ddfb" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>registerShardWriteSet</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a90812fb387ea0c6ef99567c28ee1cee8" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>reportDistributedWait</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a8e256d9020d7fb0e5c392803f95b6015" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>running_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a3baaecf50c5760cd9f6a19312dcdbada" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>runRecoveryBackend</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a919e695c328db4820c4db1436e93b088" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>sendAbort</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1af1964be44355efd09e3c647b177ebcbe" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>sendCommit</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1aa9409f95b8af554016366d1f6653df74" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>sendPrepare</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1abfac2edcbfd596651de6e20cdcdd53fa" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>setDeferredPreCommitCallback</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a3304fa98408f3ac2dd78f1cacf7d4815" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>setForeignKeyValidator</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1ace6deecf9f3fcaf30a543a9aad00bc0e" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>setPreCommitCallback</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a2ed0a3ac6a68541071778be0f89cd81d" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>setSSIConfig</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a87f6acaaddc689d83c3e53eaf3ffd04e" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>snapshot_manager_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a4075672259701fa27627de192a5f4665" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>ssi_manager_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a0bbb720ae23567e8cd9199b838bc28d5" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>start</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1ac0ace12d276328e6039735ce54858380" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>stop</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a77ad247606eba16437f0c1160d023db1" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>terminal_decisions_in_progress_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a1dc5d452c9c79859ec0da1a7dac74670" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>total_transactions_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a2ca0198639d7f8ebc502d0ab6f98d780" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>transaction_log_path_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a5895a84d14939fd861266910c6883030" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>transaction_wal_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a60163b6e7f4a89dd99296f49601c528f" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>transactions_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1aedccede9c845e9459de1dc2bff4c0981" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>transactions_mutex_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a30ffd5a9b40e9ae81c1afdc01be74894" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>truetime_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a8f65ef3b83ea8d1fb3c7526f2d6eadc0" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>tryStartTerminalDecision</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1ad355d00eee067b4e7e4658b4dc0d718c" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>validateCrossShardSSI</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1a5b23a8631f62fba8511b6ff7b09be62a" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator</scope><name>~CrossShardTransactionCoordinator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

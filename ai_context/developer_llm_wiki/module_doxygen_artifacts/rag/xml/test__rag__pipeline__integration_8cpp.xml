@@ -1,0 +1,811 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__rag__pipeline__integration_8cpp" kind="file" language="C++">
+    <compoundname>test_rag_pipeline_integration.cpp</compoundname>
+    <includes refid="document__splitter_8h" local="yes">rag/document_splitter.h</includes>
+    <includes refid="hybrid__retriever_8h" local="yes">rag/hybrid_retriever.h</includes>
+    <includes refid="rag__judge_8h" local="yes">rag/rag_judge.h</includes>
+    <includes refid="evaluation__cache_8h" local="yes">rag/evaluation_cache.h</includes>
+    <includes refid="batch__evaluator_8h" local="yes">rag/batch_evaluator.h</includes>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="19">
+        <label>rag/batch_evaluator.h</label>
+        <link refid="batch__evaluator_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>rag/document_splitter.h</label>
+        <link refid="document__splitter_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>rag/evaluation_cache.h</label>
+        <link refid="evaluation__cache_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>rag/hybrid_retriever.h</label>
+        <link refid="hybrid__retriever_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>rag/rag_judge.h</label>
+        <link refid="rag__judge_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>rag/vectorizer_interface.h</label>
+        <link refid="vectorizer__interface_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/rag/test_rag_pipeline_integration.cpp</label>
+        <link refid="test__rag__pipeline__integration_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>algorithm</label>
+      </node>
+      <node id="23">
+        <label>atomic</label>
+      </node>
+      <node id="11">
+        <label>chrono</label>
+      </node>
+      <node id="12">
+        <label>cmath</label>
+      </node>
+      <node id="3">
+        <label>cstddef</label>
+      </node>
+      <node id="10">
+        <label>functional</label>
+      </node>
+      <node id="20">
+        <label>future</label>
+      </node>
+      <node id="24">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="17">
+        <label>list</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="18">
+        <label>mutex</label>
+      </node>
+      <node id="13">
+        <label>optional</label>
+      </node>
+      <node id="21">
+        <label>queue</label>
+      </node>
+      <node id="15">
+        <label>stdexcept</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="22">
+        <label>thread</label>
+      </node>
+      <node id="9">
+        <label>unordered_map</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="test__rag__pipeline__integration_8cpp_1a0043f348746c8f157ca8040bc5a32c12" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string kCorpus</definition>
+        <argsstring></argsstring>
+        <name>kCorpus</name>
+        <initializer>                             =
+&quot;Paris is the capital of France. &quot;
+&quot;The city is famous for the Eiffel Tower, built in 1889. &quot;
+&quot;Paris has a population of over 2 million people. &quot;
+&quot;The Louvre Museum is one of the largest art museums in the world. &quot;
+&quot;French cuisine is renowned globally and Paris is its culinary heart. &quot;
+&quot;The Seine river flows through the centre of Paris. &quot;
+&quot;Notre-Dame Cathedral is a celebrated Gothic masterpiece. &quot;
+&quot;Paris hosted the 1900 and 1924 Summer Olympics. &quot;
+&quot;The Palace of Versailles is located just outside Paris. &quot;
+&quot;Paris is often called the City of Light due to its role in the Enlightenment.&quot;</initializer>
+        <briefdescription>
+<para>Sample corpus (enough sentences to create multiple chunks). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_pipeline_integration.cpp" line="63" column="26" bodyfile="tests/rag/test_rag_pipeline_integration.cpp" bodystart="63" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__rag__pipeline__integration_8cpp_1ad9406025aba6cff8c8d13407aa9d5992" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge" kindref="compound">RAGJudge</ref> &gt;</type>
+        <definition>static std::shared_ptr&lt; RAGJudge &gt; makeFastJudge</definition>
+        <argsstring>()</argsstring>
+        <name>makeFastJudge</name>
+        <briefdescription>
+<para>Create a <ref refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge" kindref="compound">RAGJudge</ref> that operates in FAST mode with heuristics only (no LLM). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_pipeline_integration.cpp" line="41" column="24" bodyfile="tests/rag/test_rag_pipeline_integration.cpp" bodystart="41" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__pipeline__integration_8cpp_1a310c895137a82113eebc6129df1b75b6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref></type>
+        <definition>static RetrievedDocument makeDoc</definition>
+        <argsstring>(const std::string &amp;id, const std::string &amp;content, double score=0.9)</argsstring>
+        <name>makeDoc</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>score</declname>
+          <defval>0.9</defval>
+        </param>
+        <briefdescription>
+<para>Build a <ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> from plain strings. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_pipeline_integration.cpp" line="52" column="26" bodyfile="tests/rag/test_rag_pipeline_integration.cpp" bodystart="52" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__pipeline__integration_8cpp_1a670bf436e96f35ea0d5194201ccd6cde" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RAGPipelineIntegrationTest, DocumentSplitterProducesChunks)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RAGPipelineIntegrationTest</type>
+        </param>
+        <param>
+          <type>DocumentSplitterProducesChunks</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_pipeline_integration.cpp" line="79" column="1" bodyfile="tests/rag/test_rag_pipeline_integration.cpp" bodystart="79" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__pipeline__integration_8cpp_1aad2d9901bf99ea897ad9b32e9d89a6d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RAGPipelineIntegrationTest, DocumentSplitterChunkSizeBounded)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RAGPipelineIntegrationTest</type>
+        </param>
+        <param>
+          <type>DocumentSplitterChunkSizeBounded</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_pipeline_integration.cpp" line="95" column="1" bodyfile="tests/rag/test_rag_pipeline_integration.cpp" bodystart="95" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__pipeline__integration_8cpp_1a278448996a370c6abf5e4e2797059cd0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RAGPipelineIntegrationTest, HybridRetrieverFusesResults)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RAGPipelineIntegrationTest</type>
+        </param>
+        <param>
+          <type>HybridRetrieverFusesResults</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_pipeline_integration.cpp" line="114" column="1" bodyfile="tests/rag/test_rag_pipeline_integration.cpp" bodystart="114" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__pipeline__integration_8cpp_1af3dd8d8380bd5f655d14a70eb3d50bc0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RAGPipelineIntegrationTest, HybridRetrieverDeduplicates)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RAGPipelineIntegrationTest</type>
+        </param>
+        <param>
+          <type>HybridRetrieverDeduplicates</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_pipeline_integration.cpp" line="137" column="1" bodyfile="tests/rag/test_rag_pipeline_integration.cpp" bodystart="137" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__pipeline__integration_8cpp_1a4ea5e5d33000e299a9560797ac9233e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RAGPipelineIntegrationTest, RAGJudgeScoresInRange)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RAGPipelineIntegrationTest</type>
+        </param>
+        <param>
+          <type>RAGJudgeScoresInRange</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_pipeline_integration.cpp" line="160" column="1" bodyfile="tests/rag/test_rag_pipeline_integration.cpp" bodystart="160" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__pipeline__integration_8cpp_1a8584ba325d81999224bed325fbb50724" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RAGPipelineIntegrationTest, RAGJudgeEmptyCorpus)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RAGPipelineIntegrationTest</type>
+        </param>
+        <param>
+          <type>RAGJudgeEmptyCorpus</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_pipeline_integration.cpp" line="184" column="1" bodyfile="tests/rag/test_rag_pipeline_integration.cpp" bodystart="184" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__pipeline__integration_8cpp_1ab420eee69a5b544ddd93b7edae3295fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RAGPipelineIntegrationTest, FullPipelineRetrieveThenEvaluate)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RAGPipelineIntegrationTest</type>
+        </param>
+        <param>
+          <type>FullPipelineRetrieveThenEvaluate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_pipeline_integration.cpp" line="200" column="1" bodyfile="tests/rag/test_rag_pipeline_integration.cpp" bodystart="200" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__pipeline__integration_8cpp_1a286570a841f73678559814b95b016de5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RAGPipelineIntegrationTest, EvaluationCacheMissThenHit)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RAGPipelineIntegrationTest</type>
+        </param>
+        <param>
+          <type>EvaluationCacheMissThenHit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_pipeline_integration.cpp" line="244" column="1" bodyfile="tests/rag/test_rag_pipeline_integration.cpp" bodystart="244" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__pipeline__integration_8cpp_1a7acfbd9694183074ebde3d883c2bd8d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RAGPipelineIntegrationTest, EvaluationCacheStatsAfterMixedAccess)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RAGPipelineIntegrationTest</type>
+        </param>
+        <param>
+          <type>EvaluationCacheStatsAfterMixedAccess</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_pipeline_integration.cpp" line="268" column="1" bodyfile="tests/rag/test_rag_pipeline_integration.cpp" bodystart="268" bodyend="294"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__pipeline__integration_8cpp_1a88d0d5e38616887055a6774ddc619180" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RAGPipelineIntegrationTest, BatchEvaluatorPipelineConsistency)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RAGPipelineIntegrationTest</type>
+        </param>
+        <param>
+          <type>BatchEvaluatorPipelineConsistency</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_pipeline_integration.cpp" line="300" column="1" bodyfile="tests/rag/test_rag_pipeline_integration.cpp" bodystart="300" bodyend="332"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__pipeline__integration_8cpp_1a35eca46425d376b76bc50248feb40528" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RAGPipelineIntegrationTest, BatchEvaluatorEmptyInput)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RAGPipelineIntegrationTest</type>
+        </param>
+        <param>
+          <type>BatchEvaluatorEmptyInput</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_pipeline_integration.cpp" line="334" column="1" bodyfile="tests/rag/test_rag_pipeline_integration.cpp" bodystart="334" bodyend="341"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Integration tests for the full RAG pipeline: Document split → <ref refid="classthemis_1_1rag_1_1_hybrid_retriever" kindref="compound">HybridRetriever</ref> fusion → <ref refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge" kindref="compound">RAGJudge</ref> evaluation without a live LLM backend (heuristic / fast mode only). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tests cover:<itemizedlist>
+<listitem><para><ref refid="classthemis_1_1rag_1_1_document_splitter" kindref="compound">DocumentSplitter</ref> produces non-empty chunks from a multi-sentence doc</para>
+</listitem><listitem><para><ref refid="classthemis_1_1rag_1_1_hybrid_retriever" kindref="compound">HybridRetriever</ref> fuses BM25 and vector candidates, returns top-k results</para>
+</listitem><listitem><para><ref refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge" kindref="compound">RAGJudge</ref> (FAST mode, no LLM) scores an answer against retrieved docs</para>
+</listitem><listitem><para>All dimension scores are in [0, 1]</para>
+</listitem><listitem><para>Chained pipeline: split → retrieve → evaluate end-to-end</para>
+</listitem><listitem><para><ref refid="classthemis_1_1rag_1_1judge_1_1_evaluation_cache" kindref="compound">EvaluationCache</ref> caches <ref refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge" kindref="compound">RAGJudge</ref> results across repeated identical calls</para>
+</listitem><listitem><para><ref refid="classthemis_1_1rag_1_1judge_1_1_batch_evaluator" kindref="compound">BatchEvaluator</ref> processes multiple inputs and aggregates correctly</para>
+</listitem><listitem><para>Empty document corpus still produces valid (zero-score) evaluation result</para>
+</listitem><listitem><para><ref refid="classthemis_1_1rag_1_1judge_1_1_evaluation_cache" kindref="compound">EvaluationCache</ref> miss on first call; hit on second call</para>
+</listitem><listitem><para><ref refid="classthemis_1_1rag_1_1judge_1_1_batch_evaluator" kindref="compound">BatchEvaluator</ref> average scores consistent with individual evaluations </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="document__splitter_8h" kindref="compound">rag/document_splitter.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="hybrid__retriever_8h" kindref="compound">rag/hybrid_retriever.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="rag__judge_8h" kindref="compound">rag/rag_judge.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="evaluation__cache_8h" kindref="compound">rag/evaluation_cache.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="batch__evaluator_8h" kindref="compound">rag/batch_evaluator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag" kindref="compound">themis::rag</ref>;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">themis::rag::judge</ref>;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Shared<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;RAGJudge&gt;<sp/>makeFastJudge()<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config" kindref="compound">RAGJudgeConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a54d02b9a412daab7cfedc4516a7317fe" kindref="member">mode</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1rag_1_1judge_1afc4d225c351fcea1a873afba717c2516adca6e617f6fb54033deb311e7e7c93cc" kindref="member">EvaluationMode::FAST</ref>;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a3b2f3acd742d8c05775ca3dd20aa94ea" kindref="member">enable_ethical_evaluation</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a410e88b01f6ee91e0e8185f2e0cc18d6" kindref="member">use_nli_verifier</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a27847472a613b83158761d69d3a1f42c" kindref="member">use_geval_scoring</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a21410b4ca27ca943ae416dc2bc5ecb04" kindref="member">cache_evaluations</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::make_shared&lt;RAGJudge&gt;(cfg);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref><sp/>makeDoc(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>content,</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>score<sp/>=<sp/>0.9)<sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref><sp/>d;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>d.<ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document_1ab4c5dbdcc47ac579d33603f713d1a370" kindref="member">id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>id;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>d.<ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document_1a13a7721cc1eaad3d89335467a5aca5c6" kindref="member">content</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>content;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>d.<ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document_1a470d2fdc59604430e11a52a1fedaf51f" kindref="member">similarity_score</ref><sp/>=<sp/>score;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>d;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>kCorpus<sp/>=</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;The<sp/>city<sp/>is<sp/>famous<sp/>for<sp/>the<sp/>Eiffel<sp/>Tower,<sp/>built<sp/>in<sp/>1889.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>has<sp/>a<sp/>population<sp/>of<sp/>over<sp/>2<sp/>million<sp/>people.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;The<sp/>Louvre<sp/>Museum<sp/>is<sp/>one<sp/>of<sp/>the<sp/>largest<sp/>art<sp/>museums<sp/>in<sp/>the<sp/>world.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;French<sp/>cuisine<sp/>is<sp/>renowned<sp/>globally<sp/>and<sp/>Paris<sp/>is<sp/>its<sp/>culinary<sp/>heart.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;The<sp/>Seine<sp/>river<sp/>flows<sp/>through<sp/>the<sp/>centre<sp/>of<sp/>Paris.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Notre-Dame<sp/>Cathedral<sp/>is<sp/>a<sp/>celebrated<sp/>Gothic<sp/>masterpiece.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>hosted<sp/>the<sp/>1900<sp/>and<sp/>1924<sp/>Summer<sp/>Olympics.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;The<sp/>Palace<sp/>of<sp/>Versailles<sp/>is<sp/>located<sp/>just<sp/>outside<sp/>Paris.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>often<sp/>called<sp/>the<sp/>City<sp/>of<sp/>Light<sp/>due<sp/>to<sp/>its<sp/>role<sp/>in<sp/>the<sp/>Enlightenment.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>1.<sp/>DocumentSplitter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><ref refid="test__rag__pipeline__integration_8cpp_1a670bf436e96f35ea0d5194201ccd6cde" kindref="member">TEST</ref>(RAGPipelineIntegrationTest,<sp/>DocumentSplitterProducesChunks)<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_document_splitter_config" kindref="compound">DocumentSplitterConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_document_splitter_config_1a18826fbd7e9c343a4188046acd215fd9" kindref="member">strategy</ref><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1rag_1a2a14616ebe1a17384b0d869708dbc981a0667fab375c18f4a0f29beec635b1b87" kindref="member">SplitStrategy::Sentence</ref>;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_document_splitter_config_1afffecbd1af26b577a91cd97b2cda2d01" kindref="member">chunk_size</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_document_splitter_config_1a09555956fc4753b0209df9f06fdd8525" kindref="member">overlap</ref><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_document_splitter" kindref="compound">DocumentSplitter</ref><sp/>splitter(cfg);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>chunks<sp/>=<sp/>splitter.split(kCorpus,<sp/></highlight><highlight class="stringliteral">&quot;doc-paris&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(chunks.empty());</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>chunk<sp/>:<sp/>chunks)<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(chunk.text.empty());</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(chunk.document_id,<sp/></highlight><highlight class="stringliteral">&quot;doc-paris&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><ref refid="test__rag__pipeline__integration_8cpp_1a670bf436e96f35ea0d5194201ccd6cde" kindref="member">TEST</ref>(RAGPipelineIntegrationTest,<sp/>DocumentSplitterChunkSizeBounded)<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_document_splitter_config" kindref="compound">DocumentSplitterConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_document_splitter_config_1a18826fbd7e9c343a4188046acd215fd9" kindref="member">strategy</ref><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1rag_1a2a14616ebe1a17384b0d869708dbc981a4457d440870ad6d42bab9082d9bf9b61" kindref="member">SplitStrategy::Fixed</ref>;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_document_splitter_config_1afffecbd1af26b577a91cd97b2cda2d01" kindref="member">chunk_size</ref><sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_document_splitter_config_1a09555956fc4753b0209df9f06fdd8525" kindref="member">overlap</ref><sp/><sp/><sp/><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_document_splitter" kindref="compound">DocumentSplitter</ref><sp/>splitter(cfg);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>chunks<sp/>=<sp/>splitter.split(kCorpus,<sp/></highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(chunks.empty());</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Each<sp/>chunk<sp/>text<sp/>should<sp/>not<sp/>vastly<sp/>exceed<sp/>chunk_size</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>chunk<sp/>:<sp/>chunks)<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(chunk.text.size()),<sp/>cfg.<ref refid="structthemis_1_1rag_1_1_document_splitter_config_1afffecbd1af26b577a91cd97b2cda2d01" kindref="member">chunk_size</ref><sp/>*<sp/>3);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="108"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/>2.<sp/>HybridRetriever<sp/>fusion</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><ref refid="test__rag__pipeline__integration_8cpp_1a670bf436e96f35ea0d5194201ccd6cde" kindref="member">TEST</ref>(RAGPipelineIntegrationTest,<sp/>HybridRetrieverFusesResults)<sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>retriever<sp/>=<sp/><ref refid="classthemis_1_1rag_1_1_hybrid_retriever_factory_1af2ea971964cb1af2de6cff32423dbdcd" kindref="member">HybridRetrieverFactory::createBalanced</ref>();</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RetrievedDocument&gt;<sp/>bm25<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France.&quot;</highlight><highlight class="normal">,<sp/>0.9),</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;doc2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;The<sp/>Eiffel<sp/>Tower<sp/>is<sp/>in<sp/>Paris.&quot;</highlight><highlight class="normal">,<sp/>0.7),</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RetrievedDocument&gt;<sp/>vec<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France.&quot;</highlight><highlight class="normal">,<sp/>0.95),</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;doc3&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;France<sp/>has<sp/>a<sp/>rich<sp/>history.&quot;</highlight><highlight class="normal">,<sp/>0.6),</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>retriever.fuse(bm25,<sp/>vec);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.documents.empty());</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Scores<sp/>should<sp/>be<sp/>in<sp/>[0,<sp/>1]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>doc<sp/>:<sp/>result.documents)<sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(doc.similarity_score,<sp/>0.0);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LE(doc.similarity_score,<sp/>1.0);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><ref refid="test__rag__pipeline__integration_8cpp_1a670bf436e96f35ea0d5194201ccd6cde" kindref="member">TEST</ref>(RAGPipelineIntegrationTest,<sp/>HybridRetrieverDeduplicates)<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>retriever<sp/>=<sp/><ref refid="classthemis_1_1rag_1_1_hybrid_retriever_factory_1af2ea971964cb1af2de6cff32423dbdcd" kindref="member">HybridRetrieverFactory::createBalanced</ref>();</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Same<sp/>doc-id<sp/>in<sp/>both<sp/>lists</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RetrievedDocument&gt;<sp/>bm25<sp/>=<sp/>{makeDoc(</highlight><highlight class="stringliteral">&quot;dup&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;content&quot;</highlight><highlight class="normal">,<sp/>0.8)};</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RetrievedDocument&gt;<sp/>vec<sp/><sp/>=<sp/>{makeDoc(</highlight><highlight class="stringliteral">&quot;dup&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;content&quot;</highlight><highlight class="normal">,<sp/>0.9)};</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>retriever.fuse(bm25,<sp/>vec);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Duplicate<sp/>id<sp/>should<sp/>appear<sp/>at<sp/>most<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>dup_count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>doc<sp/>:<sp/>result.documents)<sp/>{</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(doc.id<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;dup&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++dup_count;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(dup_count,<sp/>1u);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="comment">//<sp/>3.<sp/>RAGJudge<sp/>evaluation<sp/>(heuristic<sp/>only)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><ref refid="test__rag__pipeline__integration_8cpp_1a670bf436e96f35ea0d5194201ccd6cde" kindref="member">TEST</ref>(RAGPipelineIntegrationTest,<sp/>RAGJudgeScoresInRange)<sp/>{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref><sp/>=<sp/>makeFastJudge();</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RetrievedDocument&gt;<sp/>docs<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France.&quot;</highlight><highlight class="normal">,<sp/>0.95),</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;d2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;The<sp/>Eiffel<sp/>Tower<sp/>is<sp/>in<sp/>Paris.&quot;</highlight><highlight class="normal">,<sp/>0.85),</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>answer<sp/>=</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;The<sp/>capital<sp/>of<sp/>France<sp/>is<sp/>Paris,<sp/>known<sp/>for<sp/>the<sp/>Eiffel<sp/>Tower.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref>-&gt;evaluate(</highlight><highlight class="stringliteral">&quot;What<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France?&quot;</highlight><highlight class="normal">,<sp/>docs,<sp/>answer);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(result.faithfulness_score,<sp/><sp/>0.0);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(result.faithfulness_score,<sp/><sp/>1.0);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(result.relevance_score,<sp/><sp/><sp/><sp/><sp/>0.0);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(result.relevance_score,<sp/><sp/><sp/><sp/><sp/>1.0);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(result.completeness_score,<sp/><sp/>0.0);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(result.completeness_score,<sp/><sp/>1.0);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(result.coherence_score,<sp/><sp/><sp/><sp/><sp/>0.0);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(result.coherence_score,<sp/><sp/><sp/><sp/><sp/>1.0);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(result.overall_score,<sp/><sp/><sp/><sp/><sp/><sp/><sp/>0.0);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(result.overall_score,<sp/><sp/><sp/><sp/><sp/><sp/><sp/>1.0);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><ref refid="test__rag__pipeline__integration_8cpp_1a670bf436e96f35ea0d5194201ccd6cde" kindref="member">TEST</ref>(RAGPipelineIntegrationTest,<sp/>RAGJudgeEmptyCorpus)<sp/>{</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref><sp/>=<sp/>makeFastJudge();</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RetrievedDocument&gt;<sp/>empty_docs;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>not<sp/>throw;<sp/>scores<sp/>may<sp/>be<sp/>low<sp/>but<sp/>valid</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref>-&gt;evaluate(</highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">,<sp/>empty_docs,<sp/></highlight><highlight class="stringliteral">&quot;answer&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(result.overall_score,<sp/>0.0);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LE(result.overall_score,<sp/>1.0);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="194"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight><highlight class="comment">//<sp/>4.<sp/>Full<sp/>pipeline:<sp/>split<sp/>→<sp/>retrieve<sp/>→<sp/>evaluate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><ref refid="test__rag__pipeline__integration_8cpp_1a670bf436e96f35ea0d5194201ccd6cde" kindref="member">TEST</ref>(RAGPipelineIntegrationTest,<sp/>FullPipelineRetrieveThenEvaluate)<sp/>{</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Step<sp/>1:<sp/>Split<sp/>corpus<sp/>into<sp/>chunks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_document_splitter_config" kindref="compound">DocumentSplitterConfig</ref><sp/>split_cfg;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>split_cfg.<ref refid="structthemis_1_1rag_1_1_document_splitter_config_1a18826fbd7e9c343a4188046acd215fd9" kindref="member">strategy</ref><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1rag_1a2a14616ebe1a17384b0d869708dbc981a0667fab375c18f4a0f29beec635b1b87" kindref="member">SplitStrategy::Sentence</ref>;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>split_cfg.<ref refid="structthemis_1_1rag_1_1_document_splitter_config_1afffecbd1af26b577a91cd97b2cda2d01" kindref="member">chunk_size</ref><sp/>=<sp/>120;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>split_cfg.<ref refid="structthemis_1_1rag_1_1_document_splitter_config_1a09555956fc4753b0209df9f06fdd8525" kindref="member">overlap</ref><sp/><sp/><sp/><sp/>=<sp/>20;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_document_splitter" kindref="compound">DocumentSplitter</ref><sp/>splitter(split_cfg);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>chunks<sp/>=<sp/>splitter.split(kCorpus,<sp/></highlight><highlight class="stringliteral">&quot;doc-paris&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(chunks.empty());</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Step<sp/>2:<sp/>Create<sp/>mock<sp/>BM25<sp/>and<sp/>vector<sp/>candidate<sp/>lists<sp/>from<sp/>chunks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(simulate<sp/>a<sp/>retrieval<sp/>system<sp/>by<sp/>converting<sp/>chunks<sp/>to<sp/>RetrievedDocuments)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RetrievedDocument&gt;<sp/>bm25_candidates;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RetrievedDocument&gt;<sp/>vec_candidates<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>chunks.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>score<sp/>=<sp/>1.0<sp/>-<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i)<sp/>*<sp/>0.05;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>bm25_candidates.push_back(makeDoc(</highlight><highlight class="stringliteral">&quot;c&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/>chunks[i].text,<sp/>score));</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vec_candidates.push_back(</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;c&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/>chunks[i].text,<sp/>score<sp/>*<sp/>0.9)</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Step<sp/>3:<sp/>Fuse<sp/>candidates<sp/>using<sp/>HybridRetriever</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>retriever<sp/>=<sp/><ref refid="classthemis_1_1rag_1_1_hybrid_retriever_factory_1a484e8a8355408c9634892fa6c9da5cdd" kindref="member">HybridRetrieverFactory::createSemanticFocused</ref>();</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>fused<sp/><sp/><sp/><sp/><sp/>=<sp/>retriever.fuse(bm25_candidates,<sp/>vec_candidates);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(fused.documents.empty());</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Step<sp/>4:<sp/>Evaluate<sp/>the<sp/>retrieved<sp/>context<sp/>with<sp/>RAGJudge<sp/>(FAST<sp/>mode)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref><sp/><sp/>=<sp/>makeFastJudge();</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>docs<sp/><sp/><sp/>=<sp/>fused.documents;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>answer<sp/>=</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France.<sp/>It<sp/>is<sp/>famous<sp/>for<sp/>the<sp/>Eiffel<sp/>Tower.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref>-&gt;evaluate(</highlight><highlight class="stringliteral">&quot;What<sp/>is<sp/>Paris<sp/>famous<sp/>for?&quot;</highlight><highlight class="normal">,<sp/>docs,<sp/>answer);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(result.overall_score,<sp/>0.0);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(result.overall_score,<sp/>1.0);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight><highlight class="comment">//<sp/>5.<sp/>EvaluationCache<sp/>integration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><ref refid="test__rag__pipeline__integration_8cpp_1a670bf436e96f35ea0d5194201ccd6cde" kindref="member">TEST</ref>(RAGPipelineIntegrationTest,<sp/>EvaluationCacheMissThenHit)<sp/>{</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_cache_config" kindref="compound">CacheConfig</ref><sp/>ccfg;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>ccfg.<ref refid="structthemis_1_1rag_1_1judge_1_1_cache_config_1a5bd367747154ddae0835e9c1a25d0cf7" kindref="member">max_entries</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>ccfg.<ref refid="structthemis_1_1rag_1_1judge_1_1_cache_config_1aa1f1dc948bd8b2033be785f8b8dc9053" kindref="member">ttl</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::seconds(3600);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_evaluation_cache" kindref="compound">EvaluationCache</ref><sp/>cache(ccfg);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref><sp/>=<sp/>makeFastJudge();</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RetrievedDocument&gt;<sp/>docs<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France.&quot;</highlight><highlight class="normal">,<sp/>0.95),</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;What<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France?&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>answer<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>call:<sp/>cache<sp/>miss</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cache.get(<ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,<sp/>answer),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref>-&gt;evaluate(<ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,<sp/>docs,<sp/>answer);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.put(<ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,<sp/>answer,<sp/>result);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Second<sp/>call:<sp/>cache<sp/>hit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result" kindref="compound">EvaluationResult</ref>*<sp/>cached<sp/>=<sp/>cache.get(<ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,<sp/>answer);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(cached,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(cached-&gt;<ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result_1a6f5990dda0dc05ab728a5b99d723843d" kindref="member">overall_score</ref>,<sp/>result.overall_score,<sp/>1e-9);</highlight></codeline>
+<codeline lineno="266"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><ref refid="test__rag__pipeline__integration_8cpp_1a670bf436e96f35ea0d5194201ccd6cde" kindref="member">TEST</ref>(RAGPipelineIntegrationTest,<sp/>EvaluationCacheStatsAfterMixedAccess)<sp/>{</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_cache_config" kindref="compound">CacheConfig</ref><sp/>ccfg;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>ccfg.<ref refid="structthemis_1_1rag_1_1judge_1_1_cache_config_1a5bd367747154ddae0835e9c1a25d0cf7" kindref="member">max_entries</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>ccfg.<ref refid="structthemis_1_1rag_1_1judge_1_1_cache_config_1aa1f1dc948bd8b2033be785f8b8dc9053" kindref="member">ttl</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::seconds(3600);</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_evaluation_cache" kindref="compound">EvaluationCache</ref><sp/>cache(ccfg);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref><sp/>=<sp/>makeFastJudge();</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RetrievedDocument&gt;<sp/>docs<sp/>=<sp/>{makeDoc(</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;France<sp/>capital<sp/>is<sp/>Paris.&quot;</highlight><highlight class="normal">,<sp/>0.9)};</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Populate<sp/>cache</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>3;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>q<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/><ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref>-&gt;evaluate(q,<sp/>docs,<sp/></highlight><highlight class="stringliteral">&quot;answer&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i));</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cache.put(q,<sp/></highlight><highlight class="stringliteral">&quot;answer&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/>r);</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>3<sp/>hits<sp/>+<sp/>1<sp/>miss</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>3;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cache.get(</highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/></highlight><highlight class="stringliteral">&quot;answer&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i));</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.get(</highlight><highlight class="stringliteral">&quot;query99&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;nope&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>cache.getStatistics();</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.cache_hits,<sp/><sp/><sp/>3u);</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.cache_misses,<sp/>1u);</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(stats.hit_rate,<sp/>0.75,<sp/>1e-6);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight><highlight class="comment">//<sp/>6.<sp/>BatchEvaluator<sp/>integration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><ref refid="test__rag__pipeline__integration_8cpp_1a670bf436e96f35ea0d5194201ccd6cde" kindref="member">TEST</ref>(RAGPipelineIntegrationTest,<sp/>BatchEvaluatorPipelineConsistency)<sp/>{</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref><sp/>=<sp/>makeFastJudge();</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluator_config" kindref="compound">BatchEvaluatorConfig</ref><sp/>bcfg;</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>bcfg.<ref refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluator_config_1a95b4a8c7b46b9092d857fdba9797e34a" kindref="member">num_workers</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_batch_evaluator" kindref="compound">BatchEvaluator</ref><sp/>batch(<ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref>,<sp/>bcfg);</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RetrievedDocument&gt;<sp/>docs<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France.&quot;</highlight><highlight class="normal">,<sp/>0.95),</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;d2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;The<sp/>Eiffel<sp/>Tower<sp/>stands<sp/>in<sp/>Paris.&quot;</highlight><highlight class="normal">,<sp/>0.80),</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;EvaluationInput&gt;<sp/>inputs<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>4;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_input" kindref="compound">EvaluationInput</ref><sp/>in;</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>in.<ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_input_1a849582ad59a3799819474de93d26dc38" kindref="member">query</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;What<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France?&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>in.<ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_input_1a815b2f596fd3f6be23dd6cc3261e5435" kindref="member">documents</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>docs;</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>in.<ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_input_1a0ddb460259acfcbb554ba17511b16ba2" kindref="member">generated_answer</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>inputs.push_back(in);</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>batch_result<sp/>=<sp/>batch.evaluateBatch(inputs);</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(batch_result.results.size(),<sp/>4u);</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Average<sp/>should<sp/>be<sp/>consistent<sp/>with<sp/>individual<sp/>scores</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>sum_overall<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>r<sp/>:<sp/>batch_result.results)<sp/>{</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sum_overall<sp/>+=<sp/>r.overall_score;</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>expected_avg<sp/>=<sp/>sum_overall<sp/>/<sp/>4.0;</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(batch_result.average_overall_score,<sp/>expected_avg,<sp/>1e-6);</highlight></codeline>
+<codeline lineno="332"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><ref refid="test__rag__pipeline__integration_8cpp_1a670bf436e96f35ea0d5194201ccd6cde" kindref="member">TEST</ref>(RAGPipelineIntegrationTest,<sp/>BatchEvaluatorEmptyInput)<sp/>{</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref><sp/>=<sp/>makeFastJudge();</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_batch_evaluator" kindref="compound">BatchEvaluator</ref><sp/>batch(<ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref>);</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>batch.evaluateBatch(std::vector&lt;EvaluationInput&gt;{});</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.results.empty());</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.progress.total_items,<sp/>0u);</highlight></codeline>
+<codeline lineno="341"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/rag/test_rag_pipeline_integration.cpp"/>
+  </compounddef>
+</doxygen>

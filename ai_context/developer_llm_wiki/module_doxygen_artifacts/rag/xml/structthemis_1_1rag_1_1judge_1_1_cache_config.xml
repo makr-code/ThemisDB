@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_cache_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::CacheConfig</compoundname>
+    <includes refid="evaluation__cache_8h" local="no">evaluation_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_cache_config_1a5bd367747154ddae0835e9c1a25d0cf7" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::judge::CacheConfig::max_entries</definition>
+        <argsstring></argsstring>
+        <name>max_entries</name>
+        <qualifiedname>themis::rag::judge::CacheConfig::max_entries</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+<para>Maximum cache entries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/evaluation_cache.h" line="64" column="12" bodyfile="include/rag/evaluation_cache.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_cache_config_1aa1f1dc948bd8b2033be785f8b8dc9053" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::rag::judge::CacheConfig::ttl</definition>
+        <argsstring></argsstring>
+        <name>ttl</name>
+        <qualifiedname>themis::rag::judge::CacheConfig::ttl</qualifiedname>
+        <initializer>= std::chrono::seconds(3600)</initializer>
+        <briefdescription>
+<para>Time-to-live. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/evaluation_cache.h" line="65" column="26" bodyfile="include/rag/evaluation_cache.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_cache_config_1ac6d45c5ff5461149bcf99188e18d73ba" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::CacheConfig::enable_warming</definition>
+        <argsstring></argsstring>
+        <name>enable_warming</name>
+        <qualifiedname>themis::rag::judge::CacheConfig::enable_warming</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Enable cache warming. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/evaluation_cache.h" line="66" column="10" bodyfile="include/rag/evaluation_cache.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_cache_config_1accc84acf5b4c3831c5db9679a4f2e7a2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::CacheConfig::enable_auto_invalidation</definition>
+        <argsstring></argsstring>
+        <name>enable_auto_invalidation</name>
+        <qualifiedname>themis::rag::judge::CacheConfig::enable_auto_invalidation</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Auto-invalidate on config change. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/evaluation_cache.h" line="67" column="10" bodyfile="include/rag/evaluation_cache.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_cache_config_1a040f776a00bb6a5890493956adb9a7e0" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::rag::judge::CacheConfig::warm_queries</definition>
+        <argsstring></argsstring>
+        <name>warm_queries</name>
+        <qualifiedname>themis::rag::judge::CacheConfig::warm_queries</qualifiedname>
+        <briefdescription>
+<para>Queries to pre-compute. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/evaluation_cache.h" line="70" column="17" bodyfile="include/rag/evaluation_cache.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_cache_config_1adb49a198459116846c7a0d8d205ce3ef" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::rag::judge::CacheConfig::warming_interval</definition>
+        <argsstring></argsstring>
+        <name>warming_interval</name>
+        <qualifiedname>themis::rag::judge::CacheConfig::warming_interval</qualifiedname>
+        <initializer>= std::chrono::seconds(300)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/evaluation_cache.h" line="71" column="26" bodyfile="include/rag/evaluation_cache.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for evaluation cache. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/evaluation_cache.h" line="63" column="1" bodyfile="include/rag/evaluation_cache.h" bodystart="63" bodyend="72"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_cache_config_1accc84acf5b4c3831c5db9679a4f2e7a2" prot="public" virt="non-virtual"><scope>themis::rag::judge::CacheConfig</scope><name>enable_auto_invalidation</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_cache_config_1ac6d45c5ff5461149bcf99188e18d73ba" prot="public" virt="non-virtual"><scope>themis::rag::judge::CacheConfig</scope><name>enable_warming</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_cache_config_1a5bd367747154ddae0835e9c1a25d0cf7" prot="public" virt="non-virtual"><scope>themis::rag::judge::CacheConfig</scope><name>max_entries</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_cache_config_1aa1f1dc948bd8b2033be785f8b8dc9053" prot="public" virt="non-virtual"><scope>themis::rag::judge::CacheConfig</scope><name>ttl</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_cache_config_1a040f776a00bb6a5890493956adb9a7e0" prot="public" virt="non-virtual"><scope>themis::rag::judge::CacheConfig</scope><name>warm_queries</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_cache_config_1adb49a198459116846c7a0d8d205ce3ef" prot="public" virt="non-virtual"><scope>themis::rag::judge::CacheConfig</scope><name>warming_interval</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

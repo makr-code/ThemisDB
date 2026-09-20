@@ -1,0 +1,280 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_time_window_report" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::TimeWindowReport</compoundname>
+    <includes refid="compliance__reporter_8h" local="no">compliance_reporter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_time_window_report_1af3ea89f2110493f95d542b7b536825d5" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::TimeWindowReport::window_start_ms</definition>
+        <argsstring></argsstring>
+        <name>window_start_ms</name>
+        <qualifiedname>themis::governance::TimeWindowReport::window_start_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Inclusive window start (Unix ms; 0 = epoch). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporter.h" line="136" column="13" bodyfile="include/governance/compliance_reporter.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_time_window_report_1aa761b08cbe394360dcb1bac269cd2cab" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::TimeWindowReport::window_end_ms</definition>
+        <argsstring></argsstring>
+        <name>window_end_ms</name>
+        <qualifiedname>themis::governance::TimeWindowReport::window_end_ms</qualifiedname>
+        <initializer>= INT64_MAX</initializer>
+        <briefdescription>
+<para>Inclusive window end (Unix ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporter.h" line="137" column="13" bodyfile="include/governance/compliance_reporter.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_time_window_report_1a7b34ed36afb4bbea955bcbbe99a0cf12" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::TimeWindowReport::generated_at</definition>
+        <argsstring></argsstring>
+        <name>generated_at</name>
+        <qualifiedname>themis::governance::TimeWindowReport::generated_at</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Report generation time (Unix seconds). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporter.h" line="138" column="13" bodyfile="include/governance/compliance_reporter.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_time_window_report_1a7aec06effc9f3f55371fa754d0eccc01" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::TimeWindowReport::framework</definition>
+        <argsstring></argsstring>
+        <name>framework</name>
+        <qualifiedname>themis::governance::TimeWindowReport::framework</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporter.h" line="140" column="17" bodyfile="include/governance/compliance_reporter.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_time_window_report_1a1f5217020e4cf64d22a7cfe835cd06d9" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::governance::TimeWindowReport::total_evaluations</definition>
+        <argsstring></argsstring>
+        <name>total_evaluations</name>
+        <qualifiedname>themis::governance::TimeWindowReport::total_evaluations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporter.h" line="143" column="9" bodyfile="include/governance/compliance_reporter.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_time_window_report_1a8993aa97deecfb786e572773cb3e3b23" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::governance::TimeWindowReport::enforce_mode_evaluations</definition>
+        <argsstring></argsstring>
+        <name>enforce_mode_evaluations</name>
+        <qualifiedname>themis::governance::TimeWindowReport::enforce_mode_evaluations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporter.h" line="144" column="9" bodyfile="include/governance/compliance_reporter.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_time_window_report_1aacfeaa29ae47b9bc6e3f2dbcff0ac6d3" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::governance::TimeWindowReport::observe_mode_evaluations</definition>
+        <argsstring></argsstring>
+        <name>observe_mode_evaluations</name>
+        <qualifiedname>themis::governance::TimeWindowReport::observe_mode_evaluations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporter.h" line="145" column="9" bodyfile="include/governance/compliance_reporter.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_time_window_report_1a666e2a68cdc10e8602df994ef82ed56b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::governance::TimeWindowReport::ccpa_opted_out_count</definition>
+        <argsstring></argsstring>
+        <name>ccpa_opted_out_count</name>
+        <qualifiedname>themis::governance::TimeWindowReport::ccpa_opted_out_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporter.h" line="146" column="9" bodyfile="include/governance/compliance_reporter.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_time_window_report_1a07c7c7d5fc319b7e0114da7ed5154ad7" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::governance::TimeWindowReport::encryption_required_count</definition>
+        <argsstring></argsstring>
+        <name>encryption_required_count</name>
+        <qualifiedname>themis::governance::TimeWindowReport::encryption_required_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporter.h" line="147" column="9" bodyfile="include/governance/compliance_reporter.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_time_window_report_1abcb172d78629ad64351c3f6cf6d348e8" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::governance::TimeWindowReport::export_blocked_count</definition>
+        <argsstring></argsstring>
+        <name>export_blocked_count</name>
+        <qualifiedname>themis::governance::TimeWindowReport::export_blocked_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporter.h" line="148" column="9" bodyfile="include/governance/compliance_reporter.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_time_window_report_1a18c6f67f7bbc861d0b77dac91472ec71" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, int &gt;</type>
+        <definition>std::unordered_map&lt;std::string, int&gt; themis::governance::TimeWindowReport::evaluations_by_classification</definition>
+        <argsstring></argsstring>
+        <name>evaluations_by_classification</name>
+        <qualifiedname>themis::governance::TimeWindowReport::evaluations_by_classification</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporter.h" line="151" column="24" bodyfile="include/governance/compliance_reporter.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_time_window_report_1a04da0a46b2c6bd2271006a61433b2c8a" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, int &gt;</type>
+        <definition>std::unordered_map&lt;std::string, int&gt; themis::governance::TimeWindowReport::evaluations_by_route</definition>
+        <argsstring></argsstring>
+        <name>evaluations_by_route</name>
+        <qualifiedname>themis::governance::TimeWindowReport::evaluations_by_route</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporter.h" line="152" column="24" bodyfile="include/governance/compliance_reporter.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_time_window_report_1a302d258e204c8f25cbf6956900b84815" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::governance::TimeWindowReport::compliance_score</definition>
+        <argsstring></argsstring>
+        <name>compliance_score</name>
+        <qualifiedname>themis::governance::TimeWindowReport::compliance_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>0–100 </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporter.h" line="155" column="12" bodyfile="include/governance/compliance_reporter.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_time_window_report_1a725122397e7ba27d069ac243e31ab2f3" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_compliance_gap" kindref="compound">ComplianceGap</ref> &gt;</type>
+        <definition>std::vector&lt;ComplianceGap&gt; themis::governance::TimeWindowReport::gaps</definition>
+        <argsstring></argsstring>
+        <name>gaps</name>
+        <qualifiedname>themis::governance::TimeWindowReport::gaps</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporter.h" line="156" column="17" bodyfile="include/governance/compliance_reporter.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_time_window_report_1ac15a9a3cf192ac8b27c59e42dc733fba" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::TimeWindowReport::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::governance::TimeWindowReport::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporter.h" line="162" column="20" bodyfile="src/governance/compliance_reporter.cpp" bodystart="1012" bodyend="1045"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_time_window_report_1a57cc401b3a5b18f339a7614bad4a9556" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::TimeWindowReport::toCSV</definition>
+        <argsstring>() const</argsstring>
+        <name>toCSV</name>
+        <qualifiedname>themis::governance::TimeWindowReport::toCSV</qualifiedname>
+        <briefdescription>
+<para>To CSV. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporter.h" line="167" column="17" bodyfile="src/governance/compliance_reporter.cpp" bodystart="1047" bodyend="1058"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/compliance_reporter.h" line="135" column="1" bodyfile="include/governance/compliance_reporter.h" bodystart="135" bodyend="168"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_time_window_report_1a666e2a68cdc10e8602df994ef82ed56b" prot="public" virt="non-virtual"><scope>themis::governance::TimeWindowReport</scope><name>ccpa_opted_out_count</name></member>
+      <member refid="structthemis_1_1governance_1_1_time_window_report_1a302d258e204c8f25cbf6956900b84815" prot="public" virt="non-virtual"><scope>themis::governance::TimeWindowReport</scope><name>compliance_score</name></member>
+      <member refid="structthemis_1_1governance_1_1_time_window_report_1a07c7c7d5fc319b7e0114da7ed5154ad7" prot="public" virt="non-virtual"><scope>themis::governance::TimeWindowReport</scope><name>encryption_required_count</name></member>
+      <member refid="structthemis_1_1governance_1_1_time_window_report_1a8993aa97deecfb786e572773cb3e3b23" prot="public" virt="non-virtual"><scope>themis::governance::TimeWindowReport</scope><name>enforce_mode_evaluations</name></member>
+      <member refid="structthemis_1_1governance_1_1_time_window_report_1a18c6f67f7bbc861d0b77dac91472ec71" prot="public" virt="non-virtual"><scope>themis::governance::TimeWindowReport</scope><name>evaluations_by_classification</name></member>
+      <member refid="structthemis_1_1governance_1_1_time_window_report_1a04da0a46b2c6bd2271006a61433b2c8a" prot="public" virt="non-virtual"><scope>themis::governance::TimeWindowReport</scope><name>evaluations_by_route</name></member>
+      <member refid="structthemis_1_1governance_1_1_time_window_report_1abcb172d78629ad64351c3f6cf6d348e8" prot="public" virt="non-virtual"><scope>themis::governance::TimeWindowReport</scope><name>export_blocked_count</name></member>
+      <member refid="structthemis_1_1governance_1_1_time_window_report_1a7aec06effc9f3f55371fa754d0eccc01" prot="public" virt="non-virtual"><scope>themis::governance::TimeWindowReport</scope><name>framework</name></member>
+      <member refid="structthemis_1_1governance_1_1_time_window_report_1a725122397e7ba27d069ac243e31ab2f3" prot="public" virt="non-virtual"><scope>themis::governance::TimeWindowReport</scope><name>gaps</name></member>
+      <member refid="structthemis_1_1governance_1_1_time_window_report_1a7b34ed36afb4bbea955bcbbe99a0cf12" prot="public" virt="non-virtual"><scope>themis::governance::TimeWindowReport</scope><name>generated_at</name></member>
+      <member refid="structthemis_1_1governance_1_1_time_window_report_1aacfeaa29ae47b9bc6e3f2dbcff0ac6d3" prot="public" virt="non-virtual"><scope>themis::governance::TimeWindowReport</scope><name>observe_mode_evaluations</name></member>
+      <member refid="structthemis_1_1governance_1_1_time_window_report_1a57cc401b3a5b18f339a7614bad4a9556" prot="public" virt="non-virtual"><scope>themis::governance::TimeWindowReport</scope><name>toCSV</name></member>
+      <member refid="structthemis_1_1governance_1_1_time_window_report_1ac15a9a3cf192ac8b27c59e42dc733fba" prot="public" virt="non-virtual"><scope>themis::governance::TimeWindowReport</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1governance_1_1_time_window_report_1a1f5217020e4cf64d22a7cfe835cd06d9" prot="public" virt="non-virtual"><scope>themis::governance::TimeWindowReport</scope><name>total_evaluations</name></member>
+      <member refid="structthemis_1_1governance_1_1_time_window_report_1aa761b08cbe394360dcb1bac269cd2cab" prot="public" virt="non-virtual"><scope>themis::governance::TimeWindowReport</scope><name>window_end_ms</name></member>
+      <member refid="structthemis_1_1governance_1_1_time_window_report_1af3ea89f2110493f95d542b7b536825d5" prot="public" virt="non-virtual"><scope>themis::governance::TimeWindowReport</scope><name>window_start_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

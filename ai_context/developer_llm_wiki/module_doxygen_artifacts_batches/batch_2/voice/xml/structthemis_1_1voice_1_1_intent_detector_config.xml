@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_intent_detector_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::IntentDetectorConfig</compoundname>
+    <includes refid="voice__intent__detector_8h" local="no">voice_intent_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_intent_detector_config_1af16b8ed44cc0b20406534580b7d29e63" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::IntentDetectorConfig::min_confidence_threshold</definition>
+        <argsstring></argsstring>
+        <name>min_confidence_threshold</name>
+        <qualifiedname>themis::voice::IntentDetectorConfig::min_confidence_threshold</qualifiedname>
+        <initializer>= 0.5f</initializer>
+        <briefdescription>
+<para>Minimum confidence threshold for accepting intents (frozen: 0.5). Changing requires Phase 1 amendment with model retraining evidence. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="173" column="11" bodyfile="include/voice/voice_intent_detector.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_intent_detector_config_1a140ba2f0de080498d344b80338c270ae" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::IntentDetectorConfig::entity_confidence_threshold</definition>
+        <argsstring></argsstring>
+        <name>entity_confidence_threshold</name>
+        <qualifiedname>themis::voice::IntentDetectorConfig::entity_confidence_threshold</qualifiedname>
+        <initializer>= 0.4f</initializer>
+        <briefdescription>
+<para>Minimum confidence for accepting extracted entities (frozen: 0.4). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="176" column="11" bodyfile="include/voice/voice_intent_detector.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_intent_detector_config_1a2025a416301c951e423273c02fd684f2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::IntentDetectorConfig::use_llm_for_ambiguous</definition>
+        <argsstring></argsstring>
+        <name>use_llm_for_ambiguous</name>
+        <qualifiedname>themis::voice::IntentDetectorConfig::use_llm_for_ambiguous</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Enable LLM-based disambiguation for ambiguous intents. Default: false (requires LLM to be available and configured). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="180" column="10" bodyfile="include/voice/voice_intent_detector.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_intent_detector_config_1a24d15008076a49b5d32e661d51e89f28" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::voice::IntentDetectorConfig::max_context_turns</definition>
+        <argsstring></argsstring>
+        <name>max_context_turns</name>
+        <qualifiedname>themis::voice::IntentDetectorConfig::max_context_turns</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+<para>Maximum conversation turns to retain for context (frozen: 10). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="183" column="12" bodyfile="include/voice/voice_intent_detector.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_intent_detector_config_1a07153b7785ad8e93e436a506f27526fa" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::voice::IntentDetectorConfig::custom_entity_patterns</definition>
+        <argsstring></argsstring>
+        <name>custom_entity_patterns</name>
+        <qualifiedname>themis::voice::IntentDetectorConfig::custom_entity_patterns</qualifiedname>
+        <briefdescription>
+<para>Custom regex patterns for entity extraction. Empty vector = use built-in entity patterns only. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="187" column="17" bodyfile="include/voice/voice_intent_detector.h" bodystart="187" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_intent_detector_config_1abb0cf9a0346eb5af7f29b30d865c2dc7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::IntentDetectorConfig::ask_clarification_on_low_confidence</definition>
+        <argsstring></argsstring>
+        <name>ask_clarification_on_low_confidence</name>
+        <qualifiedname>themis::voice::IntentDetectorConfig::ask_clarification_on_low_confidence</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Phase 3: Ask user to clarify when confidence too low. Default: true. When true and confidence &lt; min_confidence_threshold, detector returns requires_context=true instead of rejecting outright. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="192" column="10" bodyfile="include/voice/voice_intent_detector.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_intent_detector_config_1a35172d68e327ecaf6ad45dad6d11bec3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::IntentDetectorConfig::use_timeout_protection</definition>
+        <argsstring></argsstring>
+        <name>use_timeout_protection</name>
+        <qualifiedname>themis::voice::IntentDetectorConfig::use_timeout_protection</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Phase 3: Enable timeout protection during detection. Default: true. When true, detection is interrupted if it exceeds detection_timeout_ms, returning safe default (intent=UNKNOWN). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="197" column="10" bodyfile="include/voice/voice_intent_detector.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_intent_detector_config_1aa5ff7c93b7c91c64a93c9f9f7a6d9c43" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::IntentDetectorConfig::detection_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>detection_timeout_ms</name>
+        <qualifiedname>themis::voice::IntentDetectorConfig::detection_timeout_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+<para>Phase 3: Maximum time for intent detection (milliseconds). Default: 5000 (5 seconds). Exceeded = safe timeout fallback. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="201" column="13" bodyfile="include/voice/voice_intent_detector.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for <ref refid="classthemis_1_1voice_1_1_voice_intent_detector" kindref="compound">VoiceIntentDetector</ref> (frozen Phase 1 + Phase 3 extensions). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_intent_detector.h" line="170" column="1" bodyfile="include/voice/voice_intent_detector.h" bodystart="170" bodyend="202"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_intent_detector_config_1abb0cf9a0346eb5af7f29b30d865c2dc7" prot="public" virt="non-virtual"><scope>themis::voice::IntentDetectorConfig</scope><name>ask_clarification_on_low_confidence</name></member>
+      <member refid="structthemis_1_1voice_1_1_intent_detector_config_1a07153b7785ad8e93e436a506f27526fa" prot="public" virt="non-virtual"><scope>themis::voice::IntentDetectorConfig</scope><name>custom_entity_patterns</name></member>
+      <member refid="structthemis_1_1voice_1_1_intent_detector_config_1aa5ff7c93b7c91c64a93c9f9f7a6d9c43" prot="public" virt="non-virtual"><scope>themis::voice::IntentDetectorConfig</scope><name>detection_timeout_ms</name></member>
+      <member refid="structthemis_1_1voice_1_1_intent_detector_config_1a140ba2f0de080498d344b80338c270ae" prot="public" virt="non-virtual"><scope>themis::voice::IntentDetectorConfig</scope><name>entity_confidence_threshold</name></member>
+      <member refid="structthemis_1_1voice_1_1_intent_detector_config_1a24d15008076a49b5d32e661d51e89f28" prot="public" virt="non-virtual"><scope>themis::voice::IntentDetectorConfig</scope><name>max_context_turns</name></member>
+      <member refid="structthemis_1_1voice_1_1_intent_detector_config_1af16b8ed44cc0b20406534580b7d29e63" prot="public" virt="non-virtual"><scope>themis::voice::IntentDetectorConfig</scope><name>min_confidence_threshold</name></member>
+      <member refid="structthemis_1_1voice_1_1_intent_detector_config_1a2025a416301c951e423273c02fd684f2" prot="public" virt="non-virtual"><scope>themis::voice::IntentDetectorConfig</scope><name>use_llm_for_ambiguous</name></member>
+      <member refid="structthemis_1_1voice_1_1_intent_detector_config_1a35172d68e327ecaf6ad45dad6d11bec3" prot="public" virt="non-virtual"><scope>themis::voice::IntentDetectorConfig</scope><name>use_timeout_protection</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

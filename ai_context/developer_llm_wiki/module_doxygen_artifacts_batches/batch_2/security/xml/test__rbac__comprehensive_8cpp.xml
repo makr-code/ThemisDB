@@ -1,0 +1,1161 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__rbac__comprehensive_8cpp" kind="file" language="C++">
+    <compoundname>test_rbac_comprehensive.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="rbac_8h" local="yes">security/rbac.h</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">atomic</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>security/rbac.h</label>
+        <link refid="rbac_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/security/test_rbac_comprehensive.cpp</label>
+        <link refid="test__rbac__comprehensive_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>atomic</label>
+      </node>
+      <node id="12">
+        <label>chrono</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="9">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>mutex</label>
+      </node>
+      <node id="13">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="8">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="14">
+        <label>thread</label>
+      </node>
+      <node id="7">
+        <label>unordered_map</label>
+      </node>
+      <node id="6">
+        <label>unordered_set</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_r_b_a_c_test" prot="public">RBACTest</innerclass>
+    <innerclass refid="class_r_b_a_c_inheritance_test" prot="public">RBACInheritanceTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__rbac__comprehensive_8cpp_1a187c6131bdd86cf45d2b47d13d93e14d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PermissionTest, ExactMatch_Allowed)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PermissionTest</type>
+        </param>
+        <param>
+          <type>ExactMatch_Allowed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_rbac_comprehensive.cpp" line="28" column="1" bodyfile="tests/security/test_rbac_comprehensive.cpp" bodystart="28" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rbac__comprehensive_8cpp_1aaf699726627b4c6545e75d2ed8bbc0a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PermissionTest, ExactMatch_DifferentResource_NotAllowed)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PermissionTest</type>
+        </param>
+        <param>
+          <type>ExactMatch_DifferentResource_NotAllowed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_rbac_comprehensive.cpp" line="33" column="1" bodyfile="tests/security/test_rbac_comprehensive.cpp" bodystart="33" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rbac__comprehensive_8cpp_1ad4ed31f2301c3bdcd8de316fd44cb06e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PermissionTest, ExactMatch_DifferentAction_NotAllowed)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PermissionTest</type>
+        </param>
+        <param>
+          <type>ExactMatch_DifferentAction_NotAllowed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_rbac_comprehensive.cpp" line="38" column="1" bodyfile="tests/security/test_rbac_comprehensive.cpp" bodystart="38" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rbac__comprehensive_8cpp_1ab2630807d27137dee7625a5733d3038c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PermissionTest, WildcardResource_MatchesAny)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PermissionTest</type>
+        </param>
+        <param>
+          <type>WildcardResource_MatchesAny</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_rbac_comprehensive.cpp" line="43" column="1" bodyfile="tests/security/test_rbac_comprehensive.cpp" bodystart="43" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rbac__comprehensive_8cpp_1a33fdb19874d217dc15c34fd2d3f2877b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PermissionTest, WildcardAction_MatchesAny)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PermissionTest</type>
+        </param>
+        <param>
+          <type>WildcardAction_MatchesAny</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_rbac_comprehensive.cpp" line="51" column="1" bodyfile="tests/security/test_rbac_comprehensive.cpp" bodystart="51" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rbac__comprehensive_8cpp_1a2910dcca770a4496cc01a0e369695bac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PermissionTest, WildcardBoth_MatchesEverything)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PermissionTest</type>
+        </param>
+        <param>
+          <type>WildcardBoth_MatchesEverything</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_rbac_comprehensive.cpp" line="58" column="1" bodyfile="tests/security/test_rbac_comprehensive.cpp" bodystart="58" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rbac__comprehensive_8cpp_1a9f3a04ae5eba726016cf7ec3b9b96956" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PermissionTest, ToString_Format)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PermissionTest</type>
+        </param>
+        <param>
+          <type>ToString_Format</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_rbac_comprehensive.cpp" line="66" column="1" bodyfile="tests/security/test_rbac_comprehensive.cpp" bodystart="66" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rbac__comprehensive_8cpp_1a3d0cb07bb9221f81d4822242f37d230d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PermissionTest, Equality_SamePermission)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PermissionTest</type>
+        </param>
+        <param>
+          <type>Equality_SamePermission</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_rbac_comprehensive.cpp" line="71" column="1" bodyfile="tests/security/test_rbac_comprehensive.cpp" bodystart="71" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rbac__comprehensive_8cpp_1adfc5f694266ae5920312d3735d8394c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PermissionTest, Equality_DifferentPermission)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PermissionTest</type>
+        </param>
+        <param>
+          <type>Equality_DifferentPermission</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_rbac_comprehensive.cpp" line="77" column="1" bodyfile="tests/security/test_rbac_comprehensive.cpp" bodystart="77" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rbac__comprehensive_8cpp_1a4576775d01f6fae2a882b72338bb1a52" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RBACBuiltinRolesTest, GetBuiltinRoles_ReturnsNonEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RBACBuiltinRolesTest</type>
+        </param>
+        <param>
+          <type>GetBuiltinRoles_ReturnsNonEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_rbac_comprehensive.cpp" line="87" column="1" bodyfile="tests/security/test_rbac_comprehensive.cpp" bodystart="87" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rbac__comprehensive_8cpp_1adac440064f39892b3acf8f98affb1efc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RBACBuiltinRolesTest, AdminRole_ExistsWithWildcardPermissions)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RBACBuiltinRolesTest</type>
+        </param>
+        <param>
+          <type>AdminRole_ExistsWithWildcardPermissions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_rbac_comprehensive.cpp" line="92" column="1" bodyfile="tests/security/test_rbac_comprehensive.cpp" bodystart="92" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rbac__comprehensive_8cpp_1ad0c4802deba90d841db1008e929a9312" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RBACBuiltinRolesTest, ReadonlyRole_Exists)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RBACBuiltinRolesTest</type>
+        </param>
+        <param>
+          <type>ReadonlyRole_Exists</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_rbac_comprehensive.cpp" line="110" column="1" bodyfile="tests/security/test_rbac_comprehensive.cpp" bodystart="110" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rbac__comprehensive_8cpp_1ae4a17a45c2ae2a66e588dfbd1615a67f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RBACBuiltinRolesTest, AnalystRole_Exists)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RBACBuiltinRolesTest</type>
+        </param>
+        <param>
+          <type>AnalystRole_Exists</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_rbac_comprehensive.cpp" line="118" column="1" bodyfile="tests/security/test_rbac_comprehensive.cpp" bodystart="118" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rbac__comprehensive_8cpp_1a23c08b190db8dd8f0fc59c9fb50aed87" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RBACBuiltinRolesTest, OperatorRole_Exists)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RBACBuiltinRolesTest</type>
+        </param>
+        <param>
+          <type>OperatorRole_Exists</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_rbac_comprehensive.cpp" line="126" column="1" bodyfile="tests/security/test_rbac_comprehensive.cpp" bodystart="126" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rbac__comprehensive_8cpp_1a879f574836c1d6efffa4a26766d95d5a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RBACTest, Admin_HasFullAccess)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_b_a_c_test" kindref="compound">RBACTest</ref></type>
+        </param>
+        <param>
+          <type>Admin_HasFullAccess</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_rbac_comprehensive.cpp" line="151" column="1" bodyfile="tests/security/test_rbac_comprehensive.cpp" bodystart="151" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rbac__comprehensive_8cpp_1a206cb6908e3caaf48b4be9074d9ad9f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RBACTest, Readonly_CanReadData)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_b_a_c_test" kindref="compound">RBACTest</ref></type>
+        </param>
+        <param>
+          <type>Readonly_CanReadData</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_rbac_comprehensive.cpp" line="159" column="1" bodyfile="tests/security/test_rbac_comprehensive.cpp" bodystart="159" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rbac__comprehensive_8cpp_1aaf4d64f6b1d2b49be1d5d1aa6d700532" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RBACTest, Readonly_CannotWriteData)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_b_a_c_test" kindref="compound">RBACTest</ref></type>
+        </param>
+        <param>
+          <type>Readonly_CannotWriteData</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_rbac_comprehensive.cpp" line="163" column="1" bodyfile="tests/security/test_rbac_comprehensive.cpp" bodystart="163" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rbac__comprehensive_8cpp_1ad2af766821e953877908cca0db56a789" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RBACTest, Readonly_CannotRotateKeys)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_b_a_c_test" kindref="compound">RBACTest</ref></type>
+        </param>
+        <param>
+          <type>Readonly_CannotRotateKeys</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_rbac_comprehensive.cpp" line="168" column="1" bodyfile="tests/security/test_rbac_comprehensive.cpp" bodystart="168" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rbac__comprehensive_8cpp_1a8107d6e67da1eb24e2227154a3d8b9fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RBACTest, EmptyRoles_NothingAllowed)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_b_a_c_test" kindref="compound">RBACTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyRoles_NothingAllowed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_rbac_comprehensive.cpp" line="172" column="1" bodyfile="tests/security/test_rbac_comprehensive.cpp" bodystart="172" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rbac__comprehensive_8cpp_1a2c2eed484b9f9a7a2ce3837d29687243" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RBACTest, UnknownRole_NothingAllowed)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_b_a_c_test" kindref="compound">RBACTest</ref></type>
+        </param>
+        <param>
+          <type>UnknownRole_NothingAllowed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_rbac_comprehensive.cpp" line="177" column="1" bodyfile="tests/security/test_rbac_comprehensive.cpp" bodystart="177" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rbac__comprehensive_8cpp_1a41c10b8cf8c2f70bad8f91af59c19311" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RBACTest, MultipleRoles_GrantsCombinedPermissions)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_b_a_c_test" kindref="compound">RBACTest</ref></type>
+        </param>
+        <param>
+          <type>MultipleRoles_GrantsCombinedPermissions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_rbac_comprehensive.cpp" line="181" column="1" bodyfile="tests/security/test_rbac_comprehensive.cpp" bodystart="181" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rbac__comprehensive_8cpp_1ab048dbae9d14aab897a4cc71f88d22f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RBACTest, RoleInheritance_OperatorInheritsAnalyst)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_b_a_c_test" kindref="compound">RBACTest</ref></type>
+        </param>
+        <param>
+          <type>RoleInheritance_OperatorInheritsAnalyst</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_rbac_comprehensive.cpp" line="195" column="1" bodyfile="tests/security/test_rbac_comprehensive.cpp" bodystart="195" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rbac__comprehensive_8cpp_1a7ce6a5e726711f5c2b3878f573f56b16" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RBACTest, AddRole_NewRoleGrantsPermissions)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_b_a_c_test" kindref="compound">RBACTest</ref></type>
+        </param>
+        <param>
+          <type>AddRole_NewRoleGrantsPermissions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_rbac_comprehensive.cpp" line="204" column="1" bodyfile="tests/security/test_rbac_comprehensive.cpp" bodystart="204" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rbac__comprehensive_8cpp_1ab24e0bee2c315a7675f602b073a680c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RBACTest, RemoveRole_NoLongerGrantsPermissions)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_b_a_c_test" kindref="compound">RBACTest</ref></type>
+        </param>
+        <param>
+          <type>RemoveRole_NoLongerGrantsPermissions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_rbac_comprehensive.cpp" line="218" column="1" bodyfile="tests/security/test_rbac_comprehensive.cpp" bodystart="218" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rbac__comprehensive_8cpp_1afaaf1c001290b217ae0170a7f348f78a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RBACTest, GetRole_ExistingRole_Returns)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_b_a_c_test" kindref="compound">RBACTest</ref></type>
+        </param>
+        <param>
+          <type>GetRole_ExistingRole_Returns</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_rbac_comprehensive.cpp" line="231" column="1" bodyfile="tests/security/test_rbac_comprehensive.cpp" bodystart="231" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rbac__comprehensive_8cpp_1af0427576daffe3700e1d16d096bac493" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RBACTest, GetRole_NonExistent_ReturnsNullopt)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_b_a_c_test" kindref="compound">RBACTest</ref></type>
+        </param>
+        <param>
+          <type>GetRole_NonExistent_ReturnsNullopt</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_rbac_comprehensive.cpp" line="237" column="1" bodyfile="tests/security/test_rbac_comprehensive.cpp" bodystart="237" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rbac__comprehensive_8cpp_1a92d278bbea2159abc4dac3d34ff19ebc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RBACTest, ListRoles_ContainsBuiltins)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_b_a_c_test" kindref="compound">RBACTest</ref></type>
+        </param>
+        <param>
+          <type>ListRoles_ContainsBuiltins</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_rbac_comprehensive.cpp" line="242" column="1" bodyfile="tests/security/test_rbac_comprehensive.cpp" bodystart="242" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rbac__comprehensive_8cpp_1a4a20ebd76af495c09ad20c4c381d2f26" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RBACTest, GetUserPermissions_Admin_HasWildcard)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_b_a_c_test" kindref="compound">RBACTest</ref></type>
+        </param>
+        <param>
+          <type>GetUserPermissions_Admin_HasWildcard</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_rbac_comprehensive.cpp" line="252" column="1" bodyfile="tests/security/test_rbac_comprehensive.cpp" bodystart="252" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rbac__comprehensive_8cpp_1a3cfe105a67c92765db86cfa3f36e2d9a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RBACTest, GetUserPermissions_Multiple_CombinesAll)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_b_a_c_test" kindref="compound">RBACTest</ref></type>
+        </param>
+        <param>
+          <type>GetUserPermissions_Multiple_CombinesAll</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_rbac_comprehensive.cpp" line="266" column="1" bodyfile="tests/security/test_rbac_comprehensive.cpp" bodystart="266" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rbac__comprehensive_8cpp_1a0fce496a3395e23c3429464d540e91c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RBACTest, ValidateRoleHierarchy_BuiltinsAreValid)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_b_a_c_test" kindref="compound">RBACTest</ref></type>
+        </param>
+        <param>
+          <type>ValidateRoleHierarchy_BuiltinsAreValid</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_rbac_comprehensive.cpp" line="281" column="1" bodyfile="tests/security/test_rbac_comprehensive.cpp" bodystart="281" bodyend="283"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rbac__comprehensive_8cpp_1a25653de7dc2eaa4e4d60183964391875" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RBACInheritanceTest, InheritedPermissions_Granted)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_b_a_c_inheritance_test" kindref="compound">RBACInheritanceTest</ref></type>
+        </param>
+        <param>
+          <type>InheritedPermissions_Granted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_rbac_comprehensive.cpp" line="301" column="1" bodyfile="tests/security/test_rbac_comprehensive.cpp" bodystart="301" bodyend="317"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rbac__comprehensive_8cpp_1aa6bad5a7039338b530a1ec4381a1f711" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RBACInheritanceTest, MultiLevelInheritance_Works)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_b_a_c_inheritance_test" kindref="compound">RBACInheritanceTest</ref></type>
+        </param>
+        <param>
+          <type>MultiLevelInheritance_Works</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_rbac_comprehensive.cpp" line="319" column="1" bodyfile="tests/security/test_rbac_comprehensive.cpp" bodystart="319" bodyend="342"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rbac__comprehensive_8cpp_1a38d0656fe364e64f2a1fbc2d01fb758a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RBACSerializationTest, Role_ToJson_FromJson_RoundTrip)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RBACSerializationTest</type>
+        </param>
+        <param>
+          <type>Role_ToJson_FromJson_RoundTrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_rbac_comprehensive.cpp" line="348" column="1" bodyfile="tests/security/test_rbac_comprehensive.cpp" bodystart="348" bodyend="363"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rbac__comprehensive_8cpp_1a8a527c7dca3f84dce0c3b13207ebe4ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RBACSerializationTest, Permission_SerializesCorrectly)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RBACSerializationTest</type>
+        </param>
+        <param>
+          <type>Permission_SerializesCorrectly</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_rbac_comprehensive.cpp" line="365" column="1" bodyfile="tests/security/test_rbac_comprehensive.cpp" bodystart="365" bodyend="370"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rbac__comprehensive_8cpp_1aaf403050a4ca80e11f152989cdda5230" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RBACThreadSafetyTest, ConcurrentCheckPermission_ThreadSafe)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RBACThreadSafetyTest</type>
+        </param>
+        <param>
+          <type>ConcurrentCheckPermission_ThreadSafe</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_rbac_comprehensive.cpp" line="376" column="1" bodyfile="tests/security/test_rbac_comprehensive.cpp" bodystart="376" bodyend="402"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Comprehensive tests for the <ref refid="classthemis_1_1security_1_1_r_b_a_c" kindref="compound">RBAC</ref> (Role-Based Access Control) component. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tests cover:<itemizedlist>
+<listitem><para>Built-in roles (admin, operator, analyst, readonly)</para>
+</listitem><listitem><para><ref refid="structthemis_1_1security_1_1_permission" kindref="compound">Permission</ref> matching (exact, wildcard resource, wildcard action)</para>
+</listitem><listitem><para><ref refid="structthemis_1_1security_1_1_role" kindref="compound">Role</ref> inheritance</para>
+</listitem><listitem><para>Adding and removing roles</para>
+</listitem><listitem><para>checkPermission with multiple user roles</para>
+</listitem><listitem><para>getUserPermissions expansion</para>
+</listitem><listitem><para>validateRoleHierarchy (cycle detection)</para>
+</listitem><listitem><para>JSON serialization/deserialization</para>
+</listitem><listitem><para>Thread safety </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="rbac_8h" kindref="compound">security/rbac.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1security" kindref="compound">themis::security</ref>;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Permission<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><ref refid="test__rbac__comprehensive_8cpp_1a187c6131bdd86cf45d2b47d13d93e14d" kindref="member">TEST</ref>(PermissionTest,<sp/>ExactMatch_Allowed)<sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_permission" kindref="compound">Permission</ref><sp/>p{</highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(p.<ref refid="structthemis_1_1security_1_1_permission_1ad2e7e7eca5fa3d1615c6efd3ff4a8692" kindref="member">matches</ref>(</highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="31"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><ref refid="test__rbac__comprehensive_8cpp_1a187c6131bdd86cf45d2b47d13d93e14d" kindref="member">TEST</ref>(PermissionTest,<sp/>ExactMatch_DifferentResource_NotAllowed)<sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_permission" kindref="compound">Permission</ref><sp/>p{</highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(p.<ref refid="structthemis_1_1security_1_1_permission_1ad2e7e7eca5fa3d1615c6efd3ff4a8692" kindref="member">matches</ref>(</highlight><highlight class="stringliteral">&quot;keys&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="36"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><ref refid="test__rbac__comprehensive_8cpp_1a187c6131bdd86cf45d2b47d13d93e14d" kindref="member">TEST</ref>(PermissionTest,<sp/>ExactMatch_DifferentAction_NotAllowed)<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_permission" kindref="compound">Permission</ref><sp/>p{</highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(p.<ref refid="structthemis_1_1security_1_1_permission_1ad2e7e7eca5fa3d1615c6efd3ff4a8692" kindref="member">matches</ref>(</highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;write&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="41"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><ref refid="test__rbac__comprehensive_8cpp_1a187c6131bdd86cf45d2b47d13d93e14d" kindref="member">TEST</ref>(PermissionTest,<sp/>WildcardResource_MatchesAny)<sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_permission" kindref="compound">Permission</ref><sp/>p{</highlight><highlight class="stringliteral">&quot;*&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(p.<ref refid="structthemis_1_1security_1_1_permission_1ad2e7e7eca5fa3d1615c6efd3ff4a8692" kindref="member">matches</ref>(</highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(p.<ref refid="structthemis_1_1security_1_1_permission_1ad2e7e7eca5fa3d1615c6efd3ff4a8692" kindref="member">matches</ref>(</highlight><highlight class="stringliteral">&quot;keys&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(p.<ref refid="structthemis_1_1security_1_1_permission_1ad2e7e7eca5fa3d1615c6efd3ff4a8692" kindref="member">matches</ref>(</highlight><highlight class="stringliteral">&quot;config&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(p.<ref refid="structthemis_1_1security_1_1_permission_1ad2e7e7eca5fa3d1615c6efd3ff4a8692" kindref="member">matches</ref>(</highlight><highlight class="stringliteral">&quot;audit&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="49"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><ref refid="test__rbac__comprehensive_8cpp_1a187c6131bdd86cf45d2b47d13d93e14d" kindref="member">TEST</ref>(PermissionTest,<sp/>WildcardAction_MatchesAny)<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_permission" kindref="compound">Permission</ref><sp/>p{</highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;*&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(p.<ref refid="structthemis_1_1security_1_1_permission_1ad2e7e7eca5fa3d1615c6efd3ff4a8692" kindref="member">matches</ref>(</highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(p.<ref refid="structthemis_1_1security_1_1_permission_1ad2e7e7eca5fa3d1615c6efd3ff4a8692" kindref="member">matches</ref>(</highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;write&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(p.<ref refid="structthemis_1_1security_1_1_permission_1ad2e7e7eca5fa3d1615c6efd3ff4a8692" kindref="member">matches</ref>(</highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;delete&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="56"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><ref refid="test__rbac__comprehensive_8cpp_1a187c6131bdd86cf45d2b47d13d93e14d" kindref="member">TEST</ref>(PermissionTest,<sp/>WildcardBoth_MatchesEverything)<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_permission" kindref="compound">Permission</ref><sp/>p{</highlight><highlight class="stringliteral">&quot;*&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;*&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(p.<ref refid="structthemis_1_1security_1_1_permission_1ad2e7e7eca5fa3d1615c6efd3ff4a8692" kindref="member">matches</ref>(</highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(p.<ref refid="structthemis_1_1security_1_1_permission_1ad2e7e7eca5fa3d1615c6efd3ff4a8692" kindref="member">matches</ref>(</highlight><highlight class="stringliteral">&quot;keys&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;rotate&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(p.<ref refid="structthemis_1_1security_1_1_permission_1ad2e7e7eca5fa3d1615c6efd3ff4a8692" kindref="member">matches</ref>(</highlight><highlight class="stringliteral">&quot;config&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;delete&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(p.<ref refid="structthemis_1_1security_1_1_permission_1ad2e7e7eca5fa3d1615c6efd3ff4a8692" kindref="member">matches</ref>(</highlight><highlight class="stringliteral">&quot;anything&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;anything&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="64"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><ref refid="test__rbac__comprehensive_8cpp_1a187c6131bdd86cf45d2b47d13d93e14d" kindref="member">TEST</ref>(PermissionTest,<sp/>ToString_Format)<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_permission" kindref="compound">Permission</ref><sp/>p{</highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(p.<ref refid="structthemis_1_1security_1_1_permission_1ae7ea8de13c1bbd215478c5da2a82de40" kindref="member">toString</ref>(),<sp/></highlight><highlight class="stringliteral">&quot;data:read&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><ref refid="test__rbac__comprehensive_8cpp_1a187c6131bdd86cf45d2b47d13d93e14d" kindref="member">TEST</ref>(PermissionTest,<sp/>Equality_SamePermission)<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_permission" kindref="compound">Permission</ref><sp/>p1{</highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_permission" kindref="compound">Permission</ref><sp/>p2{</highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(p1<sp/>==<sp/>p2);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><ref refid="test__rbac__comprehensive_8cpp_1a187c6131bdd86cf45d2b47d13d93e14d" kindref="member">TEST</ref>(PermissionTest,<sp/>Equality_DifferentPermission)<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_permission" kindref="compound">Permission</ref><sp/>p1{</highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_permission" kindref="compound">Permission</ref><sp/>p2{</highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;write&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(p1<sp/>==<sp/>p2);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Built-in<sp/>Roles<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><ref refid="test__rbac__comprehensive_8cpp_1a187c6131bdd86cf45d2b47d13d93e14d" kindref="member">TEST</ref>(RBACBuiltinRolesTest,<sp/>GetBuiltinRoles_ReturnsNonEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>roles<sp/>=<sp/><ref refid="classthemis_1_1security_1_1_r_b_a_c_1a825190dac7e9a6d31e19a4c211ac7322" kindref="member">RBAC::getBuiltinRoles</ref>();</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(roles.size(),<sp/>0u);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><ref refid="test__rbac__comprehensive_8cpp_1a187c6131bdd86cf45d2b47d13d93e14d" kindref="member">TEST</ref>(RBACBuiltinRolesTest,<sp/>AdminRole_ExistsWithWildcardPermissions)<sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>roles<sp/>=<sp/><ref refid="classthemis_1_1security_1_1_r_b_a_c_1a825190dac7e9a6d31e19a4c211ac7322" kindref="member">RBAC::getBuiltinRoles</ref>();</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>admin_it<sp/>=<sp/>std::find_if(roles.begin(),<sp/>roles.end(),</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_role" kindref="compound">Role</ref>&amp;<sp/>r)<sp/>{<sp/>return<sp/>r.name<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;admin&quot;</highlight><highlight class="normal">;<sp/>});</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(admin_it,<sp/>roles.end());</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Admin<sp/>should<sp/>have<sp/>wildcard<sp/>permissions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>has_wildcard<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>p<sp/>:<sp/>admin_it-&gt;permissions)<sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(p.resource<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;*&quot;</highlight><highlight class="normal"><sp/>&amp;&amp;<sp/>p.action<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;*&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>has_wildcard<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(has_wildcard);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><ref refid="test__rbac__comprehensive_8cpp_1a187c6131bdd86cf45d2b47d13d93e14d" kindref="member">TEST</ref>(RBACBuiltinRolesTest,<sp/>ReadonlyRole_Exists)<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>roles<sp/>=<sp/><ref refid="classthemis_1_1security_1_1_r_b_a_c_1a825190dac7e9a6d31e19a4c211ac7322" kindref="member">RBAC::getBuiltinRoles</ref>();</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>readonly_it<sp/>=<sp/>std::find_if(roles.begin(),<sp/>roles.end(),</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_role" kindref="compound">Role</ref>&amp;<sp/>r)<sp/>{<sp/>return<sp/>r.name<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;readonly&quot;</highlight><highlight class="normal">;<sp/>});</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(readonly_it,<sp/>roles.end());</highlight></codeline>
+<codeline lineno="116"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><ref refid="test__rbac__comprehensive_8cpp_1a187c6131bdd86cf45d2b47d13d93e14d" kindref="member">TEST</ref>(RBACBuiltinRolesTest,<sp/>AnalystRole_Exists)<sp/>{</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>roles<sp/>=<sp/><ref refid="classthemis_1_1security_1_1_r_b_a_c_1a825190dac7e9a6d31e19a4c211ac7322" kindref="member">RBAC::getBuiltinRoles</ref>();</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>analyst_it<sp/>=<sp/>std::find_if(roles.begin(),<sp/>roles.end(),</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_role" kindref="compound">Role</ref>&amp;<sp/>r)<sp/>{<sp/>return<sp/>r.name<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;analyst&quot;</highlight><highlight class="normal">;<sp/>});</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(analyst_it,<sp/>roles.end());</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><ref refid="test__rbac__comprehensive_8cpp_1a187c6131bdd86cf45d2b47d13d93e14d" kindref="member">TEST</ref>(RBACBuiltinRolesTest,<sp/>OperatorRole_Exists)<sp/>{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>roles<sp/>=<sp/><ref refid="classthemis_1_1security_1_1_r_b_a_c_1a825190dac7e9a6d31e19a4c211ac7322" kindref="member">RBAC::getBuiltinRoles</ref>();</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>operator_it<sp/>=<sp/>std::find_if(roles.begin(),<sp/>roles.end(),</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_role" kindref="compound">Role</ref>&amp;<sp/>r)<sp/>{<sp/>return<sp/>r.name<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;operator&quot;</highlight><highlight class="normal">;<sp/>});</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(operator_it,<sp/>roles.end());</highlight></codeline>
+<codeline lineno="132"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RBAC<sp/>Core<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138" refid="class_r_b_a_c_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_r_b_a_c_test" kindref="compound">RBACTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_r_b_a_c_test_1a3910164b21638902e20a37a15a9785bd" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_r_b_a_c_config" kindref="compound">RBACConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1security_1_1_r_b_a_c_config_1aefc324a870ac0915359d1b594a6ce773" kindref="member">use_builtin_roles</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1security_1_1_r_b_a_c_config_1adb6d0c2a5a8dd79d422d8a9c63822471" kindref="member">enable_role_inheritance</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1security_1_1_r_b_a_c_config_1a6d3cde95be7db95fdf36c4b86a1b5f30" kindref="member">enable_resource_wildcards</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_r_b_a_c_test_1a6fba27cb60a288f5239f7285e5fc5424" kindref="member">rbac_</ref><sp/>=<sp/>std::make_unique&lt;RBAC&gt;(cfg);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;RBAC&gt;<sp/><ref refid="class_r_b_a_c_test_1a6fba27cb60a288f5239f7285e5fc5424" kindref="member">rbac_</ref>;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><ref refid="test__rbac__comprehensive_8cpp_1a879f574836c1d6efffa4a26766d95d5a" kindref="member">TEST_F</ref>(<ref refid="class_r_b_a_c_test" kindref="compound">RBACTest</ref>,<sp/>Admin_HasFullAccess)<sp/>{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;admin&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;admin&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;write&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;admin&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;keys&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;rotate&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;admin&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;config&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;delete&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;admin&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;anything&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;anything&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="157"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><ref refid="test__rbac__comprehensive_8cpp_1a879f574836c1d6efffa4a26766d95d5a" kindref="member">TEST_F</ref>(<ref refid="class_r_b_a_c_test" kindref="compound">RBACTest</ref>,<sp/>Readonly_CanReadData)<sp/>{</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;readonly&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="161"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><ref refid="test__rbac__comprehensive_8cpp_1a879f574836c1d6efffa4a26766d95d5a" kindref="member">TEST_F</ref>(<ref refid="class_r_b_a_c_test" kindref="compound">RBACTest</ref>,<sp/>Readonly_CannotWriteData)<sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;readonly&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;write&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;readonly&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;delete&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="166"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><ref refid="test__rbac__comprehensive_8cpp_1a879f574836c1d6efffa4a26766d95d5a" kindref="member">TEST_F</ref>(<ref refid="class_r_b_a_c_test" kindref="compound">RBACTest</ref>,<sp/>Readonly_CannotRotateKeys)<sp/>{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;readonly&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;keys&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;rotate&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="170"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><ref refid="test__rbac__comprehensive_8cpp_1a879f574836c1d6efffa4a26766d95d5a" kindref="member">TEST_F</ref>(<ref refid="class_r_b_a_c_test" kindref="compound">RBACTest</ref>,<sp/>EmptyRoles_NothingAllowed)<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(rbac_-&gt;checkPermission({},<sp/></highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(rbac_-&gt;checkPermission({},<sp/></highlight><highlight class="stringliteral">&quot;keys&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="175"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><ref refid="test__rbac__comprehensive_8cpp_1a879f574836c1d6efffa4a26766d95d5a" kindref="member">TEST_F</ref>(<ref refid="class_r_b_a_c_test" kindref="compound">RBACTest</ref>,<sp/>UnknownRole_NothingAllowed)<sp/>{</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;nonexistent_role&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="179"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><ref refid="test__rbac__comprehensive_8cpp_1a879f574836c1d6efffa4a26766d95d5a" kindref="member">TEST_F</ref>(<ref refid="class_r_b_a_c_test" kindref="compound">RBACTest</ref>,<sp/>MultipleRoles_GrantsCombinedPermissions)<sp/>{</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>a<sp/>user<sp/>with<sp/>both<sp/>readonly<sp/>and<sp/>a<sp/>custom<sp/>role</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_role" kindref="compound">Role</ref><sp/>custom;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>custom.<ref refid="structthemis_1_1security_1_1_role_1af64da13e5c62a796d63c4305dbf7728a" kindref="member">name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;key_manager&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>custom.<ref refid="structthemis_1_1security_1_1_role_1a7ac910f821ada74bb0148b2c768574a2" kindref="member">description</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Can<sp/>manage<sp/>keys&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>custom.<ref refid="structthemis_1_1security_1_1_role_1a6438c85dce9a488afbeb5bc3677a6c8a" kindref="member">permissions</ref>.push_back({</highlight><highlight class="stringliteral">&quot;keys&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;rotate&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>rbac_-&gt;addRole(custom);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>User<sp/>has<sp/>both<sp/>readonly<sp/>(data<sp/>read)<sp/>and<sp/>key_manager<sp/>(keys<sp/>rotate)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;readonly&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;key_manager&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;readonly&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;key_manager&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;keys&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;rotate&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;readonly&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;key_manager&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;write&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="193"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><ref refid="test__rbac__comprehensive_8cpp_1a879f574836c1d6efffa4a26766d95d5a" kindref="member">TEST_F</ref>(<ref refid="class_r_b_a_c_test" kindref="compound">RBACTest</ref>,<sp/>RoleInheritance_OperatorInheritsAnalyst)<sp/>{</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Operator<sp/>inherits<sp/>from<sp/>analyst<sp/>-<sp/>should<sp/>have<sp/>analyst&apos;s<sp/>read<sp/>permissions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>analyst_perms<sp/>=<sp/>rbac_-&gt;getUserPermissions({</highlight><highlight class="stringliteral">&quot;analyst&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>operator_perms<sp/>=<sp/>rbac_-&gt;getUserPermissions({</highlight><highlight class="stringliteral">&quot;operator&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Operator<sp/>should<sp/>have<sp/>at<sp/>least<sp/>all<sp/>analyst<sp/>permissions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(operator_perms.size(),<sp/>analyst_perms.size());</highlight></codeline>
+<codeline lineno="202"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><ref refid="test__rbac__comprehensive_8cpp_1a879f574836c1d6efffa4a26766d95d5a" kindref="member">TEST_F</ref>(<ref refid="class_r_b_a_c_test" kindref="compound">RBACTest</ref>,<sp/>AddRole_NewRoleGrantsPermissions)<sp/>{</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_role" kindref="compound">Role</ref><sp/>custom;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>custom.<ref refid="structthemis_1_1security_1_1_role_1af64da13e5c62a796d63c4305dbf7728a" kindref="member">name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;auditor&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>custom.<ref refid="structthemis_1_1security_1_1_role_1a7ac910f821ada74bb0148b2c768574a2" kindref="member">description</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Auditor<sp/>with<sp/>audit<sp/>log<sp/>access&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>custom.<ref refid="structthemis_1_1security_1_1_role_1a6438c85dce9a488afbeb5bc3677a6c8a" kindref="member">permissions</ref>.push_back({</highlight><highlight class="stringliteral">&quot;audit&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>custom.<ref refid="structthemis_1_1security_1_1_role_1a6438c85dce9a488afbeb5bc3677a6c8a" kindref="member">permissions</ref>.push_back({</highlight><highlight class="stringliteral">&quot;audit&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;export&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>rbac_-&gt;addRole(custom);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;auditor&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;audit&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;auditor&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;audit&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;export&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;auditor&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;write&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="216"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><ref refid="test__rbac__comprehensive_8cpp_1a879f574836c1d6efffa4a26766d95d5a" kindref="member">TEST_F</ref>(<ref refid="class_r_b_a_c_test" kindref="compound">RBACTest</ref>,<sp/>RemoveRole_NoLongerGrantsPermissions)<sp/>{</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_role" kindref="compound">Role</ref><sp/>custom;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>custom.<ref refid="structthemis_1_1security_1_1_role_1af64da13e5c62a796d63c4305dbf7728a" kindref="member">name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;temp_role&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>custom.<ref refid="structthemis_1_1security_1_1_role_1a6438c85dce9a488afbeb5bc3677a6c8a" kindref="member">permissions</ref>.push_back({</highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;write&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>rbac_-&gt;addRole(custom);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;temp_role&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;write&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>rbac_-&gt;removeRole(</highlight><highlight class="stringliteral">&quot;temp_role&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;temp_role&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;write&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="229"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><ref refid="test__rbac__comprehensive_8cpp_1a879f574836c1d6efffa4a26766d95d5a" kindref="member">TEST_F</ref>(<ref refid="class_r_b_a_c_test" kindref="compound">RBACTest</ref>,<sp/>GetRole_ExistingRole_Returns)<sp/>{</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>role<sp/>=<sp/>rbac_-&gt;getRole(</highlight><highlight class="stringliteral">&quot;admin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(role.has_value());</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(role-&gt;name,<sp/></highlight><highlight class="stringliteral">&quot;admin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><ref refid="test__rbac__comprehensive_8cpp_1a879f574836c1d6efffa4a26766d95d5a" kindref="member">TEST_F</ref>(<ref refid="class_r_b_a_c_test" kindref="compound">RBACTest</ref>,<sp/>GetRole_NonExistent_ReturnsNullopt)<sp/>{</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>role<sp/>=<sp/>rbac_-&gt;getRole(</highlight><highlight class="stringliteral">&quot;does-not-exist&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(role.has_value());</highlight></codeline>
+<codeline lineno="240"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><ref refid="test__rbac__comprehensive_8cpp_1a879f574836c1d6efffa4a26766d95d5a" kindref="member">TEST_F</ref>(<ref refid="class_r_b_a_c_test" kindref="compound">RBACTest</ref>,<sp/>ListRoles_ContainsBuiltins)<sp/>{</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>roles<sp/>=<sp/>rbac_-&gt;listRoles();</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(roles.empty());</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(roles.size(),<sp/>0u);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>contain<sp/>at<sp/>least<sp/>admin</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>it<sp/>=<sp/>std::find(roles.begin(),<sp/>roles.end(),<sp/>std::string(</highlight><highlight class="stringliteral">&quot;admin&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(it,<sp/>roles.end());</highlight></codeline>
+<codeline lineno="250"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><ref refid="test__rbac__comprehensive_8cpp_1a879f574836c1d6efffa4a26766d95d5a" kindref="member">TEST_F</ref>(<ref refid="class_r_b_a_c_test" kindref="compound">RBACTest</ref>,<sp/>GetUserPermissions_Admin_HasWildcard)<sp/>{</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>perms<sp/>=<sp/>rbac_-&gt;getUserPermissions({</highlight><highlight class="stringliteral">&quot;admin&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(perms.empty());</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>found_wildcard<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>p<sp/>:<sp/>perms)<sp/>{</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(p.resource<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;*&quot;</highlight><highlight class="normal"><sp/>&amp;&amp;<sp/>p.action<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;*&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>found_wildcard<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(found_wildcard);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><ref refid="test__rbac__comprehensive_8cpp_1a879f574836c1d6efffa4a26766d95d5a" kindref="member">TEST_F</ref>(<ref refid="class_r_b_a_c_test" kindref="compound">RBACTest</ref>,<sp/>GetUserPermissions_Multiple_CombinesAll)<sp/>{</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_role" kindref="compound">Role</ref><sp/>r1;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>r1.<ref refid="structthemis_1_1security_1_1_role_1af64da13e5c62a796d63c4305dbf7728a" kindref="member">name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;writer&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>r1.<ref refid="structthemis_1_1security_1_1_role_1a6438c85dce9a488afbeb5bc3677a6c8a" kindref="member">permissions</ref>.push_back({</highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;write&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>rbac_-&gt;addRole(r1);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_role" kindref="compound">Role</ref><sp/>r2;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>r2.<ref refid="structthemis_1_1security_1_1_role_1af64da13e5c62a796d63c4305dbf7728a" kindref="member">name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;reader&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>r2.<ref refid="structthemis_1_1security_1_1_role_1a6438c85dce9a488afbeb5bc3677a6c8a" kindref="member">permissions</ref>.push_back({</highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>rbac_-&gt;addRole(r2);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>perms<sp/>=<sp/>rbac_-&gt;getUserPermissions({</highlight><highlight class="stringliteral">&quot;writer&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;reader&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(perms.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><ref refid="test__rbac__comprehensive_8cpp_1a879f574836c1d6efffa4a26766d95d5a" kindref="member">TEST_F</ref>(<ref refid="class_r_b_a_c_test" kindref="compound">RBACTest</ref>,<sp/>ValidateRoleHierarchy_BuiltinsAreValid)<sp/>{</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(rbac_-&gt;validateRoleHierarchy());</highlight></codeline>
+<codeline lineno="283"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Role<sp/>Inheritance<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289" refid="class_r_b_a_c_inheritance_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_r_b_a_c_inheritance_test" kindref="compound">RBACInheritanceTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_r_b_a_c_inheritance_test_1afe0af89e08b5caa9020c8c3bf2fec134" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_r_b_a_c_config" kindref="compound">RBACConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1security_1_1_r_b_a_c_config_1aefc324a870ac0915359d1b594a6ce773" kindref="member">use_builtin_roles</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1security_1_1_r_b_a_c_config_1adb6d0c2a5a8dd79d422d8a9c63822471" kindref="member">enable_role_inheritance</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_r_b_a_c_inheritance_test_1a4472c3b84619593effd09dcd71e800d7" kindref="member">rbac_</ref><sp/>=<sp/>std::make_unique&lt;RBAC&gt;(cfg);</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;RBAC&gt;<sp/><ref refid="class_r_b_a_c_inheritance_test_1a4472c3b84619593effd09dcd71e800d7" kindref="member">rbac_</ref>;</highlight></codeline>
+<codeline lineno="299"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><ref refid="test__rbac__comprehensive_8cpp_1a879f574836c1d6efffa4a26766d95d5a" kindref="member">TEST_F</ref>(<ref refid="class_r_b_a_c_inheritance_test" kindref="compound">RBACInheritanceTest</ref>,<sp/>InheritedPermissions_Granted)<sp/>{</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_role" kindref="compound">Role</ref><sp/>base;</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>base.<ref refid="structthemis_1_1security_1_1_role_1af64da13e5c62a796d63c4305dbf7728a" kindref="member">name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;base_role&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>base.<ref refid="structthemis_1_1security_1_1_role_1a6438c85dce9a488afbeb5bc3677a6c8a" kindref="member">permissions</ref>.push_back({</highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_role" kindref="compound">Role</ref><sp/>derived;</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>derived.<ref refid="structthemis_1_1security_1_1_role_1af64da13e5c62a796d63c4305dbf7728a" kindref="member">name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;derived_role&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>derived.<ref refid="structthemis_1_1security_1_1_role_1a6438c85dce9a488afbeb5bc3677a6c8a" kindref="member">permissions</ref>.push_back({</highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;write&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>derived.<ref refid="structthemis_1_1security_1_1_role_1ac7846c4db40dfdcc5774bdb172bb5a98" kindref="member">inherits</ref>.push_back(</highlight><highlight class="stringliteral">&quot;base_role&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>rbac_-&gt;addRole(base);</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>rbac_-&gt;addRole(derived);</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Derived<sp/>should<sp/>have<sp/>both<sp/>own<sp/>and<sp/>inherited<sp/>permissions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;derived_role&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">));<sp/><sp/></highlight><highlight class="comment">//<sp/>inherited</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;derived_role&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;write&quot;</highlight><highlight class="normal">));<sp/></highlight><highlight class="comment">//<sp/>own</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><ref refid="test__rbac__comprehensive_8cpp_1a879f574836c1d6efffa4a26766d95d5a" kindref="member">TEST_F</ref>(<ref refid="class_r_b_a_c_inheritance_test" kindref="compound">RBACInheritanceTest</ref>,<sp/>MultiLevelInheritance_Works)<sp/>{</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_role" kindref="compound">Role</ref><sp/>level1;</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>level1.<ref refid="structthemis_1_1security_1_1_role_1af64da13e5c62a796d63c4305dbf7728a" kindref="member">name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;level1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>level1.<ref refid="structthemis_1_1security_1_1_role_1a6438c85dce9a488afbeb5bc3677a6c8a" kindref="member">permissions</ref>.push_back({</highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_role" kindref="compound">Role</ref><sp/>level2;</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/>level2.<ref refid="structthemis_1_1security_1_1_role_1af64da13e5c62a796d63c4305dbf7728a" kindref="member">name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;level2&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/>level2.<ref refid="structthemis_1_1security_1_1_role_1a6438c85dce9a488afbeb5bc3677a6c8a" kindref="member">permissions</ref>.push_back({</highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;write&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/>level2.<ref refid="structthemis_1_1security_1_1_role_1ac7846c4db40dfdcc5774bdb172bb5a98" kindref="member">inherits</ref>.push_back(</highlight><highlight class="stringliteral">&quot;level1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_role" kindref="compound">Role</ref><sp/>level3;</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/>level3.<ref refid="structthemis_1_1security_1_1_role_1af64da13e5c62a796d63c4305dbf7728a" kindref="member">name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;level3&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>level3.<ref refid="structthemis_1_1security_1_1_role_1a6438c85dce9a488afbeb5bc3677a6c8a" kindref="member">permissions</ref>.push_back({</highlight><highlight class="stringliteral">&quot;keys&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/>level3.<ref refid="structthemis_1_1security_1_1_role_1ac7846c4db40dfdcc5774bdb172bb5a98" kindref="member">inherits</ref>.push_back(</highlight><highlight class="stringliteral">&quot;level2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>rbac_-&gt;addRole(level1);</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>rbac_-&gt;addRole(level2);</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/>rbac_-&gt;addRole(level3);</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Level3<sp/>should<sp/>have<sp/>all<sp/>permissions<sp/>from<sp/>all<sp/>levels</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;level3&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">));<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>level1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;level3&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;write&quot;</highlight><highlight class="normal">));<sp/><sp/></highlight><highlight class="comment">//<sp/>level2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;level3&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;keys&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">));<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>level3<sp/>own</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Serialization<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><ref refid="test__rbac__comprehensive_8cpp_1a187c6131bdd86cf45d2b47d13d93e14d" kindref="member">TEST</ref>(RBACSerializationTest,<sp/>Role_ToJson_FromJson_RoundTrip)<sp/>{</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_role" kindref="compound">Role</ref><sp/>original;</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/>original.<ref refid="structthemis_1_1security_1_1_role_1af64da13e5c62a796d63c4305dbf7728a" kindref="member">name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test_role&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/>original.<ref refid="structthemis_1_1security_1_1_role_1a7ac910f821ada74bb0148b2c768574a2" kindref="member">description</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;A<sp/>test<sp/>role&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/>original.<ref refid="structthemis_1_1security_1_1_role_1a6438c85dce9a488afbeb5bc3677a6c8a" kindref="member">permissions</ref>.push_back({</highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/>original.<ref refid="structthemis_1_1security_1_1_role_1a6438c85dce9a488afbeb5bc3677a6c8a" kindref="member">permissions</ref>.push_back({</highlight><highlight class="stringliteral">&quot;keys&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;rotate&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/>original.<ref refid="structthemis_1_1security_1_1_role_1ac7846c4db40dfdcc5774bdb172bb5a98" kindref="member">inherits</ref>.push_back(</highlight><highlight class="stringliteral">&quot;base&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>original.<ref refid="structthemis_1_1security_1_1_role_1a0f57b4aab034335e27ee5b5ebd71294c" kindref="member">toJson</ref>();</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>restored<sp/>=<sp/><ref refid="structthemis_1_1security_1_1_role_1ad0cf2ab2c3522b3c64eb464293cc1f27" kindref="member">Role::fromJson</ref>(j);</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"></highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(restored.name,<sp/>original.<ref refid="structthemis_1_1security_1_1_role_1af64da13e5c62a796d63c4305dbf7728a" kindref="member">name</ref>);</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(restored.description,<sp/>original.<ref refid="structthemis_1_1security_1_1_role_1a7ac910f821ada74bb0148b2c768574a2" kindref="member">description</ref>);</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(restored.permissions.size(),<sp/>original.<ref refid="structthemis_1_1security_1_1_role_1a6438c85dce9a488afbeb5bc3677a6c8a" kindref="member">permissions</ref>.size());</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(restored.inherits.size(),<sp/>original.<ref refid="structthemis_1_1security_1_1_role_1ac7846c4db40dfdcc5774bdb172bb5a98" kindref="member">inherits</ref>.size());</highlight></codeline>
+<codeline lineno="363"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"></highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><ref refid="test__rbac__comprehensive_8cpp_1a187c6131bdd86cf45d2b47d13d93e14d" kindref="member">TEST</ref>(RBACSerializationTest,<sp/>Permission_SerializesCorrectly)<sp/>{</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_permission" kindref="compound">Permission</ref><sp/>p{</highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;write&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(p.<ref refid="structthemis_1_1security_1_1_permission_1aa15ebf4110906321e29c419995d07a92" kindref="member">resource</ref>,<sp/></highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(p.<ref refid="structthemis_1_1security_1_1_permission_1a3cbdbf46a01565709b5fed609d96ed26" kindref="member">action</ref>,<sp/></highlight><highlight class="stringliteral">&quot;write&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(p.<ref refid="structthemis_1_1security_1_1_permission_1ae7ea8de13c1bbd215478c5da2a82de40" kindref="member">toString</ref>(),<sp/></highlight><highlight class="stringliteral">&quot;data:write&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="370"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"></highlight></codeline>
+<codeline lineno="372"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="373"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Thread<sp/>Safety<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="374"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="375"><highlight class="normal"></highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><ref refid="test__rbac__comprehensive_8cpp_1a187c6131bdd86cf45d2b47d13d93e14d" kindref="member">TEST</ref>(RBACThreadSafetyTest,<sp/>ConcurrentCheckPermission_ThreadSafe)<sp/>{</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_r_b_a_c_config" kindref="compound">RBACConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1security_1_1_r_b_a_c_config_1aefc324a870ac0915359d1b594a6ce773" kindref="member">use_builtin_roles</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1security_1_1_r_b_a_c_config_1adb6d0c2a5a8dd79d422d8a9c63822471" kindref="member">enable_role_inheritance</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_r_b_a_c" kindref="compound">RBAC</ref><sp/>rbac(cfg);</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"></highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>THREADS<sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>CHECKS<sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>allowed{0};</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads;</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"></highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>THREADS;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([&amp;rbac,<sp/>&amp;allowed]()<sp/>{</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>0;<sp/>j<sp/>&lt;<sp/>CHECKS;<sp/>++j)<sp/>{</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(rbac.checkPermission({</highlight><highlight class="stringliteral">&quot;admin&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>allowed++;</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="396"><highlight class="normal"></highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>t<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>t.join();</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"></highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(allowed.load(),<sp/>THREADS<sp/>*<sp/>CHECKS);</highlight></codeline>
+<codeline lineno="402"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/security/test_rbac_comprehensive.cpp"/>
+  </compounddef>
+</doxygen>

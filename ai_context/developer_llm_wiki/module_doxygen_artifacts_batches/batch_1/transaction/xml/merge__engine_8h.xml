@@ -1,0 +1,332 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="merge__engine_8h" kind="file" language="C++">
+    <compoundname>merge_engine.h</compoundname>
+    <includes refid="snapshot__manager_8h" local="yes">transaction/snapshot_manager.h</includes>
+    <includes local="yes">analytics/diff_engine.h</includes>
+    <includes local="yes">cdc/changefeed.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="branch__manager_8h" local="yes">include/transaction/branch_manager.h</includedby>
+    <includedby refid="branch__manager_8cpp" local="yes">src/transaction/branch_manager.cpp</includedby>
+    <includedby refid="merge__engine_8cpp" local="yes">src/transaction/merge_engine.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/transaction/merge_engine.h</label>
+        <link refid="merge__engine_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>transaction/snapshot_manager.h</label>
+        <link refid="snapshot__manager_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>analytics/diff_engine.h</label>
+      </node>
+      <node id="4">
+        <label>cdc/changefeed.h</label>
+      </node>
+      <node id="8">
+        <label>chrono</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="10">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="12">
+        <label>unordered_map</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="3">
+        <label>benchmarks/transaction/bench_branch_manager.cpp</label>
+        <link refid="bench__branch__manager_8cpp"/>
+      </node>
+      <node id="2">
+        <label>include/transaction/branch_manager.h</label>
+        <link refid="branch__manager_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/transaction/merge_engine.h</label>
+        <link refid="merge__engine_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/transaction/branch_manager.cpp</label>
+        <link refid="branch__manager_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/transaction/merge_engine.cpp</label>
+        <link refid="merge__engine_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1transaction_1_1_merge_engine" prot="public">themis::transaction::MergeEngine</innerclass>
+    <innerclass refid="structthemis_1_1transaction_1_1_merge_engine_1_1_conflict" prot="public">themis::transaction::MergeEngine::Conflict</innerclass>
+    <innerclass refid="structthemis_1_1transaction_1_1_merge_engine_1_1_conflict_resolution" prot="public">themis::transaction::MergeEngine::ConflictResolution</innerclass>
+    <innerclass refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_options" prot="public">themis::transaction::MergeEngine::MergeOptions</innerclass>
+    <innerclass refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_stats" prot="public">themis::transaction::MergeEngine::MergeStats</innerclass>
+    <innerclass refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_result" prot="public">themis::transaction::MergeEngine::MergeResult</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1transaction">themis::transaction</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="snapshot__manager_8h" kindref="compound">transaction/snapshot_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;analytics/diff_engine.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;cdc/changefeed.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1transaction" kindref="compound">transaction</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1transaction_1ada1fce812dfe6e6dd9904ce74ebdfed9" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="classthemis_1_1transaction_1_1_merge_engine" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1transaction_1_1_merge_engine_1a9f2cf208cf6e3864d2b6de36c156eb2c" kindref="member">MergeEngine</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="30" refid="classthemis_1_1transaction_1_1_merge_engine_1aab3793b1494f9131e1b8c9c9e26bd344" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1transaction_1_1_merge_engine_1aab3793b1494f9131e1b8c9c9e26bd344" kindref="member">ConflictType</ref><sp/>{</highlight></codeline>
+<codeline lineno="31" refid="classthemis_1_1transaction_1_1_merge_engine_1aab3793b1494f9131e1b8c9c9e26bd344a69edcee901debd287905c35037a89fb2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_merge_engine_1aab3793b1494f9131e1b8c9c9e26bd344a69edcee901debd287905c35037a89fb2" kindref="member">MODIFY_MODIFY</ref>,<sp/><sp/></highlight><highlight class="comment">//<sp/>Both<sp/>sides<sp/>modified<sp/>the<sp/>same<sp/>key</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="classthemis_1_1transaction_1_1_merge_engine_1aab3793b1494f9131e1b8c9c9e26bd344acf8b15b761bcc79a94ece94a6a647e26" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_merge_engine_1aab3793b1494f9131e1b8c9c9e26bd344acf8b15b761bcc79a94ece94a6a647e26" kindref="member">DELETE_MODIFY</ref>,<sp/><sp/></highlight><highlight class="comment">//<sp/>One<sp/>side<sp/>deleted,<sp/>other<sp/>modified</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="classthemis_1_1transaction_1_1_merge_engine_1aab3793b1494f9131e1b8c9c9e26bd344a9e6963b63b863b8a75c144fd26a89904" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_merge_engine_1aab3793b1494f9131e1b8c9c9e26bd344a9e6963b63b863b8a75c144fd26a89904" kindref="member">MODIFY_DELETE</ref>,<sp/><sp/></highlight><highlight class="comment">//<sp/>One<sp/>side<sp/>modified,<sp/>other<sp/>deleted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="classthemis_1_1transaction_1_1_merge_engine_1aab3793b1494f9131e1b8c9c9e26bd344ab6a4c4fad07f284de37daafbaf4790ba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_merge_engine_1aab3793b1494f9131e1b8c9c9e26bd344ab6a4c4fad07f284de37daafbaf4790ba" kindref="member">DELETE_DELETE</ref><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Both<sp/>sides<sp/>deleted<sp/>(not<sp/>a<sp/>real<sp/>conflict,<sp/>auto-resolve)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="classthemis_1_1transaction_1_1_merge_engine_1a1e00da813a0497418746a723709cb835" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1transaction_1_1_merge_engine_1a1e00da813a0497418746a723709cb835" kindref="member">MergeStrategy</ref><sp/>{</highlight></codeline>
+<codeline lineno="38" refid="classthemis_1_1transaction_1_1_merge_engine_1a1e00da813a0497418746a723709cb835a24d31186123f1c45fcc417d4c09090c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_merge_engine_1a1e00da813a0497418746a723709cb835a24d31186123f1c45fcc417d4c09090c0" kindref="member">OURS</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prefer<sp/>changes<sp/>from<sp/>target<sp/>branch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="classthemis_1_1transaction_1_1_merge_engine_1a1e00da813a0497418746a723709cb835a808273ac33c52c101107190cad38e1ce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_merge_engine_1a1e00da813a0497418746a723709cb835a808273ac33c52c101107190cad38e1ce" kindref="member">THEIRS</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prefer<sp/>changes<sp/>from<sp/>source<sp/>branch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="classthemis_1_1transaction_1_1_merge_engine_1a1e00da813a0497418746a723709cb835aa60a6a471c0681e5a49c4f5d00f6bc5a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_merge_engine_1a1e00da813a0497418746a723709cb835aa60a6a471c0681e5a49c4f5d00f6bc5a" kindref="member">MANUAL</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Require<sp/>manual<sp/>conflict<sp/>resolution</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="classthemis_1_1transaction_1_1_merge_engine_1a1e00da813a0497418746a723709cb835afe48dc1aa055edc05bb3f1db44bf9e3f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_merge_engine_1a1e00da813a0497418746a723709cb835afe48dc1aa055edc05bb3f1db44bf9e3f" kindref="member">FAST_FORWARD</ref><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Only<sp/>merge<sp/>if<sp/>no<sp/>conflicts<sp/>(fail<sp/>on<sp/>conflict)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1transaction_1_1_merge_engine_1_1_conflict" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_conflict" kindref="compound">Conflict</ref><sp/>{</highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1transaction_1_1_merge_engine_1_1_conflict_1acc263228dc96e3a00608722c6e7ae525" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_merge_engine_1aab3793b1494f9131e1b8c9c9e26bd344" kindref="member">ConflictType</ref><sp/><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_conflict_1acc263228dc96e3a00608722c6e7ae525" kindref="member">type</ref>;</highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1transaction_1_1_merge_engine_1_1_conflict_1aad079440299b26017c5ae10fa49bd3e4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_conflict_1aad079440299b26017c5ae10fa49bd3e4" kindref="member">key</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Conflicting<sp/>key</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1transaction_1_1_merge_engine_1_1_conflict_1a56bf0267733b870ab9f5a85986387dc2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_conflict_1a56bf0267733b870ab9f5a85986387dc2" kindref="member">base_value</ref>;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Value<sp/>at<sp/>common<sp/>ancestor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1transaction_1_1_merge_engine_1_1_conflict_1a1523b53225216db07e186cfc7516df9f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_conflict_1a1523b53225216db07e186cfc7516df9f" kindref="member">source_value</ref>;<sp/></highlight><highlight class="comment">//<sp/>Value<sp/>in<sp/>source<sp/>branch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1transaction_1_1_merge_engine_1_1_conflict_1a959485882a504d876f47e7c133aa04d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_conflict_1a959485882a504d876f47e7c133aa04d0" kindref="member">target_value</ref>;<sp/></highlight><highlight class="comment">//<sp/>Value<sp/>in<sp/>target<sp/>branch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1transaction_1_1_merge_engine_1_1_conflict_1ab1ad76a66b64d71a7340862ae0e40519" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_conflict_1ab1ad76a66b64d71a7340862ae0e40519" kindref="member">source_sequence</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Source<sp/>change<sp/>sequence</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1transaction_1_1_merge_engine_1_1_conflict_1aa96f1502a85d38e603947772297665cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_conflict_1aa96f1502a85d38e603947772297665cc" kindref="member">target_sequence</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Target<sp/>change<sp/>sequence</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1transaction_1ada1fce812dfe6e6dd9904ce74ebdfed9" kindref="member">json</ref><sp/><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_conflict_1abe5d20dab7006328a1fad988e882320c" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_conflict" kindref="compound">Conflict</ref><sp/><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_conflict_1ad8df469b58c040a1cb04bac61a03d962" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1transaction_1ada1fce812dfe6e6dd9904ce74ebdfed9" kindref="member">json</ref>&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1transaction_1_1_merge_engine_1_1_conflict_resolution" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_conflict_resolution" kindref="compound">ConflictResolution</ref><sp/>{</highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1transaction_1_1_merge_engine_1_1_conflict_resolution_1acf589f4adbd3ae07a6a7639fe54a2fc3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_conflict_resolution_1acf589f4adbd3ae07a6a7639fe54a2fc3" kindref="member">key</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Key<sp/>to<sp/>resolve</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1transaction_1_1_merge_engine_1_1_conflict_resolution_1a2439007a271d91442f000934e2e9148c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_conflict_resolution_1a2439007a271d91442f000934e2e9148c" kindref="member">resolved_value</ref>;<sp/></highlight><highlight class="comment">//<sp/>Chosen<sp/>value<sp/>(nullopt<sp/>=<sp/>delete)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1transaction_1ada1fce812dfe6e6dd9904ce74ebdfed9" kindref="member">json</ref><sp/><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_conflict_resolution_1a5e80d3f73f42bfbcb6a97780c1d89549" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_conflict_resolution" kindref="compound">ConflictResolution</ref><sp/><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_conflict_resolution_1ac536dae0427a8407d41cc5a3bd1f4f8b" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1transaction_1ada1fce812dfe6e6dd9904ce74ebdfed9" kindref="member">json</ref>&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_options" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_options" kindref="compound">MergeOptions</ref><sp/>{</highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_options_1ace7059fd24b786ad652a677a14b21f08" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_merge_engine_1a1e00da813a0497418746a723709cb835" kindref="member">MergeStrategy</ref><sp/><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_options_1ace7059fd24b786ad652a677a14b21f08" kindref="member">strategy</ref><sp/>=<sp/><ref refid="classthemis_1_1transaction_1_1_merge_engine_1a1e00da813a0497418746a723709cb835aa60a6a471c0681e5a49c4f5d00f6bc5a" kindref="member">MergeStrategy::MANUAL</ref>;</highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_options_1a218525916937109f2a8201551465b0a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_options_1a218525916937109f2a8201551465b0a8" kindref="member">dry_run</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Preview<sp/>mode,<sp/>don&apos;t<sp/>apply<sp/>changes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_options_1a2e1e5694c4d7aa97bbb798303e2c4ee0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_options_1a2e1e5694c4d7aa97bbb798303e2c4ee0" kindref="member">fail_on_conflict</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Abort<sp/>if<sp/>conflicts<sp/>detected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_options_1a2a5d1ed55be0345d1df1241a5273046e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;ConflictResolution&gt;<sp/><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_options_1a2a5d1ed55be0345d1df1241a5273046e" kindref="member">manual_resolutions</ref>;<sp/></highlight><highlight class="comment">//<sp/>Provided<sp/>resolutions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1transaction_1ada1fce812dfe6e6dd9904ce74ebdfed9" kindref="member">json</ref><sp/><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_options_1a5308f5099db604eab3c5c804f7d15597" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_options" kindref="compound">MergeOptions</ref><sp/><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_options_1afe1b9f55233f44a0c3138c09826aaadf" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1transaction_1ada1fce812dfe6e6dd9904ce74ebdfed9" kindref="member">json</ref>&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_stats" kindref="compound">MergeStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_stats_1affeefea7c2d7863a4e97b8e99966427e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_stats_1affeefea7c2d7863a4e97b8e99966427e" kindref="member">changes_applied</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_stats_1adb741bb9ba10c6e55d58e2a402fbc6ac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_stats_1adb741bb9ba10c6e55d58e2a402fbc6ac" kindref="member">conflicts_detected</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_stats_1ad1c1800dec0a75b98202cb431867cf4a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_stats_1ad1c1800dec0a75b98202cb431867cf4a" kindref="member">conflicts_auto_resolved</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_stats_1abd30e0399174b79877e90b7b0bd83eb0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_stats_1abd30e0399174b79877e90b7b0bd83eb0" kindref="member">conflicts_manual</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_stats_1ab9f3311dba9dd556c7aa4d8ca69b8b38" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_stats_1ab9f3311dba9dd556c7aa4d8ca69b8b38" kindref="member">has_conflicts</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_stats_1a8fe6fca990a016404b8f7c80cef08cba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_stats_1a8fe6fca990a016404b8f7c80cef08cba" kindref="member">is_fast_forward</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1transaction_1ada1fce812dfe6e6dd9904ce74ebdfed9" kindref="member">json</ref><sp/><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_stats_1a531bcbec37b4e3921d7abaa802ad3b4b" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_stats" kindref="compound">MergeStats</ref><sp/><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_stats_1ae25a0ea1ea8af5013a33da7692d56ea4" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1transaction_1ada1fce812dfe6e6dd9904ce74ebdfed9" kindref="member">json</ref>&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_result" kindref="compound">MergeResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_result_1aa2758295d56663a1e95ae0dc5c1e3b00" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_result_1aa2758295d56663a1e95ae0dc5c1e3b00" kindref="member">success</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_result_1aaf0be1c32cd91d533ea9ab37852f02aa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_result_1aaf0be1c32cd91d533ea9ab37852f02aa" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="126" refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_result_1a90a2d64194c7e02dfb38250ea3f7bd79" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_stats" kindref="compound">MergeStats</ref><sp/><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_result_1a90a2d64194c7e02dfb38250ea3f7bd79" kindref="member">stats</ref>;</highlight></codeline>
+<codeline lineno="127" refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_result_1af2943ca83d4a5aa952006166f02be0eb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;Conflict&gt;<sp/><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_result_1af2943ca83d4a5aa952006166f02be0eb" kindref="member">conflicts</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Unresolved<sp/>conflicts</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128" refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_result_1a06e2e7f5bfbc53f3bb238f1c95a90b2c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;analytics::DiffEngine::Change&gt;<sp/><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_result_1a06e2e7f5bfbc53f3bb238f1c95a90b2c" kindref="member">changes_applied</ref>;<sp/></highlight><highlight class="comment">//<sp/>Applied<sp/>changes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_result_1a249674051dba5715d04f60a3e11e9b6c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_result_1a249674051dba5715d04f60a3e11e9b6c" kindref="member">base_sequence</ref>;</highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_result_1ae27327a2f3781bd04fb2adfcc1e83fe4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_result_1ae27327a2f3781bd04fb2adfcc1e83fe4" kindref="member">source_sequence</ref>;</highlight></codeline>
+<codeline lineno="132" refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_result_1a8f1600659d68672f60b9f01850994968" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_result_1a8f1600659d68672f60b9f01850994968" kindref="member">target_sequence</ref>;</highlight></codeline>
+<codeline lineno="133" refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_result_1ad095eaee61d0b758547496344ccfc634" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_result_1ad095eaee61d0b758547496344ccfc634" kindref="member">result_sequence</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sequence<sp/>after<sp/>merge<sp/>(if<sp/>applied)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1transaction_1ada1fce812dfe6e6dd9904ce74ebdfed9" kindref="member">json</ref><sp/><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_result_1a2e125217eb8baf8538dd8a6d1823408a" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_result" kindref="compound">MergeResult</ref><sp/><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_result_1aa509fe6b005a21650a381c4c53221c12" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1transaction_1ada1fce812dfe6e6dd9904ce74ebdfed9" kindref="member">json</ref>&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1transaction_1_1_merge_engine_1a9f2cf208cf6e3864d2b6de36c156eb2c" kindref="member">MergeEngine</ref>(</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>analytics::DiffEngine&amp;<sp/>diff_engine,</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_snapshot_manager" kindref="compound">SnapshotManager</ref>&amp;<sp/>snapshot_manager,</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Changefeed&amp;<sp/>changefeed</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161" refid="classthemis_1_1transaction_1_1_merge_engine_1a5fc63f131bb7ee69e19db6befac1e2c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_merge_engine_1a5fc63f131bb7ee69e19db6befac1e2c8" kindref="member">~MergeEngine</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Disable<sp/>copy,<sp/>allow<sp/>move</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164" refid="classthemis_1_1transaction_1_1_merge_engine_1aed1805f7024e8f896349d3887a763cc9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_merge_engine_1aed1805f7024e8f896349d3887a763cc9" kindref="member">MergeEngine</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1transaction_1_1_merge_engine_1a9f2cf208cf6e3864d2b6de36c156eb2c" kindref="member">MergeEngine</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="165" refid="classthemis_1_1transaction_1_1_merge_engine_1aa9f8c39f08e19b8f7c60152e9240a834" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_merge_engine_1a9f2cf208cf6e3864d2b6de36c156eb2c" kindref="member">MergeEngine</ref>&amp;<sp/><ref refid="classthemis_1_1transaction_1_1_merge_engine_1aa9f8c39f08e19b8f7c60152e9240a834" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1transaction_1_1_merge_engine_1a9f2cf208cf6e3864d2b6de36c156eb2c" kindref="member">MergeEngine</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="166" refid="classthemis_1_1transaction_1_1_merge_engine_1a4e14007be58b3d9ddc193df30d7edfb7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_merge_engine_1a4e14007be58b3d9ddc193df30d7edfb7" kindref="member">MergeEngine</ref>(<ref refid="classthemis_1_1transaction_1_1_merge_engine_1a9f2cf208cf6e3864d2b6de36c156eb2c" kindref="member">MergeEngine</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="167" refid="classthemis_1_1transaction_1_1_merge_engine_1ae69294a62dc0a94ac2d25a0d22d86b03" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_merge_engine_1a9f2cf208cf6e3864d2b6de36c156eb2c" kindref="member">MergeEngine</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1transaction_1_1_merge_engine_1a9f2cf208cf6e3864d2b6de36c156eb2c" kindref="member">MergeEngine</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_result" kindref="compound">MergeResult</ref><sp/><ref refid="classthemis_1_1transaction_1_1_merge_engine_1ac7f0923177ad2fb6abb3ea7ba5128d0a" kindref="member">merge</ref>(</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>base_sequence,</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>source_sequence,</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>target_sequence</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_result" kindref="compound">MergeResult</ref><sp/><ref refid="classthemis_1_1transaction_1_1_merge_engine_1ac7f0923177ad2fb6abb3ea7ba5128d0a" kindref="member">merge</ref>(</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>base_sequence,</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>source_sequence,</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>target_sequence,</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_options" kindref="compound">MergeOptions</ref>&amp;<sp/>options</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_result" kindref="compound">MergeResult</ref><sp/><ref refid="classthemis_1_1transaction_1_1_merge_engine_1a880035e93b05ca2f3bc806ffe9f37c50" kindref="member">mergeByTag</ref>(</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>base_tag,</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>source_tag,</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>target_tag</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_result" kindref="compound">MergeResult</ref><sp/><ref refid="classthemis_1_1transaction_1_1_merge_engine_1a880035e93b05ca2f3bc806ffe9f37c50" kindref="member">mergeByTag</ref>(</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>base_tag,</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>source_tag,</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>target_tag,</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_options" kindref="compound">MergeOptions</ref>&amp;<sp/>options</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_result" kindref="compound">MergeResult</ref><sp/><ref refid="classthemis_1_1transaction_1_1_merge_engine_1a53c6da4627b0e0c74c8d6938848807de" kindref="member">previewMerge</ref>(</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>base_sequence,</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>source_sequence,</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>target_sequence</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1transaction_1_1_merge_engine_1a3cb0bf3b9f976afb84c59c3c58ae32b6" kindref="member">canFastForward</ref>(</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>base_sequence,</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>source_sequence,</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>target_sequence</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>analytics::DiffEngine&amp;<sp/>diff_engine_;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_snapshot_manager" kindref="compound">SnapshotManager</ref>&amp;<sp/>snapshot_manager_;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>Changefeed&amp;<sp/>changefeed_;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configurable<sp/>limit<sp/>for<sp/>history<sp/>retrieval<sp/>in<sp/>getValueAtSequence()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Can<sp/>be<sp/>adjusted<sp/>based<sp/>on<sp/>expected<sp/>changefeed<sp/>size</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/>constexpr<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>DEFAULT_HISTORY_LIMIT<sp/>=<sp/>10000;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_conflict" kindref="compound">Conflict</ref>&gt;<sp/>detectConflicts(</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>analytics::DiffEngine::DiffResult&amp;<sp/>source_diff,</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>analytics::DiffEngine::DiffResult&amp;<sp/>target_diff,</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>base_sequence</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;analytics::DiffEngine::Change&gt;<sp/>resolveConflicts(</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;<ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_conflict" kindref="compound">Conflict</ref>&gt;&amp;<sp/>conflicts,</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_options" kindref="compound">MergeOptions</ref>&amp;<sp/>options</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>applyChanges(</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;analytics::DiffEngine::Change&gt;&amp;<sp/>changes</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&gt;<sp/>getValueAtSequence(</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>key,</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>sequence</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isAutoResolvable(const<sp/><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_conflict" kindref="compound">Conflict</ref>&amp;<sp/>conflict)<sp/>const;</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;analytics::DiffEngine::Change&gt;<sp/>autoResolve(</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_conflict" kindref="compound">Conflict</ref>&amp;<sp/>conflict</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>const;</highlight></codeline>
+<codeline lineno="319"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>transaction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/transaction/merge_engine.h"/>
+  </compounddef>
+</doxygen>

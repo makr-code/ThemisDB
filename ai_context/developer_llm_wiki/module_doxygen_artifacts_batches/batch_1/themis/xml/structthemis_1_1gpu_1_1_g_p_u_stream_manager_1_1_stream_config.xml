@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_g_p_u_stream_manager_1_1_stream_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUStreamManager::StreamConfig</compoundname>
+    <includes refid="stream__manager_8h" local="no">stream_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_stream_manager_1_1_stream_config_1a4d0919823dc8eb096d5d07d18dd3e851" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::GPUStreamManager::StreamConfig::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::gpu::GPUStreamManager::StreamConfig::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/stream_manager.h" line="64" column="21" bodyfile="include/themis/gpu/stream_manager.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_stream_manager_1_1_stream_config_1a83c4de85ee0cf52cc15b323a75f6d426" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::gpu::GPUStreamManager::StreamConfig::cpu_budget_ms</definition>
+        <argsstring></argsstring>
+        <name>cpu_budget_ms</name>
+        <qualifiedname>themis::gpu::GPUStreamManager::StreamConfig::cpu_budget_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>CPU fallback performance budget in milliseconds. 0 = no enforcement. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/stream_manager.h" line="69" column="18" bodyfile="include/themis/gpu/stream_manager.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_stream_manager_1_1_stream_config_1a4f95a47cd09164fa7eefa37610ee1ddf" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUStreamManager::StreamConfig::auto_fallback</definition>
+        <argsstring></argsstring>
+        <name>auto_fallback</name>
+        <qualifiedname>themis::gpu::GPUStreamManager::StreamConfig::auto_fallback</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>When true, a failed GPU dispatch automatically retries via the CPU fallback backend (null backend → always CPU). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/stream_manager.h" line="74" column="14" bodyfile="include/themis/gpu/stream_manager.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/gpu/stream_manager.h" line="63" column="5" bodyfile="include/themis/gpu/stream_manager.h" bodystart="63" bodyend="75"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_stream_manager_1_1_stream_config_1a4f95a47cd09164fa7eefa37610ee1ddf" prot="public" virt="non-virtual"><scope>themis::gpu::GPUStreamManager::StreamConfig</scope><name>auto_fallback</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_stream_manager_1_1_stream_config_1a83c4de85ee0cf52cc15b323a75f6d426" prot="public" virt="non-virtual"><scope>themis::gpu::GPUStreamManager::StreamConfig</scope><name>cpu_budget_ms</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_stream_manager_1_1_stream_config_1a4d0919823dc8eb096d5d07d18dd3e851" prot="public" virt="non-virtual"><scope>themis::gpu::GPUStreamManager::StreamConfig</scope><name>name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

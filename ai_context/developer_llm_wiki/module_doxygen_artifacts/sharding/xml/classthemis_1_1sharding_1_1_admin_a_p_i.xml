@@ -1,0 +1,722 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_admin_a_p_i" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::AdminAPI</compoundname>
+    <includes refid="admin__api_8h" local="no">admin_api.h</includes>
+    <innerclass refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_config" prot="public">themis::sharding::AdminAPI::Config</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints" prot="public">themis::sharding::AdminAPI::Endpoints</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1sharding_1_1_admin_a_p_i_1a9619466843eaa8e0c1ebe9a3e73dc128" prot="public" static="no">
+        <type>std::function&lt; nlohmann::json(const nlohmann::json &amp;)&gt;</type>
+        <definition>using themis::sharding::AdminAPI::RequestHandler = std::function&lt;nlohmann::json(const nlohmann::json&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>RequestHandler</name>
+        <qualifiedname>themis::sharding::AdminAPI::RequestHandler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_api.h" line="49" column="5" bodyfile="include/sharding/admin_api.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_admin_a_p_i_1a8646dc4f73cc6bfdf4c2d4cd865b0340" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::sharding::AdminAPI::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::sharding::AdminAPI::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_api.h" line="128" column="12" bodyfile="include/sharding/admin_api.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_admin_a_p_i_1af5d58bb7591bf5033635c4b7a37b9649" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1sharding_1_1_admin_a_p_i_1a9619466843eaa8e0c1ebe9a3e73dc128" kindref="member">RequestHandler</ref></type>
+        <definition>RequestHandler themis::sharding::AdminAPI::topology_handler_</definition>
+        <argsstring></argsstring>
+        <name>topology_handler_</name>
+        <qualifiedname>themis::sharding::AdminAPI::topology_handler_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_api.h" line="129" column="20" bodyfile="include/sharding/admin_api.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_admin_a_p_i_1ac4c128189225d6a3520f1ce671a111da" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1sharding_1_1_admin_a_p_i_1a9619466843eaa8e0c1ebe9a3e73dc128" kindref="member">RequestHandler</ref></type>
+        <definition>RequestHandler themis::sharding::AdminAPI::rebalance_handler_</definition>
+        <argsstring></argsstring>
+        <name>rebalance_handler_</name>
+        <qualifiedname>themis::sharding::AdminAPI::rebalance_handler_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_api.h" line="130" column="20" bodyfile="include/sharding/admin_api.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_admin_a_p_i_1a0f72c3ee6febe8034981cb777a86edab" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1sharding_1_1_admin_a_p_i_1a9619466843eaa8e0c1ebe9a3e73dc128" kindref="member">RequestHandler</ref></type>
+        <definition>RequestHandler themis::sharding::AdminAPI::health_handler_</definition>
+        <argsstring></argsstring>
+        <name>health_handler_</name>
+        <qualifiedname>themis::sharding::AdminAPI::health_handler_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_api.h" line="131" column="20" bodyfile="include/sharding/admin_api.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_admin_a_p_i_1af8d8e1aa08e427993b66f151a7e158b9" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1sharding_1_1_admin_a_p_i_1a9619466843eaa8e0c1ebe9a3e73dc128" kindref="member">RequestHandler</ref></type>
+        <definition>RequestHandler themis::sharding::AdminAPI::stats_handler_</definition>
+        <argsstring></argsstring>
+        <name>stats_handler_</name>
+        <qualifiedname>themis::sharding::AdminAPI::stats_handler_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_api.h" line="132" column="20" bodyfile="include/sharding/admin_api.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_admin_a_p_i_1a60a828782047677895373c8cfd22fdf9" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1sharding_1_1_admin_a_p_i_1a9619466843eaa8e0c1ebe9a3e73dc128" kindref="member">RequestHandler</ref></type>
+        <definition>RequestHandler themis::sharding::AdminAPI::repair_handler_</definition>
+        <argsstring></argsstring>
+        <name>repair_handler_</name>
+        <qualifiedname>themis::sharding::AdminAPI::repair_handler_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_api.h" line="133" column="20" bodyfile="include/sharding/admin_api.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_admin_a_p_i_1acc52e1395562ebe4ba87ad96eda55dc1" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1sharding_1_1_admin_a_p_i_1a9619466843eaa8e0c1ebe9a3e73dc128" kindref="member">RequestHandler</ref></type>
+        <definition>RequestHandler themis::sharding::AdminAPI::migrate_hardware_handler_</definition>
+        <argsstring></argsstring>
+        <name>migrate_hardware_handler_</name>
+        <qualifiedname>themis::sharding::AdminAPI::migrate_hardware_handler_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_api.h" line="134" column="20" bodyfile="include/sharding/admin_api.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_admin_a_p_i_1ad3d0e158bea880b4f58cadf04e74d747" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_shard_repair_engine" kindref="compound">ShardRepairEngine</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ShardRepairEngine&gt; themis::sharding::AdminAPI::repair_engine_</definition>
+        <argsstring></argsstring>
+        <name>repair_engine_</name>
+        <qualifiedname>themis::sharding::AdminAPI::repair_engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_api.h" line="135" column="21" bodyfile="include/sharding/admin_api.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_admin_a_p_i_1a93ceded9ead2299c948cd807ca1b6090" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_hardware_migration_manager" kindref="compound">HardwareMigrationManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;HardwareMigrationManager&gt; themis::sharding::AdminAPI::migration_manager_</definition>
+        <argsstring></argsstring>
+        <name>migration_manager_</name>
+        <qualifiedname>themis::sharding::AdminAPI::migration_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_api.h" line="136" column="21" bodyfile="include/sharding/admin_api.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_admin_a_p_i_1a99090deaa9ff750b94cc835d2a0ce146" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::AdminAPI::AdminAPI</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>AdminAPI</name>
+        <qualifiedname>themis::sharding::AdminAPI::AdminAPI</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_api.h" line="51" column="14" bodyfile="src/sharding/admin_api.cpp" bodystart="29" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_admin_a_p_i_1abfb7c9db4248b8e7b469dcb1e4729da5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::AdminAPI::~AdminAPI</definition>
+        <argsstring>()=default</argsstring>
+        <name>~AdminAPI</name>
+        <qualifiedname>themis::sharding::AdminAPI::~AdminAPI</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_api.h" line="52" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_admin_a_p_i_1a9e7f07db3e8a19954a56cc54873d2dcf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::AdminAPI::registerTopologyHandler</definition>
+        <argsstring>(RequestHandler handler)</argsstring>
+        <name>registerTopologyHandler</name>
+        <qualifiedname>themis::sharding::AdminAPI::registerTopologyHandler</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_admin_a_p_i_1a9619466843eaa8e0c1ebe9a3e73dc128" kindref="member">RequestHandler</ref></type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+<para>Register Topology Handler. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements registerTopologyHandler without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_api.h" line="55" column="10" bodyfile="src/sharding/admin_api.cpp" bodystart="38" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_admin_a_p_i_1a193d0a271dc06d3223f46cae9af60220" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::AdminAPI::registerRebalanceHandler</definition>
+        <argsstring>(RequestHandler handler)</argsstring>
+        <name>registerRebalanceHandler</name>
+        <qualifiedname>themis::sharding::AdminAPI::registerRebalanceHandler</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_admin_a_p_i_1a9619466843eaa8e0c1ebe9a3e73dc128" kindref="member">RequestHandler</ref></type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+<para>Register Rebalance Handler. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements registerRebalanceHandler without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_api.h" line="56" column="10" bodyfile="src/sharding/admin_api.cpp" bodystart="47" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_admin_a_p_i_1a59d70a276de8e4b44a163340497e130d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::AdminAPI::registerHealthHandler</definition>
+        <argsstring>(RequestHandler handler)</argsstring>
+        <name>registerHealthHandler</name>
+        <qualifiedname>themis::sharding::AdminAPI::registerHealthHandler</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_admin_a_p_i_1a9619466843eaa8e0c1ebe9a3e73dc128" kindref="member">RequestHandler</ref></type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+<para>Register Health Handler. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements registerHealthHandler without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_api.h" line="57" column="10" bodyfile="src/sharding/admin_api.cpp" bodystart="56" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_admin_a_p_i_1a30e4b5ea5684a038db9b4491ec93d4f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::AdminAPI::registerStatsHandler</definition>
+        <argsstring>(RequestHandler handler)</argsstring>
+        <name>registerStatsHandler</name>
+        <qualifiedname>themis::sharding::AdminAPI::registerStatsHandler</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_admin_a_p_i_1a9619466843eaa8e0c1ebe9a3e73dc128" kindref="member">RequestHandler</ref></type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+<para>Register Stats Handler. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements registerStatsHandler without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_api.h" line="58" column="10" bodyfile="src/sharding/admin_api.cpp" bodystart="65" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_admin_a_p_i_1affdcee9289d101504c673c325d20a8b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::AdminAPI::registerRepairHandler</definition>
+        <argsstring>(RequestHandler handler)</argsstring>
+        <name>registerRepairHandler</name>
+        <qualifiedname>themis::sharding::AdminAPI::registerRepairHandler</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_admin_a_p_i_1a9619466843eaa8e0c1ebe9a3e73dc128" kindref="member">RequestHandler</ref></type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+<para>Register handler for repair / anti-entropy operations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register Repair Handler.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements registerRepairHandler without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_api.h" line="60" column="10" bodyfile="src/sharding/admin_api.cpp" bodystart="74" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_admin_a_p_i_1ab4d0bb5691c592a36df2b714757eccd2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::AdminAPI::setRepairEngine</definition>
+        <argsstring>(std::shared_ptr&lt; ShardRepairEngine &gt; engine)</argsstring>
+        <name>setRepairEngine</name>
+        <qualifiedname>themis::sharding::AdminAPI::setRepairEngine</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_shard_repair_engine" kindref="compound">ShardRepairEngine</ref> &gt;</type>
+          <declname>engine</declname>
+        </param>
+        <briefdescription>
+<para>Set Repair Engine. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Attach a <ref refid="classthemis_1_1sharding_1_1_shard_repair_engine" kindref="compound">ShardRepairEngine</ref> so that GET /admin/health automatically enriches its response with per-shard repair health reports. The engine is optional; without it the health response is unchanged.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_api.h" line="67" column="10" bodyfile="src/sharding/admin_api.cpp" bodystart="101" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_admin_a_p_i_1a9f57515f4e57d0d04a3520fdc8e5de69" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::AdminAPI::handleRequest</definition>
+        <argsstring>(const std::string &amp;method, const std::string &amp;path, const nlohmann::json &amp;body, const std::string &amp;operator_cert)</argsstring>
+        <name>handleRequest</name>
+        <qualifiedname>themis::sharding::AdminAPI::handleRequest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>method</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operator_cert</declname>
+        </param>
+        <briefdescription>
+<para>Handle Request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">operator_cert</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: authorizeRequest(), createErrorResponse(), auditLog(), topology_handler_(), find(), rebalance_handler_(), health_handler_(), buildRepairHealthJson(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_api.h" line="70" column="20" bodyfile="src/sharding/admin_api.cpp" bodystart="114" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_admin_a_p_i_1a6f3c5af409eb833bca64efcd6fbb32f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::AdminAPI::setMigrationManager</definition>
+        <argsstring>(std::shared_ptr&lt; HardwareMigrationManager &gt; mgr)</argsstring>
+        <name>setMigrationManager</name>
+        <qualifiedname>themis::sharding::AdminAPI::setMigrationManager</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_hardware_migration_manager" kindref="compound">HardwareMigrationManager</ref> &gt;</type>
+          <declname>mgr</declname>
+        </param>
+        <briefdescription>
+<para>Attach a <ref refid="classthemis_1_1sharding_1_1_hardware_migration_manager" kindref="compound">HardwareMigrationManager</ref> so that <computeroutput>POST /api/v1/shards/{id}/migrate-hardware</computeroutput> is handled natively. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Migration Manager.</para>
+<para>Without a manager set, the endpoint returns 501 Not Implemented. The manager must outlive this <ref refid="classthemis_1_1sharding_1_1_admin_a_p_i" kindref="compound">AdminAPI</ref> instance (or be kept alive via the shared_ptr).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_api.h" line="116" column="10" bodyfile="src/sharding/admin_api.cpp" bodystart="92" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_admin_a_p_i_1a5751563526ec25386599b7588bb2308e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::AdminAPI::registerMigrateHardwareHandler</definition>
+        <argsstring>(RequestHandler handler)</argsstring>
+        <name>registerMigrateHardwareHandler</name>
+        <qualifiedname>themis::sharding::AdminAPI::registerMigrateHardwareHandler</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_admin_a_p_i_1a9619466843eaa8e0c1ebe9a3e73dc128" kindref="member">RequestHandler</ref></type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+<para>Register a custom handler for migrate-hardware requests. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register Migrate Hardware Handler.</para>
+<para>Used for testing / custom integration. Overrides the built-in <computeroutput><ref refid="classthemis_1_1sharding_1_1_hardware_migration_manager" kindref="compound">HardwareMigrationManager</ref></computeroutput> path when set. The body will contain at minimum <computeroutput>{"shard_id": "...", "new_endpoint": "..."}</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements registerMigrateHardwareHandler without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_api.h" line="125" column="10" bodyfile="src/sharding/admin_api.cpp" bodystart="83" bodyend="85"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_admin_a_p_i_1a1656c3cfcae49daf6be5ba041c9bd828" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::AdminAPI::authorizeRequest</definition>
+        <argsstring>(const std::string &amp;operator_cert)</argsstring>
+        <name>authorizeRequest</name>
+        <qualifiedname>themis::sharding::AdminAPI::authorizeRequest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operator_cert</declname>
+        </param>
+        <briefdescription>
+<para>Authorize Request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">operator_cert</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), BIO_new_mem_buf(), data(), size(), PEM_read_bio_X509(), BIO_free(), X509_cmp_current_time(), X509_get0_notBefore(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_api.h" line="138" column="10" bodyfile="src/sharding/admin_api.cpp" bodystart="206" bodyend="301"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_admin_a_p_i_1a1a7e98f3b0d6f3be914896176e9a2408" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::AdminAPI::auditLog</definition>
+        <argsstring>(const std::string &amp;method, const std::string &amp;path, const std::string &amp;operator_cert)</argsstring>
+        <name>auditLog</name>
+        <qualifiedname>themis::sharding::AdminAPI::auditLog</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>method</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operator_cert</declname>
+        </param>
+        <briefdescription>
+<para>Audit Log. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">operator_cert</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::chrono::system_clock::now(), std::chrono::system_clock::to_time_t(), log_file(), is_open(), std::put_time(), std::localtime(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_api.h" line="139" column="10" bodyfile="src/sharding/admin_api.cpp" bodystart="310" bodyend="326"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_admin_a_p_i_1abb95e677e92b97ad398b3855e3b92d76" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::AdminAPI::createErrorResponse</definition>
+        <argsstring>(int code, const std::string &amp;message)</argsstring>
+        <name>createErrorResponse</name>
+        <qualifiedname>themis::sharding::AdminAPI::createErrorResponse</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Create Error Response. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createErrorResponse without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_api.h" line="140" column="20" bodyfile="src/sharding/admin_api.cpp" bodystart="335" bodyend="343"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_admin_a_p_i_1a3bb2d8a5f5243ec6fd5ab1002557fdae" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::AdminAPI::buildRepairHealthJson</definition>
+        <argsstring>() const</argsstring>
+        <name>buildRepairHealthJson</name>
+        <qualifiedname>themis::sharding::AdminAPI::buildRepairHealthJson</qualifiedname>
+        <briefdescription>
+<para>Build the repair health section for GET /admin/health. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_api.h" line="142" column="20" bodyfile="src/sharding/admin_api.cpp" bodystart="345" bodyend="394"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_admin_a_p_i_1a5d7911f2e686941f1792df0dbf0ac38d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::AdminAPI::handleMigrateHardware</definition>
+        <argsstring>(const std::string &amp;shard_id, const nlohmann::json &amp;body)</argsstring>
+        <name>handleMigrateHardware</name>
+        <qualifiedname>themis::sharding::AdminAPI::handleMigrateHardware</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+<para>Handle Migrate Hardware. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: migrate_hardware_handler_(), createErrorResponse(), empty(), contains(), is_string(), replaceEndpoint(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_api.h" line="143" column="20" bodyfile="src/sharding/admin_api.cpp" bodystart="403" bodyend="447"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Admin API for cluster management operations.</para>
+<para>Provides RESTful HTTP endpoints for:<itemizedlist>
+<listitem><para>Topology management (add/remove shards)</para>
+</listitem><listitem><para>Rebalancing operations (trigger/monitor)</para>
+</listitem><listitem><para>Health monitoring (includes per-shard repair status when <ref refid="classthemis_1_1sharding_1_1_shard_repair_engine" kindref="compound">ShardRepairEngine</ref> is set)</para>
+</listitem><listitem><para>Routing statistics</para>
+</listitem><listitem><para>Shard repair / anti-entropy (rebuild triggers &amp; status)</para>
+</listitem></itemizedlist>
+</para>
+<para>All endpoints require operator certificate for authorization. </para>
+    </detaileddescription>
+    <location file="include/sharding/admin_api.h" line="38" column="1" bodyfile="include/sharding/admin_api.h" bodystart="38" bodyend="145"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_admin_a_p_i_1a99090deaa9ff750b94cc835d2a0ce146" prot="public" virt="non-virtual"><scope>themis::sharding::AdminAPI</scope><name>AdminAPI</name></member>
+      <member refid="classthemis_1_1sharding_1_1_admin_a_p_i_1a1a7e98f3b0d6f3be914896176e9a2408" prot="private" virt="non-virtual"><scope>themis::sharding::AdminAPI</scope><name>auditLog</name></member>
+      <member refid="classthemis_1_1sharding_1_1_admin_a_p_i_1a1656c3cfcae49daf6be5ba041c9bd828" prot="private" virt="non-virtual"><scope>themis::sharding::AdminAPI</scope><name>authorizeRequest</name></member>
+      <member refid="classthemis_1_1sharding_1_1_admin_a_p_i_1a3bb2d8a5f5243ec6fd5ab1002557fdae" prot="private" virt="non-virtual"><scope>themis::sharding::AdminAPI</scope><name>buildRepairHealthJson</name></member>
+      <member refid="classthemis_1_1sharding_1_1_admin_a_p_i_1a8646dc4f73cc6bfdf4c2d4cd865b0340" prot="private" virt="non-virtual"><scope>themis::sharding::AdminAPI</scope><name>config_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_admin_a_p_i_1abb95e677e92b97ad398b3855e3b92d76" prot="private" virt="non-virtual"><scope>themis::sharding::AdminAPI</scope><name>createErrorResponse</name></member>
+      <member refid="classthemis_1_1sharding_1_1_admin_a_p_i_1a5d7911f2e686941f1792df0dbf0ac38d" prot="private" virt="non-virtual"><scope>themis::sharding::AdminAPI</scope><name>handleMigrateHardware</name></member>
+      <member refid="classthemis_1_1sharding_1_1_admin_a_p_i_1a9f57515f4e57d0d04a3520fdc8e5de69" prot="public" virt="non-virtual"><scope>themis::sharding::AdminAPI</scope><name>handleRequest</name></member>
+      <member refid="classthemis_1_1sharding_1_1_admin_a_p_i_1a0f72c3ee6febe8034981cb777a86edab" prot="private" virt="non-virtual"><scope>themis::sharding::AdminAPI</scope><name>health_handler_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_admin_a_p_i_1acc52e1395562ebe4ba87ad96eda55dc1" prot="private" virt="non-virtual"><scope>themis::sharding::AdminAPI</scope><name>migrate_hardware_handler_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_admin_a_p_i_1a93ceded9ead2299c948cd807ca1b6090" prot="private" virt="non-virtual"><scope>themis::sharding::AdminAPI</scope><name>migration_manager_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_admin_a_p_i_1ac4c128189225d6a3520f1ce671a111da" prot="private" virt="non-virtual"><scope>themis::sharding::AdminAPI</scope><name>rebalance_handler_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_admin_a_p_i_1a59d70a276de8e4b44a163340497e130d" prot="public" virt="non-virtual"><scope>themis::sharding::AdminAPI</scope><name>registerHealthHandler</name></member>
+      <member refid="classthemis_1_1sharding_1_1_admin_a_p_i_1a5751563526ec25386599b7588bb2308e" prot="public" virt="non-virtual"><scope>themis::sharding::AdminAPI</scope><name>registerMigrateHardwareHandler</name></member>
+      <member refid="classthemis_1_1sharding_1_1_admin_a_p_i_1a193d0a271dc06d3223f46cae9af60220" prot="public" virt="non-virtual"><scope>themis::sharding::AdminAPI</scope><name>registerRebalanceHandler</name></member>
+      <member refid="classthemis_1_1sharding_1_1_admin_a_p_i_1affdcee9289d101504c673c325d20a8b8" prot="public" virt="non-virtual"><scope>themis::sharding::AdminAPI</scope><name>registerRepairHandler</name></member>
+      <member refid="classthemis_1_1sharding_1_1_admin_a_p_i_1a30e4b5ea5684a038db9b4491ec93d4f7" prot="public" virt="non-virtual"><scope>themis::sharding::AdminAPI</scope><name>registerStatsHandler</name></member>
+      <member refid="classthemis_1_1sharding_1_1_admin_a_p_i_1a9e7f07db3e8a19954a56cc54873d2dcf" prot="public" virt="non-virtual"><scope>themis::sharding::AdminAPI</scope><name>registerTopologyHandler</name></member>
+      <member refid="classthemis_1_1sharding_1_1_admin_a_p_i_1ad3d0e158bea880b4f58cadf04e74d747" prot="private" virt="non-virtual"><scope>themis::sharding::AdminAPI</scope><name>repair_engine_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_admin_a_p_i_1a60a828782047677895373c8cfd22fdf9" prot="private" virt="non-virtual"><scope>themis::sharding::AdminAPI</scope><name>repair_handler_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_admin_a_p_i_1a9619466843eaa8e0c1ebe9a3e73dc128" prot="public" virt="non-virtual"><scope>themis::sharding::AdminAPI</scope><name>RequestHandler</name></member>
+      <member refid="classthemis_1_1sharding_1_1_admin_a_p_i_1a6f3c5af409eb833bca64efcd6fbb32f5" prot="public" virt="non-virtual"><scope>themis::sharding::AdminAPI</scope><name>setMigrationManager</name></member>
+      <member refid="classthemis_1_1sharding_1_1_admin_a_p_i_1ab4d0bb5691c592a36df2b714757eccd2" prot="public" virt="non-virtual"><scope>themis::sharding::AdminAPI</scope><name>setRepairEngine</name></member>
+      <member refid="classthemis_1_1sharding_1_1_admin_a_p_i_1af8d8e1aa08e427993b66f151a7e158b9" prot="private" virt="non-virtual"><scope>themis::sharding::AdminAPI</scope><name>stats_handler_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_admin_a_p_i_1af5d58bb7591bf5033635c4b7a37b9649" prot="private" virt="non-virtual"><scope>themis::sharding::AdminAPI</scope><name>topology_handler_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_admin_a_p_i_1abfb7c9db4248b8e7b469dcb1e4729da5" prot="public" virt="non-virtual"><scope>themis::sharding::AdminAPI</scope><name>~AdminAPI</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

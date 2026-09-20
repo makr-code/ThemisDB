@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__tensor_1_1_storage_strategy_recommendation" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::StorageStrategyRecommendation</compoundname>
+    <includes refid="tensor__storage__strategy_8h" local="no">tensor_storage_strategy.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_storage_strategy_recommendation_1ae8d0e6232762dcf8e60ee01d7d85a767" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1distributed__tensor_1aeb000aa969dcae0497341269cc4d42fc" kindref="member">QuantizationLevel</ref></type>
+        <definition>QuantizationLevel themis::distributed_tensor::StorageStrategyRecommendation::quantization_level</definition>
+        <argsstring></argsstring>
+        <name>quantization_level</name>
+        <qualifiedname>themis::distributed_tensor::StorageStrategyRecommendation::quantization_level</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1distributed__tensor_1aeb000aa969dcae0497341269cc4d42fca44ad4ef5a76e6aa6fb3e3fa079a54fda" kindref="member">QuantizationLevel::F32</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_storage_strategy.h" line="305" column="23" bodyfile="include/distributed_tensor/tensor_storage_strategy.h" bodystart="305" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_storage_strategy_recommendation_1afd0da7939619d988db9671c654159d8f" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1distributed__tensor_1aca9d4a839984f27bfb59da06ea694481" kindref="member">LoadMechanism</ref></type>
+        <definition>LoadMechanism themis::distributed_tensor::StorageStrategyRecommendation::load_mechanism</definition>
+        <argsstring></argsstring>
+        <name>load_mechanism</name>
+        <qualifiedname>themis::distributed_tensor::StorageStrategyRecommendation::load_mechanism</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1distributed__tensor_1aca9d4a839984f27bfb59da06ea694481a95902dc9c7ec8429f003c25370819c8d" kindref="member">LoadMechanism::MMAP_ZERO_COPY</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_storage_strategy.h" line="307" column="19" bodyfile="include/distributed_tensor/tensor_storage_strategy.h" bodystart="307" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_storage_strategy_recommendation_1a70971e2766dc481e5a028d31396ae5f4" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::StorageStrategyRecommendation::estimated_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>estimated_size_bytes</name>
+        <qualifiedname>themis::distributed_tensor::StorageStrategyRecommendation::estimated_size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_storage_strategy.h" line="309" column="14" bodyfile="include/distributed_tensor/tensor_storage_strategy.h" bodystart="309" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_storage_strategy_recommendation_1af33eeb0cd23d7413eb4cdb453417246b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::distributed_tensor::StorageStrategyRecommendation::compression_ratio</definition>
+        <argsstring></argsstring>
+        <name>compression_ratio</name>
+        <qualifiedname>themis::distributed_tensor::StorageStrategyRecommendation::compression_ratio</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_storage_strategy.h" line="311" column="12" bodyfile="include/distributed_tensor/tensor_storage_strategy.h" bodystart="311" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_storage_strategy_recommendation_1a6cbd6cca1aa0695697d229b123288dab" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::distributed_tensor::StorageStrategyRecommendation::estimated_l2_error</definition>
+        <argsstring></argsstring>
+        <name>estimated_l2_error</name>
+        <qualifiedname>themis::distributed_tensor::StorageStrategyRecommendation::estimated_l2_error</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_storage_strategy.h" line="313" column="12" bodyfile="include/distributed_tensor/tensor_storage_strategy.h" bodystart="313" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_storage_strategy_recommendation_1ae02d9d0cac41cdd41d384d8c51d42c0d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::StorageStrategyRecommendation::summary</definition>
+        <argsstring></argsstring>
+        <name>summary</name>
+        <qualifiedname>themis::distributed_tensor::StorageStrategyRecommendation::summary</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_storage_strategy.h" line="315" column="17" bodyfile="include/distributed_tensor/tensor_storage_strategy.h" bodystart="315" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_storage_strategy_recommendation_1aa604947ec49d5587393bbd66e8ea3d13" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::distributed_tensor::StorageStrategyRecommendation::caveats</definition>
+        <argsstring></argsstring>
+        <name>caveats</name>
+        <qualifiedname>themis::distributed_tensor::StorageStrategyRecommendation::caveats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_storage_strategy.h" line="317" column="17" bodyfile="include/distributed_tensor/tensor_storage_strategy.h" bodystart="317" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/distributed_tensor/tensor_storage_strategy.h" line="304" column="1" bodyfile="include/distributed_tensor/tensor_storage_strategy.h" bodystart="304" bodyend="318"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__tensor_1_1_storage_strategy_recommendation_1aa604947ec49d5587393bbd66e8ea3d13" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StorageStrategyRecommendation</scope><name>caveats</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_storage_strategy_recommendation_1af33eeb0cd23d7413eb4cdb453417246b" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StorageStrategyRecommendation</scope><name>compression_ratio</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_storage_strategy_recommendation_1a6cbd6cca1aa0695697d229b123288dab" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StorageStrategyRecommendation</scope><name>estimated_l2_error</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_storage_strategy_recommendation_1a70971e2766dc481e5a028d31396ae5f4" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StorageStrategyRecommendation</scope><name>estimated_size_bytes</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_storage_strategy_recommendation_1afd0da7939619d988db9671c654159d8f" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StorageStrategyRecommendation</scope><name>load_mechanism</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_storage_strategy_recommendation_1ae8d0e6232762dcf8e60ee01d7d85a767" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StorageStrategyRecommendation</scope><name>quantization_level</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_storage_strategy_recommendation_1ae02d9d0cac41cdd41d384d8c51d42c0d" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StorageStrategyRecommendation</scope><name>summary</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

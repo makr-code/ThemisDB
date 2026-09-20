@@ -1,0 +1,255 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1scraper_1_1_burst_crawl_controller" kind="class" language="C++" prot="public">
+    <compoundname>themis::scraper::BurstCrawlController</compoundname>
+    <includes refid="scraper__burst__controller_8h" local="no">scraper_burst_controller.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1scraper_1_1_burst_crawl_controller_1a018eead19ba5819d9f87b2a1af3b098b" prot="private" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::scraper::BurstCrawlController::max_tokens_</definition>
+        <argsstring></argsstring>
+        <name>max_tokens_</name>
+        <qualifiedname>themis::scraper::BurstCrawlController::max_tokens_</qualifiedname>
+        <briefdescription>
+<para>Bucket capacity — maximum number of tokens. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_burst_controller.h" line="176" column="14" bodyfile="include/scraper/scraper_burst_controller.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scraper_1_1_burst_crawl_controller_1a269039b9992b130cc3348f5926d02bdb" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::scraper::BurstCrawlController::refill_rate_per_sec_</definition>
+        <argsstring></argsstring>
+        <name>refill_rate_per_sec_</name>
+        <qualifiedname>themis::scraper::BurstCrawlController::refill_rate_per_sec_</qualifiedname>
+        <briefdescription>
+<para>Tokens replenished per second. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_burst_controller.h" line="179" column="12" bodyfile="include/scraper/scraper_burst_controller.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scraper_1_1_burst_crawl_controller_1aef33c0240f5a3a451e38ba91ee57f1fc" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint32_t &gt;</type>
+        <definition>std::atomic&lt;uint32_t&gt; themis::scraper::BurstCrawlController::current_tokens_</definition>
+        <argsstring></argsstring>
+        <name>current_tokens_</name>
+        <qualifiedname>themis::scraper::BurstCrawlController::current_tokens_</qualifiedname>
+        <briefdescription>
+<para>Current available tokens. Decremented atomically by <ref refid="classthemis_1_1scraper_1_1_burst_crawl_controller_1aa76f79eaadd04810a02181dcaadf7be9" kindref="member">tryAcquire()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_burst_controller.h" line="182" column="17" bodyfile="include/scraper/scraper_burst_controller.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scraper_1_1_burst_crawl_controller_1a8a5a44a78a0c74e6d606fbca099af971" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::scraper::BurstCrawlController::last_refill_</definition>
+        <argsstring></argsstring>
+        <name>last_refill_</name>
+        <qualifiedname>themis::scraper::BurstCrawlController::last_refill_</qualifiedname>
+        <briefdescription>
+<para>Timestamp of the most recent refill pass. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_burst_controller.h" line="185" column="43" bodyfile="include/scraper/scraper_burst_controller.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scraper_1_1_burst_crawl_controller_1a544b3c6c2df9f4c228e6d8c42b64aabc" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::scraper::BurstCrawlController::refill_mu_</definition>
+        <argsstring></argsstring>
+        <name>refill_mu_</name>
+        <qualifiedname>themis::scraper::BurstCrawlController::refill_mu_</qualifiedname>
+        <briefdescription>
+<para>Serialises elapsed-time calculation and last_refill_ updates. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_burst_controller.h" line="188" column="24" bodyfile="include/scraper/scraper_burst_controller.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_burst_crawl_controller_1a973b7857e85046cf450dd7a26ff49988" prot="public" static="no" const="no" explicit="yes" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::scraper::BurstCrawlController::BurstCrawlController</definition>
+        <argsstring>(uint32_t max_tokens, double refill_rate_per_sec) noexcept</argsstring>
+        <name>BurstCrawlController</name>
+        <qualifiedname>themis::scraper::BurstCrawlController::BurstCrawlController</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>max_tokens</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>refill_rate_per_sec</declname>
+        </param>
+        <briefdescription>
+<para>Construct a fully-charged token bucket. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>max_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum bucket capacity (must be &gt; 0). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>refill_rate_per_sec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tokens restored per second (must be &gt;= 0). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_burst_controller.h" line="53" column="14" bodyfile="include/scraper/scraper_burst_controller.h" bodystart="53" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_burst_crawl_controller_1aaeb97babab57df138d0d9c9a8511df01" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scraper::BurstCrawlController::BurstCrawlController</definition>
+        <argsstring>(const BurstCrawlController &amp;)=delete</argsstring>
+        <name>BurstCrawlController</name>
+        <qualifiedname>themis::scraper::BurstCrawlController::BurstCrawlController</qualifiedname>
+        <param>
+          <type>const BurstCrawlController &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_burst_controller.h" line="61" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_burst_crawl_controller_1a3d0f13577c71766ac2718dbb632bf257" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1scraper_1_1_burst_crawl_controller_1a973b7857e85046cf450dd7a26ff49988" kindref="member">BurstCrawlController</ref> &amp;</type>
+        <definition>BurstCrawlController &amp; themis::scraper::BurstCrawlController::operator=</definition>
+        <argsstring>(const BurstCrawlController &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::scraper::BurstCrawlController::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1scraper_1_1_burst_crawl_controller_1a973b7857e85046cf450dd7a26ff49988" kindref="member">BurstCrawlController</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_burst_controller.h" line="62" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_burst_crawl_controller_1aa76f79eaadd04810a02181dcaadf7be9" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::scraper::BurstCrawlController::tryAcquire</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>tryAcquire</name>
+        <qualifiedname>themis::scraper::BurstCrawlController::tryAcquire</qualifiedname>
+        <briefdescription>
+<para>Attempt to consume one token from the bucket. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Performs a refill pass for elapsed time, then tries an atomic compare-exchange decrement. Never blocks.</para>
+<para><simplesect kind="return"><para>true A token was successfully consumed; the caller may proceed. </para>
+</simplesect>
+<simplesect kind="return"><para>false The bucket is exhausted; the caller should skip/defer. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_burst_controller.h" line="77" column="10" bodyfile="include/scraper/scraper_burst_controller.h" bodystart="77" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_burst_crawl_controller_1abf99f988b305bf9547bf9f6346e8ea73" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::scraper::BurstCrawlController::burstUtilization</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>burstUtilization</name>
+        <qualifiedname>themis::scraper::BurstCrawlController::burstUtilization</qualifiedname>
+        <briefdescription>
+<para>Current fill level as a fraction of capacity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Value in [0.0, 1.0]: 0.0 = empty, 1.0 = full. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_burst_controller.h" line="99" column="13" bodyfile="include/scraper/scraper_burst_controller.h" bodystart="99" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_burst_crawl_controller_1ac47e175558835107e3f2e602543abf29" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::scraper::BurstCrawlController::reset</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::scraper::BurstCrawlController::reset</qualifiedname>
+        <briefdescription>
+<para>Restore the bucket to full capacity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Typically called between crawl runs to reset rate-limit state. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_burst_controller.h" line="114" column="10" bodyfile="include/scraper/scraper_burst_controller.h" bodystart="114" bodyend="118"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_burst_crawl_controller_1aebad36f353a25f2d129a40a457de612a" prot="private" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::scraper::BurstCrawlController::refill</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>refill</name>
+        <qualifiedname>themis::scraper::BurstCrawlController::refill</qualifiedname>
+        <briefdescription>
+<para>Top-up the bucket for time elapsed since the last refill. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Protected by <computeroutput>refill_mu_</computeroutput> to serialise the elapsed-time calculation and <computeroutput>last_refill_</computeroutput> update. The actual token store is still atomic so that <computeroutput><ref refid="classthemis_1_1scraper_1_1_burst_crawl_controller_1aa76f79eaadd04810a02181dcaadf7be9" kindref="member">tryAcquire()</ref></computeroutput> CAS loops remain correct even if multiple threads race through this path. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_burst_controller.h" line="133" column="10" bodyfile="include/scraper/scraper_burst_controller.h" bodystart="133" bodyend="169"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Fail-fast token-bucket rate limiter for URL dispatch. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Thread-safe: <computeroutput><ref refid="classthemis_1_1scraper_1_1_burst_crawl_controller_1aa76f79eaadd04810a02181dcaadf7be9" kindref="member">tryAcquire()</ref></computeroutput> and <computeroutput><ref refid="classthemis_1_1scraper_1_1_burst_crawl_controller_1abf99f988b305bf9547bf9f6346e8ea73" kindref="member">burstUtilization()</ref></computeroutput> may be called concurrently from multiple threads. <computeroutput><ref refid="classthemis_1_1scraper_1_1_burst_crawl_controller_1ac47e175558835107e3f2e602543abf29" kindref="member">reset()</ref></computeroutput> serialises via the same refill mutex. </para>
+    </detaileddescription>
+    <location file="include/scraper/scraper_burst_controller.h" line="41" column="1" bodyfile="include/scraper/scraper_burst_controller.h" bodystart="41" bodyend="189"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1scraper_1_1_burst_crawl_controller_1a973b7857e85046cf450dd7a26ff49988" prot="public" virt="non-virtual"><scope>themis::scraper::BurstCrawlController</scope><name>BurstCrawlController</name></member>
+      <member refid="classthemis_1_1scraper_1_1_burst_crawl_controller_1aaeb97babab57df138d0d9c9a8511df01" prot="public" virt="non-virtual"><scope>themis::scraper::BurstCrawlController</scope><name>BurstCrawlController</name></member>
+      <member refid="classthemis_1_1scraper_1_1_burst_crawl_controller_1abf99f988b305bf9547bf9f6346e8ea73" prot="public" virt="non-virtual"><scope>themis::scraper::BurstCrawlController</scope><name>burstUtilization</name></member>
+      <member refid="classthemis_1_1scraper_1_1_burst_crawl_controller_1aef33c0240f5a3a451e38ba91ee57f1fc" prot="private" virt="non-virtual"><scope>themis::scraper::BurstCrawlController</scope><name>current_tokens_</name></member>
+      <member refid="classthemis_1_1scraper_1_1_burst_crawl_controller_1a8a5a44a78a0c74e6d606fbca099af971" prot="private" virt="non-virtual"><scope>themis::scraper::BurstCrawlController</scope><name>last_refill_</name></member>
+      <member refid="classthemis_1_1scraper_1_1_burst_crawl_controller_1a018eead19ba5819d9f87b2a1af3b098b" prot="private" virt="non-virtual"><scope>themis::scraper::BurstCrawlController</scope><name>max_tokens_</name></member>
+      <member refid="classthemis_1_1scraper_1_1_burst_crawl_controller_1a3d0f13577c71766ac2718dbb632bf257" prot="public" virt="non-virtual"><scope>themis::scraper::BurstCrawlController</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1scraper_1_1_burst_crawl_controller_1aebad36f353a25f2d129a40a457de612a" prot="private" virt="non-virtual"><scope>themis::scraper::BurstCrawlController</scope><name>refill</name></member>
+      <member refid="classthemis_1_1scraper_1_1_burst_crawl_controller_1a544b3c6c2df9f4c228e6d8c42b64aabc" prot="private" virt="non-virtual"><scope>themis::scraper::BurstCrawlController</scope><name>refill_mu_</name></member>
+      <member refid="classthemis_1_1scraper_1_1_burst_crawl_controller_1a269039b9992b130cc3348f5926d02bdb" prot="private" virt="non-virtual"><scope>themis::scraper::BurstCrawlController</scope><name>refill_rate_per_sec_</name></member>
+      <member refid="classthemis_1_1scraper_1_1_burst_crawl_controller_1ac47e175558835107e3f2e602543abf29" prot="public" virt="non-virtual"><scope>themis::scraper::BurstCrawlController</scope><name>reset</name></member>
+      <member refid="classthemis_1_1scraper_1_1_burst_crawl_controller_1aa76f79eaadd04810a02181dcaadf7be9" prot="public" virt="non-virtual"><scope>themis::scraper::BurstCrawlController</scope><name>tryAcquire</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

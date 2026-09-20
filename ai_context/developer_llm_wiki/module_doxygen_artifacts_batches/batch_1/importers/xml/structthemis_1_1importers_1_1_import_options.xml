@@ -1,0 +1,638 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_import_options" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::ImportOptions</compoundname>
+    <includes refid="importer__interface_8h" local="no">importer_interface.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_options_1a04c1cafae796c59fb83cbb84f4e14a7a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::ImportOptions::dry_run</definition>
+        <argsstring></argsstring>
+        <name>dry_run</name>
+        <qualifiedname>themis::importers::ImportOptions::dry_run</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="301" column="10" bodyfile="include/importers/importer_interface.h" bodystart="301" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_options_1a58bf16049f3a62a363ad2ac0f03a73f6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::ImportOptions::continue_on_error</definition>
+        <argsstring></argsstring>
+        <name>continue_on_error</name>
+        <qualifiedname>themis::importers::ImportOptions::continue_on_error</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="302" column="10" bodyfile="include/importers/importer_interface.h" bodystart="302" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_options_1a7fb241d62f048e29a25b1987fb973758" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::importers::ImportOptions::batch_size</definition>
+        <argsstring></argsstring>
+        <name>batch_size</name>
+        <qualifiedname>themis::importers::ImportOptions::batch_size</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="303" column="12" bodyfile="include/importers/importer_interface.h" bodystart="303" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_options_1ab0a818b58a64f43ed9882a199e252d85" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::ImportOptions::auto_create_schema</definition>
+        <argsstring></argsstring>
+        <name>auto_create_schema</name>
+        <qualifiedname>themis::importers::ImportOptions::auto_create_schema</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="306" column="10" bodyfile="include/importers/importer_interface.h" bodystart="306" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_options_1a099618605595e54ed599696a2b08a7f6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::ImportOptions::default_namespace</definition>
+        <argsstring></argsstring>
+        <name>default_namespace</name>
+        <qualifiedname>themis::importers::ImportOptions::default_namespace</qualifiedname>
+        <initializer>= &quot;imported&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="307" column="17" bodyfile="include/importers/importer_interface.h" bodystart="307" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_options_1a79b858e2566570e7fb578c2ea405c014" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::ImportOptions::preserve_ids</definition>
+        <argsstring></argsstring>
+        <name>preserve_ids</name>
+        <qualifiedname>themis::importers::ImportOptions::preserve_ids</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="310" column="10" bodyfile="include/importers/importer_interface.h" bodystart="310" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_options_1ad8f220e036eeabf90ee21c1fc2f66295" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::ImportOptions::update_existing</definition>
+        <argsstring></argsstring>
+        <name>update_existing</name>
+        <qualifiedname>themis::importers::ImportOptions::update_existing</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="311" column="10" bodyfile="include/importers/importer_interface.h" bodystart="311" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_options_1a6754e7fa465563c1c8ff72454c96f7dc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::ImportOptions::skip_duplicates</definition>
+        <argsstring></argsstring>
+        <name>skip_duplicates</name>
+        <qualifiedname>themis::importers::ImportOptions::skip_duplicates</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="312" column="10" bodyfile="include/importers/importer_interface.h" bodystart="312" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_options_1ab5d592dd9ef360eb620f2da14e4b3355" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::importers::ImportOptions::include_tables</definition>
+        <argsstring></argsstring>
+        <name>include_tables</name>
+        <qualifiedname>themis::importers::ImportOptions::include_tables</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="315" column="17" bodyfile="include/importers/importer_interface.h" bodystart="315" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_options_1ab5fc8da8746abed2e4cac9e8a36a2fc8" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::importers::ImportOptions::exclude_tables</definition>
+        <argsstring></argsstring>
+        <name>exclude_tables</name>
+        <qualifiedname>themis::importers::ImportOptions::exclude_tables</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="316" column="17" bodyfile="include/importers/importer_interface.h" bodystart="316" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_options_1a047449494cd7dfc6139e982725a6b067" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::importers::ImportOptions::include_schemas</definition>
+        <argsstring></argsstring>
+        <name>include_schemas</name>
+        <qualifiedname>themis::importers::ImportOptions::include_schemas</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="317" column="17" bodyfile="include/importers/importer_interface.h" bodystart="317" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_options_1a0fc3fe12b0a5a3513bca32f4e6721aaa" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::importers::ImportOptions::column_mappings</definition>
+        <argsstring></argsstring>
+        <name>column_mappings</name>
+        <qualifiedname>themis::importers::ImportOptions::column_mappings</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="320" column="14" bodyfile="include/importers/importer_interface.h" bodystart="320" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_options_1aa064953dd01ab2656f4d99ad657cdb29" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::importers::ImportOptions::table_mappings</definition>
+        <argsstring></argsstring>
+        <name>table_mappings</name>
+        <qualifiedname>themis::importers::ImportOptions::table_mappings</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="321" column="14" bodyfile="include/importers/importer_interface.h" bodystart="321" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_options_1a092e9e960ba0a11c10acc83c8893bf8b" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::importers::ImportOptions::type_overrides</definition>
+        <argsstring></argsstring>
+        <name>type_overrides</name>
+        <qualifiedname>themis::importers::ImportOptions::type_overrides</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="322" column="14" bodyfile="include/importers/importer_interface.h" bodystart="322" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_options_1a96fb00e48f285dbbe829571efad9e5e8" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::importers::ImportOptions::max_row_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_row_size_bytes</name>
+        <qualifiedname>themis::importers::ImportOptions::max_row_size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="325" column="12" bodyfile="include/importers/importer_interface.h" bodystart="325" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_options_1a00c50fc1b6856e9eae53ce2b7f0e24f6" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::importers::ImportOptions::max_statement_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_statement_size_bytes</name>
+        <qualifiedname>themis::importers::ImportOptions::max_statement_size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="326" column="12" bodyfile="include/importers/importer_interface.h" bodystart="326" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_options_1a3356467b362246dba9950f1563cc7bed" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::ImportOptions::enforce_utf8</definition>
+        <argsstring></argsstring>
+        <name>enforce_utf8</name>
+        <qualifiedname>themis::importers::ImportOptions::enforce_utf8</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="327" column="10" bodyfile="include/importers/importer_interface.h" bodystart="327" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_options_1a252e2f2c0dd9ed2b7ffb940e886fca6d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::ImportOptions::checkpoint_file</definition>
+        <argsstring></argsstring>
+        <name>checkpoint_file</name>
+        <qualifiedname>themis::importers::ImportOptions::checkpoint_file</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="330" column="17" bodyfile="include/importers/importer_interface.h" bodystart="330" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_options_1a0fb5c03fc3d5f00ac90b31133915e512" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1importers_1ab6dde0c18a927599823af2160b73f76c" kindref="member">MetricsCallback</ref></type>
+        <definition>MetricsCallback themis::importers::ImportOptions::metrics_callback</definition>
+        <argsstring></argsstring>
+        <name>metrics_callback</name>
+        <qualifiedname>themis::importers::ImportOptions::metrics_callback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="333" column="21" bodyfile="include/importers/importer_interface.h" bodystart="333" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_options_1a1ccef9664698d5a6661fa7680d81eb2c" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1importers_1ab7d9169ba0f2a2384ffb3e0ebf245864" kindref="member">SpanCallback</ref></type>
+        <definition>SpanCallback themis::importers::ImportOptions::tracing_callback</definition>
+        <argsstring></argsstring>
+        <name>tracing_callback</name>
+        <qualifiedname>themis::importers::ImportOptions::tracing_callback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="337" column="18" bodyfile="include/importers/importer_interface.h" bodystart="337" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_options_1a41787254deac4ab3d67883043bbf36cb" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1importers_1ad4f74b2479e4e0c382ec81b2d7186992" kindref="member">PermissionCheckCallback</ref></type>
+        <definition>PermissionCheckCallback themis::importers::ImportOptions::permission_check</definition>
+        <argsstring></argsstring>
+        <name>permission_check</name>
+        <qualifiedname>themis::importers::ImportOptions::permission_check</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="341" column="29" bodyfile="include/importers/importer_interface.h" bodystart="341" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_options_1a9e03d39530e958678e468806cab1b9f5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::ImportOptions::quarantine_file</definition>
+        <argsstring></argsstring>
+        <name>quarantine_file</name>
+        <qualifiedname>themis::importers::ImportOptions::quarantine_file</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="346" column="17" bodyfile="include/importers/importer_interface.h" bodystart="346" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_options_1ae94332cf4eed1d3cbbd5e82195507085" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::ImportOptions::delta_hash_file</definition>
+        <argsstring></argsstring>
+        <name>delta_hash_file</name>
+        <qualifiedname>themis::importers::ImportOptions::delta_hash_file</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="351" column="17" bodyfile="include/importers/importer_interface.h" bodystart="351" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_options_1a93bd9d5bae1213dd5a1f6c0d0351f2d5" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::importers::ImportOptions::delta_key_columns</definition>
+        <argsstring></argsstring>
+        <name>delta_key_columns</name>
+        <qualifiedname>themis::importers::ImportOptions::delta_key_columns</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="357" column="17" bodyfile="include/importers/importer_interface.h" bodystart="357" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_options_1a08e5ac6be38ffa2139462fefdd4eedfa" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1importers_1acb7a87a714267217a947b9c5c4b56398" kindref="member">RowCallback</ref></type>
+        <definition>RowCallback themis::importers::ImportOptions::streaming_row_callback</definition>
+        <argsstring></argsstring>
+        <name>streaming_row_callback</name>
+        <qualifiedname>themis::importers::ImportOptions::streaming_row_callback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="365" column="17" bodyfile="include/importers/importer_interface.h" bodystart="365" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_options_1ab26d5948d9d04163d7f8db6d8c2f697a" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1importers_1aa97007b3c4cd4d768c1819a889d4357e" kindref="member">ConflictStrategy</ref></type>
+        <definition>ConflictStrategy themis::importers::ImportOptions::conflict_strategy</definition>
+        <argsstring></argsstring>
+        <name>conflict_strategy</name>
+        <qualifiedname>themis::importers::ImportOptions::conflict_strategy</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1importers_1aa97007b3c4cd4d768c1819a889d4357ea1038b7c5b38b3977c52e47d18cc741ee" kindref="member">ConflictStrategy::OVERWRITE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="371" column="22" bodyfile="include/importers/importer_interface.h" bodystart="371" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_options_1afd692ea149f71ffac8c39443aeb304f3" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::importers::ImportOptions::conflict_key_columns</definition>
+        <argsstring></argsstring>
+        <name>conflict_key_columns</name>
+        <qualifiedname>themis::importers::ImportOptions::conflict_key_columns</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="373" column="17" bodyfile="include/importers/importer_interface.h" bodystart="373" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_options_1add9995c6bc7edea366bbc11447171251" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::importers::ImportOptions::protected_fields</definition>
+        <argsstring></argsstring>
+        <name>protected_fields</name>
+        <qualifiedname>themis::importers::ImportOptions::protected_fields</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="375" column="17" bodyfile="include/importers/importer_interface.h" bodystart="375" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_options_1aac931b9f41d6efc2eb2d8a3c4abe7868" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::importers::ImportOptions::merge_depth</definition>
+        <argsstring></argsstring>
+        <name>merge_depth</name>
+        <qualifiedname>themis::importers::ImportOptions::merge_depth</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="377" column="9" bodyfile="include/importers/importer_interface.h" bodystart="377" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_options_1abf3a70bf8b56cb98f2e15cdb8c6c3ec5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::ImportOptions::validate_schema</definition>
+        <argsstring></argsstring>
+        <name>validate_schema</name>
+        <qualifiedname>themis::importers::ImportOptions::validate_schema</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="383" column="10" bodyfile="include/importers/importer_interface.h" bodystart="383" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_options_1a7fb9cbafeaf3cab35bb3049d447597e2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::importers::ImportOptions::schema_sample_rows</definition>
+        <argsstring></argsstring>
+        <name>schema_sample_rows</name>
+        <qualifiedname>themis::importers::ImportOptions::schema_sample_rows</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="385" column="12" bodyfile="include/importers/importer_interface.h" bodystart="385" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_options_1af967326972b55ce11bcc770e3db0510a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::ImportOptions::preserve_foreign_keys</definition>
+        <argsstring></argsstring>
+        <name>preserve_foreign_keys</name>
+        <qualifiedname>themis::importers::ImportOptions::preserve_foreign_keys</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="391" column="10" bodyfile="include/importers/importer_interface.h" bodystart="391" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_options_1a426b996dc40dba76dbfc0b97323306ef" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::ImportOptions::preserve_relationships</definition>
+        <argsstring></argsstring>
+        <name>preserve_relationships</name>
+        <qualifiedname>themis::importers::ImportOptions::preserve_relationships</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="395" column="10" bodyfile="include/importers/importer_interface.h" bodystart="395" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_options_1a560e4c0b487e233ce32f688f6996fbd8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::ImportOptions::validate_references</definition>
+        <argsstring></argsstring>
+        <name>validate_references</name>
+        <qualifiedname>themis::importers::ImportOptions::validate_references</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="397" column="10" bodyfile="include/importers/importer_interface.h" bodystart="397" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_options_1ab0c09fe68f17b0be46c9132a0968b5a3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::ImportOptions::relationship_mapping_mode</definition>
+        <argsstring></argsstring>
+        <name>relationship_mapping_mode</name>
+        <qualifiedname>themis::importers::ImportOptions::relationship_mapping_mode</qualifiedname>
+        <initializer>= &quot;auto&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="399" column="17" bodyfile="include/importers/importer_interface.h" bodystart="399" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_options_1a44ad2fb715b89e66bf2b2a82d92fd83f" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1importers_1_1_entity_linking_config" kindref="compound">EntityLinkingConfig</ref></type>
+        <definition>EntityLinkingConfig themis::importers::ImportOptions::entity_linking</definition>
+        <argsstring></argsstring>
+        <name>entity_linking</name>
+        <qualifiedname>themis::importers::ImportOptions::entity_linking</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="403" column="25" bodyfile="include/importers/importer_interface.h" bodystart="403" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_options_1a400cdee724733e30c4658ccb07c7d991" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::importers::ImportOptions::import_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>import_timeout_ms</name>
+        <qualifiedname>themis::importers::ImportOptions::import_timeout_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>0 = disabled </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="409" column="14" bodyfile="include/importers/importer_interface.h" bodystart="409" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_options_1a87dfbbd97a60665c1b7a95734706b06a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::importers::ImportOptions::deadline_ms</definition>
+        <argsstring></argsstring>
+        <name>deadline_ms</name>
+        <qualifiedname>themis::importers::ImportOptions::deadline_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="414" column="14" bodyfile="include/importers/importer_interface.h" bodystart="414" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1importers_1_1_import_options_1a9fd43da27c59ab472a9d0ab8f78778d8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::ImportOptions::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::importers::ImportOptions::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="416" column="10" bodyfile="include/importers/importer_interface.h" bodystart="416" bodyend="449"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::importers::EntityLinkingConfig</label>
+        <link refid="structthemis_1_1importers_1_1_entity_linking_config"/>
+      </node>
+      <node id="1">
+        <label>themis::importers::ImportOptions</label>
+        <link refid="structthemis_1_1importers_1_1_import_options"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>entity_linking</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/importers/importer_interface.h" line="299" column="1" bodyfile="include/importers/importer_interface.h" bodystart="299" bodyend="450"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_import_options_1ab0a818b58a64f43ed9882a199e252d85" prot="public" virt="non-virtual"><scope>themis::importers::ImportOptions</scope><name>auto_create_schema</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_options_1a7fb241d62f048e29a25b1987fb973758" prot="public" virt="non-virtual"><scope>themis::importers::ImportOptions</scope><name>batch_size</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_options_1a252e2f2c0dd9ed2b7ffb940e886fca6d" prot="public" virt="non-virtual"><scope>themis::importers::ImportOptions</scope><name>checkpoint_file</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_options_1a0fc3fe12b0a5a3513bca32f4e6721aaa" prot="public" virt="non-virtual"><scope>themis::importers::ImportOptions</scope><name>column_mappings</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_options_1afd692ea149f71ffac8c39443aeb304f3" prot="public" virt="non-virtual"><scope>themis::importers::ImportOptions</scope><name>conflict_key_columns</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_options_1ab26d5948d9d04163d7f8db6d8c2f697a" prot="public" virt="non-virtual"><scope>themis::importers::ImportOptions</scope><name>conflict_strategy</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_options_1a58bf16049f3a62a363ad2ac0f03a73f6" prot="public" virt="non-virtual"><scope>themis::importers::ImportOptions</scope><name>continue_on_error</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_options_1a87dfbbd97a60665c1b7a95734706b06a" prot="public" virt="non-virtual"><scope>themis::importers::ImportOptions</scope><name>deadline_ms</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_options_1a099618605595e54ed599696a2b08a7f6" prot="public" virt="non-virtual"><scope>themis::importers::ImportOptions</scope><name>default_namespace</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_options_1ae94332cf4eed1d3cbbd5e82195507085" prot="public" virt="non-virtual"><scope>themis::importers::ImportOptions</scope><name>delta_hash_file</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_options_1a93bd9d5bae1213dd5a1f6c0d0351f2d5" prot="public" virt="non-virtual"><scope>themis::importers::ImportOptions</scope><name>delta_key_columns</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_options_1a04c1cafae796c59fb83cbb84f4e14a7a" prot="public" virt="non-virtual"><scope>themis::importers::ImportOptions</scope><name>dry_run</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_options_1a3356467b362246dba9950f1563cc7bed" prot="public" virt="non-virtual"><scope>themis::importers::ImportOptions</scope><name>enforce_utf8</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_options_1a44ad2fb715b89e66bf2b2a82d92fd83f" prot="public" virt="non-virtual"><scope>themis::importers::ImportOptions</scope><name>entity_linking</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_options_1ab5fc8da8746abed2e4cac9e8a36a2fc8" prot="public" virt="non-virtual"><scope>themis::importers::ImportOptions</scope><name>exclude_tables</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_options_1a400cdee724733e30c4658ccb07c7d991" prot="public" virt="non-virtual"><scope>themis::importers::ImportOptions</scope><name>import_timeout_ms</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_options_1a047449494cd7dfc6139e982725a6b067" prot="public" virt="non-virtual"><scope>themis::importers::ImportOptions</scope><name>include_schemas</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_options_1ab5d592dd9ef360eb620f2da14e4b3355" prot="public" virt="non-virtual"><scope>themis::importers::ImportOptions</scope><name>include_tables</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_options_1a96fb00e48f285dbbe829571efad9e5e8" prot="public" virt="non-virtual"><scope>themis::importers::ImportOptions</scope><name>max_row_size_bytes</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_options_1a00c50fc1b6856e9eae53ce2b7f0e24f6" prot="public" virt="non-virtual"><scope>themis::importers::ImportOptions</scope><name>max_statement_size_bytes</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_options_1aac931b9f41d6efc2eb2d8a3c4abe7868" prot="public" virt="non-virtual"><scope>themis::importers::ImportOptions</scope><name>merge_depth</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_options_1a0fb5c03fc3d5f00ac90b31133915e512" prot="public" virt="non-virtual"><scope>themis::importers::ImportOptions</scope><name>metrics_callback</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_options_1a41787254deac4ab3d67883043bbf36cb" prot="public" virt="non-virtual"><scope>themis::importers::ImportOptions</scope><name>permission_check</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_options_1af967326972b55ce11bcc770e3db0510a" prot="public" virt="non-virtual"><scope>themis::importers::ImportOptions</scope><name>preserve_foreign_keys</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_options_1a79b858e2566570e7fb578c2ea405c014" prot="public" virt="non-virtual"><scope>themis::importers::ImportOptions</scope><name>preserve_ids</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_options_1a426b996dc40dba76dbfc0b97323306ef" prot="public" virt="non-virtual"><scope>themis::importers::ImportOptions</scope><name>preserve_relationships</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_options_1add9995c6bc7edea366bbc11447171251" prot="public" virt="non-virtual"><scope>themis::importers::ImportOptions</scope><name>protected_fields</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_options_1a9e03d39530e958678e468806cab1b9f5" prot="public" virt="non-virtual"><scope>themis::importers::ImportOptions</scope><name>quarantine_file</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_options_1ab0c09fe68f17b0be46c9132a0968b5a3" prot="public" virt="non-virtual"><scope>themis::importers::ImportOptions</scope><name>relationship_mapping_mode</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_options_1a7fb9cbafeaf3cab35bb3049d447597e2" prot="public" virt="non-virtual"><scope>themis::importers::ImportOptions</scope><name>schema_sample_rows</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_options_1a6754e7fa465563c1c8ff72454c96f7dc" prot="public" virt="non-virtual"><scope>themis::importers::ImportOptions</scope><name>skip_duplicates</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_options_1a08e5ac6be38ffa2139462fefdd4eedfa" prot="public" virt="non-virtual"><scope>themis::importers::ImportOptions</scope><name>streaming_row_callback</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_options_1aa064953dd01ab2656f4d99ad657cdb29" prot="public" virt="non-virtual"><scope>themis::importers::ImportOptions</scope><name>table_mappings</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_options_1a9fd43da27c59ab472a9d0ab8f78778d8" prot="public" virt="non-virtual"><scope>themis::importers::ImportOptions</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_options_1a1ccef9664698d5a6661fa7680d81eb2c" prot="public" virt="non-virtual"><scope>themis::importers::ImportOptions</scope><name>tracing_callback</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_options_1a092e9e960ba0a11c10acc83c8893bf8b" prot="public" virt="non-virtual"><scope>themis::importers::ImportOptions</scope><name>type_overrides</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_options_1ad8f220e036eeabf90ee21c1fc2f66295" prot="public" virt="non-virtual"><scope>themis::importers::ImportOptions</scope><name>update_existing</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_options_1a560e4c0b487e233ce32f688f6996fbd8" prot="public" virt="non-virtual"><scope>themis::importers::ImportOptions</scope><name>validate_references</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_options_1abf3a70bf8b56cb98f2e15cdb8c6c3ec5" prot="public" virt="non-virtual"><scope>themis::importers::ImportOptions</scope><name>validate_schema</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

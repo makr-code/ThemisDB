@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_semantic_query_cache_1_1_status" kind="struct" language="C++" prot="public">
+    <compoundname>themis::SemanticQueryCache::Status</compoundname>
+    <includes refid="semantic__cache_8h" local="no">semantic_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_semantic_query_cache_1_1_status_1ac325be784ea0483c55f58fc0531790bc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::SemanticQueryCache::Status::ok</definition>
+        <argsstring></argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::SemanticQueryCache::Status::ok</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="117" column="14" bodyfile="include/query/semantic_cache.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_semantic_query_cache_1_1_status_1ae572a6351f2e03bfe982a84d23709028" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::SemanticQueryCache::Status::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::SemanticQueryCache::Status::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="118" column="21" bodyfile="include/query/semantic_cache.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1_semantic_query_cache_1_1_status_1ac4b471d4266b306b1c8c43ca53c9fb3b" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_semantic_query_cache_1_1_status" kindref="compound">Status</ref></type>
+        <definition>static Status themis::SemanticQueryCache::Status::OK</definition>
+        <argsstring>()</argsstring>
+        <name>OK</name>
+        <qualifiedname>themis::SemanticQueryCache::Status::OK</qualifiedname>
+        <briefdescription>
+<para>OK. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements OK without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="125" column="23" bodyfile="include/query/semantic_cache.h" bodystart="125" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_semantic_query_cache_1_1_status_1a60808af2e1049ea934d9b7d50246b450" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_semantic_query_cache_1_1_status" kindref="compound">Status</ref></type>
+        <definition>static Status themis::SemanticQueryCache::Status::Error</definition>
+        <argsstring>(std::string msg)</argsstring>
+        <name>Error</name>
+        <qualifiedname>themis::SemanticQueryCache::Status::Error</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+<para>Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="132" column="23" bodyfile="include/query/semantic_cache.h" bodystart="132" bodyend="132"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/semantic_cache.h" line="116" column="5" bodyfile="include/query/semantic_cache.h" bodystart="116" bodyend="133"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_semantic_query_cache_1_1_status_1a60808af2e1049ea934d9b7d50246b450" prot="public" virt="non-virtual"><scope>themis::SemanticQueryCache::Status</scope><name>Error</name></member>
+      <member refid="structthemis_1_1_semantic_query_cache_1_1_status_1ae572a6351f2e03bfe982a84d23709028" prot="public" virt="non-virtual"><scope>themis::SemanticQueryCache::Status</scope><name>message</name></member>
+      <member refid="structthemis_1_1_semantic_query_cache_1_1_status_1ac4b471d4266b306b1c8c43ca53c9fb3b" prot="public" virt="non-virtual"><scope>themis::SemanticQueryCache::Status</scope><name>OK</name></member>
+      <member refid="structthemis_1_1_semantic_query_cache_1_1_status_1ac325be784ea0483c55f58fc0531790bc" prot="public" virt="non-virtual"><scope>themis::SemanticQueryCache::Status</scope><name>ok</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

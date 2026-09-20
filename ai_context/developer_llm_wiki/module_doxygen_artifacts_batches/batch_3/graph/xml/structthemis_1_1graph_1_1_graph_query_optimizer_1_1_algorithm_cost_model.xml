@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_algorithm_cost_model" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::GraphQueryOptimizer::AlgorithmCostModel</compoundname>
+    <includes refid="graph__query__optimizer_8h" local="no">graph_query_optimizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_algorithm_cost_model_1afad3e2a756be1eeb1e62214d416f8fcd" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::graph::GraphQueryOptimizer::AlgorithmCostModel::ema_cost_ms</definition>
+        <argsstring></argsstring>
+        <name>ema_cost_ms</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::AlgorithmCostModel::ema_cost_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>EMA of observed execution durations (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="698" column="16" bodyfile="include/graph/graph_query_optimizer.h" bodystart="698" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_algorithm_cost_model_1a158a85b3b16f9a6c5747b4fb8ae8c277" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::graph::GraphQueryOptimizer::AlgorithmCostModel::exec_count</definition>
+        <argsstring></argsstring>
+        <name>exec_count</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::AlgorithmCostModel::exec_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of observations so far. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="699" column="18" bodyfile="include/graph/graph_query_optimizer.h" bodystart="699" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_algorithm_cost_model_1a886a3486ca8e858ccf5f3eea1c73efe5" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::graph::GraphQueryOptimizer::AlgorithmCostModel::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::AlgorithmCostModel::confidence</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>[0, 1] – blended into cost estimates </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="700" column="16" bodyfile="include/graph/graph_query_optimizer.h" bodystart="700" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_algorithm_cost_model_1a3842c9fc0f3384a8c1e1f99f6100abef" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::graph::GraphQueryOptimizer::AlgorithmCostModel::LEARNING_RATE</definition>
+        <argsstring></argsstring>
+        <name>LEARNING_RATE</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::AlgorithmCostModel::LEARNING_RATE</qualifiedname>
+        <initializer>= 0.1</initializer>
+        <briefdescription>
+<para>EMA alpha. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="702" column="33" bodyfile="include/graph/graph_query_optimizer.h" bodystart="702" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_algorithm_cost_model_1a455872c2cd45ee5d745f98e99c1f2084" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::graph::GraphQueryOptimizer::AlgorithmCostModel::MAX_CONF_OBS</definition>
+        <argsstring></argsstring>
+        <name>MAX_CONF_OBS</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::AlgorithmCostModel::MAX_CONF_OBS</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+<para>Observations for confidence = 1.0. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="703" column="35" bodyfile="include/graph/graph_query_optimizer.h" bodystart="703" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_algorithm_cost_model_1ae8c61a0cb2a592e2e93c33ec7978a450" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::GraphQueryOptimizer::AlgorithmCostModel::update</definition>
+        <argsstring>(double observed_ms)</argsstring>
+        <name>update</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::AlgorithmCostModel::update</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>observed_ms</declname>
+        </param>
+        <briefdescription>
+<para>Update. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">observed_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="710" column="14" bodyfile="include/graph/graph_query_optimizer.h" bodystart="710" bodyend="719"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/graph_query_optimizer.h" line="697" column="5" bodyfile="include/graph/graph_query_optimizer.h" bodystart="697" bodyend="720"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_algorithm_cost_model_1a886a3486ca8e858ccf5f3eea1c73efe5" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::AlgorithmCostModel</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_algorithm_cost_model_1afad3e2a756be1eeb1e62214d416f8fcd" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::AlgorithmCostModel</scope><name>ema_cost_ms</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_algorithm_cost_model_1a158a85b3b16f9a6c5747b4fb8ae8c277" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::AlgorithmCostModel</scope><name>exec_count</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_algorithm_cost_model_1a3842c9fc0f3384a8c1e1f99f6100abef" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::AlgorithmCostModel</scope><name>LEARNING_RATE</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_algorithm_cost_model_1a455872c2cd45ee5d745f98e99c1f2084" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::AlgorithmCostModel</scope><name>MAX_CONF_OBS</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_algorithm_cost_model_1ae8c61a0cb2a592e2e93c33ec7978a450" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::AlgorithmCostModel</scope><name>update</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

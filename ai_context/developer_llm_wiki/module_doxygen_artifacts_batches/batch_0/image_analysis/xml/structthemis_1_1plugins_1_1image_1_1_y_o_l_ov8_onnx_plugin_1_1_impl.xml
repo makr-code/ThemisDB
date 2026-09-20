@@ -1,0 +1,405 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::image::YOLOv8OnnxPlugin::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1_1_impl_1aee67ef081325be98bf83120afda1db52" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::image::YOLOv8OnnxPlugin::Impl::model_path</definition>
+        <argsstring></argsstring>
+        <name>model_path</name>
+        <qualifiedname>themis::plugins::image::YOLOv8OnnxPlugin::Impl::model_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/image_analysis/yolov8_onnx_plugin.cpp" line="137" column="17" bodyfile="src/image_analysis/yolov8_onnx_plugin.cpp" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1_1_impl_1a8caec6b1eb0251bf442117aa79a7a0fc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::image::YOLOv8OnnxPlugin::Impl::labels_path</definition>
+        <argsstring></argsstring>
+        <name>labels_path</name>
+        <qualifiedname>themis::plugins::image::YOLOv8OnnxPlugin::Impl::labels_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/image_analysis/yolov8_onnx_plugin.cpp" line="138" column="17" bodyfile="src/image_analysis/yolov8_onnx_plugin.cpp" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1_1_impl_1addc1ccfabe647fc6341bc1d2a04c892d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::plugins::image::YOLOv8OnnxPlugin::Impl::input_width</definition>
+        <argsstring></argsstring>
+        <name>input_width</name>
+        <qualifiedname>themis::plugins::image::YOLOv8OnnxPlugin::Impl::input_width</qualifiedname>
+        <initializer>= 640</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/image_analysis/yolov8_onnx_plugin.cpp" line="139" column="9" bodyfile="src/image_analysis/yolov8_onnx_plugin.cpp" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1_1_impl_1a414d291438d02f6eec2b0063a95c5e5f" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::plugins::image::YOLOv8OnnxPlugin::Impl::input_height</definition>
+        <argsstring></argsstring>
+        <name>input_height</name>
+        <qualifiedname>themis::plugins::image::YOLOv8OnnxPlugin::Impl::input_height</qualifiedname>
+        <initializer>= 640</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/image_analysis/yolov8_onnx_plugin.cpp" line="140" column="9" bodyfile="src/image_analysis/yolov8_onnx_plugin.cpp" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1_1_impl_1afbd86998fcb3bb8ccc9651df5a32a003" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::plugins::image::YOLOv8OnnxPlugin::Impl::conf_threshold</definition>
+        <argsstring></argsstring>
+        <name>conf_threshold</name>
+        <qualifiedname>themis::plugins::image::YOLOv8OnnxPlugin::Impl::conf_threshold</qualifiedname>
+        <initializer>= 0.25f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/image_analysis/yolov8_onnx_plugin.cpp" line="141" column="11" bodyfile="src/image_analysis/yolov8_onnx_plugin.cpp" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1_1_impl_1a742f666cca5152a8706007c672d68983" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::plugins::image::YOLOv8OnnxPlugin::Impl::nms_iou_threshold</definition>
+        <argsstring></argsstring>
+        <name>nms_iou_threshold</name>
+        <qualifiedname>themis::plugins::image::YOLOv8OnnxPlugin::Impl::nms_iou_threshold</qualifiedname>
+        <initializer>= 0.45f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/image_analysis/yolov8_onnx_plugin.cpp" line="142" column="11" bodyfile="src/image_analysis/yolov8_onnx_plugin.cpp" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1_1_impl_1ab0986d3522ec03b82f8c190abdfb49bd" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::plugins::image::YOLOv8OnnxPlugin::Impl::max_detections</definition>
+        <argsstring></argsstring>
+        <name>max_detections</name>
+        <qualifiedname>themis::plugins::image::YOLOv8OnnxPlugin::Impl::max_detections</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/image_analysis/yolov8_onnx_plugin.cpp" line="143" column="9" bodyfile="src/image_analysis/yolov8_onnx_plugin.cpp" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1_1_impl_1a1b653f138cd0d8d10371f7a46a3b71f7" prot="public" static="no" mutable="no">
+        <type>BackendType</type>
+        <definition>BackendType themis::plugins::image::YOLOv8OnnxPlugin::Impl::backend</definition>
+        <argsstring></argsstring>
+        <name>backend</name>
+        <qualifiedname>themis::plugins::image::YOLOv8OnnxPlugin::Impl::backend</qualifiedname>
+        <initializer>= BackendType::CPU</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/image_analysis/yolov8_onnx_plugin.cpp" line="144" column="17" bodyfile="src/image_analysis/yolov8_onnx_plugin.cpp" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1_1_impl_1acb447cadcb688cc66b098252e9ad58b4" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::plugins::image::YOLOv8OnnxPlugin::Impl::labels</definition>
+        <argsstring></argsstring>
+        <name>labels</name>
+        <qualifiedname>themis::plugins::image::YOLOv8OnnxPlugin::Impl::labels</qualifiedname>
+        <initializer>= kCocoLabels</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/image_analysis/yolov8_onnx_plugin.cpp" line="146" column="17" bodyfile="src/image_analysis/yolov8_onnx_plugin.cpp" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1_1_impl_1a00c653247a75bf8b11a79d94a73614cc" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::plugins::image::YOLOv8OnnxPlugin::Impl::ready</definition>
+        <argsstring></argsstring>
+        <name>ready</name>
+        <qualifiedname>themis::plugins::image::YOLOv8OnnxPlugin::Impl::ready</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/image_analysis/yolov8_onnx_plugin.cpp" line="149" column="17" bodyfile="src/image_analysis/yolov8_onnx_plugin.cpp" bodystart="149" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1_1_impl_1ab93cadca98d966754e100312f85a2af7" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int64_t &gt;</type>
+        <definition>std::atomic&lt;int64_t&gt; themis::plugins::image::YOLOv8OnnxPlugin::Impl::inference_total</definition>
+        <argsstring></argsstring>
+        <name>inference_total</name>
+        <qualifiedname>themis::plugins::image::YOLOv8OnnxPlugin::Impl::inference_total</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/image_analysis/yolov8_onnx_plugin.cpp" line="152" column="17" bodyfile="src/image_analysis/yolov8_onnx_plugin.cpp" bodystart="152" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1_1_impl_1a9f79882a76514162607dec83932364d2" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int64_t &gt;</type>
+        <definition>std::atomic&lt;int64_t&gt; themis::plugins::image::YOLOv8OnnxPlugin::Impl::inference_errors</definition>
+        <argsstring></argsstring>
+        <name>inference_errors</name>
+        <qualifiedname>themis::plugins::image::YOLOv8OnnxPlugin::Impl::inference_errors</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/image_analysis/yolov8_onnx_plugin.cpp" line="153" column="17" bodyfile="src/image_analysis/yolov8_onnx_plugin.cpp" bodystart="153" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1_1_impl_1ade3f126a351a67144e56e56a38dbfef1" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int64_t &gt;</type>
+        <definition>std::atomic&lt;int64_t&gt; themis::plugins::image::YOLOv8OnnxPlugin::Impl::latency_ms_sum</definition>
+        <argsstring></argsstring>
+        <name>latency_ms_sum</name>
+        <qualifiedname>themis::plugins::image::YOLOv8OnnxPlugin::Impl::latency_ms_sum</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/image_analysis/yolov8_onnx_plugin.cpp" line="154" column="17" bodyfile="src/image_analysis/yolov8_onnx_plugin.cpp" bodystart="154" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1_1_impl_1ad0b701b6d4a042edca8886bfa4982c37" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int64_t &gt;</type>
+        <definition>std::atomic&lt;int64_t&gt; themis::plugins::image::YOLOv8OnnxPlugin::Impl::latency_ms_count</definition>
+        <argsstring></argsstring>
+        <name>latency_ms_count</name>
+        <qualifiedname>themis::plugins::image::YOLOv8OnnxPlugin::Impl::latency_ms_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/image_analysis/yolov8_onnx_plugin.cpp" line="155" column="17" bodyfile="src/image_analysis/yolov8_onnx_plugin.cpp" bodystart="155" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1_1_impl_1a4f9c7c2de95d4e0904edfbfde83939a2" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int64_t &gt;</type>
+        <definition>std::atomic&lt;int64_t&gt; themis::plugins::image::YOLOv8OnnxPlugin::Impl::detections_total</definition>
+        <argsstring></argsstring>
+        <name>detections_total</name>
+        <qualifiedname>themis::plugins::image::YOLOv8OnnxPlugin::Impl::detections_total</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/image_analysis/yolov8_onnx_plugin.cpp" line="156" column="17" bodyfile="src/image_analysis/yolov8_onnx_plugin.cpp" bodystart="156" bodyend="156"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1_1_impl_1a5bb8ed8c871f000f933426685af5875e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::image::YOLOv8OnnxPlugin::Impl::init</definition>
+        <argsstring>(const PluginConfig &amp;config, BackendType requested_backend)</argsstring>
+        <name>init</name>
+        <qualifiedname>themis::plugins::image::YOLOv8OnnxPlugin::Impl::init</qualifiedname>
+        <param>
+          <type>const PluginConfig &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>BackendType</type>
+          <declname>requested_backend</declname>
+        </param>
+        <briefdescription>
+<para>Init. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">requested_backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), loadLabels(), std::move(), SetGraphOptimizationLevel(), SetIntraOpNumThreads(), AppendExecutionProvider_CUDA(), wpath(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/image_analysis/yolov8_onnx_plugin.cpp" line="176" column="10" bodyfile="src/image_analysis/yolov8_onnx_plugin.cpp" bodystart="176" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1_1_impl_1a23fbb40caacb91960f2ae330a949e8e2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::image::YOLOv8OnnxPlugin::Impl::preprocess</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;image_data, std::vector&lt; float &gt; &amp;tensor_out, int &amp;orig_w, int &amp;orig_h) const</argsstring>
+        <name>preprocess</name>
+        <qualifiedname>themis::plugins::image::YOLOv8OnnxPlugin::Impl::preprocess</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>image_data</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; float &gt; &amp;</type>
+          <declname>tensor_out</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>orig_w</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>orig_h</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/image_analysis/yolov8_onnx_plugin.cpp" line="245" column="10" bodyfile="src/image_analysis/yolov8_onnx_plugin.cpp" bodystart="245" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1_1_impl_1a77aab2f615ad121896a3d93f9d507c03" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>DetectionResult</type>
+        <definition>DetectionResult themis::plugins::image::YOLOv8OnnxPlugin::Impl::postprocess</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;raw, int orig_w, int orig_h, float effective_conf) const</argsstring>
+        <name>postprocess</name>
+        <qualifiedname>themis::plugins::image::YOLOv8OnnxPlugin::Impl::postprocess</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>raw</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>orig_w</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>orig_h</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>effective_conf</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/image_analysis/yolov8_onnx_plugin.cpp" line="290" column="21" bodyfile="src/image_analysis/yolov8_onnx_plugin.cpp" bodystart="290" bodyend="396"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1_1_impl_1a0eb356a96c7471ade9ae35db2559092d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>DetectionResult</type>
+        <definition>DetectionResult themis::plugins::image::YOLOv8OnnxPlugin::Impl::runInference</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;image_data, float effective_conf)</argsstring>
+        <name>runInference</name>
+        <qualifiedname>themis::plugins::image::YOLOv8OnnxPlugin::Impl::runInference</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>image_data</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>effective_conf</declname>
+        </param>
+        <briefdescription>
+<para>Run Inference. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">image_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">effective_conf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="structthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1_1_impl_1a23fbb40caacb91960f2ae330a949e8e2" kindref="member">preprocess()</ref>, Ort::MemoryInfo::CreateCpu(), data(), size(), c_str(), Run(), std::string(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/image_analysis/yolov8_onnx_plugin.cpp" line="408" column="21" bodyfile="src/image_analysis/yolov8_onnx_plugin.cpp" bodystart="408" bodyend="466"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/image_analysis/yolov8_onnx_plugin.cpp" line="135" column="1" bodyfile="src/image_analysis/yolov8_onnx_plugin.cpp" bodystart="135" bodyend="467"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1_1_impl_1a1b653f138cd0d8d10371f7a46a3b71f7" prot="public" virt="non-virtual"><scope>themis::plugins::image::YOLOv8OnnxPlugin::Impl</scope><name>backend</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1_1_impl_1afbd86998fcb3bb8ccc9651df5a32a003" prot="public" virt="non-virtual"><scope>themis::plugins::image::YOLOv8OnnxPlugin::Impl</scope><name>conf_threshold</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1_1_impl_1a4f9c7c2de95d4e0904edfbfde83939a2" prot="public" virt="non-virtual"><scope>themis::plugins::image::YOLOv8OnnxPlugin::Impl</scope><name>detections_total</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1_1_impl_1a9f79882a76514162607dec83932364d2" prot="public" virt="non-virtual"><scope>themis::plugins::image::YOLOv8OnnxPlugin::Impl</scope><name>inference_errors</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1_1_impl_1ab93cadca98d966754e100312f85a2af7" prot="public" virt="non-virtual"><scope>themis::plugins::image::YOLOv8OnnxPlugin::Impl</scope><name>inference_total</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1_1_impl_1a5bb8ed8c871f000f933426685af5875e" prot="public" virt="non-virtual"><scope>themis::plugins::image::YOLOv8OnnxPlugin::Impl</scope><name>init</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1_1_impl_1a414d291438d02f6eec2b0063a95c5e5f" prot="public" virt="non-virtual"><scope>themis::plugins::image::YOLOv8OnnxPlugin::Impl</scope><name>input_height</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1_1_impl_1addc1ccfabe647fc6341bc1d2a04c892d" prot="public" virt="non-virtual"><scope>themis::plugins::image::YOLOv8OnnxPlugin::Impl</scope><name>input_width</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1_1_impl_1acb447cadcb688cc66b098252e9ad58b4" prot="public" virt="non-virtual"><scope>themis::plugins::image::YOLOv8OnnxPlugin::Impl</scope><name>labels</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1_1_impl_1a8caec6b1eb0251bf442117aa79a7a0fc" prot="public" virt="non-virtual"><scope>themis::plugins::image::YOLOv8OnnxPlugin::Impl</scope><name>labels_path</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1_1_impl_1ad0b701b6d4a042edca8886bfa4982c37" prot="public" virt="non-virtual"><scope>themis::plugins::image::YOLOv8OnnxPlugin::Impl</scope><name>latency_ms_count</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1_1_impl_1ade3f126a351a67144e56e56a38dbfef1" prot="public" virt="non-virtual"><scope>themis::plugins::image::YOLOv8OnnxPlugin::Impl</scope><name>latency_ms_sum</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1_1_impl_1ab0986d3522ec03b82f8c190abdfb49bd" prot="public" virt="non-virtual"><scope>themis::plugins::image::YOLOv8OnnxPlugin::Impl</scope><name>max_detections</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1_1_impl_1aee67ef081325be98bf83120afda1db52" prot="public" virt="non-virtual"><scope>themis::plugins::image::YOLOv8OnnxPlugin::Impl</scope><name>model_path</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1_1_impl_1a742f666cca5152a8706007c672d68983" prot="public" virt="non-virtual"><scope>themis::plugins::image::YOLOv8OnnxPlugin::Impl</scope><name>nms_iou_threshold</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1_1_impl_1a77aab2f615ad121896a3d93f9d507c03" prot="public" virt="non-virtual"><scope>themis::plugins::image::YOLOv8OnnxPlugin::Impl</scope><name>postprocess</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1_1_impl_1a23fbb40caacb91960f2ae330a949e8e2" prot="public" virt="non-virtual"><scope>themis::plugins::image::YOLOv8OnnxPlugin::Impl</scope><name>preprocess</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1_1_impl_1a00c653247a75bf8b11a79d94a73614cc" prot="public" virt="non-virtual"><scope>themis::plugins::image::YOLOv8OnnxPlugin::Impl</scope><name>ready</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1_1_impl_1a0eb356a96c7471ade9ae35db2559092d" prot="public" virt="non-virtual"><scope>themis::plugins::image::YOLOv8OnnxPlugin::Impl</scope><name>runInference</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

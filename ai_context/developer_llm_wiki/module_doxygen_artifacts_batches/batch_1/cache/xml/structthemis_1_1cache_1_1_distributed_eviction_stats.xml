@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_distributed_eviction_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cache::DistributedEvictionStats</compoundname>
+    <includes refid="distributed__eviction_8h" local="no">distributed_eviction.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_distributed_eviction_stats_1ad087013ded74b4385059d3abaf2538a3" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::DistributedEvictionStats::evictions_sent</definition>
+        <argsstring></argsstring>
+        <name>evictions_sent</name>
+        <qualifiedname>themis::cache::DistributedEvictionStats::evictions_sent</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Eviction events broadcast to peers. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_eviction.h" line="49" column="14" bodyfile="include/cache/distributed_eviction.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_distributed_eviction_stats_1a358d45985ead9a687f76beadcb1addd0" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::DistributedEvictionStats::evictions_received</definition>
+        <argsstring></argsstring>
+        <name>evictions_received</name>
+        <qualifiedname>themis::cache::DistributedEvictionStats::evictions_received</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Eviction events received from peers. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_eviction.h" line="50" column="14" bodyfile="include/cache/distributed_eviction.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_distributed_eviction_stats_1ac4bb7a17ad8e833541f1598d7ccea18c" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::DistributedEvictionStats::evictions_dropped</definition>
+        <argsstring></argsstring>
+        <name>evictions_dropped</name>
+        <qualifiedname>themis::cache::DistributedEvictionStats::evictions_dropped</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Events dropped (peer unreachable or queue full). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_eviction.h" line="51" column="14" bodyfile="include/cache/distributed_eviction.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_distributed_eviction_stats_1aa40028a52ece4bd4e314ac76ffbe6f53" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::DistributedEvictionStats::peer_count</definition>
+        <argsstring></argsstring>
+        <name>peer_count</name>
+        <qualifiedname>themis::cache::DistributedEvictionStats::peer_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of currently registered peers. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_eviction.h" line="52" column="14" bodyfile="include/cache/distributed_eviction.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_distributed_eviction_stats_1aa2e5192498072ed88aa90dbf0a0598cd" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::DistributedEvictionStats::healthy_peer_count</definition>
+        <argsstring></argsstring>
+        <name>healthy_peer_count</name>
+        <qualifiedname>themis::cache::DistributedEvictionStats::healthy_peer_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Peers that reported healthy on last probe. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_eviction.h" line="53" column="14" bodyfile="include/cache/distributed_eviction.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/distributed_eviction.h" line="48" column="1" bodyfile="include/cache/distributed_eviction.h" bodystart="48" bodyend="54"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_distributed_eviction_stats_1ac4bb7a17ad8e833541f1598d7ccea18c" prot="public" virt="non-virtual"><scope>themis::cache::DistributedEvictionStats</scope><name>evictions_dropped</name></member>
+      <member refid="structthemis_1_1cache_1_1_distributed_eviction_stats_1a358d45985ead9a687f76beadcb1addd0" prot="public" virt="non-virtual"><scope>themis::cache::DistributedEvictionStats</scope><name>evictions_received</name></member>
+      <member refid="structthemis_1_1cache_1_1_distributed_eviction_stats_1ad087013ded74b4385059d3abaf2538a3" prot="public" virt="non-virtual"><scope>themis::cache::DistributedEvictionStats</scope><name>evictions_sent</name></member>
+      <member refid="structthemis_1_1cache_1_1_distributed_eviction_stats_1aa2e5192498072ed88aa90dbf0a0598cd" prot="public" virt="non-virtual"><scope>themis::cache::DistributedEvictionStats</scope><name>healthy_peer_count</name></member>
+      <member refid="structthemis_1_1cache_1_1_distributed_eviction_stats_1aa40028a52ece4bd4e314ac76ffbe6f53" prot="public" virt="non-virtual"><scope>themis::cache::DistributedEvictionStats</scope><name>peer_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

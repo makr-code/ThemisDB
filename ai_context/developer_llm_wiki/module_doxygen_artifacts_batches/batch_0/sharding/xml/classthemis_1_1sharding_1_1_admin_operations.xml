@@ -1,0 +1,647 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_admin_operations" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::AdminOperations</compoundname>
+    <includes refid="admin__operations_8h" local="no">admin_operations.h</includes>
+    <innerclass refid="structthemis_1_1sharding_1_1_admin_operations_1_1_config" prot="public">themis::sharding::AdminOperations::Config</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_admin_operations_1_1_rebalance_op" prot="private">themis::sharding::AdminOperations::RebalanceOp</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_admin_operations_1a817a2a72412b4b4f34995f1b00684c99" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_admin_operations_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::sharding::AdminOperations::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::sharding::AdminOperations::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_operations.h" line="129" column="12" bodyfile="include/sharding/admin_operations.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_admin_operations_1a7e08876ff22c3590d5509d89b6096a56" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1sharding_1_1_admin_a_p_i" kindref="compound">AdminAPI</ref></type>
+        <definition>AdminAPI themis::sharding::AdminOperations::admin_api_</definition>
+        <argsstring></argsstring>
+        <name>admin_api_</name>
+        <qualifiedname>themis::sharding::AdminOperations::admin_api_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_operations.h" line="130" column="14" bodyfile="include/sharding/admin_operations.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_admin_operations_1a95b8a56f0a4284dd0b4f00a15dcde771" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemisdb_1_1sharding_1_1_operational_metrics" kindref="compound">themisdb::sharding::OperationalMetrics</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;themisdb::sharding::OperationalMetrics&gt; themis::sharding::AdminOperations::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::sharding::AdminOperations::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_operations.h" line="131" column="21" bodyfile="include/sharding/admin_operations.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_admin_operations_1aa2e84311daff39cecc1d103457c5098b" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;ShardTopology&gt; themis::sharding::AdminOperations::topology_</definition>
+        <argsstring></argsstring>
+        <name>topology_</name>
+        <qualifiedname>themis::sharding::AdminOperations::topology_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_operations.h" line="132" column="21" bodyfile="include/sharding/admin_operations.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_admin_operations_1ac014d5707f25ab507d3be95ec4a01d65" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_health_check_system" kindref="compound">HealthCheckSystem</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;HealthCheckSystem&gt; themis::sharding::AdminOperations::health_check_</definition>
+        <argsstring></argsstring>
+        <name>health_check_</name>
+        <qualifiedname>themis::sharding::AdminOperations::health_check_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_operations.h" line="133" column="21" bodyfile="include/sharding/admin_operations.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_admin_operations_1a8b083ec27328927e7dcad2a2c6cdb19b" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::sharding::AdminOperations::rebalance_ops_mutex_</definition>
+        <argsstring></argsstring>
+        <name>rebalance_ops_mutex_</name>
+        <qualifiedname>themis::sharding::AdminOperations::rebalance_ops_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_operations.h" line="144" column="24" bodyfile="include/sharding/admin_operations.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_admin_operations_1a4eb9451af0cf516887818912d2646aee" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, RebalanceOp &gt;</type>
+        <definition>std::map&lt;std::string, RebalanceOp&gt; themis::sharding::AdminOperations::rebalance_ops_</definition>
+        <argsstring></argsstring>
+        <name>rebalance_ops_</name>
+        <qualifiedname>themis::sharding::AdminOperations::rebalance_ops_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_operations.h" line="145" column="14" bodyfile="include/sharding/admin_operations.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_admin_operations_1a0d7ab96991d8dc7c6bfc664274f996e6" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::sharding::AdminOperations::kRebalanceEstimatedDurationSeconds</definition>
+        <argsstring></argsstring>
+        <name>kRebalanceEstimatedDurationSeconds</name>
+        <qualifiedname>themis::sharding::AdminOperations::kRebalanceEstimatedDurationSeconds</qualifiedname>
+        <initializer>= 300</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>In-memory registry of rebalance operations. Estimated total duration used for time-based progress approximation. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_operations.h" line="137" column="30" bodyfile="include/sharding/admin_operations.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_admin_operations_1a11d564fa0aa9dd52b3e83dcd14fbf8bd" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::AdminOperations::AdminOperations</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>AdminOperations</name>
+        <qualifiedname>themis::sharding::AdminOperations::AdminOperations</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_admin_operations_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Admin operations configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_operations.h" line="51" column="14" bodyfile="src/sharding/admin_operations.cpp" bodystart="23" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_admin_operations_1a90a7d1aca2e2cc7e478d4bb50f34ca0e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::AdminOperations::~AdminOperations</definition>
+        <argsstring>()</argsstring>
+        <name>~AdminOperations</name>
+        <qualifiedname>themis::sharding::AdminOperations::~AdminOperations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_operations.h" line="53" column="5" bodyfile="src/sharding/admin_operations.cpp" bodystart="40" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_admin_operations_1a852e8f48d71ebe53c7f94d60124c91e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::AdminOperations::initialize</definition>
+        <argsstring>()</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::sharding::AdminOperations::initialize</qualifiedname>
+        <briefdescription>
+<para>Initialize admin operations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Initialize.</para>
+<para><simplesect kind="return"><para>true on success</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: registerTopologyHandler(), handleTopologyRequest(), registerRebalanceHandler(), handleRebalanceRequest(), registerHealthHandler(), handleHealthRequest(), registerStatsHandler(), handleStatsRequest(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_operations.h" line="59" column="10" bodyfile="src/sharding/admin_operations.cpp" bodystart="49" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_admin_operations_1a87eaa32f3233239bd944f6d92d0c219e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::AdminOperations::shutdown</definition>
+        <argsstring>()</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::sharding::AdminOperations::shutdown</qualifiedname>
+        <briefdescription>
+<para>Shutdown admin operations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Shutdown.</para>
+<para>Calls: stopPeriodicChecks(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_operations.h" line="64" column="10" bodyfile="src/sharding/admin_operations.cpp" bodystart="77" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_admin_operations_1a7efc5bbbef540a7cbc0f1dbcc6ba3119" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::AdminOperations::getTopology</definition>
+        <argsstring>() const</argsstring>
+        <name>getTopology</name>
+        <qualifiedname>themis::sharding::AdminOperations::getTopology</qualifiedname>
+        <briefdescription>
+<para>Get topology information. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON topology data </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_operations.h" line="70" column="20" bodyfile="src/sharding/admin_operations.cpp" bodystart="83" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_admin_operations_1a18a04d633fd30717245b8ffad1f4bcbf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::AdminOperations::addShard</definition>
+        <argsstring>(const std::string &amp;shard_id, const std::string &amp;endpoint)</argsstring>
+        <name>addShard</name>
+        <qualifiedname>themis::sharding::AdminOperations::addShard</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>endpoint</declname>
+        </param>
+        <briefdescription>
+<para>Add a new shard to the cluster. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Shard.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard endpoint (host:port) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: registerShard(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_operations.h" line="78" column="10" bodyfile="src/sharding/admin_operations.cpp" bodystart="121" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_admin_operations_1aa1729f954f3dceb73fc5a843e5b89f8e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::AdminOperations::removeShard</definition>
+        <argsstring>(const std::string &amp;shard_id)</argsstring>
+        <name>removeShard</name>
+        <qualifiedname>themis::sharding::AdminOperations::removeShard</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove a shard from the cluster. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove Shard.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: unregisterShard(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_operations.h" line="85" column="10" bodyfile="src/sharding/admin_operations.cpp" bodystart="156" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_admin_operations_1a73dd4726d2a7fc485df4c18baee88464" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::AdminOperations::triggerRebalance</definition>
+        <argsstring>()</argsstring>
+        <name>triggerRebalance</name>
+        <qualifiedname>themis::sharding::AdminOperations::triggerRebalance</qualifiedname>
+        <briefdescription>
+<para>Trigger rebalancing operation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Trigger Rebalance.</para>
+<para><simplesect kind="return"><para>Rebalance operation ID</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), str(), lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_operations.h" line="91" column="17" bodyfile="src/sharding/admin_operations.cpp" bodystart="177" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_admin_operations_1a2838f6f5f352cb9790c19969f6be7a6c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::AdminOperations::getRebalanceStatus</definition>
+        <argsstring>(const std::string &amp;operation_id) const</argsstring>
+        <name>getRebalanceStatus</name>
+        <qualifiedname>themis::sharding::AdminOperations::getRebalanceStatus</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation_id</declname>
+        </param>
+        <briefdescription>
+<para>Get rebalance status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>operation_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Rebalance operation ID </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>JSON status data </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rebalance_ops_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/admin_operations.h" line="98" column="20" bodyfile="src/sharding/admin_operations.cpp" bodystart="197" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_admin_operations_1a9bc1cc84a4fff5d386823487e557af00" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::AdminOperations::getHealthStatus</definition>
+        <argsstring>() const</argsstring>
+        <name>getHealthStatus</name>
+        <qualifiedname>themis::sharding::AdminOperations::getHealthStatus</qualifiedname>
+        <briefdescription>
+<para>Get cluster health status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON health data </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_operations.h" line="104" column="20" bodyfile="src/sharding/admin_operations.cpp" bodystart="260" bodyend="288"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_admin_operations_1acb334bf59bdd611b3dd76ae9371c8f20" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::AdminOperations::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::sharding::AdminOperations::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Get cluster statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON statistics data </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_operations.h" line="110" column="20" bodyfile="src/sharding/admin_operations.cpp" bodystart="290" bodyend="297"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_admin_operations_1ade835828e66dd34827d49fb7f0f7fb94" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::AdminOperations::exportPrometheusMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>exportPrometheusMetrics</name>
+        <qualifiedname>themis::sharding::AdminOperations::exportPrometheusMetrics</qualifiedname>
+        <briefdescription>
+<para>Export Prometheus metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Prometheus-formatted metrics string </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_operations.h" line="116" column="17" bodyfile="src/sharding/admin_operations.cpp" bodystart="299" bodyend="305"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_admin_operations_1a6b89d985684a985100c379d5649973a8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1sharding_1_1_admin_a_p_i" kindref="compound">AdminAPI</ref> &amp;</type>
+        <definition>AdminAPI &amp; themis::sharding::AdminOperations::getAdminAPI</definition>
+        <argsstring>()</argsstring>
+        <name>getAdminAPI</name>
+        <qualifiedname>themis::sharding::AdminOperations::getAdminAPI</qualifiedname>
+        <briefdescription>
+<para>Get admin API instance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_operations.h" line="121" column="14" bodyfile="include/sharding/admin_operations.h" bodystart="121" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_admin_operations_1a7e7ac4cf1556df8fcdb9d248646771ee" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1sharding_1_1_operational_metrics" kindref="compound">themisdb::sharding::OperationalMetrics</ref> &amp;</type>
+        <definition>themisdb::sharding::OperationalMetrics &amp; themis::sharding::AdminOperations::getMetrics</definition>
+        <argsstring>()</argsstring>
+        <name>getMetrics</name>
+        <qualifiedname>themis::sharding::AdminOperations::getMetrics</qualifiedname>
+        <briefdescription>
+<para>Get operational metrics instance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_operations.h" line="126" column="44" bodyfile="include/sharding/admin_operations.h" bodystart="126" bodyend="126"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_admin_operations_1ab33e47b27d70ff39a635e36688e0c657" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::AdminOperations::handleTopologyRequest</definition>
+        <argsstring>(const nlohmann::json &amp;body)</argsstring>
+        <name>handleTopologyRequest</name>
+        <qualifiedname>themis::sharding::AdminOperations::handleTopologyRequest</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+<para>Handle topology requests. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Handle Topology Request.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(), <ref refid="classthemis_1_1sharding_1_1_admin_operations_1a7efc5bbbef540a7cbc0f1dbcc6ba3119" kindref="member">getTopology()</ref>, value(), <ref refid="classthemis_1_1sharding_1_1_admin_operations_1a18a04d633fd30717245b8ffad1f4bcbf" kindref="member">addShard()</ref>, <ref refid="classthemis_1_1sharding_1_1_admin_operations_1aa1729f954f3dceb73fc5a843e5b89f8e" kindref="member">removeShard()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_operations.h" line="150" column="20" bodyfile="src/sharding/admin_operations.cpp" bodystart="313" bodyend="341"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_admin_operations_1a55d8c4ee857c367c97b8747ec28b848a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::AdminOperations::handleRebalanceRequest</definition>
+        <argsstring>(const nlohmann::json &amp;body)</argsstring>
+        <name>handleRebalanceRequest</name>
+        <qualifiedname>themis::sharding::AdminOperations::handleRebalanceRequest</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+<para>Handle rebalance requests. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Handle Rebalance Request.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(), <ref refid="classthemis_1_1sharding_1_1_admin_operations_1a73dd4726d2a7fc485df4c18baee88464" kindref="member">triggerRebalance()</ref>, value(), <ref refid="classthemis_1_1sharding_1_1_admin_operations_1a2838f6f5f352cb9790c19969f6be7a6c" kindref="member">getRebalanceStatus()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_operations.h" line="155" column="20" bodyfile="src/sharding/admin_operations.cpp" bodystart="349" bodyend="366"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_admin_operations_1a226a9a4b1a88ce465e28ca7b00680648" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::AdminOperations::handleHealthRequest</definition>
+        <argsstring>(const nlohmann::json &amp;body)</argsstring>
+        <name>handleHealthRequest</name>
+        <qualifiedname>themis::sharding::AdminOperations::handleHealthRequest</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+<para>Handle health check requests. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Handle Health Request.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1sharding_1_1_admin_operations_1a9bc1cc84a4fff5d386823487e557af00" kindref="member">getHealthStatus()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_operations.h" line="160" column="20" bodyfile="src/sharding/admin_operations.cpp" bodystart="374" bodyend="377"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_admin_operations_1a398aaa6bcfd99d8251a9b14a6ff25863" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::AdminOperations::handleStatsRequest</definition>
+        <argsstring>(const nlohmann::json &amp;body)</argsstring>
+        <name>handleStatsRequest</name>
+        <qualifiedname>themis::sharding::AdminOperations::handleStatsRequest</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+<para>Handle statistics requests. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Handle Stats Request.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1sharding_1_1_admin_operations_1acb334bf59bdd611b3dd76ae9371c8f20" kindref="member">getStatistics()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_operations.h" line="165" column="20" bodyfile="src/sharding/admin_operations.cpp" bodystart="385" bodyend="388"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>High-level admin operations wrapper. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides a unified interface for administrative operations, combining admin API, metrics, topology management, and health checks. </para>
+    </detaileddescription>
+    <location file="include/sharding/admin_operations.h" line="38" column="1" bodyfile="include/sharding/admin_operations.h" bodystart="38" bodyend="166"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_admin_operations_1a18a04d633fd30717245b8ffad1f4bcbf" prot="public" virt="non-virtual"><scope>themis::sharding::AdminOperations</scope><name>addShard</name></member>
+      <member refid="classthemis_1_1sharding_1_1_admin_operations_1a7e08876ff22c3590d5509d89b6096a56" prot="private" virt="non-virtual"><scope>themis::sharding::AdminOperations</scope><name>admin_api_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_admin_operations_1a11d564fa0aa9dd52b3e83dcd14fbf8bd" prot="public" virt="non-virtual"><scope>themis::sharding::AdminOperations</scope><name>AdminOperations</name></member>
+      <member refid="classthemis_1_1sharding_1_1_admin_operations_1a817a2a72412b4b4f34995f1b00684c99" prot="private" virt="non-virtual"><scope>themis::sharding::AdminOperations</scope><name>config_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_admin_operations_1ade835828e66dd34827d49fb7f0f7fb94" prot="public" virt="non-virtual"><scope>themis::sharding::AdminOperations</scope><name>exportPrometheusMetrics</name></member>
+      <member refid="classthemis_1_1sharding_1_1_admin_operations_1a6b89d985684a985100c379d5649973a8" prot="public" virt="non-virtual"><scope>themis::sharding::AdminOperations</scope><name>getAdminAPI</name></member>
+      <member refid="classthemis_1_1sharding_1_1_admin_operations_1a9bc1cc84a4fff5d386823487e557af00" prot="public" virt="non-virtual"><scope>themis::sharding::AdminOperations</scope><name>getHealthStatus</name></member>
+      <member refid="classthemis_1_1sharding_1_1_admin_operations_1a7e7ac4cf1556df8fcdb9d248646771ee" prot="public" virt="non-virtual"><scope>themis::sharding::AdminOperations</scope><name>getMetrics</name></member>
+      <member refid="classthemis_1_1sharding_1_1_admin_operations_1a2838f6f5f352cb9790c19969f6be7a6c" prot="public" virt="non-virtual"><scope>themis::sharding::AdminOperations</scope><name>getRebalanceStatus</name></member>
+      <member refid="classthemis_1_1sharding_1_1_admin_operations_1acb334bf59bdd611b3dd76ae9371c8f20" prot="public" virt="non-virtual"><scope>themis::sharding::AdminOperations</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1sharding_1_1_admin_operations_1a7efc5bbbef540a7cbc0f1dbcc6ba3119" prot="public" virt="non-virtual"><scope>themis::sharding::AdminOperations</scope><name>getTopology</name></member>
+      <member refid="classthemis_1_1sharding_1_1_admin_operations_1a226a9a4b1a88ce465e28ca7b00680648" prot="private" virt="non-virtual"><scope>themis::sharding::AdminOperations</scope><name>handleHealthRequest</name></member>
+      <member refid="classthemis_1_1sharding_1_1_admin_operations_1a55d8c4ee857c367c97b8747ec28b848a" prot="private" virt="non-virtual"><scope>themis::sharding::AdminOperations</scope><name>handleRebalanceRequest</name></member>
+      <member refid="classthemis_1_1sharding_1_1_admin_operations_1a398aaa6bcfd99d8251a9b14a6ff25863" prot="private" virt="non-virtual"><scope>themis::sharding::AdminOperations</scope><name>handleStatsRequest</name></member>
+      <member refid="classthemis_1_1sharding_1_1_admin_operations_1ab33e47b27d70ff39a635e36688e0c657" prot="private" virt="non-virtual"><scope>themis::sharding::AdminOperations</scope><name>handleTopologyRequest</name></member>
+      <member refid="classthemis_1_1sharding_1_1_admin_operations_1ac014d5707f25ab507d3be95ec4a01d65" prot="private" virt="non-virtual"><scope>themis::sharding::AdminOperations</scope><name>health_check_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_admin_operations_1a852e8f48d71ebe53c7f94d60124c91e9" prot="public" virt="non-virtual"><scope>themis::sharding::AdminOperations</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1sharding_1_1_admin_operations_1a0d7ab96991d8dc7c6bfc664274f996e6" prot="private" virt="non-virtual"><scope>themis::sharding::AdminOperations</scope><name>kRebalanceEstimatedDurationSeconds</name></member>
+      <member refid="classthemis_1_1sharding_1_1_admin_operations_1a95b8a56f0a4284dd0b4f00a15dcde771" prot="private" virt="non-virtual"><scope>themis::sharding::AdminOperations</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_admin_operations_1a4eb9451af0cf516887818912d2646aee" prot="private" virt="non-virtual"><scope>themis::sharding::AdminOperations</scope><name>rebalance_ops_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_admin_operations_1a8b083ec27328927e7dcad2a2c6cdb19b" prot="private" virt="non-virtual"><scope>themis::sharding::AdminOperations</scope><name>rebalance_ops_mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_admin_operations_1aa1729f954f3dceb73fc5a843e5b89f8e" prot="public" virt="non-virtual"><scope>themis::sharding::AdminOperations</scope><name>removeShard</name></member>
+      <member refid="classthemis_1_1sharding_1_1_admin_operations_1a87eaa32f3233239bd944f6d92d0c219e" prot="public" virt="non-virtual"><scope>themis::sharding::AdminOperations</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1sharding_1_1_admin_operations_1aa2e84311daff39cecc1d103457c5098b" prot="private" virt="non-virtual"><scope>themis::sharding::AdminOperations</scope><name>topology_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_admin_operations_1a73dd4726d2a7fc485df4c18baee88464" prot="public" virt="non-virtual"><scope>themis::sharding::AdminOperations</scope><name>triggerRebalance</name></member>
+      <member refid="classthemis_1_1sharding_1_1_admin_operations_1a90a7d1aca2e2cc7e478d4bb50f34ca0e" prot="public" virt="non-virtual"><scope>themis::sharding::AdminOperations</scope><name>~AdminOperations</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

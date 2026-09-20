@@ -1,0 +1,474 @@
+name: "Gate: PR Module Doxygen XML"
+
+# Rechenaufwand-Score: R=2 (K=2, L=2, N=2)
+# Generates per-module Doxygen XML artifacts for changed src/<module> C/C++ files.
+# Artifacts are machine-checkable evidence for internal module structure/dependencies.
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    branches:
+      - develop
+      - community
+      - enterprise
+      - hyperscaler
+      - military
+      - minimal
+    paths:
+      - 'include/**/*.h'
+      - 'include/**/*.hh'
+      - 'include/**/*.hpp'
+      - 'include/**/*.hxx'
+      - 'include/**/*.ipp'
+      - 'include/**/*.tpp'
+      - 'src/**/*.c'
+      - 'src/**/*.cc'
+      - 'src/**/*.cpp'
+      - 'src/**/*.cxx'
+      - 'tests/**/*.c'
+      - 'tests/**/*.cc'
+      - 'tests/**/*.cpp'
+      - 'tests/**/*.cxx'
+      - 'benchmarks/**/*.c'
+      - 'benchmarks/**/*.cc'
+      - 'benchmarks/**/*.cpp'
+      - 'benchmarks/**/*.cxx'
+      - 'Doxyfile'
+      - 'Doxyfile.audit'
+      - 'ai_context/developer_llm_wiki/MODULE_DOXYGEN_BASELINE.json'
+      - 'scripts/compare_module_doxygen_manifests.py'
+      - 'scripts/generate_module_doxygen_xml.py'
+      - 'scripts/check_module_direct_doxygen.py'
+      - '.github/workflows/gate-pr-module-doxygen-xml.yml'
+  schedule:
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+    inputs:
+      modules:
+        description: "Optional comma-separated module names (src/<module>)"
+        required: false
+        type: string
+      sweep_all_modules:
+        description: "If true, ignore --modules and scan all src/<module> directories"
+        required: false
+        default: false
+        type: boolean
+      workers:
+        description: "Parallel workers for module Doxygen runs"
+        required: false
+        default: "2"
+        type: string
+      batch_count:
+        description: "Split selected modules into N batches"
+        required: false
+        default: "1"
+        type: string
+      batch_index:
+        description: "0-based batch index to execute"
+        required: false
+        default: "0"
+        type: string
+      enforce_direct_doxygen_gate:
+        description: "Fail workflow if src-scoped findings exceed thresholds"
+        required: false
+        default: false
+        type: boolean
+      threshold_missing_symbol_src:
+        description: "Max allowed missing_symbol findings in src scope"
+        required: false
+        default: "0"
+        type: string
+      threshold_missing_brief_src:
+        description: "Max allowed missing_brief findings in src scope"
+        required: false
+        default: "999999"
+        type: string
+      threshold_missing_param_docs_src:
+        description: "Max allowed missing_param_docs findings in src scope"
+        required: false
+        default: "999999"
+        type: string
+      threshold_missing_return_docs_src:
+        description: "Max allowed missing_return_docs findings in src scope"
+        required: false
+        default: "999999"
+        type: string
+
+concurrency:
+  group: module-doxygen-xml-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  module-doxygen-xml:
+    name: Module Doxygen XML
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fetch base branch
+        if: github.event_name == 'pull_request'
+        run: |
+          git fetch origin "${{ github.base_ref }}" --depth=1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Doxygen
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends doxygen
+
+      - name: Resolve modules to process
+        id: modules
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ github.event_name }}" = "schedule" ]; then
+            echo "modules=__ALL__" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.sweep_all_modules }}" = "true" ]; then
+            echo "modules=__ALL__" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ -n "${{ inputs.modules }}" ]; then
+            echo "modules=${{ inputs.modules }}" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          python3 - <<'PY'
+          import os
+          import re
+          import subprocess
+
+          base_ref = os.environ.get("GITHUB_BASE_REF", "develop")
+
+          diff_target = f"origin/{base_ref}...HEAD"
+          proc = subprocess.run(
+              ["git", "diff", "--name-only", "--diff-filter=ACMR", diff_target],
+              text=True,
+              capture_output=True,
+              check=False,
+          )
+          files = [ln.strip() for ln in proc.stdout.splitlines() if ln.strip()]
+
+          rx_cpp = re.compile(r"\.(h|hh|hpp|hxx|ipp|tpp|c|cc|cpp|cxx)$", re.IGNORECASE)
+          modules = set()
+          roots = ("src/", "include/", "tests/", "benchmarks/")
+          for p in files:
+              if not p.startswith(roots):
+                  continue
+              parts = p.split("/")
+              if len(parts) < 3:
+                  continue
+              if not rx_cpp.search(p):
+                  continue
+              modules.add(parts[1])
+
+          result = ",".join(sorted(modules))
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as fh:
+              fh.write(f"modules={result}\n")
+          print(f"Resolved modules: {result if result else '(none)'}")
+          PY
+
+      - name: Generate module Doxygen XML artifacts
+        if: steps.modules.outputs.modules != ''
+        run: |
+          mkdir -p /tmp/module-doxygen
+          WORKERS="${{ inputs.workers || '2' }}"
+          BATCH_COUNT="${{ inputs.batch_count || '1' }}"
+          BATCH_INDEX="${{ inputs.batch_index || '0' }}"
+          if [ "${{ steps.modules.outputs.modules }}" = "__ALL__" ]; then
+            python3 scripts/generate_module_doxygen_xml.py \
+              --repo-root . \
+              --all-modules \
+              --workers "$WORKERS" \
+              --batch-count "$BATCH_COUNT" \
+              --batch-index "$BATCH_INDEX" \
+              --write-module-markdown \
+              --doxyfile Doxyfile.audit \
+              --output-root /tmp/module-doxygen/artifacts \
+              --manifest /tmp/module-doxygen/manifest.json \
+              --summary-md /tmp/module-doxygen/summary.md
+          else
+            python3 scripts/generate_module_doxygen_xml.py \
+              --repo-root . \
+              --modules "${{ steps.modules.outputs.modules }}" \
+              --workers "$WORKERS" \
+              --batch-count "$BATCH_COUNT" \
+              --batch-index "$BATCH_INDEX" \
+              --write-module-markdown \
+              --doxyfile Doxyfile.audit \
+              --output-root /tmp/module-doxygen/artifacts \
+              --manifest /tmp/module-doxygen/manifest.json \
+              --summary-md /tmp/module-doxygen/summary.md
+          fi
+
+      - name: Run direct Doxygen checks per module
+        if: steps.modules.outputs.modules != ''
+        env:
+          MODULES_RAW: ${{ steps.modules.outputs.modules }}
+        run: |
+          mkdir -p /tmp/module-doxygen/direct-check
+          python3 - <<'PY'
+          import json
+          import os
+          import pathlib
+          import subprocess
+          import sys
+
+          modules_raw = os.environ.get("MODULES_RAW", "")
+          artifacts_root = pathlib.Path("/tmp/module-doxygen/artifacts")
+          out_root = pathlib.Path("/tmp/module-doxygen/direct-check")
+
+          if modules_raw == "__ALL__":
+              modules = sorted([p.name for p in artifacts_root.iterdir() if p.is_dir()])
+          else:
+              modules = [m.strip() for m in modules_raw.split(",") if m.strip()]
+
+          aggregate = {"modules": []}
+          for module in modules:
+              report_json = out_root / f"{module}.json"
+              summary_md = out_root / f"{module}.md"
+              cmd = [
+                  "python3",
+                  "scripts/check_module_direct_doxygen.py",
+                  "--repo-root", ".",
+                  "--module", module,
+                  "--source-graph-json", "ai_working/sourcecode_graph.json",
+                  "--doxygen-artifacts-root", str(artifacts_root),
+                  "--report-json", str(report_json),
+                  "--summary-md", str(summary_md),
+                  "--missing-report-json", str(out_root / f"{module}.missing.json"),
+                  "--coverage-summary-md", str(out_root / f"{module}.coverage.md"),
+              ]
+              proc = subprocess.run(cmd, text=True, capture_output=True)
+              if proc.stdout:
+                  print(proc.stdout)
+              if proc.returncode != 0:
+                  if proc.stderr:
+                      print(proc.stderr, file=sys.stderr)
+                  raise SystemExit(proc.returncode)
+
+              data = json.loads(report_json.read_text(encoding="utf-8"))
+              aggregate["modules"].append(
+                  {
+                      "module": module,
+                      "source_mode": data.get("source_mode"),
+                      "by_rule": data.get("by_rule", {}),
+                      "by_rule_scope": data.get("by_rule_scope", {}),
+                      "by_scope": data.get("by_scope", {}),
+                      "coverage": data.get("coverage", {}),
+                      "report_json": str(report_json),
+                      "summary_md": str(summary_md),
+                  }
+              )
+
+          (out_root / "aggregate.json").write_text(json.dumps(aggregate, indent=2), encoding="utf-8")
+
+          lines = ["# Direct Doxygen Check (Per Module)", ""]
+          if not aggregate["modules"]:
+              lines.append("- no modules")
+          for m in aggregate["modules"]:
+              lines.extend(
+                  [
+                      f"## {m['module']}",
+                      f"- source_mode: {m.get('source_mode', 'unknown')}",
+                      f"- missing_symbol: {m.get('by_rule', {}).get('missing_symbol', 0)}",
+                      f"- missing_brief: {m.get('by_rule', {}).get('missing_brief', 0)}",
+                      f"- missing_param_docs: {m.get('by_rule', {}).get('missing_param_docs', 0)}",
+                      f"- missing_return_docs: {m.get('by_rule', {}).get('missing_return_docs', 0)}",
+                      f"- symbol_presence_ratio: {m.get('coverage', {}).get('symbol_presence_ratio', 0.0)}",
+                      "",
+                  ]
+              )
+
+          (out_root / "aggregate.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+          PY
+
+      - name: Evaluate direct Doxygen gate
+        if: steps.modules.outputs.modules != ''
+        env:
+          ENFORCE_DIRECT_GATE: ${{ github.event_name == 'workflow_dispatch' && inputs.enforce_direct_doxygen_gate || 'false' }}
+          THRESHOLD_MISSING_SYMBOL_SRC: ${{ github.event_name == 'workflow_dispatch' && inputs.threshold_missing_symbol_src || '0' }}
+          THRESHOLD_MISSING_BRIEF_SRC: ${{ github.event_name == 'workflow_dispatch' && inputs.threshold_missing_brief_src || '999999' }}
+          THRESHOLD_MISSING_PARAM_DOCS_SRC: ${{ github.event_name == 'workflow_dispatch' && inputs.threshold_missing_param_docs_src || '999999' }}
+          THRESHOLD_MISSING_RETURN_DOCS_SRC: ${{ github.event_name == 'workflow_dispatch' && inputs.threshold_missing_return_docs_src || '999999' }}
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          import pathlib
+          import sys
+
+          aggregate_path = pathlib.Path("/tmp/module-doxygen/direct-check/aggregate.json")
+          if not aggregate_path.exists():
+              print("No aggregate direct-check artifact present", file=sys.stderr)
+              raise SystemExit(1)
+
+          aggregate = json.loads(aggregate_path.read_text(encoding="utf-8"))
+          thresholds = {
+              "missing_symbol": int(os.environ.get("THRESHOLD_MISSING_SYMBOL_SRC", "0")),
+              "missing_brief": int(os.environ.get("THRESHOLD_MISSING_BRIEF_SRC", "999999")),
+              "missing_param_docs": int(os.environ.get("THRESHOLD_MISSING_PARAM_DOCS_SRC", "999999")),
+              "missing_return_docs": int(os.environ.get("THRESHOLD_MISSING_RETURN_DOCS_SRC", "999999")),
+          }
+          enforce = os.environ.get("ENFORCE_DIRECT_GATE", "false").lower() == "true"
+
+          totals = {k: 0 for k in thresholds}
+          for module in aggregate.get("modules", []):
+              by_rule_scope = module.get("by_rule_scope", {})
+              for rule in thresholds:
+                  rule_scopes = by_rule_scope.get(rule, {})
+                  totals[rule] += int(rule_scopes.get("src", 0))
+
+          violations = []
+          for rule, limit in thresholds.items():
+              actual = totals.get(rule, 0)
+              if actual > limit:
+                  violations.append({"rule": rule, "actual": actual, "limit": limit})
+
+          payload = {
+              "enforce": enforce,
+              "thresholds": thresholds,
+              "totals_src": totals,
+              "violations": violations,
+          }
+          pathlib.Path("/tmp/module-doxygen/direct-check/gate-eval.json").write_text(
+              json.dumps(payload, indent=2), encoding="utf-8"
+          )
+
+          lines = [
+              "# Direct Doxygen Gate Evaluation",
+              "",
+              f"- enforce: {enforce}",
+              f"- totals_src: {totals}",
+              "",
+              "## Thresholds",
+          ]
+          for rule, limit in thresholds.items():
+              lines.append(f"- {rule}: <= {limit}")
+          lines.append("")
+          lines.append("## Violations")
+          if violations:
+              for v in violations:
+                  lines.append(f"- {v['rule']}: {v['actual']} > {v['limit']}")
+          else:
+              lines.append("- none")
+
+          pathlib.Path("/tmp/module-doxygen/direct-check/gate-eval.md").write_text(
+              "\n".join(lines) + "\n", encoding="utf-8"
+          )
+
+          if enforce and violations:
+              print("Direct Doxygen gate violations detected", file=sys.stderr)
+              raise SystemExit(1)
+          PY
+
+      - name: Write skip summary
+        if: steps.modules.outputs.modules == ''
+        run: |
+          {
+            echo "## Module Doxygen XML"
+            echo ""
+            echo "No modules selected (no changed module C/C++ files under include/src/tests/benchmarks and no full sweep requested)."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Publish summary
+        if: steps.modules.outputs.modules != ''
+        run: |
+          {
+            echo "## Module Doxygen XML"
+            echo ""
+            cat /tmp/module-doxygen/summary.md
+            echo ""
+            echo "## Direct Doxygen Coverage"
+            echo ""
+            cat /tmp/module-doxygen/direct-check/aggregate.md
+            echo ""
+            echo "## Direct Doxygen Gate"
+            echo ""
+            cat /tmp/module-doxygen/direct-check/gate-eval.md
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Compare against baseline manifest (full sweep only)
+        if: steps.modules.outputs.modules == '__ALL__' && hashFiles('ai_context/developer_llm_wiki/MODULE_DOXYGEN_BASELINE.json') != ''
+        run: |
+          python3 scripts/compare_module_doxygen_manifests.py \
+            --baseline ai_context/developer_llm_wiki/MODULE_DOXYGEN_BASELINE.json \
+            --current /tmp/module-doxygen/manifest.json \
+            --report-json /tmp/module-doxygen/drift-report.json \
+            --summary-md /tmp/module-doxygen/drift-summary.md
+
+      - name: Publish drift summary
+        if: steps.modules.outputs.modules == '__ALL__' && hashFiles('ai_context/developer_llm_wiki/MODULE_DOXYGEN_BASELINE.json') != ''
+        run: |
+          {
+            echo ""
+            echo "## Module Doxygen Drift"
+            echo ""
+            cat /tmp/module-doxygen/drift-summary.md
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload module Doxygen artifacts
+        if: always() && steps.modules.outputs.modules != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: module-doxygen-xml-${{ github.run_number }}
+          path: |
+            /tmp/module-doxygen/manifest.json
+            /tmp/module-doxygen/summary.md
+            /tmp/module-doxygen/drift-report.json
+            /tmp/module-doxygen/drift-summary.md
+            /tmp/module-doxygen/artifacts/**
+            /tmp/module-doxygen/direct-check/aggregate.json
+            /tmp/module-doxygen/direct-check/aggregate.md
+            /tmp/module-doxygen/direct-check/gate-eval.json
+            /tmp/module-doxygen/direct-check/gate-eval.md
+            /tmp/module-doxygen/direct-check/*.json
+            /tmp/module-doxygen/direct-check/*.md
+          retention-days: 21
+          if-no-files-found: warn
+
+  gate-feedback:
+    name: Gate Feedback
+    needs: module-doxygen-xml
+    if: failure() && github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+    steps:
+      - name: Apply failure label and PR comment
+        uses: actions/github-script@v7  # v9.0.0
+        with:
+          script: |
+            const label = 'ci/failure';
+            const issueNumber = context.payload.pull_request?.number ?? context.issue.number;
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const { data: pr } = await github.rest.pulls.get({ owner: context.repo.owner, repo: context.repo.repo, pull_number: issueNumber });
+            try {
+              await github.rest.issues.addLabels({ owner: context.repo.owner, repo: context.repo.repo, issue_number: issueNumber, labels: [label] });
+            } catch (error) {
+              core.warning(`Unable to apply label ${label}: ${error.message}`);
+            }
+            const marker = '<!-- module-doxygen-gate-failure -->';
+            const commentBody = `${marker}\n> [!CAUTION]\n> **Module Doxygen gate failed.**\n> Review the [workflow run](${runUrl}) for details.\n> The \`ci/failure\` label has been applied.`;
+            const comments = await github.rest.issues.listComments({ owner: context.repo.owner, repo: context.repo.repo, issue_number: issueNumber });
+            const existing = comments.data.find(c => c.user.type === 'Bot' && c.body.includes('module-doxygen-gate-failure'));
+            if (existing) {
+              await github.rest.issues.updateComment({ owner: context.repo.owner, repo: context.repo.repo, comment_id: existing.id, body: commentBody });
+            } else {
+              await github.rest.issues.createComment({ owner: context.repo.owner, repo: context.repo.repo, issue_number: issueNumber, body: commentBody });
+            }

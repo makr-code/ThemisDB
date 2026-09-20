@@ -1,0 +1,982 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::GPUTrainingLoop</compoundname>
+    <includes refid="gpu__training__loop_8h" local="no">gpu_training_loop.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a90ddc71830e61bb82718a5dee0123999" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_config" kindref="compound">GPUTrainingConfig</ref></type>
+        <definition>GPUTrainingConfig themis::llm::lora::GPUTrainingLoop::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingLoop::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="167" column="23" bodyfile="include/llm/lora_framework/gpu_training_loop.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a50cb5be3592713a3c2f5cad310f4c22d" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader" kindref="compound">GPUDataLoader</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;GPUDataLoader&gt; themis::llm::lora::GPUTrainingLoop::data_loader_</definition>
+        <argsstring></argsstring>
+        <name>data_loader_</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingLoop::data_loader_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="170" column="21" bodyfile="include/llm/lora_framework/gpu_training_loop.h" bodystart="170" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a3015600bd3f5e63ed0ce4dd12450a424" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer" kindref="compound">GPULoRALayer</ref> * &gt;</type>
+        <definition>std::vector&lt;GPULoRALayer*&gt; themis::llm::lora::GPUTrainingLoop::layers_</definition>
+        <argsstring></argsstring>
+        <name>layers_</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingLoop::layers_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="171" column="17" bodyfile="include/llm/lora_framework/gpu_training_loop.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a26a47d12b8276217c541b7a40c67cb2c" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer" kindref="compound">MultiGPULoRALayer</ref> *</type>
+        <definition>MultiGPULoRALayer* themis::llm::lora::GPUTrainingLoop::multi_gpu_layer_</definition>
+        <argsstring></argsstring>
+        <name>multi_gpu_layer_</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingLoop::multi_gpu_layer_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="172" column="23" bodyfile="include/llm/lora_framework/gpu_training_loop.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a7ca97486a1f0b26d92907c48a0ce45d3" prot="private" static="no" mutable="no">
+        <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_base_model_adapter" kindref="compound">BaseModelAdapter</ref> *</type>
+        <definition>const BaseModelAdapter* themis::llm::lora::GPUTrainingLoop::base_model_</definition>
+        <argsstring></argsstring>
+        <name>base_model_</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingLoop::base_model_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="175" column="28" bodyfile="include/llm/lora_framework/gpu_training_loop.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a981dda3c4f42ecae8212daaae5658cee" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_embedding_layer" kindref="compound">GPUEmbeddingLayer</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;GPUEmbeddingLayer&gt; themis::llm::lora::GPUTrainingLoop::gpu_embedding_layer_</definition>
+        <argsstring></argsstring>
+        <name>gpu_embedding_layer_</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingLoop::gpu_embedding_layer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="176" column="21" bodyfile="include/llm/lora_framework/gpu_training_loop.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a1762f5539cc80f70cfadceb5a22dbb87" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_s_g_d_optimizer" kindref="compound">GPUSGDOptimizer</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;GPUSGDOptimizer&gt; themis::llm::lora::GPUTrainingLoop::optimizer_</definition>
+        <argsstring></argsstring>
+        <name>optimizer_</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingLoop::optimizer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="179" column="21" bodyfile="include/llm/lora_framework/gpu_training_loop.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a4042e587827dbfb9d34550c260b1525c" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_mixed_precision_trainer" kindref="compound">MixedPrecisionTrainer</ref> *</type>
+        <definition>MixedPrecisionTrainer* themis::llm::lora::GPUTrainingLoop::mixed_precision_trainer_</definition>
+        <argsstring></argsstring>
+        <name>mixed_precision_trainer_</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingLoop::mixed_precision_trainer_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="180" column="27" bodyfile="include/llm/lora_framework/gpu_training_loop.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a957490e538e8ed952bbb5f2ffe68159e" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer" kindref="compound">GradientCheckpointer</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;GradientCheckpointer&gt; themis::llm::lora::GPUTrainingLoop::checkpointer_</definition>
+        <argsstring></argsstring>
+        <name>checkpointer_</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingLoop::checkpointer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="181" column="21" bodyfile="include/llm/lora_framework/gpu_training_loop.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1aa6c1331bc2f13c53f1432c6857ff4775" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator" kindref="compound">VRAMAllocator</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;VRAMAllocator&gt; themis::llm::lora::GPUTrainingLoop::vram_allocator_</definition>
+        <argsstring></argsstring>
+        <name>vram_allocator_</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingLoop::vram_allocator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="184" column="21" bodyfile="include/llm/lora_framework/gpu_training_loop.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1afe903865514190a06562acc8e5baf731" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager" kindref="compound">::themis::llm::GPUMemoryManager</ref> *</type>
+        <definition>::themis::llm::GPUMemoryManager* themis::llm::lora::GPUTrainingLoop::gpu_memory_manager_</definition>
+        <argsstring></argsstring>
+        <name>gpu_memory_manager_</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingLoop::gpu_memory_manager_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="185" column="37" bodyfile="include/llm/lora_framework/gpu_training_loop.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a2475628dbd7b34533b89ce6c0d86dd74" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher" kindref="compound">AdaptiveBatcher</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;AdaptiveBatcher&gt; themis::llm::lora::GPUTrainingLoop::adaptive_batcher_</definition>
+        <argsstring></argsstring>
+        <name>adaptive_batcher_</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingLoop::adaptive_batcher_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="188" column="21" bodyfile="include/llm/lora_framework/gpu_training_loop.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a1200f65767f064279bc824d421d3c5e6" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor" kindref="compound">GPUUtilizationMonitor</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;GPUUtilizationMonitor&gt; themis::llm::lora::GPUTrainingLoop::gpu_monitor_</definition>
+        <argsstring></argsstring>
+        <name>gpu_monitor_</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingLoop::gpu_monitor_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="189" column="21" bodyfile="include/llm/lora_framework/gpu_training_loop.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a6585021c78028d33544e9db6a515ab32" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::llm::lora::GPUTrainingLoop::is_training_</definition>
+        <argsstring></argsstring>
+        <name>is_training_</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingLoop::is_training_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="192" column="17" bodyfile="include/llm/lora_framework/gpu_training_loop.h" bodystart="192" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a2322350b47103c15c0cc9fc5446a4139" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::llm::lora::GPUTrainingLoop::stop_requested_</definition>
+        <argsstring></argsstring>
+        <name>stop_requested_</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingLoop::stop_requested_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="193" column="17" bodyfile="include/llm/lora_framework/gpu_training_loop.h" bodystart="193" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a0284887c95af21147fdb2c0ccad3481e" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics" kindref="compound">GPUTrainingMetrics</ref></type>
+        <definition>GPUTrainingMetrics themis::llm::lora::GPUTrainingLoop::current_metrics_</definition>
+        <argsstring></argsstring>
+        <name>current_metrics_</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingLoop::current_metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="194" column="24" bodyfile="include/llm/lora_framework/gpu_training_loop.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a5992caf407e89d703a34393d38a1bf47" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1a362ae9a83ecbd526db1702367e96f7ba" kindref="member">GPUTrainingCallback</ref></type>
+        <definition>GPUTrainingCallback themis::llm::lora::GPUTrainingLoop::callback_</definition>
+        <argsstring></argsstring>
+        <name>callback_</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingLoop::callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="195" column="25" bodyfile="include/llm/lora_framework/gpu_training_loop.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1aa62fa75d14f2372dd14c08ef6f00b1d2" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::GPUTrainingLoop::final_loss_</definition>
+        <argsstring></argsstring>
+        <name>final_loss_</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingLoop::final_loss_</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="196" column="11" bodyfile="include/llm/lora_framework/gpu_training_loop.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1acb7ccb088923105aa19966ff3f770257" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::GPUTrainingLoop::GPUTrainingLoop</definition>
+        <argsstring>(const GPUTrainingConfig &amp;config)</argsstring>
+        <name>GPUTrainingLoop</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingLoop::GPUTrainingLoop</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_config" kindref="compound">GPUTrainingConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>GPUTraining Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="99" column="14" bodyfile="src/llm/lora_framework/gpu_training_loop.cpp" bodystart="34" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a40db6464bc94eb5d953e07965aa537ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::GPUTrainingLoop::~GPUTrainingLoop</definition>
+        <argsstring>()</argsstring>
+        <name>~GPUTrainingLoop</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingLoop::~GPUTrainingLoop</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="101" column="5" bodyfile="src/llm/lora_framework/gpu_training_loop.cpp" bodystart="48" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a971d7f8542259adc0839ab0119fcd1a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::GPUTrainingLoop::GPUTrainingLoop</definition>
+        <argsstring>(const GPUTrainingLoop &amp;)=delete</argsstring>
+        <name>GPUTrainingLoop</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingLoop::GPUTrainingLoop</qualifiedname>
+        <param>
+          <type>const GPUTrainingLoop &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="104" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1aec2b1f7be2e82986eae4ea3f38d9df64" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1acb7ccb088923105aa19966ff3f770257" kindref="member">GPUTrainingLoop</ref> &amp;</type>
+        <definition>GPUTrainingLoop &amp; themis::llm::lora::GPUTrainingLoop::operator=</definition>
+        <argsstring>(const GPUTrainingLoop &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingLoop::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1acb7ccb088923105aa19966ff3f770257" kindref="member">GPUTrainingLoop</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="105" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a860545af16f560bff22412922acbaf1b" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::GPUTrainingLoop::GPUTrainingLoop</definition>
+        <argsstring>(GPUTrainingLoop &amp;&amp;) noexcept</argsstring>
+        <name>GPUTrainingLoop</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingLoop::GPUTrainingLoop</qualifiedname>
+        <param>
+          <type>GPUTrainingLoop &amp;&amp;</type>
+          <defname>other</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="106" column="5" bodyfile="src/llm/lora_framework/gpu_training_loop.cpp" bodystart="52" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1ad061ea7ec6f2307fb86735f484fd7fea" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1acb7ccb088923105aa19966ff3f770257" kindref="member">GPUTrainingLoop</ref> &amp;</type>
+        <definition>GPUTrainingLoop &amp; themis::llm::lora::GPUTrainingLoop::operator=</definition>
+        <argsstring>(GPUTrainingLoop &amp;&amp;) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingLoop::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1acb7ccb088923105aa19966ff3f770257" kindref="member">GPUTrainingLoop</ref> &amp;&amp;</type>
+          <defname>other</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="107" column="21" bodyfile="src/llm/lora_framework/gpu_training_loop.cpp" bodystart="73" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a4b6e3c7690a3a1dfa900a640e3129340" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GPUTrainingLoop::setDataLoader</definition>
+        <argsstring>(std::unique_ptr&lt; GPUDataLoader &gt; loader)</argsstring>
+        <name>setDataLoader</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingLoop::setDataLoader</qualifiedname>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader" kindref="compound">GPUDataLoader</ref> &gt;</type>
+          <declname>loader</declname>
+        </param>
+        <briefdescription>
+<para>Set Data Loader. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">loader</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">loader</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(), spdlog::info(), size(), num_batches(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="113" column="10" bodyfile="src/llm/lora_framework/gpu_training_loop.cpp" bodystart="104" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a06e2be9a60e082b981ce9b8348b87e69" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GPUTrainingLoop::addLayer</definition>
+        <argsstring>(GPULoRALayer *layer)</argsstring>
+        <name>addLayer</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingLoop::addLayer</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer" kindref="compound">GPULoRALayer</ref> *</type>
+          <declname>layer</declname>
+        </param>
+        <briefdescription>
+<para>Add Layer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">layer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">layer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(), spdlog::debug(), parameter_count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="119" column="10" bodyfile="src/llm/lora_framework/gpu_training_loop.cpp" bodystart="115" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a1be8d4eb500127fe199640b0603281fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GPUTrainingLoop::setMultiGPULayer</definition>
+        <argsstring>(MultiGPULoRALayer *layer)</argsstring>
+        <name>setMultiGPULayer</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingLoop::setMultiGPULayer</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer" kindref="compound">MultiGPULoRALayer</ref> *</type>
+          <declname>layer</declname>
+        </param>
+        <briefdescription>
+<para>Set Multi GPULayer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">layer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">layer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::info(), num_gpus(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="125" column="10" bodyfile="src/llm/lora_framework/gpu_training_loop.cpp" bodystart="127" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1afc4b7bf635c74c824909bbc61f78774f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GPUTrainingLoop::setMixedPrecisionTrainer</definition>
+        <argsstring>(MixedPrecisionTrainer *trainer)</argsstring>
+        <name>setMixedPrecisionTrainer</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingLoop::setMixedPrecisionTrainer</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1lora_1_1_mixed_precision_trainer" kindref="compound">MixedPrecisionTrainer</ref> *</type>
+          <declname>trainer</declname>
+        </param>
+        <briefdescription>
+<para>Set Mixed Precision Trainer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">trainer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">trainer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::info(), is_enabled(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="131" column="10" bodyfile="src/llm/lora_framework/gpu_training_loop.cpp" bodystart="137" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1aad362235a65e419406471f4fd69e1425" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GPUTrainingLoop::registerCallback</definition>
+        <argsstring>(GPUTrainingCallback callback)</argsstring>
+        <name>registerCallback</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingLoop::registerCallback</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1_1lora_1a362ae9a83ecbd526db1702367e96f7ba" kindref="member">GPUTrainingCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Register Callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements registerCallback without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="137" column="10" bodyfile="src/llm/lora_framework/gpu_training_loop.cpp" bodystart="148" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1ab7af8faab3a55530d8325e3a490ee5f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::GPUTrainingLoop::train</definition>
+        <argsstring>()</argsstring>
+        <name>train</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingLoop::train</qualifiedname>
+        <briefdescription>
+<para>Train. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: load(), spdlog::warn(), spdlog::error(), empty(), store(), std::chrono::steady_clock::now(), initializeOptimizer(), initializeAdaptiveBatching(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="143" column="10" bodyfile="src/llm/lora_framework/gpu_training_loop.cpp" bodystart="193" bodyend="278"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a971d6a85f5f671a93b0826390adcd2ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GPUTrainingLoop::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingLoop::stop</qualifiedname>
+        <briefdescription>
+<para>Stop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: load(), spdlog::info(), store(), std::this_thread::sleep_for(), std::chrono::milliseconds(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="148" column="10" bodyfile="src/llm/lora_framework/gpu_training_loop.cpp" bodystart="284" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a58f3e12170719cafe8005dcb3ee26cf3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::GPUTrainingLoop::isTraining</definition>
+        <argsstring>() const</argsstring>
+        <name>isTraining</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingLoop::isTraining</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="150" column="10" bodyfile="include/llm/lora_framework/gpu_training_loop.h" bodystart="150" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1abb6c7403002b51cef1d541855363aa2b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics" kindref="compound">GPUTrainingMetrics</ref></type>
+        <definition>GPUTrainingMetrics themis::llm::lora::GPUTrainingLoop::getMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>getMetrics</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingLoop::getMetrics</qualifiedname>
+        <briefdescription>
+<para>Get Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="156" column="24" bodyfile="src/llm/lora_framework/gpu_training_loop.cpp" bodystart="300" bodyend="311"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a3e3e2c2538c12ca42cb88eb010d81c80" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::lora::GPUTrainingLoop::getFinalLoss</definition>
+        <argsstring>() const</argsstring>
+        <name>getFinalLoss</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingLoop::getFinalLoss</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="158" column="11" bodyfile="include/llm/lora_framework/gpu_training_loop.h" bodystart="158" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1adada13ec3bd6803ef9d8bb2e84a99964" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GPUTrainingLoop::setBaseModel</definition>
+        <argsstring>(const BaseModelAdapter *base_model)</argsstring>
+        <name>setBaseModel</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingLoop::setBaseModel</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_base_model_adapter" kindref="compound">BaseModelAdapter</ref> *</type>
+          <declname>base_model</declname>
+        </param>
+        <briefdescription>
+<para>Set Base Model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">base_model</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">base_model</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: isLoaded(), getEmbeddingMatrix(), getVocabSize(), getHiddenSize(), spdlog::info(), spdlog::warn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="164" column="10" bodyfile="src/llm/lora_framework/gpu_training_loop.cpp" bodystart="157" bodyend="186"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a3662d8d8c08d3426a3e8671ef6a324f6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GPUTrainingLoop::initializeOptimizer</definition>
+        <argsstring>()</argsstring>
+        <name>initializeOptimizer</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingLoop::initializeOptimizer</qualifiedname>
+        <briefdescription>
+<para>Initialize Optimizer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: get_layer(), parameters(), insert(), end(), begin(), add_parameters(), spdlog::info(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="202" column="10" bodyfile="src/llm/lora_framework/gpu_training_loop.cpp" bodystart="317" bodyend="343"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a039face0a0035bc9cf10efea58f01145" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GPUTrainingLoop::initializeMemoryManagement</definition>
+        <argsstring>()</argsstring>
+        <name>initializeMemoryManagement</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingLoop::initializeMemoryManagement</qualifiedname>
+        <briefdescription>
+<para>Initialize Memory Management. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: is_available(), get_stats(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="206" column="10" bodyfile="src/llm/lora_framework/gpu_training_loop.cpp" bodystart="349" bodyend="369"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a2044a2593684d810020edfa784babf4f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GPUTrainingLoop::initializeAdaptiveBatching</definition>
+        <argsstring>()</argsstring>
+        <name>initializeAdaptiveBatching</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingLoop::initializeAdaptiveBatching</qualifiedname>
+        <briefdescription>
+<para>Initialize Adaptive Batching. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="210" column="10" bodyfile="src/llm/lora_framework/gpu_training_loop.cpp" bodystart="375" bodyend="398"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a58c70c9f0cf0986303a3260cfe7b789b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GPUTrainingLoop::initializeCheckpointing</definition>
+        <argsstring>()</argsstring>
+        <name>initializeCheckpointing</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingLoop::initializeCheckpointing</qualifiedname>
+        <briefdescription>
+<para>Initialize Checkpointing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: spdlog::info(), size(), spdlog::warn(), shouldCheckpoint(), set_checkpointing(), set_layer_id(), setLayerType(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="214" column="10" bodyfile="src/llm/lora_framework/gpu_training_loop.cpp" bodystart="404" bodyend="455"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a38956df315ce3f624d8b7970f35b50a6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::lora::GPUTrainingLoop::trainEpoch</definition>
+        <argsstring>(int epoch)</argsstring>
+        <name>trainEpoch</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingLoop::trainEpoch</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>epoch</declname>
+        </param>
+        <briefdescription>
+<para>Train Epoch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">epoch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">epoch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reset(), num_batches(), max(), hasNext(), load(), computeOptimalBatchSize(), config(), updateBatchSize(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="220" column="11" bodyfile="src/llm/lora_framework/gpu_training_loop.cpp" bodystart="463" bodyend="562"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a52939ec536c7ba2792afc0afd10c5793" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::lora::GPUTrainingLoop::trainStep</definition>
+        <argsstring>(const GPUBatch &amp;batch)</argsstring>
+        <name>trainStep</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingLoop::trainStep</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch" kindref="compound">GPUBatch</ref> &amp;</type>
+          <declname>batch</declname>
+        </param>
+        <briefdescription>
+<para>Train Step. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">batch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">batch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: hidden_dim(), <ref refid="namespacethemis_1_1llm_1_1lora_1a5b1746b747c8c471961f0f45510a1d8d" kindref="member">createEmbeddingsOnGPU()</ref>, get(), is_enabled(), zero_grad(), num_gpus(), std::move(), forward(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="226" column="11" bodyfile="src/llm/lora_framework/gpu_training_loop.cpp" bodystart="570" bodyend="722"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a9ce76a7a0ee323176b670f86207c8ab0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GPUTrainingLoop::updateMetrics</definition>
+        <argsstring>(int epoch, int step, float loss)</argsstring>
+        <name>updateMetrics</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingLoop::updateMetrics</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>epoch</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>step</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>loss</declname>
+        </param>
+        <briefdescription>
+<para>Update Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">epoch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">step</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">loss</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">epoch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">step</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">loss</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: callback_(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="233" column="10" bodyfile="src/llm/lora_framework/gpu_training_loop.cpp" bodystart="731" bodyend="741"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1ad4d75fca7171206e4ff680a6d84ce32e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GPUTrainingLoop::checkMemoryUsage</definition>
+        <argsstring>()</argsstring>
+        <name>checkMemoryUsage</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingLoop::checkMemoryUsage</qualifiedname>
+        <briefdescription>
+<para>Check Memory Usage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: get_stats(), std::max(), size_t(), spdlog::warn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="237" column="10" bodyfile="src/llm/lora_framework/gpu_training_loop.cpp" bodystart="747" bodyend="759"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/gpu_training_loop.h" line="92" column="1" bodyfile="include/llm/lora_framework/gpu_training_loop.h" bodystart="92" bodyend="238"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a2475628dbd7b34533b89ce6c0d86dd74" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUTrainingLoop</scope><name>adaptive_batcher_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a06e2be9a60e082b981ce9b8348b87e69" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTrainingLoop</scope><name>addLayer</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a7ca97486a1f0b26d92907c48a0ce45d3" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUTrainingLoop</scope><name>base_model_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a5992caf407e89d703a34393d38a1bf47" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUTrainingLoop</scope><name>callback_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1ad4d75fca7171206e4ff680a6d84ce32e" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUTrainingLoop</scope><name>checkMemoryUsage</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a957490e538e8ed952bbb5f2ffe68159e" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUTrainingLoop</scope><name>checkpointer_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a90ddc71830e61bb82718a5dee0123999" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUTrainingLoop</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a0284887c95af21147fdb2c0ccad3481e" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUTrainingLoop</scope><name>current_metrics_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a50cb5be3592713a3c2f5cad310f4c22d" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUTrainingLoop</scope><name>data_loader_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1aa62fa75d14f2372dd14c08ef6f00b1d2" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUTrainingLoop</scope><name>final_loss_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a3e3e2c2538c12ca42cb88eb010d81c80" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTrainingLoop</scope><name>getFinalLoss</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1abb6c7403002b51cef1d541855363aa2b" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTrainingLoop</scope><name>getMetrics</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a981dda3c4f42ecae8212daaae5658cee" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUTrainingLoop</scope><name>gpu_embedding_layer_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1afe903865514190a06562acc8e5baf731" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUTrainingLoop</scope><name>gpu_memory_manager_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a1200f65767f064279bc824d421d3c5e6" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUTrainingLoop</scope><name>gpu_monitor_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1acb7ccb088923105aa19966ff3f770257" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTrainingLoop</scope><name>GPUTrainingLoop</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a971d7f8542259adc0839ab0119fcd1a7" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTrainingLoop</scope><name>GPUTrainingLoop</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a860545af16f560bff22412922acbaf1b" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTrainingLoop</scope><name>GPUTrainingLoop</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a2044a2593684d810020edfa784babf4f" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUTrainingLoop</scope><name>initializeAdaptiveBatching</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a58c70c9f0cf0986303a3260cfe7b789b" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUTrainingLoop</scope><name>initializeCheckpointing</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a039face0a0035bc9cf10efea58f01145" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUTrainingLoop</scope><name>initializeMemoryManagement</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a3662d8d8c08d3426a3e8671ef6a324f6" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUTrainingLoop</scope><name>initializeOptimizer</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a6585021c78028d33544e9db6a515ab32" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUTrainingLoop</scope><name>is_training_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a58f3e12170719cafe8005dcb3ee26cf3" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTrainingLoop</scope><name>isTraining</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a3015600bd3f5e63ed0ce4dd12450a424" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUTrainingLoop</scope><name>layers_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a4042e587827dbfb9d34550c260b1525c" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUTrainingLoop</scope><name>mixed_precision_trainer_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a26a47d12b8276217c541b7a40c67cb2c" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUTrainingLoop</scope><name>multi_gpu_layer_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1aec2b1f7be2e82986eae4ea3f38d9df64" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTrainingLoop</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1ad061ea7ec6f2307fb86735f484fd7fea" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTrainingLoop</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a1762f5539cc80f70cfadceb5a22dbb87" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUTrainingLoop</scope><name>optimizer_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1aad362235a65e419406471f4fd69e1425" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTrainingLoop</scope><name>registerCallback</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1adada13ec3bd6803ef9d8bb2e84a99964" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTrainingLoop</scope><name>setBaseModel</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a4b6e3c7690a3a1dfa900a640e3129340" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTrainingLoop</scope><name>setDataLoader</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1afc4b7bf635c74c824909bbc61f78774f" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTrainingLoop</scope><name>setMixedPrecisionTrainer</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a1be8d4eb500127fe199640b0603281fe" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTrainingLoop</scope><name>setMultiGPULayer</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a971d6a85f5f671a93b0826390adcd2ab" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTrainingLoop</scope><name>stop</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a2322350b47103c15c0cc9fc5446a4139" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUTrainingLoop</scope><name>stop_requested_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1ab7af8faab3a55530d8325e3a490ee5f1" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTrainingLoop</scope><name>train</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a38956df315ce3f624d8b7970f35b50a6" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUTrainingLoop</scope><name>trainEpoch</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a52939ec536c7ba2792afc0afd10c5793" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUTrainingLoop</scope><name>trainStep</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a9ce76a7a0ee323176b670f86207c8ab0" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUTrainingLoop</scope><name>updateMetrics</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1aa6c1331bc2f13c53f1432c6857ff4775" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUTrainingLoop</scope><name>vram_allocator_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a40db6464bc94eb5d953e07965aa537ca" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTrainingLoop</scope><name>~GPUTrainingLoop</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

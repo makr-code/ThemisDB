@@ -1,0 +1,225 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__scraper__run__summary__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_scraper_run_summary_focused.cpp</compoundname>
+    <includes refid="scraper__run__summary_8h" local="yes">scraper/scraper_run_summary.h</includes>
+    <includes local="yes">gtest/gtest.h</includes>
+    <includes local="no">string</includes>
+    <incdepgraph>
+      <node id="4">
+        <label>scraper/scraper_api_contract.h</label>
+        <link refid="scraper__api__contract_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>scraper/scraper_diagnostics.h</label>
+        <link refid="scraper__diagnostics_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>scraper/scraper_run_summary.h</label>
+        <link refid="scraper__run__summary_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/scraper/test_scraper_run_summary_focused.cpp</label>
+        <link refid="test__scraper__run__summary__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="8">
+        <label>functional</label>
+      </node>
+      <node id="12">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="11">
+        <label>sstream</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1scraper">themis::scraper</innernamespace>
+    <innernamespace refid="namespacethemis_1_1scraper_1_1test">themis::scraper::test</innernamespace>
+    <briefdescription>
+<para>Focused tests for ScraperRunSummary and ScraperRunSummaryCollector. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Test IDs: SCR-25 through SCR-28 No file I/O, no network, deterministic only.</para>
+<para>Coverage: SCR-25 Empty session → isHealthy() == false SCR-26 Counter accuracy after a mixed-fault event sequence SCR-27 toLogLine() is non-empty and contains &quot;succeeded=&quot; SCR-28 isHealthy() logic: succeeded&gt;0 AND failed_eval==0 required</para>
+<para><simplesect kind="see"><para><ref refid="scraper__run__summary_8h" kindref="compound">include/scraper/scraper_run_summary.h</ref> </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="scraper__run__summary_8h" kindref="compound">scraper/scraper_run_summary.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gtest/gtest.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1scraper" kindref="compound">scraper</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1scraper_1_1test" kindref="compound">test</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SCR-25<sp/>—<sp/>Empty<sp/>session<sp/>→<sp/>isHealthy()<sp/>==<sp/>false</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><ref refid="namespacethemis_1_1scraper_1_1test_1a14e538fa42064fa95e5e7b4945bea0d1" kindref="member">TEST</ref>(ScraperRunSummary,<sp/>SCR25_EmptySessionIsUnhealthy)<sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>ScraperRunSummary<sp/>s{};</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>default-constructed<sp/>summary<sp/>has<sp/>succeeded<sp/>==<sp/>0<sp/>→<sp/>not<sp/>healthy.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(s.isHealthy())</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;An<sp/>empty<sp/>run<sp/>summary<sp/>must<sp/>not<sp/>be<sp/>considered<sp/>healthy&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SCR-26<sp/>—<sp/>Counter<sp/>accuracy<sp/>after<sp/>mixed<sp/>fault<sp/>events</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><ref refid="namespacethemis_1_1scraper_1_1test_1a14e538fa42064fa95e5e7b4945bea0d1" kindref="member">TEST</ref>(ScraperRunSummary,<sp/>SCR26_CounterAccuracyMixedEvents)<sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>ListeningScraperDiagnosticSink<sp/>sink;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>ScraperRunSummaryCollector<sp/><sp/><sp/><sp/><sp/>collector;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>collector.attach(sink);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>2×<sp/>kFetchFailed<sp/><sp/>→<sp/>failed_fetch<sp/>+=<sp/>2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>sink.emit(<ref refid="namespacethemis_1_1scraper_1a324386596488dc03a1bf45e86a1a114c" kindref="member">makeDiagnosticEvent</ref>(<ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0adc6900e298ab607bab3a459e1b4447b1" kindref="member">ScraperError::kFetchFailed</ref>,</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;https://example.com/a&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;fetch<sp/>error<sp/>1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>sink.emit(<ref refid="namespacethemis_1_1scraper_1a324386596488dc03a1bf45e86a1a114c" kindref="member">makeDiagnosticEvent</ref>(<ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0adc6900e298ab607bab3a459e1b4447b1" kindref="member">ScraperError::kFetchFailed</ref>,</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;https://example.com/b&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;fetch<sp/>error<sp/>2&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>1×<sp/>kParseError<sp/><sp/><sp/>→<sp/>failed_parse<sp/>+=<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>sink.emit(<ref refid="namespacethemis_1_1scraper_1a324386596488dc03a1bf45e86a1a114c" kindref="member">makeDiagnosticEvent</ref>(<ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0a70bc2f6598437e307b2b8d35f1c49a18" kindref="member">ScraperError::kParseError</ref>,</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;https://example.com/c&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;parse<sp/>error&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>1×<sp/>kEvaluationFailed<sp/>→<sp/>failed_eval<sp/>+=<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>sink.emit(<ref refid="namespacethemis_1_1scraper_1a324386596488dc03a1bf45e86a1a114c" kindref="member">makeDiagnosticEvent</ref>(<ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0a9c05b595915e5d8ea83f6a21980113b1" kindref="member">ScraperError::kEvaluationFailed</ref>,</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;https://example.com/d&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;eval<sp/>failed&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>1×<sp/>kMetadataWriteFailed<sp/>→<sp/>failed_write<sp/>+=<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>sink.emit(<ref refid="namespacethemis_1_1scraper_1a324386596488dc03a1bf45e86a1a114c" kindref="member">makeDiagnosticEvent</ref>(<ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0a2b475da7a0f2961fefc3008a675188c3" kindref="member">ScraperError::kMetadataWriteFailed</ref>,</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;https://example.com/e&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;write<sp/>failed&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>3<sp/>pages<sp/>successfully<sp/>written</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>collector.recordSuccess(3);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Run-level<sp/>stats</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>collector.setRunStats(10,<sp/>5000);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>collector.summary();</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.failed_fetch,<sp/><sp/>2u)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Two<sp/>kFetchFailed<sp/>events<sp/>must<sp/>increment<sp/>failed_fetch<sp/>by<sp/>2&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.failed_parse,<sp/><sp/>1u)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;One<sp/>kParseError<sp/>event<sp/>must<sp/>increment<sp/>failed_parse<sp/>by<sp/>1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.failed_eval,<sp/><sp/><sp/>1u)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;One<sp/>kEvaluationFailed<sp/>event<sp/>must<sp/>increment<sp/>failed_eval<sp/>by<sp/>1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.failed_write,<sp/><sp/>1u)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;One<sp/>kMetadataWriteFailed<sp/>event<sp/>must<sp/>increment<sp/>failed_write<sp/>by<sp/>1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.pages_written,<sp/>3u)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;recordSuccess(3)<sp/>must<sp/>set<sp/>pages_written<sp/>to<sp/>3&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.total_urls,<sp/><sp/><sp/>10u)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;setRunStats(10,<sp/>…)<sp/>must<sp/>set<sp/>total_urls<sp/>to<sp/>10&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.run_duration_ms,<sp/>5000u)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;setRunStats(…,<sp/>5000)<sp/>must<sp/>set<sp/>run_duration_ms<sp/>to<sp/>5000&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SCR-27<sp/>—<sp/>toLogLine()<sp/>is<sp/>non-empty<sp/>and<sp/>contains<sp/>&quot;succeeded=&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><ref refid="namespacethemis_1_1scraper_1_1test_1a14e538fa42064fa95e5e7b4945bea0d1" kindref="member">TEST</ref>(ScraperRunSummary,<sp/>SCR27_ToLogLineNonEmptyContainsSucceeded)<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>ScraperRunSummary<sp/>s;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>s.total_urls<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>20;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>s.succeeded<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>15;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>s.failed_fetch<sp/><sp/><sp/><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>s.failed_parse<sp/><sp/><sp/><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>s.failed_eval<sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>s.failed_write<sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>s.skipped_burst<sp/><sp/><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>s.pages_written<sp/><sp/><sp/>=<sp/>30;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>s.run_duration_ms<sp/>=<sp/>12345;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>line<sp/>=<sp/>s.toLogLine();</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(line.empty())</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;toLogLine()<sp/>must<sp/>not<sp/>return<sp/>an<sp/>empty<sp/>string&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(line.find(</highlight><highlight class="stringliteral">&quot;succeeded=&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;toLogLine()<sp/>must<sp/>contain<sp/>the<sp/>\&quot;succeeded=\&quot;<sp/>key&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SCR-28<sp/>—<sp/>isHealthy()<sp/>requires<sp/>succeeded&gt;0<sp/>AND<sp/>failed_eval==0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><ref refid="namespacethemis_1_1scraper_1_1test_1a14e538fa42064fa95e5e7b4945bea0d1" kindref="member">TEST</ref>(ScraperRunSummary,<sp/>SCR28_IsHealthyLogic)<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Case<sp/>A:<sp/>succeeded<sp/>&gt;<sp/>0<sp/>and<sp/>failed_eval<sp/>==<sp/>0<sp/>→<sp/>healthy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>ScraperRunSummary<sp/>s1{};</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>s1.succeeded<sp/><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>s1.failed_eval<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(s1.isHealthy())</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;succeeded=5,<sp/>failed_eval=0<sp/>must<sp/>be<sp/>healthy&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Case<sp/>B:<sp/>succeeded<sp/>&gt;<sp/>0<sp/>but<sp/>failed_eval<sp/>&gt;<sp/>0<sp/>→<sp/>unhealthy<sp/>(fail-closed)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>ScraperRunSummary<sp/>s2{};</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>s2.succeeded<sp/><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>s2.failed_eval<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(s2.isHealthy())</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;succeeded=5,<sp/>failed_eval=1<sp/>must<sp/>NOT<sp/>be<sp/>healthy<sp/>(fail-closed)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Case<sp/>C:<sp/>succeeded<sp/>==<sp/>0<sp/>and<sp/>failed_eval<sp/>==<sp/>0<sp/>→<sp/>unhealthy<sp/>(nothing<sp/>done)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>ScraperRunSummary<sp/>s3{};</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>s3.succeeded<sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>s3.failed_eval<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(s3.isHealthy())</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;succeeded=0,<sp/>failed_eval=0<sp/>must<sp/>NOT<sp/>be<sp/>healthy<sp/>(no<sp/>successes)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>scraper</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/scraper/test_scraper_run_summary_focused.cpp"/>
+  </compounddef>
+</doxygen>

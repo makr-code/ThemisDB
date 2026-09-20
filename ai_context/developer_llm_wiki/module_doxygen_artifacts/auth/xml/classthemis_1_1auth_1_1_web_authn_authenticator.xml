@@ -1,0 +1,1027 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1_web_authn_authenticator" kind="class" language="C++" prot="public">
+    <compoundname>themis::auth::WebAuthnAuthenticator</compoundname>
+    <includes refid="webauthn__authenticator_8h" local="no">webauthn_authenticator.h</includes>
+    <innerclass refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_relying_party" prot="public">themis::auth::WebAuthnAuthenticator::RelyingParty</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_user" prot="public">themis::auth::WebAuthnAuthenticator::User</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_authenticator_selection" prot="public">themis::auth::WebAuthnAuthenticator::AuthenticatorSelection</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_credential_creation_options" prot="public">themis::auth::WebAuthnAuthenticator::CredentialCreationOptions</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_credential_request_options" prot="public">themis::auth::WebAuthnAuthenticator::CredentialRequestOptions</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_attestation_result" prot="public">themis::auth::WebAuthnAuthenticator::AttestationResult</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_assertion_result" prot="public">themis::auth::WebAuthnAuthenticator::AssertionResult</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_pending_entry" prot="private">themis::auth::WebAuthnAuthenticator::PendingEntry</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_client_data" prot="private">themis::auth::WebAuthnAuthenticator::ClientData</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_auth_data" prot="private">themis::auth::WebAuthnAuthenticator::AuthData</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_web_authn_authenticator_1a1453c65bb41189be6b77be69d7569cdb" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_relying_party" kindref="compound">RelyingParty</ref></type>
+        <definition>RelyingParty themis::auth::WebAuthnAuthenticator::rp_</definition>
+        <argsstring></argsstring>
+        <name>rp_</name>
+        <qualifiedname>themis::auth::WebAuthnAuthenticator::rp_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/webauthn_authenticator.h" line="170" column="18" bodyfile="include/auth/webauthn_authenticator.h" bodystart="170" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_web_authn_authenticator_1a56f7e8babd8e9f1f7aa8a44bac5d48cd" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::WebAuthnAuthenticator::expected_origin_</definition>
+        <argsstring></argsstring>
+        <name>expected_origin_</name>
+        <qualifiedname>themis::auth::WebAuthnAuthenticator::expected_origin_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/webauthn_authenticator.h" line="171" column="18" bodyfile="include/auth/webauthn_authenticator.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_web_authn_authenticator_1a27bdca8c413fb8e984aa5c0bd86461a0" prot="private" static="no" mutable="no">
+        <type>utils::AuditLogger *</type>
+        <definition>utils::AuditLogger* themis::auth::WebAuthnAuthenticator::audit_logger_</definition>
+        <argsstring></argsstring>
+        <name>audit_logger_</name>
+        <qualifiedname>themis::auth::WebAuthnAuthenticator::audit_logger_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/webauthn_authenticator.h" line="173" column="24" bodyfile="include/auth/webauthn_authenticator.h" bodystart="173" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_web_authn_authenticator_1a6d3f8ca83d180536b9072e186aaf871c" prot="private" static="no" mutable="no">
+        <type>std::function&lt; void(unsigned char *, std::size_t)&gt;</type>
+        <definition>std::function&lt;void(unsigned char*, std::size_t)&gt; themis::auth::WebAuthnAuthenticator::rand_bytes_fn_</definition>
+        <argsstring></argsstring>
+        <name>rand_bytes_fn_</name>
+        <qualifiedname>themis::auth::WebAuthnAuthenticator::rand_bytes_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/webauthn_authenticator.h" line="174" column="19" bodyfile="include/auth/webauthn_authenticator.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_web_authn_authenticator_1a6c65827e50603f9152bf709db7b6052c" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, PendingEntry &gt;</type>
+        <definition>std::unordered_map&lt;std::string, PendingEntry&gt; themis::auth::WebAuthnAuthenticator::pending_challenges_</definition>
+        <argsstring></argsstring>
+        <name>pending_challenges_</name>
+        <qualifiedname>themis::auth::WebAuthnAuthenticator::pending_challenges_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/webauthn_authenticator.h" line="180" column="24" bodyfile="include/auth/webauthn_authenticator.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_web_authn_authenticator_1ab4bd60ee0f5ef6ab35220f683b2f2b23" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::auth::WebAuthnAuthenticator::challenges_mutex_</definition>
+        <argsstring></argsstring>
+        <name>challenges_mutex_</name>
+        <qualifiedname>themis::auth::WebAuthnAuthenticator::challenges_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/webauthn_authenticator.h" line="181" column="16" bodyfile="include/auth/webauthn_authenticator.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_web_authn_authenticator_1a0c0a5e3da5690600fb451e2128cc5799" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::auth::WebAuthnAuthenticator::kChallengeTTL</definition>
+        <argsstring></argsstring>
+        <name>kChallengeTTL</name>
+        <qualifiedname>themis::auth::WebAuthnAuthenticator::kChallengeTTL</qualifiedname>
+        <initializer>{300}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/webauthn_authenticator.h" line="182" column="43" bodyfile="include/auth/webauthn_authenticator.h" bodystart="182" bodyend="182"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_web_authn_authenticator_1a028fec060b03bd3bd6eb50f729209f72" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::WebAuthnAuthenticator::WebAuthnAuthenticator</definition>
+        <argsstring>(const RelyingParty &amp;rp)</argsstring>
+        <name>WebAuthnAuthenticator</name>
+        <qualifiedname>themis::auth::WebAuthnAuthenticator::WebAuthnAuthenticator</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_relying_party" kindref="compound">RelyingParty</ref> &amp;</type>
+          <declname>rp</declname>
+        </param>
+        <briefdescription>
+<para>Web Authn Authenticator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/webauthn_authenticator.h" line="108" column="14" bodyfile="src/auth/webauthn_authenticator.cpp" bodystart="539" bodyend="545"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_web_authn_authenticator_1aee790a02309a8cc4eb1e54af27d4f876" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::WebAuthnAuthenticator::~WebAuthnAuthenticator</definition>
+        <argsstring>()=default</argsstring>
+        <name>~WebAuthnAuthenticator</name>
+        <qualifiedname>themis::auth::WebAuthnAuthenticator::~WebAuthnAuthenticator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/webauthn_authenticator.h" line="109" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_web_authn_authenticator_1aa7b218df2b0a151b73a3add4e3c6ba30" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::WebAuthnAuthenticator::setAuditLogger</definition>
+        <argsstring>(utils::AuditLogger *logger)</argsstring>
+        <name>setAuditLogger</name>
+        <qualifiedname>themis::auth::WebAuthnAuthenticator::setAuditLogger</qualifiedname>
+        <param>
+          <type>utils::AuditLogger *</type>
+          <declname>logger</declname>
+        </param>
+        <briefdescription>
+<para>Set Audit Logger. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">logger</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setAuditLogger without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/webauthn_authenticator.h" line="116" column="10" bodyfile="include/auth/webauthn_authenticator.h" bodystart="116" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_web_authn_authenticator_1a4200acc9519357669473547d9c0aad37" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_credential_creation_options" kindref="compound">CredentialCreationOptions</ref></type>
+        <definition>WebAuthnAuthenticator::CredentialCreationOptions themis::auth::WebAuthnAuthenticator::startRegistration</definition>
+        <argsstring>(const User &amp;user, bool resident_key=false)</argsstring>
+        <name>startRegistration</name>
+        <qualifiedname>themis::auth::WebAuthnAuthenticator::startRegistration</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_user" kindref="compound">User</ref> &amp;</type>
+          <declname>user</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>resident_key</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Start Registration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">resident_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: generateChallenge(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/webauthn_authenticator.h" line="122" column="31" bodyfile="src/auth/webauthn_authenticator.cpp" bodystart="575" bodyend="595"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_web_authn_authenticator_1a37ddfb58ce79c078b8edfb57740e8b3b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_attestation_result" kindref="compound">AttestationResult</ref></type>
+        <definition>WebAuthnAuthenticator::AttestationResult themis::auth::WebAuthnAuthenticator::completeRegistration</definition>
+        <argsstring>(const nlohmann::json &amp;credential_response)</argsstring>
+        <name>completeRegistration</name>
+        <qualifiedname>themis::auth::WebAuthnAuthenticator::completeRegistration</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>credential_response</declname>
+          <defname>cred</defname>
+        </param>
+        <briefdescription>
+<para>Complete Registration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">credential_response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cred</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: value(), <ref refid="auth__error_8h_1a2c87d1257c36492df56e6da77cf1d085" kindref="member">THROW_AUTH_ERROR()</ref>, at(), base64UrlDecode(), parseClientDataJSON(), verifyAndConsumeChallenge(), cborParseAttestationObject(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/webauthn_authenticator.h" line="132" column="23" bodyfile="src/auth/webauthn_authenticator.cpp" bodystart="603" bodyend="695"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_web_authn_authenticator_1ac31187121199fe640e9e6c7286c8fe18" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_credential_request_options" kindref="compound">CredentialRequestOptions</ref></type>
+        <definition>WebAuthnAuthenticator::CredentialRequestOptions themis::auth::WebAuthnAuthenticator::startAuthentication</definition>
+        <argsstring>(const std::optional&lt; std::string &gt; &amp;user_id=std::nullopt)</argsstring>
+        <name>startAuthentication</name>
+        <qualifiedname>themis::auth::WebAuthnAuthenticator::startAuthentication</qualifiedname>
+        <param>
+          <type>const std::optional&lt; std::string &gt; &amp;</type>
+          <declname>user_id</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/webauthn_authenticator.h" line="138" column="30" bodyfile="src/auth/webauthn_authenticator.cpp" bodystart="702" bodyend="713"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_web_authn_authenticator_1aa0f64e2257963b66c1423b3904162fa1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_assertion_result" kindref="compound">AssertionResult</ref></type>
+        <definition>WebAuthnAuthenticator::AssertionResult themis::auth::WebAuthnAuthenticator::completeAuthentication</definition>
+        <argsstring>(const nlohmann::json &amp;credential_response, const std::vector&lt; uint8_t &gt; &amp;stored_public_key, uint32_t stored_sign_count)</argsstring>
+        <name>completeAuthentication</name>
+        <qualifiedname>themis::auth::WebAuthnAuthenticator::completeAuthentication</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>credential_response</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>stored_public_key</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>stored_sign_count</declname>
+        </param>
+        <briefdescription>
+<para>Complete Authentication. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">credential_response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">stored_public_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">stored_sign_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/webauthn_authenticator.h" line="149" column="21" bodyfile="src/auth/webauthn_authenticator.cpp" bodystart="716" bodyend="807"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_web_authn_authenticator_1a9b73a02ae9ec91832b9d2c1efac3a5eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::WebAuthnAuthenticator::setRandBytesForTesting</definition>
+        <argsstring>(std::function&lt; void(unsigned char *buf, std::size_t len)&gt; fn)</argsstring>
+        <name>setRandBytesForTesting</name>
+        <qualifiedname>themis::auth::WebAuthnAuthenticator::setRandBytesForTesting</qualifiedname>
+        <param>
+          <type>std::function&lt; void(unsigned char *buf, std::size_t len)&gt;</type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/webauthn_authenticator.h" line="159" column="10" bodyfile="src/auth/webauthn_authenticator.cpp" bodystart="551" bodyend="553"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_web_authn_authenticator_1a444eb60521c4422d252d541d473083e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::WebAuthnAuthenticator::setExpectedOrigin</definition>
+        <argsstring>(const std::string &amp;origin)</argsstring>
+        <name>setExpectedOrigin</name>
+        <qualifiedname>themis::auth::WebAuthnAuthenticator::setExpectedOrigin</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>origin</declname>
+        </param>
+        <briefdescription>
+<para>Set Expected Origin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">origin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">origin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setExpectedOrigin without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/webauthn_authenticator.h" line="167" column="10" bodyfile="src/auth/webauthn_authenticator.cpp" bodystart="560" bodyend="562"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_web_authn_authenticator_1af0d56d827dbf59e31451682d5bb89e7c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::WebAuthnAuthenticator::generateChallenge</definition>
+        <argsstring>()</argsstring>
+        <name>generateChallenge</name>
+        <qualifiedname>themis::auth::WebAuthnAuthenticator::generateChallenge</qualifiedname>
+        <briefdescription>
+<para>Generate Challenge. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: fillRandomBytes(), data(), size(), base64UrlEncode(), begin(), end(), lock(), purgeExpiredChallenges(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/webauthn_authenticator.h" line="192" column="17" bodyfile="src/auth/webauthn_authenticator.cpp" bodystart="818" bodyend="830"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_web_authn_authenticator_1afc014d10e2c9248b6f072c0c3f044c13" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::WebAuthnAuthenticator::verifyAndConsumeChallenge</definition>
+        <argsstring>(const std::string &amp;challenge_b64url)</argsstring>
+        <name>verifyAndConsumeChallenge</name>
+        <qualifiedname>themis::auth::WebAuthnAuthenticator::verifyAndConsumeChallenge</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>challenge_b64url</declname>
+          <defname>challenge_b64</defname>
+        </param>
+        <briefdescription>
+<para>Verify And Consume Challenge. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">challenge_b64url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">challenge_b64</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), purgeExpiredChallenges(), find(), end(), <ref refid="auth__error_8h_1a2c87d1257c36492df56e6da77cf1d085" kindref="member">THROW_AUTH_ERROR()</ref>, erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/webauthn_authenticator.h" line="198" column="10" bodyfile="src/auth/webauthn_authenticator.cpp" bodystart="837" bodyend="847"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_web_authn_authenticator_1a41371548cfccfebf984efaf1a10088b2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::WebAuthnAuthenticator::purgeExpiredChallenges</definition>
+        <argsstring>()</argsstring>
+        <name>purgeExpiredChallenges</name>
+        <qualifiedname>themis::auth::WebAuthnAuthenticator::purgeExpiredChallenges</qualifiedname>
+        <briefdescription>
+<para>Purge Expired Challenges. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: std::chrono::system_clock::now(), begin(), end(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/webauthn_authenticator.h" line="203" column="10" bodyfile="src/auth/webauthn_authenticator.cpp" bodystart="853" bodyend="863"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_web_authn_authenticator_1a22c8080541254f4eabc095affce4d2f5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::WebAuthnAuthenticator::fillRandomBytes</definition>
+        <argsstring>(unsigned char *buf, std::size_t len)</argsstring>
+        <name>fillRandomBytes</name>
+        <qualifiedname>themis::auth::WebAuthnAuthenticator::fillRandomBytes</qualifiedname>
+        <param>
+          <type>unsigned char *</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>len</declname>
+        </param>
+        <briefdescription>
+<para>Fill Random Bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: rand_bytes_fn_(), RAND_bytes(), <ref refid="auth__error_8h_1a2c87d1257c36492df56e6da77cf1d085" kindref="member">THROW_AUTH_ERROR()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/webauthn_authenticator.h" line="210" column="10" bodyfile="src/auth/webauthn_authenticator.cpp" bodystart="871" bodyend="879"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_web_authn_authenticator_1a753e2f61a40a628a816b56c27f520b18" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::auth::WebAuthnAuthenticator::sha256</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>sha256</name>
+        <qualifiedname>themis::auth::WebAuthnAuthenticator::sha256</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Sha256. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: SHA256(), data(), size(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/webauthn_authenticator.h" line="218" column="24" bodyfile="src/auth/webauthn_authenticator.cpp" bodystart="891" bodyend="895"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_web_authn_authenticator_1ae3c96105debfe88265c39de385620793" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::auth::WebAuthnAuthenticator::sha256</definition>
+        <argsstring>(const std::string &amp;data)</argsstring>
+        <name>sha256</name>
+        <qualifiedname>themis::auth::WebAuthnAuthenticator::sha256</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Sha256. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: SHA256(), data(), size(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/webauthn_authenticator.h" line="224" column="24" bodyfile="src/auth/webauthn_authenticator.cpp" bodystart="903" bodyend="907"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_web_authn_authenticator_1ae0ae0e40f220e4d291244bb348e42713" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::WebAuthnAuthenticator::base64UrlEncode</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>base64UrlEncode</name>
+        <qualifiedname>themis::auth::WebAuthnAuthenticator::base64UrlEncode</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Base64URL codec (RFC 4648 §5, no padding). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Base64 Url Encode.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: base64UrlEncodeImpl(), data(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/webauthn_authenticator.h" line="231" column="32" bodyfile="src/auth/webauthn_authenticator.cpp" bodystart="919" bodyend="921"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_web_authn_authenticator_1a54efa2ea85154d1c6679677545320d02" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::auth::WebAuthnAuthenticator::base64UrlDecode</definition>
+        <argsstring>(const std::string &amp;input)</argsstring>
+        <name>base64UrlDecode</name>
+        <qualifiedname>themis::auth::WebAuthnAuthenticator::base64UrlDecode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Base64 Url Decode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: base64UrlDecodeImpl(), <ref refid="auth__error_8h_1a2c87d1257c36492df56e6da77cf1d085" kindref="member">THROW_AUTH_ERROR()</ref>, what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/webauthn_authenticator.h" line="237" column="24" bodyfile="src/auth/webauthn_authenticator.cpp" bodystart="929" bodyend="935"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_web_authn_authenticator_1af848b17931276aaca0843d109deaf59c" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ClientData</type>
+        <definition>WebAuthnAuthenticator::ClientData themis::auth::WebAuthnAuthenticator::parseClientDataJSON</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;client_data_json)</argsstring>
+        <name>parseClientDataJSON</name>
+        <qualifiedname>themis::auth::WebAuthnAuthenticator::parseClientDataJSON</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>client_data_json</declname>
+        </param>
+        <briefdescription>
+<para>Parse Client Data JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">client_data_json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/webauthn_authenticator.h" line="250" column="23" bodyfile="src/auth/webauthn_authenticator.cpp" bodystart="942" bodyend="956"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_web_authn_authenticator_1a9c9412d58fd44412b486449dd1bf7ec3" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>AuthData</type>
+        <definition>WebAuthnAuthenticator::AuthData themis::auth::WebAuthnAuthenticator::parseAuthData</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;auth_data_bytes)</argsstring>
+        <name>parseAuthData</name>
+        <qualifiedname>themis::auth::WebAuthnAuthenticator::parseAuthData</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>auth_data_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Parse Auth Data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">auth_data_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">auth_data_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(), std::to_string(), std::copy(), begin(), assign(), cred_id_bytes(), base64UrlEncodeImpl(), data(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/webauthn_authenticator.h" line="269" column="21" bodyfile="src/auth/webauthn_authenticator.cpp" bodystart="969" bodyend="1014"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_web_authn_authenticator_1a52f90254ae766182c76f3d10e2f09d6f" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::WebAuthnAuthenticator::parseAttestationObject</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;cbor_bytes, std::string &amp;fmt, std::vector&lt; uint8_t &gt; &amp;auth_data)</argsstring>
+        <name>parseAttestationObject</name>
+        <qualifiedname>themis::auth::WebAuthnAuthenticator::parseAttestationObject</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>cbor_bytes</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>fmt</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>auth_data</declname>
+        </param>
+        <briefdescription>
+<para>Parse Attestation Object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cbor_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">fmt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">auth_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cbor_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">fmt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">auth_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: cborParseAttestationObject(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/webauthn_authenticator.h" line="277" column="17" bodyfile="src/auth/webauthn_authenticator.cpp" bodystart="1027" bodyend="1030"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_web_authn_authenticator_1a3f2e89781b744bbbeb78dd4a2382c7d6" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; std::vector&lt; uint8_t &gt;, std::string &gt;</type>
+        <definition>std::pair&lt; std::vector&lt; uint8_t &gt;, std::string &gt; themis::auth::WebAuthnAuthenticator::coseKeyToSpki</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;cose_key_bytes)</argsstring>
+        <name>coseKeyToSpki</name>
+        <qualifiedname>themis::auth::WebAuthnAuthenticator::coseKeyToSpki</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>cose_key_bytes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/webauthn_authenticator.h" line="283" column="22" bodyfile="src/auth/webauthn_authenticator.cpp" bodystart="1037" bodyend="1157"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_web_authn_authenticator_1a3694c1e7bf303c9937a3cc7e04536fa6" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::WebAuthnAuthenticator::verifySignature</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;auth_data_bytes, const std::vector&lt; uint8_t &gt; &amp;client_data_hash, const std::vector&lt; uint8_t &gt; &amp;signature_bytes, const std::vector&lt; uint8_t &gt; &amp;spki_bytes)</argsstring>
+        <name>verifySignature</name>
+        <qualifiedname>themis::auth::WebAuthnAuthenticator::verifySignature</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>auth_data_bytes</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>client_data_hash</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>signature_bytes</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>spki_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Verify Signature. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">auth_data_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">client_data_hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">signature_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">spki_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">auth_data_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">client_data_hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">signature_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">spki_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: data(), d2i_PUBKEY(), size(), <ref refid="auth__error_8h_1a2c87d1257c36492df56e6da77cf1d085" kindref="member">THROW_AUTH_ERROR()</ref>, reserve(), insert(), end(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/webauthn_authenticator.h" line="294" column="17" bodyfile="src/auth/webauthn_authenticator.cpp" bodystart="1171" bodyend="1208"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/webauthn_authenticator.h" line="31" column="1" bodyfile="include/auth/webauthn_authenticator.h" bodystart="31" bodyend="300"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1_web_authn_authenticator_1a27bdca8c413fb8e984aa5c0bd86461a0" prot="private" virt="non-virtual"><scope>themis::auth::WebAuthnAuthenticator</scope><name>audit_logger_</name></member>
+      <member refid="classthemis_1_1auth_1_1_web_authn_authenticator_1a54efa2ea85154d1c6679677545320d02" prot="private" virt="non-virtual"><scope>themis::auth::WebAuthnAuthenticator</scope><name>base64UrlDecode</name></member>
+      <member refid="classthemis_1_1auth_1_1_web_authn_authenticator_1ae0ae0e40f220e4d291244bb348e42713" prot="private" virt="non-virtual"><scope>themis::auth::WebAuthnAuthenticator</scope><name>base64UrlEncode</name></member>
+      <member refid="classthemis_1_1auth_1_1_web_authn_authenticator_1ab4bd60ee0f5ef6ab35220f683b2f2b23" prot="private" virt="non-virtual"><scope>themis::auth::WebAuthnAuthenticator</scope><name>challenges_mutex_</name></member>
+      <member refid="classthemis_1_1auth_1_1_web_authn_authenticator_1aa0f64e2257963b66c1423b3904162fa1" prot="public" virt="non-virtual"><scope>themis::auth::WebAuthnAuthenticator</scope><name>completeAuthentication</name></member>
+      <member refid="classthemis_1_1auth_1_1_web_authn_authenticator_1a37ddfb58ce79c078b8edfb57740e8b3b" prot="public" virt="non-virtual"><scope>themis::auth::WebAuthnAuthenticator</scope><name>completeRegistration</name></member>
+      <member refid="classthemis_1_1auth_1_1_web_authn_authenticator_1a3f2e89781b744bbbeb78dd4a2382c7d6" prot="private" virt="non-virtual"><scope>themis::auth::WebAuthnAuthenticator</scope><name>coseKeyToSpki</name></member>
+      <member refid="classthemis_1_1auth_1_1_web_authn_authenticator_1a56f7e8babd8e9f1f7aa8a44bac5d48cd" prot="private" virt="non-virtual"><scope>themis::auth::WebAuthnAuthenticator</scope><name>expected_origin_</name></member>
+      <member refid="classthemis_1_1auth_1_1_web_authn_authenticator_1a22c8080541254f4eabc095affce4d2f5" prot="private" virt="non-virtual"><scope>themis::auth::WebAuthnAuthenticator</scope><name>fillRandomBytes</name></member>
+      <member refid="classthemis_1_1auth_1_1_web_authn_authenticator_1af0d56d827dbf59e31451682d5bb89e7c" prot="private" virt="non-virtual"><scope>themis::auth::WebAuthnAuthenticator</scope><name>generateChallenge</name></member>
+      <member refid="classthemis_1_1auth_1_1_web_authn_authenticator_1a0c0a5e3da5690600fb451e2128cc5799" prot="private" virt="non-virtual"><scope>themis::auth::WebAuthnAuthenticator</scope><name>kChallengeTTL</name></member>
+      <member refid="classthemis_1_1auth_1_1_web_authn_authenticator_1a52f90254ae766182c76f3d10e2f09d6f" prot="private" virt="non-virtual"><scope>themis::auth::WebAuthnAuthenticator</scope><name>parseAttestationObject</name></member>
+      <member refid="classthemis_1_1auth_1_1_web_authn_authenticator_1a9c9412d58fd44412b486449dd1bf7ec3" prot="private" virt="non-virtual"><scope>themis::auth::WebAuthnAuthenticator</scope><name>parseAuthData</name></member>
+      <member refid="classthemis_1_1auth_1_1_web_authn_authenticator_1af848b17931276aaca0843d109deaf59c" prot="private" virt="non-virtual"><scope>themis::auth::WebAuthnAuthenticator</scope><name>parseClientDataJSON</name></member>
+      <member refid="classthemis_1_1auth_1_1_web_authn_authenticator_1a6c65827e50603f9152bf709db7b6052c" prot="private" virt="non-virtual"><scope>themis::auth::WebAuthnAuthenticator</scope><name>pending_challenges_</name></member>
+      <member refid="classthemis_1_1auth_1_1_web_authn_authenticator_1a41371548cfccfebf984efaf1a10088b2" prot="private" virt="non-virtual"><scope>themis::auth::WebAuthnAuthenticator</scope><name>purgeExpiredChallenges</name></member>
+      <member refid="classthemis_1_1auth_1_1_web_authn_authenticator_1a6d3f8ca83d180536b9072e186aaf871c" prot="private" virt="non-virtual"><scope>themis::auth::WebAuthnAuthenticator</scope><name>rand_bytes_fn_</name></member>
+      <member refid="classthemis_1_1auth_1_1_web_authn_authenticator_1a1453c65bb41189be6b77be69d7569cdb" prot="private" virt="non-virtual"><scope>themis::auth::WebAuthnAuthenticator</scope><name>rp_</name></member>
+      <member refid="classthemis_1_1auth_1_1_web_authn_authenticator_1aa7b218df2b0a151b73a3add4e3c6ba30" prot="public" virt="non-virtual"><scope>themis::auth::WebAuthnAuthenticator</scope><name>setAuditLogger</name></member>
+      <member refid="classthemis_1_1auth_1_1_web_authn_authenticator_1a444eb60521c4422d252d541d473083e4" prot="public" virt="non-virtual"><scope>themis::auth::WebAuthnAuthenticator</scope><name>setExpectedOrigin</name></member>
+      <member refid="classthemis_1_1auth_1_1_web_authn_authenticator_1a9b73a02ae9ec91832b9d2c1efac3a5eb" prot="public" virt="non-virtual"><scope>themis::auth::WebAuthnAuthenticator</scope><name>setRandBytesForTesting</name></member>
+      <member refid="classthemis_1_1auth_1_1_web_authn_authenticator_1a753e2f61a40a628a816b56c27f520b18" prot="private" virt="non-virtual"><scope>themis::auth::WebAuthnAuthenticator</scope><name>sha256</name></member>
+      <member refid="classthemis_1_1auth_1_1_web_authn_authenticator_1ae3c96105debfe88265c39de385620793" prot="private" virt="non-virtual"><scope>themis::auth::WebAuthnAuthenticator</scope><name>sha256</name></member>
+      <member refid="classthemis_1_1auth_1_1_web_authn_authenticator_1ac31187121199fe640e9e6c7286c8fe18" prot="public" virt="non-virtual"><scope>themis::auth::WebAuthnAuthenticator</scope><name>startAuthentication</name></member>
+      <member refid="classthemis_1_1auth_1_1_web_authn_authenticator_1a4200acc9519357669473547d9c0aad37" prot="public" virt="non-virtual"><scope>themis::auth::WebAuthnAuthenticator</scope><name>startRegistration</name></member>
+      <member refid="classthemis_1_1auth_1_1_web_authn_authenticator_1afc014d10e2c9248b6f072c0c3f044c13" prot="private" virt="non-virtual"><scope>themis::auth::WebAuthnAuthenticator</scope><name>verifyAndConsumeChallenge</name></member>
+      <member refid="classthemis_1_1auth_1_1_web_authn_authenticator_1a3694c1e7bf303c9937a3cc7e04536fa6" prot="private" virt="non-virtual"><scope>themis::auth::WebAuthnAuthenticator</scope><name>verifySignature</name></member>
+      <member refid="classthemis_1_1auth_1_1_web_authn_authenticator_1a028fec060b03bd3bd6eb50f729209f72" prot="public" virt="non-virtual"><scope>themis::auth::WebAuthnAuthenticator</scope><name>WebAuthnAuthenticator</name></member>
+      <member refid="classthemis_1_1auth_1_1_web_authn_authenticator_1aee790a02309a8cc4eb1e54af27d4f876" prot="public" virt="non-virtual"><scope>themis::auth::WebAuthnAuthenticator</scope><name>~WebAuthnAuthenticator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

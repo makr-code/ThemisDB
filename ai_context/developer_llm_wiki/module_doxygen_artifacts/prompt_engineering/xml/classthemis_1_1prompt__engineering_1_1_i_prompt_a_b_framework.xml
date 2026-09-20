@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_i_prompt_a_b_framework" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::prompt_engineering::IPromptABFramework</compoundname>
+    <derivedcompoundref refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_a_b_framework" prot="public" virt="non-virtual">themis::prompt_engineering::SimplePromptABFramework</derivedcompoundref>
+    <includes refid="prompt__ab__experiment_8h" local="no">prompt_ab_experiment.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_prompt_a_b_framework_1a8ea10bb748dcd2a02d8c536c63c97ab3" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::prompt_engineering::IPromptABFramework::~IPromptABFramework</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IPromptABFramework</name>
+        <qualifiedname>themis::prompt_engineering::IPromptABFramework::~IPromptABFramework</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="429" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_prompt_a_b_framework_1a361fad34b1459956da345230d52f55bf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_a_b_variant" kindref="compound">ABVariant</ref></type>
+        <definition>virtual ABVariant themis::prompt_engineering::IPromptABFramework::assignVariant</definition>
+        <argsstring>(const UserId &amp;user_id, const ExperimentKey &amp;key) const =0</argsstring>
+        <name>assignVariant</name>
+        <qualifiedname>themis::prompt_engineering::IPromptABFramework::assignVariant</qualifiedname>
+        <reimplementedby refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_a_b_framework_1ac454270e9693c870e49034f78517fc7c">assignVariant</reimplementedby>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1prompt__engineering_1a13905e792b57113a931df5aad2af6267" kindref="member">UserId</ref> &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1prompt__engineering_1a8100da3471ca30599a8ced050f560329" kindref="member">ExperimentKey</ref> &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Deterministically assign a variant to the given user/experiment pair. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Opaque user identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Experiment key. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The assigned <computeroutput><ref refid="structthemis_1_1prompt__engineering_1_1_a_b_variant" kindref="compound">ABVariant</ref></computeroutput>. If the experiment does not exist or is inactive, the &quot;control&quot; variant is returned. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="439" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_prompt_a_b_framework_1a7b8661616b7cced0af15b3619a0840ea" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_experiment_descriptor" kindref="compound">ExperimentDescriptor</ref> &gt;</type>
+        <definition>virtual std::vector&lt; ExperimentDescriptor &gt; themis::prompt_engineering::IPromptABFramework::listExperiments</definition>
+        <argsstring>() const =0</argsstring>
+        <name>listExperiments</name>
+        <qualifiedname>themis::prompt_engineering::IPromptABFramework::listExperiments</qualifiedname>
+        <reimplementedby refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_a_b_framework_1a50f27a26df372f6d91debddfbc1fee5d">listExperiments</reimplementedby>
+        <briefdescription>
+<para>Return all registered experiment descriptors. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="445" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstract interface for deterministic per-user A/B variant assignment. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Defined in <computeroutput>FUTURE_ENHANCEMENTS.md §Prompt A/B Experimentation Framework</computeroutput>.</para>
+<sect1 id="classthemis_1_1prompt__engineering_1_1_i_prompt_a_b_framework_1autotoc_md1_1s1"><sect2 id="classthemis_1_1prompt__engineering_1_1_i_prompt_a_b_framework_1autotoc_md1">
+<title>Contract</title><para><itemizedlist>
+<listitem><para><computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_i_prompt_a_b_framework_1a361fad34b1459956da345230d52f55bf" kindref="member">assignVariant()</ref></computeroutput> is a pure function: same <computeroutput>(<ref refid="namespacethemis_1_1prompt__engineering_1a13905e792b57113a931df5aad2af6267" kindref="member">UserId</ref>, <ref refid="namespacethemis_1_1prompt__engineering_1a8100da3471ca30599a8ced050f560329" kindref="member">ExperimentKey</ref>)</computeroutput> pair always returns the same <computeroutput><ref refid="structthemis_1_1prompt__engineering_1_1_a_b_variant" kindref="compound">ABVariant</ref></computeroutput> while the experiment is active.</para>
+</listitem><listitem><para>The implementation must not store raw user identifiers.</para>
+</listitem><listitem><para><computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_i_prompt_a_b_framework_1a7b8661616b7cced0af15b3619a0840ea" kindref="member">listExperiments()</ref></computeroutput> returns a stable span; the span is invalidated if any experiment is added or removed. </para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::prompt_engineering::IPromptABFramework</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_i_prompt_a_b_framework"/>
+      </node>
+      <node id="2">
+        <label>themis::prompt_engineering::SimplePromptABFramework</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_a_b_framework"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/prompt_engineering/prompt_ab_experiment.h" line="427" column="1" bodyfile="include/prompt_engineering/prompt_ab_experiment.h" bodystart="427" bodyend="446"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_prompt_a_b_framework_1a361fad34b1459956da345230d52f55bf" prot="public" virt="pure-virtual"><scope>themis::prompt_engineering::IPromptABFramework</scope><name>assignVariant</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_prompt_a_b_framework_1a7b8661616b7cced0af15b3619a0840ea" prot="public" virt="pure-virtual"><scope>themis::prompt_engineering::IPromptABFramework</scope><name>listExperiments</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_prompt_a_b_framework_1a8ea10bb748dcd2a02d8c536c63c97ab3" prot="public" virt="virtual"><scope>themis::prompt_engineering::IPromptABFramework</scope><name>~IPromptABFramework</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

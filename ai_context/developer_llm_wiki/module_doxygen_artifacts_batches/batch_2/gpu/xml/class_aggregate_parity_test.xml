@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_aggregate_parity_test" kind="class" language="C++" prot="public">
+    <compoundname>AggregateParityTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::TestWithParam&lt; AggParityParam &gt;</basecompoundref>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AggregateParityTest</label>
+        <link refid="class_aggregate_parity_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::TestWithParam&lt; AggParityParam &gt;</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AggregateParityTest</label>
+        <link refid="class_aggregate_parity_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::TestWithParam&lt; AggParityParam &gt;</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/gpu/test_gpu_query_accelerator_parity.cpp" line="261" column="1" bodyfile="tests/gpu/test_gpu_query_accelerator_parity.cpp" bodystart="262" bodyend="262"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1bench_1_1dkrg_1_1_bench_entity" kind="struct" language="C++" prot="public">
+    <compoundname>themis::bench::dkrg::BenchEntity</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1dkrg_1_1_bench_entity_1ada248434d374d1e96a6ca495bf261925" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::bench::dkrg::BenchEntity::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::bench::dkrg::BenchEntity::id</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/distributed_knowledge/bench_dk_release_gates.cpp" line="82" column="18" bodyfile="benchmarks/distributed_knowledge/bench_dk_release_gates.cpp" bodystart="82" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1dkrg_1_1_bench_entity_1a0c7e41617c4419e3c3836bd856afd90b" prot="public" static="no" mutable="no">
+        <type>std::int64_t</type>
+        <definition>std::int64_t themis::bench::dkrg::BenchEntity::timestamp_us</definition>
+        <argsstring></argsstring>
+        <name>timestamp_us</name>
+        <qualifiedname>themis::bench::dkrg::BenchEntity::timestamp_us</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/distributed_knowledge/bench_dk_release_gates.cpp" line="83" column="18" bodyfile="benchmarks/distributed_knowledge/bench_dk_release_gates.cpp" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1dkrg_1_1_bench_entity_1af8679b72782556af266359440ca4310e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::bench::dkrg::BenchEntity::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themis::bench::dkrg::BenchEntity::node_id</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/distributed_knowledge/bench_dk_release_gates.cpp" line="84" column="18" bodyfile="benchmarks/distributed_knowledge/bench_dk_release_gates.cpp" bodystart="84" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1dkrg_1_1_bench_entity_1a9f5774161f882230f7d2c251d7b1c412" prot="public" static="no" mutable="no">
+        <type>char</type>
+        <definition>char themis::bench::dkrg::BenchEntity::payload[128]</definition>
+        <argsstring>[128]</argsstring>
+        <name>payload</name>
+        <qualifiedname>themis::bench::dkrg::BenchEntity::payload</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/distributed_knowledge/bench_dk_release_gates.cpp" line="85" column="18" bodyfile="benchmarks/distributed_knowledge/bench_dk_release_gates.cpp" bodystart="85" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/distributed_knowledge/bench_dk_release_gates.cpp" line="81" column="1" bodyfile="benchmarks/distributed_knowledge/bench_dk_release_gates.cpp" bodystart="81" bodyend="86"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1bench_1_1dkrg_1_1_bench_entity_1ada248434d374d1e96a6ca495bf261925" prot="public" virt="non-virtual"><scope>themis::bench::dkrg::BenchEntity</scope><name>id</name></member>
+      <member refid="structthemis_1_1bench_1_1dkrg_1_1_bench_entity_1af8679b72782556af266359440ca4310e" prot="public" virt="non-virtual"><scope>themis::bench::dkrg::BenchEntity</scope><name>node_id</name></member>
+      <member refid="structthemis_1_1bench_1_1dkrg_1_1_bench_entity_1a9f5774161f882230f7d2c251d7b1c412" prot="public" virt="non-virtual"><scope>themis::bench::dkrg::BenchEntity</scope><name>payload</name></member>
+      <member refid="structthemis_1_1bench_1_1dkrg_1_1_bench_entity_1a0c7e41617c4419e3c3836bd856afd90b" prot="public" virt="non-virtual"><scope>themis::bench::dkrg::BenchEntity</scope><name>timestamp_us</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

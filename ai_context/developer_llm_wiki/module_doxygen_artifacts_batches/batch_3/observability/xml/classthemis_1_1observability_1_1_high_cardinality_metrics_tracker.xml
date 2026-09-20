@@ -1,0 +1,619 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::observability::HighCardinalityMetricsTracker</compoundname>
+    <derivedcompoundref refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_impl" prot="public" virt="non-virtual">themis::observability::HighCardinalityMetricsTrackerImpl</derivedcompoundref>
+    <includes refid="high__cardinality__metrics_8h" local="no">high_cardinality_metrics.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1aa6685eaf68e2c599b168ccb872d43987" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::HighCardinalityMetricsTracker::HighCardinalityMetricsTracker</definition>
+        <argsstring>()=default</argsstring>
+        <name>HighCardinalityMetricsTracker</name>
+        <qualifiedname>themis::observability::HighCardinalityMetricsTracker::HighCardinalityMetricsTracker</qualifiedname>
+        <briefdescription>
+<para>Construct a high-cardinality metrics tracker. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/high_cardinality_metrics.h" line="160" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1a2d0dcc2ce15e2b8f52f7d00fd111d2cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::observability::HighCardinalityMetricsTracker::~HighCardinalityMetricsTracker</definition>
+        <argsstring>()=default</argsstring>
+        <name>~HighCardinalityMetricsTracker</name>
+        <qualifiedname>themis::observability::HighCardinalityMetricsTracker::~HighCardinalityMetricsTracker</qualifiedname>
+        <briefdescription>
+<para>Virtual destructor for safe polymorphic deletion. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/high_cardinality_metrics.h" line="165" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1a5b32e7229e1f0bf8a62cd56a30702da1" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::observability::HighCardinalityMetricsTracker::setCardinalityLimit</definition>
+        <argsstring>(const std::string &amp;metric_name, const CardinalityLimit &amp;limit)=0</argsstring>
+        <name>setCardinalityLimit</name>
+        <qualifiedname>themis::observability::HighCardinalityMetricsTracker::setCardinalityLimit</qualifiedname>
+        <reimplementedby refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_impl_1aa2b23a52513a2354efd84e25ac376ae5">setCardinalityLimit</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric_name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_cardinality_limit" kindref="compound">CardinalityLimit</ref> &amp;</type>
+          <declname>limit</declname>
+        </param>
+        <briefdescription>
+<para>Set cardinality limit for a specific metric. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>metric_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Fully-qualified metric name (e.g., &quot;http_request_duration_ms&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>limit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Cardinality limit configuration for this metric. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success, false if metric name is invalid.</para>
+</simplesect>
+<simplesect kind="note"><para>This function is thread-safe. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/high_cardinality_metrics.h" line="176" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1a83b7fd4987f0e8735e22d9aa798ba74a" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::size_t</type>
+        <definition>virtual std::size_t themis::observability::HighCardinalityMetricsTracker::setCardinalityLimitByPrefix</definition>
+        <argsstring>(const std::string &amp;metric_prefix, const CardinalityLimit &amp;limit)=0</argsstring>
+        <name>setCardinalityLimitByPrefix</name>
+        <qualifiedname>themis::observability::HighCardinalityMetricsTracker::setCardinalityLimitByPrefix</qualifiedname>
+        <reimplementedby refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_impl_1a1eb976df945391f26612a24c81bff16d">setCardinalityLimitByPrefix</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric_prefix</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_cardinality_limit" kindref="compound">CardinalityLimit</ref> &amp;</type>
+          <declname>limit</declname>
+        </param>
+        <briefdescription>
+<para>Set cardinality limit for all metrics matching a prefix. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>metric_prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1observability_1_1_metric" kindref="compound">Metric</ref> name prefix (e.g., &quot;http_&quot; for all &quot;http_*&quot; metrics). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>limit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Cardinality limit configuration for matching metrics. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of metrics updated.</para>
+</simplesect>
+<simplesect kind="note"><para>This function is thread-safe. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/high_cardinality_metrics.h" line="189" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1af8c2a526348b283a7c163ddb6ee09e49" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1observability_1_1_cardinality_limit" kindref="compound">CardinalityLimit</ref></type>
+        <definition>virtual CardinalityLimit themis::observability::HighCardinalityMetricsTracker::getCardinalityLimit</definition>
+        <argsstring>(const std::string &amp;metric_name)=0</argsstring>
+        <name>getCardinalityLimit</name>
+        <qualifiedname>themis::observability::HighCardinalityMetricsTracker::getCardinalityLimit</qualifiedname>
+        <reimplementedby refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_impl_1a0306e25022be420dd665c639048fe41d">getCardinalityLimit</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric_name</declname>
+        </param>
+        <briefdescription>
+<para>Get the current cardinality configuration for a metric. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>metric_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Fully-qualified metric name. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1observability_1_1_cardinality_limit" kindref="compound">CardinalityLimit</ref> configuration, or default if not explicitly set.</para>
+</simplesect>
+<simplesect kind="note"><para>This function is thread-safe. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/high_cardinality_metrics.h" line="201" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1ac62f21e3ece02baac2880934b0492221" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::observability::HighCardinalityMetricsTracker::canAcceptLabelSet</definition>
+        <argsstring>(const std::string &amp;metric_name, const std::map&lt; std::string, std::string &gt; &amp;labels)=0</argsstring>
+        <name>canAcceptLabelSet</name>
+        <qualifiedname>themis::observability::HighCardinalityMetricsTracker::canAcceptLabelSet</qualifiedname>
+        <reimplementedby refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_impl_1a167859e4c969f88f452475ff473af7ca">canAcceptLabelSet</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric_name</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>labels</declname>
+        </param>
+        <briefdescription>
+<para>Check whether a label set can be accepted for a metric. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns true if recording a metric with the given label set would not exceed the cardinality limit for that metric.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>metric_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Fully-qualified metric name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>labels</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Label set (map of label name -&gt; value). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if label set is within cardinality limit, false otherwise.</para>
+</simplesect>
+<simplesect kind="note"><para>This function is thread-safe. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/high_cardinality_metrics.h" line="215" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1a6fcd4a8073e33ddd77fbd2dd0d6df906" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>virtual std::map&lt; std::string, std::string &gt; themis::observability::HighCardinalityMetricsTracker::recordLabelSet</definition>
+        <argsstring>(const std::string &amp;metric_name, const std::map&lt; std::string, std::string &gt; &amp;labels)=0</argsstring>
+        <name>recordLabelSet</name>
+        <qualifiedname>themis::observability::HighCardinalityMetricsTracker::recordLabelSet</qualifiedname>
+        <reimplementedby refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_impl_1ad2853f05f4ed5c80f867ead728f46a84">recordLabelSet</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric_name</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>labels</declname>
+        </param>
+        <briefdescription>
+<para>Record a new label set for a metric. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Registers a label set with the tracker. If the metric is at cardinality limit, the registered labels may be modified according to the configured fallback policy.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>metric_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Fully-qualified metric name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>labels</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Label set to register. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The registered labels (may differ from input if fallback was applied).</para>
+</simplesect>
+<simplesect kind="note"><para>This function is thread-safe and idempotent (re-registering the same label set is safe). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/high_cardinality_metrics.h" line="233" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1a12c451bddba362707e6b7b5ccda20a92" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>virtual std::map&lt; std::string, std::string &gt; themis::observability::HighCardinalityMetricsTracker::getFallbackLabels</definition>
+        <argsstring>(const std::string &amp;metric_name, const std::map&lt; std::string, std::string &gt; &amp;original_labels)=0</argsstring>
+        <name>getFallbackLabels</name>
+        <qualifiedname>themis::observability::HighCardinalityMetricsTracker::getFallbackLabels</qualifiedname>
+        <reimplementedby refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_impl_1ad589e00c48b5e768dfb7281580c5d322">getFallbackLabels</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric_name</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>original_labels</declname>
+        </param>
+        <briefdescription>
+<para>Get fallback labels when cardinality limit is exceeded. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns a modified label set suitable for recording when the metric has reached its cardinality limit.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>metric_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Fully-qualified metric name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>original_labels</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Original label set. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Modified label set (e.g., with &quot;__other&quot; marker added).</para>
+</simplesect>
+<simplesect kind="note"><para>This function is thread-safe. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/high_cardinality_metrics.h" line="249" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1aca922a0bbbd10eb6c4ad258d5adc6cbb" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1observability_1_1_cardinality_stats" kindref="compound">CardinalityStats</ref></type>
+        <definition>virtual CardinalityStats themis::observability::HighCardinalityMetricsTracker::getCardinalityStats</definition>
+        <argsstring>(const std::string &amp;metric_name)=0</argsstring>
+        <name>getCardinalityStats</name>
+        <qualifiedname>themis::observability::HighCardinalityMetricsTracker::getCardinalityStats</qualifiedname>
+        <reimplementedby refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_impl_1a9bc185df88ab23b8d044e11a2e20115c">getCardinalityStats</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric_name</declname>
+        </param>
+        <briefdescription>
+<para>Get current cardinality statistics for a metric. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>metric_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Fully-qualified metric name. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1observability_1_1_cardinality_stats" kindref="compound">CardinalityStats</ref> snapshot (may be stale, see caveats).</para>
+</simplesect>
+<simplesect kind="note"><para>This function is thread-safe but results are snapshots and may become stale immediately after returning. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/high_cardinality_metrics.h" line="262" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1acbf6fc3e7aff23e3acb20d682fcb112e" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1observability_1_1_cardinality_stats" kindref="compound">CardinalityStats</ref> &gt;</type>
+        <definition>virtual std::map&lt; std::string, CardinalityStats &gt; themis::observability::HighCardinalityMetricsTracker::getAllCardinalityStats</definition>
+        <argsstring>()=0</argsstring>
+        <name>getAllCardinalityStats</name>
+        <qualifiedname>themis::observability::HighCardinalityMetricsTracker::getAllCardinalityStats</qualifiedname>
+        <reimplementedby refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_impl_1a9f40b694c65cf447bdfa08df01799cd4">getAllCardinalityStats</reimplementedby>
+        <briefdescription>
+<para>Get cardinality statistics for all tracked metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Map of metric name -&gt; <ref refid="structthemis_1_1observability_1_1_cardinality_stats" kindref="compound">CardinalityStats</ref>.</para>
+</simplesect>
+<simplesect kind="note"><para>This function is thread-safe but results are snapshots and may become stale immediately after returning. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/high_cardinality_metrics.h" line="272" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1abb687e4d914fbf7003b3c4e19d6cfeac" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::observability::HighCardinalityMetricsTracker::setFallbackStrategy</definition>
+        <argsstring>(const std::string &amp;metric_name, std::unique_ptr&lt; CardinalityFallbackStrategy &gt; strategy)=0</argsstring>
+        <name>setFallbackStrategy</name>
+        <qualifiedname>themis::observability::HighCardinalityMetricsTracker::setFallbackStrategy</qualifiedname>
+        <reimplementedby refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_impl_1aca987dd08ce08b3e9b2b86c42e9a8ca6">setFallbackStrategy</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric_name</declname>
+        </param>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="classthemis_1_1observability_1_1_cardinality_fallback_strategy" kindref="compound">CardinalityFallbackStrategy</ref> &gt;</type>
+          <declname>strategy</declname>
+        </param>
+        <briefdescription>
+<para>Register a custom fallback strategy for a metric. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>metric_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Fully-qualified metric name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>strategy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Custom strategy implementation (takes ownership). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success, false if metric name is invalid.</para>
+</simplesect>
+<simplesect kind="note"><para>This function is thread-safe. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/high_cardinality_metrics.h" line="283" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1a06db4b64f91a0756f860596e48854903" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::observability::HighCardinalityMetricsTracker::resetMetricCardinality</definition>
+        <argsstring>(const std::string &amp;metric_name)=0</argsstring>
+        <name>resetMetricCardinality</name>
+        <qualifiedname>themis::observability::HighCardinalityMetricsTracker::resetMetricCardinality</qualifiedname>
+        <reimplementedby refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_impl_1aaa9e47f8cb2ddb4829355430b7ed2817">resetMetricCardinality</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric_name</declname>
+        </param>
+        <briefdescription>
+<para>Clear all recorded label sets for a metric. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Resets the cardinality tracking state for a metric, clearing all previously-recorded label sets and counters.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>metric_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Fully-qualified metric name. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success, false if metric not found.</para>
+</simplesect>
+<simplesect kind="note"><para>This function is thread-safe. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/high_cardinality_metrics.h" line="298" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1a7a3b1153cbb10a6ab2c03cf147d4d020" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::observability::HighCardinalityMetricsTracker::resetAll</definition>
+        <argsstring>()=0</argsstring>
+        <name>resetAll</name>
+        <qualifiedname>themis::observability::HighCardinalityMetricsTracker::resetAll</qualifiedname>
+        <reimplementedby refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_impl_1af61d150abc197e6b194da48fa07cefba">resetAll</reimplementedby>
+        <briefdescription>
+<para>Clear all cardinality tracking state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Resets the entire tracker to empty state.</para>
+<para><simplesect kind="note"><para>This function is thread-safe. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/high_cardinality_metrics.h" line="307" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1af9787cbc38797dc7c57ea94c49fab12f" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::observability::HighCardinalityMetricsTracker::setTrackingEnabled</definition>
+        <argsstring>(const std::string &amp;metric_name, bool enabled)=0</argsstring>
+        <name>setTrackingEnabled</name>
+        <qualifiedname>themis::observability::HighCardinalityMetricsTracker::setTrackingEnabled</qualifiedname>
+        <reimplementedby refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_impl_1aa7afafc80be706719e277adbf31ab28e">setTrackingEnabled</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric_name</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+        </param>
+        <briefdescription>
+<para>Enable/disable cardinality tracking for a metric. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When disabled, the tracker allows unlimited cardinality for a metric.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>metric_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Fully-qualified metric name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>enabled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>true to enable tracking, false to disable. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success, false if metric not found.</para>
+</simplesect>
+<simplesect kind="note"><para>This function is thread-safe. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/high_cardinality_metrics.h" line="320" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1a0e42567f65daecec5e10329d1c70b8e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::observability::HighCardinalityMetricsTracker::isTrackingEnabled</definition>
+        <argsstring>(const std::string &amp;metric_name)=0</argsstring>
+        <name>isTrackingEnabled</name>
+        <qualifiedname>themis::observability::HighCardinalityMetricsTracker::isTrackingEnabled</qualifiedname>
+        <reimplementedby refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_impl_1aee2f55a7f513a5ee79197e08b038eb5e">isTrackingEnabled</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric_name</declname>
+        </param>
+        <briefdescription>
+<para>Check whether cardinality tracking is enabled for a metric. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>metric_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Fully-qualified metric name. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if tracking is enabled, false otherwise.</para>
+</simplesect>
+<simplesect kind="note"><para>This function is thread-safe. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/high_cardinality_metrics.h" line="330" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>High-cardinality metrics tracker for bounded telemetry collection. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The HighCardinalityMetrics class provides utilities for:<itemizedlist>
+<listitem><para>Tracking distinct label-set combinations per metric</para>
+</listitem><listitem><para>Enforcing cardinality limits with configurable overflow policies</para>
+</listitem><listitem><para>Automatically aggregating or dropping excessive label sets</para>
+</listitem><listitem><para>Emitting diagnostic alerts when cardinality limits are exceeded</para>
+</listitem><listitem><para>Supporting per-metric and per-family cardinality configuration</para>
+</listitem></itemizedlist>
+</para>
+<sect1 id="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1autotoc_md8_1s1"><sect2 id="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1autotoc_md8">
+<title>Integration Pattern</title><para><programlisting filename=".cpp"><codeline><highlight class="comment">//<sp/>Create<sp/>a<sp/>tracker<sp/>with<sp/>per-metric<sp/>cardinality<sp/>limits</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tracker<sp/>=<sp/>std::make_unique&lt;HighCardinalityMetricsTracker&gt;();</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Configure<sp/>cardinality<sp/>limit<sp/>for<sp/>&quot;http_request_duration_ms&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">CardinalityLimit<sp/>limit;</highlight></codeline>
+<codeline><highlight class="normal">limit.max_series<sp/>=<sp/>5000;<sp/><sp/></highlight><highlight class="comment">//<sp/>Allow<sp/>up<sp/>to<sp/>5000<sp/>distinct<sp/>label<sp/>sets</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">limit.policy<sp/>=<sp/><ref refid="namespacethemis_1_1observability_1ac078a9a4398426694d21dfd47e993f60a11575c8b325cd929e4f7faaf439af6da" kindref="member">CardinalityExceededPolicy::AGGREGATE_TO_OTHER</ref>;</highlight></codeline>
+<codeline><highlight class="normal">tracker-&gt;setCardinalityLimit(</highlight><highlight class="stringliteral">&quot;http_request_duration_ms&quot;</highlight><highlight class="normal">,<sp/>limit);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>When<sp/>recording<sp/>a<sp/>metric,<sp/>check<sp/>cardinality<sp/>first</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>labels<sp/>=<sp/>build_labels_from_request(request);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(tracker-&gt;canAcceptLabelSet(</highlight><highlight class="stringliteral">&quot;http_request_duration_ms&quot;</highlight><highlight class="normal">,<sp/>labels))<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Record<sp/>the<sp/>metric<sp/>with<sp/>original<sp/>labels</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.observeHistogram(</highlight><highlight class="stringliteral">&quot;http_request_duration_ms&quot;</highlight><highlight class="normal">,<sp/>duration_ms,<sp/>labels);</highlight></codeline>
+<codeline><highlight class="normal">}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Get<sp/>fallback<sp/>labels<sp/>(may<sp/>include<sp/>&quot;__other&quot;<sp/>marker)</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>fallback_labels<sp/>=<sp/>tracker-&gt;getFallbackLabels(</highlight><highlight class="stringliteral">&quot;http_request_duration_ms&quot;</highlight><highlight class="normal">,<sp/>labels);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.observeHistogram(</highlight><highlight class="stringliteral">&quot;http_request_duration_ms&quot;</highlight><highlight class="normal">,<sp/>duration_ms,<sp/>fallback_labels);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1autotoc_md9_1s1"><sect2 id="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1autotoc_md9">
+<title>Error Codes (Observability Phase 2 Extension)</title><para><itemizedlist>
+<listitem><para>HCM_CARDINALITY_LIMIT_EXCEEDED = 16</para>
+</listitem><listitem><para>HCM_INVALID_FALLBACK_STRATEGY = 17</para>
+</listitem><listitem><para>HCM_MEMORY_LIMIT_EXCEEDED = 18</para>
+</listitem><listitem><para>HCM_UNSUPPORTED_POLICY = 19</para>
+</listitem><listitem><para>HCM_INTERNAL_ERROR = 20 </para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::observability::HighCardinalityMetricsTracker</label>
+        <link refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker"/>
+      </node>
+      <node id="2">
+        <label>themis::observability::HighCardinalityMetricsTrackerImpl</label>
+        <link refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_impl"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/observability/high_cardinality_metrics.h" line="155" column="1" bodyfile="include/observability/high_cardinality_metrics.h" bodystart="155" bodyend="331"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1ac62f21e3ece02baac2880934b0492221" prot="public" virt="pure-virtual"><scope>themis::observability::HighCardinalityMetricsTracker</scope><name>canAcceptLabelSet</name></member>
+      <member refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1acbf6fc3e7aff23e3acb20d682fcb112e" prot="public" virt="pure-virtual"><scope>themis::observability::HighCardinalityMetricsTracker</scope><name>getAllCardinalityStats</name></member>
+      <member refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1af8c2a526348b283a7c163ddb6ee09e49" prot="public" virt="pure-virtual"><scope>themis::observability::HighCardinalityMetricsTracker</scope><name>getCardinalityLimit</name></member>
+      <member refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1aca922a0bbbd10eb6c4ad258d5adc6cbb" prot="public" virt="pure-virtual"><scope>themis::observability::HighCardinalityMetricsTracker</scope><name>getCardinalityStats</name></member>
+      <member refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1a12c451bddba362707e6b7b5ccda20a92" prot="public" virt="pure-virtual"><scope>themis::observability::HighCardinalityMetricsTracker</scope><name>getFallbackLabels</name></member>
+      <member refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1aa6685eaf68e2c599b168ccb872d43987" prot="public" virt="non-virtual"><scope>themis::observability::HighCardinalityMetricsTracker</scope><name>HighCardinalityMetricsTracker</name></member>
+      <member refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1a0e42567f65daecec5e10329d1c70b8e5" prot="public" virt="pure-virtual"><scope>themis::observability::HighCardinalityMetricsTracker</scope><name>isTrackingEnabled</name></member>
+      <member refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1a6fcd4a8073e33ddd77fbd2dd0d6df906" prot="public" virt="pure-virtual"><scope>themis::observability::HighCardinalityMetricsTracker</scope><name>recordLabelSet</name></member>
+      <member refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1a7a3b1153cbb10a6ab2c03cf147d4d020" prot="public" virt="pure-virtual"><scope>themis::observability::HighCardinalityMetricsTracker</scope><name>resetAll</name></member>
+      <member refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1a06db4b64f91a0756f860596e48854903" prot="public" virt="pure-virtual"><scope>themis::observability::HighCardinalityMetricsTracker</scope><name>resetMetricCardinality</name></member>
+      <member refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1a5b32e7229e1f0bf8a62cd56a30702da1" prot="public" virt="pure-virtual"><scope>themis::observability::HighCardinalityMetricsTracker</scope><name>setCardinalityLimit</name></member>
+      <member refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1a83b7fd4987f0e8735e22d9aa798ba74a" prot="public" virt="pure-virtual"><scope>themis::observability::HighCardinalityMetricsTracker</scope><name>setCardinalityLimitByPrefix</name></member>
+      <member refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1abb687e4d914fbf7003b3c4e19d6cfeac" prot="public" virt="pure-virtual"><scope>themis::observability::HighCardinalityMetricsTracker</scope><name>setFallbackStrategy</name></member>
+      <member refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1af9787cbc38797dc7c57ea94c49fab12f" prot="public" virt="pure-virtual"><scope>themis::observability::HighCardinalityMetricsTracker</scope><name>setTrackingEnabled</name></member>
+      <member refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1a2d0dcc2ce15e2b8f52f7d00fd111d2cd" prot="public" virt="virtual"><scope>themis::observability::HighCardinalityMetricsTracker</scope><name>~HighCardinalityMetricsTracker</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

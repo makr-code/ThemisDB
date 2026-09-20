@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_g_s_s_a_p_i_authenticator_test" kind="class" language="C++" prot="public">
+    <compoundname>GSSAPIAuthenticatorTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_g_s_s_a_p_i_authenticator_test_1a9d6edec2bcda3153b3002821a40994a2" prot="protected" static="no" mutable="no">
+        <type>KerberosConfig</type>
+        <definition>KerberosConfig GSSAPIAuthenticatorTest::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>GSSAPIAuthenticatorTest::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_gssapi_authenticator.cpp" line="38" column="20" bodyfile="tests/security/test_gssapi_authenticator.cpp" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_g_s_s_a_p_i_authenticator_test_1a967a2be9d6da53860c8ff6c82ef80d7f" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GSSAPIAuthenticatorTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>GSSAPIAuthenticatorTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_gssapi_authenticator.cpp" line="15" column="10" bodyfile="tests/security/test_gssapi_authenticator.cpp" bodystart="15" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="class_g_s_s_a_p_i_authenticator_test_1a3893cc14328bd1e7cdbac296a2496da0" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GSSAPIAuthenticatorTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>GSSAPIAuthenticatorTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_gssapi_authenticator.cpp" line="34" column="10" bodyfile="tests/security/test_gssapi_authenticator.cpp" bodystart="34" bodyend="36"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Test fixture for GSSAPI Authenticator. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Note: These tests require a working Kerberos KDC for full integration testing. For unit tests without KDC, we test configuration and initialization logic only. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>GSSAPIAuthenticatorTest</label>
+        <link refid="class_g_s_s_a_p_i_authenticator_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>GSSAPIAuthenticatorTest</label>
+        <link refid="class_g_s_s_a_p_i_authenticator_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/security/test_gssapi_authenticator.cpp" line="13" column="1" bodyfile="tests/security/test_gssapi_authenticator.cpp" bodystart="13" bodyend="39"/>
+    <listofallmembers>
+      <member refid="class_g_s_s_a_p_i_authenticator_test_1a9d6edec2bcda3153b3002821a40994a2" prot="protected" virt="non-virtual"><scope>GSSAPIAuthenticatorTest</scope><name>config_</name></member>
+      <member refid="class_g_s_s_a_p_i_authenticator_test_1a967a2be9d6da53860c8ff6c82ef80d7f" prot="protected" virt="non-virtual"><scope>GSSAPIAuthenticatorTest</scope><name>SetUp</name></member>
+      <member refid="class_g_s_s_a_p_i_authenticator_test_1a3893cc14328bd1e7cdbac296a2496da0" prot="protected" virt="non-virtual"><scope>GSSAPIAuthenticatorTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

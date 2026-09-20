@@ -1,0 +1,222 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1evaluation_1_1_tensor_graph_snapshot" kind="struct" language="C++" prot="public">
+    <compoundname>themis::evaluation::TensorGraphSnapshot</compoundname>
+    <includes refid="retrieval__metrics_8h" local="no">retrieval_metrics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1a85acae21dd9a65c18f39b608d684fa1a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::evaluation::TensorGraphSnapshot::artifact_age_ms</definition>
+        <argsstring></argsstring>
+        <name>artifact_age_ms</name>
+        <qualifiedname>themis::evaluation::TensorGraphSnapshot::artifact_age_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Artifact age at query time (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="224" column="14" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="224" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1a3cb74ffc1d87be971ab4aa462ea11c7d" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::evaluation::TensorGraphSnapshot::delta_lag</definition>
+        <argsstring></argsstring>
+        <name>delta_lag</name>
+        <qualifiedname>themis::evaluation::TensorGraphSnapshot::delta_lag</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Unprocessed delta log entries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="225" column="14" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="225" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1a90c5f7e2d1112e73975ae672ffb64dd3" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::evaluation::TensorGraphSnapshot::residual_error</definition>
+        <argsstring></argsstring>
+        <name>residual_error</name>
+        <qualifiedname>themis::evaluation::TensorGraphSnapshot::residual_error</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Residual approximation error for this sample. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="226" column="14" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="226" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1a53740e91f2b96dfb5cbc9cae449aa13c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::evaluation::TensorGraphSnapshot::rank_cap_used</definition>
+        <argsstring></argsstring>
+        <name>rank_cap_used</name>
+        <qualifiedname>themis::evaluation::TensorGraphSnapshot::rank_cap_used</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Effective rank cap applied. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="227" column="14" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="227" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1a88d1bf5839b6a2e022c775fbd54d100c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::evaluation::TensorGraphSnapshot::rank_cap_limit</definition>
+        <argsstring></argsstring>
+        <name>rank_cap_limit</name>
+        <qualifiedname>themis::evaluation::TensorGraphSnapshot::rank_cap_limit</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Configured rank cap limit. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="228" column="14" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="228" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1a57eb884191d159c13f9145330a1f74e2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::evaluation::TensorGraphSnapshot::rebuild_triggered</definition>
+        <argsstring></argsstring>
+        <name>rebuild_triggered</name>
+        <qualifiedname>themis::evaluation::TensorGraphSnapshot::rebuild_triggered</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>True if a rebuild was triggered in this window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="229" column="14" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="229" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1aa5518f5e07e6ee580b2aeeea2d467e52" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::evaluation::TensorGraphSnapshot::exact_fallback_used</definition>
+        <argsstring></argsstring>
+        <name>exact_fallback_used</name>
+        <qualifiedname>themis::evaluation::TensorGraphSnapshot::exact_fallback_used</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>True if exact retrieval was used instead of tensor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="230" column="14" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="230" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1afdf3bf0fe05d0ced56840453d6416b3a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::evaluation::TensorGraphSnapshot::summary_first_false_negative</definition>
+        <argsstring></argsstring>
+        <name>summary_first_false_negative</name>
+        <qualifiedname>themis::evaluation::TensorGraphSnapshot::summary_first_false_negative</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>True if summary-first missed a relevant result. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="231" column="14" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="231" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1acca289aad580b2fc84011fd98d4015a2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::evaluation::TensorGraphSnapshot::graph_finalization_passed</definition>
+        <argsstring></argsstring>
+        <name>graph_finalization_passed</name>
+        <qualifiedname>themis::evaluation::TensorGraphSnapshot::graph_finalization_passed</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>True if graph-verified finalization completed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="232" column="14" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="232" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1a7a28b0279cd0e556ca83bfd4df3e1ee8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::evaluation::TensorGraphSnapshot::summary_first_routing_used</definition>
+        <argsstring></argsstring>
+        <name>summary_first_routing_used</name>
+        <qualifiedname>themis::evaluation::TensorGraphSnapshot::summary_first_routing_used</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>True if this query used summary-first routing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="233" column="14" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="233" bodyend="233"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1a22f21a893e8457571a8d1dc9c7ebfc5f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::evaluation::TensorGraphSnapshot::isUnrecoveredFalseNegative</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isUnrecoveredFalseNegative</name>
+        <qualifiedname>themis::evaluation::TensorGraphSnapshot::isUnrecoveredFalseNegative</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="235" column="11" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="235" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1ab791d9a7d64dae9c887dc0120586ee8c" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::evaluation::TensorGraphSnapshot::isResidualUnsafe</definition>
+        <argsstring>(double max_residual_error) const noexcept</argsstring>
+        <name>isResidualUnsafe</name>
+        <qualifiedname>themis::evaluation::TensorGraphSnapshot::isResidualUnsafe</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>max_residual_error</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="239" column="11" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="239" bodyend="241"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/evaluation/include/retrieval_metrics.h" line="223" column="1" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="223" bodyend="242"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1a85acae21dd9a65c18f39b608d684fa1a" prot="public" virt="non-virtual"><scope>themis::evaluation::TensorGraphSnapshot</scope><name>artifact_age_ms</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1a3cb74ffc1d87be971ab4aa462ea11c7d" prot="public" virt="non-virtual"><scope>themis::evaluation::TensorGraphSnapshot</scope><name>delta_lag</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1aa5518f5e07e6ee580b2aeeea2d467e52" prot="public" virt="non-virtual"><scope>themis::evaluation::TensorGraphSnapshot</scope><name>exact_fallback_used</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1acca289aad580b2fc84011fd98d4015a2" prot="public" virt="non-virtual"><scope>themis::evaluation::TensorGraphSnapshot</scope><name>graph_finalization_passed</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1ab791d9a7d64dae9c887dc0120586ee8c" prot="public" virt="non-virtual"><scope>themis::evaluation::TensorGraphSnapshot</scope><name>isResidualUnsafe</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1a22f21a893e8457571a8d1dc9c7ebfc5f" prot="public" virt="non-virtual"><scope>themis::evaluation::TensorGraphSnapshot</scope><name>isUnrecoveredFalseNegative</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1a88d1bf5839b6a2e022c775fbd54d100c" prot="public" virt="non-virtual"><scope>themis::evaluation::TensorGraphSnapshot</scope><name>rank_cap_limit</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1a53740e91f2b96dfb5cbc9cae449aa13c" prot="public" virt="non-virtual"><scope>themis::evaluation::TensorGraphSnapshot</scope><name>rank_cap_used</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1a57eb884191d159c13f9145330a1f74e2" prot="public" virt="non-virtual"><scope>themis::evaluation::TensorGraphSnapshot</scope><name>rebuild_triggered</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1a90c5f7e2d1112e73975ae672ffb64dd3" prot="public" virt="non-virtual"><scope>themis::evaluation::TensorGraphSnapshot</scope><name>residual_error</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1afdf3bf0fe05d0ced56840453d6416b3a" prot="public" virt="non-virtual"><scope>themis::evaluation::TensorGraphSnapshot</scope><name>summary_first_false_negative</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1a7a28b0279cd0e556ca83bfd4df3e1ee8" prot="public" virt="non-virtual"><scope>themis::evaluation::TensorGraphSnapshot</scope><name>summary_first_routing_used</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

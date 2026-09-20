@@ -1,0 +1,497 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_continuous_agg_materialization_engine" kind="class" language="C++" prot="public">
+    <compoundname>themis::ContinuousAggMaterializationEngine</compoundname>
+    <includes refid="continuous__agg_8h" local="no">continuous_agg.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_continuous_agg_materialization_engine_1a44f44e6ca798a22efcf64f7e59cb9f5f" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_t_s_store" kindref="compound">TSStore</ref> *</type>
+        <definition>TSStore* themis::ContinuousAggMaterializationEngine::store_</definition>
+        <argsstring></argsstring>
+        <name>store_</name>
+        <qualifiedname>themis::ContinuousAggMaterializationEngine::store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/continuous_agg.h" line="457" column="59" bodyfile="include/timeseries/continuous_agg.h" bodystart="457" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_continuous_agg_materialization_engine_1a2efd886c1a36672a6ed28a0a51bb7975" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_continuous_agg_watermark_store" kindref="compound">ContinuousAggWatermarkStore</ref></type>
+        <definition>ContinuousAggWatermarkStore themis::ContinuousAggMaterializationEngine::wm_store_</definition>
+        <argsstring></argsstring>
+        <name>wm_store_</name>
+        <qualifiedname>themis::ContinuousAggMaterializationEngine::wm_store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/continuous_agg.h" line="458" column="60" bodyfile="include/timeseries/continuous_agg.h" bodystart="458" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_continuous_agg_materialization_engine_1a0533fbfce94b5dcb8e0ef7179632f927" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_continuous_aggregate_manager" kindref="compound">ContinuousAggregateManager</ref></type>
+        <definition>ContinuousAggregateManager themis::ContinuousAggMaterializationEngine::mgr_</definition>
+        <argsstring></argsstring>
+        <name>mgr_</name>
+        <qualifiedname>themis::ContinuousAggMaterializationEngine::mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/continuous_agg.h" line="459" column="60" bodyfile="include/timeseries/continuous_agg.h" bodystart="459" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_continuous_agg_materialization_engine_1a97bae2fbbcc0acc78e1154c0e6b4b3cd" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1_continuous_agg_definition" kindref="compound">ContinuousAggDefinition</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, ContinuousAggDefinition&gt; themis::ContinuousAggMaterializationEngine::defs_</definition>
+        <argsstring></argsstring>
+        <name>defs_</name>
+        <qualifiedname>themis::ContinuousAggMaterializationEngine::defs_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/continuous_agg.h" line="462" column="24" bodyfile="include/timeseries/continuous_agg.h" bodystart="462" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_continuous_agg_materialization_engine_1a0997407e1bb71f16694934e00f1e9203" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::ContinuousAggMaterializationEngine::def_order_</definition>
+        <argsstring></argsstring>
+        <name>def_order_</name>
+        <qualifiedname>themis::ContinuousAggMaterializationEngine::def_order_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/continuous_agg.h" line="463" column="50" bodyfile="include/timeseries/continuous_agg.h" bodystart="463" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_continuous_agg_materialization_engine_1a83611a4b81f430738ea7d0cd9165185e" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ContinuousAggMaterializationEngine::ContinuousAggMaterializationEngine</definition>
+        <argsstring>(TSStore *store)</argsstring>
+        <name>ContinuousAggMaterializationEngine</name>
+        <qualifiedname>themis::ContinuousAggMaterializationEngine::ContinuousAggMaterializationEngine</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_t_s_store" kindref="compound">TSStore</ref> *</type>
+          <declname>store</declname>
+        </param>
+        <briefdescription>
+<para>Continuous Agg Materialization Engine. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">store</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/continuous_agg.h" line="346" column="14" bodyfile="src/timeseries/continuous_agg.cpp" bodystart="398" bodyend="401"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_continuous_agg_materialization_engine_1a34d81bdbabec748189280edb309dae00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ContinuousAggMaterializationEngine::createAggregate</definition>
+        <argsstring>(ContinuousAggDefinition def)</argsstring>
+        <name>createAggregate</name>
+        <qualifiedname>themis::ContinuousAggMaterializationEngine::createAggregate</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1_continuous_agg_definition" kindref="compound">ContinuousAggDefinition</ref></type>
+          <declname>def</declname>
+        </param>
+        <briefdescription>
+<para>Register a new continuous aggregate definition. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Aggregate.</para>
+<para>The definition&apos;s name must be unique within this engine instance. The agg_id field is populated automatically from name and the derived metric name.</para>
+<para><simplesect kind="return"><para>true on success; false if a definition with the same name already exists. </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">def</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">def</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: count(), <ref refid="classthemis_1_1_continuous_aggregate_manager_1a5c08da389c51794339466931f880ba82" kindref="member">ContinuousAggregateManager::derivedMetricName()</ref>, push_back(), emplace(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/continuous_agg.h" line="363" column="10" bodyfile="src/timeseries/continuous_agg.cpp" bodystart="409" bodyend="422"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_continuous_agg_materialization_engine_1a26c907b125cb5d037f127a4da1846f54" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ContinuousAggMaterializationEngine::dropAggregate</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>dropAggregate</name>
+        <qualifiedname>themis::ContinuousAggMaterializationEngine::dropAggregate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Remove a continuous aggregate definition. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Drop Aggregate.</para>
+<para>Deletes the watermark entry from the <ref refid="classthemis_1_1_t_s_store" kindref="compound">TSStore</ref> and removes the definition from the registry. The materialized data points themselves are NOT deleted; callers must clean them up via <ref refid="classthemis_1_1_t_s_store" kindref="compound">TSStore</ref> retention policies if desired.</para>
+<para><simplesect kind="return"><para>true if the definition was found and removed; false otherwise. </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: find(), end(), deleteWatermark(), erase(), std::remove(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/continuous_agg.h" line="376" column="10" bodyfile="src/timeseries/continuous_agg.cpp" bodystart="430" bodyend="443"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_continuous_agg_materialization_engine_1a4b0e6983f54187e13952977c6b24e670" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1_continuous_agg_definition" kindref="compound">ContinuousAggDefinition</ref> &gt;</type>
+        <definition>std::optional&lt; ContinuousAggDefinition &gt; themis::ContinuousAggMaterializationEngine::getAggregate</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>getAggregate</name>
+        <qualifiedname>themis::ContinuousAggMaterializationEngine::getAggregate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Return the definition for the given aggregate name, or nullopt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/continuous_agg.h" line="383" column="19" bodyfile="src/timeseries/continuous_agg.cpp" bodystart="446" bodyend="452"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_continuous_agg_materialization_engine_1abd18ed2d50f7e1fe42ccdd691d03f039" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::ContinuousAggMaterializationEngine::listAggregates</definition>
+        <argsstring>() const</argsstring>
+        <name>listAggregates</name>
+        <qualifiedname>themis::ContinuousAggMaterializationEngine::listAggregates</qualifiedname>
+        <briefdescription>
+<para>List the names of all registered aggregates. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/continuous_agg.h" line="389" column="17" bodyfile="src/timeseries/continuous_agg.cpp" bodystart="454" bodyend="456"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_continuous_agg_materialization_engine_1a540a0b6be4d1b007212a93bf7426e33d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::ContinuousAggMaterializationEngine::refreshAggregate</definition>
+        <argsstring>(const std::string &amp;name, int64_t to_ms)</argsstring>
+        <name>refreshAggregate</name>
+        <qualifiedname>themis::ContinuousAggMaterializationEngine::refreshAggregate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>to_ms</declname>
+        </param>
+        <briefdescription>
+<para>Incrementally refresh a single named aggregate up to to_ms. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Refresh Aggregate.</para>
+<para>Uses the persisted watermark to scan only new data, then advances the watermark after a successful write. Returns the number of aggregate windows written (0 if already up-to-date or the aggregate is INACTIVE).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Aggregate name (must have been registered via createAggregate). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>to_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Upper bound of the refresh window (ms since epoch). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of windows written, or 0 if not found / already current.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), end(), refreshIncremental(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/continuous_agg.h" line="406" column="12" bodyfile="src/timeseries/continuous_agg.cpp" bodystart="465" bodyend="479"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_continuous_agg_materialization_engine_1adfc2ea33f7fa1fd81c8af64fab8a5e46" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::ContinuousAggMaterializationEngine::refreshAll</definition>
+        <argsstring>(int64_t to_ms)</argsstring>
+        <name>refreshAll</name>
+        <qualifiedname>themis::ContinuousAggMaterializationEngine::refreshAll</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>to_ms</declname>
+        </param>
+        <briefdescription>
+<para>Refresh all ACTIVE aggregates with auto_refresh == true. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Refresh All.</para>
+<para>Iterates over registered definitions in insertion order and calls <ref refid="classthemis_1_1_continuous_agg_materialization_engine_1a540a0b6be4d1b007212a93bf7426e33d" kindref="member">refreshAggregate()</ref> for each eligible aggregate.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>to_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Upper bound applied to every aggregate. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Total number of aggregate windows written across all aggregates.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">to_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), end(), refreshIncremental(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/continuous_agg.h" line="417" column="12" bodyfile="src/timeseries/continuous_agg.cpp" bodystart="487" bodyend="504"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_continuous_agg_materialization_engine_1a0a36c91f612b33109d9bdb22cefa9169" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_t_s_store_1_1_data_point" kindref="compound">TSStore::DataPoint</ref> &gt;</type>
+        <definition>std::vector&lt; TSStore::DataPoint &gt; themis::ContinuousAggMaterializationEngine::queryMaterialized</definition>
+        <argsstring>(const std::string &amp;name, int64_t from_ms, int64_t to_ms) const</argsstring>
+        <name>queryMaterialized</name>
+        <qualifiedname>themis::ContinuousAggMaterializationEngine::queryMaterialized</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>from_ms</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>to_ms</declname>
+        </param>
+        <briefdescription>
+<para>Query materialized aggregate data for a named aggregate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reads the derived metric from <ref refid="classthemis_1_1_t_s_store" kindref="compound">TSStore</ref> for the time range [from_ms, to_ms]. Only previously-materialized windows are returned; this method does NOT trigger a refresh.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Aggregate name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>from_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Start of the query window (inclusive, ms since epoch). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>to_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>End of the query window (inclusive, ms since epoch). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classthemis_1_1_t_s_store" kindref="compound">TSStore</ref> data points, or an empty vector if not found / no data. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/continuous_agg.h" line="435" column="17" bodyfile="src/timeseries/continuous_agg.cpp" bodystart="507" bodyend="527"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_continuous_agg_materialization_engine_1acecff28ac237b5befca60216f4758490" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1_continuous_agg_materialization_status" kindref="compound">ContinuousAggMaterializationStatus</ref> &gt;</type>
+        <definition>std::optional&lt; ContinuousAggMaterializationStatus &gt; themis::ContinuousAggMaterializationEngine::getAggregateStatus</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>getAggregateStatus</name>
+        <qualifiedname>themis::ContinuousAggMaterializationEngine::getAggregateStatus</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Return the materialization status of a named aggregate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Status snapshot, or nullopt if the aggregate is not registered. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/continuous_agg.h" line="448" column="5" bodyfile="src/timeseries/continuous_agg.cpp" bodystart="530" bodyend="545"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_continuous_agg_materialization_engine_1a12c192720753831a933cff70296a6f0f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_continuous_agg_materialization_status" kindref="compound">ContinuousAggMaterializationStatus</ref> &gt;</type>
+        <definition>std::vector&lt; ContinuousAggMaterializationStatus &gt; themis::ContinuousAggMaterializationEngine::getAllStatus</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllStatus</name>
+        <qualifiedname>themis::ContinuousAggMaterializationEngine::getAllStatus</qualifiedname>
+        <briefdescription>
+<para>Return the materialization status of all registered aggregates. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/continuous_agg.h" line="454" column="17" bodyfile="src/timeseries/continuous_agg.cpp" bodystart="548" bodyend="559"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>TimescaleDB-style continuous aggregate materialization engine. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Manages a registry of named continuous aggregate definitions and provides incremental refresh, status queries, and query routing to materialized data.</para>
+<para><heading level="3">Typical lifecycle</heading>
+</para>
+<para><programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1_continuous_agg_materialization_engine_1a83611a4b81f430738ea7d0cd9165185e" kindref="member">ContinuousAggMaterializationEngine</ref><sp/>engine(&amp;tsstore);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>1.<sp/>Define<sp/>a<sp/>continuous<sp/>aggregate<sp/>(like<sp/>CREATE<sp/>MATERIALIZED<sp/>VIEW)</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">ContinuousAggDefinition<sp/>def;</highlight></codeline>
+<codeline><highlight class="normal">def.name<sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;cpu_5min&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">def.config<sp/>=<sp/>{<sp/></highlight><highlight class="stringliteral">&quot;cpu_usage&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;server01&quot;</highlight><highlight class="normal">,<sp/>AggWindow{std::chrono::minutes(5)}<sp/>};</highlight></codeline>
+<codeline><highlight class="normal">engine.createAggregate(def);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>2.<sp/>Refresh<sp/>incrementally<sp/>(called<sp/>by<sp/>a<sp/>scheduler<sp/>or<sp/>on-demand)</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">engine.refreshAggregate(</highlight><highlight class="stringliteral">&quot;cpu_5min&quot;</highlight><highlight class="normal">,<sp/>now_ms);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>-<sp/>or<sp/>-</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">engine.refreshAll(now_ms);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>3.<sp/>Query<sp/>materialized<sp/>results</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>pts<sp/>=<sp/>engine.queryMaterialized(</highlight><highlight class="stringliteral">&quot;cpu_5min&quot;</highlight><highlight class="normal">,<sp/>from_ms,<sp/>to_ms);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>4.<sp/>Drop<sp/>when<sp/>no<sp/>longer<sp/>needed<sp/>(like<sp/>DROP<sp/>MATERIALIZED<sp/>VIEW)</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">engine.dropAggregate(</highlight><highlight class="stringliteral">&quot;cpu_5min&quot;</highlight><highlight class="normal">);</highlight></codeline>
+</programlisting></para>
+<para>Thread-safety: individual public methods are NOT thread-safe. External synchronization is required when calling from multiple threads. </para>
+    </detaileddescription>
+    <location file="include/timeseries/continuous_agg.h" line="339" column="1" bodyfile="include/timeseries/continuous_agg.h" bodystart="339" bodyend="464"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_continuous_agg_materialization_engine_1a83611a4b81f430738ea7d0cd9165185e" prot="public" virt="non-virtual"><scope>themis::ContinuousAggMaterializationEngine</scope><name>ContinuousAggMaterializationEngine</name></member>
+      <member refid="classthemis_1_1_continuous_agg_materialization_engine_1a34d81bdbabec748189280edb309dae00" prot="public" virt="non-virtual"><scope>themis::ContinuousAggMaterializationEngine</scope><name>createAggregate</name></member>
+      <member refid="classthemis_1_1_continuous_agg_materialization_engine_1a0997407e1bb71f16694934e00f1e9203" prot="private" virt="non-virtual"><scope>themis::ContinuousAggMaterializationEngine</scope><name>def_order_</name></member>
+      <member refid="classthemis_1_1_continuous_agg_materialization_engine_1a97bae2fbbcc0acc78e1154c0e6b4b3cd" prot="private" virt="non-virtual"><scope>themis::ContinuousAggMaterializationEngine</scope><name>defs_</name></member>
+      <member refid="classthemis_1_1_continuous_agg_materialization_engine_1a26c907b125cb5d037f127a4da1846f54" prot="public" virt="non-virtual"><scope>themis::ContinuousAggMaterializationEngine</scope><name>dropAggregate</name></member>
+      <member refid="classthemis_1_1_continuous_agg_materialization_engine_1a4b0e6983f54187e13952977c6b24e670" prot="public" virt="non-virtual"><scope>themis::ContinuousAggMaterializationEngine</scope><name>getAggregate</name></member>
+      <member refid="classthemis_1_1_continuous_agg_materialization_engine_1acecff28ac237b5befca60216f4758490" prot="public" virt="non-virtual"><scope>themis::ContinuousAggMaterializationEngine</scope><name>getAggregateStatus</name></member>
+      <member refid="classthemis_1_1_continuous_agg_materialization_engine_1a12c192720753831a933cff70296a6f0f" prot="public" virt="non-virtual"><scope>themis::ContinuousAggMaterializationEngine</scope><name>getAllStatus</name></member>
+      <member refid="classthemis_1_1_continuous_agg_materialization_engine_1abd18ed2d50f7e1fe42ccdd691d03f039" prot="public" virt="non-virtual"><scope>themis::ContinuousAggMaterializationEngine</scope><name>listAggregates</name></member>
+      <member refid="classthemis_1_1_continuous_agg_materialization_engine_1a0533fbfce94b5dcb8e0ef7179632f927" prot="private" virt="non-virtual"><scope>themis::ContinuousAggMaterializationEngine</scope><name>mgr_</name></member>
+      <member refid="classthemis_1_1_continuous_agg_materialization_engine_1a0a36c91f612b33109d9bdb22cefa9169" prot="public" virt="non-virtual"><scope>themis::ContinuousAggMaterializationEngine</scope><name>queryMaterialized</name></member>
+      <member refid="classthemis_1_1_continuous_agg_materialization_engine_1a540a0b6be4d1b007212a93bf7426e33d" prot="public" virt="non-virtual"><scope>themis::ContinuousAggMaterializationEngine</scope><name>refreshAggregate</name></member>
+      <member refid="classthemis_1_1_continuous_agg_materialization_engine_1adfc2ea33f7fa1fd81c8af64fab8a5e46" prot="public" virt="non-virtual"><scope>themis::ContinuousAggMaterializationEngine</scope><name>refreshAll</name></member>
+      <member refid="classthemis_1_1_continuous_agg_materialization_engine_1a44f44e6ca798a22efcf64f7e59cb9f5f" prot="private" virt="non-virtual"><scope>themis::ContinuousAggMaterializationEngine</scope><name>store_</name></member>
+      <member refid="classthemis_1_1_continuous_agg_materialization_engine_1a2efd886c1a36672a6ed28a0a51bb7975" prot="private" virt="non-virtual"><scope>themis::ContinuousAggMaterializationEngine</scope><name>wm_store_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

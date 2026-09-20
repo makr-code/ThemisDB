@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1tensor_1_1_routing_factory" kind="class" language="C++" prot="public">
+    <compoundname>themis::tensor::RoutingFactory</compoundname>
+    <includes refid="tensor__routing__strategy_8h" local="no">tensor_routing_strategy.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_routing_factory_1a520f20874d8f7db493f0e63ff5e2e319" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1tensor_1_1_i_routing_strategy" kindref="compound">IRoutingStrategy</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; IRoutingStrategy &gt; themis::tensor::RoutingFactory::createRouting</definition>
+        <argsstring>(const std::string &amp;strategy_name)</argsstring>
+        <name>createRouting</name>
+        <qualifiedname>themis::tensor::RoutingFactory::createRouting</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>strategy_name</declname>
+        </param>
+        <briefdescription>
+<para>Create a routing strategy by name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Routing.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>strategy_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Strategy name (e.g., &quot;QUALITY_BASED&quot;, &quot;SHARD_AWARE&quot;). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to strategy, or nullptr if name not recognized.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">strategy_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the strategy. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createRouting without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_routing_strategy.h" line="368" column="29" bodyfile="src/tensor/tensor_routing_strategy.cpp" bodystart="340" bodyend="352"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_routing_factory_1a7ccaf06ab165e86e6abcc291b27d241d" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1tensor_1_1_i_prioritization_strategy" kindref="compound">IPrioritizationStrategy</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; IPrioritizationStrategy &gt; themis::tensor::RoutingFactory::createPrioritization</definition>
+        <argsstring>(const std::string &amp;strategy_name)</argsstring>
+        <name>createPrioritization</name>
+        <qualifiedname>themis::tensor::RoutingFactory::createPrioritization</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>strategy_name</declname>
+        </param>
+        <briefdescription>
+<para>Create a prioritization strategy by name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Prioritization.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>strategy_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Strategy name (e.g., &quot;SIMILARITY_BASED&quot;, &quot;RANK_BASED&quot;). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to strategy, or nullptr if name not recognized.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">strategy_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the strategy. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createPrioritization without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_routing_strategy.h" line="377" column="29" bodyfile="src/tensor/tensor_routing_strategy.cpp" bodystart="360" bodyend="372"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Factory for creating routing and prioritization strategy instances. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/tensor/tensor_routing_strategy.h" line="360" column="1" bodyfile="include/tensor/tensor_routing_strategy.h" bodystart="360" bodyend="379"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1tensor_1_1_routing_factory_1a7ccaf06ab165e86e6abcc291b27d241d" prot="public" virt="non-virtual"><scope>themis::tensor::RoutingFactory</scope><name>createPrioritization</name></member>
+      <member refid="classthemis_1_1tensor_1_1_routing_factory_1a520f20874d8f7db493f0e63ff5e2e319" prot="public" virt="non-virtual"><scope>themis::tensor::RoutingFactory</scope><name>createRouting</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

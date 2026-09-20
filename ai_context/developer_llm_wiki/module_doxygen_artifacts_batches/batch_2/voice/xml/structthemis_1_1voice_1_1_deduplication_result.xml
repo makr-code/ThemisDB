@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_deduplication_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::DeduplicationResult</compoundname>
+    <includes refid="voice__audio__storage_8h" local="no">voice_audio_storage.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_deduplication_result_1ab3b46c6d2b686c495f644c74477be678" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::DeduplicationResult::is_duplicate</definition>
+        <argsstring></argsstring>
+        <name>is_duplicate</name>
+        <qualifiedname>themis::voice::DeduplicationResult::is_duplicate</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_audio_storage.h" line="83" column="10" bodyfile="include/voice/voice_audio_storage.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_deduplication_result_1a22594887c39661bc48d834b5ee1af21c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::DeduplicationResult::existing_record_id</definition>
+        <argsstring></argsstring>
+        <name>existing_record_id</name>
+        <qualifiedname>themis::voice::DeduplicationResult::existing_record_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_audio_storage.h" line="84" column="17" bodyfile="include/voice/voice_audio_storage.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_deduplication_result_1a79c124efee1ea86ea791aa69b26bfc28" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::DeduplicationResult::content_hash</definition>
+        <argsstring></argsstring>
+        <name>content_hash</name>
+        <qualifiedname>themis::voice::DeduplicationResult::content_hash</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_audio_storage.h" line="85" column="17" bodyfile="include/voice/voice_audio_storage.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_deduplication_result_1ad884ba6bfbfd24775f3d730ca7a93447" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::voice::DeduplicationResult::bytes_saved</definition>
+        <argsstring></argsstring>
+        <name>bytes_saved</name>
+        <qualifiedname>themis::voice::DeduplicationResult::bytes_saved</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_audio_storage.h" line="86" column="12" bodyfile="include/voice/voice_audio_storage.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_audio_storage.h" line="82" column="1" bodyfile="include/voice/voice_audio_storage.h" bodystart="82" bodyend="87"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_deduplication_result_1ad884ba6bfbfd24775f3d730ca7a93447" prot="public" virt="non-virtual"><scope>themis::voice::DeduplicationResult</scope><name>bytes_saved</name></member>
+      <member refid="structthemis_1_1voice_1_1_deduplication_result_1a79c124efee1ea86ea791aa69b26bfc28" prot="public" virt="non-virtual"><scope>themis::voice::DeduplicationResult</scope><name>content_hash</name></member>
+      <member refid="structthemis_1_1voice_1_1_deduplication_result_1a22594887c39661bc48d834b5ee1af21c" prot="public" virt="non-virtual"><scope>themis::voice::DeduplicationResult</scope><name>existing_record_id</name></member>
+      <member refid="structthemis_1_1voice_1_1_deduplication_result_1ab3b46c6d2b686c495f644c74477be678" prot="public" virt="non-virtual"><scope>themis::voice::DeduplicationResult</scope><name>is_duplicate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

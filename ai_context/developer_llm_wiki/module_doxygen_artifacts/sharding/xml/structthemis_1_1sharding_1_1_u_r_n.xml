@@ -1,0 +1,271 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_u_r_n" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::URN</compoundname>
+    <includes refid="urn_8h" local="no">urn.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_u_r_n_1ac630eb97ad14c02ba4c8b26896fd667d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::URN::model</definition>
+        <argsstring></argsstring>
+        <name>model</name>
+        <qualifiedname>themis::sharding::URN::model</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/urn.h" line="37" column="17" bodyfile="include/sharding/urn.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_u_r_n_1a19e16d2940f9f7d7dbcc89bfc532dc36" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::URN::namespace_</definition>
+        <argsstring></argsstring>
+        <name>namespace_</name>
+        <qualifiedname>themis::sharding::URN::namespace_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/urn.h" line="38" column="17" bodyfile="include/sharding/urn.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_u_r_n_1aff7c734d09d43ebea761653a55d31dc0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::URN::collection</definition>
+        <argsstring></argsstring>
+        <name>collection</name>
+        <qualifiedname>themis::sharding::URN::collection</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/urn.h" line="39" column="17" bodyfile="include/sharding/urn.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_u_r_n_1a71287506c648b2214ba30d75dcb83108" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::URN::uuid</definition>
+        <argsstring></argsstring>
+        <name>uuid</name>
+        <qualifiedname>themis::sharding::URN::uuid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/urn.h" line="40" column="17" bodyfile="include/sharding/urn.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_u_r_n_1aa222eb1e093dc37394de57b7185ed4b3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1sharding_1_1_u_r_n" kindref="compound">URN</ref> &gt;</type>
+        <definition>std::optional&lt; URN &gt; themis::sharding::URN::parse</definition>
+        <argsstring>(std::string_view urn_str)</argsstring>
+        <name>parse</name>
+        <qualifiedname>themis::sharding::URN::parse</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>urn_str</declname>
+        </param>
+        <briefdescription>
+<para>Parse a textual <ref refid="structthemis_1_1sharding_1_1_u_r_n" kindref="compound">URN</ref> into components. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Parse.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>urn_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1sharding_1_1_u_r_n" kindref="compound">URN</ref> text in the format urn:themis:{model}:{namespace}:{collection}:{uuid}. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Parsed <ref refid="structthemis_1_1sharding_1_1_u_r_n" kindref="compound">URN</ref> when the full format and value constraints are valid, std::nullopt otherwise.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">urn_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), starts_with(), find(), emplace_back(), substr(), <ref refid="structthemis_1_1sharding_1_1_u_r_n_1a004a14fefdf96ac2694df9f1f1992e9b" kindref="member">isValidModel()</ref>, empty(), <ref refid="structthemis_1_1sharding_1_1_u_r_n_1a51edb1415455d70476a47d589587e042" kindref="member">isValidUUID()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/urn.h" line="49" column="26" bodyfile="src/sharding/urn.cpp" bodystart="46" bodyend="103"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_u_r_n_1ad56f5dbb63bd67a1e3b01b5d1eb5cfc8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::URN::toString</definition>
+        <argsstring>() const</argsstring>
+        <name>toString</name>
+        <qualifiedname>themis::sharding::URN::toString</qualifiedname>
+        <briefdescription>
+<para>Serialize this <ref refid="structthemis_1_1sharding_1_1_u_r_n" kindref="compound">URN</ref> to canonical text form. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Canonical <ref refid="structthemis_1_1sharding_1_1_u_r_n" kindref="compound">URN</ref> string. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/urn.h" line="55" column="17" bodyfile="src/sharding/urn.cpp" bodystart="105" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_u_r_n_1ae23dc4cf8d79cde5202a6da9975f8f71" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::URN::hash</definition>
+        <argsstring>() const</argsstring>
+        <name>hash</name>
+        <qualifiedname>themis::sharding::URN::hash</qualifiedname>
+        <briefdescription>
+<para>Compute routing hash for shard placement. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>64-bit hash value over the UUID component. </para>
+</simplesect>
+<simplesect kind="note"><para>Uses xxHash when available and falls back to std::hash. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/urn.h" line="62" column="14" bodyfile="src/sharding/urn.cpp" bodystart="111" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_u_r_n_1a51edb1415455d70476a47d589587e042" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::URN::isValidUUID</definition>
+        <argsstring>() const</argsstring>
+        <name>isValidUUID</name>
+        <qualifiedname>themis::sharding::URN::isValidUUID</qualifiedname>
+        <briefdescription>
+<para>Validate UUID syntax. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true when uuid matches RFC-4122 textual layout. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/urn.h" line="68" column="10" bodyfile="src/sharding/urn.cpp" bodystart="122" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_u_r_n_1aad6007c48c992b0b9a0f7fc11eda0e17" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::URN::getResourceId</definition>
+        <argsstring>() const</argsstring>
+        <name>getResourceId</name>
+        <qualifiedname>themis::sharding::URN::getResourceId</qualifiedname>
+        <briefdescription>
+<para>Return backward-compatible key form. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Resource identifier in collection:uuid format. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/urn.h" line="74" column="17" bodyfile="include/sharding/urn.h" bodystart="74" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_u_r_n_1a004a14fefdf96ac2694df9f1f1992e9b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::URN::isValidModel</definition>
+        <argsstring>() const</argsstring>
+        <name>isValidModel</name>
+        <qualifiedname>themis::sharding::URN::isValidModel</qualifiedname>
+        <briefdescription>
+<para>Validate model namespace. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true when model is in the supported model set. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/urn.h" line="80" column="10" bodyfile="src/sharding/urn.cpp" bodystart="126" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_u_r_n_1a310aa671dfe0170b1d9f0436068b3af9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::URN::operator==</definition>
+        <argsstring>(const URN &amp;other) const</argsstring>
+        <name>operator==</name>
+        <qualifiedname>themis::sharding::URN::operator==</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_u_r_n" kindref="compound">URN</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Structural equality across all <ref refid="structthemis_1_1sharding_1_1_u_r_n" kindref="compound">URN</ref> components. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/urn.h" line="83" column="10" bodyfile="include/sharding/urn.h" bodystart="83" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_u_r_n_1ae66356c0609fd3a0c84418984f2c98bd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::URN::operator!=</definition>
+        <argsstring>(const URN &amp;other) const</argsstring>
+        <name>operator!=</name>
+        <qualifiedname>themis::sharding::URN::operator!=</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_u_r_n" kindref="compound">URN</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Structural inequality across all <ref refid="structthemis_1_1sharding_1_1_u_r_n" kindref="compound">URN</ref> components. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/urn.h" line="91" column="10" bodyfile="include/sharding/urn.h" bodystart="91" bodyend="93"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Canonical shard-routable resource identifier. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Format: urn:themis:{model}:{namespace}:{collection}:{uuid}</para>
+<para>Examples:<itemizedlist>
+<listitem><para>urn:themis:relational:customers:users:550e8400-e29b-41d4-a716-446655440000</para>
+</listitem><listitem><para>urn:themis:graph:social:nodes:7c9e6679-7425-40de-944b-e07fc1f90ae7</para>
+</listitem><listitem><para>urn:themis:vector:embeddings:documents:f47ac10b-58cc-4372-a567-0e02b2c3d479</para>
+</listitem><listitem><para>urn:themis:timeseries:metrics:cpu_usage:3d6e3e3e-4c5d-4f5e-9e7f-8a9b0c1d2e3f</para>
+</listitem></itemizedlist>
+</para>
+<para>The identifier provides location transparency and keeps client-visible keys stable across resharding operations. </para>
+    </detaileddescription>
+    <location file="include/sharding/urn.h" line="36" column="1" bodyfile="include/sharding/urn.h" bodystart="36" bodyend="94"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_u_r_n_1aff7c734d09d43ebea761653a55d31dc0" prot="public" virt="non-virtual"><scope>themis::sharding::URN</scope><name>collection</name></member>
+      <member refid="structthemis_1_1sharding_1_1_u_r_n_1aad6007c48c992b0b9a0f7fc11eda0e17" prot="public" virt="non-virtual"><scope>themis::sharding::URN</scope><name>getResourceId</name></member>
+      <member refid="structthemis_1_1sharding_1_1_u_r_n_1ae23dc4cf8d79cde5202a6da9975f8f71" prot="public" virt="non-virtual"><scope>themis::sharding::URN</scope><name>hash</name></member>
+      <member refid="structthemis_1_1sharding_1_1_u_r_n_1a004a14fefdf96ac2694df9f1f1992e9b" prot="public" virt="non-virtual"><scope>themis::sharding::URN</scope><name>isValidModel</name></member>
+      <member refid="structthemis_1_1sharding_1_1_u_r_n_1a51edb1415455d70476a47d589587e042" prot="public" virt="non-virtual"><scope>themis::sharding::URN</scope><name>isValidUUID</name></member>
+      <member refid="structthemis_1_1sharding_1_1_u_r_n_1ac630eb97ad14c02ba4c8b26896fd667d" prot="public" virt="non-virtual"><scope>themis::sharding::URN</scope><name>model</name></member>
+      <member refid="structthemis_1_1sharding_1_1_u_r_n_1a19e16d2940f9f7d7dbcc89bfc532dc36" prot="public" virt="non-virtual"><scope>themis::sharding::URN</scope><name>namespace_</name></member>
+      <member refid="structthemis_1_1sharding_1_1_u_r_n_1ae66356c0609fd3a0c84418984f2c98bd" prot="public" virt="non-virtual"><scope>themis::sharding::URN</scope><name>operator!=</name></member>
+      <member refid="structthemis_1_1sharding_1_1_u_r_n_1a310aa671dfe0170b1d9f0436068b3af9" prot="public" virt="non-virtual"><scope>themis::sharding::URN</scope><name>operator==</name></member>
+      <member refid="structthemis_1_1sharding_1_1_u_r_n_1aa222eb1e093dc37394de57b7185ed4b3" prot="public" virt="non-virtual"><scope>themis::sharding::URN</scope><name>parse</name></member>
+      <member refid="structthemis_1_1sharding_1_1_u_r_n_1ad56f5dbb63bd67a1e3b01b5d1eb5cfc8" prot="public" virt="non-virtual"><scope>themis::sharding::URN</scope><name>toString</name></member>
+      <member refid="structthemis_1_1sharding_1_1_u_r_n_1a71287506c648b2214ba30d75dcb83108" prot="public" virt="non-virtual"><scope>themis::sharding::URN</scope><name>uuid</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

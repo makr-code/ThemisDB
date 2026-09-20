@@ -1,0 +1,314 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="blob__storage__backend_8h" kind="file" language="C++">
+    <compoundname>blob_storage_backend.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="yes">utils/expected.h</includes>
+    <includedby refid="blob__backend__azure_8h" local="yes">include/storage/blob_backend_azure.h</includedby>
+    <includedby refid="blob__backend__filesystem_8h" local="yes">include/storage/blob_backend_filesystem.h</includedby>
+    <includedby refid="blob__backend__gcs_8h" local="yes">include/storage/blob_backend_gcs.h</includedby>
+    <includedby refid="blob__backend__s3_8h" local="yes">include/storage/blob_backend_s3.h</includedby>
+    <includedby refid="blob__storage__manager_8h" local="yes">include/storage/blob_storage_manager.h</includedby>
+    <includedby refid="encrypted__blob__backend_8h" local="yes">include/storage/encrypted_blob_backend.h</includedby>
+    <includedby refid="federated__blob__router_8h" local="yes">include/storage/federated_blob_router.h</includedby>
+    <includedby refid="zero__copy__blob__transfer_8h" local="yes">include/storage/zero_copy_blob_transfer.h</includedby>
+    <includedby refid="backup__manager_8cpp" local="yes">src/storage/backup_manager.cpp</includedby>
+    <includedby refid="blob__backend__azure_8cpp" local="yes">src/storage/blob_backend_azure.cpp</includedby>
+    <includedby refid="blob__backend__s3_8cpp" local="yes">src/storage/blob_backend_s3.cpp</includedby>
+    <includedby refid="blob__backend__webdav_8cpp" local="yes">src/storage/blob_backend_webdav.cpp</includedby>
+    <includedby refid="test__blob__backend__gcs__focused_8cpp" local="yes">tests/storage/test_blob_backend_gcs_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/storage/blob_storage_backend.h</label>
+        <link refid="blob__storage__backend_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="4">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/storage/blob_backend_azure.h</label>
+        <link refid="blob__backend__azure_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>include/storage/blob_backend_filesystem.h</label>
+        <link refid="blob__backend__filesystem_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>include/storage/blob_backend_gcs.h</label>
+        <link refid="blob__backend__gcs_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>include/storage/blob_backend_s3.h</label>
+        <link refid="blob__backend__s3_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/storage/blob_storage_backend.h</label>
+        <link refid="blob__storage__backend_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>include/storage/blob_storage_manager.h</label>
+        <link refid="blob__storage__manager_8h"/>
+      </node>
+      <node id="12">
+        <label>include/storage/encrypted_blob_backend.h</label>
+        <link refid="encrypted__blob__backend_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>include/storage/federated_blob_router.h</label>
+        <link refid="federated__blob__router_8h"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>include/storage/zero_copy_blob_transfer.h</label>
+        <link refid="zero__copy__blob__transfer_8h"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/storage/backup_manager.cpp</label>
+        <link refid="backup__manager_8cpp"/>
+      </node>
+      <node id="18">
+        <label>src/storage/blob_backend_azure.cpp</label>
+        <link refid="blob__backend__azure_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/storage/blob_backend_filesystem.cpp</label>
+        <link refid="blob__backend__filesystem_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/storage/blob_backend_gcs.cpp</label>
+        <link refid="blob__backend__gcs_8cpp"/>
+      </node>
+      <node id="19">
+        <label>src/storage/blob_backend_s3.cpp</label>
+        <link refid="blob__backend__s3_8cpp"/>
+      </node>
+      <node id="20">
+        <label>src/storage/blob_backend_webdav.cpp</label>
+        <link refid="blob__backend__webdav_8cpp"/>
+      </node>
+      <node id="13">
+        <label>src/storage/encrypted_blob_backend.cpp</label>
+        <link refid="encrypted__blob__backend_8cpp"/>
+      </node>
+      <node id="17">
+        <label>src/storage/zero_copy_blob_transfer.cpp</label>
+        <link refid="zero__copy__blob__transfer_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/storage/test_blob_backend_cloud_integration_focused.cpp</label>
+        <link refid="test__blob__backend__cloud__integration__focused_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/storage/test_blob_backend_gcs_focused.cpp</label>
+        <link refid="test__blob__backend__gcs__focused_8cpp"/>
+      </node>
+      <node id="15">
+        <label>tests/storage/test_federated_blob_router_focused.cpp</label>
+        <link refid="test__federated__blob__router__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1storage_1_1_blob_ref" prot="public">themis::storage::BlobRef</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_i_blob_storage_backend" prot="public">themis::storage::IBlobStorageBackend</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_blob_storage_config" prot="public">themis::storage::BlobStorageConfig</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1storage">themis::storage</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/expected.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1storage" kindref="compound">storage</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="namespacethemis_1_1storage_1a0920c3f1eae9af3a4a216dceebb88a42" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1storage_1a0920c3f1eae9af3a4a216dceebb88a42" kindref="member">BlobStorageType</ref><sp/>{</highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1storage_1a0920c3f1eae9af3a4a216dceebb88a42acfbac07c6ae3e73f0e10ca60ad916bef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1a0920c3f1eae9af3a4a216dceebb88a42acfbac07c6ae3e73f0e10ca60ad916bef" kindref="member">INLINE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RocksDB<sp/>inline<sp/>(&lt;<sp/>1<sp/>MB)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1storage_1a0920c3f1eae9af3a4a216dceebb88a42afff39ee0dcf50dd8d7dd2af18c90099c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1a0920c3f1eae9af3a4a216dceebb88a42afff39ee0dcf50dd8d7dd2af18c90099c" kindref="member">ROCKSDB_BLOB</ref>,<sp/></highlight><highlight class="comment">//<sp/>RocksDB<sp/>BlobDB<sp/>(1-10<sp/>MB)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1storage_1a0920c3f1eae9af3a4a216dceebb88a42a8c4bad9563596861cd35a1829152b866" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1a0920c3f1eae9af3a4a216dceebb88a42a8c4bad9563596861cd35a1829152b866" kindref="member">FILESYSTEM</ref>,<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Local<sp/>filesystem</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1storage_1a0920c3f1eae9af3a4a216dceebb88a42ae2ab7c65b21ed8cc1c3b642b5e36429e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1a0920c3f1eae9af3a4a216dceebb88a42ae2ab7c65b21ed8cc1c3b642b5e36429e" kindref="member">S3</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>AWS<sp/>S3</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1storage_1a0920c3f1eae9af3a4a216dceebb88a42a6c64da5a6c2a0d4d5a7bc3a36a1b3fb1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1a0920c3f1eae9af3a4a216dceebb88a42a6c64da5a6c2a0d4d5a7bc3a36a1b3fb1" kindref="member">AZURE_BLOB</ref>,<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Azure<sp/>Blob<sp/>Storage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1storage_1a0920c3f1eae9af3a4a216dceebb88a42a0f783f732d106dbf30f255f311e83e67" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1a0920c3f1eae9af3a4a216dceebb88a42a0f783f732d106dbf30f255f311e83e67" kindref="member">GCS</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Google<sp/>Cloud<sp/>Storage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1storage_1a0920c3f1eae9af3a4a216dceebb88a42a724b43eea892db47b6afa0a5f8627ae6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1a0920c3f1eae9af3a4a216dceebb88a42a724b43eea892db47b6afa0a5f8627ae6" kindref="member">WEBDAV</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>WebDAV<sp/>(for<sp/>ActiveDirectory/SharePoint<sp/>integration)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1storage_1a0920c3f1eae9af3a4a216dceebb88a42a72baef04098f035e8a320b03ad197818" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1a0920c3f1eae9af3a4a216dceebb88a42a72baef04098f035e8a320b03ad197818" kindref="member">CUSTOM</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>User-defined<sp/>backend</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1storage_1_1_blob_ref" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1storage_1_1_blob_ref" kindref="compound">BlobRef</ref><sp/>{</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1storage_1_1_blob_ref_1aee8e0ab57630baddb77b617ae206291b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1storage_1_1_blob_ref_1aee8e0ab57630baddb77b617ae206291b" kindref="member">id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Blob<sp/>ID<sp/>(UUID)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1storage_1_1_blob_ref_1a928a3f3e7ff050fff50f6075df659b92" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1a0920c3f1eae9af3a4a216dceebb88a42" kindref="member">BlobStorageType</ref><sp/><ref refid="structthemis_1_1storage_1_1_blob_ref_1a928a3f3e7ff050fff50f6075df659b92" kindref="member">type</ref>;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Storage<sp/>backend<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1storage_1_1_blob_ref_1ad95c84baf77bda97a2a4c216869eb0e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1storage_1_1_blob_ref_1ad95c84baf77bda97a2a4c216869eb0e8" kindref="member">uri</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Backend-specific<sp/>URI</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1storage_1_1_blob_ref_1a69de9d18e7520f657d00e7d034dc1da6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1storage_1_1_blob_ref_1a69de9d18e7520f657d00e7d034dc1da6" kindref="member">size_bytes</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Original<sp/>size</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1storage_1_1_blob_ref_1a8df7e72f728ed0b8cd7634b394d099ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1storage_1_1_blob_ref_1a8df7e72f728ed0b8cd7634b394d099ad" kindref="member">hash_sha256</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Content<sp/>hash<sp/>(for<sp/>integrity)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optional<sp/>metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1storage_1_1_blob_ref_1a7bf3f22475384b34d96f7e334b03e11c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1storage_1_1_blob_ref_1a7bf3f22475384b34d96f7e334b03e11c" kindref="member">created_at</ref><sp/>=<sp/>0;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Unix<sp/>timestamp</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1storage_1_1_blob_ref_1aac896fea128639fcad074ac059fbd85f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_blob_ref_1aac896fea128639fcad074ac059fbd85f" kindref="member">compressed</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Is<sp/>blob<sp/>compressed?</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1storage_1_1_blob_ref_1ad1f3fe746fd8f62e9d007d9daf794317" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1storage_1_1_blob_ref_1ad1f3fe746fd8f62e9d007d9daf794317" kindref="member">compression_type</ref>;<sp/></highlight><highlight class="comment">//<sp/>e.g.,<sp/>&quot;zstd&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="classthemis_1_1storage_1_1_i_blob_storage_backend" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1storage_1_1_i_blob_storage_backend" kindref="compound">IBlobStorageBackend</ref><sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="66" refid="classthemis_1_1storage_1_1_i_blob_storage_backend_1a9298452bf506be5cc61866a8010e8cd5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_i_blob_storage_backend_1a9298452bf506be5cc61866a8010e8cd5" kindref="member">~IBlobStorageBackend</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="74" refid="classthemis_1_1storage_1_1_i_blob_storage_backend_1a95f20c9781e8494ebd196b26fa907fe7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>Result&lt;BlobRef&gt;<sp/><ref refid="classthemis_1_1storage_1_1_i_blob_storage_backend_1a95f20c9781e8494ebd196b26fa907fe7" kindref="member">put</ref>(</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>blob_id,</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="84" refid="classthemis_1_1storage_1_1_i_blob_storage_backend_1ad9be71e35853a3f8fa0eb3ca8cd720e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>Result&lt;std::vector&lt;uint8_t&gt;&gt;<sp/><ref refid="classthemis_1_1storage_1_1_i_blob_storage_backend_1ad9be71e35853a3f8fa0eb3ca8cd720e0" kindref="member">get</ref>(</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_blob_ref" kindref="compound">BlobRef</ref>&amp;<sp/>ref</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="93" refid="classthemis_1_1storage_1_1_i_blob_storage_backend_1adfcf671215efaedc0b1b8dcf3a04aaf4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>Result&lt;void&gt;<sp/><ref refid="classthemis_1_1storage_1_1_i_blob_storage_backend_1adfcf671215efaedc0b1b8dcf3a04aaf4" kindref="member">remove</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_blob_ref" kindref="compound">BlobRef</ref>&amp;<sp/>ref)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="100" refid="classthemis_1_1storage_1_1_i_blob_storage_backend_1a12a0da5953ed62e43fd0c7781ea2bffb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_i_blob_storage_backend_1a12a0da5953ed62e43fd0c7781ea2bffb" kindref="member">exists</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_blob_ref" kindref="compound">BlobRef</ref>&amp;<sp/>ref)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="106" refid="classthemis_1_1storage_1_1_i_blob_storage_backend_1a2ca43ee09ac2171de91232e3791ef3b6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1storage_1_1_i_blob_storage_backend_1a2ca43ee09ac2171de91232e3791ef3b6" kindref="member">name</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="112" refid="classthemis_1_1storage_1_1_i_blob_storage_backend_1a7bca1f3bdefb0139f6988710880ef2c4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_i_blob_storage_backend_1a7bca1f3bdefb0139f6988710880ef2c4" kindref="member">isAvailable</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1storage_1_1_blob_storage_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1storage_1_1_blob_storage_config" kindref="compound">BlobStorageConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Thresholds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1storage_1_1_blob_storage_config_1aa3e4cfc4b716dbdcdf03d5616957b8ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1storage_1_1_blob_storage_config_1aa3e4cfc4b716dbdcdf03d5616957b8ec" kindref="member">inline_threshold_bytes</ref><sp/>=<sp/>1024<sp/>*<sp/>1024;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>1<sp/>MB<sp/>-<sp/>inline<sp/>in<sp/>RocksDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1storage_1_1_blob_storage_config_1a84abf64a08343f2035eb6ffe0c148abc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1storage_1_1_blob_storage_config_1a84abf64a08343f2035eb6ffe0c148abc" kindref="member">rocksdb_blob_threshold_bytes</ref><sp/>=<sp/>10<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/></highlight><highlight class="comment">//<sp/>10<sp/>MB<sp/>-<sp/>RocksDB<sp/>BlobDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Filesystem<sp/>backend</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1storage_1_1_blob_storage_config_1a6961a82072cea25ea5515cbaf4b5251d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_blob_storage_config_1a6961a82072cea25ea5515cbaf4b5251d" kindref="member">enable_filesystem</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1storage_1_1_blob_storage_config_1aab1de8eb1188fc7094173a25807cf475" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1storage_1_1_blob_storage_config_1aab1de8eb1188fc7094173a25807cf475" kindref="member">filesystem_base_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;./data/blobs&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>S3<sp/>backend</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128" refid="structthemis_1_1storage_1_1_blob_storage_config_1a374393eb05f8b01731c88f94d9d4cbf3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_blob_storage_config_1a374393eb05f8b01731c88f94d9d4cbf3" kindref="member">enable_s3</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="129" refid="structthemis_1_1storage_1_1_blob_storage_config_1a847eda99e637a7771ef920fc5d4b2943" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1storage_1_1_blob_storage_config_1a847eda99e637a7771ef920fc5d4b2943" kindref="member">s3_bucket</ref>;</highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1storage_1_1_blob_storage_config_1af07fadd270ed5b5c001ce309e6ca7e09" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1storage_1_1_blob_storage_config_1af07fadd270ed5b5c001ce309e6ca7e09" kindref="member">s3_region</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;us-east-1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1storage_1_1_blob_storage_config_1a607fe92831440df8bdb6d48797f0ace3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1storage_1_1_blob_storage_config_1a607fe92831440df8bdb6d48797f0ace3" kindref="member">s3_prefix</ref>;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Azure<sp/>backend</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134" refid="structthemis_1_1storage_1_1_blob_storage_config_1a29fb5c221a385ba34e77c7a5471f2af9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_blob_storage_config_1a29fb5c221a385ba34e77c7a5471f2af9" kindref="member">enable_azure</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="135" refid="structthemis_1_1storage_1_1_blob_storage_config_1af0757fb37209f9f3c4c802763b9c0f43" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1storage_1_1_blob_storage_config_1af0757fb37209f9f3c4c802763b9c0f43" kindref="member">azure_connection_string</ref>;</highlight></codeline>
+<codeline lineno="136" refid="structthemis_1_1storage_1_1_blob_storage_config_1a1f30f6318abcc66e3ce5047f6098ade5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1storage_1_1_blob_storage_config_1a1f30f6318abcc66e3ce5047f6098ade5" kindref="member">azure_container</ref>;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GCS<sp/>backend</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139" refid="structthemis_1_1storage_1_1_blob_storage_config_1ad0c42d94a6bc6dcf0a30f49861cc9aeb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_blob_storage_config_1ad0c42d94a6bc6dcf0a30f49861cc9aeb" kindref="member">enable_gcs</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="140" refid="structthemis_1_1storage_1_1_blob_storage_config_1ae6d5e736257b30c20b6e945b198c84a0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1storage_1_1_blob_storage_config_1ae6d5e736257b30c20b6e945b198c84a0" kindref="member">gcs_bucket</ref>;</highlight></codeline>
+<codeline lineno="141" refid="structthemis_1_1storage_1_1_blob_storage_config_1a0d119f38b0d185294ab6d569bfc251f0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1storage_1_1_blob_storage_config_1a0d119f38b0d185294ab6d569bfc251f0" kindref="member">gcs_prefix</ref>;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Credentials:<sp/>uses<sp/>GOOGLE_APPLICATION_CREDENTIALS<sp/>env<sp/>var<sp/>(ADC);<sp/>fail-closed<sp/>if<sp/>absent</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>WebDAV<sp/>backend<sp/>(for<sp/>ActiveDirectory/SharePoint)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145" refid="structthemis_1_1storage_1_1_blob_storage_config_1a5a034e40f163d299c41c52495880fb4d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_blob_storage_config_1a5a034e40f163d299c41c52495880fb4d" kindref="member">enable_webdav</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="146" refid="structthemis_1_1storage_1_1_blob_storage_config_1ac2d60ff79d1f67fda4a3c430d52666bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1storage_1_1_blob_storage_config_1ac2d60ff79d1f67fda4a3c430d52666bc" kindref="member">webdav_base_url</ref>;</highlight></codeline>
+<codeline lineno="147" refid="structthemis_1_1storage_1_1_blob_storage_config_1aa5c14040dbeedc10c4234c1fffb807ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1storage_1_1_blob_storage_config_1aa5c14040dbeedc10c4234c1fffb807ae" kindref="member">webdav_username</ref>;</highlight></codeline>
+<codeline lineno="148" refid="structthemis_1_1storage_1_1_blob_storage_config_1ac80763e3be7940a72ceded3617b3ced1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1storage_1_1_blob_storage_config_1ac80763e3be7940a72ceded3617b3ced1" kindref="member">webdav_password</ref>;</highlight></codeline>
+<codeline lineno="149" refid="structthemis_1_1storage_1_1_blob_storage_config_1ae3e120d8b7cf03bc9f60cb4c7f2a42ea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_blob_storage_config_1ae3e120d8b7cf03bc9f60cb4c7f2a42ea" kindref="member">webdav_verify_ssl</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>storage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/storage/blob_storage_backend.h"/>
+  </compounddef>
+</doxygen>

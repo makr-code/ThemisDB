@@ -1,0 +1,192 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_disk_space_monitor_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::DiskSpaceMonitor::Config</compoundname>
+    <includes refid="disk__space__monitor_8h" local="no">disk_space_monitor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_disk_space_monitor_1_1_config_1a49be5f5244ab433dcf24365fbc066250" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::storage::DiskSpaceMonitor::Config::warning_threshold</definition>
+        <argsstring></argsstring>
+        <name>warning_threshold</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::Config::warning_threshold</qualifiedname>
+        <initializer>= 0.20f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="53" column="15" bodyfile="include/storage/disk_space_monitor.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_disk_space_monitor_1_1_config_1a752f1a78bea578543482d86ea2287ce4" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::storage::DiskSpaceMonitor::Config::critical_threshold</definition>
+        <argsstring></argsstring>
+        <name>critical_threshold</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::Config::critical_threshold</qualifiedname>
+        <initializer>= 0.10f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="54" column="15" bodyfile="include/storage/disk_space_monitor.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_disk_space_monitor_1_1_config_1ae50661848d199cfea7913614aec63924" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::storage::DiskSpaceMonitor::Config::emergency_threshold</definition>
+        <argsstring></argsstring>
+        <name>emergency_threshold</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::Config::emergency_threshold</qualifiedname>
+        <initializer>= 0.05f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="55" column="15" bodyfile="include/storage/disk_space_monitor.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_disk_space_monitor_1_1_config_1a1f04edb14b567436789808f7b6bbb714" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::DiskSpaceMonitor::Config::reserved_bytes</definition>
+        <argsstring></argsstring>
+        <name>reserved_bytes</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::Config::reserved_bytes</qualifiedname>
+        <initializer>= 1024 * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="58" column="16" bodyfile="include/storage/disk_space_monitor.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_disk_space_monitor_1_1_config_1a1eb4e9eb32485da3e0323bcb40933f50" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::storage::DiskSpaceMonitor::Config::check_interval</definition>
+        <argsstring></argsstring>
+        <name>check_interval</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::Config::check_interval</qualifiedname>
+        <initializer>{60}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="61" column="30" bodyfile="include/storage/disk_space_monitor.h" bodystart="61" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_disk_space_monitor_1_1_config_1a65a2f474b158a9336859ac03d87efdd6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::DiskSpaceMonitor::Config::enable_auto_monitoring</definition>
+        <argsstring></argsstring>
+        <name>enable_auto_monitoring</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::Config::enable_auto_monitoring</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="62" column="14" bodyfile="include/storage/disk_space_monitor.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_disk_space_monitor_1_1_config_1ae65c187a68dc29c402613488bf327541" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::DiskSpaceMonitor::Config::enable_alerts</definition>
+        <argsstring></argsstring>
+        <name>enable_alerts</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::Config::enable_alerts</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="65" column="14" bodyfile="include/storage/disk_space_monitor.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_disk_space_monitor_1_1_config_1a3e0acb7e05987413bbfdea8a4141bddf" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::DiskSpaceMonitor::Config::alert_cooldown_minutes</definition>
+        <argsstring></argsstring>
+        <name>alert_cooldown_minutes</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::Config::alert_cooldown_minutes</qualifiedname>
+        <initializer>= 15</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="66" column="16" bodyfile="include/storage/disk_space_monitor.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_disk_space_monitor_1_1_config_1aa6118d1d8a496b368ed213127586ae42" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::DiskSpaceMonitor::Config::enable_auto_gc</definition>
+        <argsstring></argsstring>
+        <name>enable_auto_gc</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::Config::enable_auto_gc</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="69" column="14" bodyfile="include/storage/disk_space_monitor.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_disk_space_monitor_1_1_config_1a2ef1bc9b7cdee786795af22bb442bf6e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::DiskSpaceMonitor::Config::enable_write_blocking</definition>
+        <argsstring></argsstring>
+        <name>enable_write_blocking</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::Config::enable_write_blocking</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="70" column="14" bodyfile="include/storage/disk_space_monitor.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_disk_space_monitor_1_1_config_1aa7476142c0e25e30093f6c577103e4e5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::DiskSpaceMonitor::Config::enable_read_only_mode</definition>
+        <argsstring></argsstring>
+        <name>enable_read_only_mode</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::Config::enable_read_only_mode</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="71" column="14" bodyfile="include/storage/disk_space_monitor.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/disk_space_monitor.h" line="51" column="5" bodyfile="include/storage/disk_space_monitor.h" bodystart="51" bodyend="72"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_config_1a3e0acb7e05987413bbfdea8a4141bddf" prot="public" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor::Config</scope><name>alert_cooldown_minutes</name></member>
+      <member refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_config_1a1eb4e9eb32485da3e0323bcb40933f50" prot="public" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor::Config</scope><name>check_interval</name></member>
+      <member refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_config_1a752f1a78bea578543482d86ea2287ce4" prot="public" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor::Config</scope><name>critical_threshold</name></member>
+      <member refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_config_1ae50661848d199cfea7913614aec63924" prot="public" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor::Config</scope><name>emergency_threshold</name></member>
+      <member refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_config_1ae65c187a68dc29c402613488bf327541" prot="public" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor::Config</scope><name>enable_alerts</name></member>
+      <member refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_config_1aa6118d1d8a496b368ed213127586ae42" prot="public" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor::Config</scope><name>enable_auto_gc</name></member>
+      <member refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_config_1a65a2f474b158a9336859ac03d87efdd6" prot="public" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor::Config</scope><name>enable_auto_monitoring</name></member>
+      <member refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_config_1aa7476142c0e25e30093f6c577103e4e5" prot="public" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor::Config</scope><name>enable_read_only_mode</name></member>
+      <member refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_config_1a2ef1bc9b7cdee786795af22bb442bf6e" prot="public" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor::Config</scope><name>enable_write_blocking</name></member>
+      <member refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_config_1a1f04edb14b567436789808f7b6bbb714" prot="public" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor::Config</scope><name>reserved_bytes</name></member>
+      <member refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_config_1a49be5f5244ab433dcf24365fbc066250" prot="public" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor::Config</scope><name>warning_threshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

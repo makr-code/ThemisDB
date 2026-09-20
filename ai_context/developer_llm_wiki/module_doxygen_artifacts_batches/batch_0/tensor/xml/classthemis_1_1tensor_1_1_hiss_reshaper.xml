@@ -1,0 +1,206 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1tensor_1_1_hiss_reshaper" kind="class" language="C++" prot="public">
+    <compoundname>themis::tensor::HissReshaper</compoundname>
+    <includes refid="hiss__structural__search_8h" local="no">hiss_structural_search.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1tensor_1_1_hiss_reshaper_1ac65d80afa2893c9056a9cb93d4ad4491" prot="public" static="no">
+        <type>std::function&lt; <ref refid="structthemis_1_1tensor_1_1_q_t_train" kindref="compound">QTTrain</ref>(const storage::TTTrain &amp; train, const std::vector&lt; std::size_t &gt; &amp;grid_sizes)&gt;</type>
+        <definition>using themis::tensor::HissReshaper::QuanticsFn = std::function&lt;QTTrain(const storage::TTTrain&amp;        train,
+                                            const std::vector&lt;std::size_t&gt;&amp; grid_sizes)&gt;</definition>
+        <argsstring></argsstring>
+        <name>QuanticsFn</name>
+        <qualifiedname>themis::tensor::HissReshaper::QuanticsFn</qualifiedname>
+        <briefdescription>
+<para>Callable type for a custom quantics reshape encoding backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When installed via <computeroutput><ref refid="classthemis_1_1tensor_1_1_hiss_reshaper_1a232a13132a36528b668344a5c624e934" kindref="member">setQuanticsFn()</ref></computeroutput>, the callable is invoked instead of the built-in pure-binary padded-QTT path. The callable MUST:<itemizedlist>
+<listitem><para>satisfy the same size/product contracts as <computeroutput><ref refid="classthemis_1_1tensor_1_1_hiss_reshaper_1a3b8d787f17f79ffa0f66490220f7ca2e" kindref="member">exposeQuantics()</ref></computeroutput>, and</para>
+</listitem><listitem><para>populate <computeroutput><ref refid="structthemis_1_1tensor_1_1_q_t_train_1a14f3deee4e863572c0a18af8f53dd5bc" kindref="member">QTTrain::mapping</ref></computeroutput> if the caller needs reversible index mapping (the built-in path always populates it).</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>train</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input TT train. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>grid_sizes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Physical dimension sizes (may be empty → use mode_sizes). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1tensor_1_1_q_t_train" kindref="compound">QTTrain</ref> in the quantics layout. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hiss_structural_search.h" line="192" column="5" bodyfile="include/tensor/hiss_structural_search.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_hiss_reshaper_1a232a13132a36528b668344a5c624e934" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::HissReshaper::setQuanticsFn</definition>
+        <argsstring>(QuanticsFn fn)</argsstring>
+        <name>setQuanticsFn</name>
+        <qualifiedname>themis::tensor::HissReshaper::setQuanticsFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1_hiss_reshaper_1ac65d80afa2893c9056a9cb93d4ad4491" kindref="member">QuanticsFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Install a custom quantics encode backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Quantics Fn.</para>
+<para>Thread-safe. Replaces any previously installed backend. Pass <computeroutput>nullptr</computeroutput> (or call <computeroutput><ref refid="classthemis_1_1tensor_1_1_hiss_reshaper_1a1f826aee1e770e82e2afdfe7d0ad013f" kindref="member">clearQuanticsFn()</ref></computeroutput>) to restore the built-in pure-binary padded-QTT path.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hiss_structural_search.h" line="202" column="17" bodyfile="src/tensor/hiss_structural_search.cpp" bodystart="39" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_hiss_reshaper_1a1f826aee1e770e82e2afdfe7d0ad013f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::HissReshaper::clearQuanticsFn</definition>
+        <argsstring>()</argsstring>
+        <name>clearQuanticsFn</name>
+        <qualifiedname>themis::tensor::HissReshaper::clearQuanticsFn</qualifiedname>
+        <briefdescription>
+<para>Remove the custom quantics backend; the built-in path is used again. Thread-safe. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear Quantics Fn.</para>
+<para>Calls: lk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hiss_structural_search.h" line="205" column="17" bodyfile="src/tensor/hiss_structural_search.cpp" bodystart="48" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_hiss_reshaper_1aeed15047e72251f046ac27221727b5b1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1tensor_1_1_hiss_reshaper_1ac65d80afa2893c9056a9cb93d4ad4491" kindref="member">QuanticsFn</ref></type>
+        <definition>HissReshaper::QuanticsFn themis::tensor::HissReshaper::getQuanticsFn</definition>
+        <argsstring>()</argsstring>
+        <name>getQuanticsFn</name>
+        <qualifiedname>themis::tensor::HissReshaper::getQuanticsFn</qualifiedname>
+        <briefdescription>
+<para>Return the currently installed <ref refid="classthemis_1_1tensor_1_1_hiss_reshaper_1ac65d80afa2893c9056a9cb93d4ad4491" kindref="member">QuanticsFn</ref> (empty if none). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Quantics Fn.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hiss_structural_search.h" line="208" column="23" bodyfile="src/tensor/hiss_structural_search.cpp" bodystart="58" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_hiss_reshaper_1a3b8d787f17f79ffa0f66490220f7ca2e" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_q_t_train" kindref="compound">QTTrain</ref></type>
+        <definition>QTTrain themis::tensor::HissReshaper::exposeQuantics</definition>
+        <argsstring>(const storage::TTTrain &amp;train, const std::vector&lt; std::size_t &gt; &amp;grid_sizes)</argsstring>
+        <name>exposeQuantics</name>
+        <qualifiedname>themis::tensor::HissReshaper::exposeQuantics</qualifiedname>
+        <param>
+          <type>const storage::TTTrain &amp;</type>
+          <declname>train</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::size_t &gt; &amp;</type>
+          <declname>grid_sizes</declname>
+        </param>
+        <briefdescription>
+<para>Reinterprets a TT train in a pure-binary quantics-friendly layout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reconstructs the dense tensor, pads each physical dimension to the next power-of-two extent with trailing zeros (in flat C-contiguous element order), and decomposes the padded tensor into an all-2 quantics-mode train. The returned <computeroutput><ref refid="structthemis_1_1tensor_1_1_q_t_train" kindref="compound">QTTrain</ref></computeroutput> carries:</para>
+<para><itemizedlist>
+<listitem><para><computeroutput>grid_sizes</computeroutput> / <computeroutput>padded_grid_sizes</computeroutput> — original and padded extents,</para>
+</listitem><listitem><para><computeroutput>bit_depths</computeroutput> — binary depth per dimension (<computeroutput>log₂(padded_grid_sizes[d])</computeroutput>),</para>
+</listitem><listitem><para><computeroutput>original_element_count</computeroutput> — number of valid (non-padding) elements,</para>
+</listitem><listitem><para><computeroutput>mapping</computeroutput> — <computeroutput><ref refid="structthemis_1_1tensor_1_1_q_t_t_mapping_descriptor" kindref="compound">QTTMappingDescriptor</ref></computeroutput> for lossless physical↔QTT index conversion; use it to distinguish valid payload from zero-padding when round-tripping back to the original dense tensor.</para>
+</listitem></itemizedlist>
+</para>
+<para>Dimensions that are already a power of two are not padded further (<computeroutput>grid_sizes[d] == padded_grid_sizes[d]</computeroutput>).</para>
+<para>When a <computeroutput><ref refid="classthemis_1_1tensor_1_1_hiss_reshaper_1ac65d80afa2893c9056a9cb93d4ad4491" kindref="member">QuanticsFn</ref></computeroutput> backend is installed via <computeroutput><ref refid="classthemis_1_1tensor_1_1_hiss_reshaper_1a232a13132a36528b668344a5c624e934" kindref="member">setQuanticsFn()</ref></computeroutput>, the backend is called instead of the built-in path; in that case <computeroutput>mapping</computeroutput> is the responsibility of the custom backend.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>train</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input TT train. Must be non-empty. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>grid_sizes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Physical dimension sizes for the reshaped view. If empty, <computeroutput>train.mode_sizes</computeroutput> is used verbatim. Must have the same length as <computeroutput>train.mode_sizes</computeroutput> and the same element product when non-empty. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput><ref refid="structthemis_1_1tensor_1_1_q_t_train" kindref="compound">QTTrain</ref></computeroutput> in the pure-binary quantics layout. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if <computeroutput>train</computeroutput> is empty, <computeroutput>grid_sizes</computeroutput> length mismatches <computeroutput>train.mode_sizes</computeroutput>, or element products differ. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">g_quantics_mtx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/tensor/hiss_structural_search.h" line="242" column="5" bodyfile="src/tensor/hiss_structural_search.cpp" bodystart="546" bodyend="645"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Hiss reshaper. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/tensor/hiss_structural_search.h" line="173" column="1" bodyfile="include/tensor/hiss_structural_search.h" bodystart="173" bodyend="243"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1tensor_1_1_hiss_reshaper_1a1f826aee1e770e82e2afdfe7d0ad013f" prot="public" virt="non-virtual"><scope>themis::tensor::HissReshaper</scope><name>clearQuanticsFn</name></member>
+      <member refid="classthemis_1_1tensor_1_1_hiss_reshaper_1a3b8d787f17f79ffa0f66490220f7ca2e" prot="public" virt="non-virtual"><scope>themis::tensor::HissReshaper</scope><name>exposeQuantics</name></member>
+      <member refid="classthemis_1_1tensor_1_1_hiss_reshaper_1aeed15047e72251f046ac27221727b5b1" prot="public" virt="non-virtual"><scope>themis::tensor::HissReshaper</scope><name>getQuanticsFn</name></member>
+      <member refid="classthemis_1_1tensor_1_1_hiss_reshaper_1ac65d80afa2893c9056a9cb93d4ad4491" prot="public" virt="non-virtual"><scope>themis::tensor::HissReshaper</scope><name>QuanticsFn</name></member>
+      <member refid="classthemis_1_1tensor_1_1_hiss_reshaper_1a232a13132a36528b668344a5c624e934" prot="public" virt="non-virtual"><scope>themis::tensor::HissReshaper</scope><name>setQuanticsFn</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

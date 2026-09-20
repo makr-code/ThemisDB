@@ -1,0 +1,546 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__rag__uncovered_8cpp" kind="file" language="C++">
+    <compoundname>test_rag_uncovered.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="llm__meta__analyzer_8h" local="yes">rag/llm_meta_analyzer.h</includes>
+    <includes refid="pairwise__comparator_8h" local="yes">rag/pairwise_comparator.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>rag/llm_meta_analyzer.h</label>
+        <link refid="llm__meta__analyzer_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>rag/pairwise_comparator.h</label>
+        <link refid="pairwise__comparator_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/rag/test_rag_uncovered.cpp</label>
+        <link refid="test__rag__uncovered_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>unordered_map</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_pairwise_comparator_test" prot="public">PairwiseComparatorTest</innerclass>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="test__rag__uncovered_8cpp_1a363c8dcebb1777654ad1703136a14ec8" prot="public" static="no">
+        <name>protected</name>
+        <initializer>public</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_uncovered.cpp" line="17" column="10" bodyfile="tests/rag/test_rag_uncovered.cpp" bodystart="17" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__rag__uncovered_8cpp_1a8558d581f8f7f9ea7c4afc426ee01da1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PairwiseComparatorTest, DefaultConstruction_Succeeds)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_pairwise_comparator_test" kindref="compound">PairwiseComparatorTest</ref></type>
+        </param>
+        <param>
+          <type>DefaultConstruction_Succeeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_uncovered.cpp" line="172" column="1" bodyfile="tests/rag/test_rag_uncovered.cpp" bodystart="172" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__uncovered_8cpp_1a7b11a184ac30eb5c4d98651e08f53b6d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PairwiseComparatorTest, ConfigConstruction_Succeeds)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_pairwise_comparator_test" kindref="compound">PairwiseComparatorTest</ref></type>
+        </param>
+        <param>
+          <type>ConfigConstruction_Succeeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_uncovered.cpp" line="178" column="1" bodyfile="tests/rag/test_rag_uncovered.cpp" bodystart="178" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__uncovered_8cpp_1a16efaf870a1cd9d896de041d33966786" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PairwiseComparatorConfigTest, Defaults_AreReasonable)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PairwiseComparatorConfigTest</type>
+        </param>
+        <param>
+          <type>Defaults_AreReasonable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_uncovered.cpp" line="195" column="1" bodyfile="tests/rag/test_rag_uncovered.cpp" bodystart="195" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__uncovered_8cpp_1a76db551a0d4b7c78dc34c1396a1159ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PairwiseComparatorTest, DetectPositionBias_Agreement_LowBias)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_pairwise_comparator_test" kindref="compound">PairwiseComparatorTest</ref></type>
+        </param>
+        <param>
+          <type>DetectPositionBias_Agreement_LowBias</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_uncovered.cpp" line="207" column="1" bodyfile="tests/rag/test_rag_uncovered.cpp" bodystart="207" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__uncovered_8cpp_1aaea99ae32d173ba4627435ecc01c4f57" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PairwiseComparatorTest, DetectPositionBias_Disagreement_HigherBias)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_pairwise_comparator_test" kindref="compound">PairwiseComparatorTest</ref></type>
+        </param>
+        <param>
+          <type>DetectPositionBias_Disagreement_HigherBias</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_uncovered.cpp" line="215" column="1" bodyfile="tests/rag/test_rag_uncovered.cpp" bodystart="215" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__uncovered_8cpp_1a1e9616d9fbae0a8fba2da2d2b0bb3e59" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PairwiseComparatorTest, DetectPositionBias_BothTie_LowBias)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_pairwise_comparator_test" kindref="compound">PairwiseComparatorTest</ref></type>
+        </param>
+        <param>
+          <type>DetectPositionBias_BothTie_LowBias</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_uncovered.cpp" line="224" column="1" bodyfile="tests/rag/test_rag_uncovered.cpp" bodystart="224" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__uncovered_8cpp_1a185ad19be15935aa7b64af25d1a80f90" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PairwiseComparatorTest, Compare_ReturnsValidResult)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_pairwise_comparator_test" kindref="compound">PairwiseComparatorTest</ref></type>
+        </param>
+        <param>
+          <type>Compare_ReturnsValidResult</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_uncovered.cpp" line="235" column="1" bodyfile="tests/rag/test_rag_uncovered.cpp" bodystart="235" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__uncovered_8cpp_1ab5f7aa8faa6e487bdae09845f8faeaf5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ComparisonWinnerTest, AllValuesDistinct)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ComparisonWinnerTest</type>
+        </param>
+        <param>
+          <type>AllValuesDistinct</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_uncovered.cpp" line="265" column="1" bodyfile="tests/rag/test_rag_uncovered.cpp" bodystart="265" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__uncovered_8cpp_1aa0dc73b6a227b11bb908f0e1d980df3a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(BiasMitigationStrategyTest, AllValuesDistinct)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>BiasMitigationStrategyTest</type>
+        </param>
+        <param>
+          <type>AllValuesDistinct</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_uncovered.cpp" line="275" column="1" bodyfile="tests/rag/test_rag_uncovered.cpp" bodystart="275" bodyend="287"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Tests for previously uncovered RAG modules: </para>
+    </briefdescription>
+    <detaileddescription>
+<para><itemizedlist>
+<listitem><para><ref refid="llm__meta__analyzer_8cpp" kindref="compound">rag/llm_meta_analyzer.cpp</ref> : <ref refid="classthemis_1_1rag_1_1_l_l_m_meta_analyzer" kindref="compound">LLMMetaAnalyzer</ref> (loadConfig, getConfig, parseScore, extractReasoning, clearCache, computeCacheKey, exportMetrics)</para>
+</listitem><listitem><para><ref refid="pairwise__comparator_8cpp" kindref="compound">rag/pairwise_comparator.cpp</ref> : <ref refid="classthemis_1_1rag_1_1judge_1_1_pairwise_comparator" kindref="compound">PairwiseComparator</ref> (construction, Config defaults, detectPositionBias, compare without LLM inference)</para>
+</listitem></itemizedlist>
+</para>
+<para>Both modules are tested without a live LLM backend — only the heuristic/local code paths that do not require network I/O. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>protected<sp/>public</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="llm__meta__analyzer_8h" kindref="compound">rag/llm_meta_analyzer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#undef<sp/>protected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="pairwise__comparator_8h" kindref="compound">rag/pairwise_comparator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LLMMetaAnalyzer:<sp/>concrete,<sp/>non-abstract<sp/>class</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag" kindref="compound">themis::rag</ref>;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">themis::rag::judge</ref>;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>0<sp/><sp/></highlight><highlight class="comment">//<sp/>Temporarily<sp/>disabled:<sp/>LLMMetaAnalyzer<sp/>cannot<sp/>be<sp/>directly<sp/>instantiated<sp/>from<sp/>header<sp/>(Pimpl<sp/>inline<sp/>dtor<sp/>issue)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">LLMMetaAnalyzerTest<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>LLMMetaAnalyzer&amp;<sp/>sharedAnalyzer()<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>LLMMetaAnalyzer*<sp/>analyzer<sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>LLMMetaAnalyzer();</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*analyzer;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>LLMMetaAnalyzer&amp;<sp/>analyzer_<sp/>=<sp/>sharedAnalyzer();</highlight></codeline>
+<codeline lineno="41"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>loadConfig<sp/>/<sp/>getConfig</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><ref refid="test__rag__uncovered_8cpp_1a8558d581f8f7f9ea7c4afc426ee01da1" kindref="member">TEST_F</ref>(LLMMetaAnalyzerTest,<sp/>LoadConfig_GetConfig_RoundTrip)<sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_analysis_config" kindref="compound">LLMMetaAnalyzer::AnalysisConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_analysis_config_1ab99008e30976d80f39d7b778fc42fb59" kindref="member">judge_model</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test-model&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_analysis_config_1a9cc4d708ee708f3ebd9958ef256c06c3" kindref="member">use_chain_of_thought</ref><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_analysis_config_1a29e6e233b2931843c202c2150605e4e6" kindref="member">max_retries</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_analysis_config_1a4ca75c04892bf3372fccca8f8b18176b" kindref="member">min_confidence</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.8;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_analysis_config_1a3864cf4c6e17252ce94b3f754b23fc6f" kindref="member">enable_caching</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_analysis_config_1abd661a094a4cba22eec0e6e3151320dc" kindref="member">cache_size</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>500;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>analyzer_.loadConfig(cfg);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>retrieved<sp/>=<sp/>analyzer_.getConfig();</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(retrieved.judge_model,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;test-model&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(retrieved.use_chain_of_thought);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(retrieved.max_retries,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>5);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(retrieved.min_confidence,<sp/>0.8);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(retrieved.enable_caching);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(retrieved.cache_size,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>500u);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><ref refid="test__rag__uncovered_8cpp_1a8558d581f8f7f9ea7c4afc426ee01da1" kindref="member">TEST_F</ref>(LLMMetaAnalyzerTest,<sp/>GetConfig_BeforeLoadConfig_ReturnsDefaults)<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/>analyzer_.getConfig();</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(cfg.<ref refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_analysis_config_1ab99008e30976d80f39d7b778fc42fb59" kindref="member">judge_model</ref>.empty());<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>should<sp/>have<sp/>a<sp/>default<sp/>model<sp/>name</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(cfg.<ref refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_analysis_config_1a29e6e233b2931843c202c2150605e4e6" kindref="member">max_retries</ref>,<sp/>1);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>clearCache</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><ref refid="test__rag__uncovered_8cpp_1a8558d581f8f7f9ea7c4afc426ee01da1" kindref="member">TEST_F</ref>(LLMMetaAnalyzerTest,<sp/>ClearCache_DoesNotThrow)<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(analyzer_.clearCache());</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><ref refid="test__rag__uncovered_8cpp_1a8558d581f8f7f9ea7c4afc426ee01da1" kindref="member">TEST_F</ref>(LLMMetaAnalyzerTest,<sp/>ClearCache_MultipleCallsDoNotThrow)<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(analyzer_.clearCache());</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(analyzer_.clearCache());</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>parseScore</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><ref refid="test__rag__uncovered_8cpp_1a8558d581f8f7f9ea7c4afc426ee01da1" kindref="member">TEST_F</ref>(LLMMetaAnalyzerTest,<sp/>ParseScore_NumericResponse_InRange)<sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>score<sp/>=<sp/>analyzer_.parseScore(</highlight><highlight class="stringliteral">&quot;0.85&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(score,<sp/>0.0);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(score,<sp/>1.0);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><ref refid="test__rag__uncovered_8cpp_1a8558d581f8f7f9ea7c4afc426ee01da1" kindref="member">TEST_F</ref>(LLMMetaAnalyzerTest,<sp/>ParseScore_TextWithNumberEmbedded_ExtractsScore)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Real<sp/>LLM<sp/>responses<sp/>often<sp/>look<sp/>like<sp/>&quot;Score:<sp/>0.7<sp/>-<sp/>Reasoning...&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>score<sp/>=<sp/>analyzer_.parseScore(</highlight><highlight class="stringliteral">&quot;Score:<sp/>0.7<sp/>-<sp/>explanation<sp/>here&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(score,<sp/>0.0);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(score,<sp/>1.0);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><ref refid="test__rag__uncovered_8cpp_1a8558d581f8f7f9ea7c4afc426ee01da1" kindref="member">TEST_F</ref>(LLMMetaAnalyzerTest,<sp/>ParseScore_HighConfidence_CloseTo1)<sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>score<sp/>=<sp/>analyzer_.parseScore(</highlight><highlight class="stringliteral">&quot;1.0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(score,<sp/>1.0);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><ref refid="test__rag__uncovered_8cpp_1a8558d581f8f7f9ea7c4afc426ee01da1" kindref="member">TEST_F</ref>(LLMMetaAnalyzerTest,<sp/>ParseScore_ZeroConfidence)<sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>score<sp/>=<sp/>analyzer_.parseScore(</highlight><highlight class="stringliteral">&quot;0.0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(score,<sp/>0.0);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><ref refid="test__rag__uncovered_8cpp_1a8558d581f8f7f9ea7c4afc426ee01da1" kindref="member">TEST_F</ref>(LLMMetaAnalyzerTest,<sp/>ParseScore_InvalidText_ReturnsSafeDefault)<sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>score<sp/>=<sp/>analyzer_.parseScore(</highlight><highlight class="stringliteral">&quot;no<sp/>number<sp/>here<sp/>at<sp/>all<sp/>!!!&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(score,<sp/>0.0);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(score,<sp/>1.0);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">//<sp/>extractReasoning</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><ref refid="test__rag__uncovered_8cpp_1a8558d581f8f7f9ea7c4afc426ee01da1" kindref="member">TEST_F</ref>(LLMMetaAnalyzerTest,<sp/>ExtractReasoning_NonEmpty_ReturnsString)<sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>reasoning<sp/>=<sp/>analyzer_.extractReasoning(</highlight><highlight class="stringliteral">&quot;The<sp/>answer<sp/>is<sp/>correct<sp/>because<sp/>X.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(reasoning.empty());</highlight></codeline>
+<codeline lineno="126"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><ref refid="test__rag__uncovered_8cpp_1a8558d581f8f7f9ea7c4afc426ee01da1" kindref="member">TEST_F</ref>(LLMMetaAnalyzerTest,<sp/>ExtractReasoning_EmptyInput_DoesNotCrash)<sp/>{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(analyzer_.extractReasoning(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="130"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="comment">//<sp/>computeCacheKey</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><ref refid="test__rag__uncovered_8cpp_1a8558d581f8f7f9ea7c4afc426ee01da1" kindref="member">TEST_F</ref>(LLMMetaAnalyzerTest,<sp/>ComputeCacheKey_DifferentInputs_DifferentKeys)<sp/>{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>k1<sp/>=<sp/>analyzer_.computeCacheKey(</highlight><highlight class="stringliteral">&quot;prompt<sp/>A&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>k2<sp/>=<sp/>analyzer_.computeCacheKey(</highlight><highlight class="stringliteral">&quot;prompt<sp/>B&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(k1,<sp/>k2);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><ref refid="test__rag__uncovered_8cpp_1a8558d581f8f7f9ea7c4afc426ee01da1" kindref="member">TEST_F</ref>(LLMMetaAnalyzerTest,<sp/>ComputeCacheKey_SameInput_SameKey)<sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>k1<sp/>=<sp/>analyzer_.computeCacheKey(</highlight><highlight class="stringliteral">&quot;identical<sp/>prompt&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>k2<sp/>=<sp/>analyzer_.computeCacheKey(</highlight><highlight class="stringliteral">&quot;identical<sp/>prompt&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(k1,<sp/>k2);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/>exportMetrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><ref refid="test__rag__uncovered_8cpp_1a8558d581f8f7f9ea7c4afc426ee01da1" kindref="member">TEST_F</ref>(LLMMetaAnalyzerTest,<sp/>ExportMetrics_DoesNotThrow)<sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>double&gt;<sp/><ref refid="namespacethemis_1_1rag_1_1judge_1_1metrics" kindref="compound">metrics</ref>;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(analyzer_.exportMetrics(<ref refid="namespacethemis_1_1rag_1_1judge_1_1metrics" kindref="compound">metrics</ref>));</highlight></codeline>
+<codeline lineno="155"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PairwiseComparator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163" refid="class_pairwise_comparator_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_pairwise_comparator_test" kindref="compound">PairwiseComparatorTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_pairwise_comparator" kindref="compound">PairwiseComparator</ref><sp/><ref refid="class_pairwise_comparator_test_1a880c78c48df41fcaff56966693e31538" kindref="member">comparator_</ref>;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Construction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><ref refid="test__rag__uncovered_8cpp_1a8558d581f8f7f9ea7c4afc426ee01da1" kindref="member">TEST_F</ref>(<ref refid="class_pairwise_comparator_test" kindref="compound">PairwiseComparatorTest</ref>,<sp/>DefaultConstruction_Succeeds)<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_pairwise_comparator" kindref="compound">PairwiseComparator</ref><sp/>comp;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)comp;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="176"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><ref refid="test__rag__uncovered_8cpp_1a8558d581f8f7f9ea7c4afc426ee01da1" kindref="member">TEST_F</ref>(<ref refid="class_pairwise_comparator_test" kindref="compound">PairwiseComparatorTest</ref>,<sp/>ConfigConstruction_Succeeds)<sp/>{</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_pairwise_comparator_1_1_config" kindref="compound">PairwiseComparator::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1judge_1_1_pairwise_comparator_1_1_config_1a7f36607cf9e722bf7ed7cbea8321d30a" kindref="member">bias_strategy</ref><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1rag_1_1judge_1a539dcf7dc7a802c1e7efe049d4af9beaab50339a10e1de285ac99d4c3990b8693" kindref="member">BiasMitigationStrategy::NONE</ref>;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1judge_1_1_pairwise_comparator_1_1_config_1a26d0abb131330eb1e6ba3b7c1e4c8362" kindref="member">tie_threshold</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0.1;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1judge_1_1_pairwise_comparator_1_1_config_1a2c10f52be5e9f68c636ce5d14e444770" kindref="member">confidence_threshold</ref><sp/>=<sp/>0.6;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1judge_1_1_pairwise_comparator_1_1_config_1aebb6d15f149942e583de7e372f5b4ac5" kindref="member">num_samples</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1judge_1_1_pairwise_comparator_1_1_config_1a78a823e725533bd942cb952565232125" kindref="member">enable_per_dimension</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_pairwise_comparator" kindref="compound">PairwiseComparator</ref><sp/>comp(cfg);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)comp;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="189"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Config<sp/>defaults</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><ref refid="test__rag__uncovered_8cpp_1a16efaf870a1cd9d896de041d33966786" kindref="member">TEST</ref>(PairwiseComparatorConfigTest,<sp/>Defaults_AreReasonable)<sp/>{</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_pairwise_comparator_1_1_config" kindref="compound">PairwiseComparator::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="structthemis_1_1rag_1_1judge_1_1_pairwise_comparator_1_1_config_1a7f36607cf9e722bf7ed7cbea8321d30a" kindref="member">bias_strategy</ref>,<sp/><ref refid="namespacethemis_1_1rag_1_1judge_1a539dcf7dc7a802c1e7efe049d4af9beaafc28fd295778079207f3286c341f3628" kindref="member">BiasMitigationStrategy::FLIP_AND_AVERAGE</ref>);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(cfg.<ref refid="structthemis_1_1rag_1_1judge_1_1_pairwise_comparator_1_1_config_1a26d0abb131330eb1e6ba3b7c1e4c8362" kindref="member">tie_threshold</ref>,<sp/><sp/><sp/><sp/><sp/>0.0);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(cfg.<ref refid="structthemis_1_1rag_1_1judge_1_1_pairwise_comparator_1_1_config_1a2c10f52be5e9f68c636ce5d14e444770" kindref="member">confidence_threshold</ref>,<sp/>0.0);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(cfg.<ref refid="structthemis_1_1rag_1_1judge_1_1_pairwise_comparator_1_1_config_1aebb6d15f149942e583de7e372f5b4ac5" kindref="member">num_samples</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/>1);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="comment">//<sp/>detectPositionBias</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><ref refid="test__rag__uncovered_8cpp_1a8558d581f8f7f9ea7c4afc426ee01da1" kindref="member">TEST_F</ref>(<ref refid="class_pairwise_comparator_test" kindref="compound">PairwiseComparatorTest</ref>,<sp/>DetectPositionBias_Agreement_LowBias)<sp/>{</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Both<sp/>orderings<sp/>agree<sp/>→<sp/>position<sp/>bias<sp/>should<sp/>be<sp/>low</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>bias<sp/>=<sp/>comparator_.detectPositionBias(<ref refid="namespacethemis_1_1rag_1_1judge_1ad65ac84db6d0ad139ac9f675e48b5a4ba3dc48fa0f11923466f634303cca7dc88" kindref="member">ComparisonWinner::ANSWER_A</ref>,</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1judge_1ad65ac84db6d0ad139ac9f675e48b5a4ba3dc48fa0f11923466f634303cca7dc88" kindref="member">ComparisonWinner::ANSWER_A</ref>);</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(bias,<sp/>0.0);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(bias,<sp/>1.0);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><ref refid="test__rag__uncovered_8cpp_1a8558d581f8f7f9ea7c4afc426ee01da1" kindref="member">TEST_F</ref>(<ref refid="class_pairwise_comparator_test" kindref="compound">PairwiseComparatorTest</ref>,<sp/>DetectPositionBias_Disagreement_HigherBias)<sp/>{</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Orderings<sp/>disagree<sp/>→<sp/>higher<sp/>bias</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>agree_bias<sp/><sp/><sp/><sp/>=<sp/>comparator_.detectPositionBias(<ref refid="namespacethemis_1_1rag_1_1judge_1ad65ac84db6d0ad139ac9f675e48b5a4ba3dc48fa0f11923466f634303cca7dc88" kindref="member">ComparisonWinner::ANSWER_A</ref>,</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1judge_1ad65ac84db6d0ad139ac9f675e48b5a4ba3dc48fa0f11923466f634303cca7dc88" kindref="member">ComparisonWinner::ANSWER_A</ref>);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>disagree_bias<sp/>=<sp/>comparator_.detectPositionBias(<ref refid="namespacethemis_1_1rag_1_1judge_1ad65ac84db6d0ad139ac9f675e48b5a4ba3dc48fa0f11923466f634303cca7dc88" kindref="member">ComparisonWinner::ANSWER_A</ref>,</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1judge_1ad65ac84db6d0ad139ac9f675e48b5a4ba27dfb553d196448243dfda23951ab396" kindref="member">ComparisonWinner::ANSWER_B</ref>);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(disagree_bias,<sp/>agree_bias);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><ref refid="test__rag__uncovered_8cpp_1a8558d581f8f7f9ea7c4afc426ee01da1" kindref="member">TEST_F</ref>(<ref refid="class_pairwise_comparator_test" kindref="compound">PairwiseComparatorTest</ref>,<sp/>DetectPositionBias_BothTie_LowBias)<sp/>{</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>bias<sp/>=<sp/>comparator_.detectPositionBias(<ref refid="namespacethemis_1_1rag_1_1judge_1ad65ac84db6d0ad139ac9f675e48b5a4ba8eb6c56ba51924a4cf185ec29e22be22" kindref="member">ComparisonWinner::TIE</ref>,</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1judge_1ad65ac84db6d0ad139ac9f675e48b5a4ba8eb6c56ba51924a4cf185ec29e22be22" kindref="member">ComparisonWinner::TIE</ref>);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(bias,<sp/>0.0);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(bias,<sp/>1.0);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight><highlight class="comment">//<sp/>compare<sp/>(heuristic<sp/>path,<sp/>no<sp/>LLM)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><ref refid="test__rag__uncovered_8cpp_1a8558d581f8f7f9ea7c4afc426ee01da1" kindref="member">TEST_F</ref>(<ref refid="class_pairwise_comparator_test" kindref="compound">PairwiseComparatorTest</ref>,<sp/>Compare_ReturnsValidResult)<sp/>{</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::string&gt;&gt;<sp/>docs<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;The<sp/>sky<sp/>is<sp/>blue.&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;doc2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Water<sp/>is<sp/>H2O.&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Using<sp/>Config<sp/>with<sp/>NONE<sp/>bias<sp/>strategy<sp/>to<sp/>avoid<sp/>flipping<sp/>(which<sp/>needs<sp/>LLM)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_pairwise_comparator_1_1_config" kindref="compound">PairwiseComparator::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1judge_1_1_pairwise_comparator_1_1_config_1a7f36607cf9e722bf7ed7cbea8321d30a" kindref="member">bias_strategy</ref><sp/>=<sp/><ref refid="namespacethemis_1_1rag_1_1judge_1a539dcf7dc7a802c1e7efe049d4af9beaab50339a10e1de285ac99d4c3990b8693" kindref="member">BiasMitigationStrategy::NONE</ref>;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_pairwise_comparator" kindref="compound">PairwiseComparator</ref><sp/>comp(cfg);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>comp.compare(</highlight><highlight class="stringliteral">&quot;What<sp/>color<sp/>is<sp/>the<sp/>sky?&quot;</highlight><highlight class="normal">,<sp/>docs,</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;The<sp/>sky<sp/>is<sp/>blue.&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;The<sp/>sky<sp/>is<sp/>green.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Result<sp/>should<sp/>have<sp/>a<sp/>valid<sp/>winner<sp/>enum<sp/>value</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.overall_winner<sp/>==<sp/><ref refid="namespacethemis_1_1rag_1_1judge_1ad65ac84db6d0ad139ac9f675e48b5a4ba3dc48fa0f11923466f634303cca7dc88" kindref="member">ComparisonWinner::ANSWER_A</ref><sp/>||</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.overall_winner<sp/>==<sp/><ref refid="namespacethemis_1_1rag_1_1judge_1ad65ac84db6d0ad139ac9f675e48b5a4ba27dfb553d196448243dfda23951ab396" kindref="member">ComparisonWinner::ANSWER_B</ref><sp/>||</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.overall_winner<sp/>==<sp/><ref refid="namespacethemis_1_1rag_1_1judge_1ad65ac84db6d0ad139ac9f675e48b5a4ba8eb6c56ba51924a4cf185ec29e22be22" kindref="member">ComparisonWinner::TIE</ref>);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(result.overall_confidence,<sp/><sp/><sp/><sp/><sp/>0.0);</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(result.overall_confidence,<sp/><sp/><sp/><sp/><sp/>1.0);</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(result.answer_a_overall_score,<sp/>0.0);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(result.answer_b_overall_score,<sp/>0.0);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ComparisonWinner<sp/>enum<sp/>completeness</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><ref refid="test__rag__uncovered_8cpp_1a16efaf870a1cd9d896de041d33966786" kindref="member">TEST</ref>(ComparisonWinnerTest,<sp/>AllValuesDistinct)<sp/>{</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="namespacethemis_1_1rag_1_1judge_1ad65ac84db6d0ad139ac9f675e48b5a4ba3dc48fa0f11923466f634303cca7dc88" kindref="member">ComparisonWinner::ANSWER_A</ref>,<sp/><ref refid="namespacethemis_1_1rag_1_1judge_1ad65ac84db6d0ad139ac9f675e48b5a4ba27dfb553d196448243dfda23951ab396" kindref="member">ComparisonWinner::ANSWER_B</ref>);</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="namespacethemis_1_1rag_1_1judge_1ad65ac84db6d0ad139ac9f675e48b5a4ba3dc48fa0f11923466f634303cca7dc88" kindref="member">ComparisonWinner::ANSWER_A</ref>,<sp/><ref refid="namespacethemis_1_1rag_1_1judge_1ad65ac84db6d0ad139ac9f675e48b5a4ba8eb6c56ba51924a4cf185ec29e22be22" kindref="member">ComparisonWinner::TIE</ref>);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="namespacethemis_1_1rag_1_1judge_1ad65ac84db6d0ad139ac9f675e48b5a4ba27dfb553d196448243dfda23951ab396" kindref="member">ComparisonWinner::ANSWER_B</ref>,<sp/><ref refid="namespacethemis_1_1rag_1_1judge_1ad65ac84db6d0ad139ac9f675e48b5a4ba8eb6c56ba51924a4cf185ec29e22be22" kindref="member">ComparisonWinner::TIE</ref>);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BiasMitigationStrategy<sp/>enum<sp/>completeness</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><ref refid="test__rag__uncovered_8cpp_1a16efaf870a1cd9d896de041d33966786" kindref="member">TEST</ref>(BiasMitigationStrategyTest,<sp/>AllValuesDistinct)<sp/>{</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;BiasMitigationStrategy&gt;<sp/>strategies<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1judge_1a539dcf7dc7a802c1e7efe049d4af9beaab50339a10e1de285ac99d4c3990b8693" kindref="member">BiasMitigationStrategy::NONE</ref>,</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1judge_1a539dcf7dc7a802c1e7efe049d4af9beaa2e7af4c081bbc8a6965081708bad1c67" kindref="member">BiasMitigationStrategy::RANDOMIZE_ORDER</ref>,</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1judge_1a539dcf7dc7a802c1e7efe049d4af9beaafc28fd295778079207f3286c341f3628" kindref="member">BiasMitigationStrategy::FLIP_AND_AVERAGE</ref>,</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1judge_1a539dcf7dc7a802c1e7efe049d4af9beaa8e70de061a6eb0d9488e0edf09774dec" kindref="member">BiasMitigationStrategy::MULTI_SAMPLE</ref>,</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>strategies.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>i<sp/>+<sp/>1;<sp/>j<sp/>&lt;<sp/>strategies.size();<sp/>++j)<sp/>{</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NE(strategies[i],<sp/>strategies[j]);</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="287"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/rag/test_rag_uncovered.cpp"/>
+  </compounddef>
+</doxygen>

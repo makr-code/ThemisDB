@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_4df18a5bdbff5d2aa3cc47bbfbbf5cf8" kind="dir">
+    <compoundname>benchmarks/gpu</compoundname>
+    <innerfile refid="bench__active__vram__allocator_8cpp">bench_active_vram_allocator.cpp</innerfile>
+    <innerfile refid="bench__backend__comparison_8cpp">bench_backend_comparison.cpp</innerfile>
+    <innerfile refid="bench__cuda__vs__cpu_8cpp">bench_cuda_vs_cpu.cpp</innerfile>
+    <innerfile refid="bench__data__transfer_8cpp">bench_data_transfer.cpp</innerfile>
+    <innerfile refid="bench__fused__kernels_8cpp">bench_fused_kernels.cpp</innerfile>
+    <innerfile refid="bench__fused__lora__kernels_8cpp">bench_fused_lora_kernels.cpp</innerfile>
+    <innerfile refid="bench__gpu__a8__baselines_8cpp">bench_gpu_a8_baselines.cpp</innerfile>
+    <innerfile refid="bench__gpu__backends_8cpp">bench_gpu_backends.cpp</innerfile>
+    <innerfile refid="bench__gpu__cpu__breakeven__category__a_8cpp">bench_gpu_cpu_breakeven_category_a.cpp</innerfile>
+    <innerfile refid="bench__gpu__cpu__breakeven__category__b_8cpp">bench_gpu_cpu_breakeven_category_b.cpp</innerfile>
+    <innerfile refid="bench__gpu__dedicated__gates_8cpp">bench_gpu_dedicated_gates.cpp</innerfile>
+    <innerfile refid="bench__gpu__erasure_8cpp">bench_gpu_erasure.cpp</innerfile>
+    <innerfile refid="bench__gpu__hardware__capability_8cpp">bench_gpu_hardware_capability.cpp</innerfile>
+    <innerfile refid="bench__gpu__module_8cpp">bench_gpu_module.cpp</innerfile>
+    <innerfile refid="bench__gpu__phase2__phase3__gates_8cpp">bench_gpu_phase2_phase3_gates.cpp</innerfile>
+    <innerfile refid="bench__gpu__phase__c__gates_8cpp">bench_gpu_phase_c_gates.cpp</innerfile>
+    <innerfile refid="bench__gpu__training__cycle_8cpp">bench_gpu_training_cycle.cpp</innerfile>
+    <innerfile refid="bench__gpu__vector__index_8cpp">bench_gpu_vector_index.cpp</innerfile>
+    <innerfile refid="bench__gpu__vram__allocation_8cpp">bench_gpu_vram_allocation.cpp</innerfile>
+    <innerfile refid="bench__lora__gpu_8cpp">bench_lora_gpu.cpp</innerfile>
+    <innerfile refid="bench__mixed__precision__perf_8cpp">bench_mixed_precision_perf.cpp</innerfile>
+    <innerfile refid="bench__multi__gpu__lora__advanced_8cpp">bench_multi_gpu_lora_advanced.cpp</innerfile>
+    <innerfile refid="bench__multi__gpu__scaling_8cpp">bench_multi_gpu_scaling.cpp</innerfile>
+    <innerfile refid="bench__qlora__gpu__kernels_8cpp">bench_qlora_gpu_kernels.cpp</innerfile>
+    <innerfile refid="bench__tensor__cpu__gpu__dispatch_8cpp">bench_tensor_cpu_gpu_dispatch.cpp</innerfile>
+    <innerfile refid="bench__vulkan__lora_8cpp">bench_vulkan_lora.cpp</innerfile>
+    <innerfile refid="kernel__block__size__bench_8cpp">kernel_block_size_bench.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/gpu/"/>
+  </compounddef>
+</doxygen>

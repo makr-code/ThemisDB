@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_manifest_signer_1_1_verification_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::ManifestSigner::VerificationResult</compoundname>
+    <includes refid="manifest__signer_8h" local="no">manifest_signer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_manifest_signer_1_1_verification_result_1a158ee751a554a721b91c3eb9dc0d0599" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::ManifestSigner::VerificationResult::signature_valid</definition>
+        <argsstring></argsstring>
+        <name>signature_valid</name>
+        <qualifiedname>themis::security::ManifestSigner::VerificationResult::signature_valid</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/manifest_signer.h" line="59" column="14" bodyfile="include/security/manifest_signer.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_manifest_signer_1_1_verification_result_1a52a39d5ef7e4450bfad989ca63e53e17" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::ManifestSigner::VerificationResult::files_valid</definition>
+        <argsstring></argsstring>
+        <name>files_valid</name>
+        <qualifiedname>themis::security::ManifestSigner::VerificationResult::files_valid</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/manifest_signer.h" line="60" column="14" bodyfile="include/security/manifest_signer.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_manifest_signer_1_1_verification_result_1acbf27a72c0bf29720910c19b15f22397" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::security::ManifestSigner::VerificationResult::missing_files</definition>
+        <argsstring></argsstring>
+        <name>missing_files</name>
+        <qualifiedname>themis::security::ManifestSigner::VerificationResult::missing_files</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/manifest_signer.h" line="61" column="21" bodyfile="include/security/manifest_signer.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_manifest_signer_1_1_verification_result_1a65c6f1534280079683d5c02bbd6c9dea" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::security::ManifestSigner::VerificationResult::modified_files</definition>
+        <argsstring></argsstring>
+        <name>modified_files</name>
+        <qualifiedname>themis::security::ManifestSigner::VerificationResult::modified_files</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/manifest_signer.h" line="62" column="21" bodyfile="include/security/manifest_signer.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_manifest_signer_1_1_verification_result_1ae3c6f41f106cebac2b3dc19dcba8abb0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::ManifestSigner::VerificationResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::security::ManifestSigner::VerificationResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/manifest_signer.h" line="63" column="21" bodyfile="include/security/manifest_signer.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/manifest_signer.h" line="58" column="5" bodyfile="include/security/manifest_signer.h" bodystart="58" bodyend="64"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_manifest_signer_1_1_verification_result_1ae3c6f41f106cebac2b3dc19dcba8abb0" prot="public" virt="non-virtual"><scope>themis::security::ManifestSigner::VerificationResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1security_1_1_manifest_signer_1_1_verification_result_1a52a39d5ef7e4450bfad989ca63e53e17" prot="public" virt="non-virtual"><scope>themis::security::ManifestSigner::VerificationResult</scope><name>files_valid</name></member>
+      <member refid="structthemis_1_1security_1_1_manifest_signer_1_1_verification_result_1acbf27a72c0bf29720910c19b15f22397" prot="public" virt="non-virtual"><scope>themis::security::ManifestSigner::VerificationResult</scope><name>missing_files</name></member>
+      <member refid="structthemis_1_1security_1_1_manifest_signer_1_1_verification_result_1a65c6f1534280079683d5c02bbd6c9dea" prot="public" virt="non-virtual"><scope>themis::security::ManifestSigner::VerificationResult</scope><name>modified_files</name></member>
+      <member refid="structthemis_1_1security_1_1_manifest_signer_1_1_verification_result_1a158ee751a554a721b91c3eb9dc0d0599" prot="public" virt="non-virtual"><scope>themis::security::ManifestSigner::VerificationResult</scope><name>signature_valid</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

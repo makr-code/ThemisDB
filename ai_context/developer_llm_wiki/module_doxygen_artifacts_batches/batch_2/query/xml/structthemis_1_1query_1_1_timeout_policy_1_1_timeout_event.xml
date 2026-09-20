@@ -1,0 +1,184 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::TimeoutPolicy::TimeoutEvent</compoundname>
+    <includes refid="query__federation__timeout_8h" local="no">query_federation_timeout.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event_1ab3f6ac21e5599dd9de1e35057ae0b7c0" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Type</name>
+        <qualifiedname>themis::query::TimeoutPolicy::TimeoutEvent::Type</qualifiedname>
+        <enumvalue id="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event_1ab3f6ac21e5599dd9de1e35057ae0b7c0a85e8cb24e1d413ef772d0ef903955516" prot="public">
+          <name>SHARD_TIMEOUT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event_1ab3f6ac21e5599dd9de1e35057ae0b7c0a41fce2a5658ac31b59f71b6226fb2f72" prot="public">
+          <name>OVERALL_TIMEOUT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event_1ab3f6ac21e5599dd9de1e35057ae0b7c0a3378f8c9888922c8fe1e737cf7d6e762" prot="public">
+          <name>RETRY_BACKOFF</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event_1ab3f6ac21e5599dd9de1e35057ae0b7c0a7b2898093fb02be2c62d2cb18b7714c4" prot="public">
+          <name>RETRY_EXHAUSTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_timeout.h" line="32" column="9" bodyfile="include/query/query_federation_timeout.h" bodystart="32" bodyend="37"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event_1aec6f6a6688009a537273119d04cd6b12" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event_1ab3f6ac21e5599dd9de1e35057ae0b7c0" kindref="member">Type</ref></type>
+        <definition>Type themis::query::TimeoutPolicy::TimeoutEvent::event_type</definition>
+        <argsstring></argsstring>
+        <name>event_type</name>
+        <qualifiedname>themis::query::TimeoutPolicy::TimeoutEvent::event_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_timeout.h" line="39" column="14" bodyfile="include/query/query_federation_timeout.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event_1a99b1f25134c7bc7656da3a6468a95c67" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::TimeoutPolicy::TimeoutEvent::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::query::TimeoutPolicy::TimeoutEvent::shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_timeout.h" line="40" column="21" bodyfile="include/query/query_federation_timeout.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event_1ad487fedae427923031e08266ad1b00c1" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::query::TimeoutPolicy::TimeoutEvent::elapsed</definition>
+        <argsstring></argsstring>
+        <name>elapsed</name>
+        <qualifiedname>themis::query::TimeoutPolicy::TimeoutEvent::elapsed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_timeout.h" line="41" column="35" bodyfile="include/query/query_federation_timeout.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event_1a0e91c743cc85d783091a93994cd513b0" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::query::TimeoutPolicy::TimeoutEvent::attempt_number</definition>
+        <argsstring></argsstring>
+        <name>attempt_number</name>
+        <qualifiedname>themis::query::TimeoutPolicy::TimeoutEvent::attempt_number</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_timeout.h" line="42" column="13" bodyfile="include/query/query_federation_timeout.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event_1a0e2522e7122aad0cc9533083383c5333" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::TimeoutPolicy::TimeoutEvent::details</definition>
+        <argsstring></argsstring>
+        <name>details</name>
+        <qualifiedname>themis::query::TimeoutPolicy::TimeoutEvent::details</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_timeout.h" line="43" column="21" bodyfile="include/query/query_federation_timeout.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event_1a1a8a11090dcb2bf111c81afa617aa829" prot="public" static="no" mutable="no">
+        <type>themis::utils::RetryExhaustionReason</type>
+        <definition>themis::utils::RetryExhaustionReason themis::query::TimeoutPolicy::TimeoutEvent::exhaustion_reason</definition>
+        <argsstring></argsstring>
+        <name>exhaustion_reason</name>
+        <qualifiedname>themis::query::TimeoutPolicy::TimeoutEvent::exhaustion_reason</qualifiedname>
+        <initializer>                                                   =
+themis::utils::RetryExhaustionReason::NONE</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_timeout.h" line="44" column="46" bodyfile="include/query/query_federation_timeout.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event_1aff31e27862fddc8d60a8926f780a41ef" prot="public" static="no" mutable="no">
+        <type>themis::utils::RetryTimeoutSource</type>
+        <definition>themis::utils::RetryTimeoutSource themis::query::TimeoutPolicy::TimeoutEvent::timeout_source</definition>
+        <argsstring></argsstring>
+        <name>timeout_source</name>
+        <qualifiedname>themis::query::TimeoutPolicy::TimeoutEvent::timeout_source</qualifiedname>
+        <initializer>                                             =
+themis::utils::RetryTimeoutSource::NONE</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_timeout.h" line="46" column="43" bodyfile="include/query/query_federation_timeout.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event_1a2b844457f90515f101732082f2a260a6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::TimeoutPolicy::TimeoutEvent::correlation_id</definition>
+        <argsstring></argsstring>
+        <name>correlation_id</name>
+        <qualifiedname>themis::query::TimeoutPolicy::TimeoutEvent::correlation_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_timeout.h" line="48" column="21" bodyfile="include/query/query_federation_timeout.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_federation_timeout.h" line="31" column="5" bodyfile="include/query/query_federation_timeout.h" bodystart="31" bodyend="49"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event_1a0e91c743cc85d783091a93994cd513b0" prot="public" virt="non-virtual"><scope>themis::query::TimeoutPolicy::TimeoutEvent</scope><name>attempt_number</name></member>
+      <member refid="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event_1a2b844457f90515f101732082f2a260a6" prot="public" virt="non-virtual"><scope>themis::query::TimeoutPolicy::TimeoutEvent</scope><name>correlation_id</name></member>
+      <member refid="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event_1a0e2522e7122aad0cc9533083383c5333" prot="public" virt="non-virtual"><scope>themis::query::TimeoutPolicy::TimeoutEvent</scope><name>details</name></member>
+      <member refid="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event_1ad487fedae427923031e08266ad1b00c1" prot="public" virt="non-virtual"><scope>themis::query::TimeoutPolicy::TimeoutEvent</scope><name>elapsed</name></member>
+      <member refid="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event_1aec6f6a6688009a537273119d04cd6b12" prot="public" virt="non-virtual"><scope>themis::query::TimeoutPolicy::TimeoutEvent</scope><name>event_type</name></member>
+      <member refid="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event_1a1a8a11090dcb2bf111c81afa617aa829" prot="public" virt="non-virtual"><scope>themis::query::TimeoutPolicy::TimeoutEvent</scope><name>exhaustion_reason</name></member>
+      <member refid="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event_1a99b1f25134c7bc7656da3a6468a95c67" prot="public" virt="non-virtual"><scope>themis::query::TimeoutPolicy::TimeoutEvent</scope><name>shard_id</name></member>
+      <member refid="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event_1aff31e27862fddc8d60a8926f780a41ef" prot="public" virt="non-virtual"><scope>themis::query::TimeoutPolicy::TimeoutEvent</scope><name>timeout_source</name></member>
+      <member refid="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event_1ab3f6ac21e5599dd9de1e35057ae0b7c0" prot="public" virt="non-virtual"><scope>themis::query::TimeoutPolicy::TimeoutEvent</scope><name>Type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

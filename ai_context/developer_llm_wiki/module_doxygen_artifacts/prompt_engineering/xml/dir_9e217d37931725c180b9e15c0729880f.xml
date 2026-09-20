@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_9e217d37931725c180b9e15c0729880f" kind="dir">
+    <compoundname>src/prompt_engineering</compoundname>
+    <innerfile refid="adversarial__prompt__tester_8cpp">adversarial_prompt_tester.cpp</innerfile>
+    <innerfile refid="chain__of__thought_8cpp">chain_of_thought.cpp</innerfile>
+    <innerfile refid="context__window__manager_8cpp">context_window_manager.cpp</innerfile>
+    <innerfile refid="cot__tracer_8cpp">cot_tracer.cpp</innerfile>
+    <innerfile refid="dspy__module_8cpp">dspy_module.cpp</innerfile>
+    <innerfile refid="feedback__collector_8cpp">feedback_collector.cpp</innerfile>
+    <innerfile refid="llm__reflection__adapter_8cpp">llm_reflection_adapter.cpp</innerfile>
+    <innerfile refid="markdown__utils_8cpp">markdown_utils.cpp</innerfile>
+    <innerfile refid="meta__prompt__generator_8cpp">meta_prompt_generator.cpp</innerfile>
+    <innerfile refid="prompt__ab__experiment_8cpp">prompt_ab_experiment.cpp</innerfile>
+    <innerfile refid="prompt__compressor_8cpp">prompt_compressor.cpp</innerfile>
+    <innerfile refid="prompt__engineering__integration_8cpp">prompt_engineering_integration.cpp</innerfile>
+    <innerfile refid="prompt__engineering__metrics_8cpp">prompt_engineering_metrics.cpp</innerfile>
+    <innerfile refid="prompt__evaluator_8cpp">prompt_evaluator.cpp</innerfile>
+    <innerfile refid="prompt__injection__detector_8cpp">prompt_injection_detector.cpp</innerfile>
+    <innerfile refid="prompt__library__io_8cpp">prompt_library_io.cpp</innerfile>
+    <innerfile refid="prompt__manager_8cpp">prompt_manager.cpp</innerfile>
+    <innerfile refid="prompt__optimizer_8cpp">prompt_optimizer.cpp</innerfile>
+    <innerfile refid="prompt__performance__tracker_8cpp">prompt_performance_tracker.cpp</innerfile>
+    <innerfile refid="prompt__quality__evaluator_8cpp">prompt_quality_evaluator.cpp</innerfile>
+    <innerfile refid="prompt__regression__runner_8cpp">prompt_regression_runner.cpp</innerfile>
+    <innerfile refid="prompt__template__compiler_8cpp">prompt_template_compiler.cpp</innerfile>
+    <innerfile refid="prompt__template__validator_8cpp">prompt_template_validator.cpp</innerfile>
+    <innerfile refid="prompt__version__control_8cpp">prompt_version_control.cpp</innerfile>
+    <innerfile refid="protegi__optimizer_8cpp">protegi_optimizer.cpp</innerfile>
+    <innerfile refid="rag__context__budget__manager_8cpp">rag_context_budget_manager.cpp</innerfile>
+    <innerfile refid="rag__prompt__builder_8cpp">rag_prompt_builder.cpp</innerfile>
+    <innerfile refid="reflection__tuner_8cpp">reflection_tuner.cpp</innerfile>
+    <innerfile refid="rewrite__engine_8cpp">rewrite_engine.cpp</innerfile>
+    <innerfile refid="rewrite__metrics_8cpp">rewrite_metrics.cpp</innerfile>
+    <innerfile refid="rewrite__rule__base_8cpp">rewrite_rule_base.cpp</innerfile>
+    <innerfile refid="rewrite__rule__loader_8cpp">rewrite_rule_loader.cpp</innerfile>
+    <innerfile refid="self__improvement__orchestrator_8cpp">self_improvement_orchestrator.cpp</innerfile>
+    <innerfile refid="structured__output_8cpp">structured_output.cpp</innerfile>
+    <innerfile refid="system__prompt__manager_8cpp">system_prompt_manager.cpp</innerfile>
+    <innerfile refid="tree__of__thoughts_8cpp">tree_of_thoughts.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/prompt_engineering/"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,226 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1bench_1_1ana__bm" kind="namespace" language="C++">
+    <compoundname>themis::bench::ana_bm</compoundname>
+    <innerclass refid="structthemis_1_1bench_1_1ana__bm_1_1_tumbling_window_stub" prot="public">themis::bench::ana_bm::TumblingWindowStub</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1ana__bm_1af113cd4d9fd6d4466a2d76e9001ef5c5" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::bench::ana_bm::kAnalyticsCanonicalSeed</definition>
+        <argsstring></argsstring>
+        <name>kAnalyticsCanonicalSeed</name>
+        <qualifiedname>themis::bench::ana_bm::kAnalyticsCanonicalSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+<para>Canonical PRNG seed for all ANA-BM benchmarks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_dedicated_gates.cpp" line="72" column="27" bodyfile="benchmarks/analytics/bench_analytics_dedicated_gates.cpp" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1ana__bm_1a2ae26498849e2e797775709c73656c02" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::ana_bm::kWarmupIterations</definition>
+        <argsstring></argsstring>
+        <name>kWarmupIterations</name>
+        <qualifiedname>themis::bench::ana_bm::kWarmupIterations</qualifiedname>
+        <initializer>= 500</initializer>
+        <briefdescription>
+<para>Warmup iterations before measurement window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_dedicated_gates.cpp" line="75" column="22" bodyfile="benchmarks/analytics/bench_analytics_dedicated_gates.cpp" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1ana__bm_1a973792f47d8194cdc60ce6addfb8c164" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::ana_bm::kRepetitions</definition>
+        <argsstring></argsstring>
+        <name>kRepetitions</name>
+        <qualifiedname>themis::bench::ana_bm::kRepetitions</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Repetitions per benchmark for variance estimation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_dedicated_gates.cpp" line="78" column="22" bodyfile="benchmarks/analytics/bench_analytics_dedicated_gates.cpp" bodystart="78" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1ana__bm_1abe6e02dcee82cac5ba9482784af7212f" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>static std::size_t themis::bench::ana_bm::columnarScanBatch</definition>
+        <argsstring>(int64_t threshold) noexcept</argsstring>
+        <name>columnarScanBatch</name>
+        <qualifiedname>themis::bench::ana_bm::columnarScanBatch</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>threshold</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Columnar predicate scan over a deterministic 256-row int64 batch. Returns the count of rows satisfying value &gt; threshold. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_dedicated_gates.cpp" line="106" column="20" bodyfile="benchmarks/analytics/bench_analytics_dedicated_gates.cpp" bodystart="106" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1ana__bm_1add3d7bfd011d71407653e6ec3d1ec936" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>static std::vector&lt; double &gt; themis::bench::ana_bm::makeDoubleRows</definition>
+        <argsstring>(std::size_t n, uint64_t seed)</argsstring>
+        <name>makeDoubleRows</name>
+        <qualifiedname>themis::bench::ana_bm::makeDoubleRows</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>seed</declname>
+        </param>
+        <briefdescription>
+<para>Build a deterministic double array for aggregation benchmarks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_dedicated_gates.cpp" line="118" column="20" bodyfile="benchmarks/analytics/bench_analytics_dedicated_gates.cpp" bodystart="118" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1ana__bm_1af6e9597479030b03b3f2a5aed0628d57" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>static double themis::bench::ana_bm::sumDoubles</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;rows) noexcept</argsstring>
+        <name>sumDoubles</name>
+        <qualifiedname>themis::bench::ana_bm::sumDoubles</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>rows</declname>
+        </param>
+        <briefdescription>
+<para>SUM over double array with NaN guard; returns sum. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_dedicated_gates.cpp" line="128" column="15" bodyfile="benchmarks/analytics/bench_analytics_dedicated_gates.cpp" bodystart="128" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1ana__bm_1a2e821f35db120ddb9f943f7112363f0e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::ana_bm::BM_ANA_BM01_TimeSeriesIngestP95</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_ANA_BM01_TimeSeriesIngestP95</name>
+        <qualifiedname>themis::bench::ana_bm::BM_ANA_BM01_TimeSeriesIngestP95</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>ANA-BM-01: Single-event ingest into a 64-slot tumbling window. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Measures the per-event ingest cost: accumulate value into partial sum, increment count, check window boundary.</para>
+<para>GATE-ANA-BM-01: p95 ≤ 2 µs per event. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_dedicated_gates.cpp" line="146" column="13" bodyfile="benchmarks/analytics/bench_analytics_dedicated_gates.cpp" bodystart="146" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1ana__bm_1a71b7b6f14a09f4df0b5c7921926a5845" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::ana_bm::Repetitions</definition>
+        <argsstring>(kRepetitions) -&gt; ReportAggregatesOnly(true)</argsstring>
+        <name>Repetitions</name>
+        <qualifiedname>themis::bench::ana_bm::Repetitions</qualifiedname>
+        <param>
+          <type>kRepetitions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_dedicated_gates.cpp" line="165" column="5" declfile="benchmarks/analytics/bench_analytics_dedicated_gates.cpp" declline="165" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1ana__bm_1aa5f7ed24769950115268c31a97aa4469" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::ana_bm::BM_ANA_BM02_ColumnarScanP95</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_ANA_BM02_ColumnarScanP95</name>
+        <qualifiedname>themis::bench::ana_bm::BM_ANA_BM02_ColumnarScanP95</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>ANA-BM-02: Predicate evaluation over a 256-row int64 batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Measures the per-batch columnar scan cost: sequential predicate evaluation over 256 deterministic int64 values.</para>
+<para>GATE-ANA-BM-02: p95 ≤ 10 µs per batch. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_dedicated_gates.cpp" line="180" column="13" bodyfile="benchmarks/analytics/bench_analytics_dedicated_gates.cpp" bodystart="180" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1ana__bm_1a2b04d51abdfea1fe83d2cbbfe6961f0d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::ana_bm::BM_ANA_BM03_AggregationThroughput</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_ANA_BM03_AggregationThroughput</name>
+        <qualifiedname>themis::bench::ana_bm::BM_ANA_BM03_AggregationThroughput</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>ANA-BM-03: SUM over 1000 double values with NaN guard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Measures the aggregation pipeline throughput for a 1000-element double accumulation — the dedicated analytics-specific equivalent of ARG-01 (which used int64).</para>
+<para>GATE-ANA-BM-03: ≥ 10 000 ops/sec (each iteration = 1000 values). At 1 GHz pipeline this is trivially met; gate is a regression floor. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_dedicated_gates.cpp" line="215" column="13" bodyfile="benchmarks/analytics/bench_analytics_dedicated_gates.cpp" bodystart="215" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1ana__bm_1a081491b54252a7bbc8fb33cac89099ae" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::ana_bm::BM_ANA_BM04_WindowRollupP99</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_ANA_BM04_WindowRollupP99</name>
+        <qualifiedname>themis::bench::ana_bm::BM_ANA_BM04_WindowRollupP99</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>ANA-BM-04: Full tumbling window cycle — 64 adds → flush → reset. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Measures the end-to-end window rollup cost: accumulate 64 events into the partial sum, trigger the flush boundary (partial_sum reset + count reset), then report the flush.</para>
+<para>GATE-ANA-BM-04: p99 ≤ 5 µs per flush cycle. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_dedicated_gates.cpp" line="248" column="13" bodyfile="benchmarks/analytics/bench_analytics_dedicated_gates.cpp" bodystart="248" bodyend="271"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/analytics/bench_analytics_dedicated_gates.cpp" line="65" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_aql_statement" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::AqlStatement</compoundname>
+    <includes refid="aql__parser_8h" local="no">aql_parser.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1query_1_1_aql_statement_1a2977b1a89d07ac7c3a5a93d49e110aee" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Kind</name>
+        <qualifiedname>themis::query::AqlStatement::Kind</qualifiedname>
+        <enumvalue id="structthemis_1_1query_1_1_aql_statement_1a2977b1a89d07ac7c3a5a93d49e110aeea66c1b4c7f3dc385b68a9fa903ccd016d" prot="public">
+          <name>Query</name>
+          <briefdescription>
+<para>A read query (FOR / WITH), held in <computeroutput>query</computeroutput>. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1query_1_1_aql_statement_1a2977b1a89d07ac7c3a5a93d49e110aeea59016373e3e4440ecf76c1d4b6bcd97d" prot="public">
+          <name>Mutation</name>
+          <briefdescription>
+<para>A DML mutation (INSERT / UPDATE / …), held in <computeroutput>mutation</computeroutput>. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="996" column="5" bodyfile="include/query/aql_parser.h" bodystart="996" bodyend="999"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_aql_statement_1ad8a29b880b38c6cde6840a7eddeeb5fb" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_aql_statement_1a2977b1a89d07ac7c3a5a93d49e110aee" kindref="member">Kind</ref></type>
+        <definition>Kind themis::query::AqlStatement::kind</definition>
+        <argsstring></argsstring>
+        <name>kind</name>
+        <qualifiedname>themis::query::AqlStatement::kind</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1query_1_1_aql_statement_1a2977b1a89d07ac7c3a5a93d49e110aeea66c1b4c7f3dc385b68a9fa903ccd016d" kindref="member">Kind::Query</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="1001" column="10" bodyfile="include/query/aql_parser.h" bodystart="1001" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_aql_statement_1a156789215b367e424d9d25924e397284" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_query" kindref="compound">Query</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;Query&gt; themis::query::AqlStatement::query</definition>
+        <argsstring></argsstring>
+        <name>query</name>
+        <qualifiedname>themis::query::AqlStatement::query</qualifiedname>
+        <briefdescription>
+<para>Set when kind == <ref refid="structthemis_1_1query_1_1_aql_statement_1a2977b1a89d07ac7c3a5a93d49e110aeea66c1b4c7f3dc385b68a9fa903ccd016d" kindref="member">Kind::Query</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="1002" column="28" bodyfile="include/query/aql_parser.h" bodystart="1002" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_aql_statement_1a04f3f22736d052ff23004ad4c18dcdb3" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_mutation_node" kindref="compound">MutationNode</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;MutationNode&gt; themis::query::AqlStatement::mutation</definition>
+        <argsstring></argsstring>
+        <name>mutation</name>
+        <qualifiedname>themis::query::AqlStatement::mutation</qualifiedname>
+        <briefdescription>
+<para>Set when kind == <ref refid="structthemis_1_1query_1_1_aql_statement_1a2977b1a89d07ac7c3a5a93d49e110aeea59016373e3e4440ecf76c1d4b6bcd97d" kindref="member">Kind::Mutation</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="1003" column="21" bodyfile="include/query/aql_parser.h" bodystart="1003" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/aql_parser.h" line="995" column="1" bodyfile="include/query/aql_parser.h" bodystart="995" bodyend="1004"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_aql_statement_1a2977b1a89d07ac7c3a5a93d49e110aee" prot="public" virt="non-virtual"><scope>themis::query::AqlStatement</scope><name>Kind</name></member>
+      <member refid="structthemis_1_1query_1_1_aql_statement_1ad8a29b880b38c6cde6840a7eddeeb5fb" prot="public" virt="non-virtual"><scope>themis::query::AqlStatement</scope><name>kind</name></member>
+      <member refid="structthemis_1_1query_1_1_aql_statement_1a04f3f22736d052ff23004ad4c18dcdb3" prot="public" virt="non-virtual"><scope>themis::query::AqlStatement</scope><name>mutation</name></member>
+      <member refid="structthemis_1_1query_1_1_aql_statement_1a156789215b367e424d9d25924e397284" prot="public" virt="non-virtual"><scope>themis::query::AqlStatement</scope><name>query</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

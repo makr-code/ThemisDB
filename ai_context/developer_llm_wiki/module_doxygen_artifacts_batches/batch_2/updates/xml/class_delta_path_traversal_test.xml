@@ -1,0 +1,162 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_delta_path_traversal_test" kind="class" language="C++" prot="public">
+    <compoundname>DeltaPathTraversalTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_delta_path_traversal_test_1a82b91be595eb3ef065af7bae44262059" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string DeltaPathTraversalTest::tmp_dir_</definition>
+        <argsstring></argsstring>
+        <name>tmp_dir_</name>
+        <qualifiedname>DeltaPathTraversalTest::tmp_dir_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_production.cpp" line="1192" column="17" bodyfile="tests/updates/test_updates_production.cpp" bodystart="1192" bodyend="1192"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_delta_path_traversal_test_1a3d0e6b5ac75882fdba20971b390ef369" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string DeltaPathTraversalTest::install_dir_</definition>
+        <argsstring></argsstring>
+        <name>install_dir_</name>
+        <qualifiedname>DeltaPathTraversalTest::install_dir_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_production.cpp" line="1193" column="17" bodyfile="tests/updates/test_updates_production.cpp" bodystart="1193" bodyend="1193"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_delta_path_traversal_test_1a7ee24d549b0bff2128b21e1d774af104" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string DeltaPathTraversalTest::download_dir_</definition>
+        <argsstring></argsstring>
+        <name>download_dir_</name>
+        <qualifiedname>DeltaPathTraversalTest::download_dir_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_production.cpp" line="1194" column="17" bodyfile="tests/updates/test_updates_production.cpp" bodystart="1194" bodyend="1194"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_delta_path_traversal_test_1a637930ea758c17fa9328236f84fb68a6" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void DeltaPathTraversalTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>DeltaPathTraversalTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_production.cpp" line="1196" column="10" bodyfile="tests/updates/test_updates_production.cpp" bodystart="1196" bodyend="1203"/>
+      </memberdef>
+      <memberdef kind="function" id="class_delta_path_traversal_test_1ac1251e5ccc04e82a9760dbf348e61d50" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void DeltaPathTraversalTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>DeltaPathTraversalTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_production.cpp" line="1205" column="10" bodyfile="tests/updates/test_updates_production.cpp" bodystart="1205" bodyend="1207"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_delta_path_traversal_test_1abaf5704bc1607fd07d195a38e62606a6" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void DeltaPathTraversalTest::writeBytes</definition>
+        <argsstring>(const std::string &amp;path, const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>writeBytes</name>
+        <qualifiedname>DeltaPathTraversalTest::writeBytes</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_production.cpp" line="1209" column="17" bodyfile="tests/updates/test_updates_production.cpp" bodystart="1209" bodyend="1215"/>
+      </memberdef>
+      <memberdef kind="function" id="class_delta_path_traversal_test_1a4b6510bf89f916169c5e6e144a452560" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>static std::vector&lt; uint8_t &gt; DeltaPathTraversalTest::readBytes</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>readBytes</name>
+        <qualifiedname>DeltaPathTraversalTest::readBytes</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_production.cpp" line="1217" column="24" bodyfile="tests/updates/test_updates_production.cpp" bodystart="1217" bodyend="1221"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>DeltaPathTraversalTest</label>
+        <link refid="class_delta_path_traversal_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>DeltaPathTraversalTest</label>
+        <link refid="class_delta_path_traversal_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/updates/test_updates_production.cpp" line="1190" column="1" bodyfile="tests/updates/test_updates_production.cpp" bodystart="1190" bodyend="1222"/>
+    <listofallmembers>
+      <member refid="class_delta_path_traversal_test_1a7ee24d549b0bff2128b21e1d774af104" prot="protected" virt="non-virtual"><scope>DeltaPathTraversalTest</scope><name>download_dir_</name></member>
+      <member refid="class_delta_path_traversal_test_1a3d0e6b5ac75882fdba20971b390ef369" prot="protected" virt="non-virtual"><scope>DeltaPathTraversalTest</scope><name>install_dir_</name></member>
+      <member refid="class_delta_path_traversal_test_1a4b6510bf89f916169c5e6e144a452560" prot="protected" virt="non-virtual"><scope>DeltaPathTraversalTest</scope><name>readBytes</name></member>
+      <member refid="class_delta_path_traversal_test_1a637930ea758c17fa9328236f84fb68a6" prot="protected" virt="non-virtual"><scope>DeltaPathTraversalTest</scope><name>SetUp</name></member>
+      <member refid="class_delta_path_traversal_test_1ac1251e5ccc04e82a9760dbf348e61d50" prot="protected" virt="non-virtual"><scope>DeltaPathTraversalTest</scope><name>TearDown</name></member>
+      <member refid="class_delta_path_traversal_test_1a82b91be595eb3ef065af7bae44262059" prot="protected" virt="non-virtual"><scope>DeltaPathTraversalTest</scope><name>tmp_dir_</name></member>
+      <member refid="class_delta_path_traversal_test_1abaf5704bc1607fd07d195a38e62606a6" prot="protected" virt="non-virtual"><scope>DeltaPathTraversalTest</scope><name>writeBytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

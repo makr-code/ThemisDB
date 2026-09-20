@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_d9873b517ede45839a2a91bd36240447" kind="dir">
+    <compoundname>src/failover</compoundname>
+    <innerfile refid="auto__failover__manager_8cpp">auto_failover_manager.cpp</innerfile>
+    <innerfile refid="disaster__recovery__manager_8cpp">disaster_recovery_manager.cpp</innerfile>
+    <innerfile refid="quorum__log_8cpp">quorum_log.cpp</innerfile>
+    <innerfile refid="topology__snapshot_8cpp">topology_snapshot.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/failover/"/>
+  </compounddef>
+</doxygen>

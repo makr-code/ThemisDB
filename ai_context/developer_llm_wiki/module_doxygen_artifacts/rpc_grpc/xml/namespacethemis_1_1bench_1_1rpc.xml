@@ -1,0 +1,225 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1bench_1_1rpc" kind="namespace" language="C++">
+    <compoundname>themis::bench::rpc</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1rpc_1a1dc9f77c56ed564acd32d80e5449a712" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::bench::rpc::kCanonicalSeed</definition>
+        <argsstring></argsstring>
+        <name>kCanonicalSeed</name>
+        <qualifiedname>themis::bench::rpc::kCanonicalSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+<para>Canonical PRNG seed for all RPC benchmarks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/rpc_grpc/bench_rpc_grpc_release_gates.cpp" line="53" column="27" bodyfile="benchmarks/rpc_grpc/bench_rpc_grpc_release_gates.cpp" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1rpc_1a8827941c561e717902312d68a274684c" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::rpc::kRepetitions</definition>
+        <argsstring></argsstring>
+        <name>kRepetitions</name>
+        <qualifiedname>themis::bench::rpc::kRepetitions</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Number of repetitions for variance estimation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/rpc_grpc/bench_rpc_grpc_release_gates.cpp" line="56" column="22" bodyfile="benchmarks/rpc_grpc/bench_rpc_grpc_release_gates.cpp" bodystart="56" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1rpc_1a9adc1328d3a13794542da50bfcbec61f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::rpc::BM_RPC01_ErrorEnumCast</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_RPC01_ErrorEnumCast</name>
+        <qualifiedname>themis::bench::rpc::BM_RPC01_ErrorEnumCast</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/rpc_grpc/bench_rpc_grpc_release_gates.cpp" line="62" column="13" bodyfile="benchmarks/rpc_grpc/bench_rpc_grpc_release_gates.cpp" bodystart="62" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1rpc_1a1b1a2d62923c6342d4a4d6c15ed0089d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::rpc::Repetitions</definition>
+        <argsstring>(kRepetitions) -&gt; ReportAggregatesOnly(true)</argsstring>
+        <name>Repetitions</name>
+        <qualifiedname>themis::bench::rpc::Repetitions</qualifiedname>
+        <param>
+          <type>kRepetitions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/rpc_grpc/bench_rpc_grpc_release_gates.cpp" line="72" column="5" declfile="benchmarks/rpc_grpc/bench_rpc_grpc_release_gates.cpp" declline="72" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1rpc_1aedfd643822c5c10e8990bbf6e16dfc29" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::rpc::BM_RPC02_SwitchDispatch</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_RPC02_SwitchDispatch</name>
+        <qualifiedname>themis::bench::rpc::BM_RPC02_SwitchDispatch</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/rpc_grpc/bench_rpc_grpc_release_gates.cpp" line="79" column="13" bodyfile="benchmarks/rpc_grpc/bench_rpc_grpc_release_gates.cpp" bodystart="79" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1rpc_1acf3dc18eaa3f09a2bbae1100129f6737" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::rpc::BM_RPC03_StructAlloc</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_RPC03_StructAlloc</name>
+        <qualifiedname>themis::bench::rpc::BM_RPC03_StructAlloc</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/rpc_grpc/bench_rpc_grpc_release_gates.cpp" line="116" column="13" bodyfile="benchmarks/rpc_grpc/bench_rpc_grpc_release_gates.cpp" bodystart="116" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1rpc_1a99e91236ba234d3c673d9fd02d9c7b87" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::rpc::BM_RPC04_BatchCast</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_RPC04_BatchCast</name>
+        <qualifiedname>themis::bench::rpc::BM_RPC04_BatchCast</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/rpc_grpc/bench_rpc_grpc_release_gates.cpp" line="134" column="13" bodyfile="benchmarks/rpc_grpc/bench_rpc_grpc_release_gates.cpp" bodystart="134" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1rpc_1a78ec0d5d1182edd2de629b2efc973ed1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::rpc::BM_RPC05_ConcurrentDispatch</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_RPC05_ConcurrentDispatch</name>
+        <qualifiedname>themis::bench::rpc::BM_RPC05_ConcurrentDispatch</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/rpc_grpc/bench_rpc_grpc_release_gates.cpp" line="164" column="13" bodyfile="benchmarks/rpc_grpc/bench_rpc_grpc_release_gates.cpp" bodystart="164" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1rpc_1a3657f3509f8f9cfbb42f8e52a5cc10bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::rpc::Threads</definition>
+        <argsstring>(8) -&gt; Repetitions(kRepetitions) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>Threads</name>
+        <qualifiedname>themis::bench::rpc::Threads</qualifiedname>
+        <param>
+          <type>8</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/rpc_grpc/bench_rpc_grpc_release_gates.cpp" line="188" column="5" declfile="benchmarks/rpc_grpc/bench_rpc_grpc_release_gates.cpp" declline="188" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1rpc_1a07826ddf7ae634569b0c67be062b9238" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::rpc::BM_RPC06_StateConstruction</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_RPC06_StateConstruction</name>
+        <qualifiedname>themis::bench::rpc::BM_RPC06_StateConstruction</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/rpc_grpc/bench_rpc_grpc_release_gates.cpp" line="196" column="13" bodyfile="benchmarks/rpc_grpc/bench_rpc_grpc_release_gates.cpp" bodystart="196" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1rpc_1ac5c9cebbbf93a5005ea2155d8c60073d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::rpc::BM_RPC07_BulkDescriptorOps</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_RPC07_BulkDescriptorOps</name>
+        <qualifiedname>themis::bench::rpc::BM_RPC07_BulkDescriptorOps</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/rpc_grpc/bench_rpc_grpc_release_gates.cpp" line="221" column="13" bodyfile="benchmarks/rpc_grpc/bench_rpc_grpc_release_gates.cpp" bodystart="221" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1rpc_1ac908798874f9230d95163dc6b153e534" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::rpc::BM_RPC08_FailClosedThroughput</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_RPC08_FailClosedThroughput</name>
+        <qualifiedname>themis::bench::rpc::BM_RPC08_FailClosedThroughput</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/rpc_grpc/bench_rpc_grpc_release_gates.cpp" line="247" column="13" bodyfile="benchmarks/rpc_grpc/bench_rpc_grpc_release_gates.cpp" bodystart="247" bodyend="268"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/rpc_grpc/bench_rpc_grpc_release_gates.cpp" line="50" column="1"/>
+  </compounddef>
+</doxygen>

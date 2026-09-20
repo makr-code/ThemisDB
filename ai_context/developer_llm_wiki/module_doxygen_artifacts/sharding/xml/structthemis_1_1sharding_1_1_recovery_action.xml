@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_recovery_action" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::RecoveryAction</compoundname>
+    <includes refid="sharding__error__recovery_8h" local="no">sharding_error_recovery.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_recovery_action_1ae7d31afc7c02994e07d9613b7fe2ee18" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1sharding_1a5e1958331e6f6a915df534992b8c1e74" kindref="member">ErrorRecoveryStrategy</ref></type>
+        <definition>ErrorRecoveryStrategy themis::sharding::RecoveryAction::strategy</definition>
+        <argsstring></argsstring>
+        <name>strategy</name>
+        <qualifiedname>themis::sharding::RecoveryAction::strategy</qualifiedname>
+        <briefdescription>
+<para>Strategy for recovering from this error. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_error_recovery.h" line="75" column="27" bodyfile="include/sharding/sharding_error_recovery.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_recovery_action_1a7da376b9f99f101d8d3567eb5356c167" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::sharding::RecoveryAction::retry_count</definition>
+        <argsstring></argsstring>
+        <name>retry_count</name>
+        <qualifiedname>themis::sharding::RecoveryAction::retry_count</qualifiedname>
+        <briefdescription>
+<para>Retry count for RETRY_WITH_BACKOFF strategy (0 for non-retry strategies). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_error_recovery.h" line="78" column="9" bodyfile="include/sharding/sharding_error_recovery.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_recovery_action_1a025882fa6fb9f67975c8251ca8271fb7" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::sharding::RecoveryAction::timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>timeout_ms</name>
+        <qualifiedname>themis::sharding::RecoveryAction::timeout_ms</qualifiedname>
+        <briefdescription>
+<para>Timeout in milliseconds for TIMEOUT_AND_ABORT (0 for non-timeout strategies). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_error_recovery.h" line="81" column="9" bodyfile="include/sharding/sharding_error_recovery.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_recovery_action_1a5f0e774cfa33a5add44891aead21ef60" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::RecoveryAction::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::sharding::RecoveryAction::description</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+<para>Human-readable description of the recovery action. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_error_recovery.h" line="84" column="17" bodyfile="include/sharding/sharding_error_recovery.h" bodystart="84" bodyend="84"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_recovery_action_1ae0f69af8df4159eddee91aebfa77e3b7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::RecoveryAction::RecoveryAction</definition>
+        <argsstring>(ErrorRecoveryStrategy strat, int retries=0, int timeout=0, const std::string &amp;desc=&quot;&quot;)</argsstring>
+        <name>RecoveryAction</name>
+        <qualifiedname>themis::sharding::RecoveryAction::RecoveryAction</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1sharding_1a5e1958331e6f6a915df534992b8c1e74" kindref="member">ErrorRecoveryStrategy</ref></type>
+          <declname>strat</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>retries</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>timeout</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>desc</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_error_recovery.h" line="86" column="5" bodyfile="include/sharding/sharding_error_recovery.h" bodystart="86" bodyend="91"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Recovery action to be taken for a specific error. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This struct encapsulates the strategy and its parameters (e.g., retry count). </para>
+    </detaileddescription>
+    <location file="include/sharding/sharding_error_recovery.h" line="73" column="1" bodyfile="include/sharding/sharding_error_recovery.h" bodystart="73" bodyend="92"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_recovery_action_1a5f0e774cfa33a5add44891aead21ef60" prot="public" virt="non-virtual"><scope>themis::sharding::RecoveryAction</scope><name>description</name></member>
+      <member refid="structthemis_1_1sharding_1_1_recovery_action_1ae0f69af8df4159eddee91aebfa77e3b7" prot="public" virt="non-virtual"><scope>themis::sharding::RecoveryAction</scope><name>RecoveryAction</name></member>
+      <member refid="structthemis_1_1sharding_1_1_recovery_action_1a7da376b9f99f101d8d3567eb5356c167" prot="public" virt="non-virtual"><scope>themis::sharding::RecoveryAction</scope><name>retry_count</name></member>
+      <member refid="structthemis_1_1sharding_1_1_recovery_action_1ae7d31afc7c02994e07d9613b7fe2ee18" prot="public" virt="non-virtual"><scope>themis::sharding::RecoveryAction</scope><name>strategy</name></member>
+      <member refid="structthemis_1_1sharding_1_1_recovery_action_1a025882fa6fb9f67975c8251ca8271fb7" prot="public" virt="non-virtual"><scope>themis::sharding::RecoveryAction</scope><name>timeout_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

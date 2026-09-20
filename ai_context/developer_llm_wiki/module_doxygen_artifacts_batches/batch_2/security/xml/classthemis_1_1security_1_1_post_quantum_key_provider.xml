@@ -1,0 +1,655 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1_post_quantum_key_provider" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::PostQuantumKeyProvider</compoundname>
+    <basecompoundref refid="classthemis_1_1_key_provider" prot="public" virt="non-virtual">themis::KeyProvider</basecompoundref>
+    <includes refid="post__quantum__crypto_8h" local="no">post_quantum_crypto.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_post_quantum_key_provider_1a0006dfb696ce19ba7d3c143a3829fd8e" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_key_provider_1a87c6e45572251fa2dd71ea8e4d4011fd" kindref="member">KeyProvider</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;KeyProvider&gt; themis::security::PostQuantumKeyProvider::classical_provider_</definition>
+        <argsstring></argsstring>
+        <name>classical_provider_</name>
+        <qualifiedname>themis::security::PostQuantumKeyProvider::classical_provider_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="314" column="21" bodyfile="include/security/post_quantum_crypto.h" bodystart="314" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_post_quantum_key_provider_1ab3efc96890604abc98c4dcf838070bb6" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1security_1a15d98a05eb38cf4a0446078793bc01e9" kindref="member">PQMigrationMode</ref></type>
+        <definition>PQMigrationMode themis::security::PostQuantumKeyProvider::mode_</definition>
+        <argsstring></argsstring>
+        <name>mode_</name>
+        <qualifiedname>themis::security::PostQuantumKeyProvider::mode_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="315" column="21" bodyfile="include/security/post_quantum_crypto.h" bodystart="315" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_post_quantum_key_provider_1a07ea35e50b319688839620d7898b1e80" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1security_1_1_kyber_k_e_m" kindref="compound">KyberKEM</ref></type>
+        <definition>KyberKEM themis::security::PostQuantumKeyProvider::kyber_</definition>
+        <argsstring></argsstring>
+        <name>kyber_</name>
+        <qualifiedname>themis::security::PostQuantumKeyProvider::kyber_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="316" column="14" bodyfile="include/security/post_quantum_crypto.h" bodystart="316" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_post_quantum_key_provider_1a4d2b679aa1576dab55293e2655a815d8" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::security::PostQuantumKeyProvider::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::security::PostQuantumKeyProvider::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="317" column="24" bodyfile="include/security/post_quantum_crypto.h" bodystart="317" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_post_quantum_key_provider_1a33b61b05bee987f4211270ae671d7954" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::PostQuantumKeyProvider::PostQuantumKeyProvider</definition>
+        <argsstring>(std::shared_ptr&lt; KeyProvider &gt; classical_provider, PQMigrationMode mode=PQMigrationMode::HYBRID)</argsstring>
+        <name>PostQuantumKeyProvider</name>
+        <qualifiedname>themis::security::PostQuantumKeyProvider::PostQuantumKeyProvider</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_key_provider_1a87c6e45572251fa2dd71ea8e4d4011fd" kindref="member">KeyProvider</ref> &gt;</type>
+          <declname>classical_provider</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1security_1a15d98a05eb38cf4a0446078793bc01e9" kindref="member">PQMigrationMode</ref></type>
+          <declname>mode</declname>
+          <defval><ref refid="namespacethemis_1_1security_1a15d98a05eb38cf4a0446078793bc01e9a3bf07fe8ac3883060b1558113ba248d4" kindref="member">PQMigrationMode::HYBRID</ref></defval>
+        </param>
+        <briefdescription>
+<para>Construct a PQ key provider. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>classical_provider</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Underlying classical <ref refid="classthemis_1_1_key_provider" kindref="compound">KeyProvider</ref>; must not be null. Used in HYBRID and CLASSICAL_ONLY modes and for key metadata queries. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Migration mode (default: HYBRID) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="258" column="14" bodyfile="src/security/post_quantum_crypto.cpp" bodystart="763" bodyend="775"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_post_quantum_key_provider_1a6e692f4a9ed29ef033cf0e37f8860a11" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::PostQuantumKeyProvider::~PostQuantumKeyProvider</definition>
+        <argsstring>() override</argsstring>
+        <name>~PostQuantumKeyProvider</name>
+        <qualifiedname>themis::security::PostQuantumKeyProvider::~PostQuantumKeyProvider</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="262" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_post_quantum_key_provider_1a3641b23a448f85f2c1d791243b703756" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::security::PostQuantumKeyProvider::getKey</definition>
+        <argsstring>(const std::string &amp;key_id) override</argsstring>
+        <name>getKey</name>
+        <qualifiedname>themis::security::PostQuantumKeyProvider::getKey</qualifiedname>
+        <reimplements refid="classthemis_1_1_key_provider_1add63db6d99568ab764123f07893cc7d1">getKey</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <briefdescription>
+<para>Delegate all standard <ref refid="classthemis_1_1_key_provider" kindref="compound">KeyProvider</ref> operations to the classical provider. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements getKey without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="266" column="17" bodyfile="src/security/post_quantum_crypto.cpp" bodystart="786" bodyend="788"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_post_quantum_key_provider_1aabe1bc73139d6037eaa1afe45f710080" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::security::PostQuantumKeyProvider::getKey</definition>
+        <argsstring>(const std::string &amp;key_id, uint32_t version) override</argsstring>
+        <name>getKey</name>
+        <qualifiedname>themis::security::PostQuantumKeyProvider::getKey</qualifiedname>
+        <reimplements refid="classthemis_1_1_key_provider_1ac16b28cd3ba6e684a92e7f4383e5ea58">getKey</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Get Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements getKey without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="267" column="17" bodyfile="src/security/post_quantum_crypto.cpp" bodystart="797" bodyend="800"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_post_quantum_key_provider_1a2f2c05398b504f83aee2bb09567418a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::security::PostQuantumKeyProvider::rotateKey</definition>
+        <argsstring>(const std::string &amp;key_id) override</argsstring>
+        <name>rotateKey</name>
+        <qualifiedname>themis::security::PostQuantumKeyProvider::rotateKey</qualifiedname>
+        <reimplements refid="classthemis_1_1_key_provider_1a21794661f33eafc159d0948ee3e204ae">rotateKey</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <briefdescription>
+<para>Rotate Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements rotateKey without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="268" column="14" bodyfile="src/security/post_quantum_crypto.cpp" bodystart="808" bodyend="810"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_post_quantum_key_provider_1a353c42fd1e5e15b729755ca3b8f7e3b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_key_metadata" kindref="compound">KeyMetadata</ref> &gt;</type>
+        <definition>std::vector&lt; KeyMetadata &gt; themis::security::PostQuantumKeyProvider::listKeys</definition>
+        <argsstring>() override</argsstring>
+        <name>listKeys</name>
+        <qualifiedname>themis::security::PostQuantumKeyProvider::listKeys</qualifiedname>
+        <reimplements refid="classthemis_1_1_key_provider_1ab4d31df1258d4f7583fee68f77813810">listKeys</reimplements>
+        <briefdescription>
+<para>List Keys. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements listKeys without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="269" column="17" bodyfile="src/security/post_quantum_crypto.cpp" bodystart="817" bodyend="819"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_post_quantum_key_provider_1a18f41a4e705da9e290091d3d6286de14" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1_key_metadata" kindref="compound">KeyMetadata</ref></type>
+        <definition>KeyMetadata themis::security::PostQuantumKeyProvider::getKeyMetadata</definition>
+        <argsstring>(const std::string &amp;key_id, uint32_t version=0) override</argsstring>
+        <name>getKeyMetadata</name>
+        <qualifiedname>themis::security::PostQuantumKeyProvider::getKeyMetadata</qualifiedname>
+        <reimplements refid="classthemis_1_1_key_provider_1a74f1a932e3aa36781382fb35f2e7c2e3">getKeyMetadata</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>version</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Get Key Metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements getKeyMetadata without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="270" column="17" bodyfile="src/security/post_quantum_crypto.cpp" bodystart="828" bodyend="831"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_post_quantum_key_provider_1a818347daab05e42a447d9f97193313fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::security::PostQuantumKeyProvider::deleteKey</definition>
+        <argsstring>(const std::string &amp;key_id, uint32_t version) override</argsstring>
+        <name>deleteKey</name>
+        <qualifiedname>themis::security::PostQuantumKeyProvider::deleteKey</qualifiedname>
+        <reimplements refid="classthemis_1_1_key_provider_1ab1381dbbc3f8af4308678d2324b51b99">deleteKey</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Delete Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements deleteKey without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="272" column="10" bodyfile="src/security/post_quantum_crypto.cpp" bodystart="839" bodyend="841"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_post_quantum_key_provider_1ae7b956320c6c7c8262501a65f15ad099" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::security::PostQuantumKeyProvider::hasKey</definition>
+        <argsstring>(const std::string &amp;key_id, uint32_t version=0) override</argsstring>
+        <name>hasKey</name>
+        <qualifiedname>themis::security::PostQuantumKeyProvider::hasKey</qualifiedname>
+        <reimplements refid="classthemis_1_1_key_provider_1a24990fabb3111c177d5ea5be78446824">hasKey</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>version</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Has Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements hasKey without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="273" column="10" bodyfile="src/security/post_quantum_crypto.cpp" bodystart="850" bodyend="852"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_post_quantum_key_provider_1a1ad69bcd1b9c717e0e757b733237a8f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::security::PostQuantumKeyProvider::createKeyFromBytes</definition>
+        <argsstring>(const std::string &amp;key_id, const std::vector&lt; uint8_t &gt; &amp;key_bytes, const KeyMetadata &amp;metadata=KeyMetadata()) override</argsstring>
+        <name>createKeyFromBytes</name>
+        <qualifiedname>themis::security::PostQuantumKeyProvider::createKeyFromBytes</qualifiedname>
+        <reimplements refid="classthemis_1_1_key_provider_1adb7353f54d3975fcf60572403a25c243">createKeyFromBytes</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>key_bytes</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_key_metadata" kindref="compound">KeyMetadata</ref> &amp;</type>
+          <declname>metadata</declname>
+          <defval><ref refid="structthemis_1_1_key_metadata" kindref="compound">KeyMetadata</ref>()</defval>
+        </param>
+        <briefdescription>
+<para>Create Key From Bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createKeyFromBytes without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="274" column="14" bodyfile="src/security/post_quantum_crypto.cpp" bodystart="862" bodyend="866"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_post_quantum_key_provider_1ab2804f544a08e8ec5276c3a8c0d48e8d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::security::PostQuantumKeyProvider::wrapKeyWithKyber</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;dek, const std::vector&lt; uint8_t &gt; &amp;recipient_public_key)</argsstring>
+        <name>wrapKeyWithKyber</name>
+        <qualifiedname>themis::security::PostQuantumKeyProvider::wrapKeyWithKyber</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>dek</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>recipient_public_key</declname>
+        </param>
+        <briefdescription>
+<para>Wrap a DEK using Kyber-1024 KEM. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><orderedlist>
+<listitem><para>Generates an ephemeral Kyber key pair.</para>
+</listitem><listitem><para>Encapsulates a fresh 32-byte shared secret.</para>
+</listitem><listitem><para>Uses the shared secret as an AES-256-GCM wrapping key.</para>
+</listitem><listitem><para>Encrypts the DEK under that wrapping key. Returns the serialised blob described in the class docstring.</para>
+</listitem></orderedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dek</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Data encryption key to wrap (any length ≤ 256 bytes) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>recipient_public_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Recipient&apos;s Kyber-1024 public key </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Wrapped key blob </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>on failure </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="294" column="17" bodyfile="src/security/post_quantum_crypto.cpp" bodystart="879" bodyend="919"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_post_quantum_key_provider_1a8d6f49005e70f19b2ea624c2c31130e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::security::PostQuantumKeyProvider::unwrapKeyWithKyber</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;wrapped_key, const std::vector&lt; uint8_t &gt; &amp;secret_key)</argsstring>
+        <name>unwrapKeyWithKyber</name>
+        <qualifiedname>themis::security::PostQuantumKeyProvider::unwrapKeyWithKyber</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>wrapped_key</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>secret_key</declname>
+        </param>
+        <briefdescription>
+<para>Unwrap a Kyber-wrapped DEK. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>wrapped_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Blob produced by <ref refid="classthemis_1_1security_1_1_post_quantum_key_provider_1ab2804f544a08e8ec5276c3a8c0d48e8d" kindref="member">wrapKeyWithKyber()</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>secret_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Recipient&apos;s Kyber-1024 secret key </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Unwrapped DEK </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>on decapsulation or decryption failure </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="306" column="17" bodyfile="src/security/post_quantum_crypto.cpp" bodystart="922" bodyend="973"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_post_quantum_key_provider_1adc34bfd0180c4502456db7dd017ff6ef" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1security_1a15d98a05eb38cf4a0446078793bc01e9" kindref="member">PQMigrationMode</ref></type>
+        <definition>PQMigrationMode themis::security::PostQuantumKeyProvider::getMigrationMode</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getMigrationMode</name>
+        <qualifiedname>themis::security::PostQuantumKeyProvider::getMigrationMode</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="310" column="21" bodyfile="include/security/post_quantum_crypto.h" bodystart="310" bodyend="310"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_post_quantum_key_provider_1aacf18c51b12d44cc0a2a40d937db803c" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::security::PostQuantumKeyProvider::setMigrationMode</definition>
+        <argsstring>(PQMigrationMode mode) noexcept</argsstring>
+        <name>setMigrationMode</name>
+        <qualifiedname>themis::security::PostQuantumKeyProvider::setMigrationMode</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1security_1a15d98a05eb38cf4a0446078793bc01e9" kindref="member">PQMigrationMode</ref></type>
+          <declname>mode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="311" column="10" bodyfile="include/security/post_quantum_crypto.h" bodystart="311" bodyend="311"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Post-quantum-capable <ref refid="classthemis_1_1_key_provider" kindref="compound">KeyProvider</ref> wrapping a classical provider. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implements DEK wrapping and unwrapping using Kyber-1024 instead of RSA-OAEP for HSM-style key protection. In HYBRID mode the wrapped blob contains both classical and PQ ciphertext so decryption can fall back to the classical path when needed during migration.</para>
+<para>Wire format of a Kyber-wrapped DEK blob (all integer fields are LE uint32): [4 bytes: kem_ct_len][kem_ct_len bytes: Kyber KEM ciphertext] [12 bytes: AES-GCM IV] [4 bytes: enc_dek_len][enc_dek_len bytes: AES-256-GCM encrypted DEK] [16 bytes: GCM authentication tag]</para>
+<para>Thread safety: all methods are thread-safe. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>IKeyProvider</label>
+      </node>
+      <node id="2">
+        <label>themis::KeyProvider</label>
+        <link refid="classthemis_1_1_key_provider"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::security::PostQuantumKeyProvider</label>
+        <link refid="classthemis_1_1security_1_1_post_quantum_key_provider"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>IKeyProvider</label>
+      </node>
+      <node id="2">
+        <label>themis::KeyProvider</label>
+        <link refid="classthemis_1_1_key_provider"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::security::PostQuantumKeyProvider</label>
+        <link refid="classthemis_1_1security_1_1_post_quantum_key_provider"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/security/post_quantum_crypto.h" line="249" column="1" bodyfile="include/security/post_quantum_crypto.h" bodystart="249" bodyend="318"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1_post_quantum_key_provider_1a0006dfb696ce19ba7d3c143a3829fd8e" prot="private" virt="non-virtual"><scope>themis::security::PostQuantumKeyProvider</scope><name>classical_provider_</name></member>
+      <member refid="classthemis_1_1security_1_1_post_quantum_key_provider_1a1ad69bcd1b9c717e0e757b733237a8f0" prot="public" virt="virtual"><scope>themis::security::PostQuantumKeyProvider</scope><name>createKeyFromBytes</name></member>
+      <member refid="classthemis_1_1security_1_1_post_quantum_key_provider_1a818347daab05e42a447d9f97193313fe" prot="public" virt="virtual"><scope>themis::security::PostQuantumKeyProvider</scope><name>deleteKey</name></member>
+      <member refid="classthemis_1_1_key_provider_1a9017c934ab52d6cc42fa7225d3add21e" prot="public" virt="non-virtual"><scope>themis::security::PostQuantumKeyProvider</scope><name>get_key</name></member>
+      <member refid="classthemis_1_1_key_provider_1aa9815c2d74023ab0fbd4a911b55b42f4" prot="public" virt="virtual"><scope>themis::security::PostQuantumKeyProvider</scope><name>getCurrentVersion</name></member>
+      <member refid="classthemis_1_1security_1_1_post_quantum_key_provider_1a3641b23a448f85f2c1d791243b703756" prot="public" virt="virtual"><scope>themis::security::PostQuantumKeyProvider</scope><name>getKey</name></member>
+      <member refid="classthemis_1_1security_1_1_post_quantum_key_provider_1aabe1bc73139d6037eaa1afe45f710080" prot="public" virt="virtual"><scope>themis::security::PostQuantumKeyProvider</scope><name>getKey</name></member>
+      <member refid="classthemis_1_1security_1_1_post_quantum_key_provider_1a18f41a4e705da9e290091d3d6286de14" prot="public" virt="virtual"><scope>themis::security::PostQuantumKeyProvider</scope><name>getKeyMetadata</name></member>
+      <member refid="classthemis_1_1security_1_1_post_quantum_key_provider_1adc34bfd0180c4502456db7dd017ff6ef" prot="public" virt="non-virtual"><scope>themis::security::PostQuantumKeyProvider</scope><name>getMigrationMode</name></member>
+      <member refid="classthemis_1_1security_1_1_post_quantum_key_provider_1ae7b956320c6c7c8262501a65f15ad099" prot="public" virt="virtual"><scope>themis::security::PostQuantumKeyProvider</scope><name>hasKey</name></member>
+      <member refid="classthemis_1_1_key_provider_1a87c6e45572251fa2dd71ea8e4d4011fd" prot="public" virt="non-virtual"><scope>themis::security::PostQuantumKeyProvider</scope><name>KeyProvider</name></member>
+      <member refid="classthemis_1_1_key_provider_1a0489069eb96edc05fbef315bb529904f" prot="public" virt="non-virtual"><scope>themis::security::PostQuantumKeyProvider</scope><name>KeyProvider</name></member>
+      <member refid="classthemis_1_1_key_provider_1ad05f0c6aca228e305cbae15f1095ea9d" prot="public" virt="non-virtual"><scope>themis::security::PostQuantumKeyProvider</scope><name>KeyProvider</name></member>
+      <member refid="classthemis_1_1security_1_1_post_quantum_key_provider_1a07ea35e50b319688839620d7898b1e80" prot="private" virt="non-virtual"><scope>themis::security::PostQuantumKeyProvider</scope><name>kyber_</name></member>
+      <member refid="classthemis_1_1security_1_1_post_quantum_key_provider_1a353c42fd1e5e15b729755ca3b8f7e3b9" prot="public" virt="virtual"><scope>themis::security::PostQuantumKeyProvider</scope><name>listKeys</name></member>
+      <member refid="classthemis_1_1security_1_1_post_quantum_key_provider_1ab3efc96890604abc98c4dcf838070bb6" prot="private" virt="non-virtual"><scope>themis::security::PostQuantumKeyProvider</scope><name>mode_</name></member>
+      <member refid="classthemis_1_1security_1_1_post_quantum_key_provider_1a4d2b679aa1576dab55293e2655a815d8" prot="private" virt="non-virtual"><scope>themis::security::PostQuantumKeyProvider</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1_key_provider_1a2b066e3e2b46a13e8a196f4f497a9fc7" prot="public" virt="non-virtual"><scope>themis::security::PostQuantumKeyProvider</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_key_provider_1a11404d5e39ec25310eb458e032f8aaf2" prot="public" virt="non-virtual"><scope>themis::security::PostQuantumKeyProvider</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1security_1_1_post_quantum_key_provider_1a33b61b05bee987f4211270ae671d7954" prot="public" virt="non-virtual"><scope>themis::security::PostQuantumKeyProvider</scope><name>PostQuantumKeyProvider</name></member>
+      <member refid="classthemis_1_1_key_provider_1adfb0562381565d524992c9128baa0464" prot="public" virt="non-virtual"><scope>themis::security::PostQuantumKeyProvider</scope><name>rotate_key</name></member>
+      <member refid="classthemis_1_1security_1_1_post_quantum_key_provider_1a2f2c05398b504f83aee2bb09567418a0" prot="public" virt="virtual"><scope>themis::security::PostQuantumKeyProvider</scope><name>rotateKey</name></member>
+      <member refid="classthemis_1_1security_1_1_post_quantum_key_provider_1aacf18c51b12d44cc0a2a40d937db803c" prot="public" virt="non-virtual"><scope>themis::security::PostQuantumKeyProvider</scope><name>setMigrationMode</name></member>
+      <member refid="classthemis_1_1security_1_1_post_quantum_key_provider_1a8d6f49005e70f19b2ea624c2c31130e0" prot="public" virt="non-virtual"><scope>themis::security::PostQuantumKeyProvider</scope><name>unwrapKeyWithKyber</name></member>
+      <member refid="classthemis_1_1security_1_1_post_quantum_key_provider_1ab2804f544a08e8ec5276c3a8c0d48e8d" prot="public" virt="non-virtual"><scope>themis::security::PostQuantumKeyProvider</scope><name>wrapKeyWithKyber</name></member>
+      <member refid="classthemis_1_1_key_provider_1a4a1126cba8c95254bcdefe5fe77d1fa5" prot="public" virt="non-virtual"><scope>themis::security::PostQuantumKeyProvider</scope><name>~KeyProvider</name></member>
+      <member refid="classthemis_1_1security_1_1_post_quantum_key_provider_1a6e692f4a9ed29ef033cf0e37f8860a11" prot="public" virt="non-virtual"><scope>themis::security::PostQuantumKeyProvider</scope><name>~PostQuantumKeyProvider</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

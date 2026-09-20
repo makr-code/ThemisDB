@@ -1,0 +1,218 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_request_handler" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::sharding::ShardRPCServer::RequestHandler</compoundname>
+    <derivedcompoundref refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_adapter" prot="public" virt="non-virtual">themis::sharding::ShardRPCClientAdapter</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1sharding_1_1_two_phase_commit_participant" prot="public" virt="non-virtual">themis::sharding::TwoPhaseCommitParticipant</derivedcompoundref>
+    <includes refid="shard__rpc__server_8h" local="no">shard_rpc_server.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_request_handler_1a2e2a9f7487bfe121264c7606eedf9c1d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::sharding::ShardRPCServer::RequestHandler::~RequestHandler</definition>
+        <argsstring>()=default</argsstring>
+        <name>~RequestHandler</name>
+        <qualifiedname>themis::sharding::ShardRPCServer::RequestHandler::~RequestHandler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_rpc_server.h" line="64" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_request_handler_1adf81ef04295e10171c5d34d20c0d4acb" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::sharding::ShardRPCServer::RequestHandler::onPrepare</definition>
+        <argsstring>(const std::string &amp;transaction_id, const std::string &amp;coordinator_shard_id, const std::string &amp;transaction_data)=0</argsstring>
+        <name>onPrepare</name>
+        <qualifiedname>themis::sharding::ShardRPCServer::RequestHandler::onPrepare</qualifiedname>
+        <reimplementedby refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_adapter_1a0baf5a6cb6eaa178fb15c74b57de7e5e">onPrepare</reimplementedby>
+        <reimplementedby refid="classthemis_1_1sharding_1_1_two_phase_commit_participant_1a704fb4a22993bc4c86929a32ca6af116">onPrepare</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>coordinator_shard_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_data</declname>
+        </param>
+        <briefdescription>
+<para>Handle prepare phase of 2PC. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transaction ID </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>coordinator_shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ID of the coordinator shard </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>transaction_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Serialized transaction data </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true to vote commit, false to vote abort </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_rpc_server.h" line="73" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_request_handler_1a9c1b0ac3a4baa79d19a95352f1f7fe7c" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::sharding::ShardRPCServer::RequestHandler::onCommit</definition>
+        <argsstring>(const std::string &amp;transaction_id)=0</argsstring>
+        <name>onCommit</name>
+        <qualifiedname>themis::sharding::ShardRPCServer::RequestHandler::onCommit</qualifiedname>
+        <reimplementedby refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_adapter_1a5eb44ec4ab09701dcd73d0c66273137b">onCommit</reimplementedby>
+        <reimplementedby refid="classthemis_1_1sharding_1_1_two_phase_commit_participant_1a9294022923db9ecd3aa6c07827020a9a">onCommit</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <briefdescription>
+<para>Handle commit phase of 2PC. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transaction ID </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if committed successfully </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_rpc_server.h" line="84" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_request_handler_1a404055856c5e6881a087e5dce125873a" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::sharding::ShardRPCServer::RequestHandler::onAbort</definition>
+        <argsstring>(const std::string &amp;transaction_id)=0</argsstring>
+        <name>onAbort</name>
+        <qualifiedname>themis::sharding::ShardRPCServer::RequestHandler::onAbort</qualifiedname>
+        <reimplementedby refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_adapter_1af0368bbd0ab8de48106c89a58ca1a1cc">onAbort</reimplementedby>
+        <reimplementedby refid="classthemis_1_1sharding_1_1_two_phase_commit_participant_1a46941ea11fa144271ca236ddfe175f6d">onAbort</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <briefdescription>
+<para>Handle abort request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transaction ID </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if aborted successfully </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_rpc_server.h" line="91" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_request_handler_1a3cdc4db6dabb1371997b8533ad09d102" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_health_info" kindref="compound">HealthInfo</ref></type>
+        <definition>virtual HealthInfo themis::sharding::ShardRPCServer::RequestHandler::onHealthCheck</definition>
+        <argsstring>()=0</argsstring>
+        <name>onHealthCheck</name>
+        <qualifiedname>themis::sharding::ShardRPCServer::RequestHandler::onHealthCheck</qualifiedname>
+        <reimplementedby refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_adapter_1a7cd0d8ade87266b59c8c5537d900292e">onHealthCheck</reimplementedby>
+        <reimplementedby refid="classthemis_1_1sharding_1_1_two_phase_commit_participant_1a348c61303a09fef7f340cd88a6c82187">onHealthCheck</reimplementedby>
+        <briefdescription>
+<para>Handle health check request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Health information </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_rpc_server.h" line="97" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_request_handler_1a060047a53faae6a70aa94515c3b65597" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_shard_r_p_c_client_1_1_wait_for_edge" kindref="compound">ShardRPCClient::WaitForEdge</ref> &gt;</type>
+        <definition>virtual std::vector&lt; ShardRPCClient::WaitForEdge &gt; themis::sharding::ShardRPCServer::RequestHandler::onCollectWaitForEdges</definition>
+        <argsstring>()</argsstring>
+        <name>onCollectWaitForEdges</name>
+        <qualifiedname>themis::sharding::ShardRPCServer::RequestHandler::onCollectWaitForEdges</qualifiedname>
+        <briefdescription>
+<para>Collect all active local wait-for edges for distributed deadlock detection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The coordinator calls this on every shard during each deadlock-detection cycle to build a cluster-wide wait-for graph. Each entry in the returned vector represents a directed edge: <computeroutput>waiting_transaction_id</computeroutput> is blocked by <computeroutput>blocking_transaction_id</computeroutput> on this shard.</para>
+<para>Default implementation returns an empty list (no local lock waits known). Override in shards that maintain a local lock-wait state. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_rpc_server.h" line="110" column="29" bodyfile="include/sharding/shard_rpc_server.h" bodystart="110" bodyend="112"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Handler interface for processing incoming RPC requests. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implement this interface to handle RPC requests in your application </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::sharding::ShardRPCClientAdapter</label>
+        <link refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_adapter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::sharding::ShardRPCServer::RequestHandler</label>
+        <link refid="classthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_request_handler"/>
+      </node>
+      <node id="3">
+        <label>themis::sharding::TwoPhaseCommitParticipant</label>
+        <link refid="classthemis_1_1sharding_1_1_two_phase_commit_participant"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/sharding/shard_rpc_server.h" line="62" column="5" bodyfile="include/sharding/shard_rpc_server.h" bodystart="62" bodyend="113"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_request_handler_1a404055856c5e6881a087e5dce125873a" prot="public" virt="pure-virtual"><scope>themis::sharding::ShardRPCServer::RequestHandler</scope><name>onAbort</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_request_handler_1a060047a53faae6a70aa94515c3b65597" prot="public" virt="virtual"><scope>themis::sharding::ShardRPCServer::RequestHandler</scope><name>onCollectWaitForEdges</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_request_handler_1a9c1b0ac3a4baa79d19a95352f1f7fe7c" prot="public" virt="pure-virtual"><scope>themis::sharding::ShardRPCServer::RequestHandler</scope><name>onCommit</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_request_handler_1a3cdc4db6dabb1371997b8533ad09d102" prot="public" virt="pure-virtual"><scope>themis::sharding::ShardRPCServer::RequestHandler</scope><name>onHealthCheck</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_request_handler_1adf81ef04295e10171c5d34d20c0d4acb" prot="public" virt="pure-virtual"><scope>themis::sharding::ShardRPCServer::RequestHandler</scope><name>onPrepare</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_request_handler_1a2e2a9f7487bfe121264c7606eedf9c1d" prot="public" virt="virtual"><scope>themis::sharding::ShardRPCServer::RequestHandler</scope><name>~RequestHandler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

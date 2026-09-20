@@ -1,0 +1,1009 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1testing_1_1_production_validator" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::testing::ProductionValidator</compoundname>
+    <includes refid="production__validator_8h" local="no">production_validator.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_config" prot="public">themis::llm::testing::ProductionValidator::ValidationConfig</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_result" prot="public">themis::llm::testing::ProductionValidator::ValidationResult</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_production_metrics" prot="public">themis::llm::testing::ProductionValidator::ProductionMetrics</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_live_stats" prot="public">themis::llm::testing::ProductionValidator::LiveStats</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_quality_test" prot="private">themis::llm::testing::ProductionValidator::QualityTest</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1testing_1_1_production_validator_1abcc83527e77418f8dc54fc45c5c3c0af" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_config" kindref="compound">ValidationConfig</ref></type>
+        <definition>ValidationConfig themis::llm::testing::ProductionValidator::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="251" column="22" bodyfile="include/llm/production_validator.h" bodystart="251" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1testing_1_1_production_validator_1a6057a617f7b58726ebe2a1c00063fe05" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_inference_engine_enhanced" kindref="compound">InferenceEngineEnhanced</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;InferenceEngineEnhanced&gt; themis::llm::testing::ProductionValidator::inference_engine_</definition>
+        <argsstring></argsstring>
+        <name>inference_engine_</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::inference_engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="252" column="21" bodyfile="include/llm/production_validator.h" bodystart="252" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1testing_1_1_production_validator_1a6abdc8068999a86126985727a7d9615a" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::testing::ProductionValidator::validation_state_lock_</definition>
+        <argsstring></argsstring>
+        <name>validation_state_lock_</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::validation_state_lock_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="260" column="24" bodyfile="include/llm/production_validator.h" bodystart="260" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1testing_1_1_production_validator_1a9adfcf496d70571f9d520091b0582517" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::testing::ProductionValidator::validation_queue_lock_</definition>
+        <argsstring></argsstring>
+        <name>validation_queue_lock_</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::validation_queue_lock_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="262" column="24" bodyfile="include/llm/production_validator.h" bodystart="262" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1testing_1_1_production_validator_1a64f95f90d4e1feb19515ff85d6f98733" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::testing::ProductionValidator::metrics_lock_</definition>
+        <argsstring></argsstring>
+        <name>metrics_lock_</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::metrics_lock_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="264" column="24" bodyfile="include/llm/production_validator.h" bodystart="264" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1testing_1_1_production_validator_1af9578c6c8b8f09853d7fe98f2b7da528" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::llm::testing::ProductionValidator::stress_test_running_</definition>
+        <argsstring></argsstring>
+        <name>stress_test_running_</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::stress_test_running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="267" column="17" bodyfile="include/llm/production_validator.h" bodystart="267" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1testing_1_1_production_validator_1aae81787079b796ed43796fbbe0ab75c4" prot="private" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::llm::testing::ProductionValidator::stress_test_start_</definition>
+        <argsstring></argsstring>
+        <name>stress_test_start_</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::stress_test_start_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="269" column="43" bodyfile="include/llm/production_validator.h" bodystart="269" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1testing_1_1_production_validator_1a1eaa53dac3fb6fac73c0ba4cee75e913" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::testing::ProductionValidator::memory_baseline_mb_</definition>
+        <argsstring></argsstring>
+        <name>memory_baseline_mb_</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::memory_baseline_mb_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Set on first checkMemoryLeaks() call or reset(). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="271" column="12" bodyfile="include/llm/production_validator.h" bodystart="271" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1testing_1_1_production_validator_1ad945daed7f77a97abe6c4b7f3e9dc468" prot="private" static="no" mutable="no">
+        <type>std::deque&lt; double &gt;</type>
+        <definition>std::deque&lt;double&gt; themis::llm::testing::ProductionValidator::latency_samples_</definition>
+        <argsstring></argsstring>
+        <name>latency_samples_</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::latency_samples_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="275" column="16" bodyfile="include/llm/production_validator.h" bodystart="275" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1testing_1_1_production_validator_1a2b3313d254180d2bc8815f934763ee91" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::testing::ProductionValidator::latency_mutex_</definition>
+        <argsstring></argsstring>
+        <name>latency_mutex_</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::latency_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="277" column="24" bodyfile="include/llm/production_validator.h" bodystart="277" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1testing_1_1_production_validator_1a7553506681f678e6071430266aa9d085" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::llm::testing::ProductionValidator::total_requests_processed_</definition>
+        <argsstring></argsstring>
+        <name>total_requests_processed_</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::total_requests_processed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="279" column="17" bodyfile="include/llm/production_validator.h" bodystart="279" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1testing_1_1_production_validator_1a23e3c1c7da5a9c41fb606c6c8ff4ad52" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::llm::testing::ProductionValidator::total_failures_</definition>
+        <argsstring></argsstring>
+        <name>total_failures_</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::total_failures_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="281" column="17" bodyfile="include/llm/production_validator.h" bodystart="281" bodyend="281"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1testing_1_1_production_validator_1a34e3c7c65d175ecc13df4369ad56d4df" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::testing::ProductionValidator::~ProductionValidator</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ProductionValidator</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::~ProductionValidator</qualifiedname>
+        <briefdescription>
+<para>Production Validator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="38" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1testing_1_1_production_validator_1ad41d01687ac756c2c1496350bbb159fc" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::testing::ProductionValidator::ProductionValidator</definition>
+        <argsstring>(const ValidationConfig &amp;config)</argsstring>
+        <name>ProductionValidator</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::ProductionValidator</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_config" kindref="compound">ValidationConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Production Validator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="131" column="14" bodyfile="src/llm/production_validator.cpp" bodystart="159" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1testing_1_1_production_validator_1a0e74691b6a0a1d486bc8c46680458b11" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_result" kindref="compound">ValidationResult</ref></type>
+        <definition>ProductionValidator::ValidationResult themis::llm::testing::ProductionValidator::runEndToEndTests</definition>
+        <argsstring>()</argsstring>
+        <name>runEndToEndTests</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::runEndToEndTests</qualifiedname>
+        <briefdescription>
+<para>Run End To End Tests. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: spdlog::info(), <ref refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1ac23b823533dce4d286a6661b0a58813a" kindref="member">testModelLoading()</ref>, <ref refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1af046c91d194213042121f8e30cf37363" kindref="member">testInferencePipeline()</ref>, <ref refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1aca79d62d2cdb2a552d01b646b03bee05" kindref="member">testBatchScheduling()</ref>, <ref refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1a7a0bae0a5f1b1b4bf46f77d3cf903cd4" kindref="member">testMemoryManagement()</ref>, <ref refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1a18379b779401fcf503235f348282c336" kindref="member">testGPUOffload()</ref>, <ref refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1a9d756399c13340fa00516a1290ef7e08" kindref="member">testQuantization()</ref>, <ref refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1a7f85c4f1487b0281ee7582c7c063580c" kindref="member">testContinuousBatching()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="138" column="22" bodyfile="src/llm/production_validator.cpp" bodystart="429" bodyend="456"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1testing_1_1_production_validator_1a49ff40ce763efedac5201029848257a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_result" kindref="compound">ValidationResult</ref></type>
+        <definition>ProductionValidator::ValidationResult themis::llm::testing::ProductionValidator::runStressTest</definition>
+        <argsstring>()</argsstring>
+        <name>runStressTest</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::runStressTest</qualifiedname>
+        <briefdescription>
+<para>Run Stress Test. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: spdlog::info(), count(), spdlog::warn(), std::chrono::system_clock::now(), std::chrono::steady_clock::now(), std::to_string(), std::chrono::milliseconds(), submit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="143" column="22" bodyfile="src/llm/production_validator.cpp" bodystart="463" bodyend="588"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1testing_1_1_production_validator_1a71b277b33ce467e283a202a42c2516b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_result" kindref="compound">ValidationResult</ref></type>
+        <definition>ProductionValidator::ValidationResult themis::llm::testing::ProductionValidator::runLoadTest</definition>
+        <argsstring>()</argsstring>
+        <name>runLoadTest</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::runLoadTest</qualifiedname>
+        <briefdescription>
+<para>Run Load Test. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: spdlog::info(), fetch_add(), std::chrono::steady_clock::now(), std::this_thread::sleep_for(), std::chrono::microseconds(), count(), lk(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="148" column="22" bodyfile="src/llm/production_validator.cpp" bodystart="595" bodyend="689"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1testing_1_1_production_validator_1a366917eadfdc858c054dc6c8e7215cdc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_result" kindref="compound">ValidationResult</ref></type>
+        <definition>ProductionValidator::ValidationResult themis::llm::testing::ProductionValidator::checkPerformanceRegression</definition>
+        <argsstring>(const std::string &amp;baseline_file)</argsstring>
+        <name>checkPerformanceRegression</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::checkPerformanceRegression</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>baseline_file</declname>
+        </param>
+        <briefdescription>
+<para>Check Performance Regression. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">baseline_file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">baseline_file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: spdlog::info(), loadBaseline(), spdlog::warn(), <ref refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1a71b277b33ce467e283a202a42c2516b2" kindref="member">runLoadTest()</ref>, detectRegression(), spdlog::error(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="154" column="22" bodyfile="src/llm/production_validator.cpp" bodystart="697" bodyend="742"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1testing_1_1_production_validator_1a0958a2882d698ddb560a299f448bb2e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_production_metrics" kindref="compound">ProductionMetrics</ref></type>
+        <definition>ProductionValidator::ProductionMetrics themis::llm::testing::ProductionValidator::benchmarkInference</definition>
+        <argsstring>(const std::string &amp;model_id)</argsstring>
+        <name>benchmarkInference</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::benchmarkInference</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+<para>Benchmark Inference. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: spdlog::info(), measureMemoryUsage(), std::chrono::high_resolution_clock::now(), push_back(), spdlog::warn(), generateBenchmarkPrompt(), empty(), std::chrono::milliseconds(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="163" column="23" bodyfile="src/llm/production_validator.cpp" bodystart="184" bodyend="380"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1testing_1_1_production_validator_1a6f828e20af47b61a58c2a2cf9c7ed1fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::testing::ProductionValidator::validateQuality</definition>
+        <argsstring>(const std::string &amp;model_id)</argsstring>
+        <name>validateQuality</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::validateQuality</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+<para>Validate Quality. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::info(), spdlog::warn(), getQualityTests(), spdlog::debug(), evaluateQualityTest(), what(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="170" column="10" bodyfile="src/llm/production_validator.cpp" bodystart="388" bodyend="422"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1testing_1_1_production_validator_1ac23b823533dce4d286a6661b0a58813a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::testing::ProductionValidator::testModelLoading</definition>
+        <argsstring>()</argsstring>
+        <name>testModelLoading</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::testModelLoading</qualifiedname>
+        <briefdescription>
+<para>Test Model Loading. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::info(), loader(), listLoadedModels(), empty(), size(), spdlog::error(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="177" column="10" bodyfile="src/llm/production_validator.cpp" bodystart="749" bodyend="772"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1testing_1_1_production_validator_1af046c91d194213042121f8e30cf37363" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::testing::ProductionValidator::testInferencePipeline</definition>
+        <argsstring>()</argsstring>
+        <name>testInferencePipeline</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::testInferencePipeline</qualifiedname>
+        <briefdescription>
+<para>Test Inference Pipeline. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::info(), engine(), getAvailableModels(), size(), spdlog::error(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="182" column="10" bodyfile="src/llm/production_validator.cpp" bodystart="779" bodyend="805"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1testing_1_1_production_validator_1aca79d62d2cdb2a552d01b646b03bee05" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::testing::ProductionValidator::testBatchScheduling</definition>
+        <argsstring>()</argsstring>
+        <name>testBatchScheduling</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::testBatchScheduling</qualifiedname>
+        <briefdescription>
+<para>Test Batch Scheduling. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::info(), scheduler(), start(), stop(), spdlog::error(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="187" column="10" bodyfile="src/llm/production_validator.cpp" bodystart="812" bodyend="837"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1testing_1_1_production_validator_1a7a0bae0a5f1b1b4bf46f77d3cf903cd4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::testing::ProductionValidator::testMemoryManagement</definition>
+        <argsstring>()</argsstring>
+        <name>testMemoryManagement</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::testMemoryManagement</qualifiedname>
+        <briefdescription>
+<para>Test Memory Management. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::info(), manager(), getStats(), spdlog::error(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="192" column="10" bodyfile="src/llm/production_validator.cpp" bodystart="844" bodyend="868"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1testing_1_1_production_validator_1a18379b779401fcf503235f348282c336" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::testing::ProductionValidator::testGPUOffload</definition>
+        <argsstring>()</argsstring>
+        <name>testGPUOffload</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::testGPUOffload</qualifiedname>
+        <briefdescription>
+<para>Test GPUOffload. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::info(), manager(), isGPUAvailable(), spdlog::error(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="197" column="10" bodyfile="src/llm/production_validator.cpp" bodystart="875" bodyend="898"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1testing_1_1_production_validator_1a9d756399c13340fa00516a1290ef7e08" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::testing::ProductionValidator::testQuantization</definition>
+        <argsstring>()</argsstring>
+        <name>testQuantization</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::testQuantization</qualifiedname>
+        <briefdescription>
+<para>Test Quantization. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::info(), kf_manager(), shouldFuseQKV(), getStats(), spdlog::error(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="202" column="10" bodyfile="src/llm/production_validator.cpp" bodystart="905" bodyend="932"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1testing_1_1_production_validator_1a7f85c4f1487b0281ee7582c7c063580c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::testing::ProductionValidator::testContinuousBatching</definition>
+        <argsstring>()</argsstring>
+        <name>testContinuousBatching</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::testContinuousBatching</qualifiedname>
+        <briefdescription>
+<para>Test Continuous Batching. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::info(), scheduler(), start(), std::to_string(), submitRequest(), empty(), std::this_thread::sleep_for(), std::chrono::milliseconds(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="207" column="10" bodyfile="src/llm/production_validator.cpp" bodystart="939" bodyend="978"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1testing_1_1_production_validator_1a1084bef501c6217d0515b40c711291a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::testing::ProductionValidator::testKernelFusion</definition>
+        <argsstring>()</argsstring>
+        <name>testKernelFusion</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::testKernelFusion</qualifiedname>
+        <briefdescription>
+<para>Test Kernel Fusion. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::info(), kf_manager(), estimateSpeedup(), spdlog::error(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="212" column="10" bodyfile="src/llm/production_validator.cpp" bodystart="985" bodyend="1008"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1testing_1_1_production_validator_1aee7ac5a8d92cd3f24d3b0b756c402822" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::testing::ProductionValidator::startStressTest</definition>
+        <argsstring>()</argsstring>
+        <name>startStressTest</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::startStressTest</qualifiedname>
+        <briefdescription>
+<para>Start Stress Test. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: std::thread(), <ref refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1a49ff40ce763efedac5201029848257a4" kindref="member">runStressTest()</ref>, detach(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="218" column="10" bodyfile="src/llm/production_validator.cpp" bodystart="1014" bodyend="1018"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1testing_1_1_production_validator_1ac70699a3b7e5c0fbf44a238008044353" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::testing::ProductionValidator::stopStressTest</definition>
+        <argsstring>()</argsstring>
+        <name>stopStressTest</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::stopStressTest</qualifiedname>
+        <briefdescription>
+<para>Stop Stress Test. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements stopStressTest without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="222" column="10" bodyfile="src/llm/production_validator.cpp" bodystart="1024" bodyend="1026"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1testing_1_1_production_validator_1aa78d51f45ce74fd8107f8450ff4d19ab" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::testing::ProductionValidator::isStressTestRunning</definition>
+        <argsstring>() const</argsstring>
+        <name>isStressTestRunning</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::isStressTestRunning</qualifiedname>
+        <briefdescription>
+<para>Is Stress Test Running. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="227" column="10" bodyfile="src/llm/production_validator.cpp" bodystart="1028" bodyend="1030"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1testing_1_1_production_validator_1ac4400a8940dec61869eb08cd388352a5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_live_stats" kindref="compound">LiveStats</ref></type>
+        <definition>ProductionValidator::LiveStats themis::llm::testing::ProductionValidator::getLiveStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getLiveStats</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::getLiveStats</qualifiedname>
+        <briefdescription>
+<para>Get Live Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="242" column="15" bodyfile="src/llm/production_validator.cpp" bodystart="1032" bodyend="1082"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1testing_1_1_production_validator_1a1f1f8344645494b16b4717b0a70b0bae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::testing::ProductionValidator::setInferenceEngine</definition>
+        <argsstring>(std::shared_ptr&lt; InferenceEngineEnhanced &gt; engine)</argsstring>
+        <name>setInferenceEngine</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::setInferenceEngine</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_inference_engine_enhanced" kindref="compound">InferenceEngineEnhanced</ref> &gt;</type>
+          <declname>engine</declname>
+        </param>
+        <briefdescription>
+<para>Set Inference Engine. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="248" column="10" bodyfile="src/llm/production_validator.cpp" bodystart="173" bodyend="176"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1testing_1_1_production_validator_1ade0862525935b82bf26980c64f27b3c8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::llm::testing::ProductionValidator::calculatePercentile</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;data, double percentile)</argsstring>
+        <name>calculatePercentile</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::calculatePercentile</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>percentile</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Percentile. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">percentile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">percentile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), size(), std::nth_element(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="290" column="12" bodyfile="src/llm/production_validator.cpp" bodystart="1091" bodyend="1121"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1testing_1_1_production_validator_1aafcef27992edcc00ac6cc868eb31bffa" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::testing::ProductionValidator::recordLatency</definition>
+        <argsstring>(double latency_ms)</argsstring>
+        <name>recordLatency</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::recordLatency</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>latency_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record Latency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), push_back(), size(), pop_front(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="295" column="10" bodyfile="src/llm/production_validator.cpp" bodystart="1128" bodyend="1137"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1testing_1_1_production_validator_1a649bc8d217468f0dbb0d92156ee8d43c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::testing::ProductionValidator::checkMemoryLeaks</definition>
+        <argsstring>()</argsstring>
+        <name>checkMemoryLeaks</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::checkMemoryLeaks</qualifiedname>
+        <briefdescription>
+<para>Check Memory Leaks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: measureMemoryUsage(), spdlog::warn(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="299" column="10" bodyfile="src/llm/production_validator.cpp" bodystart="1143" bodyend="1162"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1testing_1_1_production_validator_1a74478c7e9110496a5850e1e51e541551" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::testing::ProductionValidator::generateBenchmarkPrompt</definition>
+        <argsstring>(int variant)</argsstring>
+        <name>generateBenchmarkPrompt</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::generateBenchmarkPrompt</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>variant</declname>
+        </param>
+        <briefdescription>
+<para>Generate Benchmark Prompt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">variant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">variant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="307" column="17" bodyfile="src/llm/production_validator.cpp" bodystart="1967" bodyend="1986"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1testing_1_1_production_validator_1a8246f0d44e33d522da631676fa74a093" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::testing::ProductionValidator::measureMemoryUsage</definition>
+        <argsstring>()</argsstring>
+        <name>measureMemoryUsage</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::measureMemoryUsage</qualifiedname>
+        <briefdescription>
+<para>Measure Memory Usage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: status(), std::getline(), find(), find_first_of(), length(), std::isdigit(), empty(), std::stoul(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="312" column="12" bodyfile="src/llm/production_validator.cpp" bodystart="1993" bodyend="2038"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1testing_1_1_production_validator_1a9171e135dd8443e98affc1b456527837" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; QualityTest &gt;</type>
+        <definition>std::vector&lt; ProductionValidator::QualityTest &gt; themis::llm::testing::ProductionValidator::getQualityTests</definition>
+        <argsstring>()</argsstring>
+        <name>getQualityTests</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::getQualityTests</qualifiedname>
+        <briefdescription>
+<para>Get Quality Tests. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements getQualityTests without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="324" column="17" bodyfile="src/llm/production_validator.cpp" bodystart="2045" bodyend="2062"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1testing_1_1_production_validator_1adfbfb4d117e69780af1e54b241d452be" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::testing::ProductionValidator::evaluateQualityTest</definition>
+        <argsstring>(const QualityTest &amp;test, const std::string &amp;model_id)</argsstring>
+        <name>evaluateQualityTest</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::evaluateQualityTest</qualifiedname>
+        <param>
+          <type>const QualityTest &amp;</type>
+          <declname>test</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate Quality Test. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">test</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">test</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), std::chrono::milliseconds(), submit(), get(), spdlog::warn(), what(), matchesExpectedAnswer(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="331" column="10" bodyfile="src/llm/production_validator.cpp" bodystart="2071" bodyend="2097"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/production_validator.h" line="32" column="1" bodyfile="include/llm/production_validator.h" bodystart="32" bodyend="332"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1a0958a2882d698ddb560a299f448bb2e3" prot="public" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator</scope><name>benchmarkInference</name></member>
+      <member refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1ade0862525935b82bf26980c64f27b3c8" prot="private" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator</scope><name>calculatePercentile</name></member>
+      <member refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1a649bc8d217468f0dbb0d92156ee8d43c" prot="private" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator</scope><name>checkMemoryLeaks</name></member>
+      <member refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1a366917eadfdc858c054dc6c8e7215cdc" prot="public" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator</scope><name>checkPerformanceRegression</name></member>
+      <member refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1abcc83527e77418f8dc54fc45c5c3c0af" prot="private" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1adfbfb4d117e69780af1e54b241d452be" prot="private" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator</scope><name>evaluateQualityTest</name></member>
+      <member refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1a74478c7e9110496a5850e1e51e541551" prot="private" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator</scope><name>generateBenchmarkPrompt</name></member>
+      <member refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1ac4400a8940dec61869eb08cd388352a5" prot="public" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator</scope><name>getLiveStats</name></member>
+      <member refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1a9171e135dd8443e98affc1b456527837" prot="private" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator</scope><name>getQualityTests</name></member>
+      <member refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1a6057a617f7b58726ebe2a1c00063fe05" prot="private" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator</scope><name>inference_engine_</name></member>
+      <member refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1aa78d51f45ce74fd8107f8450ff4d19ab" prot="public" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator</scope><name>isStressTestRunning</name></member>
+      <member refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1a2b3313d254180d2bc8815f934763ee91" prot="private" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator</scope><name>latency_mutex_</name></member>
+      <member refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1ad945daed7f77a97abe6c4b7f3e9dc468" prot="private" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator</scope><name>latency_samples_</name></member>
+      <member refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1a8246f0d44e33d522da631676fa74a093" prot="private" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator</scope><name>measureMemoryUsage</name></member>
+      <member refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1a1eaa53dac3fb6fac73c0ba4cee75e913" prot="private" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator</scope><name>memory_baseline_mb_</name></member>
+      <member refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1a64f95f90d4e1feb19515ff85d6f98733" prot="private" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator</scope><name>metrics_lock_</name></member>
+      <member refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1ad41d01687ac756c2c1496350bbb159fc" prot="public" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator</scope><name>ProductionValidator</name></member>
+      <member refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1aafcef27992edcc00ac6cc868eb31bffa" prot="private" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator</scope><name>recordLatency</name></member>
+      <member refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1a0e74691b6a0a1d486bc8c46680458b11" prot="public" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator</scope><name>runEndToEndTests</name></member>
+      <member refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1a71b277b33ce467e283a202a42c2516b2" prot="public" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator</scope><name>runLoadTest</name></member>
+      <member refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1a49ff40ce763efedac5201029848257a4" prot="public" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator</scope><name>runStressTest</name></member>
+      <member refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1a1f1f8344645494b16b4717b0a70b0bae" prot="public" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator</scope><name>setInferenceEngine</name></member>
+      <member refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1aee7ac5a8d92cd3f24d3b0b756c402822" prot="public" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator</scope><name>startStressTest</name></member>
+      <member refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1ac70699a3b7e5c0fbf44a238008044353" prot="public" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator</scope><name>stopStressTest</name></member>
+      <member refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1af9578c6c8b8f09853d7fe98f2b7da528" prot="private" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator</scope><name>stress_test_running_</name></member>
+      <member refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1aae81787079b796ed43796fbbe0ab75c4" prot="private" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator</scope><name>stress_test_start_</name></member>
+      <member refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1aca79d62d2cdb2a552d01b646b03bee05" prot="public" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator</scope><name>testBatchScheduling</name></member>
+      <member refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1a7f85c4f1487b0281ee7582c7c063580c" prot="public" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator</scope><name>testContinuousBatching</name></member>
+      <member refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1a18379b779401fcf503235f348282c336" prot="public" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator</scope><name>testGPUOffload</name></member>
+      <member refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1af046c91d194213042121f8e30cf37363" prot="public" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator</scope><name>testInferencePipeline</name></member>
+      <member refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1a1084bef501c6217d0515b40c711291a9" prot="public" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator</scope><name>testKernelFusion</name></member>
+      <member refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1a7a0bae0a5f1b1b4bf46f77d3cf903cd4" prot="public" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator</scope><name>testMemoryManagement</name></member>
+      <member refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1ac23b823533dce4d286a6661b0a58813a" prot="public" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator</scope><name>testModelLoading</name></member>
+      <member refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1a9d756399c13340fa00516a1290ef7e08" prot="public" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator</scope><name>testQuantization</name></member>
+      <member refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1a23e3c1c7da5a9c41fb606c6c8ff4ad52" prot="private" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator</scope><name>total_failures_</name></member>
+      <member refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1a7553506681f678e6071430266aa9d085" prot="private" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator</scope><name>total_requests_processed_</name></member>
+      <member refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1a6f828e20af47b61a58c2a2cf9c7ed1fd" prot="public" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator</scope><name>validateQuality</name></member>
+      <member refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1a9adfcf496d70571f9d520091b0582517" prot="private" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator</scope><name>validation_queue_lock_</name></member>
+      <member refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1a6abdc8068999a86126985727a7d9615a" prot="private" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator</scope><name>validation_state_lock_</name></member>
+      <member refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1a34e3c7c65d175ecc13df4369ad56d4df" prot="public" virt="virtual"><scope>themis::llm::testing::ProductionValidator</scope><name>~ProductionValidator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

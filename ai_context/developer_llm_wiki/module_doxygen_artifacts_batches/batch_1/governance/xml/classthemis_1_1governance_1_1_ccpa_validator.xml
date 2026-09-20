@@ -1,0 +1,372 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1governance_1_1_ccpa_validator" kind="class" language="C++" prot="public">
+    <compoundname>themis::governance::CcpaValidator</compoundname>
+    <basecompoundref refid="classthemis_1_1governance_1_1_i_compliance_validator" prot="public" virt="non-virtual">themis::governance::IComplianceValidator</basecompoundref>
+    <includes refid="compliance__validator_8h" local="no">compliance_validator.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_ccpa_validator_1ad5101bff2ded0b7df5a65d71d495b988" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1_1governance_1a915bac8f38536fcb97c0297cf999c3c8" kindref="member">ComplianceFramework</ref></type>
+        <definition>ComplianceFramework themis::governance::CcpaValidator::getFramework</definition>
+        <argsstring>() const override</argsstring>
+        <name>getFramework</name>
+        <qualifiedname>themis::governance::CcpaValidator::getFramework</qualifiedname>
+        <reimplements refid="classthemis_1_1governance_1_1_i_compliance_validator_1ad12bce1c3ec4734f4e2e2b370e5d66ba">getFramework</reimplements>
+        <briefdescription>
+<para>Get Framework. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_validator.h" line="257" column="25" bodyfile="src/governance/compliance_validator.cpp" bodystart="377" bodyend="379"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_ccpa_validator_1aa529bf821e0a0a89231a03e7418f6ca4" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1_1governance_1a320138f8db931f9c7432ade21d5a0345" kindref="member">ComplianceStatus</ref></type>
+        <definition>ComplianceStatus themis::governance::CcpaValidator::validateRequirement</definition>
+        <argsstring>(const ComplianceRequirement &amp;req, const ComplianceContext &amp;ctx) override</argsstring>
+        <name>validateRequirement</name>
+        <qualifiedname>themis::governance::CcpaValidator::validateRequirement</qualifiedname>
+        <reimplements refid="classthemis_1_1governance_1_1_i_compliance_validator_1a95688465cbfa96b03f64fe4f8f06bc2f">validateRequirement</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_requirement" kindref="compound">ComplianceRequirement</ref> &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_context" kindref="compound">ComplianceContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Validate Requirement. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), end(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_validator.h" line="259" column="22" bodyfile="src/governance/compliance_validator.cpp" bodystart="388" bodyend="415"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_ccpa_validator_1a1c6afc2fb73e7c9fabee844536f4bee9" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1_1governance_1a320138f8db931f9c7432ade21d5a0345" kindref="member">ComplianceStatus</ref></type>
+        <definition>ComplianceStatus themis::governance::CcpaValidator::validateControl</definition>
+        <argsstring>(const ComplianceControl &amp;ctl, const ComplianceContext &amp;ctx) override</argsstring>
+        <name>validateControl</name>
+        <qualifiedname>themis::governance::CcpaValidator::validateControl</qualifiedname>
+        <reimplements refid="classthemis_1_1governance_1_1_i_compliance_validator_1a689f41c7561c0c5efb9188943c897840">validateControl</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_control" kindref="compound">ComplianceControl</ref> &amp;</type>
+          <declname>ctl</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_context" kindref="compound">ComplianceContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Validate Control. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ctl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), end(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_validator.h" line="263" column="22" bodyfile="src/governance/compliance_validator.cpp" bodystart="424" bodyend="440"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_ccpa_validator_1a489917a0d8f7e368aca9cdd5c44e3842" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_compliance_evidence" kindref="compound">ComplianceEvidence</ref> &gt;</type>
+        <definition>std::vector&lt; ComplianceEvidence &gt; themis::governance::CcpaValidator::collectEvidence</definition>
+        <argsstring>(const ComplianceControl &amp;ctl, const ComplianceContext &amp;ctx) override</argsstring>
+        <name>collectEvidence</name>
+        <qualifiedname>themis::governance::CcpaValidator::collectEvidence</qualifiedname>
+        <reimplements refid="classthemis_1_1governance_1_1_i_compliance_validator_1ab512a65887aa840db5881d02379acab4">collectEvidence</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_control" kindref="compound">ComplianceControl</ref> &amp;</type>
+          <declname>ctl</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_context" kindref="compound">ComplianceContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Collect Evidence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ctl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: generateUuid(), std::chrono::system_clock::now(), time_since_epoch(), count(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_validator.h" line="267" column="17" bodyfile="src/governance/compliance_validator.cpp" bodystart="449" bodyend="469"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_ccpa_validator_1a7e9cd43eceba067cc24b200b9cbdcdf4" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::CcpaValidator::checkPolicySatisfaction</definition>
+        <argsstring>(const ComplianceRequirement &amp;req, const ComplianceContext &amp;ctx) override</argsstring>
+        <name>checkPolicySatisfaction</name>
+        <qualifiedname>themis::governance::CcpaValidator::checkPolicySatisfaction</qualifiedname>
+        <reimplements refid="classthemis_1_1governance_1_1_i_compliance_validator_1a048d627bf3a7dcefc85fc34e204611a2">checkPolicySatisfaction</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_requirement" kindref="compound">ComplianceRequirement</ref> &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_context" kindref="compound">ComplianceContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Check Policy Satisfaction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1governance_1_1_ccpa_validator_1aa529bf821e0a0a89231a03e7418f6ca4" kindref="member">validateRequirement()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_validator.h" line="271" column="10" bodyfile="src/governance/compliance_validator.cpp" bodystart="478" bodyend="483"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_ccpa_validator_1ad88aa06eb203fe5f53e97388cabea4c5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::CcpaValidator::validateConsumerRights</definition>
+        <argsstring>(const ComplianceContext &amp;ctx)</argsstring>
+        <name>validateConsumerRights</name>
+        <qualifiedname>themis::governance::CcpaValidator::validateConsumerRights</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_context" kindref="compound">ComplianceContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Validate Consumer Rights. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_validator.h" line="281" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_ccpa_validator_1a243bc5915fda26a9ff068da631dac5f7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::CcpaValidator::validateDataSaleOpt</definition>
+        <argsstring>(const ComplianceContext &amp;ctx)</argsstring>
+        <name>validateDataSaleOpt</name>
+        <qualifiedname>themis::governance::CcpaValidator::validateDataSaleOpt</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_context" kindref="compound">ComplianceContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Validate Data Sale Opt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_validator.h" line="287" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_ccpa_validator_1ac934cc8c6ea4623512f0482f11e0fff5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::CcpaValidator::validatePrivacyPolicy</definition>
+        <argsstring>(const ComplianceContext &amp;ctx)</argsstring>
+        <name>validatePrivacyPolicy</name>
+        <qualifiedname>themis::governance::CcpaValidator::validatePrivacyPolicy</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_context" kindref="compound">ComplianceContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Validate Privacy Policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_validator.h" line="293" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_ccpa_validator_1a9fcfbf3eb62bbc40fef92470c6d52326" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::CcpaValidator::validateDataSecurity</definition>
+        <argsstring>(const ComplianceContext &amp;ctx)</argsstring>
+        <name>validateDataSecurity</name>
+        <qualifiedname>themis::governance::CcpaValidator::validateDataSecurity</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_context" kindref="compound">ComplianceContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Validate Data Security. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_validator.h" line="299" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::governance::CcpaValidator</label>
+        <link refid="classthemis_1_1governance_1_1_ccpa_validator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::governance::IComplianceValidator</label>
+        <link refid="classthemis_1_1governance_1_1_i_compliance_validator"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::governance::CcpaValidator</label>
+        <link refid="classthemis_1_1governance_1_1_ccpa_validator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::governance::IComplianceValidator</label>
+        <link refid="classthemis_1_1governance_1_1_i_compliance_validator"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/governance/compliance_validator.h" line="255" column="1" bodyfile="include/governance/compliance_validator.h" bodystart="255" bodyend="300"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1governance_1_1_ccpa_validator_1a7e9cd43eceba067cc24b200b9cbdcdf4" prot="public" virt="virtual"><scope>themis::governance::CcpaValidator</scope><name>checkPolicySatisfaction</name></member>
+      <member refid="classthemis_1_1governance_1_1_ccpa_validator_1a489917a0d8f7e368aca9cdd5c44e3842" prot="public" virt="virtual"><scope>themis::governance::CcpaValidator</scope><name>collectEvidence</name></member>
+      <member refid="classthemis_1_1governance_1_1_ccpa_validator_1ad5101bff2ded0b7df5a65d71d495b988" prot="public" virt="virtual"><scope>themis::governance::CcpaValidator</scope><name>getFramework</name></member>
+      <member refid="classthemis_1_1governance_1_1_ccpa_validator_1ad88aa06eb203fe5f53e97388cabea4c5" prot="private" virt="non-virtual"><scope>themis::governance::CcpaValidator</scope><name>validateConsumerRights</name></member>
+      <member refid="classthemis_1_1governance_1_1_ccpa_validator_1a1c6afc2fb73e7c9fabee844536f4bee9" prot="public" virt="virtual"><scope>themis::governance::CcpaValidator</scope><name>validateControl</name></member>
+      <member refid="classthemis_1_1governance_1_1_ccpa_validator_1a243bc5915fda26a9ff068da631dac5f7" prot="private" virt="non-virtual"><scope>themis::governance::CcpaValidator</scope><name>validateDataSaleOpt</name></member>
+      <member refid="classthemis_1_1governance_1_1_ccpa_validator_1a9fcfbf3eb62bbc40fef92470c6d52326" prot="private" virt="non-virtual"><scope>themis::governance::CcpaValidator</scope><name>validateDataSecurity</name></member>
+      <member refid="classthemis_1_1governance_1_1_ccpa_validator_1ac934cc8c6ea4623512f0482f11e0fff5" prot="private" virt="non-virtual"><scope>themis::governance::CcpaValidator</scope><name>validatePrivacyPolicy</name></member>
+      <member refid="classthemis_1_1governance_1_1_ccpa_validator_1aa529bf821e0a0a89231a03e7418f6ca4" prot="public" virt="virtual"><scope>themis::governance::CcpaValidator</scope><name>validateRequirement</name></member>
+      <member refid="classthemis_1_1governance_1_1_i_compliance_validator_1a6acacf1b60b005c458e2ff3a7ff3979e" prot="public" virt="virtual"><scope>themis::governance::CcpaValidator</scope><name>~IComplianceValidator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

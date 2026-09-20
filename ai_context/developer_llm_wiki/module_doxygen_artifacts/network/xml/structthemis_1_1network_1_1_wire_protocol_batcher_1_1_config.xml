@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_wire_protocol_batcher_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::network::WireProtocolBatcher::Config</compoundname>
+    <includes refid="wire__protocol__batch_8h" local="no">wire_protocol_batch.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_batcher_1_1_config_1ace9b9bd8d025f7d07af4556c4707964c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::network::WireProtocolBatcher::Config::max_messages_per_batch</definition>
+        <argsstring></argsstring>
+        <name>max_messages_per_batch</name>
+        <qualifiedname>themis::network::WireProtocolBatcher::Config::max_messages_per_batch</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+<para>Flush after N messages. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_batch.h" line="197" column="16" bodyfile="include/network/wire_protocol_batch.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_batcher_1_1_config_1a44f0f7ea6470c9c554b4a04b2156d9bc" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::network::WireProtocolBatcher::Config::max_bytes_per_batch</definition>
+        <argsstring></argsstring>
+        <name>max_bytes_per_batch</name>
+        <qualifiedname>themis::network::WireProtocolBatcher::Config::max_bytes_per_batch</qualifiedname>
+        <initializer>= 64 * 1024</initializer>
+        <briefdescription>
+<para>Flush after N bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_batch.h" line="198" column="16" bodyfile="include/network/wire_protocol_batch.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_batcher_1_1_config_1a233b9173b201eda615ec6ebbcd9c71cf" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::network::WireProtocolBatcher::Config::auto_flush_on_limit</definition>
+        <argsstring></argsstring>
+        <name>auto_flush_on_limit</name>
+        <qualifiedname>themis::network::WireProtocolBatcher::Config::auto_flush_on_limit</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Flush when limit hit inside <ref refid="classthemis_1_1network_1_1_wire_protocol_batcher_1a8a1243b08d0421d11126a1639959d993" kindref="member">add()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_batch.h" line="199" column="16" bodyfile="include/network/wire_protocol_batch.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1network_1_1_wire_protocol_batcher_1_1_config_1a2754370e33e839e243a30705211e913a" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="struct_config" kindref="compound">Config</ref></type>
+        <definition>static Config themis::network::WireProtocolBatcher::Config::defaults</definition>
+        <argsstring>()</argsstring>
+        <name>defaults</name>
+        <qualifiedname>themis::network::WireProtocolBatcher::Config::defaults</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_batch.h" line="200" column="23" bodyfile="include/network/wire_protocol_batch.h" bodystart="200" bodyend="200"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/network/wire_protocol_batch.h" line="196" column="5" bodyfile="include/network/wire_protocol_batch.h" bodystart="196" bodyend="201"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_batcher_1_1_config_1a233b9173b201eda615ec6ebbcd9c71cf" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolBatcher::Config</scope><name>auto_flush_on_limit</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_batcher_1_1_config_1a2754370e33e839e243a30705211e913a" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolBatcher::Config</scope><name>defaults</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_batcher_1_1_config_1a44f0f7ea6470c9c554b4a04b2156d9bc" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolBatcher::Config</scope><name>max_bytes_per_batch</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_batcher_1_1_config_1ace9b9bd8d025f7d07af4556c4707964c" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolBatcher::Config</scope><name>max_messages_per_batch</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

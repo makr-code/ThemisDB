@@ -1,0 +1,183 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="federated__learning_8h" kind="file" language="C++">
+    <compoundname>federated_learning.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="federated__learning_8cpp" local="yes">src/importers/federated_learning.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/importers/federated_learning.h</label>
+        <link refid="federated__learning_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>cstddef</label>
+      </node>
+      <node id="5">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/importers/federated_learning.h</label>
+        <link refid="federated__learning_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/importers/federated_learning.cpp</label>
+        <link refid="federated__learning_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1importers_1_1_federated_import_coordinator" prot="public">themis::importers::FederatedImportCoordinator</innerclass>
+    <innerclass refid="classthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_aggregator" prot="public">themis::importers::FederatedImportCoordinator::FederatedAggregator</innerclass>
+    <innerclass refid="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_aggregator_1_1_participant_update" prot="public">themis::importers::FederatedImportCoordinator::FederatedAggregator::ParticipantUpdate</innerclass>
+    <innerclass refid="classthemis_1_1importers_1_1_federated_import_coordinator_1_1_differential_privacy_manager" prot="public">themis::importers::FederatedImportCoordinator::DifferentialPrivacyManager</innerclass>
+    <innerclass refid="classthemis_1_1importers_1_1_federated_import_coordinator_1_1_secure_aggregation_manager" prot="public">themis::importers::FederatedImportCoordinator::SecureAggregationManager</innerclass>
+    <innerclass refid="classthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_training_coordinator" prot="public">themis::importers::FederatedImportCoordinator::FederatedTrainingCoordinator</innerclass>
+    <innerclass refid="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_training_coordinator_1_1_participant_gradient" prot="public">themis::importers::FederatedImportCoordinator::FederatedTrainingCoordinator::ParticipantGradient</innerclass>
+    <innerclass refid="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_training_coordinator_1_1_round_aggregation_result" prot="public">themis::importers::FederatedImportCoordinator::FederatedTrainingCoordinator::RoundAggregationResult</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1importers">themis::importers</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.13 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1importers" kindref="compound">importers</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24" refid="classthemis_1_1importers_1_1_federated_import_coordinator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1importers_1_1_federated_import_coordinator" kindref="compound">FederatedImportCoordinator</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Federated<sp/>aggregator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="classthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_aggregator" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_aggregator" kindref="compound">FederatedAggregator</ref><sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_aggregator_1_1_participant_update" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_aggregator_1_1_participant_update" kindref="compound">ParticipantUpdate</ref><sp/>{</highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_aggregator_1_1_participant_update_1a0e5b149dfc121ae3811ba252baf43820" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_aggregator_1_1_participant_update_1a0e5b149dfc121ae3811ba252baf43820" kindref="member">participant_id</ref>;</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_aggregator_1_1_participant_update_1aec0cccc708f1e651b37fda4d049da58f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref><sp/><ref refid="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_aggregator_1_1_participant_update_1aec0cccc708f1e651b37fda4d049da58f" kindref="member">schema_contribution</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_aggregator_1_1_participant_update_1a4e52501b0e8b00cd475b5f065777f60f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref><sp/><ref refid="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_aggregator_1_1_participant_update_1a4e52501b0e8b00cd475b5f065777f60f" kindref="member">statistics</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_aggregator_1_1_participant_update_1ae4acea78398ec809b97c3b0aabceafe6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref><sp/><ref refid="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_aggregator_1_1_participant_update_1ae4acea78398ec809b97c3b0aabceafe6" kindref="member">encrypted_gradient</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref><sp/><ref refid="classthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_aggregator_1aa06ed0327f0e312af8d0acbc5d8a21a6" kindref="member">aggregateUpdates</ref>(</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ParticipantUpdate&gt;&amp;<sp/>updates,</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>aggregation_algorithm<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FedAvg&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Differential<sp/>privacy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="classthemis_1_1importers_1_1_federated_import_coordinator_1_1_differential_privacy_manager" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1importers_1_1_federated_import_coordinator_1_1_differential_privacy_manager" kindref="compound">DifferentialPrivacyManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref><sp/><ref refid="classthemis_1_1importers_1_1_federated_import_coordinator_1_1_differential_privacy_manager_1a0f8f30b8e0c4494c877323833bf52803" kindref="member">addDifferentialPrivacy</ref>(</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref>&amp;<sp/>statistics,</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>epsilon<sp/>=<sp/>0.1,</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>delta<sp/>=<sp/>1e-5</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1importers_1_1_federated_import_coordinator_1_1_differential_privacy_manager_1a0d3383ff8aad8df4c81829afc5068fc9" kindref="member">verifyPrivacyBudget</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>epsilon_total,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>delta);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1importers_1_1_federated_import_coordinator_1_1_differential_privacy_manager_1abe0d20d7e38c39cb4159da246ee3d044" kindref="member">spendBudget</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>epsilon_used);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="classthemis_1_1importers_1_1_federated_import_coordinator_1_1_differential_privacy_manager_1a8fed8868606ccbef319a67bda7383a46" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1importers_1_1_federated_import_coordinator_1_1_differential_privacy_manager_1a8fed8868606ccbef319a67bda7383a46" kindref="member">totalEpsilonSpent</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>epsilon_spent_;<sp/>}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>epsilon_spent_{0.0};</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Secure<sp/>aggregation<sp/>primitive<sp/>(Wave<sp/>C<sp/>C2<sp/>optional<sp/>HE-style<sp/>stub)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="classthemis_1_1importers_1_1_federated_import_coordinator_1_1_secure_aggregation_manager" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1importers_1_1_federated_import_coordinator_1_1_secure_aggregation_manager" kindref="compound">SecureAggregationManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/><ref refid="classthemis_1_1importers_1_1_federated_import_coordinator_1_1_secure_aggregation_manager_1a31d301db5cfd72372c2d2c6ef909f8a3" kindref="member">maskGradient</ref>(</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;double&gt;&amp;<sp/>gradient,</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>participant_id,</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>round_id</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/><ref refid="classthemis_1_1importers_1_1_federated_import_coordinator_1_1_secure_aggregation_manager_1a06503c296cfd1da1c4ffc4805fbb4cbe" kindref="member">unmaskAggregatedGradient</ref>(</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;double&gt;&amp;<sp/>masked_sum,</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>participant_ids,</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>round_id</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Federated<sp/>training<sp/>coordinator<sp/>(synchronized<sp/>SGD<sp/>rounds)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="classthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_training_coordinator" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_training_coordinator" kindref="compound">FederatedTrainingCoordinator</ref><sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_training_coordinator_1_1_participant_gradient" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_training_coordinator_1_1_participant_gradient" kindref="compound">ParticipantGradient</ref><sp/>{</highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_training_coordinator_1_1_participant_gradient_1a95339bc4b18c1221a7fc1565ed332fee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_training_coordinator_1_1_participant_gradient_1a95339bc4b18c1221a7fc1565ed332fee" kindref="member">participant_id</ref>;</highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_training_coordinator_1_1_participant_gradient_1a8c7d6b9e852e67b8c8c80d36e5abea45" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/><ref refid="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_training_coordinator_1_1_participant_gradient_1a8c7d6b9e852e67b8c8c80d36e5abea45" kindref="member">gradient</ref>;</highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_training_coordinator_1_1_participant_gradient_1a286f186ed506f48162d3547b68c2ec2a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_training_coordinator_1_1_participant_gradient_1a286f186ed506f48162d3547b68c2ec2a" kindref="member">sample_count</ref>{1};</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_training_coordinator_1_1_round_aggregation_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_training_coordinator_1_1_round_aggregation_result" kindref="compound">RoundAggregationResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_training_coordinator_1_1_round_aggregation_result_1a93465cb2b314e1f99744fad3e001f491" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/><ref refid="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_training_coordinator_1_1_round_aggregation_result_1a93465cb2b314e1f99744fad3e001f491" kindref="member">aggregated_gradient</ref>;</highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_training_coordinator_1_1_round_aggregation_result_1a59d309647e32c5d0fceacc2f6a671859" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_training_coordinator_1_1_round_aggregation_result_1a59d309647e32c5d0fceacc2f6a671859" kindref="member">participants</ref>{0};</highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_training_coordinator_1_1_round_aggregation_result_1ae209a54b16d55404ded67ef15cadb103" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_training_coordinator_1_1_round_aggregation_result_1ae209a54b16d55404ded67ef15cadb103" kindref="member">total_samples</ref>{0};</highlight></codeline>
+<codeline lineno="122" refid="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_training_coordinator_1_1_round_aggregation_result_1a84de83754982dc23113cbff2b746fce7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_training_coordinator_1_1_round_aggregation_result_1a84de83754982dc23113cbff2b746fce7" kindref="member">algorithm_used</ref>{</highlight><highlight class="stringliteral">&quot;FedAvg&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_training_coordinator_1_1_round_aggregation_result_1a373ae588a89e6667c933f86afc99df0b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_training_coordinator_1_1_round_aggregation_result_1a373ae588a89e6667c933f86afc99df0b" kindref="member">secure_aggregation_used</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RoundAggregationResult<sp/><ref refid="classthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_training_coordinator_1af2dd3b7e81db92ed33d255b0c8c4dcf1" kindref="member">aggregateRound</ref>(</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ParticipantGradient&gt;&amp;<sp/>updates,</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>aggregation_algorithm<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FedAvg&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>use_secure_aggregation<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>round_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;round-0&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>trim_ratio<sp/>=<sp/>0.1</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="134"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>importers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/importers/federated_learning.h"/>
+  </compounddef>
+</doxygen>

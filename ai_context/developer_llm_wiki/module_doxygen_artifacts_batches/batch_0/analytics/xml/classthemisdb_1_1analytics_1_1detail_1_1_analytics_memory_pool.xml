@@ -1,0 +1,470 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1analytics_1_1detail_1_1_analytics_memory_pool" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::analytics::detail::AnalyticsMemoryPool</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">std::pmr::memory_resource</basecompoundref>
+    <includes refid="include_2analytics_2detail_2memory__pool_8h" local="no">memory_pool.h</includes>
+    <innerclass refid="structthemisdb_1_1analytics_1_1detail_1_1_analytics_memory_pool_1_1_overflow_block" prot="private">themisdb::analytics::detail::AnalyticsMemoryPool::OverflowBlock</innerclass>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1detail_1_1_analytics_memory_pool_1aafb951bff2a05348c77ea705f1cf0cfc" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::analytics::detail::AnalyticsMemoryPool::kDefaultCapacity</definition>
+        <argsstring></argsstring>
+        <name>kDefaultCapacity</name>
+        <qualifiedname>themisdb::analytics::detail::AnalyticsMemoryPool::kDefaultCapacity</qualifiedname>
+        <initializer>= 64ULL * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/memory_pool.h" line="59" column="29" bodyfile="include/analytics/detail/memory_pool.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1detail_1_1_analytics_memory_pool_1a83747ac28c22425d978e8b2dff27046f" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::analytics::detail::AnalyticsMemoryPool::capacity_</definition>
+        <argsstring></argsstring>
+        <name>capacity_</name>
+        <qualifiedname>themisdb::analytics::detail::AnalyticsMemoryPool::capacity_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/memory_pool.h" line="211" column="15" bodyfile="include/analytics/detail/memory_pool.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1detail_1_1_analytics_memory_pool_1acc8867dca201d46241dd3c561e6a4dd0" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::analytics::detail::AnalyticsMemoryPool::cursor_</definition>
+        <argsstring></argsstring>
+        <name>cursor_</name>
+        <qualifiedname>themisdb::analytics::detail::AnalyticsMemoryPool::cursor_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/memory_pool.h" line="212" column="15" bodyfile="include/analytics/detail/memory_pool.h" bodystart="212" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1detail_1_1_analytics_memory_pool_1acc9057b9eaf73baa8b4e09b98382de57" prot="private" static="no" mutable="no">
+        <type>uint8_t *</type>
+        <definition>uint8_t* themis::analytics::detail::AnalyticsMemoryPool::block_</definition>
+        <argsstring></argsstring>
+        <name>block_</name>
+        <qualifiedname>themisdb::analytics::detail::AnalyticsMemoryPool::block_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/memory_pool.h" line="213" column="14" bodyfile="include/analytics/detail/memory_pool.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1detail_1_1_analytics_memory_pool_1ab865d1130b62bc79054618288e606b86" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; OverflowBlock &gt;</type>
+        <definition>std::vector&lt;OverflowBlock&gt; themis::analytics::detail::AnalyticsMemoryPool::overflow_blocks_</definition>
+        <argsstring></argsstring>
+        <name>overflow_blocks_</name>
+        <qualifiedname>themisdb::analytics::detail::AnalyticsMemoryPool::overflow_blocks_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/memory_pool.h" line="214" column="17" bodyfile="include/analytics/detail/memory_pool.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1detail_1_1_analytics_memory_pool_1af7bad7fd0dddf14942b51c0ca7cc75bb" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::detail::AnalyticsMemoryPool::AnalyticsMemoryPool</definition>
+        <argsstring>(size_t initial_capacity=kDefaultCapacity)</argsstring>
+        <name>AnalyticsMemoryPool</name>
+        <qualifiedname>themisdb::analytics::detail::AnalyticsMemoryPool::AnalyticsMemoryPool</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>initial_capacity</declname>
+          <defval><ref refid="classthemisdb_1_1analytics_1_1detail_1_1_analytics_memory_pool_1aafb951bff2a05348c77ea705f1cf0cfc" kindref="member">kDefaultCapacity</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/memory_pool.h" line="61" column="14" bodyfile="include/analytics/detail/memory_pool.h" bodystart="61" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1detail_1_1_analytics_memory_pool_1a7b7d9c40b99a38973875a3fd77db991a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::detail::AnalyticsMemoryPool::AnalyticsMemoryPool</definition>
+        <argsstring>(const AnalyticsMemoryPool &amp;)=delete</argsstring>
+        <name>AnalyticsMemoryPool</name>
+        <qualifiedname>themisdb::analytics::detail::AnalyticsMemoryPool::AnalyticsMemoryPool</qualifiedname>
+        <param>
+          <type>const AnalyticsMemoryPool &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/memory_pool.h" line="76" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1detail_1_1_analytics_memory_pool_1a7c79477462069de8c4a9a2a41629f499" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::detail::AnalyticsMemoryPool::AnalyticsMemoryPool</definition>
+        <argsstring>(AnalyticsMemoryPool &amp;&amp;)=delete</argsstring>
+        <name>AnalyticsMemoryPool</name>
+        <qualifiedname>themisdb::analytics::detail::AnalyticsMemoryPool::AnalyticsMemoryPool</qualifiedname>
+        <param>
+          <type>AnalyticsMemoryPool &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/memory_pool.h" line="78" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1detail_1_1_analytics_memory_pool_1aa566c9a86186ccac2cfe8afe81b86b71" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::detail::AnalyticsMemoryPool::~AnalyticsMemoryPool</definition>
+        <argsstring>() noexcept override</argsstring>
+        <name>~AnalyticsMemoryPool</name>
+        <qualifiedname>themisdb::analytics::detail::AnalyticsMemoryPool::~AnalyticsMemoryPool</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/memory_pool.h" line="68" column="5" bodyfile="include/analytics/detail/memory_pool.h" bodystart="68" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1detail_1_1_analytics_memory_pool_1ac67bcde807d005ba9db099a246bd781e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1analytics_1_1detail_1_1_analytics_memory_pool_1af7bad7fd0dddf14942b51c0ca7cc75bb" kindref="member">AnalyticsMemoryPool</ref> &amp;</type>
+        <definition>AnalyticsMemoryPool &amp; themis::analytics::detail::AnalyticsMemoryPool::operator=</definition>
+        <argsstring>(const AnalyticsMemoryPool &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::analytics::detail::AnalyticsMemoryPool::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1analytics_1_1detail_1_1_analytics_memory_pool_1af7bad7fd0dddf14942b51c0ca7cc75bb" kindref="member">AnalyticsMemoryPool</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/memory_pool.h" line="77" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1detail_1_1_analytics_memory_pool_1ab0f51bb5b30c121c9ac74b11fbf93247" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1analytics_1_1detail_1_1_analytics_memory_pool_1af7bad7fd0dddf14942b51c0ca7cc75bb" kindref="member">AnalyticsMemoryPool</ref> &amp;</type>
+        <definition>AnalyticsMemoryPool &amp; themis::analytics::detail::AnalyticsMemoryPool::operator=</definition>
+        <argsstring>(AnalyticsMemoryPool &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::analytics::detail::AnalyticsMemoryPool::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1detail_1_1_analytics_memory_pool_1af7bad7fd0dddf14942b51c0ca7cc75bb" kindref="member">AnalyticsMemoryPool</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/memory_pool.h" line="79" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1detail_1_1_analytics_memory_pool_1a2b5c96e50d8a63436c029fb4082d204a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::analytics::detail::AnalyticsMemoryPool::allocate</definition>
+        <argsstring>(size_t size, size_t align=alignof(std::max_align_t))</argsstring>
+        <name>allocate</name>
+        <qualifiedname>themisdb::analytics::detail::AnalyticsMemoryPool::allocate</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>align</declname>
+          <defval>alignof(std::max_align_t)</defval>
+        </param>
+        <briefdescription>
+<para>Allocate <computeroutput>size</computeroutput> bytes aligned to <computeroutput>align</computeroutput> from the arena. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of bytes to allocate (must be &gt; 0). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>align</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Required alignment (must be a power of two, ≥ 1). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the allocated region. Valid until <ref refid="classthemis_1_1analytics_1_1detail_1_1_analytics_memory_pool_1a31168a94e31101352dd3018917ba48de" kindref="member">reset()</ref> is called. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::bad_alloc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an overflow slab cannot be obtained. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/memory_pool.h" line="89" column="10" bodyfile="include/analytics/detail/memory_pool.h" bodystart="89" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1detail_1_1_analytics_memory_pool_1a31168a94e31101352dd3018917ba48de" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::analytics::detail::AnalyticsMemoryPool::reset</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>reset</name>
+        <qualifiedname>themisdb::analytics::detail::AnalyticsMemoryPool::reset</qualifiedname>
+        <briefdescription>
+<para>Reset the arena, making all previously allocated memory available for reuse without releasing the primary backing storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Call this at the start of each query / execute() invocation. Overflow slabs (if any) are freed to avoid unbounded memory growth. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/memory_pool.h" line="100" column="10" bodyfile="include/analytics/detail/memory_pool.h" bodystart="100" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1detail_1_1_analytics_memory_pool_1ac1e85034e6b4e540c9a6b66aebc9bcd4" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::analytics::detail::AnalyticsMemoryPool::used</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>used</name>
+        <qualifiedname>themisdb::analytics::detail::AnalyticsMemoryPool::used</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Number of bytes currently consumed across primary and overflow blocks. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/memory_pool.h" line="109" column="12" bodyfile="include/analytics/detail/memory_pool.h" bodystart="109" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1detail_1_1_analytics_memory_pool_1a59766cae907b04ae0f5697526e8e0f29" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::analytics::detail::AnalyticsMemoryPool::capacity</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>capacity</name>
+        <qualifiedname>themisdb::analytics::detail::AnalyticsMemoryPool::capacity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Total capacity of the primary block (bytes). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/memory_pool.h" line="118" column="12" bodyfile="include/analytics/detail/memory_pool.h" bodystart="118" bodyend="118"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1detail_1_1_analytics_memory_pool_1a6ac4d30e5ca7a96ab9b35f531e0dd89d" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::analytics::detail::AnalyticsMemoryPool::do_allocate</definition>
+        <argsstring>(size_t size, size_t align) override</argsstring>
+        <name>do_allocate</name>
+        <qualifiedname>themisdb::analytics::detail::AnalyticsMemoryPool::do_allocate</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>align</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/memory_pool.h" line="123" column="10" bodyfile="include/analytics/detail/memory_pool.h" bodystart="123" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1detail_1_1_analytics_memory_pool_1a81c2a5a7f22e0292da2f8a454212c886" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::analytics::detail::AnalyticsMemoryPool::do_deallocate</definition>
+        <argsstring>(void *, size_t, size_t) override</argsstring>
+        <name>do_deallocate</name>
+        <qualifiedname>themisdb::analytics::detail::AnalyticsMemoryPool::do_deallocate</qualifiedname>
+        <param>
+          <type>void *</type>
+        </param>
+        <param>
+          <type>size_t</type>
+        </param>
+        <param>
+          <type>size_t</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/memory_pool.h" line="164" column="10" bodyfile="include/analytics/detail/memory_pool.h" bodystart="164" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1detail_1_1_analytics_memory_pool_1a7f0bac4604119ab2a8d32ac20a61db79" prot="protected" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::analytics::detail::AnalyticsMemoryPool::do_is_equal</definition>
+        <argsstring>(const std::pmr::memory_resource &amp;other) const noexcept override</argsstring>
+        <name>do_is_equal</name>
+        <qualifiedname>themisdb::analytics::detail::AnalyticsMemoryPool::do_is_equal</qualifiedname>
+        <param>
+          <type>const std::pmr::memory_resource &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/memory_pool.h" line="166" column="10" bodyfile="include/analytics/detail/memory_pool.h" bodystart="166" bodyend="168"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1detail_1_1_analytics_memory_pool_1a523a1c7bf6106b838619b63b93f3d24d" prot="private" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>static size_t themis::analytics::detail::AnalyticsMemoryPool::align_up</definition>
+        <argsstring>(size_t value, size_t align) noexcept</argsstring>
+        <name>align_up</name>
+        <qualifiedname>themisdb::analytics::detail::AnalyticsMemoryPool::align_up</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>align</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/memory_pool.h" line="172" column="19" bodyfile="include/analytics/detail/memory_pool.h" bodystart="172" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1detail_1_1_analytics_memory_pool_1aa4bacaf2fc8a02972bead6435c47ac21" prot="private" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void *</type>
+        <definition>static void * themis::analytics::detail::AnalyticsMemoryPool::try_alloc</definition>
+        <argsstring>(uint8_t *base, size_t &amp;cursor, size_t cap, size_t size, size_t align) noexcept</argsstring>
+        <name>try_alloc</name>
+        <qualifiedname>themisdb::analytics::detail::AnalyticsMemoryPool::try_alloc</qualifiedname>
+        <param>
+          <type>uint8_t *</type>
+          <declname>base</declname>
+        </param>
+        <param>
+          <type>size_t &amp;</type>
+          <declname>cursor</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>cap</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>align</declname>
+        </param>
+        <briefdescription>
+<para>Try to allocate <computeroutput>size</computeroutput> bytes with <computeroutput>align</computeroutput> from the block described by (<computeroutput>base</computeroutput>, <computeroutput>cursor</computeroutput>, <computeroutput>cap</computeroutput>). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Alignment is computed on the <emphasis>absolute</emphasis> pointer address so that the returned pointer satisfies the alignment contract for any power-of-two alignment, regardless of how <computeroutput>base</computeroutput> itself was aligned.</para>
+<para><simplesect kind="return"><para>Pointer on success, nullptr if the block is too small. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/memory_pool.h" line="186" column="17" bodyfile="include/analytics/detail/memory_pool.h" bodystart="186" bodyend="203"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Arena (bump-pointer) allocator for analytics hot paths. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implements std::pmr::memory_resource so that any std::pmr container (unordered_map, string, vector, …) can draw memory directly from this arena rather than the global heap.</para>
+<para>Keeps one large contiguous primary block (default 64 MiB). When that block is exhausted, overflow slabs are appended. <ref refid="classthemis_1_1analytics_1_1detail_1_1_analytics_memory_pool_1a31168a94e31101352dd3018917ba48de" kindref="member">reset()</ref> rewinds the cursor to 0 and releases overflow slabs — the primary block is retained so steady-state allocations never touch the global heap. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>std::pmr::memory_resource</label>
+      </node>
+      <node id="1">
+        <label>themisdb::analytics::detail::AnalyticsMemoryPool</label>
+        <link refid="classthemisdb_1_1analytics_1_1detail_1_1_analytics_memory_pool"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>std::pmr::memory_resource</label>
+      </node>
+      <node id="1">
+        <label>themisdb::analytics::detail::AnalyticsMemoryPool</label>
+        <link refid="classthemisdb_1_1analytics_1_1detail_1_1_analytics_memory_pool"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/analytics/detail/memory_pool.h" line="57" column="1" bodyfile="include/analytics/detail/memory_pool.h" bodystart="57" bodyend="215"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1analytics_1_1detail_1_1_analytics_memory_pool_1a523a1c7bf6106b838619b63b93f3d24d" prot="private" virt="non-virtual"><scope>themisdb::analytics::detail::AnalyticsMemoryPool</scope><name>align_up</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1detail_1_1_analytics_memory_pool_1a2b5c96e50d8a63436c029fb4082d204a" prot="public" virt="non-virtual"><scope>themisdb::analytics::detail::AnalyticsMemoryPool</scope><name>allocate</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1detail_1_1_analytics_memory_pool_1af7bad7fd0dddf14942b51c0ca7cc75bb" prot="public" virt="non-virtual"><scope>themisdb::analytics::detail::AnalyticsMemoryPool</scope><name>AnalyticsMemoryPool</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1detail_1_1_analytics_memory_pool_1a7b7d9c40b99a38973875a3fd77db991a" prot="public" virt="non-virtual"><scope>themisdb::analytics::detail::AnalyticsMemoryPool</scope><name>AnalyticsMemoryPool</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1detail_1_1_analytics_memory_pool_1a7c79477462069de8c4a9a2a41629f499" prot="public" virt="non-virtual"><scope>themisdb::analytics::detail::AnalyticsMemoryPool</scope><name>AnalyticsMemoryPool</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1detail_1_1_analytics_memory_pool_1acc9057b9eaf73baa8b4e09b98382de57" prot="private" virt="non-virtual"><scope>themisdb::analytics::detail::AnalyticsMemoryPool</scope><name>block_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1detail_1_1_analytics_memory_pool_1a59766cae907b04ae0f5697526e8e0f29" prot="public" virt="non-virtual"><scope>themisdb::analytics::detail::AnalyticsMemoryPool</scope><name>capacity</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1detail_1_1_analytics_memory_pool_1a83747ac28c22425d978e8b2dff27046f" prot="private" virt="non-virtual"><scope>themisdb::analytics::detail::AnalyticsMemoryPool</scope><name>capacity_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1detail_1_1_analytics_memory_pool_1acc8867dca201d46241dd3c561e6a4dd0" prot="private" virt="non-virtual"><scope>themisdb::analytics::detail::AnalyticsMemoryPool</scope><name>cursor_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1detail_1_1_analytics_memory_pool_1a6ac4d30e5ca7a96ab9b35f531e0dd89d" prot="protected" virt="non-virtual"><scope>themisdb::analytics::detail::AnalyticsMemoryPool</scope><name>do_allocate</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1detail_1_1_analytics_memory_pool_1a81c2a5a7f22e0292da2f8a454212c886" prot="protected" virt="non-virtual"><scope>themisdb::analytics::detail::AnalyticsMemoryPool</scope><name>do_deallocate</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1detail_1_1_analytics_memory_pool_1a7f0bac4604119ab2a8d32ac20a61db79" prot="protected" virt="non-virtual"><scope>themisdb::analytics::detail::AnalyticsMemoryPool</scope><name>do_is_equal</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1detail_1_1_analytics_memory_pool_1aafb951bff2a05348c77ea705f1cf0cfc" prot="public" virt="non-virtual"><scope>themisdb::analytics::detail::AnalyticsMemoryPool</scope><name>kDefaultCapacity</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1detail_1_1_analytics_memory_pool_1ac67bcde807d005ba9db099a246bd781e" prot="public" virt="non-virtual"><scope>themisdb::analytics::detail::AnalyticsMemoryPool</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1detail_1_1_analytics_memory_pool_1ab0f51bb5b30c121c9ac74b11fbf93247" prot="public" virt="non-virtual"><scope>themisdb::analytics::detail::AnalyticsMemoryPool</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1detail_1_1_analytics_memory_pool_1ab865d1130b62bc79054618288e606b86" prot="private" virt="non-virtual"><scope>themisdb::analytics::detail::AnalyticsMemoryPool</scope><name>overflow_blocks_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1detail_1_1_analytics_memory_pool_1a31168a94e31101352dd3018917ba48de" prot="public" virt="non-virtual"><scope>themisdb::analytics::detail::AnalyticsMemoryPool</scope><name>reset</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1detail_1_1_analytics_memory_pool_1aa4bacaf2fc8a02972bead6435c47ac21" prot="private" virt="non-virtual"><scope>themisdb::analytics::detail::AnalyticsMemoryPool</scope><name>try_alloc</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1detail_1_1_analytics_memory_pool_1ac1e85034e6b4e540c9a6b66aebc9bcd4" prot="public" virt="non-virtual"><scope>themisdb::analytics::detail::AnalyticsMemoryPool</scope><name>used</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1detail_1_1_analytics_memory_pool_1aa566c9a86186ccac2cfe8afe81b86b71" prot="public" virt="non-virtual"><scope>themisdb::analytics::detail::AnalyticsMemoryPool</scope><name>~AnalyticsMemoryPool</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_file_filter" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::FileFilter</compoundname>
+    <includes refid="filesystem__ingester_8h" local="no">filesystem_ingester.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_file_filter_1ade5bb3f235bc26d28279953feae7b5e5" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::ingestion::FileFilter::extensions</definition>
+        <argsstring></argsstring>
+        <name>extensions</name>
+        <qualifiedname>themis::ingestion::FileFilter::extensions</qualifiedname>
+        <briefdescription>
+<para>File extensions to include (e.g., &quot;.pdf&quot;, &quot;.docx&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/filesystem_ingester.h" line="122" column="17" bodyfile="include/ingestion/filesystem_ingester.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_file_filter_1a77e5eca427eb06b6b6755babd7c9feee" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::ingestion::FileFilter::exclude_patterns</definition>
+        <argsstring></argsstring>
+        <name>exclude_patterns</name>
+        <qualifiedname>themis::ingestion::FileFilter::exclude_patterns</qualifiedname>
+        <briefdescription>
+<para>Patterns to exclude. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/filesystem_ingester.h" line="123" column="17" bodyfile="include/ingestion/filesystem_ingester.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_file_filter_1a6c21bebcd45546235be101945f718b45" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ingestion::FileFilter::min_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>min_size_bytes</name>
+        <qualifiedname>themis::ingestion::FileFilter::min_size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Minimum file size. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/filesystem_ingester.h" line="124" column="12" bodyfile="include/ingestion/filesystem_ingester.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_file_filter_1a0afd844269ea7858fc6ed3a97a5bc40a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ingestion::FileFilter::max_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_size_bytes</name>
+        <qualifiedname>themis::ingestion::FileFilter::max_size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Maximum file size (0 = unlimited). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/filesystem_ingester.h" line="125" column="12" bodyfile="include/ingestion/filesystem_ingester.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_file_filter_1a06b0ab4ae022fd2b7f619768eb5b472c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ingestion::FileFilter::recursive</definition>
+        <argsstring></argsstring>
+        <name>recursive</name>
+        <qualifiedname>themis::ingestion::FileFilter::recursive</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Recursively scan subdirectories. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/filesystem_ingester.h" line="126" column="10" bodyfile="include/ingestion/filesystem_ingester.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_file_filter_1ab869e05f93e58fe996830ad4edf72402" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::FileFilter::FileFilter</definition>
+        <argsstring>()=default</argsstring>
+        <name>FileFilter</name>
+        <qualifiedname>themis::ingestion::FileFilter::FileFilter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/filesystem_ingester.h" line="128" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>File filter configuration. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ingestion/filesystem_ingester.h" line="121" column="1" bodyfile="include/ingestion/filesystem_ingester.h" bodystart="121" bodyend="129"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_file_filter_1a77e5eca427eb06b6b6755babd7c9feee" prot="public" virt="non-virtual"><scope>themis::ingestion::FileFilter</scope><name>exclude_patterns</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_file_filter_1ade5bb3f235bc26d28279953feae7b5e5" prot="public" virt="non-virtual"><scope>themis::ingestion::FileFilter</scope><name>extensions</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_file_filter_1ab869e05f93e58fe996830ad4edf72402" prot="public" virt="non-virtual"><scope>themis::ingestion::FileFilter</scope><name>FileFilter</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_file_filter_1a0afd844269ea7858fc6ed3a97a5bc40a" prot="public" virt="non-virtual"><scope>themis::ingestion::FileFilter</scope><name>max_size_bytes</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_file_filter_1a6c21bebcd45546235be101945f718b45" prot="public" virt="non-virtual"><scope>themis::ingestion::FileFilter</scope><name>min_size_bytes</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_file_filter_1a06b0ab4ae022fd2b7f619768eb5b472c" prot="public" virt="non-virtual"><scope>themis::ingestion::FileFilter</scope><name>recursive</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

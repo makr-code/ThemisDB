@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1_1_pending_write" kind="struct" language="C++" prot="private">
+    <compoundname>themisdb::sharding::RaftWALIntegration::PendingWrite</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1_1_pending_write_1a0fe9d6f847412e4f1601a7b342bfab0b" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::RaftWALIntegration::PendingWrite::log_index</definition>
+        <argsstring></argsstring>
+        <name>log_index</name>
+        <qualifiedname>themisdb::sharding::RaftWALIntegration::PendingWrite::log_index</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Raft log index associated with write. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_wal_integration.h" line="123" column="18" bodyfile="include/sharding/raft_wal_integration.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1_1_pending_write_1a1a9f1711c41b60bae71b1ba636df6645" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref></type>
+        <definition>LSN themisdb::sharding::RaftWALIntegration::PendingWrite::wal_lsn</definition>
+        <argsstring></argsstring>
+        <name>wal_lsn</name>
+        <qualifiedname>themisdb::sharding::RaftWALIntegration::PendingWrite::wal_lsn</qualifiedname>
+        <briefdescription>
+<para>WAL <ref refid="structthemisdb_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref> assigned to entry. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_wal_integration.h" line="124" column="13" bodyfile="include/sharding/raft_wal_integration.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1_1_pending_write_1ac41896f902ba8457fcf4d1814c7bb5ab" prot="public" static="no" mutable="no">
+        <type>std::set&lt; std::string &gt;</type>
+        <definition>std::set&lt;std::string&gt; themisdb::sharding::RaftWALIntegration::PendingWrite::acknowledgments</definition>
+        <argsstring></argsstring>
+        <name>acknowledgments</name>
+        <qualifiedname>themisdb::sharding::RaftWALIntegration::PendingWrite::acknowledgments</qualifiedname>
+        <briefdescription>
+<para>Node IDs that acknowledged replication. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_wal_integration.h" line="125" column="18" bodyfile="include/sharding/raft_wal_integration.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1_1_pending_write_1a0f862de6ef81476f3f77f9aedba084fd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::RaftWALIntegration::PendingWrite::committed</definition>
+        <argsstring></argsstring>
+        <name>committed</name>
+        <qualifiedname>themisdb::sharding::RaftWALIntegration::PendingWrite::committed</qualifiedname>
+        <briefdescription>
+<para>True once quorum was reached. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_wal_integration.h" line="126" column="14" bodyfile="include/sharding/raft_wal_integration.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Pending quorum-tracked write keyed by Raft log index. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::sharding::LSN</label>
+        <link refid="structthemis_1_1sharding_1_1_l_s_n"/>
+      </node>
+      <node id="1">
+        <label>themisdb::sharding::RaftWALIntegration::PendingWrite</label>
+        <childnode refid="2" relation="usage">
+          <edgelabel>wal_lsn</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/sharding/raft_wal_integration.h" line="122" column="5" bodyfile="include/sharding/raft_wal_integration.h" bodystart="122" bodyend="127"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1_1_pending_write_1ac41896f902ba8457fcf4d1814c7bb5ab" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftWALIntegration::PendingWrite</scope><name>acknowledgments</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1_1_pending_write_1a0f862de6ef81476f3f77f9aedba084fd" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftWALIntegration::PendingWrite</scope><name>committed</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1_1_pending_write_1a0fe9d6f847412e4f1601a7b342bfab0b" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftWALIntegration::PendingWrite</scope><name>log_index</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1_1_pending_write_1a1a9f1711c41b60bae71b1ba636df6645" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftWALIntegration::PendingWrite</scope><name>wal_lsn</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1analytics_1_1_shard_query_executor" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themisdb::analytics::ShardQueryExecutor</compoundname>
+    <derivedcompoundref refid="class_controlled_executor" prot="public" virt="non-virtual">ControlledExecutor</derivedcompoundref>
+    <derivedcompoundref refid="class_fixed_result_executor" prot="public" virt="non-virtual">FixedResultExecutor</derivedcompoundref>
+    <derivedcompoundref refid="class_throwing_executor" prot="public" virt="non-virtual">ThrowingExecutor</derivedcompoundref>
+    <derivedcompoundref refid="classthemisdb_1_1analytics_1_1_bench_shard_executor" prot="public" virt="non-virtual">themisdb::analytics::BenchShardExecutor</derivedcompoundref>
+    <derivedcompoundref refid="classthemisdb_1_1analytics_1_1_counting_shard_executor" prot="public" virt="non-virtual">themisdb::analytics::CountingShardExecutor</derivedcompoundref>
+    <derivedcompoundref refid="classthemisdb_1_1analytics_1_1_local_shard_executor" prot="public" virt="non-virtual">themisdb::analytics::LocalShardExecutor</derivedcompoundref>
+    <derivedcompoundref refid="classthemisdb_1_1analytics_1_1_mock_shard_executor" prot="public" virt="non-virtual">themisdb::analytics::MockShardExecutor</derivedcompoundref>
+    <includes refid="distributed__analytics_8h" local="no">distributed_analytics.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_shard_query_executor_1abaecd42838910a0fcc4d50d31eeb075e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themisdb::analytics::ShardQueryExecutor::~ShardQueryExecutor</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ShardQueryExecutor</name>
+        <qualifiedname>themisdb::analytics::ShardQueryExecutor::~ShardQueryExecutor</qualifiedname>
+        <briefdescription>
+<para>Shard Query Executor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="79" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_shard_query_executor_1aa3986a26fa7b7ad3eb9355ec44917f2a" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result" kindref="compound">themis::analytics::OLAPResult</ref></type>
+        <definition>virtual themis::analytics::OLAPResult themisdb::analytics::ShardQueryExecutor::execute</definition>
+        <argsstring>(const std::string &amp;shard_id, const themis::analytics::OLAPQuery &amp;query)=0</argsstring>
+        <name>execute</name>
+        <qualifiedname>themisdb::analytics::ShardQueryExecutor::execute</qualifiedname>
+        <reimplementedby refid="class_controlled_executor_1a8c86036cf1731e31db5114a2396a338b">execute</reimplementedby>
+        <reimplementedby refid="class_fixed_result_executor_1ab340b532660d9bad989d3610eae26d1c">execute</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1analytics_1_1_bench_shard_executor_1a9272ea8903a6af458ab893b7f73e1fe7">execute</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1analytics_1_1_counting_shard_executor_1ace0c5cb4d9042c032f28c2e36092761c">execute</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1analytics_1_1_local_shard_executor_1a20e69b3e1ddf2eac9abbd51d6493f635">execute</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1analytics_1_1_mock_shard_executor_1a0004bf5bbd14e066c28f5ae17663268a">execute</reimplementedby>
+        <reimplementedby refid="class_throwing_executor_1a31f070686244e504e0a8c9b9f13fd561">execute</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query" kindref="compound">themis::analytics::OLAPQuery</ref> &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Execute. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="87" column="43"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_shard_query_executor_1aa0c09cb8b04ecc18c5320ecdddab547b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>virtual bool themisdb::analytics::ShardQueryExecutor::isHealthy</definition>
+        <argsstring>() const</argsstring>
+        <name>isHealthy</name>
+        <qualifiedname>themisdb::analytics::ShardQueryExecutor::isHealthy</qualifiedname>
+        <reimplementedby refid="class_controlled_executor_1a32ddf2d3d49763a401a51ecfe0549092">isHealthy</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1analytics_1_1_bench_shard_executor_1aafa3057c3b84b9dee283270794cb26a1">isHealthy</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1analytics_1_1_counting_shard_executor_1aa5e54f88184e61e22a0c72c5b31f0670">isHealthy</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1analytics_1_1_mock_shard_executor_1ab381f8f865338b390630a725b27bdd9e">isHealthy</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="91" column="18" bodyfile="include/analytics/distributed_analytics.h" bodystart="91" bodyend="91"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>ControlledExecutor</label>
+        <link refid="class_controlled_executor"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>FixedResultExecutor</label>
+        <link refid="class_fixed_result_executor"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>ThrowingExecutor</label>
+        <link refid="class_throwing_executor"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>themisdb::analytics::BenchShardExecutor</label>
+        <link refid="classthemisdb_1_1analytics_1_1_bench_shard_executor"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>themisdb::analytics::CountingShardExecutor</label>
+        <link refid="classthemisdb_1_1analytics_1_1_counting_shard_executor"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>themisdb::analytics::LocalShardExecutor</label>
+        <link refid="classthemisdb_1_1analytics_1_1_local_shard_executor"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>themisdb::analytics::MockShardExecutor</label>
+        <link refid="classthemisdb_1_1analytics_1_1_mock_shard_executor"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themisdb::analytics::ShardQueryExecutor</label>
+        <link refid="classthemisdb_1_1analytics_1_1_shard_query_executor"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/analytics/distributed_analytics.h" line="73" column="1" bodyfile="include/analytics/distributed_analytics.h" bodystart="73" bodyend="92"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1analytics_1_1_shard_query_executor_1aa3986a26fa7b7ad3eb9355ec44917f2a" prot="public" virt="pure-virtual"><scope>themisdb::analytics::ShardQueryExecutor</scope><name>execute</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_shard_query_executor_1aa0c09cb8b04ecc18c5320ecdddab547b" prot="public" virt="virtual"><scope>themisdb::analytics::ShardQueryExecutor</scope><name>isHealthy</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_shard_query_executor_1abaecd42838910a0fcc4d50d31eeb075e" prot="public" virt="virtual"><scope>themisdb::analytics::ShardQueryExecutor</scope><name>~ShardQueryExecutor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

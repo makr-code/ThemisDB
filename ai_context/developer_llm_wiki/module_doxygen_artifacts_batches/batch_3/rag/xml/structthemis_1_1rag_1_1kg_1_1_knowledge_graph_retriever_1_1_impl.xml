@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::kg::KnowledgeGraphRetriever::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1_1_impl_1aa81aa36346f68e1de17873a2734823f7" prot="public" static="no" mutable="no">
+        <type>const <ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph" kindref="compound">KnowledgeGraph</ref> *</type>
+        <definition>const KnowledgeGraph* themis::rag::kg::KnowledgeGraphRetriever::Impl::graph</definition>
+        <argsstring></argsstring>
+        <name>graph</name>
+        <qualifiedname>themis::rag::kg::KnowledgeGraphRetriever::Impl::graph</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/knowledge_graph_retriever.cpp" line="524" column="42" bodyfile="src/rag/knowledge_graph_retriever.cpp" bodystart="524" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1_1_impl_1a6bb1660cbfdcb2c50ca9ff11f45fe013" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; IKnowledgeGraph &gt;</type>
+        <definition>std::shared_ptr&lt;IKnowledgeGraph&gt; themis::rag::kg::KnowledgeGraphRetriever::Impl::graph_iface</definition>
+        <argsstring></argsstring>
+        <name>graph_iface</name>
+        <qualifiedname>themis::rag::kg::KnowledgeGraphRetriever::Impl::graph_iface</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/knowledge_graph_retriever.cpp" line="525" column="25" bodyfile="src/rag/knowledge_graph_retriever.cpp" bodystart="525" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1_1_impl_1a84fa12a31eedf94a0d4bdfa30226b75c" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config" kindref="compound">KGRetrieverConfig</ref></type>
+        <definition>KGRetrieverConfig themis::rag::kg::KnowledgeGraphRetriever::Impl::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::rag::kg::KnowledgeGraphRetriever::Impl::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/knowledge_graph_retriever.cpp" line="526" column="43" bodyfile="src/rag/knowledge_graph_retriever.cpp" bodystart="526" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1_1_impl_1aa0a57c1297a63583c7dbde4ba7b03e45" prot="public" static="no" mutable="no">
+        <type>graph::KnowledgeGraphReasoner *</type>
+        <definition>graph::KnowledgeGraphReasoner* themis::rag::kg::KnowledgeGraphRetriever::Impl::reasoner</definition>
+        <argsstring></argsstring>
+        <name>reasoner</name>
+        <qualifiedname>themis::rag::kg::KnowledgeGraphRetriever::Impl::reasoner</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>optional; not owned </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/knowledge_graph_retriever.cpp" line="527" column="42" bodyfile="src/rag/knowledge_graph_retriever.cpp" bodystart="527" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="4">
+        <label>themis::rag::kg::EntityLinkerConfig</label>
+        <link refid="structthemis_1_1rag_1_1kg_1_1_entity_linker_config"/>
+      </node>
+      <node id="3">
+        <label>themis::rag::kg::KGRetrieverConfig</label>
+        <link refid="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>linker_config</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::rag::kg::KnowledgeGraph</label>
+        <link refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph"/>
+      </node>
+      <node id="1">
+        <label>themis::rag::kg::KnowledgeGraphRetriever::Impl</label>
+        <link refid="structthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>graph</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/rag/knowledge_graph_retriever.cpp" line="523" column="1" bodyfile="src/rag/knowledge_graph_retriever.cpp" bodystart="523" bodyend="528"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1_1_impl_1a84fa12a31eedf94a0d4bdfa30226b75c" prot="public" virt="non-virtual"><scope>themis::rag::kg::KnowledgeGraphRetriever::Impl</scope><name>config</name></member>
+      <member refid="structthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1_1_impl_1aa81aa36346f68e1de17873a2734823f7" prot="public" virt="non-virtual"><scope>themis::rag::kg::KnowledgeGraphRetriever::Impl</scope><name>graph</name></member>
+      <member refid="structthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1_1_impl_1a6bb1660cbfdcb2c50ca9ff11f45fe013" prot="public" virt="non-virtual"><scope>themis::rag::kg::KnowledgeGraphRetriever::Impl</scope><name>graph_iface</name></member>
+      <member refid="structthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1_1_impl_1aa0a57c1297a63583c7dbde4ba7b03e45" prot="public" virt="non-virtual"><scope>themis::rag::kg::KnowledgeGraphRetriever::Impl</scope><name>reasoner</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

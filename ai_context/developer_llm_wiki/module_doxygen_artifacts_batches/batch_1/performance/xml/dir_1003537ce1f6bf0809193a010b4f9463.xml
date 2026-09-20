@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_1003537ce1f6bf0809193a010b4f9463" kind="dir">
+    <compoundname>src/performance</compoundname>
+    <innerdir refid="dir_450e794d0149814fc5d04f4dd0369b46">src/performance/phase3</innerdir>
+    <innerdir refid="dir_78697b8db9a54d7125039a09dc224881">src/performance/phase4</innerdir>
+    <innerfile refid="adaptive__query__compiler_8cpp">adaptive_query_compiler.cpp</innerfile>
+    <innerfile refid="advanced__cache__manager_8cpp">advanced_cache_manager.cpp</innerfile>
+    <innerfile refid="async__metrics__exporter_8cpp">async_metrics_exporter.cpp</innerfile>
+    <innerfile refid="chimera__exporter_8cpp">chimera_exporter.cpp</innerfile>
+    <innerfile refid="cicada_8cpp">cicada.cpp</innerfile>
+    <innerfile refid="cycle__metrics_8cpp">cycle_metrics.cpp</innerfile>
+    <innerfile refid="dostoevsky_8cpp">dostoevsky.cpp</innerfile>
+    <innerfile refid="hardware__accelerator_8cpp">hardware_accelerator.cpp</innerfile>
+    <innerfile refid="intelligent__prefetcher_8cpp">intelligent_prefetcher.cpp</innerfile>
+    <innerfile refid="ligra_8cpp">ligra.cpp</innerfile>
+    <innerfile refid="numa__memory__manager_8cpp">numa_memory_manager.cpp</innerfile>
+    <innerfile refid="numa__topology_8cpp">numa_topology.cpp</innerfile>
+    <innerfile refid="phase2__feature__flags_8cpp">phase2_feature_flags.cpp</innerfile>
+    <innerfile refid="prometheus__exporter_8cpp">prometheus_exporter.cpp</innerfile>
+    <innerfile refid="rabitq_8cpp">rabitq.cpp</innerfile>
+    <innerfile refid="wisckey_8cpp">wisckey.cpp</innerfile>
+    <innerfile refid="workload__adaptive__optimizer_8cpp">workload_adaptive_optimizer.cpp</innerfile>
+    <innerfile refid="workload__predictor_8cpp">workload_predictor.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/performance/"/>
+  </compounddef>
+</doxygen>

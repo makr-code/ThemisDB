@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_advance_safe_test" kind="class" language="C++" prot="public">
+    <compoundname>AdvanceSafeTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_advance_safe_test_1ac13304f92a63deeb7aea9deffdc69114" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; AdvanceSafeTest::vec_</definition>
+        <argsstring></argsstring>
+        <name>vec_</name>
+        <qualifiedname>AdvanceSafeTest::vec_</qualifiedname>
+        <initializer>{1, 2, 3, 4, 5}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_iterator.cpp" line="138" column="17" bodyfile="tests/security/test_safe_iterator.cpp" bodystart="138" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_advance_safe_test_1a4a87e727951d8794e3132853260b25cb" prot="protected" static="no" mutable="no">
+        <type>std::deque&lt; int &gt;</type>
+        <definition>std::deque&lt;int&gt; AdvanceSafeTest::deque_</definition>
+        <argsstring></argsstring>
+        <name>deque_</name>
+        <qualifiedname>AdvanceSafeTest::deque_</qualifiedname>
+        <initializer>{10, 20, 30, 40, 50}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_iterator.cpp" line="139" column="16" bodyfile="tests/security/test_safe_iterator.cpp" bodystart="139" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_advance_safe_test_1a74e48796a1977ef4ba5a37f2372a2e9e" prot="protected" static="no" mutable="no">
+        <type>std::list&lt; int &gt;</type>
+        <definition>std::list&lt;int&gt; AdvanceSafeTest::list_</definition>
+        <argsstring></argsstring>
+        <name>list_</name>
+        <qualifiedname>AdvanceSafeTest::list_</qualifiedname>
+        <initializer>{100, 200, 300, 400, 500}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_iterator.cpp" line="140" column="15" bodyfile="tests/security/test_safe_iterator.cpp" bodystart="140" bodyend="140"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AdvanceSafeTest</label>
+        <link refid="class_advance_safe_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AdvanceSafeTest</label>
+        <link refid="class_advance_safe_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/security/test_safe_iterator.cpp" line="136" column="1" bodyfile="tests/security/test_safe_iterator.cpp" bodystart="136" bodyend="141"/>
+    <listofallmembers>
+      <member refid="class_advance_safe_test_1a4a87e727951d8794e3132853260b25cb" prot="protected" virt="non-virtual"><scope>AdvanceSafeTest</scope><name>deque_</name></member>
+      <member refid="class_advance_safe_test_1a74e48796a1977ef4ba5a37f2372a2e9e" prot="protected" virt="non-virtual"><scope>AdvanceSafeTest</scope><name>list_</name></member>
+      <member refid="class_advance_safe_test_1ac13304f92a63deeb7aea9deffdc69114" prot="protected" virt="non-virtual"><scope>AdvanceSafeTest</scope><name>vec_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

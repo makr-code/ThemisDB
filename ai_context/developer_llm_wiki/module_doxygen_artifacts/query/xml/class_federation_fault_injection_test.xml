@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_federation_fault_injection_test" kind="class" language="C++" prot="public">
+    <compoundname>FederationFaultInjectionTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_federation_fault_injection_test_1aaca03d20032d47cf82647985c6cf9320" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1query_1_1_timeout_policy" kindref="compound">TimeoutPolicy</ref></type>
+        <definition>TimeoutPolicy FederationFaultInjectionTest::policy</definition>
+        <argsstring></argsstring>
+        <name>policy</name>
+        <qualifiedname>FederationFaultInjectionTest::policy</qualifiedname>
+        <initializer>{<ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder" kindref="compound">TimeoutPolicy::Builder</ref>{}
+        .withPerShardTimeout(std::chrono::milliseconds(2000))
+        .withMaxRetries(3)
+        .build()}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_hardness.cpp" line="465" column="19" bodyfile="tests/query/test_query_federation_hardness.cpp" bodystart="465" bodyend="468"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>FederationFaultInjectionTest</label>
+        <link refid="class_federation_fault_injection_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>FederationFaultInjectionTest</label>
+        <link refid="class_federation_fault_injection_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>policy</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::query::TimeoutPolicy</label>
+        <link refid="classthemis_1_1query_1_1_timeout_policy"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/query/test_query_federation_hardness.cpp" line="463" column="1" bodyfile="tests/query/test_query_federation_hardness.cpp" bodystart="463" bodyend="469"/>
+    <listofallmembers>
+      <member refid="class_federation_fault_injection_test_1aaca03d20032d47cf82647985c6cf9320" prot="protected" virt="non-virtual"><scope>FederationFaultInjectionTest</scope><name>policy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1exporters_1_1_export_tenant_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::exporters::ExportTenantContext</compoundname>
+    <includes refid="exporter__interface_8h" local="no">exporter_interface.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_export_tenant_context_1a9c8db294896edd2b0834feddaaf9413e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::ExportTenantContext::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>themis::exporters::ExportTenantContext::tenant_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_interface.h" line="62" column="17" bodyfile="include/exporters/exporter_interface.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_export_tenant_context_1a373db63eb06e276c23ec49a6d45a6710" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::ExportTenantContext::user_id</definition>
+        <argsstring></argsstring>
+        <name>user_id</name>
+        <qualifiedname>themis::exporters::ExportTenantContext::user_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_interface.h" line="63" column="17" bodyfile="include/exporters/exporter_interface.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_export_tenant_context_1aae0a773f52925334e100bfd32017d00b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::exporters::ExportTenantContext::scopes</definition>
+        <argsstring></argsstring>
+        <name>scopes</name>
+        <qualifiedname>themis::exporters::ExportTenantContext::scopes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_interface.h" line="64" column="17" bodyfile="include/exporters/exporter_interface.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_export_tenant_context_1ac5fcf2b275cdb5c78e5b359193ae5756" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::exporters::ExportTenantContext::enforce_isolation</definition>
+        <argsstring></argsstring>
+        <name>enforce_isolation</name>
+        <qualifiedname>themis::exporters::ExportTenantContext::enforce_isolation</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_interface.h" line="65" column="10" bodyfile="include/exporters/exporter_interface.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1exporters_1_1_export_tenant_context_1af45839b7e977d1706fa1439a8df231b7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::exporters::ExportTenantContext::hasScope</definition>
+        <argsstring>(const std::string &amp;scope) const</argsstring>
+        <name>hasScope</name>
+        <qualifiedname>themis::exporters::ExportTenantContext::hasScope</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>scope</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_interface.h" line="67" column="10" bodyfile="include/exporters/exporter_interface.h" bodystart="67" bodyend="69"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/exporters/exporter_interface.h" line="61" column="1" bodyfile="include/exporters/exporter_interface.h" bodystart="61" bodyend="70"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1exporters_1_1_export_tenant_context_1ac5fcf2b275cdb5c78e5b359193ae5756" prot="public" virt="non-virtual"><scope>themis::exporters::ExportTenantContext</scope><name>enforce_isolation</name></member>
+      <member refid="structthemis_1_1exporters_1_1_export_tenant_context_1af45839b7e977d1706fa1439a8df231b7" prot="public" virt="non-virtual"><scope>themis::exporters::ExportTenantContext</scope><name>hasScope</name></member>
+      <member refid="structthemis_1_1exporters_1_1_export_tenant_context_1aae0a773f52925334e100bfd32017d00b" prot="public" virt="non-virtual"><scope>themis::exporters::ExportTenantContext</scope><name>scopes</name></member>
+      <member refid="structthemis_1_1exporters_1_1_export_tenant_context_1a9c8db294896edd2b0834feddaaf9413e" prot="public" virt="non-virtual"><scope>themis::exporters::ExportTenantContext</scope><name>tenant_id</name></member>
+      <member refid="structthemis_1_1exporters_1_1_export_tenant_context_1a373db63eb06e276c23ec49a6d45a6710" prot="public" virt="non-virtual"><scope>themis::exporters::ExportTenantContext</scope><name>user_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

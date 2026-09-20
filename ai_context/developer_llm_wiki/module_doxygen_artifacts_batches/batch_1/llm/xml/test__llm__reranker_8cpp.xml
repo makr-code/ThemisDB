@@ -1,0 +1,1174 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__llm__reranker_8cpp" kind="file" language="C++">
+    <compoundname>test_llm_reranker.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">search/llm_reranker.h</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">cmath</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/llm/test_llm_reranker.cpp</label>
+        <link refid="test__llm__reranker_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>cmath</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="3">
+        <label>search/llm_reranker.h</label>
+      </node>
+      <node id="4">
+        <label>stdexcept</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__llm__reranker_8cpp_1a908d5cc3a8b24fa8a74060eaba58164c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>LlmRerankCandidate</type>
+        <definition>static LlmRerankCandidate makeCandidate</definition>
+        <argsstring>(const std::string &amp;id, const std::string &amp;content, double initial_score=0.5)</argsstring>
+        <name>makeCandidate</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>initial_score</declname>
+          <defval>0.5</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_reranker.cpp" line="19" column="27" bodyfile="tests/llm/test_llm_reranker.cpp" bodystart="19" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__reranker_8cpp_1acdd46f0224ea1e286698f358a11b8472" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>LlmReranker::LlmBackend</type>
+        <definition>static LlmReranker::LlmBackend makeMockBackend</definition>
+        <argsstring>(const std::string &amp;response)</argsstring>
+        <name>makeMockBackend</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_reranker.cpp" line="29" column="32" bodyfile="tests/llm/test_llm_reranker.cpp" bodystart="29" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__reranker_8cpp_1aeff7581872bbd042a8f099cb26ea5c5f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmRerankerConfig, DefaultConfigIsValid)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmRerankerConfig</type>
+        </param>
+        <param>
+          <type>DefaultConfigIsValid</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_reranker.cpp" line="37" column="1" bodyfile="tests/llm/test_llm_reranker.cpp" bodystart="37" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__reranker_8cpp_1a9b741577632d1e0fa2394896c2653827" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmRerankerConfig, ZeroBatchSizeThrows)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmRerankerConfig</type>
+        </param>
+        <param>
+          <type>ZeroBatchSizeThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_reranker.cpp" line="41" column="1" bodyfile="tests/llm/test_llm_reranker.cpp" bodystart="41" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__reranker_8cpp_1a1bdc9ad29daf214503bf5248027c74e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmRerankerConfig, LlmWeightBelowZeroThrows)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmRerankerConfig</type>
+        </param>
+        <param>
+          <type>LlmWeightBelowZeroThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_reranker.cpp" line="47" column="1" bodyfile="tests/llm/test_llm_reranker.cpp" bodystart="47" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__reranker_8cpp_1a08587cbd8d23fde258199cedc29850f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmRerankerConfig, LlmWeightAboveOneThrows)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmRerankerConfig</type>
+        </param>
+        <param>
+          <type>LlmWeightAboveOneThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_reranker.cpp" line="53" column="1" bodyfile="tests/llm/test_llm_reranker.cpp" bodystart="53" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__reranker_8cpp_1a4dc2fed980d11c518225eb63042590ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmRerankerConfig, ZeroSnippetLengthThrows)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmRerankerConfig</type>
+        </param>
+        <param>
+          <type>ZeroSnippetLengthThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_reranker.cpp" line="59" column="1" bodyfile="tests/llm/test_llm_reranker.cpp" bodystart="59" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__reranker_8cpp_1afabb2d0d2e9919ddf56ad78d8523c917" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmRerankerConfig, NegativeThresholdThrows)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmRerankerConfig</type>
+        </param>
+        <param>
+          <type>NegativeThresholdThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_reranker.cpp" line="65" column="1" bodyfile="tests/llm/test_llm_reranker.cpp" bodystart="65" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__reranker_8cpp_1afdc434b30b6cfaa163e615d4ceb20835" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmRerankerConfig, ThresholdAboveOneThrows)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmRerankerConfig</type>
+        </param>
+        <param>
+          <type>ThresholdAboveOneThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_reranker.cpp" line="71" column="1" bodyfile="tests/llm/test_llm_reranker.cpp" bodystart="71" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__reranker_8cpp_1a6efc269605e6c7620f70f0fef4b99b76" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmRerankerConfig, NegativeTemperatureThrows)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmRerankerConfig</type>
+        </param>
+        <param>
+          <type>NegativeTemperatureThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_reranker.cpp" line="77" column="1" bodyfile="tests/llm/test_llm_reranker.cpp" bodystart="77" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__reranker_8cpp_1ab533853931eba79add3f626a6f48b83d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmRerankerConfig, TemperatureAboveTwoThrows)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmRerankerConfig</type>
+        </param>
+        <param>
+          <type>TemperatureAboveTwoThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_reranker.cpp" line="83" column="1" bodyfile="tests/llm/test_llm_reranker.cpp" bodystart="83" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__reranker_8cpp_1a2ffff5d5e00f01721e35ec72af8a668c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmRerankerConfig, ConfigRoundtrip)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmRerankerConfig</type>
+        </param>
+        <param>
+          <type>ConfigRoundtrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_reranker.cpp" line="89" column="1" bodyfile="tests/llm/test_llm_reranker.cpp" bodystart="89" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__reranker_8cpp_1aef91457e7f7f96abec8c0cc88cfebb49" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmRerankerRerank, EmptyCandidatesReturnsEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmRerankerRerank</type>
+        </param>
+        <param>
+          <type>EmptyCandidatesReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_reranker.cpp" line="104" column="1" bodyfile="tests/llm/test_llm_reranker.cpp" bodystart="104" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__reranker_8cpp_1a71a87b0f22e4a389142f9353cadbab4f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmRerankerNoBackend, FallbackSortsByInitialScore)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmRerankerNoBackend</type>
+        </param>
+        <param>
+          <type>FallbackSortsByInitialScore</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_reranker.cpp" line="114" column="1" bodyfile="tests/llm/test_llm_reranker.cpp" bodystart="114" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__reranker_8cpp_1a46db54bdba258906e63c65ae0adee6ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmRerankerNoBackend, FallbackDisabledReturnsEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmRerankerNoBackend</type>
+        </param>
+        <param>
+          <type>FallbackDisabledReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_reranker.cpp" line="131" column="1" bodyfile="tests/llm/test_llm_reranker.cpp" bodystart="131" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__reranker_8cpp_1a7746d3de1e70e38391d98656e990d867" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmRerankerWithBackend, LlmScoresApplied)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmRerankerWithBackend</type>
+        </param>
+        <param>
+          <type>LlmScoresApplied</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_reranker.cpp" line="143" column="1" bodyfile="tests/llm/test_llm_reranker.cpp" bodystart="143" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__reranker_8cpp_1ac6cf5c7cb4eccf96996e2a27c12251d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmRerankerWithBackend, ScoresNormalisedToUnitRange)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmRerankerWithBackend</type>
+        </param>
+        <param>
+          <type>ScoresNormalisedToUnitRange</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_reranker.cpp" line="157" column="1" bodyfile="tests/llm/test_llm_reranker.cpp" bodystart="157" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__reranker_8cpp_1a05b2e140fcb860952316067fdf15ab31" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmRerankerWithBackend, ScoresClamped)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmRerankerWithBackend</type>
+        </param>
+        <param>
+          <type>ScoresClamped</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_reranker.cpp" line="170" column="1" bodyfile="tests/llm/test_llm_reranker.cpp" bodystart="170" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__reranker_8cpp_1ab0cf2d97ef1439bbe711f44e759db08e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmRerankerWithBackend, BlendingWeight)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmRerankerWithBackend</type>
+        </param>
+        <param>
+          <type>BlendingWeight</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_reranker.cpp" line="183" column="1" bodyfile="tests/llm/test_llm_reranker.cpp" bodystart="183" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__reranker_8cpp_1ab5b3b3de0c35016b3033dffd53b3c29b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmRerankerWithBackend, MissingScoresPaddedWithZero)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmRerankerWithBackend</type>
+        </param>
+        <param>
+          <type>MissingScoresPaddedWithZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_reranker.cpp" line="194" column="1" bodyfile="tests/llm/test_llm_reranker.cpp" bodystart="194" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__reranker_8cpp_1ae681532225c8d38857369a5665408ddd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmRerankerWithBackend, MinScoreThresholdFilters)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmRerankerWithBackend</type>
+        </param>
+        <param>
+          <type>MinScoreThresholdFilters</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_reranker.cpp" line="208" column="1" bodyfile="tests/llm/test_llm_reranker.cpp" bodystart="208" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__reranker_8cpp_1a41e5fd11d43b64cf1697538f3f72e49b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmRerankerWithBackend, BatchingHandlesMultipleBatches)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmRerankerWithBackend</type>
+        </param>
+        <param>
+          <type>BatchingHandlesMultipleBatches</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_reranker.cpp" line="223" column="1" bodyfile="tests/llm/test_llm_reranker.cpp" bodystart="223" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__reranker_8cpp_1a8e619e4c98f68a4ba0ade02022eb5e44" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmRerankerWithBackend, BackendExceptionTriggeresFallback)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmRerankerWithBackend</type>
+        </param>
+        <param>
+          <type>BackendExceptionTriggeresFallback</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_reranker.cpp" line="237" column="1" bodyfile="tests/llm/test_llm_reranker.cpp" bodystart="237" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__reranker_8cpp_1a42887c43516917a68b764978e7723a4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmRerankerWithBackend, BackendExceptionNoFallback)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmRerankerWithBackend</type>
+        </param>
+        <param>
+          <type>BackendExceptionNoFallback</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_reranker.cpp" line="250" column="1" bodyfile="tests/llm/test_llm_reranker.cpp" bodystart="250" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__reranker_8cpp_1abb8cfc2f6092f70c33de99607f6fb9c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmRerankerSetBackend, ReplacesNullBackend)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmRerankerSetBackend</type>
+        </param>
+        <param>
+          <type>ReplacesNullBackend</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_reranker.cpp" line="265" column="1" bodyfile="tests/llm/test_llm_reranker.cpp" bodystart="265" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__reranker_8cpp_1ac67e8fe42b9ea1d71df30475e163b63c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmRerankerSetBackend, ClearingBackendFallsBack)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmRerankerSetBackend</type>
+        </param>
+        <param>
+          <type>ClearingBackendFallsBack</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_reranker.cpp" line="274" column="1" bodyfile="tests/llm/test_llm_reranker.cpp" bodystart="274" bodyend="281"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__reranker_8cpp_1afcc86dedd21f238c89b4e978a816beab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmRerankerPrompt, PromptContainsQuery)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmRerankerPrompt</type>
+        </param>
+        <param>
+          <type>PromptContainsQuery</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_reranker.cpp" line="287" column="1" bodyfile="tests/llm/test_llm_reranker.cpp" bodystart="287" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__reranker_8cpp_1a9deb9ce3c2c28ed7860d046f346ae9e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmRerankerPrompt, PromptContainsDocumentContent)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmRerankerPrompt</type>
+        </param>
+        <param>
+          <type>PromptContainsDocumentContent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_reranker.cpp" line="294" column="1" bodyfile="tests/llm/test_llm_reranker.cpp" bodystart="294" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__reranker_8cpp_1ab6c47a213733a0ab10ec30f8c308aae6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmRerankerPrompt, SnippetTruncatedToMaxLength)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmRerankerPrompt</type>
+        </param>
+        <param>
+          <type>SnippetTruncatedToMaxLength</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_reranker.cpp" line="301" column="1" bodyfile="tests/llm/test_llm_reranker.cpp" bodystart="301" bodyend="309"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__reranker_8cpp_1a90900e4b6212543c4988788eec812394" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmRerankerPrompt, PromptContainsScoreInstructions)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmRerankerPrompt</type>
+        </param>
+        <param>
+          <type>PromptContainsScoreInstructions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_reranker.cpp" line="311" column="1" bodyfile="tests/llm/test_llm_reranker.cpp" bodystart="311" bodyend="317"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__reranker_8cpp_1a6c9723f53da8fbdb8ceb61a6dc79c6f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmRerankerPrompt, TemperatureHintIncludedWhenNonZero)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmRerankerPrompt</type>
+        </param>
+        <param>
+          <type>TemperatureHintIncludedWhenNonZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_reranker.cpp" line="319" column="1" bodyfile="tests/llm/test_llm_reranker.cpp" bodystart="319" bodyend="326"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__reranker_8cpp_1a15207e0eb7776c4e9d49b0993eec845d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmRerankerPrompt, TemperatureHintOmittedWhenZero)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmRerankerPrompt</type>
+        </param>
+        <param>
+          <type>TemperatureHintOmittedWhenZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_reranker.cpp" line="328" column="1" bodyfile="tests/llm/test_llm_reranker.cpp" bodystart="328" bodyend="334"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__reranker_8cpp_1a8f966c05124347d589e7b756c041f289" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmRerankerFeedback, RelevantResultBecomesClickEvent)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmRerankerFeedback</type>
+        </param>
+        <param>
+          <type>RelevantResultBecomesClickEvent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_reranker.cpp" line="340" column="1" bodyfile="tests/llm/test_llm_reranker.cpp" bodystart="340" bodyend="354"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__reranker_8cpp_1a659711f20d5635c940b956127840849a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmRerankerFeedback, IrrelevantResultNotInClickEvents)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmRerankerFeedback</type>
+        </param>
+        <param>
+          <type>IrrelevantResultNotInClickEvents</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_reranker.cpp" line="356" column="1" bodyfile="tests/llm/test_llm_reranker.cpp" bodystart="356" bodyend="366"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__reranker_8cpp_1ac97fee12ebcabb1c79826926d64da160" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmRerankerFeedback, EmptyResultsYieldsNoClickEvents)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmRerankerFeedback</type>
+        </param>
+        <param>
+          <type>EmptyResultsYieldsNoClickEvents</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_reranker.cpp" line="368" column="1" bodyfile="tests/llm/test_llm_reranker.cpp" bodystart="368" bodyend="371"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__reranker_8cpp_1a75169ddeae10746eaf1485edb9bb2b8d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmRerankerFeedback, RankPositionPreservedInClickEvents)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmRerankerFeedback</type>
+        </param>
+        <param>
+          <type>RankPositionPreservedInClickEvents</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_reranker.cpp" line="373" column="1" bodyfile="tests/llm/test_llm_reranker.cpp" bodystart="373" bodyend="388"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__reranker_8cpp_1afdaa6e56e6150c9f777bfdec096810bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmRerankerFeedback, IntegrationWithLearningToRank)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmRerankerFeedback</type>
+        </param>
+        <param>
+          <type>IntegrationWithLearningToRank</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_reranker.cpp" line="390" column="1" bodyfile="tests/llm/test_llm_reranker.cpp" bodystart="390" bodyend="411"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unit tests for LlmReranker — configurable re-ranking with LLM feedback loop. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;search/llm_reranker.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>LlmRerankCandidate<sp/>makeCandidate(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>content,</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>initial_score<sp/>=<sp/>0.5)<sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmRerankCandidate<sp/>c;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>c.document_id<sp/><sp/><sp/>=<sp/>id;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>c.content<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>content;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>c.initial_score<sp/>=<sp/>initial_score;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>c;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>LlmReranker::LlmBackend<sp/>makeMockBackend(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>response)<sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>[response](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*prompt*/</highlight><highlight class="normal">)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>response;<sp/>};</highlight></codeline>
+<codeline lineno="31"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Config<sp/>validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><ref refid="test__llm__reranker_8cpp_1aeff7581872bbd042a8f099cb26ea5c5f" kindref="member">TEST</ref>(LlmRerankerConfig,<sp/>DefaultConfigIsValid)<sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(LlmReranker{});</highlight></codeline>
+<codeline lineno="39"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><ref refid="test__llm__reranker_8cpp_1aeff7581872bbd042a8f099cb26ea5c5f" kindref="member">TEST</ref>(LlmRerankerConfig,<sp/>ZeroBatchSizeThrows)<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmReranker::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.batch_size<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(LlmReranker{cfg},<sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><ref refid="test__llm__reranker_8cpp_1aeff7581872bbd042a8f099cb26ea5c5f" kindref="member">TEST</ref>(LlmRerankerConfig,<sp/>LlmWeightBelowZeroThrows)<sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmReranker::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.llm_weight<sp/>=<sp/>-0.1;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(LlmReranker{cfg},<sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><ref refid="test__llm__reranker_8cpp_1aeff7581872bbd042a8f099cb26ea5c5f" kindref="member">TEST</ref>(LlmRerankerConfig,<sp/>LlmWeightAboveOneThrows)<sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmReranker::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.llm_weight<sp/>=<sp/>1.1;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(LlmReranker{cfg},<sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><ref refid="test__llm__reranker_8cpp_1aeff7581872bbd042a8f099cb26ea5c5f" kindref="member">TEST</ref>(LlmRerankerConfig,<sp/>ZeroSnippetLengthThrows)<sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmReranker::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.max_snippet_length<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(LlmReranker{cfg},<sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><ref refid="test__llm__reranker_8cpp_1aeff7581872bbd042a8f099cb26ea5c5f" kindref="member">TEST</ref>(LlmRerankerConfig,<sp/>NegativeThresholdThrows)<sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmReranker::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.min_score_threshold<sp/>=<sp/>-0.1;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(LlmReranker{cfg},<sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><ref refid="test__llm__reranker_8cpp_1aeff7581872bbd042a8f099cb26ea5c5f" kindref="member">TEST</ref>(LlmRerankerConfig,<sp/>ThresholdAboveOneThrows)<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmReranker::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.min_score_threshold<sp/>=<sp/>1.1;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(LlmReranker{cfg},<sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><ref refid="test__llm__reranker_8cpp_1aeff7581872bbd042a8f099cb26ea5c5f" kindref="member">TEST</ref>(LlmRerankerConfig,<sp/>NegativeTemperatureThrows)<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmReranker::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.temperature<sp/>=<sp/>-0.1f;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(LlmReranker{cfg},<sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><ref refid="test__llm__reranker_8cpp_1aeff7581872bbd042a8f099cb26ea5c5f" kindref="member">TEST</ref>(LlmRerankerConfig,<sp/>TemperatureAboveTwoThrows)<sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmReranker::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.temperature<sp/>=<sp/>2.1f;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(LlmReranker{cfg},<sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><ref refid="test__llm__reranker_8cpp_1aeff7581872bbd042a8f099cb26ea5c5f" kindref="member">TEST</ref>(LlmRerankerConfig,<sp/>ConfigRoundtrip)<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmReranker::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.batch_size<sp/><sp/><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.llm_weight<sp/><sp/><sp/>=<sp/>0.8;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.temperature<sp/><sp/>=<sp/>0.7f;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmReranker<sp/>rr{cfg};</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rr.getConfig().batch_size,<sp/>3u);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(rr.getConfig().llm_weight,<sp/>0.8);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(rr.getConfig().temperature,<sp/>0.7f);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>rerank()<sp/>—<sp/>empty<sp/>input</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><ref refid="test__llm__reranker_8cpp_1aeff7581872bbd042a8f099cb26ea5c5f" kindref="member">TEST</ref>(LlmRerankerRerank,<sp/>EmptyCandidatesReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmReranker<sp/>rr;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>rr.rerank(</highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">,<sp/>{});</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(results.empty());</highlight></codeline>
+<codeline lineno="108"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/>rerank()<sp/>—<sp/>no<sp/>backend</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><ref refid="test__llm__reranker_8cpp_1aeff7581872bbd042a8f099cb26ea5c5f" kindref="member">TEST</ref>(LlmRerankerNoBackend,<sp/>FallbackSortsByInitialScore)<sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmReranker<sp/>rr;<sp/></highlight><highlight class="comment">//<sp/>no<sp/>backend</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Input<sp/>intentionally<sp/>in<sp/>WRONG<sp/>order<sp/>(low<sp/>score<sp/>first)<sp/>to<sp/>verify<sp/>sorting</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>candidates<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeCandidate(</highlight><highlight class="stringliteral">&quot;doc_low&quot;</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="stringliteral">&quot;content<sp/>B&quot;</highlight><highlight class="normal">,<sp/>0.3),</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeCandidate(</highlight><highlight class="stringliteral">&quot;doc_high&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;content<sp/>A&quot;</highlight><highlight class="normal">,<sp/>0.9)</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>rr.rerank(</highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">,<sp/>candidates);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(results.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Fallback<sp/>must<sp/>sort<sp/>by<sp/>initial_score<sp/>descending<sp/>—<sp/>doc_high<sp/>should<sp/>come<sp/>first</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(results[0].document_id,<sp/></highlight><highlight class="stringliteral">&quot;doc_high&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(results[0].final_score,<sp/>0.9);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(results[1].document_id,<sp/></highlight><highlight class="stringliteral">&quot;doc_low&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(results[1].final_score,<sp/>0.3);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(results[0].llm_scored);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><ref refid="test__llm__reranker_8cpp_1aeff7581872bbd042a8f099cb26ea5c5f" kindref="member">TEST</ref>(LlmRerankerNoBackend,<sp/>FallbackDisabledReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmReranker::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.fallback_to_original<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmReranker<sp/>rr{cfg};</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>rr.rerank(</highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">,<sp/>{makeCandidate(</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;text&quot;</highlight><highlight class="normal">,<sp/>0.8)});</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(results.empty());</highlight></codeline>
+<codeline lineno="137"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="comment">//<sp/>rerank()<sp/>—<sp/>with<sp/>mock<sp/>backend</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><ref refid="test__llm__reranker_8cpp_1aeff7581872bbd042a8f099cb26ea5c5f" kindref="member">TEST</ref>(LlmRerankerWithBackend,<sp/>LlmScoresApplied)<sp/>{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LLM<sp/>scores:<sp/>doc1<sp/>=<sp/>3,<sp/>doc2<sp/>=<sp/>9<sp/><sp/>→<sp/>doc2<sp/>should<sp/>rank<sp/>first</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmReranker<sp/>rr{{},<sp/>makeMockBackend(</highlight><highlight class="stringliteral">&quot;3\n9\n&quot;</highlight><highlight class="normal">)};</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>candidates<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeCandidate(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;irrelevant<sp/>text&quot;</highlight><highlight class="normal">,<sp/>0.5),</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeCandidate(</highlight><highlight class="stringliteral">&quot;doc2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;highly<sp/>relevant&quot;</highlight><highlight class="normal">,<sp/>0.5)</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>rr.rerank(</highlight><highlight class="stringliteral">&quot;fast<sp/>db<sp/>insert&quot;</highlight><highlight class="normal">,<sp/>candidates);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(results.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(results[0].document_id,<sp/></highlight><highlight class="stringliteral">&quot;doc2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(results[0].final_score,<sp/>results[1].final_score);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(results[0].llm_scored);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><ref refid="test__llm__reranker_8cpp_1aeff7581872bbd042a8f099cb26ea5c5f" kindref="member">TEST</ref>(LlmRerankerWithBackend,<sp/>ScoresNormalisedToUnitRange)<sp/>{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LLM<sp/>returns<sp/>score<sp/>10<sp/>(max)<sp/>and<sp/>0<sp/>(min)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmReranker<sp/>rr{{},<sp/>makeMockBackend(</highlight><highlight class="stringliteral">&quot;10\n0\n&quot;</highlight><highlight class="normal">)};</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>candidates<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeCandidate(</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;text&quot;</highlight><highlight class="normal">,<sp/>0.0),</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeCandidate(</highlight><highlight class="stringliteral">&quot;d2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;text&quot;</highlight><highlight class="normal">,<sp/>0.0)</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>rr.rerank(</highlight><highlight class="stringliteral">&quot;q&quot;</highlight><highlight class="normal">,<sp/>candidates);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(results.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(results[0].llm_score,<sp/>1.0);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(results[1].llm_score,<sp/>0.0);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><ref refid="test__llm__reranker_8cpp_1aeff7581872bbd042a8f099cb26ea5c5f" kindref="member">TEST</ref>(LlmRerankerWithBackend,<sp/>ScoresClamped)<sp/>{</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LLM<sp/>returns<sp/>out-of-range<sp/>values</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmReranker<sp/>rr{{},<sp/>makeMockBackend(</highlight><highlight class="stringliteral">&quot;15\n-3\n&quot;</highlight><highlight class="normal">)};</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>candidates<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeCandidate(</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;text&quot;</highlight><highlight class="normal">,<sp/>0.0),</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeCandidate(</highlight><highlight class="stringliteral">&quot;d2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;text&quot;</highlight><highlight class="normal">,<sp/>0.0)</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>rr.rerank(</highlight><highlight class="stringliteral">&quot;q&quot;</highlight><highlight class="normal">,<sp/>candidates);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(results.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(results[0].llm_score,<sp/>1.0);<sp/></highlight><highlight class="comment">//<sp/>clamped<sp/>from<sp/>15<sp/>→<sp/>10<sp/>→<sp/>1.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(results[1].llm_score,<sp/>0.0);<sp/></highlight><highlight class="comment">//<sp/>clamped<sp/>from<sp/>-3<sp/>→<sp/>0<sp/>→<sp/>0.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><ref refid="test__llm__reranker_8cpp_1aeff7581872bbd042a8f099cb26ea5c5f" kindref="member">TEST</ref>(LlmRerankerWithBackend,<sp/>BlendingWeight)<sp/>{</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>llm_weight=0.5,<sp/>llm_score=1.0<sp/>(score<sp/>10),<sp/>initial_score=0.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>final<sp/>=<sp/>0.5*1.0<sp/>+<sp/>0.5*0.0<sp/>=<sp/>0.5</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmReranker::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.llm_weight<sp/>=<sp/>0.5;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmReranker<sp/>rr{cfg,<sp/>makeMockBackend(</highlight><highlight class="stringliteral">&quot;10\n&quot;</highlight><highlight class="normal">)};</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>rr.rerank(</highlight><highlight class="stringliteral">&quot;q&quot;</highlight><highlight class="normal">,<sp/>{makeCandidate(</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;text&quot;</highlight><highlight class="normal">,<sp/>0.0)});</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(results.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(results[0].final_score,<sp/>0.5,<sp/>1e-9);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><ref refid="test__llm__reranker_8cpp_1aeff7581872bbd042a8f099cb26ea5c5f" kindref="member">TEST</ref>(LlmRerankerWithBackend,<sp/>MissingScoresPaddedWithZero)<sp/>{</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LLM<sp/>only<sp/>returns<sp/>one<sp/>score<sp/>for<sp/>two<sp/>candidates</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmReranker<sp/>rr{{},<sp/>makeMockBackend(</highlight><highlight class="stringliteral">&quot;8\n&quot;</highlight><highlight class="normal">)};</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>candidates<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeCandidate(</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;text&quot;</highlight><highlight class="normal">,<sp/>0.5),</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeCandidate(</highlight><highlight class="stringliteral">&quot;d2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;text&quot;</highlight><highlight class="normal">,<sp/>0.5)</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>rr.rerank(</highlight><highlight class="stringliteral">&quot;q&quot;</highlight><highlight class="normal">,<sp/>candidates);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(results.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>d1<sp/>has<sp/>llm_score<sp/>0.8,<sp/>d2<sp/>padded<sp/>with<sp/>0.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>d1_first<sp/>=<sp/>(results[0].document_id<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(d1_first);</highlight></codeline>
+<codeline lineno="206"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><ref refid="test__llm__reranker_8cpp_1aeff7581872bbd042a8f099cb26ea5c5f" kindref="member">TEST</ref>(LlmRerankerWithBackend,<sp/>MinScoreThresholdFilters)<sp/>{</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmReranker::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.min_score_threshold<sp/>=<sp/>0.5;<sp/></highlight><highlight class="comment">//<sp/>only<sp/>keep<sp/>final_score<sp/>&gt;=<sp/>0.5</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.llm_weight<sp/>=<sp/>1.0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>final<sp/>==<sp/>llm_score</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmReranker<sp/>rr{cfg,<sp/>makeMockBackend(</highlight><highlight class="stringliteral">&quot;9\n2\n&quot;</highlight><highlight class="normal">)};</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>candidates<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeCandidate(</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;text&quot;</highlight><highlight class="normal">,<sp/>0.0),</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeCandidate(</highlight><highlight class="stringliteral">&quot;d2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;text&quot;</highlight><highlight class="normal">,<sp/>0.0)</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>rr.rerank(</highlight><highlight class="stringliteral">&quot;q&quot;</highlight><highlight class="normal">,<sp/>candidates);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>d1:<sp/>llm_score=0.9,<sp/>d2:<sp/>llm_score=0.2<sp/>—<sp/>only<sp/>d1<sp/>passes<sp/>the<sp/>threshold</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(results.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(results[0].document_id,<sp/></highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><ref refid="test__llm__reranker_8cpp_1aeff7581872bbd042a8f099cb26ea5c5f" kindref="member">TEST</ref>(LlmRerankerWithBackend,<sp/>BatchingHandlesMultipleBatches)<sp/>{</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmReranker::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.batch_size<sp/>=<sp/>2;<sp/></highlight><highlight class="comment">//<sp/>process<sp/>2<sp/>at<sp/>a<sp/>time</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LLM<sp/>will<sp/>return<sp/>2<sp/>scores<sp/>per<sp/>call</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmReranker<sp/>rr{cfg,<sp/>makeMockBackend(</highlight><highlight class="stringliteral">&quot;5\n5\n&quot;</highlight><highlight class="normal">)};</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;LlmRerankCandidate&gt;<sp/>candidates<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeCandidate(</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;text&quot;</highlight><highlight class="normal">,<sp/>0.0),</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeCandidate(</highlight><highlight class="stringliteral">&quot;d2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;text&quot;</highlight><highlight class="normal">,<sp/>0.0),</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeCandidate(</highlight><highlight class="stringliteral">&quot;d3&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;text&quot;</highlight><highlight class="normal">,<sp/>0.0)<sp/></highlight><highlight class="comment">//<sp/>third<sp/>candidate,<sp/>second<sp/>batch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>rr.rerank(</highlight><highlight class="stringliteral">&quot;q&quot;</highlight><highlight class="normal">,<sp/>candidates);</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(results.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><ref refid="test__llm__reranker_8cpp_1aeff7581872bbd042a8f099cb26ea5c5f" kindref="member">TEST</ref>(LlmRerankerWithBackend,<sp/>BackendExceptionTriggeresFallback)<sp/>{</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmReranker::LlmBackend<sp/>throwing_backend<sp/>=<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)<sp/>-&gt;<sp/>std::string<sp/>{</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;LLM<sp/>unavailable&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmReranker<sp/>rr{{},<sp/>throwing_backend};</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>candidates<sp/>=<sp/>{makeCandidate(</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;text&quot;</highlight><highlight class="normal">,<sp/>0.7)};</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>rr.rerank(</highlight><highlight class="stringliteral">&quot;q&quot;</highlight><highlight class="normal">,<sp/>candidates);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(results.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(results[0].document_id,<sp/></highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(results[0].llm_scored);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><ref refid="test__llm__reranker_8cpp_1aeff7581872bbd042a8f099cb26ea5c5f" kindref="member">TEST</ref>(LlmRerankerWithBackend,<sp/>BackendExceptionNoFallback)<sp/>{</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmReranker::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.fallback_to_original<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmReranker::LlmBackend<sp/>throwing_backend<sp/>=<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)<sp/>-&gt;<sp/>std::string<sp/>{</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;LLM<sp/>error&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmReranker<sp/>rr{cfg,<sp/>throwing_backend};</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>rr.rerank(</highlight><highlight class="stringliteral">&quot;q&quot;</highlight><highlight class="normal">,<sp/>{makeCandidate(</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;text&quot;</highlight><highlight class="normal">,<sp/>0.7)});</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(results.empty());</highlight></codeline>
+<codeline lineno="259"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight><highlight class="comment">//<sp/>setBackend()<sp/>—<sp/>dynamic<sp/>backend<sp/>replacement</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><ref refid="test__llm__reranker_8cpp_1aeff7581872bbd042a8f099cb26ea5c5f" kindref="member">TEST</ref>(LlmRerankerSetBackend,<sp/>ReplacesNullBackend)<sp/>{</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmReranker<sp/>rr;<sp/></highlight><highlight class="comment">//<sp/>no<sp/>backend</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>rr.setBackend(makeMockBackend(</highlight><highlight class="stringliteral">&quot;8\n&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>rr.rerank(</highlight><highlight class="stringliteral">&quot;q&quot;</highlight><highlight class="normal">,<sp/>{makeCandidate(</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;text&quot;</highlight><highlight class="normal">,<sp/>0.0)});</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(results.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(results[0].llm_scored);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(results[0].llm_score,<sp/>0.8);</highlight></codeline>
+<codeline lineno="272"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><ref refid="test__llm__reranker_8cpp_1aeff7581872bbd042a8f099cb26ea5c5f" kindref="member">TEST</ref>(LlmRerankerSetBackend,<sp/>ClearingBackendFallsBack)<sp/>{</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmReranker<sp/>rr{{},<sp/>makeMockBackend(</highlight><highlight class="stringliteral">&quot;10\n&quot;</highlight><highlight class="normal">)};</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>rr.setBackend(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>rr.rerank(</highlight><highlight class="stringliteral">&quot;q&quot;</highlight><highlight class="normal">,<sp/>{makeCandidate(</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;text&quot;</highlight><highlight class="normal">,<sp/>0.6)});</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(results.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(results[0].llm_scored);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(results[0].final_score,<sp/>0.6);</highlight></codeline>
+<codeline lineno="281"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Prompt<sp/>content</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><ref refid="test__llm__reranker_8cpp_1aeff7581872bbd042a8f099cb26ea5c5f" kindref="member">TEST</ref>(LlmRerankerPrompt,<sp/>PromptContainsQuery)<sp/>{</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>captured<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmReranker<sp/>rr{{},<sp/>[&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>p)<sp/>{<sp/>captured<sp/>=<sp/>p;<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;5\n&quot;</highlight><highlight class="normal">;<sp/>}};</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>rr.rerank(</highlight><highlight class="stringliteral">&quot;database<sp/>indexing<sp/>performance&quot;</highlight><highlight class="normal">,<sp/>{makeCandidate(</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;text&quot;</highlight><highlight class="normal">)});</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(captured.find(</highlight><highlight class="stringliteral">&quot;database<sp/>indexing<sp/>performance&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="292"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><ref refid="test__llm__reranker_8cpp_1aeff7581872bbd042a8f099cb26ea5c5f" kindref="member">TEST</ref>(LlmRerankerPrompt,<sp/>PromptContainsDocumentContent)<sp/>{</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>captured<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmReranker<sp/>rr{{},<sp/>[&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>p)<sp/>{<sp/>captured<sp/>=<sp/>p;<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;5\n&quot;</highlight><highlight class="normal">;<sp/>}};</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>rr.rerank(</highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">,<sp/>{makeCandidate(</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;unique<sp/>content<sp/>phrase&quot;</highlight><highlight class="normal">)});</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(captured.find(</highlight><highlight class="stringliteral">&quot;unique<sp/>content<sp/>phrase&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="299"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><ref refid="test__llm__reranker_8cpp_1aeff7581872bbd042a8f099cb26ea5c5f" kindref="member">TEST</ref>(LlmRerankerPrompt,<sp/>SnippetTruncatedToMaxLength)<sp/>{</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>captured<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmReranker::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.max_snippet_length<sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmReranker<sp/>rr{cfg,<sp/>[&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>p)<sp/>{<sp/>captured<sp/>=<sp/>p;<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;5\n&quot;</highlight><highlight class="normal">;<sp/>}};</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>rr.rerank(</highlight><highlight class="stringliteral">&quot;q&quot;</highlight><highlight class="normal">,<sp/>{makeCandidate(</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;this<sp/>is<sp/>a<sp/>very<sp/>long<sp/>content<sp/>snippet<sp/>that<sp/>should<sp/>be<sp/>truncated&quot;</highlight><highlight class="normal">)});</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>snippet<sp/>in<sp/>the<sp/>prompt<sp/>should<sp/>not<sp/>contain<sp/>the<sp/>full<sp/>long<sp/>string</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(captured.find(</highlight><highlight class="stringliteral">&quot;truncated&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="309"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><ref refid="test__llm__reranker_8cpp_1aeff7581872bbd042a8f099cb26ea5c5f" kindref="member">TEST</ref>(LlmRerankerPrompt,<sp/>PromptContainsScoreInstructions)<sp/>{</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>captured<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmReranker<sp/>rr{{},<sp/>[&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>p)<sp/>{<sp/>captured<sp/>=<sp/>p;<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;5\n&quot;</highlight><highlight class="normal">;<sp/>}};</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>rr.rerank(</highlight><highlight class="stringliteral">&quot;q&quot;</highlight><highlight class="normal">,<sp/>{makeCandidate(</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;text&quot;</highlight><highlight class="normal">)});</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(captured.find(</highlight><highlight class="stringliteral">&quot;0&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(captured.find(</highlight><highlight class="stringliteral">&quot;10&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="317"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><ref refid="test__llm__reranker_8cpp_1aeff7581872bbd042a8f099cb26ea5c5f" kindref="member">TEST</ref>(LlmRerankerPrompt,<sp/>TemperatureHintIncludedWhenNonZero)<sp/>{</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>captured<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmReranker::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.temperature<sp/>=<sp/>0.5f;</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmReranker<sp/>rr{cfg,<sp/>[&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>p)<sp/>{<sp/>captured<sp/>=<sp/>p;<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;5\n&quot;</highlight><highlight class="normal">;<sp/>}};</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>rr.rerank(</highlight><highlight class="stringliteral">&quot;q&quot;</highlight><highlight class="normal">,<sp/>{makeCandidate(</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;text&quot;</highlight><highlight class="normal">)});</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(captured.find(</highlight><highlight class="stringliteral">&quot;temperature&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="326"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><ref refid="test__llm__reranker_8cpp_1aeff7581872bbd042a8f099cb26ea5c5f" kindref="member">TEST</ref>(LlmRerankerPrompt,<sp/>TemperatureHintOmittedWhenZero)<sp/>{</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>captured<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmReranker<sp/>rr{{},<sp/>[&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>p)<sp/>{<sp/>captured<sp/>=<sp/>p;<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;5\n&quot;</highlight><highlight class="normal">;<sp/>}};</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Default<sp/>temperature<sp/>is<sp/>0.0<sp/>—<sp/>hint<sp/>should<sp/>not<sp/>appear</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/>rr.rerank(</highlight><highlight class="stringliteral">&quot;q&quot;</highlight><highlight class="normal">,<sp/>{makeCandidate(</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;text&quot;</highlight><highlight class="normal">)});</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(captured.find(</highlight><highlight class="stringliteral">&quot;temperature&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="334"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"></highlight><highlight class="comment">//<sp/>toClickEvents()<sp/>—<sp/>LLM<sp/>feedback<sp/>bridge</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><ref refid="test__llm__reranker_8cpp_1aeff7581872bbd042a8f099cb26ea5c5f" kindref="member">TEST</ref>(LlmRerankerFeedback,<sp/>RelevantResultBecomesClickEvent)<sp/>{</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;LlmRerankResult&gt;<sp/>results;</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmRerankResult<sp/>r;</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>r.document_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/>r.llm_score<sp/><sp/><sp/>=<sp/>0.8;</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/>r.final_score<sp/>=<sp/>0.8;</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/>r.llm_scored<sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/>results.push_back(r);</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>events<sp/>=<sp/>LlmReranker::toClickEvents(</highlight><highlight class="stringliteral">&quot;ml<sp/>query&quot;</highlight><highlight class="normal">,<sp/>results,<sp/>0.5);</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(events.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(events[0].query,<sp/></highlight><highlight class="stringliteral">&quot;ml<sp/>query&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(events[0].document_id,<sp/></highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(events[0].result_position,<sp/>0u);</highlight></codeline>
+<codeline lineno="354"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><ref refid="test__llm__reranker_8cpp_1aeff7581872bbd042a8f099cb26ea5c5f" kindref="member">TEST</ref>(LlmRerankerFeedback,<sp/>IrrelevantResultNotInClickEvents)<sp/>{</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;LlmRerankResult&gt;<sp/>results;</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmRerankResult<sp/>r;</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/>r.document_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/>r.llm_score<sp/><sp/><sp/>=<sp/>0.3;<sp/></highlight><highlight class="comment">//<sp/>below<sp/>default<sp/>threshold<sp/>0.5</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/>r.llm_scored<sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/>results.push_back(r);</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"></highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>events<sp/>=<sp/>LlmReranker::toClickEvents(</highlight><highlight class="stringliteral">&quot;q&quot;</highlight><highlight class="normal">,<sp/>results,<sp/>0.5);</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(events.empty());</highlight></codeline>
+<codeline lineno="366"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"></highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><ref refid="test__llm__reranker_8cpp_1aeff7581872bbd042a8f099cb26ea5c5f" kindref="member">TEST</ref>(LlmRerankerFeedback,<sp/>EmptyResultsYieldsNoClickEvents)<sp/>{</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>events<sp/>=<sp/>LlmReranker::toClickEvents(</highlight><highlight class="stringliteral">&quot;q&quot;</highlight><highlight class="normal">,<sp/>{},<sp/>0.5);</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(events.empty());</highlight></codeline>
+<codeline lineno="371"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"></highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><ref refid="test__llm__reranker_8cpp_1aeff7581872bbd042a8f099cb26ea5c5f" kindref="member">TEST</ref>(LlmRerankerFeedback,<sp/>RankPositionPreservedInClickEvents)<sp/>{</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;LlmRerankResult&gt;<sp/>results<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"></highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>3;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>LlmRerankResult<sp/>r;</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.document_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;doc&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.llm_score<sp/><sp/><sp/>=<sp/>0.9;<sp/></highlight><highlight class="comment">//<sp/>all<sp/>above<sp/>threshold</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.llm_scored<sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>results.push_back(r);</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>events<sp/>=<sp/>LlmReranker::toClickEvents(</highlight><highlight class="stringliteral">&quot;q&quot;</highlight><highlight class="normal">,<sp/>results,<sp/>0.5);</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(events.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>3;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(events[i].result_position,<sp/>i);</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="388"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"></highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><ref refid="test__llm__reranker_8cpp_1aeff7581872bbd042a8f099cb26ea5c5f" kindref="member">TEST</ref>(LlmRerankerFeedback,<sp/>IntegrationWithLearningToRank)<sp/>{</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>End-to-end:<sp/>LLM<sp/>re-ranks,<sp/>feedback<sp/>fed<sp/>to<sp/>LTR</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmReranker<sp/>rr{{},<sp/>makeMockBackend(</highlight><highlight class="stringliteral">&quot;9\n2\n&quot;</highlight><highlight class="normal">)};</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>candidates<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeCandidate(</highlight><highlight class="stringliteral">&quot;doc_good&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;highly<sp/>relevant&quot;</highlight><highlight class="normal">,<sp/>0.5),</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeCandidate(</highlight><highlight class="stringliteral">&quot;doc_bad&quot;</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="stringliteral">&quot;not<sp/>relevant&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/>0.5)</highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>reranked<sp/>=<sp/>rr.rerank(</highlight><highlight class="stringliteral">&quot;test<sp/>query&quot;</highlight><highlight class="normal">,<sp/>candidates);</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(reranked.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"></highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>events<sp/>=<sp/>LlmReranker::toClickEvents(</highlight><highlight class="stringliteral">&quot;test<sp/>query&quot;</highlight><highlight class="normal">,<sp/>reranked,<sp/>0.5);</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>doc_good<sp/>has<sp/>llm_score<sp/>0.9,<sp/>doc_bad<sp/>has<sp/>0.2<sp/>→<sp/>only<sp/>doc_good<sp/>yields<sp/>a<sp/>click</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(events.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="403"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(events[0].document_id,<sp/></highlight><highlight class="stringliteral">&quot;doc_good&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="404"><highlight class="normal"></highlight></codeline>
+<codeline lineno="405"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Feed<sp/>into<sp/>LTR<sp/>(just<sp/>verify<sp/>it<sp/>doesn&apos;t<sp/>crash)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="406"><highlight class="normal"><sp/><sp/><sp/><sp/>LearningToRank<sp/>ltr;</highlight></codeline>
+<codeline lineno="407"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>ev<sp/>:<sp/>events)<sp/>{</highlight></codeline>
+<codeline lineno="408"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ltr.recordClick(ev);</highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="410"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ltr.train(),<sp/>1u);</highlight></codeline>
+<codeline lineno="411"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/llm/test_llm_reranker.cpp"/>
+  </compounddef>
+</doxygen>

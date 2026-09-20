@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_http_shutdown_test" kind="class" language="C++" prot="public">
+    <compoundname>HttpShutdownTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_http_shutdown_test_1a7b394ca98fbf0f16fa7d2e05266f5b65" prot="protected" static="no" mutable="no">
+        <type><ref refid="struct_server_config" kindref="compound">ServerConfig</ref></type>
+        <definition>ServerConfig HttpShutdownTest::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>HttpShutdownTest::cfg_</qualifiedname>
+        <initializer>= defaultServerConfig()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase5_hardening.cpp" line="841" column="19" bodyfile="tests/server/test_server_phase5_hardening.cpp" bodystart="841" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>HttpShutdownTest</label>
+        <link refid="class_http_shutdown_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>HttpShutdownTest</label>
+        <link refid="class_http_shutdown_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>cfg_</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>ServerConfig</label>
+        <link refid="struct_server_config"/>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/server/test_server_phase5_hardening.cpp" line="839" column="1" bodyfile="tests/server/test_server_phase5_hardening.cpp" bodystart="839" bodyend="842"/>
+    <listofallmembers>
+      <member refid="class_http_shutdown_test_1a7b394ca98fbf0f16fa7d2e05266f5b65" prot="protected" virt="non-virtual"><scope>HttpShutdownTest</scope><name>cfg_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

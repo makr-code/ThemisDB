@@ -1,0 +1,459 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_mutation_transaction_context" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::MutationTransactionContext</compoundname>
+    <basecompoundref refid="structthemis_1_1query_1_1_mutation_executor_1_1_storage_context" prot="public" virt="non-virtual">themis::query::MutationExecutor::StorageContext</basecompoundref>
+    <includes refid="mutation__transaction_8h" local="no">mutation_transaction.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_mutation_transaction_context_1a92097479186e7cedda3425c7837e088c" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_mutation_executor_1_1_storage_context" kindref="compound">MutationExecutor::StorageContext</ref> &amp;</type>
+        <definition>MutationExecutor::StorageContext&amp; themis::query::MutationTransactionContext::underlying_</definition>
+        <argsstring></argsstring>
+        <name>underlying_</name>
+        <qualifiedname>themis::query::MutationTransactionContext::underlying_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/mutation_transaction.h" line="135" column="38" bodyfile="include/query/mutation_transaction.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_mutation_transaction_context_1af01ee500ead7ccfc4cbfa51d7a1fea67" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_mutation_undo_entry" kindref="compound">MutationUndoEntry</ref> &gt;</type>
+        <definition>std::vector&lt;MutationUndoEntry&gt; themis::query::MutationTransactionContext::undo_log_</definition>
+        <argsstring></argsstring>
+        <name>undo_log_</name>
+        <qualifiedname>themis::query::MutationTransactionContext::undo_log_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/mutation_transaction.h" line="136" column="20" bodyfile="include/query/mutation_transaction.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_mutation_transaction_context_1a289c382e77800fb6c478f63473670ca9" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::MutationTransactionContext::MutationTransactionContext</definition>
+        <argsstring>(MutationExecutor::StorageContext &amp;underlying)</argsstring>
+        <name>MutationTransactionContext</name>
+        <qualifiedname>themis::query::MutationTransactionContext::MutationTransactionContext</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1query_1_1_mutation_executor_1_1_storage_context" kindref="compound">MutationExecutor::StorageContext</ref> &amp;</type>
+          <declname>underlying</declname>
+        </param>
+        <briefdescription>
+<para>Mutation Transaction Context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">underlying</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/mutation_transaction.h" line="51" column="14" bodyfile="include/query/mutation_transaction.h" bodystart="51" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_mutation_transaction_context_1acef4e9cff89176a7fb9cb6dcdc90a6ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::MutationTransactionContext::MutationTransactionContext</definition>
+        <argsstring>(const MutationTransactionContext &amp;)=delete</argsstring>
+        <name>MutationTransactionContext</name>
+        <qualifiedname>themis::query::MutationTransactionContext::MutationTransactionContext</qualifiedname>
+        <param>
+          <type>const MutationTransactionContext &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/mutation_transaction.h" line="54" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_mutation_transaction_context_1ac3cd7580dd66af0d4562899161fa5391" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1query_1_1_mutation_transaction_context_1a289c382e77800fb6c478f63473670ca9" kindref="member">MutationTransactionContext</ref> &amp;</type>
+        <definition>MutationTransactionContext &amp; themis::query::MutationTransactionContext::operator=</definition>
+        <argsstring>(const MutationTransactionContext &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::query::MutationTransactionContext::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1query_1_1_mutation_transaction_context_1a289c382e77800fb6c478f63473670ca9" kindref="member">MutationTransactionContext</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/mutation_transaction.h" line="55" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_mutation_transaction_context_1ac21f8104b2cbd2f0ce259477f61a9d3e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::query::MutationTransactionContext::put</definition>
+        <argsstring>(std::string_view collection, std::string_view key, std::string_view value) override</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::query::MutationTransactionContext::put</qualifiedname>
+        <reimplements refid="structthemis_1_1query_1_1_mutation_executor_1_1_storage_context_1ab55994a8fef771171eb562dde2254824">put</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Put. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/mutation_transaction.h" line="61" column="10" bodyfile="include/query/mutation_transaction.h" bodystart="61" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_mutation_transaction_context_1ae87c8f273c690074763ce30a6dd0d6b5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::query::MutationTransactionContext::remove</definition>
+        <argsstring>(std::string_view collection, std::string_view key) override</argsstring>
+        <name>remove</name>
+        <qualifiedname>themis::query::MutationTransactionContext::remove</qualifiedname>
+        <reimplements refid="structthemis_1_1query_1_1_mutation_executor_1_1_storage_context_1ac3e1dde9388e0a924025bb7e9fdc7c3f">remove</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Remove. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/mutation_transaction.h" line="76" column="10" bodyfile="include/query/mutation_transaction.h" bodystart="76" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_mutation_transaction_context_1ac6283c078e9c8fc13568de2b0e6bcf40" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::query::MutationTransactionContext::exists</definition>
+        <argsstring>(std::string_view collection, std::string_view key) override</argsstring>
+        <name>exists</name>
+        <qualifiedname>themis::query::MutationTransactionContext::exists</qualifiedname>
+        <reimplements refid="structthemis_1_1query_1_1_mutation_executor_1_1_storage_context_1a31ec83969d6210d78a1057b8775ba1d9">exists</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Exists. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/mutation_transaction.h" line="87" column="10" bodyfile="include/query/mutation_transaction.h" bodystart="87" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_mutation_transaction_context_1a00ede9429b2eba4d8a3fc5b2f1f1ed1e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::query::MutationTransactionContext::generateKey</definition>
+        <argsstring>(std::string_view collection) override</argsstring>
+        <name>generateKey</name>
+        <qualifiedname>themis::query::MutationTransactionContext::generateKey</qualifiedname>
+        <reimplements refid="structthemis_1_1query_1_1_mutation_executor_1_1_storage_context_1ab7613a896099cf6fab366959d1250d45">generateKey</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>collection</declname>
+        </param>
+        <briefdescription>
+<para>Generate Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/mutation_transaction.h" line="91" column="17" bodyfile="include/query/mutation_transaction.h" bodystart="91" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_mutation_transaction_context_1a3acefcb853fcd448f11983a442a9fe3a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::query::MutationTransactionContext::writeWAL</definition>
+        <argsstring>(std::string_view collection, const nlohmann::json &amp;entry) override</argsstring>
+        <name>writeWAL</name>
+        <qualifiedname>themis::query::MutationTransactionContext::writeWAL</qualifiedname>
+        <reimplements refid="structthemis_1_1query_1_1_mutation_executor_1_1_storage_context_1ae9fbf3b890ae892b237ba33521c2021c">writeWAL</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Write WAL. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/mutation_transaction.h" line="95" column="10" bodyfile="include/query/mutation_transaction.h" bodystart="95" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_mutation_transaction_context_1acb8f8e910ee190ba1e8727d9b99ac38d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::query::MutationTransactionContext::get</definition>
+        <argsstring>(std::string_view collection, std::string_view key) override</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::query::MutationTransactionContext::get</qualifiedname>
+        <reimplements refid="structthemis_1_1query_1_1_mutation_executor_1_1_storage_context_1a9022600a18743a030b32117f74598b38">get</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">string_view</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">string_view</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements get without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/mutation_transaction.h" line="99" column="19" bodyfile="include/query/mutation_transaction.h" bodystart="99" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_mutation_transaction_context_1ae65b2ae41fda1f3e4323dcf8c20b01ce" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::MutationTransactionContext::rollback</definition>
+        <argsstring>()</argsstring>
+        <name>rollback</name>
+        <qualifiedname>themis::query::MutationTransactionContext::rollback</qualifiedname>
+        <briefdescription>
+<para>Rollback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: rbegin(), rend(), <ref refid="classthemis_1_1query_1_1_mutation_transaction_context_1ae87c8f273c690074763ce30a6dd0d6b5" kindref="member">remove()</ref>, <ref refid="classthemis_1_1query_1_1_mutation_transaction_context_1ac21f8104b2cbd2f0ce259477f61a9d3e" kindref="member">put()</ref>, clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/mutation_transaction.h" line="112" column="10" bodyfile="include/query/mutation_transaction.h" bodystart="112" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_mutation_transaction_context_1a83bb68d48a0b1a01ebf043f5e4aa2d4e" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::MutationTransactionContext::empty</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>empty</name>
+        <qualifiedname>themis::query::MutationTransactionContext::empty</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/mutation_transaction.h" line="130" column="11" bodyfile="include/query/mutation_transaction.h" bodystart="130" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_mutation_transaction_context_1a54198bac7327a0ebdd2bda58e45aec4c" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::query::MutationTransactionContext::size</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::query::MutationTransactionContext::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/mutation_transaction.h" line="132" column="18" bodyfile="include/query/mutation_transaction.h" bodystart="132" bodyend="132"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::query::MutationExecutor::StorageContext</label>
+        <link refid="structthemis_1_1query_1_1_mutation_executor_1_1_storage_context"/>
+      </node>
+      <node id="1">
+        <label>themis::query::MutationTransactionContext</label>
+        <link refid="classthemis_1_1query_1_1_mutation_transaction_context"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::query::MutationExecutor::StorageContext</label>
+        <link refid="structthemis_1_1query_1_1_mutation_executor_1_1_storage_context"/>
+      </node>
+      <node id="1">
+        <label>themis::query::MutationTransactionContext</label>
+        <link refid="classthemis_1_1query_1_1_mutation_transaction_context"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/mutation_transaction.h" line="44" column="1" bodyfile="include/query/mutation_transaction.h" bodystart="44" bodyend="137"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_mutation_transaction_context_1a83bb68d48a0b1a01ebf043f5e4aa2d4e" prot="public" virt="non-virtual"><scope>themis::query::MutationTransactionContext</scope><name>empty</name></member>
+      <member refid="classthemis_1_1query_1_1_mutation_transaction_context_1ac6283c078e9c8fc13568de2b0e6bcf40" prot="public" virt="virtual"><scope>themis::query::MutationTransactionContext</scope><name>exists</name></member>
+      <member refid="classthemis_1_1query_1_1_mutation_transaction_context_1a00ede9429b2eba4d8a3fc5b2f1f1ed1e" prot="public" virt="virtual"><scope>themis::query::MutationTransactionContext</scope><name>generateKey</name></member>
+      <member refid="classthemis_1_1query_1_1_mutation_transaction_context_1acb8f8e910ee190ba1e8727d9b99ac38d" prot="public" virt="virtual"><scope>themis::query::MutationTransactionContext</scope><name>get</name></member>
+      <member refid="classthemis_1_1query_1_1_mutation_transaction_context_1a289c382e77800fb6c478f63473670ca9" prot="public" virt="non-virtual"><scope>themis::query::MutationTransactionContext</scope><name>MutationTransactionContext</name></member>
+      <member refid="classthemis_1_1query_1_1_mutation_transaction_context_1acef4e9cff89176a7fb9cb6dcdc90a6ba" prot="public" virt="non-virtual"><scope>themis::query::MutationTransactionContext</scope><name>MutationTransactionContext</name></member>
+      <member refid="classthemis_1_1query_1_1_mutation_transaction_context_1ac3cd7580dd66af0d4562899161fa5391" prot="public" virt="non-virtual"><scope>themis::query::MutationTransactionContext</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1query_1_1_mutation_transaction_context_1ac21f8104b2cbd2f0ce259477f61a9d3e" prot="public" virt="virtual"><scope>themis::query::MutationTransactionContext</scope><name>put</name></member>
+      <member refid="classthemis_1_1query_1_1_mutation_transaction_context_1ae87c8f273c690074763ce30a6dd0d6b5" prot="public" virt="virtual"><scope>themis::query::MutationTransactionContext</scope><name>remove</name></member>
+      <member refid="classthemis_1_1query_1_1_mutation_transaction_context_1ae65b2ae41fda1f3e4323dcf8c20b01ce" prot="public" virt="non-virtual"><scope>themis::query::MutationTransactionContext</scope><name>rollback</name></member>
+      <member refid="classthemis_1_1query_1_1_mutation_transaction_context_1a54198bac7327a0ebdd2bda58e45aec4c" prot="public" virt="non-virtual"><scope>themis::query::MutationTransactionContext</scope><name>size</name></member>
+      <member refid="classthemis_1_1query_1_1_mutation_transaction_context_1a92097479186e7cedda3425c7837e088c" prot="private" virt="non-virtual"><scope>themis::query::MutationTransactionContext</scope><name>underlying_</name></member>
+      <member refid="classthemis_1_1query_1_1_mutation_transaction_context_1af01ee500ead7ccfc4cbfa51d7a1fea67" prot="private" virt="non-virtual"><scope>themis::query::MutationTransactionContext</scope><name>undo_log_</name></member>
+      <member refid="classthemis_1_1query_1_1_mutation_transaction_context_1a3acefcb853fcd448f11983a442a9fe3a" prot="public" virt="virtual"><scope>themis::query::MutationTransactionContext</scope><name>writeWAL</name></member>
+      <member refid="structthemis_1_1query_1_1_mutation_executor_1_1_storage_context_1a1d00b408d11ca395162d07075df43bb4" prot="public" virt="virtual"><scope>themis::query::MutationTransactionContext</scope><name>~StorageContext</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

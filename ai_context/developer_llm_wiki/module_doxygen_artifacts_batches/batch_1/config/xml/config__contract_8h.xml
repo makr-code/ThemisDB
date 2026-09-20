@@ -1,0 +1,245 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="config__contract_8h" kind="file" language="C++">
+    <compoundname>config_contract.h</compoundname>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">string</includes>
+    <includedby refid="bench__config__release__gates_8cpp" local="yes">benchmarks/config/bench_config_release_gates.cpp</includedby>
+    <includedby refid="test__config__hardening__resolver__validator_8cpp" local="yes">tests/config/test_config_hardening_resolver_validator.cpp</includedby>
+    <includedby refid="test__config__hardening__watcher__store_8cpp" local="yes">tests/config/test_config_hardening_watcher_store.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/config/config_contract.h</label>
+        <link refid="config__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>cstddef</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/config/bench_config_release_gates.cpp</label>
+        <link refid="bench__config__release__gates_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/config/config_contract.h</label>
+        <link refid="config__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>tests/config/test_config_hardening_resolver_validator.cpp</label>
+        <link refid="test__config__hardening__resolver__validator_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/config/test_config_hardening_watcher_store.cpp</label>
+        <link refid="test__config__hardening__watcher__store_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1config">themis::config</innernamespace>
+    <briefdescription>
+<para>Frozen config-module semantics for the active v1.x release line. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This header defines the normative contract for config resolution, schema validation, file watching, and encrypted storage that all config module components must honour in the current major release line.</para>
+<sect1 id="config__contract_8h_1autotoc_md0_1s1"><sect2 id="config__contract_8h_1autotoc_md0">
+<title>Contract Scope</title><para>The contracts below are binding for all implementations that participate in the ThemisDB configuration pipeline:<itemizedlist>
+<listitem><para>Path resolvers (ConfigPathResolver with fallback mapping)</para>
+</listitem><listitem><para>Schema validators (ConfigSchemaValidator with JSON Schema Draft 7 subset)</para>
+</listitem><listitem><para>File watchers (ConfigFileWatcher with bounded signaling)</para>
+</listitem><listitem><para>Encrypted stores (ConfigEncryptedStore with AES-256-GCM)</para>
+</listitem><listitem><para>Audit loggers (ConfigAuditLog with observability contracts)</para>
+</listitem><listitem><para>Metrics exporters (ConfigMetricsExporter with bounded registration)</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="config__contract_8h_1autotoc_md1_1s1"><sect2 id="config__contract_8h_1autotoc_md1">
+<title>Versioning</title><para>This contract is stable within v1.x. Breaking changes require a v2.0 bump with migration notes and a CHANGELOG entry.</para>
+<para><simplesect kind="see"><para>src/config/ROADMAP.md — Phase 1 item </para>
+</simplesect>
+<simplesect kind="see"><para>include/config/README.md — Phase 6 documentation item </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1config" kindref="compound">config</ref><sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>1<sp/><sp/>Configuration<sp/>size<sp/>constraints</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>These<sp/>limits<sp/>are<sp/>enforced<sp/>at<sp/>every<sp/>inbound<sp/>boundary<sp/>(file<sp/>paths,<sp/>schema</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>documents,<sp/>config<sp/>values,<sp/>config<sp/>keys).<sp/><sp/>Inputs<sp/>exceeding<sp/>these<sp/>limits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>are<sp/>rejected<sp/>immediately;<sp/>the<sp/>caller<sp/>receives<sp/>a<sp/>CONFIG_PARSE_ERROR<sp/>or</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CONFIG_VALIDATION_ERROR.<sp/><sp/>Oversized<sp/>inputs<sp/>are<sp/>logged<sp/>and<sp/>audited.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="namespacethemis_1_1config_1a5052fc3e6905a461be80ef6dc5632d0b" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1config_1a5052fc3e6905a461be80ef6dc5632d0b" kindref="member">kMaxConfigFileSizeBytes</ref><sp/>=<sp/>100<sp/>*<sp/>1024<sp/>*<sp/>1024;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="namespacethemis_1_1config_1afcf605977d48a86c5d0c3512f85d8129" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1config_1afcf605977d48a86c5d0c3512f85d8129" kindref="member">kMaxConfigPathBytes</ref><sp/>=<sp/>4096;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="namespacethemis_1_1config_1a8c013bb58ba4c735d05360799227ef93" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1config_1a8c013bb58ba4c735d05360799227ef93" kindref="member">kMaxSchemaSizeBytes</ref><sp/>=<sp/>10<sp/>*<sp/>1024<sp/>*<sp/>1024;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="namespacethemis_1_1config_1abaf5f6d7c7549f1e048d5c6cba974739" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1config_1abaf5f6d7c7549f1e048d5c6cba974739" kindref="member">kMaxConfigKeyBytes</ref><sp/>=<sp/>256;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="namespacethemis_1_1config_1a67b3b3e42e52ede28935184967b766e0" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1config_1a67b3b3e42e52ede28935184967b766e0" kindref="member">kMaxConfigValueBytes</ref><sp/>=<sp/>1024<sp/>*<sp/>1024;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="namespacethemis_1_1config_1a020cf48973c1151d3567c29ef81b672a" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1config_1a020cf48973c1151d3567c29ef81b672a" kindref="member">kMaxConfigTopLevelKeys</ref><sp/>=<sp/>10000;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="namespacethemis_1_1config_1a6d361ec4bff90d20a3b2b713442112f5" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1config_1a6d361ec4bff90d20a3b2b713442112f5" kindref="member">kMaxConfigNestingDepth</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>2<sp/><sp/>Temporal<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>All<sp/>time<sp/>measurements<sp/>use<sp/>UTC<sp/>epoch.<sp/><sp/>File<sp/>watcher<sp/>and<sp/>cache-expiration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>comparisons<sp/>are<sp/>consistent<sp/>and<sp/>monotonic<sp/>within<sp/>a<sp/>single<sp/>process<sp/>lifetime.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="namespacethemis_1_1config_1add3c83b24d1f7f228cf0374dc9f8dc04" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::seconds<sp/><ref refid="namespacethemis_1_1config_1add3c83b24d1f7f228cf0374dc9f8dc04" kindref="member">kFileWatcherDefaultPollInterval</ref>{5};</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="namespacethemis_1_1config_1ac5645535ecde04e2620a3bddf0407bea" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::seconds<sp/><ref refid="namespacethemis_1_1config_1ac5645535ecde04e2620a3bddf0407bea" kindref="member">kFileWatcherMaxPollInterval</ref>{60};</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="namespacethemis_1_1config_1a008be0f9518536b045f64f07f2b80135" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::milliseconds<sp/><ref refid="namespacethemis_1_1config_1a008be0f9518536b045f64f07f2b80135" kindref="member">kFileWatcherMinPollInterval</ref>{100};</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="namespacethemis_1_1config_1aa6ca424dcf2a6c25de1cd50bb7475da2" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::hours<sp/><ref refid="namespacethemis_1_1config_1aa6ca424dcf2a6c25de1cd50bb7475da2" kindref="member">kEncryptedStoreRotationInterval</ref>{24};</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="namespacethemis_1_1config_1a52af1fd77350f255f01d6ed5e42ae3b3" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::seconds<sp/><ref refid="namespacethemis_1_1config_1a52af1fd77350f255f01d6ed5e42ae3b3" kindref="member">kConfigCacheMaxStaleness</ref>{120};</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>3<sp/><sp/>Failure<sp/>classification</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>All<sp/>config<sp/>components<sp/>must<sp/>map<sp/>their<sp/>internal<sp/>error<sp/>states<sp/>to<sp/>one<sp/>of<sp/>these</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//<sp/>canonical<sp/>failure<sp/>classes.<sp/><sp/>This<sp/>enables<sp/>uniform<sp/>operator<sp/>diagnostics<sp/>and</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/>consistent<sp/>fail-closed<sp/>resolution<sp/>behavior.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116" refid="namespacethemis_1_1config_1ae86b961044cb5e7bf32f89edfbf03f4c" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1config_1ae86b961044cb5e7bf32f89edfbf03f4c" kindref="member">ConfigFailureClass</ref><sp/>:<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="118" refid="namespacethemis_1_1config_1ae86b961044cb5e7bf32f89edfbf03f4ca41ecc5ed813e532ce57a4312fc75d332" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1config_1ae86b961044cb5e7bf32f89edfbf03f4ca41ecc5ed813e532ce57a4312fc75d332" kindref="member">MalformedInput</ref><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122" refid="namespacethemis_1_1config_1ae86b961044cb5e7bf32f89edfbf03f4ca636bc5ca1e0ceb3e4c67067618d7ae09" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1config_1ae86b961044cb5e7bf32f89edfbf03f4ca636bc5ca1e0ceb3e4c67067618d7ae09" kindref="member">InvalidConfig</ref><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126" refid="namespacethemis_1_1config_1ae86b961044cb5e7bf32f89edfbf03f4ca38c300f4fc9ce8a77aad4a30de05cad8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1config_1ae86b961044cb5e7bf32f89edfbf03f4ca38c300f4fc9ce8a77aad4a30de05cad8" kindref="member">NotFound</ref><sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130" refid="namespacethemis_1_1config_1ae86b961044cb5e7bf32f89edfbf03f4ca4d4909e99ce0cd6596ff6c104c3f7149" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1config_1ae86b961044cb5e7bf32f89edfbf03f4ca4d4909e99ce0cd6596ff6c104c3f7149" kindref="member">StorageDegraded</ref><sp/>=<sp/>4,</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="namespacethemis_1_1config_1ae86b961044cb5e7bf32f89edfbf03f4ca05f6ffa53682f5ecd6164f8a3524733a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1config_1ae86b961044cb5e7bf32f89edfbf03f4ca05f6ffa53682f5ecd6164f8a3524733a" kindref="member">ConfigurationError</ref><sp/>=<sp/>5,</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138" refid="namespacethemis_1_1config_1ae86b961044cb5e7bf32f89edfbf03f4ca8462b58246e70e5c83e5b939a9332cb5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1config_1ae86b961044cb5e7bf32f89edfbf03f4ca8462b58246e70e5c83e5b939a9332cb5" kindref="member">InternalError</ref><sp/>=<sp/>6,</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142" refid="namespacethemis_1_1config_1ae86b961044cb5e7bf32f89edfbf03f4ca4b33a686be73bb172407d73b26356275" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1config_1ae86b961044cb5e7bf32f89edfbf03f4ca4b33a686be73bb172407d73b26356275" kindref="member">PermissionDenied</ref><sp/>=<sp/>7,</highlight></codeline>
+<codeline lineno="143"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>4<sp/><sp/>Resolver<sp/>fail-closed<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/>All<sp/>config<sp/>resolution<sp/>paths<sp/>MUST<sp/>default<sp/>to<sp/>denial<sp/>(fail-closed)<sp/>when:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>a)<sp/>The<sp/>failure<sp/>class<sp/>is<sp/>StorageDegraded<sp/>or<sp/>InternalError.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>b)<sp/>The<sp/>requested<sp/>path<sp/>cannot<sp/>be<sp/>resolved<sp/>through<sp/>any<sp/>mapped<sp/>fallback.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>c)<sp/>The<sp/>resolved<sp/>path<sp/>does<sp/>not<sp/>exist<sp/>or<sp/>cannot<sp/>be<sp/>opened.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>d)<sp/>The<sp/>underlying<sp/>file/store<sp/>is<sp/>unreadable<sp/>due<sp/>to<sp/>permission<sp/>errors.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Callers<sp/>MUST<sp/>NOT<sp/>treat<sp/>a<sp/>resolution<sp/>failure<sp/>as<sp/>a<sp/>positive<sp/>outcome.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Callers<sp/>MAY<sp/>use<sp/>a<sp/>last-known-good<sp/>cached<sp/>config<sp/>only<sp/>if<sp/>the<sp/>cache</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="comment">//<sp/>is<sp/>within<sp/>kConfigCacheMaxStaleness<sp/>and<sp/>the<sp/>cache<sp/>is<sp/>explicitly<sp/>trusted.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177" refid="namespacethemis_1_1config_1a6de6b576068c726f95cc6caf83bd79c5" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1config_1a6de6b576068c726f95cc6caf83bd79c5" kindref="member">isFailClosedClass</ref>(<ref refid="namespacethemis_1_1config_1ae86b961044cb5e7bf32f89edfbf03f4c" kindref="member">ConfigFailureClass</ref><sp/>fc)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>fc<sp/>==<sp/><ref refid="namespacethemis_1_1config_1ae86b961044cb5e7bf32f89edfbf03f4ca4d4909e99ce0cd6596ff6c104c3f7149" kindref="member">ConfigFailureClass::StorageDegraded</ref><sp/>||<sp/>fc<sp/>==<sp/><ref refid="namespacethemis_1_1config_1ae86b961044cb5e7bf32f89edfbf03f4ca8462b58246e70e5c83e5b939a9332cb5" kindref="member">ConfigFailureClass::InternalError</ref><sp/>||</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fc<sp/>==<sp/><ref refid="namespacethemis_1_1config_1ae86b961044cb5e7bf32f89edfbf03f4ca05f6ffa53682f5ecd6164f8a3524733a" kindref="member">ConfigFailureClass::ConfigurationError</ref><sp/>||<sp/>fc<sp/>==<sp/><ref refid="namespacethemis_1_1config_1ae86b961044cb5e7bf32f89edfbf03f4ca4b33a686be73bb172407d73b26356275" kindref="member">ConfigFailureClass::PermissionDenied</ref>;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>5<sp/><sp/>Schema<sp/>validation<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="comment">//<sp/>All<sp/>schema<sp/>validators<sp/>MUST<sp/>satisfy:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>validate()<sp/>is<sp/>deterministic<sp/>and<sp/>idempotent<sp/>for<sp/>identical<sp/>input.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>External<sp/>$ref<sp/>URIs<sp/>are<sp/>NOT<sp/>resolved<sp/>(prevent<sp/>SSRF,<sp/>restrict<sp/>to<sp/>document-internal<sp/>#/paths).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Unsupported<sp/>JSON<sp/>Schema<sp/>keywords<sp/>are<sp/>silently<sp/>ignored<sp/>(graceful<sp/>degradation).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Validation<sp/>failures<sp/>are<sp/>collected<sp/>and<sp/>reported<sp/>together<sp/>(not<sp/>fail-first).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Format<sp/>validators<sp/>(email,<sp/>date,<sp/>uri,<sp/>ipv4,<sp/>ipv6)<sp/>use<sp/>RFC-compliant<sp/>implementations.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195" refid="namespacethemis_1_1config_1af8fb1f5fb8ac10c958d29569b096b7b2" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1config_1af8fb1f5fb8ac10c958d29569b096b7b2" kindref="member">kMaxValidationErrorsCollected</ref><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198" refid="namespacethemis_1_1config_1aa07fc50d53433180b64566e25cfcdd5d" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="namespacethemis_1_1config_1aa07fc50d53433180b64566e25cfcdd5d" kindref="member">kJsonSchemaDraftVersion</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;draft7-subset&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>6<sp/><sp/>File<sp/>watcher<sp/>availability<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight><highlight class="comment">//<sp/>File<sp/>watchers<sp/>MUST<sp/>satisfy<sp/>all<sp/>of<sp/>the<sp/>following:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Polling<sp/>interval<sp/>is<sp/>bounded<sp/>and<sp/>configurable<sp/>within<sp/>[kFileWatcherMinPollInterval,<sp/>kFileWatcherMaxPollInterval].</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>File<sp/>modifications<sp/>are<sp/>signaled<sp/>within<sp/>kFileWatcherDefaultPollInterval<sp/>+<sp/>latency<sp/>(typically<sp/>&lt;<sp/>10<sp/>seconds).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>If<sp/>a<sp/>watched<sp/>file<sp/>is<sp/>deleted,<sp/>the<sp/>watcher<sp/>signals<sp/>a<sp/>change<sp/>event;<sp/>callers<sp/>MAY<sp/>treat<sp/>deletion<sp/>as<sp/>an<sp/>error.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Watcher<sp/>does<sp/>NOT<sp/>block<sp/>main<sp/>application<sp/>threads<sp/>for<sp/>file<sp/>I/O;<sp/>all<sp/>I/O<sp/>is<sp/>non-blocking<sp/>or<sp/>threaded.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Concurrent<sp/>modifications<sp/>during<sp/>a<sp/>watch<sp/>interval<sp/>are<sp/>eventually<sp/>consistent;<sp/>no<sp/>intermediate<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>is<sp/>guaranteed<sp/>to<sp/>be<sp/>observed<sp/>(races<sp/>are<sp/>resolved<sp/>in<sp/>favor<sp/>of<sp/>the<sp/>final<sp/>state).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214" refid="namespacethemis_1_1config_1a6f2d4fe90c1e392544934d4b38eac985" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::milliseconds<sp/><ref refid="namespacethemis_1_1config_1a6f2d4fe90c1e392544934d4b38eac985" kindref="member">kFileWatcherOperationTimeout</ref>{5000};</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>7<sp/><sp/>Encrypted-store<sp/>consistency<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Encrypted<sp/>stores<sp/>MUST<sp/>obey<sp/>all<sp/>of<sp/>the<sp/>following:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>All<sp/>stored<sp/>values<sp/>are<sp/>encrypted<sp/>with<sp/>AES-256-GCM<sp/>(authenticated<sp/>encryption).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Decryption<sp/>failures<sp/>return<sp/>a<sp/>CONFIG_DECRYPTION_ERROR<sp/>(never<sp/>silent<sp/>failure).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Key<sp/>rotation<sp/>is<sp/>non-blocking<sp/>to<sp/>client<sp/>reads/writes<sp/>(old<sp/>+<sp/>new<sp/>keys<sp/>accepted<sp/>during<sp/>transition).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Metadata<sp/>(IV,<sp/>nonce,<sp/>ciphertext<sp/>length)<sp/>is<sp/>validated<sp/>before<sp/>decryption<sp/>attempt.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Store<sp/>does<sp/>not<sp/>support<sp/>partial<sp/>reads;<sp/>entire<sp/>value<sp/>is<sp/>decrypted<sp/>or<sp/>operation<sp/>fails.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228" refid="namespacethemis_1_1config_1ad81ef97b99c382f4a9cc2a9faef35410" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="namespacethemis_1_1config_1ad81ef97b99c382f4a9cc2a9faef35410" kindref="member">kEncryptionAlgorithm</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;AES-256-GCM&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231" refid="namespacethemis_1_1config_1a57be132421a244a077fbc559fad6e664" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1config_1a57be132421a244a077fbc559fad6e664" kindref="member">kGcmAuthTagBytes</ref><sp/>=<sp/>16;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234" refid="namespacethemis_1_1config_1aca63f5fc2be27b0cd1ae9a4c78ae859f" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1config_1aca63f5fc2be27b0cd1ae9a4c78ae859f" kindref="member">kGcmIvBytes</ref><sp/>=<sp/>12;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238" refid="namespacethemis_1_1config_1a801dd1931ed9cfa116e18481c7efe189" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1config_1a801dd1931ed9cfa116e18481c7efe189" kindref="member">kMaxEncryptionKeyRotationHistorySize</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>8<sp/><sp/>Audit<sp/>and<sp/>observability<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight><highlight class="comment">//<sp/>All<sp/>audit<sp/>and<sp/>metrics<sp/>paths<sp/>MUST<sp/>satisfy:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Audit<sp/>logs<sp/>NEVER<sp/>block<sp/>config<sp/>resolution<sp/>or<sp/>validation<sp/>on<sp/>write<sp/>failures.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Metrics<sp/>collection<sp/>is<sp/>always-on<sp/>but<sp/>bounded<sp/>in<sp/>cardinality<sp/>(no<sp/>unbounded<sp/>label<sp/>explosion).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Failed<sp/>config<sp/>operations<sp/>are<sp/>logged<sp/>with<sp/>sufficient<sp/>context<sp/>for<sp/>debugging</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>(path,<sp/>schema<sp/>context,<sp/>error<sp/>details)<sp/>but<sp/>WITHOUT<sp/>sensitive<sp/>values<sp/>or<sp/>secrets.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252" refid="namespacethemis_1_1config_1a9a39dff907e5fd9172b8d908d163a169" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1config_1a9a39dff907e5fd9172b8d908d163a169" kindref="member">kMaxAuditEventTypeCardinality</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255" refid="namespacethemis_1_1config_1af04d4606cfc9bc1bd20abfd94b98ac8e" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1config_1af04d4606cfc9bc1bd20abfd94b98ac8e" kindref="member">kMaxMetricsLabelCardinality</ref><sp/>=<sp/>10000;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>config</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/config/config_contract.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_10f35c9fc895640005eba274fbdfc1c3" kind="dir">
+    <compoundname>include/maintenance</compoundname>
+    <innerfile refid="database__maintenance__orchestrator_8h">database_maintenance_orchestrator.h</innerfile>
+    <innerfile refid="i__distributed__lock_8h">i_distributed_lock.h</innerfile>
+    <innerfile refid="i__maintenance__task__handler_8h">i_maintenance_task_handler.h</innerfile>
+    <innerfile refid="maintenance__api__contract_8h">maintenance_api_contract.h</innerfile>
+    <innerfile refid="maintenance__health__report_8h">maintenance_health_report.h</innerfile>
+    <innerfile refid="maintenance__schedule_8h">maintenance_schedule.h</innerfile>
+    <innerfile refid="maintenance__schedule__store_8h">maintenance_schedule_store.h</innerfile>
+    <innerfile refid="maintenance__task_8h">maintenance_task.h</innerfile>
+    <innerfile refid="maintenance__task__handler__impls_8h">maintenance_task_handler_impls.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/maintenance/"/>
+  </compounddef>
+</doxygen>

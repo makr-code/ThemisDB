@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_gossip_message" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::GossipMessage</compoundname>
+    <includes refid="gossip__protocol_8h" local="no">gossip_protocol.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_gossip_message_1af6e1f19678e07ca1467ee89d6c8464ea" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::GossipMessage::message_id</definition>
+        <argsstring></argsstring>
+        <name>message_id</name>
+        <qualifiedname>themis::sharding::GossipMessage::message_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="106" column="17" bodyfile="include/sharding/gossip_protocol.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_gossip_message_1a5629ba62a6785ebbcdbfd74d3c113a74" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::GossipMessage::sender_id</definition>
+        <argsstring></argsstring>
+        <name>sender_id</name>
+        <qualifiedname>themis::sharding::GossipMessage::sender_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="107" column="17" bodyfile="include/sharding/gossip_protocol.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_gossip_message_1ac3dd571562dda00e2a87032f1761e17a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::GossipMessage::message_type</definition>
+        <argsstring></argsstring>
+        <name>message_type</name>
+        <qualifiedname>themis::sharding::GossipMessage::message_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="108" column="17" bodyfile="include/sharding/gossip_protocol.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_gossip_message_1a9a2e1964394990e8d02829aa14a033e6" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::GossipMessage::payload</definition>
+        <argsstring></argsstring>
+        <name>payload</name>
+        <qualifiedname>themis::sharding::GossipMessage::payload</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="109" column="20" bodyfile="include/sharding/gossip_protocol.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_gossip_message_1af6c13800f7162483ba7cf3df2f1115f9" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::GossipMessage::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::sharding::GossipMessage::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="110" column="14" bodyfile="include/sharding/gossip_protocol.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_gossip_message_1a6ce9ebcff21fdf450e8cd34cf7518d1c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::GossipMessage::signature</definition>
+        <argsstring></argsstring>
+        <name>signature</name>
+        <qualifiedname>themis::sharding::GossipMessage::signature</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="111" column="17" bodyfile="include/sharding/gossip_protocol.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_gossip_message_1aaaef40b9e7d1780f259b5571e4d36a18" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::GossipMessage::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::sharding::GossipMessage::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="113" column="20" bodyfile="include/sharding/gossip_protocol.h" bodystart="113" bodyend="122"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_gossip_message_1a03619ed74475ce57308e3e96bbe4c06a" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_gossip_message" kindref="compound">GossipMessage</ref></type>
+        <definition>static GossipMessage themis::sharding::GossipMessage::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::sharding::GossipMessage::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="124" column="26" bodyfile="include/sharding/gossip_protocol.h" bodystart="124" bodyend="133"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Gossip Message Message exchanged between peers during gossip rounds. </para>
+    </detaileddescription>
+    <location file="include/sharding/gossip_protocol.h" line="105" column="1" bodyfile="include/sharding/gossip_protocol.h" bodystart="105" bodyend="134"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_gossip_message_1a03619ed74475ce57308e3e96bbe4c06a" prot="public" virt="non-virtual"><scope>themis::sharding::GossipMessage</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1sharding_1_1_gossip_message_1af6e1f19678e07ca1467ee89d6c8464ea" prot="public" virt="non-virtual"><scope>themis::sharding::GossipMessage</scope><name>message_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_gossip_message_1ac3dd571562dda00e2a87032f1761e17a" prot="public" virt="non-virtual"><scope>themis::sharding::GossipMessage</scope><name>message_type</name></member>
+      <member refid="structthemis_1_1sharding_1_1_gossip_message_1a9a2e1964394990e8d02829aa14a033e6" prot="public" virt="non-virtual"><scope>themis::sharding::GossipMessage</scope><name>payload</name></member>
+      <member refid="structthemis_1_1sharding_1_1_gossip_message_1a5629ba62a6785ebbcdbfd74d3c113a74" prot="public" virt="non-virtual"><scope>themis::sharding::GossipMessage</scope><name>sender_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_gossip_message_1a6ce9ebcff21fdf450e8cd34cf7518d1c" prot="public" virt="non-virtual"><scope>themis::sharding::GossipMessage</scope><name>signature</name></member>
+      <member refid="structthemis_1_1sharding_1_1_gossip_message_1af6c13800f7162483ba7cf3df2f1115f9" prot="public" virt="non-virtual"><scope>themis::sharding::GossipMessage</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1sharding_1_1_gossip_message_1aaaef40b9e7d1780f259b5571e4d36a18" prot="public" virt="non-virtual"><scope>themis::sharding::GossipMessage</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

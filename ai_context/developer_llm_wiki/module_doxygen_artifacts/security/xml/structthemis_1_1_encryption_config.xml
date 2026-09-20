@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_encryption_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::EncryptionConfig</compoundname>
+    <includes refid="include_2security_2encryption_8h" local="no">encryption.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_encryption_config_1afc803b70193dfe34cfe9cd7b5a9a8036" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::EncryptionConfig::field_key_mapping</definition>
+        <argsstring></argsstring>
+        <name>field_key_mapping</name>
+        <qualifiedname>themis::EncryptionConfig::field_key_mapping</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/encryption.h" line="89" column="24" bodyfile="include/security/encryption.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_encryption_config_1afc8ffd7ad1d838b0616edbcb155a9599" prot="public" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; themis::EncryptionConfig::encrypted_fields</definition>
+        <argsstring></argsstring>
+        <name>encrypted_fields</name>
+        <qualifiedname>themis::EncryptionConfig::encrypted_fields</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/encryption.h" line="91" column="24" bodyfile="include/security/encryption.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_encryption_config_1ad4c7890b14d68e40fa3266023be58c52" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::EncryptionConfig::default_key_id</definition>
+        <argsstring></argsstring>
+        <name>default_key_id</name>
+        <qualifiedname>themis::EncryptionConfig::default_key_id</qualifiedname>
+        <initializer>= &quot;default&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/encryption.h" line="93" column="17" bodyfile="include/security/encryption.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_encryption_config_1a0ee95b38384df75d6e9a16ca825ea168" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::EncryptionConfig::empty</definition>
+        <argsstring>() const</argsstring>
+        <name>empty</name>
+        <qualifiedname>themis::EncryptionConfig::empty</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/encryption.h" line="95" column="10" bodyfile="include/security/encryption.h" bodystart="95" bodyend="97"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/encryption.h" line="88" column="1" bodyfile="include/security/encryption.h" bodystart="88" bodyend="98"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_encryption_config_1ad4c7890b14d68e40fa3266023be58c52" prot="public" virt="non-virtual"><scope>themis::EncryptionConfig</scope><name>default_key_id</name></member>
+      <member refid="structthemis_1_1_encryption_config_1a0ee95b38384df75d6e9a16ca825ea168" prot="public" virt="non-virtual"><scope>themis::EncryptionConfig</scope><name>empty</name></member>
+      <member refid="structthemis_1_1_encryption_config_1afc8ffd7ad1d838b0616edbcb155a9599" prot="public" virt="non-virtual"><scope>themis::EncryptionConfig</scope><name>encrypted_fields</name></member>
+      <member refid="structthemis_1_1_encryption_config_1afc803b70193dfe34cfe9cd7b5a9a8036" prot="public" virt="non-virtual"><scope>themis::EncryptionConfig</scope><name>field_key_mapping</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

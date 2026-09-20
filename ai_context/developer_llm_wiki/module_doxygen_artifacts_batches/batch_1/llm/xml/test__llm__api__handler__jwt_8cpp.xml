@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__llm__api__handler__jwt_8cpp" kind="file" language="C++">
+    <compoundname>test_llm_api_handler_jwt.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/llm/test_llm_api_handler_jwt.cpp</label>
+        <link refid="test__llm__api__handler__jwt_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__llm__api__handler__jwt_8cpp_1a6ccd9f027641d08947694916142f8622" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWTApiHandlerDummy, Placeholder)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWTApiHandlerDummy</type>
+        </param>
+        <param>
+          <type>Placeholder</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_api_handler_jwt.cpp" line="6" column="1" bodyfile="tests/llm/test_llm_api_handler_jwt.cpp" bodystart="6" bodyend="8"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Skipping<sp/>entire<sp/>test<sp/>file<sp/>-<sp/>JWTValidatorConfig<sp/>definition<sp/>issue</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>All<sp/>tests<sp/>below<sp/>are<sp/>skipped<sp/>until<sp/>auth/jwt_validator_config.h<sp/>issues<sp/>are<sp/>resolved</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"><ref refid="test__llm__api__handler__jwt_8cpp_1a6ccd9f027641d08947694916142f8622" kindref="member">TEST</ref>(JWTApiHandlerDummy,<sp/>Placeholder)<sp/>{</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;JWT<sp/>API<sp/>Handler<sp/>tests<sp/>skipped<sp/>due<sp/>to<sp/>forward<sp/>declaration<sp/>issues&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="8"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/llm/test_llm_api_handler_jwt.cpp"/>
+  </compounddef>
+</doxygen>

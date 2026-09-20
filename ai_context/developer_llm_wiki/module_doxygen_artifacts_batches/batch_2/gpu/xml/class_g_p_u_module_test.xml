@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_g_p_u_module_test" kind="class" language="C++" prot="public">
+    <compoundname>GPUModuleTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_g_p_u_module_test_1a98735403c0bf2df2c0593bc70bfcda4e" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GPUModuleTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>GPUModuleTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_module.cpp" line="41" column="10" bodyfile="tests/gpu/test_gpu_module.cpp" bodystart="41" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="class_g_p_u_module_test_1af1f5f36c38deda2d9c2f5f26de746f10" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GPUModuleTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>GPUModuleTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_module.cpp" line="42" column="10" bodyfile="tests/gpu/test_gpu_module.cpp" bodystart="42" bodyend="42"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>GPUModuleTest</label>
+        <link refid="class_g_p_u_module_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>GPUModuleTest</label>
+        <link refid="class_g_p_u_module_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/gpu/test_gpu_module.cpp" line="39" column="1" bodyfile="tests/gpu/test_gpu_module.cpp" bodystart="39" bodyend="43"/>
+    <listofallmembers>
+      <member refid="class_g_p_u_module_test_1a98735403c0bf2df2c0593bc70bfcda4e" prot="protected" virt="non-virtual"><scope>GPUModuleTest</scope><name>SetUp</name></member>
+      <member refid="class_g_p_u_module_test_1af1f5f36c38deda2d9c2f5f26de746f10" prot="protected" virt="non-virtual"><scope>GPUModuleTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

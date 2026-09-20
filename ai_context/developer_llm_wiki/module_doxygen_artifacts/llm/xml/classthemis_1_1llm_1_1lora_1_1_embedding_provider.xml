@@ -1,0 +1,726 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_embedding_provider" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::EmbeddingProvider</compoundname>
+    <includes refid="embedding__provider_8h" local="no">embedding_provider.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_embedding_provider_1_1_config" prot="public">themis::llm::lora::EmbeddingProvider::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1a19823b89ae4a1c9912d33a47f801c97f" prot="private" static="no" mutable="no">
+        <type>llama_model *</type>
+        <definition>llama_model* themis::llm::lora::EmbeddingProvider::model_</definition>
+        <argsstring></argsstring>
+        <name>model_</name>
+        <qualifiedname>themis::llm::lora::EmbeddingProvider::model_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/embedding_provider.h" line="164" column="17" bodyfile="include/llm/lora_framework/embedding_provider.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1ae309f6cbb4699a82f8be8dfd854360b7" prot="private" static="no" mutable="no">
+        <type>llama_context *</type>
+        <definition>llama_context* themis::llm::lora::EmbeddingProvider::context_</definition>
+        <argsstring></argsstring>
+        <name>context_</name>
+        <qualifiedname>themis::llm::lora::EmbeddingProvider::context_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/embedding_provider.h" line="165" column="19" bodyfile="include/llm/lora_framework/embedding_provider.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1a4e8962c1898d5273ca251ca4330eafd1" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_embedding_provider_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::llm::lora::EmbeddingProvider::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::lora::EmbeddingProvider::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/embedding_provider.h" line="166" column="12" bodyfile="include/llm/lora_framework/embedding_provider.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1a9ce09587d5bd0fc768c7c82266fa747e" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::lora::EmbeddingProvider::cache_mutex_</definition>
+        <argsstring></argsstring>
+        <name>cache_mutex_</name>
+        <qualifiedname>themis::llm::lora::EmbeddingProvider::cache_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/embedding_provider.h" line="169" column="24" bodyfile="include/llm/lora_framework/embedding_provider.h" bodystart="169" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1a58db78d9db9b49ecf7aecef681bf9cc9" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache" kindref="compound">EmbeddingCache</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, EmbeddingCache&gt; themis::llm::lora::EmbeddingProvider::cache_</definition>
+        <argsstring></argsstring>
+        <name>cache_</name>
+        <qualifiedname>themis::llm::lora::EmbeddingProvider::cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/embedding_provider.h" line="170" column="24" bodyfile="include/llm/lora_framework/embedding_provider.h" bodystart="170" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1ae0d47c6e5604870bcd6b18c95ea80d97" prot="private" static="no" mutable="yes">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache_stats" kindref="compound">EmbeddingCacheStats</ref></type>
+        <definition>EmbeddingCacheStats themis::llm::lora::EmbeddingProvider::cache_stats_</definition>
+        <argsstring></argsstring>
+        <name>cache_stats_</name>
+        <qualifiedname>themis::llm::lora::EmbeddingProvider::cache_stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/embedding_provider.h" line="171" column="33" bodyfile="include/llm/lora_framework/embedding_provider.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1a4d473d27d3ae9496078b3258226c0cd4" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::EmbeddingProvider::EmbeddingProvider</definition>
+        <argsstring>(llama_model *model, llama_context *context, const Config &amp;config)</argsstring>
+        <name>EmbeddingProvider</name>
+        <qualifiedname>themis::llm::lora::EmbeddingProvider::EmbeddingProvider</qualifiedname>
+        <param>
+          <type>llama_model *</type>
+          <declname>model</declname>
+        </param>
+        <param>
+          <type>llama_context *</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_embedding_provider_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Embedding Provider. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">model</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/embedding_provider.h" line="86" column="14" bodyfile="src/llm/lora_framework/embedding_provider.cpp" bodystart="24" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1a5d46d7594425d8b01fc75c3bd2d552b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::EmbeddingProvider::~EmbeddingProvider</definition>
+        <argsstring>()</argsstring>
+        <name>~EmbeddingProvider</name>
+        <qualifiedname>themis::llm::lora::EmbeddingProvider::~EmbeddingProvider</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/embedding_provider.h" line="92" column="5" bodyfile="src/llm/lora_framework/embedding_provider.cpp" bodystart="50" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1aab42983df9d70deefa67a513e5b3c34f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::EmbeddingProvider::EmbeddingProvider</definition>
+        <argsstring>(const EmbeddingProvider &amp;)=delete</argsstring>
+        <name>EmbeddingProvider</name>
+        <qualifiedname>themis::llm::lora::EmbeddingProvider::EmbeddingProvider</qualifiedname>
+        <param>
+          <type>const EmbeddingProvider &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/embedding_provider.h" line="95" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1a22476bd6bab76a6273c324766ec29b35" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1a4d473d27d3ae9496078b3258226c0cd4" kindref="member">EmbeddingProvider</ref> &amp;</type>
+        <definition>EmbeddingProvider &amp; themis::llm::lora::EmbeddingProvider::operator=</definition>
+        <argsstring>(const EmbeddingProvider &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::lora::EmbeddingProvider::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1a4d473d27d3ae9496078b3258226c0cd4" kindref="member">EmbeddingProvider</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/embedding_provider.h" line="96" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1ae5d9956ea57dd0071b53f1b60dfefe07" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::llm::lora::EmbeddingProvider::getEmbedding</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>getEmbedding</name>
+        <qualifiedname>themis::llm::lora::EmbeddingProvider::getEmbedding</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Get Embedding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getCachedEmbedding(), has_value(), value(), llama_model_get_vocab(), spdlog::error(), tokens_buffer(), size(), max(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/embedding_provider.h" line="103" column="17" bodyfile="src/llm/lora_framework/embedding_provider.cpp" bodystart="65" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1a1c1ded6863eee98764e8d83fdeaefac8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::vector&lt; float &gt; &gt;</type>
+        <definition>std::vector&lt; std::vector&lt; float &gt; &gt; themis::llm::lora::EmbeddingProvider::getEmbeddings</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;texts)</argsstring>
+        <name>getEmbeddings</name>
+        <qualifiedname>themis::llm::lora::EmbeddingProvider::getEmbeddings</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>texts</declname>
+        </param>
+        <briefdescription>
+<para>Get Embeddings. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">texts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">texts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), std::min(), push_back(), <ref refid="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1ae5d9956ea57dd0071b53f1b60dfefe07" kindref="member">getEmbedding()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/embedding_provider.h" line="110" column="17" bodyfile="src/llm/lora_framework/embedding_provider.cpp" bodystart="144" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1aa1c514fa132e40d41f65a9d45b294097" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::EmbeddingProvider::buildEmbeddingCache</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;training_texts, std::vector&lt; EmbeddingCache &gt; &amp;cache_out)</argsstring>
+        <name>buildEmbeddingCache</name>
+        <qualifiedname>themis::llm::lora::EmbeddingProvider::buildEmbeddingCache</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>training_texts</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache" kindref="compound">EmbeddingCache</ref> &gt; &amp;</type>
+          <declname>cache_out</declname>
+        </param>
+        <briefdescription>
+<para>Build Embedding Cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">training_texts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">cache_out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">training_texts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">cache_out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::info(), size(), clear(), reserve(), std::chrono::high_resolution_clock::now(), <ref refid="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1a1c1ded6863eee98764e8d83fdeaefac8" kindref="member">getEmbeddings()</ref>, empty(), std::chrono::system_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/embedding_provider.h" line="118" column="10" bodyfile="src/llm/lora_framework/embedding_provider.cpp" bodystart="169" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1af39fa8d0f0568007ca0dcef306f7abbe" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::EmbeddingProvider::getEmbeddingDim</definition>
+        <argsstring>() const</argsstring>
+        <name>getEmbeddingDim</name>
+        <qualifiedname>themis::llm::lora::EmbeddingProvider::getEmbeddingDim</qualifiedname>
+        <briefdescription>
+<para>Get Embedding Dim. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/embedding_provider.h" line="127" column="12" bodyfile="src/llm/lora_framework/embedding_provider.cpp" bodystart="211" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1ac4e80ff1c4bb98b8e6ab014646ccb54d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache_stats" kindref="compound">EmbeddingCacheStats</ref></type>
+        <definition>EmbeddingCacheStats themis::llm::lora::EmbeddingProvider::getCacheStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getCacheStats</name>
+        <qualifiedname>themis::llm::lora::EmbeddingProvider::getCacheStats</qualifiedname>
+        <briefdescription>
+<para>Get Cache Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/embedding_provider.h" line="133" column="25" bodyfile="src/llm/lora_framework/embedding_provider.cpp" bodystart="229" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1a942d600c2b1173e34e9f187c62c12e61" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::EmbeddingProvider::clearCache</definition>
+        <argsstring>()</argsstring>
+        <name>clearCache</name>
+        <qualifiedname>themis::llm::lora::EmbeddingProvider::clearCache</qualifiedname>
+        <briefdescription>
+<para>Clear Cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), spdlog::info(), size(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/embedding_provider.h" line="138" column="10" bodyfile="src/llm/lora_framework/embedding_provider.cpp" bodystart="254" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1a0db4e33a7965cec874b9aca403212281" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::EmbeddingProvider::saveCache</definition>
+        <argsstring>(const std::string &amp;filepath)</argsstring>
+        <name>saveCache</name>
+        <qualifiedname>themis::llm::lora::EmbeddingProvider::saveCache</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filepath</declname>
+        </param>
+        <briefdescription>
+<para>Save Cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filepath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filepath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), file(), spdlog::error(), size(), <ref refid="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1af39fa8d0f0568007ca0dcef306f7abbe" kindref="member">getEmbeddingDim()</ref>, write(), c_str(), data(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/embedding_provider.h" line="145" column="10" bodyfile="src/llm/lora_framework/embedding_provider.cpp" bodystart="269" bodyend="314"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1a48a5253b5ee2fb4e136eb6fe9a2e3130" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::EmbeddingProvider::loadCache</definition>
+        <argsstring>(const std::string &amp;filepath)</argsstring>
+        <name>loadCache</name>
+        <qualifiedname>themis::llm::lora::EmbeddingProvider::loadCache</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filepath</declname>
+        </param>
+        <briefdescription>
+<para>Load Cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filepath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filepath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), file(), spdlog::debug(), read(), spdlog::error(), <ref refid="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1af39fa8d0f0568007ca0dcef306f7abbe" kindref="member">getEmbeddingDim()</ref>, clear(), text(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/embedding_provider.h" line="152" column="10" bodyfile="src/llm/lora_framework/embedding_provider.cpp" bodystart="322" bodyend="390"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1adf0745b7865a81784c994710982ace06" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::EmbeddingProvider::isCacheEnabled</definition>
+        <argsstring>() const</argsstring>
+        <name>isCacheEnabled</name>
+        <qualifiedname>themis::llm::lora::EmbeddingProvider::isCacheEnabled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/embedding_provider.h" line="154" column="10" bodyfile="include/llm/lora_framework/embedding_provider.h" bodystart="154" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1acfb1efbe554c19caa0b963eb30b57e89" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::EmbeddingProvider::enableCache</definition>
+        <argsstring>(bool enable)</argsstring>
+        <name>enableCache</name>
+        <qualifiedname>themis::llm::lora::EmbeddingProvider::enableCache</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enable</declname>
+        </param>
+        <briefdescription>
+<para>Enable Cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">enable</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements enableCache without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/embedding_provider.h" line="161" column="10" bodyfile="include/llm/lora_framework/embedding_provider.h" bodystart="161" bodyend="161"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1a78a178af1121e3d7b71f5f671b4c4ce6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::llm::lora::EmbeddingProvider::extractEmbeddingFromTokens</definition>
+        <argsstring>(const std::vector&lt; int &gt; &amp;tokens)</argsstring>
+        <name>extractEmbeddingFromTokens</name>
+        <qualifiedname>themis::llm::lora::EmbeddingProvider::extractEmbeddingFromTokens</qualifiedname>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>tokens</declname>
+        </param>
+        <briefdescription>
+<para>Extract Embedding From Tokens. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), llama_tokens(), begin(), end(), size(), max(), spdlog::error(), llama_batch_init(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/embedding_provider.h" line="178" column="17" bodyfile="src/llm/lora_framework/embedding_provider.cpp" bodystart="398" bodyend="454"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1a8c71ead08a10cbf3e562cabb2737c836" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::EmbeddingProvider::evictCacheIfNeeded</definition>
+        <argsstring>()</argsstring>
+        <name>evictCacheIfNeeded</name>
+        <qualifiedname>themis::llm::lora::EmbeddingProvider::evictCacheIfNeeded</qualifiedname>
+        <briefdescription>
+<para>Evict Cache If Needed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: size(), push_back(), std::sort(), begin(), end(), erase(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/embedding_provider.h" line="183" column="10" bodyfile="src/llm/lora_framework/embedding_provider.cpp" bodystart="460" bodyend="484"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1aadd66312162cdc3ddc3b0720a6bc4a6a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::vector&lt; float &gt; &gt;</type>
+        <definition>std::optional&lt; std::vector&lt; float &gt; &gt; themis::llm::lora::EmbeddingProvider::getCachedEmbedding</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>getCachedEmbedding</name>
+        <qualifiedname>themis::llm::lora::EmbeddingProvider::getCachedEmbedding</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Get Cached Embedding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(), isExpired(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/embedding_provider.h" line="190" column="19" bodyfile="src/llm/lora_framework/embedding_provider.cpp" bodystart="492" bodyend="517"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1a0aa5ade6390c6c46585604b02ea1e62e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::EmbeddingProvider::addToCache</definition>
+        <argsstring>(const std::string &amp;text, const std::vector&lt; float &gt; &amp;embedding)</argsstring>
+        <name>addToCache</name>
+        <qualifiedname>themis::llm::lora::EmbeddingProvider::addToCache</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>embedding</declname>
+        </param>
+        <briefdescription>
+<para>Add To Cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">embedding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">embedding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), evictCacheIfNeeded(), std::chrono::system_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/embedding_provider.h" line="197" column="10" bodyfile="src/llm/lora_framework/embedding_provider.cpp" bodystart="525" bodyend="540"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/embedding_provider.h" line="69" column="1" bodyfile="include/llm/lora_framework/embedding_provider.h" bodystart="69" bodyend="198"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1a0aa5ade6390c6c46585604b02ea1e62e" prot="private" virt="non-virtual"><scope>themis::llm::lora::EmbeddingProvider</scope><name>addToCache</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1aa1c514fa132e40d41f65a9d45b294097" prot="public" virt="non-virtual"><scope>themis::llm::lora::EmbeddingProvider</scope><name>buildEmbeddingCache</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1a58db78d9db9b49ecf7aecef681bf9cc9" prot="private" virt="non-virtual"><scope>themis::llm::lora::EmbeddingProvider</scope><name>cache_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1a9ce09587d5bd0fc768c7c82266fa747e" prot="private" virt="non-virtual"><scope>themis::llm::lora::EmbeddingProvider</scope><name>cache_mutex_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1ae0d47c6e5604870bcd6b18c95ea80d97" prot="private" virt="non-virtual"><scope>themis::llm::lora::EmbeddingProvider</scope><name>cache_stats_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1a942d600c2b1173e34e9f187c62c12e61" prot="public" virt="non-virtual"><scope>themis::llm::lora::EmbeddingProvider</scope><name>clearCache</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1a4e8962c1898d5273ca251ca4330eafd1" prot="private" virt="non-virtual"><scope>themis::llm::lora::EmbeddingProvider</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1ae309f6cbb4699a82f8be8dfd854360b7" prot="private" virt="non-virtual"><scope>themis::llm::lora::EmbeddingProvider</scope><name>context_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1a4d473d27d3ae9496078b3258226c0cd4" prot="public" virt="non-virtual"><scope>themis::llm::lora::EmbeddingProvider</scope><name>EmbeddingProvider</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1aab42983df9d70deefa67a513e5b3c34f" prot="public" virt="non-virtual"><scope>themis::llm::lora::EmbeddingProvider</scope><name>EmbeddingProvider</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1acfb1efbe554c19caa0b963eb30b57e89" prot="public" virt="non-virtual"><scope>themis::llm::lora::EmbeddingProvider</scope><name>enableCache</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1a8c71ead08a10cbf3e562cabb2737c836" prot="private" virt="non-virtual"><scope>themis::llm::lora::EmbeddingProvider</scope><name>evictCacheIfNeeded</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1a78a178af1121e3d7b71f5f671b4c4ce6" prot="private" virt="non-virtual"><scope>themis::llm::lora::EmbeddingProvider</scope><name>extractEmbeddingFromTokens</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1aadd66312162cdc3ddc3b0720a6bc4a6a" prot="private" virt="non-virtual"><scope>themis::llm::lora::EmbeddingProvider</scope><name>getCachedEmbedding</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1ac4e80ff1c4bb98b8e6ab014646ccb54d" prot="public" virt="non-virtual"><scope>themis::llm::lora::EmbeddingProvider</scope><name>getCacheStats</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1ae5d9956ea57dd0071b53f1b60dfefe07" prot="public" virt="non-virtual"><scope>themis::llm::lora::EmbeddingProvider</scope><name>getEmbedding</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1af39fa8d0f0568007ca0dcef306f7abbe" prot="public" virt="non-virtual"><scope>themis::llm::lora::EmbeddingProvider</scope><name>getEmbeddingDim</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1a1c1ded6863eee98764e8d83fdeaefac8" prot="public" virt="non-virtual"><scope>themis::llm::lora::EmbeddingProvider</scope><name>getEmbeddings</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1adf0745b7865a81784c994710982ace06" prot="public" virt="non-virtual"><scope>themis::llm::lora::EmbeddingProvider</scope><name>isCacheEnabled</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1a48a5253b5ee2fb4e136eb6fe9a2e3130" prot="public" virt="non-virtual"><scope>themis::llm::lora::EmbeddingProvider</scope><name>loadCache</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1a19823b89ae4a1c9912d33a47f801c97f" prot="private" virt="non-virtual"><scope>themis::llm::lora::EmbeddingProvider</scope><name>model_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1a22476bd6bab76a6273c324766ec29b35" prot="public" virt="non-virtual"><scope>themis::llm::lora::EmbeddingProvider</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1a0db4e33a7965cec874b9aca403212281" prot="public" virt="non-virtual"><scope>themis::llm::lora::EmbeddingProvider</scope><name>saveCache</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1a5d46d7594425d8b01fc75c3bd2d552b8" prot="public" virt="non-virtual"><scope>themis::llm::lora::EmbeddingProvider</scope><name>~EmbeddingProvider</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

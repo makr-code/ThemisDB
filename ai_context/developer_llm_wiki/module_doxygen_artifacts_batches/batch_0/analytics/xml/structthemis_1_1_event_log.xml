@@ -1,0 +1,157 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_event_log" kind="struct" language="C++" prot="public">
+    <compoundname>themis::EventLog</compoundname>
+    <includes refid="process__mining_8h" local="no">process_mining.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_event_log_1acf382e7392a22a05aa29a00de88d739c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_process_trace" kindref="compound">ProcessTrace</ref> &gt;</type>
+        <definition>std::vector&lt;ProcessTrace&gt; themis::EventLog::traces</definition>
+        <argsstring></argsstring>
+        <name>traces</name>
+        <qualifiedname>themis::EventLog::traces</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="69" column="17" bodyfile="include/analytics/process_mining.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_event_log_1a0eb16a4c3d948d8a71c0181f68013fce" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::EventLog::total_events</definition>
+        <argsstring></argsstring>
+        <name>total_events</name>
+        <qualifiedname>themis::EventLog::total_events</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="72" column="12" bodyfile="include/analytics/process_mining.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_event_log_1a83785e1656c857d3447fba79fd997906" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::EventLog::unique_activities</definition>
+        <argsstring></argsstring>
+        <name>unique_activities</name>
+        <qualifiedname>themis::EventLog::unique_activities</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="73" column="12" bodyfile="include/analytics/process_mining.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_event_log_1aee7ac5b647c6acc7a1f0c94b1f0738e9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::EventLog::unique_cases</definition>
+        <argsstring></argsstring>
+        <name>unique_cases</name>
+        <qualifiedname>themis::EventLog::unique_cases</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="74" column="12" bodyfile="include/analytics/process_mining.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_event_log_1af91d3b57b23c4d6929c76d412b93e3d6" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::EventLog::unique_variants</definition>
+        <argsstring></argsstring>
+        <name>unique_variants</name>
+        <qualifiedname>themis::EventLog::unique_variants</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="75" column="12" bodyfile="include/analytics/process_mining.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_event_log_1add5a3ee6b95987467371dc54798102b8" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, int &gt;</type>
+        <definition>std::map&lt;std::string, int&gt; themis::EventLog::activity_to_id</definition>
+        <argsstring></argsstring>
+        <name>activity_to_id</name>
+        <qualifiedname>themis::EventLog::activity_to_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="78" column="14" bodyfile="include/analytics/process_mining.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_event_log_1af3ac485123693acc65f2b26cbea25e92" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::EventLog::id_to_activity</definition>
+        <argsstring></argsstring>
+        <name>id_to_activity</name>
+        <qualifiedname>themis::EventLog::id_to_activity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="79" column="17" bodyfile="include/analytics/process_mining.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_event_log_1ac7b74f70961930dbb2dc7e411dd37b47" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::EventLog::min_timestamp</definition>
+        <argsstring></argsstring>
+        <name>min_timestamp</name>
+        <qualifiedname>themis::EventLog::min_timestamp</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="82" column="13" bodyfile="include/analytics/process_mining.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_event_log_1ab06751868d3696134f326a8764895543" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::EventLog::max_timestamp</definition>
+        <argsstring></argsstring>
+        <name>max_timestamp</name>
+        <qualifiedname>themis::EventLog::max_timestamp</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="83" column="13" bodyfile="include/analytics/process_mining.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/process_mining.h" line="68" column="1" bodyfile="include/analytics/process_mining.h" bodystart="68" bodyend="84"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_event_log_1add5a3ee6b95987467371dc54798102b8" prot="public" virt="non-virtual"><scope>themis::EventLog</scope><name>activity_to_id</name></member>
+      <member refid="structthemis_1_1_event_log_1af3ac485123693acc65f2b26cbea25e92" prot="public" virt="non-virtual"><scope>themis::EventLog</scope><name>id_to_activity</name></member>
+      <member refid="structthemis_1_1_event_log_1ab06751868d3696134f326a8764895543" prot="public" virt="non-virtual"><scope>themis::EventLog</scope><name>max_timestamp</name></member>
+      <member refid="structthemis_1_1_event_log_1ac7b74f70961930dbb2dc7e411dd37b47" prot="public" virt="non-virtual"><scope>themis::EventLog</scope><name>min_timestamp</name></member>
+      <member refid="structthemis_1_1_event_log_1a0eb16a4c3d948d8a71c0181f68013fce" prot="public" virt="non-virtual"><scope>themis::EventLog</scope><name>total_events</name></member>
+      <member refid="structthemis_1_1_event_log_1acf382e7392a22a05aa29a00de88d739c" prot="public" virt="non-virtual"><scope>themis::EventLog</scope><name>traces</name></member>
+      <member refid="structthemis_1_1_event_log_1a83785e1656c857d3447fba79fd997906" prot="public" virt="non-virtual"><scope>themis::EventLog</scope><name>unique_activities</name></member>
+      <member refid="structthemis_1_1_event_log_1aee7ac5b647c6acc7a1f0c94b1f0738e9" prot="public" virt="non-virtual"><scope>themis::EventLog</scope><name>unique_cases</name></member>
+      <member refid="structthemis_1_1_event_log_1af91d3b57b23c4d6929c76d412b93e3d6" prot="public" virt="non-virtual"><scope>themis::EventLog</scope><name>unique_variants</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

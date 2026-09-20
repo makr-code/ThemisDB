@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_json_schema_constraint" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::JsonSchemaConstraint</compoundname>
+    <includes refid="structured__output_8h" local="no">structured_output.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_json_schema_constraint_1af750c9548a93e999b4995c515ea5d2ff" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::JsonSchemaConstraint::schema_json</definition>
+        <argsstring></argsstring>
+        <name>schema_json</name>
+        <qualifiedname>themis::prompt_engineering::JsonSchemaConstraint::schema_json</qualifiedname>
+        <briefdescription>
+<para>Inline JSON schema (subset: required/properties). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/structured_output.h" line="30" column="17" bodyfile="include/prompt_engineering/structured_output.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_json_schema_constraint_1a7da3acf2a7fb4c460e40e7b4d714db15" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::JsonSchemaConstraint::strict_mode</definition>
+        <argsstring></argsstring>
+        <name>strict_mode</name>
+        <qualifiedname>themis::prompt_engineering::JsonSchemaConstraint::strict_mode</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Reject unknown top-level keys if true. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/structured_output.h" line="31" column="10" bodyfile="include/prompt_engineering/structured_output.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_json_schema_constraint_1a317ba4cc21acf66e36631a3e3d6ea25e" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::prompt_engineering::JsonSchemaConstraint::max_retries</definition>
+        <argsstring></argsstring>
+        <name>max_retries</name>
+        <qualifiedname>themis::prompt_engineering::JsonSchemaConstraint::max_retries</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Maximum repair+validate attempts. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/structured_output.h" line="32" column="10" bodyfile="include/prompt_engineering/structured_output.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>JSON-schema constraint: required-field list + strict-mode flag. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The enforcer parses <computeroutput><ref refid="structthemis_1_1prompt__engineering_1_1_json_schema_constraint_1af750c9548a93e999b4995c515ea5d2ff" kindref="member">schema_json</ref></computeroutput> for a top-level <computeroutput>"required"</computeroutput> array and verifies that all listed keys appear in the output object. In <computeroutput><ref refid="structthemis_1_1prompt__engineering_1_1_json_schema_constraint_1a7da3acf2a7fb4c460e40e7b4d714db15" kindref="member">strict_mode</ref></computeroutput>, keys present in the output but <bold>not</bold> listed under <computeroutput>"properties"</computeroutput> are rejected. </para>
+    </detaileddescription>
+    <location file="include/prompt_engineering/structured_output.h" line="29" column="1" bodyfile="include/prompt_engineering/structured_output.h" bodystart="29" bodyend="33"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_json_schema_constraint_1a317ba4cc21acf66e36631a3e3d6ea25e" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::JsonSchemaConstraint</scope><name>max_retries</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_json_schema_constraint_1af750c9548a93e999b4995c515ea5d2ff" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::JsonSchemaConstraint</scope><name>schema_json</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_json_schema_constraint_1a7da3acf2a7fb4c460e40e7b4d714db15" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::JsonSchemaConstraint</scope><name>strict_mode</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

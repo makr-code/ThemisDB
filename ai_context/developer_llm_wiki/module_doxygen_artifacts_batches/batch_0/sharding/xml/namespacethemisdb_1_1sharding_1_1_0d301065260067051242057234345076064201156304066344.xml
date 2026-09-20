@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemisdb_1_1sharding_1_1_0d301065260067051242057234345076064201156304066344" kind="namespace" language="C++">
+    <compoundname>themisdb::sharding::@301065260067051242057234345076064201156304066344</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/sharding/cross_shard_transaction.cpp" line="78" column="1"/>
+  </compounddef>
+</doxygen>

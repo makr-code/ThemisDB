@@ -1,0 +1,642 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__performance__contract__hardening__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_performance_contract_hardening_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="performance__api__contract_8h" local="yes">performance/performance_api_contract.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">random</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>performance/performance_api_contract.h</label>
+        <link refid="performance__api__contract_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/performance/test_performance_contract_hardening_focused.cpp</label>
+        <link refid="test__performance__contract__hardening__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>algorithm</label>
+      </node>
+      <node id="10">
+        <label>atomic</label>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="11">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="12">
+        <label>random</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>string_view</label>
+      </node>
+      <node id="13">
+        <label>thread</label>
+      </node>
+      <node id="14">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_perf_contract_test" prot="public">PerfContractTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__performance__contract__hardening__focused_8cpp_1a7f36e85cebaa08284d3832397529128c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PerfContractTest, PFM01_ErrorCodesAreUnique)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_perf_contract_test" kindref="compound">PerfContractTest</ref></type>
+        </param>
+        <param>
+          <type>PFM01_ErrorCodesAreUnique</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_performance_contract_hardening_focused.cpp" line="50" column="1" bodyfile="tests/performance/test_performance_contract_hardening_focused.cpp" bodystart="50" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="test__performance__contract__hardening__focused_8cpp_1a2cdf1d541357abd8127babb1b72fa228" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PerfContractTest, PFM02_ErrorCodesInRange)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_perf_contract_test" kindref="compound">PerfContractTest</ref></type>
+        </param>
+        <param>
+          <type>PFM02_ErrorCodesInRange</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_performance_contract_hardening_focused.cpp" line="68" column="1" bodyfile="tests/performance/test_performance_contract_hardening_focused.cpp" bodystart="68" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="test__performance__contract__hardening__focused_8cpp_1a14d89f59a59408ad8e4607a28e183328" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PerfContractTest, PFM03_PoolAcquireResultDefault)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_perf_contract_test" kindref="compound">PerfContractTest</ref></type>
+        </param>
+        <param>
+          <type>PFM03_PoolAcquireResultDefault</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_performance_contract_hardening_focused.cpp" line="86" column="1" bodyfile="tests/performance/test_performance_contract_hardening_focused.cpp" bodystart="86" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="test__performance__contract__hardening__focused_8cpp_1aa836241615c315d9f18897cbdc082c61" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PerfContractTest, PFM04_PoolAcquireResultSuccessState)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_perf_contract_test" kindref="compound">PerfContractTest</ref></type>
+        </param>
+        <param>
+          <type>PFM04_PoolAcquireResultSuccessState</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_performance_contract_hardening_focused.cpp" line="95" column="1" bodyfile="tests/performance/test_performance_contract_hardening_focused.cpp" bodystart="95" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="test__performance__contract__hardening__focused_8cpp_1a51f65683b4458598e3709f11d45373a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PerfContractTest, PFM05_CacheStatsDefaultHitRate)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_perf_contract_test" kindref="compound">PerfContractTest</ref></type>
+        </param>
+        <param>
+          <type>PFM05_CacheStatsDefaultHitRate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_performance_contract_hardening_focused.cpp" line="106" column="1" bodyfile="tests/performance/test_performance_contract_hardening_focused.cpp" bodystart="106" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="test__performance__contract__hardening__focused_8cpp_1ae016c41e607ee23381d1dab45776b950" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PerfContractTest, PFM06_CacheStatsHitRateBounds)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_perf_contract_test" kindref="compound">PerfContractTest</ref></type>
+        </param>
+        <param>
+          <type>PFM06_CacheStatsHitRateBounds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_performance_contract_hardening_focused.cpp" line="117" column="1" bodyfile="tests/performance/test_performance_contract_hardening_focused.cpp" bodystart="117" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="test__performance__contract__hardening__focused_8cpp_1af0ed4103ae1a235f4d8767d4fde3b609" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PerfContractTest, PFM07_CostEstimateIsNonNegative)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_perf_contract_test" kindref="compound">PerfContractTest</ref></type>
+        </param>
+        <param>
+          <type>PFM07_CostEstimateIsNonNegative</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_performance_contract_hardening_focused.cpp" line="136" column="1" bodyfile="tests/performance/test_performance_contract_hardening_focused.cpp" bodystart="136" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="test__performance__contract__hardening__focused_8cpp_1a68a29e6156722707e237b53137d79402" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PerfContractTest, PFM08_CostEstimateArithmetic)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_perf_contract_test" kindref="compound">PerfContractTest</ref></type>
+        </param>
+        <param>
+          <type>PFM08_CostEstimateArithmetic</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_performance_contract_hardening_focused.cpp" line="147" column="1" bodyfile="tests/performance/test_performance_contract_hardening_focused.cpp" bodystart="147" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="test__performance__contract__hardening__focused_8cpp_1a89759c155ad074a477488afc926ecdbd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PerfContractTest, PFM09_CompileTimeoutDistinctFromPoolExhausted)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_perf_contract_test" kindref="compound">PerfContractTest</ref></type>
+        </param>
+        <param>
+          <type>PFM09_CompileTimeoutDistinctFromPoolExhausted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_performance_contract_hardening_focused.cpp" line="158" column="1" bodyfile="tests/performance/test_performance_contract_hardening_focused.cpp" bodystart="158" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="test__performance__contract__hardening__focused_8cpp_1a40dbc1c70a70d62eaf350df18d37ca49" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PerfContractTest, PFM10_PlanStaleDistinctFromCacheEvictionFull)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_perf_contract_test" kindref="compound">PerfContractTest</ref></type>
+        </param>
+        <param>
+          <type>PFM10_PlanStaleDistinctFromCacheEvictionFull</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_performance_contract_hardening_focused.cpp" line="166" column="1" bodyfile="tests/performance/test_performance_contract_hardening_focused.cpp" bodystart="166" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="test__performance__contract__hardening__focused_8cpp_1a39444989706ecb990f37076e471ff4db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PerfContractTest, PFM11_AllMissesHitRateIsZero)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_perf_contract_test" kindref="compound">PerfContractTest</ref></type>
+        </param>
+        <param>
+          <type>PFM11_AllMissesHitRateIsZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_performance_contract_hardening_focused.cpp" line="174" column="1" bodyfile="tests/performance/test_performance_contract_hardening_focused.cpp" bodystart="174" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="test__performance__contract__hardening__focused_8cpp_1a595705c8d390adf3171c18db5f782d1b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PerfContractTest, PFM12_AllHitsHitRateIs100)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_perf_contract_test" kindref="compound">PerfContractTest</ref></type>
+        </param>
+        <param>
+          <type>PFM12_AllHitsHitRateIs100</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_performance_contract_hardening_focused.cpp" line="189" column="1" bodyfile="tests/performance/test_performance_contract_hardening_focused.cpp" bodystart="189" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="test__performance__contract__hardening__focused_8cpp_1af6445c11c75f8054f157bd5b73cb2a9f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PerfContractTest, PFM13_PoolAcquireResultDefaultConstructible)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_perf_contract_test" kindref="compound">PerfContractTest</ref></type>
+        </param>
+        <param>
+          <type>PFM13_PoolAcquireResultDefaultConstructible</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_performance_contract_hardening_focused.cpp" line="204" column="1" bodyfile="tests/performance/test_performance_contract_hardening_focused.cpp" bodystart="204" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="test__performance__contract__hardening__focused_8cpp_1abfb7b2c49f43591c322ff0fb264efc3d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PerfContractTest, PFM14_CacheStatsDefaultZero)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_perf_contract_test" kindref="compound">PerfContractTest</ref></type>
+        </param>
+        <param>
+          <type>PFM14_CacheStatsDefaultZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_performance_contract_hardening_focused.cpp" line="212" column="1" bodyfile="tests/performance/test_performance_contract_hardening_focused.cpp" bodystart="212" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="test__performance__contract__hardening__focused_8cpp_1a8fb489524fc4f0c23e23dfa7716224f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PerfContractTest, PFM15_PoolResultInstancesAreIndependent)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_perf_contract_test" kindref="compound">PerfContractTest</ref></type>
+        </param>
+        <param>
+          <type>PFM15_PoolResultInstancesAreIndependent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_performance_contract_hardening_focused.cpp" line="221" column="1" bodyfile="tests/performance/test_performance_contract_hardening_focused.cpp" bodystart="221" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="test__performance__contract__hardening__focused_8cpp_1aefa5fb8c40ff2aa7eb39171323abf9a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PerfContractTest, PFM16_ZeroCostIsValid)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_perf_contract_test" kindref="compound">PerfContractTest</ref></type>
+        </param>
+        <param>
+          <type>PFM16_ZeroCostIsValid</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_performance_contract_hardening_focused.cpp" line="232" column="1" bodyfile="tests/performance/test_performance_contract_hardening_focused.cpp" bodystart="232" bodyend="237"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Phase 1–6 contract-hardening tests for the performance module. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="note"><para>Test IDs: PFM-01..PFM-16 </para>
+</simplesect>
+<simplesect kind="note"><para>Coverage: compiler timeout, cache miss/hit contracts, pool exhaustion, cost-model boundary, load-balancer no-healthy-node, plan staleness, stats availability, concurrency invariants.</para>
+</simplesect>
+All tests use deterministic, in-process fixtures only — no file I/O, no network, kSeed = 42. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="performance__api__contract_8h" kindref="compound">performance/performance_api_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1performance" kindref="compound">themis::performance</ref>;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>fixture</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="class_perf_contract_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_perf_contract_test" kindref="compound">PerfContractTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="class_perf_contract_test_1a15a7d261dfdd444f1f0ef5b0445bd9be" kindref="member">kSeed</ref><sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937<sp/><ref refid="class_perf_contract_test_1abd295cef70805b36e09d962664f14055" kindref="member">rng_</ref>{<ref refid="class_perf_contract_test_1a15a7d261dfdd444f1f0ef5b0445bd9be" kindref="member">kSeed</ref>};</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_perf_contract_test_1a96aeddcdf3d55e522fc07eb7bfff67c0" kindref="member">randomKey</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>len<sp/>=<sp/>16)<sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>kAlpha[]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;abcdefghijklmnopqrstuvwxyz0123456789&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>s<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>s.reserve(len);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>len;<sp/>++i)</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>s<sp/>+=<sp/>kAlpha[<ref refid="class_perf_contract_test_1abd295cef70805b36e09d962664f14055" kindref="member">rng_</ref>()<sp/>%<sp/>(</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(kAlpha)<sp/>-<sp/>1)];</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>s;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PFM-01:<sp/>PerfError<sp/>enum<sp/>values<sp/>are<sp/>unique<sp/>and<sp/>stable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><ref refid="test__performance__contract__hardening__focused_8cpp_1a7f36e85cebaa08284d3832397529128c" kindref="member">TEST_F</ref>(<ref refid="class_perf_contract_test" kindref="compound">PerfContractTest</ref>,<sp/>PFM01_ErrorCodesAreUnique)<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int32_t&gt;<sp/>codes<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1performance_1a93c4c2ebc0fd1c21fc301c45a64de72ca96c9cef347530152b0eac10de2fc31df" kindref="member">PerfError::kCompileTimeout</ref>),</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1performance_1a93c4c2ebc0fd1c21fc301c45a64de72ca044bdf56d56983d01dd83029a79f0cdc" kindref="member">PerfError::kCacheEvictionFull</ref>),</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1performance_1a93c4c2ebc0fd1c21fc301c45a64de72ca1b2b165717a1de7a26bb87921998ae69" kindref="member">PerfError::kPoolExhausted</ref>),</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1performance_1a93c4c2ebc0fd1c21fc301c45a64de72ca32f0414d3e55eaffcf850f9f444f2f14" kindref="member">PerfError::kCostModelInvalid</ref>),</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1performance_1a93c4c2ebc0fd1c21fc301c45a64de72caf4b756c3bcf39d7884dba71be6130fc4" kindref="member">PerfError::kNoHealthyNode</ref>),</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1performance_1a93c4c2ebc0fd1c21fc301c45a64de72cacf86471a31adf3ee37b772fdc58a9185" kindref="member">PerfError::kPlanStale</ref>),</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1performance_1a93c4c2ebc0fd1c21fc301c45a64de72ca6fa126f6c514e6f2fe7a28568d14b52e" kindref="member">PerfError::kStatsUnavailable</ref>),</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>std::sort(codes.begin(),<sp/>codes.end());</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(std::unique(codes.begin(),<sp/>codes.end()),<sp/>codes.end())</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Duplicate<sp/>PerfError<sp/>codes<sp/>detected&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PFM-02:<sp/>PerfError<sp/>codes<sp/>are<sp/>in<sp/>expected<sp/>range<sp/>[7100,<sp/>7199]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><ref refid="test__performance__contract__hardening__focused_8cpp_1a7f36e85cebaa08284d3832397529128c" kindref="member">TEST_F</ref>(<ref refid="class_perf_contract_test" kindref="compound">PerfContractTest</ref>,<sp/>PFM02_ErrorCodesInRange)<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>check<sp/>=<sp/>[](<ref refid="namespacethemis_1_1performance_1a93c4c2ebc0fd1c21fc301c45a64de72c" kindref="member">PerfError</ref><sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int32_t<sp/>v<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(e);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(v,<sp/>7100);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LE(v,<sp/>7199);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>check(<ref refid="namespacethemis_1_1performance_1a93c4c2ebc0fd1c21fc301c45a64de72ca96c9cef347530152b0eac10de2fc31df" kindref="member">PerfError::kCompileTimeout</ref>);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>check(<ref refid="namespacethemis_1_1performance_1a93c4c2ebc0fd1c21fc301c45a64de72ca044bdf56d56983d01dd83029a79f0cdc" kindref="member">PerfError::kCacheEvictionFull</ref>);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>check(<ref refid="namespacethemis_1_1performance_1a93c4c2ebc0fd1c21fc301c45a64de72ca1b2b165717a1de7a26bb87921998ae69" kindref="member">PerfError::kPoolExhausted</ref>);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>check(<ref refid="namespacethemis_1_1performance_1a93c4c2ebc0fd1c21fc301c45a64de72ca32f0414d3e55eaffcf850f9f444f2f14" kindref="member">PerfError::kCostModelInvalid</ref>);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>check(<ref refid="namespacethemis_1_1performance_1a93c4c2ebc0fd1c21fc301c45a64de72caf4b756c3bcf39d7884dba71be6130fc4" kindref="member">PerfError::kNoHealthyNode</ref>);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>check(<ref refid="namespacethemis_1_1performance_1a93c4c2ebc0fd1c21fc301c45a64de72cacf86471a31adf3ee37b772fdc58a9185" kindref="member">PerfError::kPlanStale</ref>);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>check(<ref refid="namespacethemis_1_1performance_1a93c4c2ebc0fd1c21fc301c45a64de72ca6fa126f6c514e6f2fe7a28568d14b52e" kindref="member">PerfError::kStatsUnavailable</ref>);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PFM-03:<sp/>PoolAcquireResult<sp/>default<sp/>state<sp/>is<sp/>failed<sp/>(not-acquired)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><ref refid="test__performance__contract__hardening__focused_8cpp_1a7f36e85cebaa08284d3832397529128c" kindref="member">TEST_F</ref>(<ref refid="class_perf_contract_test" kindref="compound">PerfContractTest</ref>,<sp/>PFM03_PoolAcquireResultDefault)<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1_pool_acquire_result" kindref="compound">PoolAcquireResult</ref><sp/>r;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.<ref refid="structthemis_1_1performance_1_1_pool_acquire_result_1a4ab5d541e759041dab7f680729257d0b" kindref="member">acquired</ref>);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.<ref refid="structthemis_1_1performance_1_1_pool_acquire_result_1a58f49d16fc1b84f2be51f116c6aa714d" kindref="member">error</ref>,<sp/><ref refid="namespacethemis_1_1performance_1a93c4c2ebc0fd1c21fc301c45a64de72ca1b2b165717a1de7a26bb87921998ae69" kindref="member">PerfError::kPoolExhausted</ref>);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PFM-04:<sp/>PoolAcquireResult<sp/>acquired=true<sp/>does<sp/>not<sp/>mix<sp/>with<sp/>error<sp/>reporting</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><ref refid="test__performance__contract__hardening__focused_8cpp_1a7f36e85cebaa08284d3832397529128c" kindref="member">TEST_F</ref>(<ref refid="class_perf_contract_test" kindref="compound">PerfContractTest</ref>,<sp/>PFM04_PoolAcquireResultSuccessState)<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1_pool_acquire_result" kindref="compound">PoolAcquireResult</ref><sp/>r;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1performance_1_1_pool_acquire_result_1a4ab5d541e759041dab7f680729257d0b" kindref="member">acquired</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r.<ref refid="structthemis_1_1performance_1_1_pool_acquire_result_1a4ab5d541e759041dab7f680729257d0b" kindref="member">acquired</ref>);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>error<sp/>field<sp/>value<sp/>when<sp/>acquired=true<sp/>is<sp/>irrelevant;<sp/>must<sp/>compile</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)r.<ref refid="structthemis_1_1performance_1_1_pool_acquire_result_1a58f49d16fc1b84f2be51f116c6aa714d" kindref="member">error</ref>;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PFM-05:<sp/>CacheStats<sp/>default<sp/>hit<sp/>rate<sp/>is<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><ref refid="test__performance__contract__hardening__focused_8cpp_1a7f36e85cebaa08284d3832397529128c" kindref="member">TEST_F</ref>(<ref refid="class_perf_contract_test" kindref="compound">PerfContractTest</ref>,<sp/>PFM05_CacheStatsDefaultHitRate)<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1_cache_stats" kindref="compound">CacheStats</ref><sp/>cs;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cs.<ref refid="structthemis_1_1performance_1_1_cache_stats_1aff24e9fd44b5971a89479563026bafcb" kindref="member">hits</ref>,<sp/><sp/><sp/><sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cs.<ref refid="structthemis_1_1performance_1_1_cache_stats_1a06ece7997e850de2d88bb84a88985dc0" kindref="member">misses</ref>,<sp/><sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cs.<ref refid="structthemis_1_1performance_1_1_cache_stats_1a9844554edb7d9eb674537690e8311510" kindref="member">evictions</ref>,<sp/>0u);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(cs.<ref refid="structthemis_1_1performance_1_1_cache_stats_1af243489de933735b388a3444dbabc95a" kindref="member">hitRatePercent</ref>,<sp/>0.0);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PFM-06:<sp/>CacheStats<sp/>hitRatePercent<sp/>is<sp/>bounded<sp/>[0,<sp/>100]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><ref refid="test__performance__contract__hardening__focused_8cpp_1a7f36e85cebaa08284d3832397529128c" kindref="member">TEST_F</ref>(<ref refid="class_perf_contract_test" kindref="compound">PerfContractTest</ref>,<sp/>PFM06_CacheStatsHitRateBounds)<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>a<sp/>plausible<sp/>hit-rate<sp/>computation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>trial<sp/>=<sp/>0;<sp/>trial<sp/>&lt;<sp/>20;<sp/>++trial)<sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1_cache_stats" kindref="compound">CacheStats</ref><sp/>cs;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cs.<ref refid="structthemis_1_1performance_1_1_cache_stats_1aff24e9fd44b5971a89479563026bafcb" kindref="member">hits</ref><sp/><sp/><sp/>=<sp/>rng_()<sp/>%<sp/>1000;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cs.<ref refid="structthemis_1_1performance_1_1_cache_stats_1a06ece7997e850de2d88bb84a88985dc0" kindref="member">misses</ref><sp/>=<sp/>rng_()<sp/>%<sp/>1000;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cs.<ref refid="structthemis_1_1performance_1_1_cache_stats_1aff24e9fd44b5971a89479563026bafcb" kindref="member">hits</ref><sp/>+<sp/>cs.<ref refid="structthemis_1_1performance_1_1_cache_stats_1a06ece7997e850de2d88bb84a88985dc0" kindref="member">misses</ref><sp/>&gt;<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cs.<ref refid="structthemis_1_1performance_1_1_cache_stats_1af243489de933735b388a3444dbabc95a" kindref="member">hitRatePercent</ref><sp/>=</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>100.0<sp/>*<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(cs.<ref refid="structthemis_1_1performance_1_1_cache_stats_1aff24e9fd44b5971a89479563026bafcb" kindref="member">hits</ref>)<sp/>/</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(cs.<ref refid="structthemis_1_1performance_1_1_cache_stats_1aff24e9fd44b5971a89479563026bafcb" kindref="member">hits</ref><sp/>+<sp/>cs.<ref refid="structthemis_1_1performance_1_1_cache_stats_1a06ece7997e850de2d88bb84a88985dc0" kindref="member">misses</ref>);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(cs.<ref refid="structthemis_1_1performance_1_1_cache_stats_1af243489de933735b388a3444dbabc95a" kindref="member">hitRatePercent</ref>,<sp/>0.0);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LE(cs.<ref refid="structthemis_1_1performance_1_1_cache_stats_1af243489de933735b388a3444dbabc95a" kindref="member">hitRatePercent</ref>,<sp/>100.0);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PFM-07:<sp/>CostEstimate<sp/>is<sp/>a<sp/>non-negative<sp/>double<sp/>alias</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><ref refid="test__performance__contract__hardening__focused_8cpp_1a7f36e85cebaa08284d3832397529128c" kindref="member">TEST_F</ref>(<ref refid="class_perf_contract_test" kindref="compound">PerfContractTest</ref>,<sp/>PFM07_CostEstimateIsNonNegative)<sp/>{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1performance_1acff55f8cc898a64a008a851cdb35dbce" kindref="member">CostEstimate</ref><sp/>zero<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1performance_1acff55f8cc898a64a008a851cdb35dbce" kindref="member">CostEstimate</ref><sp/>pos<sp/><sp/>=<sp/>1234.5;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(zero,<sp/>0.0);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(pos,<sp/><sp/>0.0);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(zero,<sp/>pos);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PFM-08:<sp/>CostEstimate<sp/>type<sp/>alias<sp/>is<sp/>compatible<sp/>with<sp/>arithmetic</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><ref refid="test__performance__contract__hardening__focused_8cpp_1a7f36e85cebaa08284d3832397529128c" kindref="member">TEST_F</ref>(<ref refid="class_perf_contract_test" kindref="compound">PerfContractTest</ref>,<sp/>PFM08_CostEstimateArithmetic)<sp/>{</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1performance_1acff55f8cc898a64a008a851cdb35dbce" kindref="member">CostEstimate</ref><sp/>a<sp/>=<sp/>10.0;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1performance_1acff55f8cc898a64a008a851cdb35dbce" kindref="member">CostEstimate</ref><sp/>b<sp/>=<sp/>5.0;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(a<sp/>+<sp/>b,<sp/>15.0);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(a<sp/>-<sp/>b,<sp/>5.0);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(a<sp/>*<sp/>b,<sp/>50.0);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PFM-09:<sp/>Error<sp/>code<sp/>kCompileTimeout<sp/>is<sp/>distinct<sp/>from<sp/>kPoolExhausted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><ref refid="test__performance__contract__hardening__focused_8cpp_1a7f36e85cebaa08284d3832397529128c" kindref="member">TEST_F</ref>(<ref refid="class_perf_contract_test" kindref="compound">PerfContractTest</ref>,<sp/>PFM09_CompileTimeoutDistinctFromPoolExhausted)<sp/>{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1performance_1a93c4c2ebc0fd1c21fc301c45a64de72ca96c9cef347530152b0eac10de2fc31df" kindref="member">PerfError::kCompileTimeout</ref>),</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1performance_1a93c4c2ebc0fd1c21fc301c45a64de72ca1b2b165717a1de7a26bb87921998ae69" kindref="member">PerfError::kPoolExhausted</ref>));</highlight></codeline>
+<codeline lineno="161"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PFM-10:<sp/>Error<sp/>code<sp/>kPlanStale<sp/>is<sp/>distinct<sp/>from<sp/>kCacheEvictionFull</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><ref refid="test__performance__contract__hardening__focused_8cpp_1a7f36e85cebaa08284d3832397529128c" kindref="member">TEST_F</ref>(<ref refid="class_perf_contract_test" kindref="compound">PerfContractTest</ref>,<sp/>PFM10_PlanStaleDistinctFromCacheEvictionFull)<sp/>{</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1performance_1a93c4c2ebc0fd1c21fc301c45a64de72cacf86471a31adf3ee37b772fdc58a9185" kindref="member">PerfError::kPlanStale</ref>),</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1performance_1a93c4c2ebc0fd1c21fc301c45a64de72ca044bdf56d56983d01dd83029a79f0cdc" kindref="member">PerfError::kCacheEvictionFull</ref>));</highlight></codeline>
+<codeline lineno="169"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PFM-11:<sp/>CacheStats<sp/>with<sp/>only<sp/>misses<sp/>has<sp/>0<sp/>%<sp/>hit<sp/>rate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><ref refid="test__performance__contract__hardening__focused_8cpp_1a7f36e85cebaa08284d3832397529128c" kindref="member">TEST_F</ref>(<ref refid="class_perf_contract_test" kindref="compound">PerfContractTest</ref>,<sp/>PFM11_AllMissesHitRateIsZero)<sp/>{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1_cache_stats" kindref="compound">CacheStats</ref><sp/>cs;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>cs.<ref refid="structthemis_1_1performance_1_1_cache_stats_1a06ece7997e850de2d88bb84a88985dc0" kindref="member">misses</ref><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>cs.<ref refid="structthemis_1_1performance_1_1_cache_stats_1aff24e9fd44b5971a89479563026bafcb" kindref="member">hits</ref><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cs.<ref refid="structthemis_1_1performance_1_1_cache_stats_1aff24e9fd44b5971a89479563026bafcb" kindref="member">hits</ref><sp/>+<sp/>cs.<ref refid="structthemis_1_1performance_1_1_cache_stats_1a06ece7997e850de2d88bb84a88985dc0" kindref="member">misses</ref><sp/>&gt;<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cs.<ref refid="structthemis_1_1performance_1_1_cache_stats_1af243489de933735b388a3444dbabc95a" kindref="member">hitRatePercent</ref><sp/>=</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>100.0<sp/>*<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(cs.<ref refid="structthemis_1_1performance_1_1_cache_stats_1aff24e9fd44b5971a89479563026bafcb" kindref="member">hits</ref>)<sp/>/</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(cs.<ref refid="structthemis_1_1performance_1_1_cache_stats_1aff24e9fd44b5971a89479563026bafcb" kindref="member">hits</ref><sp/>+<sp/>cs.<ref refid="structthemis_1_1performance_1_1_cache_stats_1a06ece7997e850de2d88bb84a88985dc0" kindref="member">misses</ref>);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(cs.<ref refid="structthemis_1_1performance_1_1_cache_stats_1af243489de933735b388a3444dbabc95a" kindref="member">hitRatePercent</ref>,<sp/>0.0);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PFM-12:<sp/>CacheStats<sp/>with<sp/>only<sp/>hits<sp/>has<sp/>100<sp/>%<sp/>hit<sp/>rate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><ref refid="test__performance__contract__hardening__focused_8cpp_1a7f36e85cebaa08284d3832397529128c" kindref="member">TEST_F</ref>(<ref refid="class_perf_contract_test" kindref="compound">PerfContractTest</ref>,<sp/>PFM12_AllHitsHitRateIs100)<sp/>{</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1_cache_stats" kindref="compound">CacheStats</ref><sp/>cs;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>cs.<ref refid="structthemis_1_1performance_1_1_cache_stats_1aff24e9fd44b5971a89479563026bafcb" kindref="member">hits</ref><sp/><sp/><sp/>=<sp/>500;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>cs.<ref refid="structthemis_1_1performance_1_1_cache_stats_1a06ece7997e850de2d88bb84a88985dc0" kindref="member">misses</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cs.<ref refid="structthemis_1_1performance_1_1_cache_stats_1aff24e9fd44b5971a89479563026bafcb" kindref="member">hits</ref><sp/>+<sp/>cs.<ref refid="structthemis_1_1performance_1_1_cache_stats_1a06ece7997e850de2d88bb84a88985dc0" kindref="member">misses</ref><sp/>&gt;<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cs.<ref refid="structthemis_1_1performance_1_1_cache_stats_1af243489de933735b388a3444dbabc95a" kindref="member">hitRatePercent</ref><sp/>=</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>100.0<sp/>*<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(cs.<ref refid="structthemis_1_1performance_1_1_cache_stats_1aff24e9fd44b5971a89479563026bafcb" kindref="member">hits</ref>)<sp/>/</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(cs.<ref refid="structthemis_1_1performance_1_1_cache_stats_1aff24e9fd44b5971a89479563026bafcb" kindref="member">hits</ref><sp/>+<sp/>cs.<ref refid="structthemis_1_1performance_1_1_cache_stats_1a06ece7997e850de2d88bb84a88985dc0" kindref="member">misses</ref>);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(cs.<ref refid="structthemis_1_1performance_1_1_cache_stats_1af243489de933735b388a3444dbabc95a" kindref="member">hitRatePercent</ref>,<sp/>100.0);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PFM-13:<sp/>PoolAcquireResult<sp/>is<sp/>default-constructible</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><ref refid="test__performance__contract__hardening__focused_8cpp_1a7f36e85cebaa08284d3832397529128c" kindref="member">TEST_F</ref>(<ref refid="class_perf_contract_test" kindref="compound">PerfContractTest</ref>,<sp/>PFM13_PoolAcquireResultDefaultConstructible)<sp/>{</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1_pool_acquire_result" kindref="compound">PoolAcquireResult</ref><sp/>r{};</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.<ref refid="structthemis_1_1performance_1_1_pool_acquire_result_1a4ab5d541e759041dab7f680729257d0b" kindref="member">acquired</ref>);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PFM-14:<sp/>CacheStats<sp/>is<sp/>default-constructible<sp/>with<sp/>all-zero<sp/>counts</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><ref refid="test__performance__contract__hardening__focused_8cpp_1a7f36e85cebaa08284d3832397529128c" kindref="member">TEST_F</ref>(<ref refid="class_perf_contract_test" kindref="compound">PerfContractTest</ref>,<sp/>PFM14_CacheStatsDefaultZero)<sp/>{</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1_cache_stats" kindref="compound">CacheStats</ref><sp/>cs{};</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cs.<ref refid="structthemis_1_1performance_1_1_cache_stats_1aff24e9fd44b5971a89479563026bafcb" kindref="member">hits</ref><sp/>+<sp/>cs.<ref refid="structthemis_1_1performance_1_1_cache_stats_1a06ece7997e850de2d88bb84a88985dc0" kindref="member">misses</ref><sp/>+<sp/>cs.<ref refid="structthemis_1_1performance_1_1_cache_stats_1a9844554edb7d9eb674537690e8311510" kindref="member">evictions</ref>,<sp/>0u);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(cs.<ref refid="structthemis_1_1performance_1_1_cache_stats_1af243489de933735b388a3444dbabc95a" kindref="member">hitRatePercent</ref>,<sp/>0.0);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PFM-15:<sp/>Multiple<sp/>PoolAcquireResult<sp/>instances<sp/>are<sp/>independent</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><ref refid="test__performance__contract__hardening__focused_8cpp_1a7f36e85cebaa08284d3832397529128c" kindref="member">TEST_F</ref>(<ref refid="class_perf_contract_test" kindref="compound">PerfContractTest</ref>,<sp/>PFM15_PoolResultInstancesAreIndependent)<sp/>{</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1_pool_acquire_result" kindref="compound">PoolAcquireResult</ref><sp/>a,<sp/>b;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>a.<ref refid="structthemis_1_1performance_1_1_pool_acquire_result_1a4ab5d541e759041dab7f680729257d0b" kindref="member">acquired</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>b.<ref refid="structthemis_1_1performance_1_1_pool_acquire_result_1a4ab5d541e759041dab7f680729257d0b" kindref="member">acquired</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(a.<ref refid="structthemis_1_1performance_1_1_pool_acquire_result_1a4ab5d541e759041dab7f680729257d0b" kindref="member">acquired</ref>);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(b.<ref refid="structthemis_1_1performance_1_1_pool_acquire_result_1a4ab5d541e759041dab7f680729257d0b" kindref="member">acquired</ref>);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PFM-16:<sp/>CostEstimate<sp/>zero<sp/>is<sp/>valid<sp/>(in-memory<sp/>scan<sp/>scenario)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><ref refid="test__performance__contract__hardening__focused_8cpp_1a7f36e85cebaa08284d3832397529128c" kindref="member">TEST_F</ref>(<ref refid="class_perf_contract_test" kindref="compound">PerfContractTest</ref>,<sp/>PFM16_ZeroCostIsValid)<sp/>{</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1performance_1acff55f8cc898a64a008a851cdb35dbce" kindref="member">CostEstimate</ref><sp/>c<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(c,<sp/>0.0);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Zero<sp/>cost<sp/>should<sp/>not<sp/>cause<sp/>issues<sp/>in<sp/>arithmetic<sp/>expressions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(c<sp/>+<sp/>1.0,<sp/>1.0);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/performance/test_performance_contract_hardening_focused.cpp"/>
+  </compounddef>
+</doxygen>

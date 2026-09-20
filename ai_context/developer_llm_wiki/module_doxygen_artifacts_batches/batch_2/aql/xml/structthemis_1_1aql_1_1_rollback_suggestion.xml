@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1_rollback_suggestion" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::RollbackSuggestion</compoundname>
+    <includes refid="aql__rollback__suggester_8h" local="no">aql_rollback_suggester.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_rollback_suggestion_1a8d1bf74f06727cd6d29711b1350fe08e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::aql::RollbackSuggestion::is_automatic</definition>
+        <argsstring></argsstring>
+        <name>is_automatic</name>
+        <qualifiedname>themis::aql::RollbackSuggestion::is_automatic</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_rollback_suggester.h" line="34" column="10" bodyfile="include/aql/aql_rollback_suggester.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_rollback_suggestion_1a766e8620ff9cc1edf8081cebeed3e08b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::RollbackSuggestion::rollback_query</definition>
+        <argsstring></argsstring>
+        <name>rollback_query</name>
+        <qualifiedname>themis::aql::RollbackSuggestion::rollback_query</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_rollback_suggester.h" line="36" column="17" bodyfile="include/aql/aql_rollback_suggester.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_rollback_suggestion_1a316738bdb7f918892f3f66c9e90e8161" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1aql_1af37fd424314aa3ee068ba3b7ef6cc08a" kindref="member">MutationType</ref></type>
+        <definition>MutationType themis::aql::RollbackSuggestion::mutation_type</definition>
+        <argsstring></argsstring>
+        <name>mutation_type</name>
+        <qualifiedname>themis::aql::RollbackSuggestion::mutation_type</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1aql_1af37fd424314aa3ee068ba3b7ef6cc08aab50339a10e1de285ac99d4c3990b8693" kindref="member">MutationType::NONE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_rollback_suggester.h" line="38" column="18" bodyfile="include/aql/aql_rollback_suggester.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_rollback_suggestion_1addfc768f5639d4d66414dd83899bf398" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::RollbackSuggestion::collection</definition>
+        <argsstring></argsstring>
+        <name>collection</name>
+        <qualifiedname>themis::aql::RollbackSuggestion::collection</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_rollback_suggester.h" line="40" column="17" bodyfile="include/aql/aql_rollback_suggester.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_rollback_suggestion_1acf3a9370107050f3a08b8295b90ce064" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::RollbackSuggestion::caveat</definition>
+        <argsstring></argsstring>
+        <name>caveat</name>
+        <qualifiedname>themis::aql::RollbackSuggestion::caveat</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_rollback_suggester.h" line="42" column="17" bodyfile="include/aql/aql_rollback_suggester.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_rollback_suggestion_1ac291251585674fa88bc8618a61967309" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::aql::RollbackSuggestion::manual_steps</definition>
+        <argsstring></argsstring>
+        <name>manual_steps</name>
+        <qualifiedname>themis::aql::RollbackSuggestion::manual_steps</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_rollback_suggester.h" line="44" column="17" bodyfile="include/aql/aql_rollback_suggester.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/aql_rollback_suggester.h" line="33" column="1" bodyfile="include/aql/aql_rollback_suggester.h" bodystart="33" bodyend="45"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1_rollback_suggestion_1acf3a9370107050f3a08b8295b90ce064" prot="public" virt="non-virtual"><scope>themis::aql::RollbackSuggestion</scope><name>caveat</name></member>
+      <member refid="structthemis_1_1aql_1_1_rollback_suggestion_1addfc768f5639d4d66414dd83899bf398" prot="public" virt="non-virtual"><scope>themis::aql::RollbackSuggestion</scope><name>collection</name></member>
+      <member refid="structthemis_1_1aql_1_1_rollback_suggestion_1a8d1bf74f06727cd6d29711b1350fe08e" prot="public" virt="non-virtual"><scope>themis::aql::RollbackSuggestion</scope><name>is_automatic</name></member>
+      <member refid="structthemis_1_1aql_1_1_rollback_suggestion_1ac291251585674fa88bc8618a61967309" prot="public" virt="non-virtual"><scope>themis::aql::RollbackSuggestion</scope><name>manual_steps</name></member>
+      <member refid="structthemis_1_1aql_1_1_rollback_suggestion_1a316738bdb7f918892f3f66c9e90e8161" prot="public" virt="non-virtual"><scope>themis::aql::RollbackSuggestion</scope><name>mutation_type</name></member>
+      <member refid="structthemis_1_1aql_1_1_rollback_suggestion_1a766e8620ff9cc1edf8081cebeed3e08b" prot="public" virt="non-virtual"><scope>themis::aql::RollbackSuggestion</scope><name>rollback_query</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

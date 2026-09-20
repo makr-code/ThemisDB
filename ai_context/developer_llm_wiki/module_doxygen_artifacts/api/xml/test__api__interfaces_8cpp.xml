@@ -1,0 +1,1300 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__api__interfaces_8cpp" kind="file" language="C++">
+    <compoundname>test_api_interfaces.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="http__handler_8h" local="yes">api/http_handler.h</includes>
+    <includes refid="graphql__schema__builder_8h" local="yes">api/graphql_schema_builder.h</includes>
+    <includes refid="websocket__handler_8h" local="yes">api/websocket_handler.h</includes>
+    <includes refid="api__version__router_8h" local="yes">api/api_version_router.h</includes>
+    <includes refid="correlation__id_8h" local="yes">api/correlation_id.h</includes>
+    <includes refid="grpc__bridge_8h" local="yes">api/grpc_bridge.h</includes>
+    <incdepgraph>
+      <node id="14">
+        <label>api/api_version_router.h</label>
+        <link refid="api__version__router_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>api/correlation_id.h</label>
+        <link refid="correlation__id_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>api/graphql_schema_builder.h</label>
+        <link refid="graphql__schema__builder_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>api/grpc_bridge.h</label>
+        <link refid="grpc__bridge_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>api/http_handler.h</label>
+        <link refid="http__handler_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>api/websocket_handler.h</label>
+        <link refid="websocket__handler_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/api/test_api_interfaces.cpp</label>
+        <link refid="test__api__interfaces_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>array</label>
+      </node>
+      <node id="15">
+        <label>chrono</label>
+      </node>
+      <node id="13">
+        <label>cstdint</label>
+      </node>
+      <node id="19">
+        <label>cstring</label>
+      </node>
+      <node id="8">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="9">
+        <label>memory</label>
+      </node>
+      <node id="16">
+        <label>optional</label>
+      </node>
+      <node id="20">
+        <label>stdexcept</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>string_view</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="10">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__api__interfaces_8cpp_1a9b1e1eebf94fff5b240ad3b824d09121" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpRequestTest, DefaultConstruct)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpRequestTest</type>
+        </param>
+        <param>
+          <type>DefaultConstruct</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_interfaces.cpp" line="26" column="1" bodyfile="tests/api/test_api_interfaces.cpp" bodystart="26" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__interfaces_8cpp_1a6ed42f8b0e25916f039f1922e78c7b0e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpRequestTest, HasAuthFromHeader)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpRequestTest</type>
+        </param>
+        <param>
+          <type>HasAuthFromHeader</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_interfaces.cpp" line="34" column="1" bodyfile="tests/api/test_api_interfaces.cpp" bodystart="34" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__interfaces_8cpp_1a68301ff4b2deebdcf1b1f3a0cf619dc7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpRequestTest, HeaderLookup)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpRequestTest</type>
+        </param>
+        <param>
+          <type>HeaderLookup</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_interfaces.cpp" line="41" column="1" bodyfile="tests/api/test_api_interfaces.cpp" bodystart="41" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__interfaces_8cpp_1a5d632d20c5b4b2b52a212a730f7041f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpResponseTest, OkFactory)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpResponseTest</type>
+        </param>
+        <param>
+          <type>OkFactory</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_interfaces.cpp" line="53" column="1" bodyfile="tests/api/test_api_interfaces.cpp" bodystart="53" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__interfaces_8cpp_1ad1234fa502c87c50906ad5cedd2277ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpResponseTest, CreatedFactory)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpResponseTest</type>
+        </param>
+        <param>
+          <type>CreatedFactory</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_interfaces.cpp" line="61" column="1" bodyfile="tests/api/test_api_interfaces.cpp" bodystart="61" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__interfaces_8cpp_1a10a1cefa9702327a351d8ae3f9df1b6f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpResponseTest, NoContentFactory)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpResponseTest</type>
+        </param>
+        <param>
+          <type>NoContentFactory</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_interfaces.cpp" line="67" column="1" bodyfile="tests/api/test_api_interfaces.cpp" bodystart="67" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__interfaces_8cpp_1a7a956403c7ced138ba010fd6f3087ac8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpResponseTest, BadRequestFactory)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpResponseTest</type>
+        </param>
+        <param>
+          <type>BadRequestFactory</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_interfaces.cpp" line="74" column="1" bodyfile="tests/api/test_api_interfaces.cpp" bodystart="74" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__interfaces_8cpp_1aae3a8b0d1c803716494621d56e4014ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpResponseTest, UnauthorizedFactory)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpResponseTest</type>
+        </param>
+        <param>
+          <type>UnauthorizedFactory</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_interfaces.cpp" line="81" column="1" bodyfile="tests/api/test_api_interfaces.cpp" bodystart="81" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__interfaces_8cpp_1a5b1e93f40a6d68aac41e1b8dffe407ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpResponseTest, ForbiddenFactory)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpResponseTest</type>
+        </param>
+        <param>
+          <type>ForbiddenFactory</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_interfaces.cpp" line="86" column="1" bodyfile="tests/api/test_api_interfaces.cpp" bodystart="86" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__interfaces_8cpp_1a1aa0f86eef057c3a37954d39a73ed864" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpResponseTest, NotFoundFactory)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpResponseTest</type>
+        </param>
+        <param>
+          <type>NotFoundFactory</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_interfaces.cpp" line="91" column="1" bodyfile="tests/api/test_api_interfaces.cpp" bodystart="91" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__interfaces_8cpp_1ace5d77a5bf475e1b20141101107f433b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpResponseTest, InternalErrorFactory)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpResponseTest</type>
+        </param>
+        <param>
+          <type>InternalErrorFactory</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_interfaces.cpp" line="96" column="1" bodyfile="tests/api/test_api_interfaces.cpp" bodystart="96" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__interfaces_8cpp_1a42339b1e52ab8e9351acb6010b3a3e20" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MiddlewareChainTest, EmptyChainReturnsError)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MiddlewareChainTest</type>
+        </param>
+        <param>
+          <type>EmptyChainReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_interfaces.cpp" line="132" column="1" bodyfile="tests/api/test_api_interfaces.cpp" bodystart="132" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__interfaces_8cpp_1a38845f39e756b078d839396a092a9070" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MiddlewareChainTest, SingleHandlerReturnsResponse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MiddlewareChainTest</type>
+        </param>
+        <param>
+          <type>SingleHandlerReturnsResponse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_interfaces.cpp" line="140" column="1" bodyfile="tests/api/test_api_interfaces.cpp" bodystart="140" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__interfaces_8cpp_1ac42e5937703c697147fa45be7ef29eaa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MiddlewareChainTest, RejectingFirstHandlerShortCircuits)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MiddlewareChainTest</type>
+        </param>
+        <param>
+          <type>RejectingFirstHandlerShortCircuits</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_interfaces.cpp" line="149" column="1" bodyfile="tests/api/test_api_interfaces.cpp" bodystart="149" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__interfaces_8cpp_1abe9b9445935e4d1397f4eb6ff8b14223" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MiddlewareChainTest, PassThroughLeadsToTerminalHandlerResponse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MiddlewareChainTest</type>
+        </param>
+        <param>
+          <type>PassThroughLeadsToTerminalHandlerResponse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_interfaces.cpp" line="160" column="1" bodyfile="tests/api/test_api_interfaces.cpp" bodystart="160" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__interfaces_8cpp_1a03e75257ed02d21460b80b15c0fbfa78" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MiddlewareChainTest, RequiresAuthIfAnyLinkRequiresIt)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MiddlewareChainTest</type>
+        </param>
+        <param>
+          <type>RequiresAuthIfAnyLinkRequiresIt</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_interfaces.cpp" line="174" column="1" bodyfile="tests/api/test_api_interfaces.cpp" bodystart="174" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__interfaces_8cpp_1a5462c3ff1ca69ebcd6126ba78f66e388" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MiddlewareChainTest, NoAuthIfAllLinksOptOut)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MiddlewareChainTest</type>
+        </param>
+        <param>
+          <type>NoAuthIfAllLinksOptOut</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_interfaces.cpp" line="182" column="1" bodyfile="tests/api/test_api_interfaces.cpp" bodystart="182" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__interfaces_8cpp_1a4a98064f7c8287b367c555495af996ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MiddlewareChainTest, SizeReflectsAppends)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MiddlewareChainTest</type>
+        </param>
+        <param>
+          <type>SizeReflectsAppends</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_interfaces.cpp" line="189" column="1" bodyfile="tests/api/test_api_interfaces.cpp" bodystart="189" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__interfaces_8cpp_1a234a5db7075ab145bd008bada1454f42" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SchemaValidationResultTest, OkResult)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SchemaValidationResultTest</type>
+        </param>
+        <param>
+          <type>OkResult</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_interfaces.cpp" line="203" column="1" bodyfile="tests/api/test_api_interfaces.cpp" bodystart="203" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__interfaces_8cpp_1aab3d23f90921ae8e683110c947bbd4ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SchemaValidationResultTest, FailResult)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SchemaValidationResultTest</type>
+        </param>
+        <param>
+          <type>FailResult</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_interfaces.cpp" line="210" column="1" bodyfile="tests/api/test_api_interfaces.cpp" bodystart="210" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__interfaces_8cpp_1a72b393bd63cdfeb155cc2e15908297f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GraphQLTypeDescriptorTest, FieldConstruction)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GraphQLTypeDescriptorTest</type>
+        </param>
+        <param>
+          <type>FieldConstruction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_interfaces.cpp" line="220" column="1" bodyfile="tests/api/test_api_interfaces.cpp" bodystart="220" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__interfaces_8cpp_1af1dc797315d7e8e200502b3c715362d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GraphQLTypeDescriptorTest, TypeConstruction)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GraphQLTypeDescriptorTest</type>
+        </param>
+        <param>
+          <type>TypeConstruction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_interfaces.cpp" line="231" column="1" bodyfile="tests/api/test_api_interfaces.cpp" bodystart="231" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__interfaces_8cpp_1a8fdc780f8100123aa002366de233beca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WebSocketCloseCodeTest, Values)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WebSocketCloseCodeTest</type>
+        </param>
+        <param>
+          <type>Values</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_interfaces.cpp" line="245" column="1" bodyfile="tests/api/test_api_interfaces.cpp" bodystart="245" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__interfaces_8cpp_1ae635c7b7fdfafc100c277ccf66935376" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WebSocketFrameTest, TextFactory)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WebSocketFrameTest</type>
+        </param>
+        <param>
+          <type>TextFactory</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_interfaces.cpp" line="253" column="1" bodyfile="tests/api/test_api_interfaces.cpp" bodystart="253" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__interfaces_8cpp_1a59b4a256ed12b95f6ad0ebc0964b5031" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WebSocketFrameTest, BinaryFactory)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WebSocketFrameTest</type>
+        </param>
+        <param>
+          <type>BinaryFactory</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_interfaces.cpp" line="260" column="1" bodyfile="tests/api/test_api_interfaces.cpp" bodystart="260" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__interfaces_8cpp_1a7b9a4427548cd5609067cbd1e0467e89" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VersionDescriptorTest, CurrentVersion)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>VersionDescriptorTest</type>
+        </param>
+        <param>
+          <type>CurrentVersion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_interfaces.cpp" line="271" column="1" bodyfile="tests/api/test_api_interfaces.cpp" bodystart="271" bodyend="278"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__interfaces_8cpp_1a85758e4a9af72ec1b0dc282b2fe4e210" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VersionDescriptorTest, DeprecatedVersion)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>VersionDescriptorTest</type>
+        </param>
+        <param>
+          <type>DeprecatedVersion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_interfaces.cpp" line="280" column="1" bodyfile="tests/api/test_api_interfaces.cpp" bodystart="280" bodyend="289"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__interfaces_8cpp_1ad6640bf570dc0f564d7f186cfab036b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CorrelationIdTest, NilDefault)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CorrelationIdTest</type>
+        </param>
+        <param>
+          <type>NilDefault</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_interfaces.cpp" line="295" column="1" bodyfile="tests/api/test_api_interfaces.cpp" bodystart="295" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__interfaces_8cpp_1ab0a6e093db920e302164e58c11b155fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CorrelationIdTest, ParseAndSerialiseRoundTrip)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CorrelationIdTest</type>
+        </param>
+        <param>
+          <type>ParseAndSerialiseRoundTrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_interfaces.cpp" line="301" column="1" bodyfile="tests/api/test_api_interfaces.cpp" bodystart="301" bodyend="307"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__interfaces_8cpp_1aeef1b8cc423f1a9a8036b7e3d3910164" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CorrelationIdTest, ParseUppercase)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CorrelationIdTest</type>
+        </param>
+        <param>
+          <type>ParseUppercase</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_interfaces.cpp" line="309" column="1" bodyfile="tests/api/test_api_interfaces.cpp" bodystart="309" bodyend="315"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__interfaces_8cpp_1afecbd011fb80da64397b3b1e78a48afa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CorrelationIdTest, ParseWithoutDashes)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CorrelationIdTest</type>
+        </param>
+        <param>
+          <type>ParseWithoutDashes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_interfaces.cpp" line="317" column="1" bodyfile="tests/api/test_api_interfaces.cpp" bodystart="317" bodyend="323"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__interfaces_8cpp_1a3ac2d93081212a89d52607af7e845951" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CorrelationIdTest, ParseInvalidThrows)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CorrelationIdTest</type>
+        </param>
+        <param>
+          <type>ParseInvalidThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_interfaces.cpp" line="325" column="1" bodyfile="tests/api/test_api_interfaces.cpp" bodystart="325" bodyend="328"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__interfaces_8cpp_1a3d6cbd2f3e6df64a86be3d245242df66" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CorrelationIdTest, EqualityAndInequality)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CorrelationIdTest</type>
+        </param>
+        <param>
+          <type>EqualityAndInequality</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_interfaces.cpp" line="330" column="1" bodyfile="tests/api/test_api_interfaces.cpp" bodystart="330" bodyend="337"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__interfaces_8cpp_1ae5b0fe9c4a19cf9f5f2ca54a449a72b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CorrelationIdTest, Hashable)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CorrelationIdTest</type>
+        </param>
+        <param>
+          <type>Hashable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_interfaces.cpp" line="339" column="1" bodyfile="tests/api/test_api_interfaces.cpp" bodystart="339" bodyend="345"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__interfaces_8cpp_1aa15bfdf789175dd1f8a034c064491c8d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CorrelationIdTest, ByteSize)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CorrelationIdTest</type>
+        </param>
+        <param>
+          <type>ByteSize</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_interfaces.cpp" line="347" column="1" bodyfile="tests/api/test_api_interfaces.cpp" bodystart="347" bodyend="351"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__interfaces_8cpp_1abf9ff7fdc9dd6831681e55754a65b4d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ServiceDescriptorTest, DefaultSerialization)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ServiceDescriptorTest</type>
+        </param>
+        <param>
+          <type>DefaultSerialization</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_interfaces.cpp" line="357" column="1" bodyfile="tests/api/test_api_interfaces.cpp" bodystart="357" bodyend="365"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__interfaces_8cpp_1a45317a37daa98af606a3ba97bc7a8c90" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GRPCMetadataTest, DeadlineDetection)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GRPCMetadataTest</type>
+        </param>
+        <param>
+          <type>DeadlineDetection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_interfaces.cpp" line="367" column="1" bodyfile="tests/api/test_api_interfaces.cpp" bodystart="367" bodyend="373"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__interfaces_8cpp_1aa7d896d736d0cd580f4264cbc223d090" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GRPCMetadataTest, UserMetadata)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GRPCMetadataTest</type>
+        </param>
+        <param>
+          <type>UserMetadata</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_interfaces.cpp" line="375" column="1" bodyfile="tests/api/test_api_interfaces.cpp" bodystart="375" bodyend="380"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.13 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="http__handler_8h" kindref="compound">api/http_handler.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="graphql__schema__builder_8h" kindref="compound">api/graphql_schema_builder.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="websocket__handler_8h" kindref="compound">api/websocket_handler.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="api__version__router_8h" kindref="compound">api/api_version_router.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="correlation__id_8h" kindref="compound">api/correlation_id.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="grpc__bridge_8h" kindref="compound">api/grpc_bridge.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1api" kindref="compound">themis::api</ref>;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>HttpRequest<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><ref refid="test__api__interfaces_8cpp_1a9b1e1eebf94fff5b240ad3b824d09121" kindref="member">TEST</ref>(HttpRequestTest,<sp/>DefaultConstruct)</highlight></codeline>
+<codeline lineno="27"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1api_1_1_http_request" kindref="compound">HttpRequest</ref><sp/>req;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(req.<ref refid="structthemis_1_1api_1_1_http_request_1a3d0bb728d05f727621f2337b57cbe568" kindref="member">method</ref>.empty());</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(req.<ref refid="structthemis_1_1api_1_1_http_request_1a6f6f4db194645a41adb44216577a1415" kindref="member">path</ref>.empty());</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(req.<ref refid="structthemis_1_1api_1_1_http_request_1aded28dc4bb7acf365b146b37b8fe9b08" kindref="member">hasAuth</ref>());</highlight></codeline>
+<codeline lineno="32"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><ref refid="test__api__interfaces_8cpp_1a9b1e1eebf94fff5b240ad3b824d09121" kindref="member">TEST</ref>(HttpRequestTest,<sp/>HasAuthFromHeader)</highlight></codeline>
+<codeline lineno="35"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1api_1_1_http_request" kindref="compound">HttpRequest</ref><sp/>req;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1api_1_1_http_request_1a4fc7a132f4fd32f465b98ebd598b5cb3" kindref="member">headers</ref>[</highlight><highlight class="stringliteral">&quot;Authorization&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Bearer<sp/>token123&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(req.<ref refid="structthemis_1_1api_1_1_http_request_1aded28dc4bb7acf365b146b37b8fe9b08" kindref="member">hasAuth</ref>());</highlight></codeline>
+<codeline lineno="39"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><ref refid="test__api__interfaces_8cpp_1a9b1e1eebf94fff5b240ad3b824d09121" kindref="member">TEST</ref>(HttpRequestTest,<sp/>HeaderLookup)</highlight></codeline>
+<codeline lineno="42"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1api_1_1_http_request" kindref="compound">HttpRequest</ref><sp/>req;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1api_1_1_http_request_1a4fc7a132f4fd32f465b98ebd598b5cb3" kindref="member">headers</ref>[</highlight><highlight class="stringliteral">&quot;Content-Type&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;application/json&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(req.<ref refid="structthemis_1_1api_1_1_http_request_1a8ea3c37ef97436231bfcdaf6982147f6" kindref="member">header</ref>(</highlight><highlight class="stringliteral">&quot;Content-Type&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;application/json&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(req.<ref refid="structthemis_1_1api_1_1_http_request_1a8ea3c37ef97436231bfcdaf6982147f6" kindref="member">header</ref>(</highlight><highlight class="stringliteral">&quot;X-Missing&quot;</highlight><highlight class="normal">).empty());</highlight></codeline>
+<codeline lineno="47"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>HttpResponse<sp/>factory<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><ref refid="test__api__interfaces_8cpp_1a9b1e1eebf94fff5b240ad3b824d09121" kindref="member">TEST</ref>(HttpResponseTest,<sp/>OkFactory)</highlight></codeline>
+<codeline lineno="54"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/><ref refid="structthemis_1_1api_1_1_http_response_1a1a23e86743f248802bc9cbf8aecb9893" kindref="member">HttpResponse::ok</ref>(</highlight><highlight class="stringliteral">&quot;{\&quot;id\&quot;:1}&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.status_code,<sp/>200);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.body,<sp/></highlight><highlight class="stringliteral">&quot;{\&quot;id\&quot;:1}&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.headers.at(</highlight><highlight class="stringliteral">&quot;Content-Type&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;application/json&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><ref refid="test__api__interfaces_8cpp_1a9b1e1eebf94fff5b240ad3b824d09121" kindref="member">TEST</ref>(HttpResponseTest,<sp/>CreatedFactory)</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/><ref refid="structthemis_1_1api_1_1_http_response_1a140adfe86a0d0ecc515f2fb6b99b26fb" kindref="member">HttpResponse::created</ref>(</highlight><highlight class="stringliteral">&quot;{\&quot;id\&quot;:2}&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.status_code,<sp/>201);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><ref refid="test__api__interfaces_8cpp_1a9b1e1eebf94fff5b240ad3b824d09121" kindref="member">TEST</ref>(HttpResponseTest,<sp/>NoContentFactory)</highlight></codeline>
+<codeline lineno="68"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/><ref refid="structthemis_1_1api_1_1_http_response_1aa7adde838dfd8e8bf0a32b88074e5b56" kindref="member">HttpResponse::noContent</ref>();</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.status_code,<sp/>204);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r.body.empty());</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><ref refid="test__api__interfaces_8cpp_1a9b1e1eebf94fff5b240ad3b824d09121" kindref="member">TEST</ref>(HttpResponseTest,<sp/>BadRequestFactory)</highlight></codeline>
+<codeline lineno="75"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/><ref refid="structthemis_1_1api_1_1_http_response_1a4f192eeb6dba49328fefe28e6bfd2aca" kindref="member">HttpResponse::badRequest</ref>(</highlight><highlight class="stringliteral">&quot;invalid<sp/>body&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.status_code,<sp/>400);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(r.body.find(</highlight><highlight class="stringliteral">&quot;invalid<sp/>body&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><ref refid="test__api__interfaces_8cpp_1a9b1e1eebf94fff5b240ad3b824d09121" kindref="member">TEST</ref>(HttpResponseTest,<sp/>UnauthorizedFactory)</highlight></codeline>
+<codeline lineno="82"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="structthemis_1_1api_1_1_http_response_1ab5f976970056248d73bfc03a0b51925a" kindref="member">HttpResponse::unauthorized</ref>().status_code,<sp/>401);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><ref refid="test__api__interfaces_8cpp_1a9b1e1eebf94fff5b240ad3b824d09121" kindref="member">TEST</ref>(HttpResponseTest,<sp/>ForbiddenFactory)</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="structthemis_1_1api_1_1_http_response_1ae8a28e41f0e2c7f5accaea6327f42910" kindref="member">HttpResponse::forbidden</ref>().status_code,<sp/>403);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><ref refid="test__api__interfaces_8cpp_1a9b1e1eebf94fff5b240ad3b824d09121" kindref="member">TEST</ref>(HttpResponseTest,<sp/>NotFoundFactory)</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="structthemis_1_1api_1_1_http_response_1a9f41eb7c02d6f0dba058fc0ae42e44da" kindref="member">HttpResponse::notFound</ref>().status_code,<sp/>404);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><ref refid="test__api__interfaces_8cpp_1a9b1e1eebf94fff5b240ad3b824d09121" kindref="member">TEST</ref>(HttpResponseTest,<sp/>InternalErrorFactory)</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/><ref refid="structthemis_1_1api_1_1_http_response_1a751b97c1de732550f7044667ca2f313a" kindref="member">HttpResponse::internalError</ref>(</highlight><highlight class="stringliteral">&quot;oops&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.status_code,<sp/>500);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(r.body.find(</highlight><highlight class="stringliteral">&quot;oops&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MiddlewareChain<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">FixedResponseHandler<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1api_1_1_i_http_handler" kindref="compound">IHttpHandler</ref><sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>HttpResponse<sp/>response;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/>FixedResponseHandler(HttpResponse<sp/>r)<sp/>:<sp/>response(std::move(r))<sp/>{}</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::Result&lt;HttpResponse&gt;<sp/>handle(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>HttpRequest&amp;)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>response;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string_view<sp/>handlerName()<sp/>const<sp/>noexcept</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;FixedResponseHandler&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>requiresAuthentication()<sp/>const<sp/>noexcept</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">RejectingHandler<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1api_1_1_i_http_handler" kindref="compound">IHttpHandler</ref><sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::Result&lt;HttpResponse&gt;<sp/>handle(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>HttpRequest&amp;)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>tl::unexpected(themis::Error(</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::errors::ErrorCode::ERR_API_INTERNAL_ERROR,</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Forbidden<sp/>by<sp/>test&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string_view<sp/>handlerName()<sp/>const<sp/>noexcept</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;RejectingHandler&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>requiresAuthentication()<sp/>const<sp/>noexcept</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="128"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>anonymous<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><ref refid="test__api__interfaces_8cpp_1a9b1e1eebf94fff5b240ad3b824d09121" kindref="member">TEST</ref>(MiddlewareChainTest,<sp/>EmptyChainReturnsError)</highlight></codeline>
+<codeline lineno="133"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1api_1_1_middleware_chain" kindref="compound">MiddlewareChain</ref><sp/>chain;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1api_1_1_http_request" kindref="compound">HttpRequest</ref><sp/>req;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>chain.<ref refid="classthemis_1_1api_1_1_middleware_chain_1a7a1631a8927f1d4d03c99b072cc6312c" kindref="member">handle</ref>(req);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.has_value());</highlight></codeline>
+<codeline lineno="138"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><ref refid="test__api__interfaces_8cpp_1a9b1e1eebf94fff5b240ad3b824d09121" kindref="member">TEST</ref>(MiddlewareChainTest,<sp/>SingleHandlerReturnsResponse)</highlight></codeline>
+<codeline lineno="141"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1api_1_1_middleware_chain" kindref="compound">MiddlewareChain</ref><sp/>chain;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>chain.<ref refid="classthemis_1_1api_1_1_middleware_chain_1a703044435e5879f9ff25edd4ee27aa71" kindref="member">append</ref>(std::make_shared&lt;FixedResponseHandler&gt;(<ref refid="structthemis_1_1api_1_1_http_response_1a1a23e86743f248802bc9cbf8aecb9893" kindref="member">HttpResponse::ok</ref>(</highlight><highlight class="stringliteral">&quot;{}&quot;</highlight><highlight class="normal">)));</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>chain.<ref refid="classthemis_1_1api_1_1_middleware_chain_1a7a1631a8927f1d4d03c99b072cc6312c" kindref="member">handle</ref>(<ref refid="structthemis_1_1api_1_1_http_request" kindref="compound">HttpRequest</ref>{});</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.value().status_code,<sp/>200);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><ref refid="test__api__interfaces_8cpp_1a9b1e1eebf94fff5b240ad3b824d09121" kindref="member">TEST</ref>(MiddlewareChainTest,<sp/>RejectingFirstHandlerShortCircuits)</highlight></codeline>
+<codeline lineno="150"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1api_1_1_middleware_chain" kindref="compound">MiddlewareChain</ref><sp/>chain;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>handler<sp/>rejects<sp/>→<sp/>second<sp/>handler<sp/>must<sp/>not<sp/>be<sp/>called</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>chain.<ref refid="classthemis_1_1api_1_1_middleware_chain_1a703044435e5879f9ff25edd4ee27aa71" kindref="member">append</ref>(std::make_shared&lt;RejectingHandler&gt;());</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>chain.<ref refid="classthemis_1_1api_1_1_middleware_chain_1a703044435e5879f9ff25edd4ee27aa71" kindref="member">append</ref>(std::make_shared&lt;FixedResponseHandler&gt;(<ref refid="structthemis_1_1api_1_1_http_response_1a1a23e86743f248802bc9cbf8aecb9893" kindref="member">HttpResponse::ok</ref>(</highlight><highlight class="stringliteral">&quot;{}&quot;</highlight><highlight class="normal">)));</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>chain.<ref refid="classthemis_1_1api_1_1_middleware_chain_1a7a1631a8927f1d4d03c99b072cc6312c" kindref="member">handle</ref>(<ref refid="structthemis_1_1api_1_1_http_request" kindref="compound">HttpRequest</ref>{});</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.has_value());</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(result.error().message().find(</highlight><highlight class="stringliteral">&quot;Forbidden<sp/>by<sp/>test&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><ref refid="test__api__interfaces_8cpp_1a9b1e1eebf94fff5b240ad3b824d09121" kindref="member">TEST</ref>(MiddlewareChainTest,<sp/>PassThroughLeadsToTerminalHandlerResponse)</highlight></codeline>
+<codeline lineno="161"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1api_1_1_middleware_chain" kindref="compound">MiddlewareChain</ref><sp/>chain;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>handler<sp/>(interceptor)<sp/>passes<sp/>(200<sp/>ok)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>chain.<ref refid="classthemis_1_1api_1_1_middleware_chain_1a703044435e5879f9ff25edd4ee27aa71" kindref="member">append</ref>(std::make_shared&lt;FixedResponseHandler&gt;(<ref refid="structthemis_1_1api_1_1_http_response_1a1a23e86743f248802bc9cbf8aecb9893" kindref="member">HttpResponse::ok</ref>(</highlight><highlight class="stringliteral">&quot;pass&quot;</highlight><highlight class="normal">)));</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Second<sp/>(terminal)<sp/>handler<sp/>returns<sp/>the<sp/>real<sp/>201<sp/>response</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>chain.<ref refid="classthemis_1_1api_1_1_middleware_chain_1a703044435e5879f9ff25edd4ee27aa71" kindref="member">append</ref>(std::make_shared&lt;FixedResponseHandler&gt;(<ref refid="structthemis_1_1api_1_1_http_response_1a140adfe86a0d0ecc515f2fb6b99b26fb" kindref="member">HttpResponse::created</ref>(</highlight><highlight class="stringliteral">&quot;{\&quot;id\&quot;:99}&quot;</highlight><highlight class="normal">)));</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>chain.<ref refid="classthemis_1_1api_1_1_middleware_chain_1a7a1631a8927f1d4d03c99b072cc6312c" kindref="member">handle</ref>(<ref refid="structthemis_1_1api_1_1_http_request" kindref="compound">HttpRequest</ref>{});</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Terminal<sp/>handler&apos;s<sp/>response<sp/>(201)<sp/>must<sp/>be<sp/>returned,<sp/>not<sp/>the<sp/>interceptor&apos;s<sp/>(200)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.value().status_code,<sp/>201);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.value().body,<sp/></highlight><highlight class="stringliteral">&quot;{\&quot;id\&quot;:99}&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><ref refid="test__api__interfaces_8cpp_1a9b1e1eebf94fff5b240ad3b824d09121" kindref="member">TEST</ref>(MiddlewareChainTest,<sp/>RequiresAuthIfAnyLinkRequiresIt)</highlight></codeline>
+<codeline lineno="175"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1api_1_1_middleware_chain" kindref="compound">MiddlewareChain</ref><sp/>chain;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>chain.<ref refid="classthemis_1_1api_1_1_middleware_chain_1a703044435e5879f9ff25edd4ee27aa71" kindref="member">append</ref>(std::make_shared&lt;FixedResponseHandler&gt;(<ref refid="structthemis_1_1api_1_1_http_response_1a1a23e86743f248802bc9cbf8aecb9893" kindref="member">HttpResponse::ok</ref>()));</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>chain.<ref refid="classthemis_1_1api_1_1_middleware_chain_1a703044435e5879f9ff25edd4ee27aa71" kindref="member">append</ref>(std::make_shared&lt;RejectingHandler&gt;());</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(chain.<ref refid="classthemis_1_1api_1_1_middleware_chain_1af5326702530ffe7e396f5b2a6fee720b" kindref="member">requiresAuthentication</ref>());</highlight></codeline>
+<codeline lineno="180"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><ref refid="test__api__interfaces_8cpp_1a9b1e1eebf94fff5b240ad3b824d09121" kindref="member">TEST</ref>(MiddlewareChainTest,<sp/>NoAuthIfAllLinksOptOut)</highlight></codeline>
+<codeline lineno="183"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1api_1_1_middleware_chain" kindref="compound">MiddlewareChain</ref><sp/>chain;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>chain.<ref refid="classthemis_1_1api_1_1_middleware_chain_1a703044435e5879f9ff25edd4ee27aa71" kindref="member">append</ref>(std::make_shared&lt;FixedResponseHandler&gt;(<ref refid="structthemis_1_1api_1_1_http_response_1a1a23e86743f248802bc9cbf8aecb9893" kindref="member">HttpResponse::ok</ref>()));</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(chain.<ref refid="classthemis_1_1api_1_1_middleware_chain_1af5326702530ffe7e396f5b2a6fee720b" kindref="member">requiresAuthentication</ref>());</highlight></codeline>
+<codeline lineno="187"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><ref refid="test__api__interfaces_8cpp_1a9b1e1eebf94fff5b240ad3b824d09121" kindref="member">TEST</ref>(MiddlewareChainTest,<sp/>SizeReflectsAppends)</highlight></codeline>
+<codeline lineno="190"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1api_1_1_middleware_chain" kindref="compound">MiddlewareChain</ref><sp/>chain;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(chain.<ref refid="classthemis_1_1api_1_1_middleware_chain_1a6e0fd390e9933d963631dae8bc664f2e" kindref="member">size</ref>(),<sp/>0u);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>chain.<ref refid="classthemis_1_1api_1_1_middleware_chain_1a703044435e5879f9ff25edd4ee27aa71" kindref="member">append</ref>(std::make_shared&lt;FixedResponseHandler&gt;(<ref refid="structthemis_1_1api_1_1_http_response_1a1a23e86743f248802bc9cbf8aecb9893" kindref="member">HttpResponse::ok</ref>()));</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(chain.<ref refid="classthemis_1_1api_1_1_middleware_chain_1a6e0fd390e9933d963631dae8bc664f2e" kindref="member">size</ref>(),<sp/>1u);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>chain.<ref refid="classthemis_1_1api_1_1_middleware_chain_1a703044435e5879f9ff25edd4ee27aa71" kindref="member">append</ref>(std::make_shared&lt;FixedResponseHandler&gt;(<ref refid="structthemis_1_1api_1_1_http_response_1a1a23e86743f248802bc9cbf8aecb9893" kindref="member">HttpResponse::ok</ref>()));</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(chain.<ref refid="classthemis_1_1api_1_1_middleware_chain_1a6e0fd390e9933d963631dae8bc664f2e" kindref="member">size</ref>(),<sp/>2u);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GraphQL<sp/>schema<sp/>builder<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><ref refid="test__api__interfaces_8cpp_1a9b1e1eebf94fff5b240ad3b824d09121" kindref="member">TEST</ref>(SchemaValidationResultTest,<sp/>OkResult)</highlight></codeline>
+<codeline lineno="204"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/><ref refid="structthemis_1_1api_1_1_schema_validation_result_1aad79065a1745199fc53c54b373e021ad" kindref="member">SchemaValidationResult::ok</ref>();</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r.valid);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r.errors.empty());</highlight></codeline>
+<codeline lineno="208"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><ref refid="test__api__interfaces_8cpp_1a9b1e1eebf94fff5b240ad3b824d09121" kindref="member">TEST</ref>(SchemaValidationResultTest,<sp/>FailResult)</highlight></codeline>
+<codeline lineno="211"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/><ref refid="structthemis_1_1api_1_1_schema_validation_result_1a6a214daf9d3baabc08b124d318eb3bb1" kindref="member">SchemaValidationResult::fail</ref>(</highlight><highlight class="stringliteral">&quot;Entity&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;field<sp/>type<sp/>unknown&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.valid);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(r.errors.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.errors[0].type_name,<sp/><sp/></highlight><highlight class="stringliteral">&quot;Entity&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.errors[0].field_name,<sp/></highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.errors[0].message,<sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;field<sp/>type<sp/>unknown&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><ref refid="test__api__interfaces_8cpp_1a9b1e1eebf94fff5b240ad3b824d09121" kindref="member">TEST</ref>(GraphQLTypeDescriptorTest,<sp/>FieldConstruction)</highlight></codeline>
+<codeline lineno="221"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1api_1_1_graph_q_l_field_descriptor" kindref="compound">GraphQLFieldDescriptor</ref><sp/>f;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>f.<ref refid="structthemis_1_1api_1_1_graph_q_l_field_descriptor_1a2afca354fd73bf871e00914f75b0d996" kindref="member">name</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>f.<ref refid="structthemis_1_1api_1_1_graph_q_l_field_descriptor_1a5a6b05738d086c8f303f052d6a261f2e" kindref="member">type_string</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ID!&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>f.<ref refid="structthemis_1_1api_1_1_graph_q_l_field_descriptor_1ae7b590fc2b78f9ab29c56aad41f8de68" kindref="member">description</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Primary<sp/>key&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(f.<ref refid="structthemis_1_1api_1_1_graph_q_l_field_descriptor_1a2afca354fd73bf871e00914f75b0d996" kindref="member">name</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(f.<ref refid="structthemis_1_1api_1_1_graph_q_l_field_descriptor_1a5a6b05738d086c8f303f052d6a261f2e" kindref="member">type_string</ref>,<sp/></highlight><highlight class="stringliteral">&quot;ID!&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(f.<ref refid="structthemis_1_1api_1_1_graph_q_l_field_descriptor_1a64b923b720a544188532be5b5cd7bd31" kindref="member">deprecated</ref>);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><ref refid="test__api__interfaces_8cpp_1a9b1e1eebf94fff5b240ad3b824d09121" kindref="member">TEST</ref>(GraphQLTypeDescriptorTest,<sp/>TypeConstruction)</highlight></codeline>
+<codeline lineno="232"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1api_1_1_graph_q_l_type_descriptor" kindref="compound">GraphQLTypeDescriptor</ref><sp/>t;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>t.<ref refid="structthemis_1_1api_1_1_graph_q_l_type_descriptor_1a69b0b28d26b708f1d028ac34a7baa2b0" kindref="member">name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Entity&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>t.<ref refid="structthemis_1_1api_1_1_graph_q_l_type_descriptor_1a7ee7e77650d36e79caffc8678ef0c085" kindref="member">fields</ref>.push_back({</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ID!&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;PK&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>{}});</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>t.<ref refid="structthemis_1_1api_1_1_graph_q_l_type_descriptor_1a7ee7e77650d36e79caffc8678ef0c085" kindref="member">fields</ref>.push_back({</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;String!&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Display<sp/>name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>{}});</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(t.<ref refid="structthemis_1_1api_1_1_graph_q_l_type_descriptor_1a69b0b28d26b708f1d028ac34a7baa2b0" kindref="member">name</ref>,<sp/></highlight><highlight class="stringliteral">&quot;Entity&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(t.<ref refid="structthemis_1_1api_1_1_graph_q_l_type_descriptor_1a7ee7e77650d36e79caffc8678ef0c085" kindref="member">fields</ref>.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WebSocket<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><ref refid="test__api__interfaces_8cpp_1a9b1e1eebf94fff5b240ad3b824d09121" kindref="member">TEST</ref>(WebSocketCloseCodeTest,<sp/>Values)</highlight></codeline>
+<codeline lineno="246"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint16_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453acb398181d3e3294eaaabe45596512747" kindref="member">WebSocketCloseCode::NormalClosure</ref>),<sp/><sp/><sp/><sp/>1000u);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint16_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453ab16f53879e8cacc9f1040facec98b2b8" kindref="member">WebSocketCloseCode::GoingAway</ref>),<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1001u);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint16_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453a8462b58246e70e5c83e5b939a9332cb5" kindref="member">WebSocketCloseCode::InternalError</ref>),<sp/><sp/><sp/><sp/>1011u);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint16_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453a01ba6a034abdc6cd416818d1c6f21d48" kindref="member">WebSocketCloseCode::TlsHandshakeFailed</ref>),<sp/>1015u);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><ref refid="test__api__interfaces_8cpp_1a9b1e1eebf94fff5b240ad3b824d09121" kindref="member">TEST</ref>(WebSocketFrameTest,<sp/>TextFactory)</highlight></codeline>
+<codeline lineno="254"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>f<sp/>=<sp/><ref refid="structthemis_1_1api_1_1_web_socket_frame_1a3bebcef22b5d63476bda1fa475989816" kindref="member">WebSocketFrame::text</ref>(</highlight><highlight class="stringliteral">&quot;hello&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(f.type,<sp/><sp/><sp/><sp/><ref refid="structthemis_1_1api_1_1_web_socket_frame_1a206694c7cac8ab958cc23ebb6f540487a9dffbf69ffba8bc38bc4e01abf4b1675" kindref="member">WebSocketFrame::Type::Text</ref>);</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(f.payload,<sp/></highlight><highlight class="stringliteral">&quot;hello&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><ref refid="test__api__interfaces_8cpp_1a9b1e1eebf94fff5b240ad3b824d09121" kindref="member">TEST</ref>(WebSocketFrameTest,<sp/>BinaryFactory)</highlight></codeline>
+<codeline lineno="261"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>f<sp/>=<sp/><ref refid="structthemis_1_1api_1_1_web_socket_frame_1a53c7840b1b22771d9adc359937ea1e23" kindref="member">WebSocketFrame::binary</ref>(</highlight><highlight class="stringliteral">&quot;\x01\x02\x03&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(f.type,<sp/><ref refid="structthemis_1_1api_1_1_web_socket_frame_1a206694c7cac8ab958cc23ebb6f540487a6ce976e8f061b2b5cfe4d0c50c3405dd" kindref="member">WebSocketFrame::Type::Binary</ref>);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(f.payload.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="265"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight><highlight class="comment">//<sp/>VersionDescriptor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><ref refid="test__api__interfaces_8cpp_1a9b1e1eebf94fff5b240ad3b824d09121" kindref="member">TEST</ref>(VersionDescriptorTest,<sp/>CurrentVersion)</highlight></codeline>
+<codeline lineno="272"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>v<sp/>=<sp/><ref refid="structthemis_1_1api_1_1_version_descriptor_1a14eb2d730aadfb660d452e8665eca519" kindref="member">VersionDescriptor::current</ref>(1,<sp/>4,<sp/></highlight><highlight class="stringliteral">&quot;v1.4<sp/>—<sp/>Stable&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(v.major_version,<sp/>1);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(v.minor_version,<sp/>4);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(v.label,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;v1.4<sp/>—<sp/>Stable&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(v.deprecation_date.has_value());</highlight></codeline>
+<codeline lineno="278"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><ref refid="test__api__interfaces_8cpp_1a9b1e1eebf94fff5b240ad3b824d09121" kindref="member">TEST</ref>(VersionDescriptorTest,<sp/>DeprecatedVersion)</highlight></codeline>
+<codeline lineno="281"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>v<sp/>=<sp/><ref refid="structthemis_1_1api_1_1_version_descriptor_1aabc6813ada4131caf46c7476f501b3bc" kindref="member">VersionDescriptor::deprecated</ref>(1,<sp/>0,<sp/></highlight><highlight class="stringliteral">&quot;2027-01-01&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;2027-07-01&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;https://docs.example.com/migrate&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(v.major_version,<sp/>1);</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(v.deprecation_date.has_value());</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(v.deprecation_date.value(),<sp/></highlight><highlight class="stringliteral">&quot;2027-01-01&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(v.sunset_date.has_value());</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(v.successor_url.has_value());</highlight></codeline>
+<codeline lineno="289"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CorrelationId</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><ref refid="test__api__interfaces_8cpp_1a9b1e1eebf94fff5b240ad3b824d09121" kindref="member">TEST</ref>(CorrelationIdTest,<sp/>NilDefault)</highlight></codeline>
+<codeline lineno="296"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1api_1_1_correlation_id" kindref="compound">CorrelationId</ref><sp/>id;</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">.isNil());</highlight></codeline>
+<codeline lineno="299"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><ref refid="test__api__interfaces_8cpp_1a9b1e1eebf94fff5b240ad3b824d09121" kindref="member">TEST</ref>(CorrelationIdTest,<sp/>ParseAndSerialiseRoundTrip)</highlight></codeline>
+<codeline lineno="302"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>uuid<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;550e8400-e29b-41d4-a716-446655440000&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/><ref refid="classthemis_1_1api_1_1_correlation_id_1ad45ea0deaf31a40f1e3dcf7007eb9e62" kindref="member">CorrelationId::parse</ref>(uuid);</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">.isNil());</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">.toString(),<sp/>uuid);</highlight></codeline>
+<codeline lineno="307"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><ref refid="test__api__interfaces_8cpp_1a9b1e1eebf94fff5b240ad3b824d09121" kindref="member">TEST</ref>(CorrelationIdTest,<sp/>ParseUppercase)</highlight></codeline>
+<codeline lineno="310"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>upper<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;550E8400-E29B-41D4-A716-446655440000&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>lower<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;550e8400-e29b-41d4-a716-446655440000&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/><ref refid="classthemis_1_1api_1_1_correlation_id_1ad45ea0deaf31a40f1e3dcf7007eb9e62" kindref="member">CorrelationId::parse</ref>(upper);</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">.toString(),<sp/>lower);</highlight></codeline>
+<codeline lineno="315"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><ref refid="test__api__interfaces_8cpp_1a9b1e1eebf94fff5b240ad3b824d09121" kindref="member">TEST</ref>(CorrelationIdTest,<sp/>ParseWithoutDashes)</highlight></codeline>
+<codeline lineno="318"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>32<sp/>hex<sp/>chars<sp/>without<sp/>dashes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>nodash<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;550e8400e29b41d4a716446655440000&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/><ref refid="classthemis_1_1api_1_1_correlation_id_1ad45ea0deaf31a40f1e3dcf7007eb9e62" kindref="member">CorrelationId::parse</ref>(nodash);</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">.toString(),<sp/></highlight><highlight class="stringliteral">&quot;550e8400-e29b-41d4-a716-446655440000&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="323"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><ref refid="test__api__interfaces_8cpp_1a9b1e1eebf94fff5b240ad3b824d09121" kindref="member">TEST</ref>(CorrelationIdTest,<sp/>ParseInvalidThrows)</highlight></codeline>
+<codeline lineno="326"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(<ref refid="classthemis_1_1api_1_1_correlation_id_1ad45ea0deaf31a40f1e3dcf7007eb9e62" kindref="member">CorrelationId::parse</ref>(</highlight><highlight class="stringliteral">&quot;not-a-uuid!&quot;</highlight><highlight class="normal">),<sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="328"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><ref refid="test__api__interfaces_8cpp_1a9b1e1eebf94fff5b240ad3b824d09121" kindref="member">TEST</ref>(CorrelationIdTest,<sp/>EqualityAndInequality)</highlight></codeline>
+<codeline lineno="331"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>id1<sp/>=<sp/><ref refid="classthemis_1_1api_1_1_correlation_id_1ad45ea0deaf31a40f1e3dcf7007eb9e62" kindref="member">CorrelationId::parse</ref>(</highlight><highlight class="stringliteral">&quot;550e8400-e29b-41d4-a716-446655440000&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>id2<sp/>=<sp/><ref refid="classthemis_1_1api_1_1_correlation_id_1ad45ea0deaf31a40f1e3dcf7007eb9e62" kindref="member">CorrelationId::parse</ref>(</highlight><highlight class="stringliteral">&quot;550e8400-e29b-41d4-a716-446655440000&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>id3<sp/>=<sp/><ref refid="classthemis_1_1api_1_1_correlation_id_1ad45ea0deaf31a40f1e3dcf7007eb9e62" kindref="member">CorrelationId::parse</ref>(</highlight><highlight class="stringliteral">&quot;00000000-0000-0000-0000-000000000001&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(id1,<sp/><sp/>id2);</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(id1,<sp/><sp/>id3);</highlight></codeline>
+<codeline lineno="337"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><ref refid="test__api__interfaces_8cpp_1a9b1e1eebf94fff5b240ad3b824d09121" kindref="member">TEST</ref>(CorrelationIdTest,<sp/>Hashable)</highlight></codeline>
+<codeline lineno="340"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;CorrelationId,<sp/>std::string&gt;<sp/>map;</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/><ref refid="classthemis_1_1api_1_1_correlation_id_1ad45ea0deaf31a40f1e3dcf7007eb9e62" kindref="member">CorrelationId::parse</ref>(</highlight><highlight class="stringliteral">&quot;550e8400-e29b-41d4-a716-446655440000&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>map[id]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(map.at(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="345"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><ref refid="test__api__interfaces_8cpp_1a9b1e1eebf94fff5b240ad3b824d09121" kindref="member">TEST</ref>(CorrelationIdTest,<sp/>ByteSize)</highlight></codeline>
+<codeline lineno="348"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1api_1_1_correlation_id" kindref="compound">CorrelationId</ref><sp/>id;</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">.bytes().size(),<sp/>16u);</highlight></codeline>
+<codeline lineno="351"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="354"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ServiceDescriptor<sp/>/<sp/>GRPCMetadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><ref refid="test__api__interfaces_8cpp_1a9b1e1eebf94fff5b240ad3b824d09121" kindref="member">TEST</ref>(ServiceDescriptorTest,<sp/>DefaultSerialization)</highlight></codeline>
+<codeline lineno="358"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1api_1_1_service_descriptor" kindref="compound">ServiceDescriptor</ref><sp/>sd;</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/>sd.<ref refid="structthemis_1_1api_1_1_service_descriptor_1a28597b4dbc388aa1c2d2745a6a9c42d8" kindref="member">service_name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;themis.v1.ThemisDB&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/>sd.<ref refid="structthemis_1_1api_1_1_service_descriptor_1a3ed002f508071cef2d6cf5490be0b89a" kindref="member">package</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;themis.v1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/>sd.<ref refid="structthemis_1_1api_1_1_service_descriptor_1a86e21008d20a65c98ee0f6cda3a8d948" kindref="member">method_names</ref><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;GetEntity&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ExecuteAQL&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sd.<ref refid="structthemis_1_1api_1_1_service_descriptor_1a83037003fcbccec2d4f23a20fa4927d5" kindref="member">serialization_format</ref>,<sp/></highlight><highlight class="stringliteral">&quot;proto&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sd.<ref refid="structthemis_1_1api_1_1_service_descriptor_1a86e21008d20a65c98ee0f6cda3a8d948" kindref="member">method_names</ref>.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="365"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><ref refid="test__api__interfaces_8cpp_1a9b1e1eebf94fff5b240ad3b824d09121" kindref="member">TEST</ref>(GRPCMetadataTest,<sp/>DeadlineDetection)</highlight></codeline>
+<codeline lineno="368"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1api_1_1_g_r_p_c_metadata" kindref="compound">GRPCMetadata</ref><sp/>m;</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(m.<ref refid="structthemis_1_1api_1_1_g_r_p_c_metadata_1a280e618cc884204cea759e8ff035d196" kindref="member">hasDeadline</ref>());</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="structthemis_1_1api_1_1_g_r_p_c_metadata_1aa4a1951f0e5747185979a4cab881f14d" kindref="member">deadline</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;2026-03-10T17:00:00Z&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(m.<ref refid="structthemis_1_1api_1_1_g_r_p_c_metadata_1a280e618cc884204cea759e8ff035d196" kindref="member">hasDeadline</ref>());</highlight></codeline>
+<codeline lineno="373"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"></highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><ref refid="test__api__interfaces_8cpp_1a9b1e1eebf94fff5b240ad3b824d09121" kindref="member">TEST</ref>(GRPCMetadataTest,<sp/>UserMetadata)</highlight></codeline>
+<codeline lineno="376"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1api_1_1_g_r_p_c_metadata" kindref="compound">GRPCMetadata</ref><sp/>m;</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="structthemis_1_1api_1_1_g_r_p_c_metadata_1a0f4717d6309b48c14cbc75d10ba1135e" kindref="member">user_metadata</ref>[</highlight><highlight class="stringliteral">&quot;x-tenant-id&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;acme&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(m.<ref refid="structthemis_1_1api_1_1_g_r_p_c_metadata_1a0f4717d6309b48c14cbc75d10ba1135e" kindref="member">user_metadata</ref>.at(</highlight><highlight class="stringliteral">&quot;x-tenant-id&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;acme&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="380"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/api/test_api_interfaces.cpp"/>
+  </compounddef>
+</doxygen>

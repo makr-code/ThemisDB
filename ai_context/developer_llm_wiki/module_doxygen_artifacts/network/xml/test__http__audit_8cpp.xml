@@ -1,0 +1,394 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__http__audit_8cpp" kind="file" language="C++">
+    <compoundname>test_http_audit.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">boost/asio.hpp</includes>
+    <includes local="no">boost/beast.hpp</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">fstream</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">unistd.h</includes>
+    <includes local="yes">server/http_server.h</includes>
+    <includes local="yes">storage/rocksdb_wrapper.h</includes>
+    <includes local="yes">index/secondary_index.h</includes>
+    <includes local="yes">index/graph_index.h</includes>
+    <includes local="yes">index/vector_index.h</includes>
+    <includes local="yes">transaction/transaction_manager.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/network/test_http_audit.cpp</label>
+        <link refid="test__http__audit_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>boost/asio.hpp</label>
+      </node>
+      <node id="4">
+        <label>boost/beast.hpp</label>
+      </node>
+      <node id="9">
+        <label>chrono</label>
+      </node>
+      <node id="6">
+        <label>filesystem</label>
+      </node>
+      <node id="7">
+        <label>fstream</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="14">
+        <label>index/graph_index.h</label>
+      </node>
+      <node id="13">
+        <label>index/secondary_index.h</label>
+      </node>
+      <node id="15">
+        <label>index/vector_index.h</label>
+      </node>
+      <node id="5">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="11">
+        <label>server/http_server.h</label>
+      </node>
+      <node id="12">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="8">
+        <label>thread</label>
+      </node>
+      <node id="16">
+        <label>transaction/transaction_manager.h</label>
+      </node>
+      <node id="10">
+        <label>unistd.h</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_audit_http_api_test" prot="public">AuditHttpApiTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__http__audit_8cpp_1a3aa827e1ab0f4d0de76e5c90f993ae45" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AuditHttpApiTest, QueryReturnsSingleEntry)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_audit_http_api_test" kindref="compound">AuditHttpApiTest</ref></type>
+        </param>
+        <param>
+          <type>QueryReturnsSingleEntry</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_audit.cpp" line="132" column="1" bodyfile="tests/network/test_http_audit.cpp" bodystart="132" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__audit_8cpp_1ad9bfd1726f143f225dfeea27bf4667ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AuditHttpApiTest, CsvExportReturnsHeaderAndRow)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_audit_http_api_test" kindref="compound">AuditHttpApiTest</ref></type>
+        </param>
+        <param>
+          <type>CsvExportReturnsHeaderAndRow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_audit.cpp" line="145" column="1" bodyfile="tests/network/test_http_audit.cpp" bodystart="145" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__audit_8cpp_1a08f17a84d01af69748f5a80c77987015" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AuditHttpApiTest, UrlDecodingAndIso8601RangeAndRateLimit)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_audit_http_api_test" kindref="compound">AuditHttpApiTest</ref></type>
+        </param>
+        <param>
+          <type>UrlDecodingAndIso8601RangeAndRateLimit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_audit.cpp" line="162" column="1" bodyfile="tests/network/test_http_audit.cpp" bodystart="162" bodyend="225"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;boost/asio.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;boost/beast.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>_WIN32</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unistd.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;server/http_server.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/rocksdb_wrapper.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/secondary_index.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/graph_index.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/vector_index.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;transaction/transaction_manager.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">beast<sp/>=<sp/>boost::beast;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">http<sp/>=<sp/>beast::http;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">net<sp/>=<sp/>boost::asio;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1network_1a7c0ea458b8c694bc6d3c7e2c14f67649" kindref="member">tcp</ref><sp/>=<sp/>net::ip::tcp;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25" refid="class_audit_http_api_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_audit_http_api_test" kindref="compound">AuditHttpApiTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_audit_http_api_test_1a4feb02f7a028fafc29ef0999c2337bcc" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reduce<sp/>rate<sp/>limit<sp/>for<sp/>tests<sp/>via<sp/>environment<sp/>(applies<sp/>in<sp/>server<sp/>ctor)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>_WIN32</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>_putenv(</highlight><highlight class="stringliteral">&quot;THEMIS_AUDIT_RATE_LIMIT=5&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>setenv(</highlight><highlight class="stringliteral">&quot;THEMIS_AUDIT_RATE_LIMIT&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;5&quot;</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>db_path<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;data/themis_http_audit_test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(std::filesystem::exists(db_path))<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove_all(db_path);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::RocksDBWrapper::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.db_path<sp/>=<sp/>db_path;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.memtable_size_mb<sp/>=<sp/>32;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.block_cache_size_mb<sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_audit_http_api_test_1a6944808a4a72cadbf0d322a8d048866b" kindref="member">storage_</ref><sp/>=<sp/>std::make_shared&lt;themis::RocksDBWrapper&gt;(cfg);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="class_audit_http_api_test_1a6944808a4a72cadbf0d322a8d048866b" kindref="member">storage_</ref>-&gt;open());</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_audit_http_api_test_1a264556ea37099130ac33eef6cf04babd" kindref="member">secondary_index_</ref><sp/>=<sp/>std::make_shared&lt;themis::SecondaryIndexManager&gt;(*<ref refid="class_audit_http_api_test_1a6944808a4a72cadbf0d322a8d048866b" kindref="member">storage_</ref>);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_audit_http_api_test_1ab8c03262b134d309e217c77fa9b26fdf" kindref="member">graph_index_</ref><sp/>=<sp/>std::make_shared&lt;themis::GraphIndexManager&gt;(*<ref refid="class_audit_http_api_test_1a6944808a4a72cadbf0d322a8d048866b" kindref="member">storage_</ref>);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_audit_http_api_test_1add2a6ce3410d8c52ed56730e744ce01b" kindref="member">vector_index_</ref><sp/>=<sp/>std::make_shared&lt;themis::VectorIndexManager&gt;(*<ref refid="class_audit_http_api_test_1a6944808a4a72cadbf0d322a8d048866b" kindref="member">storage_</ref>);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_audit_http_api_test_1a1c5ad699a0c57263609e4691476f8d57" kindref="member">tx_manager_</ref><sp/>=<sp/>std::make_shared&lt;themis::TransactionManager&gt;(*<ref refid="class_audit_http_api_test_1a6944808a4a72cadbf0d322a8d048866b" kindref="member">storage_</ref>,<sp/>*<ref refid="class_audit_http_api_test_1a264556ea37099130ac33eef6cf04babd" kindref="member">secondary_index_</ref>,<sp/>*<ref refid="class_audit_http_api_test_1ab8c03262b134d309e217c77fa9b26fdf" kindref="member">graph_index_</ref>,<sp/>*<ref refid="class_audit_http_api_test_1add2a6ce3410d8c52ed56730e744ce01b" kindref="member">vector_index_</ref>);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::server::HttpServer::Config<sp/>scfg;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>scfg.host<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;127.0.0.1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>scfg.port<sp/>=<sp/>18111;<sp/></highlight><highlight class="comment">//<sp/>dedicated<sp/>port</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>scfg.num_threads<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_audit_http_api_test_1ae181921cbde8d048f00c9681a0dfee75" kindref="member">server_</ref><sp/>=<sp/>std::make_unique&lt;themis::server::HttpServer&gt;(scfg,<sp/><ref refid="class_audit_http_api_test_1a6944808a4a72cadbf0d322a8d048866b" kindref="member">storage_</ref>,<sp/><ref refid="class_audit_http_api_test_1a264556ea37099130ac33eef6cf04babd" kindref="member">secondary_index_</ref>,<sp/><ref refid="class_audit_http_api_test_1ab8c03262b134d309e217c77fa9b26fdf" kindref="member">graph_index_</ref>,<sp/><ref refid="class_audit_http_api_test_1add2a6ce3410d8c52ed56730e744ce01b" kindref="member">vector_index_</ref>,<sp/><ref refid="class_audit_http_api_test_1a1c5ad699a0c57263609e4691476f8d57" kindref="member">tx_manager_</ref>);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_audit_http_api_test_1ae181921cbde8d048f00c9681a0dfee75" kindref="member">server_</ref>-&gt;start();</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(150));</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>a<sp/>sample<sp/>audit<sp/>log<sp/>line<sp/>(plaintext<sp/>payload<sp/>JSON<sp/>string)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::create_directories(</highlight><highlight class="stringliteral">&quot;data/logs&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::ofstream<sp/>ofs(</highlight><highlight class="stringliteral">&quot;data/logs/audit.jsonl&quot;</highlight><highlight class="normal">,<sp/>std::ios::app<sp/>|<sp/>std::ios::binary);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Minimal<sp/>event:<sp/>user<sp/>alice<sp/>CREATE<sp/>user<sp/>entity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/></highlight><highlight class="keyword">event</highlight><highlight class="normal"><sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;user&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;action&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;CREATE&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;entity_type&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;user&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;entity_id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;success&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/>line<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;ts&quot;</highlight><highlight class="normal">,<sp/>1730860000000LL},</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;payload&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">event</highlight><highlight class="normal">.dump()}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ofs<sp/>&lt;&lt;<sp/>line.dump()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_audit_http_api_test_1af0fc3ee719b7a5add2ef27c2908ff468" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="class_audit_http_api_test_1ae181921cbde8d048f00c9681a0dfee75" kindref="member">server_</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_audit_http_api_test_1ae181921cbde8d048f00c9681a0dfee75" kindref="member">server_</ref>-&gt;stop();</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="class_audit_http_api_test_1a6944808a4a72cadbf0d322a8d048866b" kindref="member">storage_</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_audit_http_api_test_1a6944808a4a72cadbf0d322a8d048866b" kindref="member">storage_</ref>-&gt;close();</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>db_path<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;data/themis_http_audit_test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(std::filesystem::exists(db_path))<sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove_all(db_path);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(std::filesystem::exists(</highlight><highlight class="stringliteral">&quot;data/logs/audit.jsonl&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove(</highlight><highlight class="stringliteral">&quot;data/logs/audit.jsonl&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>http::response&lt;http::string_body&gt;<sp/><ref refid="class_audit_http_api_test_1af5e274224ad52c0632cce429d8c545f2" kindref="member">http_get</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>host,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>port,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target)<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>net::io_context<sp/>ioc;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tcp::resolver<sp/>resolver(ioc);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>beast::tcp_stream<sp/>stream(ioc);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>resolver.resolve(host,<sp/>port);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stream.connect(results);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>http::request&lt;http::string_body&gt;<sp/>req{http::verb::get,<sp/>target,<sp/>11};</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>req.set(http::field::host,<sp/>host);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>http::write(stream,<sp/>req);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>beast::flat_buffer<sp/>buf;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>http::response&lt;http::string_body&gt;<sp/>res;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>http::read(stream,<sp/>buf,<sp/>res);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>beast::error_code<sp/>ec;<sp/>stream.socket().shutdown(tcp::socket::shutdown_both,<sp/>ec);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>res;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>http::response&lt;http::string_body&gt;<sp/><ref refid="class_audit_http_api_test_1a2880581f7712d3ef6aaa948d77a7b61c" kindref="member">http_get_auth</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>host,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>port,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>bearer)<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>net::io_context<sp/>ioc;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tcp::resolver<sp/>resolver(ioc);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>beast::tcp_stream<sp/>stream(ioc);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>resolver.resolve(host,<sp/>port);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stream.connect(results);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>http::request&lt;http::string_body&gt;<sp/>req{http::verb::get,<sp/>target,<sp/>11};</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>req.set(http::field::host,<sp/>host);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>req.set(http::field::authorization,<sp/>std::string(</highlight><highlight class="stringliteral">&quot;Bearer<sp/>&quot;</highlight><highlight class="normal">)<sp/>+<sp/>bearer);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>http::write(stream,<sp/>req);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>beast::flat_buffer<sp/>buf;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>http::response&lt;http::string_body&gt;<sp/>res;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>http::read(stream,<sp/>buf,<sp/>res);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>beast::error_code<sp/>ec;<sp/>stream.socket().shutdown(tcp::socket::shutdown_both,<sp/>ec);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>res;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;themis::server::HttpServer&gt;<sp/><ref refid="class_audit_http_api_test_1ae181921cbde8d048f00c9681a0dfee75" kindref="member">server_</ref>;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::RocksDBWrapper&gt;<sp/><ref refid="class_audit_http_api_test_1a6944808a4a72cadbf0d322a8d048866b" kindref="member">storage_</ref>;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::SecondaryIndexManager&gt;<sp/><ref refid="class_audit_http_api_test_1a264556ea37099130ac33eef6cf04babd" kindref="member">secondary_index_</ref>;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::GraphIndexManager&gt;<sp/><ref refid="class_audit_http_api_test_1ab8c03262b134d309e217c77fa9b26fdf" kindref="member">graph_index_</ref>;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::VectorIndexManager&gt;<sp/><ref refid="class_audit_http_api_test_1add2a6ce3410d8c52ed56730e744ce01b" kindref="member">vector_index_</ref>;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::TransactionManager&gt;<sp/><ref refid="class_audit_http_api_test_1a1c5ad699a0c57263609e4691476f8d57" kindref="member">tx_manager_</ref>;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><ref refid="test__http__audit_8cpp_1a3aa827e1ab0f4d0de76e5c90f993ae45" kindref="member">TEST_F</ref>(<ref refid="class_audit_http_api_test" kindref="compound">AuditHttpApiTest</ref>,<sp/>QueryReturnsSingleEntry)<sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>http_get(</highlight><highlight class="stringliteral">&quot;127.0.0.1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;18111&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;/api/audit?page=1&amp;page_size=10&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(res.result(),<sp/>http::status::ok)<sp/>&lt;&lt;<sp/>res.body();</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>body<sp/>=<sp/>nlohmann::json::parse(res.body());</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(body.contains(</highlight><highlight class="stringliteral">&quot;entries&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(body[</highlight><highlight class="stringliteral">&quot;entries&quot;</highlight><highlight class="normal">].size(),<sp/>1);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>e<sp/>=<sp/>body[</highlight><highlight class="stringliteral">&quot;entries&quot;</highlight><highlight class="normal">][0];</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(e[</highlight><highlight class="stringliteral">&quot;user&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(e[</highlight><highlight class="stringliteral">&quot;action&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;CREATE&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(e[</highlight><highlight class="stringliteral">&quot;entityType&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;user&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(e[</highlight><highlight class="stringliteral">&quot;entityId&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><ref refid="test__http__audit_8cpp_1a3aa827e1ab0f4d0de76e5c90f993ae45" kindref="member">TEST_F</ref>(<ref refid="class_audit_http_api_test" kindref="compound">AuditHttpApiTest</ref>,<sp/>CsvExportReturnsHeaderAndRow)<sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>http_get(</highlight><highlight class="stringliteral">&quot;127.0.0.1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;18111&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;/api/audit/export/csv?page_size=100&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(res.result(),<sp/>http::status::ok)<sp/>&lt;&lt;<sp/>res.body();</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(res.base().find(http::field::content_type)<sp/>!=<sp/>res.base().end());</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>csv<sp/>=<sp/>res.body();</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Expect<sp/>first<sp/>line<sp/>header<sp/>contains<sp/>User,Action</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>pos<sp/>=<sp/>csv.find(</highlight><highlight class="charliteral">&apos;\n&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(pos,<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>header<sp/>=<sp/>csv.substr(0,<sp/>pos);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(header.find(</highlight><highlight class="stringliteral">&quot;User&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(header.find(</highlight><highlight class="stringliteral">&quot;Action&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Second<sp/>line<sp/>contains<sp/>alice</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>pos2<sp/>=<sp/>csv.find(</highlight><highlight class="charliteral">&apos;\n&apos;</highlight><highlight class="normal">,<sp/>pos<sp/>+<sp/>1);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>line2<sp/>=<sp/>csv.substr(pos<sp/>+<sp/>1,<sp/>pos2<sp/>==<sp/>std::string::npos<sp/>?<sp/>std::string::npos<sp/>:<sp/>pos2<sp/>-<sp/>(pos<sp/>+<sp/>1));</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(line2.find(</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><ref refid="test__http__audit_8cpp_1a3aa827e1ab0f4d0de76e5c90f993ae45" kindref="member">TEST_F</ref>(<ref refid="class_audit_http_api_test" kindref="compound">AuditHttpApiTest</ref>,<sp/>UrlDecodingAndIso8601RangeAndRateLimit)<sp/>{</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Append<sp/>an<sp/>entry<sp/>with<sp/>special<sp/>chars<sp/>and<sp/>a<sp/>known<sp/>action</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>std::filesystem::create_directories(</highlight><highlight class="stringliteral">&quot;data/logs&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::ofstream<sp/>ofs(</highlight><highlight class="stringliteral">&quot;data/logs/audit.jsonl&quot;</highlight><highlight class="normal">,<sp/>std::ios::app<sp/>|<sp/>std::ios::binary);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/>ev<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;user&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;alice+admin&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;action&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;VIEW/ACCESS&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;entity_type&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;user&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;entity_id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;success&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/>line<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;ts&quot;</highlight><highlight class="normal">,<sp/>1730860000000LL},</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;payload&quot;</highlight><highlight class="normal">,<sp/>ev.dump()}</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ofs<sp/>&lt;&lt;<sp/>line.dump()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>URL<sp/>decode:<sp/>%2B<sp/>-&gt;<sp/>&apos;+&apos;,<sp/>%2F<sp/>-&gt;<sp/>&apos;/&apos;;<sp/>ISO8601<sp/>with<sp/>Z<sp/>and<sp/>offset</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>http_get(</highlight><highlight class="stringliteral">&quot;127.0.0.1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;18111&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;/api/audit?user=alice%2Badmin&amp;action=VIEW%2FACCESS&amp;start=1969-12-31T00:00:00Z&amp;end=2100-01-01T00:00:00%2B02:00&amp;page=1&amp;page_size=10&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(res.result(),<sp/>http::status::ok)<sp/>&lt;&lt;<sp/>res.body();</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>body<sp/>=<sp/>nlohmann::json::parse(res.body());</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(body.contains(</highlight><highlight class="stringliteral">&quot;entries&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>At<sp/>least<sp/>one<sp/>entry<sp/>should<sp/>match</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>found<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>e<sp/>:<sp/>body[</highlight><highlight class="stringliteral">&quot;entries&quot;</highlight><highlight class="normal">])<sp/>{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(e.value(</highlight><highlight class="stringliteral">&quot;user&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;alice+admin&quot;</highlight><highlight class="normal"><sp/>&amp;&amp;<sp/>e.value(</highlight><highlight class="stringliteral">&quot;action&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;VIEW/ACCESS&quot;</highlight><highlight class="normal">)<sp/>{<sp/>found<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(found);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rate<sp/>limit:<sp/>use<sp/>a<sp/>unique<sp/>Authorization<sp/>bearer<sp/>to<sp/>isolate<sp/>the<sp/>bucket</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Send<sp/>repeated<sp/>requests<sp/>until<sp/>429<sp/>appears,<sp/>assert<sp/>it<sp/>happens<sp/>within<sp/>a<sp/>reasonable<sp/>bound<sp/>(&lt;=<sp/>6)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>_WIN32</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>bearer<sp/>=<sp/>std::string(</highlight><highlight class="stringliteral">&quot;rate-limit-test-&quot;</highlight><highlight class="normal">)<sp/>+<sp/>std::to_string(::GetCurrentProcessId());</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>bearer<sp/>=<sp/>std::string(</highlight><highlight class="stringliteral">&quot;rate-limit-test-&quot;</highlight><highlight class="normal">)<sp/>+<sp/>std::to_string(getpid());</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>http::response&lt;http::string_body&gt;<sp/>last;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ok_count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>max_attempts<sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>max_attempts;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>last<sp/>=<sp/>http_get_auth(</highlight><highlight class="stringliteral">&quot;127.0.0.1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;18111&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;/api/audit/export/csv?page_size=1&quot;</highlight><highlight class="normal">,<sp/>bearer);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(last.result()<sp/>==<sp/>http::status::ok)<sp/>{</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++ok_count;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(last.result()<sp/>==<sp/>http::status::too_many_requests)<sp/>{</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ADD_FAILURE()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Unexpected<sp/>status:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>last.result_int()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;,<sp/>body=&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>last.body();</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Expect<sp/>at<sp/>least<sp/>one<sp/>OK<sp/>before<sp/>rate<sp/>limiting<sp/>kicks<sp/>in,<sp/>but<sp/>not<sp/>more<sp/>than<sp/>6</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(ok_count,<sp/>1);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(ok_count,<sp/>6);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Last<sp/>response<sp/>should<sp/>be<sp/>429</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(last.result()<sp/>!=<sp/>http::status::too_many_requests)<sp/>{</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Try<sp/>one<sp/>more<sp/>time<sp/>to<sp/>trigger<sp/>429</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>last<sp/>=<sp/>http_get_auth(</highlight><highlight class="stringliteral">&quot;127.0.0.1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;18111&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;/api/audit/export/csv?page_size=1&quot;</highlight><highlight class="normal">,<sp/>bearer);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(last.result(),<sp/>http::status::too_many_requests)<sp/>&lt;&lt;<sp/>last.body();</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Retry-After<sp/>header<sp/>should<sp/>be<sp/>present</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(last.base().find(http::field::retry_after)<sp/>!=<sp/>last.base().end());</highlight></codeline>
+<codeline lineno="225"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/network/test_http_audit.cpp"/>
+  </compounddef>
+</doxygen>

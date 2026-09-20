@@ -1,0 +1,263 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1_conflict_resolution_registry" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::ConflictResolutionRegistry</compoundname>
+    <includes refid="conflict__resolution__plugin_8h" local="no">conflict_resolution_plugin.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_conflict_resolution_registry_1a4e82d4122e9f1712d8c54336c104decf" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="namespacethemis_1_1process_1a782d71c7360830f287a01bcc07b7d698" kindref="member">ConflictResolutionPluginFactory</ref> &gt;</type>
+        <definition>std::map&lt;std::string, ConflictResolutionPluginFactory&gt; themis::process::ConflictResolutionRegistry::plugins_</definition>
+        <argsstring></argsstring>
+        <name>plugins_</name>
+        <qualifiedname>themis::process::ConflictResolutionRegistry::plugins_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/conflict_resolution_plugin.h" line="397" column="14" bodyfile="include/process/conflict_resolution_plugin.h" bodystart="397" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_conflict_resolution_registry_1a4122c53017a093c73148c4335b16c7a1" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::process::ConflictResolutionRegistry::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::process::ConflictResolutionRegistry::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/conflict_resolution_plugin.h" line="398" column="24" bodyfile="include/process/conflict_resolution_plugin.h" bodystart="398" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_conflict_resolution_registry_1a761429bf82bc67e10203a07ee2b0055e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ConflictResolutionRegistry &amp;</type>
+        <definition>static ConflictResolutionRegistry &amp; themis::process::ConflictResolutionRegistry::instance</definition>
+        <argsstring>()</argsstring>
+        <name>instance</name>
+        <qualifiedname>themis::process::ConflictResolutionRegistry::instance</qualifiedname>
+        <briefdescription>
+<para>Get singleton instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Reference to global registry </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/conflict_resolution_plugin.h" line="346" column="39"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_conflict_resolution_registry_1a6d7fb67e3ca4fc671dba929e922c7c5f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::ConflictResolutionRegistry::registerPlugin</definition>
+        <argsstring>(const std::string &amp;name, ConflictResolutionPluginFactory factory)</argsstring>
+        <name>registerPlugin</name>
+        <qualifiedname>themis::process::ConflictResolutionRegistry::registerPlugin</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1process_1a782d71c7360830f287a01bcc07b7d698" kindref="member">ConflictResolutionPluginFactory</ref></type>
+          <declname>factory</declname>
+        </param>
+        <briefdescription>
+<para>Register a conflict resolution plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique plugin name (e.g., &quot;custom_merge_v1&quot;) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>factory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Factory function to create instances </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if registered successfully; false if name already registered </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/conflict_resolution_plugin.h" line="355" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_conflict_resolution_registry_1ad9429fce9e06908c71848c7710dd4687" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::ConflictResolutionRegistry::unregisterPlugin</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>unregisterPlugin</name>
+        <qualifiedname>themis::process::ConflictResolutionRegistry::unregisterPlugin</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Unregister a conflict resolution plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>In-flight operations continue with fallback; no new invocations after unregister.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plugin name to unregister </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if unregistered; false if plugin not found </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/conflict_resolution_plugin.h" line="368" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_conflict_resolution_registry_1ad3b27e1b359e7633e135b5a808729eb1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1process_1_1_i_conflict_resolution_plugin" kindref="compound">IConflictResolutionPlugin</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; IConflictResolutionPlugin &gt; themis::process::ConflictResolutionRegistry::getPlugin</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>getPlugin</name>
+        <qualifiedname>themis::process::ConflictResolutionRegistry::getPlugin</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Get a plugin by name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plugin name </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Newly created plugin instance, or nullptr if not registered </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/conflict_resolution_plugin.h" line="376" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_conflict_resolution_registry_1a50eecfc15435243f3b0c2b411d46a72d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::ConflictResolutionRegistry::hasPlugin</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>hasPlugin</name>
+        <qualifiedname>themis::process::ConflictResolutionRegistry::hasPlugin</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Check if a plugin is registered. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plugin name </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if plugin is registered </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/conflict_resolution_plugin.h" line="384" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_conflict_resolution_registry_1afe07d4ad31d93a7fdc710cfa62591638" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::process::ConflictResolutionRegistry::listPlugins</definition>
+        <argsstring>() const</argsstring>
+        <name>listPlugins</name>
+        <qualifiedname>themis::process::ConflictResolutionRegistry::listPlugins</qualifiedname>
+        <briefdescription>
+<para>Get list of all registered plugin names. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Vector of plugin names </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/conflict_resolution_plugin.h" line="391" column="17"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_conflict_resolution_registry_1a5de7919283f81fc952032d0702f47116" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::ConflictResolutionRegistry::ConflictResolutionRegistry</definition>
+        <argsstring>()=default</argsstring>
+        <name>ConflictResolutionRegistry</name>
+        <qualifiedname>themis::process::ConflictResolutionRegistry::ConflictResolutionRegistry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/conflict_resolution_plugin.h" line="394" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_conflict_resolution_registry_1adff28bdd06c811e4d2a0699bbbcd7e5c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::ConflictResolutionRegistry::~ConflictResolutionRegistry</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ConflictResolutionRegistry</name>
+        <qualifiedname>themis::process::ConflictResolutionRegistry::~ConflictResolutionRegistry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/conflict_resolution_plugin.h" line="395" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Global registry for conflict resolution plugins. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Thread-safe singleton; applications register plugins at startup, process module looks up plugins at conflict-time. </para>
+    </detaileddescription>
+    <location file="include/process/conflict_resolution_plugin.h" line="340" column="1" bodyfile="include/process/conflict_resolution_plugin.h" bodystart="340" bodyend="399"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1_conflict_resolution_registry_1a5de7919283f81fc952032d0702f47116" prot="private" virt="non-virtual"><scope>themis::process::ConflictResolutionRegistry</scope><name>ConflictResolutionRegistry</name></member>
+      <member refid="classthemis_1_1process_1_1_conflict_resolution_registry_1ad3b27e1b359e7633e135b5a808729eb1" prot="public" virt="non-virtual"><scope>themis::process::ConflictResolutionRegistry</scope><name>getPlugin</name></member>
+      <member refid="classthemis_1_1process_1_1_conflict_resolution_registry_1a50eecfc15435243f3b0c2b411d46a72d" prot="public" virt="non-virtual"><scope>themis::process::ConflictResolutionRegistry</scope><name>hasPlugin</name></member>
+      <member refid="classthemis_1_1process_1_1_conflict_resolution_registry_1a761429bf82bc67e10203a07ee2b0055e" prot="public" virt="non-virtual"><scope>themis::process::ConflictResolutionRegistry</scope><name>instance</name></member>
+      <member refid="classthemis_1_1process_1_1_conflict_resolution_registry_1afe07d4ad31d93a7fdc710cfa62591638" prot="public" virt="non-virtual"><scope>themis::process::ConflictResolutionRegistry</scope><name>listPlugins</name></member>
+      <member refid="classthemis_1_1process_1_1_conflict_resolution_registry_1a4122c53017a093c73148c4335b16c7a1" prot="private" virt="non-virtual"><scope>themis::process::ConflictResolutionRegistry</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1process_1_1_conflict_resolution_registry_1a4e82d4122e9f1712d8c54336c104decf" prot="private" virt="non-virtual"><scope>themis::process::ConflictResolutionRegistry</scope><name>plugins_</name></member>
+      <member refid="classthemis_1_1process_1_1_conflict_resolution_registry_1a6d7fb67e3ca4fc671dba929e922c7c5f" prot="public" virt="non-virtual"><scope>themis::process::ConflictResolutionRegistry</scope><name>registerPlugin</name></member>
+      <member refid="classthemis_1_1process_1_1_conflict_resolution_registry_1ad9429fce9e06908c71848c7710dd4687" prot="public" virt="non-virtual"><scope>themis::process::ConflictResolutionRegistry</scope><name>unregisterPlugin</name></member>
+      <member refid="classthemis_1_1process_1_1_conflict_resolution_registry_1adff28bdd06c811e4d2a0699bbbcd7e5c" prot="private" virt="non-virtual"><scope>themis::process::ConflictResolutionRegistry</scope><name>~ConflictResolutionRegistry</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

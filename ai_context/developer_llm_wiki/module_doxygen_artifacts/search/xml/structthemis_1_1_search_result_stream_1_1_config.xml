@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_search_result_stream_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::SearchResultStream::Config</compoundname>
+    <includes refid="search__result__stream_8h" local="no">search_result_stream.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_search_result_stream_1_1_config_1ad94d8f9cc90af1f29e56606ae568a6d0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::SearchResultStream::Config::total_k</definition>
+        <argsstring></argsstring>
+        <name>total_k</name>
+        <qualifiedname>themis::SearchResultStream::Config::total_k</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+<para>Total maximum results to materialise from <ref refid="classthemis_1_1_hybrid_search" kindref="compound">HybridSearch</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/search_result_stream.h" line="87" column="16" bodyfile="include/search/search_result_stream.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_search_result_stream_1_1_config_1a4b4d73f160d53cf788a9e6ecbc81d651" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::SearchResultStream::Config::page_size</definition>
+        <argsstring></argsstring>
+        <name>page_size</name>
+        <qualifiedname>themis::SearchResultStream::Config::page_size</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+<para>Results per page returned by <computeroutput><ref refid="classthemis_1_1_search_result_stream_1aee32214d609b881b3c253f02e7baa4c6" kindref="member">nextPage()</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/search_result_stream.h" line="90" column="16" bodyfile="include/search/search_result_stream.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_search_result_stream_1_1_config_1a1c66ffab7301592c7a4ded580da3e73b" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::SearchResultStream::Config::open_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>open_timeout_ms</name>
+        <qualifiedname>themis::SearchResultStream::Config::open_timeout_ms</qualifiedname>
+        <initializer>= 30&apos;000</initializer>
+        <briefdescription>
+<para>Timeout in milliseconds for <ref refid="classthemis_1_1_search_result_stream_1af2b1d021f107c15ad6a351935fde5fe8" kindref="member">open()</ref> call. 0 = no timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/search_result_stream.h" line="93" column="18" bodyfile="include/search/search_result_stream.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Engine configuration. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/search/search_result_stream.h" line="85" column="5" bodyfile="include/search/search_result_stream.h" bodystart="85" bodyend="94"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_search_result_stream_1_1_config_1a1c66ffab7301592c7a4ded580da3e73b" prot="public" virt="non-virtual"><scope>themis::SearchResultStream::Config</scope><name>open_timeout_ms</name></member>
+      <member refid="structthemis_1_1_search_result_stream_1_1_config_1a4b4d73f160d53cf788a9e6ecbc81d651" prot="public" virt="non-virtual"><scope>themis::SearchResultStream::Config</scope><name>page_size</name></member>
+      <member refid="structthemis_1_1_search_result_stream_1_1_config_1ad94d8f9cc90af1f29e56606ae568a6d0" prot="public" virt="non-virtual"><scope>themis::SearchResultStream::Config</scope><name>total_k</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

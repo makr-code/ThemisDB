@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_word" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::Word</compoundname>
+    <includes refid="voice__browser__streaming_8h" local="no">voice_browser_streaming.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_word_1a78580087c43445db8088bf479e389775" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::Word::text</definition>
+        <argsstring></argsstring>
+        <name>text</name>
+        <qualifiedname>themis::voice::Word::text</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="74" column="17" bodyfile="include/voice/voice_browser_streaming.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_word_1a9c35eb9d44498124befa9accdb952981" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::Word::start_s</definition>
+        <argsstring></argsstring>
+        <name>start_s</name>
+        <qualifiedname>themis::voice::Word::start_s</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Start time in seconds relative to stream start. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="75" column="17" bodyfile="include/voice/voice_browser_streaming.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_word_1adea188c0ccc9b8eb87839b60fe2404d5" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::Word::end_s</definition>
+        <argsstring></argsstring>
+        <name>end_s</name>
+        <qualifiedname>themis::voice::Word::end_s</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>End time in seconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="76" column="17" bodyfile="include/voice/voice_browser_streaming.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_word_1ac8aa0092fb021a4c41332783e108a72d" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::Word::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::voice::Word::confidence</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="77" column="17" bodyfile="include/voice/voice_browser_streaming.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Word-level timing information from STT. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_browser_streaming.h" line="73" column="1" bodyfile="include/voice/voice_browser_streaming.h" bodystart="73" bodyend="78"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_word_1ac8aa0092fb021a4c41332783e108a72d" prot="public" virt="non-virtual"><scope>themis::voice::Word</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1voice_1_1_word_1adea188c0ccc9b8eb87839b60fe2404d5" prot="public" virt="non-virtual"><scope>themis::voice::Word</scope><name>end_s</name></member>
+      <member refid="structthemis_1_1voice_1_1_word_1a9c35eb9d44498124befa9accdb952981" prot="public" virt="non-virtual"><scope>themis::voice::Word</scope><name>start_s</name></member>
+      <member refid="structthemis_1_1voice_1_1_word_1a78580087c43445db8088bf479e389775" prot="public" virt="non-virtual"><scope>themis::voice::Word</scope><name>text</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

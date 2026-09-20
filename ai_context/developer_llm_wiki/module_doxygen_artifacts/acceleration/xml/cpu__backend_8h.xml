@@ -1,0 +1,492 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="cpu__backend_8h" kind="file" language="C++">
+    <compoundname>cpu_backend.h</compoundname>
+    <includes refid="compute__backend_8h" local="yes">acceleration/compute_backend.h</includes>
+    <includes refid="tensor__core__matmul_8h" local="yes">acceleration/tensor_core_matmul.h</includes>
+    <includedby refid="bench__acceleration__cuda__gates_8cpp" local="yes">benchmarks/acceleration/bench_acceleration_cuda_gates.cpp</includedby>
+    <includedby refid="bench__acceleration__dispatch_8cpp" local="yes">benchmarks/acceleration/bench_acceleration_dispatch.cpp</includedby>
+    <includedby refid="bench__category__b__gpu__cpu__parity_8cpp" local="yes">benchmarks/acceleration/bench_category_b_gpu_cpu_parity.cpp</includedby>
+    <includedby refid="ai__hardware__dispatcher_8cpp" local="yes">src/acceleration/ai_hardware_dispatcher.cpp</includedby>
+    <includedby refid="backend__registry_8cpp" local="yes">src/acceleration/backend_registry.cpp</includedby>
+    <includedby refid="cpu__backend_8cpp" local="yes">src/acceleration/cpu_backend.cpp</includedby>
+    <includedby refid="cpu__backend__mt_8cpp" local="yes">src/acceleration/cpu_backend_mt.cpp</includedby>
+    <includedby refid="cpu__backend__tbb_8cpp" local="yes">src/acceleration/cpu_backend_tbb.cpp</includedby>
+    <includedby refid="cuda__backend_8cpp" local="yes">src/acceleration/cuda_backend.cpp</includedby>
+    <includedby refid="geo__acceleration__bridge_8cpp" local="yes">src/acceleration/geo_acceleration_bridge.cpp</includedby>
+    <includedby refid="multi__gpu__backend_8cpp" local="yes">src/acceleration/multi_gpu_backend.cpp</includedby>
+    <includedby refid="vllm__resource__manager_8cpp" local="yes">src/acceleration/vllm_resource_manager.cpp</includedby>
+    <includedby refid="test__acceleration_8cpp" local="yes">tests/acceleration/test_acceleration.cpp</includedby>
+    <includedby refid="test__acceleration__coverage_8cpp" local="yes">tests/acceleration/test_acceleration_coverage.cpp</includedby>
+    <includedby refid="test__acceleration__dispatch_8cpp" local="yes">tests/acceleration/test_acceleration_dispatch.cpp</includedby>
+    <includedby refid="test__acceleration__regression_8cpp" local="yes">tests/acceleration/test_acceleration_regression.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>acceleration/compute_backend.h</label>
+        <link refid="compute__backend_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>acceleration/compute_future.h</label>
+        <link refid="compute__future_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/acceleration/cpu_backend.h</label>
+        <link refid="cpu__backend_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>acceleration/error_codes.h</label>
+        <link refid="error__codes_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>acceleration/error_context.h</label>
+        <link refid="error__context_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>acceleration/kernel_invocation.h</label>
+        <link refid="kernel__invocation_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>acceleration/tensor_core_matmul.h</label>
+        <link refid="tensor__core__matmul_8h"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>algorithm</label>
+      </node>
+      <node id="8">
+        <label>atomic</label>
+      </node>
+      <node id="14">
+        <label>chrono</label>
+      </node>
+      <node id="16">
+        <label>cstddef</label>
+      </node>
+      <node id="7">
+        <label>cstdint</label>
+      </node>
+      <node id="18">
+        <label>functional</label>
+      </node>
+      <node id="19">
+        <label>future</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="13">
+        <label>optional</label>
+      </node>
+      <node id="10">
+        <label>shared_mutex</label>
+      </node>
+      <node id="20">
+        <label>stdexcept</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>unordered_map</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/acceleration/bench_acceleration_cuda_gates.cpp</label>
+        <link refid="bench__acceleration__cuda__gates_8cpp"/>
+      </node>
+      <node id="3">
+        <label>benchmarks/acceleration/bench_acceleration_dispatch.cpp</label>
+        <link refid="bench__acceleration__dispatch_8cpp"/>
+      </node>
+      <node id="4">
+        <label>benchmarks/acceleration/bench_category_b_gpu_cpu_parity.cpp</label>
+        <link refid="bench__category__b__gpu__cpu__parity_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/acceleration/cpu_backend.h</label>
+        <link refid="cpu__backend_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>src/acceleration/ai_hardware_dispatcher.cpp</label>
+        <link refid="ai__hardware__dispatcher_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/acceleration/backend_registry.cpp</label>
+        <link refid="backend__registry_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/acceleration/cpu_backend.cpp</label>
+        <link refid="cpu__backend_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/acceleration/cpu_backend_mt.cpp</label>
+        <link refid="cpu__backend__mt_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/acceleration/cpu_backend_tbb.cpp</label>
+        <link refid="cpu__backend__tbb_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/acceleration/cuda_backend.cpp</label>
+        <link refid="cuda__backend_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/acceleration/geo_acceleration_bridge.cpp</label>
+        <link refid="geo__acceleration__bridge_8cpp"/>
+      </node>
+      <node id="12">
+        <label>src/acceleration/multi_gpu_backend.cpp</label>
+        <link refid="multi__gpu__backend_8cpp"/>
+      </node>
+      <node id="13">
+        <label>src/acceleration/vllm_resource_manager.cpp</label>
+        <link refid="vllm__resource__manager_8cpp"/>
+      </node>
+      <node id="14">
+        <label>tests/acceleration/test_acceleration.cpp</label>
+        <link refid="test__acceleration_8cpp"/>
+      </node>
+      <node id="15">
+        <label>tests/acceleration/test_acceleration_coverage.cpp</label>
+        <link refid="test__acceleration__coverage_8cpp"/>
+      </node>
+      <node id="16">
+        <label>tests/acceleration/test_acceleration_dispatch.cpp</label>
+        <link refid="test__acceleration__dispatch_8cpp"/>
+      </node>
+      <node id="17">
+        <label>tests/acceleration/test_acceleration_regression.cpp</label>
+        <link refid="test__acceleration__regression_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend" prot="public">themis::acceleration::CPUVectorBackend</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_c_p_u_graph_backend" prot="public">themis::acceleration::CPUGraphBackend</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend" prot="public">themis::acceleration::CPUGeoBackend</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_c_p_u_matrix_backend" prot="public">themis::acceleration::CPUMatrixBackend</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1acceleration">themis::acceleration</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 85/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="compute__backend_8h" kindref="compound">acceleration/compute_backend.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="tensor__core__matmul_8h" kindref="compound">acceleration/tensor_core_matmul.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1acceleration" kindref="compound">acceleration</ref><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CPU<sp/>fallback<sp/>implementation<sp/>for<sp/>vector<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21" refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_1a8bb7578eed668eefa223c7221e9a38ae" kindref="member">CPUVectorBackend</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_i_vector_backend" kindref="compound">IVectorBackend</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="23" refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_1a8bb7578eed668eefa223c7221e9a38ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_1a8bb7578eed668eefa223c7221e9a38ae" kindref="member">CPUVectorBackend</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="24" refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_1a598988335f047f038ddf8978c0dd16f9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_1a598988335f047f038ddf8978c0dd16f9" kindref="member">~CPUVectorBackend</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>IComputeBackend<sp/>interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_1ae75660b0e189166644b06e762a538975" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_1ae75660b0e189166644b06e762a538975" kindref="member">name</ref>()<sp/>const<sp/>noexcept</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;CPU&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="28" refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_1a8ec29925fceba3dd63b05cba75c4d0fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5" kindref="member">BackendType</ref><sp/><ref refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_1a8ec29925fceba3dd63b05cba75c4d0fb" kindref="member">type</ref>()<sp/>const<sp/>noexcept</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5a2b55387dd066c5bac646ac61543d152d" kindref="member">BackendType::CPU</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="29" refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_1a0fd3b8ecf4b5f00884ea28a0d8370fc1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_1a0fd3b8ecf4b5f00884ea28a0d8370fc1" kindref="member">isAvailable</ref>()<sp/>const<sp/>noexcept</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31" refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_1a11d738ca2327528ee7da00441b9a0f9d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_backend_capabilities" kindref="compound">BackendCapabilities</ref><sp/><ref refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_1a11d738ca2327528ee7da00441b9a0f9d" kindref="member">getCapabilities</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_backend_capabilities" kindref="compound">BackendCapabilities</ref><sp/>caps;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>caps.<ref refid="structthemis_1_1acceleration_1_1_backend_capabilities_1a1e7cc6915a0171289762caf1ed9c00f7" kindref="member">supportsVectorOps</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>caps.<ref refid="structthemis_1_1acceleration_1_1_backend_capabilities_1a20c5e951b14786ae0c857bf0e5cab80a" kindref="member">supportsGraphOps</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>caps.<ref refid="structthemis_1_1acceleration_1_1_backend_capabilities_1a6fe653f7c34812c0405b0b8ff700dfe9" kindref="member">supportsGeoOps</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>caps.<ref refid="structthemis_1_1acceleration_1_1_backend_capabilities_1a92f82e968491cb2b8b21fe9262611cf0" kindref="member">supportsBatchProcessing</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>caps.<ref refid="structthemis_1_1acceleration_1_1_backend_capabilities_1a364aa19acf29f22a818c09b307b2e193" kindref="member">supportsAsync</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>caps.<ref refid="structthemis_1_1acceleration_1_1_backend_capabilities_1a67a5cecee357fac47e13d992eae672ac" kindref="member">supportedPrecisions</ref><sp/>=<sp/>PrecisionMode::FP32;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>caps.<ref refid="structthemis_1_1acceleration_1_1_backend_capabilities_1aad45ccd0d17fe90a1d100bd9d6ae115d" kindref="member">supportedMetrics</ref><sp/>=<sp/><ref refid="namespacethemis_1_1acceleration_1a4625461579fcf3a6cf48f0918f05f04f" kindref="member">metricBit</ref>(<ref refid="namespacethemis_1_1acceleration_1a3f56f43f7bcdd1b76771562053808100a7e6aa2d53f6ee2b1a34b017fa403cb76" kindref="member">DistanceMetric::L2</ref>)</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/><ref refid="namespacethemis_1_1acceleration_1a4625461579fcf3a6cf48f0918f05f04f" kindref="member">metricBit</ref>(<ref refid="namespacethemis_1_1acceleration_1a3f56f43f7bcdd1b76771562053808100ae66ba018ef96aa5c78c8fba787f43717" kindref="member">DistanceMetric::COSINE</ref>)</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/><ref refid="namespacethemis_1_1acceleration_1a4625461579fcf3a6cf48f0918f05f04f" kindref="member">metricBit</ref>(<ref refid="namespacethemis_1_1acceleration_1a3f56f43f7bcdd1b76771562053808100a5dbd0030546e2ee560ccd7c5e4bfcfc8" kindref="member">DistanceMetric::INNER_PRODUCT</ref>);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>caps.<ref refid="structthemis_1_1acceleration_1_1_backend_capabilities_1a10f8225716a8dab6b1198778c7511568" kindref="member">deviceName</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;CPU<sp/>(Fallback)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>caps;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_1ac44da42c0d24c3916756548a4dfe00ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_1ac44da42c0d24c3916756548a4dfe00ee" kindref="member">initialize</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae0e823eb6033a66fd5d571d4b841ac4c" kindref="member">clearError</ref>();</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="50" refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_1a6bd5654464a8cd1b50ae1a5e5de7b48a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_1a6bd5654464a8cd1b50ae1a5e5de7b48a" kindref="member">shutdown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>IVectorBackend<sp/>interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_1a9981223bdf0ac441ba48a45790c720be" kindref="member">computeDistances</ref>(</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>queries,</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>numQueries,</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>dim,</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>vectors,</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>numVectors,</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>useL2<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;std::pair&lt;uint32_t,<sp/>float&gt;&gt;&gt;<sp/><ref refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_1afb9c49f399ded59e8ba4c8814051291d" kindref="member">batchKnnSearch</ref>(</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>queries,</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>numQueries,</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>dim,</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>vectors,</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>numVectors,</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>k,</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>useL2<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_dispatch" kindref="compound">ANNKernelDispatch</ref><sp/><ref refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_1a54bbf2bcb67980d8121c24fd2fe02ce1" kindref="member">populateANNDispatch</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_1a92cc7a09adcbd5c7ec436a91697cc422" kindref="member">computeL2Distance</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>a,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>b,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>dim)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_1a3f85149975eeea9f8a73d18f399ca3f4" kindref="member">computeCosineDistance</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>a,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>b,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>dim)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CPU<sp/>fallback<sp/>implementation<sp/>for<sp/>graph<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="classthemis_1_1acceleration_1_1_c_p_u_graph_backend" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1acceleration_1_1_c_p_u_graph_backend_1aaa5e0dc19c8981511fb0769eca7ac5b0" kindref="member">CPUGraphBackend</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_i_graph_backend" kindref="compound">IGraphBackend</ref><sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="96" refid="classthemis_1_1acceleration_1_1_c_p_u_graph_backend_1aaa5e0dc19c8981511fb0769eca7ac5b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1acceleration_1_1_c_p_u_graph_backend_1aaa5e0dc19c8981511fb0769eca7ac5b0" kindref="member">CPUGraphBackend</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97" refid="classthemis_1_1acceleration_1_1_c_p_u_graph_backend_1ac972e66586107ca6287c0436d4e5c7c4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1acceleration_1_1_c_p_u_graph_backend_1ac972e66586107ca6287c0436d4e5c7c4" kindref="member">~CPUGraphBackend</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>IComputeBackend<sp/>interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="classthemis_1_1acceleration_1_1_c_p_u_graph_backend_1aa73d870df6e710e0105a1146269580b9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="classthemis_1_1acceleration_1_1_c_p_u_graph_backend_1aa73d870df6e710e0105a1146269580b9" kindref="member">name</ref>()<sp/>const<sp/>noexcept</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;CPU&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="101" refid="classthemis_1_1acceleration_1_1_c_p_u_graph_backend_1a438cf7937a816166f494212c06f9b200" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5" kindref="member">BackendType</ref><sp/><ref refid="classthemis_1_1acceleration_1_1_c_p_u_graph_backend_1a438cf7937a816166f494212c06f9b200" kindref="member">type</ref>()<sp/>const<sp/>noexcept</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5a2b55387dd066c5bac646ac61543d152d" kindref="member">BackendType::CPU</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="102" refid="classthemis_1_1acceleration_1_1_c_p_u_graph_backend_1ab95a9541ebeb12268efd4030dab8203a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_c_p_u_graph_backend_1ab95a9541ebeb12268efd4030dab8203a" kindref="member">isAvailable</ref>()<sp/>const<sp/>noexcept</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104" refid="classthemis_1_1acceleration_1_1_c_p_u_graph_backend_1a3382725f1da1a756fbf3fe429a3bc350" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_backend_capabilities" kindref="compound">BackendCapabilities</ref><sp/><ref refid="classthemis_1_1acceleration_1_1_c_p_u_graph_backend_1a3382725f1da1a756fbf3fe429a3bc350" kindref="member">getCapabilities</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_backend_capabilities" kindref="compound">BackendCapabilities</ref><sp/>caps;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>caps.<ref refid="structthemis_1_1acceleration_1_1_backend_capabilities_1a1e7cc6915a0171289762caf1ed9c00f7" kindref="member">supportsVectorOps</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>caps.<ref refid="structthemis_1_1acceleration_1_1_backend_capabilities_1a20c5e951b14786ae0c857bf0e5cab80a" kindref="member">supportsGraphOps</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>caps.<ref refid="structthemis_1_1acceleration_1_1_backend_capabilities_1a6fe653f7c34812c0405b0b8ff700dfe9" kindref="member">supportsGeoOps</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>caps.<ref refid="structthemis_1_1acceleration_1_1_backend_capabilities_1a92f82e968491cb2b8b21fe9262611cf0" kindref="member">supportsBatchProcessing</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>caps.<ref refid="structthemis_1_1acceleration_1_1_backend_capabilities_1a364aa19acf29f22a818c09b307b2e193" kindref="member">supportsAsync</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>caps.<ref refid="structthemis_1_1acceleration_1_1_backend_capabilities_1a67a5cecee357fac47e13d992eae672ac" kindref="member">supportedPrecisions</ref><sp/>=<sp/>PrecisionMode::FP32;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>caps.<ref refid="structthemis_1_1acceleration_1_1_backend_capabilities_1aad45ccd0d17fe90a1d100bd9d6ae115d" kindref="member">supportedMetrics</ref><sp/>=<sp/>0;<sp/></highlight><highlight class="comment">//<sp/>graph<sp/>ops<sp/>do<sp/>not<sp/>use<sp/>distance<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>caps.<ref refid="structthemis_1_1acceleration_1_1_backend_capabilities_1a10f8225716a8dab6b1198778c7511568" kindref="member">deviceName</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;CPU<sp/>(Fallback)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>caps;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117" refid="classthemis_1_1acceleration_1_1_c_p_u_graph_backend_1aa06644e10f24d2d3980d93a041f9a1ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_c_p_u_graph_backend_1aa06644e10f24d2d3980d93a041f9a1ca" kindref="member">initialize</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae0e823eb6033a66fd5d571d4b841ac4c" kindref="member">clearError</ref>();</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="121" refid="classthemis_1_1acceleration_1_1_c_p_u_graph_backend_1aafbf2bc0dde217628ced84aa76845269" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_c_p_u_graph_backend_1aafbf2bc0dde217628ced84aa76845269" kindref="member">shutdown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{}</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>IGraphBackend<sp/>interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;uint32_t&gt;&gt;<sp/><ref refid="classthemis_1_1acceleration_1_1_c_p_u_graph_backend_1a08b58cb34c5fdc4be74349d91f5f99e8" kindref="member">batchBFS</ref>(</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint32_t*<sp/>adjacency,</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>numVertices,</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint32_t*<sp/>startVertices,</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>numStarts,</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>maxDepth</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;uint32_t&gt;&gt;<sp/><ref refid="classthemis_1_1acceleration_1_1_c_p_u_graph_backend_1a63c1adf4eb6a3099a926de1bb178b321" kindref="member">batchShortestPath</ref>(</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint32_t*<sp/>adjacency,</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>weights,</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>numVertices,</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint32_t*<sp/>startVertices,</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint32_t*<sp/>endVertices,</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>numPairs</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CPU<sp/>fallback<sp/>implementation<sp/>for<sp/>geo<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143" refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1aa1cc8be4647bcd7a6fe78c4e5373dd71" kindref="member">CPUGeoBackend</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_i_geo_backend" kindref="compound">IGeoBackend</ref><sp/>{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="145" refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1aa1cc8be4647bcd7a6fe78c4e5373dd71" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1aa1cc8be4647bcd7a6fe78c4e5373dd71" kindref="member">CPUGeoBackend</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="146" refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1ac063f3330874464f2cd0ade878096c9c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1ac063f3330874464f2cd0ade878096c9c" kindref="member">~CPUGeoBackend</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>IComputeBackend<sp/>interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149" refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1a0dac011d0501d5b03b4580d57ca64be0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1a0dac011d0501d5b03b4580d57ca64be0" kindref="member">name</ref>()<sp/>const<sp/>noexcept</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;CPU&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="150" refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1ae0b5369d7f4752f4f07b13233ccc48de" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5" kindref="member">BackendType</ref><sp/><ref refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1ae0b5369d7f4752f4f07b13233ccc48de" kindref="member">type</ref>()<sp/>const<sp/>noexcept</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5a2b55387dd066c5bac646ac61543d152d" kindref="member">BackendType::CPU</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="151" refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1aa2c62d12cf22743554624e75ed292d13" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1aa2c62d12cf22743554624e75ed292d13" kindref="member">isAvailable</ref>()<sp/>const<sp/>noexcept</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="153" refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1a28292cfa34ff59c862ce32af9a40eabd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_backend_capabilities" kindref="compound">BackendCapabilities</ref><sp/><ref refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1a28292cfa34ff59c862ce32af9a40eabd" kindref="member">getCapabilities</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_backend_capabilities" kindref="compound">BackendCapabilities</ref><sp/>caps;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>caps.<ref refid="structthemis_1_1acceleration_1_1_backend_capabilities_1a1e7cc6915a0171289762caf1ed9c00f7" kindref="member">supportsVectorOps</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>caps.<ref refid="structthemis_1_1acceleration_1_1_backend_capabilities_1a20c5e951b14786ae0c857bf0e5cab80a" kindref="member">supportsGraphOps</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>caps.<ref refid="structthemis_1_1acceleration_1_1_backend_capabilities_1a6fe653f7c34812c0405b0b8ff700dfe9" kindref="member">supportsGeoOps</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>caps.<ref refid="structthemis_1_1acceleration_1_1_backend_capabilities_1a92f82e968491cb2b8b21fe9262611cf0" kindref="member">supportsBatchProcessing</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>caps.<ref refid="structthemis_1_1acceleration_1_1_backend_capabilities_1a364aa19acf29f22a818c09b307b2e193" kindref="member">supportsAsync</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>caps.<ref refid="structthemis_1_1acceleration_1_1_backend_capabilities_1a67a5cecee357fac47e13d992eae672ac" kindref="member">supportedPrecisions</ref><sp/>=<sp/>PrecisionMode::FP32;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>caps.<ref refid="structthemis_1_1acceleration_1_1_backend_capabilities_1aad45ccd0d17fe90a1d100bd9d6ae115d" kindref="member">supportedMetrics</ref><sp/>=<sp/>0;<sp/></highlight><highlight class="comment">//<sp/>geo<sp/>ops<sp/>do<sp/>not<sp/>use<sp/>ANN<sp/>distance<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>caps.<ref refid="structthemis_1_1acceleration_1_1_backend_capabilities_1a10f8225716a8dab6b1198778c7511568" kindref="member">deviceName</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;CPU<sp/>(Fallback)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>caps;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="166" refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1a5536eac2738632fe189ef2ef5ed61fc0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1a5536eac2738632fe189ef2ef5ed61fc0" kindref="member">initialize</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae0e823eb6033a66fd5d571d4b841ac4c" kindref="member">clearError</ref>();</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="170" refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1a0300243229ab2435ebb0a613cce56302" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1a0300243229ab2435ebb0a613cce56302" kindref="member">shutdown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{}</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>IGeoBackend<sp/>interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1af700be959bcd830ff82d2a6415ecbdc6" kindref="member">batchDistances</ref>(</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">*<sp/>latitudes1,</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">*<sp/>longitudes1,</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">*<sp/>latitudes2,</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">*<sp/>longitudes2,</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>count,</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>useHaversine<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;bool&gt;<sp/><ref refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1a0629a4e124b9a6282f476993a4416258" kindref="member">batchPointInPolygon</ref>(</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">*<sp/>pointLats,</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">*<sp/>pointLons,</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>numPoints,</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">*<sp/>polygonCoords,</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>numPolygonVertices</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_geo_kernel_dispatch" kindref="compound">GeoKernelDispatch</ref><sp/><ref refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1acf6ee8586facd86740508c6d82351585" kindref="member">populateGeoDispatch</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1a46e1882cb0e4471f2f6c020fb9f9235b" kindref="member">haversineDistance</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lat1,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lon1,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lat2,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lon2)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1aed7a675853116d1c602ba146a308eada" kindref="member">vincentyDistance</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lat1,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lon1,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lat2,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lon2)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CPU<sp/>fallback<sp/>implementation<sp/>for<sp/>FP16/BF16<sp/>matrix<sp/>operations.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight><highlight class="comment">//<sp/>On<sp/>CPU<sp/>all<sp/>precisions<sp/>are<sp/>executed<sp/>as<sp/>FP32.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215" refid="classthemis_1_1acceleration_1_1_c_p_u_matrix_backend" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1acceleration_1_1_c_p_u_matrix_backend_1a071b3fc0d6709985872a8e41e71cd5bc" kindref="member">CPUMatrixBackend</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_i_matrix_backend" kindref="compound">IMatrixBackend</ref><sp/>{</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="217" refid="classthemis_1_1acceleration_1_1_c_p_u_matrix_backend_1a071b3fc0d6709985872a8e41e71cd5bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1acceleration_1_1_c_p_u_matrix_backend_1a071b3fc0d6709985872a8e41e71cd5bc" kindref="member">CPUMatrixBackend</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="218" refid="classthemis_1_1acceleration_1_1_c_p_u_matrix_backend_1a88db4bc64650710359806a0211ed6497" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1acceleration_1_1_c_p_u_matrix_backend_1a88db4bc64650710359806a0211ed6497" kindref="member">~CPUMatrixBackend</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220" refid="classthemis_1_1acceleration_1_1_c_p_u_matrix_backend_1a43983d8c5a429613235a7736bcf4d2e2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="classthemis_1_1acceleration_1_1_c_p_u_matrix_backend_1a43983d8c5a429613235a7736bcf4d2e2" kindref="member">name</ref>()<sp/>const<sp/>noexcept</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;CPU&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="221" refid="classthemis_1_1acceleration_1_1_c_p_u_matrix_backend_1a7008527da0d8ac8c37d04ecd2174a219" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5" kindref="member">BackendType</ref><sp/><ref refid="classthemis_1_1acceleration_1_1_c_p_u_matrix_backend_1a7008527da0d8ac8c37d04ecd2174a219" kindref="member">type</ref>()<sp/>const<sp/>noexcept</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5a2b55387dd066c5bac646ac61543d152d" kindref="member">BackendType::CPU</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="222" refid="classthemis_1_1acceleration_1_1_c_p_u_matrix_backend_1a755684ffff1d623c71051216e6f36553" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_c_p_u_matrix_backend_1a755684ffff1d623c71051216e6f36553" kindref="member">isAvailable</ref>()<sp/>const<sp/>noexcept</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224" refid="classthemis_1_1acceleration_1_1_c_p_u_matrix_backend_1a53f7ae4ec3d0bd431938f64244f806f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_backend_capabilities" kindref="compound">BackendCapabilities</ref><sp/><ref refid="classthemis_1_1acceleration_1_1_c_p_u_matrix_backend_1a53f7ae4ec3d0bd431938f64244f806f5" kindref="member">getCapabilities</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_backend_capabilities" kindref="compound">BackendCapabilities</ref><sp/>caps;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>caps.<ref refid="structthemis_1_1acceleration_1_1_backend_capabilities_1a4ecd2879944425d5aea4f8b5a38c05ce" kindref="member">supportsMatrixOps</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>caps.<ref refid="structthemis_1_1acceleration_1_1_backend_capabilities_1a92f82e968491cb2b8b21fe9262611cf0" kindref="member">supportsBatchProcessing</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>caps.<ref refid="structthemis_1_1acceleration_1_1_backend_capabilities_1a364aa19acf29f22a818c09b307b2e193" kindref="member">supportsAsync</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>caps.<ref refid="structthemis_1_1acceleration_1_1_backend_capabilities_1a67a5cecee357fac47e13d992eae672ac" kindref="member">supportedPrecisions</ref><sp/><sp/><sp/>=<sp/>PrecisionMode::FP32;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>caps.<ref refid="structthemis_1_1acceleration_1_1_backend_capabilities_1a10f8225716a8dab6b1198778c7511568" kindref="member">deviceName</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;CPU<sp/>(Fallback)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>caps;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234" refid="classthemis_1_1acceleration_1_1_c_p_u_matrix_backend_1acde38868fe5c067a9e1f8c96fc5c9408" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_c_p_u_matrix_backend_1acde38868fe5c067a9e1f8c96fc5c9408" kindref="member">initialize</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae0e823eb6033a66fd5d571d4b841ac4c" kindref="member">clearError</ref>();</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="238" refid="classthemis_1_1acceleration_1_1_c_p_u_matrix_backend_1a6eaa97bab6995e2d81ec6c4fd346e560" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_c_p_u_matrix_backend_1a6eaa97bab6995e2d81ec6c4fd346e560" kindref="member">shutdown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{}</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>IMatrixBackend<sp/>interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_c_p_u_matrix_backend_1a94bb29d73ffabb92f8928635f693a4d9" kindref="member">matmul</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_matrix_kernel_params" kindref="compound">MatrixKernelParams</ref>&amp;<sp/>params,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>opaque_stream<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_matrix_kernel_dispatch" kindref="compound">MatrixKernelDispatch</ref><sp/><ref refid="classthemis_1_1acceleration_1_1_c_p_u_matrix_backend_1a8142c78cde2f3881d34e9f4f57b09e63" kindref="member">populateMatrixDispatch</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>acceleration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/acceleration/cpu_backend.h"/>
+  </compounddef>
+</doxygen>

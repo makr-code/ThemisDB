@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1process_1_1stress__scenarios_1_1_federation_stress_scenario" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themisdb::process::stress_scenarios::FederationStressScenario</compoundname>
+    <includes refid="process__federation__stress__scenarios_8h" local="no">process_federation_stress_scenarios.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1process_1_1stress__scenarios_1_1_federation_stress_scenario_1aa6f248b54ec4c93d3d00cdfff1093e4d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themisdb::process::stress_scenarios::FederationStressScenario::Name</definition>
+        <argsstring>() const =0</argsstring>
+        <name>Name</name>
+        <qualifiedname>themisdb::process::stress_scenarios::FederationStressScenario::Name</qualifiedname>
+        <briefdescription>
+<para>Name of scenario (for test registration). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_stress_scenarios.h" line="474" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1process_1_1stress__scenarios_1_1_federation_stress_scenario_1a3175cdf01798030021e74efffcf1c460" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themisdb::process::stress_scenarios::FederationStressScenario::Description</definition>
+        <argsstring>() const =0</argsstring>
+        <name>Description</name>
+        <qualifiedname>themisdb::process::stress_scenarios::FederationStressScenario::Description</qualifiedname>
+        <briefdescription>
+<para>Human-readable description. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_stress_scenarios.h" line="477" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1process_1_1stress__scenarios_1_1_federation_stress_scenario_1a7a745b84454eec456f48a6655c52d1b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themisdb::process::stress_scenarios::FederationStressScenario::Setup</definition>
+        <argsstring>()=0</argsstring>
+        <name>Setup</name>
+        <qualifiedname>themisdb::process::stress_scenarios::FederationStressScenario::Setup</qualifiedname>
+        <briefdescription>
+<para>Setup phase (initialize cluster, apply initial state). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_stress_scenarios.h" line="480" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1process_1_1stress__scenarios_1_1_federation_stress_scenario_1a27dbec343a8e1fb8d2865f918c54f707" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themisdb::process::stress_scenarios::FederationStressScenario::Execute</definition>
+        <argsstring>()=0</argsstring>
+        <name>Execute</name>
+        <qualifiedname>themisdb::process::stress_scenarios::FederationStressScenario::Execute</qualifiedname>
+        <briefdescription>
+<para>Execute phase (run scenario, collect results). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_stress_scenarios.h" line="483" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1process_1_1stress__scenarios_1_1_federation_stress_scenario_1aaf6cb06b26d809ec5f5185a7219963b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themisdb::process::stress_scenarios::FederationStressScenario::Verify</definition>
+        <argsstring>()=0</argsstring>
+        <name>Verify</name>
+        <qualifiedname>themisdb::process::stress_scenarios::FederationStressScenario::Verify</qualifiedname>
+        <briefdescription>
+<para>Verify phase (check invariants, assertions). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_stress_scenarios.h" line="486" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1process_1_1stress__scenarios_1_1_federation_stress_scenario_1a59e1c6c32f519955e8b7ea7dbab762cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themisdb::process::stress_scenarios::FederationStressScenario::Cleanup</definition>
+        <argsstring>()=0</argsstring>
+        <name>Cleanup</name>
+        <qualifiedname>themisdb::process::stress_scenarios::FederationStressScenario::Cleanup</qualifiedname>
+        <briefdescription>
+<para>Cleanup phase (tear down resources). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_stress_scenarios.h" line="489" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1process_1_1stress__scenarios_1_1_federation_stress_scenario_1a3b748b20b8d404848fc6baa9b9f8dbe8" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themisdb::process::stress_scenarios::FederationStressScenario::~FederationStressScenario</definition>
+        <argsstring>()=default</argsstring>
+        <name>~FederationStressScenario</name>
+        <qualifiedname>themisdb::process::stress_scenarios::FederationStressScenario::~FederationStressScenario</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_stress_scenarios.h" line="491" column="11"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Base class for all stress scenarios. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implementations in Phase 4 test files. </para>
+    </detaileddescription>
+    <location file="include/process/process_federation_stress_scenarios.h" line="471" column="1" bodyfile="include/process/process_federation_stress_scenarios.h" bodystart="471" bodyend="492"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_federation_stress_scenario_1a59e1c6c32f519955e8b7ea7dbab762cf" prot="public" virt="pure-virtual"><scope>themisdb::process::stress_scenarios::FederationStressScenario</scope><name>Cleanup</name></member>
+      <member refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_federation_stress_scenario_1a3175cdf01798030021e74efffcf1c460" prot="public" virt="pure-virtual"><scope>themisdb::process::stress_scenarios::FederationStressScenario</scope><name>Description</name></member>
+      <member refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_federation_stress_scenario_1a27dbec343a8e1fb8d2865f918c54f707" prot="public" virt="pure-virtual"><scope>themisdb::process::stress_scenarios::FederationStressScenario</scope><name>Execute</name></member>
+      <member refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_federation_stress_scenario_1aa6f248b54ec4c93d3d00cdfff1093e4d" prot="public" virt="pure-virtual"><scope>themisdb::process::stress_scenarios::FederationStressScenario</scope><name>Name</name></member>
+      <member refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_federation_stress_scenario_1a7a745b84454eec456f48a6655c52d1b8" prot="public" virt="pure-virtual"><scope>themisdb::process::stress_scenarios::FederationStressScenario</scope><name>Setup</name></member>
+      <member refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_federation_stress_scenario_1aaf6cb06b26d809ec5f5185a7219963b2" prot="public" virt="pure-virtual"><scope>themisdb::process::stress_scenarios::FederationStressScenario</scope><name>Verify</name></member>
+      <member refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_federation_stress_scenario_1a3b748b20b8d404848fc6baa9b9f8dbe8" prot="public" virt="virtual"><scope>themisdb::process::stress_scenarios::FederationStressScenario</scope><name>~FederationStressScenario</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,535 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="distributed__transaction_8h" kind="file" language="C++">
+    <compoundname>distributed_transaction.h</compoundname>
+    <includes refid="truetime_8h" local="yes">sharding/truetime.h</includes>
+    <includes refid="wal__manager_8h" local="yes">sharding/wal_manager.h</includes>
+    <includes local="yes">transaction/recoverable_two_phase_coordinator.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">map</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="cross__shard__transaction_8h" local="yes">include/sharding/cross_shard_transaction.h</includedby>
+    <includedby refid="shard__router_8h" local="yes">include/sharding/shard_router.h</includedby>
+    <includedby refid="distributed__transaction_8cpp" local="yes">src/sharding/distributed_transaction.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/sharding/distributed_transaction.h</label>
+        <link refid="distributed__transaction_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sharding/truetime.h</label>
+        <link refid="truetime_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>sharding/wal_manager.h</label>
+        <link refid="wal__manager_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="14">
+        <label>filesystem</label>
+      </node>
+      <node id="13">
+        <label>fstream</label>
+      </node>
+      <node id="12">
+        <label>functional</label>
+      </node>
+      <node id="19">
+        <label>map</label>
+      </node>
+      <node id="11">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>mutex</label>
+      </node>
+      <node id="16">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="15">
+        <label>optional</label>
+      </node>
+      <node id="9">
+        <label>string</label>
+      </node>
+      <node id="18">
+        <label>string_view</label>
+      </node>
+      <node id="7">
+        <label>thread</label>
+      </node>
+      <node id="17">
+        <label>transaction/recoverable_two_phase_coordinator.h</label>
+      </node>
+      <node id="20">
+        <label>unordered_map</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="5">
+        <label>benchmarks/sharding/bench_distributed_coordinator.cpp</label>
+        <link refid="bench__distributed__coordinator_8cpp"/>
+      </node>
+      <node id="19">
+        <label>benchmarks/sharding/bench_shard_routing.cpp</label>
+        <link refid="bench__shard__routing_8cpp"/>
+      </node>
+      <node id="3">
+        <label>benchmarks/sharding/bench_sharding_performance.cpp</label>
+        <link refid="bench__sharding__performance_8cpp"/>
+      </node>
+      <node id="20">
+        <label>include/sharding/adaptive_shard_router.h</label>
+        <link refid="adaptive__shard__router_8h"/>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/sharding/cross_shard_transaction.h</label>
+        <link refid="cross__shard__transaction_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/sharding/distributed_coordinator.h</label>
+        <link refid="distributed__coordinator_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/sharding/distributed_transaction.h</label>
+        <link refid="distributed__transaction_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>include/sharding/gossip_consensus_adapter.h</label>
+        <link refid="gossip__consensus__adapter_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>include/sharding/orphan_detector.h</label>
+        <link refid="orphan__detector_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>include/sharding/shard_router.h</label>
+        <link refid="shard__router_8h"/>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>src/sharding/adaptive_shard_router.cpp</label>
+        <link refid="adaptive__shard__router_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/sharding/consensus_factory.cpp</label>
+        <link refid="consensus__factory_8cpp"/>
+      </node>
+      <node id="14">
+        <label>src/sharding/cross_shard_transaction.cpp</label>
+        <link refid="cross__shard__transaction_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/sharding/distributed_coordinator.cpp</label>
+        <link refid="distributed__coordinator_8cpp"/>
+      </node>
+      <node id="25">
+        <label>src/sharding/distributed_transaction.cpp</label>
+        <link refid="distributed__transaction_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/sharding/gossip_consensus_adapter.cpp</label>
+        <link refid="gossip__consensus__adapter_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/sharding/orphan_detector.cpp</label>
+        <link refid="orphan__detector_8cpp"/>
+      </node>
+      <node id="22">
+        <label>src/sharding/shard_router.cpp</label>
+        <link refid="shard__router_8cpp"/>
+      </node>
+      <node id="15">
+        <label>tests/sharding/test_cross_shard_fk_validator.cpp</label>
+        <link refid="test__cross__shard__fk__validator_8cpp"/>
+      </node>
+      <node id="16">
+        <label>tests/sharding/test_sharding_cross_shard_fk.cpp</label>
+        <link refid="test__sharding__cross__shard__fk_8cpp"/>
+      </node>
+      <node id="23">
+        <label>tests/sharding/test_sharding_e2e.cpp</label>
+        <link refid="test__sharding__e2e_8cpp"/>
+      </node>
+      <node id="24">
+        <label>tests/sharding/test_sharding_integration.cpp</label>
+        <link refid="test__sharding__integration_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/sharding/test_sharding_phase2_hardening.cpp</label>
+        <link refid="test__sharding__phase2__hardening_8cpp"/>
+      </node>
+      <node id="13">
+        <label>tests/sharding/test_sharding_uncovered.cpp</label>
+        <link refid="test__sharding__uncovered_8cpp"/>
+      </node>
+      <node id="17">
+        <label>tests/sharding/test_three_phase_commit.cpp</label>
+        <link refid="test__three__phase__commit_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1sharding_1_1_transaction_participant" prot="public">themis::sharding::TransactionParticipant</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_distributed_transaction" prot="public">themis::sharding::DistributedTransaction</innerclass>
+    <innerclass refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator" prot="public">themis::sharding::DistributedTransactionCoordinator</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config" prot="public">themis::sharding::DistributedTransactionCoordinator::Config</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1sharding">themis::sharding</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.9.0-beta </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>2025<sp/>ThemisDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Licensed<sp/>under<sp/>MIT<sp/>License</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="truetime_8h" kindref="compound">sharding/truetime.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="wal__manager_8h" kindref="compound">sharding/wal_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;transaction/recoverable_two_phase_coordinator.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1sharding" kindref="compound">themis::sharding</ref><sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1sharding_1a9bdbfde18f5ac23b8dd425b98a4ae9a9" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1sharding_1a9bdbfde18f5ac23b8dd425b98a4ae9a9" kindref="member">TransactionState</ref><sp/>{</highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1sharding_1a9bdbfde18f5ac23b8dd425b98a4ae9a9a18ff74f43da410c5529f7d6fca84f115" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a9bdbfde18f5ac23b8dd425b98a4ae9a9a18ff74f43da410c5529f7d6fca84f115" kindref="member">ACTIVE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1sharding_1a9bdbfde18f5ac23b8dd425b98a4ae9a9abd6a3a60251e4e52cdc9c393f33cbe10" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a9bdbfde18f5ac23b8dd425b98a4ae9a9abd6a3a60251e4e52cdc9c393f33cbe10" kindref="member">PREPARING</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37" refid="namespacethemis_1_1sharding_1a9bdbfde18f5ac23b8dd425b98a4ae9a9a6bbfc22048d63183dd626a026e63e497" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a9bdbfde18f5ac23b8dd425b98a4ae9a9a6bbfc22048d63183dd626a026e63e497" kindref="member">PREPARED</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38" refid="namespacethemis_1_1sharding_1a9bdbfde18f5ac23b8dd425b98a4ae9a9a001d8fa76b26eee4f6d7c8a8d44c73ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a9bdbfde18f5ac23b8dd425b98a4ae9a9a001d8fa76b26eee4f6d7c8a8d44c73ef" kindref="member">COMMITTING</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1sharding_1a9bdbfde18f5ac23b8dd425b98a4ae9a9a1c372d13f50af5ca9a935ebc78006e82" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a9bdbfde18f5ac23b8dd425b98a4ae9a9a1c372d13f50af5ca9a935ebc78006e82" kindref="member">COMMITTED</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40" refid="namespacethemis_1_1sharding_1a9bdbfde18f5ac23b8dd425b98a4ae9a9a0f7fb3ad9bfa0a293be603d57f9fa02c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a9bdbfde18f5ac23b8dd425b98a4ae9a9a0f7fb3ad9bfa0a293be603d57f9fa02c" kindref="member">ABORTING</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41" refid="namespacethemis_1_1sharding_1a9bdbfde18f5ac23b8dd425b98a4ae9a9a4e6c860e5da10e31c5fd9cb76ddc2025" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a9bdbfde18f5ac23b8dd425b98a4ae9a9a4e6c860e5da10e31c5fd9cb76ddc2025" kindref="member">ABORTED</ref><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="namespacethemis_1_1sharding_1a6a8320a2f534d50dc5711db9421e3299" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1sharding_1a6a8320a2f534d50dc5711db9421e3299" kindref="member">DistributedIsolationLevel</ref><sp/>{</highlight></codeline>
+<codeline lineno="51" refid="namespacethemis_1_1sharding_1a6a8320a2f534d50dc5711db9421e3299a9eb39169b7db6ecee4ee0980284659bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a6a8320a2f534d50dc5711db9421e3299a9eb39169b7db6ecee4ee0980284659bd" kindref="member">SNAPSHOT_ISOLATION</ref>,<sp/></highlight></codeline>
+<codeline lineno="52" refid="namespacethemis_1_1sharding_1a6a8320a2f534d50dc5711db9421e3299aadfafde622c8622bb72e4ff73e295cdb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a6a8320a2f534d50dc5711db9421e3299aadfafde622c8622bb72e4ff73e295cdb" kindref="member">SERIALIZABLE</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1sharding_1_1_transaction_participant" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_transaction_participant" kindref="compound">TransactionParticipant</ref><sp/>{</highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1sharding_1_1_transaction_participant_1a9c341b03712166694a9111b79ffd1e13" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_transaction_participant_1a9c341b03712166694a9111b79ffd1e13" kindref="member">shard_id</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1sharding_1_1_transaction_participant_1a63d777c9cfef61f91c43ddd22d6f12e2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_transaction_participant_1a63d777c9cfef61f91c43ddd22d6f12e2" kindref="member">endpoint</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1sharding_1_1_transaction_participant_1a570de381c249f4d407a8f78696988655" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_transaction_participant_1a570de381c249f4d407a8f78696988655" kindref="member">prepared</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1sharding_1_1_transaction_participant_1a277d04e6c3855f0ca821bef777ab7da6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_transaction_participant_1a277d04e6c3855f0ca821bef777ab7da6" kindref="member">committed</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1sharding_1_1_transaction_participant_1a35de2afeb7a23a6ef850e85166d58032" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_transaction_participant_1a35de2afeb7a23a6ef850e85166d58032" kindref="member">error_msg</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="64"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1sharding_1_1_distributed_transaction" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_distributed_transaction_1ad5e276866b83239b1a8f4942ba131e2b" kindref="member">DistributedTransaction</ref><sp/>{</highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1sharding_1_1_distributed_transaction_1a92a199f7d7a7f8f72d2635d90b5b32b5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_distributed_transaction_1a92a199f7d7a7f8f72d2635d90b5b32b5" kindref="member">transaction_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1sharding_1_1_distributed_transaction_1acb317dc1452081cfa214d52b8bd654e6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a9bdbfde18f5ac23b8dd425b98a4ae9a9" kindref="member">TransactionState</ref><sp/><ref refid="structthemis_1_1sharding_1_1_distributed_transaction_1acb317dc1452081cfa214d52b8bd654e6" kindref="member">state</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1sharding_1_1_distributed_transaction_1a700502cabc42d9c65458a00201c259f3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a6a8320a2f534d50dc5711db9421e3299" kindref="member">DistributedIsolationLevel</ref><sp/><ref refid="structthemis_1_1sharding_1_1_distributed_transaction_1a700502cabc42d9c65458a00201c259f3" kindref="member">isolation_level</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1sharding_1_1_distributed_transaction_1af9e8baefdfb6fcee5ca41e22a949793c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::nanoseconds<sp/><ref refid="structthemis_1_1sharding_1_1_distributed_transaction_1af9e8baefdfb6fcee5ca41e22a949793c" kindref="member">start_time</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1sharding_1_1_distributed_transaction_1a2b1e8c3853b0a09b1f2cd33f0af0968c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::nanoseconds<sp/><ref refid="structthemis_1_1sharding_1_1_distributed_transaction_1a2b1e8c3853b0a09b1f2cd33f0af0968c" kindref="member">commit_time</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1sharding_1_1_distributed_transaction_1a30d012dba424fa96a30fb71323bc2cef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;TransactionParticipant&gt;<sp/><ref refid="structthemis_1_1sharding_1_1_distributed_transaction_1a30d012dba424fa96a30fb71323bc2cef" kindref="member">participants</ref>;<sp/></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1sharding_1_1_distributed_transaction_1a219df32f29614cfad02f475025dbc926" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1sharding_1_1_distributed_transaction_1a219df32f29614cfad02f475025dbc926" kindref="member">operations</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1sharding_1_1_distributed_transaction_1a11c94294780ace340e79e7f6ccda55b3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1sharding_1_1_distributed_transaction_1a11c94294780ace340e79e7f6ccda55b3" kindref="member">commit_retry_count</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1sharding_1_1_distributed_transaction_1a5871db66431663850e65e9bb9717cdd2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_distributed_transaction_1a5871db66431663850e65e9bb9717cdd2" kindref="member">error_detail</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1sharding_1_1_distributed_transaction_1ad5e276866b83239b1a8f4942ba131e2b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_distributed_transaction_1ad5e276866b83239b1a8f4942ba131e2b" kindref="member">DistributedTransaction</ref>()</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="structthemis_1_1sharding_1_1_distributed_transaction_1acb317dc1452081cfa214d52b8bd654e6" kindref="member">state</ref>(<ref refid="namespacethemis_1_1sharding_1a9bdbfde18f5ac23b8dd425b98a4ae9a9" kindref="member">TransactionState</ref>::<ref refid="namespacethemis_1_1sharding_1a9bdbfde18f5ac23b8dd425b98a4ae9a9a18ff74f43da410c5529f7d6fca84f115" kindref="member">ACTIVE</ref>)</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>,<sp/><ref refid="structthemis_1_1sharding_1_1_distributed_transaction_1a700502cabc42d9c65458a00201c259f3" kindref="member">isolation_level</ref>(<ref refid="namespacethemis_1_1sharding_1a6a8320a2f534d50dc5711db9421e3299" kindref="member">DistributedIsolationLevel</ref>::<ref refid="namespacethemis_1_1sharding_1a6a8320a2f534d50dc5711db9421e3299a9eb39169b7db6ecee4ee0980284659bd" kindref="member">SNAPSHOT_ISOLATION</ref>)</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>,<sp/><ref refid="structthemis_1_1sharding_1_1_distributed_transaction_1af9e8baefdfb6fcee5ca41e22a949793c" kindref="member">start_time</ref>(0)</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>,<sp/><ref refid="structthemis_1_1sharding_1_1_distributed_transaction_1a2b1e8c3853b0a09b1f2cd33f0af0968c" kindref="member">commit_time</ref>(0)</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>,<sp/><ref refid="structthemis_1_1sharding_1_1_distributed_transaction_1a11c94294780ace340e79e7f6ccda55b3" kindref="member">commit_retry_count</ref>(0)<sp/>{}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a7369e74576bd9af987b2acaa99108187" kindref="member">DistributedTransactionCoordinator</ref></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>themis::transaction::IRecoverableTwoPhaseCoordinator<sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config_1acd3f80211d88aa24905a5f881b2d7cec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config_1acd3f80211d88aa24905a5f881b2d7cec" kindref="member">prepare_timeout_ms</ref><sp/>=<sp/>10000;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config_1a5086e4174c6d002bf86e17bc91119e6e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config_1a5086e4174c6d002bf86e17bc91119e6e" kindref="member">commit_timeout_ms</ref><sp/>=<sp/>10000;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config_1a80105215e0558043aec68dc7b5a7c0c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config_1a80105215e0558043aec68dc7b5a7c0c5" kindref="member">max_concurrent_txns</ref><sp/>=<sp/>1000;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config_1a9d4f046ab6dc8795412fd27b6fb5d0ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config_1a9d4f046ab6dc8795412fd27b6fb5d0ad" kindref="member">enable_read_only_opt</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config_1ad69ca38c071f58e0f6299bee8335c1ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config_1ad69ca38c071f58e0f6299bee8335c1ed" kindref="member">rpc_timeout_ms</ref><sp/>=<sp/>5000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config_1a48e36d86363a759d7b8978709665d18e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config_1a48e36d86363a759d7b8978709665d18e" kindref="member">max_retries</ref><sp/>=<sp/>3;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config_1a59ce1a701521317014576dc9648fb3b1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config_1a59ce1a701521317014576dc9648fb3b1" kindref="member">max_commit_retries</ref><sp/>=<sp/>5;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config_1aa484193eb0528367291c54579033f5fc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config_1aa484193eb0528367291c54579033f5fc" kindref="member">retry_backoff_base_ms</ref><sp/>=<sp/>100;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config_1a52fce452c8fad76f66b0a75537c4118c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config_1a52fce452c8fad76f66b0a75537c4118c" kindref="member">max_backoff_ms</ref><sp/>=<sp/>5000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config_1abe6dc74829269d8811debec593190552" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config_1abe6dc74829269d8811debec593190552" kindref="member">enable_recovery_log</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config_1a7ff619095104eb1c2757126dd9e0bdcd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config_1a7ff619095104eb1c2757126dd9e0bdcd" kindref="member">wal_directory</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;./wal/coordinator&quot;</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config_1a487a36f34b8fc145c60ca06ee3f83c1d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config_1a487a36f34b8fc145c60ca06ee3f83c1d" kindref="member">coordinator_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config_1a276ce1158b0616e408607cc5b6cd289e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config_1a276ce1158b0616e408607cc5b6cd289e" kindref="member">use_percolator_for_snapshot</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a7369e74576bd9af987b2acaa99108187" kindref="member">DistributedTransactionCoordinator</ref>(</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;TrueTime&gt;<sp/>truetime,</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147" refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a6a350cb94addef1d17df679a77479739" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a6a350cb94addef1d17df679a77479739" kindref="member">~DistributedTransactionCoordinator</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a6878823a41a90cd0f21cc3945c61badb" kindref="member">beginTransaction</ref>(</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>shard_ids,</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a6a8320a2f534d50dc5711db9421e3299" kindref="member">DistributedIsolationLevel</ref><sp/>isolation_level<sp/>=<sp/><ref refid="namespacethemis_1_1sharding_1a6a8320a2f534d50dc5711db9421e3299a9eb39169b7db6ecee4ee0980284659bd" kindref="member">DistributedIsolationLevel::SNAPSHOT_ISOLATION</ref></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a19650eefb7d0cb2ea1c60db3765fcadb" kindref="member">addOperation</ref>(</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>txn_id,</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id,</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>operation</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1ae4f4d2aadbab222db6ab50792b500bab" kindref="member">commit</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>txn_id);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1af98d7fdd33e33e13329efe689d5e7de5" kindref="member">abort</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>txn_id);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a51b8edd68e4d872189ec1487fce6b43b" kindref="member">executeReadOnly</ref>(</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>shard_ids,</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>operations</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;TransactionState&gt;<sp/><ref refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1adac6edb86305ff0527ac37c374d9a27f" kindref="member">getTransactionState</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>txn_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1aa33e8a5821da31fdc95e43c3a7c58bf8" kindref="member">getStatistics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a242cd83d052c3c69e21d4ffa14639555" kindref="member">recoverInDoubtTransactions</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::string<sp/><ref refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a69108797d9222b247d365a6264644930" kindref="member">recoveryCoordinatorName</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::string<sp/><ref refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a3fa9001134d7b4f6775dd45dcbe2682d" kindref="member">recoveryBackendName</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;themis::transaction::RecoverableTwoPhaseTransaction&gt;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a8a7707708555fcfbd75170050da3ecc9" kindref="member">getRecoverableTransactions</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a38366abf7058117edd5bf00424070cb8" kindref="member">setShardEndpointMap</ref>(std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/>map);</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;TrueTime&gt;<sp/>truetime_;<sp/><sp/></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config" kindref="compound">Config</ref><sp/>config_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Shard-id<sp/>to<sp/>real<sp/>network<sp/>endpoint<sp/>(populated<sp/>via<sp/>setShardEndpointMap())</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/>shard_endpoint_map_;<sp/></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Write-Ahead<sp/>Log<sp/>for<sp/>transaction<sp/>recovery</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;WALManager&gt;<sp/>wal_manager_;<sp/></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>======================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>DEADLOCK<sp/>PREVENTION:<sp/>Canonical<sp/>Lock<sp/>Acquisition<sp/>Order</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>======================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>To<sp/>prevent<sp/>circular<sp/>wait<sp/>deadlocks,<sp/>all<sp/>code<sp/>MUST<sp/>acquire<sp/>locks<sp/>in</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>this<sp/>strict<sp/>order<sp/>when<sp/>multiple<sp/>locks<sp/>are<sp/>needed:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>1.<sp/>mutex_<sp/>(primary<sp/>transaction<sp/>state<sp/>lock)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>2.<sp/>error_mutex<sp/>(used<sp/>only<sp/>within<sp/>phase<sp/>operations,<sp/>never<sp/>held<sp/>across<sp/>calls)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CRITICAL<sp/>RULES:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-<sp/>NEVER<sp/>hold<sp/>both<sp/>locks<sp/>across<sp/>a<sp/>function<sp/>call<sp/>or<sp/>async<sp/>operation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-<sp/>NEVER<sp/>acquire<sp/>error_mutex<sp/>while<sp/>holding<sp/>mutex_</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-<sp/>ALWAYS<sp/>unlock<sp/>all<sp/>locks<sp/>before<sp/>waiting<sp/>on<sp/>futures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-<sp/>Use<sp/>lock.unlock()<sp/>explicitly<sp/>before<sp/>async<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>======================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::timed_mutex<sp/>mutex_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>DistributedTransaction&gt;<sp/>transactions_;<sp/></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>total_transactions_{0};<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>committed_transactions_{0};<sp/><sp/></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>aborted_transactions_{0};<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>readonly_transactions_{0};<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>preparePhase(DistributedTransaction&amp;<sp/>txn);</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>commitPhase(DistributedTransaction&amp;<sp/>txn);</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>sendPrepare(TransactionParticipant&amp;<sp/>participant,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>txn_id);</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>sendCommit(</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>TransactionParticipant&amp;<sp/>participant,</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>txn_id,</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::nanoseconds<sp/>commit_timestamp</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>sendAbort(TransactionParticipant&amp;<sp/>participant,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>txn_id);</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>generateTransactionId();</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>cleanupOldTransactions();</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>calculateBackoffDelay(uint32_t<sp/>retry_count)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>retryCommitPhase(DistributedTransaction&amp;<sp/>txn);</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>logBeginStateForRecovery(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>DistributedTransaction&amp;<sp/>txn);</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"></highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>logOperationAddedForRecovery(</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>txn_id,</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id,</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>operation</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"></highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>logDecisionStateForRecovery(</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>DistributedTransaction&amp;<sp/>txn,</highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1ae4f4d2aadbab222db6ab50792b500bab" kindref="member">commit</ref>,</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>phase,</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>reason<sp/>=<sp/>{}</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"></highlight></codeline>
+<codeline lineno="405"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>logTransactionForRecovery(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>DistributedTransaction&amp;<sp/>txn);</highlight></codeline>
+<codeline lineno="406"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="411"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>logPreparedStateForRecovery(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>DistributedTransaction&amp;<sp/>txn);</highlight></codeline>
+<codeline lineno="412"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="417"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>recoverTransactions();</highlight></codeline>
+<codeline lineno="418"><highlight class="normal"></highlight></codeline>
+<codeline lineno="436"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>percolatorCommit(DistributedTransaction&amp;<sp/>txn);</highlight></codeline>
+<codeline lineno="437"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="438"><highlight class="normal"></highlight></codeline>
+<codeline lineno="439"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::sharding</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/sharding/distributed_transaction.h"/>
+  </compounddef>
+</doxygen>

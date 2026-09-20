@@ -1,0 +1,187 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_cross_encoder_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::CrossEncoderConfig</compoundname>
+    <includes refid="reranker_8h" local="no">reranker.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_cross_encoder_config_1a9c5ccfeef2f76e18e484383fc473e4c7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::CrossEncoderConfig::model_path</definition>
+        <argsstring></argsstring>
+        <name>model_path</name>
+        <qualifiedname>themis::rag::CrossEncoderConfig::model_path</qualifiedname>
+        <initializer>= &quot;&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Path to the ONNX cross-encoder model file. Leave empty to use the built-in heuristic scorer. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/reranker.h" line="31" column="17" bodyfile="include/rag/reranker.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_cross_encoder_config_1a5d4078d9d99ead64c21489a2391a0e22" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::CrossEncoderConfig::max_length</definition>
+        <argsstring></argsstring>
+        <name>max_length</name>
+        <qualifiedname>themis::rag::CrossEncoderConfig::max_length</qualifiedname>
+        <initializer>= 512</initializer>
+        <briefdescription>
+<para>Maximum sequence length accepted by the model (query + document tokens). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/reranker.h" line="34" column="12" bodyfile="include/rag/reranker.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_cross_encoder_config_1a1e95091211d2e8bccaea5426413c3c34" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::CrossEncoderConfig::batch_size</definition>
+        <argsstring></argsstring>
+        <name>batch_size</name>
+        <qualifiedname>themis::rag::CrossEncoderConfig::batch_size</qualifiedname>
+        <initializer>= 32</initializer>
+        <briefdescription>
+<para>Number of candidate documents to score per batch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/reranker.h" line="37" column="12" bodyfile="include/rag/reranker.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_cross_encoder_config_1aafd93c706d5678db0533c5a767616845" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::CrossEncoderConfig::top_k</definition>
+        <argsstring></argsstring>
+        <name>top_k</name>
+        <qualifiedname>themis::rag::CrossEncoderConfig::top_k</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+<para>Number of top documents to return after re-ranking (0 = return all). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/reranker.h" line="40" column="12" bodyfile="include/rag/reranker.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_cross_encoder_config_1a96346e5b5d7ee1263fdec63b1357e6c6" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::CrossEncoderConfig::min_score_threshold</definition>
+        <argsstring></argsstring>
+        <name>min_score_threshold</name>
+        <qualifiedname>themis::rag::CrossEncoderConfig::min_score_threshold</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Minimum relevance score threshold; documents below this are dropped. Set to 0.0 to disable filtering. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/reranker.h" line="44" column="12" bodyfile="include/rag/reranker.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_cross_encoder_config_1a5b2ec5f4ee691f1a2b7bf065be55395c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::CrossEncoderConfig::use_gpu</definition>
+        <argsstring></argsstring>
+        <name>use_gpu</name>
+        <qualifiedname>themis::rag::CrossEncoderConfig::use_gpu</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Enable GPU inference when an ONNX model is loaded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/reranker.h" line="47" column="10" bodyfile="include/rag/reranker.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_cross_encoder_config_1a1abfa9bf53baebda95214dc2602761ec" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::CrossEncoderConfig::require_model_checksum</definition>
+        <argsstring></argsstring>
+        <name>require_model_checksum</name>
+        <qualifiedname>themis::rag::CrossEncoderConfig::require_model_checksum</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Require model checksum verification before accepting loadModel(). When enabled, loadModel() expects either expected_model_checksum or &quot;&lt;model_path&gt;.sha256&quot; to be present and matching. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/reranker.h" line="52" column="10" bodyfile="include/rag/reranker.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_cross_encoder_config_1aa6bada3a1b08db23a1ea651ef2cd1b26" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::CrossEncoderConfig::expected_model_checksum</definition>
+        <argsstring></argsstring>
+        <name>expected_model_checksum</name>
+        <qualifiedname>themis::rag::CrossEncoderConfig::expected_model_checksum</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Optional expected checksum for the model file (hex FNV-1a 64-bit). If set, it takes precedence over a &quot;.sha256&quot; sidecar file. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/reranker.h" line="56" column="17" bodyfile="include/rag/reranker.h" bodystart="56" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_cross_encoder_config_1a3cb30b67d13ea674113d414bd4e63e2f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::CrossEncoderConfig::enable_score_cache</definition>
+        <argsstring></argsstring>
+        <name>enable_score_cache</name>
+        <qualifiedname>themis::rag::CrossEncoderConfig::enable_score_cache</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Cache re-ranking scores for (query, document-id) pairs to avoid re-scoring identical inputs within the same reranker instance. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/reranker.h" line="60" column="10" bodyfile="include/rag/reranker.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_cross_encoder_config_1a943c5a3c579c843333d50fd4c3dcedb7" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::CrossEncoderConfig::max_cache_size</definition>
+        <argsstring></argsstring>
+        <name>max_cache_size</name>
+        <qualifiedname>themis::rag::CrossEncoderConfig::max_cache_size</qualifiedname>
+        <initializer>= 1024</initializer>
+        <briefdescription>
+<para>Maximum number of entries retained in the score cache. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/reranker.h" line="63" column="12" bodyfile="include/rag/reranker.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for the cross-encoder re-ranker. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/reranker.h" line="28" column="1" bodyfile="include/rag/reranker.h" bodystart="28" bodyend="64"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_cross_encoder_config_1a1e95091211d2e8bccaea5426413c3c34" prot="public" virt="non-virtual"><scope>themis::rag::CrossEncoderConfig</scope><name>batch_size</name></member>
+      <member refid="structthemis_1_1rag_1_1_cross_encoder_config_1a3cb30b67d13ea674113d414bd4e63e2f" prot="public" virt="non-virtual"><scope>themis::rag::CrossEncoderConfig</scope><name>enable_score_cache</name></member>
+      <member refid="structthemis_1_1rag_1_1_cross_encoder_config_1aa6bada3a1b08db23a1ea651ef2cd1b26" prot="public" virt="non-virtual"><scope>themis::rag::CrossEncoderConfig</scope><name>expected_model_checksum</name></member>
+      <member refid="structthemis_1_1rag_1_1_cross_encoder_config_1a943c5a3c579c843333d50fd4c3dcedb7" prot="public" virt="non-virtual"><scope>themis::rag::CrossEncoderConfig</scope><name>max_cache_size</name></member>
+      <member refid="structthemis_1_1rag_1_1_cross_encoder_config_1a5d4078d9d99ead64c21489a2391a0e22" prot="public" virt="non-virtual"><scope>themis::rag::CrossEncoderConfig</scope><name>max_length</name></member>
+      <member refid="structthemis_1_1rag_1_1_cross_encoder_config_1a96346e5b5d7ee1263fdec63b1357e6c6" prot="public" virt="non-virtual"><scope>themis::rag::CrossEncoderConfig</scope><name>min_score_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1_cross_encoder_config_1a9c5ccfeef2f76e18e484383fc473e4c7" prot="public" virt="non-virtual"><scope>themis::rag::CrossEncoderConfig</scope><name>model_path</name></member>
+      <member refid="structthemis_1_1rag_1_1_cross_encoder_config_1a1abfa9bf53baebda95214dc2602761ec" prot="public" virt="non-virtual"><scope>themis::rag::CrossEncoderConfig</scope><name>require_model_checksum</name></member>
+      <member refid="structthemis_1_1rag_1_1_cross_encoder_config_1aafd93c706d5678db0533c5a767616845" prot="public" virt="non-virtual"><scope>themis::rag::CrossEncoderConfig</scope><name>top_k</name></member>
+      <member refid="structthemis_1_1rag_1_1_cross_encoder_config_1a5b2ec5f4ee691f1a2b7bf065be55395c" prot="public" virt="non-virtual"><scope>themis::rag::CrossEncoderConfig</scope><name>use_gpu</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

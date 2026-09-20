@@ -1,0 +1,501 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cdc_1_1_cdc_schema_encoder" kind="class" language="C++" prot="public">
+    <compoundname>themis::cdc::CdcSchemaEncoder</compoundname>
+    <includes refid="schema__registry_8h" local="no">schema_registry.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1cdc_1_1_cdc_schema_encoder_1a82b5d64dbb950706a3e67a52b69c3b07" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; uint8_t &gt;(const nlohmann::json &amp;payload)&gt;</type>
+        <definition>using themis::cdc::CdcSchemaEncoder::BinaryEncoderFn = 
+std::function&lt;std::vector&lt;uint8_t&gt;(const nlohmann::json&amp; payload)&gt;</definition>
+        <argsstring></argsstring>
+        <name>BinaryEncoderFn</name>
+        <qualifiedname>themis::cdc::CdcSchemaEncoder::BinaryEncoderFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/schema_registry.h" line="502" column="5" bodyfile="include/cdc/schema_registry.h" bodystart="502" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_cdc_schema_encoder_1a18d8e7c28b287d2990b96e2c258db48a" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1cdc_1_1_schema_registry_client" kindref="compound">SchemaRegistryClient</ref> *</type>
+        <definition>SchemaRegistryClient* themis::cdc::CdcSchemaEncoder::client_</definition>
+        <argsstring></argsstring>
+        <name>client_</name>
+        <qualifiedname>themis::cdc::CdcSchemaEncoder::client_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/schema_registry.h" line="626" column="26" bodyfile="include/cdc/schema_registry.h" bodystart="626" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_cdc_schema_encoder_1a361bd2ba3a2194dcf70cb3ac9eb65d00" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1cdc_1_1_cdc_schema_encoder_1a82b5d64dbb950706a3e67a52b69c3b07" kindref="member">BinaryEncoderFn</ref></type>
+        <definition>BinaryEncoderFn themis::cdc::CdcSchemaEncoder::avro_encoder_fn_</definition>
+        <argsstring></argsstring>
+        <name>avro_encoder_fn_</name>
+        <qualifiedname>themis::cdc::CdcSchemaEncoder::avro_encoder_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/schema_registry.h" line="628" column="21" bodyfile="include/cdc/schema_registry.h" bodystart="628" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_cdc_schema_encoder_1ac900ee2eb2287d03ff97a9f7cadcea3c" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1cdc_1_1_cdc_schema_encoder_1a82b5d64dbb950706a3e67a52b69c3b07" kindref="member">BinaryEncoderFn</ref></type>
+        <definition>BinaryEncoderFn themis::cdc::CdcSchemaEncoder::protobuf_encoder_fn_</definition>
+        <argsstring></argsstring>
+        <name>protobuf_encoder_fn_</name>
+        <qualifiedname>themis::cdc::CdcSchemaEncoder::protobuf_encoder_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/schema_registry.h" line="629" column="21" bodyfile="include/cdc/schema_registry.h" bodystart="629" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_cdc_schema_encoder_1a028c50c7f5f21e58a5951dce222ea0ef" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::cdc::CdcSchemaEncoder::local_cache_mutex_</definition>
+        <argsstring></argsstring>
+        <name>local_cache_mutex_</name>
+        <qualifiedname>themis::cdc::CdcSchemaEncoder::local_cache_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/schema_registry.h" line="631" column="24" bodyfile="include/cdc/schema_registry.h" bodystart="631" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_cdc_schema_encoder_1abe87e529c36eaf74cfc3c2d735c0efa6" prot="private" static="no" mutable="yes">
+        <type>std::unordered_map&lt; std::string, int32_t &gt;</type>
+        <definition>std::unordered_map&lt;std::string, int32_t&gt; themis::cdc::CdcSchemaEncoder::local_schema_id_cache_</definition>
+        <argsstring></argsstring>
+        <name>local_schema_id_cache_</name>
+        <qualifiedname>themis::cdc::CdcSchemaEncoder::local_schema_id_cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/schema_registry.h" line="632" column="32" bodyfile="include/cdc/schema_registry.h" bodystart="632" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_cdc_schema_encoder_1af2c5640696b6971cc3e78ef0cff63a60" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::cdc::CdcSchemaEncoder::defaultAvroSchema</definition>
+        <argsstring>(const std::string &amp;collection)</argsstring>
+        <name>defaultAvroSchema</name>
+        <qualifiedname>themis::cdc::CdcSchemaEncoder::defaultAvroSchema</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <briefdescription>
+<para>── Default schema templates ─────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: nlohmann::json::array(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/schema_registry.h" line="425" column="24" bodyfile="include/cdc/schema_registry.h" bodystart="425" bodyend="456"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_cdc_schema_encoder_1a404c3af693996b0c6f6fc69e661db2d4" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::cdc::CdcSchemaEncoder::defaultJsonSchema</definition>
+        <argsstring>(const std::string &amp;collection)</argsstring>
+        <name>defaultJsonSchema</name>
+        <qualifiedname>themis::cdc::CdcSchemaEncoder::defaultJsonSchema</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <briefdescription>
+<para>Default Json Schema. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: nlohmann::json::array(), dump(), <ref refid="classthemis_1_1cdc_1_1_cdc_schema_encoder_1adc086d417e2eeb4ae4a766246a52407a" kindref="member">defaultProtobufSchema()</ref>, std::string(), <ref refid="classthemis_1_1cdc_1_1_cdc_schema_encoder_1aae0022ba7ba89c95e4843dfce05fd6ae" kindref="member">CdcSchemaEncoder()</ref>, client_(), <ref refid="classthemis_1_1cdc_1_1_cdc_schema_encoder_1aac9bd17b0b415e4e43ea4cc6101c5894" kindref="member">setAvroEncoderFn()</ref>, std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/schema_registry.h" line="465" column="24" bodyfile="include/cdc/schema_registry.h" bodystart="465" bodyend="485"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_cdc_schema_encoder_1adc086d417e2eeb4ae4a766246a52407a" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::cdc::CdcSchemaEncoder::defaultProtobufSchema</definition>
+        <argsstring>(const std::string &amp;collection)</argsstring>
+        <name>defaultProtobufSchema</name>
+        <qualifiedname>themis::cdc::CdcSchemaEncoder::defaultProtobufSchema</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/schema_registry.h" line="487" column="24" bodyfile="include/cdc/schema_registry.h" bodystart="487" bodyend="489"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_cdc_schema_encoder_1ab68a4d5551560580c6bfc49594430f21" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int32_t</type>
+        <definition>static int32_t themis::cdc::CdcSchemaEncoder::extractSchemaId</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;wire_bytes)</argsstring>
+        <name>extractSchemaId</name>
+        <qualifiedname>themis::cdc::CdcSchemaEncoder::extractSchemaId</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>wire_bytes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/schema_registry.h" line="565" column="20" bodyfile="include/cdc/schema_registry.h" bodystart="565" bodyend="578"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_cdc_schema_encoder_1aae0022ba7ba89c95e4843dfce05fd6ae" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::cdc::CdcSchemaEncoder::CdcSchemaEncoder</definition>
+        <argsstring>(SchemaRegistryClient *client)</argsstring>
+        <name>CdcSchemaEncoder</name>
+        <qualifiedname>themis::cdc::CdcSchemaEncoder::CdcSchemaEncoder</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cdc_1_1_schema_registry_client" kindref="compound">SchemaRegistryClient</ref> *</type>
+          <declname>client</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/schema_registry.h" line="493" column="14" bodyfile="include/cdc/schema_registry.h" bodystart="493" bodyend="494"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_cdc_schema_encoder_1a6cb77457fe703405352f1796bf6a7739" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cdc::CdcSchemaEncoder::CdcSchemaEncoder</definition>
+        <argsstring>(const CdcSchemaEncoder &amp;)=delete</argsstring>
+        <name>CdcSchemaEncoder</name>
+        <qualifiedname>themis::cdc::CdcSchemaEncoder::CdcSchemaEncoder</qualifiedname>
+        <param>
+          <type>const CdcSchemaEncoder &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/schema_registry.h" line="497" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_cdc_schema_encoder_1a114ddbef770ea22622476523937ed268" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1cdc_1_1_cdc_schema_encoder_1aae0022ba7ba89c95e4843dfce05fd6ae" kindref="member">CdcSchemaEncoder</ref> &amp;</type>
+        <definition>CdcSchemaEncoder &amp; themis::cdc::CdcSchemaEncoder::operator=</definition>
+        <argsstring>(const CdcSchemaEncoder &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::cdc::CdcSchemaEncoder::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1cdc_1_1_cdc_schema_encoder_1aae0022ba7ba89c95e4843dfce05fd6ae" kindref="member">CdcSchemaEncoder</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/schema_registry.h" line="498" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_cdc_schema_encoder_1aac9bd17b0b415e4e43ea4cc6101c5894" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cdc::CdcSchemaEncoder::setAvroEncoderFn</definition>
+        <argsstring>(BinaryEncoderFn fn)</argsstring>
+        <name>setAvroEncoderFn</name>
+        <qualifiedname>themis::cdc::CdcSchemaEncoder::setAvroEncoderFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cdc_1_1_cdc_schema_encoder_1a82b5d64dbb950706a3e67a52b69c3b07" kindref="member">BinaryEncoderFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/schema_registry.h" line="505" column="10" bodyfile="include/cdc/schema_registry.h" bodystart="505" bodyend="507"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_cdc_schema_encoder_1af74e7341fcf9c631fb073468630178aa" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cdc::CdcSchemaEncoder::setProtobufEncoderFn</definition>
+        <argsstring>(BinaryEncoderFn fn)</argsstring>
+        <name>setProtobufEncoderFn</name>
+        <qualifiedname>themis::cdc::CdcSchemaEncoder::setProtobufEncoderFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cdc_1_1_cdc_schema_encoder_1a82b5d64dbb950706a3e67a52b69c3b07" kindref="member">BinaryEncoderFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/schema_registry.h" line="509" column="10" bodyfile="include/cdc/schema_registry.h" bodystart="509" bodyend="511"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_cdc_schema_encoder_1a59fdc7973e5a97d5dc45487f8d7ec802" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1cdc_1_1_encoded_event" kindref="compound">EncodedEvent</ref></type>
+        <definition>EncodedEvent themis::cdc::CdcSchemaEncoder::encode</definition>
+        <argsstring>(const Changefeed::ChangeEvent &amp;event, const std::string &amp;collection=&quot;&quot;) const</argsstring>
+        <name>encode</name>
+        <qualifiedname>themis::cdc::CdcSchemaEncoder::encode</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/schema_registry.h" line="515" column="18" bodyfile="include/cdc/schema_registry.h" bodystart="515" bodyend="545"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_cdc_schema_encoder_1a5cdfc05a10da58452334e33bfa3995e5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; nlohmann::json &gt;</type>
+        <definition>std::optional&lt; nlohmann::json &gt; themis::cdc::CdcSchemaEncoder::decodeToJson</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;wire_bytes) const</argsstring>
+        <name>decodeToJson</name>
+        <qualifiedname>themis::cdc::CdcSchemaEncoder::decodeToJson</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>wire_bytes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/schema_registry.h" line="547" column="19" bodyfile="include/cdc/schema_registry.h" bodystart="547" bodyend="563"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_cdc_schema_encoder_1a6fb01ee143aae9c59ae4b1c788d688a0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int32_t</type>
+        <definition>int32_t themis::cdc::CdcSchemaEncoder::ensureCollectionSchema</definition>
+        <argsstring>(const std::string &amp;collection) const</argsstring>
+        <name>ensureCollectionSchema</name>
+        <qualifiedname>themis::cdc::CdcSchemaEncoder::ensureCollectionSchema</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/schema_registry.h" line="580" column="13" bodyfile="include/cdc/schema_registry.h" bodystart="580" bodyend="618"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_cdc_schema_encoder_1a722b10e3c10d0c9dabf61c704169b219" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cdc::CdcSchemaEncoder::clearLocalCache</definition>
+        <argsstring>()</argsstring>
+        <name>clearLocalCache</name>
+        <qualifiedname>themis::cdc::CdcSchemaEncoder::clearLocalCache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/schema_registry.h" line="620" column="10" bodyfile="include/cdc/schema_registry.h" bodystart="620" bodyend="623"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_cdc_schema_encoder_1a93211eaa32a6c0487d8c977a63a9d2fd" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::cdc::CdcSchemaEncoder::collectionFromKey</definition>
+        <argsstring>(const std::string &amp;key)</argsstring>
+        <name>collectionFromKey</name>
+        <qualifiedname>themis::cdc::CdcSchemaEncoder::collectionFromKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/schema_registry.h" line="636" column="24" bodyfile="include/cdc/schema_registry.h" bodystart="636" bodyend="639"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_cdc_schema_encoder_1a064376d9241e50447ae5a0b935986784" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::cdc::CdcSchemaEncoder::operationString</definition>
+        <argsstring>(Changefeed::ChangeEventType type)</argsstring>
+        <name>operationString</name>
+        <qualifiedname>themis::cdc::CdcSchemaEncoder::operationString</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_changefeed_1a1c985f349b58773fb6e152df70b5c7f0" kindref="member">Changefeed::ChangeEventType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/schema_registry.h" line="645" column="24" bodyfile="include/cdc/schema_registry.h" bodystart="645" bodyend="658"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_cdc_schema_encoder_1a1716dbe31cf02eb1c286e5b007cdfbbe" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>static nlohmann::json themis::cdc::CdcSchemaEncoder::eventToPayload</definition>
+        <argsstring>(const Changefeed::ChangeEvent &amp;event, const std::string &amp;collection)</argsstring>
+        <name>eventToPayload</name>
+        <qualifiedname>themis::cdc::CdcSchemaEncoder::eventToPayload</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/schema_registry.h" line="660" column="27" bodyfile="include/cdc/schema_registry.h" bodystart="660" bodyend="699"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_cdc_schema_encoder_1a0cea4a8a595026b23f96ef260c74403e" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>static std::vector&lt; uint8_t &gt; themis::cdc::CdcSchemaEncoder::buildWireFormat</definition>
+        <argsstring>(int32_t schema_id, const std::vector&lt; uint8_t &gt; &amp;payload)</argsstring>
+        <name>buildWireFormat</name>
+        <qualifiedname>themis::cdc::CdcSchemaEncoder::buildWireFormat</qualifiedname>
+        <param>
+          <type>int32_t</type>
+          <declname>schema_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/schema_registry.h" line="701" column="24" bodyfile="include/cdc/schema_registry.h" bodystart="701" bodyend="722"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_cdc_schema_encoder_1a74f5e57becbe9653d8a13abddb67150a" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::CdcSchemaEncoder::subjectForCollection</definition>
+        <argsstring>(const std::string &amp;collection) const</argsstring>
+        <name>subjectForCollection</name>
+        <qualifiedname>themis::cdc::CdcSchemaEncoder::subjectForCollection</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/schema_registry.h" line="641" column="17" bodyfile="include/cdc/schema_registry.h" bodystart="641" bodyend="643"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cdc/schema_registry.h" line="416" column="1" bodyfile="include/cdc/schema_registry.h" bodystart="416" bodyend="745"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cdc_1_1_cdc_schema_encoder_1a361bd2ba3a2194dcf70cb3ac9eb65d00" prot="private" virt="non-virtual"><scope>themis::cdc::CdcSchemaEncoder</scope><name>avro_encoder_fn_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_cdc_schema_encoder_1a82b5d64dbb950706a3e67a52b69c3b07" prot="public" virt="non-virtual"><scope>themis::cdc::CdcSchemaEncoder</scope><name>BinaryEncoderFn</name></member>
+      <member refid="classthemis_1_1cdc_1_1_cdc_schema_encoder_1a0cea4a8a595026b23f96ef260c74403e" prot="private" virt="non-virtual"><scope>themis::cdc::CdcSchemaEncoder</scope><name>buildWireFormat</name></member>
+      <member refid="classthemis_1_1cdc_1_1_cdc_schema_encoder_1aae0022ba7ba89c95e4843dfce05fd6ae" prot="public" virt="non-virtual"><scope>themis::cdc::CdcSchemaEncoder</scope><name>CdcSchemaEncoder</name></member>
+      <member refid="classthemis_1_1cdc_1_1_cdc_schema_encoder_1a6cb77457fe703405352f1796bf6a7739" prot="public" virt="non-virtual"><scope>themis::cdc::CdcSchemaEncoder</scope><name>CdcSchemaEncoder</name></member>
+      <member refid="classthemis_1_1cdc_1_1_cdc_schema_encoder_1a722b10e3c10d0c9dabf61c704169b219" prot="public" virt="non-virtual"><scope>themis::cdc::CdcSchemaEncoder</scope><name>clearLocalCache</name></member>
+      <member refid="classthemis_1_1cdc_1_1_cdc_schema_encoder_1a18d8e7c28b287d2990b96e2c258db48a" prot="private" virt="non-virtual"><scope>themis::cdc::CdcSchemaEncoder</scope><name>client_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_cdc_schema_encoder_1a93211eaa32a6c0487d8c977a63a9d2fd" prot="private" virt="non-virtual"><scope>themis::cdc::CdcSchemaEncoder</scope><name>collectionFromKey</name></member>
+      <member refid="classthemis_1_1cdc_1_1_cdc_schema_encoder_1a5cdfc05a10da58452334e33bfa3995e5" prot="public" virt="non-virtual"><scope>themis::cdc::CdcSchemaEncoder</scope><name>decodeToJson</name></member>
+      <member refid="classthemis_1_1cdc_1_1_cdc_schema_encoder_1af2c5640696b6971cc3e78ef0cff63a60" prot="public" virt="non-virtual"><scope>themis::cdc::CdcSchemaEncoder</scope><name>defaultAvroSchema</name></member>
+      <member refid="classthemis_1_1cdc_1_1_cdc_schema_encoder_1a404c3af693996b0c6f6fc69e661db2d4" prot="public" virt="non-virtual"><scope>themis::cdc::CdcSchemaEncoder</scope><name>defaultJsonSchema</name></member>
+      <member refid="classthemis_1_1cdc_1_1_cdc_schema_encoder_1adc086d417e2eeb4ae4a766246a52407a" prot="public" virt="non-virtual"><scope>themis::cdc::CdcSchemaEncoder</scope><name>defaultProtobufSchema</name></member>
+      <member refid="classthemis_1_1cdc_1_1_cdc_schema_encoder_1a59fdc7973e5a97d5dc45487f8d7ec802" prot="public" virt="non-virtual"><scope>themis::cdc::CdcSchemaEncoder</scope><name>encode</name></member>
+      <member refid="classthemis_1_1cdc_1_1_cdc_schema_encoder_1a6fb01ee143aae9c59ae4b1c788d688a0" prot="public" virt="non-virtual"><scope>themis::cdc::CdcSchemaEncoder</scope><name>ensureCollectionSchema</name></member>
+      <member refid="classthemis_1_1cdc_1_1_cdc_schema_encoder_1a1716dbe31cf02eb1c286e5b007cdfbbe" prot="private" virt="non-virtual"><scope>themis::cdc::CdcSchemaEncoder</scope><name>eventToPayload</name></member>
+      <member refid="classthemis_1_1cdc_1_1_cdc_schema_encoder_1ab68a4d5551560580c6bfc49594430f21" prot="public" virt="non-virtual"><scope>themis::cdc::CdcSchemaEncoder</scope><name>extractSchemaId</name></member>
+      <member refid="classthemis_1_1cdc_1_1_cdc_schema_encoder_1a028c50c7f5f21e58a5951dce222ea0ef" prot="private" virt="non-virtual"><scope>themis::cdc::CdcSchemaEncoder</scope><name>local_cache_mutex_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_cdc_schema_encoder_1abe87e529c36eaf74cfc3c2d735c0efa6" prot="private" virt="non-virtual"><scope>themis::cdc::CdcSchemaEncoder</scope><name>local_schema_id_cache_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_cdc_schema_encoder_1a064376d9241e50447ae5a0b935986784" prot="private" virt="non-virtual"><scope>themis::cdc::CdcSchemaEncoder</scope><name>operationString</name></member>
+      <member refid="classthemis_1_1cdc_1_1_cdc_schema_encoder_1a114ddbef770ea22622476523937ed268" prot="public" virt="non-virtual"><scope>themis::cdc::CdcSchemaEncoder</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1cdc_1_1_cdc_schema_encoder_1ac900ee2eb2287d03ff97a9f7cadcea3c" prot="private" virt="non-virtual"><scope>themis::cdc::CdcSchemaEncoder</scope><name>protobuf_encoder_fn_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_cdc_schema_encoder_1aac9bd17b0b415e4e43ea4cc6101c5894" prot="public" virt="non-virtual"><scope>themis::cdc::CdcSchemaEncoder</scope><name>setAvroEncoderFn</name></member>
+      <member refid="classthemis_1_1cdc_1_1_cdc_schema_encoder_1af74e7341fcf9c631fb073468630178aa" prot="public" virt="non-virtual"><scope>themis::cdc::CdcSchemaEncoder</scope><name>setProtobufEncoderFn</name></member>
+      <member refid="classthemis_1_1cdc_1_1_cdc_schema_encoder_1a74f5e57becbe9653d8a13abddb67150a" prot="private" virt="non-virtual"><scope>themis::cdc::CdcSchemaEncoder</scope><name>subjectForCollection</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

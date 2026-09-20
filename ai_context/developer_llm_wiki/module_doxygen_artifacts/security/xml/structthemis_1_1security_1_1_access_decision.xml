@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_access_decision" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::AccessDecision</compoundname>
+    <includes refid="access__control__manager_8h" local="no">access_control_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_decision_1a24a6c4be310bc2f5988fc0391a0defa5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::AccessDecision::granted</definition>
+        <argsstring></argsstring>
+        <name>granted</name>
+        <qualifiedname>themis::security::AccessDecision::granted</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control_manager.h" line="57" column="10" bodyfile="include/security/access_control_manager.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_decision_1af9ba5aeadc2c05911d1b64f902102796" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::AccessDecision::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::security::AccessDecision::reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control_manager.h" line="58" column="17" bodyfile="include/security/access_control_manager.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_decision_1ab553b50c359a2e7a6820aa909e1aac9e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::security::AccessDecision::applied_permissions</definition>
+        <argsstring></argsstring>
+        <name>applied_permissions</name>
+        <qualifiedname>themis::security::AccessDecision::applied_permissions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control_manager.h" line="59" column="17" bodyfile="include/security/access_control_manager.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1security_1_1_access_decision_1a636291b48df623e852ca0c8cee23626c" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_access_decision" kindref="compound">AccessDecision</ref></type>
+        <definition>static AccessDecision themis::security::AccessDecision::Allow</definition>
+        <argsstring>(const std::string &amp;reason=&quot;Access granted&quot;)</argsstring>
+        <name>Allow</name>
+        <qualifiedname>themis::security::AccessDecision::Allow</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+          <defval>&quot;Access granted&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control_manager.h" line="61" column="27" bodyfile="include/security/access_control_manager.h" bodystart="61" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1security_1_1_access_decision_1a50fd9c21b13976135570bad4f2001017" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_access_decision" kindref="compound">AccessDecision</ref></type>
+        <definition>static AccessDecision themis::security::AccessDecision::Deny</definition>
+        <argsstring>(const std::string &amp;reason)</argsstring>
+        <name>Deny</name>
+        <qualifiedname>themis::security::AccessDecision::Deny</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+<para>Deny. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements Deny without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control_manager.h" line="71" column="27" bodyfile="include/security/access_control_manager.h" bodystart="71" bodyend="73"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/access_control_manager.h" line="56" column="1" bodyfile="include/security/access_control_manager.h" bodystart="56" bodyend="74"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_access_decision_1a636291b48df623e852ca0c8cee23626c" prot="public" virt="non-virtual"><scope>themis::security::AccessDecision</scope><name>Allow</name></member>
+      <member refid="structthemis_1_1security_1_1_access_decision_1ab553b50c359a2e7a6820aa909e1aac9e" prot="public" virt="non-virtual"><scope>themis::security::AccessDecision</scope><name>applied_permissions</name></member>
+      <member refid="structthemis_1_1security_1_1_access_decision_1a50fd9c21b13976135570bad4f2001017" prot="public" virt="non-virtual"><scope>themis::security::AccessDecision</scope><name>Deny</name></member>
+      <member refid="structthemis_1_1security_1_1_access_decision_1a24a6c4be310bc2f5988fc0391a0defa5" prot="public" virt="non-virtual"><scope>themis::security::AccessDecision</scope><name>granted</name></member>
+      <member refid="structthemis_1_1security_1_1_access_decision_1af9ba5aeadc2c05911d1b64f902102796" prot="public" virt="non-virtual"><scope>themis::security::AccessDecision</scope><name>reason</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

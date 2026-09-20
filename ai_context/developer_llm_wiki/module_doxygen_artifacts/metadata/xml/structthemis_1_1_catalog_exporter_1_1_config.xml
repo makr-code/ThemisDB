@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_catalog_exporter_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::CatalogExporter::Config</compoundname>
+    <includes refid="catalog__exporter_8h" local="no">catalog_exporter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_catalog_exporter_1_1_config_1a60e2fecc500f997b2f0d02f6c582624f" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_catalog_exporter_1a927533c832463859a14f5dde8908e244" kindref="member">CatalogType</ref></type>
+        <definition>CatalogType themis::CatalogExporter::Config::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::CatalogExporter::Config::type</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1_catalog_exporter_1a927533c832463859a14f5dde8908e244a713d46904efb720f9d248084ca2cdb25" kindref="member">CatalogType::APACHE_ATLAS</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/catalog_exporter.h" line="67" column="21" bodyfile="include/metadata/catalog_exporter.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_catalog_exporter_1_1_config_1aca5b90d91652f62472f612d5d5c416a3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::CatalogExporter::Config::endpoint</definition>
+        <argsstring></argsstring>
+        <name>endpoint</name>
+        <qualifiedname>themis::CatalogExporter::Config::endpoint</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Base URL of the catalog service Atlas example: &quot;http://atlas-host:21000&quot; DataHub example: &quot;http://datahub-gms:8080&quot; </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/catalog_exporter.h" line="72" column="21" bodyfile="include/metadata/catalog_exporter.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_catalog_exporter_1_1_config_1a3720774140782d76e66e2124feb6d2eb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::CatalogExporter::Config::username</definition>
+        <argsstring></argsstring>
+        <name>username</name>
+        <qualifiedname>themis::CatalogExporter::Config::username</qualifiedname>
+        <briefdescription>
+<para>Basic-auth username (Apache Atlas only). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/catalog_exporter.h" line="75" column="21" bodyfile="include/metadata/catalog_exporter.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_catalog_exporter_1_1_config_1a29d5094d170ae2b884d31c304c4b7ab1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::CatalogExporter::Config::password</definition>
+        <argsstring></argsstring>
+        <name>password</name>
+        <qualifiedname>themis::CatalogExporter::Config::password</qualifiedname>
+        <briefdescription>
+<para>Basic-auth password (Apache Atlas only). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/catalog_exporter.h" line="78" column="21" bodyfile="include/metadata/catalog_exporter.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_catalog_exporter_1_1_config_1aa2bb5e5ba953b5eacd459a5126f87f1b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::CatalogExporter::Config::token</definition>
+        <argsstring></argsstring>
+        <name>token</name>
+        <qualifiedname>themis::CatalogExporter::Config::token</qualifiedname>
+        <briefdescription>
+<para>Bearer token (DataHub only). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/catalog_exporter.h" line="81" column="21" bodyfile="include/metadata/catalog_exporter.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_catalog_exporter_1_1_config_1abd3587ac50e6df3e4afddf386405a9ca" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::CatalogExporter::Config::database_name</definition>
+        <argsstring></argsstring>
+        <name>database_name</name>
+        <qualifiedname>themis::CatalogExporter::Config::database_name</qualifiedname>
+        <initializer>= &quot;ThemisDB&quot;</initializer>
+        <briefdescription>
+<para>Logical database / instance name used as the top-level catalog entity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/catalog_exporter.h" line="84" column="21" bodyfile="include/metadata/catalog_exporter.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_catalog_exporter_1_1_config_1a7dc3cfc30d9fbccf0cd3b5f014d144c6" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::CatalogExporter::Config::timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>timeout_ms</name>
+        <qualifiedname>themis::CatalogExporter::Config::timeout_ms</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+<para>HTTP request timeout in milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/catalog_exporter.h" line="87" column="13" bodyfile="include/metadata/catalog_exporter.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for the catalog connection. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/metadata/catalog_exporter.h" line="66" column="5" bodyfile="include/metadata/catalog_exporter.h" bodystart="66" bodyend="88"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_catalog_exporter_1_1_config_1abd3587ac50e6df3e4afddf386405a9ca" prot="public" virt="non-virtual"><scope>themis::CatalogExporter::Config</scope><name>database_name</name></member>
+      <member refid="structthemis_1_1_catalog_exporter_1_1_config_1aca5b90d91652f62472f612d5d5c416a3" prot="public" virt="non-virtual"><scope>themis::CatalogExporter::Config</scope><name>endpoint</name></member>
+      <member refid="structthemis_1_1_catalog_exporter_1_1_config_1a29d5094d170ae2b884d31c304c4b7ab1" prot="public" virt="non-virtual"><scope>themis::CatalogExporter::Config</scope><name>password</name></member>
+      <member refid="structthemis_1_1_catalog_exporter_1_1_config_1a7dc3cfc30d9fbccf0cd3b5f014d144c6" prot="public" virt="non-virtual"><scope>themis::CatalogExporter::Config</scope><name>timeout_ms</name></member>
+      <member refid="structthemis_1_1_catalog_exporter_1_1_config_1aa2bb5e5ba953b5eacd459a5126f87f1b" prot="public" virt="non-virtual"><scope>themis::CatalogExporter::Config</scope><name>token</name></member>
+      <member refid="structthemis_1_1_catalog_exporter_1_1_config_1a60e2fecc500f997b2f0d02f6c582624f" prot="public" virt="non-virtual"><scope>themis::CatalogExporter::Config</scope><name>type</name></member>
+      <member refid="structthemis_1_1_catalog_exporter_1_1_config_1a3720774140782d76e66e2124feb6d2eb" prot="public" virt="non-virtual"><scope>themis::CatalogExporter::Config</scope><name>username</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

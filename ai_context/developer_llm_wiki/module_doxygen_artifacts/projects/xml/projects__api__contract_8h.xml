@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="projects__api__contract_8h" kind="file" language="C++">
+    <compoundname>projects_api_contract.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includedby refid="bench__projects__release__gates_8cpp" local="yes">benchmarks/projects/bench_projects_release_gates.cpp</includedby>
+    <includedby refid="test__projects__contract__hardening__focused_8cpp" local="yes">tests/projects/test_projects_contract_hardening_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/projects/projects_api_contract.h</label>
+        <link refid="projects__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/projects/bench_projects_release_gates.cpp</label>
+        <link refid="bench__projects__release__gates_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/projects/projects_api_contract.h</label>
+        <link refid="projects__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>tests/projects/test_projects_contract_hardening_focused.cpp</label>
+        <link refid="test__projects__contract__hardening__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1projects">themis::projects</innernamespace>
+    <briefdescription>
+<para>Frozen API contract for the ThemisDB projects module. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0</para>
+</simplesect>
+</para>
+<sect1 id="projects__api__contract_8h_1purpose">
+<title>Purpose</title><para>The projects module manages collaborative database projects: user membership, audit logging, resource quotas, and project lifecycle.</para>
+</sect1>
+<sect1 id="projects__api__contract_8h_1contracts">
+<title>API Contracts</title><para><heading level="3">CollaborationManager</heading>
+</para>
+<para><itemizedlist>
+<listitem><para><computeroutput>addMember()</computeroutput> is idempotent; adding an existing member is a no-op with OK.</para>
+</listitem><listitem><para><computeroutput>removeMember()</computeroutput> on a non-member → PROJ_MEMBER_NOT_FOUND.</para>
+</listitem><listitem><para>Audit log is written before the membership change takes effect.</para>
+</listitem></itemizedlist>
+</para>
+<para><heading level="3">InMemoryProjectAuditLog</heading>
+</para>
+<para><itemizedlist>
+<listitem><para><computeroutput>append()</computeroutput> is thread-safe and non-blocking.</para>
+</listitem><listitem><para><computeroutput>entries()</computeroutput> returns a stable snapshot; subsequent appends do not modify the snapshot.</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="projects__api__contract_8h_1error_taxonomy">
+<title>Error Taxonomy</title><para><table rows="5" cols="2"><row>
+<entry thead="yes"><para>Code  </para>
+</entry><entry thead="yes"><para>Meaning  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>PROJ_MEMBER_NOT_FOUND  </para>
+</entry><entry thead="no"><para>Requested member does not exist  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>PROJ_PROJECT_NOT_FOUND  </para>
+</entry><entry thead="no"><para>Project ID not found  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>PROJ_QUOTA_EXCEEDED  </para>
+</entry><entry thead="no"><para>Project resource quota exceeded  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>PROJ_AUDIT_OVERFLOW  </para>
+</entry><entry thead="no"><para>In-memory audit log at capacity  </para>
+</entry></row>
+</table>
+</para>
+</sect1>
+<sect1 id="projects__api__contract_8h_1threading">
+<title>Threading Guarantees</title><para><itemizedlist>
+<listitem><para><computeroutput>CollaborationManager</computeroutput> is thread-safe via internal shared_mutex.</para>
+</listitem><listitem><para><computeroutput>InMemoryProjectAuditLog</computeroutput> append/read are thread-safe.</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="projects__api__contract_8h_1contract_freeze">
+<title>Contract Freeze</title><para>Frozen for ThemisDB v2.x. </para>
+</sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1projects" kindref="compound">themis::projects</ref><sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="namespacethemis_1_1projects_1ae7a289f4148dcf52f78dd53d7e50d792" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1projects_1ae7a289f4148dcf52f78dd53d7e50d792" kindref="member">ProjError</ref><sp/>:<sp/>int32_t<sp/>{</highlight></codeline>
+<codeline lineno="48" refid="namespacethemis_1_1projects_1ae7a289f4148dcf52f78dd53d7e50d792abe30a2335130f52bd96ddd89381ff3b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1projects_1ae7a289f4148dcf52f78dd53d7e50d792abe30a2335130f52bd96ddd89381ff3b0" kindref="member">kMemberNotFound</ref><sp/><sp/>=<sp/>7700,</highlight></codeline>
+<codeline lineno="49" refid="namespacethemis_1_1projects_1ae7a289f4148dcf52f78dd53d7e50d792ab10d0b77c4ed520bb94b0ddd8cf83621" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1projects_1ae7a289f4148dcf52f78dd53d7e50d792ab10d0b77c4ed520bb94b0ddd8cf83621" kindref="member">kProjectNotFound</ref><sp/>=<sp/>7701,</highlight></codeline>
+<codeline lineno="50" refid="namespacethemis_1_1projects_1ae7a289f4148dcf52f78dd53d7e50d792a8d83460fe7aadda95b8be728c9f201f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1projects_1ae7a289f4148dcf52f78dd53d7e50d792a8d83460fe7aadda95b8be728c9f201f5" kindref="member">kQuotaExceeded</ref><sp/><sp/><sp/>=<sp/>7702,</highlight></codeline>
+<codeline lineno="51" refid="namespacethemis_1_1projects_1ae7a289f4148dcf52f78dd53d7e50d792a9f346b27328ea1f407fbc7bc41dc548d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1projects_1ae7a289f4148dcf52f78dd53d7e50d792a9f346b27328ea1f407fbc7bc41dc548d" kindref="member">kAuditOverflow</ref><sp/><sp/><sp/>=<sp/>7703,</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::projects</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/projects/projects_api_contract.h"/>
+  </compounddef>
+</doxygen>

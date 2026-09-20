@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_distributed_operation" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::DistributedOperation</compoundname>
+    <includes refid="distributed__transaction__manager_8h" local="no">distributed_transaction_manager.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1storage_1_1_distributed_operation_1a7e1c1a3f0f186c5f1f4c0e75c924e690" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Type</name>
+        <qualifiedname>themis::storage::DistributedOperation::Type</qualifiedname>
+        <enumvalue id="structthemis_1_1storage_1_1_distributed_operation_1a7e1c1a3f0f186c5f1f4c0e75c924e690a3e75383a5992a6d15fb81e872e46e256" prot="public">
+          <name>PUT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1storage_1_1_distributed_operation_1a7e1c1a3f0f186c5f1f4c0e75c924e690a32f68a60cef40faedbc6af20298c1a1e" prot="public">
+          <name>DELETE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/distributed_transaction_manager.h" line="62" column="5" bodyfile="include/storage/distributed_transaction_manager.h" bodystart="62" bodyend="62"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_distributed_operation_1ad647d329040a9f291d7aa650af27631a" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1storage_1_1_distributed_operation_1a7e1c1a3f0f186c5f1f4c0e75c924e690" kindref="member">Type</ref></type>
+        <definition>Type themis::storage::DistributedOperation::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::storage::DistributedOperation::type</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1storage_1_1_distributed_operation_1a7e1c1a3f0f186c5f1f4c0e75c924e690a3e75383a5992a6d15fb81e872e46e256" kindref="member">Type::PUT</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/distributed_transaction_manager.h" line="64" column="17" bodyfile="include/storage/distributed_transaction_manager.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_distributed_operation_1af8945ca4856e02e05b377087ab496260" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::DistributedOperation::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::storage::DistributedOperation::shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/distributed_transaction_manager.h" line="65" column="17" bodyfile="include/storage/distributed_transaction_manager.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_distributed_operation_1a93bcc4bffd4425a598c2571848fe02db" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::DistributedOperation::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>themis::storage::DistributedOperation::key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/distributed_transaction_manager.h" line="66" column="17" bodyfile="include/storage/distributed_transaction_manager.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_distributed_operation_1a06fe56d0eea9d17a529f85209fcb4753" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::DistributedOperation::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::storage::DistributedOperation::value</qualifiedname>
+        <briefdescription>
+<para>Empty for DELETE operations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/distributed_transaction_manager.h" line="67" column="17" bodyfile="include/storage/distributed_transaction_manager.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single write operation buffered inside a <ref refid="classthemis_1_1storage_1_1_distributed_transaction" kindref="compound">DistributedTransaction</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/distributed_transaction_manager.h" line="61" column="1" bodyfile="include/storage/distributed_transaction_manager.h" bodystart="61" bodyend="68"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_distributed_operation_1a93bcc4bffd4425a598c2571848fe02db" prot="public" virt="non-virtual"><scope>themis::storage::DistributedOperation</scope><name>key</name></member>
+      <member refid="structthemis_1_1storage_1_1_distributed_operation_1af8945ca4856e02e05b377087ab496260" prot="public" virt="non-virtual"><scope>themis::storage::DistributedOperation</scope><name>shard_id</name></member>
+      <member refid="structthemis_1_1storage_1_1_distributed_operation_1a7e1c1a3f0f186c5f1f4c0e75c924e690" prot="public" virt="non-virtual"><scope>themis::storage::DistributedOperation</scope><name>Type</name></member>
+      <member refid="structthemis_1_1storage_1_1_distributed_operation_1ad647d329040a9f291d7aa650af27631a" prot="public" virt="non-virtual"><scope>themis::storage::DistributedOperation</scope><name>type</name></member>
+      <member refid="structthemis_1_1storage_1_1_distributed_operation_1a06fe56d0eea9d17a529f85209fcb4753" prot="public" virt="non-virtual"><scope>themis::storage::DistributedOperation</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1_scoped_g_p_u_range" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::ScopedGPURange</compoundname>
+    <includes refid="profiler_8h" local="no">profiler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_scoped_g_p_u_range_1a6d2ff1fa7438ffdf1685dd95151100ec" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_profiler" kindref="compound">GPUProfiler</ref> &amp;</type>
+        <definition>GPUProfiler&amp; themis::gpu::ScopedGPURange::profiler_</definition>
+        <argsstring></argsstring>
+        <name>profiler_</name>
+        <qualifiedname>themis::gpu::ScopedGPURange::profiler_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/profiler.h" line="191" column="17" bodyfile="include/themis/gpu/profiler.h" bodystart="191" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_scoped_g_p_u_range_1ad4af111ab217b845657a5493387826ee" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::ScopedGPURange::ScopedGPURange</definition>
+        <argsstring>(const std::string &amp;name, uint32_t argb_color=0xFF00FF00)</argsstring>
+        <name>ScopedGPURange</name>
+        <qualifiedname>themis::gpu::ScopedGPURange::ScopedGPURange</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>argb_color</declname>
+          <defval>0xFF00FF00</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/profiler.h" line="183" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_scoped_g_p_u_range_1a382b22babe9225a60e4c52b04d1d280b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::ScopedGPURange::~ScopedGPURange</definition>
+        <argsstring>()</argsstring>
+        <name>~ScopedGPURange</name>
+        <qualifiedname>themis::gpu::ScopedGPURange::~ScopedGPURange</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/profiler.h" line="185" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_scoped_g_p_u_range_1a99d9c8004a763de302fd42113a8e4ebc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::ScopedGPURange::ScopedGPURange</definition>
+        <argsstring>(const ScopedGPURange &amp;)=delete</argsstring>
+        <name>ScopedGPURange</name>
+        <qualifiedname>themis::gpu::ScopedGPURange::ScopedGPURange</qualifiedname>
+        <param>
+          <type>const ScopedGPURange &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/profiler.h" line="187" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_scoped_g_p_u_range_1a94c2d21c1f1d2f1aef1e173e5a37b250" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_scoped_g_p_u_range_1ad4af111ab217b845657a5493387826ee" kindref="member">ScopedGPURange</ref> &amp;</type>
+        <definition>ScopedGPURange &amp; themis::gpu::ScopedGPURange::operator=</definition>
+        <argsstring>(const ScopedGPURange &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::ScopedGPURange::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1gpu_1_1_scoped_g_p_u_range_1ad4af111ab217b845657a5493387826ee" kindref="member">ScopedGPURange</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/profiler.h" line="188" column="20"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RAII guard that pushes a named profiling range on construction and pops it on destruction. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Example: <programlisting filename=".cpp"><codeline><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>processQuery()<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_scoped_g_p_u_range_1ad4af111ab217b845657a5493387826ee" kindref="member">ScopedGPURange</ref><sp/>rng(</highlight><highlight class="stringliteral">&quot;processQuery&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>...</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/themis/gpu/profiler.h" line="181" column="1" bodyfile="include/themis/gpu/profiler.h" bodystart="181" bodyend="192"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1_scoped_g_p_u_range_1a94c2d21c1f1d2f1aef1e173e5a37b250" prot="public" virt="non-virtual"><scope>themis::gpu::ScopedGPURange</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1gpu_1_1_scoped_g_p_u_range_1a6d2ff1fa7438ffdf1685dd95151100ec" prot="private" virt="non-virtual"><scope>themis::gpu::ScopedGPURange</scope><name>profiler_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_scoped_g_p_u_range_1ad4af111ab217b845657a5493387826ee" prot="public" virt="non-virtual"><scope>themis::gpu::ScopedGPURange</scope><name>ScopedGPURange</name></member>
+      <member refid="classthemis_1_1gpu_1_1_scoped_g_p_u_range_1a99d9c8004a763de302fd42113a8e4ebc" prot="public" virt="non-virtual"><scope>themis::gpu::ScopedGPURange</scope><name>ScopedGPURange</name></member>
+      <member refid="classthemis_1_1gpu_1_1_scoped_g_p_u_range_1a382b22babe9225a60e4c52b04d1d280b" prot="public" virt="non-virtual"><scope>themis::gpu::ScopedGPURange</scope><name>~ScopedGPURange</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

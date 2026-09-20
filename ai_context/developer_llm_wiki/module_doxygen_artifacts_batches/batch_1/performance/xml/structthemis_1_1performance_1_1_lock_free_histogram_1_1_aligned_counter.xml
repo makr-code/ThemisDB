@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1_lock_free_histogram_1_1_aligned_counter" kind="struct" language="C++" prot="private">
+    <compoundname>themis::performance::LockFreeHistogram::AlignedCounter</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_lock_free_histogram_1_1_aligned_counter_1a7e2664819574471e81ddc4e17b643ac1" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::performance::LockFreeHistogram&lt; T, NumBuckets, Mode &gt;::AlignedCounter::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::performance::LockFreeHistogram::AlignedCounter::value</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lockfree_histogram.h" line="222" column="21" bodyfile="include/performance/lockfree_histogram.h" bodystart="222" bodyend="222"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1performance_1_1_lock_free_histogram_1_1_aligned_counter_1a6231f3576255dad85937c676ba82d84c" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::LockFreeHistogram&lt; T, NumBuckets, Mode &gt;::AlignedCounter::store</definition>
+        <argsstring>(uint64_t v, std::memory_order o) noexcept</argsstring>
+        <name>store</name>
+        <qualifiedname>themis::performance::LockFreeHistogram::AlignedCounter::store</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>v</declname>
+        </param>
+        <param>
+          <type>std::memory_order</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lockfree_histogram.h" line="223" column="14" bodyfile="include/performance/lockfree_histogram.h" bodystart="223" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1performance_1_1_lock_free_histogram_1_1_aligned_counter_1aab3b92af077535d5034faa0bd5c28fb6" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::LockFreeHistogram&lt; T, NumBuckets, Mode &gt;::AlignedCounter::load</definition>
+        <argsstring>(std::memory_order o) const noexcept</argsstring>
+        <name>load</name>
+        <qualifiedname>themis::performance::LockFreeHistogram::AlignedCounter::load</qualifiedname>
+        <param>
+          <type>std::memory_order</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lockfree_histogram.h" line="224" column="18" bodyfile="include/performance/lockfree_histogram.h" bodystart="224" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1performance_1_1_lock_free_histogram_1_1_aligned_counter_1a3ea79fc4a15781e08579d652256b539b" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::LockFreeHistogram&lt; T, NumBuckets, Mode &gt;::AlignedCounter::fetch_add</definition>
+        <argsstring>(uint64_t v, std::memory_order o) noexcept</argsstring>
+        <name>fetch_add</name>
+        <qualifiedname>themis::performance::LockFreeHistogram::AlignedCounter::fetch_add</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>v</declname>
+        </param>
+        <param>
+          <type>std::memory_order</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lockfree_histogram.h" line="225" column="18" bodyfile="include/performance/lockfree_histogram.h" bodystart="225" bodyend="227"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/lockfree_histogram.h" line="221" column="5" bodyfile="include/performance/lockfree_histogram.h" bodystart="221" bodyend="228"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1_lock_free_histogram_1_1_aligned_counter_1a3ea79fc4a15781e08579d652256b539b" prot="public" virt="non-virtual"><scope>themis::performance::LockFreeHistogram::AlignedCounter</scope><name>fetch_add</name></member>
+      <member refid="structthemis_1_1performance_1_1_lock_free_histogram_1_1_aligned_counter_1aab3b92af077535d5034faa0bd5c28fb6" prot="public" virt="non-virtual"><scope>themis::performance::LockFreeHistogram::AlignedCounter</scope><name>load</name></member>
+      <member refid="structthemis_1_1performance_1_1_lock_free_histogram_1_1_aligned_counter_1a6231f3576255dad85937c676ba82d84c" prot="public" virt="non-virtual"><scope>themis::performance::LockFreeHistogram::AlignedCounter</scope><name>store</name></member>
+      <member refid="structthemis_1_1performance_1_1_lock_free_histogram_1_1_aligned_counter_1a7e2664819574471e81ddc4e17b643ac1" prot="public" virt="non-virtual"><scope>themis::performance::LockFreeHistogram::AlignedCounter</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

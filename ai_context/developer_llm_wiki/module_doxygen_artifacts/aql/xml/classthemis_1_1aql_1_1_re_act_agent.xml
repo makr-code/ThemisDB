@@ -1,0 +1,389 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1_re_act_agent" kind="class" language="C++" prot="public">
+    <compoundname>themis::aql::ReActAgent</compoundname>
+    <basecompoundref refid="classthemis_1_1aql_1_1_i_agent" prot="public" virt="non-virtual">themis::aql::IAgent</basecompoundref>
+    <includes refid="aql__agent_8h" local="no">aql_agent.h</includes>
+    <innerclass refid="classthemis_1_1aql_1_1_re_act_agent_1_1_impl" prot="public">themis::aql::ReActAgent::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_re_act_agent_1a1bca1e098afe8052043d0124f4042eef" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1aql_1_1_re_act_agent_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::aql::ReActAgent::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::aql::ReActAgent::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_agent.h" line="165" column="21" bodyfile="include/aql/aql_agent.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_re_act_agent_1a4413207a4797b2156a4936dbbd6343c8" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::ReActAgent::ReActAgent</definition>
+        <argsstring>(std::shared_ptr&lt; LLMAQLHandler &gt; handler, const AgentConfig &amp;config=AgentConfig{})</argsstring>
+        <name>ReActAgent</name>
+        <qualifiedname>themis::aql::ReActAgent::ReActAgent</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler" kindref="compound">LLMAQLHandler</ref> &gt;</type>
+          <declname>handler</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1aql_1_1_agent_config" kindref="compound">AgentConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1aql_1_1_agent_config" kindref="compound">AgentConfig</ref>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_agent.h" line="127" column="14" bodyfile="src/aql/aql_agent.cpp" bodystart="357" bodyend="358"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_re_act_agent_1a63dbd471afe97421aa35e5d4eafd4bbb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::ReActAgent::~ReActAgent</definition>
+        <argsstring>() override</argsstring>
+        <name>~ReActAgent</name>
+        <qualifiedname>themis::aql::ReActAgent::~ReActAgent</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_agent.h" line="132" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_re_act_agent_1a5a7f92e65e8e9d5e8dd606980c58eae3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::ReActAgent::ReActAgent</definition>
+        <argsstring>(const ReActAgent &amp;)=delete</argsstring>
+        <name>ReActAgent</name>
+        <qualifiedname>themis::aql::ReActAgent::ReActAgent</qualifiedname>
+        <param>
+          <type>const ReActAgent &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_agent.h" line="135" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_re_act_agent_1a760cb3b83cb57d99ab516ada4a1c3304" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1aql_1_1_re_act_agent_1a4413207a4797b2156a4936dbbd6343c8" kindref="member">ReActAgent</ref> &amp;</type>
+        <definition>ReActAgent &amp; themis::aql::ReActAgent::operator=</definition>
+        <argsstring>(const ReActAgent &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::aql::ReActAgent::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1aql_1_1_re_act_agent_1a4413207a4797b2156a4936dbbd6343c8" kindref="member">ReActAgent</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_agent.h" line="136" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_re_act_agent_1a98e2fb7511a232136f014069928274a4" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::ReActAgent::ReActAgent</definition>
+        <argsstring>(ReActAgent &amp;&amp;) noexcept</argsstring>
+        <name>ReActAgent</name>
+        <qualifiedname>themis::aql::ReActAgent::ReActAgent</qualifiedname>
+        <param>
+          <type>ReActAgent &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_agent.h" line="137" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_re_act_agent_1a1ffa929b8d536285169512cc14c6e8a7" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1aql_1_1_re_act_agent_1a4413207a4797b2156a4936dbbd6343c8" kindref="member">ReActAgent</ref> &amp;</type>
+        <definition>ReActAgent &amp; themis::aql::ReActAgent::operator=</definition>
+        <argsstring>(ReActAgent &amp;&amp;) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::aql::ReActAgent::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1_re_act_agent_1a4413207a4797b2156a4936dbbd6343c8" kindref="member">ReActAgent</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_agent.h" line="138" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_re_act_agent_1a76bfc2e7781403f579040433361dd76b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1aql_1_1_agent_result" kindref="compound">AgentResult</ref></type>
+        <definition>AgentResult themis::aql::ReActAgent::execute</definition>
+        <argsstring>(const std::string &amp;task, const json &amp;context=json::object()) override</argsstring>
+        <name>execute</name>
+        <qualifiedname>themis::aql::ReActAgent::execute</qualifiedname>
+        <reimplements refid="classthemis_1_1aql_1_1_i_agent_1a62578d0254bec0ef950d02d58abb7b0e">execute</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1aql_1a33b74478135fa9f5b404669fed4bb549" kindref="member">json</ref> &amp;</type>
+          <declname>context</declname>
+          <defval>json::object()</defval>
+        </param>
+        <briefdescription>
+<para>Execute. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements execute without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_agent.h" line="141" column="17" bodyfile="src/aql/aql_agent.cpp" bodystart="372" bodyend="374"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_re_act_agent_1a1636ee5da6d353841e4aeb29396c7af5" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::aql::ReActAgent::registerTool</definition>
+        <argsstring>(const AgentTool &amp;tool) override</argsstring>
+        <name>registerTool</name>
+        <qualifiedname>themis::aql::ReActAgent::registerTool</qualifiedname>
+        <reimplements refid="classthemis_1_1aql_1_1_i_agent_1adc146842b634cccd5077e7ae94d9a7d0">registerTool</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1aql_1_1_agent_tool" kindref="compound">AgentTool</ref> &amp;</type>
+          <declname>tool</declname>
+        </param>
+        <briefdescription>
+<para>Register Tool. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tool</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements registerTool without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_agent.h" line="146" column="10" bodyfile="src/aql/aql_agent.cpp" bodystart="381" bodyend="383"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_re_act_agent_1ae0dd33147e41c5b16f837744417a94ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::aql::ReActAgent::removeTool</definition>
+        <argsstring>(const std::string &amp;name) override</argsstring>
+        <name>removeTool</name>
+        <qualifiedname>themis::aql::ReActAgent::removeTool</qualifiedname>
+        <reimplements refid="classthemis_1_1aql_1_1_i_agent_1a234a53a1e0ecc26a8f21df540efa8438">removeTool</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Remove Tool. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements removeTool without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_agent.h" line="147" column="10" bodyfile="src/aql/aql_agent.cpp" bodystart="390" bodyend="392"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_re_act_agent_1acff63ec87d6f09bf908bf8ee6c207d18" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1aql_1_1_agent_tool" kindref="compound">AgentTool</ref> &gt;</type>
+        <definition>std::vector&lt; AgentTool &gt; themis::aql::ReActAgent::getTools</definition>
+        <argsstring>() const override</argsstring>
+        <name>getTools</name>
+        <qualifiedname>themis::aql::ReActAgent::getTools</qualifiedname>
+        <reimplements refid="classthemis_1_1aql_1_1_i_agent_1a554863abf058e4cc831c76e0e587730d">getTools</reimplements>
+        <briefdescription>
+<para>Get Tools. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_agent.h" line="148" column="17" bodyfile="src/aql/aql_agent.cpp" bodystart="394" bodyend="396"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_re_act_agent_1a4f104858bbbe20c612024d677849b861" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::aql::ReActAgent::hasTool</definition>
+        <argsstring>(const std::string &amp;name) const override</argsstring>
+        <name>hasTool</name>
+        <qualifiedname>themis::aql::ReActAgent::hasTool</qualifiedname>
+        <reimplements refid="classthemis_1_1aql_1_1_i_agent_1abd1a8cf879a54d88f3206b82c2521360">hasTool</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Has Tool. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_agent.h" line="149" column="10" bodyfile="src/aql/aql_agent.cpp" bodystart="398" bodyend="400"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_re_act_agent_1a663765a9831c10872d3f33c18059d84f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::ReActAgent::setConfig</definition>
+        <argsstring>(const AgentConfig &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::aql::ReActAgent::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1aql_1_1_agent_config" kindref="compound">AgentConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Set Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setConfig without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_agent.h" line="155" column="10" bodyfile="src/aql/aql_agent.cpp" bodystart="407" bodyend="409"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_re_act_agent_1af12e168737be443cb7276faa42393b48" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1aql_1_1_agent_config" kindref="compound">AgentConfig</ref> &amp;</type>
+        <definition>const AgentConfig &amp; themis::aql::ReActAgent::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::aql::ReActAgent::getConfig</qualifiedname>
+        <briefdescription>
+<para>Get Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_agent.h" line="161" column="23" bodyfile="src/aql/aql_agent.cpp" bodystart="411" bodyend="413"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::aql::IAgent</label>
+        <link refid="classthemis_1_1aql_1_1_i_agent"/>
+      </node>
+      <node id="1">
+        <label>themis::aql::ReActAgent</label>
+        <link refid="classthemis_1_1aql_1_1_re_act_agent"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::aql::IAgent</label>
+        <link refid="classthemis_1_1aql_1_1_i_agent"/>
+      </node>
+      <node id="1">
+        <label>themis::aql::ReActAgent</label>
+        <link refid="classthemis_1_1aql_1_1_re_act_agent"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/aql/aql_agent.h" line="125" column="1" bodyfile="include/aql/aql_agent.h" bodystart="125" bodyend="166"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1_re_act_agent_1a76bfc2e7781403f579040433361dd76b" prot="public" virt="virtual"><scope>themis::aql::ReActAgent</scope><name>execute</name></member>
+      <member refid="classthemis_1_1aql_1_1_re_act_agent_1af12e168737be443cb7276faa42393b48" prot="public" virt="non-virtual"><scope>themis::aql::ReActAgent</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1aql_1_1_re_act_agent_1acff63ec87d6f09bf908bf8ee6c207d18" prot="public" virt="virtual"><scope>themis::aql::ReActAgent</scope><name>getTools</name></member>
+      <member refid="classthemis_1_1aql_1_1_re_act_agent_1a4f104858bbbe20c612024d677849b861" prot="public" virt="virtual"><scope>themis::aql::ReActAgent</scope><name>hasTool</name></member>
+      <member refid="classthemis_1_1aql_1_1_re_act_agent_1a1bca1e098afe8052043d0124f4042eef" prot="private" virt="non-virtual"><scope>themis::aql::ReActAgent</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1aql_1_1_re_act_agent_1a760cb3b83cb57d99ab516ada4a1c3304" prot="public" virt="non-virtual"><scope>themis::aql::ReActAgent</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1aql_1_1_re_act_agent_1a1ffa929b8d536285169512cc14c6e8a7" prot="public" virt="non-virtual"><scope>themis::aql::ReActAgent</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1aql_1_1_re_act_agent_1a4413207a4797b2156a4936dbbd6343c8" prot="public" virt="non-virtual"><scope>themis::aql::ReActAgent</scope><name>ReActAgent</name></member>
+      <member refid="classthemis_1_1aql_1_1_re_act_agent_1a5a7f92e65e8e9d5e8dd606980c58eae3" prot="public" virt="non-virtual"><scope>themis::aql::ReActAgent</scope><name>ReActAgent</name></member>
+      <member refid="classthemis_1_1aql_1_1_re_act_agent_1a98e2fb7511a232136f014069928274a4" prot="public" virt="non-virtual"><scope>themis::aql::ReActAgent</scope><name>ReActAgent</name></member>
+      <member refid="classthemis_1_1aql_1_1_re_act_agent_1a1636ee5da6d353841e4aeb29396c7af5" prot="public" virt="virtual"><scope>themis::aql::ReActAgent</scope><name>registerTool</name></member>
+      <member refid="classthemis_1_1aql_1_1_re_act_agent_1ae0dd33147e41c5b16f837744417a94ca" prot="public" virt="virtual"><scope>themis::aql::ReActAgent</scope><name>removeTool</name></member>
+      <member refid="classthemis_1_1aql_1_1_re_act_agent_1a663765a9831c10872d3f33c18059d84f" prot="public" virt="non-virtual"><scope>themis::aql::ReActAgent</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1aql_1_1_i_agent_1a3dd94b836aabaf986d3863291d9afe8b" prot="public" virt="virtual"><scope>themis::aql::ReActAgent</scope><name>~IAgent</name></member>
+      <member refid="classthemis_1_1aql_1_1_re_act_agent_1a63dbd471afe97421aa35e5d4eafd4bbb" prot="public" virt="non-virtual"><scope>themis::aql::ReActAgent</scope><name>~ReActAgent</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

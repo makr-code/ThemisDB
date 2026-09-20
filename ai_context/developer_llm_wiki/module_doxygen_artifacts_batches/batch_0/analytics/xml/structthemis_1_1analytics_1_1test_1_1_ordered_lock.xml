@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1analytics_1_1test_1_1_ordered_lock" kind="struct" language="C++" prot="public">
+    <compoundname>themis::analytics::test::OrderedLock</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1test_1_1_ordered_lock_1ac6f76d0dbee209726bb5708ce462fd09" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::analytics::test::OrderedLock::lock_id</definition>
+        <argsstring></argsstring>
+        <name>lock_id</name>
+        <qualifiedname>themis::analytics::test::OrderedLock::lock_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_concurrency_safety_focused.cpp" line="65" column="9" bodyfile="tests/analytics/test_analytics_concurrency_safety_focused.cpp" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1test_1_1_ordered_lock_1a316dda5526273f3206c266c8c2748d41" prot="public" static="no" mutable="yes">
+        <type>std::timed_mutex</type>
+        <definition>std::timed_mutex themis::analytics::test::OrderedLock::mtx</definition>
+        <argsstring></argsstring>
+        <name>mtx</name>
+        <qualifiedname>themis::analytics::test::OrderedLock::mtx</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_concurrency_safety_focused.cpp" line="66" column="30" bodyfile="tests/analytics/test_analytics_concurrency_safety_focused.cpp" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1test_1_1_ordered_lock_1a79189dc01155132a44e053129f7618ce" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::analytics::test::OrderedLock::acquisition_order</definition>
+        <argsstring></argsstring>
+        <name>acquisition_order</name>
+        <qualifiedname>themis::analytics::test::OrderedLock::acquisition_order</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_concurrency_safety_focused.cpp" line="67" column="9" bodyfile="tests/analytics/test_analytics_concurrency_safety_focused.cpp" bodystart="67" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1analytics_1_1test_1_1_ordered_lock_1acff27cef22451d6f46fd0eabf82c81b2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::OrderedLock::OrderedLock</definition>
+        <argsstring>(int id)</argsstring>
+        <name>OrderedLock</name>
+        <qualifiedname>themis::analytics::test::OrderedLock::OrderedLock</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_concurrency_safety_focused.cpp" line="69" column="5" bodyfile="tests/analytics/test_analytics_concurrency_safety_focused.cpp" bodystart="69" bodyend="69"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Represents a lock with ID for ordering verification. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/analytics/test_analytics_concurrency_safety_focused.cpp" line="64" column="1" bodyfile="tests/analytics/test_analytics_concurrency_safety_focused.cpp" bodystart="64" bodyend="70"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1analytics_1_1test_1_1_ordered_lock_1a79189dc01155132a44e053129f7618ce" prot="public" virt="non-virtual"><scope>themis::analytics::test::OrderedLock</scope><name>acquisition_order</name></member>
+      <member refid="structthemis_1_1analytics_1_1test_1_1_ordered_lock_1ac6f76d0dbee209726bb5708ce462fd09" prot="public" virt="non-virtual"><scope>themis::analytics::test::OrderedLock</scope><name>lock_id</name></member>
+      <member refid="structthemis_1_1analytics_1_1test_1_1_ordered_lock_1a316dda5526273f3206c266c8c2748d41" prot="public" virt="non-virtual"><scope>themis::analytics::test::OrderedLock</scope><name>mtx</name></member>
+      <member refid="structthemis_1_1analytics_1_1test_1_1_ordered_lock_1acff27cef22451d6f46fd0eabf82c81b2" prot="public" virt="non-virtual"><scope>themis::analytics::test::OrderedLock</scope><name>OrderedLock</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

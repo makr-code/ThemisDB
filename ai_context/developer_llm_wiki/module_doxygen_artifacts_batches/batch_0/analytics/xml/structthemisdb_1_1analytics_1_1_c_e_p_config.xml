@@ -1,0 +1,208 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_c_e_p_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::CEPConfig</compoundname>
+    <includes refid="cep__engine_8h" local="no">cep_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_c_e_p_config_1ae7a0e6d2bfdd427656f373b56861137c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::CEPConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themisdb::analytics::CEPConfig::enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="373" column="10" bodyfile="include/analytics/cep_engine.h" bodystart="373" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_c_e_p_config_1ae48fa2774d4f91b9ce6df981bd0572c9" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::analytics::CEPConfig::worker_threads</definition>
+        <argsstring></argsstring>
+        <name>worker_threads</name>
+        <qualifiedname>themisdb::analytics::CEPConfig::worker_threads</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="376" column="14" bodyfile="include/analytics/cep_engine.h" bodystart="376" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_c_e_p_config_1ac0efdff9660d1a203e74140764b9072a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::analytics::CEPConfig::io_threads</definition>
+        <argsstring></argsstring>
+        <name>io_threads</name>
+        <qualifiedname>themisdb::analytics::CEPConfig::io_threads</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="377" column="14" bodyfile="include/analytics/cep_engine.h" bodystart="377" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_c_e_p_config_1a8a190505f2ae2ac139b3b0fa811e71f7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::CEPConfig::checkpointing_enabled</definition>
+        <argsstring></argsstring>
+        <name>checkpointing_enabled</name>
+        <qualifiedname>themisdb::analytics::CEPConfig::checkpointing_enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="380" column="10" bodyfile="include/analytics/cep_engine.h" bodystart="380" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_c_e_p_config_1a151d0d1a0e124e1c270a63a738fe3256" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::CEPConfig::checkpoint_path</definition>
+        <argsstring></argsstring>
+        <name>checkpoint_path</name>
+        <qualifiedname>themisdb::analytics::CEPConfig::checkpoint_path</qualifiedname>
+        <initializer>= &quot;/var/lib/<ref refid="namespacethemisdb" kindref="compound">themisdb</ref>/cep/checkpoints&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="381" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="381" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_c_e_p_config_1a7ae544b91f8bfcbc49ac272775b9be55" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::analytics::CEPConfig::checkpoint_interval</definition>
+        <argsstring></argsstring>
+        <name>checkpoint_interval</name>
+        <qualifiedname>themisdb::analytics::CEPConfig::checkpoint_interval</qualifiedname>
+        <initializer>{<ref refid="namespacethemisdb_1_1analytics_1af0ced0944da68f57df76e7979f572df1" kindref="member">DEFAULT_CHECKPOINT_INTERVAL_MS</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="382" column="31" bodyfile="include/analytics/cep_engine.h" bodystart="382" bodyend="382"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_c_e_p_config_1a34f0c3bea19e9309fd53847e72749c2f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::analytics::CEPConfig::max_state_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_state_size_bytes</name>
+        <qualifiedname>themisdb::analytics::CEPConfig::max_state_size_bytes</qualifiedname>
+        <initializer>= 1024 * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="385" column="12" bodyfile="include/analytics/cep_engine.h" bodystart="385" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_c_e_p_config_1abac6bca7e928bbf38f50718a61d75f04" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::CEPConfig::backpressure_enabled</definition>
+        <argsstring></argsstring>
+        <name>backpressure_enabled</name>
+        <qualifiedname>themisdb::analytics::CEPConfig::backpressure_enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="388" column="10" bodyfile="include/analytics/cep_engine.h" bodystart="388" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_c_e_p_config_1ac9ebb19d0b683e2579c4fbda49cc7ef3" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themisdb::analytics::CEPConfig::global_backpressure_threshold</definition>
+        <argsstring></argsstring>
+        <name>global_backpressure_threshold</name>
+        <qualifiedname>themisdb::analytics::CEPConfig::global_backpressure_threshold</qualifiedname>
+        <initializer>= 0.9f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="389" column="11" bodyfile="include/analytics/cep_engine.h" bodystart="389" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_c_e_p_config_1a9f14db15c4c1099776a6511b1028d735" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::analytics::CEPConfig::max_queue_depth</definition>
+        <argsstring></argsstring>
+        <name>max_queue_depth</name>
+        <qualifiedname>themisdb::analytics::CEPConfig::max_queue_depth</qualifiedname>
+        <initializer>= 65536</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="390" column="12" bodyfile="include/analytics/cep_engine.h" bodystart="390" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_c_e_p_config_1a090450aeb49dd7e9061ca78bf14a8027" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::CEPConfig::metrics_enabled</definition>
+        <argsstring></argsstring>
+        <name>metrics_enabled</name>
+        <qualifiedname>themisdb::analytics::CEPConfig::metrics_enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="393" column="10" bodyfile="include/analytics/cep_engine.h" bodystart="393" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_c_e_p_config_1aab1888dce7bdd504d6f5d1563907c871" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::analytics::CEPConfig::metrics_interval</definition>
+        <argsstring></argsstring>
+        <name>metrics_interval</name>
+        <qualifiedname>themisdb::analytics::CEPConfig::metrics_interval</qualifiedname>
+        <initializer>{5000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="394" column="31" bodyfile="include/analytics/cep_engine.h" bodystart="394" bodyend="394"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/cep_engine.h" line="372" column="1" bodyfile="include/analytics/cep_engine.h" bodystart="372" bodyend="395"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_c_e_p_config_1abac6bca7e928bbf38f50718a61d75f04" prot="public" virt="non-virtual"><scope>themisdb::analytics::CEPConfig</scope><name>backpressure_enabled</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_c_e_p_config_1a7ae544b91f8bfcbc49ac272775b9be55" prot="public" virt="non-virtual"><scope>themisdb::analytics::CEPConfig</scope><name>checkpoint_interval</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_c_e_p_config_1a151d0d1a0e124e1c270a63a738fe3256" prot="public" virt="non-virtual"><scope>themisdb::analytics::CEPConfig</scope><name>checkpoint_path</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_c_e_p_config_1a8a190505f2ae2ac139b3b0fa811e71f7" prot="public" virt="non-virtual"><scope>themisdb::analytics::CEPConfig</scope><name>checkpointing_enabled</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_c_e_p_config_1ae7a0e6d2bfdd427656f373b56861137c" prot="public" virt="non-virtual"><scope>themisdb::analytics::CEPConfig</scope><name>enabled</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_c_e_p_config_1ac9ebb19d0b683e2579c4fbda49cc7ef3" prot="public" virt="non-virtual"><scope>themisdb::analytics::CEPConfig</scope><name>global_backpressure_threshold</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_c_e_p_config_1ac0efdff9660d1a203e74140764b9072a" prot="public" virt="non-virtual"><scope>themisdb::analytics::CEPConfig</scope><name>io_threads</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_c_e_p_config_1a9f14db15c4c1099776a6511b1028d735" prot="public" virt="non-virtual"><scope>themisdb::analytics::CEPConfig</scope><name>max_queue_depth</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_c_e_p_config_1a34f0c3bea19e9309fd53847e72749c2f" prot="public" virt="non-virtual"><scope>themisdb::analytics::CEPConfig</scope><name>max_state_size_bytes</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_c_e_p_config_1a090450aeb49dd7e9061ca78bf14a8027" prot="public" virt="non-virtual"><scope>themisdb::analytics::CEPConfig</scope><name>metrics_enabled</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_c_e_p_config_1aab1888dce7bdd504d6f5d1563907c871" prot="public" virt="non-virtual"><scope>themisdb::analytics::CEPConfig</scope><name>metrics_interval</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_c_e_p_config_1ae48fa2774d4f91b9ce6df981bd0572c9" prot="public" virt="non-virtual"><scope>themisdb::analytics::CEPConfig</scope><name>worker_threads</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

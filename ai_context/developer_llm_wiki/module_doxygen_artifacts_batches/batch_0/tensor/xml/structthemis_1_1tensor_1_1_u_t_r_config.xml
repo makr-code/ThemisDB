@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1tensor_1_1_u_t_r_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::tensor::UTRConfig</compoundname>
+    <includes refid="utr__converter_8h" local="no">utr_converter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_u_t_r_config_1a50f85ef38898c7eca44ce59029f37b19" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::tensor::UTRConfig::eps</definition>
+        <argsstring></argsstring>
+        <name>eps</name>
+        <qualifiedname>themis::tensor::UTRConfig::eps</qualifiedname>
+        <initializer>= 0.01</initializer>
+        <briefdescription>
+<para>TT/HT reconstruction error tolerance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/utr_converter.h" line="65" column="17" bodyfile="include/tensor/utr_converter.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_u_t_r_config_1af7c17635ebfa4d609f1c7d5a040deffe" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::UTRConfig::max_rank</definition>
+        <argsstring></argsstring>
+        <name>max_rank</name>
+        <qualifiedname>themis::tensor::UTRConfig::max_rank</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+<para>Hard cap on TT/HT rank. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/utr_converter.h" line="66" column="17" bodyfile="include/tensor/utr_converter.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_u_t_r_config_1ab783803a34d4eb05ed75d1e4f5713725" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::UTRConfig::embed_dim</definition>
+        <argsstring></argsstring>
+        <name>embed_dim</name>
+        <qualifiedname>themis::tensor::UTRConfig::embed_dim</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+<para>Embedding dimension for document tokens. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/utr_converter.h" line="67" column="17" bodyfile="include/tensor/utr_converter.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_u_t_r_config_1a044b5d2b0378220044c8c0b2055de564" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::UTRConfig::max_segments</definition>
+        <argsstring></argsstring>
+        <name>max_segments</name>
+        <qualifiedname>themis::tensor::UTRConfig::max_segments</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+<para>Maximum text segments per document. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/utr_converter.h" line="68" column="17" bodyfile="include/tensor/utr_converter.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_u_t_r_config_1a45be9b4c6cdb35a9296e3e640bd3485a" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::UTRConfig::bucket_count</definition>
+        <argsstring></argsstring>
+        <name>bucket_count</name>
+        <qualifiedname>themis::tensor::UTRConfig::bucket_count</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+<para>Buckets per column for tabular data. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/utr_converter.h" line="69" column="17" bodyfile="include/tensor/utr_converter.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/tensor/utr_converter.h" line="64" column="1" bodyfile="include/tensor/utr_converter.h" bodystart="64" bodyend="70"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1tensor_1_1_u_t_r_config_1a45be9b4c6cdb35a9296e3e640bd3485a" prot="public" virt="non-virtual"><scope>themis::tensor::UTRConfig</scope><name>bucket_count</name></member>
+      <member refid="structthemis_1_1tensor_1_1_u_t_r_config_1ab783803a34d4eb05ed75d1e4f5713725" prot="public" virt="non-virtual"><scope>themis::tensor::UTRConfig</scope><name>embed_dim</name></member>
+      <member refid="structthemis_1_1tensor_1_1_u_t_r_config_1a50f85ef38898c7eca44ce59029f37b19" prot="public" virt="non-virtual"><scope>themis::tensor::UTRConfig</scope><name>eps</name></member>
+      <member refid="structthemis_1_1tensor_1_1_u_t_r_config_1af7c17635ebfa4d609f1c7d5a040deffe" prot="public" virt="non-virtual"><scope>themis::tensor::UTRConfig</scope><name>max_rank</name></member>
+      <member refid="structthemis_1_1tensor_1_1_u_t_r_config_1a044b5d2b0378220044c8c0b2055de564" prot="public" virt="non-virtual"><scope>themis::tensor::UTRConfig</scope><name>max_segments</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

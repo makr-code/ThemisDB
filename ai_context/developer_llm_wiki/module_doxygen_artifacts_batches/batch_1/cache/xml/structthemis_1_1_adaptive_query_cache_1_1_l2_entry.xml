@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_adaptive_query_cache_1_1_l2_entry" kind="struct" language="C++" prot="private">
+    <compoundname>themis::AdaptiveQueryCache::L2Entry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_query_cache_1_1_l2_entry_1a105ee43218b918c126c02b1cf81e3b77" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::AdaptiveQueryCache::L2Entry::compressed_result</definition>
+        <argsstring></argsstring>
+        <name>compressed_result</name>
+        <qualifiedname>themis::AdaptiveQueryCache::L2Entry::compressed_result</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="418" column="21" bodyfile="include/cache/adaptive_query_cache.h" bodystart="418" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_query_cache_1_1_l2_entry_1a9b13afb4a84c3a3a2b00dad117333e62" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::AdaptiveQueryCache::L2Entry::created_at_ms</definition>
+        <argsstring></argsstring>
+        <name>created_at_ms</name>
+        <qualifiedname>themis::AdaptiveQueryCache::L2Entry::created_at_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="419" column="17" bodyfile="include/cache/adaptive_query_cache.h" bodystart="419" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_query_cache_1_1_l2_entry_1acd4576416a0e46e20d56a2efe9ecb6ba" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::AdaptiveQueryCache::L2Entry::last_accessed_ms</definition>
+        <argsstring></argsstring>
+        <name>last_accessed_ms</name>
+        <qualifiedname>themis::AdaptiveQueryCache::L2Entry::last_accessed_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="420" column="17" bodyfile="include/cache/adaptive_query_cache.h" bodystart="420" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_query_cache_1_1_l2_entry_1a78c20e875dd7c635665099482abe5749" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::AdaptiveQueryCache::L2Entry::access_count</definition>
+        <argsstring></argsstring>
+        <name>access_count</name>
+        <qualifiedname>themis::AdaptiveQueryCache::L2Entry::access_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="421" column="17" bodyfile="include/cache/adaptive_query_cache.h" bodystart="421" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_query_cache_1_1_l2_entry_1a6c8cbd614abfd9fcbc73161e99476e41" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::AdaptiveQueryCache::L2Entry::ttl_seconds</definition>
+        <argsstring></argsstring>
+        <name>ttl_seconds</name>
+        <qualifiedname>themis::AdaptiveQueryCache::L2Entry::ttl_seconds</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="422" column="13" bodyfile="include/cache/adaptive_query_cache.h" bodystart="422" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_query_cache_1_1_l2_entry_1ac34604a97c3c47b7c1edd1536de709aa" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::AdaptiveQueryCache::L2Entry::window_start_ms</definition>
+        <argsstring></argsstring>
+        <name>window_start_ms</name>
+        <qualifiedname>themis::AdaptiveQueryCache::L2Entry::window_start_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="424" column="17" bodyfile="include/cache/adaptive_query_cache.h" bodystart="424" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_query_cache_1_1_l2_entry_1a6f79ff2fc436e59fb30ffc3ed4848390" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::AdaptiveQueryCache::L2Entry::window_count</definition>
+        <argsstring></argsstring>
+        <name>window_count</name>
+        <qualifiedname>themis::AdaptiveQueryCache::L2Entry::window_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="425" column="18" bodyfile="include/cache/adaptive_query_cache.h" bodystart="425" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/adaptive_query_cache.h" line="417" column="5" bodyfile="include/cache/adaptive_query_cache.h" bodystart="417" bodyend="426"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_adaptive_query_cache_1_1_l2_entry_1a78c20e875dd7c635665099482abe5749" prot="public" virt="non-virtual"><scope>themis::AdaptiveQueryCache::L2Entry</scope><name>access_count</name></member>
+      <member refid="structthemis_1_1_adaptive_query_cache_1_1_l2_entry_1a105ee43218b918c126c02b1cf81e3b77" prot="public" virt="non-virtual"><scope>themis::AdaptiveQueryCache::L2Entry</scope><name>compressed_result</name></member>
+      <member refid="structthemis_1_1_adaptive_query_cache_1_1_l2_entry_1a9b13afb4a84c3a3a2b00dad117333e62" prot="public" virt="non-virtual"><scope>themis::AdaptiveQueryCache::L2Entry</scope><name>created_at_ms</name></member>
+      <member refid="structthemis_1_1_adaptive_query_cache_1_1_l2_entry_1acd4576416a0e46e20d56a2efe9ecb6ba" prot="public" virt="non-virtual"><scope>themis::AdaptiveQueryCache::L2Entry</scope><name>last_accessed_ms</name></member>
+      <member refid="structthemis_1_1_adaptive_query_cache_1_1_l2_entry_1a6c8cbd614abfd9fcbc73161e99476e41" prot="public" virt="non-virtual"><scope>themis::AdaptiveQueryCache::L2Entry</scope><name>ttl_seconds</name></member>
+      <member refid="structthemis_1_1_adaptive_query_cache_1_1_l2_entry_1a6f79ff2fc436e59fb30ffc3ed4848390" prot="public" virt="non-virtual"><scope>themis::AdaptiveQueryCache::L2Entry</scope><name>window_count</name></member>
+      <member refid="structthemis_1_1_adaptive_query_cache_1_1_l2_entry_1ac34604a97c3c47b7c1edd1536de709aa" prot="public" virt="non-virtual"><scope>themis::AdaptiveQueryCache::L2Entry</scope><name>window_start_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

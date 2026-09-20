@@ -1,0 +1,193 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1training_1_1_confidence_calibrator" kind="class" language="C++" prot="public">
+    <compoundname>themis::training::ConfidenceCalibrator</compoundname>
+    <includes refid="training__pipeline_8h" local="no">training_pipeline.h</includes>
+    <innerclass refid="structthemis_1_1training_1_1_confidence_calibrator_1_1_sample" prot="private">themis::training::ConfidenceCalibrator::Sample</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_confidence_calibrator_1ab84412e32d49568b79e1c17336de3fac" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; Sample &gt;</type>
+        <definition>std::vector&lt;Sample&gt; themis::training::ConfidenceCalibrator::samples_</definition>
+        <argsstring></argsstring>
+        <name>samples_</name>
+        <qualifiedname>themis::training::ConfidenceCalibrator::samples_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="181" column="17" bodyfile="include/training/training_pipeline.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1training_1_1_confidence_calibrator_1ac97f0e6716fe84882c1c42710da8e511" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::ConfidenceCalibrator::ConfidenceCalibrator</definition>
+        <argsstring>()=default</argsstring>
+        <name>ConfidenceCalibrator</name>
+        <qualifiedname>themis::training::ConfidenceCalibrator::ConfidenceCalibrator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="149" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_confidence_calibrator_1a33123e583665a709f59bbedd612e1a96" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::ConfidenceCalibrator::addSample</definition>
+        <argsstring>(const std::string &amp;category, float confidence, bool model_correct)</argsstring>
+        <name>addSample</name>
+        <qualifiedname>themis::training::ConfidenceCalibrator::addSample</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>category</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>confidence</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>model_correct</declname>
+        </param>
+        <briefdescription>
+<para>Record a validation sample for calibration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ <ref refid="classthemis_1_1training_1_1_confidence_calibrator" kindref="compound">ConfidenceCalibrator</ref> implementation (Phase 3 – isotonic regression / PAV) ============================================================================</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>category</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Legal category of the sample. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>confidence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Model confidence score in [0, 1]. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>model_correct</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the model produced the correct label.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">category</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">confidence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_correct</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="157" column="10" bodyfile="src/training/training_pipeline.cpp" bodystart="817" bodyend="821"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_confidence_calibrator_1a5b94985c22d3e1ab1149d12060ad3f27" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_calibration_result" kindref="compound">CalibrationResult</ref></type>
+        <definition>CalibrationResult themis::training::ConfidenceCalibrator::calibrate</definition>
+        <argsstring>() const</argsstring>
+        <name>calibrate</name>
+        <qualifiedname>themis::training::ConfidenceCalibrator::calibrate</qualifiedname>
+        <briefdescription>
+<para>Compute calibrated thresholds using isotonic regression (PAV). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>For each category, fits a monotone non-decreasing step function to the (confidence → correct) pairs and selects the threshold that maximises F1.</para>
+<para><simplesect kind="return"><para>Calibration result with per-category thresholds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="167" column="23" bodyfile="src/training/training_pipeline.cpp" bodystart="823" bodyend="951"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_confidence_calibrator_1afca6193ba7c9af84db7db5d1fa3cf2d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::ConfidenceCalibrator::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::training::ConfidenceCalibrator::reset</qualifiedname>
+        <briefdescription>
+<para>Reset all accumulated samples. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset the modification detection flag.</para>
+<para>Calls: clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="172" column="10" bodyfile="src/training/training_pipeline.cpp" bodystart="957" bodyend="959"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_confidence_calibrator_1aa86f663728ac8ee191900a408f13f67e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::training::ConfidenceCalibrator::sampleCount</definition>
+        <argsstring>() const</argsstring>
+        <name>sampleCount</name>
+        <qualifiedname>themis::training::ConfidenceCalibrator::sampleCount</qualifiedname>
+        <briefdescription>
+<para>Number of samples accumulated so far. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="177" column="12" bodyfile="src/training/training_pipeline.cpp" bodystart="961" bodyend="963"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Isotonic-regression-based per-category confidence calibrator. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Consumes per-sample (confidence, model_correct) pairs produced by the validation loop in <ref refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer" kindref="compound">IncrementalLoRATrainer</ref> and computes optimal per-category thresholds using the Pool Adjacent Violators (PAV) algorithm.</para>
+<para>Calibrated thresholds are stored alongside the LoRA checkpoint in <computeroutput>calibration_manifest.json</computeroutput>.</para>
+<para>Example usage: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1training_1_1_confidence_calibrator_1ac97f0e6716fe84882c1c42710da8e511" kindref="member">ConfidenceCalibrator</ref><sp/>calibrator;</highlight></codeline>
+<codeline><highlight class="normal">calibrator.addSample(</highlight><highlight class="stringliteral">&quot;obligation&quot;</highlight><highlight class="normal">,<sp/>0.82f,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">calibrator.addSample(</highlight><highlight class="stringliteral">&quot;obligation&quot;</highlight><highlight class="normal">,<sp/>0.41f,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>...<sp/>add<sp/>more<sp/>samples</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>calibrator.calibrate();</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>t<sp/>:<sp/>result.thresholds)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/>t.category<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>-&gt;<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>t.threshold<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/training/training_pipeline.h" line="147" column="1" bodyfile="include/training/training_pipeline.h" bodystart="147" bodyend="182"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1training_1_1_confidence_calibrator_1a33123e583665a709f59bbedd612e1a96" prot="public" virt="non-virtual"><scope>themis::training::ConfidenceCalibrator</scope><name>addSample</name></member>
+      <member refid="classthemis_1_1training_1_1_confidence_calibrator_1a5b94985c22d3e1ab1149d12060ad3f27" prot="public" virt="non-virtual"><scope>themis::training::ConfidenceCalibrator</scope><name>calibrate</name></member>
+      <member refid="classthemis_1_1training_1_1_confidence_calibrator_1ac97f0e6716fe84882c1c42710da8e511" prot="public" virt="non-virtual"><scope>themis::training::ConfidenceCalibrator</scope><name>ConfidenceCalibrator</name></member>
+      <member refid="classthemis_1_1training_1_1_confidence_calibrator_1afca6193ba7c9af84db7db5d1fa3cf2d3" prot="public" virt="non-virtual"><scope>themis::training::ConfidenceCalibrator</scope><name>reset</name></member>
+      <member refid="classthemis_1_1training_1_1_confidence_calibrator_1aa86f663728ac8ee191900a408f13f67e" prot="public" virt="non-virtual"><scope>themis::training::ConfidenceCalibrator</scope><name>sampleCount</name></member>
+      <member refid="classthemis_1_1training_1_1_confidence_calibrator_1ab84412e32d49568b79e1c17336de3fac" prot="private" virt="non-virtual"><scope>themis::training::ConfidenceCalibrator</scope><name>samples_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,247 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_tensor_router_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::TensorRouter::Impl</compoundname>
+    <innerclass refid="structthemis_1_1storage_1_1_tensor_router_1_1_impl_1_1_pilot_result" prot="public">themis::storage::TensorRouter::Impl::PilotResult</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tensor_router_1_1_impl_1a0f21cd2784e6a0347c9aa1b6aa6255ac" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1storage_1_1_tensor_network_storage_engine" kindref="compound">TensorNetworkStorageEngine</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;TensorNetworkStorageEngine&gt; themis::storage::TensorRouter::Impl::engine</definition>
+        <argsstring></argsstring>
+        <name>engine</name>
+        <qualifiedname>themis::storage::TensorRouter::Impl::engine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/tensor_router.cpp" line="106" column="23" bodyfile="src/storage/tensor_router.cpp" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tensor_router_1_1_impl_1a5fc5b8ac7403dbd6b75bad6a9d061c70" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1storage_1_1_tensor_routing_policy" kindref="compound">TensorRoutingPolicy</ref></type>
+        <definition>TensorRoutingPolicy themis::storage::TensorRouter::Impl::policy</definition>
+        <argsstring></argsstring>
+        <name>policy</name>
+        <qualifiedname>themis::storage::TensorRouter::Impl::policy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/tensor_router.cpp" line="107" column="51" bodyfile="src/storage/tensor_router.cpp" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tensor_router_1_1_impl_1a9d4a161c6bc60ef70bcba810886b33ef" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1storage_1_1_tensor_train_decomposer" kindref="compound">TensorTrainDecomposer</ref></type>
+        <definition>TensorTrainDecomposer themis::storage::TensorRouter::Impl::decomposer</definition>
+        <argsstring></argsstring>
+        <name>decomposer</name>
+        <qualifiedname>themis::storage::TensorRouter::Impl::decomposer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/tensor_router.cpp" line="108" column="51" bodyfile="src/storage/tensor_router.cpp" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tensor_router_1_1_impl_1a71493ced340d752201472e0d67208800" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; tensor::TemplateCatalog &gt;</type>
+        <definition>std::shared_ptr&lt;tensor::TemplateCatalog&gt; themis::storage::TensorRouter::Impl::template_catalog</definition>
+        <argsstring></argsstring>
+        <name>template_catalog</name>
+        <qualifiedname>themis::storage::TensorRouter::Impl::template_catalog</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/tensor_router.cpp" line="109" column="26" bodyfile="src/storage/tensor_router.cpp" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tensor_router_1_1_impl_1ad79983fac6b15eb5c1c57fce565d1e14" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::storage::TensorRouter::Impl::template_apply_mu</definition>
+        <argsstring></argsstring>
+        <name>template_apply_mu</name>
+        <qualifiedname>themis::storage::TensorRouter::Impl::template_apply_mu</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/tensor_router.cpp" line="110" column="51" bodyfile="src/storage/tensor_router.cpp" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tensor_router_1_1_impl_1a948f1199acd488e85d8ddd0d65d65bdc" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1storage_1_1_tensor_router_1ab054883c2a1efbbe5fe9ba9a84a3c330" kindref="member">TemplateTopologyApplyFn</ref></type>
+        <definition>TemplateTopologyApplyFn themis::storage::TensorRouter::Impl::template_topology_apply_fn</definition>
+        <argsstring></argsstring>
+        <name>template_topology_apply_fn</name>
+        <qualifiedname>themis::storage::TensorRouter::Impl::template_topology_apply_fn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/tensor_router.cpp" line="111" column="51" bodyfile="src/storage/tensor_router.cpp" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tensor_router_1_1_impl_1a387ed92a4e6e2fb3185d44656981269e" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::storage::TensorRouter::Impl::stats_mu</definition>
+        <argsstring></argsstring>
+        <name>stats_mu</name>
+        <qualifiedname>themis::storage::TensorRouter::Impl::stats_mu</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/tensor_router.cpp" line="113" column="26" bodyfile="src/storage/tensor_router.cpp" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tensor_router_1_1_impl_1a871003aa2125e8ac0738f6d70fe48afb" prot="public" static="no" mutable="yes">
+        <type><ref refid="structthemis_1_1storage_1_1_tensor_router_1_1_router_stats" kindref="compound">RouterStats</ref></type>
+        <definition>RouterStats themis::storage::TensorRouter::Impl::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::storage::TensorRouter::Impl::stats_</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/tensor_router.cpp" line="114" column="26" bodyfile="src/storage/tensor_router.cpp" bodystart="114" bodyend="114"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1storage_1_1_tensor_router_1_1_impl_1a82d385372b25b53d7f330d073ca1e417" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1storage_1_1_tensor_router_1_1_impl_1_1_pilot_result" kindref="compound">PilotResult</ref></type>
+        <definition>PilotResult themis::storage::TensorRouter::Impl::runPilot</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;data, const std::vector&lt; std::size_t &gt; &amp;mode_sizes) const</argsstring>
+        <name>runPilot</name>
+        <qualifiedname>themis::storage::TensorRouter::Impl::runPilot</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::size_t &gt; &amp;</type>
+          <declname>mode_sizes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/tensor_router.cpp" line="127" column="17" bodyfile="src/storage/tensor_router.cpp" bodystart="127" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1storage_1_1_tensor_router_1_1_impl_1a124d8d6d429f6fbb6219dcd45305af56" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1storage_1ab7cb28745b37f08ef3a113f9a7e10cda" kindref="member">TensorRouteDecision</ref> &gt;</type>
+        <definition>std::optional&lt; TensorRouteDecision &gt; themis::storage::TensorRouter::Impl::categoryOverride</definition>
+        <argsstring>(const TensorRouteHint &amp;hint) const</argsstring>
+        <name>categoryOverride</name>
+        <qualifiedname>themis::storage::TensorRouter::Impl::categoryOverride</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_tensor_route_hint" kindref="compound">TensorRouteHint</ref> &amp;</type>
+          <declname>hint</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/tensor_router.cpp" line="201" column="19" bodyfile="src/storage/tensor_router.cpp" bodystart="201" bodyend="244"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1storage_1_1_tensor_router_1_1_impl_1ab8ab4818d4d589be7933ddcdb7900dbe" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1storage_1ab7cb28745b37f08ef3a113f9a7e10cda" kindref="member">TensorRouteDecision</ref></type>
+        <definition>TensorRouteDecision themis::storage::TensorRouter::Impl::decide</definition>
+        <argsstring>(const PilotResult &amp;pilot, const TensorRouteHint &amp;hint, const std::vector&lt; std::size_t &gt; &amp;mode_sizes) const</argsstring>
+        <name>decide</name>
+        <qualifiedname>themis::storage::TensorRouter::Impl::decide</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_tensor_router_1_1_impl_1_1_pilot_result" kindref="compound">PilotResult</ref> &amp;</type>
+          <declname>pilot</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_tensor_route_hint" kindref="compound">TensorRouteHint</ref> &amp;</type>
+          <declname>hint</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::size_t &gt; &amp;</type>
+          <declname>mode_sizes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">template_apply_mu</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/storage/tensor_router.cpp" line="251" column="25" bodyfile="src/storage/tensor_router.cpp" bodystart="251" bodyend="333"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::storage::TensorRouter::Impl</label>
+        <link refid="structthemis_1_1storage_1_1_tensor_router_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>policy</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>decomposer</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>stats_</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::storage::TensorRouter::RouterStats</label>
+        <link refid="structthemis_1_1storage_1_1_tensor_router_1_1_router_stats"/>
+      </node>
+      <node id="2">
+        <label>themis::storage::TensorRoutingPolicy</label>
+        <link refid="structthemis_1_1storage_1_1_tensor_routing_policy"/>
+      </node>
+      <node id="3">
+        <label>themis::storage::TensorTrainDecomposer</label>
+        <link refid="classthemis_1_1storage_1_1_tensor_train_decomposer"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/storage/tensor_router.cpp" line="105" column="1" bodyfile="src/storage/tensor_router.cpp" bodystart="105" bodyend="334"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_tensor_router_1_1_impl_1a124d8d6d429f6fbb6219dcd45305af56" prot="public" virt="non-virtual"><scope>themis::storage::TensorRouter::Impl</scope><name>categoryOverride</name></member>
+      <member refid="structthemis_1_1storage_1_1_tensor_router_1_1_impl_1ab8ab4818d4d589be7933ddcdb7900dbe" prot="public" virt="non-virtual"><scope>themis::storage::TensorRouter::Impl</scope><name>decide</name></member>
+      <member refid="structthemis_1_1storage_1_1_tensor_router_1_1_impl_1a9d4a161c6bc60ef70bcba810886b33ef" prot="public" virt="non-virtual"><scope>themis::storage::TensorRouter::Impl</scope><name>decomposer</name></member>
+      <member refid="structthemis_1_1storage_1_1_tensor_router_1_1_impl_1a0f21cd2784e6a0347c9aa1b6aa6255ac" prot="public" virt="non-virtual"><scope>themis::storage::TensorRouter::Impl</scope><name>engine</name></member>
+      <member refid="structthemis_1_1storage_1_1_tensor_router_1_1_impl_1a5fc5b8ac7403dbd6b75bad6a9d061c70" prot="public" virt="non-virtual"><scope>themis::storage::TensorRouter::Impl</scope><name>policy</name></member>
+      <member refid="structthemis_1_1storage_1_1_tensor_router_1_1_impl_1a82d385372b25b53d7f330d073ca1e417" prot="public" virt="non-virtual"><scope>themis::storage::TensorRouter::Impl</scope><name>runPilot</name></member>
+      <member refid="structthemis_1_1storage_1_1_tensor_router_1_1_impl_1a871003aa2125e8ac0738f6d70fe48afb" prot="public" virt="non-virtual"><scope>themis::storage::TensorRouter::Impl</scope><name>stats_</name></member>
+      <member refid="structthemis_1_1storage_1_1_tensor_router_1_1_impl_1a387ed92a4e6e2fb3185d44656981269e" prot="public" virt="non-virtual"><scope>themis::storage::TensorRouter::Impl</scope><name>stats_mu</name></member>
+      <member refid="structthemis_1_1storage_1_1_tensor_router_1_1_impl_1ad79983fac6b15eb5c1c57fce565d1e14" prot="public" virt="non-virtual"><scope>themis::storage::TensorRouter::Impl</scope><name>template_apply_mu</name></member>
+      <member refid="structthemis_1_1storage_1_1_tensor_router_1_1_impl_1a71493ced340d752201472e0d67208800" prot="public" virt="non-virtual"><scope>themis::storage::TensorRouter::Impl</scope><name>template_catalog</name></member>
+      <member refid="structthemis_1_1storage_1_1_tensor_router_1_1_impl_1a948f1199acd488e85d8ddd0d65d65bdc" prot="public" virt="non-virtual"><scope>themis::storage::TensorRouter::Impl</scope><name>template_topology_apply_fn</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

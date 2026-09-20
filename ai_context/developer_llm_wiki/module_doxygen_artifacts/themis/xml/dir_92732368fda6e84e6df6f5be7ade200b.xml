@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_92732368fda6e84e6df6f5be7ade200b" kind="dir">
+    <compoundname>include/themis/gpu</compoundname>
+    <innerfile refid="admin__api_8h">admin_api.h</innerfile>
+    <innerfile refid="alerts_8h">alerts.h</innerfile>
+    <innerfile refid="audit__log_8h">audit_log.h</innerfile>
+    <innerfile refid="cluster__config_8h">cluster_config.h</innerfile>
+    <innerfile refid="cluster__coordinator_8h">cluster_coordinator.h</innerfile>
+    <innerfile refid="cluster__topology_8h">cluster_topology.h</innerfile>
+    <innerfile refid="config_8h">config.h</innerfile>
+    <innerfile refid="device__discovery_8h">device_discovery.h</innerfile>
+    <innerfile refid="feature__flags_8h">feature_flags.h</innerfile>
+    <innerfile refid="gpu__backend__dispatch__diagnostics_8h">gpu_backend_dispatch_diagnostics.h</innerfile>
+    <innerfile refid="gpu__checked__ops_8h">gpu_checked_ops.h</innerfile>
+    <innerfile refid="gpu__error_8h">gpu_error.h</innerfile>
+    <innerfile refid="gpu__memory_8h">gpu_memory.h</innerfile>
+    <innerfile refid="gpu__module_8h">gpu_module.h</innerfile>
+    <innerfile refid="gpu__timeout_8h">gpu_timeout.h</innerfile>
+    <innerfile refid="graph__cache_8h">graph_cache.h</innerfile>
+    <innerfile refid="ivram__policy_8h">ivram_policy.h</innerfile>
+    <innerfile refid="kernel__validator_8h">kernel_validator.h</innerfile>
+    <innerfile refid="launcher_8h">launcher.h</innerfile>
+    <innerfile refid="load__balancer_8h">load_balancer.h</innerfile>
+    <innerfile refid="memory__manager_8h">memory_manager.h</innerfile>
+    <innerfile refid="memory__pool_8h">memory_pool.h</innerfile>
+    <innerfile refid="metrics_8h">metrics.h</innerfile>
+    <innerfile refid="mig__manager_8h">mig_manager.h</innerfile>
+    <innerfile refid="p2p__transfer_8h">p2p_transfer.h</innerfile>
+    <innerfile refid="policy_8h">policy.h</innerfile>
+    <innerfile refid="profiler_8h">profiler.h</innerfile>
+    <innerfile refid="query__accelerator_8h">query_accelerator.h</innerfile>
+    <innerfile refid="rocm__backend_8h">rocm_backend.h</innerfile>
+    <innerfile refid="safe__fail_8h">safe_fail.h</innerfile>
+    <innerfile refid="stream__manager_8h">stream_manager.h</innerfile>
+    <innerfile refid="tensor__buffer_8h">tensor_buffer.h</innerfile>
+    <innerfile refid="time__slice__scheduler_8h">time_slice_scheduler.h</innerfile>
+    <innerfile refid="training__loop_8h">training_loop.h</innerfile>
+    <innerfile refid="unified__memory_8h">unified_memory.h</innerfile>
+    <innerfile refid="vulkan__backend_8h">vulkan_backend.h</innerfile>
+    <innerfile refid="wasm__kernel__sandbox_8h">wasm_kernel_sandbox.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/gpu/"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,297 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="plugin__loader_8h" kind="file" language="C++">
+    <compoundname>plugin_loader.h</compoundname>
+    <includes refid="compute__backend_8h" local="yes">acceleration/compute_backend.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">functional</includes>
+    <includedby refid="backend__registry_8cpp" local="yes">src/acceleration/backend_registry.cpp</includedby>
+    <includedby refid="plugin__loader_8cpp" local="yes">src/acceleration/plugin_loader.cpp</includedby>
+    <includedby refid="test__acceleration__plugin__security__hardening_8cpp" local="yes">tests/acceleration/test_acceleration_plugin_security_hardening.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>acceleration/compute_backend.h</label>
+        <link refid="compute__backend_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>acceleration/compute_future.h</label>
+        <link refid="compute__future_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>acceleration/error_codes.h</label>
+        <link refid="error__codes_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>acceleration/error_context.h</label>
+        <link refid="error__context_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>acceleration/kernel_invocation.h</label>
+        <link refid="kernel__invocation_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/acceleration/plugin_loader.h</label>
+        <link refid="plugin__loader_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>algorithm</label>
+      </node>
+      <node id="8">
+        <label>atomic</label>
+      </node>
+      <node id="14">
+        <label>chrono</label>
+      </node>
+      <node id="16">
+        <label>cstddef</label>
+      </node>
+      <node id="7">
+        <label>cstdint</label>
+      </node>
+      <node id="18">
+        <label>functional</label>
+      </node>
+      <node id="19">
+        <label>future</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="13">
+        <label>optional</label>
+      </node>
+      <node id="10">
+        <label>shared_mutex</label>
+      </node>
+      <node id="20">
+        <label>stdexcept</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>unordered_map</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/acceleration/plugin_loader.h</label>
+        <link refid="plugin__loader_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/acceleration/backend_registry.cpp</label>
+        <link refid="backend__registry_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/acceleration/plugin_loader.cpp</label>
+        <link refid="plugin__loader_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/acceleration/test_acceleration_plugin_security_hardening.cpp</label>
+        <link refid="test__acceleration__plugin__security__hardening_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1acceleration_1_1_backend_plugin" prot="public">themis::acceleration::BackendPlugin</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_plugin_loader" prot="public">themis::acceleration::PluginLoader</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_plugin_loader_1_1_plugin_handle" prot="private">themis::acceleration::PluginLoader::PluginHandle</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1acceleration">themis::acceleration</innernamespace>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="plugin__loader_8h_1aad7af0582bd588a6d9a88a5d38eceea8" prot="public" static="no">
+        <name>THEMIS_PLUGIN_EXPORT</name>
+        <initializer>__attribute__((visibility(&quot;default&quot;)))</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_loader.h" line="153" column="14" bodyfile="include/acceleration/plugin_loader.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="plugin__loader_8h_1a1c25900e7aa67d90140e9a0ef1b87dae" prot="public" static="no">
+        <name>THEMIS_DEFINE_PLUGIN</name>
+        <param><defname>PluginClass</defname></param>
+        <initializer>extern &quot;C&quot; <ref refid="plugin__loader_8h_1aad7af0582bd588a6d9a88a5d38eceea8" kindref="member">THEMIS_PLUGIN_EXPORT</ref> <ref refid="classthemis_1_1acceleration_1_1_backend_plugin" kindref="compound">themis::acceleration::BackendPlugin</ref>* CreateBackendPlugin() { \
+    return new PluginClass(); \
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_loader.h" line="157" column="9" bodyfile="include/acceleration/plugin_loader.h" bodystart="157" bodyend="160"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 85/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="compute__backend_8h" kindref="compound">acceleration/compute_backend.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1acceleration" kindref="compound">acceleration</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22" refid="classthemis_1_1acceleration_1_1_backend_plugin" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1acceleration_1_1_backend_plugin" kindref="compound">BackendPlugin</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="28" refid="classthemis_1_1acceleration_1_1_backend_plugin_1a64c9ab56aa1a8c1d1f6240e8e4315ce8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_backend_plugin_1a64c9ab56aa1a8c1d1f6240e8e4315ce8" kindref="member">~BackendPlugin</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="35" refid="classthemis_1_1acceleration_1_1_backend_plugin_1a6b434c525d8453c57e6b7f36b980940f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="classthemis_1_1acceleration_1_1_backend_plugin_1a6b434c525d8453c57e6b7f36b980940f" kindref="member">pluginName</ref>()<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42" refid="classthemis_1_1acceleration_1_1_backend_plugin_1a5a399f6f99a2f4b595b67644f89c1707" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>virtual<sp/>const<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="classthemis_1_1acceleration_1_1_backend_plugin_1a5a399f6f99a2f4b595b67644f89c1707" kindref="member">pluginVersion</ref>()<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49" refid="classthemis_1_1acceleration_1_1_backend_plugin_1a15a09a761f9f845d9fc6af0d8ac3003f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>virtual<sp/><ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5" kindref="member">BackendType</ref><sp/><ref refid="classthemis_1_1acceleration_1_1_backend_plugin_1a15a09a761f9f845d9fc6af0d8ac3003f" kindref="member">backendType</ref>()<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55" refid="classthemis_1_1acceleration_1_1_backend_plugin_1a008ebff2c4fc17ee17cb9a5c5d059a48" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>virtual<sp/>std::unique_ptr&lt;<ref refid="classthemis_1_1acceleration_1_1_i_vector_backend" kindref="compound">IVectorBackend</ref>&gt;<sp/><ref refid="classthemis_1_1acceleration_1_1_backend_plugin_1a008ebff2c4fc17ee17cb9a5c5d059a48" kindref="member">createVectorBackend</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61" refid="classthemis_1_1acceleration_1_1_backend_plugin_1a91ab32a363fd4b183e508bda6c818e6f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>virtual<sp/>std::unique_ptr&lt;<ref refid="classthemis_1_1acceleration_1_1_i_graph_backend" kindref="compound">IGraphBackend</ref>&gt;<sp/><ref refid="classthemis_1_1acceleration_1_1_backend_plugin_1a91ab32a363fd4b183e508bda6c818e6f" kindref="member">createGraphBackend</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="67" refid="classthemis_1_1acceleration_1_1_backend_plugin_1ab5b6fe61a791b3b856bc84bb1e820a81" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>virtual<sp/>std::unique_ptr&lt;<ref refid="classthemis_1_1acceleration_1_1_i_geo_backend" kindref="compound">IGeoBackend</ref>&gt;<sp/><ref refid="classthemis_1_1acceleration_1_1_backend_plugin_1ab5b6fe61a791b3b856bc84bb1e820a81" kindref="member">createGeoBackend</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="classthemis_1_1acceleration_1_1_plugin_loader" refkind="compound"><highlight class="normal">class<sp/><ref refid="classthemis_1_1acceleration_1_1_plugin_loader_1a43914281ba6cefb59fe51ddea64bf814" kindref="member">PluginLoader</ref><sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="72" refid="classthemis_1_1acceleration_1_1_plugin_loader_1a43914281ba6cefb59fe51ddea64bf814" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1acceleration_1_1_plugin_loader_1a43914281ba6cefb59fe51ddea64bf814" kindref="member">PluginLoader</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1acceleration_1_1_plugin_loader_1a43914281ba6cefb59fe51ddea64bf814" kindref="member">~PluginLoader</ref>();</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_plugin_loader_1ae69fa55a99974c9391a6ef96380a4993" kindref="member">loadPlugin</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>libraryPath);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_plugin_loader_1aa5d8bb174a093ddcbd0344f42e5e15fb" kindref="member">loadPluginsFromDirectory</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>directoryPath);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_plugin_loader_1a3ac756700e560b448f00c291d911f23f" kindref="member">unloadPlugin</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1acceleration_1_1_backend_plugin_1a6b434c525d8453c57e6b7f36b980940f" kindref="member">pluginName</ref>);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_plugin_loader_1a16d64911a5fb491168a382eb2fad95bc" kindref="member">unloadAllPlugins</ref>();</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1acceleration_1_1_backend_plugin" kindref="compound">BackendPlugin</ref>*<sp/><ref refid="classthemis_1_1acceleration_1_1_plugin_loader_1a49419fd2d284a07748b78543cf8d7dd3" kindref="member">getPlugin</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1acceleration_1_1_backend_plugin_1a6b434c525d8453c57e6b7f36b980940f" kindref="member">pluginName</ref>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;BackendPlugin*&gt;<sp/><ref refid="classthemis_1_1acceleration_1_1_plugin_loader_1a4bdfe3639503804d8144153c39b29206" kindref="member">getLoadedPlugins</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">PluginHandle<sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>libraryHandle<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_ptr&lt;BackendPlugin&gt;<sp/>plugin;<sp/><sp/></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>name;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>path;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>fileHash;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;PluginHandle&gt;<sp/>plugins_;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>loadLibrary(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>getSymbol(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>symbolName);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>unloadLibrary(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>handle);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147" refid="namespacethemis_1_1acceleration_1a7343d4f7db04a3dd37823646bb41558d" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1acceleration_1a7343d4f7db04a3dd37823646bb41558d" kindref="member">CreatePluginFunc</ref><sp/>=<sp/><ref refid="classthemis_1_1acceleration_1_1_backend_plugin" kindref="compound">BackendPlugin</ref>*<sp/>(*)();</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_PLUGIN_EXPORT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>_WIN32</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_PLUGIN_EXPORT<sp/>__declspec(dllexport)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153" refid="plugin__loader_8h_1aad7af0582bd588a6d9a88a5d38eceea8" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_PLUGIN_EXPORT<sp/>__attribute__((visibility(&quot;default&quot;)))</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157" refid="plugin__loader_8h_1a1c25900e7aa67d90140e9a0ef1b87dae" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_DEFINE_PLUGIN(PluginClass)<sp/>\</highlight></codeline>
+<codeline lineno="158"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>extern<sp/>&quot;C&quot;<sp/>THEMIS_PLUGIN_EXPORT<sp/>themis::acceleration::BackendPlugin*<sp/>CreateBackendPlugin()<sp/>{<sp/>\</highlight></codeline>
+<codeline lineno="159"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>new<sp/>PluginClass();<sp/>\</highlight></codeline>
+<codeline lineno="160"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>acceleration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/acceleration/plugin_loader.h"/>
+  </compounddef>
+</doxygen>

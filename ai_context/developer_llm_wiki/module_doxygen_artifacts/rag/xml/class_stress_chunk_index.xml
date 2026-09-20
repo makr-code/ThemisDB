@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stress_chunk_index" kind="class" language="C++" prot="public">
+    <compoundname>StressChunkIndex</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stress_chunk_index_1a6f953e65644198264523830e9609679d" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex StressChunkIndex::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>StressChunkIndex::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_highcardinality_stress.cpp" line="80" column="32" bodyfile="tests/rag/test_rag_highcardinality_stress.cpp" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stress_chunk_index_1a8273b43562411f7a02b91ecfaa4012c5" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="struct_stress_chunk" kindref="compound">StressChunk</ref> &gt;</type>
+        <definition>std::vector&lt;StressChunk&gt; StressChunkIndex::chunks_</definition>
+        <argsstring></argsstring>
+        <name>chunks_</name>
+        <qualifiedname>StressChunkIndex::chunks_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_highcardinality_stress.cpp" line="81" column="19" bodyfile="tests/rag/test_rag_highcardinality_stress.cpp" bodystart="81" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stress_chunk_index_1a17fe869fe2be1eafdf4481782821b26a" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>StressChunkIndex::StressChunkIndex</definition>
+        <argsstring>()=default</argsstring>
+        <name>StressChunkIndex</name>
+        <qualifiedname>StressChunkIndex::StressChunkIndex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_highcardinality_stress.cpp" line="55" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stress_chunk_index_1ad93ecca13df1cac71f1d83416439e407" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StressChunkIndex::insert</definition>
+        <argsstring>(StressChunk chunk)</argsstring>
+        <name>insert</name>
+        <qualifiedname>StressChunkIndex::insert</qualifiedname>
+        <param>
+          <type><ref refid="struct_stress_chunk" kindref="compound">StressChunk</ref></type>
+          <declname>chunk</declname>
+        </param>
+        <briefdescription>
+<para>Inserts a chunk; must be called before concurrent queries begin. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_highcardinality_stress.cpp" line="58" column="10" bodyfile="tests/rag/test_rag_highcardinality_stress.cpp" bodystart="58" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stress_chunk_index_1a842fefa83f7baa0964128f9d9fdc9419" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="struct_stress_chunk" kindref="compound">StressChunk</ref> &gt;</type>
+        <definition>std::vector&lt; StressChunk &gt; StressChunkIndex::query</definition>
+        <argsstring>(uint32_t query_id, int k) const noexcept</argsstring>
+        <name>query</name>
+        <qualifiedname>StressChunkIndex::query</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>query_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+<para>Returns top-k chunks by deterministic score lookup (read-only, no lock needed after build). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_highcardinality_stress.cpp" line="64" column="17" bodyfile="tests/rag/test_rag_highcardinality_stress.cpp" bodystart="64" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stress_chunk_index_1acd119c95dc93d8ce8d8e05fe57f72268" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t StressChunkIndex::size</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>size</name>
+        <qualifiedname>StressChunkIndex::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_highcardinality_stress.cpp" line="77" column="17" bodyfile="tests/rag/test_rag_highcardinality_stress.cpp" bodystart="77" bodyend="77"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Thread-safe stub chunk index supporting concurrent reads after build. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/rag/test_rag_highcardinality_stress.cpp" line="53" column="1" bodyfile="tests/rag/test_rag_highcardinality_stress.cpp" bodystart="53" bodyend="82"/>
+    <listofallmembers>
+      <member refid="class_stress_chunk_index_1a8273b43562411f7a02b91ecfaa4012c5" prot="private" virt="non-virtual"><scope>StressChunkIndex</scope><name>chunks_</name></member>
+      <member refid="class_stress_chunk_index_1ad93ecca13df1cac71f1d83416439e407" prot="public" virt="non-virtual"><scope>StressChunkIndex</scope><name>insert</name></member>
+      <member refid="class_stress_chunk_index_1a6f953e65644198264523830e9609679d" prot="private" virt="non-virtual"><scope>StressChunkIndex</scope><name>mu_</name></member>
+      <member refid="class_stress_chunk_index_1a842fefa83f7baa0964128f9d9fdc9419" prot="public" virt="non-virtual"><scope>StressChunkIndex</scope><name>query</name></member>
+      <member refid="class_stress_chunk_index_1acd119c95dc93d8ce8d8e05fe57f72268" prot="public" virt="non-virtual"><scope>StressChunkIndex</scope><name>size</name></member>
+      <member refid="class_stress_chunk_index_1a17fe869fe2be1eafdf4481782821b26a" prot="public" virt="non-virtual"><scope>StressChunkIndex</scope><name>StressChunkIndex</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

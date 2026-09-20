@@ -1,0 +1,585 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_query_compiler" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::QueryCompiler</compoundname>
+    <includes refid="query__compiler_8h" local="no">query_compiler.h</includes>
+    <innerclass refid="structthemis_1_1query_1_1_query_compiler_1_1_config" prot="public">themis::query::QueryCompiler::Config</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_query_compiler_1_1_compiled_query" prot="public">themis::query::QueryCompiler::CompiledQuery</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_query_compiler_1_1_stats" prot="public">themis::query::QueryCompiler::Stats</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1_query_compiler_1_1_impl" prot="public">themis::query::QueryCompiler::Impl</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1query_1_1_query_compiler_1a24b197ae0cd6954641545be963c1422d" prot="public" static="no" strong="yes">
+        <type>int</type>
+        <name>OptimizationLevel</name>
+        <qualifiedname>themis::query::QueryCompiler::OptimizationLevel</qualifiedname>
+        <enumvalue id="classthemis_1_1query_1_1_query_compiler_1a24b197ae0cd6954641545be963c1422da7e6bfed55985b52e9dbfc6df8f291186" prot="public">
+          <name>O0</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>No optimisation (baseline; useful for testing). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1query_1_1_query_compiler_1a24b197ae0cd6954641545be963c1422da00594a175ce5a58f286d91ca0a6f15a2" prot="public">
+          <name>O1</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Basic optimisation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1query_1_1_query_compiler_1a24b197ae0cd6954641545be963c1422dabfc60714f62f15e1e72e0b21454cc99e" prot="public">
+          <name>O2</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Standard optimisation (default). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1query_1_1_query_compiler_1a24b197ae0cd6954641545be963c1422da9ee25ee8b4d0a573527fcd2f1e73f8c8" prot="public">
+          <name>O3</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>Aggressive optimisation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_compiler.h" line="61" column="5" bodyfile="include/query/query_compiler.h" bodystart="61" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1query_1_1_query_compiler_1a7215d058f55050d62a9decb4a67de3c2" prot="public" static="no">
+        <type>std::function&lt; Result&lt; <ref refid="structthemis_1_1query_1_1_query_result" kindref="compound">QueryResult</ref> &gt;( const std::string &amp;<ref refid="namespacethemis_1_1query" kindref="compound">query</ref>, const <ref refid="namespacethemis_1_1query_1af593ea9779d47cd0c30578e9c0595ae0" kindref="member">QueryParams</ref> &amp;params)&gt;</type>
+        <definition>using themis::query::QueryCompiler::ExecuteFn = std::function&lt;Result&lt;QueryResult&gt;(
+       const std::string&amp; query,
+       const QueryParams&amp; params)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ExecuteFn</name>
+        <qualifiedname>themis::query::QueryCompiler::ExecuteFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_compiler.h" line="68" column="5" bodyfile="include/query/query_compiler.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_compiler_1a4b53b101a38fc6021938a9697f8e6604" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1query_1_1_query_compiler_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::query::QueryCompiler::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::query::QueryCompiler::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_compiler.h" line="249" column="21" bodyfile="include/query/query_compiler.h" bodystart="249" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_compiler_1a8037e349b04c4b3e3d23345eba09b733" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::QueryCompiler::QueryCompiler</definition>
+        <argsstring>()</argsstring>
+        <name>QueryCompiler</name>
+        <qualifiedname>themis::query::QueryCompiler::QueryCompiler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_compiler.h" line="128" column="5" bodyfile="src/query/query_compiler.cpp" bodystart="468" bodyend="469"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_compiler_1ab84b25bce4112aafc8bfda4b7417afb9" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::QueryCompiler::QueryCompiler</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>QueryCompiler</name>
+        <qualifiedname>themis::query::QueryCompiler::QueryCompiler</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_query_compiler_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="structthemis_1_1query_1_1_query" kindref="compound">Query</ref> Compiler. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_compiler.h" line="134" column="14" bodyfile="src/query/query_compiler.cpp" bodystart="471" bodyend="472"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_compiler_1a3205cc48bc55809061678461c7e351a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::QueryCompiler::~QueryCompiler</definition>
+        <argsstring>()</argsstring>
+        <name>~QueryCompiler</name>
+        <qualifiedname>themis::query::QueryCompiler::~QueryCompiler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_compiler.h" line="135" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_compiler_1a889870047ddfbfed52bc0e7666e423ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::QueryCompiler::QueryCompiler</definition>
+        <argsstring>(const QueryCompiler &amp;)=delete</argsstring>
+        <name>QueryCompiler</name>
+        <qualifiedname>themis::query::QueryCompiler::QueryCompiler</qualifiedname>
+        <param>
+          <type>const QueryCompiler &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_compiler.h" line="137" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_compiler_1a5546795d0379fa1b38d276ef4a951347" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1query_1_1_query_compiler_1a8037e349b04c4b3e3d23345eba09b733" kindref="member">QueryCompiler</ref> &amp;</type>
+        <definition>QueryCompiler &amp; themis::query::QueryCompiler::operator=</definition>
+        <argsstring>(const QueryCompiler &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::query::QueryCompiler::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1query_1_1_query_compiler_1a8037e349b04c4b3e3d23345eba09b733" kindref="member">QueryCompiler</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_compiler.h" line="138" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_compiler_1a96955b002098c3f8307576335e7d8e8a" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::QueryCompiler::QueryCompiler</definition>
+        <argsstring>(QueryCompiler &amp;&amp;) noexcept=default</argsstring>
+        <name>QueryCompiler</name>
+        <qualifiedname>themis::query::QueryCompiler::QueryCompiler</qualifiedname>
+        <param>
+          <type>QueryCompiler &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_compiler.h" line="139" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_compiler_1a96964f6d8a65170469a7e9574532f642" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1query_1_1_query_compiler_1a8037e349b04c4b3e3d23345eba09b733" kindref="member">QueryCompiler</ref> &amp;</type>
+        <definition>QueryCompiler &amp; themis::query::QueryCompiler::operator=</definition>
+        <argsstring>(QueryCompiler &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::query::QueryCompiler::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1_query_compiler_1a8037e349b04c4b3e3d23345eba09b733" kindref="member">QueryCompiler</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_compiler.h" line="140" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_compiler_1a0dd388690c3bb98fab69d6d7c3862cdc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_query_compiler_1_1_compiled_query" kindref="compound">CompiledQuery</ref></type>
+        <definition>QueryCompiler::CompiledQuery themis::query::QueryCompiler::compile</definition>
+        <argsstring>(const std::string &amp;query_text, const std::vector&lt; std::string &gt; &amp;params_meta, ExecuteFn executor)</argsstring>
+        <name>compile</name>
+        <qualifiedname>themis::query::QueryCompiler::compile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_text</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>params_meta</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1_query_compiler_1a7215d058f55050d62a9decb4a67de3c2" kindref="member">ExecuteFn</ref></type>
+          <declname>executor</declname>
+        </param>
+        <briefdescription>
+<para>Compile. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">params_meta</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">executor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_compiler.h" line="153" column="19" bodyfile="src/query/query_compiler.cpp" bodystart="493" bodyend="499"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_compiler_1a1e31696057a835557b6e7b4ffc5378fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1query_1_1_query_result" kindref="compound">QueryResult</ref> &gt;</type>
+        <definition>Result&lt; QueryResult &gt; themis::query::QueryCompiler::execute</definition>
+        <argsstring>(const CompiledQuery &amp;compiled, const QueryParams &amp;params)</argsstring>
+        <name>execute</name>
+        <qualifiedname>themis::query::QueryCompiler::execute</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_query_compiler_1_1_compiled_query" kindref="compound">CompiledQuery</ref> &amp;</type>
+          <declname>compiled</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1query_1af593ea9779d47cd0c30578e9c0595ae0" kindref="member">QueryParams</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Execute. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">compiled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_compiler.h" line="164" column="12" bodyfile="src/query/query_compiler.cpp" bodystart="507" bodyend="512"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_compiler_1ab6c94579227ec5e18aced6c1531c97e2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::QueryCompiler::isCompiled</definition>
+        <argsstring>(const std::string &amp;key) const</argsstring>
+        <name>isCompiled</name>
+        <qualifiedname>themis::query::QueryCompiler::isCompiled</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Is Compiled. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_compiler.h" line="177" column="10" bodyfile="src/query/query_compiler.cpp" bodystart="514" bodyend="516"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_compiler_1aed2ad8f5ba7ed33c9eb1f34489966a02" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::query::QueryCompiler::callCount</definition>
+        <argsstring>(const std::string &amp;key) const</argsstring>
+        <name>callCount</name>
+        <qualifiedname>themis::query::QueryCompiler::callCount</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Call Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_compiler.h" line="184" column="12" bodyfile="src/query/query_compiler.cpp" bodystart="518" bodyend="520"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_compiler_1a91f20df30f0013526e426d1eb4bcc485" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::QueryCompiler::invalidate</definition>
+        <argsstring>(const std::string &amp;key)</argsstring>
+        <name>invalidate</name>
+        <qualifiedname>themis::query::QueryCompiler::invalidate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Invalidate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements invalidate without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_compiler.h" line="201" column="10" bodyfile="src/query/query_compiler.cpp" bodystart="527" bodyend="529"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_compiler_1a50194ee371656b0ae64cd16850ccd920" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::QueryCompiler::invalidateAll</definition>
+        <argsstring>()</argsstring>
+        <name>invalidateAll</name>
+        <qualifiedname>themis::query::QueryCompiler::invalidateAll</qualifiedname>
+        <briefdescription>
+<para>Invalidate All. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements invalidateAll without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_compiler.h" line="206" column="10" bodyfile="src/query/query_compiler.cpp" bodystart="535" bodyend="537"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_compiler_1ab21b5ca3bec60d21cfe9fcb07c6531d1" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1query_1_1_query_compiler_1_1_stats" kindref="compound">Stats</ref> &amp;</type>
+        <definition>const QueryCompiler::Stats &amp; themis::query::QueryCompiler::stats</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>stats</name>
+        <qualifiedname>themis::query::QueryCompiler::stats</qualifiedname>
+        <briefdescription>
+<para><ref refid="structthemis_1_1query_1_1_query_compiler_1_1_stats" kindref="compound">Stats</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_compiler.h" line="217" column="17" bodyfile="src/query/query_compiler.cpp" bodystart="539" bodyend="541"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_compiler_1a5ec3d49e4e486a825e144b97cf53497d" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::QueryCompiler::resetStats</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>resetStats</name>
+        <qualifiedname>themis::query::QueryCompiler::resetStats</qualifiedname>
+        <briefdescription>
+<para>Reset <ref refid="structthemis_1_1query_1_1_query_compiler_1_1_stats" kindref="compound">Stats</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_compiler.h" line="223" column="10" bodyfile="src/query/query_compiler.cpp" bodystart="543" bodyend="545"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_compiler_1a1953a001a48fdebf37e07494689d00ed" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1query_1_1_query_compiler_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const QueryCompiler::Config &amp; themis::query::QueryCompiler::config</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::query::QueryCompiler::config</qualifiedname>
+        <briefdescription>
+<para><ref refid="structthemis_1_1query_1_1_query_compiler_1_1_config" kindref="compound">Config</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_compiler.h" line="234" column="18" bodyfile="src/query/query_compiler.cpp" bodystart="547" bodyend="549"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_compiler_1ab6100a5a25fffe3013d56d79937d4bee" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::QueryCompiler::isJitStateCorrupted</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isJitStateCorrupted</name>
+        <qualifiedname>themis::query::QueryCompiler::isJitStateCorrupted</qualifiedname>
+        <briefdescription>
+<para>Is Jit State Corrupted. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_compiler.h" line="245" column="10" bodyfile="src/query/query_compiler.cpp" bodystart="551" bodyend="553"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_compiler_1aa0cc323a9d77f22a2d6ec1e0e95d2bbe" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::query::QueryCompiler::makeKey</definition>
+        <argsstring>(const std::string &amp;query_text)</argsstring>
+        <name>makeKey</name>
+        <qualifiedname>themis::query::QueryCompiler::makeKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_text</declname>
+        </param>
+        <briefdescription>
+<para>Make Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: toHex16(), themis::hash::fnv1a64(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_compiler.h" line="191" column="24" bodyfile="src/query/query_compiler.cpp" bodystart="482" bodyend="484"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_compiler.h" line="55" column="1" bodyfile="include/query/query_compiler.h" bodystart="55" bodyend="250"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_query_compiler_1aed2ad8f5ba7ed33c9eb1f34489966a02" prot="public" virt="non-virtual"><scope>themis::query::QueryCompiler</scope><name>callCount</name></member>
+      <member refid="classthemis_1_1query_1_1_query_compiler_1a0dd388690c3bb98fab69d6d7c3862cdc" prot="public" virt="non-virtual"><scope>themis::query::QueryCompiler</scope><name>compile</name></member>
+      <member refid="classthemis_1_1query_1_1_query_compiler_1a1953a001a48fdebf37e07494689d00ed" prot="public" virt="non-virtual"><scope>themis::query::QueryCompiler</scope><name>config</name></member>
+      <member refid="classthemis_1_1query_1_1_query_compiler_1a1e31696057a835557b6e7b4ffc5378fe" prot="public" virt="non-virtual"><scope>themis::query::QueryCompiler</scope><name>execute</name></member>
+      <member refid="classthemis_1_1query_1_1_query_compiler_1a7215d058f55050d62a9decb4a67de3c2" prot="public" virt="non-virtual"><scope>themis::query::QueryCompiler</scope><name>ExecuteFn</name></member>
+      <member refid="classthemis_1_1query_1_1_query_compiler_1a4b53b101a38fc6021938a9697f8e6604" prot="private" virt="non-virtual"><scope>themis::query::QueryCompiler</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1query_1_1_query_compiler_1a91f20df30f0013526e426d1eb4bcc485" prot="public" virt="non-virtual"><scope>themis::query::QueryCompiler</scope><name>invalidate</name></member>
+      <member refid="classthemis_1_1query_1_1_query_compiler_1a50194ee371656b0ae64cd16850ccd920" prot="public" virt="non-virtual"><scope>themis::query::QueryCompiler</scope><name>invalidateAll</name></member>
+      <member refid="classthemis_1_1query_1_1_query_compiler_1ab6c94579227ec5e18aced6c1531c97e2" prot="public" virt="non-virtual"><scope>themis::query::QueryCompiler</scope><name>isCompiled</name></member>
+      <member refid="classthemis_1_1query_1_1_query_compiler_1ab6100a5a25fffe3013d56d79937d4bee" prot="public" virt="non-virtual"><scope>themis::query::QueryCompiler</scope><name>isJitStateCorrupted</name></member>
+      <member refid="classthemis_1_1query_1_1_query_compiler_1aa0cc323a9d77f22a2d6ec1e0e95d2bbe" prot="public" virt="non-virtual"><scope>themis::query::QueryCompiler</scope><name>makeKey</name></member>
+      <member refid="classthemis_1_1query_1_1_query_compiler_1a5546795d0379fa1b38d276ef4a951347" prot="public" virt="non-virtual"><scope>themis::query::QueryCompiler</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1query_1_1_query_compiler_1a96964f6d8a65170469a7e9574532f642" prot="public" virt="non-virtual"><scope>themis::query::QueryCompiler</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1query_1_1_query_compiler_1a24b197ae0cd6954641545be963c1422d" prot="public" virt="non-virtual"><scope>themis::query::QueryCompiler</scope><name>OptimizationLevel</name></member>
+      <member refid="classthemis_1_1query_1_1_query_compiler_1a8037e349b04c4b3e3d23345eba09b733" prot="public" virt="non-virtual"><scope>themis::query::QueryCompiler</scope><name>QueryCompiler</name></member>
+      <member refid="classthemis_1_1query_1_1_query_compiler_1ab84b25bce4112aafc8bfda4b7417afb9" prot="public" virt="non-virtual"><scope>themis::query::QueryCompiler</scope><name>QueryCompiler</name></member>
+      <member refid="classthemis_1_1query_1_1_query_compiler_1a889870047ddfbfed52bc0e7666e423ce" prot="public" virt="non-virtual"><scope>themis::query::QueryCompiler</scope><name>QueryCompiler</name></member>
+      <member refid="classthemis_1_1query_1_1_query_compiler_1a96955b002098c3f8307576335e7d8e8a" prot="public" virt="non-virtual"><scope>themis::query::QueryCompiler</scope><name>QueryCompiler</name></member>
+      <member refid="classthemis_1_1query_1_1_query_compiler_1a5ec3d49e4e486a825e144b97cf53497d" prot="public" virt="non-virtual"><scope>themis::query::QueryCompiler</scope><name>resetStats</name></member>
+      <member refid="classthemis_1_1query_1_1_query_compiler_1ab21b5ca3bec60d21cfe9fcb07c6531d1" prot="public" virt="non-virtual"><scope>themis::query::QueryCompiler</scope><name>stats</name></member>
+      <member refid="classthemis_1_1query_1_1_query_compiler_1a3205cc48bc55809061678461c7e351a2" prot="public" virt="non-virtual"><scope>themis::query::QueryCompiler</scope><name>~QueryCompiler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

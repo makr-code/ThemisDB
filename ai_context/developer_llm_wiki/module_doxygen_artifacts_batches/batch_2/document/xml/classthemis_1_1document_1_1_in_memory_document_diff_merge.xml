@@ -1,0 +1,299 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1document_1_1_in_memory_document_diff_merge" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::document::InMemoryDocumentDiffMerge</compoundname>
+    <basecompoundref refid="classthemis_1_1document_1_1_i_document_diff_merge" prot="public" virt="non-virtual">themis::document::IDocumentDiffMerge</basecompoundref>
+    <includes refid="document__diff__merge_8h" local="no">document_diff_merge.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1document_1_1_in_memory_document_diff_merge_1a0a77e22d444b33330593b5bd4bc08a74" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1document_1_1_i_document_store" kindref="compound">IDocumentStore</ref> &amp;</type>
+        <definition>IDocumentStore&amp; themis::document::InMemoryDocumentDiffMerge::store_</definition>
+        <argsstring></argsstring>
+        <name>store_</name>
+        <qualifiedname>themis::document::InMemoryDocumentDiffMerge::store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_diff_merge.h" line="354" column="20" bodyfile="include/document/document_diff_merge.h" bodystart="354" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1document_1_1_in_memory_document_diff_merge_1a04d5f474ee5c0884420329364f061ca5" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::document::InMemoryDocumentDiffMerge::InMemoryDocumentDiffMerge</definition>
+        <argsstring>(IDocumentStore &amp;store)</argsstring>
+        <name>InMemoryDocumentDiffMerge</name>
+        <qualifiedname>themis::document::InMemoryDocumentDiffMerge::InMemoryDocumentDiffMerge</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1document_1_1_i_document_store" kindref="compound">IDocumentStore</ref> &amp;</type>
+          <declname>store</declname>
+        </param>
+        <briefdescription>
+<para>In Memory Document Diff Merge. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">store</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_diff_merge.h" line="137" column="14" bodyfile="include/document/document_diff_merge.h" bodystart="137" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_in_memory_document_diff_merge_1ae6b47d339c276168c93ee4051bdce674" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1document_1_1_document_diff" kindref="compound">DocumentDiff</ref> &gt;</type>
+        <definition>Result&lt; DocumentDiff &gt; themis::document::InMemoryDocumentDiffMerge::diff</definition>
+        <argsstring>(const CollectionId &amp;collection, const DocumentId &amp;base_id, const DocumentId &amp;target_id) const override</argsstring>
+        <name>diff</name>
+        <qualifiedname>themis::document::InMemoryDocumentDiffMerge::diff</qualifiedname>
+        <reimplements refid="classthemis_1_1document_1_1_i_document_diff_merge_1a4cefbd049fa39354a58eb3a901e2836e">diff</reimplements>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref> &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1document_1a3c6c1b6d9d76b5429342187edefbc1f5" kindref="member">DocumentId</ref> &amp;</type>
+          <declname>base_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1document_1a3c6c1b6d9d76b5429342187edefbc1f5" kindref="member">DocumentId</ref> &amp;</type>
+          <declname>target_id</declname>
+        </param>
+        <briefdescription>
+<para>Diff. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">base_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the base. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the target. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_diff_merge.h" line="140" column="12" bodyfile="include/document/document_diff_merge.h" bodystart="140" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_in_memory_document_diff_merge_1a6eb315bbf862dd10a6ff92aea4bd580c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>Result&lt; <ref refid="struct_merge_result" kindref="compound">MergeResult</ref> &gt;</type>
+        <definition>Result&lt; MergeResult &gt; themis::document::InMemoryDocumentDiffMerge::merge</definition>
+        <argsstring>(const CollectionId &amp;collection, const DocumentId &amp;base_id, const DocumentId &amp;ours_id, const DocumentId &amp;theirs_id, MergeStrategy strategy=MergeStrategy::FAIL) const override</argsstring>
+        <name>merge</name>
+        <qualifiedname>themis::document::InMemoryDocumentDiffMerge::merge</qualifiedname>
+        <reimplements refid="classthemis_1_1document_1_1_i_document_diff_merge_1a1e15ba8ed85c8983864ef8b2bbdf193f">merge</reimplements>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref> &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1document_1a3c6c1b6d9d76b5429342187edefbc1f5" kindref="member">DocumentId</ref> &amp;</type>
+          <declname>base_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1document_1a3c6c1b6d9d76b5429342187edefbc1f5" kindref="member">DocumentId</ref> &amp;</type>
+          <declname>ours_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1document_1a3c6c1b6d9d76b5429342187edefbc1f5" kindref="member">DocumentId</ref> &amp;</type>
+          <declname>theirs_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1document_1a54a7955458d5a5e23c990e57b75b5bca" kindref="member">MergeStrategy</ref></type>
+          <declname>strategy</declname>
+          <defval><ref refid="namespacethemis_1_1document_1a54a7955458d5a5e23c990e57b75b5bcaac2759effffc94bb9acc71d69fe3e8a1f" kindref="member">MergeStrategy::FAIL</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_diff_merge.h" line="173" column="12" bodyfile="include/document/document_diff_merge.h" bodystart="173" bodyend="210"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1document_1_1_in_memory_document_diff_merge_1a7dcf15e7af036789f9f79ca6084e68d5" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1document_1_1_document_diff" kindref="compound">DocumentDiff</ref></type>
+        <definition>static DocumentDiff themis::document::InMemoryDocumentDiffMerge::computeDiff</definition>
+        <argsstring>(const nlohmann::json &amp;base, const nlohmann::json &amp;target)</argsstring>
+        <name>computeDiff</name>
+        <qualifiedname>themis::document::InMemoryDocumentDiffMerge::computeDiff</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>base</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>target</declname>
+        </param>
+        <briefdescription>
+<para>── diff helpers ────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">base</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_diff_merge.h" line="220" column="25" bodyfile="include/document/document_diff_merge.h" bodystart="220" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_in_memory_document_diff_merge_1a3a874ede8a386962486b69e95358a653" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>Result&lt; <ref refid="struct_merge_result" kindref="compound">MergeResult</ref> &gt;</type>
+        <definition>static Result&lt; MergeResult &gt; themis::document::InMemoryDocumentDiffMerge::computeMerge</definition>
+        <argsstring>(const nlohmann::json &amp;base, const nlohmann::json &amp;ours, const nlohmann::json &amp;theirs, MergeStrategy strategy)</argsstring>
+        <name>computeMerge</name>
+        <qualifiedname>themis::document::InMemoryDocumentDiffMerge::computeMerge</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>base</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>ours</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>theirs</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1document_1a54a7955458d5a5e23c990e57b75b5bca" kindref="member">MergeStrategy</ref></type>
+          <declname>strategy</declname>
+        </param>
+        <briefdescription>
+<para>── merge helpers ───────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">base</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ours</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">theirs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">strategy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_diff_merge.h" line="254" column="19" bodyfile="include/document/document_diff_merge.h" bodystart="254" bodyend="352"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::document::IDocumentDiffMerge</label>
+        <link refid="classthemis_1_1document_1_1_i_document_diff_merge"/>
+      </node>
+      <node id="1">
+        <label>themis::document::InMemoryDocumentDiffMerge</label>
+        <link refid="classthemis_1_1document_1_1_in_memory_document_diff_merge"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::document::IDocumentDiffMerge</label>
+        <link refid="classthemis_1_1document_1_1_i_document_diff_merge"/>
+      </node>
+      <node id="1">
+        <label>themis::document::InMemoryDocumentDiffMerge</label>
+        <link refid="classthemis_1_1document_1_1_in_memory_document_diff_merge"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/document/document_diff_merge.h" line="130" column="1" bodyfile="include/document/document_diff_merge.h" bodystart="130" bodyend="355"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1document_1_1_in_memory_document_diff_merge_1a7dcf15e7af036789f9f79ca6084e68d5" prot="private" virt="non-virtual"><scope>themis::document::InMemoryDocumentDiffMerge</scope><name>computeDiff</name></member>
+      <member refid="classthemis_1_1document_1_1_in_memory_document_diff_merge_1a3a874ede8a386962486b69e95358a653" prot="private" virt="non-virtual"><scope>themis::document::InMemoryDocumentDiffMerge</scope><name>computeMerge</name></member>
+      <member refid="classthemis_1_1document_1_1_in_memory_document_diff_merge_1ae6b47d339c276168c93ee4051bdce674" prot="public" virt="virtual"><scope>themis::document::InMemoryDocumentDiffMerge</scope><name>diff</name></member>
+      <member refid="classthemis_1_1document_1_1_in_memory_document_diff_merge_1a04d5f474ee5c0884420329364f061ca5" prot="public" virt="non-virtual"><scope>themis::document::InMemoryDocumentDiffMerge</scope><name>InMemoryDocumentDiffMerge</name></member>
+      <member refid="classthemis_1_1document_1_1_in_memory_document_diff_merge_1a6eb315bbf862dd10a6ff92aea4bd580c" prot="public" virt="virtual"><scope>themis::document::InMemoryDocumentDiffMerge</scope><name>merge</name></member>
+      <member refid="classthemis_1_1document_1_1_in_memory_document_diff_merge_1a0a77e22d444b33330593b5bd4bc08a74" prot="private" virt="non-virtual"><scope>themis::document::InMemoryDocumentDiffMerge</scope><name>store_</name></member>
+      <member refid="classthemis_1_1document_1_1_i_document_diff_merge_1a03000feeb128fdaa4df40b43a881a8e9" prot="public" virt="virtual"><scope>themis::document::InMemoryDocumentDiffMerge</scope><name>~IDocumentDiffMerge</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

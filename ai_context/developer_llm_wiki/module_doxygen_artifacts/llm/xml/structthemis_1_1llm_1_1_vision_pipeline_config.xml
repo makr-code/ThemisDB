@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_vision_pipeline_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::VisionPipelineConfig</compoundname>
+    <includes refid="vision__config_8h" local="no">vision_config.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1_vision_pipeline_config_1_1_error_handling_config" prot="public">themis::llm::VisionPipelineConfig::ErrorHandlingConfig</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_vision_pipeline_config_1_1_preprocessing_config" prot="public">themis::llm::VisionPipelineConfig::PreprocessingConfig</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_vision_pipeline_config_1_1_postprocessing_config" prot="public">themis::llm::VisionPipelineConfig::PostprocessingConfig</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_pipeline_config_1aebafe625a717138dfa3bc9a1ba834577" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::VisionPipelineConfig::stability</definition>
+        <argsstring></argsstring>
+        <name>stability</name>
+        <qualifiedname>themis::llm::VisionPipelineConfig::stability</qualifiedname>
+        <briefdescription>
+<para>Stability level: development, staging, production. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="220" column="17" bodyfile="include/llm/vision_config.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_pipeline_config_1a13d8c4a19eb37f264ac9e50f1274986d" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="structthemis_1_1llm_1_1_vision_pipeline_config_1_1_error_handling_config" kindref="compound">themis::llm::VisionPipelineConfig::ErrorHandlingConfig</ref></type>
+        <definition>struct themis::llm::VisionPipelineConfig::ErrorHandlingConfig themis::llm::VisionPipelineConfig::error_handling</definition>
+        <argsstring></argsstring>
+        <name>error_handling</name>
+        <qualifiedname>themis::llm::VisionPipelineConfig::error_handling</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="233" column="20"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_pipeline_config_1a612cc32f67cda0a5e734950ab7bf3d22" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="structthemis_1_1llm_1_1_vision_pipeline_config_1_1_preprocessing_config" kindref="compound">themis::llm::VisionPipelineConfig::PreprocessingConfig</ref></type>
+        <definition>struct themis::llm::VisionPipelineConfig::PreprocessingConfig themis::llm::VisionPipelineConfig::preprocessing</definition>
+        <argsstring></argsstring>
+        <name>preprocessing</name>
+        <qualifiedname>themis::llm::VisionPipelineConfig::preprocessing</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="243" column="19"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_pipeline_config_1af7c44762c3a9b88f3a9028b2248425e1" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="structthemis_1_1llm_1_1_vision_pipeline_config_1_1_postprocessing_config" kindref="compound">themis::llm::VisionPipelineConfig::PostprocessingConfig</ref></type>
+        <definition>struct themis::llm::VisionPipelineConfig::PostprocessingConfig themis::llm::VisionPipelineConfig::postprocessing</definition>
+        <argsstring></argsstring>
+        <name>postprocessing</name>
+        <qualifiedname>themis::llm::VisionPipelineConfig::postprocessing</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="254" column="20"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_vision_pipeline_config_1a34660c9d6cb1dbcdd393c176e48ed278" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::VisionPipelineConfig::~VisionPipelineConfig</definition>
+        <argsstring>()=default</argsstring>
+        <name>~VisionPipelineConfig</name>
+        <qualifiedname>themis::llm::VisionPipelineConfig::~VisionPipelineConfig</qualifiedname>
+        <briefdescription>
+<para>Vision Pipeline Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="219" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::llm::VisionPipelineConfig</label>
+        <link refid="structthemis_1_1llm_1_1_vision_pipeline_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>error_handling</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>preprocessing</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>postprocessing</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::VisionPipelineConfig::ErrorHandlingConfig</label>
+        <link refid="structthemis_1_1llm_1_1_vision_pipeline_config_1_1_error_handling_config"/>
+      </node>
+      <node id="4">
+        <label>themis::llm::VisionPipelineConfig::PostprocessingConfig</label>
+        <link refid="structthemis_1_1llm_1_1_vision_pipeline_config_1_1_postprocessing_config"/>
+      </node>
+      <node id="3">
+        <label>themis::llm::VisionPipelineConfig::PreprocessingConfig</label>
+        <link refid="structthemis_1_1llm_1_1_vision_pipeline_config_1_1_preprocessing_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/vision_config.h" line="214" column="1" bodyfile="include/llm/vision_config.h" bodystart="214" bodyend="255"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_vision_pipeline_config_1a13d8c4a19eb37f264ac9e50f1274986d" prot="public" virt="non-virtual"><scope>themis::llm::VisionPipelineConfig</scope><name>error_handling</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_pipeline_config_1af7c44762c3a9b88f3a9028b2248425e1" prot="public" virt="non-virtual"><scope>themis::llm::VisionPipelineConfig</scope><name>postprocessing</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_pipeline_config_1a612cc32f67cda0a5e734950ab7bf3d22" prot="public" virt="non-virtual"><scope>themis::llm::VisionPipelineConfig</scope><name>preprocessing</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_pipeline_config_1aebafe625a717138dfa3bc9a1ba834577" prot="public" virt="non-virtual"><scope>themis::llm::VisionPipelineConfig</scope><name>stability</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_pipeline_config_1a34660c9d6cb1dbcdd393c176e48ed278" prot="public" virt="virtual"><scope>themis::llm::VisionPipelineConfig</scope><name>~VisionPipelineConfig</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

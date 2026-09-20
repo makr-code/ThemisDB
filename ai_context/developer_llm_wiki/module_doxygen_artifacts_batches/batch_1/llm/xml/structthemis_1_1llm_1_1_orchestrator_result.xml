@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_orchestrator_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::OrchestratorResult</compoundname>
+    <includes refid="ai__orchestrator_8h" local="no">ai_orchestrator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_orchestrator_result_1a9679e1632764d3950172b3cb34061c89" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::OrchestratorResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::llm::OrchestratorResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="347" column="18" bodyfile="include/llm/ai_orchestrator.h" bodystart="347" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_orchestrator_result_1a41be743040e7a493936fdf6987c62de9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::OrchestratorResult::text</definition>
+        <argsstring></argsstring>
+        <name>text</name>
+        <qualifiedname>themis::llm::OrchestratorResult::text</qualifiedname>
+        <briefdescription>
+<para>Generated text. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="348" column="18" bodyfile="include/llm/ai_orchestrator.h" bodystart="348" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_orchestrator_result_1a4fab6e3ea9199f58576bb52da2f7cace" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::OrchestratorResult::error</definition>
+        <argsstring></argsstring>
+        <name>error</name>
+        <qualifiedname>themis::llm::OrchestratorResult::error</qualifiedname>
+        <briefdescription>
+<para>Set on failure. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="349" column="18" bodyfile="include/llm/ai_orchestrator.h" bodystart="349" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_orchestrator_result_1a4f05bd8440ef4d82a613a8c325c12b09" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_run_metadata" kindref="compound">RunMetadata</ref></type>
+        <definition>RunMetadata themis::llm::OrchestratorResult::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::llm::OrchestratorResult::metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="350" column="18" bodyfile="include/llm/ai_orchestrator.h" bodystart="350" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_orchestrator_result_1abea0d11b9df6e8a07484a5a3afced050" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json themis::llm::OrchestratorResult::raw_response</definition>
+        <argsstring></argsstring>
+        <name>raw_response</name>
+        <qualifiedname>themis::llm::OrchestratorResult::raw_response</qualifiedname>
+        <briefdescription>
+<para>Full <ref refid="structthemis_1_1llm_1_1_inference_response" kindref="compound">InferenceResponse</ref> as JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="351" column="18" bodyfile="include/llm/ai_orchestrator.h" bodystart="351" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::llm::OrchestratorResult</label>
+        <link refid="structthemis_1_1llm_1_1_orchestrator_result"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>metadata</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::llm::RunLatency</label>
+        <link refid="structthemis_1_1llm_1_1_run_latency"/>
+      </node>
+      <node id="2">
+        <label>themis::llm::RunMetadata</label>
+        <link refid="structthemis_1_1llm_1_1_run_metadata"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>latency</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/ai_orchestrator.h" line="346" column="1" bodyfile="include/llm/ai_orchestrator.h" bodystart="346" bodyend="352"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_orchestrator_result_1a4fab6e3ea9199f58576bb52da2f7cace" prot="public" virt="non-virtual"><scope>themis::llm::OrchestratorResult</scope><name>error</name></member>
+      <member refid="structthemis_1_1llm_1_1_orchestrator_result_1a4f05bd8440ef4d82a613a8c325c12b09" prot="public" virt="non-virtual"><scope>themis::llm::OrchestratorResult</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1llm_1_1_orchestrator_result_1abea0d11b9df6e8a07484a5a3afced050" prot="public" virt="non-virtual"><scope>themis::llm::OrchestratorResult</scope><name>raw_response</name></member>
+      <member refid="structthemis_1_1llm_1_1_orchestrator_result_1a9679e1632764d3950172b3cb34061c89" prot="public" virt="non-virtual"><scope>themis::llm::OrchestratorResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1llm_1_1_orchestrator_result_1a41be743040e7a493936fdf6987c62de9" prot="public" virt="non-virtual"><scope>themis::llm::OrchestratorResult</scope><name>text</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

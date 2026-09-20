@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="adapter__signing_8h" kind="file" language="C++">
+    <compoundname>adapter_signing.h</compoundname>
+    <includes refid="adapter__metadata_8h" local="yes">core/concerns/adapter_metadata.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includedby refid="adapter__signing_8cpp" local="yes">src/core/concerns/adapter_signing.cpp</includedby>
+    <includedby refid="test__adapter__signing__focused_8cpp" local="yes">tests/core/test_adapter_signing_focused.cpp</includedby>
+    <includedby refid="test__plugin__loading__focused_8cpp" local="yes">tests/core/test_plugin_loading_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>core/concerns/adapter_metadata.h</label>
+        <link refid="adapter__metadata_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/core/concerns/adapter_signing.h</label>
+        <link refid="adapter__signing_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>string_view</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/core/concerns/adapter_signing.h</label>
+        <link refid="adapter__signing_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/core/concerns/adapter_signing.cpp</label>
+        <link refid="adapter__signing_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/core/test_adapter_signing_focused.cpp</label>
+        <link refid="test__adapter__signing__focused_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/core/test_plugin_loading_focused.cpp</label>
+        <link refid="test__plugin__loading__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_signed_adapter_validator" prot="public">themis::core::concerns::SignedAdapterValidator</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1core">themis::core</innernamespace>
+    <innernamespace refid="namespacethemis_1_1core_1_1concerns">themis::core::concerns</innernamespace>
+    <briefdescription>
+<para>SHA-256 based adapter signing validator for AdapterRegistry. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.1 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 94/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready</para>
+</simplesect>
+Provides <computeroutput>SignedAdapterValidator</computeroutput> — a concrete <computeroutput>AdapterValidator</computeroutput> that verifies an <computeroutput>AdapterSignature</computeroutput> against the SHA-256 digest of an adapter&apos;s canonical string representation before registration is permitted.</para>
+<sect1 id="adapter__signing_8h_1autotoc_md0_1s1"><sect2 id="adapter__signing_8h_1autotoc_md0">
+<title>Integration with AdapterRegistry</title><para><programlisting filename=".cpp"><codeline><highlight class="preprocessor">#include<sp/>&quot;<ref refid="adapter__registry_8h" kindref="compound">core/concerns/adapter_registry.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="adapter__signing_8h" kindref="compound">core/concerns/adapter_signing.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">AdapterSignature<sp/>sig{</highlight><highlight class="stringliteral">&quot;sha256&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&lt;64-char<sp/>hex<sp/>digest&gt;&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline><highlight class="normal">SignedAdapterValidator<sp/>validator{sig};</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">registry.registerAdapter&lt;ILogger&gt;(</highlight><highlight class="stringliteral">&quot;my_logger&quot;</highlight><highlight class="normal">,<sp/>adapter,<sp/>&amp;validator);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Throws<sp/>std::invalid_argument<sp/>if<sp/>the<sp/>digest<sp/>does<sp/>not<sp/>match.</highlight></codeline>
+</programlisting></para>
+</sect2></sect1>
+<sect1 id="adapter__signing_8h_1autotoc_md1_1s1"><sect2 id="adapter__signing_8h_1autotoc_md1">
+<title>Canonical string format</title><para>For programmatically-registered adapters the canonical input fed to SHA-256 is:</para>
+<para><programlisting><codeline><highlight class="normal">&lt;</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">&gt;:&lt;apiVersion&gt;:&lt;description&gt;</highlight></codeline>
+</programlisting></para>
+<para>where <computeroutput>description</computeroutput> is the value in <computeroutput>AdapterMetadata</computeroutput> (may be empty). To pre-compute the expected digest:</para>
+<para><programlisting filename=".bash"><codeline><highlight class="normal">printf<sp/>&apos;my_logger:1:&apos;<sp/>|<sp/>openssl<sp/>dgst<sp/>-sha256<sp/>-hex</highlight></codeline>
+</programlisting> </para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="adapter__metadata_8h" kindref="compound">core/concerns/adapter_metadata.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1core" kindref="compound">core</ref><sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1core_1_1concerns" kindref="compound">concerns</ref><sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SignedAdapterValidator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="classthemis_1_1core_1_1concerns_1_1_signed_adapter_validator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1core_1_1concerns_1_1_signed_adapter_validator_1a8d68643b5a5eaad6a0e0a4d545f15791" kindref="member">SignedAdapterValidator</ref><sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_validator" kindref="compound">AdapterValidator</ref><sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_signed_adapter_validator_1a8d68643b5a5eaad6a0e0a4d545f15791" kindref="member">SignedAdapterValidator</ref>(<ref refid="structthemis_1_1core_1_1concerns_1_1_adapter_signature" kindref="compound">AdapterSignature</ref><sp/>expected_sig);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_signed_adapter_validator_1a7d6b769b0b4df959eceac644d661c754" kindref="member">validate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref>&amp;<sp/>m)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Utilities</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_signed_adapter_validator_1a7a7bbd3c94c196686110bd2976120c7b" kindref="member">canonicalString</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref>&amp;<sp/>m);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_signed_adapter_validator_1a98adb3e44d6ece5e7cda65ca60fe0804" kindref="member">sha256Hex</ref>(std::string_view<sp/>data);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_adapter_signature" kindref="compound">AdapterSignature</ref><sp/>expected_sig_;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>concerns</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>core</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/core/concerns/adapter_signing.h"/>
+  </compounddef>
+</doxygen>

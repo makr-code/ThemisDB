@@ -1,0 +1,306 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="cloud__agent_8h" kind="file" language="C++">
+    <compoundname>cloud_agent.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">condition_variable</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">map</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="bench__sharding__performance_8cpp" local="yes">benchmarks/sharding/bench_sharding_performance.cpp</includedby>
+    <includedby refid="cloud__agent_8cpp" local="yes">src/sharding/cloud_agent.cpp</includedby>
+    <includedby refid="cloud__backup_8cpp" local="yes">src/sharding/cloud_backup.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/sharding/cloud_agent.h</label>
+        <link refid="cloud__agent_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>atomic</label>
+      </node>
+      <node id="9">
+        <label>chrono</label>
+      </node>
+      <node id="6">
+        <label>condition_variable</label>
+      </node>
+      <node id="11">
+        <label>functional</label>
+      </node>
+      <node id="10">
+        <label>map</label>
+      </node>
+      <node id="3">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>mutex</label>
+      </node>
+      <node id="12">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>thread</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/sharding/bench_sharding_performance.cpp</label>
+        <link refid="bench__sharding__performance_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/sharding/cloud_agent.h</label>
+        <link refid="cloud__agent_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/sharding/cloud_agent.cpp</label>
+        <link refid="cloud__agent_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/sharding/cloud_backup.cpp</label>
+        <link refid="cloud__backup_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1sharding_1_1_cloud_agent_operation" prot="public">themis::sharding::CloudAgentOperation</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_cloud_agent_result" prot="public">themis::sharding::CloudAgentResult</innerclass>
+    <innerclass refid="classthemis_1_1sharding_1_1_cloud_agent" prot="public">themis::sharding::CloudAgent</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_config" prot="public">themis::sharding::CloudAgent::Config</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_statistics" prot="public">themis::sharding::CloudAgent::Statistics</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1sharding">themis::sharding</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;condition_variable&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1sharding" kindref="compound">sharding</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref>;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_remote_executor" kindref="compound">RemoteExecutor</ref>;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_prometheus_metrics" kindref="compound">PrometheusMetrics</ref>;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_auto_rebalancer" kindref="compound">AutoRebalancer</ref>;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1sharding_1_1_cloud_agent_operation" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_cloud_agent_operation" kindref="compound">CloudAgentOperation</ref><sp/>{</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1sharding_1_1_cloud_agent_operation_1ad680487d00a56cdbe4d92d7a9671eca4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_cloud_agent_operation_1ad680487d00a56cdbe4d92d7a9671eca4" kindref="member">operation_id</ref>;</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1sharding_1_1_cloud_agent_operation_1abf6ccc20655b9a26ef2074abcff9760a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_cloud_agent_operation_1abf6ccc20655b9a26ef2074abcff9760a" kindref="member">operation_type</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;query&quot;,<sp/>&quot;rebalance&quot;,<sp/>&quot;health_check&quot;,<sp/>&quot;maintenance&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1sharding_1_1_cloud_agent_operation_1a176e2e7457c56bcdf0507e512b3ded42" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1sharding_1_1_cloud_agent_operation_1a176e2e7457c56bcdf0507e512b3ded42" kindref="member">parameters</ref>;</highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1sharding_1_1_cloud_agent_operation_1a44941a7ec24b6243b82977cf35a67564" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1sharding_1_1_cloud_agent_operation_1a44941a7ec24b6243b82977cf35a67564" kindref="member">target_shards</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Empty<sp/>=<sp/>all<sp/>shards</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1sharding_1_1_cloud_agent_operation_1ae07b8fc1432fc7dcf1218fe4a4481654" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1sharding_1_1_cloud_agent_operation_1ae07b8fc1432fc7dcf1218fe4a4481654" kindref="member">created_at</ref>;</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1sharding_1_1_cloud_agent_operation_1a41846dc3841dd767ff876448ac834746" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1sharding_1_1_cloud_agent_operation_1a41846dc3841dd767ff876448ac834746" kindref="member">timeout</ref>{std::chrono::minutes(5)};</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Callback<sp/>for<sp/>operation<sp/>completion</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1sharding_1_1_cloud_agent_operation_1a0c0a234a78af1ad7737a7aa25362e89c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_cloud_agent_operation_1a0c0a234a78af1ad7737a7aa25362e89c" kindref="member">CompletionCallback</ref><sp/>=<sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>result)&gt;;</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1sharding_1_1_cloud_agent_operation_1ae5d95f8b134e337fa8ec51b965147542" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_cloud_agent_operation_1a0c0a234a78af1ad7737a7aa25362e89c" kindref="member">CompletionCallback</ref><sp/><ref refid="structthemis_1_1sharding_1_1_cloud_agent_operation_1ae5d95f8b134e337fa8ec51b965147542" kindref="member">on_complete</ref>;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1sharding_1_1_cloud_agent_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_cloud_agent_result" kindref="compound">CloudAgentResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1sharding_1_1_cloud_agent_result_1afdeb2cf5392633a69ac353a425a1cfc6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_cloud_agent_result_1afdeb2cf5392633a69ac353a425a1cfc6" kindref="member">operation_id</ref>;</highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1sharding_1_1_cloud_agent_result_1a1b0e5b0b4d55c2923e6d0ec178a17557" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_cloud_agent_result_1a1b0e5b0b4d55c2923e6d0ec178a17557" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1sharding_1_1_cloud_agent_result_1a02af67dfc1da050cfcf8d7546641848e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_cloud_agent_result_1a02af67dfc1da050cfcf8d7546641848e" kindref="member">status</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;pending&quot;,<sp/>&quot;running&quot;,<sp/>&quot;completed&quot;,<sp/>&quot;failed&quot;,<sp/>&quot;timeout&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1sharding_1_1_cloud_agent_result_1ac0e75ad99414a7bb358549b56caa1634" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1sharding_1_1_cloud_agent_result_1ac0e75ad99414a7bb358549b56caa1634" kindref="member">result</ref>;</highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1sharding_1_1_cloud_agent_result_1af5dda4cb43327875e7052e0b34f7d8ba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_cloud_agent_result_1af5dda4cb43327875e7052e0b34f7d8ba" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1sharding_1_1_cloud_agent_result_1afbd5bb1c41c6cec3b8048289c03adef3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1sharding_1_1_cloud_agent_result_1afbd5bb1c41c6cec3b8048289c03adef3" kindref="member">execution_time</ref>{0};</highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1sharding_1_1_cloud_agent_result_1aae63350009d93571e02414e399fc8728" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>nlohmann::json&gt;<sp/><ref refid="structthemis_1_1sharding_1_1_cloud_agent_result_1aae63350009d93571e02414e399fc8728" kindref="member">shard_results</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Per-shard<sp/>results</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="classthemis_1_1sharding_1_1_cloud_agent" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_cloud_agent_1a156e2eb95174a8144ef0273e26f867a7" kindref="member">CloudAgent</ref><sp/>{</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Agent<sp/>identity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_config_1ad369e330a5fb3a8867dfb887b75e663f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_config_1ad369e330a5fb3a8867dfb887b75e663f" kindref="member">agent_id</ref>;</highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_config_1ab4f91d3136ce32542a2e04e27070d418" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_config_1ab4f91d3136ce32542a2e04e27070d418" kindref="member">datacenter</ref>;</highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_config_1ac3153727e9d145260227b60d363e49c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_config_1ac3153727e9d145260227b60d363e49c5" kindref="member">region</ref>;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Execution<sp/>settings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_config_1a887950da997ed3462c1bdefc7b29b825" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_config_1a887950da997ed3462c1bdefc7b29b825" kindref="member">max_concurrent_operations</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_config_1aac2509654e5be329f420649c03b816c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_config_1aac2509654e5be329f420649c03b816c0" kindref="member">operation_timeout</ref>{std::chrono::minutes(5)};</highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_config_1a3fba482a821f6cf14c4779b6d8d93df9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_config_1a3fba482a821f6cf14c4779b6d8d93df9" kindref="member">max_retries</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Health<sp/>check<sp/>settings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_config_1a67192358b73f667bd07cbf4a49a77ac8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_config_1a67192358b73f667bd07cbf4a49a77ac8" kindref="member">enable_health_monitoring</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_config_1a94649eb88bfaaa07dd279c9ae26122ff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_config_1a94649eb88bfaaa07dd279c9ae26122ff" kindref="member">health_check_interval</ref>{std::chrono::seconds(30)};</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cloud<sp/>provider<sp/>settings<sp/>(optional)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_config_1a68d7c0a8ca8d3e428382e7fb8081fd62" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_config_1a68d7c0a8ca8d3e428382e7fb8081fd62" kindref="member">cloud_provider</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;aws&quot;,<sp/>&quot;azure&quot;,<sp/>&quot;gcp&quot;,<sp/>&quot;local&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_config_1a47f8d3c4cb07361480462ebc7c8cc760" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_config_1a47f8d3c4cb07361480462ebc7c8cc760" kindref="member">cloud_region</ref>;</highlight></codeline>
+<codeline lineno="122" refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_config_1add73ac1c1adda5215462ab954e35bb11" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_config_1add73ac1c1adda5215462ab954e35bb11" kindref="member">cloud_credentials</ref>;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Metrics<sp/>settings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_config_1afbc2cd3e95c5397cb466d55459562c11" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_config_1afbc2cd3e95c5397cb466d55459562c11" kindref="member">enable_metrics</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="126" refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_config_1aa15f72164222c25d01e7098269cde56c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_config_1aa15f72164222c25d01e7098269cde56c" kindref="member">metrics_prefix</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;themis_cloud_agent_&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics<sp/>settings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129" refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_config_1afb968c1b749ef219aaec51a08904324f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_config_1afb968c1b749ef219aaec51a08904324f" kindref="member">avg_execution_time_smoothing_factor</ref><sp/>=<sp/>0.1;<sp/><sp/></highlight><highlight class="comment">//<sp/>EMA<sp/>alpha</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_config_1a8f3f8ba8474a7e945e4af0933a3e81be" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_config_1a8f3f8ba8474a7e945e4af0933a3e81be" kindref="member">max_completed_operations_history</ref><sp/>=<sp/>1000;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cleanup<sp/>threshold</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_config_1a5d55e464c596bb26b21b4b548d672280" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::minutes<sp/><ref refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_config_1a5d55e464c596bb26b21b4b548d672280" kindref="member">cleanup_interval</ref>{5};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cleanup<sp/>frequency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="134" refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_statistics" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_statistics" kindref="compound">Statistics</ref><sp/>{</highlight></codeline>
+<codeline lineno="135" refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_statistics_1a9fe35161b0c10563ced34a697065d595" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_statistics_1a9fe35161b0c10563ced34a697065d595" kindref="member">total_operations</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="136" refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_statistics_1a254fddc488e23f2af7290694b34ebd42" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_statistics_1a254fddc488e23f2af7290694b34ebd42" kindref="member">completed_operations</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="137" refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_statistics_1a7a9ed84e4bc68c83c6a815b003642e6a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_statistics_1a7a9ed84e4bc68c83c6a815b003642e6a" kindref="member">failed_operations</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="138" refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_statistics_1a6b323b8bff725367e1114b8cc78504c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_statistics_1a6b323b8bff725367e1114b8cc78504c6" kindref="member">timeout_operations</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="139" refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_statistics_1a7fb5ce435ceb32bbf890a3d39ac9c088" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_statistics_1a7fb5ce435ceb32bbf890a3d39ac9c088" kindref="member">pending_operations</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="140" refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_statistics_1afafb56c69ec60800c4b90db4ef9c53ea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_statistics_1afafb56c69ec60800c4b90db4ef9c53ea" kindref="member">avg_execution_time_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="141" refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_statistics_1ab1577f6e144829fcba53895bef9e175e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_statistics_1ab1577f6e144829fcba53895bef9e175e" kindref="member">start_time</ref>;</highlight></codeline>
+<codeline lineno="142" refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_statistics_1a8dba7e0a9e96e837375a0284fe31e4cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_statistics_1a8dba7e0a9e96e837375a0284fe31e4cc" kindref="member">last_activity</ref>;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_cloud_agent_1a156e2eb95174a8144ef0273e26f867a7" kindref="member">CloudAgent</ref>(</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ShardTopology&gt;<sp/>topology,</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;RemoteExecutor&gt;<sp/>executor,</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;PrometheusMetrics&gt;<sp/>metrics</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_cloud_agent_1a156e2eb95174a8144ef0273e26f867a7" kindref="member">CloudAgent</ref>(</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ShardTopology&gt;<sp/>topology,</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;RemoteExecutor&gt;<sp/>executor,</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;PrometheusMetrics&gt;<sp/>metrics,</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_cloud_agent_1a8d998b82ecdbd4b6a48387fd05a58ea6" kindref="member">~CloudAgent</ref>();</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_cloud_agent_1af767ed8f43c1f1a2b7ca8624f8f16979" kindref="member">start</ref>();</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_cloud_agent_1a8573527ac7d4ee319377dad29a234030" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="173" refid="classthemis_1_1sharding_1_1_cloud_agent_1a980a52db8a39c2bdc6cd723feab11de2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_cloud_agent_1a980a52db8a39c2bdc6cd723feab11de2" kindref="member">isRunning</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>running_.load();<sp/>}</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_cloud_agent_result" kindref="compound">CloudAgentResult</ref><sp/><ref refid="classthemis_1_1sharding_1_1_cloud_agent_1af3c1c23d5de12f9cec0fd048b5e0bce5" kindref="member">delegate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_cloud_agent_operation" kindref="compound">CloudAgentOperation</ref>&amp;<sp/>operation);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1sharding_1_1_cloud_agent_1a6bb37f7bae1b7e773f138d2d76e94b98" kindref="member">delegateAsync</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_cloud_agent_operation" kindref="compound">CloudAgentOperation</ref>&amp;<sp/>operation);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_cloud_agent_result" kindref="compound">CloudAgentResult</ref><sp/><ref refid="classthemis_1_1sharding_1_1_cloud_agent_1a8f644ecebe620e1bb740453168db0633" kindref="member">getOperationStatus</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>operation_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_cloud_agent_1aedd34720eb2c56c52616ea15678cb951" kindref="member">cancelOperation</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>operation_id);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1sharding_1_1_cloud_agent_1a0be646875b282d328a744259d5fbb727" kindref="member">getPendingOperations</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>Statistics<sp/><ref refid="classthemis_1_1sharding_1_1_cloud_agent_1a83aa3c0afece809dda89ea2b835b0ea2" kindref="member">getStatistics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1sharding_1_1_cloud_agent_1a035d230cc94c7d78688ff491703a84d3" kindref="member">getStatisticsJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1sharding_1_1_cloud_agent_1a5e5b616f3f1976b65a0267292d6797cf" kindref="member">getHealthStatus</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="231" refid="classthemis_1_1sharding_1_1_cloud_agent_1a0b47b4da7088075a76398f108494cde2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_cloud_agent_1_1_config" kindref="compound">Config</ref>&amp;<sp/><ref refid="classthemis_1_1sharding_1_1_cloud_agent_1a0b47b4da7088075a76398f108494cde2" kindref="member">getConfig</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_cloud_agent_1a1e4166a7bec2cfcd9fa9a2a0570e3b0c" kindref="member">updateConfig</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Config&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1sharding_1_1_cloud_agent_1a559cf3bdc1e980732be22b805665c6dd" kindref="member">executeHealthCheck</ref>();</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ShardTopology&gt;<sp/>topology_;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;RemoteExecutor&gt;<sp/>executor_;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;PrometheusMetrics&gt;<sp/>metrics_;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>Config<sp/>config_;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Threading</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>running_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>worker_thread_;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>health_thread_;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>std::condition_variable<sp/>cv_;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Operation<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>CloudAgentOperation&gt;<sp/>pending_operations_;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>CloudAgentResult&gt;<sp/>completed_operations_;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>Statistics<sp/>statistics_;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cleanup<sp/>tracking<sp/>(protected<sp/>by<sp/>mutex_)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>last_cleanup_{std::chrono::steady_clock::now()};</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Internal<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>workerLoop();</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>healthLoop();</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>generateOperationId()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>generateAgentId()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>CloudAgentResult<sp/>executeOperation(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>CloudAgentOperation&amp;<sp/>operation);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>CloudAgentResult<sp/>executeScatterGather(</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>CloudAgentOperation&amp;<sp/>operation,</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>shards</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>updateStatistics(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>CloudAgentResult&amp;<sp/>result);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>recordMetrics(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>CloudAgentOperation&amp;<sp/>operation,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>CloudAgentResult&amp;<sp/>result);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>cleanupOldOperations();</highlight></codeline>
+<codeline lineno="281"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>sharding</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/sharding/cloud_agent.h"/>
+  </compounddef>
+</doxygen>

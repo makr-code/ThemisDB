@@ -1,0 +1,184 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rpc_1_1_snapshot_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rpc::SnapshotConfig</compoundname>
+    <includes refid="snapshot__transfer__handler_8h" local="no">snapshot_transfer_handler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_snapshot_config_1a6aedf62c4ff7fe11e70baa723152f480" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rpc::SnapshotConfig::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::rpc::SnapshotConfig::shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/snapshot_transfer_handler.h" line="37" column="17" bodyfile="include/server/rpc/snapshot_transfer_handler.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_snapshot_config_1a4e70b0c764ff5c5110bdae874f39a88d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rpc::SnapshotConfig::snapshot_id</definition>
+        <argsstring></argsstring>
+        <name>snapshot_id</name>
+        <qualifiedname>themis::rpc::SnapshotConfig::snapshot_id</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/snapshot_transfer_handler.h" line="38" column="17" bodyfile="include/server/rpc/snapshot_transfer_handler.h" bodystart="38" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_snapshot_config_1aa45019505dde8c30df8ea7e18ace5f38" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rpc::SnapshotConfig::is_incremental</definition>
+        <argsstring></argsstring>
+        <name>is_incremental</name>
+        <qualifiedname>themis::rpc::SnapshotConfig::is_incremental</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/snapshot_transfer_handler.h" line="39" column="10" bodyfile="include/server/rpc/snapshot_transfer_handler.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_snapshot_config_1a7c80be3171d5efed07bbdef89db37877" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rpc::SnapshotConfig::base_snapshot_id</definition>
+        <argsstring></argsstring>
+        <name>base_snapshot_id</name>
+        <qualifiedname>themis::rpc::SnapshotConfig::base_snapshot_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/snapshot_transfer_handler.h" line="40" column="17" bodyfile="include/server/rpc/snapshot_transfer_handler.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_snapshot_config_1a98368073f8e6589a521f5d8450d987fa" prot="public" static="no" mutable="no">
+        <type>shard_proto::CompressionType</type>
+        <definition>shard_proto::CompressionType themis::rpc::SnapshotConfig::compression_type</definition>
+        <argsstring></argsstring>
+        <name>compression_type</name>
+        <qualifiedname>themis::rpc::SnapshotConfig::compression_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/snapshot_transfer_handler.h" line="43" column="34" bodyfile="include/server/rpc/snapshot_transfer_handler.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_snapshot_config_1adf53e8b86d85c57576456c605385169e" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::rpc::SnapshotConfig::compression_level</definition>
+        <argsstring></argsstring>
+        <name>compression_level</name>
+        <qualifiedname>themis::rpc::SnapshotConfig::compression_level</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/snapshot_transfer_handler.h" line="44" column="9" bodyfile="include/server/rpc/snapshot_transfer_handler.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_snapshot_config_1a6152a12af79360538eeb3c3f0d3ea321" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::rpc::SnapshotConfig::chunk_size_mb</definition>
+        <argsstring></argsstring>
+        <name>chunk_size_mb</name>
+        <qualifiedname>themis::rpc::SnapshotConfig::chunk_size_mb</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/snapshot_transfer_handler.h" line="47" column="14" bodyfile="include/server/rpc/snapshot_transfer_handler.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_snapshot_config_1aff4e81b0c84aa46cddc39655f5f138de" prot="public" static="no" mutable="no">
+        <type>shard_proto::ChecksumType</type>
+        <definition>shard_proto::ChecksumType themis::rpc::SnapshotConfig::checksum_type</definition>
+        <argsstring></argsstring>
+        <name>checksum_type</name>
+        <qualifiedname>themis::rpc::SnapshotConfig::checksum_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/snapshot_transfer_handler.h" line="48" column="31" bodyfile="include/server/rpc/snapshot_transfer_handler.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_snapshot_config_1adfb29795258e59ea07bddb06f18baa83" prot="public" static="no" mutable="no">
+        <type>shard_proto::SnapshotIsolation</type>
+        <definition>shard_proto::SnapshotIsolation themis::rpc::SnapshotConfig::isolation_level</definition>
+        <argsstring></argsstring>
+        <name>isolation_level</name>
+        <qualifiedname>themis::rpc::SnapshotConfig::isolation_level</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/snapshot_transfer_handler.h" line="51" column="36" bodyfile="include/server/rpc/snapshot_transfer_handler.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_snapshot_config_1a3a3d7a5de8b368dd33340a823e3038f7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rpc::SnapshotConfig::is_immutable</definition>
+        <argsstring></argsstring>
+        <name>is_immutable</name>
+        <qualifiedname>themis::rpc::SnapshotConfig::is_immutable</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/snapshot_transfer_handler.h" line="52" column="10" bodyfile="include/server/rpc/snapshot_transfer_handler.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1rpc_1_1_snapshot_config_1afffa5c043480ea8c5d0ae9b25aa5a12f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::rpc::SnapshotConfig::SnapshotConfig</definition>
+        <argsstring>()</argsstring>
+        <name>SnapshotConfig</name>
+        <qualifiedname>themis::rpc::SnapshotConfig::SnapshotConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/snapshot_transfer_handler.h" line="54" column="5" bodyfile="include/server/rpc/snapshot_transfer_handler.h" bodystart="54" bodyend="61"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/rpc/snapshot_transfer_handler.h" line="36" column="1" bodyfile="include/server/rpc/snapshot_transfer_handler.h" bodystart="36" bodyend="62"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rpc_1_1_snapshot_config_1a7c80be3171d5efed07bbdef89db37877" prot="public" virt="non-virtual"><scope>themis::rpc::SnapshotConfig</scope><name>base_snapshot_id</name></member>
+      <member refid="structthemis_1_1rpc_1_1_snapshot_config_1aff4e81b0c84aa46cddc39655f5f138de" prot="public" virt="non-virtual"><scope>themis::rpc::SnapshotConfig</scope><name>checksum_type</name></member>
+      <member refid="structthemis_1_1rpc_1_1_snapshot_config_1a6152a12af79360538eeb3c3f0d3ea321" prot="public" virt="non-virtual"><scope>themis::rpc::SnapshotConfig</scope><name>chunk_size_mb</name></member>
+      <member refid="structthemis_1_1rpc_1_1_snapshot_config_1adf53e8b86d85c57576456c605385169e" prot="public" virt="non-virtual"><scope>themis::rpc::SnapshotConfig</scope><name>compression_level</name></member>
+      <member refid="structthemis_1_1rpc_1_1_snapshot_config_1a98368073f8e6589a521f5d8450d987fa" prot="public" virt="non-virtual"><scope>themis::rpc::SnapshotConfig</scope><name>compression_type</name></member>
+      <member refid="structthemis_1_1rpc_1_1_snapshot_config_1a3a3d7a5de8b368dd33340a823e3038f7" prot="public" virt="non-virtual"><scope>themis::rpc::SnapshotConfig</scope><name>is_immutable</name></member>
+      <member refid="structthemis_1_1rpc_1_1_snapshot_config_1aa45019505dde8c30df8ea7e18ace5f38" prot="public" virt="non-virtual"><scope>themis::rpc::SnapshotConfig</scope><name>is_incremental</name></member>
+      <member refid="structthemis_1_1rpc_1_1_snapshot_config_1adfb29795258e59ea07bddb06f18baa83" prot="public" virt="non-virtual"><scope>themis::rpc::SnapshotConfig</scope><name>isolation_level</name></member>
+      <member refid="structthemis_1_1rpc_1_1_snapshot_config_1a6aedf62c4ff7fe11e70baa723152f480" prot="public" virt="non-virtual"><scope>themis::rpc::SnapshotConfig</scope><name>shard_id</name></member>
+      <member refid="structthemis_1_1rpc_1_1_snapshot_config_1a4e70b0c764ff5c5110bdae874f39a88d" prot="public" virt="non-virtual"><scope>themis::rpc::SnapshotConfig</scope><name>snapshot_id</name></member>
+      <member refid="structthemis_1_1rpc_1_1_snapshot_config_1afffa5c043480ea8c5d0ae9b25aa5a12f" prot="public" virt="non-virtual"><scope>themis::rpc::SnapshotConfig</scope><name>SnapshotConfig</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

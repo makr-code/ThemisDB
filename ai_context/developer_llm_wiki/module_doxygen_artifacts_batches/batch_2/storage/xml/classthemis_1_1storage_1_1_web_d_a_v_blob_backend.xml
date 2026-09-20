@@ -1,0 +1,511 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1storage_1_1_web_d_a_v_blob_backend" kind="class" language="C++" prot="public">
+    <compoundname>themis::storage::WebDAVBlobBackend</compoundname>
+    <basecompoundref refid="classthemis_1_1storage_1_1_i_blob_storage_backend" prot="public" virt="non-virtual">themis::storage::IBlobStorageBackend</basecompoundref>
+    <innerclass refid="structthemis_1_1storage_1_1_web_d_a_v_blob_backend_1_1_read_data" prot="private">themis::storage::WebDAVBlobBackend::ReadData</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_web_d_a_v_blob_backend_1ae7e78ce368e69dc34d318a92f7730f15" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::WebDAVBlobBackend::base_url_</definition>
+        <argsstring></argsstring>
+        <name>base_url_</name>
+        <qualifiedname>themis::storage::WebDAVBlobBackend::base_url_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/blob_backend_webdav.cpp" line="32" column="17" bodyfile="src/storage/blob_backend_webdav.cpp" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_web_d_a_v_blob_backend_1a74e4cca3af6ce28e6228cb27a1b6ec0d" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::WebDAVBlobBackend::username_</definition>
+        <argsstring></argsstring>
+        <name>username_</name>
+        <qualifiedname>themis::storage::WebDAVBlobBackend::username_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/blob_backend_webdav.cpp" line="33" column="17" bodyfile="src/storage/blob_backend_webdav.cpp" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_web_d_a_v_blob_backend_1a71c4237feb84c9876aec22329f4acf67" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::WebDAVBlobBackend::password_</definition>
+        <argsstring></argsstring>
+        <name>password_</name>
+        <qualifiedname>themis::storage::WebDAVBlobBackend::password_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/blob_backend_webdav.cpp" line="34" column="17" bodyfile="src/storage/blob_backend_webdav.cpp" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_web_d_a_v_blob_backend_1a586fe1db26e701727b650f95f3e35168" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::WebDAVBlobBackend::verify_ssl_</definition>
+        <argsstring></argsstring>
+        <name>verify_ssl_</name>
+        <qualifiedname>themis::storage::WebDAVBlobBackend::verify_ssl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/blob_backend_webdav.cpp" line="35" column="10" bodyfile="src/storage/blob_backend_webdav.cpp" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_web_d_a_v_blob_backend_1a2ea15726fe3e8401813c1b6226035d44" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>static size_t themis::storage::WebDAVBlobBackend::writeCallback</definition>
+        <argsstring>(void *ptr, size_t size, size_t nmemb, void *userdata)</argsstring>
+        <name>writeCallback</name>
+        <qualifiedname>themis::storage::WebDAVBlobBackend::writeCallback</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>nmemb</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>userdata</declname>
+        </param>
+        <briefdescription>
+<para>CURL helper for writing data uninitialized_access scanner alert (line 37): ptr and userdata are standard CURL callback parameters — they are passed by the libcurl runtime and are always valid non-null pointers when the callback is invoked — false positive. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">nmemb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">userdata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: insert(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/blob_backend_webdav.cpp" line="46" column="19" bodyfile="src/storage/blob_backend_webdav.cpp" bodystart="46" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_web_d_a_v_blob_backend_1a115a6b9623ae1a02d67a1b63a4c0d64a" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>static size_t themis::storage::WebDAVBlobBackend::readCallback</definition>
+        <argsstring>(char *ptr, size_t size, size_t nmemb, void *userdata)</argsstring>
+        <name>readCallback</name>
+        <qualifiedname>themis::storage::WebDAVBlobBackend::readCallback</qualifiedname>
+        <param>
+          <type>char *</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>nmemb</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>userdata</declname>
+        </param>
+        <briefdescription>
+<para>Read Callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">nmemb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">userdata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::min(), std::memcpy(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/blob_backend_webdav.cpp" line="72" column="19" bodyfile="src/storage/blob_backend_webdav.cpp" bodystart="72" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_web_d_a_v_blob_backend_1a175bb0c9629075c731ba95c4c341e298" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::storage::WebDAVBlobBackend::computeSHA256</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>computeSHA256</name>
+        <qualifiedname>themis::storage::WebDAVBlobBackend::computeSHA256</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Compute SHA256. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: SHA256(), data(), size(), std::setw(), std::setfill(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/blob_backend_webdav.cpp" line="96" column="24" bodyfile="src/storage/blob_backend_webdav.cpp" bodystart="96" bodyend="106"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_web_d_a_v_blob_backend_1a29722f3e95c0c48460759c4fa587cad1" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::storage::WebDAVBlobBackend::getBlobUrl</definition>
+        <argsstring>(const std::string &amp;blob_id) const</argsstring>
+        <name>getBlobUrl</name>
+        <qualifiedname>themis::storage::WebDAVBlobBackend::getBlobUrl</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/blob_backend_webdav.cpp" line="108" column="17" bodyfile="src/storage/blob_backend_webdav.cpp" bodystart="108" bodyend="115"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_web_d_a_v_blob_backend_1ae5342788300ae93c63afc77cb3256352" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::WebDAVBlobBackend::WebDAVBlobBackend</definition>
+        <argsstring>(const std::string &amp;base_url, const std::string &amp;username, const std::string &amp;password, bool verify_ssl=true)</argsstring>
+        <name>WebDAVBlobBackend</name>
+        <qualifiedname>themis::storage::WebDAVBlobBackend::WebDAVBlobBackend</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>base_url</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>username</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>password</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>verify_ssl</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/blob_backend_webdav.cpp" line="118" column="5" bodyfile="src/storage/blob_backend_webdav.cpp" bodystart="118" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_web_d_a_v_blob_backend_1a9c41d8983de5e1bc777497ec7542576d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1storage_1_1_blob_ref" kindref="compound">BlobRef</ref> &gt;</type>
+        <definition>Result&lt; BlobRef &gt; themis::storage::WebDAVBlobBackend::put</definition>
+        <argsstring>(const std::string &amp;blob_id, const std::vector&lt; uint8_t &gt; &amp;data) override</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::storage::WebDAVBlobBackend::put</qualifiedname>
+        <reimplements refid="classthemis_1_1storage_1_1_i_blob_storage_backend_1a95f20c9781e8494ebd196b26fa907fe7">put</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Store a blob. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>blob_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique blob identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Blob data </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;BlobRef&gt; Reference to stored blob or error </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/blob_backend_webdav.cpp" line="163" column="12" bodyfile="src/storage/blob_backend_webdav.cpp" bodystart="163" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_web_d_a_v_blob_backend_1aa7a224a7668e288d572f7eb1f02e7192" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>Result&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; uint8_t &gt; &gt; themis::storage::WebDAVBlobBackend::get</definition>
+        <argsstring>(const BlobRef &amp;ref) override</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::storage::WebDAVBlobBackend::get</qualifiedname>
+        <reimplements refid="classthemis_1_1storage_1_1_i_blob_storage_backend_1ad9be71e35853a3f8fa0eb3ca8cd720e0">get</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_blob_ref" kindref="compound">BlobRef</ref> &amp;</type>
+          <declname>ref</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve a blob. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ref</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Blob reference </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;vector&lt;uint8_t&gt;&gt; Blob data or error if not found </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/blob_backend_webdav.cpp" line="248" column="12" bodyfile="src/storage/blob_backend_webdav.cpp" bodystart="248" bodyend="315"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_web_d_a_v_blob_backend_1a588a3215a3a78722d1b5bf4452223d5a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::storage::WebDAVBlobBackend::remove</definition>
+        <argsstring>(const BlobRef &amp;ref) override</argsstring>
+        <name>remove</name>
+        <qualifiedname>themis::storage::WebDAVBlobBackend::remove</qualifiedname>
+        <reimplements refid="classthemis_1_1storage_1_1_i_blob_storage_backend_1adfcf671215efaedc0b1b8dcf3a04aaf4">remove</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_blob_ref" kindref="compound">BlobRef</ref> &amp;</type>
+          <declname>ref</declname>
+        </param>
+        <briefdescription>
+<para>Delete a blob. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ref</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Blob reference </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;bool&gt; Success or error </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/blob_backend_webdav.cpp" line="317" column="12" bodyfile="src/storage/blob_backend_webdav.cpp" bodystart="317" bodyend="361"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_web_d_a_v_blob_backend_1ac5e65345f2481f36091a40a31baf64a5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::WebDAVBlobBackend::exists</definition>
+        <argsstring>(const BlobRef &amp;ref) override</argsstring>
+        <name>exists</name>
+        <qualifiedname>themis::storage::WebDAVBlobBackend::exists</qualifiedname>
+        <reimplements refid="classthemis_1_1storage_1_1_i_blob_storage_backend_1a12a0da5953ed62e43fd0c7781ea2bffb">exists</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_blob_ref" kindref="compound">BlobRef</ref> &amp;</type>
+          <declname>ref</declname>
+        </param>
+        <briefdescription>
+<para>Check if blob exists. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ref</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Blob reference </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if exists </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/blob_backend_webdav.cpp" line="363" column="10" bodyfile="src/storage/blob_backend_webdav.cpp" bodystart="363" bodyend="394"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_web_d_a_v_blob_backend_1ae78967e6b62c67c16fe5243a0c10026f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::storage::WebDAVBlobBackend::name</definition>
+        <argsstring>() const override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::storage::WebDAVBlobBackend::name</qualifiedname>
+        <reimplements refid="classthemis_1_1storage_1_1_i_blob_storage_backend_1a2ca43ee09ac2171de91232e3791ef3b6">name</reimplements>
+        <briefdescription>
+<para>Get backend name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Backend name (e.g., &quot;filesystem&quot;, &quot;s3&quot;, &quot;webdav&quot;) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/blob_backend_webdav.cpp" line="396" column="17" bodyfile="src/storage/blob_backend_webdav.cpp" bodystart="396" bodyend="398"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_web_d_a_v_blob_backend_1aa76430d8b87b6a30c08699b9e6792f44" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::WebDAVBlobBackend::isAvailable</definition>
+        <argsstring>() const override</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::storage::WebDAVBlobBackend::isAvailable</qualifiedname>
+        <reimplements refid="classthemis_1_1storage_1_1_i_blob_storage_backend_1a7bca1f3bdefb0139f6988710880ef2c4">isAvailable</reimplements>
+        <briefdescription>
+<para>Check if backend is available. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if backend can be used </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/blob_backend_webdav.cpp" line="400" column="10" bodyfile="src/storage/blob_backend_webdav.cpp" bodystart="400" bodyend="427"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::storage::IBlobStorageBackend</label>
+        <link refid="classthemis_1_1storage_1_1_i_blob_storage_backend"/>
+      </node>
+      <node id="1">
+        <label>themis::storage::WebDAVBlobBackend</label>
+        <link refid="classthemis_1_1storage_1_1_web_d_a_v_blob_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::storage::IBlobStorageBackend</label>
+        <link refid="classthemis_1_1storage_1_1_i_blob_storage_backend"/>
+      </node>
+      <node id="1">
+        <label>themis::storage::WebDAVBlobBackend</label>
+        <link refid="classthemis_1_1storage_1_1_web_d_a_v_blob_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/storage/blob_backend_webdav.cpp" line="30" column="1" bodyfile="src/storage/blob_backend_webdav.cpp" bodystart="30" bodyend="428"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1storage_1_1_web_d_a_v_blob_backend_1ae7e78ce368e69dc34d318a92f7730f15" prot="private" virt="non-virtual"><scope>themis::storage::WebDAVBlobBackend</scope><name>base_url_</name></member>
+      <member refid="classthemis_1_1storage_1_1_web_d_a_v_blob_backend_1a175bb0c9629075c731ba95c4c341e298" prot="private" virt="non-virtual"><scope>themis::storage::WebDAVBlobBackend</scope><name>computeSHA256</name></member>
+      <member refid="classthemis_1_1storage_1_1_web_d_a_v_blob_backend_1ac5e65345f2481f36091a40a31baf64a5" prot="public" virt="virtual"><scope>themis::storage::WebDAVBlobBackend</scope><name>exists</name></member>
+      <member refid="classthemis_1_1storage_1_1_web_d_a_v_blob_backend_1aa7a224a7668e288d572f7eb1f02e7192" prot="public" virt="virtual"><scope>themis::storage::WebDAVBlobBackend</scope><name>get</name></member>
+      <member refid="classthemis_1_1storage_1_1_web_d_a_v_blob_backend_1a29722f3e95c0c48460759c4fa587cad1" prot="private" virt="non-virtual"><scope>themis::storage::WebDAVBlobBackend</scope><name>getBlobUrl</name></member>
+      <member refid="classthemis_1_1storage_1_1_web_d_a_v_blob_backend_1aa76430d8b87b6a30c08699b9e6792f44" prot="public" virt="virtual"><scope>themis::storage::WebDAVBlobBackend</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1storage_1_1_web_d_a_v_blob_backend_1ae78967e6b62c67c16fe5243a0c10026f" prot="public" virt="virtual"><scope>themis::storage::WebDAVBlobBackend</scope><name>name</name></member>
+      <member refid="classthemis_1_1storage_1_1_web_d_a_v_blob_backend_1a71c4237feb84c9876aec22329f4acf67" prot="private" virt="non-virtual"><scope>themis::storage::WebDAVBlobBackend</scope><name>password_</name></member>
+      <member refid="classthemis_1_1storage_1_1_web_d_a_v_blob_backend_1a9c41d8983de5e1bc777497ec7542576d" prot="public" virt="virtual"><scope>themis::storage::WebDAVBlobBackend</scope><name>put</name></member>
+      <member refid="classthemis_1_1storage_1_1_web_d_a_v_blob_backend_1a115a6b9623ae1a02d67a1b63a4c0d64a" prot="private" virt="non-virtual"><scope>themis::storage::WebDAVBlobBackend</scope><name>readCallback</name></member>
+      <member refid="classthemis_1_1storage_1_1_web_d_a_v_blob_backend_1a588a3215a3a78722d1b5bf4452223d5a" prot="public" virt="virtual"><scope>themis::storage::WebDAVBlobBackend</scope><name>remove</name></member>
+      <member refid="classthemis_1_1storage_1_1_web_d_a_v_blob_backend_1a74e4cca3af6ce28e6228cb27a1b6ec0d" prot="private" virt="non-virtual"><scope>themis::storage::WebDAVBlobBackend</scope><name>username_</name></member>
+      <member refid="classthemis_1_1storage_1_1_web_d_a_v_blob_backend_1a586fe1db26e701727b650f95f3e35168" prot="private" virt="non-virtual"><scope>themis::storage::WebDAVBlobBackend</scope><name>verify_ssl_</name></member>
+      <member refid="classthemis_1_1storage_1_1_web_d_a_v_blob_backend_1ae5342788300ae93c63afc77cb3256352" prot="public" virt="non-virtual"><scope>themis::storage::WebDAVBlobBackend</scope><name>WebDAVBlobBackend</name></member>
+      <member refid="classthemis_1_1storage_1_1_web_d_a_v_blob_backend_1a2ea15726fe3e8401813c1b6226035d44" prot="private" virt="non-virtual"><scope>themis::storage::WebDAVBlobBackend</scope><name>writeCallback</name></member>
+      <member refid="classthemis_1_1storage_1_1_i_blob_storage_backend_1a9298452bf506be5cc61866a8010e8cd5" prot="public" virt="virtual"><scope>themis::storage::WebDAVBlobBackend</scope><name>~IBlobStorageBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

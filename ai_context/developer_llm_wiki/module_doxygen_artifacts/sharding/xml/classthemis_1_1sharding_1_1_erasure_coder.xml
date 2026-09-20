@@ -1,0 +1,177 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_erasure_coder" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::sharding::ErasureCoder</compoundname>
+    <derivedcompoundref refid="classthemis_1_1sharding_1_1_cauchy_reed_solomon_coder" prot="public" virt="non-virtual">themis::sharding::CauchyReedSolomonCoder</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1sharding_1_1_g_p_u_erasure_coder" prot="public" virt="non-virtual">themis::sharding::GPUErasureCoder</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1sharding_1_1_hamming_coder" prot="public" virt="non-virtual">themis::sharding::HammingCoder</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1sharding_1_1_locally_repairable_coder" prot="public" virt="non-virtual">themis::sharding::LocallyRepairableCoder</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1sharding_1_1_reed_solomon_coder" prot="public" virt="non-virtual">themis::sharding::ReedSolomonCoder</derivedcompoundref>
+    <includes refid="redundancy__strategy_8h" local="no">redundancy_strategy.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_erasure_coder_1aeefb61c591a606c2f8fdb23e7e3f933d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::sharding::ErasureCoder::~ErasureCoder</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ErasureCoder</name>
+        <qualifiedname>themis::sharding::ErasureCoder::~ErasureCoder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="334" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_erasure_coder_1a34d0060f7cc4611a3e3540d300ba903e" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>virtual std::vector&lt; std::vector&lt; uint8_t &gt; &gt; themis::sharding::ErasureCoder::encode</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data, uint32_t data_shards, uint32_t parity_shards)=0</argsstring>
+        <name>encode</name>
+        <qualifiedname>themis::sharding::ErasureCoder::encode</qualifiedname>
+        <reimplementedby refid="classthemis_1_1sharding_1_1_cauchy_reed_solomon_coder_1a434fb2a81fe1fd123ce8b5205b426809">encode</reimplementedby>
+        <reimplementedby refid="classthemis_1_1sharding_1_1_g_p_u_erasure_coder_1a10de5dcecfde1487bf38167405947ff8">encode</reimplementedby>
+        <reimplementedby refid="classthemis_1_1sharding_1_1_hamming_coder_1a350d0546ff0b077c297a997538803a3c">encode</reimplementedby>
+        <reimplementedby refid="classthemis_1_1sharding_1_1_locally_repairable_coder_1ae1f8f3e03058cb43ef9db3cf8fa0e2e6">encode</reimplementedby>
+        <reimplementedby refid="classthemis_1_1sharding_1_1_reed_solomon_coder_1a7289e95ad59a31c9b20e8a8f5cba4f91">encode</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1a10de5dcecfde1487bf38167405947ff8">encode</reimplementedby>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>data_shards</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>parity_shards</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="337" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_erasure_coder_1a5dfbe05b158429f4c286db593bd5a40d" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>virtual std::vector&lt; uint8_t &gt; themis::sharding::ErasureCoder::decode</definition>
+        <argsstring>(const std::map&lt; uint32_t, std::vector&lt; uint8_t &gt; &gt; &amp;available_chunks, const std::vector&lt; uint32_t &gt; &amp;missing_indices, uint32_t data_shards, uint32_t parity_shards)=0</argsstring>
+        <name>decode</name>
+        <qualifiedname>themis::sharding::ErasureCoder::decode</qualifiedname>
+        <reimplementedby refid="classthemis_1_1sharding_1_1_cauchy_reed_solomon_coder_1ad0d11c91e421e80501502a9c395e48b5">decode</reimplementedby>
+        <reimplementedby refid="classthemis_1_1sharding_1_1_g_p_u_erasure_coder_1aa26a23d7e23f78e5469ff4dfe642bde6">decode</reimplementedby>
+        <reimplementedby refid="classthemis_1_1sharding_1_1_hamming_coder_1a15a1ab632e19c4a538258d17ce72d6f0">decode</reimplementedby>
+        <reimplementedby refid="classthemis_1_1sharding_1_1_locally_repairable_coder_1ad3dd595a4585a60d2fa68c373b0dde68">decode</reimplementedby>
+        <reimplementedby refid="classthemis_1_1sharding_1_1_reed_solomon_coder_1a9fa040c40b120d123938699a04ad4c68">decode</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1aa26a23d7e23f78e5469ff4dfe642bde6">decode</reimplementedby>
+        <param>
+          <type>const std::map&lt; uint32_t, std::vector&lt; uint8_t &gt; &gt; &amp;</type>
+          <declname>available_chunks</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint32_t &gt; &amp;</type>
+          <declname>missing_indices</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>data_shards</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>parity_shards</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="346" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_erasure_coder_1a5248ba694168c808d46a622afeb38359" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_erasure_coder" kindref="compound">ErasureCoder</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; ErasureCoder &gt; themis::sharding::ErasureCoder::create</definition>
+        <argsstring>(ErasureCodingAlgorithm algorithm)</argsstring>
+        <name>create</name>
+        <qualifiedname>themis::sharding::ErasureCoder::create</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1sharding_1a7093529f80fd78ba5e10ba675341b06a" kindref="member">ErasureCodingAlgorithm</ref></type>
+          <declname>algorithm</declname>
+        </param>
+        <briefdescription>
+<para>═══════════════════════════════════════════════════════════ <ref refid="classthemis_1_1sharding_1_1_erasure_coder" kindref="compound">ErasureCoder</ref> Factory ═══════════════════════════════════════════════════════════ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">algorithm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements create without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="354" column="28" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="1596" bodyend="1609"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Interface for erasure-coding implementations used by parity modes. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::sharding::CauchyReedSolomonCoder</label>
+        <link refid="classthemis_1_1sharding_1_1_cauchy_reed_solomon_coder"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::sharding::ErasureCoder</label>
+        <link refid="classthemis_1_1sharding_1_1_erasure_coder"/>
+      </node>
+      <node id="3">
+        <label>themis::sharding::GPUErasureCoder</label>
+        <link refid="classthemis_1_1sharding_1_1_g_p_u_erasure_coder"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::sharding::HammingCoder</label>
+        <link refid="classthemis_1_1sharding_1_1_hamming_coder"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>themis::sharding::LocallyRepairableCoder</label>
+        <link refid="classthemis_1_1sharding_1_1_locally_repairable_coder"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>themis::sharding::ReedSolomonCoder</label>
+        <link refid="classthemis_1_1sharding_1_1_reed_solomon_coder"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/sharding/redundancy_strategy.h" line="332" column="1" bodyfile="include/sharding/redundancy_strategy.h" bodystart="332" bodyend="355"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_erasure_coder_1a5248ba694168c808d46a622afeb38359" prot="public" virt="non-virtual"><scope>themis::sharding::ErasureCoder</scope><name>create</name></member>
+      <member refid="classthemis_1_1sharding_1_1_erasure_coder_1a5dfbe05b158429f4c286db593bd5a40d" prot="public" virt="pure-virtual"><scope>themis::sharding::ErasureCoder</scope><name>decode</name></member>
+      <member refid="classthemis_1_1sharding_1_1_erasure_coder_1a34d0060f7cc4611a3e3540d300ba903e" prot="public" virt="pure-virtual"><scope>themis::sharding::ErasureCoder</scope><name>encode</name></member>
+      <member refid="classthemis_1_1sharding_1_1_erasure_coder_1aeefb61c591a606c2f8fdb23e7e3f933d" prot="public" virt="virtual"><scope>themis::sharding::ErasureCoder</scope><name>~ErasureCoder</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

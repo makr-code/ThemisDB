@@ -1,0 +1,268 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="storage__error__diagnostics_8h" kind="file" language="C++">
+    <compoundname>storage_error_diagnostics.h</compoundname>
+    <includes refid="storage__api__contract_8h" local="yes">storage/storage_api_contract.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="storage__pressure__manager_8h" local="yes">include/storage/storage_pressure_manager.h</includedby>
+    <includedby refid="storage__recovery__fault__handler_8h" local="yes">include/storage/storage_recovery_fault_handler.h</includedby>
+    <includedby refid="storage__error__diagnostics_8cpp" local="yes">src/storage/storage_error_diagnostics.cpp</includedby>
+    <includedby refid="test__storage__phase3__error__handling__focused_8cpp" local="yes">tests/storage/test_storage_phase3_error_handling_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>storage/storage_api_contract.h</label>
+        <link refid="storage__api__contract_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/storage/storage_error_diagnostics.h</label>
+        <link refid="storage__error__diagnostics_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>cstddef</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>string_view</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/storage/storage_error_diagnostics.h</label>
+        <link refid="storage__error__diagnostics_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/storage/storage_pressure_manager.h</label>
+        <link refid="storage__pressure__manager_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>include/storage/storage_recovery_fault_handler.h</label>
+        <link refid="storage__recovery__fault__handler_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>src/storage/storage_error_diagnostics.cpp</label>
+        <link refid="storage__error__diagnostics_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/storage/storage_pressure_manager.cpp</label>
+        <link refid="storage__pressure__manager_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/storage/storage_recovery_fault_handler.cpp</label>
+        <link refid="storage__recovery__fault__handler_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/storage/test_storage_phase3_error_handling_focused.cpp</label>
+        <link refid="test__storage__phase3__error__handling__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1storage_1_1_storage_error_context" prot="public">themis::storage::StorageErrorContext</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1storage">themis::storage</innernamespace>
+    <briefdescription>
+<para>Unified error diagnostics and incident classification for storage module. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This header provides a centralized system for:<itemizedlist>
+<listitem><para>Classifying storage errors by severity and incident type</para>
+</listitem><listitem><para>Mapping implementation errors to StorageErrorCode</para>
+</listitem><listitem><para>Emitting structured diagnostic events</para>
+</listitem><listitem><para>Tracking error context and recovery suggestions</para>
+</listitem></itemizedlist>
+</para>
+<para>Phase 3 Objective: Standardize fail-safe behavior for replay faults, storage pressure, and recovery errors by providing a unified diagnostics interface used consistently across persistence, maintenance, and recovery layers.</para>
+<para><simplesect kind="see"><para><ref refid="storage__api__contract_8h" kindref="compound">include/storage/storage_api_contract.h</ref> — Error taxonomy </para>
+</simplesect>
+<simplesect kind="see"><para>src/storage/ROADMAP.md — Phase 3 items </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="storage__api__contract_8h" kindref="compound">storage/storage_api_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1storage" kindref="compound">storage</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>1<sp/><sp/>Error<sp/>Severity<sp/>Levels</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="namespacethemis_1_1storage_1a2f98c88c814e3e64076d85ec09a5d296" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1storage_1a2f98c88c814e3e64076d85ec09a5d296" kindref="member">ErrorSeverity</ref><sp/>:<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="44" refid="namespacethemis_1_1storage_1a2f98c88c814e3e64076d85ec09a5d296a551b723eafd6a31d444fcb2f5920fbd3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1a2f98c88c814e3e64076d85ec09a5d296a551b723eafd6a31d444fcb2f5920fbd3" kindref="member">INFO</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="namespacethemis_1_1storage_1a2f98c88c814e3e64076d85ec09a5d296a41bc94cbd8eebea13ce0491b2ac11b88" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1a2f98c88c814e3e64076d85ec09a5d296a41bc94cbd8eebea13ce0491b2ac11b88" kindref="member">LOW</ref><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="namespacethemis_1_1storage_1a2f98c88c814e3e64076d85ec09a5d296ac87f3be66ffc3c0d4249f1c2cc5f3cce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1a2f98c88c814e3e64076d85ec09a5d296ac87f3be66ffc3c0d4249f1c2cc5f3cce" kindref="member">MEDIUM</ref><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="namespacethemis_1_1storage_1a2f98c88c814e3e64076d85ec09a5d296ab89de3b4b81c4facfac906edf29aec8c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1a2f98c88c814e3e64076d85ec09a5d296ab89de3b4b81c4facfac906edf29aec8c" kindref="member">HIGH</ref><sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="namespacethemis_1_1storage_1a2f98c88c814e3e64076d85ec09a5d296a99cd1c61610c76a57cb8d10d6df6b870" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1a2f98c88c814e3e64076d85ec09a5d296a99cd1c61610c76a57cb8d10d6df6b870" kindref="member">CRITICAL</ref><sp/>=<sp/>4,</highlight></codeline>
+<codeline lineno="61"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>2<sp/><sp/>Error<sp/>Incident<sp/>Classes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="namespacethemis_1_1storage_1a0a302f6d11bc1ce2d09eaeca1303d260" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1storage_1a0a302f6d11bc1ce2d09eaeca1303d260" kindref="member">ErrorIncidentType</ref><sp/>:<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="74" refid="namespacethemis_1_1storage_1a0a302f6d11bc1ce2d09eaeca1303d260a77e8f4cb05d4131b38048e6be5772375" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1a0a302f6d11bc1ce2d09eaeca1303d260a77e8f4cb05d4131b38048e6be5772375" kindref="member">RECOVERY_FAULT</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="namespacethemis_1_1storage_1a0a302f6d11bc1ce2d09eaeca1303d260aaaf9718c4a4229cff8cf8da0d7eaab99" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1a0a302f6d11bc1ce2d09eaeca1303d260aaaf9718c4a4229cff8cf8da0d7eaab99" kindref="member">STORAGE_PRESSURE</ref><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="namespacethemis_1_1storage_1a0a302f6d11bc1ce2d09eaeca1303d260ad8b5ed74e48bb7fa6430b97d0801380d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aad8b5ed74e48bb7fa6430b97d0801380d" kindref="member">TRANSACTION_CONFLICT</ref><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="namespacethemis_1_1storage_1a0a302f6d11bc1ce2d09eaeca1303d260aa049cf6036bc109d6b063eff96141da4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1a0a302f6d11bc1ce2d09eaeca1303d260aa049cf6036bc109d6b063eff96141da4" kindref="member">TIERING_FAILURE</ref><sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="namespacethemis_1_1storage_1a0a302f6d11bc1ce2d09eaeca1303d260a801591b353ba9181c5a67610b9bfed95" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1a0a302f6d11bc1ce2d09eaeca1303d260a801591b353ba9181c5a67610b9bfed95" kindref="member">MAINTENANCE_FAILURE</ref><sp/>=<sp/>4,</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="namespacethemis_1_1storage_1a0a302f6d11bc1ce2d09eaeca1303d260a9dec89826a289ba2e4b9c8f3487191e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1a0a302f6d11bc1ce2d09eaeca1303d260a9dec89826a289ba2e4b9c8f3487191e8" kindref="member">BACKUP_FAILURE</ref><sp/>=<sp/>5,</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="namespacethemis_1_1storage_1a0a302f6d11bc1ce2d09eaeca1303d260a41fe214f5a65a8b12ece47d119bbff16" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1a0a302f6d11bc1ce2d09eaeca1303d260a41fe214f5a65a8b12ece47d119bbff16" kindref="member">CONCURRENCY_ISSUE</ref><sp/>=<sp/>6,</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="namespacethemis_1_1storage_1a0a302f6d11bc1ce2d09eaeca1303d260ae8c0c70879b5895c615677261d64a1ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aae8c0c70879b5895c615677261d64a1ee" kindref="member">INTERNAL_ERROR</ref><sp/>=<sp/>7,</highlight></codeline>
+<codeline lineno="96"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>3<sp/><sp/>Error<sp/>Context</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1storage_1_1_storage_error_context" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1storage_1_1_storage_error_context" kindref="compound">StorageErrorContext</ref><sp/>{</highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1storage_1_1_storage_error_context_1a0964731c6653b13faa436e8f0c4a56f9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2a" kindref="member">StorageErrorCode</ref><sp/><ref refid="structthemis_1_1storage_1_1_storage_error_context_1a0964731c6653b13faa436e8f0c4a56f9" kindref="member">error_code</ref>{<ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">StorageErrorCode::OK</ref>};</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1storage_1_1_storage_error_context_1ac00a6ffe44d806f8f0f9118e7a52c70c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1storage_1_1_storage_error_context_1ac00a6ffe44d806f8f0f9118e7a52c70c" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1storage_1_1_storage_error_context_1a59961738020588dae007735432130c14" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1a0a302f6d11bc1ce2d09eaeca1303d260" kindref="member">ErrorIncidentType</ref><sp/><ref refid="structthemis_1_1storage_1_1_storage_error_context_1a59961738020588dae007735432130c14" kindref="member">incident_type</ref>{<ref refid="namespacethemis_1_1storage_1a0a302f6d11bc1ce2d09eaeca1303d260ae8c0c70879b5895c615677261d64a1ee" kindref="member">ErrorIncidentType::INTERNAL_ERROR</ref>};</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1storage_1_1_storage_error_context_1aebc8d662567f752b44b49910890c01bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1a2f98c88c814e3e64076d85ec09a5d296" kindref="member">ErrorSeverity</ref><sp/><ref refid="structthemis_1_1storage_1_1_storage_error_context_1aebc8d662567f752b44b49910890c01bf" kindref="member">severity</ref>{<ref refid="namespacethemis_1_1storage_1a2f98c88c814e3e64076d85ec09a5d296a41bc94cbd8eebea13ce0491b2ac11b88" kindref="member">ErrorSeverity::LOW</ref>};</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122" refid="structthemis_1_1storage_1_1_storage_error_context_1ace3e42082d26d92c98a33590357d1572" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1storage_1_1_storage_error_context_1ace3e42082d26d92c98a33590357d1572" kindref="member">operation_context</ref>;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1storage_1_1_storage_error_context_1a2c874ed23f571c336b2ed8f08af4150f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1storage_1_1_storage_error_context_1a2c874ed23f571c336b2ed8f08af4150f" kindref="member">affected_resource</ref>;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128" refid="structthemis_1_1storage_1_1_storage_error_context_1aa01f9751168c82074977a63146c53b44" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1storage_1_1_storage_error_context_1aa01f9751168c82074977a63146c53b44" kindref="member">timestamp</ref>{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::now()};</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132" refid="structthemis_1_1storage_1_1_storage_error_context_1aa5bdffcb75affc51cd2665e1f91a1726" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1storage_1_1_storage_error_context_1aa5bdffcb75affc51cd2665e1f91a1726" kindref="member">recovery_suggestion</ref>;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="structthemis_1_1storage_1_1_storage_error_context_1a8f163d7c9f4435a8341c8187d9b59d63" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_storage_error_context_1a8f163d7c9f4435a8341c8187d9b59d63" kindref="member">retry_count</ref>{0};</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138" refid="structthemis_1_1storage_1_1_storage_error_context_1a0344a5c5b017b1ecad289c6f6691bb77" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_storage_error_context_1a0344a5c5b017b1ecad289c6f6691bb77" kindref="member">is_durability_threat</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141" refid="structthemis_1_1storage_1_1_storage_error_context_1a37b61989e16bd7a17e0fb32ca043cd41" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_storage_error_context_1a37b61989e16bd7a17e0fb32ca043cd41" kindref="member">is_retryable</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="142"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>4<sp/><sp/>Diagnostics<sp/>Classification<sp/>Functions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal">[[nodiscard]]<sp/>StorageErrorContext<sp/><ref refid="namespacethemis_1_1storage_1a51600a11601864efd79ed59e3efd7012" kindref="member">classifyErrorIncident</ref>(<ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2a" kindref="member">StorageErrorCode</ref><sp/>code)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal">[[nodiscard]]<sp/><ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2a" kindref="member">StorageErrorCode</ref><sp/><ref refid="namespacethemis_1_1storage_1a3e5a7a6033f523941e77c823ae4197df" kindref="member">mapErrorMessage</ref>(std::string_view<sp/>error_message)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal">[[nodiscard]]<sp/>StorageErrorContext<sp/><ref refid="namespacethemis_1_1storage_1a54a466461f596fa64eb438f915d52183" kindref="member">buildErrorContext</ref>(</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2a" kindref="member">StorageErrorCode</ref><sp/>code,</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string_view<sp/>operation_context,</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string_view<sp/>affected_resource<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>5<sp/><sp/>Diagnostic<sp/>Event<sp/>Emission</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1storage_1a8f71e1f506990732a8d3ae67e3c01bf8" kindref="member">emitDiagnosticEvent</ref>(const<sp/>StorageErrorContext&amp;<sp/>context)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1storage_1adac64a9234787d260cadd3acd1d38cac" kindref="member">emitRecoveryFaultEvent</ref>(</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::string_view<sp/>fault_type,</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::uint64_t<sp/>affected_checkpoint_seq,</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::uint64_t<sp/>recovered_entries,</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::string_view<sp/>suggestion<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1storage_1ab90d3766fdef4adb43455971b154ffc9" kindref="member">emitStoragePressureEvent</ref>(</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::string_view<sp/>pressure_type,</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::uint64_t<sp/>available_bytes,</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::uint64_t<sp/>required_bytes,</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>escalation_level<sp/>=<sp/>1)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>6<sp/><sp/>Error<sp/>Description<sp/>Utilities</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal">[[nodiscard]]<sp/><ref refid="namespacestd" kindref="compound">std</ref>::string_view<sp/><ref refid="namespacethemis_1_1storage_1a8f4cdbc1b48a6e2a81fec7453b0f0fde" kindref="member">errorCodeName</ref>(<ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2a" kindref="member">StorageErrorCode</ref><sp/>code)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal">[[nodiscard]]<sp/><ref refid="namespacestd" kindref="compound">std</ref>::string_view<sp/><ref refid="namespacethemis_1_1storage_1ab784de5f4be846725985b732b04c8796" kindref="member">errorCodeDescription</ref>(<ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2a" kindref="member">StorageErrorCode</ref><sp/>code)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal">[[nodiscard]]<sp/><ref refid="namespacestd" kindref="compound">std</ref>::string_view<sp/><ref refid="namespacethemis_1_1storage_1a7080ad59ce8d0b5e6feb065b61db0b5b" kindref="member">incidentTypeName</ref>(<ref refid="namespacethemis_1_1storage_1a0a302f6d11bc1ce2d09eaeca1303d260" kindref="member">ErrorIncidentType</ref><sp/>type)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal">[[nodiscard]]<sp/><ref refid="namespacestd" kindref="compound">std</ref>::string_view<sp/><ref refid="namespacethemis_1_1storage_1a469779c4fd6e2da45af656c2eed92917" kindref="member">severityName</ref>(<ref refid="namespacethemis_1_1storage_1a2f98c88c814e3e64076d85ec09a5d296" kindref="member">ErrorSeverity</ref><sp/>severity)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>storage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/storage/storage_error_diagnostics.h"/>
+  </compounddef>
+</doxygen>

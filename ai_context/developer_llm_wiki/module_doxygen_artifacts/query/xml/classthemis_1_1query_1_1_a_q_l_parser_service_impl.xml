@@ -1,0 +1,191 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_a_q_l_parser_service_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::AQLParserServiceImpl</compoundname>
+    <basecompoundref refid="classthemis_1_1query_1_1_a_q_l_parser_service" prot="public" virt="non-virtual">themis::query::AQLParserService</basecompoundref>
+    <includes refid="aql__parser__service_8h" local="no">aql_parser_service.h</includes>
+    <innerclass refid="classthemis_1_1query_1_1_a_q_l_parser_service_impl_1_1_impl" prot="public">themis::query::AQLParserServiceImpl::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_a_q_l_parser_service_impl_1ac2bbd13a65dfa25211045194de28b18c" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1query_1_1_a_q_l_parser_service_impl_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::query::AQLParserServiceImpl::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::query::AQLParserServiceImpl::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser_service.h" line="91" column="21" bodyfile="include/query/aql_parser_service.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_a_q_l_parser_service_impl_1af20c72a853a1cb8585473728cf4d6efb" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::AQLParserServiceImpl::AQLParserServiceImpl</definition>
+        <argsstring>(bool enable_mutations=false, bool enable_ddl=false, bool enable_geospatial=true)</argsstring>
+        <name>AQLParserServiceImpl</name>
+        <qualifiedname>themis::query::AQLParserServiceImpl::AQLParserServiceImpl</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enable_mutations</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>enable_ddl</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>enable_geospatial</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser_service.h" line="75" column="14" bodyfile="src/query/aql_parser_service.cpp" bodystart="41" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_a_q_l_parser_service_impl_1ac00b045f078425ef5610168ab1c755e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::AQLParserServiceImpl::~AQLParserServiceImpl</definition>
+        <argsstring>() override</argsstring>
+        <name>~AQLParserServiceImpl</name>
+        <qualifiedname>themis::query::AQLParserServiceImpl::~AQLParserServiceImpl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser_service.h" line="81" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_a_q_l_parser_service_impl_1a407a1d65ba46574c1ad8e020a26ad82c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1query_1_1_parse_result" kindref="compound">ParseResult</ref></type>
+        <definition>ParseResult themis::query::AQLParserServiceImpl::parse</definition>
+        <argsstring>(const std::string &amp;aql_query) override</argsstring>
+        <name>parse</name>
+        <qualifiedname>themis::query::AQLParserServiceImpl::parse</qualifiedname>
+        <reimplements refid="classthemis_1_1query_1_1_a_q_l_parser_service_1a976df1bf84a1092b6b8987fe216d4536">parse</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql_query</declname>
+        </param>
+        <briefdescription>
+<para>Parse. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">aql_query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::string(), what(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser_service.h" line="83" column="17" bodyfile="src/query/aql_parser_service.cpp" bodystart="55" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_a_q_l_parser_service_impl_1a1554c0140800ca916b824c8fca26ebc8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::query::AQLParserServiceImpl::version</definition>
+        <argsstring>() const override</argsstring>
+        <name>version</name>
+        <qualifiedname>themis::query::AQLParserServiceImpl::version</qualifiedname>
+        <reimplements refid="classthemis_1_1query_1_1_a_q_l_parser_service_1af404e0365dfa429a7308c1c51a9279fe">version</reimplements>
+        <briefdescription>
+<para>Version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser_service.h" line="85" column="17" bodyfile="src/query/aql_parser_service.cpp" bodystart="98" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_a_q_l_parser_service_impl_1a26c24a5598d41ef27ac35b6d6d5d9462" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::query::AQLParserServiceImpl::supportsFeature</definition>
+        <argsstring>(const std::string &amp;feature) const override</argsstring>
+        <name>supportsFeature</name>
+        <qualifiedname>themis::query::AQLParserServiceImpl::supportsFeature</qualifiedname>
+        <reimplements refid="classthemis_1_1query_1_1_a_q_l_parser_service_1a5d55c2c366d971197b4ddb92c5b52a16">supportsFeature</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>feature</declname>
+        </param>
+        <briefdescription>
+<para>Supports Feature. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">feature</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser_service.h" line="87" column="10" bodyfile="src/query/aql_parser_service.cpp" bodystart="111" bodyend="127"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::query::AQLParserService</label>
+        <link refid="classthemis_1_1query_1_1_a_q_l_parser_service"/>
+      </node>
+      <node id="1">
+        <label>themis::query::AQLParserServiceImpl</label>
+        <link refid="classthemis_1_1query_1_1_a_q_l_parser_service_impl"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::query::AQLParserService</label>
+        <link refid="classthemis_1_1query_1_1_a_q_l_parser_service"/>
+      </node>
+      <node id="1">
+        <label>themis::query::AQLParserServiceImpl</label>
+        <link refid="classthemis_1_1query_1_1_a_q_l_parser_service_impl"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/aql_parser_service.h" line="73" column="1" bodyfile="include/query/aql_parser_service.h" bodystart="73" bodyend="92"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_a_q_l_parser_service_impl_1af20c72a853a1cb8585473728cf4d6efb" prot="public" virt="non-virtual"><scope>themis::query::AQLParserServiceImpl</scope><name>AQLParserServiceImpl</name></member>
+      <member refid="classthemis_1_1query_1_1_a_q_l_parser_service_impl_1ac2bbd13a65dfa25211045194de28b18c" prot="private" virt="non-virtual"><scope>themis::query::AQLParserServiceImpl</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1query_1_1_a_q_l_parser_service_impl_1a407a1d65ba46574c1ad8e020a26ad82c" prot="public" virt="virtual"><scope>themis::query::AQLParserServiceImpl</scope><name>parse</name></member>
+      <member refid="classthemis_1_1query_1_1_a_q_l_parser_service_impl_1a26c24a5598d41ef27ac35b6d6d5d9462" prot="public" virt="virtual"><scope>themis::query::AQLParserServiceImpl</scope><name>supportsFeature</name></member>
+      <member refid="classthemis_1_1query_1_1_a_q_l_parser_service_impl_1a1554c0140800ca916b824c8fca26ebc8" prot="public" virt="virtual"><scope>themis::query::AQLParserServiceImpl</scope><name>version</name></member>
+      <member refid="classthemis_1_1query_1_1_a_q_l_parser_service_1a9fecb14887d2dc8912bd96476b2199d6" prot="public" virt="virtual"><scope>themis::query::AQLParserServiceImpl</scope><name>~AQLParserService</name></member>
+      <member refid="classthemis_1_1query_1_1_a_q_l_parser_service_impl_1ac00b045f078425ef5610168ab1c755e7" prot="public" virt="non-virtual"><scope>themis::query::AQLParserServiceImpl</scope><name>~AQLParserServiceImpl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bayesian__optimizer_8h" kind="file" language="C++">
+    <compoundname>bayesian_optimizer.h</compoundname>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="continuous__learning__orchestrator_8h" local="yes">include/rag/continuous_learning_orchestrator.h</includedby>
+    <includedby refid="bayesian__optimizer_8cpp" local="yes">src/rag/bayesian_optimizer.cpp</includedby>
+    <includedby refid="continuous__learning__orchestrator_8cpp" local="yes">src/rag/continuous_learning_orchestrator.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/rag/bayesian_optimizer.h</label>
+        <link refid="bayesian__optimizer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>memory</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>unordered_map</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/rag/bayesian_optimizer.h</label>
+        <link refid="bayesian__optimizer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/rag/continuous_learning_orchestrator.h</label>
+        <link refid="continuous__learning__orchestrator_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>src/rag/bayesian_optimizer.cpp</label>
+        <link refid="bayesian__optimizer_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/rag/continuous_learning_orchestrator.cpp</label>
+        <link refid="continuous__learning__orchestrator_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/rag/examples/loop_orchestration_example.cpp</label>
+        <link refid="loop__orchestration__example_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1rag_1_1learning_1_1_parameter_bounds" prot="public">themis::rag::learning::ParameterBounds</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1learning_1_1_observation" prot="public">themis::rag::learning::Observation</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1learning_1_1_bayesian_optimizer" prot="public">themis::rag::learning::BayesianOptimizer</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag">themis::rag</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag_1_1learning">themis::rag::learning</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag_1_1learning" kindref="compound">themis::rag::learning</ref><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="structthemis_1_1rag_1_1learning_1_1_parameter_bounds" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1learning_1_1_parameter_bounds" kindref="compound">ParameterBounds</ref><sp/>{</highlight></codeline>
+<codeline lineno="24" refid="structthemis_1_1rag_1_1learning_1_1_parameter_bounds_1a048e2d1afca2ee2ca4037acde0c80ff2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_parameter_bounds_1a048e2d1afca2ee2ca4037acde0c80ff2" kindref="member">min_value</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="25" refid="structthemis_1_1rag_1_1learning_1_1_parameter_bounds_1a703e0c9dd37f9bbb59b093c4a87d1c59" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_parameter_bounds_1a703e0c9dd37f9bbb59b093c4a87d1c59" kindref="member">max_value</ref>;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1rag_1_1learning_1_1_observation" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1learning_1_1_observation" kindref="compound">Observation</ref><sp/>{</highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1rag_1_1learning_1_1_observation_1a9f8f851d68fa82716ae697db1650cc01" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>double&gt;<sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_observation_1a9f8f851d68fa82716ae697db1650cc01" kindref="member">params</ref>;</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1rag_1_1learning_1_1_observation_1a99fc0b524afa8a1500e4b689596f82c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_observation_1a99fc0b524afa8a1500e4b689596f82c2" kindref="member">objective_value</ref>;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="classthemis_1_1rag_1_1learning_1_1_bayesian_optimizer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1learning_1_1_bayesian_optimizer_1aeece68ee0739852a9481335cf2c73165" kindref="member">BayesianOptimizer</ref><sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1learning_1_1_bayesian_optimizer_1aeece68ee0739852a9481335cf2c73165" kindref="member">BayesianOptimizer</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>ParameterBounds&gt;<sp/>&amp;param_bounds);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="classthemis_1_1rag_1_1learning_1_1_bayesian_optimizer_1a506b525c6255ef53cae6c66465d70f50" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1learning_1_1_bayesian_optimizer_1a506b525c6255ef53cae6c66465d70f50" kindref="member">~BayesianOptimizer</ref>();</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>double&gt;<sp/><ref refid="classthemis_1_1rag_1_1learning_1_1_bayesian_optimizer_1ab3d5b7926cbe9d6512db2a90bd4c4ac9" kindref="member">suggest</ref>();</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1learning_1_1_bayesian_optimizer_1a68b77da86ad45c2318578e27bca53fd7" kindref="member">observe</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>double&gt;<sp/>&amp;params,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>objective_value);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>double&gt;<sp/><ref refid="classthemis_1_1rag_1_1learning_1_1_bayesian_optimizer_1a78563dd95ec3c88f99f6b1de57f76bae" kindref="member">getBestParams</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1learning_1_1_bayesian_optimizer_1ad5cbec3822cf3f4c4fd5992ad1f7c451" kindref="member">getBestObjective</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1learning_1_1_bayesian_optimizer_1aae04683ea9210d89d2018c2ce359f717" kindref="member">getNumObservations</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1learning_1_1_bayesian_optimizer_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>double&gt;<sp/>sampleRandom();</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>double&gt;<sp/>sampleAroundBest();</highlight></codeline>
+<codeline lineno="89"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::rag::learning</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/rag/bayesian_optimizer.h"/>
+  </compounddef>
+</doxygen>

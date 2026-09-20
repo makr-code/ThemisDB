@@ -1,0 +1,1141 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1content_1_1_content_logger" kind="class" language="C++" prot="public">
+    <compoundname>themis::content::ContentLogger</compoundname>
+    <includes refid="content__logger_8h" local="no">content_logger.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_logger_1a5ac8a68493eb742853e2f3403c2e0e42" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::ContentLogger::correlation_id_</definition>
+        <argsstring></argsstring>
+        <name>correlation_id_</name>
+        <qualifiedname>themis::content::ContentLogger::correlation_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_logger.h" line="139" column="17" bodyfile="include/content/content_logger.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_logger_1a93eba4f2f0b6477c9d6c32d09748b81c" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ContentLogger::json_formatting_</definition>
+        <argsstring></argsstring>
+        <name>json_formatting_</name>
+        <qualifiedname>themis::content::ContentLogger::json_formatting_</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_logger.h" line="140" column="10" bodyfile="include/content/content_logger.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_logger_1a89a487da039be29d9fb86490217d7db6" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ContentLogger::pii_sanitization_</definition>
+        <argsstring></argsstring>
+        <name>pii_sanitization_</name>
+        <qualifiedname>themis::content::ContentLogger::pii_sanitization_</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_logger.h" line="141" column="10" bodyfile="include/content/content_logger.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_logger_1a66cac2c2c6bc06474b6b83b47613b414" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::ContentLogger::ContentLogger</definition>
+        <argsstring>(const std::string &amp;correlation_id=&quot;&quot;)</argsstring>
+        <name>ContentLogger</name>
+        <qualifiedname>themis::content::ContentLogger::ContentLogger</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>correlation_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_logger.h" line="27" column="14" bodyfile="src/content/content_logger.cpp" bodystart="26" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_logger_1a81ef9301b34331678d1c99469567a6e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::ContentLogger::setCorrelationId</definition>
+        <argsstring>(const std::string &amp;correlation_id)</argsstring>
+        <name>setCorrelationId</name>
+        <qualifiedname>themis::content::ContentLogger::setCorrelationId</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>correlation_id</declname>
+        </param>
+        <briefdescription>
+<para>Set Correlation Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">correlation_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the correlation.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">correlation_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the correlation.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setCorrelationId without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_logger.h" line="33" column="10" bodyfile="src/content/content_logger.cpp" bodystart="35" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_logger_1a074e8242685140d3f62cbecd97fef880" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::content::ContentLogger::getCorrelationId</definition>
+        <argsstring>() const</argsstring>
+        <name>getCorrelationId</name>
+        <qualifiedname>themis::content::ContentLogger::getCorrelationId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_logger.h" line="35" column="23" bodyfile="include/content/content_logger.h" bodystart="35" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_logger_1ac033afeb24f06e9e8da93b954941a009" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::ContentLogger::logIngestion</definition>
+        <argsstring>(const std::string &amp;content_id, const std::string &amp;mime_type, uint64_t size_bytes, const std::string &amp;filename=&quot;&quot;)</argsstring>
+        <name>logIngestion</name>
+        <qualifiedname>themis::content::ContentLogger::logIngestion</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime_type</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>size_bytes</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Log Ingestion. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">content_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the content. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mime_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), sanitizeFilename(), <ref refid="classthemis_1_1content_1_1_content_logger_1a7af238c362615b3e3798bd6178f7d5dd" kindref="member">info()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_logger.h" line="41" column="10" bodyfile="src/content/content_logger.cpp" bodystart="51" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_logger_1a454409f260f75f99929345e0c5ad1ffb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::ContentLogger::logValidation</definition>
+        <argsstring>(const std::string &amp;content_id, const std::string &amp;mime_type, uint64_t size_bytes, bool success, int error_code=0, double duration_ms=0.0)</argsstring>
+        <name>logValidation</name>
+        <qualifiedname>themis::content::ContentLogger::logValidation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime_type</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>size_bytes</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>error_code</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>duration_ms</declname>
+          <defval>0.0</defval>
+        </param>
+        <briefdescription>
+<para>Log Validation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">content_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the content. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mime_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">error_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">duration_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1content_1_1_content_logger_1a7af238c362615b3e3798bd6178f7d5dd" kindref="member">info()</ref>, <ref refid="classthemis_1_1content_1_1_content_logger_1a86e8dbfb46e131821282f69d6c882799" kindref="member">warn()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_logger.h" line="48" column="10" bodyfile="src/content/content_logger.cpp" bodystart="79" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_logger_1a993f7b94d8af30f5ef41b373d2bc9e9f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::ContentLogger::logProcessing</definition>
+        <argsstring>(const std::string &amp;content_id, const std::string &amp;operation, double duration_ms, bool success, int error_code=0)</argsstring>
+        <name>logProcessing</name>
+        <qualifiedname>themis::content::ContentLogger::logProcessing</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>duration_ms</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>error_code</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Log Processing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">content_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the content. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">duration_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">error_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1content_1_1_content_logger_1a7af238c362615b3e3798bd6178f7d5dd" kindref="member">info()</ref>, <ref refid="classthemis_1_1content_1_1_content_logger_1a86e8dbfb46e131821282f69d6c882799" kindref="member">warn()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_logger.h" line="57" column="10" bodyfile="src/content/content_logger.cpp" bodystart="114" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_logger_1a4c5a1ea7bfa436d94df623fc233b37d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::ContentLogger::logError</definition>
+        <argsstring>(const std::string &amp;content_id, const std::string &amp;operation, int error_code, const std::string &amp;error_message, const std::string &amp;error_category=&quot;&quot;)</argsstring>
+        <name>logError</name>
+        <qualifiedname>themis::content::ContentLogger::logError</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>error_code</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error_message</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error_category</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Log Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">content_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the content. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">error_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">error_message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">error_category</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: sanitizeMessage(), empty(), <ref refid="classthemis_1_1content_1_1_content_logger_1a4f1af45aae5869e18b921db1e8cb274d" kindref="member">error()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_logger.h" line="65" column="10" bodyfile="src/content/content_logger.cpp" bodystart="150" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_logger_1a36e824ac0a0cf1f51d7b2bea3f8ae0d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::ContentLogger::logTimeout</definition>
+        <argsstring>(const std::string &amp;content_id, const std::string &amp;operation, double timeout_seconds, double elapsed_seconds)</argsstring>
+        <name>logTimeout</name>
+        <qualifiedname>themis::content::ContentLogger::logTimeout</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>timeout_seconds</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>elapsed_seconds</declname>
+        </param>
+        <briefdescription>
+<para>Log Timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">content_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the content. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout_seconds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">elapsed_seconds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">content_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the content. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout_seconds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">elapsed_seconds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1content_1_1_content_logger_1a86e8dbfb46e131821282f69d6c882799" kindref="member">warn()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_logger.h" line="80" column="10" bodyfile="src/content/content_logger.cpp" bodystart="178" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_logger_1a1a86502d8aea7b73efbbd5cdcf9b9888" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::ContentLogger::logCache</definition>
+        <argsstring>(const std::string &amp;content_id, bool hit)</argsstring>
+        <name>logCache</name>
+        <qualifiedname>themis::content::ContentLogger::logCache</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content_id</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>hit</declname>
+        </param>
+        <briefdescription>
+<para>Log Cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">content_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the content. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">content_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the content. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1content_1_1_content_logger_1ad361189098159d843718e87b4001dae0" kindref="member">debug()</ref>, std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_logger.h" line="92" column="10" bodyfile="src/content/content_logger.cpp" bodystart="199" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_logger_1a7147100a2cbcb5a58a9ca2cc34adad7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::ContentLogger::log</definition>
+        <argsstring>(utils::Logger::Level level, const std::string &amp;event, const std::string &amp;message, const json &amp;metadata=json::object())</argsstring>
+        <name>log</name>
+        <qualifiedname>themis::content::ContentLogger::log</qualifiedname>
+        <param>
+          <type>utils::Logger::Level</type>
+          <declname>level</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>event</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref> &amp;</type>
+          <declname>metadata</declname>
+          <defval>json::object()</defval>
+        </param>
+        <briefdescription>
+<para>Log. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: formatLogMessage(), utils::Logger::trace(), utils::Logger::debug(), utils::Logger::info(), utils::Logger::warn(), utils::Logger::error(), utils::Logger::critical(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_logger.h" line="101" column="10" bodyfile="src/content/content_logger.cpp" bodystart="224" bodyend="252"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_logger_1a7af238c362615b3e3798bd6178f7d5dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::ContentLogger::info</definition>
+        <argsstring>(const std::string &amp;event, const std::string &amp;message, const json &amp;metadata=json::object())</argsstring>
+        <name>info</name>
+        <qualifiedname>themis::content::ContentLogger::info</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>event</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref> &amp;</type>
+          <declname>metadata</declname>
+          <defval>json::object()</defval>
+        </param>
+        <briefdescription>
+<para>Info. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1content_1_1_content_logger_1a7147100a2cbcb5a58a9ca2cc34adad7e" kindref="member">log()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_logger.h" line="108" column="10" bodyfile="src/content/content_logger.cpp" bodystart="261" bodyend="263"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_logger_1a86e8dbfb46e131821282f69d6c882799" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::ContentLogger::warn</definition>
+        <argsstring>(const std::string &amp;event, const std::string &amp;message, const json &amp;metadata=json::object())</argsstring>
+        <name>warn</name>
+        <qualifiedname>themis::content::ContentLogger::warn</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>event</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref> &amp;</type>
+          <declname>metadata</declname>
+          <defval>json::object()</defval>
+        </param>
+        <briefdescription>
+<para>Warn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1content_1_1_content_logger_1a7147100a2cbcb5a58a9ca2cc34adad7e" kindref="member">log()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_logger.h" line="110" column="10" bodyfile="src/content/content_logger.cpp" bodystart="272" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_logger_1a4f1af45aae5869e18b921db1e8cb274d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::ContentLogger::error</definition>
+        <argsstring>(const std::string &amp;event, const std::string &amp;message, const json &amp;metadata=json::object())</argsstring>
+        <name>error</name>
+        <qualifiedname>themis::content::ContentLogger::error</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>event</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref> &amp;</type>
+          <declname>metadata</declname>
+          <defval>json::object()</defval>
+        </param>
+        <briefdescription>
+<para>Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1content_1_1_content_logger_1a7147100a2cbcb5a58a9ca2cc34adad7e" kindref="member">log()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_logger.h" line="112" column="10" bodyfile="src/content/content_logger.cpp" bodystart="283" bodyend="285"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_logger_1ad361189098159d843718e87b4001dae0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::ContentLogger::debug</definition>
+        <argsstring>(const std::string &amp;event, const std::string &amp;message, const json &amp;metadata=json::object())</argsstring>
+        <name>debug</name>
+        <qualifiedname>themis::content::ContentLogger::debug</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>event</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref> &amp;</type>
+          <declname>metadata</declname>
+          <defval>json::object()</defval>
+        </param>
+        <briefdescription>
+<para>Debug. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1content_1_1_content_logger_1a7147100a2cbcb5a58a9ca2cc34adad7e" kindref="member">log()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_logger.h" line="114" column="10" bodyfile="src/content/content_logger.cpp" bodystart="294" bodyend="296"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_logger_1aefd36234a243d9039cc089b52c693de2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::ContentLogger::setJsonFormatting</definition>
+        <argsstring>(bool enabled)</argsstring>
+        <name>setJsonFormatting</name>
+        <qualifiedname>themis::content::ContentLogger::setJsonFormatting</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+        </param>
+        <briefdescription>
+<para>Set Json Formatting. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">enabled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setJsonFormatting without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_logger.h" line="125" column="10" bodyfile="include/content/content_logger.h" bodystart="125" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_logger_1a400821ac62cde59a93e43a53135a4a30" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::content::ContentLogger::isJsonFormatting</definition>
+        <argsstring>() const</argsstring>
+        <name>isJsonFormatting</name>
+        <qualifiedname>themis::content::ContentLogger::isJsonFormatting</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_logger.h" line="127" column="10" bodyfile="include/content/content_logger.h" bodystart="127" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_logger_1aa176d2ef18c47276ec6639cedbdde44f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::ContentLogger::setPiiSanitization</definition>
+        <argsstring>(bool enabled)</argsstring>
+        <name>setPiiSanitization</name>
+        <qualifiedname>themis::content::ContentLogger::setPiiSanitization</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+        </param>
+        <briefdescription>
+<para>Set Pii Sanitization. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">enabled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setPiiSanitization without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_logger.h" line="134" column="10" bodyfile="include/content/content_logger.h" bodystart="134" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_logger_1add3d81be3ba93d45ba695b7e6799a74c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::content::ContentLogger::isPiiSanitization</definition>
+        <argsstring>() const</argsstring>
+        <name>isPiiSanitization</name>
+        <qualifiedname>themis::content::ContentLogger::isPiiSanitization</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_logger.h" line="136" column="10" bodyfile="include/content/content_logger.h" bodystart="136" bodyend="136"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_logger_1aaec20173244c57f286f5220099aca820" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::ContentLogger::sanitizeFilename</definition>
+        <argsstring>(const std::string &amp;filename) const</argsstring>
+        <name>sanitizeFilename</name>
+        <qualifiedname>themis::content::ContentLogger::sanitizeFilename</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename</declname>
+        </param>
+        <briefdescription>
+<para>Sanitize Filename. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_logger.h" line="149" column="17" bodyfile="src/content/content_logger.cpp" bodystart="302" bodyend="322"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_logger_1ad503919bcad76cb1fda050f1b0a57ceb" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::ContentLogger::sanitizeMessage</definition>
+        <argsstring>(const std::string &amp;message) const</argsstring>
+        <name>sanitizeMessage</name>
+        <qualifiedname>themis::content::ContentLogger::sanitizeMessage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Sanitize Message. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_logger.h" line="155" column="17" bodyfile="src/content/content_logger.cpp" bodystart="324" bodyend="350"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_logger_1acbfdec1984a73d450f909328c9835447" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::ContentLogger::formatLogMessage</definition>
+        <argsstring>(utils::Logger::Level level, const std::string &amp;event, const std::string &amp;message, const json &amp;metadata) const</argsstring>
+        <name>formatLogMessage</name>
+        <qualifiedname>themis::content::ContentLogger::formatLogMessage</qualifiedname>
+        <param>
+          <type>utils::Logger::Level</type>
+          <declname>level</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>event</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref> &amp;</type>
+          <declname>metadata</declname>
+        </param>
+        <briefdescription>
+<para>Format Log Message. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_logger.h" line="164" column="17" bodyfile="src/content/content_logger.cpp" bodystart="352" bodyend="385"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_logger_1a9394637e59b752d1b77704d1089f8273" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::ContentLogger::buildBaseMetadata</definition>
+        <argsstring>() const</argsstring>
+        <name>buildBaseMetadata</name>
+        <qualifiedname>themis::content::ContentLogger::buildBaseMetadata</qualifiedname>
+        <briefdescription>
+<para>Build Base Metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_logger.h" line="174" column="10" bodyfile="src/content/content_logger.cpp" bodystart="387" bodyend="395"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/content_logger.h" line="25" column="1" bodyfile="include/content/content_logger.h" bodystart="25" bodyend="175"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1content_1_1_content_logger_1a9394637e59b752d1b77704d1089f8273" prot="private" virt="non-virtual"><scope>themis::content::ContentLogger</scope><name>buildBaseMetadata</name></member>
+      <member refid="classthemis_1_1content_1_1_content_logger_1a66cac2c2c6bc06474b6b83b47613b414" prot="public" virt="non-virtual"><scope>themis::content::ContentLogger</scope><name>ContentLogger</name></member>
+      <member refid="classthemis_1_1content_1_1_content_logger_1a5ac8a68493eb742853e2f3403c2e0e42" prot="private" virt="non-virtual"><scope>themis::content::ContentLogger</scope><name>correlation_id_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_logger_1ad361189098159d843718e87b4001dae0" prot="public" virt="non-virtual"><scope>themis::content::ContentLogger</scope><name>debug</name></member>
+      <member refid="classthemis_1_1content_1_1_content_logger_1a4f1af45aae5869e18b921db1e8cb274d" prot="public" virt="non-virtual"><scope>themis::content::ContentLogger</scope><name>error</name></member>
+      <member refid="classthemis_1_1content_1_1_content_logger_1acbfdec1984a73d450f909328c9835447" prot="private" virt="non-virtual"><scope>themis::content::ContentLogger</scope><name>formatLogMessage</name></member>
+      <member refid="classthemis_1_1content_1_1_content_logger_1a074e8242685140d3f62cbecd97fef880" prot="public" virt="non-virtual"><scope>themis::content::ContentLogger</scope><name>getCorrelationId</name></member>
+      <member refid="classthemis_1_1content_1_1_content_logger_1a7af238c362615b3e3798bd6178f7d5dd" prot="public" virt="non-virtual"><scope>themis::content::ContentLogger</scope><name>info</name></member>
+      <member refid="classthemis_1_1content_1_1_content_logger_1a400821ac62cde59a93e43a53135a4a30" prot="public" virt="non-virtual"><scope>themis::content::ContentLogger</scope><name>isJsonFormatting</name></member>
+      <member refid="classthemis_1_1content_1_1_content_logger_1add3d81be3ba93d45ba695b7e6799a74c" prot="public" virt="non-virtual"><scope>themis::content::ContentLogger</scope><name>isPiiSanitization</name></member>
+      <member refid="classthemis_1_1content_1_1_content_logger_1a93eba4f2f0b6477c9d6c32d09748b81c" prot="private" virt="non-virtual"><scope>themis::content::ContentLogger</scope><name>json_formatting_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_logger_1a7147100a2cbcb5a58a9ca2cc34adad7e" prot="public" virt="non-virtual"><scope>themis::content::ContentLogger</scope><name>log</name></member>
+      <member refid="classthemis_1_1content_1_1_content_logger_1a1a86502d8aea7b73efbbd5cdcf9b9888" prot="public" virt="non-virtual"><scope>themis::content::ContentLogger</scope><name>logCache</name></member>
+      <member refid="classthemis_1_1content_1_1_content_logger_1a4c5a1ea7bfa436d94df623fc233b37d0" prot="public" virt="non-virtual"><scope>themis::content::ContentLogger</scope><name>logError</name></member>
+      <member refid="classthemis_1_1content_1_1_content_logger_1ac033afeb24f06e9e8da93b954941a009" prot="public" virt="non-virtual"><scope>themis::content::ContentLogger</scope><name>logIngestion</name></member>
+      <member refid="classthemis_1_1content_1_1_content_logger_1a993f7b94d8af30f5ef41b373d2bc9e9f" prot="public" virt="non-virtual"><scope>themis::content::ContentLogger</scope><name>logProcessing</name></member>
+      <member refid="classthemis_1_1content_1_1_content_logger_1a36e824ac0a0cf1f51d7b2bea3f8ae0d0" prot="public" virt="non-virtual"><scope>themis::content::ContentLogger</scope><name>logTimeout</name></member>
+      <member refid="classthemis_1_1content_1_1_content_logger_1a454409f260f75f99929345e0c5ad1ffb" prot="public" virt="non-virtual"><scope>themis::content::ContentLogger</scope><name>logValidation</name></member>
+      <member refid="classthemis_1_1content_1_1_content_logger_1a89a487da039be29d9fb86490217d7db6" prot="private" virt="non-virtual"><scope>themis::content::ContentLogger</scope><name>pii_sanitization_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_logger_1aaec20173244c57f286f5220099aca820" prot="private" virt="non-virtual"><scope>themis::content::ContentLogger</scope><name>sanitizeFilename</name></member>
+      <member refid="classthemis_1_1content_1_1_content_logger_1ad503919bcad76cb1fda050f1b0a57ceb" prot="private" virt="non-virtual"><scope>themis::content::ContentLogger</scope><name>sanitizeMessage</name></member>
+      <member refid="classthemis_1_1content_1_1_content_logger_1a81ef9301b34331678d1c99469567a6e8" prot="public" virt="non-virtual"><scope>themis::content::ContentLogger</scope><name>setCorrelationId</name></member>
+      <member refid="classthemis_1_1content_1_1_content_logger_1aefd36234a243d9039cc089b52c693de2" prot="public" virt="non-virtual"><scope>themis::content::ContentLogger</scope><name>setJsonFormatting</name></member>
+      <member refid="classthemis_1_1content_1_1_content_logger_1aa176d2ef18c47276ec6639cedbdde44f" prot="public" virt="non-virtual"><scope>themis::content::ContentLogger</scope><name>setPiiSanitization</name></member>
+      <member refid="classthemis_1_1content_1_1_content_logger_1a86e8dbfb46e131821282f69d6c882799" prot="public" virt="non-virtual"><scope>themis::content::ContentLogger</scope><name>warn</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

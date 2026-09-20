@@ -1,0 +1,360 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_vectorized_query_plan" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::VectorizedQueryPlan</compoundname>
+    <includes refid="vectorized__execution_8h" local="no">vectorized_execution.h</includes>
+    <innerclass refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_filter_stage" prot="public">themis::query::VectorizedQueryPlan::FilterStage</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_project_stage" prot="public">themis::query::VectorizedQueryPlan::ProjectStage</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_agg_stage" prot="public">themis::query::VectorizedQueryPlan::AggStage</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_sort_stage" prot="public">themis::query::VectorizedQueryPlan::SortStage</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_stage" prot="public">themis::query::VectorizedQueryPlan::Stage</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1query_1_1_vectorized_query_plan_1a7f20ad31129da18f45798990ab494f3d" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>StageType</name>
+        <qualifiedname>themis::query::VectorizedQueryPlan::StageType</qualifiedname>
+        <enumvalue id="classthemis_1_1query_1_1_vectorized_query_plan_1a7f20ad31129da18f45798990ab494f3dad7778d0c64b6ba21494c97f77a66885a" prot="public">
+          <name>Filter</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1query_1_1_vectorized_query_plan_1a7f20ad31129da18f45798990ab494f3da9e727fdd3aec8274f46685441900280d" prot="public">
+          <name>Project</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1query_1_1_vectorized_query_plan_1a7f20ad31129da18f45798990ab494f3da2ee34178bb8415b7d7234cd27b83aed6" prot="public">
+          <name>Aggregate</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1query_1_1_vectorized_query_plan_1a7f20ad31129da18f45798990ab494f3da6b46ae48421828d9973deec5fa9aa0c3" prot="public">
+          <name>Sort</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="197" column="5" bodyfile="include/query/vectorized_execution.h" bodystart="197" bodyend="197"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_vectorized_query_plan_1a01665c71e76be0d3af2050889d12c565" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_stage" kindref="compound">Stage</ref> &gt;</type>
+        <definition>std::vector&lt;Stage&gt; themis::query::VectorizedQueryPlan::stages_</definition>
+        <argsstring></argsstring>
+        <name>stages_</name>
+        <qualifiedname>themis::query::VectorizedQueryPlan::stages_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="210" column="20" bodyfile="include/query/vectorized_execution.h" bodystart="210" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_vectorized_query_plan_1ad80d300e20a1488d01db538c0b5b5c13" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; size_t &gt;</type>
+        <definition>std::optional&lt;size_t&gt; themis::query::VectorizedQueryPlan::limit_</definition>
+        <argsstring></argsstring>
+        <name>limit_</name>
+        <qualifiedname>themis::query::VectorizedQueryPlan::limit_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="211" column="19" bodyfile="include/query/vectorized_execution.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_vectorized_query_plan_1aeaac64ccacd6b131b58cdf811df3398c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::VectorizedQueryPlan::VectorizedQueryPlan</definition>
+        <argsstring>()=default</argsstring>
+        <name>VectorizedQueryPlan</name>
+        <qualifiedname>themis::query::VectorizedQueryPlan::VectorizedQueryPlan</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="154" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_vectorized_query_plan_1a97fc3b9fb8314e958dc491ce3ca85dbe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1query_1_1_vectorized_query_plan_1aeaac64ccacd6b131b58cdf811df3398c" kindref="member">VectorizedQueryPlan</ref> &amp;</type>
+        <definition>VectorizedQueryPlan &amp; themis::query::VectorizedQueryPlan::addFilter</definition>
+        <argsstring>(std::vector&lt; VectorizedPredicate &gt; predicates)</argsstring>
+        <name>addFilter</name>
+        <qualifiedname>themis::query::VectorizedQueryPlan::addFilter</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_vectorized_predicate" kindref="compound">VectorizedPredicate</ref> &gt;</type>
+          <declname>predicates</declname>
+        </param>
+        <briefdescription>
+<para>Add Filter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">predicates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">predicates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="161" column="25" bodyfile="src/query/vectorized_execution.cpp" bodystart="148" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_vectorized_query_plan_1aa07af1171b3daa651ff9507782a0bb3f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1query_1_1_vectorized_query_plan_1aeaac64ccacd6b131b58cdf811df3398c" kindref="member">VectorizedQueryPlan</ref> &amp;</type>
+        <definition>VectorizedQueryPlan &amp; themis::query::VectorizedQueryPlan::addProject</definition>
+        <argsstring>(std::vector&lt; std::string &gt; fields)</argsstring>
+        <name>addProject</name>
+        <qualifiedname>themis::query::VectorizedQueryPlan::addProject</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>fields</declname>
+        </param>
+        <briefdescription>
+<para>Add Project. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fields</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fields</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="167" column="25" bodyfile="src/query/vectorized_execution.cpp" bodystart="163" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_vectorized_query_plan_1a9f3445d0fad575c02000a1886e90fe5c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1query_1_1_vectorized_query_plan_1aeaac64ccacd6b131b58cdf811df3398c" kindref="member">VectorizedQueryPlan</ref> &amp;</type>
+        <definition>VectorizedQueryPlan &amp; themis::query::VectorizedQueryPlan::addAggregate</definition>
+        <argsstring>(std::vector&lt; VectorizedAggregation &gt; aggregations)</argsstring>
+        <name>addAggregate</name>
+        <qualifiedname>themis::query::VectorizedQueryPlan::addAggregate</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_vectorized_aggregation" kindref="compound">VectorizedAggregation</ref> &gt;</type>
+          <declname>aggregations</declname>
+        </param>
+        <briefdescription>
+<para>Add Aggregate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">aggregations</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">aggregations</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="173" column="25" bodyfile="src/query/vectorized_execution.cpp" bodystart="178" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_vectorized_query_plan_1acd65938f72f66ed03e9b4ddd3af5cb28" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1query_1_1_vectorized_query_plan_1aeaac64ccacd6b131b58cdf811df3398c" kindref="member">VectorizedQueryPlan</ref> &amp;</type>
+        <definition>VectorizedQueryPlan &amp; themis::query::VectorizedQueryPlan::addSort</definition>
+        <argsstring>(std::vector&lt; VectorizedSortKey &gt; keys)</argsstring>
+        <name>addSort</name>
+        <qualifiedname>themis::query::VectorizedQueryPlan::addSort</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_vectorized_sort_key" kindref="compound">VectorizedSortKey</ref> &gt;</type>
+          <declname>keys</declname>
+        </param>
+        <briefdescription>
+<para>Add Sort. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">keys</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">keys</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="179" column="25" bodyfile="src/query/vectorized_execution.cpp" bodystart="193" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_vectorized_query_plan_1aec3a3aec56fa78219b774e5d7cf15a88" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1query_1_1_vectorized_query_plan_1aeaac64ccacd6b131b58cdf811df3398c" kindref="member">VectorizedQueryPlan</ref> &amp;</type>
+        <definition>VectorizedQueryPlan &amp; themis::query::VectorizedQueryPlan::setLimit</definition>
+        <argsstring>(size_t n)</argsstring>
+        <name>setLimit</name>
+        <qualifiedname>themis::query::VectorizedQueryPlan::setLimit</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+<para>Set Limit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="186" column="25" bodyfile="src/query/vectorized_execution.cpp" bodystart="202" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_vectorized_query_plan_1a95cdfcfd5837410e315d7636473a8905" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::query::VectorizedQueryPlan::stageCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>stageCount</name>
+        <qualifiedname>themis::query::VectorizedQueryPlan::stageCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="188" column="27" bodyfile="include/query/vectorized_execution.h" bodystart="188" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_vectorized_query_plan_1a69346e7430639bd5114258a23456fa1b" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::optional&lt; size_t &gt;</type>
+        <definition>std::optional&lt; size_t &gt; themis::query::VectorizedQueryPlan::limit</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>limit</name>
+        <qualifiedname>themis::query::VectorizedQueryPlan::limit</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="189" column="19" bodyfile="include/query/vectorized_execution.h" bodystart="189" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_vectorized_query_plan_1a12bc2e7f91bbef5ae488e811cc4ad86a" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_stage" kindref="compound">Stage</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt; Stage &gt; &amp; themis::query::VectorizedQueryPlan::stages</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>stages</name>
+        <qualifiedname>themis::query::VectorizedQueryPlan::stages</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="207" column="23" bodyfile="include/query/vectorized_execution.h" bodystart="207" bodyend="207"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/vectorized_execution.h" line="152" column="1" bodyfile="include/query/vectorized_execution.h" bodystart="152" bodyend="212"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_vectorized_query_plan_1a9f3445d0fad575c02000a1886e90fe5c" prot="public" virt="non-virtual"><scope>themis::query::VectorizedQueryPlan</scope><name>addAggregate</name></member>
+      <member refid="classthemis_1_1query_1_1_vectorized_query_plan_1a97fc3b9fb8314e958dc491ce3ca85dbe" prot="public" virt="non-virtual"><scope>themis::query::VectorizedQueryPlan</scope><name>addFilter</name></member>
+      <member refid="classthemis_1_1query_1_1_vectorized_query_plan_1aa07af1171b3daa651ff9507782a0bb3f" prot="public" virt="non-virtual"><scope>themis::query::VectorizedQueryPlan</scope><name>addProject</name></member>
+      <member refid="classthemis_1_1query_1_1_vectorized_query_plan_1acd65938f72f66ed03e9b4ddd3af5cb28" prot="public" virt="non-virtual"><scope>themis::query::VectorizedQueryPlan</scope><name>addSort</name></member>
+      <member refid="classthemis_1_1query_1_1_vectorized_query_plan_1a69346e7430639bd5114258a23456fa1b" prot="public" virt="non-virtual"><scope>themis::query::VectorizedQueryPlan</scope><name>limit</name></member>
+      <member refid="classthemis_1_1query_1_1_vectorized_query_plan_1ad80d300e20a1488d01db538c0b5b5c13" prot="private" virt="non-virtual"><scope>themis::query::VectorizedQueryPlan</scope><name>limit_</name></member>
+      <member refid="classthemis_1_1query_1_1_vectorized_query_plan_1aec3a3aec56fa78219b774e5d7cf15a88" prot="public" virt="non-virtual"><scope>themis::query::VectorizedQueryPlan</scope><name>setLimit</name></member>
+      <member refid="classthemis_1_1query_1_1_vectorized_query_plan_1a95cdfcfd5837410e315d7636473a8905" prot="public" virt="non-virtual"><scope>themis::query::VectorizedQueryPlan</scope><name>stageCount</name></member>
+      <member refid="classthemis_1_1query_1_1_vectorized_query_plan_1a12bc2e7f91bbef5ae488e811cc4ad86a" prot="public" virt="non-virtual"><scope>themis::query::VectorizedQueryPlan</scope><name>stages</name></member>
+      <member refid="classthemis_1_1query_1_1_vectorized_query_plan_1a01665c71e76be0d3af2050889d12c565" prot="private" virt="non-virtual"><scope>themis::query::VectorizedQueryPlan</scope><name>stages_</name></member>
+      <member refid="classthemis_1_1query_1_1_vectorized_query_plan_1a7f20ad31129da18f45798990ab494f3d" prot="public" virt="non-virtual"><scope>themis::query::VectorizedQueryPlan</scope><name>StageType</name></member>
+      <member refid="classthemis_1_1query_1_1_vectorized_query_plan_1aeaac64ccacd6b131b58cdf811df3398c" prot="public" virt="non-virtual"><scope>themis::query::VectorizedQueryPlan</scope><name>VectorizedQueryPlan</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

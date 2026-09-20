@@ -1,0 +1,378 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_i_index_manager" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::IIndexManager</compoundname>
+    <includes refid="index__interface_8h" local="no">index_interface.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_i_index_manager_1a225b27546e19427d7b15a938f13c3161" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::IIndexManager::~IIndexManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IIndexManager</name>
+        <qualifiedname>themis::IIndexManager::~IIndexManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/index_interface.h" line="260" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_index_manager_1ae883a499e6b7cb9c645a3c02638d2de2" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; <ref refid="classthemis_1_1_i_secondary_index" kindref="compound">ISecondaryIndex</ref> * &gt;</type>
+        <definition>virtual Result&lt; ISecondaryIndex * &gt; themis::IIndexManager::createSecondaryIndex</definition>
+        <argsstring>(std::string_view name, std::string_view field_name, const std::string &amp;config=&quot;&quot;)=0</argsstring>
+        <name>createSecondaryIndex</name>
+        <qualifiedname>themis::IIndexManager::createSecondaryIndex</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>field_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>config</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Create a new secondary index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Index name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>field_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Field to index </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Implementation-specific configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result containing pointer to created index, or Error on failure Possible errors: ERR_INDEX_NOT_INITIALIZED, ERR_INDEX_CREATION_FAILED, ERR_API_INVALID_REQUEST </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/index_interface.h" line="268" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_index_manager_1a3161ec2cb36ab952b7dbf26b09d8651c" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; <ref refid="classthemis_1_1_i_vector_index" kindref="compound">IVectorIndex</ref> * &gt;</type>
+        <definition>virtual Result&lt; IVectorIndex * &gt; themis::IIndexManager::createVectorIndex</definition>
+        <argsstring>(std::string_view name, uint32_t dimension, const std::string &amp;config=&quot;&quot;)=0</argsstring>
+        <name>createVectorIndex</name>
+        <qualifiedname>themis::IIndexManager::createVectorIndex</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>dimension</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>config</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Create a new vector index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Index name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>dimension</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector dimension </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Implementation-specific configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result containing pointer to created index, or Error on failure Possible errors: ERR_INDEX_NOT_INITIALIZED, ERR_INDEX_CREATION_FAILED, ERR_API_INVALID_REQUEST </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/index_interface.h" line="279" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_index_manager_1ab8c455ee90a3e965210d338ac0165392" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; <ref refid="classthemis_1_1_i_graph_index" kindref="compound">IGraphIndex</ref> * &gt;</type>
+        <definition>virtual Result&lt; IGraphIndex * &gt; themis::IIndexManager::createGraphIndex</definition>
+        <argsstring>(std::string_view name, const std::string &amp;config=&quot;&quot;)=0</argsstring>
+        <name>createGraphIndex</name>
+        <qualifiedname>themis::IIndexManager::createGraphIndex</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>config</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Create a new graph index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Index name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Implementation-specific configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result containing pointer to created index, or Error on failure Possible errors: ERR_INDEX_NOT_INITIALIZED, ERR_INDEX_CREATION_FAILED </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/index_interface.h" line="289" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_index_manager_1ad86ad04fcfe591692e87da0d40b275ca" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; <ref refid="classthemis_1_1_i_secondary_index" kindref="compound">ISecondaryIndex</ref> * &gt;</type>
+        <definition>virtual Result&lt; ISecondaryIndex * &gt; themis::IIndexManager::getSecondaryIndex</definition>
+        <argsstring>(std::string_view name) const =0</argsstring>
+        <name>getSecondaryIndex</name>
+        <qualifiedname>themis::IIndexManager::getSecondaryIndex</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Get an existing secondary index by name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Index name </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result containing pointer to index, or Error if not found Possible errors: ERR_INDEX_NOT_FOUND, ERR_INDEX_INVALID_TYPE </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/index_interface.h" line="297" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_index_manager_1a050a545ee74fe92581fe75f3568f3109" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; <ref refid="classthemis_1_1_i_vector_index" kindref="compound">IVectorIndex</ref> * &gt;</type>
+        <definition>virtual Result&lt; IVectorIndex * &gt; themis::IIndexManager::getVectorIndex</definition>
+        <argsstring>(std::string_view name) const =0</argsstring>
+        <name>getVectorIndex</name>
+        <qualifiedname>themis::IIndexManager::getVectorIndex</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Get an existing vector index by name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Index name </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result containing pointer to index, or Error if not found Possible errors: ERR_INDEX_NOT_FOUND, ERR_INDEX_INVALID_TYPE </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/index_interface.h" line="303" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_index_manager_1a78a76e7a4dd6c673413a93dd00bbc039" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; <ref refid="classthemis_1_1_i_graph_index" kindref="compound">IGraphIndex</ref> * &gt;</type>
+        <definition>virtual Result&lt; IGraphIndex * &gt; themis::IIndexManager::getGraphIndex</definition>
+        <argsstring>(std::string_view name) const =0</argsstring>
+        <name>getGraphIndex</name>
+        <qualifiedname>themis::IIndexManager::getGraphIndex</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Get an existing graph index by name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Index name </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result containing pointer to index, or Error if not found Possible errors: ERR_INDEX_NOT_FOUND, ERR_INDEX_INVALID_TYPE </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/index_interface.h" line="309" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_index_manager_1a47f120dc7de1357923c3c2181aa8356b" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>virtual Result&lt; void &gt; themis::IIndexManager::dropIndex</definition>
+        <argsstring>(std::string_view name)=0</argsstring>
+        <name>dropIndex</name>
+        <qualifiedname>themis::IIndexManager::dropIndex</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Drop an index by name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Index name </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;void&gt; indicating success or error Possible errors: ERR_INDEX_NOT_FOUND </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/index_interface.h" line="315" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_index_manager_1ab30c27e6134b629581f68c7b75cb0f06" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>virtual std::vector&lt; std::string &gt; themis::IIndexManager::listIndexes</definition>
+        <argsstring>() const =0</argsstring>
+        <name>listIndexes</name>
+        <qualifiedname>themis::IIndexManager::listIndexes</qualifiedname>
+        <briefdescription>
+<para>List all indexes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Vector of index names </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/index_interface.h" line="319" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_index_manager_1a9f18758b94bcfd6f5c73f47b4942eb2f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; <ref refid="namespacethemis_1a013eace978e222f4050cb047a0fad5fc" kindref="member">IndexType</ref> &gt;</type>
+        <definition>virtual Result&lt; IndexType &gt; themis::IIndexManager::getIndexType</definition>
+        <argsstring>(std::string_view name) const =0</argsstring>
+        <name>getIndexType</name>
+        <qualifiedname>themis::IIndexManager::getIndexType</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Get type of an index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Index name </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;IndexType&gt; with index type, or ERR_INDEX_NOT_FOUND if index doesn&apos;t exist </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/index_interface.h" line="324" column="21"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstract interface for managing all indexes. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The index manager coordinates multiple indexes and provides a unified interface for query engines to access them.</para>
+<para>Key responsibilities:<itemizedlist>
+<listitem><para>Create and drop indexes</para>
+</listitem><listitem><para>Route queries to appropriate indexes</para>
+</listitem><listitem><para>Coordinate multi-index updates</para>
+</listitem><listitem><para>Provide query optimization hints </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/themis/base/interfaces/index_interface.h" line="258" column="1" bodyfile="include/themis/base/interfaces/index_interface.h" bodystart="258" bodyend="325"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_i_index_manager_1ab8c455ee90a3e965210d338ac0165392" prot="public" virt="pure-virtual"><scope>themis::IIndexManager</scope><name>createGraphIndex</name></member>
+      <member refid="classthemis_1_1_i_index_manager_1ae883a499e6b7cb9c645a3c02638d2de2" prot="public" virt="pure-virtual"><scope>themis::IIndexManager</scope><name>createSecondaryIndex</name></member>
+      <member refid="classthemis_1_1_i_index_manager_1a3161ec2cb36ab952b7dbf26b09d8651c" prot="public" virt="pure-virtual"><scope>themis::IIndexManager</scope><name>createVectorIndex</name></member>
+      <member refid="classthemis_1_1_i_index_manager_1a47f120dc7de1357923c3c2181aa8356b" prot="public" virt="pure-virtual"><scope>themis::IIndexManager</scope><name>dropIndex</name></member>
+      <member refid="classthemis_1_1_i_index_manager_1a78a76e7a4dd6c673413a93dd00bbc039" prot="public" virt="pure-virtual"><scope>themis::IIndexManager</scope><name>getGraphIndex</name></member>
+      <member refid="classthemis_1_1_i_index_manager_1a9f18758b94bcfd6f5c73f47b4942eb2f" prot="public" virt="pure-virtual"><scope>themis::IIndexManager</scope><name>getIndexType</name></member>
+      <member refid="classthemis_1_1_i_index_manager_1ad86ad04fcfe591692e87da0d40b275ca" prot="public" virt="pure-virtual"><scope>themis::IIndexManager</scope><name>getSecondaryIndex</name></member>
+      <member refid="classthemis_1_1_i_index_manager_1a050a545ee74fe92581fe75f3568f3109" prot="public" virt="pure-virtual"><scope>themis::IIndexManager</scope><name>getVectorIndex</name></member>
+      <member refid="classthemis_1_1_i_index_manager_1ab30c27e6134b629581f68c7b75cb0f06" prot="public" virt="pure-virtual"><scope>themis::IIndexManager</scope><name>listIndexes</name></member>
+      <member refid="classthemis_1_1_i_index_manager_1a225b27546e19427d7b15a938f13c3161" prot="public" virt="virtual"><scope>themis::IIndexManager</scope><name>~IIndexManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_shard_load_balancer_1_1_shard_state" kind="struct" language="C++" prot="private">
+    <compoundname>themis::sharding::ShardLoadBalancer::ShardState</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_load_balancer_1_1_shard_state_1afda558f3794da8e290e19449675da571" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_shard_metrics" kindref="compound">ShardMetrics</ref></type>
+        <definition>ShardMetrics themis::sharding::ShardLoadBalancer::ShardState::metrics</definition>
+        <argsstring></argsstring>
+        <name>metrics</name>
+        <qualifiedname>themis::sharding::ShardLoadBalancer::ShardState::metrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_balancer.h" line="201" column="22" bodyfile="include/sharding/shard_load_balancer.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_load_balancer_1_1_shard_state_1af67d959078d55c3d743d8da563e399d8" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::sharding::ShardLoadBalancer::ShardState::total_selected</definition>
+        <argsstring></argsstring>
+        <name>total_selected</name>
+        <qualifiedname>themis::sharding::ShardLoadBalancer::ShardState::total_selected</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_balancer.h" line="202" column="22" bodyfile="include/sharding/shard_load_balancer.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::sharding::ShardLoadBalancer::ShardState</label>
+        <childnode refid="2" relation="usage">
+          <edgelabel>metrics</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::sharding::ShardMetrics</label>
+        <link refid="structthemis_1_1sharding_1_1_shard_metrics"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/sharding/shard_load_balancer.h" line="200" column="5" bodyfile="include/sharding/shard_load_balancer.h" bodystart="200" bodyend="203"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_shard_load_balancer_1_1_shard_state_1afda558f3794da8e290e19449675da571" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadBalancer::ShardState</scope><name>metrics</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_load_balancer_1_1_shard_state_1af67d959078d55c3d743d8da563e399d8" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadBalancer::ShardState</scope><name>total_selected</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

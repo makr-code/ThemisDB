@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_abuse_detection_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::AbuseDetectionResult</compoundname>
+    <includes refid="abuse__detector_8h" local="no">abuse_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_abuse_detection_result_1aa4301b91147f2b4970594f3bd898a15f" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1content_1a8fcb9bcf92892bc4086c74c1440b806c" kindref="member">AbuseAction</ref></type>
+        <definition>AbuseAction themis::content::AbuseDetectionResult::action</definition>
+        <argsstring></argsstring>
+        <name>action</name>
+        <qualifiedname>themis::content::AbuseDetectionResult::action</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1content_1a8fcb9bcf92892bc4086c74c1440b806ca40908e0f79c647b844c42f5babdc3feb" kindref="member">AbuseAction::ALLOW</ref></initializer>
+        <briefdescription>
+<para>Action to take. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/abuse_detector.h" line="46" column="17" bodyfile="include/content/abuse_detector.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_abuse_detection_result_1a7d06568b5db5422809997ecc23e7ab3e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::AbuseDetectionResult::detector_type</definition>
+        <argsstring></argsstring>
+        <name>detector_type</name>
+        <qualifiedname>themis::content::AbuseDetectionResult::detector_type</qualifiedname>
+        <briefdescription>
+<para>e.g. &quot;PhotoDNA&quot;, &quot;Text&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/abuse_detector.h" line="47" column="17" bodyfile="include/content/abuse_detector.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_abuse_detection_result_1aa7d29451beea3d9eb57aef386e4fbb19" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::AbuseDetectionResult::pattern_name</definition>
+        <argsstring></argsstring>
+        <name>pattern_name</name>
+        <qualifiedname>themis::content::AbuseDetectionResult::pattern_name</qualifiedname>
+        <briefdescription>
+<para>Which pattern/hash matched (empty if ALLOW). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/abuse_detector.h" line="48" column="17" bodyfile="include/content/abuse_detector.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_abuse_detection_result_1a1658f219d44e6c83f66416f53ea88fd8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::AbuseDetectionResult::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::content::AbuseDetectionResult::reason</qualifiedname>
+        <briefdescription>
+<para>Human-readable reason (empty if ALLOW). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/abuse_detector.h" line="49" column="17" bodyfile="include/content/abuse_detector.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/abuse_detector.h" line="45" column="1" bodyfile="include/content/abuse_detector.h" bodystart="45" bodyend="50"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_abuse_detection_result_1aa4301b91147f2b4970594f3bd898a15f" prot="public" virt="non-virtual"><scope>themis::content::AbuseDetectionResult</scope><name>action</name></member>
+      <member refid="structthemis_1_1content_1_1_abuse_detection_result_1a7d06568b5db5422809997ecc23e7ab3e" prot="public" virt="non-virtual"><scope>themis::content::AbuseDetectionResult</scope><name>detector_type</name></member>
+      <member refid="structthemis_1_1content_1_1_abuse_detection_result_1aa7d29451beea3d9eb57aef386e4fbb19" prot="public" virt="non-virtual"><scope>themis::content::AbuseDetectionResult</scope><name>pattern_name</name></member>
+      <member refid="structthemis_1_1content_1_1_abuse_detection_result_1a1658f219d44e6c83f66416f53ea88fd8" prot="public" virt="non-virtual"><scope>themis::content::AbuseDetectionResult</scope><name>reason</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

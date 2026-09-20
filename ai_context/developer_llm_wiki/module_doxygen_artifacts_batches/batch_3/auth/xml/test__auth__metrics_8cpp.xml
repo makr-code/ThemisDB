@@ -1,0 +1,771 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__auth__metrics_8cpp" kind="file" language="C++">
+    <compoundname>test_auth_metrics.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="auth__metrics_8h" local="yes">auth/auth_metrics.h</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">chrono</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>auth/auth_metrics.h</label>
+        <link refid="auth__metrics_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/auth/test_auth_metrics.cpp</label>
+        <link refid="test__auth__metrics_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>atomic</label>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="8">
+        <label>map</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="11">
+        <label>thread</label>
+      </node>
+      <node id="10">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__auth__metrics_8cpp_1a8706254b797fbb318f3db818c1402bc7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AuthMetricsTest, BasicRecording)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AuthMetricsTest</type>
+        </param>
+        <param>
+          <type>BasicRecording</type>
+        </param>
+        <briefdescription>
+<para>Test basic metrics recording without Prometheus. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_metrics.cpp" line="11" column="1" bodyfile="tests/auth/test_auth_metrics.cpp" bodystart="11" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__metrics_8cpp_1a522a19f469518ae38359070a5a3f21b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AuthMetricsTest, RecordAuthSuccess)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AuthMetricsTest</type>
+        </param>
+        <param>
+          <type>RecordAuthSuccess</type>
+        </param>
+        <briefdescription>
+<para>Test auth success recording. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_metrics.cpp" line="35" column="1" bodyfile="tests/auth/test_auth_metrics.cpp" bodystart="35" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__metrics_8cpp_1a3e3ca95aa8d790d27935ff5abf21edd5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AuthMetricsTest, RecordAuthFailure)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AuthMetricsTest</type>
+        </param>
+        <param>
+          <type>RecordAuthFailure</type>
+        </param>
+        <briefdescription>
+<para>Test auth failure recording. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_metrics.cpp" line="49" column="1" bodyfile="tests/auth/test_auth_metrics.cpp" bodystart="49" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__metrics_8cpp_1a57116565997badbeaa8f3622a6356aed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AuthMetricsTest, MultipleAuthMethods)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AuthMetricsTest</type>
+        </param>
+        <param>
+          <type>MultipleAuthMethods</type>
+        </param>
+        <briefdescription>
+<para>Test multiple auth methods. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_metrics.cpp" line="63" column="1" bodyfile="tests/auth/test_auth_metrics.cpp" bodystart="63" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__metrics_8cpp_1a9ada7ec9c60fa188f6827e43ffb06864" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AuthMetricsTest, JWKSCacheMetrics)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AuthMetricsTest</type>
+        </param>
+        <param>
+          <type>JWKSCacheMetrics</type>
+        </param>
+        <briefdescription>
+<para>Test JWKS cache metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_metrics.cpp" line="77" column="1" bodyfile="tests/auth/test_auth_metrics.cpp" bodystart="77" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__metrics_8cpp_1a28cfe51c19423efabcee9ee135d50630" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AuthMetricsTest, JWKSFetchMetrics)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AuthMetricsTest</type>
+        </param>
+        <param>
+          <type>JWKSFetchMetrics</type>
+        </param>
+        <briefdescription>
+<para>Test JWKS fetch metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_metrics.cpp" line="91" column="1" bodyfile="tests/auth/test_auth_metrics.cpp" bodystart="91" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__metrics_8cpp_1a4fa6d6e6b894aed7980f84e18abe1b91" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AuthMetricsTest, RateLimitingMetrics)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AuthMetricsTest</type>
+        </param>
+        <param>
+          <type>RateLimitingMetrics</type>
+        </param>
+        <briefdescription>
+<para>Test rate limiting metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_metrics.cpp" line="101" column="1" bodyfile="tests/auth/test_auth_metrics.cpp" bodystart="101" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__metrics_8cpp_1af5ec618a72c5b2a61fb8dff72954bdc9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AuthMetricsTest, AccountLockoutMetrics)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AuthMetricsTest</type>
+        </param>
+        <param>
+          <type>AccountLockoutMetrics</type>
+        </param>
+        <briefdescription>
+<para>Test account lockout metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_metrics.cpp" line="112" column="1" bodyfile="tests/auth/test_auth_metrics.cpp" bodystart="112" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__metrics_8cpp_1a3f0268d28a869968a02b7455d85164e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AuthMetricsTest, ErrorRecording)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AuthMetricsTest</type>
+        </param>
+        <param>
+          <type>ErrorRecording</type>
+        </param>
+        <briefdescription>
+<para>Test error recording. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_metrics.cpp" line="123" column="1" bodyfile="tests/auth/test_auth_metrics.cpp" bodystart="123" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__metrics_8cpp_1a042f18b03fc76cca5e8e8c1e2444b2aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AuthMetricsTest, TokenValidationMetrics)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AuthMetricsTest</type>
+        </param>
+        <param>
+          <type>TokenValidationMetrics</type>
+        </param>
+        <briefdescription>
+<para>Test token validation metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_metrics.cpp" line="135" column="1" bodyfile="tests/auth/test_auth_metrics.cpp" bodystart="135" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__metrics_8cpp_1a1f9d4555d3e387e0bd1d4a9568810c54" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AuthMetricsTest, RevokedTokenChecks)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AuthMetricsTest</type>
+        </param>
+        <param>
+          <type>RevokedTokenChecks</type>
+        </param>
+        <briefdescription>
+<para>Test revoked token checks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_metrics.cpp" line="145" column="1" bodyfile="tests/auth/test_auth_metrics.cpp" bodystart="145" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__metrics_8cpp_1a5d42da64c535b3414adc32ca63465185" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AuthMetricsTest, SuccessRateCalculation)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AuthMetricsTest</type>
+        </param>
+        <param>
+          <type>SuccessRateCalculation</type>
+        </param>
+        <briefdescription>
+<para>Test success rate calculation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_metrics.cpp" line="155" column="1" bodyfile="tests/auth/test_auth_metrics.cpp" bodystart="155" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__metrics_8cpp_1ad4deb66c7f490ee8ffeedf4360df4ef6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AuthMetricsTest, ThreadSafety)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AuthMetricsTest</type>
+        </param>
+        <param>
+          <type>ThreadSafety</type>
+        </param>
+        <briefdescription>
+<para>Test thread safety of counters. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_metrics.cpp" line="178" column="1" bodyfile="tests/auth/test_auth_metrics.cpp" bodystart="178" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__metrics_8cpp_1a601a012f96b19d0a39af18d5b28c37c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AuthMetricsTest, DurationTimer)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AuthMetricsTest</type>
+        </param>
+        <param>
+          <type>DurationTimer</type>
+        </param>
+        <briefdescription>
+<para>Test <ref refid="classthemis_1_1auth_1_1_auth_duration_timer" kindref="compound">AuthDurationTimer</ref> RAII helper. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_metrics.cpp" line="213" column="1" bodyfile="tests/auth/test_auth_metrics.cpp" bodystart="213" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__metrics_8cpp_1a8886e1a2ad16aaaac7d6bc0d86b83e9e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AuthMetricsTest, DurationTimerAutoRecord)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AuthMetricsTest</type>
+        </param>
+        <param>
+          <type>DurationTimerAutoRecord</type>
+        </param>
+        <briefdescription>
+<para>Test <ref refid="classthemis_1_1auth_1_1_auth_duration_timer" kindref="compound">AuthDurationTimer</ref> automatic recording on destruction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_metrics.cpp" line="237" column="1" bodyfile="tests/auth/test_auth_metrics.cpp" bodystart="237" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__metrics_8cpp_1a3b4e99d7947b849abad0c9e9d0d67292" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AuthMetricsTest, DurationTimerNoDoubleRecord)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AuthMetricsTest</type>
+        </param>
+        <param>
+          <type>DurationTimerNoDoubleRecord</type>
+        </param>
+        <briefdescription>
+<para>Test <ref refid="classthemis_1_1auth_1_1_auth_duration_timer" kindref="compound">AuthDurationTimer</ref> prevents double recording. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_metrics.cpp" line="253" column="1" bodyfile="tests/auth/test_auth_metrics.cpp" bodystart="253" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__metrics_8cpp_1a7fe0f993248ea3eefcf27e4b61b5458d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AuthMetricsTest, CustomConfig)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AuthMetricsTest</type>
+        </param>
+        <param>
+          <type>CustomConfig</type>
+        </param>
+        <briefdescription>
+<para>Test metrics with custom config. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_metrics.cpp" line="270" column="1" bodyfile="tests/auth/test_auth_metrics.cpp" bodystart="270" bodyend="281"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__metrics_8cpp_1ad6df8699561e1defafe5c112ced9f164" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AuthMetricsTest, AuthMethodSeparation)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AuthMetricsTest</type>
+        </param>
+        <param>
+          <type>AuthMethodSeparation</type>
+        </param>
+        <briefdescription>
+<para>Test different auth methods are tracked separately. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_metrics.cpp" line="286" column="1" bodyfile="tests/auth/test_auth_metrics.cpp" bodystart="286" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__metrics_8cpp_1a2456e6513f4a1fcb4b4e59ec1ce746c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AuthMetricsTest, ZeroDuration)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AuthMetricsTest</type>
+        </param>
+        <param>
+          <type>ZeroDuration</type>
+        </param>
+        <briefdescription>
+<para>Test zero duration is handled correctly. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_metrics.cpp" line="303" column="1" bodyfile="tests/auth/test_auth_metrics.cpp" bodystart="303" bodyend="308"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__metrics_8cpp_1aafccc0ee332fc98ee4f29659feb104d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AuthMetricsTest, LargeValues)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AuthMetricsTest</type>
+        </param>
+        <param>
+          <type>LargeValues</type>
+        </param>
+        <briefdescription>
+<para>Test large values don&apos;t overflow. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_metrics.cpp" line="313" column="1" bodyfile="tests/auth/test_auth_metrics.cpp" bodystart="313" bodyend="322"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__metrics_8cpp_1aee102d98152e5eea67822cbd64e71a57" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AuthMetricsTest, TimerGetDuration)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AuthMetricsTest</type>
+        </param>
+        <param>
+          <type>TimerGetDuration</type>
+        </param>
+        <briefdescription>
+<para>Test getDuration in timer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_metrics.cpp" line="327" column="1" bodyfile="tests/auth/test_auth_metrics.cpp" bodystart="327" bodyend="336"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="auth__metrics_8h" kindref="compound">auth/auth_metrics.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1auth" kindref="compound">themis::auth</ref>;</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><ref refid="test__auth__metrics_8cpp_1a8706254b797fbb318f3db818c1402bc7" kindref="member">TEST</ref>(AuthMetricsTest,<sp/>BasicRecording)<sp/>{</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_auth_metrics" kindref="compound">AuthMetrics</ref><sp/>metrics;</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Initial<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1a91e191a73b9230ca0d98d7133bccf0cf" kindref="member">getTotalAttempts</ref>(),<sp/>0);</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1af3434dc03f21ec85e21259ac4eabd3d2" kindref="member">getSuccessfulAuths</ref>(),<sp/>0);</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1ac7b160c98da25e0c5062d421336101d4" kindref="member">getFailedAuths</ref>(),<sp/>0);</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1a2de85d8b8289cc8fdbd88f93658821ad" kindref="member">getSuccessRate</ref>(),<sp/>0.0);</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Record<sp/>some<sp/>attempts</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1a24124872a32e6b3c9bc1e738e85827bb" kindref="member">recordAuthSuccess</ref>(<ref refid="namespacethemis_1_1auth_1a579ef178e03fc07238eff1e80638585ca1d1fadbd9150349c135781140fffee9d" kindref="member">AuthMethod::JWT</ref>,<sp/>10.5);</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1a24124872a32e6b3c9bc1e738e85827bb" kindref="member">recordAuthSuccess</ref>(<ref refid="namespacethemis_1_1auth_1a579ef178e03fc07238eff1e80638585ca1d1fadbd9150349c135781140fffee9d" kindref="member">AuthMethod::JWT</ref>,<sp/>15.2);</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1ac83faa449bb63b07322daf1718760c33" kindref="member">recordAuthFailure</ref>(<ref refid="namespacethemis_1_1auth_1a579ef178e03fc07238eff1e80638585ca1d1fadbd9150349c135781140fffee9d" kindref="member">AuthMethod::JWT</ref>,<sp/>9302,<sp/>8.3);</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>counters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1a91e191a73b9230ca0d98d7133bccf0cf" kindref="member">getTotalAttempts</ref>(),<sp/>3);</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1af3434dc03f21ec85e21259ac4eabd3d2" kindref="member">getSuccessfulAuths</ref>(),<sp/>2);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1ac7b160c98da25e0c5062d421336101d4" kindref="member">getFailedAuths</ref>(),<sp/>1);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1a2de85d8b8289cc8fdbd88f93658821ad" kindref="member">getSuccessRate</ref>(),<sp/>2.0/3.0,<sp/>0.01);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><ref refid="test__auth__metrics_8cpp_1a8706254b797fbb318f3db818c1402bc7" kindref="member">TEST</ref>(AuthMetricsTest,<sp/>RecordAuthSuccess)<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_auth_metrics" kindref="compound">AuthMetrics</ref><sp/>metrics;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1a24124872a32e6b3c9bc1e738e85827bb" kindref="member">recordAuthSuccess</ref>(<ref refid="namespacethemis_1_1auth_1a579ef178e03fc07238eff1e80638585ca1d1fadbd9150349c135781140fffee9d" kindref="member">AuthMethod::JWT</ref>,<sp/>12.5);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1a91e191a73b9230ca0d98d7133bccf0cf" kindref="member">getTotalAttempts</ref>(),<sp/>1);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1af3434dc03f21ec85e21259ac4eabd3d2" kindref="member">getSuccessfulAuths</ref>(),<sp/>1);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1ac7b160c98da25e0c5062d421336101d4" kindref="member">getFailedAuths</ref>(),<sp/>0);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1a2de85d8b8289cc8fdbd88f93658821ad" kindref="member">getSuccessRate</ref>(),<sp/>1.0);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><ref refid="test__auth__metrics_8cpp_1a8706254b797fbb318f3db818c1402bc7" kindref="member">TEST</ref>(AuthMetricsTest,<sp/>RecordAuthFailure)<sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_auth_metrics" kindref="compound">AuthMetrics</ref><sp/>metrics;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1ac83faa449bb63b07322daf1718760c33" kindref="member">recordAuthFailure</ref>(<ref refid="namespacethemis_1_1auth_1a579ef178e03fc07238eff1e80638585ca1d1fadbd9150349c135781140fffee9d" kindref="member">AuthMethod::JWT</ref>,<sp/>9302,<sp/>5.0);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1a91e191a73b9230ca0d98d7133bccf0cf" kindref="member">getTotalAttempts</ref>(),<sp/>1);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1af3434dc03f21ec85e21259ac4eabd3d2" kindref="member">getSuccessfulAuths</ref>(),<sp/>0);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1ac7b160c98da25e0c5062d421336101d4" kindref="member">getFailedAuths</ref>(),<sp/>1);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1a2de85d8b8289cc8fdbd88f93658821ad" kindref="member">getSuccessRate</ref>(),<sp/>0.0);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><ref refid="test__auth__metrics_8cpp_1a8706254b797fbb318f3db818c1402bc7" kindref="member">TEST</ref>(AuthMetricsTest,<sp/>MultipleAuthMethods)<sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_auth_metrics" kindref="compound">AuthMetrics</ref><sp/>metrics;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1a24124872a32e6b3c9bc1e738e85827bb" kindref="member">recordAuthSuccess</ref>(<ref refid="namespacethemis_1_1auth_1a579ef178e03fc07238eff1e80638585ca1d1fadbd9150349c135781140fffee9d" kindref="member">AuthMethod::JWT</ref>,<sp/>10.0);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1a24124872a32e6b3c9bc1e738e85827bb" kindref="member">recordAuthSuccess</ref>(<ref refid="namespacethemis_1_1auth_1a579ef178e03fc07238eff1e80638585ca621b04bb09882ac1e15935fefa24aeee" kindref="member">AuthMethod::GSSAPI</ref>,<sp/>50.0);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1a24124872a32e6b3c9bc1e738e85827bb" kindref="member">recordAuthSuccess</ref>(<ref refid="namespacethemis_1_1auth_1a579ef178e03fc07238eff1e80638585ca01cdf5ed099749508a0758aaecca78f9" kindref="member">AuthMethod::MFA</ref>,<sp/>5.0);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1a91e191a73b9230ca0d98d7133bccf0cf" kindref="member">getTotalAttempts</ref>(),<sp/>3);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1af3434dc03f21ec85e21259ac4eabd3d2" kindref="member">getSuccessfulAuths</ref>(),<sp/>3);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><ref refid="test__auth__metrics_8cpp_1a8706254b797fbb318f3db818c1402bc7" kindref="member">TEST</ref>(AuthMetricsTest,<sp/>JWKSCacheMetrics)<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_auth_metrics" kindref="compound">AuthMetrics</ref><sp/>metrics;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>These<sp/>should<sp/>not<sp/>crash<sp/>even<sp/>without<sp/>Prometheus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1a134721fc44196f64c040e56712f4a2a4" kindref="member">recordJWKSCacheHit</ref>());</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1a6e5bf00e9a6435078445e3f63a1813ff" kindref="member">recordJWKSCacheMiss</ref>());</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1a134721fc44196f64c040e56712f4a2a4" kindref="member">recordJWKSCacheHit</ref>());</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1a8730fb60ec53178b6b21f31d9ea57d18" kindref="member">setJWKSCacheSize</ref>(5));</highlight></codeline>
+<codeline lineno="86"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><ref refid="test__auth__metrics_8cpp_1a8706254b797fbb318f3db818c1402bc7" kindref="member">TEST</ref>(AuthMetricsTest,<sp/>JWKSFetchMetrics)<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_auth_metrics" kindref="compound">AuthMetrics</ref><sp/>metrics;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1af16a3328af75448c817ffe70885022cf" kindref="member">recordJWKSFetch</ref>(125.5,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1af16a3328af75448c817ffe70885022cf" kindref="member">recordJWKSFetch</ref>(250.0,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="96"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><ref refid="test__auth__metrics_8cpp_1a8706254b797fbb318f3db818c1402bc7" kindref="member">TEST</ref>(AuthMetricsTest,<sp/>RateLimitingMetrics)<sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_auth_metrics" kindref="compound">AuthMetrics</ref><sp/>metrics;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1a19857bd891c01db7f27498d300ed39bf" kindref="member">recordRateLimitExceeded</ref>(</highlight><highlight class="stringliteral">&quot;ip&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1a19857bd891c01db7f27498d300ed39bf" kindref="member">recordRateLimitExceeded</ref>(</highlight><highlight class="stringliteral">&quot;user&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1a53fb2d1bcce3e0c93731ff4cb503c5c1" kindref="member">setRateLimitTokens</ref>(</highlight><highlight class="stringliteral">&quot;192.168.1.100&quot;</highlight><highlight class="normal">,<sp/>5.0));</highlight></codeline>
+<codeline lineno="107"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><ref refid="test__auth__metrics_8cpp_1a8706254b797fbb318f3db818c1402bc7" kindref="member">TEST</ref>(AuthMetricsTest,<sp/>AccountLockoutMetrics)<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_auth_metrics" kindref="compound">AuthMetrics</ref><sp/>metrics;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1aa51b7618568e40d4fdebcc4ab59e9a11" kindref="member">recordAccountLockout</ref>(</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1a30d74ad4b53c34b7b332372b00ad63c2" kindref="member">recordAccountUnlock</ref>(</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1af6c58e9e9dfbbe0a173496558f13e0c9" kindref="member">setLockedAccountCount</ref>(3));</highlight></codeline>
+<codeline lineno="118"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><ref refid="test__auth__metrics_8cpp_1a8706254b797fbb318f3db818c1402bc7" kindref="member">TEST</ref>(AuthMetricsTest,<sp/>ErrorRecording)<sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_auth_metrics" kindref="compound">AuthMetrics</ref><sp/>metrics;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1ab30e9af3ff5a0ca1a49ec4644a29ae8a" kindref="member">recordError</ref>(9302));</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1ab30e9af3ff5a0ca1a49ec4644a29ae8a" kindref="member">recordError</ref>(9311));</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1a707278b560f0b4ce487295e154600f91" kindref="member">recordErrorByCategory</ref>(</highlight><highlight class="stringliteral">&quot;jwt&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1a707278b560f0b4ce487295e154600f91" kindref="member">recordErrorByCategory</ref>(</highlight><highlight class="stringliteral">&quot;gssapi&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="130"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><ref refid="test__auth__metrics_8cpp_1a8706254b797fbb318f3db818c1402bc7" kindref="member">TEST</ref>(AuthMetricsTest,<sp/>TokenValidationMetrics)<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_auth_metrics" kindref="compound">AuthMetrics</ref><sp/>metrics;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1a105fedaa4707e7cf01c338670f5a9d8c" kindref="member">recordTokenValidation</ref>(<ref refid="namespacethemis_1_1auth_1a579ef178e03fc07238eff1e80638585ca1d1fadbd9150349c135781140fffee9d" kindref="member">AuthMethod::JWT</ref>,<sp/>8.5));</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1a105fedaa4707e7cf01c338670f5a9d8c" kindref="member">recordTokenValidation</ref>(<ref refid="namespacethemis_1_1auth_1a579ef178e03fc07238eff1e80638585ca621b04bb09882ac1e15935fefa24aeee" kindref="member">AuthMethod::GSSAPI</ref>,<sp/>45.2));</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><ref refid="test__auth__metrics_8cpp_1a8706254b797fbb318f3db818c1402bc7" kindref="member">TEST</ref>(AuthMetricsTest,<sp/>RevokedTokenChecks)<sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_auth_metrics" kindref="compound">AuthMetrics</ref><sp/>metrics;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1afde0b3cb5085ade9d06dde6998a15a69" kindref="member">recordRevokedTokenCheck</ref>(</highlight><highlight class="keyword">true</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1afde0b3cb5085ade9d06dde6998a15a69" kindref="member">recordRevokedTokenCheck</ref>(</highlight><highlight class="keyword">false</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="150"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><ref refid="test__auth__metrics_8cpp_1a8706254b797fbb318f3db818c1402bc7" kindref="member">TEST</ref>(AuthMetricsTest,<sp/>SuccessRateCalculation)<sp/>{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_auth_metrics" kindref="compound">AuthMetrics</ref><sp/>metrics;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Empty<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1a2de85d8b8289cc8fdbd88f93658821ad" kindref="member">getSuccessRate</ref>(),<sp/>0.0);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>successes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1a24124872a32e6b3c9bc1e738e85827bb" kindref="member">recordAuthSuccess</ref>(<ref refid="namespacethemis_1_1auth_1a579ef178e03fc07238eff1e80638585ca1d1fadbd9150349c135781140fffee9d" kindref="member">AuthMethod::JWT</ref>,<sp/>10.0);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1a24124872a32e6b3c9bc1e738e85827bb" kindref="member">recordAuthSuccess</ref>(<ref refid="namespacethemis_1_1auth_1a579ef178e03fc07238eff1e80638585ca1d1fadbd9150349c135781140fffee9d" kindref="member">AuthMethod::JWT</ref>,<sp/>10.0);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1a2de85d8b8289cc8fdbd88f93658821ad" kindref="member">getSuccessRate</ref>(),<sp/>1.0);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Add<sp/>some<sp/>failures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1ac83faa449bb63b07322daf1718760c33" kindref="member">recordAuthFailure</ref>(<ref refid="namespacethemis_1_1auth_1a579ef178e03fc07238eff1e80638585ca1d1fadbd9150349c135781140fffee9d" kindref="member">AuthMethod::JWT</ref>,<sp/>9302,<sp/>5.0);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1a2de85d8b8289cc8fdbd88f93658821ad" kindref="member">getSuccessRate</ref>(),<sp/>2.0/3.0,<sp/>0.01);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Add<sp/>more<sp/>failures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1ac83faa449bb63b07322daf1718760c33" kindref="member">recordAuthFailure</ref>(<ref refid="namespacethemis_1_1auth_1a579ef178e03fc07238eff1e80638585ca1d1fadbd9150349c135781140fffee9d" kindref="member">AuthMethod::JWT</ref>,<sp/>9302,<sp/>5.0);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1a2de85d8b8289cc8fdbd88f93658821ad" kindref="member">getSuccessRate</ref>(),<sp/>0.5);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><ref refid="test__auth__metrics_8cpp_1a8706254b797fbb318f3db818c1402bc7" kindref="member">TEST</ref>(AuthMetricsTest,<sp/>ThreadSafety)<sp/>{</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_auth_metrics" kindref="compound">AuthMetrics</ref><sp/>metrics;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>num_threads<sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>iterations<sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>0;<sp/>t<sp/>&lt;<sp/>num_threads;<sp/>t++)<sp/>{</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([&amp;metrics,<sp/>iterations]()<sp/>{</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>iterations;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(i<sp/>%<sp/>2<sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1a24124872a32e6b3c9bc1e738e85827bb" kindref="member">recordAuthSuccess</ref>(<ref refid="namespacethemis_1_1auth_1a579ef178e03fc07238eff1e80638585ca1d1fadbd9150349c135781140fffee9d" kindref="member">AuthMethod::JWT</ref>,<sp/>10.0);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1ac83faa449bb63b07322daf1718760c33" kindref="member">recordAuthFailure</ref>(<ref refid="namespacethemis_1_1auth_1a579ef178e03fc07238eff1e80638585ca1d1fadbd9150349c135781140fffee9d" kindref="member">AuthMethod::JWT</ref>,<sp/>9302,<sp/>5.0);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>thread<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>thread.join();</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Each<sp/>thread<sp/>does<sp/>&apos;iterations&apos;<sp/>attempts</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1a91e191a73b9230ca0d98d7133bccf0cf" kindref="member">getTotalAttempts</ref>(),<sp/>num_threads<sp/>*<sp/>iterations);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Half<sp/>successes,<sp/>half<sp/>failures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1af3434dc03f21ec85e21259ac4eabd3d2" kindref="member">getSuccessfulAuths</ref>(),<sp/>num_threads<sp/>*<sp/>iterations<sp/>/<sp/>2);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1ac7b160c98da25e0c5062d421336101d4" kindref="member">getFailedAuths</ref>(),<sp/>num_threads<sp/>*<sp/>iterations<sp/>/<sp/>2);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><ref refid="test__auth__metrics_8cpp_1a8706254b797fbb318f3db818c1402bc7" kindref="member">TEST</ref>(AuthMetricsTest,<sp/>DurationTimer)<sp/>{</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_auth_metrics" kindref="compound">AuthMetrics</ref><sp/>metrics;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_auth_duration_timer" kindref="compound">AuthDurationTimer</ref><sp/>timer(metrics,<sp/><ref refid="namespacethemis_1_1auth_1a579ef178e03fc07238eff1e80638585ca1d1fadbd9150349c135781140fffee9d" kindref="member">AuthMethod::JWT</ref>);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(10));</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>timer.recordSuccess();</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1af3434dc03f21ec85e21259ac4eabd3d2" kindref="member">getSuccessfulAuths</ref>(),<sp/>1);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_auth_duration_timer" kindref="compound">AuthDurationTimer</ref><sp/>timer(metrics,<sp/><ref refid="namespacethemis_1_1auth_1a579ef178e03fc07238eff1e80638585ca1d1fadbd9150349c135781140fffee9d" kindref="member">AuthMethod::JWT</ref>);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(10));</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>timer.recordFailure(9302);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1ac7b160c98da25e0c5062d421336101d4" kindref="member">getFailedAuths</ref>(),<sp/>1);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1a91e191a73b9230ca0d98d7133bccf0cf" kindref="member">getTotalAttempts</ref>(),<sp/>2);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><ref refid="test__auth__metrics_8cpp_1a8706254b797fbb318f3db818c1402bc7" kindref="member">TEST</ref>(AuthMetricsTest,<sp/>DurationTimerAutoRecord)<sp/>{</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_auth_metrics" kindref="compound">AuthMetrics</ref><sp/>metrics;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_auth_duration_timer" kindref="compound">AuthDurationTimer</ref><sp/>timer(metrics,<sp/><ref refid="namespacethemis_1_1auth_1a579ef178e03fc07238eff1e80638585ca1d1fadbd9150349c135781140fffee9d" kindref="member">AuthMethod::JWT</ref>);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(5));</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Destructor<sp/>should<sp/>auto-record<sp/>as<sp/>attempt</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>be<sp/>recorded<sp/>as<sp/>an<sp/>attempt<sp/>(but<sp/>neither<sp/>success<sp/>nor<sp/>failure<sp/>explicitly)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1a91e191a73b9230ca0d98d7133bccf0cf" kindref="member">getTotalAttempts</ref>(),<sp/>1);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><ref refid="test__auth__metrics_8cpp_1a8706254b797fbb318f3db818c1402bc7" kindref="member">TEST</ref>(AuthMetricsTest,<sp/>DurationTimerNoDoubleRecord)<sp/>{</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_auth_metrics" kindref="compound">AuthMetrics</ref><sp/>metrics;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_auth_duration_timer" kindref="compound">AuthDurationTimer</ref><sp/>timer(metrics,<sp/><ref refid="namespacethemis_1_1auth_1a579ef178e03fc07238eff1e80638585ca1d1fadbd9150349c135781140fffee9d" kindref="member">AuthMethod::JWT</ref>);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>timer.recordSuccess();</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>timer.recordSuccess();<sp/><sp/></highlight><highlight class="comment">//<sp/>Second<sp/>call<sp/>should<sp/>be<sp/>ignored</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Destructor<sp/>should<sp/>not<sp/>record<sp/>again</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1a91e191a73b9230ca0d98d7133bccf0cf" kindref="member">getTotalAttempts</ref>(),<sp/>1);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1af3434dc03f21ec85e21259ac4eabd3d2" kindref="member">getSuccessfulAuths</ref>(),<sp/>1);</highlight></codeline>
+<codeline lineno="265"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><ref refid="test__auth__metrics_8cpp_1a8706254b797fbb318f3db818c1402bc7" kindref="member">TEST</ref>(AuthMetricsTest,<sp/>CustomConfig)<sp/>{</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_auth_metrics_1_1_config" kindref="compound">AuthMetrics::Config</ref><sp/>config;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1auth_1_1_auth_metrics_1_1_config_1a472f135da9c16e32f51a8c928dc01b53" kindref="member">namespace_prefix</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;custom_auth&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1auth_1_1_auth_metrics_1_1_config_1a13fc5f973753ebee5e20ed145b967377" kindref="member">enable_histograms</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1auth_1_1_auth_metrics_1_1_config_1a32cc4cfa9ac00a9cb86cf6527e4ef3de" kindref="member">enable_detailed_metrics</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_auth_metrics" kindref="compound">AuthMetrics</ref><sp/>metrics(config);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>still<sp/>work</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1a24124872a32e6b3c9bc1e738e85827bb" kindref="member">recordAuthSuccess</ref>(<ref refid="namespacethemis_1_1auth_1a579ef178e03fc07238eff1e80638585ca1d1fadbd9150349c135781140fffee9d" kindref="member">AuthMethod::JWT</ref>,<sp/>10.0);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1a91e191a73b9230ca0d98d7133bccf0cf" kindref="member">getTotalAttempts</ref>(),<sp/>1);</highlight></codeline>
+<codeline lineno="281"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><ref refid="test__auth__metrics_8cpp_1a8706254b797fbb318f3db818c1402bc7" kindref="member">TEST</ref>(AuthMetricsTest,<sp/>AuthMethodSeparation)<sp/>{</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_auth_metrics" kindref="compound">AuthMetrics</ref><sp/>metrics;</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1a24124872a32e6b3c9bc1e738e85827bb" kindref="member">recordAuthSuccess</ref>(<ref refid="namespacethemis_1_1auth_1a579ef178e03fc07238eff1e80638585ca1d1fadbd9150349c135781140fffee9d" kindref="member">AuthMethod::JWT</ref>,<sp/>10.0);</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1a24124872a32e6b3c9bc1e738e85827bb" kindref="member">recordAuthSuccess</ref>(<ref refid="namespacethemis_1_1auth_1a579ef178e03fc07238eff1e80638585ca621b04bb09882ac1e15935fefa24aeee" kindref="member">AuthMethod::GSSAPI</ref>,<sp/>50.0);</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1a24124872a32e6b3c9bc1e738e85827bb" kindref="member">recordAuthSuccess</ref>(<ref refid="namespacethemis_1_1auth_1a579ef178e03fc07238eff1e80638585ca01cdf5ed099749508a0758aaecca78f9" kindref="member">AuthMethod::MFA</ref>,<sp/>5.0);</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1ac83faa449bb63b07322daf1718760c33" kindref="member">recordAuthFailure</ref>(<ref refid="namespacethemis_1_1auth_1a579ef178e03fc07238eff1e80638585ca1d1fadbd9150349c135781140fffee9d" kindref="member">AuthMethod::JWT</ref>,<sp/>9302,<sp/>8.0);</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Total<sp/>counters<sp/>should<sp/>aggregate<sp/>all<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1a91e191a73b9230ca0d98d7133bccf0cf" kindref="member">getTotalAttempts</ref>(),<sp/>4);</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1af3434dc03f21ec85e21259ac4eabd3d2" kindref="member">getSuccessfulAuths</ref>(),<sp/>3);</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1ac7b160c98da25e0c5062d421336101d4" kindref="member">getFailedAuths</ref>(),<sp/>1);</highlight></codeline>
+<codeline lineno="298"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><ref refid="test__auth__metrics_8cpp_1a8706254b797fbb318f3db818c1402bc7" kindref="member">TEST</ref>(AuthMetricsTest,<sp/>ZeroDuration)<sp/>{</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_auth_metrics" kindref="compound">AuthMetrics</ref><sp/>metrics;</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1a24124872a32e6b3c9bc1e738e85827bb" kindref="member">recordAuthSuccess</ref>(<ref refid="namespacethemis_1_1auth_1a579ef178e03fc07238eff1e80638585ca1d1fadbd9150349c135781140fffee9d" kindref="member">AuthMethod::JWT</ref>,<sp/>0.0));</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1ac83faa449bb63b07322daf1718760c33" kindref="member">recordAuthFailure</ref>(<ref refid="namespacethemis_1_1auth_1a579ef178e03fc07238eff1e80638585ca1d1fadbd9150349c135781140fffee9d" kindref="member">AuthMethod::JWT</ref>,<sp/>9302,<sp/>0.0));</highlight></codeline>
+<codeline lineno="308"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><ref refid="test__auth__metrics_8cpp_1a8706254b797fbb318f3db818c1402bc7" kindref="member">TEST</ref>(AuthMetricsTest,<sp/>LargeValues)<sp/>{</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_auth_metrics" kindref="compound">AuthMetrics</ref><sp/>metrics;</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10000;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1a24124872a32e6b3c9bc1e738e85827bb" kindref="member">recordAuthSuccess</ref>(<ref refid="namespacethemis_1_1auth_1a579ef178e03fc07238eff1e80638585ca1d1fadbd9150349c135781140fffee9d" kindref="member">AuthMethod::JWT</ref>,<sp/>10.0);</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1a91e191a73b9230ca0d98d7133bccf0cf" kindref="member">getTotalAttempts</ref>(),<sp/>10000);</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.<ref refid="classthemis_1_1auth_1_1_auth_metrics_1af3434dc03f21ec85e21259ac4eabd3d2" kindref="member">getSuccessfulAuths</ref>(),<sp/>10000);</highlight></codeline>
+<codeline lineno="322"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><ref refid="test__auth__metrics_8cpp_1a8706254b797fbb318f3db818c1402bc7" kindref="member">TEST</ref>(AuthMetricsTest,<sp/>TimerGetDuration)<sp/>{</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_auth_metrics" kindref="compound">AuthMetrics</ref><sp/>metrics;</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_auth_duration_timer" kindref="compound">AuthDurationTimer</ref><sp/>timer(metrics,<sp/><ref refid="namespacethemis_1_1auth_1a579ef178e03fc07238eff1e80638585ca1d1fadbd9150349c135781140fffee9d" kindref="member">AuthMethod::JWT</ref>);</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(10));</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>duration<sp/>=<sp/>timer.getDuration();</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(duration,<sp/>9.0);<sp/><sp/></highlight><highlight class="comment">//<sp/>At<sp/>least<sp/>9ms<sp/>(some<sp/>slack<sp/>for<sp/>timing)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(duration,<sp/>50.0);<sp/></highlight><highlight class="comment">//<sp/>But<sp/>not<sp/>too<sp/>long</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/auth/test_auth_metrics.cpp"/>
+  </compounddef>
+</doxygen>

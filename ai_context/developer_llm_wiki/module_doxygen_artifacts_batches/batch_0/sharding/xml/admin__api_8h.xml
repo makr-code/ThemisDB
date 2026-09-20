@@ -1,0 +1,206 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="admin__api_8h" kind="file" language="C++">
+    <compoundname>admin_api.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="admin__operations_8h" local="yes">include/sharding/admin_operations.h</includedby>
+    <includedby refid="admin__api_8cpp" local="yes">src/sharding/admin_api.cpp</includedby>
+    <includedby refid="test__sharding__phase5_8cpp" local="yes">tests/sharding/test_sharding_phase5.cpp</includedby>
+    <includedby refid="test__sharding__repair_8cpp" local="yes">tests/sharding/test_sharding_repair.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/sharding/admin_api.h</label>
+        <link refid="admin__api_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="3">
+        <label>map</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/sharding/admin_api.h</label>
+        <link refid="admin__api_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/sharding/admin_operations.h</label>
+        <link refid="admin__operations_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/sharding/admin_api.cpp</label>
+        <link refid="admin__api_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/sharding/admin_operations.cpp</label>
+        <link refid="admin__operations_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/sharding/test_sharding_phase5.cpp</label>
+        <link refid="test__sharding__phase5_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/sharding/test_sharding_repair.cpp</label>
+        <link refid="test__sharding__repair_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1sharding_1_1_admin_a_p_i" prot="public">themis::sharding::AdminAPI</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_config" prot="public">themis::sharding::AdminAPI::Config</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints" prot="public">themis::sharding::AdminAPI::Endpoints</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1sharding">themis::sharding</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1sharding" kindref="compound">sharding</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_shard_repair_engine" kindref="compound">ShardRepairEngine</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>forward<sp/>declaration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_hardware_migration_manager" kindref="compound">HardwareMigrationManager</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>forward<sp/>declaration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="classthemis_1_1sharding_1_1_admin_a_p_i" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_admin_a_p_i_1a99090deaa9ff750b94cc835d2a0ce146" kindref="member">AdminAPI</ref><sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_config_1af7f8eea30ff0717017d4949ae8d2397b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_config_1af7f8eea30ff0717017d4949ae8d2397b" kindref="member">http_port</ref><sp/>=<sp/>8080;</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_config_1a8f9e5bbf5f3297549670a4af580e92ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_config_1a8f9e5bbf5f3297549670a4af580e92ad" kindref="member">operator_cert_path</ref>;</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_config_1ad2ad0eb457172d45ee8a4aa5a4636d22" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_config_1ad2ad0eb457172d45ee8a4aa5a4636d22" kindref="member">ca_cert_path</ref>;</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_config_1a5c9d5caeb31c86dda28199e0a2adf862" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_config_1a5c9d5caeb31c86dda28199e0a2adf862" kindref="member">require_signatures</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_config_1a2426823ad743637f263a4cce2f700aca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_config_1a2426823ad743637f263a4cce2f700aca" kindref="member">enable_audit_log</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_config_1a16d610bd3f3948b9ac5a503bf6c9aee7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_config_1a16d610bd3f3948b9ac5a503bf6c9aee7" kindref="member">audit_log_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/var/log/themis/admin_audit.log&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="classthemis_1_1sharding_1_1_admin_a_p_i_1a9619466843eaa8e0c1ebe9a3e73dc128" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_admin_a_p_i_1a9619466843eaa8e0c1ebe9a3e73dc128" kindref="member">RequestHandler</ref><sp/>=<sp/>std::function&lt;nlohmann::json(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;)&gt;;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_admin_a_p_i_1a99090deaa9ff750b94cc835d2a0ce146" kindref="member">AdminAPI</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="52" refid="classthemis_1_1sharding_1_1_admin_a_p_i_1abfb7c9db4248b8e7b469dcb1e4729da5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_admin_a_p_i_1abfb7c9db4248b8e7b469dcb1e4729da5" kindref="member">~AdminAPI</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Register<sp/>handlers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_admin_a_p_i_1a9e7f07db3e8a19954a56cc54873d2dcf" kindref="member">registerTopologyHandler</ref>(<ref refid="classthemis_1_1sharding_1_1_admin_a_p_i_1a9619466843eaa8e0c1ebe9a3e73dc128" kindref="member">RequestHandler</ref><sp/>handler);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_admin_a_p_i_1a193d0a271dc06d3223f46cae9af60220" kindref="member">registerRebalanceHandler</ref>(<ref refid="classthemis_1_1sharding_1_1_admin_a_p_i_1a9619466843eaa8e0c1ebe9a3e73dc128" kindref="member">RequestHandler</ref><sp/>handler);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_admin_a_p_i_1a59d70a276de8e4b44a163340497e130d" kindref="member">registerHealthHandler</ref>(<ref refid="classthemis_1_1sharding_1_1_admin_a_p_i_1a9619466843eaa8e0c1ebe9a3e73dc128" kindref="member">RequestHandler</ref><sp/>handler);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_admin_a_p_i_1a30e4b5ea5684a038db9b4491ec93d4f7" kindref="member">registerStatsHandler</ref>(<ref refid="classthemis_1_1sharding_1_1_admin_a_p_i_1a9619466843eaa8e0c1ebe9a3e73dc128" kindref="member">RequestHandler</ref><sp/>handler);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_admin_a_p_i_1affdcee9289d101504c673c325d20a8b8" kindref="member">registerRepairHandler</ref>(<ref refid="classthemis_1_1sharding_1_1_admin_a_p_i_1a9619466843eaa8e0c1ebe9a3e73dc128" kindref="member">RequestHandler</ref><sp/>handler);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_admin_a_p_i_1ab4d0bb5691c592a36df2b714757eccd2" kindref="member">setRepairEngine</ref>(std::shared_ptr&lt;ShardRepairEngine&gt;<sp/>engine);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Handle<sp/>HTTP<sp/>request</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1sharding_1_1_admin_a_p_i_1a9f57515f4e57d0d04a3520fdc8e5de69" kindref="member">handleRequest</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>method,<sp/></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path,</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>body,</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>operator_cert);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Endpoints</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints" kindref="compound">Endpoints</ref><sp/>{</highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1af984c68a54dbfe356c752d60af246188" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1af984c68a54dbfe356c752d60af246188" kindref="member">TOPOLOGY</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/admin/topology&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1adfa9fd7f349cd3642d8a48042dd2791d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1adfa9fd7f349cd3642d8a48042dd2791d" kindref="member">SHARD_ADD</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/admin/shard/add&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1a63bb47257de5a4ae5436a97733cb5953" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1a63bb47257de5a4ae5436a97733cb5953" kindref="member">SHARD_REMOVE</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/admin/shard/&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>+<sp/>{id}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1a42fef27bc6036d47be17230c3457ce6b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1a42fef27bc6036d47be17230c3457ce6b" kindref="member">REBALANCE</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/admin/rebalance&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1a8c93795ec635b74278009967d218d1fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1a8c93795ec635b74278009967d218d1fb" kindref="member">REBALANCE_STATUS</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/admin/rebalance/&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>+<sp/>{id}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1af2315bb6893eb3e04799b3605a4aeccb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1af2315bb6893eb3e04799b3605a4aeccb" kindref="member">HEALTH</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/admin/health&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1a0586e2c5d9e30257d60d3aa7750b8e42" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1a0586e2c5d9e30257d60d3aa7750b8e42" kindref="member">STATS</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/admin/stats&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1a8652a4d79761c71ae2b3b03cc567d5e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1a8652a4d79761c71ae2b3b03cc567d5e9" kindref="member">CERTS</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/admin/certs&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Capability<sp/>management<sp/>endpoints</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1a2175d2b59f1aa34ce4c03a656fb8a083" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1a2175d2b59f1aa34ce4c03a656fb8a083" kindref="member">CAPABILITIES</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/admin/capabilities&quot;</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GET<sp/>all</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1a9c189d833bd3006c373ed4b7424596c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1a9c189d833bd3006c373ed4b7424596c8" kindref="member">SHARD_CAPABILITIES_GET</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/admin/shard/{shard_id}/capabilities&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>GET<sp/>single</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1a1037803aab3fba6f8b80117671c23bac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1a1037803aab3fba6f8b80117671c23bac" kindref="member">SHARD_CAPABILITIES_PUT</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/admin/shard/{shard_id}/capabilities&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>PUT<sp/>single</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1a801c924203bd888fd2ea47f77fb881f9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1a801c924203bd888fd2ea47f77fb881f9" kindref="member">CAPABILITIES_BULK</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/admin/capabilities/bulk&quot;</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>POST<sp/>bulk<sp/>update</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Repair<sp/>/<sp/>anti-entropy<sp/>endpoints</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1a7b84b991d2b41c9e98c75a89aa23d26c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1a7b84b991d2b41c9e98c75a89aa23d26c" kindref="member">REPAIR</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/admin/repair&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1a1a8fbd237e831ca93bae33adf141f745" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1a1a8fbd237e831ca93bae33adf141f745" kindref="member">REPAIR_SCAN</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/admin/repair/scan&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1af891d5a1943e2ca1656673924375d8ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1af891d5a1943e2ca1656673924375d8ca" kindref="member">REPAIR_STATUS</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/admin/repair/&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>+<sp/>{job_id}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Hardware<sp/>migration<sp/>endpoint<sp/>(Phase<sp/>5)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1a641e641d359b636a0ecc3155416fb90a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1a641e641d359b636a0ecc3155416fb90a" kindref="member">MIGRATE_HARDWARE_PREFIX</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/api/v1/shards/&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>+<sp/>{id}/migrate-hardware</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1a57218e97c08c95e421933184ebf4afd7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_endpoints_1a57218e97c08c95e421933184ebf4afd7" kindref="member">MIGRATE_HARDWARE_SUFFIX</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/migrate-hardware&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_admin_a_p_i_1a6f3c5af409eb833bca64efcd6fbb32f5" kindref="member">setMigrationManager</ref>(std::shared_ptr&lt;HardwareMigrationManager&gt;<sp/>mgr);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_admin_a_p_i_1a5751563526ec25386599b7588bb2308e" kindref="member">registerMigrateHardwareHandler</ref>(<ref refid="classthemis_1_1sharding_1_1_admin_a_p_i_1a9619466843eaa8e0c1ebe9a3e73dc128" kindref="member">RequestHandler</ref><sp/>handler);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_config" kindref="compound">Config</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_admin_a_p_i_1a9619466843eaa8e0c1ebe9a3e73dc128" kindref="member">RequestHandler</ref><sp/>topology_handler_;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_admin_a_p_i_1a9619466843eaa8e0c1ebe9a3e73dc128" kindref="member">RequestHandler</ref><sp/>rebalance_handler_;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_admin_a_p_i_1a9619466843eaa8e0c1ebe9a3e73dc128" kindref="member">RequestHandler</ref><sp/>health_handler_;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_admin_a_p_i_1a9619466843eaa8e0c1ebe9a3e73dc128" kindref="member">RequestHandler</ref><sp/>stats_handler_;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_admin_a_p_i_1a9619466843eaa8e0c1ebe9a3e73dc128" kindref="member">RequestHandler</ref><sp/>repair_handler_;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_admin_a_p_i_1a9619466843eaa8e0c1ebe9a3e73dc128" kindref="member">RequestHandler</ref><sp/>migrate_hardware_handler_;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ShardRepairEngine&gt;<sp/>repair_engine_;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;HardwareMigrationManager&gt;<sp/>migration_manager_;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>authorizeRequest(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>operator_cert);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>auditLog(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>method,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>operator_cert);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>createErrorResponse(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>code,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>buildRepairHealthJson()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>handleMigrateHardware(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id,</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>body);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>sharding</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/sharding/admin_api.h"/>
+  </compounddef>
+</doxygen>

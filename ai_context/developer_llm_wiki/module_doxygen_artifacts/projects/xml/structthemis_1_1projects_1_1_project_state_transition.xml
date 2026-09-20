@@ -1,0 +1,165 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1projects_1_1_project_state_transition" kind="struct" language="C++" prot="public">
+    <compoundname>themis::projects::ProjectStateTransition</compoundname>
+    <includes refid="project__lifecycle_8h" local="no">project_lifecycle.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_project_state_transition_1af74245e10f6efcfacfea53a161872851" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::projects::ProjectStateTransition::project_id</definition>
+        <argsstring></argsstring>
+        <name>project_id</name>
+        <qualifiedname>themis::projects::ProjectStateTransition::project_id</qualifiedname>
+        <briefdescription>
+<para>Project UUID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_lifecycle.h" line="67" column="18" bodyfile="include/projects/project_lifecycle.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_project_state_transition_1a7b39b83b7bf523af170502769c4a6259" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1projects_1a83a8895d15c04fb2fd197304c0873e44" kindref="member">ProjectState</ref></type>
+        <definition>ProjectState themis::projects::ProjectStateTransition::from_state</definition>
+        <argsstring></argsstring>
+        <name>from_state</name>
+        <qualifiedname>themis::projects::ProjectStateTransition::from_state</qualifiedname>
+        <briefdescription>
+<para>State before transition. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_lifecycle.h" line="68" column="18" bodyfile="include/projects/project_lifecycle.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_project_state_transition_1ae5585a6f92e88987f0026de5988d40ee" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1projects_1a83a8895d15c04fb2fd197304c0873e44" kindref="member">ProjectState</ref></type>
+        <definition>ProjectState themis::projects::ProjectStateTransition::to_state</definition>
+        <argsstring></argsstring>
+        <name>to_state</name>
+        <qualifiedname>themis::projects::ProjectStateTransition::to_state</qualifiedname>
+        <briefdescription>
+<para>State after transition. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_lifecycle.h" line="69" column="18" bodyfile="include/projects/project_lifecycle.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_project_state_transition_1a67dc6812fd3378f49d072f753678129a" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::projects::ProjectStateTransition::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::projects::ProjectStateTransition::timestamp</qualifiedname>
+        <briefdescription>
+<para>Unix timestamp (seconds). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_lifecycle.h" line="70" column="18" bodyfile="include/projects/project_lifecycle.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_project_state_transition_1ad17c6fd942acbbc6df8e90ab7a8e4332" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::projects::ProjectStateTransition::actor</definition>
+        <argsstring></argsstring>
+        <name>actor</name>
+        <qualifiedname>themis::projects::ProjectStateTransition::actor</qualifiedname>
+        <briefdescription>
+<para><ref refid="structthemis_1_1projects_1_1_user" kindref="compound">User</ref> / service that triggered the transition. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_lifecycle.h" line="71" column="18" bodyfile="include/projects/project_lifecycle.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_project_state_transition_1ae4a5b070a423df26bcc2e8a028237366" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::projects::ProjectStateTransition::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::projects::ProjectStateTransition::reason</qualifiedname>
+        <briefdescription>
+<para>Optional human-readable reason. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_lifecycle.h" line="72" column="18" bodyfile="include/projects/project_lifecycle.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1projects_1_1_project_state_transition_1a8e5be540684ea7bc86e92cb74faf6d07" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1projects_1aa6ebfecbbf761b81a776c2845d5200d7" kindref="member">json</ref></type>
+        <definition>json themis::projects::ProjectStateTransition::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::projects::ProjectStateTransition::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_lifecycle.h" line="74" column="10" bodyfile="src/projects/project_lifecycle.cpp" bodystart="52" bodyend="61"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1projects_1_1_project_state_transition_1a4ae213bcf7e72d686eba533b1382380e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1projects_1_1_project_state_transition" kindref="compound">ProjectStateTransition</ref></type>
+        <definition>ProjectStateTransition themis::projects::ProjectStateTransition::fromJson</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::projects::ProjectStateTransition::fromJson</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1projects_1aa6ebfecbbf761b81a776c2845d5200d7" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: value(), <ref refid="namespacethemis_1_1projects_1af06cedc12ee4923504329ae579fa1cb9" kindref="member">projectStateFromString()</ref>, value_or(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_lifecycle.h" line="75" column="35" bodyfile="src/projects/project_lifecycle.cpp" bodystart="69" bodyend="82"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Append-only audit log entry for a single lifecycle transition. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Audit log entries are written atomically with the state change and are tamper-evident: deletion requires an explicit admin privilege check at the implementation level. </para>
+    </detaileddescription>
+    <location file="include/projects/project_lifecycle.h" line="66" column="1" bodyfile="include/projects/project_lifecycle.h" bodystart="66" bodyend="76"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1projects_1_1_project_state_transition_1ad17c6fd942acbbc6df8e90ab7a8e4332" prot="public" virt="non-virtual"><scope>themis::projects::ProjectStateTransition</scope><name>actor</name></member>
+      <member refid="structthemis_1_1projects_1_1_project_state_transition_1a7b39b83b7bf523af170502769c4a6259" prot="public" virt="non-virtual"><scope>themis::projects::ProjectStateTransition</scope><name>from_state</name></member>
+      <member refid="structthemis_1_1projects_1_1_project_state_transition_1a4ae213bcf7e72d686eba533b1382380e" prot="public" virt="non-virtual"><scope>themis::projects::ProjectStateTransition</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1projects_1_1_project_state_transition_1af74245e10f6efcfacfea53a161872851" prot="public" virt="non-virtual"><scope>themis::projects::ProjectStateTransition</scope><name>project_id</name></member>
+      <member refid="structthemis_1_1projects_1_1_project_state_transition_1ae4a5b070a423df26bcc2e8a028237366" prot="public" virt="non-virtual"><scope>themis::projects::ProjectStateTransition</scope><name>reason</name></member>
+      <member refid="structthemis_1_1projects_1_1_project_state_transition_1a67dc6812fd3378f49d072f753678129a" prot="public" virt="non-virtual"><scope>themis::projects::ProjectStateTransition</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1projects_1_1_project_state_transition_1ae5585a6f92e88987f0026de5988d40ee" prot="public" virt="non-virtual"><scope>themis::projects::ProjectStateTransition</scope><name>to_state</name></member>
+      <member refid="structthemis_1_1projects_1_1_project_state_transition_1a8e5be540684ea7bc86e92cb74faf6d07" prot="public" virt="non-virtual"><scope>themis::projects::ProjectStateTransition</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

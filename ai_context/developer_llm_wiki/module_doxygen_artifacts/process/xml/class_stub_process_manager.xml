@@ -1,0 +1,287 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_process_manager" kind="class" language="C++" prot="public">
+    <compoundname>StubProcessManager</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_process_manager_1a119f8a8db10b2b412929b2b201d3c12c" prot="private" static="no" mutable="no">
+        <type>const uint64_t</type>
+        <definition>const uint64_t StubProcessManager::max_processes_</definition>
+        <argsstring></argsstring>
+        <name>max_processes_</name>
+        <qualifiedname>StubProcessManager::max_processes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_highcardinality_stress.cpp" line="84" column="20" bodyfile="tests/process/test_process_highcardinality_stress.cpp" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_process_manager_1ae3e4ccab6644c06386f6b88341e98179" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex StubProcessManager::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>StubProcessManager::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_highcardinality_stress.cpp" line="85" column="16" bodyfile="tests/process/test_process_highcardinality_stress.cpp" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_process_manager_1a0d2cde7ae73e2adecfa1f3148e2d3685" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; uint64_t, <ref refid="struct_stub_process" kindref="compound">StubProcess</ref> &gt;</type>
+        <definition>std::unordered_map&lt;uint64_t, StubProcess&gt; StubProcessManager::processes_</definition>
+        <argsstring></argsstring>
+        <name>processes_</name>
+        <qualifiedname>StubProcessManager::processes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_highcardinality_stress.cpp" line="86" column="24" bodyfile="tests/process/test_process_highcardinality_stress.cpp" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_process_manager_1ab7a14aa087edfd6e29b1e468149653d2" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t StubProcessManager::next_pid_</definition>
+        <argsstring></argsstring>
+        <name>next_pid_</name>
+        <qualifiedname>StubProcessManager::next_pid_</qualifiedname>
+        <initializer>{1}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_highcardinality_stress.cpp" line="87" column="14" bodyfile="tests/process/test_process_highcardinality_stress.cpp" bodystart="87" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_process_manager_1a1f6d3c965ada67952f8abc8b88eebafe" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubProcessManager::spawn_count_</definition>
+        <argsstring></argsstring>
+        <name>spawn_count_</name>
+        <qualifiedname>StubProcessManager::spawn_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_highcardinality_stress.cpp" line="88" column="17" bodyfile="tests/process/test_process_highcardinality_stress.cpp" bodystart="88" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_process_manager_1af10f4dd84eb60bdea91379d459c18ccc" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubProcessManager::terminate_count_</definition>
+        <argsstring></argsstring>
+        <name>terminate_count_</name>
+        <qualifiedname>StubProcessManager::terminate_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_highcardinality_stress.cpp" line="89" column="17" bodyfile="tests/process/test_process_highcardinality_stress.cpp" bodystart="89" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_process_manager_1abd9497ede59f4a2e0ae869c5e1d7b78f" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubProcessManager::spawn_failures_</definition>
+        <argsstring></argsstring>
+        <name>spawn_failures_</name>
+        <qualifiedname>StubProcessManager::spawn_failures_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_highcardinality_stress.cpp" line="90" column="17" bodyfile="tests/process/test_process_highcardinality_stress.cpp" bodystart="90" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_process_manager_1a2eed7430dcc00c0559dd96d92b5c1aad" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; int64_t &gt;</type>
+        <definition>std::atomic&lt;int64_t&gt; StubProcessManager::active_count_</definition>
+        <argsstring></argsstring>
+        <name>active_count_</name>
+        <qualifiedname>StubProcessManager::active_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_highcardinality_stress.cpp" line="91" column="18" bodyfile="tests/process/test_process_highcardinality_stress.cpp" bodystart="91" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_process_manager_1a5472bd68c440b2c1d9ddba1b6ad8f759" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; int64_t &gt;</type>
+        <definition>std::atomic&lt;int64_t&gt; StubProcessManager::fd_count_</definition>
+        <argsstring></argsstring>
+        <name>fd_count_</name>
+        <qualifiedname>StubProcessManager::fd_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_highcardinality_stress.cpp" line="92" column="18" bodyfile="tests/process/test_process_highcardinality_stress.cpp" bodystart="92" bodyend="92"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_process_manager_1a135fbf58d0d536074ed704fda7803f25" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>StubProcessManager::StubProcessManager</definition>
+        <argsstring>(uint64_t max_processes)</argsstring>
+        <name>StubProcessManager</name>
+        <qualifiedname>StubProcessManager::StubProcessManager</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>max_processes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_highcardinality_stress.cpp" line="48" column="14" bodyfile="tests/process/test_process_highcardinality_stress.cpp" bodystart="48" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_process_manager_1aac1aa2f8652ae4d85c002948ff307edd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubProcessManager::spawn</definition>
+        <argsstring>()</argsstring>
+        <name>spawn</name>
+        <qualifiedname>StubProcessManager::spawn</qualifiedname>
+        <briefdescription>
+<para>Returns allocated pid, or 0 on failure (capacity exceeded). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_highcardinality_stress.cpp" line="52" column="14" bodyfile="tests/process/test_process_highcardinality_stress.cpp" bodystart="52" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_process_manager_1a0746567cb42eed79cfe8b34797f07394" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool StubProcessManager::terminate</definition>
+        <argsstring>(uint64_t pid)</argsstring>
+        <name>terminate</name>
+        <qualifiedname>StubProcessManager::terminate</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>pid</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_highcardinality_stress.cpp" line="66" column="10" bodyfile="tests/process/test_process_highcardinality_stress.cpp" bodystart="66" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_process_manager_1a5bbfe54d46e856c582a35db5798ac84e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubProcessManager::spawnCount</definition>
+        <argsstring>() const</argsstring>
+        <name>spawnCount</name>
+        <qualifiedname>StubProcessManager::spawnCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_highcardinality_stress.cpp" line="77" column="14" bodyfile="tests/process/test_process_highcardinality_stress.cpp" bodystart="77" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_process_manager_1adfe347da0865c0a67a72c954ff4ac7c2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubProcessManager::terminateCount</definition>
+        <argsstring>() const</argsstring>
+        <name>terminateCount</name>
+        <qualifiedname>StubProcessManager::terminateCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_highcardinality_stress.cpp" line="78" column="14" bodyfile="tests/process/test_process_highcardinality_stress.cpp" bodystart="78" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_process_manager_1a5bbe2d8739b43802732893f8076fe0e2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubProcessManager::spawnFailures</definition>
+        <argsstring>() const</argsstring>
+        <name>spawnFailures</name>
+        <qualifiedname>StubProcessManager::spawnFailures</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_highcardinality_stress.cpp" line="79" column="14" bodyfile="tests/process/test_process_highcardinality_stress.cpp" bodystart="79" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_process_manager_1a6ce7ea0e62be7745c757b9b4398ffdef" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t StubProcessManager::activeCount</definition>
+        <argsstring>() const</argsstring>
+        <name>activeCount</name>
+        <qualifiedname>StubProcessManager::activeCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_highcardinality_stress.cpp" line="80" column="14" bodyfile="tests/process/test_process_highcardinality_stress.cpp" bodystart="80" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_process_manager_1a5f989bd1325a77ddb35d94ec2e4a09ff" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t StubProcessManager::fdCount</definition>
+        <argsstring>() const</argsstring>
+        <name>fdCount</name>
+        <qualifiedname>StubProcessManager::fdCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_highcardinality_stress.cpp" line="81" column="14" bodyfile="tests/process/test_process_highcardinality_stress.cpp" bodystart="81" bodyend="81"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/process/test_process_highcardinality_stress.cpp" line="46" column="1" bodyfile="tests/process/test_process_highcardinality_stress.cpp" bodystart="46" bodyend="93"/>
+    <listofallmembers>
+      <member refid="class_stub_process_manager_1a2eed7430dcc00c0559dd96d92b5c1aad" prot="private" virt="non-virtual"><scope>StubProcessManager</scope><name>active_count_</name></member>
+      <member refid="class_stub_process_manager_1a6ce7ea0e62be7745c757b9b4398ffdef" prot="public" virt="non-virtual"><scope>StubProcessManager</scope><name>activeCount</name></member>
+      <member refid="class_stub_process_manager_1a5472bd68c440b2c1d9ddba1b6ad8f759" prot="private" virt="non-virtual"><scope>StubProcessManager</scope><name>fd_count_</name></member>
+      <member refid="class_stub_process_manager_1a5f989bd1325a77ddb35d94ec2e4a09ff" prot="public" virt="non-virtual"><scope>StubProcessManager</scope><name>fdCount</name></member>
+      <member refid="class_stub_process_manager_1a119f8a8db10b2b412929b2b201d3c12c" prot="private" virt="non-virtual"><scope>StubProcessManager</scope><name>max_processes_</name></member>
+      <member refid="class_stub_process_manager_1ae3e4ccab6644c06386f6b88341e98179" prot="private" virt="non-virtual"><scope>StubProcessManager</scope><name>mu_</name></member>
+      <member refid="class_stub_process_manager_1ab7a14aa087edfd6e29b1e468149653d2" prot="private" virt="non-virtual"><scope>StubProcessManager</scope><name>next_pid_</name></member>
+      <member refid="class_stub_process_manager_1a0d2cde7ae73e2adecfa1f3148e2d3685" prot="private" virt="non-virtual"><scope>StubProcessManager</scope><name>processes_</name></member>
+      <member refid="class_stub_process_manager_1aac1aa2f8652ae4d85c002948ff307edd" prot="public" virt="non-virtual"><scope>StubProcessManager</scope><name>spawn</name></member>
+      <member refid="class_stub_process_manager_1a1f6d3c965ada67952f8abc8b88eebafe" prot="private" virt="non-virtual"><scope>StubProcessManager</scope><name>spawn_count_</name></member>
+      <member refid="class_stub_process_manager_1abd9497ede59f4a2e0ae869c5e1d7b78f" prot="private" virt="non-virtual"><scope>StubProcessManager</scope><name>spawn_failures_</name></member>
+      <member refid="class_stub_process_manager_1a5bbfe54d46e856c582a35db5798ac84e" prot="public" virt="non-virtual"><scope>StubProcessManager</scope><name>spawnCount</name></member>
+      <member refid="class_stub_process_manager_1a5bbe2d8739b43802732893f8076fe0e2" prot="public" virt="non-virtual"><scope>StubProcessManager</scope><name>spawnFailures</name></member>
+      <member refid="class_stub_process_manager_1a135fbf58d0d536074ed704fda7803f25" prot="public" virt="non-virtual"><scope>StubProcessManager</scope><name>StubProcessManager</name></member>
+      <member refid="class_stub_process_manager_1a0746567cb42eed79cfe8b34797f07394" prot="public" virt="non-virtual"><scope>StubProcessManager</scope><name>terminate</name></member>
+      <member refid="class_stub_process_manager_1af10f4dd84eb60bdea91379d459c18ccc" prot="private" virt="non-virtual"><scope>StubProcessManager</scope><name>terminate_count_</name></member>
+      <member refid="class_stub_process_manager_1adfe347da0865c0a67a72c954ff4ac7c2" prot="public" virt="non-virtual"><scope>StubProcessManager</scope><name>terminateCount</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

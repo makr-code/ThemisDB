@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1test_1_1_alignment_conformance_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::test::AlignmentConformanceTest</compoundname>
+    <basecompoundref refid="classtesting_1_1_test" prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1test_1_1_alignment_conformance_test_1a4f3dad71b5a6e05ebc5aec38a4d9c56a" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::test::AlignmentConformanceTest::alignFitness</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;trace, const std::vector&lt; std::string &gt; &amp;modelSeq)</argsstring>
+        <name>alignFitness</name>
+        <qualifiedname>themis::test::AlignmentConformanceTest::alignFitness</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>trace</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>modelSeq</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Compute alignment fitness between a trace sequence and a model sequence. Returns fitness in [0, 1]: 1.0 = perfect fit, 0.0 = no overlap. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_discovery_conformance.cpp" line="349" column="12" bodyfile="tests/analytics/test_process_discovery_conformance.cpp" bodystart="349" bodyend="379"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+        <link refid="classtesting_1_1_test"/>
+      </node>
+      <node id="1">
+        <label>themis::test::AlignmentConformanceTest</label>
+        <link refid="classthemis_1_1test_1_1_alignment_conformance_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+        <link refid="classtesting_1_1_test"/>
+      </node>
+      <node id="1">
+        <label>themis::test::AlignmentConformanceTest</label>
+        <link refid="classthemis_1_1test_1_1_alignment_conformance_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/analytics/test_process_discovery_conformance.cpp" line="340" column="1" bodyfile="tests/analytics/test_process_discovery_conformance.cpp" bodystart="340" bodyend="380"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1test_1_1_alignment_conformance_test_1a4f3dad71b5a6e05ebc5aec38a4d9c56a" prot="protected" virt="non-virtual"><scope>themis::test::AlignmentConformanceTest</scope><name>alignFitness</name></member>
+      <member refid="classtesting_1_1_test_1a57a4116f39f6636a80710ded7d42e889" prot="protected" virt="non-virtual"><scope>themis::test::AlignmentConformanceTest</scope><name>SetUp</name></member>
+      <member refid="classtesting_1_1_test_1a2889fd829b6c712d98fb3896d28f64a3" prot="protected" virt="non-virtual"><scope>themis::test::AlignmentConformanceTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

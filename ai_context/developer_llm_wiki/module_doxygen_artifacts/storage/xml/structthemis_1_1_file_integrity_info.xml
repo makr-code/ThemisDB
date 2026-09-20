@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_file_integrity_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::FileIntegrityInfo</compoundname>
+    <includes refid="backup__manager_8h" local="no">backup_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_file_integrity_info_1a62b8109b9ac57a0bb0a19d45cf0097f8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::FileIntegrityInfo::relative_path</definition>
+        <argsstring></argsstring>
+        <name>relative_path</name>
+        <qualifiedname>themis::FileIntegrityInfo::relative_path</qualifiedname>
+        <briefdescription>
+<para>Path relative to backup root. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="87" column="17" bodyfile="include/storage/backup_manager.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_file_integrity_info_1ae1c85ebd8603c98ffb39d46e49cebf7e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::FileIntegrityInfo::checksum_sha256</definition>
+        <argsstring></argsstring>
+        <name>checksum_sha256</name>
+        <qualifiedname>themis::FileIntegrityInfo::checksum_sha256</qualifiedname>
+        <briefdescription>
+<para>SHA-256 checksum of original file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="88" column="17" bodyfile="include/storage/backup_manager.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_file_integrity_info_1a4522493e9047057a669134f92782c0fd" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::FileIntegrityInfo::original_size</definition>
+        <argsstring></argsstring>
+        <name>original_size</name>
+        <qualifiedname>themis::FileIntegrityInfo::original_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Size before compression. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="89" column="14" bodyfile="include/storage/backup_manager.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_file_integrity_info_1a144ea299bc3aabeee15723bc11812628" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::FileIntegrityInfo::compressed_size</definition>
+        <argsstring></argsstring>
+        <name>compressed_size</name>
+        <qualifiedname>themis::FileIntegrityInfo::compressed_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Size after compression (0 if uncompressed). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="90" column="14" bodyfile="include/storage/backup_manager.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_file_integrity_info_1ab4076d9539448e7fc62b762b43a02154" prot="public" static="no" mutable="no">
+        <type><ref refid="group__storage_1ga735a2b5f31bda6737b967fde9d418947" kindref="member">CompressionType</ref></type>
+        <definition>CompressionType themis::FileIntegrityInfo::compression</definition>
+        <argsstring></argsstring>
+        <name>compression</name>
+        <qualifiedname>themis::FileIntegrityInfo::compression</qualifiedname>
+        <initializer>= <ref refid="group__storage_1gga735a2b5f31bda6737b967fde9d418947ab50339a10e1de285ac99d4c3990b8693" kindref="member">CompressionType::NONE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="91" column="21" bodyfile="include/storage/backup_manager.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_file_integrity_info_1a2312d02bdfc1737f2f119de951050aa0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::FileIntegrityInfo::verified</definition>
+        <argsstring></argsstring>
+        <name>verified</name>
+        <qualifiedname>themis::FileIntegrityInfo::verified</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Set to true after successful verification. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="92" column="10" bodyfile="include/storage/backup_manager.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Integrity metadata recorded for a file inside a backup payload. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Used when building or validating <computeroutput>INTEGRITY_MANIFEST.json</computeroutput> entries during backup compression and post-decompression verification. </para>
+    </detaileddescription>
+    <location file="include/storage/backup_manager.h" line="86" column="1" bodyfile="include/storage/backup_manager.h" bodystart="86" bodyend="93"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_file_integrity_info_1ae1c85ebd8603c98ffb39d46e49cebf7e" prot="public" virt="non-virtual"><scope>themis::FileIntegrityInfo</scope><name>checksum_sha256</name></member>
+      <member refid="structthemis_1_1_file_integrity_info_1a144ea299bc3aabeee15723bc11812628" prot="public" virt="non-virtual"><scope>themis::FileIntegrityInfo</scope><name>compressed_size</name></member>
+      <member refid="structthemis_1_1_file_integrity_info_1ab4076d9539448e7fc62b762b43a02154" prot="public" virt="non-virtual"><scope>themis::FileIntegrityInfo</scope><name>compression</name></member>
+      <member refid="structthemis_1_1_file_integrity_info_1a4522493e9047057a669134f92782c0fd" prot="public" virt="non-virtual"><scope>themis::FileIntegrityInfo</scope><name>original_size</name></member>
+      <member refid="structthemis_1_1_file_integrity_info_1a62b8109b9ac57a0bb0a19d45cf0097f8" prot="public" virt="non-virtual"><scope>themis::FileIntegrityInfo</scope><name>relative_path</name></member>
+      <member refid="structthemis_1_1_file_integrity_info_1a2312d02bdfc1737f2f119de951050aa0" prot="public" virt="non-virtual"><scope>themis::FileIntegrityInfo</scope><name>verified</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

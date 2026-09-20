@@ -1,0 +1,252 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="toolbox__registry_8h" kind="file" language="C++">
+    <compoundname>toolbox_registry.h</compoundname>
+    <includes refid="ingestion__toolbox_8h" local="yes">toolbox/ingestion_toolbox.h</includes>
+    <includes local="yes">ingestion/base_entity.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="bench__toolbox__native__workloads_8cpp" local="yes">benchmarks/toolbox/bench_toolbox_native_workloads.cpp</includedby>
+    <includedby refid="toolbox__registry_8cpp" local="yes">src/toolbox/toolbox_registry.cpp</includedby>
+    <includedby refid="toolbox__streaming_8cpp" local="yes">src/toolbox/toolbox_streaming.cpp</includedby>
+    <includedby refid="test__toolbox__contract__hardening__focused_8cpp" local="yes">tests/toolbox/test_toolbox_contract_hardening_focused.cpp</includedby>
+    <includedby refid="test__toolbox__phase5_8cpp" local="yes">tests/toolbox/test_toolbox_phase5.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>toolbox/ingestion_toolbox.h</label>
+        <link refid="ingestion__toolbox_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/toolbox/toolbox_registry.h</label>
+        <link refid="toolbox__registry_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>atomic</label>
+      </node>
+      <node id="10">
+        <label>cstdint</label>
+      </node>
+      <node id="6">
+        <label>ingestion/base_entity.h</label>
+      </node>
+      <node id="4">
+        <label>ingestion/builtin_step_factories.h</label>
+      </node>
+      <node id="7">
+        <label>ingestion/extraction_context.h</label>
+      </node>
+      <node id="8">
+        <label>ingestion/file_manifest.h</label>
+      </node>
+      <node id="5">
+        <label>ingestion/inference_backend.h</label>
+      </node>
+      <node id="3">
+        <label>ingestion/workflow_engine.h</label>
+      </node>
+      <node id="11">
+        <label>memory</label>
+      </node>
+      <node id="14">
+        <label>stdexcept</label>
+      </node>
+      <node id="12">
+        <label>string</label>
+      </node>
+      <node id="13">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/toolbox/bench_toolbox_native_workloads.cpp</label>
+        <link refid="bench__toolbox__native__workloads_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/toolbox/toolbox_registry.h</label>
+        <link refid="toolbox__registry_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/toolbox/toolbox_registry.cpp</label>
+        <link refid="toolbox__registry_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/toolbox/toolbox_streaming.cpp</label>
+        <link refid="toolbox__streaming_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/toolbox/test_toolbox_contract_hardening_focused.cpp</label>
+        <link refid="test__toolbox__contract__hardening__focused_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/toolbox/test_toolbox_phase5.cpp</label>
+        <link refid="test__toolbox__phase5_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1toolbox_1_1_toolbox_registry" prot="public">themis::toolbox::ToolboxRegistry</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1toolbox">themis::toolbox</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.1.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>toolbox_registry.h<sp/>—<sp/>Process-global<sp/>IngestionToolbox<sp/>registry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Provides<sp/>a<sp/>controlled<sp/>global<sp/>registration<sp/>point<sp/>so<sp/>that<sp/>any<sp/>ThemisDB<sp/>module</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>can<sp/>access<sp/>a<sp/>pre-configured<sp/>IngestionToolbox<sp/>without<sp/>explicit<sp/>dependency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>injection.<sp/><sp/>The<sp/>registry<sp/>is<sp/>NOT<sp/>a<sp/>raw<sp/>singleton:<sp/>it<sp/>has<sp/>explicit<sp/>lifecycle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>management<sp/>(initialize<sp/>/<sp/>reset)<sp/>and<sp/>preserves<sp/>testability.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>##<sp/>Dual<sp/>access<sp/>pattern</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>1.<sp/>**Global<sp/>(production,<sp/>server<sp/>bootstrap)**</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>```cpp</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>//<sp/>bootstrap</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>themis::toolbox::initializeToolbox(</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::toolbox::ToolboxBuilder()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.withTextBackend(llm_backend)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.build());</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>//<sp/>anywhere<sp/>in<sp/>the<sp/>process</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>auto<sp/>entities<sp/>=<sp/>themis::toolbox::extractEntities(text);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>auto<sp/>metrics<sp/><sp/>=<sp/>themis::toolbox::getMetricsText();</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>```</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>2.<sp/>**Injected<sp/>(tests,<sp/>isolated<sp/>subsystems)**</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>```cpp</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>auto<sp/>toolbox<sp/>=<sp/>std::make_shared&lt;IngestionToolbox&gt;();</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>toolbox-&gt;setTextBackend(mock_backend);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>auto<sp/>entities<sp/>=<sp/>toolbox-&gt;extractEntities(text);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>```</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Both<sp/>patterns<sp/>coexist;<sp/>the<sp/>injected<sp/>pattern<sp/>is<sp/>unaffected<sp/>by<sp/>this<sp/>header.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>##<sp/>Thread-safety</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>`initialize()`<sp/>and<sp/>`reset()`<sp/>must<sp/>be<sp/>called<sp/>from<sp/>a<sp/>single<sp/>thread<sp/>(during</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>startup<sp/>/<sp/>teardown,<sp/>or<sp/>between<sp/>test<sp/>cases).<sp/><sp/>`instance()`<sp/>and<sp/>the<sp/>free</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>functions<sp/>are<sp/>fully<sp/>thread-safe.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ingestion__toolbox_8h" kindref="compound">toolbox/ingestion_toolbox.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ingestion/base_entity.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1toolbox" kindref="compound">toolbox</ref><sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ToolboxRegistry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="classthemis_1_1toolbox_1_1_toolbox_registry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1toolbox_1_1_toolbox_registry_1abd0449e6b08f4f1c19c8ddf9debe1b8a" kindref="member">ToolboxRegistry</ref><sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-constructible;<sp/>use<sp/>the<sp/>static<sp/>API<sp/>only.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="classthemis_1_1toolbox_1_1_toolbox_registry_1abd0449e6b08f4f1c19c8ddf9debe1b8a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1toolbox_1_1_toolbox_registry_1abd0449e6b08f4f1c19c8ddf9debe1b8a" kindref="member">ToolboxRegistry</ref>()<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1toolbox_1_1_toolbox_registry_1ac351bdd30bd3869f83420897d748733d" kindref="member">initialize</ref>(std::shared_ptr&lt;IngestionToolbox&gt;<sp/><ref refid="namespacethemis_1_1toolbox" kindref="compound">toolbox</ref>);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;IngestionToolbox&gt;<sp/><ref refid="classthemis_1_1toolbox_1_1_toolbox_registry_1a63324a8845db86eb485ef20c2ea0cb9f" kindref="member">instance</ref>();</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1toolbox_1_1_toolbox_registry_1ad6d50180e0bd79623aada230beb59278" kindref="member">isInitialized</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1toolbox_1_1_toolbox_registry_1a3e1a423464c39da80ad6a5ebe9b898ec" kindref="member">reset</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Free<sp/>functions<sp/>—<sp/>generic<sp/>toolbox<sp/>access<sp/>for<sp/>all<sp/>ThemisDB<sp/>modules</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="comment">//<sp/>These<sp/>wrappers<sp/>delegate<sp/>to<sp/>the<sp/>global<sp/>`ToolboxRegistry::instance()`.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/>All<sp/>functions<sp/>throw<sp/>`std::logic_error`<sp/>if<sp/>the<sp/>registry<sp/>is<sp/>not<sp/>initialised.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Modules<sp/>that<sp/>use<sp/>the<sp/>injected<sp/>pattern<sp/>should<sp/>call<sp/>methods<sp/>on<sp/>their<sp/>own</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="comment">//<sp/>`IngestionToolbox`<sp/>instance<sp/>rather<sp/>than<sp/>using<sp/>these<sp/>free<sp/>functions.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1toolbox_1a2f8de32a2e3edab47975a212788d721d" kindref="member">initializeToolbox</ref>(std::shared_ptr&lt;<ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox" kindref="compound">IngestionToolbox</ref>&gt;<sp/><ref refid="namespacethemis_1_1toolbox" kindref="compound">toolbox</ref>);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal">std::shared_ptr&lt;<ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox" kindref="compound">IngestionToolbox</ref>&gt;<sp/><ref refid="namespacethemis_1_1toolbox_1a543ca62c58525ae8a1be5bb9cd5a7a2f" kindref="member">globalToolbox</ref>();</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal">std::vector&lt;ingestion::BaseEntity&gt;<sp/><ref refid="namespacethemis_1_1toolbox_1a49a1d9d4627444d7785c76abc2eedeb8" kindref="member">extractEntities</ref>(</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>text,</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>mime<sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;text/plain&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>filename<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;input.txt&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal">ingestion::BaseEntitySet<sp/><ref refid="namespacethemis_1_1toolbox_1ac2fb5e33b75d7b9a4910ce68df8a23cd" kindref="member">extractEntitySet</ref>(</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>text,</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>mime<sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;text/plain&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>filename<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;input.txt&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal">std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1toolbox_1a4cb625f10f049a5d0ad587483da76a95" kindref="member">getMetricsText</ref>();</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>toolbox</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/toolbox/toolbox_registry.h"/>
+  </compounddef>
+</doxygen>

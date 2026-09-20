@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_x_o_e_v_version" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::XOEVVersion</compoundname>
+    <includes refid="xoev__importer_8h" local="no">xoev_importer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_x_o_e_v_version_1a7f963ab7f6ab0b52a2d877c0cd0f579e" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::importers::XOEVVersion::major</definition>
+        <argsstring></argsstring>
+        <name>major</name>
+        <qualifiedname>themis::importers::XOEVVersion::major</qualifiedname>
+        <initializer>{1}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/xoev_importer.h" line="76" column="9" bodyfile="include/importers/xoev_importer.h" bodystart="76" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_x_o_e_v_version_1aeb3602665c0ac8823039d37284a9beda" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::importers::XOEVVersion::minor</definition>
+        <argsstring></argsstring>
+        <name>minor</name>
+        <qualifiedname>themis::importers::XOEVVersion::minor</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/xoev_importer.h" line="77" column="9" bodyfile="include/importers/xoev_importer.h" bodystart="77" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_x_o_e_v_version_1a7cf08e6697a40e646569d3373cb635e0" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::importers::XOEVVersion::patch</definition>
+        <argsstring></argsstring>
+        <name>patch</name>
+        <qualifiedname>themis::importers::XOEVVersion::patch</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/xoev_importer.h" line="78" column="9" bodyfile="include/importers/xoev_importer.h" bodystart="78" bodyend="78"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1importers_1_1_x_o_e_v_version_1afab01f315b9fa6da4ef119198793c589" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::importers::XOEVVersion::toString</definition>
+        <argsstring>() const</argsstring>
+        <name>toString</name>
+        <qualifiedname>themis::importers::XOEVVersion::toString</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/xoev_importer.h" line="80" column="17" bodyfile="include/importers/xoev_importer.h" bodystart="80" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1importers_1_1_x_o_e_v_version_1ae99f51e86dcfe10736c1a6af1e47df2b" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::XOEVVersion::operator==</definition>
+        <argsstring>(const XOEVVersion &amp;o) const noexcept</argsstring>
+        <name>operator==</name>
+        <qualifiedname>themis::importers::XOEVVersion::operator==</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1importers_1_1_x_o_e_v_version" kindref="compound">XOEVVersion</ref> &amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/xoev_importer.h" line="86" column="10" bodyfile="include/importers/xoev_importer.h" bodystart="86" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1importers_1_1_x_o_e_v_version_1a6360ab9d8a35930ffe14902b99455060" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::XOEVVersion::operator&lt;</definition>
+        <argsstring>(const XOEVVersion &amp;o) const noexcept</argsstring>
+        <name>operator&lt;</name>
+        <qualifiedname>themis::importers::XOEVVersion::operator&lt;</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1importers_1_1_x_o_e_v_version" kindref="compound">XOEVVersion</ref> &amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/xoev_importer.h" line="89" column="5" bodyfile="include/importers/xoev_importer.h" bodystart="89" bodyend="97"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/xoev_importer.h" line="75" column="1" bodyfile="include/importers/xoev_importer.h" bodystart="75" bodyend="98"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_x_o_e_v_version_1a7f963ab7f6ab0b52a2d877c0cd0f579e" prot="public" virt="non-virtual"><scope>themis::importers::XOEVVersion</scope><name>major</name></member>
+      <member refid="structthemis_1_1importers_1_1_x_o_e_v_version_1aeb3602665c0ac8823039d37284a9beda" prot="public" virt="non-virtual"><scope>themis::importers::XOEVVersion</scope><name>minor</name></member>
+      <member refid="structthemis_1_1importers_1_1_x_o_e_v_version_1a6360ab9d8a35930ffe14902b99455060" prot="public" virt="non-virtual"><scope>themis::importers::XOEVVersion</scope><name>operator&lt;</name></member>
+      <member refid="structthemis_1_1importers_1_1_x_o_e_v_version_1ae99f51e86dcfe10736c1a6af1e47df2b" prot="public" virt="non-virtual"><scope>themis::importers::XOEVVersion</scope><name>operator==</name></member>
+      <member refid="structthemis_1_1importers_1_1_x_o_e_v_version_1a7cf08e6697a40e646569d3373cb635e0" prot="public" virt="non-virtual"><scope>themis::importers::XOEVVersion</scope><name>patch</name></member>
+      <member refid="structthemis_1_1importers_1_1_x_o_e_v_version_1afab01f315b9fa6da4ef119198793c589" prot="public" virt="non-virtual"><scope>themis::importers::XOEVVersion</scope><name>toString</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

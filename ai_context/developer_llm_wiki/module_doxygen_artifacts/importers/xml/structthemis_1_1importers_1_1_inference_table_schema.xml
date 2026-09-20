@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_inference_table_schema" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::InferenceTableSchema</compoundname>
+    <includes refid="schema__inference_8h" local="no">schema_inference.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_inference_table_schema_1a68db38782be0974338fe03261b79ecc3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::InferenceTableSchema::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::importers::InferenceTableSchema::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_inference.h" line="43" column="17" bodyfile="include/importers/schema_inference.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_inference_table_schema_1a803a60376e600b176cd2126dd0b55090" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::InferenceTableSchema::schema_ns</definition>
+        <argsstring></argsstring>
+        <name>schema_ns</name>
+        <qualifiedname>themis::importers::InferenceTableSchema::schema_ns</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_inference.h" line="44" column="17" bodyfile="include/importers/schema_inference.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_inference_table_schema_1a735f987a4c9aaf05b4dd6284c16c2d7f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::importers::InferenceTableSchema::columns</definition>
+        <argsstring></argsstring>
+        <name>columns</name>
+        <qualifiedname>themis::importers::InferenceTableSchema::columns</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_inference.h" line="45" column="17" bodyfile="include/importers/schema_inference.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_inference_table_schema_1a4a7bec7ab41bd5bffe99c3ac4c0bfa4c" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::importers::InferenceTableSchema::column_types</definition>
+        <argsstring></argsstring>
+        <name>column_types</name>
+        <qualifiedname>themis::importers::InferenceTableSchema::column_types</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_inference.h" line="46" column="14" bodyfile="include/importers/schema_inference.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_inference_table_schema_1a0a1fe16bd9e379f8fdeea72466c4af10" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::importers::InferenceTableSchema::primary_keys</definition>
+        <argsstring></argsstring>
+        <name>primary_keys</name>
+        <qualifiedname>themis::importers::InferenceTableSchema::primary_keys</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_inference.h" line="47" column="17" bodyfile="include/importers/schema_inference.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_inference_table_schema_1ad239193f6bde2668ed47425da3f16b3f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;std::string, std::string&gt; &gt; themis::importers::InferenceTableSchema::foreign_keys</definition>
+        <argsstring></argsstring>
+        <name>foreign_keys</name>
+        <qualifiedname>themis::importers::InferenceTableSchema::foreign_keys</qualifiedname>
+        <briefdescription>
+<para>(local_col, ref_table.ref_col) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_inference.h" line="48" column="17" bodyfile="include/importers/schema_inference.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/schema_inference.h" line="42" column="1" bodyfile="include/importers/schema_inference.h" bodystart="42" bodyend="49"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_inference_table_schema_1a4a7bec7ab41bd5bffe99c3ac4c0bfa4c" prot="public" virt="non-virtual"><scope>themis::importers::InferenceTableSchema</scope><name>column_types</name></member>
+      <member refid="structthemis_1_1importers_1_1_inference_table_schema_1a735f987a4c9aaf05b4dd6284c16c2d7f" prot="public" virt="non-virtual"><scope>themis::importers::InferenceTableSchema</scope><name>columns</name></member>
+      <member refid="structthemis_1_1importers_1_1_inference_table_schema_1ad239193f6bde2668ed47425da3f16b3f" prot="public" virt="non-virtual"><scope>themis::importers::InferenceTableSchema</scope><name>foreign_keys</name></member>
+      <member refid="structthemis_1_1importers_1_1_inference_table_schema_1a68db38782be0974338fe03261b79ecc3" prot="public" virt="non-virtual"><scope>themis::importers::InferenceTableSchema</scope><name>name</name></member>
+      <member refid="structthemis_1_1importers_1_1_inference_table_schema_1a0a1fe16bd9e379f8fdeea72466c4af10" prot="public" virt="non-virtual"><scope>themis::importers::InferenceTableSchema</scope><name>primary_keys</name></member>
+      <member refid="structthemis_1_1importers_1_1_inference_table_schema_1a803a60376e600b176cd2126dd0b55090" prot="public" virt="non-virtual"><scope>themis::importers::InferenceTableSchema</scope><name>schema_ns</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

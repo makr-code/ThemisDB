@@ -1,0 +1,450 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1updates_1_1_evp_md_ctx_raii" kind="class" language="C++" prot="public">
+    <compoundname>themis::updates::EvpMdCtxRaii</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_evp_md_ctx_raii_1a7f9ee2bdddb8174f7f05e84ba0e1d397" prot="private" static="no" mutable="no">
+        <type>EVP_MD_CTX *</type>
+        <definition>EVP_MD_CTX * themis::updates::EvpMdCtxRaii::ctx_</definition>
+        <argsstring></argsstring>
+        <name>ctx_</name>
+        <qualifiedname>themis::updates::EvpMdCtxRaii::ctx_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/delta_update_engine.cpp" line="82" column="16" bodyfile="src/updates/delta_update_engine.cpp" bodystart="82" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_evp_md_ctx_raii_1ada3f577f81a93fb7157186505979d4b0" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::EvpMdCtxRaii::EvpMdCtxRaii</definition>
+        <argsstring>(EVP_MD_CTX *ctx=nullptr)</argsstring>
+        <name>EvpMdCtxRaii</name>
+        <qualifiedname>themis::updates::EvpMdCtxRaii::EvpMdCtxRaii</qualifiedname>
+        <param>
+          <type>EVP_MD_CTX *</type>
+          <declname>ctx</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/delta_update_engine.cpp" line="50" column="14" bodyfile="src/updates/delta_update_engine.cpp" bodystart="50" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_evp_md_ctx_raii_1a8b3e293ffa272c03ff06260c681116e0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::EvpMdCtxRaii::~EvpMdCtxRaii</definition>
+        <argsstring>()</argsstring>
+        <name>~EvpMdCtxRaii</name>
+        <qualifiedname>themis::updates::EvpMdCtxRaii::~EvpMdCtxRaii</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/delta_update_engine.cpp" line="52" column="5" bodyfile="src/updates/delta_update_engine.cpp" bodystart="52" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_evp_md_ctx_raii_1afa90a0fe68e7709dd33f13c722276623" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::EvpMdCtxRaii::EvpMdCtxRaii</definition>
+        <argsstring>(const EvpMdCtxRaii &amp;)=delete</argsstring>
+        <name>EvpMdCtxRaii</name>
+        <qualifiedname>themis::updates::EvpMdCtxRaii::EvpMdCtxRaii</qualifiedname>
+        <param>
+          <type>const EvpMdCtxRaii &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/delta_update_engine.cpp" line="59" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_evp_md_ctx_raii_1a7e3ddcd723074a7a1169cda10e96d8bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1updates_1_1_evp_md_ctx_raii_1ada3f577f81a93fb7157186505979d4b0" kindref="member">EvpMdCtxRaii</ref> &amp;</type>
+        <definition>EvpMdCtxRaii &amp; themis::updates::EvpMdCtxRaii::operator=</definition>
+        <argsstring>(const EvpMdCtxRaii &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::updates::EvpMdCtxRaii::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1updates_1_1_evp_md_ctx_raii_1ada3f577f81a93fb7157186505979d4b0" kindref="member">EvpMdCtxRaii</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/delta_update_engine.cpp" line="60" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_evp_md_ctx_raii_1a9518af447aed2829fe06cea1bacc0423" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::EvpMdCtxRaii::EvpMdCtxRaii</definition>
+        <argsstring>(EvpMdCtxRaii &amp;&amp;other) noexcept</argsstring>
+        <name>EvpMdCtxRaii</name>
+        <qualifiedname>themis::updates::EvpMdCtxRaii::EvpMdCtxRaii</qualifiedname>
+        <param>
+          <type>EvpMdCtxRaii &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/delta_update_engine.cpp" line="63" column="5" bodyfile="src/updates/delta_update_engine.cpp" bodystart="63" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_evp_md_ctx_raii_1a7b8b1f82e6d83edf71797bd89fee1b95" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1updates_1_1_evp_md_ctx_raii_1ada3f577f81a93fb7157186505979d4b0" kindref="member">EvpMdCtxRaii</ref> &amp;</type>
+        <definition>EvpMdCtxRaii &amp; themis::updates::EvpMdCtxRaii::operator=</definition>
+        <argsstring>(EvpMdCtxRaii &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::updates::EvpMdCtxRaii::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1_evp_md_ctx_raii_1ada3f577f81a93fb7157186505979d4b0" kindref="member">EvpMdCtxRaii</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/delta_update_engine.cpp" line="64" column="18" bodyfile="src/updates/delta_update_engine.cpp" bodystart="64" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_evp_md_ctx_raii_1aa9e49e14fac573126ca85e594ba42bb0" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>EVP_MD_CTX *</type>
+        <definition>EVP_MD_CTX * themis::updates::EvpMdCtxRaii::get</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::updates::EvpMdCtxRaii::get</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/delta_update_engine.cpp" line="74" column="16" bodyfile="src/updates/delta_update_engine.cpp" bodystart="74" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_evp_md_ctx_raii_1ae409d777ba7033286934f1c8c601c3db" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>EVP_MD_CTX *</type>
+        <definition>EVP_MD_CTX * themis::updates::EvpMdCtxRaii::release</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>release</name>
+        <qualifiedname>themis::updates::EvpMdCtxRaii::release</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/delta_update_engine.cpp" line="75" column="16" bodyfile="src/updates/delta_update_engine.cpp" bodystart="75" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_evp_md_ctx_raii_1ada3f577f81a93fb7157186505979d4b0" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::EvpMdCtxRaii::EvpMdCtxRaii</definition>
+        <argsstring>(EVP_MD_CTX *ctx=nullptr)</argsstring>
+        <name>EvpMdCtxRaii</name>
+        <qualifiedname>themis::updates::EvpMdCtxRaii::EvpMdCtxRaii</qualifiedname>
+        <param>
+          <type>EVP_MD_CTX *</type>
+          <declname>ctx</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/hot_reload_engine.cpp" line="43" column="14" bodyfile="src/updates/hot_reload_engine.cpp" bodystart="43" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_evp_md_ctx_raii_1a8b3e293ffa272c03ff06260c681116e0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::EvpMdCtxRaii::~EvpMdCtxRaii</definition>
+        <argsstring>()</argsstring>
+        <name>~EvpMdCtxRaii</name>
+        <qualifiedname>themis::updates::EvpMdCtxRaii::~EvpMdCtxRaii</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/hot_reload_engine.cpp" line="45" column="5" bodyfile="src/updates/hot_reload_engine.cpp" bodystart="45" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_evp_md_ctx_raii_1afa90a0fe68e7709dd33f13c722276623" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::EvpMdCtxRaii::EvpMdCtxRaii</definition>
+        <argsstring>(const EvpMdCtxRaii &amp;)=delete</argsstring>
+        <name>EvpMdCtxRaii</name>
+        <qualifiedname>themis::updates::EvpMdCtxRaii::EvpMdCtxRaii</qualifiedname>
+        <param>
+          <type>const EvpMdCtxRaii &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/hot_reload_engine.cpp" line="52" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_evp_md_ctx_raii_1a7e3ddcd723074a7a1169cda10e96d8bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1updates_1_1_evp_md_ctx_raii_1ada3f577f81a93fb7157186505979d4b0" kindref="member">EvpMdCtxRaii</ref> &amp;</type>
+        <definition>EvpMdCtxRaii &amp; themis::updates::EvpMdCtxRaii::operator=</definition>
+        <argsstring>(const EvpMdCtxRaii &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::updates::EvpMdCtxRaii::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1updates_1_1_evp_md_ctx_raii_1ada3f577f81a93fb7157186505979d4b0" kindref="member">EvpMdCtxRaii</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/hot_reload_engine.cpp" line="53" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_evp_md_ctx_raii_1a9518af447aed2829fe06cea1bacc0423" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::EvpMdCtxRaii::EvpMdCtxRaii</definition>
+        <argsstring>(EvpMdCtxRaii &amp;&amp;other) noexcept</argsstring>
+        <name>EvpMdCtxRaii</name>
+        <qualifiedname>themis::updates::EvpMdCtxRaii::EvpMdCtxRaii</qualifiedname>
+        <param>
+          <type>EvpMdCtxRaii &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/hot_reload_engine.cpp" line="56" column="5" bodyfile="src/updates/hot_reload_engine.cpp" bodystart="56" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_evp_md_ctx_raii_1a7b8b1f82e6d83edf71797bd89fee1b95" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1updates_1_1_evp_md_ctx_raii_1ada3f577f81a93fb7157186505979d4b0" kindref="member">EvpMdCtxRaii</ref> &amp;</type>
+        <definition>EvpMdCtxRaii &amp; themis::updates::EvpMdCtxRaii::operator=</definition>
+        <argsstring>(EvpMdCtxRaii &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::updates::EvpMdCtxRaii::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1_evp_md_ctx_raii_1ada3f577f81a93fb7157186505979d4b0" kindref="member">EvpMdCtxRaii</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/hot_reload_engine.cpp" line="57" column="18" bodyfile="src/updates/hot_reload_engine.cpp" bodystart="57" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_evp_md_ctx_raii_1aa9e49e14fac573126ca85e594ba42bb0" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>EVP_MD_CTX *</type>
+        <definition>EVP_MD_CTX * themis::updates::EvpMdCtxRaii::get</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::updates::EvpMdCtxRaii::get</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/hot_reload_engine.cpp" line="67" column="16" bodyfile="src/updates/hot_reload_engine.cpp" bodystart="67" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_evp_md_ctx_raii_1ae409d777ba7033286934f1c8c601c3db" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>EVP_MD_CTX *</type>
+        <definition>EVP_MD_CTX * themis::updates::EvpMdCtxRaii::release</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>release</name>
+        <qualifiedname>themis::updates::EvpMdCtxRaii::release</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/hot_reload_engine.cpp" line="68" column="16" bodyfile="src/updates/hot_reload_engine.cpp" bodystart="68" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_evp_md_ctx_raii_1ada3f577f81a93fb7157186505979d4b0" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::EvpMdCtxRaii::EvpMdCtxRaii</definition>
+        <argsstring>(EVP_MD_CTX *ctx=nullptr)</argsstring>
+        <name>EvpMdCtxRaii</name>
+        <qualifiedname>themis::updates::EvpMdCtxRaii::EvpMdCtxRaii</qualifiedname>
+        <param>
+          <type>EVP_MD_CTX *</type>
+          <declname>ctx</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/parallel_downloader.cpp" line="299" column="14" bodyfile="src/updates/parallel_downloader.cpp" bodystart="299" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_evp_md_ctx_raii_1a8b3e293ffa272c03ff06260c681116e0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::EvpMdCtxRaii::~EvpMdCtxRaii</definition>
+        <argsstring>()</argsstring>
+        <name>~EvpMdCtxRaii</name>
+        <qualifiedname>themis::updates::EvpMdCtxRaii::~EvpMdCtxRaii</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/parallel_downloader.cpp" line="301" column="5" bodyfile="src/updates/parallel_downloader.cpp" bodystart="301" bodyend="305"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_evp_md_ctx_raii_1afa90a0fe68e7709dd33f13c722276623" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::EvpMdCtxRaii::EvpMdCtxRaii</definition>
+        <argsstring>(const EvpMdCtxRaii &amp;)=delete</argsstring>
+        <name>EvpMdCtxRaii</name>
+        <qualifiedname>themis::updates::EvpMdCtxRaii::EvpMdCtxRaii</qualifiedname>
+        <param>
+          <type>const EvpMdCtxRaii &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/parallel_downloader.cpp" line="308" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_evp_md_ctx_raii_1a7e3ddcd723074a7a1169cda10e96d8bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1updates_1_1_evp_md_ctx_raii_1ada3f577f81a93fb7157186505979d4b0" kindref="member">EvpMdCtxRaii</ref> &amp;</type>
+        <definition>EvpMdCtxRaii &amp; themis::updates::EvpMdCtxRaii::operator=</definition>
+        <argsstring>(const EvpMdCtxRaii &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::updates::EvpMdCtxRaii::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1updates_1_1_evp_md_ctx_raii_1ada3f577f81a93fb7157186505979d4b0" kindref="member">EvpMdCtxRaii</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/parallel_downloader.cpp" line="309" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_evp_md_ctx_raii_1a9518af447aed2829fe06cea1bacc0423" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::EvpMdCtxRaii::EvpMdCtxRaii</definition>
+        <argsstring>(EvpMdCtxRaii &amp;&amp;other) noexcept</argsstring>
+        <name>EvpMdCtxRaii</name>
+        <qualifiedname>themis::updates::EvpMdCtxRaii::EvpMdCtxRaii</qualifiedname>
+        <param>
+          <type>EvpMdCtxRaii &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/parallel_downloader.cpp" line="312" column="5" bodyfile="src/updates/parallel_downloader.cpp" bodystart="312" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_evp_md_ctx_raii_1a7b8b1f82e6d83edf71797bd89fee1b95" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1updates_1_1_evp_md_ctx_raii_1ada3f577f81a93fb7157186505979d4b0" kindref="member">EvpMdCtxRaii</ref> &amp;</type>
+        <definition>EvpMdCtxRaii &amp; themis::updates::EvpMdCtxRaii::operator=</definition>
+        <argsstring>(EvpMdCtxRaii &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::updates::EvpMdCtxRaii::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1_evp_md_ctx_raii_1ada3f577f81a93fb7157186505979d4b0" kindref="member">EvpMdCtxRaii</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/parallel_downloader.cpp" line="313" column="18" bodyfile="src/updates/parallel_downloader.cpp" bodystart="313" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_evp_md_ctx_raii_1aa9e49e14fac573126ca85e594ba42bb0" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>EVP_MD_CTX *</type>
+        <definition>EVP_MD_CTX * themis::updates::EvpMdCtxRaii::get</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::updates::EvpMdCtxRaii::get</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/parallel_downloader.cpp" line="323" column="16" bodyfile="src/updates/parallel_downloader.cpp" bodystart="323" bodyend="323"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_evp_md_ctx_raii_1ae409d777ba7033286934f1c8c601c3db" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>EVP_MD_CTX *</type>
+        <definition>EVP_MD_CTX * themis::updates::EvpMdCtxRaii::release</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>release</name>
+        <qualifiedname>themis::updates::EvpMdCtxRaii::release</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/parallel_downloader.cpp" line="324" column="16" bodyfile="src/updates/parallel_downloader.cpp" bodystart="324" bodyend="328"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/updates/delta_update_engine.cpp" line="48" column="1" bodyfile="src/updates/delta_update_engine.cpp" bodystart="48" bodyend="83"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1updates_1_1_evp_md_ctx_raii_1a7f9ee2bdddb8174f7f05e84ba0e1d397" prot="private" virt="non-virtual"><scope>themis::updates::EvpMdCtxRaii</scope><name>ctx_</name></member>
+      <member refid="classthemis_1_1updates_1_1_evp_md_ctx_raii_1ada3f577f81a93fb7157186505979d4b0" prot="public" virt="non-virtual"><scope>themis::updates::EvpMdCtxRaii</scope><name>EvpMdCtxRaii</name></member>
+      <member refid="classthemis_1_1updates_1_1_evp_md_ctx_raii_1afa90a0fe68e7709dd33f13c722276623" prot="public" virt="non-virtual"><scope>themis::updates::EvpMdCtxRaii</scope><name>EvpMdCtxRaii</name></member>
+      <member refid="classthemis_1_1updates_1_1_evp_md_ctx_raii_1a9518af447aed2829fe06cea1bacc0423" prot="public" virt="non-virtual"><scope>themis::updates::EvpMdCtxRaii</scope><name>EvpMdCtxRaii</name></member>
+      <member refid="classthemis_1_1updates_1_1_evp_md_ctx_raii_1ada3f577f81a93fb7157186505979d4b0" prot="public" virt="non-virtual"><scope>themis::updates::EvpMdCtxRaii</scope><name>EvpMdCtxRaii</name></member>
+      <member refid="classthemis_1_1updates_1_1_evp_md_ctx_raii_1afa90a0fe68e7709dd33f13c722276623" prot="public" virt="non-virtual"><scope>themis::updates::EvpMdCtxRaii</scope><name>EvpMdCtxRaii</name></member>
+      <member refid="classthemis_1_1updates_1_1_evp_md_ctx_raii_1a9518af447aed2829fe06cea1bacc0423" prot="public" virt="non-virtual"><scope>themis::updates::EvpMdCtxRaii</scope><name>EvpMdCtxRaii</name></member>
+      <member refid="classthemis_1_1updates_1_1_evp_md_ctx_raii_1ada3f577f81a93fb7157186505979d4b0" prot="public" virt="non-virtual"><scope>themis::updates::EvpMdCtxRaii</scope><name>EvpMdCtxRaii</name></member>
+      <member refid="classthemis_1_1updates_1_1_evp_md_ctx_raii_1afa90a0fe68e7709dd33f13c722276623" prot="public" virt="non-virtual"><scope>themis::updates::EvpMdCtxRaii</scope><name>EvpMdCtxRaii</name></member>
+      <member refid="classthemis_1_1updates_1_1_evp_md_ctx_raii_1a9518af447aed2829fe06cea1bacc0423" prot="public" virt="non-virtual"><scope>themis::updates::EvpMdCtxRaii</scope><name>EvpMdCtxRaii</name></member>
+      <member refid="classthemis_1_1updates_1_1_evp_md_ctx_raii_1aa9e49e14fac573126ca85e594ba42bb0" prot="public" virt="non-virtual"><scope>themis::updates::EvpMdCtxRaii</scope><name>get</name></member>
+      <member refid="classthemis_1_1updates_1_1_evp_md_ctx_raii_1aa9e49e14fac573126ca85e594ba42bb0" prot="public" virt="non-virtual"><scope>themis::updates::EvpMdCtxRaii</scope><name>get</name></member>
+      <member refid="classthemis_1_1updates_1_1_evp_md_ctx_raii_1aa9e49e14fac573126ca85e594ba42bb0" prot="public" virt="non-virtual"><scope>themis::updates::EvpMdCtxRaii</scope><name>get</name></member>
+      <member refid="classthemis_1_1updates_1_1_evp_md_ctx_raii_1a7e3ddcd723074a7a1169cda10e96d8bf" prot="public" virt="non-virtual"><scope>themis::updates::EvpMdCtxRaii</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1updates_1_1_evp_md_ctx_raii_1a7b8b1f82e6d83edf71797bd89fee1b95" prot="public" virt="non-virtual"><scope>themis::updates::EvpMdCtxRaii</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1updates_1_1_evp_md_ctx_raii_1a7e3ddcd723074a7a1169cda10e96d8bf" prot="public" virt="non-virtual"><scope>themis::updates::EvpMdCtxRaii</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1updates_1_1_evp_md_ctx_raii_1a7b8b1f82e6d83edf71797bd89fee1b95" prot="public" virt="non-virtual"><scope>themis::updates::EvpMdCtxRaii</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1updates_1_1_evp_md_ctx_raii_1a7e3ddcd723074a7a1169cda10e96d8bf" prot="public" virt="non-virtual"><scope>themis::updates::EvpMdCtxRaii</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1updates_1_1_evp_md_ctx_raii_1a7b8b1f82e6d83edf71797bd89fee1b95" prot="public" virt="non-virtual"><scope>themis::updates::EvpMdCtxRaii</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1updates_1_1_evp_md_ctx_raii_1ae409d777ba7033286934f1c8c601c3db" prot="public" virt="non-virtual"><scope>themis::updates::EvpMdCtxRaii</scope><name>release</name></member>
+      <member refid="classthemis_1_1updates_1_1_evp_md_ctx_raii_1ae409d777ba7033286934f1c8c601c3db" prot="public" virt="non-virtual"><scope>themis::updates::EvpMdCtxRaii</scope><name>release</name></member>
+      <member refid="classthemis_1_1updates_1_1_evp_md_ctx_raii_1ae409d777ba7033286934f1c8c601c3db" prot="public" virt="non-virtual"><scope>themis::updates::EvpMdCtxRaii</scope><name>release</name></member>
+      <member refid="classthemis_1_1updates_1_1_evp_md_ctx_raii_1a8b3e293ffa272c03ff06260c681116e0" prot="public" virt="non-virtual"><scope>themis::updates::EvpMdCtxRaii</scope><name>~EvpMdCtxRaii</name></member>
+      <member refid="classthemis_1_1updates_1_1_evp_md_ctx_raii_1a8b3e293ffa272c03ff06260c681116e0" prot="public" virt="non-virtual"><scope>themis::updates::EvpMdCtxRaii</scope><name>~EvpMdCtxRaii</name></member>
+      <member refid="classthemis_1_1updates_1_1_evp_md_ctx_raii_1a8b3e293ffa272c03ff06260c681116e0" prot="public" virt="non-virtual"><scope>themis::updates::EvpMdCtxRaii</scope><name>~EvpMdCtxRaii</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

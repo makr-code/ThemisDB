@@ -1,0 +1,211 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_paxos_w_a_l_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::PaxosWALEntry</compoundname>
+    <includes refid="paxos__wal_8h" local="no">paxos_wal.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_paxos_w_a_l_entry_1a55275c2b47594b9a009afb73960e7945" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref></type>
+        <definition>LSN themis::sharding::PaxosWALEntry::lsn</definition>
+        <argsstring></argsstring>
+        <name>lsn</name>
+        <qualifiedname>themis::sharding::PaxosWALEntry::lsn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_wal.h" line="50" column="9" bodyfile="include/sharding/paxos_wal.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_paxos_w_a_l_entry_1afecd3b2124a8ea7b923b5c7f8fdfbb05" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1sharding_1a1d31565639d078d05e596f77a1b0a7e9" kindref="member">PaxosWALEntryType</ref></type>
+        <definition>PaxosWALEntryType themis::sharding::PaxosWALEntry::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::sharding::PaxosWALEntry::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_wal.h" line="51" column="23" bodyfile="include/sharding/paxos_wal.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_paxos_w_a_l_entry_1aeb434154666df6999e95d0949fbc65cb" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::PaxosWALEntry::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::sharding::PaxosWALEntry::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_wal.h" line="52" column="14" bodyfile="include/sharding/paxos_wal.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_paxos_w_a_l_entry_1a7ff1bff1b4402ab870ec856d4c0877ab" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::PaxosWALEntry::slot</definition>
+        <argsstring></argsstring>
+        <name>slot</name>
+        <qualifiedname>themis::sharding::PaxosWALEntry::slot</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_wal.h" line="53" column="14" bodyfile="include/sharding/paxos_wal.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_paxos_w_a_l_entry_1aae0ad1ce3aca246fbb474e7510b089f8" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::PaxosWALEntry::round</definition>
+        <argsstring></argsstring>
+        <name>round</name>
+        <qualifiedname>themis::sharding::PaxosWALEntry::round</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_wal.h" line="54" column="14" bodyfile="include/sharding/paxos_wal.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_paxos_w_a_l_entry_1a0ef2ea27e12a0c4992bd502c59432e0f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::PaxosWALEntry::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themis::sharding::PaxosWALEntry::node_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_wal.h" line="55" column="17" bodyfile="include/sharding/paxos_wal.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_paxos_w_a_l_entry_1a859952ec39d0a5696a9a2d02f0f40d78" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::PaxosWALEntry::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themis::sharding::PaxosWALEntry::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_wal.h" line="56" column="20" bodyfile="include/sharding/paxos_wal.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_paxos_w_a_l_entry_1affcc840d9c098ffab296755b9b12e3cf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_w_a_l_entry" kindref="compound">WALEntry</ref></type>
+        <definition>WALEntry themis::sharding::PaxosWALEntry::toWALEntry</definition>
+        <argsstring>() const</argsstring>
+        <name>toWALEntry</name>
+        <qualifiedname>themis::sharding::PaxosWALEntry::toWALEntry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_wal.h" line="59" column="14" bodyfile="src/sharding/paxos_wal.cpp" bodystart="27" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_paxos_w_a_l_entry_1a055a5c30a9968562524f10fe5b7409d0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::PaxosWALEntry::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::sharding::PaxosWALEntry::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_wal.h" line="65" column="12" bodyfile="src/sharding/paxos_wal.cpp" bodystart="86" bodyend="90"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_paxos_w_a_l_entry_1adbf28ae41b6b5797d6236aabdc0726e0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_paxos_w_a_l_entry" kindref="compound">PaxosWALEntry</ref></type>
+        <definition>PaxosWALEntry themis::sharding::PaxosWALEntry::fromWALEntry</definition>
+        <argsstring>(const WALEntry &amp;entry)</argsstring>
+        <name>fromWALEntry</name>
+        <qualifiedname>themis::sharding::PaxosWALEntry::fromWALEntry</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_w_a_l_entry" kindref="compound">WALEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>From <ref refid="structthemis_1_1sharding_1_1_w_a_l_entry" kindref="compound">WALEntry</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_wal.h" line="62" column="26" bodyfile="src/sharding/paxos_wal.cpp" bodystart="57" bodyend="84"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Paxos WAL Entry (Phase 2.1)</para>
+<para>Represents a single Paxos operation that needs to be durably logged </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::sharding::LSN</label>
+        <link refid="structthemis_1_1sharding_1_1_l_s_n"/>
+      </node>
+      <node id="1">
+        <label>themis::sharding::PaxosWALEntry</label>
+        <link refid="structthemis_1_1sharding_1_1_paxos_w_a_l_entry"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>lsn</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/sharding/paxos_wal.h" line="49" column="1" bodyfile="include/sharding/paxos_wal.h" bodystart="49" bodyend="66"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_paxos_w_a_l_entry_1a859952ec39d0a5696a9a2d02f0f40d78" prot="public" virt="non-virtual"><scope>themis::sharding::PaxosWALEntry</scope><name>data</name></member>
+      <member refid="structthemis_1_1sharding_1_1_paxos_w_a_l_entry_1adbf28ae41b6b5797d6236aabdc0726e0" prot="public" virt="non-virtual"><scope>themis::sharding::PaxosWALEntry</scope><name>fromWALEntry</name></member>
+      <member refid="structthemis_1_1sharding_1_1_paxos_w_a_l_entry_1a55275c2b47594b9a009afb73960e7945" prot="public" virt="non-virtual"><scope>themis::sharding::PaxosWALEntry</scope><name>lsn</name></member>
+      <member refid="structthemis_1_1sharding_1_1_paxos_w_a_l_entry_1a0ef2ea27e12a0c4992bd502c59432e0f" prot="public" virt="non-virtual"><scope>themis::sharding::PaxosWALEntry</scope><name>node_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_paxos_w_a_l_entry_1aae0ad1ce3aca246fbb474e7510b089f8" prot="public" virt="non-virtual"><scope>themis::sharding::PaxosWALEntry</scope><name>round</name></member>
+      <member refid="structthemis_1_1sharding_1_1_paxos_w_a_l_entry_1a055a5c30a9968562524f10fe5b7409d0" prot="public" virt="non-virtual"><scope>themis::sharding::PaxosWALEntry</scope><name>size</name></member>
+      <member refid="structthemis_1_1sharding_1_1_paxos_w_a_l_entry_1a7ff1bff1b4402ab870ec856d4c0877ab" prot="public" virt="non-virtual"><scope>themis::sharding::PaxosWALEntry</scope><name>slot</name></member>
+      <member refid="structthemis_1_1sharding_1_1_paxos_w_a_l_entry_1aeb434154666df6999e95d0949fbc65cb" prot="public" virt="non-virtual"><scope>themis::sharding::PaxosWALEntry</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1sharding_1_1_paxos_w_a_l_entry_1affcc840d9c098ffab296755b9b12e3cf" prot="public" virt="non-virtual"><scope>themis::sharding::PaxosWALEntry</scope><name>toWALEntry</name></member>
+      <member refid="structthemis_1_1sharding_1_1_paxos_w_a_l_entry_1afecd3b2124a8ea7b923b5c7f8fdfbb05" prot="public" virt="non-virtual"><scope>themis::sharding::PaxosWALEntry</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

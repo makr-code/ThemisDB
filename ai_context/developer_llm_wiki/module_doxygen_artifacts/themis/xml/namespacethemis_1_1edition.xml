@@ -1,0 +1,583 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1edition" kind="namespace" language="C++">
+    <compoundname>themis::edition</compoundname>
+    <innerclass refid="structthemis_1_1edition_1_1_edition_info" prot="public">themis::edition::EditionInfo</innerclass>
+    <innerclass refid="classthemis_1_1edition_1_1_edition_manager" prot="public">themis::edition::EditionManager</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1edition_1a98754fffbd1e4de89bf55f9e89e8ec6e" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>EditionType</name>
+        <qualifiedname>themis::edition::EditionType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1edition_1a98754fffbd1e4de89bf55f9e89e8ec6ea02f2534ad4997e23ec250e1015eeb929" prot="public">
+          <name>MINIMAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1edition_1a98754fffbd1e4de89bf55f9e89e8ec6ea306f14e5ed6e4f8b237eaa58359fa3b2" prot="public">
+          <name>COMMUNITY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1edition_1a98754fffbd1e4de89bf55f9e89e8ec6ea4d4afda25a3f52041ee1b569157130b8" prot="public">
+          <name>ENTERPRISE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1edition_1a98754fffbd1e4de89bf55f9e89e8ec6eaa95bd970dd783c80baccae2b226e6038" prot="public">
+          <name>MILITARY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1edition_1a98754fffbd1e4de89bf55f9e89e8ec6ea58adf999cd140b440d479e2cbdbe4c06" prot="public">
+          <name>HYPERSCALER</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1edition_1a98754fffbd1e4de89bf55f9e89e8ec6ea696b031073e74bf2cb98e5ef201d4aa3" prot="public">
+          <name>UNKNOWN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="55" column="1" bodyfile="include/themis/edition.h" bodystart="55" bodyend="62"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1edition_1a1fbda336777e0ba6e46a5f6f8f9714dd" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::edition::EDITION_STRING</definition>
+        <argsstring></argsstring>
+        <name>EDITION_STRING</name>
+        <qualifiedname>themis::edition::EDITION_STRING</qualifiedname>
+        <initializer>= <ref refid="edition_8h_1a631d00d2a24805a86193061aaaaa0692" kindref="member">THEMIS_EDITION_STRING</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="52" column="28" bodyfile="include/themis/edition.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1edition_1a6e395f121298558660f73977ffc2c717" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::edition::GPU_MAX_VRAM_GB</definition>
+        <argsstring></argsstring>
+        <name>GPU_MAX_VRAM_GB</name>
+        <qualifiedname>themis::edition::GPU_MAX_VRAM_GB</qualifiedname>
+        <initializer>= <ref refid="edition_8h_1a71ea11d0a508ff66e3e15a5a6db6b0b2" kindref="member">THEMIS_GPU_MAX_VRAM_GB</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="97" column="15" bodyfile="include/themis/edition.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1edition_1a6c6823dc5c27228bbb08357e9819a263" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::edition::SHARDING_MAX_NODES</definition>
+        <argsstring></argsstring>
+        <name>SHARDING_MAX_NODES</name>
+        <qualifiedname>themis::edition::SHARDING_MAX_NODES</qualifiedname>
+        <initializer>= <ref refid="edition_8h_1ac9d24cb9ec31a4e023e48c21e96ee7d7" kindref="member">THEMIS_SHARDING_MAX_NODES</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="110" column="15" bodyfile="include/themis/edition.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1edition_1a339797db2dc7f597f9a2456fe507a0bd" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::edition::LLM_MAX_CONTEXT_TOKENS</definition>
+        <argsstring></argsstring>
+        <name>LLM_MAX_CONTEXT_TOKENS</name>
+        <qualifiedname>themis::edition::LLM_MAX_CONTEXT_TOKENS</qualifiedname>
+        <initializer>= <ref refid="edition_8h_1ac15188e666fcec51c0f01057da5e15ea" kindref="member">THEMIS_LLM_MAX_CONTEXT_TOKENS</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="139" column="19" bodyfile="include/themis/edition.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1edition_1ac2c4e7974ebaf6ae04e8eeef4ac58f65" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::edition::LLM_MAX_MODEL_INSTANCES</definition>
+        <argsstring></argsstring>
+        <name>LLM_MAX_MODEL_INSTANCES</name>
+        <qualifiedname>themis::edition::LLM_MAX_MODEL_INSTANCES</qualifiedname>
+        <initializer>= <ref refid="edition_8h_1a3b9e4e680989313eccfda42f7f4d2524" kindref="member">THEMIS_LLM_MAX_MODEL_INSTANCES</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="146" column="19" bodyfile="include/themis/edition.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1edition_1a5c65f5740f5e3a48b55cc686496961d2" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::edition::LLM_MAX_VRAM_PER_MODEL_MB</definition>
+        <argsstring></argsstring>
+        <name>LLM_MAX_VRAM_PER_MODEL_MB</name>
+        <qualifiedname>themis::edition::LLM_MAX_VRAM_PER_MODEL_MB</qualifiedname>
+        <initializer>= <ref refid="edition_8h_1a1aea07b314805c4e78918f32754e88c3" kindref="member">THEMIS_LLM_MAX_VRAM_PER_MODEL_MB</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="153" column="19" bodyfile="include/themis/edition.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1edition_1a66231eedd5f4bb926b4165a8a3c5dcd0" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::edition::TENANT_MAX_STORAGE_BYTES</definition>
+        <argsstring></argsstring>
+        <name>TENANT_MAX_STORAGE_BYTES</name>
+        <qualifiedname>themis::edition::TENANT_MAX_STORAGE_BYTES</qualifiedname>
+        <initializer>= <ref refid="edition_8h_1a192e4baed7dfe5a506335d792e928601" kindref="member">THEMIS_TENANT_MAX_STORAGE_BYTES</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="160" column="20" bodyfile="include/themis/edition.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1edition_1ac0c8a3808c97db852eed698786763f3f" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::edition::TENANT_MAX_DOCUMENTS</definition>
+        <argsstring></argsstring>
+        <name>TENANT_MAX_DOCUMENTS</name>
+        <qualifiedname>themis::edition::TENANT_MAX_DOCUMENTS</qualifiedname>
+        <initializer>= <ref refid="edition_8h_1ae4b71b3b45a4072dfbc0a987b1fff9eb" kindref="member">THEMIS_TENANT_MAX_DOCUMENTS</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="166" column="20" bodyfile="include/themis/edition.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1edition_1a3d514c78ad61d6096a79043992bb60c2" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::edition::TENANT_MAX_COLLECTIONS</definition>
+        <argsstring></argsstring>
+        <name>TENANT_MAX_COLLECTIONS</name>
+        <qualifiedname>themis::edition::TENANT_MAX_COLLECTIONS</qualifiedname>
+        <initializer>= <ref refid="edition_8h_1a62fb45c5adf2eb74b63b9adead37abb4" kindref="member">THEMIS_TENANT_MAX_COLLECTIONS</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="172" column="20" bodyfile="include/themis/edition.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1edition_1a75c2b75acc6f00e8c72c026096812e17" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::edition::TENANT_MAX_CONCURRENT_QUERIES</definition>
+        <argsstring></argsstring>
+        <name>TENANT_MAX_CONCURRENT_QUERIES</name>
+        <qualifiedname>themis::edition::TENANT_MAX_CONCURRENT_QUERIES</qualifiedname>
+        <initializer>= <ref refid="edition_8h_1a3595702d8938fb084a6c22cff4d8bad5" kindref="member">THEMIS_TENANT_MAX_CONCURRENT_QUERIES</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="178" column="20" bodyfile="include/themis/edition.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1edition_1a51b193add4561f9be8c120651c5c80f5" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::edition::TENANT_MAX_REQUESTS_PER_SECOND</definition>
+        <argsstring></argsstring>
+        <name>TENANT_MAX_REQUESTS_PER_SECOND</name>
+        <qualifiedname>themis::edition::TENANT_MAX_REQUESTS_PER_SECOND</qualifiedname>
+        <initializer>= <ref refid="edition_8h_1a9a07f40c0c0bf3f4983c3870371fcebb" kindref="member">THEMIS_TENANT_MAX_REQUESTS_PER_SECOND</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="184" column="20" bodyfile="include/themis/edition.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1edition_1a716086a30a825c4a21e229f56d886277" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::edition::QUERY_MAX_GRAPHQL_DEPTH</definition>
+        <argsstring></argsstring>
+        <name>QUERY_MAX_GRAPHQL_DEPTH</name>
+        <qualifiedname>themis::edition::QUERY_MAX_GRAPHQL_DEPTH</qualifiedname>
+        <initializer>= <ref refid="edition_8h_1a3bba120792ed38a5b88057d7f30e8ab2" kindref="member">THEMIS_QUERY_MAX_GRAPHQL_DEPTH</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="191" column="20" bodyfile="include/themis/edition.h" bodystart="191" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1edition_1a77690b3802148fd3171923491e57c8c0" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::edition::QUERY_MAX_GRAPHQL_COMPLEXITY</definition>
+        <argsstring></argsstring>
+        <name>QUERY_MAX_GRAPHQL_COMPLEXITY</name>
+        <qualifiedname>themis::edition::QUERY_MAX_GRAPHQL_COMPLEXITY</qualifiedname>
+        <initializer>= <ref refid="edition_8h_1a566a3a7c6a3dae80370f516174fb6775" kindref="member">THEMIS_QUERY_MAX_GRAPHQL_COMPLEXITY</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="197" column="20" bodyfile="include/themis/edition.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1edition_1ab6f01d017e15e7a0aeb8672c368f64ab" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::edition::QUERY_MAX_PAYLOAD_BYTES</definition>
+        <argsstring></argsstring>
+        <name>QUERY_MAX_PAYLOAD_BYTES</name>
+        <qualifiedname>themis::edition::QUERY_MAX_PAYLOAD_BYTES</qualifiedname>
+        <initializer>= <ref refid="edition_8h_1a80ec47765f88a1119cd6ea609481d0f1" kindref="member">THEMIS_QUERY_MAX_PAYLOAD_BYTES</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="203" column="20" bodyfile="include/themis/edition.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1edition_1a836b2e7cc001445eac4a2198797bc476" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::edition::QUERY_MAX_RESULT_ROWS</definition>
+        <argsstring></argsstring>
+        <name>QUERY_MAX_RESULT_ROWS</name>
+        <qualifiedname>themis::edition::QUERY_MAX_RESULT_ROWS</qualifiedname>
+        <initializer>= <ref refid="edition_8h_1ae4602dd03f3da3b74dc0277609aa8583" kindref="member">THEMIS_QUERY_MAX_RESULT_ROWS</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="209" column="20" bodyfile="include/themis/edition.h" bodystart="209" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1edition_1aa527e1351b564f8b4e696c8b67a8ca6a" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::edition::CONNECTION_MAX_HTTP2_STREAMS</definition>
+        <argsstring></argsstring>
+        <name>CONNECTION_MAX_HTTP2_STREAMS</name>
+        <qualifiedname>themis::edition::CONNECTION_MAX_HTTP2_STREAMS</qualifiedname>
+        <initializer>= <ref refid="edition_8h_1ab4b3aefe418a25cbd7fb7dc2c1d4c5d4" kindref="member">THEMIS_CONNECTION_MAX_HTTP2_STREAMS</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="216" column="20" bodyfile="include/themis/edition.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1edition_1a92930b50745721fe888c06616e839d38" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::edition::CONNECTION_MAX_SSE_CONNECTIONS</definition>
+        <argsstring></argsstring>
+        <name>CONNECTION_MAX_SSE_CONNECTIONS</name>
+        <qualifiedname>themis::edition::CONNECTION_MAX_SSE_CONNECTIONS</qualifiedname>
+        <initializer>= <ref refid="edition_8h_1a1ee86b0894e5d60d64e3620802a40b03" kindref="member">THEMIS_CONNECTION_MAX_SSE_CONNECTIONS</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="222" column="20" bodyfile="include/themis/edition.h" bodystart="222" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1edition_1a9ac2c6775c83af6036c6f8f8b5833b1d" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::edition::CONNECTION_MAX_TOTAL</definition>
+        <argsstring></argsstring>
+        <name>CONNECTION_MAX_TOTAL</name>
+        <qualifiedname>themis::edition::CONNECTION_MAX_TOTAL</qualifiedname>
+        <initializer>= <ref refid="edition_8h_1ae9d32e54a7c19e9c8aebd4c57b519d31" kindref="member">THEMIS_CONNECTION_MAX_TOTAL</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="228" column="20" bodyfile="include/themis/edition.h" bodystart="228" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1edition_1a577e6a46d40c869f7d8a4c9a62217f80" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::edition::CONNECTION_MAX_SSE_EVENTS_PER_SEC</definition>
+        <argsstring></argsstring>
+        <name>CONNECTION_MAX_SSE_EVENTS_PER_SEC</name>
+        <qualifiedname>themis::edition::CONNECTION_MAX_SSE_EVENTS_PER_SEC</qualifiedname>
+        <initializer>= <ref refid="edition_8h_1a1025cab85cbb317d9150a20d28b605a0" kindref="member">THEMIS_CONNECTION_MAX_SSE_EVENTS_PER_SEC</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="234" column="20" bodyfile="include/themis/edition.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1edition_1ae7052b858d398377e804f7c5ed75712a" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::edition::STORAGE_MAX_BACKGROUND_JOBS</definition>
+        <argsstring></argsstring>
+        <name>STORAGE_MAX_BACKGROUND_JOBS</name>
+        <qualifiedname>themis::edition::STORAGE_MAX_BACKGROUND_JOBS</qualifiedname>
+        <initializer>= <ref refid="edition_8h_1abf8e36abf55f84af214d2dd98092e0f2" kindref="member">THEMIS_STORAGE_MAX_BACKGROUND_JOBS</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="241" column="19" bodyfile="include/themis/edition.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1edition_1a44df1b72544235b5488b1dc3dea23510" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::edition::STORAGE_MAX_COMPACTION_BYTES_PER_SEC</definition>
+        <argsstring></argsstring>
+        <name>STORAGE_MAX_COMPACTION_BYTES_PER_SEC</name>
+        <qualifiedname>themis::edition::STORAGE_MAX_COMPACTION_BYTES_PER_SEC</qualifiedname>
+        <initializer>= <ref refid="edition_8h_1a87deb176272e295bbebf176fcd4483e8" kindref="member">THEMIS_STORAGE_MAX_COMPACTION_BYTES_PER_SEC</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="247" column="20" bodyfile="include/themis/edition.h" bodystart="247" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1edition_1af14b3b46bb52fbf454592ce81ae487ed" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::edition::STORAGE_MAX_CONCURRENT_SNAPSHOTS</definition>
+        <argsstring></argsstring>
+        <name>STORAGE_MAX_CONCURRENT_SNAPSHOTS</name>
+        <qualifiedname>themis::edition::STORAGE_MAX_CONCURRENT_SNAPSHOTS</qualifiedname>
+        <initializer>= <ref refid="edition_8h_1aae5f05f9c086ecce57601d419849b1c3" kindref="member">THEMIS_STORAGE_MAX_CONCURRENT_SNAPSHOTS</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="253" column="19" bodyfile="include/themis/edition.h" bodystart="253" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1edition_1a45cc857976644757514065587a76d555" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::edition::RATE_LIMIT_MAX_GLOBAL_RPS</definition>
+        <argsstring></argsstring>
+        <name>RATE_LIMIT_MAX_GLOBAL_RPS</name>
+        <qualifiedname>themis::edition::RATE_LIMIT_MAX_GLOBAL_RPS</qualifiedname>
+        <initializer>= <ref refid="edition_8h_1ac8bc94909a1b9e98da46029d8ac5d15e" kindref="member">THEMIS_RATE_LIMIT_MAX_GLOBAL_RPS</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="260" column="20" bodyfile="include/themis/edition.h" bodystart="260" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1edition_1a9c488fd8a2db7222a11039ae0ef22b19" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::edition::FEATURE_ENTERPRISE_PLUGINS</definition>
+        <argsstring></argsstring>
+        <name>FEATURE_ENTERPRISE_PLUGINS</name>
+        <qualifiedname>themis::edition::FEATURE_ENTERPRISE_PLUGINS</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="275" column="16" bodyfile="include/themis/edition.h" bodystart="275" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1edition_1a7eea62e1ee66982527f95d0c8000116b" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::edition::FEATURE_MULTI_MASTER</definition>
+        <argsstring></argsstring>
+        <name>FEATURE_MULTI_MASTER</name>
+        <qualifiedname>themis::edition::FEATURE_MULTI_MASTER</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="285" column="16" bodyfile="include/themis/edition.h" bodystart="285" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1edition_1a20b4d93797bb2dfad62575ed1ed2ff3d" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::edition::FEATURE_FIELD_ENCRYPTION</definition>
+        <argsstring></argsstring>
+        <name>FEATURE_FIELD_ENCRYPTION</name>
+        <qualifiedname>themis::edition::FEATURE_FIELD_ENCRYPTION</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="295" column="16" bodyfile="include/themis/edition.h" bodystart="295" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1edition_1a4dc3279aba38cd2e1c094c6eef8c9b47" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::edition::FEATURE_RBAC</definition>
+        <argsstring></argsstring>
+        <name>FEATURE_RBAC</name>
+        <qualifiedname>themis::edition::FEATURE_RBAC</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="305" column="16" bodyfile="include/themis/edition.h" bodystart="305" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1edition_1ac950ca6a5bc1a42b807c9629e05713dc" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::edition::FEATURE_HSM</definition>
+        <argsstring></argsstring>
+        <name>FEATURE_HSM</name>
+        <qualifiedname>themis::edition::FEATURE_HSM</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="315" column="16" bodyfile="include/themis/edition.h" bodystart="315" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1edition_1afd5734083b165d685700ac46e2d198dc" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::edition::kGatedFeatureNames[]</definition>
+        <argsstring>[]</argsstring>
+        <name>kGatedFeatureNames</name>
+        <qualifiedname>themis::edition::kGatedFeatureNames</qualifiedname>
+        <initializer>                                                     = {
+    &quot;enterprise_plugins&quot;,
+    &quot;multi_master&quot;,
+    &quot;field_encryption&quot;,
+    &quot;rbac&quot;,
+    &quot;hsm&quot;,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="328" column="35" bodyfile="include/themis/edition.h" bodystart="328" bodyend="334"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1edition_1a213b4252aa7c51ff3f80974d787b0a13" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::edition::kGatedFeatureCount</definition>
+        <argsstring></argsstring>
+        <name>kGatedFeatureCount</name>
+        <qualifiedname>themis::edition::kGatedFeatureCount</qualifiedname>
+        <initializer>                                            =
+sizeof(kGatedFeatureNames) / sizeof(kGatedFeatureNames[0])</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="336" column="30" bodyfile="include/themis/edition.h" bodystart="336" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1edition_1ae1c7d419c1bf327a2f5b34705ff8dd3b" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1edition_1a98754fffbd1e4de89bf55f9e89e8ec6e" kindref="member">EditionType</ref></type>
+        <definition>EditionType themis::edition::GetEditionType</definition>
+        <argsstring>()</argsstring>
+        <name>GetEditionType</name>
+        <qualifiedname>themis::edition::GetEditionType</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="65" column="23" bodyfile="include/themis/edition.h" bodystart="65" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1edition_1aeef3545ce4343a46f4341810ecebab74" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>EditionType</type>
+            <declname>T</declname>
+            <defname>T</defname>
+          </param>
+        </templateparamlist>
+        <type>bool</type>
+        <definition>bool themis::edition::IsEdition</definition>
+        <argsstring>()</argsstring>
+        <name>IsEdition</name>
+        <qualifiedname>themis::edition::IsEdition</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="345" column="16" bodyfile="include/themis/edition.h" bodystart="345" bodyend="347"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1edition_1ab4183d356fc89c5f4119b7dfab68bd00" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::edition::IsFeatureEnabled</definition>
+        <argsstring>(std::string_view feature_name)</argsstring>
+        <name>IsFeatureEnabled</name>
+        <qualifiedname>themis::edition::IsFeatureEnabled</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>feature_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="350" column="16" bodyfile="include/themis/edition.h" bodystart="350" bodyend="363"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/edition.h" line="39" column="1"/>
+  </compounddef>
+</doxygen>

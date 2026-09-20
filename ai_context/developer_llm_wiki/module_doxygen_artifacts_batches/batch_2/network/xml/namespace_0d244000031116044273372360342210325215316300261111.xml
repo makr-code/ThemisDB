@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d244000031116044273372360342210325215316300261111" kind="namespace" language="C++">
+    <compoundname>@244000031116044273372360342210325215316300261111</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/network/test_wire_protocol_backpressure.cpp" line="110" column="1"/>
+  </compounddef>
+</doxygen>

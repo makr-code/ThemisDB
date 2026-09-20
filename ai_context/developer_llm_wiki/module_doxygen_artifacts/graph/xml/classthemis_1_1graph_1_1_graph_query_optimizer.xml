@@ -1,0 +1,3548 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1graph_1_1_graph_query_optimizer" kind="class" language="C++" prot="public">
+    <compoundname>themis::graph::GraphQueryOptimizer</compoundname>
+    <includes refid="graph__query__optimizer_8h" local="no">graph_query_optimizer.h</includes>
+    <innerclass refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_statistics" prot="public">themis::graph::GraphQueryOptimizer::GraphStatistics</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints" prot="public">themis::graph::GraphQueryOptimizer::QueryConstraints</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_query_metrics" prot="public">themis::graph::GraphQueryOptimizer::GraphQueryMetrics</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_rate_limiter" prot="public">themis::graph::GraphQueryOptimizer::QueryRateLimiter</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_optimization_plan" prot="public">themis::graph::GraphQueryOptimizer::OptimizationPlan</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_execution_stats" prot="public">themis::graph::GraphQueryOptimizer::ExecutionStats</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_change_set" prot="public">themis::graph::GraphQueryOptimizer::GraphChangeSet</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_incremental_query_result" prot="public">themis::graph::GraphQueryOptimizer::IncrementalQueryResult</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_subgraph_isomorphism_result" prot="public">themis::graph::GraphQueryOptimizer::SubgraphIsomorphismResult</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_algorithm_cost_model" prot="public">themis::graph::GraphQueryOptimizer::AlgorithmCostModel</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_algorithm_calibration_stats" prot="public">themis::graph::GraphQueryOptimizer::AlgorithmCalibrationStats</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_cost_model_calibration_report" prot="public">themis::graph::GraphQueryOptimizer::CostModelCalibrationReport</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_plan_cache_entry" prot="private">themis::graph::GraphQueryOptimizer::PlanCacheEntry</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_incremental_query_entry" prot="private">themis::graph::GraphQueryOptimizer::IncrementalQueryEntry</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a8bc6cdb3932ab5ce8c4e96091c864b56" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>TraversalAlgorithm</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::TraversalAlgorithm</qualifiedname>
+        <enumvalue id="classthemis_1_1graph_1_1_graph_query_optimizer_1a8bc6cdb3932ab5ce8c4e96091c864b56a838fea3c1a3e8dd6c22fe9605a701668" prot="public">
+          <name>BFS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1graph_1_1_graph_query_optimizer_1a8bc6cdb3932ab5ce8c4e96091c864b56ac1bb62b63c65be3760b715faad0bdf8d" prot="public">
+          <name>DFS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1graph_1_1_graph_query_optimizer_1a8bc6cdb3932ab5ce8c4e96091c864b56a01ca2e75004bdf2618045f428595ef08" prot="public">
+          <name>BIDIRECTIONAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1graph_1_1_graph_query_optimizer_1a8bc6cdb3932ab5ce8c4e96091c864b56a363ab0bc25712e7754d567d5b7f562d2" prot="public">
+          <name>ASTAR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1graph_1_1_graph_query_optimizer_1a8bc6cdb3932ab5ce8c4e96091c864b56a79f676ad8a477dbf2582d8c7133ce481" prot="public">
+          <name>DIJKSTRA</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="43" column="5" bodyfile="include/graph/graph_query_optimizer.h" bodystart="43" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="enum" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a18766e7448153fed23be2b6b4a8884d5" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>QueryPattern</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::QueryPattern</qualifiedname>
+        <enumvalue id="classthemis_1_1graph_1_1_graph_query_optimizer_1a18766e7448153fed23be2b6b4a8884d5a50a7316887f56d2d783d2bbbf813c108" prot="public">
+          <name>SHORTEST_PATH</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1graph_1_1_graph_query_optimizer_1a18766e7448153fed23be2b6b4a8884d5aca79ddca2328b3656b8a6590d2487a82" prot="public">
+          <name>ALL_PATHS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1graph_1_1_graph_query_optimizer_1a18766e7448153fed23be2b6b4a8884d5a53ad0668f2928355709bd63ee20ee946" prot="public">
+          <name>K_HOP_NEIGHBORS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1graph_1_1_graph_query_optimizer_1a18766e7448153fed23be2b6b4a8884d5a4edd0a2936a9531080d0fb1ad2d565b8" prot="public">
+          <name>PATTERN_MATCH</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1graph_1_1_graph_query_optimizer_1a18766e7448153fed23be2b6b4a8884d5a63c1fedfd0015f2ca9207777e0987f17" prot="public">
+          <name>REACHABILITY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1graph_1_1_graph_query_optimizer_1a18766e7448153fed23be2b6b4a8884d5a263a2c3713ba43c20ac283ccf19e9fec" prot="public">
+          <name>CONNECTED_COMPONENT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="51" column="5" bodyfile="include/graph/graph_query_optimizer.h" bodystart="51" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1graph_1_1_graph_query_optimizer_1aa9a1bea900442d00b636878514cf9f44" prot="public" static="no">
+        <type>uint64_t</type>
+        <definition>using themis::graph::GraphQueryOptimizer::IncrementalQueryHandle = uint64_t</definition>
+        <argsstring></argsstring>
+        <name>IncrementalQueryHandle</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::IncrementalQueryHandle</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="346" column="5" bodyfile="include/graph/graph_query_optimizer.h" bodystart="346" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1graph_1_1_graph_query_optimizer_1aa7f086ff20ba623f93dbb36b14e2ace8" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_incremental_query_result" kindref="compound">IncrementalQueryResult</ref> &amp;)&gt;</type>
+        <definition>using themis::graph::GraphQueryOptimizer::IncrementalQueryCallback = std::function&lt;void(const IncrementalQueryResult&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>IncrementalQueryCallback</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::IncrementalQueryCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="348" column="5" bodyfile="include/graph/graph_query_optimizer.h" bodystart="348" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_query_optimizer_1af3c3bb7d38b38e6db4b6bd7ef0e7aa6b" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphQueryOptimizer::MIN_CALIBRATION_SAMPLES</definition>
+        <argsstring></argsstring>
+        <name>MIN_CALIBRATION_SAMPLES</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::MIN_CALIBRATION_SAMPLES</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="780" column="29" bodyfile="include/graph/graph_query_optimizer.h" bodystart="780" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a73bc0df0e0774a685a7bad419ddeb3fd" prot="private" static="no" mutable="no">
+        <type>GraphAnalytics *</type>
+        <definition>GraphAnalytics* themis::graph::GraphQueryOptimizer::analytics_</definition>
+        <argsstring></argsstring>
+        <name>analytics_</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::analytics_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="863" column="20" bodyfile="include/graph/graph_query_optimizer.h" bodystart="863" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a8c9b0be82738bac3134b23611500eca0" prot="private" static="no" mutable="no">
+        <type>GraphIndexManager &amp;</type>
+        <definition>GraphIndexManager&amp; themis::graph::GraphQueryOptimizer::graph_manager_</definition>
+        <argsstring></argsstring>
+        <name>graph_manager_</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::graph_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="864" column="23" bodyfile="include/graph/graph_query_optimizer.h" bodystart="864" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a52f14b84101fac59f949c3cb222a9d69" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_statistics" kindref="compound">GraphStatistics</ref></type>
+        <definition>GraphStatistics themis::graph::GraphQueryOptimizer::statistics_</definition>
+        <argsstring></argsstring>
+        <name>statistics_</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::statistics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="865" column="21" bodyfile="include/graph/graph_query_optimizer.h" bodystart="865" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a8dc8e889f764ae3486ac965685276627" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::graph::GraphQueryOptimizer::plan_caching_enabled_</definition>
+        <argsstring></argsstring>
+        <name>plan_caching_enabled_</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::plan_caching_enabled_</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="866" column="10" bodyfile="include/graph/graph_query_optimizer.h" bodystart="866" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a6de7a6cb8b139070b810df2a6c774d31" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphQueryOptimizer::plan_cache_max_size_</definition>
+        <argsstring></argsstring>
+        <name>plan_cache_max_size_</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::plan_cache_max_size_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="877" column="12" bodyfile="include/graph/graph_query_optimizer.h" bodystart="877" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a1f0e88fba161b466eccc510d4880c216" prot="private" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::graph::GraphQueryOptimizer::plan_cache_ttl_</definition>
+        <argsstring></argsstring>
+        <name>plan_cache_ttl_</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::plan_cache_ttl_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="879" column="31" bodyfile="include/graph/graph_query_optimizer.h" bodystart="879" bodyend="879"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a1fb4fa5eaf30cb2d391d37b46ace4a93" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::graph::GraphQueryOptimizer::plan_cache_mutex_</definition>
+        <argsstring></argsstring>
+        <name>plan_cache_mutex_</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::plan_cache_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="881" column="24" bodyfile="include/graph/graph_query_optimizer.h" bodystart="881" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a7c8af95ebcbacac7b137c05f292b02b6" prot="private" static="no" mutable="no">
+        <type>std::list&lt; std::string &gt;</type>
+        <definition>std::list&lt;std::string&gt; themis::graph::GraphQueryOptimizer::plan_cache_lru_</definition>
+        <argsstring></argsstring>
+        <name>plan_cache_lru_</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::plan_cache_lru_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="883" column="15" bodyfile="include/graph/graph_query_optimizer.h" bodystart="883" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a1fbf6e2918f1cd23e4735a07895f5b11" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::pair&lt; PlanCacheEntry, std::list&lt; std::string &gt;::iterator &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::pair&lt;PlanCacheEntry, std::list&lt;std::string&gt;::iterator&gt; &gt; themis::graph::GraphQueryOptimizer::plan_cache_</definition>
+        <argsstring></argsstring>
+        <name>plan_cache_</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::plan_cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="887" column="9" bodyfile="include/graph/graph_query_optimizer.h" bodystart="887" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_query_optimizer_1ace8c7da0afc95efb60021d84316157b6" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_execution_stats" kindref="compound">ExecutionStats</ref> &gt;</type>
+        <definition>std::vector&lt;ExecutionStats&gt; themis::graph::GraphQueryOptimizer::execution_history_</definition>
+        <argsstring></argsstring>
+        <name>execution_history_</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::execution_history_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="904" column="17" bodyfile="include/graph/graph_query_optimizer.h" bodystart="904" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a60e1fe5d933683e59ca6a60dedaac047" prot="private" static="no" mutable="yes">
+        <type><ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_query_metrics" kindref="compound">GraphQueryMetrics</ref></type>
+        <definition>GraphQueryMetrics themis::graph::GraphQueryOptimizer::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="908" column="31" bodyfile="include/graph/graph_query_optimizer.h" bodystart="908" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_query_optimizer_1ab79a3086251db25e20c61ea3516c6320" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::graph::GraphQueryOptimizer::adaptive_learning_enabled_</definition>
+        <argsstring></argsstring>
+        <name>adaptive_learning_enabled_</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::adaptive_learning_enabled_</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="911" column="10" bodyfile="include/graph/graph_query_optimizer.h" bodystart="911" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_query_optimizer_1aebdb18367fa3616eb28701839768fd3c" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a8bc6cdb3932ab5ce8c4e96091c864b56" kindref="member">TraversalAlgorithm</ref>, <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_algorithm_cost_model" kindref="compound">AlgorithmCostModel</ref>, std::hash&lt; <ref refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a8bc6cdb3932ab5ce8c4e96091c864b56" kindref="member">TraversalAlgorithm</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;TraversalAlgorithm, AlgorithmCostModel, std::hash&lt;TraversalAlgorithm&gt; &gt; themis::graph::GraphQueryOptimizer::algo_cost_models_</definition>
+        <argsstring></argsstring>
+        <name>algo_cost_models_</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::algo_cost_models_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="912" column="24" bodyfile="include/graph/graph_query_optimizer.h" bodystart="912" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_query_optimizer_1adfa2140e7dbd13f18917dcc62ac00234" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_rate_limiter" kindref="compound">QueryRateLimiter</ref></type>
+        <definition>QueryRateLimiter themis::graph::GraphQueryOptimizer::rate_limiter_</definition>
+        <argsstring></argsstring>
+        <name>rate_limiter_</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::rate_limiter_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="915" column="22" bodyfile="include/graph/graph_query_optimizer.h" bodystart="915" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a067cb7d67a53d87eee1df05c65020e4c" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="classthemis_1_1graph_1_1_graph_query_optimizer_1aa9a1bea900442d00b636878514cf9f44" kindref="member">IncrementalQueryHandle</ref>, IncrementalQueryEntry &gt;</type>
+        <definition>std::unordered_map&lt;IncrementalQueryHandle, IncrementalQueryEntry&gt; themis::graph::GraphQueryOptimizer::incremental_queries_</definition>
+        <argsstring></argsstring>
+        <name>incremental_queries_</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::incremental_queries_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="930" column="24" bodyfile="include/graph/graph_query_optimizer.h" bodystart="930" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a6b362212f59a3ae5a21ab4edc6105c9a" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::graph::GraphQueryOptimizer::next_incremental_handle_</definition>
+        <argsstring></argsstring>
+        <name>next_incremental_handle_</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::next_incremental_handle_</qualifiedname>
+        <initializer>{1}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="931" column="17" bodyfile="include/graph/graph_query_optimizer.h" bodystart="931" bodyend="931"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a975e257bb632ac8a0b7dca4f23a3b937" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphQueryOptimizer::MAX_HISTORY_SIZE</definition>
+        <argsstring></argsstring>
+        <name>MAX_HISTORY_SIZE</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::MAX_HISTORY_SIZE</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="905" column="29" bodyfile="include/graph/graph_query_optimizer.h" bodystart="905" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1ad9efb1dbbdad94b412fedaacf1b7e8ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1graph_1_1_graph_query_optimizer_1aa9a1bea900442d00b636878514cf9f44" kindref="member">IncrementalQueryHandle</ref></type>
+        <definition>GraphQueryOptimizer::IncrementalQueryHandle themis::graph::GraphQueryOptimizer::registerIncrementalBFS</definition>
+        <argsstring>(std::string_view start_vertex, int max_depth, const QueryConstraints &amp;constraints, IncrementalQueryCallback callback)</argsstring>
+        <name>registerIncrementalBFS</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::registerIncrementalBFS</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>start_vertex</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_depth</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints" kindref="compound">QueryConstraints</ref> &amp;</type>
+          <declname>constraints</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1graph_1_1_graph_query_optimizer_1aa7f086ff20ba623f93dbb36b14e2ace8" kindref="member">IncrementalQueryCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Register Incremental BFS. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">constraints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="358" column="28" bodyfile="src/graph/graph_query_optimizer.cpp" bodystart="3060" bodyend="3084"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a7b08a3c554a95c920387002ad1541514" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::GraphQueryOptimizer::unregisterIncrementalQuery</definition>
+        <argsstring>(IncrementalQueryHandle handle)</argsstring>
+        <name>unregisterIncrementalQuery</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::unregisterIncrementalQuery</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1graph_1_1_graph_query_optimizer_1aa9a1bea900442d00b636878514cf9f44" kindref="member">IncrementalQueryHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Unregister Incremental Query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="368" column="10" bodyfile="src/graph/graph_query_optimizer.cpp" bodystart="3091" bodyend="3093"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a4fcfc9f19316d6d402f5ef45791fb8d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphQueryOptimizer::onGraphChange</definition>
+        <argsstring>(const GraphChangeSet &amp;changes)</argsstring>
+        <name>onGraphChange</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::onGraphChange</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_change_set" kindref="compound">GraphChangeSet</ref> &amp;</type>
+          <declname>changes</declname>
+        </param>
+        <briefdescription>
+<para>On Graph Change. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">changes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">changes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), insert(), count(), <ref refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a8c53c252f5a2199c2ad3a87f80435825" kindref="member">executeBFS()</ref>, new_result(), value(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="375" column="12" bodyfile="src/graph/graph_query_optimizer.cpp" bodystart="3101" bodyend="3199"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a45e4f764e44238819799a1e8e4bc40f7" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::GraphQueryOptimizer::GraphQueryOptimizer</definition>
+        <argsstring>(GraphIndexManager &amp;graph_manager)</argsstring>
+        <name>GraphQueryOptimizer</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::GraphQueryOptimizer</qualifiedname>
+        <param>
+          <type>GraphIndexManager &amp;</type>
+          <declname>graph_manager</declname>
+        </param>
+        <briefdescription>
+<para>Graph Query Optimizer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">graph_manager</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="387" column="14" bodyfile="src/graph/graph_query_optimizer.cpp" bodystart="116" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a179f9e53d3e363c70a905787d5b146be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_optimization_plan" kindref="compound">OptimizationPlan</ref> &gt;</type>
+        <definition>Result&lt; GraphQueryOptimizer::OptimizationPlan &gt; themis::graph::GraphQueryOptimizer::optimizeShortestPath</definition>
+        <argsstring>(std::string_view start_vertex, std::string_view target_vertex)</argsstring>
+        <name>optimizeShortestPath</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::optimizeShortestPath</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>start_vertex</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>target_vertex</declname>
+        </param>
+        <briefdescription>
+<para>Optimize Shortest Path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: QueryConstraints(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="395" column="12" bodyfile="src/graph/graph_query_optimizer.cpp" bodystart="132" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a2f4a13db2681a0ef62b49a8c9adb4ef1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_optimization_plan" kindref="compound">OptimizationPlan</ref> &gt;</type>
+        <definition>Result&lt; GraphQueryOptimizer::OptimizationPlan &gt; themis::graph::GraphQueryOptimizer::optimizeShortestPath</definition>
+        <argsstring>(std::string_view start_vertex, std::string_view target_vertex, const QueryConstraints &amp;constraints)</argsstring>
+        <name>optimizeShortestPath</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::optimizeShortestPath</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>start_vertex</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>target_vertex</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints" kindref="compound">QueryConstraints</ref> &amp;</type>
+          <declname>constraints</declname>
+        </param>
+        <briefdescription>
+<para>Optimize Shortest Path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">constraints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">constraints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: generatePlanCacheKey(), planCacheLookup(), fetch_add(), Ok(), generateStructuralCacheKey(), planCacheInsert(), estimateDepth(), estimateCost(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="407" column="12" bodyfile="src/graph/graph_query_optimizer.cpp" bodystart="146" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a45b9a3f6c77376478803329300de52df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_optimization_plan" kindref="compound">OptimizationPlan</ref> &gt;</type>
+        <definition>Result&lt; GraphQueryOptimizer::OptimizationPlan &gt; themis::graph::GraphQueryOptimizer::optimizeKHopNeighborhood</definition>
+        <argsstring>(std::string_view start_vertex, int k)</argsstring>
+        <name>optimizeKHopNeighborhood</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::optimizeKHopNeighborhood</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>start_vertex</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+<para>Optimize KHop Neighborhood. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: QueryConstraints(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="419" column="12" bodyfile="src/graph/graph_query_optimizer.cpp" bodystart="255" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1ab68615a45ed70bf03e611dad1d9b4b49" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_optimization_plan" kindref="compound">OptimizationPlan</ref> &gt;</type>
+        <definition>Result&lt; GraphQueryOptimizer::OptimizationPlan &gt; themis::graph::GraphQueryOptimizer::optimizeKHopNeighborhood</definition>
+        <argsstring>(std::string_view start_vertex, int k, const QueryConstraints &amp;constraints)</argsstring>
+        <name>optimizeKHopNeighborhood</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::optimizeKHopNeighborhood</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>start_vertex</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints" kindref="compound">QueryConstraints</ref> &amp;</type>
+          <declname>constraints</declname>
+        </param>
+        <briefdescription>
+<para>Optimize KHop Neighborhood. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">constraints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="431" column="12" bodyfile="src/graph/graph_query_optimizer.cpp" bodystart="261" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a7e568fd6a596cc88e689c825ea26f340" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_optimization_plan" kindref="compound">OptimizationPlan</ref> &gt;</type>
+        <definition>Result&lt; GraphQueryOptimizer::OptimizationPlan &gt; themis::graph::GraphQueryOptimizer::optimizePatternMatch</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;pattern_vertices, const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;pattern_edges)</argsstring>
+        <name>optimizePatternMatch</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::optimizePatternMatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>pattern_vertices</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;</type>
+          <declname>pattern_edges</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="437" column="12" bodyfile="src/graph/graph_query_optimizer.cpp" bodystart="322" bodyend="326"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a07aa60823f42638df1696666d56c6f25" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_optimization_plan" kindref="compound">OptimizationPlan</ref> &gt;</type>
+        <definition>Result&lt; GraphQueryOptimizer::OptimizationPlan &gt; themis::graph::GraphQueryOptimizer::optimizePatternMatch</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;pattern_vertices, const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;pattern_edges, const QueryConstraints &amp;constraints)</argsstring>
+        <name>optimizePatternMatch</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::optimizePatternMatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>pattern_vertices</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;</type>
+          <declname>pattern_edges</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints" kindref="compound">QueryConstraints</ref> &amp;</type>
+          <declname>constraints</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="442" column="12" bodyfile="src/graph/graph_query_optimizer.cpp" bodystart="328" bodyend="387"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1ab232981953dba2fd81c16d4b3bcc0964" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_optimization_plan" kindref="compound">OptimizationPlan</ref> &gt;</type>
+        <definition>Result&lt; GraphQueryOptimizer::OptimizationPlan &gt; themis::graph::GraphQueryOptimizer::optimizeReachability</definition>
+        <argsstring>(std::string_view start_vertex, std::string_view target_vertex)</argsstring>
+        <name>optimizeReachability</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::optimizeReachability</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>start_vertex</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>target_vertex</declname>
+        </param>
+        <briefdescription>
+<para>Optimize Reachability. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: QueryConstraints(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="454" column="12" bodyfile="src/graph/graph_query_optimizer.cpp" bodystart="396" bodyend="400"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1aeac9d3172ad79f5dd8a6e0171ac103cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_optimization_plan" kindref="compound">OptimizationPlan</ref> &gt;</type>
+        <definition>Result&lt; GraphQueryOptimizer::OptimizationPlan &gt; themis::graph::GraphQueryOptimizer::optimizeReachability</definition>
+        <argsstring>(std::string_view start_vertex, std::string_view target_vertex, const QueryConstraints &amp;constraints)</argsstring>
+        <name>optimizeReachability</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::optimizeReachability</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>start_vertex</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>target_vertex</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints" kindref="compound">QueryConstraints</ref> &amp;</type>
+          <declname>constraints</declname>
+        </param>
+        <briefdescription>
+<para>Optimize Reachability. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">constraints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">constraints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: generatePlanCacheKey(), planCacheLookup(), fetch_add(), Ok(), generateStructuralCacheKey(), planCacheInsert(), estimateDepth(), estimateCost(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="466" column="12" bodyfile="src/graph/graph_query_optimizer.cpp" bodystart="410" bodyend="481"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a8c53c252f5a2199c2ad3a87f80435825" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::vector&lt; std::string &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; std::string &gt; &gt; themis::graph::GraphQueryOptimizer::executeBFS</definition>
+        <argsstring>(std::string_view start_vertex, int max_depth, const QueryConstraints &amp;constraints, ExecutionStats *stats=nullptr)</argsstring>
+        <name>executeBFS</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::executeBFS</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>start_vertex</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_depth</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints" kindref="compound">QueryConstraints</ref> &amp;</type>
+          <declname>constraints</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_execution_stats" kindref="compound">ExecutionStats</ref> *</type>
+          <declname>stats</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Execute BFS. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">constraints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: allowQuery(), std::chrono::steady_clock::now(), estimateCost(), gpu_trav(), load(), has_value(), value(), bfs(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="472" column="12" bodyfile="src/graph/graph_query_optimizer.cpp" bodystart="856" bodyend="1098"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1aea8dd31c62c4503ca15c167311cb40ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::vector&lt; std::string &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; std::string &gt; &gt; themis::graph::GraphQueryOptimizer::executeDFS</definition>
+        <argsstring>(std::string_view start_vertex, int max_depth, const QueryConstraints &amp;constraints, ExecutionStats *stats=nullptr)</argsstring>
+        <name>executeDFS</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::executeDFS</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>start_vertex</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_depth</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints" kindref="compound">QueryConstraints</ref> &amp;</type>
+          <declname>constraints</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_execution_stats" kindref="compound">ExecutionStats</ref> *</type>
+          <declname>stats</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Execute DFS. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">constraints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: allowQuery(), std::chrono::steady_clock::now(), estimateCost(), gpu_trav(), load(), has_value(), value(), dfs(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="479" column="12" bodyfile="src/graph/graph_query_optimizer.cpp" bodystart="1109" bodyend="1239"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1ad17afca8b2f46085bad466f26a7fc3a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; GraphIndexManager::PathResult &gt;</type>
+        <definition>Result&lt; GraphIndexManager::PathResult &gt; themis::graph::GraphQueryOptimizer::executeDijkstra</definition>
+        <argsstring>(std::string_view start_vertex, std::string_view target_vertex, const QueryConstraints &amp;constraints, ExecutionStats *stats=nullptr)</argsstring>
+        <name>executeDijkstra</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::executeDijkstra</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>start_vertex</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>target_vertex</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints" kindref="compound">QueryConstraints</ref> &amp;</type>
+          <declname>constraints</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_execution_stats" kindref="compound">ExecutionStats</ref> *</type>
+          <declname>stats</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Execute Dijkstra. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">constraints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: allowQuery(), std::chrono::steady_clock::now(), has_value(), value(), estimateCost(), start(), target(), std::thread::hardware_concurrency(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="486" column="12" bodyfile="src/graph/graph_query_optimizer.cpp" bodystart="1392" bodyend="1701"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a94d30252a73978b0b275f9d9e4bff766" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::shared_ptr&lt; <ref refid="classthemis_1_1query_1_1_result_stream" kindref="compound">query::ResultStream</ref>&lt; std::string &gt; &gt; &gt;</type>
+        <definition>Result&lt; std::shared_ptr&lt; query::ResultStream&lt; std::string &gt; &gt; &gt; themis::graph::GraphQueryOptimizer::streamBFS</definition>
+        <argsstring>(std::string_view start_vertex, int max_depth)</argsstring>
+        <name>streamBFS</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::streamBFS</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>start_vertex</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_depth</declname>
+        </param>
+        <briefdescription>
+<para>Stream BFS. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements streamBFS without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="499" column="12" bodyfile="src/graph/graph_query_optimizer.cpp" bodystart="1248" bodyend="1253"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a6681e750c879679e8bc18a312ef23991" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::shared_ptr&lt; <ref refid="classthemis_1_1query_1_1_result_stream" kindref="compound">query::ResultStream</ref>&lt; std::string &gt; &gt; &gt;</type>
+        <definition>Result&lt; std::shared_ptr&lt; query::ResultStream&lt; std::string &gt; &gt; &gt; themis::graph::GraphQueryOptimizer::streamBFS</definition>
+        <argsstring>(std::string_view start_vertex, int max_depth, const query::StreamConfig &amp;stream_config)</argsstring>
+        <name>streamBFS</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::streamBFS</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>start_vertex</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_depth</declname>
+        </param>
+        <param>
+          <type>const query::StreamConfig &amp;</type>
+          <declname>stream_config</declname>
+        </param>
+        <briefdescription>
+<para>Stream BFS. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">stream_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">stream_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements streamBFS without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="511" column="12" bodyfile="src/graph/graph_query_optimizer.cpp" bodystart="1263" bodyend="1269"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1adcb84b1c747c1105e1744755e82eea68" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::shared_ptr&lt; <ref refid="classthemis_1_1query_1_1_result_stream" kindref="compound">query::ResultStream</ref>&lt; std::string &gt; &gt; &gt;</type>
+        <definition>Result&lt; std::shared_ptr&lt; query::ResultStream&lt; std::string &gt; &gt; &gt; themis::graph::GraphQueryOptimizer::streamBFS</definition>
+        <argsstring>(std::string_view start_vertex, int max_depth, const QueryConstraints &amp;constraints)</argsstring>
+        <name>streamBFS</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::streamBFS</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>start_vertex</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_depth</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints" kindref="compound">QueryConstraints</ref> &amp;</type>
+          <declname>constraints</declname>
+        </param>
+        <briefdescription>
+<para>Stream BFS. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">constraints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">constraints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements streamBFS without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="524" column="12" bodyfile="src/graph/graph_query_optimizer.cpp" bodystart="1279" bodyend="1285"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a692f0d6ac3191e3cf6daef1285374b69" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::shared_ptr&lt; <ref refid="classthemis_1_1query_1_1_result_stream" kindref="compound">query::ResultStream</ref>&lt; std::string &gt; &gt; &gt;</type>
+        <definition>Result&lt; std::shared_ptr&lt; query::ResultStream&lt; std::string &gt; &gt; &gt; themis::graph::GraphQueryOptimizer::streamBFS</definition>
+        <argsstring>(std::string_view start_vertex, int max_depth, const QueryConstraints &amp;constraints, const query::StreamConfig &amp;stream_config)</argsstring>
+        <name>streamBFS</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::streamBFS</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>start_vertex</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_depth</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints" kindref="compound">QueryConstraints</ref> &amp;</type>
+          <declname>constraints</declname>
+        </param>
+        <param>
+          <type>const query::StreamConfig &amp;</type>
+          <declname>stream_config</declname>
+        </param>
+        <briefdescription>
+<para>Stream BFS. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">constraints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">stream_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">constraints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">stream_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a8c53c252f5a2199c2ad3a87f80435825" kindref="member">executeBFS()</ref>, error(), code(), context(), Ok(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="538" column="12" bodyfile="src/graph/graph_query_optimizer.cpp" bodystart="1296" bodyend="1310"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a8745d21e803ea0b6383dc36e21a88dcb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::shared_ptr&lt; <ref refid="classthemis_1_1query_1_1_result_stream" kindref="compound">query::ResultStream</ref>&lt; std::string &gt; &gt; &gt;</type>
+        <definition>Result&lt; std::shared_ptr&lt; query::ResultStream&lt; std::string &gt; &gt; &gt; themis::graph::GraphQueryOptimizer::streamDFS</definition>
+        <argsstring>(std::string_view start_vertex, int max_depth)</argsstring>
+        <name>streamDFS</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::streamDFS</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>start_vertex</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_depth</declname>
+        </param>
+        <briefdescription>
+<para>Stream DFS. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements streamDFS without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="551" column="12" bodyfile="src/graph/graph_query_optimizer.cpp" bodystart="1319" bodyend="1324"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a3b450362a835d66d620d9ed41c5c97da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::shared_ptr&lt; <ref refid="classthemis_1_1query_1_1_result_stream" kindref="compound">query::ResultStream</ref>&lt; std::string &gt; &gt; &gt;</type>
+        <definition>Result&lt; std::shared_ptr&lt; query::ResultStream&lt; std::string &gt; &gt; &gt; themis::graph::GraphQueryOptimizer::streamDFS</definition>
+        <argsstring>(std::string_view start_vertex, int max_depth, const query::StreamConfig &amp;stream_config)</argsstring>
+        <name>streamDFS</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::streamDFS</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>start_vertex</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_depth</declname>
+        </param>
+        <param>
+          <type>const query::StreamConfig &amp;</type>
+          <declname>stream_config</declname>
+        </param>
+        <briefdescription>
+<para>Stream DFS. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">stream_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">stream_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements streamDFS without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="563" column="12" bodyfile="src/graph/graph_query_optimizer.cpp" bodystart="1334" bodyend="1340"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a79cc9a7c914ffc3033a0fd3c629c3eb8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::shared_ptr&lt; <ref refid="classthemis_1_1query_1_1_result_stream" kindref="compound">query::ResultStream</ref>&lt; std::string &gt; &gt; &gt;</type>
+        <definition>Result&lt; std::shared_ptr&lt; query::ResultStream&lt; std::string &gt; &gt; &gt; themis::graph::GraphQueryOptimizer::streamDFS</definition>
+        <argsstring>(std::string_view start_vertex, int max_depth, const QueryConstraints &amp;constraints)</argsstring>
+        <name>streamDFS</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::streamDFS</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>start_vertex</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_depth</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints" kindref="compound">QueryConstraints</ref> &amp;</type>
+          <declname>constraints</declname>
+        </param>
+        <briefdescription>
+<para>Stream DFS. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">constraints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">constraints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements streamDFS without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="576" column="12" bodyfile="src/graph/graph_query_optimizer.cpp" bodystart="1350" bodyend="1356"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1ab1fbaed49603a4cdaf86adc23de03286" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::shared_ptr&lt; <ref refid="classthemis_1_1query_1_1_result_stream" kindref="compound">query::ResultStream</ref>&lt; std::string &gt; &gt; &gt;</type>
+        <definition>Result&lt; std::shared_ptr&lt; query::ResultStream&lt; std::string &gt; &gt; &gt; themis::graph::GraphQueryOptimizer::streamDFS</definition>
+        <argsstring>(std::string_view start_vertex, int max_depth, const QueryConstraints &amp;constraints, const query::StreamConfig &amp;stream_config)</argsstring>
+        <name>streamDFS</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::streamDFS</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>start_vertex</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_depth</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints" kindref="compound">QueryConstraints</ref> &amp;</type>
+          <declname>constraints</declname>
+        </param>
+        <param>
+          <type>const query::StreamConfig &amp;</type>
+          <declname>stream_config</declname>
+        </param>
+        <briefdescription>
+<para>Stream DFS. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">constraints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">stream_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">constraints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">stream_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1graph_1_1_graph_query_optimizer_1aea8dd31c62c4503ca15c167311cb40ea" kindref="member">executeDFS()</ref>, error(), code(), context(), Ok(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="590" column="12" bodyfile="src/graph/graph_query_optimizer.cpp" bodystart="1367" bodyend="1381"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1af23ccf11eba3421a6cbcbda81d003461" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; GraphIndexManager::PathResult &gt;</type>
+        <definition>Result&lt; GraphIndexManager::PathResult &gt; themis::graph::GraphQueryOptimizer::executeAStar</definition>
+        <argsstring>(std::string_view start_vertex, std::string_view target_vertex, std::function&lt; double(const std::string &amp;)&gt; heuristic, const QueryConstraints &amp;constraints, ExecutionStats *stats=nullptr)</argsstring>
+        <name>executeAStar</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::executeAStar</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>start_vertex</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>target_vertex</declname>
+        </param>
+        <param>
+          <type>std::function&lt; double(const std::string &amp;)&gt;</type>
+          <declname>heuristic</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints" kindref="compound">QueryConstraints</ref> &amp;</type>
+          <declname>constraints</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_execution_stats" kindref="compound">ExecutionStats</ref> *</type>
+          <declname>stats</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="597" column="12" bodyfile="src/graph/graph_query_optimizer.cpp" bodystart="1703" bodyend="1748"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a6d664f5557d9e292373dc3d361458aa5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; GraphIndexManager::PathResult &gt;</type>
+        <definition>Result&lt; GraphIndexManager::PathResult &gt; themis::graph::GraphQueryOptimizer::executeBidirectional</definition>
+        <argsstring>(std::string_view start_vertex, std::string_view target_vertex, const QueryConstraints &amp;constraints, ExecutionStats *stats=nullptr)</argsstring>
+        <name>executeBidirectional</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::executeBidirectional</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>start_vertex</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>target_vertex</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints" kindref="compound">QueryConstraints</ref> &amp;</type>
+          <declname>constraints</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_execution_stats" kindref="compound">ExecutionStats</ref> *</type>
+          <declname>stats</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Execute Bidirectional. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">constraints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: allowQuery(), std::chrono::steady_clock::now(), has_value(), value(), estimateCost(), push(), std::string(), max(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="605" column="12" bodyfile="src/graph/graph_query_optimizer.cpp" bodystart="1759" bodyend="1939"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1af665471f96090aeb5b6c7d367e5d3852" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_subgraph_isomorphism_result" kindref="compound">SubgraphIsomorphismResult</ref> &gt;</type>
+        <definition>Result&lt; GraphQueryOptimizer::SubgraphIsomorphismResult &gt; themis::graph::GraphQueryOptimizer::executeSubgraphIsomorphism</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;pattern_vertices, const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;pattern_edges, ExecutionStats *stats=nullptr)</argsstring>
+        <name>executeSubgraphIsomorphism</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::executeSubgraphIsomorphism</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>pattern_vertices</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;</type>
+          <declname>pattern_edges</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_execution_stats" kindref="compound">ExecutionStats</ref> *</type>
+          <declname>stats</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="612" column="12" bodyfile="src/graph/graph_query_optimizer.cpp" bodystart="1946" bodyend="1956"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1aafb83d2245d70c587219c2a872320603" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_subgraph_isomorphism_result" kindref="compound">SubgraphIsomorphismResult</ref> &gt;</type>
+        <definition>Result&lt; GraphQueryOptimizer::SubgraphIsomorphismResult &gt; themis::graph::GraphQueryOptimizer::executeSubgraphIsomorphism</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;pattern_vertices, const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;pattern_edges, const QueryConstraints &amp;constraints, ExecutionStats *stats=nullptr)</argsstring>
+        <name>executeSubgraphIsomorphism</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::executeSubgraphIsomorphism</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>pattern_vertices</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;</type>
+          <declname>pattern_edges</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints" kindref="compound">QueryConstraints</ref> &amp;</type>
+          <declname>constraints</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_execution_stats" kindref="compound">ExecutionStats</ref> *</type>
+          <declname>stats</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="618" column="12" bodyfile="src/graph/graph_query_optimizer.cpp" bodystart="1959" bodyend="2196"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a096cdbc1047fac5b249e11e4e63805b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_statistics" kindref="compound">GraphStatistics</ref> &gt;</type>
+        <definition>Result&lt; GraphQueryOptimizer::GraphStatistics &gt; themis::graph::GraphQueryOptimizer::collectStatistics</definition>
+        <argsstring>(std::optional&lt; std::string_view &gt; graph_id=std::nullopt)</argsstring>
+        <name>collectStatistics</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::collectStatistics</qualifiedname>
+        <param>
+          <type>std::optional&lt; std::string_view &gt;</type>
+          <declname>graph_id</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="625" column="12" bodyfile="src/graph/graph_query_optimizer.cpp" bodystart="2198" bodyend="2252"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a9ca263724673d6c647f73c5785ef2fe2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_statistics" kindref="compound">GraphStatistics</ref> &amp;</type>
+        <definition>const GraphStatistics &amp; themis::graph::GraphQueryOptimizer::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::getStatistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="629" column="27" bodyfile="include/graph/graph_query_optimizer.h" bodystart="629" bodyend="629"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a576897d2b1e28fe2d1a73cd36b92a430" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::GraphQueryOptimizer::setNodeLabelStats</definition>
+        <argsstring>(const std::unordered_map&lt; std::string, size_t &gt; &amp;label_counts)</argsstring>
+        <name>setNodeLabelStats</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::setNodeLabelStats</qualifiedname>
+        <param>
+          <type>const std::unordered_map&lt; std::string, size_t &gt; &amp;</type>
+          <declname>label_counts</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="631" column="10" bodyfile="src/graph/graph_query_optimizer.cpp" bodystart="2262" bodyend="2274"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a583a82109d1836efd017dea90df00991" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::graph::GraphQueryOptimizer::estimateEdgeTypeSelectivity</definition>
+        <argsstring>(std::string_view edge_type) const</argsstring>
+        <name>estimateEdgeTypeSelectivity</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::estimateEdgeTypeSelectivity</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>edge_type</declname>
+        </param>
+        <briefdescription>
+<para>Estimate <ref refid="structthemis_1_1graph_1_1_edge" kindref="compound">Edge</ref> Type Selectivity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">edge_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="638" column="12" bodyfile="src/graph/graph_query_optimizer.cpp" bodystart="2254" bodyend="2260"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1ad0bc5ef77006e7df39d056ac602a1bd9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::graph::GraphQueryOptimizer::explainPlan</definition>
+        <argsstring>(const OptimizationPlan &amp;plan) const</argsstring>
+        <name>explainPlan</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::explainPlan</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_optimization_plan" kindref="compound">OptimizationPlan</ref> &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <briefdescription>
+<para>Explain Plan. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="645" column="17" bodyfile="src/graph/graph_query_optimizer.cpp" bodystart="2276" bodyend="2348"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1ab198094f919def1e78afc93d1503fe4b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::GraphQueryOptimizer::setPlanCachingEnabled</definition>
+        <argsstring>(bool enabled)</argsstring>
+        <name>setPlanCachingEnabled</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::setPlanCachingEnabled</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+        </param>
+        <briefdescription>
+<para>Set Plan Caching Enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">enabled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setPlanCachingEnabled without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="652" column="10" bodyfile="include/graph/graph_query_optimizer.h" bodystart="652" bodyend="652"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a4e869b78cb8f42a15b4eb42df9a8c08b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::GraphQueryOptimizer::setPlanCacheMaxSize</definition>
+        <argsstring>(size_t max_size)</argsstring>
+        <name>setPlanCacheMaxSize</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::setPlanCacheMaxSize</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>max_size</declname>
+        </param>
+        <briefdescription>
+<para>Set Plan Cache Max Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">max_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setPlanCacheMaxSize without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="659" column="10" bodyfile="include/graph/graph_query_optimizer.h" bodystart="659" bodyend="659"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a1ffa90c02fca8b6a368b0e02d850a230" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphQueryOptimizer::getPlanCacheMaxSize</definition>
+        <argsstring>() const</argsstring>
+        <name>getPlanCacheMaxSize</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::getPlanCacheMaxSize</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="661" column="12" bodyfile="include/graph/graph_query_optimizer.h" bodystart="661" bodyend="661"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a0f53f61e57e264697d94980d8885589d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::GraphQueryOptimizer::setPlanCacheTTL</definition>
+        <argsstring>(std::chrono::milliseconds ttl)</argsstring>
+        <name>setPlanCacheTTL</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::setPlanCacheTTL</qualifiedname>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>ttl</declname>
+        </param>
+        <briefdescription>
+<para>Set Plan Cache TTL. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ttl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setPlanCacheTTL without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="668" column="10" bodyfile="include/graph/graph_query_optimizer.h" bodystart="668" bodyend="668"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a5e732ed76f3bcd75f49698ef5b248417" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::graph::GraphQueryOptimizer::getPlanCacheTTL</definition>
+        <argsstring>() const</argsstring>
+        <name>getPlanCacheTTL</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::getPlanCacheTTL</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="670" column="31" bodyfile="include/graph/graph_query_optimizer.h" bodystart="670" bodyend="670"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1ab324b32946183d4539b74de8f6530759" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphQueryOptimizer::getPlanCacheSize</definition>
+        <argsstring>() const</argsstring>
+        <name>getPlanCacheSize</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::getPlanCacheSize</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plan_cache_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="672" column="12" bodyfile="include/graph/graph_query_optimizer.h" bodystart="672" bodyend="680"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a3389a53ab8aeffa9c6671318af895c4a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::GraphQueryOptimizer::clearPlanCache</definition>
+        <argsstring>()</argsstring>
+        <name>clearPlanCache</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::clearPlanCache</qualifiedname>
+        <briefdescription>
+<para>Clear Plan Cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lk(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="685" column="10" bodyfile="src/graph/graph_query_optimizer.cpp" bodystart="2354" bodyend="2358"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1aef62d9c3992d436b7d283b1c5ea18038" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_execution_stats" kindref="compound">ExecutionStats</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt; ExecutionStats &gt; &amp; themis::graph::GraphQueryOptimizer::getExecutionHistory</definition>
+        <argsstring>() const</argsstring>
+        <name>getExecutionHistory</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::getExecutionHistory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="687" column="23" bodyfile="include/graph/graph_query_optimizer.h" bodystart="687" bodyend="689"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a9712e6f45e013889887c4f46a907bbf9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_query_metrics" kindref="compound">GraphQueryMetrics</ref> &amp;</type>
+        <definition>const GraphQueryMetrics &amp; themis::graph::GraphQueryOptimizer::getQueryMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>getQueryMetrics</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::getQueryMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="691" column="29" bodyfile="include/graph/graph_query_optimizer.h" bodystart="691" bodyend="691"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1ad855d1265a24c6923f955f9f2a746aa0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::GraphQueryOptimizer::enableAdaptiveLearning</definition>
+        <argsstring>(bool enable)</argsstring>
+        <name>enableAdaptiveLearning</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::enableAdaptiveLearning</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enable</declname>
+        </param>
+        <briefdescription>
+<para>Enable Adaptive Learning. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">enable</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements enableAdaptiveLearning without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="727" column="10" bodyfile="include/graph/graph_query_optimizer.h" bodystart="727" bodyend="727"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a18436b47ca9c7f14ca9daba09e3c780a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graph::GraphQueryOptimizer::isAdaptiveLearningEnabled</definition>
+        <argsstring>() const</argsstring>
+        <name>isAdaptiveLearningEnabled</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::isAdaptiveLearningEnabled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="729" column="10" bodyfile="include/graph/graph_query_optimizer.h" bodystart="729" bodyend="729"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1ac91f6e75f7da20e82241ee14b995e521" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::graph::GraphQueryOptimizer::exportCostModel</definition>
+        <argsstring>() const</argsstring>
+        <name>exportCostModel</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::exportCostModel</qualifiedname>
+        <briefdescription>
+<para>Export Cost Model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="735" column="17" bodyfile="src/graph/graph_query_optimizer.cpp" bodystart="2916" bodyend="2927"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1aa5b9a112338d78276c45dfb5b3f17b98" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graph::GraphQueryOptimizer::importCostModel</definition>
+        <argsstring>(std::string_view json_model)</argsstring>
+        <name>importCostModel</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::importCostModel</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>json_model</declname>
+        </param>
+        <briefdescription>
+<para>Import Cost Model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">json_model</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">json_model</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: nlohmann::json::parse(), is_object(), algoNameMap(), items(), find(), end(), value(), std::max(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="742" column="10" bodyfile="src/graph/graph_query_optimizer.cpp" bodystart="2935" bodyend="2960"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a1537767380bc8985abf4847f99cdba13" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::unordered_map&lt; <ref refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a8bc6cdb3932ab5ce8c4e96091c864b56" kindref="member">TraversalAlgorithm</ref>, <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_algorithm_cost_model" kindref="compound">AlgorithmCostModel</ref>, std::hash&lt; <ref refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a8bc6cdb3932ab5ce8c4e96091c864b56" kindref="member">TraversalAlgorithm</ref> &gt; &gt; &amp;</type>
+        <definition>const std::unordered_map&lt; TraversalAlgorithm, AlgorithmCostModel, std::hash&lt; TraversalAlgorithm &gt; &gt; &amp; themis::graph::GraphQueryOptimizer::getAlgorithmCostModels</definition>
+        <argsstring>() const</argsstring>
+        <name>getAlgorithmCostModels</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::getAlgorithmCostModels</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="745" column="9" bodyfile="include/graph/graph_query_optimizer.h" bodystart="745" bodyend="745"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1af4381e436d7453ec4b065a9a54c2ad87" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_cost_model_calibration_report" kindref="compound">CostModelCalibrationReport</ref></type>
+        <definition>GraphQueryOptimizer::CostModelCalibrationReport themis::graph::GraphQueryOptimizer::calibrateFromHistory</definition>
+        <argsstring>()</argsstring>
+        <name>calibrateFromHistory</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::calibrateFromHistory</qualifiedname>
+        <briefdescription>
+<para>Calibrate From History. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="778" column="32" bodyfile="src/graph/graph_query_optimizer.cpp" bodystart="2967" bodyend="3053"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a527de370b3fbdcfdfeac5cdb83303873" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::GraphQueryOptimizer::setMaxQueriesPerSecond</definition>
+        <argsstring>(uint32_t max_qps)</argsstring>
+        <name>setMaxQueriesPerSecond</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::setMaxQueriesPerSecond</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>max_qps</declname>
+        </param>
+        <briefdescription>
+<para>--------------------------------------------------------------------<mdash/> Query Rate Limiter (v1. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">max_qps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+7.0) --------------------------------------------------------------------<mdash/> Implements setMaxQueriesPerSecond without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="788" column="10" bodyfile="include/graph/graph_query_optimizer.h" bodystart="788" bodyend="788"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a410083e86c0bf9b3b59cf6d175910005" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::graph::GraphQueryOptimizer::getMaxQueriesPerSecond</definition>
+        <argsstring>() const</argsstring>
+        <name>getMaxQueriesPerSecond</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::getMaxQueriesPerSecond</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="790" column="14" bodyfile="include/graph/graph_query_optimizer.h" bodystart="790" bodyend="790"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1ac211083ce1219850cff4884cba96697c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_optimization_plan" kindref="compound">OptimizationPlan</ref> &gt;</type>
+        <definition>Result&lt; GraphQueryOptimizer::OptimizationPlan &gt; themis::graph::GraphQueryOptimizer::optimizeConstrainedPath</definition>
+        <argsstring>(std::string_view start_vertex, std::string_view end_vertex, const class PathConstraints &amp;constraints)</argsstring>
+        <name>optimizeConstrainedPath</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::optimizeConstrainedPath</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>start_vertex</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>end_vertex</declname>
+        </param>
+        <param>
+          <type>const class <ref refid="classthemis_1_1graph_1_1_path_constraints" kindref="compound">PathConstraints</ref> &amp;</type>
+          <declname>constraints</declname>
+        </param>
+        <briefdescription>
+<para>Optimize Constrained Path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">end_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">constraints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">end_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">constraints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getConstraints(), estimateDepth(), QueryConstraints(), size(), estimateCost(), std::pow(), str(), Ok(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="799" column="12" bodyfile="src/graph/graph_query_optimizer.cpp" bodystart="491" bodyend="588"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a54ad60d0b696cad70a2e65479a6c3978" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_optimization_plan" kindref="compound">OptimizationPlan</ref> &gt;</type>
+        <definition>Result&lt; GraphQueryOptimizer::OptimizationPlan &gt; themis::graph::GraphQueryOptimizer::explainConstrainedPath</definition>
+        <argsstring>(std::string_view start_vertex, std::string_view end_vertex, const class PathConstraints &amp;constraints)</argsstring>
+        <name>explainConstrainedPath</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::explainConstrainedPath</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>start_vertex</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>end_vertex</declname>
+        </param>
+        <param>
+          <type>const class <ref refid="classthemis_1_1graph_1_1_path_constraints" kindref="compound">PathConstraints</ref> &amp;</type>
+          <declname>constraints</declname>
+        </param>
+        <briefdescription>
+<para>Explain Constrained Path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">end_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">constraints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">end_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">constraints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1graph_1_1_graph_query_optimizer_1ac211083ce1219850cff4884cba96697c" kindref="member">optimizeConstrainedPath()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="812" column="12" bodyfile="src/graph/graph_query_optimizer.cpp" bodystart="598" bodyend="606"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a33af7390b7b72d1bb817000184ca36aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_optimization_plan" kindref="compound">OptimizationPlan</ref> &gt;</type>
+        <definition>Result&lt; GraphQueryOptimizer::OptimizationPlan &gt; themis::graph::GraphQueryOptimizer::optimizeTemporalTraversal</definition>
+        <argsstring>(std::string_view start_vertex, int max_depth, const QueryConstraints &amp;constraints)</argsstring>
+        <name>optimizeTemporalTraversal</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::optimizeTemporalTraversal</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>start_vertex</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_depth</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints" kindref="compound">QueryConstraints</ref> &amp;</type>
+          <declname>constraints</declname>
+        </param>
+        <briefdescription>
+<para>--------------------------------------------------------------------<mdash/> Temporal Graph Query Optimization (Phase 3) --------------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para>───────────────────────────────────────────────────────────────────────────── Temporal Graph Query Optimization (Phase 3) ─────────────────────────────────────────────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">constraints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">constraints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: generateStructuralCacheKey(), planCacheLookup(), fetch_add(), Ok(), estimateCost(), hasTemporalRange(), has_value(), std::max(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="826" column="12" bodyfile="src/graph/graph_query_optimizer.cpp" bodystart="617" bodyend="709"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a686f9dd5de9728acf2e8d3aaab1be920" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::vector&lt; std::string &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; std::string &gt; &gt; themis::graph::GraphQueryOptimizer::executeTemporalBFS</definition>
+        <argsstring>(std::string_view start_vertex, int max_depth, const QueryConstraints &amp;constraints, ExecutionStats *stats=nullptr)</argsstring>
+        <name>executeTemporalBFS</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::executeTemporalBFS</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>start_vertex</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_depth</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints" kindref="compound">QueryConstraints</ref> &amp;</type>
+          <declname>constraints</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_execution_stats" kindref="compound">ExecutionStats</ref> *</type>
+          <declname>stats</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Execute Temporal BFS. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">constraints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: allowQuery(), hasTemporalRange(), <ref refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a8c53c252f5a2199c2ad3a87f80435825" kindref="member">executeBFS()</ref>, value_or(), min(), max(), std::chrono::steady_clock::now(), estimateCost(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="832" column="12" bodyfile="src/graph/graph_query_optimizer.cpp" bodystart="720" bodyend="845"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1af82a68cb39662efa53ac7ce8886355c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::GraphQueryOptimizer::attachAnalytics</definition>
+        <argsstring>(GraphAnalytics &amp;analytics)</argsstring>
+        <name>attachAnalytics</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::attachAnalytics</qualifiedname>
+        <param>
+          <type>GraphAnalytics &amp;</type>
+          <declname>analytics</declname>
+        </param>
+        <briefdescription>
+<para>Analytics Module Integration (Issue #1821) --------------------------------------------------------------------<mdash/>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Analytics Module Integration (Issue #1821) ─────────────────────────────────────────────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">analytics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">analytics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements attachAnalytics without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="843" column="10" bodyfile="src/graph/graph_query_optimizer.cpp" bodystart="3207" bodyend="3209"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1ab35f9d5c9bb290d56dc86345d246e97a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::GraphQueryOptimizer::detachAnalytics</definition>
+        <argsstring>()</argsstring>
+        <name>detachAnalytics</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::detachAnalytics</qualifiedname>
+        <briefdescription>
+<para>Detach Analytics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements detachAnalytics without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="848" column="10" bodyfile="src/graph/graph_query_optimizer.cpp" bodystart="3215" bodyend="3217"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a9efc89a3600e6c416e587b1a40987cf5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graph::GraphQueryOptimizer::hasAnalytics</definition>
+        <argsstring>() const</argsstring>
+        <name>hasAnalytics</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::hasAnalytics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="850" column="10" bodyfile="include/graph/graph_query_optimizer.h" bodystart="850" bodyend="850"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a80f8fe3f9b3955625005ec3cd6603381" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::vector&lt; GraphAnalytics::PathInfo &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; GraphAnalytics::PathInfo &gt; &gt; themis::graph::GraphQueryOptimizer::executeKShortestPaths</definition>
+        <argsstring>(std::string_view source, std::string_view target, int k, const QueryConstraints &amp;constraints, std::string_view weight_attr=&quot;&quot;, ExecutionStats *stats=nullptr)</argsstring>
+        <name>executeKShortestPaths</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::executeKShortestPaths</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>source</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints" kindref="compound">QueryConstraints</ref> &amp;</type>
+          <declname>constraints</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>weight_attr</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_execution_stats" kindref="compound">ExecutionStats</ref> *</type>
+          <declname>stats</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Execute KShortest Paths. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">constraints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">weight_attr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="852" column="12" bodyfile="src/graph/graph_query_optimizer.cpp" bodystart="3229" bodyend="3310"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a5d656ceb03d2a02c4b2ef776e0e0a1ab" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::GraphQueryOptimizer::planCacheInsert</definition>
+        <argsstring>(const std::string &amp;key, const OptimizationPlan &amp;plan)</argsstring>
+        <name>planCacheInsert</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::planCacheInsert</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_optimization_plan" kindref="compound">OptimizationPlan</ref> &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <briefdescription>
+<para>Plan Cache Insert. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>───────────────────────────────────────────────────────────────────────────── Plan cache helpers: LRU eviction + TTL expiry ─────────────────────────────────────────────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), find(), end(), std::chrono::steady_clock::now(), splice(), begin(), size(), back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="894" column="10" bodyfile="src/graph/graph_query_optimizer.cpp" bodystart="2367" bodyend="2392"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a67528d4da22c0623df96cfa2ad580b12" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_optimization_plan" kindref="compound">OptimizationPlan</ref> &gt;</type>
+        <definition>std::optional&lt; GraphQueryOptimizer::OptimizationPlan &gt; themis::graph::GraphQueryOptimizer::planCacheLookup</definition>
+        <argsstring>(const std::string &amp;key)</argsstring>
+        <name>planCacheLookup</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::planCacheLookup</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Plan Cache Lookup. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plan_cache_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="901" column="19" bodyfile="src/graph/graph_query_optimizer.cpp" bodystart="2395" bodyend="2425"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a32afbfe85036c89980d6bb02e51375f9" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::graph::GraphQueryOptimizer::estimateCost</definition>
+        <argsstring>(TraversalAlgorithm algorithm, size_t estimated_depth, const QueryConstraints &amp;constraints) const</argsstring>
+        <name>estimateCost</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::estimateCost</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a8bc6cdb3932ab5ce8c4e96091c864b56" kindref="member">TraversalAlgorithm</ref></type>
+          <declname>algorithm</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>estimated_depth</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints" kindref="compound">QueryConstraints</ref> &amp;</type>
+          <declname>constraints</declname>
+        </param>
+        <briefdescription>
+<para>Estimate Cost. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">algorithm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">estimated_depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">constraints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="940" column="12" bodyfile="src/graph/graph_query_optimizer.cpp" bodystart="2427" bodyend="2550"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a44283a5458e370916c75620c2c00e42e" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a8bc6cdb3932ab5ce8c4e96091c864b56" kindref="member">TraversalAlgorithm</ref></type>
+        <definition>GraphQueryOptimizer::TraversalAlgorithm themis::graph::GraphQueryOptimizer::selectAlgorithm</definition>
+        <argsstring>(QueryPattern pattern, size_t estimated_depth, const QueryConstraints &amp;constraints) const</argsstring>
+        <name>selectAlgorithm</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::selectAlgorithm</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a18766e7448153fed23be2b6b4a8884d5" kindref="member">QueryPattern</ref></type>
+          <declname>pattern</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>estimated_depth</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints" kindref="compound">QueryConstraints</ref> &amp;</type>
+          <declname>constraints</declname>
+        </param>
+        <briefdescription>
+<para>Select Algorithm. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pattern</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">estimated_depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">constraints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="953" column="24" bodyfile="src/graph/graph_query_optimizer.cpp" bodystart="2552" bodyend="2637"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a707f9a5c1bf0416bf988d39f3cc0a100" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphQueryOptimizer::estimateDepth</definition>
+        <argsstring>(QueryPattern pattern, const QueryConstraints &amp;constraints) const</argsstring>
+        <name>estimateDepth</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::estimateDepth</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a18766e7448153fed23be2b6b4a8884d5" kindref="member">QueryPattern</ref></type>
+          <declname>pattern</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints" kindref="compound">QueryConstraints</ref> &amp;</type>
+          <declname>constraints</declname>
+        </param>
+        <briefdescription>
+<para>Estimate Depth. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pattern</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">constraints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="965" column="12" bodyfile="src/graph/graph_query_optimizer.cpp" bodystart="2639" bodyend="2676"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1abca49abe5d66caf4d28a41a456c43cec" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::graph::GraphQueryOptimizer::generatePlanCacheKey</definition>
+        <argsstring>(QueryPattern pattern, std::string_view start, std::string_view target, const QueryConstraints &amp;constraints) const</argsstring>
+        <name>generatePlanCacheKey</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::generatePlanCacheKey</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a18766e7448153fed23be2b6b4a8884d5" kindref="member">QueryPattern</ref></type>
+          <declname>pattern</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>start</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints" kindref="compound">QueryConstraints</ref> &amp;</type>
+          <declname>constraints</declname>
+        </param>
+        <briefdescription>
+<para>Generate Plan Cache Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pattern</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">start</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">constraints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="978" column="17" bodyfile="src/graph/graph_query_optimizer.cpp" bodystart="2678" bodyend="2735"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1af3ba6fb74600751e50055d928e1a4dbb" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::graph::GraphQueryOptimizer::generateStructuralCacheKey</definition>
+        <argsstring>(QueryPattern pattern, const QueryConstraints &amp;constraints, std::optional&lt; size_t &gt; depth_hint=std::nullopt) const</argsstring>
+        <name>generateStructuralCacheKey</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::generateStructuralCacheKey</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a18766e7448153fed23be2b6b4a8884d5" kindref="member">QueryPattern</ref></type>
+          <declname>pattern</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints" kindref="compound">QueryConstraints</ref> &amp;</type>
+          <declname>constraints</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; size_t &gt;</type>
+          <declname>depth_hint</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="985" column="17" bodyfile="src/graph/graph_query_optimizer.cpp" bodystart="2737" bodyend="2811"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a44e7f8a5bd84ea3d0293694e14754eab" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graph::GraphQueryOptimizer::shouldUseParallel</definition>
+        <argsstring>(TraversalAlgorithm algorithm, size_t estimated_nodes) const</argsstring>
+        <name>shouldUseParallel</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::shouldUseParallel</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a8bc6cdb3932ab5ce8c4e96091c864b56" kindref="member">TraversalAlgorithm</ref></type>
+          <declname>algorithm</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>estimated_nodes</declname>
+        </param>
+        <briefdescription>
+<para>Should Use Parallel. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">algorithm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">estimated_nodes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="997" column="10" bodyfile="src/graph/graph_query_optimizer.cpp" bodystart="2813" bodyend="2839"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_optimizer_1a2385003f6ad04caa679f8486237800f2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::GraphQueryOptimizer::recordExecution</definition>
+        <argsstring>(const ExecutionStats &amp;stats)</argsstring>
+        <name>recordExecution</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::recordExecution</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_execution_stats" kindref="compound">ExecutionStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+<para>Record Execution. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(), size(), erase(), begin(), fetch_add(), record(), load(), compare_exchange_weak(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="1006" column="10" bodyfile="src/graph/graph_query_optimizer.cpp" bodystart="2846" bodyend="2880"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/graph_query_optimizer.h" line="41" column="1" bodyfile="include/graph/graph_query_optimizer.h" bodystart="41" bodyend="1007"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1ab79a3086251db25e20c61ea3516c6320" prot="private" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>adaptive_learning_enabled_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1aebdb18367fa3616eb28701839768fd3c" prot="private" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>algo_cost_models_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a73bc0df0e0774a685a7bad419ddeb3fd" prot="private" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>analytics_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1af82a68cb39662efa53ac7ce8886355c6" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>attachAnalytics</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1af4381e436d7453ec4b065a9a54c2ad87" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>calibrateFromHistory</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a3389a53ab8aeffa9c6671318af895c4a" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>clearPlanCache</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a096cdbc1047fac5b249e11e4e63805b0" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>collectStatistics</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1ab35f9d5c9bb290d56dc86345d246e97a" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>detachAnalytics</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1ad855d1265a24c6923f955f9f2a746aa0" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>enableAdaptiveLearning</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a32afbfe85036c89980d6bb02e51375f9" prot="private" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>estimateCost</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a707f9a5c1bf0416bf988d39f3cc0a100" prot="private" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>estimateDepth</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a583a82109d1836efd017dea90df00991" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>estimateEdgeTypeSelectivity</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1af23ccf11eba3421a6cbcbda81d003461" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>executeAStar</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a8c53c252f5a2199c2ad3a87f80435825" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>executeBFS</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a6d664f5557d9e292373dc3d361458aa5" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>executeBidirectional</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1aea8dd31c62c4503ca15c167311cb40ea" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>executeDFS</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1ad17afca8b2f46085bad466f26a7fc3a6" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>executeDijkstra</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a80f8fe3f9b3955625005ec3cd6603381" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>executeKShortestPaths</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1af665471f96090aeb5b6c7d367e5d3852" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>executeSubgraphIsomorphism</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1aafb83d2245d70c587219c2a872320603" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>executeSubgraphIsomorphism</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a686f9dd5de9728acf2e8d3aaab1be920" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>executeTemporalBFS</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1ace8c7da0afc95efb60021d84316157b6" prot="private" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>execution_history_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a54ad60d0b696cad70a2e65479a6c3978" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>explainConstrainedPath</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1ad0bc5ef77006e7df39d056ac602a1bd9" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>explainPlan</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1ac91f6e75f7da20e82241ee14b995e521" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>exportCostModel</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1abca49abe5d66caf4d28a41a456c43cec" prot="private" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>generatePlanCacheKey</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1af3ba6fb74600751e50055d928e1a4dbb" prot="private" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>generateStructuralCacheKey</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a1537767380bc8985abf4847f99cdba13" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>getAlgorithmCostModels</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1aef62d9c3992d436b7d283b1c5ea18038" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>getExecutionHistory</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a410083e86c0bf9b3b59cf6d175910005" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>getMaxQueriesPerSecond</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a1ffa90c02fca8b6a368b0e02d850a230" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>getPlanCacheMaxSize</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1ab324b32946183d4539b74de8f6530759" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>getPlanCacheSize</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a5e732ed76f3bcd75f49698ef5b248417" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>getPlanCacheTTL</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a9712e6f45e013889887c4f46a907bbf9" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>getQueryMetrics</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a9ca263724673d6c647f73c5785ef2fe2" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a8c9b0be82738bac3134b23611500eca0" prot="private" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>graph_manager_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a45e4f764e44238819799a1e8e4bc40f7" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>GraphQueryOptimizer</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a9efc89a3600e6c416e587b1a40987cf5" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>hasAnalytics</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1aa5b9a112338d78276c45dfb5b3f17b98" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>importCostModel</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a067cb7d67a53d87eee1df05c65020e4c" prot="private" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>incremental_queries_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1aa7f086ff20ba623f93dbb36b14e2ace8" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>IncrementalQueryCallback</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1aa9a1bea900442d00b636878514cf9f44" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>IncrementalQueryHandle</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a18436b47ca9c7f14ca9daba09e3c780a" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>isAdaptiveLearningEnabled</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a975e257bb632ac8a0b7dca4f23a3b937" prot="private" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>MAX_HISTORY_SIZE</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a60e1fe5d933683e59ca6a60dedaac047" prot="private" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1af3c3bb7d38b38e6db4b6bd7ef0e7aa6b" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>MIN_CALIBRATION_SAMPLES</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a6b362212f59a3ae5a21ab4edc6105c9a" prot="private" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>next_incremental_handle_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a4fcfc9f19316d6d402f5ef45791fb8d2" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>onGraphChange</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1ac211083ce1219850cff4884cba96697c" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>optimizeConstrainedPath</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a45b9a3f6c77376478803329300de52df" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>optimizeKHopNeighborhood</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1ab68615a45ed70bf03e611dad1d9b4b49" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>optimizeKHopNeighborhood</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a7e568fd6a596cc88e689c825ea26f340" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>optimizePatternMatch</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a07aa60823f42638df1696666d56c6f25" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>optimizePatternMatch</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1ab232981953dba2fd81c16d4b3bcc0964" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>optimizeReachability</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1aeac9d3172ad79f5dd8a6e0171ac103cf" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>optimizeReachability</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a179f9e53d3e363c70a905787d5b146be" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>optimizeShortestPath</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a2f4a13db2681a0ef62b49a8c9adb4ef1" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>optimizeShortestPath</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a33af7390b7b72d1bb817000184ca36aa" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>optimizeTemporalTraversal</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a1fbf6e2918f1cd23e4735a07895f5b11" prot="private" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>plan_cache_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a7c8af95ebcbacac7b137c05f292b02b6" prot="private" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>plan_cache_lru_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a6de7a6cb8b139070b810df2a6c774d31" prot="private" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>plan_cache_max_size_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a1fb4fa5eaf30cb2d391d37b46ace4a93" prot="private" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>plan_cache_mutex_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a1f0e88fba161b466eccc510d4880c216" prot="private" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>plan_cache_ttl_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a8dc8e889f764ae3486ac965685276627" prot="private" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>plan_caching_enabled_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a5d656ceb03d2a02c4b2ef776e0e0a1ab" prot="private" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>planCacheInsert</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a67528d4da22c0623df96cfa2ad580b12" prot="private" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>planCacheLookup</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a18766e7448153fed23be2b6b4a8884d5" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>QueryPattern</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1adfa2140e7dbd13f18917dcc62ac00234" prot="private" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>rate_limiter_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a2385003f6ad04caa679f8486237800f2" prot="private" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>recordExecution</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1ad9efb1dbbdad94b412fedaacf1b7e8ab" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>registerIncrementalBFS</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a44283a5458e370916c75620c2c00e42e" prot="private" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>selectAlgorithm</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a527de370b3fbdcfdfeac5cdb83303873" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>setMaxQueriesPerSecond</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a576897d2b1e28fe2d1a73cd36b92a430" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>setNodeLabelStats</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a4e869b78cb8f42a15b4eb42df9a8c08b" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>setPlanCacheMaxSize</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a0f53f61e57e264697d94980d8885589d" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>setPlanCacheTTL</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1ab198094f919def1e78afc93d1503fe4b" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>setPlanCachingEnabled</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a44e7f8a5bd84ea3d0293694e14754eab" prot="private" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>shouldUseParallel</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a52f14b84101fac59f949c3cb222a9d69" prot="private" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>statistics_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a94d30252a73978b0b275f9d9e4bff766" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>streamBFS</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a6681e750c879679e8bc18a312ef23991" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>streamBFS</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1adcb84b1c747c1105e1744755e82eea68" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>streamBFS</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a692f0d6ac3191e3cf6daef1285374b69" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>streamBFS</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a8745d21e803ea0b6383dc36e21a88dcb" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>streamDFS</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a3b450362a835d66d620d9ed41c5c97da" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>streamDFS</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a79cc9a7c914ffc3033a0fd3c629c3eb8" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>streamDFS</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1ab1fbaed49603a4cdaf86adc23de03286" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>streamDFS</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a8bc6cdb3932ab5ce8c4e96091c864b56" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>TraversalAlgorithm</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a7b08a3c554a95c920387002ad1541514" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer</scope><name>unregisterIncrementalQuery</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

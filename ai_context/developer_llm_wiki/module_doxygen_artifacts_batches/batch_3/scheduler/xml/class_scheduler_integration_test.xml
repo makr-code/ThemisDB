@@ -1,0 +1,189 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_scheduler_integration_test" kind="class" language="C++" prot="public">
+    <compoundname>SchedulerIntegrationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_scheduler_integration_test_1aa83609bf64c91cd4e5f48c1492f7545b" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string SchedulerIntegrationTest::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>SchedulerIntegrationTest::db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_integration.cpp" line="100" column="17" bodyfile="tests/scheduler/test_scheduler_integration.cpp" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_scheduler_integration_test_1a4614c8284f95dc933829320841e3ce9c" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; SchedulerIntegrationTest::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>SchedulerIntegrationTest::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_integration.cpp" line="101" column="21" bodyfile="tests/scheduler/test_scheduler_integration.cpp" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_scheduler_integration_test_1a6c0e1df8f722d44e30bc2690d915d8c1" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; SecondaryIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;SecondaryIndexManager&gt; SchedulerIntegrationTest::idx_</definition>
+        <argsstring></argsstring>
+        <name>idx_</name>
+        <qualifiedname>SchedulerIntegrationTest::idx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_integration.cpp" line="102" column="21" bodyfile="tests/scheduler/test_scheduler_integration.cpp" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_scheduler_integration_test_1a2b64ef01dbcae471b929a7cc4f980868" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="namespacethemis_1a2fc17512a57c687fa92b431087cbecd2" kindref="member">QueryEngine</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;QueryEngine&gt; SchedulerIntegrationTest::engine_</definition>
+        <argsstring></argsstring>
+        <name>engine_</name>
+        <qualifiedname>SchedulerIntegrationTest::engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_integration.cpp" line="103" column="21" bodyfile="tests/scheduler/test_scheduler_integration.cpp" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_scheduler_integration_test_1a2ae11ae669553621daa659742a90fb12" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1_task_scheduler" kindref="compound">TaskScheduler</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;TaskScheduler&gt; SchedulerIntegrationTest::scheduler_</definition>
+        <argsstring></argsstring>
+        <name>scheduler_</name>
+        <qualifiedname>SchedulerIntegrationTest::scheduler_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_integration.cpp" line="104" column="21" bodyfile="tests/scheduler/test_scheduler_integration.cpp" bodystart="104" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_scheduler_integration_test_1afcf94b7d03e73f36cda2edb21058c0e3" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void SchedulerIntegrationTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>SchedulerIntegrationTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_integration.cpp" line="39" column="10" bodyfile="tests/scheduler/test_scheduler_integration.cpp" bodystart="39" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="class_scheduler_integration_test_1ab44e3cc571ce7e952656ec48c0aecbc5" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void SchedulerIntegrationTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>SchedulerIntegrationTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_integration.cpp" line="57" column="10" bodyfile="tests/scheduler/test_scheduler_integration.cpp" bodystart="57" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="class_scheduler_integration_test_1a651ac76ca0df9e567cc20b6796a0cebf" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void SchedulerIntegrationTest::makeScheduler</definition>
+        <argsstring>(bool persist=false)</argsstring>
+        <name>makeScheduler</name>
+        <qualifiedname>SchedulerIntegrationTest::makeScheduler</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>persist</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_integration.cpp" line="71" column="10" bodyfile="tests/scheduler/test_scheduler_integration.cpp" bodystart="71" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="class_scheduler_integration_test_1af923bb86da07c493270c3d742c51b988" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string SchedulerIntegrationTest::registerCountingTask</definition>
+        <argsstring>(std::atomic&lt; int &gt; &amp;counter, const std::string &amp;name=&quot;count_task&quot;)</argsstring>
+        <name>registerCountingTask</name>
+        <qualifiedname>SchedulerIntegrationTest::registerCountingTask</qualifiedname>
+        <param>
+          <type>std::atomic&lt; int &gt; &amp;</type>
+          <declname>counter</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+          <defval>&quot;count_task&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_integration.cpp" line="86" column="17" bodyfile="tests/scheduler/test_scheduler_integration.cpp" bodystart="86" bodyend="98"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>SchedulerIntegrationTest</label>
+        <link refid="class_scheduler_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>SchedulerIntegrationTest</label>
+        <link refid="class_scheduler_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/scheduler/test_scheduler_integration.cpp" line="37" column="1" bodyfile="tests/scheduler/test_scheduler_integration.cpp" bodystart="37" bodyend="105"/>
+    <listofallmembers>
+      <member refid="class_scheduler_integration_test_1aa83609bf64c91cd4e5f48c1492f7545b" prot="protected" virt="non-virtual"><scope>SchedulerIntegrationTest</scope><name>db_path_</name></member>
+      <member refid="class_scheduler_integration_test_1a2b64ef01dbcae471b929a7cc4f980868" prot="protected" virt="non-virtual"><scope>SchedulerIntegrationTest</scope><name>engine_</name></member>
+      <member refid="class_scheduler_integration_test_1a6c0e1df8f722d44e30bc2690d915d8c1" prot="protected" virt="non-virtual"><scope>SchedulerIntegrationTest</scope><name>idx_</name></member>
+      <member refid="class_scheduler_integration_test_1a651ac76ca0df9e567cc20b6796a0cebf" prot="protected" virt="non-virtual"><scope>SchedulerIntegrationTest</scope><name>makeScheduler</name></member>
+      <member refid="class_scheduler_integration_test_1af923bb86da07c493270c3d742c51b988" prot="protected" virt="non-virtual"><scope>SchedulerIntegrationTest</scope><name>registerCountingTask</name></member>
+      <member refid="class_scheduler_integration_test_1a2ae11ae669553621daa659742a90fb12" prot="protected" virt="non-virtual"><scope>SchedulerIntegrationTest</scope><name>scheduler_</name></member>
+      <member refid="class_scheduler_integration_test_1afcf94b7d03e73f36cda2edb21058c0e3" prot="protected" virt="non-virtual"><scope>SchedulerIntegrationTest</scope><name>SetUp</name></member>
+      <member refid="class_scheduler_integration_test_1a4614c8284f95dc933829320841e3ce9c" prot="protected" virt="non-virtual"><scope>SchedulerIntegrationTest</scope><name>storage_</name></member>
+      <member refid="class_scheduler_integration_test_1ab44e3cc571ce7e952656ec48c0aecbc5" prot="protected" virt="non-virtual"><scope>SchedulerIntegrationTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

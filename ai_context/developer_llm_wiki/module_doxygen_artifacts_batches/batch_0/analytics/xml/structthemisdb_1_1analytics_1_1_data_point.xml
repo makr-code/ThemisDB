@@ -1,0 +1,295 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_data_point" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::DataPoint</compoundname>
+    <includes refid="anomaly__detection_8h" local="no">anomaly_detection.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_data_point_1a4c367048e348b446bd76a8743c1d910d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::DataPoint::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themisdb::analytics::DataPoint::id</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/anomaly_detection.h" line="97" column="17" bodyfile="include/analytics/anomaly_detection.h" bodystart="97" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_data_point_1a718bf92345f090db2c7bdf52805abdfe" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::analytics::DataPoint::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themisdb::analytics::DataPoint::timestamp_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/anomaly_detection.h" line="98" column="17" bodyfile="include/analytics/anomaly_detection.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_data_point_1ad88ffc4bdceec4c149e7210f413aba2a" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="namespacethemisdb_1_1analytics_1aa06d97c7da13db2977fe25761aa16b16" kindref="member">PointValue</ref> &gt;</type>
+        <definition>std::map&lt;std::string, PointValue&gt; themisdb::analytics::DataPoint::fields</definition>
+        <argsstring></argsstring>
+        <name>fields</name>
+        <qualifiedname>themisdb::analytics::DataPoint::fields</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/anomaly_detection.h" line="99" column="14" bodyfile="include/analytics/anomaly_detection.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1analytics_1_1_data_point_1a425a177c9ca79a0101733ce8ea79b243" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::DataPoint::set</definition>
+        <argsstring>(const std::string &amp;name, double v)</argsstring>
+        <name>set</name>
+        <qualifiedname>themisdb::analytics::DataPoint::set</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+<para>Set. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements set without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/anomaly_detection.h" line="108" column="10" bodyfile="include/analytics/anomaly_detection.h" bodystart="108" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1analytics_1_1_data_point_1afed0a86c250f54cf8219bcc31be04637" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::DataPoint::set</definition>
+        <argsstring>(const std::string &amp;name, int64_t v)</argsstring>
+        <name>set</name>
+        <qualifiedname>themisdb::analytics::DataPoint::set</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+<para>Set. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements set without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/anomaly_detection.h" line="115" column="10" bodyfile="include/analytics/anomaly_detection.h" bodystart="115" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1analytics_1_1_data_point_1a70cf8df16786da077c76c8c68d345e44" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::DataPoint::set</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;v)</argsstring>
+        <name>set</name>
+        <qualifiedname>themisdb::analytics::DataPoint::set</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+<para>Set. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements set without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/anomaly_detection.h" line="122" column="10" bodyfile="include/analytics/anomaly_detection.h" bodystart="122" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1analytics_1_1_data_point_1ac1c0681320b492af99cfb8ee13b0f17f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::DataPoint::set</definition>
+        <argsstring>(const std::string &amp;name, bool v)</argsstring>
+        <name>set</name>
+        <qualifiedname>themisdb::analytics::DataPoint::set</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+<para>Set. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements set without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/anomaly_detection.h" line="129" column="10" bodyfile="include/analytics/anomaly_detection.h" bodystart="129" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1analytics_1_1_data_point_1ad908cddf5e78f4c09af295f5e51634c5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>std::optional&lt; T &gt;</type>
+        <definition>std::optional&lt; T &gt; themisdb::analytics::DataPoint::get</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>get</name>
+        <qualifiedname>themisdb::analytics::DataPoint::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/anomaly_detection.h" line="132" column="19" bodyfile="include/analytics/anomaly_detection.h" bodystart="132" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1analytics_1_1_data_point_1a1028e0b6bd9e872ad7173f5efc3d3744" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt; double &gt; themisdb::analytics::DataPoint::numericFeatures</definition>
+        <argsstring>() const</argsstring>
+        <name>numericFeatures</name>
+        <qualifiedname>themisdb::analytics::DataPoint::numericFeatures</qualifiedname>
+        <briefdescription>
+<para>Numeric Features. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/anomaly_detection.h" line="147" column="17" bodyfile="src/analytics/anomaly_detection.cpp" bodystart="61" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1analytics_1_1_data_point_1a9eb37d47eca8b0d5601d0bcc150533f9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themisdb::analytics::DataPoint::numericFieldNames</definition>
+        <argsstring>() const</argsstring>
+        <name>numericFieldNames</name>
+        <qualifiedname>themisdb::analytics::DataPoint::numericFieldNames</qualifiedname>
+        <briefdescription>
+<para>Numeric Field Names. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/anomaly_detection.h" line="153" column="17" bodyfile="src/analytics/anomaly_detection.cpp" bodystart="76" bodyend="86"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/anomaly_detection.h" line="96" column="1" bodyfile="include/analytics/anomaly_detection.h" bodystart="96" bodyend="154"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_data_point_1ad88ffc4bdceec4c149e7210f413aba2a" prot="public" virt="non-virtual"><scope>themisdb::analytics::DataPoint</scope><name>fields</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_data_point_1ad908cddf5e78f4c09af295f5e51634c5" prot="public" virt="non-virtual"><scope>themisdb::analytics::DataPoint</scope><name>get</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_data_point_1a4c367048e348b446bd76a8743c1d910d" prot="public" virt="non-virtual"><scope>themisdb::analytics::DataPoint</scope><name>id</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_data_point_1a1028e0b6bd9e872ad7173f5efc3d3744" prot="public" virt="non-virtual"><scope>themisdb::analytics::DataPoint</scope><name>numericFeatures</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_data_point_1a9eb37d47eca8b0d5601d0bcc150533f9" prot="public" virt="non-virtual"><scope>themisdb::analytics::DataPoint</scope><name>numericFieldNames</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_data_point_1a425a177c9ca79a0101733ce8ea79b243" prot="public" virt="non-virtual"><scope>themisdb::analytics::DataPoint</scope><name>set</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_data_point_1afed0a86c250f54cf8219bcc31be04637" prot="public" virt="non-virtual"><scope>themisdb::analytics::DataPoint</scope><name>set</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_data_point_1a70cf8df16786da077c76c8c68d345e44" prot="public" virt="non-virtual"><scope>themisdb::analytics::DataPoint</scope><name>set</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_data_point_1ac1c0681320b492af99cfb8ee13b0f17f" prot="public" virt="non-virtual"><scope>themisdb::analytics::DataPoint</scope><name>set</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_data_point_1a718bf92345f090db2c7bdf52805abdfe" prot="public" virt="non-virtual"><scope>themisdb::analytics::DataPoint</scope><name>timestamp_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,214 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_content_validation_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::ContentValidationResult</compoundname>
+    <includes refid="content__validator_8h" local="no">content_validator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_validation_result_1a696dcec055c74564b76062165833b056" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1content_1_1_content_error" kindref="compound">ContentError</ref></type>
+        <definition>ContentError themis::content::ContentValidationResult::error</definition>
+        <argsstring></argsstring>
+        <name>error</name>
+        <qualifiedname>themis::content::ContentValidationResult::error</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_validator.h" line="67" column="18" bodyfile="include/content/content_validator.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_validation_result_1ac7147a6378ed7a4612ccaf5a0796b5ae" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::ContentValidationResult::mime_type</definition>
+        <argsstring></argsstring>
+        <name>mime_type</name>
+        <qualifiedname>themis::content::ContentValidationResult::mime_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_validator.h" line="70" column="17" bodyfile="include/content/content_validator.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_validation_result_1ac2a37895cc5ab74d7defe3f9187eeb5b" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1content_1_1_content_category" kindref="compound">ContentCategory</ref></type>
+        <definition>ContentCategory themis::content::ContentValidationResult::category</definition>
+        <argsstring></argsstring>
+        <name>category</name>
+        <qualifiedname>themis::content::ContentValidationResult::category</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_validator.h" line="71" column="21" bodyfile="include/content/content_validator.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_validation_result_1a1e29844f8b8e9b131b52842b27440200" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::content::ContentValidationResult::content_size</definition>
+        <argsstring></argsstring>
+        <name>content_size</name>
+        <qualifiedname>themis::content::ContentValidationResult::content_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_validator.h" line="72" column="14" bodyfile="include/content/content_validator.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_validation_result_1ade71e0389aab5a2636aa6711ed5f7941" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::content::ContentValidationResult::validation_time</definition>
+        <argsstring></argsstring>
+        <name>validation_time</name>
+        <qualifiedname>themis::content::ContentValidationResult::validation_time</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_validator.h" line="73" column="31" bodyfile="include/content/content_validator.h" bodystart="73" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_validation_result_1a1e4ced12359f80f736d008c5080a85e1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ContentValidationResult::mime_validated</definition>
+        <argsstring></argsstring>
+        <name>mime_validated</name>
+        <qualifiedname>themis::content::ContentValidationResult::mime_validated</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_validator.h" line="76" column="10" bodyfile="include/content/content_validator.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_validation_result_1ad06811a07b378f75fc13d25c184219cb" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ContentValidationResult::size_validated</definition>
+        <argsstring></argsstring>
+        <name>size_validated</name>
+        <qualifiedname>themis::content::ContentValidationResult::size_validated</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_validator.h" line="77" column="10" bodyfile="include/content/content_validator.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_validation_result_1a2a327059fafc3c1a316dad4be2a59389" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ContentValidationResult::format_validated</definition>
+        <argsstring></argsstring>
+        <name>format_validated</name>
+        <qualifiedname>themis::content::ContentValidationResult::format_validated</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_validator.h" line="78" column="10" bodyfile="include/content/content_validator.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_validation_result_1aaf10f33c2e0238f6f88ebbcf48f19886" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ContentValidationResult::policy_validated</definition>
+        <argsstring></argsstring>
+        <name>policy_validated</name>
+        <qualifiedname>themis::content::ContentValidationResult::policy_validated</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_validator.h" line="79" column="10" bodyfile="include/content/content_validator.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_validation_result_1a4ad963c4d4f816b2bf22d2a1eb9adca2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ContentValidationResult::malware_checked</definition>
+        <argsstring></argsstring>
+        <name>malware_checked</name>
+        <qualifiedname>themis::content::ContentValidationResult::malware_checked</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_validator.h" line="80" column="10" bodyfile="include/content/content_validator.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1content_1_1_content_validation_result_1acfe06139c1e1bd390df887edfb70ef23" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::ContentValidationResult::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::content::ContentValidationResult::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_validator.h" line="86" column="10" bodyfile="src/content/content_validator.cpp" bodystart="102" bodyend="114"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="3">
+        <label>themis::content::ContentCategory</label>
+        <link refid="structthemis_1_1content_1_1_content_category"/>
+      </node>
+      <node id="2">
+        <label>themis::content::ContentError</label>
+        <link refid="structthemis_1_1content_1_1_content_error"/>
+      </node>
+      <node id="1">
+        <label>themis::content::ContentValidationResult</label>
+        <link refid="structthemis_1_1content_1_1_content_validation_result"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>error</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>category</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/content/content_validator.h" line="66" column="1" bodyfile="include/content/content_validator.h" bodystart="66" bodyend="87"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_content_validation_result_1ac2a37895cc5ab74d7defe3f9187eeb5b" prot="public" virt="non-virtual"><scope>themis::content::ContentValidationResult</scope><name>category</name></member>
+      <member refid="structthemis_1_1content_1_1_content_validation_result_1a1e29844f8b8e9b131b52842b27440200" prot="public" virt="non-virtual"><scope>themis::content::ContentValidationResult</scope><name>content_size</name></member>
+      <member refid="structthemis_1_1content_1_1_content_validation_result_1a696dcec055c74564b76062165833b056" prot="public" virt="non-virtual"><scope>themis::content::ContentValidationResult</scope><name>error</name></member>
+      <member refid="structthemis_1_1content_1_1_content_validation_result_1a2a327059fafc3c1a316dad4be2a59389" prot="public" virt="non-virtual"><scope>themis::content::ContentValidationResult</scope><name>format_validated</name></member>
+      <member refid="structthemis_1_1content_1_1_content_validation_result_1a4ad963c4d4f816b2bf22d2a1eb9adca2" prot="public" virt="non-virtual"><scope>themis::content::ContentValidationResult</scope><name>malware_checked</name></member>
+      <member refid="structthemis_1_1content_1_1_content_validation_result_1ac7147a6378ed7a4612ccaf5a0796b5ae" prot="public" virt="non-virtual"><scope>themis::content::ContentValidationResult</scope><name>mime_type</name></member>
+      <member refid="structthemis_1_1content_1_1_content_validation_result_1a1e4ced12359f80f736d008c5080a85e1" prot="public" virt="non-virtual"><scope>themis::content::ContentValidationResult</scope><name>mime_validated</name></member>
+      <member refid="structthemis_1_1content_1_1_content_validation_result_1aaf10f33c2e0238f6f88ebbcf48f19886" prot="public" virt="non-virtual"><scope>themis::content::ContentValidationResult</scope><name>policy_validated</name></member>
+      <member refid="structthemis_1_1content_1_1_content_validation_result_1ad06811a07b378f75fc13d25c184219cb" prot="public" virt="non-virtual"><scope>themis::content::ContentValidationResult</scope><name>size_validated</name></member>
+      <member refid="structthemis_1_1content_1_1_content_validation_result_1acfe06139c1e1bd390df887edfb70ef23" prot="public" virt="non-virtual"><scope>themis::content::ContentValidationResult</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1content_1_1_content_validation_result_1ade71e0389aab5a2636aa6711ed5f7941" prot="public" virt="non-virtual"><scope>themis::content::ContentValidationResult</scope><name>validation_time</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

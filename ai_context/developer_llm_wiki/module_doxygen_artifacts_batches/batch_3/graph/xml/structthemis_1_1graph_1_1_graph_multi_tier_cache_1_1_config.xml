@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_graph_multi_tier_cache_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::GraphMultiTierCache::Config</compoundname>
+    <includes refid="graph__cache__manager_8h" local="no">graph_cache_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_multi_tier_cache_1_1_config_1a976e6ca9c2c5d941cbf3f277c4f8f768" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphMultiTierCache&lt; K, V &gt;::Config::hot_capacity</definition>
+        <argsstring></argsstring>
+        <name>hot_capacity</name>
+        <qualifiedname>themis::graph::GraphMultiTierCache::Config::hot_capacity</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+<para>Maximum Hot-tier entries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_cache_manager.h" line="42" column="16" bodyfile="include/graph/graph_cache_manager.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_multi_tier_cache_1_1_config_1ae4840bf3270516bd398f80a0d792f0dc" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphMultiTierCache&lt; K, V &gt;::Config::warm_capacity</definition>
+        <argsstring></argsstring>
+        <name>warm_capacity</name>
+        <qualifiedname>themis::graph::GraphMultiTierCache::Config::warm_capacity</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+<para>Maximum Warm-tier entries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_cache_manager.h" line="43" column="16" bodyfile="include/graph/graph_cache_manager.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_multi_tier_cache_1_1_config_1a9675978e2b7a688ed5ca060cfefeac17" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphMultiTierCache&lt; K, V &gt;::Config::cold_capacity</definition>
+        <argsstring></argsstring>
+        <name>cold_capacity</name>
+        <qualifiedname>themis::graph::GraphMultiTierCache::Config::cold_capacity</qualifiedname>
+        <initializer>= 1024</initializer>
+        <briefdescription>
+<para>Maximum Cold-tier entries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_cache_manager.h" line="44" column="16" bodyfile="include/graph/graph_cache_manager.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/graph_cache_manager.h" line="41" column="5" bodyfile="include/graph/graph_cache_manager.h" bodystart="41" bodyend="45"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_graph_multi_tier_cache_1_1_config_1a9675978e2b7a688ed5ca060cfefeac17" prot="public" virt="non-virtual"><scope>themis::graph::GraphMultiTierCache::Config</scope><name>cold_capacity</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_multi_tier_cache_1_1_config_1a976e6ca9c2c5d941cbf3f277c4f8f768" prot="public" virt="non-virtual"><scope>themis::graph::GraphMultiTierCache::Config</scope><name>hot_capacity</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_multi_tier_cache_1_1_config_1ae4840bf3270516bd398f80a0d792f0dc" prot="public" virt="non-virtual"><scope>themis::graph::GraphMultiTierCache::Config</scope><name>warm_capacity</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

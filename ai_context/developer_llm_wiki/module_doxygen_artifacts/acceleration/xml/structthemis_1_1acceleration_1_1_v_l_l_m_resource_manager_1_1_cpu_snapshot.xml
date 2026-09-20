@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_cpu_snapshot" kind="struct" language="C++" prot="private">
+    <compoundname>themis::acceleration::VLLMResourceManager::CpuSnapshot</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_cpu_snapshot_1a295313ded9d8d2a416aeaa990fb92d45" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::acceleration::VLLMResourceManager::CpuSnapshot::v0</definition>
+        <argsstring></argsstring>
+        <name>v0</name>
+        <qualifiedname>themis::acceleration::VLLMResourceManager::CpuSnapshot::v0</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vllm_resource_manager.h" line="170" column="18" bodyfile="include/acceleration/vllm_resource_manager.h" bodystart="170" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_cpu_snapshot_1a638e38c644a2f4b69efb189b82b68c0e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::acceleration::VLLMResourceManager::CpuSnapshot::v1</definition>
+        <argsstring></argsstring>
+        <name>v1</name>
+        <qualifiedname>themis::acceleration::VLLMResourceManager::CpuSnapshot::v1</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vllm_resource_manager.h" line="171" column="18" bodyfile="include/acceleration/vllm_resource_manager.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_cpu_snapshot_1a9df52d0a6b2bf95c9133a3222ebb6999" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::acceleration::VLLMResourceManager::CpuSnapshot::v2</definition>
+        <argsstring></argsstring>
+        <name>v2</name>
+        <qualifiedname>themis::acceleration::VLLMResourceManager::CpuSnapshot::v2</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vllm_resource_manager.h" line="172" column="18" bodyfile="include/acceleration/vllm_resource_manager.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_cpu_snapshot_1a2db74949657986110318030a4e2c4a21" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::acceleration::VLLMResourceManager::CpuSnapshot::last_cpu_util</definition>
+        <argsstring></argsstring>
+        <name>last_cpu_util</name>
+        <qualifiedname>themis::acceleration::VLLMResourceManager::CpuSnapshot::last_cpu_util</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vllm_resource_manager.h" line="173" column="16" bodyfile="include/acceleration/vllm_resource_manager.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_cpu_snapshot_1a26b4c20ec002689e8b72455b3bec7724" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::acceleration::VLLMResourceManager::CpuSnapshot::ts</definition>
+        <argsstring></argsstring>
+        <name>ts</name>
+        <qualifiedname>themis::acceleration::VLLMResourceManager::CpuSnapshot::ts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vllm_resource_manager.h" line="174" column="47" bodyfile="include/acceleration/vllm_resource_manager.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_cpu_snapshot_1a298e0e965b023826ed9cd624bc0cc108" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::VLLMResourceManager::CpuSnapshot::valid</definition>
+        <argsstring></argsstring>
+        <name>valid</name>
+        <qualifiedname>themis::acceleration::VLLMResourceManager::CpuSnapshot::valid</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vllm_resource_manager.h" line="175" column="14" bodyfile="include/acceleration/vllm_resource_manager.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/vllm_resource_manager.h" line="169" column="5" bodyfile="include/acceleration/vllm_resource_manager.h" bodystart="169" bodyend="176"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_cpu_snapshot_1a2db74949657986110318030a4e2c4a21" prot="public" virt="non-virtual"><scope>themis::acceleration::VLLMResourceManager::CpuSnapshot</scope><name>last_cpu_util</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_cpu_snapshot_1a26b4c20ec002689e8b72455b3bec7724" prot="public" virt="non-virtual"><scope>themis::acceleration::VLLMResourceManager::CpuSnapshot</scope><name>ts</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_cpu_snapshot_1a295313ded9d8d2a416aeaa990fb92d45" prot="public" virt="non-virtual"><scope>themis::acceleration::VLLMResourceManager::CpuSnapshot</scope><name>v0</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_cpu_snapshot_1a638e38c644a2f4b69efb189b82b68c0e" prot="public" virt="non-virtual"><scope>themis::acceleration::VLLMResourceManager::CpuSnapshot</scope><name>v1</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_cpu_snapshot_1a9df52d0a6b2bf95c9133a3222ebb6999" prot="public" virt="non-virtual"><scope>themis::acceleration::VLLMResourceManager::CpuSnapshot</scope><name>v2</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_cpu_snapshot_1a298e0e965b023826ed9cd624bc0cc108" prot="public" virt="non-virtual"><scope>themis::acceleration::VLLMResourceManager::CpuSnapshot</scope><name>valid</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_c_t_e_data_change" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::CTEDataChange</compoundname>
+    <includes refid="materialized__cte_8h" local="no">materialized_cte.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_c_t_e_data_change_1ae889b49f8e58828982c78394974ea781" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1query_1a6501232fcf0b854a6eb2b10a308d0e9a" kindref="member">CTEChangeType</ref></type>
+        <definition>CTEChangeType themis::query::CTEDataChange::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::query::CTEDataChange::type</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1query_1a6501232fcf0b854a6eb2b10a308d0e9aa61ee777e7f71dc466c3b2c685d8d313b" kindref="member">CTEChangeType::INSERT</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_cte.h" line="57" column="20" bodyfile="include/query/materialized_cte.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_c_t_e_data_change_1a9184077d40f1465246d3e7557771e044" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::CTEDataChange::collection</definition>
+        <argsstring></argsstring>
+        <name>collection</name>
+        <qualifiedname>themis::query::CTEDataChange::collection</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_cte.h" line="58" column="20" bodyfile="include/query/materialized_cte.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_c_t_e_data_change_1aa4a10d782b0361ae2146d5f214e7f84a" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::CTEDataChange::before_row</definition>
+        <argsstring></argsstring>
+        <name>before_row</name>
+        <qualifiedname>themis::query::CTEDataChange::before_row</qualifiedname>
+        <briefdescription>
+<para>Pre-change row (UPDATE / DELETE). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_cte.h" line="59" column="20" bodyfile="include/query/materialized_cte.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_c_t_e_data_change_1aed595df7b04f4307d256dde5cce1cb0a" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::CTEDataChange::after_row</definition>
+        <argsstring></argsstring>
+        <name>after_row</name>
+        <qualifiedname>themis::query::CTEDataChange::after_row</qualifiedname>
+        <briefdescription>
+<para>Post-change row (INSERT / UPDATE). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_cte.h" line="60" column="20" bodyfile="include/query/materialized_cte.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/materialized_cte.h" line="56" column="1" bodyfile="include/query/materialized_cte.h" bodystart="56" bodyend="61"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_c_t_e_data_change_1aed595df7b04f4307d256dde5cce1cb0a" prot="public" virt="non-virtual"><scope>themis::query::CTEDataChange</scope><name>after_row</name></member>
+      <member refid="structthemis_1_1query_1_1_c_t_e_data_change_1aa4a10d782b0361ae2146d5f214e7f84a" prot="public" virt="non-virtual"><scope>themis::query::CTEDataChange</scope><name>before_row</name></member>
+      <member refid="structthemis_1_1query_1_1_c_t_e_data_change_1a9184077d40f1465246d3e7557771e044" prot="public" virt="non-virtual"><scope>themis::query::CTEDataChange</scope><name>collection</name></member>
+      <member refid="structthemis_1_1query_1_1_c_t_e_data_change_1ae889b49f8e58828982c78394974ea781" prot="public" virt="non-virtual"><scope>themis::query::CTEDataChange</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

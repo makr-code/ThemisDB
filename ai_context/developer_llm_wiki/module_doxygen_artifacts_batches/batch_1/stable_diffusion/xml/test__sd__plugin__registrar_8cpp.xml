@@ -1,0 +1,541 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__sd__plugin__registrar_8cpp" kind="file" language="C++">
+    <compoundname>test_sd_plugin_registrar.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="sd__plugin__registrar_8h" local="yes">stable_diffusion/sd_plugin_registrar.h</includes>
+    <includes refid="sd__plugin_8h" local="yes">stable_diffusion/sd_plugin.h</includes>
+    <includes local="yes">plugins/plugin_interface.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">string</includes>
+    <incdepgraph>
+      <node id="6">
+        <label>stable_diffusion/sd_config.h</label>
+        <link refid="sd__config_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>stable_diffusion/sd_generator.h</label>
+        <link refid="sd__generator_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>stable_diffusion/sd_plugin.h</label>
+        <link refid="sd__plugin_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>stable_diffusion/sd_plugin_registrar.h</label>
+        <link refid="sd__plugin__registrar_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>stable_diffusion/sd_prompt_sanitizer.h</label>
+        <link refid="sd__prompt__sanitizer_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>src/stable_diffusion/tests/test_sd_plugin_registrar.cpp</label>
+        <link refid="test__sd__plugin__registrar_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>algorithm</label>
+      </node>
+      <node id="10">
+        <label>chrono</label>
+      </node>
+      <node id="11">
+        <label>cmath</label>
+      </node>
+      <node id="12">
+        <label>cstdint</label>
+      </node>
+      <node id="13">
+        <label>cstdlib</label>
+      </node>
+      <node id="14">
+        <label>filesystem</label>
+      </node>
+      <node id="21">
+        <label>fstream</label>
+      </node>
+      <node id="24">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="15">
+        <label>memory</label>
+      </node>
+      <node id="16">
+        <label>mutex</label>
+      </node>
+      <node id="8">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="5">
+        <label>plugins/image_generation_interface.h</label>
+      </node>
+      <node id="23">
+        <label>plugins/plugin_interface.h</label>
+      </node>
+      <node id="22">
+        <label>sstream</label>
+      </node>
+      <node id="17">
+        <label>stdexcept</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="18">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__sd__plugin__registrar_8cpp_1a17705f7f960ffa282f1b260f9df28da2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SDPluginRegistrarTests, A1_CreatePluginStubMode)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SDPluginRegistrarTests</type>
+        </param>
+        <param>
+          <type>A1_CreatePluginStubMode</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/stable_diffusion/tests/test_sd_plugin_registrar.cpp" line="24" column="1" bodyfile="src/stable_diffusion/tests/test_sd_plugin_registrar.cpp" bodystart="24" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sd__plugin__registrar_8cpp_1a861f02ab341bece2da244fe7eff0c408" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SDPluginRegistrarTests, A2_CreatePluginEmptyModelPath)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SDPluginRegistrarTests</type>
+        </param>
+        <param>
+          <type>A2_CreatePluginEmptyModelPath</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/stable_diffusion/tests/test_sd_plugin_registrar.cpp" line="31" column="1" bodyfile="src/stable_diffusion/tests/test_sd_plugin_registrar.cpp" bodystart="31" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sd__plugin__registrar_8cpp_1a885ee4802d6652919b72b35170a8c2c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SDPluginRegistrarTests, A3_CreatePluginWithModelPath)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SDPluginRegistrarTests</type>
+        </param>
+        <param>
+          <type>A3_CreatePluginWithModelPath</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/stable_diffusion/tests/test_sd_plugin_registrar.cpp" line="39" column="1" bodyfile="src/stable_diffusion/tests/test_sd_plugin_registrar.cpp" bodystart="39" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sd__plugin__registrar_8cpp_1a5c185a03c8429f9b9881193f693d409d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SDPluginRegistrarTests, B1_CreateAdapterNotNull)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SDPluginRegistrarTests</type>
+        </param>
+        <param>
+          <type>B1_CreateAdapterNotNull</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/stable_diffusion/tests/test_sd_plugin_registrar.cpp" line="49" column="1" bodyfile="src/stable_diffusion/tests/test_sd_plugin_registrar.cpp" bodystart="49" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sd__plugin__registrar_8cpp_1ab2f8c3a050d5cdadbab8e5136f78cbc1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SDPluginRegistrarTests, B2_AdapterTypeIsImageGeneration)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SDPluginRegistrarTests</type>
+        </param>
+        <param>
+          <type>B2_AdapterTypeIsImageGeneration</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/stable_diffusion/tests/test_sd_plugin_registrar.cpp" line="54" column="1" bodyfile="src/stable_diffusion/tests/test_sd_plugin_registrar.cpp" bodystart="54" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sd__plugin__registrar_8cpp_1a9c7da626dd771f9c4a78e3d8b432023f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SDPluginRegistrarTests, B3_AdapterGetInstanceReturnsSDPlugin)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SDPluginRegistrarTests</type>
+        </param>
+        <param>
+          <type>B3_AdapterGetInstanceReturnsSDPlugin</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/stable_diffusion/tests/test_sd_plugin_registrar.cpp" line="60" column="1" bodyfile="src/stable_diffusion/tests/test_sd_plugin_registrar.cpp" bodystart="60" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sd__plugin__registrar_8cpp_1a3d6baec9db4444b01b9450d6b1f11d88" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SDPluginRegistrarTests, C1_AdapterNameAndVersion)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SDPluginRegistrarTests</type>
+        </param>
+        <param>
+          <type>C1_AdapterNameAndVersion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/stable_diffusion/tests/test_sd_plugin_registrar.cpp" line="71" column="1" bodyfile="src/stable_diffusion/tests/test_sd_plugin_registrar.cpp" bodystart="71" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sd__plugin__registrar_8cpp_1a6356d3cecc7763d5578879aabbf07ba9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SDPluginRegistrarTests, C2_AdapterCapabilitiesBatchingAndThreadSafe)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SDPluginRegistrarTests</type>
+        </param>
+        <param>
+          <type>C2_AdapterCapabilitiesBatchingAndThreadSafe</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/stable_diffusion/tests/test_sd_plugin_registrar.cpp" line="78" column="1" bodyfile="src/stable_diffusion/tests/test_sd_plugin_registrar.cpp" bodystart="78" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sd__plugin__registrar_8cpp_1ad8aadb25fa8fadb2a61be58177ad6b35" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SDPluginRegistrarTests, C3_AdapterInitializeAndShutdownCycle)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SDPluginRegistrarTests</type>
+        </param>
+        <param>
+          <type>C3_AdapterInitializeAndShutdownCycle</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/stable_diffusion/tests/test_sd_plugin_registrar.cpp" line="87" column="1" bodyfile="src/stable_diffusion/tests/test_sd_plugin_registrar.cpp" bodystart="87" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sd__plugin__registrar_8cpp_1ac8659136c4e37abcc08b4ab22c929255" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SDPluginRegistrarTests, D1_DefaultReloadCallbackStubMode)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SDPluginRegistrarTests</type>
+        </param>
+        <param>
+          <type>D1_DefaultReloadCallbackStubMode</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/stable_diffusion/tests/test_sd_plugin_registrar.cpp" line="109" column="1" bodyfile="src/stable_diffusion/tests/test_sd_plugin_registrar.cpp" bodystart="109" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sd__plugin__registrar_8cpp_1a137c63e4a39b502fda5bdacbfa6d58ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SDPluginRegistrarTests, D2_DefaultReloadCallbackWithPath)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SDPluginRegistrarTests</type>
+        </param>
+        <param>
+          <type>D2_DefaultReloadCallbackWithPath</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/stable_diffusion/tests/test_sd_plugin_registrar.cpp" line="117" column="1" bodyfile="src/stable_diffusion/tests/test_sd_plugin_registrar.cpp" bodystart="117" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sd__plugin__registrar_8cpp_1aba88d9eae24fdd779249a79077269b73" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SDPluginRegistrarTests, D3_DefaultReloadCallbackEmptyPath)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SDPluginRegistrarTests</type>
+        </param>
+        <param>
+          <type>D3_DefaultReloadCallbackEmptyPath</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/stable_diffusion/tests/test_sd_plugin_registrar.cpp" line="125" column="1" bodyfile="src/stable_diffusion/tests/test_sd_plugin_registrar.cpp" bodystart="125" bodyend="132"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.1 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 95/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="sd__plugin__registrar_8h" kindref="compound">stable_diffusion/sd_plugin_registrar.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="sd__plugin_8h" kindref="compound">stable_diffusion/sd_plugin.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;plugins/plugin_interface.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1imggen" kindref="compound">themis::imggen</ref>;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins" kindref="compound">themis::plugins</ref>;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1imggen_1a9024eebd946aeb051d92dcd260e0c813" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Group<sp/>A<sp/>–<sp/>SDPluginRegistrar::createPlugin<sp/>─────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><ref refid="test__sd__plugin__registrar_8cpp_1a17705f7f960ffa282f1b260f9df28da2" kindref="member">TEST</ref>(SDPluginRegistrarTests,<sp/>A1_CreatePluginStubMode)<sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plugin<sp/>=<sp/><ref refid="classthemis_1_1imggen_1_1_s_d_plugin_registrar_1aafbbdb9c21cc57293f2af24eea3088c7" kindref="member">SDPluginRegistrar::createPlugin</ref>({});</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(plugin,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stub<sp/>mode:<sp/>no<sp/>model_path<sp/>in<sp/>config<sp/>→<sp/>plugin<sp/>not<sp/>initialized</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(plugin-&gt;isInitialized());</highlight></codeline>
+<codeline lineno="29"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><ref refid="test__sd__plugin__registrar_8cpp_1a17705f7f960ffa282f1b260f9df28da2" kindref="member">TEST</ref>(SDPluginRegistrarTests,<sp/>A2_CreatePluginEmptyModelPath)<sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1imggen_1a9024eebd946aeb051d92dcd260e0c813" kindref="member">json</ref><sp/>cfg;<sp/>cfg[</highlight><highlight class="stringliteral">&quot;model_path&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plugin<sp/>=<sp/><ref refid="classthemis_1_1imggen_1_1_s_d_plugin_registrar_1aafbbdb9c21cc57293f2af24eea3088c7" kindref="member">SDPluginRegistrar::createPlugin</ref>(cfg);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(plugin,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Empty<sp/>path<sp/>is<sp/>treated<sp/>as<sp/>stub<sp/>mode</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(plugin-&gt;isInitialized());</highlight></codeline>
+<codeline lineno="37"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><ref refid="test__sd__plugin__registrar_8cpp_1a17705f7f960ffa282f1b260f9df28da2" kindref="member">TEST</ref>(SDPluginRegistrarTests,<sp/>A3_CreatePluginWithModelPath)<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1imggen_1a9024eebd946aeb051d92dcd260e0c813" kindref="member">json</ref><sp/>cfg;<sp/>cfg[</highlight><highlight class="stringliteral">&quot;model_path&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/stub/model.ckpt&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plugin<sp/>=<sp/><ref refid="classthemis_1_1imggen_1_1_s_d_plugin_registrar_1aafbbdb9c21cc57293f2af24eea3088c7" kindref="member">SDPluginRegistrar::createPlugin</ref>(cfg);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(plugin,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>SDStubGenerator<sp/>always<sp/>succeeds<sp/>on<sp/>initialize</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(plugin-&gt;isInitialized());</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Group<sp/>B<sp/>–<sp/>SDPluginRegistrar::createAdapter<sp/>────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><ref refid="test__sd__plugin__registrar_8cpp_1a17705f7f960ffa282f1b260f9df28da2" kindref="member">TEST</ref>(SDPluginRegistrarTests,<sp/>B1_CreateAdapterNotNull)<sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>adapter<sp/>=<sp/><ref refid="classthemis_1_1imggen_1_1_s_d_plugin_registrar_1aa0b66404f9d0548502c65ac3aee439a3" kindref="member">SDPluginRegistrar::createAdapter</ref>({});</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(adapter,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><ref refid="test__sd__plugin__registrar_8cpp_1a17705f7f960ffa282f1b260f9df28da2" kindref="member">TEST</ref>(SDPluginRegistrarTests,<sp/>B2_AdapterTypeIsImageGeneration)<sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>adapter<sp/>=<sp/><ref refid="classthemis_1_1imggen_1_1_s_d_plugin_registrar_1aa0b66404f9d0548502c65ac3aee439a3" kindref="member">SDPluginRegistrar::createAdapter</ref>({});</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(adapter,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(adapter-&gt;getType(),<sp/>PluginType::IMAGE_GENERATION);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><ref refid="test__sd__plugin__registrar_8cpp_1a17705f7f960ffa282f1b260f9df28da2" kindref="member">TEST</ref>(SDPluginRegistrarTests,<sp/>B3_AdapterGetInstanceReturnsSDPlugin)<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>adapter<sp/>=<sp/><ref refid="classthemis_1_1imggen_1_1_s_d_plugin_registrar_1aa0b66404f9d0548502c65ac3aee439a3" kindref="member">SDPluginRegistrar::createAdapter</ref>({});</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(adapter,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>instance<sp/>=<sp/>adapter-&gt;getInstance();</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(instance,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>plugin<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal"><ref refid="classthemis_1_1imggen_1_1_s_d_plugin" kindref="compound">SDPlugin</ref>*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(instance);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(plugin,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Group<sp/>C<sp/>–<sp/>SDPluginAdapter<sp/>IThemisPlugin<sp/>───────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><ref refid="test__sd__plugin__registrar_8cpp_1a17705f7f960ffa282f1b260f9df28da2" kindref="member">TEST</ref>(SDPluginRegistrarTests,<sp/>C1_AdapterNameAndVersion)<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>adapter<sp/>=<sp/><ref refid="classthemis_1_1imggen_1_1_s_d_plugin_registrar_1aa0b66404f9d0548502c65ac3aee439a3" kindref="member">SDPluginRegistrar::createAdapter</ref>({});</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(adapter,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_STREQ(adapter-&gt;getName(),<sp/></highlight><highlight class="stringliteral">&quot;stable_diffusion&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_STREQ(adapter-&gt;getVersion(),<sp/></highlight><highlight class="stringliteral">&quot;2.3.0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><ref refid="test__sd__plugin__registrar_8cpp_1a17705f7f960ffa282f1b260f9df28da2" kindref="member">TEST</ref>(SDPluginRegistrarTests,<sp/>C2_AdapterCapabilitiesBatchingAndThreadSafe)<sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>adapter<sp/>=<sp/><ref refid="classthemis_1_1imggen_1_1_s_d_plugin_registrar_1aa0b66404f9d0548502c65ac3aee439a3" kindref="member">SDPluginRegistrar::createAdapter</ref>({});</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(adapter,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>caps<sp/>=<sp/>adapter-&gt;getCapabilities();</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(caps.supports_batching);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(caps.thread_safe);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(caps.supports_streaming);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><ref refid="test__sd__plugin__registrar_8cpp_1a17705f7f960ffa282f1b260f9df28da2" kindref="member">TEST</ref>(SDPluginRegistrarTests,<sp/>C3_AdapterInitializeAndShutdownCycle)<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>adapter<sp/>=<sp/><ref refid="classthemis_1_1imggen_1_1_s_d_plugin_registrar_1aa0b66404f9d0548502c65ac3aee439a3" kindref="member">SDPluginRegistrar::createAdapter</ref>({});</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(adapter,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>initialize<sp/>with<sp/>a<sp/>stub<sp/>model<sp/>path</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1imggen_1a9024eebd946aeb051d92dcd260e0c813" kindref="member">json</ref><sp/>cfg;<sp/>cfg[</highlight><highlight class="stringliteral">&quot;model_path&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/stub/sd.ckpt&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(adapter-&gt;initialize(cfg.dump().c_str()));</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>after<sp/>initialization<sp/>the<sp/>underlying<sp/>plugin<sp/>should<sp/>be<sp/>initialized</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>plugin<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal"><ref refid="classthemis_1_1imggen_1_1_s_d_plugin" kindref="compound">SDPlugin</ref>*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(adapter-&gt;getInstance());</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(plugin,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(plugin-&gt;isInitialized());</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>shutdown<sp/>resets<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter-&gt;shutdown();</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>plugin<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal"><ref refid="classthemis_1_1imggen_1_1_s_d_plugin" kindref="compound">SDPlugin</ref>*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(adapter-&gt;getInstance());</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(plugin,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(plugin-&gt;isInitialized());</highlight></codeline>
+<codeline lineno="105"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Group<sp/>D<sp/>–<sp/>SDPluginRegistrar::defaultReloadCallback<sp/>───────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><ref refid="test__sd__plugin__registrar_8cpp_1a17705f7f960ffa282f1b260f9df28da2" kindref="member">TEST</ref>(SDPluginRegistrarTests,<sp/>D1_DefaultReloadCallbackStubMode)<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cb<sp/>=<sp/><ref refid="classthemis_1_1imggen_1_1_s_d_plugin_registrar_1a654ef4f32475940cd62ae38831d9cdd2" kindref="member">SDPluginRegistrar::defaultReloadCallback</ref>();</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1imggen_1_1_s_d_plugin" kindref="compound">SDPlugin</ref><sp/>plugin;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>model_path<sp/>→<sp/>stub<sp/>success,<sp/>no<sp/>initialization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cb(plugin,<sp/>{}));</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(plugin.<ref refid="classthemis_1_1imggen_1_1_s_d_plugin_1a65422fd4a7eedeade057b7efdf7b5e97" kindref="member">isInitialized</ref>());</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><ref refid="test__sd__plugin__registrar_8cpp_1a17705f7f960ffa282f1b260f9df28da2" kindref="member">TEST</ref>(SDPluginRegistrarTests,<sp/>D2_DefaultReloadCallbackWithPath)<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cb<sp/>=<sp/><ref refid="classthemis_1_1imggen_1_1_s_d_plugin_registrar_1a654ef4f32475940cd62ae38831d9cdd2" kindref="member">SDPluginRegistrar::defaultReloadCallback</ref>();</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1imggen_1_1_s_d_plugin" kindref="compound">SDPlugin</ref><sp/>plugin;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1imggen_1a9024eebd946aeb051d92dcd260e0c813" kindref="member">json</ref><sp/>cfg;<sp/>cfg[</highlight><highlight class="stringliteral">&quot;model_path&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/stub/reload.ckpt&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cb(plugin,<sp/>cfg));</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(plugin.<ref refid="classthemis_1_1imggen_1_1_s_d_plugin_1a65422fd4a7eedeade057b7efdf7b5e97" kindref="member">isInitialized</ref>());</highlight></codeline>
+<codeline lineno="123"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><ref refid="test__sd__plugin__registrar_8cpp_1a17705f7f960ffa282f1b260f9df28da2" kindref="member">TEST</ref>(SDPluginRegistrarTests,<sp/>D3_DefaultReloadCallbackEmptyPath)<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cb<sp/>=<sp/><ref refid="classthemis_1_1imggen_1_1_s_d_plugin_registrar_1a654ef4f32475940cd62ae38831d9cdd2" kindref="member">SDPluginRegistrar::defaultReloadCallback</ref>();</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1imggen_1_1_s_d_plugin" kindref="compound">SDPlugin</ref><sp/>plugin;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1imggen_1a9024eebd946aeb051d92dcd260e0c813" kindref="member">json</ref><sp/>cfg;<sp/>cfg[</highlight><highlight class="stringliteral">&quot;model_path&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Empty<sp/>path<sp/>→<sp/>stub<sp/>mode,<sp/>no<sp/>initialization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cb(plugin,<sp/>cfg));</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(plugin.<ref refid="classthemis_1_1imggen_1_1_s_d_plugin_1a65422fd4a7eedeade057b7efdf7b5e97" kindref="member">isInitialized</ref>());</highlight></codeline>
+<codeline lineno="132"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="src/stable_diffusion/tests/test_sd_plugin_registrar.cpp"/>
+  </compounddef>
+</doxygen>

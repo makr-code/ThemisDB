@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="rate__limiter_8h" kind="file" language="C++">
+    <compoundname>rate_limiter.h</compoundname>
+    <includes local="no">chrono</includes>
+    <includes local="no">condition_variable</includes>
+    <includes local="no">mutex</includes>
+    <includedby refid="rate__limiter_8cpp" local="yes">src/utils/rate_limiter.cpp</includedby>
+    <includedby refid="test__utils__rate__limiter_8cpp" local="yes">tests/utils/test_utils_rate_limiter.cpp</includedby>
+    <includedby refid="test__utils__runtime__hardening_8cpp" local="yes">tests/utils/test_utils_runtime_hardening.cpp</includedby>
+    <includedby refid="test__utils__stress__concurrency_8cpp" local="yes">tests/utils/test_utils_stress_concurrency.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/utils/rate_limiter.h</label>
+        <link refid="rate__limiter_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>condition_variable</label>
+      </node>
+      <node id="4">
+        <label>mutex</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/utils/rate_limiter.h</label>
+        <link refid="rate__limiter_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/utils/rate_limiter.cpp</label>
+        <link refid="rate__limiter_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/utils/test_utils_rate_limiter.cpp</label>
+        <link refid="test__utils__rate__limiter_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/utils/test_utils_runtime_hardening.cpp</label>
+        <link refid="test__utils__runtime__hardening_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/utils/test_utils_stress_concurrency.cpp</label>
+        <link refid="test__utils__stress__concurrency_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1utils_1_1_rate_limiter" prot="public">themis::utils::RateLimiter</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1utils">themis::utils</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.13 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;condition_variable&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1utils" kindref="compound">utils</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="classthemis_1_1utils_1_1_rate_limiter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1utils_1_1_rate_limiter_1a4d47723acbd3d9f138a4c00a7dd6126b" kindref="member">RateLimiter</ref><sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Resource<sp/>limits<sp/>(Phase<sp/>2.6<sp/>cross-cutting<sp/>hardening)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="classthemis_1_1utils_1_1_rate_limiter_1a6d63e0ad5127756efa7e2e0a3f629793" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_rate_limiter_1a6d63e0ad5127756efa7e2e0a3f629793" kindref="member">MAX_RATE_PER_SECOND</ref><sp/>=<sp/>1&apos;000&apos;000.0;<sp/><sp/></highlight><highlight class="comment">//<sp/>1M<sp/>tokens/sec</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="classthemis_1_1utils_1_1_rate_limiter_1aa24ff9c17f284bef0f0f0bf85b7281e6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_rate_limiter_1aa24ff9c17f284bef0f0f0bf85b7281e6" kindref="member">MAX_BURST_SIZE</ref><sp/>=<sp/>100&apos;000&apos;000.0;<sp/><sp/></highlight><highlight class="comment">//<sp/>100M<sp/>tokens<sp/>max</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="classthemis_1_1utils_1_1_rate_limiter_1ab56e73abe759f9e0d51f49f9049ba901" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_rate_limiter_1ab56e73abe759f9e0d51f49f9049ba901" kindref="member">MIN_RATE_PER_SECOND</ref><sp/>=<sp/>0.001;<sp/><sp/></highlight><highlight class="comment">//<sp/>1<sp/>token<sp/>per<sp/>1000<sp/>seconds<sp/>min</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_rate_limiter_1a4d47723acbd3d9f138a4c00a7dd6126b" kindref="member">RateLimiter</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>rate_per_second,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>burst_size);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_rate_limiter_1a09b2ae5423d57bb3210245b8f7ec9a21" kindref="member">try_acquire</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>tokens<sp/>=<sp/>1.0);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_rate_limiter_1a0761e6a6fee52c99ab906a9395dd9390" kindref="member">try_acquire_for</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>tokens,</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>timeout)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_rate_limiter_1a1d408dc99ca97c3d9f70db67e98fdb30" kindref="member">acquire_with_timeout</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>tokens,<sp/>std::chrono::milliseconds<sp/>timeout);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_rate_limiter_1a164d6003a23b058ed42840b3c9f24018" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_rate_limiter_1a3501e9498c19b365458bd0ed52665534" kindref="member">available</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_rate_limiter_1a1847f791ace24c1c3b7e21f45483a71a" kindref="member">set_rate</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>rate_per_second);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>refill_locked();</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::duration&lt;double&gt;<sp/>wait_for_locked(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>tokens)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>std::condition_variable<sp/>cv_;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>rate_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>burst_;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>tokens_;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">Clock<sp/>=<sp/>std::chrono::steady_clock;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>Clock::time_point<sp/>last_refill_;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>utils</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/utils/rate_limiter.h"/>
+  </compounddef>
+</doxygen>

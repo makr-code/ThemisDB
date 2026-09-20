@@ -1,0 +1,351 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="task__decomposer_8h" kind="file" language="C++">
+    <compoundname>task_decomposer.h</compoundname>
+    <includes refid="i__llm__plugin_8h" local="yes">llm/i_llm_plugin.h</includes>
+    <includes refid="workflow__definition_8h" local="yes">llm/workflow_definition.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">optional</includes>
+    <includedby refid="task__decomposer_8cpp" local="yes">src/llm/task_decomposer.cpp</includedby>
+    <includedby refid="test__llm__workflow__orchestration__focused_8cpp" local="yes">tests/llm/test_llm_workflow_orchestration_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>llm/i_llm_plugin.h</label>
+        <link refid="i__llm__plugin_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>llm/json_schema_converter.h</label>
+        <link refid="json__schema__converter_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>llm/llm_plugin_interface.h</label>
+        <link refid="llm__plugin__interface_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/llm/task_decomposer.h</label>
+        <link refid="task__decomposer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>llm/workflow_definition.h</label>
+        <link refid="workflow__definition_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>atomic</label>
+      </node>
+      <node id="10">
+        <label>cstdint</label>
+      </node>
+      <node id="11">
+        <label>functional</label>
+      </node>
+      <node id="12">
+        <label>memory</label>
+      </node>
+      <node id="14">
+        <label>mutex</label>
+      </node>
+      <node id="8">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="9">
+        <label>plugins/plugin_interface.h</label>
+      </node>
+      <node id="17">
+        <label>stdexcept</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="16">
+        <label>unordered_map</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/llm/task_decomposer.h</label>
+        <link refid="task__decomposer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/llm/task_decomposer.cpp</label>
+        <link refid="task__decomposer_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/llm/test_llm_workflow_orchestration_focused.cpp</label>
+        <link refid="test__llm__workflow__orchestration__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1llm_1_1_decomposition_example" prot="public">themis::llm::DecompositionExample</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_task_decomposer_config" prot="public">themis::llm::TaskDecomposerConfig</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_sub_task" prot="public">themis::llm::SubTask</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_task_decomposition_result" prot="public">themis::llm::TaskDecompositionResult</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_task_decomposer" prot="public">themis::llm::TaskDecomposer</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <briefdescription>
+<para>Prompt-enhancement-based task decomposition for LLM inference orchestration. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>TaskDecomposer breaks a complex task description into a list of smaller, independently solvable subtasks by constructing a structured meta-prompt that instructs the LLM to produce a JSON decomposition plan. The resulting subtasks can then be executed sequentially or as a WorkflowDefinition.</para>
+<sect1 id="task__decomposer_8h_1autotoc_md23_1s1"><sect2 id="task__decomposer_8h_1autotoc_md23">
+<title>Design</title><para><orderedlist>
+<listitem><para>A <emphasis>decomposition prompt</emphasis> is built from the original task using configurable strategies (chain-of-thought, few-shot, structured-output).</para>
+</listitem><listitem><para>The LLM is asked to return a JSON array of <computeroutput>{ "id", "description", "prompt", "depends_on" }</computeroutput> objects.</para>
+</listitem><listitem><para>The decomposer validates the JSON and optionally converts the result into a <computeroutput>WorkflowDefinition</computeroutput> suitable for direct execution.</para>
+</listitem></orderedlist>
+</para>
+</sect2></sect1>
+<sect1 id="task__decomposer_8h_1autotoc_md24_1s1"><sect2 id="task__decomposer_8h_1autotoc_md24">
+<title>Integration</title><para><programlisting><codeline><highlight class="normal">TaskDecomposerConfig<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.strategy<sp/>=<sp/>DecompositionStrategy::ChainOfThought;</highlight></codeline>
+<codeline><highlight class="normal">cfg.max_subtasks<sp/>=<sp/>5;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">TaskDecomposer<sp/>decomposer(cfg);</highlight></codeline>
+<codeline><highlight class="normal">decomposer.setLLMPlugin(my_plugin);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>decomposer.decompose(</highlight><highlight class="stringliteral">&quot;Analyse<sp/>and<sp/>summarise<sp/>the<sp/>Q3<sp/>earnings<sp/>report&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(result.success)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>sub<sp/>:<sp/>result.subtasks)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/>sub.id<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>sub.description<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>workflow<sp/>=<sp/>decomposer.toWorkflow(result);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>execute<sp/>workflow<sp/>via<sp/>WorkflowExecutor<sp/>…</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+</sect2></sect1>
+<sect1 id="task__decomposer_8h_1autotoc_md25_1s1"><sect2 id="task__decomposer_8h_1autotoc_md25">
+<title>Thread Safety</title><para>TaskDecomposer is thread-safe; multiple threads may call decompose() concurrently. The LLM plugin must itself be thread-safe. </para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="i__llm__plugin_8h" kindref="compound">llm/i_llm_plugin.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="workflow__definition_8h" kindref="compound">llm/workflow_definition.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">themis::llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>1<sp/><sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="namespacethemis_1_1llm_1a18196b2fdf0c91096814f118c7042689" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1a18196b2fdf0c91096814f118c7042689" kindref="member">DecompositionStrategy</ref><sp/>{</highlight></codeline>
+<codeline lineno="64" refid="namespacethemis_1_1llm_1a18196b2fdf0c91096814f118c7042689ad1871a9d0879c32b26d56c5db6a020c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a18196b2fdf0c91096814f118c7042689ad1871a9d0879c32b26d56c5db6a020c2" kindref="member">ChainOfThought</ref>,</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="namespacethemis_1_1llm_1a18196b2fdf0c91096814f118c7042689a829c6ec1811e5cb858fb3884df510a33" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a18196b2fdf0c91096814f118c7042689a829c6ec1811e5cb858fb3884df510a33" kindref="member">DirectJson</ref>,</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="namespacethemis_1_1llm_1a18196b2fdf0c91096814f118c7042689a25a7b396cf6d52a49e12254cb459d44a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a18196b2fdf0c91096814f118c7042689a25a7b396cf6d52a49e12254cb459d44a" kindref="member">FewShot</ref>,</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal">[[nodiscard]]<sp/>std::string<sp/><ref refid="namespacethemis_1_1llm_1a731706b5cc874051ab04eadeec5841d9" kindref="member">decompositionStrategyToString</ref>(<ref refid="namespacethemis_1_1llm_1a18196b2fdf0c91096814f118c7042689" kindref="member">DecompositionStrategy</ref><sp/>s);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1llm_1_1_decomposition_example" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_decomposition_example" kindref="compound">DecompositionExample</ref><sp/>{</highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1llm_1_1_decomposition_example_1a8273547a9a77db3a21e674c33ce59af0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_decomposition_example_1a8273547a9a77db3a21e674c33ce59af0" kindref="member">task</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1llm_1_1_decomposition_example_1adfbd0b6090aee83a9c9bec4dcad5e2d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;json&gt;<sp/><ref refid="structthemis_1_1llm_1_1_decomposition_example_1adfbd0b6090aee83a9c9bec4dcad5e2d6" kindref="member">steps</ref>;<sp/></highlight></codeline>
+<codeline lineno="76"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1llm_1_1_task_decomposer_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_task_decomposer_config" kindref="compound">TaskDecomposerConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1llm_1_1_task_decomposer_config_1a9c1acbb056d986f1f3eff30fbc35049b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a18196b2fdf0c91096814f118c7042689" kindref="member">DecompositionStrategy</ref><sp/><ref refid="structthemis_1_1llm_1_1_task_decomposer_config_1a9c1acbb056d986f1f3eff30fbc35049b" kindref="member">strategy</ref><sp/>=<sp/><ref refid="namespacethemis_1_1llm_1a18196b2fdf0c91096814f118c7042689ad1871a9d0879c32b26d56c5db6a020c2" kindref="member">DecompositionStrategy::ChainOfThought</ref>;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1llm_1_1_task_decomposer_config_1a3dc8ca6b603a0befa523034105a37069" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_task_decomposer_config_1a3dc8ca6b603a0befa523034105a37069" kindref="member">max_subtasks</ref><sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1llm_1_1_task_decomposer_config_1a3df8a8c792f231877f467af2293c51f0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_task_decomposer_config_1a3df8a8c792f231877f467af2293c51f0" kindref="member">min_subtasks</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1llm_1_1_task_decomposer_config_1ac94804e071a068b930293854c525c8a4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_task_decomposer_config_1ac94804e071a068b930293854c525c8a4" kindref="member">max_tokens</ref><sp/>=<sp/>1024;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1llm_1_1_task_decomposer_config_1a4a5361d82326b4483674f4400c403419" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_task_decomposer_config_1a4a5361d82326b4483674f4400c403419" kindref="member">temperature</ref><sp/>=<sp/>0.2f;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1llm_1_1_task_decomposer_config_1aed6aa29b4b35824736140126cf1c3133" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_task_decomposer_config_1aed6aa29b4b35824736140126cf1c3133" kindref="member">domain_context</ref>;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1llm_1_1_task_decomposer_config_1ab675250f655c775725539de597146bf1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_task_decomposer_config_1ab675250f655c775725539de597146bf1" kindref="member">output_language</ref>;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1llm_1_1_task_decomposer_config_1af11cc875aa22713cf1ba55e6b3a7fc6b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;DecompositionExample&gt;<sp/><ref refid="structthemis_1_1llm_1_1_task_decomposer_config_1af11cc875aa22713cf1ba55e6b3a7fc6b" kindref="member">few_shot_examples</ref>;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1llm_1_1_task_decomposer_config_1a390aed7e3b4b5542abf52a7efa548f09" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_task_decomposer_config_1a390aed7e3b4b5542abf52a7efa548f09" kindref="member">max_retries</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>2<sp/><sp/>Result<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1llm_1_1_sub_task" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_sub_task" kindref="compound">SubTask</ref><sp/>{</highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1llm_1_1_sub_task_1a8679897817693e79889008e5b24de3f0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1llm_1_1_sub_task_1a3488946018eae0403aea3be348079d0e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_sub_task_1a3488946018eae0403aea3be348079d0e" kindref="member">description</ref>;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1llm_1_1_sub_task_1ac7fe48a73763c04fa1ff9b23775f0581" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_sub_task_1ac7fe48a73763c04fa1ff9b23775f0581" kindref="member">prompt</ref>;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1llm_1_1_sub_task_1a6cd7143a1dae57036e487b28b8747d37" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_sub_task_1a6cd7143a1dae57036e487b28b8747d37" kindref="member">depends_on</ref>;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1llm_1_1_sub_task_1a6b801557d0a06eaa92fd647009b909f4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref><sp/><ref refid="structthemis_1_1llm_1_1_sub_task_1a6b801557d0a06eaa92fd647009b909f4" kindref="member">raw</ref>;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1llm_1_1_task_decomposition_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_task_decomposition_result" kindref="compound">TaskDecompositionResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1llm_1_1_task_decomposition_result_1a1df99714ff298db0c2a210ebd0fd850e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_task_decomposition_result_1a1df99714ff298db0c2a210ebd0fd850e" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1llm_1_1_task_decomposition_result_1a86c5d8bcde0ed3be085a104546fcd305" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;SubTask&gt;<sp/><ref refid="structthemis_1_1llm_1_1_task_decomposition_result_1a86c5d8bcde0ed3be085a104546fcd305" kindref="member">subtasks</ref>;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1llm_1_1_task_decomposition_result_1ad238152d3b6d8a3b98ce7e87819d23e3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_task_decomposition_result_1ad238152d3b6d8a3b98ce7e87819d23e3" kindref="member">decomposition_prompt</ref>;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1llm_1_1_task_decomposition_result_1a7f782dda6eebe8e33d41938f03f024eb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_task_decomposition_result_1a7f782dda6eebe8e33d41938f03f024eb" kindref="member">raw_llm_response</ref>;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1llm_1_1_task_decomposition_result_1ae9d4b03911850c7ee43e0aa7017da834" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_task_decomposition_result_1ae9d4b03911850c7ee43e0aa7017da834" kindref="member">error</ref>;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1llm_1_1_task_decomposition_result_1a32b462503287bcd18bbc9fe43db2a6ac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_task_decomposition_result_1a32b462503287bcd18bbc9fe43db2a6ac" kindref="member">llm_calls_made</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127" refid="structthemis_1_1llm_1_1_task_decomposition_result_1ad4fdc530fd5314fb49f9c48247eeb2d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_task_decomposition_result_1ad4fdc530fd5314fb49f9c48247eeb2d6" kindref="member">tokens_consumed</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>3<sp/><sp/>TaskDecomposer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134" refid="classthemis_1_1llm_1_1_task_decomposer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_task_decomposer_1a32c0878bff44c02f7f91ceb002929830" kindref="member">TaskDecomposer</ref><sp/>{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_task_decomposer_1a32c0878bff44c02f7f91ceb002929830" kindref="member">TaskDecomposer</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_task_decomposer_config" kindref="compound">TaskDecomposerConfig</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_task_decomposer_1afe3a3006c6de6360b064006a597e1acf" kindref="member">config</ref><sp/>=<sp/><ref refid="structthemis_1_1llm_1_1_task_decomposer_config" kindref="compound">TaskDecomposerConfig</ref>{});</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138" refid="classthemis_1_1llm_1_1_task_decomposer_1aa507590e38ef99f6312d6d4740caf74c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_task_decomposer_1aa507590e38ef99f6312d6d4740caf74c" kindref="member">~TaskDecomposer</ref>();</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>copy<sp/>—<sp/>owns<sp/>the<sp/>LLM<sp/>plugin<sp/>reference.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141" refid="classthemis_1_1llm_1_1_task_decomposer_1abba6dc6275af6efc97ba3e060fe8e529" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_task_decomposer_1abba6dc6275af6efc97ba3e060fe8e529" kindref="member">TaskDecomposer</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_task_decomposer_1a32c0878bff44c02f7f91ceb002929830" kindref="member">TaskDecomposer</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="142" refid="classthemis_1_1llm_1_1_task_decomposer_1af1579dd665ae6f04b6c06b2c435ea55c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_task_decomposer_1a32c0878bff44c02f7f91ceb002929830" kindref="member">TaskDecomposer</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_task_decomposer_1af1579dd665ae6f04b6c06b2c435ea55c" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_task_decomposer_1a32c0878bff44c02f7f91ceb002929830" kindref="member">TaskDecomposer</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Move<sp/>is<sp/>supported.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145" refid="classthemis_1_1llm_1_1_task_decomposer_1af4a3510e5b6d8dbe7bfde2908c45fc88" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_task_decomposer_1af4a3510e5b6d8dbe7bfde2908c45fc88" kindref="member">TaskDecomposer</ref>(<ref refid="classthemis_1_1llm_1_1_task_decomposer_1a32c0878bff44c02f7f91ceb002929830" kindref="member">TaskDecomposer</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>noexcept;</highlight></codeline>
+<codeline lineno="146" refid="classthemis_1_1llm_1_1_task_decomposer_1aae292f0585c38e9120d16970f7d16889" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_task_decomposer_1a32c0878bff44c02f7f91ceb002929830" kindref="member">TaskDecomposer</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1llm_1_1_task_decomposer_1a32c0878bff44c02f7f91ceb002929830" kindref="member">TaskDecomposer</ref>&amp;&amp;)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_task_decomposer_1a9c09a1672e04362f048906478240cb03" kindref="member">setLLMPlugin</ref>(std::shared_ptr&lt;<ref refid="classthemis_1_1llm_1_1_i_l_l_m_plugin" kindref="compound">ILLMPlugin</ref>&gt;<sp/>plugin);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_task_decomposer_1aa4ba7df592ef427d9d86e35614dadc2e" kindref="member">setConfig</ref>(const<sp/><ref refid="structthemis_1_1llm_1_1_task_decomposer_config" kindref="compound">TaskDecomposerConfig</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_task_decomposer_1afe3a3006c6de6360b064006a597e1acf" kindref="member">config</ref>);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1llm_1_1_task_decomposer_config" kindref="compound">TaskDecomposerConfig</ref><sp/><ref refid="classthemis_1_1llm_1_1_task_decomposer_1afe3a3006c6de6360b064006a597e1acf" kindref="member">config</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Core<sp/>operation<sp/>───────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1llm_1_1_task_decomposition_result" kindref="compound">TaskDecompositionResult</ref><sp/><ref refid="classthemis_1_1llm_1_1_task_decomposer_1a038b3c3ef7fda74a9ed3c4ae1577812a" kindref="member">decompose</ref>(</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>task,</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>extra_ctx<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)<sp/>const;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Conversion<sp/>───────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>static<sp/><ref refid="structthemis_1_1llm_1_1_workflow_definition" kindref="compound">WorkflowDefinition</ref><sp/><ref refid="classthemis_1_1llm_1_1_task_decomposer_1a074eef7d0d291a45a5aeb4a702feda2e" kindref="member">toWorkflow</ref>(</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1llm_1_1_task_decomposition_result" kindref="compound">TaskDecompositionResult</ref>&amp;<sp/>result,</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>workflow_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;decomposed_workflow&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Prompt<sp/>inspection<sp/>────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_task_decomposer_1a7c287069ee1e0dbe08828dd65a708bc5" kindref="member">buildDecompositionPrompt</ref>(</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>task,</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>extra_ctx<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)<sp/>const;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><ref refid="test__llm__memory__safety_8cpp_1a6a1d6e1a12975a4e9a0b5b952e79eaad" kindref="member">private</ref>:</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>struct<sp/><ref refid="structthemis_1_1llm_1_1_task_decomposer_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;<ref refid="structthemis_1_1llm_1_1_task_decomposer_1_1_impl" kindref="compound">Impl</ref>&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Internal<sp/>helpers<sp/>─────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>buildChainOfThoughtPrompt(</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>task,</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>extra_ctx)<sp/>const;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>buildDirectJsonPrompt(</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>task,</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>extra_ctx)<sp/>const;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>buildFewShotPrompt(</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>task,</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>extra_ctx)<sp/>const;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1llm_1_1_task_decomposition_result" kindref="compound">TaskDecompositionResult</ref><sp/>parseResponse(</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>raw_response,</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>prompt)<sp/>const;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;<ref refid="structthemis_1_1llm_1_1_sub_task" kindref="compound">SubTask</ref>&gt;<sp/>parseSubtasksFromJson(</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref>&amp;<sp/>arr)<sp/>const;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::llm</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/task_decomposer.h"/>
+  </compounddef>
+</doxygen>

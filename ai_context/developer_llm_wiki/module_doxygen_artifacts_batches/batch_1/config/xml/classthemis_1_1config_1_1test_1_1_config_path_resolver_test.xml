@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1config_1_1test_1_1_config_path_resolver_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::config::test::ConfigPathResolverTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1config_1_1test_1_1_config_path_resolver_test_1af85d6544c1c2305a6457ae5c0927fe2f" prot="protected" static="no" mutable="no">
+        <type>std::filesystem::path</type>
+        <definition>std::filesystem::path themis::config::test::ConfigPathResolverTest::test_dir_</definition>
+        <argsstring></argsstring>
+        <name>test_dir_</name>
+        <qualifiedname>themis::config::test::ConfigPathResolverTest::test_dir_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/config/test_config_path_resolver.cpp" line="49" column="27" bodyfile="tests/config/test_config_path_resolver.cpp" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1config_1_1test_1_1_config_path_resolver_test_1a039884b04e0f369edad98f04408f3dae" prot="protected" static="no" mutable="no">
+        <type>std::filesystem::path</type>
+        <definition>std::filesystem::path themis::config::test::ConfigPathResolverTest::legacy_path_</definition>
+        <argsstring></argsstring>
+        <name>legacy_path_</name>
+        <qualifiedname>themis::config::test::ConfigPathResolverTest::legacy_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/config/test_config_path_resolver.cpp" line="50" column="27" bodyfile="tests/config/test_config_path_resolver.cpp" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1config_1_1test_1_1_config_path_resolver_test_1ad6cae1041b4c2868cc3804e72ffbb7cd" prot="protected" static="no" mutable="no">
+        <type>std::filesystem::path</type>
+        <definition>std::filesystem::path themis::config::test::ConfigPathResolverTest::new_path_</definition>
+        <argsstring></argsstring>
+        <name>new_path_</name>
+        <qualifiedname>themis::config::test::ConfigPathResolverTest::new_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/config/test_config_path_resolver.cpp" line="51" column="27" bodyfile="tests/config/test_config_path_resolver.cpp" bodystart="51" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1config_1_1test_1_1_config_path_resolver_test_1a3440f4fcd3065b72c68d6eb0749547ef" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::config::test::ConfigPathResolverTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::config::test::ConfigPathResolverTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/config/test_config_path_resolver.cpp" line="18" column="10" bodyfile="tests/config/test_config_path_resolver.cpp" bodystart="18" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1test_1_1_config_path_resolver_test_1a449a071ada63a49c103e415e87b47cdb" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::config::test::ConfigPathResolverTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::config::test::ConfigPathResolverTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/config/test_config_path_resolver.cpp" line="38" column="10" bodyfile="tests/config/test_config_path_resolver.cpp" bodystart="38" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1test_1_1_config_path_resolver_test_1a5185ec0ae046bafeddbfdd2dd022f6fe" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::config::test::ConfigPathResolverTest::createTestFile</definition>
+        <argsstring>(const std::filesystem::path &amp;path)</argsstring>
+        <name>createTestFile</name>
+        <qualifiedname>themis::config::test::ConfigPathResolverTest::createTestFile</qualifiedname>
+        <param>
+          <type>const std::filesystem::path &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/config/test_config_path_resolver.cpp" line="43" column="10" bodyfile="tests/config/test_config_path_resolver.cpp" bodystart="43" bodyend="47"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::config::test::ConfigPathResolverTest</label>
+        <link refid="classthemis_1_1config_1_1test_1_1_config_path_resolver_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::config::test::ConfigPathResolverTest</label>
+        <link refid="classthemis_1_1config_1_1test_1_1_config_path_resolver_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/config/test_config_path_resolver.cpp" line="16" column="1" bodyfile="tests/config/test_config_path_resolver.cpp" bodystart="16" bodyend="52"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1config_1_1test_1_1_config_path_resolver_test_1a5185ec0ae046bafeddbfdd2dd022f6fe" prot="protected" virt="non-virtual"><scope>themis::config::test::ConfigPathResolverTest</scope><name>createTestFile</name></member>
+      <member refid="classthemis_1_1config_1_1test_1_1_config_path_resolver_test_1a039884b04e0f369edad98f04408f3dae" prot="protected" virt="non-virtual"><scope>themis::config::test::ConfigPathResolverTest</scope><name>legacy_path_</name></member>
+      <member refid="classthemis_1_1config_1_1test_1_1_config_path_resolver_test_1ad6cae1041b4c2868cc3804e72ffbb7cd" prot="protected" virt="non-virtual"><scope>themis::config::test::ConfigPathResolverTest</scope><name>new_path_</name></member>
+      <member refid="classthemis_1_1config_1_1test_1_1_config_path_resolver_test_1a3440f4fcd3065b72c68d6eb0749547ef" prot="protected" virt="non-virtual"><scope>themis::config::test::ConfigPathResolverTest</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1config_1_1test_1_1_config_path_resolver_test_1a449a071ada63a49c103e415e87b47cdb" prot="protected" virt="non-virtual"><scope>themis::config::test::ConfigPathResolverTest</scope><name>TearDown</name></member>
+      <member refid="classthemis_1_1config_1_1test_1_1_config_path_resolver_test_1af85d6544c1c2305a6457ae5c0927fe2f" prot="protected" virt="non-virtual"><scope>themis::config::test::ConfigPathResolverTest</scope><name>test_dir_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

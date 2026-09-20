@@ -1,0 +1,534 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1_process_agentic_rag" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::ProcessAgenticRag</compoundname>
+    <includes refid="process__agentic__rag_8h" local="no">process_agentic_rag.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_process_agentic_rag_1af2ac1881cfea9315c8d7ed60bd987b24" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1process_1_1_process_graph_rag" kindref="compound">ProcessGraphRag</ref> &amp;</type>
+        <definition>ProcessGraphRag&amp; themis::process::ProcessAgenticRag::rag_</definition>
+        <argsstring></argsstring>
+        <name>rag_</name>
+        <qualifiedname>themis::process::ProcessAgenticRag::rag_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_agentic_rag.h" line="236" column="25" bodyfile="include/process/process_agentic_rag.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_process_agentic_rag_1a96a1a25352bc8e767344531a46c48f75" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1process_1_1_process_agentic_config" kindref="compound">ProcessAgenticConfig</ref></type>
+        <definition>ProcessAgenticConfig themis::process::ProcessAgenticRag::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::process::ProcessAgenticRag::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_agentic_rag.h" line="237" column="26" bodyfile="include/process/process_agentic_rag.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_agentic_rag_1ac749fe8679318dbe5a4bbf3f0a81be77" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::ProcessAgenticRag::ProcessAgenticRag</definition>
+        <argsstring>(ProcessGraphRag &amp;rag)</argsstring>
+        <name>ProcessAgenticRag</name>
+        <qualifiedname>themis::process::ProcessAgenticRag::ProcessAgenticRag</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1process_1_1_process_graph_rag" kindref="compound">ProcessGraphRag</ref> &amp;</type>
+          <declname>rag</declname>
+        </param>
+        <briefdescription>
+<para>Construct with default configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>rag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classthemis_1_1process_1_1_process_graph_rag" kindref="compound">ProcessGraphRag</ref> reference (must outlive this object). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_agentic_rag.h" line="140" column="14" bodyfile="src/process/process_agentic_rag.cpp" bodystart="35" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_agentic_rag_1aa4dd64db032d5df59fcaefdb1c0103ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::ProcessAgenticRag::ProcessAgenticRag</definition>
+        <argsstring>(ProcessGraphRag &amp;rag, const ProcessAgenticConfig &amp;config)</argsstring>
+        <name>ProcessAgenticRag</name>
+        <qualifiedname>themis::process::ProcessAgenticRag::ProcessAgenticRag</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1process_1_1_process_graph_rag" kindref="compound">ProcessGraphRag</ref> &amp;</type>
+          <declname>rag</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_process_agentic_config" kindref="compound">ProcessAgenticConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct with custom configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>rag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classthemis_1_1process_1_1_process_graph_rag" kindref="compound">ProcessGraphRag</ref> reference. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tuning parameters. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_agentic_rag.h" line="147" column="5" bodyfile="src/process/process_agentic_rag.cpp" bodystart="39" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_agentic_rag_1aff167420da95142274e0cab1fe55ce6c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::ProcessAgenticRag::~ProcessAgenticRag</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ProcessAgenticRag</name>
+        <qualifiedname>themis::process::ProcessAgenticRag::~ProcessAgenticRag</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_agentic_rag.h" line="149" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_agentic_rag_1a4a7d3eeed554ad30ba39b9619a99eb7c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::ProcessAgenticRag::ProcessAgenticRag</definition>
+        <argsstring>(const ProcessAgenticRag &amp;)=delete</argsstring>
+        <name>ProcessAgenticRag</name>
+        <qualifiedname>themis::process::ProcessAgenticRag::ProcessAgenticRag</qualifiedname>
+        <param>
+          <type>const ProcessAgenticRag &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_agentic_rag.h" line="152" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_agentic_rag_1a1ec7b39ef91a1f34544df4b12cdcac35" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1process_1_1_process_agentic_rag_1ac749fe8679318dbe5a4bbf3f0a81be77" kindref="member">ProcessAgenticRag</ref> &amp;</type>
+        <definition>ProcessAgenticRag &amp; themis::process::ProcessAgenticRag::operator=</definition>
+        <argsstring>(const ProcessAgenticRag &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::process::ProcessAgenticRag::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1process_1_1_process_agentic_rag_1ac749fe8679318dbe5a4bbf3f0a81be77" kindref="member">ProcessAgenticRag</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_agentic_rag.h" line="153" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_agentic_rag_1abd6c5ea6b2d101aa59c461d2f4460ca7" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_process_agentic_result" kindref="compound">ProcessAgenticResult</ref></type>
+        <definition>ProcessAgenticResult themis::process::ProcessAgenticRag::iterativeQuery</definition>
+        <argsstring>(std::string_view instance_id, std::string_view question)</argsstring>
+        <name>iterativeQuery</name>
+        <qualifiedname>themis::process::ProcessAgenticRag::iterativeQuery</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>instance_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>question</declname>
+        </param>
+        <briefdescription>
+<para>Run the iterative agentic Q&amp;A loop for a process instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Iterative Query.</para>
+<para>The loop:<orderedlist>
+<listitem><para>Retrieves an initial process context via <ref refid="classthemis_1_1process_1_1_process_graph_rag_1ad0fea75fe4ff6855dba1bd2295123bc0" kindref="member">ProcessGraphRag::retrieve()</ref>.</para>
+</listitem><listitem><para>Encodes the context as RetrievedDocument objects.</para>
+</listitem><listitem><para>Runs the AgenticRAG loop to refine coverage.</para>
+</listitem><listitem><para>Returns the final enriched context and LLM prompt.</para>
+</listitem></orderedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>instance_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Process instance ID. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>question</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Natural-language question (DE or EN). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1process_1_1_process_agentic_result" kindref="compound">ProcessAgenticResult</ref> with the final LLM prompt.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">instance_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the instance. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">question</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_agentic_rag.h" line="172" column="27" bodyfile="src/process/process_agentic_rag.cpp" bodystart="309" bodyend="316"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_agentic_rag_1a6761c43344d279e6e697d77a9dde703d" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_process_agentic_result" kindref="compound">ProcessAgenticResult</ref></type>
+        <definition>ProcessAgenticResult themis::process::ProcessAgenticRag::iterativeQueryForNode</definition>
+        <argsstring>(std::string_view instance_id, std::string_view node_id, std::string_view question)</argsstring>
+        <name>iterativeQueryForNode</name>
+        <qualifiedname>themis::process::ProcessAgenticRag::iterativeQueryForNode</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>instance_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>node_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>question</declname>
+        </param>
+        <briefdescription>
+<para>Run for a specific node within a process instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Iterative Query For Node.</para>
+<para>Like <ref refid="classthemis_1_1process_1_1_process_agentic_rag_1abd6c5ea6b2d101aa59c461d2f4460ca7" kindref="member">iterativeQuery()</ref> but seeds the initial retrieval from <ref refid="classthemis_1_1process_1_1_process_graph_rag_1ad8de218c5631b89aae55bf26a77e0ee4" kindref="member">ProcessGraphRag::retrieveForNode()</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>instance_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Process instance ID. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Seed node ID. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>question</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Natural-language question.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">instance_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the instance. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">question</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_agentic_rag.h" line="187" column="27" bodyfile="src/process/process_agentic_rag.cpp" bodystart="325" bodyend="333"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_agentic_rag_1a5a239f408481947d9f28a3a326da6911" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1process_1_1_process_agentic_config" kindref="compound">ProcessAgenticConfig</ref> &amp;</type>
+        <definition>const ProcessAgenticConfig &amp; themis::process::ProcessAgenticRag::config</definition>
+        <argsstring>() const</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::process::ProcessAgenticRag::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_agentic_rag.h" line="197" column="32" bodyfile="include/process/process_agentic_rag.h" bodystart="197" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_agentic_rag_1ae221c76160b0034a46f2e0ef3dfb18eb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::process::ProcessAgenticRag::setConfig</definition>
+        <argsstring>(const ProcessAgenticConfig &amp;cfg)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::process::ProcessAgenticRag::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_process_agentic_config" kindref="compound">ProcessAgenticConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_agentic_rag.h" line="198" column="10" bodyfile="include/process/process_agentic_rag.h" bodystart="198" bodyend="198"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_agentic_rag_1ad4f648d4c93cdd1e2726168487c86da3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; rag::judge::RetrievedDocument &gt;</type>
+        <definition>std::vector&lt; rag::judge::RetrievedDocument &gt; themis::process::ProcessAgenticRag::encodeContext</definition>
+        <argsstring>(const ProcessRagContext &amp;ctx)</argsstring>
+        <name>encodeContext</name>
+        <qualifiedname>themis::process::ProcessAgenticRag::encodeContext</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_process_rag_context" kindref="compound">ProcessRagContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Encode a <ref refid="structthemis_1_1process_1_1_process_rag_context" kindref="compound">ProcessRagContext</ref> into a vector of RetrievedDocument.</para>
+<para>This method safely encodes all context fields (prompt, subgraph, attachments, similar cases, missing documents) into RetrievedDocument objects.</para>
+<para>Safety notes:<itemizedlist>
+<listitem><para>String concatenation using std::string::operator+ is bounds-safe (C++ standard)</para>
+</listitem><listitem><para>std::to_string() produces valid output strings with proper bounds checking</para>
+</listitem><listitem><para>std::move() on vectors is safe and transfers ownership without copying</para>
+</listitem><listitem><para>JSON dump(2) produces bounded output from the JSON serializer</para>
+</listitem></itemizedlist>
+</para>
+<para>Complexity: O(n) where n = total fields in context </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_agentic_rag.h" line="212" column="24" bodyfile="src/process/process_agentic_rag.cpp" bodystart="49" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_agentic_rag_1a47cbce1be690fd7567c01f58b360af2e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_process_rag_context" kindref="compound">ProcessRagContext</ref></type>
+        <definition>ProcessRagContext themis::process::ProcessAgenticRag::mergeDocuments</definition>
+        <argsstring>(ProcessRagContext ctx, const std::vector&lt; rag::judge::RetrievedDocument &gt; &amp;extra_docs)</argsstring>
+        <name>mergeDocuments</name>
+        <qualifiedname>themis::process::ProcessAgenticRag::mergeDocuments</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1process_1_1_process_rag_context" kindref="compound">ProcessRagContext</ref></type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; rag::judge::RetrievedDocument &gt; &amp;</type>
+          <declname>extra_docs</declname>
+        </param>
+        <briefdescription>
+<para>------------------------------------------------------------------------<mdash/> mergeDocuments – incorporate extra docs back into context ------------------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Merge additional documents back into a <ref refid="structthemis_1_1process_1_1_process_rag_context" kindref="compound">ProcessRagContext</ref>.</para>
+<para>Intelligently incorporates RetrievedDocument objects back into the context, avoiding duplicates and preserving structured fields.</para>
+<para>Implementation note: Uses O(n) set-based deduplication:<orderedlist>
+<listitem><para>Builds an unordered_set of existing IDs: O(n)</para>
+</listitem><listitem><para>For each new document, O(1) set lookup to check if duplicate</para>
+</listitem><listitem><para>Overall complexity: O(n + m) where n = existing docs, m = new docs</para>
+</listitem></orderedlist>
+</para>
+<para>The metadata map lookup uses std::map::find() which is O(log k) where k is the size of metadata per document (typically 4-6 fields).</para>
+<para>Safety: Uses RAII containers (vector, set, map) — no manual memory management.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">extra_docs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_agentic_rag.h" line="230" column="30" bodyfile="src/process/process_agentic_rag.cpp" bodystart="131" bodyend="183"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_agentic_rag_1af9717efb18dbe27777f916e2babbf2af" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_process_agentic_result" kindref="compound">ProcessAgenticResult</ref></type>
+        <definition>ProcessAgenticResult themis::process::ProcessAgenticRag::runLoop</definition>
+        <argsstring>(std::string_view instance_id, std::string_view question, ProcessRagContext initial_ctx)</argsstring>
+        <name>runLoop</name>
+        <qualifiedname>themis::process::ProcessAgenticRag::runLoop</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>instance_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>question</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1process_1_1_process_rag_context" kindref="compound">ProcessRagContext</ref></type>
+          <declname>initial_ctx</declname>
+        </param>
+        <briefdescription>
+<para>Run the full agentic loop given the initial context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Run Loop.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">instance_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the instance. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">question</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">initial_ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Agent. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">agentic_cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Build the retrieval callback: on subsequent iterations, re-retrieve with the reformulated query and return newly-seen documents. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">instance_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the instance. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/process/process_agentic_rag.h" line="240" column="26" bodyfile="src/process/process_agentic_rag.cpp" bodystart="196" bodyend="297"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Iterative agentic Q&amp;A engine for process instances. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Wraps <ref refid="classthemis_1_1process_1_1_process_graph_rag" kindref="compound">ProcessGraphRag</ref> and AgenticRAG to provide multi-hop question answering over running Verwaltungsvorgänge.</para>
+<para>Typical usage: <programlisting><codeline><highlight class="normal">ProcessAgenticConfig<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.max_iterations<sp/>=<sp/>3;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1process_1_1_process_agentic_rag_1ac749fe8679318dbe5a4bbf3f0a81be77" kindref="member">ProcessAgenticRag</ref><sp/>agent(graph_rag,<sp/>cfg);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>agent.iterativeQuery(</highlight><highlight class="stringliteral">&quot;inst-42&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Was<sp/>fehlt<sp/>noch<sp/>für<sp/>den<sp/>Bauantrag?&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>result.llm_prompt<sp/>is<sp/>ready<sp/>to<sp/>send<sp/>to<sp/>the<sp/>LLM</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/process/process_agentic_rag.h" line="134" column="1" bodyfile="include/process/process_agentic_rag.h" bodystart="134" bodyend="245"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1_process_agentic_rag_1a5a239f408481947d9f28a3a326da6911" prot="public" virt="non-virtual"><scope>themis::process::ProcessAgenticRag</scope><name>config</name></member>
+      <member refid="classthemis_1_1process_1_1_process_agentic_rag_1a96a1a25352bc8e767344531a46c48f75" prot="private" virt="non-virtual"><scope>themis::process::ProcessAgenticRag</scope><name>config_</name></member>
+      <member refid="classthemis_1_1process_1_1_process_agentic_rag_1ad4f648d4c93cdd1e2726168487c86da3" prot="public" virt="non-virtual"><scope>themis::process::ProcessAgenticRag</scope><name>encodeContext</name></member>
+      <member refid="classthemis_1_1process_1_1_process_agentic_rag_1abd6c5ea6b2d101aa59c461d2f4460ca7" prot="public" virt="non-virtual"><scope>themis::process::ProcessAgenticRag</scope><name>iterativeQuery</name></member>
+      <member refid="classthemis_1_1process_1_1_process_agentic_rag_1a6761c43344d279e6e697d77a9dde703d" prot="public" virt="non-virtual"><scope>themis::process::ProcessAgenticRag</scope><name>iterativeQueryForNode</name></member>
+      <member refid="classthemis_1_1process_1_1_process_agentic_rag_1a47cbce1be690fd7567c01f58b360af2e" prot="public" virt="non-virtual"><scope>themis::process::ProcessAgenticRag</scope><name>mergeDocuments</name></member>
+      <member refid="classthemis_1_1process_1_1_process_agentic_rag_1a1ec7b39ef91a1f34544df4b12cdcac35" prot="public" virt="non-virtual"><scope>themis::process::ProcessAgenticRag</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1process_1_1_process_agentic_rag_1ac749fe8679318dbe5a4bbf3f0a81be77" prot="public" virt="non-virtual"><scope>themis::process::ProcessAgenticRag</scope><name>ProcessAgenticRag</name></member>
+      <member refid="classthemis_1_1process_1_1_process_agentic_rag_1aa4dd64db032d5df59fcaefdb1c0103ce" prot="public" virt="non-virtual"><scope>themis::process::ProcessAgenticRag</scope><name>ProcessAgenticRag</name></member>
+      <member refid="classthemis_1_1process_1_1_process_agentic_rag_1a4a7d3eeed554ad30ba39b9619a99eb7c" prot="public" virt="non-virtual"><scope>themis::process::ProcessAgenticRag</scope><name>ProcessAgenticRag</name></member>
+      <member refid="classthemis_1_1process_1_1_process_agentic_rag_1af2ac1881cfea9315c8d7ed60bd987b24" prot="private" virt="non-virtual"><scope>themis::process::ProcessAgenticRag</scope><name>rag_</name></member>
+      <member refid="classthemis_1_1process_1_1_process_agentic_rag_1af9717efb18dbe27777f916e2babbf2af" prot="private" virt="non-virtual"><scope>themis::process::ProcessAgenticRag</scope><name>runLoop</name></member>
+      <member refid="classthemis_1_1process_1_1_process_agentic_rag_1ae221c76160b0034a46f2e0ef3dfb18eb" prot="public" virt="non-virtual"><scope>themis::process::ProcessAgenticRag</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1process_1_1_process_agentic_rag_1aff167420da95142274e0cab1fe55ce6c" prot="public" virt="non-virtual"><scope>themis::process::ProcessAgenticRag</scope><name>~ProcessAgenticRag</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

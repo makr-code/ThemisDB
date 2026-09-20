@@ -1,0 +1,319 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="scraper__diagnostics_8h" kind="file" language="C++">
+    <compoundname>scraper_diagnostics.h</compoundname>
+    <includes refid="scraper__api__contract_8h" local="yes">scraper/scraper_api_contract.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="bench__scraper__pipeline__depth_8cpp" local="yes">benchmarks/scraper/bench_scraper_pipeline_depth.cpp</includedby>
+    <includedby refid="scraper__run__summary_8h" local="yes">include/scraper/scraper_run_summary.h</includedby>
+    <includedby refid="test__scraper__phase2__phase3__hardening__focused_8cpp" local="yes">tests/scraper/test_scraper_phase2_phase3_hardening_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>scraper/scraper_api_contract.h</label>
+        <link refid="scraper__api__contract_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/scraper/scraper_diagnostics.h</label>
+        <link refid="scraper__diagnostics_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="7">
+        <label>mutex</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/scraper/bench_scraper_pipeline_depth.cpp</label>
+        <link refid="bench__scraper__pipeline__depth_8cpp"/>
+      </node>
+      <node id="4">
+        <label>benchmarks/scraper/bench_scraper_release_gates.cpp</label>
+        <link refid="bench__scraper__release__gates_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/scraper/scraper_diagnostics.h</label>
+        <link refid="scraper__diagnostics_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/scraper/scraper_run_summary.h</label>
+        <link refid="scraper__run__summary_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>tests/scraper/test_scraper_phase2_phase3_hardening_focused.cpp</label>
+        <link refid="test__scraper__phase2__phase3__hardening__focused_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/scraper/test_scraper_run_summary_focused.cpp</label>
+        <link refid="test__scraper__run__summary__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1scraper_1_1_scraper_diagnostic_event" prot="public">themis::scraper::ScraperDiagnosticEvent</innerclass>
+    <innerclass refid="classthemis_1_1scraper_1_1_i_scraper_diagnostic_sink" prot="public">themis::scraper::IScraperDiagnosticSink</innerclass>
+    <innerclass refid="classthemis_1_1scraper_1_1_null_scraper_diagnostic_sink" prot="public">themis::scraper::NullScraperDiagnosticSink</innerclass>
+    <innerclass refid="classthemis_1_1scraper_1_1_listening_scraper_diagnostic_sink" prot="public">themis::scraper::ListeningScraperDiagnosticSink</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1scraper">themis::scraper</innernamespace>
+    <briefdescription>
+<para>Unified diagnostics primitives for scraper pipeline fault classes. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0</para>
+</simplesect>
+</para>
+<sect1 id="scraper__diagnostics_8h_1autotoc_md6_1s1"><sect2 id="scraper__diagnostics_8h_1autotoc_md6">
+<title>§Purpose</title><para>Provides a structured, machine-parseable diagnostic vocabulary that unifies fault reporting across the crawler, evaluator, and metadata-writer stages of the scraper pipeline. All scraper diagnostic events are expressed as a ScraperDiagnosticEvent with a ScraperFaultClass and a ScraperFaultSeverity.</para>
+</sect2></sect1>
+<sect1 id="scraper__diagnostics_8h_1autotoc_md7_1s1"><sect2 id="scraper__diagnostics_8h_1autotoc_md7">
+<title>§Design Constraints</title><para><itemizedlist>
+<listitem><para>Diagnostic types are header-only value types; no allocation beyond std::string fields.</para>
+</listitem><listitem><para>All degraded and fallback paths that emit diagnostics MUST do so non-silently: the ScraperDiagnosticEvent::message field is mandatory.</para>
+</listitem><listitem><para>The IScraperDiagnosticSink interface is the sole channel for emitting events to operator-visible log/metrics sinks.</para>
+</listitem><listitem><para>Implementations must be thread-safe: concurrent emits from the bounded thread pool must not corrupt sink state.</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="scraper__diagnostics_8h_1autotoc_md8_1s1"><sect2 id="scraper__diagnostics_8h_1autotoc_md8">
+<title>§Usage</title><para><programlisting filename=".cpp"><codeline><highlight class="normal">ScraperDiagnosticEvent<sp/>ev;</highlight></codeline>
+<codeline><highlight class="normal">ev.fault_class<sp/><sp/>=<sp/>ScraperFaultClass::kFetchPath;</highlight></codeline>
+<codeline><highlight class="normal">ev.severity<sp/><sp/><sp/><sp/><sp/>=<sp/>ScraperFaultSeverity::kWarning;</highlight></codeline>
+<codeline><highlight class="normal">ev.error<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>ScraperError::kFetchFailed;</highlight></codeline>
+<codeline><highlight class="normal">ev.source_url<sp/><sp/><sp/>=<sp/>request.source_url;</highlight></codeline>
+<codeline><highlight class="normal">ev.message<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;HTTP<sp/>429<sp/>–<sp/>rate<sp/>limit;<sp/>backing<sp/>off&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">sink.emit(ev);</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="see"><para><ref refid="scraper__api__contract_8h" kindref="compound">include/scraper/scraper_api_contract.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para>src/scraper/ROADMAP.md — Phase 3 items </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="scraper__api__contract_8h" kindref="compound">scraper/scraper_api_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1scraper" kindref="compound">scraper</ref><sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>1<sp/><sp/>Fault<sp/>classification</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="namespacethemis_1_1scraper_1af794be7fb8820ae6a899383abb2de293" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1scraper_1af794be7fb8820ae6a899383abb2de293" kindref="member">ScraperFaultClass</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="69" refid="namespacethemis_1_1scraper_1af794be7fb8820ae6a899383abb2de293a6a2a38efde5abfd327630a9f1127b2f1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1af794be7fb8820ae6a899383abb2de293a6a2a38efde5abfd327630a9f1127b2f1" kindref="member">kFetchPath</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0,<sp/></highlight></codeline>
+<codeline lineno="70" refid="namespacethemis_1_1scraper_1af794be7fb8820ae6a899383abb2de293af95a9f60e23d9fda6802b5e60a0af0d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1af794be7fb8820ae6a899383abb2de293af95a9f60e23d9fda6802b5e60a0af0d6" kindref="member">kRenderPath</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>1,<sp/></highlight></codeline>
+<codeline lineno="71" refid="namespacethemis_1_1scraper_1af794be7fb8820ae6a899383abb2de293aa9ab18555f5f5118629f2fa803076b4f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1af794be7fb8820ae6a899383abb2de293aa9ab18555f5f5118629f2fa803076b4f" kindref="member">kParsePath</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>2,<sp/></highlight></codeline>
+<codeline lineno="72" refid="namespacethemis_1_1scraper_1af794be7fb8820ae6a899383abb2de293a822e3b9ac65ce73538ee1d1d656c01a6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1af794be7fb8820ae6a899383abb2de293a822e3b9ac65ce73538ee1d1d656c01a6" kindref="member">kEvaluatorPath</ref><sp/><sp/>=<sp/>3,<sp/></highlight></codeline>
+<codeline lineno="73" refid="namespacethemis_1_1scraper_1af794be7fb8820ae6a899383abb2de293a3cb8c1bf2dc5c7050fce3f868e0844c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1af794be7fb8820ae6a899383abb2de293a3cb8c1bf2dc5c7050fce3f868e0844c9" kindref="member">kWritePath</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>4,<sp/></highlight></codeline>
+<codeline lineno="74" refid="namespacethemis_1_1scraper_1af794be7fb8820ae6a899383abb2de293ae4f62e857e1430e81bfbc1268257e649" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1af794be7fb8820ae6a899383abb2de293ae4f62e857e1430e81bfbc1268257e649" kindref="member">kCrawlControl</ref><sp/><sp/><sp/>=<sp/>5,<sp/></highlight></codeline>
+<codeline lineno="75" refid="namespacethemis_1_1scraper_1af794be7fb8820ae6a899383abb2de293a96509148247c627a753b021d6dbea774" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1af794be7fb8820ae6a899383abb2de293a96509148247c627a753b021d6dbea774" kindref="member">kInternal</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>6,<sp/></highlight></codeline>
+<codeline lineno="76"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="namespacethemis_1_1scraper_1a941b438694a63095f5948e5692bd8213" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1scraper_1a941b438694a63095f5948e5692bd8213" kindref="member">ScraperFaultSeverity</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="82" refid="namespacethemis_1_1scraper_1a941b438694a63095f5948e5692bd8213a176a473e63c17ccdac91640c67f149bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1a941b438694a63095f5948e5692bd8213a176a473e63c17ccdac91640c67f149bf" kindref="member">kInfo</ref><sp/><sp/><sp/><sp/>=<sp/>0,<sp/></highlight></codeline>
+<codeline lineno="83" refid="namespacethemis_1_1scraper_1a941b438694a63095f5948e5692bd8213aec0da41f4e48b52c362303eb27ed5dee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1a941b438694a63095f5948e5692bd8213aec0da41f4e48b52c362303eb27ed5dee" kindref="member">kWarning</ref><sp/>=<sp/>1,<sp/></highlight></codeline>
+<codeline lineno="84" refid="namespacethemis_1_1scraper_1a941b438694a63095f5948e5692bd8213ae3587c730cc1aa530fa4ddc9c4204e97" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1a941b438694a63095f5948e5692bd8213ae3587c730cc1aa530fa4ddc9c4204e97" kindref="member">kError</ref><sp/><sp/><sp/>=<sp/>2,<sp/></highlight></codeline>
+<codeline lineno="85" refid="namespacethemis_1_1scraper_1a941b438694a63095f5948e5692bd8213ae66f945a3c2423ef09406cf09fa9de26" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1a941b438694a63095f5948e5692bd8213ae66f945a3c2423ef09406cf09fa9de26" kindref="member">kFatal</ref><sp/><sp/><sp/>=<sp/>3,<sp/></highlight></codeline>
+<codeline lineno="86"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>2<sp/><sp/>Diagnostic<sp/>event</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1scraper_1_1_scraper_diagnostic_event" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1scraper_1_1_scraper_diagnostic_event" kindref="compound">ScraperDiagnosticEvent</ref><sp/>{</highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1scraper_1_1_scraper_diagnostic_event_1af2e5d871f2e1ef73231f8bb8be2aa80e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1af794be7fb8820ae6a899383abb2de293" kindref="member">ScraperFaultClass</ref><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_scraper_diagnostic_event_1af2e5d871f2e1ef73231f8bb8be2aa80e" kindref="member">fault_class</ref>{<ref refid="namespacethemis_1_1scraper_1af794be7fb8820ae6a899383abb2de293a96509148247c627a753b021d6dbea774" kindref="member">ScraperFaultClass::kInternal</ref>};</highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1scraper_1_1_scraper_diagnostic_event_1a1b3bd9dd0c0db7a43f5c4615afa2efa5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1a941b438694a63095f5948e5692bd8213" kindref="member">ScraperFaultSeverity</ref><sp/><ref refid="structthemis_1_1scraper_1_1_scraper_diagnostic_event_1a1b3bd9dd0c0db7a43f5c4615afa2efa5" kindref="member">severity</ref>{<ref refid="namespacethemis_1_1scraper_1a941b438694a63095f5948e5692bd8213ae3587c730cc1aa530fa4ddc9c4204e97" kindref="member">ScraperFaultSeverity::kError</ref>};</highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1scraper_1_1_scraper_diagnostic_event_1a8b1e07d1009f96b4cd0f43908dc8da12" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0" kindref="member">ScraperError</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_scraper_diagnostic_event_1a8b1e07d1009f96b4cd0f43908dc8da12" kindref="member">error</ref>{<ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0afcd417a134c251034b0d61b07c826394" kindref="member">ScraperError::kInternalError</ref>};</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1scraper_1_1_scraper_diagnostic_event_1a52fe07aaf863f71fb42e258604792847" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_scraper_diagnostic_event_1a52fe07aaf863f71fb42e258604792847" kindref="member">source_url</ref>;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1scraper_1_1_scraper_diagnostic_event_1ae7e23a5353f46d2e9dc8a48e654b17fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_scraper_diagnostic_event_1ae7e23a5353f46d2e9dc8a48e654b17fd" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1scraper_1_1_scraper_diagnostic_event_1a1c7f9127c4e45d0c07a158355671ac5b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_scraper_diagnostic_event_1a1c7f9127c4e45d0c07a158355671ac5b" kindref="member">stage_hint</ref>;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1scraper_1_1_scraper_diagnostic_event_1a7d15ce4e2c6a1cb91f3597d0ae99e04c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1scraper_1_1_scraper_diagnostic_event_1a7d15ce4e2c6a1cb91f3597d0ae99e04c" kindref="member">timestamp</ref>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::now()};</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>3<sp/><sp/>Diagnostic<sp/>sink<sp/>interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128" refid="classthemis_1_1scraper_1_1_i_scraper_diagnostic_sink" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1scraper_1_1_i_scraper_diagnostic_sink" kindref="compound">IScraperDiagnosticSink</ref><sp/>{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="130" refid="classthemis_1_1scraper_1_1_i_scraper_diagnostic_sink_1af3d4cd9f02b6a62838a5f3e3f2dbec3e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scraper_1_1_i_scraper_diagnostic_sink_1af3d4cd9f02b6a62838a5f3e3f2dbec3e" kindref="member">~IScraperDiagnosticSink</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140" refid="classthemis_1_1scraper_1_1_i_scraper_diagnostic_sink_1ac5b62cc62388f5f68eb8ca453215b3a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scraper_1_1_i_scraper_diagnostic_sink_1ac5b62cc62388f5f68eb8ca453215b3a5" kindref="member">emit</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scraper_1_1_scraper_diagnostic_event" kindref="compound">ScraperDiagnosticEvent</ref>&amp;<sp/>event)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>4<sp/><sp/>Null<sp/>sink<sp/>(no-op)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150" refid="classthemis_1_1scraper_1_1_null_scraper_diagnostic_sink" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1scraper_1_1_null_scraper_diagnostic_sink" kindref="compound">NullScraperDiagnosticSink</ref><sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scraper_1_1_i_scraper_diagnostic_sink" kindref="compound">IScraperDiagnosticSink</ref><sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="152" refid="classthemis_1_1scraper_1_1_null_scraper_diagnostic_sink_1a4ab7998a8c78c34a71ab53a3583c212d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scraper_1_1_null_scraper_diagnostic_sink_1a4ab7998a8c78c34a71ab53a3583c212d" kindref="member">emit</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scraper_1_1_scraper_diagnostic_event" kindref="compound">ScraperDiagnosticEvent</ref>&amp;<sp/></highlight><highlight class="comment">/*event*/</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>{}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>5<sp/><sp/>Listening<sp/>sink<sp/>(tests<sp/>+<sp/>integration)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164" refid="classthemis_1_1scraper_1_1_listening_scraper_diagnostic_sink" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1scraper_1_1_listening_scraper_diagnostic_sink" kindref="compound">ListeningScraperDiagnosticSink</ref><sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scraper_1_1_i_scraper_diagnostic_sink" kindref="compound">IScraperDiagnosticSink</ref><sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="166" refid="classthemis_1_1scraper_1_1_listening_scraper_diagnostic_sink_1ada241e11210aa70e7928eff868e501f6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1scraper_1_1_listening_scraper_diagnostic_sink_1ada241e11210aa70e7928eff868e501f6" kindref="member">Listener</ref><sp/>=<sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scraper_1_1_scraper_diagnostic_event" kindref="compound">ScraperDiagnosticEvent</ref>&amp;)&gt;;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175" refid="classthemis_1_1scraper_1_1_listening_scraper_diagnostic_sink_1afa7cf6d410e6ff35ba7e6a2d07035fb9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scraper_1_1_listening_scraper_diagnostic_sink_1afa7cf6d410e6ff35ba7e6a2d07035fb9" kindref="member">addListener</ref>(<ref refid="classthemis_1_1scraper_1_1_listening_scraper_diagnostic_sink_1ada241e11210aa70e7928eff868e501f6" kindref="member">Listener</ref><sp/>fn)<sp/>{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lk(mu_);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>listeners_.push_back(std::move(fn));</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180" refid="classthemis_1_1scraper_1_1_listening_scraper_diagnostic_sink_1a281edc5121cfa721f21d6fa0a63dab4a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scraper_1_1_listening_scraper_diagnostic_sink_1a281edc5121cfa721f21d6fa0a63dab4a" kindref="member">emit</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scraper_1_1_scraper_diagnostic_event" kindref="compound">ScraperDiagnosticEvent</ref>&amp;<sp/>event)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Snapshot<sp/>the<sp/>listener<sp/>list<sp/>under<sp/>the<sp/>lock,<sp/>then<sp/>release<sp/>before</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>invoking<sp/>callbacks<sp/>to<sp/>prevent<sp/>deadlock<sp/>if<sp/>a<sp/>listener<sp/>re-enters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>the<sp/>sink<sp/>(e.g.,<sp/>calls<sp/>snapshot(),<sp/>size(),<sp/>or<sp/>addListener()).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;Listener&gt;<sp/>local_listeners;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lk(mu_);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>events_.push_back(event);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>local_listeners<sp/>=<sp/>listeners_;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>fn<sp/>:<sp/>local_listeners)<sp/>{</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{<sp/>fn(event);<sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(...)<sp/>{}</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196" refid="classthemis_1_1scraper_1_1_listening_scraper_diagnostic_sink_1af57e1ffc1d577aa5e59fca34b2c14b0d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ScraperDiagnosticEvent&gt;<sp/><ref refid="classthemis_1_1scraper_1_1_listening_scraper_diagnostic_sink_1af57e1ffc1d577aa5e59fca34b2c14b0d" kindref="member">snapshot</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lk(mu_);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>events_;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202" refid="classthemis_1_1scraper_1_1_listening_scraper_diagnostic_sink_1ac8cf1b8775e9a76908763ebb473d1fc8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="classthemis_1_1scraper_1_1_listening_scraper_diagnostic_sink_1ac8cf1b8775e9a76908763ebb473d1fc8" kindref="member">size</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lk(mu_);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>events_.size();</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208" refid="classthemis_1_1scraper_1_1_listening_scraper_diagnostic_sink_1a910f82bd600e38e989423445d27c4433" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scraper_1_1_listening_scraper_diagnostic_sink_1a910f82bd600e38e989423445d27c4433" kindref="member">clear</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lk(mu_);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>events_.clear();</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mu_;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ScraperDiagnosticEvent&gt;<sp/>events_;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Listener&gt;<sp/>listeners_;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>6<sp/><sp/>Fail-safe<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229" refid="namespacethemis_1_1scraper_1a003242be0e7a0273c8572adde0019f57" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1scraper_1af794be7fb8820ae6a899383abb2de293" kindref="member">ScraperFaultClass</ref><sp/><ref refid="namespacethemis_1_1scraper_1a003242be0e7a0273c8572adde0019f57" kindref="member">faultClassOf</ref>(</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0" kindref="member">ScraperError</ref><sp/>e)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(e)<sp/>{</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0adc6900e298ab607bab3a459e1b4447b1" kindref="member">ScraperError::kFetchFailed</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1scraper_1af794be7fb8820ae6a899383abb2de293a6a2a38efde5abfd327630a9f1127b2f1" kindref="member">ScraperFaultClass::kFetchPath</ref>;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0ad2b7c2251055442adfae3bd6a56e4ed2" kindref="member">ScraperError::kRenderTimeout</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1scraper_1af794be7fb8820ae6a899383abb2de293af95a9f60e23d9fda6802b5e60a0af0d6" kindref="member">ScraperFaultClass::kRenderPath</ref>;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0a70bc2f6598437e307b2b8d35f1c49a18" kindref="member">ScraperError::kParseError</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1scraper_1af794be7fb8820ae6a899383abb2de293aa9ab18555f5f5118629f2fa803076b4f" kindref="member">ScraperFaultClass::kParsePath</ref>;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0a9c05b595915e5d8ea83f6a21980113b1" kindref="member">ScraperError::kEvaluationFailed</ref>:<sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1scraper_1af794be7fb8820ae6a899383abb2de293a822e3b9ac65ce73538ee1d1d656c01a6" kindref="member">ScraperFaultClass::kEvaluatorPath</ref>;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0a2b475da7a0f2961fefc3008a675188c3" kindref="member">ScraperError::kMetadataWriteFailed</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1scraper_1af794be7fb8820ae6a899383abb2de293a3cb8c1bf2dc5c7050fce3f868e0844c9" kindref="member">ScraperFaultClass::kWritePath</ref>;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0a953073a2ddd96a5fe29bba1006c6e995" kindref="member">ScraperError::kSourceNotFound</ref>:<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1scraper_1af794be7fb8820ae6a899383abb2de293ae4f62e857e1430e81bfbc1268257e649" kindref="member">ScraperFaultClass::kCrawlControl</ref>;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0aae8d786bb215f060cb2f4ac194cc6090" kindref="member">ScraperError::kPaginationLimit</ref>:<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1scraper_1af794be7fb8820ae6a899383abb2de293ae4f62e857e1430e81bfbc1268257e649" kindref="member">ScraperFaultClass::kCrawlControl</ref>;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0a8c632159fa131f09d04f94e3cbcd8782" kindref="member">ScraperError::kSuccess</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1scraper_1af794be7fb8820ae6a899383abb2de293a96509148247c627a753b021d6dbea774" kindref="member">ScraperFaultClass::kInternal</ref>;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0afcd417a134c251034b0d61b07c826394" kindref="member">ScraperError::kInternalError</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1scraper_1af794be7fb8820ae6a899383abb2de293a96509148247c627a753b021d6dbea774" kindref="member">ScraperFaultClass::kInternal</ref>;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1scraper_1af794be7fb8820ae6a899383abb2de293a96509148247c627a753b021d6dbea774" kindref="member">ScraperFaultClass::kInternal</ref>;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252" refid="namespacethemis_1_1scraper_1a3a4cb9deeeb25ce0d9c5f063b2c56315" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1scraper_1a941b438694a63095f5948e5692bd8213" kindref="member">ScraperFaultSeverity</ref><sp/><ref refid="namespacethemis_1_1scraper_1a3a4cb9deeeb25ce0d9c5f063b2c56315" kindref="member">defaultSeverityOf</ref>(</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0" kindref="member">ScraperError</ref><sp/>e)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(e<sp/>==<sp/><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0a8c632159fa131f09d04f94e3cbcd8782" kindref="member">ScraperError::kSuccess</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1scraper_1a941b438694a63095f5948e5692bd8213a176a473e63c17ccdac91640c67f149bf" kindref="member">ScraperFaultSeverity::kInfo</ref>;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="namespacethemis_1_1scraper_1af72a7ff23356ab6c4de583284071ac7f" kindref="member">isScraperFailClosed</ref>(e))<sp/>{</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1scraper_1a941b438694a63095f5948e5692bd8213ae66f945a3c2423ef09406cf09fa9de26" kindref="member">ScraperFaultSeverity::kFatal</ref>;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1scraper_1a941b438694a63095f5948e5692bd8213ae3587c730cc1aa530fa4ddc9c4204e97" kindref="member">ScraperFaultSeverity::kError</ref>;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271" refid="namespacethemis_1_1scraper_1a324386596488dc03a1bf45e86a1a114c" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scraper_1_1_scraper_diagnostic_event" kindref="compound">ScraperDiagnosticEvent</ref><sp/><ref refid="namespacethemis_1_1scraper_1a324386596488dc03a1bf45e86a1a114c" kindref="member">makeDiagnosticEvent</ref>(</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0" kindref="member">ScraperError</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e,</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>url,</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message)<sp/>{</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_scraper_diagnostic_event" kindref="compound">ScraperDiagnosticEvent</ref><sp/>ev;</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="structthemis_1_1scraper_1_1_scraper_diagnostic_event_1af2e5d871f2e1ef73231f8bb8be2aa80e" kindref="member">fault_class</ref><sp/>=<sp/><ref refid="namespacethemis_1_1scraper_1a003242be0e7a0273c8572adde0019f57" kindref="member">faultClassOf</ref>(e);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="structthemis_1_1scraper_1_1_scraper_diagnostic_event_1a1b3bd9dd0c0db7a43f5c4615afa2efa5" kindref="member">severity</ref><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1scraper_1a3a4cb9deeeb25ce0d9c5f063b2c56315" kindref="member">defaultSeverityOf</ref>(e);</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="structthemis_1_1scraper_1_1_scraper_diagnostic_event_1a8b1e07d1009f96b4cd0f43908dc8da12" kindref="member">error</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>e;</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="structthemis_1_1scraper_1_1_scraper_diagnostic_event_1a52fe07aaf863f71fb42e258604792847" kindref="member">source_url</ref><sp/><sp/>=<sp/>url;</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="structthemis_1_1scraper_1_1_scraper_diagnostic_event_1ae7e23a5353f46d2e9dc8a48e654b17fd" kindref="member">message</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>message;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ev;</highlight></codeline>
+<codeline lineno="282"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>scraper</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/scraper/scraper_diagnostics.h"/>
+  </compounddef>
+</doxygen>

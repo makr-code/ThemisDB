@@ -1,0 +1,207 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::replication::ReplicationEventStream::Subscription</compoundname>
+    <includes refid="event__stream_8h" local="no">event_stream.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription_1ac4b4be2c289022f1dcb7828a80f32384" prot="private" static="no" mutable="no">
+        <type>std::weak_ptr&lt; <ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1ac12caf1b7671ca685da1c8039108d86a" kindref="member">ReplicationEventStream</ref> &gt;</type>
+        <definition>std::weak_ptr&lt;ReplicationEventStream&gt; themisdb::replication::ReplicationEventStream::Subscription::stream_</definition>
+        <argsstring></argsstring>
+        <name>stream_</name>
+        <qualifiedname>themisdb::replication::ReplicationEventStream::Subscription::stream_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/event_stream.h" line="154" column="23" bodyfile="include/replication/event_stream.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription_1a941c9a40a2fac9aa78e51d2a2c4e8217" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::ReplicationEventStream::Subscription::id_</definition>
+        <argsstring></argsstring>
+        <name>id_</name>
+        <qualifiedname>themisdb::replication::ReplicationEventStream::Subscription::id_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/event_stream.h" line="155" column="47" bodyfile="include/replication/event_stream.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription_1a93edbb45c841dfb25df42299ada3b6da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::ReplicationEventStream::Subscription::Subscription</definition>
+        <argsstring>()=default</argsstring>
+        <name>Subscription</name>
+        <qualifiedname>themisdb::replication::ReplicationEventStream::Subscription::Subscription</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/event_stream.h" line="132" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription_1afb07a51dff1c05f354eeb6da73bd0c13" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::ReplicationEventStream::Subscription::Subscription</definition>
+        <argsstring>(std::shared_ptr&lt; ReplicationEventStream &gt; stream, uint64_t id)</argsstring>
+        <name>Subscription</name>
+        <qualifiedname>themisdb::replication::ReplicationEventStream::Subscription::Subscription</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1ac12caf1b7671ca685da1c8039108d86a" kindref="member">ReplicationEventStream</ref> &gt;</type>
+          <declname>stream</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/event_stream.h" line="133" column="9" bodyfile="include/replication/event_stream.h" bodystart="133" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription_1aa1e1505c3c57e4a5c35fa17b2e05ddd1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::ReplicationEventStream::Subscription::~Subscription</definition>
+        <argsstring>()</argsstring>
+        <name>~Subscription</name>
+        <qualifiedname>themisdb::replication::ReplicationEventStream::Subscription::~Subscription</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/event_stream.h" line="135" column="9" bodyfile="include/replication/event_stream.h" bodystart="135" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription_1a9920ce6e82269ac2b4b2e23e06a64fcf" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::ReplicationEventStream::Subscription::Subscription</definition>
+        <argsstring>(Subscription &amp;&amp;) noexcept=default</argsstring>
+        <name>Subscription</name>
+        <qualifiedname>themisdb::replication::ReplicationEventStream::Subscription::Subscription</qualifiedname>
+        <param>
+          <type>Subscription &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/event_stream.h" line="138" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription_1ae4af7de6160a297fc16b4806f0d4fb15" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription_1a93edbb45c841dfb25df42299ada3b6da" kindref="member">Subscription</ref> &amp;</type>
+        <definition>Subscription &amp; themisdb::replication::ReplicationEventStream::Subscription::operator=</definition>
+        <argsstring>(Subscription &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::replication::ReplicationEventStream::Subscription::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription_1a93edbb45c841dfb25df42299ada3b6da" kindref="member">Subscription</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/event_stream.h" line="139" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription_1ac8ac8b54bdf006c347668e2ee330ce95" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::ReplicationEventStream::Subscription::Subscription</definition>
+        <argsstring>(const Subscription &amp;)=delete</argsstring>
+        <name>Subscription</name>
+        <qualifiedname>themisdb::replication::ReplicationEventStream::Subscription::Subscription</qualifiedname>
+        <param>
+          <type>const Subscription &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/event_stream.h" line="140" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription_1a459b574f1d0ce57750a99b79c348605d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription_1a93edbb45c841dfb25df42299ada3b6da" kindref="member">Subscription</ref> &amp;</type>
+        <definition>Subscription &amp; themisdb::replication::ReplicationEventStream::Subscription::operator=</definition>
+        <argsstring>(const Subscription &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::replication::ReplicationEventStream::Subscription::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription_1a93edbb45c841dfb25df42299ada3b6da" kindref="member">Subscription</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/event_stream.h" line="141" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription_1ad02f09ec64f4fefbc2f9a5f387fa60ec" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::ReplicationEventStream::Subscription::cancel</definition>
+        <argsstring>()</argsstring>
+        <name>cancel</name>
+        <qualifiedname>themisdb::replication::ReplicationEventStream::Subscription::cancel</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Manually cancel this subscription before destruction. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/event_stream.h" line="144" column="14" bodyfile="include/replication/event_stream.h" bodystart="144" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription_1abac3e925960669b517fdff34fe787b0b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::ReplicationEventStream::Subscription::id</definition>
+        <argsstring>() const</argsstring>
+        <name>id</name>
+        <qualifiedname>themisdb::replication::ReplicationEventStream::Subscription::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/event_stream.h" line="151" column="18" bodyfile="include/replication/event_stream.h" bodystart="151" bodyend="151"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription" kindref="compound">Subscription</ref></para>
+<para>Returned by <ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a26194078a9ead834fbfea88efd2741f2" kindref="member">subscribe()</ref>/subscribeAll(). Calls <ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1aba1192e75f6b0e0aaec320c44f3227a1" kindref="member">unsubscribe()</ref> automatically when destroyed. Move-only; non-copyable. </para>
+    </detaileddescription>
+    <location file="include/replication/event_stream.h" line="130" column="5" bodyfile="include/replication/event_stream.h" bodystart="130" bodyend="156"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription_1ad02f09ec64f4fefbc2f9a5f387fa60ec" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationEventStream::Subscription</scope><name>cancel</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription_1abac3e925960669b517fdff34fe787b0b" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationEventStream::Subscription</scope><name>id</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription_1a941c9a40a2fac9aa78e51d2a2c4e8217" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationEventStream::Subscription</scope><name>id_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription_1ae4af7de6160a297fc16b4806f0d4fb15" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationEventStream::Subscription</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription_1a459b574f1d0ce57750a99b79c348605d" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationEventStream::Subscription</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription_1ac4b4be2c289022f1dcb7828a80f32384" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationEventStream::Subscription</scope><name>stream_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription_1a93edbb45c841dfb25df42299ada3b6da" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationEventStream::Subscription</scope><name>Subscription</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription_1afb07a51dff1c05f354eeb6da73bd0c13" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationEventStream::Subscription</scope><name>Subscription</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription_1a9920ce6e82269ac2b4b2e23e06a64fcf" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationEventStream::Subscription</scope><name>Subscription</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription_1ac8ac8b54bdf006c347668e2ee330ce95" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationEventStream::Subscription</scope><name>Subscription</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription_1aa1e1505c3c57e4a5c35fa17b2e05ddd1" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationEventStream::Subscription</scope><name>~Subscription</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

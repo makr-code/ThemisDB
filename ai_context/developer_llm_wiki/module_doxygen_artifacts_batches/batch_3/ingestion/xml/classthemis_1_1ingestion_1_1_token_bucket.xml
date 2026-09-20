@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1_token_bucket" kind="class" language="C++" prot="public">
+    <compoundname>themis::ingestion::TokenBucket</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_token_bucket_1a50b9c8922dba4b997c6088980ce98fe5" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::TokenBucket::rate_</definition>
+        <argsstring></argsstring>
+        <name>rate_</name>
+        <qualifiedname>themis::ingestion::TokenBucket::rate_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/ingestion_manager.cpp" line="601" column="12" bodyfile="src/ingestion/ingestion_manager.cpp" bodystart="601" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_token_bucket_1af58dd3dc0f72489f69b709936fcb66c7" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::TokenBucket::tokens_</definition>
+        <argsstring></argsstring>
+        <name>tokens_</name>
+        <qualifiedname>themis::ingestion::TokenBucket::tokens_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/ingestion_manager.cpp" line="602" column="12" bodyfile="src/ingestion/ingestion_manager.cpp" bodystart="602" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_token_bucket_1af93984187df9baa5a8f85edfbffc4a7c" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::ingestion::TokenBucket::last_refill_</definition>
+        <argsstring></argsstring>
+        <name>last_refill_</name>
+        <qualifiedname>themis::ingestion::TokenBucket::last_refill_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/ingestion_manager.cpp" line="603" column="43" bodyfile="src/ingestion/ingestion_manager.cpp" bodystart="603" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_token_bucket_1aa4cbfdfdf23441b32a29efdc7c7cf647" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::ingestion::TokenBucket::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::ingestion::TokenBucket::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/ingestion_manager.cpp" line="604" column="16" bodyfile="src/ingestion/ingestion_manager.cpp" bodystart="604" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_token_bucket_1ac93e674a31cf6c75962c2d585506964a" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::TokenBucket::TokenBucket</definition>
+        <argsstring>(double requests_per_second)</argsstring>
+        <name>TokenBucket</name>
+        <qualifiedname>themis::ingestion::TokenBucket::TokenBucket</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>requests_per_second</declname>
+        </param>
+        <briefdescription>
+<para>Token Bucket. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">requests_per_second</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/ingestion_manager.cpp" line="559" column="14" bodyfile="src/ingestion/ingestion_manager.cpp" bodystart="559" bodyend="562"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_token_bucket_1a8b86004fdfacae3351c72b0a24711d87" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::TokenBucket::consume</definition>
+        <argsstring>()</argsstring>
+        <name>consume</name>
+        <qualifiedname>themis::ingestion::TokenBucket::consume</qualifiedname>
+        <briefdescription>
+<para>Consume. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), refill(), unlock(), std::this_thread::sleep_for(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/ingestion_manager.cpp" line="568" column="10" bodyfile="src/ingestion/ingestion_manager.cpp" bodystart="568" bodyend="584"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_token_bucket_1a615d143c64789ee154f2777463990a36" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::TokenBucket::isEnabled</definition>
+        <argsstring>() const</argsstring>
+        <name>isEnabled</name>
+        <qualifiedname>themis::ingestion::TokenBucket::isEnabled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/ingestion_manager.cpp" line="586" column="10" bodyfile="src/ingestion/ingestion_manager.cpp" bodystart="586" bodyend="586"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_token_bucket_1ad03b88bcc161d650c07657cd0b098501" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::TokenBucket::refill</definition>
+        <argsstring>()</argsstring>
+        <name>refill</name>
+        <qualifiedname>themis::ingestion::TokenBucket::refill</qualifiedname>
+        <briefdescription>
+<para>Refill. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: std::chrono::steady_clock::now(), count(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/ingestion_manager.cpp" line="593" column="10" bodyfile="src/ingestion/ingestion_manager.cpp" bodystart="593" bodyend="599"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/ingestion/ingestion_manager.cpp" line="552" column="1" bodyfile="src/ingestion/ingestion_manager.cpp" bodystart="552" bodyend="605"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1_token_bucket_1a8b86004fdfacae3351c72b0a24711d87" prot="public" virt="non-virtual"><scope>themis::ingestion::TokenBucket</scope><name>consume</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_token_bucket_1a615d143c64789ee154f2777463990a36" prot="public" virt="non-virtual"><scope>themis::ingestion::TokenBucket</scope><name>isEnabled</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_token_bucket_1af93984187df9baa5a8f85edfbffc4a7c" prot="private" virt="non-virtual"><scope>themis::ingestion::TokenBucket</scope><name>last_refill_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_token_bucket_1aa4cbfdfdf23441b32a29efdc7c7cf647" prot="private" virt="non-virtual"><scope>themis::ingestion::TokenBucket</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_token_bucket_1a50b9c8922dba4b997c6088980ce98fe5" prot="private" virt="non-virtual"><scope>themis::ingestion::TokenBucket</scope><name>rate_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_token_bucket_1ad03b88bcc161d650c07657cd0b098501" prot="private" virt="non-virtual"><scope>themis::ingestion::TokenBucket</scope><name>refill</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_token_bucket_1ac93e674a31cf6c75962c2d585506964a" prot="public" virt="non-virtual"><scope>themis::ingestion::TokenBucket</scope><name>TokenBucket</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_token_bucket_1af58dd3dc0f72489f69b709936fcb66c7" prot="private" virt="non-virtual"><scope>themis::ingestion::TokenBucket</scope><name>tokens_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

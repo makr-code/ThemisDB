@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1_1_retry_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::DistributedAnalyticsSharding::Config::RetryConfig</compoundname>
+    <includes refid="distributed__analytics_8h" local="no">distributed_analytics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1_1_retry_config_1a16a4f56b8b8498a0763ef00df078604d" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::analytics::DistributedAnalyticsSharding::Config::RetryConfig::max_retries</definition>
+        <argsstring></argsstring>
+        <name>max_retries</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::Config::RetryConfig::max_retries</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="154" column="22" bodyfile="include/analytics/distributed_analytics.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1_1_retry_config_1a7fb64ddc505f065f3d60b47974053835" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::analytics::DistributedAnalyticsSharding::Config::RetryConfig::base_delay_ms</definition>
+        <argsstring></argsstring>
+        <name>base_delay_ms</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::Config::RetryConfig::base_delay_ms</qualifiedname>
+        <initializer>= 50</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="155" column="22" bodyfile="include/analytics/distributed_analytics.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1_1_retry_config_1a332f19c1158a33b8fb146063249eb579" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::analytics::DistributedAnalyticsSharding::Config::RetryConfig::max_delay_ms</definition>
+        <argsstring></argsstring>
+        <name>max_delay_ms</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::Config::RetryConfig::max_delay_ms</qualifiedname>
+        <initializer>= 500</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="156" column="22" bodyfile="include/analytics/distributed_analytics.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/distributed_analytics.h" line="153" column="9" bodyfile="include/analytics/distributed_analytics.h" bodystart="153" bodyend="157"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1_1_retry_config_1a7fb64ddc505f065f3d60b47974053835" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding::Config::RetryConfig</scope><name>base_delay_ms</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1_1_retry_config_1a332f19c1158a33b8fb146063249eb579" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding::Config::RetryConfig</scope><name>max_delay_ms</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1_1_retry_config_1a16a4f56b8b8498a0763ef00df078604d" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding::Config::RetryConfig</scope><name>max_retries</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

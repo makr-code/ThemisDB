@@ -1,0 +1,199 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="aligned__vector__allocator_8h" kind="file" language="C++">
+    <compoundname>aligned_vector_allocator.h</compoundname>
+    <includes local="no">cstddef</includes>
+    <includes local="no">limits</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">type_traits</includes>
+    <includes local="yes">performance/allocator.h</includes>
+    <includedby refid="embedding__cache_8h" local="yes">include/cache/embedding_cache.h</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/cache/aligned_vector_allocator.h</label>
+        <link refid="aligned__vector__allocator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstddef</label>
+      </node>
+      <node id="3">
+        <label>limits</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>performance/allocator.h</label>
+      </node>
+      <node id="6">
+        <label>type_traits</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="3">
+        <label>benchmarks/cache/bench_embedding_cache_performance.cpp</label>
+        <link refid="bench__embedding__cache__performance_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/cache/aligned_vector_allocator.h</label>
+        <link refid="aligned__vector__allocator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/cache/embedding_cache.h</label>
+        <link refid="embedding__cache_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/cache/embedding_cache.cpp</label>
+        <link refid="embedding__cache_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1cache_1_1_aligned_vector_allocator" prot="public">themis::cache::AlignedVectorAllocator</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_aligned_vector_allocator_1_1rebind" prot="public">themis::cache::AlignedVectorAllocator::rebind</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1cache">themis::cache</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ThemisDB<sp/>Aligned<sp/>Vector<sp/>Allocator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Cache-line<sp/>aligned<sp/>allocator<sp/>for<sp/>high-dimensional<sp/>embedding<sp/>vectors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CACHE<sp/>OPTIMIZATION:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-<sp/>32-byte<sp/>alignment<sp/>for<sp/>AVX2/AVX-512<sp/>SIMD<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-<sp/>Reduces<sp/>unaligned<sp/>load<sp/>penalties<sp/>in<sp/>distance<sp/>calculations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-<sp/>Optimized<sp/>for<sp/>1536D<sp/>vectors<sp/>(OpenAI<sp/>ada-002<sp/>embeddings)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Usage:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>std::vector&lt;float,<sp/>AlignedVectorAllocator&lt;float,<sp/>32&gt;&gt;<sp/>embedding;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>//<sp/>or<sp/>use<sp/>the<sp/>convenience<sp/>alias:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>AlignedVector&lt;float&gt;<sp/>embedding;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;limits&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;type_traits&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;performance/allocator.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1cache" kindref="compound">cache</ref><sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>T,<sp/>std::</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>Alignment<sp/>=<sp/>32&gt;</highlight></codeline>
+<codeline lineno="38" refid="classthemis_1_1cache_1_1_aligned_vector_allocator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1cache_1_1_aligned_vector_allocator_1af069cccb20bac80d0bccc9dfb0c92d56" kindref="member">AlignedVectorAllocator</ref><sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="40" refid="classthemis_1_1cache_1_1_aligned_vector_allocator_1aba64a689361eae61c530bc7029a40dc2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1cache_1_1_aligned_vector_allocator_1aba64a689361eae61c530bc7029a40dc2" kindref="member">value_type</ref><sp/>=<sp/>T;</highlight></codeline>
+<codeline lineno="41" refid="classthemis_1_1cache_1_1_aligned_vector_allocator_1a0a6adb96841231b74bb2a19b856964cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1cache_1_1_aligned_vector_allocator_1a0a6adb96841231b74bb2a19b856964cc" kindref="member">size_type</ref><sp/>=<sp/>std::size_t;</highlight></codeline>
+<codeline lineno="42" refid="classthemis_1_1cache_1_1_aligned_vector_allocator_1af81880550e5f54ce2495edc71d2f5cec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1cache_1_1_aligned_vector_allocator_1af81880550e5f54ce2495edc71d2f5cec" kindref="member">difference_type</ref><sp/>=<sp/>std::ptrdiff_t;</highlight></codeline>
+<codeline lineno="43" refid="classthemis_1_1cache_1_1_aligned_vector_allocator_1a298ecf2f142cb90b28a00360d85de1a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1cache_1_1_aligned_vector_allocator_1a298ecf2f142cb90b28a00360d85de1a7" kindref="member">propagate_on_container_move_assignment</ref><sp/>=<sp/>std::true_type;</highlight></codeline>
+<codeline lineno="44" refid="classthemis_1_1cache_1_1_aligned_vector_allocator_1adac63b8e437489b4f11295372a15ce7e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1cache_1_1_aligned_vector_allocator_1adac63b8e437489b4f11295372a15ce7e" kindref="member">is_always_equal</ref><sp/>=<sp/>std::true_type;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_assert</highlight><highlight class="normal">((Alignment<sp/>&amp;<sp/>(Alignment<sp/>-<sp/>1))<sp/>==<sp/>0,<sp/></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Alignment<sp/>must<sp/>be<sp/>a<sp/>power<sp/>of<sp/>2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_assert</highlight><highlight class="normal">(Alignment<sp/>&gt;=<sp/></highlight><highlight class="keyword">alignof</highlight><highlight class="normal">(T),<sp/></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Alignment<sp/>must<sp/>be<sp/>at<sp/>least<sp/>alignof(T)&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56" refid="classthemis_1_1cache_1_1_aligned_vector_allocator_1af069cccb20bac80d0bccc9dfb0c92d56" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cache_1_1_aligned_vector_allocator_1af069cccb20bac80d0bccc9dfb0c92d56" kindref="member">AlignedVectorAllocator</ref>()<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="63" refid="classthemis_1_1cache_1_1_aligned_vector_allocator_1a3a89968b41f827145f1e1a331d57e4fe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>constexpr<sp/><ref refid="classthemis_1_1cache_1_1_aligned_vector_allocator_1af069cccb20bac80d0bccc9dfb0c92d56" kindref="member">AlignedVectorAllocator</ref>(const<sp/><ref refid="classthemis_1_1cache_1_1_aligned_vector_allocator_1af069cccb20bac80d0bccc9dfb0c92d56" kindref="member">AlignedVectorAllocator</ref>&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>template&lt;typename<sp/>U&gt;</highlight></codeline>
+<codeline lineno="66" refid="classthemis_1_1cache_1_1_aligned_vector_allocator_1abb51395dec5aebfc06c4641bb352d35d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>constexpr<sp/><ref refid="classthemis_1_1cache_1_1_aligned_vector_allocator_1af069cccb20bac80d0bccc9dfb0c92d56" kindref="member">AlignedVectorAllocator</ref>(const<sp/><ref refid="classthemis_1_1cache_1_1_aligned_vector_allocator_1af069cccb20bac80d0bccc9dfb0c92d56" kindref="member">AlignedVectorAllocator</ref>&lt;U,<sp/>Alignment&gt;&amp;)<sp/>noexcept<sp/>{}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="68" refid="classthemis_1_1cache_1_1_aligned_vector_allocator_1a7335e566853f65ced042a697b2f6e080" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>T*<sp/><ref refid="classthemis_1_1cache_1_1_aligned_vector_allocator_1a7335e566853f65ced042a697b2f6e080" kindref="member">allocate</ref>(std::size_t<sp/>n)<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(n<sp/>&gt;<sp/>std::numeric_limits&lt;std::size_t&gt;::max()<sp/>/<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(T))<sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::bad_alloc();</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>bytes<sp/>=<sp/>n<sp/>*<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(T);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>ptr<sp/>=<sp/>memory::allocate_aligned(bytes,<sp/>Alignment);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!ptr)<sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::bad_alloc();</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">T*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(ptr);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91" refid="classthemis_1_1cache_1_1_aligned_vector_allocator_1abe1ba3d96249c9f66c2ca3863c0ca095" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cache_1_1_aligned_vector_allocator_1abe1ba3d96249c9f66c2ca3863c0ca095" kindref="member">deallocate</ref>(T*<sp/>ptr,<sp/>[[maybe_unused]]<sp/>std::size_t<sp/>n)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Unused<sp/>parameter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>memory::deallocate_aligned(ptr,<sp/>Alignment);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="96" refid="classthemis_1_1cache_1_1_aligned_vector_allocator_1a736df8c7be65cc6041be5206c48bc030" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="classthemis_1_1cache_1_1_aligned_vector_allocator_1a736df8c7be65cc6041be5206c48bc030" kindref="member">max_size</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::numeric_limits&lt;std::size_t&gt;::max()<sp/>/<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(T);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>U&gt;</highlight></codeline>
+<codeline lineno="101" refid="classthemis_1_1cache_1_1_aligned_vector_allocator_1ab364cb0a88ffd2e26311f7c95f26e9f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cache_1_1_aligned_vector_allocator_1ab364cb0a88ffd2e26311f7c95f26e9f5" kindref="member">operator==</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cache_1_1_aligned_vector_allocator_1af069cccb20bac80d0bccc9dfb0c92d56" kindref="member">AlignedVectorAllocator&lt;U, Alignment&gt;</ref>&amp;)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>U&gt;</highlight></codeline>
+<codeline lineno="106" refid="classthemis_1_1cache_1_1_aligned_vector_allocator_1af09608f08c23e1b2ec9d8b8b94e260f6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cache_1_1_aligned_vector_allocator_1af09608f08c23e1b2ec9d8b8b94e260f6" kindref="member">operator!=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cache_1_1_aligned_vector_allocator_1af069cccb20bac80d0bccc9dfb0c92d56" kindref="member">AlignedVectorAllocator&lt;U, Alignment&gt;</ref>&amp;)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>U&gt;</highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1cache_1_1_aligned_vector_allocator_1_1rebind" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1cache_1_1_aligned_vector_allocator_1_1rebind" kindref="compound">rebind</ref><sp/>{</highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1cache_1_1_aligned_vector_allocator_1_1rebind_1ad51aab1ee3592d522b3f88faf2d7822a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1cache_1_1_aligned_vector_allocator_1_1rebind_1ad51aab1ee3592d522b3f88faf2d7822a" kindref="member">other</ref><sp/>=<sp/><ref refid="classthemis_1_1cache_1_1_aligned_vector_allocator_1af069cccb20bac80d0bccc9dfb0c92d56" kindref="member">AlignedVectorAllocator&lt;U, Alignment&gt;</ref>;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="114"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Convenience<sp/>type<sp/>aliases</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>T&gt;</highlight></codeline>
+<codeline lineno="121" refid="namespacethemis_1_1cache_1a3d21af20aa13f6ba9687bc4c334dfb23" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1cache_1a3d21af20aa13f6ba9687bc4c334dfb23" kindref="member">AlignedVector</ref><sp/>=<sp/>std::vector&lt;T,<sp/>AlignedVectorAllocator&lt;T,<sp/>32&gt;&gt;;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>T&gt;</highlight></codeline>
+<codeline lineno="124" refid="namespacethemis_1_1cache_1adb192b1c75a13319c79904ca80288ccc" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1cache_1adb192b1c75a13319c79904ca80288ccc" kindref="member">CacheLineVector</ref><sp/>=<sp/>std::vector&lt;T,<sp/>AlignedVectorAllocator&lt;T,<sp/>64&gt;&gt;;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>T&gt;</highlight></codeline>
+<codeline lineno="127" refid="namespacethemis_1_1cache_1a286ae5052ec85f345b10ed86376e7964" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1cache_1a286ae5052ec85f345b10ed86376e7964" kindref="member">SimdVector</ref><sp/>=<sp/>std::vector&lt;T,<sp/>AlignedVectorAllocator&lt;T,<sp/>16&gt;&gt;;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>cache</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/cache/aligned_vector_allocator.h"/>
+  </compounddef>
+</doxygen>

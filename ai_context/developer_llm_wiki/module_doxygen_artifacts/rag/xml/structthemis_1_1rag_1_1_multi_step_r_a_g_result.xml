@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_multi_step_r_a_g_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::MultiStepRAGResult</compoundname>
+    <includes refid="multi__step__rag_8h" local="no">multi_step_rag.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_multi_step_r_a_g_result_1a4be0ec43da87cfe7df4ffcb7c291aecd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::MultiStepRAGResult::final_answer</definition>
+        <argsstring></argsstring>
+        <name>final_answer</name>
+        <qualifiedname>themis::rag::MultiStepRAGResult::final_answer</qualifiedname>
+        <briefdescription>
+<para>Synthesised final answer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multi_step_rag.h" line="121" column="17" bodyfile="include/rag/multi_step_rag.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_multi_step_r_a_g_result_1a3ca7da6dc5bd67f11e882535827a52c2" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::rag::MultiStepRAGResult::steps</definition>
+        <argsstring></argsstring>
+        <name>steps</name>
+        <qualifiedname>themis::rag::MultiStepRAGResult::steps</qualifiedname>
+        <briefdescription>
+<para>Intermediate answers / summaries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multi_step_rag.h" line="122" column="17" bodyfile="include/rag/multi_step_rag.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_multi_step_r_a_g_result_1a3d06b3bf6f3f1a10ed9e0f89e1ee9e47" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::MultiStepRAGResult::steps_executed</definition>
+        <argsstring></argsstring>
+        <name>steps_executed</name>
+        <qualifiedname>themis::rag::MultiStepRAGResult::steps_executed</qualifiedname>
+        <initializer>= 0u</initializer>
+        <briefdescription>
+<para>Number of LLM calls made. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multi_step_rag.h" line="123" column="12" bodyfile="include/rag/multi_step_rag.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_multi_step_r_a_g_result_1a9afb8857a7b086be3a745127a7028d0d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::MultiStepRAGResult::context_overflow</definition>
+        <argsstring></argsstring>
+        <name>context_overflow</name>
+        <qualifiedname>themis::rag::MultiStepRAGResult::context_overflow</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True if docs did not fit in one call. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multi_step_rag.h" line="124" column="12" bodyfile="include/rag/multi_step_rag.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_multi_step_r_a_g_result_1a4ab805c7a20afd003024ed6d50f5e82f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::MultiStepRAGResult::was_truncated</definition>
+        <argsstring></argsstring>
+        <name>was_truncated</name>
+        <qualifiedname>themis::rag::MultiStepRAGResult::was_truncated</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True if any chunk was truncated. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multi_step_rag.h" line="125" column="12" bodyfile="include/rag/multi_step_rag.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of a multi-step RAG orchestration run. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/multi_step_rag.h" line="120" column="1" bodyfile="include/rag/multi_step_rag.h" bodystart="120" bodyend="126"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_multi_step_r_a_g_result_1a9afb8857a7b086be3a745127a7028d0d" prot="public" virt="non-virtual"><scope>themis::rag::MultiStepRAGResult</scope><name>context_overflow</name></member>
+      <member refid="structthemis_1_1rag_1_1_multi_step_r_a_g_result_1a4be0ec43da87cfe7df4ffcb7c291aecd" prot="public" virt="non-virtual"><scope>themis::rag::MultiStepRAGResult</scope><name>final_answer</name></member>
+      <member refid="structthemis_1_1rag_1_1_multi_step_r_a_g_result_1a3ca7da6dc5bd67f11e882535827a52c2" prot="public" virt="non-virtual"><scope>themis::rag::MultiStepRAGResult</scope><name>steps</name></member>
+      <member refid="structthemis_1_1rag_1_1_multi_step_r_a_g_result_1a3d06b3bf6f3f1a10ed9e0f89e1ee9e47" prot="public" virt="non-virtual"><scope>themis::rag::MultiStepRAGResult</scope><name>steps_executed</name></member>
+      <member refid="structthemis_1_1rag_1_1_multi_step_r_a_g_result_1a4ab805c7a20afd003024ed6d50f5e82f" prot="public" virt="non-virtual"><scope>themis::rag::MultiStepRAGResult</scope><name>was_truncated</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

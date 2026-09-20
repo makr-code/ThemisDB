@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structstubs_1_1_t_s_flush" kind="struct" language="C++" prot="public">
+    <compoundname>stubs::TSFlush</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structstubs_1_1_t_s_flush_1a4af749aa87dd68762f4c2a63b6798bd5" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; stubs::TSFlush::flushes</definition>
+        <argsstring></argsstring>
+        <name>flushes</name>
+        <qualifiedname>stubs::TSFlush::flushes</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/timeseries/bench_timeseries_dedicated_gates.cpp" line="42" column="17" bodyfile="benchmarks/timeseries/bench_timeseries_dedicated_gates.cpp" bodystart="42" bodyend="42"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structstubs_1_1_t_s_flush_1a2307abbc60890564ee41b8b8addc2ce4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool stubs::TSFlush::flush</definition>
+        <argsstring>()</argsstring>
+        <name>flush</name>
+        <qualifiedname>stubs::TSFlush::flush</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/timeseries/bench_timeseries_dedicated_gates.cpp" line="43" column="10" bodyfile="benchmarks/timeseries/bench_timeseries_dedicated_gates.cpp" bodystart="43" bodyend="46"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/timeseries/bench_timeseries_dedicated_gates.cpp" line="41" column="1" bodyfile="benchmarks/timeseries/bench_timeseries_dedicated_gates.cpp" bodystart="41" bodyend="47"/>
+    <listofallmembers>
+      <member refid="structstubs_1_1_t_s_flush_1a2307abbc60890564ee41b8b8addc2ce4" prot="public" virt="non-virtual"><scope>stubs::TSFlush</scope><name>flush</name></member>
+      <member refid="structstubs_1_1_t_s_flush_1a4af749aa87dd68762f4c2a63b6798bd5" prot="public" virt="non-virtual"><scope>stubs::TSFlush</scope><name>flushes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,877 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__analytics__error__handling__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_analytics_error_handling_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">iostream</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">sstream</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/analytics/test_analytics_error_handling_focused.cpp</label>
+        <link refid="test__analytics__error__handling__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="4">
+        <label>iostream</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="7">
+        <label>sstream</label>
+      </node>
+      <node id="8">
+        <label>stdexcept</label>
+      </node>
+      <node id="9">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>unordered_map</label>
+      </node>
+      <node id="11">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="structthemis_1_1analytics_1_1test_1_1_error_context" prot="public">themis::analytics::test::ErrorContext</innerclass>
+    <innerclass refid="classthemis_1_1analytics_1_1test_1_1_analytics_exception" prot="public">themis::analytics::test::AnalyticsException</innerclass>
+    <innerclass refid="classthemis_1_1analytics_1_1test_1_1_aggregation_exception" prot="public">themis::analytics::test::AggregationException</innerclass>
+    <innerclass refid="classthemis_1_1analytics_1_1test_1_1_stream_exception" prot="public">themis::analytics::test::StreamException</innerclass>
+    <innerclass refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test" prot="public">themis::analytics::test::ErrorHandlingTest</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1analytics">themis::analytics</innernamespace>
+    <innernamespace refid="namespacethemis_1_1analytics_1_1test">themis::analytics::test</innernamespace>
+    <briefdescription>
+<para>Phase 4 error handling and exception safety tests (EH-01..EH-25). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Verifies proper error propagation, exception-specific catching, error context serialization, and error code taxonomy.</para>
+<sect1 id="test__analytics__error__handling__focused_8cpp_1autotoc_md5_1s1"><sect2 id="test__analytics__error__handling__focused_8cpp_1autotoc_md5">
+<title>Test families</title><para><heading level="3">EH-01..05 — Unchecked Result Proper Propagation</heading>
+</para>
+<para>EH-01 Function returning optional error propagates correctly EH-02 Chained error propagation through call stack EH-03 Error details preserved during propagation EH-04 Error propagation in nested contexts EH-05 Multiple errors prioritized correctly</para>
+<para><heading level="3">EH-06..10 — Exception-Specific Catching</heading>
+</para>
+<para>EH-06 Catch specific exception vs generic catch(...) EH-07 Multiple catch blocks for different types EH-08 Exception rethrow preserves context EH-09 Nested try-catch hierarchy EH-10 Finally-equivalent cleanup with RAII</para>
+<para><heading level="3">EH-11..15 — Generic catch(...) Avoidance</heading>
+</para>
+<para>EH-11 Avoid catch(...) anti-pattern EH-12 Specific exception handling for each error type EH-13 Unknown exception safe handling with catch(...) EH-14 Exception type hierarchy traversal EH-15 Catch order matters: derived before base</para>
+<para><heading level="3">EH-16..20 — Error Context Serialization</heading>
+</para>
+<para>EH-16 Error serializes to valid JSON EH-17 JSON contains required fields (code, message, context) EH-18 Nested context preserved in serialization EH-19 Special characters escaped properly EH-20 Large context handled without truncation</para>
+<para><heading level="3">EH-21..25 — Error Code Taxonomy Validation</heading>
+</para>
+<para>EH-21 Error codes in valid range (0-9999) EH-22 Error categories map to correct codes EH-23 Error messages unique per code EH-24 Error recovery hints accurate EH-25 Error classification consistent across module</para>
+<para><simplesect kind="see"><para>include/analytics/error_codes.h </para>
+</simplesect>
+<simplesect kind="see"><para>include/analytics/error_context.h </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;iostream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1analytics" kindref="compound">analytics</ref><sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1analytics_1_1test" kindref="compound">test</ref><sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Error<sp/>Code<sp/>Types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160" kindref="member">AnalyticsErrorCode</ref><sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">OK</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Aggregation<sp/>errors<sp/>(1000-1099)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160a48b0350a6e9a4ddc48c2ee6c3baf8b55" kindref="member">AGGREGATION_OVERFLOW</ref><sp/>=<sp/>1001,</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160a2e3e946da020fef435612c1612cb20d8" kindref="member">AGGREGATION_NULL_HANDLING</ref><sp/>=<sp/>1002,</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160a3d621098a57eb030d84afa8760fb35b2" kindref="member">AGGREGATION_TYPE_MISMATCH</ref><sp/>=<sp/>1003,</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Streaming<sp/>errors<sp/>(2000-2099)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160a57358624a7a02ce9089ea20dfd7baca9" kindref="member">STREAM_WINDOW_EXPIRED</ref><sp/>=<sp/>2001,</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160a1c26b81ba92ea70f693a4356fd035c94" kindref="member">STREAM_BACKPRESSURE</ref><sp/>=<sp/>2002,</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160a3c0c60ff148a2f4661239cad48f5e462" kindref="member">STREAM_SEQUENCE_NOT_FOUND</ref><sp/>=<sp/>2003,</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Pool<sp/>errors<sp/>(3000-3099)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160aaeed084f04f1d18ce86c61e557f482c9" kindref="member">POOL_EXHAUSTED</ref><sp/>=<sp/>3001,</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160a60c352e2059abf418d40304682338280" kindref="member">POOL_CONNECTION_FAILED</ref><sp/>=<sp/>3002,</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Generic<sp/>errors<sp/>(9000-9099)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160af295a0c3e37c94f078e1c5476479132d" kindref="member">INVALID_ARGUMENT</ref><sp/>=<sp/>9001,</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160ae8c0c70879b5895c615677261d64a1ee" kindref="member">INTERNAL_ERROR</ref><sp/>=<sp/>9002,</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160a9a10f345b0f755d461a8673a5e9ef6b4" kindref="member">UNKNOWN_ERROR</ref><sp/>=<sp/>9999,</highlight></codeline>
+<codeline lineno="93"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1analytics_1_1test_1_1_error_context" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1analytics_1_1test_1_1_error_context" kindref="compound">ErrorContext</ref><sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160" kindref="member">AnalyticsErrorCode</ref><sp/><ref refid="structthemis_1_1analytics_1_1test_1_1_error_context_1a08c999857bbcb6f13e51082d0402cb51" kindref="member">code</ref>;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1analytics_1_1test_1_1_error_context_1aac67c77a95197b4877707c257e0c2860" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1analytics_1_1test_1_1_error_context_1aca417fd1e2c2d0de8325af1ffebd8e56" kindref="member">module</ref>;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1analytics_1_1test_1_1_error_context_1aa9c77084876068b4280f43eaa897fba3" kindref="member">context_data</ref>;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1analytics_1_1test_1_1_error_context_1ad984966ad677b24af2ed88b5b3c4af49" kindref="member">line_number</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1analytics_1_1test_1_1_error_context_1a16792bf063a14e126910d64db88a4832" kindref="member">toJSON</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::ostringstream<sp/>oss<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>oss<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;{\&quot;code\&quot;:&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="structthemis_1_1analytics_1_1test_1_1_error_context_1a08c999857bbcb6f13e51082d0402cb51" kindref="member">code</ref>)</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;,\&quot;message\&quot;:\&quot;&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="structthemis_1_1analytics_1_1test_1_1_error_context_1aac67c77a95197b4877707c257e0c2860" kindref="member">message</ref></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\&quot;,\&quot;module\&quot;:\&quot;&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="structthemis_1_1analytics_1_1test_1_1_error_context_1aca417fd1e2c2d0de8325af1ffebd8e56" kindref="member">module</ref></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\&quot;,\&quot;line\&quot;:&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="structthemis_1_1analytics_1_1test_1_1_error_context_1ad984966ad677b24af2ed88b5b3c4af49" kindref="member">line_number</ref></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;,\&quot;context\&quot;:\&quot;&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="structthemis_1_1analytics_1_1test_1_1_error_context_1aa9c77084876068b4280f43eaa897fba3" kindref="member">context_data</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\&quot;}&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>oss.str();</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="112"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115" refid="classthemis_1_1analytics_1_1test_1_1_analytics_exception" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1analytics_1_1test_1_1_analytics_exception_1aa9e1183deceff83eaf2dfb3086ad0685" kindref="member">AnalyticsException</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>std::runtime_error<sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1test_1_1_analytics_exception_1aa9e1183deceff83eaf2dfb3086ad0685" kindref="member">AnalyticsException</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1analytics_1_1test_1_1_error_context" kindref="compound">ErrorContext</ref>&amp;<sp/>ctx)</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>std::runtime_error(ctx.<ref refid="structthemis_1_1analytics_1_1test_1_1_error_context_1aac67c77a95197b4877707c257e0c2860" kindref="member">message</ref>),<sp/>context_(ctx)<sp/>{}</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1analytics_1_1test_1_1_error_context" kindref="compound">ErrorContext</ref>&amp;<sp/><ref refid="classthemis_1_1analytics_1_1test_1_1_analytics_exception_1aa13a0dcc8bb9249dda1fbf68fd2e0f02" kindref="member">getContext</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>context_;<sp/>}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1test_1_1_error_context" kindref="compound">ErrorContext</ref><sp/>context_;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127" refid="classthemis_1_1analytics_1_1test_1_1_aggregation_exception" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1analytics_1_1test_1_1_aggregation_exception_1a1825c58494f2c40052764be33d4e4fc1" kindref="member">AggregationException</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1test_1_1_analytics_exception_1aa9e1183deceff83eaf2dfb3086ad0685" kindref="member">AnalyticsException</ref><sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1test_1_1_aggregation_exception_1a1825c58494f2c40052764be33d4e4fc1" kindref="member">AggregationException</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1analytics_1_1test_1_1_error_context" kindref="compound">ErrorContext</ref>&amp;<sp/>ctx)</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="classthemis_1_1analytics_1_1test_1_1_analytics_exception_1aa9e1183deceff83eaf2dfb3086ad0685" kindref="member">AnalyticsException</ref>(ctx)<sp/>{}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="classthemis_1_1analytics_1_1test_1_1_stream_exception" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1analytics_1_1test_1_1_stream_exception_1a41b58f7d612c660d3d687d9bd4ede809" kindref="member">StreamException</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1test_1_1_analytics_exception_1aa9e1183deceff83eaf2dfb3086ad0685" kindref="member">AnalyticsException</ref><sp/>{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1test_1_1_stream_exception_1a41b58f7d612c660d3d687d9bd4ede809" kindref="member">StreamException</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1analytics_1_1test_1_1_error_context" kindref="compound">ErrorContext</ref>&amp;<sp/>ctx)</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="classthemis_1_1analytics_1_1test_1_1_analytics_exception_1aa9e1183deceff83eaf2dfb3086ad0685" kindref="member">AnalyticsException</ref>(ctx)<sp/>{}</highlight></codeline>
+<codeline lineno="137"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>Fixtures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143" refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test" kindref="compound">ErrorHandlingTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classtesting_1_1_test" kindref="compound">::testing::Test</ref><sp/>{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1test_1_1_error_context" kindref="compound">ErrorContext</ref><sp/><ref refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test_1af55fffeeca97a35da924339c2683306d" kindref="member">makeErrorContext</ref>(</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160" kindref="member">AnalyticsErrorCode</ref><sp/>code,</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message,</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>module<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>context<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{code,<sp/>message,<sp/>module,<sp/>context,<sp/>__LINE__};</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EH-01:<sp/>Optional<sp/>Error<sp/>Propagation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><ref refid="namespacethemis_1_1analytics_1_1test_1a3c2eed0dd324e22e43a12f26f13fec6b" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test" kindref="compound">ErrorHandlingTest</ref>,<sp/>EH_01_OptionalErrorPropagation)<sp/>{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Gap:<sp/>unchecked_result<sp/>(proper<sp/>optional<sp/>handling)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>operation<sp/>=<sp/>[]()<sp/>-&gt;<sp/>std::optional&lt;AnalyticsErrorCode&gt;<sp/>{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>operation<sp/>that<sp/>fails</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160a48b0350a6e9a4ddc48c2ee6c3baf8b55" kindref="member">AnalyticsErrorCode::AGGREGATION_OVERFLOW</ref>;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>operation();</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify:<sp/>Error<sp/>properly<sp/>propagated</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.value(),<sp/><ref refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfca48b0350a6e9a4ddc48c2ee6c3baf8b55" kindref="member">AnalyticsErrorCode::AGGREGATION_OVERFLOW</ref>);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EH-02:<sp/>Chained<sp/>Error<sp/>Propagation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><ref refid="namespacethemis_1_1analytics_1_1test_1a3c2eed0dd324e22e43a12f26f13fec6b" kindref="member">TEST_F</ref>(ErrorHandlingTest,<sp/>EH_02_ChainedErrorPropagation)<sp/>{</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Gap:<sp/>unchecked_result<sp/>(error<sp/>propagation<sp/>chain)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;AnalyticsErrorCode&gt;<sp/>level3_err;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>level3<sp/>=<sp/>[]()<sp/>-&gt;<sp/>std::optional&lt;AnalyticsErrorCode&gt;<sp/>{</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160a1c26b81ba92ea70f693a4356fd035c94" kindref="member">AnalyticsErrorCode::STREAM_BACKPRESSURE</ref>;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>level2<sp/>=<sp/>[&amp;]()<sp/>-&gt;<sp/>std::optional&lt;AnalyticsErrorCode&gt;<sp/>{</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err<sp/>=<sp/>level3();</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(err.has_value())<sp/>{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>level3_err<sp/>=<sp/>err;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>err;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::nullopt;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>level1<sp/>=<sp/>[&amp;]()<sp/>-&gt;<sp/>std::optional&lt;AnalyticsErrorCode&gt;<sp/>{</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>level2();</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>final_result<sp/>=<sp/>level1();</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify:<sp/>Error<sp/>propagated<sp/>through<sp/>chain</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(final_result.has_value());</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(final_result.value(),<sp/><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160a1c26b81ba92ea70f693a4356fd035c94" kindref="member">AnalyticsErrorCode::STREAM_BACKPRESSURE</ref>);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(level3_err,<sp/><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160a1c26b81ba92ea70f693a4356fd035c94" kindref="member">AnalyticsErrorCode::STREAM_BACKPRESSURE</ref>);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EH-03:<sp/>Error<sp/>Details<sp/>Preserved<sp/>During<sp/>Propagation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><ref refid="namespacethemis_1_1analytics_1_1test_1a3c2eed0dd324e22e43a12f26f13fec6b" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test" kindref="compound">ErrorHandlingTest</ref>,<sp/>EH_03_ErrorDetailsPreserved)<sp/>{</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Gap:<sp/>unchecked_result<sp/>(preserve<sp/>error<sp/>context)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>operation<sp/>=<sp/>[</highlight><highlight class="keyword">this</highlight><highlight class="normal">]()<sp/>-&gt;<sp/>std::optional&lt;ErrorContext&gt;<sp/>{</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeErrorContext(</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160a48b0350a6e9a4ddc48c2ee6c3baf8b55" kindref="member">AnalyticsErrorCode::AGGREGATION_OVERFLOW</ref>,</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Overflow<sp/>in<sp/>SUM&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;aggregator&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;value=9223372036854775807&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>operation();</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify:<sp/>All<sp/>context<sp/>preserved</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.value().code,<sp/><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160a48b0350a6e9a4ddc48c2ee6c3baf8b55" kindref="member">AnalyticsErrorCode::AGGREGATION_OVERFLOW</ref>);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(result.value().message.find(</highlight><highlight class="stringliteral">&quot;SUM&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.value().module,<sp/></highlight><highlight class="stringliteral">&quot;aggregator&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EH-04:<sp/>Error<sp/>Propagation<sp/>in<sp/>Nested<sp/>Contexts</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><ref refid="namespacethemis_1_1analytics_1_1test_1a3c2eed0dd324e22e43a12f26f13fec6b" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test" kindref="compound">ErrorHandlingTest</ref>,<sp/>EH_04_NestedContextErrorPropagation)<sp/>{</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Gap:<sp/>unchecked_result<sp/>(nested<sp/>error<sp/>context)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">Transaction<sp/>{</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::optional&lt;AnalyticsErrorCode&gt;&gt;<sp/>errors;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>execute()<sp/>-&gt;<sp/>std::optional&lt;AnalyticsErrorCode&gt;<sp/>{</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errors.push_back(AnalyticsErrorCode::POOL_EXHAUSTED);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>errors.back();</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction<sp/>txn;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>outer_result<sp/>=<sp/>txn.execute();</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify:<sp/>Nested<sp/>context<sp/>error<sp/>propagated</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(outer_result.has_value());</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(outer_result.value(),<sp/><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160aaeed084f04f1d18ce86c61e557f482c9" kindref="member">AnalyticsErrorCode::POOL_EXHAUSTED</ref>);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(txn.errors.size(),<sp/>1);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EH-05:<sp/>Multiple<sp/>Errors<sp/>Prioritized<sp/>Correctly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><ref refid="namespacethemis_1_1analytics_1_1test_1a3c2eed0dd324e22e43a12f26f13fec6b" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test" kindref="compound">ErrorHandlingTest</ref>,<sp/>EH_05_MultipleErrorsPriority)<sp/>{</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Gap:<sp/>unchecked_result<sp/>(error<sp/>prioritization)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;AnalyticsErrorCode&gt;<sp/>errors<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160a1c26b81ba92ea70f693a4356fd035c94" kindref="member">AnalyticsErrorCode::STREAM_BACKPRESSURE</ref>,</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160a48b0350a6e9a4ddc48c2ee6c3baf8b55" kindref="member">AnalyticsErrorCode::AGGREGATION_OVERFLOW</ref>,</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160aaeed084f04f1d18ce86c61e557f482c9" kindref="member">AnalyticsErrorCode::POOL_EXHAUSTED</ref>,</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>error<sp/>prioritization:<sp/>critical<sp/>errors<sp/>first</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>getPriorityError<sp/>=<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;AnalyticsErrorCode&gt;&amp;<sp/>errs)<sp/>{</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Priority:<sp/>critical<sp/>(overflow)<sp/>&gt;<sp/>backpressure<sp/>&gt;<sp/>other</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>err<sp/>:<sp/>errs)<sp/>{</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(err<sp/>==<sp/><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160a48b0350a6e9a4ddc48c2ee6c3baf8b55" kindref="member">AnalyticsErrorCode::AGGREGATION_OVERFLOW</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>err;</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>errs.front();</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>getPriorityError(errors);</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify:<sp/>Highest<sp/>priority<sp/>error<sp/>selected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result,<sp/><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160a48b0350a6e9a4ddc48c2ee6c3baf8b55" kindref="member">AnalyticsErrorCode::AGGREGATION_OVERFLOW</ref>);</highlight></codeline>
+<codeline lineno="285"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EH-06:<sp/>Specific<sp/>Exception<sp/>vs<sp/>Generic<sp/>catch(...)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><ref refid="namespacethemis_1_1analytics_1_1test_1a3c2eed0dd324e22e43a12f26f13fec6b" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test" kindref="compound">ErrorHandlingTest</ref>,<sp/>EH_06_SpecificVsGenericCatch)<sp/>{</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Gap:<sp/>exception<sp/>handling<sp/>(avoid<sp/>catch(...))</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>caught_specific<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>caught_generic<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1test_1_1_aggregation_exception" kindref="compound">AggregationException</ref>(makeErrorContext(</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160a48b0350a6e9a4ddc48c2ee6c3baf8b55" kindref="member">AnalyticsErrorCode::AGGREGATION_OVERFLOW</ref>,</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Overflow&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>));</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1test_1_1_aggregation_exception" kindref="compound">AggregationException</ref>&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>caught_specific++;</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::exception&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>caught_generic++;</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify:<sp/>Specific<sp/>catch<sp/>used</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(caught_specific,<sp/>1);</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(caught_generic,<sp/>0);</highlight></codeline>
+<codeline lineno="312"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EH-07:<sp/>Multiple<sp/>Catch<sp/>Blocks<sp/>Different<sp/>Types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><ref refid="namespacethemis_1_1analytics_1_1test_1a3c2eed0dd324e22e43a12f26f13fec6b" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test" kindref="compound">ErrorHandlingTest</ref>,<sp/>EH_07_MultipleCatchBlocks)<sp/>{</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Gap:<sp/>exception<sp/>handling<sp/>(multiple<sp/>exception<sp/>types)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>caught_type<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1test_1_1_stream_exception" kindref="compound">StreamException</ref>(makeErrorContext(</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160a57358624a7a02ce9089ea20dfd7baca9" kindref="member">AnalyticsErrorCode::STREAM_WINDOW_EXPIRED</ref>,</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Window<sp/>expired&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>));</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1test_1_1_aggregation_exception" kindref="compound">AggregationException</ref>&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>caught_type<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;aggregation&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1test_1_1_stream_exception" kindref="compound">StreamException</ref>&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>caught_type<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;stream&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::exception&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>caught_type<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;generic&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify:<sp/>Correct<sp/>catch<sp/>block<sp/>executed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(caught_type,<sp/></highlight><highlight class="stringliteral">&quot;stream&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="339"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EH-08:<sp/>Exception<sp/>Rethrow<sp/>Preserves<sp/>Context</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><ref refid="namespacethemis_1_1analytics_1_1test_1a3c2eed0dd324e22e43a12f26f13fec6b" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test" kindref="compound">ErrorHandlingTest</ref>,<sp/>EH_08_RethrowPreservesContext)<sp/>{</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Gap:<sp/>exception<sp/>handling<sp/>(context<sp/>preservation<sp/>on<sp/>rethrow)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;AnalyticsErrorCode&gt;<sp/>caught_code;</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1test_1_1_analytics_exception" kindref="compound">AnalyticsException</ref>(makeErrorContext(</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160a60c352e2059abf418d40304682338280" kindref="member">AnalyticsErrorCode::POOL_CONNECTION_FAILED</ref>,</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Connection<sp/>failed&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>));</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1test_1_1_analytics_exception" kindref="compound">AnalyticsException</ref>&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rethrow<sp/>after<sp/>logging</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>Context<sp/>preserved</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1test_1_1_analytics_exception" kindref="compound">AnalyticsException</ref>&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>caught_code<sp/>=<sp/>e.getContext().code;</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"></highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify:<sp/>Context<sp/>preserved<sp/>through<sp/>rethrow</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(caught_code.has_value());</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(caught_code.value(),<sp/><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160a60c352e2059abf418d40304682338280" kindref="member">AnalyticsErrorCode::POOL_CONNECTION_FAILED</ref>);</highlight></codeline>
+<codeline lineno="368"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"></highlight></codeline>
+<codeline lineno="370"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="371"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EH-09:<sp/>Nested<sp/>Try-Catch<sp/>Hierarchy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="372"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="373"><highlight class="normal"></highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><ref refid="namespacethemis_1_1analytics_1_1test_1a3c2eed0dd324e22e43a12f26f13fec6b" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test" kindref="compound">ErrorHandlingTest</ref>,<sp/>EH_09_NestedTryCatch)<sp/>{</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Gap:<sp/>exception<sp/>handling<sp/>(nested<sp/>exception<sp/>handling)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>level1_caught<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>level2_caught<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"></highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::invalid_argument(</highlight><highlight class="stringliteral">&quot;Invalid<sp/>argument&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::invalid_argument&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>level1_caught++;</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1test_1_1_analytics_exception" kindref="compound">AnalyticsException</ref>(makeErrorContext(</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160af295a0c3e37c94f078e1c5476479132d" kindref="member">AnalyticsErrorCode::INVALID_ARGUMENT</ref>,</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string(e.what()),</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>));</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1test_1_1_analytics_exception" kindref="compound">AnalyticsException</ref>&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>level2_caught++;</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"></highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify:<sp/>Both<sp/>catch<sp/>blocks<sp/>executed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(level1_caught,<sp/>1);</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(level2_caught,<sp/>1);</highlight></codeline>
+<codeline lineno="398"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"></highlight></codeline>
+<codeline lineno="400"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="401"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EH-10:<sp/>RAII<sp/>Cleanup<sp/>Without<sp/>catch(...)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="402"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="403"><highlight class="normal"></highlight></codeline>
+<codeline lineno="404"><highlight class="normal"><ref refid="namespacethemis_1_1analytics_1_1test_1a3c2eed0dd324e22e43a12f26f13fec6b" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test" kindref="compound">ErrorHandlingTest</ref>,<sp/>EH_10_RAIICleanupWithoutGenericCatch)<sp/>{</highlight></codeline>
+<codeline lineno="405"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Gap:<sp/>exception<sp/>handling<sp/>(RAII<sp/>cleanup<sp/>instead<sp/>of<sp/>catch(...))</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="406"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="407"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">Resource<sp/>{</highlight></codeline>
+<codeline lineno="408"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>cleaned_up<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>~Resource()<sp/>{</highlight></codeline>
+<codeline lineno="410"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cleaned_up<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="411"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="412"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="413"><highlight class="normal"></highlight></codeline>
+<codeline lineno="414"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>exception_caught<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="415"><highlight class="normal"></highlight></codeline>
+<codeline lineno="416"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="417"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Resource<sp/>res;</highlight></codeline>
+<codeline lineno="418"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;Test<sp/>error&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="419"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::runtime_error&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="420"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>exception_caught<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="421"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="422"><highlight class="normal"></highlight></codeline>
+<codeline lineno="423"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify:<sp/>RAII<sp/>destructor<sp/>called<sp/>automatically</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="424"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(exception_caught);</highlight></codeline>
+<codeline lineno="425"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="426"><highlight class="normal"></highlight></codeline>
+<codeline lineno="427"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="428"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EH-11:<sp/>Avoid<sp/>catch(...)<sp/>Anti-Pattern</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="429"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="430"><highlight class="normal"></highlight></codeline>
+<codeline lineno="431"><highlight class="normal"><ref refid="namespacethemis_1_1analytics_1_1test_1a3c2eed0dd324e22e43a12f26f13fec6b" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test" kindref="compound">ErrorHandlingTest</ref>,<sp/>EH_11_AvoidCatchAll)<sp/>{</highlight></codeline>
+<codeline lineno="432"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Gap:<sp/>exception<sp/>handling<sp/>(don&apos;t<sp/>use<sp/>catch(...))</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="433"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="434"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>caught<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="435"><highlight class="normal"></highlight></codeline>
+<codeline lineno="436"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="437"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;Test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="438"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::runtime_error&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="439"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>caught++;</highlight></codeline>
+<codeline lineno="440"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::exception&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="441"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>caught++;</highlight></codeline>
+<codeline lineno="442"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="443"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Note:<sp/>Not<sp/>using<sp/>catch(...)<sp/>-<sp/>specific<sp/>handling<sp/>only</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="444"><highlight class="normal"></highlight></codeline>
+<codeline lineno="445"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify:<sp/>Specific<sp/>handlers<sp/>sufficient</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="446"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(caught,<sp/>1);</highlight></codeline>
+<codeline lineno="447"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="448"><highlight class="normal"></highlight></codeline>
+<codeline lineno="449"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="450"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EH-12:<sp/>Specific<sp/>Exception<sp/>Handling<sp/>for<sp/>Each<sp/>Type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="451"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="452"><highlight class="normal"></highlight></codeline>
+<codeline lineno="453"><highlight class="normal"><ref refid="namespacethemis_1_1analytics_1_1test_1a3c2eed0dd324e22e43a12f26f13fec6b" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test" kindref="compound">ErrorHandlingTest</ref>,<sp/>EH_12_SpecificHandlingPerType)<sp/>{</highlight></codeline>
+<codeline lineno="454"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Gap:<sp/>exception<sp/>handling<sp/>(each<sp/>error<sp/>has<sp/>specific<sp/>handler)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="455"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="456"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>int&gt;<sp/>handlers_called;</highlight></codeline>
+<codeline lineno="457"><highlight class="normal"></highlight></codeline>
+<codeline lineno="458"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>handle_exception<sp/>=<sp/>[&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::exception&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="459"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="460"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="461"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1test_1_1_aggregation_exception" kindref="compound">AggregationException</ref>&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="462"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handlers_called[</highlight><highlight class="stringliteral">&quot;aggregation&quot;</highlight><highlight class="normal">]++;</highlight></codeline>
+<codeline lineno="463"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1test_1_1_stream_exception" kindref="compound">StreamException</ref>&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="464"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handlers_called[</highlight><highlight class="stringliteral">&quot;stream&quot;</highlight><highlight class="normal">]++;</highlight></codeline>
+<codeline lineno="465"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1test_1_1_analytics_exception" kindref="compound">AnalyticsException</ref>&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="466"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handlers_called[</highlight><highlight class="stringliteral">&quot;analytics&quot;</highlight><highlight class="normal">]++;</highlight></codeline>
+<codeline lineno="467"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::exception&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="468"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handlers_called[</highlight><highlight class="stringliteral">&quot;std&quot;</highlight><highlight class="normal">]++;</highlight></codeline>
+<codeline lineno="469"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="470"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="471"><highlight class="normal"></highlight></codeline>
+<codeline lineno="472"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="473"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1test_1_1_aggregation_exception" kindref="compound">AggregationException</ref>(makeErrorContext(</highlight></codeline>
+<codeline lineno="474"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160a48b0350a6e9a4ddc48c2ee6c3baf8b55" kindref="member">AnalyticsErrorCode::AGGREGATION_OVERFLOW</ref>,</highlight></codeline>
+<codeline lineno="475"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Overflow&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="476"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="477"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>));</highlight></codeline>
+<codeline lineno="478"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::exception&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="479"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handle_exception(e);</highlight></codeline>
+<codeline lineno="480"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="481"><highlight class="normal"></highlight></codeline>
+<codeline lineno="482"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify:<sp/>Specific<sp/>handler<sp/>called</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="483"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(handlers_called[</highlight><highlight class="stringliteral">&quot;aggregation&quot;</highlight><highlight class="normal">],<sp/>1);</highlight></codeline>
+<codeline lineno="484"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="485"><highlight class="normal"></highlight></codeline>
+<codeline lineno="486"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="487"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EH-13:<sp/>Unknown<sp/>Exception<sp/>Safe<sp/>Handling</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="488"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="489"><highlight class="normal"></highlight></codeline>
+<codeline lineno="490"><highlight class="normal"><ref refid="namespacethemis_1_1analytics_1_1test_1a3c2eed0dd324e22e43a12f26f13fec6b" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test" kindref="compound">ErrorHandlingTest</ref>,<sp/>EH_13_UnknownExceptionSafeHandling)<sp/>{</highlight></codeline>
+<codeline lineno="491"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Gap:<sp/>exception<sp/>handling<sp/>(safe<sp/>fallback<sp/>for<sp/>unknown<sp/>exceptions)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="492"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="493"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>catch(...)<sp/>only<sp/>as<sp/>last<sp/>resort<sp/>for<sp/>truly<sp/>unknown<sp/>exceptions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="494"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>caught_unknown<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="495"><highlight class="normal"></highlight></codeline>
+<codeline lineno="496"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="497"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;Test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="498"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::runtime_error&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="499"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Known<sp/>exception<sp/>handled<sp/>specifically</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="500"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::exception&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="501"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Other<sp/>standard<sp/>exceptions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="502"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(...)<sp/>{</highlight></codeline>
+<codeline lineno="503"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Only<sp/>catch<sp/>truly<sp/>unknown<sp/>non-standard<sp/>exceptions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="504"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>caught_unknown++;</highlight></codeline>
+<codeline lineno="505"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="506"><highlight class="normal"></highlight></codeline>
+<codeline lineno="507"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify:<sp/>Known<sp/>exception<sp/>caught<sp/>by<sp/>specific<sp/>handler</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="508"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(caught_unknown,<sp/>0);</highlight></codeline>
+<codeline lineno="509"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="510"><highlight class="normal"></highlight></codeline>
+<codeline lineno="511"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="512"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EH-14:<sp/>Exception<sp/>Type<sp/>Hierarchy<sp/>Traversal</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="513"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="514"><highlight class="normal"></highlight></codeline>
+<codeline lineno="515"><highlight class="normal"><ref refid="namespacethemis_1_1analytics_1_1test_1a3c2eed0dd324e22e43a12f26f13fec6b" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test" kindref="compound">ErrorHandlingTest</ref>,<sp/>EH_14_ExceptionHierarchyTraversal)<sp/>{</highlight></codeline>
+<codeline lineno="516"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Gap:<sp/>exception<sp/>handling<sp/>(respect<sp/>exception<sp/>hierarchy)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="517"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="518"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Exception<sp/>hierarchy:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="519"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>std::exception</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="520"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>├──<sp/>std::runtime_error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="521"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>└──<sp/>AnalyticsException</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="522"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/>├──<sp/>AggregationException</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="523"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/>└──<sp/>StreamException</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="524"><highlight class="normal"></highlight></codeline>
+<codeline lineno="525"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>caught_level<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="526"><highlight class="normal"></highlight></codeline>
+<codeline lineno="527"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="528"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1test_1_1_aggregation_exception" kindref="compound">AggregationException</ref>(makeErrorContext(</highlight></codeline>
+<codeline lineno="529"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160a48b0350a6e9a4ddc48c2ee6c3baf8b55" kindref="member">AnalyticsErrorCode::AGGREGATION_OVERFLOW</ref>,</highlight></codeline>
+<codeline lineno="530"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Overflow&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="531"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="532"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>));</highlight></codeline>
+<codeline lineno="533"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1test_1_1_aggregation_exception" kindref="compound">AggregationException</ref>&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="534"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>caught_level<sp/>=<sp/>1;<sp/></highlight><highlight class="comment">//<sp/>Most<sp/>specific</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="535"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1test_1_1_analytics_exception" kindref="compound">AnalyticsException</ref>&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="536"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>caught_level<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="537"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::exception&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="538"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>caught_level<sp/>=<sp/>3;<sp/></highlight><highlight class="comment">//<sp/>Most<sp/>generic</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="539"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="540"><highlight class="normal"></highlight></codeline>
+<codeline lineno="541"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify:<sp/>Most<sp/>specific<sp/>handler<sp/>matched</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="542"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(caught_level,<sp/>1);</highlight></codeline>
+<codeline lineno="543"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="544"><highlight class="normal"></highlight></codeline>
+<codeline lineno="545"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="546"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EH-15:<sp/>Catch<sp/>Order<sp/>Matters<sp/>-<sp/>Derived<sp/>Before<sp/>Base</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="547"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="548"><highlight class="normal"></highlight></codeline>
+<codeline lineno="549"><highlight class="normal"><ref refid="namespacethemis_1_1analytics_1_1test_1a3c2eed0dd324e22e43a12f26f13fec6b" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test" kindref="compound">ErrorHandlingTest</ref>,<sp/>EH_15_CatchOrderDerivedBeforeBase)<sp/>{</highlight></codeline>
+<codeline lineno="550"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Gap:<sp/>exception<sp/>handling<sp/>(correct<sp/>catch<sp/>block<sp/>order)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="551"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="552"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>caught_order;</highlight></codeline>
+<codeline lineno="553"><highlight class="normal"></highlight></codeline>
+<codeline lineno="554"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>WRONG<sp/>order<sp/>would<sp/>be:<sp/>base<sp/>before<sp/>derived</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="555"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CORRECT<sp/>order<sp/>is:<sp/>derived<sp/>before<sp/>base</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="556"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="557"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1test_1_1_aggregation_exception" kindref="compound">AggregationException</ref>(makeErrorContext(</highlight></codeline>
+<codeline lineno="558"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160a48b0350a6e9a4ddc48c2ee6c3baf8b55" kindref="member">AnalyticsErrorCode::AGGREGATION_OVERFLOW</ref>,</highlight></codeline>
+<codeline lineno="559"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Overflow&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="560"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="561"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>));</highlight></codeline>
+<codeline lineno="562"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1test_1_1_aggregation_exception" kindref="compound">AggregationException</ref>&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="563"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>caught_order<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;derived_&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="564"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1test_1_1_analytics_exception" kindref="compound">AnalyticsException</ref>&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="565"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>caught_order<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;base_&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="566"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="567"><highlight class="normal"></highlight></codeline>
+<codeline lineno="568"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify:<sp/>Derived<sp/>handler<sp/>executed<sp/>first</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="569"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(caught_order.find(</highlight><highlight class="stringliteral">&quot;derived&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="570"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(caught_order.find(</highlight><highlight class="stringliteral">&quot;base&quot;</highlight><highlight class="normal">)<sp/>==<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="571"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="572"><highlight class="normal"></highlight></codeline>
+<codeline lineno="573"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="574"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EH-16:<sp/>Error<sp/>Serializes<sp/>to<sp/>Valid<sp/>JSON</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="575"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="576"><highlight class="normal"></highlight></codeline>
+<codeline lineno="577"><highlight class="normal"><ref refid="namespacethemis_1_1analytics_1_1test_1a3c2eed0dd324e22e43a12f26f13fec6b" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test" kindref="compound">ErrorHandlingTest</ref>,<sp/>EH_16_ErrorSerializesToJSON)<sp/>{</highlight></codeline>
+<codeline lineno="578"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Gap:<sp/>error<sp/>context<sp/>serialization<sp/>(valid<sp/>JSON<sp/>output)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="579"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="580"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/>makeErrorContext(</highlight></codeline>
+<codeline lineno="581"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160a48b0350a6e9a4ddc48c2ee6c3baf8b55" kindref="member">AnalyticsErrorCode::AGGREGATION_OVERFLOW</ref>,</highlight></codeline>
+<codeline lineno="582"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Overflow<sp/>in<sp/>SUM&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="583"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;aggregator&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="584"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;value=123456789&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="585"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="586"><highlight class="normal"></highlight></codeline>
+<codeline lineno="587"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1analytics_1a2985f596bddf0087262893a0d7c6c815" kindref="member">json</ref><sp/>=<sp/>ctx.toJSON();</highlight></codeline>
+<codeline lineno="588"><highlight class="normal"></highlight></codeline>
+<codeline lineno="589"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify:<sp/>JSON<sp/>contains<sp/>expected<sp/>structure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="590"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="namespacethemis_1_1analytics_1a2985f596bddf0087262893a0d7c6c815" kindref="member">json</ref>.find(</highlight><highlight class="stringliteral">&quot;\&quot;code\&quot;&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="591"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="namespacethemis_1_1analytics_1a2985f596bddf0087262893a0d7c6c815" kindref="member">json</ref>.find(</highlight><highlight class="stringliteral">&quot;\&quot;message\&quot;&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="592"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="namespacethemis_1_1analytics_1a2985f596bddf0087262893a0d7c6c815" kindref="member">json</ref>.find(</highlight><highlight class="stringliteral">&quot;\&quot;module\&quot;&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="593"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="namespacethemis_1_1analytics_1a2985f596bddf0087262893a0d7c6c815" kindref="member">json</ref>.find(</highlight><highlight class="stringliteral">&quot;\&quot;line\&quot;&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="594"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="595"><highlight class="normal"></highlight></codeline>
+<codeline lineno="596"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="597"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EH-17:<sp/>JSON<sp/>Contains<sp/>Required<sp/>Fields</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="598"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="599"><highlight class="normal"></highlight></codeline>
+<codeline lineno="600"><highlight class="normal"><ref refid="namespacethemis_1_1analytics_1_1test_1a3c2eed0dd324e22e43a12f26f13fec6b" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test" kindref="compound">ErrorHandlingTest</ref>,<sp/>EH_17_JSONRequiredFields)<sp/>{</highlight></codeline>
+<codeline lineno="601"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Gap:<sp/>error<sp/>context<sp/>serialization<sp/>(required<sp/>fields)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="602"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="603"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/>makeErrorContext(</highlight></codeline>
+<codeline lineno="604"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160aaeed084f04f1d18ce86c61e557f482c9" kindref="member">AnalyticsErrorCode::POOL_EXHAUSTED</ref>,</highlight></codeline>
+<codeline lineno="605"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Pool<sp/>exhausted&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="606"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;pool_manager&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="607"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;active=10,max=10&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="608"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="609"><highlight class="normal"></highlight></codeline>
+<codeline lineno="610"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1analytics_1a2985f596bddf0087262893a0d7c6c815" kindref="member">json</ref><sp/>=<sp/>ctx.toJSON();</highlight></codeline>
+<codeline lineno="611"><highlight class="normal"></highlight></codeline>
+<codeline lineno="612"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify:<sp/>All<sp/>required<sp/>fields<sp/>present</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="613"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="namespacethemis_1_1analytics_1a2985f596bddf0087262893a0d7c6c815" kindref="member">json</ref>.find(</highlight><highlight class="stringliteral">&quot;\&quot;code\&quot;:&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(</highlight></codeline>
+<codeline lineno="614"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160aaeed084f04f1d18ce86c61e557f482c9" kindref="member">AnalyticsErrorCode::POOL_EXHAUSTED</ref>))),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="615"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="namespacethemis_1_1analytics_1a2985f596bddf0087262893a0d7c6c815" kindref="member">json</ref>.find(</highlight><highlight class="stringliteral">&quot;\&quot;message\&quot;:\&quot;Pool<sp/>exhausted\&quot;&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="616"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="namespacethemis_1_1analytics_1a2985f596bddf0087262893a0d7c6c815" kindref="member">json</ref>.find(</highlight><highlight class="stringliteral">&quot;\&quot;module\&quot;:\&quot;pool_manager\&quot;&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="617"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="618"><highlight class="normal"></highlight></codeline>
+<codeline lineno="619"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="620"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EH-18:<sp/>Nested<sp/>Context<sp/>Preserved<sp/>in<sp/>Serialization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="621"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="622"><highlight class="normal"></highlight></codeline>
+<codeline lineno="623"><highlight class="normal"><ref refid="namespacethemis_1_1analytics_1_1test_1a3c2eed0dd324e22e43a12f26f13fec6b" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test" kindref="compound">ErrorHandlingTest</ref>,<sp/>EH_18_NestedContextPreserved)<sp/>{</highlight></codeline>
+<codeline lineno="624"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Gap:<sp/>error<sp/>context<sp/>serialization<sp/>(nested<sp/>context)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="625"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="626"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>inner_ctx<sp/>=<sp/>makeErrorContext(</highlight></codeline>
+<codeline lineno="627"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160a57358624a7a02ce9089ea20dfd7baca9" kindref="member">AnalyticsErrorCode::STREAM_WINDOW_EXPIRED</ref>,</highlight></codeline>
+<codeline lineno="628"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Window<sp/>expired&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="629"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;window&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="630"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;window_id=42&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="631"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="632"><highlight class="normal"></highlight></codeline>
+<codeline lineno="633"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>outer_ctx<sp/>=<sp/>makeErrorContext(</highlight></codeline>
+<codeline lineno="634"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160a1c26b81ba92ea70f693a4356fd035c94" kindref="member">AnalyticsErrorCode::STREAM_BACKPRESSURE</ref>,</highlight></codeline>
+<codeline lineno="635"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Backpressure<sp/>due<sp/>to<sp/>expired<sp/>window&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="636"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;stream&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="637"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;cause:<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>inner_ctx.toJSON()</highlight></codeline>
+<codeline lineno="638"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="639"><highlight class="normal"></highlight></codeline>
+<codeline lineno="640"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1analytics_1a2985f596bddf0087262893a0d7c6c815" kindref="member">json</ref><sp/>=<sp/>outer_ctx.toJSON();</highlight></codeline>
+<codeline lineno="641"><highlight class="normal"></highlight></codeline>
+<codeline lineno="642"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify:<sp/>Nested<sp/>context<sp/>included</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="643"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="namespacethemis_1_1analytics_1a2985f596bddf0087262893a0d7c6c815" kindref="member">json</ref>.find(</highlight><highlight class="stringliteral">&quot;window_id=42&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="644"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="645"><highlight class="normal"></highlight></codeline>
+<codeline lineno="646"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="647"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EH-19:<sp/>Special<sp/>Characters<sp/>Escaped<sp/>Properly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="648"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="649"><highlight class="normal"></highlight></codeline>
+<codeline lineno="650"><highlight class="normal"><ref refid="namespacethemis_1_1analytics_1_1test_1a3c2eed0dd324e22e43a12f26f13fec6b" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test" kindref="compound">ErrorHandlingTest</ref>,<sp/>EH_19_SpecialCharactersEscaped)<sp/>{</highlight></codeline>
+<codeline lineno="651"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Gap:<sp/>error<sp/>context<sp/>serialization<sp/>(escape<sp/>special<sp/>chars)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="652"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="653"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/><ref refid="structthemis_1_1analytics_1_1test_1_1_error_context" kindref="compound">ErrorContext</ref>{</highlight></codeline>
+<codeline lineno="654"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160af295a0c3e37c94f078e1c5476479132d" kindref="member">AnalyticsErrorCode::INVALID_ARGUMENT</ref>,</highlight></codeline>
+<codeline lineno="655"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Invalid:<sp/>\&quot;quoted\&quot;<sp/>value<sp/>with<sp/>\\backslash&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="656"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="657"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;msg<sp/>with<sp/>newline\nand<sp/>tab\t&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="658"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="659"><highlight class="normal"></highlight></codeline>
+<codeline lineno="660"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1analytics_1a2985f596bddf0087262893a0d7c6c815" kindref="member">json</ref><sp/>=<sp/>ctx.<ref refid="structthemis_1_1analytics_1_1test_1_1_error_context_1a16792bf063a14e126910d64db88a4832" kindref="member">toJSON</ref>();</highlight></codeline>
+<codeline lineno="661"><highlight class="normal"></highlight></codeline>
+<codeline lineno="662"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify:<sp/>JSON<sp/>is<sp/>still<sp/>parseable<sp/>(basic<sp/>check)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="663"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="namespacethemis_1_1analytics_1a2985f596bddf0087262893a0d7c6c815" kindref="member">json</ref>.find(</highlight><highlight class="stringliteral">&quot;code&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="664"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="namespacethemis_1_1analytics_1a2985f596bddf0087262893a0d7c6c815" kindref="member">json</ref>.find(</highlight><highlight class="stringliteral">&quot;message&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="665"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="666"><highlight class="normal"></highlight></codeline>
+<codeline lineno="667"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="668"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EH-20:<sp/>Large<sp/>Context<sp/>Handled<sp/>Without<sp/>Truncation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="669"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="670"><highlight class="normal"></highlight></codeline>
+<codeline lineno="671"><highlight class="normal"><ref refid="namespacethemis_1_1analytics_1_1test_1a3c2eed0dd324e22e43a12f26f13fec6b" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test" kindref="compound">ErrorHandlingTest</ref>,<sp/>EH_20_LargeContextNoTruncation)<sp/>{</highlight></codeline>
+<codeline lineno="672"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Gap:<sp/>error<sp/>context<sp/>serialization<sp/>(large<sp/>context<sp/>handling)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="673"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="674"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>large_data(10000,<sp/></highlight><highlight class="charliteral">&apos;x&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="675"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/>makeErrorContext(</highlight></codeline>
+<codeline lineno="676"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160ae8c0c70879b5895c615677261d64a1ee" kindref="member">AnalyticsErrorCode::INTERNAL_ERROR</ref>,</highlight></codeline>
+<codeline lineno="677"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Large<sp/>context<sp/>error&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="678"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="679"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>large_data</highlight></codeline>
+<codeline lineno="680"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="681"><highlight class="normal"></highlight></codeline>
+<codeline lineno="682"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1analytics_1a2985f596bddf0087262893a0d7c6c815" kindref="member">json</ref><sp/>=<sp/>ctx.toJSON();</highlight></codeline>
+<codeline lineno="683"><highlight class="normal"></highlight></codeline>
+<codeline lineno="684"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify:<sp/>Large<sp/>context<sp/>preserved</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="685"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(<ref refid="namespacethemis_1_1analytics_1a2985f596bddf0087262893a0d7c6c815" kindref="member">json</ref>.length(),<sp/>large_data.length());</highlight></codeline>
+<codeline lineno="686"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="687"><highlight class="normal"></highlight></codeline>
+<codeline lineno="688"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="689"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EH-21:<sp/>Error<sp/>Codes<sp/>in<sp/>Valid<sp/>Range</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="690"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="691"><highlight class="normal"></highlight></codeline>
+<codeline lineno="692"><highlight class="normal"><ref refid="namespacethemis_1_1analytics_1_1test_1a3c2eed0dd324e22e43a12f26f13fec6b" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test" kindref="compound">ErrorHandlingTest</ref>,<sp/>EH_21_ErrorCodesInValidRange)<sp/>{</highlight></codeline>
+<codeline lineno="693"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Gap:<sp/>error<sp/>taxonomy<sp/>(code<sp/>range<sp/>validation)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="694"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="695"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;AnalyticsErrorCode&gt;<sp/>codes<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="696"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160a48b0350a6e9a4ddc48c2ee6c3baf8b55" kindref="member">AnalyticsErrorCode::AGGREGATION_OVERFLOW</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>1001</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="697"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160a57358624a7a02ce9089ea20dfd7baca9" kindref="member">AnalyticsErrorCode::STREAM_WINDOW_EXPIRED</ref>,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>2001</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="698"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160aaeed084f04f1d18ce86c61e557f482c9" kindref="member">AnalyticsErrorCode::POOL_EXHAUSTED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>3001</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="699"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160af295a0c3e37c94f078e1c5476479132d" kindref="member">AnalyticsErrorCode::INVALID_ARGUMENT</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>9001</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="700"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="701"><highlight class="normal"></highlight></codeline>
+<codeline lineno="702"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>code<sp/>:<sp/>codes)<sp/>{</highlight></codeline>
+<codeline lineno="703"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>code_val<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(code);</highlight></codeline>
+<codeline lineno="704"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(code_val,<sp/>0);</highlight></codeline>
+<codeline lineno="705"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LT(code_val,<sp/>10000);</highlight></codeline>
+<codeline lineno="706"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="707"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="708"><highlight class="normal"></highlight></codeline>
+<codeline lineno="709"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="710"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EH-22:<sp/>Error<sp/>Categories<sp/>Map<sp/>to<sp/>Correct<sp/>Codes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="711"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="712"><highlight class="normal"></highlight></codeline>
+<codeline lineno="713"><highlight class="normal"><ref refid="namespacethemis_1_1analytics_1_1test_1a3c2eed0dd324e22e43a12f26f13fec6b" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test" kindref="compound">ErrorHandlingTest</ref>,<sp/>EH_22_CategoriesMappedCorrectly)<sp/>{</highlight></codeline>
+<codeline lineno="714"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Gap:<sp/>error<sp/>taxonomy<sp/>(category<sp/>mapping)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="715"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="716"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>int&gt;<sp/>category_min_code<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="717"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;aggregation&quot;</highlight><highlight class="normal">,<sp/>1000},</highlight></codeline>
+<codeline lineno="718"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;stream&quot;</highlight><highlight class="normal">,<sp/>2000},</highlight></codeline>
+<codeline lineno="719"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;pool&quot;</highlight><highlight class="normal">,<sp/>3000},</highlight></codeline>
+<codeline lineno="720"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;generic&quot;</highlight><highlight class="normal">,<sp/>9000},</highlight></codeline>
+<codeline lineno="721"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="722"><highlight class="normal"></highlight></codeline>
+<codeline lineno="723"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>AnalyticsErrorCode&gt;&gt;<sp/>mappings<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="724"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;aggregation&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160a48b0350a6e9a4ddc48c2ee6c3baf8b55" kindref="member">AnalyticsErrorCode::AGGREGATION_OVERFLOW</ref>},</highlight></codeline>
+<codeline lineno="725"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;stream&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160a57358624a7a02ce9089ea20dfd7baca9" kindref="member">AnalyticsErrorCode::STREAM_WINDOW_EXPIRED</ref>},</highlight></codeline>
+<codeline lineno="726"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;pool&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160aaeed084f04f1d18ce86c61e557f482c9" kindref="member">AnalyticsErrorCode::POOL_EXHAUSTED</ref>},</highlight></codeline>
+<codeline lineno="727"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;generic&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160af295a0c3e37c94f078e1c5476479132d" kindref="member">AnalyticsErrorCode::INVALID_ARGUMENT</ref>},</highlight></codeline>
+<codeline lineno="728"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="729"><highlight class="normal"></highlight></codeline>
+<codeline lineno="730"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>[category,<sp/>code]<sp/>:<sp/>mappings)<sp/>{</highlight></codeline>
+<codeline lineno="731"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>code_val<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(code);</highlight></codeline>
+<codeline lineno="732"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(code_val,<sp/>category_min_code[category]);</highlight></codeline>
+<codeline lineno="733"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="734"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="735"><highlight class="normal"></highlight></codeline>
+<codeline lineno="736"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="737"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EH-23:<sp/>Error<sp/>Messages<sp/>Unique<sp/>Per<sp/>Code</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="738"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="739"><highlight class="normal"></highlight></codeline>
+<codeline lineno="740"><highlight class="normal"><ref refid="namespacethemis_1_1analytics_1_1test_1a3c2eed0dd324e22e43a12f26f13fec6b" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test" kindref="compound">ErrorHandlingTest</ref>,<sp/>EH_23_UniqueMessagesPerCode)<sp/>{</highlight></codeline>
+<codeline lineno="741"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Gap:<sp/>error<sp/>taxonomy<sp/>(unique<sp/>messages)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="742"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="743"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;int,<sp/>std::string&gt;<sp/>code_messages;</highlight></codeline>
+<codeline lineno="744"><highlight class="normal"></highlight></codeline>
+<codeline lineno="745"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>codes<sp/>=<sp/>std::vector&lt;std::pair&lt;AnalyticsErrorCode,<sp/>std::string&gt;&gt;{</highlight></codeline>
+<codeline lineno="746"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160a48b0350a6e9a4ddc48c2ee6c3baf8b55" kindref="member">AnalyticsErrorCode::AGGREGATION_OVERFLOW</ref>,<sp/></highlight><highlight class="stringliteral">&quot;Overflow<sp/>in<sp/>aggregation&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="747"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160a57358624a7a02ce9089ea20dfd7baca9" kindref="member">AnalyticsErrorCode::STREAM_WINDOW_EXPIRED</ref>,<sp/></highlight><highlight class="stringliteral">&quot;Window<sp/>expired&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="748"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160aaeed084f04f1d18ce86c61e557f482c9" kindref="member">AnalyticsErrorCode::POOL_EXHAUSTED</ref>,<sp/></highlight><highlight class="stringliteral">&quot;Connection<sp/>pool<sp/>exhausted&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="749"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160af295a0c3e37c94f078e1c5476479132d" kindref="member">AnalyticsErrorCode::INVALID_ARGUMENT</ref>,<sp/></highlight><highlight class="stringliteral">&quot;Invalid<sp/>argument&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="750"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="751"><highlight class="normal"></highlight></codeline>
+<codeline lineno="752"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>[code,<sp/>msg]<sp/>:<sp/>codes)<sp/>{</highlight></codeline>
+<codeline lineno="753"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>code_val<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(code);</highlight></codeline>
+<codeline lineno="754"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>code_messages[code_val]<sp/>=<sp/>msg;</highlight></codeline>
+<codeline lineno="755"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="756"><highlight class="normal"></highlight></codeline>
+<codeline lineno="757"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify:<sp/>Each<sp/>code<sp/>has<sp/>unique<sp/>message</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="758"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(code_messages.size(),<sp/>codes.size());</highlight></codeline>
+<codeline lineno="759"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="760"><highlight class="normal"></highlight></codeline>
+<codeline lineno="761"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="762"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EH-24:<sp/>Error<sp/>Recovery<sp/>Hints<sp/>Accurate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="763"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="764"><highlight class="normal"></highlight></codeline>
+<codeline lineno="765"><highlight class="normal"><ref refid="namespacethemis_1_1analytics_1_1test_1a3c2eed0dd324e22e43a12f26f13fec6b" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test" kindref="compound">ErrorHandlingTest</ref>,<sp/>EH_24_RecoveryHintsAccurate)<sp/>{</highlight></codeline>
+<codeline lineno="766"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Gap:<sp/>error<sp/>taxonomy<sp/>(recovery<sp/>hints)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="767"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="768"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;int,<sp/>std::string&gt;<sp/>recovery_hints;</highlight></codeline>
+<codeline lineno="769"><highlight class="normal"></highlight></codeline>
+<codeline lineno="770"><highlight class="normal"><sp/><sp/><sp/><sp/>recovery_hints[</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160aaeed084f04f1d18ce86c61e557f482c9" kindref="member">AnalyticsErrorCode::POOL_EXHAUSTED</ref>)]<sp/>=</highlight></codeline>
+<codeline lineno="771"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Wait<sp/>for<sp/>connection<sp/>or<sp/>increase<sp/>pool<sp/>size&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="772"><highlight class="normal"><sp/><sp/><sp/><sp/>recovery_hints[</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160a48b0350a6e9a4ddc48c2ee6c3baf8b55" kindref="member">AnalyticsErrorCode::AGGREGATION_OVERFLOW</ref>)]<sp/>=</highlight></codeline>
+<codeline lineno="773"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Check<sp/>input<sp/>values<sp/>or<sp/>use<sp/>larger<sp/>data<sp/>type&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="774"><highlight class="normal"><sp/><sp/><sp/><sp/>recovery_hints[</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160a57358624a7a02ce9089ea20dfd7baca9" kindref="member">AnalyticsErrorCode::STREAM_WINDOW_EXPIRED</ref>)]<sp/>=</highlight></codeline>
+<codeline lineno="775"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Increase<sp/>watermark<sp/>delay<sp/>or<sp/>reduce<sp/>lateness<sp/>threshold&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="776"><highlight class="normal"></highlight></codeline>
+<codeline lineno="777"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify:<sp/>Recovery<sp/>hints<sp/>are<sp/>non-empty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="778"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>[code,<sp/>hint]<sp/>:<sp/>recovery_hints)<sp/>{</highlight></codeline>
+<codeline lineno="779"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GT(hint.length(),<sp/>0);</highlight></codeline>
+<codeline lineno="780"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="781"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="782"><highlight class="normal"></highlight></codeline>
+<codeline lineno="783"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="784"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EH-25:<sp/>Error<sp/>Classification<sp/>Consistent<sp/>Across<sp/>Module</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="785"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="786"><highlight class="normal"></highlight></codeline>
+<codeline lineno="787"><highlight class="normal"><ref refid="namespacethemis_1_1analytics_1_1test_1a3c2eed0dd324e22e43a12f26f13fec6b" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test" kindref="compound">ErrorHandlingTest</ref>,<sp/>EH_25_ConsistentClassificationAcrossModule)<sp/>{</highlight></codeline>
+<codeline lineno="788"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Gap:<sp/>error<sp/>taxonomy<sp/>(consistency)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="789"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="790"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>that<sp/>same<sp/>error<sp/>always<sp/>has<sp/>same<sp/>code/message</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="791"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">ErrorDef<sp/>{</highlight></codeline>
+<codeline lineno="792"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfc" kindref="member">AnalyticsErrorCode</ref><sp/>code;</highlight></codeline>
+<codeline lineno="793"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>message<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="794"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="795"><highlight class="normal"></highlight></codeline>
+<codeline lineno="796"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>define_error<sp/>=<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name)<sp/>-&gt;<sp/>ErrorDef<sp/>{</highlight></codeline>
+<codeline lineno="797"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(name<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;overflow&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="798"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{<ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160a48b0350a6e9a4ddc48c2ee6c3baf8b55" kindref="member">AnalyticsErrorCode::AGGREGATION_OVERFLOW</ref>,<sp/></highlight><highlight class="stringliteral">&quot;Overflow&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="799"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="800"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(name<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;exhausted&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="801"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{<ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160aaeed084f04f1d18ce86c61e557f482c9" kindref="member">AnalyticsErrorCode::POOL_EXHAUSTED</ref>,<sp/></highlight><highlight class="stringliteral">&quot;Pool<sp/>exhausted&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="802"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="803"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{<ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">AnalyticsErrorCode::OK</ref>,<sp/></highlight><highlight class="stringliteral">&quot;OK&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="804"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="805"><highlight class="normal"></highlight></codeline>
+<codeline lineno="806"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>consistency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="807"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>def1<sp/>=<sp/>define_error(</highlight><highlight class="stringliteral">&quot;overflow&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="808"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>def2<sp/>=<sp/>define_error(</highlight><highlight class="stringliteral">&quot;overflow&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="809"><highlight class="normal"></highlight></codeline>
+<codeline lineno="810"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(def1.code,<sp/>def2.code);</highlight></codeline>
+<codeline lineno="811"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(def1.message,<sp/>def2.message);</highlight></codeline>
+<codeline lineno="812"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="813"><highlight class="normal"></highlight></codeline>
+<codeline lineno="814"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="815"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>analytics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="816"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/analytics/test_analytics_error_handling_focused.cpp"/>
+  </compounddef>
+</doxygen>

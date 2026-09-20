@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stress_vector_store" kind="class" language="C++" prot="public">
+    <compoundname>StressVectorStore</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stress_vector_store_1a7873d27828c56a39f669ce9aeac7e05e" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex StressVectorStore::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>StressVectorStore::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_highcardinality_stress.cpp" line="82" column="37" bodyfile="tests/index/test_index_highcardinality_stress.cpp" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stress_vector_store_1af246a07409d51be467b066a6c56a3f13" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="struct_stress_vec_entry" kindref="compound">StressVecEntry</ref> &gt;</type>
+        <definition>std::vector&lt;StressVecEntry&gt; StressVectorStore::store_</definition>
+        <argsstring></argsstring>
+        <name>store_</name>
+        <qualifiedname>StressVectorStore::store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_highcardinality_stress.cpp" line="83" column="21" bodyfile="tests/index/test_index_highcardinality_stress.cpp" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stress_vector_store_1ac3607054796cfee51d98070d6893fbce" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t StressVectorStore::dim_</definition>
+        <argsstring></argsstring>
+        <name>dim_</name>
+        <qualifiedname>StressVectorStore::dim_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_highcardinality_stress.cpp" line="84" column="37" bodyfile="tests/index/test_index_highcardinality_stress.cpp" bodystart="84" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stress_vector_store_1a9d15c1b922a2d8b4b696370f8f5a9f96" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>StressVectorStore::StressVectorStore</definition>
+        <argsstring>(std::size_t dim=32)</argsstring>
+        <name>StressVectorStore</name>
+        <qualifiedname>StressVectorStore::StressVectorStore</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>dim</declname>
+          <defval>32</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_highcardinality_stress.cpp" line="55" column="14" bodyfile="tests/index/test_index_highcardinality_stress.cpp" bodystart="55" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stress_vector_store_1a02f2f4a899b3cc76f3034e7837cb4166" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool StressVectorStore::insert</definition>
+        <argsstring>(StressVecEntry entry)</argsstring>
+        <name>insert</name>
+        <qualifiedname>StressVectorStore::insert</qualifiedname>
+        <param>
+          <type><ref refid="struct_stress_vec_entry" kindref="compound">StressVecEntry</ref></type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_highcardinality_stress.cpp" line="57" column="10" bodyfile="tests/index/test_index_highcardinality_stress.cpp" bodystart="57" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stress_vector_store_1a82d1fcca4d08a77f951a00c319393959" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="struct_stress_vec_entry" kindref="compound">StressVecEntry</ref> &gt;</type>
+        <definition>std::vector&lt; StressVecEntry &gt; StressVectorStore::query</definition>
+        <argsstring>(uint32_t query_id, int k) const</argsstring>
+        <name>query</name>
+        <qualifiedname>StressVectorStore::query</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>query_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_highcardinality_stress.cpp" line="63" column="17" bodyfile="tests/index/test_index_highcardinality_stress.cpp" bodystart="63" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stress_vector_store_1ae454dbbd0ff2173e3cc1b31a8b61dff3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t StressVectorStore::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>StressVectorStore::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_highcardinality_stress.cpp" line="76" column="17" bodyfile="tests/index/test_index_highcardinality_stress.cpp" bodystart="76" bodyend="79"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Minimal thread-safe stub vector store. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/index/test_index_highcardinality_stress.cpp" line="53" column="1" bodyfile="tests/index/test_index_highcardinality_stress.cpp" bodystart="53" bodyend="85"/>
+    <listofallmembers>
+      <member refid="class_stress_vector_store_1ac3607054796cfee51d98070d6893fbce" prot="private" virt="non-virtual"><scope>StressVectorStore</scope><name>dim_</name></member>
+      <member refid="class_stress_vector_store_1a02f2f4a899b3cc76f3034e7837cb4166" prot="public" virt="non-virtual"><scope>StressVectorStore</scope><name>insert</name></member>
+      <member refid="class_stress_vector_store_1a7873d27828c56a39f669ce9aeac7e05e" prot="private" virt="non-virtual"><scope>StressVectorStore</scope><name>mu_</name></member>
+      <member refid="class_stress_vector_store_1a82d1fcca4d08a77f951a00c319393959" prot="public" virt="non-virtual"><scope>StressVectorStore</scope><name>query</name></member>
+      <member refid="class_stress_vector_store_1ae454dbbd0ff2173e3cc1b31a8b61dff3" prot="public" virt="non-virtual"><scope>StressVectorStore</scope><name>size</name></member>
+      <member refid="class_stress_vector_store_1af246a07409d51be467b066a6c56a3f13" prot="private" virt="non-virtual"><scope>StressVectorStore</scope><name>store_</name></member>
+      <member refid="class_stress_vector_store_1a9d15c1b922a2d8b4b696370f8f5a9f96" prot="public" virt="non-virtual"><scope>StressVectorStore</scope><name>StressVectorStore</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

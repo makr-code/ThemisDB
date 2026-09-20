@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classchimera_1_1_i_prepared_statement_adapter" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>chimera::IPreparedStatementAdapter</compoundname>
+    <derivedcompoundref refid="classchimera_1_1_themis_d_b_adapter" prot="public" virt="non-virtual">chimera::ThemisDBAdapter</derivedcompoundref>
+    <includes refid="database__adapter_8hpp" local="no">database_adapter.hpp</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classchimera_1_1_i_prepared_statement_adapter_1a0e39605ff0c39a90e2836391a1c8df2d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual chimera::IPreparedStatementAdapter::~IPreparedStatementAdapter</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IPreparedStatementAdapter</name>
+        <qualifiedname>chimera::IPreparedStatementAdapter::~IPreparedStatementAdapter</qualifiedname>
+        <briefdescription>
+<para>IPrepared Statement Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/database_adapter.hpp" line="276" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_i_prepared_statement_adapter_1a5d7b6e6fd23484e55d385573d83fb668" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; std::unique_ptr&lt; <ref refid="classchimera_1_1_i_prepared_statement" kindref="compound">IPreparedStatement</ref> &gt; &gt;</type>
+        <definition>virtual Result&lt; std::unique_ptr&lt; IPreparedStatement &gt; &gt; chimera::IPreparedStatementAdapter::prepare</definition>
+        <argsstring>(const std::string &amp;query)=0</argsstring>
+        <name>prepare</name>
+        <qualifiedname>chimera::IPreparedStatementAdapter::prepare</qualifiedname>
+        <reimplementedby refid="classchimera_1_1_themis_d_b_adapter_1a02c4162838d04b0c5fd426d2f5ee2452">prepare</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Prepare. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/database_adapter.hpp" line="283" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_i_prepared_statement_adapter_1af92e0f0becd539c3db87a02b340568c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; bool &gt;</type>
+        <definition>virtual Result&lt; bool &gt; chimera::IPreparedStatementAdapter::unprepare</definition>
+        <argsstring>(const std::string &amp;statement_id)=0</argsstring>
+        <name>unprepare</name>
+        <qualifiedname>chimera::IPreparedStatementAdapter::unprepare</qualifiedname>
+        <reimplementedby refid="classchimera_1_1_themis_d_b_adapter_1afbdebb26eb6618a4ae30618df88f3838">unprepare</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>statement_id</declname>
+        </param>
+        <briefdescription>
+<para>Unprepare. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">statement_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the statement. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/database_adapter.hpp" line="292" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_i_prepared_statement_adapter_1ad92fb6de1c1186c8d954a66a46167720" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; std::vector&lt; std::string &gt; &gt;</type>
+        <definition>virtual Result&lt; std::vector&lt; std::string &gt; &gt; chimera::IPreparedStatementAdapter::list_prepared</definition>
+        <argsstring>()=0</argsstring>
+        <name>list_prepared</name>
+        <qualifiedname>chimera::IPreparedStatementAdapter::list_prepared</qualifiedname>
+        <reimplementedby refid="classchimera_1_1_themis_d_b_adapter_1a0378d7c1435ebc2c7ad8c56b4e3bd6d0">list_prepared</reimplementedby>
+        <briefdescription>
+<para>List prepared. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/database_adapter.hpp" line="298" column="20"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>chimera::IPreparedStatementAdapter</label>
+        <link refid="classchimera_1_1_i_prepared_statement_adapter"/>
+      </node>
+      <node id="2">
+        <label>chimera::ThemisDBAdapter</label>
+        <link refid="classchimera_1_1_themis_d_b_adapter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/chimera/database_adapter.hpp" line="270" column="1" bodyfile="include/chimera/database_adapter.hpp" bodystart="270" bodyend="299"/>
+    <listofallmembers>
+      <member refid="classchimera_1_1_i_prepared_statement_adapter_1ad92fb6de1c1186c8d954a66a46167720" prot="public" virt="pure-virtual"><scope>chimera::IPreparedStatementAdapter</scope><name>list_prepared</name></member>
+      <member refid="classchimera_1_1_i_prepared_statement_adapter_1a5d7b6e6fd23484e55d385573d83fb668" prot="public" virt="pure-virtual"><scope>chimera::IPreparedStatementAdapter</scope><name>prepare</name></member>
+      <member refid="classchimera_1_1_i_prepared_statement_adapter_1af92e0f0becd539c3db87a02b340568c4" prot="public" virt="pure-virtual"><scope>chimera::IPreparedStatementAdapter</scope><name>unprepare</name></member>
+      <member refid="classchimera_1_1_i_prepared_statement_adapter_1a0e39605ff0c39a90e2836391a1c8df2d" prot="public" virt="virtual"><scope>chimera::IPreparedStatementAdapter</scope><name>~IPreparedStatementAdapter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

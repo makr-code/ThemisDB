@@ -1,0 +1,3381 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_backup_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::BackupManager</compoundname>
+    <includes refid="backup__manager_8h" local="no">backup_manager.h</includes>
+    <innerclass refid="structthemis_1_1_backup_manager_1_1_config" prot="public">themis::BackupManager::Config</innerclass>
+    <innerclass refid="structthemis_1_1_backup_manager_1_1_scheduled_backup_entry" prot="private">themis::BackupManager::ScheduledBackupEntry</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1_backup_manager_1ad5b56be73541c105ee3bf132f6826460" prot="public" static="no">
+        <type>std::function&lt; bool( const std::string &amp;dest_dir, std::chrono::system_clock::time_point target_time, std::error_code &amp;ec)&gt;</type>
+        <definition>using themis::BackupManager::WalReplayFn = std::function&lt;bool(
+       const std::string&amp; dest_dir,
+       std::chrono::system_clock::time_point target_time,
+       std::error_code&amp; ec)&gt;</definition>
+        <argsstring></argsstring>
+        <name>WalReplayFn</name>
+        <qualifiedname>themis::BackupManager::WalReplayFn</qualifiedname>
+        <briefdescription>
+<para>Callable type for WAL-segment replay during PITR. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Arguments:<itemizedlist>
+<listitem><para>dest_dir: Directory where the base snapshot has been restored.</para>
+</listitem><listitem><para>target_time: The point-in-time to replay up to.</para>
+</listitem><listitem><para>ec: Set on failure.</para>
+</listitem></itemizedlist>
+</para>
+<para>Returns <computeroutput>true</computeroutput> on success. The production implementation opens WAL segment files in <computeroutput>dest_dir</computeroutput>, applies records whose sequence number corresponds to timestamps ≤ <computeroutput>target_time</computeroutput>, then closes the reader.</para>
+<para>Stub #249 injection API — resolves the missing WAL replay step in <computeroutput><ref refid="classthemis_1_1_backup_manager_1a84349afc762f8614240b3e783ddc20b3" kindref="member">performPITR()</ref></computeroutput>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="674" column="5" bodyfile="include/storage/backup_manager.h" bodystart="674" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1_backup_manager_1afaab36a8544d19ad591c4c4f038b386b" prot="public" static="no">
+        <type>std::function&lt; bool( const std::string &amp;checkpoint_dir, const std::vector&lt; std::string &gt; &amp;collections, std::error_code &amp;ec)&gt;</type>
+        <definition>using themis::BackupManager::CfSstIngestFn = std::function&lt;bool(
+       const std::string&amp; checkpoint_dir,
+       const std::vector&lt;std::string&gt;&amp; collections,
+       std::error_code&amp; ec)&gt;</definition>
+        <argsstring></argsstring>
+        <name>CfSstIngestFn</name>
+        <qualifiedname>themis::BackupManager::CfSstIngestFn</qualifiedname>
+        <briefdescription>
+<para>Callable type for per-column-family selective SST ingest. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Arguments:<itemizedlist>
+<listitem><para>checkpoint_dir: Path to the RocksDB checkpoint directory.</para>
+</listitem><listitem><para>collections: Names of the collections (column families) to restore.</para>
+</listitem><listitem><para>ec: Set on failure.</para>
+</listitem></itemizedlist>
+</para>
+<para>Returns <computeroutput>true</computeroutput> on success. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="705" column="5" bodyfile="include/storage/backup_manager.h" bodystart="705" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_backup_manager_1a96fe14aa4ae206a7bb2965f30d67265f" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, ScheduledBackupEntry &gt;</type>
+        <definition>std::map&lt;std::string, ScheduledBackupEntry&gt; themis::BackupManager::scheduled_backups_</definition>
+        <argsstring></argsstring>
+        <name>scheduled_backups_</name>
+        <qualifiedname>themis::BackupManager::scheduled_backups_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="736" column="14" bodyfile="include/storage/backup_manager.h" bodystart="736" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_backup_manager_1ada056e4b35968e71b75a4ef4c52625c7" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::BackupManager::scheduler_mutex_</definition>
+        <argsstring></argsstring>
+        <name>scheduler_mutex_</name>
+        <qualifiedname>themis::BackupManager::scheduler_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="737" column="24" bodyfile="include/storage/backup_manager.h" bodystart="737" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_backup_manager_1a9f532a139971e0d96c6f63b1a2af56d1" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::BackupManager::schedule_counter_</definition>
+        <argsstring></argsstring>
+        <name>schedule_counter_</name>
+        <qualifiedname>themis::BackupManager::schedule_counter_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="738" column="17" bodyfile="include/storage/backup_manager.h" bodystart="738" bodyend="738"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_backup_manager_1ab788dfa7978f33fe94d4b2cb55f6febc" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::BackupManager::scheduler_running_</definition>
+        <argsstring></argsstring>
+        <name>scheduler_running_</name>
+        <qualifiedname>themis::BackupManager::scheduler_running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="739" column="17" bodyfile="include/storage/backup_manager.h" bodystart="739" bodyend="739"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_backup_manager_1a10f112323fc889c26ec61d1cb9e7ed0b" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::BackupManager::scheduler_thread_</definition>
+        <argsstring></argsstring>
+        <name>scheduler_thread_</name>
+        <qualifiedname>themis::BackupManager::scheduler_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="740" column="17" bodyfile="include/storage/backup_manager.h" bodystart="740" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_backup_manager_1a3fac475e569c34f6963bb92c529d734d" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_rocks_d_b_wrapper" kindref="compound">RocksDBWrapper</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; themis::BackupManager::db_wrapper_</definition>
+        <argsstring></argsstring>
+        <name>db_wrapper_</name>
+        <qualifiedname>themis::BackupManager::db_wrapper_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="766" column="21" bodyfile="include/storage/backup_manager.h" bodystart="766" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_backup_manager_1a07b9243bd92d7ce05c6afed70906aa94" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_backup_manager_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::BackupManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::BackupManager::config_</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="767" column="12" bodyfile="include/storage/backup_manager.h" bodystart="767" bodyend="767"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_backup_manager_1acd798b6166570aeb32d922ebca838225" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_r_a_i_d_config" kindref="compound">RAIDConfig</ref></type>
+        <definition>RAIDConfig themis::BackupManager::raid_config_</definition>
+        <argsstring></argsstring>
+        <name>raid_config_</name>
+        <qualifiedname>themis::BackupManager::raid_config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="768" column="16" bodyfile="include/storage/backup_manager.h" bodystart="768" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_backup_manager_1a4363ae0dd60433db6e8b14202b1c9386" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_backup_manager_1ad5b56be73541c105ee3bf132f6826460" kindref="member">WalReplayFn</ref></type>
+        <definition>WalReplayFn themis::BackupManager::wal_replay_fn_</definition>
+        <argsstring></argsstring>
+        <name>wal_replay_fn_</name>
+        <qualifiedname>themis::BackupManager::wal_replay_fn_</qualifiedname>
+        <briefdescription>
+<para>Optional WAL-replay hook (Stub #249). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="1039" column="17" bodyfile="include/storage/backup_manager.h" bodystart="1039" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_backup_manager_1a6566610b9abf221a590b9ce4eb383346" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_backup_manager_1afaab36a8544d19ad591c4c4f038b386b" kindref="member">CfSstIngestFn</ref></type>
+        <definition>CfSstIngestFn themis::BackupManager::cf_sst_ingest_fn_</definition>
+        <argsstring></argsstring>
+        <name>cf_sst_ingest_fn_</name>
+        <qualifiedname>themis::BackupManager::cf_sst_ingest_fn_</qualifiedname>
+        <briefdescription>
+<para>Optional per-CF SST ingest hook (Stub #300). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="1040" column="19" bodyfile="include/storage/backup_manager.h" bodystart="1040" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1ac5a86b4741c4775b4a1bbcdd1fba8d19" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::BackupManager::BackupManager</definition>
+        <argsstring>(std::shared_ptr&lt; RocksDBWrapper &gt; db_wrapper, Config config={})</argsstring>
+        <name>BackupManager</name>
+        <qualifiedname>themis::BackupManager::BackupManager</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_rocks_d_b_wrapper" kindref="compound">RocksDBWrapper</ref> &gt;</type>
+          <declname>db_wrapper</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1_backup_manager_1_1_config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Construct a backup manager around an open RocksDB wrapper. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The wrapper is used for checkpoint creation, sequence-number discovery, restore operations, and snapshot orchestration.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>db_wrapper</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared pointer to the storage wrapper used for checkpoint and restore operations. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Backup manager runtime configuration. Set <computeroutput>config.backup_base_dir</computeroutput> to constrain restore/checksum guards to a dedicated backup root. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="211" column="14" bodyfile="src/storage/backup_manager.cpp" bodystart="4575" bodyend="4577"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1acf72047d4604985bdb5180b8fc71d9b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::BackupManager::~BackupManager</definition>
+        <argsstring>()</argsstring>
+        <name>~BackupManager</name>
+        <qualifiedname>themis::BackupManager::~BackupManager</qualifiedname>
+        <briefdescription>
+<para>Destroy the backup manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Destruction only releases in-memory state such as the schedule registry. It does not delete backups or mutate persisted storage state. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="220" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1a61f15ebbb1ab2fcfd9d0be99803933c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::BackupManager::createFullBackup</definition>
+        <argsstring>(const std::string &amp;dest_dir, std::error_code &amp;ec, const BackupOptions &amp;options=BackupOptions())</argsstring>
+        <name>createFullBackup</name>
+        <qualifiedname>themis::BackupManager::createFullBackup</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dest_dir</declname>
+        </param>
+        <param>
+          <type>std::error_code &amp;</type>
+          <declname>ec</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_backup_options" kindref="compound">BackupOptions</ref> &amp;</type>
+          <declname>options</declname>
+          <defval><ref refid="structthemis_1_1_backup_options" kindref="compound">BackupOptions</ref>()</defval>
+        </param>
+        <briefdescription>
+<para>Create a full backup using a RocksDB checkpoint plus WAL capture. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Full Backup.</para>
+<para>For RAID5/6 deployments, a successful full backup includes every data and parity shard required for later recovery.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dest_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Base backup directory. The method creates a timestamped subdirectory beneath this path. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Receives the failure reason when the operation returns <computeroutput>false</computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Backup options for compression, encryption, verification, retention, and transport handling. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>true</computeroutput> on success, or <computeroutput>false</computeroutput> when checkpoint creation, file copy, manifest generation, or verification fails.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">ec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::make_error_code(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="236" column="10" bodyfile="src/storage/backup_manager.cpp" bodystart="4599" bodyend="4603"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1adf7d6a24054bfad8be65e33b5eea6353" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::string &gt;</type>
+        <definition>Result&lt; std::string &gt; themis::BackupManager::createFullBackup</definition>
+        <argsstring>(const std::string &amp;dest_dir)</argsstring>
+        <name>createFullBackup</name>
+        <qualifiedname>themis::BackupManager::createFullBackup</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dest_dir</declname>
+        </param>
+        <briefdescription>
+<para>Create a full backup and return the created backup directory path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Full Backup.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dest_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Base backup directory. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>Result&lt;std::string&gt;</computeroutput> containing the created backup directory on success, or an error when the backup cannot be created.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createFullBackup without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="246" column="12" bodyfile="src/storage/backup_manager.cpp" bodystart="4585" bodyend="4589"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1a1832d18f5daa8853d2ff6769d3d1f301" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::BackupManager::createIncrementalBackup</definition>
+        <argsstring>(const std::string &amp;dest_dir, std::error_code &amp;ec, const BackupOptions &amp;options=BackupOptions())</argsstring>
+        <name>createIncrementalBackup</name>
+        <qualifiedname>themis::BackupManager::createIncrementalBackup</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dest_dir</declname>
+        </param>
+        <param>
+          <type>std::error_code &amp;</type>
+          <declname>ec</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_backup_options" kindref="compound">BackupOptions</ref> &amp;</type>
+          <declname>options</declname>
+          <defval><ref refid="structthemis_1_1_backup_options" kindref="compound">BackupOptions</ref>()</defval>
+        </param>
+        <briefdescription>
+<para>Create an incremental backup from WAL changes since the last backup. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Incremental Backup.</para>
+<para>For RAID5/6 deployments, incremental state is collected across all shards participating in the backup set.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dest_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Base backup directory. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Receives the failure reason when the operation returns <computeroutput>false</computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Backup options for compression, encryption, verification, retention, and transport handling. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>true</computeroutput> on success, or <computeroutput>false</computeroutput> if the incremental window cannot be computed or the backup payload cannot be written.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">ec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::make_error_code(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="261" column="10" bodyfile="src/storage/backup_manager.cpp" bodystart="4625" bodyend="4629"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1a5702cd5c3438dd65fa359748747b3eb4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::string &gt;</type>
+        <definition>Result&lt; std::string &gt; themis::BackupManager::createIncrementalBackup</definition>
+        <argsstring>(const std::string &amp;dest_dir)</argsstring>
+        <name>createIncrementalBackup</name>
+        <qualifiedname>themis::BackupManager::createIncrementalBackup</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dest_dir</declname>
+        </param>
+        <briefdescription>
+<para>Create an incremental backup and return the created backup path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Incremental Backup.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dest_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Base backup directory. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>Result&lt;std::string&gt;</computeroutput> containing the created backup directory on success, or an error when the backup cannot be created.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createIncrementalBackup without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="271" column="12" bodyfile="src/storage/backup_manager.cpp" bodystart="4611" bodyend="4615"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1a3aa9788f126f8d08c4875cbfb738e039" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::BackupManager::createDifferentialBackup</definition>
+        <argsstring>(const std::string &amp;dest_dir, std::error_code &amp;ec, const BackupOptions &amp;options=BackupOptions())</argsstring>
+        <name>createDifferentialBackup</name>
+        <qualifiedname>themis::BackupManager::createDifferentialBackup</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dest_dir</declname>
+        </param>
+        <param>
+          <type>std::error_code &amp;</type>
+          <declname>ec</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_backup_options" kindref="compound">BackupOptions</ref> &amp;</type>
+          <declname>options</declname>
+          <defval><ref refid="structthemis_1_1_backup_options" kindref="compound">BackupOptions</ref>()</defval>
+        </param>
+        <briefdescription>
+<para>Create a differential backup containing changes since the last full backup. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Differential Backup.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dest_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Base backup directory. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Receives the failure reason when the operation returns <computeroutput>false</computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Backup options that shape backup generation. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>true</computeroutput> on success, or <computeroutput>false</computeroutput> if no valid base full backup exists or the differential payload cannot be assembled.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">ec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::make_error_code(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="282" column="10" bodyfile="src/storage/backup_manager.cpp" bodystart="4651" bodyend="4655"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1ac8b70acd22925b104101e5f21ec62283" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::string &gt;</type>
+        <definition>Result&lt; std::string &gt; themis::BackupManager::createDifferentialBackup</definition>
+        <argsstring>(const std::string &amp;dest_dir)</argsstring>
+        <name>createDifferentialBackup</name>
+        <qualifiedname>themis::BackupManager::createDifferentialBackup</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dest_dir</declname>
+        </param>
+        <briefdescription>
+<para>Create a differential backup and return the resulting directory path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Differential Backup.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dest_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Base backup directory. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>Result&lt;std::string&gt;</computeroutput> containing the created backup directory on success, or an error when the differential backup cannot be created.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createDifferentialBackup without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="292" column="12" bodyfile="src/storage/backup_manager.cpp" bodystart="4637" bodyend="4641"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1a64748f39714a42ff4e472036a44689a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::BackupManager::archiveWAL</definition>
+        <argsstring>(const std::string &amp;dest_dir, std::error_code &amp;ec)</argsstring>
+        <name>archiveWAL</name>
+        <qualifiedname>themis::BackupManager::archiveWAL</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dest_dir</declname>
+        </param>
+        <param>
+          <type>std::error_code &amp;</type>
+          <declname>ec</declname>
+        </param>
+        <briefdescription>
+<para>Archive WAL files into a destination directory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Archive WAL.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dest_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Destination directory for archived WAL files. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Receives the failure reason when the operation returns <computeroutput>false</computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>true</computeroutput> on success, or <computeroutput>false</computeroutput> if WAL discovery or copy fails.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">ec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::make_error_code(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="301" column="10" bodyfile="src/storage/backup_manager.cpp" bodystart="4676" bodyend="4679"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1a3bb641eb64293f3a434d945b6b107c4a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::BackupManager::archiveWAL</definition>
+        <argsstring>(const std::string &amp;dest_dir)</argsstring>
+        <name>archiveWAL</name>
+        <qualifiedname>themis::BackupManager::archiveWAL</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dest_dir</declname>
+        </param>
+        <briefdescription>
+<para>Archive WAL files into a destination directory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Archive WAL.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dest_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Destination directory for archived WAL files. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>Result&lt;void&gt;</computeroutput> on success, or an error when WAL discovery or copy fails.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements archiveWAL without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="310" column="12" bodyfile="src/storage/backup_manager.cpp" bodystart="4663" bodyend="4667"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1a4a890466805e0416a002f70a63539175" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::BackupManager::restoreFromBackup</definition>
+        <argsstring>(const std::string &amp;src_dir, std::error_code &amp;ec, RecoveryStats *stats=nullptr)</argsstring>
+        <name>restoreFromBackup</name>
+        <qualifiedname>themis::BackupManager::restoreFromBackup</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>src_dir</declname>
+        </param>
+        <param>
+          <type>std::error_code &amp;</type>
+          <declname>ec</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1_recovery_stats" kindref="compound">RecoveryStats</ref> *</type>
+          <declname>stats</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Restore the database from a full or incremental backup chain. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Restore From Backup.</para>
+<para>For RAID5/6 deployments, restore requires all data and parity shards that belong to the backup set.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>src_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source backup directory. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Receives the failure reason when the operation returns <computeroutput>false</computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional pointer that receives recovery metrics on success. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>true</computeroutput> on success, or <computeroutput>false</computeroutput> when manifest validation, payload extraction, or RocksDB restore fails.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">ec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::make_error_code(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="324" column="10" bodyfile="src/storage/backup_manager.cpp" bodystart="4701" bodyend="4705"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1a84349afc762f8614240b3e783ddc20b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::BackupManager::performPITR</definition>
+        <argsstring>(const std::string &amp;dest_dir, const PITROptions &amp;pitr_options, std::error_code &amp;ec, RecoveryStats *stats=nullptr)</argsstring>
+        <name>performPITR</name>
+        <qualifiedname>themis::BackupManager::performPITR</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dest_dir</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_p_i_t_r_options" kindref="compound">PITROptions</ref> &amp;</type>
+          <declname>pitr_options</declname>
+        </param>
+        <param>
+          <type>std::error_code &amp;</type>
+          <declname>ec</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1_recovery_stats" kindref="compound">RecoveryStats</ref> *</type>
+          <declname>stats</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Perform point-in-time recovery from a backup chain and WAL replay target. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Perform PITR.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dest_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Base backup directory containing the recovery chain. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pitr_options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>PITR target timestamp and optional LSN metadata. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Receives the failure reason when the operation returns <computeroutput>false</computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional pointer that receives recovery metrics on success. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>true</computeroutput> on success, or <computeroutput>false</computeroutput> when the base restore fails, the target cannot be satisfied, or WAL replay reports failure.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">ec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::make_error_code(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="337" column="10" bodyfile="src/storage/backup_manager.cpp" bodystart="4716" bodyend="4720"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1ad609337da3873d1a2ce4a3cfbe2a7103" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::BackupManager::restoreCollections</definition>
+        <argsstring>(const std::string &amp;src_dir, const std::vector&lt; std::string &gt; &amp;collections, std::error_code &amp;ec)</argsstring>
+        <name>restoreCollections</name>
+        <qualifiedname>themis::BackupManager::restoreCollections</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>src_dir</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>collections</declname>
+        </param>
+        <param>
+          <type>std::error_code &amp;</type>
+          <declname>ec</declname>
+        </param>
+        <briefdescription>
+<para>Restore a selected subset of collections from a checkpoint backup. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Restore Collections.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>src_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source backup directory. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>collections</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Collection or column-family names to restore. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Receives the failure reason when the operation returns <computeroutput>false</computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>true</computeroutput> on success, or <computeroutput>false</computeroutput> when selective ingest is unavailable or the restore pipeline fails.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">ec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::make_error_code(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="349" column="10" bodyfile="src/storage/backup_manager.cpp" bodystart="4730" bodyend="4735"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1a19f53a89bf41987ce36cb4a08d514996" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::BackupManager::restoreFromBackup</definition>
+        <argsstring>(const std::string &amp;src_dir)</argsstring>
+        <name>restoreFromBackup</name>
+        <qualifiedname>themis::BackupManager::restoreFromBackup</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>src_dir</declname>
+        </param>
+        <briefdescription>
+<para>Restore the database from a backup using the <computeroutput>Result</computeroutput> API. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Restore From Backup.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>src_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source backup directory. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>Result&lt;void&gt;</computeroutput> on success, or an error when the restore fails.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements restoreFromBackup without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="359" column="12" bodyfile="src/storage/backup_manager.cpp" bodystart="4687" bodyend="4691"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1aa9b86aa58289ce4f47a56aacbffca30f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::BackupManager::listBackups</definition>
+        <argsstring>(const std::string &amp;backup_dir)</argsstring>
+        <name>listBackups</name>
+        <qualifiedname>themis::BackupManager::listBackups</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>backup_dir</declname>
+        </param>
+        <briefdescription>
+<para>List available backups beneath a base backup directory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>List Backups.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>backup_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Base backup directory. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Backup directory names sorted by timestamp. Returns an empty vector when the directory has no recognized backups.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements listBackups without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="368" column="17" bodyfile="src/storage/backup_manager.cpp" bodystart="4743" bodyend="4745"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1a1b8bc98078b3a71272de6513f127e189" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::BackupManager::verifyBackup</definition>
+        <argsstring>(const std::string &amp;backup_dir)</argsstring>
+        <name>verifyBackup</name>
+        <qualifiedname>themis::BackupManager::verifyBackup</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>backup_dir</declname>
+        </param>
+        <briefdescription>
+<para>Verify a backup payload, manifest, and shard completeness. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verify Backup.</para>
+<para>For RAID5/6 deployments, verification ensures that all required data and parity shards are present and internally consistent.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>backup_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Backup directory to verify. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>Result&lt;void&gt;</computeroutput> on success, or an error when checksums, manifests, or shard requirements fail validation.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements verifyBackup without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="380" column="12" bodyfile="src/storage/backup_manager.cpp" bodystart="4753" bodyend="4757"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1a911f60f04eba8e6cfa39099dfc4bffbf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::string &gt;</type>
+        <definition>Result&lt; std::string &gt; themis::BackupManager::compressBackup</definition>
+        <argsstring>(const std::string &amp;backup_dir)</argsstring>
+        <name>compressBackup</name>
+        <qualifiedname>themis::BackupManager::compressBackup</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>backup_dir</declname>
+        </param>
+        <briefdescription>
+<para>Compress a backup directory into an archive file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compress Backup.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>backup_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Backup directory to compress. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>Result&lt;std::string&gt;</computeroutput> containing the compressed archive path on success, or an error when the archive cannot be created.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements compressBackup without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="389" column="12" bodyfile="src/storage/backup_manager.cpp" bodystart="4765" bodyend="4769"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1ac916b2d798062598c4c14b5f56c7be06" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::string &gt;</type>
+        <definition>Result&lt; std::string &gt; themis::BackupManager::decompressBackup</definition>
+        <argsstring>(const std::string &amp;compressed_file, const std::string &amp;dest_dir)</argsstring>
+        <name>decompressBackup</name>
+        <qualifiedname>themis::BackupManager::decompressBackup</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>compressed_file</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dest_dir</declname>
+        </param>
+        <briefdescription>
+<para>Decompress a backup archive into a destination directory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Decompress Backup.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>compressed_file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Compressed backup archive. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>dest_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Destination directory for extracted files. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>Result&lt;std::string&gt;</computeroutput> containing the decompressed directory path on success, or an error when extraction or post-extraction verification fails.</para>
+</simplesect>
+<simplesect kind="note"><para>Phase 1 Enhancement: This method now performs integrity verification after decompression to prevent silent data corruption. All decompressed files are verified against stored checksums to ensure data integrity.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements decompressBackup without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="404" column="12" bodyfile="src/storage/backup_manager.cpp" bodystart="4778" bodyend="4783"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1a0c92fe5ce2819e70c2420943c422f631" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::BackupManager::verifyDecompressedBackup</definition>
+        <argsstring>(const std::string &amp;backup_dir)</argsstring>
+        <name>verifyDecompressedBackup</name>
+        <qualifiedname>themis::BackupManager::verifyDecompressedBackup</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>backup_dir</declname>
+        </param>
+        <briefdescription>
+<para>Verify the payload extracted from a compressed backup. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>backup_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Decompressed backup directory to verify. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>Result&lt;void&gt;</computeroutput> on success, including the backward-compatible case where the backup predates <computeroutput>INTEGRITY_MANIFEST.json</computeroutput>; returns an error when manifest loading fails or file checksums do not match.</para>
+</simplesect>
+<simplesect kind="note"><para>Performs post-decompression verification:<itemizedlist>
+<listitem><para>Missing <computeroutput>INTEGRITY_MANIFEST.json</computeroutput> is treated as a legacy backup and skips verification</para>
+</listitem><listitem><para>Reads integrity manifest from backup</para>
+</listitem><listitem><para>Calculates SHA-256 checksum of each file</para>
+</listitem><listitem><para>Compares against stored checksums</para>
+</listitem><listitem><para>Reports corrupted files with details </para>
+</listitem></itemizedlist>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="421" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1a7428798e4a4c80fda3dd94e34df228c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; uint32_t &gt;</type>
+        <definition>Result&lt; uint32_t &gt; themis::BackupManager::repairDecompressedBackup</definition>
+        <argsstring>(const std::string &amp;backup_dir, const std::string &amp;compressed_source=&quot;&quot;)</argsstring>
+        <name>repairDecompressedBackup</name>
+        <qualifiedname>themis::BackupManager::repairDecompressedBackup</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>backup_dir</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>compressed_source</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Attempt to repair files that fail post-decompression verification. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>backup_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Backup directory to repair. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>compressed_source</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional original compressed archive used to retry recovery of corrupted files. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>Result&lt;uint32_t&gt;</computeroutput> containing the number of repaired files on success, or an error when corruption cannot be isolated or the repair path fails.</para>
+</simplesect>
+<simplesect kind="note"><para>This is an advanced recovery method:<itemizedlist>
+<listitem><para>Identifies corrupted files during verification</para>
+</listitem><listitem><para>Attempts to repair from original compressed source if provided</para>
+</listitem><listitem><para>If source unavailable, logs a warning and returns a repair error; it does not quarantine files </para>
+</listitem></itemizedlist>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="438" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1adf84186f21a024c60e0138c72c810adc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::BackupManager::isBackupComplete</definition>
+        <argsstring>(const std::string &amp;backup_dir, const RAIDConfig &amp;raid_config, std::error_code &amp;ec)</argsstring>
+        <name>isBackupComplete</name>
+        <qualifiedname>themis::BackupManager::isBackupComplete</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>backup_dir</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_r_a_i_d_config" kindref="compound">RAIDConfig</ref> &amp;</type>
+          <declname>raid_config</declname>
+        </param>
+        <param>
+          <type>std::error_code &amp;</type>
+          <declname>ec</declname>
+        </param>
+        <briefdescription>
+<para>Check whether a backup contains the shards required by a RAID topology. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>backup_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Backup directory to inspect. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>raid_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RAID topology expected for the backup set. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Receives the failure reason when the operation returns <computeroutput>false</computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>true</computeroutput> when every required shard is present, or <computeroutput>false</computeroutput> when the backup is incomplete or the directory cannot be inspected. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="460" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1a37e2350add57fe4d853057621b7ddbec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::BackupManager::applyRetentionPolicy</definition>
+        <argsstring>(const std::string &amp;backup_dir, uint32_t retention_days, std::error_code &amp;ec)</argsstring>
+        <name>applyRetentionPolicy</name>
+        <qualifiedname>themis::BackupManager::applyRetentionPolicy</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>backup_dir</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>retention_days</declname>
+        </param>
+        <param>
+          <type>std::error_code &amp;</type>
+          <declname>ec</declname>
+        </param>
+        <briefdescription>
+<para>Delete backups older than the retention window. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>backup_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Base backup directory. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>retention_days</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of days to retain. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Receives the failure reason when directory traversal or deletion fails. Partial deletion may already have occurred. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of backups deleted. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="473" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1a88c12a56976e46f510f6e664ee619456" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::map&lt; std::string, uint64_t &gt;</type>
+        <definition>std::map&lt; std::string, uint64_t &gt; themis::BackupManager::getBackupMetrics</definition>
+        <argsstring>(const std::string &amp;backup_dir)</argsstring>
+        <name>getBackupMetrics</name>
+        <qualifiedname>themis::BackupManager::getBackupMetrics</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>backup_dir</declname>
+        </param>
+        <briefdescription>
+<para>Collect size and count metrics for a backup directory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>backup_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Backup directory to analyze. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Map of metric name to metric value. Returns an empty map when the directory cannot be analyzed. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="484" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1ae67f3ea7655c335b23e318f6c3e4a102" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::BackupManager::estimateRTO</definition>
+        <argsstring>(const std::string &amp;backup_dir)</argsstring>
+        <name>estimateRTO</name>
+        <qualifiedname>themis::BackupManager::estimateRTO</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>backup_dir</declname>
+        </param>
+        <briefdescription>
+<para>Estimate the recovery time objective for a backup payload. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>backup_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Backup directory to analyze. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Estimated RTO in seconds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="492" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1aa6ea4c6cf2ee0da43bcbf14b6ad25e8f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::BackupManager::getRPO</definition>
+        <argsstring>(const std::string &amp;backup_dir)</argsstring>
+        <name>getRPO</name>
+        <qualifiedname>themis::BackupManager::getRPO</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>backup_dir</declname>
+        </param>
+        <briefdescription>
+<para>Determine the most recent recoverable point for a backup set. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>backup_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Base backup directory. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Timestamp representing the latest recoverable point. Returns the epoch when no recoverable backup can be determined. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="501" column="43"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1a54cd1595c3440fe8f38e57dde75bf820" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::BackupManager::isBackupComplete</definition>
+        <argsstring>(const std::string &amp;backup_dir, const RAIDConfig &amp;raid_config)</argsstring>
+        <name>isBackupComplete</name>
+        <qualifiedname>themis::BackupManager::isBackupComplete</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>backup_dir</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_r_a_i_d_config" kindref="compound">RAIDConfig</ref> &amp;</type>
+          <declname>raid_config</declname>
+        </param>
+        <briefdescription>
+<para>Check whether a backup contains the shards required by a RAID topology. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>backup_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Backup directory to inspect. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>raid_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RAID topology expected for the backup set. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>Result&lt;void&gt;</computeroutput> on success, or an error when the backup is incomplete or cannot be inspected. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="511" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1a4d4d401121052be4b9e57041e754a766" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::string &gt;</type>
+        <definition>Result&lt; std::string &gt; themis::BackupManager::scheduleBackup</definition>
+        <argsstring>(const std::string &amp;schedule_cron, const std::string &amp;backup_type, const BackupOptions &amp;options)</argsstring>
+        <name>scheduleBackup</name>
+        <qualifiedname>themis::BackupManager::scheduleBackup</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>schedule_cron</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>backup_type</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_backup_options" kindref="compound">BackupOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Register an automatic backup schedule in the in-process schedule registry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The current implementation validates the cron-like expression, allocates a stable schedule identifier, and stores the schedule metadata in memory for later inspection or cancellation. It does not spawn a background executor or persist schedules across process restarts.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>schedule_cron</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Cron-style expression with five space-separated fields (for example, <computeroutput>0 2 * * *</computeroutput>). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>backup_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Backup class to register (for example <computeroutput>full</computeroutput>, <computeroutput>incremental</computeroutput>, or <computeroutput>differential</computeroutput>). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Backup options captured with the schedule entry. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;std::string&gt; containing the generated schedule identifier on success, or an Error when the inputs are invalid. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="534" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1a2a6144aa7d6bf6fd603836e8b4e3d980" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::BackupManager::cancelScheduledBackup</definition>
+        <argsstring>(const std::string &amp;schedule_id)</argsstring>
+        <name>cancelScheduledBackup</name>
+        <qualifiedname>themis::BackupManager::cancelScheduledBackup</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>schedule_id</declname>
+        </param>
+        <briefdescription>
+<para>Cancel a previously registered in-memory backup schedule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>schedule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Schedule identifier returned by <ref refid="classthemis_1_1_backup_manager_1a4d4d401121052be4b9e57041e754a766" kindref="member">scheduleBackup()</ref>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;void&gt; on success, or an Error if the identifier is empty or no matching schedule exists. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="545" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1ae351b960e848037c4f2e30d20c46fb2d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; themis::BackupManager::listScheduledBackups</definition>
+        <argsstring>()</argsstring>
+        <name>listScheduledBackups</name>
+        <qualifiedname>themis::BackupManager::listScheduledBackups</qualifiedname>
+        <briefdescription>
+<para>List all schedules currently stored in the in-memory registry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Vector of <computeroutput>(schedule_id, cron_expression)</computeroutput> pairs. Returns an empty vector when no schedules are registered. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="553" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1a6ff965e55faf98338d1e34c3fff4c2b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::string &gt;</type>
+        <definition>Result&lt; std::string &gt; themis::BackupManager::uploadBackupToCloud</definition>
+        <argsstring>(const std::string &amp;local_backup_path, const std::string &amp;cloud_uri, const BackupOptions &amp;options)</argsstring>
+        <name>uploadBackupToCloud</name>
+        <qualifiedname>themis::BackupManager::uploadBackupToCloud</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>local_backup_path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cloud_uri</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_backup_options" kindref="compound">BackupOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Copy a finished backup to a provider-specific destination. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Supported destinations:<itemizedlist>
+<listitem><para><computeroutput><ref refid="group__storage_1ggaf7e7cc47cbb8962dec1c4013af54c72da54b4c4075463b2e02cd69f5cd139b5b2" kindref="member">StorageBackend::LOCAL</ref></computeroutput>: local filesystem mirror via <computeroutput><ulink url="file:///absolute/path">file:///absolute/path</ulink></computeroutput> or an absolute path.</para>
+</listitem><listitem><para><computeroutput><ref refid="group__storage_1ggaf7e7cc47cbb8962dec1c4013af54c72dae2ab7c65b21ed8cc1c3b642b5e36429e" kindref="member">StorageBackend::S3</ref></computeroutput>: <computeroutput>s3://bucket/path</computeroutput> (requires provider integration).</para>
+</listitem><listitem><para><computeroutput><ref refid="group__storage_1ggaf7e7cc47cbb8962dec1c4013af54c72da71335a48a021ae2aeb7df636ba3d2483" kindref="member">StorageBackend::AZURE</ref></computeroutput>: <computeroutput>azure://account/container/path</computeroutput> or <computeroutput>azure://container/path</computeroutput>. When the account segment is omitted, the runtime derives the service endpoint from the configured Azure connection string / environment.</para>
+</listitem><listitem><para><computeroutput><ref refid="group__storage_1ggaf7e7cc47cbb8962dec1c4013af54c72da0f783f732d106dbf30f255f311e83e67" kindref="member">StorageBackend::GCS</ref></computeroutput>: <computeroutput>gs://bucket/path</computeroutput> (requires provider integration).</para>
+</listitem></itemizedlist>
+</para>
+<para>Remote transfers serialize the backup as a manifest plus per-file payload objects beneath the requested provider URI so that restore can reconstruct the directory tree without relying on provider-side object listing. Individual remote payload objects currently transfer in-memory and are rejected when they exceed 256 MiB.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>local_backup_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Existing local backup directory or archive. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cloud_uri</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Provider URI or local mirror path, depending on <computeroutput>options.storage</computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transfer options, backend selection, and provider-specific configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;std::string&gt; containing the destination URI/path on success, or an Error when validation fails or the provider backend is unavailable. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="580" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1af179bc07dc622380877792b978d7b28b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::BackupManager::restoreFromCloud</definition>
+        <argsstring>(const std::string &amp;cloud_uri, const std::string &amp;local_restore_path, const BackupOptions &amp;options)</argsstring>
+        <name>restoreFromCloud</name>
+        <qualifiedname>themis::BackupManager::restoreFromCloud</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cloud_uri</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>local_restore_path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_backup_options" kindref="compound">BackupOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Restore a backup payload from a provider-specific source into a local directory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>For <computeroutput><ref refid="group__storage_1ggaf7e7cc47cbb8962dec1c4013af54c72da54b4c4075463b2e02cd69f5cd139b5b2" kindref="member">StorageBackend::LOCAL</ref></computeroutput>, the method copies the source tree from a <computeroutput><ulink url="file:///absolute/path">file:///absolute/path</ulink></computeroutput> URI or absolute path into <computeroutput>local_restore_path</computeroutput>. Remote backends fetch a manifest object plus the referenced payload objects from the provider URI and reconstruct the original backup tree locally. Individual remote payload objects currently transfer in-memory and are rejected when they exceed 256 MiB.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cloud_uri</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Provider URI or local mirror path, depending on <computeroutput>options.storage</computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>local_restore_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Local destination directory for the restored payload. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Restore options, backend selection, and provider-specific configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;void&gt; on success, or an Error when validation fails, the source cannot be copied, or the provider backend is unavailable. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="600" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1aea4470eb920b5e1c0235fb09456fd4bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::string &gt;</type>
+        <definition>Result&lt; std::string &gt; themis::BackupManager::createSnapshot</definition>
+        <argsstring>(const std::string &amp;snapshot_name, const std::string &amp;storage_class=&quot;default&quot;)</argsstring>
+        <name>createSnapshot</name>
+        <qualifiedname>themis::BackupManager::createSnapshot</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>snapshot_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>storage_class</declname>
+          <defval>&quot;default&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Create a consistent online snapshot of the database. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Uses RocksDB&apos;s Checkpoint API to produce a crash-consistent, hard-linked copy of the current SST files. No writes are blocked during the operation (quiesce-safe).</para>
+<para>A JSON manifest is written next to the snapshot directory so the snapshot can be identified, verified, and restored later.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>snapshot_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Human-readable name; used as the directory name inside the default snapshot base path (&quot;&lt;db_path&gt;/../snapshots/&lt;snapshot_name&gt;_&lt;ts&gt;&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>storage_class</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Reserved for future cloud / K8s integration; ignored for local snapshots. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>On success: the absolute path to the snapshot directory. On failure: an Error describing what went wrong. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="622" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1a472bb370568424b26c7e478bbe3036ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::BackupManager::restoreFromSnapshot</definition>
+        <argsstring>(const std::string &amp;snapshot_id, const std::string &amp;restore_pvc=&quot;&quot;)</argsstring>
+        <name>restoreFromSnapshot</name>
+        <qualifiedname>themis::BackupManager::restoreFromSnapshot</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>snapshot_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>restore_pvc</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Restore the database from a previously created snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The running database is closed, its data directory is replaced with the contents of the snapshot directory, and the database is reopened.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>snapshot_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Absolute path to the snapshot directory (as returned by <ref refid="classthemis_1_1_backup_manager_1aea4470eb920b5e1c0235fb09456fd4bf" kindref="member">createSnapshot()</ref>). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>restore_pvc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Reserved for future K8s PVC integration; pass an empty string for local restores. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;void&gt; on success, Error on failure. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="637" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1ab7d0252dbd1d67e9b6cc366f876c4de0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::BackupManager::verifySnapshot</definition>
+        <argsstring>(const std::string &amp;snapshot_dir)</argsstring>
+        <name>verifySnapshot</name>
+        <qualifiedname>themis::BackupManager::verifySnapshot</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>snapshot_dir</declname>
+        </param>
+        <briefdescription>
+<para>Verify a snapshot by checking its manifest and the presence of the expected SST / MANIFEST files. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>snapshot_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Absolute path to the snapshot directory. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;void&gt; on success, Error if the snapshot is corrupted or incomplete. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="648" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1aca5217f82170396ad07026e7341a93f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::vector&lt; std::string &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; std::string &gt; &gt; themis::BackupManager::listSnapshots</definition>
+        <argsstring>()</argsstring>
+        <name>listSnapshots</name>
+        <qualifiedname>themis::BackupManager::listSnapshots</qualifiedname>
+        <briefdescription>
+<para>List all snapshots under the default snapshot base path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Sorted list of snapshot directory paths (oldest first). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="655" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1afc228d47f3b5bd4b53fa9c2768d8b869" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::BackupManager::setWalReplayFn</definition>
+        <argsstring>(WalReplayFn fn)</argsstring>
+        <name>setWalReplayFn</name>
+        <qualifiedname>themis::BackupManager::setWalReplayFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_backup_manager_1ad5b56be73541c105ee3bf132f6826460" kindref="member">WalReplayFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Inject a WAL-replay function used by <computeroutput><ref refid="classthemis_1_1_backup_manager_1a84349afc762f8614240b3e783ddc20b3" kindref="member">performPITR()</ref></computeroutput> after the base snapshot has been restored. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Without an injected function <computeroutput><ref refid="classthemis_1_1_backup_manager_1a84349afc762f8614240b3e783ddc20b3" kindref="member">performPITR()</ref></computeroutput> silently omits the WAL replay step (original behaviour). When set, the function is called with the restore directory and target time so the caller can apply the remaining WAL delta.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Must not throw; returning <computeroutput>false</computeroutput> is treated as a replay failure and <computeroutput><ref refid="classthemis_1_1_backup_manager_1a84349afc762f8614240b3e783ddc20b3" kindref="member">performPITR()</ref></computeroutput> will return <computeroutput>false</computeroutput> too. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="691" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1a2526db567b72233335c7bdbfc58a95e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::BackupManager::setCfSstIngestFn</definition>
+        <argsstring>(CfSstIngestFn fn)</argsstring>
+        <name>setCfSstIngestFn</name>
+        <qualifiedname>themis::BackupManager::setCfSstIngestFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_backup_manager_1afaab36a8544d19ad591c4c4f038b386b" kindref="member">CfSstIngestFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Inject a per-CF SST ingest function used by <ref refid="classthemis_1_1_backup_manager_1ad609337da3873d1a2ce4a3cfbe2a7103" kindref="member">restoreCollections()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When set, <ref refid="classthemis_1_1_backup_manager_1ad609337da3873d1a2ce4a3cfbe2a7103" kindref="member">restoreCollections()</ref> calls this function before falling back to full checkpoint restore. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="717" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1a242160a15f427a0201ea7271f6aba64d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_r_a_i_d_config" kindref="compound">RAIDConfig</ref></type>
+        <definition>static RAIDConfig themis::BackupManager::detectRAIDConfiguration</definition>
+        <argsstring>()</argsstring>
+        <name>detectRAIDConfiguration</name>
+        <qualifiedname>themis::BackupManager::detectRAIDConfiguration</qualifiedname>
+        <briefdescription>
+<para>Detect RAID topology from environment variables. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reads <computeroutput>THEMIS_RAID_GROUP</computeroutput>, <computeroutput>THEMIS_SHARD_ID</computeroutput>, and <computeroutput>THEMIS_SHARDS</computeroutput>.</para>
+<para><simplesect kind="return"><para>Parsed RAID configuration. Returns <computeroutput><ref refid="group__storage_1ggaa7796885f64c867cdf3f892812672149ab50339a10e1de285ac99d4c3990b8693" kindref="member">RAIDMode::NONE</ref></computeroutput> when the environment does not describe a coordinated backup topology. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="449" column="23"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1a1885dfd8cf08f11516a425ee81b573f8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::BackupManager::runScheduledBackupLoop</definition>
+        <argsstring>()</argsstring>
+        <name>runScheduledBackupLoop</name>
+        <qualifiedname>themis::BackupManager::runScheduledBackupLoop</qualifiedname>
+        <briefdescription>
+<para>Drive the scheduled-backup worker until shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Polls the in-memory schedule registry, evaluates cron triggers, and dispatches due backup jobs while the scheduler is running. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="748" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1ad9afb39c0497fe75b97b20d08b5ac5ba" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::BackupManager::processScheduledBackups</definition>
+        <argsstring>()</argsstring>
+        <name>processScheduledBackups</name>
+        <qualifiedname>themis::BackupManager::processScheduledBackups</qualifiedname>
+        <briefdescription>
+<para>Evaluate all registered schedules and launch due backups. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The method is called from the scheduler loop after each wake-up and from direct maintenance paths that need to force a scan. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="755" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1ac64cf33b75ba3c54cd2114c2a4b72bf2" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::BackupManager::shouldRunScheduledBackup</definition>
+        <argsstring>(const ScheduledBackupEntry &amp;entry, const std::tm &amp;current_time) const</argsstring>
+        <name>shouldRunScheduledBackup</name>
+        <qualifiedname>themis::BackupManager::shouldRunScheduledBackup</qualifiedname>
+        <param>
+          <type>const ScheduledBackupEntry &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <param>
+          <type>const std::tm &amp;</type>
+          <declname>current_time</declname>
+        </param>
+        <briefdescription>
+<para>Return true when a scheduled backup is due at <computeroutput>current_time</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Registered schedule entry to evaluate. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>current_time</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Wall-clock time used for the cron match. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the entry should trigger now. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="763" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1a1bc8fa70aba3fafd13f07660aa76f63e" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::BackupManager::getTimestamp</definition>
+        <argsstring>() const</argsstring>
+        <name>getTimestamp</name>
+        <qualifiedname>themis::BackupManager::getTimestamp</qualifiedname>
+        <briefdescription>
+<para>Return the current wall-clock timestamp formatted as <computeroutput>YYYYMMDD_HHMMSS</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Timestamp string suitable for directory and manifest names. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="774" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1af0039afb42e72fa59bbdb3706044619c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::BackupManager::createManifest</definition>
+        <argsstring>(const std::string &amp;backup_dir, const std::string &amp;type, uint64_t sequence_number)</argsstring>
+        <name>createManifest</name>
+        <qualifiedname>themis::BackupManager::createManifest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>backup_dir</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>sequence_number</declname>
+        </param>
+        <briefdescription>
+<para>Create the <computeroutput>MANIFEST.json</computeroutput> file for a backup payload. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>backup_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Backup directory that receives the manifest. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Logical backup type (<computeroutput>full</computeroutput>, <computeroutput>incremental</computeroutput>, <computeroutput>differential</computeroutput>). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sequence_number</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RocksDB sequence number captured for the backup. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>Result&lt;void&gt;</computeroutput> on success, or an error when the manifest cannot be written. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="784" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1a2a858e9eb76d842136628b775f09d6a6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::BackupManager::readManifest</definition>
+        <argsstring>(const std::string &amp;backup_dir, std::string &amp;type, uint64_t &amp;sequence_number)</argsstring>
+        <name>readManifest</name>
+        <qualifiedname>themis::BackupManager::readManifest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>backup_dir</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>uint64_t &amp;</type>
+          <declname>sequence_number</declname>
+        </param>
+        <briefdescription>
+<para>Read backup type and sequence metadata from <computeroutput>MANIFEST.json</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>backup_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Backup directory containing the manifest. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Receives the parsed backup type on success. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sequence_number</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Receives the parsed sequence number on success. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>Result&lt;void&gt;</computeroutput> on success, or an error when the manifest is missing or malformed. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="796" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1a94ddb8314dbe5d2d6ab9da0a473682b8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::BackupManager::copyWALFiles</definition>
+        <argsstring>(const std::string &amp;src_dir, const std::string &amp;dest_dir, uint64_t min_sequence)</argsstring>
+        <name>copyWALFiles</name>
+        <qualifiedname>themis::BackupManager::copyWALFiles</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>src_dir</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dest_dir</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>min_sequence</declname>
+        </param>
+        <briefdescription>
+<para>Copy WAL files whose sequence number is at least <computeroutput>min_sequence</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>src_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source WAL directory. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>dest_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Destination WAL directory. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>min_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Minimum sequence number to retain. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>Result&lt;void&gt;</computeroutput> on success, or an error when traversal or copy fails. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="807" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1a2671e3d77dedebdbf3449a2b9d869b08" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::string &gt;</type>
+        <definition>Result&lt; std::string &gt; themis::BackupManager::calculateChecksum</definition>
+        <argsstring>(const std::string &amp;file_path)</argsstring>
+        <name>calculateChecksum</name>
+        <qualifiedname>themis::BackupManager::calculateChecksum</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>file_path</declname>
+        </param>
+        <briefdescription>
+<para>Calculate the SHA-256 checksum for a file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>file_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>File to hash. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>Result&lt;std::string&gt;</computeroutput> containing the lowercase hexadecimal digest on success, or an error when the file cannot be read. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="817" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1aa4f9bdae7da49f4f30708d7b3f1ba955" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::BackupManager::verifyChecksum</definition>
+        <argsstring>(const std::string &amp;file_path, const std::string &amp;expected_checksum)</argsstring>
+        <name>verifyChecksum</name>
+        <qualifiedname>themis::BackupManager::verifyChecksum</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>file_path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>expected_checksum</declname>
+        </param>
+        <briefdescription>
+<para>Verify that a file matches an expected SHA-256 checksum. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>file_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>File to verify. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>expected_checksum</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Expected lowercase hexadecimal SHA-256 digest. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>Result&lt;void&gt;</computeroutput> on success, or an error when the checksum does not match or the file cannot be read. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="827" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1affcb540a4adb1fa0affd4a99285a1eba" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::BackupManager::getCurrentSequenceNumber</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentSequenceNumber</name>
+        <qualifiedname>themis::BackupManager::getCurrentSequenceNumber</qualifiedname>
+        <briefdescription>
+<para>Query the latest RocksDB sequence number. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Latest sequence number, or zero when the wrapper is unavailable. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="834" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1a519de90f5d288e089cead01fe8321830" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::BackupManager::verifyRAIDShardsInBackup</definition>
+        <argsstring>(const std::string &amp;backup_dir, const RAIDConfig &amp;raid_config, std::error_code &amp;ec)</argsstring>
+        <name>verifyRAIDShardsInBackup</name>
+        <qualifiedname>themis::BackupManager::verifyRAIDShardsInBackup</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>backup_dir</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_r_a_i_d_config" kindref="compound">RAIDConfig</ref> &amp;</type>
+          <declname>raid_config</declname>
+        </param>
+        <param>
+          <type>std::error_code &amp;</type>
+          <declname>ec</declname>
+        </param>
+        <briefdescription>
+<para>Verify that the backup contains every shard required by the RAID topology. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>backup_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Backup directory to inspect. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>raid_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Expected RAID topology. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Receives the failure reason when the operation returns <computeroutput>false</computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>true</computeroutput> on success, or <computeroutput>false</computeroutput> when required shards are missing or the directory cannot be traversed. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="861" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1a24be5ae58f3fc96e8c38d0375ac7620f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::BackupManager::verifyRAIDShardsInBackup</definition>
+        <argsstring>(const std::string &amp;backup_dir, const RAIDConfig &amp;raid_config)</argsstring>
+        <name>verifyRAIDShardsInBackup</name>
+        <qualifiedname>themis::BackupManager::verifyRAIDShardsInBackup</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>backup_dir</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_r_a_i_d_config" kindref="compound">RAIDConfig</ref> &amp;</type>
+          <declname>raid_config</declname>
+        </param>
+        <briefdescription>
+<para>Verify that the backup contains every shard required by the RAID topology. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>backup_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Backup directory to inspect. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>raid_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Expected RAID topology. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>Result&lt;void&gt;</computeroutput> on success, or an error when required shards are missing or the directory cannot be traversed. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="873" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1a1ceb2058b126b19b2449a670b59e65f9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::BackupManager::compressPath</definition>
+        <argsstring>(const std::string &amp;src_path, const std::string &amp;dest_path, CompressionType type, std::error_code &amp;ec)</argsstring>
+        <name>compressPath</name>
+        <qualifiedname>themis::BackupManager::compressPath</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>src_path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dest_path</declname>
+        </param>
+        <param>
+          <type><ref refid="group__storage_1ga735a2b5f31bda6737b967fde9d418947" kindref="member">CompressionType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>std::error_code &amp;</type>
+          <declname>ec</declname>
+        </param>
+        <briefdescription>
+<para>Compress or copy a file tree into a destination path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The exact behavior depends on the selected compression type and which compression libraries were linked into the build.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>src_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source file or directory. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>dest_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Destination path for compressed output. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Compression mode to apply. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Receives the failure reason when the operation returns <computeroutput>false</computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>true</computeroutput> on success, or <computeroutput>false</computeroutput> when traversal, compression, or copy fails. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="888" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1a5571f1ac9c32c2db375fe11e2512f570" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::BackupManager::decompressPath</definition>
+        <argsstring>(const std::string &amp;src_path, const std::string &amp;dest_path, CompressionType type, std::error_code &amp;ec)</argsstring>
+        <name>decompressPath</name>
+        <qualifiedname>themis::BackupManager::decompressPath</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>src_path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dest_path</declname>
+        </param>
+        <param>
+          <type><ref refid="group__storage_1ga735a2b5f31bda6737b967fde9d418947" kindref="member">CompressionType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>std::error_code &amp;</type>
+          <declname>ec</declname>
+        </param>
+        <briefdescription>
+<para>Decompress or copy a backup payload into a destination path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>src_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source file or directory. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>dest_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Destination directory for decompressed output. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Compression mode expected in the source payload. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Receives the failure reason when the operation returns <computeroutput>false</computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>true</computeroutput> on success, or <computeroutput>false</computeroutput> when traversal, decompression, or copy fails. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="902" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1a0687b70f5af9d4faabe1b50b856c9505" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::BackupManager::encryptFile</definition>
+        <argsstring>(const std::string &amp;src_path, const std::string &amp;dest_path, const std::string &amp;key, std::error_code &amp;ec)</argsstring>
+        <name>encryptFile</name>
+        <qualifiedname>themis::BackupManager::encryptFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>src_path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dest_path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>std::error_code &amp;</type>
+          <declname>ec</declname>
+        </param>
+        <briefdescription>
+<para>Encrypt a file or directory payload into a destination path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>src_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source file or directory. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>dest_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Destination path for encrypted output. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Caller-supplied encryption key material. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Receives the failure reason when the operation returns <computeroutput>false</computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>true</computeroutput> on success, or <computeroutput>false</computeroutput> when encryption or copy fails. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="915" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1ab972750ab5eeec066075ee0f03107c09" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::BackupManager::decryptFile</definition>
+        <argsstring>(const std::string &amp;src_path, const std::string &amp;dest_path, const std::string &amp;key, std::error_code &amp;ec)</argsstring>
+        <name>decryptFile</name>
+        <qualifiedname>themis::BackupManager::decryptFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>src_path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dest_path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>std::error_code &amp;</type>
+          <declname>ec</declname>
+        </param>
+        <briefdescription>
+<para>Decrypt a file or directory payload into a destination path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>src_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source file or directory. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>dest_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Destination path for decrypted output. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Caller-supplied encryption key material. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Receives the failure reason when the operation returns <computeroutput>false</computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>true</computeroutput> on success, or <computeroutput>false</computeroutput> when decryption or copy fails. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="928" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1abd91664f627bc36dcbdb162466d7f403" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::BackupManager::uploadToCloud</definition>
+        <argsstring>(const std::string &amp;local_path, const std::string &amp;cloud_path, StorageBackend backend, const std::map&lt; std::string, std::string &gt; &amp;config)</argsstring>
+        <name>uploadToCloud</name>
+        <qualifiedname>themis::BackupManager::uploadToCloud</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>local_path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cloud_path</declname>
+        </param>
+        <param>
+          <type><ref refid="group__storage_1gaf7e7cc47cbb8962dec1c4013af54c72d" kindref="member">StorageBackend</ref></type>
+          <declname>backend</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Upload or mirror a local backup payload to the selected backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>local_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Existing local backup directory or archive. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cloud_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Provider URI or local mirror path. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transport backend to use. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Provider-specific configuration values. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>Result&lt;void&gt;</computeroutput> on success, or an error when validation, manifest generation, upload, or cleanup fails. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="942" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1af938c9cebe948bddc2bc1b86dccffb58" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::BackupManager::downloadFromCloud</definition>
+        <argsstring>(const std::string &amp;cloud_path, const std::string &amp;local_path, StorageBackend backend, const std::map&lt; std::string, std::string &gt; &amp;config)</argsstring>
+        <name>downloadFromCloud</name>
+        <qualifiedname>themis::BackupManager::downloadFromCloud</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cloud_path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>local_path</declname>
+        </param>
+        <param>
+          <type><ref refid="group__storage_1gaf7e7cc47cbb8962dec1c4013af54c72d" kindref="member">StorageBackend</ref></type>
+          <declname>backend</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Download or mirror a backup payload from the selected backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cloud_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Provider URI or local mirror path. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>local_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Local destination directory or archive path. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transport backend to use. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Provider-specific configuration values. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>Result&lt;void&gt;</computeroutput> on success, or an error when validation, manifest retrieval, payload download, or local reconstruction fails. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="956" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1a254eb58c41feb981b9a0199e1714876c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::BackupManager::findLastFullBackup</definition>
+        <argsstring>(const std::string &amp;backup_dir)</argsstring>
+        <name>findLastFullBackup</name>
+        <qualifiedname>themis::BackupManager::findLastFullBackup</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>backup_dir</declname>
+        </param>
+        <briefdescription>
+<para>Find the most recent full backup beneath a base directory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>backup_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Base backup directory. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Path to the latest full backup, or an empty string when no full backup can be found. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="967" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1ac7e6e24e882740b6b15387cca8ea6f42" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::BackupManager::buildIntegrityManifest</definition>
+        <argsstring>(const std::string &amp;backup_dir, std::vector&lt; FileIntegrityInfo &gt; &amp;integrity_map)</argsstring>
+        <name>buildIntegrityManifest</name>
+        <qualifiedname>themis::BackupManager::buildIntegrityManifest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>backup_dir</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1_file_integrity_info" kindref="compound">FileIntegrityInfo</ref> &gt; &amp;</type>
+          <declname>integrity_map</declname>
+        </param>
+        <briefdescription>
+<para>Build integrity metadata for a backup payload before compression completes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>backup_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Backup directory whose files should be fingerprinted. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>integrity_map</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Receives one entry per tracked file on success. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>Result&lt;void&gt;</computeroutput> on success, or an error when checksum generation fails. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="980" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1a61763d169fbb0cfa38765065f9bf1ced" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::BackupManager::writeIntegrityManifest</definition>
+        <argsstring>(const std::string &amp;backup_dir, const std::vector&lt; FileIntegrityInfo &gt; &amp;integrity_map)</argsstring>
+        <name>writeIntegrityManifest</name>
+        <qualifiedname>themis::BackupManager::writeIntegrityManifest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>backup_dir</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1_file_integrity_info" kindref="compound">FileIntegrityInfo</ref> &gt; &amp;</type>
+          <declname>integrity_map</declname>
+        </param>
+        <briefdescription>
+<para>Write <computeroutput>INTEGRITY_MANIFEST.json</computeroutput> for a backup payload. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>backup_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Backup directory that receives the manifest. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>integrity_map</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Integrity entries to serialize. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>Result&lt;void&gt;</computeroutput> on success, or an error when the manifest cannot be written. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="990" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1ac15ef7a2dddb41eaa3d9613c525f3cce" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::vector&lt; <ref refid="structthemis_1_1_file_integrity_info" kindref="compound">FileIntegrityInfo</ref> &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; FileIntegrityInfo &gt; &gt; themis::BackupManager::readIntegrityManifest</definition>
+        <argsstring>(const std::string &amp;backup_dir)</argsstring>
+        <name>readIntegrityManifest</name>
+        <qualifiedname>themis::BackupManager::readIntegrityManifest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>backup_dir</declname>
+        </param>
+        <briefdescription>
+<para>Load <computeroutput>INTEGRITY_MANIFEST.json</computeroutput> from a backup directory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>backup_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Backup directory containing the manifest. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>Result&lt;std::vector&lt;<ref refid="structthemis_1_1_file_integrity_info" kindref="compound">FileIntegrityInfo</ref>&gt;&gt;</computeroutput> containing parsed entries on success, or an error when the manifest is missing or malformed. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="1000" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1af0da8582f2643baa5c82e4d4a99edcc5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; bool &gt;</type>
+        <definition>Result&lt; bool &gt; themis::BackupManager::verifyFileChecksum</definition>
+        <argsstring>(const std::string &amp;file_path, const std::string &amp;expected_checksum)</argsstring>
+        <name>verifyFileChecksum</name>
+        <qualifiedname>themis::BackupManager::verifyFileChecksum</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>file_path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>expected_checksum</declname>
+        </param>
+        <briefdescription>
+<para>Compare a single file with an expected checksum value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>file_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>File to verify. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>expected_checksum</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Expected lowercase hexadecimal SHA-256 digest. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>Result&lt;bool&gt;</computeroutput> containing <computeroutput>true</computeroutput> for a match and <computeroutput>false</computeroutput> for a mismatch; returns an error when the file cannot be read. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="1010" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1a5aa2c01ce145481094e35d22f4f71900" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::vector&lt; std::string &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; std::string &gt; &gt; themis::BackupManager::verifyAllChecksums</definition>
+        <argsstring>(const std::string &amp;backup_dir, const std::vector&lt; FileIntegrityInfo &gt; &amp;integrity_map)</argsstring>
+        <name>verifyAllChecksums</name>
+        <qualifiedname>themis::BackupManager::verifyAllChecksums</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>backup_dir</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1_file_integrity_info" kindref="compound">FileIntegrityInfo</ref> &gt; &amp;</type>
+          <declname>integrity_map</declname>
+        </param>
+        <briefdescription>
+<para>Verify every tracked file in a decompressed backup payload. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>backup_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Decompressed backup directory to verify. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>integrity_map</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Expected integrity entries for the payload. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>Result&lt;std::vector&lt;std::string&gt;&gt;</computeroutput> containing the relative paths of corrupted or missing files, or an error when verification cannot run. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="1021" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1a6016a4fbef65725f631f70b9a2c93192" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::BackupManager::decompressPathWithIntegrity</definition>
+        <argsstring>(const std::string &amp;src_path, const std::string &amp;dest_path, CompressionType type, std::error_code &amp;ec)</argsstring>
+        <name>decompressPathWithIntegrity</name>
+        <qualifiedname>themis::BackupManager::decompressPathWithIntegrity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>src_path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dest_path</declname>
+        </param>
+        <param>
+          <type><ref refid="group__storage_1ga735a2b5f31bda6737b967fde9d418947" kindref="member">CompressionType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>std::error_code &amp;</type>
+          <declname>ec</declname>
+        </param>
+        <briefdescription>
+<para>Decompress a payload and run the built-in integrity verification path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>src_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source file or directory. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>dest_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Destination directory for decompressed output. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Compression mode expected in the source payload. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Receives the failure reason when the operation returns <computeroutput>false</computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>true</computeroutput> on success, or <computeroutput>false</computeroutput> when extraction or integrity verification fails. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="1034" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1a6ac4b5e56e090b1addecc7b7f225c603" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group__storage_1gaa7796885f64c867cdf3f892812672149" kindref="member">RAIDMode</ref></type>
+        <definition>static RAIDMode themis::BackupManager::parseRAIDMode</definition>
+        <argsstring>(const std::string &amp;mode_str)</argsstring>
+        <name>parseRAIDMode</name>
+        <qualifiedname>themis::BackupManager::parseRAIDMode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mode_str</declname>
+        </param>
+        <briefdescription>
+<para>Parse a textual RAID mode identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>mode_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Mode string such as <computeroutput>raid5</computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Parsed RAID mode, or <computeroutput><ref refid="group__storage_1ggaa7796885f64c867cdf3f892812672149ab50339a10e1de285ac99d4c3990b8693" kindref="member">RAIDMode::NONE</ref></computeroutput> for unrecognized inputs. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="842" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_backup_manager_1a441e6c32ef8fe49900a485ea43d67b8b" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::BackupManager::raidModeToString</definition>
+        <argsstring>(RAIDMode mode)</argsstring>
+        <name>raidModeToString</name>
+        <qualifiedname>themis::BackupManager::raidModeToString</qualifiedname>
+        <param>
+          <type><ref refid="group__storage_1gaa7796885f64c867cdf3f892812672149" kindref="member">RAIDMode</ref></type>
+          <declname>mode</declname>
+        </param>
+        <briefdescription>
+<para>Convert a RAID mode enum to its manifest/environment string form. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RAID mode to format. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Lowercase RAID mode name. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="850" column="24"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Backup, restore, snapshot, and PITR orchestrator for the storage module. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Features:<itemizedlist>
+<listitem><para>RocksDB Checkpoint API integration for consistent snapshots</para>
+</listitem><listitem><para>Incremental backups with sequence number tracking</para>
+</listitem><listitem><para>WAL (Write-Ahead Log) archiving for point-in-time recovery</para>
+</listitem><listitem><para>Backup manifest files with metadata</para>
+</listitem><listitem><para>Restore with integrity verification</para>
+</listitem><listitem><para>RAID5/6 awareness: ensures parity shards are included in backups</para>
+</listitem></itemizedlist>
+</para>
+<para>Backup Strategy:<orderedlist>
+<listitem><para>Full backup: RocksDB checkpoint + WAL files</para>
+</listitem><listitem><para>Incremental backup: WAL files since last backup</para>
+</listitem><listitem><para>Manifest files track backup chain and metadata</para>
+</listitem><listitem><para>RAID5/6: Coordinates backup across all data + parity shards</para>
+</listitem></orderedlist>
+</para>
+<para>RAID5/6 Backup Strategy:<itemizedlist>
+<listitem><para>For RAID5/6 configurations, a complete backup ALWAYS includes:<itemizedlist>
+<listitem><para>All data shards (containing striped data)</para>
+</listitem><listitem><para>All parity shards (containing parity information)</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem><para>Primary backup = Full backup of all shards (data + parity)</para>
+</listitem><listitem><para>Incremental backups = Incremental changes from all shards</para>
+</listitem><listitem><para>This ensures complete data recovery capability</para>
+</listitem></itemizedlist>
+</para>
+<para>Directory Structure: backup_dir/ ├── full_YYYYMMDD_HHMMSS/ │ ├── checkpoint/ (RocksDB checkpoint data) │ ├── wal/ (WAL files at checkpoint time) │ ├── raid_topology/ (RAID5/6 only: shard topology info) │ │ ├── shard_0/ (First shard backup) │ │ ├── shard_1/ (Second shard backup) │ │ └── shard_parity/ (Parity shard backup) │ └── MANIFEST.json (backup metadata with RAID info) ├── incr_YYYYMMDD_HHMMSS/ │ ├── wal/ (incremental WAL files) │ └── MANIFEST.json (incremental metadata) └── latest -&gt; full_YYYYMMDD_HHMMSS/ (symlink to latest backup) </para>
+    </detaileddescription>
+    <location file="include/storage/backup_manager.h" line="186" column="1" bodyfile="include/storage/backup_manager.h" bodystart="186" bodyend="1041"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_backup_manager_1a37e2350add57fe4d853057621b7ddbec" prot="public" virt="non-virtual"><scope>themis::BackupManager</scope><name>applyRetentionPolicy</name></member>
+      <member refid="classthemis_1_1_backup_manager_1a64748f39714a42ff4e472036a44689a3" prot="public" virt="non-virtual"><scope>themis::BackupManager</scope><name>archiveWAL</name></member>
+      <member refid="classthemis_1_1_backup_manager_1a3bb641eb64293f3a434d945b6b107c4a" prot="public" virt="non-virtual"><scope>themis::BackupManager</scope><name>archiveWAL</name></member>
+      <member refid="classthemis_1_1_backup_manager_1ac5a86b4741c4775b4a1bbcdd1fba8d19" prot="public" virt="non-virtual"><scope>themis::BackupManager</scope><name>BackupManager</name></member>
+      <member refid="classthemis_1_1_backup_manager_1ac7e6e24e882740b6b15387cca8ea6f42" prot="private" virt="non-virtual"><scope>themis::BackupManager</scope><name>buildIntegrityManifest</name></member>
+      <member refid="classthemis_1_1_backup_manager_1a2671e3d77dedebdbf3449a2b9d869b08" prot="private" virt="non-virtual"><scope>themis::BackupManager</scope><name>calculateChecksum</name></member>
+      <member refid="classthemis_1_1_backup_manager_1a2a6144aa7d6bf6fd603836e8b4e3d980" prot="public" virt="non-virtual"><scope>themis::BackupManager</scope><name>cancelScheduledBackup</name></member>
+      <member refid="classthemis_1_1_backup_manager_1a6566610b9abf221a590b9ce4eb383346" prot="private" virt="non-virtual"><scope>themis::BackupManager</scope><name>cf_sst_ingest_fn_</name></member>
+      <member refid="classthemis_1_1_backup_manager_1afaab36a8544d19ad591c4c4f038b386b" prot="public" virt="non-virtual"><scope>themis::BackupManager</scope><name>CfSstIngestFn</name></member>
+      <member refid="classthemis_1_1_backup_manager_1a911f60f04eba8e6cfa39099dfc4bffbf" prot="public" virt="non-virtual"><scope>themis::BackupManager</scope><name>compressBackup</name></member>
+      <member refid="classthemis_1_1_backup_manager_1a1ceb2058b126b19b2449a670b59e65f9" prot="private" virt="non-virtual"><scope>themis::BackupManager</scope><name>compressPath</name></member>
+      <member refid="classthemis_1_1_backup_manager_1a07b9243bd92d7ce05c6afed70906aa94" prot="private" virt="non-virtual"><scope>themis::BackupManager</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_backup_manager_1a94ddb8314dbe5d2d6ab9da0a473682b8" prot="private" virt="non-virtual"><scope>themis::BackupManager</scope><name>copyWALFiles</name></member>
+      <member refid="classthemis_1_1_backup_manager_1a3aa9788f126f8d08c4875cbfb738e039" prot="public" virt="non-virtual"><scope>themis::BackupManager</scope><name>createDifferentialBackup</name></member>
+      <member refid="classthemis_1_1_backup_manager_1ac8b70acd22925b104101e5f21ec62283" prot="public" virt="non-virtual"><scope>themis::BackupManager</scope><name>createDifferentialBackup</name></member>
+      <member refid="classthemis_1_1_backup_manager_1a61f15ebbb1ab2fcfd9d0be99803933c4" prot="public" virt="non-virtual"><scope>themis::BackupManager</scope><name>createFullBackup</name></member>
+      <member refid="classthemis_1_1_backup_manager_1adf7d6a24054bfad8be65e33b5eea6353" prot="public" virt="non-virtual"><scope>themis::BackupManager</scope><name>createFullBackup</name></member>
+      <member refid="classthemis_1_1_backup_manager_1a1832d18f5daa8853d2ff6769d3d1f301" prot="public" virt="non-virtual"><scope>themis::BackupManager</scope><name>createIncrementalBackup</name></member>
+      <member refid="classthemis_1_1_backup_manager_1a5702cd5c3438dd65fa359748747b3eb4" prot="public" virt="non-virtual"><scope>themis::BackupManager</scope><name>createIncrementalBackup</name></member>
+      <member refid="classthemis_1_1_backup_manager_1af0039afb42e72fa59bbdb3706044619c" prot="private" virt="non-virtual"><scope>themis::BackupManager</scope><name>createManifest</name></member>
+      <member refid="classthemis_1_1_backup_manager_1aea4470eb920b5e1c0235fb09456fd4bf" prot="public" virt="non-virtual"><scope>themis::BackupManager</scope><name>createSnapshot</name></member>
+      <member refid="classthemis_1_1_backup_manager_1a3fac475e569c34f6963bb92c529d734d" prot="private" virt="non-virtual"><scope>themis::BackupManager</scope><name>db_wrapper_</name></member>
+      <member refid="classthemis_1_1_backup_manager_1ac916b2d798062598c4c14b5f56c7be06" prot="public" virt="non-virtual"><scope>themis::BackupManager</scope><name>decompressBackup</name></member>
+      <member refid="classthemis_1_1_backup_manager_1a5571f1ac9c32c2db375fe11e2512f570" prot="private" virt="non-virtual"><scope>themis::BackupManager</scope><name>decompressPath</name></member>
+      <member refid="classthemis_1_1_backup_manager_1a6016a4fbef65725f631f70b9a2c93192" prot="private" virt="non-virtual"><scope>themis::BackupManager</scope><name>decompressPathWithIntegrity</name></member>
+      <member refid="classthemis_1_1_backup_manager_1ab972750ab5eeec066075ee0f03107c09" prot="private" virt="non-virtual"><scope>themis::BackupManager</scope><name>decryptFile</name></member>
+      <member refid="classthemis_1_1_backup_manager_1a242160a15f427a0201ea7271f6aba64d" prot="public" virt="non-virtual"><scope>themis::BackupManager</scope><name>detectRAIDConfiguration</name></member>
+      <member refid="classthemis_1_1_backup_manager_1af938c9cebe948bddc2bc1b86dccffb58" prot="private" virt="non-virtual"><scope>themis::BackupManager</scope><name>downloadFromCloud</name></member>
+      <member refid="classthemis_1_1_backup_manager_1a0687b70f5af9d4faabe1b50b856c9505" prot="private" virt="non-virtual"><scope>themis::BackupManager</scope><name>encryptFile</name></member>
+      <member refid="classthemis_1_1_backup_manager_1ae67f3ea7655c335b23e318f6c3e4a102" prot="public" virt="non-virtual"><scope>themis::BackupManager</scope><name>estimateRTO</name></member>
+      <member refid="classthemis_1_1_backup_manager_1a254eb58c41feb981b9a0199e1714876c" prot="private" virt="non-virtual"><scope>themis::BackupManager</scope><name>findLastFullBackup</name></member>
+      <member refid="classthemis_1_1_backup_manager_1a88c12a56976e46f510f6e664ee619456" prot="public" virt="non-virtual"><scope>themis::BackupManager</scope><name>getBackupMetrics</name></member>
+      <member refid="classthemis_1_1_backup_manager_1affcb540a4adb1fa0affd4a99285a1eba" prot="private" virt="non-virtual"><scope>themis::BackupManager</scope><name>getCurrentSequenceNumber</name></member>
+      <member refid="classthemis_1_1_backup_manager_1aa6ea4c6cf2ee0da43bcbf14b6ad25e8f" prot="public" virt="non-virtual"><scope>themis::BackupManager</scope><name>getRPO</name></member>
+      <member refid="classthemis_1_1_backup_manager_1a1bc8fa70aba3fafd13f07660aa76f63e" prot="private" virt="non-virtual"><scope>themis::BackupManager</scope><name>getTimestamp</name></member>
+      <member refid="classthemis_1_1_backup_manager_1adf84186f21a024c60e0138c72c810adc" prot="public" virt="non-virtual"><scope>themis::BackupManager</scope><name>isBackupComplete</name></member>
+      <member refid="classthemis_1_1_backup_manager_1a54cd1595c3440fe8f38e57dde75bf820" prot="public" virt="non-virtual"><scope>themis::BackupManager</scope><name>isBackupComplete</name></member>
+      <member refid="classthemis_1_1_backup_manager_1aa9b86aa58289ce4f47a56aacbffca30f" prot="public" virt="non-virtual"><scope>themis::BackupManager</scope><name>listBackups</name></member>
+      <member refid="classthemis_1_1_backup_manager_1ae351b960e848037c4f2e30d20c46fb2d" prot="public" virt="non-virtual"><scope>themis::BackupManager</scope><name>listScheduledBackups</name></member>
+      <member refid="classthemis_1_1_backup_manager_1aca5217f82170396ad07026e7341a93f0" prot="public" virt="non-virtual"><scope>themis::BackupManager</scope><name>listSnapshots</name></member>
+      <member refid="classthemis_1_1_backup_manager_1a6ac4b5e56e090b1addecc7b7f225c603" prot="private" virt="non-virtual"><scope>themis::BackupManager</scope><name>parseRAIDMode</name></member>
+      <member refid="classthemis_1_1_backup_manager_1a84349afc762f8614240b3e783ddc20b3" prot="public" virt="non-virtual"><scope>themis::BackupManager</scope><name>performPITR</name></member>
+      <member refid="classthemis_1_1_backup_manager_1ad9afb39c0497fe75b97b20d08b5ac5ba" prot="private" virt="non-virtual"><scope>themis::BackupManager</scope><name>processScheduledBackups</name></member>
+      <member refid="classthemis_1_1_backup_manager_1acd798b6166570aeb32d922ebca838225" prot="private" virt="non-virtual"><scope>themis::BackupManager</scope><name>raid_config_</name></member>
+      <member refid="classthemis_1_1_backup_manager_1a441e6c32ef8fe49900a485ea43d67b8b" prot="private" virt="non-virtual"><scope>themis::BackupManager</scope><name>raidModeToString</name></member>
+      <member refid="classthemis_1_1_backup_manager_1ac15ef7a2dddb41eaa3d9613c525f3cce" prot="private" virt="non-virtual"><scope>themis::BackupManager</scope><name>readIntegrityManifest</name></member>
+      <member refid="classthemis_1_1_backup_manager_1a2a858e9eb76d842136628b775f09d6a6" prot="private" virt="non-virtual"><scope>themis::BackupManager</scope><name>readManifest</name></member>
+      <member refid="classthemis_1_1_backup_manager_1a7428798e4a4c80fda3dd94e34df228c1" prot="public" virt="non-virtual"><scope>themis::BackupManager</scope><name>repairDecompressedBackup</name></member>
+      <member refid="classthemis_1_1_backup_manager_1ad609337da3873d1a2ce4a3cfbe2a7103" prot="public" virt="non-virtual"><scope>themis::BackupManager</scope><name>restoreCollections</name></member>
+      <member refid="classthemis_1_1_backup_manager_1a4a890466805e0416a002f70a63539175" prot="public" virt="non-virtual"><scope>themis::BackupManager</scope><name>restoreFromBackup</name></member>
+      <member refid="classthemis_1_1_backup_manager_1a19f53a89bf41987ce36cb4a08d514996" prot="public" virt="non-virtual"><scope>themis::BackupManager</scope><name>restoreFromBackup</name></member>
+      <member refid="classthemis_1_1_backup_manager_1af179bc07dc622380877792b978d7b28b" prot="public" virt="non-virtual"><scope>themis::BackupManager</scope><name>restoreFromCloud</name></member>
+      <member refid="classthemis_1_1_backup_manager_1a472bb370568424b26c7e478bbe3036ed" prot="public" virt="non-virtual"><scope>themis::BackupManager</scope><name>restoreFromSnapshot</name></member>
+      <member refid="classthemis_1_1_backup_manager_1a1885dfd8cf08f11516a425ee81b573f8" prot="private" virt="non-virtual"><scope>themis::BackupManager</scope><name>runScheduledBackupLoop</name></member>
+      <member refid="classthemis_1_1_backup_manager_1a9f532a139971e0d96c6f63b1a2af56d1" prot="private" virt="non-virtual"><scope>themis::BackupManager</scope><name>schedule_counter_</name></member>
+      <member refid="classthemis_1_1_backup_manager_1a4d4d401121052be4b9e57041e754a766" prot="public" virt="non-virtual"><scope>themis::BackupManager</scope><name>scheduleBackup</name></member>
+      <member refid="classthemis_1_1_backup_manager_1a96fe14aa4ae206a7bb2965f30d67265f" prot="private" virt="non-virtual"><scope>themis::BackupManager</scope><name>scheduled_backups_</name></member>
+      <member refid="classthemis_1_1_backup_manager_1ada056e4b35968e71b75a4ef4c52625c7" prot="private" virt="non-virtual"><scope>themis::BackupManager</scope><name>scheduler_mutex_</name></member>
+      <member refid="classthemis_1_1_backup_manager_1ab788dfa7978f33fe94d4b2cb55f6febc" prot="private" virt="non-virtual"><scope>themis::BackupManager</scope><name>scheduler_running_</name></member>
+      <member refid="classthemis_1_1_backup_manager_1a10f112323fc889c26ec61d1cb9e7ed0b" prot="private" virt="non-virtual"><scope>themis::BackupManager</scope><name>scheduler_thread_</name></member>
+      <member refid="classthemis_1_1_backup_manager_1a2526db567b72233335c7bdbfc58a95e4" prot="public" virt="non-virtual"><scope>themis::BackupManager</scope><name>setCfSstIngestFn</name></member>
+      <member refid="classthemis_1_1_backup_manager_1afc228d47f3b5bd4b53fa9c2768d8b869" prot="public" virt="non-virtual"><scope>themis::BackupManager</scope><name>setWalReplayFn</name></member>
+      <member refid="classthemis_1_1_backup_manager_1ac64cf33b75ba3c54cd2114c2a4b72bf2" prot="private" virt="non-virtual"><scope>themis::BackupManager</scope><name>shouldRunScheduledBackup</name></member>
+      <member refid="classthemis_1_1_backup_manager_1a6ff965e55faf98338d1e34c3fff4c2b1" prot="public" virt="non-virtual"><scope>themis::BackupManager</scope><name>uploadBackupToCloud</name></member>
+      <member refid="classthemis_1_1_backup_manager_1abd91664f627bc36dcbdb162466d7f403" prot="private" virt="non-virtual"><scope>themis::BackupManager</scope><name>uploadToCloud</name></member>
+      <member refid="classthemis_1_1_backup_manager_1a5aa2c01ce145481094e35d22f4f71900" prot="private" virt="non-virtual"><scope>themis::BackupManager</scope><name>verifyAllChecksums</name></member>
+      <member refid="classthemis_1_1_backup_manager_1a1b8bc98078b3a71272de6513f127e189" prot="public" virt="non-virtual"><scope>themis::BackupManager</scope><name>verifyBackup</name></member>
+      <member refid="classthemis_1_1_backup_manager_1aa4f9bdae7da49f4f30708d7b3f1ba955" prot="private" virt="non-virtual"><scope>themis::BackupManager</scope><name>verifyChecksum</name></member>
+      <member refid="classthemis_1_1_backup_manager_1a0c92fe5ce2819e70c2420943c422f631" prot="public" virt="non-virtual"><scope>themis::BackupManager</scope><name>verifyDecompressedBackup</name></member>
+      <member refid="classthemis_1_1_backup_manager_1af0da8582f2643baa5c82e4d4a99edcc5" prot="private" virt="non-virtual"><scope>themis::BackupManager</scope><name>verifyFileChecksum</name></member>
+      <member refid="classthemis_1_1_backup_manager_1a519de90f5d288e089cead01fe8321830" prot="private" virt="non-virtual"><scope>themis::BackupManager</scope><name>verifyRAIDShardsInBackup</name></member>
+      <member refid="classthemis_1_1_backup_manager_1a24be5ae58f3fc96e8c38d0375ac7620f" prot="private" virt="non-virtual"><scope>themis::BackupManager</scope><name>verifyRAIDShardsInBackup</name></member>
+      <member refid="classthemis_1_1_backup_manager_1ab7d0252dbd1d67e9b6cc366f876c4de0" prot="public" virt="non-virtual"><scope>themis::BackupManager</scope><name>verifySnapshot</name></member>
+      <member refid="classthemis_1_1_backup_manager_1a4363ae0dd60433db6e8b14202b1c9386" prot="private" virt="non-virtual"><scope>themis::BackupManager</scope><name>wal_replay_fn_</name></member>
+      <member refid="classthemis_1_1_backup_manager_1ad5b56be73541c105ee3bf132f6826460" prot="public" virt="non-virtual"><scope>themis::BackupManager</scope><name>WalReplayFn</name></member>
+      <member refid="classthemis_1_1_backup_manager_1a61763d169fbb0cfa38765065f9bf1ced" prot="private" virt="non-virtual"><scope>themis::BackupManager</scope><name>writeIntegrityManifest</name></member>
+      <member refid="classthemis_1_1_backup_manager_1acf72047d4604985bdb5180b8fc71d9b2" prot="public" virt="non-virtual"><scope>themis::BackupManager</scope><name>~BackupManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

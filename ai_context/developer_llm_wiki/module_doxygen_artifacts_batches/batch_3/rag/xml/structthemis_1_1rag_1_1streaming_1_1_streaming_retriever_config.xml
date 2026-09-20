@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::streaming::StreamingRetrieverConfig</compoundname>
+    <includes refid="streaming__retriever_8h" local="no">streaming_retriever.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_config_1aa71149e334756e23c06055cf98c254fb" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::streaming::StreamingRetrieverConfig::max_context_tokens</definition>
+        <argsstring></argsstring>
+        <name>max_context_tokens</name>
+        <qualifiedname>themis::rag::streaming::StreamingRetrieverConfig::max_context_tokens</qualifiedname>
+        <initializer>= 4096</initializer>
+        <briefdescription>
+<para>Maximum number of tokens the context window may hold. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/streaming_retriever.h" line="93" column="12" bodyfile="include/rag/streaming_retriever.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_config_1ab322c590af209543d59b427fd4fb7ff6" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::streaming::StreamingRetrieverConfig::chars_per_token</definition>
+        <argsstring></argsstring>
+        <name>chars_per_token</name>
+        <qualifiedname>themis::rag::streaming::StreamingRetrieverConfig::chars_per_token</qualifiedname>
+        <initializer>= 4.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Average tokens-per-character used when a document has no pre-computed token count (approx. 0.25 for English prose). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/streaming_retriever.h" line="97" column="12" bodyfile="include/rag/streaming_retriever.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_config_1a51ce3b8c0e27392d115433ee7e3c82f6" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::streaming::StreamingRetrieverConfig::max_documents_to_consider</definition>
+        <argsstring></argsstring>
+        <name>max_documents_to_consider</name>
+        <qualifiedname>themis::rag::streaming::StreamingRetrieverConfig::max_documents_to_consider</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Maximum number of documents to consider (0 = unlimited). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/streaming_retriever.h" line="100" column="12" bodyfile="include/rag/streaming_retriever.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_config_1adcd96d9c6e39708708c32a4e0dc42965" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::streaming::StreamingRetrieverConfig::min_relevance_score</definition>
+        <argsstring></argsstring>
+        <name>min_relevance_score</name>
+        <qualifiedname>themis::rag::streaming::StreamingRetrieverConfig::min_relevance_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Minimum relevance score for a document to be eligible (0–1). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/streaming_retriever.h" line="103" column="12" bodyfile="include/rag/streaming_retriever.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_config_1a7fc65ec71b07284bd6ea3fbefbc48643" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::streaming::StreamingRetrieverConfig::enable_mmr_deduplication</definition>
+        <argsstring></argsstring>
+        <name>enable_mmr_deduplication</name>
+        <qualifiedname>themis::rag::streaming::StreamingRetrieverConfig::enable_mmr_deduplication</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Enable Maximal Marginal Relevance deduplication. Documents whose content overlap with already-selected documents exceeds <ref refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_config_1a0ecf2a9ff2af307c39af106db12cc572" kindref="member">mmr_similarity_threshold</ref> are skipped. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/streaming_retriever.h" line="108" column="10" bodyfile="include/rag/streaming_retriever.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_config_1a0ecf2a9ff2af307c39af106db12cc572" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::streaming::StreamingRetrieverConfig::mmr_similarity_threshold</definition>
+        <argsstring></argsstring>
+        <name>mmr_similarity_threshold</name>
+        <qualifiedname>themis::rag::streaming::StreamingRetrieverConfig::mmr_similarity_threshold</qualifiedname>
+        <initializer>= 0.85</initializer>
+        <briefdescription>
+<para>Jaccard similarity threshold for MMR deduplication (0–1). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/streaming_retriever.h" line="111" column="12" bodyfile="include/rag/streaming_retriever.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_config_1ab89fe9f7a7dfc8299c1304900fcf192f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::streaming::StreamingRetrieverConfig::sort_by_relevance</definition>
+        <argsstring></argsstring>
+        <name>sort_by_relevance</name>
+        <qualifiedname>themis::rag::streaming::StreamingRetrieverConfig::sort_by_relevance</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>If true, emit documents sorted by relevance (highest first). If false, emit in the order provided by the caller. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/streaming_retriever.h" line="115" column="10" bodyfile="include/rag/streaming_retriever.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for <ref refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever" kindref="compound">StreamingRetriever</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/streaming_retriever.h" line="91" column="1" bodyfile="include/rag/streaming_retriever.h" bodystart="91" bodyend="116"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_config_1ab322c590af209543d59b427fd4fb7ff6" prot="public" virt="non-virtual"><scope>themis::rag::streaming::StreamingRetrieverConfig</scope><name>chars_per_token</name></member>
+      <member refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_config_1a7fc65ec71b07284bd6ea3fbefbc48643" prot="public" virt="non-virtual"><scope>themis::rag::streaming::StreamingRetrieverConfig</scope><name>enable_mmr_deduplication</name></member>
+      <member refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_config_1aa71149e334756e23c06055cf98c254fb" prot="public" virt="non-virtual"><scope>themis::rag::streaming::StreamingRetrieverConfig</scope><name>max_context_tokens</name></member>
+      <member refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_config_1a51ce3b8c0e27392d115433ee7e3c82f6" prot="public" virt="non-virtual"><scope>themis::rag::streaming::StreamingRetrieverConfig</scope><name>max_documents_to_consider</name></member>
+      <member refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_config_1adcd96d9c6e39708708c32a4e0dc42965" prot="public" virt="non-virtual"><scope>themis::rag::streaming::StreamingRetrieverConfig</scope><name>min_relevance_score</name></member>
+      <member refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_config_1a0ecf2a9ff2af307c39af106db12cc572" prot="public" virt="non-virtual"><scope>themis::rag::streaming::StreamingRetrieverConfig</scope><name>mmr_similarity_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_config_1ab89fe9f7a7dfc8299c1304900fcf192f" prot="public" virt="non-virtual"><scope>themis::rag::streaming::StreamingRetrieverConfig</scope><name>sort_by_relevance</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

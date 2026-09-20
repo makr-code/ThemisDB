@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1core_1_1_production_mode" kind="class" language="C++" prot="public">
+    <compoundname>themis::core::ProductionMode</compoundname>
+    <includes refid="production__mode_8h" local="no">production_mode.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1_production_mode_1a4def5e92057f5e244e02b9bc24bc6e99" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::core::ProductionMode::isEnabled</definition>
+        <argsstring>()</argsstring>
+        <name>isEnabled</name>
+        <qualifiedname>themis::core::ProductionMode::isEnabled</qualifiedname>
+        <briefdescription>
+<para>Is Enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::getenv(), mode_str(), env_str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/production_mode.h" line="28" column="17" bodyfile="include/core/production_mode.h" bodystart="28" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1_production_mode_1a32b10a51e3820d2a2b2640fbe66115ea" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::core::ProductionMode::enforce</definition>
+        <argsstring>(bool condition, const std::string &amp;error_message)</argsstring>
+        <name>enforce</name>
+        <qualifiedname>themis::core::ProductionMode::enforce</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>condition</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error_message</declname>
+        </param>
+        <briefdescription>
+<para>Enforce. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">condition</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">error_message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1core_1_1_production_mode_1a4def5e92057f5e244e02b9bc24bc6e99" kindref="member">isEnabled()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/production_mode.h" line="61" column="17" bodyfile="include/core/production_mode.h" bodystart="61" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1_production_mode_1a247c61ec5bda5c08483937d1f0ff1fae" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::core::ProductionMode::modeName</definition>
+        <argsstring>()</argsstring>
+        <name>modeName</name>
+        <qualifiedname>themis::core::ProductionMode::modeName</qualifiedname>
+        <briefdescription>
+<para>Mode Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1core_1_1_production_mode_1a4def5e92057f5e244e02b9bc24bc6e99" kindref="member">isEnabled()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/production_mode.h" line="72" column="24" bodyfile="include/core/production_mode.h" bodystart="72" bodyend="74"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/core/production_mode.h" line="21" column="1" bodyfile="include/core/production_mode.h" bodystart="21" bodyend="75"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1core_1_1_production_mode_1a32b10a51e3820d2a2b2640fbe66115ea" prot="public" virt="non-virtual"><scope>themis::core::ProductionMode</scope><name>enforce</name></member>
+      <member refid="classthemis_1_1core_1_1_production_mode_1a4def5e92057f5e244e02b9bc24bc6e99" prot="public" virt="non-virtual"><scope>themis::core::ProductionMode</scope><name>isEnabled</name></member>
+      <member refid="classthemis_1_1core_1_1_production_mode_1a247c61ec5bda5c08483937d1f0ff1fae" prot="public" virt="non-virtual"><scope>themis::core::ProductionMode</scope><name>modeName</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

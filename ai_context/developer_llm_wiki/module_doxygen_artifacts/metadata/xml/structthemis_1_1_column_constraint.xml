@@ -1,0 +1,395 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_column_constraint" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ColumnConstraint</compoundname>
+    <includes refid="schema__constraints_8h" local="no">schema_constraints.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1_column_constraint_1a2a790598181ba5aca152185b8d6af2a6" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Kind</name>
+        <qualifiedname>themis::ColumnConstraint::Kind</qualifiedname>
+        <enumvalue id="structthemis_1_1_column_constraint_1a2a790598181ba5aca152185b8d6af2a6aeed1de8e53bda49dda97e42841cfe6c5" prot="public">
+          <name>NOT_NULL</name>
+          <briefdescription>
+<para>Column must not be NULL. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_column_constraint_1a2a790598181ba5aca152185b8d6af2a6a88e3e8040c7cd11b9faffdf34372fa2a" prot="public">
+          <name>UNIQUE</name>
+          <briefdescription>
+<para>All non-NULL values must be distinct. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_column_constraint_1a2a790598181ba5aca152185b8d6af2a6a8c46d8d9d3402788403e2f6911153089" prot="public">
+          <name>CHECK</name>
+          <briefdescription>
+<para>Arbitrary expression evaluated as bool (stored as string). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_column_constraint_1a2a790598181ba5aca152185b8d6af2a6a5b39c8b553c821e7cddc6da64b5bd2ee" prot="public">
+          <name>DEFAULT</name>
+          <briefdescription>
+<para>Default value when none is supplied. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_column_constraint_1a2a790598181ba5aca152185b8d6af2a6ab5ec1c758d5803d83495713c6f3be569" prot="public">
+          <name>FOREIGN_KEY</name>
+          <briefdescription>
+<para>References another table&apos;s column. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Constraint kind (mirrors SQL constraint types). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_constraints.h" line="49" column="5" bodyfile="include/metadata/schema_constraints.h" bodystart="49" bodyend="55"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_column_constraint_1a8d865e14ae659489419eaea5cc738255" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_column_constraint_1a2a790598181ba5aca152185b8d6af2a6" kindref="member">Kind</ref></type>
+        <definition>Kind themis::ColumnConstraint::kind</definition>
+        <argsstring></argsstring>
+        <name>kind</name>
+        <qualifiedname>themis::ColumnConstraint::kind</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_constraints.h" line="57" column="10" bodyfile="include/metadata/schema_constraints.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_column_constraint_1a8897deba7b2ea4f13fd7478dadb32e8e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ColumnConstraint::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::ColumnConstraint::name</qualifiedname>
+        <briefdescription>
+<para>Constraint name (may be auto-generated). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_constraints.h" line="58" column="17" bodyfile="include/metadata/schema_constraints.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_column_constraint_1a044bbc491363be360dee282fe690b48a" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::ColumnConstraint::check_expr</definition>
+        <argsstring></argsstring>
+        <name>check_expr</name>
+        <qualifiedname>themis::ColumnConstraint::check_expr</qualifiedname>
+        <briefdescription>
+<para>CHECK expression (as SQL/AQL string). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_constraints.h" line="59" column="19" bodyfile="include/metadata/schema_constraints.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_column_constraint_1a0ce6395967aec34819dedcfe7df5ac2f" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="namespacethemis_1ab3785f3d035bc53d13121969c57d2284" kindref="member">ColumnValue</ref> &gt;</type>
+        <definition>std::optional&lt;ColumnValue&gt; themis::ColumnConstraint::default_value</definition>
+        <argsstring></argsstring>
+        <name>default_value</name>
+        <qualifiedname>themis::ColumnConstraint::default_value</qualifiedname>
+        <briefdescription>
+<para>DEFAULT value. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_constraints.h" line="60" column="19" bodyfile="include/metadata/schema_constraints.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_column_constraint_1a700d0683c239c2d31e30660d3d808daf" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::ColumnConstraint::fk_table</definition>
+        <argsstring></argsstring>
+        <name>fk_table</name>
+        <qualifiedname>themis::ColumnConstraint::fk_table</qualifiedname>
+        <briefdescription>
+<para>Foreign-key referenced table. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_constraints.h" line="61" column="19" bodyfile="include/metadata/schema_constraints.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_column_constraint_1a355516499562391efb0d37bf0abb9f3a" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::ColumnConstraint::fk_column</definition>
+        <argsstring></argsstring>
+        <name>fk_column</name>
+        <qualifiedname>themis::ColumnConstraint::fk_column</qualifiedname>
+        <briefdescription>
+<para>Foreign-key referenced column. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_constraints.h" line="62" column="19" bodyfile="include/metadata/schema_constraints.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_column_constraint_1acc14bad36e73538116f3102701518db2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref></type>
+        <definition>json themis::ColumnConstraint::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::ColumnConstraint::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_constraints.h" line="64" column="10" bodyfile="src/metadata/schema_constraints.cpp" bodystart="159" bodyend="188"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1_column_constraint_1ae6f1f73351ffaf9733bead3e3c53c346" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_column_constraint" kindref="compound">ColumnConstraint</ref></type>
+        <definition>ColumnConstraint themis::ColumnConstraint::makeNotNull</definition>
+        <argsstring>(std::string constraint_name)</argsstring>
+        <name>makeNotNull</name>
+        <qualifiedname>themis::ColumnConstraint::makeNotNull</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>constraint_name</declname>
+        </param>
+        <briefdescription>
+<para>Make Not Null. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">constraint_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the constraint. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_constraints.h" line="65" column="29" bodyfile="src/metadata/schema_constraints.cpp" bodystart="46" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_column_constraint_1aa165b13268c1da7109c8171d12ce1101" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_column_constraint" kindref="compound">ColumnConstraint</ref></type>
+        <definition>ColumnConstraint themis::ColumnConstraint::makeUnique</definition>
+        <argsstring>(std::string constraint_name)</argsstring>
+        <name>makeUnique</name>
+        <qualifiedname>themis::ColumnConstraint::makeUnique</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>constraint_name</declname>
+        </param>
+        <briefdescription>
+<para>Make Unique. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">constraint_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the constraint. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_constraints.h" line="66" column="29" bodyfile="src/metadata/schema_constraints.cpp" bodystart="59" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_column_constraint_1afd0f40ae1b5dcbe1bd760854e0fc752a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_column_constraint" kindref="compound">ColumnConstraint</ref></type>
+        <definition>ColumnConstraint themis::ColumnConstraint::makeCheck</definition>
+        <argsstring>(std::string constraint_name, std::string expr)</argsstring>
+        <name>makeCheck</name>
+        <qualifiedname>themis::ColumnConstraint::makeCheck</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>constraint_name</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>expr</declname>
+        </param>
+        <briefdescription>
+<para>Make Check. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">constraint_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the constraint. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">expr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_constraints.h" line="67" column="29" bodyfile="src/metadata/schema_constraints.cpp" bodystart="73" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_column_constraint_1abcd63e4eae1d711bfef5633132b2dd5f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_column_constraint" kindref="compound">ColumnConstraint</ref></type>
+        <definition>ColumnConstraint themis::ColumnConstraint::makeDefault</definition>
+        <argsstring>(std::string constraint_name, ColumnValue value)</argsstring>
+        <name>makeDefault</name>
+        <qualifiedname>themis::ColumnConstraint::makeDefault</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>constraint_name</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1ab3785f3d035bc53d13121969c57d2284" kindref="member">ColumnValue</ref></type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Make Default. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">constraint_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the constraint. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_constraints.h" line="68" column="29" bodyfile="src/metadata/schema_constraints.cpp" bodystart="88" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_column_constraint_1a08a87196e60424bfa003a804c83ac6dc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_column_constraint" kindref="compound">ColumnConstraint</ref></type>
+        <definition>ColumnConstraint themis::ColumnConstraint::makeForeignKey</definition>
+        <argsstring>(std::string constraint_name, std::string ref_table, std::string ref_column)</argsstring>
+        <name>makeForeignKey</name>
+        <qualifiedname>themis::ColumnConstraint::makeForeignKey</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>constraint_name</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>ref_table</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>ref_column</declname>
+        </param>
+        <briefdescription>
+<para>Make Foreign Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">constraint_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the constraint. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ref_table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ref_column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_constraints.h" line="69" column="29" bodyfile="src/metadata/schema_constraints.cpp" bodystart="103" bodyend="114"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Describes a single schema constraint on a column. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/metadata/schema_constraints.h" line="47" column="1" bodyfile="include/metadata/schema_constraints.h" bodystart="47" bodyend="74"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_column_constraint_1a044bbc491363be360dee282fe690b48a" prot="public" virt="non-virtual"><scope>themis::ColumnConstraint</scope><name>check_expr</name></member>
+      <member refid="structthemis_1_1_column_constraint_1a0ce6395967aec34819dedcfe7df5ac2f" prot="public" virt="non-virtual"><scope>themis::ColumnConstraint</scope><name>default_value</name></member>
+      <member refid="structthemis_1_1_column_constraint_1a355516499562391efb0d37bf0abb9f3a" prot="public" virt="non-virtual"><scope>themis::ColumnConstraint</scope><name>fk_column</name></member>
+      <member refid="structthemis_1_1_column_constraint_1a700d0683c239c2d31e30660d3d808daf" prot="public" virt="non-virtual"><scope>themis::ColumnConstraint</scope><name>fk_table</name></member>
+      <member refid="structthemis_1_1_column_constraint_1a2a790598181ba5aca152185b8d6af2a6" prot="public" virt="non-virtual"><scope>themis::ColumnConstraint</scope><name>Kind</name></member>
+      <member refid="structthemis_1_1_column_constraint_1a8d865e14ae659489419eaea5cc738255" prot="public" virt="non-virtual"><scope>themis::ColumnConstraint</scope><name>kind</name></member>
+      <member refid="structthemis_1_1_column_constraint_1afd0f40ae1b5dcbe1bd760854e0fc752a" prot="public" virt="non-virtual"><scope>themis::ColumnConstraint</scope><name>makeCheck</name></member>
+      <member refid="structthemis_1_1_column_constraint_1abcd63e4eae1d711bfef5633132b2dd5f" prot="public" virt="non-virtual"><scope>themis::ColumnConstraint</scope><name>makeDefault</name></member>
+      <member refid="structthemis_1_1_column_constraint_1a08a87196e60424bfa003a804c83ac6dc" prot="public" virt="non-virtual"><scope>themis::ColumnConstraint</scope><name>makeForeignKey</name></member>
+      <member refid="structthemis_1_1_column_constraint_1ae6f1f73351ffaf9733bead3e3c53c346" prot="public" virt="non-virtual"><scope>themis::ColumnConstraint</scope><name>makeNotNull</name></member>
+      <member refid="structthemis_1_1_column_constraint_1aa165b13268c1da7109c8171d12ce1101" prot="public" virt="non-virtual"><scope>themis::ColumnConstraint</scope><name>makeUnique</name></member>
+      <member refid="structthemis_1_1_column_constraint_1a8897deba7b2ea4f13fd7478dadb32e8e" prot="public" virt="non-virtual"><scope>themis::ColumnConstraint</scope><name>name</name></member>
+      <member refid="structthemis_1_1_column_constraint_1acc14bad36e73538116f3102701518db2" prot="public" virt="non-virtual"><scope>themis::ColumnConstraint</scope><name>toJSON</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

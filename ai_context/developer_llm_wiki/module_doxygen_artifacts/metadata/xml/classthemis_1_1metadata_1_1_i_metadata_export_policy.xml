@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1metadata_1_1_i_metadata_export_policy" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::metadata::IMetadataExportPolicy</compoundname>
+    <derivedcompoundref refid="classthemis_1_1metadata_1_1_always_export_policy" prot="public" virt="non-virtual">themis::metadata::AlwaysExportPolicy</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1metadata_1_1_filtered_export_policy" prot="public" virt="non-virtual">themis::metadata::FilteredExportPolicy</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1metadata_1_1_never_export_policy" prot="public" virt="non-virtual">themis::metadata::NeverExportPolicy</derivedcompoundref>
+    <includes refid="imetadata__export__policy_8h" local="no">imetadata_export_policy.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_i_metadata_export_policy_1a56b656e2ca33e136ba421300caf9647a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::metadata::IMetadataExportPolicy::~IMetadataExportPolicy</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IMetadataExportPolicy</name>
+        <qualifiedname>themis::metadata::IMetadataExportPolicy::~IMetadataExportPolicy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_export_policy.h" line="71" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_i_metadata_export_policy_1af448113bba1b9928f6931830d0646279" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::metadata::IMetadataExportPolicy::shouldExport</definition>
+        <argsstring>(std::string_view table_name, MetadataExportTrigger trigger) const =0</argsstring>
+        <name>shouldExport</name>
+        <qualifiedname>themis::metadata::IMetadataExportPolicy::shouldExport</qualifiedname>
+        <reimplementedby refid="classthemis_1_1metadata_1_1_always_export_policy_1ae24eb03ef66372ffc201bbdf92a13828">shouldExport</reimplementedby>
+        <reimplementedby refid="classthemis_1_1metadata_1_1_filtered_export_policy_1a0ef7c615b786a3f5d0e8be0357c92621">shouldExport</reimplementedby>
+        <reimplementedby refid="classthemis_1_1metadata_1_1_never_export_policy_1abf7a3da1bcc70c9ba31437185f33c809">shouldExport</reimplementedby>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1metadata_1aa82119ef5e71ceb2723014216f3a7ac4" kindref="member">MetadataExportTrigger</ref></type>
+          <declname>trigger</declname>
+        </param>
+        <briefdescription>
+<para>Return true if <computeroutput>table_name</computeroutput> should be exported on <computeroutput>trigger</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the table/collection. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>trigger</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The event that would trigger the export. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the export should proceed; false to suppress it. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_export_policy.h" line="80" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_i_metadata_export_policy_1a544138eb2738383c60d729704ca68abe" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::chrono::milliseconds</type>
+        <definition>virtual std::chrono::milliseconds themis::metadata::IMetadataExportPolicy::exportDelay</definition>
+        <argsstring>(std::string_view table_name, MetadataExportTrigger trigger) const =0</argsstring>
+        <name>exportDelay</name>
+        <qualifiedname>themis::metadata::IMetadataExportPolicy::exportDelay</qualifiedname>
+        <reimplementedby refid="classthemis_1_1metadata_1_1_always_export_policy_1a74defaaba0ce4fd85e79989e4c01877c">exportDelay</reimplementedby>
+        <reimplementedby refid="classthemis_1_1metadata_1_1_filtered_export_policy_1a691a440b3b35182599a3d72624b1206e">exportDelay</reimplementedby>
+        <reimplementedby refid="classthemis_1_1metadata_1_1_never_export_policy_1a49df1c2aee1ed71ef0cc883ded09c853">exportDelay</reimplementedby>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1metadata_1aa82119ef5e71ceb2723014216f3a7ac4" kindref="member">MetadataExportTrigger</ref></type>
+          <declname>trigger</declname>
+        </param>
+        <briefdescription>
+<para>Return the delay to apply before exporting <computeroutput>table_name</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>A non-zero delay lets the exporter batch several changes that arrive within the window. Zero means export immediately.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the table/collection. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>trigger</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The event that triggered the export request. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Delay in milliseconds (0 = immediate). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_export_policy.h" line="93" column="39"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstract policy interface for external metadata catalog exports. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The <ref refid="classthemis_1_1_catalog_exporter" kindref="compound">CatalogExporter</ref> consults this policy before pushing metadata to Apache Atlas or DataHub, enabling deployments to exclude internal tables, rate-limit exports, or batch updates.</para>
+<para>Implementations MUST be thread-safe. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::metadata::AlwaysExportPolicy</label>
+        <link refid="classthemis_1_1metadata_1_1_always_export_policy"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::metadata::FilteredExportPolicy</label>
+        <link refid="classthemis_1_1metadata_1_1_filtered_export_policy"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::metadata::IMetadataExportPolicy</label>
+        <link refid="classthemis_1_1metadata_1_1_i_metadata_export_policy"/>
+      </node>
+      <node id="4">
+        <label>themis::metadata::NeverExportPolicy</label>
+        <link refid="classthemis_1_1metadata_1_1_never_export_policy"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/metadata/imetadata_export_policy.h" line="69" column="1" bodyfile="include/metadata/imetadata_export_policy.h" bodystart="69" bodyend="96"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1metadata_1_1_i_metadata_export_policy_1a544138eb2738383c60d729704ca68abe" prot="public" virt="pure-virtual"><scope>themis::metadata::IMetadataExportPolicy</scope><name>exportDelay</name></member>
+      <member refid="classthemis_1_1metadata_1_1_i_metadata_export_policy_1af448113bba1b9928f6931830d0646279" prot="public" virt="pure-virtual"><scope>themis::metadata::IMetadataExportPolicy</scope><name>shouldExport</name></member>
+      <member refid="classthemis_1_1metadata_1_1_i_metadata_export_policy_1a56b656e2ca33e136ba421300caf9647a" prot="public" virt="virtual"><scope>themis::metadata::IMetadataExportPolicy</scope><name>~IMetadataExportPolicy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

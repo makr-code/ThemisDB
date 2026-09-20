@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_access_control_1_1_config_1_1_o_auth_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::AccessControl::Config::OAuthConfig</compoundname>
+    <includes refid="access__control_8h" local="no">access_control.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_1_1_config_1_1_o_auth_config_1af5b331fa37fd225767b65c1d34cd6008" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::AccessControl::Config::OAuthConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::security::AccessControl::Config::OAuthConfig::enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="107" column="18" bodyfile="include/security/access_control.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_1_1_config_1_1_o_auth_config_1aebfc5d8f4ec70dc415e30e3c42d1e1e8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::AccessControl::Config::OAuthConfig::provider_url</definition>
+        <argsstring></argsstring>
+        <name>provider_url</name>
+        <qualifiedname>themis::security::AccessControl::Config::OAuthConfig::provider_url</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="108" column="25" bodyfile="include/security/access_control.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_1_1_config_1_1_o_auth_config_1a4640878750aa8881dbf3b7aa23ad7e6c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::AccessControl::Config::OAuthConfig::client_id</definition>
+        <argsstring></argsstring>
+        <name>client_id</name>
+        <qualifiedname>themis::security::AccessControl::Config::OAuthConfig::client_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="109" column="25" bodyfile="include/security/access_control.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_1_1_config_1_1_o_auth_config_1ac0391848d92b5035250584dbabb3f476" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::AccessControl::Config::OAuthConfig::client_secret</definition>
+        <argsstring></argsstring>
+        <name>client_secret</name>
+        <qualifiedname>themis::security::AccessControl::Config::OAuthConfig::client_secret</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="110" column="25" bodyfile="include/security/access_control.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_1_1_config_1_1_o_auth_config_1af1938bd735f9d1d500e8c08dde3fb6ed" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::security::AccessControl::Config::OAuthConfig::scopes</definition>
+        <argsstring></argsstring>
+        <name>scopes</name>
+        <qualifiedname>themis::security::AccessControl::Config::OAuthConfig::scopes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="111" column="25" bodyfile="include/security/access_control.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/access_control.h" line="106" column="9" bodyfile="include/security/access_control.h" bodystart="106" bodyend="112"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_access_control_1_1_config_1_1_o_auth_config_1a4640878750aa8881dbf3b7aa23ad7e6c" prot="public" virt="non-virtual"><scope>themis::security::AccessControl::Config::OAuthConfig</scope><name>client_id</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_1_1_config_1_1_o_auth_config_1ac0391848d92b5035250584dbabb3f476" prot="public" virt="non-virtual"><scope>themis::security::AccessControl::Config::OAuthConfig</scope><name>client_secret</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_1_1_config_1_1_o_auth_config_1af5b331fa37fd225767b65c1d34cd6008" prot="public" virt="non-virtual"><scope>themis::security::AccessControl::Config::OAuthConfig</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_1_1_config_1_1_o_auth_config_1aebfc5d8f4ec70dc415e30e3c42d1e1e8" prot="public" virt="non-virtual"><scope>themis::security::AccessControl::Config::OAuthConfig</scope><name>provider_url</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_1_1_config_1_1_o_auth_config_1af1938bd735f9d1d500e8c08dde3fb6ed" prot="public" virt="non-virtual"><scope>themis::security::AccessControl::Config::OAuthConfig</scope><name>scopes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,298 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1_move_guard" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::MoveGuard</compoundname>
+    <includes refid="safe__move_8h" local="no">safe_move.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_move_guard_1ad11e8bcb4891d19b0b7a27c11dec4ab2" prot="private" static="no" mutable="no">
+        <type>T *</type>
+        <definition>T* themis::security::MoveGuard&lt; T &gt;::ptr_</definition>
+        <argsstring></argsstring>
+        <name>ptr_</name>
+        <qualifiedname>themis::security::MoveGuard::ptr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_move.h" line="150" column="5" bodyfile="include/security/safe_move.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_move_guard_1a9ec6e3b8c71d45f14cee3de9c1a52705" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::security::MoveGuard&lt; T &gt;::moved_from_</definition>
+        <argsstring></argsstring>
+        <name>moved_from_</name>
+        <qualifiedname>themis::security::MoveGuard::moved_from_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_move.h" line="151" column="23" bodyfile="include/security/safe_move.h" bodystart="151" bodyend="151"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_move_guard_1a1fd55725125893b52dfe7491fe5f63e0" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::MoveGuard&lt; T &gt;::MoveGuard</definition>
+        <argsstring>(T *ptr)</argsstring>
+        <name>MoveGuard</name>
+        <qualifiedname>themis::security::MoveGuard::MoveGuard</qualifiedname>
+        <param>
+          <type>T *</type>
+          <declname>ptr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Constructs guard for given object pointer <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to object being guarded (must not be null) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_move.h" line="156" column="12" bodyfile="include/security/safe_move.h" bodystart="156" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_move_guard_1aca64f381792945d0c0d70f2850096264" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::MoveGuard&lt; T &gt;::~MoveGuard</definition>
+        <argsstring>()=default</argsstring>
+        <name>~MoveGuard</name>
+        <qualifiedname>themis::security::MoveGuard::~MoveGuard</qualifiedname>
+        <briefdescription>
+<para>Destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_move.h" line="161" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_move_guard_1a46af7066801dff562247d193a163cd09" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::MoveGuard&lt; T &gt;::MoveGuard</definition>
+        <argsstring>(const MoveGuard &amp;)=delete</argsstring>
+        <name>MoveGuard</name>
+        <qualifiedname>themis::security::MoveGuard::MoveGuard</qualifiedname>
+        <param>
+          <type>const MoveGuard &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_move.h" line="164" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_move_guard_1ace58efbbdc0de4d9c7f9a3936a5050bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1security_1_1_move_guard_1a1fd55725125893b52dfe7491fe5f63e0" kindref="member">MoveGuard</ref> &amp;</type>
+        <definition>MoveGuard &amp; themis::security::MoveGuard&lt; T &gt;::operator=</definition>
+        <argsstring>(const MoveGuard &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::security::MoveGuard::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1security_1_1_move_guard_1a1fd55725125893b52dfe7491fe5f63e0" kindref="member">MoveGuard</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_move.h" line="165" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_move_guard_1a8e9d58da23a8d3caa8f2fd993c073a29" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::MoveGuard&lt; T &gt;::MoveGuard</definition>
+        <argsstring>(MoveGuard &amp;&amp;other) noexcept</argsstring>
+        <name>MoveGuard</name>
+        <qualifiedname>themis::security::MoveGuard::MoveGuard</qualifiedname>
+        <param>
+          <type>MoveGuard &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Move is allowed (transfers guard). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_move.h" line="168" column="3" bodyfile="include/security/safe_move.h" bodystart="168" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_move_guard_1a7da14c1d75cd761658ac46517fe6cce3" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1security_1_1_move_guard_1a1fd55725125893b52dfe7491fe5f63e0" kindref="member">MoveGuard</ref> &amp;</type>
+        <definition>MoveGuard &amp; themis::security::MoveGuard&lt; T &gt;::operator=</definition>
+        <argsstring>(MoveGuard &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::security::MoveGuard::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1_move_guard_1a1fd55725125893b52dfe7491fe5f63e0" kindref="member">MoveGuard</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Move assignment. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_move.h" line="174" column="13" bodyfile="include/security/safe_move.h" bodystart="174" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_move_guard_1abbdc7f7e9778587ab9e0acdbe7629a47" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::security::MoveGuard&lt; T &gt;::markMovedFrom</definition>
+        <argsstring>() const</argsstring>
+        <name>markMovedFrom</name>
+        <qualifiedname>themis::security::MoveGuard::markMovedFrom</qualifiedname>
+        <briefdescription>
+<para>Marks the guarded object as moved-from. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_move.h" line="184" column="8" bodyfile="include/security/safe_move.h" bodystart="184" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_move_guard_1aa4d990b0bc16cd2d19555afa10982823" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::MoveGuard&lt; T &gt;::checkNotMovedFrom</definition>
+        <argsstring>() const</argsstring>
+        <name>checkNotMovedFrom</name>
+        <qualifiedname>themis::security::MoveGuard::checkNotMovedFrom</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Checks if guarded object was moved from <simplesect kind="return"><para>true if object was moved from </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>UseAfterMoveException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if object was moved from </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Use After Move Exception. <simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/security/safe_move.h" line="189" column="8" bodyfile="include/security/safe_move.h" bodystart="189" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_move_guard_1a4127071c4bf0427205c829f04b3c1190" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>T *</type>
+        <definition>T * themis::security::MoveGuard&lt; T &gt;::get</definition>
+        <argsstring>() const</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::security::MoveGuard::get</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Gets the guarded pointer (with validation) <simplesect kind="return"><para>Pointer to guarded object </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>UseAfterMoveException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if object was moved from </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_move.h" line="203" column="5" bodyfile="include/security/safe_move.h" bodystart="203" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_move_guard_1af40fb6d97e806ee53182d6688b50eb03" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>T &amp;</type>
+        <definition>T &amp; themis::security::MoveGuard&lt; T &gt;::operator*</definition>
+        <argsstring>() const</argsstring>
+        <name>operator*</name>
+        <qualifiedname>themis::security::MoveGuard::operator*</qualifiedname>
+        <briefdescription>
+<para>Dereferencing operator (with validation). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_move.h" line="209" column="5" bodyfile="include/security/safe_move.h" bodystart="209" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_move_guard_1a752b1ce91e9b9995d9bc077e2eba66cd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>T *</type>
+        <definition>T * themis::security::MoveGuard&lt; T &gt;::operator-&gt;</definition>
+        <argsstring>() const</argsstring>
+        <name>operator-&gt;</name>
+        <qualifiedname>themis::security::MoveGuard::operator-&gt;</qualifiedname>
+        <briefdescription>
+<para>Member access operator (with validation). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_move.h" line="215" column="5" bodyfile="include/security/safe_move.h" bodystart="215" bodyend="218"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RAII wrapper that detects invalid access after move. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Wraps a pointer to an object and marks it as &quot;moved from&quot; if the object is moved. Any subsequent access to the guard will throw.</para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Type of object being guarded</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Example: <programlisting><codeline><highlight class="normal">MyClass<sp/>obj;</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1security_1_1_move_guard_1a1fd55725125893b52dfe7491fe5f63e0" kindref="member">MoveGuard&lt;MyClass&gt;</ref><sp/>guard(&amp;obj);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>moved<sp/>=<sp/>std::move(obj);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>obj.someMethod();<sp/></highlight><highlight class="comment">//<sp/>Would<sp/>throw<sp/>UseAfterMoveException<sp/>if<sp/>called</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/security/safe_move.h" line="148" column="1" bodyfile="include/security/safe_move.h" bodystart="148" bodyend="219"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1_move_guard_1aa4d990b0bc16cd2d19555afa10982823" prot="public" virt="non-virtual"><scope>themis::security::MoveGuard</scope><name>checkNotMovedFrom</name></member>
+      <member refid="classthemis_1_1security_1_1_move_guard_1a4127071c4bf0427205c829f04b3c1190" prot="public" virt="non-virtual"><scope>themis::security::MoveGuard</scope><name>get</name></member>
+      <member refid="classthemis_1_1security_1_1_move_guard_1abbdc7f7e9778587ab9e0acdbe7629a47" prot="public" virt="non-virtual"><scope>themis::security::MoveGuard</scope><name>markMovedFrom</name></member>
+      <member refid="classthemis_1_1security_1_1_move_guard_1a9ec6e3b8c71d45f14cee3de9c1a52705" prot="private" virt="non-virtual"><scope>themis::security::MoveGuard</scope><name>moved_from_</name></member>
+      <member refid="classthemis_1_1security_1_1_move_guard_1a1fd55725125893b52dfe7491fe5f63e0" prot="public" virt="non-virtual"><scope>themis::security::MoveGuard</scope><name>MoveGuard</name></member>
+      <member refid="classthemis_1_1security_1_1_move_guard_1a46af7066801dff562247d193a163cd09" prot="public" virt="non-virtual"><scope>themis::security::MoveGuard</scope><name>MoveGuard</name></member>
+      <member refid="classthemis_1_1security_1_1_move_guard_1a8e9d58da23a8d3caa8f2fd993c073a29" prot="public" virt="non-virtual"><scope>themis::security::MoveGuard</scope><name>MoveGuard</name></member>
+      <member refid="classthemis_1_1security_1_1_move_guard_1af40fb6d97e806ee53182d6688b50eb03" prot="public" virt="non-virtual"><scope>themis::security::MoveGuard</scope><name>operator*</name></member>
+      <member refid="classthemis_1_1security_1_1_move_guard_1a752b1ce91e9b9995d9bc077e2eba66cd" prot="public" virt="non-virtual"><scope>themis::security::MoveGuard</scope><name>operator-&gt;</name></member>
+      <member refid="classthemis_1_1security_1_1_move_guard_1ace58efbbdc0de4d9c7f9a3936a5050bb" prot="public" virt="non-virtual"><scope>themis::security::MoveGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1security_1_1_move_guard_1a7da14c1d75cd761658ac46517fe6cce3" prot="public" virt="non-virtual"><scope>themis::security::MoveGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1security_1_1_move_guard_1ad11e8bcb4891d19b0b7a27c11dec4ab2" prot="private" virt="non-virtual"><scope>themis::security::MoveGuard</scope><name>ptr_</name></member>
+      <member refid="classthemis_1_1security_1_1_move_guard_1aca64f381792945d0c0d70f2850096264" prot="public" virt="non-virtual"><scope>themis::security::MoveGuard</scope><name>~MoveGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

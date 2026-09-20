@@ -1,0 +1,665 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1plugins_1_1user__storage" kind="namespace" language="C++">
+    <compoundname>themis::plugins::user_storage</compoundname>
+    <innerclass refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service" prot="public">themis::plugins::user_storage::Argon2idKeyDerivationService</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1user__storage_1_1_argon2id_params" prot="public">themis::plugins::user_storage::Argon2idParams</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1user__storage_1_1_command_timeout_manager" prot="public">themis::plugins::user_storage::CommandTimeoutManager</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event" prot="public">themis::plugins::user_storage::DiagnosticEvent</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface" prot="public">themis::plugins::user_storage::EncryptionBackendInterface</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1user__storage_1_1_file_rotation_store" prot="public">themis::plugins::user_storage::FileRotationStore</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend" prot="public">themis::plugins::user_storage::GocryptfsBackend</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1user__storage_1_1_group" prot="public">themis::plugins::user_storage::Group</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1user__storage_1_1_health_status" prot="public">themis::plugins::user_storage::HealthStatus</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1user__storage_1_1_i_key_derivation_service" prot="public">themis::plugins::user_storage::IKeyDerivationService</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1user__storage_1_1_i_rotation_store" prot="public">themis::plugins::user_storage::IRotationStore</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1user__storage_1_1_key_derivation_service" prot="public">themis::plugins::user_storage::KeyDerivationService</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler" prot="public">themis::plugins::user_storage::KeyRotationScheduler</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1user__storage_1_1_level_config" prot="public">themis::plugins::user_storage::LevelConfig</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage" prot="public">themis::plugins::user_storage::MultiLevelEncryptedStorage</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1user__storage_1_1_null_rotation_store" prot="public">themis::plugins::user_storage::NullRotationStore</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard" prot="public">themis::plugins::user_storage::PipeGuard</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1user__storage_1_1_result" prot="public">themis::plugins::user_storage::Result</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1user__storage_1_1_result_3_01void_01_4" prot="public">themis::plugins::user_storage::Result&lt; void &gt;</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1user__storage_1_1_rotation_schedule" prot="public">themis::plugins::user_storage::RotationSchedule</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1user__storage_1_1_storage_metrics" prot="public">themis::plugins::user_storage::StorageMetrics</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation" prot="public">themis::plugins::user_storage::TimedFileOperation</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1user__storage_1_1_user" prot="public">themis::plugins::user_storage::User</innerclass>
+    <innernamespace refid="namespacethemis_1_1plugins_1_1user__storage_1_1_command_argument_validator">themis::plugins::user_storage::CommandArgumentValidator</innernamespace>
+    <innernamespace refid="namespacethemis_1_1plugins_1_1user__storage_1_1test">themis::plugins::user_storage::test</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37c" prot="public" static="no" strong="yes">
+        <type>uint16_t</type>
+        <name>ErrorCode</name>
+        <qualifiedname>themis::plugins::user_storage::ErrorCode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37cad0749aaba8b833466dfcbb0428e4f89c" prot="public">
+          <name>SUCCESS</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37ca34c3a659d7f4b0319042e2c3e95723b6" prot="public">
+          <name>BACKEND_NOT_AVAILABLE</name>
+          <initializer>= 1001</initializer>
+          <briefdescription>
+<para>gocryptfs binary not in PATH </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37ca55dbabe1034eb45e670e9f710de98b8c" prot="public">
+          <name>FUSE_NOT_AVAILABLE</name>
+          <initializer>= 1002</initializer>
+          <briefdescription>
+<para>FUSE kernel module not loaded. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37ca9cf456609a29e64011153cacbf60a9d2" prot="public">
+          <name>MOUNT_TIMEOUT</name>
+          <initializer>= 1003</initializer>
+          <briefdescription>
+<para>Mount operation timed out. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37cac0adaf09304db9fae8846613cbcbb628" prot="public">
+          <name>UNMOUNT_TIMEOUT</name>
+          <initializer>= 1004</initializer>
+          <briefdescription>
+<para>Unmount operation timed out. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37ca3a759b355791c7fdcd938efda8884bd8" prot="public">
+          <name>MOUNT_FAILED</name>
+          <initializer>= 1005</initializer>
+          <briefdescription>
+<para>Mount operation failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37ca4417fc0fa7311b95af6202cfc7ed2415" prot="public">
+          <name>UNMOUNT_FAILED</name>
+          <initializer>= 1006</initializer>
+          <briefdescription>
+<para>Unmount operation failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37cafc79d48f26d702c6ec0a1db8a2620463" prot="public">
+          <name>STALE_MOUNT_DETECTED</name>
+          <initializer>= 1007</initializer>
+          <briefdescription>
+<para>Orphaned mount found and cleaned up. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37ca15fb0118b7c6e191512c4aa93c3df8a9" prot="public">
+          <name>FUSE_PERMISSION_DENIED</name>
+          <initializer>= 1008</initializer>
+          <briefdescription>
+<para>Permission denied for FUSE operation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37ca8510b12aec57178654fd55ac5c9916c9" prot="public">
+          <name>MOUNT_POINT_INVALID</name>
+          <initializer>= 1009</initializer>
+          <briefdescription>
+<para>Mount point path invalid. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37ca44e0fc9c698d79ccb492d2a6e7f28a59" prot="public">
+          <name>ENCRYPTED_DIR_INVALID</name>
+          <initializer>= 1010</initializer>
+          <briefdescription>
+<para>Encrypted directory path invalid. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37cae9d01bf150cbe65cd34dd89d490e96ee" prot="public">
+          <name>STDIN_DELIVERY_TIMEOUT</name>
+          <initializer>= 1011</initializer>
+          <briefdescription>
+<para>Key delivery via stdin timed out. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37ca94cd801ec80681e0cb50312efd76a360" prot="public">
+          <name>STDIN_DELIVERY_FAILED</name>
+          <initializer>= 1012</initializer>
+          <briefdescription>
+<para>Failed to deliver key via stdin. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37ca20f2c8a1c096ad69b2f155da0bb6baea" prot="public">
+          <name>COMMAND_EXECUTION_TIMEOUT</name>
+          <initializer>= 1013</initializer>
+          <briefdescription>
+<para>Command execution exceeded timeout. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37ca94aa8cff4ffade879161c9663c2214f7" prot="public">
+          <name>ROTATION_CALLBACK_FAILED</name>
+          <initializer>= 2001</initializer>
+          <briefdescription>
+<para><ref refid="structthemis_1_1plugins_1_1user__storage_1_1_user" kindref="compound">User</ref> callback returned error. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37cae416b8eff3c6a6336d03ffeb338c877d" prot="public">
+          <name>ROTATION_CALLBACK_TIMEOUT</name>
+          <initializer>= 2002</initializer>
+          <briefdescription>
+<para><ref refid="structthemis_1_1plugins_1_1user__storage_1_1_user" kindref="compound">User</ref> callback timed out. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37ca51cc33fb2139de7fdc894c3519a3dd3b" prot="public">
+          <name>ROTATION_CALLBACK_EXCEPTION</name>
+          <initializer>= 2003</initializer>
+          <briefdescription>
+<para><ref refid="structthemis_1_1plugins_1_1user__storage_1_1_user" kindref="compound">User</ref> callback threw exception. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37ca5c3e98fc66bdeaebd4e0766b464a3354" prot="public">
+          <name>ROTATION_STORE_FAILURE</name>
+          <initializer>= 2004</initializer>
+          <briefdescription>
+<para>Failed to persist rotation state. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37ca2e264bdbc8dfd09afb42ae34c3449c87" prot="public">
+          <name>ROTATION_INTERVAL_INVALID</name>
+          <initializer>= 2005</initializer>
+          <briefdescription>
+<para>Invalid rotation interval. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37ca18b336303b99c847e6a85cfc9ccaaa51" prot="public">
+          <name>ROTATION_LEVEL_NOT_SCHEDULED</name>
+          <initializer>= 2006</initializer>
+          <briefdescription>
+<para>Level not scheduled for rotation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37ca12588034a6ce426e0230da6dfed80d20" prot="public">
+          <name>LEVEL_INITIALIZATION_FAILED</name>
+          <initializer>= 3001</initializer>
+          <briefdescription>
+<para>Failed to initialize level. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37cad2f91391e20d5634ed2f0307b9adda63" prot="public">
+          <name>LEVEL_MOUNT_FAILED</name>
+          <initializer>= 3002</initializer>
+          <briefdescription>
+<para>Failed to mount level. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37ca27afda7a752e34c3a757afc3e909b79b" prot="public">
+          <name>LEVEL_UNMOUNT_FAILED</name>
+          <initializer>= 3003</initializer>
+          <briefdescription>
+<para>Failed to unmount level. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37ca91dd422ec080bebc525cf0eb940860f9" prot="public">
+          <name>LEVEL_CONFIG_INVALID</name>
+          <initializer>= 3004</initializer>
+          <briefdescription>
+<para>Invalid level configuration. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37ca94d1f60bf55a3b365e78e905189ac42f" prot="public">
+          <name>KEY_PROVIDER_NOT_FOUND</name>
+          <initializer>= 3005</initializer>
+          <briefdescription>
+<para>Key provider not available. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37cae32219f87b79c73231a5873c3aed766b" prot="public">
+          <name>KEY_PROVIDER_ERROR</name>
+          <initializer>= 3006</initializer>
+          <briefdescription>
+<para>Key provider returned error. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37caeafe8375d9b5fc0d8dbfcba3cdd69b07" prot="public">
+          <name>KDF_INVALID_MASTER_KEY</name>
+          <initializer>= 4001</initializer>
+          <briefdescription>
+<para>Master key is empty or too long. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37ca464e8e559a1c2a248903ac29bf6e505e" prot="public">
+          <name>KDF_SALT_GENERATION_FAILED</name>
+          <initializer>= 4002</initializer>
+          <briefdescription>
+<para>Failed to generate random salt. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37ca103dc876643a859ad4a5bbd18d1ec3fc" prot="public">
+          <name>KDF_SALT_PERSISTENCE_FAILED</name>
+          <initializer>= 4003</initializer>
+          <briefdescription>
+<para>Failed to persist salt file. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37ca8d6a7ce6828adb752f284a066aed5102" prot="public">
+          <name>KDF_DERIVATION_FAILED</name>
+          <initializer>= 4004</initializer>
+          <briefdescription>
+<para>KDF computation failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37ca0b2ce5a7eeded141808050fb6d7a5499" prot="public">
+          <name>KDF_INVALID_PARAMETERS</name>
+          <initializer>= 4005</initializer>
+          <briefdescription>
+<para>Invalid KDF parameters. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37cad3bd536b65f3c0a655e710a264f70d2b" prot="public">
+          <name>PATH_EMPTY</name>
+          <initializer>= 5001</initializer>
+          <briefdescription>
+<para>Path cannot be empty. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37cabe8b2beb21df852a899b63249f1f909e" prot="public">
+          <name>PATH_NOT_ABSOLUTE_OR_RELATIVE</name>
+          <initializer>= 5002</initializer>
+          <briefdescription>
+<para>Path not absolute or relative with ./. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37ca04a0156a6350a2d7a1aff3bff5d9d385" prot="public">
+          <name>PATH_TRAVERSAL_DETECTED</name>
+          <initializer>= 5003</initializer>
+          <briefdescription>
+<para>Path contains .. sequences. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37ca3f8ad5905cedf44904514dc88f4ee616" prot="public">
+          <name>PATH_INVALID_CHARACTERS</name>
+          <initializer>= 5004</initializer>
+          <briefdescription>
+<para>Path contains disallowed characters. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37cab069c730820051ce3ff3f1eea5f78700" prot="public">
+          <name>PATH_SYMLINK_TO_PARENT</name>
+          <initializer>= 5005</initializer>
+          <briefdescription>
+<para>Path resolves to parent directory symlink. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37ca255df50c140519133f1489ab44a389d9" prot="public">
+          <name>PERMISSION_DENIED</name>
+          <initializer>= 5006</initializer>
+          <briefdescription>
+<para>Insufficient permissions. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Error codes for <ref refid="namespacethemis_1_1user__storage__encrypted" kindref="compound">user_storage_encrypted</ref> module. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Organized by category for easier debugging and metrics:<itemizedlist>
+<listitem><para>1xxx: Backend errors (gocryptfs, FUSE)</para>
+</listitem><listitem><para>2xxx: Key rotation errors</para>
+</listitem><listitem><para>3xxx: Multi-level storage errors</para>
+</listitem><listitem><para>4xxx: KDF errors</para>
+</listitem><listitem><para>5xxx: Path validation errors </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/error_codes.hpp" line="33" column="1" bodyfile="include/user_storage_encrypted/error_codes.hpp" bodystart="33" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1plugins_1_1user__storage_1a5fe9068ebf2d8aa837e4480acaedaa28" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>SecurityLevel</name>
+        <qualifiedname>themis::plugins::user_storage::SecurityLevel</qualifiedname>
+        <enumvalue id="namespacethemis_1_1plugins_1_1user__storage_1a5fe9068ebf2d8aa837e4480acaedaa28a6a68f4e10a043ceb2bf7f27f93f8ca0f" prot="public">
+          <name>OFFEN</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1user__storage_1a5fe9068ebf2d8aa837e4480acaedaa28a7004ee333fde5198f25e2e9f17781e51" prot="public">
+          <name>VS_NFD</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1user__storage_1a5fe9068ebf2d8aa837e4480acaedaa28ab2016af253087887ccb510d7543ed514" prot="public">
+          <name>GEHEIM</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1user__storage_1a5fe9068ebf2d8aa837e4480acaedaa28aab518b2123485e57a2099a471943ffeb" prot="public">
+          <name>STRENG_GEHEIM</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Security classification levels matching ThemisDB governance system. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Maps to German Federal classification (Verschlusssache):<itemizedlist>
+<listitem><para>offen: Public data, no encryption required</para>
+</listitem><listitem><para>vs-nfd: Verschlusssache - Nur für den Dienstgebrauch (Restricted)</para>
+</listitem><listitem><para>geheim: Secret, no ANN/export/cache allowed</para>
+</listitem><listitem><para>streng-geheim: Top Secret, HSM-backed encryption </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/security_level.hpp" line="30" column="1" bodyfile="include/user_storage_encrypted/security_level.hpp" bodystart="30" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1plugins_1_1user__storage_1a4ab6cc5ffd4d37e7d4013bb387b52908" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>IoTimeoutPolicy</name>
+        <qualifiedname>themis::plugins::user_storage::IoTimeoutPolicy</qualifiedname>
+        <enumvalue id="namespacethemis_1_1plugins_1_1user__storage_1a4ab6cc5ffd4d37e7d4013bb387b52908abab0767e88027de9944aa55c24c8387a" prot="public">
+          <name>kAbsolute</name>
+          <briefdescription>
+<para>Timeout is total wall-clock time for entire operation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1user__storage_1a4ab6cc5ffd4d37e7d4013bb387b52908a88ca00ad71a74ac2f70001ec14d0c29f" prot="public">
+          <name>kPerOperation</name>
+          <briefdescription>
+<para>Timeout applies to each individual read/write call. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Policy for how to interpret timeout values. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/timed_file_operation.hpp" line="30" column="1" bodyfile="include/user_storage_encrypted/timed_file_operation.hpp" bodystart="30" bodyend="33"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1plugins_1_1user__storage_1a15d774467f9f031f61715f51192570b4" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event" kindref="compound">DiagnosticEvent</ref> &amp;)&gt;</type>
+        <definition>using themis::plugins::user_storage::DiagnosticEventHandler = std::function&lt;void(const DiagnosticEvent&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>DiagnosticEventHandler</name>
+        <qualifiedname>themis::plugins::user_storage::DiagnosticEventHandler</qualifiedname>
+        <briefdescription>
+<para>Handler for diagnostic events. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Diagnostic events are emitted by all components to enable operator visibility. By default, events are logged via spdlog. Custom handlers can be registered for metrics collection, external observability systems, etc. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/error_codes.hpp" line="176" column="1" bodyfile="include/user_storage_encrypted/error_codes.hpp" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1plugins_1_1user__storage_1a7b3bce06473584831e139c5b32a2e778" prot="public" static="no">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service" kindref="compound">Argon2idKeyDerivationService</ref></type>
+        <definition>using themis::plugins::user_storage::Argon2idContainerKeyService = Argon2idKeyDerivationService</definition>
+        <argsstring></argsstring>
+        <name>Argon2idContainerKeyService</name>
+        <qualifiedname>themis::plugins::user_storage::Argon2idContainerKeyService</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="deprecated_1_deprecated000001"><xreftitle>Deprecated</xreftitle><xrefdescription><para>Use <ref refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service" kindref="compound">Argon2idKeyDerivationService</ref> which now implements both interfaces. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/key_derivation_service.hpp" line="157" column="1" bodyfile="include/user_storage_encrypted/key_derivation_service.hpp" bodystart="157" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1plugins_1_1user__storage_1ac5935df3fcf8200e56cdf7d942efcfc4" prot="public" static="yes" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::plugins::user_storage::s_kdf_fn_mutex_</definition>
+        <argsstring></argsstring>
+        <name>s_kdf_fn_mutex_</name>
+        <qualifiedname>themis::plugins::user_storage::s_kdf_fn_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/user_storage_encrypted/key_derivation_service.cpp" line="125" column="19" bodyfile="src/user_storage_encrypted/key_derivation_service.cpp" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1plugins_1_1user__storage_1a047abb750934b228c13348c8fe43d6d5" prot="public" static="yes" mutable="no">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1afa529790d0764cd47059ba8e80ac42b4" kindref="member">Argon2idKeyDerivationService::DeriveKeyFn</ref></type>
+        <definition>Argon2idKeyDerivationService::DeriveKeyFn themis::plugins::user_storage::s_derive_key_fn_</definition>
+        <argsstring></argsstring>
+        <name>s_derive_key_fn_</name>
+        <qualifiedname>themis::plugins::user_storage::s_derive_key_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/user_storage_encrypted/key_derivation_service.cpp" line="126" column="50" bodyfile="src/user_storage_encrypted/key_derivation_service.cpp" bodystart="126" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1user__storage_1a5dc0b6663f98c1e960f1d6d1a0731a2b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::user_storage::errorCodeToString</definition>
+        <argsstring>(ErrorCode code)</argsstring>
+        <name>errorCodeToString</name>
+        <qualifiedname>themis::plugins::user_storage::errorCodeToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37c" kindref="member">ErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Convert error code to human-readable string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The error code </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Human-readable error description </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/error_codes.hpp" line="89" column="20" bodyfile="include/user_storage_encrypted/error_codes.hpp" bodystart="89" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1user__storage_1a9a49b4eeed0ff59ee775fee9986cdbce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::user_storage::registerDiagnosticEventHandler</definition>
+        <argsstring>(DiagnosticEventHandler handler)</argsstring>
+        <name>registerDiagnosticEventHandler</name>
+        <qualifiedname>themis::plugins::user_storage::registerDiagnosticEventHandler</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1_1user__storage_1a15d774467f9f031f61715f51192570b4" kindref="member">DiagnosticEventHandler</ref></type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+<para>Register Diagnostic Event Handler. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/user_storage_encrypted/diagnostic_events.cpp" line="86" column="6" bodyfile="src/user_storage_encrypted/diagnostic_events.cpp" bodystart="86" bodyend="90" declfile="include/user_storage_encrypted/error_codes.hpp" declline="179" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1user__storage_1aeb249a981b2f5fc4741e2d0e22f64d1b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::user_storage::emitDiagnosticEvent</definition>
+        <argsstring>(DiagnosticEvent event)</argsstring>
+        <name>emitDiagnosticEvent</name>
+        <qualifiedname>themis::plugins::user_storage::emitDiagnosticEvent</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event" kindref="compound">DiagnosticEvent</ref></type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Emit Diagnostic Event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), g_event_handler(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/user_storage_encrypted/diagnostic_events.cpp" line="97" column="6" bodyfile="src/user_storage_encrypted/diagnostic_events.cpp" bodystart="97" bodyend="110" declfile="include/user_storage_encrypted/error_codes.hpp" declline="180" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1user__storage_1a29902bdf997d755c8e98ebfc83215697" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::user_storage::securityLevelToString</definition>
+        <argsstring>(SecurityLevel level)</argsstring>
+        <name>securityLevelToString</name>
+        <qualifiedname>themis::plugins::user_storage::securityLevelToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1_1user__storage_1a5fe9068ebf2d8aa837e4480acaedaa28" kindref="member">SecurityLevel</ref></type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+<para>Convert <ref refid="namespacethemis_1_1plugins_1_1user__storage_1a5fe9068ebf2d8aa837e4480acaedaa28" kindref="member">SecurityLevel</ref> to string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/security_level.hpp" line="40" column="20" bodyfile="include/user_storage_encrypted/security_level.hpp" bodystart="40" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1user__storage_1ac96958f13caa26cb8dbe519ae7b24ba9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1plugins_1_1user__storage_1a5fe9068ebf2d8aa837e4480acaedaa28" kindref="member">SecurityLevel</ref></type>
+        <definition>SecurityLevel themis::plugins::user_storage::stringToSecurityLevel</definition>
+        <argsstring>(const std::string &amp;str)</argsstring>
+        <name>stringToSecurityLevel</name>
+        <qualifiedname>themis::plugins::user_storage::stringToSecurityLevel</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>str</declname>
+        </param>
+        <briefdescription>
+<para>Parse <ref refid="namespacethemis_1_1plugins_1_1user__storage_1a5fe9068ebf2d8aa837e4480acaedaa28" kindref="member">SecurityLevel</ref> from string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/security_level.hpp" line="53" column="22" bodyfile="include/user_storage_encrypted/security_level.hpp" bodystart="53" bodyend="67"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/user_storage_encrypted/command_timeout_manager.hpp" line="29" column="1"/>
+  </compounddef>
+</doxygen>

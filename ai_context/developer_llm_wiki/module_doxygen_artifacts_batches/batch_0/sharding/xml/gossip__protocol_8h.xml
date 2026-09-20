@@ -1,0 +1,376 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="gossip__protocol_8h" kind="file" language="C++">
+    <compoundname>gossip_protocol.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="bench__sharding__performance_8cpp" local="yes">benchmarks/sharding/bench_sharding_performance.cpp</includedby>
+    <includedby refid="gossip__consensus__adapter_8h" local="yes">include/sharding/gossip_consensus_adapter.h</includedby>
+    <includedby refid="gossip__protocol_8cpp" local="yes">src/sharding/gossip_protocol.cpp</includedby>
+    <includedby refid="test__sharding__gossip_8cpp" local="yes">tests/sharding/test_sharding_gossip.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/sharding/gossip_protocol.h</label>
+        <link refid="gossip__protocol_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>atomic</label>
+      </node>
+      <node id="9">
+        <label>chrono</label>
+      </node>
+      <node id="10">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>map</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="11">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>thread</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/sharding/bench_sharding_performance.cpp</label>
+        <link refid="bench__sharding__performance_8cpp"/>
+      </node>
+      <node id="3">
+        <label>include/sharding/gossip_consensus_adapter.h</label>
+        <link refid="gossip__consensus__adapter_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/sharding/gossip_protocol.h</label>
+        <link refid="gossip__protocol_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/sharding/consensus_factory.cpp</label>
+        <link refid="consensus__factory_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/sharding/gossip_consensus_adapter.cpp</label>
+        <link refid="gossip__consensus__adapter_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/sharding/gossip_protocol.cpp</label>
+        <link refid="gossip__protocol_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/sharding/test_sharding_gossip.cpp</label>
+        <link refid="test__sharding__gossip_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1sharding_1_1_peer_info" prot="public">themis::sharding::PeerInfo</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_gossip_message" prot="public">themis::sharding::GossipMessage</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_gossip_config" prot="public">themis::sharding::GossipConfig</innerclass>
+    <innerclass refid="classthemis_1_1sharding_1_1_gossip_protocol" prot="public">themis::sharding::GossipProtocol</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1sharding">themis::sharding</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1sharding" kindref="compound">sharding</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref>;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_m_t_l_s_client" kindref="compound">MTLSClient</ref>;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1sharding_1_1_peer_info" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_peer_info" kindref="compound">PeerInfo</ref><sp/>{</highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1sharding_1_1_peer_info_1a5736a61d465281c64798e34cb6771815" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_peer_info_1a5736a61d465281c64798e34cb6771815" kindref="member">peer_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Unique<sp/>peer<sp/>identifier</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1sharding_1_1_peer_info_1ad381b957f4bcfb6856d7d0fed95c1ba0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_peer_info_1ad381b957f4bcfb6856d7d0fed95c1ba0" kindref="member">endpoint</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>HTTP<sp/>endpoint<sp/>(host:port)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1sharding_1_1_peer_info_1a82a0873a9d114a9e12ef887b4d37a82e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_peer_info_1a82a0873a9d114a9e12ef887b4d37a82e" kindref="member">datacenter</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Datacenter<sp/>location</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1sharding_1_1_peer_info_1aad80df8637f4da8fb26c5dfd805d62a9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_peer_info_1aad80df8637f4da8fb26c5dfd805d62a9" kindref="member">region</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Geographic<sp/>region</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1sharding_1_1_peer_info_1a6927e5e332cdd49a1538ba1141c00f13" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_peer_info_1a6927e5e332cdd49a1538ba1141c00f13" kindref="member">version</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Version<sp/>vector<sp/>for<sp/>anti-entropy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1sharding_1_1_peer_info_1a7b258963155b3463b8b51392070727c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1sharding_1_1_peer_info_1a7b258963155b3463b8b51392070727c1" kindref="member">last_seen</ref>;</highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1sharding_1_1_peer_info_1a2e5993809cbd81eb99c7f16b945abbed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1sharding_1_1_peer_info_1a2e5993809cbd81eb99c7f16b945abbed" kindref="member">first_seen</ref>;</highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1sharding_1_1_peer_info_1a1aa2ebdb1cffe5d4e585068bc2eb748d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_peer_info_1a1aa2ebdb1cffe5d4e585068bc2eb748d" kindref="member">is_healthy</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1sharding_1_1_peer_info_1a30a6ccf8b99e02ead6c68da374c8ab87" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_peer_info_1a30a6ccf8b99e02ead6c68da374c8ab87" kindref="member">certificate_serial</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>mTLS<sp/>validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Serialize<sp/>to<sp/>JSON</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1sharding_1_1_peer_info_1aef81e2f8cd0ee34c204857a56aef85b8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1sharding_1_1_peer_info_1aef81e2f8cd0ee34c204857a56aef85b8" kindref="member">toJson</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;peer_id&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1sharding_1_1_peer_info_1a5736a61d465281c64798e34cb6771815" kindref="member">peer_id</ref>},</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;endpoint&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1sharding_1_1_peer_info_1ad381b957f4bcfb6856d7d0fed95c1ba0" kindref="member">endpoint</ref>},</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;datacenter&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1sharding_1_1_peer_info_1a82a0873a9d114a9e12ef887b4d37a82e" kindref="member">datacenter</ref>},</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;region&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1sharding_1_1_peer_info_1aad80df8637f4da8fb26c5dfd805d62a9" kindref="member">region</ref>},</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;version&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1sharding_1_1_peer_info_1a6927e5e332cdd49a1538ba1141c00f13" kindref="member">version</ref>},</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;last_seen&quot;</highlight><highlight class="normal">,<sp/>std::chrono::duration_cast&lt;std::chrono::milliseconds&gt;(</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_peer_info_1a7b258963155b3463b8b51392070727c1" kindref="member">last_seen</ref>.time_since_epoch()).count()},</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;is_healthy&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1sharding_1_1_peer_info_1a1aa2ebdb1cffe5d4e585068bc2eb748d" kindref="member">is_healthy</ref>},</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;certificate_serial&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1sharding_1_1_peer_info_1a30a6ccf8b99e02ead6c68da374c8ab87" kindref="member">certificate_serial</ref>}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Deserialize<sp/>from<sp/>JSON</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1sharding_1_1_peer_info_1ae277239c282fedf0891c75183cd61f36" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_peer_info" kindref="compound">PeerInfo</ref><sp/><ref refid="structthemis_1_1sharding_1_1_peer_info_1ae277239c282fedf0891c75183cd61f36" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j)<sp/>{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_peer_info" kindref="compound">PeerInfo</ref><sp/>info;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>info.<ref refid="structthemis_1_1sharding_1_1_peer_info_1a5736a61d465281c64798e34cb6771815" kindref="member">peer_id</ref><sp/>=<sp/>j.value(</highlight><highlight class="stringliteral">&quot;peer_id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>info.<ref refid="structthemis_1_1sharding_1_1_peer_info_1ad381b957f4bcfb6856d7d0fed95c1ba0" kindref="member">endpoint</ref><sp/>=<sp/>j.value(</highlight><highlight class="stringliteral">&quot;endpoint&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>info.<ref refid="structthemis_1_1sharding_1_1_peer_info_1a82a0873a9d114a9e12ef887b4d37a82e" kindref="member">datacenter</ref><sp/>=<sp/>j.value(</highlight><highlight class="stringliteral">&quot;datacenter&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>info.<ref refid="structthemis_1_1sharding_1_1_peer_info_1aad80df8637f4da8fb26c5dfd805d62a9" kindref="member">region</ref><sp/>=<sp/>j.value(</highlight><highlight class="stringliteral">&quot;region&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>info.<ref refid="structthemis_1_1sharding_1_1_peer_info_1a6927e5e332cdd49a1538ba1141c00f13" kindref="member">version</ref><sp/>=<sp/>j.value(</highlight><highlight class="stringliteral">&quot;version&quot;</highlight><highlight class="normal">,<sp/>0ULL);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>info.<ref refid="structthemis_1_1sharding_1_1_peer_info_1a1aa2ebdb1cffe5d4e585068bc2eb748d" kindref="member">is_healthy</ref><sp/>=<sp/>j.value(</highlight><highlight class="stringliteral">&quot;is_healthy&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>info.<ref refid="structthemis_1_1sharding_1_1_peer_info_1a30a6ccf8b99e02ead6c68da374c8ab87" kindref="member">certificate_serial</ref><sp/>=<sp/>j.value(</highlight><highlight class="stringliteral">&quot;certificate_serial&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>last_seen_ms<sp/>=<sp/>j.value(</highlight><highlight class="stringliteral">&quot;last_seen&quot;</highlight><highlight class="normal">,<sp/>0LL);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>info.<ref refid="structthemis_1_1sharding_1_1_peer_info_1a7b258963155b3463b8b51392070727c1" kindref="member">last_seen</ref><sp/>=<sp/>std::chrono::system_clock::time_point(</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds(last_seen_ms));</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>info.<ref refid="structthemis_1_1sharding_1_1_peer_info_1a2e5993809cbd81eb99c7f16b945abbed" kindref="member">first_seen</ref><sp/>=<sp/>std::chrono::system_clock::now();</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>info;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1sharding_1_1_gossip_message" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_gossip_message" kindref="compound">GossipMessage</ref><sp/>{</highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1sharding_1_1_gossip_message_1af6e1f19678e07ca1467ee89d6c8464ea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_gossip_message_1af6e1f19678e07ca1467ee89d6c8464ea" kindref="member">message_id</ref>;</highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1sharding_1_1_gossip_message_1a5629ba62a6785ebbcdbfd74d3c113a74" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_gossip_message_1a5629ba62a6785ebbcdbfd74d3c113a74" kindref="member">sender_id</ref>;</highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1sharding_1_1_gossip_message_1ac3dd571562dda00e2a87032f1761e17a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_gossip_message_1ac3dd571562dda00e2a87032f1761e17a" kindref="member">message_type</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;heartbeat&quot;,<sp/>&quot;peer_list&quot;,<sp/>&quot;peer_update&quot;,<sp/>&quot;peer_leave&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1sharding_1_1_gossip_message_1a9a2e1964394990e8d02829aa14a033e6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1sharding_1_1_gossip_message_1a9a2e1964394990e8d02829aa14a033e6" kindref="member">payload</ref>;</highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1sharding_1_1_gossip_message_1af6c13800f7162483ba7cf3df2f1115f9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_gossip_message_1af6c13800f7162483ba7cf3df2f1115f9" kindref="member">timestamp</ref>;</highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1sharding_1_1_gossip_message_1a6ce9ebcff21fdf450e8cd34cf7518d1c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_gossip_message_1a6ce9ebcff21fdf450e8cd34cf7518d1c" kindref="member">signature</ref>;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RSA<sp/>signature<sp/>for<sp/>authenticity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1sharding_1_1_gossip_message_1aaaef40b9e7d1780f259b5571e4d36a18" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1sharding_1_1_gossip_message_1aaaef40b9e7d1780f259b5571e4d36a18" kindref="member">toJson</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;message_id&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1sharding_1_1_gossip_message_1af6e1f19678e07ca1467ee89d6c8464ea" kindref="member">message_id</ref>},</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;sender_id&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1sharding_1_1_gossip_message_1a5629ba62a6785ebbcdbfd74d3c113a74" kindref="member">sender_id</ref>},</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;message_type&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1sharding_1_1_gossip_message_1ac3dd571562dda00e2a87032f1761e17a" kindref="member">message_type</ref>},</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;payload&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1sharding_1_1_gossip_message_1a9a2e1964394990e8d02829aa14a033e6" kindref="member">payload</ref>},</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;timestamp&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1sharding_1_1_gossip_message_1af6c13800f7162483ba7cf3df2f1115f9" kindref="member">timestamp</ref>},</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;signature&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1sharding_1_1_gossip_message_1a6ce9ebcff21fdf450e8cd34cf7518d1c" kindref="member">signature</ref>}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1sharding_1_1_gossip_message_1a03619ed74475ce57308e3e96bbe4c06a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_gossip_message" kindref="compound">GossipMessage</ref><sp/><ref refid="structthemis_1_1sharding_1_1_gossip_message_1a03619ed74475ce57308e3e96bbe4c06a" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j)<sp/>{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_gossip_message" kindref="compound">GossipMessage</ref><sp/>msg;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>msg.<ref refid="structthemis_1_1sharding_1_1_gossip_message_1af6e1f19678e07ca1467ee89d6c8464ea" kindref="member">message_id</ref><sp/>=<sp/>j.value(</highlight><highlight class="stringliteral">&quot;message_id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>msg.<ref refid="structthemis_1_1sharding_1_1_gossip_message_1a5629ba62a6785ebbcdbfd74d3c113a74" kindref="member">sender_id</ref><sp/>=<sp/>j.value(</highlight><highlight class="stringliteral">&quot;sender_id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>msg.<ref refid="structthemis_1_1sharding_1_1_gossip_message_1ac3dd571562dda00e2a87032f1761e17a" kindref="member">message_type</ref><sp/>=<sp/>j.value(</highlight><highlight class="stringliteral">&quot;message_type&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>msg.<ref refid="structthemis_1_1sharding_1_1_gossip_message_1a9a2e1964394990e8d02829aa14a033e6" kindref="member">payload</ref><sp/>=<sp/>j.value(</highlight><highlight class="stringliteral">&quot;payload&quot;</highlight><highlight class="normal">,<sp/>nlohmann::json{});</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>msg.<ref refid="structthemis_1_1sharding_1_1_gossip_message_1af6c13800f7162483ba7cf3df2f1115f9" kindref="member">timestamp</ref><sp/>=<sp/>j.value(</highlight><highlight class="stringliteral">&quot;timestamp&quot;</highlight><highlight class="normal">,<sp/>0ULL);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>msg.<ref refid="structthemis_1_1sharding_1_1_gossip_message_1a6ce9ebcff21fdf450e8cd34cf7518d1c" kindref="member">signature</ref><sp/>=<sp/>j.value(</highlight><highlight class="stringliteral">&quot;signature&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>msg;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139" refid="structthemis_1_1sharding_1_1_gossip_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_gossip_config" kindref="compound">GossipConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="140" refid="structthemis_1_1sharding_1_1_gossip_config_1a66fcfee971bd98d1f00ed74a3ae164b6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_gossip_config_1a66fcfee971bd98d1f00ed74a3ae164b6" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Default:<sp/>disabled</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141" refid="structthemis_1_1sharding_1_1_gossip_config_1aa69bf2c2e6825aae871a8f0d518755d1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1sharding_1_1_gossip_config_1aa69bf2c2e6825aae871a8f0d518755d1" kindref="member">gossip_interval_sec</ref><sp/>=<sp/>30;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Heartbeat<sp/>interval</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142" refid="structthemis_1_1sharding_1_1_gossip_config_1a823f377cc4e1d2b3f241fe9dc517327d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1sharding_1_1_gossip_config_1a823f377cc4e1d2b3f241fe9dc517327d" kindref="member">max_peers</ref><sp/>=<sp/>100;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Maximum<sp/>peers<sp/>to<sp/>track</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143" refid="structthemis_1_1sharding_1_1_gossip_config_1a22deabd45e56fb8d7ed62b89e7c77912" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1sharding_1_1_gossip_config_1a22deabd45e56fb8d7ed62b89e7c77912" kindref="member">fanout</ref><sp/>=<sp/>3;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Number<sp/>of<sp/>peers<sp/>to<sp/>gossip<sp/>to<sp/>each<sp/>round</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144" refid="structthemis_1_1sharding_1_1_gossip_config_1a60ed482aa5109c038271c1fbcbecffee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1sharding_1_1_gossip_config_1a60ed482aa5109c038271c1fbcbecffee" kindref="member">peer_timeout_sec</ref><sp/>=<sp/>120;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Mark<sp/>peer<sp/>unhealthy<sp/>after<sp/>timeout</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145" refid="structthemis_1_1sharding_1_1_gossip_config_1a5b07621efc071db2d7b5b91de85756a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1sharding_1_1_gossip_config_1a5b07621efc071db2d7b5b91de85756a3" kindref="member">peer_remove_sec</ref><sp/>=<sp/>300;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Remove<sp/>peer<sp/>after<sp/>extended<sp/>timeout</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146" refid="structthemis_1_1sharding_1_1_gossip_config_1a771d7d0d5ebd4c13c4b94f2e58615b43" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1sharding_1_1_gossip_config_1a771d7d0d5ebd4c13c4b94f2e58615b43" kindref="member">seed_nodes</ref>;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Bootstrap<sp/>nodes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Security<sp/>settings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149" refid="structthemis_1_1sharding_1_1_gossip_config_1a23a003e75d2415a18ea573bf25b3deea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_gossip_config_1a23a003e75d2415a18ea573bf25b3deea" kindref="member">require_mtls</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Require<sp/>mTLS<sp/>for<sp/>peer<sp/>communication</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150" refid="structthemis_1_1sharding_1_1_gossip_config_1a31c0dbb22041bd3ce63782938f462c4f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_gossip_config_1a31c0dbb22041bd3ce63782938f462c4f" kindref="member">validate_certificates</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Validate<sp/>peer<sp/>certificates</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151" refid="structthemis_1_1sharding_1_1_gossip_config_1a4e6b363159091dc140d454b2a91a6075" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1sharding_1_1_gossip_config_1a4e6b363159091dc140d454b2a91a6075" kindref="member">max_message_age_sec</ref><sp/>=<sp/>60;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reject<sp/>old<sp/>messages<sp/>(replay<sp/>protection)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152" refid="structthemis_1_1sharding_1_1_gossip_config_1acf92e1d4b0c43c9387744d4b30ffbc98" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1sharding_1_1_gossip_config_1acf92e1d4b0c43c9387744d4b30ffbc98" kindref="member">rate_limit_per_peer</ref><sp/>=<sp/>10;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Max<sp/>messages<sp/>per<sp/>peer<sp/>per<sp/>interval</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Local<sp/>node<sp/>settings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155" refid="structthemis_1_1sharding_1_1_gossip_config_1aae0656734f07493a38974ac49f2a3190" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_gossip_config_1aae0656734f07493a38974ac49f2a3190" kindref="member">local_peer_id</ref>;</highlight></codeline>
+<codeline lineno="156" refid="structthemis_1_1sharding_1_1_gossip_config_1ada84f4ae914af623af7bfe81609e8200" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_gossip_config_1ada84f4ae914af623af7bfe81609e8200" kindref="member">local_endpoint</ref>;</highlight></codeline>
+<codeline lineno="157" refid="structthemis_1_1sharding_1_1_gossip_config_1a76acc5475315f230172315ccc7aeb30e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_gossip_config_1a76acc5475315f230172315ccc7aeb30e" kindref="member">local_datacenter</ref>;</highlight></codeline>
+<codeline lineno="158" refid="structthemis_1_1sharding_1_1_gossip_config_1abdd6feef15506e36b8375ff1a0b36f46" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_gossip_config_1abdd6feef15506e36b8375ff1a0b36f46" kindref="member">local_region</ref>;</highlight></codeline>
+<codeline lineno="159" refid="structthemis_1_1sharding_1_1_gossip_config_1a01dc058252faa76c6921e55afbc62325" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_gossip_config_1a01dc058252faa76c6921e55afbc62325" kindref="member">private_key_path</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>signing<sp/>messages</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160" refid="structthemis_1_1sharding_1_1_gossip_config_1a6bf97c543dda44298b619faa3b69b6f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_gossip_config_1a6bf97c543dda44298b619faa3b69b6f2" kindref="member">peer_public_keys_dir</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GOS-2:<sp/>dir<sp/>containing<sp/>&lt;peer_id&gt;.pem<sp/>public<sp/>keys<sp/>for<sp/>signature<sp/>verification</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188" refid="classthemis_1_1sharding_1_1_gossip_protocol" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_gossip_protocol_1a1d92dbdcc147c7d870e0c4c2fb1eb634" kindref="member">GossipProtocol</ref><sp/>{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="190" refid="classthemis_1_1sharding_1_1_gossip_protocol_1a29c7081d89c32ed367df323e1d6834a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_gossip_protocol_1a29c7081d89c32ed367df323e1d6834a3" kindref="member">PeerDiscoveryCallback</ref><sp/>=<sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_peer_info" kindref="compound">PeerInfo</ref>&amp;<sp/>peer)&gt;;</highlight></codeline>
+<codeline lineno="191" refid="classthemis_1_1sharding_1_1_gossip_protocol_1ada04d3391967899b8f960d0bac573756" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_gossip_protocol_1ada04d3391967899b8f960d0bac573756" kindref="member">PeerLostCallback</ref><sp/>=<sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>peer_id)&gt;;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210" refid="classthemis_1_1sharding_1_1_gossip_protocol_1aaae9fe522b5914acbeca764ace45283e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_gossip_protocol_1aaae9fe522b5914acbeca764ace45283e" kindref="member">RaftMembershipGateFn</ref><sp/>=<sp/>std::function&lt;bool(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>peer_id,</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>endpoint)&gt;;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_gossip_protocol_1a1d92dbdcc147c7d870e0c4c2fb1eb634" kindref="member">GossipProtocol</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_gossip_config" kindref="compound">GossipConfig</ref>&amp;<sp/>config,<sp/></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ShardTopology&gt;<sp/>topology);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_gossip_protocol_1a71a5ff62fa2efe41e99dbea0f1264092" kindref="member">~GossipProtocol</ref>();</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_gossip_protocol_1a6b54022d9878d0e69be617ee008d5b38" kindref="member">start</ref>();</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_gossip_protocol_1ac265d21d79f0c875cb3db652dd0cb07d" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="238" refid="classthemis_1_1sharding_1_1_gossip_protocol_1ac9f6dcb420dc5dd788a6ba3ef1e83149" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_gossip_protocol_1ac9f6dcb420dc5dd788a6ba3ef1e83149" kindref="member">isRunning</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>running_.load();<sp/>}</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>PeerInfo&gt;<sp/><ref refid="classthemis_1_1sharding_1_1_gossip_protocol_1a95d91b1bf2074fdc104c57f5fd585e6a" kindref="member">getPeers</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;PeerInfo&gt;<sp/><ref refid="classthemis_1_1sharding_1_1_gossip_protocol_1a40d34a0e009931f9846aaa20b9d6138e" kindref="member">getHealthyPeers</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_gossip_protocol_1a04e5de9259d3d579a5723e4e94b4fa0e" kindref="member">getPeerCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_gossip_protocol_1aa5ec5209a3debf6576c477ab17855d26" kindref="member">addPeer</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_peer_info" kindref="compound">PeerInfo</ref>&amp;<sp/>peer);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_gossip_protocol_1a2b08edb0e8dec737bfa52acd35b9a72c" kindref="member">removePeer</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>peer_id);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_gossip_message" kindref="compound">GossipMessage</ref><sp/><ref refid="classthemis_1_1sharding_1_1_gossip_protocol_1a9e7544ecdd1ad9db41a5a6595c7b92a6" kindref="member">handleMessage</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_gossip_message" kindref="compound">GossipMessage</ref>&amp;<sp/>message);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_gossip_protocol_1adfc23d35fcef6b653f01107b89cca545" kindref="member">registerCustomHandler</ref>(</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message_type,</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_gossip_message" kindref="compound">GossipMessage</ref>&amp;)&gt;<sp/>handler</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_gossip_protocol_1a58f9da7e1f94e0b43d3b974b17259d12" kindref="member">onPeerDiscovered</ref>(<ref refid="classthemis_1_1sharding_1_1_gossip_protocol_1a29c7081d89c32ed367df323e1d6834a3" kindref="member">PeerDiscoveryCallback</ref><sp/>callback);</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_gossip_protocol_1ac08117d69f98781d9813ce1070312daf" kindref="member">onPeerLost</ref>(<ref refid="classthemis_1_1sharding_1_1_gossip_protocol_1ada04d3391967899b8f960d0bac573756" kindref="member">PeerLostCallback</ref><sp/>callback);</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_gossip_protocol_1a73672108c528d15aa1651cb1647170cb" kindref="member">setRaftMembershipGateFn</ref>(<ref refid="classthemis_1_1sharding_1_1_gossip_protocol_1aaae9fe522b5914acbeca764ace45283e" kindref="member">RaftMembershipGateFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1sharding_1_1_gossip_protocol_1a709b990c27c8623ae75f2f1fed5be35d" kindref="member">getStatistics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="337" refid="classthemis_1_1sharding_1_1_gossip_protocol_1a8b7c7c22418fffae502ea79c5c765b96" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_gossip_config" kindref="compound">GossipConfig</ref>&amp;<sp/><ref refid="classthemis_1_1sharding_1_1_gossip_protocol_1a8b7c7c22418fffae502ea79c5c765b96" kindref="member">getConfig</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_gossip_config" kindref="compound">GossipConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ShardTopology&gt;<sp/>topology_;</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;MTLSClient&gt;<sp/>client_;</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Peer<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>PeerInfo&gt;<sp/>peers_;</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>peers_mutex_;</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Threading</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>running_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>gossip_thread_;</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>cleanup_thread_;</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Custom<sp/>handlers<sp/>registered<sp/>via<sp/>registerCustomHandler()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GossipMessage&amp;)&gt;&gt;<sp/>custom_handlers_;</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Callbacks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_gossip_protocol_1a29c7081d89c32ed367df323e1d6834a3" kindref="member">PeerDiscoveryCallback</ref><sp/>on_peer_discovered_;</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_gossip_protocol_1ada04d3391967899b8f960d0bac573756" kindref="member">PeerLostCallback</ref><sp/>on_peer_lost_;</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CC-4:<sp/>Raft<sp/>membership<sp/>gate<sp/>—<sp/>guarded<sp/>by<sp/>peers_mutex_</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_gossip_protocol_1aaae9fe522b5914acbeca764ace45283e" kindref="member">RaftMembershipGateFn</ref><sp/>raft_membership_gate_fn_;</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>messages_sent_{0};</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>messages_received_{0};</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>peers_discovered_{0};</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>peers_lost_{0};</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>gossip_rounds_{0};</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rate<sp/>limiting</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::vector&lt;std::chrono::system_clock::time_point&gt;&gt;<sp/>rate_limit_map_;</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mutex<sp/>rate_limit_mutex_;</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Internal<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>gossipLoop();</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>cleanupLoop();</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>performGossipRound();</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>sendHeartbeat(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>PeerInfo&amp;<sp/>peer);</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>sendPeerList(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>PeerInfo&amp;<sp/>peer);</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>sendLeaveMessage();</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>bootstrapFromSeedNodes();</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;PeerInfo&gt;<sp/>selectRandomPeers(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>count);</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>mergePeerList(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;PeerInfo&gt;&amp;<sp/>peers);</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>updatePeerHealth();</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>syncWithTopology();</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Requires<sp/>peers_mutex_<sp/>already<sp/>held<sp/>by<sp/>the<sp/>calling<sp/>thread.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>syncWithTopologyLocked();</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>generateMessageId()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>signMessage(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GossipMessage&amp;<sp/>message)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>verifyMessage(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GossipMessage&amp;<sp/>message)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>checkRateLimit(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>peer_id);</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/>GossipMessage<sp/>createHeartbeatMessage()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/>GossipMessage<sp/>createPeerListMessage()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/>GossipMessage<sp/>createLeaveMessage()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="397"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"></highlight></codeline>
+<codeline lineno="399"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>sharding</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="400"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/sharding/gossip_protocol.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,576 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__hsm__stub__gating_8cpp" kind="file" language="C++">
+    <compoundname>test_hsm_stub_gating.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="hsm__provider_8h" local="yes">security/hsm_provider.h</includes>
+    <includes local="no">cstdlib</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>security/hsm_provider.h</label>
+        <link refid="hsm__provider_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/security/test_hsm_stub_gating.cpp</label>
+        <link refid="test__hsm__stub__gating_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>cstdint</label>
+      </node>
+      <node id="11">
+        <label>cstdlib</label>
+      </node>
+      <node id="9">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_h_s_m_stub_gating_test" prot="public">HSMStubGatingTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__hsm__stub__gating_8cpp_1a9bcde2e8001ffa80d7535826091b4d23" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HSMStubGatingTest, AllowsStubInDevelopmentWithOptIn)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_h_s_m_stub_gating_test" kindref="compound">HSMStubGatingTest</ref></type>
+        </param>
+        <param>
+          <type>AllowsStubInDevelopmentWithOptIn</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_stub_gating.cpp" line="49" column="1" bodyfile="tests/security/test_hsm_stub_gating.cpp" bodystart="49" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="test__hsm__stub__gating_8cpp_1a9aa6a95bb58488a97798224bc9e5d621" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HSMStubGatingTest, FailsInProductionModeWithoutOptIn)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_h_s_m_stub_gating_test" kindref="compound">HSMStubGatingTest</ref></type>
+        </param>
+        <param>
+          <type>FailsInProductionModeWithoutOptIn</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_stub_gating.cpp" line="63" column="1" bodyfile="tests/security/test_hsm_stub_gating.cpp" bodystart="63" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="test__hsm__stub__gating_8cpp_1aa43004eb5087cbaa79f1e3d0d7067691" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HSMStubGatingTest, FailsInProductionModeEvenWithOptIn)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_h_s_m_stub_gating_test" kindref="compound">HSMStubGatingTest</ref></type>
+        </param>
+        <param>
+          <type>FailsInProductionModeEvenWithOptIn</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_stub_gating.cpp" line="81" column="1" bodyfile="tests/security/test_hsm_stub_gating.cpp" bodystart="81" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="test__hsm__stub__gating_8cpp_1a8bfc1bb7b4bfe6c41488df86e55ca96a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HSMStubGatingTest, DetectsProductionEnvironment)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_h_s_m_stub_gating_test" kindref="compound">HSMStubGatingTest</ref></type>
+        </param>
+        <param>
+          <type>DetectsProductionEnvironment</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_stub_gating.cpp" line="95" column="1" bodyfile="tests/security/test_hsm_stub_gating.cpp" bodystart="95" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="test__hsm__stub__gating_8cpp_1acb5fe4066dfa66f9b83458da613d8485" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HSMStubGatingTest, DetectsNodeEnvProduction)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_h_s_m_stub_gating_test" kindref="compound">HSMStubGatingTest</ref></type>
+        </param>
+        <param>
+          <type>DetectsNodeEnvProduction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_stub_gating.cpp" line="111" column="1" bodyfile="tests/security/test_hsm_stub_gating.cpp" bodystart="111" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="test__hsm__stub__gating_8cpp_1a947bf67e3e1720a0692cbae6abea728b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HSMStubGatingTest, AllowsProductionEnvironmentWithOptIn)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_h_s_m_stub_gating_test" kindref="compound">HSMStubGatingTest</ref></type>
+        </param>
+        <param>
+          <type>AllowsProductionEnvironmentWithOptIn</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_stub_gating.cpp" line="124" column="1" bodyfile="tests/security/test_hsm_stub_gating.cpp" bodystart="124" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="test__hsm__stub__gating_8cpp_1aa29531443a33d936fcc408b1b8d92708" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HSMStubGatingTest, AllowsStubInDevelopmentEnvironment)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_h_s_m_stub_gating_test" kindref="compound">HSMStubGatingTest</ref></type>
+        </param>
+        <param>
+          <type>AllowsStubInDevelopmentEnvironment</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_stub_gating.cpp" line="138" column="1" bodyfile="tests/security/test_hsm_stub_gating.cpp" bodystart="138" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="test__hsm__stub__gating_8cpp_1aacdc1128faa28acbf685245ecf3e7502" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HSMStubGatingTest, AllowsStubWithNoEnvironmentSet)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_h_s_m_stub_gating_test" kindref="compound">HSMStubGatingTest</ref></type>
+        </param>
+        <param>
+          <type>AllowsStubWithNoEnvironmentSet</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_stub_gating.cpp" line="151" column="1" bodyfile="tests/security/test_hsm_stub_gating.cpp" bodystart="151" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="test__hsm__stub__gating_8cpp_1a54050f68d26040db2b6ca0f432ac8fab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HSMStubGatingTest, StubProviderReturnsCorrectFlag)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_h_s_m_stub_gating_test" kindref="compound">HSMStubGatingTest</ref></type>
+        </param>
+        <param>
+          <type>StubProviderReturnsCorrectFlag</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_stub_gating.cpp" line="163" column="1" bodyfile="tests/security/test_hsm_stub_gating.cpp" bodystart="163" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="test__hsm__stub__gating_8cpp_1ab4209055f7a2be0e90b0d4f162c8608c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HSMStubGatingTest, PeriodicSecurityCheckLogsWarning)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_h_s_m_stub_gating_test" kindref="compound">HSMStubGatingTest</ref></type>
+        </param>
+        <param>
+          <type>PeriodicSecurityCheckLogsWarning</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_stub_gating.cpp" line="176" column="1" bodyfile="tests/security/test_hsm_stub_gating.cpp" bodystart="176" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="test__hsm__stub__gating_8cpp_1ac9874870d8f083c63cf3de22c14cd0b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HSMStubGatingTest, ErrorMessageIncludesGuidance)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_h_s_m_stub_gating_test" kindref="compound">HSMStubGatingTest</ref></type>
+        </param>
+        <param>
+          <type>ErrorMessageIncludesGuidance</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_stub_gating.cpp" line="190" column="1" bodyfile="tests/security/test_hsm_stub_gating.cpp" bodystart="190" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="test__hsm__stub__gating_8cpp_1a4ece4df1467fe8aa0d3e71a7cd3d7405" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HSMStubGatingTest, FailsInThemisEnvironmentProduction)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_h_s_m_stub_gating_test" kindref="compound">HSMStubGatingTest</ref></type>
+        </param>
+        <param>
+          <type>FailsInThemisEnvironmentProduction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_stub_gating.cpp" line="204" column="1" bodyfile="tests/security/test_hsm_stub_gating.cpp" bodystart="204" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="test__hsm__stub__gating_8cpp_1a643d755492a010a1db41b0122562ce09" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HSMStubGatingTest, ThemisEnvironmentProductionCannotBeOverridden)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_h_s_m_stub_gating_test" kindref="compound">HSMStubGatingTest</ref></type>
+        </param>
+        <param>
+          <type>ThemisEnvironmentProductionCannotBeOverridden</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_stub_gating.cpp" line="219" column="1" bodyfile="tests/security/test_hsm_stub_gating.cpp" bodystart="219" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="test__hsm__stub__gating_8cpp_1a99460cebcd69d16f1840233b97791d77" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HSMStubGatingTest, FailsWithProductionModeTrueString)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_h_s_m_stub_gating_test" kindref="compound">HSMStubGatingTest</ref></type>
+        </param>
+        <param>
+          <type>FailsWithProductionModeTrueString</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_stub_gating.cpp" line="233" column="1" bodyfile="tests/security/test_hsm_stub_gating.cpp" bodystart="233" bodyend="242"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="hsm__provider_8h" kindref="compound">security/hsm_provider.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdlib&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1security" kindref="compound">themis::security</ref>;</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16" refid="class_h_s_m_stub_gating_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_h_s_m_stub_gating_test" kindref="compound">HSMStubGatingTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_h_s_m_stub_gating_test_1a4dc8050a37edfa032b48c34b23360caa" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Clear<sp/>all<sp/>relevant<sp/>environment<sp/>variables<sp/>before<sp/>each<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#ifdef<sp/>_WIN32</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_putenv_s(</highlight><highlight class="stringliteral">&quot;THEMIS_ALLOW_HSM_STUB&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_putenv_s(</highlight><highlight class="stringliteral">&quot;THEMIS_PRODUCTION_MODE&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_putenv_s(</highlight><highlight class="stringliteral">&quot;THEMIS_ENVIRONMENT&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_putenv_s(</highlight><highlight class="stringliteral">&quot;ENVIRONMENT&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_putenv_s(</highlight><highlight class="stringliteral">&quot;NODE_ENV&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>unsetenv(</highlight><highlight class="stringliteral">&quot;THEMIS_ALLOW_HSM_STUB&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>unsetenv(</highlight><highlight class="stringliteral">&quot;THEMIS_PRODUCTION_MODE&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>unsetenv(</highlight><highlight class="stringliteral">&quot;THEMIS_ENVIRONMENT&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>unsetenv(</highlight><highlight class="stringliteral">&quot;ENVIRONMENT&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>unsetenv(</highlight><highlight class="stringliteral">&quot;NODE_ENV&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_h_s_m_stub_gating_test_1a723281dab4b99e6b22b31fae518bc4de" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Clean<sp/>up<sp/>environment<sp/>after<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_h_s_m_stub_gating_test_1a4dc8050a37edfa032b48c34b23360caa" kindref="member">SetUp</ref>();</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_h_s_m_stub_gating_test_1a0e0e2a9c8cee0a8e3cdf08af02ce4239" kindref="member">setEnv</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>name,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>value)<sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#ifdef<sp/>_WIN32</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_putenv_s(name,<sp/>value);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>setenv(name,<sp/>value,<sp/>1);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><ref refid="test__hsm__stub__gating_8cpp_1a9bcde2e8001ffa80d7535826091b4d23" kindref="member">TEST_F</ref>(<ref refid="class_h_s_m_stub_gating_test" kindref="compound">HSMStubGatingTest</ref>,<sp/>AllowsStubInDevelopmentWithOptIn)<sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Set<sp/>explicit<sp/>opt-in</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>setEnv(</highlight><highlight class="stringliteral">&quot;THEMIS_ALLOW_HSM_STUB&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_config" kindref="compound">HSMConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1security_1_1_h_s_m_config_1a70f3899ef9deaea810d87aab297949fa" kindref="member">library_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/nonexistent/stub.so&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider" kindref="compound">HSMProvider</ref><sp/>hsm(config);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>succeed<sp/>with<sp/>opt-in</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hsm.initialize());</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hsm.isStubProvider());</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hsm.isReady());</highlight></codeline>
+<codeline lineno="61"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><ref refid="test__hsm__stub__gating_8cpp_1a9bcde2e8001ffa80d7535826091b4d23" kindref="member">TEST_F</ref>(<ref refid="class_h_s_m_stub_gating_test" kindref="compound">HSMStubGatingTest</ref>,<sp/>FailsInProductionModeWithoutOptIn)<sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>production<sp/>mode</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>setEnv(</highlight><highlight class="stringliteral">&quot;THEMIS_PRODUCTION_MODE&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_config" kindref="compound">HSMConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1security_1_1_h_s_m_config_1a70f3899ef9deaea810d87aab297949fa" kindref="member">library_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/nonexistent/stub.so&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider" kindref="compound">HSMProvider</ref><sp/>hsm(config);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>fail<sp/>in<sp/>production<sp/>mode</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(hsm.initialize());</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hsm.isStubProvider());</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(hsm.isReady());</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>error<sp/>message</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>error<sp/>=<sp/>hsm.getLastError();</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(error.find(</highlight><highlight class="stringliteral">&quot;production<sp/>mode&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><ref refid="test__hsm__stub__gating_8cpp_1a9bcde2e8001ffa80d7535826091b4d23" kindref="member">TEST_F</ref>(<ref refid="class_h_s_m_stub_gating_test" kindref="compound">HSMStubGatingTest</ref>,<sp/>FailsInProductionModeEvenWithOptIn)<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>production<sp/>mode<sp/>AND<sp/>opt-in</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>setEnv(</highlight><highlight class="stringliteral">&quot;THEMIS_PRODUCTION_MODE&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>setEnv(</highlight><highlight class="stringliteral">&quot;THEMIS_ALLOW_HSM_STUB&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_config" kindref="compound">HSMConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1security_1_1_h_s_m_config_1a70f3899ef9deaea810d87aab297949fa" kindref="member">library_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/nonexistent/stub.so&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider" kindref="compound">HSMProvider</ref><sp/>hsm(config);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Production<sp/>mode<sp/>takes<sp/>precedence<sp/>-<sp/>should<sp/>still<sp/>fail</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(hsm.initialize());</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(hsm.isReady());</highlight></codeline>
+<codeline lineno="93"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><ref refid="test__hsm__stub__gating_8cpp_1a9bcde2e8001ffa80d7535826091b4d23" kindref="member">TEST_F</ref>(<ref refid="class_h_s_m_stub_gating_test" kindref="compound">HSMStubGatingTest</ref>,<sp/>DetectsProductionEnvironment)<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Set<sp/>production<sp/>environment<sp/>indicator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>setEnv(</highlight><highlight class="stringliteral">&quot;ENVIRONMENT&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;production&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_config" kindref="compound">HSMConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1security_1_1_h_s_m_config_1a70f3899ef9deaea810d87aab297949fa" kindref="member">library_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/nonexistent/stub.so&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider" kindref="compound">HSMProvider</ref><sp/>hsm(config);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>fail<sp/>without<sp/>opt-in</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(hsm.initialize());</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(hsm.isReady());</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>error<sp/>=<sp/>hsm.getLastError();</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(error.find(</highlight><highlight class="stringliteral">&quot;production<sp/>environment&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><ref refid="test__hsm__stub__gating_8cpp_1a9bcde2e8001ffa80d7535826091b4d23" kindref="member">TEST_F</ref>(<ref refid="class_h_s_m_stub_gating_test" kindref="compound">HSMStubGatingTest</ref>,<sp/>DetectsNodeEnvProduction)<sp/>{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Set<sp/>NODE_ENV=production<sp/>(common<sp/>in<sp/>Node.js<sp/>environments)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>setEnv(</highlight><highlight class="stringliteral">&quot;NODE_ENV&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;production&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_config" kindref="compound">HSMConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1security_1_1_h_s_m_config_1a70f3899ef9deaea810d87aab297949fa" kindref="member">library_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/nonexistent/stub.so&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider" kindref="compound">HSMProvider</ref><sp/>hsm(config);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>fail<sp/>without<sp/>opt-in</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(hsm.initialize());</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(hsm.isReady());</highlight></codeline>
+<codeline lineno="122"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><ref refid="test__hsm__stub__gating_8cpp_1a9bcde2e8001ffa80d7535826091b4d23" kindref="member">TEST_F</ref>(<ref refid="class_h_s_m_stub_gating_test" kindref="compound">HSMStubGatingTest</ref>,<sp/>AllowsProductionEnvironmentWithOptIn)<sp/>{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Set<sp/>production<sp/>environment<sp/>but<sp/>with<sp/>explicit<sp/>opt-in</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>setEnv(</highlight><highlight class="stringliteral">&quot;ENVIRONMENT&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;production&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>setEnv(</highlight><highlight class="stringliteral">&quot;THEMIS_ALLOW_HSM_STUB&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_config" kindref="compound">HSMConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1security_1_1_h_s_m_config_1a70f3899ef9deaea810d87aab297949fa" kindref="member">library_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/nonexistent/stub.so&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider" kindref="compound">HSMProvider</ref><sp/>hsm(config);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>succeed<sp/>with<sp/>explicit<sp/>opt-in<sp/>(developer<sp/>override)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hsm.initialize());</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hsm.isReady());</highlight></codeline>
+<codeline lineno="136"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><ref refid="test__hsm__stub__gating_8cpp_1a9bcde2e8001ffa80d7535826091b4d23" kindref="member">TEST_F</ref>(<ref refid="class_h_s_m_stub_gating_test" kindref="compound">HSMStubGatingTest</ref>,<sp/>AllowsStubInDevelopmentEnvironment)<sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Set<sp/>development<sp/>environment<sp/>(no<sp/>opt-in<sp/>needed)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>setEnv(</highlight><highlight class="stringliteral">&quot;ENVIRONMENT&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;development&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_config" kindref="compound">HSMConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1security_1_1_h_s_m_config_1a70f3899ef9deaea810d87aab297949fa" kindref="member">library_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/nonexistent/stub.so&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider" kindref="compound">HSMProvider</ref><sp/>hsm(config);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>succeed<sp/>in<sp/>development<sp/>without<sp/>opt-in</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hsm.initialize());</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hsm.isReady());</highlight></codeline>
+<codeline lineno="149"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><ref refid="test__hsm__stub__gating_8cpp_1a9bcde2e8001ffa80d7535826091b4d23" kindref="member">TEST_F</ref>(<ref refid="class_h_s_m_stub_gating_test" kindref="compound">HSMStubGatingTest</ref>,<sp/>AllowsStubWithNoEnvironmentSet)<sp/>{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>environment<sp/>variables<sp/>set<sp/>(default<sp/>local<sp/>development)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_config" kindref="compound">HSMConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1security_1_1_h_s_m_config_1a70f3899ef9deaea810d87aab297949fa" kindref="member">library_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/nonexistent/stub.so&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider" kindref="compound">HSMProvider</ref><sp/>hsm(config);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>succeed<sp/>(assumes<sp/>local<sp/>development)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hsm.initialize());</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hsm.isReady());</highlight></codeline>
+<codeline lineno="161"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><ref refid="test__hsm__stub__gating_8cpp_1a9bcde2e8001ffa80d7535826091b4d23" kindref="member">TEST_F</ref>(<ref refid="class_h_s_m_stub_gating_test" kindref="compound">HSMStubGatingTest</ref>,<sp/>StubProviderReturnsCorrectFlag)<sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>setEnv(</highlight><highlight class="stringliteral">&quot;THEMIS_ALLOW_HSM_STUB&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_config" kindref="compound">HSMConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1security_1_1_h_s_m_config_1a70f3899ef9deaea810d87aab297949fa" kindref="member">library_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/nonexistent/stub.so&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider" kindref="compound">HSMProvider</ref><sp/>hsm(config);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hsm.initialize());</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stub<sp/>provider<sp/>should<sp/>always<sp/>return<sp/>true<sp/>for<sp/>isStubProvider()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hsm.isStubProvider());</highlight></codeline>
+<codeline lineno="174"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><ref refid="test__hsm__stub__gating_8cpp_1a9bcde2e8001ffa80d7535826091b4d23" kindref="member">TEST_F</ref>(<ref refid="class_h_s_m_stub_gating_test" kindref="compound">HSMStubGatingTest</ref>,<sp/>PeriodicSecurityCheckLogsWarning)<sp/>{</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>setEnv(</highlight><highlight class="stringliteral">&quot;THEMIS_ALLOW_HSM_STUB&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_config" kindref="compound">HSMConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1security_1_1_h_s_m_config_1a70f3899ef9deaea810d87aab297949fa" kindref="member">library_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/nonexistent/stub.so&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider" kindref="compound">HSMProvider</ref><sp/>hsm(config);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hsm.initialize());</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>not<sp/>throw,<sp/>just<sp/>log<sp/>warnings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(hsm.periodicSecurityCheck());</highlight></codeline>
+<codeline lineno="187"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>that<sp/>the<sp/>error<sp/>message<sp/>includes<sp/>helpful<sp/>information</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><ref refid="test__hsm__stub__gating_8cpp_1a9bcde2e8001ffa80d7535826091b4d23" kindref="member">TEST_F</ref>(<ref refid="class_h_s_m_stub_gating_test" kindref="compound">HSMStubGatingTest</ref>,<sp/>ErrorMessageIncludesGuidance)<sp/>{</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>setEnv(</highlight><highlight class="stringliteral">&quot;THEMIS_PRODUCTION_MODE&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_config" kindref="compound">HSMConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider" kindref="compound">HSMProvider</ref><sp/>hsm(config);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(hsm.initialize());</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>error<sp/>=<sp/>hsm.getLastError();</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>mention<sp/>how<sp/>to<sp/>build<sp/>with<sp/>real<sp/>HSM</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(error.find(</highlight><highlight class="stringliteral">&quot;THEMIS_ENABLE_HSM_REAL&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight><highlight class="comment">//<sp/>THEMIS_ENVIRONMENT=production<sp/>is<sp/>a<sp/>hard<sp/>failure<sp/>that<sp/>cannot<sp/>be<sp/>overridden</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><ref refid="test__hsm__stub__gating_8cpp_1a9bcde2e8001ffa80d7535826091b4d23" kindref="member">TEST_F</ref>(<ref refid="class_h_s_m_stub_gating_test" kindref="compound">HSMStubGatingTest</ref>,<sp/>FailsInThemisEnvironmentProduction)<sp/>{</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>setEnv(</highlight><highlight class="stringliteral">&quot;THEMIS_ENVIRONMENT&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;production&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_config" kindref="compound">HSMConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1security_1_1_h_s_m_config_1a70f3899ef9deaea810d87aab297949fa" kindref="member">library_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/nonexistent/stub.so&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider" kindref="compound">HSMProvider</ref><sp/>hsm(config);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(hsm.initialize());</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(hsm.isReady());</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>error<sp/>=<sp/>hsm.getLastError();</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(error.find(</highlight><highlight class="stringliteral">&quot;production<sp/>mode&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight><highlight class="comment">//<sp/>THEMIS_ENVIRONMENT=production<sp/>cannot<sp/>be<sp/>bypassed<sp/>with<sp/>THEMIS_ALLOW_HSM_STUB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><ref refid="test__hsm__stub__gating_8cpp_1a9bcde2e8001ffa80d7535826091b4d23" kindref="member">TEST_F</ref>(<ref refid="class_h_s_m_stub_gating_test" kindref="compound">HSMStubGatingTest</ref>,<sp/>ThemisEnvironmentProductionCannotBeOverridden)<sp/>{</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>setEnv(</highlight><highlight class="stringliteral">&quot;THEMIS_ENVIRONMENT&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;production&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>setEnv(</highlight><highlight class="stringliteral">&quot;THEMIS_ALLOW_HSM_STUB&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_config" kindref="compound">HSMConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1security_1_1_h_s_m_config_1a70f3899ef9deaea810d87aab297949fa" kindref="member">library_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/nonexistent/stub.so&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider" kindref="compound">HSMProvider</ref><sp/>hsm(config);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Themis<sp/>production<sp/>environment<sp/>takes<sp/>precedence<sp/>even<sp/>with<sp/>opt-in</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(hsm.initialize());</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(hsm.isReady());</highlight></codeline>
+<codeline lineno="230"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight><highlight class="comment">//<sp/>THEMIS_PRODUCTION_MODE<sp/>accepts<sp/>truthy<sp/>string<sp/>values<sp/>beyond<sp/>&quot;1&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><ref refid="test__hsm__stub__gating_8cpp_1a9bcde2e8001ffa80d7535826091b4d23" kindref="member">TEST_F</ref>(<ref refid="class_h_s_m_stub_gating_test" kindref="compound">HSMStubGatingTest</ref>,<sp/>FailsWithProductionModeTrueString)<sp/>{</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>setEnv(</highlight><highlight class="stringliteral">&quot;THEMIS_PRODUCTION_MODE&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;true&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_config" kindref="compound">HSMConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1security_1_1_h_s_m_config_1a70f3899ef9deaea810d87aab297949fa" kindref="member">library_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/nonexistent/stub.so&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider" kindref="compound">HSMProvider</ref><sp/>hsm(config);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(hsm.initialize());</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(hsm.isReady());</highlight></codeline>
+<codeline lineno="242"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/security/test_hsm_stub_gating.cpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,292 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1_deontic_extractor" kind="class" language="C++" prot="public">
+    <compoundname>themis::ingestion::DeonticExtractor</compoundname>
+    <includes refid="deontic__extractor_8h" local="no">deontic_extractor.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1ingestion_1_1_deontic_extractor_1a90c47a450cd53b92ac564554ec2b02ab" prot="public" static="no">
+        <type>std::function&lt; <ref refid="structthemis_1_1ingestion_1_1_deontic_extraction" kindref="compound">DeonticExtraction</ref>(const std::string &amp;text)&gt;</type>
+        <definition>using themis::ingestion::DeonticExtractor::ExtractorFn = std::function&lt;DeonticExtraction(const std::string&amp; text)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ExtractorFn</name>
+        <qualifiedname>themis::ingestion::DeonticExtractor::ExtractorFn</qualifiedname>
+        <briefdescription>
+<para>Signature for an injectable extraction function (used in testing / LLM Phase 2). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/deontic_extractor.h" line="195" column="5" bodyfile="include/ingestion/deontic_extractor.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_deontic_extractor_1ac8979819844032f89db9242eb1c1365f" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::DeonticExtractor::confidence_threshold_</definition>
+        <argsstring></argsstring>
+        <name>confidence_threshold_</name>
+        <qualifiedname>themis::ingestion::DeonticExtractor::confidence_threshold_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/deontic_extractor.h" line="249" column="17" bodyfile="include/ingestion/deontic_extractor.h" bodystart="249" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_deontic_extractor_1a8889f8196c10e0b797c5a59d779136f8" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1ingestion_1_1_deontic_extractor_1a90c47a450cd53b92ac564554ec2b02ab" kindref="member">ExtractorFn</ref></type>
+        <definition>ExtractorFn themis::ingestion::DeonticExtractor::extractor_fn_</definition>
+        <argsstring></argsstring>
+        <name>extractor_fn_</name>
+        <qualifiedname>themis::ingestion::DeonticExtractor::extractor_fn_</qualifiedname>
+        <briefdescription>
+<para>Custom override; empty = use built-in. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/deontic_extractor.h" line="250" column="17" bodyfile="include/ingestion/deontic_extractor.h" bodystart="250" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_deontic_extractor_1a024d360944bd1a10344c470277a29c62" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::DeonticExtractor::DeonticExtractor</definition>
+        <argsstring>()</argsstring>
+        <name>DeonticExtractor</name>
+        <qualifiedname>themis::ingestion::DeonticExtractor::DeonticExtractor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/deontic_extractor.h" line="197" column="5" bodyfile="src/ingestion/deontic_extractor.cpp" bodystart="167" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_deontic_extractor_1a51576b6bf34cae9e76dd1da35fe0a31a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1ingestion_1_1_deontic_extraction" kindref="compound">DeonticExtraction</ref></type>
+        <definition>DeonticExtraction themis::ingestion::DeonticExtractor::extract</definition>
+        <argsstring>(const std::string &amp;text) const</argsstring>
+        <name>extract</name>
+        <qualifiedname>themis::ingestion::DeonticExtractor::extract</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Extract deontic information from a single text fragment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Runs the configured extractor (regex by default) against the supplied text and returns a fully populated <computeroutput><ref refid="structthemis_1_1ingestion_1_1_deontic_extraction" kindref="compound">DeonticExtraction</ref></computeroutput>. Patterns are applied in priority order: PROHIBITION before PERMISSION, to avoid false-positive permission matches on &quot;darf nicht&quot; phrases.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw German legal text (single provision or sentence) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Populated <ref refid="structthemis_1_1ingestion_1_1_deontic_extraction" kindref="compound">DeonticExtraction</ref> struct </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/deontic_extractor.h" line="210" column="23" bodyfile="src/ingestion/deontic_extractor.cpp" bodystart="188" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_deontic_extractor_1aa13aac32fa9a2b000a6f3b077756a9ec" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1ingestion_1_1_extracted_entity" kindref="compound">ExtractedEntity</ref> &gt;</type>
+        <definition>std::vector&lt; ExtractedEntity &gt; themis::ingestion::DeonticExtractor::extractEntities</definition>
+        <argsstring>(const std::string &amp;text) const</argsstring>
+        <name>extractEntities</name>
+        <qualifiedname>themis::ingestion::DeonticExtractor::extractEntities</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Extract entities (law_reference, person_role, etc.) from text. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw German legal text </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of recognized entities </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/deontic_extractor.h" line="218" column="17" bodyfile="src/ingestion/deontic_extractor.cpp" bodystart="195" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_deontic_extractor_1aeba20d4a81dd6522b60791d25049f91c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::DeonticExtractor::setConfidenceThreshold</definition>
+        <argsstring>(double threshold)</argsstring>
+        <name>setConfidenceThreshold</name>
+        <qualifiedname>themis::ingestion::DeonticExtractor::setConfidenceThreshold</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>threshold</declname>
+        </param>
+        <briefdescription>
+<para>Set the minimum confidence threshold for reported categories. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Confidence Threshold.</para>
+<para>Matches with confidence below this value are added to <computeroutput>warnings</computeroutput> rather than <computeroutput>deontic_categories</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Value in [0, 1], default 0.75</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setConfidenceThreshold without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/deontic_extractor.h" line="228" column="10" bodyfile="src/ingestion/deontic_extractor.cpp" bodystart="175" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_deontic_extractor_1ad775722634a35dbd5c6a14c6e737319c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::ingestion::DeonticExtractor::getConfidenceThreshold</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfidenceThreshold</name>
+        <qualifiedname>themis::ingestion::DeonticExtractor::getConfidenceThreshold</qualifiedname>
+        <briefdescription>
+<para>Return the current confidence threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/deontic_extractor.h" line="231" column="12" bodyfile="include/ingestion/deontic_extractor.h" bodystart="231" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_deontic_extractor_1a9650ade60a9b7a709d6c14b213eae508" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::DeonticExtractor::setExtractorFn</definition>
+        <argsstring>(ExtractorFn fn)</argsstring>
+        <name>setExtractorFn</name>
+        <qualifiedname>themis::ingestion::DeonticExtractor::setExtractorFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1ingestion_1_1_deontic_extractor_1a90c47a450cd53b92ac564554ec2b02ab" kindref="member">ExtractorFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Replace the default regex extractor with a custom function. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Extractor Fn.</para>
+<para>Pass an empty <computeroutput><ref refid="classthemis_1_1ingestion_1_1_deontic_extractor_1a90c47a450cd53b92ac564554ec2b02ab" kindref="member">ExtractorFn</ref>{}</computeroutput> to restore the built-in regex logic.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Custom extraction function, or empty to reset</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/deontic_extractor.h" line="240" column="10" bodyfile="src/ingestion/deontic_extractor.cpp" bodystart="184" bodyend="186"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_deontic_extractor_1ada187fb92e9eca38e7b2ea1eee1f8af0" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1ingestion_1_1_deontic_extraction" kindref="compound">DeonticExtraction</ref></type>
+        <definition>DeonticExtraction themis::ingestion::DeonticExtractor::extractRegex</definition>
+        <argsstring>(const std::string &amp;text) const</argsstring>
+        <name>extractRegex</name>
+        <qualifiedname>themis::ingestion::DeonticExtractor::extractRegex</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Built-in regex-based extraction (Phase 1). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/deontic_extractor.h" line="244" column="23" bodyfile="src/ingestion/deontic_extractor.cpp" bodystart="200" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_deontic_extractor_1aa085f11a0170d8cf17ed6e1dcb760c80" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1ingestion_1_1_extracted_entity" kindref="compound">ExtractedEntity</ref> &gt;</type>
+        <definition>std::vector&lt; ExtractedEntity &gt; themis::ingestion::DeonticExtractor::extractEntitiesRegex</definition>
+        <argsstring>(const std::string &amp;text) const</argsstring>
+        <name>extractEntitiesRegex</name>
+        <qualifiedname>themis::ingestion::DeonticExtractor::extractEntitiesRegex</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Extract entities using compiled regex patterns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/deontic_extractor.h" line="247" column="17" bodyfile="src/ingestion/deontic_extractor.cpp" bodystart="275" bodyend="301"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Regex-based deontic logic extractor for German legal texts. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implements Phase 1 of the legal ingestion pipeline using pattern matching. The extractor is fully injectable: supply a custom extract function via <computeroutput><ref refid="classthemis_1_1ingestion_1_1_deontic_extractor_1a9650ade60a9b7a709d6c14b213eae508" kindref="member">setExtractorFn()</ref></computeroutput> to override the default regex implementation (useful in tests or when wiring an LLM adapter in Phase 2).</para>
+<para>Usage: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_deontic_extractor_1a024d360944bd1a10344c470277a29c62" kindref="member">DeonticExtractor</ref><sp/>extractor;</highlight></codeline>
+<codeline><highlight class="normal">extractor.setConfidenceThreshold(0.75);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>extractor.extract(</highlight><highlight class="stringliteral">&quot;Wer<sp/>Anlagen<sp/>betreiben<sp/>will,<sp/>bedarf<sp/>einer<sp/>Genehmigung.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>result.primaryCategory()<sp/>==<sp/>DeonticCategory::OBLIGATION</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/ingestion/deontic_extractor.h" line="192" column="1" bodyfile="include/ingestion/deontic_extractor.h" bodystart="192" bodyend="251"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1_deontic_extractor_1ac8979819844032f89db9242eb1c1365f" prot="private" virt="non-virtual"><scope>themis::ingestion::DeonticExtractor</scope><name>confidence_threshold_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_deontic_extractor_1a024d360944bd1a10344c470277a29c62" prot="public" virt="non-virtual"><scope>themis::ingestion::DeonticExtractor</scope><name>DeonticExtractor</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_deontic_extractor_1a51576b6bf34cae9e76dd1da35fe0a31a" prot="public" virt="non-virtual"><scope>themis::ingestion::DeonticExtractor</scope><name>extract</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_deontic_extractor_1aa13aac32fa9a2b000a6f3b077756a9ec" prot="public" virt="non-virtual"><scope>themis::ingestion::DeonticExtractor</scope><name>extractEntities</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_deontic_extractor_1aa085f11a0170d8cf17ed6e1dcb760c80" prot="private" virt="non-virtual"><scope>themis::ingestion::DeonticExtractor</scope><name>extractEntitiesRegex</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_deontic_extractor_1a8889f8196c10e0b797c5a59d779136f8" prot="private" virt="non-virtual"><scope>themis::ingestion::DeonticExtractor</scope><name>extractor_fn_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_deontic_extractor_1a90c47a450cd53b92ac564554ec2b02ab" prot="public" virt="non-virtual"><scope>themis::ingestion::DeonticExtractor</scope><name>ExtractorFn</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_deontic_extractor_1ada187fb92e9eca38e7b2ea1eee1f8af0" prot="private" virt="non-virtual"><scope>themis::ingestion::DeonticExtractor</scope><name>extractRegex</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_deontic_extractor_1ad775722634a35dbd5c6a14c6e737319c" prot="public" virt="non-virtual"><scope>themis::ingestion::DeonticExtractor</scope><name>getConfidenceThreshold</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_deontic_extractor_1aeba20d4a81dd6522b60791d25049f91c" prot="public" virt="non-virtual"><scope>themis::ingestion::DeonticExtractor</scope><name>setConfidenceThreshold</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_deontic_extractor_1a9650ade60a9b7a709d6c14b213eae508" prot="public" virt="non-virtual"><scope>themis::ingestion::DeonticExtractor</scope><name>setExtractorFn</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

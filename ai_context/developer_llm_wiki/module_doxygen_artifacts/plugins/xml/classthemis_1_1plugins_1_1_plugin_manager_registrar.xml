@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1_plugin_manager_registrar" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::PluginManagerRegistrar</compoundname>
+    <includes refid="plugin__manager_8h" local="no">plugin_manager.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename PluginClass</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_registrar_1a5ef250f08dde176dc35612ca44da1d69" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::PluginManagerRegistrar&lt; PluginClass &gt;::PluginManagerRegistrar</definition>
+        <argsstring>(const std::string &amp;name, PluginType type)</argsstring>
+        <name>PluginManagerRegistrar</name>
+        <qualifiedname>themis::plugins::PluginManagerRegistrar::PluginManagerRegistrar</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1a69594568f8b761bc4ddc46b693ffcd12" kindref="member">PluginType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="730" column="5" bodyfile="include/plugins/plugin_manager.h" bodystart="730" bodyend="736"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Helper class for automatic plugin registration. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Usage: <programlisting filename=".cpp"><codeline><highlight class="comment">//<sp/>In<sp/>plugin<sp/>implementation</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>PluginRegistrar&lt;MyPlugin&gt;<sp/>registrar(</highlight><highlight class="stringliteral">&quot;my_plugin&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1plugins_1a69594568f8b761bc4ddc46b693ffcd12ac72373dc49b23f08a227bebd50be7bed" kindref="member">PluginType::BLOB_STORAGE</ref>);</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/plugins/plugin_manager.h" line="728" column="1" bodyfile="include/plugins/plugin_manager.h" bodystart="728" bodyend="737"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_registrar_1a5ef250f08dde176dc35612ca44da1d69" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManagerRegistrar</scope><name>PluginManagerRegistrar</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

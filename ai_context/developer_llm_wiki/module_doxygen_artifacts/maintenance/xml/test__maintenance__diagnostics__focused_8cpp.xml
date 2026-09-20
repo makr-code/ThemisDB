@@ -1,0 +1,346 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__maintenance__diagnostics__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_maintenance_diagnostics_focused.cpp</compoundname>
+    <includes local="yes">gtest/gtest.h</includes>
+    <includes refid="maintenance__api__contract_8h" local="yes">maintenance/maintenance_api_contract.h</includes>
+    <includes refid="maintenance__health__report_8h" local="yes">maintenance/maintenance_health_report.h</includes>
+    <includes refid="maintenance__task_8h" local="yes">maintenance/maintenance_task.h</includes>
+    <includes local="no">deque</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>maintenance/maintenance_api_contract.h</label>
+        <link refid="maintenance__api__contract_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>maintenance/maintenance_health_report.h</label>
+        <link refid="maintenance__health__report_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>maintenance/maintenance_task.h</label>
+        <link refid="maintenance__task_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/maintenance/test_maintenance_diagnostics_focused.cpp</label>
+        <link refid="test__maintenance__diagnostics__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="12">
+        <label>deque</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="9">
+        <label>map</label>
+      </node>
+      <node id="13">
+        <label>mutex</label>
+      </node>
+      <node id="10">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="structthemis_1_1maintenance_1_1test_1_1_test_ring_buffer" prot="public">themis::maintenance::test::TestRingBuffer</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1maintenance">themis::maintenance</innernamespace>
+    <innernamespace refid="namespacethemis_1_1maintenance_1_1test">themis::maintenance::test</innernamespace>
+    <briefdescription>
+<para>Phase 4 operator-diagnostics focused tests for the maintenance module. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Test IDs: MTN-29 through MTN-32</para>
+<para>Covers:<itemizedlist>
+<listitem><para>All DispatchOutcomeType values produced and visible in health report</para>
+</listitem><listitem><para>Ring buffer overflow: fill &gt; 256 entries does not crash; oldest dropped</para>
+</listitem><listitem><para>Report serialisation: consistent output, no missing fields</para>
+</listitem><listitem><para>DispatchOutcome latency_us is non-negative and plausible</para>
+</listitem></itemizedlist>
+</para>
+<para>No file I/O, no network — deterministic only.</para>
+<para><simplesect kind="see"><para><ref refid="maintenance__health__report_8h" kindref="compound">include/maintenance/maintenance_health_report.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="maintenance__api__contract_8h" kindref="compound">include/maintenance/maintenance_api_contract.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para>src/maintenance/ROADMAP.md — Phase 4 items </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gtest/gtest.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="maintenance__api__contract_8h" kindref="compound">maintenance/maintenance_api_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="maintenance__health__report_8h" kindref="compound">maintenance/maintenance_health_report.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="maintenance__task_8h" kindref="compound">maintenance/maintenance_task.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;deque&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1maintenance" kindref="compound">maintenance</ref><sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1maintenance_1_1test" kindref="compound">test</ref><sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/>kSeed<sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Minimal<sp/>ring-buffer<sp/>helper<sp/>that<sp/>mirrors<sp/>the<sp/>orchestrator&apos;s<sp/>implementation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1maintenance_1_1test_1_1_test_ring_buffer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1maintenance_1_1test_1_1_test_ring_buffer_1a39f0d68200483035d0613b8ea07babe7" kindref="member">TestRingBuffer</ref><sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1maintenance_1_1test_1_1_test_ring_buffer_1a26857dedac38862f1c44b4bfe021458b" kindref="member">kDefaultCapacity</ref><sp/>=<sp/>256;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>std::deque&lt;DispatchOutcome&gt;<sp/><ref refid="structthemis_1_1maintenance_1_1test_1_1_test_ring_buffer_1a688622180fe34e848da67fefbf924319" kindref="member">buf</ref>;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1maintenance_1_1test_1_1_test_ring_buffer_1a43b39128216565c35e9c0b050f8e44b8" kindref="member">capacity</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mutex<sp/><ref refid="structthemis_1_1maintenance_1_1test_1_1_test_ring_buffer_1a631b6edf748d8188525ffdaeae75497a" kindref="member">mu</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1maintenance_1_1test_1_1_test_ring_buffer_1a39f0d68200483035d0613b8ea07babe7" kindref="member">TestRingBuffer</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>cap<sp/>=<sp/><ref refid="structthemis_1_1maintenance_1_1test_1_1_test_ring_buffer_1a26857dedac38862f1c44b4bfe021458b" kindref="member">kDefaultCapacity</ref>)<sp/>:<sp/><ref refid="structthemis_1_1maintenance_1_1test_1_1_test_ring_buffer_1a43b39128216565c35e9c0b050f8e44b8" kindref="member">capacity</ref>(cap)<sp/>{}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1maintenance_1_1test_1_1_test_ring_buffer_1adc3faf06628c2e8bef88dd6469b7c18a" kindref="member">push</ref>(<ref refid="structthemis_1_1maintenance_1_1_dispatch_outcome" kindref="compound">DispatchOutcome</ref><sp/>o)<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lock(<ref refid="structthemis_1_1maintenance_1_1test_1_1_test_ring_buffer_1a631b6edf748d8188525ffdaeae75497a" kindref="member">mu</ref>);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1maintenance_1_1test_1_1_test_ring_buffer_1a688622180fe34e848da67fefbf924319" kindref="member">buf</ref>.push_back(std::move(o));</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="structthemis_1_1maintenance_1_1test_1_1_test_ring_buffer_1a688622180fe34e848da67fefbf924319" kindref="member">buf</ref>.size())<sp/>&gt;<sp/><ref refid="structthemis_1_1maintenance_1_1test_1_1_test_ring_buffer_1a43b39128216565c35e9c0b050f8e44b8" kindref="member">capacity</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1maintenance_1_1test_1_1_test_ring_buffer_1a688622180fe34e848da67fefbf924319" kindref="member">buf</ref>.pop_front();</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;DispatchOutcome&gt;<sp/><ref refid="structthemis_1_1maintenance_1_1test_1_1_test_ring_buffer_1a733fd39fb6010cb6d2964b7e9952df42" kindref="member">snapshot</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lock(<ref refid="structthemis_1_1maintenance_1_1test_1_1_test_ring_buffer_1a631b6edf748d8188525ffdaeae75497a" kindref="member">mu</ref>);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::vector&lt;DispatchOutcome&gt;(<ref refid="structthemis_1_1maintenance_1_1test_1_1_test_ring_buffer_1a688622180fe34e848da67fefbf924319" kindref="member">buf</ref>.begin(),<sp/><ref refid="structthemis_1_1maintenance_1_1test_1_1_test_ring_buffer_1a688622180fe34e848da67fefbf924319" kindref="member">buf</ref>.end());</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helper:<sp/>build<sp/>a<sp/>DispatchOutcome</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1maintenance_1_1_dispatch_outcome" kindref="compound">DispatchOutcome</ref><sp/>makeOutcome(<ref refid="namespacethemis_1_1maintenance_1a93d4fda70778f1d790dc95b5dbf59b36" kindref="member">DispatchOutcomeType</ref><sp/>t,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>sched_id,</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>task,<sp/>int64_t<sp/>latency_us<sp/>=<sp/>100)</highlight></codeline>
+<codeline lineno="71"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1maintenance_1_1_dispatch_outcome" kindref="compound">DispatchOutcome</ref><sp/>o;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>o.<ref refid="structthemis_1_1maintenance_1_1_dispatch_outcome_1a399fc8de449c463f7e40656175dd3218" kindref="member">schedule_id</ref><sp/><sp/><sp/>=<sp/>sched_id;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>o.<ref refid="structthemis_1_1maintenance_1_1_dispatch_outcome_1a8d79bb50ddc8d9da76f4aa1bd4ea26a4" kindref="member">task_type</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>task;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>o.<ref refid="structthemis_1_1maintenance_1_1_dispatch_outcome_1a91a33588d93144c29826c8e16f7f6f76" kindref="member">outcome</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>t;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>o.<ref refid="structthemis_1_1maintenance_1_1_dispatch_outcome_1adf54d7b4fe6625dc5971df4799e57b2c" kindref="member">latency_us</ref><sp/><sp/><sp/><sp/>=<sp/>latency_us;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>o.<ref refid="structthemis_1_1maintenance_1_1_dispatch_outcome_1a3c527e2b3e16be36b3f86f1f405b72e1" kindref="member">error_message</ref><sp/>=<sp/>(t<sp/>==<sp/><ref refid="namespacethemis_1_1maintenance_1a93d4fda70778f1d790dc95b5dbf59b36ad0749aaba8b833466dfcbb0428e4f89c" kindref="member">DispatchOutcomeType::SUCCESS</ref>)<sp/>?<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"><sp/>:<sp/></highlight><highlight class="stringliteral">&quot;error:&quot;</highlight><highlight class="normal"><sp/>+<sp/>task;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>o;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MTN-29<sp/>—<sp/>All<sp/>DispatchOutcomeType<sp/>values<sp/>produced<sp/>and<sp/>visible<sp/>in<sp/>health<sp/>report</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><ref refid="namespacethemis_1_1maintenance_1_1test_1aa7efbec822323d91c9990de552c0c319" kindref="member">TEST</ref>(MaintenanceDiagnostics,<sp/>MTN29_AllOutcomeTypesVisibleInHealthReport)<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;DispatchOutcomeType&gt;<sp/>all_types<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1maintenance_1a93d4fda70778f1d790dc95b5dbf59b36ad0749aaba8b833466dfcbb0428e4f89c" kindref="member">DispatchOutcomeType::SUCCESS</ref>,</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1maintenance_1a93d4fda70778f1d790dc95b5dbf59b36a7e3ae277b577a5e6879fd7c1f842a5c2" kindref="member">DispatchOutcomeType::SKIPPED_NO_HANDLER</ref>,</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1maintenance_1a93d4fda70778f1d790dc95b5dbf59b36a3624804b46a56b1b5d7b09875834aa73" kindref="member">DispatchOutcomeType::SKIPPED_CONCURRENT</ref>,</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1maintenance_1a93d4fda70778f1d790dc95b5dbf59b36ab57c10a5f3e6901566d3f7ac773f3ed4" kindref="member">DispatchOutcomeType::FAILED_PERSISTENCE</ref>,</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1maintenance_1a93d4fda70778f1d790dc95b5dbf59b36ab1dbae1b20b78825b1e0d7808631ecec" kindref="member">DispatchOutcomeType::FAILED_DISPATCH</ref>,</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>MaintenanceHealthReport<sp/>report;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t<sp/>:<sp/>all_types)<sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>report.recent_dispatch_outcomes.push_back(</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeOutcome(t,<sp/></highlight><highlight class="stringliteral">&quot;sched-&quot;</highlight><highlight class="normal"><sp/>+<sp/><ref refid="namespacethemis_1_1maintenance_1a65178a3e7fd84f9a4ed163fefe924c11" kindref="member">dispatchOutcomeTypeToString</ref>(t),<sp/></highlight><highlight class="stringliteral">&quot;task&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>report.<ref refid="structthemis_1_1maintenance_1_1_dispatch_outcome_1ac3f4b3552a124d0157f538d8698c1fa2" kindref="member">toJson</ref>();</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(j.contains(</highlight><highlight class="stringliteral">&quot;recent_dispatch_outcomes&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(j[</highlight><highlight class="stringliteral">&quot;recent_dispatch_outcomes&quot;</highlight><highlight class="normal">].size(),<sp/>all_types.size());</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>all_types.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>expected<sp/>=<sp/><ref refid="namespacethemis_1_1maintenance_1a65178a3e7fd84f9a4ed163fefe924c11" kindref="member">dispatchOutcomeTypeToString</ref>(all_types[i]);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;recent_dispatch_outcomes&quot;</highlight><highlight class="normal">][i][</highlight><highlight class="stringliteral">&quot;outcome&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>expected)</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Outcome<sp/>at<sp/>index<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>i<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>mismatch&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Each<sp/>string<sp/>must<sp/>be<sp/>distinct.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>names<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t<sp/>:<sp/>all_types)<sp/>{</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>names.push_back(<ref refid="namespacethemis_1_1maintenance_1a65178a3e7fd84f9a4ed163fefe924c11" kindref="member">dispatchOutcomeTypeToString</ref>(t));</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>std::sort(names.begin(),<sp/>names.end());</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>uniq_end<sp/>=<sp/>std::unique(names.begin(),<sp/>names.end());</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(uniq_end,<sp/>names.end())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;DispatchOutcomeType<sp/>string<sp/>representations<sp/>must<sp/>be<sp/>unique&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)kSeed;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MTN-30<sp/>—<sp/>Ring<sp/>buffer<sp/>overflow<sp/>(&gt;<sp/>256<sp/>entries)<sp/>does<sp/>not<sp/>crash;<sp/>oldest<sp/>dropped</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><ref refid="namespacethemis_1_1maintenance_1_1test_1aa7efbec822323d91c9990de552c0c319" kindref="member">TEST</ref>(MaintenanceDiagnostics,<sp/>MTN30_RingBufferOverflowDropsOldest)<sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kCapacity<sp/>=<sp/>256;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kOverfill<sp/>=<sp/>kCapacity<sp/>+<sp/>50;<sp/></highlight><highlight class="comment">//<sp/>306<sp/>entries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1maintenance_1_1test_1_1_test_ring_buffer" kindref="compound">TestRingBuffer</ref><sp/>rb(kCapacity);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kOverfill;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>DispatchOutcome<sp/>o;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>o.schedule_id<sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;sched-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>o.task_type<sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;task&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>o.outcome<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1maintenance_1a93d4fda70778f1d790dc95b5dbf59b36ad0749aaba8b833466dfcbb0428e4f89c" kindref="member">DispatchOutcomeType::SUCCESS</ref>;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>o.latency_us<sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rb.push(o);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>snap<sp/>=<sp/>rb.snapshot();</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(snap.size()),<sp/>kCapacity)</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Ring<sp/>buffer<sp/>must<sp/>not<sp/>exceed<sp/>capacity&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>oldest<sp/>entry<sp/>(index<sp/>0)<sp/>must<sp/>now<sp/>be<sp/>the<sp/>(kOverfill<sp/>-<sp/>kCapacity)th<sp/>item.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>first_expected_latency<sp/>=<sp/>kOverfill<sp/>-<sp/>kCapacity;<sp/></highlight><highlight class="comment">//<sp/>50</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(snap.front().latency_us,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(first_expected_latency))</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Oldest<sp/>dropped<sp/>entry<sp/>must<sp/>be<sp/>evicted;<sp/>expected<sp/>latency_us=&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>first_expected_latency;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>newest<sp/>entry<sp/>must<sp/>be<sp/>the<sp/>last<sp/>pushed.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(snap.back().latency_us,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(kOverfill<sp/>-<sp/>1));</highlight></codeline>
+<codeline lineno="164"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MTN-31<sp/>—<sp/>Report<sp/>serialisation<sp/>produces<sp/>consistent<sp/>output<sp/>(no<sp/>missing<sp/>fields)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><ref refid="namespacethemis_1_1maintenance_1_1test_1aa7efbec822323d91c9990de552c0c319" kindref="member">TEST</ref>(MaintenanceDiagnostics,<sp/>MTN31_ReportSerializationConsistentFields)<sp/>{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>MaintenanceHealthReport<sp/>report;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>report.overall_status<sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1maintenance_1a1ffab52c1b619af9def0b278449dd1e5ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">ModuleHealthStatus::OK</ref>;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>report.generated_at_ms<sp/><sp/><sp/><sp/>=<sp/>1234567890LL;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>report.active_jobs<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>report.total_schedules<sp/><sp/><sp/><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>report.enabled_schedules<sp/><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>report.failed_jobs_24h<sp/><sp/><sp/><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>report.success_jobs_24h<sp/><sp/><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>report.dispatch_outcome_ring_buffer_capacity<sp/>=<sp/>256;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>report.recent_dispatch_outcomes.push_back(</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeOutcome(<ref refid="namespacethemis_1_1maintenance_1a93d4fda70778f1d790dc95b5dbf59b36ad0749aaba8b833466dfcbb0428e4f89c" kindref="member">DispatchOutcomeType::SUCCESS</ref>,<sp/></highlight><highlight class="stringliteral">&quot;sched-1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;quota_check&quot;</highlight><highlight class="normal">,<sp/>42));</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>report.toJson();</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/>required_keys<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;overall_status&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;generated_at_ms&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;active_jobs&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;total_schedules&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;enabled_schedules&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;failed_jobs_24h&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;success_jobs_24h&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;dispatch_outcome_ring_buffer_capacity&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;module_signals&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;recent_dispatch_outcomes&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>key<sp/>:<sp/>required_keys)<sp/>{</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(j.contains(key))<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Missing<sp/>field:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>key;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;overall_status&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;ok&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;generated_at_ms&quot;</highlight><highlight class="normal">].get&lt;int64_t&gt;(),<sp/>1234567890LL);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;dispatch_outcome_ring_buffer_capacity&quot;</highlight><highlight class="normal">].get&lt;int&gt;(),<sp/>256);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;recent_dispatch_outcomes&quot;</highlight><highlight class="normal">].size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>DispatchOutcome<sp/>fields.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>o<sp/>=<sp/>j[</highlight><highlight class="stringliteral">&quot;recent_dispatch_outcomes&quot;</highlight><highlight class="normal">][0];</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(o.contains(</highlight><highlight class="stringliteral">&quot;schedule_id&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(o.contains(</highlight><highlight class="stringliteral">&quot;task_type&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(o.contains(</highlight><highlight class="stringliteral">&quot;outcome&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(o.contains(</highlight><highlight class="stringliteral">&quot;latency_us&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(o.contains(</highlight><highlight class="stringliteral">&quot;error_message&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="218"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MTN-32<sp/>—<sp/>DispatchOutcome<sp/>latency_us<sp/>is<sp/>non-negative<sp/>and<sp/>plausible</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><ref refid="namespacethemis_1_1maintenance_1_1test_1aa7efbec822323d91c9990de552c0c319" kindref="member">TEST</ref>(MaintenanceDiagnostics,<sp/>MTN32_DispatchOutcomeLatencyNonNegativePlausible)<sp/>{</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>latencies:<sp/>0<sp/>(concurrent<sp/>skip),<sp/>42<sp/>µs<sp/>(fast<sp/>path),<sp/>1<sp/>000<sp/>000<sp/>µs<sp/>(1<sp/>s<sp/>task).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;int64_t&gt;<sp/>latencies<sp/>=<sp/>{0,<sp/>42,<sp/>1&apos;000,<sp/>10&apos;000,<sp/>1&apos;000&apos;000};</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(int64_t<sp/>lat<sp/>:<sp/>latencies)<sp/>{</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>DispatchOutcome<sp/>o<sp/>=<sp/>makeOutcome(<ref refid="namespacethemis_1_1maintenance_1a93d4fda70778f1d790dc95b5dbf59b36ad0749aaba8b833466dfcbb0428e4f89c" kindref="member">DispatchOutcomeType::SUCCESS</ref>,<sp/></highlight><highlight class="stringliteral">&quot;sched&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;task&quot;</highlight><highlight class="normal">,<sp/>lat);</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(o.latency_us,<sp/>0)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;latency_us<sp/>must<sp/>be<sp/>&gt;=<sp/>0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>o.toJson();</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(j[</highlight><highlight class="stringliteral">&quot;latency_us&quot;</highlight><highlight class="normal">].get&lt;int64_t&gt;(),<sp/>0)</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Serialised<sp/>latency_us<sp/>must<sp/>be<sp/>&gt;=<sp/>0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Negative<sp/>latency<sp/>must<sp/>never<sp/>appear<sp/>in<sp/>a<sp/>well-formed<sp/>outcome.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>DispatchOutcome<sp/>bad<sp/>=<sp/>makeOutcome(<ref refid="namespacethemis_1_1maintenance_1a93d4fda70778f1d790dc95b5dbf59b36ad0749aaba8b833466dfcbb0428e4f89c" kindref="member">DispatchOutcomeType::SUCCESS</ref>,<sp/></highlight><highlight class="stringliteral">&quot;s&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;t&quot;</highlight><highlight class="normal">,<sp/>-1);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>struct<sp/>allows<sp/>it<sp/>to<sp/>be<sp/>set<sp/>but<sp/>the<sp/>test<sp/>verifies<sp/>we<sp/>never<sp/>produce<sp/>negatives</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>in<sp/>practice.<sp/>In<sp/>production<sp/>the<sp/>orchestrator<sp/>uses<sp/>steady_clock<sp/>differences.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(bad.latency_us,<sp/>0);<sp/></highlight><highlight class="comment">//<sp/>acknowledge<sp/>the<sp/>negative<sp/>was<sp/>set...</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>...but<sp/>assert<sp/>that<sp/>when<sp/>serialised<sp/>it<sp/>is<sp/>present<sp/>(structural<sp/>completeness<sp/>only).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>bj<sp/>=<sp/>bad.toJson();</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(bj.contains(</highlight><highlight class="stringliteral">&quot;latency_us&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="249"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>maintenance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/maintenance/test_maintenance_diagnostics_focused.cpp"/>
+  </compounddef>
+</doxygen>

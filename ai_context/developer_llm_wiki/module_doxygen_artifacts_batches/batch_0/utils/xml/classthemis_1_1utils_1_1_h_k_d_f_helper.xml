@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_h_k_d_f_helper" kind="class" language="C++" prot="public">
+    <compoundname>themis::utils::HKDFHelper</compoundname>
+    <includes refid="hkdf__helper_8h" local="no">hkdf_helper.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_h_k_d_f_helper_1a0006f9a3bb62c09b4b58b9108162facf" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::utils::HKDFHelper::derive</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;ikm, const std::vector&lt; uint8_t &gt; &amp;salt, const std::string &amp;info, size_t output_length)</argsstring>
+        <name>derive</name>
+        <qualifiedname>themis::utils::HKDFHelper::derive</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>ikm</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>salt</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>info</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>output_length</declname>
+        </param>
+        <briefdescription>
+<para>Derive. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ikm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">salt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">output_length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: output(), EVP_KDF_fetch(), <ref refid="namespacethemis_1_1utils_1aba772fbe54adf8b16188ebcadf696949" kindref="member">themis::utils::makeErrorContext()</ref>, std::to_string(), <ref refid="namespacethemis_1_1utils_1a1d7488007dabd100fdd2536f837d44bf" kindref="member">themis::utils::logErrorWithContext()</ref>, EVP_KDF_CTX_new(), EVP_KDF_free(), OSSL_PARAM_construct_utf8_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/hkdf_helper.h" line="128" column="24" bodyfile="src/utils/hkdf_helper.cpp" bodystart="69" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_h_k_d_f_helper_1a9a7623e930d575abc5c3eb04d394bb87" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::utils::HKDFHelper::deriveFromString</definition>
+        <argsstring>(const std::string &amp;ikm_str, const std::string &amp;info, size_t output_length=32)</argsstring>
+        <name>deriveFromString</name>
+        <qualifiedname>themis::utils::HKDFHelper::deriveFromString</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ikm_str</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>info</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>output_length</declname>
+          <defval>32</defval>
+        </param>
+        <briefdescription>
+<para>Derive From String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ikm_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">output_length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: ikm(), begin(), end(), <ref refid="classthemis_1_1utils_1_1_h_k_d_f_helper_1a0006f9a3bb62c09b4b58b9108162facf" kindref="member">derive()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/hkdf_helper.h" line="164" column="24" bodyfile="src/utils/hkdf_helper.cpp" bodystart="195" bodyend="204"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>HKDF (HMAC-based Key Derivation Function) helper. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides OpenSSL 3.0 compatible HKDF implementation. Falls back to OpenSSL 1.1 EVP_PKEY_CTX API if 3.0 is not available. </para>
+    </detaileddescription>
+    <location file="include/utils/hkdf_helper.h" line="60" column="1" bodyfile="include/utils/hkdf_helper.h" bodystart="60" bodyend="168"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1_h_k_d_f_helper_1a0006f9a3bb62c09b4b58b9108162facf" prot="public" virt="non-virtual"><scope>themis::utils::HKDFHelper</scope><name>derive</name></member>
+      <member refid="classthemis_1_1utils_1_1_h_k_d_f_helper_1a9a7623e930d575abc5c3eb04d394bb87" prot="public" virt="non-virtual"><scope>themis::utils::HKDFHelper</scope><name>deriveFromString</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

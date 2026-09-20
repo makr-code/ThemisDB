@@ -1,0 +1,479 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__content__processor__chain_8cpp" kind="file" language="C++">
+    <compoundname>test_content_processor_chain.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="processor__chain__config_8h" local="yes">content/processor_chain_config.h</includes>
+    <includes refid="content__type_8h" local="yes">content/content_type.h</includes>
+    <incdepgraph>
+      <node id="7">
+        <label>content/content_type.h</label>
+        <link refid="content__type_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>content/processor_chain_config.h</label>
+        <link refid="processor__chain__config_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/content/test_content_processor_chain.cpp</label>
+        <link refid="test__content__processor__chain_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="9">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="11">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>unordered_map</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__content__processor__chain_8cpp_1ac316f3524e5048f62b890e45e0cbf496" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ProcessorChainConfigTest, DefaultAllStagesEnabled)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ProcessorChainConfigTest</type>
+        </param>
+        <param>
+          <type>DefaultAllStagesEnabled</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_processor_chain.cpp" line="26" column="1" bodyfile="tests/content/test_content_processor_chain.cpp" bodystart="26" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__processor__chain_8cpp_1a74b2da48010d48ad13d2db8755da5203" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ProcessorChainConfigTest, DefaultConfigAppliedWhenNoOverride)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ProcessorChainConfigTest</type>
+        </param>
+        <param>
+          <type>DefaultConfigAppliedWhenNoOverride</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_processor_chain.cpp" line="35" column="1" bodyfile="tests/content/test_content_processor_chain.cpp" bodystart="35" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__processor__chain_8cpp_1a715f85faf8ffbb61e5cfd98b9d3d6071" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ProcessorChainConfigTest, MimeTypeOverrideHasHighestPriority)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ProcessorChainConfigTest</type>
+        </param>
+        <param>
+          <type>MimeTypeOverrideHasHighestPriority</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_processor_chain.cpp" line="48" column="1" bodyfile="tests/content/test_content_processor_chain.cpp" bodystart="48" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__processor__chain_8cpp_1a0c4bafe1a9e88e9782cad18482702fbf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ProcessorChainConfigTest, CategoryOverrideHasHigherPriorityThanDefault)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ProcessorChainConfigTest</type>
+        </param>
+        <param>
+          <type>CategoryOverrideHasHigherPriorityThanDefault</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_processor_chain.cpp" line="64" column="1" bodyfile="tests/content/test_content_processor_chain.cpp" bodystart="64" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__processor__chain_8cpp_1a77eaf47c433f12b5b0307f2d81841ae6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ProcessorChainConfigTest, DefaultFallsBackWhenNoMimeOrCategoryMatch)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ProcessorChainConfigTest</type>
+        </param>
+        <param>
+          <type>DefaultFallsBackWhenNoMimeOrCategoryMatch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_processor_chain.cpp" line="76" column="1" bodyfile="tests/content/test_content_processor_chain.cpp" bodystart="76" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__processor__chain_8cpp_1afc81e4d146d0d1419d04b797526cf644" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ProcessorChainConfigTest, UnknownMimeTypeUsesDefault)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ProcessorChainConfigTest</type>
+        </param>
+        <param>
+          <type>UnknownMimeTypeUsesDefault</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_processor_chain.cpp" line="85" column="1" bodyfile="tests/content/test_content_processor_chain.cpp" bodystart="85" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__processor__chain_8cpp_1a55bc709a73725f8f0a00c335c3b02a46" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ProcessorChainConfigTest, JsonRoundTrip_Defaults)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ProcessorChainConfigTest</type>
+        </param>
+        <param>
+          <type>JsonRoundTrip_Defaults</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_processor_chain.cpp" line="97" column="1" bodyfile="tests/content/test_content_processor_chain.cpp" bodystart="97" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__processor__chain_8cpp_1a7136a90226427cb53b3480ad26651725" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ProcessorChainConfigTest, JsonRoundTrip_WithOverrides)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ProcessorChainConfigTest</type>
+        </param>
+        <param>
+          <type>JsonRoundTrip_WithOverrides</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_processor_chain.cpp" line="109" column="1" bodyfile="tests/content/test_content_processor_chain.cpp" bodystart="109" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__processor__chain_8cpp_1a87cdff3520259f8494b1fe2d87f3c0cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ProcessorChainConfigTest, JsonFromJson_IgnoresUnknownCategory)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ProcessorChainConfigTest</type>
+        </param>
+        <param>
+          <type>JsonFromJson_IgnoresUnknownCategory</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_processor_chain.cpp" line="137" column="1" bodyfile="tests/content/test_content_processor_chain.cpp" bodystart="137" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__processor__chain_8cpp_1a8662ca70548b0a61a1601a5576447fc6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ProcessorChainConfigTest, JsonFromJson_PartialFields)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ProcessorChainConfigTest</type>
+        </param>
+        <param>
+          <type>JsonFromJson_PartialFields</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_processor_chain.cpp" line="147" column="1" bodyfile="tests/content/test_content_processor_chain.cpp" bodystart="147" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__processor__chain_8cpp_1a1dd5b236b8b6d12b869b5c262c93a7cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ProcessorChainConfigTest, AllCategoriesSerializeAndDeserialize)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ProcessorChainConfigTest</type>
+        </param>
+        <param>
+          <type>AllCategoriesSerializeAndDeserialize</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_processor_chain.cpp" line="167" column="1" bodyfile="tests/content/test_content_processor_chain.cpp" bodystart="167" bodyend="190"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unit tests for the configurable processing pipeline (processor chain). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Covers:<itemizedlist>
+<listitem><para><ref refid="classthemis_1_1content_1_1_processor_chain_config" kindref="compound">ProcessorChainConfig</ref> construction and defaults</para>
+</listitem><listitem><para>getEffectiveConfig() priority order (MIME &gt; category &gt; default)</para>
+</listitem><listitem><para>JSON round-trip serialisation</para>
+</listitem><listitem><para><ref refid="classthemis_1_1content_1_1_content_manager_1a9e88f6bbcd55233702329be05a6104be" kindref="member">ContentManager::setProcessorChainConfig()</ref> / getProcessorChainConfig()</para>
+</listitem><listitem><para>Stage flags respected during ingestRawBlob (deduplication + extraction) </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2024<sp/>ThemisDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>MIT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="processor__chain__config_8h" kindref="compound">content/processor_chain_config.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="content__type_8h" kindref="compound">content/content_type.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1content" kindref="compound">themis::content</ref>;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ProcessorChainConfig<sp/>–<sp/>construction<sp/>and<sp/>defaults</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><ref refid="test__content__processor__chain_8cpp_1ac316f3524e5048f62b890e45e0cbf496" kindref="member">TEST</ref>(ProcessorChainConfigTest,<sp/>DefaultAllStagesEnabled)<sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_processor_chain_config" kindref="compound">ProcessorChainConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>eff<sp/>=<sp/>cfg.<ref refid="classthemis_1_1content_1_1_processor_chain_config_1a12d00e4abcfadfa59a699f8b41807c67" kindref="member">getEffectiveConfig</ref>(</highlight><highlight class="stringliteral">&quot;text/plain&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5a61a96ffcb251bb9bf0abf8fec19d0ea8" kindref="member">ContentCategory::TEXT</ref>);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(eff.extraction.enabled);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(eff.chunking.enabled);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(eff.embedding.enabled);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(eff.deduplication.enabled);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><ref refid="test__content__processor__chain_8cpp_1ac316f3524e5048f62b890e45e0cbf496" kindref="member">TEST</ref>(ProcessorChainConfigTest,<sp/>DefaultConfigAppliedWhenNoOverride)<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_processor_chain_config" kindref="compound">ProcessorChainConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="classthemis_1_1content_1_1_processor_chain_config_1a6993f7d530aeffb8251f976e435ba60f" kindref="member">default_config</ref>.<ref refid="structthemis_1_1content_1_1_content_type_pipeline_config_1a67714b0370a25c6b8767c45915dd6e93" kindref="member">embedding</ref>.<ref refid="structthemis_1_1content_1_1_stage_config_1ad397917fb389512940b1b100a771f59b" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>eff<sp/>=<sp/>cfg.<ref refid="classthemis_1_1content_1_1_processor_chain_config_1a12d00e4abcfadfa59a699f8b41807c67" kindref="member">getEffectiveConfig</ref>(</highlight><highlight class="stringliteral">&quot;application/pdf&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5a98ad0e8750ae10ad556ed7a62affb452" kindref="member">ContentCategory::BINARY</ref>);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(eff.embedding.enabled);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(eff.extraction.enabled);<sp/><sp/></highlight><highlight class="comment">//<sp/>not<sp/>overridden</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>getEffectiveConfig()<sp/>–<sp/>priority<sp/>order</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><ref refid="test__content__processor__chain_8cpp_1ac316f3524e5048f62b890e45e0cbf496" kindref="member">TEST</ref>(ProcessorChainConfigTest,<sp/>MimeTypeOverrideHasHighestPriority)<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_processor_chain_config" kindref="compound">ProcessorChainConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Category-level:<sp/>disable<sp/>extraction<sp/>for<sp/>IMAGE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_content_type_pipeline_config" kindref="compound">ContentTypePipelineConfig</ref><sp/>cat_cfg;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>cat_cfg.<ref refid="structthemis_1_1content_1_1_content_type_pipeline_config_1a01d6ed67752d9884b9ff089d45b2cd57" kindref="member">extraction</ref>.<ref refid="structthemis_1_1content_1_1_stage_config_1ad397917fb389512940b1b100a771f59b" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="classthemis_1_1content_1_1_processor_chain_config_1a5cfbbc033156bc0ac8b8720b23a47d08" kindref="member">category_configs</ref>[<ref refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5a23a12f67f614b5518c7f1c2465bf95e3" kindref="member">ContentCategory::IMAGE</ref>]<sp/>=<sp/>cat_cfg;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>MIME-level:<sp/>enable<sp/>everything<sp/>for<sp/>image/jpeg<sp/>(overrides<sp/>category)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_content_type_pipeline_config" kindref="compound">ContentTypePipelineConfig</ref><sp/>mime_cfg;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>mime_cfg.<ref refid="structthemis_1_1content_1_1_content_type_pipeline_config_1a01d6ed67752d9884b9ff089d45b2cd57" kindref="member">extraction</ref>.<ref refid="structthemis_1_1content_1_1_stage_config_1ad397917fb389512940b1b100a771f59b" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="classthemis_1_1content_1_1_processor_chain_config_1a262b13cb4badf4592c860d6952a9c20f" kindref="member">mime_type_configs</ref>[</highlight><highlight class="stringliteral">&quot;image/jpeg&quot;</highlight><highlight class="normal">]<sp/>=<sp/>mime_cfg;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>eff<sp/>=<sp/>cfg.<ref refid="classthemis_1_1content_1_1_processor_chain_config_1a12d00e4abcfadfa59a699f8b41807c67" kindref="member">getEffectiveConfig</ref>(</highlight><highlight class="stringliteral">&quot;image/jpeg&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5a23a12f67f614b5518c7f1c2465bf95e3" kindref="member">ContentCategory::IMAGE</ref>);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(eff.extraction.enabled);<sp/><sp/></highlight><highlight class="comment">//<sp/>MIME<sp/>override<sp/>wins</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><ref refid="test__content__processor__chain_8cpp_1ac316f3524e5048f62b890e45e0cbf496" kindref="member">TEST</ref>(ProcessorChainConfigTest,<sp/>CategoryOverrideHasHigherPriorityThanDefault)<sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_processor_chain_config" kindref="compound">ProcessorChainConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="classthemis_1_1content_1_1_processor_chain_config_1a6993f7d530aeffb8251f976e435ba60f" kindref="member">default_config</ref>.<ref refid="structthemis_1_1content_1_1_content_type_pipeline_config_1a2995d940aad95557b902932cf58b2c52" kindref="member">deduplication</ref>.<ref refid="structthemis_1_1content_1_1_stage_config_1ad397917fb389512940b1b100a771f59b" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_content_type_pipeline_config" kindref="compound">ContentTypePipelineConfig</ref><sp/>cat_cfg;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>cat_cfg.<ref refid="structthemis_1_1content_1_1_content_type_pipeline_config_1a2995d940aad95557b902932cf58b2c52" kindref="member">deduplication</ref>.<ref refid="structthemis_1_1content_1_1_stage_config_1ad397917fb389512940b1b100a771f59b" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="classthemis_1_1content_1_1_processor_chain_config_1a5cfbbc033156bc0ac8b8720b23a47d08" kindref="member">category_configs</ref>[<ref refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5a61a96ffcb251bb9bf0abf8fec19d0ea8" kindref="member">ContentCategory::TEXT</ref>]<sp/>=<sp/>cat_cfg;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>eff<sp/>=<sp/>cfg.<ref refid="classthemis_1_1content_1_1_processor_chain_config_1a12d00e4abcfadfa59a699f8b41807c67" kindref="member">getEffectiveConfig</ref>(</highlight><highlight class="stringliteral">&quot;text/plain&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5a61a96ffcb251bb9bf0abf8fec19d0ea8" kindref="member">ContentCategory::TEXT</ref>);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(eff.deduplication.enabled);<sp/><sp/></highlight><highlight class="comment">//<sp/>category<sp/>wins<sp/>over<sp/>default</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><ref refid="test__content__processor__chain_8cpp_1ac316f3524e5048f62b890e45e0cbf496" kindref="member">TEST</ref>(ProcessorChainConfigTest,<sp/>DefaultFallsBackWhenNoMimeOrCategoryMatch)<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_processor_chain_config" kindref="compound">ProcessorChainConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="classthemis_1_1content_1_1_processor_chain_config_1a6993f7d530aeffb8251f976e435ba60f" kindref="member">default_config</ref>.<ref refid="structthemis_1_1content_1_1_content_type_pipeline_config_1a7f0ace61760bfbd4b1f12db86234840a" kindref="member">chunking</ref>.<ref refid="structthemis_1_1content_1_1_stage_config_1ad397917fb389512940b1b100a771f59b" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>MIME<sp/>or<sp/>category<sp/>override<sp/>registered</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>eff<sp/>=<sp/>cfg.<ref refid="classthemis_1_1content_1_1_processor_chain_config_1a12d00e4abcfadfa59a699f8b41807c67" kindref="member">getEffectiveConfig</ref>(</highlight><highlight class="stringliteral">&quot;application/octet-stream&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5a98ad0e8750ae10ad556ed7a62affb452" kindref="member">ContentCategory::BINARY</ref>);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(eff.chunking.enabled);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><ref refid="test__content__processor__chain_8cpp_1ac316f3524e5048f62b890e45e0cbf496" kindref="member">TEST</ref>(ProcessorChainConfigTest,<sp/>UnknownMimeTypeUsesDefault)<sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_processor_chain_config" kindref="compound">ProcessorChainConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="classthemis_1_1content_1_1_processor_chain_config_1a6993f7d530aeffb8251f976e435ba60f" kindref="member">default_config</ref>.<ref refid="structthemis_1_1content_1_1_content_type_pipeline_config_1a67714b0370a25c6b8767c45915dd6e93" kindref="member">embedding</ref>.<ref refid="structthemis_1_1content_1_1_stage_config_1ad397917fb389512940b1b100a771f59b" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>eff<sp/>=<sp/>cfg.<ref refid="classthemis_1_1content_1_1_processor_chain_config_1a12d00e4abcfadfa59a699f8b41807c67" kindref="member">getEffectiveConfig</ref>(</highlight><highlight class="stringliteral">&quot;application/x-custom-type&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">ContentCategory::UNKNOWN</ref>);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(eff.embedding.enabled);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>JSON<sp/>round-trip</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><ref refid="test__content__processor__chain_8cpp_1ac316f3524e5048f62b890e45e0cbf496" kindref="member">TEST</ref>(ProcessorChainConfigTest,<sp/>JsonRoundTrip_Defaults)<sp/>{</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_processor_chain_config" kindref="compound">ProcessorChainConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>cfg.<ref refid="classthemis_1_1content_1_1_processor_chain_config_1a853fb71ff645b0de2c2bcd472d7a3071" kindref="member">toJson</ref>();</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg2<sp/>=<sp/><ref refid="classthemis_1_1content_1_1_processor_chain_config_1a296f205aae81d234eb8b629274748e7f" kindref="member">ProcessorChainConfig::fromJson</ref>(j);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>eff<sp/>=<sp/>cfg2.getEffectiveConfig(</highlight><highlight class="stringliteral">&quot;text/plain&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5a61a96ffcb251bb9bf0abf8fec19d0ea8" kindref="member">ContentCategory::TEXT</ref>);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(eff.extraction.enabled);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(eff.chunking.enabled);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(eff.embedding.enabled);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(eff.deduplication.enabled);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><ref refid="test__content__processor__chain_8cpp_1ac316f3524e5048f62b890e45e0cbf496" kindref="member">TEST</ref>(ProcessorChainConfigTest,<sp/>JsonRoundTrip_WithOverrides)<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_processor_chain_config" kindref="compound">ProcessorChainConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="classthemis_1_1content_1_1_processor_chain_config_1a6993f7d530aeffb8251f976e435ba60f" kindref="member">default_config</ref>.<ref refid="structthemis_1_1content_1_1_content_type_pipeline_config_1a67714b0370a25c6b8767c45915dd6e93" kindref="member">embedding</ref>.<ref refid="structthemis_1_1content_1_1_stage_config_1ad397917fb389512940b1b100a771f59b" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_content_type_pipeline_config" kindref="compound">ContentTypePipelineConfig</ref><sp/>mime_cfg;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>mime_cfg.<ref refid="structthemis_1_1content_1_1_content_type_pipeline_config_1a2995d940aad95557b902932cf58b2c52" kindref="member">deduplication</ref>.<ref refid="structthemis_1_1content_1_1_stage_config_1ad397917fb389512940b1b100a771f59b" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="classthemis_1_1content_1_1_processor_chain_config_1a262b13cb4badf4592c860d6952a9c20f" kindref="member">mime_type_configs</ref>[</highlight><highlight class="stringliteral">&quot;text/html&quot;</highlight><highlight class="normal">]<sp/>=<sp/>mime_cfg;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_content_type_pipeline_config" kindref="compound">ContentTypePipelineConfig</ref><sp/>cat_cfg;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>cat_cfg.<ref refid="structthemis_1_1content_1_1_content_type_pipeline_config_1a01d6ed67752d9884b9ff089d45b2cd57" kindref="member">extraction</ref>.<ref refid="structthemis_1_1content_1_1_stage_config_1ad397917fb389512940b1b100a771f59b" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="classthemis_1_1content_1_1_processor_chain_config_1a5cfbbc033156bc0ac8b8720b23a47d08" kindref="member">category_configs</ref>[<ref refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5a23a12f67f614b5518c7f1c2465bf95e3" kindref="member">ContentCategory::IMAGE</ref>]<sp/>=<sp/>cat_cfg;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>cfg.<ref refid="classthemis_1_1content_1_1_processor_chain_config_1a853fb71ff645b0de2c2bcd472d7a3071" kindref="member">toJson</ref>();</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg2<sp/>=<sp/><ref refid="classthemis_1_1content_1_1_processor_chain_config_1a296f205aae81d234eb8b629274748e7f" kindref="member">ProcessorChainConfig::fromJson</ref>(j);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Default:<sp/>embedding<sp/>disabled</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>d<sp/>=<sp/>cfg2.getEffectiveConfig(</highlight><highlight class="stringliteral">&quot;application/pdf&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5a98ad0e8750ae10ad556ed7a62affb452" kindref="member">ContentCategory::BINARY</ref>);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(d.embedding.enabled);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>MIME<sp/>override:<sp/>deduplication<sp/>disabled</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>h<sp/>=<sp/>cfg2.getEffectiveConfig(</highlight><highlight class="stringliteral">&quot;text/html&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5a61a96ffcb251bb9bf0abf8fec19d0ea8" kindref="member">ContentCategory::TEXT</ref>);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(h.deduplication.enabled);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Category<sp/>override:<sp/>extraction<sp/>disabled</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>img<sp/>=<sp/>cfg2.getEffectiveConfig(</highlight><highlight class="stringliteral">&quot;image/png&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5a23a12f67f614b5518c7f1c2465bf95e3" kindref="member">ContentCategory::IMAGE</ref>);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(img.extraction.enabled);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><ref refid="test__content__processor__chain_8cpp_1ac316f3524e5048f62b890e45e0cbf496" kindref="member">TEST</ref>(ProcessorChainConfigTest,<sp/>JsonFromJson_IgnoresUnknownCategory)<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>j<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;default&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;extraction&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;chunking&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;embedding&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;deduplication&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">}}},</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;mime_types&quot;</highlight><highlight class="normal">,<sp/>nlohmann::json::object()},</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;categories&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;TOTALLY_UNKNOWN_CATEGORY&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;extraction&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">}}}}}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>not<sp/>throw<sp/>–<sp/>unknown<sp/>category<sp/>is<sp/>silently<sp/>ignored</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(<ref refid="classthemis_1_1content_1_1_processor_chain_config_1a296f205aae81d234eb8b629274748e7f" kindref="member">ProcessorChainConfig::fromJson</ref>(j));</highlight></codeline>
+<codeline lineno="145"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><ref refid="test__content__processor__chain_8cpp_1ac316f3524e5048f62b890e45e0cbf496" kindref="member">TEST</ref>(ProcessorChainConfigTest,<sp/>JsonFromJson_PartialFields)<sp/>{</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Only<sp/>some<sp/>stage<sp/>fields<sp/>provided<sp/>–<sp/>others<sp/>default<sp/>to<sp/>true</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>j<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;default&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;embedding&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">}}},<sp/><sp/></highlight><highlight class="comment">//<sp/>only<sp/>embedding<sp/>specified</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;mime_types&quot;</highlight><highlight class="normal">,<sp/>nlohmann::json::object()},</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;categories&quot;</highlight><highlight class="normal">,<sp/>nlohmann::json::object()}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/><ref refid="classthemis_1_1content_1_1_processor_chain_config_1a296f205aae81d234eb8b629274748e7f" kindref="member">ProcessorChainConfig::fromJson</ref>(j);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>eff<sp/>=<sp/>cfg.<ref refid="classthemis_1_1content_1_1_processor_chain_config_1a12d00e4abcfadfa59a699f8b41807c67" kindref="member">getEffectiveConfig</ref>(</highlight><highlight class="stringliteral">&quot;text/plain&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5a61a96ffcb251bb9bf0abf8fec19d0ea8" kindref="member">ContentCategory::TEXT</ref>);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(eff.extraction.enabled);<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>not<sp/>specified<sp/>→<sp/>default<sp/>true</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(eff.chunking.enabled);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(eff.embedding.enabled);<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>specified<sp/>false</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(eff.deduplication.enabled);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="comment">//<sp/>All<sp/>categories<sp/>round-trip<sp/>via<sp/>JSON</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><ref refid="test__content__processor__chain_8cpp_1ac316f3524e5048f62b890e45e0cbf496" kindref="member">TEST</ref>(ProcessorChainConfigTest,<sp/>AllCategoriesSerializeAndDeserialize)<sp/>{</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_processor_chain_config" kindref="compound">ProcessorChainConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ContentCategory&gt;<sp/>all_cats<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5a61a96ffcb251bb9bf0abf8fec19d0ea8" kindref="member">ContentCategory::TEXT</ref>,<sp/><ref refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5a23a12f67f614b5518c7f1c2465bf95e3" kindref="member">ContentCategory::IMAGE</ref>,<sp/><ref refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5a4a221f74494f1ac7a498e6524292eaef" kindref="member">ContentCategory::GEO</ref>,</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5aeccb0954fca9f2005aea084605df5ee9" kindref="member">ContentCategory::CAD</ref>,<sp/><ref refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5ae423b8bde9bfbfd7e9409b23b23aed91" kindref="member">ContentCategory::AUDIO</ref>,<sp/><ref refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5ae60ae31f67ab883c746bb71c7a145c18" kindref="member">ContentCategory::VIDEO</ref>,</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5af3657f7b18c7809b92f317c5f3b53421" kindref="member">ContentCategory::STRUCTURED</ref>,<sp/><ref refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5a98ad0e8750ae10ad556ed7a62affb452" kindref="member">ContentCategory::BINARY</ref>,</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5a71f01f32e90440fd6039511dde69e995" kindref="member">ContentCategory::ARCHIVE</ref>,<sp/><ref refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">ContentCategory::UNKNOWN</ref>,</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cat<sp/>:<sp/>all_cats)<sp/>{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_content_type_pipeline_config" kindref="compound">ContentTypePipelineConfig</ref><sp/>c;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>c.<ref refid="structthemis_1_1content_1_1_content_type_pipeline_config_1a7f0ace61760bfbd4b1f12db86234840a" kindref="member">chunking</ref>.<ref refid="structthemis_1_1content_1_1_stage_config_1ad397917fb389512940b1b100a771f59b" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="classthemis_1_1content_1_1_processor_chain_config_1a5cfbbc033156bc0ac8b8720b23a47d08" kindref="member">category_configs</ref>[cat]<sp/>=<sp/>c;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>cfg.<ref refid="classthemis_1_1content_1_1_processor_chain_config_1a853fb71ff645b0de2c2bcd472d7a3071" kindref="member">toJson</ref>();</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg2<sp/>=<sp/><ref refid="classthemis_1_1content_1_1_processor_chain_config_1a296f205aae81d234eb8b629274748e7f" kindref="member">ProcessorChainConfig::fromJson</ref>(j);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>named<sp/>categories<sp/>(including<sp/>VIDEO,<sp/>ARCHIVE<sp/>and<sp/>UNKNOWN)<sp/>must<sp/>round-trip.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cat<sp/>:<sp/>all_cats)<sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>eff<sp/>=<sp/>cfg2.getEffectiveConfig(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>cat);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(eff.chunking.enabled)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Category<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(cat);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(eff.extraction.enabled)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Category<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(cat);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="190"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/content/test_content_processor_chain.cpp"/>
+  </compounddef>
+</doxygen>

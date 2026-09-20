@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_blackout_period" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::BlackoutPeriod</compoundname>
+    <includes refid="tenant__update__scheduler_8h" local="no">tenant_update_scheduler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_blackout_period_1a76a0d1a57a2e6986f117c4cd34108f70" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::BlackoutPeriod::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::updates::BlackoutPeriod::id</qualifiedname>
+        <briefdescription>
+<para>Unique identifier assigned by the caller; used to remove the period. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/tenant_update_scheduler.h" line="88" column="17" bodyfile="include/updates/tenant_update_scheduler.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_blackout_period_1a915bbd3d871f4ab4c5b8b98305baf72a" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::updates::BlackoutPeriod::start</definition>
+        <argsstring></argsstring>
+        <name>start</name>
+        <qualifiedname>themis::updates::BlackoutPeriod::start</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/tenant_update_scheduler.h" line="89" column="43" bodyfile="include/updates/tenant_update_scheduler.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_blackout_period_1a04d02a0466df1c49d28055aa1266a526" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::updates::BlackoutPeriod::end</definition>
+        <argsstring></argsstring>
+        <name>end</name>
+        <qualifiedname>themis::updates::BlackoutPeriod::end</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/tenant_update_scheduler.h" line="90" column="43" bodyfile="include/updates/tenant_update_scheduler.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_blackout_period_1a065b07658673b78e47d0aaf220b818a7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::BlackoutPeriod::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::updates::BlackoutPeriod::reason</qualifiedname>
+        <briefdescription>
+<para>Optional human-readable reason. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/tenant_update_scheduler.h" line="92" column="17" bodyfile="include/updates/tenant_update_scheduler.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Absolute time range during which no updates are allowed for a tenant. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Useful for freezing changes around business-critical events (e.g., year-end processing, quarterly releases). </para>
+    </detaileddescription>
+    <location file="include/updates/tenant_update_scheduler.h" line="86" column="1" bodyfile="include/updates/tenant_update_scheduler.h" bodystart="86" bodyend="93"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_blackout_period_1a04d02a0466df1c49d28055aa1266a526" prot="public" virt="non-virtual"><scope>themis::updates::BlackoutPeriod</scope><name>end</name></member>
+      <member refid="structthemis_1_1updates_1_1_blackout_period_1a76a0d1a57a2e6986f117c4cd34108f70" prot="public" virt="non-virtual"><scope>themis::updates::BlackoutPeriod</scope><name>id</name></member>
+      <member refid="structthemis_1_1updates_1_1_blackout_period_1a065b07658673b78e47d0aaf220b818a7" prot="public" virt="non-virtual"><scope>themis::updates::BlackoutPeriod</scope><name>reason</name></member>
+      <member refid="structthemis_1_1updates_1_1_blackout_period_1a915bbd3d871f4ab4c5b8b98305baf72a" prot="public" virt="non-virtual"><scope>themis::updates::BlackoutPeriod</scope><name>start</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

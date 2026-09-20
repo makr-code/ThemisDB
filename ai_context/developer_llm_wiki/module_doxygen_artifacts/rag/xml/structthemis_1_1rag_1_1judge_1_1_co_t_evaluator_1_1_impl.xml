@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_co_t_evaluator_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::CoTEvaluator::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_co_t_evaluator_1_1_impl_1a79143eff1ca17832b9d93b308b938b3b" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_co_t_evaluator_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::rag::judge::CoTEvaluator::Impl::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::rag::judge::CoTEvaluator::Impl::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/cot_evaluator.cpp" line="28" column="12" bodyfile="src/rag/cot_evaluator.cpp" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_co_t_evaluator_1_1_impl_1a6926cc79808b0486567487519419bd6b" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration" kindref="compound">LLMJudgeIntegration</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;LLMJudgeIntegration&gt; themis::rag::judge::CoTEvaluator::Impl::llm_integration</definition>
+        <argsstring></argsstring>
+        <name>llm_integration</name>
+        <qualifiedname>themis::rag::judge::CoTEvaluator::Impl::llm_integration</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/cot_evaluator.cpp" line="29" column="21" bodyfile="src/rag/cot_evaluator.cpp" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_co_t_evaluator_1_1_impl_1a3fdd05aca41f8ddab27429959753f457" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1rag_1_1judge_1_1_response_parser" kindref="compound">ResponseParser</ref></type>
+        <definition>ResponseParser themis::rag::judge::CoTEvaluator::Impl::parser</definition>
+        <argsstring></argsstring>
+        <name>parser</name>
+        <qualifiedname>themis::rag::judge::CoTEvaluator::Impl::parser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/cot_evaluator.cpp" line="30" column="20" bodyfile="src/rag/cot_evaluator.cpp" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_co_t_evaluator_1_1_impl_1a05a8d1b47388848a1a1946bf2a8602a1" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::rag::judge::CoTEvaluator::Impl::state_mutex</definition>
+        <argsstring></argsstring>
+        <name>state_mutex</name>
+        <qualifiedname>themis::rag::judge::CoTEvaluator::Impl::state_mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/cot_evaluator.cpp" line="31" column="24" bodyfile="src/rag/cot_evaluator.cpp" bodystart="31" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1rag_1_1judge_1_1_co_t_evaluator_1_1_impl_1acff650412229a80360ba0051f9ddd6bb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::CoTEvaluator::Impl::generateCoTPrompt</definition>
+        <argsstring>(const std::string &amp;query, const std::string &amp;answer, const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;documents, const std::string &amp;dimension)</argsstring>
+        <name>generateCoTPrompt</name>
+        <qualifiedname>themis::rag::judge::CoTEvaluator::Impl::generateCoTPrompt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>answer</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;</type>
+          <declname>documents</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dimension</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/cot_evaluator.cpp" line="34" column="17" bodyfile="src/rag/cot_evaluator.cpp" bodystart="34" bodyend="59"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::rag::judge::CoTEvaluator::Config</label>
+        <link refid="structthemis_1_1rag_1_1judge_1_1_co_t_evaluator_1_1_config"/>
+      </node>
+      <node id="1">
+        <label>themis::rag::judge::CoTEvaluator::Impl</label>
+        <link refid="structthemis_1_1rag_1_1judge_1_1_co_t_evaluator_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>parser</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::rag::judge::ResponseParser</label>
+        <link refid="classthemis_1_1rag_1_1judge_1_1_response_parser"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/rag/cot_evaluator.cpp" line="27" column="1" bodyfile="src/rag/cot_evaluator.cpp" bodystart="27" bodyend="80"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_co_t_evaluator_1_1_impl_1a79143eff1ca17832b9d93b308b938b3b" prot="public" virt="non-virtual"><scope>themis::rag::judge::CoTEvaluator::Impl</scope><name>config</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_co_t_evaluator_1_1_impl_1acff650412229a80360ba0051f9ddd6bb" prot="public" virt="non-virtual"><scope>themis::rag::judge::CoTEvaluator::Impl</scope><name>generateCoTPrompt</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_co_t_evaluator_1_1_impl_1a6926cc79808b0486567487519419bd6b" prot="public" virt="non-virtual"><scope>themis::rag::judge::CoTEvaluator::Impl</scope><name>llm_integration</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_co_t_evaluator_1_1_impl_1a3fdd05aca41f8ddab27429959753f457" prot="public" virt="non-virtual"><scope>themis::rag::judge::CoTEvaluator::Impl</scope><name>parser</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_co_t_evaluator_1_1_impl_1a05a8d1b47388848a1a1946bf2a8602a1" prot="public" virt="non-virtual"><scope>themis::rag::judge::CoTEvaluator::Impl</scope><name>state_mutex</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

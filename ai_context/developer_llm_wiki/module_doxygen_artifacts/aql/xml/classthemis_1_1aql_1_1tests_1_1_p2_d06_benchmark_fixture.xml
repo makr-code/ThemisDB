@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1tests_1_1_p2_d06_benchmark_fixture" kind="class" language="C++" prot="public">
+    <compoundname>themis::aql::tests::P2D06BenchmarkFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1tests_1_1_p2_d06_benchmark_fixture_1a4fa25ed258cde087680160565306cb44" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1aql_1_1tests_1_1_benchmark_history_compressor" kindref="compound">BenchmarkHistoryCompressor</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;BenchmarkHistoryCompressor&gt; themis::aql::tests::P2D06BenchmarkFixture::compressor_</definition>
+        <argsstring></argsstring>
+        <name>compressor_</name>
+        <qualifiedname>themis::aql::tests::P2D06BenchmarkFixture::compressor_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d06_benchmarks.cpp" line="185" column="21" bodyfile="tests/aql/test_p2_d06_benchmarks.cpp" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1tests_1_1_p2_d06_benchmark_fixture_1ae31a71742f89bf7829c13ae3a65a0c43" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1aql_1_1tests_1_1_benchmark_l_l_m_a_q_l_handler" kindref="compound">BenchmarkLLMAQLHandler</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;BenchmarkLLMAQLHandler&gt; themis::aql::tests::P2D06BenchmarkFixture::handler_</definition>
+        <argsstring></argsstring>
+        <name>handler_</name>
+        <qualifiedname>themis::aql::tests::P2D06BenchmarkFixture::handler_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d06_benchmarks.cpp" line="186" column="21" bodyfile="tests/aql/test_p2_d06_benchmarks.cpp" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1tests_1_1_p2_d06_benchmark_fixture_1acd4a4fd885326223c1f38c388e529bec" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;std::string, std::string&gt; &gt; themis::aql::tests::P2D06BenchmarkFixture::history_</definition>
+        <argsstring></argsstring>
+        <name>history_</name>
+        <qualifiedname>themis::aql::tests::P2D06BenchmarkFixture::history_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d06_benchmarks.cpp" line="187" column="17" bodyfile="tests/aql/test_p2_d06_benchmarks.cpp" bodystart="187" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1tests_1_1_p2_d06_benchmark_fixture_1a5d63d4c1a2f877655e19a4d844b50501" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::tests::P2D06BenchmarkFixture::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::aql::tests::P2D06BenchmarkFixture::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d06_benchmarks.cpp" line="152" column="10" bodyfile="tests/aql/test_p2_d06_benchmarks.cpp" bodystart="152" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1tests_1_1_p2_d06_benchmark_fixture_1af3a1087f0bd0462cb3bf79dc09651763" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::tests::P2D06BenchmarkFixture::GenerateConversationData</definition>
+        <argsstring>()</argsstring>
+        <name>GenerateConversationData</name>
+        <qualifiedname>themis::aql::tests::P2D06BenchmarkFixture::GenerateConversationData</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d06_benchmarks.cpp" line="160" column="10" bodyfile="tests/aql/test_p2_d06_benchmarks.cpp" bodystart="160" bodyend="183"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Test fixture for P2-D06 benchmarks with realistic conversation data. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::aql::tests::P2D06BenchmarkFixture</label>
+        <link refid="classthemis_1_1aql_1_1tests_1_1_p2_d06_benchmark_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::aql::tests::P2D06BenchmarkFixture</label>
+        <link refid="classthemis_1_1aql_1_1tests_1_1_p2_d06_benchmark_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/aql/test_p2_d06_benchmarks.cpp" line="150" column="1" bodyfile="tests/aql/test_p2_d06_benchmarks.cpp" bodystart="150" bodyend="188"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1tests_1_1_p2_d06_benchmark_fixture_1a4fa25ed258cde087680160565306cb44" prot="protected" virt="non-virtual"><scope>themis::aql::tests::P2D06BenchmarkFixture</scope><name>compressor_</name></member>
+      <member refid="classthemis_1_1aql_1_1tests_1_1_p2_d06_benchmark_fixture_1af3a1087f0bd0462cb3bf79dc09651763" prot="protected" virt="non-virtual"><scope>themis::aql::tests::P2D06BenchmarkFixture</scope><name>GenerateConversationData</name></member>
+      <member refid="classthemis_1_1aql_1_1tests_1_1_p2_d06_benchmark_fixture_1ae31a71742f89bf7829c13ae3a65a0c43" prot="protected" virt="non-virtual"><scope>themis::aql::tests::P2D06BenchmarkFixture</scope><name>handler_</name></member>
+      <member refid="classthemis_1_1aql_1_1tests_1_1_p2_d06_benchmark_fixture_1acd4a4fd885326223c1f38c388e529bec" prot="protected" virt="non-virtual"><scope>themis::aql::tests::P2D06BenchmarkFixture</scope><name>history_</name></member>
+      <member refid="classthemis_1_1aql_1_1tests_1_1_p2_d06_benchmark_fixture_1a5d63d4c1a2f877655e19a4d844b50501" prot="protected" virt="non-virtual"><scope>themis::aql::tests::P2D06BenchmarkFixture</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

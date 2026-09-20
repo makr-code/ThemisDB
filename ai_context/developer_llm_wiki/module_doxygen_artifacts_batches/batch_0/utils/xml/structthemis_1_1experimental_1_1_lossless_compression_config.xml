@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1experimental_1_1_lossless_compression_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::experimental::LosslessCompressionConfig</compoundname>
+    <includes refid="lossless__vector__integration_8h" local="no">lossless_vector_integration.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1experimental_1_1_lossless_compression_config_1ad385e74254c38c489733e22a689e24bb" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::experimental::LosslessCompressionConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::experimental::LosslessCompressionConfig::enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lossless_vector_integration.h" line="43" column="10" bodyfile="include/utils/lossless_vector_integration.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1experimental_1_1_lossless_compression_config_1a477c3f0bf0650ca18a1932111b720fc9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::experimental::LosslessCompressionConfig::mode</definition>
+        <argsstring></argsstring>
+        <name>mode</name>
+        <qualifiedname>themis::experimental::LosslessCompressionConfig::mode</qualifiedname>
+        <initializer>= &quot;auto&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lossless_vector_integration.h" line="44" column="17" bodyfile="include/utils/lossless_vector_integration.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1experimental_1_1_lossless_compression_config_1a50489584a96a1e86d7fc592f572a807c" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::experimental::LosslessCompressionConfig::sparse_threshold</definition>
+        <argsstring></argsstring>
+        <name>sparse_threshold</name>
+        <qualifiedname>themis::experimental::LosslessCompressionConfig::sparse_threshold</qualifiedname>
+        <initializer>= 0.95f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lossless_vector_integration.h" line="45" column="11" bodyfile="include/utils/lossless_vector_integration.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1experimental_1_1_lossless_compression_config_1a74ecfaaa6b87848cb959d3cdde760812" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::experimental::LosslessCompressionConfig::fallback_to_sq8</definition>
+        <argsstring></argsstring>
+        <name>fallback_to_sq8</name>
+        <qualifiedname>themis::experimental::LosslessCompressionConfig::fallback_to_sq8</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lossless_vector_integration.h" line="46" column="10" bodyfile="include/utils/lossless_vector_integration.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1experimental_1_1_lossless_compression_config_1a093a68bd8aa225ce060368274738d577" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1experimental_1_1_lossless_compression_config" kindref="compound">LosslessCompressionConfig</ref></type>
+        <definition>static LosslessCompressionConfig themis::experimental::LosslessCompressionConfig::load</definition>
+        <argsstring>(RocksDBWrapper &amp;db)</argsstring>
+        <name>load</name>
+        <qualifiedname>themis::experimental::LosslessCompressionConfig::load</qualifiedname>
+        <param>
+          <type>RocksDBWrapper &amp;</type>
+          <declname>db</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lossless_vector_integration.h" line="48" column="38" bodyfile="include/utils/lossless_vector_integration.h" bodystart="48" bodyend="66"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/lossless_vector_integration.h" line="42" column="1" bodyfile="include/utils/lossless_vector_integration.h" bodystart="42" bodyend="67"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1experimental_1_1_lossless_compression_config_1ad385e74254c38c489733e22a689e24bb" prot="public" virt="non-virtual"><scope>themis::experimental::LosslessCompressionConfig</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1experimental_1_1_lossless_compression_config_1a74ecfaaa6b87848cb959d3cdde760812" prot="public" virt="non-virtual"><scope>themis::experimental::LosslessCompressionConfig</scope><name>fallback_to_sq8</name></member>
+      <member refid="structthemis_1_1experimental_1_1_lossless_compression_config_1a093a68bd8aa225ce060368274738d577" prot="public" virt="non-virtual"><scope>themis::experimental::LosslessCompressionConfig</scope><name>load</name></member>
+      <member refid="structthemis_1_1experimental_1_1_lossless_compression_config_1a477c3f0bf0650ca18a1932111b720fc9" prot="public" virt="non-virtual"><scope>themis::experimental::LosslessCompressionConfig</scope><name>mode</name></member>
+      <member refid="structthemis_1_1experimental_1_1_lossless_compression_config_1a50489584a96a1e86d7fc592f572a807c" prot="public" virt="non-virtual"><scope>themis::experimental::LosslessCompressionConfig</scope><name>sparse_threshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

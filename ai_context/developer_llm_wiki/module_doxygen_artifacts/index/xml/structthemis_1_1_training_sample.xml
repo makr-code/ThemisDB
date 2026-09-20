@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_training_sample" kind="struct" language="C++" prot="public">
+    <compoundname>themis::TrainingSample</compoundname>
+    <includes refid="learnable__rope_8h" local="no">learnable_rope.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_training_sample_1ae7eb6cc280db28262f23f52aa1320980" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::TrainingSample::embedding</definition>
+        <argsstring></argsstring>
+        <name>embedding</name>
+        <qualifiedname>themis::TrainingSample::embedding</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learnable_rope.h" line="43" column="17" bodyfile="include/index/learnable_rope.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_training_sample_1a41306dc4f1f6ac71f61fea5cca2a1518" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::TrainingSample::position</definition>
+        <argsstring></argsstring>
+        <name>position</name>
+        <qualifiedname>themis::TrainingSample::position</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learnable_rope.h" line="44" column="12" bodyfile="include/index/learnable_rope.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_training_sample_1a8382f3b12637ee4f8c179e50e7107f56" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::TrainingSample::similarity_target</definition>
+        <argsstring></argsstring>
+        <name>similarity_target</name>
+        <qualifiedname>themis::TrainingSample::similarity_target</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learnable_rope.h" line="45" column="11" bodyfile="include/index/learnable_rope.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_training_sample_1a0632ab5c0a20fbbe6a8683a88f1dd0d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::TrainingSample::TrainingSample</definition>
+        <argsstring>()=default</argsstring>
+        <name>TrainingSample</name>
+        <qualifiedname>themis::TrainingSample::TrainingSample</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learnable_rope.h" line="47" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_training_sample_1a27a96c2615f715450b9d0a4ad21bc7ce" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::TrainingSample::TrainingSample</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;emb, size_t pos, float sim)</argsstring>
+        <name>TrainingSample</name>
+        <qualifiedname>themis::TrainingSample::TrainingSample</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>emb</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>pos</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>sim</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learnable_rope.h" line="48" column="5" bodyfile="include/index/learnable_rope.h" bodystart="48" bodyend="49"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Training sample for contrastive learning Represents a single data point for training </para>
+    </detaileddescription>
+    <location file="include/index/learnable_rope.h" line="42" column="1" bodyfile="include/index/learnable_rope.h" bodystart="42" bodyend="50"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_training_sample_1ae7eb6cc280db28262f23f52aa1320980" prot="public" virt="non-virtual"><scope>themis::TrainingSample</scope><name>embedding</name></member>
+      <member refid="structthemis_1_1_training_sample_1a41306dc4f1f6ac71f61fea5cca2a1518" prot="public" virt="non-virtual"><scope>themis::TrainingSample</scope><name>position</name></member>
+      <member refid="structthemis_1_1_training_sample_1a8382f3b12637ee4f8c179e50e7107f56" prot="public" virt="non-virtual"><scope>themis::TrainingSample</scope><name>similarity_target</name></member>
+      <member refid="structthemis_1_1_training_sample_1a0632ab5c0a20fbbe6a8683a88f1dd0d3" prot="public" virt="non-virtual"><scope>themis::TrainingSample</scope><name>TrainingSample</name></member>
+      <member refid="structthemis_1_1_training_sample_1a27a96c2615f715450b9d0a4ad21bc7ce" prot="public" virt="non-virtual"><scope>themis::TrainingSample</scope><name>TrainingSample</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

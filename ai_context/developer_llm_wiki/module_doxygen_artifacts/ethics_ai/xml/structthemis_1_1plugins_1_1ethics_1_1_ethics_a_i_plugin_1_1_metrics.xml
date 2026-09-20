@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1_1_metrics" kind="struct" language="C++" prot="private">
+    <compoundname>themis::plugins::ethics::EthicsAIPlugin::Metrics</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1_1_metrics_1a77bdaed4c54fcca9d055f41b39876411" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::plugins::ethics::EthicsAIPlugin::Metrics::total_debates</definition>
+        <argsstring></argsstring>
+        <name>total_debates</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAIPlugin::Metrics::total_debates</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_ai_plugin.cpp" line="50" column="16" bodyfile="src/ethics_ai/ethics_ai_plugin.cpp" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1_1_metrics_1ac5b8e262a133f03b70908d58508f7590" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::plugins::ethics::EthicsAIPlugin::Metrics::total_decisions</definition>
+        <argsstring></argsstring>
+        <name>total_decisions</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAIPlugin::Metrics::total_decisions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_ai_plugin.cpp" line="51" column="16" bodyfile="src/ethics_ai/ethics_ai_plugin.cpp" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1_1_metrics_1ac78dbe149635d831b17a2e2f3601769b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::plugins::ethics::EthicsAIPlugin::Metrics::total_arguments</definition>
+        <argsstring></argsstring>
+        <name>total_arguments</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAIPlugin::Metrics::total_arguments</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_ai_plugin.cpp" line="52" column="16" bodyfile="src/ethics_ai/ethics_ai_plugin.cpp" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1_1_metrics_1a4d55e23a5de0c9ee119ede7d4e03c07e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::plugins::ethics::EthicsAIPlugin::Metrics::total_evaluations</definition>
+        <argsstring></argsstring>
+        <name>total_evaluations</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAIPlugin::Metrics::total_evaluations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_ai_plugin.cpp" line="53" column="16" bodyfile="src/ethics_ai/ethics_ai_plugin.cpp" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1_1_metrics_1a88860b460e0dc8802bc7470a9f5e3d8f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::plugins::ethics::EthicsAIPlugin::Metrics::avg_decision_quality</definition>
+        <argsstring></argsstring>
+        <name>avg_decision_quality</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAIPlugin::Metrics::avg_decision_quality</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_ai_plugin.cpp" line="54" column="16" bodyfile="src/ethics_ai/ethics_ai_plugin.cpp" bodystart="54" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/ethics_ai/ethics_ai_plugin.cpp" line="49" column="5" bodyfile="src/ethics_ai/ethics_ai_plugin.cpp" bodystart="49" bodyend="55"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1_1_metrics_1a88860b460e0dc8802bc7470a9f5e3d8f" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsAIPlugin::Metrics</scope><name>avg_decision_quality</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1_1_metrics_1ac78dbe149635d831b17a2e2f3601769b" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsAIPlugin::Metrics</scope><name>total_arguments</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1_1_metrics_1a77bdaed4c54fcca9d055f41b39876411" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsAIPlugin::Metrics</scope><name>total_debates</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1_1_metrics_1ac5b8e262a133f03b70908d58508f7590" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsAIPlugin::Metrics</scope><name>total_decisions</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1_1_metrics_1a4d55e23a5de0c9ee119ede7d4e03c07e" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsAIPlugin::Metrics</scope><name>total_evaluations</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

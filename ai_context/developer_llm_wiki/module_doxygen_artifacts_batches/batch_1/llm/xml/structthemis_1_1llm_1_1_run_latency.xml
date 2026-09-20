@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_run_latency" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::RunLatency</compoundname>
+    <includes refid="ai__orchestrator_8h" local="no">ai_orchestrator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_run_latency_1ada5fbf113a39bd5a90151a15785c82c1" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::llm::RunLatency::retrieval_ms</definition>
+        <argsstring></argsstring>
+        <name>retrieval_ms</name>
+        <qualifiedname>themis::llm::RunLatency::retrieval_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="304" column="13" bodyfile="include/llm/ai_orchestrator.h" bodystart="304" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_run_latency_1a96b49c0255cade6e25ee40faccc5c505" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::llm::RunLatency::llm_ms</definition>
+        <argsstring></argsstring>
+        <name>llm_ms</name>
+        <qualifiedname>themis::llm::RunLatency::llm_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="305" column="13" bodyfile="include/llm/ai_orchestrator.h" bodystart="305" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_run_latency_1a4980bfa2e9f188a974ac120530f41432" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::llm::RunLatency::tool_calls_ms</definition>
+        <argsstring></argsstring>
+        <name>tool_calls_ms</name>
+        <qualifiedname>themis::llm::RunLatency::tool_calls_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="306" column="13" bodyfile="include/llm/ai_orchestrator.h" bodystart="306" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_run_latency_1af4ddfa1fcd8f82a97a706a8a6330eacf" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::llm::RunLatency::total_ms</definition>
+        <argsstring></argsstring>
+        <name>total_ms</name>
+        <qualifiedname>themis::llm::RunLatency::total_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="307" column="13" bodyfile="include/llm/ai_orchestrator.h" bodystart="307" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_run_latency_1a9cbdee09366da770233d93394f630579" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::RunLatency::~RunLatency</definition>
+        <argsstring>()=default</argsstring>
+        <name>~RunLatency</name>
+        <qualifiedname>themis::llm::RunLatency::~RunLatency</qualifiedname>
+        <briefdescription>
+<para>Run Latency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="303" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/ai_orchestrator.h" line="298" column="1" bodyfile="include/llm/ai_orchestrator.h" bodystart="298" bodyend="308"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_run_latency_1a96b49c0255cade6e25ee40faccc5c505" prot="public" virt="non-virtual"><scope>themis::llm::RunLatency</scope><name>llm_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_run_latency_1ada5fbf113a39bd5a90151a15785c82c1" prot="public" virt="non-virtual"><scope>themis::llm::RunLatency</scope><name>retrieval_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_run_latency_1a4980bfa2e9f188a974ac120530f41432" prot="public" virt="non-virtual"><scope>themis::llm::RunLatency</scope><name>tool_calls_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_run_latency_1af4ddfa1fcd8f82a97a706a8a6330eacf" prot="public" virt="non-virtual"><scope>themis::llm::RunLatency</scope><name>total_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_run_latency_1a9cbdee09366da770233d93394f630579" prot="public" virt="virtual"><scope>themis::llm::RunLatency</scope><name>~RunLatency</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

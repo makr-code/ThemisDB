@@ -1,0 +1,625 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1timeseries_1_1_ts_stream_cursor" kind="class" language="C++" prot="public">
+    <compoundname>themis::timeseries::TsStreamCursor</compoundname>
+    <includes refid="ts__stream__cursor_8h" local="no">ts_stream_cursor.h</includes>
+    <innerclass refid="structthemis_1_1timeseries_1_1_ts_stream_cursor_1_1_config" prot="public">themis::timeseries::TsStreamCursor::Config</innerclass>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1timeseries_1_1_ts_stream_cursor_1a62af974f371c62d0d0bfb4b25266e05a" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::timeseries::TsStreamCursor::kDefaultPageSize</definition>
+        <argsstring></argsstring>
+        <name>kDefaultPageSize</name>
+        <qualifiedname>themis::timeseries::TsStreamCursor::kDefaultPageSize</qualifiedname>
+        <initializer>= 4096</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Page size: number of DataPoints fetched per backend round-trip. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_stream_cursor.h" line="28" column="29" bodyfile="include/timeseries/ts_stream_cursor.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1timeseries_1_1_ts_stream_cursor_1a6b3c61c2f6477f47a78aa31f7f9ef346" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_t_s_store" kindref="compound">TSStore</ref> *</type>
+        <definition>TSStore* themis::timeseries::TsStreamCursor::store_</definition>
+        <argsstring></argsstring>
+        <name>store_</name>
+        <qualifiedname>themis::timeseries::TsStreamCursor::store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_stream_cursor.h" line="151" column="36" bodyfile="include/timeseries/ts_stream_cursor.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1timeseries_1_1_ts_stream_cursor_1a72b438811a3b2e504ae1f50f37fdd74c" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_t_s_store_1_1_query_options" kindref="compound">TSStore::QueryOptions</ref></type>
+        <definition>TSStore::QueryOptions themis::timeseries::TsStreamCursor::options_</definition>
+        <argsstring></argsstring>
+        <name>options_</name>
+        <qualifiedname>themis::timeseries::TsStreamCursor::options_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_stream_cursor.h" line="152" column="37" bodyfile="include/timeseries/ts_stream_cursor.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1timeseries_1_1_ts_stream_cursor_1a25b2de10d48b84df3c7a8ae69bac86f0" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1timeseries_1_1_ts_stream_cursor_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::timeseries::TsStreamCursor::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>themis::timeseries::TsStreamCursor::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_stream_cursor.h" line="153" column="37" bodyfile="include/timeseries/ts_stream_cursor.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1timeseries_1_1_ts_stream_cursor_1a3c6f7765b9e35e36ba6cdf8b999af9c1" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_t_s_store_1_1_data_point" kindref="compound">TSStore::DataPoint</ref> &gt;</type>
+        <definition>std::vector&lt;TSStore::DataPoint&gt; themis::timeseries::TsStreamCursor::page_</definition>
+        <argsstring></argsstring>
+        <name>page_</name>
+        <qualifiedname>themis::timeseries::TsStreamCursor::page_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_stream_cursor.h" line="156" column="17" bodyfile="include/timeseries/ts_stream_cursor.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1timeseries_1_1_ts_stream_cursor_1ae0c43de2185079177bb79b71af2026c2" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::timeseries::TsStreamCursor::page_pos_</definition>
+        <argsstring></argsstring>
+        <name>page_pos_</name>
+        <qualifiedname>themis::timeseries::TsStreamCursor::page_pos_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_stream_cursor.h" line="157" column="37" bodyfile="include/timeseries/ts_stream_cursor.h" bodystart="157" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1timeseries_1_1_ts_stream_cursor_1ade3d75c8ce2b512c70f5b84b8001addc" prot="private" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::timeseries::TsStreamCursor::last_timestamp_ms_</definition>
+        <argsstring></argsstring>
+        <name>last_timestamp_ms_</name>
+        <qualifiedname>themis::timeseries::TsStreamCursor::last_timestamp_ms_</qualifiedname>
+        <initializer>{-1}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_stream_cursor.h" line="160" column="37" bodyfile="include/timeseries/ts_stream_cursor.h" bodystart="160" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1timeseries_1_1_ts_stream_cursor_1a3d4a6bb77f3bc5fb73403ce1a7ed2343" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::timeseries::TsStreamCursor::exhausted_</definition>
+        <argsstring></argsstring>
+        <name>exhausted_</name>
+        <qualifiedname>themis::timeseries::TsStreamCursor::exhausted_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_stream_cursor.h" line="162" column="37" bodyfile="include/timeseries/ts_stream_cursor.h" bodystart="162" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1timeseries_1_1_ts_stream_cursor_1a251ee4579c9f29b9a2ee1aa5d3b122fd" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::timeseries::TsStreamCursor::rows_consumed_</definition>
+        <argsstring></argsstring>
+        <name>rows_consumed_</name>
+        <qualifiedname>themis::timeseries::TsStreamCursor::rows_consumed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_stream_cursor.h" line="163" column="37" bodyfile="include/timeseries/ts_stream_cursor.h" bodystart="163" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1timeseries_1_1_ts_stream_cursor_1a0f2fef77323aeb0c8afeb2fde01037a2" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::timeseries::TsStreamCursor::pages_fetched_</definition>
+        <argsstring></argsstring>
+        <name>pages_fetched_</name>
+        <qualifiedname>themis::timeseries::TsStreamCursor::pages_fetched_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_stream_cursor.h" line="164" column="37" bodyfile="include/timeseries/ts_stream_cursor.h" bodystart="164" bodyend="164"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1timeseries_1_1_ts_stream_cursor_1abf3d11fedb817e8aadd812ffe18d65af" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::unique_ptr&lt; <ref refid="classthemis_1_1timeseries_1_1_ts_stream_cursor_1ac6ce7e6adfd2f6e3fcd0c6226237398f" kindref="member">TsStreamCursor</ref> &gt; &gt;</type>
+        <definition>Result&lt; std::unique_ptr&lt; TsStreamCursor &gt; &gt; themis::timeseries::TsStreamCursor::open</definition>
+        <argsstring>(TSStore &amp;store, TSStore::QueryOptions options)</argsstring>
+        <name>open</name>
+        <qualifiedname>themis::timeseries::TsStreamCursor::open</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_t_s_store" kindref="compound">TSStore</ref> &amp;</type>
+          <declname>store</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1_t_s_store_1_1_query_options" kindref="compound">TSStore::QueryOptions</ref></type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Open a streaming cursor over <computeroutput>store</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Open.</para>
+<para>The first page is fetched eagerly during <ref refid="classthemis_1_1timeseries_1_1_ts_stream_cursor_1abf3d11fedb817e8aadd812ffe18d65af" kindref="member">open()</ref> so that <ref refid="classthemis_1_1timeseries_1_1_ts_stream_cursor_1a4438fe3ae58b2ebcf217b5d639f6c19d" kindref="member">valid()</ref> is immediately usable.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>store</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <ref refid="classthemis_1_1_t_s_store" kindref="compound">TSStore</ref> to scan (must outlive the cursor). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query filter (metric, time range, entity, tags). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A ready cursor, or an error if the initial fetch failed.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">store</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_stream_cursor.h" line="50" column="19" bodyfile="src/timeseries/ts_stream_cursor.cpp" bodystart="36" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1timeseries_1_1_ts_stream_cursor_1a20cbd59ea7a38d9de6c92008b336a23a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::unique_ptr&lt; <ref refid="classthemis_1_1timeseries_1_1_ts_stream_cursor_1ac6ce7e6adfd2f6e3fcd0c6226237398f" kindref="member">TsStreamCursor</ref> &gt; &gt;</type>
+        <definition>Result&lt; std::unique_ptr&lt; TsStreamCursor &gt; &gt; themis::timeseries::TsStreamCursor::open</definition>
+        <argsstring>(TSStore &amp;store, TSStore::QueryOptions options, Config cfg)</argsstring>
+        <name>open</name>
+        <qualifiedname>themis::timeseries::TsStreamCursor::open</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_t_s_store" kindref="compound">TSStore</ref> &amp;</type>
+          <declname>store</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1_t_s_store_1_1_query_options" kindref="compound">TSStore::QueryOptions</ref></type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1timeseries_1_1_ts_stream_cursor_1_1_config" kindref="compound">Config</ref></type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Open a streaming cursor over <computeroutput>store</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Open.</para>
+<para>The first page is fetched eagerly during <ref refid="classthemis_1_1timeseries_1_1_ts_stream_cursor_1abf3d11fedb817e8aadd812ffe18d65af" kindref="member">open()</ref> so that <ref refid="classthemis_1_1timeseries_1_1_ts_stream_cursor_1a4438fe3ae58b2ebcf217b5d639f6c19d" kindref="member">valid()</ref> is immediately usable.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>store</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <ref refid="classthemis_1_1_t_s_store" kindref="compound">TSStore</ref> to scan (must outlive the cursor). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query filter (metric, time range, entity, tags). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tuning parameters (page size). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A ready cursor, or an error if the initial fetch failed.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">store</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_stream_cursor.h" line="65" column="19" bodyfile="src/timeseries/ts_stream_cursor.cpp" bodystart="50" bodyend="68"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1timeseries_1_1_ts_stream_cursor_1a4438fe3ae58b2ebcf217b5d639f6c19d" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::timeseries::TsStreamCursor::valid</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>valid</name>
+        <qualifiedname>themis::timeseries::TsStreamCursor::valid</qualifiedname>
+        <briefdescription>
+<para>Return true while the cursor has at least one more DataPoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns false once the last DataPoint has been consumed or after <ref refid="classthemis_1_1timeseries_1_1_ts_stream_cursor_1a31bb6b7e99bfd80f5a07e7f98642ca89" kindref="member">close()</ref> has been called. <simplesect kind="return"><para>True on success. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_stream_cursor.h" line="80" column="10" bodyfile="src/timeseries/ts_stream_cursor.cpp" bodystart="88" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1timeseries_1_1_ts_stream_cursor_1a9b13b8db234ab0c0c8c7b1d874482c9f" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1_t_s_store_1_1_data_point" kindref="compound">TSStore::DataPoint</ref> &amp;</type>
+        <definition>const TSStore::DataPoint &amp; themis::timeseries::TsStreamCursor::current</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>current</name>
+        <qualifiedname>themis::timeseries::TsStreamCursor::current</qualifiedname>
+        <briefdescription>
+<para>Reference to the current DataPoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="pre"><para><ref refid="classthemis_1_1timeseries_1_1_ts_stream_cursor_1a4438fe3ae58b2ebcf217b5d639f6c19d" kindref="member">valid()</ref> == true. Behaviour is undefined otherwise.</para>
+</simplesect>
+The reference is valid until the next <ref refid="classthemis_1_1timeseries_1_1_ts_stream_cursor_1a2669600d213e8acdb3e1a0317695114a" kindref="member">advance()</ref> call that crosses a page boundary (i.e. until the internal page buffer is refilled). Copy the DataPoint if you need to retain it across <ref refid="classthemis_1_1timeseries_1_1_ts_stream_cursor_1a2669600d213e8acdb3e1a0317695114a" kindref="member">advance()</ref> calls. <simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_stream_cursor.h" line="93" column="30" bodyfile="src/timeseries/ts_stream_cursor.cpp" bodystart="92" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1timeseries_1_1_ts_stream_cursor_1a2669600d213e8acdb3e1a0317695114a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::timeseries::TsStreamCursor::advance</definition>
+        <argsstring>()</argsstring>
+        <name>advance</name>
+        <qualifiedname>themis::timeseries::TsStreamCursor::advance</qualifiedname>
+        <briefdescription>
+<para>Advance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Advance an iterator within the validated range.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>None.</para>
+</simplesect>
+Calls: size(), fetchNextPage(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_stream_cursor.h" line="99" column="12" bodyfile="src/timeseries/ts_stream_cursor.cpp" bodystart="101" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1timeseries_1_1_ts_stream_cursor_1a31bb6b7e99bfd80f5a07e7f98642ca89" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::timeseries::TsStreamCursor::close</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>close</name>
+        <qualifiedname>themis::timeseries::TsStreamCursor::close</qualifiedname>
+        <briefdescription>
+<para>Release all resources and mark the cursor as exhausted. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>After <ref refid="classthemis_1_1timeseries_1_1_ts_stream_cursor_1a31bb6b7e99bfd80f5a07e7f98642ca89" kindref="member">close()</ref>, <ref refid="classthemis_1_1timeseries_1_1_ts_stream_cursor_1a4438fe3ae58b2ebcf217b5d639f6c19d" kindref="member">valid()</ref> returns false. The cursor may not be re-opened. <simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_stream_cursor.h" line="107" column="10" bodyfile="src/timeseries/ts_stream_cursor.cpp" bodystart="118" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1timeseries_1_1_ts_stream_cursor_1a8e0ce9833255f27d3dfe6a7582660f35" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::timeseries::TsStreamCursor::rowsConsumed</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>rowsConsumed</name>
+        <qualifiedname>themis::timeseries::TsStreamCursor::rowsConsumed</qualifiedname>
+        <briefdescription>
+<para>Rows consumed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_stream_cursor.h" line="116" column="14" bodyfile="src/timeseries/ts_stream_cursor.cpp" bodystart="128" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1timeseries_1_1_ts_stream_cursor_1acc820e7cbf13a3cf82c696f22d6ca32f" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::timeseries::TsStreamCursor::pagesFetched</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>pagesFetched</name>
+        <qualifiedname>themis::timeseries::TsStreamCursor::pagesFetched</qualifiedname>
+        <briefdescription>
+<para>Pages fetched. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_stream_cursor.h" line="123" column="14" bodyfile="src/timeseries/ts_stream_cursor.cpp" bodystart="132" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1timeseries_1_1_ts_stream_cursor_1a75ce5bd6ea91d51be095ccad1e8a7f07" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::timeseries::TsStreamCursor::~TsStreamCursor</definition>
+        <argsstring>()</argsstring>
+        <name>~TsStreamCursor</name>
+        <qualifiedname>themis::timeseries::TsStreamCursor::~TsStreamCursor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_stream_cursor.h" line="125" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1timeseries_1_1_ts_stream_cursor_1ac6ce7e6adfd2f6e3fcd0c6226237398f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::timeseries::TsStreamCursor::TsStreamCursor</definition>
+        <argsstring>(const TsStreamCursor &amp;)=delete</argsstring>
+        <name>TsStreamCursor</name>
+        <qualifiedname>themis::timeseries::TsStreamCursor::TsStreamCursor</qualifiedname>
+        <param>
+          <type>const TsStreamCursor &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_stream_cursor.h" line="128" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1timeseries_1_1_ts_stream_cursor_1ae353dbbfcd71916d8e8d82ae4133299b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1timeseries_1_1_ts_stream_cursor_1ac6ce7e6adfd2f6e3fcd0c6226237398f" kindref="member">TsStreamCursor</ref> &amp;</type>
+        <definition>TsStreamCursor &amp; themis::timeseries::TsStreamCursor::operator=</definition>
+        <argsstring>(const TsStreamCursor &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::timeseries::TsStreamCursor::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1timeseries_1_1_ts_stream_cursor_1ac6ce7e6adfd2f6e3fcd0c6226237398f" kindref="member">TsStreamCursor</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_stream_cursor.h" line="129" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1timeseries_1_1_ts_stream_cursor_1a09715de682778d441753f90dd8c01b35" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::timeseries::TsStreamCursor::TsStreamCursor</definition>
+        <argsstring>(TsStreamCursor &amp;&amp;) noexcept=default</argsstring>
+        <name>TsStreamCursor</name>
+        <qualifiedname>themis::timeseries::TsStreamCursor::TsStreamCursor</qualifiedname>
+        <param>
+          <type>TsStreamCursor &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_stream_cursor.h" line="130" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1timeseries_1_1_ts_stream_cursor_1a44a420f7a2d757ea94819100b9a05e13" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1timeseries_1_1_ts_stream_cursor_1ac6ce7e6adfd2f6e3fcd0c6226237398f" kindref="member">TsStreamCursor</ref> &amp;</type>
+        <definition>TsStreamCursor &amp; themis::timeseries::TsStreamCursor::operator=</definition>
+        <argsstring>(TsStreamCursor &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::timeseries::TsStreamCursor::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1timeseries_1_1_ts_stream_cursor_1ac6ce7e6adfd2f6e3fcd0c6226237398f" kindref="member">TsStreamCursor</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_stream_cursor.h" line="131" column="20"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1timeseries_1_1_ts_stream_cursor_1a9c0386c9a17c2ffd363f9993ad4bbd51" prot="private" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::timeseries::TsStreamCursor::TsStreamCursor</definition>
+        <argsstring>(TSStore &amp;store, TSStore::QueryOptions options, Config cfg)</argsstring>
+        <name>TsStreamCursor</name>
+        <qualifiedname>themis::timeseries::TsStreamCursor::TsStreamCursor</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_t_s_store" kindref="compound">TSStore</ref> &amp;</type>
+          <declname>store</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1_t_s_store_1_1_query_options" kindref="compound">TSStore::QueryOptions</ref></type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1timeseries_1_1_ts_stream_cursor_1_1_config" kindref="compound">Config</ref></type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Ts Stream Cursor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">store</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_stream_cursor.h" line="141" column="14" bodyfile="src/timeseries/ts_stream_cursor.cpp" bodystart="74" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1timeseries_1_1_ts_stream_cursor_1aa80c496dffdbc391e72504c45d393c2f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::timeseries::TsStreamCursor::fetchNextPage</definition>
+        <argsstring>()</argsstring>
+        <name>fetchNextPage</name>
+        <qualifiedname>themis::timeseries::TsStreamCursor::fetchNextPage</qualifiedname>
+        <briefdescription>
+<para>Fetch Next Page. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>------------------------------------------------------------------------<mdash/> Internal: paginated fetch ------------------------------------------------------------------------<mdash/></para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: tl::unexpected(), Error(), clear(), query(), error(), std::move(), empty(), back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_stream_cursor.h" line="149" column="12" bodyfile="src/timeseries/ts_stream_cursor.cpp" bodystart="142" bodyend="192"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Ts stream cursor. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/timeseries/ts_stream_cursor.h" line="25" column="1" bodyfile="include/timeseries/ts_stream_cursor.h" bodystart="25" bodyend="165"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1timeseries_1_1_ts_stream_cursor_1a2669600d213e8acdb3e1a0317695114a" prot="public" virt="non-virtual"><scope>themis::timeseries::TsStreamCursor</scope><name>advance</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_stream_cursor_1a25b2de10d48b84df3c7a8ae69bac86f0" prot="private" virt="non-virtual"><scope>themis::timeseries::TsStreamCursor</scope><name>cfg_</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_stream_cursor_1a31bb6b7e99bfd80f5a07e7f98642ca89" prot="public" virt="non-virtual"><scope>themis::timeseries::TsStreamCursor</scope><name>close</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_stream_cursor_1a9b13b8db234ab0c0c8c7b1d874482c9f" prot="public" virt="non-virtual"><scope>themis::timeseries::TsStreamCursor</scope><name>current</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_stream_cursor_1a3d4a6bb77f3bc5fb73403ce1a7ed2343" prot="private" virt="non-virtual"><scope>themis::timeseries::TsStreamCursor</scope><name>exhausted_</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_stream_cursor_1aa80c496dffdbc391e72504c45d393c2f" prot="private" virt="non-virtual"><scope>themis::timeseries::TsStreamCursor</scope><name>fetchNextPage</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_stream_cursor_1a62af974f371c62d0d0bfb4b25266e05a" prot="public" virt="non-virtual"><scope>themis::timeseries::TsStreamCursor</scope><name>kDefaultPageSize</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_stream_cursor_1ade3d75c8ce2b512c70f5b84b8001addc" prot="private" virt="non-virtual"><scope>themis::timeseries::TsStreamCursor</scope><name>last_timestamp_ms_</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_stream_cursor_1abf3d11fedb817e8aadd812ffe18d65af" prot="public" virt="non-virtual"><scope>themis::timeseries::TsStreamCursor</scope><name>open</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_stream_cursor_1a20cbd59ea7a38d9de6c92008b336a23a" prot="public" virt="non-virtual"><scope>themis::timeseries::TsStreamCursor</scope><name>open</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_stream_cursor_1ae353dbbfcd71916d8e8d82ae4133299b" prot="public" virt="non-virtual"><scope>themis::timeseries::TsStreamCursor</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_stream_cursor_1a44a420f7a2d757ea94819100b9a05e13" prot="public" virt="non-virtual"><scope>themis::timeseries::TsStreamCursor</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_stream_cursor_1a72b438811a3b2e504ae1f50f37fdd74c" prot="private" virt="non-virtual"><scope>themis::timeseries::TsStreamCursor</scope><name>options_</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_stream_cursor_1a3c6f7765b9e35e36ba6cdf8b999af9c1" prot="private" virt="non-virtual"><scope>themis::timeseries::TsStreamCursor</scope><name>page_</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_stream_cursor_1ae0c43de2185079177bb79b71af2026c2" prot="private" virt="non-virtual"><scope>themis::timeseries::TsStreamCursor</scope><name>page_pos_</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_stream_cursor_1a0f2fef77323aeb0c8afeb2fde01037a2" prot="private" virt="non-virtual"><scope>themis::timeseries::TsStreamCursor</scope><name>pages_fetched_</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_stream_cursor_1acc820e7cbf13a3cf82c696f22d6ca32f" prot="public" virt="non-virtual"><scope>themis::timeseries::TsStreamCursor</scope><name>pagesFetched</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_stream_cursor_1a251ee4579c9f29b9a2ee1aa5d3b122fd" prot="private" virt="non-virtual"><scope>themis::timeseries::TsStreamCursor</scope><name>rows_consumed_</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_stream_cursor_1a8e0ce9833255f27d3dfe6a7582660f35" prot="public" virt="non-virtual"><scope>themis::timeseries::TsStreamCursor</scope><name>rowsConsumed</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_stream_cursor_1a6b3c61c2f6477f47a78aa31f7f9ef346" prot="private" virt="non-virtual"><scope>themis::timeseries::TsStreamCursor</scope><name>store_</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_stream_cursor_1ac6ce7e6adfd2f6e3fcd0c6226237398f" prot="public" virt="non-virtual"><scope>themis::timeseries::TsStreamCursor</scope><name>TsStreamCursor</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_stream_cursor_1a09715de682778d441753f90dd8c01b35" prot="public" virt="non-virtual"><scope>themis::timeseries::TsStreamCursor</scope><name>TsStreamCursor</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_stream_cursor_1a9c0386c9a17c2ffd363f9993ad4bbd51" prot="private" virt="non-virtual"><scope>themis::timeseries::TsStreamCursor</scope><name>TsStreamCursor</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_stream_cursor_1a4438fe3ae58b2ebcf217b5d639f6c19d" prot="public" virt="non-virtual"><scope>themis::timeseries::TsStreamCursor</scope><name>valid</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_stream_cursor_1a75ce5bd6ea91d51be095ccad1e8a7f07" prot="public" virt="non-virtual"><scope>themis::timeseries::TsStreamCursor</scope><name>~TsStreamCursor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

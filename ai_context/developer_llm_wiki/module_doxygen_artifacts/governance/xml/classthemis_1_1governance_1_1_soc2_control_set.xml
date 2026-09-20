@@ -1,0 +1,364 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1governance_1_1_soc2_control_set" kind="class" language="C++" prot="public">
+    <compoundname>themis::governance::Soc2ControlSet</compoundname>
+    <includes refid="soc2__controls_8h" local="no">soc2_controls.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_soc2_control_set_1af195267680e2f267caaa4f88c766873c" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::shared_ptr&lt; <ref refid="classthemis_1_1governance_1_1_i_soc2_control" kindref="compound">ISoc2Control</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::shared_ptr&lt;ISoc2Control&gt; &gt; themis::governance::Soc2ControlSet::controls_</definition>
+        <argsstring></argsstring>
+        <name>controls_</name>
+        <qualifiedname>themis::governance::Soc2ControlSet::controls_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/soc2_controls.h" line="274" column="17" bodyfile="include/governance/soc2_controls.h" bodystart="274" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_soc2_control_set_1a754540e6836e11efb8ddebd54ac36e11" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::governance::Soc2ControlSet::evidence_mutex_</definition>
+        <argsstring></argsstring>
+        <name>evidence_mutex_</name>
+        <qualifiedname>themis::governance::Soc2ControlSet::evidence_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/soc2_controls.h" line="276" column="24" bodyfile="include/governance/soc2_controls.h" bodystart="276" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_soc2_control_set_1aaa0eae12d01aeb11676ac9c6d971b672" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_soc2_evidence_item" kindref="compound">Soc2EvidenceItem</ref> &gt;</type>
+        <definition>std::vector&lt;Soc2EvidenceItem&gt; themis::governance::Soc2ControlSet::evidence_items_</definition>
+        <argsstring></argsstring>
+        <name>evidence_items_</name>
+        <qualifiedname>themis::governance::Soc2ControlSet::evidence_items_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/soc2_controls.h" line="277" column="17" bodyfile="include/governance/soc2_controls.h" bodystart="277" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_soc2_control_set_1afba65897977ad4d8f0c2a4085fad0f6e" prot="private" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::Soc2ControlSet::evidence_counter_</definition>
+        <argsstring></argsstring>
+        <name>evidence_counter_</name>
+        <qualifiedname>themis::governance::Soc2ControlSet::evidence_counter_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Used to generate unique evidence IDs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/soc2_controls.h" line="278" column="13" bodyfile="include/governance/soc2_controls.h" bodystart="278" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_soc2_control_set_1a3ae5d2b2a90f3cd06cbd94d387aa7cb3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::Soc2ControlSet::Soc2ControlSet</definition>
+        <argsstring>()</argsstring>
+        <name>Soc2ControlSet</name>
+        <qualifiedname>themis::governance::Soc2ControlSet::Soc2ControlSet</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/soc2_controls.h" line="219" column="5" bodyfile="src/governance/soc2_controls.cpp" bodystart="478" bodyend="485"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_soc2_control_set_1a0bb03f839c7987b645c505ac11c5adcc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_soc2_control_result" kindref="compound">Soc2ControlResult</ref> &gt;</type>
+        <definition>std::vector&lt; Soc2ControlResult &gt; themis::governance::Soc2ControlSet::evaluateRule</definition>
+        <argsstring>(const PolicyRule &amp;rule) const</argsstring>
+        <name>evaluateRule</name>
+        <qualifiedname>themis::governance::Soc2ControlSet::evaluateRule</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref> &amp;</type>
+          <declname>rule</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate Rule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/soc2_controls.h" line="227" column="17" bodyfile="src/governance/soc2_controls.cpp" bodystart="487" bodyend="495"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_soc2_control_set_1a233276abd8ee862cdb473dc79881a911" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::Soc2ControlSet::isRuleCompliant</definition>
+        <argsstring>(const PolicyRule &amp;rule) const</argsstring>
+        <name>isRuleCompliant</name>
+        <qualifiedname>themis::governance::Soc2ControlSet::isRuleCompliant</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref> &amp;</type>
+          <declname>rule</declname>
+        </param>
+        <briefdescription>
+<para>Is Rule Compliant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/soc2_controls.h" line="234" column="10" bodyfile="src/governance/soc2_controls.cpp" bodystart="497" bodyend="504"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_soc2_control_set_1ad79ffeb5fad254292919388c7da8a655" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_soc2_audit_report" kindref="compound">Soc2AuditReport</ref></type>
+        <definition>Soc2AuditReport themis::governance::Soc2ControlSet::generateReport</definition>
+        <argsstring>(const PolicyManager &amp;policy_mgr, const std::string &amp;scope=&quot;All active policy rules&quot;) const</argsstring>
+        <name>generateReport</name>
+        <qualifiedname>themis::governance::Soc2ControlSet::generateReport</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &amp;</type>
+          <declname>policy_mgr</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>scope</declname>
+          <defval>&quot;All active policy rules&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/soc2_controls.h" line="236" column="21" bodyfile="src/governance/soc2_controls.cpp" bodystart="506" bodyend="548"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_soc2_control_set_1a91108babff3146f5d81b8e2c2da1c1b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::Soc2ControlSet::collectEvidence</definition>
+        <argsstring>(const std::string &amp;resource, const std::string &amp;action, const std::string &amp;principal, bool access_granted, bool encrypted)</argsstring>
+        <name>collectEvidence</name>
+        <qualifiedname>themis::governance::Soc2ControlSet::collectEvidence</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resource</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>action</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>principal</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>access_granted</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>encrypted</declname>
+        </param>
+        <briefdescription>
+<para>Collect Evidence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">resource</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">action</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">principal</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">access_granted</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">encrypted</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">resource</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">action</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">principal</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">access_granted</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">encrypted</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), nowMs(), str(), std::string(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/soc2_controls.h" line="250" column="10" bodyfile="src/governance/soc2_controls.cpp" bodystart="559" bodyend="581"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_soc2_control_set_1af59fec6c3fe6540a392dee1a498144ec" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_soc2_evidence_item" kindref="compound">Soc2EvidenceItem</ref> &gt;</type>
+        <definition>std::vector&lt; Soc2EvidenceItem &gt; themis::governance::Soc2ControlSet::getEvidence</definition>
+        <argsstring>() const</argsstring>
+        <name>getEvidence</name>
+        <qualifiedname>themis::governance::Soc2ControlSet::getEvidence</qualifiedname>
+        <briefdescription>
+<para>Get Evidence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">evidence_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/soc2_controls.h" line="262" column="17" bodyfile="src/governance/soc2_controls.cpp" bodystart="583" bodyend="591"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_soc2_control_set_1abf2949f5a415b98e5abd2367a5b3a5d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::Soc2ControlSet::clearEvidence</definition>
+        <argsstring>()</argsstring>
+        <name>clearEvidence</name>
+        <qualifiedname>themis::governance::Soc2ControlSet::clearEvidence</qualifiedname>
+        <briefdescription>
+<para>Clear Evidence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/soc2_controls.h" line="267" column="10" bodyfile="src/governance/soc2_controls.cpp" bodystart="597" bodyend="600"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_soc2_control_set_1a5bd8da431c4d616e20544a757e8418a1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::vector&lt; std::shared_ptr&lt; <ref refid="classthemis_1_1governance_1_1_i_soc2_control" kindref="compound">ISoc2Control</ref> &gt; &gt; &amp;</type>
+        <definition>const std::vector&lt; std::shared_ptr&lt; ISoc2Control &gt; &gt; &amp; themis::governance::Soc2ControlSet::controls</definition>
+        <argsstring>() const</argsstring>
+        <name>controls</name>
+        <qualifiedname>themis::governance::Soc2ControlSet::controls</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/soc2_controls.h" line="269" column="23" bodyfile="include/governance/soc2_controls.h" bodystart="269" bodyend="271"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/soc2_controls.h" line="217" column="1" bodyfile="include/governance/soc2_controls.h" bodystart="217" bodyend="279"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1governance_1_1_soc2_control_set_1abf2949f5a415b98e5abd2367a5b3a5d3" prot="public" virt="non-virtual"><scope>themis::governance::Soc2ControlSet</scope><name>clearEvidence</name></member>
+      <member refid="classthemis_1_1governance_1_1_soc2_control_set_1a91108babff3146f5d81b8e2c2da1c1b3" prot="public" virt="non-virtual"><scope>themis::governance::Soc2ControlSet</scope><name>collectEvidence</name></member>
+      <member refid="classthemis_1_1governance_1_1_soc2_control_set_1a5bd8da431c4d616e20544a757e8418a1" prot="public" virt="non-virtual"><scope>themis::governance::Soc2ControlSet</scope><name>controls</name></member>
+      <member refid="classthemis_1_1governance_1_1_soc2_control_set_1af195267680e2f267caaa4f88c766873c" prot="private" virt="non-virtual"><scope>themis::governance::Soc2ControlSet</scope><name>controls_</name></member>
+      <member refid="classthemis_1_1governance_1_1_soc2_control_set_1a0bb03f839c7987b645c505ac11c5adcc" prot="public" virt="non-virtual"><scope>themis::governance::Soc2ControlSet</scope><name>evaluateRule</name></member>
+      <member refid="classthemis_1_1governance_1_1_soc2_control_set_1afba65897977ad4d8f0c2a4085fad0f6e" prot="private" virt="non-virtual"><scope>themis::governance::Soc2ControlSet</scope><name>evidence_counter_</name></member>
+      <member refid="classthemis_1_1governance_1_1_soc2_control_set_1aaa0eae12d01aeb11676ac9c6d971b672" prot="private" virt="non-virtual"><scope>themis::governance::Soc2ControlSet</scope><name>evidence_items_</name></member>
+      <member refid="classthemis_1_1governance_1_1_soc2_control_set_1a754540e6836e11efb8ddebd54ac36e11" prot="private" virt="non-virtual"><scope>themis::governance::Soc2ControlSet</scope><name>evidence_mutex_</name></member>
+      <member refid="classthemis_1_1governance_1_1_soc2_control_set_1ad79ffeb5fad254292919388c7da8a655" prot="public" virt="non-virtual"><scope>themis::governance::Soc2ControlSet</scope><name>generateReport</name></member>
+      <member refid="classthemis_1_1governance_1_1_soc2_control_set_1af59fec6c3fe6540a392dee1a498144ec" prot="public" virt="non-virtual"><scope>themis::governance::Soc2ControlSet</scope><name>getEvidence</name></member>
+      <member refid="classthemis_1_1governance_1_1_soc2_control_set_1a233276abd8ee862cdb473dc79881a911" prot="public" virt="non-virtual"><scope>themis::governance::Soc2ControlSet</scope><name>isRuleCompliant</name></member>
+      <member refid="classthemis_1_1governance_1_1_soc2_control_set_1a3ae5d2b2a90f3cd06cbd94d387aa7cb3" prot="public" virt="non-virtual"><scope>themis::governance::Soc2ControlSet</scope><name>Soc2ControlSet</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

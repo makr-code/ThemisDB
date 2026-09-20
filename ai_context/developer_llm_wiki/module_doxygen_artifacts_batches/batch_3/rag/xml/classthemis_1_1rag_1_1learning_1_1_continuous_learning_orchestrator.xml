@@ -1,0 +1,1361 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::learning::ContinuousLearningOrchestrator</compoundname>
+    <includes refid="continuous__learning__orchestrator_8h" local="no">continuous_learning_orchestrator.h</includes>
+    <innerclass refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_query_execution_outcome" prot="public">themis::rag::learning::ContinuousLearningOrchestrator::QueryExecutionOutcome</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_loop_result" prot="public">themis::rag::learning::ContinuousLearningOrchestrator::LoopResult</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl" prot="public">themis::rag::learning::ContinuousLearningOrchestrator::Impl</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a9706b6fbe072bcd09aa54f60d430f2e1" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>LoopPhase</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::LoopPhase</qualifiedname>
+        <enumvalue id="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a9706b6fbe072bcd09aa54f60d430f2e1aa5daf7f2ebbba4975d61dab1c40188c7" prot="public">
+          <name>IDLE</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a9706b6fbe072bcd09aa54f60d430f2e1aa7cf1f19796513dd20d5ab113e1e0256" prot="public">
+          <name>LOOP_1_HNSW_QUERY</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a9706b6fbe072bcd09aa54f60d430f2e1a111a7fb2e891429ef547a7c5fb6aa19c" prot="public">
+          <name>LOOP_2_WORKLOAD</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a9706b6fbe072bcd09aa54f60d430f2e1a30afb1151e8236be18cdf5f6ae4de1e0" prot="public">
+          <name>LOOP_3_SCHEMA_INDEX</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a9706b6fbe072bcd09aa54f60d430f2e1a70d60f89e2784b2ba40f34d65af4faeb" prot="public">
+          <name>LOOP_4_RLAIF</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Named learning loops as defined in THEMISDB_LORA_RESEARCH_PAPER.md §5. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><itemizedlist>
+<listitem><para>LOOP_1_HNSW_QUERY : Daily, fully autonomous — HNSW/BaoOptimizer retraining.</para>
+</listitem><listitem><para>LOOP_2_WORKLOAD : Weekly, fully autonomous — workload-profile adaptation.</para>
+</listitem><listitem><para>LOOP_3_SCHEMA_INDEX : Weekly, advisory-only — schema / index suggestions.</para>
+</listitem><listitem><para>LOOP_4_RLAIF : Monthly, semi-autonomous — preference-pair RLAIF.</para>
+</listitem><listitem><para>IDLE : No loop currently active. </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="248" column="5" bodyfile="include/rag/continuous_learning_orchestrator.h" bodystart="248" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="enum" id="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1aa99b8c6e68e12d443b154f73bc18c834" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>TriggerEvent</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::TriggerEvent</qualifiedname>
+        <enumvalue id="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1aa99b8c6e68e12d443b154f73bc18c834a8aa48cd7bc9021a9c8e3992735328a2d" prot="public">
+          <name>FEDERATED_ROUND_START</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Internal trigger events used to decouple inter-loop signals. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><itemizedlist>
+<listitem><para><computeroutput>FEDERATED_ROUND_START</computeroutput>: Fired automatically after a successful Loop-4 (<computeroutput>LOOP_4_RLAIF</computeroutput>) run in which <computeroutput>guardrail_passed == true</computeroutput>. Triggers <computeroutput>exportGradient()</computeroutput> on the injected trainer and <computeroutput>submitGradient()</computeroutput> on the injected <computeroutput>ILoRAFederationCoordinator</computeroutput>. </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="375" column="5" bodyfile="include/rag/continuous_learning_orchestrator.h" bodystart="375" bodyend="377"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a9b787b2f304a9b37df9d3eddd9b02b02" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::rag::learning::ContinuousLearningOrchestrator::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="466" column="21" bodyfile="include/rag/continuous_learning_orchestrator.h" bodystart="466" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1aabb968943e8edd410424f03214a6e459" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::learning::ContinuousLearningOrchestrator::ContinuousLearningOrchestrator</definition>
+        <argsstring>(const ContinuousLearningConfig &amp;config)</argsstring>
+        <name>ContinuousLearningOrchestrator</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::ContinuousLearningOrchestrator</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_config" kindref="compound">ContinuousLearningConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="86" column="14" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="208" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a4bd40ea5670a396ea6509e3beff532f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::learning::ContinuousLearningOrchestrator::~ContinuousLearningOrchestrator</definition>
+        <argsstring>()</argsstring>
+        <name>~ContinuousLearningOrchestrator</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::~ContinuousLearningOrchestrator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="87" column="5" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="249" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a40e431ca69c12e1c6df3da59e92db4ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::learning::ContinuousLearningOrchestrator::startLearningLoop</definition>
+        <argsstring>()</argsstring>
+        <name>startLearningLoop</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::startLearningLoop</qualifiedname>
+        <briefdescription>
+<para>Start the background learning loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start Learning Loop.</para>
+<para>Launches a background thread that periodically checks for learning opportunities and triggers optimization as needed.</para>
+<para>Calls: lifecycle_lock(), load(), store(), spdlog::error(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="97" column="10" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="260" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a29480c6565e95250124260b0c6f6e4bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::learning::ContinuousLearningOrchestrator::stopLearningLoop</definition>
+        <argsstring>()</argsstring>
+        <name>stopLearningLoop</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::stopLearningLoop</qualifiedname>
+        <briefdescription>
+<para>Stop the background learning loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stop Learning Loop.</para>
+<para>Calls: lifecycle_lock(), load(), store(), notify_all(), std::move(), joinable(), std::chrono::steady_clock::now(), join(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="102" column="10" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="285" bodyend="319"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a04870bbd7b5cf75cf75de3353471c842" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::learning::ContinuousLearningOrchestrator::triggerLearningIteration</definition>
+        <argsstring>()</argsstring>
+        <name>triggerLearningIteration</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::triggerLearningIteration</qualifiedname>
+        <briefdescription>
+<para>Trigger a learning iteration manually. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Trigger Learning Iteration.</para>
+<para>Forces an immediate check and execution of learning strategies.</para>
+<para>Calls: lock(), needsReselection(), <ref refid="namespacethemis_1_1rag_1_1learning_1a091fb5598617368b77e4e94a8b4f413b" kindref="member">buildCandidatesFromInteractions()</ref>, run(), std::chrono::system_clock::now(), runLoRARetraining(), runPromptOptimization(), runRetrievalOptimization(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="109" column="10" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="325" bodyend="379"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1abf23b2ab9d7838358615b9ffbecbe64b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::learning::ContinuousLearningOrchestrator::registerLoRAAdapter</definition>
+        <argsstring>(const std::string &amp;adapter_id, const std::string &amp;adapter_info)</argsstring>
+        <name>registerLoRAAdapter</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::registerLoRAAdapter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_info</declname>
+        </param>
+        <briefdescription>
+<para>Register a LoRA adapter for automatic retraining. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register Lo RAAdapter.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique identifier for the adapter </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>adapter_info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Metadata about the adapter</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::chrono::system_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="120" column="10" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="387" bodyend="396"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1af870a5a0e4bfe8cbc2ac6574cf83fdd6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::learning::ContinuousLearningOrchestrator::registerRetrievalSystem</definition>
+        <argsstring>(const std::string &amp;system_id)</argsstring>
+        <name>registerRetrievalSystem</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::registerRetrievalSystem</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>system_id</declname>
+        </param>
+        <briefdescription>
+<para>Register retrieval system for parameter tuning. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register Retrieval System.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>system_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique identifier</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">system_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the system.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="126" column="10" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="403" bodyend="409"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1ab9dd25e1ae4327a51946dd733fbab4a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::learning::ContinuousLearningOrchestrator::registerPromptSystem</definition>
+        <argsstring>(const std::string &amp;system_id)</argsstring>
+        <name>registerPromptSystem</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::registerPromptSystem</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>system_id</declname>
+        </param>
+        <briefdescription>
+<para>Register prompt system for optimization. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register Prompt System.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>system_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique identifier</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">system_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the system.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="132" column="10" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="416" bodyend="422"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a83efc64a0d16403f82502a9fb1e42fe4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::learning::ContinuousLearningOrchestrator::registerKnowledgeGapDetector</definition>
+        <argsstring>(const std::string &amp;detector_id)</argsstring>
+        <name>registerKnowledgeGapDetector</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::registerKnowledgeGapDetector</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>detector_id</declname>
+        </param>
+        <briefdescription>
+<para>Register knowledge gap detector for metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register Knowledge Gap Detector.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>detector_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique identifier</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">detector_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the detector.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="138" column="10" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="429" bodyend="435"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1ad8cda9fb92366b4220bf04b9f57ba891" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::learning::ContinuousLearningOrchestrator::logInteraction</definition>
+        <argsstring>(const Interaction &amp;interaction)</argsstring>
+        <name>logInteraction</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::logInteraction</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1learning_1_1_interaction" kindref="compound">Interaction</ref> &amp;</type>
+          <declname>interaction</declname>
+        </param>
+        <briefdescription>
+<para>Log a single RAG interaction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Log <ref refid="structthemis_1_1rag_1_1learning_1_1_interaction" kindref="compound">Interaction</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>interaction</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Complete interaction record</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">interaction</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), push_back(), has_value(), empty(), find(), end(), size(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="146" column="10" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="442" bodyend="467"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a411ea2bb49a646db289371b9e036d554" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::learning::ContinuousLearningOrchestrator::logInteractionBatch</definition>
+        <argsstring>(const std::vector&lt; Interaction &gt; &amp;interactions)</argsstring>
+        <name>logInteractionBatch</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::logInteractionBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1learning_1_1_interaction" kindref="compound">Interaction</ref> &gt; &amp;</type>
+          <declname>interactions</declname>
+        </param>
+        <briefdescription>
+<para>Log multiple interactions in batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Log <ref refid="structthemis_1_1rag_1_1learning_1_1_interaction" kindref="compound">Interaction</ref> Batch.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>interactions</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector of interactions</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">interactions</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1ad8cda9fb92366b4220bf04b9f57ba891" kindref="member">logInteraction()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="152" column="10" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="474" bodyend="478"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a81cb2ae99ca217e6d3b3cc128bdca100" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1learning_1_1_learning_stats" kindref="compound">LearningStats</ref></type>
+        <definition>LearningStats themis::rag::learning::ContinuousLearningOrchestrator::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::getStats</qualifiedname>
+        <briefdescription>
+<para>Get current learning statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="159" column="19" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="480" bodyend="483"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1ac55e0ae3177fb4c91c72881cd189f2b7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1learning_1_1_performance_snapshot" kindref="compound">PerformanceSnapshot</ref> &gt;</type>
+        <definition>std::vector&lt; PerformanceSnapshot &gt; themis::rag::learning::ContinuousLearningOrchestrator::getPerformanceHistory</definition>
+        <argsstring>(std::chrono::hours lookback_period) const</argsstring>
+        <name>getPerformanceHistory</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::getPerformanceHistory</qualifiedname>
+        <param>
+          <type>std::chrono::hours</type>
+          <declname>lookback_period</declname>
+        </param>
+        <briefdescription>
+<para>Get performance history over time. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>lookback_period</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>How far back to look </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of performance snapshots </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="166" column="17" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="486" bodyend="499"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1ace6a7f9cb7584732cf104c9c2a8175e0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::rag::learning::ContinuousLearningOrchestrator::isSystemImproving</definition>
+        <argsstring>() const</argsstring>
+        <name>isSystemImproving</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::isSystemImproving</qualifiedname>
+        <briefdescription>
+<para>Check if system is improving over time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="171" column="10" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="501" bodyend="504"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a0fd1a24a27fcd1a00487435a4709751c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>themis::training::DataSelectionResult</type>
+        <definition>themis::training::DataSelectionResult themis::rag::learning::ContinuousLearningOrchestrator::runDataSelectionForAdapter</definition>
+        <argsstring>(const std::string &amp;adapter_id, const std::vector&lt; themis::training::DataSample &gt; &amp;candidate_samples, const themis::training::DataSelectionMetrics &amp;current_metrics={})</argsstring>
+        <name>runDataSelectionForAdapter</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::runDataSelectionForAdapter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; themis::training::DataSample &gt; &amp;</type>
+          <declname>candidate_samples</declname>
+        </param>
+        <param>
+          <type>const themis::training::DataSelectionMetrics &amp;</type>
+          <declname>current_metrics</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Run the automated data selection pipeline for a specific adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Loads (or reloads) configuration from <computeroutput>lora_trainer_config_path</computeroutput> if set, executes all five data-selection stages on the provided candidate samples, applies adaptive self-improvement rules to the config for the next run, and returns the selection result including the JSONL audit entry.</para>
+<para>This is called automatically during <computeroutput>runLoRARetraining()</computeroutput> and can also be invoked directly for manual testing or scheduled jobs.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Adapter being retrained (used for logging). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>candidate_samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw samples to run the pipeline on. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>current_metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Monitoring metrics for adaptive threshold adjustment. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Selection result (selected samples + audit provenance). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="191" column="43" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="1077" bodyend="1103"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1ad90afac545fe74706909c6dd7d01e575" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const themis::training::LoRADataSelectionConfig &amp;</type>
+        <definition>const themis::training::LoRADataSelectionConfig &amp; themis::rag::learning::ContinuousLearningOrchestrator::getDataSelectionConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getDataSelectionConfig</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::getDataSelectionConfig</qualifiedname>
+        <briefdescription>
+<para>Get the data selection configuration currently in use. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="199" column="53" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="1106" bodyend="1110"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1aae01c23a346189784c3748daa5652983" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::learning::ContinuousLearningOrchestrator::setDataSelectionConfig</definition>
+        <argsstring>(const themis::training::LoRADataSelectionConfig &amp;cfg)</argsstring>
+        <name>setDataSelectionConfig</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::setDataSelectionConfig</qualifiedname>
+        <param>
+          <type>const themis::training::LoRADataSelectionConfig &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Update the data selection configuration (live reload). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Data Selection Config.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), setConfig(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="204" column="10" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="1117" bodyend="1123"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a81f3c20fc9c84769264578a45c478a81" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1learning_1_1_retrieval_params" kindref="compound">RetrievalParams</ref></type>
+        <definition>RetrievalParams themis::rag::learning::ContinuousLearningOrchestrator::getOptimizedRetrievalParams</definition>
+        <argsstring>() const</argsstring>
+        <name>getOptimizedRetrievalParams</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::getOptimizedRetrievalParams</qualifiedname>
+        <briefdescription>
+<para>Get the current optimized retrieval parameters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns the retrieval parameters most recently updated by the adaptive optimization loop. Callers should apply these parameters when issuing retrieval requests so that the system benefits from online learning.</para>
+<para>The parameters are updated every time <computeroutput><ref refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a04870bbd7b5cf75cf75de3353471c842" kindref="member">triggerLearningIteration()</ref></computeroutput> runs and sufficient feedback (both user signals and evaluation confidence scores) has been collected. Until the first optimization cycle the method returns the default values from <computeroutput><ref refid="structthemis_1_1rag_1_1learning_1_1_retrieval_params" kindref="compound">RetrievalParams</ref></computeroutput>.</para>
+<para><simplesect kind="return"><para>Current optimized retrieval parameters (thread-safe read). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="222" column="21" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="1129" bodyend="1132"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a437cadd25655c897a3737325902493e3" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a9706b6fbe072bcd09aa54f60d430f2e1" kindref="member">LoopPhase</ref></type>
+        <definition>ContinuousLearningOrchestrator::LoopPhase themis::rag::learning::ContinuousLearningOrchestrator::currentLoop</definition>
+        <argsstring>() const</argsstring>
+        <name>currentLoop</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::currentLoop</qualifiedname>
+        <briefdescription>
+<para>Return the currently active loop phase (IDLE when no loop runs). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="272" column="16" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="1139" bodyend="1142"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1ad3eaa5aaa810f33ce7176d9bda7d4a6d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_loop_result" kindref="compound">LoopResult</ref></type>
+        <definition>ContinuousLearningOrchestrator::LoopResult themis::rag::learning::ContinuousLearningOrchestrator::triggerLoop</definition>
+        <argsstring>(LoopPhase phase)</argsstring>
+        <name>triggerLoop</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::triggerLoop</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a9706b6fbe072bcd09aa54f60d430f2e1" kindref="member">LoopPhase</ref></type>
+          <declname>phase</declname>
+        </param>
+        <briefdescription>
+<para>Explicitly trigger a named learning loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Runs the loop&apos;s phase-specific adaptation routine and guardrail check. The registered completion handler (if any) is invoked synchronously before returning.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>phase</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Loop to trigger. Passing IDLE is a no-op. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_loop_result" kindref="compound">LoopResult</ref> describing the outcome. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="284" column="16" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="1152" bodyend="1368"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a21fdcfac8946895dd7d766535e423af3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_loop_result" kindref="compound">LoopResult</ref></type>
+        <definition>ContinuousLearningOrchestrator::LoopResult themis::rag::learning::ContinuousLearningOrchestrator::triggerLoop1QueryExecution</definition>
+        <argsstring>(const QueryExecutionOutcome &amp;outcome)</argsstring>
+        <name>triggerLoop1QueryExecution</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::triggerLoop1QueryExecution</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_query_execution_outcome" kindref="compound">QueryExecutionOutcome</ref> &amp;</type>
+          <declname>outcome</declname>
+        </param>
+        <briefdescription>
+<para>Trigger Loop 1 — per-query BaoOptimizer feedback (target: ≤ 10 ms). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stores <computeroutput>outcome</computeroutput> for the JSON context serialiser, then delegates to <computeroutput>triggerLoop(LOOP_1_HNSW_QUERY)</computeroutput>. Returns a cooldown-blocked result if called within the configured cooldown window.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>outcome</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Typed query execution result from the query executor. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_loop_result" kindref="compound">LoopResult</ref>; <computeroutput>success == false</computeroutput> and <computeroutput>adapter_version == "cooldown"</computeroutput> when the call is rejected due to the per-resource cooldown guard. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="299" column="16" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="1405" bodyend="1419"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1af8e773d7955dd05ac93fd23ce871845e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_loop_result" kindref="compound">LoopResult</ref></type>
+        <definition>ContinuousLearningOrchestrator::LoopResult themis::rag::learning::ContinuousLearningOrchestrator::triggerLoop2WorkloadAdaptation</definition>
+        <argsstring>()</argsstring>
+        <name>triggerLoop2WorkloadAdaptation</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::triggerLoop2WorkloadAdaptation</qualifiedname>
+        <briefdescription>
+<para>Trigger Loop 2 — WorkloadAdaptiveOptimizer + HNSW (60 s interval). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Delegates to <computeroutput>triggerLoop(LOOP_2_WORKLOAD)</computeroutput> after the cooldown guard passes. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="306" column="16" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="1422" bodyend="1431"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a9806f986bf7455d52096b7bba8eecb52" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_loop_result" kindref="compound">LoopResult</ref></type>
+        <definition>ContinuousLearningOrchestrator::LoopResult themis::rag::learning::ContinuousLearningOrchestrator::triggerLoop3IndexLifecycle</definition>
+        <argsstring>()</argsstring>
+        <name>triggerLoop3IndexLifecycle</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::triggerLoop3IndexLifecycle</qualifiedname>
+        <briefdescription>
+<para>Trigger Loop 3 — IndexSuggestionEngine advisory cycle. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Advisory-only; always passes the guardrail. Delegates to <computeroutput>triggerLoop(LOOP_3_SCHEMA_INDEX)</computeroutput> after the cooldown guard passes. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="314" column="16" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="1434" bodyend="1443"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a85435b8bb3741dc6be6bc3de4a333f02" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_loop_result" kindref="compound">LoopResult</ref></type>
+        <definition>ContinuousLearningOrchestrator::LoopResult themis::rag::learning::ContinuousLearningOrchestrator::triggerLoop4AdapterImprovement</definition>
+        <argsstring>()</argsstring>
+        <name>triggerLoop4AdapterImprovement</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::triggerLoop4AdapterImprovement</qualifiedname>
+        <briefdescription>
+<para>Trigger Loop 4 — RLAIF preference-learning cycle. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Delegates to <computeroutput>triggerLoop(LOOP_4_RLAIF)</computeroutput>. On success + guardrail pass, <computeroutput>FEDERATED_ROUND_START</computeroutput> is fired automatically. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="322" column="16" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="1446" bodyend="1455"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a8d0987fb1b964e73b0bc9a49444150ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::learning::ContinuousLearningOrchestrator::setOptimizationCooldown</definition>
+        <argsstring>(std::chrono::seconds cooldown)</argsstring>
+        <name>setOptimizationCooldown</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::setOptimizationCooldown</qualifiedname>
+        <param>
+          <type>std::chrono::seconds</type>
+          <declname>cooldown</declname>
+        </param>
+        <briefdescription>
+<para>Set the per-loop cooldown window. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Optimization Cooldown.</para>
+<para>Any <computeroutput>triggerLoopN*()</computeroutput> call issued within <computeroutput>cooldown</computeroutput> of the previous invocation for the same loop is rejected (returns cooldown-blocked result). Default: 10 s.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cooldown</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Minimum interval between successive triggers of the same loop.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cooldown</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="335" column="10" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="1397" bodyend="1402"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1aae324dd08bf3f6b6007e354164373b28" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::rag::learning::ContinuousLearningOrchestrator::serializeLoopContext</definition>
+        <argsstring>() const</argsstring>
+        <name>serializeLoopContext</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::serializeLoopContext</qualifiedname>
+        <briefdescription>
+<para>Serialise the latest Loop 1–3 outcome signals to a JSON context block. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns a compact JSON string of at most 2 000 tokens (approx. 8 000 chars) suitable for injection into an LLM prompt or decision-record context. Fields include: loop_id, phase, latency_ms (Loop 1), metric_delta, adapter_version, timestamp_iso.</para>
+<para><simplesect kind="return"><para>JSON string; empty object <computeroutput>{}</computeroutput> when no loops have been triggered yet. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="349" column="18" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="1457" bodyend="1558"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1accb51fc78921f6990373fc5a7b25e57b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::learning::ContinuousLearningOrchestrator::registerLoopCompletionHandler</definition>
+        <argsstring>(LoopPhase phase, std::function&lt; void(LoopPhase, const LoopResult &amp;)&gt; handler)</argsstring>
+        <name>registerLoopCompletionHandler</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::registerLoopCompletionHandler</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a9706b6fbe072bcd09aa54f60d430f2e1" kindref="member">LoopPhase</ref></type>
+          <declname>phase</declname>
+        </param>
+        <param>
+          <type>std::function&lt; void(<ref refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a9706b6fbe072bcd09aa54f60d430f2e1" kindref="member">LoopPhase</ref>, const <ref refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_loop_result" kindref="compound">LoopResult</ref> &amp;)&gt;</type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+<para>Register a completion handler for a specific loop phase. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The handler is called (synchronously) at the end of every <computeroutput><ref refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1ad3eaa5aaa810f33ce7176d9bda7d4a6d" kindref="member">triggerLoop()</ref></computeroutput> invocation for the specified phase. Only one handler per phase is supported; a second call overwrites the previous one.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>phase</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Loop phase to register for. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callable accepting (<ref refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a9706b6fbe072bcd09aa54f60d430f2e1" kindref="member">LoopPhase</ref>, <ref refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_loop_result" kindref="compound">LoopResult</ref>). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="361" column="10" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="1144" bodyend="1149"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1aeb20f73e4ad522ecda4dbf4a2f6ff47b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::learning::ContinuousLearningOrchestrator::setFederationCoordinator</definition>
+        <argsstring>(std::shared_ptr&lt; themis::distributed_knowledge::ILoRAFederationCoordinator &gt; coordinator)</argsstring>
+        <name>setFederationCoordinator</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::setFederationCoordinator</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; themis::distributed_knowledge::ILoRAFederationCoordinator &gt;</type>
+          <declname>coordinator</declname>
+        </param>
+        <briefdescription>
+<para>Inject an <computeroutput>ILoRAFederationCoordinator</computeroutput> for federated LoRA aggregation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ IMPL-A3: Federation bridge public API ============================================================================</para>
+<para>When set, a successful Loop-4 completion with <computeroutput>guardrail_passed == true</computeroutput> automatically calls <computeroutput>coordinator-&gt;submitGradient()</computeroutput> with the gradient exported from the injected trainer.</para>
+<para>Pass <computeroutput>nullptr</computeroutput> to detach the coordinator.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>coordinator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared federation coordinator instance.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">coordinator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="390" column="10" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="1566" bodyend="1571"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1ad0e8126bc1ab078a63e2cb8bba3a3a71" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::learning::ContinuousLearningOrchestrator::setTrainerForFederation</definition>
+        <argsstring>(themis::training::IncrementalLoRATrainer *trainer)</argsstring>
+        <name>setTrainerForFederation</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::setTrainerForFederation</qualifiedname>
+        <param>
+          <type>themis::training::IncrementalLoRATrainer *</type>
+          <declname>trainer</declname>
+        </param>
+        <briefdescription>
+<para>Inject an <computeroutput>IncrementalLoRATrainer</computeroutput> for federated gradient export. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Trainer For Federation.</para>
+<para>The orchestrator calls <computeroutput>trainer-&gt;exportGradient()</computeroutput> when the <computeroutput>FEDERATED_ROUND_START</computeroutput> event fires. The trainer must remain valid for the lifetime of this orchestrator (non-owning pointer).</para>
+<para>Pass <computeroutput>nullptr</computeroutput> to detach.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>trainer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the local shard&apos;s trainer.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">trainer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="405" column="10" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="1578" bodyend="1582"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1ab0994bbf06b7983524e237f2e676af39" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::learning::ContinuousLearningOrchestrator::setHnswMissRateProvider</definition>
+        <argsstring>(std::function&lt; double()&gt; provider)</argsstring>
+        <name>setHnswMissRateProvider</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::setHnswMissRateProvider</qualifiedname>
+        <param>
+          <type>std::function&lt; double()&gt;</type>
+          <declname>provider</declname>
+        </param>
+        <briefdescription>
+<para>Inject a BaoOptimizer miss-rate provider for Loop 1 guardrail checks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The callback should return the current HNSW query miss-rate in [0.0, 1.0]. Loop 1&apos;s guardrail passes when the returned value is below 0.05. Without a provider the guardrail falls back to the accuracy-proxy heuristic.</para>
+<para>Roadmap ref: src/rag/ROADMAP.md §Phase 8 Loop 1 </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="418" column="10" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="1586" bodyend="1590"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a018fbcdd4d0dafb39d77e1a9b9a301ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::learning::ContinuousLearningOrchestrator::setWorkloadDriftProvider</definition>
+        <argsstring>(std::function&lt; double()&gt; provider)</argsstring>
+        <name>setWorkloadDriftProvider</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::setWorkloadDriftProvider</qualifiedname>
+        <param>
+          <type>std::function&lt; double()&gt;</type>
+          <declname>provider</declname>
+        </param>
+        <briefdescription>
+<para>Inject a WorkloadAdaptiveOptimizer drift provider for Loop 2. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The callback should return the current workload profile drift in [0.0, 1.0]. Loop 2&apos;s guardrail passes when the returned value is below 0.1. Without a provider the guardrail falls back to the accuracy-proxy heuristic.</para>
+<para>Roadmap ref: src/rag/ROADMAP.md §Phase 8 Loop 2 </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="429" column="10" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="1592" bodyend="1596"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a348038d8c1a1ee8ec8e3d47e5d928ff6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::learning::ContinuousLearningOrchestrator::setFeedbackEntryCountProvider</definition>
+        <argsstring>(std::function&lt; size_t()&gt; provider)</argsstring>
+        <name>setFeedbackEntryCountProvider</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::setFeedbackEntryCountProvider</qualifiedname>
+        <param>
+          <type>std::function&lt; size_t()&gt;</type>
+          <declname>provider</declname>
+        </param>
+        <briefdescription>
+<para>Inject a FeedbackCollector new-entry-count provider for Loop 4. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The callback should return the number of new feedback entries since the last Loop-4 run. Loop 4 only commits a new adapter when the count reaches ≥ 100. Without a provider the guardrail falls back to the accuracy-proxy heuristic.</para>
+<para>Roadmap ref: src/rag/ROADMAP.md §Phase 8 Loop 4 </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="441" column="10" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="1598" bodyend="1602"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a5338a1545a891e5e46006ede2bd914a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::learning::ContinuousLearningOrchestrator::wireLiveSignalProviders</definition>
+        <argsstring>(std::shared_ptr&lt; themis::performance::phase3::BaoOptimizer &gt; bao_optimizer, std::shared_ptr&lt; themis::performance::WorkloadAdaptiveOptimizer &gt; workload_optimizer, std::shared_ptr&lt; themis::prompt_engineering::FeedbackCollector &gt; feedback_collector)</argsstring>
+        <name>wireLiveSignalProviders</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::wireLiveSignalProviders</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; themis::performance::phase3::BaoOptimizer &gt;</type>
+          <declname>bao_optimizer</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; themis::performance::WorkloadAdaptiveOptimizer &gt;</type>
+          <declname>workload_optimizer</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; themis::prompt_engineering::FeedbackCollector &gt;</type>
+          <declname>feedback_collector</declname>
+        </param>
+        <briefdescription>
+<para>Wire production signal providers from live subsystem instances. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Wire Live Signal Providers.</para>
+<para>This bootstrap helper binds Loop-1/2/4 signals to:<itemizedlist>
+<listitem><para>BaoOptimizer::getMissRate()</para>
+</listitem><listitem><para>WorkloadAdaptiveOptimizer::getProfileDrift()</para>
+</listitem><listitem><para>FeedbackCollector::newEntryCount()</para>
+</listitem></itemizedlist>
+</para>
+<para>Internally weak references are used, so providers fail closed (with warning + fallback) if a dependency is released during runtime.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bao_optimizer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">workload_optimizer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">feedback_collector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: defined(), <ref refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1ab0994bbf06b7983524e237f2e676af39" kindref="member">setHnswMissRateProvider()</ref>, lock(), spdlog::warn(), getMissRate(), <ref refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a018fbcdd4d0dafb39d77e1a9b9a301ba" kindref="member">setWorkloadDriftProvider()</ref>, getProfileDrift(), <ref refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a348038d8c1a1ee8ec8e3d47e5d928ff6" kindref="member">setFeedbackEntryCountProvider()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="454" column="10" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="1612" bodyend="1676"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a3c534d3fce00cf2695c05a4933ed70d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::learning::ContinuousLearningOrchestrator::saveMetrics</definition>
+        <argsstring>()</argsstring>
+        <name>saveMetrics</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::saveMetrics</qualifiedname>
+        <briefdescription>
+<para>Save Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), empty(), check(), is_open(), tellg(), file(), THEMIS_WARN(), imbue(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="460" column="10" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="901" bodyend="948"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a2b046011f6c639211c523080f0e22094" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::learning::ContinuousLearningOrchestrator::loadMetrics</definition>
+        <argsstring>()</argsstring>
+        <name>loadMetrics</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::loadMetrics</qualifiedname>
+        <briefdescription>
+<para>Load Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), empty(), file(), is_open(), THEMIS_DEBUG(), std::getline(), row(), value_stream(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="461" column="10" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="954" bodyend="1015"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a19125f45a54b07e9f4e0b44ecda6d25c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::learning::ContinuousLearningOrchestrator::saveModelCheckpoint</definition>
+        <argsstring>(const std::string &amp;model_id)</argsstring>
+        <name>saveModelCheckpoint</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::saveModelCheckpoint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+<para>Save Model Checkpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), empty(), std::chrono::system_clock::now(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="462" column="10" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="1022" bodyend="1039"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1afdb495b3eccb0ad97c1c85e251b5ebd8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::learning::ContinuousLearningOrchestrator::runPromptOptimization</definition>
+        <argsstring>()</argsstring>
+        <name>runPromptOptimization</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::runPromptOptimization</qualifiedname>
+        <briefdescription>
+<para>Run Prompt Optimization. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), size(), has_value(), value(), empty(), std::chrono::system_clock::now(), std::to_string(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="469" column="10" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="510" bodyend="573"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1aec3d099d69b27e4ac62087855281978d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::learning::ContinuousLearningOrchestrator::runRetrievalOptimization</definition>
+        <argsstring>()</argsstring>
+        <name>runRetrievalOptimization</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::runRetrievalOptimization</qualifiedname>
+        <briefdescription>
+<para>Run Retrieval Optimization. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), size(), has_value(), value(), optimizer(), observe(), suggest(), std::clamp(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="470" column="10" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="579" bodyend="674"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1aa27c06189908c848f6da9501e14cfd3b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::learning::ContinuousLearningOrchestrator::runLoRARetraining</definition>
+        <argsstring>()</argsstring>
+        <name>runLoRARetraining</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::runLoRARetraining</qualifiedname>
+        <briefdescription>
+<para>Run Lo RARetraining. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), std::chrono::system_clock::now(), empty(), themis::training::LoRADataSelectionConfig::loadFromYAML(), setConfig(), spdlog::warn(), what(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="471" column="10" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="680" bodyend="844"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a61612352a4590debb414b2231ce62d62" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::learning::ContinuousLearningOrchestrator::deployABTest</definition>
+        <argsstring>(const std::string &amp;model_id)</argsstring>
+        <name>deployABTest</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::deployABTest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+<para>Deploy ABTest. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::to_string(), std::chrono::system_clock::now(), time_since_epoch(), count(), startTest(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="474" column="10" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="851" bodyend="861"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a8bfb452cbf099e1b79b87ae0255aa311" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::learning::ContinuousLearningOrchestrator::promoteOrRollback</definition>
+        <argsstring>(const ABTestResult &amp;result)</argsstring>
+        <name>promoteOrRollback</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::promoteOrRollback</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_result" kindref="compound">ABTestResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Promote Or Rollback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: completeTest(), std::chrono::system_clock::now(), lock(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="475" column="10" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="868" bodyend="895"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1ab838e578c4d06f9ddbb1d114bb89f223" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::learning::ContinuousLearningOrchestrator::learningLoopThread</definition>
+        <argsstring>()</argsstring>
+        <name>learningLoopThread</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::learningLoopThread</qualifiedname>
+        <briefdescription>
+<para>Learning Loop Thread. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: wait_lock(), load(), wait_for(), unlock(), <ref refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a04870bbd7b5cf75cf75de3353471c842" kindref="member">triggerLearningIteration()</ref>, spdlog::warn(), what(), lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="478" column="10" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="1045" bodyend="1070"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a4f220ec9b73b75a63fd35edefd7cb577" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::learning::ContinuousLearningOrchestrator::handleFederatedRoundStart</definition>
+        <argsstring>()</argsstring>
+        <name>handleFederatedRoundStart</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::handleFederatedRoundStart</qualifiedname>
+        <briefdescription>
+<para>Handle Federated Round Start. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), spdlog::warn(), currentRound(), exportGradient(), submitGradient(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="481" column="10" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="1682" bodyend="1707"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a1e48a0531a777b3fcd3fa5a8aefbbd78" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::rag::learning::ContinuousLearningOrchestrator::checkAndUpdateCooldown</definition>
+        <argsstring>(LoopPhase phase)</argsstring>
+        <name>checkAndUpdateCooldown</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::checkAndUpdateCooldown</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a9706b6fbe072bcd09aa54f60d430f2e1" kindref="member">LoopPhase</ref></type>
+          <declname>phase</declname>
+        </param>
+        <briefdescription>
+<para>============================================================================ IMPL-A2 Phase 2: Named typed trigger methods + cooldown guard + context JSON ============================================================================ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">phase</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), lock(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="485" column="10" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="1377" bodyend="1390"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Continuous Learning Orchestrator. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Main class that coordinates automatic learning across all RAG components. Implements trigger-based retraining, prompt optimization, retrieval tuning, and A/B testing with statistical validation. </para>
+    </detaileddescription>
+    <location file="include/rag/continuous_learning_orchestrator.h" line="84" column="1" bodyfile="include/rag/continuous_learning_orchestrator.h" bodystart="84" bodyend="486"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a1e48a0531a777b3fcd3fa5a8aefbbd78" prot="private" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator</scope><name>checkAndUpdateCooldown</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1aabb968943e8edd410424f03214a6e459" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator</scope><name>ContinuousLearningOrchestrator</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a437cadd25655c897a3737325902493e3" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator</scope><name>currentLoop</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a61612352a4590debb414b2231ce62d62" prot="private" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator</scope><name>deployABTest</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1ad90afac545fe74706909c6dd7d01e575" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator</scope><name>getDataSelectionConfig</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a81f3c20fc9c84769264578a45c478a81" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator</scope><name>getOptimizedRetrievalParams</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1ac55e0ae3177fb4c91c72881cd189f2b7" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator</scope><name>getPerformanceHistory</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a81cb2ae99ca217e6d3b3cc128bdca100" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a4f220ec9b73b75a63fd35edefd7cb577" prot="private" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator</scope><name>handleFederatedRoundStart</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a9b787b2f304a9b37df9d3eddd9b02b02" prot="private" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1ace6a7f9cb7584732cf104c9c2a8175e0" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator</scope><name>isSystemImproving</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1ab838e578c4d06f9ddbb1d114bb89f223" prot="private" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator</scope><name>learningLoopThread</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a2b046011f6c639211c523080f0e22094" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator</scope><name>loadMetrics</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1ad8cda9fb92366b4220bf04b9f57ba891" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator</scope><name>logInteraction</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a411ea2bb49a646db289371b9e036d554" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator</scope><name>logInteractionBatch</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a9706b6fbe072bcd09aa54f60d430f2e1" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator</scope><name>LoopPhase</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a8bfb452cbf099e1b79b87ae0255aa311" prot="private" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator</scope><name>promoteOrRollback</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a83efc64a0d16403f82502a9fb1e42fe4" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator</scope><name>registerKnowledgeGapDetector</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1accb51fc78921f6990373fc5a7b25e57b" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator</scope><name>registerLoopCompletionHandler</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1abf23b2ab9d7838358615b9ffbecbe64b" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator</scope><name>registerLoRAAdapter</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1ab9dd25e1ae4327a51946dd733fbab4a8" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator</scope><name>registerPromptSystem</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1af870a5a0e4bfe8cbc2ac6574cf83fdd6" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator</scope><name>registerRetrievalSystem</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a0fd1a24a27fcd1a00487435a4709751c" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator</scope><name>runDataSelectionForAdapter</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1aa27c06189908c848f6da9501e14cfd3b" prot="private" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator</scope><name>runLoRARetraining</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1afdb495b3eccb0ad97c1c85e251b5ebd8" prot="private" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator</scope><name>runPromptOptimization</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1aec3d099d69b27e4ac62087855281978d" prot="private" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator</scope><name>runRetrievalOptimization</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a3c534d3fce00cf2695c05a4933ed70d8" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator</scope><name>saveMetrics</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a19125f45a54b07e9f4e0b44ecda6d25c" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator</scope><name>saveModelCheckpoint</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1aae324dd08bf3f6b6007e354164373b28" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator</scope><name>serializeLoopContext</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1aae01c23a346189784c3748daa5652983" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator</scope><name>setDataSelectionConfig</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1aeb20f73e4ad522ecda4dbf4a2f6ff47b" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator</scope><name>setFederationCoordinator</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a348038d8c1a1ee8ec8e3d47e5d928ff6" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator</scope><name>setFeedbackEntryCountProvider</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1ab0994bbf06b7983524e237f2e676af39" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator</scope><name>setHnswMissRateProvider</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a8d0987fb1b964e73b0bc9a49444150ba" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator</scope><name>setOptimizationCooldown</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1ad0e8126bc1ab078a63e2cb8bba3a3a71" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator</scope><name>setTrainerForFederation</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a018fbcdd4d0dafb39d77e1a9b9a301ba" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator</scope><name>setWorkloadDriftProvider</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a40e431ca69c12e1c6df3da59e92db4ad" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator</scope><name>startLearningLoop</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a29480c6565e95250124260b0c6f6e4bd" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator</scope><name>stopLearningLoop</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1aa99b8c6e68e12d443b154f73bc18c834" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator</scope><name>TriggerEvent</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a04870bbd7b5cf75cf75de3353471c842" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator</scope><name>triggerLearningIteration</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1ad3eaa5aaa810f33ce7176d9bda7d4a6d" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator</scope><name>triggerLoop</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a21fdcfac8946895dd7d766535e423af3" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator</scope><name>triggerLoop1QueryExecution</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1af8e773d7955dd05ac93fd23ce871845e" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator</scope><name>triggerLoop2WorkloadAdaptation</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a9806f986bf7455d52096b7bba8eecb52" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator</scope><name>triggerLoop3IndexLifecycle</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a85435b8bb3741dc6be6bc3de4a333f02" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator</scope><name>triggerLoop4AdapterImprovement</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a5338a1545a891e5e46006ede2bd914a0" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator</scope><name>wireLiveSignalProviders</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a4bd40ea5670a396ea6509e3beff532f9" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator</scope><name>~ContinuousLearningOrchestrator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

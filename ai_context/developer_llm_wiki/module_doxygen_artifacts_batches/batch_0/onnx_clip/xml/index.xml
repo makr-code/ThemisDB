@@ -1,0 +1,344 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.17.0" xml:lang="en-US">
+  <compound refid="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl" kind="struct"><name>themis::plugins::image::ONNXClipPlugin::Impl</name>
+    <member refid="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1a0ba8d5db51146b3a41bbec5d6981001d" kind="variable"><name>mutex</name></member>
+    <member refid="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1acb7d6803610dbbad089673d5d4ee56fb" kind="variable"><name>cv_drain_complete</name></member>
+    <member refid="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1a88367f4026a7a708a41b31b973b65a4a" kind="variable"><name>ready</name></member>
+    <member refid="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1a1a3129f0a8aa30409d8cfe29f0d72e22" kind="variable"><name>backend</name></member>
+    <member refid="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1af16a2967f06f80177f24d5b1b94f8d73" kind="variable"><name>model_name</name></member>
+    <member refid="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1ac7b1971f454f12d3cf9ffa67a314a319" kind="variable"><name>embedding_dim</name></member>
+    <member refid="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1a415b7077650bf1bfe99087ef9e048078" kind="variable"><name>max_batch_size</name></member>
+    <member refid="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1a155cd20a634c9bfafc8cca87535e5deb" kind="variable"><name>in_flight_requests_</name></member>
+    <member refid="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1ac829e930f18a2a6ffb571146288b06fa" kind="variable"><name>total_inferences</name></member>
+    <member refid="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1a622b7cd4c770088de7efc18484b56cce" kind="variable"><name>total_batches</name></member>
+    <member refid="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1abb44977bf15c0e431e71b03fb5720206" kind="variable"><name>total_errors</name></member>
+    <member refid="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1a031bad6e840b65758bcaef54a28f6ab0" kind="variable"><name>total_images</name></member>
+    <member refid="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1a141d7857e4886fee883a52ac396b1f0e" kind="variable"><name>total_text_inferences</name></member>
+    <member refid="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1a55eed11a39f6852e588a91a23532935d" kind="variable"><name>total_latency_ms</name></member>
+    <member refid="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1a655a59bf9604575b6d17c3094b9068eb" kind="variable"><name>clip_embeddings_total</name></member>
+    <member refid="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1ad8a22d7adec8884fe6a190ee59871c63" kind="variable"><name>clip_text_embeddings_total</name></member>
+    <member refid="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1a74f170c298897213185491ddb89852a0" kind="variable"><name>clip_batch_embeddings_total</name></member>
+    <member refid="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1a5a6061cc141388466c3a36808d26d034" kind="variable"><name>mmap_ptr_</name></member>
+    <member refid="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1acea57b7a67a6fec45e6c8cddcc8279e6" kind="variable"><name>mmap_size_</name></member>
+    <member refid="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1acb36058c11a32d43eefce0d873194e21" kind="variable"><name>mmap_fd_</name></member>
+    <member refid="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1a0c11ddc63d25784e48ad6589c5af1579" kind="function"><name>loadModelMmap</name></member>
+    <member refid="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1a06cb83984952609e25dc201bb69a0eb9" kind="function"><name>cleanupMmap</name></member>
+    <member refid="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1ad814efcaea2fac80eb6ce6777180dcaa" kind="function"><name>~Impl</name></member>
+    <member refid="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1ae9d97f42a161ea515ffeabfd71d298cf" kind="function"><name>computeEmbedding</name></member>
+    <member refid="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1a9fa7d845be23fcf00c4c8770ec810dae" kind="function"><name>computeTextEmbedding</name></member>
+  </compound>
+  <compound refid="class_mock_onnx_clip_backend_model" kind="class"><name>MockOnnxClipBackendModel</name>
+    <member refid="class_mock_onnx_clip_backend_model_1aaf6e517449a920fcdcb586b2d9f9ad6a" kind="enum"><name>Backend</name></member>
+    <member refid="class_mock_onnx_clip_backend_model_1aaf6e517449a920fcdcb586b2d9f9ad6aa2ce310327f474afc9f6774faa2f57903" kind="enumvalue"><name>kCPU</name></member>
+    <member refid="class_mock_onnx_clip_backend_model_1aaf6e517449a920fcdcb586b2d9f9ad6aa15cfe9387f9c286cd8244d15c8cfa6c7" kind="enumvalue"><name>kCUDA</name></member>
+    <member refid="class_mock_onnx_clip_backend_model_1aaf6e517449a920fcdcb586b2d9f9ad6aa8a1714a85ad21a1c4814b260d2cd24dd" kind="enumvalue"><name>kUnavailable</name></member>
+    <member refid="class_mock_onnx_clip_backend_model_1addc3e429c84cbedccf9511689ee88a6a" kind="variable"><name>rng_</name></member>
+    <member refid="class_mock_onnx_clip_backend_model_1aea567cf4615123102a15db9a000cc32c" kind="variable"><name>dis_</name></member>
+    <member refid="class_mock_onnx_clip_backend_model_1a878be2a8cfbcc30d897c3b00372f2435" kind="variable"><name>backend_</name></member>
+    <member refid="class_mock_onnx_clip_backend_model_1a87a3eca0beb28e3d796c05f76196d876" kind="variable"><name>cuda_available_</name></member>
+    <member refid="class_mock_onnx_clip_backend_model_1abc78b7ee9f23d7e83f020ee0ba8db804" kind="function"><name>MockOnnxClipBackendModel</name></member>
+    <member refid="class_mock_onnx_clip_backend_model_1acb75aeb4ad02c4a7456ca1dee1189e7a" kind="function"><name>encodeSingleImage</name></member>
+    <member refid="class_mock_onnx_clip_backend_model_1a3036515502f794ff360657bd1da3a834" kind="function"><name>encodeBatch</name></member>
+    <member refid="class_mock_onnx_clip_backend_model_1afa6639e55a4f9d364f0312e21ce5fc25" kind="function"><name>loadModelAndMeasureMemory</name></member>
+    <member refid="class_mock_onnx_clip_backend_model_1a4712edcb889758653256ef1d01317984" kind="function"><name>measureRuntimeMemory</name></member>
+    <member refid="class_mock_onnx_clip_backend_model_1a599e92cd7540a1335830f2bd8e5fb934" kind="function"><name>measureBatchSplittingOverhead</name></member>
+    <member refid="class_mock_onnx_clip_backend_model_1a5bc6250cf8b2c406c9fbc90f23672139" kind="function"><name>backend</name></member>
+    <member refid="class_mock_onnx_clip_backend_model_1a643cd3d196041f935cf0ffbc03d83715" kind="function"><name>cudaAvailable</name></member>
+  </compound>
+  <compound refid="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_backend_model" kind="class"><name>themis::bench::onnx_clip::MockOnnxClipBackendModel</name>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_backend_model_1aaf6e517449a920fcdcb586b2d9f9ad6a" kind="enum"><name>Backend</name></member>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_backend_model_1aaf6e517449a920fcdcb586b2d9f9ad6aa2ce310327f474afc9f6774faa2f57903" kind="enumvalue"><name>kCPU</name></member>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_backend_model_1aaf6e517449a920fcdcb586b2d9f9ad6aa15cfe9387f9c286cd8244d15c8cfa6c7" kind="enumvalue"><name>kCUDA</name></member>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_backend_model_1aaf6e517449a920fcdcb586b2d9f9ad6aa8a1714a85ad21a1c4814b260d2cd24dd" kind="enumvalue"><name>kUnavailable</name></member>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_backend_model_1addc3e429c84cbedccf9511689ee88a6a" kind="variable"><name>rng_</name></member>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_backend_model_1aea567cf4615123102a15db9a000cc32c" kind="variable"><name>dis_</name></member>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_backend_model_1a878be2a8cfbcc30d897c3b00372f2435" kind="variable"><name>backend_</name></member>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_backend_model_1a87a3eca0beb28e3d796c05f76196d876" kind="variable"><name>cuda_available_</name></member>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_backend_model_1abc78b7ee9f23d7e83f020ee0ba8db804" kind="function"><name>MockOnnxClipBackendModel</name></member>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_backend_model_1acb75aeb4ad02c4a7456ca1dee1189e7a" kind="function"><name>encodeSingleImage</name></member>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_backend_model_1a3036515502f794ff360657bd1da3a834" kind="function"><name>encodeBatch</name></member>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_backend_model_1afa6639e55a4f9d364f0312e21ce5fc25" kind="function"><name>loadModelAndMeasureMemory</name></member>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_backend_model_1a4712edcb889758653256ef1d01317984" kind="function"><name>measureRuntimeMemory</name></member>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_backend_model_1a599e92cd7540a1335830f2bd8e5fb934" kind="function"><name>measureBatchSplittingOverhead</name></member>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_backend_model_1a5bc6250cf8b2c406c9fbc90f23672139" kind="function"><name>backend</name></member>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_backend_model_1a643cd3d196041f935cf0ffbc03d83715" kind="function"><name>cudaAvailable</name></member>
+  </compound>
+  <compound refid="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_model" kind="class"><name>themis::bench::onnx_clip::MockOnnxClipModel</name>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_model_1a0a24e3e979fcf05d1a97371f3ef03bc4" kind="variable"><name>rng_</name></member>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_model_1a5207e5f312a5ac9631ba49856099f24f" kind="variable"><name>dis_</name></member>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_model_1a01d754b735f7bfd8c49a2b13a15d3df9" kind="variable"><name>initialized_</name></member>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_model_1a9110fd6bb63bd1384b5c217839aa2ca9" kind="function"><name>MockOnnxClipModel</name></member>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_model_1a13aaf5445bd9d3b76a0e084525e67a71" kind="function"><name>initialize</name></member>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_model_1a481197d0ef6e04a4fb8b7f10a77867b3" kind="function"><name>encodeImage</name></member>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_model_1a8835cab917e7bf43d53e68516f64103b" kind="function"><name>encodeBatch</name></member>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_model_1a5712427e5f1fd7a51eb41894868c9c0a" kind="function"><name>encodeText</name></member>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_model_1a62d0e913938861353323d025bc4fee39" kind="function"><name>healthCheck</name></member>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_model_1ab6065a9562bc554ced0843b031e847d5" kind="function"><name>reset</name></member>
+  </compound>
+  <compound refid="class_onnx_clip_backend_throughput_fixture" kind="class"><name>OnnxClipBackendThroughputFixture</name>
+    <member refid="class_onnx_clip_backend_throughput_fixture_1a9542c7a1ec438c3fda786140ece522ff" kind="variable"><name>model_</name></member>
+    <member refid="class_onnx_clip_backend_throughput_fixture_1aa4e88b3da64febe1f0a0f44df1ece887" kind="function"><name>SetUp</name></member>
+    <member refid="class_onnx_clip_backend_throughput_fixture_1a1f0067c55d64c7a650ac102746cdd102" kind="function"><name>TearDown</name></member>
+  </compound>
+  <compound refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_backend_throughput_fixture" kind="class"><name>themis::bench::onnx_clip::OnnxClipBackendThroughputFixture</name>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_backend_throughput_fixture_1a9542c7a1ec438c3fda786140ece522ff" kind="variable"><name>model_</name></member>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_backend_throughput_fixture_1aa4e88b3da64febe1f0a0f44df1ece887" kind="function"><name>SetUp</name></member>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_backend_throughput_fixture_1a1f0067c55d64c7a650ac102746cdd102" kind="function"><name>TearDown</name></member>
+  </compound>
+  <compound refid="class_onnx_clip_batch_splitting_fixture" kind="class"><name>OnnxClipBatchSplittingFixture</name>
+    <member refid="class_onnx_clip_batch_splitting_fixture_1aae723ad4de2da5022296a687082e010c" kind="variable"><name>model_</name></member>
+    <member refid="class_onnx_clip_batch_splitting_fixture_1a4507c52a9f72a7a2e9f4198191d69acd" kind="function"><name>SetUp</name></member>
+    <member refid="class_onnx_clip_batch_splitting_fixture_1a07e0bd4f6d35642801998d93c615fdba" kind="function"><name>TearDown</name></member>
+  </compound>
+  <compound refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_batch_splitting_fixture" kind="class"><name>themis::bench::onnx_clip::OnnxClipBatchSplittingFixture</name>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_batch_splitting_fixture_1aae723ad4de2da5022296a687082e010c" kind="variable"><name>model_</name></member>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_batch_splitting_fixture_1a4507c52a9f72a7a2e9f4198191d69acd" kind="function"><name>SetUp</name></member>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_batch_splitting_fixture_1a07e0bd4f6d35642801998d93c615fdba" kind="function"><name>TearDown</name></member>
+  </compound>
+  <compound refid="class_onnx_clip_cpu_fixture" kind="class"><name>OnnxClipCpuFixture</name>
+    <member refid="class_onnx_clip_cpu_fixture_1abc285050b0490e8a3b1444de8041db89" kind="variable"><name>model_</name></member>
+    <member refid="class_onnx_clip_cpu_fixture_1abb6708789fc1e99a2150a1b127131f84" kind="function"><name>SetUp</name></member>
+    <member refid="class_onnx_clip_cpu_fixture_1af07d6acdb06c54133df7d8778b903092" kind="function"><name>TearDown</name></member>
+  </compound>
+  <compound refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_cpu_fixture" kind="class"><name>themis::bench::onnx_clip::OnnxClipCpuFixture</name>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_cpu_fixture_1abc285050b0490e8a3b1444de8041db89" kind="variable"><name>model_</name></member>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_cpu_fixture_1abb6708789fc1e99a2150a1b127131f84" kind="function"><name>SetUp</name></member>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_cpu_fixture_1af07d6acdb06c54133df7d8778b903092" kind="function"><name>TearDown</name></member>
+  </compound>
+  <compound refid="class_onnx_clip_cpu_warm_fixture" kind="class"><name>OnnxClipCpuWarmFixture</name>
+    <member refid="class_onnx_clip_cpu_warm_fixture_1a033e0527cee9be71cd5448aaf5c1a308" kind="variable"><name>kBatchSizeSmall</name></member>
+    <member refid="class_onnx_clip_cpu_warm_fixture_1a96202aaf4666f3a195c5f3d6ea70f7a0" kind="variable"><name>kBatchSizeMedium</name></member>
+    <member refid="class_onnx_clip_cpu_warm_fixture_1a97fa4c306e1d726355b7e52712656f5e" kind="variable"><name>kBatchSizeLarge</name></member>
+    <member refid="class_onnx_clip_cpu_warm_fixture_1a5d5ae7a8a8927bec771cb81ac52f3c47" kind="variable"><name>model_</name></member>
+    <member refid="class_onnx_clip_cpu_warm_fixture_1af4d72d1a7364ef7871082cbcdd8c47b2" kind="function"><name>SetUp</name></member>
+    <member refid="class_onnx_clip_cpu_warm_fixture_1aa2739d0b02c48cb0d19c6e4348dbc76c" kind="function"><name>TearDown</name></member>
+  </compound>
+  <compound refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_cpu_warm_fixture" kind="class"><name>themis::bench::onnx_clip::OnnxClipCpuWarmFixture</name>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_cpu_warm_fixture_1a033e0527cee9be71cd5448aaf5c1a308" kind="variable"><name>kBatchSizeSmall</name></member>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_cpu_warm_fixture_1a96202aaf4666f3a195c5f3d6ea70f7a0" kind="variable"><name>kBatchSizeMedium</name></member>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_cpu_warm_fixture_1a97fa4c306e1d726355b7e52712656f5e" kind="variable"><name>kBatchSizeLarge</name></member>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_cpu_warm_fixture_1a5d5ae7a8a8927bec771cb81ac52f3c47" kind="variable"><name>model_</name></member>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_cpu_warm_fixture_1af4d72d1a7364ef7871082cbcdd8c47b2" kind="function"><name>SetUp</name></member>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_cpu_warm_fixture_1aa2739d0b02c48cb0d19c6e4348dbc76c" kind="function"><name>TearDown</name></member>
+  </compound>
+  <compound refid="class_onnx_clip_golden_embeddings_test" kind="class"><name>OnnxClipGoldenEmbeddingsTest</name>
+    <member refid="class_onnx_clip_golden_embeddings_test_1afba829540f812034fa1904c695a70b8e" kind="function"><name>makeImageBytes</name></member>
+    <member refid="class_onnx_clip_golden_embeddings_test_1a73e57bb3fd67f0e8fd0f15412bff23c0" kind="function"><name>computeL2Norm</name></member>
+    <member refid="class_onnx_clip_golden_embeddings_test_1a531b08cf5e0136900ee96e4c3ecc7534" kind="function"><name>computeL2Distance</name></member>
+    <member refid="class_onnx_clip_golden_embeddings_test_1adc9def8c499c70b109957c30ff272f4e" kind="function"><name>isL2Normalized</name></member>
+    <member refid="class_onnx_clip_golden_embeddings_test_1a5decc0bfbd0a1d194126e58337d03f1b" kind="function"><name>makeViTB32Config</name></member>
+    <member refid="class_onnx_clip_golden_embeddings_test_1a9aa02933a8b4889cdd406b674ab7ad36" kind="function"><name>makeViTL14Config</name></member>
+    <member refid="class_onnx_clip_golden_embeddings_test_1a5e8ab3b09eb3772539ed56d939ed98ef" kind="function"><name>compareBatchVsSequential</name></member>
+    <member refid="class_onnx_clip_golden_embeddings_test_1af18547c946eccc3eaf79f1981ecd3ec8" kind="function"><name>verifyConcurrentInference</name></member>
+  </compound>
+  <compound refid="class_onnx_clip_hot_swap_test" kind="class"><name>OnnxClipHotSwapTest</name>
+    <member refid="class_onnx_clip_hot_swap_test_1a00dfc59afc597c3f8f9b2562111c3ba3" kind="variable"><name>plugin_</name></member>
+    <member refid="class_onnx_clip_hot_swap_test_1a274ae41d8094f4c1841aac71cfffe413" kind="function"><name>SetUp</name></member>
+    <member refid="class_onnx_clip_hot_swap_test_1a9f1aa998903df866ae944e5eb1cefb25" kind="function"><name>TearDown</name></member>
+  </compound>
+  <compound refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_initialization_profiler" kind="class"><name>themis::bench::onnx_clip::OnnxClipInitializationProfiler</name>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_initialization_profiler_1a4223d0833f04e1aed3a409d7da95c025" kind="variable"><name>model_</name></member>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_initialization_profiler_1ae7033ee691a1fb1fd5d1a0d985e1a471" kind="function"><name>SetUp</name></member>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_initialization_profiler_1a7a7d35fadc23614aa518ca538bfa3a4a" kind="function"><name>TearDown</name></member>
+  </compound>
+  <compound refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_latency_regression_fixture" kind="class"><name>themis::bench::onnx_clip::OnnxClipLatencyRegressionFixture</name>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_latency_regression_fixture_1a1e16cad790c6612356c3325a70d9e217" kind="variable"><name>model_</name></member>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_latency_regression_fixture_1a65446554a87ba0023eff4cc099ae3f00" kind="function"><name>SetUp</name></member>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_latency_regression_fixture_1a5ceb583323d53a8269104f4a2acb261c" kind="function"><name>TearDown</name></member>
+  </compound>
+  <compound refid="class_onnx_clip_memory_fixture" kind="class"><name>OnnxClipMemoryFixture</name>
+    <member refid="class_onnx_clip_memory_fixture_1a9870fcd46e6f3d22fe6bea5a514d4d6d" kind="variable"><name>model_</name></member>
+    <member refid="class_onnx_clip_memory_fixture_1aceeeacab8cf4a27544f086743f31d5f6" kind="function"><name>SetUp</name></member>
+    <member refid="class_onnx_clip_memory_fixture_1adef639bc96fbd63e4b58c0aed7c028b7" kind="function"><name>TearDown</name></member>
+  </compound>
+  <compound refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_memory_fixture" kind="class"><name>themis::bench::onnx_clip::OnnxClipMemoryFixture</name>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_memory_fixture_1a9870fcd46e6f3d22fe6bea5a514d4d6d" kind="variable"><name>model_</name></member>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_memory_fixture_1aceeeacab8cf4a27544f086743f31d5f6" kind="function"><name>SetUp</name></member>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_memory_fixture_1adef639bc96fbd63e4b58c0aed7c028b7" kind="function"><name>TearDown</name></member>
+  </compound>
+  <compound refid="class_onnx_clip_memory_scaling_fixture" kind="class"><name>OnnxClipMemoryScalingFixture</name>
+    <member refid="class_onnx_clip_memory_scaling_fixture_1a24a4ac05a0fcd6097eefdf66670f7d05" kind="variable"><name>model_</name></member>
+    <member refid="class_onnx_clip_memory_scaling_fixture_1ad52cfefdf791e2df5e5948ac2e63dd89" kind="function"><name>SetUp</name></member>
+    <member refid="class_onnx_clip_memory_scaling_fixture_1a79e50c526e360ed01a64f758d977d288" kind="function"><name>TearDown</name></member>
+  </compound>
+  <compound refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_memory_scaling_fixture" kind="class"><name>themis::bench::onnx_clip::OnnxClipMemoryScalingFixture</name>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_memory_scaling_fixture_1a24a4ac05a0fcd6097eefdf66670f7d05" kind="variable"><name>model_</name></member>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_memory_scaling_fixture_1ad52cfefdf791e2df5e5948ac2e63dd89" kind="function"><name>SetUp</name></member>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_memory_scaling_fixture_1a79e50c526e360ed01a64f758d977d288" kind="function"><name>TearDown</name></member>
+  </compound>
+  <compound refid="class_onnx_clip_mmap_test" kind="class"><name>OnnxClipMmapTest</name>
+    <member refid="class_onnx_clip_mmap_test_1a8d355f60576e757b1dfe0bf61bced64c" kind="variable"><name>small_model_path_</name></member>
+    <member refid="class_onnx_clip_mmap_test_1a3f89d9843554f09e27102ceb52d71c5d" kind="variable"><name>large_model_path_</name></member>
+    <member refid="class_onnx_clip_mmap_test_1a5e38712e5f0d3aad3c205ba9b138b23c" kind="function"><name>SetUp</name></member>
+    <member refid="class_onnx_clip_mmap_test_1a70a3aad589da7e2cfa123127bf266984" kind="function"><name>TearDown</name></member>
+  </compound>
+  <compound refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin" kind="class"><name>themis::plugins::image::ONNXClipPlugin</name>
+    <member refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a132da7993522295abbe09e4b65eade1e" kind="typedef"><name>ModelHashFn</name></member>
+    <member refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a34311953c1740dd2d15d415f5d6ee70a" kind="variable"><name>impl_swap_mtx_</name></member>
+    <member refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a9501dc23388131d4536a493c3e4c336e" kind="variable"><name>impl_</name></member>
+    <member refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a2665f4aa0dc5d0f5e28e7ef22c9c11a6" kind="function"><name>ONNXClipPlugin</name></member>
+    <member refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a0d87b1e9831a8db21872b999ea428767" kind="function"><name>~ONNXClipPlugin</name></member>
+    <member refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1acd9bde417ae381764a2e7b9efc76672d" kind="function"><name>getInfo</name></member>
+    <member refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a9dc045f138314232c587ecde122b4a06" kind="function"><name>initialize</name></member>
+    <member refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a2baaa69f3fc2f00f3304c80d5cc3bb42" kind="function"><name>shutdown</name></member>
+    <member refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a6ec89d6dc14e1d6eb0c0367d25501231" kind="function"><name>isReady</name></member>
+    <member refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1adddb25ff94994e6acc8c915b2a7306b9" kind="function"><name>getBackend</name></member>
+    <member refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a057c3335fdfc139110c4ab374161f4f4" kind="function"><name>generateEmbedding</name></member>
+    <member refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a79faf1a6557b341fb0add52c9a596a98" kind="function"><name>generateEmbeddingBatch</name></member>
+    <member refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a68460c9934ef9af34be9615fb033f8c4" kind="function"><name>generateTextEmbedding</name></member>
+    <member refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1ac35848b861534e5c434a235a279943c4" kind="function"><name>healthCheck</name></member>
+    <member refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a8bd704d1aa4d28e3c7279b1918f7d68e" kind="function"><name>getStatistics</name></member>
+    <member refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a5e480ca1db61aa9238e698def9a6464c" kind="function"><name>warmup</name></member>
+    <member refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a0185edbaf82f57f15d2e70df67ff25d3" kind="function"><name>reloadModel</name></member>
+    <member refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a71acf2f6dcb5c226e59e3c731af3d3dc" kind="function"><name>setModelHashFn</name></member>
+  </compound>
+  <compound refid="class_onnx_clip_throughput_scaling_fixture" kind="class"><name>OnnxClipThroughputScalingFixture</name>
+    <member refid="class_onnx_clip_throughput_scaling_fixture_1a99245db4192d00c89d75665db11dd989" kind="variable"><name>model_</name></member>
+    <member refid="class_onnx_clip_throughput_scaling_fixture_1af014e48df7d7e61f6ca4161af6ede01c" kind="function"><name>SetUp</name></member>
+    <member refid="class_onnx_clip_throughput_scaling_fixture_1a0b4bee973e22048339f595f5123a1b69" kind="function"><name>TearDown</name></member>
+  </compound>
+  <compound refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_throughput_scaling_fixture" kind="class"><name>themis::bench::onnx_clip::OnnxClipThroughputScalingFixture</name>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_throughput_scaling_fixture_1a99245db4192d00c89d75665db11dd989" kind="variable"><name>model_</name></member>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_throughput_scaling_fixture_1af014e48df7d7e61f6ca4161af6ede01c" kind="function"><name>SetUp</name></member>
+    <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_throughput_scaling_fixture_1a0b4bee973e22048339f595f5123a1b69" kind="function"><name>TearDown</name></member>
+  </compound>
+  <compound refid="classthemis_1_1plugins_1_1image_1_1_request_guard" kind="class"><name>themis::plugins::image::RequestGuard</name>
+    <member refid="classthemis_1_1plugins_1_1image_1_1_request_guard_1a06243c7b809d4f41816420281cc1a09b" kind="variable"><name>impl_</name></member>
+    <member refid="classthemis_1_1plugins_1_1image_1_1_request_guard_1a9d5bebd27edcb453f4fb1093c90ef125" kind="function"><name>RequestGuard</name></member>
+    <member refid="classthemis_1_1plugins_1_1image_1_1_request_guard_1a61be17357f3cbd46b68e5fc78bc7ff7e" kind="function"><name>~RequestGuard</name></member>
+    <member refid="classthemis_1_1plugins_1_1image_1_1_request_guard_1a1b75603d20aa43c7d346062d0f3a3405" kind="function"><name>RequestGuard</name></member>
+    <member refid="classthemis_1_1plugins_1_1image_1_1_request_guard_1a78c826c50d50580d29c8a3c648d02b75" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1plugins_1_1image_1_1_request_guard_1a79f81fdcac02fd3be3dca0ace457268e" kind="function"><name>RequestGuard</name></member>
+    <member refid="classthemis_1_1plugins_1_1image_1_1_request_guard_1a7fc3affcc07b921712f9d7973aa5826c" kind="function"><name>operator=</name></member>
+  </compound>
+  <compound refid="namespace_0d132233123313131330042314110353207172004137113006" kind="namespace"><name>@132233123313131330042314110353207172004137113006</name>
+  </compound>
+  <compound refid="namespacebenchmark" kind="namespace"><name>benchmark</name>
+  </compound>
+  <compound refid="namespacestd_1_1chrono__literals" kind="namespace"><name>std::chrono_literals</name>
+  </compound>
+  <compound refid="namespacetesting" kind="namespace"><name>testing</name>
+  </compound>
+  <compound refid="namespacethemis" kind="namespace"><name>themis</name>
+  </compound>
+  <compound refid="namespacethemis_1_1bench" kind="namespace"><name>themis::bench</name>
+  </compound>
+  <compound refid="namespacethemis_1_1bench_1_1onnx__clip" kind="namespace"><name>themis::bench::onnx_clip</name>
+    <member refid="namespacethemis_1_1bench_1_1onnx__clip_1a8ddfe2cd7e6b5711e9aa77c978e946e6" kind="variable"><name>kCanonicalRngSeed</name></member>
+    <member refid="namespacethemis_1_1bench_1_1onnx__clip_1ae43efc782616f1de5bf488d5979668b6" kind="variable"><name>kWarmupIterationsCold</name></member>
+    <member refid="namespacethemis_1_1bench_1_1onnx__clip_1a52b930156803a0d5fbebc34ef53456dc" kind="variable"><name>kWarmupIterationsWarm</name></member>
+    <member refid="namespacethemis_1_1bench_1_1onnx__clip_1ad75e38342ce4dfd22a68e0ea54288f0a" kind="variable"><name>kWarmupIterationsHot</name></member>
+    <member refid="namespacethemis_1_1bench_1_1onnx__clip_1a8ddfe2cd7e6b5711e9aa77c978e946e6" kind="variable"><name>kCanonicalRngSeed</name></member>
+    <member refid="namespacethemis_1_1bench_1_1onnx__clip_1ae43efc782616f1de5bf488d5979668b6" kind="variable"><name>kWarmupIterationsCold</name></member>
+    <member refid="namespacethemis_1_1bench_1_1onnx__clip_1a52b930156803a0d5fbebc34ef53456dc" kind="variable"><name>kWarmupIterationsWarm</name></member>
+    <member refid="namespacethemis_1_1bench_1_1onnx__clip_1ad75e38342ce4dfd22a68e0ea54288f0a" kind="variable"><name>kWarmupIterationsHot</name></member>
+    <member refid="namespacethemis_1_1bench_1_1onnx__clip_1a0ec93c4d7d2d205a361b29136fdd73b0" kind="function"><name>getRssBytes</name></member>
+  </compound>
+  <compound refid="namespacethemis_1_1plugins" kind="namespace"><name>themis::plugins</name>
+  </compound>
+  <compound refid="namespacethemis_1_1plugins_1_1image" kind="namespace"><name>themis::plugins::image</name>
+  </compound>
+  <compound refid="namespacethemis_1_1plugins_1_1image_1_1_0d335235263030255166126376240242232047045052151205" kind="namespace"><name>themis::plugins::image::@335235263030255166126376240242232047045052151205</name>
+  </compound>
+  <compound refid="bench__onnx__clip__cpu_8cpp" kind="file"><name>bench_onnx_clip_cpu.cpp</name>
+    <member refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kind="variable"><name>state</name></member>
+    <member refid="bench__onnx__clip__cpu_8cpp_1a92afbf9ce3c465b8d7cbcf83f8071629" kind="variable"><name>test_text</name></member>
+    <member refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kind="variable"><name>latencies</name></member>
+    <member refid="bench__onnx__clip__cpu_8cpp_1ad6a7b6b73caa2bc27f897bd23d8740ec" kind="function"><name>for</name></member>
+    <member refid="bench__onnx__clip__cpu_8cpp_1a380cbeafd72794f7b18b54d39fd07eea" kind="function"><name>UseRealTime</name></member>
+    <member refid="bench__onnx__clip__cpu_8cpp_1a4bc8d3b68bcb967dc2f4ac8901e5f933" kind="function"><name>reserve</name></member>
+    <member refid="bench__onnx__clip__cpu_8cpp_1a24581484d1f860a1abb8920f8eb33b37" kind="function"><name>if</name></member>
+    <member refid="bench__onnx__clip__cpu_8cpp_1a039e985393e1b06de015f75d17081446" kind="function"><name>initialize</name></member>
+  </compound>
+  <compound refid="bench__onnx__clip__vit__backend_8cpp" kind="file"><name>bench_onnx_clip_vit_backend.cpp</name>
+    <member refid="bench__onnx__clip__vit__backend_8cpp_1af63a1df0d582366f7a03c46143e3ae0e" kind="variable"><name>state</name></member>
+    <member refid="bench__onnx__clip__vit__backend_8cpp_1a5e7c30d9d1a915635bb41c821c2eddea" kind="variable"><name>split_factor</name></member>
+    <member refid="bench__onnx__clip__vit__backend_8cpp_1ad6a7b6b73caa2bc27f897bd23d8740ec" kind="function"><name>for</name></member>
+    <member refid="bench__onnx__clip__vit__backend_8cpp_1aec395f4fc417d52e8c50a47edf075a48" kind="function"><name>UseRealTime</name></member>
+  </compound>
+  <compound refid="onnx__clip__plugin_8cpp" kind="file"><name>onnx_clip_plugin.cpp</name>
+  </compound>
+  <compound refid="onnx__clip__plugin_8h" kind="file"><name>onnx_clip_plugin.h</name>
+  </compound>
+  <compound refid="test__onnx__clip__golden__embeddings__focused_8cpp" kind="file"><name>test_onnx_clip_golden_embeddings_focused.cpp</name>
+    <member refid="test__onnx__clip__golden__embeddings__focused_8cpp_1a2bf37d8e14fbf2873bb7cc29ad5c8335" kind="variable"><name>kClipGoldenSeed</name></member>
+    <member refid="test__onnx__clip__golden__embeddings__focused_8cpp_1ada87649442aba43c261b57156c9e7653" kind="variable"><name>kExpectedDimensionViTB32</name></member>
+    <member refid="test__onnx__clip__golden__embeddings__focused_8cpp_1a2cd8081337a5f9219954f404f74dadde" kind="variable"><name>kExpectedDimensionViTL14</name></member>
+    <member refid="test__onnx__clip__golden__embeddings__focused_8cpp_1a4b0173f4ccc093be41d0628f4a8dcaa2" kind="variable"><name>kDefaultImageSize</name></member>
+    <member refid="test__onnx__clip__golden__embeddings__focused_8cpp_1ab99c3daa880a158c312d2714f383a131" kind="variable"><name>kL2NormTolerance</name></member>
+    <member refid="test__onnx__clip__golden__embeddings__focused_8cpp_1a1913ecc1f7a8fb840bdbe242ef6d191e" kind="variable"><name>kReproducibilityTolerance</name></member>
+    <member refid="test__onnx__clip__golden__embeddings__focused_8cpp_1ada862aa7fc69bb71853cc10c4a29d606" kind="function"><name>TEST_F</name></member>
+    <member refid="test__onnx__clip__golden__embeddings__focused_8cpp_1ad289080f35f365234dde8c2dd11c0284" kind="function"><name>TEST_F</name></member>
+    <member refid="test__onnx__clip__golden__embeddings__focused_8cpp_1a9eecd894017152759ae871daf7592fe0" kind="function"><name>TEST_F</name></member>
+    <member refid="test__onnx__clip__golden__embeddings__focused_8cpp_1af7a8e0968f87969f4e770deb1dcf9b23" kind="function"><name>TEST_F</name></member>
+    <member refid="test__onnx__clip__golden__embeddings__focused_8cpp_1a0ebbe15857db8a7f638dc79bcecef9f9" kind="function"><name>TEST_F</name></member>
+    <member refid="test__onnx__clip__golden__embeddings__focused_8cpp_1af7ca2bc60d91ed605255546398d78e1b" kind="function"><name>TEST_F</name></member>
+    <member refid="test__onnx__clip__golden__embeddings__focused_8cpp_1a9691dde0fb225c2a5ca7d6c32525feb7" kind="function"><name>TEST_F</name></member>
+    <member refid="test__onnx__clip__golden__embeddings__focused_8cpp_1a2d14b7cc856ce5ef877cf24b217f241e" kind="function"><name>TEST_F</name></member>
+    <member refid="test__onnx__clip__golden__embeddings__focused_8cpp_1ae2b9f08f1467b05d8d6a0ef71b2d70eb" kind="function"><name>TEST_F</name></member>
+    <member refid="test__onnx__clip__golden__embeddings__focused_8cpp_1ab9d72ffbfb0413cfd88835f595c12468" kind="function"><name>TEST_F</name></member>
+    <member refid="test__onnx__clip__golden__embeddings__focused_8cpp_1ac2577e1d17b9ae9867c4350eb4148ce1" kind="function"><name>TEST_F</name></member>
+    <member refid="test__onnx__clip__golden__embeddings__focused_8cpp_1a20b25ffb6d7c4eb4462cc98616bc92ba" kind="function"><name>TEST_F</name></member>
+  </compound>
+  <compound refid="test__onnx__clip__highcardinality__stress_8cpp" kind="file"><name>test_onnx_clip_highcardinality_stress.cpp</name>
+    <member refid="test__onnx__clip__highcardinality__stress_8cpp_1a7c370e447511dda44d26da786c0909eb" kind="function"><name>TEST</name></member>
+    <member refid="test__onnx__clip__highcardinality__stress_8cpp_1a4e0dc6cb12d0ec629d14b993337eea24" kind="function"><name>TEST</name></member>
+    <member refid="test__onnx__clip__highcardinality__stress_8cpp_1a1077e3de461ff7bdd093d3e60c00398d" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__onnx__clip__hot__swap__focused_8cpp" kind="file"><name>test_onnx_clip_hot_swap_focused.cpp</name>
+    <member refid="test__onnx__clip__hot__swap__focused_8cpp_1aa2ed5201b80595de1ef6da85f0d15491" kind="variable"><name>kTestImageSize</name></member>
+    <member refid="test__onnx__clip__hot__swap__focused_8cpp_1a65cb7227e188181a36de679b668079f7" kind="variable"><name>kDefaultEmbeddingDim</name></member>
+    <member refid="test__onnx__clip__hot__swap__focused_8cpp_1aaba8bf3c40f73da83b035d8e90a3368e" kind="variable"><name>kConcurrentThreads</name></member>
+    <member refid="test__onnx__clip__hot__swap__focused_8cpp_1a1be9938c6c9d9a3ce668ba62848c1fac" kind="function"><name>generateTestImage</name></member>
+    <member refid="test__onnx__clip__hot__swap__focused_8cpp_1a262baed80cf7e55d67eadef6c9293d41" kind="function"><name>createTestConfig</name></member>
+    <member refid="test__onnx__clip__hot__swap__focused_8cpp_1af27b28517541c0d4ebc15d734afa19a8" kind="function"><name>TEST_F</name></member>
+    <member refid="test__onnx__clip__hot__swap__focused_8cpp_1a06924e881362e736293c1bf3ba0e623a" kind="function"><name>TEST_F</name></member>
+    <member refid="test__onnx__clip__hot__swap__focused_8cpp_1a63d1e08ccd4e75b0f4ed59e2c589a533" kind="function"><name>TEST_F</name></member>
+    <member refid="test__onnx__clip__hot__swap__focused_8cpp_1a485c77c9113c33aad4111677f0d8631d" kind="function"><name>TEST_F</name></member>
+    <member refid="test__onnx__clip__hot__swap__focused_8cpp_1a668aa9f8d294ad3788ddfca7d6245206" kind="function"><name>TEST_F</name></member>
+    <member refid="test__onnx__clip__hot__swap__focused_8cpp_1a1aa24456c78078463851c82a3fd2a0a7" kind="function"><name>TEST_F</name></member>
+    <member refid="test__onnx__clip__hot__swap__focused_8cpp_1acc046acf1e790ce9f2a9ed03c2db5987" kind="function"><name>TEST_F</name></member>
+    <member refid="test__onnx__clip__hot__swap__focused_8cpp_1af21279d582214c47586baa77c6b8418d" kind="function"><name>TEST_F</name></member>
+    <member refid="test__onnx__clip__hot__swap__focused_8cpp_1a17daf0ff51e56bbc157de5615fc34493" kind="function"><name>TEST_F</name></member>
+    <member refid="test__onnx__clip__hot__swap__focused_8cpp_1a7999efd26b5c4a00e83443da19dd0622" kind="function"><name>TEST_F</name></member>
+    <member refid="test__onnx__clip__hot__swap__focused_8cpp_1a292b5137cb89e983344ab29cbb2aebcd" kind="function"><name>TEST_F</name></member>
+    <member refid="test__onnx__clip__hot__swap__focused_8cpp_1ac0c06dae48bb45d7155700e28adb7adb" kind="function"><name>TEST_F</name></member>
+  </compound>
+  <compound refid="test__onnx__clip__mmap__focused_8cpp" kind="file"><name>test_onnx_clip_mmap_focused.cpp</name>
+    <member refid="test__onnx__clip__mmap__focused_8cpp_1a8097455af0911e23719afc90ed694aa6" kind="variable"><name>kMmapTestSeed</name></member>
+    <member refid="test__onnx__clip__mmap__focused_8cpp_1aff615c34e64588cb132696dcf522d140" kind="variable"><name>kSmallModelSize</name></member>
+    <member refid="test__onnx__clip__mmap__focused_8cpp_1a5cfff8338d05c7edc640ad86a9934544" kind="variable"><name>kLargeModelSize</name></member>
+    <member refid="test__onnx__clip__mmap__focused_8cpp_1ae111f58100a8b8cd290ce143a9967b63" kind="variable"><name>kViTB32Dim</name></member>
+    <member refid="test__onnx__clip__mmap__focused_8cpp_1a71c58a8288ec440eb37f692e8015c5af" kind="variable"><name>kViTL14Dim</name></member>
+    <member refid="test__onnx__clip__mmap__focused_8cpp_1a845721a3bc5e719ff99cf4acbeba5afc" kind="variable"><name>kTestBatchSize</name></member>
+    <member refid="test__onnx__clip__mmap__focused_8cpp_1a4dd5d7b4d0fdacc8442ed02f8e07f88e" kind="variable"><name>kMemoryTolerance</name></member>
+    <member refid="test__onnx__clip__mmap__focused_8cpp_1a1d087fb14277a4e9a5450ef02449bf23" kind="function"><name>GetRSSBytes</name></member>
+    <member refid="test__onnx__clip__mmap__focused_8cpp_1aa0f0aa4a76c5b3ac4f3868b9acdb9b5e" kind="function"><name>CreateMockModelFile</name></member>
+    <member refid="test__onnx__clip__mmap__focused_8cpp_1a09334068e1fa16efd9964d7abf0c00f0" kind="function"><name>DeleteMockModelFile</name></member>
+    <member refid="test__onnx__clip__mmap__focused_8cpp_1a1c1a6b2198537742f49bb46794000f04" kind="function"><name>CreateTestImageData</name></member>
+    <member refid="test__onnx__clip__mmap__focused_8cpp_1a80f0eebb1a6be16a02aac1e0f8626698" kind="function"><name>TEST_F</name></member>
+    <member refid="test__onnx__clip__mmap__focused_8cpp_1a17ab9a51693e0c7e5a71bd9b65d47f0a" kind="function"><name>TEST_F</name></member>
+    <member refid="test__onnx__clip__mmap__focused_8cpp_1ad650cb343fa04b0e42764782afc32c6c" kind="function"><name>TEST_F</name></member>
+    <member refid="test__onnx__clip__mmap__focused_8cpp_1a26a3c1904995a3c85616bc0377245ab0" kind="function"><name>TEST_F</name></member>
+    <member refid="test__onnx__clip__mmap__focused_8cpp_1a3257dc0d5058a0bf36e5c0b93fe61e7a" kind="function"><name>TEST_F</name></member>
+    <member refid="test__onnx__clip__mmap__focused_8cpp_1ad30e2afdb8439032afb044d86eeb404d" kind="function"><name>TEST_F</name></member>
+    <member refid="test__onnx__clip__mmap__focused_8cpp_1a7fad293eec5016f66282226d271c093f" kind="function"><name>TEST_F</name></member>
+    <member refid="test__onnx__clip__mmap__focused_8cpp_1ae1b6194ec1a059efd5ff18ef615bd8a8" kind="function"><name>TEST_F</name></member>
+    <member refid="test__onnx__clip__mmap__focused_8cpp_1a319309716bcca5564281833181ab0cfd" kind="function"><name>TEST_F</name></member>
+    <member refid="test__onnx__clip__mmap__focused_8cpp_1a64f90e1f978cccc162435da208d2ed16" kind="function"><name>TEST_F</name></member>
+    <member refid="test__onnx__clip__mmap__focused_8cpp_1afa44c3f2d36e824fcc0ba7b7a91f1bad" kind="function"><name>TEST_F</name></member>
+    <member refid="test__onnx__clip__mmap__focused_8cpp_1a13e06b90815b8746bb579704a809ed8f" kind="function"><name>TEST_F</name></member>
+  </compound>
+  <compound refid="dir_13a41d9ad64fb9ae396cb953294783cf" kind="dir"><name>benchmarks</name>
+  </compound>
+  <compound refid="dir_e5266b75910afbb03cd17933dafa0dee" kind="dir"><name>benchmarks/onnx_clip</name>
+  </compound>
+  <compound refid="dir_be9948baa8723c182ab4dc6476ef8cf6" kind="dir"><name>src/onnx_clip</name>
+  </compound>
+  <compound refid="dir_ba744dda672a8e5658e2c1edf926198d" kind="dir"><name>tests/onnx_clip</name>
+  </compound>
+  <compound refid="dir_68267d1309a1af8e8297ef4c3efbcdba" kind="dir"><name>src</name>
+  </compound>
+  <compound refid="dir_59425e443f801f1f2fd8bbe4959a3ccf" kind="dir"><name>tests</name>
+  </compound>
+</doxygenindex>

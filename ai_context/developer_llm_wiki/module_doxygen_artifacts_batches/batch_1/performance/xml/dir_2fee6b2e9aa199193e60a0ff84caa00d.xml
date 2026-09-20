@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_2fee6b2e9aa199193e60a0ff84caa00d" kind="dir">
+    <compoundname>include/performance/phase3</compoundname>
+    <innerfile refid="adaptive__batch__tuner_8h">adaptive_batch_tuner.h</innerfile>
+    <innerfile refid="bao_8h">bao.h</innerfile>
+    <innerfile refid="bwtree_8h">bwtree.h</innerfile>
+    <innerfile refid="diskann_8h">diskann.h</innerfile>
+    <innerfile refid="phase3_2feature__flags_8h">feature_flags.h</innerfile>
+    <innerfile refid="gunrock_8h">gunrock.h</innerfile>
+    <innerfile refid="memory__pressure_8h">memory_pressure.h</innerfile>
+    <innerfile refid="per__query__cost__model_8h">per_query_cost_model.h</innerfile>
+    <innerfile refid="splinterdb_8h">splinterdb.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/phase3/"/>
+  </compounddef>
+</doxygen>

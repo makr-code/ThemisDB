@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1maintenance_1_1_storage_compaction_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::maintenance::StorageCompactionHandler</compoundname>
+    <basecompoundref refid="classthemis_1_1maintenance_1_1_i_maintenance_task_handler" prot="public" virt="non-virtual">themis::maintenance::IMaintenanceTaskHandler</basecompoundref>
+    <includes refid="maintenance__task__handler__impls_8h" local="no">maintenance_task_handler_impls.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1maintenance_1_1_storage_compaction_handler_1a4214259a64336353bcc76690f0e4d90b" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; CompactionManager &gt;</type>
+        <definition>std::shared_ptr&lt;CompactionManager&gt; themis::maintenance::StorageCompactionHandler::compaction_manager_</definition>
+        <argsstring></argsstring>
+        <name>compaction_manager_</name>
+        <qualifiedname>themis::maintenance::StorageCompactionHandler::compaction_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_task_handler_impls.h" line="64" column="21" bodyfile="include/maintenance/maintenance_task_handler_impls.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_storage_compaction_handler_1afa5795c51b3883263fb4e942573b4d05" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::maintenance::StorageCompactionHandler::StorageCompactionHandler</definition>
+        <argsstring>(std::shared_ptr&lt; CompactionManager &gt; compaction_manager)</argsstring>
+        <name>StorageCompactionHandler</name>
+        <qualifiedname>themis::maintenance::StorageCompactionHandler::StorageCompactionHandler</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; CompactionManager &gt;</type>
+          <declname>compaction_manager</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_task_handler_impls.h" line="42" column="14" bodyfile="include/maintenance/maintenance_task_handler_impls.h" bodystart="42" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_storage_compaction_handler_1a4d40cdcd78e3058663b4f5ec43710e8a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>Result&lt; std::string &gt;</type>
+        <definition>Result&lt; std::string &gt; themis::maintenance::StorageCompactionHandler::execute</definition>
+        <argsstring>(const std::string &amp;, MaintenanceTaskType) override</argsstring>
+        <name>execute</name>
+        <qualifiedname>themis::maintenance::StorageCompactionHandler::execute</qualifiedname>
+        <reimplements refid="classthemis_1_1maintenance_1_1_i_maintenance_task_handler_1a0c02379595c393103648c8cf3191b259">execute</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>job_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1maintenance_1ab547ef77e5b6037445a31f13bf5e2fa8" kindref="member">MaintenanceTaskType</ref></type>
+          <declname>task_type</declname>
+        </param>
+        <briefdescription>
+<para>Execute the maintenance task. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>job_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The orchestrator job identifier (for logging/tracing). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>task_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The task type being executed. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Ok with a human-readable result summary string on success, or an Error on failure (the orchestrator will propagate the error message to the job&apos;s error_message field). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_task_handler_impls.h" line="46" column="12" bodyfile="include/maintenance/maintenance_task_handler_impls.h" bodystart="46" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_storage_compaction_handler_1a5214d38e6f12934bf4899f8800deb883" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::maintenance::StorageCompactionHandler::handlerName</definition>
+        <argsstring>() const override</argsstring>
+        <name>handlerName</name>
+        <qualifiedname>themis::maintenance::StorageCompactionHandler::handlerName</qualifiedname>
+        <reimplements refid="classthemis_1_1maintenance_1_1_i_maintenance_task_handler_1a944d9bb4ec535eb3b5003129b43157f9">handlerName</reimplements>
+        <briefdescription>
+<para>Human-readable handler name for diagnostics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returned by GET /api/v1/maintenance/task-handlers. Should be unique and stable across restarts (e.g. &quot;StorageCompactionHandler&quot;). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_task_handler_impls.h" line="59" column="17" bodyfile="include/maintenance/maintenance_task_handler_impls.h" bodystart="59" bodyend="61"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Handles STORAGE_COMPACTION by triggering a full RocksDB compaction. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Registered by the storage module at startup: <programlisting><codeline><highlight class="normal">orchestrator.registerTaskHandler(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1maintenance_1ab547ef77e5b6037445a31f13bf5e2fa8a01379fc604f07ec6c9c0002ee6f6c308" kindref="member">MaintenanceTaskType::STORAGE_COMPACTION</ref>,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::make_shared&lt;StorageCompactionHandler&gt;(compaction_manager));</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::maintenance::IMaintenanceTaskHandler</label>
+        <link refid="classthemis_1_1maintenance_1_1_i_maintenance_task_handler"/>
+      </node>
+      <node id="1">
+        <label>themis::maintenance::StorageCompactionHandler</label>
+        <link refid="classthemis_1_1maintenance_1_1_storage_compaction_handler"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::maintenance::IMaintenanceTaskHandler</label>
+        <link refid="classthemis_1_1maintenance_1_1_i_maintenance_task_handler"/>
+      </node>
+      <node id="1">
+        <label>themis::maintenance::StorageCompactionHandler</label>
+        <link refid="classthemis_1_1maintenance_1_1_storage_compaction_handler"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/maintenance/maintenance_task_handler_impls.h" line="40" column="1" bodyfile="include/maintenance/maintenance_task_handler_impls.h" bodystart="40" bodyend="65"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1maintenance_1_1_storage_compaction_handler_1a4214259a64336353bcc76690f0e4d90b" prot="private" virt="non-virtual"><scope>themis::maintenance::StorageCompactionHandler</scope><name>compaction_manager_</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_storage_compaction_handler_1a4d40cdcd78e3058663b4f5ec43710e8a" prot="public" virt="virtual"><scope>themis::maintenance::StorageCompactionHandler</scope><name>execute</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_storage_compaction_handler_1a5214d38e6f12934bf4899f8800deb883" prot="public" virt="virtual"><scope>themis::maintenance::StorageCompactionHandler</scope><name>handlerName</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_storage_compaction_handler_1afa5795c51b3883263fb4e942573b4d05" prot="public" virt="non-virtual"><scope>themis::maintenance::StorageCompactionHandler</scope><name>StorageCompactionHandler</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_i_maintenance_task_handler_1a02df22c7fc7ff41510208a7fa0673de9" prot="public" virt="virtual"><scope>themis::maintenance::StorageCompactionHandler</scope><name>~IMaintenanceTaskHandler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

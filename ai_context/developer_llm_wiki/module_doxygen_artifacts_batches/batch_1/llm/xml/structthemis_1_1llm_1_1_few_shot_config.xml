@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_few_shot_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::FewShotConfig</compoundname>
+    <includes refid="fewshot__optimizer_8h" local="no">fewshot_optimizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_few_shot_config_1a2d70ff337c81a69a8c6ecbc63e4c3ead" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::FewShotConfig::max_examples</definition>
+        <argsstring></argsstring>
+        <name>max_examples</name>
+        <qualifiedname>themis::llm::FewShotConfig::max_examples</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Maximum number of examples. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/fewshot_optimizer.h" line="32" column="12" bodyfile="include/llm/fewshot_optimizer.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_few_shot_config_1a022ced25ad0fda105aa2b82fc5df2e94" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::FewShotConfig::min_examples</definition>
+        <argsstring></argsstring>
+        <name>min_examples</name>
+        <qualifiedname>themis::llm::FewShotConfig::min_examples</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+<para>Minimum number of examples. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/fewshot_optimizer.h" line="33" column="12" bodyfile="include/llm/fewshot_optimizer.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_few_shot_config_1a7a2c35614b48e420471ba12f8071a672" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::FewShotConfig::diversity_weight</definition>
+        <argsstring></argsstring>
+        <name>diversity_weight</name>
+        <qualifiedname>themis::llm::FewShotConfig::diversity_weight</qualifiedname>
+        <initializer>= 0.4</initializer>
+        <briefdescription>
+<para>Weight for diversity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/fewshot_optimizer.h" line="34" column="12" bodyfile="include/llm/fewshot_optimizer.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_few_shot_config_1a844cbc8dcbd3429c5fd0d5a2da181cfb" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::FewShotConfig::relevance_weight</definition>
+        <argsstring></argsstring>
+        <name>relevance_weight</name>
+        <qualifiedname>themis::llm::FewShotConfig::relevance_weight</qualifiedname>
+        <initializer>= 0.6</initializer>
+        <briefdescription>
+<para>Weight for relevance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/fewshot_optimizer.h" line="35" column="12" bodyfile="include/llm/fewshot_optimizer.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_few_shot_config_1ab495deb3801b2bfe64c5723470483922" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::FewShotConfig::enable_caching</definition>
+        <argsstring></argsstring>
+        <name>enable_caching</name>
+        <qualifiedname>themis::llm::FewShotConfig::enable_caching</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable example caching. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/fewshot_optimizer.h" line="36" column="10" bodyfile="include/llm/fewshot_optimizer.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_few_shot_config_1ad852081fc501e574fac830f39f941742" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::FewShotConfig::cache_size</definition>
+        <argsstring></argsstring>
+        <name>cache_size</name>
+        <qualifiedname>themis::llm::FewShotConfig::cache_size</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+<para>Maximum cache entries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/fewshot_optimizer.h" line="37" column="12" bodyfile="include/llm/fewshot_optimizer.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/fewshot_optimizer.h" line="31" column="1" bodyfile="include/llm/fewshot_optimizer.h" bodystart="31" bodyend="38"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_few_shot_config_1ad852081fc501e574fac830f39f941742" prot="public" virt="non-virtual"><scope>themis::llm::FewShotConfig</scope><name>cache_size</name></member>
+      <member refid="structthemis_1_1llm_1_1_few_shot_config_1a7a2c35614b48e420471ba12f8071a672" prot="public" virt="non-virtual"><scope>themis::llm::FewShotConfig</scope><name>diversity_weight</name></member>
+      <member refid="structthemis_1_1llm_1_1_few_shot_config_1ab495deb3801b2bfe64c5723470483922" prot="public" virt="non-virtual"><scope>themis::llm::FewShotConfig</scope><name>enable_caching</name></member>
+      <member refid="structthemis_1_1llm_1_1_few_shot_config_1a2d70ff337c81a69a8c6ecbc63e4c3ead" prot="public" virt="non-virtual"><scope>themis::llm::FewShotConfig</scope><name>max_examples</name></member>
+      <member refid="structthemis_1_1llm_1_1_few_shot_config_1a022ced25ad0fda105aa2b82fc5df2e94" prot="public" virt="non-virtual"><scope>themis::llm::FewShotConfig</scope><name>min_examples</name></member>
+      <member refid="structthemis_1_1llm_1_1_few_shot_config_1a844cbc8dcbd3429c5fd0d5a2da181cfb" prot="public" virt="non-virtual"><scope>themis::llm::FewShotConfig</scope><name>relevance_weight</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

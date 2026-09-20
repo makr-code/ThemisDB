@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1ethics_1_1_position_abstract_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::PositionAbstractConfig</compoundname>
+    <includes refid="position__abstract__validator_8h" local="no">position_abstract_validator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_position_abstract_config_1a29f848fc6becc4d1819d171ca08846d6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::ethics::PositionAbstractConfig::require_verdict</definition>
+        <argsstring></argsstring>
+        <name>require_verdict</name>
+        <qualifiedname>themis::plugins::ethics::PositionAbstractConfig::require_verdict</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>verdict must be one of the 4 allowed values </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/position_abstract_validator.h" line="44" column="10" bodyfile="include/ethics_ai/position_abstract_validator.h" bodystart="44" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_position_abstract_config_1a15c4195a8cfb90a0a7a79b5d7ed3f956" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::ethics::PositionAbstractConfig::require_position_abstract</definition>
+        <argsstring></argsstring>
+        <name>require_position_abstract</name>
+        <qualifiedname>themis::plugins::ethics::PositionAbstractConfig::require_position_abstract</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>position_abstract must be non-empty </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/position_abstract_validator.h" line="45" column="10" bodyfile="include/ethics_ai/position_abstract_validator.h" bodystart="45" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_position_abstract_config_1ae3c2e30bf9e680c99894544a0448d7a5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::ethics::PositionAbstractConfig::require_core_thesis_ids</definition>
+        <argsstring></argsstring>
+        <name>require_core_thesis_ids</name>
+        <qualifiedname>themis::plugins::ethics::PositionAbstractConfig::require_core_thesis_ids</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>core_thesis_ids must be non-empty </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/position_abstract_validator.h" line="46" column="10" bodyfile="include/ethics_ai/position_abstract_validator.h" bodystart="46" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_position_abstract_config_1acbc763475150428eb20ae561fbfa7510" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::plugins::ethics::PositionAbstractConfig::max_abstract_tokens</definition>
+        <argsstring></argsstring>
+        <name>max_abstract_tokens</name>
+        <qualifiedname>themis::plugins::ethics::PositionAbstractConfig::max_abstract_tokens</qualifiedname>
+        <initializer>{100}</initializer>
+        <briefdescription>
+<para>Hard cap on position_abstract length in tokens. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/position_abstract_validator.h" line="47" column="10" bodyfile="include/ethics_ai/position_abstract_validator.h" bodystart="47" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_position_abstract_config_1a37e00546dc674787bb01f540fa1d7c77" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::plugins::ethics::PositionAbstractConfig::max_core_thesis_ids</definition>
+        <argsstring></argsstring>
+        <name>max_core_thesis_ids</name>
+        <qualifiedname>themis::plugins::ethics::PositionAbstractConfig::max_core_thesis_ids</qualifiedname>
+        <initializer>{3}</initializer>
+        <briefdescription>
+<para>Maximum number of core_thesis_ids. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/position_abstract_validator.h" line="48" column="10" bodyfile="include/ethics_ai/position_abstract_validator.h" bodystart="48" bodyend="48"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ethics_ai/position_abstract_validator.h" line="43" column="1" bodyfile="include/ethics_ai/position_abstract_validator.h" bodystart="43" bodyend="49"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_position_abstract_config_1acbc763475150428eb20ae561fbfa7510" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::PositionAbstractConfig</scope><name>max_abstract_tokens</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_position_abstract_config_1a37e00546dc674787bb01f540fa1d7c77" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::PositionAbstractConfig</scope><name>max_core_thesis_ids</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_position_abstract_config_1ae3c2e30bf9e680c99894544a0448d7a5" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::PositionAbstractConfig</scope><name>require_core_thesis_ids</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_position_abstract_config_1a15c4195a8cfb90a0a7a79b5d7ed3f956" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::PositionAbstractConfig</scope><name>require_position_abstract</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_position_abstract_config_1a29f848fc6becc4d1819d171ca08846d6" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::PositionAbstractConfig</scope><name>require_verdict</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

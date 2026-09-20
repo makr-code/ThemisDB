@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_transaction_timeout_test" kind="class" language="C++" prot="public">
+    <compoundname>TransactionTimeoutTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_transaction_timeout_test_1a678d72d6067324c9b98419f165ec7d68" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string TransactionTimeoutTest::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>TransactionTimeoutTest::db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_timeout.cpp" line="66" column="45" bodyfile="tests/transaction/test_transaction_timeout.cpp" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_transaction_timeout_test_1a6eed8e1681eedc8d57e3d8ee17a72ace" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; TransactionTimeoutTest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>TransactionTimeoutTest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_timeout.cpp" line="67" column="29" bodyfile="tests/transaction/test_transaction_timeout.cpp" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_transaction_timeout_test_1aac50364552c374b9344320048c3561d2" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; SecondaryIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;SecondaryIndexManager&gt; TransactionTimeoutTest::sec_idx_</definition>
+        <argsstring></argsstring>
+        <name>sec_idx_</name>
+        <qualifiedname>TransactionTimeoutTest::sec_idx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_timeout.cpp" line="68" column="22" bodyfile="tests/transaction/test_transaction_timeout.cpp" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_transaction_timeout_test_1ac63dbe8ae5bf4648193983b2a96f8979" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; GraphIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;GraphIndexManager&gt; TransactionTimeoutTest::graph_idx_</definition>
+        <argsstring></argsstring>
+        <name>graph_idx_</name>
+        <qualifiedname>TransactionTimeoutTest::graph_idx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_timeout.cpp" line="69" column="26" bodyfile="tests/transaction/test_transaction_timeout.cpp" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_transaction_timeout_test_1abf31a13c95d2df0069bfcae48c7fee73" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; VectorIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;VectorIndexManager&gt; TransactionTimeoutTest::vec_idx_</definition>
+        <argsstring></argsstring>
+        <name>vec_idx_</name>
+        <qualifiedname>TransactionTimeoutTest::vec_idx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_timeout.cpp" line="70" column="25" bodyfile="tests/transaction/test_transaction_timeout.cpp" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_transaction_timeout_test_1a76c00a6bdf7e7ffe5e0782ee8a87dad4" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1_transaction_manager" kindref="compound">TransactionManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;TransactionManager&gt; TransactionTimeoutTest::mgr_</definition>
+        <argsstring></argsstring>
+        <name>mgr_</name>
+        <qualifiedname>TransactionTimeoutTest::mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_timeout.cpp" line="71" column="25" bodyfile="tests/transaction/test_transaction_timeout.cpp" bodystart="71" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_transaction_timeout_test_1ad730396619272f80df482d1948aceb9f" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TransactionTimeoutTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>TransactionTimeoutTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_timeout.cpp" line="36" column="10" bodyfile="tests/transaction/test_transaction_timeout.cpp" bodystart="36" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="class_transaction_timeout_test_1ab25569c148223c9742e747c3e89df58e" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TransactionTimeoutTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>TransactionTimeoutTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_timeout.cpp" line="57" column="10" bodyfile="tests/transaction/test_transaction_timeout.cpp" bodystart="57" bodyend="64"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>TransactionTimeoutTest</label>
+        <link refid="class_transaction_timeout_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>TransactionTimeoutTest</label>
+        <link refid="class_transaction_timeout_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/transaction/test_transaction_timeout.cpp" line="34" column="1" bodyfile="tests/transaction/test_transaction_timeout.cpp" bodystart="34" bodyend="72"/>
+    <listofallmembers>
+      <member refid="class_transaction_timeout_test_1a6eed8e1681eedc8d57e3d8ee17a72ace" prot="protected" virt="non-virtual"><scope>TransactionTimeoutTest</scope><name>db_</name></member>
+      <member refid="class_transaction_timeout_test_1a678d72d6067324c9b98419f165ec7d68" prot="protected" virt="non-virtual"><scope>TransactionTimeoutTest</scope><name>db_path_</name></member>
+      <member refid="class_transaction_timeout_test_1ac63dbe8ae5bf4648193983b2a96f8979" prot="protected" virt="non-virtual"><scope>TransactionTimeoutTest</scope><name>graph_idx_</name></member>
+      <member refid="class_transaction_timeout_test_1a76c00a6bdf7e7ffe5e0782ee8a87dad4" prot="protected" virt="non-virtual"><scope>TransactionTimeoutTest</scope><name>mgr_</name></member>
+      <member refid="class_transaction_timeout_test_1aac50364552c374b9344320048c3561d2" prot="protected" virt="non-virtual"><scope>TransactionTimeoutTest</scope><name>sec_idx_</name></member>
+      <member refid="class_transaction_timeout_test_1ad730396619272f80df482d1948aceb9f" prot="protected" virt="non-virtual"><scope>TransactionTimeoutTest</scope><name>SetUp</name></member>
+      <member refid="class_transaction_timeout_test_1ab25569c148223c9742e747c3e89df58e" prot="protected" virt="non-virtual"><scope>TransactionTimeoutTest</scope><name>TearDown</name></member>
+      <member refid="class_transaction_timeout_test_1abf31a13c95d2df0069bfcae48c7fee73" prot="protected" virt="non-virtual"><scope>TransactionTimeoutTest</scope><name>vec_idx_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

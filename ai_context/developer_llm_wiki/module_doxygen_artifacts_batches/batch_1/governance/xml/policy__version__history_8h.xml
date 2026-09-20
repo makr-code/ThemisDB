@@ -1,0 +1,516 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="policy__version__history_8h" kind="file" language="C++">
+    <compoundname>policy_version_history.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="policy__manager_8h" local="yes">include/governance/policy_manager.h</includedby>
+    <includedby refid="policy__manager__versioned_8h" local="yes">include/governance/policy_manager_versioned.h</includedby>
+    <includedby refid="policy__change__manager_8cpp" local="yes">src/governance/policy_change_manager.cpp</includedby>
+    <includedby refid="policy__version__history_8cpp" local="yes">src/governance/policy_version_history.cpp</includedby>
+    <includedby refid="test__policy__versioning__and__approval_8cpp" local="yes">tests/governance/test_policy_versioning_and_approval.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/governance/policy_version_history.h</label>
+        <link refid="policy__version__history_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>mutex</label>
+      </node>
+      <node id="8">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>unordered_map</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="3">
+        <label>include/governance/ccpa_rules.h</label>
+        <link refid="ccpa__rules_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/governance/compliance_reporter.h</label>
+        <link refid="compliance__reporter_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>include/governance/compliance_reporting.h</label>
+        <link refid="compliance__reporting_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>include/governance/compliance_validator.h</label>
+        <link refid="compliance__validator_8h"/>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>include/governance/cross_tenant_policy_inheritance.h</label>
+        <link refid="cross__tenant__policy__inheritance_8h"/>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>include/governance/hipaa_rules.h</label>
+        <link refid="hipaa__rules_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>include/governance/iso27001_rules.h</label>
+        <link refid="iso27001__rules_8h"/>
+        <childnode refid="26" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>include/governance/pci_dss_rules.h</label>
+        <link refid="pci__dss__rules_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>include/governance/policy_conflict_detector.h</label>
+        <link refid="policy__conflict__detector_8h"/>
+        <childnode refid="28" relation="include">
+        </childnode>
+      </node>
+      <node id="29">
+        <label>include/governance/policy_coordinator.h</label>
+        <link refid="policy__coordinator_8h"/>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/governance/policy_manager.h</label>
+        <link refid="policy__manager_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>include/governance/policy_manager_versioned.h</label>
+        <link refid="policy__manager__versioned_8h"/>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+      </node>
+      <node id="34">
+        <label>include/governance/policy_review.h</label>
+        <link refid="policy__review_8h"/>
+        <childnode refid="35" relation="include">
+        </childnode>
+      </node>
+      <node id="36">
+        <label>include/governance/policy_template.h</label>
+        <link refid="policy__template_8h"/>
+        <childnode refid="37" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>include/governance/policy_validation.h</label>
+        <link refid="policy__validation_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>include/governance/policy_validator.h</label>
+        <link refid="policy__validator_8h"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/governance/policy_version_history.h</label>
+        <link refid="policy__version__history_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+      </node>
+      <node id="38">
+        <label>include/governance/review_scheduler.h</label>
+        <link refid="review__scheduler_8h"/>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+      </node>
+      <node id="41">
+        <label>include/governance/soc2_controls.h</label>
+        <link refid="soc2__controls_8h"/>
+        <childnode refid="42" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>src/governance/ccpa_rules.cpp</label>
+        <link refid="ccpa__rules_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/governance/compliance_reporter.cpp</label>
+        <link refid="compliance__reporter_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/governance/compliance_reporting.cpp</label>
+        <link refid="compliance__reporting_8cpp"/>
+      </node>
+      <node id="21">
+        <label>src/governance/compliance_validator.cpp</label>
+        <link refid="compliance__validator_8cpp"/>
+      </node>
+      <node id="24">
+        <label>src/governance/cross_tenant_policy_inheritance.cpp</label>
+        <link refid="cross__tenant__policy__inheritance_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/governance/hipaa_rules.cpp</label>
+        <link refid="hipaa__rules_8cpp"/>
+      </node>
+      <node id="26">
+        <label>src/governance/iso27001_rules.cpp</label>
+        <link refid="iso27001__rules_8cpp"/>
+      </node>
+      <node id="15">
+        <label>src/governance/pci_dss_rules.cpp</label>
+        <link refid="pci__dss__rules_8cpp"/>
+      </node>
+      <node id="43">
+        <label>src/governance/policy_change_manager.cpp</label>
+        <link refid="policy__change__manager_8cpp"/>
+      </node>
+      <node id="28">
+        <label>src/governance/policy_conflict_detector.cpp</label>
+        <link refid="policy__conflict__detector_8cpp"/>
+      </node>
+      <node id="30">
+        <label>src/governance/policy_coordinator.cpp</label>
+        <link refid="policy__coordinator_8cpp"/>
+      </node>
+      <node id="17">
+        <label>src/governance/policy_manager.cpp</label>
+        <link refid="policy__manager_8cpp"/>
+      </node>
+      <node id="32">
+        <label>src/governance/policy_manager_versioned.cpp</label>
+        <link refid="policy__manager__versioned_8cpp"/>
+      </node>
+      <node id="35">
+        <label>src/governance/policy_review.cpp</label>
+        <link refid="policy__review_8cpp"/>
+      </node>
+      <node id="37">
+        <label>src/governance/policy_template.cpp</label>
+        <link refid="policy__template_8cpp"/>
+      </node>
+      <node id="14">
+        <label>src/governance/policy_validation.cpp</label>
+        <link refid="policy__validation_8cpp"/>
+      </node>
+      <node id="18">
+        <label>src/governance/policy_validator.cpp</label>
+        <link refid="policy__validator_8cpp"/>
+      </node>
+      <node id="44">
+        <label>src/governance/policy_version_history.cpp</label>
+        <link refid="policy__version__history_8cpp"/>
+      </node>
+      <node id="39">
+        <label>src/governance/review_scheduler.cpp</label>
+        <link refid="review__scheduler_8cpp"/>
+      </node>
+      <node id="42">
+        <label>src/governance/soc2_controls.cpp</label>
+        <link refid="soc2__controls_8cpp"/>
+      </node>
+      <node id="22">
+        <label>tests/governance/test_compliance_framework.cpp</label>
+        <link refid="test__compliance__framework_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/governance/test_governance_compliance_time_window.cpp</label>
+        <link refid="test__governance__compliance__time__window_8cpp"/>
+      </node>
+      <node id="45">
+        <label>tests/governance/test_governance_phase2_phase3_focused.cpp</label>
+        <link refid="test__governance__phase2__phase3__focused_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/governance/test_governance_phase2b_phase3a_focused.cpp</label>
+        <link refid="test__governance__phase2b__phase3a__focused_8cpp"/>
+      </node>
+      <node id="40">
+        <label>tests/governance/test_governance_review_scheduler.cpp</label>
+        <link refid="test__governance__review__scheduler_8cpp"/>
+      </node>
+      <node id="33">
+        <label>tests/governance/test_policy_versioning_and_approval.cpp</label>
+        <link refid="test__policy__versioning__and__approval_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1governance_1_1_policy_rule_version" prot="public">themis::governance::PolicyRuleVersion</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_audit_log_entry" prot="public">themis::governance::AuditLogEntry</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_version_diff" prot="public">themis::governance::VersionDiff</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_policy_version_history" prot="public">themis::governance::PolicyVersionHistory</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1governance">themis::governance</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1governance" kindref="compound">governance</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declaration<sp/>to<sp/>avoid<sp/>circular<sp/>include</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref>;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1governance_1_1_policy_rule_version" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1governance_1_1_policy_rule_version" kindref="compound">PolicyRuleVersion</ref><sp/>{</highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1governance_1_1_policy_rule_version_1ac3c0c85688c5c6ad6b42ad1b77c291bb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_policy_rule_version_1ac3c0c85688c5c6ad6b42ad1b77c291bb" kindref="member">version</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Semantic<sp/>version<sp/>(major.minor.patch)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1governance_1_1_policy_rule_version_1a96936798e2fcca432cef945fca94803b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_policy_rule_version_1a96936798e2fcca432cef945fca94803b" kindref="member">rule_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ID<sp/>of<sp/>the<sp/>rule</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1governance_1_1_policy_rule_version_1ac942bc8b0a480ddccdb1676abad3decf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_policy_rule_version_1ac942bc8b0a480ddccdb1676abad3decf" kindref="member">author</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Who<sp/>made<sp/>this<sp/>version</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1governance_1_1_policy_rule_version_1aaa80ad3e762613b32c1f9047e8ef1634" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/><ref refid="structthemis_1_1governance_1_1_policy_rule_version_1aaa80ad3e762613b32c1f9047e8ef1634" kindref="member">timestamp</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>When<sp/>this<sp/>version<sp/>was<sp/>created</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1governance_1_1_policy_rule_version_1a827bd1454efc43d686f281a47aff9ecf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_policy_rule_version_1a827bd1454efc43d686f281a47aff9ecf" kindref="member">change_description</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Description<sp/>of<sp/>changes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1governance_1_1_policy_rule_version_1a14fe4b99e8b09d8c102f325d966545ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1governance_1_1_policy_rule_version_1a14fe4b99e8b09d8c102f325d966545ef" kindref="member">rule_snapshot</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Full<sp/>rule<sp/>state<sp/>at<sp/>this<sp/>version<sp/>(JSON)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1governance_1_1_policy_rule_version_1a46605b2ee9fe99d5f7d8563883c4ea3b" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_policy_rule_version" kindref="compound">PolicyRuleVersion</ref><sp/><ref refid="structthemis_1_1governance_1_1_policy_rule_version_1afc198a7026731d54ebb3da9b1c69c672" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1governance_1_1_audit_log_entry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1governance_1_1_audit_log_entry" kindref="compound">AuditLogEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1governance_1_1_audit_log_entry_1a8f221e4160fb6b5cd50c3078af30a4e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_audit_log_entry_1a8f221e4160fb6b5cd50c3078af30a4e9" kindref="member">rule_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rule<sp/>being<sp/>operated<sp/>on</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1governance_1_1_audit_log_entry_1a98c2505ee7505b890ae9be12ceb84a99" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_audit_log_entry_1a98c2505ee7505b890ae9be12ceb84a99" kindref="member">operation</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;create&quot;,<sp/>&quot;update&quot;,<sp/>&quot;delete&quot;,<sp/>&quot;rollback&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1governance_1_1_audit_log_entry_1abaaa0c571f60e0fa6b3a01adc74ba8b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_audit_log_entry_1abaaa0c571f60e0fa6b3a01adc74ba8b0" kindref="member">user</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>User<sp/>performing<sp/>the<sp/>operation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1governance_1_1_audit_log_entry_1acb6449554f29e9b0297c7223d3c0c595" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/><ref refid="structthemis_1_1governance_1_1_audit_log_entry_1acb6449554f29e9b0297c7223d3c0c595" kindref="member">timestamp</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>When<sp/>the<sp/>operation<sp/>occurred</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1governance_1_1_audit_log_entry_1aab7a7035844abfb6caab3f5b7f37016e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_audit_log_entry_1aab7a7035844abfb6caab3f5b7f37016e" kindref="member">old_version</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Previous<sp/>version<sp/>(for<sp/>update/rollback)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1governance_1_1_audit_log_entry_1a75860cb32bf6a6017c1f77bbacbe843f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_audit_log_entry_1a75860cb32bf6a6017c1f77bbacbe843f" kindref="member">new_version</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>New<sp/>version<sp/>(for<sp/>update/create)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1governance_1_1_audit_log_entry_1a906ee21cdcab275c84b063950f009292" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1governance_1_1_audit_log_entry_1a906ee21cdcab275c84b063950f009292" kindref="member">details</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Additional<sp/>details</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1governance_1_1_audit_log_entry_1aa49047f2ae051dc3e267ce110e5ce3a1" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_audit_log_entry" kindref="compound">AuditLogEntry</ref><sp/><ref refid="structthemis_1_1governance_1_1_audit_log_entry_1af52dc2ae5f700ba065425d5ced541ec8" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1governance_1_1_version_diff" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1governance_1_1_version_diff" kindref="compound">VersionDiff</ref><sp/>{</highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1governance_1_1_version_diff_1a4a4486b406171df33f738f0792e3aea8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_version_diff_1a4a4486b406171df33f738f0792e3aea8" kindref="member">rule_id</ref>;</highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1governance_1_1_version_diff_1af9c3278312fa24f34ff155ae3f36191f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_version_diff_1af9c3278312fa24f34ff155ae3f36191f" kindref="member">version1</ref>;</highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1governance_1_1_version_diff_1a34e56d419f453eca539c9ad3937aab23" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_version_diff_1a34e56d419f453eca539c9ad3937aab23" kindref="member">version2</ref>;</highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1governance_1_1_version_diff_1af33c92d64069bc05e291ec93e1b16401" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1governance_1_1_version_diff_1af33c92d64069bc05e291ec93e1b16401" kindref="member">changes</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>List<sp/>of<sp/>changed<sp/>fields</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1governance_1_1_version_diff_1ae04d399840c5918df7b5f1e94d046fef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1governance_1_1_version_diff_1ae04d399840c5918df7b5f1e94d046fef" kindref="member">details</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Detailed<sp/>differences</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1governance_1_1_version_diff_1a4df55614a7e50e173bb24be7510d2e82" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="classthemis_1_1governance_1_1_policy_version_history" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1governance_1_1_policy_version_history_1afa73b735fa4030db43cab75b2cd534bb" kindref="member">PolicyVersionHistory</ref><sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1governance_1_1_policy_version_history_1afa73b735fa4030db43cab75b2cd534bb" kindref="member">PolicyVersionHistory</ref>();</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1governance_1_1_policy_version_history_1a5dcfa41bf79f4e34ffdfce51fd16204b" kindref="member">recordVersion</ref>(</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>rule_id,</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref>&amp;<sp/>rule,</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>author,</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>change_description</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;PolicyRuleVersion&gt;<sp/><ref refid="classthemis_1_1governance_1_1_policy_version_history_1a6f474bc4d8823ddd1096a1bf401d3f16" kindref="member">getVersions</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>rule_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;PolicyRuleVersion&gt;<sp/><ref refid="classthemis_1_1governance_1_1_policy_version_history_1abb8c6f09042f1ce857c397f1a149e402" kindref="member">getVersion</ref>(</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>rule_id,</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>version</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1governance_1_1_policy_version_history_1a52bd57d73e2ece9835f3a308d9c80e3f" kindref="member">getLatestVersion</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>rule_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="classthemis_1_1governance_1_1_policy_version_history_1a3b4c20a854b214a0e017859984ac209a" kindref="member">getPreviousVersion</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>rule_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1governance_1_1_policy_version_history_1a02fac05c17ea4a484bf8c2767e76447e" kindref="member">getLastRecordedVersion</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>rule_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_version_diff" kindref="compound">VersionDiff</ref><sp/><ref refid="classthemis_1_1governance_1_1_policy_version_history_1a226dbe26aeb26ca3c74a7778578bc6b3" kindref="member">compareVersions</ref>(</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>rule_id,</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>version1,</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>version2</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_version_diff" kindref="compound">VersionDiff</ref><sp/><ref refid="classthemis_1_1governance_1_1_policy_version_history_1a6d1385ae89b8e17309e363190bc7eb17" kindref="member">compareRules</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref>&amp;<sp/>rule1,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref>&amp;<sp/>rule2)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_policy_version_history_1abdb5ba23d4db6d9b31461dda08b346b5" kindref="member">recordAudit</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_audit_log_entry" kindref="compound">AuditLogEntry</ref>&amp;<sp/>entry);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;AuditLogEntry&gt;<sp/><ref refid="classthemis_1_1governance_1_1_policy_version_history_1abe6e79ce749daca331ef720ec5b07469" kindref="member">queryAudit</ref>(</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;std::string&gt;&amp;<sp/>rule_id<sp/>=<sp/>std::nullopt,</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;std::string&gt;&amp;<sp/>user<sp/>=<sp/>std::nullopt,</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;std::int64_t&gt;&amp;<sp/>start_time<sp/>=<sp/>std::nullopt,</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;std::int64_t&gt;&amp;<sp/>end_time<sp/>=<sp/>std::nullopt</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_policy_version_history_1ad511ef9fb4f306a4ad8e7315947f3ef8" kindref="member">deleteVersionHistory</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>rule_id);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1governance_1_1_policy_version_history_1a70424bced69988fafb8ab92d339b9275" kindref="member">exportHistory</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_policy_version_history_1a6d94360b934b1c59caae170b8c3f21ca" kindref="member">importHistory</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_policy_version_history_1ae5e3e580268df0d39623277cdee98198" kindref="member">saveToFile</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_policy_version_history_1a7e183dee936944a35aabb4d15776cb65" kindref="member">loadFromFile</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Map:<sp/>rule_id<sp/>-&gt;<sp/>versions<sp/>(ordered<sp/>by<sp/>timestamp)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::vector&lt;PolicyRuleVersion&gt;&gt;<sp/>versions_;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Audit<sp/>log<sp/>(ordered<sp/>by<sp/>timestamp)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;AuditLogEntry&gt;<sp/>audit_log_;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>incrementVersion(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>current_version)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>identifyChanges(</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref>&amp;<sp/>rule1,</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref>&amp;<sp/>rule2</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>governance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/governance/policy_version_history.h"/>
+  </compounddef>
+</doxygen>

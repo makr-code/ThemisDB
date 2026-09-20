@@ -1,0 +1,691 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_grpc_web_proxy_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::GrpcWebProxyHandler</compoundname>
+    <includes refid="grpc__web__proxy__handler_8h" local="no">grpc_web_proxy_handler.h</includes>
+    <innerclass refid="structthemis_1_1server_1_1_grpc_web_proxy_handler_1_1_config" prot="public">themis::server::GrpcWebProxyHandler::Config</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1server_1_1_grpc_web_proxy_handler_1a4f68ed8cc7447592c9a38e07acbe658c" prot="public" static="no">
+        <type>std::function&lt; bool(const std::string &amp;method, const std::string &amp;request_proto, std::string &amp;response_proto, int &amp;grpc_status, std::string &amp;grpc_message)&gt;</type>
+        <definition>using themis::server::GrpcWebProxyHandler::BackendInvokeFn = std::function&lt;bool(const std::string&amp; method,
+                                              const std::string&amp; request_proto,
+                                              std::string&amp; response_proto,
+                                              int&amp; grpc_status,
+                                              std::string&amp; grpc_message)&gt;</definition>
+        <argsstring></argsstring>
+        <name>BackendInvokeFn</name>
+        <qualifiedname>themis::server::GrpcWebProxyHandler::BackendInvokeFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/grpc_web_proxy_handler.h" line="40" column="5" bodyfile="include/server/grpc_web_proxy_handler.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_grpc_web_proxy_handler_1a10268cafb625aeff74840cb7518513bd" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1server_1_1_grpc_web_proxy_handler_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::server::GrpcWebProxyHandler::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::server::GrpcWebProxyHandler::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/grpc_web_proxy_handler.h" line="116" column="12" bodyfile="include/server/grpc_web_proxy_handler.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_grpc_web_proxy_handler_1af52d2225dc9978213149340c5b53ffdd" prot="private" static="no" mutable="yes">
+        <type>std::shared_ptr&lt; void &gt;</type>
+        <definition>std::shared_ptr&lt;void&gt; themis::server::GrpcWebProxyHandler::channel_holder_</definition>
+        <argsstring></argsstring>
+        <name>channel_holder_</name>
+        <qualifiedname>themis::server::GrpcWebProxyHandler::channel_holder_</qualifiedname>
+        <briefdescription>
+<para>opaque grpc::Channel </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/grpc_web_proxy_handler.h" line="119" column="29" bodyfile="include/server/grpc_web_proxy_handler.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_grpc_web_proxy_handler_1a65806f31df6d04079ba7c29f70de97b8" prot="private" static="no" mutable="yes">
+        <type>std::shared_ptr&lt; void &gt;</type>
+        <definition>std::shared_ptr&lt;void&gt; themis::server::GrpcWebProxyHandler::stub_holder_</definition>
+        <argsstring></argsstring>
+        <name>stub_holder_</name>
+        <qualifiedname>themis::server::GrpcWebProxyHandler::stub_holder_</qualifiedname>
+        <briefdescription>
+<para>opaque grpc::GenericStub </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/grpc_web_proxy_handler.h" line="120" column="29" bodyfile="include/server/grpc_web_proxy_handler.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_grpc_web_proxy_handler_1ad9b03721ae3103362338f46ce217d37f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::GrpcWebProxyHandler::setBackendInvokeFn</definition>
+        <argsstring>(BackendInvokeFn fn)</argsstring>
+        <name>setBackendInvokeFn</name>
+        <qualifiedname>themis::server::GrpcWebProxyHandler::setBackendInvokeFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1_grpc_web_proxy_handler_1a4f68ed8cc7447592c9a38e07acbe658c" kindref="member">BackendInvokeFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Backend Invoke Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/grpc_web_proxy_handler.h" line="50" column="17" bodyfile="src/server/grpc_web_proxy_handler.cpp" bodystart="100" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_grpc_web_proxy_handler_1a2374f8a04a636a0644125682551fb7cf" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::GrpcWebProxyHandler::decodeGrpcWebFrame</definition>
+        <argsstring>(const std::string &amp;body, std::string &amp;out_msg)</argsstring>
+        <name>decodeGrpcWebFrame</name>
+        <qualifiedname>themis::server::GrpcWebProxyHandler::decodeGrpcWebFrame</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>out_msg</declname>
+        </param>
+        <briefdescription>
+<para>Decode Grpc Web Frame. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">out_msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/grpc_web_proxy_handler.h" line="101" column="17" bodyfile="src/server/grpc_web_proxy_handler.cpp" bodystart="133" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_grpc_web_proxy_handler_1a359a7afd4f2bdedae4fd1c577b742185" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::GrpcWebProxyHandler::encodeGrpcWebResponse</definition>
+        <argsstring>(const std::string &amp;proto_msg, int grpc_status, const std::string &amp;grpc_message)</argsstring>
+        <name>encodeGrpcWebResponse</name>
+        <qualifiedname>themis::server::GrpcWebProxyHandler::encodeGrpcWebResponse</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>proto_msg</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>grpc_status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>grpc_message</declname>
+        </param>
+        <briefdescription>
+<para>Encode Grpc Web <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">proto_msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">grpc_status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">grpc_message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/grpc_web_proxy_handler.h" line="111" column="24" bodyfile="src/server/grpc_web_proxy_handler.cpp" bodystart="176" bodyend="197"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_grpc_web_proxy_handler_1a6dea2182fea0fdef05bc718fe31a3cb3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::GrpcWebProxyHandler::GrpcWebProxyHandler</definition>
+        <argsstring>()</argsstring>
+        <name>GrpcWebProxyHandler</name>
+        <qualifiedname>themis::server::GrpcWebProxyHandler::GrpcWebProxyHandler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/grpc_web_proxy_handler.h" line="52" column="5" bodyfile="src/server/grpc_web_proxy_handler.cpp" bodystart="203" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_grpc_web_proxy_handler_1add591bc902209ce3c22dab4d76a9246e" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::GrpcWebProxyHandler::GrpcWebProxyHandler</definition>
+        <argsstring>(Config config)</argsstring>
+        <name>GrpcWebProxyHandler</name>
+        <qualifiedname>themis::server::GrpcWebProxyHandler::GrpcWebProxyHandler</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1server_1_1_grpc_web_proxy_handler_1_1_config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Grpc Web Proxy Handler. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/grpc_web_proxy_handler.h" line="58" column="14" bodyfile="src/server/grpc_web_proxy_handler.cpp" bodystart="207" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_grpc_web_proxy_handler_1a90cef0803a1971f28f6c91460bab26e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::GrpcWebProxyHandler::~GrpcWebProxyHandler</definition>
+        <argsstring>()=default</argsstring>
+        <name>~GrpcWebProxyHandler</name>
+        <qualifiedname>themis::server::GrpcWebProxyHandler::~GrpcWebProxyHandler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/grpc_web_proxy_handler.h" line="60" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_grpc_web_proxy_handler_1a3f3799d5d09711f3a19c7994a45dc868" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::GrpcWebProxyHandler::GrpcWebProxyHandler</definition>
+        <argsstring>(const GrpcWebProxyHandler &amp;)=delete</argsstring>
+        <name>GrpcWebProxyHandler</name>
+        <qualifiedname>themis::server::GrpcWebProxyHandler::GrpcWebProxyHandler</qualifiedname>
+        <param>
+          <type>const GrpcWebProxyHandler &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/grpc_web_proxy_handler.h" line="63" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_grpc_web_proxy_handler_1a3d269e30248576908cb918571b618fdb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1server_1_1_grpc_web_proxy_handler_1a6dea2182fea0fdef05bc718fe31a3cb3" kindref="member">GrpcWebProxyHandler</ref> &amp;</type>
+        <definition>GrpcWebProxyHandler &amp; themis::server::GrpcWebProxyHandler::operator=</definition>
+        <argsstring>(const GrpcWebProxyHandler &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::server::GrpcWebProxyHandler::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1server_1_1_grpc_web_proxy_handler_1a6dea2182fea0fdef05bc718fe31a3cb3" kindref="member">GrpcWebProxyHandler</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/grpc_web_proxy_handler.h" line="64" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_grpc_web_proxy_handler_1a4b51df57a8070bf5808180f371638e2e" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::GrpcWebProxyHandler::GrpcWebProxyHandler</definition>
+        <argsstring>(GrpcWebProxyHandler &amp;&amp;) noexcept=default</argsstring>
+        <name>GrpcWebProxyHandler</name>
+        <qualifiedname>themis::server::GrpcWebProxyHandler::GrpcWebProxyHandler</qualifiedname>
+        <param>
+          <type>GrpcWebProxyHandler &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/grpc_web_proxy_handler.h" line="65" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_grpc_web_proxy_handler_1a32469a889059b719dfbf27d4876a96f3" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1server_1_1_grpc_web_proxy_handler_1a6dea2182fea0fdef05bc718fe31a3cb3" kindref="member">GrpcWebProxyHandler</ref> &amp;</type>
+        <definition>GrpcWebProxyHandler &amp; themis::server::GrpcWebProxyHandler::operator=</definition>
+        <argsstring>(GrpcWebProxyHandler &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::server::GrpcWebProxyHandler::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1_grpc_web_proxy_handler_1a6dea2182fea0fdef05bc718fe31a3cb3" kindref="member">GrpcWebProxyHandler</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/grpc_web_proxy_handler.h" line="66" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_grpc_web_proxy_handler_1abf946ae121c17df6c452ba8b27563e19" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::GrpcWebProxyHandler::handlePost</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;method)</argsstring>
+        <name>handlePost</name>
+        <qualifiedname>themis::server::GrpcWebProxyHandler::handlePost</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>method</declname>
+        </param>
+        <briefdescription>
+<para>Handle Post. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>───────────────────────────────────────────────────────────────────────────── POST /grpc-web/&lt;Service&gt;/&lt;Method&gt; ─────────────────────────────────────────────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/grpc_web_proxy_handler.h" line="74" column="20" bodyfile="src/server/grpc_web_proxy_handler.cpp" bodystart="345" bodyend="480"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_grpc_web_proxy_handler_1abd9b3da8ed5bbe93cafee2ce980f9062" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::GrpcWebProxyHandler::handleOptions</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleOptions</name>
+        <qualifiedname>themis::server::GrpcWebProxyHandler::handleOptions</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Options. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/grpc_web_proxy_handler.h" line="83" column="20" bodyfile="src/server/grpc_web_proxy_handler.cpp" bodystart="307" bodyend="311"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_grpc_web_proxy_handler_1ad6d80e293a5a8d78d4cda85df5a32c65" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::GrpcWebProxyHandler::handleStatus</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleStatus</name>
+        <qualifiedname>themis::server::GrpcWebProxyHandler::handleStatus</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>───────────────────────────────────────────────────────────────────────────── GET /api/v1/grpc-web/status ─────────────────────────────────────────────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/grpc_web_proxy_handler.h" line="91" column="20" bodyfile="src/server/grpc_web_proxy_handler.cpp" bodystart="319" bodyend="336"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_grpc_web_proxy_handler_1aa93732abbc22d652d5c3dc0155e7ea28" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::GrpcWebProxyHandler::ensureChannel</definition>
+        <argsstring>() const</argsstring>
+        <name>ensureChannel</name>
+        <qualifiedname>themis::server::GrpcWebProxyHandler::ensureChannel</qualifiedname>
+        <briefdescription>
+<para>Ensure Channel. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/grpc_web_proxy_handler.h" line="125" column="10" bodyfile="src/server/grpc_web_proxy_handler.cpp" bodystart="225" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_grpc_web_proxy_handler_1aaf7f849fbc1564162de3b86271c3b9bf" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::GrpcWebProxyHandler::addCorsHeaders</definition>
+        <argsstring>(http::response&lt; http::string_body &gt; &amp;res) const</argsstring>
+        <name>addCorsHeaders</name>
+        <qualifiedname>themis::server::GrpcWebProxyHandler::addCorsHeaders</qualifiedname>
+        <param>
+          <type>http::response&lt; http::string_body &gt; &amp;</type>
+          <declname>res</declname>
+        </param>
+        <briefdescription>
+<para>Add Cors Headers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/grpc_web_proxy_handler.h" line="132" column="10" bodyfile="src/server/grpc_web_proxy_handler.cpp" bodystart="257" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_grpc_web_proxy_handler_1a303d1d262d71f67461e3c70cca4476fb" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::GrpcWebProxyHandler::makeResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;body, const std::string &amp;content_type, const http::request&lt; http::string_body &gt; &amp;req) const</argsstring>
+        <name>makeResponse</name>
+        <qualifiedname>themis::server::GrpcWebProxyHandler::makeResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content_type</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">content_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/grpc_web_proxy_handler.h" line="142" column="20" bodyfile="src/server/grpc_web_proxy_handler.cpp" bodystart="273" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_grpc_web_proxy_handler_1ab9fdc22f910e5cddf5ebcff5698cfb7e" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::GrpcWebProxyHandler::makeErrorResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;message, const http::request&lt; http::string_body &gt; &amp;req) const</argsstring>
+        <name>makeErrorResponse</name>
+        <qualifiedname>themis::server::GrpcWebProxyHandler::makeErrorResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make Error <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/grpc_web_proxy_handler.h" line="155" column="20" bodyfile="src/server/grpc_web_proxy_handler.cpp" bodystart="289" bodyend="296"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_grpc_web_proxy_handler_1add04a61f44f63574c9b52a75a63cbf08" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::GrpcWebProxyHandler::appendFrameHeader</definition>
+        <argsstring>(std::string &amp;out, uint8_t flags, uint32_t length)</argsstring>
+        <name>appendFrameHeader</name>
+        <qualifiedname>themis::server::GrpcWebProxyHandler::appendFrameHeader</qualifiedname>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>out</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>flags</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>length</declname>
+        </param>
+        <briefdescription>
+<para>Append Frame Header. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">flags</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/grpc_web_proxy_handler.h" line="167" column="17" bodyfile="src/server/grpc_web_proxy_handler.cpp" bodystart="116" bodyend="125"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/grpc_web_proxy_handler.h" line="28" column="1" bodyfile="include/server/grpc_web_proxy_handler.h" bodystart="28" bodyend="171"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_grpc_web_proxy_handler_1aaf7f849fbc1564162de3b86271c3b9bf" prot="private" virt="non-virtual"><scope>themis::server::GrpcWebProxyHandler</scope><name>addCorsHeaders</name></member>
+      <member refid="classthemis_1_1server_1_1_grpc_web_proxy_handler_1add04a61f44f63574c9b52a75a63cbf08" prot="private" virt="non-virtual"><scope>themis::server::GrpcWebProxyHandler</scope><name>appendFrameHeader</name></member>
+      <member refid="classthemis_1_1server_1_1_grpc_web_proxy_handler_1a4f68ed8cc7447592c9a38e07acbe658c" prot="public" virt="non-virtual"><scope>themis::server::GrpcWebProxyHandler</scope><name>BackendInvokeFn</name></member>
+      <member refid="classthemis_1_1server_1_1_grpc_web_proxy_handler_1af52d2225dc9978213149340c5b53ffdd" prot="private" virt="non-virtual"><scope>themis::server::GrpcWebProxyHandler</scope><name>channel_holder_</name></member>
+      <member refid="classthemis_1_1server_1_1_grpc_web_proxy_handler_1a10268cafb625aeff74840cb7518513bd" prot="private" virt="non-virtual"><scope>themis::server::GrpcWebProxyHandler</scope><name>config_</name></member>
+      <member refid="classthemis_1_1server_1_1_grpc_web_proxy_handler_1a2374f8a04a636a0644125682551fb7cf" prot="public" virt="non-virtual"><scope>themis::server::GrpcWebProxyHandler</scope><name>decodeGrpcWebFrame</name></member>
+      <member refid="classthemis_1_1server_1_1_grpc_web_proxy_handler_1a359a7afd4f2bdedae4fd1c577b742185" prot="public" virt="non-virtual"><scope>themis::server::GrpcWebProxyHandler</scope><name>encodeGrpcWebResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_grpc_web_proxy_handler_1aa93732abbc22d652d5c3dc0155e7ea28" prot="private" virt="non-virtual"><scope>themis::server::GrpcWebProxyHandler</scope><name>ensureChannel</name></member>
+      <member refid="classthemis_1_1server_1_1_grpc_web_proxy_handler_1a6dea2182fea0fdef05bc718fe31a3cb3" prot="public" virt="non-virtual"><scope>themis::server::GrpcWebProxyHandler</scope><name>GrpcWebProxyHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_grpc_web_proxy_handler_1add591bc902209ce3c22dab4d76a9246e" prot="public" virt="non-virtual"><scope>themis::server::GrpcWebProxyHandler</scope><name>GrpcWebProxyHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_grpc_web_proxy_handler_1a3f3799d5d09711f3a19c7994a45dc868" prot="public" virt="non-virtual"><scope>themis::server::GrpcWebProxyHandler</scope><name>GrpcWebProxyHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_grpc_web_proxy_handler_1a4b51df57a8070bf5808180f371638e2e" prot="public" virt="non-virtual"><scope>themis::server::GrpcWebProxyHandler</scope><name>GrpcWebProxyHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_grpc_web_proxy_handler_1abd9b3da8ed5bbe93cafee2ce980f9062" prot="public" virt="non-virtual"><scope>themis::server::GrpcWebProxyHandler</scope><name>handleOptions</name></member>
+      <member refid="classthemis_1_1server_1_1_grpc_web_proxy_handler_1abf946ae121c17df6c452ba8b27563e19" prot="public" virt="non-virtual"><scope>themis::server::GrpcWebProxyHandler</scope><name>handlePost</name></member>
+      <member refid="classthemis_1_1server_1_1_grpc_web_proxy_handler_1ad6d80e293a5a8d78d4cda85df5a32c65" prot="public" virt="non-virtual"><scope>themis::server::GrpcWebProxyHandler</scope><name>handleStatus</name></member>
+      <member refid="classthemis_1_1server_1_1_grpc_web_proxy_handler_1ab9fdc22f910e5cddf5ebcff5698cfb7e" prot="private" virt="non-virtual"><scope>themis::server::GrpcWebProxyHandler</scope><name>makeErrorResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_grpc_web_proxy_handler_1a303d1d262d71f67461e3c70cca4476fb" prot="private" virt="non-virtual"><scope>themis::server::GrpcWebProxyHandler</scope><name>makeResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_grpc_web_proxy_handler_1a3d269e30248576908cb918571b618fdb" prot="public" virt="non-virtual"><scope>themis::server::GrpcWebProxyHandler</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1server_1_1_grpc_web_proxy_handler_1a32469a889059b719dfbf27d4876a96f3" prot="public" virt="non-virtual"><scope>themis::server::GrpcWebProxyHandler</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1server_1_1_grpc_web_proxy_handler_1ad9b03721ae3103362338f46ce217d37f" prot="public" virt="non-virtual"><scope>themis::server::GrpcWebProxyHandler</scope><name>setBackendInvokeFn</name></member>
+      <member refid="classthemis_1_1server_1_1_grpc_web_proxy_handler_1a65806f31df6d04079ba7c29f70de97b8" prot="private" virt="non-virtual"><scope>themis::server::GrpcWebProxyHandler</scope><name>stub_holder_</name></member>
+      <member refid="classthemis_1_1server_1_1_grpc_web_proxy_handler_1a90cef0803a1971f28f6c91460bab26e1" prot="public" virt="non-virtual"><scope>themis::server::GrpcWebProxyHandler</scope><name>~GrpcWebProxyHandler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

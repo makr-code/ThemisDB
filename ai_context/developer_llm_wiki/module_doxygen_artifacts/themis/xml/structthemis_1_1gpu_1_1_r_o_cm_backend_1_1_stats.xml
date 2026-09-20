@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_r_o_cm_backend_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::ROCmBackend::Stats</compoundname>
+    <includes refid="rocm__backend_8h" local="no">rocm_backend.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_r_o_cm_backend_1_1_stats_1a4f8d377521244af9ae35d2da4f93bace" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::ROCmBackend::Stats::streams_created</definition>
+        <argsstring></argsstring>
+        <name>streams_created</name>
+        <qualifiedname>themis::gpu::ROCmBackend::Stats::streams_created</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>hipStreamCreate calls succeeded </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/rocm_backend.h" line="219" column="16" bodyfile="include/themis/gpu/rocm_backend.h" bodystart="219" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_r_o_cm_backend_1_1_stats_1a27c857698877ef15be7506c01014cc5c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::ROCmBackend::Stats::streams_destroyed</definition>
+        <argsstring></argsstring>
+        <name>streams_destroyed</name>
+        <qualifiedname>themis::gpu::ROCmBackend::Stats::streams_destroyed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>hipStreamDestroy calls succeeded </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/rocm_backend.h" line="220" column="16" bodyfile="include/themis/gpu/rocm_backend.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_r_o_cm_backend_1_1_stats_1aff3856432cd0068638a9473ed48f8425" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::ROCmBackend::Stats::alloc_count</definition>
+        <argsstring></argsstring>
+        <name>alloc_count</name>
+        <qualifiedname>themis::gpu::ROCmBackend::Stats::alloc_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>hipMalloc calls succeeded </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/rocm_backend.h" line="221" column="16" bodyfile="include/themis/gpu/rocm_backend.h" bodystart="221" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_r_o_cm_backend_1_1_stats_1a7125599b98af12db8a7be873cc447218" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::ROCmBackend::Stats::dealloc_count</definition>
+        <argsstring></argsstring>
+        <name>dealloc_count</name>
+        <qualifiedname>themis::gpu::ROCmBackend::Stats::dealloc_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>hipFree calls succeeded </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/rocm_backend.h" line="222" column="16" bodyfile="include/themis/gpu/rocm_backend.h" bodystart="222" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_r_o_cm_backend_1_1_stats_1a21ed173b0349ff7435bad1de676eceea" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::ROCmBackend::Stats::bytes_allocated</definition>
+        <argsstring></argsstring>
+        <name>bytes_allocated</name>
+        <qualifiedname>themis::gpu::ROCmBackend::Stats::bytes_allocated</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Current live device bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/rocm_backend.h" line="223" column="16" bodyfile="include/themis/gpu/rocm_backend.h" bodystart="223" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/gpu/rocm_backend.h" line="218" column="5" bodyfile="include/themis/gpu/rocm_backend.h" bodystart="218" bodyend="224"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_r_o_cm_backend_1_1_stats_1aff3856432cd0068638a9473ed48f8425" prot="public" virt="non-virtual"><scope>themis::gpu::ROCmBackend::Stats</scope><name>alloc_count</name></member>
+      <member refid="structthemis_1_1gpu_1_1_r_o_cm_backend_1_1_stats_1a21ed173b0349ff7435bad1de676eceea" prot="public" virt="non-virtual"><scope>themis::gpu::ROCmBackend::Stats</scope><name>bytes_allocated</name></member>
+      <member refid="structthemis_1_1gpu_1_1_r_o_cm_backend_1_1_stats_1a7125599b98af12db8a7be873cc447218" prot="public" virt="non-virtual"><scope>themis::gpu::ROCmBackend::Stats</scope><name>dealloc_count</name></member>
+      <member refid="structthemis_1_1gpu_1_1_r_o_cm_backend_1_1_stats_1a4f8d377521244af9ae35d2da4f93bace" prot="public" virt="non-virtual"><scope>themis::gpu::ROCmBackend::Stats</scope><name>streams_created</name></member>
+      <member refid="structthemis_1_1gpu_1_1_r_o_cm_backend_1_1_stats_1a27c857698877ef15be7506c01014cc5c" prot="public" virt="non-virtual"><scope>themis::gpu::ROCmBackend::Stats</scope><name>streams_destroyed</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

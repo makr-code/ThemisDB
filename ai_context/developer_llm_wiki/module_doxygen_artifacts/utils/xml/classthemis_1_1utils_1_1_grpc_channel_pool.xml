@@ -1,0 +1,1103 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_grpc_channel_pool" kind="class" language="C++" prot="public">
+    <compoundname>themis::utils::GrpcChannelPool</compoundname>
+    <includes refid="grpc__channel__pool_8h" local="no">grpc_channel_pool.h</includes>
+    <innerclass refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_config" prot="public">themis::utils::GrpcChannelPool::Config</innerclass>
+    <innerclass refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_stats" prot="public">themis::utils::GrpcChannelPool::Stats</innerclass>
+    <innerclass refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_pooled_channel" prot="private">themis::utils::GrpcChannelPool::PooledChannel</innerclass>
+    <innerclass refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_target_pool" prot="private">themis::utils::GrpcChannelPool::TargetPool</innerclass>
+    <innerclass refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_circuit_breaker_state" prot="private">themis::utils::GrpcChannelPool::CircuitBreakerState</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1utils_1_1_grpc_channel_pool_1a50ac2961dc856ff4cadaf50a70051257" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>CircuitState</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::CircuitState</qualifiedname>
+        <enumvalue id="classthemis_1_1utils_1_1_grpc_channel_pool_1a50ac2961dc856ff4cadaf50a70051257a110ccf2f5d2ff4eda1fd1a494293467d" prot="public">
+          <name>CLOSED</name>
+          <briefdescription>
+<para>Normal operation – calls are forwarded. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1utils_1_1_grpc_channel_pool_1a50ac2961dc856ff4cadaf50a70051257aa38bd5138bf35514df41a1795ebbf5c3" prot="public">
+          <name>OPEN</name>
+          <briefdescription>
+<para>Tripped – calls are rejected immediately. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1utils_1_1_grpc_channel_pool_1a50ac2961dc856ff4cadaf50a70051257a5c1c0fca237f238d3c656d55a4db3ca4" prot="public">
+          <name>HALF_OPEN</name>
+          <briefdescription>
+<para>Probe state – one call is allowed to test recovery. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Circuit-breaker state for a target. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="171" column="5" bodyfile="include/utils/grpc_channel_pool.h" bodystart="171" bodyend="175"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_grpc_channel_pool_1a33ae982df62b845f2da7b2d93ec42c27" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::GrpcChannelPool::DEFAULT_MAX_CHANNELS_PER_TARGET</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_MAX_CHANNELS_PER_TARGET</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::DEFAULT_MAX_CHANNELS_PER_TARGET</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="49" column="29" bodyfile="include/utils/grpc_channel_pool.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_grpc_channel_pool_1a29c95b250299ec97b7a1a740960b26ea" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::GrpcChannelPool::MAX_CHANNELS_PER_TARGET</definition>
+        <argsstring></argsstring>
+        <name>MAX_CHANNELS_PER_TARGET</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::MAX_CHANNELS_PER_TARGET</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="50" column="29" bodyfile="include/utils/grpc_channel_pool.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_grpc_channel_pool_1a5bde969cd6f25a1149af45aa72d774fe" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::GrpcChannelPool::DEFAULT_MAX_TOTAL_CHANNELS</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_MAX_TOTAL_CHANNELS</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::DEFAULT_MAX_TOTAL_CHANNELS</qualifiedname>
+        <initializer>= 10&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="51" column="29" bodyfile="include/utils/grpc_channel_pool.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_grpc_channel_pool_1a6ccf7a142fed2621383f0c279cc6c825" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::GrpcChannelPool::MAX_CONCURRENT_STREAMS</definition>
+        <argsstring></argsstring>
+        <name>MAX_CONCURRENT_STREAMS</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::MAX_CONCURRENT_STREAMS</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="52" column="29" bodyfile="include/utils/grpc_channel_pool.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_grpc_channel_pool_1a7a7aa3cde00987f2fb47c28e3ecd5307" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::utils::GrpcChannelPool::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="264" column="12" bodyfile="include/utils/grpc_channel_pool.h" bodystart="264" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_grpc_channel_pool_1a172395c0862e2c314e4b309d1b0c42aa" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::utils::GrpcChannelPool::pools_mutex_</definition>
+        <argsstring></argsstring>
+        <name>pools_mutex_</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::pools_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="265" column="24" bodyfile="include/utils/grpc_channel_pool.h" bodystart="265" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_grpc_channel_pool_1a0ef537a47e910cc06255cf65447cb653" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::shared_ptr&lt; TargetPool &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::shared_ptr&lt;TargetPool&gt; &gt; themis::utils::GrpcChannelPool::target_pools_</definition>
+        <argsstring></argsstring>
+        <name>target_pools_</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::target_pools_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="266" column="24" bodyfile="include/utils/grpc_channel_pool.h" bodystart="266" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_grpc_channel_pool_1a34d6acb7a83ce4491414a95015a8918a" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::utils::GrpcChannelPool::total_channels_</definition>
+        <argsstring></argsstring>
+        <name>total_channels_</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::total_channels_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="269" column="17" bodyfile="include/utils/grpc_channel_pool.h" bodystart="269" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_grpc_channel_pool_1a5667cf8d1567b447ce1a4787f20c5c8a" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::utils::GrpcChannelPool::channels_created_</definition>
+        <argsstring></argsstring>
+        <name>channels_created_</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::channels_created_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="270" column="17" bodyfile="include/utils/grpc_channel_pool.h" bodystart="270" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_grpc_channel_pool_1ac9af5d0f8511868b6da4d42368ba2576" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::utils::GrpcChannelPool::channels_reused_</definition>
+        <argsstring></argsstring>
+        <name>channels_reused_</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::channels_reused_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="271" column="17" bodyfile="include/utils/grpc_channel_pool.h" bodystart="271" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_grpc_channel_pool_1acf23049823281d35832e7b2cad8e0c71" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::utils::GrpcChannelPool::stale_removed_</definition>
+        <argsstring></argsstring>
+        <name>stale_removed_</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::stale_removed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="272" column="17" bodyfile="include/utils/grpc_channel_pool.h" bodystart="272" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_grpc_channel_pool_1af773972279519967386d5901968bb8e0" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::utils::GrpcChannelPool::acquire_timeouts_</definition>
+        <argsstring></argsstring>
+        <name>acquire_timeouts_</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::acquire_timeouts_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="273" column="17" bodyfile="include/utils/grpc_channel_pool.h" bodystart="273" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_grpc_channel_pool_1a609f9dc11dccfe35055f0594b295d9f3" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::utils::GrpcChannelPool::shutdown_</definition>
+        <argsstring></argsstring>
+        <name>shutdown_</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::shutdown_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="274" column="17" bodyfile="include/utils/grpc_channel_pool.h" bodystart="274" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_grpc_channel_pool_1ade0fb0c98344b7dd3b8aad48a0f6e1b9" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::utils::GrpcChannelPool::cb_mutex_</definition>
+        <argsstring></argsstring>
+        <name>cb_mutex_</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::cb_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="287" column="59" bodyfile="include/utils/grpc_channel_pool.h" bodystart="287" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_grpc_channel_pool_1a68d8f5cab4d73a1d66ae64a640f4c7aa" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, CircuitBreakerState &gt;</type>
+        <definition>std::unordered_map&lt;std::string, CircuitBreakerState&gt; themis::utils::GrpcChannelPool::circuit_breakers_</definition>
+        <argsstring></argsstring>
+        <name>circuit_breakers_</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::circuit_breakers_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="288" column="25" bodyfile="include/utils/grpc_channel_pool.h" bodystart="288" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_grpc_channel_pool_1a24a3f0b0e09671c1b55ef5adf798cb1b" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::GrpcChannelPool::CB_FAILURE_THRESHOLD</definition>
+        <argsstring></argsstring>
+        <name>CB_FAILURE_THRESHOLD</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::CB_FAILURE_THRESHOLD</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Consecutive failures before tripping. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="277" column="29" bodyfile="include/utils/grpc_channel_pool.h" bodystart="277" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_grpc_channel_pool_1ae732996126dbeaa67a58a7c624d16155" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::GrpcChannelPool::CB_SUCCESS_THRESHOLD</definition>
+        <argsstring></argsstring>
+        <name>CB_SUCCESS_THRESHOLD</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::CB_SUCCESS_THRESHOLD</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+<para>Successes in HALF_OPEN before closing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="278" column="29" bodyfile="include/utils/grpc_channel_pool.h" bodystart="278" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_grpc_channel_pool_1a5dd981c5011c91fd8ac901cd1316e574" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::utils::GrpcChannelPool::CB_OPEN_TIMEOUT</definition>
+        <argsstring></argsstring>
+        <name>CB_OPEN_TIMEOUT</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::CB_OPEN_TIMEOUT</qualifiedname>
+        <initializer>= std::chrono::seconds(30)</initializer>
+        <briefdescription>
+<para>Time before HALF_OPEN probe. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="279" column="29" bodyfile="include/utils/grpc_channel_pool.h" bodystart="279" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_grpc_channel_pool_1a9d36016e9ffb86f03bd6780cb7c73c5a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::GrpcChannelPool::GrpcChannelPool</definition>
+        <argsstring>()</argsstring>
+        <name>GrpcChannelPool</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::GrpcChannelPool</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="66" column="5" bodyfile="src/utils/grpc_channel_pool.cpp" bodystart="18" bodyend="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_grpc_channel_pool_1ac3db2aad66dc87342f20dad70033b1db" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::GrpcChannelPool::GrpcChannelPool</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>GrpcChannelPool</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::GrpcChannelPool</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="67" column="14" bodyfile="src/utils/grpc_channel_pool.cpp" bodystart="22" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_grpc_channel_pool_1a66161bce30be55ce9bd64ddc7de5e8ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::GrpcChannelPool::~GrpcChannelPool</definition>
+        <argsstring>()</argsstring>
+        <name>~GrpcChannelPool</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::~GrpcChannelPool</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="68" column="5" bodyfile="src/utils/grpc_channel_pool.cpp" bodystart="27" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_grpc_channel_pool_1ad368ccaf3538afbe6cd75bee765cc6bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::GrpcChannelPool::GrpcChannelPool</definition>
+        <argsstring>(const GrpcChannelPool &amp;)=delete</argsstring>
+        <name>GrpcChannelPool</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::GrpcChannelPool</qualifiedname>
+        <param>
+          <type>const GrpcChannelPool &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="71" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_grpc_channel_pool_1a3a7ecd9a572e62e4eb632d564f15c857" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a9d36016e9ffb86f03bd6780cb7c73c5a" kindref="member">GrpcChannelPool</ref> &amp;</type>
+        <definition>GrpcChannelPool &amp; themis::utils::GrpcChannelPool::operator=</definition>
+        <argsstring>(const GrpcChannelPool &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a9d36016e9ffb86f03bd6780cb7c73c5a" kindref="member">GrpcChannelPool</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="72" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_grpc_channel_pool_1a9603072972c196a585ed0f1aecb1676e" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::GrpcChannelPool::GrpcChannelPool</definition>
+        <argsstring>(GrpcChannelPool &amp;&amp;) noexcept=default</argsstring>
+        <name>GrpcChannelPool</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::GrpcChannelPool</qualifiedname>
+        <param>
+          <type>GrpcChannelPool &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="73" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_grpc_channel_pool_1ab4760f81c52c171d23cbc36345bffbc4" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a9d36016e9ffb86f03bd6780cb7c73c5a" kindref="member">GrpcChannelPool</ref> &amp;</type>
+        <definition>GrpcChannelPool &amp; themis::utils::GrpcChannelPool::operator=</definition>
+        <argsstring>(GrpcChannelPool &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a9d36016e9ffb86f03bd6780cb7c73c5a" kindref="member">GrpcChannelPool</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="74" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_grpc_channel_pool_1ac76e4dacf9bad598c5251e996126432f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; grpc::Channel &gt;</type>
+        <definition>std::shared_ptr&lt; grpc::Channel &gt; themis::utils::GrpcChannelPool::acquireChannel</definition>
+        <argsstring>(const std::string &amp;target, std::shared_ptr&lt; grpc::ChannelCredentials &gt; credentials=nullptr)</argsstring>
+        <name>acquireChannel</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::acquireChannel</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; grpc::ChannelCredentials &gt;</type>
+          <declname>credentials</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Acquire a channel for the given target with graceful degradation support. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Acquire Channel.</para>
+<para>Attempts to acquire a channel from the pool. If all channels are in use, waits up to acquire_timeout for one to become available. On timeout or pool exhaustion, returns nullptr and increments acquire_timeout counter.</para>
+<para>Graceful degradation strategy:<itemizedlist>
+<listitem><para>If pool is full and timeout expires: caller must handle nullptr</para>
+</listitem><listitem><para>If connection cannot be established: channel is not pooled</para>
+</listitem><listitem><para>Caller should implement retry logic or fallback strategy</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target address (e.g., &quot;localhost:50051&quot;) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>credentials</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Channel credentials. A null pointer is rejected by default; set <ref refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_config_1abf6d725369398e657ab23932e9d37efb" kindref="member">Config::allow_insecure</ref>=true for an explicit local/test override. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Shared pointer to gRPC channel, or nullptr if acquisition failed</para>
+</simplesect>
+@error_contract <table rows="5" cols="3"><row>
+<entry thead="yes"><para>Condition  </para>
+</entry><entry thead="yes"><para>Behavior  </para>
+</entry><entry thead="yes"><para>Recovery  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Pool exhausted  </para>
+</entry><entry thead="no"><para>Returns nullptr  </para>
+</entry><entry thead="no"><para>Implement backoff/fallback  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Acquire timeout  </para>
+</entry><entry thead="no"><para>Returns nullptr  </para>
+</entry><entry thead="no"><para>Retry later or use degraded mode  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Connection failed  </para>
+</entry><entry thead="no"><para>Returns nullptr  </para>
+</entry><entry thead="no"><para>Check network/endpoint health  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Shutdown in progress  </para>
+</entry><entry thead="no"><para>Returns nullptr  </para>
+</entry><entry thead="no"><para>Wait for shutdown to complete  </para>
+</entry></row>
+</table>
+</para>
+<para><simplesect kind="note"><para>Resource Limits (Phase 2.6):<itemizedlist>
+<listitem><para>Max Channels per Target: Default 10 (configured by <ref refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_config_1affd1422f32668f33719f5113f6f5ae38" kindref="member">Config.max_channels_per_target</ref>)</para>
+</listitem><listitem><para>Idle Timeout: 30 seconds (channels closed if idle longer)</para>
+</listitem><listitem><para>Acquire Timeout: 10 seconds (max wait time for available channel)</para>
+</listitem><listitem><para>Max Concurrent Streams: 100 per channel (gRPC HTTP/2 limit)</para>
+</listitem><listitem><para>Connection Pool: Per-target; no global channel limit (unlimited targets) </para>
+</listitem></itemizedlist>
+</para>
+</simplesect>
+<simplesect kind="note"><para>Operator Impact: Monitor acquire_timeouts metric; high values indicate pool undersizing or backend overload. Increase max_channels_per_target if needed.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">credentials</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: load(), getOrCreateTargetPool(), lock(), std::chrono::steady_clock::now(), empty(), front(), pop(), isStale(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="110" column="21" bodyfile="src/utils/grpc_channel_pool.cpp" bodystart="40" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_grpc_channel_pool_1a4fb2d70139ddf70754dfbd2e8d62eb81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::GrpcChannelPool::releaseChannel</definition>
+        <argsstring>(const std::string &amp;target, std::shared_ptr&lt; grpc::Channel &gt; channel)</argsstring>
+        <name>releaseChannel</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::releaseChannel</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; grpc::Channel &gt;</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+<para>Release a channel back to the pool. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Release Channel.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Channel to release</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: pools_lock(), find(), end(), unlock(), lock(), std::chrono::steady_clock::now(), push(), notify_one(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="120" column="10" bodyfile="src/utils/grpc_channel_pool.cpp" bodystart="124" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_grpc_channel_pool_1ad70dce1a25e3f1f3a3d0ddfc2b64b781" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>GrpcChannelPool::Stats themis::utils::GrpcChannelPool::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::getStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pools_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="135" column="11" bodyfile="src/utils/grpc_channel_pool.cpp" bodystart="156" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_grpc_channel_pool_1a684312b4ab4f7390c8a801c2035baba7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::GrpcChannelPool::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::clear</qualifiedname>
+        <briefdescription>
+<para>Clear all pooled channels. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear.</para>
+<para>Calls: lock(), pool_lock(), store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="140" column="10" bodyfile="src/utils/grpc_channel_pool.cpp" bodystart="188" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_grpc_channel_pool_1a8fc3062f447e13bb9121cf7150346522" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::GrpcChannelPool::pruneStaleChannels</definition>
+        <argsstring>()</argsstring>
+        <name>pruneStaleChannels</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::pruneStaleChannels</qualifiedname>
+        <briefdescription>
+<para>Prune stale channels from pool. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Prune Stale Channels.</para>
+<para>Calls: lock(), pool_lock(), empty(), front(), pop(), isStale(), push(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="145" column="10" bodyfile="src/utils/grpc_channel_pool.cpp" bodystart="205" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_grpc_channel_pool_1a5a00e27eb62d4a04364b3da8db20cdba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::GrpcChannelPool::warmup</definition>
+        <argsstring>(const std::string &amp;target, std::shared_ptr&lt; grpc::ChannelCredentials &gt; credentials=nullptr, size_t num_channels=0)</argsstring>
+        <name>warmup</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::warmup</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; grpc::ChannelCredentials &gt;</type>
+          <declname>credentials</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>num_channels</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Warm up pool for target. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Warmup.</para>
+<para>Pre-creates minimum number of channels in advance for faster initial request handling. Useful for production deployments to avoid cold-start latency.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target address (e.g., &quot;localhost:50051&quot;) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>credentials</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Channel credentials (optional) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>num_channels</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of channels to pre-create (default: half of max)</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">credentials</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">num_channels</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: load(), std::min(), getOrCreateTargetPool(), lock(), size(), createChannel(), std::chrono::steady_clock::now(), push(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="158" column="10" bodyfile="src/utils/grpc_channel_pool.cpp" bodystart="303" bodyend="345"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_grpc_channel_pool_1a88374ac5233d823395d4794a864ef890" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a50ac2961dc856ff4cadaf50a70051257" kindref="member">CircuitState</ref></type>
+        <definition>GrpcChannelPool::CircuitState themis::utils::GrpcChannelPool::getCircuitState</definition>
+        <argsstring>(const std::string &amp;target) const</argsstring>
+        <name>getCircuitState</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::getCircuitState</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <briefdescription>
+<para>Get the current circuit-breaker state for the given target. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cb_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="180" column="18" bodyfile="src/utils/grpc_channel_pool.cpp" bodystart="351" bodyend="374"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_grpc_channel_pool_1a5daf631b8104dcff4f06a2a2f89a45b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::GrpcChannelPool::reportSuccess</definition>
+        <argsstring>(const std::string &amp;target)</argsstring>
+        <name>reportSuccess</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::reportSuccess</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <briefdescription>
+<para>Report a successful RPC call for the circuit breaker. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Report Success.</para>
+<para>Call this after every successful RPC. It decrements the failure counter and may transition HALF_OPEN → CLOSED.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="188" column="10" bodyfile="src/utils/grpc_channel_pool.cpp" bodystart="381" bodyend="396"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_grpc_channel_pool_1a59208d184622f3b6512dae4c1cdcfc27" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::GrpcChannelPool::reportFailure</definition>
+        <argsstring>(const std::string &amp;target, uint16_t error_code=0)</argsstring>
+        <name>reportFailure</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::reportFailure</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>uint16_t</type>
+          <declname>error_code</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Report a failed RPC call for the circuit breaker with optional error details. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Report Failure.</para>
+<para>Call this after every failed RPC. It increments the failure counter and may trip the circuit (CLOSED → OPEN) when the threshold is reached.</para>
+<para>Graceful degradation:<itemizedlist>
+<listitem><para>When circuit is OPEN, new requests are rejected immediately</para>
+</listitem><listitem><para>After CB_OPEN_TIMEOUT, circuit transitions to HALF_OPEN for recovery probe</para>
+</listitem><listitem><para>Operator can monitor circuit states via <ref refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a88374ac5233d823395d4794a864ef890" kindref="member">getCircuitState()</ref></para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The endpoint that failed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>error_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional error code for diagnostics (9075-9076 range)</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">error_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::chrono::steady_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="204" column="10" bodyfile="src/utils/grpc_channel_pool.cpp" bodystart="404" bodyend="417"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_grpc_channel_pool_1a672ab4f66f41596196db6e736643f6b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::GrpcChannelPool::healthCheck</definition>
+        <argsstring>(const std::string &amp;target, std::chrono::milliseconds timeout=std::chrono::milliseconds(500))</argsstring>
+        <name>healthCheck</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::healthCheck</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>timeout</declname>
+          <defval>std::chrono::milliseconds(500)</defval>
+        </param>
+        <briefdescription>
+<para>Perform a lightweight health-check ping on a target. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Health Check.</para>
+<para>Checks the gRPC channel state. Does NOT send an actual RPC; instead it calls GetState(true) on a pooled channel to prompt a connection attempt and returns true when the channel reaches READY or IDLE state within <computeroutput>timeout</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The endpoint to check (e.g. &quot;localhost:50051&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum time to wait for the channel to become ready. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the channel is healthy, false otherwise.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a88374ac5233d823395d4794a864ef890" kindref="member">getCircuitState()</ref>, getOrCreateTargetPool(), lock(), empty(), front(), begin(), unlock(), createChannel(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="218" column="10" bodyfile="src/utils/grpc_channel_pool.cpp" bodystart="426" bodyend="482"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_grpc_channel_pool_1a657221c397ff8685ea53a7f5ee9ee6fa" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; grpc::Channel &gt;</type>
+        <definition>std::shared_ptr&lt; grpc::Channel &gt; themis::utils::GrpcChannelPool::createChannel</definition>
+        <argsstring>(const std::string &amp;target, std::shared_ptr&lt; grpc::ChannelCredentials &gt; credentials)</argsstring>
+        <name>createChannel</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::createChannel</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; grpc::ChannelCredentials &gt;</type>
+          <declname>credentials</declname>
+        </param>
+        <briefdescription>
+<para>Create new channel for target. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Channel.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">credentials</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: SetInt(), count(), grpc::InsecureChannelCredentials(), grpc::CreateCustomChannel(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="254" column="21" bodyfile="src/utils/grpc_channel_pool.cpp" bodystart="237" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_grpc_channel_pool_1a1d28aa7535be834154a56a6cbbad0176" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; TargetPool &gt;</type>
+        <definition>std::shared_ptr&lt; GrpcChannelPool::TargetPool &gt; themis::utils::GrpcChannelPool::getOrCreateTargetPool</definition>
+        <argsstring>(const std::string &amp;target)</argsstring>
+        <name>getOrCreateTargetPool</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::getOrCreateTargetPool</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <briefdescription>
+<para>Get or create target pool. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Or Create Target Pool.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="262" column="21" bodyfile="src/utils/grpc_channel_pool.cpp" bodystart="281" bodyend="294"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>gRPC Channel Pool for reusing channels and connections </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides:<itemizedlist>
+<listitem><para>Channel pooling (reduce connection overhead)</para>
+</listitem><listitem><para>Keep-Alive support</para>
+</listitem><listitem><para>Configurable timeouts and pool size</para>
+</listitem><listitem><para>Thread-safe access</para>
+</listitem><listitem><para>Per-target channel pooling</para>
+</listitem></itemizedlist>
+</para>
+<para>Performance Gains:<itemizedlist>
+<listitem><para>10-15% throughput improvement by reusing channels</para>
+</listitem><listitem><para>Reduced connection establishment overhead</para>
+</listitem><listitem><para>Better resource utilization under high concurrency</para>
+</listitem></itemizedlist>
+</para>
+<para>Sources:<itemizedlist>
+<listitem><para>Benchmark Analysis: benchmarks/BENCHMARK_ANALYSIS_20251210.md</para>
+</listitem><listitem><para>Quick Wins: docs/de/performance/OPTIMIZATION_QUICK_WINS.md </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/utils/grpc_channel_pool.h" line="46" column="1" bodyfile="include/utils/grpc_channel_pool.h" bodystart="46" bodyend="289"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1_grpc_channel_pool_1af773972279519967386d5901968bb8e0" prot="private" virt="non-virtual"><scope>themis::utils::GrpcChannelPool</scope><name>acquire_timeouts_</name></member>
+      <member refid="classthemis_1_1utils_1_1_grpc_channel_pool_1ac76e4dacf9bad598c5251e996126432f" prot="public" virt="non-virtual"><scope>themis::utils::GrpcChannelPool</scope><name>acquireChannel</name></member>
+      <member refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a24a3f0b0e09671c1b55ef5adf798cb1b" prot="private" virt="non-virtual"><scope>themis::utils::GrpcChannelPool</scope><name>CB_FAILURE_THRESHOLD</name></member>
+      <member refid="classthemis_1_1utils_1_1_grpc_channel_pool_1ade0fb0c98344b7dd3b8aad48a0f6e1b9" prot="private" virt="non-virtual"><scope>themis::utils::GrpcChannelPool</scope><name>cb_mutex_</name></member>
+      <member refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a5dd981c5011c91fd8ac901cd1316e574" prot="private" virt="non-virtual"><scope>themis::utils::GrpcChannelPool</scope><name>CB_OPEN_TIMEOUT</name></member>
+      <member refid="classthemis_1_1utils_1_1_grpc_channel_pool_1ae732996126dbeaa67a58a7c624d16155" prot="private" virt="non-virtual"><scope>themis::utils::GrpcChannelPool</scope><name>CB_SUCCESS_THRESHOLD</name></member>
+      <member refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a5667cf8d1567b447ce1a4787f20c5c8a" prot="private" virt="non-virtual"><scope>themis::utils::GrpcChannelPool</scope><name>channels_created_</name></member>
+      <member refid="classthemis_1_1utils_1_1_grpc_channel_pool_1ac9af5d0f8511868b6da4d42368ba2576" prot="private" virt="non-virtual"><scope>themis::utils::GrpcChannelPool</scope><name>channels_reused_</name></member>
+      <member refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a68d8f5cab4d73a1d66ae64a640f4c7aa" prot="private" virt="non-virtual"><scope>themis::utils::GrpcChannelPool</scope><name>circuit_breakers_</name></member>
+      <member refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a50ac2961dc856ff4cadaf50a70051257" prot="public" virt="non-virtual"><scope>themis::utils::GrpcChannelPool</scope><name>CircuitState</name></member>
+      <member refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a684312b4ab4f7390c8a801c2035baba7" prot="public" virt="non-virtual"><scope>themis::utils::GrpcChannelPool</scope><name>clear</name></member>
+      <member refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a7a7aa3cde00987f2fb47c28e3ecd5307" prot="private" virt="non-virtual"><scope>themis::utils::GrpcChannelPool</scope><name>config_</name></member>
+      <member refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a657221c397ff8685ea53a7f5ee9ee6fa" prot="private" virt="non-virtual"><scope>themis::utils::GrpcChannelPool</scope><name>createChannel</name></member>
+      <member refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a33ae982df62b845f2da7b2d93ec42c27" prot="public" virt="non-virtual"><scope>themis::utils::GrpcChannelPool</scope><name>DEFAULT_MAX_CHANNELS_PER_TARGET</name></member>
+      <member refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a5bde969cd6f25a1149af45aa72d774fe" prot="public" virt="non-virtual"><scope>themis::utils::GrpcChannelPool</scope><name>DEFAULT_MAX_TOTAL_CHANNELS</name></member>
+      <member refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a88374ac5233d823395d4794a864ef890" prot="public" virt="non-virtual"><scope>themis::utils::GrpcChannelPool</scope><name>getCircuitState</name></member>
+      <member refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a1d28aa7535be834154a56a6cbbad0176" prot="private" virt="non-virtual"><scope>themis::utils::GrpcChannelPool</scope><name>getOrCreateTargetPool</name></member>
+      <member refid="classthemis_1_1utils_1_1_grpc_channel_pool_1ad70dce1a25e3f1f3a3d0ddfc2b64b781" prot="public" virt="non-virtual"><scope>themis::utils::GrpcChannelPool</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a9d36016e9ffb86f03bd6780cb7c73c5a" prot="public" virt="non-virtual"><scope>themis::utils::GrpcChannelPool</scope><name>GrpcChannelPool</name></member>
+      <member refid="classthemis_1_1utils_1_1_grpc_channel_pool_1ac3db2aad66dc87342f20dad70033b1db" prot="public" virt="non-virtual"><scope>themis::utils::GrpcChannelPool</scope><name>GrpcChannelPool</name></member>
+      <member refid="classthemis_1_1utils_1_1_grpc_channel_pool_1ad368ccaf3538afbe6cd75bee765cc6bc" prot="public" virt="non-virtual"><scope>themis::utils::GrpcChannelPool</scope><name>GrpcChannelPool</name></member>
+      <member refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a9603072972c196a585ed0f1aecb1676e" prot="public" virt="non-virtual"><scope>themis::utils::GrpcChannelPool</scope><name>GrpcChannelPool</name></member>
+      <member refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a672ab4f66f41596196db6e736643f6b6" prot="public" virt="non-virtual"><scope>themis::utils::GrpcChannelPool</scope><name>healthCheck</name></member>
+      <member refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a29c95b250299ec97b7a1a740960b26ea" prot="public" virt="non-virtual"><scope>themis::utils::GrpcChannelPool</scope><name>MAX_CHANNELS_PER_TARGET</name></member>
+      <member refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a6ccf7a142fed2621383f0c279cc6c825" prot="public" virt="non-virtual"><scope>themis::utils::GrpcChannelPool</scope><name>MAX_CONCURRENT_STREAMS</name></member>
+      <member refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a3a7ecd9a572e62e4eb632d564f15c857" prot="public" virt="non-virtual"><scope>themis::utils::GrpcChannelPool</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1utils_1_1_grpc_channel_pool_1ab4760f81c52c171d23cbc36345bffbc4" prot="public" virt="non-virtual"><scope>themis::utils::GrpcChannelPool</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a172395c0862e2c314e4b309d1b0c42aa" prot="private" virt="non-virtual"><scope>themis::utils::GrpcChannelPool</scope><name>pools_mutex_</name></member>
+      <member refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a8fc3062f447e13bb9121cf7150346522" prot="public" virt="non-virtual"><scope>themis::utils::GrpcChannelPool</scope><name>pruneStaleChannels</name></member>
+      <member refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a4fb2d70139ddf70754dfbd2e8d62eb81" prot="public" virt="non-virtual"><scope>themis::utils::GrpcChannelPool</scope><name>releaseChannel</name></member>
+      <member refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a59208d184622f3b6512dae4c1cdcfc27" prot="public" virt="non-virtual"><scope>themis::utils::GrpcChannelPool</scope><name>reportFailure</name></member>
+      <member refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a5daf631b8104dcff4f06a2a2f89a45b7" prot="public" virt="non-virtual"><scope>themis::utils::GrpcChannelPool</scope><name>reportSuccess</name></member>
+      <member refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a609f9dc11dccfe35055f0594b295d9f3" prot="private" virt="non-virtual"><scope>themis::utils::GrpcChannelPool</scope><name>shutdown_</name></member>
+      <member refid="classthemis_1_1utils_1_1_grpc_channel_pool_1acf23049823281d35832e7b2cad8e0c71" prot="private" virt="non-virtual"><scope>themis::utils::GrpcChannelPool</scope><name>stale_removed_</name></member>
+      <member refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a0ef537a47e910cc06255cf65447cb653" prot="private" virt="non-virtual"><scope>themis::utils::GrpcChannelPool</scope><name>target_pools_</name></member>
+      <member refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a34d6acb7a83ce4491414a95015a8918a" prot="private" virt="non-virtual"><scope>themis::utils::GrpcChannelPool</scope><name>total_channels_</name></member>
+      <member refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a5a00e27eb62d4a04364b3da8db20cdba" prot="public" virt="non-virtual"><scope>themis::utils::GrpcChannelPool</scope><name>warmup</name></member>
+      <member refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a66161bce30be55ce9bd64ddc7de5e8ad" prot="public" virt="non-virtual"><scope>themis::utils::GrpcChannelPool</scope><name>~GrpcChannelPool</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

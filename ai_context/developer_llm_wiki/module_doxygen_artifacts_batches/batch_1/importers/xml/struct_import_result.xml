@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_import_result" kind="struct" language="C++" prot="public">
+    <compoundname>ImportResult</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_import_result_1ac2a8b700bef75820c5a9cd615d523170" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_import_stats" kindref="compound">ImportStats</ref></type>
+        <definition>ImportStats ImportResult::stats</definition>
+        <argsstring></argsstring>
+        <name>stats</name>
+        <qualifiedname>ImportResult::stats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_conflict_resolver.cpp" line="163" column="17" bodyfile="tests/importers/test_importer_conflict_resolver.cpp" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_import_result_1a88c8ae936188346904a9c0c7c6c31bd3" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; json &gt;</type>
+        <definition>std::vector&lt;json&gt; ImportResult::emitted</definition>
+        <argsstring></argsstring>
+        <name>emitted</name>
+        <qualifiedname>ImportResult::emitted</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_conflict_resolver.cpp" line="164" column="17" bodyfile="tests/importers/test_importer_conflict_resolver.cpp" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_import_result_1a08339a914f7b9dacbd1887b8c3ff1ed4" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; std::string, std::map&lt; std::string, std::string &gt; &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;std::string,std::map&lt;std::string,std::string&gt; &gt; &gt; ImportResult::metrics</definition>
+        <argsstring></argsstring>
+        <name>metrics</name>
+        <qualifiedname>ImportResult::metrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_conflict_resolver.cpp" line="166" column="9" bodyfile="tests/importers/test_importer_conflict_resolver.cpp" bodystart="166" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>ImportResult</label>
+        <link refid="struct_import_result"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>stats</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ImportStats</label>
+        <link refid="struct_import_stats"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/importers/test_importer_conflict_resolver.cpp" line="162" column="1" bodyfile="tests/importers/test_importer_conflict_resolver.cpp" bodystart="162" bodyend="167"/>
+    <listofallmembers>
+      <member refid="struct_import_result_1a88c8ae936188346904a9c0c7c6c31bd3" prot="public" virt="non-virtual"><scope>ImportResult</scope><name>emitted</name></member>
+      <member refid="struct_import_result_1a08339a914f7b9dacbd1887b8c3ff1ed4" prot="public" virt="non-virtual"><scope>ImportResult</scope><name>metrics</name></member>
+      <member refid="struct_import_result_1ac2a8b700bef75820c5a9cd615d523170" prot="public" virt="non-virtual"><scope>ImportResult</scope><name>stats</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

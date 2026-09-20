@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_recording_listener" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>RecordingListener</compoundname>
+    <basecompoundref refid="classthemis_1_1distributed__knowledge_1_1_i_d_k_diagnostic_listener" prot="public" virt="non-virtual">themis::distributed_knowledge::IDKDiagnosticListener</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_recording_listener_1a8afb2e8557ec6b58ae378a3cd69841db" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event" kindref="compound">DKDiagnosticEvent</ref> &gt;</type>
+        <definition>std::vector&lt;DKDiagnosticEvent&gt; RecordingListener::events</definition>
+        <argsstring></argsstring>
+        <name>events</name>
+        <qualifiedname>RecordingListener::events</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_dk_diagnostics_focused.cpp" line="61" column="17" bodyfile="tests/distributed_knowledge/test_dk_diagnostics_focused.cpp" bodystart="61" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_recording_listener_1ac370ae257479ce2ae2e6f2c1f9c6475a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void RecordingListener::onEvent</definition>
+        <argsstring>(const DKDiagnosticEvent &amp;event) override</argsstring>
+        <name>onEvent</name>
+        <qualifiedname>RecordingListener::onEvent</qualifiedname>
+        <reimplements refid="classthemis_1_1distributed__knowledge_1_1_i_d_k_diagnostic_listener_1a3ed0805045cf701ada9c960db8859885">onEvent</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event" kindref="compound">DKDiagnosticEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>On Event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_dk_diagnostics_focused.cpp" line="58" column="10" bodyfile="tests/distributed_knowledge/test_dk_diagnostics_focused.cpp" bodystart="58" bodyend="60"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>RecordingListener</label>
+        <link refid="class_recording_listener"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::distributed_knowledge::IDKDiagnosticListener</label>
+        <link refid="classthemis_1_1distributed__knowledge_1_1_i_d_k_diagnostic_listener"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>RecordingListener</label>
+        <link refid="class_recording_listener"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::distributed_knowledge::IDKDiagnosticListener</label>
+        <link refid="classthemis_1_1distributed__knowledge_1_1_i_d_k_diagnostic_listener"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/distributed_knowledge/test_dk_diagnostics_focused.cpp" line="56" column="1" bodyfile="tests/distributed_knowledge/test_dk_diagnostics_focused.cpp" bodystart="56" bodyend="62"/>
+    <listofallmembers>
+      <member refid="class_recording_listener_1a8afb2e8557ec6b58ae378a3cd69841db" prot="public" virt="non-virtual"><scope>RecordingListener</scope><name>events</name></member>
+      <member refid="class_recording_listener_1ac370ae257479ce2ae2e6f2c1f9c6475a" prot="public" virt="virtual"><scope>RecordingListener</scope><name>onEvent</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_i_d_k_diagnostic_listener_1a1d3c750b99891117b1aaf632f05dcc74" prot="public" virt="virtual"><scope>RecordingListener</scope><name>~IDKDiagnosticListener</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

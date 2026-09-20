@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structchimera_1_1_mongo_d_b_adapter_1_1_queued_operation" kind="struct" language="C++" prot="private">
+    <compoundname>chimera::MongoDBAdapter::QueuedOperation</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structchimera_1_1_mongo_d_b_adapter_1_1_queued_operation_1a35267741e701e18560f391546e0c1723" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string chimera::MongoDBAdapter::QueuedOperation::op_type</definition>
+        <argsstring></argsstring>
+        <name>op_type</name>
+        <qualifiedname>chimera::MongoDBAdapter::QueuedOperation::op_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="252" column="21" bodyfile="include/chimera/mongodb_adapter.hpp" bodystart="252" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structchimera_1_1_mongo_d_b_adapter_1_1_queued_operation_1a889b118b1d321da816699568ff991859" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string chimera::MongoDBAdapter::QueuedOperation::table_name</definition>
+        <argsstring></argsstring>
+        <name>table_name</name>
+        <qualifiedname>chimera::MongoDBAdapter::QueuedOperation::table_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="253" column="21" bodyfile="include/chimera/mongodb_adapter.hpp" bodystart="253" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structchimera_1_1_mongo_d_b_adapter_1_1_queued_operation_1a6a7a96f4f6950f3d2cd544a76e1052e0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string chimera::MongoDBAdapter::QueuedOperation::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>chimera::MongoDBAdapter::QueuedOperation::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="254" column="21" bodyfile="include/chimera/mongodb_adapter.hpp" bodystart="254" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/chimera/mongodb_adapter.hpp" line="251" column="5" bodyfile="include/chimera/mongodb_adapter.hpp" bodystart="251" bodyend="255"/>
+    <listofallmembers>
+      <member refid="structchimera_1_1_mongo_d_b_adapter_1_1_queued_operation_1a6a7a96f4f6950f3d2cd544a76e1052e0" prot="public" virt="non-virtual"><scope>chimera::MongoDBAdapter::QueuedOperation</scope><name>data</name></member>
+      <member refid="structchimera_1_1_mongo_d_b_adapter_1_1_queued_operation_1a35267741e701e18560f391546e0c1723" prot="public" virt="non-virtual"><scope>chimera::MongoDBAdapter::QueuedOperation</scope><name>op_type</name></member>
+      <member refid="structchimera_1_1_mongo_d_b_adapter_1_1_queued_operation_1a889b118b1d321da816699568ff991859" prot="public" virt="non-virtual"><scope>chimera::MongoDBAdapter::QueuedOperation</scope><name>table_name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

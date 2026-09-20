@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_y_o_l_ov8_plugin_test" kind="class" language="C++" prot="public">
+    <compoundname>YOLOv8PluginTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_y_o_l_ov8_plugin_test_1a7e91e54cd3095a6fb168639c96a8f201" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; YOLOv8OnnxPlugin &gt;</type>
+        <definition>std::unique_ptr&lt;YOLOv8OnnxPlugin&gt; YOLOv8PluginTest::plugin_</definition>
+        <argsstring></argsstring>
+        <name>plugin_</name>
+        <qualifiedname>YOLOv8PluginTest::plugin_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/image_analysis/test_image_analysis_phase1_focused.cpp" line="112" column="21" bodyfile="tests/image_analysis/test_image_analysis_phase1_focused.cpp" bodystart="112" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_y_o_l_ov8_plugin_test_1aee920aa993e9b499793f37f2254443ac" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void YOLOv8PluginTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>YOLOv8PluginTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/image_analysis/test_image_analysis_phase1_focused.cpp" line="99" column="10" bodyfile="tests/image_analysis/test_image_analysis_phase1_focused.cpp" bodystart="99" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="class_y_o_l_ov8_plugin_test_1ae1fcf8243edc8a6c2b75ba7e6d8d3af9" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void YOLOv8PluginTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>YOLOv8PluginTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/image_analysis/test_image_analysis_phase1_focused.cpp" line="106" column="10" bodyfile="tests/image_analysis/test_image_analysis_phase1_focused.cpp" bodystart="106" bodyend="110"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>YOLOv8PluginTest</label>
+        <link refid="class_y_o_l_ov8_plugin_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>YOLOv8PluginTest</label>
+        <link refid="class_y_o_l_ov8_plugin_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/image_analysis/test_image_analysis_phase1_focused.cpp" line="97" column="1" bodyfile="tests/image_analysis/test_image_analysis_phase1_focused.cpp" bodystart="97" bodyend="113"/>
+    <listofallmembers>
+      <member refid="class_y_o_l_ov8_plugin_test_1a7e91e54cd3095a6fb168639c96a8f201" prot="protected" virt="non-virtual"><scope>YOLOv8PluginTest</scope><name>plugin_</name></member>
+      <member refid="class_y_o_l_ov8_plugin_test_1aee920aa993e9b499793f37f2254443ac" prot="protected" virt="non-virtual"><scope>YOLOv8PluginTest</scope><name>SetUp</name></member>
+      <member refid="class_y_o_l_ov8_plugin_test_1ae1fcf8243edc8a6c2b75ba7e6d8d3af9" prot="protected" virt="non-virtual"><scope>YOLOv8PluginTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

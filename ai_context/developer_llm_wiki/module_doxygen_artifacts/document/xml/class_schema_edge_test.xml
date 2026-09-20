@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_schema_edge_test" kind="class" language="C++" prot="public">
+    <compoundname>SchemaEdgeTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_schema_edge_test_1a5df752cc89f6e89bb5135fa879659410" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1document_1_1_in_memory_document_schema_evolution" kindref="compound">InMemoryDocumentSchemaEvolution</ref></type>
+        <definition>InMemoryDocumentSchemaEvolution SchemaEdgeTest::evo_</definition>
+        <argsstring></argsstring>
+        <name>evo_</name>
+        <qualifiedname>SchemaEdgeTest::evo_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_schema_hardening_focused.cpp" line="99" column="37" bodyfile="tests/document/test_document_schema_hardening_focused.cpp" bodystart="99" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Test fixture for schema validation edge cases. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Each test constructs a fresh <ref refid="classthemis_1_1document_1_1_in_memory_document_schema_evolution" kindref="compound">InMemoryDocumentSchemaEvolution</ref> to ensure full test isolation. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>SchemaEdgeTest</label>
+        <link refid="class_schema_edge_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>SchemaEdgeTest</label>
+        <link refid="class_schema_edge_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>evo_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="4">
+        <label>themis::document::IDocumentSchemaEvolution</label>
+        <link refid="classthemis_1_1document_1_1_i_document_schema_evolution"/>
+      </node>
+      <node id="3">
+        <label>themis::document::InMemoryDocumentSchemaEvolution</label>
+        <link refid="classthemis_1_1document_1_1_in_memory_document_schema_evolution"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/document/test_document_schema_hardening_focused.cpp" line="97" column="1" bodyfile="tests/document/test_document_schema_hardening_focused.cpp" bodystart="97" bodyend="100"/>
+    <listofallmembers>
+      <member refid="class_schema_edge_test_1a5df752cc89f6e89bb5135fa879659410" prot="protected" virt="non-virtual"><scope>SchemaEdgeTest</scope><name>evo_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

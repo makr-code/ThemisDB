@@ -1,0 +1,480 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1_v_r_a_m_secure_clear" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::VRAMSecureClear</compoundname>
+    <includes refid="vram__secure__clear_8h" local="no">vram_secure_clear.h</includes>
+    <innerclass refid="structthemis_1_1security_1_1_v_r_a_m_secure_clear_1_1_config" prot="public">themis::security::VRAMSecureClear::Config</innerclass>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_v_r_a_m_secure_clear_1a3f910e9c4d962e8b2ce10d313cea166f" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::security::VRAMSecureClear::PATTERNS</definition>
+        <argsstring>[]</argsstring>
+        <name>PATTERNS</name>
+        <qualifiedname>themis::security::VRAMSecureClear::PATTERNS</qualifiedname>
+        <initializer>= {0x00, 0xFF, 0xAA, 0x55, 0xCC, 0x33}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vram_secure_clear.h" line="112" column="30" bodyfile="include/security/vram_secure_clear.h" bodystart="112" bodyend="112"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_v_r_a_m_secure_clear_1a9f434c818d66359574d3318b90e3a688" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::VRAMSecureClear::secureClearCUDA</definition>
+        <argsstring>(void *ptr, size_t size_bytes)</argsstring>
+        <name>secureClearCUDA</name>
+        <qualifiedname>themis::security::VRAMSecureClear::secureClearCUDA</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Securely clear GPU memory with multi-pass overwrite. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Secure Clear CUDA.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device pointer to clear </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Size of memory region in bytes </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if successful, false on error</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements secureClearCUDA without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vram_secure_clear.h" line="58" column="17" bodyfile="src/security/vram_secure_clear.cpp" bodystart="38" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_v_r_a_m_secure_clear_1af8eae0be74786ea2776b606d26e84801" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::VRAMSecureClear::secureClearCUDA</definition>
+        <argsstring>(void *ptr, size_t size_bytes, const Config &amp;config)</argsstring>
+        <name>secureClearCUDA</name>
+        <qualifiedname>themis::security::VRAMSecureClear::secureClearCUDA</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size_bytes</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1security_1_1_v_r_a_m_secure_clear_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Securely clear GPU memory with multi-pass overwrite (with configuration). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Secure Clear CUDA.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device pointer to clear </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Size of memory region in bytes </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Clearing configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if successful, false on error</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="namespacespdlog_1abfac27f3c201763e7acaf1c63b5228ea" kindref="member">spdlog::debug()</ref>, cudaMemset(), spdlog::error(), cudaGetErrorString(), cudaDeviceSynchronize(), verify_buffer(), std::min(), size_t(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vram_secure_clear.h" line="68" column="17" bodyfile="src/security/vram_secure_clear.cpp" bodystart="50" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_v_r_a_m_secure_clear_1ac06fa376890537d440704288d9b08785" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::VRAMSecureClear::secureClearHIP</definition>
+        <argsstring>(void *ptr, size_t size_bytes)</argsstring>
+        <name>secureClearHIP</name>
+        <qualifiedname>themis::security::VRAMSecureClear::secureClearHIP</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Securely clear HIP memory with multi-pass overwrite. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Secure Clear HIP.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device pointer to clear </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Size of memory region in bytes </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if successful, false on error</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements secureClearHIP without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vram_secure_clear.h" line="77" column="17" bodyfile="src/security/vram_secure_clear.cpp" bodystart="125" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_v_r_a_m_secure_clear_1a04aa913c4c58a61746bf27382dc18bbc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::VRAMSecureClear::secureClearHIP</definition>
+        <argsstring>(void *ptr, size_t size_bytes, const Config &amp;config)</argsstring>
+        <name>secureClearHIP</name>
+        <qualifiedname>themis::security::VRAMSecureClear::secureClearHIP</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size_bytes</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1security_1_1_v_r_a_m_secure_clear_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Securely clear HIP memory with multi-pass overwrite (with configuration). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Secure Clear HIP.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device pointer to clear </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Size of memory region in bytes </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Clearing configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if successful, false on error</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="namespacespdlog_1abfac27f3c201763e7acaf1c63b5228ea" kindref="member">spdlog::debug()</ref>, hipMemset(), spdlog::error(), hipGetErrorString(), hipDeviceSynchronize(), verify_buffer(), std::min(), size_t(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vram_secure_clear.h" line="87" column="17" bodyfile="src/security/vram_secure_clear.cpp" bodystart="137" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_v_r_a_m_secure_clear_1a1693eb4fcdd5fb31de71745ea84bd122" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::security::VRAMSecureClear::secureClearCPU</definition>
+        <argsstring>(void *ptr, size_t size_bytes)</argsstring>
+        <name>secureClearCPU</name>
+        <qualifiedname>themis::security::VRAMSecureClear::secureClearCPU</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Securely clear CPU memory (for comparison/fallback). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Secure Clear CPU.</para>
+<para>Uses volatile writes to prevent compiler optimization</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Memory pointer to clear </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Size of memory region in bytes</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements secureClearCPU without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vram_secure_clear.h" line="97" column="17" bodyfile="src/security/vram_secure_clear.cpp" bodystart="210" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_v_r_a_m_secure_clear_1a042888bfd68439dabae3210e4a20b91c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::security::VRAMSecureClear::secureClearCPU</definition>
+        <argsstring>(void *ptr, size_t size_bytes, const Config &amp;config)</argsstring>
+        <name>secureClearCPU</name>
+        <qualifiedname>themis::security::VRAMSecureClear::secureClearCPU</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size_bytes</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1security_1_1_v_r_a_m_secure_clear_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Securely clear CPU memory with configuration (for comparison/fallback). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Secure Clear CPU.</para>
+<para>Uses volatile writes to prevent compiler optimization</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Memory pointer to clear </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Size of memory region in bytes </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Clearing configuration</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="namespacespdlog_1abfac27f3c201763e7acaf1c63b5228ea" kindref="member">spdlog::debug()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vram_secure_clear.h" line="108" column="17" bodyfile="src/security/vram_secure_clear.cpp" bodystart="221" bodyend="245"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Secure memory clearing for GPU VRAM. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This utility provides multi-pass secure clearing of GPU memory to prevent cold-boot attacks and inter-process memory leakage. It performs multiple passes of cudaMemset with different patterns before calling cudaFree.</para>
+<para>Security rationale:<itemizedlist>
+<listitem><para>Single-pass zeroing may not fully clear memory cells</para>
+</listitem><listitem><para>Multi-pass with different patterns increases security margin</para>
+</listitem><listitem><para>Critical for protecting encryption keys, model weights, embeddings</para>
+</listitem></itemizedlist>
+</para>
+<para>Compliance: GDPR Art. 32, SOC 2 CC6.1, HIPAA § 164.310 </para>
+    </detaileddescription>
+    <location file="include/security/vram_secure_clear.h" line="34" column="1" bodyfile="include/security/vram_secure_clear.h" bodystart="34" bodyend="113"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1_v_r_a_m_secure_clear_1a3f910e9c4d962e8b2ce10d313cea166f" prot="private" virt="non-virtual"><scope>themis::security::VRAMSecureClear</scope><name>PATTERNS</name></member>
+      <member refid="classthemis_1_1security_1_1_v_r_a_m_secure_clear_1a1693eb4fcdd5fb31de71745ea84bd122" prot="public" virt="non-virtual"><scope>themis::security::VRAMSecureClear</scope><name>secureClearCPU</name></member>
+      <member refid="classthemis_1_1security_1_1_v_r_a_m_secure_clear_1a042888bfd68439dabae3210e4a20b91c" prot="public" virt="non-virtual"><scope>themis::security::VRAMSecureClear</scope><name>secureClearCPU</name></member>
+      <member refid="classthemis_1_1security_1_1_v_r_a_m_secure_clear_1a9f434c818d66359574d3318b90e3a688" prot="public" virt="non-virtual"><scope>themis::security::VRAMSecureClear</scope><name>secureClearCUDA</name></member>
+      <member refid="classthemis_1_1security_1_1_v_r_a_m_secure_clear_1af8eae0be74786ea2776b606d26e84801" prot="public" virt="non-virtual"><scope>themis::security::VRAMSecureClear</scope><name>secureClearCUDA</name></member>
+      <member refid="classthemis_1_1security_1_1_v_r_a_m_secure_clear_1ac06fa376890537d440704288d9b08785" prot="public" virt="non-virtual"><scope>themis::security::VRAMSecureClear</scope><name>secureClearHIP</name></member>
+      <member refid="classthemis_1_1security_1_1_v_r_a_m_secure_clear_1a04aa913c4c58a61746bf27382dc18bbc" prot="public" virt="non-virtual"><scope>themis::security::VRAMSecureClear</scope><name>secureClearHIP</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,303 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1_i_ingestion_step" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::ingestion::IIngestionStep</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">themis::plugins::IThemisPlugin</basecompoundref>
+    <derivedcompoundref refid="classthemis_1_1ingestion_1_1builtin_1_1_base_entity_assembler_step" prot="public" virt="non-virtual">themis::ingestion::builtin::BaseEntityAssemblerStep</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1ingestion_1_1builtin_1_1_chunk_embed_step" prot="public" virt="non-virtual">themis::ingestion::builtin::ChunkEmbedStep</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1ingestion_1_1builtin_1_1_chunk_text_step" prot="public" virt="non-virtual">themis::ingestion::builtin::ChunkTextStep</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1ingestion_1_1builtin_1_1_chunk_tt_decompose_step" prot="public" virt="non-virtual">themis::ingestion::builtin::ChunkTtDecomposeStep</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1ingestion_1_1builtin_1_1_decompress_step" prot="public" virt="non-virtual">themis::ingestion::builtin::DecompressStep</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1ingestion_1_1builtin_1_1_deontic_step" prot="public" virt="non-virtual">themis::ingestion::builtin::DeonticStep</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1ingestion_1_1builtin_1_1_format_parse_step_base" prot="public" virt="non-virtual">themis::ingestion::builtin::FormatParseStepBase</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1ingestion_1_1builtin_1_1_legal_metadata_step" prot="public" virt="non-virtual">themis::ingestion::builtin::LegalMetadataStep</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1ingestion_1_1builtin_1_1_legal_reference_extractor_step" prot="public" virt="non-virtual">themis::ingestion::builtin::LegalReferenceExtractorStep</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1ingestion_1_1builtin_1_1_llm_extract_step" prot="public" virt="non-virtual">themis::ingestion::builtin::LlmExtractStep</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1ingestion_1_1builtin_1_1_ner_de_step" prot="public" virt="non-virtual">themis::ingestion::builtin::NerDeStep</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1ingestion_1_1builtin_1_1_parse_text_step" prot="public" virt="non-virtual">themis::ingestion::builtin::ParseTextStep</derivedcompoundref>
+    <includes refid="ingestion__step_8h" local="no">ingestion_step.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_i_ingestion_step_1ad350e511cf2ebd67ae0c5baf09f33060" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::IIngestionStep::~IIngestionStep</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~IIngestionStep</name>
+        <qualifiedname>themis::ingestion::IIngestionStep::~IIngestionStep</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_step.h" line="101" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_i_ingestion_step_1abee3ec226507c6c1038ef541caaee044" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>themis::plugins::PluginType</type>
+        <definition>themis::plugins::PluginType themis::ingestion::IIngestionStep::getType</definition>
+        <argsstring>() const override</argsstring>
+        <name>getType</name>
+        <qualifiedname>themis::ingestion::IIngestionStep::getType</qualifiedname>
+        <briefdescription>
+<para>Must return <computeroutput>PluginType::INGESTION_STEP</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_step.h" line="108" column="33" bodyfile="include/ingestion/ingestion_step.h" bodystart="108" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_i_ingestion_step_1ae420e2b6ce844d288d51bea1d79955d8" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>virtual Result&lt; void &gt; themis::ingestion::IIngestionStep::execute</definition>
+        <argsstring>(ExtractionContext &amp;ctx, const StepConfig &amp;config)=0</argsstring>
+        <name>execute</name>
+        <qualifiedname>themis::ingestion::IIngestionStep::execute</qualifiedname>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1builtin_1_1_base_entity_assembler_step_1ac4134d25c2143d02cd2dedeb09cd033b">execute</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1builtin_1_1_chunk_embed_step_1aeefb16b454e61a1e001fb8845b80bfde">execute</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1builtin_1_1_chunk_text_step_1a29f8fb2cbaf1964734053957030c1bb6">execute</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1builtin_1_1_chunk_tt_decompose_step_1a2e1fa7382da1fcfe1483282e1c594225">execute</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1builtin_1_1_decompress_step_1a43c0251a1d78a1c92dbd1cdefa12e017">execute</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1builtin_1_1_deontic_step_1a83d9eead27107802ae93c50a40cbb8d5">execute</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1builtin_1_1_format_parse_step_base_1a7a1b77b268d8c8842bc8ea6bdb7aeda0">execute</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1builtin_1_1_legal_metadata_step_1ac2aece9db414fc82de80359de1a61e7c">execute</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1builtin_1_1_legal_reference_extractor_step_1aa7ea12cde0a2967456ae53938c24b1f0">execute</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1builtin_1_1_llm_extract_step_1ae2668908f7c95a4bfd4cb0dd5c0b03dd">execute</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1builtin_1_1_ner_de_step_1a34751c77d06e5ac55e62f4239c9cee3d">execute</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1builtin_1_1_parse_text_step_1a18f0a350e396951aa1e85c5903d270ae">execute</reimplementedby>
+        <param>
+          <type><ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">ExtractionContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_step_config" kindref="compound">StepConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Execute the step, enriching <computeroutput>ctx</computeroutput> in-place. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The step reads any fields it needs from <computeroutput>ctx</computeroutput> and appends results to the appropriate collections (e.g. <computeroutput>ctx.entities</computeroutput>, <computeroutput>ctx.chunks</computeroutput>). It must not clear or overwrite data written by preceding steps.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared pipeline context — modified in-place. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Step configuration parsed from the YAML profile. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>Result&lt;void&gt;</computeroutput> — success, or an error with an <computeroutput>ErrorCode</computeroutput> from the <computeroutput>ERR_WORKFLOW_*</computeroutput> range. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_step.h" line="126" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_i_ingestion_step_1acd860b2bb15580a25ce67280f671f29a" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>virtual std::vector&lt; std::string &gt; themis::ingestion::IIngestionStep::supportedMimeTypes</definition>
+        <argsstring>() const =0</argsstring>
+        <name>supportedMimeTypes</name>
+        <qualifiedname>themis::ingestion::IIngestionStep::supportedMimeTypes</qualifiedname>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1builtin_1_1_base_entity_assembler_step_1a0273016f23e88f50a94a7a96fbbcb109">supportedMimeTypes</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1builtin_1_1_chunk_embed_step_1a365c91c33ba8b6b133a2efaa33e717b4">supportedMimeTypes</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1builtin_1_1_chunk_text_step_1a10e7fa647442c7e1e882f18ad616244d">supportedMimeTypes</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1builtin_1_1_chunk_tt_decompose_step_1accce8d6d35bd455f1a470d6cf442b739">supportedMimeTypes</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1builtin_1_1_decompress_step_1a93ed9356506ecdf219efa52f6d1e2a10">supportedMimeTypes</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1builtin_1_1_deontic_step_1af90adf68abd4625737c04b53c6a7c6f3">supportedMimeTypes</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1builtin_1_1_format_parse_step_base_1a45fef724b2a714dbd1777d2e544eb08d">supportedMimeTypes</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1builtin_1_1_legal_metadata_step_1a030992cc135b96d76cd30aba3f9da11b">supportedMimeTypes</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1builtin_1_1_legal_reference_extractor_step_1ad7c50b9b8946c42115c37052a2ff1501">supportedMimeTypes</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1builtin_1_1_llm_extract_step_1aad0434662244d8abbe6a8c9aa81fb4cb">supportedMimeTypes</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1builtin_1_1_ner_de_step_1a449cb634dfa345fd37cdee50f40b287e">supportedMimeTypes</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1builtin_1_1_parse_text_step_1a61252a4ba9080bbf7e75a06002bdcfd6">supportedMimeTypes</reimplementedby>
+        <briefdescription>
+<para>Returns the MIME types this step can process. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>An empty vector means &quot;any MIME type&quot;. Used by <computeroutput><ref refid="classthemis_1_1ingestion_1_1_i_ingestion_step_1af4270ae636afe47fd63fb99567408269" kindref="member">canHandle()</ref></computeroutput> default implementation. Override <computeroutput><ref refid="classthemis_1_1ingestion_1_1_i_ingestion_step_1af4270ae636afe47fd63fb99567408269" kindref="member">canHandle()</ref></computeroutput> directly for more complex logic. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_step.h" line="135" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_i_ingestion_step_1af4270ae636afe47fd63fb99567408269" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::ingestion::IIngestionStep::canHandle</definition>
+        <argsstring>(const ExtractionContext &amp;ctx) const</argsstring>
+        <name>canHandle</name>
+        <qualifiedname>themis::ingestion::IIngestionStep::canHandle</qualifiedname>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1builtin_1_1_format_parse_step_base_1a01f7ba2664a9691ca500c85c56b9b98a">canHandle</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1builtin_1_1_llm_extract_step_1aade2dcee8a37bd6c371a86b4be591866">canHandle</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">ExtractionContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when this step can process the current context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Default: returns true when <computeroutput><ref refid="classthemis_1_1ingestion_1_1_i_ingestion_step_1acd860b2bb15580a25ce67280f671f29a" kindref="member">supportedMimeTypes()</ref></computeroutput> is empty (all MIMEs accepted) or when <computeroutput>ctx.manifest.detected_mime</computeroutput> matches any entry in <computeroutput><ref refid="classthemis_1_1ingestion_1_1_i_ingestion_step_1acd860b2bb15580a25ce67280f671f29a" kindref="member">supportedMimeTypes()</ref></computeroutput>.</para>
+<para>Override for custom capability checks (e.g. &quot;only run if raw_text is
+empty&quot;, &quot;only run for files &lt; 10 MB&quot;). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_step.h" line="147" column="18" bodyfile="include/ingestion/ingestion_step.h" bodystart="147" bodyend="158"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Base interface for all workflow step plugins. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Every step — whether built-in or provided as a dynamic plugin (.so/.dll) — implements this interface. The <computeroutput><ref refid="classthemis_1_1ingestion_1_1_workflow_engine" kindref="compound">WorkflowEngine</ref></computeroutput> calls steps in order, passing the same <computeroutput><ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">ExtractionContext</ref></computeroutput> by reference so each step can both read prior results and append its own.</para>
+<para>Plugin type ────────── <computeroutput><ref refid="classthemis_1_1ingestion_1_1_i_ingestion_step_1abee3ec226507c6c1038ef541caaee044" kindref="member">getType()</ref></computeroutput> must return <computeroutput>PluginType::INGESTION_STEP</computeroutput>.</para>
+<para>Capability check ──────────────── The engine calls <computeroutput><ref refid="classthemis_1_1ingestion_1_1_i_ingestion_step_1af4270ae636afe47fd63fb99567408269" kindref="member">canHandle()</ref></computeroutput> before <computeroutput><ref refid="classthemis_1_1ingestion_1_1_i_ingestion_step_1ae420e2b6ce844d288d51bea1d79955d8" kindref="member">execute()</ref></computeroutput>. If <computeroutput><ref refid="classthemis_1_1ingestion_1_1_i_ingestion_step_1af4270ae636afe47fd63fb99567408269" kindref="member">canHandle()</ref></computeroutput> returns false the step is skipped (no error). This lets a step declare itself as &quot;MIME-specific&quot; without requiring a <computeroutput>condition:</computeroutput> expression in the YAML.</para>
+<para>Thread-safety ───────────── Implementations must be thread-safe if <computeroutput>parallel: true</computeroutput> is used. The context passed to parallel steps is a deep copy; the engine merges results after all siblings complete.</para>
+<para>C ABI / dynamic loading ─────────────────────── Dynamic step plugins export: <programlisting><codeline><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal"><sp/>IIngestionStep*<sp/>themis_create_step();</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis_destroy_step(IIngestionStep*);</highlight></codeline>
+</programlisting> The <computeroutput><ref refid="classthemis_1_1ingestion_1_1_step_registry" kindref="compound">StepRegistry</ref></computeroutput> uses these symbols when loading <computeroutput>.so</computeroutput> / <computeroutput>.dll</computeroutput> files. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::ingestion::IIngestionStep</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_ingestion_step"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::ingestion::builtin::BaseEntityAssemblerStep</label>
+        <link refid="classthemis_1_1ingestion_1_1builtin_1_1_base_entity_assembler_step"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::ingestion::builtin::ChunkEmbedStep</label>
+        <link refid="classthemis_1_1ingestion_1_1builtin_1_1_chunk_embed_step"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>themis::ingestion::builtin::ChunkTextStep</label>
+        <link refid="classthemis_1_1ingestion_1_1builtin_1_1_chunk_text_step"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>themis::ingestion::builtin::ChunkTtDecomposeStep</label>
+        <link refid="classthemis_1_1ingestion_1_1builtin_1_1_chunk_tt_decompose_step"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>themis::ingestion::builtin::DecompressStep</label>
+        <link refid="classthemis_1_1ingestion_1_1builtin_1_1_decompress_step"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>themis::ingestion::builtin::DeonticStep</label>
+        <link refid="classthemis_1_1ingestion_1_1builtin_1_1_deontic_step"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>themis::ingestion::builtin::FormatParseStepBase</label>
+        <link refid="classthemis_1_1ingestion_1_1builtin_1_1_format_parse_step_base"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>themis::ingestion::builtin::LegalMetadataStep</label>
+        <link refid="classthemis_1_1ingestion_1_1builtin_1_1_legal_metadata_step"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>themis::ingestion::builtin::LegalReferenceExtractorStep</label>
+        <link refid="classthemis_1_1ingestion_1_1builtin_1_1_legal_reference_extractor_step"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>themis::ingestion::builtin::LlmExtractStep</label>
+        <link refid="classthemis_1_1ingestion_1_1builtin_1_1_llm_extract_step"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>themis::ingestion::builtin::NerDeStep</label>
+        <link refid="classthemis_1_1ingestion_1_1builtin_1_1_ner_de_step"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>themis::ingestion::builtin::ParseArchiveStep</label>
+        <link refid="classthemis_1_1ingestion_1_1builtin_1_1_parse_archive_step"/>
+        <childnode refid="9" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>themis::ingestion::builtin::ParseAudioStep</label>
+        <link refid="classthemis_1_1ingestion_1_1builtin_1_1_parse_audio_step"/>
+        <childnode refid="9" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>themis::ingestion::builtin::ParseImageStep</label>
+        <link refid="classthemis_1_1ingestion_1_1builtin_1_1_parse_image_step"/>
+        <childnode refid="9" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>themis::ingestion::builtin::ParseOfficeStep</label>
+        <link refid="classthemis_1_1ingestion_1_1builtin_1_1_parse_office_step"/>
+        <childnode refid="9" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>themis::ingestion::builtin::ParsePdfStep</label>
+        <link refid="classthemis_1_1ingestion_1_1builtin_1_1_parse_pdf_step"/>
+        <childnode refid="9" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>themis::ingestion::builtin::ParseTextStep</label>
+        <link refid="classthemis_1_1ingestion_1_1builtin_1_1_parse_text_step"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::plugins::IThemisPlugin</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::ingestion::IIngestionStep</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_ingestion_step"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::plugins::IThemisPlugin</label>
+      </node>
+    </collaborationgraph>
+    <location file="include/ingestion/ingestion_step.h" line="99" column="1" bodyfile="include/ingestion/ingestion_step.h" bodystart="99" bodyend="159"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1_i_ingestion_step_1af4270ae636afe47fd63fb99567408269" prot="public" virt="virtual"><scope>themis::ingestion::IIngestionStep</scope><name>canHandle</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_ingestion_step_1ae420e2b6ce844d288d51bea1d79955d8" prot="public" virt="pure-virtual"><scope>themis::ingestion::IIngestionStep</scope><name>execute</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_ingestion_step_1abee3ec226507c6c1038ef541caaee044" prot="public" virt="non-virtual"><scope>themis::ingestion::IIngestionStep</scope><name>getType</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_ingestion_step_1acd860b2bb15580a25ce67280f671f29a" prot="public" virt="pure-virtual"><scope>themis::ingestion::IIngestionStep</scope><name>supportedMimeTypes</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_ingestion_step_1ad350e511cf2ebd67ae0c5baf09f33060" prot="public" virt="non-virtual"><scope>themis::ingestion::IIngestionStep</scope><name>~IIngestionStep</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

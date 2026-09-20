@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1bench_1_1tsrg_1_1_time_point" kind="struct" language="C++" prot="public">
+    <compoundname>themis::bench::tsrg::TimePoint</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1tsrg_1_1_time_point_1aee61e5a1160403d206c5946e40a0094a" prot="public" static="no" mutable="no">
+        <type>std::int64_t</type>
+        <definition>std::int64_t themis::bench::tsrg::TimePoint::ts_ns</definition>
+        <argsstring></argsstring>
+        <name>ts_ns</name>
+        <qualifiedname>themis::bench::tsrg::TimePoint::ts_ns</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/timeseries/bench_timeseries_release_gates.cpp" line="81" column="18" bodyfile="benchmarks/timeseries/bench_timeseries_release_gates.cpp" bodystart="81" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1tsrg_1_1_time_point_1a4bc2025d7146d1e8f8f454c07fff012d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::bench::tsrg::TimePoint::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::bench::tsrg::TimePoint::value</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/timeseries/bench_timeseries_release_gates.cpp" line="82" column="18" bodyfile="benchmarks/timeseries/bench_timeseries_release_gates.cpp" bodystart="82" bodyend="82"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/timeseries/bench_timeseries_release_gates.cpp" line="80" column="1" bodyfile="benchmarks/timeseries/bench_timeseries_release_gates.cpp" bodystart="80" bodyend="83"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1bench_1_1tsrg_1_1_time_point_1aee61e5a1160403d206c5946e40a0094a" prot="public" virt="non-virtual"><scope>themis::bench::tsrg::TimePoint</scope><name>ts_ns</name></member>
+      <member refid="structthemis_1_1bench_1_1tsrg_1_1_time_point_1a4bc2025d7146d1e8f8f454c07fff012d" prot="public" virt="non-virtual"><scope>themis::bench::tsrg::TimePoint</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

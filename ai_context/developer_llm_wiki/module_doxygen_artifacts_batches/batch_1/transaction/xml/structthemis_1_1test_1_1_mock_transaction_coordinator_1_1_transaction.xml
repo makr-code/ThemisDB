@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1test_1_1_mock_transaction_coordinator_1_1_transaction" kind="struct" language="C++" prot="public">
+    <compoundname>themis::test::MockTransactionCoordinator::Transaction</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1test_1_1_mock_transaction_coordinator_1_1_transaction_1a7fe20988c7b1b0b6e06361e348cc15c7" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::test::MockTransactionCoordinator::Transaction::txn_id</definition>
+        <argsstring></argsstring>
+        <name>txn_id</name>
+        <qualifiedname>themis::test::MockTransactionCoordinator::Transaction::txn_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_chaos.cpp" line="59" column="13" bodyfile="tests/transaction/test_transaction_chaos.cpp" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1_mock_transaction_coordinator_1_1_transaction_1a3be9ded159563aa24a90e625f7ff5d3e" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1test_1_1_mock_transaction_coordinator_1a0058cec797615bd6de84e9662139239b" kindref="member">TxnState</ref></type>
+        <definition>TxnState themis::test::MockTransactionCoordinator::Transaction::state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <qualifiedname>themis::test::MockTransactionCoordinator::Transaction::state</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_chaos.cpp" line="60" column="18" bodyfile="tests/transaction/test_transaction_chaos.cpp" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1_mock_transaction_coordinator_1_1_transaction_1aec9475f54f971b3aa102c6fd16e18b24" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::test::MockTransactionCoordinator::Transaction::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>themis::test::MockTransactionCoordinator::Transaction::key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_chaos.cpp" line="61" column="21" bodyfile="tests/transaction/test_transaction_chaos.cpp" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1_mock_transaction_coordinator_1_1_transaction_1aea5529d74a44152d9fb036af7c2e819d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::test::MockTransactionCoordinator::Transaction::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::test::MockTransactionCoordinator::Transaction::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_chaos.cpp" line="62" column="21" bodyfile="tests/transaction/test_transaction_chaos.cpp" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1_mock_transaction_coordinator_1_1_transaction_1a12d75e0fcfbafc9bbe24ea2f7e53a35e" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::test::MockTransactionCoordinator::Transaction::start_time</definition>
+        <argsstring></argsstring>
+        <name>start_time</name>
+        <qualifiedname>themis::test::MockTransactionCoordinator::Transaction::start_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_chaos.cpp" line="63" column="47" bodyfile="tests/transaction/test_transaction_chaos.cpp" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1_mock_transaction_coordinator_1_1_transaction_1a636299c9c47b987a2c386c6c0a9d1f01" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::test::MockTransactionCoordinator::Transaction::is_active</definition>
+        <argsstring></argsstring>
+        <name>is_active</name>
+        <qualifiedname>themis::test::MockTransactionCoordinator::Transaction::is_active</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_chaos.cpp" line="64" column="14" bodyfile="tests/transaction/test_transaction_chaos.cpp" bodystart="64" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/transaction/test_transaction_chaos.cpp" line="58" column="5" bodyfile="tests/transaction/test_transaction_chaos.cpp" bodystart="58" bodyend="65"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1test_1_1_mock_transaction_coordinator_1_1_transaction_1a636299c9c47b987a2c386c6c0a9d1f01" prot="public" virt="non-virtual"><scope>themis::test::MockTransactionCoordinator::Transaction</scope><name>is_active</name></member>
+      <member refid="structthemis_1_1test_1_1_mock_transaction_coordinator_1_1_transaction_1aec9475f54f971b3aa102c6fd16e18b24" prot="public" virt="non-virtual"><scope>themis::test::MockTransactionCoordinator::Transaction</scope><name>key</name></member>
+      <member refid="structthemis_1_1test_1_1_mock_transaction_coordinator_1_1_transaction_1a12d75e0fcfbafc9bbe24ea2f7e53a35e" prot="public" virt="non-virtual"><scope>themis::test::MockTransactionCoordinator::Transaction</scope><name>start_time</name></member>
+      <member refid="structthemis_1_1test_1_1_mock_transaction_coordinator_1_1_transaction_1a3be9ded159563aa24a90e625f7ff5d3e" prot="public" virt="non-virtual"><scope>themis::test::MockTransactionCoordinator::Transaction</scope><name>state</name></member>
+      <member refid="structthemis_1_1test_1_1_mock_transaction_coordinator_1_1_transaction_1a7fe20988c7b1b0b6e06361e348cc15c7" prot="public" virt="non-virtual"><scope>themis::test::MockTransactionCoordinator::Transaction</scope><name>txn_id</name></member>
+      <member refid="structthemis_1_1test_1_1_mock_transaction_coordinator_1_1_transaction_1aea5529d74a44152d9fb036af7c2e819d" prot="public" virt="non-virtual"><scope>themis::test::MockTransactionCoordinator::Transaction</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

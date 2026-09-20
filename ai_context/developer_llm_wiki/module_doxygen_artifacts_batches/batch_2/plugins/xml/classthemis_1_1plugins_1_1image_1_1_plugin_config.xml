@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1image_1_1_plugin_config" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::image::PluginConfig</compoundname>
+    <includes refid="image__analysis__interface_8h" local="no">image_analysis_interface.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1image_1_1_plugin_config_1a62e6beab9faa3026dfca22eb38ec0ccd" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1plugins_1_1image_1a839b0379ce6c20247f2227d0f3c8474c" kindref="member">json</ref></type>
+        <definition>json themis::plugins::image::PluginConfig::settings_</definition>
+        <argsstring></argsstring>
+        <name>settings_</name>
+        <qualifiedname>themis::plugins::image::PluginConfig::settings_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="287" column="10" bodyfile="include/plugins/image_analysis_interface.h" bodystart="287" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_plugin_config_1ad5d1a0b155b406ab3d3ca3afd1d9e80e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::image::PluginConfig::PluginConfig</definition>
+        <argsstring>()=default</argsstring>
+        <name>PluginConfig</name>
+        <qualifiedname>themis::plugins::image::PluginConfig::PluginConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="247" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_plugin_config_1a2848a38cbd2650a60cbf334b9fecb339" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::image::PluginConfig::PluginConfig</definition>
+        <argsstring>(const json &amp;settings)</argsstring>
+        <name>PluginConfig</name>
+        <qualifiedname>themis::plugins::image::PluginConfig::PluginConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1plugins_1_1image_1a839b0379ce6c20247f2227d0f3c8474c" kindref="member">json</ref> &amp;</type>
+          <declname>settings</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="248" column="14" bodyfile="include/plugins/image_analysis_interface.h" bodystart="248" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_plugin_config_1a85160d3301554ae39423bb82c4dc2056" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>T</type>
+        <definition>T themis::plugins::image::PluginConfig::get</definition>
+        <argsstring>(const std::string &amp;path, T default_value) const</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::plugins::image::PluginConfig::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>T</type>
+          <declname>default_value</declname>
+        </param>
+        <briefdescription>
+<para>Get configuration value with default. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="254" column="7" bodyfile="include/plugins/image_analysis_interface.h" bodystart="254" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_plugin_config_1af8bf2f3a18fca47368ec60c9817f1306" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::image::PluginConfig::has</definition>
+        <argsstring>(const std::string &amp;path) const</argsstring>
+        <name>has</name>
+        <qualifiedname>themis::plugins::image::PluginConfig::has</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Check if configuration path exists. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="270" column="10" bodyfile="include/plugins/image_analysis_interface.h" bodystart="270" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_plugin_config_1acf15f98dff559e8861463ed360005eec" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="namespacethemis_1_1plugins_1_1image_1a839b0379ce6c20247f2227d0f3c8474c" kindref="member">json</ref> &amp;</type>
+        <definition>const json &amp; themis::plugins::image::PluginConfig::raw</definition>
+        <argsstring>() const</argsstring>
+        <name>raw</name>
+        <qualifiedname>themis::plugins::image::PluginConfig::raw</qualifiedname>
+        <briefdescription>
+<para>Get raw JSON settings. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="284" column="16" bodyfile="include/plugins/image_analysis_interface.h" bodystart="284" bodyend="284"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Plugin Configuration. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/plugins/image_analysis_interface.h" line="245" column="1" bodyfile="include/plugins/image_analysis_interface.h" bodystart="245" bodyend="288"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_plugin_config_1a85160d3301554ae39423bb82c4dc2056" prot="public" virt="non-virtual"><scope>themis::plugins::image::PluginConfig</scope><name>get</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_plugin_config_1af8bf2f3a18fca47368ec60c9817f1306" prot="public" virt="non-virtual"><scope>themis::plugins::image::PluginConfig</scope><name>has</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_plugin_config_1ad5d1a0b155b406ab3d3ca3afd1d9e80e" prot="public" virt="non-virtual"><scope>themis::plugins::image::PluginConfig</scope><name>PluginConfig</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_plugin_config_1a2848a38cbd2650a60cbf334b9fecb339" prot="public" virt="non-virtual"><scope>themis::plugins::image::PluginConfig</scope><name>PluginConfig</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_plugin_config_1acf15f98dff559e8861463ed360005eec" prot="public" virt="non-virtual"><scope>themis::plugins::image::PluginConfig</scope><name>raw</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_plugin_config_1a62e6beab9faa3026dfca22eb38ec0ccd" prot="private" virt="non-virtual"><scope>themis::plugins::image::PluginConfig</scope><name>settings_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

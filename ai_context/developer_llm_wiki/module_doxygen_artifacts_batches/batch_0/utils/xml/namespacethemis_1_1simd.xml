@@ -1,0 +1,598 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1simd" kind="namespace" language="C++">
+    <compoundname>themis::simd</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1simd_1a1fb2b9f628811864c8c758544863517d" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::simd::CACHE_LINE_SIZE</definition>
+        <argsstring></argsstring>
+        <name>CACHE_LINE_SIZE</name>
+        <qualifiedname>themis::simd::CACHE_LINE_SIZE</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/simd_distance.cpp" line="42" column="24" bodyfile="src/utils/simd_distance.cpp" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1simd_1a4e0be9103b96710a77e405bb37ea06d1" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::simd::PREFETCH_DISTANCE</definition>
+        <argsstring></argsstring>
+        <name>PREFETCH_DISTANCE</name>
+        <qualifiedname>themis::simd::PREFETCH_DISTANCE</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/simd_distance.cpp" line="47" column="24" bodyfile="src/utils/simd_distance.cpp" bodystart="47" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1simd_1a13658abad10d1900bb59e5af00343091" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::simd::l2_distance</definition>
+        <argsstring>(const float *a, const float *b, std::size_t dim)</argsstring>
+        <name>l2_distance</name>
+        <qualifiedname>themis::simd::l2_distance</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>b</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>dim</declname>
+        </param>
+        <briefdescription>
+<para>L2 distance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="namespacethemis_1_1simd_1a973965f0b7a00eff58deeb34b8b49a2e" kindref="member">l2_distance_sq()</ref>, std::sqrt(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/simd_distance.cpp" line="499" column="7" bodyfile="src/utils/simd_distance.cpp" bodystart="499" bodyend="502" declfile="include/utils/simd_distance.h" declline="24" declcolumn="7"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1simd_1a973965f0b7a00eff58deeb34b8b49a2e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::simd::l2_distance_sq</definition>
+        <argsstring>(const float *a, const float *b, std::size_t dim)</argsstring>
+        <name>l2_distance_sq</name>
+        <qualifiedname>themis::simd::l2_distance_sq</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>b</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>dim</declname>
+        </param>
+        <briefdescription>
+<para>L2 distance sq. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: defined(), avx512_l2_sq(), avx2_l2_sq(), neon_l2_sq(), scalar_l2_sq(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/simd_distance.cpp" line="479" column="7" bodyfile="src/utils/simd_distance.cpp" bodystart="479" bodyend="489" declfile="include/utils/simd_distance.h" declline="28" declcolumn="7"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1simd_1a3c025175c8bc30ba57cdfd7eb50286a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::simd::batch_l2_distance_sq</definition>
+        <argsstring>(const float *query, const float *database, std::size_t n, std::size_t dim, float *distances)</argsstring>
+        <name>batch_l2_distance_sq</name>
+        <qualifiedname>themis::simd::batch_l2_distance_sq</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>database</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>dim</declname>
+        </param>
+        <param>
+          <type>float *</type>
+          <declname>distances</declname>
+        </param>
+        <briefdescription>
+<para>Batch l2 distance sq. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">database</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">distances</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: defined(), std::min(), std::size_t(), _mm_prefetch(), __builtin_prefetch(), <ref refid="namespacethemis_1_1simd_1a973965f0b7a00eff58deeb34b8b49a2e" kindref="member">l2_distance_sq()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/simd_distance.cpp" line="513" column="6" bodyfile="src/utils/simd_distance.cpp" bodystart="513" bodyend="538" declfile="include/utils/simd_distance.h" declline="39" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1simd_1a2f05b9e241265660172e7cd05f59419b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::simd::inner_product</definition>
+        <argsstring>(const float *a, const float *b, std::size_t dim)</argsstring>
+        <name>inner_product</name>
+        <qualifiedname>themis::simd::inner_product</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>b</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>dim</declname>
+        </param>
+        <briefdescription>
+<para>Inner product. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: defined(), avx512_inner_product(), avx2_inner_product(), neon_inner_product(), scalar_inner_product(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/simd_distance.cpp" line="548" column="7" bodyfile="src/utils/simd_distance.cpp" bodystart="548" bodyend="558" declfile="include/utils/simd_distance.h" declline="46" declcolumn="7"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1simd_1a967d4e88e1b1437bf07b755f9e2e4b5e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::simd::cosine_distance</definition>
+        <argsstring>(const float *a, const float *b, std::size_t dim)</argsstring>
+        <name>cosine_distance</name>
+        <qualifiedname>themis::simd::cosine_distance</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>b</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>dim</declname>
+        </param>
+        <briefdescription>
+<para>Cosine distance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: defined(), avx512_inner_product(), avx512_norm_sq(), avx2_inner_product(), avx2_norm_sq(), neon_inner_product(), neon_norm_sq(), scalar_inner_product(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/simd_distance.cpp" line="568" column="7" bodyfile="src/utils/simd_distance.cpp" bodystart="568" bodyend="597" declfile="include/utils/simd_distance.h" declline="52" declcolumn="7"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1simd_1a7931dbc2995c9f83577f2c4a736decce" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::simd::cosine_similarity</definition>
+        <argsstring>(const float *a, const float *b, std::size_t dim)</argsstring>
+        <name>cosine_similarity</name>
+        <qualifiedname>themis::simd::cosine_similarity</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>b</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>dim</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/simd_distance.h" line="60" column="14" bodyfile="include/utils/simd_distance.h" bodystart="60" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1simd_1a6b0ee57b75eac478d43a1b0d626ef7dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::simd::batch_cosine_similarity</definition>
+        <argsstring>(const float *query, const float *database, std::size_t n, std::size_t dim, float *results)</argsstring>
+        <name>batch_cosine_similarity</name>
+        <qualifiedname>themis::simd::batch_cosine_similarity</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>database</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>dim</declname>
+        </param>
+        <param>
+          <type>float *</type>
+          <declname>results</declname>
+        </param>
+        <briefdescription>
+<para>Batch cosine similarity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">database</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="namespacethemis_1_1simd_1a967d4e88e1b1437bf07b755f9e2e4b5e" kindref="member">cosine_distance()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/simd_distance.cpp" line="608" column="6" bodyfile="src/utils/simd_distance.cpp" bodystart="608" bodyend="613" declfile="include/utils/simd_distance.h" declline="68" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1simd_1a6651281efabaa5d23054bc7b20af23fa" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>static float themis::simd::scalar_l2_sq</definition>
+        <argsstring>(const float *a, const float *b, std::size_t dim)</argsstring>
+        <name>scalar_l2_sq</name>
+        <qualifiedname>themis::simd::scalar_l2_sq</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>b</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>dim</declname>
+        </param>
+        <briefdescription>
+<para>Scalar l2 sq. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements scalar_l2_sq without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/simd_distance.cpp" line="57" column="21" bodyfile="src/utils/simd_distance.cpp" bodystart="57" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1simd_1abf0fc2affc781d35adade7db68d7b72b" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="simd__distance_8cpp_1a56afb597ec801025cf7810c7403ea794" kindref="member">THEMIS_MAYBE_UNUSED_FN</ref> float</type>
+        <definition>static THEMIS_MAYBE_UNUSED_FN float themis::simd::scalar_inner_product</definition>
+        <argsstring>(const float *a, const float *b, std::size_t dim)</argsstring>
+        <name>scalar_inner_product</name>
+        <qualifiedname>themis::simd::scalar_inner_product</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>b</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>dim</declname>
+        </param>
+        <briefdescription>
+<para>Scalar inner product. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements scalar_inner_product without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/simd_distance.cpp" line="446" column="44" bodyfile="src/utils/simd_distance.cpp" bodystart="446" bodyend="452"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1simd_1a3571feb0b778c8dac797329d327460d0" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="simd__distance_8cpp_1a56afb597ec801025cf7810c7403ea794" kindref="member">THEMIS_MAYBE_UNUSED_FN</ref> float</type>
+        <definition>static THEMIS_MAYBE_UNUSED_FN float themis::simd::scalar_norm_sq</definition>
+        <argsstring>(const float *a, std::size_t dim)</argsstring>
+        <name>scalar_norm_sq</name>
+        <qualifiedname>themis::simd::scalar_norm_sq</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>dim</declname>
+        </param>
+        <briefdescription>
+<para>Scalar norm sq. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements scalar_norm_sq without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/simd_distance.cpp" line="461" column="44" bodyfile="src/utils/simd_distance.cpp" bodystart="461" bodyend="467"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/simd_distance.h" line="17" column="1"/>
+  </compounddef>
+</doxygen>

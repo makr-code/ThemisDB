@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1phase3_1_1_disk_a_n_n_index_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::phase3::DiskANNIndex::Stats</compoundname>
+    <includes refid="diskann_8h" local="no">diskann.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_disk_a_n_n_index_1_1_stats_1a0f72e31be3e396c2ffed480c66d4ca49" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::phase3::DiskANNIndex::Stats::num_vectors</definition>
+        <argsstring></argsstring>
+        <name>num_vectors</name>
+        <qualifiedname>themis::performance::phase3::DiskANNIndex::Stats::num_vectors</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/diskann.h" line="107" column="16" bodyfile="include/performance/phase3/diskann.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_disk_a_n_n_index_1_1_stats_1a868075006ea043436d5b0d945e2990c2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::phase3::DiskANNIndex::Stats::graph_edges</definition>
+        <argsstring></argsstring>
+        <name>graph_edges</name>
+        <qualifiedname>themis::performance::phase3::DiskANNIndex::Stats::graph_edges</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/diskann.h" line="108" column="16" bodyfile="include/performance/phase3/diskann.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_disk_a_n_n_index_1_1_stats_1a3fd8a5114b4c015f30643c2ae722a24c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::phase3::DiskANNIndex::Stats::cache_hits</definition>
+        <argsstring></argsstring>
+        <name>cache_hits</name>
+        <qualifiedname>themis::performance::phase3::DiskANNIndex::Stats::cache_hits</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/diskann.h" line="109" column="16" bodyfile="include/performance/phase3/diskann.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_disk_a_n_n_index_1_1_stats_1aa14116507855592e0f57d694fd5cfb07" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::phase3::DiskANNIndex::Stats::cache_misses</definition>
+        <argsstring></argsstring>
+        <name>cache_misses</name>
+        <qualifiedname>themis::performance::phase3::DiskANNIndex::Stats::cache_misses</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/diskann.h" line="110" column="16" bodyfile="include/performance/phase3/diskann.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_disk_a_n_n_index_1_1_stats_1af4e0a5320f7125874bad72fe51e17022" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::phase3::DiskANNIndex::Stats::disk_reads</definition>
+        <argsstring></argsstring>
+        <name>disk_reads</name>
+        <qualifiedname>themis::performance::phase3::DiskANNIndex::Stats::disk_reads</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/diskann.h" line="111" column="16" bodyfile="include/performance/phase3/diskann.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/phase3/diskann.h" line="106" column="5" bodyfile="include/performance/phase3/diskann.h" bodystart="106" bodyend="112"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_disk_a_n_n_index_1_1_stats_1a3fd8a5114b4c015f30643c2ae722a24c" prot="public" virt="non-virtual"><scope>themis::performance::phase3::DiskANNIndex::Stats</scope><name>cache_hits</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_disk_a_n_n_index_1_1_stats_1aa14116507855592e0f57d694fd5cfb07" prot="public" virt="non-virtual"><scope>themis::performance::phase3::DiskANNIndex::Stats</scope><name>cache_misses</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_disk_a_n_n_index_1_1_stats_1af4e0a5320f7125874bad72fe51e17022" prot="public" virt="non-virtual"><scope>themis::performance::phase3::DiskANNIndex::Stats</scope><name>disk_reads</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_disk_a_n_n_index_1_1_stats_1a868075006ea043436d5b0d945e2990c2" prot="public" virt="non-virtual"><scope>themis::performance::phase3::DiskANNIndex::Stats</scope><name>graph_edges</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_disk_a_n_n_index_1_1_stats_1a0f72e31be3e396c2ffed480c66d4ca49" prot="public" virt="non-virtual"><scope>themis::performance::phase3::DiskANNIndex::Stats</scope><name>num_vectors</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

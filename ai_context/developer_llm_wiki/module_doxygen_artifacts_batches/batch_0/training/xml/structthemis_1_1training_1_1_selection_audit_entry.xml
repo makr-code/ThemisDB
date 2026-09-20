@@ -1,0 +1,211 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_selection_audit_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::SelectionAuditEntry</compoundname>
+    <includes refid="lora__data__selection_8h" local="no">lora_data_selection.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_selection_audit_entry_1a6b9dba14d51d27dea1fa103fe15ac882" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::SelectionAuditEntry::pipeline_version</definition>
+        <argsstring></argsstring>
+        <name>pipeline_version</name>
+        <qualifiedname>themis::training::SelectionAuditEntry::pipeline_version</qualifiedname>
+        <initializer>= &quot;1.0&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="153" column="17" bodyfile="include/training/lora_data_selection.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_selection_audit_entry_1a452e47af0a24c05eca8ca1cff3936bbc" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::training::SelectionAuditEntry::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::training::SelectionAuditEntry::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="154" column="43" bodyfile="include/training/lora_data_selection.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_selection_audit_entry_1ad894702b7872a978eefb7432d2947a1a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::SelectionAuditEntry::config_hash</definition>
+        <argsstring></argsstring>
+        <name>config_hash</name>
+        <qualifiedname>themis::training::SelectionAuditEntry::config_hash</qualifiedname>
+        <briefdescription>
+<para>SHA-256 / FNV hash of serialized config. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="155" column="17" bodyfile="include/training/lora_data_selection.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_selection_audit_entry_1a5562461d08e519008e773b434f0d9ee0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::SelectionAuditEntry::input_sample_count</definition>
+        <argsstring></argsstring>
+        <name>input_sample_count</name>
+        <qualifiedname>themis::training::SelectionAuditEntry::input_sample_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="156" column="12" bodyfile="include/training/lora_data_selection.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_selection_audit_entry_1a75ffe1bde26aee4cfc93f40069eb5f11" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::SelectionAuditEntry::output_sample_count</definition>
+        <argsstring></argsstring>
+        <name>output_sample_count</name>
+        <qualifiedname>themis::training::SelectionAuditEntry::output_sample_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="157" column="12" bodyfile="include/training/lora_data_selection.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_selection_audit_entry_1af0eca25c7147474f51f35b83c6f0918c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::SelectionAuditEntry::filtered_by_quality</definition>
+        <argsstring></argsstring>
+        <name>filtered_by_quality</name>
+        <qualifiedname>themis::training::SelectionAuditEntry::filtered_by_quality</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="158" column="12" bodyfile="include/training/lora_data_selection.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_selection_audit_entry_1af989e97d47a9cc99aa1aa26991c85216" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::SelectionAuditEntry::filtered_by_dedup</definition>
+        <argsstring></argsstring>
+        <name>filtered_by_dedup</name>
+        <qualifiedname>themis::training::SelectionAuditEntry::filtered_by_dedup</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="159" column="12" bodyfile="include/training/lora_data_selection.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_selection_audit_entry_1a5fc2ceda2587cd6d8864374b7ca1ae20" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::SelectionAuditEntry::filtered_by_cluster</definition>
+        <argsstring></argsstring>
+        <name>filtered_by_cluster</name>
+        <qualifiedname>themis::training::SelectionAuditEntry::filtered_by_cluster</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="160" column="12" bodyfile="include/training/lora_data_selection.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_selection_audit_entry_1a39521ffb399d1310231b829cee005892" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::training::SelectionAuditEntry::selected_ids</definition>
+        <argsstring></argsstring>
+        <name>selected_ids</name>
+        <qualifiedname>themis::training::SelectionAuditEntry::selected_ids</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>IDs of selected samples </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="161" column="17" bodyfile="include/training/lora_data_selection.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_selection_audit_entry_1a624e4f727c0d535806bb98a7a69c5596" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, size_t &gt;</type>
+        <definition>std::map&lt;std::string, size_t&gt; themis::training::SelectionAuditEntry::domain_distribution</definition>
+        <argsstring></argsstring>
+        <name>domain_distribution</name>
+        <qualifiedname>themis::training::SelectionAuditEntry::domain_distribution</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of selected samples per declared domain. Empty when no samples carry a domain tag. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="164" column="14" bodyfile="include/training/lora_data_selection.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1training_1_1_selection_audit_entry_1aa330a2c6a6e06f5611c35ae153fc8897" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::SelectionAuditEntry::SelectionAuditEntry</definition>
+        <argsstring>()</argsstring>
+        <name>SelectionAuditEntry</name>
+        <qualifiedname>themis::training::SelectionAuditEntry::SelectionAuditEntry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="166" column="5" bodyfile="include/training/lora_data_selection.h" bodystart="166" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1training_1_1_selection_audit_entry_1aec1eeb6c87485875b6df46e5694bb650" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::training::SelectionAuditEntry::toJSONL</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSONL</name>
+        <qualifiedname>themis::training::SelectionAuditEntry::toJSONL</qualifiedname>
+        <briefdescription>
+<para>Serialize to a single JSON Lines (JSONL) string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Produces one compact JSON object per call, suitable for appending to a <computeroutput>.jsonl</computeroutput> file. Uses a self-contained serializer – no external JSON library dependency. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="175" column="17" bodyfile="src/training/lora_data_selection.cpp" bodystart="1211" bodyend="1258"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Provenance record written when audit=true. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Records which samples were selected, when, by which pipeline version, and the key configuration parameters used. </para>
+    </detaileddescription>
+    <location file="include/training/lora_data_selection.h" line="152" column="1" bodyfile="include/training/lora_data_selection.h" bodystart="152" bodyend="176"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_selection_audit_entry_1ad894702b7872a978eefb7432d2947a1a" prot="public" virt="non-virtual"><scope>themis::training::SelectionAuditEntry</scope><name>config_hash</name></member>
+      <member refid="structthemis_1_1training_1_1_selection_audit_entry_1a624e4f727c0d535806bb98a7a69c5596" prot="public" virt="non-virtual"><scope>themis::training::SelectionAuditEntry</scope><name>domain_distribution</name></member>
+      <member refid="structthemis_1_1training_1_1_selection_audit_entry_1a5fc2ceda2587cd6d8864374b7ca1ae20" prot="public" virt="non-virtual"><scope>themis::training::SelectionAuditEntry</scope><name>filtered_by_cluster</name></member>
+      <member refid="structthemis_1_1training_1_1_selection_audit_entry_1af989e97d47a9cc99aa1aa26991c85216" prot="public" virt="non-virtual"><scope>themis::training::SelectionAuditEntry</scope><name>filtered_by_dedup</name></member>
+      <member refid="structthemis_1_1training_1_1_selection_audit_entry_1af0eca25c7147474f51f35b83c6f0918c" prot="public" virt="non-virtual"><scope>themis::training::SelectionAuditEntry</scope><name>filtered_by_quality</name></member>
+      <member refid="structthemis_1_1training_1_1_selection_audit_entry_1a5562461d08e519008e773b434f0d9ee0" prot="public" virt="non-virtual"><scope>themis::training::SelectionAuditEntry</scope><name>input_sample_count</name></member>
+      <member refid="structthemis_1_1training_1_1_selection_audit_entry_1a75ffe1bde26aee4cfc93f40069eb5f11" prot="public" virt="non-virtual"><scope>themis::training::SelectionAuditEntry</scope><name>output_sample_count</name></member>
+      <member refid="structthemis_1_1training_1_1_selection_audit_entry_1a6b9dba14d51d27dea1fa103fe15ac882" prot="public" virt="non-virtual"><scope>themis::training::SelectionAuditEntry</scope><name>pipeline_version</name></member>
+      <member refid="structthemis_1_1training_1_1_selection_audit_entry_1a39521ffb399d1310231b829cee005892" prot="public" virt="non-virtual"><scope>themis::training::SelectionAuditEntry</scope><name>selected_ids</name></member>
+      <member refid="structthemis_1_1training_1_1_selection_audit_entry_1aa330a2c6a6e06f5611c35ae153fc8897" prot="public" virt="non-virtual"><scope>themis::training::SelectionAuditEntry</scope><name>SelectionAuditEntry</name></member>
+      <member refid="structthemis_1_1training_1_1_selection_audit_entry_1a452e47af0a24c05eca8ca1cff3936bbc" prot="public" virt="non-virtual"><scope>themis::training::SelectionAuditEntry</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1training_1_1_selection_audit_entry_1aec1eeb6c87485875b6df46e5694bb650" prot="public" virt="non-virtual"><scope>themis::training::SelectionAuditEntry</scope><name>toJSONL</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

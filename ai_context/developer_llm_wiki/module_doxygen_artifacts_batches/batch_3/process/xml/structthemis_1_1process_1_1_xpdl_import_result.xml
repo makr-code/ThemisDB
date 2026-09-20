@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_xpdl_import_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::XpdlImportResult</compoundname>
+    <includes refid="xpdl__importer_8h" local="no">xpdl_importer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_xpdl_import_result_1a3e083e79a7ad9827c8038aeb3d748c93" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::process::XpdlImportResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::process::XpdlImportResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/xpdl_importer.h" line="28" column="10" bodyfile="include/process/xpdl_importer.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_xpdl_import_result_1a7f917a15eae8c5e635023bafa597a7b0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::XpdlImportResult::package_id</definition>
+        <argsstring></argsstring>
+        <name>package_id</name>
+        <qualifiedname>themis::process::XpdlImportResult::package_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/xpdl_importer.h" line="29" column="17" bodyfile="include/process/xpdl_importer.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_xpdl_import_result_1a88c39c97c1d6744ebeb088671b8f3622" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::process::XpdlImportResult::processes_imported</definition>
+        <argsstring></argsstring>
+        <name>processes_imported</name>
+        <qualifiedname>themis::process::XpdlImportResult::processes_imported</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/xpdl_importer.h" line="30" column="9" bodyfile="include/process/xpdl_importer.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_xpdl_import_result_1aa94f74e4ef9b60721bd9c579113f5418" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::process::XpdlImportResult::activities_imported</definition>
+        <argsstring></argsstring>
+        <name>activities_imported</name>
+        <qualifiedname>themis::process::XpdlImportResult::activities_imported</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/xpdl_importer.h" line="31" column="9" bodyfile="include/process/xpdl_importer.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_xpdl_import_result_1ae3ef5b1c7be6378e7c764cc9afaa5943" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::process::XpdlImportResult::transitions_imported</definition>
+        <argsstring></argsstring>
+        <name>transitions_imported</name>
+        <qualifiedname>themis::process::XpdlImportResult::transitions_imported</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/xpdl_importer.h" line="32" column="9" bodyfile="include/process/xpdl_importer.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_xpdl_import_result_1abd6c44294818e72d673d6bbc3502b5a7" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::process::XpdlImportResult::warnings</definition>
+        <argsstring></argsstring>
+        <name>warnings</name>
+        <qualifiedname>themis::process::XpdlImportResult::warnings</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/xpdl_importer.h" line="33" column="17" bodyfile="include/process/xpdl_importer.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_xpdl_import_result_1ad0158a0fa3c22634245b0ae6a8e05e73" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::process::XpdlImportResult::errors</definition>
+        <argsstring></argsstring>
+        <name>errors</name>
+        <qualifiedname>themis::process::XpdlImportResult::errors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/xpdl_importer.h" line="34" column="17" bodyfile="include/process/xpdl_importer.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/process/xpdl_importer.h" line="27" column="1" bodyfile="include/process/xpdl_importer.h" bodystart="27" bodyend="35"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_xpdl_import_result_1aa94f74e4ef9b60721bd9c579113f5418" prot="public" virt="non-virtual"><scope>themis::process::XpdlImportResult</scope><name>activities_imported</name></member>
+      <member refid="structthemis_1_1process_1_1_xpdl_import_result_1ad0158a0fa3c22634245b0ae6a8e05e73" prot="public" virt="non-virtual"><scope>themis::process::XpdlImportResult</scope><name>errors</name></member>
+      <member refid="structthemis_1_1process_1_1_xpdl_import_result_1a7f917a15eae8c5e635023bafa597a7b0" prot="public" virt="non-virtual"><scope>themis::process::XpdlImportResult</scope><name>package_id</name></member>
+      <member refid="structthemis_1_1process_1_1_xpdl_import_result_1a88c39c97c1d6744ebeb088671b8f3622" prot="public" virt="non-virtual"><scope>themis::process::XpdlImportResult</scope><name>processes_imported</name></member>
+      <member refid="structthemis_1_1process_1_1_xpdl_import_result_1a3e083e79a7ad9827c8038aeb3d748c93" prot="public" virt="non-virtual"><scope>themis::process::XpdlImportResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1process_1_1_xpdl_import_result_1ae3ef5b1c7be6378e7c764cc9afaa5943" prot="public" virt="non-virtual"><scope>themis::process::XpdlImportResult</scope><name>transitions_imported</name></member>
+      <member refid="structthemis_1_1process_1_1_xpdl_import_result_1abd6c44294818e72d673d6bbc3502b5a7" prot="public" virt="non-virtual"><scope>themis::process::XpdlImportResult</scope><name>warnings</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

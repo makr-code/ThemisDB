@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1gpu_1_1_0d115374315032347032306275371160240264060173370377" kind="namespace" language="C++">
+    <compoundname>themis::gpu::@115374315032347032306275371160240264060173370377</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/gpu/device_discovery.cpp" line="42" column="1"/>
+  </compounddef>
+</doxygen>

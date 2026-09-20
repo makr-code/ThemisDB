@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_network_policy" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::NetworkPolicy</compoundname>
+    <includes refid="zero__trust__policy__enforcer_8h" local="no">zero_trust_policy_enforcer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_network_policy_1ad1254a3d83028054d547f4e413d1c6d7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::NetworkPolicy::policy_id</definition>
+        <argsstring></argsstring>
+        <name>policy_id</name>
+        <qualifiedname>themis::security::NetworkPolicy::policy_id</qualifiedname>
+        <briefdescription>
+<para>Unique policy identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/zero_trust_policy_enforcer.h" line="47" column="17" bodyfile="include/security/zero_trust_policy_enforcer.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_network_policy_1ad4206d596ccf6b36abbb7ae751669e5a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::NetworkPolicy::identity</definition>
+        <argsstring></argsstring>
+        <name>identity</name>
+        <qualifiedname>themis::security::NetworkPolicy::identity</qualifiedname>
+        <briefdescription>
+<para>user_id or role name this policy applies to </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/zero_trust_policy_enforcer.h" line="48" column="17" bodyfile="include/security/zero_trust_policy_enforcer.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_network_policy_1a60a00c3359ac67f02e5253b83da943af" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::security::NetworkPolicy::allowed_cidrs</definition>
+        <argsstring></argsstring>
+        <name>allowed_cidrs</name>
+        <qualifiedname>themis::security::NetworkPolicy::allowed_cidrs</qualifiedname>
+        <briefdescription>
+<para>CIDRs from which access is permitted (IPv4 and IPv6). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/zero_trust_policy_enforcer.h" line="49" column="17" bodyfile="include/security/zero_trust_policy_enforcer.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_network_policy_1a1e40ac911164f7d5242d32e5b0f7b0c9" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::security::NetworkPolicy::denied_cidrs</definition>
+        <argsstring></argsstring>
+        <name>denied_cidrs</name>
+        <qualifiedname>themis::security::NetworkPolicy::denied_cidrs</qualifiedname>
+        <briefdescription>
+<para>CIDRs that are always blocked (takes precedence). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/zero_trust_policy_enforcer.h" line="50" column="17" bodyfile="include/security/zero_trust_policy_enforcer.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_network_policy_1a261666fd392b1f02f424dbe0db283828" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::NetworkPolicy::default_deny</definition>
+        <argsstring></argsstring>
+        <name>default_deny</name>
+        <qualifiedname>themis::security::NetworkPolicy::default_deny</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Zero-trust: deny unless explicitly allowed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/zero_trust_policy_enforcer.h" line="51" column="10" bodyfile="include/security/zero_trust_policy_enforcer.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_network_policy_1a69cf8bfe50eef253e5466d6087f0d7b3" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::chrono::seconds &gt;</type>
+        <definition>std::optional&lt;std::chrono::seconds&gt; themis::security::NetworkPolicy::max_token_age</definition>
+        <argsstring></argsstring>
+        <name>max_token_age</name>
+        <qualifiedname>themis::security::NetworkPolicy::max_token_age</qualifiedname>
+        <briefdescription>
+<para>Maximum token age for this identity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/zero_trust_policy_enforcer.h" line="52" column="19" bodyfile="include/security/zero_trust_policy_enforcer.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_network_policy_1a05dc264dd200e228d0afca00193a2322" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::security::NetworkPolicy::continuous_verification_interval_ms</definition>
+        <argsstring></argsstring>
+        <name>continuous_verification_interval_ms</name>
+        <qualifiedname>themis::security::NetworkPolicy::continuous_verification_interval_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/zero_trust_policy_enforcer.h" line="55" column="31" bodyfile="include/security/zero_trust_policy_enforcer.h" bodystart="55" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_network_policy_1a779f6daca8af3554dd9589a53596bc6d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::security::NetworkPolicy::risk_score_threshold</definition>
+        <argsstring></argsstring>
+        <name>risk_score_threshold</name>
+        <qualifiedname>themis::security::NetworkPolicy::risk_score_threshold</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/zero_trust_policy_enforcer.h" line="57" column="12" bodyfile="include/security/zero_trust_policy_enforcer.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/zero_trust_policy_enforcer.h" line="46" column="1" bodyfile="include/security/zero_trust_policy_enforcer.h" bodystart="46" bodyend="58"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_network_policy_1a60a00c3359ac67f02e5253b83da943af" prot="public" virt="non-virtual"><scope>themis::security::NetworkPolicy</scope><name>allowed_cidrs</name></member>
+      <member refid="structthemis_1_1security_1_1_network_policy_1a05dc264dd200e228d0afca00193a2322" prot="public" virt="non-virtual"><scope>themis::security::NetworkPolicy</scope><name>continuous_verification_interval_ms</name></member>
+      <member refid="structthemis_1_1security_1_1_network_policy_1a261666fd392b1f02f424dbe0db283828" prot="public" virt="non-virtual"><scope>themis::security::NetworkPolicy</scope><name>default_deny</name></member>
+      <member refid="structthemis_1_1security_1_1_network_policy_1a1e40ac911164f7d5242d32e5b0f7b0c9" prot="public" virt="non-virtual"><scope>themis::security::NetworkPolicy</scope><name>denied_cidrs</name></member>
+      <member refid="structthemis_1_1security_1_1_network_policy_1ad4206d596ccf6b36abbb7ae751669e5a" prot="public" virt="non-virtual"><scope>themis::security::NetworkPolicy</scope><name>identity</name></member>
+      <member refid="structthemis_1_1security_1_1_network_policy_1a69cf8bfe50eef253e5466d6087f0d7b3" prot="public" virt="non-virtual"><scope>themis::security::NetworkPolicy</scope><name>max_token_age</name></member>
+      <member refid="structthemis_1_1security_1_1_network_policy_1ad1254a3d83028054d547f4e413d1c6d7" prot="public" virt="non-virtual"><scope>themis::security::NetworkPolicy</scope><name>policy_id</name></member>
+      <member refid="structthemis_1_1security_1_1_network_policy_1a779f6daca8af3554dd9589a53596bc6d" prot="public" virt="non-virtual"><scope>themis::security::NetworkPolicy</scope><name>risk_score_threshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

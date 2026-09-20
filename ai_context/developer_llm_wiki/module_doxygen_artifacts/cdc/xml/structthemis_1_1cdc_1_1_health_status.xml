@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cdc_1_1_health_status" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cdc::HealthStatus</compoundname>
+    <includes refid="cdc__admin_8h" local="no">cdc_admin.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_health_status_1acce1ac140ee753e0637378313e9d7a7d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::cdc::HealthStatus::is_healthy</definition>
+        <argsstring></argsstring>
+        <name>is_healthy</name>
+        <qualifiedname>themis::cdc::HealthStatus::is_healthy</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="44" column="10" bodyfile="include/cdc/cdc_admin.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_health_status_1aa7b6658ec87b1f4348d2c4338337a6fb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::HealthStatus::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::cdc::HealthStatus::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="45" column="17" bodyfile="include/cdc/cdc_admin.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_health_status_1a6a48dd1761d537dff1ac7a29f282ce76" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::cdc::HealthStatus::changefeed_healthy</definition>
+        <argsstring></argsstring>
+        <name>changefeed_healthy</name>
+        <qualifiedname>themis::cdc::HealthStatus::changefeed_healthy</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="48" column="10" bodyfile="include/cdc/cdc_admin.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_health_status_1a30b821d497b852efd1394d1f4813fb78" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::cdc::HealthStatus::buffer_healthy</definition>
+        <argsstring></argsstring>
+        <name>buffer_healthy</name>
+        <qualifiedname>themis::cdc::HealthStatus::buffer_healthy</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="49" column="10" bodyfile="include/cdc/cdc_admin.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_health_status_1a01e0b413726abbb0f51dfbdfc09a2d78" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::cdc::HealthStatus::retention_healthy</definition>
+        <argsstring></argsstring>
+        <name>retention_healthy</name>
+        <qualifiedname>themis::cdc::HealthStatus::retention_healthy</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="50" column="10" bodyfile="include/cdc/cdc_admin.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_health_status_1a3d90edabe97f801b8cc312e78b8c0152" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::cdc::HealthStatus::buffer_utilization</definition>
+        <argsstring></argsstring>
+        <name>buffer_utilization</name>
+        <qualifiedname>themis::cdc::HealthStatus::buffer_utilization</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="53" column="12" bodyfile="include/cdc/cdc_admin.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_health_status_1a97d76dbb72ce402b1c9e8101e1b95ac4" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cdc::HealthStatus::error_count</definition>
+        <argsstring></argsstring>
+        <name>error_count</name>
+        <qualifiedname>themis::cdc::HealthStatus::error_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="54" column="14" bodyfile="include/cdc/cdc_admin.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_health_status_1a9d7e18c003c5ba7c3abc8ea34b847fe1" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cdc::HealthStatus::error_rate_per_sec</definition>
+        <argsstring></argsstring>
+        <name>error_rate_per_sec</name>
+        <qualifiedname>themis::cdc::HealthStatus::error_rate_per_sec</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="55" column="14" bodyfile="include/cdc/cdc_admin.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1cdc_1_1_health_status_1ac964fdf18a29404e0acc385901061e69" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::cdc::HealthStatus::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::cdc::HealthStatus::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="57" column="20" bodyfile="include/cdc/cdc_admin.h" bodystart="57" bodyend="72"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cdc/cdc_admin.h" line="43" column="1" bodyfile="include/cdc/cdc_admin.h" bodystart="43" bodyend="73"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cdc_1_1_health_status_1a30b821d497b852efd1394d1f4813fb78" prot="public" virt="non-virtual"><scope>themis::cdc::HealthStatus</scope><name>buffer_healthy</name></member>
+      <member refid="structthemis_1_1cdc_1_1_health_status_1a3d90edabe97f801b8cc312e78b8c0152" prot="public" virt="non-virtual"><scope>themis::cdc::HealthStatus</scope><name>buffer_utilization</name></member>
+      <member refid="structthemis_1_1cdc_1_1_health_status_1a6a48dd1761d537dff1ac7a29f282ce76" prot="public" virt="non-virtual"><scope>themis::cdc::HealthStatus</scope><name>changefeed_healthy</name></member>
+      <member refid="structthemis_1_1cdc_1_1_health_status_1a97d76dbb72ce402b1c9e8101e1b95ac4" prot="public" virt="non-virtual"><scope>themis::cdc::HealthStatus</scope><name>error_count</name></member>
+      <member refid="structthemis_1_1cdc_1_1_health_status_1a9d7e18c003c5ba7c3abc8ea34b847fe1" prot="public" virt="non-virtual"><scope>themis::cdc::HealthStatus</scope><name>error_rate_per_sec</name></member>
+      <member refid="structthemis_1_1cdc_1_1_health_status_1acce1ac140ee753e0637378313e9d7a7d" prot="public" virt="non-virtual"><scope>themis::cdc::HealthStatus</scope><name>is_healthy</name></member>
+      <member refid="structthemis_1_1cdc_1_1_health_status_1aa7b6658ec87b1f4348d2c4338337a6fb" prot="public" virt="non-virtual"><scope>themis::cdc::HealthStatus</scope><name>message</name></member>
+      <member refid="structthemis_1_1cdc_1_1_health_status_1a01e0b413726abbb0f51dfbdfc09a2d78" prot="public" virt="non-virtual"><scope>themis::cdc::HealthStatus</scope><name>retention_healthy</name></member>
+      <member refid="structthemis_1_1cdc_1_1_health_status_1ac964fdf18a29404e0acc385901061e69" prot="public" virt="non-virtual"><scope>themis::cdc::HealthStatus</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

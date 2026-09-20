@@ -1,0 +1,186 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1functions_1_1crs_1_1_e_p_s_g_definition" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::functions::crs::EPSGDefinition</compoundname>
+    <includes refid="crs__functions_8h" local="no">crs_functions.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1crs_1_1_e_p_s_g_definition_1a8afd60746a51c36142832dd2b49e9233" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::query::functions::crs::EPSGDefinition::code</definition>
+        <argsstring></argsstring>
+        <name>code</name>
+        <qualifiedname>themis::query::functions::crs::EPSGDefinition::code</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/crs_functions.h" line="75" column="9" bodyfile="include/query/functions/crs_functions.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1crs_1_1_e_p_s_g_definition_1ad314a11e707f86bb01ddae7a2377f515" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::functions::crs::EPSGDefinition::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::query::functions::crs::EPSGDefinition::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/crs_functions.h" line="76" column="17" bodyfile="include/query/functions/crs_functions.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1crs_1_1_e_p_s_g_definition_1ac525458e9e801df23e07b09cf3772dfa" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::functions::crs::EPSGDefinition::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::query::functions::crs::EPSGDefinition::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/crs_functions.h" line="77" column="17" bodyfile="include/query/functions/crs_functions.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1crs_1_1_e_p_s_g_definition_1a84f44d60664d6ab44d5b0ac67df0c821" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1functions_1_1crs_1_1_ellipsoid" kindref="compound">Ellipsoid</ref></type>
+        <definition>Ellipsoid themis::query::functions::crs::EPSGDefinition::ellipsoid</definition>
+        <argsstring></argsstring>
+        <name>ellipsoid</name>
+        <qualifiedname>themis::query::functions::crs::EPSGDefinition::ellipsoid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/crs_functions.h" line="78" column="15" bodyfile="include/query/functions/crs_functions.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1crs_1_1_e_p_s_g_definition_1a63522dea2567abe48c2864509cb73890" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::query::functions::crs::EPSGDefinition::utmZone</definition>
+        <argsstring></argsstring>
+        <name>utmZone</name>
+        <qualifiedname>themis::query::functions::crs::EPSGDefinition::utmZone</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/crs_functions.h" line="79" column="9" bodyfile="include/query/functions/crs_functions.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1crs_1_1_e_p_s_g_definition_1aff39f7de5cdbccab03bbe7c8afb24ea4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::functions::crs::EPSGDefinition::utmNorth</definition>
+        <argsstring></argsstring>
+        <name>utmNorth</name>
+        <qualifiedname>themis::query::functions::crs::EPSGDefinition::utmNorth</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/crs_functions.h" line="80" column="10" bodyfile="include/query/functions/crs_functions.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1crs_1_1_e_p_s_g_definition_1a04d98ffbe89a180c5ba3f5a2eeb68b53" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::functions::crs::EPSGDefinition::centralMeridian</definition>
+        <argsstring></argsstring>
+        <name>centralMeridian</name>
+        <qualifiedname>themis::query::functions::crs::EPSGDefinition::centralMeridian</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/crs_functions.h" line="81" column="12" bodyfile="include/query/functions/crs_functions.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1crs_1_1_e_p_s_g_definition_1adf6b4aa563c9710b0b91e063b5e99546" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::functions::crs::EPSGDefinition::scaleFactor</definition>
+        <argsstring></argsstring>
+        <name>scaleFactor</name>
+        <qualifiedname>themis::query::functions::crs::EPSGDefinition::scaleFactor</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/crs_functions.h" line="82" column="12" bodyfile="include/query/functions/crs_functions.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1crs_1_1_e_p_s_g_definition_1a19bac8f4119fdcc1b4b7df0b94369420" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::functions::crs::EPSGDefinition::falseEasting</definition>
+        <argsstring></argsstring>
+        <name>falseEasting</name>
+        <qualifiedname>themis::query::functions::crs::EPSGDefinition::falseEasting</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/crs_functions.h" line="83" column="12" bodyfile="include/query/functions/crs_functions.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1crs_1_1_e_p_s_g_definition_1a1a509f88e85876e2329f667f0ef0cc5f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::functions::crs::EPSGDefinition::falseNorthing</definition>
+        <argsstring></argsstring>
+        <name>falseNorthing</name>
+        <qualifiedname>themis::query::functions::crs::EPSGDefinition::falseNorthing</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/crs_functions.h" line="84" column="12" bodyfile="include/query/functions/crs_functions.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::query::functions::crs::EPSGDefinition</label>
+        <link refid="structthemis_1_1query_1_1functions_1_1crs_1_1_e_p_s_g_definition"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>ellipsoid</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::query::functions::crs::Ellipsoid</label>
+        <link refid="structthemis_1_1query_1_1functions_1_1crs_1_1_ellipsoid"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/functions/crs_functions.h" line="74" column="1" bodyfile="include/query/functions/crs_functions.h" bodystart="74" bodyend="85"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1functions_1_1crs_1_1_e_p_s_g_definition_1a04d98ffbe89a180c5ba3f5a2eeb68b53" prot="public" virt="non-virtual"><scope>themis::query::functions::crs::EPSGDefinition</scope><name>centralMeridian</name></member>
+      <member refid="structthemis_1_1query_1_1functions_1_1crs_1_1_e_p_s_g_definition_1a8afd60746a51c36142832dd2b49e9233" prot="public" virt="non-virtual"><scope>themis::query::functions::crs::EPSGDefinition</scope><name>code</name></member>
+      <member refid="structthemis_1_1query_1_1functions_1_1crs_1_1_e_p_s_g_definition_1a84f44d60664d6ab44d5b0ac67df0c821" prot="public" virt="non-virtual"><scope>themis::query::functions::crs::EPSGDefinition</scope><name>ellipsoid</name></member>
+      <member refid="structthemis_1_1query_1_1functions_1_1crs_1_1_e_p_s_g_definition_1a19bac8f4119fdcc1b4b7df0b94369420" prot="public" virt="non-virtual"><scope>themis::query::functions::crs::EPSGDefinition</scope><name>falseEasting</name></member>
+      <member refid="structthemis_1_1query_1_1functions_1_1crs_1_1_e_p_s_g_definition_1a1a509f88e85876e2329f667f0ef0cc5f" prot="public" virt="non-virtual"><scope>themis::query::functions::crs::EPSGDefinition</scope><name>falseNorthing</name></member>
+      <member refid="structthemis_1_1query_1_1functions_1_1crs_1_1_e_p_s_g_definition_1ad314a11e707f86bb01ddae7a2377f515" prot="public" virt="non-virtual"><scope>themis::query::functions::crs::EPSGDefinition</scope><name>name</name></member>
+      <member refid="structthemis_1_1query_1_1functions_1_1crs_1_1_e_p_s_g_definition_1adf6b4aa563c9710b0b91e063b5e99546" prot="public" virt="non-virtual"><scope>themis::query::functions::crs::EPSGDefinition</scope><name>scaleFactor</name></member>
+      <member refid="structthemis_1_1query_1_1functions_1_1crs_1_1_e_p_s_g_definition_1ac525458e9e801df23e07b09cf3772dfa" prot="public" virt="non-virtual"><scope>themis::query::functions::crs::EPSGDefinition</scope><name>type</name></member>
+      <member refid="structthemis_1_1query_1_1functions_1_1crs_1_1_e_p_s_g_definition_1aff39f7de5cdbccab03bbe7c8afb24ea4" prot="public" virt="non-virtual"><scope>themis::query::functions::crs::EPSGDefinition</scope><name>utmNorth</name></member>
+      <member refid="structthemis_1_1query_1_1functions_1_1crs_1_1_e_p_s_g_definition_1a63522dea2567abe48c2864509cb73890" prot="public" virt="non-virtual"><scope>themis::query::functions::crs::EPSGDefinition</scope><name>utmZone</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

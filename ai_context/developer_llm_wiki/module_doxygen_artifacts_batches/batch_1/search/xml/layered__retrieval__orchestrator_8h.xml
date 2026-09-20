@@ -1,0 +1,244 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="layered__retrieval__orchestrator_8h" kind="file" language="C++">
+    <compoundname>layered_retrieval_orchestrator.h</compoundname>
+    <includes local="no">cstddef</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="layered__retrieval__orchestrator_8cpp" local="yes">src/search/layered_retrieval_orchestrator.cpp</includedby>
+    <includedby refid="test__layered__retrieval__integration__phase4_8cpp" local="yes">tests/search/test_layered_retrieval_integration_phase4.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/search/layered_retrieval_orchestrator.h</label>
+        <link refid="layered__retrieval__orchestrator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstddef</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/search/layered_retrieval_orchestrator.h</label>
+        <link refid="layered__retrieval__orchestrator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/search/layered_retrieval_orchestrator.cpp</label>
+        <link refid="layered__retrieval__orchestrator_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/search/test_layered_retrieval_integration_phase4.cpp</label>
+        <link refid="test__layered__retrieval__integration__phase4_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1search_1_1_ann_layer_candidate" prot="public">themis::search::AnnLayerCandidate</innerclass>
+    <innerclass refid="structthemis_1_1search_1_1_tensor_layer_candidate" prot="public">themis::search::TensorLayerCandidate</innerclass>
+    <innerclass refid="structthemis_1_1search_1_1_provenance_entry" prot="public">themis::search::ProvenanceEntry</innerclass>
+    <innerclass refid="structthemis_1_1search_1_1_layer_decision_record" prot="public">themis::search::LayerDecisionRecord</innerclass>
+    <innerclass refid="structthemis_1_1search_1_1_per_query_retrieval_guardrails" prot="public">themis::search::PerQueryRetrievalGuardrails</innerclass>
+    <innerclass refid="structthemis_1_1search_1_1_layered_retrieval_config" prot="public">themis::search::LayeredRetrievalConfig</innerclass>
+    <innerclass refid="structthemis_1_1search_1_1_layered_retrieval_context" prot="public">themis::search::LayeredRetrievalContext</innerclass>
+    <innerclass refid="structthemis_1_1search_1_1_layered_retrieval_result" prot="public">themis::search::LayeredRetrievalResult</innerclass>
+    <innerclass refid="classthemis_1_1search_1_1_layered_retrieval_orchestrator" prot="public">themis::search::LayeredRetrievalOrchestrator</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1core">themis::core</innernamespace>
+    <innernamespace refid="namespacethemis_1_1core_1_1concerns">themis::core::concerns</innernamespace>
+    <innernamespace refid="namespacethemis_1_1graph">themis::graph</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <innernamespace refid="namespacethemis_1_1tensor">themis::tensor</innernamespace>
+    <innernamespace refid="namespacethemis_1_1search">themis::search</innernamespace>
+    <briefdescription>
+<para>Four-layer retrieval orchestrator wiring ANN, tensor, graph, and LLM stages. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This contract exposes the production retrieval chain used by search-side layered retrieval experiments: ANN → Tensor → Graph → LLM</para>
+<para>Each layer is optional and independently fail-safe. The orchestrator records a per-layer routing decision, enforces per-layer deadlines, and emits tracing metadata for observability. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">AdvancedVectorIndex;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="namespacethemis_1_1core" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1core_1_1concerns" kindref="compound">core::concerns</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">ITracer;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1graph" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1graph" kindref="compound">graph</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">KnowledgeGraphReasoner;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1llm" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">LLMClient;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1tensor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1tensor" kindref="compound">tensor</ref><sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">TensorFingerprintGraph;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="namespacethemis_1_1search" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1search" kindref="compound">search</ref><sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="namespacethemis_1_1search_1aa0833abcac903a54180616e04b39e5de" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1search_1aa0833abcac903a54180616e04b39e5de" kindref="member">LayerRoutingDecision</ref><sp/>:<sp/>std::uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="49" refid="namespacethemis_1_1search_1aa0833abcac903a54180616e04b39e5deaca966251f856595642d61bfa4026b086" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1search_1aa0833abcac903a54180616e04b39e5deaca966251f856595642d61bfa4026b086" kindref="member">EXECUTED</ref>,</highlight></codeline>
+<codeline lineno="50" refid="namespacethemis_1_1search_1aa0833abcac903a54180616e04b39e5deaf35b388d8d4adeab05bce916c73d7a72" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1search_1aa0833abcac903a54180616e04b39e5deaf35b388d8d4adeab05bce916c73d7a72" kindref="member">FALLBACK</ref>,</highlight></codeline>
+<codeline lineno="51" refid="namespacethemis_1_1search_1aa0833abcac903a54180616e04b39e5deab623c91c0df090278c43eb244d2772f1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1search_1aa0833abcac903a54180616e04b39e5deab623c91c0df090278c43eb244d2772f1" kindref="member">TIMEOUT_SKIP</ref>,</highlight></codeline>
+<codeline lineno="52" refid="namespacethemis_1_1search_1aa0833abcac903a54180616e04b39e5dea610226906a8f2ac886012fa86f45325c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1search_1aa0833abcac903a54180616e04b39e5dea610226906a8f2ac886012fa86f45325c" kindref="member">GUARDRAIL_SKIP</ref>,</highlight></codeline>
+<codeline lineno="53" refid="namespacethemis_1_1search_1aa0833abcac903a54180616e04b39e5dea055c1a591abb0e8cd86dc969727bcc0b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1search_1aa0833abcac903a54180616e04b39e5dea055c1a591abb0e8cd86dc969727bcc0b" kindref="member">DISABLED</ref>,</highlight></codeline>
+<codeline lineno="54"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1search_1_1_ann_layer_candidate" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1search_1_1_ann_layer_candidate" kindref="compound">AnnLayerCandidate</ref><sp/>{</highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1search_1_1_ann_layer_candidate_1a1f5b59f2d84e64b30803ab07825e860b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>-1;</highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1search_1_1_ann_layer_candidate_1a658366db66d46464e718cdc50ef4b08c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1search_1_1_ann_layer_candidate_1a658366db66d46464e718cdc50ef4b08c" kindref="member">distance</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1search_1_1_ann_layer_candidate_1a338ce212a30040b19660b42268e69df9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1search_1_1_ann_layer_candidate_1a338ce212a30040b19660b42268e69df9" kindref="member">score</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1search_1_1_tensor_layer_candidate" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1search_1_1_tensor_layer_candidate" kindref="compound">TensorLayerCandidate</ref><sp/>{</highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1search_1_1_tensor_layer_candidate_1ae10b3f2352610cf5405f8b55278b5ecb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1search_1_1_tensor_layer_candidate_1ae10b3f2352610cf5405f8b55278b5ecb" kindref="member">adapter_key</ref>;</highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1search_1_1_tensor_layer_candidate_1a8bf87024409d66e29f2a6c24d41cb3dd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1search_1_1_tensor_layer_candidate_1a8bf87024409d66e29f2a6c24d41cb3dd" kindref="member">domain</ref>;</highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1search_1_1_tensor_layer_candidate_1a19a3aab1d85a2c5b7e2acd39be46fb0f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1search_1_1_tensor_layer_candidate_1a19a3aab1d85a2c5b7e2acd39be46fb0f" kindref="member">base_model_id</ref>;</highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1search_1_1_tensor_layer_candidate_1adde68d1f6faefbc56e01e89ad09266b6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1search_1_1_tensor_layer_candidate_1adde68d1f6faefbc56e01e89ad09266b6" kindref="member">score</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1search_1_1_provenance_entry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1search_1_1_provenance_entry" kindref="compound">ProvenanceEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1search_1_1_provenance_entry_1a88cae892de5f44885ba8926580be9b9d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1search_1_1_provenance_entry_1a88cae892de5f44885ba8926580be9b9d" kindref="member">subject</ref>;</highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1search_1_1_provenance_entry_1af72e3161cb70e77e727bd3b4e14f774b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1search_1_1_provenance_entry_1af72e3161cb70e77e727bd3b4e14f774b" kindref="member">predicate</ref>;</highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1search_1_1_provenance_entry_1ad8ce81ebb4a30f5cb1633330aee1da19" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1search_1_1_provenance_entry_1ad8ce81ebb4a30f5cb1633330aee1da19" kindref="member">object</ref>;</highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1search_1_1_provenance_entry_1ad8ee2800518b80d6405f4a48be8d6f1e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1search_1_1_provenance_entry_1ad8ee2800518b80d6405f4a48be8d6f1e" kindref="member">rule_id</ref>;</highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1search_1_1_provenance_entry_1af363ab4829ac5f2fd2f537afd21d575a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1search_1_1_provenance_entry_1af363ab4829ac5f2fd2f537afd21d575a" kindref="member">lora_score</ref><sp/>=<sp/>-1.0;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1search_1_1_layer_decision_record" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1search_1_1_layer_decision_record" kindref="compound">LayerDecisionRecord</ref><sp/>{</highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1search_1_1_layer_decision_record_1accb04a9b033eb84f2c531ef0b5512b8f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1search_1_1_layer_decision_record_1accb04a9b033eb84f2c531ef0b5512b8f" kindref="member">layer_name</ref>;</highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1search_1_1_layer_decision_record_1abfe84a6f9ce16cb2413f042aa2a3699d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1search_1aa0833abcac903a54180616e04b39e5de" kindref="member">LayerRoutingDecision</ref><sp/><ref refid="structthemis_1_1search_1_1_layer_decision_record_1abfe84a6f9ce16cb2413f042aa2a3699d" kindref="member">decision</ref><sp/>=<sp/><ref refid="namespacethemis_1_1search_1aa0833abcac903a54180616e04b39e5dea055c1a591abb0e8cd86dc969727bcc0b" kindref="member">LayerRoutingDecision::DISABLED</ref>;</highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1search_1_1_layer_decision_record_1afd63f3a8400aa3b3a4ff8690d70a8a34" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1search_1_1_layer_decision_record_1afd63f3a8400aa3b3a4ff8690d70a8a34" kindref="member">detail</ref>;</highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1search_1_1_layer_decision_record_1a0b558b9cbc93500647e2ff7731256ee7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint64_t<sp/><ref refid="structthemis_1_1search_1_1_layer_decision_record_1a0b558b9cbc93500647e2ff7731256ee7" kindref="member">latency_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1search_1_1_layer_decision_record_1ace9feca4a1f1f1e4e161e9fe415bd744" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1search_1_1_layer_decision_record_1ace9feca4a1f1f1e4e161e9fe415bd744" kindref="member">input_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1search_1_1_layer_decision_record_1a9ede64a7e4493c0b338c1f5acc5e4f6b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1search_1_1_layer_decision_record_1a9ede64a7e4493c0b338c1f5acc5e4f6b" kindref="member">output_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1search_1_1_per_query_retrieval_guardrails" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1search_1_1_per_query_retrieval_guardrails" kindref="compound">PerQueryRetrievalGuardrails</ref><sp/>{</highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1search_1_1_per_query_retrieval_guardrails_1a31e030f7dbc595f6a1dab6541f8c71f9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1search_1_1_per_query_retrieval_guardrails_1a31e030f7dbc595f6a1dab6541f8c71f9" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1search_1_1_per_query_retrieval_guardrails_1af2e40249f023baa9361340dc07f3e123" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1search_1_1_per_query_retrieval_guardrails_1af2e40249f023baa9361340dc07f3e123" kindref="member">max_ann_candidates</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1search_1_1_per_query_retrieval_guardrails_1a43df49fc3b3664a93d016349948967c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1search_1_1_per_query_retrieval_guardrails_1a43df49fc3b3664a93d016349948967c5" kindref="member">max_tensor_candidates</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1search_1_1_per_query_retrieval_guardrails_1a8058dff6e7374627d15f260c391cfd11" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1search_1_1_per_query_retrieval_guardrails_1a8058dff6e7374627d15f260c391cfd11" kindref="member">max_graph_edges</ref><sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1search_1_1_per_query_retrieval_guardrails_1af8810276489c4b9a6ba015e2abc80ba9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1search_1_1_per_query_retrieval_guardrails_1af8810276489c4b9a6ba015e2abc80ba9" kindref="member">max_prompt_chars</ref><sp/>=<sp/>4096;</highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1search_1_1_per_query_retrieval_guardrails_1ac17e523c1391bb4e80bdf444cde34ccf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1search_1_1_per_query_retrieval_guardrails_1ac17e523c1391bb4e80bdf444cde34ccf" kindref="member">max_layers</ref><sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1search_1_1_layered_retrieval_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1search_1_1_layered_retrieval_config" kindref="compound">LayeredRetrievalConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1search_1_1_layered_retrieval_config_1a6a8d844cdc506390c1ccdb6b03d5210f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1search_1_1_layered_retrieval_config_1a6a8d844cdc506390c1ccdb6b03d5210f" kindref="member">ann_enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1search_1_1_layered_retrieval_config_1a7ce92e9d398211512ee33096851d6781" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1search_1_1_layered_retrieval_config_1a7ce92e9d398211512ee33096851d6781" kindref="member">tensor_enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1search_1_1_layered_retrieval_config_1aa6bf6ef5c0b944d02337ef8799de2523" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1search_1_1_layered_retrieval_config_1aa6bf6ef5c0b944d02337ef8799de2523" kindref="member">graph_enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1search_1_1_layered_retrieval_config_1a62bfbc8e5b1741afe519400a83ed8a7c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1search_1_1_layered_retrieval_config_1a62bfbc8e5b1741afe519400a83ed8a7c" kindref="member">llm_enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1search_1_1_layered_retrieval_config_1abbce03a0b2d4e5373ca720c61338d0f8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint32_t<sp/><ref refid="structthemis_1_1search_1_1_layered_retrieval_config_1abbce03a0b2d4e5373ca720c61338d0f8" kindref="member">layer_timeout_ms</ref><sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1search_1_1_layered_retrieval_config_1a221344e6f14a591f8cc32ef2894cf9ff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1search_1_1_layered_retrieval_config_1a221344e6f14a591f8cc32ef2894cf9ff" kindref="member">ann_top_k</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1search_1_1_layered_retrieval_config_1af8bca756298b715f186df1ce82504336" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1search_1_1_layered_retrieval_config_1af8bca756298b715f186df1ce82504336" kindref="member">graph_max_hops</ref><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127" refid="structthemis_1_1search_1_1_layered_retrieval_config_1aa53d8883ad7ced853fd9a1f7a7953c57" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1search_1_1_per_query_retrieval_guardrails" kindref="compound">PerQueryRetrievalGuardrails</ref><sp/><ref refid="structthemis_1_1search_1_1_layered_retrieval_config_1aa53d8883ad7ced853fd9a1f7a7953c57" kindref="member">guardrails</ref>;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141" refid="structthemis_1_1search_1_1_layered_retrieval_context" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1search_1_1_layered_retrieval_context" kindref="compound">LayeredRetrievalContext</ref><sp/>{</highlight></codeline>
+<codeline lineno="142" refid="structthemis_1_1search_1_1_layered_retrieval_context_1aaf9ed009e322eb3c784839456b093b9a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1search_1_1_layered_retrieval_context_1aaf9ed009e322eb3c784839456b093b9a" kindref="member">query</ref>;</highlight></codeline>
+<codeline lineno="143" refid="structthemis_1_1search_1_1_layered_retrieval_context_1aed66489daa7e8ed6333191fc420d00c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="structthemis_1_1search_1_1_layered_retrieval_context_1aed66489daa7e8ed6333191fc420d00c3" kindref="member">query_vector</ref>;</highlight></codeline>
+<codeline lineno="144" refid="structthemis_1_1search_1_1_layered_retrieval_context_1a3b1427eef43ae39e9cce772216254d95" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1search_1_1_layered_retrieval_context_1a3b1427eef43ae39e9cce772216254d95" kindref="member">tensor_query_key</ref>;</highlight></codeline>
+<codeline lineno="145" refid="structthemis_1_1search_1_1_layered_retrieval_context_1addc066773051ab4174ea54a1f08e7a34" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1search_1_1_layered_retrieval_context_1addc066773051ab4174ea54a1f08e7a34" kindref="member">graph_subject_id</ref>;</highlight></codeline>
+<codeline lineno="146" refid="structthemis_1_1search_1_1_layered_retrieval_context_1adcaf345313373f8e7a20c48d4e2e6829" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1search_1_1_layered_retrieval_context_1adcaf345313373f8e7a20c48d4e2e6829" kindref="member">correlation_id</ref>;</highlight></codeline>
+<codeline lineno="147" refid="structthemis_1_1search_1_1_layered_retrieval_context_1a83092872ae6a59b202512fe1668e4831" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1search_1_1_layered_retrieval_context_1a83092872ae6a59b202512fe1668e4831" kindref="member">llm_prompt_prefix</ref>;</highlight></codeline>
+<codeline lineno="148" refid="structthemis_1_1search_1_1_layered_retrieval_context_1ac1533020c07e4c93bfc5532af868024e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1search_1_1_layered_retrieval_context_1ac1533020c07e4c93bfc5532af868024e" kindref="member">lora_adapter_id</ref>;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154" refid="structthemis_1_1search_1_1_layered_retrieval_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1search_1_1_layered_retrieval_result" kindref="compound">LayeredRetrievalResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="155" refid="structthemis_1_1search_1_1_layered_retrieval_result_1a8ad760e1c7d6450a1676c5226ac37402" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;AnnLayerCandidate&gt;<sp/><ref refid="structthemis_1_1search_1_1_layered_retrieval_result_1a8ad760e1c7d6450a1676c5226ac37402" kindref="member">ann_candidates</ref>;</highlight></codeline>
+<codeline lineno="156" refid="structthemis_1_1search_1_1_layered_retrieval_result_1a797f29fa8edb979a3351c6f36b5770c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;TensorLayerCandidate&gt;<sp/><ref refid="structthemis_1_1search_1_1_layered_retrieval_result_1a797f29fa8edb979a3351c6f36b5770c0" kindref="member">tensor_candidates</ref>;</highlight></codeline>
+<codeline lineno="157" refid="structthemis_1_1search_1_1_layered_retrieval_result_1a7bed776c5c7ae1f8fcad892a9b916daf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ProvenanceEntry&gt;<sp/><ref refid="structthemis_1_1search_1_1_layered_retrieval_result_1a7bed776c5c7ae1f8fcad892a9b916daf" kindref="member">provenance</ref>;</highlight></codeline>
+<codeline lineno="158" refid="structthemis_1_1search_1_1_layered_retrieval_result_1ace4075faa313768d9c24256864dfe8d8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1search_1_1_layered_retrieval_result_1ace4075faa313768d9c24256864dfe8d8" kindref="member">final_answer</ref>;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160" refid="structthemis_1_1search_1_1_layered_retrieval_result_1a778a817b64d5ceac0780e5ca04c11ef4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;LayerDecisionRecord&gt;<sp/><ref refid="structthemis_1_1search_1_1_layered_retrieval_result_1a778a817b64d5ceac0780e5ca04c11ef4" kindref="member">routing_decisions</ref>;</highlight></codeline>
+<codeline lineno="161" refid="structthemis_1_1search_1_1_layered_retrieval_result_1a798e024c5ac623c13408b9efcc866276" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::uint64_t&gt;<sp/><ref refid="structthemis_1_1search_1_1_layered_retrieval_result_1a798e024c5ac623c13408b9efcc866276" kindref="member">layer_latencies</ref>;</highlight></codeline>
+<codeline lineno="162" refid="structthemis_1_1search_1_1_layered_retrieval_result_1aaa9a3165385b3fb22948bbb24d32f721" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1search_1_1_layered_retrieval_result_1aaa9a3165385b3fb22948bbb24d32f721" kindref="member">diagnostics</ref>;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164" refid="structthemis_1_1search_1_1_layered_retrieval_result_1af079d2c474489dcf239f4a80c2f0ebf9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1search_1_1_layered_retrieval_result_1af079d2c474489dcf239f4a80c2f0ebf9" kindref="member">timed_out</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="165" refid="structthemis_1_1search_1_1_layered_retrieval_result_1a6279f681986650cedd9c79638d970035" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1search_1_1_layered_retrieval_result_1a6279f681986650cedd9c79638d970035" kindref="member">guardrail_pruned</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181" refid="classthemis_1_1search_1_1_layered_retrieval_orchestrator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1afcd1ff5a18dc96b387aa38c70de6d460" kindref="member">LayeredRetrievalOrchestrator</ref><sp/>{</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1afcd1ff5a18dc96b387aa38c70de6d460" kindref="member">LayeredRetrievalOrchestrator</ref>(</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1search_1_1_layered_retrieval_config" kindref="compound">LayeredRetrievalConfig</ref><sp/>config<sp/>=<sp/><ref refid="structthemis_1_1search_1_1_layered_retrieval_config" kindref="compound">LayeredRetrievalConfig</ref>{});</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1adabb26faa3ee7a253c86b013970b5ec3" kindref="member">setAnnIndex</ref>(std::shared_ptr&lt;AdvancedVectorIndex&gt;<sp/><ref refid="namespacethemis_1_1index" kindref="compound">index</ref>);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1a73c1d47a303e7e4f5c61acf0f161fe0e" kindref="member">setTensorGraph</ref>(std::shared_ptr&lt;tensor::TensorFingerprintGraph&gt;<sp/><ref refid="namespacethemis_1_1graph" kindref="compound">graph</ref>);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1a8056fe9ee461415cc48bc56541929259" kindref="member">setGraphReasoner</ref>(std::shared_ptr&lt;graph::KnowledgeGraphReasoner&gt;<sp/>reasoner);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1a3eb2304301627668204bc6c3bee45f67" kindref="member">setLlmClient</ref>(std::shared_ptr&lt;llm::LLMClient&gt;<sp/>client);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1a426faceb9c96ca0f3c08e8b1c9d6a186" kindref="member">setTracer</ref>(std::shared_ptr&lt;core::concerns::ITracer&gt;<sp/>tracer);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1a2609bb223b8f7176cb851143dd9b79d2" kindref="member">setConfig</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1search_1_1_layered_retrieval_config" kindref="compound">LayeredRetrievalConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1search_1_1_layered_retrieval_config" kindref="compound">LayeredRetrievalConfig</ref>&amp;<sp/><ref refid="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1a416bcce3e510d2872721406bd606ec99" kindref="member">getConfig</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1search_1_1_layered_retrieval_result" kindref="compound">LayeredRetrievalResult</ref><sp/><ref refid="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1add81c2716af9c80aba9ef601e943daa2" kindref="member">execute</ref>(</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1search_1_1_layered_retrieval_context" kindref="compound">LayeredRetrievalContext</ref>&amp;<sp/>context)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1search_1_1_layered_retrieval_config" kindref="compound">LayeredRetrievalConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;AdvancedVectorIndex&gt;<sp/>ann_index_;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;tensor::TensorFingerprintGraph&gt;<sp/>tensor_graph_;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;graph::KnowledgeGraphReasoner&gt;<sp/>graph_reasoner_;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;llm::LLMClient&gt;<sp/>llm_client_;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;core::concerns::ITracer&gt;<sp/>tracer_;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>search</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/search/layered_retrieval_orchestrator.h"/>
+  </compounddef>
+</doxygen>

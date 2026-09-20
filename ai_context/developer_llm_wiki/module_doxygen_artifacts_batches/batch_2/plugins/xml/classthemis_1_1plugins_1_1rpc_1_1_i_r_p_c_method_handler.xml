@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_method_handler" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::plugins::rpc::IRPCMethodHandler</compoundname>
+    <includes refid="rpc__plugin__interface_8h" local="no">rpc_plugin_interface.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_method_handler_1aacfde9af1d777bf63624db1a1f8e6d2e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::plugins::rpc::IRPCMethodHandler::~IRPCMethodHandler</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IRPCMethodHandler</name>
+        <qualifiedname>themis::plugins::rpc::IRPCMethodHandler::~IRPCMethodHandler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="238" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_method_handler_1ad6cef5457eed486f2808ae216544bb91" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::plugins::rpc::IRPCMethodHandler::handleMethod</definition>
+        <argsstring>(const std::string &amp;method, const std::vector&lt; uint8_t &gt; &amp;params, std::vector&lt; uint8_t &gt; &amp;response)=0</argsstring>
+        <name>handleMethod</name>
+        <qualifiedname>themis::plugins::rpc::IRPCMethodHandler::handleMethod</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>method</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>params</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+<para>Handle RPC method call. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Method name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Method parameters (serialized) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Response buffer (to be filled) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if method was handled successfully </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="247" column="19"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RPC Method Handler. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Generic interface for RPC method handlers. Used by JSON-RPC and other flexible RPC protocols. </para>
+    </detaileddescription>
+    <location file="include/plugins/rpc_plugin_interface.h" line="236" column="1" bodyfile="include/plugins/rpc_plugin_interface.h" bodystart="236" bodyend="252"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_method_handler_1ad6cef5457eed486f2808ae216544bb91" prot="public" virt="pure-virtual"><scope>themis::plugins::rpc::IRPCMethodHandler</scope><name>handleMethod</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_method_handler_1aacfde9af1d777bf63624db1a1f8e6d2e" prot="public" virt="virtual"><scope>themis::plugins::rpc::IRPCMethodHandler</scope><name>~IRPCMethodHandler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

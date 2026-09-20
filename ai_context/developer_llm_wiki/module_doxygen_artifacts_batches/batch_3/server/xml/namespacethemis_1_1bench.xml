@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1bench" kind="namespace" language="C++">
+    <compoundname>themis::bench</compoundname>
+    <innernamespace refid="namespacethemis_1_1bench_1_1srv__dg">themis::bench::srv_dg</innernamespace>
+    <innernamespace refid="namespacethemis_1_1bench_1_1svr">themis::bench::svr</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/server/bench_server_dedicated_gates.cpp" line="41" column="1"/>
+  </compounddef>
+</doxygen>

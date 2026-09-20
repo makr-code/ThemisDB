@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_g_eval_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::GEvalResult</compoundname>
+    <includes refid="geval__evaluator_8h" local="no">geval_evaluator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_g_eval_result_1a8c785d77d24f2771d6051248f0dac168" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::GEvalResult::geval_score</definition>
+        <argsstring></argsstring>
+        <name>geval_score</name>
+        <qualifiedname>themis::rag::judge::GEvalResult::geval_score</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Continuous score (0-1). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/geval_evaluator.h" line="36" column="12" bodyfile="include/rag/geval_evaluator.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_g_eval_result_1a1d515386f66f7c82dba77845ca001d4b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themis::rag::judge::GEvalResult::token_probabilities</definition>
+        <argsstring></argsstring>
+        <name>token_probabilities</name>
+        <qualifiedname>themis::rag::judge::GEvalResult::token_probabilities</qualifiedname>
+        <briefdescription>
+<para>Probabilities for levels 1-5. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/geval_evaluator.h" line="37" column="17" bodyfile="include/rag/geval_evaluator.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_g_eval_result_1a585d432ea10b77079c3e287cffd16262" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::GEvalResult::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::rag::judge::GEvalResult::confidence</qualifiedname>
+        <briefdescription>
+<para>Confidence in score (0-1). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/geval_evaluator.h" line="38" column="12" bodyfile="include/rag/geval_evaluator.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_g_eval_result_1ad2740c4eafd82bcf9d7e87f6b4c4a59a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themis::rag::judge::GEvalResult::sample_scores</definition>
+        <argsstring></argsstring>
+        <name>sample_scores</name>
+        <qualifiedname>themis::rag::judge::GEvalResult::sample_scores</qualifiedname>
+        <briefdescription>
+<para>Individual sample scores. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/geval_evaluator.h" line="39" column="17" bodyfile="include/rag/geval_evaluator.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_g_eval_result_1aca958065966dc7e68dc17d02193834f2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::GEvalResult::variance</definition>
+        <argsstring></argsstring>
+        <name>variance</name>
+        <qualifiedname>themis::rag::judge::GEvalResult::variance</qualifiedname>
+        <briefdescription>
+<para>Score variance across samples. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/geval_evaluator.h" line="40" column="12" bodyfile="include/rag/geval_evaluator.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_g_eval_result_1a763c7e0872cecf9c78390a12078bf21c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::GEvalResult::dimension</definition>
+        <argsstring></argsstring>
+        <name>dimension</name>
+        <qualifiedname>themis::rag::judge::GEvalResult::dimension</qualifiedname>
+        <briefdescription>
+<para>Evaluated dimension. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/geval_evaluator.h" line="41" column="17" bodyfile="include/rag/geval_evaluator.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_g_eval_result_1a111270531c3c516d939e8740d69b45bf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::GEvalResult::reasoning</definition>
+        <argsstring></argsstring>
+        <name>reasoning</name>
+        <qualifiedname>themis::rag::judge::GEvalResult::reasoning</qualifiedname>
+        <briefdescription>
+<para>Optional reasoning text. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/geval_evaluator.h" line="42" column="17" bodyfile="include/rag/geval_evaluator.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>G-Eval evaluation result. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/geval_evaluator.h" line="35" column="1" bodyfile="include/rag/geval_evaluator.h" bodystart="35" bodyend="43"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_g_eval_result_1a585d432ea10b77079c3e287cffd16262" prot="public" virt="non-virtual"><scope>themis::rag::judge::GEvalResult</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_g_eval_result_1a763c7e0872cecf9c78390a12078bf21c" prot="public" virt="non-virtual"><scope>themis::rag::judge::GEvalResult</scope><name>dimension</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_g_eval_result_1a8c785d77d24f2771d6051248f0dac168" prot="public" virt="non-virtual"><scope>themis::rag::judge::GEvalResult</scope><name>geval_score</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_g_eval_result_1a111270531c3c516d939e8740d69b45bf" prot="public" virt="non-virtual"><scope>themis::rag::judge::GEvalResult</scope><name>reasoning</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_g_eval_result_1ad2740c4eafd82bcf9d7e87f6b4c4a59a" prot="public" virt="non-virtual"><scope>themis::rag::judge::GEvalResult</scope><name>sample_scores</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_g_eval_result_1a1d515386f66f7c82dba77845ca001d4b" prot="public" virt="non-virtual"><scope>themis::rag::judge::GEvalResult</scope><name>token_probabilities</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_g_eval_result_1aca958065966dc7e68dc17d02193834f2" prot="public" virt="non-virtual"><scope>themis::rag::judge::GEvalResult</scope><name>variance</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

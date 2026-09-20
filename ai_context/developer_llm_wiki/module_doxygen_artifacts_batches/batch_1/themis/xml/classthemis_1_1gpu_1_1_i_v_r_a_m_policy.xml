@@ -1,0 +1,328 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1_i_v_r_a_m_policy" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::gpu::IVRAMPolicy</compoundname>
+    <derivedcompoundref refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager" prot="public" virt="non-virtual">themis::gpu::GPUMemoryManager</derivedcompoundref>
+    <includes refid="ivram__policy_8h" local="no">ivram_policy.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1a0c05157d9f612ab1f98df2a68cb8200f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::gpu::IVRAMPolicy::~IVRAMPolicy</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IVRAMPolicy</name>
+        <qualifiedname>themis::gpu::IVRAMPolicy::~IVRAMPolicy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/ivram_policy.h" line="36" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1ab97841252442363a6f6cffbd7f984c5e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::IVRAMPolicy::IVRAMPolicy</definition>
+        <argsstring>(const IVRAMPolicy &amp;)=delete</argsstring>
+        <name>IVRAMPolicy</name>
+        <qualifiedname>themis::gpu::IVRAMPolicy::IVRAMPolicy</qualifiedname>
+        <param>
+          <type>const IVRAMPolicy &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/ivram_policy.h" line="39" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1a56a731a29c8a63f25c4b82e168aa064b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1ab97841252442363a6f6cffbd7f984c5e" kindref="member">IVRAMPolicy</ref> &amp;</type>
+        <definition>IVRAMPolicy &amp; themis::gpu::IVRAMPolicy::operator=</definition>
+        <argsstring>(const IVRAMPolicy &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::IVRAMPolicy::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1ab97841252442363a6f6cffbd7f984c5e" kindref="member">IVRAMPolicy</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/ivram_policy.h" line="40" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1ae2d3a5e4c46e996e5d5f1a6f2adfcdca" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::gpu::IVRAMPolicy::canAllocate</definition>
+        <argsstring>(uint64_t size_bytes, const std::string &amp;tenant_id=&quot;&quot;) const =0</argsstring>
+        <name>canAllocate</name>
+        <qualifiedname>themis::gpu::IVRAMPolicy::canAllocate</qualifiedname>
+        <reimplementedby refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a195a37030af6df88ad3c5b6fac99d2e3">canAllocate</reimplementedby>
+        <param>
+          <type>uint64_t</type>
+          <declname>size_bytes</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Return true iff <computeroutput>size_bytes</computeroutput> can be allocated under current policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Checks both the global edition VRAM limit and the per-tenant quota when <computeroutput>tenant_id</computeroutput> is non-empty. Does not modify any state.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Bytes that the caller intends to allocate. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tenant identifier; empty = no per-tenant check. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true when the allocation would be granted. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/ivram_policy.h" line="52" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1abc4e54f092c0670fac8b2f2a28f267c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::gpu::IVRAMPolicy::onAllocate</definition>
+        <argsstring>(uint64_t size_bytes, const std::string &amp;tag, const std::string &amp;tenant_id=&quot;&quot;)=0</argsstring>
+        <name>onAllocate</name>
+        <qualifiedname>themis::gpu::IVRAMPolicy::onAllocate</qualifiedname>
+        <reimplementedby refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1aa5fc6ed68594bb88c6469ea8e9c5c1ff">onAllocate</reimplementedby>
+        <param>
+          <type>uint64_t</type>
+          <declname>size_bytes</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tag</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Notify the policy that <computeroutput>size_bytes</computeroutput> have been successfully allocated. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Updates accounting state (used bytes, tenant counters, peak).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Bytes that were allocated. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>tag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Owner / reason label. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tenant identifier; empty = no per-tenant tracking. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/ivram_policy.h" line="64" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1aa014161f784d1960dd9927ecc83b5dbe" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::gpu::IVRAMPolicy::onDeallocate</definition>
+        <argsstring>(uint64_t size_bytes, const std::string &amp;tenant_id=&quot;&quot;)=0</argsstring>
+        <name>onDeallocate</name>
+        <qualifiedname>themis::gpu::IVRAMPolicy::onDeallocate</qualifiedname>
+        <reimplementedby refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a1da2bd96141424137e7af5c79f1dcc91">onDeallocate</reimplementedby>
+        <param>
+          <type>uint64_t</type>
+          <declname>size_bytes</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Notify the policy that <computeroutput>size_bytes</computeroutput> have been freed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Updates accounting state. Implementations must clamp to zero on mis-matched sizes to prevent underflow.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Bytes that were freed. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tenant identifier; empty = no per-tenant update. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/ivram_policy.h" line="77" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1a8840bb8686ced152c532de2538f541d3" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>uint64_t</type>
+        <definition>virtual uint64_t themis::gpu::IVRAMPolicy::usedBytes</definition>
+        <argsstring>() const =0</argsstring>
+        <name>usedBytes</name>
+        <qualifiedname>themis::gpu::IVRAMPolicy::usedBytes</qualifiedname>
+        <reimplementedby refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a108a4e515969aebc3869b05b687ac406">usedBytes</reimplementedby>
+        <briefdescription>
+<para>Return the number of VRAM bytes currently tracked as allocated. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Currently accounted VRAM in bytes. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/ivram_policy.h" line="85" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1aaea645e29a8d45274f9097c66866529a" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::gpu::IVRAMPolicy::isGPUEnabled</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>isGPUEnabled</name>
+        <qualifiedname>themis::gpu::IVRAMPolicy::isGPUEnabled</qualifiedname>
+        <reimplementedby refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1aababc7f5847f0fb615c055acea04b122">isGPUEnabled</reimplementedby>
+        <briefdescription>
+<para>Return true when this policy allows any GPU acceleration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implementations should return false when the edition limit is zero or no GPU hardware is available. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/ivram_policy.h" line="93" column="19"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1a9111541e3d02e25160f2faf6d5652a5f" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::IVRAMPolicy::IVRAMPolicy</definition>
+        <argsstring>()=default</argsstring>
+        <name>IVRAMPolicy</name>
+        <qualifiedname>themis::gpu::IVRAMPolicy::IVRAMPolicy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/ivram_policy.h" line="96" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1ab3325a94dec088840c98052c8ae52475" prot="protected" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::IVRAMPolicy::IVRAMPolicy</definition>
+        <argsstring>(IVRAMPolicy &amp;&amp;) noexcept=default</argsstring>
+        <name>IVRAMPolicy</name>
+        <qualifiedname>themis::gpu::IVRAMPolicy::IVRAMPolicy</qualifiedname>
+        <param>
+          <type>IVRAMPolicy &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/ivram_policy.h" line="97" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1aaa084e3524cc4d27336a02b069eb4d6d" prot="protected" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1ab97841252442363a6f6cffbd7f984c5e" kindref="member">IVRAMPolicy</ref> &amp;</type>
+        <definition>IVRAMPolicy &amp; themis::gpu::IVRAMPolicy::operator=</definition>
+        <argsstring>(IVRAMPolicy &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::IVRAMPolicy::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1ab97841252442363a6f6cffbd7f984c5e" kindref="member">IVRAMPolicy</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/ivram_policy.h" line="98" column="17"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstract VRAM allocation-policy contract for the unified GPU memory hierarchy. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All GPU memory managers in ThemisDB — regardless of namespace — share this interface so that tenant isolation, OOM detection, and policy gating are enforced through a single, observable surface.</para>
+<para>Hierarchy overview: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1a9111541e3d02e25160f2faf6d5652a5f" kindref="member">IVRAMPolicy</ref><sp/><sp/>(</highlight><highlight class="keyword">this</highlight><highlight class="normal"><sp/>file)</highlight></codeline>
+<codeline><highlight class="normal">└──<sp/>themis::gpu::GPUMemoryManager<sp/><sp/><sp/>—<sp/>canonical,<sp/>edition-aware<sp/>singleton</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>├──<sp/>themis::llm::GPUMemoryManager<sp/><sp/><sp/>—<sp/>delegates<sp/>accounting<sp/>upward</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>└──<sp/>themis::llm::lora::GPUMemoryManager<sp/>—<sp/>delegates<sp/>accounting<sp/>upward</highlight></codeline>
+</programlisting></para>
+<para>Thread safety: implementations must be individually thread-safe. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::gpu::GPUMemoryManager</label>
+        <link refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::gpu::IVRAMPolicy</label>
+        <link refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/themis/gpu/ivram_policy.h" line="34" column="1" bodyfile="include/themis/gpu/ivram_policy.h" bodystart="34" bodyend="99"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1ae2d3a5e4c46e996e5d5f1a6f2adfcdca" prot="public" virt="pure-virtual"><scope>themis::gpu::IVRAMPolicy</scope><name>canAllocate</name></member>
+      <member refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1aaea645e29a8d45274f9097c66866529a" prot="public" virt="pure-virtual"><scope>themis::gpu::IVRAMPolicy</scope><name>isGPUEnabled</name></member>
+      <member refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1ab97841252442363a6f6cffbd7f984c5e" prot="public" virt="non-virtual"><scope>themis::gpu::IVRAMPolicy</scope><name>IVRAMPolicy</name></member>
+      <member refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1a9111541e3d02e25160f2faf6d5652a5f" prot="protected" virt="non-virtual"><scope>themis::gpu::IVRAMPolicy</scope><name>IVRAMPolicy</name></member>
+      <member refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1ab3325a94dec088840c98052c8ae52475" prot="protected" virt="non-virtual"><scope>themis::gpu::IVRAMPolicy</scope><name>IVRAMPolicy</name></member>
+      <member refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1abc4e54f092c0670fac8b2f2a28f267c3" prot="public" virt="pure-virtual"><scope>themis::gpu::IVRAMPolicy</scope><name>onAllocate</name></member>
+      <member refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1aa014161f784d1960dd9927ecc83b5dbe" prot="public" virt="pure-virtual"><scope>themis::gpu::IVRAMPolicy</scope><name>onDeallocate</name></member>
+      <member refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1a56a731a29c8a63f25c4b82e168aa064b" prot="public" virt="non-virtual"><scope>themis::gpu::IVRAMPolicy</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1aaa084e3524cc4d27336a02b069eb4d6d" prot="protected" virt="non-virtual"><scope>themis::gpu::IVRAMPolicy</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1a8840bb8686ced152c532de2538f541d3" prot="public" virt="pure-virtual"><scope>themis::gpu::IVRAMPolicy</scope><name>usedBytes</name></member>
+      <member refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1a0c05157d9f612ab1f98df2a68cb8200f" prot="public" virt="virtual"><scope>themis::gpu::IVRAMPolicy</scope><name>~IVRAMPolicy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_shard_l_l_m_load" kind="struct" language="C++" prot="private">
+    <compoundname>themis::sharding::AdaptiveShardRouter::ShardLLMLoad</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_shard_l_l_m_load_1a6dcb0d241e86c38c7b96da99e1e9515f" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::AdaptiveShardRouter::ShardLLMLoad::pending_requests</definition>
+        <argsstring></argsstring>
+        <name>pending_requests</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::ShardLLMLoad::pending_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="304" column="18" bodyfile="include/sharding/adaptive_shard_router.h" bodystart="304" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_shard_l_l_m_load_1ad4bd9aeb9d21842ecda93881f3961cd0" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::AdaptiveShardRouter::ShardLLMLoad::avg_queue_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_queue_ms</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::ShardLLMLoad::avg_queue_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="305" column="18" bodyfile="include/sharding/adaptive_shard_router.h" bodystart="305" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_shard_l_l_m_load_1a7254e339100d8f0691b3ecae9f9d21f4" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::sharding::AdaptiveShardRouter::ShardLLMLoad::updated_at</definition>
+        <argsstring></argsstring>
+        <name>updated_at</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::ShardLLMLoad::updated_at</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="306" column="47" bodyfile="include/sharding/adaptive_shard_router.h" bodystart="306" bodyend="306"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/adaptive_shard_router.h" line="303" column="5" bodyfile="include/sharding/adaptive_shard_router.h" bodystart="303" bodyend="307"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_shard_l_l_m_load_1ad4bd9aeb9d21842ecda93881f3961cd0" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter::ShardLLMLoad</scope><name>avg_queue_ms</name></member>
+      <member refid="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_shard_l_l_m_load_1a6dcb0d241e86c38c7b96da99e1e9515f" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter::ShardLLMLoad</scope><name>pending_requests</name></member>
+      <member refid="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_shard_l_l_m_load_1a7254e339100d8f0691b3ecae9f9d21f4" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter::ShardLLMLoad</scope><name>updated_at</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_4d4b2f698c27b05ba557af29c5caff42" kind="dir">
+    <compoundname>tests/performance/phase3</compoundname>
+    <innerfile refid="test__adaptive__batch__tuner_8cpp">test_adaptive_batch_tuner.cpp</innerfile>
+    <innerfile refid="test__bao_8cpp">test_bao.cpp</innerfile>
+    <innerfile refid="test__bwtree_8cpp">test_bwtree.cpp</innerfile>
+    <innerfile refid="test__diskann_8cpp">test_diskann.cpp</innerfile>
+    <innerfile refid="test__gunrock_8cpp">test_gunrock.cpp</innerfile>
+    <innerfile refid="test__memory__pressure_8cpp">test_memory_pressure.cpp</innerfile>
+    <innerfile refid="test__per__query__cost__model_8cpp">test_per_query_cost_model.cpp</innerfile>
+    <innerfile refid="test__simd__distance_8cpp">test_simd_distance.cpp</innerfile>
+    <innerfile refid="test__splinterdb_8cpp">test_splinterdb.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/performance/phase3/"/>
+  </compounddef>
+</doxygen>

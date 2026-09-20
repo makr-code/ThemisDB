@@ -1,0 +1,206 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="mock__key__provider_8h" kind="file" language="C++">
+    <compoundname>mock_key_provider.h</compoundname>
+    <includes local="yes">security/key_provider.h</includes>
+    <includes local="no">map</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">random</includes>
+    <includedby refid="bench__audit__export__gates_8cpp" local="yes">benchmarks/security/bench_audit_export_gates.cpp</includedby>
+    <includedby refid="bench__compliance__security__governance_8cpp" local="yes">benchmarks/security/bench_compliance_security_governance.cpp</includedby>
+    <includedby refid="bench__encryption_8cpp" local="yes">benchmarks/security/bench_encryption.cpp</includedby>
+    <includedby refid="bench__security_8cpp" local="yes">benchmarks/security/bench_security.cpp</includedby>
+    <includedby refid="field__encryption_8cpp" local="yes">src/security/field_encryption.cpp</includedby>
+    <includedby refid="mock__key__provider_8cpp" local="yes">src/security/mock_key_provider.cpp</includedby>
+    <includedby refid="test__crypto__attack__vectors_8cpp" local="yes">tests/security/attack-vectors/crypto/test_crypto_attack_vectors.cpp</includedby>
+    <includedby refid="test__audit__export__stress__focused_8cpp" local="yes">tests/security/test_audit_export_stress_focused.cpp</includedby>
+    <includedby refid="test__keyprovider__signing_8cpp" local="yes">tests/security/test_keyprovider_signing.cpp</includedby>
+    <includedby refid="test__security__di_8cpp" local="yes">tests/security/test_security_di.cpp</includedby>
+    <includedby refid="test__security__evidence__collector_8cpp" local="yes">tests/security/test_security_evidence_collector.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/security/mock_key_provider.h</label>
+        <link refid="mock__key__provider_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>map</label>
+      </node>
+      <node id="4">
+        <label>mutex</label>
+      </node>
+      <node id="5">
+        <label>random</label>
+      </node>
+      <node id="2">
+        <label>security/key_provider.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/security/bench_audit_export_gates.cpp</label>
+        <link refid="bench__audit__export__gates_8cpp"/>
+      </node>
+      <node id="3">
+        <label>benchmarks/security/bench_compliance_security_governance.cpp</label>
+        <link refid="bench__compliance__security__governance_8cpp"/>
+      </node>
+      <node id="4">
+        <label>benchmarks/security/bench_encryption.cpp</label>
+        <link refid="bench__encryption_8cpp"/>
+      </node>
+      <node id="5">
+        <label>benchmarks/security/bench_security.cpp</label>
+        <link refid="bench__security_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/security/mock_key_provider.h</label>
+        <link refid="mock__key__provider_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>src/security/field_encryption.cpp</label>
+        <link refid="field__encryption_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/security/mock_key_provider.cpp</label>
+        <link refid="mock__key__provider_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/security/attack-vectors/crypto/test_crypto_attack_vectors.cpp</label>
+        <link refid="test__crypto__attack__vectors_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/security/test_audit_export_stress_focused.cpp</label>
+        <link refid="test__audit__export__stress__focused_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/security/test_keyprovider_signing.cpp</label>
+        <link refid="test__keyprovider__signing_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/security/test_security_di.cpp</label>
+        <link refid="test__security__di_8cpp"/>
+      </node>
+      <node id="12">
+        <label>tests/security/test_security_evidence_collector.cpp</label>
+        <link refid="test__security__evidence__collector_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1_mock_key_provider" prot="public">themis::MockKeyProvider</innerclass>
+    <innerclass refid="structthemis_1_1_mock_key_provider_1_1_key_entry" prot="private">themis::MockKeyProvider::KeyEntry</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;security/key_provider.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21" refid="classthemis_1_1_mock_key_provider" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_mock_key_provider_1ab49d1a49177ddf1136e33f990de7dcd1" kindref="member">MockKeyProvider</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_key_provider_1a87c6e45572251fa2dd71ea8e4d4011fd" kindref="member">KeyProvider</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_mock_key_provider_1ab49d1a49177ddf1136e33f990de7dcd1" kindref="member">MockKeyProvider</ref>();</highlight></codeline>
+<codeline lineno="24" refid="classthemis_1_1_mock_key_provider_1a568a8863d711d3a8c9bab64673b3f1b5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_mock_key_provider_1a568a8863d711d3a8c9bab64673b3f1b5" kindref="member">~MockKeyProvider</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_mock_key_provider_1a78daaf3f5ca3c74f01fe0e7f8d40c5a2" kindref="member">createKey</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key_id,<sp/>uint32_t<sp/>version);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_mock_key_provider_1a00e1f2fc01b4a38f124a321d258777eb" kindref="member">createKeyWithBytes</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key_id,<sp/></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>version,</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>key_bytes);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>KeyProvider<sp/>interface<sp/>implementation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="classthemis_1_1_mock_key_provider_1a59113f0899ec042210ab749b2cc91923" kindref="member">getKey</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key_id)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="classthemis_1_1_mock_key_provider_1a59113f0899ec042210ab749b2cc91923" kindref="member">getKey</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key_id,<sp/>uint32_t<sp/>version)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="classthemis_1_1_mock_key_provider_1a745bead2afd340df0368e98072ad6229" kindref="member">rotateKey</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key_id)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;KeyMetadata&gt;<sp/><ref refid="classthemis_1_1_mock_key_provider_1a2cb88836bfa990d873834cc244a163b8" kindref="member">listKeys</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_key_metadata" kindref="compound">KeyMetadata</ref><sp/><ref refid="classthemis_1_1_mock_key_provider_1afa00d95322e63b1d80bef373fcb72d22" kindref="member">getKeyMetadata</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key_id,<sp/>uint32_t<sp/>version<sp/>=<sp/>0)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_mock_key_provider_1a6ded819cb933c14825a5e122d1c2abf6" kindref="member">deleteKey</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key_id,<sp/>uint32_t<sp/>version)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_mock_key_provider_1a1806079a6a98d28879e4d86bb254af48" kindref="member">hasKey</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key_id,<sp/>uint32_t<sp/>version<sp/>=<sp/>0)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="classthemis_1_1_mock_key_provider_1a67f4e26c42dd2c9a4abb479393954825" kindref="member">createKeyFromBytes</ref>(</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key_id,</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>key_bytes,</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_key_metadata" kindref="compound">KeyMetadata</ref>&amp;<sp/>metadata<sp/>=<sp/><ref refid="structthemis_1_1_key_metadata" kindref="compound">KeyMetadata</ref>())<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="classthemis_1_1_mock_key_provider_1a213aad4ed08ad8b7d360ccf98cc9d48b" kindref="member">getLatestVersion</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_mock_key_provider_1a3e98cccbe49d864aef98c75c35de8eff" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">KeyEntry<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>key;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_key_metadata" kindref="compound">KeyMetadata</ref><sp/>metadata;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>key_id<sp/>-&gt;<sp/>(version<sp/>-&gt;<sp/>KeyEntry)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::map&lt;uint32_t,<sp/>KeyEntry&gt;&gt;<sp/>keys_;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937<sp/>rng_;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>generateRandomKey();</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>makeKeyPath(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key_id,<sp/>uint32_t<sp/>version)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>getCurrentTimeMs()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/security/mock_key_provider.h"/>
+  </compounddef>
+</doxygen>

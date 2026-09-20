@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_r_a_g_prompt_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::RAGPromptConfig</compoundname>
+    <includes refid="rag__prompt__builder_8h" local="no">rag_prompt_builder.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_r_a_g_prompt_config_1a34ef7dab1314efb239afab859fbb8589" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::RAGPromptConfig::max_context_length</definition>
+        <argsstring></argsstring>
+        <name>max_context_length</name>
+        <qualifiedname>themis::prompt_engineering::RAGPromptConfig::max_context_length</qualifiedname>
+        <initializer>= 4000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum total character length for the assembled context section. For token-precise control prefer RAGContextAssembler, which derives this value automatically from the model&apos;s context window. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_prompt_builder.h" line="36" column="12" bodyfile="include/prompt_engineering/rag_prompt_builder.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_r_a_g_prompt_config_1ab05a083699aff7b1c59f745306151855" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::RAGPromptConfig::context_header</definition>
+        <argsstring></argsstring>
+        <name>context_header</name>
+        <qualifiedname>themis::prompt_engineering::RAGPromptConfig::context_header</qualifiedname>
+        <initializer>= &quot;Retrieved Context:&quot;</initializer>
+        <briefdescription>
+<para>Header prepended to the context section. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_prompt_builder.h" line="39" column="17" bodyfile="include/prompt_engineering/rag_prompt_builder.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_r_a_g_prompt_config_1aa438f6a3e107805dd9e7bc17183e39cb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::RAGPromptConfig::context_footer</definition>
+        <argsstring></argsstring>
+        <name>context_footer</name>
+        <qualifiedname>themis::prompt_engineering::RAGPromptConfig::context_footer</qualifiedname>
+        <briefdescription>
+<para>Footer appended after the last context chunk (empty by default). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_prompt_builder.h" line="42" column="17" bodyfile="include/prompt_engineering/rag_prompt_builder.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_r_a_g_prompt_config_1ab67f0926ea33f60981dbd58f8365f0e7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::RAGPromptConfig::chunk_separator</definition>
+        <argsstring></argsstring>
+        <name>chunk_separator</name>
+        <qualifiedname>themis::prompt_engineering::RAGPromptConfig::chunk_separator</qualifiedname>
+        <initializer>= &quot;\n\n---\n\n&quot;</initializer>
+        <briefdescription>
+<para>Separator inserted between consecutive chunks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_prompt_builder.h" line="45" column="17" bodyfile="include/prompt_engineering/rag_prompt_builder.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_r_a_g_prompt_config_1a1946aa8ee4a234a638e409bfb2a5aaf1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::RAGPromptConfig::include_source_citations</definition>
+        <argsstring></argsstring>
+        <name>include_source_citations</name>
+        <qualifiedname>themis::prompt_engineering::RAGPromptConfig::include_source_citations</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Whether to prefix each chunk with &quot;[Source: &lt;source&gt;]\n&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_prompt_builder.h" line="48" column="10" bodyfile="include/prompt_engineering/rag_prompt_builder.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_r_a_g_prompt_config_1a2f7a0a61e812a479e5aa131e7d0dc7fc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::RAGPromptConfig::rank_by_relevance</definition>
+        <argsstring></argsstring>
+        <name>rank_by_relevance</name>
+        <qualifiedname>themis::prompt_engineering::RAGPromptConfig::rank_by_relevance</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Whether to sort candidates by relevance_score descending before selecting. Set to false to preserve the caller-supplied order. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_prompt_builder.h" line="52" column="10" bodyfile="include/prompt_engineering/rag_prompt_builder.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_r_a_g_prompt_config_1a6632dc09a95661a4697c0b0b74179b4d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::RAGPromptConfig::template_placeholder</definition>
+        <argsstring></argsstring>
+        <name>template_placeholder</name>
+        <qualifiedname>themis::prompt_engineering::RAGPromptConfig::template_placeholder</qualifiedname>
+        <initializer>= &quot;{context}&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Placeholder token inside base templates that will be replaced with the assembled context block. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_prompt_builder.h" line="56" column="17" bodyfile="include/prompt_engineering/rag_prompt_builder.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_r_a_g_prompt_config_1aa52ecc1342d756dfbdb0c4c63d13a006" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::RAGPromptConfig::reserved_response_tokens</definition>
+        <argsstring></argsstring>
+        <name>reserved_response_tokens</name>
+        <qualifiedname>themis::prompt_engineering::RAGPromptConfig::reserved_response_tokens</qualifiedname>
+        <initializer>= 512</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Minimum tokens reserved for the model&apos;s answer when this config is used in conjunction with RAGContextAssembler. The assembler converts the token budget to characters for max_context_length. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_prompt_builder.h" line="61" column="12" bodyfile="include/prompt_engineering/rag_prompt_builder.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for <ref refid="classthemis_1_1prompt__engineering_1_1_r_a_g_prompt_builder" kindref="compound">RAGPromptBuilder</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/rag_prompt_builder.h" line="32" column="1" bodyfile="include/prompt_engineering/rag_prompt_builder.h" bodystart="32" bodyend="62"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_r_a_g_prompt_config_1ab67f0926ea33f60981dbd58f8365f0e7" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RAGPromptConfig</scope><name>chunk_separator</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_r_a_g_prompt_config_1aa438f6a3e107805dd9e7bc17183e39cb" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RAGPromptConfig</scope><name>context_footer</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_r_a_g_prompt_config_1ab05a083699aff7b1c59f745306151855" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RAGPromptConfig</scope><name>context_header</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_r_a_g_prompt_config_1a1946aa8ee4a234a638e409bfb2a5aaf1" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RAGPromptConfig</scope><name>include_source_citations</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_r_a_g_prompt_config_1a34ef7dab1314efb239afab859fbb8589" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RAGPromptConfig</scope><name>max_context_length</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_r_a_g_prompt_config_1a2f7a0a61e812a479e5aa131e7d0dc7fc" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RAGPromptConfig</scope><name>rank_by_relevance</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_r_a_g_prompt_config_1aa52ecc1342d756dfbdb0c4c63d13a006" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RAGPromptConfig</scope><name>reserved_response_tokens</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_r_a_g_prompt_config_1a6632dc09a95661a4697c0b0b74179b4d" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RAGPromptConfig</scope><name>template_placeholder</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,171 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_i_themis_tool" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::llm::IThemisTool</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">plugins::IThemisPlugin</basecompoundref>
+    <includes refid="themis__tool__interface_8h" local="no">themis_tool_interface.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_themis_tool_1a2406caf01359d8610bf064b62541498c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::IThemisTool::~IThemisTool</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~IThemisTool</name>
+        <qualifiedname>themis::llm::IThemisTool::~IThemisTool</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/themis_tool_interface.h" line="27" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_themis_tool_1a411488271f3adce5f512b8ca87552d0e" prot="public" static="no" const="yes" explicit="no" inline="yes" final="yes" virt="non-virtual">
+        <type>plugins::PluginType</type>
+        <definition>plugins::PluginType themis::llm::IThemisTool::getType</definition>
+        <argsstring>() const final</argsstring>
+        <name>getType</name>
+        <qualifiedname>themis::llm::IThemisTool::getType</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/themis_tool_interface.h" line="31" column="25" bodyfile="include/llm/themis_tool_interface.h" bodystart="31" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_themis_tool_1a9349e6212e51034bca853193aca5489a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>virtual json themis::llm::IThemisTool::inputSchema</definition>
+        <argsstring>() const =0</argsstring>
+        <name>inputSchema</name>
+        <qualifiedname>themis::llm::IThemisTool::inputSchema</qualifiedname>
+        <briefdescription>
+<para>── Tool-specific API ──────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/themis_tool_interface.h" line="40" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_themis_tool_1a118cac9a2e3c804157b84347dacf4363" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>virtual json themis::llm::IThemisTool::outputSchema</definition>
+        <argsstring>() const =0</argsstring>
+        <name>outputSchema</name>
+        <qualifiedname>themis::llm::IThemisTool::outputSchema</qualifiedname>
+        <briefdescription>
+<para>Output Schema. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/themis_tool_interface.h" line="46" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_themis_tool_1af5c8b1f7e4ac43db7109de40a3caa536" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>virtual json themis::llm::IThemisTool::execute</definition>
+        <argsstring>(const json &amp;input)=0</argsstring>
+        <name>execute</name>
+        <qualifiedname>themis::llm::IThemisTool::execute</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref> &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Execute. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/themis_tool_interface.h" line="53" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_themis_tool_1abada90c3ae40f4b60bbc51ed37071c87" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::future&lt; <ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref> &gt;</type>
+        <definition>virtual std::future&lt; json &gt; themis::llm::IThemisTool::executeAsync</definition>
+        <argsstring>(const json &amp;input)</argsstring>
+        <name>executeAsync</name>
+        <qualifiedname>themis::llm::IThemisTool::executeAsync</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref> &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Execute Async. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::async(), <ref refid="classthemis_1_1llm_1_1_i_themis_tool_1af5c8b1f7e4ac43db7109de40a3caa536" kindref="member">execute()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/themis_tool_interface.h" line="61" column="25" bodyfile="include/llm/themis_tool_interface.h" bodystart="61" bodyend="64"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>plugins::IThemisPlugin</label>
+      </node>
+      <node id="1">
+        <label>themis::llm::IThemisTool</label>
+        <link refid="classthemis_1_1llm_1_1_i_themis_tool"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>plugins::IThemisPlugin</label>
+      </node>
+      <node id="1">
+        <label>themis::llm::IThemisTool</label>
+        <link refid="classthemis_1_1llm_1_1_i_themis_tool"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/themis_tool_interface.h" line="25" column="1" bodyfile="include/llm/themis_tool_interface.h" bodystart="25" bodyend="65"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_i_themis_tool_1af5c8b1f7e4ac43db7109de40a3caa536" prot="public" virt="pure-virtual"><scope>themis::llm::IThemisTool</scope><name>execute</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_themis_tool_1abada90c3ae40f4b60bbc51ed37071c87" prot="public" virt="virtual"><scope>themis::llm::IThemisTool</scope><name>executeAsync</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_themis_tool_1a411488271f3adce5f512b8ca87552d0e" prot="public" virt="non-virtual"><scope>themis::llm::IThemisTool</scope><name>getType</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_themis_tool_1a9349e6212e51034bca853193aca5489a" prot="public" virt="pure-virtual"><scope>themis::llm::IThemisTool</scope><name>inputSchema</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_themis_tool_1a118cac9a2e3c804157b84347dacf4363" prot="public" virt="pure-virtual"><scope>themis::llm::IThemisTool</scope><name>outputSchema</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_themis_tool_1a2406caf01359d8610bf064b62541498c" prot="public" virt="non-virtual"><scope>themis::llm::IThemisTool</scope><name>~IThemisTool</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

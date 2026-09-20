@@ -1,0 +1,238 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1perf_1_1_connection_guard" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::perf::ConnectionGuard</compoundname>
+    <includes refid="performance__helpers_8h" local="no">performance_helpers.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename Connection</type>
+      </param>
+      <param>
+        <type>typename Pool</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1perf_1_1_connection_guard_1a4713e543bb6181dc41e78d7890caaa82" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; Connection &gt;</type>
+        <definition>std::unique_ptr&lt;Connection&gt; themis::server::perf::ConnectionGuard&lt; Connection, Pool &gt;::conn_</definition>
+        <argsstring></argsstring>
+        <name>conn_</name>
+        <qualifiedname>themis::server::perf::ConnectionGuard::conn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="206" column="21" bodyfile="include/server/performance_helpers.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1perf_1_1_connection_guard_1a5c616ee688dbde89362c67ca55cd3f96" prot="private" static="no" mutable="no">
+        <type>Pool *</type>
+        <definition>Pool* themis::server::perf::ConnectionGuard&lt; Connection, Pool &gt;::pool_</definition>
+        <argsstring></argsstring>
+        <name>pool_</name>
+        <qualifiedname>themis::server::perf::ConnectionGuard::pool_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="207" column="10" bodyfile="include/server/performance_helpers.h" bodystart="207" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1perf_1_1_connection_guard_1aecdbf7507af83dc67b952fcce54966c8" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::perf::ConnectionGuard&lt; Connection, Pool &gt;::ConnectionGuard</definition>
+        <argsstring>(std::unique_ptr&lt; Connection &gt; conn, Pool *pool)</argsstring>
+        <name>ConnectionGuard</name>
+        <qualifiedname>themis::server::perf::ConnectionGuard::ConnectionGuard</qualifiedname>
+        <param>
+          <type>std::unique_ptr&lt; Connection &gt;</type>
+          <declname>conn</declname>
+        </param>
+        <param>
+          <type>Pool *</type>
+          <declname>pool</declname>
+        </param>
+        <briefdescription>
+<para>Connection Guard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">conn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">pool</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="165" column="14" bodyfile="include/server/performance_helpers.h" bodystart="165" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1perf_1_1_connection_guard_1a32234fc9d2deeaf25e859b5784d7c41d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::perf::ConnectionGuard&lt; Connection, Pool &gt;::~ConnectionGuard</definition>
+        <argsstring>()</argsstring>
+        <name>~ConnectionGuard</name>
+        <qualifiedname>themis::server::perf::ConnectionGuard::~ConnectionGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="169" column="5" bodyfile="include/server/performance_helpers.h" bodystart="169" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1perf_1_1_connection_guard_1adcd7e7a069b6221da600520ff792f482" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>Connection &amp;</type>
+        <definition>Connection &amp; themis::server::perf::ConnectionGuard&lt; Connection, Pool &gt;::operator*</definition>
+        <argsstring>()</argsstring>
+        <name>operator*</name>
+        <qualifiedname>themis::server::perf::ConnectionGuard::operator*</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="176" column="16" bodyfile="include/server/performance_helpers.h" bodystart="176" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1perf_1_1_connection_guard_1aec28a5c8550903ea14af236dd6ee61e0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>Connection *</type>
+        <definition>Connection * themis::server::perf::ConnectionGuard&lt; Connection, Pool &gt;::operator-&gt;</definition>
+        <argsstring>()</argsstring>
+        <name>operator-&gt;</name>
+        <qualifiedname>themis::server::perf::ConnectionGuard::operator-&gt;</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="177" column="16" bodyfile="include/server/performance_helpers.h" bodystart="177" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1perf_1_1_connection_guard_1af1fc3e3d9cd3be860e9f6a83e04a046a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>Connection *</type>
+        <definition>Connection * themis::server::perf::ConnectionGuard&lt; Connection, Pool &gt;::get</definition>
+        <argsstring>()</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::server::perf::ConnectionGuard::get</qualifiedname>
+        <briefdescription>
+<para>Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Implements get without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="183" column="16" bodyfile="include/server/performance_helpers.h" bodystart="183" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1perf_1_1_connection_guard_1a8cf38649154b7cbcd87b6a1c9608c83d" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::perf::ConnectionGuard&lt; Connection, Pool &gt;::ConnectionGuard</definition>
+        <argsstring>(ConnectionGuard &amp;&amp;other) noexcept</argsstring>
+        <name>ConnectionGuard</name>
+        <qualifiedname>themis::server::perf::ConnectionGuard::ConnectionGuard</qualifiedname>
+        <param>
+          <type>ConnectionGuard &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="186" column="5" bodyfile="include/server/performance_helpers.h" bodystart="186" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1perf_1_1_connection_guard_1a00138ca5c62a75b21f9c2160dd2fa8f0" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1server_1_1perf_1_1_connection_guard_1aecdbf7507af83dc67b952fcce54966c8" kindref="member">ConnectionGuard</ref> &amp;</type>
+        <definition>ConnectionGuard &amp; themis::server::perf::ConnectionGuard&lt; Connection, Pool &gt;::operator=</definition>
+        <argsstring>(ConnectionGuard &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::server::perf::ConnectionGuard::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1perf_1_1_connection_guard_1aecdbf7507af83dc67b952fcce54966c8" kindref="member">ConnectionGuard</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="192" column="21" bodyfile="include/server/performance_helpers.h" bodystart="192" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1perf_1_1_connection_guard_1a4a245da098e7b18481fa09fd97d81aa1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::perf::ConnectionGuard&lt; Connection, Pool &gt;::ConnectionGuard</definition>
+        <argsstring>(const ConnectionGuard &amp;)=delete</argsstring>
+        <name>ConnectionGuard</name>
+        <qualifiedname>themis::server::perf::ConnectionGuard::ConnectionGuard</qualifiedname>
+        <param>
+          <type>const ConnectionGuard &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="202" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1perf_1_1_connection_guard_1a84c07175c55a5b10e9f5376fcbe9f6e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1server_1_1perf_1_1_connection_guard_1aecdbf7507af83dc67b952fcce54966c8" kindref="member">ConnectionGuard</ref> &amp;</type>
+        <definition>ConnectionGuard &amp; themis::server::perf::ConnectionGuard&lt; Connection, Pool &gt;::operator=</definition>
+        <argsstring>(const ConnectionGuard &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::server::perf::ConnectionGuard::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1server_1_1perf_1_1_connection_guard_1aecdbf7507af83dc67b952fcce54966c8" kindref="member">ConnectionGuard</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="203" column="21"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/performance_helpers.h" line="157" column="1" bodyfile="include/server/performance_helpers.h" bodystart="157" bodyend="208"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1perf_1_1_connection_guard_1a4713e543bb6181dc41e78d7890caaa82" prot="private" virt="non-virtual"><scope>themis::server::perf::ConnectionGuard</scope><name>conn_</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_connection_guard_1aecdbf7507af83dc67b952fcce54966c8" prot="public" virt="non-virtual"><scope>themis::server::perf::ConnectionGuard</scope><name>ConnectionGuard</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_connection_guard_1a8cf38649154b7cbcd87b6a1c9608c83d" prot="public" virt="non-virtual"><scope>themis::server::perf::ConnectionGuard</scope><name>ConnectionGuard</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_connection_guard_1a4a245da098e7b18481fa09fd97d81aa1" prot="public" virt="non-virtual"><scope>themis::server::perf::ConnectionGuard</scope><name>ConnectionGuard</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_connection_guard_1af1fc3e3d9cd3be860e9f6a83e04a046a" prot="public" virt="non-virtual"><scope>themis::server::perf::ConnectionGuard</scope><name>get</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_connection_guard_1adcd7e7a069b6221da600520ff792f482" prot="public" virt="non-virtual"><scope>themis::server::perf::ConnectionGuard</scope><name>operator*</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_connection_guard_1aec28a5c8550903ea14af236dd6ee61e0" prot="public" virt="non-virtual"><scope>themis::server::perf::ConnectionGuard</scope><name>operator-&gt;</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_connection_guard_1a00138ca5c62a75b21f9c2160dd2fa8f0" prot="public" virt="non-virtual"><scope>themis::server::perf::ConnectionGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_connection_guard_1a84c07175c55a5b10e9f5376fcbe9f6e3" prot="public" virt="non-virtual"><scope>themis::server::perf::ConnectionGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_connection_guard_1a5c616ee688dbde89362c67ca55cd3f96" prot="private" virt="non-virtual"><scope>themis::server::perf::ConnectionGuard</scope><name>pool_</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_connection_guard_1a32234fc9d2deeaf25e859b5784d7c41d" prot="public" virt="non-virtual"><scope>themis::server::perf::ConnectionGuard</scope><name>~ConnectionGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

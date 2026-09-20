@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_conflict_resolution_result" kind="struct" language="C++" prot="public">
+    <compoundname>ConflictResolutionResult</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_conflict_resolution_result_1a9a2d292f9cabf96b7772a4847b835096" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ConflictResolutionResult::resolved</definition>
+        <argsstring></argsstring>
+        <name>resolved</name>
+        <qualifiedname>ConflictResolutionResult::resolved</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_highcardinality_stress.cpp" line="61" column="10" bodyfile="tests/temporal/test_temporal_highcardinality_stress.cpp" bodystart="61" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_conflict_resolution_result_1a7ca8449e3b0b6c09e37139bfaca47aa5" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t ConflictResolutionResult::winning_version</definition>
+        <argsstring></argsstring>
+        <name>winning_version</name>
+        <qualifiedname>ConflictResolutionResult::winning_version</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_highcardinality_stress.cpp" line="62" column="14" bodyfile="tests/temporal/test_temporal_highcardinality_stress.cpp" bodystart="62" bodyend="62"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/temporal/test_temporal_highcardinality_stress.cpp" line="60" column="1" bodyfile="tests/temporal/test_temporal_highcardinality_stress.cpp" bodystart="60" bodyend="63"/>
+    <listofallmembers>
+      <member refid="struct_conflict_resolution_result_1a9a2d292f9cabf96b7772a4847b835096" prot="public" virt="non-virtual"><scope>ConflictResolutionResult</scope><name>resolved</name></member>
+      <member refid="struct_conflict_resolution_result_1a7ca8449e3b0b6c09e37139bfaca47aa5" prot="public" virt="non-virtual"><scope>ConflictResolutionResult</scope><name>winning_version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

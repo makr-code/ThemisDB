@@ -1,0 +1,147 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1test_1_1wave__d_1_1_compactable_shard" kind="struct" language="C++" prot="public">
+    <compoundname>themis::test::wave_d::CompactableShard</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_compactable_shard_1a00ceea6752f881257464a988e3127c44" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::test::wave_d::CompactableShard::data_</definition>
+        <argsstring></argsstring>
+        <name>data_</name>
+        <qualifiedname>themis::test::wave_d::CompactableShard::data_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_highcardinality_stress.cpp" line="98" column="24" bodyfile="tests/storage/test_storage_highcardinality_stress.cpp" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_compactable_shard_1a700d59bbd8da3993da6098e9b6c855be" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::test::wave_d::CompactableShard::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>themis::test::wave_d::CompactableShard::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_highcardinality_stress.cpp" line="99" column="24" bodyfile="tests/storage/test_storage_highcardinality_stress.cpp" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_compactable_shard_1a14a89a03a189d5b1c11883ad5e8815dd" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; long &gt;</type>
+        <definition>std::atomic&lt;long&gt; themis::test::wave_d::CompactableShard::writes_</definition>
+        <argsstring></argsstring>
+        <name>writes_</name>
+        <qualifiedname>themis::test::wave_d::CompactableShard::writes_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_highcardinality_stress.cpp" line="100" column="18" bodyfile="tests/storage/test_storage_highcardinality_stress.cpp" bodystart="100" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_compactable_shard_1a656c83f88f639c74b6df5db3455337f1" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; long &gt;</type>
+        <definition>std::atomic&lt;long&gt; themis::test::wave_d::CompactableShard::compactions_</definition>
+        <argsstring></argsstring>
+        <name>compactions_</name>
+        <qualifiedname>themis::test::wave_d::CompactableShard::compactions_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_highcardinality_stress.cpp" line="101" column="18" bodyfile="tests/storage/test_storage_highcardinality_stress.cpp" bodystart="101" bodyend="101"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_compactable_shard_1aecacf74a02f4761a9dd16662c709b2f4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::test::wave_d::CompactableShard::write</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;value)</argsstring>
+        <name>write</name>
+        <qualifiedname>themis::test::wave_d::CompactableShard::write</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_highcardinality_stress.cpp" line="80" column="10" bodyfile="tests/storage/test_storage_highcardinality_stress.cpp" bodystart="80" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_compactable_shard_1a9836dcba1c3b7c50ae356fb5d254c343" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::test::wave_d::CompactableShard::compact</definition>
+        <argsstring>()</argsstring>
+        <name>compact</name>
+        <qualifiedname>themis::test::wave_d::CompactableShard::compact</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_highcardinality_stress.cpp" line="88" column="10" bodyfile="tests/storage/test_storage_highcardinality_stress.cpp" bodystart="88" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_compactable_shard_1a995e10ee399c45fde7e4fa67fb5d94cc" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>long</type>
+        <definition>long themis::test::wave_d::CompactableShard::writes</definition>
+        <argsstring>() const</argsstring>
+        <name>writes</name>
+        <qualifiedname>themis::test::wave_d::CompactableShard::writes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_highcardinality_stress.cpp" line="94" column="10" bodyfile="tests/storage/test_storage_highcardinality_stress.cpp" bodystart="94" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_compactable_shard_1ac4896b2e66c4c4679cbe6d2e72049c97" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>long</type>
+        <definition>long themis::test::wave_d::CompactableShard::compactions</definition>
+        <argsstring>() const</argsstring>
+        <name>compactions</name>
+        <qualifiedname>themis::test::wave_d::CompactableShard::compactions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_highcardinality_stress.cpp" line="95" column="10" bodyfile="tests/storage/test_storage_highcardinality_stress.cpp" bodystart="95" bodyend="95"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/storage/test_storage_highcardinality_stress.cpp" line="79" column="1" bodyfile="tests/storage/test_storage_highcardinality_stress.cpp" bodystart="79" bodyend="102"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_compactable_shard_1a9836dcba1c3b7c50ae356fb5d254c343" prot="public" virt="non-virtual"><scope>themis::test::wave_d::CompactableShard</scope><name>compact</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_compactable_shard_1ac4896b2e66c4c4679cbe6d2e72049c97" prot="public" virt="non-virtual"><scope>themis::test::wave_d::CompactableShard</scope><name>compactions</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_compactable_shard_1a656c83f88f639c74b6df5db3455337f1" prot="private" virt="non-virtual"><scope>themis::test::wave_d::CompactableShard</scope><name>compactions_</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_compactable_shard_1a00ceea6752f881257464a988e3127c44" prot="private" virt="non-virtual"><scope>themis::test::wave_d::CompactableShard</scope><name>data_</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_compactable_shard_1a700d59bbd8da3993da6098e9b6c855be" prot="private" virt="non-virtual"><scope>themis::test::wave_d::CompactableShard</scope><name>mu_</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_compactable_shard_1aecacf74a02f4761a9dd16662c709b2f4" prot="public" virt="non-virtual"><scope>themis::test::wave_d::CompactableShard</scope><name>write</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_compactable_shard_1a995e10ee399c45fde7e4fa67fb5d94cc" prot="public" virt="non-virtual"><scope>themis::test::wave_d::CompactableShard</scope><name>writes</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_compactable_shard_1a14a89a03a189d5b1c11883ad5e8815dd" prot="private" virt="non-virtual"><scope>themis::test::wave_d::CompactableShard</scope><name>writes_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

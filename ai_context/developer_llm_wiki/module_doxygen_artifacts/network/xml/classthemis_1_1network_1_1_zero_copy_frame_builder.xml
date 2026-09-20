@@ -1,0 +1,329 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1network_1_1_zero_copy_frame_builder" kind="class" language="C++" prot="public">
+    <compoundname>themis::network::ZeroCopyFrameBuilder</compoundname>
+    <includes refid="wire__protocol__zero__copy_8h" local="no">wire_protocol_zero_copy.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_zero_copy_frame_builder_1a868c19c96552849b5ba59825b4680664" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::ZeroCopyFrameBuilder::WIRE_MAGIC</definition>
+        <argsstring></argsstring>
+        <name>WIRE_MAGIC</name>
+        <qualifiedname>themis::network::ZeroCopyFrameBuilder::WIRE_MAGIC</qualifiedname>
+        <initializer>= 0x534D4854u</initializer>
+        <briefdescription>
+<para>Wire-protocol magic bytes (little-endian &quot;THMS&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_zero_copy.h" line="97" column="31" bodyfile="include/network/wire_protocol_zero_copy.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_zero_copy_frame_builder_1a829c15ce2238ea37d4e63e24004215e6" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::network::ZeroCopyFrameBuilder::HEADER_SIZE</definition>
+        <argsstring></argsstring>
+        <name>HEADER_SIZE</name>
+        <qualifiedname>themis::network::ZeroCopyFrameBuilder::HEADER_SIZE</qualifiedname>
+        <initializer>= 12</initializer>
+        <briefdescription>
+<para>Fixed header size in bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_zero_copy.h" line="100" column="29" bodyfile="include/network/wire_protocol_zero_copy.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_zero_copy_frame_builder_1aff23395c06a759430bcf8fa0d7732306" prot="private" static="no" mutable="no">
+        <type>std::array&lt; uint8_t, <ref refid="classthemis_1_1network_1_1_zero_copy_frame_builder_1a829c15ce2238ea37d4e63e24004215e6" kindref="member">HEADER_SIZE</ref> &gt;</type>
+        <definition>std::array&lt;uint8_t, HEADER_SIZE&gt; themis::network::ZeroCopyFrameBuilder::header_</definition>
+        <argsstring></argsstring>
+        <name>header_</name>
+        <qualifiedname>themis::network::ZeroCopyFrameBuilder::header_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_zero_copy.h" line="177" column="16" bodyfile="include/network/wire_protocol_zero_copy.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_zero_copy_frame_builder_1ac524b6535f0ca473df0a42024cea4fd1" prot="private" static="no" mutable="no">
+        <type>const void *</type>
+        <definition>const void* themis::network::ZeroCopyFrameBuilder::payload_</definition>
+        <argsstring></argsstring>
+        <name>payload_</name>
+        <qualifiedname>themis::network::ZeroCopyFrameBuilder::payload_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_zero_copy.h" line="178" column="38" bodyfile="include/network/wire_protocol_zero_copy.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_zero_copy_frame_builder_1adbc881606f6092062700b8a0eb389781" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::network::ZeroCopyFrameBuilder::payload_size_</definition>
+        <argsstring></argsstring>
+        <name>payload_size_</name>
+        <qualifiedname>themis::network::ZeroCopyFrameBuilder::payload_size_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_zero_copy.h" line="179" column="39" bodyfile="include/network/wire_protocol_zero_copy.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_zero_copy_frame_builder_1a591047b50d94e8e305656c8dcdbf8560" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::ZeroCopyFrameBuilder::ZeroCopyFrameBuilder</definition>
+        <argsstring>(uint16_t opcode, uint16_t flags, const void *payload, size_t payload_size) noexcept</argsstring>
+        <name>ZeroCopyFrameBuilder</name>
+        <qualifiedname>themis::network::ZeroCopyFrameBuilder::ZeroCopyFrameBuilder</qualifiedname>
+        <param>
+          <type>uint16_t</type>
+          <declname>opcode</declname>
+        </param>
+        <param>
+          <type>uint16_t</type>
+          <declname>flags</declname>
+        </param>
+        <param>
+          <type>const void *</type>
+          <declname>payload</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>payload_size</declname>
+        </param>
+        <briefdescription>
+<para>Construct a frame builder. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>opcode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Wire-protocol operation code (16-bit). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>flags</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Frame flags (16-bit; e.g., COMPRESSED, ENCRYPTED). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to caller-owned payload bytes (may be null when <computeroutput>payload_size</computeroutput> == 0). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>payload_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of payload bytes to include. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_zero_copy.h" line="111" column="5" bodyfile="src/network/wire_protocol_zero_copy.cpp" bodystart="128" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_zero_copy_frame_builder_1a1b238f84d67640fab3aca73d3477a64d" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>ssize_t</type>
+        <definition>ssize_t themis::network::ZeroCopyFrameBuilder::writeTo</definition>
+        <argsstring>(int fd) const noexcept</argsstring>
+        <name>writeTo</name>
+        <qualifiedname>themis::network::ZeroCopyFrameBuilder::writeTo</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>fd</declname>
+        </param>
+        <briefdescription>
+<para>Write the frame to a file descriptor using writev(2). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The header and payload are written atomically as a scatter-gather vector; no intermediate copy is performed.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Open, writable file descriptor (TCP socket). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Total bytes written on success (&gt;= 0), or -1 on error (errno is set by the underlying writev call). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_zero_copy.h" line="126" column="13" bodyfile="src/network/wire_protocol_zero_copy.cpp" bodystart="149" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_zero_copy_frame_builder_1a32a01d3e6dd022e93686a04bfd28971d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>ssize_t</type>
+        <definition>ssize_t themis::network::ZeroCopyFrameBuilder::writeToWithSendfile</definition>
+        <argsstring>(int socket_fd, int payload_fd, off_t payload_offset=0, size_t sendfile_threshold=65536) const</argsstring>
+        <name>writeToWithSendfile</name>
+        <qualifiedname>themis::network::ZeroCopyFrameBuilder::writeToWithSendfile</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>socket_fd</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>payload_fd</declname>
+        </param>
+        <param>
+          <type>off_t</type>
+          <declname>payload_offset</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>sendfile_threshold</declname>
+          <defval>65536</defval>
+        </param>
+        <briefdescription>
+<para>Large-payload path: write header via write(2), then payload via sendfile(2) / splice(2) (Linux) or sendfile(2) (macOS/FreeBSD). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>For payloads ≥ <computeroutput>sendfile_threshold</computeroutput> bytes and where <computeroutput>payload_fd</computeroutput> is a valid open file descriptor, this method:<orderedlist>
+<listitem><para>Writes the 12-byte header with write(2).</para>
+</listitem><listitem><para>Transfers <computeroutput>payload_size_</computeroutput> bytes from <computeroutput>payload_fd</computeroutput> starting at <computeroutput>payload_offset</computeroutput> using sendfile(2) (Linux / BSD) or splice(2) (Linux pipe path) — zero userspace copy.</para>
+</listitem></orderedlist>
+</para>
+<para>Falls back to <computeroutput><ref refid="classthemis_1_1network_1_1_zero_copy_frame_builder_1a1b238f84d67640fab3aca73d3477a64d" kindref="member">writeTo()</ref></computeroutput> if:<itemizedlist>
+<listitem><para><computeroutput>payload_fd</computeroutput> &lt; 0 (caller signals: not file-backed).</para>
+</listitem><listitem><para><computeroutput>payload_size_</computeroutput> &lt; <computeroutput>sendfile_threshold</computeroutput>.</para>
+</listitem><listitem><para>sendfile(2) / splice(2) fails with EINVAL / ENOSYS (e.g., the fd is a socket, not a regular file — kernel constraint).</para>
+</listitem></itemizedlist>
+</para>
+<para>R15: Removed noexcept guarantee to allow exception-safe buffer allocation in sendfile fallback path. Callers must handle std::bad_alloc if buffer allocation fails during fallback to pread + write.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>socket_fd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Destination socket file descriptor. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>payload_fd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source file descriptor for sendfile. Pass -1 to force fallback to writev. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>payload_offset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Starting offset in the source file (bytes). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sendfile_threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Minimum payload size to use sendfile (bytes). Default: 65536 (64 KiB). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Total bytes written (header + payload) on success, or -1 on error (errno set by the failing syscall). </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::bad_alloc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if memory allocation fails in fallback path </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_zero_copy.h" line="159" column="13" bodyfile="src/network/wire_protocol_zero_copy.cpp" bodystart="185" bodyend="296"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_zero_copy_frame_builder_1aa1f5bbc755e775380e067e8084a40911" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::network::ZeroCopyFrameBuilder::frameSize</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>frameSize</name>
+        <qualifiedname>themis::network::ZeroCopyFrameBuilder::frameSize</qualifiedname>
+        <briefdescription>
+<para>Total frame size in bytes (header + payload). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_zero_copy.h" line="167" column="12" bodyfile="include/network/wire_protocol_zero_copy.h" bodystart="167" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_zero_copy_frame_builder_1ac2bcd5020c3cd3a3cce6641484fb5d70" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const std::array&lt; uint8_t, <ref refid="classthemis_1_1network_1_1_zero_copy_frame_builder_1a829c15ce2238ea37d4e63e24004215e6" kindref="member">HEADER_SIZE</ref> &gt; &amp;</type>
+        <definition>const std::array&lt; uint8_t, HEADER_SIZE &gt; &amp; themis::network::ZeroCopyFrameBuilder::header</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>header</name>
+        <qualifiedname>themis::network::ZeroCopyFrameBuilder::header</qualifiedname>
+        <briefdescription>
+<para>Access the serialized header bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_zero_copy.h" line="172" column="22" bodyfile="include/network/wire_protocol_zero_copy.h" bodystart="172" bodyend="174"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Assemble a wire-protocol frame and send it via writev(2). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>A wire-protocol frame consists of a fixed-size header followed by an optional variable-length payload. The conventional approach copies both parts into a contiguous heap buffer before writing. This class avoids that copy by placing the header into a stack buffer and pointing the second iovec element directly at the caller-owned payload.</para>
+<para>Header layout (12 bytes, network byte order): <programlisting><codeline><highlight class="normal">[magic:<sp/>4B][flags:<sp/>2B][opcode:<sp/>2B][payload_size:<sp/>4B]</highlight></codeline>
+</programlisting></para>
+<para>Usage: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1network_1_1_zero_copy_frame_builder_1a591047b50d94e8e305656c8dcdbf8560" kindref="member">ZeroCopyFrameBuilder</ref><sp/>builder(opcode,<sp/>flags,<sp/>payload.data(),<sp/>payload.size());</highlight></codeline>
+<codeline><highlight class="normal">ssize_t<sp/>written<sp/>=<sp/>builder.writeTo(socket_fd);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(written<sp/>&lt;<sp/>0)<sp/>{<sp/></highlight><highlight class="comment">//<sp/>handle<sp/>error<sp/>}</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/network/wire_protocol_zero_copy.h" line="94" column="1" bodyfile="include/network/wire_protocol_zero_copy.h" bodystart="94" bodyend="180"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1network_1_1_zero_copy_frame_builder_1aa1f5bbc755e775380e067e8084a40911" prot="public" virt="non-virtual"><scope>themis::network::ZeroCopyFrameBuilder</scope><name>frameSize</name></member>
+      <member refid="classthemis_1_1network_1_1_zero_copy_frame_builder_1ac2bcd5020c3cd3a3cce6641484fb5d70" prot="public" virt="non-virtual"><scope>themis::network::ZeroCopyFrameBuilder</scope><name>header</name></member>
+      <member refid="classthemis_1_1network_1_1_zero_copy_frame_builder_1aff23395c06a759430bcf8fa0d7732306" prot="private" virt="non-virtual"><scope>themis::network::ZeroCopyFrameBuilder</scope><name>header_</name></member>
+      <member refid="classthemis_1_1network_1_1_zero_copy_frame_builder_1a829c15ce2238ea37d4e63e24004215e6" prot="public" virt="non-virtual"><scope>themis::network::ZeroCopyFrameBuilder</scope><name>HEADER_SIZE</name></member>
+      <member refid="classthemis_1_1network_1_1_zero_copy_frame_builder_1ac524b6535f0ca473df0a42024cea4fd1" prot="private" virt="non-virtual"><scope>themis::network::ZeroCopyFrameBuilder</scope><name>payload_</name></member>
+      <member refid="classthemis_1_1network_1_1_zero_copy_frame_builder_1adbc881606f6092062700b8a0eb389781" prot="private" virt="non-virtual"><scope>themis::network::ZeroCopyFrameBuilder</scope><name>payload_size_</name></member>
+      <member refid="classthemis_1_1network_1_1_zero_copy_frame_builder_1a868c19c96552849b5ba59825b4680664" prot="public" virt="non-virtual"><scope>themis::network::ZeroCopyFrameBuilder</scope><name>WIRE_MAGIC</name></member>
+      <member refid="classthemis_1_1network_1_1_zero_copy_frame_builder_1a1b238f84d67640fab3aca73d3477a64d" prot="public" virt="non-virtual"><scope>themis::network::ZeroCopyFrameBuilder</scope><name>writeTo</name></member>
+      <member refid="classthemis_1_1network_1_1_zero_copy_frame_builder_1a32a01d3e6dd022e93686a04bfd28971d" prot="public" virt="non-virtual"><scope>themis::network::ZeroCopyFrameBuilder</scope><name>writeToWithSendfile</name></member>
+      <member refid="classthemis_1_1network_1_1_zero_copy_frame_builder_1a591047b50d94e8e305656c8dcdbf8560" prot="public" virt="non-virtual"><scope>themis::network::ZeroCopyFrameBuilder</scope><name>ZeroCopyFrameBuilder</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

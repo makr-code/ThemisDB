@@ -1,0 +1,479 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="llm__timeout__manager_8h" kind="file" language="C++">
+    <compoundname>llm_timeout_manager.h</compoundname>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">future</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">thread</includes>
+    <includes refid="llm__error__codes_8h" local="yes">aql/llm_error_codes.h</includes>
+    <includedby refid="llm__aql__handler_8h" local="yes">include/aql/llm_aql_handler.h</includedby>
+    <includedby refid="llm__aql__handler_8cpp" local="yes">src/aql/llm_aql_handler.cpp</includedby>
+    <incdepgraph>
+      <node id="9">
+        <label>aql/llm_error_codes.h</label>
+        <link refid="llm__error__codes_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/aql/llm_timeout_manager.h</label>
+        <link refid="llm__timeout__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>future</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>stdexcept</label>
+      </node>
+      <node id="10">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>thread</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="3">
+        <label>include/aql/aql_agent.h</label>
+        <link refid="aql__agent_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>include/aql/aql_conversation_context.h</label>
+        <link refid="aql__conversation__context_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/aql/llm_aql_handler.h</label>
+        <link refid="llm__aql__handler_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>include/aql/llm_extractive_compressor.h</label>
+        <link refid="llm__extractive__compressor_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/aql/llm_timeout_manager.h</label>
+        <link refid="llm__timeout__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/aql/aql_agent.cpp</label>
+        <link refid="aql__agent_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/aql/aql_conversation_context.cpp</label>
+        <link refid="aql__conversation__context_8cpp"/>
+      </node>
+      <node id="14">
+        <label>src/aql/aql_query_builder.cpp</label>
+        <link refid="aql__query__builder_8cpp"/>
+      </node>
+      <node id="15">
+        <label>src/aql/llm_aql_embedding_bridge.cpp</label>
+        <link refid="llm__aql__embedding__bridge_8cpp"/>
+      </node>
+      <node id="16">
+        <label>src/aql/llm_aql_handler.cpp</label>
+        <link refid="llm__aql__handler_8cpp"/>
+      </node>
+      <node id="12">
+        <label>src/aql/llm_extractive_compressor.cpp</label>
+        <link refid="llm__extractive__compressor_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/aql/test_aql_agent.cpp</label>
+        <link refid="test__aql__agent_8cpp"/>
+      </node>
+      <node id="17">
+        <label>tests/aql/test_aql_api_stability.cpp</label>
+        <link refid="test__aql__api__stability_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/aql/test_aql_conversation_context.cpp</label>
+        <link refid="test__aql__conversation__context_8cpp"/>
+      </node>
+      <node id="18">
+        <label>tests/aql/test_aql_llm_validation_pipeline_phase04.cpp</label>
+        <link refid="test__aql__llm__validation__pipeline__phase04_8cpp"/>
+      </node>
+      <node id="19">
+        <label>tests/aql/test_aql_query_builder.cpp</label>
+        <link refid="test__aql__query__builder_8cpp"/>
+      </node>
+      <node id="20">
+        <label>tests/aql/test_aql_query_validator.cpp</label>
+        <link refid="test__aql__query__validator_8cpp"/>
+      </node>
+      <node id="21">
+        <label>tests/aql/test_aql_schema_aware.cpp</label>
+        <link refid="test__aql__schema__aware_8cpp"/>
+      </node>
+      <node id="13">
+        <label>tests/aql/test_episodic_compaction.cpp</label>
+        <link refid="test__episodic__compaction_8cpp"/>
+      </node>
+      <node id="22">
+        <label>tests/aql/test_llm_aql_handler_phase03.cpp</label>
+        <link refid="test__llm__aql__handler__phase03_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/aql/test_p2_d05_runtime_integration.cpp</label>
+        <link refid="test__p2__d05__runtime__integration_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/aql/test_p2_d06_benchmarks.cpp</label>
+        <link refid="test__p2__d06__benchmarks_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager" prot="public">themis::aql::LLMTimeoutManager</innerclass>
+    <innerclass refid="structthemis_1_1aql_1_1_l_l_m_timeout_manager_1_1_timeout_config" prot="public">themis::aql::LLMTimeoutManager::TimeoutConfig</innerclass>
+    <innerclass refid="classthemis_1_1aql_1_1_retry_policy" prot="public">themis::aql::RetryPolicy</innerclass>
+    <innerclass refid="structthemis_1_1aql_1_1_retry_policy_1_1_config" prot="public">themis::aql::RetryPolicy::Config</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1aql">themis::aql</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;future&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="llm__error__codes_8h" kindref="compound">aql/llm_error_codes.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1adec56933802cc5eea98c522a40e8fcc4" kindref="member">LLMTimeoutManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1aql_1_1_l_l_m_timeout_manager_1_1_timeout_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1aql_1_1_l_l_m_timeout_manager_1_1_timeout_config" kindref="compound">TimeoutConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1aql_1_1_l_l_m_timeout_manager_1_1_timeout_config_1ad8f3ba3acee7afc9afdbd84e91237633" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_timeout_manager_1_1_timeout_config_1ad8f3ba3acee7afc9afdbd84e91237633" kindref="member">infer_timeout</ref>{300};<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1aql_1_1_l_l_m_timeout_manager_1_1_timeout_config_1a298570233acbeed0415bd2acfc0b2256" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_timeout_manager_1_1_timeout_config_1a298570233acbeed0415bd2acfc0b2256" kindref="member">rag_timeout</ref>{600};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1aql_1_1_l_l_m_timeout_manager_1_1_timeout_config_1a293fa2f1025e46d69d3c2e1212d1e1a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_timeout_manager_1_1_timeout_config_1a293fa2f1025e46d69d3c2e1212d1e1a7" kindref="member">embed_timeout</ref>{60};<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1aql_1_1_l_l_m_timeout_manager_1_1_timeout_config_1acb0e4d0653424ba89b83e4035b3ba63c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_timeout_manager_1_1_timeout_config_1acb0e4d0653424ba89b83e4035b3ba63c" kindref="member">model_load_timeout</ref>{900};<sp/></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1aql_1_1_l_l_m_timeout_manager_1_1_timeout_config_1ad87bf593572930cf63eb0c9c90f2ac45" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_timeout_manager_1_1_timeout_config" kindref="compound">TimeoutConfig</ref><sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_timeout_manager_1_1_timeout_config_1ad87bf593572930cf63eb0c9c90f2ac45" kindref="member">defaults</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};<sp/>}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41" refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1adec56933802cc5eea98c522a40e8fcc4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1adec56933802cc5eea98c522a40e8fcc4" kindref="member">LLMTimeoutManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_timeout_manager_1_1_timeout_config" kindref="compound">TimeoutConfig</ref>&amp;<sp/>config<sp/>=<sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_timeout_manager_1_1_timeout_config_1ad87bf593572930cf63eb0c9c90f2ac45" kindref="member">TimeoutConfig::defaults</ref>())</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>config_(config)<sp/>{}</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>Func,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>Duration,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>Result<sp/>=<sp/>std::invoke_result_t&lt;Func&gt;&gt;</highlight></codeline>
+<codeline lineno="54" refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1abadedd05861955a00f1d22eb307e96b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>Result<sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1abadedd05861955a00f1d22eb307e96b2" kindref="member">executeWithTimeout</ref>(Func&amp;&amp;<sp/>func,<sp/>Duration<sp/>timeout,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>operation_name)<sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Wrap<sp/>the<sp/>user<sp/>callable<sp/>in<sp/>a<sp/>packaged_task<sp/>so<sp/>we<sp/>can<sp/>retrieve<sp/>the<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(or<sp/>propagated<sp/>exception)<sp/>via<sp/>a<sp/>future.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::packaged_task&lt;Result()&gt;<sp/>task(std::forward&lt;Func&gt;(func));</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>future<sp/>=<sp/>task.get_future();</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>std::jthread:<sp/>destructor<sp/>calls<sp/>request_stop()<sp/>+<sp/>join()<sp/>automatically,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>so<sp/>no<sp/>explicit<sp/>join<sp/>is<sp/>needed<sp/>on<sp/>the<sp/>success<sp/>path.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::jthread<sp/>worker([t<sp/>=<sp/>std::move(task)](std::stop_token)<sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>{<sp/>t();<sp/>});</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>status<sp/>=<sp/>future.wait_for(timeout);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(status<sp/>==<sp/>std::future_status::timeout)<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Signal<sp/>the<sp/>stop<sp/>token<sp/>so<sp/>a<sp/>cooperative<sp/>worker<sp/>can<sp/>exit<sp/>early,<sp/>then</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>transfer<sp/>ownership<sp/>to<sp/>a<sp/>background<sp/>cleanup<sp/>thread<sp/>that<sp/>will<sp/>join<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>worker<sp/>once<sp/>it<sp/>finishes.<sp/><sp/>This<sp/>avoids<sp/>both<sp/>blocking<sp/>the<sp/>calling</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>thread<sp/>and<sp/>leaking<sp/>the<sp/>worker<sp/>thread<sp/>handle.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>NOTE:<sp/>the<sp/>empty<sp/>lambda<sp/>body<sp/>is<sp/>intentional<sp/>—<sp/>when<sp/>the<sp/>lambda&apos;s<sp/>local</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>variable<sp/>`w`<sp/>(a<sp/>std::jthread)<sp/>is<sp/>destroyed<sp/>at<sp/>the<sp/>end<sp/>of<sp/>the<sp/>cleanup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>thread&apos;s<sp/>invocation,<sp/>its<sp/>destructor<sp/>calls<sp/>request_stop()<sp/>+<sp/>join(),</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>blocking<sp/>the<sp/>cleanup<sp/>thread<sp/>until<sp/>the<sp/>worker<sp/>finishes.<sp/><sp/>This<sp/>ensures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>the<sp/>worker<sp/>is<sp/>properly<sp/>joined<sp/>with<sp/>no<sp/>thread<sp/>leak.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>worker.request_stop();</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::thread([w<sp/>=<sp/>std::move(worker)]()<sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>jthread<sp/>destructor:<sp/>request_stop()<sp/>+<sp/>join()<sp/>—<sp/>blocks<sp/>here<sp/>until</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>the<sp/>worker<sp/>finishes,<sp/>then<sp/>both<sp/>this<sp/>cleanup<sp/>thread<sp/>and<sp/>the<sp/>worker</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>thread<sp/>exit<sp/>cleanly.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}).detach();</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">seconds_t<sp/>=<sp/>std::chrono::seconds;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>secs<sp/>=<sp/>std::chrono::duration_cast&lt;seconds_t&gt;(timeout);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_exception" kindref="compound">LLMException</ref>(<ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a070a0fb40f6c308ab544b227660aadff" kindref="member">LLMErrorCode::TIMEOUT</ref>,</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Operation<sp/>&apos;&quot;</highlight><highlight class="normal"><sp/>+<sp/>operation_name<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;&apos;<sp/>exceeded<sp/>timeout<sp/>of<sp/>&quot;</highlight><highlight class="normal"><sp/>+</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::to_string(secs.count())<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;<sp/>seconds&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Task<sp/>is<sp/>already<sp/>complete;<sp/>future.get()<sp/>returns/throws<sp/>immediately.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>worker.~jthread()<sp/>will<sp/>join<sp/>(returns<sp/>at<sp/>once<sp/>since<sp/>the<sp/>task<sp/>is<sp/>done).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>future.get();</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>Func&gt;</highlight></codeline>
+<codeline lineno="101" refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1ac0ef2b51317370aa314fdfac9b5c5811" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1ac0ef2b51317370aa314fdfac9b5c5811" kindref="member">executeInferWithTimeout</ref>(Func&amp;&amp;<sp/>func)<sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1abadedd05861955a00f1d22eb307e96b2" kindref="member">executeWithTimeout</ref>(std::forward&lt;Func&gt;(func),<sp/>config_.infer_timeout,<sp/></highlight><highlight class="stringliteral">&quot;LLM<sp/>INFER&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>Func&gt;</highlight></codeline>
+<codeline lineno="112" refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1adfb8fca5999eee3c45ec7f8a97c1310d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1adfb8fca5999eee3c45ec7f8a97c1310d" kindref="member">executeRAGWithTimeout</ref>(Func&amp;&amp;<sp/>func)<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1abadedd05861955a00f1d22eb307e96b2" kindref="member">executeWithTimeout</ref>(std::forward&lt;Func&gt;(func),<sp/>config_.rag_timeout,<sp/></highlight><highlight class="stringliteral">&quot;LLM<sp/>RAG&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>Func&gt;</highlight></codeline>
+<codeline lineno="123" refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1aebce260cfb6bedd0d5992c05fd07f200" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1aebce260cfb6bedd0d5992c05fd07f200" kindref="member">executeEmbedWithTimeout</ref>(Func&amp;&amp;<sp/>func)<sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1abadedd05861955a00f1d22eb307e96b2" kindref="member">executeWithTimeout</ref>(std::forward&lt;Func&gt;(func),<sp/>config_.embed_timeout,<sp/></highlight><highlight class="stringliteral">&quot;LLM<sp/>EMBED&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>Func&gt;</highlight></codeline>
+<codeline lineno="134" refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1adc520fdc79f96650523d388e3a78a0af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1adc520fdc79f96650523d388e3a78a0af" kindref="member">executeModelLoadWithTimeout</ref>(Func&amp;&amp;<sp/>func)<sp/>{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1abadedd05861955a00f1d22eb307e96b2" kindref="member">executeWithTimeout</ref>(std::forward&lt;Func&gt;(func),<sp/>config_.model_load_timeout,<sp/></highlight><highlight class="stringliteral">&quot;LLM<sp/>MODEL<sp/>LOAD&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>Func,</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>Duration,</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>Result<sp/>=<sp/>std::invoke_result_t&lt;std::decay_t&lt;Func&gt;,<sp/>std::shared_ptr&lt;std::atomic&lt;bool&gt;&gt;&gt;&gt;</highlight></codeline>
+<codeline lineno="150" refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1a3b7abb84c440c2d9e74c5dcdc6930e62" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>Result<sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1a3b7abb84c440c2d9e74c5dcdc6930e62" kindref="member">executeWithCancelToken</ref>(Func&amp;&amp;<sp/>func,</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Duration<sp/>timeout,</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>operation_name)<sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cancel_token<sp/>=<sp/>std::make_shared&lt;std::atomic&lt;bool&gt;&gt;(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::packaged_task&lt;Result()&gt;<sp/>task(</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[f<sp/>=<sp/>std::forward&lt;Func&gt;(func),<sp/>ct<sp/>=<sp/>cancel_token]()<sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>f(ct);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>future<sp/>=<sp/>task.get_future();</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>std::jthread:<sp/>destructor<sp/>calls<sp/>request_stop()<sp/>+<sp/>join()<sp/>automatically.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::jthread<sp/>worker([t<sp/>=<sp/>std::move(task)](std::stop_token)<sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>{<sp/>t();<sp/>});</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>status<sp/>=<sp/>future.wait_for(timeout);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(status<sp/>==<sp/>std::future_status::timeout)<sp/>{</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Signal<sp/>cooperative<sp/>cancellation<sp/>so<sp/>the<sp/>function<sp/>can<sp/>exit<sp/>early.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cancel_token-&gt;store(</highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/>std::memory_order_release);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Also<sp/>signal<sp/>the<sp/>jthread<sp/>stop<sp/>token<sp/>and<sp/>hand<sp/>off<sp/>to<sp/>cleanup<sp/>thread.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>NOTE:<sp/>the<sp/>empty<sp/>lambda<sp/>body<sp/>is<sp/>intentional<sp/>—<sp/>when<sp/>the<sp/>lambda&apos;s<sp/>local</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>variable<sp/>`w`<sp/>(a<sp/>std::jthread)<sp/>is<sp/>destroyed<sp/>at<sp/>the<sp/>end<sp/>of<sp/>the<sp/>cleanup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>thread&apos;s<sp/>invocation,<sp/>its<sp/>destructor<sp/>calls<sp/>request_stop()<sp/>+<sp/>join(),</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>blocking<sp/>the<sp/>cleanup<sp/>thread<sp/>until<sp/>the<sp/>worker<sp/>finishes.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>worker.request_stop();</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::thread([w<sp/>=<sp/>std::move(worker)]()<sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>jthread<sp/>destructor:<sp/>request_stop()<sp/>+<sp/>join()<sp/>—<sp/>blocks<sp/>here<sp/>until</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>the<sp/>worker<sp/>finishes,<sp/>then<sp/>both<sp/>this<sp/>cleanup<sp/>thread<sp/>and<sp/>the<sp/>worker</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>thread<sp/>exit<sp/>cleanly.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}).detach();</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">seconds_t<sp/>=<sp/>std::chrono::seconds;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>secs<sp/>=<sp/>std::chrono::duration_cast&lt;seconds_t&gt;(timeout);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_exception" kindref="compound">LLMException</ref>(<ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a070a0fb40f6c308ab544b227660aadff" kindref="member">LLMErrorCode::TIMEOUT</ref>,</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Operation<sp/>&apos;&quot;</highlight><highlight class="normal"><sp/>+<sp/>operation_name<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;&apos;<sp/>exceeded<sp/>timeout<sp/>of<sp/>&quot;</highlight><highlight class="normal"><sp/>+</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::to_string(secs.count())<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;<sp/>seconds&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Task<sp/>is<sp/>already<sp/>complete;<sp/>future.get()<sp/>returns/throws<sp/>immediately.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>future.get();</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>Func&gt;</highlight></codeline>
+<codeline lineno="198" refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1aa029f7d9ccb4e44cd20a55e0dc582cb5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1aa029f7d9ccb4e44cd20a55e0dc582cb5" kindref="member">executeInferWithCancelToken</ref>(Func&amp;&amp;<sp/>func)<sp/>{</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1a3b7abb84c440c2d9e74c5dcdc6930e62" kindref="member">executeWithCancelToken</ref>(std::forward&lt;Func&gt;(func),</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config_.infer_timeout,<sp/></highlight><highlight class="stringliteral">&quot;LLM<sp/>INFER&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>Func&gt;</highlight></codeline>
+<codeline lineno="210" refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1a368704e878d38b47fe50550eac80055e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1a368704e878d38b47fe50550eac80055e" kindref="member">executeRAGWithCancelToken</ref>(Func&amp;&amp;<sp/>func)<sp/>{</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1a3b7abb84c440c2d9e74c5dcdc6930e62" kindref="member">executeWithCancelToken</ref>(std::forward&lt;Func&gt;(func),</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config_.rag_timeout,<sp/></highlight><highlight class="stringliteral">&quot;LLM<sp/>RAG&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>Func&gt;</highlight></codeline>
+<codeline lineno="222" refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1a9d9e5628e23bd04e63603c9412798952" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1a9d9e5628e23bd04e63603c9412798952" kindref="member">executeEmbedWithCancelToken</ref>(Func&amp;&amp;<sp/>func)<sp/>{</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1a3b7abb84c440c2d9e74c5dcdc6930e62" kindref="member">executeWithCancelToken</ref>(std::forward&lt;Func&gt;(func),</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config_.embed_timeout,<sp/></highlight><highlight class="stringliteral">&quot;LLM<sp/>EMBED&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>Func&gt;</highlight></codeline>
+<codeline lineno="234" refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1aef3b7a1271be3cb868c67d1ed9442610" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1aef3b7a1271be3cb868c67d1ed9442610" kindref="member">executeModelLoadWithCancelToken</ref>(Func&amp;&amp;<sp/>func)<sp/>{</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1a3b7abb84c440c2d9e74c5dcdc6930e62" kindref="member">executeWithCancelToken</ref>(std::forward&lt;Func&gt;(func),</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config_.model_load_timeout,<sp/></highlight><highlight class="stringliteral">&quot;LLM<sp/>MODEL<sp/>LOAD&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="239" refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1a07d6d5dbf91ba67566e0bc80683241de" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_timeout_manager_1_1_timeout_config" kindref="compound">TimeoutConfig</ref>&amp;<sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1a07d6d5dbf91ba67566e0bc80683241de" kindref="member">getConfig</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="246" refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1ac9502fde3871f6d2bbcfcab9c7f6f2aa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1ac9502fde3871f6d2bbcfcab9c7f6f2aa" kindref="member">setConfig</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_timeout_manager_1_1_timeout_config" kindref="compound">TimeoutConfig</ref>&amp;<sp/>config)<sp/>{<sp/>config_<sp/>=<sp/>config;<sp/>}</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>TimeoutConfig<sp/>config_;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252" refid="classthemis_1_1aql_1_1_retry_policy" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1aql_1_1_retry_policy_1ab91e685ead9bbc5edf677eb14f2c24b3" kindref="member">RetryPolicy</ref><sp/>{</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="254" refid="structthemis_1_1aql_1_1_retry_policy_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1aql_1_1_retry_policy_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="255" refid="structthemis_1_1aql_1_1_retry_policy_1_1_config_1a0d164fd1357e455e12743ce5afa03d64" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1aql_1_1_retry_policy_1_1_config_1a0d164fd1357e455e12743ce5afa03d64" kindref="member">max_retries</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="256" refid="structthemis_1_1aql_1_1_retry_policy_1_1_config_1a6e01dde025e6f91a567890d762a23987" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1aql_1_1_retry_policy_1_1_config_1a6e01dde025e6f91a567890d762a23987" kindref="member">initial_delay</ref>{100};</highlight></codeline>
+<codeline lineno="257" refid="structthemis_1_1aql_1_1_retry_policy_1_1_config_1a6d8a62281d1ab16a19036d076b5cebbb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1aql_1_1_retry_policy_1_1_config_1a6d8a62281d1ab16a19036d076b5cebbb" kindref="member">backoff_multiplier</ref><sp/>=<sp/>2.0;</highlight></codeline>
+<codeline lineno="258" refid="structthemis_1_1aql_1_1_retry_policy_1_1_config_1abfc918387e6b6adf4272c99b3b21a63d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1aql_1_1_retry_policy_1_1_config_1abfc918387e6b6adf4272c99b3b21a63d" kindref="member">max_delay</ref>{10000};<sp/><sp/></highlight><highlight class="comment">//<sp/>10<sp/>seconds<sp/>max</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264" refid="structthemis_1_1aql_1_1_retry_policy_1_1_config_1a8d9e0f9866c8fa178fa4aa9a0d84f7ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1aql_1_1_retry_policy_1_1_config" kindref="compound">Config</ref><sp/><ref refid="structthemis_1_1aql_1_1_retry_policy_1_1_config_1a8d9e0f9866c8fa178fa4aa9a0d84f7ec" kindref="member">defaults</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};<sp/>}</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="267" refid="classthemis_1_1aql_1_1_retry_policy_1ab91e685ead9bbc5edf677eb14f2c24b3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_retry_policy_1ab91e685ead9bbc5edf677eb14f2c24b3" kindref="member">RetryPolicy</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1aql_1_1_retry_policy_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config<sp/>=<sp/><ref refid="structthemis_1_1aql_1_1_retry_policy_1_1_config_1a8d9e0f9866c8fa178fa4aa9a0d84f7ec" kindref="member">Config::defaults</ref>())</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>config_(config)<sp/>{}</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>Func&gt;</highlight></codeline>
+<codeline lineno="271" refid="classthemis_1_1aql_1_1_retry_policy_1a3ff72b21bbaa70a3c3a622ce03799d5f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_retry_policy_1a3ff72b21bbaa70a3c3a622ce03799d5f" kindref="member">executeWithRetry</ref>(Func&amp;&amp;<sp/>func,<sp/></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::exception&amp;)&gt;<sp/>should_retry<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>attempt<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>delay<sp/>=<sp/>config_.initial_delay;</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">true</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>func();</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::exception&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>attempt++;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>if<sp/>we<sp/>should<sp/>retry<sp/>this<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(should_retry<sp/>&amp;&amp;<sp/>!should_retry(e))<sp/>{</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Non-retryable<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>if<sp/>we&apos;ve<sp/>exhausted<sp/>retries.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>max_retries<sp/>is<sp/>the<sp/>number<sp/>of<sp/>retries<sp/>after<sp/>the<sp/>initial<sp/>call,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>so<sp/>we<sp/>exhaust<sp/>only<sp/>once<sp/>attempt<sp/>exceeds<sp/>it.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>if<sp/>we&apos;ve<sp/>exhausted<sp/>retries<sp/>(max_retries<sp/>counts<sp/>retry<sp/>attempts,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>not<sp/>the<sp/>initial<sp/>call)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(attempt<sp/>&gt;<sp/>config_.max_retries)<sp/>{</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Give<sp/>up<sp/>after<sp/>max<sp/>retries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Wait<sp/>before<sp/>retry<sp/>with<sp/>exponential<sp/>backoff</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(delay);</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Calculate<sp/>next<sp/>delay</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>delay<sp/>=<sp/>std::chrono::milliseconds(</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(delay.count()<sp/>*<sp/>config_.backoff_multiplier)</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>delay<sp/>=<sp/>std::min(delay,<sp/>config_.max_delay);</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="314" refid="classthemis_1_1aql_1_1_retry_policy_1a8a90026ebee73b1b8cf1ecbccf5ba8a6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_retry_policy_1a8a90026ebee73b1b8cf1ecbccf5ba8a6" kindref="member">isRetryableError</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::exception&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Try<sp/>to<sp/>cast<sp/>to<sp/>LLMException</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>llm_ex<sp/>=<sp/></highlight><highlight class="keyword">dynamic_cast&lt;</highlight><highlight class="keyword">const<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1aql_1_1_l_l_m_exception" kindref="compound">LLMException</ref>&amp;</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(e);</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>code<sp/>=<sp/>llm_ex.<ref refid="classthemis_1_1aql_1_1_l_l_m_exception_1a4eafe6a03c32fba45bfc92b7eb648a88" kindref="member">getErrorCode</ref>();</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Retryable<sp/>errors:<sp/>timeouts,<sp/>transient<sp/>failures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a070a0fb40f6c308ab544b227660aadff" kindref="member">LLMErrorCode::TIMEOUT</ref><sp/>||</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217ac56ddb8056b120c9d5fee05981f219c6" kindref="member">LLMErrorCode::OUT_OF_MEMORY</ref><sp/>||</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217ac4a871a5e43e174abb4faf731da4b3da" kindref="member">LLMErrorCode::MODEL_NOT_LOADED</ref>;</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::bad_cast&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Not<sp/>an<sp/>LLMException,<sp/>assume<sp/>it<sp/>might<sp/>be<sp/>retryable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>Config<sp/>config_;</highlight></codeline>
+<codeline lineno="332"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>aql</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/aql/llm_timeout_manager.h"/>
+  </compounddef>
+</doxygen>

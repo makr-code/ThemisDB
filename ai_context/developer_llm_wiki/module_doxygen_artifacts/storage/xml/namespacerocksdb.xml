@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacerocksdb" kind="namespace" language="C++">
+    <compoundname>rocksdb</compoundname>
+    <innerclass refid="classrocksdb_1_1_transaction_d_b" prot="public">rocksdb::TransactionDB</innerclass>
+    <innerclass refid="classrocksdb_1_1_transaction" prot="public">rocksdb::Transaction</innerclass>
+    <innerclass refid="classrocksdb_1_1_write_batch" prot="public">rocksdb::WriteBatch</innerclass>
+    <innerclass refid="classrocksdb_1_1_write_batch_with_index" prot="public">rocksdb::WriteBatchWithIndex</innerclass>
+    <innerclass refid="structrocksdb_1_1_options" prot="public">rocksdb::Options</innerclass>
+    <innerclass refid="structrocksdb_1_1_read_options" prot="public">rocksdb::ReadOptions</innerclass>
+    <innerclass refid="structrocksdb_1_1_write_options" prot="public">rocksdb::WriteOptions</innerclass>
+    <innerclass refid="structrocksdb_1_1_transaction_d_b_options" prot="public">rocksdb::TransactionDBOptions</innerclass>
+    <innerclass refid="structrocksdb_1_1_transaction_options" prot="public">rocksdb::TransactionOptions</innerclass>
+    <innerclass refid="classrocksdb_1_1_snapshot" prot="public">rocksdb::Snapshot</innerclass>
+    <innerclass refid="classrocksdb_1_1_d_b" prot="public">rocksdb::DB</innerclass>
+    <innerclass refid="classrocksdb_1_1_column_family_handle" prot="public">rocksdb::ColumnFamilyHandle</innerclass>
+    <innerclass refid="classrocksdb_1_1_event_listener" prot="public">rocksdb::EventListener</innerclass>
+    <innerclass refid="classrocksdb_1_1_iterator" prot="public">rocksdb::Iterator</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>ThemisDB Blob-Level Redundancy Manager</para>
+<para>Provides granular redundancy control at the binary blob level, including RocksDB SST files, WAL segments, indexes, and large objects.</para>
+<para>Features:<itemizedlist>
+<listitem><para>Per-blob-type redundancy configuration</para>
+</listitem><listitem><para>Tiered storage with automatic transitions</para>
+</listitem><listitem><para>RocksDB <ref refid="classrocksdb_1_1_event_listener" kindref="compound">EventListener</ref> integration</para>
+</listitem><listitem><para>Erasure coding for storage efficiency</para>
+</listitem><listitem><para>Geo-replication for disaster recovery</para>
+</listitem><listitem><para>Background scrubbing and repair</para>
+</listitem></itemizedlist>
+</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0 </para>
+    </detaileddescription>
+    <location file="include/storage/blob_redundancy_manager.h" line="50" column="1"/>
+  </compounddef>
+</doxygen>

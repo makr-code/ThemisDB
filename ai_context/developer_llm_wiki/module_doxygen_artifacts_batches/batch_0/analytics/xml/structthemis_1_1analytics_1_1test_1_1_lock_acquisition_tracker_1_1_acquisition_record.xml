@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1analytics_1_1test_1_1_lock_acquisition_tracker_1_1_acquisition_record" kind="struct" language="C++" prot="public">
+    <compoundname>themis::analytics::test::LockAcquisitionTracker::AcquisitionRecord</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1test_1_1_lock_acquisition_tracker_1_1_acquisition_record_1a141baf480b756cd40ff535f805d65217" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::analytics::test::LockAcquisitionTracker::AcquisitionRecord::lock_id</definition>
+        <argsstring></argsstring>
+        <name>lock_id</name>
+        <qualifiedname>themis::analytics::test::LockAcquisitionTracker::AcquisitionRecord::lock_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_concurrency_safety_focused.cpp" line="79" column="13" bodyfile="tests/analytics/test_analytics_concurrency_safety_focused.cpp" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1test_1_1_lock_acquisition_tracker_1_1_acquisition_record_1a433d922d1e79967ebb9388b934c59ab3" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::analytics::test::LockAcquisitionTracker::AcquisitionRecord::order</definition>
+        <argsstring></argsstring>
+        <name>order</name>
+        <qualifiedname>themis::analytics::test::LockAcquisitionTracker::AcquisitionRecord::order</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_concurrency_safety_focused.cpp" line="80" column="13" bodyfile="tests/analytics/test_analytics_concurrency_safety_focused.cpp" bodystart="80" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1test_1_1_lock_acquisition_tracker_1_1_acquisition_record_1a352de2637bbaa02bd221a45832ff4e56" prot="public" static="no" mutable="no">
+        <type>std::thread::id</type>
+        <definition>std::thread::id themis::analytics::test::LockAcquisitionTracker::AcquisitionRecord::thread_id</definition>
+        <argsstring></argsstring>
+        <name>thread_id</name>
+        <qualifiedname>themis::analytics::test::LockAcquisitionTracker::AcquisitionRecord::thread_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_concurrency_safety_focused.cpp" line="81" column="25" bodyfile="tests/analytics/test_analytics_concurrency_safety_focused.cpp" bodystart="81" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/analytics/test_analytics_concurrency_safety_focused.cpp" line="78" column="5" bodyfile="tests/analytics/test_analytics_concurrency_safety_focused.cpp" bodystart="78" bodyend="82"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1analytics_1_1test_1_1_lock_acquisition_tracker_1_1_acquisition_record_1a141baf480b756cd40ff535f805d65217" prot="public" virt="non-virtual"><scope>themis::analytics::test::LockAcquisitionTracker::AcquisitionRecord</scope><name>lock_id</name></member>
+      <member refid="structthemis_1_1analytics_1_1test_1_1_lock_acquisition_tracker_1_1_acquisition_record_1a433d922d1e79967ebb9388b934c59ab3" prot="public" virt="non-virtual"><scope>themis::analytics::test::LockAcquisitionTracker::AcquisitionRecord</scope><name>order</name></member>
+      <member refid="structthemis_1_1analytics_1_1test_1_1_lock_acquisition_tracker_1_1_acquisition_record_1a352de2637bbaa02bd221a45832ff4e56" prot="public" virt="non-virtual"><scope>themis::analytics::test::LockAcquisitionTracker::AcquisitionRecord</scope><name>thread_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

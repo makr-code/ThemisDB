@@ -1,0 +1,230 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1core_1_1_i_config_hot_reloader" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::core::IConfigHotReloader</compoundname>
+    <includes refid="config__hot__reloader_8h" local="no">config_hot_reloader.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1_i_config_hot_reloader_1ab9b7830d256d2a2727052487144f140b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::core::IConfigHotReloader::~IConfigHotReloader</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IConfigHotReloader</name>
+        <qualifiedname>themis::core::IConfigHotReloader::~IConfigHotReloader</qualifiedname>
+        <briefdescription>
+<para>IConfig Hot Reloader. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/config_hot_reloader.h" line="71" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1_i_config_hot_reloader_1a161fe0b6831345c529b034d838d7cd86" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::core::IConfigHotReloader::watch</definition>
+        <argsstring>(const std::string &amp;config_path_or_key)=0</argsstring>
+        <name>watch</name>
+        <qualifiedname>themis::core::IConfigHotReloader::watch</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>config_path_or_key</declname>
+        </param>
+        <briefdescription>
+<para>Watch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config_path_or_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/config_hot_reloader.h" line="78" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1_i_config_hot_reloader_1a8b231abd28a830868e900da41aaf6180" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::core::IConfigHotReloader::unwatch</definition>
+        <argsstring>(const std::string &amp;config_path_or_key)=0</argsstring>
+        <name>unwatch</name>
+        <qualifiedname>themis::core::IConfigHotReloader::unwatch</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>config_path_or_key</declname>
+        </param>
+        <briefdescription>
+<para>Unwatch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config_path_or_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/config_hot_reloader.h" line="85" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1_i_config_hot_reloader_1a55703f1f3e7d437e231441618a9db96c" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1core_1_1_hot_reload_result" kindref="compound">HotReloadResult</ref></type>
+        <definition>virtual HotReloadResult themis::core::IConfigHotReloader::reload</definition>
+        <argsstring>()=0</argsstring>
+        <name>reload</name>
+        <qualifiedname>themis::core::IConfigHotReloader::reload</qualifiedname>
+        <briefdescription>
+<para>Reload. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/config_hot_reloader.h" line="91" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1_i_config_hot_reloader_1ab688dfdb0376934ccc5a83330ea5b6e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::core::IConfigHotReloader::onConfigChange</definition>
+        <argsstring>(const std::string &amp;key_prefix, ConfigChangeCallback callback)=0</argsstring>
+        <name>onConfigChange</name>
+        <qualifiedname>themis::core::IConfigHotReloader::onConfigChange</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_prefix</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1core_1a92727d38d64981c6adfb1132a2dca5d8" kindref="member">ConfigChangeCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>On Config Change. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/config_hot_reloader.h" line="99" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1_i_config_hot_reloader_1a7fee6a81e9c04b8ef83e224fda00831c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1core_1_1_hot_reload_result" kindref="compound">HotReloadResult</ref></type>
+        <definition>virtual HotReloadResult themis::core::IConfigHotReloader::lastReloadResult</definition>
+        <argsstring>() const =0</argsstring>
+        <name>lastReloadResult</name>
+        <qualifiedname>themis::core::IConfigHotReloader::lastReloadResult</qualifiedname>
+        <briefdescription>
+<para>Last Reload Result. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/config_hot_reloader.h" line="108" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1_i_config_hot_reloader_1ade6a5b14f75be21aeb7990b6324c2530" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::chrono::milliseconds</type>
+        <definition>virtual std::chrono::milliseconds themis::core::IConfigHotReloader::reloadInterval</definition>
+        <argsstring>() const =0</argsstring>
+        <name>reloadInterval</name>
+        <qualifiedname>themis::core::IConfigHotReloader::reloadInterval</qualifiedname>
+        <briefdescription>
+<para>Reload Interval. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/config_hot_reloader.h" line="114" column="39"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1_i_config_hot_reloader_1a5b7992c0e56a54117774b74df4a8b589" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::core::IConfigHotReloader::setReloadInterval</definition>
+        <argsstring>(std::chrono::milliseconds interval)=0</argsstring>
+        <name>setReloadInterval</name>
+        <qualifiedname>themis::core::IConfigHotReloader::setReloadInterval</qualifiedname>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>interval</declname>
+        </param>
+        <briefdescription>
+<para>Set Reload Interval. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">interval</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/config_hot_reloader.h" line="120" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/core/config_hot_reloader.h" line="65" column="1" bodyfile="include/core/config_hot_reloader.h" bodystart="65" bodyend="121"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1core_1_1_i_config_hot_reloader_1a7fee6a81e9c04b8ef83e224fda00831c" prot="public" virt="pure-virtual"><scope>themis::core::IConfigHotReloader</scope><name>lastReloadResult</name></member>
+      <member refid="classthemis_1_1core_1_1_i_config_hot_reloader_1ab688dfdb0376934ccc5a83330ea5b6e0" prot="public" virt="pure-virtual"><scope>themis::core::IConfigHotReloader</scope><name>onConfigChange</name></member>
+      <member refid="classthemis_1_1core_1_1_i_config_hot_reloader_1a55703f1f3e7d437e231441618a9db96c" prot="public" virt="pure-virtual"><scope>themis::core::IConfigHotReloader</scope><name>reload</name></member>
+      <member refid="classthemis_1_1core_1_1_i_config_hot_reloader_1ade6a5b14f75be21aeb7990b6324c2530" prot="public" virt="pure-virtual"><scope>themis::core::IConfigHotReloader</scope><name>reloadInterval</name></member>
+      <member refid="classthemis_1_1core_1_1_i_config_hot_reloader_1a5b7992c0e56a54117774b74df4a8b589" prot="public" virt="pure-virtual"><scope>themis::core::IConfigHotReloader</scope><name>setReloadInterval</name></member>
+      <member refid="classthemis_1_1core_1_1_i_config_hot_reloader_1a8b231abd28a830868e900da41aaf6180" prot="public" virt="pure-virtual"><scope>themis::core::IConfigHotReloader</scope><name>unwatch</name></member>
+      <member refid="classthemis_1_1core_1_1_i_config_hot_reloader_1a161fe0b6831345c529b034d838d7cd86" prot="public" virt="pure-virtual"><scope>themis::core::IConfigHotReloader</scope><name>watch</name></member>
+      <member refid="classthemis_1_1core_1_1_i_config_hot_reloader_1ab9b7830d256d2a2727052487144f140b" prot="public" virt="virtual"><scope>themis::core::IConfigHotReloader</scope><name>~IConfigHotReloader</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

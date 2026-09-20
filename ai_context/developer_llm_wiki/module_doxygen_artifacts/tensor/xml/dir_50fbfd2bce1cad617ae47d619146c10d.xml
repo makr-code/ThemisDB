@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_50fbfd2bce1cad617ae47d619146c10d" kind="dir">
+    <compoundname>src/tensor</compoundname>
+    <innerfile refid="adapter__repository_8cpp">adapter_repository.cpp</innerfile>
+    <innerfile refid="compression__strategy_8cpp">compression_strategy.cpp</innerfile>
+    <innerfile refid="hiss__structural__search_8cpp">hiss_structural_search.cpp</innerfile>
+    <innerfile refid="hnsw__tt__bridge_8cpp">hnsw_tt_bridge.cpp</innerfile>
+    <innerfile refid="ht__index_8cpp">ht_index.cpp</innerfile>
+    <innerfile refid="hyper__index__builder_8cpp">hyper_index_builder.cpp</innerfile>
+    <innerfile refid="persistent__tensor__fingerprint__graph_8cpp">persistent_tensor_fingerprint_graph.cpp</innerfile>
+    <innerfile refid="tensor__butterfly__operator_8cpp">tensor_butterfly_operator.cpp</innerfile>
+    <innerfile refid="tensor__compression__routing__accelerator_8cpp">tensor_compression_routing_accelerator.cpp</innerfile>
+    <innerfile refid="tensor__core__bridge_8cpp">tensor_core_bridge.cpp</innerfile>
+    <innerfile refid="tensor__edge__case__handler_8cpp">tensor_edge_case_handler.cpp</innerfile>
+    <innerfile refid="tensor__error__handling_8cpp">tensor_error_handling.cpp</innerfile>
+    <innerfile refid="tensor__fingerprint__graph_8cpp">tensor_fingerprint_graph.cpp</innerfile>
+    <innerfile refid="tensor__index_8cpp">tensor_index.cpp</innerfile>
+    <innerfile refid="tensor__index__manager_8cpp">tensor_index_manager.cpp</innerfile>
+    <innerfile refid="tensor__ingestion__bridge_8cpp">tensor_ingestion_bridge.cpp</innerfile>
+    <innerfile refid="tensor__mid__layer_8cpp">tensor_mid_layer.cpp</innerfile>
+    <innerfile refid="tensor__mmap__bridge_8cpp">tensor_mmap_bridge.cpp</innerfile>
+    <innerfile refid="tensor__redundancy__detection_8cpp">tensor_redundancy_detection.cpp</innerfile>
+    <innerfile refid="tensor__routing__strategy_8cpp">tensor_routing_strategy.cpp</innerfile>
+    <innerfile refid="tensor__summary__types_8cpp">tensor_summary_types.cpp</innerfile>
+    <innerfile refid="tensor__workflow__observability_8cpp">tensor_workflow_observability.cpp</innerfile>
+    <innerfile refid="tnsr__task_8cpp">tnsr_task.cpp</innerfile>
+    <innerfile refid="utr__converter_8cpp">utr_converter.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/tensor/"/>
+  </compounddef>
+</doxygen>

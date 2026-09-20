@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_ae15e6a3b9713691232bd9adba47161c" kind="dir">
+    <compoundname>include/content/pipeline</compoundname>
+    <innerfile refid="async__bulk__uploader_8h">async_bulk_uploader.h</innerfile>
+    <innerfile refid="bulk__upload__interface_8h">bulk_upload_interface.h</innerfile>
+    <innerfile refid="content__chunker_8h">content_chunker.h</innerfile>
+    <innerfile refid="multimodal__chunker_8h">multimodal_chunker.h</innerfile>
+    <innerfile refid="zstd__compression_8h">zstd_compression.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/pipeline/"/>
+  </compounddef>
+</doxygen>

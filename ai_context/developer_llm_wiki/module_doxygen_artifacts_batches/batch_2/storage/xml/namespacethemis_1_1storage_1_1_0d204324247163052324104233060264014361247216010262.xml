@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1storage_1_1_0d204324247163052324104233060264014361247216010262" kind="namespace" language="C++">
+    <compoundname>themis::storage::@204324247163052324104233060264014361247216010262</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/storage/simd_filter.cpp" line="107" column="1"/>
+  </compounddef>
+</doxygen>

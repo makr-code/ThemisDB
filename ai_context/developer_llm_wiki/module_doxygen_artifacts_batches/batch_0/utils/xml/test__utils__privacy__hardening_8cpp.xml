@@ -1,0 +1,541 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__utils__privacy__hardening_8cpp" kind="file" language="C++">
+    <compoundname>test_utils_privacy_hardening.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="error__contracts_8h" local="yes">utils/error_contracts.h</includes>
+    <includes refid="pii__detection__engine_8h" local="yes">utils/pii_detection_engine.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>utils/error_contracts.h</label>
+        <link refid="error__contracts_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>utils/error_registry.h</label>
+        <link refid="error__registry_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>expected.h</label>
+        <link refid="expected_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>utils/pii_detection_engine.h</label>
+        <link refid="pii__detection__engine_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>pki_client.h</label>
+        <link refid="pki__client_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/utils/test_utils_privacy_hardening.cpp</label>
+        <link refid="test__utils__privacy__hardening_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="9">
+        <label>fmt/format.h</label>
+      </node>
+      <node id="15">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="13">
+        <label>mutex</label>
+      </node>
+      <node id="24">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="14">
+        <label>optional</label>
+      </node>
+      <node id="23">
+        <label>shared_mutex</label>
+      </node>
+      <node id="8">
+        <label>spdlog/spdlog.h</label>
+      </node>
+      <node id="17">
+        <label>stdexcept</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="26">
+        <label>string_view</label>
+      </node>
+      <node id="25">
+        <label>system_error</label>
+      </node>
+      <node id="18">
+        <label>type_traits</label>
+      </node>
+      <node id="22">
+        <label>unordered_map</label>
+      </node>
+      <node id="19">
+        <label>utility</label>
+      </node>
+      <node id="20">
+        <label>variant</label>
+      </node>
+      <node id="12">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_always_throwing_engine" prot="public">AlwaysThrowingEngine</innerclass>
+    <innerclass refid="class_empty_findings_engine" prot="public">EmptyFindingsEngine</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__utils__privacy__hardening_8cpp_1a2b8ef3cd230b9c6b3b5422eac5a0c672" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PrivacyHardening, NullEngineThrowsOnConstruction)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PrivacyHardening</type>
+        </param>
+        <param>
+          <type>NullEngineThrowsOnConstruction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_privacy_hardening.cpp" line="80" column="1" bodyfile="tests/utils/test_utils_privacy_hardening.cpp" bodystart="80" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__privacy__hardening_8cpp_1a44b10285f97a1130dafafcd5db5ee59c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PrivacyHardening, EngineExceptionFailClosedReturnsSentinelFinding)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PrivacyHardening</type>
+        </param>
+        <param>
+          <type>EngineExceptionFailClosedReturnsSentinelFinding</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_privacy_hardening.cpp" line="89" column="1" bodyfile="tests/utils/test_utils_privacy_hardening.cpp" bodystart="89" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__privacy__hardening_8cpp_1ab69526bb0bb722d2fdd178d5d1ec678f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PrivacyHardening, CleanEngineReturnsEmptyFindings)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PrivacyHardening</type>
+        </param>
+        <param>
+          <type>CleanEngineReturnsEmptyFindings</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_privacy_hardening.cpp" line="109" column="1" bodyfile="tests/utils/test_utils_privacy_hardening.cpp" bodystart="109" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__privacy__hardening_8cpp_1a9bfea0d8f1b85f4f141a6568e2580aae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PrivacyHardening, BytesProcessedAccumulatesAcrossChunks)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PrivacyHardening</type>
+        </param>
+        <param>
+          <type>BytesProcessedAccumulatesAcrossChunks</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_privacy_hardening.cpp" line="120" column="1" bodyfile="tests/utils/test_utils_privacy_hardening.cpp" bodystart="120" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__privacy__hardening_8cpp_1a8b45e486a93c7b7cc05d7e2901fffaf6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PrivacyHardening, ResetClearsStateAndOffset)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PrivacyHardening</type>
+        </param>
+        <param>
+          <type>ResetClearsStateAndOffset</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_privacy_hardening.cpp" line="136" column="1" bodyfile="tests/utils/test_utils_privacy_hardening.cpp" bodystart="136" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__privacy__hardening_8cpp_1ac8ad061903ed690b01fed1bb37e10f71" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PrivacyHardening, PrivacyErrorCodesInRange)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PrivacyHardening</type>
+        </param>
+        <param>
+          <type>PrivacyErrorCodesInRange</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_privacy_hardening.cpp" line="150" column="1" bodyfile="tests/utils/test_utils_privacy_hardening.cpp" bodystart="150" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__privacy__hardening_8cpp_1a03451fffa7c7626d2c6ede4292231f04" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PrivacyHardening, ErrorContextCategoryIsPrivacy)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PrivacyHardening</type>
+        </param>
+        <param>
+          <type>ErrorContextCategoryIsPrivacy</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_privacy_hardening.cpp" line="172" column="1" bodyfile="tests/utils/test_utils_privacy_hardening.cpp" bodystart="172" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__privacy__hardening_8cpp_1adb34115896cbf78b373db2062d7682d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PrivacyHardening, OversizedChunkDoesNotExhaustedMemory)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PrivacyHardening</type>
+        </param>
+        <param>
+          <type>OversizedChunkDoesNotExhaustedMemory</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_privacy_hardening.cpp" line="189" column="1" bodyfile="tests/utils/test_utils_privacy_hardening.cpp" bodystart="189" bodyend="198"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Phase 4 hardening tests for <ref refid="classthemis_1_1utils_1_1_p_i_i_stream_scanner" kindref="compound">PIIStreamScanner</ref> and <ref refid="classthemis_1_1utils_1_1_p_i_i_pseudonymizer" kindref="compound">PIIPseudonymizer</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Coverage targets (Phase 4 gate):<itemizedlist>
+<listitem><para><ref refid="classthemis_1_1utils_1_1_p_i_i_stream_scanner" kindref="compound">PIIStreamScanner</ref>: engine exception → fail-closed (sentinel finding returned)</para>
+</listitem><listitem><para><ref refid="classthemis_1_1utils_1_1_p_i_i_stream_scanner" kindref="compound">PIIStreamScanner</ref>: engine==nullptr → throw on construction</para>
+</listitem><listitem><para><ref refid="classthemis_1_1utils_1_1_p_i_i_stream_scanner" kindref="compound">PIIStreamScanner</ref>: consecutive chunks maintain correct absolute offsets</para>
+</listitem><listitem><para>Privacy error codes in range 9040-9049</para>
+</listitem><listitem><para><ref refid="structthemis_1_1utils_1_1_error_context" kindref="compound">ErrorContext</ref> category for privacy codes </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="error__contracts_8h" kindref="compound">utils/error_contracts.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="pii__detection__engine_8h" kindref="compound">utils/pii_detection_engine.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1utils" kindref="compound">themis::utils</ref>;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Mock<sp/>detection<sp/>engine<sp/>that<sp/>always<sp/>throws<sp/>(simulates<sp/>timeout<sp/>/<sp/>crash)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="class_always_throwing_engine" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_always_throwing_engine" kindref="compound">AlwaysThrowingEngine</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine" kindref="compound">IPIIDetectionEngine</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::string<sp/><ref refid="class_always_throwing_engine_1a828390077df437c4c89de0d84f4edcac" kindref="member">getName</ref>()</highlight><highlight class="keyword"><sp/><sp/><sp/><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;AlwaysThrowingEngine&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::string<sp/><ref refid="class_always_throwing_engine_1a70c48617f0e31849613de303df6411c6" kindref="member">getVersion</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;0.0.0&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_always_throwing_engine_1aa7e071cf9d89306e82b9a77aa6f693e1" kindref="member">isEnabled</ref>()</highlight><highlight class="keyword"><sp/><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1utils_1_1_plugin_signature" kindref="compound">PluginSignature</ref><sp/><ref refid="class_always_throwing_engine_1abc8611651432d7db8d45b1385dd8eec8" kindref="member">getSignature</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};<sp/>}</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_always_throwing_engine_1a8628c59b978a4dcc731a738bd382e483" kindref="member">initialize</ref>([[maybe_unused]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_always_throwing_engine_1a17ee1e747812470486cc289a25425557" kindref="member">reload</ref>([[maybe_unused]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;)</highlight><highlight class="keyword"><sp/><sp/><sp/><sp/><sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;PIIFinding&gt;<sp/><ref refid="class_always_throwing_engine_1a8665f998d77f5fc6c96969346bfe609f" kindref="member">detectInText</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;simulated<sp/>engine<sp/>timeout&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0bae" kindref="member">PIIType</ref><sp/><ref refid="class_always_throwing_engine_1a8f4bf6df3d1847e2171711024823ca6d" kindref="member">classifyFieldName</ref>([[maybe_unused]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0baea696b031073e74bf2cb98e5ef201d4aa3" kindref="member">PIIType::UNKNOWN</ref>;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::string<sp/><ref refid="class_always_throwing_engine_1a8a4e1db978c8708e88aa888f97b6c1de" kindref="member">getRedactionRecommendation</ref>([[maybe_unused]]<sp/><ref refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0bae" kindref="member">PIIType</ref>)</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;strict&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::string<sp/><sp/><sp/><sp/><sp/><ref refid="class_always_throwing_engine_1a8964a98050894f5aad336ed6393458ca" kindref="member">getLastError</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};<sp/>}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>nlohmann::json<sp/><sp/><ref refid="class_always_throwing_engine_1a554b4ae62d5d7d0357b69312bced0c1b" kindref="member">getMetadata</ref>()</highlight><highlight class="keyword"><sp/><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};<sp/>}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="class_always_throwing_engine_1a2d94acf79ffcdfaf80c8245640c9e0c7" kindref="member">maxPatternLength</ref>()</highlight><highlight class="keyword"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>64;<sp/>}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Mock<sp/>detection<sp/>engine<sp/>that<sp/>returns<sp/>no<sp/>findings<sp/>(safe)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="class_empty_findings_engine" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_empty_findings_engine" kindref="compound">EmptyFindingsEngine</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine" kindref="compound">IPIIDetectionEngine</ref><sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::string<sp/><ref refid="class_empty_findings_engine_1a72f6a2891230d3380257304df7e0ffb8" kindref="member">getName</ref>()</highlight><highlight class="keyword"><sp/><sp/><sp/><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;EmptyFindingsEngine&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::string<sp/><ref refid="class_empty_findings_engine_1afdf30f2e90748e7e5101a69f06f45035" kindref="member">getVersion</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;0.0.0&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_empty_findings_engine_1a6283d05c9e1bd82042fe8832d244576a" kindref="member">isEnabled</ref>()</highlight><highlight class="keyword"><sp/><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1utils_1_1_plugin_signature" kindref="compound">PluginSignature</ref><sp/><ref refid="class_empty_findings_engine_1acb0c2e848baf36e37ebc0c67080793c3" kindref="member">getSignature</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};<sp/>}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_empty_findings_engine_1ab13303b28415ad6b0d3a754167cf2b6d" kindref="member">initialize</ref>([[maybe_unused]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_empty_findings_engine_1a282bea5c27c7b5982bdf24d77974d483" kindref="member">reload</ref>([[maybe_unused]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;)</highlight><highlight class="keyword"><sp/><sp/><sp/><sp/><sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;PIIFinding&gt;<sp/><ref refid="class_empty_findings_engine_1a2cfa774482f5913605c47e174d01440e" kindref="member">detectInText</ref>([[maybe_unused]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0bae" kindref="member">PIIType</ref><sp/><ref refid="class_empty_findings_engine_1a8297c95f7b7418c523d79340a19cbcdb" kindref="member">classifyFieldName</ref>([[maybe_unused]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0baea696b031073e74bf2cb98e5ef201d4aa3" kindref="member">PIIType::UNKNOWN</ref>;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::string<sp/><ref refid="class_empty_findings_engine_1a53079dd42318159349d3a4ca9068feec" kindref="member">getRedactionRecommendation</ref>([[maybe_unused]]<sp/><ref refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0bae" kindref="member">PIIType</ref>)</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;none&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::string<sp/><sp/><sp/><sp/><sp/><ref refid="class_empty_findings_engine_1a4a9d58302f16fd1f8338eb1eaaaa206d" kindref="member">getLastError</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};<sp/>}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>nlohmann::json<sp/><sp/><ref refid="class_empty_findings_engine_1a635faa49c9705d1e141d186e96fa4dd3" kindref="member">getMetadata</ref>()</highlight><highlight class="keyword"><sp/><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};<sp/>}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="class_empty_findings_engine_1af2583f4d3b5ea5459bfe9bee00688d7c" kindref="member">maxPatternLength</ref>()</highlight><highlight class="keyword"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>32;<sp/>}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PH-01:<sp/>Null<sp/>engine<sp/>throws<sp/>at<sp/>construction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1acb782aa5e264e2141c4611b316989846" kindref="member">TEST</ref>(PrivacyHardening,<sp/>NullEngineThrowsOnConstruction)<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_p_i_i_stream_scanner" kindref="compound">PIIStreamScanner</ref><sp/>scanner(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1utils_1_1_p_i_i_stream_scanner_config" kindref="compound">PIIStreamScannerConfig</ref>{}),</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PH-02:<sp/>Engine<sp/>exception<sp/>→<sp/>fail-closed<sp/>(sentinel<sp/>finding<sp/>covering<sp/>entire<sp/>window)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1acb782aa5e264e2141c4611b316989846" kindref="member">TEST</ref>(PrivacyHardening,<sp/>EngineExceptionFailClosedReturnsSentinelFinding)<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>engine<sp/>=<sp/>std::make_shared&lt;AlwaysThrowingEngine&gt;();</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_p_i_i_stream_scanner_config" kindref="compound">PIIStreamScannerConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_p_i_i_stream_scanner" kindref="compound">PIIStreamScanner</ref><sp/>scanner(engine,<sp/>cfg);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>chunk<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;hello@example.com<sp/>is<sp/>a<sp/>test<sp/>string&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;PIIFinding&gt;<sp/>findings;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(findings<sp/>=<sp/>scanner.scan_chunk(chunk,<sp/></highlight><highlight class="comment">/*is_last=*/</highlight><highlight class="keyword">true</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Fail-closed:<sp/>must<sp/>return<sp/>at<sp/>least<sp/>one<sp/>sentinel<sp/>finding</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_GE(findings.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(findings[0].type,<sp/><ref refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0baea696b031073e74bf2cb98e5ef201d4aa3" kindref="member">PIIType::UNKNOWN</ref>);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(findings[0].pattern_name,<sp/></highlight><highlight class="stringliteral">&quot;FAIL_CLOSED&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Confidence<sp/>must<sp/>be<sp/>maximum<sp/>(1.0)<sp/>for<sp/>a<sp/>fail-closed<sp/>sentinel</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(findings[0].confidence,<sp/>1.0);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PH-03:<sp/>No-throwing<sp/>engine<sp/>returns<sp/>empty<sp/>findings<sp/>correctly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1acb782aa5e264e2141c4611b316989846" kindref="member">TEST</ref>(PrivacyHardening,<sp/>CleanEngineReturnsEmptyFindings)<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>engine<sp/>=<sp/>std::make_shared&lt;EmptyFindingsEngine&gt;();</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_p_i_i_stream_scanner" kindref="compound">PIIStreamScanner</ref><sp/>scanner(engine,<sp/><ref refid="structthemis_1_1utils_1_1_p_i_i_stream_scanner_config" kindref="compound">PIIStreamScannerConfig</ref>{});</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>findings<sp/>=<sp/>scanner.<ref refid="classthemis_1_1utils_1_1_p_i_i_stream_scanner_1a56c5f958700cdbeac32cb8d17f437e85" kindref="member">scan_chunk</ref>(</highlight><highlight class="stringliteral">&quot;no<sp/>pii<sp/>here&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="comment">/*is_last=*/</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(findings.empty());</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PH-04:<sp/>bytes_processed()<sp/>accumulates<sp/>across<sp/>chunks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1acb782aa5e264e2141c4611b316989846" kindref="member">TEST</ref>(PrivacyHardening,<sp/>BytesProcessedAccumulatesAcrossChunks)<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>engine<sp/>=<sp/>std::make_shared&lt;EmptyFindingsEngine&gt;();</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_p_i_i_stream_scanner" kindref="compound">PIIStreamScanner</ref><sp/>scanner(engine,<sp/><ref refid="structthemis_1_1utils_1_1_p_i_i_stream_scanner_config" kindref="compound">PIIStreamScannerConfig</ref>{});</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>c1<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;first_chunk_&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>c2<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;second_chunk&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>scanner.<ref refid="classthemis_1_1utils_1_1_p_i_i_stream_scanner_1a56c5f958700cdbeac32cb8d17f437e85" kindref="member">scan_chunk</ref>(c1,<sp/></highlight><highlight class="comment">/*is_last=*/</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>scanner.scan_chunk(c2,<sp/></highlight><highlight class="comment">/*is_last=*/</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Total<sp/>bytes<sp/>processed<sp/>must<sp/>be<sp/>&gt;=<sp/>c1.size()<sp/>(last<sp/>chunk<sp/>may<sp/>be<sp/>buffered)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(scanner.bytes_processed(),<sp/>c1.size());</highlight></codeline>
+<codeline lineno="131"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PH-05:<sp/>reset()<sp/>clears<sp/>buffer<sp/>and<sp/>resets<sp/>offset<sp/>to<sp/>zero</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1acb782aa5e264e2141c4611b316989846" kindref="member">TEST</ref>(PrivacyHardening,<sp/>ResetClearsStateAndOffset)<sp/>{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>engine<sp/>=<sp/>std::make_shared&lt;EmptyFindingsEngine&gt;();</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_p_i_i_stream_scanner" kindref="compound">PIIStreamScanner</ref><sp/>scanner(engine,<sp/><ref refid="structthemis_1_1utils_1_1_p_i_i_stream_scanner_config" kindref="compound">PIIStreamScannerConfig</ref>{});</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>scanner.<ref refid="classthemis_1_1utils_1_1_p_i_i_stream_scanner_1a56c5f958700cdbeac32cb8d17f437e85" kindref="member">scan_chunk</ref>(</highlight><highlight class="stringliteral">&quot;some<sp/>data<sp/>that<sp/>advances<sp/>offset&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="comment">/*is_last=*/</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(scanner.bytes_processed(),<sp/>0u);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>scanner.reset();</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(scanner.bytes_processed(),<sp/>0u);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PH-06:<sp/>Privacy<sp/>error<sp/>codes<sp/>are<sp/>in<sp/>range<sp/>9040-9049</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1acb782aa5e264e2141c4611b316989846" kindref="member">TEST</ref>(PrivacyHardening,<sp/>PrivacyErrorCodesInRange)<sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">EC<sp/>=<sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7" kindref="member">ErrorCode</ref>;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>check<sp/>=<sp/>[](EC<sp/>code)<sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>v<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint16_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(code);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(v,<sp/>uint16_t{9040})<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;code<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>v<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>below<sp/>9040&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LE(v,<sp/>uint16_t{9049})<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;code<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>v<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>above<sp/>9049&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>check(EC::PRIVACY_INVALID_INPUT);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>check(EC::PRIVACY_PATTERN_OVERFLOW);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>check(EC::PRIVACY_DETECTION_TIMEOUT);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>check(EC::PRIVACY_BUFFER_OVERFLOW);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>check(EC::PRIVACY_ENGINE_LOAD_FAILED);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>check(EC::PRIVACY_CONFIG_INVALID);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>check(EC::PRIVACY_UNICODE_ERROR);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>check(EC::PRIVACY_MEMORY_EXCEEDED);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>check(EC::PRIVACY_NO_ENGINE);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>check(EC::PRIVACY_ENGINE_FAILED);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PH-07:<sp/>ErrorContext<sp/>categorizes<sp/>privacy<sp/>codes<sp/>as<sp/>Privacy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1acb782aa5e264e2141c4611b316989846" kindref="member">TEST</ref>(PrivacyHardening,<sp/>ErrorContextCategoryIsPrivacy)<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>code<sp/>:<sp/>{<ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7ac21356f3fb882f58e82716fc0a3bbcbe" kindref="member">ErrorCode::PRIVACY_INVALID_INPUT</ref>,</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a9d8fe2ba4fcd00a718dcfe85b30862c9" kindref="member">ErrorCode::PRIVACY_DETECTION_TIMEOUT</ref>,</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a54140207dc5300964180500d4431938c" kindref="member">ErrorCode::PRIVACY_ENGINE_FAILED</ref>,</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a2fd131abf38368bf56c13665041a4d75" kindref="member">ErrorCode::PRIVACY_NO_ENGINE</ref>})<sp/>{</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/><ref refid="namespacethemis_1_1utils_1aba772fbe54adf8b16188ebcadf696949" kindref="member">makeErrorContext</ref>(code,<sp/></highlight><highlight class="stringliteral">&quot;PH-07-test&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;unit<sp/>test&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06c2669708f39fdee2c1ef0ff3039161a902b0d55fddef6f8d651fe1035b7d4bd" kindref="member">ErrorSeverity::Error</ref>,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx.category,<sp/><ref refid="namespacethemis_1_1utils_1abf6d482be22b93d74e0622e7cc632bb6a61d8cfe48e36a016e95853bac265302a" kindref="member">ErrorCategory::PrivacyDetection</ref>)</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;code<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint16_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(code)</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>should<sp/>be<sp/>Privacy<sp/>category&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="183"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PH-08:<sp/>Oversized<sp/>input<sp/>to<sp/>scan_chunk<sp/>handled<sp/>without<sp/>memory<sp/>explosion</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(lookahead<sp/>buffer<sp/>bounded<sp/>by<sp/>configuration)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1acb782aa5e264e2141c4611b316989846" kindref="member">TEST</ref>(PrivacyHardening,<sp/>OversizedChunkDoesNotExhaustedMemory)<sp/>{</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>engine<sp/>=<sp/>std::make_shared&lt;EmptyFindingsEngine&gt;();</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_p_i_i_stream_scanner_config" kindref="compound">PIIStreamScannerConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1utils_1_1_p_i_i_stream_scanner_config_1a749548439ed1fcadf2982eea1dd8ff21" kindref="member">lookahead_bytes</ref><sp/>=<sp/>256;<sp/></highlight><highlight class="comment">//<sp/>very<sp/>small<sp/>holdback</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_p_i_i_stream_scanner" kindref="compound">PIIStreamScanner</ref><sp/>scanner(engine,<sp/>cfg);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>1<sp/>MiB<sp/>single<sp/>chunk<sp/>–<sp/>must<sp/>not<sp/>OOM<sp/>or<sp/>throw</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>big_chunk(1024<sp/>*<sp/>1024,<sp/></highlight><highlight class="charliteral">&apos;x&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(scanner.scan_chunk(big_chunk,<sp/></highlight><highlight class="comment">/*is_last=*/</highlight><highlight class="keyword">true</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="198"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/utils/test_utils_privacy_hardening.cpp"/>
+  </compounddef>
+</doxygen>

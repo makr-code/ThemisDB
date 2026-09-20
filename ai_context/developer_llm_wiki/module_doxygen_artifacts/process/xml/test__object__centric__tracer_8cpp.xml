@@ -1,0 +1,689 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__object__centric__tracer_8cpp" kind="file" language="C++">
+    <compoundname>test_object_centric_tracer.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">index/process_graph.h</includes>
+    <includes refid="object__centric__tracer_8h" local="yes">process/object_centric_tracer.h</includes>
+    <includes refid="process__linker_8h" local="yes">process/process_linker.h</includes>
+    <includes refid="process__model__manager_8h" local="yes">process/process_model_manager.h</includes>
+    <includes local="yes">storage/rocksdb_wrapper.h</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="4">
+        <label>process/object_centric_tracer.h</label>
+        <link refid="object__centric__tracer_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>process/process_api_contract.h</label>
+        <link refid="process__api__contract_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>process/process_diagnostics.h</label>
+        <link refid="process__diagnostics_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>process/process_linker.h</label>
+        <link refid="process__linker_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>process/process_model_manager.h</label>
+        <link refid="process__model__manager_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/process/test_object_centric_tracer.cpp</label>
+        <link refid="test__object__centric__tracer_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>atomic</label>
+      </node>
+      <node id="13">
+        <label>chrono</label>
+      </node>
+      <node id="8">
+        <label>cstdint</label>
+      </node>
+      <node id="27">
+        <label>filesystem</label>
+      </node>
+      <node id="25">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="3">
+        <label>index/process_graph.h</label>
+      </node>
+      <node id="9">
+        <label>map</label>
+      </node>
+      <node id="26">
+        <label>memory</label>
+      </node>
+      <node id="15">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="19">
+        <label>optional</label>
+      </node>
+      <node id="20">
+        <label>set</label>
+      </node>
+      <node id="16">
+        <label>shared_mutex</label>
+      </node>
+      <node id="24">
+        <label>storage/base_entity.h</label>
+      </node>
+      <node id="6">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="12">
+        <label>string</label>
+      </node>
+      <node id="14">
+        <label>string_view</label>
+      </node>
+      <node id="21">
+        <label>unordered_map</label>
+      </node>
+      <node id="22">
+        <label>unordered_set</label>
+      </node>
+      <node id="17">
+        <label>utility</label>
+      </node>
+      <node id="18">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_object_centric_tracer_test" prot="public">ObjectCentricTracerTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__object__centric__tracer_8cpp_1ab871066ba107dbbfb975a3f7a6b72f35" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ObjectCentricTracerTest, OCT01_EmptyAttachments)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_object_centric_tracer_test" kindref="compound">ObjectCentricTracerTest</ref></type>
+        </param>
+        <param>
+          <type>OCT01_EmptyAttachments</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_object_centric_tracer.cpp" line="78" column="1" bodyfile="tests/process/test_object_centric_tracer.cpp" bodystart="78" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="test__object__centric__tracer_8cpp_1ac5424dfccc09cc7cbe6a042c16e8e813" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ObjectCentricTracerTest, OCT02_ThreeAttachments)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_object_centric_tracer_test" kindref="compound">ObjectCentricTracerTest</ref></type>
+        </param>
+        <param>
+          <type>OCT02_ThreeAttachments</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_object_centric_tracer.cpp" line="92" column="1" bodyfile="tests/process/test_object_centric_tracer.cpp" bodystart="92" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="test__object__centric__tracer_8cpp_1a8bac48bff73b0f72385767435b782074" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ObjectCentricTracerTest, OCT03_RequiredKeys)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_object_centric_tracer_test" kindref="compound">ObjectCentricTracerTest</ref></type>
+        </param>
+        <param>
+          <type>OCT03_RequiredKeys</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_object_centric_tracer.cpp" line="117" column="1" bodyfile="tests/process/test_object_centric_tracer.cpp" bodystart="117" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="test__object__centric__tracer_8cpp_1a779807e3de73f61e40bfe6e77e96213c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ObjectCentricTracerTest, OCT04_EmptyModelEmptyArcs)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_object_centric_tracer_test" kindref="compound">ObjectCentricTracerTest</ref></type>
+        </param>
+        <param>
+          <type>OCT04_EmptyModelEmptyArcs</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_object_centric_tracer.cpp" line="130" column="1" bodyfile="tests/process/test_object_centric_tracer.cpp" bodystart="130" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="test__object__centric__tracer_8cpp_1a3ffa81929a15ac5b0351c3464b906c03" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ObjectCentricTracerTest, OCT05_ThreeNodeLinearModel)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_object_centric_tracer_test" kindref="compound">ObjectCentricTracerTest</ref></type>
+        </param>
+        <param>
+          <type>OCT05_ThreeNodeLinearModel</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_object_centric_tracer.cpp" line="140" column="1" bodyfile="tests/process/test_object_centric_tracer.cpp" bodystart="140" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="test__object__centric__tracer_8cpp_1ae65be89506ed0090f06ef124a773fd0f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ObjectCentricTracerTest, OCT06_NoBranchingNoDivergence)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_object_centric_tracer_test" kindref="compound">ObjectCentricTracerTest</ref></type>
+        </param>
+        <param>
+          <type>OCT06_NoBranchingNoDivergence</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_object_centric_tracer.cpp" line="161" column="1" bodyfile="tests/process/test_object_centric_tracer.cpp" bodystart="161" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="test__object__centric__tracer_8cpp_1a1cea8f7426c2d7cd25f7b7a8a6e20391" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ObjectCentricTracerTest, OCT07_ConvergenceNode)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_object_centric_tracer_test" kindref="compound">ObjectCentricTracerTest</ref></type>
+        </param>
+        <param>
+          <type>OCT07_ConvergenceNode</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_object_centric_tracer.cpp" line="180" column="1" bodyfile="tests/process/test_object_centric_tracer.cpp" bodystart="180" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="test__object__centric__tracer_8cpp_1a0a7b90681f927c8ba338259b7240ef97" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ObjectCentricTracerTest, OCT08_DivergenceNode)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_object_centric_tracer_test" kindref="compound">ObjectCentricTracerTest</ref></type>
+        </param>
+        <param>
+          <type>OCT08_DivergenceNode</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_object_centric_tracer.cpp" line="204" column="1" bodyfile="tests/process/test_object_centric_tracer.cpp" bodystart="204" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="test__object__centric__tracer_8cpp_1ad238af6528a40ff0c600fdad1b247c79" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ObjectCentricTracerTest, OCT09_EventFieldsPreserved)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_object_centric_tracer_test" kindref="compound">ObjectCentricTracerTest</ref></type>
+        </param>
+        <param>
+          <type>OCT09_EventFieldsPreserved</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_object_centric_tracer.cpp" line="228" column="1" bodyfile="tests/process/test_object_centric_tracer.cpp" bodystart="228" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="test__object__centric__tracer_8cpp_1aa6289d561a73844d21071eadf6da13a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ObjectCentricTracerTest, OCT10_UniqueArcs)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_object_centric_tracer_test" kindref="compound">ObjectCentricTracerTest</ref></type>
+        </param>
+        <param>
+          <type>OCT10_UniqueArcs</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_object_centric_tracer.cpp" line="248" column="1" bodyfile="tests/process/test_object_centric_tracer.cpp" bodystart="248" bodyend="276"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"><sp/>*<sp/>ThemisDB<sp/>-<sp/>Process<sp/>Modeling<sp/>Module</highlight></codeline>
+<codeline lineno="3"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="4"><highlight class="comment"><sp/>*<sp/>File:<sp/><sp/><sp/><sp/>test_object_centric_tracer.cpp</highlight></codeline>
+<codeline lineno="5"><highlight class="comment"><sp/>*<sp/>Module:<sp/><sp/>tests/process/</highlight></codeline>
+<codeline lineno="6"><highlight class="comment"><sp/>*<sp/>Purpose:<sp/>GTest<sp/>unit<sp/>tests<sp/>OCT-01<sp/>..<sp/>OCT-10<sp/>for<sp/>ObjectCentricTracer.</highlight></codeline>
+<codeline lineno="7"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/process_graph.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="object__centric__tracer_8h" kindref="compound">process/object_centric_tracer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="process__linker_8h" kindref="compound">process/process_linker.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="process__model__manager_8h" kindref="compound">process/process_model_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/rocksdb_wrapper.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">fs<sp/>=<sp/>std::filesystem;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1process_1af2af767b6a1134cb0bbfb5250485892f" kindref="member">json</ref><sp/><sp/><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Fixture</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="class_object_centric_tracer_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_object_centric_tracer_test" kindref="compound">ObjectCentricTracerTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_object_centric_tracer_test_1a872ea35616dc3aafb3009ad2281f0049" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_object_centric_tracer_test_1a0dcd08f36bf1e57cab16697b4d53184a" kindref="member">db_path_</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;./data/test_object_centric_tracer&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="class_object_centric_tracer_test_1a0dcd08f36bf1e57cab16697b4d53184a" kindref="member">db_path_</ref>);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::RocksDBWrapper::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.db_path<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="class_object_centric_tracer_test_1a0dcd08f36bf1e57cab16697b4d53184a" kindref="member">db_path_</ref>;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.memtable_size_mb<sp/><sp/><sp/><sp/>=<sp/>32;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.block_cache_size_mb<sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.max_background_jobs<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_object_centric_tracer_test_1a3d44ff3241d3665eae494bcc27c9b8fe" kindref="member">db_</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>std::make_unique&lt;themis::RocksDBWrapper&gt;(cfg);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="class_object_centric_tracer_test_1a3d44ff3241d3665eae494bcc27c9b8fe" kindref="member">db_</ref>-&gt;open());</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::registerProcessEdgeTypes();</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_object_centric_tracer_test_1a5c905ae3e31a10edc4831feb8e60f895" kindref="member">mgr_</ref><sp/><sp/><sp/><sp/>=<sp/>std::make_unique&lt;themis::process::ProcessModelManager&gt;(*<ref refid="class_object_centric_tracer_test_1a3d44ff3241d3665eae494bcc27c9b8fe" kindref="member">db_</ref>);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_object_centric_tracer_test_1a958d23ebb409a34ba0ee12a34c53973b" kindref="member">linker_</ref><sp/>=<sp/>std::make_unique&lt;themis::process::ProcessLinker&gt;(*<ref refid="class_object_centric_tracer_test_1a3d44ff3241d3665eae494bcc27c9b8fe" kindref="member">db_</ref>);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_object_centric_tracer_test_1aa5ac330a26d369e3a20c2e7df26f0bd5" kindref="member">tracer_</ref><sp/>=<sp/>std::make_unique&lt;themis::process::ObjectCentricTracer&gt;(*<ref refid="class_object_centric_tracer_test_1a958d23ebb409a34ba0ee12a34c53973b" kindref="member">linker_</ref>,<sp/>*<ref refid="class_object_centric_tracer_test_1a5c905ae3e31a10edc4831feb8e60f895" kindref="member">mgr_</ref>);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_object_centric_tracer_test_1a8c416f83cb06ea043b5f7e7b250b8067" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_object_centric_tracer_test_1aa5ac330a26d369e3a20c2e7df26f0bd5" kindref="member">tracer_</ref>.reset();</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_object_centric_tracer_test_1a958d23ebb409a34ba0ee12a34c53973b" kindref="member">linker_</ref>.reset();</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_object_centric_tracer_test_1a5c905ae3e31a10edc4831feb8e60f895" kindref="member">mgr_</ref>.reset();</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_object_centric_tracer_test_1a3d44ff3241d3665eae494bcc27c9b8fe" kindref="member">db_</ref>.reset();</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="class_object_centric_tracer_test_1a0dcd08f36bf1e57cab16697b4d53184a" kindref="member">db_path_</ref>);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_object_centric_tracer_test_1aba0520c8860a6fa259f7b3291d57a773" kindref="member">saveModel</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id,</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>json&amp;<sp/>nodes,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>json&amp;<sp/>edges)<sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1process_1_1_process_model_record" kindref="compound">themis::process::ProcessModelRecord</ref><sp/>rec;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rec.<ref refid="structthemis_1_1process_1_1_process_model_record_1a72f4aec96ca2f648f178f409d4244774" kindref="member">id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>model_id;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rec.<ref refid="structthemis_1_1process_1_1_process_model_record_1a1d53df2f4efa62f9ba57360ad96174c5" kindref="member">name</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>model_id;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rec.<ref refid="structthemis_1_1process_1_1_process_model_record_1a814c6661c9a25fb16172544b0d2e2e88" kindref="member">normalized</ref><sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;nodes&quot;</highlight><highlight class="normal">,<sp/>nodes},<sp/>{</highlight><highlight class="stringliteral">&quot;edges&quot;</highlight><highlight class="normal">,<sp/>edges}};</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_object_centric_tracer_test_1a5c905ae3e31a10edc4831feb8e60f895" kindref="member">mgr_</ref>-&gt;save(rec);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_object_centric_tracer_test_1a0dcd08f36bf1e57cab16697b4d53184a" kindref="member">db_path_</ref>;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;themis::RocksDBWrapper&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_object_centric_tracer_test_1a3d44ff3241d3665eae494bcc27c9b8fe" kindref="member">db_</ref>;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;themis::process::ProcessModelManager&gt;<sp/><ref refid="class_object_centric_tracer_test_1a5c905ae3e31a10edc4831feb8e60f895" kindref="member">mgr_</ref>;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;themis::process::ProcessLinker&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_object_centric_tracer_test_1a958d23ebb409a34ba0ee12a34c53973b" kindref="member">linker_</ref>;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;themis::process::ObjectCentricTracer&gt;<sp/><ref refid="class_object_centric_tracer_test_1aa5ac330a26d369e3a20c2e7df26f0bd5" kindref="member">tracer_</ref>;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OCT-01:<sp/>buildOcelLog()<sp/>on<sp/>empty<sp/>attachments<sp/>→<sp/>valid<sp/>OCEL<sp/>JSON<sp/>with<sp/>empty<sp/>events</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><ref refid="test__object__centric__tracer_8cpp_1ab871066ba107dbbfb975a3f7a6b72f35" kindref="member">TEST_F</ref>(<ref refid="class_object_centric_tracer_test" kindref="compound">ObjectCentricTracerTest</ref>,<sp/>OCT01_EmptyAttachments)<sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>log<sp/>=<sp/>tracer_-&gt;buildOcelLog(</highlight><highlight class="stringliteral">&quot;inst_empty&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(log.contains(</highlight><highlight class="stringliteral">&quot;ocel:global-log&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(log.contains(</highlight><highlight class="stringliteral">&quot;ocel:events&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(log.contains(</highlight><highlight class="stringliteral">&quot;ocel:objects&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(log[</highlight><highlight class="stringliteral">&quot;ocel:events&quot;</highlight><highlight class="normal">].empty());</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(log[</highlight><highlight class="stringliteral">&quot;ocel:objects&quot;</highlight><highlight class="normal">].empty());</highlight></codeline>
+<codeline lineno="86"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OCT-02:<sp/>buildOcelLog()<sp/>with<sp/>3<sp/>attachments<sp/>→<sp/>3<sp/>events<sp/>with<sp/>correct<sp/>fields</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><ref refid="test__object__centric__tracer_8cpp_1ab871066ba107dbbfb975a3f7a6b72f35" kindref="member">TEST_F</ref>(<ref refid="class_object_centric_tracer_test" kindref="compound">ObjectCentricTracerTest</ref>,<sp/>OCT02_ThreeAttachments)<sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>inst<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;inst_three&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>1;<sp/>i<sp/>&lt;=<sp/>3;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>linker_-&gt;attachObject(inst,</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;doc_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;documents&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a8d0ffb5cc058d2dd891e1252c3879939ab0124d60e7a9b89b0540d568e6d5f10f" kindref="member">themis::process::ProcessLinkType::HAS_DOCUMENT</ref>,</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::nullopt,<sp/>{},<sp/></highlight><highlight class="stringliteral">&quot;user&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>log<sp/>=<sp/>tracer_-&gt;buildOcelLog(inst);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(log[</highlight><highlight class="stringliteral">&quot;ocel:events&quot;</highlight><highlight class="normal">].size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>ev<sp/>:<sp/>log[</highlight><highlight class="stringliteral">&quot;ocel:events&quot;</highlight><highlight class="normal">])<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(ev.contains(</highlight><highlight class="stringliteral">&quot;ocel:id&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(ev.contains(</highlight><highlight class="stringliteral">&quot;ocel:activity&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(ev.contains(</highlight><highlight class="stringliteral">&quot;ocel:timestamp&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(ev.contains(</highlight><highlight class="stringliteral">&quot;ocel:omap&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OCT-03:<sp/>OCEL<sp/>JSON<sp/>has<sp/>required<sp/>top-level<sp/>keys</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><ref refid="test__object__centric__tracer_8cpp_1ab871066ba107dbbfb975a3f7a6b72f35" kindref="member">TEST_F</ref>(<ref refid="class_object_centric_tracer_test" kindref="compound">ObjectCentricTracerTest</ref>,<sp/>OCT03_RequiredKeys)<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>log<sp/>=<sp/>tracer_-&gt;buildOcelLog(</highlight><highlight class="stringliteral">&quot;inst_keys&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(log.contains(</highlight><highlight class="stringliteral">&quot;ocel:global-log&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(log.contains(</highlight><highlight class="stringliteral">&quot;ocel:events&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(log.contains(</highlight><highlight class="stringliteral">&quot;ocel:objects&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(log[</highlight><highlight class="stringliteral">&quot;ocel:global-log&quot;</highlight><highlight class="normal">].contains(</highlight><highlight class="stringliteral">&quot;ocel:attribute-names&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(log[</highlight><highlight class="stringliteral">&quot;ocel:global-log&quot;</highlight><highlight class="normal">].contains(</highlight><highlight class="stringliteral">&quot;ocel:object-types&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OCT-04:<sp/>computeDfmg()<sp/>on<sp/>model<sp/>with<sp/>no<sp/>nodes<sp/>→<sp/>empty<sp/>arcs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><ref refid="test__object__centric__tracer_8cpp_1ab871066ba107dbbfb975a3f7a6b72f35" kindref="member">TEST_F</ref>(<ref refid="class_object_centric_tracer_test" kindref="compound">ObjectCentricTracerTest</ref>,<sp/>OCT04_EmptyModelEmptyArcs)<sp/>{</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>saveModel(</highlight><highlight class="stringliteral">&quot;m_empty_oct&quot;</highlight><highlight class="normal">,<sp/>json::array(),<sp/>json::array());</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>dfmg<sp/>=<sp/>tracer_-&gt;computeDfmg(</highlight><highlight class="stringliteral">&quot;m_empty_oct&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;documents&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(dfmg[</highlight><highlight class="stringliteral">&quot;arcs&quot;</highlight><highlight class="normal">].empty());</highlight></codeline>
+<codeline lineno="134"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OCT-05:<sp/>computeDfmg()<sp/>on<sp/>3-node<sp/>linear<sp/>model<sp/>→<sp/>2<sp/>arcs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><ref refid="test__object__centric__tracer_8cpp_1ab871066ba107dbbfb975a3f7a6b72f35" kindref="member">TEST_F</ref>(<ref refid="class_object_centric_tracer_test" kindref="compound">ObjectCentricTracerTest</ref>,<sp/>OCT05_ThreeNodeLinearModel)<sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1af2af767b6a1134cb0bbfb5250485892f" kindref="member">json</ref><sp/>nodes<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;n2&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;n3&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal">}}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Edges<sp/>labelled<sp/>with<sp/>object_type<sp/>so<sp/>computeDfmg<sp/>picks<sp/>them<sp/>up</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1af2af767b6a1134cb0bbfb5250485892f" kindref="member">json</ref><sp/>edges<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;from&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;to&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;n2&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;label&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;documents&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;from&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;n2&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;to&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;n3&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;label&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;documents&quot;</highlight><highlight class="normal">}}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>saveModel(</highlight><highlight class="stringliteral">&quot;m_linear_oct&quot;</highlight><highlight class="normal">,<sp/>nodes,<sp/>edges);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>dfmg<sp/>=<sp/>tracer_-&gt;computeDfmg(</highlight><highlight class="stringliteral">&quot;m_linear_oct&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;documents&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(dfmg[</highlight><highlight class="stringliteral">&quot;arcs&quot;</highlight><highlight class="normal">].size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OCT-06:<sp/>analyze()<sp/>returns<sp/>empty<sp/>lists<sp/>for<sp/>a<sp/>graph<sp/>with<sp/>no<sp/>branching</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><ref refid="test__object__centric__tracer_8cpp_1ab871066ba107dbbfb975a3f7a6b72f35" kindref="member">TEST_F</ref>(<ref refid="class_object_centric_tracer_test" kindref="compound">ObjectCentricTracerTest</ref>,<sp/>OCT06_NoBranchingNoDivergence)<sp/>{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1af2af767b6a1134cb0bbfb5250485892f" kindref="member">json</ref><sp/>nodes<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;s&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;Start&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;e&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;End&quot;</highlight><highlight class="normal">}}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1af2af767b6a1134cb0bbfb5250485892f" kindref="member">json</ref><sp/>edges<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;from&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;s&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;to&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;e&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;label&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;doc&quot;</highlight><highlight class="normal">}}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>saveModel(</highlight><highlight class="stringliteral">&quot;m_nobranch&quot;</highlight><highlight class="normal">,<sp/>nodes,<sp/>edges);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>tracer_-&gt;analyze(</highlight><highlight class="stringliteral">&quot;m_nobranch&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(res.convergence_nodes.empty());</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(res.divergence_nodes.empty());</highlight></codeline>
+<codeline lineno="174"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OCT-07:<sp/>analyze()<sp/>identifies<sp/>convergence<sp/>node<sp/>(2<sp/>incoming<sp/>paths<sp/>join)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><ref refid="test__object__centric__tracer_8cpp_1ab871066ba107dbbfb975a3f7a6b72f35" kindref="member">TEST_F</ref>(<ref refid="class_object_centric_tracer_test" kindref="compound">ObjectCentricTracerTest</ref>,<sp/>OCT07_ConvergenceNode)<sp/>{</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>n1<sp/>→<sp/>n3,<sp/>n2<sp/>→<sp/>n3:<sp/>n3<sp/>has<sp/>in-degree<sp/>2<sp/>(same<sp/>label<sp/>→<sp/>convergence)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1af2af767b6a1134cb0bbfb5250485892f" kindref="member">json</ref><sp/>nodes<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;n2&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;n3&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;Join&quot;</highlight><highlight class="normal">}}</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1af2af767b6a1134cb0bbfb5250485892f" kindref="member">json</ref><sp/>edges<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;from&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;to&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;n3&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;label&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;flow&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;from&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;n2&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;to&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;n3&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;label&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;flow&quot;</highlight><highlight class="normal">}}</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>saveModel(</highlight><highlight class="stringliteral">&quot;m_conv&quot;</highlight><highlight class="normal">,<sp/>nodes,<sp/>edges);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>tracer_-&gt;analyze(</highlight><highlight class="stringliteral">&quot;m_conv&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>has_n3<sp/>=<sp/>std::find(res.convergence_nodes.begin(),</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>res.convergence_nodes.end(),<sp/></highlight><highlight class="stringliteral">&quot;n3&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>!=<sp/>res.convergence_nodes.end();</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(has_n3)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>n3<sp/>to<sp/>be<sp/>identified<sp/>as<sp/>a<sp/>convergence<sp/>node&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OCT-08:<sp/>analyze()<sp/>identifies<sp/>divergence<sp/>node<sp/>(1<sp/>node<sp/>splits<sp/>to<sp/>2)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><ref refid="test__object__centric__tracer_8cpp_1ab871066ba107dbbfb975a3f7a6b72f35" kindref="member">TEST_F</ref>(<ref refid="class_object_centric_tracer_test" kindref="compound">ObjectCentricTracerTest</ref>,<sp/>OCT08_DivergenceNode)<sp/>{</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>n1<sp/>→<sp/>n2,<sp/>n1<sp/>→<sp/>n3:<sp/>n1<sp/>has<sp/>out-degree<sp/>2<sp/>(same<sp/>label<sp/>→<sp/>divergence)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1af2af767b6a1134cb0bbfb5250485892f" kindref="member">json</ref><sp/>nodes<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;Split&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;n2&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;n3&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">}}</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1af2af767b6a1134cb0bbfb5250485892f" kindref="member">json</ref><sp/>edges<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;from&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;to&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;n2&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;label&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;flow&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;from&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;to&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;n3&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;label&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;flow&quot;</highlight><highlight class="normal">}}</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>saveModel(</highlight><highlight class="stringliteral">&quot;m_div&quot;</highlight><highlight class="normal">,<sp/>nodes,<sp/>edges);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>tracer_-&gt;analyze(</highlight><highlight class="stringliteral">&quot;m_div&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>has_n1<sp/>=<sp/>std::find(res.divergence_nodes.begin(),</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>res.divergence_nodes.end(),<sp/></highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>!=<sp/>res.divergence_nodes.end();</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(has_n1)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>n1<sp/>to<sp/>be<sp/>identified<sp/>as<sp/>a<sp/>divergence<sp/>node&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OCT-09:<sp/>OcelEvent<sp/>fields<sp/>are<sp/>preserved<sp/>in<sp/>buildOcelLog<sp/>output</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><ref refid="test__object__centric__tracer_8cpp_1ab871066ba107dbbfb975a3f7a6b72f35" kindref="member">TEST_F</ref>(<ref refid="class_object_centric_tracer_test" kindref="compound">ObjectCentricTracerTest</ref>,<sp/>OCT09_EventFieldsPreserved)<sp/>{</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>inst<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;inst_fields&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>linker_-&gt;attachObject(inst,<sp/></highlight><highlight class="stringliteral">&quot;doc_99&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;documents&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a8d0ffb5cc058d2dd891e1252c3879939ab0124d60e7a9b89b0540d568e6d5f10f" kindref="member">themis::process::ProcessLinkType::HAS_DOCUMENT</ref>,</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::nullopt,<sp/>{},<sp/></highlight><highlight class="stringliteral">&quot;user&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>log<sp/>=<sp/>tracer_-&gt;buildOcelLog(inst);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(log[</highlight><highlight class="stringliteral">&quot;ocel:events&quot;</highlight><highlight class="normal">].size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>ev<sp/>=<sp/>log[</highlight><highlight class="stringliteral">&quot;ocel:events&quot;</highlight><highlight class="normal">][0];</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Activity<sp/>should<sp/>be<sp/>the<sp/>string<sp/>form<sp/>of<sp/>HAS_DOCUMENT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(ev[</highlight><highlight class="stringliteral">&quot;ocel:activity&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;().empty());</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Object<sp/>map<sp/>should<sp/>reference<sp/>&quot;documents&quot;<sp/>collection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ev[</highlight><highlight class="stringliteral">&quot;ocel:omap&quot;</highlight><highlight class="normal">].contains(</highlight><highlight class="stringliteral">&quot;documents&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="242"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OCT-10:<sp/>computeDfmg()<sp/>unique<sp/>arcs<sp/>only<sp/>(no<sp/>duplicates)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><ref refid="test__object__centric__tracer_8cpp_1ab871066ba107dbbfb975a3f7a6b72f35" kindref="member">TEST_F</ref>(<ref refid="class_object_centric_tracer_test" kindref="compound">ObjectCentricTracerTest</ref>,<sp/>OCT10_UniqueArcs)<sp/>{</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Two<sp/>parallel<sp/>edges<sp/>from<sp/>n1→n2<sp/>(same<sp/>pair,<sp/>same<sp/>label)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1af2af767b6a1134cb0bbfb5250485892f" kindref="member">json</ref><sp/>nodes<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;n2&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">}}</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1af2af767b6a1134cb0bbfb5250485892f" kindref="member">json</ref><sp/>edges<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;from&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;to&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;n2&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;label&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;docs&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;from&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;to&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;n2&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;label&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;docs&quot;</highlight><highlight class="normal">}}<sp/><sp/></highlight><highlight class="comment">//<sp/>duplicate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>saveModel(</highlight><highlight class="stringliteral">&quot;m_dupl&quot;</highlight><highlight class="normal">,<sp/>nodes,<sp/>edges);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>dfmg<sp/>=<sp/>tracer_-&gt;computeDfmg(</highlight><highlight class="stringliteral">&quot;m_dupl&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;docs&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>frequency<sp/>map<sp/>aggregates;<sp/>only<sp/>one<sp/>arc<sp/>entry<sp/>should<sp/>exist<sp/>for<sp/>n1→n2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>arc<sp/>:<sp/>dfmg[</highlight><highlight class="stringliteral">&quot;arcs&quot;</highlight><highlight class="normal">])<sp/>{</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(arc[</highlight><highlight class="stringliteral">&quot;from&quot;</highlight><highlight class="normal">]<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal"><sp/>&amp;&amp;<sp/>arc[</highlight><highlight class="stringliteral">&quot;to&quot;</highlight><highlight class="normal">]<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;n2&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++count;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(count,<sp/>1)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>exactly<sp/>one<sp/>arc<sp/>for<sp/>n1→n2<sp/>(with<sp/>frequency<sp/>2)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!dfmg[</highlight><highlight class="stringliteral">&quot;arcs&quot;</highlight><highlight class="normal">].empty())<sp/>{</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>arc<sp/>=<sp/>dfmg[</highlight><highlight class="stringliteral">&quot;arcs&quot;</highlight><highlight class="normal">][0];</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(arc.contains(</highlight><highlight class="stringliteral">&quot;frequency&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(arc[</highlight><highlight class="stringliteral">&quot;frequency&quot;</highlight><highlight class="normal">].get&lt;int&gt;(),<sp/>2);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="276"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/process/test_object_centric_tracer.cpp"/>
+  </compounddef>
+</doxygen>

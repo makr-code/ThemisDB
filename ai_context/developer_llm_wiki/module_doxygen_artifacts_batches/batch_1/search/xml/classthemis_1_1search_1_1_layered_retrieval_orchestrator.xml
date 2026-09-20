@@ -1,0 +1,430 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1search_1_1_layered_retrieval_orchestrator" kind="class" language="C++" prot="public">
+    <compoundname>themis::search::LayeredRetrievalOrchestrator</compoundname>
+    <includes refid="layered__retrieval__orchestrator_8h" local="no">layered_retrieval_orchestrator.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1aae9fa15fa3cf21530e64425f2744aa30" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1search_1_1_layered_retrieval_config" kindref="compound">LayeredRetrievalConfig</ref></type>
+        <definition>LayeredRetrievalConfig themis::search::LayeredRetrievalOrchestrator::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::search::LayeredRetrievalOrchestrator::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="245" column="28" bodyfile="include/search/layered_retrieval_orchestrator.h" bodystart="245" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1a438ea0828de3a96d78b3aacdcef072d3" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; AdvancedVectorIndex &gt;</type>
+        <definition>std::shared_ptr&lt;AdvancedVectorIndex&gt; themis::search::LayeredRetrievalOrchestrator::ann_index_</definition>
+        <argsstring></argsstring>
+        <name>ann_index_</name>
+        <qualifiedname>themis::search::LayeredRetrievalOrchestrator::ann_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="246" column="21" bodyfile="include/search/layered_retrieval_orchestrator.h" bodystart="246" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1ab814af93f422685bc12653ecb34bd522" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; tensor::TensorFingerprintGraph &gt;</type>
+        <definition>std::shared_ptr&lt;tensor::TensorFingerprintGraph&gt; themis::search::LayeredRetrievalOrchestrator::tensor_graph_</definition>
+        <argsstring></argsstring>
+        <name>tensor_graph_</name>
+        <qualifiedname>themis::search::LayeredRetrievalOrchestrator::tensor_graph_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="247" column="21" bodyfile="include/search/layered_retrieval_orchestrator.h" bodystart="247" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1a4fbf8416e2552eececc1a83219fd8964" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; graph::KnowledgeGraphReasoner &gt;</type>
+        <definition>std::shared_ptr&lt;graph::KnowledgeGraphReasoner&gt; themis::search::LayeredRetrievalOrchestrator::graph_reasoner_</definition>
+        <argsstring></argsstring>
+        <name>graph_reasoner_</name>
+        <qualifiedname>themis::search::LayeredRetrievalOrchestrator::graph_reasoner_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="248" column="21" bodyfile="include/search/layered_retrieval_orchestrator.h" bodystart="248" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1abe1e9b638be031e788728b4ea0341d19" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; llm::LLMClient &gt;</type>
+        <definition>std::shared_ptr&lt;llm::LLMClient&gt; themis::search::LayeredRetrievalOrchestrator::llm_client_</definition>
+        <argsstring></argsstring>
+        <name>llm_client_</name>
+        <qualifiedname>themis::search::LayeredRetrievalOrchestrator::llm_client_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="249" column="21" bodyfile="include/search/layered_retrieval_orchestrator.h" bodystart="249" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1ace5ac9f0cfb0236cffe490bc53f1c6bd" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; core::concerns::ITracer &gt;</type>
+        <definition>std::shared_ptr&lt;core::concerns::ITracer&gt; themis::search::LayeredRetrievalOrchestrator::tracer_</definition>
+        <argsstring></argsstring>
+        <name>tracer_</name>
+        <qualifiedname>themis::search::LayeredRetrievalOrchestrator::tracer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="250" column="21" bodyfile="include/search/layered_retrieval_orchestrator.h" bodystart="250" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1afcd1ff5a18dc96b387aa38c70de6d460" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::LayeredRetrievalOrchestrator::LayeredRetrievalOrchestrator</definition>
+        <argsstring>(LayeredRetrievalConfig config=LayeredRetrievalConfig{})</argsstring>
+        <name>LayeredRetrievalOrchestrator</name>
+        <qualifiedname>themis::search::LayeredRetrievalOrchestrator::LayeredRetrievalOrchestrator</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1search_1_1_layered_retrieval_config" kindref="compound">LayeredRetrievalConfig</ref></type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1search_1_1_layered_retrieval_config" kindref="compound">LayeredRetrievalConfig</ref>{}</defval>
+        </param>
+        <briefdescription>
+<para>Construct an orchestrator with the given configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Layer enablement, timeouts, and guardrails. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="187" column="14" bodyfile="src/search/layered_retrieval_orchestrator.cpp" bodystart="212" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1adabb26faa3ee7a253c86b013970b5ec3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::search::LayeredRetrievalOrchestrator::setAnnIndex</definition>
+        <argsstring>(std::shared_ptr&lt; AdvancedVectorIndex &gt; index)</argsstring>
+        <name>setAnnIndex</name>
+        <qualifiedname>themis::search::LayeredRetrievalOrchestrator::setAnnIndex</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; AdvancedVectorIndex &gt;</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+<para>Inject the ANN backend used by the first retrieval layer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Ann Index.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared AdvancedVectorIndex instance; null disables the ANN layer.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="194" column="10" bodyfile="src/search/layered_retrieval_orchestrator.cpp" bodystart="220" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1a73c1d47a303e7e4f5c61acf0f161fe0e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::search::LayeredRetrievalOrchestrator::setTensorGraph</definition>
+        <argsstring>(std::shared_ptr&lt; tensor::TensorFingerprintGraph &gt; graph)</argsstring>
+        <name>setTensorGraph</name>
+        <qualifiedname>themis::search::LayeredRetrievalOrchestrator::setTensorGraph</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; tensor::TensorFingerprintGraph &gt;</type>
+          <declname>graph</declname>
+        </param>
+        <briefdescription>
+<para>Inject the tensor fingerprint graph used by the tensor layer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Tensor Graph.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>graph</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared TensorFingerprintGraph instance; null disables the tensor layer.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">graph</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="200" column="10" bodyfile="src/search/layered_retrieval_orchestrator.cpp" bodystart="229" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1a8056fe9ee461415cc48bc56541929259" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::search::LayeredRetrievalOrchestrator::setGraphReasoner</definition>
+        <argsstring>(std::shared_ptr&lt; graph::KnowledgeGraphReasoner &gt; reasoner)</argsstring>
+        <name>setGraphReasoner</name>
+        <qualifiedname>themis::search::LayeredRetrievalOrchestrator::setGraphReasoner</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; graph::KnowledgeGraphReasoner &gt;</type>
+          <declname>reasoner</declname>
+        </param>
+        <briefdescription>
+<para>Inject the knowledge-graph reasoner used by the provenance layer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Graph Reasoner.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>reasoner</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared KnowledgeGraphReasoner instance; null disables the graph layer.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reasoner</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="206" column="10" bodyfile="src/search/layered_retrieval_orchestrator.cpp" bodystart="239" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1a3eb2304301627668204bc6c3bee45f67" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::search::LayeredRetrievalOrchestrator::setLlmClient</definition>
+        <argsstring>(std::shared_ptr&lt; llm::LLMClient &gt; client)</argsstring>
+        <name>setLlmClient</name>
+        <qualifiedname>themis::search::LayeredRetrievalOrchestrator::setLlmClient</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; llm::LLMClient &gt;</type>
+          <declname>client</declname>
+        </param>
+        <briefdescription>
+<para>Inject the LLM client used by the final answer layer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Llm Client.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>client</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared LLMClient instance; null disables the LLM layer.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">client</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="212" column="10" bodyfile="src/search/layered_retrieval_orchestrator.cpp" bodystart="249" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1a426faceb9c96ca0f3c08e8b1c9d6a186" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::search::LayeredRetrievalOrchestrator::setTracer</definition>
+        <argsstring>(std::shared_ptr&lt; core::concerns::ITracer &gt; tracer)</argsstring>
+        <name>setTracer</name>
+        <qualifiedname>themis::search::LayeredRetrievalOrchestrator::setTracer</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; core::concerns::ITracer &gt;</type>
+          <declname>tracer</declname>
+        </param>
+        <briefdescription>
+<para>Inject the tracer used for per-layer span emission. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Tracer.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tracer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared tracer; null disables tracing.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tracer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="218" column="10" bodyfile="src/search/layered_retrieval_orchestrator.cpp" bodystart="258" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1a2609bb223b8f7176cb851143dd9b79d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::search::LayeredRetrievalOrchestrator::setConfig</definition>
+        <argsstring>(const LayeredRetrievalConfig &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::search::LayeredRetrievalOrchestrator::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1search_1_1_layered_retrieval_config" kindref="compound">LayeredRetrievalConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Replace the current runtime configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Config.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New layer/time/guardrail configuration.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setConfig without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="224" column="10" bodyfile="src/search/layered_retrieval_orchestrator.cpp" bodystart="267" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1a416bcce3e510d2872721406bd606ec99" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1search_1_1_layered_retrieval_config" kindref="compound">LayeredRetrievalConfig</ref> &amp;</type>
+        <definition>const LayeredRetrievalConfig &amp; themis::search::LayeredRetrievalOrchestrator::getConfig</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::search::LayeredRetrievalOrchestrator::getConfig</qualifiedname>
+        <briefdescription>
+<para>Return the active runtime configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="229" column="35" bodyfile="src/search/layered_retrieval_orchestrator.cpp" bodystart="271" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1add81c2716af9c80aba9ef601e943daa2" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1search_1_1_layered_retrieval_result" kindref="compound">LayeredRetrievalResult</ref></type>
+        <definition>LayeredRetrievalResult themis::search::LayeredRetrievalOrchestrator::execute</definition>
+        <argsstring>(const LayeredRetrievalContext &amp;context) const</argsstring>
+        <name>execute</name>
+        <qualifiedname>themis::search::LayeredRetrievalOrchestrator::execute</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1search_1_1_layered_retrieval_context" kindref="compound">LayeredRetrievalContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+<para>Execute the configured four-layer retrieval chain. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The orchestrator never throws. Layer failures are surfaced through <ref refid="structthemis_1_1search_1_1_layered_retrieval_result_1a778a817b64d5ceac0780e5ca04c11ef4" kindref="member">LayeredRetrievalResult::routing_decisions</ref> and <ref refid="structthemis_1_1search_1_1_layered_retrieval_result_1aaa9a3165385b3fb22948bbb24d32f721" kindref="member">LayeredRetrievalResult::diagnostics</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query payload and layer-specific lookup keys. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Unified retrieval result with layer outputs and diagnostics. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="241" column="29" bodyfile="src/search/layered_retrieval_orchestrator.cpp" bodystart="275" bodyend="684"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Orchestrates the ANN → Tensor → Graph → LLM retrieval pipeline. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The orchestrator is intentionally fail-safe:<itemizedlist>
+<listitem><para>Missing backends degrade to FALLBACK decisions instead of throwing.</para>
+</listitem><listitem><para>Each enabled layer is wrapped in a hard wait budget controlled by <ref refid="structthemis_1_1search_1_1_layered_retrieval_config_1abbce03a0b2d4e5373ca720c61338d0f8" kindref="member">LayeredRetrievalConfig::layer_timeout_ms</ref>.</para>
+</listitem><listitem><para>Per-query guardrails clamp expensive fan-out before downstream work begins.</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread safety: configuration and backend wiring must be completed before concurrent <ref refid="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1add81c2716af9c80aba9ef601e943daa2" kindref="member">execute()</ref> calls. Read-only <ref refid="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1add81c2716af9c80aba9ef601e943daa2" kindref="member">execute()</ref> calls are safe when the injected backends themselves are safe for concurrent use. </para>
+    </detaileddescription>
+    <location file="include/search/layered_retrieval_orchestrator.h" line="181" column="1" bodyfile="include/search/layered_retrieval_orchestrator.h" bodystart="181" bodyend="251"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1a438ea0828de3a96d78b3aacdcef072d3" prot="private" virt="non-virtual"><scope>themis::search::LayeredRetrievalOrchestrator</scope><name>ann_index_</name></member>
+      <member refid="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1aae9fa15fa3cf21530e64425f2744aa30" prot="private" virt="non-virtual"><scope>themis::search::LayeredRetrievalOrchestrator</scope><name>config_</name></member>
+      <member refid="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1add81c2716af9c80aba9ef601e943daa2" prot="public" virt="non-virtual"><scope>themis::search::LayeredRetrievalOrchestrator</scope><name>execute</name></member>
+      <member refid="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1a416bcce3e510d2872721406bd606ec99" prot="public" virt="non-virtual"><scope>themis::search::LayeredRetrievalOrchestrator</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1a4fbf8416e2552eececc1a83219fd8964" prot="private" virt="non-virtual"><scope>themis::search::LayeredRetrievalOrchestrator</scope><name>graph_reasoner_</name></member>
+      <member refid="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1afcd1ff5a18dc96b387aa38c70de6d460" prot="public" virt="non-virtual"><scope>themis::search::LayeredRetrievalOrchestrator</scope><name>LayeredRetrievalOrchestrator</name></member>
+      <member refid="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1abe1e9b638be031e788728b4ea0341d19" prot="private" virt="non-virtual"><scope>themis::search::LayeredRetrievalOrchestrator</scope><name>llm_client_</name></member>
+      <member refid="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1adabb26faa3ee7a253c86b013970b5ec3" prot="public" virt="non-virtual"><scope>themis::search::LayeredRetrievalOrchestrator</scope><name>setAnnIndex</name></member>
+      <member refid="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1a2609bb223b8f7176cb851143dd9b79d2" prot="public" virt="non-virtual"><scope>themis::search::LayeredRetrievalOrchestrator</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1a8056fe9ee461415cc48bc56541929259" prot="public" virt="non-virtual"><scope>themis::search::LayeredRetrievalOrchestrator</scope><name>setGraphReasoner</name></member>
+      <member refid="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1a3eb2304301627668204bc6c3bee45f67" prot="public" virt="non-virtual"><scope>themis::search::LayeredRetrievalOrchestrator</scope><name>setLlmClient</name></member>
+      <member refid="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1a73c1d47a303e7e4f5c61acf0f161fe0e" prot="public" virt="non-virtual"><scope>themis::search::LayeredRetrievalOrchestrator</scope><name>setTensorGraph</name></member>
+      <member refid="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1a426faceb9c96ca0f3c08e8b1c9d6a186" prot="public" virt="non-virtual"><scope>themis::search::LayeredRetrievalOrchestrator</scope><name>setTracer</name></member>
+      <member refid="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1ab814af93f422685bc12653ecb34bd522" prot="private" virt="non-virtual"><scope>themis::search::LayeredRetrievalOrchestrator</scope><name>tensor_graph_</name></member>
+      <member refid="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1ace5ac9f0cfb0236cffe490bc53f1c6bd" prot="private" virt="non-virtual"><scope>themis::search::LayeredRetrievalOrchestrator</scope><name>tracer_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

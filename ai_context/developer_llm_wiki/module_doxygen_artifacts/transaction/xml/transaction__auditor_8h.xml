@@ -1,0 +1,233 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="transaction__auditor_8h" kind="file" language="C++">
+    <compoundname>transaction_auditor.h</compoundname>
+    <includes refid="isolation__level_8h" local="yes">transaction/isolation_level.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="transaction__auditor_8cpp" local="yes">src/transaction/transaction_auditor.cpp</includedby>
+    <includedby refid="test__transaction__auditor_8cpp" local="yes">tests/transaction/test_transaction_auditor.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>transaction/isolation_level.h</label>
+        <link refid="isolation__level_8h"/>
+      </node>
+      <node id="1">
+        <label>include/transaction/transaction_auditor.h</label>
+        <link refid="transaction__auditor_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>atomic</label>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/transaction/transaction_auditor.h</label>
+        <link refid="transaction__auditor_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/transaction/transaction_auditor.cpp</label>
+        <link refid="transaction__auditor_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/transaction/test_transaction_auditor.cpp</label>
+        <link refid="test__transaction__auditor_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1_transaction_auditor" prot="public">themis::TransactionAuditor</innerclass>
+    <innerclass refid="structthemis_1_1_transaction_auditor_1_1_status" prot="public">themis::TransactionAuditor::Status</innerclass>
+    <innerclass refid="structthemis_1_1_transaction_auditor_1_1_operation" prot="public">themis::TransactionAuditor::Operation</innerclass>
+    <innerclass refid="structthemis_1_1_transaction_auditor_1_1_audit_record" prot="public">themis::TransactionAuditor::AuditRecord</innerclass>
+    <innerclass refid="structthemis_1_1_transaction_auditor_1_1_i_audit_export_transport" prot="public">themis::TransactionAuditor::IAuditExportTransport</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.12 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="isolation__level_8h" kindref="compound">transaction/isolation_level.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="classthemis_1_1_transaction_auditor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_transaction_auditor_1a1267c293554bd7037380ce651f6b3624" kindref="member">TransactionAuditor</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="28" refid="classthemis_1_1_transaction_auditor_1ad73d60230acf527f6e473e8196a4122e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_transaction_auditor_1ad73d60230acf527f6e473e8196a4122e" kindref="member">TransactionId</ref><sp/>=<sp/>uint64_t;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Status<sp/>────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1_transaction_auditor_1_1_status" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_transaction_auditor_1_1_status" kindref="compound">Status</ref><sp/>{</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1_transaction_auditor_1_1_status_1a2733ecc0d0697ca5aaba987cf2f73fad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_transaction_auditor_1_1_status_1a2733ecc0d0697ca5aaba987cf2f73fad" kindref="member">ok</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1_transaction_auditor_1_1_status_1a8c408087183b40250fb7cd8de35aac83" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_transaction_auditor_1_1_status_1a8c408087183b40250fb7cd8de35aac83" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1_transaction_auditor_1_1_status_1a8d7f38bdeba4c0543d0593fbceed3470" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_transaction_auditor_1_1_status" kindref="compound">Status</ref><sp/><ref refid="structthemis_1_1_transaction_auditor_1_1_status_1a8d7f38bdeba4c0543d0593fbceed3470" kindref="member">OK</ref>()<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};<sp/>}</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1_transaction_auditor_1_1_status_1aba7b65e2594ca64fc9ea2008847e45c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_transaction_auditor_1_1_status" kindref="compound">Status</ref><sp/><ref refid="structthemis_1_1_transaction_auditor_1_1_status_1aba7b65e2594ca64fc9ea2008847e45c2" kindref="member">Error</ref>(std::string<sp/>msg)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>std::move(msg)};<sp/>}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Operation<sp/>────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1_transaction_auditor_1_1_operation" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_transaction_auditor_1_1_operation" kindref="compound">Operation</ref><sp/>{</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1_transaction_auditor_1_1_operation_1a6411862a3fee844a747385eccfd1f164" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_transaction_auditor_1_1_operation_1a6411862a3fee844a747385eccfd1f164" kindref="member">Type</ref><sp/>{</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1_transaction_auditor_1_1_operation_1a6411862a3fee844a747385eccfd1f164a3e75383a5992a6d15fb81e872e46e256" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_transaction_auditor_1_1_operation_1a6411862a3fee844a747385eccfd1f164a3e75383a5992a6d15fb81e872e46e256" kindref="member">PUT</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1_transaction_auditor_1_1_operation_1a6411862a3fee844a747385eccfd1f164a32f68a60cef40faedbc6af20298c1a1e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_transaction_auditor_1_1_operation_1a6411862a3fee844a747385eccfd1f164a32f68a60cef40faedbc6af20298c1a1e" kindref="member">DELETE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1_transaction_auditor_1_1_operation_1a6411862a3fee844a747385eccfd1f164ac4236be10303e8dfb087bd31e6f2a875" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_transaction_auditor_1_1_operation_1a6411862a3fee844a747385eccfd1f164ac4236be10303e8dfb087bd31e6f2a875" kindref="member">ADD_EDGE</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1_transaction_auditor_1_1_operation_1a6411862a3fee844a747385eccfd1f164ac4076f895fd64e133dd859975d55b332" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_transaction_auditor_1_1_operation_1a6411862a3fee844a747385eccfd1f164ac4076f895fd64e133dd859975d55b332" kindref="member">DELETE_EDGE</ref>,<sp/></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1_transaction_auditor_1_1_operation_1a6411862a3fee844a747385eccfd1f164ae5a19eff293396cdccc5adad264a6d47" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_transaction_auditor_1_1_operation_1a6411862a3fee844a747385eccfd1f164ae5a19eff293396cdccc5adad264a6d47" kindref="member">ADD_VECTOR</ref><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1_transaction_auditor_1_1_operation_1aec191e0eaee5b302ffc31520bd46b84b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_transaction_auditor_1_1_operation_1a6411862a3fee844a747385eccfd1f164" kindref="member">Type</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_transaction_auditor_1_1_operation_1aec191e0eaee5b302ffc31520bd46b84b" kindref="member">type</ref>{<ref refid="structthemis_1_1_transaction_auditor_1_1_operation_1a6411862a3fee844a747385eccfd1f164a3e75383a5992a6d15fb81e872e46e256" kindref="member">Type::PUT</ref>};</highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1_transaction_auditor_1_1_operation_1a0c807d53ffc0a71aea87630d755438fe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_transaction_auditor_1_1_operation_1a0c807d53ffc0a71aea87630d755438fe" kindref="member">table</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1_transaction_auditor_1_1_operation_1a945197f75f2e3b30557453009b1d0e5e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_transaction_auditor_1_1_operation_1a945197f75f2e3b30557453009b1d0e5e" kindref="member">key</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1_transaction_auditor_1_1_operation_1aa8b04b17a327c1d864149dab1f1da415" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_transaction_auditor_1_1_operation_1aa8b04b17a327c1d864149dab1f1da415" kindref="member">old_value</ref>;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1_transaction_auditor_1_1_operation_1a039724ada076778b618baf0c6683a4a2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_transaction_auditor_1_1_operation_1a039724ada076778b618baf0c6683a4a2" kindref="member">new_value</ref>;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>AuditRecord<sp/>──────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1_transaction_auditor_1_1_audit_record" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_transaction_auditor_1_1_audit_record" kindref="compound">AuditRecord</ref><sp/>{</highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1_transaction_auditor_1_1_audit_record_1a50026994688ed4568fbf50678ec30856" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_transaction_auditor_1_1_audit_record_1a50026994688ed4568fbf50678ec30856" kindref="member">Result</ref><sp/>{</highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1_transaction_auditor_1_1_audit_record_1a50026994688ed4568fbf50678ec30856a1c372d13f50af5ca9a935ebc78006e82" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_transaction_auditor_1_1_audit_record_1a50026994688ed4568fbf50678ec30856a1c372d13f50af5ca9a935ebc78006e82" kindref="member">COMMITTED</ref>,<sp/></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1_transaction_auditor_1_1_audit_record_1a50026994688ed4568fbf50678ec30856a4e6c860e5da10e31c5fd9cb76ddc2025" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_transaction_auditor_1_1_audit_record_1a50026994688ed4568fbf50678ec30856a4e6c860e5da10e31c5fd9cb76ddc2025" kindref="member">ABORTED</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1_transaction_auditor_1_1_audit_record_1a50026994688ed4568fbf50678ec30856a8f35b656de87c54e18710fc94d73a614" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_transaction_auditor_1_1_audit_record_1a50026994688ed4568fbf50678ec30856a8f35b656de87c54e18710fc94d73a614" kindref="member">DEADLOCK</ref><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1_transaction_auditor_1_1_audit_record_1ad1adb29d3faf2af7c15919363a9af997" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_transaction_auditor_1ad73d60230acf527f6e473e8196a4122e" kindref="member">TransactionId</ref><sp/><ref refid="structthemis_1_1_transaction_auditor_1_1_audit_record_1ad1adb29d3faf2af7c15919363a9af997" kindref="member">txn_id</ref>{0};</highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1_transaction_auditor_1_1_audit_record_1aa3504be7c9874deeb2796ea94e313465" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><ref refid="structthemis_1_1_transaction_auditor_1_1_audit_record_1aa3504be7c9874deeb2796ea94e313465" kindref="member">user_id</ref>;</highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1_transaction_auditor_1_1_audit_record_1a8e166638606ccb9a798608b64d1240d7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><ref refid="structthemis_1_1_transaction_auditor_1_1_audit_record_1a8e166638606ccb9a798608b64d1240d7" kindref="member">session_id</ref>;</highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1_transaction_auditor_1_1_audit_record_1af4079bf635083ea56b01cdad659036b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1_transaction_auditor_1_1_audit_record_1af4079bf635083ea56b01cdad659036b2" kindref="member">timestamp</ref>;</highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1_transaction_auditor_1_1_audit_record_1a7cdddb4fe13b6bed19e821e4e6ef231f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7" kindref="member">IsolationLevel</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_transaction_auditor_1_1_audit_record_1a7cdddb4fe13b6bed19e821e4e6ef231f" kindref="member">isolation</ref>{<ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7a90ed941e4502c163cb075594c5f7df1c" kindref="member">IsolationLevel::ReadCommitted</ref>};</highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1_transaction_auditor_1_1_audit_record_1a06c1ecf9b1b60c65eeb19041c29baeff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;Operation&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_transaction_auditor_1_1_audit_record_1a06c1ecf9b1b60c65eeb19041c29baeff" kindref="member">operations</ref>;</highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1_transaction_auditor_1_1_audit_record_1a32e53d6c6074cf551ede448e309c0664" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_transaction_auditor_1_1_audit_record_1a50026994688ed4568fbf50678ec30856" kindref="member">Result</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_transaction_auditor_1_1_audit_record_1a32e53d6c6074cf551ede448e309c0664" kindref="member">result</ref>{<ref refid="structthemis_1_1_transaction_auditor_1_1_audit_record_1a50026994688ed4568fbf50678ec30856a1c372d13f50af5ca9a935ebc78006e82" kindref="member">Result::COMMITTED</ref>};</highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1_transaction_auditor_1_1_audit_record_1af52bee17172d97f75ff2cc43c0303f43" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_transaction_auditor_1_1_audit_record_1af52bee17172d97f75ff2cc43c0303f43" kindref="member">duration_us</ref>{0};</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Lifecycle<sp/>─────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="classthemis_1_1_transaction_auditor_1a1267c293554bd7037380ce651f6b3624" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_transaction_auditor_1a1267c293554bd7037380ce651f6b3624" kindref="member">TransactionAuditor</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="92" refid="classthemis_1_1_transaction_auditor_1ad698d1a231b8b226daa4a528684ff2e7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_transaction_auditor_1ad698d1a231b8b226daa4a528684ff2e7" kindref="member">~TransactionAuditor</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="classthemis_1_1_transaction_auditor_1a0a98851bdf42cef855450f9a3a598b99" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_transaction_auditor_1a0a98851bdf42cef855450f9a3a598b99" kindref="member">TransactionAuditor</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_transaction_auditor_1a1267c293554bd7037380ce651f6b3624" kindref="member">TransactionAuditor</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="95" refid="classthemis_1_1_transaction_auditor_1a222d0375ea1148c817c85690bee741e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_transaction_auditor_1a1267c293554bd7037380ce651f6b3624" kindref="member">TransactionAuditor</ref>&amp;<sp/><ref refid="classthemis_1_1_transaction_auditor_1a222d0375ea1148c817c85690bee741e1" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_transaction_auditor_1a1267c293554bd7037380ce651f6b3624" kindref="member">TransactionAuditor</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96" refid="classthemis_1_1_transaction_auditor_1a91f8ba7c4d8f522a0dc38044a36ad4e7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_transaction_auditor_1a91f8ba7c4d8f522a0dc38044a36ad4e7" kindref="member">TransactionAuditor</ref>(<ref refid="classthemis_1_1_transaction_auditor_1a1267c293554bd7037380ce651f6b3624" kindref="member">TransactionAuditor</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="97" refid="classthemis_1_1_transaction_auditor_1a62763d727f069e519fd7c79ab0db92e3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_transaction_auditor_1a1267c293554bd7037380ce651f6b3624" kindref="member">TransactionAuditor</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1_transaction_auditor_1a1267c293554bd7037380ce651f6b3624" kindref="member">TransactionAuditor</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_transaction_auditor_1af5b9ab9acfe03f2e1d553280b72d352f" kindref="member">enableAuditing</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enabled);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="classthemis_1_1_transaction_auditor_1a8f4980b49398806091f705a687d6b720" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_transaction_auditor_1a8f4980b49398806091f705a687d6b720" kindref="member">isEnabled</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>enabled_.load(std::memory_order_acquire);<sp/>}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_transaction_auditor_1a202e203b627059f90df920023b7305b0" kindref="member">record</ref>(AuditRecord<sp/><ref refid="classthemis_1_1_transaction_auditor_1a202e203b627059f90df920023b7305b0" kindref="member">record</ref>);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Querying<sp/>─────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;AuditRecord&gt;<sp/><ref refid="classthemis_1_1_transaction_auditor_1ae41c7ebd24c9c4fa23372d5b71aa713c" kindref="member">queryAuditLog</ref>(</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>user_id<sp/><sp/><sp/><sp/>=<sp/>std::nullopt,</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;std::chrono::system_clock::time_point&gt;<sp/>start_time<sp/>=<sp/>std::nullopt,</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;std::chrono::system_clock::time_point&gt;<sp/>end_time<sp/><sp/><sp/>=<sp/>std::nullopt,</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>limit<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1000)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_transaction_auditor_1a9dc863be5a006c021a6797805dee5d76" kindref="member">size</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_transaction_auditor_1a3df5d692bd0b61840a935ef4d90cc06b" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Export<sp/>transport<sp/>interface<sp/>────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136" refid="structthemis_1_1_transaction_auditor_1_1_i_audit_export_transport" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_transaction_auditor_1_1_i_audit_export_transport" kindref="compound">IAuditExportTransport</ref><sp/>{</highlight></codeline>
+<codeline lineno="141" refid="structthemis_1_1_transaction_auditor_1_1_i_audit_export_transport_1a7be2e3ef307833ff656fb55114ca317d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_transaction_auditor_1_1_i_audit_export_transport_1a7be2e3ef307833ff656fb55114ca317d" kindref="member">~IAuditExportTransport</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149" refid="structthemis_1_1_transaction_auditor_1_1_i_audit_export_transport_1ad76c9a70e66dd9c48b4eb06b16296698" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_transaction_auditor_1_1_status" kindref="compound">Status</ref><sp/><ref refid="structthemis_1_1_transaction_auditor_1_1_i_audit_export_transport_1ad76c9a70e66dd9c48b4eb06b16296698" kindref="member">sendKafka</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>topic,</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>ndjson_payload)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159" refid="structthemis_1_1_transaction_auditor_1_1_i_audit_export_transport_1a766e4f55ac441fff6e41605a9ec44bbf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_transaction_auditor_1_1_status" kindref="compound">Status</ref><sp/><ref refid="structthemis_1_1_transaction_auditor_1_1_i_audit_export_transport_1a766e4f55ac441fff6e41605a9ec44bbf" kindref="member">writeS3</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>bucket,</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key,</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>ndjson_payload)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_transaction_auditor_1ae7be6f180440bd80f76b06a4640db68d" kindref="member">setExportTransport</ref>(<ref refid="structthemis_1_1_transaction_auditor_1_1_i_audit_export_transport" kindref="compound">IAuditExportTransport</ref>*<sp/>transport);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_transaction_auditor_1_1_status" kindref="compound">Status</ref><sp/><ref refid="classthemis_1_1_transaction_auditor_1a568894ab12ab61edd53c7eef0229746e" kindref="member">exportToKafka</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>topic);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_transaction_auditor_1_1_status" kindref="compound">Status</ref><sp/><ref refid="classthemis_1_1_transaction_auditor_1a9cdb790fce9f862fcdc9f3418904f98a" kindref="member">exportToS3</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>bucket,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prefix);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>enabled_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/><sp/><sp/><sp/><sp/><sp/><sp/>log_mutex_;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;AuditRecord&gt;<sp/>log_;<sp/></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>IAuditExportTransport*<sp/><sp/><sp/>export_transport_{</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">};<sp/><sp/></highlight></codeline>
+<codeline lineno="191"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/transaction/transaction_auditor.h"/>
+  </compounddef>
+</doxygen>

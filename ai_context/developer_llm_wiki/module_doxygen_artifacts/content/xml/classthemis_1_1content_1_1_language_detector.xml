@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1content_1_1_language_detector" kind="class" language="C++" prot="public">
+    <compoundname>themis::content::LanguageDetector</compoundname>
+    <includes refid="language__detector_8h" local="no">language_detector.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_language_detector_1a93bc4885d2c43ff0118448605eb5e13d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::LanguageDetector::LanguageDetector</definition>
+        <argsstring>()=default</argsstring>
+        <name>LanguageDetector</name>
+        <qualifiedname>themis::content::LanguageDetector::LanguageDetector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/language_detector.h" line="34" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_language_detector_1a9d8fdbbd27bc508ae05ce19672b1a5b9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_detected_language" kindref="compound">DetectedLanguage</ref></type>
+        <definition>DetectedLanguage themis::content::LanguageDetector::detect</definition>
+        <argsstring>(std::string_view text) const</argsstring>
+        <name>detect</name>
+        <qualifiedname>themis::content::LanguageDetector::detect</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Detect. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/language_detector.h" line="41" column="22" bodyfile="src/content/language_detector.cpp" bodystart="158" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_language_detector_1a198514fc0be1d0146489ed29c99db4c1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::LanguageDetector::detectCode</definition>
+        <argsstring>(std::string_view text) const</argsstring>
+        <name>detectCode</name>
+        <qualifiedname>themis::content::LanguageDetector::detectCode</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Detect Code. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/language_detector.h" line="48" column="17" bodyfile="src/content/language_detector.cpp" bodystart="232" bodyend="234"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_language_detector_1ad80cfc3de0dce0c81384a23fbab3843c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::LanguageDetector::routingHint</definition>
+        <argsstring>(const std::string &amp;language_code)</argsstring>
+        <name>routingHint</name>
+        <qualifiedname>themis::content::LanguageDetector::routingHint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>language_code</declname>
+        </param>
+        <briefdescription>
+<para>Routing Hint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">language_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/language_detector.h" line="55" column="24" bodyfile="src/content/language_detector.cpp" bodystart="240" bodyend="272"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/language_detector.h" line="32" column="1" bodyfile="include/content/language_detector.h" bodystart="32" bodyend="56"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1content_1_1_language_detector_1a9d8fdbbd27bc508ae05ce19672b1a5b9" prot="public" virt="non-virtual"><scope>themis::content::LanguageDetector</scope><name>detect</name></member>
+      <member refid="classthemis_1_1content_1_1_language_detector_1a198514fc0be1d0146489ed29c99db4c1" prot="public" virt="non-virtual"><scope>themis::content::LanguageDetector</scope><name>detectCode</name></member>
+      <member refid="classthemis_1_1content_1_1_language_detector_1a93bc4885d2c43ff0118448605eb5e13d" prot="public" virt="non-virtual"><scope>themis::content::LanguageDetector</scope><name>LanguageDetector</name></member>
+      <member refid="classthemis_1_1content_1_1_language_detector_1ad80cfc3de0dce0c81384a23fbab3843c" prot="public" virt="non-virtual"><scope>themis::content::LanguageDetector</scope><name>routingHint</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

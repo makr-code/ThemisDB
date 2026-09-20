@@ -1,0 +1,401 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cache_1_1_mock_access_coordinator" kind="class" language="C++" prot="public">
+    <compoundname>themis::cache::MockAccessCoordinator</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">access_model::AccessCoordinator</basecompoundref>
+    <innerclass refid="structthemis_1_1cache_1_1_mock_access_coordinator_1_1_captured_event" prot="public">themis::cache::MockAccessCoordinator::CapturedEvent</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_mock_access_coordinator_1a4c3a0b1cf34a462bfd58377962476b80" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1cache_1_1_mock_access_coordinator_1_1_captured_event" kindref="compound">CapturedEvent</ref> &gt;</type>
+        <definition>std::vector&lt;CapturedEvent&gt; themis::cache::MockAccessCoordinator::captured_events</definition>
+        <argsstring></argsstring>
+        <name>captured_events</name>
+        <qualifiedname>themis::cache::MockAccessCoordinator::captured_events</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_coordinator_integration.cpp" line="110" column="17" bodyfile="tests/cache/test_cache_eviction_coordinator_integration.cpp" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_mock_access_coordinator_1a5a0bda82d74d59f747bf9efe57c2cacc" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::cache::MockAccessCoordinator::promotion_decisions</definition>
+        <argsstring></argsstring>
+        <name>promotion_decisions</name>
+        <qualifiedname>themis::cache::MockAccessCoordinator::promotion_decisions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_coordinator_integration.cpp" line="111" column="17" bodyfile="tests/cache/test_cache_eviction_coordinator_integration.cpp" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_mock_access_coordinator_1a0d078d930a42901bf70aead489316b73" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::cache::MockAccessCoordinator::demotion_decisions</definition>
+        <argsstring></argsstring>
+        <name>demotion_decisions</name>
+        <qualifiedname>themis::cache::MockAccessCoordinator::demotion_decisions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_coordinator_integration.cpp" line="112" column="17" bodyfile="tests/cache/test_cache_eviction_coordinator_integration.cpp" bodystart="112" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_mock_access_coordinator_1a018c44c0257342513f13986e9faf1a76" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::MockAccessCoordinator::onCacheEvicted</definition>
+        <argsstring>(std::string_view key, access_model::TierLevel from_tier, std::size_t size_bytes, uint64_t access_count, std::chrono::seconds last_access_age_secs, std::string_view eviction_reason) override</argsstring>
+        <name>onCacheEvicted</name>
+        <qualifiedname>themis::cache::MockAccessCoordinator::onCacheEvicted</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>access_model::TierLevel</type>
+          <declname>from_tier</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>size_bytes</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>access_count</declname>
+        </param>
+        <param>
+          <type>std::chrono::seconds</type>
+          <declname>last_access_age_secs</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>eviction_reason</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_coordinator_integration.cpp" line="115" column="10" bodyfile="tests/cache/test_cache_eviction_coordinator_integration.cpp" bodystart="115" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_mock_access_coordinator_1aa4fbaa013633db12bcb59ccfe32ac76b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::MockAccessCoordinator::onStorageAccess</definition>
+        <argsstring>(std::string_view, access_model::TierLevel, uint64_t access_count, std::chrono::seconds access_window) override</argsstring>
+        <name>onStorageAccess</name>
+        <qualifiedname>themis::cache::MockAccessCoordinator::onStorageAccess</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+        </param>
+        <param>
+          <type>access_model::TierLevel</type>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>access_count</declname>
+        </param>
+        <param>
+          <type>std::chrono::seconds</type>
+          <declname>access_window</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_coordinator_integration.cpp" line="139" column="10" bodyfile="tests/cache/test_cache_eviction_coordinator_integration.cpp" bodystart="139" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_mock_access_coordinator_1ab31018174b556d852503cf09fef3528e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::cache::MockAccessCoordinator::initialize</definition>
+        <argsstring>(const std::map&lt; access_model::TierLevel, std::shared_ptr&lt; access_model::AccessTier &gt; &gt; &amp;) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::cache::MockAccessCoordinator::initialize</qualifiedname>
+        <param>
+          <type>const std::map&lt; access_model::TierLevel, std::shared_ptr&lt; access_model::AccessTier &gt; &gt; &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_coordinator_integration.cpp" line="148" column="10" bodyfile="tests/cache/test_cache_eviction_coordinator_integration.cpp" bodystart="148" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_mock_access_coordinator_1a92c1837c526c5c0b4b9939e62f4b2686" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::MockAccessCoordinator::start</definition>
+        <argsstring>() override</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::cache::MockAccessCoordinator::start</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_coordinator_integration.cpp" line="152" column="10" bodyfile="tests/cache/test_cache_eviction_coordinator_integration.cpp" bodystart="152" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_mock_access_coordinator_1a5c83ffb5d03f0e73902f2d0e14e3dfc8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::MockAccessCoordinator::shutdown</definition>
+        <argsstring>() override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::cache::MockAccessCoordinator::shutdown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_coordinator_integration.cpp" line="154" column="10" bodyfile="tests/cache/test_cache_eviction_coordinator_integration.cpp" bodystart="154" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_mock_access_coordinator_1ad69d6c45f31aee873d71fabc91857bde" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::cache::MockAccessCoordinator::isRunning</definition>
+        <argsstring>() const override</argsstring>
+        <name>isRunning</name>
+        <qualifiedname>themis::cache::MockAccessCoordinator::isRunning</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_coordinator_integration.cpp" line="155" column="10" bodyfile="tests/cache/test_cache_eviction_coordinator_integration.cpp" bodystart="155" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_mock_access_coordinator_1a46fe2afe6315f95987706e46ad249179" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::MockAccessCoordinator::setAgePolicy</definition>
+        <argsstring>(const access_model::AgeBasedPolicy &amp;) override</argsstring>
+        <name>setAgePolicy</name>
+        <qualifiedname>themis::cache::MockAccessCoordinator::setAgePolicy</qualifiedname>
+        <param>
+          <type>const access_model::AgeBasedPolicy &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_coordinator_integration.cpp" line="157" column="10" bodyfile="tests/cache/test_cache_eviction_coordinator_integration.cpp" bodystart="157" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_mock_access_coordinator_1a4c0e5e3b53db81c5aaeebd7342ee6fc8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::MockAccessCoordinator::setPromotionThresholds</definition>
+        <argsstring>(uint64_t, uint64_t) override</argsstring>
+        <name>setPromotionThresholds</name>
+        <qualifiedname>themis::cache::MockAccessCoordinator::setPromotionThresholds</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+        </param>
+        <param>
+          <type>uint64_t</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_coordinator_integration.cpp" line="159" column="10" bodyfile="tests/cache/test_cache_eviction_coordinator_integration.cpp" bodystart="159" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_mock_access_coordinator_1a01d3964f3290ca9b72a862f3a02fe820" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::future&lt; access_model::PromotionResult &gt;</type>
+        <definition>std::future&lt; access_model::PromotionResult &gt; themis::cache::MockAccessCoordinator::promoteAsync</definition>
+        <argsstring>(const std::string &amp;, access_model::TierLevel, access_model::TierLevel, uint64_t) override</argsstring>
+        <name>promoteAsync</name>
+        <qualifiedname>themis::cache::MockAccessCoordinator::promoteAsync</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>access_model::TierLevel</type>
+        </param>
+        <param>
+          <type>access_model::TierLevel</type>
+        </param>
+        <param>
+          <type>uint64_t</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_coordinator_integration.cpp" line="161" column="17" bodyfile="tests/cache/test_cache_eviction_coordinator_integration.cpp" bodystart="161" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_mock_access_coordinator_1a56be9564c81f7ecd829765679262e3d1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; access_model::DemotionPlan &gt;</type>
+        <definition>std::optional&lt; access_model::DemotionPlan &gt; themis::cache::MockAccessCoordinator::planDemotion</definition>
+        <argsstring>(const std::string &amp;, access_model::TierLevel, access_model::TierLevel, uint64_t) override</argsstring>
+        <name>planDemotion</name>
+        <qualifiedname>themis::cache::MockAccessCoordinator::planDemotion</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>access_model::TierLevel</type>
+        </param>
+        <param>
+          <type>access_model::TierLevel</type>
+        </param>
+        <param>
+          <type>uint64_t</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_coordinator_integration.cpp" line="166" column="19" bodyfile="tests/cache/test_cache_eviction_coordinator_integration.cpp" bodystart="166" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_mock_access_coordinator_1ab85391df650f5e7e417f811c73ef8cc2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; access_model::DemotionResult &gt;</type>
+        <definition>std::optional&lt; access_model::DemotionResult &gt; themis::cache::MockAccessCoordinator::executeDemotion</definition>
+        <argsstring>(const std::string &amp;) override</argsstring>
+        <name>executeDemotion</name>
+        <qualifiedname>themis::cache::MockAccessCoordinator::executeDemotion</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_coordinator_integration.cpp" line="171" column="19" bodyfile="tests/cache/test_cache_eviction_coordinator_integration.cpp" bodystart="171" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_mock_access_coordinator_1ac1c951e7d5e28dc71681cd3e5cfcbd55" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>access_model::AccessMetrics</type>
+        <definition>access_model::AccessMetrics themis::cache::MockAccessCoordinator::getKeyMetrics</definition>
+        <argsstring>(const std::string &amp;) override</argsstring>
+        <name>getKeyMetrics</name>
+        <qualifiedname>themis::cache::MockAccessCoordinator::getKeyMetrics</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_coordinator_integration.cpp" line="175" column="33" bodyfile="tests/cache/test_cache_eviction_coordinator_integration.cpp" bodystart="175" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_mock_access_coordinator_1afc7b4ab8d2db57f8d8b5eb9f97fa952d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>access_model::AccessMetrics</type>
+        <definition>access_model::AccessMetrics themis::cache::MockAccessCoordinator::getTierMetrics</definition>
+        <argsstring>(access_model::TierLevel) override</argsstring>
+        <name>getTierMetrics</name>
+        <qualifiedname>themis::cache::MockAccessCoordinator::getTierMetrics</qualifiedname>
+        <param>
+          <type>access_model::TierLevel</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_coordinator_integration.cpp" line="176" column="33" bodyfile="tests/cache/test_cache_eviction_coordinator_integration.cpp" bodystart="176" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_mock_access_coordinator_1ad98d4ff5cf03e77efd9b6d5380452c58" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>access_model::AccessModelMetrics</type>
+        <definition>access_model::AccessModelMetrics themis::cache::MockAccessCoordinator::getAccessModelMetrics</definition>
+        <argsstring>() override</argsstring>
+        <name>getAccessModelMetrics</name>
+        <qualifiedname>themis::cache::MockAccessCoordinator::getAccessModelMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_coordinator_integration.cpp" line="178" column="38" bodyfile="tests/cache/test_cache_eviction_coordinator_integration.cpp" bodystart="178" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_mock_access_coordinator_1af5e8ebe9783579feeb8afbeabd98c011" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; access_model::AccessTransitionEvent &gt;</type>
+        <definition>std::vector&lt; access_model::AccessTransitionEvent &gt; themis::cache::MockAccessCoordinator::getRecentTransitions</definition>
+        <argsstring>(std::size_t) override</argsstring>
+        <name>getRecentTransitions</name>
+        <qualifiedname>themis::cache::MockAccessCoordinator::getRecentTransitions</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_coordinator_integration.cpp" line="180" column="17" bodyfile="tests/cache/test_cache_eviction_coordinator_integration.cpp" bodystart="180" bodyend="182"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Mock coordinator implementation for testing. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tracks all eviction events received and simulates promotion/demotion decisions. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>access_model::AccessCoordinator</label>
+      </node>
+      <node id="1">
+        <label>themis::cache::MockAccessCoordinator</label>
+        <link refid="classthemis_1_1cache_1_1_mock_access_coordinator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>access_model::AccessCoordinator</label>
+      </node>
+      <node id="1">
+        <label>themis::cache::MockAccessCoordinator</label>
+        <link refid="classthemis_1_1cache_1_1_mock_access_coordinator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/cache/test_cache_eviction_coordinator_integration.cpp" line="102" column="1" bodyfile="tests/cache/test_cache_eviction_coordinator_integration.cpp" bodystart="102" bodyend="183"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cache_1_1_mock_access_coordinator_1a4c3a0b1cf34a462bfd58377962476b80" prot="public" virt="non-virtual"><scope>themis::cache::MockAccessCoordinator</scope><name>captured_events</name></member>
+      <member refid="classthemis_1_1cache_1_1_mock_access_coordinator_1a0d078d930a42901bf70aead489316b73" prot="public" virt="non-virtual"><scope>themis::cache::MockAccessCoordinator</scope><name>demotion_decisions</name></member>
+      <member refid="classthemis_1_1cache_1_1_mock_access_coordinator_1ab85391df650f5e7e417f811c73ef8cc2" prot="public" virt="non-virtual"><scope>themis::cache::MockAccessCoordinator</scope><name>executeDemotion</name></member>
+      <member refid="classthemis_1_1cache_1_1_mock_access_coordinator_1ad98d4ff5cf03e77efd9b6d5380452c58" prot="public" virt="non-virtual"><scope>themis::cache::MockAccessCoordinator</scope><name>getAccessModelMetrics</name></member>
+      <member refid="classthemis_1_1cache_1_1_mock_access_coordinator_1ac1c951e7d5e28dc71681cd3e5cfcbd55" prot="public" virt="non-virtual"><scope>themis::cache::MockAccessCoordinator</scope><name>getKeyMetrics</name></member>
+      <member refid="classthemis_1_1cache_1_1_mock_access_coordinator_1af5e8ebe9783579feeb8afbeabd98c011" prot="public" virt="non-virtual"><scope>themis::cache::MockAccessCoordinator</scope><name>getRecentTransitions</name></member>
+      <member refid="classthemis_1_1cache_1_1_mock_access_coordinator_1afc7b4ab8d2db57f8d8b5eb9f97fa952d" prot="public" virt="non-virtual"><scope>themis::cache::MockAccessCoordinator</scope><name>getTierMetrics</name></member>
+      <member refid="classthemis_1_1cache_1_1_mock_access_coordinator_1ab31018174b556d852503cf09fef3528e" prot="public" virt="non-virtual"><scope>themis::cache::MockAccessCoordinator</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1cache_1_1_mock_access_coordinator_1ad69d6c45f31aee873d71fabc91857bde" prot="public" virt="non-virtual"><scope>themis::cache::MockAccessCoordinator</scope><name>isRunning</name></member>
+      <member refid="classthemis_1_1cache_1_1_mock_access_coordinator_1a018c44c0257342513f13986e9faf1a76" prot="public" virt="non-virtual"><scope>themis::cache::MockAccessCoordinator</scope><name>onCacheEvicted</name></member>
+      <member refid="classthemis_1_1cache_1_1_mock_access_coordinator_1aa4fbaa013633db12bcb59ccfe32ac76b" prot="public" virt="non-virtual"><scope>themis::cache::MockAccessCoordinator</scope><name>onStorageAccess</name></member>
+      <member refid="classthemis_1_1cache_1_1_mock_access_coordinator_1a56be9564c81f7ecd829765679262e3d1" prot="public" virt="non-virtual"><scope>themis::cache::MockAccessCoordinator</scope><name>planDemotion</name></member>
+      <member refid="classthemis_1_1cache_1_1_mock_access_coordinator_1a01d3964f3290ca9b72a862f3a02fe820" prot="public" virt="non-virtual"><scope>themis::cache::MockAccessCoordinator</scope><name>promoteAsync</name></member>
+      <member refid="classthemis_1_1cache_1_1_mock_access_coordinator_1a5a0bda82d74d59f747bf9efe57c2cacc" prot="public" virt="non-virtual"><scope>themis::cache::MockAccessCoordinator</scope><name>promotion_decisions</name></member>
+      <member refid="classthemis_1_1cache_1_1_mock_access_coordinator_1a46fe2afe6315f95987706e46ad249179" prot="public" virt="non-virtual"><scope>themis::cache::MockAccessCoordinator</scope><name>setAgePolicy</name></member>
+      <member refid="classthemis_1_1cache_1_1_mock_access_coordinator_1a4c0e5e3b53db81c5aaeebd7342ee6fc8" prot="public" virt="non-virtual"><scope>themis::cache::MockAccessCoordinator</scope><name>setPromotionThresholds</name></member>
+      <member refid="classthemis_1_1cache_1_1_mock_access_coordinator_1a5c83ffb5d03f0e73902f2d0e14e3dfc8" prot="public" virt="non-virtual"><scope>themis::cache::MockAccessCoordinator</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1cache_1_1_mock_access_coordinator_1a92c1837c526c5c0b4b9939e62f4b2686" prot="public" virt="non-virtual"><scope>themis::cache::MockAccessCoordinator</scope><name>start</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

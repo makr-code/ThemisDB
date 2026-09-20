@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_voice_session_manager_1_1_teardown_info" kind="struct" language="C++" prot="private">
+    <compoundname>themis::voice::VoiceSessionManager::TeardownInfo</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_session_manager_1_1_teardown_info_1a663c1f06e7ee8ed1b5bdb49bddad9f00" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::VoiceSessionManager::TeardownInfo::start_time_ms</definition>
+        <argsstring></argsstring>
+        <name>start_time_ms</name>
+        <qualifiedname>themis::voice::VoiceSessionManager::TeardownInfo::start_time_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="451" column="17" bodyfile="include/voice/voice_session_manager.h" bodystart="451" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_session_manager_1_1_teardown_info_1a2b109b4929ee2ed37264294a0b2a5e70" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1voice_1aca5129214a7de5c927ae456dc1d133e7" kindref="member">SessionState</ref></type>
+        <definition>SessionState themis::voice::VoiceSessionManager::TeardownInfo::pre_closing_state</definition>
+        <argsstring></argsstring>
+        <name>pre_closing_state</name>
+        <qualifiedname>themis::voice::VoiceSessionManager::TeardownInfo::pre_closing_state</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1voice_1aca5129214a7de5c927ae456dc1d133e7a9d725163e44a2e9cf094059c0abfdef1" kindref="member">SessionState::TERMINATED</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="452" column="22" bodyfile="include/voice/voice_session_manager.h" bodystart="452" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_session_manager_1_1_teardown_info_1a5f6cb2f5e615e629a1ed29711c42bac5" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::VoiceSessionManager::TeardownInfo::error_code</definition>
+        <argsstring></argsstring>
+        <name>error_code</name>
+        <qualifiedname>themis::voice::VoiceSessionManager::TeardownInfo::error_code</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="453" column="17" bodyfile="include/voice/voice_session_manager.h" bodystart="453" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_session_manager.h" line="450" column="5" bodyfile="include/voice/voice_session_manager.h" bodystart="450" bodyend="454"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_voice_session_manager_1_1_teardown_info_1a5f6cb2f5e615e629a1ed29711c42bac5" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSessionManager::TeardownInfo</scope><name>error_code</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_session_manager_1_1_teardown_info_1a2b109b4929ee2ed37264294a0b2a5e70" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSessionManager::TeardownInfo</scope><name>pre_closing_state</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_session_manager_1_1_teardown_info_1a663c1f06e7ee8ed1b5bdb49bddad9f00" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSessionManager::TeardownInfo</scope><name>start_time_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

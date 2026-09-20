@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_dc79662b2c971103e0976707e29fc46b" kind="dir">
+    <compoundname>benchmarks/tensor</compoundname>
+    <innerfile refid="bench__tensor__compression__routing_8cpp">bench_tensor_compression_routing.cpp</innerfile>
+    <innerfile refid="bench__tensor__dedicated__gates_8cpp">bench_tensor_dedicated_gates.cpp</innerfile>
+    <innerfile refid="bench__tensor__deduplication__manager_8cpp">bench_tensor_deduplication_manager.cpp</innerfile>
+    <innerfile refid="bench__tensor__dynamic__update_8cpp">bench_tensor_dynamic_update.cpp</innerfile>
+    <innerfile refid="bench__tensor__fingerprint_8cpp">bench_tensor_fingerprint.cpp</innerfile>
+    <innerfile refid="bench__tensor__fingerprint__graph_8cpp">bench_tensor_fingerprint_graph.cpp</innerfile>
+    <innerfile refid="bench__tensor__integration__baseline_8cpp">bench_tensor_integration_baseline.cpp</innerfile>
+    <innerfile refid="bench__tensor__release__gates_8cpp">bench_tensor_release_gates.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/tensor/"/>
+  </compounddef>
+</doxygen>

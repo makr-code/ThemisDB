@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_query_cache_1_1_lookup_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::QueryCache::LookupResult</compoundname>
+    <includes refid="query__cache_8h" local="no">query_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_cache_1_1_lookup_result_1a5f834da47c390a5c4ec588905deefc5d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::QueryCache::LookupResult::found</definition>
+        <argsstring></argsstring>
+        <name>found</name>
+        <qualifiedname>themis::query::QueryCache::LookupResult::found</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache.h" line="102" column="14" bodyfile="include/query/query_cache.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_cache_1_1_lookup_result_1a0a8bf41ae0426e8d9a66e97520f6c727" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::QueryCache::LookupResult::result</definition>
+        <argsstring></argsstring>
+        <name>result</name>
+        <qualifiedname>themis::query::QueryCache::LookupResult::result</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache.h" line="103" column="24" bodyfile="include/query/query_cache.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_cache_1_1_lookup_result_1a3c1addcc095eeb7bc1854b38affe4d07" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::QueryCache::LookupResult::query_fingerprint</definition>
+        <argsstring></argsstring>
+        <name>query_fingerprint</name>
+        <qualifiedname>themis::query::QueryCache::LookupResult::query_fingerprint</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache.h" line="104" column="21" bodyfile="include/query/query_cache.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_query_cache_1_1_lookup_result_1a5d33fe4dd5c7869f7b7b6e855edd9f75" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::QueryCache::LookupResult::LookupResult</definition>
+        <argsstring>(bool f=false)</argsstring>
+        <name>LookupResult</name>
+        <qualifiedname>themis::query::QueryCache::LookupResult::LookupResult</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>f</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache.h" line="106" column="18" bodyfile="include/query/query_cache.h" bodystart="106" bodyend="106"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_cache.h" line="101" column="5" bodyfile="include/query/query_cache.h" bodystart="101" bodyend="107"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_query_cache_1_1_lookup_result_1a5f834da47c390a5c4ec588905deefc5d" prot="public" virt="non-virtual"><scope>themis::query::QueryCache::LookupResult</scope><name>found</name></member>
+      <member refid="structthemis_1_1query_1_1_query_cache_1_1_lookup_result_1a5d33fe4dd5c7869f7b7b6e855edd9f75" prot="public" virt="non-virtual"><scope>themis::query::QueryCache::LookupResult</scope><name>LookupResult</name></member>
+      <member refid="structthemis_1_1query_1_1_query_cache_1_1_lookup_result_1a3c1addcc095eeb7bc1854b38affe4d07" prot="public" virt="non-virtual"><scope>themis::query::QueryCache::LookupResult</scope><name>query_fingerprint</name></member>
+      <member refid="structthemis_1_1query_1_1_query_cache_1_1_lookup_result_1a0a8bf41ae0426e8d9a66e97520f6c727" prot="public" virt="non-virtual"><scope>themis::query::QueryCache::LookupResult</scope><name>result</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

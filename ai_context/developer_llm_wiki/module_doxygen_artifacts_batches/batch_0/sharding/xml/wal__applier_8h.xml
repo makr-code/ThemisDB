@@ -1,0 +1,225 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="wal__applier_8h" kind="file" language="C++">
+    <compoundname>wal_applier.h</compoundname>
+    <includes refid="wal__manager_8h" local="yes">sharding/wal_manager.h</includes>
+    <includes local="yes">utils/retry_policy.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">atomic</includes>
+    <includedby refid="raft__wal__integration_8h" local="yes">include/sharding/raft_wal_integration.h</includedby>
+    <includedby refid="wal__applier_8cpp" local="yes">src/sharding/wal_applier.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/sharding/wal_applier.h</label>
+        <link refid="wal__applier_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sharding/wal_manager.h</label>
+        <link refid="wal__manager_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>atomic</label>
+      </node>
+      <node id="12">
+        <label>cstdint</label>
+      </node>
+      <node id="10">
+        <label>filesystem</label>
+      </node>
+      <node id="9">
+        <label>fstream</label>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>mutex</label>
+      </node>
+      <node id="13">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="11">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="14">
+        <label>utils/retry_policy.h</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/sharding/raft_wal_integration.h</label>
+        <link refid="raft__wal__integration_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/sharding/wal_applier.h</label>
+        <link refid="wal__applier_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/sharding/raft_wal_integration.cpp</label>
+        <link refid="raft__wal__integration_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/sharding/wal_applier.cpp</label>
+        <link refid="wal__applier_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1sharding_1_1_w_a_l_applier_config" prot="public">themis::sharding::WALApplierConfig</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_w_a_l_applier_stats" prot="public">themis::sharding::WALApplierStats</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_apply_result" prot="public">themis::sharding::ApplyResult</innerclass>
+    <innerclass refid="classthemis_1_1sharding_1_1_w_a_l_applier" prot="public">themis::sharding::WALApplier</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1sharding">themis::sharding</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="wal__manager_8h" kindref="compound">sharding/wal_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/retry_policy.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1sharding" kindref="compound">themis::sharding</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="namespacethemis_1_1sharding_1a71744a9683623f46023237880b4413fd" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1sharding_1a71744a9683623f46023237880b4413fd" kindref="member">ApplyHandler</ref><sp/>=<sp/>std::function&lt;bool(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_w_a_l_entry" kindref="compound">WALEntry</ref>&amp;)&gt;;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1sharding_1_1_w_a_l_applier_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_w_a_l_applier_config" kindref="compound">WALApplierConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1sharding_1_1_w_a_l_applier_config_1aa54405a6abaee3effe6216ccb5ea8b63" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_w_a_l_applier_config_1aa54405a6abaee3effe6216ccb5ea8b63" kindref="member">replica_id</ref>;</highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1sharding_1_1_w_a_l_applier_config_1af9b49aa7890fb290636d34f785ba3d09" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_w_a_l_applier_config_1af9b49aa7890fb290636d34f785ba3d09" kindref="member">strict_mode</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1sharding_1_1_w_a_l_applier_config_1a3e1dc621827835620e8960e52382bddd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_w_a_l_applier_config_1a3e1dc621827835620e8960e52382bddd" kindref="member">enable_conflict_detection</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1sharding_1_1_w_a_l_applier_config_1a4866536a9bfca7405c51755aeaff45e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_w_a_l_applier_config_1a4866536a9bfca7405c51755aeaff45e0" kindref="member">max_apply_retries</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1sharding_1_1_w_a_l_applier_config_1a2a77eff24db415069a4fda4420b7b686" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1sharding_1_1_w_a_l_applier_config_1a2a77eff24db415069a4fda4420b7b686" kindref="member">retry_initial_delay_ms</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1sharding_1_1_w_a_l_applier_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_w_a_l_applier_stats" kindref="compound">WALApplierStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1sharding_1_1_w_a_l_applier_stats_1afc988166905fc264b33de2a7f59ae3b6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_w_a_l_applier_stats_1afc988166905fc264b33de2a7f59ae3b6" kindref="member">total_entries_applied</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1sharding_1_1_w_a_l_applier_stats_1ab3115acfd99a2daef56f04465cf49827" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_w_a_l_applier_stats_1ab3115acfd99a2daef56f04465cf49827" kindref="member">total_bytes_applied</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1sharding_1_1_w_a_l_applier_stats_1a7c31d0793db49841ad5988ec5bf94425" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_w_a_l_applier_stats_1a7c31d0793db49841ad5988ec5bf94425" kindref="member">conflicts_detected</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1sharding_1_1_w_a_l_applier_stats_1ae273878a08899bcad5dc66483727cb48" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_w_a_l_applier_stats_1ae273878a08899bcad5dc66483727cb48" kindref="member">apply_failures</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1sharding_1_1_w_a_l_applier_stats_1a7e9fb1d4c65a67e79976b0a95d8f68c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_w_a_l_applier_stats_1a7e9fb1d4c65a67e79976b0a95d8f68c0" kindref="member">lsn_mismatches</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1sharding_1_1_w_a_l_applier_stats_1a860c9835e36e526c008ee2949a5e1644" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref><sp/><ref refid="structthemis_1_1sharding_1_1_w_a_l_applier_stats_1a860c9835e36e526c008ee2949a5e1644" kindref="member">current_replica_lsn</ref>;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1sharding_1_1_apply_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_apply_result" kindref="compound">ApplyResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1sharding_1_1_apply_result_1acce89e6d7a4cc36549d30e7aef5fd530" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_apply_result_1acce89e6d7a4cc36549d30e7aef5fd530" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1sharding_1_1_apply_result_1a1a5f2f563f64061a58098bfef51ede82" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_apply_result_1a1a5f2f563f64061a58098bfef51ede82" kindref="member">entries_applied</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1sharding_1_1_apply_result_1abc311aab83dc1a89f98b4d5f402615d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1sharding_1_1_apply_result_1abc311aab83dc1a89f98b4d5f402615d6" kindref="member">errors</ref>;</highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1sharding_1_1_apply_result_1a4c34e798513789715bf717d3af8fba20" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref><sp/><ref refid="structthemis_1_1sharding_1_1_apply_result_1a4c34e798513789715bf717d3af8fba20" kindref="member">last_applied_lsn</ref>;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="classthemis_1_1sharding_1_1_w_a_l_applier" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_w_a_l_applier_1ad55f264cb742ec542e44255b8d94e5af" kindref="member">WALApplier</ref><sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_w_a_l_applier_1ad55f264cb742ec542e44255b8d94e5af" kindref="member">WALApplier</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_w_a_l_applier_config" kindref="compound">WALApplierConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_w_a_l_applier_1af73fd95034e1db328ba7eb3a4c01c191" kindref="member">~WALApplier</ref>();</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_w_a_l_applier_1a894f9a96c7e41ae2007bfb1134ab86c4" kindref="member">setApplyHandler</ref>(<ref refid="namespacethemis_1_1sharding_1a71744a9683623f46023237880b4413fd" kindref="member">ApplyHandler</ref><sp/>handler);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_apply_result" kindref="compound">ApplyResult</ref><sp/><ref refid="classthemis_1_1sharding_1_1_w_a_l_applier_1abad4f31dfb0bf9d7e5736febfc44d650" kindref="member">applyBatch</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;WALEntry&gt;&amp;<sp/>entries);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref><sp/><ref refid="classthemis_1_1sharding_1_1_w_a_l_applier_1abeceda46c7017e39803993c94f29e058" kindref="member">getCurrentLSN</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_w_a_l_applier_1a24f27acc4d38324e84d27b6acaed058b" kindref="member">setCurrentLSN</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref>&amp;<sp/>lsn);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_w_a_l_applier_stats" kindref="compound">WALApplierStats</ref><sp/><ref refid="classthemis_1_1sharding_1_1_w_a_l_applier_1a2cd2d541a74cdce509c31f93d8954724" kindref="member">getStatistics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_w_a_l_applier_1af36a2d62877ddd17f0038b2c2059a890" kindref="member">resetStatistics</ref>();</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_w_a_l_applier_config" kindref="compound">WALApplierConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref><sp/>current_lsn_;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a71744a9683623f46023237880b4413fd" kindref="member">ApplyHandler</ref><sp/>apply_handler_;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>stats_mutex_;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_w_a_l_applier_stats" kindref="compound">WALApplierStats</ref><sp/>stats_;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>applyEntry(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_w_a_l_entry" kindref="compound">WALEntry</ref>&amp;<sp/>entry);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>validateLSN(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref>&amp;<sp/>expected,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref>&amp;<sp/>actual);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>handleConflict(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_w_a_l_entry" kindref="compound">WALEntry</ref>&amp;<sp/>entry);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::sharding</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/sharding/wal_applier.h"/>
+  </compounddef>
+</doxygen>

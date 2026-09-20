@@ -1,0 +1,250 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_shard" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::Shard</compoundname>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="structthemis_1_1utils_1_1_shard_1aeb6b0e258309c4bdb769e7e0e87b6173" prot="public" static="no">
+        <type>std::string</type>
+        <definition>using themis::utils::Shard::Key = std::string</definition>
+        <argsstring></argsstring>
+        <name>Key</name>
+        <qualifiedname>themis::utils::Shard::Key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/hkdf_cache.cpp" line="48" column="5" bodyfile="src/utils/hkdf_cache.cpp" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="structthemis_1_1utils_1_1_shard_1a0d181cad5563f5de76c3fa17130e18ed" prot="public" static="no">
+        <type>std::list&lt; <ref refid="structthemis_1_1utils_1_1_shard_1aeb6b0e258309c4bdb769e7e0e87b6173" kindref="member">Key</ref> &gt;</type>
+        <definition>using themis::utils::Shard::List = std::list&lt;Key&gt;</definition>
+        <argsstring></argsstring>
+        <name>List</name>
+        <qualifiedname>themis::utils::Shard::List</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/hkdf_cache.cpp" line="49" column="5" bodyfile="src/utils/hkdf_cache.cpp" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="structthemis_1_1utils_1_1_shard_1a109d8881e64d00d920c81dab6d7f8cff" prot="public" static="no">
+        <type>std::unordered_map&lt; <ref refid="structthemis_1_1utils_1_1_shard_1aeb6b0e258309c4bdb769e7e0e87b6173" kindref="member">Key</ref>, std::pair&lt; List::iterator, <ref refid="structthemis_1_1utils_1_1_cache_entry" kindref="compound">CacheEntry</ref> &gt; &gt;</type>
+        <definition>using themis::utils::Shard::Map = std::unordered_map&lt;Key, std::pair&lt;List::iterator, CacheEntry&gt;&gt;</definition>
+        <argsstring></argsstring>
+        <name>Map</name>
+        <qualifiedname>themis::utils::Shard::Map</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/hkdf_cache.cpp" line="50" column="5" bodyfile="src/utils/hkdf_cache.cpp" bodystart="50" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_shard_1af7c99ae06bfdc8241d9f7fbdd3749a05" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::Shard::capacity</definition>
+        <argsstring></argsstring>
+        <name>capacity</name>
+        <qualifiedname>themis::utils::Shard::capacity</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/hkdf_cache.cpp" line="52" column="12" bodyfile="src/utils/hkdf_cache.cpp" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_shard_1aaad8b91d974e76a1ea69dda663ff4e52" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1utils_1_1_shard_1a0d181cad5563f5de76c3fa17130e18ed" kindref="member">List</ref></type>
+        <definition>List themis::utils::Shard::lru</definition>
+        <argsstring></argsstring>
+        <name>lru</name>
+        <qualifiedname>themis::utils::Shard::lru</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/hkdf_cache.cpp" line="54" column="10" bodyfile="src/utils/hkdf_cache.cpp" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_shard_1ad2d94a448517c06f147cc233e6113ec4" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1utils_1_1_shard_1a109d8881e64d00d920c81dab6d7f8cff" kindref="member">Map</ref></type>
+        <definition>Map themis::utils::Shard::map</definition>
+        <argsstring></argsstring>
+        <name>map</name>
+        <qualifiedname>themis::utils::Shard::map</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/hkdf_cache.cpp" line="55" column="10" bodyfile="src/utils/hkdf_cache.cpp" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_shard_1aac8fe35ec3d232e4b79b6b7465430fe2" prot="public" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::utils::Shard::mu</definition>
+        <argsstring></argsstring>
+        <name>mu</name>
+        <qualifiedname>themis::utils::Shard::mu</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/hkdf_cache.cpp" line="56" column="16" bodyfile="src/utils/hkdf_cache.cpp" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_shard_1ab7f6d0187987100577ad8c00c3d4ca29" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::utils::Shard::hits</definition>
+        <argsstring></argsstring>
+        <name>hits</name>
+        <qualifiedname>themis::utils::Shard::hits</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/hkdf_cache.cpp" line="59" column="17" bodyfile="src/utils/hkdf_cache.cpp" bodystart="59" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_shard_1a30706e57b67daead244b7d7e20b7312a" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::utils::Shard::misses</definition>
+        <argsstring></argsstring>
+        <name>misses</name>
+        <qualifiedname>themis::utils::Shard::misses</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/hkdf_cache.cpp" line="60" column="17" bodyfile="src/utils/hkdf_cache.cpp" bodystart="60" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_shard_1a226477eb1923425f8ada332b255e347d" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::utils::Shard::evictions</definition>
+        <argsstring></argsstring>
+        <name>evictions</name>
+        <qualifiedname>themis::utils::Shard::evictions</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/hkdf_cache.cpp" line="61" column="17" bodyfile="src/utils/hkdf_cache.cpp" bodystart="61" bodyend="61"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1utils_1_1_shard_1a6f8c107419e6a3aa021ecdd5f99a6d0c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::Shard::erase_entry</definition>
+        <argsstring>(Map::iterator it)</argsstring>
+        <name>erase_entry</name>
+        <qualifiedname>themis::utils::Shard::erase_entry</qualifiedname>
+        <param>
+          <type>Map::iterator</type>
+          <declname>it</declname>
+        </param>
+        <briefdescription>
+<para>Erase entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">it</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: OPENSSL_cleanse(), data(), size(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/hkdf_cache.cpp" line="68" column="10" bodyfile="src/utils/hkdf_cache.cpp" bodystart="68" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1utils_1_1_shard_1a70a7814674ae73d3f250a40b8dfd8c9b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::Shard::evict_expired</definition>
+        <argsstring>(std::chrono::seconds ttl)</argsstring>
+        <name>evict_expired</name>
+        <qualifiedname>themis::utils::Shard::evict_expired</qualifiedname>
+        <param>
+          <type>std::chrono::seconds</type>
+          <declname>ttl</declname>
+        </param>
+        <briefdescription>
+<para>Evict expired. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ttl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: count(), std::chrono::steady_clock::now(), begin(), end(), std::next(), <ref refid="structthemis_1_1utils_1_1_shard_1a6f8c107419e6a3aa021ecdd5f99a6d0c" kindref="member">erase_entry()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/hkdf_cache.cpp" line="81" column="10" bodyfile="src/utils/hkdf_cache.cpp" bodystart="81" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1utils_1_1_shard_1a2b74cba43b2070c340006df573578330" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::Shard::evict_lru</definition>
+        <argsstring>()</argsstring>
+        <name>evict_lru</name>
+        <qualifiedname>themis::utils::Shard::evict_lru</qualifiedname>
+        <briefdescription>
+<para>Evict lru. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: size(), empty(), back(), find(), end(), <ref refid="structthemis_1_1utils_1_1_shard_1a6f8c107419e6a3aa021ecdd5f99a6d0c" kindref="member">erase_entry()</ref>, pop_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/hkdf_cache.cpp" line="103" column="10" bodyfile="src/utils/hkdf_cache.cpp" bodystart="103" bodyend="112"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/utils/hkdf_cache.cpp" line="47" column="1" bodyfile="src/utils/hkdf_cache.cpp" bodystart="47" bodyend="113"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_shard_1af7c99ae06bfdc8241d9f7fbdd3749a05" prot="public" virt="non-virtual"><scope>themis::utils::Shard</scope><name>capacity</name></member>
+      <member refid="structthemis_1_1utils_1_1_shard_1a6f8c107419e6a3aa021ecdd5f99a6d0c" prot="public" virt="non-virtual"><scope>themis::utils::Shard</scope><name>erase_entry</name></member>
+      <member refid="structthemis_1_1utils_1_1_shard_1a70a7814674ae73d3f250a40b8dfd8c9b" prot="public" virt="non-virtual"><scope>themis::utils::Shard</scope><name>evict_expired</name></member>
+      <member refid="structthemis_1_1utils_1_1_shard_1a2b74cba43b2070c340006df573578330" prot="public" virt="non-virtual"><scope>themis::utils::Shard</scope><name>evict_lru</name></member>
+      <member refid="structthemis_1_1utils_1_1_shard_1a226477eb1923425f8ada332b255e347d" prot="public" virt="non-virtual"><scope>themis::utils::Shard</scope><name>evictions</name></member>
+      <member refid="structthemis_1_1utils_1_1_shard_1ab7f6d0187987100577ad8c00c3d4ca29" prot="public" virt="non-virtual"><scope>themis::utils::Shard</scope><name>hits</name></member>
+      <member refid="structthemis_1_1utils_1_1_shard_1aeb6b0e258309c4bdb769e7e0e87b6173" prot="public" virt="non-virtual"><scope>themis::utils::Shard</scope><name>Key</name></member>
+      <member refid="structthemis_1_1utils_1_1_shard_1a0d181cad5563f5de76c3fa17130e18ed" prot="public" virt="non-virtual"><scope>themis::utils::Shard</scope><name>List</name></member>
+      <member refid="structthemis_1_1utils_1_1_shard_1aaad8b91d974e76a1ea69dda663ff4e52" prot="public" virt="non-virtual"><scope>themis::utils::Shard</scope><name>lru</name></member>
+      <member refid="structthemis_1_1utils_1_1_shard_1a109d8881e64d00d920c81dab6d7f8cff" prot="public" virt="non-virtual"><scope>themis::utils::Shard</scope><name>Map</name></member>
+      <member refid="structthemis_1_1utils_1_1_shard_1ad2d94a448517c06f147cc233e6113ec4" prot="public" virt="non-virtual"><scope>themis::utils::Shard</scope><name>map</name></member>
+      <member refid="structthemis_1_1utils_1_1_shard_1a30706e57b67daead244b7d7e20b7312a" prot="public" virt="non-virtual"><scope>themis::utils::Shard</scope><name>misses</name></member>
+      <member refid="structthemis_1_1utils_1_1_shard_1aac8fe35ec3d232e4b79b6b7465430fe2" prot="public" virt="non-virtual"><scope>themis::utils::Shard</scope><name>mu</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

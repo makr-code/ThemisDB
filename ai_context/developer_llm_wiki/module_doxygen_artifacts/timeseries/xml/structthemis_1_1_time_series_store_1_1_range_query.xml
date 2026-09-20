@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_time_series_store_1_1_range_query" kind="struct" language="C++" prot="public">
+    <compoundname>themis::TimeSeriesStore::RangeQuery</compoundname>
+    <includes refid="timeseries_8h" local="no">timeseries.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_time_series_store_1_1_range_query_1a42bdf41cf7156ab6213e575dae59f287" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::TimeSeriesStore::RangeQuery::from_ms</definition>
+        <argsstring></argsstring>
+        <name>from_ms</name>
+        <qualifiedname>themis::TimeSeriesStore::RangeQuery::from_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries.h" line="70" column="17" bodyfile="include/timeseries/timeseries.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_time_series_store_1_1_range_query_1a1205c2a6f6bdee7fa276deb0d698b6d4" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::TimeSeriesStore::RangeQuery::to_ms</definition>
+        <argsstring></argsstring>
+        <name>to_ms</name>
+        <qualifiedname>themis::TimeSeriesStore::RangeQuery::to_ms</qualifiedname>
+        <initializer>= INT64_MAX</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries.h" line="71" column="17" bodyfile="include/timeseries/timeseries.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_time_series_store_1_1_range_query_1aa1af6eaa34ae8f37fcb51bba8e542ef7" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::TimeSeriesStore::RangeQuery::limit</definition>
+        <argsstring></argsstring>
+        <name>limit</name>
+        <qualifiedname>themis::TimeSeriesStore::RangeQuery::limit</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries.h" line="72" column="16" bodyfile="include/timeseries/timeseries.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_time_series_store_1_1_range_query_1a196a498d908d074ef42f03b3ba919a39" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::TimeSeriesStore::RangeQuery::descending</definition>
+        <argsstring></argsstring>
+        <name>descending</name>
+        <qualifiedname>themis::TimeSeriesStore::RangeQuery::descending</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries.h" line="73" column="14" bodyfile="include/timeseries/timeseries.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/timeseries/timeseries.h" line="69" column="5" bodyfile="include/timeseries/timeseries.h" bodystart="69" bodyend="74"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_time_series_store_1_1_range_query_1a196a498d908d074ef42f03b3ba919a39" prot="public" virt="non-virtual"><scope>themis::TimeSeriesStore::RangeQuery</scope><name>descending</name></member>
+      <member refid="structthemis_1_1_time_series_store_1_1_range_query_1a42bdf41cf7156ab6213e575dae59f287" prot="public" virt="non-virtual"><scope>themis::TimeSeriesStore::RangeQuery</scope><name>from_ms</name></member>
+      <member refid="structthemis_1_1_time_series_store_1_1_range_query_1aa1af6eaa34ae8f37fcb51bba8e542ef7" prot="public" virt="non-virtual"><scope>themis::TimeSeriesStore::RangeQuery</scope><name>limit</name></member>
+      <member refid="structthemis_1_1_time_series_store_1_1_range_query_1a1205c2a6f6bdee7fa276deb0d698b6d4" prot="public" virt="non-virtual"><scope>themis::TimeSeriesStore::RangeQuery</scope><name>to_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

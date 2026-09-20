@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_i_structured_output_enforcer" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::prompt_engineering::IStructuredOutputEnforcer</compoundname>
+    <derivedcompoundref refid="classthemis_1_1prompt__engineering_1_1_structured_output_enforcer" prot="public" virt="non-virtual">themis::prompt_engineering::StructuredOutputEnforcer</derivedcompoundref>
+    <includes refid="structured__output_8h" local="no">structured_output.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_structured_output_enforcer_1a79df19b85542724d98c6bc1e80c3469a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::prompt_engineering::IStructuredOutputEnforcer::~IStructuredOutputEnforcer</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IStructuredOutputEnforcer</name>
+        <qualifiedname>themis::prompt_engineering::IStructuredOutputEnforcer::~IStructuredOutputEnforcer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/structured_output.h" line="84" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_structured_output_enforcer_1a439543599b791e9f91775ba25a10fc68" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_structured_output_result" kindref="compound">StructuredOutputResult</ref></type>
+        <definition>virtual StructuredOutputResult themis::prompt_engineering::IStructuredOutputEnforcer::enforce</definition>
+        <argsstring>(const std::string &amp;raw_output, const StructuredOutputConfig &amp;config)=0</argsstring>
+        <name>enforce</name>
+        <qualifiedname>themis::prompt_engineering::IStructuredOutputEnforcer::enforce</qualifiedname>
+        <reimplementedby refid="classthemis_1_1prompt__engineering_1_1_structured_output_enforcer_1a2f68e362b40ed5b9b6772d379a7f8960">enforce</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>raw_output</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_structured_output_config" kindref="compound">StructuredOutputConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Enforce the constraint on <computeroutput>raw_output</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Applies repair (if configured) and validates against the declared constraint type. Retries up to <computeroutput><ref refid="structthemis_1_1prompt__engineering_1_1_json_schema_constraint_1a317ba4cc21acf66e36631a3e3d6ea25e" kindref="member">JsonSchemaConstraint::max_retries</ref></computeroutput> times for JSON_SCHEMA mode. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/structured_output.h" line="93" column="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_structured_output_enforcer_1a5369c76fcb7a70978a1f017b1a5812cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::prompt_engineering::IStructuredOutputEnforcer::validate</definition>
+        <argsstring>(const std::string &amp;output, const StructuredOutputConfig &amp;config, std::vector&lt; std::string &gt; &amp;errors)=0</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::prompt_engineering::IStructuredOutputEnforcer::validate</qualifiedname>
+        <reimplementedby refid="classthemis_1_1prompt__engineering_1_1_structured_output_enforcer_1af8163c26f05c333577ce3884afab0bc6">validate</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>output</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_structured_output_config" kindref="compound">StructuredOutputConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt; &amp;</type>
+          <declname>errors</declname>
+        </param>
+        <briefdescription>
+<para>Validate <computeroutput>output</computeroutput> against <computeroutput>config</computeroutput>; populate <computeroutput>errors</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para><computeroutput>true</computeroutput> iff validation passes (errors is empty). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/structured_output.h" line="102" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstract interface for structured LLM output enforcement. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::prompt_engineering::IStructuredOutputEnforcer</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_i_structured_output_enforcer"/>
+      </node>
+      <node id="2">
+        <label>themis::prompt_engineering::StructuredOutputEnforcer</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_structured_output_enforcer"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/prompt_engineering/structured_output.h" line="82" column="1" bodyfile="include/prompt_engineering/structured_output.h" bodystart="82" bodyend="105"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_structured_output_enforcer_1a439543599b791e9f91775ba25a10fc68" prot="public" virt="pure-virtual"><scope>themis::prompt_engineering::IStructuredOutputEnforcer</scope><name>enforce</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_structured_output_enforcer_1a5369c76fcb7a70978a1f017b1a5812cc" prot="public" virt="pure-virtual"><scope>themis::prompt_engineering::IStructuredOutputEnforcer</scope><name>validate</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_structured_output_enforcer_1a79df19b85542724d98c6bc1e80c3469a" prot="public" virt="virtual"><scope>themis::prompt_engineering::IStructuredOutputEnforcer</scope><name>~IStructuredOutputEnforcer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,326 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1judge_1_1_judge_ensemble" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::judge::JudgeEnsemble</compoundname>
+    <includes refid="rag__judge_8h" local="no">rag_judge.h</includes>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_judge_ensemble_1_1_impl" prot="public">themis::rag::judge::JudgeEnsemble::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1judge_1_1_judge_ensemble_1ad66b2ed6316ed2b0bfb2a0ad8a6a843b" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_judge_ensemble_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::rag::judge::JudgeEnsemble::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::rag::judge::JudgeEnsemble::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="512" column="21" bodyfile="include/rag/rag_judge.h" bodystart="512" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_judge_ensemble_1a9e3db0630d9952bd3a6fa97562adac68" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::judge::JudgeEnsemble::JudgeEnsemble</definition>
+        <argsstring>(std::vector&lt; std::shared_ptr&lt; RAGJudge &gt; &gt; judges, VotingStrategy strategy=VotingStrategy::WEIGHTED_AVERAGE)</argsstring>
+        <name>JudgeEnsemble</name>
+        <qualifiedname>themis::rag::judge::JudgeEnsemble::JudgeEnsemble</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::shared_ptr&lt; <ref refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge" kindref="compound">RAGJudge</ref> &gt; &gt;</type>
+          <declname>judges</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1rag_1_1judge_1abc8941a936d0cfdbee22e72c65594677" kindref="member">VotingStrategy</ref></type>
+          <declname>strategy</declname>
+          <defval><ref refid="namespacethemis_1_1rag_1_1judge_1abc8941a936d0cfdbee22e72c65594677a4f51d375a57ade6658e035f335229505" kindref="member">VotingStrategy::WEIGHTED_AVERAGE</ref></defval>
+        </param>
+        <briefdescription>
+<para>Construct ensemble with judges. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>judges</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector of judge instances </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>strategy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Voting strategy for combining results </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="475" column="5" bodyfile="src/rag/rag_judge.cpp" bodystart="1749" bodyend="1755"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_judge_ensemble_1abf0ae178131cb0810e26e90cd4577632" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::judge::JudgeEnsemble::~JudgeEnsemble</definition>
+        <argsstring>()</argsstring>
+        <name>~JudgeEnsemble</name>
+        <qualifiedname>themis::rag::judge::JudgeEnsemble::~JudgeEnsemble</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="480" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_judge_ensemble_1a0a20da23b1e8a67dbf18e0ebc1ee92ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result" kindref="compound">EvaluationResult</ref></type>
+        <definition>EvaluationResult themis::rag::judge::JudgeEnsemble::evaluateWithEnsemble</definition>
+        <argsstring>(const EvaluationInput &amp;input)</argsstring>
+        <name>evaluateWithEnsemble</name>
+        <qualifiedname>themis::rag::judge::JudgeEnsemble::evaluateWithEnsemble</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_input" kindref="compound">EvaluationInput</ref> &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate with ensemble. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Evaluate With Ensemble.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Evaluation input </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Combined evaluation result</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: THEMIS_INFO(), size(), push_back(), evaluate(), combineResults(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="487" column="22" bodyfile="src/rag/rag_judge.cpp" bodystart="1765" bodyend="1775"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_judge_ensemble_1ad0108028039bba02921fc7a4c15f8b96" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_comparison_result" kindref="compound">ComparisonResult</ref></type>
+        <definition>ComparisonResult themis::rag::judge::JudgeEnsemble::compareWithEnsemble</definition>
+        <argsstring>(const std::string &amp;query, const std::vector&lt; RetrievedDocument &gt; &amp;documents, const std::string &amp;answer_a, const std::string &amp;answer_b)</argsstring>
+        <name>compareWithEnsemble</name>
+        <qualifiedname>themis::rag::judge::JudgeEnsemble::compareWithEnsemble</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> &gt; &amp;</type>
+          <declname>documents</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>answer_a</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>answer_b</declname>
+        </param>
+        <briefdescription>
+<para>Compare with ensemble. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compare With Ensemble.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>User query </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>documents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Retrieved documents </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>answer_a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>First answer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>answer_b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Second answer </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Combined comparison result</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">documents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">answer_a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">answer_b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), compare(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="497" column="22" bodyfile="src/rag/rag_judge.cpp" bodystart="1786" bodyend="1833"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_judge_ensemble_1a95b5fee8386d0d4a3373c729ae3418f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::judge::JudgeEnsemble::setVotingStrategy</definition>
+        <argsstring>(VotingStrategy strategy)</argsstring>
+        <name>setVotingStrategy</name>
+        <qualifiedname>themis::rag::judge::JudgeEnsemble::setVotingStrategy</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1rag_1_1judge_1abc8941a936d0cfdbee22e72c65594677" kindref="member">VotingStrategy</ref></type>
+          <declname>strategy</declname>
+        </param>
+        <briefdescription>
+<para>Set voting strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Voting Strategy.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>strategy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New voting strategy</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">strategy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setVotingStrategy without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="508" column="10" bodyfile="src/rag/rag_judge.cpp" bodystart="1840" bodyend="1842"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_judge_ensemble_1a396427910fa90a422f80355ab314a92b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result" kindref="compound">EvaluationResult</ref></type>
+        <definition>EvaluationResult themis::rag::judge::JudgeEnsemble::combineResults</definition>
+        <argsstring>(const std::vector&lt; EvaluationResult &gt; &amp;results, VotingStrategy strategy)</argsstring>
+        <name>combineResults</name>
+        <qualifiedname>themis::rag::judge::JudgeEnsemble::combineResults</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result" kindref="compound">EvaluationResult</ref> &gt; &amp;</type>
+          <declname>results</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1rag_1_1judge_1abc8941a936d0cfdbee22e72c65594677" kindref="member">VotingStrategy</ref></type>
+          <declname>strategy</declname>
+        </param>
+        <briefdescription>
+<para>Combine Results. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">strategy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="514" column="22" bodyfile="src/rag/rag_judge.cpp" bodystart="1851" bodyend="1898"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Ensemble of multiple judges for robust evaluation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/rag_judge.h" line="468" column="1" bodyfile="include/rag/rag_judge.h" bodystart="468" bodyend="518"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_judge_ensemble_1a396427910fa90a422f80355ab314a92b" prot="private" virt="non-virtual"><scope>themis::rag::judge::JudgeEnsemble</scope><name>combineResults</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_judge_ensemble_1ad0108028039bba02921fc7a4c15f8b96" prot="public" virt="non-virtual"><scope>themis::rag::judge::JudgeEnsemble</scope><name>compareWithEnsemble</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_judge_ensemble_1a0a20da23b1e8a67dbf18e0ebc1ee92ee" prot="public" virt="non-virtual"><scope>themis::rag::judge::JudgeEnsemble</scope><name>evaluateWithEnsemble</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_judge_ensemble_1ad66b2ed6316ed2b0bfb2a0ad8a6a843b" prot="private" virt="non-virtual"><scope>themis::rag::judge::JudgeEnsemble</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_judge_ensemble_1a9e3db0630d9952bd3a6fa97562adac68" prot="public" virt="non-virtual"><scope>themis::rag::judge::JudgeEnsemble</scope><name>JudgeEnsemble</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_judge_ensemble_1a95b5fee8386d0d4a3373c729ae3418f3" prot="public" virt="non-virtual"><scope>themis::rag::judge::JudgeEnsemble</scope><name>setVotingStrategy</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_judge_ensemble_1abf0ae178131cb0810e26e90cd4577632" prot="public" virt="non-virtual"><scope>themis::rag::judge::JudgeEnsemble</scope><name>~JudgeEnsemble</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

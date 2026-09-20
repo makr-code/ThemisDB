@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_m_c_m_test" kind="class" language="C++" prot="public">
+    <compoundname>MCMTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_m_c_m_test_1ad372b8c8c683987682136c1552e64224" prot="protected" static="no" mutable="no">
+        <type><ref refid="struct_temp_w_a_l_dir" kindref="compound">TempWALDir</ref></type>
+        <definition>TempWALDir MCMTest::wd_</definition>
+        <argsstring></argsstring>
+        <name>wd_</name>
+        <qualifiedname>MCMTest::wd_</qualifiedname>
+        <initializer>{&quot;/tmp/themis_raft_v2_test&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_raft_v2.cpp" line="267" column="16" bodyfile="tests/replication/test_replication_raft_v2.cpp" bodystart="267" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_m_c_m_test_1ae6adc66c1c4ef8d1c50043b84ccbb4e3" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1replication_1_1_raft_v2_cluster_config" kindref="compound">RaftV2ClusterConfig</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;RaftV2ClusterConfig&gt; MCMTest::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>MCMTest::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_raft_v2.cpp" line="268" column="21" bodyfile="tests/replication/test_replication_raft_v2.cpp" bodystart="268" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_m_c_m_test_1a6c70b31f5dbca6020d62e248859858fa" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemisdb_1_1replication_1_1_membership_change_manager" kindref="compound">MembershipChangeManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;MembershipChangeManager&gt; MCMTest::mgr_</definition>
+        <argsstring></argsstring>
+        <name>mgr_</name>
+        <qualifiedname>MCMTest::mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_raft_v2.cpp" line="269" column="21" bodyfile="tests/replication/test_replication_raft_v2.cpp" bodystart="269" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_m_c_m_test_1add837888afcfd0e96af4eef92bd45f93" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void MCMTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>MCMTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_raft_v2.cpp" line="271" column="10" bodyfile="tests/replication/test_replication_raft_v2.cpp" bodystart="271" bodyend="277"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>MCMTest</label>
+        <link refid="class_m_c_m_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>MCMTest</label>
+        <link refid="class_m_c_m_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>wd_</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>TempWALDir</label>
+        <link refid="struct_temp_w_a_l_dir"/>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/replication/test_replication_raft_v2.cpp" line="265" column="1" bodyfile="tests/replication/test_replication_raft_v2.cpp" bodystart="265" bodyend="278"/>
+    <listofallmembers>
+      <member refid="class_m_c_m_test_1ae6adc66c1c4ef8d1c50043b84ccbb4e3" prot="protected" virt="non-virtual"><scope>MCMTest</scope><name>config_</name></member>
+      <member refid="class_m_c_m_test_1a6c70b31f5dbca6020d62e248859858fa" prot="protected" virt="non-virtual"><scope>MCMTest</scope><name>mgr_</name></member>
+      <member refid="class_m_c_m_test_1add837888afcfd0e96af4eef92bd45f93" prot="protected" virt="non-virtual"><scope>MCMTest</scope><name>SetUp</name></member>
+      <member refid="class_m_c_m_test_1ad372b8c8c683987682136c1552e64224" prot="protected" virt="non-virtual"><scope>MCMTest</scope><name>wd_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

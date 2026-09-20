@@ -1,0 +1,298 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1_i_source_connector" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::ingestion::ISourceConnector</compoundname>
+    <derivedcompoundref refid="class_stub_plugin_connector" prot="public" virt="non-virtual">StubPluginConnector</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1ingestion_1_1_cdc_connector" prot="public" virt="non-virtual">themis::ingestion::CdcConnector</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1ingestion_1_1_database_connector" prot="public" virt="non-virtual">themis::ingestion::DatabaseConnector</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1ingestion_1_1_file_system_ingester" prot="public" virt="non-virtual">themis::ingestion::FileSystemIngester</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1ingestion_1_1_generic_api_connector" prot="public" virt="non-virtual">themis::ingestion::GenericApiConnector</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1ingestion_1_1_hugging_face_connector" prot="public" virt="non-virtual">themis::ingestion::HuggingFaceConnector</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1ingestion_1_1_kafka_connector" prot="public" virt="non-virtual">themis::ingestion::KafkaConnector</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1ingestion_1_1_object_storage_connector" prot="public" virt="non-virtual">themis::ingestion::ObjectStorageConnector</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1ingestion_1_1_s3_connector" prot="public" virt="non-virtual">themis::ingestion::S3Connector</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1ingestion_1_1_web_crawler_connector" prot="public" virt="non-virtual">themis::ingestion::WebCrawlerConnector</derivedcompoundref>
+    <includes refid="ingestion__manager_8h" local="no">ingestion_manager.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_i_source_connector_1af3935b3583056d092875221c07ecf7d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::ingestion::ISourceConnector::~ISourceConnector</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ISourceConnector</name>
+        <qualifiedname>themis::ingestion::ISourceConnector::~ISourceConnector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1355" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_i_source_connector_1ab6a018a611fc4bcc353665f96b59bfd5" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::ingestion::ISourceConnector::initialize</definition>
+        <argsstring>(const SourceConfig &amp;config)=0</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::ingestion::ISourceConnector::initialize</qualifiedname>
+        <reimplementedby refid="class_stub_plugin_connector_1a98d1404f399dffe2883ed2d833b8e553">initialize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_cdc_connector_1aeab94d472f9f8ec473e1cad9c6cfa51a">initialize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_database_connector_1a92f61956041107e93ad90399f67be6aa">initialize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_file_system_ingester_1aefcb324c5a8ccc1f274561d83003ce7d">initialize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_generic_api_connector_1ac06017a49b7f242948682bf708228995">initialize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_hugging_face_connector_1a669aaf5297d2faf63a9ec7c2431e242e">initialize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_kafka_connector_1acb95ee1088eac76b378ec85bddb758aa">initialize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_object_storage_connector_1ab4fc27e86523c97dbd0115a0e413073f">initialize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_s3_connector_1ad610677d96e618f6deadde3f51d493c5">initialize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_web_crawler_connector_1affbc0384a41ef379d06b5f1df698a79e">initialize</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_source_config" kindref="compound">SourceConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Initialize the connector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if initialization successful </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1362" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_i_source_connector_1ae6d4963df23947b6546b6a943f8a7d2d" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::ingestion::ISourceConnector::isAvailable</definition>
+        <argsstring>() const =0</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::ingestion::ISourceConnector::isAvailable</qualifiedname>
+        <reimplementedby refid="class_stub_plugin_connector_1ad8af581cd8a5d1d8b9ab21320376b3ed">isAvailable</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_cdc_connector_1ad1c3f508536f22a56249e783e04cf30d">isAvailable</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_database_connector_1a6e97968babdcb27e72f81649da7590f9">isAvailable</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_file_system_ingester_1a05c982f2feed2f8814c55adb630a5c54">isAvailable</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_generic_api_connector_1ac5cfe82ffe6419acd3348a9757f73cea">isAvailable</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_hugging_face_connector_1a1f3b6179fd8f5faa58dbe27567c3587c">isAvailable</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_kafka_connector_1a2b5ee9a348a2af29b7f174caef3cc7e3">isAvailable</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_object_storage_connector_1a52fc97a030c083dc7ec87f064b021ce8">isAvailable</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_s3_connector_1a04742be13ef0c4fb2be3085abd838290">isAvailable</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_web_crawler_connector_1ac23bbf6aff2038aaaa0e0a1e8e7b6198">isAvailable</reimplementedby>
+        <briefdescription>
+<para>Check if source is available. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if source can be accessed </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1368" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_i_source_connector_1a22a97b14d4935c62895fa668e021ab4e" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>size_t</type>
+        <definition>virtual size_t themis::ingestion::ISourceConnector::getDocumentCount</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getDocumentCount</name>
+        <qualifiedname>themis::ingestion::ISourceConnector::getDocumentCount</qualifiedname>
+        <reimplementedby refid="class_stub_plugin_connector_1a9a1546ca769f7a25378f88279f0f6412">getDocumentCount</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_cdc_connector_1a656c729b07f09c8c2f6ca4f129dd73bf">getDocumentCount</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_database_connector_1af264c5b5129bfaddff5030dee7a0ca1b">getDocumentCount</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_file_system_ingester_1a665c683e2befd68ec70a464bd27acf37">getDocumentCount</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_generic_api_connector_1ae7145c639be12360357b555e4f86cd02">getDocumentCount</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_hugging_face_connector_1adcacba9d757c55e6980adb1c03d25534">getDocumentCount</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_kafka_connector_1ad4ff03007cb5f69ac9128b12413595ea">getDocumentCount</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_object_storage_connector_1a71b2535c8d3c1f0e68cfc63cc5dfa2e5">getDocumentCount</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_s3_connector_1abfef006582c83a09848f71323d668981">getDocumentCount</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_web_crawler_connector_1aca7f44d72eb3cf844fdf056a663e6e1f">getDocumentCount</reimplementedby>
+        <briefdescription>
+<para>Get total number of documents available. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Document count (0 if unknown) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1374" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_i_source_connector_1add9fbbb52139b936dba9a2236a80edbb" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1ingestion_1_1_ingestion_stats" kindref="compound">IngestionStats</ref></type>
+        <definition>virtual IngestionStats themis::ingestion::ISourceConnector::ingest</definition>
+        <argsstring>(const std::string &amp;target_collection, ProgressCallback progress_callback)=0</argsstring>
+        <name>ingest</name>
+        <qualifiedname>themis::ingestion::ISourceConnector::ingest</qualifiedname>
+        <reimplementedby refid="class_stub_plugin_connector_1a81fc97b046f7eb0337e92d0c10ed2cdf">ingest</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_cdc_connector_1a820751cc1ebda146953ce3d2c2cd708b">ingest</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_database_connector_1a9d6bce9da2a595ad3f7cae5f3298f043">ingest</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_file_system_ingester_1a34c293d840b60c844fc798960c1de3f4">ingest</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_generic_api_connector_1a6d4039a25171c5ae31acadb06239b623">ingest</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_hugging_face_connector_1a9daf779ece80647339be07132d9ba3c7">ingest</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_kafka_connector_1a0cea2c141e9806937d49f403bf165542">ingest</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_object_storage_connector_1a058b3e4bbff1939fcbb8e3122f30d3ed">ingest</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_s3_connector_1a6efdd523bf0559f72b88973411e06aa6">ingest</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_web_crawler_connector_1a84880ad7bec932d25471925407c28547">ingest</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_collection</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1ingestion_1a08c45a80d5fd20fa7f8af7fd52290e94" kindref="member">ProgressCallback</ref></type>
+          <declname>progress_callback</declname>
+        </param>
+        <briefdescription>
+<para>Ingest documents from source. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>target_collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target collection name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>progress_callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Progress callback </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Ingestion statistics </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1382" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_i_source_connector_1a762b4b0305a9c2a3e466d00c6e05df84" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>virtual void themis::ingestion::ISourceConnector::setDocumentValidator</definition>
+        <argsstring>(DocumentValidatorFn validator)</argsstring>
+        <name>setDocumentValidator</name>
+        <qualifiedname>themis::ingestion::ISourceConnector::setDocumentValidator</qualifiedname>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_file_system_ingester_1ab047a7a3a4fc24d1f1e0da569d8cbdcc">setDocumentValidator</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_generic_api_connector_1a7dcf780719840dfbb5f4d320838d2608">setDocumentValidator</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_hugging_face_connector_1ad75344cbfa8135c91cf554d0910292ab">setDocumentValidator</reimplementedby>
+        <param>
+          <type><ref refid="namespacethemis_1_1ingestion_1a9b9e88e0ec7ef5e4f0a5afc3bc61bb1b" kindref="member">DocumentValidatorFn</ref></type>
+          <declname>validator</declname>
+        </param>
+        <briefdescription>
+<para>Inject a per-document validator that is called before writing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When set, the connector calls <computeroutput>validator(content)</computeroutput> for each document before counting it as processed. If the result is invalid and the source&apos;s <computeroutput><ref refid="structthemis_1_1ingestion_1_1_schema_config_1a4837d515aa59c9ced23958ff5d7ec733" kindref="member">SchemaConfig::reject_invalid</ref></computeroutput> flag is true, the document is counted as failed instead of processed.</para>
+<para>The default implementation is a no-op (validators are opt-in per connector). Concrete connectors that support field-level document validation should override this method.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>validator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback to invoke per document; empty fn = disable </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1399" column="18" bodyfile="include/ingestion/ingestion_manager.h" bodystart="1399" bodyend="1401"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Interface for source connectors. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Base interface for implementing custom data source connectors </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>StubPluginConnector</label>
+        <link refid="class_stub_plugin_connector"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::ingestion::CdcConnector</label>
+        <link refid="classthemis_1_1ingestion_1_1_cdc_connector"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::ingestion::DatabaseConnector</label>
+        <link refid="classthemis_1_1ingestion_1_1_database_connector"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>themis::ingestion::FileSystemIngester</label>
+        <link refid="classthemis_1_1ingestion_1_1_file_system_ingester"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>themis::ingestion::GenericApiConnector</label>
+        <link refid="classthemis_1_1ingestion_1_1_generic_api_connector"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>themis::ingestion::HuggingFaceConnector</label>
+        <link refid="classthemis_1_1ingestion_1_1_hugging_face_connector"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::ingestion::ISourceConnector</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_source_connector"/>
+      </node>
+      <node id="8">
+        <label>themis::ingestion::KafkaConnector</label>
+        <link refid="classthemis_1_1ingestion_1_1_kafka_connector"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>themis::ingestion::ObjectStorageConnector</label>
+        <link refid="classthemis_1_1ingestion_1_1_object_storage_connector"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>themis::ingestion::S3Connector</label>
+        <link refid="classthemis_1_1ingestion_1_1_s3_connector"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>themis::ingestion::WebCrawlerConnector</label>
+        <link refid="classthemis_1_1ingestion_1_1_web_crawler_connector"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/ingestion/ingestion_manager.h" line="1353" column="1" bodyfile="include/ingestion/ingestion_manager.h" bodystart="1353" bodyend="1402"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1_i_source_connector_1a22a97b14d4935c62895fa668e021ab4e" prot="public" virt="pure-virtual"><scope>themis::ingestion::ISourceConnector</scope><name>getDocumentCount</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_source_connector_1add9fbbb52139b936dba9a2236a80edbb" prot="public" virt="pure-virtual"><scope>themis::ingestion::ISourceConnector</scope><name>ingest</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_source_connector_1ab6a018a611fc4bcc353665f96b59bfd5" prot="public" virt="pure-virtual"><scope>themis::ingestion::ISourceConnector</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_source_connector_1ae6d4963df23947b6546b6a943f8a7d2d" prot="public" virt="pure-virtual"><scope>themis::ingestion::ISourceConnector</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_source_connector_1a762b4b0305a9c2a3e466d00c6e05df84" prot="public" virt="virtual"><scope>themis::ingestion::ISourceConnector</scope><name>setDocumentValidator</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_source_connector_1af3935b3583056d092875221c07ecf7d4" prot="public" virt="virtual"><scope>themis::ingestion::ISourceConnector</scope><name>~ISourceConnector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

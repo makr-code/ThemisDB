@@ -1,0 +1,348 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1_web_d_a_v_user_registration_plugin" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::WebDAVUserRegistrationPlugin</compoundname>
+    <basecompoundref refid="classthemis_1_1security_1_1_i_user_registration_plugin" prot="public" virt="non-virtual">themis::security::IUserRegistrationPlugin</basecompoundref>
+    <innerclass refid="structthemis_1_1security_1_1_web_d_a_v_user_registration_plugin_1_1_config" prot="public">themis::security::WebDAVUserRegistrationPlugin::Config</innerclass>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_web_d_a_v_user_registration_plugin_1abefea3d50147a937548910b82587fde3" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>long</type>
+        <definition>long themis::security::WebDAVUserRegistrationPlugin::kRequestTimeoutMs</definition>
+        <argsstring></argsstring>
+        <name>kRequestTimeoutMs</name>
+        <qualifiedname>themis::security::WebDAVUserRegistrationPlugin::kRequestTimeoutMs</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/webdav_user_registration_plugin.cpp" line="150" column="27" bodyfile="src/security/webdav_user_registration_plugin.cpp" bodystart="150" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_web_d_a_v_user_registration_plugin_1a47efbc131703c8c3e682d1524e1782cf" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1security_1_1_web_d_a_v_user_registration_plugin_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::security::WebDAVUserRegistrationPlugin::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::security::WebDAVUserRegistrationPlugin::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/webdav_user_registration_plugin.cpp" line="584" column="12" bodyfile="src/security/webdav_user_registration_plugin.cpp" bodystart="584" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_web_d_a_v_user_registration_plugin_1a8a604b644423fa9990bb8421f3b17e58" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::WebDAVUserRegistrationPlugin::WebDAVUserRegistrationPlugin</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>WebDAVUserRegistrationPlugin</name>
+        <qualifiedname>themis::security::WebDAVUserRegistrationPlugin::WebDAVUserRegistrationPlugin</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1security_1_1_web_d_a_v_user_registration_plugin_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Web DAVUser Registration Plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/webdav_user_registration_plugin.cpp" line="166" column="14" bodyfile="src/security/webdav_user_registration_plugin.cpp" bodystart="166" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_web_d_a_v_user_registration_plugin_1aab92c25ab897fd3a050d3d31daa5cacc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::WebDAVUserRegistrationPlugin::~WebDAVUserRegistrationPlugin</definition>
+        <argsstring>()</argsstring>
+        <name>~WebDAVUserRegistrationPlugin</name>
+        <qualifiedname>themis::security::WebDAVUserRegistrationPlugin::~WebDAVUserRegistrationPlugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/webdav_user_registration_plugin.cpp" line="194" column="5" bodyfile="src/security/webdav_user_registration_plugin.cpp" bodystart="194" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_web_d_a_v_user_registration_plugin_1ab38166e6199807c353df95bd25e56c0f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::security::WebDAVUserRegistrationPlugin::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::security::WebDAVUserRegistrationPlugin::getName</qualifiedname>
+        <reimplements refid="classthemis_1_1security_1_1_i_user_registration_plugin_1ac464e79cc5025c7528cc405e939935a4">getName</reimplements>
+        <briefdescription>
+<para>Get plugin name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Plugin name (e.g., &quot;arrow&quot;, &quot;webdav&quot;) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/webdav_user_registration_plugin.cpp" line="200" column="17" bodyfile="src/security/webdav_user_registration_plugin.cpp" bodystart="200" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_web_d_a_v_user_registration_plugin_1a34fb30893dd47fc2f706efe5818fa482" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::security::WebDAVUserRegistrationPlugin::isAvailable</definition>
+        <argsstring>() const override</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::security::WebDAVUserRegistrationPlugin::isAvailable</qualifiedname>
+        <reimplements refid="classthemis_1_1security_1_1_i_user_registration_plugin_1ad814451e726203192e7f1227e1b859e7">isAvailable</reimplements>
+        <briefdescription>
+<para>Check if plugin is available and configured. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if plugin can be used </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/webdav_user_registration_plugin.cpp" line="204" column="10" bodyfile="src/security/webdav_user_registration_plugin.cpp" bodystart="204" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_web_d_a_v_user_registration_plugin_1afdee12fac1bfbe739450328ed7cb79cf" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1security_1_1_user_registration_data" kindref="compound">UserRegistrationData</ref> &gt;</type>
+        <definition>Result&lt; UserRegistrationData &gt; themis::security::WebDAVUserRegistrationPlugin::registerUser</definition>
+        <argsstring>(const std::string &amp;user_id, const std::string &amp;password, const std::unordered_map&lt; std::string, std::string &gt; &amp;attributes) override</argsstring>
+        <name>registerUser</name>
+        <qualifiedname>themis::security::WebDAVUserRegistrationPlugin::registerUser</qualifiedname>
+        <reimplements refid="classthemis_1_1security_1_1_i_user_registration_plugin_1a06e423808b4a458fab9c8d791d82056e">registerUser</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>password</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>attributes</declname>
+        </param>
+        <briefdescription>
+<para>Register user through plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The plugin is responsible for:<itemizedlist>
+<listitem><para>Validating user credentials with external system</para>
+</listitem><listitem><para>Hashing passwords if needed</para>
+</listitem><listitem><para>Mapping user attributes and roles</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>password</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plain text password (will be hashed by plugin) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>attributes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional additional attributes </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;UserRegistrationData&gt; Registration data or error </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/webdav_user_registration_plugin.cpp" line="212" column="12" bodyfile="src/security/webdav_user_registration_plugin.cpp" bodystart="212" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_web_d_a_v_user_registration_plugin_1a991b64395c09b6d9ba99d18e87ba890d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1security_1_1_user_registration_data" kindref="compound">UserRegistrationData</ref> &gt;</type>
+        <definition>Result&lt; UserRegistrationData &gt; themis::security::WebDAVUserRegistrationPlugin::authenticateUser</definition>
+        <argsstring>(const std::string &amp;user_id, const std::string &amp;password) override</argsstring>
+        <name>authenticateUser</name>
+        <qualifiedname>themis::security::WebDAVUserRegistrationPlugin::authenticateUser</qualifiedname>
+        <reimplements refid="classthemis_1_1security_1_1_i_user_registration_plugin_1a26e712a99383e21200533ccb7974a221">authenticateUser</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>password</declname>
+        </param>
+        <briefdescription>
+<para>Authenticate user through plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verifies credentials against external system (e.g., WebDAV server). If successful, returns user data that can be synchronized locally.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>password</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plain text password </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;UserRegistrationData&gt; <ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> data if authenticated </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/webdav_user_registration_plugin.cpp" line="268" column="12" bodyfile="src/security/webdav_user_registration_plugin.cpp" bodystart="268" bodyend="289"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_web_d_a_v_user_registration_plugin_1aca79ee8821041b6d4e03fd6df6c33d79" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>Result&lt; std::vector&lt; <ref refid="structthemis_1_1security_1_1_user_registration_data" kindref="compound">UserRegistrationData</ref> &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; UserRegistrationData &gt; &gt; themis::security::WebDAVUserRegistrationPlugin::syncUsers</definition>
+        <argsstring>() override</argsstring>
+        <name>syncUsers</name>
+        <qualifiedname>themis::security::WebDAVUserRegistrationPlugin::syncUsers</qualifiedname>
+        <reimplements refid="classthemis_1_1security_1_1_i_user_registration_plugin_1a4aa344b1a853cb9f19e192dedadf60c2">syncUsers</reimplements>
+        <briefdescription>
+<para>Synchronize users from external source. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Batch operation to import/sync users from external system. Used for Apache Arrow-based bulk imports or WebDAV directory sync.</para>
+<para><simplesect kind="return"><para>Result&lt;vector&lt;UserRegistrationData&gt;&gt; List of users or error </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/webdav_user_registration_plugin.cpp" line="291" column="12" bodyfile="src/security/webdav_user_registration_plugin.cpp" bodystart="291" bodyend="471"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_web_d_a_v_user_registration_plugin_1a509588a200e042bad3cbc9d4981934dc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1security_1_1_user_registration_data" kindref="compound">UserRegistrationData</ref> &gt;</type>
+        <definition>Result&lt; UserRegistrationData &gt; themis::security::WebDAVUserRegistrationPlugin::updateUser</definition>
+        <argsstring>(const std::string &amp;user_id) override</argsstring>
+        <name>updateUser</name>
+        <qualifiedname>themis::security::WebDAVUserRegistrationPlugin::updateUser</qualifiedname>
+        <reimplements refid="classthemis_1_1security_1_1_i_user_registration_plugin_1af75e7351a5887e22c0ab1731a1e114e0">updateUser</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Update user information from external source. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;UserRegistrationData&gt; Updated user data or error </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/webdav_user_registration_plugin.cpp" line="473" column="12" bodyfile="src/security/webdav_user_registration_plugin.cpp" bodystart="473" bodyend="581"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_web_d_a_v_user_registration_plugin_1a209df18aa6a36618e439abaef478da34" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::security::WebDAVUserRegistrationPlugin::hashPassword</definition>
+        <argsstring>(const std::string &amp;password) const</argsstring>
+        <name>hashPassword</name>
+        <qualifiedname>themis::security::WebDAVUserRegistrationPlugin::hashPassword</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>password</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/webdav_user_registration_plugin.cpp" line="839" column="17" bodyfile="src/security/webdav_user_registration_plugin.cpp" bodystart="839" bodyend="855"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::security::IUserRegistrationPlugin</label>
+        <link refid="classthemis_1_1security_1_1_i_user_registration_plugin"/>
+      </node>
+      <node id="1">
+        <label>themis::security::WebDAVUserRegistrationPlugin</label>
+        <link refid="classthemis_1_1security_1_1_web_d_a_v_user_registration_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::security::IUserRegistrationPlugin</label>
+        <link refid="classthemis_1_1security_1_1_i_user_registration_plugin"/>
+      </node>
+      <node id="1">
+        <label>themis::security::WebDAVUserRegistrationPlugin</label>
+        <link refid="classthemis_1_1security_1_1_web_d_a_v_user_registration_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/security/webdav_user_registration_plugin.cpp" line="148" column="1" bodyfile="src/security/webdav_user_registration_plugin.cpp" bodystart="148" bodyend="856"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1_web_d_a_v_user_registration_plugin_1a991b64395c09b6d9ba99d18e87ba890d" prot="public" virt="virtual"><scope>themis::security::WebDAVUserRegistrationPlugin</scope><name>authenticateUser</name></member>
+      <member refid="classthemis_1_1security_1_1_web_d_a_v_user_registration_plugin_1a47efbc131703c8c3e682d1524e1782cf" prot="private" virt="non-virtual"><scope>themis::security::WebDAVUserRegistrationPlugin</scope><name>config_</name></member>
+      <member refid="classthemis_1_1security_1_1_web_d_a_v_user_registration_plugin_1ab38166e6199807c353df95bd25e56c0f" prot="public" virt="virtual"><scope>themis::security::WebDAVUserRegistrationPlugin</scope><name>getName</name></member>
+      <member refid="classthemis_1_1security_1_1_web_d_a_v_user_registration_plugin_1a209df18aa6a36618e439abaef478da34" prot="private" virt="non-virtual"><scope>themis::security::WebDAVUserRegistrationPlugin</scope><name>hashPassword</name></member>
+      <member refid="classthemis_1_1security_1_1_web_d_a_v_user_registration_plugin_1a34fb30893dd47fc2f706efe5818fa482" prot="public" virt="virtual"><scope>themis::security::WebDAVUserRegistrationPlugin</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1security_1_1_web_d_a_v_user_registration_plugin_1abefea3d50147a937548910b82587fde3" prot="public" virt="non-virtual"><scope>themis::security::WebDAVUserRegistrationPlugin</scope><name>kRequestTimeoutMs</name></member>
+      <member refid="classthemis_1_1security_1_1_web_d_a_v_user_registration_plugin_1afdee12fac1bfbe739450328ed7cb79cf" prot="public" virt="virtual"><scope>themis::security::WebDAVUserRegistrationPlugin</scope><name>registerUser</name></member>
+      <member refid="classthemis_1_1security_1_1_web_d_a_v_user_registration_plugin_1aca79ee8821041b6d4e03fd6df6c33d79" prot="public" virt="virtual"><scope>themis::security::WebDAVUserRegistrationPlugin</scope><name>syncUsers</name></member>
+      <member refid="classthemis_1_1security_1_1_web_d_a_v_user_registration_plugin_1a509588a200e042bad3cbc9d4981934dc" prot="public" virt="virtual"><scope>themis::security::WebDAVUserRegistrationPlugin</scope><name>updateUser</name></member>
+      <member refid="classthemis_1_1security_1_1_web_d_a_v_user_registration_plugin_1a8a604b644423fa9990bb8421f3b17e58" prot="public" virt="non-virtual"><scope>themis::security::WebDAVUserRegistrationPlugin</scope><name>WebDAVUserRegistrationPlugin</name></member>
+      <member refid="classthemis_1_1security_1_1_i_user_registration_plugin_1ad8dda604915e5dbbcd1c8c389ea808fb" prot="public" virt="virtual"><scope>themis::security::WebDAVUserRegistrationPlugin</scope><name>~IUserRegistrationPlugin</name></member>
+      <member refid="classthemis_1_1security_1_1_web_d_a_v_user_registration_plugin_1aab92c25ab897fd3a050d3d31daa5cacc" prot="public" virt="non-virtual"><scope>themis::security::WebDAVUserRegistrationPlugin</scope><name>~WebDAVUserRegistrationPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,353 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="tensor__router_8h" kind="file" language="C++">
+    <compoundname>tensor_router.h</compoundname>
+    <includes refid="tensor__train__decomposer_8h" local="yes">storage/tensor_train_decomposer.h</includes>
+    <includes refid="tensor__network__storage__engine_8h" local="yes">storage/tensor_network_storage_engine.h</includes>
+    <includes local="yes">tensor/hiss_structural_search.h</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="tensor__router_8cpp" local="yes">src/storage/tensor_router.cpp</includedby>
+    <incdepgraph>
+      <node id="10">
+        <label>storage/tensor_network_storage_engine.h</label>
+        <link refid="tensor__network__storage__engine_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/storage/tensor_router.h</label>
+        <link refid="tensor__router_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>storage/tensor_train_decomposer.h</label>
+        <link refid="tensor__train__decomposer_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>storage/tt_quantizer.h</label>
+        <link refid="tt__quantizer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>cstddef</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="12">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="13">
+        <label>mutex</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="14">
+        <label>shared_mutex</label>
+      </node>
+      <node id="7">
+        <label>stdexcept</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="16">
+        <label>tensor/hiss_structural_search.h</label>
+      </node>
+      <node id="15">
+        <label>unordered_map</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/storage/tensor_router.h</label>
+        <link refid="tensor__router_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/storage/tensor_router.cpp</label>
+        <link refid="tensor__router_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1storage_1_1_tensor_route_hint" prot="public">themis::storage::TensorRouteHint</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_tensor_routing_policy" prot="public">themis::storage::TensorRoutingPolicy</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_tensor_router" prot="public">themis::storage::TensorRouter</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_tensor_router_1_1_data_profile" prot="public">themis::storage::TensorRouter::DataProfile</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_tensor_router_1_1_template_validation_result" prot="public">themis::storage::TensorRouter::TemplateValidationResult</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_tensor_router_1_1_router_stats" prot="public">themis::storage::TensorRouter::RouterStats</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1storage">themis::storage</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 88/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="tensor__train__decomposer_8h" kindref="compound">storage/tensor_train_decomposer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="tensor__network__storage__engine_8h" kindref="compound">storage/tensor_network_storage_engine.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;tensor/hiss_structural_search.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1storage" kindref="compound">storage</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TensorRouteDecision<sp/>—<sp/>outcome<sp/>of<sp/>a<sp/>routing<sp/>decision</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1storage_1ab7cb28745b37f08ef3a113f9a7e10cda" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1storage_1ab7cb28745b37f08ef3a113f9a7e10cda" kindref="member">TensorRouteDecision</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1storage_1ab7cb28745b37f08ef3a113f9a7e10cdaa125ff280b91715730da29dee7bc66da6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1ab7cb28745b37f08ef3a113f9a7e10cdaa125ff280b91715730da29dee7bc66da6" kindref="member">LIFT</ref><sp/><sp/><sp/><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1storage_1ab7cb28745b37f08ef3a113f9a7e10cdaa60cba2874369bd3790e14ea5f8a7bc58" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1ab7cb28745b37f08ef3a113f9a7e10cdaa60cba2874369bd3790e14ea5f8a7bc58" kindref="member">KEEP</ref><sp/><sp/><sp/><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="namespacethemis_1_1storage_1ab7cb28745b37f08ef3a113f9a7e10cdaa3bf07fe8ac3883060b1558113ba248d4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1ab7cb28745b37f08ef3a113f9a7e10cdaa3bf07fe8ac3883060b1558113ba248d4" kindref="member">HYBRID</ref><sp/><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="41"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal">std::string<sp/><ref refid="namespacethemis_1_1storage_1a826bd938300c6fcbd26a44115780fe31" kindref="member">to_string</ref>(<ref refid="namespacethemis_1_1storage_1ab7cb28745b37f08ef3a113f9a7e10cda" kindref="member">TensorRouteDecision</ref><sp/>d)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TensorRouteHint<sp/>—<sp/>caller-supplied<sp/>hints<sp/>for<sp/>routing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1storage_1_1_tensor_route_hint" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1storage_1_1_tensor_route_hint" kindref="compound">TensorRouteHint</ref><sp/>{</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1storage_1_1_tensor_route_hint_1a315992e6b82441d2ee85a7a39a1faf44" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_tensor_route_hint_1a315992e6b82441d2ee85a7a39a1faf44" kindref="member">Distribution</ref><sp/>{</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1storage_1_1_tensor_route_hint_1a315992e6b82441d2ee85a7a39a1faf44a696b031073e74bf2cb98e5ef201d4aa3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_tensor_route_hint_1a315992e6b82441d2ee85a7a39a1faf44a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">UNKNOWN</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1storage_1_1_tensor_route_hint_1a315992e6b82441d2ee85a7a39a1faf44a1e23852820b9154316c7c06e2b7ba051" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_tensor_route_hint_1a315992e6b82441d2ee85a7a39a1faf44a1e23852820b9154316c7c06e2b7ba051" kindref="member">NORMAL</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1storage_1_1_tensor_route_hint_1a315992e6b82441d2ee85a7a39a1faf44a891f35a29c3d51d02ffd42dd6dcc69b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_tensor_route_hint_1a315992e6b82441d2ee85a7a39a1faf44a891f35a29c3d51d02ffd42dd6dcc69b2" kindref="member">UNIFORM</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>2,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1storage_1_1_tensor_route_hint_1a315992e6b82441d2ee85a7a39a1faf44a0459833ba9cad7cfd7bbfe10d7bbbe6e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_tensor_route_hint_1a315992e6b82441d2ee85a7a39a1faf44a0459833ba9cad7cfd7bbfe10d7bbbe6e" kindref="member">SPARSE</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>3,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1storage_1_1_tensor_route_hint_1a315992e6b82441d2ee85a7a39a1faf44a5b1394fe1a175123495f31fcee0a39aa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_tensor_route_hint_1a315992e6b82441d2ee85a7a39a1faf44a5b1394fe1a175123495f31fcee0a39aa" kindref="member">SMOOTH_FIELD</ref><sp/>=<sp/>4,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1storage_1_1_tensor_route_hint_1ab7b29395dc13c24f1de18073fccfb99c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_tensor_route_hint_1ab7b29395dc13c24f1de18073fccfb99c" kindref="member">DataCategory</ref><sp/>{</highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1storage_1_1_tensor_route_hint_1ab7b29395dc13c24f1de18073fccfb99ca696b031073e74bf2cb98e5ef201d4aa3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_tensor_route_hint_1a315992e6b82441d2ee85a7a39a1faf44a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">UNKNOWN</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1storage_1_1_tensor_route_hint_1ab7b29395dc13c24f1de18073fccfb99caa2aabfa55677f54ad88cc4f0278d63c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_tensor_route_hint_1ab7b29395dc13c24f1de18073fccfb99caa2aabfa55677f54ad88cc4f0278d63c6" kindref="member">LLM_WEIGHTS</ref><sp/><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1storage_1_1_tensor_route_hint_1ab7b29395dc13c24f1de18073fccfb99ca8d714aadf3072a244c1197256f4f0ea9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_tensor_route_hint_1ab7b29395dc13c24f1de18073fccfb99ca8d714aadf3072a244c1197256f4f0ea9" kindref="member">LLM_ADAPTER</ref><sp/><sp/>=<sp/>2,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1storage_1_1_tensor_route_hint_1ab7b29395dc13c24f1de18073fccfb99ca7f2699c7a1e80cc61c1873b896421176" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_tensor_route_hint_1ab7b29395dc13c24f1de18073fccfb99ca7f2699c7a1e80cc61c1873b896421176" kindref="member">EMBEDDING</ref><sp/><sp/><sp/><sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1storage_1_1_tensor_route_hint_1ab7b29395dc13c24f1de18073fccfb99ca23a12f67f614b5518c7f1c2465bf95e3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_tensor_route_hint_1ab7b29395dc13c24f1de18073fccfb99ca23a12f67f614b5518c7f1c2465bf95e3" kindref="member">IMAGE</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>4,</highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1storage_1_1_tensor_route_hint_1ab7b29395dc13c24f1de18073fccfb99ca422e4ac829ec031c2ea29661251ca29c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_tensor_route_hint_1ab7b29395dc13c24f1de18073fccfb99ca422e4ac829ec031c2ea29661251ca29c" kindref="member">GEODATA</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>5,</highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1storage_1_1_tensor_route_hint_1ab7b29395dc13c24f1de18073fccfb99ca64c71603ed31477ee4757ae9af42f7e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_tensor_route_hint_1ab7b29395dc13c24f1de18073fccfb99ca64c71603ed31477ee4757ae9af42f7e9" kindref="member">SIMULATION</ref><sp/><sp/><sp/>=<sp/>6,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1storage_1_1_tensor_route_hint_1ab7b29395dc13c24f1de18073fccfb99cac231fa48df3ee393c92dccac4dba5e7d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_tensor_route_hint_1ab7b29395dc13c24f1de18073fccfb99cac231fa48df3ee393c92dccac4dba5e7d" kindref="member">DOCUMENT</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>7,</highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1storage_1_1_tensor_route_hint_1ab7b29395dc13c24f1de18073fccfb99ca179518da8867f0b4237259ea3241a2ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_tensor_route_hint_1ab7b29395dc13c24f1de18073fccfb99ca179518da8867f0b4237259ea3241a2ec" kindref="member">RELATIONAL</ref><sp/><sp/><sp/>=<sp/>8,</highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1storage_1_1_tensor_route_hint_1ab7b29395dc13c24f1de18073fccfb99ca5eb907bdd20f7bdad174e0525e3c4097" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_tensor_route_hint_1ab7b29395dc13c24f1de18073fccfb99ca5eb907bdd20f7bdad174e0525e3c4097" kindref="member">TIMESERIES</ref><sp/><sp/><sp/>=<sp/>9,</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1storage_1_1_tensor_route_hint_1a6ab2c8327a02c3a63fdecffaf60d8390" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_tensor_route_hint_1a315992e6b82441d2ee85a7a39a1faf44" kindref="member">Distribution</ref><sp/><sp/><ref refid="structthemis_1_1storage_1_1_tensor_route_hint_1a6ab2c8327a02c3a63fdecffaf60d8390" kindref="member">distribution</ref><sp/><sp/>=<sp/><ref refid="structthemis_1_1storage_1_1_tensor_route_hint_1a315992e6b82441d2ee85a7a39a1faf44a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">Distribution::UNKNOWN</ref>;</highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1storage_1_1_tensor_route_hint_1a21e8617390e9146ff4610d526da634e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_tensor_route_hint_1ab7b29395dc13c24f1de18073fccfb99c" kindref="member">DataCategory</ref><sp/><sp/><ref refid="structthemis_1_1storage_1_1_tensor_route_hint_1a21e8617390e9146ff4610d526da634e0" kindref="member">category</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="structthemis_1_1storage_1_1_tensor_route_hint_1ab7b29395dc13c24f1de18073fccfb99ca696b031073e74bf2cb98e5ef201d4aa3" kindref="member">DataCategory::UNKNOWN</ref>;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1storage_1_1_tensor_route_hint_1a13a5b98b7932a4043949cf3686d87621" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_tensor_route_hint_1a13a5b98b7932a4043949cf3686d87621" kindref="member">expected_rank</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1storage_1_1_tensor_route_hint_1a59d878bde2e2fb64caab1ada72377f26" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_tensor_route_hint_1a59d878bde2e2fb64caab1ada72377f26" kindref="member">inference_use</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1storage_1_1_tensor_route_hint_1ae64907e73c120e8ea5631577f3202b00" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_tensor_route_hint_1ae64907e73c120e8ea5631577f3202b00" kindref="member">high_churn</ref><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1storage_1_1_tensor_route_hint_1a48afccf8c3c01867821468a09ef1d6ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_tensor_route_hint_1a48afccf8c3c01867821468a09ef1d6ed" kindref="member">min_ratio</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1storage_1_1_tensor_route_hint_1ae3095690d86d955c56baaf837f28f84d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_tensor_route_hint_1ae3095690d86d955c56baaf837f28f84d" kindref="member">domain_tag</ref>;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TensorRoutingPolicy<sp/>—<sp/>configures<sp/>the<sp/>routing<sp/>thresholds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1storage_1_1_tensor_routing_policy" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1storage_1_1_tensor_routing_policy" kindref="compound">TensorRoutingPolicy</ref><sp/>{</highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1storage_1_1_tensor_routing_policy_1aaabd5d1b5bd28ba0934df828a773e23e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_tensor_routing_policy_1aaabd5d1b5bd28ba0934df828a773e23e" kindref="member">min_lift_compression_ratio</ref><sp/>=<sp/>2.0;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1storage_1_1_tensor_routing_policy_1ad3df1a22f0452b9214c8a57674b6c453" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_tensor_routing_policy_1ad3df1a22f0452b9214c8a57674b6c453" kindref="member">min_hybrid_compression_ratio</ref><sp/>=<sp/>1.2;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1storage_1_1_tensor_routing_policy_1aa641837a2093579d08f9fb5c1e514bdd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1storage_1_1_tensor_routing_policy_1aa641837a2093579d08f9fb5c1e514bdd" kindref="member">max_lift_rank</ref><sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1storage_1_1_tensor_routing_policy_1ab978a5449c62c8a213e61b0cf6bbda91" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1storage_1_1_tensor_routing_policy_1ab978a5449c62c8a213e61b0cf6bbda91" kindref="member">probe_sample_elements</ref><sp/>=<sp/>4096;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1storage_1_1_tensor_routing_policy_1a58963739e0d9b08228f84cc2a837beb0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_tensor_routing_policy_1a58963739e0d9b08228f84cc2a837beb0" kindref="member">force_lift_for_inference</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129" refid="structthemis_1_1storage_1_1_tensor_routing_policy_1ac10ca7409d967d8b140939dab63c7ad4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_tensor_routing_policy_1ac10ca7409d967d8b140939dab63c7ad4" kindref="member">use_ml_routing</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TensorRouter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166" refid="classthemis_1_1storage_1_1_tensor_router" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1storage_1_1_tensor_router_1a52858ee393046bd2216dd7f969c7bb08" kindref="member">TensorRouter</ref><sp/>{</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Index-time<sp/>routing<sp/>(no<sp/>data<sp/>available<sp/>—<sp/>heuristic<sp/>only)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182" refid="classthemis_1_1storage_1_1_tensor_router_1a865469cca0153a7ad18915f385b6e090" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_tensor_router_1a865469cca0153a7ad18915f385b6e090" kindref="member">Route</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="183" refid="classthemis_1_1storage_1_1_tensor_router_1a865469cca0153a7ad18915f385b6e090a1cdbe92bde755f6bdfd19c8e52f7f51a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_tensor_router_1a865469cca0153a7ad18915f385b6e090a1cdbe92bde755f6bdfd19c8e52f7f51a" kindref="member">TENSOR_TRAIN</ref><sp/>=<sp/>0,<sp/><sp/></highlight></codeline>
+<codeline lineno="184" refid="classthemis_1_1storage_1_1_tensor_router_1a865469cca0153a7ad18915f385b6e090a3bf07fe8ac3883060b1558113ba248d4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_tensor_router_1a865469cca0153a7ad18915f385b6e090a3bf07fe8ac3883060b1558113ba248d4" kindref="member">HYBRID</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1,<sp/><sp/></highlight></codeline>
+<codeline lineno="185" refid="classthemis_1_1storage_1_1_tensor_router_1a865469cca0153a7ad18915f385b6e090aeddfb2a2864a735ae508076a555c5075" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_tensor_router_1a865469cca0153a7ad18915f385b6e090aeddfb2a2864a735ae508076a555c5075" kindref="member">HNSW</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>2,<sp/><sp/></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194" refid="structthemis_1_1storage_1_1_tensor_router_1_1_data_profile" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1storage_1_1_tensor_router_1_1_data_profile" kindref="compound">DataProfile</ref><sp/>{</highlight></codeline>
+<codeline lineno="195" refid="structthemis_1_1storage_1_1_tensor_router_1_1_data_profile_1ab60ef3448cf55d0c2336db132cd48d27" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1storage_1_1_tensor_router_1_1_data_profile_1ab60ef3448cf55d0c2336db132cd48d27" kindref="member">dim</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="196" refid="structthemis_1_1storage_1_1_tensor_router_1_1_data_profile_1a38f98ae2508a3c0055b65462da1f87ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1storage_1_1_tensor_router_1_1_data_profile_1a38f98ae2508a3c0055b65462da1f87ec" kindref="member">num_vectors</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="200" refid="structthemis_1_1storage_1_1_tensor_router_1_1_data_profile_1a4a6a0bc7148c227cb69beea02057b80f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_tensor_router_1_1_data_profile_1a4a6a0bc7148c227cb69beea02057b80f" kindref="member">kappa_estimate</ref><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_tensor_router_1a865469cca0153a7ad18915f385b6e090" kindref="member">Route</ref><sp/><ref refid="classthemis_1_1storage_1_1_tensor_router_1a03bb4da154b423ee9ec9605a8414caa5" kindref="member">decide</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_tensor_router_1_1_data_profile" kindref="compound">DataProfile</ref>&amp;<sp/>p)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Template<sp/>topology<sp/>validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229" refid="structthemis_1_1storage_1_1_tensor_router_1_1_template_validation_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1storage_1_1_tensor_router_1_1_template_validation_result" kindref="compound">TemplateValidationResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="230" refid="structthemis_1_1storage_1_1_tensor_router_1_1_template_validation_result_1a126992bfba65d3d5d0860606385d6c4f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_tensor_router_1_1_template_validation_result_1a126992bfba65d3d5d0860606385d6c4f" kindref="member">valid</ref><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="231" refid="structthemis_1_1storage_1_1_tensor_router_1_1_template_validation_result_1a726283c1f684a9c9f531b42208ce4388" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1storage_1_1_tensor_router_1_1_template_validation_result_1a726283c1f684a9c9f531b42208ce4388" kindref="member">reason</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_tensor_router_1_1_template_validation_result" kindref="compound">TemplateValidationResult</ref></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_tensor_router_1a82ede97a2624c1114678f89435e09750" kindref="member">validateTemplate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>tensor::TensorNetworkGraph&amp;<sp/>graph,</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::size_t&gt;&amp;<sp/><sp/><sp/>mode_sizes)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Engine-backed<sp/>routing<sp/>(pilot<sp/>TT-SVD<sp/>on<sp/>actual<sp/>data)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_tensor_router_1a52858ee393046bd2216dd7f969c7bb08" kindref="member">TensorRouter</ref>(</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;TensorNetworkStorageEngine&gt;<sp/>engine,</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_tensor_routing_policy" kindref="compound">TensorRoutingPolicy</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_tensor_router_1a9a27f0974b473ccfd732ac06115a15f4" kindref="member">policy</ref><sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277" refid="classthemis_1_1storage_1_1_tensor_router_1aa9a0bcae34ac5bb716f24d5df653a43f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_tensor_router_1aa9a0bcae34ac5bb716f24d5df653a43f" kindref="member">~TensorRouter</ref>();</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1ab7cb28745b37f08ef3a113f9a7e10cda" kindref="member">TensorRouteDecision</ref><sp/><ref refid="classthemis_1_1storage_1_1_tensor_router_1a340b1be6024c8b84aef2ded3bb8909c6" kindref="member">route</ref>(</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/>data,</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::size_t&gt;&amp;<sp/>mode_sizes,</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_tensor_route_hint" kindref="compound">TensorRouteHint</ref>&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>hint<sp/>=<sp/>{})<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1storage_1_1_tensor_router_1a41816030c3dc8d32ebd931388974c2cd" kindref="member">explain</ref>(</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/>data,</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::size_t&gt;&amp;<sp/>mode_sizes,</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_tensor_route_hint" kindref="compound">TensorRouteHint</ref>&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>hint<sp/>=<sp/>{})<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight></codeline>
+<codeline lineno="313" refid="structthemis_1_1storage_1_1_tensor_router_1_1_router_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1storage_1_1_tensor_router_1_1_router_stats" kindref="compound">RouterStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="314" refid="structthemis_1_1storage_1_1_tensor_router_1_1_router_stats_1ae77ceee0595d73942117be209d0bff4c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1storage_1_1_tensor_router_1_1_router_stats_1ae77ceee0595d73942117be209d0bff4c" kindref="member">total_decisions</ref><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="315" refid="structthemis_1_1storage_1_1_tensor_router_1_1_router_stats_1a75da5920a369b791936935f9f9d9ca79" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1storage_1_1_tensor_router_1_1_router_stats_1a75da5920a369b791936935f9f9d9ca79" kindref="member">lift_decisions</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="316" refid="structthemis_1_1storage_1_1_tensor_router_1_1_router_stats_1a10c96ff0df1cb5af1c65f629334534e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1storage_1_1_tensor_router_1_1_router_stats_1a10c96ff0df1cb5af1c65f629334534e1" kindref="member">hybrid_decisions</ref><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="317" refid="structthemis_1_1storage_1_1_tensor_router_1_1_router_stats_1a670ef71fbb82f40919accd54afe90422" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1storage_1_1_tensor_router_1_1_router_stats_1a670ef71fbb82f40919accd54afe90422" kindref="member">keep_decisions</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="318" refid="structthemis_1_1storage_1_1_tensor_router_1_1_router_stats_1aebf5ee462985b0e9598d44abcdbe8d24" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_tensor_router_1_1_router_stats_1aebf5ee462985b0e9598d44abcdbe8d24" kindref="member">avg_pilot_ratio</ref><sp/><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="319" refid="structthemis_1_1storage_1_1_tensor_router_1_1_router_stats_1a0ba37b4529f3f580d301045f4e156891" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_tensor_router_1_1_router_stats_1a0ba37b4529f3f580d301045f4e156891" kindref="member">avg_decision_us</ref><sp/><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_tensor_router_1_1_router_stats" kindref="compound">RouterStats</ref><sp/><ref refid="classthemis_1_1storage_1_1_tensor_router_1a2e035a6291d317c2adb2267861f9a3e8" kindref="member">stats</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1storage_1_1_tensor_routing_policy" kindref="compound">TensorRoutingPolicy</ref>&amp;<sp/><ref refid="classthemis_1_1storage_1_1_tensor_router_1a9a27f0974b473ccfd732ac06115a15f4" kindref="member">policy</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_tensor_router_1a58b8c81359ce0976529e6cad4edcbd38" kindref="member">setPolicy</ref>(<ref refid="structthemis_1_1storage_1_1_tensor_routing_policy" kindref="compound">TensorRoutingPolicy</ref><sp/>p);</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight></codeline>
+<codeline lineno="350" refid="classthemis_1_1storage_1_1_tensor_router_1ab054883c2a1efbbe5fe9ba9a84a3c330" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>using<sp/><ref refid="classthemis_1_1storage_1_1_tensor_router_1ab054883c2a1efbbe5fe9ba9a84a3c330" kindref="member">TemplateTopologyApplyFn</ref><sp/>=</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::function&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">(const<sp/><ref refid="namespacestd" kindref="compound">std</ref>::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;,</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="namespacethemis_1_1tensor" kindref="compound">tensor</ref>::TensorNetworkGraph&amp;,</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1storage_1_1_tensor_route_hint" kindref="compound">TensorRouteHint</ref>&amp;)&gt;;</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"></highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_tensor_router_1a6c260c34d32a7ba5e0345261934a51d9" kindref="member">setTemplateCatalog</ref>(<ref refid="namespacestd" kindref="compound">std</ref>::shared_ptr&lt;<ref refid="namespacethemis_1_1tensor" kindref="compound">tensor</ref>::TemplateCatalog&gt;<sp/>catalog);</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"></highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::shared_ptr&lt;<ref refid="namespacethemis_1_1tensor" kindref="compound">tensor</ref>::TemplateCatalog&gt;<sp/><ref refid="classthemis_1_1storage_1_1_tensor_router_1a33e0537af23697588c6607fac654ece7" kindref="member">templateCatalog</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"></highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_tensor_router_1a0647946473864fc96bda20ed27790f92" kindref="member">setTemplateTopologyApplyFn</ref>(<ref refid="classthemis_1_1storage_1_1_tensor_router_1ab054883c2a1efbbe5fe9ba9a84a3c330" kindref="member">TemplateTopologyApplyFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_tensor_router_1a6331012ac1f4fbee217641ee9d880a81" kindref="member">clearTemplateTopologyApplyFn</ref>();</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_tensor_router_1a2d97607a1ada6ec54154324d8825f3cd" kindref="member">hasTemplateTopologyApplyFn</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="classthemis_1_1storage_1_1_tensor_router_1ab054883c2a1efbbe5fe9ba9a84a3c330" kindref="member">TemplateTopologyApplyFn</ref><sp/><ref refid="classthemis_1_1storage_1_1_tensor_router_1af45bd0e5ee43fc99b7f39671d299a319" kindref="member">getTemplateTopologyApplyFn</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"></highlight></codeline>
+<codeline lineno="385"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/>struct<sp/><ref refid="structthemis_1_1storage_1_1_tensor_router_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::unique_ptr&lt;<ref refid="structthemis_1_1storage_1_1_tensor_router_1_1_impl" kindref="compound">Impl</ref>&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="388"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"></highlight></codeline>
+<codeline lineno="390"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>storage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="391"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/storage/tensor_router.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,284 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1_i_self_healing_plugin" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::plugins::ISelfHealingPlugin</compoundname>
+    <derivedcompoundref refid="class_mock_self_healing_plugin" prot="public" virt="non-virtual">MockSelfHealingPlugin</derivedcompoundref>
+    <includes refid="self__healing__plugin_8h" local="no">self_healing_plugin.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_self_healing_plugin_1a76c5b6410cd09452d6636e9d0a050de0" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::plugins::ISelfHealingPlugin::~ISelfHealingPlugin</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ISelfHealingPlugin</name>
+        <qualifiedname>themis::plugins::ISelfHealingPlugin::~ISelfHealingPlugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/self_healing_plugin.h" line="105" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_self_healing_plugin_1a7a80178dbbffb1965eb386422decd5b7" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1_plugin_diagnostics" kindref="compound">PluginDiagnostics</ref></type>
+        <definition>virtual PluginDiagnostics themis::plugins::ISelfHealingPlugin::performHealthCheck</definition>
+        <argsstring>()=0</argsstring>
+        <name>performHealthCheck</name>
+        <qualifiedname>themis::plugins::ISelfHealingPlugin::performHealthCheck</qualifiedname>
+        <reimplementedby refid="class_mock_self_healing_plugin_1abd81fe460876cd7d0da996f9af12f59b">performHealthCheck</reimplementedby>
+        <briefdescription>
+<para>Perform comprehensive health check. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This method should check:<itemizedlist>
+<listitem><para>Connection status (for network plugins)</para>
+</listitem><listitem><para>Resource usage (memory, file handles, etc.)</para>
+</listitem><listitem><para>Error rates</para>
+</listitem><listitem><para>Response times</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="return"><para>Detailed diagnostic information </para>
+</simplesect>
+<simplesect kind="note"><para>This method is called periodically by <ref refid="classthemis_1_1plugins_1_1_plugin_health_monitor" kindref="compound">PluginHealthMonitor</ref> </para>
+</simplesect>
+<simplesect kind="note"><para>Must be thread-safe </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/self_healing_plugin.h" line="120" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_self_healing_plugin_1a92b2ff7289f6fddaac735eeeba88034b" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::plugins::ISelfHealingPlugin::attemptSelfRepair</definition>
+        <argsstring>(const PluginDiagnostics &amp;diagnostics)=0</argsstring>
+        <name>attemptSelfRepair</name>
+        <qualifiedname>themis::plugins::ISelfHealingPlugin::attemptSelfRepair</qualifiedname>
+        <reimplementedby refid="class_mock_self_healing_plugin_1aa129bb388997cdf243dd810fd0331590">attemptSelfRepair</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1_plugin_diagnostics" kindref="compound">PluginDiagnostics</ref> &amp;</type>
+          <declname>diagnostics</declname>
+        </param>
+        <briefdescription>
+<para>Attempt automatic self-repair. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This method is called when <ref refid="classthemis_1_1plugins_1_1_i_self_healing_plugin_1a7a80178dbbffb1965eb386422decd5b7" kindref="member">performHealthCheck()</ref> indicates the plugin is unhealthy. The plugin should attempt to recover based on the diagnostics information.</para>
+<para>Common recovery strategies:<itemizedlist>
+<listitem><para>Reconnect to external services</para>
+</listitem><listitem><para>Clear caches</para>
+</listitem><listitem><para>Reload configuration</para>
+</listitem><listitem><para>Rollback to last checkpoint</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>diagnostics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current diagnostic information </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if repair was successful, false otherwise </para>
+</simplesect>
+<simplesect kind="note"><para>Must be thread-safe </para>
+</simplesect>
+<simplesect kind="note"><para>Should complete within reasonable time (&lt; 30 seconds) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/self_healing_plugin.h" line="140" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_self_healing_plugin_1af9dd0f9b69b25723b0ea4d1e379e7f2b" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::plugins::ISelfHealingPlugin::cleanupResources</definition>
+        <argsstring>()=0</argsstring>
+        <name>cleanupResources</name>
+        <qualifiedname>themis::plugins::ISelfHealingPlugin::cleanupResources</qualifiedname>
+        <reimplementedby refid="class_mock_self_healing_plugin_1a9cbcee8196e886169e7d09e0b6131614">cleanupResources</reimplementedby>
+        <briefdescription>
+<para>Clean up resources. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Release resources that may be causing issues:<itemizedlist>
+<listitem><para>Close unused connections</para>
+</listitem><listitem><para>Clear caches</para>
+</listitem><listitem><para>Free temporary memory</para>
+</listitem><listitem><para>Close file handles</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="return"><para>true if cleanup was successful </para>
+</simplesect>
+<simplesect kind="note"><para>Must be thread-safe </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/self_healing_plugin.h" line="154" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_self_healing_plugin_1a9bd6726e007f05c865377682973466be" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::plugins::ISelfHealingPlugin::rollbackToLastGoodState</definition>
+        <argsstring>()=0</argsstring>
+        <name>rollbackToLastGoodState</name>
+        <qualifiedname>themis::plugins::ISelfHealingPlugin::rollbackToLastGoodState</qualifiedname>
+        <reimplementedby refid="class_mock_self_healing_plugin_1a1fd9923eb8f5a20bbddbad760af91206">rollbackToLastGoodState</reimplementedby>
+        <briefdescription>
+<para>Rollback to last known good state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Restore plugin to the state captured by the most recent <ref refid="classthemis_1_1plugins_1_1_i_self_healing_plugin_1ab8f2da2da737f9360323851302ae1b5e" kindref="member">saveCheckpoint()</ref>. This should restore:<itemizedlist>
+<listitem><para>Configuration</para>
+</listitem><listitem><para>Connection parameters</para>
+</listitem><listitem><para>Internal state</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="return"><para>true if rollback was successful </para>
+</simplesect>
+<simplesect kind="note"><para>Must be thread-safe </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/self_healing_plugin.h" line="168" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_self_healing_plugin_1ab8f2da2da737f9360323851302ae1b5e" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::plugins::ISelfHealingPlugin::saveCheckpoint</definition>
+        <argsstring>()=0</argsstring>
+        <name>saveCheckpoint</name>
+        <qualifiedname>themis::plugins::ISelfHealingPlugin::saveCheckpoint</qualifiedname>
+        <reimplementedby refid="class_mock_self_healing_plugin_1a540170508c663ccdaad118a5cf3f7dd3">saveCheckpoint</reimplementedby>
+        <briefdescription>
+<para>Save current state as a checkpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Capture the current &quot;known good&quot; state for potential rollback. This should save:<itemizedlist>
+<listitem><para>Configuration</para>
+</listitem><listitem><para>Connection parameters</para>
+</listitem><listitem><para>Critical internal state</para>
+</listitem></itemizedlist>
+</para>
+<para>The plugin should maintain a limited number of checkpoints (e.g., 5) to avoid excessive memory usage.</para>
+<para><simplesect kind="note"><para>Call this after successful initialization and after major configuration changes </para>
+</simplesect>
+<simplesect kind="note"><para>Must be thread-safe </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/self_healing_plugin.h" line="186" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_self_healing_plugin_1a1dc5399b90e6b6eadb6bc793d79da6b9" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1plugins_1a8eeee246c798f0d40ad1cd4bda660f1d" kindref="member">RecoveryAction</ref> &gt;</type>
+        <definition>virtual std::vector&lt; RecoveryAction &gt; themis::plugins::ISelfHealingPlugin::getRecoveryStrategies</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getRecoveryStrategies</name>
+        <qualifiedname>themis::plugins::ISelfHealingPlugin::getRecoveryStrategies</qualifiedname>
+        <reimplementedby refid="class_mock_self_healing_plugin_1ad6de40538c7190ac33c98c7a951eb006">getRecoveryStrategies</reimplementedby>
+        <briefdescription>
+<para>Get available recovery strategies. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>List of recovery actions this plugin supports </para>
+</simplesect>
+<simplesect kind="note"><para>This is informational and helps the health monitor decide which recovery action to trigger </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/self_healing_plugin.h" line="195" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_self_healing_plugin_1ab96fbfa4585d99ec38f52a1e4851d752" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::plugins::ISelfHealingPlugin::executeRecoveryAction</definition>
+        <argsstring>(RecoveryAction action)</argsstring>
+        <name>executeRecoveryAction</name>
+        <qualifiedname>themis::plugins::ISelfHealingPlugin::executeRecoveryAction</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1a8eeee246c798f0d40ad1cd4bda660f1d" kindref="member">RecoveryAction</ref></type>
+          <declname>action</declname>
+        </param>
+        <briefdescription>
+<para>Execute specific recovery action. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>action</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The recovery action to execute </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if action was successful </para>
+</simplesect>
+<simplesect kind="note"><para>Must be thread-safe </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/self_healing_plugin.h" line="204" column="18" bodyfile="include/plugins/self_healing_plugin.h" bodystart="204" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_self_healing_plugin_1a59292c66e40c5096821ab9f065f2db68" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::plugins::ISelfHealingPlugin::getRecoveryConfiguration</definition>
+        <argsstring>() const</argsstring>
+        <name>getRecoveryConfiguration</name>
+        <qualifiedname>themis::plugins::ISelfHealingPlugin::getRecoveryConfiguration</qualifiedname>
+        <briefdescription>
+<para>Get recovery configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON configuration for recovery behavior</para>
+</simplesect>
+Example configuration: { &quot;max_recovery_attempts&quot;: 3, &quot;recovery_timeout_seconds&quot;: 30, &quot;backoff_strategy&quot;: &quot;exponential&quot;, &quot;notify_admin_on_failure&quot;: true } </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/self_healing_plugin.h" line="229" column="25" bodyfile="include/plugins/self_healing_plugin.h" bodystart="229" bodyend="231"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Self-Healing Plugin Interface. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Plugins can implement this interface to support autonomous error recovery. The <ref refid="classthemis_1_1plugins_1_1_plugin_health_monitor" kindref="compound">PluginHealthMonitor</ref> service will periodically call <ref refid="classthemis_1_1plugins_1_1_i_self_healing_plugin_1a7a80178dbbffb1965eb386422decd5b7" kindref="member">performHealthCheck()</ref> and trigger <ref refid="classthemis_1_1plugins_1_1_i_self_healing_plugin_1a92b2ff7289f6fddaac735eeeba88034b" kindref="member">attemptSelfRepair()</ref> when issues are detected.</para>
+<para>Thread-Safety: All methods must be thread-safe </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>MockSelfHealingPlugin</label>
+        <link refid="class_mock_self_healing_plugin"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::plugins::ISelfHealingPlugin</label>
+        <link refid="classthemis_1_1plugins_1_1_i_self_healing_plugin"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/plugins/self_healing_plugin.h" line="103" column="1" bodyfile="include/plugins/self_healing_plugin.h" bodystart="103" bodyend="237"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1_i_self_healing_plugin_1a92b2ff7289f6fddaac735eeeba88034b" prot="public" virt="pure-virtual"><scope>themis::plugins::ISelfHealingPlugin</scope><name>attemptSelfRepair</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_self_healing_plugin_1af9dd0f9b69b25723b0ea4d1e379e7f2b" prot="public" virt="pure-virtual"><scope>themis::plugins::ISelfHealingPlugin</scope><name>cleanupResources</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_self_healing_plugin_1ab96fbfa4585d99ec38f52a1e4851d752" prot="public" virt="virtual"><scope>themis::plugins::ISelfHealingPlugin</scope><name>executeRecoveryAction</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_self_healing_plugin_1a59292c66e40c5096821ab9f065f2db68" prot="public" virt="virtual"><scope>themis::plugins::ISelfHealingPlugin</scope><name>getRecoveryConfiguration</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_self_healing_plugin_1a1dc5399b90e6b6eadb6bc793d79da6b9" prot="public" virt="pure-virtual"><scope>themis::plugins::ISelfHealingPlugin</scope><name>getRecoveryStrategies</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_self_healing_plugin_1a7a80178dbbffb1965eb386422decd5b7" prot="public" virt="pure-virtual"><scope>themis::plugins::ISelfHealingPlugin</scope><name>performHealthCheck</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_self_healing_plugin_1a9bd6726e007f05c865377682973466be" prot="public" virt="pure-virtual"><scope>themis::plugins::ISelfHealingPlugin</scope><name>rollbackToLastGoodState</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_self_healing_plugin_1ab8f2da2da737f9360323851302ae1b5e" prot="public" virt="pure-virtual"><scope>themis::plugins::ISelfHealingPlugin</scope><name>saveCheckpoint</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_self_healing_plugin_1a76c5b6410cd09452d6636e9d0a050de0" prot="public" virt="virtual"><scope>themis::plugins::ISelfHealingPlugin</scope><name>~ISelfHealingPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

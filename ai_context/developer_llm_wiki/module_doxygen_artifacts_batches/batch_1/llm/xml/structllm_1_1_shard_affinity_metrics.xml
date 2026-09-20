@@ -1,0 +1,163 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structllm_1_1_shard_affinity_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>llm::ShardAffinityMetrics</compoundname>
+    <includes refid="adapter__deployment__manager_8h" local="no">adapter_deployment_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structllm_1_1_shard_affinity_metrics_1a6ab8e2b627bf2ed9e7fd1a1794a49e87" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string llm::ShardAffinityMetrics::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>llm::ShardAffinityMetrics::shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="109" column="17" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structllm_1_1_shard_affinity_metrics_1a996d528f476f2db30d6955fa219e2660" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float llm::ShardAffinityMetrics::data_coverage_ratio</definition>
+        <argsstring></argsstring>
+        <name>data_coverage_ratio</name>
+        <qualifiedname>llm::ShardAffinityMetrics::data_coverage_ratio</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="110" column="11" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structllm_1_1_shard_affinity_metrics_1a3b72b897eb8edb1713ec587e0608db88" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float llm::ShardAffinityMetrics::query_frequency</definition>
+        <argsstring></argsstring>
+        <name>query_frequency</name>
+        <qualifiedname>llm::ShardAffinityMetrics::query_frequency</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="111" column="11" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structllm_1_1_shard_affinity_metrics_1a3b507e9a9c4bddc45fef069763ed4ccb" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float llm::ShardAffinityMetrics::network_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>network_latency_ms</name>
+        <qualifiedname>llm::ShardAffinityMetrics::network_latency_ms</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="112" column="11" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structllm_1_1_shard_affinity_metrics_1a496ba66e4c62c402ddc727f1a19d255c" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float llm::ShardAffinityMetrics::available_memory_gb</definition>
+        <argsstring></argsstring>
+        <name>available_memory_gb</name>
+        <qualifiedname>llm::ShardAffinityMetrics::available_memory_gb</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="113" column="11" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structllm_1_1_shard_affinity_metrics_1ad996967c6800abfc26467fbec03e97d0" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float llm::ShardAffinityMetrics::cpu_utilization</definition>
+        <argsstring></argsstring>
+        <name>cpu_utilization</name>
+        <qualifiedname>llm::ShardAffinityMetrics::cpu_utilization</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="114" column="11" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structllm_1_1_shard_affinity_metrics_1aff5a3287a5da9f0979a21cda8af5078a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t llm::ShardAffinityMetrics::active_adapters_count</definition>
+        <argsstring></argsstring>
+        <name>active_adapters_count</name>
+        <qualifiedname>llm::ShardAffinityMetrics::active_adapters_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="115" column="12" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structllm_1_1_shard_affinity_metrics_1a332bdf8e433943a0604fab1a6b581338" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual llm::ShardAffinityMetrics::~ShardAffinityMetrics</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ShardAffinityMetrics</name>
+        <qualifiedname>llm::ShardAffinityMetrics::~ShardAffinityMetrics</qualifiedname>
+        <briefdescription>
+<para>Shard Affinity Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="108" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="structllm_1_1_shard_affinity_metrics_1a7ea1255454aa03f0e474618e2de94fed" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>float llm::ShardAffinityMetrics::computeAffinityScore</definition>
+        <argsstring>() const</argsstring>
+        <name>computeAffinityScore</name>
+        <qualifiedname>llm::ShardAffinityMetrics::computeAffinityScore</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="117" column="11" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="117" bodyend="123"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/adapter_deployment_manager.h" line="103" column="1" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="103" bodyend="124"/>
+    <listofallmembers>
+      <member refid="structllm_1_1_shard_affinity_metrics_1aff5a3287a5da9f0979a21cda8af5078a" prot="public" virt="non-virtual"><scope>llm::ShardAffinityMetrics</scope><name>active_adapters_count</name></member>
+      <member refid="structllm_1_1_shard_affinity_metrics_1a496ba66e4c62c402ddc727f1a19d255c" prot="public" virt="non-virtual"><scope>llm::ShardAffinityMetrics</scope><name>available_memory_gb</name></member>
+      <member refid="structllm_1_1_shard_affinity_metrics_1a7ea1255454aa03f0e474618e2de94fed" prot="public" virt="non-virtual"><scope>llm::ShardAffinityMetrics</scope><name>computeAffinityScore</name></member>
+      <member refid="structllm_1_1_shard_affinity_metrics_1ad996967c6800abfc26467fbec03e97d0" prot="public" virt="non-virtual"><scope>llm::ShardAffinityMetrics</scope><name>cpu_utilization</name></member>
+      <member refid="structllm_1_1_shard_affinity_metrics_1a996d528f476f2db30d6955fa219e2660" prot="public" virt="non-virtual"><scope>llm::ShardAffinityMetrics</scope><name>data_coverage_ratio</name></member>
+      <member refid="structllm_1_1_shard_affinity_metrics_1a3b507e9a9c4bddc45fef069763ed4ccb" prot="public" virt="non-virtual"><scope>llm::ShardAffinityMetrics</scope><name>network_latency_ms</name></member>
+      <member refid="structllm_1_1_shard_affinity_metrics_1a3b72b897eb8edb1713ec587e0608db88" prot="public" virt="non-virtual"><scope>llm::ShardAffinityMetrics</scope><name>query_frequency</name></member>
+      <member refid="structllm_1_1_shard_affinity_metrics_1a6ab8e2b627bf2ed9e7fd1a1794a49e87" prot="public" virt="non-virtual"><scope>llm::ShardAffinityMetrics</scope><name>shard_id</name></member>
+      <member refid="structllm_1_1_shard_affinity_metrics_1a332bdf8e433943a0604fab1a6b581338" prot="public" virt="virtual"><scope>llm::ShardAffinityMetrics</scope><name>~ShardAffinityMetrics</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

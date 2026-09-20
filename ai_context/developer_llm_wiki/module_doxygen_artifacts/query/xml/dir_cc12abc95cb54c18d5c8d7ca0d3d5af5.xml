@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_cc12abc95cb54c18d5c8d7ca0d3d5af5" kind="dir">
+    <compoundname>src/query</compoundname>
+    <innerdir refid="dir_7d9718a2efa38b4d90de6a6945db8a94">src/query/functions</innerdir>
+    <innerfile refid="adaptive__join_8cpp">adaptive_join.cpp</innerfile>
+    <innerfile refid="adaptive__optimizer_8cpp">adaptive_optimizer.cpp</innerfile>
+    <innerfile refid="approximate__aggregator_8cpp">approximate_aggregator.cpp</innerfile>
+    <innerfile refid="aql__mutation__translator_8cpp">aql_mutation_translator.cpp</innerfile>
+    <innerfile refid="aql__mutation__validator_8cpp">aql_mutation_validator.cpp</innerfile>
+    <innerfile refid="aql__parser_8cpp">aql_parser.cpp</innerfile>
+    <innerfile refid="aql__parser__json_8cpp">aql_parser_json.cpp</innerfile>
+    <innerfile refid="aql__parser__service_8cpp">aql_parser_service.cpp</innerfile>
+    <innerfile refid="aql__runner_8cpp">aql_runner.cpp</innerfile>
+    <innerfile refid="aql__safety__validator_8cpp">aql_safety_validator.cpp</innerfile>
+    <innerfile refid="aql__translator_8cpp">aql_translator.cpp</innerfile>
+    <innerfile refid="bm25__scorer_8cpp">bm25_scorer.cpp</innerfile>
+    <innerfile refid="continuous__query__engine_8cpp">continuous_query_engine.cpp</innerfile>
+    <innerfile refid="continuous__query__planner_8cpp">continuous_query_planner.cpp</innerfile>
+    <innerfile refid="cq__watermark_8cpp">cq_watermark.cpp</innerfile>
+    <innerfile refid="cross__cluster__federation_8cpp">cross_cluster_federation.cpp</innerfile>
+    <innerfile refid="cte__cache_8cpp">cte_cache.cpp</innerfile>
+    <innerfile refid="cte__subquery_8cpp">cte_subquery.cpp</innerfile>
+    <innerfile refid="cypher__parser_8cpp">cypher_parser.cpp</innerfile>
+    <innerfile refid="ddl__executor_8cpp">ddl_executor.cpp</innerfile>
+    <innerfile refid="federation__resilience_8cpp">federation_resilience.cpp</innerfile>
+    <innerfile refid="fts__executor_8cpp">fts_executor.cpp</innerfile>
+    <innerfile refid="geospatial__cost__model_8cpp">geospatial_cost_model.cpp</innerfile>
+    <innerfile refid="geospatial__index__selector_8cpp">geospatial_index_selector.cpp</innerfile>
+    <innerfile refid="geospatial__optimizer__hints_8cpp">geospatial_optimizer_hints.cpp</innerfile>
+    <innerfile refid="geospatial__query__rewrite_8cpp">geospatial_query_rewrite.cpp</innerfile>
+    <innerfile refid="gremlin__parser_8cpp">gremlin_parser.cpp</innerfile>
+    <innerfile refid="incremental__agg_8cpp">incremental_agg.cpp</innerfile>
+    <innerfile refid="index__cache_8cpp">index_cache.cpp</innerfile>
+    <innerfile refid="let__evaluator_8cpp">let_evaluator.cpp</innerfile>
+    <innerfile refid="llm__query__shims_8cpp">llm_query_shims.cpp</innerfile>
+    <innerfile refid="materialized__cte_8cpp">materialized_cte.cpp</innerfile>
+    <innerfile refid="materialized__view_8cpp">materialized_view.cpp</innerfile>
+    <innerfile refid="mutation__executor_8cpp">mutation_executor.cpp</innerfile>
+    <innerfile refid="optimizer__cost__model_8cpp">optimizer_cost_model.cpp</innerfile>
+    <innerfile refid="optimizer__cost__model__enhancements_8cpp">optimizer_cost_model_enhancements.cpp</innerfile>
+    <innerfile refid="optimizer__cost__model__enhancements_8h">optimizer_cost_model_enhancements.h</innerfile>
+    <innerfile refid="parallel__executor_8cpp">parallel_executor.cpp</innerfile>
+    <innerfile refid="plan__cache_8cpp">plan_cache.cpp</innerfile>
+    <innerfile refid="query__cache_8cpp">query_cache.cpp</innerfile>
+    <innerfile refid="query__cache__manager_8cpp">query_cache_manager.cpp</innerfile>
+    <innerfile refid="query__canceller_8cpp">query_canceller.cpp</innerfile>
+    <innerfile refid="query__compiler_8cpp">query_compiler.cpp</innerfile>
+    <innerfile refid="query__engine_8cpp">query_engine.cpp</innerfile>
+    <innerfile refid="query__executor_8cpp">query_executor.cpp</innerfile>
+    <innerfile refid="query__federation_8cpp">query_federation.cpp</innerfile>
+    <innerfile refid="query__federation__memory_8cpp">query_federation_memory.cpp</innerfile>
+    <innerfile refid="query__federation__timeout_8cpp">query_federation_timeout.cpp</innerfile>
+    <innerfile refid="query__optimizer_8cpp">query_optimizer.cpp</innerfile>
+    <innerfile refid="query__plan__visualizer_8cpp">query_plan_visualizer.cpp</innerfile>
+    <innerfile refid="query__profiler_8cpp">query_profiler.cpp</innerfile>
+    <innerfile refid="query__rewrite__rule_8cpp">query_rewrite_rule.cpp</innerfile>
+    <innerfile refid="result__stream_8cpp">result_stream.cpp</innerfile>
+    <innerfile refid="result__type__annotation_8cpp">result_type_annotation.cpp</innerfile>
+    <innerfile refid="runtime__reoptimizer_8cpp">runtime_reoptimizer.cpp</innerfile>
+    <innerfile refid="scope__enforcer_8cpp">scope_enforcer.cpp</innerfile>
+    <innerfile refid="semantic__cache_8cpp">semantic_cache.cpp</innerfile>
+    <innerfile refid="sparql__parser_8cpp">sparql_parser.cpp</innerfile>
+    <innerfile refid="sql__parser_8cpp">sql_parser.cpp</innerfile>
+    <innerfile refid="statistical__aggregator_8cpp">statistical_aggregator.cpp</innerfile>
+    <innerfile refid="synopsis__store_8cpp">synopsis_store.cpp</innerfile>
+    <innerfile refid="tensor__aware__query__optimizer_8cpp">tensor_aware_query_optimizer.cpp</innerfile>
+    <innerfile refid="tensor__contraction__engine_8cpp">tensor_contraction_engine.cpp</innerfile>
+    <innerfile refid="vectorized__execution_8cpp">vectorized_execution.cpp</innerfile>
+    <innerfile refid="window__evaluator_8cpp">window_evaluator.cpp</innerfile>
+    <innerfile refid="workload__cache__strategy_8cpp">workload_cache_strategy.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/query/"/>
+  </compounddef>
+</doxygen>

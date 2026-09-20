@@ -1,0 +1,203 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1query_1_1fts" kind="namespace" language="C++">
+    <compoundname>themis::query::fts</compoundname>
+    <innerclass refid="classthemis_1_1query_1_1fts_1_1_b_m25_scorer" prot="public">themis::query::fts::BM25Scorer</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1fts_1_1_document_metadata" prot="public">themis::query::fts::DocumentMetadata</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1fts_1_1_execution_options" prot="public">themis::query::fts::ExecutionOptions</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1fts_1_1_fts_executor" prot="public">themis::query::fts::FtsExecutor</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1fts_1_1_fts_index" prot="public">themis::query::fts::FtsIndex</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1fts_1_1_index_cache" prot="public">themis::query::fts::IndexCache</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1fts_1_1_index_statistics" prot="public">themis::query::fts::IndexStatistics</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1fts_1_1_index_update_batch" prot="public">themis::query::fts::IndexUpdateBatch</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1fts_1_1_posting_list_entry" prot="public">themis::query::fts::PostingListEntry</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1fts_1_1_search_node" prot="public">themis::query::fts::SearchNode</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1fts_1_1_search_result" prot="public">themis::query::fts::SearchResult</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1query_1_1fts_1a4707c49cdb319b9f8513ea267b0a634c" prot="public" static="no" strong="yes">
+        <type>uint32_t</type>
+        <name>FtsError</name>
+        <qualifiedname>themis::query::fts::FtsError</qualifiedname>
+        <enumvalue id="namespacethemis_1_1query_1_1fts_1a4707c49cdb319b9f8513ea267b0a634cae0aa021e21dddbd6d8cecec71e9cf564" prot="public">
+          <name>OK</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1fts_1a4707c49cdb319b9f8513ea267b0a634ca5598b849e4723dd4b18c43b0cb5e1ec1" prot="public">
+          <name>INDEX_NOT_FOUND</name>
+          <initializer>= 7200</initializer>
+          <briefdescription>
+<para>Index file doesn&apos;t exist. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1fts_1a4707c49cdb319b9f8513ea267b0a634ca23b6a7b360fadf2ee1c99c345eb0f4f9" prot="public">
+          <name>INVALID_INDEX_FORMAT</name>
+          <initializer>= 7201</initializer>
+          <briefdescription>
+<para>Checksum mismatch or corrupted magic. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1fts_1a4707c49cdb319b9f8513ea267b0a634ca93bb018176b94fbf76a82ddb92e33802" prot="public">
+          <name>INDEX_LOCKED</name>
+          <initializer>= 7202</initializer>
+          <briefdescription>
+<para>Another process holding index lock. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1fts_1a4707c49cdb319b9f8513ea267b0a634ca5df1e7f3b823038573a810fe0710d890" prot="public">
+          <name>PARSING_ERROR</name>
+          <initializer>= 7203</initializer>
+          <briefdescription>
+<para>Malformed query (should not reach here). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1fts_1a4707c49cdb319b9f8513ea267b0a634cab23f1844d7ffdcacd50686f46c0345dc" prot="public">
+          <name>EXECUTION_TIMEOUT</name>
+          <initializer>= 7204</initializer>
+          <briefdescription>
+<para><ref refid="structthemis_1_1query_1_1_query" kindref="compound">Query</ref> exceeded time limit. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1fts_1a4707c49cdb319b9f8513ea267b0a634cac56ddb8056b120c9d5fee05981f219c6" prot="public">
+          <name>OUT_OF_MEMORY</name>
+          <initializer>= 7205</initializer>
+          <briefdescription>
+<para>Cache or index too large. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1fts_1a4707c49cdb319b9f8513ea267b0a634ca96b6931019031432937224369c9d6340" prot="public">
+          <name>TERM_NOT_FOUND</name>
+          <initializer>= 7206</initializer>
+          <briefdescription>
+<para>Term not in index (returns empty results). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1fts_1a4707c49cdb319b9f8513ea267b0a634cae8c0c70879b5895c615677261d64a1ee" prot="public">
+          <name>INTERNAL_ERROR</name>
+          <initializer>= 7299</initializer>
+          <briefdescription>
+<para>Unexpected state. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_executor.h" line="42" column="1" bodyfile="include/query/fts_executor.h" bodystart="42" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1query_1_1fts_1a6fab7786511692e6467bbe5628e5a746" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>SearchNodeType</name>
+        <qualifiedname>themis::query::fts::SearchNodeType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1query_1_1fts_1a6fab7786511692e6467bbe5628e5a746a8baeec6d282f1791ea9954d0c514ed8d" prot="public">
+          <name>TERM</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1fts_1a6fab7786511692e6467bbe5628e5a746a326989110ddd70abcc96d1e4bf40afc9" prot="public">
+          <name>PHRASE</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1fts_1a6fab7786511692e6467bbe5628e5a746a558ffc8f5770d8e4f95f51d822685532" prot="public">
+          <name>AND</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1fts_1a6fab7786511692e6467bbe5628e5a746a1d00e7dce692e8dc3f6877f035e3a616" prot="public">
+          <name>OR</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1fts_1a6fab7786511692e6467bbe5628e5a746a10df3d67626099df882920ba6552f16d" prot="public">
+          <name>NOT</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_parser.h" line="10" column="1" bodyfile="include/query/fts_parser.h" bodystart="10" bodyend="16"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1query_1_1fts_1aba304d1184d0c44b7b354f4eb722c48e" prot="public" static="no">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>tl::expected&lt; T, <ref refid="namespacethemis_1_1query_1_1fts_1a4707c49cdb319b9f8513ea267b0a634c" kindref="member">FtsError</ref> &gt;</type>
+        <definition>using themis::query::fts::Result = tl::expected&lt;T, FtsError&gt;</definition>
+        <argsstring></argsstring>
+        <name>Result</name>
+        <qualifiedname>themis::query::fts::Result</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_executor.h" line="72" column="1" bodyfile="include/query/fts_executor.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1query_1_1fts_1ae576c8a5450ccd843e380412ffa3ce78" prot="public" static="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1fts_1_1_posting_list_entry" kindref="compound">PostingListEntry</ref> &gt;</type>
+        <definition>using themis::query::fts::PostingList = std::vector&lt;PostingListEntry&gt;</definition>
+        <argsstring></argsstring>
+        <name>PostingList</name>
+        <qualifiedname>themis::query::fts::PostingList</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_index.h" line="44" column="1" bodyfile="include/query/fts_index.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/bm25_scorer.h" line="31" column="1"/>
+  </compounddef>
+</doxygen>

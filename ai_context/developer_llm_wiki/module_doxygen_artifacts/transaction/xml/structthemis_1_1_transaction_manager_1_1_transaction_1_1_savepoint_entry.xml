@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_transaction_manager_1_1_transaction_1_1_savepoint_entry" kind="struct" language="C++" prot="private">
+    <compoundname>themis::TransactionManager::Transaction::SavepointEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_transaction_manager_1_1_transaction_1_1_savepoint_entry_1ac287d201fce17cd0e31057d3e60771fe" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::TransactionManager::Transaction::SavepointEntry::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::TransactionManager::Transaction::SavepointEntry::name</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="420" column="25" bodyfile="include/transaction/transaction_manager.h" bodystart="420" bodyend="420"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_transaction_manager_1_1_transaction_1_1_savepoint_entry_1a7a40e417c6bbcc7422eae30bbb655e3a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::TransactionManager::Transaction::SavepointEntry::saga_step_count</definition>
+        <argsstring></argsstring>
+        <name>saga_step_count</name>
+        <qualifiedname>themis::TransactionManager::Transaction::SavepointEntry::saga_step_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>SAGA step count at the time the savepoint was created. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="421" column="20" bodyfile="include/transaction/transaction_manager.h" bodystart="421" bodyend="421"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/transaction_manager.h" line="419" column="9" bodyfile="include/transaction/transaction_manager.h" bodystart="419" bodyend="422"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_transaction_manager_1_1_transaction_1_1_savepoint_entry_1ac287d201fce17cd0e31057d3e60771fe" prot="public" virt="non-virtual"><scope>themis::TransactionManager::Transaction::SavepointEntry</scope><name>name</name></member>
+      <member refid="structthemis_1_1_transaction_manager_1_1_transaction_1_1_savepoint_entry_1a7a40e417c6bbcc7422eae30bbb655e3a" prot="public" virt="non-virtual"><scope>themis::TransactionManager::Transaction::SavepointEntry</scope><name>saga_step_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

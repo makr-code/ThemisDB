@@ -1,0 +1,593 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1analytics_1_1_result_aggregator" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::analytics::ResultAggregator</compoundname>
+    <includes refid="result__aggregator_8h" local="no">result_aggregator.h</includes>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_result_aggregator_1_1_stats" prot="public">themisdb::analytics::ResultAggregator::Stats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_result_aggregator_1ac48dede043f9b5324f5d7a326ea334ff" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1analytics_1_1_connection_pool" kindref="compound">ConnectionPool</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ConnectionPool&gt; themisdb::analytics::ResultAggregator::pool_</definition>
+        <argsstring></argsstring>
+        <name>pool_</name>
+        <qualifiedname>themisdb::analytics::ResultAggregator::pool_</qualifiedname>
+        <briefdescription>
+<para>Connection pool (never null). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/result_aggregator.h" line="161" column="21" bodyfile="include/analytics/result_aggregator.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_result_aggregator_1ae5e4336809f36ae864226cc1551e13c3" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_result_record" kindref="compound">ResultRecord</ref> &gt;</type>
+        <definition>std::vector&lt;ResultRecord&gt; themisdb::analytics::ResultAggregator::buffer_</definition>
+        <argsstring></argsstring>
+        <name>buffer_</name>
+        <qualifiedname>themisdb::analytics::ResultAggregator::buffer_</qualifiedname>
+        <briefdescription>
+<para>Pending records. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/result_aggregator.h" line="162" column="17" bodyfile="include/analytics/result_aggregator.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_result_aggregator_1ae6ef5df40562501892414b353a0fbf18" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::analytics::ResultAggregator::batch_size_</definition>
+        <argsstring></argsstring>
+        <name>batch_size_</name>
+        <qualifiedname>themisdb::analytics::ResultAggregator::batch_size_</qualifiedname>
+        <initializer>{1000}</initializer>
+        <briefdescription>
+<para>Auto-flush threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/result_aggregator.h" line="163" column="9" bodyfile="include/analytics/result_aggregator.h" bodystart="163" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_result_aggregator_1a9e1ac57c4d55b3f2b3609308d0a52c9e" prot="private" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::analytics::ResultAggregator::total_written_</definition>
+        <argsstring></argsstring>
+        <name>total_written_</name>
+        <qualifiedname>themisdb::analytics::ResultAggregator::total_written_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Cumulative records written. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/result_aggregator.h" line="164" column="13" bodyfile="include/analytics/result_aggregator.h" bodystart="164" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_result_aggregator_1ad6d7c23204de90ffa29d52ad2a9103d4" prot="private" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::analytics::ResultAggregator::total_failed_</definition>
+        <argsstring></argsstring>
+        <name>total_failed_</name>
+        <qualifiedname>themisdb::analytics::ResultAggregator::total_failed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Cumulative write failures. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/result_aggregator.h" line="165" column="13" bodyfile="include/analytics/result_aggregator.h" bodystart="165" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_result_aggregator_1ab5bc9db0f7a67423e6fc6d95ee61bdb7" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::analytics::ResultAggregator::error_count_</definition>
+        <argsstring></argsstring>
+        <name>error_count_</name>
+        <qualifiedname>themisdb::analytics::ResultAggregator::error_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Recent error count. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/result_aggregator.h" line="166" column="9" bodyfile="include/analytics/result_aggregator.h" bodystart="166" bodyend="166"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_result_aggregator_1a7e42fe8b0f79a2e9e04f2100e368934d" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::ResultAggregator::ResultAggregator</definition>
+        <argsstring>(std::shared_ptr&lt; ConnectionPool &gt; pool)</argsstring>
+        <name>ResultAggregator</name>
+        <qualifiedname>themisdb::analytics::ResultAggregator::ResultAggregator</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1analytics_1_1_connection_pool" kindref="compound">ConnectionPool</ref> &gt;</type>
+          <declname>pool</declname>
+        </param>
+        <briefdescription>
+<para>Result <ref refid="classthemisdb_1_1analytics_1_1_aggregator" kindref="compound">Aggregator</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pool</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/result_aggregator.h" line="61" column="14" bodyfile="src/analytics/result_aggregator.cpp" bodystart="66" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_result_aggregator_1a2294b6e7e2d8da22d95eb1170e3abe28" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::ResultAggregator::~ResultAggregator</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~ResultAggregator</name>
+        <qualifiedname>themisdb::analytics::ResultAggregator::~ResultAggregator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/result_aggregator.h" line="63" column="5" bodyfile="src/analytics/result_aggregator.cpp" bodystart="74" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_result_aggregator_1ae05df3a9b3d4772ed3cff26dae3957b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_write_result" kindref="compound">WriteResult</ref></type>
+        <definition>WriteResult themisdb::analytics::ResultAggregator::WriteResults</definition>
+        <argsstring>(const ResultBatch &amp;batch)</argsstring>
+        <name>WriteResults</name>
+        <qualifiedname>themisdb::analytics::ResultAggregator::WriteResults</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_result_batch" kindref="compound">ResultBatch</ref> &amp;</type>
+          <declname>batch</declname>
+        </param>
+        <briefdescription>
+<para>Write Results. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>======================================================================== Gap A-2-11, A-2-12, A-2-13: Transaction-safe result writing ========================================================================</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">batch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">batch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::chrono::high_resolution_clock::now(), LogDiagnostics(), acquire(), release(), guard(), spdlog::debug(), size(), BeginTransaction(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/result_aggregator.h" line="71" column="17" bodyfile="src/analytics/result_aggregator.cpp" bodystart="98" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_result_aggregator_1a507a48c6d3ce051d97f01e1867dcae69" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_write_result" kindref="compound">WriteResult</ref></type>
+        <definition>WriteResult themisdb::analytics::ResultAggregator::FlushBuffer</definition>
+        <argsstring>()</argsstring>
+        <name>FlushBuffer</name>
+        <qualifiedname>themisdb::analytics::ResultAggregator::FlushBuffer</qualifiedname>
+        <briefdescription>
+<para>Flush Buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>======================================================================== Gap A-2-14, A-2-18: Batch flush with connection reuse ========================================================================</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), LogDiagnostics(), acquire(), release(), guard(), spdlog::info(), size(), WriteRecord(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/result_aggregator.h" line="77" column="17" bodyfile="src/analytics/result_aggregator.cpp" bodystart="227" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_result_aggregator_1afcd4fe6ee424243983d251f92a6f7c0d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::ResultAggregator::CloseConnection</definition>
+        <argsstring>()</argsstring>
+        <name>CloseConnection</name>
+        <qualifiedname>themisdb::analytics::ResultAggregator::CloseConnection</qualifiedname>
+        <briefdescription>
+<para>Close Connection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>======================================================================== Gap A-2-17, A-2-20: Connection cleanup and error recovery ========================================================================</para>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), spdlog::warn(), size(), <ref refid="classthemisdb_1_1analytics_1_1_result_aggregator_1a507a48c6d3ce051d97f01e1867dcae69" kindref="member">FlushBuffer()</ref>, clear(), spdlog::info(), LogDiagnostics(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/result_aggregator.h" line="83" column="10" bodyfile="src/analytics/result_aggregator.cpp" bodystart="302" bodyend="328"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_result_aggregator_1a8511a8bfb94d2bc2e4ff0e0130818f35" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::ResultAggregator::IsConnectionHealthy</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>IsConnectionHealthy</name>
+        <qualifiedname>themisdb::analytics::ResultAggregator::IsConnectionHealthy</qualifiedname>
+        <briefdescription>
+<para>Is Connection Healthy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/result_aggregator.h" line="91" column="10" bodyfile="src/analytics/result_aggregator.cpp" bodystart="333" bodyend="338"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_result_aggregator_1a9b26a670e3cacac3ba7b84c7ab34bcd4" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_result_aggregator_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>ResultAggregator::Stats themisdb::analytics::ResultAggregator::GetStats</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>GetStats</name>
+        <qualifiedname>themisdb::analytics::ResultAggregator::GetStats</qualifiedname>
+        <briefdescription>
+<para>Get <ref refid="structthemisdb_1_1analytics_1_1_result_aggregator_1_1_stats" kindref="compound">Stats</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/result_aggregator.h" line="104" column="11" bodyfile="src/analytics/result_aggregator.cpp" bodystart="343" bodyend="350"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_result_aggregator_1afe635ff65313c95762b4f35ef7edbd19" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::ResultAggregator::ResetStats</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>ResetStats</name>
+        <qualifiedname>themisdb::analytics::ResultAggregator::ResetStats</qualifiedname>
+        <briefdescription>
+<para>Reset <ref refid="structthemisdb_1_1analytics_1_1_result_aggregator_1_1_stats" kindref="compound">Stats</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/result_aggregator.h" line="110" column="10" bodyfile="src/analytics/result_aggregator.cpp" bodystart="352" bodyend="356"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_result_aggregator_1a6d692a57ba6f39d2c588a0d693a50d4e" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::ResultAggregator::SetBatchSize</definition>
+        <argsstring>(int size) noexcept</argsstring>
+        <name>SetBatchSize</name>
+        <qualifiedname>themisdb::analytics::ResultAggregator::SetBatchSize</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/result_aggregator.h" line="112" column="10" bodyfile="include/analytics/result_aggregator.h" bodystart="112" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_result_aggregator_1a6ebfd7ad0173911d682443ce1a3230a7" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1analytics_1_1_connection_pool" kindref="compound">ConnectionPool</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; ConnectionPool &gt; themisdb::analytics::ResultAggregator::GetPool</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>GetPool</name>
+        <qualifiedname>themisdb::analytics::ResultAggregator::GetPool</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/result_aggregator.h" line="116" column="21" bodyfile="include/analytics/result_aggregator.h" bodystart="116" bodyend="118"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_result_aggregator_1a6e3fe0389c2b90fbc64868521a0270c4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::ResultAggregator::BeginTransaction</definition>
+        <argsstring>(int connection_id)</argsstring>
+        <name>BeginTransaction</name>
+        <qualifiedname>themisdb::analytics::ResultAggregator::BeginTransaction</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>connection_id</declname>
+        </param>
+        <briefdescription>
+<para>Begin Transaction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>======================================================================== Private helper methods for transaction management ========================================================================</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">connection_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the connection.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">connection_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the connection. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/result_aggregator.h" line="129" column="10" bodyfile="src/analytics/result_aggregator.cpp" bodystart="365" bodyend="371"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_result_aggregator_1aae7cbfc1ce506e01e4f69ceef2fb95f4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::ResultAggregator::CommitTransaction</definition>
+        <argsstring>(int connection_id)</argsstring>
+        <name>CommitTransaction</name>
+        <qualifiedname>themisdb::analytics::ResultAggregator::CommitTransaction</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>connection_id</declname>
+        </param>
+        <briefdescription>
+<para>Commit Transaction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">connection_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the connection.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">connection_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the connection. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/result_aggregator.h" line="135" column="10" bodyfile="src/analytics/result_aggregator.cpp" bodystart="379" bodyend="385"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_result_aggregator_1adcf74b9e837ed4fbdaec937d36abcdec" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::ResultAggregator::RollbackTransaction</definition>
+        <argsstring>(int connection_id) noexcept</argsstring>
+        <name>RollbackTransaction</name>
+        <qualifiedname>themisdb::analytics::ResultAggregator::RollbackTransaction</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>connection_id</declname>
+        </param>
+        <briefdescription>
+<para>Rollback Transaction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">connection_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the connection. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/result_aggregator.h" line="142" column="10" bodyfile="src/analytics/result_aggregator.cpp" bodystart="387" bodyend="398"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_result_aggregator_1a5ff6da37d882ba28ecc1c9325ad811fc" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::ResultAggregator::WriteRecord</definition>
+        <argsstring>(int connection_id, const ResultRecord &amp;record)</argsstring>
+        <name>WriteRecord</name>
+        <qualifiedname>themisdb::analytics::ResultAggregator::WriteRecord</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>connection_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_result_record" kindref="compound">ResultRecord</ref> &amp;</type>
+          <declname>record</declname>
+        </param>
+        <briefdescription>
+<para>Write Record. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">connection_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the connection. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">record</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">connection_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the connection. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">record</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), spdlog::debug(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/result_aggregator.h" line="149" column="10" bodyfile="src/analytics/result_aggregator.cpp" bodystart="407" bodyend="417"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_result_aggregator_1a5abf147f2a93aa6fa429e9ec5d69c86a" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::ResultAggregator::LogDiagnostics</definition>
+        <argsstring>(const std::string &amp;error) const</argsstring>
+        <name>LogDiagnostics</name>
+        <qualifiedname>themisdb::analytics::ResultAggregator::LogDiagnostics</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error</declname>
+        </param>
+        <briefdescription>
+<para>Log Diagnostics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/result_aggregator.h" line="155" column="10" bodyfile="src/analytics/result_aggregator.cpp" bodystart="419" bodyend="426"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/result_aggregator.h" line="54" column="1" bodyfile="include/analytics/result_aggregator.h" bodystart="54" bodyend="167"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1analytics_1_1_result_aggregator_1ae6ef5df40562501892414b353a0fbf18" prot="private" virt="non-virtual"><scope>themisdb::analytics::ResultAggregator</scope><name>batch_size_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_result_aggregator_1a6e3fe0389c2b90fbc64868521a0270c4" prot="private" virt="non-virtual"><scope>themisdb::analytics::ResultAggregator</scope><name>BeginTransaction</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_result_aggregator_1ae5e4336809f36ae864226cc1551e13c3" prot="private" virt="non-virtual"><scope>themisdb::analytics::ResultAggregator</scope><name>buffer_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_result_aggregator_1afcd4fe6ee424243983d251f92a6f7c0d" prot="public" virt="non-virtual"><scope>themisdb::analytics::ResultAggregator</scope><name>CloseConnection</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_result_aggregator_1aae7cbfc1ce506e01e4f69ceef2fb95f4" prot="private" virt="non-virtual"><scope>themisdb::analytics::ResultAggregator</scope><name>CommitTransaction</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_result_aggregator_1ab5bc9db0f7a67423e6fc6d95ee61bdb7" prot="private" virt="non-virtual"><scope>themisdb::analytics::ResultAggregator</scope><name>error_count_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_result_aggregator_1a507a48c6d3ce051d97f01e1867dcae69" prot="public" virt="non-virtual"><scope>themisdb::analytics::ResultAggregator</scope><name>FlushBuffer</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_result_aggregator_1a6ebfd7ad0173911d682443ce1a3230a7" prot="public" virt="non-virtual"><scope>themisdb::analytics::ResultAggregator</scope><name>GetPool</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_result_aggregator_1a9b26a670e3cacac3ba7b84c7ab34bcd4" prot="public" virt="non-virtual"><scope>themisdb::analytics::ResultAggregator</scope><name>GetStats</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_result_aggregator_1a8511a8bfb94d2bc2e4ff0e0130818f35" prot="public" virt="non-virtual"><scope>themisdb::analytics::ResultAggregator</scope><name>IsConnectionHealthy</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_result_aggregator_1a5abf147f2a93aa6fa429e9ec5d69c86a" prot="private" virt="non-virtual"><scope>themisdb::analytics::ResultAggregator</scope><name>LogDiagnostics</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_result_aggregator_1ac48dede043f9b5324f5d7a326ea334ff" prot="private" virt="non-virtual"><scope>themisdb::analytics::ResultAggregator</scope><name>pool_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_result_aggregator_1afe635ff65313c95762b4f35ef7edbd19" prot="public" virt="non-virtual"><scope>themisdb::analytics::ResultAggregator</scope><name>ResetStats</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_result_aggregator_1a7e42fe8b0f79a2e9e04f2100e368934d" prot="public" virt="non-virtual"><scope>themisdb::analytics::ResultAggregator</scope><name>ResultAggregator</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_result_aggregator_1adcf74b9e837ed4fbdaec937d36abcdec" prot="private" virt="non-virtual"><scope>themisdb::analytics::ResultAggregator</scope><name>RollbackTransaction</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_result_aggregator_1a6d692a57ba6f39d2c588a0d693a50d4e" prot="public" virt="non-virtual"><scope>themisdb::analytics::ResultAggregator</scope><name>SetBatchSize</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_result_aggregator_1ad6d7c23204de90ffa29d52ad2a9103d4" prot="private" virt="non-virtual"><scope>themisdb::analytics::ResultAggregator</scope><name>total_failed_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_result_aggregator_1a9e1ac57c4d55b3f2b3609308d0a52c9e" prot="private" virt="non-virtual"><scope>themisdb::analytics::ResultAggregator</scope><name>total_written_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_result_aggregator_1a5ff6da37d882ba28ecc1c9325ad811fc" prot="private" virt="non-virtual"><scope>themisdb::analytics::ResultAggregator</scope><name>WriteRecord</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_result_aggregator_1ae05df3a9b3d4772ed3cff26dae3957b3" prot="public" virt="non-virtual"><scope>themisdb::analytics::ResultAggregator</scope><name>WriteResults</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_result_aggregator_1a2294b6e7e2d8da22d95eb1170e3abe28" prot="public" virt="non-virtual"><scope>themisdb::analytics::ResultAggregator</scope><name>~ResultAggregator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

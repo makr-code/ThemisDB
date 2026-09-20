@@ -1,0 +1,187 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_knowledge::MergedRAGContext</compoundname>
+    <includes refid="federated__rag__merger_8h" local="no">federated_rag_merger.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context_1ae5d000d4bee1214ec2241e42a621fa1c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> &gt;</type>
+        <definition>std::vector&lt;RetrievedDocument&gt; themis::distributed_knowledge::MergedRAGContext::documents</definition>
+        <argsstring></argsstring>
+        <name>documents</name>
+        <qualifiedname>themis::distributed_knowledge::MergedRAGContext::documents</qualifiedname>
+        <briefdescription>
+<para>Ranked merged document list. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_rag_merger.h" line="93" column="17" bodyfile="include/distributed_knowledge/federated_rag_merger.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context_1a54533739af6e6f5469acc50208868c3a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::distributed_knowledge::MergedRAGContext::total_candidate_count</definition>
+        <argsstring></argsstring>
+        <name>total_candidate_count</name>
+        <qualifiedname>themis::distributed_knowledge::MergedRAGContext::total_candidate_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Before dedup + cut-off. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_rag_merger.h" line="94" column="14" bodyfile="include/distributed_knowledge/federated_rag_merger.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context_1a5a783e1f2e56837adafa028a2f803fb7" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::distributed_knowledge::MergedRAGContext::unique_doc_count</definition>
+        <argsstring></argsstring>
+        <name>unique_doc_count</name>
+        <qualifiedname>themis::distributed_knowledge::MergedRAGContext::unique_doc_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>After dedup. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_rag_merger.h" line="95" column="14" bodyfile="include/distributed_knowledge/federated_rag_merger.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context_1a27cdea5509a185e30fb65359aa22219c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::distributed_knowledge::MergedRAGContext::shards_queried</definition>
+        <argsstring></argsstring>
+        <name>shards_queried</name>
+        <qualifiedname>themis::distributed_knowledge::MergedRAGContext::shards_queried</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_rag_merger.h" line="96" column="14" bodyfile="include/distributed_knowledge/federated_rag_merger.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context_1a3e4abac4ad320eabe7eecec83937b13f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::distributed_knowledge::MergedRAGContext::shards_responded</definition>
+        <argsstring></argsstring>
+        <name>shards_responded</name>
+        <qualifiedname>themis::distributed_knowledge::MergedRAGContext::shards_responded</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_rag_merger.h" line="97" column="14" bodyfile="include/distributed_knowledge/federated_rag_merger.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context_1adf5a448c8d9269ad24c18775e25d99a5" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1distributed__knowledge_1a368bd326dd64b9132c94998235006fe9" kindref="member">MergeStrategy</ref></type>
+        <definition>MergeStrategy themis::distributed_knowledge::MergedRAGContext::strategy_used</definition>
+        <argsstring></argsstring>
+        <name>strategy_used</name>
+        <qualifiedname>themis::distributed_knowledge::MergedRAGContext::strategy_used</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1distributed__knowledge_1a368bd326dd64b9132c94998235006fe9a8fdd94a3c07ad9e986d786268523affd" kindref="member">MergeStrategy::RECIPROCAL_RANK_FUSION</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_rag_merger.h" line="98" column="19" bodyfile="include/distributed_knowledge/federated_rag_merger.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context_1a7b68005fc39654945de2dba4dae28c42" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_knowledge::MergedRAGContext::buildPromptContext</definition>
+        <argsstring>(size_t max_docs=0, size_t max_chars=0) const</argsstring>
+        <name>buildPromptContext</name>
+        <qualifiedname>themis::distributed_knowledge::MergedRAGContext::buildPromptContext</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>max_docs</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_chars</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Build a compact text context suitable for LLM prompt injection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><bold>Formatting:</bold><itemizedlist>
+<listitem><para>Each document formatted as: &quot;[Shard: &lt;shard_id&gt;] &lt;content&gt;\n  Entities: &lt;entities&gt;\n\n&quot;</para>
+</listitem><listitem><para>Entities appended if metadata[&quot;_entities&quot;] is non-empty</para>
+</listitem><listitem><para>Joins documents with &quot;\n\n&quot; separator</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Truncation Contract:</bold><orderedlist>
+<listitem><para>If max_docs &gt; 0: stop after including max_docs documents</para>
+</listitem><listitem><para>If max_chars &gt; 0: stop if appending next doc exceeds budget</para>
+</listitem><listitem><para>Last document is truncated (if necessary) to fit max_chars, append &quot;...&quot;</para>
+</listitem><listitem><para>If remaining budget &lt; 20 chars: skip last document entirely</para>
+</listitem></orderedlist>
+</para>
+<para><bold>Determinism:</bold><itemizedlist>
+<listitem><para>Output order matches input documents ranking</para>
+</listitem><listitem><para>Identical inputs → identical output (idempotent)</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Use Case:</bold><itemizedlist>
+<listitem><para>After merge(), call <ref refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context_1a7b68005fc39654945de2dba4dae28c42" kindref="member">buildPromptContext()</ref> to create RAG context for LLM</para>
+</listitem><listitem><para>Example: buildPromptContext(10, 4000) → top-10 docs, max 4KB</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>max_docs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum documents to include (default: 0 = all). If 0, include all documents (subject to max_chars). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_chars</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Approximate character budget (default: 0 = unlimited). If &gt; 0, truncate to stay within budget; last doc may be shortened with &quot;...&quot; suffix. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Formatted prompt context string, ready for LLM injection. Empty string if documents list is empty. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_rag_merger.h" line="130" column="18" bodyfile="src/distributed_knowledge/federated_rag_merger.cpp" bodystart="25" bodyend="59"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Globally merged RAG context, ready for LLM prompt injection. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Immutable after construction. </para>
+    </detaileddescription>
+    <location file="include/distributed_knowledge/federated_rag_merger.h" line="92" column="1" bodyfile="include/distributed_knowledge/federated_rag_merger.h" bodystart="92" bodyend="133"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context_1a7b68005fc39654945de2dba4dae28c42" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::MergedRAGContext</scope><name>buildPromptContext</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context_1ae5d000d4bee1214ec2241e42a621fa1c" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::MergedRAGContext</scope><name>documents</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context_1a27cdea5509a185e30fb65359aa22219c" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::MergedRAGContext</scope><name>shards_queried</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context_1a3e4abac4ad320eabe7eecec83937b13f" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::MergedRAGContext</scope><name>shards_responded</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context_1adf5a448c8d9269ad24c18775e25d99a5" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::MergedRAGContext</scope><name>strategy_used</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context_1a54533739af6e6f5469acc50208868c3a" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::MergedRAGContext</scope><name>total_candidate_count</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context_1a5a783e1f2e56837adafa028a2f803fb7" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::MergedRAGContext</scope><name>unique_doc_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

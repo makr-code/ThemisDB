@@ -1,0 +1,200 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_quality_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::QualityMetrics</compoundname>
+    <includes refid="adapter__registry_8h" local="no">adapter_registry.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_quality_metrics_1a987ff8cd07149904186c2cf9883377de" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::QualityMetrics::final_loss</definition>
+        <argsstring></argsstring>
+        <name>final_loss</name>
+        <qualifiedname>themis::llm::QualityMetrics::final_loss</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="156" column="12" bodyfile="include/llm/adapter_registry.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_quality_metrics_1a636b5bf00eaf8a9a1297d6f18f67e0cc" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::QualityMetrics::perplexity</definition>
+        <argsstring></argsstring>
+        <name>perplexity</name>
+        <qualifiedname>themis::llm::QualityMetrics::perplexity</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="157" column="12" bodyfile="include/llm/adapter_registry.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_quality_metrics_1a55065e56011bdd19ba751ad2c5355a75" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::QualityMetrics::accuracy</definition>
+        <argsstring></argsstring>
+        <name>accuracy</name>
+        <qualifiedname>themis::llm::QualityMetrics::accuracy</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="158" column="12" bodyfile="include/llm/adapter_registry.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_quality_metrics_1aeda597715f1247bb8552d9332b170b37" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, double &gt;</type>
+        <definition>std::map&lt;std::string, double&gt; themis::llm::QualityMetrics::eval_metrics</definition>
+        <argsstring></argsstring>
+        <name>eval_metrics</name>
+        <qualifiedname>themis::llm::QualityMetrics::eval_metrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="159" column="14" bodyfile="include/llm/adapter_registry.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_quality_metrics_1a3200d1ce5d5dea477a5017dd4eed6d73" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::QualityMetrics::training_samples</definition>
+        <argsstring></argsstring>
+        <name>training_samples</name>
+        <qualifiedname>themis::llm::QualityMetrics::training_samples</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="160" column="12" bodyfile="include/llm/adapter_registry.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_quality_metrics_1aecb3942e1b1aa78a4fc30a9423b2bf02" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::QualityMetrics::validation_samples</definition>
+        <argsstring></argsstring>
+        <name>validation_samples</name>
+        <qualifiedname>themis::llm::QualityMetrics::validation_samples</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="161" column="12" bodyfile="include/llm/adapter_registry.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_quality_metrics_1ae2f4ca1ea3f94c5a3e6dfb5c59678cef" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::QualityMetrics::metrics_json</definition>
+        <argsstring></argsstring>
+        <name>metrics_json</name>
+        <qualifiedname>themis::llm::QualityMetrics::metrics_json</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="162" column="17" bodyfile="include/llm/adapter_registry.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_quality_metrics_1a35019e1e66838d917c6309a4953af1e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::QualityMetrics::~QualityMetrics</definition>
+        <argsstring>()=default</argsstring>
+        <name>~QualityMetrics</name>
+        <qualifiedname>themis::llm::QualityMetrics::~QualityMetrics</qualifiedname>
+        <briefdescription>
+<para>Quality Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="155" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_quality_metrics_1a1d7533397fea58a1e7a7d70013756cd7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::llm::QualityMetrics::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::llm::QualityMetrics::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="168" column="20"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_quality_metrics_1adbcbfaa98fb71e1a8469a09d4da77735" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_quality_metrics" kindref="compound">QualityMetrics</ref></type>
+        <definition>static QualityMetrics themis::llm::QualityMetrics::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::llm::QualityMetrics::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="174" column="27"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/adapter_registry.h" line="150" column="1" bodyfile="include/llm/adapter_registry.h" bodystart="150" bodyend="175"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_quality_metrics_1a55065e56011bdd19ba751ad2c5355a75" prot="public" virt="non-virtual"><scope>themis::llm::QualityMetrics</scope><name>accuracy</name></member>
+      <member refid="structthemis_1_1llm_1_1_quality_metrics_1aeda597715f1247bb8552d9332b170b37" prot="public" virt="non-virtual"><scope>themis::llm::QualityMetrics</scope><name>eval_metrics</name></member>
+      <member refid="structthemis_1_1llm_1_1_quality_metrics_1a987ff8cd07149904186c2cf9883377de" prot="public" virt="non-virtual"><scope>themis::llm::QualityMetrics</scope><name>final_loss</name></member>
+      <member refid="structthemis_1_1llm_1_1_quality_metrics_1adbcbfaa98fb71e1a8469a09d4da77735" prot="public" virt="non-virtual"><scope>themis::llm::QualityMetrics</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1llm_1_1_quality_metrics_1ae2f4ca1ea3f94c5a3e6dfb5c59678cef" prot="public" virt="non-virtual"><scope>themis::llm::QualityMetrics</scope><name>metrics_json</name></member>
+      <member refid="structthemis_1_1llm_1_1_quality_metrics_1a636b5bf00eaf8a9a1297d6f18f67e0cc" prot="public" virt="non-virtual"><scope>themis::llm::QualityMetrics</scope><name>perplexity</name></member>
+      <member refid="structthemis_1_1llm_1_1_quality_metrics_1a1d7533397fea58a1e7a7d70013756cd7" prot="public" virt="non-virtual"><scope>themis::llm::QualityMetrics</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1llm_1_1_quality_metrics_1a3200d1ce5d5dea477a5017dd4eed6d73" prot="public" virt="non-virtual"><scope>themis::llm::QualityMetrics</scope><name>training_samples</name></member>
+      <member refid="structthemis_1_1llm_1_1_quality_metrics_1aecb3942e1b1aa78a4fc30a9423b2bf02" prot="public" virt="non-virtual"><scope>themis::llm::QualityMetrics</scope><name>validation_samples</name></member>
+      <member refid="structthemis_1_1llm_1_1_quality_metrics_1a35019e1e66838d917c6309a4953af1e7" prot="public" virt="virtual"><scope>themis::llm::QualityMetrics</scope><name>~QualityMetrics</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

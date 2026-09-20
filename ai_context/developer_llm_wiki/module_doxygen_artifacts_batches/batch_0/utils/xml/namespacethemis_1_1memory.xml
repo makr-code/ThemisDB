@@ -1,0 +1,223 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1memory" kind="namespace" language="C++">
+    <compoundname>themis::memory</compoundname>
+    <innerclass refid="structthemis_1_1memory_1_1_allocation_stats" prot="public">themis::memory::AllocationStats</innerclass>
+    <innerclass refid="classthemis_1_1memory_1_1_i_allocator" prot="public">themis::memory::IAllocator</innerclass>
+    <innerclass refid="classthemis_1_1memory_1_1_buddy_allocator" prot="public">themis::memory::BuddyAllocator</innerclass>
+    <innerclass refid="classthemis_1_1memory_1_1_slab_allocator" prot="public">themis::memory::SlabAllocator</innerclass>
+    <innerclass refid="classthemis_1_1memory_1_1_stack_allocator" prot="public">themis::memory::StackAllocator</innerclass>
+    <innerclass refid="classthemis_1_1memory_1_1_pool_allocator" prot="public">themis::memory::PoolAllocator</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1memory_1a248ddcb735871cb5fd9f806e955d4a6d" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>AllocationHint</name>
+        <qualifiedname>themis::memory::AllocationHint</qualifiedname>
+        <enumvalue id="namespacethemis_1_1memory_1a248ddcb735871cb5fd9f806e955d4a6dab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1memory_1a248ddcb735871cb5fd9f806e955d4a6daae9ad155df0c1ce85485866ade15ff05" prot="public">
+          <name>SHORT_LIVED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1memory_1a248ddcb735871cb5fd9f806e955d4a6daeb41920a1a8253029c0d52611ab41209" prot="public">
+          <name>LONG_LIVED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1memory_1a248ddcb735871cb5fd9f806e955d4a6da9efa08c5286257d9c3971c611508a0d2" prot="public">
+          <name>CACHE_LINE_ALIGNED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1memory_1a248ddcb735871cb5fd9f806e955d4a6dae696ed98bebf54dfd82e830e7eb75b41" prot="public">
+          <name>PAGE_ALIGNED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Allocation hint for optimization. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/memory/pool_allocator.h" line="106" column="1" bodyfile="include/utils/memory/pool_allocator.h" bodystart="106" bodyend="112"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1memory_1acc6367d154e1f3354063c770c5fe5c4a" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::memory::CACHE_LINE_SIZE</definition>
+        <argsstring></argsstring>
+        <name>CACHE_LINE_SIZE</name>
+        <qualifiedname>themis::memory::CACHE_LINE_SIZE</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+<para>Cache line size for alignment (typically 64 bytes). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/memory/pool_allocator.h" line="48" column="18" bodyfile="include/utils/memory/pool_allocator.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1memory_1a58a5ee0c3b1adc08046fd74a6ac596fe" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::memory::PEAK_UPDATE_MAX_RETRIES</definition>
+        <argsstring></argsstring>
+        <name>PEAK_UPDATE_MAX_RETRIES</name>
+        <qualifiedname>themis::memory::PEAK_UPDATE_MAX_RETRIES</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/memory/pool_allocator.cpp" line="30" column="15" bodyfile="src/utils/memory/pool_allocator.cpp" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1memory_1a2f5429fbca91e546ff33832a741691e3" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::memory::STACK_ALLOC_RESERVE_RATIO</definition>
+        <argsstring></argsstring>
+        <name>STACK_ALLOC_RESERVE_RATIO</name>
+        <qualifiedname>themis::memory::STACK_ALLOC_RESERVE_RATIO</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/memory/pool_allocator.cpp" line="31" column="18" bodyfile="src/utils/memory/pool_allocator.cpp" bodystart="31" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1memory_1ac14beece8c2bc15a7e84bb9cb9647177" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::memory::isPowerOfTwo</definition>
+        <argsstring>(size_t n)</argsstring>
+        <name>isPowerOfTwo</name>
+        <qualifiedname>themis::memory::isPowerOfTwo</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+<para>Is Power Of Two. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements isPowerOfTwo without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/memory/pool_allocator.cpp" line="39" column="20" bodyfile="src/utils/memory/pool_allocator.cpp" bodystart="39" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1memory_1ad84e5a30afb7e99d72904ad25ecce243" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>static size_t themis::memory::nextPowerOfTwo</definition>
+        <argsstring>(size_t n)</argsstring>
+        <name>nextPowerOfTwo</name>
+        <qualifiedname>themis::memory::nextPowerOfTwo</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+<para>Next Power Of Two. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements nextPowerOfTwo without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/memory/pool_allocator.cpp" line="49" column="22" bodyfile="src/utils/memory/pool_allocator.cpp" bodystart="49" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1memory_1affdef2f296c08db2f4d0f64033ae65df" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>static size_t themis::memory::alignSize</definition>
+        <argsstring>(size_t size, size_t alignment)</argsstring>
+        <name>alignSize</name>
+        <qualifiedname>themis::memory::alignSize</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>alignment</declname>
+        </param>
+        <briefdescription>
+<para>Align Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">alignment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements alignSize without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/memory/pool_allocator.cpp" line="70" column="22" bodyfile="src/utils/memory/pool_allocator.cpp" bodystart="70" bodyend="72"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/memory/pool_allocator.h" line="38" column="1"/>
+  </compounddef>
+</doxygen>

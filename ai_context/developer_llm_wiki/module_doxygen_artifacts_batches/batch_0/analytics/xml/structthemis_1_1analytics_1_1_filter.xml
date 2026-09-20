@@ -1,0 +1,190 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1analytics_1_1_filter" kind="struct" language="C++" prot="public">
+    <compoundname>themis::analytics::Filter</compoundname>
+    <includes refid="olap_8h" local="no">olap.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1analytics_1_1_filter_1a89bc301ac0be6e71ead61ba66e532e6c" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Operator</name>
+        <qualifiedname>themis::analytics::Filter::Operator</qualifiedname>
+        <enumvalue id="structthemis_1_1analytics_1_1_filter_1a89bc301ac0be6e71ead61ba66e532e6ca3718b5ecf60aa0dba49e150e96cb1fc3" prot="public">
+          <name>Eq</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1analytics_1_1_filter_1a89bc301ac0be6e71ead61ba66e532e6ca4dec99baa99738721da9c9b0c1a92498" prot="public">
+          <name>Ne</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1analytics_1_1_filter_1a89bc301ac0be6e71ead61ba66e532e6ca50033c15af7795cd6617f117b29d6922" prot="public">
+          <name>Lt</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1analytics_1_1_filter_1a89bc301ac0be6e71ead61ba66e532e6cabccd5ec3ec8fd3a4471e71e9b407c60c" prot="public">
+          <name>Le</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1analytics_1_1_filter_1a89bc301ac0be6e71ead61ba66e532e6ca086cb8308e5a36e7c4ed1f8873ad801f" prot="public">
+          <name>Gt</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1analytics_1_1_filter_1a89bc301ac0be6e71ead61ba66e532e6cac6a675552648c0becb8283f05c172483" prot="public">
+          <name>Ge</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1analytics_1_1_filter_1a89bc301ac0be6e71ead61ba66e532e6caefeb369cccbd560588a756610865664c" prot="public">
+          <name>In</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1analytics_1_1_filter_1a89bc301ac0be6e71ead61ba66e532e6cac949090e2cb12faab4dabb4621dd6c9e" prot="public">
+          <name>NotIn</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1analytics_1_1_filter_1a89bc301ac0be6e71ead61ba66e532e6cab270372be5b4433b4736daaf25e1c74e" prot="public">
+          <name>Contains</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1analytics_1_1_filter_1a89bc301ac0be6e71ead61ba66e532e6ca9d1a2cba952f9245c54397bbbf3e8183" prot="public">
+          <name>StartsWith</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1analytics_1_1_filter_1a89bc301ac0be6e71ead61ba66e532e6ca213068b7e25d045126e9b1702fae80db" prot="public">
+          <name>EndsWith</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1analytics_1_1_filter_1a89bc301ac0be6e71ead61ba66e532e6caf0050362b45a1bdf34a9b8ab6c97a433" prot="public">
+          <name>IsNull</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1analytics_1_1_filter_1a89bc301ac0be6e71ead61ba66e532e6ca99c0b87e5e7c0a8bb743819dd0c06f12" prot="public">
+          <name>IsNotNull</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1analytics_1_1_filter_1a89bc301ac0be6e71ead61ba66e532e6ca5ccb72b3b258508dc7918070eaeb214c" prot="public">
+          <name>Between</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="81" column="5" bodyfile="include/analytics/olap.h" bodystart="81" bodyend="96"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_filter_1a4692de90e4891287a986d7dfa568a41e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::analytics::Filter::field</definition>
+        <argsstring></argsstring>
+        <name>field</name>
+        <qualifiedname>themis::analytics::Filter::field</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="98" column="17" bodyfile="include/analytics/olap.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_filter_1a6c0685b62d0f55a61944c74ab6ccc42b" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1analytics_1_1_filter_1a89bc301ac0be6e71ead61ba66e532e6c" kindref="member">Operator</ref></type>
+        <definition>Operator themis::analytics::Filter::op</definition>
+        <argsstring></argsstring>
+        <name>op</name>
+        <qualifiedname>themis::analytics::Filter::op</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1analytics_1_1_filter_1a89bc301ac0be6e71ead61ba66e532e6ca3718b5ecf60aa0dba49e150e96cb1fc3" kindref="member">Operator::Eq</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="99" column="14" bodyfile="include/analytics/olap.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_filter_1ac55ffc612cd906ffb4b62933ffdd22f4" prot="public" static="no" mutable="no">
+        <type>std::variant&lt; std::nullptr_t, bool, int64_t, double, std::string, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::variant&lt;std::nullptr_t, bool, int64_t, double, std::string, std::vector&lt;std::string&gt; &gt; themis::analytics::Filter::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::analytics::Filter::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="100" column="18" bodyfile="include/analytics/olap.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_filter_1af70e2dbf0bd8708a43608580dec9378d" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::variant&lt; int64_t, double, std::string &gt; &gt;</type>
+        <definition>std::optional&lt;std::variant&lt;int64_t, double, std::string&gt; &gt; themis::analytics::Filter::value2</definition>
+        <argsstring></argsstring>
+        <name>value2</name>
+        <qualifiedname>themis::analytics::Filter::value2</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="101" column="19" bodyfile="include/analytics/olap.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/olap.h" line="80" column="1" bodyfile="include/analytics/olap.h" bodystart="80" bodyend="102"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1analytics_1_1_filter_1a4692de90e4891287a986d7dfa568a41e" prot="public" virt="non-virtual"><scope>themis::analytics::Filter</scope><name>field</name></member>
+      <member refid="structthemis_1_1analytics_1_1_filter_1a6c0685b62d0f55a61944c74ab6ccc42b" prot="public" virt="non-virtual"><scope>themis::analytics::Filter</scope><name>op</name></member>
+      <member refid="structthemis_1_1analytics_1_1_filter_1a89bc301ac0be6e71ead61ba66e532e6c" prot="public" virt="non-virtual"><scope>themis::analytics::Filter</scope><name>Operator</name></member>
+      <member refid="structthemis_1_1analytics_1_1_filter_1ac55ffc612cd906ffb4b62933ffdd22f4" prot="public" virt="non-virtual"><scope>themis::analytics::Filter</scope><name>value</name></member>
+      <member refid="structthemis_1_1analytics_1_1_filter_1af70e2dbf0bd8708a43608580dec9378d" prot="public" virt="non-virtual"><scope>themis::analytics::Filter</scope><name>value2</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

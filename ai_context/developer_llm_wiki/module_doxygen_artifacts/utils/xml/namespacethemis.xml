@@ -1,0 +1,463 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis" kind="namespace" language="C++">
+    <compoundname>themis</compoundname>
+    <innerclass refid="classthemis_1_1_baggage" prot="public">themis::Baggage</innerclass>
+    <innerclass refid="classthemis_1_1_concurrent_cache" prot="public">themis::ConcurrentCache</innerclass>
+    <innerclass refid="classthemis_1_1_cron_expression" prot="public">themis::CronExpression</innerclass>
+    <innerclass refid="structthemis_1_1_cron_validation_result" prot="public">themis::CronValidationResult</innerclass>
+    <innerclass refid="classthemis_1_1_error" prot="public">themis::Error</innerclass>
+    <innerclass refid="classthemis_1_1_sampling_strategy" prot="public">themis::SamplingStrategy</innerclass>
+    <innerclass refid="classthemis_1_1_scoped_span" prot="public">themis::ScopedSpan</innerclass>
+    <innerclass refid="classthemis_1_1_traced_span" prot="public">themis::TracedSpan</innerclass>
+    <innerclass refid="classthemis_1_1_tracer" prot="public">themis::Tracer</innerclass>
+    <innernamespace refid="namespacethemis_1_1build__info">themis::build_info</innernamespace>
+    <innernamespace refid="namespacethemis_1_1cli">themis::cli</innernamespace>
+    <innernamespace refid="namespacethemis_1_1errors">themis::errors</innernamespace>
+    <innernamespace refid="namespacethemis_1_1experimental">themis::experimental</innernamespace>
+    <innernamespace refid="namespacethemis_1_1geo">themis::geo</innernamespace>
+    <innernamespace refid="namespacethemis_1_1hash">themis::hash</innernamespace>
+    <innernamespace refid="namespacethemis_1_1json__util">themis::json_util</innernamespace>
+    <innernamespace refid="namespacethemis_1_1license">themis::license</innernamespace>
+    <innernamespace refid="namespacethemis_1_1memory">themis::memory</innernamespace>
+    <innernamespace refid="namespacethemis_1_1observability">themis::observability</innernamespace>
+    <innernamespace refid="namespacethemis_1_1simd">themis::simd</innernamespace>
+    <innernamespace refid="namespacethemis_1_1storage">themis::storage</innernamespace>
+    <innernamespace refid="namespacethemis_1_1test">themis::test</innernamespace>
+    <innernamespace refid="namespacethemis_1_1util">themis::util</innernamespace>
+    <innernamespace refid="namespacethemis_1_1utils">themis::utils</innernamespace>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" prot="public" static="no">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type><ref refid="classtl_1_1expected" kindref="compound">tl::expected</ref>&lt; T, <ref refid="classthemis_1_1_error" kindref="compound">Error</ref> &gt;</type>
+        <definition>using themis::Result = tl::expected&lt;T, Error&gt;</definition>
+        <argsstring></argsstring>
+        <name>Result</name>
+        <qualifiedname>themis::Result</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Production-ready <ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result&lt;T&gt;</ref> type alias using <ref refid="classtl_1_1expected" kindref="compound">tl::expected</ref></para>
+<para>This provides:<itemizedlist>
+<listitem><para>Zero-overhead error propagation (no exceptions)</para>
+</listitem><listitem><para>Type-safe error handling (compiler-enforced checking)</para>
+</listitem><listitem><para>Composable error handling with monadic operations</para>
+</listitem><listitem><para>Forward-compatible with C++23 std::expected</para>
+</listitem></itemizedlist>
+</para>
+<para>Usage examples:</para>
+<para>// Function returning <ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result</ref> <ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result&lt;std::string&gt;</ref> readFile(const std::string&amp; path) { if (!fileExists(path)) { return <ref refid="classtl_1_1unexpected" kindref="compound">tl::unexpected(Error(ErrorCode::ERR_STORAGE_FILE_NOT_FOUND, path))</ref>; } return fileContents; }</para>
+<para>// Caller checking result auto result = readFile(&quot;config.yaml&quot;); if (result) { processContent(*result); } else { spdlog::error(&quot;Failed to read file: {}&quot;, result.error().message()); }</para>
+<para>// Monadic error propagation return readFile(path) .and_then([](const std::string&amp; content) { return parseYaml(content); }) .and_then([](const Config&amp; cfg) { return validateConfig(cfg); }); </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="333" column="1" bodyfile="include/utils/expected.h" bodystart="333" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1aa0225b7da2d64e52071cded1f9e19e45" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result</ref>&lt; T &gt;</type>
+        <definition>Result&lt; T &gt; themis::Err</definition>
+        <argsstring>(errors::ErrorCode code, std::string context=&quot;&quot;)</argsstring>
+        <name>Err</name>
+        <qualifiedname>themis::Err</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279d" kindref="member">errors::ErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>context</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Helper function to create an error result</para>
+<para>Usage: return Err(ErrorCode::ERR_STORAGE_FILE_NOT_FOUND, filepath); </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="341" column="8" bodyfile="include/utils/expected.h" bodystart="341" bodyend="343"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1a7de2875c9f12d270dce73873e3d0d5e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result</ref>&lt; std::decay_t&lt; T &gt; &gt;</type>
+        <definition>Result&lt; std::decay_t&lt; T &gt; &gt; themis::Ok</definition>
+        <argsstring>(T &amp;&amp;value)</argsstring>
+        <name>Ok</name>
+        <qualifiedname>themis::Ok</qualifiedname>
+        <param>
+          <type>T &amp;&amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Helper function to create a success result</para>
+<para>Usage: return Ok(value); </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="351" column="8" bodyfile="include/utils/expected.h" bodystart="351" bodyend="353"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1ab996532e6dd43674f9065849a5b0e4dc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result</ref>&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::OkVoid</definition>
+        <argsstring>()</argsstring>
+        <name>OkVoid</name>
+        <qualifiedname>themis::OkVoid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="356" column="15" bodyfile="include/utils/expected.h" bodystart="356" bodyend="358"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1a9dfe4a621661bf7b1f585b7fef613b26" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result</ref>&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::ErrVoid</definition>
+        <argsstring>(errors::ErrorCode code, std::string context=&quot;&quot;)</argsstring>
+        <name>ErrVoid</name>
+        <qualifiedname>themis::ErrVoid</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279d" kindref="member">errors::ErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>context</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="360" column="15" bodyfile="include/utils/expected.h" bodystart="360" bodyend="362"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1a82076454adc14ae69ee088f7753d2dde" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result</ref>&lt; T * &gt;</type>
+        <definition>Result&lt; T * &gt; themis::fromNullable</definition>
+        <argsstring>(T *ptr, errors::ErrorCode errorCode, std::string context=&quot;&quot;)</argsstring>
+        <name>fromNullable</name>
+        <qualifiedname>themis::fromNullable</qualifiedname>
+        <param>
+          <type>T *</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279d" kindref="member">errors::ErrorCode</ref></type>
+          <declname>errorCode</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>context</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Legacy pattern conversion helpers These help migrate existing code patterns to <ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result&lt;T&gt;</ref> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="371" column="8" bodyfile="include/utils/expected.h" bodystart="371" bodyend="376"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1ae96b7eb660fdb985421cc1c95b05fe83" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result</ref>&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::fromBoolStatus</definition>
+        <argsstring>(bool ok, const std::string &amp;errorMessage, errors::ErrorCode errorCode)</argsstring>
+        <name>fromBoolStatus</name>
+        <qualifiedname>themis::fromBoolStatus</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>ok</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>errorMessage</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279d" kindref="member">errors::ErrorCode</ref></type>
+          <declname>errorCode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="379" column="15" bodyfile="include/utils/expected.h" bodystart="379" bodyend="385"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1ae4d8604b0d4169df4b5565fb28eafa60" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result</ref>&lt; T &gt;</type>
+        <definition>Result&lt; T &gt; themis::fromOptional</definition>
+        <argsstring>(std::optional&lt; T &gt; &amp;&amp;opt, errors::ErrorCode errorCode, std::string context=&quot;&quot;)</argsstring>
+        <name>fromOptional</name>
+        <qualifiedname>themis::fromOptional</qualifiedname>
+        <param>
+          <type>std::optional&lt; T &gt; &amp;&amp;</type>
+          <declname>opt</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279d" kindref="member">errors::ErrorCode</ref></type>
+          <declname>errorCode</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>context</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="389" column="8" bodyfile="include/utils/expected.h" bodystart="389" bodyend="395"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1a697319f20048c03d39b9faf9fb57f114" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type><ref refid="classtl_1_1expected" kindref="compound">tl::expected</ref>&lt; std::decay_t&lt; T &gt;, std::string &gt;</type>
+        <definition>tl::expected&lt; std::decay_t&lt; T &gt;, std::string &gt; themis::make_expected</definition>
+        <argsstring>(T &amp;&amp;value)</argsstring>
+        <name>make_expected</name>
+        <qualifiedname>themis::make_expected</qualifiedname>
+        <param>
+          <type>T &amp;&amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="399" column="14" bodyfile="include/utils/expected.h" bodystart="399" bodyend="401"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1affebb140342852f68936978a348401bf" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classtl_1_1expected" kindref="compound">tl::expected</ref>&lt; void, std::string &gt;</type>
+        <definition>tl::expected&lt; void, std::string &gt; themis::make_expected</definition>
+        <argsstring>()</argsstring>
+        <name>make_expected</name>
+        <qualifiedname>themis::make_expected</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="403" column="21" bodyfile="include/utils/expected.h" bodystart="403" bodyend="405"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1a5204b495e9da51167a0b965271d83add" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::manhattan_distance</definition>
+        <argsstring>(const float *a, const float *b, std::size_t dim) noexcept</argsstring>
+        <name>manhattan_distance</name>
+        <qualifiedname>themis::manhattan_distance</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>b</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>dim</declname>
+        </param>
+        <briefdescription>
+<para>Manhattan (L1) distance between two float vectors of length <computeroutput>dim</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns Σ |aᵢ − bᵢ|. Scalar implementation; for high-throughput search paths prefer <ref refid="namespacethemis_1_1simd_1a973965f0b7a00eff58deeb34b8b49a2e" kindref="member">simd::l2_distance_sq</ref> (which is SIMD-accelerated).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>First vector (length <computeroutput>dim</computeroutput>). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Second vector (length <computeroutput>dim</computeroutput>). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector dimensionality. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Non-negative L1 distance. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/geometric_distances.h" line="97" column="15" bodyfile="include/utils/geometric_distances.h" bodystart="97" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1a9d7a98ecff9a5e47e05455d2ba8dcd66" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>static int themis::monthNameToNumber</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>monthNameToNumber</name>
+        <qualifiedname>themis::monthNameToNumber</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>===== Name Alias Helpers ===== </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), std::toupper(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/cron_parser.cpp" line="467" column="12" bodyfile="src/utils/cron_parser.cpp" bodystart="467" bodyend="490"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1a16c2baea4044aa995999dcfa382aa429" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>static int themis::weekdayNameToNumber</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>weekdayNameToNumber</name>
+        <qualifiedname>themis::weekdayNameToNumber</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Weekday Name To Number. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), std::toupper(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/cron_parser.cpp" line="498" column="12" bodyfile="src/utils/cron_parser.cpp" bodystart="498" bodyend="518"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1a5b44b234fde020c39669eaed0c33fe3f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; int &gt;</type>
+        <definition>static std::optional&lt; int &gt; themis::parseToken</definition>
+        <argsstring>(const std::string &amp;token, int min_value, int max_value)</argsstring>
+        <name>parseToken</name>
+        <qualifiedname>themis::parseToken</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>token</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>min_value</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_value</declname>
+        </param>
+        <briefdescription>
+<para>Parse Token. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">min_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::isdigit(), std::stoi(), monthNameToNumber(), weekdayNameToNumber(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/cron_parser.cpp" line="528" column="22" bodyfile="src/utils/cron_parser.cpp" bodystart="528" bodyend="571"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/audit_logger.h" line="28" column="1"/>
+  </compounddef>
+</doxygen>

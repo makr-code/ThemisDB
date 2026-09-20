@@ -1,0 +1,269 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1performance_1_1_ra_bit_q_encoder" kind="class" language="C++" prot="public">
+    <compoundname>themis::performance::RaBitQEncoder</compoundname>
+    <includes refid="rabitq_8h" local="no">rabitq.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_ra_bit_q_encoder_1a4fed9a7716ba3267fa470eb52aeb915a" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::RaBitQEncoder::dimension_</definition>
+        <argsstring></argsstring>
+        <name>dimension_</name>
+        <qualifiedname>themis::performance::RaBitQEncoder::dimension_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rabitq.h" line="90" column="12" bodyfile="include/performance/rabitq.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_ra_bit_q_encoder_1aefa41fce2b84403b7f3124c324ec7631" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::performance::RaBitQEncoder::mean_</definition>
+        <argsstring></argsstring>
+        <name>mean_</name>
+        <qualifiedname>themis::performance::RaBitQEncoder::mean_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rabitq.h" line="91" column="17" bodyfile="include/performance/rabitq.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_ra_bit_q_encoder_1a310c0dc92ea3daf6aed3943a6b993d3b" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::performance::RaBitQEncoder::scale_</definition>
+        <argsstring></argsstring>
+        <name>scale_</name>
+        <qualifiedname>themis::performance::RaBitQEncoder::scale_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rabitq.h" line="92" column="17" bodyfile="include/performance/rabitq.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_ra_bit_q_encoder_1ab4c5b1ba135a2bea8bb1e7b5a3ca5bb4" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::array&lt; float, 3 &gt; &gt;</type>
+        <definition>std::vector&lt;std::array&lt;float, 3&gt; &gt; themis::performance::RaBitQEncoder::thresholds_</definition>
+        <argsstring></argsstring>
+        <name>thresholds_</name>
+        <qualifiedname>themis::performance::RaBitQEncoder::thresholds_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rabitq.h" line="95" column="17" bodyfile="include/performance/rabitq.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_ra_bit_q_encoder_1aba0502bd86d8d97b9f2320ac5bbc84fa" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::RaBitQEncoder::RaBitQEncoder</definition>
+        <argsstring>(size_t dimension)</argsstring>
+        <name>RaBitQEncoder</name>
+        <qualifiedname>themis::performance::RaBitQEncoder::RaBitQEncoder</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>dimension</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rabitq.h" line="72" column="14" bodyfile="src/performance/rabitq.cpp" bodystart="57" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_ra_bit_q_encoder_1a004b2404e0c319c4a4ccd992029d5057" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::RaBitQEncoder::train</definition>
+        <argsstring>(const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;training_data)</argsstring>
+        <name>train</name>
+        <qualifiedname>themis::performance::RaBitQEncoder::train</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;</type>
+          <declname>training_data</declname>
+        </param>
+        <briefdescription>
+<para>Train. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">training_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), size(), std::sqrt(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rabitq.h" line="75" column="10" bodyfile="src/performance/rabitq.cpp" bodystart="75" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_ra_bit_q_encoder_1a2d47318b7857aab3b69f21d7d47632ad" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1performance_1_1_ra_bit_q_vector" kindref="compound">RaBitQVector</ref></type>
+        <definition>RaBitQVector themis::performance::RaBitQEncoder::encode</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;vec) const</argsstring>
+        <name>encode</name>
+        <qualifiedname>themis::performance::RaBitQEncoder::encode</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>vec</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rabitq.h" line="78" column="18" bodyfile="src/performance/rabitq.cpp" bodystart="114" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_ra_bit_q_encoder_1aea18e40dedeaa61d0a39e44f60048a06" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::performance::RaBitQEncoder::decode</definition>
+        <argsstring>(const RaBitQVector &amp;quantized) const</argsstring>
+        <name>decode</name>
+        <qualifiedname>themis::performance::RaBitQEncoder::decode</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1performance_1_1_ra_bit_q_vector" kindref="compound">RaBitQVector</ref> &amp;</type>
+          <declname>quantized</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rabitq.h" line="81" column="17" bodyfile="src/performance/rabitq.cpp" bodystart="133" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_ra_bit_q_encoder_1a7a215d092b72de8eb74b88ee4d0b9e49" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::performance::RaBitQEncoder::compute_distance</definition>
+        <argsstring>(const RaBitQVector &amp;a, const RaBitQVector &amp;b) const</argsstring>
+        <name>compute_distance</name>
+        <qualifiedname>themis::performance::RaBitQEncoder::compute_distance</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1performance_1_1_ra_bit_q_vector" kindref="compound">RaBitQVector</ref> &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1performance_1_1_ra_bit_q_vector" kindref="compound">RaBitQVector</ref> &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rabitq.h" line="84" column="11" bodyfile="src/performance/rabitq.cpp" bodystart="143" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_ra_bit_q_encoder_1a750ace1b1f0a10eece71310e355fec85" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::performance::RaBitQEncoder::asymmetric_distance</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;query, const RaBitQVector &amp;db_vector) const</argsstring>
+        <name>asymmetric_distance</name>
+        <qualifiedname>themis::performance::RaBitQEncoder::asymmetric_distance</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1performance_1_1_ra_bit_q_vector" kindref="compound">RaBitQVector</ref> &amp;</type>
+          <declname>db_vector</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rabitq.h" line="87" column="11" bodyfile="src/performance/rabitq.cpp" bodystart="155" bodyend="164"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_ra_bit_q_encoder_1a2e870410b2686185b464f455a355fcb3" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::performance::RaBitQEncoder::quantize_value</definition>
+        <argsstring>(float value, size_t dim) const</argsstring>
+        <name>quantize_value</name>
+        <qualifiedname>themis::performance::RaBitQEncoder::quantize_value</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>dim</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rabitq.h" line="98" column="13" bodyfile="src/performance/rabitq.cpp" bodystart="166" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_ra_bit_q_encoder_1a7162acdb9736ce47f0c4d819512ee3cf" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::performance::RaBitQEncoder::dequantize_value</definition>
+        <argsstring>(uint8_t quantized, size_t dim) const</argsstring>
+        <name>dequantize_value</name>
+        <qualifiedname>themis::performance::RaBitQEncoder::dequantize_value</qualifiedname>
+        <param>
+          <type>uint8_t</type>
+          <declname>quantized</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>dim</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rabitq.h" line="101" column="11" bodyfile="src/performance/rabitq.cpp" bodystart="180" bodyend="195"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RaBitQ encoder with learned quantization parameters. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/rabitq.h" line="70" column="1" bodyfile="include/performance/rabitq.h" bodystart="70" bodyend="102"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1performance_1_1_ra_bit_q_encoder_1a750ace1b1f0a10eece71310e355fec85" prot="public" virt="non-virtual"><scope>themis::performance::RaBitQEncoder</scope><name>asymmetric_distance</name></member>
+      <member refid="classthemis_1_1performance_1_1_ra_bit_q_encoder_1a7a215d092b72de8eb74b88ee4d0b9e49" prot="public" virt="non-virtual"><scope>themis::performance::RaBitQEncoder</scope><name>compute_distance</name></member>
+      <member refid="classthemis_1_1performance_1_1_ra_bit_q_encoder_1aea18e40dedeaa61d0a39e44f60048a06" prot="public" virt="non-virtual"><scope>themis::performance::RaBitQEncoder</scope><name>decode</name></member>
+      <member refid="classthemis_1_1performance_1_1_ra_bit_q_encoder_1a7162acdb9736ce47f0c4d819512ee3cf" prot="private" virt="non-virtual"><scope>themis::performance::RaBitQEncoder</scope><name>dequantize_value</name></member>
+      <member refid="classthemis_1_1performance_1_1_ra_bit_q_encoder_1a4fed9a7716ba3267fa470eb52aeb915a" prot="private" virt="non-virtual"><scope>themis::performance::RaBitQEncoder</scope><name>dimension_</name></member>
+      <member refid="classthemis_1_1performance_1_1_ra_bit_q_encoder_1a2d47318b7857aab3b69f21d7d47632ad" prot="public" virt="non-virtual"><scope>themis::performance::RaBitQEncoder</scope><name>encode</name></member>
+      <member refid="classthemis_1_1performance_1_1_ra_bit_q_encoder_1aefa41fce2b84403b7f3124c324ec7631" prot="private" virt="non-virtual"><scope>themis::performance::RaBitQEncoder</scope><name>mean_</name></member>
+      <member refid="classthemis_1_1performance_1_1_ra_bit_q_encoder_1a2e870410b2686185b464f455a355fcb3" prot="private" virt="non-virtual"><scope>themis::performance::RaBitQEncoder</scope><name>quantize_value</name></member>
+      <member refid="classthemis_1_1performance_1_1_ra_bit_q_encoder_1aba0502bd86d8d97b9f2320ac5bbc84fa" prot="public" virt="non-virtual"><scope>themis::performance::RaBitQEncoder</scope><name>RaBitQEncoder</name></member>
+      <member refid="classthemis_1_1performance_1_1_ra_bit_q_encoder_1a310c0dc92ea3daf6aed3943a6b993d3b" prot="private" virt="non-virtual"><scope>themis::performance::RaBitQEncoder</scope><name>scale_</name></member>
+      <member refid="classthemis_1_1performance_1_1_ra_bit_q_encoder_1ab4c5b1ba135a2bea8bb1e7b5a3ca5bb4" prot="private" virt="non-virtual"><scope>themis::performance::RaBitQEncoder</scope><name>thresholds_</name></member>
+      <member refid="classthemis_1_1performance_1_1_ra_bit_q_encoder_1a004b2404e0c319c4a4ccd992029d5057" prot="public" virt="non-virtual"><scope>themis::performance::RaBitQEncoder</scope><name>train</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

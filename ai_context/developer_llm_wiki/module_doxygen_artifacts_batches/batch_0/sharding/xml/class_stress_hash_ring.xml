@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stress_hash_ring" kind="class" language="C++" prot="public">
+    <compoundname>StressHashRing</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stress_hash_ring_1aa15b7b1940a6e9e6a7550c750c7d65b9" prot="private" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t StressHashRing::shards_</definition>
+        <argsstring></argsstring>
+        <name>shards_</name>
+        <qualifiedname>StressHashRing::shards_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_highcardinality_stress.cpp" line="59" column="14" bodyfile="tests/sharding/test_sharding_highcardinality_stress.cpp" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stress_hash_ring_1a7e6df98aceaca1031ef1ee737a6837ff" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>StressHashRing::StressHashRing</definition>
+        <argsstring>(uint32_t shards)</argsstring>
+        <name>StressHashRing</name>
+        <qualifiedname>StressHashRing::StressHashRing</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>shards</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_highcardinality_stress.cpp" line="46" column="14" bodyfile="tests/sharding/test_sharding_highcardinality_stress.cpp" bodystart="46" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stress_hash_ring_1a81780a8fb143189128aa7e338a1bd7f8" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t StressHashRing::route</definition>
+        <argsstring>(uint64_t key) const noexcept</argsstring>
+        <name>route</name>
+        <qualifiedname>StressHashRing::route</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_highcardinality_stress.cpp" line="48" column="14" bodyfile="tests/sharding/test_sharding_highcardinality_stress.cpp" bodystart="48" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stress_hash_ring_1afbb6c4773626e4e74b007ac46d526054" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t StressHashRing::shardCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>shardCount</name>
+        <qualifiedname>StressHashRing::shardCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_highcardinality_stress.cpp" line="56" column="14" bodyfile="tests/sharding/test_sharding_highcardinality_stress.cpp" bodystart="56" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/sharding/test_sharding_highcardinality_stress.cpp" line="44" column="1" bodyfile="tests/sharding/test_sharding_highcardinality_stress.cpp" bodystart="44" bodyend="60"/>
+    <listofallmembers>
+      <member refid="class_stress_hash_ring_1a81780a8fb143189128aa7e338a1bd7f8" prot="public" virt="non-virtual"><scope>StressHashRing</scope><name>route</name></member>
+      <member refid="class_stress_hash_ring_1afbb6c4773626e4e74b007ac46d526054" prot="public" virt="non-virtual"><scope>StressHashRing</scope><name>shardCount</name></member>
+      <member refid="class_stress_hash_ring_1aa15b7b1940a6e9e6a7550c750c7d65b9" prot="private" virt="non-virtual"><scope>StressHashRing</scope><name>shards_</name></member>
+      <member refid="class_stress_hash_ring_1a7e6df98aceaca1031ef1ee737a6837ff" prot="public" virt="non-virtual"><scope>StressHashRing</scope><name>StressHashRing</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

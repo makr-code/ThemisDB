@@ -1,0 +1,298 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="adaptive__batch__tuner_8h" kind="file" language="C++">
+    <compoundname>adaptive_batch_tuner.h</compoundname>
+    <includes refid="cycle__metrics_8h" local="yes">performance/cycle_metrics.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="adaptive__batch__tuner_8cpp" local="yes">src/performance/phase3/adaptive_batch_tuner.cpp</includedby>
+    <includedby refid="test__adaptive__batch__tuner_8cpp" local="yes">tests/performance/phase3/test_adaptive_batch_tuner.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>performance/cycle_metrics.h</label>
+        <link refid="cycle__metrics_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/performance/phase3/adaptive_batch_tuner.h</label>
+        <link refid="adaptive__batch__tuner_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>atomic</label>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="9">
+        <label>cstddef</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="7">
+        <label>mutex</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/performance/phase3/adaptive_batch_tuner.h</label>
+        <link refid="adaptive__batch__tuner_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/performance/phase3/adaptive_batch_tuner.cpp</label>
+        <link refid="adaptive__batch__tuner_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/performance/phase3/test_adaptive_batch_tuner.cpp</label>
+        <link refid="test__adaptive__batch__tuner_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner" prot="public">themis::performance::phase3::LLMBatchTuner</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_config" prot="public">themis::performance::phase3::LLMBatchTuner::Config</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_batch_record" prot="public">themis::performance::phase3::LLMBatchTuner::BatchRecord</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_stats" prot="public">themis::performance::phase3::LLMBatchTuner::Stats</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_batch_guard" prot="public">themis::performance::phase3::LLMBatchTuner::BatchGuard</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1performance">themis::performance</innernamespace>
+    <innernamespace refid="namespacethemis_1_1performance_1_1phase3">themis::performance::phase3</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Adaptive<sp/>Batch<sp/>Size<sp/>Tuning<sp/>for<sp/>LLM<sp/>Inference</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Performance<sp/>Module<sp/>-<sp/>Phase<sp/>3<sp/>(Issue<sp/>#1996)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Dynamically<sp/>adjusts<sp/>the<sp/>LLM<sp/>inference<sp/>batch<sp/>size<sp/>based<sp/>on<sp/>measured</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>throughput<sp/>and<sp/>latency,<sp/>using<sp/>hardware<sp/>cycle<sp/>counters<sp/>for<sp/>precise</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>timing.<sp/><sp/>Works<sp/>without<sp/>GPU<sp/>hardware<sp/>present<sp/>(CPU-only<sp/>deployment).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Algorithm:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>1.<sp/>Measure<sp/>tokens-per-second<sp/>throughput<sp/>for<sp/>the<sp/>current<sp/>batch<sp/>size</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>using<sp/>HardwareCycleCounter.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>2.<sp/>After<sp/>every<sp/>`window_size`<sp/>batches,<sp/>evaluate<sp/>whether<sp/>a<sp/>larger<sp/>or</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>smaller<sp/>batch<sp/>size<sp/>yields<sp/>better<sp/>throughput.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>3.<sp/>Increase<sp/>by<sp/>`step_up`<sp/>when<sp/>throughput<sp/>is<sp/>improving;<sp/>decrease<sp/>by</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>`step_down`<sp/>after<sp/>a<sp/>latency<sp/>breach<sp/>or<sp/>throughput<sp/>regression.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>4.<sp/>Exponential<sp/>moving<sp/>average<sp/>smooths<sp/>noisy<sp/>measurements.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Integration:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Feature<sp/>flag:<sp/>Phase3FeatureFlags::adaptive_batch_tuner_enabled()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Cycle<sp/>metrics:<sp/>HardwareCycleCounter<sp/>/<sp/>ScopedCycleTimer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Namespace:<sp/>themis::performance::phase3</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Expected<sp/>gain:<sp/>15-40%<sp/>throughput<sp/>improvement<sp/>for<sp/>variable-length</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LLM<sp/>inference<sp/>workloads<sp/>vs.<sp/>a<sp/>fixed<sp/>batch<sp/>size.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="cycle__metrics_8h" kindref="compound">performance/cycle_metrics.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1performance" kindref="compound">performance</ref><sp/>{</highlight></codeline>
+<codeline lineno="49" refid="namespacethemis_1_1performance_1_1phase3" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1performance_1_1phase3" kindref="compound">phase3</ref><sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1a62dc452841ec6ddabb52966f2cdff105" kindref="member">LLMBatchTuner</ref><sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_config_1a1d39685055150b62220b732b1b8a4893" kindref="member">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_config_1af7ab10b2b26f5f4630e81617f3b78d88" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_config_1af7ab10b2b26f5f4630e81617f3b78d88" kindref="member">min_batch_size</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_config_1a8fc8c0b02e757a37868f459c59555767" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_config_1a8fc8c0b02e757a37868f459c59555767" kindref="member">max_batch_size</ref><sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_config_1afb2eaa18a65821345b01877ed77eef0c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_config_1afb2eaa18a65821345b01877ed77eef0c" kindref="member">initial_batch_size</ref><sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_config_1a8a7627739eccf95ed7b4b004f6f77f4b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_config_1a8a7627739eccf95ed7b4b004f6f77f4b" kindref="member">step_up</ref><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_config_1a82eaa8a276959b3a52288a256f3d3eb9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_config_1a82eaa8a276959b3a52288a256f3d3eb9" kindref="member">step_down</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_config_1ad8b60f5b527a6bd8946b5cf39299ae6b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_config_1ad8b60f5b527a6bd8946b5cf39299ae6b" kindref="member">window_size</ref><sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_config_1a399b61aa6efe8d033a2ca520b52fa694" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_config_1a399b61aa6efe8d033a2ca520b52fa694" kindref="member">max_latency_ms_per_token</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_config_1a55a6742e6912442c85acef7121f5d194" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_config_1a55a6742e6912442c85acef7121f5d194" kindref="member">ema_alpha</ref><sp/>=<sp/>0.2f;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_config_1a1d39685055150b62220b732b1b8a4893" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_config_1a1d39685055150b62220b732b1b8a4893" kindref="member">Config</ref>()<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-batch<sp/>measurement<sp/>record</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_batch_record" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/>struct<sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_batch_record" kindref="compound">BatchRecord</ref><sp/>{</highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_batch_record_1ad02850202e1cb79aaf5e4bdf2cfa33c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_batch_record_1ad02850202e1cb79aaf5e4bdf2cfa33c1" kindref="member">batch_size</ref><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_batch_record_1a1c457ead002a06a88ba30e0f381c8ce9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_batch_record_1a1c457ead002a06a88ba30e0f381c8ce9" kindref="member">total_tokens</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_batch_record_1a6abbf0f2b0c7f80be5797c09697b64c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_batch_record_1a6abbf0f2b0c7f80be5797c09697b64c1" kindref="member">cycles</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_batch_record_1a130c18f370feb951ce8900bed5cf29e6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_batch_record_1a130c18f370feb951ce8900bed5cf29e6" kindref="member">latency_ms</ref><sp/><sp/><sp/>=<sp/>0.0;<sp/><sp/></highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_batch_record_1a67fef54ac49d018be469a984704bfb02" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_batch_record_1a67fef54ac49d018be469a984704bfb02" kindref="member">tokens_per_s</ref><sp/>=<sp/>0.0;<sp/><sp/></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics<sp/>snapshot</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_stats" kindref="compound">Stats</ref><sp/>{</highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_stats_1a0ad0b9eb389f857427327b7d04d99ea5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_stats_1a0ad0b9eb389f857427327b7d04d99ea5" kindref="member">current_batch_size</ref><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="122" refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_stats_1aea9ee2537c40b53c3db65c77970e1b31" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_stats_1aea9ee2537c40b53c3db65c77970e1b31" kindref="member">ema_throughput</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0;<sp/><sp/></highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_stats_1a91db16682e4b1425f834616b25ecdcfd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_stats_1a91db16682e4b1425f834616b25ecdcfd" kindref="member">avg_latency_ms</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0;<sp/><sp/></highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_stats_1a30b02ecb7bb4b9e8ddcac2471b5e3260" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_stats_1a30b02ecb7bb4b9e8ddcac2471b5e3260" kindref="member">p99_latency_ms</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0;<sp/><sp/></highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_stats_1aaedc1162416ac4c230d2c3be126e152c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_stats_1aaedc1162416ac4c230d2c3be126e152c" kindref="member">total_batches</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="126" refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_stats_1ac5862ae81b17c699c1af5e040633d3d8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_stats_1ac5862ae81b17c699c1af5e040633d3d8" kindref="member">tuning_events</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RAII<sp/>batch<sp/>timer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139" refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_batch_guard" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_batch_guard_1a2f880ec0b682461f1fb47fe9b8cfee0e" kindref="member">BatchGuard</ref><sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_batch_guard_1a2f880ec0b682461f1fb47fe9b8cfee0e" kindref="member">BatchGuard</ref>(<ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1a62dc452841ec6ddabb52966f2cdff105" kindref="member">LLMBatchTuner</ref>&amp;<sp/>tuner,</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>batch_size,</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>total_tokens)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_batch_guard_1a2f880ec0b682461f1fb47fe9b8cfee0e" kindref="member">~BatchGuard</ref>()<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146" refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_batch_guard_1a2812fe9952de5ffe719e832989267027" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_batch_guard_1a2812fe9952de5ffe719e832989267027" kindref="member">BatchGuard</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_batch_guard_1a2f880ec0b682461f1fb47fe9b8cfee0e" kindref="member">BatchGuard</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="147" refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_batch_guard_1a4c389a544465c7259dbbc46644d6cb41" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_batch_guard_1a2f880ec0b682461f1fb47fe9b8cfee0e" kindref="member">BatchGuard</ref>&amp;<sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_batch_guard_1a4c389a544465c7259dbbc46644d6cb41" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_batch_guard_1a2f880ec0b682461f1fb47fe9b8cfee0e" kindref="member">BatchGuard</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_batch_guard_1a2f880ec0b682461f1fb47fe9b8cfee0e" kindref="member">BatchGuard</ref>(<ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_batch_guard_1a2f880ec0b682461f1fb47fe9b8cfee0e" kindref="member">BatchGuard</ref>&amp;&amp;)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="149" refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_batch_guard_1a4966df9fcad1473066bbe0cffa6daa68" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_batch_guard_1a2f880ec0b682461f1fb47fe9b8cfee0e" kindref="member">BatchGuard</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_batch_guard_1a2f880ec0b682461f1fb47fe9b8cfee0e" kindref="member">BatchGuard</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_batch_guard_1afe8ce618fd5cc7d915466082084557d1" kindref="member">end</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>private:</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1a62dc452841ec6ddabb52966f2cdff105" kindref="member">LLMBatchTuner</ref>*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tuner_;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>batch_size_;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>total_tokens_;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>start_cycles_;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>start_wall_;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ended_;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Construction<sp/>/<sp/>destruction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1a62dc452841ec6ddabb52966f2cdff105" kindref="member">LLMBatchTuner</ref>();</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>explicit<sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1a62dc452841ec6ddabb52966f2cdff105" kindref="member">LLMBatchTuner</ref>(<ref refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_config" kindref="compound">Config</ref><sp/>config);</highlight></codeline>
+<codeline lineno="173" refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1a743a3735afa2299885bb95cc8baedf95" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>~<ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1a62dc452841ec6ddabb52966f2cdff105" kindref="member">LLMBatchTuner</ref>();</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175" refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1aa50f6922b4aca27dac40998007d9914c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1a62dc452841ec6ddabb52966f2cdff105" kindref="member">LLMBatchTuner</ref>(const<sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1a62dc452841ec6ddabb52966f2cdff105" kindref="member">LLMBatchTuner</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="176" refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1aae7108151862cd88b5faa1aeee551469" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1a62dc452841ec6ddabb52966f2cdff105" kindref="member">LLMBatchTuner</ref>&amp;<sp/>operator=(const<sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1a62dc452841ec6ddabb52966f2cdff105" kindref="member">LLMBatchTuner</ref>&amp;)<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Main<sp/>interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1afc551298d60ce16f47929a74b4954d84" kindref="member">recommendedBatchSize</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_batch_guard" kindref="compound">BatchGuard</ref><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1afbe27a2174ef455e9068461abc4e3afe" kindref="member">beginBatch</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>batch_size,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>total_tokens)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1a4adfde7b05f694069be7ab24fedabca9" kindref="member">recordBatch</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>batch_size,</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>total_tokens,</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>latency_ms)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Observation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_stats" kindref="compound">Stats</ref><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1af4f6fc28adaec4feb6c6986d93093afa" kindref="member">getStats</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1aeed19b3b01528bfe0a4cde8a56d26c65" kindref="member">totalBatches</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_batch_record" kindref="compound">BatchRecord</ref>&gt;<sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1afd8b6f1bcdb9bc960c88662b942a4a14" kindref="member">getRecentRecords</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>limit<sp/>=<sp/>32)<sp/>const;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1a64fe5f4ea4d349c92d4dc1cf77372b2d" kindref="member">reset</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1a301c9244ae752c08014fd731eae114a1" kindref="member">summary</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="236" refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1ad211eb86cb33b8ece0ca0f2e29ea5948" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>friend<sp/>class<sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_batch_guard" kindref="compound">BatchGuard</ref>;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>pushRecord(<ref refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_batch_record" kindref="compound">BatchRecord</ref><sp/>record)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>maybeTune()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_config" kindref="compound">Config</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>mutable<sp/>std::mutex<sp/><sp/><sp/>mutex_;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_batch_record" kindref="compound">BatchRecord</ref>&gt;<sp/>records_;<sp/><sp/></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/>current_batch_size_;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/>ema_throughput_<sp/><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/>prev_ema_<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0;<sp/><sp/></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal">&gt;<sp/>total_batches_{0};</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>tuning_events_{0};</highlight></codeline>
+<codeline lineno="256"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>phase3</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>performance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/performance/phase3/adaptive_batch_tuner.h"/>
+  </compounddef>
+</doxygen>

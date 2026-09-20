@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___d_e_p_e_n_d_e_n_c_y___c_y_c_l_e" kind="struct" language="C++" prot="public">
+    <compoundname>themis::modules::BaseErrorTaxonomy::BASE_DEPENDENCY_CYCLE</compoundname>
+    <includes refid="base__error__taxonomy_8h" local="no">base_error_taxonomy.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___d_e_p_e_n_d_e_n_c_y___c_y_c_l_e_1acbc776b017e3ccad5ed4a2afb5dee5a1" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::modules::BaseErrorTaxonomy::BASE_DEPENDENCY_CYCLE::code</definition>
+        <argsstring></argsstring>
+        <name>code</name>
+        <qualifiedname>themis::modules::BaseErrorTaxonomy::BASE_DEPENDENCY_CYCLE::code</qualifiedname>
+        <initializer>= 1251</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/base_error_taxonomy.h" line="622" column="26" bodyfile="include/themis/base/base_error_taxonomy.h" bodystart="622" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___d_e_p_e_n_d_e_n_c_y___c_y_c_l_e_1aa4e975ed1a5d045c3f74a16c0bf3b384" prot="public" static="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>static constexpr std::string_view themis::modules::BaseErrorTaxonomy::BASE_DEPENDENCY_CYCLE::description</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>description</name>
+        <qualifiedname>themis::modules::BaseErrorTaxonomy::BASE_DEPENDENCY_CYCLE::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/base_error_taxonomy.h" line="624" column="39" bodyfile="include/themis/base/base_error_taxonomy.h" bodystart="624" bodyend="626"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___d_e_p_e_n_d_e_n_c_y___c_y_c_l_e_1a6b9044f77b23b40905c6bbb08c0d29c6" prot="public" static="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>static constexpr std::string_view themis::modules::BaseErrorTaxonomy::BASE_DEPENDENCY_CYCLE::remediationHint</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>remediationHint</name>
+        <qualifiedname>themis::modules::BaseErrorTaxonomy::BASE_DEPENDENCY_CYCLE::remediationHint</qualifiedname>
+        <briefdescription>
+<para>Actionable operator remediation hint. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/base_error_taxonomy.h" line="629" column="39" bodyfile="include/themis/base/base_error_taxonomy.h" bodystart="629" bodyend="634"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___d_e_p_e_n_d_e_n_c_y___c_y_c_l_e_1ab8207bce94c3c339f985e50a9f91a688" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::modules::BaseErrorTaxonomy::BASE_DEPENDENCY_CYCLE::format</definition>
+        <argsstring>(const std::string &amp;cycle_str)</argsstring>
+        <name>format</name>
+        <qualifiedname>themis::modules::BaseErrorTaxonomy::BASE_DEPENDENCY_CYCLE::format</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cycle_str</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cycle_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Human-readable cycle description, e.g. &quot;A→B→C→A&quot;. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/base_error_taxonomy.h" line="639" column="24" bodyfile="include/themis/base/base_error_taxonomy.h" bodystart="639" bodyend="642"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A cyclic dependency was detected among registered modules. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><programlisting><codeline><highlight class="normal"><ref refid="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___d_e_p_e_n_d_e_n_c_y___c_y_c_l_e_1acbc776b017e3ccad5ed4a2afb5dee5a1" kindref="member">BASE_DEPENDENCY_CYCLE::code</ref><sp/>==<sp/>1251<sp/></highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/themis/base/base_error_taxonomy.h" line="621" column="1" bodyfile="include/themis/base/base_error_taxonomy.h" bodystart="621" bodyend="643"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___d_e_p_e_n_d_e_n_c_y___c_y_c_l_e_1acbc776b017e3ccad5ed4a2afb5dee5a1" prot="public" virt="non-virtual"><scope>themis::modules::BaseErrorTaxonomy::BASE_DEPENDENCY_CYCLE</scope><name>code</name></member>
+      <member refid="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___d_e_p_e_n_d_e_n_c_y___c_y_c_l_e_1aa4e975ed1a5d045c3f74a16c0bf3b384" prot="public" virt="non-virtual"><scope>themis::modules::BaseErrorTaxonomy::BASE_DEPENDENCY_CYCLE</scope><name>description</name></member>
+      <member refid="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___d_e_p_e_n_d_e_n_c_y___c_y_c_l_e_1ab8207bce94c3c339f985e50a9f91a688" prot="public" virt="non-virtual"><scope>themis::modules::BaseErrorTaxonomy::BASE_DEPENDENCY_CYCLE</scope><name>format</name></member>
+      <member refid="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___d_e_p_e_n_d_e_n_c_y___c_y_c_l_e_1a6b9044f77b23b40905c6bbb08c0d29c6" prot="public" virt="non-virtual"><scope>themis::modules::BaseErrorTaxonomy::BASE_DEPENDENCY_CYCLE</scope><name>remediationHint</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

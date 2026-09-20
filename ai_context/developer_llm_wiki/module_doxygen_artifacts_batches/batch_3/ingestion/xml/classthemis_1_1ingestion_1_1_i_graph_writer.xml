@@ -1,0 +1,199 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1_i_graph_writer" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::ingestion::IGraphWriter</compoundname>
+    <derivedcompoundref refid="classthemis_1_1ingestion_1_1_graph_store_sink_adapter" prot="public" virt="non-virtual">themis::ingestion::GraphStoreSinkAdapter</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1ingestion_1_1_in_memory_graph_writer" prot="public" virt="non-virtual">themis::ingestion::InMemoryGraphWriter</derivedcompoundref>
+    <includes refid="ingestion__sinks_8h" local="no">ingestion_sinks.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_i_graph_writer_1a1b76b3a9166495c7cbc56984432008de" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::ingestion::IGraphWriter::~IGraphWriter</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IGraphWriter</name>
+        <qualifiedname>themis::ingestion::IGraphWriter::~IGraphWriter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_sinks.h" line="50" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_i_graph_writer_1ab446339f0e464bc89a3ca72fe1ad1ec2" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>virtual Result&lt; void &gt; themis::ingestion::IGraphWriter::writeEntities</definition>
+        <argsstring>(const std::vector&lt; BaseEntity &gt; &amp;nodes)=0</argsstring>
+        <name>writeEntities</name>
+        <qualifiedname>themis::ingestion::IGraphWriter::writeEntities</qualifiedname>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_graph_store_sink_adapter_1a8f65dd2409069aa0406413ae2a6e744b">writeEntities</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_in_memory_graph_writer_1ac47372c2424a0bb701c3cac658baa7e5">writeEntities</reimplementedby>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1ingestion_1_1_base_entity" kindref="compound">BaseEntity</ref> &gt; &amp;</type>
+          <declname>nodes</declname>
+        </param>
+        <briefdescription>
+<para>Upsert a batch of <computeroutput><ref refid="structthemis_1_1ingestion_1_1_base_entity" kindref="compound">BaseEntity</ref></computeroutput> nodes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Nodes are keyed by <computeroutput><ref refid="structthemis_1_1ingestion_1_1_base_entity_1abc66172d3ef801492143543271428f6e" kindref="member">BaseEntity::id</ref></computeroutput>; an existing node with the same ID is updated with any new/changed properties.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>nodes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Entities to write as graph nodes. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Error on persistent I/O failure. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_sinks.h" line="61" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_i_graph_writer_1a2875793205ed61ad54fbac71fa094109" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>virtual Result&lt; void &gt; themis::ingestion::IGraphWriter::writeRelations</definition>
+        <argsstring>(const std::vector&lt; EntityRelation &gt; &amp;edges)=0</argsstring>
+        <name>writeRelations</name>
+        <qualifiedname>themis::ingestion::IGraphWriter::writeRelations</qualifiedname>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_graph_store_sink_adapter_1a3655bcefeb523f478f3e5b23f25ef7ed">writeRelations</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_in_memory_graph_writer_1ac2a860c96f43c918f415ca06d557177a">writeRelations</reimplementedby>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1ingestion_1_1_entity_relation" kindref="compound">EntityRelation</ref> &gt; &amp;</type>
+          <declname>edges</declname>
+        </param>
+        <briefdescription>
+<para>Upsert a batch of <computeroutput><ref refid="structthemis_1_1ingestion_1_1_entity_relation" kindref="compound">EntityRelation</ref></computeroutput> edges. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>An edge is identified by (from_id, to_id, relation_type); duplicate edges with the same key are merged (properties updated).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>edges</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Relations to write as graph edges. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Error on persistent I/O failure. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_sinks.h" line="72" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_i_graph_writer_1aea4042f740ef2c6129ecd654b5b4b3d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::ingestion::IGraphWriter::write</definition>
+        <argsstring>(const BaseEntitySet &amp;entity_set)</argsstring>
+        <name>write</name>
+        <qualifiedname>themis::ingestion::IGraphWriter::write</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_base_entity_set" kindref="compound">BaseEntitySet</ref> &amp;</type>
+          <declname>entity_set</declname>
+        </param>
+        <briefdescription>
+<para>Convenience method: write an entire <computeroutput><ref refid="structthemis_1_1ingestion_1_1_base_entity_set" kindref="compound">BaseEntitySet</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Write.</para>
+<para>Calls <computeroutput><ref refid="classthemis_1_1ingestion_1_1_i_graph_writer_1ab446339f0e464bc89a3ca72fe1ad1ec2" kindref="member">writeEntities()</ref></computeroutput> + <computeroutput><ref refid="classthemis_1_1ingestion_1_1_i_graph_writer_1a2875793205ed61ad54fbac71fa094109" kindref="member">writeRelations()</ref></computeroutput> in order.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entity_set</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1ingestion_1_1_i_graph_writer_1ab446339f0e464bc89a3ca72fe1ad1ec2" kindref="member">writeEntities()</ref>, <ref refid="classthemis_1_1ingestion_1_1_i_graph_writer_1a2875793205ed61ad54fbac71fa094109" kindref="member">writeRelations()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_sinks.h" line="79" column="20" bodyfile="src/ingestion/ingestion_sinks.cpp" bodystart="107" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_i_graph_writer_1a54da8a0efa7391ab8c1c9fa204ac0c09" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::size_t</type>
+        <definition>virtual std::size_t themis::ingestion::IGraphWriter::nodeCount</definition>
+        <argsstring>() const =0</argsstring>
+        <name>nodeCount</name>
+        <qualifiedname>themis::ingestion::IGraphWriter::nodeCount</qualifiedname>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_graph_store_sink_adapter_1a3ee60330347f08c689d64c667fc81c87">nodeCount</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_in_memory_graph_writer_1a8a0416bb1d252bac06a5b71bd5d74fea">nodeCount</reimplementedby>
+        <briefdescription>
+<para>Returns the number of nodes currently stored. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_sinks.h" line="84" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_i_graph_writer_1a97c718cab07619b23f08c30e406c9786" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::size_t</type>
+        <definition>virtual std::size_t themis::ingestion::IGraphWriter::edgeCount</definition>
+        <argsstring>() const =0</argsstring>
+        <name>edgeCount</name>
+        <qualifiedname>themis::ingestion::IGraphWriter::edgeCount</qualifiedname>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_graph_store_sink_adapter_1aa7e85e53140aa4046ad656c56e05898f">edgeCount</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_in_memory_graph_writer_1a98b99b3ec1c099e681d24433926aec79">edgeCount</reimplementedby>
+        <briefdescription>
+<para>Returns the number of edges currently stored. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_sinks.h" line="89" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstract interface for writing a <computeroutput><ref refid="structthemis_1_1ingestion_1_1_base_entity_set" kindref="compound">BaseEntitySet</ref></computeroutput> to the graph store. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implementations can target:<itemizedlist>
+<listitem><para>ThemisDB internal graph store (production)</para>
+</listitem><listitem><para>In-memory store (tests / development)</para>
+</listitem><listitem><para>External graph DB (neo4j, ArangoDB — via plugins)</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread-safety: <computeroutput><ref refid="classthemis_1_1ingestion_1_1_i_graph_writer_1ab446339f0e464bc89a3ca72fe1ad1ec2" kindref="member">writeEntities()</ref></computeroutput> and <computeroutput><ref refid="classthemis_1_1ingestion_1_1_i_graph_writer_1a2875793205ed61ad54fbac71fa094109" kindref="member">writeRelations()</ref></computeroutput> MUST be thread-safe. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::ingestion::GraphStoreSinkAdapter</label>
+        <link refid="classthemis_1_1ingestion_1_1_graph_store_sink_adapter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::ingestion::IGraphWriter</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_graph_writer"/>
+      </node>
+      <node id="3">
+        <label>themis::ingestion::InMemoryGraphWriter</label>
+        <link refid="classthemis_1_1ingestion_1_1_in_memory_graph_writer"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/ingestion/ingestion_sinks.h" line="48" column="1" bodyfile="include/ingestion/ingestion_sinks.h" bodystart="48" bodyend="90"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1_i_graph_writer_1a97c718cab07619b23f08c30e406c9786" prot="public" virt="pure-virtual"><scope>themis::ingestion::IGraphWriter</scope><name>edgeCount</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_graph_writer_1a54da8a0efa7391ab8c1c9fa204ac0c09" prot="public" virt="pure-virtual"><scope>themis::ingestion::IGraphWriter</scope><name>nodeCount</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_graph_writer_1aea4042f740ef2c6129ecd654b5b4b3d2" prot="public" virt="virtual"><scope>themis::ingestion::IGraphWriter</scope><name>write</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_graph_writer_1ab446339f0e464bc89a3ca72fe1ad1ec2" prot="public" virt="pure-virtual"><scope>themis::ingestion::IGraphWriter</scope><name>writeEntities</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_graph_writer_1a2875793205ed61ad54fbac71fa094109" prot="public" virt="pure-virtual"><scope>themis::ingestion::IGraphWriter</scope><name>writeRelations</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_graph_writer_1a1b76b3a9166495c7cbc56984432008de" prot="public" virt="virtual"><scope>themis::ingestion::IGraphWriter</scope><name>~IGraphWriter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

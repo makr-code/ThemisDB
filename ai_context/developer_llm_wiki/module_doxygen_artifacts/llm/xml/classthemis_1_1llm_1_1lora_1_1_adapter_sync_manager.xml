@@ -1,0 +1,342 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::AdapterSyncManager</compoundname>
+    <includes refid="adapter__sync__manager_8h" local="no">adapter_sync_manager.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config" prot="public">themis::llm::lora::AdapterSyncManager::Config</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_impl" prot="public">themis::llm::lora::AdapterSyncManager::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1a36f064661d984b0050a33c555d73eaed" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::llm::lora::AdapterSyncManager::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::llm::lora::AdapterSyncManager::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adapter_sync_manager.h" line="185" column="21" bodyfile="include/llm/lora_framework/adapter_sync_manager.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1aa44a35540338eefdf0f820fcd89c9a37" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::AdapterSyncManager::AdapterSyncManager</definition>
+        <argsstring>(const Config &amp;config, std::shared_ptr&lt; LoRAStorageService &gt; storage_service, std::shared_ptr&lt; sharding::ShardTopology &gt; topology, std::shared_ptr&lt; AdapterConsistencyChecker &gt; consistency_checker)</argsstring>
+        <name>AdapterSyncManager</name>
+        <qualifiedname>themis::llm::lora::AdapterSyncManager::AdapterSyncManager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service" kindref="compound">LoRAStorageService</ref> &gt;</type>
+          <declname>storage_service</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; sharding::ShardTopology &gt;</type>
+          <declname>topology</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_adapter_consistency_checker" kindref="compound">AdapterConsistencyChecker</ref> &gt;</type>
+          <declname>consistency_checker</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adapter_sync_manager.h" line="114" column="5" bodyfile="src/llm/lora_framework/adapter_sync_manager.cpp" bodystart="683" bodyend="690"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1aa113616dc5c17243a8967121fe7c6c52" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::AdapterSyncManager::~AdapterSyncManager</definition>
+        <argsstring>()</argsstring>
+        <name>~AdapterSyncManager</name>
+        <qualifiedname>themis::llm::lora::AdapterSyncManager::~AdapterSyncManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adapter_sync_manager.h" line="121" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1a1fc53191d05a53273e015c10dd58445b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::AdapterSyncManager::AdapterSyncManager</definition>
+        <argsstring>(const AdapterSyncManager &amp;)=delete</argsstring>
+        <name>AdapterSyncManager</name>
+        <qualifiedname>themis::llm::lora::AdapterSyncManager::AdapterSyncManager</qualifiedname>
+        <param>
+          <type>const AdapterSyncManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adapter_sync_manager.h" line="124" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1ac74a7afdeab3e2dd7b173f3c0b1ca3fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1aa44a35540338eefdf0f820fcd89c9a37" kindref="member">AdapterSyncManager</ref> &amp;</type>
+        <definition>AdapterSyncManager &amp; themis::llm::lora::AdapterSyncManager::operator=</definition>
+        <argsstring>(const AdapterSyncManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::lora::AdapterSyncManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1aa44a35540338eefdf0f820fcd89c9a37" kindref="member">AdapterSyncManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adapter_sync_manager.h" line="125" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1aa283c5266d13ac4dad24831ab178fbd5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::AdapterSyncManager::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::llm::lora::AdapterSyncManager::start</qualifiedname>
+        <briefdescription>
+<para>Start. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements start without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adapter_sync_manager.h" line="130" column="10" bodyfile="src/llm/lora_framework/adapter_sync_manager.cpp" bodystart="699" bodyend="701"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1aabe34d833f6473c4569100e86fc4e848" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::AdapterSyncManager::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::llm::lora::AdapterSyncManager::stop</qualifiedname>
+        <briefdescription>
+<para>Stop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements stop without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adapter_sync_manager.h" line="135" column="10" bodyfile="src/llm/lora_framework/adapter_sync_manager.cpp" bodystart="707" bodyend="709"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1a3dd1be3d576f174cab79c18c4c2c66ed" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::AdapterSyncManager::isRunning</definition>
+        <argsstring>() const</argsstring>
+        <name>isRunning</name>
+        <qualifiedname>themis::llm::lora::AdapterSyncManager::isRunning</qualifiedname>
+        <briefdescription>
+<para>Is Running. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adapter_sync_manager.h" line="141" column="10" bodyfile="src/llm/lora_framework/adapter_sync_manager.cpp" bodystart="711" bodyend="713"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1ac970dcc886c0c298176435ad8b73ea14" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::AdapterSyncManager::syncAdapter</definition>
+        <argsstring>(const std::string &amp;adapter_id)</argsstring>
+        <name>syncAdapter</name>
+        <qualifiedname>themis::llm::lora::AdapterSyncManager::syncAdapter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Sync Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements syncAdapter without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adapter_sync_manager.h" line="148" column="10" bodyfile="src/llm/lora_framework/adapter_sync_manager.cpp" bodystart="721" bodyend="723"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1ab766d77dd8c7fd1865cfa7ca3ca4f0fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_sync_job_result" kindref="compound">SyncJobResult</ref></type>
+        <definition>SyncJobResult themis::llm::lora::AdapterSyncManager::syncAllAdapters</definition>
+        <argsstring>()</argsstring>
+        <name>syncAllAdapters</name>
+        <qualifiedname>themis::llm::lora::AdapterSyncManager::syncAllAdapters</qualifiedname>
+        <briefdescription>
+<para>Sync All Adapters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements syncAllAdapters without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adapter_sync_manager.h" line="154" column="19" bodyfile="src/llm/lora_framework/adapter_sync_manager.cpp" bodystart="730" bodyend="732"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1a5007041427b3b5d01024eb1a1d23443d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_status" kindref="compound">AdapterSyncStatus</ref></type>
+        <definition>AdapterSyncStatus themis::llm::lora::AdapterSyncManager::getSyncStatus</definition>
+        <argsstring>(const std::string &amp;adapter_id) const</argsstring>
+        <name>getSyncStatus</name>
+        <qualifiedname>themis::llm::lora::AdapterSyncManager::getSyncStatus</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Sync Status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adapter_sync_manager.h" line="161" column="23" bodyfile="src/llm/lora_framework/adapter_sync_manager.cpp" bodystart="734" bodyend="736"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1ad715d589aaaa5159cf329c66c0bde256" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_status" kindref="compound">AdapterSyncStatus</ref> &gt;</type>
+        <definition>std::vector&lt; AdapterSyncStatus &gt; themis::llm::lora::AdapterSyncManager::getAllSyncStatus</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllSyncStatus</name>
+        <qualifiedname>themis::llm::lora::AdapterSyncManager::getAllSyncStatus</qualifiedname>
+        <briefdescription>
+<para>Get All Sync Status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adapter_sync_manager.h" line="167" column="17" bodyfile="src/llm/lora_framework/adapter_sync_manager.cpp" bodystart="738" bodyend="740"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1a1b4a16023e569d0bb19e32e1d669a977" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref></type>
+        <definition>json themis::llm::lora::AdapterSyncManager::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::llm::lora::AdapterSyncManager::getStats</qualifiedname>
+        <briefdescription>
+<para>Get Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adapter_sync_manager.h" line="173" column="10" bodyfile="src/llm/lora_framework/adapter_sync_manager.cpp" bodystart="742" bodyend="744"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1a38c176d6de10c8ec1453435fb7ad79e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::AdapterSyncManager::onSyncComplete</definition>
+        <argsstring>(std::function&lt; void(const SyncJobResult &amp;)&gt; callback)</argsstring>
+        <name>onSyncComplete</name>
+        <qualifiedname>themis::llm::lora::AdapterSyncManager::onSyncComplete</qualifiedname>
+        <param>
+          <type>std::function&lt; void(const <ref refid="structthemis_1_1llm_1_1lora_1_1_sync_job_result" kindref="compound">SyncJobResult</ref> &amp;)&gt;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adapter_sync_manager.h" line="175" column="10" bodyfile="src/llm/lora_framework/adapter_sync_manager.cpp" bodystart="746" bodyend="748"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1a08e396c23fe9b75a545683fec791c7db" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::llm::lora::AdapterSyncManager::discoverPeers</definition>
+        <argsstring>() const</argsstring>
+        <name>discoverPeers</name>
+        <qualifiedname>themis::llm::lora::AdapterSyncManager::discoverPeers</qualifiedname>
+        <briefdescription>
+<para>Discover Peers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adapter_sync_manager.h" line="181" column="17" bodyfile="src/llm/lora_framework/adapter_sync_manager.cpp" bodystart="750" bodyend="752"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/adapter_sync_manager.h" line="75" column="1" bodyfile="include/llm/lora_framework/adapter_sync_manager.h" bodystart="75" bodyend="186"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1aa44a35540338eefdf0f820fcd89c9a37" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterSyncManager</scope><name>AdapterSyncManager</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1a1fc53191d05a53273e015c10dd58445b" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterSyncManager</scope><name>AdapterSyncManager</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1a08e396c23fe9b75a545683fec791c7db" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterSyncManager</scope><name>discoverPeers</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1ad715d589aaaa5159cf329c66c0bde256" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterSyncManager</scope><name>getAllSyncStatus</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1a1b4a16023e569d0bb19e32e1d669a977" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterSyncManager</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1a5007041427b3b5d01024eb1a1d23443d" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterSyncManager</scope><name>getSyncStatus</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1a36f064661d984b0050a33c555d73eaed" prot="private" virt="non-virtual"><scope>themis::llm::lora::AdapterSyncManager</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1a3dd1be3d576f174cab79c18c4c2c66ed" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterSyncManager</scope><name>isRunning</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1a38c176d6de10c8ec1453435fb7ad79e3" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterSyncManager</scope><name>onSyncComplete</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1ac74a7afdeab3e2dd7b173f3c0b1ca3fe" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterSyncManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1aa283c5266d13ac4dad24831ab178fbd5" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterSyncManager</scope><name>start</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1aabe34d833f6473c4569100e86fc4e848" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterSyncManager</scope><name>stop</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1ac970dcc886c0c298176435ad8b73ea14" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterSyncManager</scope><name>syncAdapter</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1ab766d77dd8c7fd1865cfa7ca3ca4f0fc" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterSyncManager</scope><name>syncAllAdapters</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1aa113616dc5c17243a8967121fe7c6c52" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterSyncManager</scope><name>~AdapterSyncManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

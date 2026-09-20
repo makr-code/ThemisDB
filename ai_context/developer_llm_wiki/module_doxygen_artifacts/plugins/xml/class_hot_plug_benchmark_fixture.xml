@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_hot_plug_benchmark_fixture" kind="class" language="C++" prot="public">
+    <compoundname>HotPlugBenchmarkFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_hot_plug_benchmark_fixture_1aea04709e4076ca777666a05b29685eeb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string HotPlugBenchmarkFixture::test_dir</definition>
+        <argsstring></argsstring>
+        <name>test_dir</name>
+        <qualifiedname>HotPlugBenchmarkFixture::test_dir</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/plugins/bench_plugin_hot_plug.cpp" line="40" column="17" bodyfile="benchmarks/plugins/bench_plugin_hot_plug.cpp" bodystart="40" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_hot_plug_benchmark_fixture_1a51d4a08d4c1d6d660b7999cadb0b800f" prot="public" static="no" mutable="no">
+        <type><ref refid="class_plugin_manager" kindref="compound">PluginManager</ref> *</type>
+        <definition>PluginManager* HotPlugBenchmarkFixture::manager</definition>
+        <argsstring></argsstring>
+        <name>manager</name>
+        <qualifiedname>HotPlugBenchmarkFixture::manager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/plugins/bench_plugin_hot_plug.cpp" line="41" column="19" bodyfile="benchmarks/plugins/bench_plugin_hot_plug.cpp" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_hot_plug_benchmark_fixture_1a13b259a9898ad7db77612e7bd8451966" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HotPlugBenchmarkFixture::SetUp</definition>
+        <argsstring>(const benchmark::State &amp;state) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>HotPlugBenchmarkFixture::SetUp</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/plugins/bench_plugin_hot_plug.cpp" line="43" column="10" bodyfile="benchmarks/plugins/bench_plugin_hot_plug.cpp" bodystart="43" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="class_hot_plug_benchmark_fixture_1ac78d3c7eb8f7cf6c81a8ec9c2025abde" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HotPlugBenchmarkFixture::TearDown</definition>
+        <argsstring>(const benchmark::State &amp;state) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>HotPlugBenchmarkFixture::TearDown</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/plugins/bench_plugin_hot_plug.cpp" line="50" column="10" bodyfile="benchmarks/plugins/bench_plugin_hot_plug.cpp" bodystart="50" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="class_hot_plug_benchmark_fixture_1a80983348e9972b89b5db128e30345f00" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HotPlugBenchmarkFixture::createTestManifest</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>createTestManifest</name>
+        <qualifiedname>HotPlugBenchmarkFixture::createTestManifest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/plugins/bench_plugin_hot_plug.cpp" line="58" column="10" bodyfile="benchmarks/plugins/bench_plugin_hot_plug.cpp" bodystart="58" bodyend="83"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>HotPlugBenchmarkFixture</label>
+        <link refid="class_hot_plug_benchmark_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>HotPlugBenchmarkFixture</label>
+        <link refid="class_hot_plug_benchmark_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>manager</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+      <node id="3">
+        <label>themis::plugins::PluginManager</label>
+        <link refid="classthemis_1_1plugins_1_1_plugin_manager"/>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/plugins/bench_plugin_hot_plug.cpp" line="38" column="1" bodyfile="benchmarks/plugins/bench_plugin_hot_plug.cpp" bodystart="38" bodyend="84"/>
+    <listofallmembers>
+      <member refid="class_hot_plug_benchmark_fixture_1a80983348e9972b89b5db128e30345f00" prot="public" virt="non-virtual"><scope>HotPlugBenchmarkFixture</scope><name>createTestManifest</name></member>
+      <member refid="class_hot_plug_benchmark_fixture_1a51d4a08d4c1d6d660b7999cadb0b800f" prot="public" virt="non-virtual"><scope>HotPlugBenchmarkFixture</scope><name>manager</name></member>
+      <member refid="class_hot_plug_benchmark_fixture_1a13b259a9898ad7db77612e7bd8451966" prot="public" virt="non-virtual"><scope>HotPlugBenchmarkFixture</scope><name>SetUp</name></member>
+      <member refid="class_hot_plug_benchmark_fixture_1ac78d3c7eb8f7cf6c81a8ec9c2025abde" prot="public" virt="non-virtual"><scope>HotPlugBenchmarkFixture</scope><name>TearDown</name></member>
+      <member refid="class_hot_plug_benchmark_fixture_1aea04709e4076ca777666a05b29685eeb" prot="public" virt="non-virtual"><scope>HotPlugBenchmarkFixture</scope><name>test_dir</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

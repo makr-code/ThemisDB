@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_distributed_flame_graph_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::DistributedFlameGraphConfig</compoundname>
+    <includes refid="distributed__flame__graph_8h" local="no">distributed_flame_graph.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_distributed_flame_graph_config_1a0ef21d36ca6be0d07b3416113dc6f905" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::DistributedFlameGraphConfig::max_nodes</definition>
+        <argsstring></argsstring>
+        <name>max_nodes</name>
+        <qualifiedname>themis::observability::DistributedFlameGraphConfig::max_nodes</qualifiedname>
+        <initializer>= 128</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum number of distinct node IDs accepted before older entries are overwritten (last-write-wins per node_id). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_flame_graph.h" line="89" column="12" bodyfile="include/observability/distributed_flame_graph.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_distributed_flame_graph_config_1a222a7f0e34dfaf62e2c98714e817394c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::DistributedFlameGraphConfig::normalize_per_node</definition>
+        <argsstring></argsstring>
+        <name>normalize_per_node</name>
+        <qualifiedname>themis::observability::DistributedFlameGraphConfig::normalize_per_node</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>When true, sample counts from each node are normalised to a unit weight of 1.0 before summing. This gives equal visual weight to every node regardless of its absolute sample volume, which is useful when nodes have different sampling rates or uptime. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_flame_graph.h" line="97" column="10" bodyfile="include/observability/distributed_flame_graph.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_distributed_flame_graph_config_1a5ab1b84be00df47517700e1dedfff620" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::DistributedFlameGraphConfig::max_diff_hotspots</definition>
+        <argsstring></argsstring>
+        <name>max_diff_hotspots</name>
+        <qualifiedname>themis::observability::DistributedFlameGraphConfig::max_diff_hotspots</qualifiedname>
+        <initializer>= 20</initializer>
+        <briefdescription>
+<para>Maximum number of merged hotspots to expose in diff() output. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_flame_graph.h" line="100" column="12" bodyfile="include/observability/distributed_flame_graph.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for <computeroutput><ref refid="classthemis_1_1observability_1_1_distributed_flame_graph" kindref="compound">DistributedFlameGraph</ref></computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/distributed_flame_graph.h" line="86" column="1" bodyfile="include/observability/distributed_flame_graph.h" bodystart="86" bodyend="101"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_distributed_flame_graph_config_1a5ab1b84be00df47517700e1dedfff620" prot="public" virt="non-virtual"><scope>themis::observability::DistributedFlameGraphConfig</scope><name>max_diff_hotspots</name></member>
+      <member refid="structthemis_1_1observability_1_1_distributed_flame_graph_config_1a0ef21d36ca6be0d07b3416113dc6f905" prot="public" virt="non-virtual"><scope>themis::observability::DistributedFlameGraphConfig</scope><name>max_nodes</name></member>
+      <member refid="structthemis_1_1observability_1_1_distributed_flame_graph_config_1a222a7f0e34dfaf62e2c98714e817394c" prot="public" virt="non-virtual"><scope>themis::observability::DistributedFlameGraphConfig</scope><name>normalize_per_node</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

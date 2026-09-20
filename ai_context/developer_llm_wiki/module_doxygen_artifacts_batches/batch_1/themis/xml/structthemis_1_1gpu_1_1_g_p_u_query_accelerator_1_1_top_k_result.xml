@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_top_k_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUQueryAccelerator::TopKResult</compoundname>
+    <includes refid="query__accelerator_8h" local="no">query_accelerator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_top_k_result_1a67cbde031dd67100884b52b37143f4d9" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_row" kindref="compound">Row</ref> &gt;</type>
+        <definition>std::vector&lt;Row&gt; themis::gpu::GPUQueryAccelerator::TopKResult::rows</definition>
+        <argsstring></argsstring>
+        <name>rows</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::TopKResult::rows</qualifiedname>
+        <briefdescription>
+<para>Up to k rows, sorted by key in <computeroutput>order</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="167" column="21" bodyfile="include/themis/gpu/query_accelerator.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_top_k_result_1a694e9c28fc40c5693aabbfad0fd0810c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUQueryAccelerator::TopKResult::used_gpu</definition>
+        <argsstring></argsstring>
+        <name>used_gpu</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::TopKResult::used_gpu</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="168" column="26" bodyfile="include/themis/gpu/query_accelerator.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/gpu/query_accelerator.h" line="166" column="5" bodyfile="include/themis/gpu/query_accelerator.h" bodystart="166" bodyend="169"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_top_k_result_1a67cbde031dd67100884b52b37143f4d9" prot="public" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator::TopKResult</scope><name>rows</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_top_k_result_1a694e9c28fc40c5693aabbfad0fd0810c" prot="public" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator::TopKResult</scope><name>used_gpu</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

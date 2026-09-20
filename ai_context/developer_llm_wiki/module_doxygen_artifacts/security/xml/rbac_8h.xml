@@ -1,0 +1,384 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="rbac_8h" kind="file" language="C++">
+    <compoundname>rbac.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">unordered_set</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="bench__audit__export__gates_8cpp" local="yes">benchmarks/security/bench_audit_export_gates.cpp</includedby>
+    <includedby refid="bench__security_8cpp" local="yes">benchmarks/security/bench_security.cpp</includedby>
+    <includedby refid="access__control_8h" local="yes">include/security/access_control.h</includedby>
+    <includedby refid="access__control__manager_8h" local="yes">include/security/access_control_manager.h</includedby>
+    <includedby refid="security__evidence__collector_8h" local="yes">include/security/security_evidence_collector.h</includedby>
+    <includedby refid="rbac_8cpp" local="yes">src/security/rbac.cpp</includedby>
+    <includedby refid="test__authentication__attack__vectors_8cpp" local="yes">tests/security/attack-vectors/authentication/test_authentication_attack_vectors.cpp</includedby>
+    <includedby refid="test__audit__export__stress__focused_8cpp" local="yes">tests/security/test_audit_export_stress_focused.cpp</includedby>
+    <includedby refid="test__rbac__comprehensive_8cpp" local="yes">tests/security/test_rbac_comprehensive.cpp</includedby>
+    <includedby refid="test__security__di_8cpp" local="yes">tests/security/test_security_di.cpp</includedby>
+    <includedby refid="test__security__evidence__collector_8cpp" local="yes">tests/security/test_security_evidence_collector.cpp</includedby>
+    <includedby refid="test__security__negative__integration_8cpp" local="yes">tests/security/test_security_negative_integration.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/security/rbac.h</label>
+        <link refid="rbac_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>atomic</label>
+      </node>
+      <node id="10">
+        <label>chrono</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>mutex</label>
+      </node>
+      <node id="11">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>unordered_map</label>
+      </node>
+      <node id="4">
+        <label>unordered_set</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/security/bench_audit_export_gates.cpp</label>
+        <link refid="bench__audit__export__gates_8cpp"/>
+      </node>
+      <node id="3">
+        <label>benchmarks/security/bench_security.cpp</label>
+        <link refid="bench__security_8cpp"/>
+      </node>
+      <node id="4">
+        <label>include/security/access_control.h</label>
+        <link refid="access__control_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>include/security/access_control_manager.h</label>
+        <link refid="access__control__manager_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>include/security/examples/intent_classifier_example.cpp</label>
+        <link refid="intent__classifier__example_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/security/rbac.h</label>
+        <link refid="rbac_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>include/security/security_evidence_collector.h</label>
+        <link refid="security__evidence__collector_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>src/security/access_control.cpp</label>
+        <link refid="access__control_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/security/access_control_manager.cpp</label>
+        <link refid="access__control__manager_8cpp"/>
+      </node>
+      <node id="18">
+        <label>src/security/rbac.cpp</label>
+        <link refid="rbac_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/security/row_level_security.cpp</label>
+        <link refid="row__level__security_8cpp"/>
+      </node>
+      <node id="15">
+        <label>src/security/security_evidence_collector.cpp</label>
+        <link refid="security__evidence__collector_8cpp"/>
+      </node>
+      <node id="19">
+        <label>tests/security/attack-vectors/authentication/test_authentication_attack_vectors.cpp</label>
+        <link refid="test__authentication__attack__vectors_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/security/test_access_control_manager.cpp</label>
+        <link refid="test__access__control__manager_8cpp"/>
+      </node>
+      <node id="16">
+        <label>tests/security/test_audit_export_stress_focused.cpp</label>
+        <link refid="test__audit__export__stress__focused_8cpp"/>
+      </node>
+      <node id="20">
+        <label>tests/security/test_rbac_comprehensive.cpp</label>
+        <link refid="test__rbac__comprehensive_8cpp"/>
+      </node>
+      <node id="12">
+        <label>tests/security/test_row_level_security.cpp</label>
+        <link refid="test__row__level__security_8cpp"/>
+      </node>
+      <node id="21">
+        <label>tests/security/test_security_di.cpp</label>
+        <link refid="test__security__di_8cpp"/>
+      </node>
+      <node id="17">
+        <label>tests/security/test_security_evidence_collector.cpp</label>
+        <link refid="test__security__evidence__collector_8cpp"/>
+      </node>
+      <node id="22">
+        <label>tests/security/test_security_negative_integration.cpp</label>
+        <link refid="test__security__negative__integration_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/security/test_security_phase3_policy_hardening_focused.cpp</label>
+        <link refid="test__security__phase3__policy__hardening__focused_8cpp"/>
+      </node>
+      <node id="13">
+        <label>tests/security/test_security_wavec_production_validation_focused.cpp</label>
+        <link refid="test__security__wavec__production__validation__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1security_1_1_permission" prot="public">themis::security::Permission</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_role" prot="public">themis::security::Role</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_r_b_a_c_config" prot="public">themis::security::RBACConfig</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_r_b_a_c" prot="public">themis::security::RBAC</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_user" prot="public">themis::security::User</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_user_role_store" prot="public">themis::security::UserRoleStore</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1security">themis::security</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1security" kindref="compound">security</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1security_1_1_permission" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1security_1_1_permission" kindref="compound">Permission</ref><sp/>{</highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1security_1_1_permission_1aa15ebf4110906321e29c419995d07a92" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_permission_1aa15ebf4110906321e29c419995d07a92" kindref="member">resource</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>e.g.,<sp/>&quot;data&quot;,<sp/>&quot;keys&quot;,<sp/>&quot;config&quot;,<sp/>&quot;audit&quot;,<sp/>&quot;*&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1security_1_1_permission_1a3cbdbf46a01565709b5fed609d96ed26" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_permission_1a3cbdbf46a01565709b5fed609d96ed26" kindref="member">action</ref>;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>e.g.,<sp/>&quot;read&quot;,<sp/>&quot;write&quot;,<sp/>&quot;delete&quot;,<sp/>&quot;rotate&quot;,<sp/>&quot;*&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1security_1_1_permission_1a29aa6bb02ed3dde2e676a715d356b60f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_permission_1a29aa6bb02ed3dde2e676a715d356b60f" kindref="member">operator==</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_permission" kindref="compound">Permission</ref>&amp;<sp/>other)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_permission_1aa15ebf4110906321e29c419995d07a92" kindref="member">resource</ref><sp/>==<sp/>other.<ref refid="structthemis_1_1security_1_1_permission_1aa15ebf4110906321e29c419995d07a92" kindref="member">resource</ref><sp/>&amp;&amp;<sp/><ref refid="structthemis_1_1security_1_1_permission_1a3cbdbf46a01565709b5fed609d96ed26" kindref="member">action</ref><sp/>==<sp/>other.<ref refid="structthemis_1_1security_1_1_permission_1a3cbdbf46a01565709b5fed609d96ed26" kindref="member">action</ref>;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_permission_1ad2e7e7eca5fa3d1615c6efd3ff4a8692" kindref="member">matches</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>res,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>act)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1security_1_1_permission_1ae7ea8de13c1bbd215478c5da2a82de40" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_permission_1ae7ea8de13c1bbd215478c5da2a82de40" kindref="member">toString</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_permission_1aa15ebf4110906321e29c419995d07a92" kindref="member">resource</ref><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;:&quot;</highlight><highlight class="normal"><sp/>+<sp/><ref refid="structthemis_1_1security_1_1_permission_1a3cbdbf46a01565709b5fed609d96ed26" kindref="member">action</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1security_1_1_role" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1security_1_1_role" kindref="compound">Role</ref><sp/>{</highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1security_1_1_role_1af64da13e5c62a796d63c4305dbf7728a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_role_1af64da13e5c62a796d63c4305dbf7728a" kindref="member">name</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>e.g.,<sp/>&quot;admin&quot;,<sp/>&quot;operator&quot;,<sp/>&quot;analyst&quot;,<sp/>&quot;readonly&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1security_1_1_role_1a7ac910f821ada74bb0148b2c768574a2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_role_1a7ac910f821ada74bb0148b2c768574a2" kindref="member">description</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Human-readable<sp/>description</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1security_1_1_role_1a6438c85dce9a488afbeb5bc3677a6c8a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Permission&gt;<sp/><ref refid="structthemis_1_1security_1_1_role_1a6438c85dce9a488afbeb5bc3677a6c8a" kindref="member">permissions</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>List<sp/>of<sp/>permissions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1security_1_1_role_1ac7846c4db40dfdcc5774bdb172bb5a98" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1security_1_1_role_1ac7846c4db40dfdcc5774bdb172bb5a98" kindref="member">inherits</ref>;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Role<sp/>inheritance<sp/>(e.g.,<sp/>admin<sp/>inherits<sp/>operator)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1security_1_1_role_1a0f57b4aab034335e27ee5b5ebd71294c" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_role" kindref="compound">Role</ref><sp/><ref refid="structthemis_1_1security_1_1_role_1ad0cf2ab2c3522b3c64eb464293cc1f27" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1security_1_1_r_b_a_c_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1security_1_1_r_b_a_c_config" kindref="compound">RBACConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1security_1_1_r_b_a_c_config_1acdca2c9ae1aff2b9e3d61dc33d771561" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_r_b_a_c_config_1acdca2c9ae1aff2b9e3d61dc33d771561" kindref="member">config_path</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Path<sp/>to<sp/>YAML/JSON<sp/>config<sp/>file</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1security_1_1_r_b_a_c_config_1adb6d0c2a5a8dd79d422d8a9c63822471" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_r_b_a_c_config_1adb6d0c2a5a8dd79d422d8a9c63822471" kindref="member">enable_role_inheritance</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Allow<sp/>roles<sp/>to<sp/>inherit<sp/>from<sp/>others</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1security_1_1_r_b_a_c_config_1a6d3cde95be7db95fdf36c4b86a1b5f30" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_r_b_a_c_config_1a6d3cde95be7db95fdf36c4b86a1b5f30" kindref="member">enable_resource_wildcards</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>Allow<sp/>&quot;*&quot;<sp/>in<sp/>resource/action</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Built-in<sp/>roles<sp/>(if<sp/>config<sp/>file<sp/>not<sp/>found)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1security_1_1_r_b_a_c_config_1aefc324a870ac0915359d1b594a6ce773" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_r_b_a_c_config_1aefc324a870ac0915359d1b594a6ce773" kindref="member">use_builtin_roles</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="classthemis_1_1security_1_1_r_b_a_c" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1security_1_1_r_b_a_c_1a0b4041341c80a41dcd59ddc8476571c3" kindref="member">RBAC</ref><sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_r_b_a_c_1a0b4041341c80a41dcd59ddc8476571c3" kindref="member">RBAC</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_r_b_a_c_config" kindref="compound">RBACConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_r_b_a_c_1a02601d5b05877f9da6fc699e442f6ffd" kindref="member">loadConfig</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_r_b_a_c_1aa4a508d376601a259ae9e4616fb19a96" kindref="member">saveConfig</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_r_b_a_c_1a7f6649b17e5edf3652fbc6d806696464" kindref="member">addRole</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_role" kindref="compound">Role</ref>&amp;<sp/>role);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_r_b_a_c_1a618d348824a190402a29d61c01174c37" kindref="member">removeRole</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>role_name);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;Role&gt;<sp/><ref refid="classthemis_1_1security_1_1_r_b_a_c_1a03dd45421b95e1f1f541f2615497cb26" kindref="member">getRole</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>role_name)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1security_1_1_r_b_a_c_1a9ea9df86367b729be66dfe27db0953c9" kindref="member">listRoles</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_r_b_a_c_1a35eb49631b379f1bf7cea8f0cf88df45" kindref="member">checkPermission</ref>(</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>user_roles,</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>resource,</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>action</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Permission&gt;<sp/><ref refid="classthemis_1_1security_1_1_r_b_a_c_1a5fe16777c8aeff96f001d2ac2f8d5f16" kindref="member">getUserPermissions</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>user_roles)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_r_b_a_c_1ad6e02bb555ef9fedcb5d9aeb72d07be5" kindref="member">validateRoleHierarchy</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1security_1_1_r_b_a_c_1a1f781ebab6872aa73aaed08cacfc4a38" kindref="member">getRoleHierarchy</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;Role&gt;<sp/><ref refid="classthemis_1_1security_1_1_r_b_a_c_1a825190dac7e9a6d31e19a4c211ac7322" kindref="member">getBuiltinRoles</ref>();</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_r_b_a_c_config" kindref="compound">RBACConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>Role&gt;<sp/>roles_;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>hierarchy_valid_<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>set<sp/>to<sp/>false<sp/>when<sp/>a<sp/>cyclic<sp/>role<sp/>hierarchy<sp/>is<sp/>detected;<sp/>fail-closed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>[RB-1]<sp/>Grace<sp/>period<sp/>for<sp/>license<sp/>server<sp/>outages:<sp/>track<sp/>last<sp/>successful<sp/>check.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stored<sp/>as<sp/>milliseconds<sp/>since<sp/>steady_clock<sp/>epoch.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;int64_t&gt;<sp/>last_license_success_ms_{0};</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>int64_t<sp/>LICENSE_GRACE_PERIOD_MS<sp/>=<sp/>300&apos;000;<sp/></highlight><highlight class="comment">//<sp/>5<sp/>minutes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Permission&gt;<sp/>expandRolePermissions(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>role_name,<sp/>std::unordered_set&lt;std::string&gt;&amp;<sp/>visited)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>loadFromJson(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>loadFromYaml(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>content);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154" refid="structthemis_1_1security_1_1_user" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref><sp/>{</highlight></codeline>
+<codeline lineno="155" refid="structthemis_1_1security_1_1_user_1a4341cd0f8e5d9219aafc961e0e92b631" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_user_1a4341cd0f8e5d9219aafc961e0e92b631" kindref="member">user_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>e.g.,<sp/>&quot;alice@example.com&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156" refid="structthemis_1_1security_1_1_user_1a8a429a544f1b93c89e57ab308b23b106" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1security_1_1_user_1a8a429a544f1b93c89e57ab308b23b106" kindref="member">roles</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>e.g.,<sp/>[&quot;operator&quot;,<sp/>&quot;analyst&quot;]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157" refid="structthemis_1_1security_1_1_user_1a79588adb72b406205b7f04866d067248" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1security_1_1_user_1a79588adb72b406205b7f04866d067248" kindref="member">attributes</ref>;<sp/></highlight><highlight class="comment">//<sp/>Custom<sp/>attributes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1security_1_1_user_1ac79b3840dd2fbfc937b7c13baebda4be" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref><sp/><ref refid="structthemis_1_1security_1_1_user_1ac1fd2d7680d8e7f32ad52eb246ca2f0b" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173" refid="classthemis_1_1security_1_1_user_role_store" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1security_1_1_user_role_store" kindref="compound">UserRoleStore</ref><sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_user_role_store_1aa6b9b46417367bee9b552c0508987922" kindref="member">assignRole</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>role);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_user_role_store_1a209a69f4b4969caf0b0a5e0e4d1a5fda" kindref="member">revokeRole</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>role);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1security_1_1_user_role_store_1a56e5d8ac71d3b9c1d159ff484ae09ba3" kindref="member">getUserRoles</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1security_1_1_user_role_store_1aafbbd60b70ff308225b5d89a51537cfc" kindref="member">getRoleUsers</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>role)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_user_role_store_1ac0b3edf7b01626090915f5380007a018" kindref="member">load</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_user_role_store_1a98d049787a408c69eca81f10adf560ab" kindref="member">save</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;User&gt;<sp/><ref refid="classthemis_1_1security_1_1_user_role_store_1afd33bb942209e83f5e90e8c940b6e370" kindref="member">getUser</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_user_role_store_1ad5d1adf05c86f29694fda66426728ec7" kindref="member">setUser</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref>&amp;<sp/>user);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>User&gt;<sp/>users_;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>security</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/security/rbac.h"/>
+  </compounddef>
+</doxygen>

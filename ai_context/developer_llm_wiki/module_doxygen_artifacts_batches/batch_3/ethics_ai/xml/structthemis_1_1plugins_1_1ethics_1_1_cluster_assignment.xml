@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1ethics_1_1_cluster_assignment" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::ClusterAssignment</compoundname>
+    <includes refid="ethics__ai__types_8h" local="no">ethics_ai_types.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_cluster_assignment_1a06af01b4c329341fa354a9de660366c5" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::size_t &gt;</type>
+        <definition>std::map&lt;std::string, std::size_t&gt; themis::plugins::ethics::ClusterAssignment::school_to_cluster</definition>
+        <argsstring></argsstring>
+        <name>school_to_cluster</name>
+        <qualifiedname>themis::plugins::ethics::ClusterAssignment::school_to_cluster</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="538" column="14" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="538" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_cluster_assignment_1ac668620fbebbcbad35a4c76978cc6ad8" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::plugins::ethics::ClusterAssignment::cluster_count</definition>
+        <argsstring></argsstring>
+        <name>cluster_count</name>
+        <qualifiedname>themis::plugins::ethics::ClusterAssignment::cluster_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="539" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="539" bodyend="539"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1ethics_1_1_cluster_assignment_1a96bae30801adcc41dbc5190034f024b9" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::plugins::ethics::ClusterAssignment::schoolsInCluster</definition>
+        <argsstring>(std::size_t cluster_index) const</argsstring>
+        <name>schoolsInCluster</name>
+        <qualifiedname>themis::plugins::ethics::ClusterAssignment::schoolsInCluster</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>cluster_index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="541" column="18" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="541" bodyend="548"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ethics_ai/ethics_ai_types.h" line="537" column="1" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="537" bodyend="549"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_cluster_assignment_1ac668620fbebbcbad35a4c76978cc6ad8" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::ClusterAssignment</scope><name>cluster_count</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_cluster_assignment_1a06af01b4c329341fa354a9de660366c5" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::ClusterAssignment</scope><name>school_to_cluster</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_cluster_assignment_1a96bae30801adcc41dbc5190034f024b9" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::ClusterAssignment</scope><name>schoolsInCluster</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

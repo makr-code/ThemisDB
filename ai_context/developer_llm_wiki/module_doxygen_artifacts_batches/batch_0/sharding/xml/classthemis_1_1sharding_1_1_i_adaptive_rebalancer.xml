@@ -1,0 +1,147 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_i_adaptive_rebalancer" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::sharding::IAdaptiveRebalancer</compoundname>
+    <derivedcompoundref refid="class_mock_adaptive_rebalancer" prot="public" virt="non-virtual">MockAdaptiveRebalancer</derivedcompoundref>
+    <includes refid="sharding__interfaces_8h" local="no">sharding_interfaces.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_adaptive_rebalancer_1a2d182fbf638f839e3982d8d5747c8a6b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::sharding::IAdaptiveRebalancer::~IAdaptiveRebalancer</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IAdaptiveRebalancer</name>
+        <qualifiedname>themis::sharding::IAdaptiveRebalancer::~IAdaptiveRebalancer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="391" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_adaptive_rebalancer_1a41472446a2669cd6c2d77f2d53cffd00" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_rebalance_plan" kindref="compound">RebalancePlan</ref></type>
+        <definition>virtual RebalancePlan themis::sharding::IAdaptiveRebalancer::planRebalance</definition>
+        <argsstring>(const ClusterStats &amp;stats) const =0</argsstring>
+        <name>planRebalance</name>
+        <qualifiedname>themis::sharding::IAdaptiveRebalancer::planRebalance</qualifiedname>
+        <reimplementedby refid="class_mock_adaptive_rebalancer_1adb6e752a02cdb6d70c4a53c7e9dded9a">planRebalance</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_cluster_stats" kindref="compound">ClusterStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Compute a conflict-free migration plan from current cluster telemetry. Pure: no mutations, no network calls. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current cluster telemetry. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A <ref refid="structthemis_1_1sharding_1_1_rebalance_plan" kindref="compound">RebalancePlan</ref> ready for submission to <ref refid="classthemis_1_1sharding_1_1_i_adaptive_rebalancer_1a193a4a83976ed1ed9933235353632726" kindref="member">applyPlan()</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="397" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_adaptive_rebalancer_1a193a4a83976ed1ed9933235353632726" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::future&lt; <ref refid="structthemis_1_1sharding_1_1_rebalance_result" kindref="compound">RebalanceResult</ref> &gt;</type>
+        <definition>virtual std::future&lt; RebalanceResult &gt; themis::sharding::IAdaptiveRebalancer::applyPlan</definition>
+        <argsstring>(const RebalancePlan &amp;plan, const AdminContext &amp;context)=0</argsstring>
+        <name>applyPlan</name>
+        <qualifiedname>themis::sharding::IAdaptiveRebalancer::applyPlan</qualifiedname>
+        <reimplementedby refid="class_mock_adaptive_rebalancer_1aef6d6e226af0a8507e318e45f34d5e0c">applyPlan</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_rebalance_plan" kindref="compound">RebalancePlan</ref> &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_admin_context" kindref="compound">AdminContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Submit a plan for asynchronous execution. Requires a cluster-admin <ref refid="structthemis_1_1sharding_1_1_admin_context" kindref="compound">AdminContext</ref>; throws <ref refid="classthemis_1_1sharding_1_1_permission_denied_error" kindref="compound">PermissionDeniedError</ref> if the capability token is missing or invalid. Internally verifies quorum before beginning the first migration step. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The plan to execute. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Admin capability token. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A future that resolves to the execution outcome. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="406" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_adaptive_rebalancer_1a5a1f366a25ba1d7b75b23d3c7d8e0999" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::sharding::IAdaptiveRebalancer::cancel</definition>
+        <argsstring>(const RebalancePlanId &amp;plan_id)=0</argsstring>
+        <name>cancel</name>
+        <qualifiedname>themis::sharding::IAdaptiveRebalancer::cancel</qualifiedname>
+        <reimplementedby refid="class_mock_adaptive_rebalancer_1a38f508a78edc307067fc0396749e2f41">cancel</reimplementedby>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1sharding_1aceef1bf36d28c685930224570034180d" kindref="member">RebalancePlanId</ref> &amp;</type>
+          <declname>plan_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Cancel a previously submitted plan. Cancellation is best-effort and safe to call from any thread. <simplesect kind="return"><para>true if the plan was found and cancelled; false if it had already completed or the id is unknown. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="415" column="19"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Batched shard migration planner with asynchronous execution.</para>
+<para><ref refid="classthemis_1_1sharding_1_1_i_adaptive_rebalancer_1a41472446a2669cd6c2d77f2d53cffd00" kindref="member">planRebalance()</ref> is a pure function — it inspects <ref refid="structthemis_1_1sharding_1_1_cluster_stats" kindref="compound">ClusterStats</ref> and produces a conflict-free <ref refid="structthemis_1_1sharding_1_1_rebalance_plan" kindref="compound">RebalancePlan</ref> with no side effects.</para>
+<para><ref refid="classthemis_1_1sharding_1_1_i_adaptive_rebalancer_1a193a4a83976ed1ed9933235353632726" kindref="member">applyPlan()</ref> requires a valid <ref refid="structthemis_1_1sharding_1_1_admin_context" kindref="compound">AdminContext</ref>; it queues the plan for execution and returns a future that resolves when all migrations complete or the plan is cancelled.</para>
+<para>Performance contract: <ref refid="classthemis_1_1sharding_1_1_i_adaptive_rebalancer_1a41472446a2669cd6c2d77f2d53cffd00" kindref="member">planRebalance()</ref> for 256 shards ≤ 100 ms. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>MockAdaptiveRebalancer</label>
+        <link refid="class_mock_adaptive_rebalancer"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::sharding::IAdaptiveRebalancer</label>
+        <link refid="classthemis_1_1sharding_1_1_i_adaptive_rebalancer"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/sharding/sharding_interfaces.h" line="389" column="1" bodyfile="include/sharding/sharding_interfaces.h" bodystart="389" bodyend="416"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_i_adaptive_rebalancer_1a193a4a83976ed1ed9933235353632726" prot="public" virt="pure-virtual"><scope>themis::sharding::IAdaptiveRebalancer</scope><name>applyPlan</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_adaptive_rebalancer_1a5a1f366a25ba1d7b75b23d3c7d8e0999" prot="public" virt="pure-virtual"><scope>themis::sharding::IAdaptiveRebalancer</scope><name>cancel</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_adaptive_rebalancer_1a41472446a2669cd6c2d77f2d53cffd00" prot="public" virt="pure-virtual"><scope>themis::sharding::IAdaptiveRebalancer</scope><name>planRebalance</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_adaptive_rebalancer_1a2d182fbf638f839e3982d8d5747c8a6b" prot="public" virt="virtual"><scope>themis::sharding::IAdaptiveRebalancer</scope><name>~IAdaptiveRebalancer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

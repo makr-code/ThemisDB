@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_auth_audit_logger_test" kind="class" language="C++" prot="public">
+    <compoundname>AuthAuditLoggerTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_auth_audit_logger_test_1aae46072411b6b76cac63ffc1199bd4b9" prot="protected" static="no" mutable="no">
+        <type>std::filesystem::path</type>
+        <definition>std::filesystem::path AuthAuditLoggerTest::tmp_dir_</definition>
+        <argsstring></argsstring>
+        <name>tmp_dir_</name>
+        <qualifiedname>AuthAuditLoggerTest::tmp_dir_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_audit_logger.cpp" line="76" column="33" bodyfile="tests/auth/test_auth_audit_logger.cpp" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_auth_audit_logger_test_1a6a66b5134a8c4a96b50a5df9c99a3ad2" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AuthAuditLoggerTest::log_path_</definition>
+        <argsstring></argsstring>
+        <name>log_path_</name>
+        <qualifiedname>AuthAuditLoggerTest::log_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_audit_logger.cpp" line="77" column="33" bodyfile="tests/auth/test_auth_audit_logger.cpp" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_auth_audit_logger_test_1addd5bb6915b194a4fcb4a59915268aef" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; AuditLogger &gt;</type>
+        <definition>std::unique_ptr&lt;AuditLogger&gt; AuthAuditLoggerTest::logger_</definition>
+        <argsstring></argsstring>
+        <name>logger_</name>
+        <qualifiedname>AuthAuditLoggerTest::logger_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_audit_logger.cpp" line="78" column="25" bodyfile="tests/auth/test_auth_audit_logger.cpp" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_auth_audit_logger_test_1acd8f6d68b1bfce93ca7fdd916e2cd83e" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1auth_1_1_auth_audit_logger" kindref="compound">AuthAuditLogger</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;AuthAuditLogger&gt; AuthAuditLoggerTest::facade_</definition>
+        <argsstring></argsstring>
+        <name>facade_</name>
+        <qualifiedname>AuthAuditLoggerTest::facade_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_audit_logger.cpp" line="79" column="21" bodyfile="tests/auth/test_auth_audit_logger.cpp" bodystart="79" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_auth_audit_logger_test_1ad62a69c04da6f68f21552dbdba9cd2eb" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AuthAuditLoggerTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>AuthAuditLoggerTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_audit_logger.cpp" line="64" column="10" bodyfile="tests/auth/test_auth_audit_logger.cpp" bodystart="64" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="class_auth_audit_logger_test_1a8bba7b57b5214c6e629ddf3c4d7b9b2f" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AuthAuditLoggerTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>AuthAuditLoggerTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_audit_logger.cpp" line="72" column="10" bodyfile="tests/auth/test_auth_audit_logger.cpp" bodystart="72" bodyend="74"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AuthAuditLoggerTest</label>
+        <link refid="class_auth_audit_logger_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AuthAuditLoggerTest</label>
+        <link refid="class_auth_audit_logger_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/auth/test_auth_audit_logger.cpp" line="62" column="1" bodyfile="tests/auth/test_auth_audit_logger.cpp" bodystart="62" bodyend="80"/>
+    <listofallmembers>
+      <member refid="class_auth_audit_logger_test_1acd8f6d68b1bfce93ca7fdd916e2cd83e" prot="protected" virt="non-virtual"><scope>AuthAuditLoggerTest</scope><name>facade_</name></member>
+      <member refid="class_auth_audit_logger_test_1a6a66b5134a8c4a96b50a5df9c99a3ad2" prot="protected" virt="non-virtual"><scope>AuthAuditLoggerTest</scope><name>log_path_</name></member>
+      <member refid="class_auth_audit_logger_test_1addd5bb6915b194a4fcb4a59915268aef" prot="protected" virt="non-virtual"><scope>AuthAuditLoggerTest</scope><name>logger_</name></member>
+      <member refid="class_auth_audit_logger_test_1ad62a69c04da6f68f21552dbdba9cd2eb" prot="protected" virt="non-virtual"><scope>AuthAuditLoggerTest</scope><name>SetUp</name></member>
+      <member refid="class_auth_audit_logger_test_1a8bba7b57b5214c6e629ddf3c4d7b9b2f" prot="protected" virt="non-virtual"><scope>AuthAuditLoggerTest</scope><name>TearDown</name></member>
+      <member refid="class_auth_audit_logger_test_1aae46072411b6b76cac63ffc1199bd4b9" prot="protected" virt="non-virtual"><scope>AuthAuditLoggerTest</scope><name>tmp_dir_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

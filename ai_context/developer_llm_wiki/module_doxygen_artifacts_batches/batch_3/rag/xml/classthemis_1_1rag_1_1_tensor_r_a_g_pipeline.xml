@@ -1,0 +1,546 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::TensorRAGPipeline</compoundname>
+    <includes refid="tensor__rag__pipeline_8h" local="no">tensor_rag_pipeline.h</includes>
+    <innerclass refid="structthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1_1_pipeline_stats" prot="public">themis::rag::TensorRAGPipeline::PipelineStats</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1a776844f1913d71ebcac47b2722bf4924" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; float &gt;(const std::string &amp;)&gt;</type>
+        <definition>using themis::rag::TensorRAGPipeline::EmbeddingQueryFn = std::function&lt;std::vector&lt;float&gt;(const std::string&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>EmbeddingQueryFn</name>
+        <qualifiedname>themis::rag::TensorRAGPipeline::EmbeddingQueryFn</qualifiedname>
+        <briefdescription>
+<para>Callable type for a text-to-embedding backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Signature: <computeroutput>std::vector&lt;float&gt; embed(const std::string&amp; text)</computeroutput></para>
+<para>When set via <computeroutput><ref refid="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1a7e1d3eef58c9d9a6d4cd14c5a5c8f2c5" kindref="member">setEmbeddingQueryFn()</ref></computeroutput>, <computeroutput><ref refid="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1a89b8faaf9b47c97134944ff8e251d2d3" kindref="member">step()</ref></computeroutput> will populate <computeroutput><ref refid="structthemis_1_1rag_1_1_r_a_g_decision_1a2e7a956752c1db70a31e37d40f5faf3b" kindref="member">RAGDecision::flare_query_embedding</ref></computeroutput> whenever FLARE triggers. The fn must be thread-safe; it is called under no internal lock. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="333" column="5" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="333" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1a41323e78562b58a1d8972687b182ff9d" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1_tensor_r_a_g_pipeline_config" kindref="compound">TensorRAGPipelineConfig</ref></type>
+        <definition>TensorRAGPipelineConfig themis::rag::TensorRAGPipeline::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>themis::rag::TensorRAGPipeline::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="436" column="29" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="436" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1aa2f7a97a1839a17f1adb22c7b4bbade2" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1rag_1_1_flare_retrieval" kindref="compound">FlareRetrieval</ref></type>
+        <definition>FlareRetrieval themis::rag::TensorRAGPipeline::flare_</definition>
+        <argsstring></argsstring>
+        <name>flare_</name>
+        <qualifiedname>themis::rag::TensorRAGPipeline::flare_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="437" column="29" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="437" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1a4d46ed3503098c52dcbeaf46f9672851" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval" kindref="compound">TARGRetrieval</ref></type>
+        <definition>TARGRetrieval themis::rag::TensorRAGPipeline::targ_</definition>
+        <argsstring></argsstring>
+        <name>targ_</name>
+        <qualifiedname>themis::rag::TensorRAGPipeline::targ_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="438" column="29" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="438" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1a6de55b0c1fded15b2e8771bb91459a17" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1_1_pipeline_stats" kindref="compound">PipelineStats</ref></type>
+        <definition>PipelineStats themis::rag::TensorRAGPipeline::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::rag::TensorRAGPipeline::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="439" column="29" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="439" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1a183e69e00dbd1e320470b61e995f36fc" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; tensor::TensorMidLayer &gt;</type>
+        <definition>std::shared_ptr&lt;tensor::TensorMidLayer&gt; themis::rag::TensorRAGPipeline::tensor_mid_layer_</definition>
+        <argsstring></argsstring>
+        <name>tensor_mid_layer_</name>
+        <qualifiedname>themis::rag::TensorRAGPipeline::tensor_mid_layer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="440" column="21" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="440" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1a9de5edd7aae0400fff642fab88a81a34" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1rag_1_1_graph_truth_validator" kindref="compound">GraphTruthValidator</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;GraphTruthValidator&gt; themis::rag::TensorRAGPipeline::graph_truth_validator_</definition>
+        <argsstring></argsstring>
+        <name>graph_truth_validator_</name>
+        <qualifiedname>themis::rag::TensorRAGPipeline::graph_truth_validator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="441" column="21" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="441" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1ad37932f2e1f67d293c54a00b6bcfddcf" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; llm::FinalLayerOrchestrator &gt;</type>
+        <definition>std::shared_ptr&lt;llm::FinalLayerOrchestrator&gt; themis::rag::TensorRAGPipeline::final_layer_orchestrator_</definition>
+        <argsstring></argsstring>
+        <name>final_layer_orchestrator_</name>
+        <qualifiedname>themis::rag::TensorRAGPipeline::final_layer_orchestrator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="442" column="21" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="442" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1ab8f91cbc721460e58d696916d1bdab88" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::rag::TensorRAGPipeline::step_sequence_</definition>
+        <argsstring></argsstring>
+        <name>step_sequence_</name>
+        <qualifiedname>themis::rag::TensorRAGPipeline::step_sequence_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="443" column="17" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="443" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1a5d65bd8f1a6078e351223107133b1b71" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::TensorRAGPipeline::TensorRAGPipeline</definition>
+        <argsstring>(TensorRAGPipelineConfig cfg={})</argsstring>
+        <name>TensorRAGPipeline</name>
+        <qualifiedname>themis::rag::TensorRAGPipeline::TensorRAGPipeline</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1rag_1_1_tensor_r_a_g_pipeline_config" kindref="compound">TensorRAGPipelineConfig</ref></type>
+          <declname>cfg</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Construct a pipeline with the given configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The FLARE and TARG sub-gates are initialised from <computeroutput>cfg.flare_config</computeroutput> and <computeroutput>cfg.targ_config</computeroutput> respectively.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pipeline configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="302" column="14" bodyfile="src/rag/tensor_rag_pipeline.cpp" bodystart="59" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1a42b438402afd674b049977326060bb33" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::TensorRAGPipeline::setTensorMidLayer</definition>
+        <argsstring>(std::shared_ptr&lt; tensor::TensorMidLayer &gt; tensor_mid_layer)</argsstring>
+        <name>setTensorMidLayer</name>
+        <qualifiedname>themis::rag::TensorRAGPipeline::setTensorMidLayer</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; tensor::TensorMidLayer &gt;</type>
+          <declname>tensor_mid_layer</declname>
+        </param>
+        <briefdescription>
+<para>Attach a TensorMidLayer used for higher-layer retrieval summaries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Tensor Mid Layer.</para>
+<para>When set, <computeroutput><ref refid="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1a89b8faaf9b47c97134944ff8e251d2d3" kindref="member">step()</ref></computeroutput> derives a tensor-layer summary after FLARE/TARG triggers and exposes it through <computeroutput><ref refid="structthemis_1_1rag_1_1_r_a_g_decision" kindref="compound">RAGDecision</ref></computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tensor_mid_layer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="310" column="10" bodyfile="src/rag/tensor_rag_pipeline.cpp" bodystart="71" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1a5bb0638e04767aa1fbdc52a82ff06398" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::TensorRAGPipeline::setGraphTruthValidator</definition>
+        <argsstring>(std::shared_ptr&lt; GraphTruthValidator &gt; graph_truth_validator)</argsstring>
+        <name>setGraphTruthValidator</name>
+        <qualifiedname>themis::rag::TensorRAGPipeline::setGraphTruthValidator</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1rag_1_1_graph_truth_validator" kindref="compound">GraphTruthValidator</ref> &gt;</type>
+          <declname>graph_truth_validator</declname>
+        </param>
+        <briefdescription>
+<para>Attach a <ref refid="classthemis_1_1rag_1_1_graph_truth_validator" kindref="compound">GraphTruthValidator</ref> used after tensor mid-layer summarization. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Graph Truth Validator.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">graph_truth_validator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="315" column="10" bodyfile="src/rag/tensor_rag_pipeline.cpp" bodystart="81" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1ab1a6b1039a7edb40eccd64f32bdd3869" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::TensorRAGPipeline::setFinalLayerOrchestrator</definition>
+        <argsstring>(std::shared_ptr&lt; llm::FinalLayerOrchestrator &gt; final_layer_orchestrator)</argsstring>
+        <name>setFinalLayerOrchestrator</name>
+        <qualifiedname>themis::rag::TensorRAGPipeline::setFinalLayerOrchestrator</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; llm::FinalLayerOrchestrator &gt;</type>
+          <declname>final_layer_orchestrator</declname>
+        </param>
+        <briefdescription>
+<para>Attach the final LLM/LoRA orchestration layer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Final Layer Orchestrator.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">final_layer_orchestrator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="320" column="10" bodyfile="src/rag/tensor_rag_pipeline.cpp" bodystart="91" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1a89b8faaf9b47c97134944ff8e251d2d3" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1_r_a_g_decision" kindref="compound">RAGDecision</ref></type>
+        <definition>RAGDecision themis::rag::TensorRAGPipeline::step</definition>
+        <argsstring>(const std::string &amp;token_text, float log_prob, const std::vector&lt; float &gt; &amp;logits)</argsstring>
+        <name>step</name>
+        <qualifiedname>themis::rag::TensorRAGPipeline::step</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>token_text</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>log_prob</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>logits</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate both gates for a newly emitted token. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ <ref refid="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1a89b8faaf9b47c97134944ff8e251d2d3" kindref="member">step()</ref> — core per-token evaluation ============================================================================</para>
+<para>Must be called once per generated token in the generation loop. Order of evaluation: TARG first (logit-gap), then FLARE (log-prob window update and decision).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>token_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Surface form of the emitted token. Used by FLARE&apos;s <computeroutput>buildQuery()</computeroutput> for the sliding window. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>log_prob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Natural-log probability of this token: log(p(token)). Must be ≤ 0. Used by FLARE only. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>logits</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw (un-softmaxed) model logits over the vocabulary. Must have at least 2 elements. Used by TARG only.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1rag_1_1_r_a_g_decision" kindref="compound">RAGDecision</ref> with combined gating result and per-gate details.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">log_prob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">logits</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="364" column="18" bodyfile="src/rag/tensor_rag_pipeline.cpp" bodystart="104" bodyend="313"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1a087701c9113a75ffadede58aac56c046" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::TensorRAGPipeline::notifyRetrievalDone</definition>
+        <argsstring>()</argsstring>
+        <name>notifyRetrievalDone</name>
+        <qualifiedname>themis::rag::TensorRAGPipeline::notifyRetrievalDone</qualifiedname>
+        <briefdescription>
+<para>Notify the pipeline that retrieval was successfully executed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Notify Retrieval Done.</para>
+<para>Propagates <computeroutput>notifyRetrievalExecuted()</computeroutput> / <computeroutput><ref refid="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1a087701c9113a75ffadede58aac56c046" kindref="member">notifyRetrievalDone()</ref></computeroutput> to both sub-gates and increments the combined retrieval counter.</para>
+<para>Call this immediately after completing the retrieval action (before regenerating the uncertain span). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="377" column="10" bodyfile="src/rag/tensor_rag_pipeline.cpp" bodystart="322" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1abbbbdfe15943a70fb54b18797816c1bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::TensorRAGPipeline::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::rag::TensorRAGPipeline::reset</qualifiedname>
+        <briefdescription>
+<para>Reset all session state in both sub-gates. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset the modification detection flag.</para>
+<para>Use between independent generation requests on the same pipeline instance. Does not alter the configuration. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="385" column="10" bodyfile="src/rag/tensor_rag_pipeline.cpp" bodystart="340" bodyend="346"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1a28d87522bb4ccba65e3d921749d5bdf0" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1_flare_retrieval" kindref="compound">FlareRetrieval</ref> &amp;</type>
+        <definition>FlareRetrieval &amp; themis::rag::TensorRAGPipeline::flare</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>flare</name>
+        <qualifiedname>themis::rag::TensorRAGPipeline::flare</qualifiedname>
+        <briefdescription>
+<para>Access the underlying FLARE gate for advanced inspection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="392" column="27" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="392" bodyend="392"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1a3a6b94cc3fcb78bb8b515e110381d452" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="classthemis_1_1rag_1_1_flare_retrieval" kindref="compound">FlareRetrieval</ref> &amp;</type>
+        <definition>const FlareRetrieval &amp; themis::rag::TensorRAGPipeline::flare</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>flare</name>
+        <qualifiedname>themis::rag::TensorRAGPipeline::flare</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="393" column="27" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="393" bodyend="393"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1a93b4df10e1a9bcd243481dc540f59fb5" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval" kindref="compound">TARGRetrieval</ref> &amp;</type>
+        <definition>TARGRetrieval &amp; themis::rag::TensorRAGPipeline::targ</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>targ</name>
+        <qualifiedname>themis::rag::TensorRAGPipeline::targ</qualifiedname>
+        <briefdescription>
+<para>Access the underlying TARG gate for advanced inspection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="398" column="26" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="398" bodyend="398"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1ad2a156fbeb767be3d5d1635251f98938" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval" kindref="compound">TARGRetrieval</ref> &amp;</type>
+        <definition>const TARGRetrieval &amp; themis::rag::TensorRAGPipeline::targ</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>targ</name>
+        <qualifiedname>themis::rag::TensorRAGPipeline::targ</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="399" column="26" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="399" bodyend="399"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1aa1751a3938bbe13e92045c5bda3beebe" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1_1_pipeline_stats" kindref="compound">PipelineStats</ref></type>
+        <definition>PipelineStats themis::rag::TensorRAGPipeline::stats</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>stats</name>
+        <qualifiedname>themis::rag::TensorRAGPipeline::stats</qualifiedname>
+        <briefdescription>
+<para>Return a snapshot of accumulated statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="426" column="20" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="426" bodyend="426"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1a286a148378147edb91435338a06bf763" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1rag_1_1_tensor_r_a_g_pipeline_config" kindref="compound">TensorRAGPipelineConfig</ref> &amp;</type>
+        <definition>const TensorRAGPipelineConfig &amp; themis::rag::TensorRAGPipeline::config</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::rag::TensorRAGPipeline::config</qualifiedname>
+        <briefdescription>
+<para>Return the configuration this pipeline was constructed with. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="431" column="36" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="431" bodyend="433"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1a7e1d3eef58c9d9a6d4cd14c5a5c8f2c5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::TensorRAGPipeline::setEmbeddingQueryFn</definition>
+        <argsstring>(EmbeddingQueryFn fn)</argsstring>
+        <name>setEmbeddingQueryFn</name>
+        <qualifiedname>themis::rag::TensorRAGPipeline::setEmbeddingQueryFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1a776844f1913d71ebcac47b2722bf4924" kindref="member">EmbeddingQueryFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Inject an embedding backend (thread-safe, process-global). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para>Once set, <computeroutput><ref refid="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1a89b8faaf9b47c97134944ff8e251d2d3" kindref="member">step()</ref></computeroutput> will call <computeroutput>fn</computeroutput> on the FLARE query string and store the result in <computeroutput><ref refid="structthemis_1_1rag_1_1_r_a_g_decision_1a2e7a956752c1db70a31e37d40f5faf3b" kindref="member">RAGDecision::flare_query_embedding</ref></computeroutput>. Pass a null fn to revert to the no-embedding fallback.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Embedding function, e.g. wrapping a quantised SBERT encoder.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), pipelineEmbedFnMutex(), pipelineEmbedFnStorage(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="344" column="17" bodyfile="src/rag/tensor_rag_pipeline.cpp" bodystart="50" bodyend="53"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unified FLARE + TARG coordinator for TT-core-backed RAG sessions. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Composes one <computeroutput><ref refid="classthemis_1_1rag_1_1_flare_retrieval" kindref="compound">FlareRetrieval</ref></computeroutput> and one <computeroutput><ref refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval" kindref="compound">TARGRetrieval</ref></computeroutput> instance under a single per-token API. Both gates are evaluated independently on every call to <computeroutput><ref refid="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1a89b8faaf9b47c97134944ff8e251d2d3" kindref="member">step()</ref></computeroutput>; retrieval is recommended when either gate fires. </para>
+    </detaileddescription>
+    <location file="include/rag/tensor_rag_pipeline.h" line="292" column="1" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="292" bodyend="444"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1a41323e78562b58a1d8972687b182ff9d" prot="private" virt="non-virtual"><scope>themis::rag::TensorRAGPipeline</scope><name>cfg_</name></member>
+      <member refid="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1a286a148378147edb91435338a06bf763" prot="public" virt="non-virtual"><scope>themis::rag::TensorRAGPipeline</scope><name>config</name></member>
+      <member refid="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1a776844f1913d71ebcac47b2722bf4924" prot="public" virt="non-virtual"><scope>themis::rag::TensorRAGPipeline</scope><name>EmbeddingQueryFn</name></member>
+      <member refid="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1ad37932f2e1f67d293c54a00b6bcfddcf" prot="private" virt="non-virtual"><scope>themis::rag::TensorRAGPipeline</scope><name>final_layer_orchestrator_</name></member>
+      <member refid="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1a28d87522bb4ccba65e3d921749d5bdf0" prot="public" virt="non-virtual"><scope>themis::rag::TensorRAGPipeline</scope><name>flare</name></member>
+      <member refid="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1a3a6b94cc3fcb78bb8b515e110381d452" prot="public" virt="non-virtual"><scope>themis::rag::TensorRAGPipeline</scope><name>flare</name></member>
+      <member refid="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1aa2f7a97a1839a17f1adb22c7b4bbade2" prot="private" virt="non-virtual"><scope>themis::rag::TensorRAGPipeline</scope><name>flare_</name></member>
+      <member refid="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1a9de5edd7aae0400fff642fab88a81a34" prot="private" virt="non-virtual"><scope>themis::rag::TensorRAGPipeline</scope><name>graph_truth_validator_</name></member>
+      <member refid="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1a087701c9113a75ffadede58aac56c046" prot="public" virt="non-virtual"><scope>themis::rag::TensorRAGPipeline</scope><name>notifyRetrievalDone</name></member>
+      <member refid="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1abbbbdfe15943a70fb54b18797816c1bc" prot="public" virt="non-virtual"><scope>themis::rag::TensorRAGPipeline</scope><name>reset</name></member>
+      <member refid="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1a7e1d3eef58c9d9a6d4cd14c5a5c8f2c5" prot="public" virt="non-virtual"><scope>themis::rag::TensorRAGPipeline</scope><name>setEmbeddingQueryFn</name></member>
+      <member refid="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1ab1a6b1039a7edb40eccd64f32bdd3869" prot="public" virt="non-virtual"><scope>themis::rag::TensorRAGPipeline</scope><name>setFinalLayerOrchestrator</name></member>
+      <member refid="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1a5bb0638e04767aa1fbdc52a82ff06398" prot="public" virt="non-virtual"><scope>themis::rag::TensorRAGPipeline</scope><name>setGraphTruthValidator</name></member>
+      <member refid="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1a42b438402afd674b049977326060bb33" prot="public" virt="non-virtual"><scope>themis::rag::TensorRAGPipeline</scope><name>setTensorMidLayer</name></member>
+      <member refid="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1aa1751a3938bbe13e92045c5bda3beebe" prot="public" virt="non-virtual"><scope>themis::rag::TensorRAGPipeline</scope><name>stats</name></member>
+      <member refid="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1a6de55b0c1fded15b2e8771bb91459a17" prot="private" virt="non-virtual"><scope>themis::rag::TensorRAGPipeline</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1a89b8faaf9b47c97134944ff8e251d2d3" prot="public" virt="non-virtual"><scope>themis::rag::TensorRAGPipeline</scope><name>step</name></member>
+      <member refid="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1ab8f91cbc721460e58d696916d1bdab88" prot="private" virt="non-virtual"><scope>themis::rag::TensorRAGPipeline</scope><name>step_sequence_</name></member>
+      <member refid="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1a93b4df10e1a9bcd243481dc540f59fb5" prot="public" virt="non-virtual"><scope>themis::rag::TensorRAGPipeline</scope><name>targ</name></member>
+      <member refid="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1ad2a156fbeb767be3d5d1635251f98938" prot="public" virt="non-virtual"><scope>themis::rag::TensorRAGPipeline</scope><name>targ</name></member>
+      <member refid="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1a4d46ed3503098c52dcbeaf46f9672851" prot="private" virt="non-virtual"><scope>themis::rag::TensorRAGPipeline</scope><name>targ_</name></member>
+      <member refid="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1a183e69e00dbd1e320470b61e995f36fc" prot="private" virt="non-virtual"><scope>themis::rag::TensorRAGPipeline</scope><name>tensor_mid_layer_</name></member>
+      <member refid="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1a5d65bd8f1a6078e351223107133b1b71" prot="public" virt="non-virtual"><scope>themis::rag::TensorRAGPipeline</scope><name>TensorRAGPipeline</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

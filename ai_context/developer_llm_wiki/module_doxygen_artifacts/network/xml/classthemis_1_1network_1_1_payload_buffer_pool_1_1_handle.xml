@@ -1,0 +1,253 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1network_1_1_payload_buffer_pool_1_1_handle" kind="class" language="C++" prot="public">
+    <compoundname>themis::network::PayloadBufferPool::Handle</compoundname>
+    <includes refid="wire__protocol__performance_8h" local="no">wire_protocol_performance.h</includes>
+    <sectiondef kind="friend">
+      <memberdef kind="friend" id="classthemis_1_1network_1_1_payload_buffer_pool_1_1_handle_1ad56bba46c7c6eede99084e1273270de4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>class</type>
+        <definition>friend class PayloadBufferPool</definition>
+        <argsstring></argsstring>
+        <name>PayloadBufferPool</name>
+        <qualifiedname>themis::network::PayloadBufferPool::Handle::PayloadBufferPool</qualifiedname>
+        <param>
+          <type>PayloadBufferPool</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="246" column="22" bodyfile="include/network/wire_protocol_performance.h" bodystart="246" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_payload_buffer_pool_1_1_handle_1af5632a27032317f17cbdce49759137fc" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1network_1_1_payload_buffer_pool_1a1d91cf660e6a8512d6d8bf1775c1599a" kindref="member">Buffer</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Buffer&gt; themis::network::PayloadBufferPool::Handle::buf_</definition>
+        <argsstring></argsstring>
+        <name>buf_</name>
+        <qualifiedname>themis::network::PayloadBufferPool::Handle::buf_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="249" column="25" bodyfile="include/network/wire_protocol_performance.h" bodystart="249" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_payload_buffer_pool_1_1_handle_1aed0c340d892d4c6eed5a158f622dde0b" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1network_1_1_payload_buffer_pool_1_1_handle_1ad56bba46c7c6eede99084e1273270de4" kindref="member">PayloadBufferPool</ref> *</type>
+        <definition>PayloadBufferPool* themis::network::PayloadBufferPool::Handle::pool_</definition>
+        <argsstring></argsstring>
+        <name>pool_</name>
+        <qualifiedname>themis::network::PayloadBufferPool::Handle::pool_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="250" column="32" bodyfile="include/network/wire_protocol_performance.h" bodystart="250" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_payload_buffer_pool_1_1_handle_1a3628ba5dda959c99fb4d73cd6e28ff57" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::PayloadBufferPool::Handle::Handle</definition>
+        <argsstring>()=default</argsstring>
+        <name>Handle</name>
+        <qualifiedname>themis::network::PayloadBufferPool::Handle::Handle</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="230" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_payload_buffer_pool_1_1_handle_1ac412b16ba449410423f70147fb5de51e" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::PayloadBufferPool::Handle::Handle</definition>
+        <argsstring>(Handle &amp;&amp;) noexcept</argsstring>
+        <name>Handle</name>
+        <qualifiedname>themis::network::PayloadBufferPool::Handle::Handle</qualifiedname>
+        <param>
+          <type>Handle &amp;&amp;</type>
+          <defname>o</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="231" column="9" bodyfile="src/network/wire_protocol_performance.cpp" bodystart="225" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_payload_buffer_pool_1_1_handle_1a663f7d0906e93026664bd9d27ec36643" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1network_1_1_payload_buffer_pool_1_1_handle_1a3628ba5dda959c99fb4d73cd6e28ff57" kindref="member">Handle</ref> &amp;</type>
+        <definition>PayloadBufferPool::Handle &amp; themis::network::PayloadBufferPool::Handle::operator=</definition>
+        <argsstring>(Handle &amp;&amp;) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::network::PayloadBufferPool::Handle::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_payload_buffer_pool_1_1_handle_1a3628ba5dda959c99fb4d73cd6e28ff57" kindref="member">Handle</ref> &amp;&amp;</type>
+          <defname>o</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="232" column="16" bodyfile="src/network/wire_protocol_performance.cpp" bodystart="229" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_payload_buffer_pool_1_1_handle_1ac01119899d9fa440e9dc9e7ae77f5326" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::PayloadBufferPool::Handle::~Handle</definition>
+        <argsstring>()</argsstring>
+        <name>~Handle</name>
+        <qualifiedname>themis::network::PayloadBufferPool::Handle::~Handle</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="233" column="9" bodyfile="src/network/wire_protocol_performance.cpp" bodystart="247" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_payload_buffer_pool_1_1_handle_1addaf3fe3665bfb234f99b1fa03007b2c" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1network_1_1_payload_buffer_pool_1a1d91cf660e6a8512d6d8bf1775c1599a" kindref="member">Buffer</ref> *</type>
+        <definition>Buffer * themis::network::PayloadBufferPool::Handle::operator-&gt;</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>operator-&gt;</name>
+        <qualifiedname>themis::network::PayloadBufferPool::Handle::operator-&gt;</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="235" column="16" bodyfile="include/network/wire_protocol_performance.h" bodystart="235" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_payload_buffer_pool_1_1_handle_1af236dabdd80c6ea4dc82e632a3feff6f" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1network_1_1_payload_buffer_pool_1a1d91cf660e6a8512d6d8bf1775c1599a" kindref="member">Buffer</ref> &amp;</type>
+        <definition>Buffer &amp; themis::network::PayloadBufferPool::Handle::operator*</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>operator*</name>
+        <qualifiedname>themis::network::PayloadBufferPool::Handle::operator*</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="236" column="16" bodyfile="include/network/wire_protocol_performance.h" bodystart="236" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_payload_buffer_pool_1_1_handle_1a112a40ec851165f33111778df35c40c7" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="classthemis_1_1network_1_1_payload_buffer_pool_1a1d91cf660e6a8512d6d8bf1775c1599a" kindref="member">Buffer</ref> *</type>
+        <definition>const Buffer * themis::network::PayloadBufferPool::Handle::operator-&gt;</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>operator-&gt;</name>
+        <qualifiedname>themis::network::PayloadBufferPool::Handle::operator-&gt;</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="237" column="22" bodyfile="include/network/wire_protocol_performance.h" bodystart="237" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_payload_buffer_pool_1_1_handle_1ad7d2d443f62a88e8ca92f7188e51e0aa" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="classthemis_1_1network_1_1_payload_buffer_pool_1a1d91cf660e6a8512d6d8bf1775c1599a" kindref="member">Buffer</ref> &amp;</type>
+        <definition>const Buffer &amp; themis::network::PayloadBufferPool::Handle::operator*</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>operator*</name>
+        <qualifiedname>themis::network::PayloadBufferPool::Handle::operator*</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="238" column="22" bodyfile="include/network/wire_protocol_performance.h" bodystart="238" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_payload_buffer_pool_1_1_handle_1a697d0bf52a0b9099d6c446ea2b68995b" prot="public" static="no" const="yes" explicit="yes" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::PayloadBufferPool::Handle::operator bool</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>operator bool</name>
+        <qualifiedname>themis::network::PayloadBufferPool::Handle::operator bool</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="240" column="18" bodyfile="include/network/wire_protocol_performance.h" bodystart="240" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_payload_buffer_pool_1_1_handle_1a51b5cc569268102c66e51e7726168855" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::PayloadBufferPool::Handle::release</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>release</name>
+        <qualifiedname>themis::network::PayloadBufferPool::Handle::release</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="243" column="14" bodyfile="src/network/wire_protocol_performance.cpp" bodystart="239" bodyend="245"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_payload_buffer_pool_1_1_handle_1a8471bc1367dca18771287d5bd98e16b9" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::PayloadBufferPool::Handle::Handle</definition>
+        <argsstring>(std::unique_ptr&lt; Buffer &gt; buf, PayloadBufferPool *pool) noexcept</argsstring>
+        <name>Handle</name>
+        <qualifiedname>themis::network::PayloadBufferPool::Handle::Handle</qualifiedname>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="classthemis_1_1network_1_1_payload_buffer_pool_1a1d91cf660e6a8512d6d8bf1775c1599a" kindref="member">Buffer</ref> &gt;</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_payload_buffer_pool_1_1_handle_1ad56bba46c7c6eede99084e1273270de4" kindref="member">PayloadBufferPool</ref> *</type>
+          <declname>pool</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="247" column="9" bodyfile="src/network/wire_protocol_performance.cpp" bodystart="222" bodyend="223"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RAII handle that returns the buffer to the pool on destruction. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/network/wire_protocol_performance.h" line="228" column="5" bodyfile="include/network/wire_protocol_performance.h" bodystart="228" bodyend="251"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1network_1_1_payload_buffer_pool_1_1_handle_1af5632a27032317f17cbdce49759137fc" prot="private" virt="non-virtual"><scope>themis::network::PayloadBufferPool::Handle</scope><name>buf_</name></member>
+      <member refid="classthemis_1_1network_1_1_payload_buffer_pool_1_1_handle_1a3628ba5dda959c99fb4d73cd6e28ff57" prot="public" virt="non-virtual"><scope>themis::network::PayloadBufferPool::Handle</scope><name>Handle</name></member>
+      <member refid="classthemis_1_1network_1_1_payload_buffer_pool_1_1_handle_1ac412b16ba449410423f70147fb5de51e" prot="public" virt="non-virtual"><scope>themis::network::PayloadBufferPool::Handle</scope><name>Handle</name></member>
+      <member refid="classthemis_1_1network_1_1_payload_buffer_pool_1_1_handle_1a8471bc1367dca18771287d5bd98e16b9" prot="private" virt="non-virtual"><scope>themis::network::PayloadBufferPool::Handle</scope><name>Handle</name></member>
+      <member refid="classthemis_1_1network_1_1_payload_buffer_pool_1_1_handle_1a697d0bf52a0b9099d6c446ea2b68995b" prot="public" virt="non-virtual"><scope>themis::network::PayloadBufferPool::Handle</scope><name>operator bool</name></member>
+      <member refid="classthemis_1_1network_1_1_payload_buffer_pool_1_1_handle_1af236dabdd80c6ea4dc82e632a3feff6f" prot="public" virt="non-virtual"><scope>themis::network::PayloadBufferPool::Handle</scope><name>operator*</name></member>
+      <member refid="classthemis_1_1network_1_1_payload_buffer_pool_1_1_handle_1ad7d2d443f62a88e8ca92f7188e51e0aa" prot="public" virt="non-virtual"><scope>themis::network::PayloadBufferPool::Handle</scope><name>operator*</name></member>
+      <member refid="classthemis_1_1network_1_1_payload_buffer_pool_1_1_handle_1addaf3fe3665bfb234f99b1fa03007b2c" prot="public" virt="non-virtual"><scope>themis::network::PayloadBufferPool::Handle</scope><name>operator-&gt;</name></member>
+      <member refid="classthemis_1_1network_1_1_payload_buffer_pool_1_1_handle_1a112a40ec851165f33111778df35c40c7" prot="public" virt="non-virtual"><scope>themis::network::PayloadBufferPool::Handle</scope><name>operator-&gt;</name></member>
+      <member refid="classthemis_1_1network_1_1_payload_buffer_pool_1_1_handle_1a663f7d0906e93026664bd9d27ec36643" prot="public" virt="non-virtual"><scope>themis::network::PayloadBufferPool::Handle</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1network_1_1_payload_buffer_pool_1_1_handle_1ad56bba46c7c6eede99084e1273270de4" prot="private" virt="non-virtual"><scope>themis::network::PayloadBufferPool::Handle</scope><name>PayloadBufferPool</name></member>
+      <member refid="classthemis_1_1network_1_1_payload_buffer_pool_1_1_handle_1aed0c340d892d4c6eed5a158f622dde0b" prot="private" virt="non-virtual"><scope>themis::network::PayloadBufferPool::Handle</scope><name>pool_</name></member>
+      <member refid="classthemis_1_1network_1_1_payload_buffer_pool_1_1_handle_1a51b5cc569268102c66e51e7726168855" prot="public" virt="non-virtual"><scope>themis::network::PayloadBufferPool::Handle</scope><name>release</name></member>
+      <member refid="classthemis_1_1network_1_1_payload_buffer_pool_1_1_handle_1ac01119899d9fa440e9dc9e7ae77f5326" prot="public" virt="non-virtual"><scope>themis::network::PayloadBufferPool::Handle</scope><name>~Handle</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,202 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_knowledge::FederatedRAGMergerConfig</compoundname>
+    <includes refid="federated__rag__merger_8h" local="no">federated_rag_merger.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config_1a16203e27bc92d751671c4c9a3ffc4bb7" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1distributed__knowledge_1a368bd326dd64b9132c94998235006fe9" kindref="member">MergeStrategy</ref></type>
+        <definition>MergeStrategy themis::distributed_knowledge::FederatedRAGMergerConfig::strategy</definition>
+        <argsstring></argsstring>
+        <name>strategy</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedRAGMergerConfig::strategy</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1distributed__knowledge_1a368bd326dd64b9132c94998235006fe9a8fdd94a3c07ad9e986d786268523affd" kindref="member">MergeStrategy::RECIPROCAL_RANK_FUSION</ref></initializer>
+        <briefdescription>
+<para>Merge algorithm to apply (see <ref refid="namespacethemis_1_1distributed__knowledge_1a368bd326dd64b9132c94998235006fe9" kindref="member">MergeStrategy</ref> enum). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_rag_merger.h" line="158" column="19" bodyfile="include/distributed_knowledge/federated_rag_merger.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config_1aaa00195a982d3df94d0e232806656064" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::distributed_knowledge::FederatedRAGMergerConfig::top_k</definition>
+        <argsstring></argsstring>
+        <name>top_k</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedRAGMergerConfig::top_k</qualifiedname>
+        <initializer>= 20</initializer>
+        <briefdescription>
+<para>Maximum documents in merged output. Must be &gt; 0. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_rag_merger.h" line="161" column="19" bodyfile="include/distributed_knowledge/federated_rag_merger.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config_1ab84436b7ab1caa78ba9531d5b3ec4f4b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::distributed_knowledge::FederatedRAGMergerConfig::deduplicate</definition>
+        <argsstring></argsstring>
+        <name>deduplicate</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedRAGMergerConfig::deduplicate</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Remove duplicate doc_ids after merge (keep first/highest-ranked occurrence). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_rag_merger.h" line="164" column="19" bodyfile="include/distributed_knowledge/federated_rag_merger.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config_1a5808a96b59eacfbbda8a67c9a8ac12dc" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::distributed_knowledge::FederatedRAGMergerConfig::rrf_constant</definition>
+        <argsstring></argsstring>
+        <name>rrf_constant</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedRAGMergerConfig::rrf_constant</qualifiedname>
+        <initializer>= 60.0</initializer>
+        <briefdescription>
+<para>RRF constant k in formula: 1 / (k + rank). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>From Cormack et al. 2009 &quot;Reciprocal Rank Fusion outperforms Condorcet
+and individual Rank Learning Methods.&quot;<itemizedlist>
+<listitem><para>k = 60 (default): balances early and late-ranked results</para>
+</listitem><listitem><para>k &gt; 60: emphasizes all ranks equally (lower variance, higher bias)</para>
+</listitem><listitem><para>k &lt; 60: emphasizes top results more (higher variance, lower bias) Must be &gt; 0.0; invalid config throws in ctor. </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_rag_merger.h" line="176" column="19" bodyfile="include/distributed_knowledge/federated_rag_merger.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config_1abc2d153c22a64a9b2d9722fbd7e835bd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::distributed_knowledge::FederatedRAGMergerConfig::boost_specialised</definition>
+        <argsstring></argsstring>
+        <name>boost_specialised</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedRAGMergerConfig::boost_specialised</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Boost docs from specialised shards (high adapter_accuracy_delta). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_rag_merger.h" line="179" column="19" bodyfile="include/distributed_knowledge/federated_rag_merger.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config_1a8f25cece98a0de15a7aa71701405f963" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::distributed_knowledge::FederatedRAGMergerConfig::specialisation_boost</definition>
+        <argsstring></argsstring>
+        <name>specialisation_boost</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedRAGMergerConfig::specialisation_boost</qualifiedname>
+        <initializer>= 1.2</initializer>
+        <briefdescription>
+<para>Multiplier for RRF/score when specialisation_boost enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When adapter_accuracy_delta &gt; 0 (shard claims specialisation), multiply merge score by this factor.<itemizedlist>
+<listitem><para>1.0 = no boost (disable by setting boost_specialised=false)</para>
+</listitem><listitem><para>1.2 (default) = 20% boost for specialized results Must be &gt;= 1.0; invalid config throws in ctor. </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_rag_merger.h" line="190" column="19" bodyfile="include/distributed_knowledge/federated_rag_merger.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config_1a0d7482e1f89555d6fc349ee46b00daa9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::distributed_knowledge::FederatedRAGMergerConfig::shard_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>shard_timeout_ms</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedRAGMergerConfig::shard_timeout_ms</qualifiedname>
+        <initializer>= std::numeric_limits&lt;size_t&gt;::max()</initializer>
+        <briefdescription>
+<para>Per-shard timeout in milliseconds (DK-OR-T contract). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Controls timeout handling:<itemizedlist>
+<listitem><para>0: immediate timeout; merge() throws std::runtime_error(&quot;all shards timed out&quot;) if any shard_results passed (fail-closed for safety)</para>
+</listitem><listitem><para>UINT64_MAX (default): no timeout; all shards always included</para>
+</listitem><listitem><para>1..UINT64_MAX-1: custom timeout; shards with timed_out==true are skipped</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Timeout Contract:</bold><itemizedlist>
+<listitem><para>merge() checks each <ref refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result_1afa5b372339833639f4c8f369862f7aa7" kindref="member">ShardRetrievalResult.timed_out</ref> flag</para>
+</listitem><listitem><para>If timed_out == true and timeout_ms != UINT64_MAX: skip this shard</para>
+</listitem><listitem><para>If ALL responding shards timed out: throw std::runtime_error(&quot;all shards timed out&quot;)</para>
+</listitem><listitem><para>Partial timeouts are handled gracefully (merge proceeds with responsive shards) </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_rag_merger.h" line="207" column="19" bodyfile="include/distributed_knowledge/federated_rag_merger.h" bodystart="207" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config_1a6a107edd7879c74ef81e8f706c71e59e" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_knowledge::FederatedRAGMergerConfig::isValid</definition>
+        <argsstring>() const</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedRAGMergerConfig::isValid</qualifiedname>
+        <briefdescription>
+<para>Validate configuration for constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns true iff:<itemizedlist>
+<listitem><para>top_k &gt; 0</para>
+</listitem><listitem><para>rrf_constant &gt; 0.0</para>
+</listitem><listitem><para>specialisation_boost &gt;= 1.0 </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_rag_merger.h" line="217" column="11" bodyfile="include/distributed_knowledge/federated_rag_merger.h" bodystart="217" bodyend="219"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for <computeroutput><ref refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger" kindref="compound">FederatedRAGMerger</ref></computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All fields have sensible defaults; most deployments use just strategy and top_k.</para>
+<para><bold>Validation Contract:</bold><itemizedlist>
+<listitem><para><ref refid="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config_1a6a107edd7879c74ef81e8f706c71e59e" kindref="member">isValid()</ref> returns true iff:<itemizedlist>
+<listitem><para>top_k &gt; 0 (must return at least 1 document)</para>
+</listitem><listitem><para>rrf_constant &gt; 0.0 (RRF denominator must be positive)</para>
+</listitem><listitem><para>specialisation_boost &gt;= 1.0 (boost never reduces scores)</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem><para>If invalid, <ref refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger" kindref="compound">FederatedRAGMerger</ref> ctor throws std::invalid_argument</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Strategy Selection:</bold><itemizedlist>
+<listitem><para>RECIPROCAL_RANK_FUSION (default): robust, handles multi-shard tie-breaks well</para>
+</listitem><listitem><para>SCORE_WEIGHTED: respects shard accuracy; lighter computation</para>
+</listitem><listitem><para>ROUND_ROBIN: maximizes diversity across shards; useful for exploration </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/distributed_knowledge/federated_rag_merger.h" line="156" column="1" bodyfile="include/distributed_knowledge/federated_rag_merger.h" bodystart="156" bodyend="220"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config_1abc2d153c22a64a9b2d9722fbd7e835bd" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedRAGMergerConfig</scope><name>boost_specialised</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config_1ab84436b7ab1caa78ba9531d5b3ec4f4b" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedRAGMergerConfig</scope><name>deduplicate</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config_1a6a107edd7879c74ef81e8f706c71e59e" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedRAGMergerConfig</scope><name>isValid</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config_1a5808a96b59eacfbbda8a67c9a8ac12dc" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedRAGMergerConfig</scope><name>rrf_constant</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config_1a0d7482e1f89555d6fc349ee46b00daa9" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedRAGMergerConfig</scope><name>shard_timeout_ms</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config_1a8f25cece98a0de15a7aa71701405f963" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedRAGMergerConfig</scope><name>specialisation_boost</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config_1a16203e27bc92d751671c4c9a3ffc4bb7" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedRAGMergerConfig</scope><name>strategy</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config_1aaa00195a982d3df94d0e232806656064" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedRAGMergerConfig</scope><name>top_k</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

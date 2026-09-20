@@ -1,0 +1,166 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1tensor_1_1_cost_based_prioritization" kind="class" language="C++" prot="public">
+    <compoundname>themis::tensor::CostBasedPrioritization</compoundname>
+    <basecompoundref refid="classthemis_1_1tensor_1_1_i_prioritization_strategy" prot="public" virt="non-virtual">themis::tensor::IPrioritizationStrategy</basecompoundref>
+    <includes refid="tensor__routing__strategy_8h" local="no">tensor_routing_strategy.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_cost_based_prioritization_1abd34fa43a8f3c4b08e0ee378c0a6fdfc" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::tensor::CostBasedPrioritization::quality_weight</definition>
+        <argsstring></argsstring>
+        <name>quality_weight</name>
+        <qualifiedname>themis::tensor::CostBasedPrioritization::quality_weight</qualifiedname>
+        <initializer>= 0.6f</initializer>
+        <briefdescription>
+<para>Weight for quality/similarity (0.0-1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_routing_strategy.h" line="180" column="11" bodyfile="include/tensor/tensor_routing_strategy.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_cost_based_prioritization_1a8f52d83330b7b0e1fb3be4a52891f880" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::tensor::CostBasedPrioritization::efficiency_weight</definition>
+        <argsstring></argsstring>
+        <name>efficiency_weight</name>
+        <qualifiedname>themis::tensor::CostBasedPrioritization::efficiency_weight</qualifiedname>
+        <initializer>= 0.4f</initializer>
+        <briefdescription>
+<para>Weight for cost efficiency (0.0-1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_routing_strategy.h" line="183" column="11" bodyfile="include/tensor/tensor_routing_strategy.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_cost_based_prioritization_1af9c3a42464910e1f5cea02ec6d056723" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::CostBasedPrioritization::name</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::tensor::CostBasedPrioritization::name</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_prioritization_strategy_1ac8e07ba51e062aa9a5d979668f2e42fa">name</reimplements>
+        <briefdescription>
+<para>Get the name of this prioritization strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Human-readable strategy name. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_routing_strategy.h" line="185" column="17" bodyfile="src/tensor/tensor_routing_strategy.cpp" bodystart="116" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_cost_based_prioritization_1ab118ea3194f5e2bc41ad22ee2eb20861" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::tensor::CostBasedPrioritization::prioritize</definition>
+        <argsstring>(const std::vector&lt; const BaseTensorSummary * &gt; &amp;summaries) const override</argsstring>
+        <name>prioritize</name>
+        <qualifiedname>themis::tensor::CostBasedPrioritization::prioritize</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_prioritization_strategy_1a96b2fc1d6553a9dd8ec44fd430881e04">prioritize</reimplements>
+        <param>
+          <type>const std::vector&lt; const <ref refid="structthemis_1_1tensor_1_1_base_tensor_summary" kindref="compound">BaseTensorSummary</ref> * &gt; &amp;</type>
+          <declname>summaries</declname>
+        </param>
+        <briefdescription>
+<para>Compute priority scores for candidates. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>summaries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector of tensor summaries to prioritize. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of priority scores (0.0-1.0), same length as summaries. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_routing_strategy.h" line="187" column="17" bodyfile="src/tensor/tensor_routing_strategy.cpp" bodystart="120" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_cost_based_prioritization_1aaee33e2d7c6c39b851737cf0095a773c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::tensor::CostBasedPrioritization::sort</definition>
+        <argsstring>(std::vector&lt; BaseTensorSummary &gt; &amp;summaries) const override</argsstring>
+        <name>sort</name>
+        <qualifiedname>themis::tensor::CostBasedPrioritization::sort</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_prioritization_strategy_1aa80f83b2b63293eb8f43e26996487bb2">sort</reimplements>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1tensor_1_1_base_tensor_summary" kindref="compound">BaseTensorSummary</ref> &gt; &amp;</type>
+          <declname>summaries</declname>
+        </param>
+        <briefdescription>
+<para>Sort summaries by priority (highest first). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>summaries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector of summaries to sort (modified in-place). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if sorting was successful. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_routing_strategy.h" line="190" column="10" bodyfile="src/tensor/tensor_routing_strategy.cpp" bodystart="144" bodyend="157"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Prioritization balancing quality and processing cost. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Favors candidates that achieve good scores with lower computational cost, useful for latency-sensitive scenarios. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::tensor::CostBasedPrioritization</label>
+        <link refid="classthemis_1_1tensor_1_1_cost_based_prioritization"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::tensor::IPrioritizationStrategy</label>
+        <link refid="classthemis_1_1tensor_1_1_i_prioritization_strategy"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::tensor::CostBasedPrioritization</label>
+        <link refid="classthemis_1_1tensor_1_1_cost_based_prioritization"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::tensor::IPrioritizationStrategy</label>
+        <link refid="classthemis_1_1tensor_1_1_i_prioritization_strategy"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/tensor/tensor_routing_strategy.h" line="177" column="1" bodyfile="include/tensor/tensor_routing_strategy.h" bodystart="177" bodyend="191"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1tensor_1_1_cost_based_prioritization_1a8f52d83330b7b0e1fb3be4a52891f880" prot="public" virt="non-virtual"><scope>themis::tensor::CostBasedPrioritization</scope><name>efficiency_weight</name></member>
+      <member refid="classthemis_1_1tensor_1_1_cost_based_prioritization_1af9c3a42464910e1f5cea02ec6d056723" prot="public" virt="virtual"><scope>themis::tensor::CostBasedPrioritization</scope><name>name</name></member>
+      <member refid="classthemis_1_1tensor_1_1_cost_based_prioritization_1ab118ea3194f5e2bc41ad22ee2eb20861" prot="public" virt="virtual"><scope>themis::tensor::CostBasedPrioritization</scope><name>prioritize</name></member>
+      <member refid="classthemis_1_1tensor_1_1_cost_based_prioritization_1abd34fa43a8f3c4b08e0ee378c0a6fdfc" prot="public" virt="non-virtual"><scope>themis::tensor::CostBasedPrioritization</scope><name>quality_weight</name></member>
+      <member refid="classthemis_1_1tensor_1_1_cost_based_prioritization_1aaee33e2d7c6c39b851737cf0095a773c" prot="public" virt="virtual"><scope>themis::tensor::CostBasedPrioritization</scope><name>sort</name></member>
+      <member refid="classthemis_1_1tensor_1_1_i_prioritization_strategy_1a8ad2a45dbb8ca01461982bc3c4d7acd2" prot="public" virt="virtual"><scope>themis::tensor::CostBasedPrioritization</scope><name>~IPrioritizationStrategy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

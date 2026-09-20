@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_q_l_conversation_context_test" kind="class" language="C++" prot="public">
+    <compoundname>AQLConversationContextTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_a_q_l_conversation_context_test_1a5d2e89a31ba3a72ae804afbd08568eed" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler" kindref="compound">LLMAQLHandler</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;LLMAQLHandler&gt; AQLConversationContextTest::handler</definition>
+        <argsstring></argsstring>
+        <name>handler</name>
+        <qualifiedname>AQLConversationContextTest::handler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_context.cpp" line="35" column="29" bodyfile="tests/aql/test_aql_conversation_context.cpp" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_q_l_conversation_context_test_1add2d670f91c690dcbf63709304d8e58c" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1aql_1_1_a_q_l_conversation_context" kindref="compound">AQLConversationContext</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;AQLConversationContext&gt; AQLConversationContextTest::ctx</definition>
+        <argsstring></argsstring>
+        <name>ctx</name>
+        <qualifiedname>AQLConversationContextTest::ctx</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_context.cpp" line="36" column="21" bodyfile="tests/aql/test_aql_conversation_context.cpp" bodystart="36" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_a_q_l_conversation_context_test_1a31847f4d768f93e16c4ebce1044141b8" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AQLConversationContextTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>AQLConversationContextTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_context.cpp" line="25" column="10" bodyfile="tests/aql/test_aql_conversation_context.cpp" bodystart="25" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_q_l_conversation_context_test_1a324d9888ceb92336896dba29e425ad61" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AQLConversationContextTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>AQLConversationContextTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_context.cpp" line="30" column="10" bodyfile="tests/aql/test_aql_conversation_context.cpp" bodystart="30" bodyend="33"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AQLConversationContextTest</label>
+        <link refid="class_a_q_l_conversation_context_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AQLConversationContextTest</label>
+        <link refid="class_a_q_l_conversation_context_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/aql/test_aql_conversation_context.cpp" line="23" column="1" bodyfile="tests/aql/test_aql_conversation_context.cpp" bodystart="23" bodyend="37"/>
+    <listofallmembers>
+      <member refid="class_a_q_l_conversation_context_test_1add2d670f91c690dcbf63709304d8e58c" prot="protected" virt="non-virtual"><scope>AQLConversationContextTest</scope><name>ctx</name></member>
+      <member refid="class_a_q_l_conversation_context_test_1a5d2e89a31ba3a72ae804afbd08568eed" prot="protected" virt="non-virtual"><scope>AQLConversationContextTest</scope><name>handler</name></member>
+      <member refid="class_a_q_l_conversation_context_test_1a31847f4d768f93e16c4ebce1044141b8" prot="protected" virt="non-virtual"><scope>AQLConversationContextTest</scope><name>SetUp</name></member>
+      <member refid="class_a_q_l_conversation_context_test_1a324d9888ceb92336896dba29e425ad61" prot="protected" virt="non-virtual"><scope>AQLConversationContextTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

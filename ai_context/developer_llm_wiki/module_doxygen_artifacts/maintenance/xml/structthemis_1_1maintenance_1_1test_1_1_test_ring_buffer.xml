@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1maintenance_1_1test_1_1_test_ring_buffer" kind="struct" language="C++" prot="public">
+    <compoundname>themis::maintenance::test::TestRingBuffer</compoundname>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1test_1_1_test_ring_buffer_1a26857dedac38862f1c44b4bfe021458b" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::maintenance::test::TestRingBuffer::kDefaultCapacity</definition>
+        <argsstring></argsstring>
+        <name>kDefaultCapacity</name>
+        <qualifiedname>themis::maintenance::test::TestRingBuffer::kDefaultCapacity</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_diagnostics_focused.cpp" line="44" column="26" bodyfile="tests/maintenance/test_maintenance_diagnostics_focused.cpp" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1test_1_1_test_ring_buffer_1a688622180fe34e848da67fefbf924319" prot="public" static="no" mutable="no">
+        <type>std::deque&lt; <ref refid="structthemis_1_1maintenance_1_1_dispatch_outcome" kindref="compound">DispatchOutcome</ref> &gt;</type>
+        <definition>std::deque&lt;DispatchOutcome&gt; themis::maintenance::test::TestRingBuffer::buf</definition>
+        <argsstring></argsstring>
+        <name>buf</name>
+        <qualifiedname>themis::maintenance::test::TestRingBuffer::buf</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_diagnostics_focused.cpp" line="45" column="16" bodyfile="tests/maintenance/test_maintenance_diagnostics_focused.cpp" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1test_1_1_test_ring_buffer_1a43b39128216565c35e9c0b050f8e44b8" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::maintenance::test::TestRingBuffer::capacity</definition>
+        <argsstring></argsstring>
+        <name>capacity</name>
+        <qualifiedname>themis::maintenance::test::TestRingBuffer::capacity</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_diagnostics_focused.cpp" line="46" column="9" bodyfile="tests/maintenance/test_maintenance_diagnostics_focused.cpp" bodystart="46" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1test_1_1_test_ring_buffer_1a631b6edf748d8188525ffdaeae75497a" prot="public" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::maintenance::test::TestRingBuffer::mu</definition>
+        <argsstring></argsstring>
+        <name>mu</name>
+        <qualifiedname>themis::maintenance::test::TestRingBuffer::mu</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_diagnostics_focused.cpp" line="47" column="16" bodyfile="tests/maintenance/test_maintenance_diagnostics_focused.cpp" bodystart="47" bodyend="47"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1maintenance_1_1test_1_1_test_ring_buffer_1a39f0d68200483035d0613b8ea07babe7" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::maintenance::test::TestRingBuffer::TestRingBuffer</definition>
+        <argsstring>(int cap=kDefaultCapacity)</argsstring>
+        <name>TestRingBuffer</name>
+        <qualifiedname>themis::maintenance::test::TestRingBuffer::TestRingBuffer</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>cap</declname>
+          <defval><ref refid="structthemis_1_1maintenance_1_1test_1_1_test_ring_buffer_1a26857dedac38862f1c44b4bfe021458b" kindref="member">kDefaultCapacity</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_diagnostics_focused.cpp" line="49" column="14" bodyfile="tests/maintenance/test_maintenance_diagnostics_focused.cpp" bodystart="49" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1maintenance_1_1test_1_1_test_ring_buffer_1adc3faf06628c2e8bef88dd6469b7c18a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::maintenance::test::TestRingBuffer::push</definition>
+        <argsstring>(DispatchOutcome o)</argsstring>
+        <name>push</name>
+        <qualifiedname>themis::maintenance::test::TestRingBuffer::push</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1maintenance_1_1_dispatch_outcome" kindref="compound">DispatchOutcome</ref></type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_diagnostics_focused.cpp" line="51" column="10" bodyfile="tests/maintenance/test_maintenance_diagnostics_focused.cpp" bodystart="51" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1maintenance_1_1test_1_1_test_ring_buffer_1a733fd39fb6010cb6d2964b7e9952df42" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1maintenance_1_1_dispatch_outcome" kindref="compound">DispatchOutcome</ref> &gt;</type>
+        <definition>std::vector&lt; DispatchOutcome &gt; themis::maintenance::test::TestRingBuffer::snapshot</definition>
+        <argsstring>()</argsstring>
+        <name>snapshot</name>
+        <qualifiedname>themis::maintenance::test::TestRingBuffer::snapshot</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_diagnostics_focused.cpp" line="59" column="17" bodyfile="tests/maintenance/test_maintenance_diagnostics_focused.cpp" bodystart="59" bodyend="62"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/maintenance/test_maintenance_diagnostics_focused.cpp" line="43" column="1" bodyfile="tests/maintenance/test_maintenance_diagnostics_focused.cpp" bodystart="43" bodyend="63"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1maintenance_1_1test_1_1_test_ring_buffer_1a688622180fe34e848da67fefbf924319" prot="public" virt="non-virtual"><scope>themis::maintenance::test::TestRingBuffer</scope><name>buf</name></member>
+      <member refid="structthemis_1_1maintenance_1_1test_1_1_test_ring_buffer_1a43b39128216565c35e9c0b050f8e44b8" prot="public" virt="non-virtual"><scope>themis::maintenance::test::TestRingBuffer</scope><name>capacity</name></member>
+      <member refid="structthemis_1_1maintenance_1_1test_1_1_test_ring_buffer_1a26857dedac38862f1c44b4bfe021458b" prot="public" virt="non-virtual"><scope>themis::maintenance::test::TestRingBuffer</scope><name>kDefaultCapacity</name></member>
+      <member refid="structthemis_1_1maintenance_1_1test_1_1_test_ring_buffer_1a631b6edf748d8188525ffdaeae75497a" prot="public" virt="non-virtual"><scope>themis::maintenance::test::TestRingBuffer</scope><name>mu</name></member>
+      <member refid="structthemis_1_1maintenance_1_1test_1_1_test_ring_buffer_1adc3faf06628c2e8bef88dd6469b7c18a" prot="public" virt="non-virtual"><scope>themis::maintenance::test::TestRingBuffer</scope><name>push</name></member>
+      <member refid="structthemis_1_1maintenance_1_1test_1_1_test_ring_buffer_1a733fd39fb6010cb6d2964b7e9952df42" prot="public" virt="non-virtual"><scope>themis::maintenance::test::TestRingBuffer</scope><name>snapshot</name></member>
+      <member refid="structthemis_1_1maintenance_1_1test_1_1_test_ring_buffer_1a39f0d68200483035d0613b8ea07babe7" prot="public" virt="non-virtual"><scope>themis::maintenance::test::TestRingBuffer</scope><name>TestRingBuffer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

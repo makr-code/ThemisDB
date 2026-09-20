@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1ethics_1_1_debate_initialization" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::DebateInitialization</compoundname>
+    <includes refid="ethics__ai__types_8h" local="no">ethics_ai_types.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_debate_initialization_1ad30b55179e6237013ccaeec355d39b1f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::DebateInitialization::debate_id</definition>
+        <argsstring></argsstring>
+        <name>debate_id</name>
+        <qualifiedname>themis::plugins::ethics::DebateInitialization::debate_id</qualifiedname>
+        <briefdescription>
+<para>Debate identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="141" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_debate_initialization_1a04a304ca783a3c32e88f4ab5f3270062" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::DebateInitialization::dilemma_description</definition>
+        <argsstring></argsstring>
+        <name>dilemma_description</name>
+        <qualifiedname>themis::plugins::ethics::DebateInitialization::dilemma_description</qualifiedname>
+        <briefdescription>
+<para>Description of the dilemma. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="142" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_debate_initialization_1adf0dc6107eea8fd439941331aa8a0959" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::plugins::ethics::DebateInitialization::philosophy_schools</definition>
+        <argsstring></argsstring>
+        <name>philosophy_schools</name>
+        <qualifiedname>themis::plugins::ethics::DebateInitialization::philosophy_schools</qualifiedname>
+        <briefdescription>
+<para>Participating philosophies. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="143" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_debate_initialization_1a4dbdcbbca694342bd1940b101bed159c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::DebateInitialization::category</definition>
+        <argsstring></argsstring>
+        <name>category</name>
+        <qualifiedname>themis::plugins::ethics::DebateInitialization::category</qualifiedname>
+        <briefdescription>
+<para>Dilemma category. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="144" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_debate_initialization_1ac98c8239ba591be0248963ec647f3de9" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::plugins::ethics::DebateInitialization::context</definition>
+        <argsstring></argsstring>
+        <name>context</name>
+        <qualifiedname>themis::plugins::ethics::DebateInitialization::context</qualifiedname>
+        <briefdescription>
+<para>Additional context. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="145" column="14" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_debate_initialization_1ab8677cf5600f8bf16866a619f4b1c08c" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::plugins::ethics::DebateInitialization::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::plugins::ethics::DebateInitialization::created_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="146" column="43" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1ethics_1_1_debate_initialization_1a08ef82be91ae53ed7188d98c97cf9ce3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::ethics::DebateInitialization::DebateInitialization</definition>
+        <argsstring>()</argsstring>
+        <name>DebateInitialization</name>
+        <qualifiedname>themis::plugins::ethics::DebateInitialization::DebateInitialization</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="148" column="5" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="148" bodyend="150"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ethics_ai/ethics_ai_types.h" line="140" column="1" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="140" bodyend="151"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_debate_initialization_1a4dbdcbbca694342bd1940b101bed159c" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DebateInitialization</scope><name>category</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_debate_initialization_1ac98c8239ba591be0248963ec647f3de9" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DebateInitialization</scope><name>context</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_debate_initialization_1ab8677cf5600f8bf16866a619f4b1c08c" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DebateInitialization</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_debate_initialization_1ad30b55179e6237013ccaeec355d39b1f" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DebateInitialization</scope><name>debate_id</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_debate_initialization_1a08ef82be91ae53ed7188d98c97cf9ce3" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DebateInitialization</scope><name>DebateInitialization</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_debate_initialization_1a04a304ca783a3c32e88f4ab5f3270062" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DebateInitialization</scope><name>dilemma_description</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_debate_initialization_1adf0dc6107eea8fd439941331aa8a0959" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DebateInitialization</scope><name>philosophy_schools</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

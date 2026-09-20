@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_query_masking_policy_test" kind="class" language="C++" prot="public">
+    <compoundname>QueryMaskingPolicyTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_query_masking_policy_test_1a2f54249d2eab6ed9b12bf729a9c68868" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; QueryMaskingPolicy &gt;</type>
+        <definition>std::shared_ptr&lt;QueryMaskingPolicy&gt; QueryMaskingPolicyTest::policy_</definition>
+        <argsstring></argsstring>
+        <name>policy_</name>
+        <qualifiedname>QueryMaskingPolicyTest::policy_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_masking_policy.cpp" line="22" column="21" bodyfile="tests/query/test_query_masking_policy.cpp" bodystart="22" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_query_masking_policy_test_1ad6df4aa1837d23ebc15ae718277251cb" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void QueryMaskingPolicyTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>QueryMaskingPolicyTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_masking_policy.cpp" line="18" column="10" bodyfile="tests/query/test_query_masking_policy.cpp" bodystart="18" bodyend="20"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>QueryMaskingPolicyTest</label>
+        <link refid="class_query_masking_policy_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>QueryMaskingPolicyTest</label>
+        <link refid="class_query_masking_policy_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/query/test_query_masking_policy.cpp" line="16" column="1" bodyfile="tests/query/test_query_masking_policy.cpp" bodystart="16" bodyend="23"/>
+    <listofallmembers>
+      <member refid="class_query_masking_policy_test_1a2f54249d2eab6ed9b12bf729a9c68868" prot="protected" virt="non-virtual"><scope>QueryMaskingPolicyTest</scope><name>policy_</name></member>
+      <member refid="class_query_masking_policy_test_1ad6df4aa1837d23ebc15ae718277251cb" prot="protected" virt="non-virtual"><scope>QueryMaskingPolicyTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

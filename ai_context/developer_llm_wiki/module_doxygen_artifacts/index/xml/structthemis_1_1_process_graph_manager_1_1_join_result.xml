@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_process_graph_manager_1_1_join_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ProcessGraphManager::JoinResult</compoundname>
+    <includes refid="process__graph_8h" local="no">process_graph.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_process_graph_manager_1_1_join_result_1af6bec4e8471a5345891fe33b8b39dc34" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_process_token" kindref="compound">ProcessToken</ref></type>
+        <definition>ProcessToken themis::ProcessGraphManager::JoinResult::token</definition>
+        <argsstring></argsstring>
+        <name>token</name>
+        <qualifiedname>themis::ProcessGraphManager::JoinResult::token</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="739" column="22" bodyfile="include/index/process_graph.h" bodystart="739" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_graph_manager_1_1_join_result_1accee406e1ddfac79131152392ed0572a" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::ProcessGraphManager::JoinResult::joined_data</definition>
+        <argsstring></argsstring>
+        <name>joined_data</name>
+        <qualifiedname>themis::ProcessGraphManager::JoinResult::joined_data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="740" column="24" bodyfile="include/index/process_graph.h" bodystart="740" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Join process data with external entity collection. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Example: Get tasks with customer details joined from customers collection </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::ProcessGraphManager::JoinResult</label>
+        <link refid="structthemis_1_1_process_graph_manager_1_1_join_result"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>token</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::ProcessToken</label>
+        <link refid="structthemis_1_1_process_token"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/index/process_graph.h" line="738" column="5" bodyfile="include/index/process_graph.h" bodystart="738" bodyend="741"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_process_graph_manager_1_1_join_result_1accee406e1ddfac79131152392ed0572a" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager::JoinResult</scope><name>joined_data</name></member>
+      <member refid="structthemis_1_1_process_graph_manager_1_1_join_result_1af6bec4e8471a5345891fe33b8b39dc34" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager::JoinResult</scope><name>token</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

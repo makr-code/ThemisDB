@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_cf895c1ed808af158264b2f3d8d7f8f0" kind="dir">
+    <compoundname>src/gpu</compoundname>
+    <innerfile refid="admin__api_8cpp">admin_api.cpp</innerfile>
+    <innerfile refid="alerts_8cpp">alerts.cpp</innerfile>
+    <innerfile refid="audit__log_8cpp">audit_log.cpp</innerfile>
+    <innerfile refid="cluster__coordinator_8cpp">cluster_coordinator.cpp</innerfile>
+    <innerfile refid="cluster__topology_8cpp">cluster_topology.cpp</innerfile>
+    <innerfile refid="config_8cpp">config.cpp</innerfile>
+    <innerfile refid="cuda__operations_8cpp">cuda_operations.cpp</innerfile>
+    <innerfile refid="cuda__operations__stub_8cpp">cuda_operations_stub.cpp</innerfile>
+    <innerfile refid="device__discovery_8cpp">device_discovery.cpp</innerfile>
+    <innerfile refid="feature__flags_8cpp">feature_flags.cpp</innerfile>
+    <innerfile refid="gpu__backend__dispatch__diagnostics_8cpp">gpu_backend_dispatch_diagnostics.cpp</innerfile>
+    <innerfile refid="gpu__batch__a9__hardening_8cpp">gpu_batch_a9_hardening.cpp</innerfile>
+    <innerfile refid="gpu__cuda__error__hardening_8cpp">gpu_cuda_error_hardening.cpp</innerfile>
+    <innerfile refid="gpu__error_8cpp">gpu_error.cpp</innerfile>
+    <innerfile refid="gpu__kernel__manager_8cpp">gpu_kernel_manager.cpp</innerfile>
+    <innerfile refid="gpu__memory__allocator_8cpp">gpu_memory_allocator.cpp</innerfile>
+    <innerfile refid="gpu__memory__manager__edition_8cpp">gpu_memory_manager_edition.cpp</innerfile>
+    <innerfile refid="gpu__memory__pool__safety_8cpp">gpu_memory_pool_safety.cpp</innerfile>
+    <innerfile refid="gpu__module_8cpp">gpu_module.cpp</innerfile>
+    <innerfile refid="gpu__resource__handles_8cpp">gpu_resource_handles.cpp</innerfile>
+    <innerfile refid="gpu__safe__operations_8cpp">gpu_safe_operations.cpp</innerfile>
+    <innerfile refid="gpu__safe__raii_8cpp">gpu_safe_raii.cpp</innerfile>
+    <innerfile refid="graph__cache_8cpp">graph_cache.cpp</innerfile>
+    <innerfile refid="kernel__timeout__enforcer_8cpp">kernel_timeout_enforcer.cpp</innerfile>
+    <innerfile refid="kernel__validator_8cpp">kernel_validator.cpp</innerfile>
+    <innerfile refid="launcher_8cpp">launcher.cpp</innerfile>
+    <innerfile refid="load__balancer_8cpp">load_balancer.cpp</innerfile>
+    <innerfile refid="memory__pool_8cpp">memory_pool.cpp</innerfile>
+    <innerfile refid="metrics_8cpp">metrics.cpp</innerfile>
+    <innerfile refid="mig__manager_8cpp">mig_manager.cpp</innerfile>
+    <innerfile refid="p2p__transfer_8cpp">p2p_transfer.cpp</innerfile>
+    <innerfile refid="policy_8cpp">policy.cpp</innerfile>
+    <innerfile refid="profiler_8cpp">profiler.cpp</innerfile>
+    <innerfile refid="query__accelerator_8cpp">query_accelerator.cpp</innerfile>
+    <innerfile refid="rocm__backend_8cpp">rocm_backend.cpp</innerfile>
+    <innerfile refid="safe__fail_8cpp">safe_fail.cpp</innerfile>
+    <innerfile refid="stream__manager_8cpp">stream_manager.cpp</innerfile>
+    <innerfile refid="tensor__buffer_8cpp">tensor_buffer.cpp</innerfile>
+    <innerfile refid="time__slice__scheduler_8cpp">time_slice_scheduler.cpp</innerfile>
+    <innerfile refid="training__loop_8cpp">training_loop.cpp</innerfile>
+    <innerfile refid="unified__memory_8cpp">unified_memory.cpp</innerfile>
+    <innerfile refid="unified__memory__coordinator_8cpp">unified_memory_coordinator.cpp</innerfile>
+    <innerfile refid="vulkan__backend_8cpp">vulkan_backend.cpp</innerfile>
+    <innerfile refid="wasm__kernel__sandbox_8cpp">wasm_kernel_sandbox.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/gpu/"/>
+  </compounddef>
+</doxygen>

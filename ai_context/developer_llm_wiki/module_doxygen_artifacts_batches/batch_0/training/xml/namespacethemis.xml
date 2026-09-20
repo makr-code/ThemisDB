@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis" kind="namespace" language="C++">
+    <compoundname>themis</compoundname>
+    <innerclass refid="structthemis_1_1_data_sample" prot="public">themis::DataSample</innerclass>
+    <innerclass refid="classthemis_1_1_data_selection_pipeline" prot="public">themis::DataSelectionPipeline</innerclass>
+    <innerclass refid="structthemis_1_1_lo_r_a_data_selection_config" prot="public">themis::LoRADataSelectionConfig</innerclass>
+    <innerclass refid="structthemis_1_1_pipeline_config" prot="public">themis::PipelineConfig</innerclass>
+    <innernamespace refid="namespacethemis_1_1analytics">themis::analytics</innernamespace>
+    <innernamespace refid="namespacethemis_1_1query">themis::query</innernamespace>
+    <innernamespace refid="namespacethemis_1_1training">themis::training</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/training/adalora_tt_bridge.h" line="22" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,885 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_query_api_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::QueryApiHandler</compoundname>
+    <includes refid="query__api__handler_8h" local="no">query_api_handler.h</includes>
+    <innerclass refid="structthemis_1_1server_1_1_query_api_handler_1_1_auth_context" prot="private">themis::server::QueryApiHandler::AuthContext</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_query_api_handler_1ad4814ffd3a2337651d13f7a0f0ba456e" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; themis::server::QueryApiHandler::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>themis::server::QueryApiHandler::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/query_api_handler.h" line="114" column="21" bodyfile="include/server/query_api_handler.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_query_api_handler_1ac74dfb54c2d05037858d12875a4b1308" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; SecondaryIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;SecondaryIndexManager&gt; themis::server::QueryApiHandler::secondary_index_</definition>
+        <argsstring></argsstring>
+        <name>secondary_index_</name>
+        <qualifiedname>themis::server::QueryApiHandler::secondary_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/query_api_handler.h" line="115" column="21" bodyfile="include/server/query_api_handler.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_query_api_handler_1a4a74e79511945cfec19a62e19cba32e6" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; GraphIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;GraphIndexManager&gt; themis::server::QueryApiHandler::graph_index_</definition>
+        <argsstring></argsstring>
+        <name>graph_index_</name>
+        <qualifiedname>themis::server::QueryApiHandler::graph_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/query_api_handler.h" line="116" column="21" bodyfile="include/server/query_api_handler.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_query_api_handler_1aa9299e6f1a9116b4c0e7eb0945806543" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; FieldEncryption &gt;</type>
+        <definition>std::shared_ptr&lt;FieldEncryption&gt; themis::server::QueryApiHandler::field_encryption_</definition>
+        <argsstring></argsstring>
+        <name>field_encryption_</name>
+        <qualifiedname>themis::server::QueryApiHandler::field_encryption_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/query_api_handler.h" line="117" column="21" bodyfile="include/server/query_api_handler.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_query_api_handler_1af3ca024894c425870d8beb6e5344cbf4" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; KeyProvider &gt;</type>
+        <definition>std::shared_ptr&lt;KeyProvider&gt; themis::server::QueryApiHandler::key_provider_</definition>
+        <argsstring></argsstring>
+        <name>key_provider_</name>
+        <qualifiedname>themis::server::QueryApiHandler::key_provider_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/query_api_handler.h" line="118" column="21" bodyfile="include/server/query_api_handler.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_query_api_handler_1a45f398c5d7d860f4a8240ae651304d7b" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; SemanticCache &gt;</type>
+        <definition>std::shared_ptr&lt;SemanticCache&gt; themis::server::QueryApiHandler::semantic_cache_</definition>
+        <argsstring></argsstring>
+        <name>semantic_cache_</name>
+        <qualifiedname>themis::server::QueryApiHandler::semantic_cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/query_api_handler.h" line="119" column="21" bodyfile="include/server/query_api_handler.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_query_api_handler_1a09ad432e581c586c98ec92863ac82519" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; LLMInteractionStore &gt;</type>
+        <definition>std::shared_ptr&lt;LLMInteractionStore&gt; themis::server::QueryApiHandler::llm_store_</definition>
+        <argsstring></argsstring>
+        <name>llm_store_</name>
+        <qualifiedname>themis::server::QueryApiHandler::llm_store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/query_api_handler.h" line="120" column="21" bodyfile="include/server/query_api_handler.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_query_api_handler_1aef462ef2d5b29256405788f55b751cf7" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::prompt_engineering::PromptManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::prompt_engineering::PromptManager&gt; themis::server::QueryApiHandler::prompt_manager_</definition>
+        <argsstring></argsstring>
+        <name>prompt_manager_</name>
+        <qualifiedname>themis::server::QueryApiHandler::prompt_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/query_api_handler.h" line="121" column="21" bodyfile="include/server/query_api_handler.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_query_api_handler_1a3e721faf3b4582e94f478eb5fbc816c4" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt;<ref refid="classthemis_1_1_auth_middleware" kindref="compound">::themis::AuthMiddleware</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;::themis::AuthMiddleware&gt; themis::server::QueryApiHandler::auth_</definition>
+        <argsstring></argsstring>
+        <name>auth_</name>
+        <qualifiedname>themis::server::QueryApiHandler::auth_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/query_api_handler.h" line="122" column="21" bodyfile="include/server/query_api_handler.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_query_api_handler_1ad1a371e48b64f26d4d8d2cea59581923" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::QueryApiHandler::feature_llm_query_enhancement_</definition>
+        <argsstring></argsstring>
+        <name>feature_llm_query_enhancement_</name>
+        <qualifiedname>themis::server::QueryApiHandler::feature_llm_query_enhancement_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/query_api_handler.h" line="123" column="10" bodyfile="include/server/query_api_handler.h" bodystart="123" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_query_api_handler_1aa82d9357fcbe4c0ff72f14be9ce51e09" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::QueryApiHandler::feature_llm_store_</definition>
+        <argsstring></argsstring>
+        <name>feature_llm_store_</name>
+        <qualifiedname>themis::server::QueryApiHandler::feature_llm_store_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/query_api_handler.h" line="124" column="10" bodyfile="include/server/query_api_handler.h" bodystart="124" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_query_api_handler_1a727374d4825a1251dbef37464b538c96" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; metadata::IndexRecommender * &gt;</type>
+        <definition>std::atomic&lt;metadata::IndexRecommender*&gt; themis::server::QueryApiHandler::index_recommender_</definition>
+        <argsstring></argsstring>
+        <name>index_recommender_</name>
+        <qualifiedname>themis::server::QueryApiHandler::index_recommender_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+<para>Optional; non-owning. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/query_api_handler.h" line="125" column="17" bodyfile="include/server/query_api_handler.h" bodystart="125" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_query_api_handler_1a033952e3c90856d5180f08b5d181c70c" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; StatisticsCollector * &gt;</type>
+        <definition>std::atomic&lt;StatisticsCollector*&gt; themis::server::QueryApiHandler::stats_collector_</definition>
+        <argsstring></argsstring>
+        <name>stats_collector_</name>
+        <qualifiedname>themis::server::QueryApiHandler::stats_collector_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+<para>Optional; non-owning. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/query_api_handler.h" line="126" column="17" bodyfile="include/server/query_api_handler.h" bodystart="126" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_query_api_handler_1a34f8cccf3bad3fb069b72c995cc78bd4" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; security::QueryMaskingPolicy &gt;</type>
+        <definition>std::shared_ptr&lt;security::QueryMaskingPolicy&gt; themis::server::QueryApiHandler::masking_policy_</definition>
+        <argsstring></argsstring>
+        <name>masking_policy_</name>
+        <qualifiedname>themis::server::QueryApiHandler::masking_policy_</qualifiedname>
+        <briefdescription>
+<para>Optional PII masking. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/query_api_handler.h" line="127" column="21" bodyfile="include/server/query_api_handler.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_query_api_handler_1acd8c7e318651f94a7ad213f3a27ed095" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::QueryApiHandler::QueryApiHandler</definition>
+        <argsstring>(std::shared_ptr&lt; RocksDBWrapper &gt; storage, std::shared_ptr&lt; SecondaryIndexManager &gt; secondary_index, std::shared_ptr&lt; GraphIndexManager &gt; graph_index, std::shared_ptr&lt; FieldEncryption &gt; field_encryption, std::shared_ptr&lt; KeyProvider &gt; key_provider, std::shared_ptr&lt; SemanticCache &gt; semantic_cache, std::shared_ptr&lt; LLMInteractionStore &gt; llm_store, std::shared_ptr&lt; themis::prompt_engineering::PromptManager &gt; prompt_manager, std::shared_ptr&lt;::themis::AuthMiddleware &gt; auth, bool feature_llm_query_enhancement, bool feature_llm_store)</argsstring>
+        <name>QueryApiHandler</name>
+        <qualifiedname>themis::server::QueryApiHandler::QueryApiHandler</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+          <declname>storage</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; SecondaryIndexManager &gt;</type>
+          <declname>secondary_index</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; GraphIndexManager &gt;</type>
+          <declname>graph_index</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; FieldEncryption &gt;</type>
+          <declname>field_encryption</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; KeyProvider &gt;</type>
+          <declname>key_provider</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; SemanticCache &gt;</type>
+          <declname>semantic_cache</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; LLMInteractionStore &gt;</type>
+          <declname>llm_store</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; themis::prompt_engineering::PromptManager &gt;</type>
+          <declname>prompt_manager</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt;<ref refid="classthemis_1_1_auth_middleware" kindref="compound">::themis::AuthMiddleware</ref> &gt;</type>
+          <declname>auth</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>feature_llm_query_enhancement</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>feature_llm_store</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/query_api_handler.h" line="58" column="5" bodyfile="src/server/query_api_handler.cpp" bodystart="122" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_query_api_handler_1aec316f4be6e365e9334db0c81cdf68e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::QueryApiHandler::handleQuery</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleQuery</name>
+        <qualifiedname>themis::server::QueryApiHandler::handleQuery</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implementation extracted from http_server.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+cpp (lines 5950-6222) Calls: isEnabled(), std::string(), target(), find(), substr(), requireAccess(), Tracer::startSpan(), setStatus(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/query_api_handler.h" line="77" column="20" bodyfile="src/server/query_api_handler.cpp" bodystart="213" bodyend="722"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_query_api_handler_1a1592891dcf888ff86a5356968650108e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::QueryApiHandler::handleQueryAql</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleQueryAql</name>
+        <qualifiedname>themis::server::QueryApiHandler::handleQueryAql</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Query Aql. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implementation extracted from http_server.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+cpp (lines 6223-8688) Calls: Tracer::startSpan(), setStatus(), makeErrorResponse(), json::parse(), body(), contains(), setAttribute(), themis::utils::Cursor::normalizePageSize(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/query_api_handler.h" line="84" column="20" bodyfile="src/server/query_api_handler.cpp" bodystart="731" bodyend="3866"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_query_api_handler_1a2e90fa8f9525be3b0dfe5ffb56054540" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::QueryApiHandler::handleQueryEnhanced</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleQueryEnhanced</name>
+        <qualifiedname>themis::server::QueryApiHandler::handleQueryEnhanced</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Query Enhanced. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implementation extracted from http_server.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+cpp (lines 12042-12167) Calls: makeErrorResponse(), Tracer::startSpan(), setAttribute(), json::parse(), body(), contains(), dump(), prepare_payload(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/query_api_handler.h" line="91" column="20" bodyfile="src/server/query_api_handler.cpp" bodystart="3874" bodyend="4004"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_query_api_handler_1a21fae2c30a3cab69c17a26ecd05ee7ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::QueryApiHandler::handleQueryStreamSse</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleQueryStreamSse</name>
+        <qualifiedname>themis::server::QueryApiHandler::handleQueryStreamSse</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Query Stream Sse. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isEnabled(), std::string(), target(), find(), substr(), requireAccess(), Tracer::startSpan(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/query_api_handler.h" line="98" column="20" bodyfile="src/server/query_api_handler.cpp" bodystart="4099" bodyend="4298"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_query_api_handler_1adc6e8f5a80a1272451a4a9c9886804d6" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::QueryApiHandler::setStatisticsCollector</definition>
+        <argsstring>(StatisticsCollector *sc) noexcept</argsstring>
+        <name>setStatisticsCollector</name>
+        <qualifiedname>themis::server::QueryApiHandler::setStatisticsCollector</qualifiedname>
+        <param>
+          <type>StatisticsCollector *</type>
+          <declname>sc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/query_api_handler.h" line="100" column="10" bodyfile="include/server/query_api_handler.h" bodystart="100" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_query_api_handler_1adb47a67c100985e8ae7467b5180109f7" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::QueryApiHandler::setIndexRecommender</definition>
+        <argsstring>(metadata::IndexRecommender *rec) noexcept</argsstring>
+        <name>setIndexRecommender</name>
+        <qualifiedname>themis::server::QueryApiHandler::setIndexRecommender</qualifiedname>
+        <param>
+          <type>metadata::IndexRecommender *</type>
+          <declname>rec</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/query_api_handler.h" line="104" column="10" bodyfile="include/server/query_api_handler.h" bodystart="104" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_query_api_handler_1a7f0d56a9d61678333b30642d973f3aff" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::QueryApiHandler::setQueryMaskingPolicy</definition>
+        <argsstring>(std::shared_ptr&lt; security::QueryMaskingPolicy &gt; policy) noexcept</argsstring>
+        <name>setQueryMaskingPolicy</name>
+        <qualifiedname>themis::server::QueryApiHandler::setQueryMaskingPolicy</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; security::QueryMaskingPolicy &gt;</type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/query_api_handler.h" line="108" column="10" bodyfile="include/server/query_api_handler.h" bodystart="108" bodyend="111"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_query_api_handler_1aada4ae96ca6de3ef348c8098fb0e00a9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::QueryApiHandler::makeErrorResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;message, const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>makeErrorResponse</name>
+        <qualifiedname>themis::server::QueryApiHandler::makeErrorResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make Error <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: makeResponse(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/query_api_handler.h" line="137" column="20" bodyfile="src/server/query_api_handler.cpp" bodystart="158" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_query_api_handler_1afcd60658acbbefc5fd7a86939c632d67" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::QueryApiHandler::makeResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;body, const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>makeResponse</name>
+        <qualifiedname>themis::server::QueryApiHandler::makeResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: version(), set(), keep_alive(), body(), prepare_payload(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/query_api_handler.h" line="146" column="20" bodyfile="src/server/query_api_handler.cpp" bodystart="177" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_query_api_handler_1acf12ea6793bbd58cd84a8a228f6da96e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; http::response&lt; http::string_body &gt; &gt;</type>
+        <definition>std::optional&lt; http::response&lt; http::string_body &gt; &gt; themis::server::QueryApiHandler::requireAccess</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;permission, const std::string &amp;resource_type, const std::string &amp;resource_id)</argsstring>
+        <name>requireAccess</name>
+        <qualifiedname>themis::server::QueryApiHandler::requireAccess</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>permission</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resource_type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resource_id</declname>
+        </param>
+        <briefdescription>
+<para>Require Access. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">permission</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">resource_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">resource_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the resource. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isEnabled(), empty(), version(), set(), keep_alive(), body(), prepare_payload(), <ref refid="classthemis_1_1_auth_middleware_1afd9141c415789d07acb119a78724d28b" kindref="member">themis::AuthMiddleware::extractBearerToken()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/query_api_handler.h" line="158" column="19" bodyfile="src/server/query_api_handler.cpp" bodystart="4016" bodyend="4053"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_query_api_handler_1a946fdfc598a78ecb31aba06efed4ad8e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>AuthContext</type>
+        <definition>QueryApiHandler::AuthContext themis::server::QueryApiHandler::extractAuthContext</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>extractAuthContext</name>
+        <qualifiedname>themis::server::QueryApiHandler::extractAuthContext</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Extract Auth Context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isEnabled(), empty(), <ref refid="classthemis_1_1_auth_middleware_1afd9141c415789d07acb119a78724d28b" kindref="member">themis::AuthMiddleware::extractBearerToken()</ref>, std::string_view(), data(), size(), validateToken(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/query_api_handler.h" line="174" column="17" bodyfile="src/server/query_api_handler.cpp" bodystart="4061" bodyend="4091"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_query_api_handler_1a186988410b5166075701aeb328b2c419" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::QueryApiHandler::applyMasking</definition>
+        <argsstring>(const nlohmann::json &amp;entities, const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>applyMasking</name>
+        <qualifiedname>themis::server::QueryApiHandler::applyMasking</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>entities</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Apply Masking. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entities</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/query_api_handler.h" line="182" column="20" bodyfile="src/server/query_api_handler.cpp" bodystart="195" bodyend="205"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/query_api_handler.h" line="56" column="1" bodyfile="include/server/query_api_handler.h" bodystart="56" bodyend="185"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_query_api_handler_1a186988410b5166075701aeb328b2c419" prot="private" virt="non-virtual"><scope>themis::server::QueryApiHandler</scope><name>applyMasking</name></member>
+      <member refid="classthemis_1_1server_1_1_query_api_handler_1a3e721faf3b4582e94f478eb5fbc816c4" prot="private" virt="non-virtual"><scope>themis::server::QueryApiHandler</scope><name>auth_</name></member>
+      <member refid="classthemis_1_1server_1_1_query_api_handler_1a946fdfc598a78ecb31aba06efed4ad8e" prot="private" virt="non-virtual"><scope>themis::server::QueryApiHandler</scope><name>extractAuthContext</name></member>
+      <member refid="classthemis_1_1server_1_1_query_api_handler_1ad1a371e48b64f26d4d8d2cea59581923" prot="private" virt="non-virtual"><scope>themis::server::QueryApiHandler</scope><name>feature_llm_query_enhancement_</name></member>
+      <member refid="classthemis_1_1server_1_1_query_api_handler_1aa82d9357fcbe4c0ff72f14be9ce51e09" prot="private" virt="non-virtual"><scope>themis::server::QueryApiHandler</scope><name>feature_llm_store_</name></member>
+      <member refid="classthemis_1_1server_1_1_query_api_handler_1aa9299e6f1a9116b4c0e7eb0945806543" prot="private" virt="non-virtual"><scope>themis::server::QueryApiHandler</scope><name>field_encryption_</name></member>
+      <member refid="classthemis_1_1server_1_1_query_api_handler_1a4a74e79511945cfec19a62e19cba32e6" prot="private" virt="non-virtual"><scope>themis::server::QueryApiHandler</scope><name>graph_index_</name></member>
+      <member refid="classthemis_1_1server_1_1_query_api_handler_1aec316f4be6e365e9334db0c81cdf68e8" prot="public" virt="non-virtual"><scope>themis::server::QueryApiHandler</scope><name>handleQuery</name></member>
+      <member refid="classthemis_1_1server_1_1_query_api_handler_1a1592891dcf888ff86a5356968650108e" prot="public" virt="non-virtual"><scope>themis::server::QueryApiHandler</scope><name>handleQueryAql</name></member>
+      <member refid="classthemis_1_1server_1_1_query_api_handler_1a2e90fa8f9525be3b0dfe5ffb56054540" prot="public" virt="non-virtual"><scope>themis::server::QueryApiHandler</scope><name>handleQueryEnhanced</name></member>
+      <member refid="classthemis_1_1server_1_1_query_api_handler_1a21fae2c30a3cab69c17a26ecd05ee7ab" prot="public" virt="non-virtual"><scope>themis::server::QueryApiHandler</scope><name>handleQueryStreamSse</name></member>
+      <member refid="classthemis_1_1server_1_1_query_api_handler_1a727374d4825a1251dbef37464b538c96" prot="private" virt="non-virtual"><scope>themis::server::QueryApiHandler</scope><name>index_recommender_</name></member>
+      <member refid="classthemis_1_1server_1_1_query_api_handler_1af3ca024894c425870d8beb6e5344cbf4" prot="private" virt="non-virtual"><scope>themis::server::QueryApiHandler</scope><name>key_provider_</name></member>
+      <member refid="classthemis_1_1server_1_1_query_api_handler_1a09ad432e581c586c98ec92863ac82519" prot="private" virt="non-virtual"><scope>themis::server::QueryApiHandler</scope><name>llm_store_</name></member>
+      <member refid="classthemis_1_1server_1_1_query_api_handler_1aada4ae96ca6de3ef348c8098fb0e00a9" prot="private" virt="non-virtual"><scope>themis::server::QueryApiHandler</scope><name>makeErrorResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_query_api_handler_1afcd60658acbbefc5fd7a86939c632d67" prot="private" virt="non-virtual"><scope>themis::server::QueryApiHandler</scope><name>makeResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_query_api_handler_1a34f8cccf3bad3fb069b72c995cc78bd4" prot="private" virt="non-virtual"><scope>themis::server::QueryApiHandler</scope><name>masking_policy_</name></member>
+      <member refid="classthemis_1_1server_1_1_query_api_handler_1aef462ef2d5b29256405788f55b751cf7" prot="private" virt="non-virtual"><scope>themis::server::QueryApiHandler</scope><name>prompt_manager_</name></member>
+      <member refid="classthemis_1_1server_1_1_query_api_handler_1acd8c7e318651f94a7ad213f3a27ed095" prot="public" virt="non-virtual"><scope>themis::server::QueryApiHandler</scope><name>QueryApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_query_api_handler_1acf12ea6793bbd58cd84a8a228f6da96e" prot="private" virt="non-virtual"><scope>themis::server::QueryApiHandler</scope><name>requireAccess</name></member>
+      <member refid="classthemis_1_1server_1_1_query_api_handler_1ac74dfb54c2d05037858d12875a4b1308" prot="private" virt="non-virtual"><scope>themis::server::QueryApiHandler</scope><name>secondary_index_</name></member>
+      <member refid="classthemis_1_1server_1_1_query_api_handler_1a45f398c5d7d860f4a8240ae651304d7b" prot="private" virt="non-virtual"><scope>themis::server::QueryApiHandler</scope><name>semantic_cache_</name></member>
+      <member refid="classthemis_1_1server_1_1_query_api_handler_1adb47a67c100985e8ae7467b5180109f7" prot="public" virt="non-virtual"><scope>themis::server::QueryApiHandler</scope><name>setIndexRecommender</name></member>
+      <member refid="classthemis_1_1server_1_1_query_api_handler_1a7f0d56a9d61678333b30642d973f3aff" prot="public" virt="non-virtual"><scope>themis::server::QueryApiHandler</scope><name>setQueryMaskingPolicy</name></member>
+      <member refid="classthemis_1_1server_1_1_query_api_handler_1adc6e8f5a80a1272451a4a9c9886804d6" prot="public" virt="non-virtual"><scope>themis::server::QueryApiHandler</scope><name>setStatisticsCollector</name></member>
+      <member refid="classthemis_1_1server_1_1_query_api_handler_1a033952e3c90856d5180f08b5d181c70c" prot="private" virt="non-virtual"><scope>themis::server::QueryApiHandler</scope><name>stats_collector_</name></member>
+      <member refid="classthemis_1_1server_1_1_query_api_handler_1ad4814ffd3a2337651d13f7a0f0ba456e" prot="private" virt="non-virtual"><scope>themis::server::QueryApiHandler</scope><name>storage_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

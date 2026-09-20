@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1functions_1_1crs_1_1_ellipsoid" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::functions::crs::Ellipsoid</compoundname>
+    <includes refid="crs__functions_8h" local="no">crs_functions.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1crs_1_1_ellipsoid_1a5cf0e6db6c594c7394a1757e010361f2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::functions::crs::Ellipsoid::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::query::functions::crs::Ellipsoid::name</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/crs_functions.h" line="34" column="17" bodyfile="include/query/functions/crs_functions.h" bodystart="34" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1crs_1_1_ellipsoid_1a6b0ee604279a361b2153dc7f69d718d8" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::functions::crs::Ellipsoid::a</definition>
+        <argsstring></argsstring>
+        <name>a</name>
+        <qualifiedname>themis::query::functions::crs::Ellipsoid::a</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/crs_functions.h" line="35" column="12" bodyfile="include/query/functions/crs_functions.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1crs_1_1_ellipsoid_1a133bf480728862ace56c678dca3ee92a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::functions::crs::Ellipsoid::b</definition>
+        <argsstring></argsstring>
+        <name>b</name>
+        <qualifiedname>themis::query::functions::crs::Ellipsoid::b</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/crs_functions.h" line="36" column="12" bodyfile="include/query/functions/crs_functions.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1crs_1_1_ellipsoid_1a277675bfc98326488741c1d39790ddd1" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::functions::crs::Ellipsoid::f</definition>
+        <argsstring></argsstring>
+        <name>f</name>
+        <qualifiedname>themis::query::functions::crs::Ellipsoid::f</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/crs_functions.h" line="37" column="12" bodyfile="include/query/functions/crs_functions.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1crs_1_1_ellipsoid_1ad0a57d2f3a47e7776448e5af5b4daec1" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::functions::crs::Ellipsoid::e2</definition>
+        <argsstring></argsstring>
+        <name>e2</name>
+        <qualifiedname>themis::query::functions::crs::Ellipsoid::e2</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/crs_functions.h" line="38" column="12" bodyfile="include/query/functions/crs_functions.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1crs_1_1_ellipsoid_1ab3f7c446d719c0699a0cfb67bdb16379" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::functions::crs::Ellipsoid::ep2</definition>
+        <argsstring></argsstring>
+        <name>ep2</name>
+        <qualifiedname>themis::query::functions::crs::Ellipsoid::ep2</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/crs_functions.h" line="39" column="12" bodyfile="include/query/functions/crs_functions.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1functions_1_1crs_1_1_ellipsoid_1a701bf16c39894d23e15bcffb3fa0b371" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::functions::crs::Ellipsoid::Ellipsoid</definition>
+        <argsstring>(const char *n, double semi_major, double inv_flattening)</argsstring>
+        <name>Ellipsoid</name>
+        <qualifiedname>themis::query::functions::crs::Ellipsoid::Ellipsoid</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>semi_major</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>inv_flattening</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/crs_functions.h" line="41" column="5" bodyfile="include/query/functions/crs_functions.h" bodystart="41" bodyend="48"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/functions/crs_functions.h" line="33" column="1" bodyfile="include/query/functions/crs_functions.h" bodystart="33" bodyend="49"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1functions_1_1crs_1_1_ellipsoid_1a6b0ee604279a361b2153dc7f69d718d8" prot="public" virt="non-virtual"><scope>themis::query::functions::crs::Ellipsoid</scope><name>a</name></member>
+      <member refid="structthemis_1_1query_1_1functions_1_1crs_1_1_ellipsoid_1a133bf480728862ace56c678dca3ee92a" prot="public" virt="non-virtual"><scope>themis::query::functions::crs::Ellipsoid</scope><name>b</name></member>
+      <member refid="structthemis_1_1query_1_1functions_1_1crs_1_1_ellipsoid_1ad0a57d2f3a47e7776448e5af5b4daec1" prot="public" virt="non-virtual"><scope>themis::query::functions::crs::Ellipsoid</scope><name>e2</name></member>
+      <member refid="structthemis_1_1query_1_1functions_1_1crs_1_1_ellipsoid_1a701bf16c39894d23e15bcffb3fa0b371" prot="public" virt="non-virtual"><scope>themis::query::functions::crs::Ellipsoid</scope><name>Ellipsoid</name></member>
+      <member refid="structthemis_1_1query_1_1functions_1_1crs_1_1_ellipsoid_1ab3f7c446d719c0699a0cfb67bdb16379" prot="public" virt="non-virtual"><scope>themis::query::functions::crs::Ellipsoid</scope><name>ep2</name></member>
+      <member refid="structthemis_1_1query_1_1functions_1_1crs_1_1_ellipsoid_1a277675bfc98326488741c1d39790ddd1" prot="public" virt="non-virtual"><scope>themis::query::functions::crs::Ellipsoid</scope><name>f</name></member>
+      <member refid="structthemis_1_1query_1_1functions_1_1crs_1_1_ellipsoid_1a5cf0e6db6c594c7394a1757e010361f2" prot="public" virt="non-virtual"><scope>themis::query::functions::crs::Ellipsoid</scope><name>name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

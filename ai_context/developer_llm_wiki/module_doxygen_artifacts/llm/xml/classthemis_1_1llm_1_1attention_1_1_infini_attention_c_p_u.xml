@@ -1,0 +1,1237 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::attention::InfiniAttentionCPU</compoundname>
+    <includes refid="infini__attention__cpu_8h" local="no">infini_attention_cpu.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1_1_config" prot="public">themis::llm::attention::InfiniAttentionCPU::Config</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1_1_mem_stats" prot="public">themis::llm::attention::InfiniAttentionCPU::MemStats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1afe22a1e55849fb93228735f62d6eedbf" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::llm::attention::InfiniAttentionCPU::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCPU::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/infini_attention_cpu.h" line="100" column="12" bodyfile="include/llm/infini_attention_cpu.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1aa9e6ae243f94b174c390a96c5a5ad851" prot="private" static="no" mutable="no">
+        <type><ref refid="class_eigen_1_1_matrix_xf" kindref="compound">Eigen::MatrixXf</ref></type>
+        <definition>Eigen::MatrixXf themis::llm::attention::InfiniAttentionCPU::memory_matrix_</definition>
+        <argsstring></argsstring>
+        <name>memory_matrix_</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCPU::memory_matrix_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/infini_attention_cpu.h" line="102" column="21" bodyfile="include/llm/infini_attention_cpu.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1a8590dc46a7f339d3541cb4c6ef240232" prot="private" static="no" mutable="no">
+        <type><ref refid="class_eigen_1_1_matrix_xd" kindref="compound">Eigen::MatrixXd</ref></type>
+        <definition>Eigen::MatrixXd themis::llm::attention::InfiniAttentionCPU::memory_matrix_fp64_</definition>
+        <argsstring></argsstring>
+        <name>memory_matrix_fp64_</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCPU::memory_matrix_fp64_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/infini_attention_cpu.h" line="103" column="21" bodyfile="include/llm/infini_attention_cpu.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1a9e003a61fa3a6be2b93839547ebb5274" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::llm::attention::InfiniAttentionCPU::norm_vector_</definition>
+        <argsstring></argsstring>
+        <name>norm_vector_</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCPU::norm_vector_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/infini_attention_cpu.h" line="105" column="17" bodyfile="include/llm/infini_attention_cpu.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1a7f79a2ce5f383117913c17398b91fe92" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themis::llm::attention::InfiniAttentionCPU::norm_vector_fp64_</definition>
+        <argsstring></argsstring>
+        <name>norm_vector_fp64_</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCPU::norm_vector_fp64_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/infini_attention_cpu.h" line="106" column="17" bodyfile="include/llm/infini_attention_cpu.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1a2ae8010a23debfb566596b62ab9d4cc3" prot="private" static="no" mutable="no">
+        <type><ref refid="class_eigen_1_1_matrix_xf" kindref="compound">Eigen::MatrixXf</ref></type>
+        <definition>Eigen::MatrixXf themis::llm::attention::InfiniAttentionCPU::temp_kv_product_</definition>
+        <argsstring></argsstring>
+        <name>temp_kv_product_</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCPU::temp_kv_product_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/infini_attention_cpu.h" line="108" column="21" bodyfile="include/llm/infini_attention_cpu.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1a327e0fb5c495339413049ee84a6809f3" prot="private" static="no" mutable="no">
+        <type><ref refid="class_eigen_1_1_matrix_xd" kindref="compound">Eigen::MatrixXd</ref></type>
+        <definition>Eigen::MatrixXd themis::llm::attention::InfiniAttentionCPU::temp_kv_product_fp64_</definition>
+        <argsstring></argsstring>
+        <name>temp_kv_product_fp64_</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCPU::temp_kv_product_fp64_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/infini_attention_cpu.h" line="109" column="21" bodyfile="include/llm/infini_attention_cpu.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1ab2345a6a35b3214295af9887b1f29e70" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::attention::InfiniAttentionCPU::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCPU::initialized_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/infini_attention_cpu.h" line="111" column="10" bodyfile="include/llm/infini_attention_cpu.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1a5146b4511d4579c2674b9c8fc952082e" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_config" kindref="compound">InfiniAttentionConfig</ref></type>
+        <definition>InfiniAttentionConfig themis::llm::attention::InfiniAttentionCPU::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCPU::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/attention/cuda/infini_attention_cpu.cpp" line="87" column="27" bodyfile="src/llm/attention/cuda/infini_attention_cpu.cpp" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1a012a7790115fba97762ea8abea3fd276" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::llm::attention::InfiniAttentionCPU::memory_</definition>
+        <argsstring></argsstring>
+        <name>memory_</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCPU::memory_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/attention/cuda/infini_attention_cpu.cpp" line="88" column="17" bodyfile="src/llm/attention/cuda/infini_attention_cpu.cpp" bodystart="88" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1addb7fd991c783dc509326bd21b3defe4" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::attention::InfiniAttentionCPU::InfiniAttentionCPU</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>InfiniAttentionCPU</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCPU::InfiniAttentionCPU</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+          <defname>cfg</defname>
+        </param>
+        <briefdescription>
+<para>Infini Attention CPU. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/infini_attention_cpu.h" line="38" column="14" bodyfile="include/llm/infini_attention_cpu.h" bodystart="165" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1a4c16fb2ccf1847fd44878bbdffbe6450" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::attention::InfiniAttentionCPU::~InfiniAttentionCPU</definition>
+        <argsstring>()=default</argsstring>
+        <name>~InfiniAttentionCPU</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCPU::~InfiniAttentionCPU</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/infini_attention_cpu.h" line="39" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1ad11c9cb413bcedd5e4c901a694d01600" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::attention::InfiniAttentionCPU::initialize</definition>
+        <argsstring>()</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCPU::initialize</qualifiedname>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements initialize without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/infini_attention_cpu.h" line="45" column="10" bodyfile="include/llm/infini_attention_cpu.h" bodystart="178" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1a8d68c5148f708abf7c1acd0f5bf6bb45" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::attention::InfiniAttentionCPU::forward</definition>
+        <argsstring>(const Eigen::MatrixXf &amp;Q, const Eigen::MatrixXf &amp;K, const Eigen::MatrixXf &amp;V, Eigen::MatrixXf &amp;output)</argsstring>
+        <name>forward</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCPU::forward</qualifiedname>
+        <param>
+          <type>const <ref refid="class_eigen_1_1_matrix_xf" kindref="compound">Eigen::MatrixXf</ref> &amp;</type>
+          <declname>Q</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_eigen_1_1_matrix_xf" kindref="compound">Eigen::MatrixXf</ref> &amp;</type>
+          <declname>K</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_eigen_1_1_matrix_xf" kindref="compound">Eigen::MatrixXf</ref> &amp;</type>
+          <declname>V</declname>
+        </param>
+        <param>
+          <type><ref refid="class_eigen_1_1_matrix_xf" kindref="compound">Eigen::MatrixXf</ref> &amp;</type>
+          <declname>output</declname>
+        </param>
+        <briefdescription>
+<para>Forward. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">Q</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">Q</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::min(), rows(), cols(), output(), Q(), V(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/infini_attention_cpu.h" line="55" column="10" bodyfile="include/llm/infini_attention_cpu.h" bodystart="192" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1aa4603738bff509d6a137f9dadb13ee70" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::attention::InfiniAttentionCPU::forward64</definition>
+        <argsstring>(const Eigen::MatrixXd &amp;Q, const Eigen::MatrixXd &amp;K, const Eigen::MatrixXd &amp;V, Eigen::MatrixXd &amp;output)</argsstring>
+        <name>forward64</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCPU::forward64</qualifiedname>
+        <param>
+          <type>const <ref refid="class_eigen_1_1_matrix_xd" kindref="compound">Eigen::MatrixXd</ref> &amp;</type>
+          <declname>Q</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_eigen_1_1_matrix_xd" kindref="compound">Eigen::MatrixXd</ref> &amp;</type>
+          <declname>K</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_eigen_1_1_matrix_xd" kindref="compound">Eigen::MatrixXd</ref> &amp;</type>
+          <declname>V</declname>
+        </param>
+        <param>
+          <type><ref refid="class_eigen_1_1_matrix_xd" kindref="compound">Eigen::MatrixXd</ref> &amp;</type>
+          <declname>output</declname>
+        </param>
+        <briefdescription>
+<para>Forward64. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">Q</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">Q</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::min(), rows(), cols(), output(), Q(), V(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/infini_attention_cpu.h" line="66" column="10" bodyfile="include/llm/infini_attention_cpu.h" bodystart="215" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1a72af69f42504e0e74026ead6a1156573" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::llm::attention::InfiniAttentionCPU::getMemorySnapshot</definition>
+        <argsstring>() const</argsstring>
+        <name>getMemorySnapshot</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCPU::getMemorySnapshot</qualifiedname>
+        <briefdescription>
+<para>Get Memory Snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/infini_attention_cpu.h" line="73" column="17" bodyfile="include/llm/infini_attention_cpu.h" bodystart="228" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1afdab7110186645c1b004201942ab6633" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::attention::InfiniAttentionCPU::restoreMemory</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;snapshot)</argsstring>
+        <name>restoreMemory</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCPU::restoreMemory</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>snapshot</declname>
+        </param>
+        <briefdescription>
+<para>Restore Memory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: size(), memory_matrix_(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/infini_attention_cpu.h" line="80" column="10" bodyfile="include/llm/infini_attention_cpu.h" bodystart="243" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1a7827e4ddebd47da271ee467cbf4b82e8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::attention::InfiniAttentionCPU::resetMemory</definition>
+        <argsstring>()</argsstring>
+        <name>resetMemory</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCPU::resetMemory</qualifiedname>
+        <briefdescription>
+<para>Reset Memory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: setZero(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/infini_attention_cpu.h" line="85" column="10" bodyfile="include/llm/infini_attention_cpu.h" bodystart="257" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1a140def0165756f3d0c697cc47bc78447" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1_1_mem_stats" kindref="compound">MemStats</ref></type>
+        <definition>InfiniAttentionCPU::MemStats themis::llm::attention::InfiniAttentionCPU::getMemoryStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getMemoryStats</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCPU::getMemoryStats</qualifiedname>
+        <briefdescription>
+<para>Get Memory Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/infini_attention_cpu.h" line="97" column="14" bodyfile="include/llm/infini_attention_cpu.h" bodystart="261" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1a459a43d95467f00061d2c2bd73c64618" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::attention::InfiniAttentionCPU::InfiniAttentionCPU</definition>
+        <argsstring>(const InfiniAttentionConfig &amp;config)</argsstring>
+        <name>InfiniAttentionCPU</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCPU::InfiniAttentionCPU</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_config" kindref="compound">InfiniAttentionConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Infini Attention CPU. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/attention/cuda/infini_attention_cpu.cpp" line="31" column="14" bodyfile="src/llm/attention/cuda/infini_attention_cpu.cpp" bodystart="31" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1a0d47d6208c78622e938637eb81f9d299" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388" kindref="member">Status</ref></type>
+        <definition>Status themis::llm::attention::InfiniAttentionCPU::forward</definition>
+        <argsstring>(const Tensor &amp;Q, const Tensor &amp;K, const Tensor &amp;V, Tensor &amp;O)</argsstring>
+        <name>forward</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCPU::forward</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>Q</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>K</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>V</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>O</declname>
+        </param>
+        <briefdescription>
+<para>Forward. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">Q</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">O</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isValid(), O_local(), computeLocalAttentionCPU(), updateMemoryCPU(), std::copy(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/attention/cuda/infini_attention_cpu.cpp" line="45" column="12" bodyfile="src/llm/attention/cuda/infini_attention_cpu.cpp" bodystart="45" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1ac74dacb077e0c15a02b7ca15d1c723c9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::llm::attention::InfiniAttentionCPU::getMemory</definition>
+        <argsstring>() const</argsstring>
+        <name>getMemory</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCPU::getMemory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/attention/cuda/infini_attention_cpu.cpp" line="74" column="17" bodyfile="src/llm/attention/cuda/infini_attention_cpu.cpp" bodystart="74" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1a7827e4ddebd47da271ee467cbf4b82e8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::attention::InfiniAttentionCPU::resetMemory</definition>
+        <argsstring>()</argsstring>
+        <name>resetMemory</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCPU::resetMemory</qualifiedname>
+        <briefdescription>
+<para>Reset Memory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: std::fill(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/attention/cuda/infini_attention_cpu.cpp" line="82" column="10" bodyfile="src/llm/attention/cuda/infini_attention_cpu.cpp" bodystart="82" bodyend="84"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1aa516d07a2dae072f8cc55d8bdc67a78c" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::attention::InfiniAttentionCPU::computeAttentionFP32</definition>
+        <argsstring>(const Eigen::MatrixXf &amp;Q, const Eigen::MatrixXf &amp;K, const Eigen::MatrixXf &amp;V, Eigen::MatrixXf &amp;output)</argsstring>
+        <name>computeAttentionFP32</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCPU::computeAttentionFP32</qualifiedname>
+        <param>
+          <type>const <ref refid="class_eigen_1_1_matrix_xf" kindref="compound">Eigen::MatrixXf</ref> &amp;</type>
+          <declname>Q</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_eigen_1_1_matrix_xf" kindref="compound">Eigen::MatrixXf</ref> &amp;</type>
+          <declname>K</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_eigen_1_1_matrix_xf" kindref="compound">Eigen::MatrixXf</ref> &amp;</type>
+          <declname>V</declname>
+        </param>
+        <param>
+          <type><ref refid="class_eigen_1_1_matrix_xf" kindref="compound">Eigen::MatrixXf</ref> &amp;</type>
+          <declname>output</declname>
+        </param>
+        <briefdescription>
+<para>Compute Attention FP32. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">Q</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">Q</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1a8d68c5148f708abf7c1acd0f5bf6bb45" kindref="member">forward()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/infini_attention_cpu.h" line="121" column="10" bodyfile="include/llm/infini_attention_cpu.h" bodystart="278" bodyend="283"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1aed30179a66dd9aa2471d6e6e2e6ffc8a" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::attention::InfiniAttentionCPU::computeAttentionFP64</definition>
+        <argsstring>(const Eigen::MatrixXd &amp;Q, const Eigen::MatrixXd &amp;K, const Eigen::MatrixXd &amp;V, Eigen::MatrixXd &amp;output)</argsstring>
+        <name>computeAttentionFP64</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCPU::computeAttentionFP64</qualifiedname>
+        <param>
+          <type>const <ref refid="class_eigen_1_1_matrix_xd" kindref="compound">Eigen::MatrixXd</ref> &amp;</type>
+          <declname>Q</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_eigen_1_1_matrix_xd" kindref="compound">Eigen::MatrixXd</ref> &amp;</type>
+          <declname>K</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_eigen_1_1_matrix_xd" kindref="compound">Eigen::MatrixXd</ref> &amp;</type>
+          <declname>V</declname>
+        </param>
+        <param>
+          <type><ref refid="class_eigen_1_1_matrix_xd" kindref="compound">Eigen::MatrixXd</ref> &amp;</type>
+          <declname>output</declname>
+        </param>
+        <briefdescription>
+<para>Compute Attention FP64. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">Q</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">Q</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1aa4603738bff509d6a137f9dadb13ee70" kindref="member">forward64()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/infini_attention_cpu.h" line="134" column="10" bodyfile="include/llm/infini_attention_cpu.h" bodystart="294" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1a2e5f041f9f8ae811e1022058a1264b21" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::attention::InfiniAttentionCPU::updateMemory</definition>
+        <argsstring>(const Eigen::MatrixXf &amp;K, const Eigen::MatrixXf &amp;V)</argsstring>
+        <name>updateMemory</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCPU::updateMemory</qualifiedname>
+        <param>
+          <type>const <ref refid="class_eigen_1_1_matrix_xf" kindref="compound">Eigen::MatrixXf</ref> &amp;</type>
+          <declname>K</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_eigen_1_1_matrix_xf" kindref="compound">Eigen::MatrixXf</ref> &amp;</type>
+          <declname>V</declname>
+        </param>
+        <briefdescription>
+<para>Update Memory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements updateMemory without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/infini_attention_cpu.h" line="144" column="10" bodyfile="include/llm/infini_attention_cpu.h" bodystart="307" bodyend="309"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1a5e9bf334df2bd9a7888ba6e2defa4d6d" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::attention::InfiniAttentionCPU::updateMemoryFP64</definition>
+        <argsstring>(const Eigen::MatrixXd &amp;K, const Eigen::MatrixXd &amp;V)</argsstring>
+        <name>updateMemoryFP64</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCPU::updateMemoryFP64</qualifiedname>
+        <param>
+          <type>const <ref refid="class_eigen_1_1_matrix_xd" kindref="compound">Eigen::MatrixXd</ref> &amp;</type>
+          <declname>K</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_eigen_1_1_matrix_xd" kindref="compound">Eigen::MatrixXd</ref> &amp;</type>
+          <declname>V</declname>
+        </param>
+        <briefdescription>
+<para>Update Memory FP64. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements updateMemoryFP64 without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/infini_attention_cpu.h" line="151" column="10" bodyfile="include/llm/infini_attention_cpu.h" bodystart="317" bodyend="319"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1ab6b4ed04de80fbdfba2e327eb5908bfb" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::attention::InfiniAttentionCPU::computeLocalAttentionCPU</definition>
+        <argsstring>(const Tensor &amp;Q, const Tensor &amp;K, const Tensor &amp;V, std::vector&lt; float &gt; &amp;O, size_t batch_size, size_t seq_len, size_t num_heads, size_t head_dim)</argsstring>
+        <name>computeLocalAttentionCPU</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCPU::computeLocalAttentionCPU</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>Q</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>K</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>V</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; float &gt; &amp;</type>
+          <declname>O</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>batch_size</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>seq_len</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>num_heads</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>head_dim</declname>
+        </param>
+        <briefdescription>
+<para>Compute Local Attention CPU. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">Q</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">O</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">seq_len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">num_heads</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">head_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: scores(), infinity(), std::max(), attn_weights(), std::isinf(), std::exp(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/attention/cuda/infini_attention_cpu.cpp" line="112" column="10" bodyfile="src/llm/attention/cuda/infini_attention_cpu.cpp" bodystart="112" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1aaaf8dd4634cc9cbc98103da07b6c7e29" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::attention::InfiniAttentionCPU::updateMemoryCPU</definition>
+        <argsstring>(const Tensor &amp;K, const Tensor &amp;V, size_t batch_size, size_t seq_len, size_t head_dim)</argsstring>
+        <name>updateMemoryCPU</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCPU::updateMemoryCPU</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>K</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>V</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>batch_size</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>seq_len</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>head_dim</declname>
+        </param>
+        <briefdescription>
+<para>Update Memory CPU. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">seq_len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">head_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: agg_k(), agg_v(), sigmoid(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/attention/cuda/infini_attention_cpu.cpp" line="202" column="10" bodyfile="src/llm/attention/cuda/infini_attention_cpu.cpp" bodystart="202" bodyend="245"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1a0afdce3453932793675c9485c80076c9" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>static float themis::llm::attention::InfiniAttentionCPU::sigmoid</definition>
+        <argsstring>(float x)</argsstring>
+        <name>sigmoid</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCPU::sigmoid</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>x</declname>
+        </param>
+        <briefdescription>
+<para>Sigmoid. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::exp(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/attention/cuda/infini_attention_cpu.cpp" line="96" column="18" bodyfile="src/llm/attention/cuda/infini_attention_cpu.cpp" bodystart="96" bodyend="98"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/infini_attention_cpu.h" line="19" column="1" bodyfile="include/llm/infini_attention_cpu.h" bodystart="19" bodyend="153"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1aa516d07a2dae072f8cc55d8bdc67a78c" prot="private" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCPU</scope><name>computeAttentionFP32</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1aed30179a66dd9aa2471d6e6e2e6ffc8a" prot="private" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCPU</scope><name>computeAttentionFP64</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1ab6b4ed04de80fbdfba2e327eb5908bfb" prot="private" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCPU</scope><name>computeLocalAttentionCPU</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1afe22a1e55849fb93228735f62d6eedbf" prot="private" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCPU</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1a5146b4511d4579c2674b9c8fc952082e" prot="private" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCPU</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1a8d68c5148f708abf7c1acd0f5bf6bb45" prot="public" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCPU</scope><name>forward</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1a0d47d6208c78622e938637eb81f9d299" prot="public" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCPU</scope><name>forward</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1aa4603738bff509d6a137f9dadb13ee70" prot="public" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCPU</scope><name>forward64</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1ac74dacb077e0c15a02b7ca15d1c723c9" prot="public" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCPU</scope><name>getMemory</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1a72af69f42504e0e74026ead6a1156573" prot="public" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCPU</scope><name>getMemorySnapshot</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1a140def0165756f3d0c697cc47bc78447" prot="public" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCPU</scope><name>getMemoryStats</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1addb7fd991c783dc509326bd21b3defe4" prot="public" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCPU</scope><name>InfiniAttentionCPU</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1a459a43d95467f00061d2c2bd73c64618" prot="public" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCPU</scope><name>InfiniAttentionCPU</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1ad11c9cb413bcedd5e4c901a694d01600" prot="public" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCPU</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1ab2345a6a35b3214295af9887b1f29e70" prot="private" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCPU</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1a012a7790115fba97762ea8abea3fd276" prot="private" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCPU</scope><name>memory_</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1aa9e6ae243f94b174c390a96c5a5ad851" prot="private" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCPU</scope><name>memory_matrix_</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1a8590dc46a7f339d3541cb4c6ef240232" prot="private" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCPU</scope><name>memory_matrix_fp64_</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1a9e003a61fa3a6be2b93839547ebb5274" prot="private" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCPU</scope><name>norm_vector_</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1a7f79a2ce5f383117913c17398b91fe92" prot="private" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCPU</scope><name>norm_vector_fp64_</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1a7827e4ddebd47da271ee467cbf4b82e8" prot="public" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCPU</scope><name>resetMemory</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1a7827e4ddebd47da271ee467cbf4b82e8" prot="public" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCPU</scope><name>resetMemory</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1afdab7110186645c1b004201942ab6633" prot="public" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCPU</scope><name>restoreMemory</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1a0afdce3453932793675c9485c80076c9" prot="private" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCPU</scope><name>sigmoid</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1a2ae8010a23debfb566596b62ab9d4cc3" prot="private" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCPU</scope><name>temp_kv_product_</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1a327e0fb5c495339413049ee84a6809f3" prot="private" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCPU</scope><name>temp_kv_product_fp64_</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1a2e5f041f9f8ae811e1022058a1264b21" prot="private" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCPU</scope><name>updateMemory</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1aaaf8dd4634cc9cbc98103da07b6c7e29" prot="private" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCPU</scope><name>updateMemoryCPU</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1a5e9bf334df2bd9a7888ba6e2defa4d6d" prot="private" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCPU</scope><name>updateMemoryFP64</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1a4c16fb2ccf1847fd44878bbdffbe6450" prot="public" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCPU</scope><name>~InfiniAttentionCPU</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

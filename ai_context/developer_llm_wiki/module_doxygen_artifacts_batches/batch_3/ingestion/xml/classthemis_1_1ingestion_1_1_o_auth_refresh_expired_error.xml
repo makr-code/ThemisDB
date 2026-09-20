@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1_o_auth_refresh_expired_error" kind="class" language="C++" prot="public">
+    <compoundname>themis::ingestion::OAuthRefreshExpiredError</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">std::runtime_error</basecompoundref>
+    <includes refid="oauth__token__manager_8h" local="no">oauth_token_manager.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_o_auth_refresh_expired_error_1a308e4c1dd545cbad1337464a5b8cd6d3" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::OAuthRefreshExpiredError::OAuthRefreshExpiredError</definition>
+        <argsstring>(const std::string &amp;msg=&quot;OAuth refresh token expired&quot;)</argsstring>
+        <name>OAuthRefreshExpiredError</name>
+        <qualifiedname>themis::ingestion::OAuthRefreshExpiredError::OAuthRefreshExpiredError</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>msg</declname>
+          <defval>&quot;OAuth refresh token expired&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/oauth_token_manager.h" line="32" column="14" bodyfile="include/ingestion/oauth_token_manager.h" bodystart="32" bodyend="33"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Thrown when the refresh token has expired (HTTP 401 from token endpoint). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::ingestion::OAuthRefreshExpiredError</label>
+        <link refid="classthemis_1_1ingestion_1_1_o_auth_refresh_expired_error"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::ingestion::OAuthRefreshExpiredError</label>
+        <link refid="classthemis_1_1ingestion_1_1_o_auth_refresh_expired_error"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/ingestion/oauth_token_manager.h" line="30" column="1" bodyfile="include/ingestion/oauth_token_manager.h" bodystart="30" bodyend="34"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1_o_auth_refresh_expired_error_1a308e4c1dd545cbad1337464a5b8cd6d3" prot="public" virt="non-virtual"><scope>themis::ingestion::OAuthRefreshExpiredError</scope><name>OAuthRefreshExpiredError</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

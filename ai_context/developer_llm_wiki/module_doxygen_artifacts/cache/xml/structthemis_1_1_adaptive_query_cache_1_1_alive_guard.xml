@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_adaptive_query_cache_1_1_alive_guard" kind="struct" language="C++" prot="private">
+    <compoundname>themis::AdaptiveQueryCache::AliveGuard</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_query_cache_1_1_alive_guard_1a9dcf17a827db4c569f7ff64c69ca3c81" prot="public" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::AdaptiveQueryCache::AliveGuard::mutex</definition>
+        <argsstring></argsstring>
+        <name>mutex</name>
+        <qualifiedname>themis::AdaptiveQueryCache::AliveGuard::mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="452" column="20" bodyfile="include/cache/adaptive_query_cache.h" bodystart="452" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_query_cache_1_1_alive_guard_1aad2647786c056c3266a7cf7a893a835b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::AdaptiveQueryCache::AliveGuard::alive</definition>
+        <argsstring></argsstring>
+        <name>alive</name>
+        <qualifiedname>themis::AdaptiveQueryCache::AliveGuard::alive</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="453" column="14" bodyfile="include/cache/adaptive_query_cache.h" bodystart="453" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/adaptive_query_cache.h" line="451" column="5" bodyfile="include/cache/adaptive_query_cache.h" bodystart="451" bodyend="454"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_adaptive_query_cache_1_1_alive_guard_1aad2647786c056c3266a7cf7a893a835b" prot="public" virt="non-virtual"><scope>themis::AdaptiveQueryCache::AliveGuard</scope><name>alive</name></member>
+      <member refid="structthemis_1_1_adaptive_query_cache_1_1_alive_guard_1a9dcf17a827db4c569f7ff64c69ca3c81" prot="public" virt="non-virtual"><scope>themis::AdaptiveQueryCache::AliveGuard</scope><name>mutex</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

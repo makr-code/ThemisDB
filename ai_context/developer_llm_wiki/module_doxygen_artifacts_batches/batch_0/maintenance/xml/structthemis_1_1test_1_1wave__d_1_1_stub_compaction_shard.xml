@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1test_1_1wave__d_1_1_stub_compaction_shard" kind="struct" language="C++" prot="public">
+    <compoundname>themis::test::wave_d::StubCompactionShard</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_stub_compaction_shard_1a040f4b73d1a412876b79706d829da9bf" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::test::wave_d::StubCompactionShard::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>themis::test::wave_d::StubCompactionShard::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_highcardinality_stress.cpp" line="76" column="24" bodyfile="tests/maintenance/test_maintenance_highcardinality_stress.cpp" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_stub_compaction_shard_1a1d803355e73c260557ed89852920aa4c" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; uint32_t, int &gt;</type>
+        <definition>std::unordered_map&lt;uint32_t, int&gt; themis::test::wave_d::StubCompactionShard::compacted_</definition>
+        <argsstring></argsstring>
+        <name>compacted_</name>
+        <qualifiedname>themis::test::wave_d::StubCompactionShard::compacted_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_highcardinality_stress.cpp" line="77" column="24" bodyfile="tests/maintenance/test_maintenance_highcardinality_stress.cpp" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_stub_compaction_shard_1a7d67d6d81b6798bf3f3fb8fa3c1163a4" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; long &gt;</type>
+        <definition>std::atomic&lt;long&gt; themis::test::wave_d::StubCompactionShard::compact_count_</definition>
+        <argsstring></argsstring>
+        <name>compact_count_</name>
+        <qualifiedname>themis::test::wave_d::StubCompactionShard::compact_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_highcardinality_stress.cpp" line="78" column="17" bodyfile="tests/maintenance/test_maintenance_highcardinality_stress.cpp" bodystart="78" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_stub_compaction_shard_1a899cd309f1be8084609376539e673eeb" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; long &gt;</type>
+        <definition>std::atomic&lt;long&gt; themis::test::wave_d::StubCompactionShard::stall_count_</definition>
+        <argsstring></argsstring>
+        <name>stall_count_</name>
+        <qualifiedname>themis::test::wave_d::StubCompactionShard::stall_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_highcardinality_stress.cpp" line="79" column="17" bodyfile="tests/maintenance/test_maintenance_highcardinality_stress.cpp" bodystart="79" bodyend="79"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_stub_compaction_shard_1a4aed34baf025db8611a078277b1f761e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::test::wave_d::StubCompactionShard::compact</definition>
+        <argsstring>(uint32_t shard_id)</argsstring>
+        <name>compact</name>
+        <qualifiedname>themis::test::wave_d::StubCompactionShard::compact</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_highcardinality_stress.cpp" line="65" column="10" bodyfile="tests/maintenance/test_maintenance_highcardinality_stress.cpp" bodystart="65" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_stub_compaction_shard_1ab67b6d23e6ed86ac7317782de8404307" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>long</type>
+        <definition>long themis::test::wave_d::StubCompactionShard::compactCount</definition>
+        <argsstring>() const</argsstring>
+        <name>compactCount</name>
+        <qualifiedname>themis::test::wave_d::StubCompactionShard::compactCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_highcardinality_stress.cpp" line="72" column="10" bodyfile="tests/maintenance/test_maintenance_highcardinality_stress.cpp" bodystart="72" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_stub_compaction_shard_1aad7ebd45841a756abeaa410e1909d3db" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>long</type>
+        <definition>long themis::test::wave_d::StubCompactionShard::stallCount</definition>
+        <argsstring>() const</argsstring>
+        <name>stallCount</name>
+        <qualifiedname>themis::test::wave_d::StubCompactionShard::stallCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_highcardinality_stress.cpp" line="73" column="10" bodyfile="tests/maintenance/test_maintenance_highcardinality_stress.cpp" bodystart="73" bodyend="73"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/maintenance/test_maintenance_highcardinality_stress.cpp" line="64" column="1" bodyfile="tests/maintenance/test_maintenance_highcardinality_stress.cpp" bodystart="64" bodyend="80"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_compaction_shard_1a4aed34baf025db8611a078277b1f761e" prot="public" virt="non-virtual"><scope>themis::test::wave_d::StubCompactionShard</scope><name>compact</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_compaction_shard_1a7d67d6d81b6798bf3f3fb8fa3c1163a4" prot="private" virt="non-virtual"><scope>themis::test::wave_d::StubCompactionShard</scope><name>compact_count_</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_compaction_shard_1ab67b6d23e6ed86ac7317782de8404307" prot="public" virt="non-virtual"><scope>themis::test::wave_d::StubCompactionShard</scope><name>compactCount</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_compaction_shard_1a1d803355e73c260557ed89852920aa4c" prot="private" virt="non-virtual"><scope>themis::test::wave_d::StubCompactionShard</scope><name>compacted_</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_compaction_shard_1a040f4b73d1a412876b79706d829da9bf" prot="private" virt="non-virtual"><scope>themis::test::wave_d::StubCompactionShard</scope><name>mu_</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_compaction_shard_1a899cd309f1be8084609376539e673eeb" prot="private" virt="non-virtual"><scope>themis::test::wave_d::StubCompactionShard</scope><name>stall_count_</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_compaction_shard_1aad7ebd45841a756abeaa410e1909d3db" prot="public" virt="non-virtual"><scope>themis::test::wave_d::StubCompactionShard</scope><name>stallCount</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

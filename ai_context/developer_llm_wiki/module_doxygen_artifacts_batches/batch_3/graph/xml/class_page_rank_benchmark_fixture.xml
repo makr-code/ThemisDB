@@ -1,0 +1,175 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_page_rank_benchmark_fixture" kind="class" language="C++" prot="public">
+    <compoundname>PageRankBenchmarkFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_page_rank_benchmark_fixture_1a6729043359427cde69a9ca0691fde166" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string PageRankBenchmarkFixture::test_db_path_</definition>
+        <argsstring></argsstring>
+        <name>test_db_path_</name>
+        <qualifiedname>PageRankBenchmarkFixture::test_db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_pagerank.cpp" line="110" column="17" bodyfile="benchmarks/graph/bench_pagerank.cpp" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_page_rank_benchmark_fixture_1a28ad791a1201549dc2c5c20c66610c49" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; PageRankBenchmarkFixture::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>PageRankBenchmarkFixture::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_pagerank.cpp" line="111" column="21" bodyfile="benchmarks/graph/bench_pagerank.cpp" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_page_rank_benchmark_fixture_1aa174cc9a7f264186f93eb2cca67167e4" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; GraphIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;GraphIndexManager&gt; PageRankBenchmarkFixture::graph_mgr_</definition>
+        <argsstring></argsstring>
+        <name>graph_mgr_</name>
+        <qualifiedname>PageRankBenchmarkFixture::graph_mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_pagerank.cpp" line="112" column="21" bodyfile="benchmarks/graph/bench_pagerank.cpp" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_page_rank_benchmark_fixture_1af7e7e0cacab9a36f6a1e35b8bace508c" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; GraphAnalytics &gt;</type>
+        <definition>std::unique_ptr&lt;GraphAnalytics&gt; PageRankBenchmarkFixture::analytics_</definition>
+        <argsstring></argsstring>
+        <name>analytics_</name>
+        <qualifiedname>PageRankBenchmarkFixture::analytics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_pagerank.cpp" line="113" column="21" bodyfile="benchmarks/graph/bench_pagerank.cpp" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_page_rank_benchmark_fixture_1a861f374b5499a192f340d90dffb9b819" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; PageRankBenchmarkFixture::node_ids_</definition>
+        <argsstring></argsstring>
+        <name>node_ids_</name>
+        <qualifiedname>PageRankBenchmarkFixture::node_ids_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_pagerank.cpp" line="114" column="17" bodyfile="benchmarks/graph/bench_pagerank.cpp" bodystart="114" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_page_rank_benchmark_fixture_1aeca119119e656d2acda16e5566eb8a1f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void PageRankBenchmarkFixture::SetUp</definition>
+        <argsstring>(const ::benchmark::State &amp;state) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>PageRankBenchmarkFixture::SetUp</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_pagerank.cpp" line="20" column="10" bodyfile="benchmarks/graph/bench_pagerank.cpp" bodystart="20" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="class_page_rank_benchmark_fixture_1a24614f38a85dcc5a8d1212d3b60982b2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void PageRankBenchmarkFixture::TearDown</definition>
+        <argsstring>(const ::benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>PageRankBenchmarkFixture::TearDown</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_pagerank.cpp" line="51" column="10" bodyfile="benchmarks/graph/bench_pagerank.cpp" bodystart="51" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="class_page_rank_benchmark_fixture_1afe61e7bc12491987a136edf26263081f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void PageRankBenchmarkFixture::buildWebGraph</definition>
+        <argsstring>(int num_nodes, int avg_out_degree)</argsstring>
+        <name>buildWebGraph</name>
+        <qualifiedname>PageRankBenchmarkFixture::buildWebGraph</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>num_nodes</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>avg_out_degree</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_pagerank.cpp" line="63" column="10" bodyfile="benchmarks/graph/bench_pagerank.cpp" bodystart="63" bodyend="107"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>PageRankBenchmarkFixture</label>
+        <link refid="class_page_rank_benchmark_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>PageRankBenchmarkFixture</label>
+        <link refid="class_page_rank_benchmark_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/graph/bench_pagerank.cpp" line="18" column="1" bodyfile="benchmarks/graph/bench_pagerank.cpp" bodystart="18" bodyend="115"/>
+    <listofallmembers>
+      <member refid="class_page_rank_benchmark_fixture_1af7e7e0cacab9a36f6a1e35b8bace508c" prot="protected" virt="non-virtual"><scope>PageRankBenchmarkFixture</scope><name>analytics_</name></member>
+      <member refid="class_page_rank_benchmark_fixture_1afe61e7bc12491987a136edf26263081f" prot="public" virt="non-virtual"><scope>PageRankBenchmarkFixture</scope><name>buildWebGraph</name></member>
+      <member refid="class_page_rank_benchmark_fixture_1a28ad791a1201549dc2c5c20c66610c49" prot="protected" virt="non-virtual"><scope>PageRankBenchmarkFixture</scope><name>db_</name></member>
+      <member refid="class_page_rank_benchmark_fixture_1aa174cc9a7f264186f93eb2cca67167e4" prot="protected" virt="non-virtual"><scope>PageRankBenchmarkFixture</scope><name>graph_mgr_</name></member>
+      <member refid="class_page_rank_benchmark_fixture_1a861f374b5499a192f340d90dffb9b819" prot="protected" virt="non-virtual"><scope>PageRankBenchmarkFixture</scope><name>node_ids_</name></member>
+      <member refid="class_page_rank_benchmark_fixture_1aeca119119e656d2acda16e5566eb8a1f" prot="public" virt="non-virtual"><scope>PageRankBenchmarkFixture</scope><name>SetUp</name></member>
+      <member refid="class_page_rank_benchmark_fixture_1a24614f38a85dcc5a8d1212d3b60982b2" prot="public" virt="non-virtual"><scope>PageRankBenchmarkFixture</scope><name>TearDown</name></member>
+      <member refid="class_page_rank_benchmark_fixture_1a6729043359427cde69a9ca0691fde166" prot="protected" virt="non-virtual"><scope>PageRankBenchmarkFixture</scope><name>test_db_path_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1prompt__engineering_1_1_0d145032172367060226047001165305206075321244244364" kind="namespace" language="C++">
+    <compoundname>themis::prompt_engineering::@145032172367060226047001165305206075321244244364</compoundname>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1prompt__engineering_1_1_0d145032172367060226047001165305206075321244244364_1a975639ae0504db40b68177123d665357" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>TokenKind</name>
+        <qualifiedname>themis::prompt_engineering::@145032172367060226047001165305206075321244244364::TokenKind</qualifiedname>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1_1_0d145032172367060226047001165305206075321244244364_1a975639ae0504db40b68177123d665357a61a96ffcb251bb9bf0abf8fec19d0ea8" prot="public">
+          <name>TEXT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1_1_0d145032172367060226047001165305206075321244244364_1a975639ae0504db40b68177123d665357a0b688c5f3d542268089da39994214ab8" prot="public">
+          <name>SLOT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1_1_0d145032172367060226047001165305206075321244244364_1a975639ae0504db40b68177123d665357ade6ee2b5d856295add4d5e3631fbfb93" prot="public">
+          <name>IF</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1_1_0d145032172367060226047001165305206075321244244364_1a975639ae0504db40b68177123d665357a778537b0acce06229cb78d5f72c907ab" prot="public">
+          <name>ELSE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1_1_0d145032172367060226047001165305206075321244244364_1a975639ae0504db40b68177123d665357aa7edf885402c37993bf4581db4a4615c" prot="public">
+          <name>ENDIF</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1_1_0d145032172367060226047001165305206075321244244364_1a975639ae0504db40b68177123d665357a7885ad399f9cab93cb42befbe402c588" prot="public">
+          <name>FOR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1_1_0d145032172367060226047001165305206075321244244364_1a975639ae0504db40b68177123d665357a8d2b266238aa71b4ba19ace822ba4711" prot="public">
+          <name>ENDFOR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/prompt_template_compiler.cpp" line="113" column="1" bodyfile="src/prompt_engineering/prompt_template_compiler.cpp" bodystart="113" bodyend="121"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/prompt_engineering/prompt_template_compiler.cpp" line="97" column="1"/>
+  </compounddef>
+</doxygen>

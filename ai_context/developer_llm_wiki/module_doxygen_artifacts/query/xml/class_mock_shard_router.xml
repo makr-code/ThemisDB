@@ -1,0 +1,237 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_mock_shard_router" kind="class" language="C++" prot="public">
+    <compoundname>MockShardRouter</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">ShardRouter</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_mock_shard_router_1a9bd0f39b4cf316033b96d59a04eae450" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; MockShardRouter::shard_ids_</definition>
+        <argsstring></argsstring>
+        <name>shard_ids_</name>
+        <qualifiedname>MockShardRouter::shard_ids_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_routing.cpp" line="118" column="17" bodyfile="tests/query/test_query_federation_routing.cpp" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_shard_router_1a385297eb28c464385824ddbc92ce8b9a" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t MockShardRouter::scatter_gather_calls_</definition>
+        <argsstring></argsstring>
+        <name>scatter_gather_calls_</name>
+        <qualifiedname>MockShardRouter::scatter_gather_calls_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_routing.cpp" line="119" column="14" bodyfile="tests/query/test_query_federation_routing.cpp" bodystart="119" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_shard_router_1a1fafb703981cedfbb2dbf3567b0c988c" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t MockShardRouter::execute_on_shards_calls_</definition>
+        <argsstring></argsstring>
+        <name>execute_on_shards_calls_</name>
+        <qualifiedname>MockShardRouter::execute_on_shards_calls_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_routing.cpp" line="120" column="14" bodyfile="tests/query/test_query_federation_routing.cpp" bodystart="120" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_shard_router_1ad7ceb56582b03ee0440e5515fa6737db" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; MockShardRouter::last_target_shards_</definition>
+        <argsstring></argsstring>
+        <name>last_target_shards_</name>
+        <qualifiedname>MockShardRouter::last_target_shards_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_routing.cpp" line="121" column="17" bodyfile="tests/query/test_query_federation_routing.cpp" bodystart="121" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_mock_shard_router_1a91948887cbe31bb4eeba13da188a55c7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>MockShardRouter::MockShardRouter</definition>
+        <argsstring>()</argsstring>
+        <name>MockShardRouter</name>
+        <qualifiedname>MockShardRouter::MockShardRouter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_routing.cpp" line="69" column="5" bodyfile="tests/query/test_query_federation_routing.cpp" bodystart="69" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_shard_router_1a0b55387dda18d3ab67c8ded162894dcc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void MockShardRouter::registerShard</definition>
+        <argsstring>(const std::string &amp;shard_id)</argsstring>
+        <name>registerShard</name>
+        <qualifiedname>MockShardRouter::registerShard</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_routing.cpp" line="73" column="10" bodyfile="tests/query/test_query_federation_routing.cpp" bodystart="73" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_shard_router_1af42cb0d0e263f8d9d0d304e22c3812de" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; ShardResult &gt;</type>
+        <definition>std::vector&lt; ShardResult &gt; MockShardRouter::scatterGather</definition>
+        <argsstring>(const std::string &amp;) override</argsstring>
+        <name>scatterGather</name>
+        <qualifiedname>MockShardRouter::scatterGather</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_routing.cpp" line="77" column="17" bodyfile="tests/query/test_query_federation_routing.cpp" bodystart="77" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_shard_router_1ae8ca6e4a4608148b40d8c709936a7919" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; ShardResult &gt;</type>
+        <definition>std::vector&lt; ShardResult &gt; MockShardRouter::executeOnShards</definition>
+        <argsstring>(const std::string &amp;, const std::vector&lt; std::string &gt; &amp;shard_ids) override</argsstring>
+        <name>executeOnShards</name>
+        <qualifiedname>MockShardRouter::executeOnShards</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>shard_ids</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_routing.cpp" line="91" column="17" bodyfile="tests/query/test_query_federation_routing.cpp" bodystart="91" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_shard_router_1a15d0d2a53651c66388ab654ab627b717" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::vector&lt; std::string &gt; &amp;</type>
+        <definition>const std::vector&lt; std::string &gt; &amp; MockShardRouter::shardIds</definition>
+        <argsstring>() const</argsstring>
+        <name>shardIds</name>
+        <qualifiedname>MockShardRouter::shardIds</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_routing.cpp" line="112" column="23" bodyfile="tests/query/test_query_federation_routing.cpp" bodystart="112" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_shard_router_1adff0d30e301b906bd21079e47e0bf0ec" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t MockShardRouter::scatterGatherCalls</definition>
+        <argsstring>() const</argsstring>
+        <name>scatterGatherCalls</name>
+        <qualifiedname>MockShardRouter::scatterGatherCalls</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_routing.cpp" line="113" column="14" bodyfile="tests/query/test_query_federation_routing.cpp" bodystart="113" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_shard_router_1a610e27734a588e58996e4b2320c00a51" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t MockShardRouter::executeOnShardsCalls</definition>
+        <argsstring>() const</argsstring>
+        <name>executeOnShardsCalls</name>
+        <qualifiedname>MockShardRouter::executeOnShardsCalls</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_routing.cpp" line="114" column="14" bodyfile="tests/query/test_query_federation_routing.cpp" bodystart="114" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_shard_router_1a445e9adb829bbc84ed4884b5256f8ef7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::vector&lt; std::string &gt; &amp;</type>
+        <definition>const std::vector&lt; std::string &gt; &amp; MockShardRouter::lastTargetShards</definition>
+        <argsstring>() const</argsstring>
+        <name>lastTargetShards</name>
+        <qualifiedname>MockShardRouter::lastTargetShards</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_routing.cpp" line="115" column="23" bodyfile="tests/query/test_query_federation_routing.cpp" bodystart="115" bodyend="115"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="class_mock_shard_router" kindref="compound">MockShardRouter</ref> returns one ShardResult per registered shard. Each result carries its shard_id so we can inspect filtering. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>MockShardRouter</label>
+        <link refid="class_mock_shard_router"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ShardRouter</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>MockShardRouter</label>
+        <link refid="class_mock_shard_router"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ShardRouter</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/query/test_query_federation_routing.cpp" line="67" column="1" bodyfile="tests/query/test_query_federation_routing.cpp" bodystart="67" bodyend="122"/>
+    <listofallmembers>
+      <member refid="class_mock_shard_router_1a1fafb703981cedfbb2dbf3567b0c988c" prot="private" virt="non-virtual"><scope>MockShardRouter</scope><name>execute_on_shards_calls_</name></member>
+      <member refid="class_mock_shard_router_1ae8ca6e4a4608148b40d8c709936a7919" prot="public" virt="non-virtual"><scope>MockShardRouter</scope><name>executeOnShards</name></member>
+      <member refid="class_mock_shard_router_1a610e27734a588e58996e4b2320c00a51" prot="public" virt="non-virtual"><scope>MockShardRouter</scope><name>executeOnShardsCalls</name></member>
+      <member refid="class_mock_shard_router_1ad7ceb56582b03ee0440e5515fa6737db" prot="private" virt="non-virtual"><scope>MockShardRouter</scope><name>last_target_shards_</name></member>
+      <member refid="class_mock_shard_router_1a445e9adb829bbc84ed4884b5256f8ef7" prot="public" virt="non-virtual"><scope>MockShardRouter</scope><name>lastTargetShards</name></member>
+      <member refid="class_mock_shard_router_1a91948887cbe31bb4eeba13da188a55c7" prot="public" virt="non-virtual"><scope>MockShardRouter</scope><name>MockShardRouter</name></member>
+      <member refid="class_mock_shard_router_1a0b55387dda18d3ab67c8ded162894dcc" prot="public" virt="non-virtual"><scope>MockShardRouter</scope><name>registerShard</name></member>
+      <member refid="class_mock_shard_router_1a385297eb28c464385824ddbc92ce8b9a" prot="private" virt="non-virtual"><scope>MockShardRouter</scope><name>scatter_gather_calls_</name></member>
+      <member refid="class_mock_shard_router_1af42cb0d0e263f8d9d0d304e22c3812de" prot="public" virt="non-virtual"><scope>MockShardRouter</scope><name>scatterGather</name></member>
+      <member refid="class_mock_shard_router_1adff0d30e301b906bd21079e47e0bf0ec" prot="public" virt="non-virtual"><scope>MockShardRouter</scope><name>scatterGatherCalls</name></member>
+      <member refid="class_mock_shard_router_1a9bd0f39b4cf316033b96d59a04eae450" prot="private" virt="non-virtual"><scope>MockShardRouter</scope><name>shard_ids_</name></member>
+      <member refid="class_mock_shard_router_1a15d0d2a53651c66388ab654ab627b717" prot="public" virt="non-virtual"><scope>MockShardRouter</scope><name>shardIds</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

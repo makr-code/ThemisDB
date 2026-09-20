@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_monitored_session" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::ZeroTrustAuthVerifier::MonitoredSession</compoundname>
+    <includes refid="zero__trust__auth__verifier_8h" local="no">zero_trust_auth_verifier.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_monitored_session_1a04379d8d95303c063f027df1ca4465d3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::ZeroTrustAuthVerifier::MonitoredSession::session_id</definition>
+        <argsstring></argsstring>
+        <name>session_id</name>
+        <qualifiedname>themis::auth::ZeroTrustAuthVerifier::MonitoredSession::session_id</qualifiedname>
+        <briefdescription>
+<para>Session identifier (passed to terminateSession). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/zero_trust_auth_verifier.h" line="58" column="21" bodyfile="include/auth/zero_trust_auth_verifier.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_monitored_session_1adbcddf71edd718cec083d1dc0880082d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::ZeroTrustAuthVerifier::MonitoredSession::user_id</definition>
+        <argsstring></argsstring>
+        <name>user_id</name>
+        <qualifiedname>themis::auth::ZeroTrustAuthVerifier::MonitoredSession::user_id</qualifiedname>
+        <briefdescription>
+<para>Claimed identity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/zero_trust_auth_verifier.h" line="59" column="21" bodyfile="include/auth/zero_trust_auth_verifier.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_monitored_session_1a7e926ba726d849eea915ed82acc04248" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::ZeroTrustAuthVerifier::MonitoredSession::token</definition>
+        <argsstring></argsstring>
+        <name>token</name>
+        <qualifiedname>themis::auth::ZeroTrustAuthVerifier::MonitoredSession::token</qualifiedname>
+        <briefdescription>
+<para>Bearer token / API key. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/zero_trust_auth_verifier.h" line="60" column="21" bodyfile="include/auth/zero_trust_auth_verifier.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_monitored_session_1aec5f1fa3816042581c4f9e09fc7c4d28" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::ZeroTrustAuthVerifier::MonitoredSession::client_ip</definition>
+        <argsstring></argsstring>
+        <name>client_ip</name>
+        <qualifiedname>themis::auth::ZeroTrustAuthVerifier::MonitoredSession::client_ip</qualifiedname>
+        <briefdescription>
+<para>Source IP at session creation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/zero_trust_auth_verifier.h" line="61" column="21" bodyfile="include/auth/zero_trust_auth_verifier.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_monitored_session_1a1928580f3733c3bdeee0a367f15ce253" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::ZeroTrustAuthVerifier::MonitoredSession::resource</definition>
+        <argsstring></argsstring>
+        <name>resource</name>
+        <qualifiedname>themis::auth::ZeroTrustAuthVerifier::MonitoredSession::resource</qualifiedname>
+        <briefdescription>
+<para>Primary resource (informational). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/zero_trust_auth_verifier.h" line="62" column="21" bodyfile="include/auth/zero_trust_auth_verifier.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_monitored_session_1a79b6843262f9599356ff8ff1d253048e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::ZeroTrustAuthVerifier::MonitoredSession::action</definition>
+        <argsstring></argsstring>
+        <name>action</name>
+        <qualifiedname>themis::auth::ZeroTrustAuthVerifier::MonitoredSession::action</qualifiedname>
+        <briefdescription>
+<para>Primary action (informational). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/zero_trust_auth_verifier.h" line="63" column="21" bodyfile="include/auth/zero_trust_auth_verifier.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_monitored_session_1ae7dc39e6470707ae715a15087ff28ab8" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::auth::ZeroTrustAuthVerifier::MonitoredSession::device_id</definition>
+        <argsstring></argsstring>
+        <name>device_id</name>
+        <qualifiedname>themis::auth::ZeroTrustAuthVerifier::MonitoredSession::device_id</qualifiedname>
+        <briefdescription>
+<para>Optional device identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/zero_trust_auth_verifier.h" line="64" column="23" bodyfile="include/auth/zero_trust_auth_verifier.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/zero_trust_auth_verifier.h" line="57" column="5" bodyfile="include/auth/zero_trust_auth_verifier.h" bodystart="57" bodyend="65"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_monitored_session_1a79b6843262f9599356ff8ff1d253048e" prot="public" virt="non-virtual"><scope>themis::auth::ZeroTrustAuthVerifier::MonitoredSession</scope><name>action</name></member>
+      <member refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_monitored_session_1aec5f1fa3816042581c4f9e09fc7c4d28" prot="public" virt="non-virtual"><scope>themis::auth::ZeroTrustAuthVerifier::MonitoredSession</scope><name>client_ip</name></member>
+      <member refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_monitored_session_1ae7dc39e6470707ae715a15087ff28ab8" prot="public" virt="non-virtual"><scope>themis::auth::ZeroTrustAuthVerifier::MonitoredSession</scope><name>device_id</name></member>
+      <member refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_monitored_session_1a1928580f3733c3bdeee0a367f15ce253" prot="public" virt="non-virtual"><scope>themis::auth::ZeroTrustAuthVerifier::MonitoredSession</scope><name>resource</name></member>
+      <member refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_monitored_session_1a04379d8d95303c063f027df1ca4465d3" prot="public" virt="non-virtual"><scope>themis::auth::ZeroTrustAuthVerifier::MonitoredSession</scope><name>session_id</name></member>
+      <member refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_monitored_session_1a7e926ba726d849eea915ed82acc04248" prot="public" virt="non-virtual"><scope>themis::auth::ZeroTrustAuthVerifier::MonitoredSession</scope><name>token</name></member>
+      <member refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_monitored_session_1adbcddf71edd718cec083d1dc0880082d" prot="public" virt="non-virtual"><scope>themis::auth::ZeroTrustAuthVerifier::MonitoredSession</scope><name>user_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

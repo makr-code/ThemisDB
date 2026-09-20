@@ -1,0 +1,190 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_training_data_iterator_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::TrainingDataIterator::Config</compoundname>
+    <includes refid="training__data__iterator_8h" local="no">training_data_iterator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_training_data_iterator_1_1_config_1a285facf778f6595b46ea48c45562cf03" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::TrainingDataIterator::Config::batch_size</definition>
+        <argsstring></argsstring>
+        <name>batch_size</name>
+        <qualifiedname>themis::llm::TrainingDataIterator::Config::batch_size</qualifiedname>
+        <initializer>= 32</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/training_data_iterator.h" line="34" column="16" bodyfile="include/llm/training_data_iterator.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_training_data_iterator_1_1_config_1a08e2ee0bed1ac3ac539afabea87742b2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::TrainingDataIterator::Config::prefetch_batches</definition>
+        <argsstring></argsstring>
+        <name>prefetch_batches</name>
+        <qualifiedname>themis::llm::TrainingDataIterator::Config::prefetch_batches</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/training_data_iterator.h" line="35" column="16" bodyfile="include/llm/training_data_iterator.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_training_data_iterator_1_1_config_1a1d86991756e590a4fe515a2abfee53c0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::TrainingDataIterator::Config::enable_zero_copy</definition>
+        <argsstring></argsstring>
+        <name>enable_zero_copy</name>
+        <qualifiedname>themis::llm::TrainingDataIterator::Config::enable_zero_copy</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/training_data_iterator.h" line="38" column="14" bodyfile="include/llm/training_data_iterator.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_training_data_iterator_1_1_config_1a08ecb99df9655fb311eef845dd8556b0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::TrainingDataIterator::Config::shuffle_data</definition>
+        <argsstring></argsstring>
+        <name>shuffle_data</name>
+        <qualifiedname>themis::llm::TrainingDataIterator::Config::shuffle_data</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/training_data_iterator.h" line="39" column="14" bodyfile="include/llm/training_data_iterator.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_training_data_iterator_1_1_config_1a0f8353ebf34e4f66e8bc559b6d711b9b" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::TrainingDataIterator::Config::random_seed</definition>
+        <argsstring></argsstring>
+        <name>random_seed</name>
+        <qualifiedname>themis::llm::TrainingDataIterator::Config::random_seed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/training_data_iterator.h" line="40" column="18" bodyfile="include/llm/training_data_iterator.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_training_data_iterator_1_1_config_1ae1b8fba124ad71febdcf18fcda1d5a5f" prot="public" static="no" mutable="no">
+        <type>exporters::JSONLLLMConfig::QualityFilter</type>
+        <definition>exporters::JSONLLLMConfig::QualityFilter themis::llm::TrainingDataIterator::Config::quality_filter</definition>
+        <argsstring></argsstring>
+        <name>quality_filter</name>
+        <qualifiedname>themis::llm::TrainingDataIterator::Config::quality_filter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/training_data_iterator.h" line="43" column="50" bodyfile="include/llm/training_data_iterator.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_training_data_iterator_1_1_config_1ab61998b8c98eee28c7ed7f7ce2de8c5c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::TrainingDataIterator::Config::enable_graph_context</definition>
+        <argsstring></argsstring>
+        <name>enable_graph_context</name>
+        <qualifiedname>themis::llm::TrainingDataIterator::Config::enable_graph_context</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/training_data_iterator.h" line="46" column="14" bodyfile="include/llm/training_data_iterator.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_training_data_iterator_1_1_config_1a731b9d5de271dcbd360c3febd3b59039" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::TrainingDataIterator::Config::enable_vector_similarity</definition>
+        <argsstring></argsstring>
+        <name>enable_vector_similarity</name>
+        <qualifiedname>themis::llm::TrainingDataIterator::Config::enable_vector_similarity</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/training_data_iterator.h" line="47" column="14" bodyfile="include/llm/training_data_iterator.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_training_data_iterator_1_1_config_1acabcd6b5fd0c4e0b4175b4eb2ec7b610" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::TrainingDataIterator::Config::enable_relational_joins</definition>
+        <argsstring></argsstring>
+        <name>enable_relational_joins</name>
+        <qualifiedname>themis::llm::TrainingDataIterator::Config::enable_relational_joins</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/training_data_iterator.h" line="48" column="14" bodyfile="include/llm/training_data_iterator.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_training_data_iterator_1_1_config_1a4884057b8d4f13cac0bdbbe987f03cb2" prot="public" static="no" mutable="no">
+        <type>std::function&lt; void(size_t processed, size_t total)&gt;</type>
+        <definition>std::function&lt;void(size_t processed, size_t total)&gt; themis::llm::TrainingDataIterator::Config::progress_callback</definition>
+        <argsstring></argsstring>
+        <name>progress_callback</name>
+        <qualifiedname>themis::llm::TrainingDataIterator::Config::progress_callback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/training_data_iterator.h" line="51" column="23" bodyfile="include/llm/training_data_iterator.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_training_data_iterator_1_1_config_1af8072e4892dd7328863cabd712876945" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::TrainingDataIterator::Config::progress_interval</definition>
+        <argsstring></argsstring>
+        <name>progress_interval</name>
+        <qualifiedname>themis::llm::TrainingDataIterator::Config::progress_interval</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/training_data_iterator.h" line="52" column="16" bodyfile="include/llm/training_data_iterator.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/training_data_iterator.h" line="32" column="5" bodyfile="include/llm/training_data_iterator.h" bodystart="32" bodyend="53"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_training_data_iterator_1_1_config_1a285facf778f6595b46ea48c45562cf03" prot="public" virt="non-virtual"><scope>themis::llm::TrainingDataIterator::Config</scope><name>batch_size</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_data_iterator_1_1_config_1ab61998b8c98eee28c7ed7f7ce2de8c5c" prot="public" virt="non-virtual"><scope>themis::llm::TrainingDataIterator::Config</scope><name>enable_graph_context</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_data_iterator_1_1_config_1acabcd6b5fd0c4e0b4175b4eb2ec7b610" prot="public" virt="non-virtual"><scope>themis::llm::TrainingDataIterator::Config</scope><name>enable_relational_joins</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_data_iterator_1_1_config_1a731b9d5de271dcbd360c3febd3b59039" prot="public" virt="non-virtual"><scope>themis::llm::TrainingDataIterator::Config</scope><name>enable_vector_similarity</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_data_iterator_1_1_config_1a1d86991756e590a4fe515a2abfee53c0" prot="public" virt="non-virtual"><scope>themis::llm::TrainingDataIterator::Config</scope><name>enable_zero_copy</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_data_iterator_1_1_config_1a08e2ee0bed1ac3ac539afabea87742b2" prot="public" virt="non-virtual"><scope>themis::llm::TrainingDataIterator::Config</scope><name>prefetch_batches</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_data_iterator_1_1_config_1a4884057b8d4f13cac0bdbbe987f03cb2" prot="public" virt="non-virtual"><scope>themis::llm::TrainingDataIterator::Config</scope><name>progress_callback</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_data_iterator_1_1_config_1af8072e4892dd7328863cabd712876945" prot="public" virt="non-virtual"><scope>themis::llm::TrainingDataIterator::Config</scope><name>progress_interval</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_data_iterator_1_1_config_1ae1b8fba124ad71febdcf18fcda1d5a5f" prot="public" virt="non-virtual"><scope>themis::llm::TrainingDataIterator::Config</scope><name>quality_filter</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_data_iterator_1_1_config_1a0f8353ebf34e4f66e8bc559b6d711b9b" prot="public" virt="non-virtual"><scope>themis::llm::TrainingDataIterator::Config</scope><name>random_seed</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_data_iterator_1_1_config_1a08ecb99df9655fb311eef845dd8556b0" prot="public" virt="non-virtual"><scope>themis::llm::TrainingDataIterator::Config</scope><name>shuffle_data</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

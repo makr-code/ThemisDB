@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1analytics_1_1_circuit_breaker_transition_test" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::analytics::CircuitBreakerTransitionTest</compoundname>
+    <basecompoundref refid="classtesting_1_1_test" prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_circuit_breaker_transition_test_1a035b2afcd49955a8a6147c59172c336b" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding" kindref="compound">DistributedAnalyticsSharding</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;DistributedAnalyticsSharding&gt; themisdb::analytics::CircuitBreakerTransitionTest::coordinator</definition>
+        <argsstring></argsstring>
+        <name>coordinator</name>
+        <qualifiedname>themisdb::analytics::CircuitBreakerTransitionTest::coordinator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" line="97" column="21" bodyfile="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_circuit_breaker_transition_test_1a1e52e02b846d93524f6db19330e789a9" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1analytics_1_1_mock_shard_executor" kindref="compound">MockShardExecutor</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;MockShardExecutor&gt; themisdb::analytics::CircuitBreakerTransitionTest::executor</definition>
+        <argsstring></argsstring>
+        <name>executor</name>
+        <qualifiedname>themisdb::analytics::CircuitBreakerTransitionTest::executor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" line="98" column="21" bodyfile="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" bodystart="98" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_circuit_breaker_transition_test_1a5b44ce340a9faeb8ee2790dfb59a5706" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::CircuitBreakerTransitionTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themisdb::analytics::CircuitBreakerTransitionTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" line="82" column="10" bodyfile="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" bodystart="82" bodyend="95"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+        <link refid="classtesting_1_1_test"/>
+      </node>
+      <node id="1">
+        <label>themisdb::analytics::CircuitBreakerTransitionTest</label>
+        <link refid="classthemisdb_1_1analytics_1_1_circuit_breaker_transition_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+        <link refid="classtesting_1_1_test"/>
+      </node>
+      <node id="1">
+        <label>themisdb::analytics::CircuitBreakerTransitionTest</label>
+        <link refid="classthemisdb_1_1analytics_1_1_circuit_breaker_transition_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" line="80" column="1" bodyfile="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" bodystart="80" bodyend="99"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1analytics_1_1_circuit_breaker_transition_test_1a035b2afcd49955a8a6147c59172c336b" prot="protected" virt="non-virtual"><scope>themisdb::analytics::CircuitBreakerTransitionTest</scope><name>coordinator</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_circuit_breaker_transition_test_1a1e52e02b846d93524f6db19330e789a9" prot="protected" virt="non-virtual"><scope>themisdb::analytics::CircuitBreakerTransitionTest</scope><name>executor</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_circuit_breaker_transition_test_1a5b44ce340a9faeb8ee2790dfb59a5706" prot="protected" virt="non-virtual"><scope>themisdb::analytics::CircuitBreakerTransitionTest</scope><name>SetUp</name></member>
+      <member refid="classtesting_1_1_test_1a2889fd829b6c712d98fb3896d28f64a3" prot="protected" virt="non-virtual"><scope>themisdb::analytics::CircuitBreakerTransitionTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

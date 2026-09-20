@@ -1,0 +1,552 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.17.0" xml:lang="en-US">
+  <compound refid="structthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_bridge_result" kind="struct"><name>themis::toolbox::ContentToolboxBridge::BridgeResult</name>
+    <member refid="structthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_bridge_result_1a9f0877ba3ba78ebba2fbe6a1794871d8" kind="variable"><name>content_id</name></member>
+    <member refid="structthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_bridge_result_1a79858afece3c24e01ca5517545624f61" kind="variable"><name>child_ids</name></member>
+    <member refid="structthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_bridge_result_1aa89c0afaf4e2f3061cff35b95dae27ba" kind="variable"><name>entities</name></member>
+    <member refid="structthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_bridge_result_1af432ddb1133052f6600707f6662ef811" kind="variable"><name>vectors</name></member>
+    <member refid="structthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_bridge_result_1a50849115360d84908bc03bd83457e27f" kind="variable"><name>ok</name></member>
+    <member refid="structthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_bridge_result_1a1cf416feb6fa51d5a0c968fcecde9327" kind="variable"><name>error</name></member>
+    <member refid="structthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_bridge_result_1af334e17963679cbe96f5b46ffa2389e8" kind="variable"><name>sinks_written</name></member>
+  </compound>
+  <compound refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_built_toolbox" kind="struct"><name>themis::toolbox::ToolboxBuilder::BuiltToolbox</name>
+    <member refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_built_toolbox_1a09ce11d26a30e8613f72285d8af6c150" kind="variable"><name>toolbox</name></member>
+    <member refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_built_toolbox_1a8da5ed014e70c466d167a860558ad3a1" kind="variable"><name>aql_bridge</name></member>
+    <member refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_built_toolbox_1a65137058ba1d91ff4fc86fb9b3809929" kind="variable"><name>rag_bridge</name></member>
+    <member refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_built_toolbox_1a3b21d5f82bcef125f1d509a2910957d9" kind="function"><name>BuiltToolbox</name></member>
+    <member refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_built_toolbox_1ae84232d3941fe040ca1cbdde67ff3efa" kind="function"><name>~BuiltToolbox</name></member>
+    <member refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_built_toolbox_1a4e5258e4706ab498422282c407a2157e" kind="function"><name>BuiltToolbox</name></member>
+    <member refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_built_toolbox_1aa1ab03f7d6815797915497c52563dc75" kind="function"><name>operator=</name></member>
+    <member refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_built_toolbox_1a7c1bde638d11be15e34fb236b21997ac" kind="function"><name>BuiltToolbox</name></member>
+    <member refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_built_toolbox_1a80258ccd3b71eae040276dce92ce5bd4" kind="function"><name>operator=</name></member>
+  </compound>
+  <compound refid="structthemis_1_1toolbox_1_1_content_fingerprint" kind="struct"><name>themis::toolbox::ContentFingerprint</name>
+    <member refid="structthemis_1_1toolbox_1_1_content_fingerprint_1afe807d63d650116c10addc0dd80235d1" kind="variable"><name>sha256_hex</name></member>
+    <member refid="structthemis_1_1toolbox_1_1_content_fingerprint_1ab0aa5db46fc483f1f693a25d51a8de2f" kind="variable"><name>byte_len</name></member>
+    <member refid="structthemis_1_1toolbox_1_1_content_fingerprint_1ab6b22f4fbfb7a824b58c4047111523bf" kind="variable"><name>token_estimate</name></member>
+    <member refid="structthemis_1_1toolbox_1_1_content_fingerprint_1aa9d739d3f3cce7be9a8450653dbb6081" kind="variable"><name>latency_us</name></member>
+    <member refid="structthemis_1_1toolbox_1_1_content_fingerprint_1a846e60aad8e8b3b0a11bae2a4bc342d7" kind="function"><name>valid</name></member>
+    <member refid="structthemis_1_1toolbox_1_1_content_fingerprint_1adc2cbc7a0eadef916bde374160950a8e" kind="function"><name>operator==</name></member>
+    <member refid="structthemis_1_1toolbox_1_1_content_fingerprint_1abaebb4b26d8f46055918e147a245a5b7" kind="function"><name>operator!=</name></member>
+  </compound>
+  <compound refid="classthemis_1_1toolbox_1_1_content_fingerprinter" kind="class"><name>themis::toolbox::ContentFingerprinter</name>
+    <member refid="classthemis_1_1toolbox_1_1_content_fingerprinter_1a029c612de899928a5d52ca989ff84e66" kind="function"><name>ContentFingerprinter</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_content_fingerprinter_1a7f7b6ca2f4fe72b18c70907e55ec1c51" kind="function"><name>~ContentFingerprinter</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_content_fingerprinter_1a5a50d676c20fcdc6e476dc20b92c6c83" kind="function"><name>ContentFingerprinter</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_content_fingerprinter_1ad890b062dfddd350ae495e66c17da809" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_content_fingerprinter_1af9f44ff174554cf6d6fa4d9137acdc41" kind="function"><name>compute</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_content_fingerprinter_1a9205aa800efe6a0447585310501b4bac" kind="function"><name>compute</name></member>
+  </compound>
+  <compound refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge" kind="class"><name>themis::toolbox::ContentToolboxBridge</name>
+    <member refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1a977aee5a45de516341e7a8711986d509" kind="variable"><name>impl_</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1a2a0d37ff2e6c828aa38e7548ff3916b6" kind="function"><name>ContentToolboxBridge</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1a166372b2674c5cbb7bc69da0195676a0" kind="function"><name>~ContentToolboxBridge</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1aeb965fe7c1c65432e3d0c3f991caf1a3" kind="function"><name>ContentToolboxBridge</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1acd0b8bca12c5659e04601dd3a1fa1d3f" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1a36a371a3a645f288a43fcc6d368562b6" kind="function"><name>ContentToolboxBridge</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1a84d91a3d8704097bcc945a2372340cab" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1ab6655f308acc9326eb9812e9034f1aee" kind="function"><name>ingest</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1a53a7e51f065f1d040536c976c95d710c" kind="function"><name>enrichExisting</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1ab50358eb344815603e313a4d03a2d4e5" kind="function"><name>toolbox</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1af5326682453b301635796bf6ecc51b52" kind="function"><name>contentManager</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1a00a12d5ac938836295979ee2c6ef5f97" kind="function"><name>graphWriter</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1ac55b1c7e4a44b35a6424b89c1dca5688" kind="function"><name>vectorWriter</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1a74e40a08148bf06fc6705440a81a4bb9" kind="function"><name>failuresTotal</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1a37508ed08675ed05c073ef865941cae9" kind="function"><name>graphWriteFailuresTotal</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1a81e2bc0bd31a150c87658eec1a2ade29" kind="function"><name>vectorWriteFailuresTotal</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1af8513ada9cb1d08adff146dd5c8d9b83" kind="function"><name>getMetricsText</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1addbbd7882a10ba02a164467b16eeba30" kind="function"><name>recordLatency</name></member>
+  </compound>
+  <compound refid="classthemis_1_1toolbox_1_1_default_language_detector" kind="class"><name>themis::toolbox::DefaultLanguageDetector</name>
+    <member refid="classthemis_1_1toolbox_1_1_default_language_detector_1a5651746b45a29dca1060c13ad5b4aae1" kind="variable"><name>min_ratio_</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_default_language_detector_1afbff2861f702a7ce10669fce066fd5e7" kind="function"><name>DefaultLanguageDetector</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_default_language_detector_1a35e50e6fefc65268eee626d578e3160e" kind="function"><name>DefaultLanguageDetector</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_default_language_detector_1ae1c816ec97c1d2e68bf904511d4c5d99" kind="function"><name>~DefaultLanguageDetector</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_default_language_detector_1aad840243011ecf1e17f893bde0653e78" kind="function"><name>DefaultLanguageDetector</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_default_language_detector_1ad8d2d8856b9d09c7d00658591e4f3ac0" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_default_language_detector_1aaf55e8cd38f38dc5196013f453fb7b39" kind="function"><name>detect</name></member>
+  </compound>
+  <compound refid="class_degraded_path_fixture" kind="class"><name>DegradedPathFixture</name>
+    <member refid="class_degraded_path_fixture_1ad9dc9e1162ab9fcfcf81817e139a8bf3" kind="variable"><name>toolbox_</name></member>
+  </compound>
+  <compound refid="struct_dispatch_record" kind="struct"><name>DispatchRecord</name>
+    <member refid="struct_dispatch_record_1a69f8cc90450f688d88e51b7e22a4006e" kind="variable"><name>tool_name</name></member>
+    <member refid="struct_dispatch_record_1a2b4e5fca772d8365dfa2b5e5bf87b71f" kind="variable"><name>success</name></member>
+    <member refid="struct_dispatch_record_1a5ebb8f5272ad1875835a7daaf13ec3f6" kind="variable"><name>latency_us</name></member>
+  </compound>
+  <compound refid="class_high_concurrency_fixture" kind="class"><name>HighConcurrencyFixture</name>
+    <member refid="class_high_concurrency_fixture_1a76f7d0c33995d6fc8ce55d8d8e8310f5" kind="variable"><name>toolbox_</name></member>
+    <member refid="class_high_concurrency_fixture_1a82ec2f4cfc0a270a4eff68592070ec7b" kind="variable"><name>operations_completed_</name></member>
+    <member refid="class_high_concurrency_fixture_1aa7d54bb6913f12ed6bec8cfae97189f8" kind="variable"><name>operations_failed_</name></member>
+    <member refid="class_high_concurrency_fixture_1a3792e21d4a6370c9f1e32e37a8b9ed9a" kind="variable"><name>kNumThreads</name></member>
+    <member refid="class_high_concurrency_fixture_1a594354c371da367cfa6610c9a4b85361" kind="variable"><name>kOpsPerThread</name></member>
+  </compound>
+  <compound refid="classthemis_1_1toolbox_1_1_i_language_detector" kind="class"><name>themis::toolbox::ILanguageDetector</name>
+    <member refid="classthemis_1_1toolbox_1_1_i_language_detector_1aad6eb87a5311cb285cf73d0c9ce7c554" kind="function"><name>~ILanguageDetector</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_i_language_detector_1acabdb5937c57d014ceb6dcea62122246" kind="function"><name>detect</name></member>
+  </compound>
+  <compound refid="class_ingestion_toolbox_1_1_impl" kind="class"><name>IngestionToolbox::Impl</name>
+    <member refid="class_ingestion_toolbox_1_1_impl_1a1feb59f8d7369ff82991b30ab9658613" kind="variable"><name>workflow_engine_</name></member>
+    <member refid="class_ingestion_toolbox_1_1_impl_1aae341fd2037b377277ade5ed55707704" kind="variable"><name>text_backend_</name></member>
+    <member refid="class_ingestion_toolbox_1_1_impl_1a53a830eef44bed0c8c4a8e225b060e3d" kind="variable"><name>mutex_</name></member>
+    <member refid="class_ingestion_toolbox_1_1_impl_1ae7647e4a79de11c3e9dbcabf8bc4f86d" kind="variable"><name>extract_calls_total_</name></member>
+    <member refid="class_ingestion_toolbox_1_1_impl_1aa65962e8aeadf0e6512db4f3ad94f32d" kind="variable"><name>extract_errors_total_</name></member>
+    <member refid="class_ingestion_toolbox_1_1_impl_1a25ca0873c12ce3484f9aa58195201643" kind="variable"><name>extract_entities_total_</name></member>
+    <member refid="class_ingestion_toolbox_1_1_impl_1a08a80d7590413eb024edb83cf037b49d" kind="variable"><name>extract_latency_ms_total_</name></member>
+    <member refid="class_ingestion_toolbox_1_1_impl_1ae2906e98c9667c362ece3607acdb1b5e" kind="variable"><name>extract_empty_results_</name></member>
+    <member refid="class_ingestion_toolbox_1_1_impl_1aefd02848a071ee9cc4c00918e7243ce4" kind="variable"><name>extract_failures_total_</name></member>
+    <member refid="class_ingestion_toolbox_1_1_impl_1a38199c9e2e8f92eb26a2342edb571f8a" kind="variable"><name>extract_latency_us_bucket_0_100_</name></member>
+    <member refid="class_ingestion_toolbox_1_1_impl_1a6f05751a11fbb95c038d9c2b373c81c2" kind="variable"><name>extract_latency_us_bucket_100_1000_</name></member>
+    <member refid="class_ingestion_toolbox_1_1_impl_1af7c939644480558a5aa96c9239315cd1" kind="variable"><name>extract_latency_us_bucket_1000_10000_</name></member>
+    <member refid="class_ingestion_toolbox_1_1_impl_1a71eab063ce8920780511bee9080a07dd" kind="variable"><name>extract_latency_us_bucket_10000_plus_</name></member>
+    <member refid="class_ingestion_toolbox_1_1_impl_1a824c39a218fc647b0da620175e444b60" kind="function"><name>Impl</name></member>
+  </compound>
+  <compound refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_impl" kind="class"><name>themis::toolbox::ContentToolboxBridge::Impl</name>
+    <member refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_impl_1aee84d0ce96e7cb379556b76b4b116149" kind="variable"><name>toolbox_</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_impl_1aab1a784efd551f78a02ad239447d163a" kind="variable"><name>content_manager_</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_impl_1a99b913ce67bdd2cfc902003fb350bdf8" kind="variable"><name>graph_writer_</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_impl_1a17198fa3465916e042bf6ace375c6dbc" kind="variable"><name>vector_writer_</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_impl_1ac8554b42a397e5eb2d2f5e46de5cbf17" kind="variable"><name>mutex_</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_impl_1a13748579a3b6e2d600f106ed1ea8f64b" kind="variable"><name>bridge_failures_total_</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_impl_1a9349e30caff87176d3b9cbe32416820a" kind="variable"><name>graph_write_failures_total_</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_impl_1ae78385bc0f668613dd54369b633b1793" kind="variable"><name>vector_write_failures_total_</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_impl_1aec3dac7776bae3c9ef7447b1a41f177e" kind="variable"><name>bridge_latency_us_bucket_0_100_</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_impl_1a0bfa2d654048ab61a08e1270faf31b3c" kind="variable"><name>bridge_latency_us_bucket_100_1000_</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_impl_1ae0d284dd7d2c25c1ada6ae034abb7c41" kind="variable"><name>bridge_latency_us_bucket_1000_10000_</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_impl_1acb6651af17df1e9073f77551fac26661" kind="variable"><name>bridge_latency_us_bucket_10000_plus_</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_impl_1a8c31df2e4c7923c8d89314469312addf" kind="variable"><name>bridge_latency_us_sum_</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_impl_1a2d22c777c3caf8fc984d7416d264971d" kind="variable"><name>bridge_operations_total_</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_impl_1a2f97580910be494f5e1df39aedca3b0f" kind="function"><name>Impl</name></member>
+  </compound>
+  <compound refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1_1_impl" kind="class"><name>themis::toolbox::IngestionToolbox::Impl</name>
+    <member refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1_1_impl_1a1feb59f8d7369ff82991b30ab9658613" kind="variable"><name>workflow_engine_</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1_1_impl_1aae341fd2037b377277ade5ed55707704" kind="variable"><name>text_backend_</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1_1_impl_1a53a830eef44bed0c8c4a8e225b060e3d" kind="variable"><name>mutex_</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1_1_impl_1ae7647e4a79de11c3e9dbcabf8bc4f86d" kind="variable"><name>extract_calls_total_</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1_1_impl_1aa65962e8aeadf0e6512db4f3ad94f32d" kind="variable"><name>extract_errors_total_</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1_1_impl_1a25ca0873c12ce3484f9aa58195201643" kind="variable"><name>extract_entities_total_</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1_1_impl_1a08a80d7590413eb024edb83cf037b49d" kind="variable"><name>extract_latency_ms_total_</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1_1_impl_1ae2906e98c9667c362ece3607acdb1b5e" kind="variable"><name>extract_empty_results_</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1_1_impl_1aefd02848a071ee9cc4c00918e7243ce4" kind="variable"><name>extract_failures_total_</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1_1_impl_1a38199c9e2e8f92eb26a2342edb571f8a" kind="variable"><name>extract_latency_us_bucket_0_100_</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1_1_impl_1a6f05751a11fbb95c038d9c2b373c81c2" kind="variable"><name>extract_latency_us_bucket_100_1000_</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1_1_impl_1af7c939644480558a5aa96c9239315cd1" kind="variable"><name>extract_latency_us_bucket_1000_10000_</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1_1_impl_1a71eab063ce8920780511bee9080a07dd" kind="variable"><name>extract_latency_us_bucket_10000_plus_</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1_1_impl_1a824c39a218fc647b0da620175e444b60" kind="function"><name>Impl</name></member>
+  </compound>
+  <compound refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_impl" kind="struct"><name>themis::toolbox::ToolboxBuilder::Impl</name>
+    <member refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_impl_1a3202acd727e2c207a491e33e432c87a3" kind="variable"><name>profile_paths</name></member>
+    <member refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_impl_1a57bc28d2428dd7338743955e7add1121" kind="variable"><name>engine</name></member>
+    <member refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_impl_1a8eeee5a77cad9fb7e9044993e796f116" kind="variable"><name>text_backend</name></member>
+    <member refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_impl_1a6224c7304e87c4956dba6905a9e246c3" kind="variable"><name>graph_writer</name></member>
+    <member refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_impl_1ab49381cea9ed9b150b67be7a83c358d7" kind="variable"><name>vector_writer</name></member>
+    <member refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_impl_1a9392683966ce1086475644474fb4cd40" kind="variable"><name>format_extractors</name></member>
+    <member refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_impl_1a88b275495ced0a775537304486200a7c" kind="variable"><name>tensor_decomp_backend</name></member>
+    <member refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_impl_1aa9d03775ee118a699214536f41615ad9" kind="variable"><name>tensor_core_bridge</name></member>
+    <member refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_impl_1a954c0d6ea8c4a4a16071c9109361fb15" kind="variable"><name>built</name></member>
+  </compound>
+  <compound refid="class_ingestion_toolbox" kind="class"><name>IngestionToolbox</name>
+    <member refid="class_ingestion_toolbox_1a14d725ab640d2b66909cda2d42ab9905" kind="variable"><name>impl_</name></member>
+    <member refid="class_ingestion_toolbox_1add581575c0e204a4ed02d567d2c58536" kind="function"><name>IngestionToolbox</name></member>
+    <member refid="class_ingestion_toolbox_1ad0e25d886adfaff3ff9e8547459f9235" kind="function"><name>IngestionToolbox</name></member>
+    <member refid="class_ingestion_toolbox_1a010ed9bd23523b02b9051cda608350c9" kind="function"><name>IngestionToolbox</name></member>
+    <member refid="class_ingestion_toolbox_1aba8d9f507e2d928765beb3f2e5c829ff" kind="function"><name>~IngestionToolbox</name></member>
+    <member refid="class_ingestion_toolbox_1a00a121f942de722f7174921a338f7e5d" kind="function"><name>operator=</name></member>
+    <member refid="class_ingestion_toolbox_1a373a4f5030732c8bd8fa3fc30e836bb9" kind="function"><name>operator=</name></member>
+    <member refid="class_ingestion_toolbox_1a6c27ee57faf4a9df0f21890820ed4435" kind="function"><name>setWorkflowEngine</name></member>
+    <member refid="class_ingestion_toolbox_1a1e8e208ea9a06265a0528db9f61196d7" kind="function"><name>setTextBackend</name></member>
+    <member refid="class_ingestion_toolbox_1ae82309c1d91e66bab932542f5a3810f9" kind="function"><name>workflowEngine</name></member>
+    <member refid="class_ingestion_toolbox_1a472e6c5dc8b90dfeabc8ac75b2af69bb" kind="function"><name>stepRegistry</name></member>
+    <member refid="class_ingestion_toolbox_1a108aad122de096def1394a6bd5c7ebf8" kind="function"><name>textBackend</name></member>
+    <member refid="class_ingestion_toolbox_1affd43cdad59ce49fcfa9f83f381e4a7f" kind="function"><name>extractEntities</name></member>
+    <member refid="class_ingestion_toolbox_1a19df1cedc0cdf6fecf649ade1e2b7572" kind="function"><name>extractEntitySet</name></member>
+    <member refid="class_ingestion_toolbox_1a4961ad684b226fb60e1d48e34e4277ae" kind="function"><name>recordExtraction</name></member>
+    <member refid="class_ingestion_toolbox_1ac0b1290261e7a9b2d061b85af49a312c" kind="function"><name>getMetricsText</name></member>
+    <member refid="class_ingestion_toolbox_1a49622a75716aa4535acdf5e84c5aa871" kind="function"><name>createDefault</name></member>
+  </compound>
+  <compound refid="classthemis_1_1toolbox_1_1_ingestion_toolbox" kind="class"><name>themis::toolbox::IngestionToolbox</name>
+    <member refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1a14d725ab640d2b66909cda2d42ab9905" kind="variable"><name>impl_</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1add581575c0e204a4ed02d567d2c58536" kind="function"><name>IngestionToolbox</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1aba8d9f507e2d928765beb3f2e5c829ff" kind="function"><name>~IngestionToolbox</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1ad0e25d886adfaff3ff9e8547459f9235" kind="function"><name>IngestionToolbox</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1a00a121f942de722f7174921a338f7e5d" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1a010ed9bd23523b02b9051cda608350c9" kind="function"><name>IngestionToolbox</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1a373a4f5030732c8bd8fa3fc30e836bb9" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1a6c27ee57faf4a9df0f21890820ed4435" kind="function"><name>setWorkflowEngine</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1a1e8e208ea9a06265a0528db9f61196d7" kind="function"><name>setTextBackend</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1ae82309c1d91e66bab932542f5a3810f9" kind="function"><name>workflowEngine</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1a472e6c5dc8b90dfeabc8ac75b2af69bb" kind="function"><name>stepRegistry</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1a108aad122de096def1394a6bd5c7ebf8" kind="function"><name>textBackend</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1affd43cdad59ce49fcfa9f83f381e4a7f" kind="function"><name>extractEntities</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1a19df1cedc0cdf6fecf649ade1e2b7572" kind="function"><name>extractEntitySet</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1a4961ad684b226fb60e1d48e34e4277ae" kind="function"><name>recordExtraction</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1ac0b1290261e7a9b2d061b85af49a312c" kind="function"><name>getMetricsText</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1a49622a75716aa4535acdf5e84c5aa871" kind="function"><name>createDefault</name></member>
+  </compound>
+  <compound refid="class_long_run_stress_fixture" kind="class"><name>LongRunStressFixture</name>
+    <member refid="class_long_run_stress_fixture_1a0843e4572084d6931b684cdb674065a1" kind="variable"><name>toolbox_</name></member>
+    <member refid="class_long_run_stress_fixture_1af5830177efc050252a3f9e8b829b2e13" kind="variable"><name>kIterations</name></member>
+    <member refid="class_long_run_stress_fixture_1a13b710968a195bd00a7bf399b2f4c914" kind="variable"><name>kCanonicalRngSeed</name></member>
+  </compound>
+  <compound refid="class_mixed_content_fixture" kind="class"><name>MixedContentFixture</name>
+    <member refid="class_mixed_content_fixture_1aecf75b34e8bf11d3e26ae2d414a76def" kind="variable"><name>toolbox_</name></member>
+  </compound>
+  <compound refid="class_stub_composite_router" kind="class"><name>StubCompositeRouter</name>
+    <member refid="class_stub_composite_router_1aecd8ddd2e0e2629368789f58eb5ee63e" kind="variable"><name>ops_</name></member>
+    <member refid="class_stub_composite_router_1a0c74e119b8313b931b78779d07241c46" kind="function"><name>dispatch</name></member>
+    <member refid="class_stub_composite_router_1a4f717ba8449575a3e8192aac67d7850b" kind="function"><name>totalOps</name></member>
+  </compound>
+  <compound refid="class_stub_content_bridge" kind="class"><name>StubContentBridge</name>
+    <member refid="class_stub_content_bridge_1a5bb5ce3e858ea3d2aaee2b7d0260e1fd" kind="variable"><name>ops_</name></member>
+    <member refid="class_stub_content_bridge_1aa790b1040f747140ce3aed47cf67b601" kind="function"><name>bridge</name></member>
+    <member refid="class_stub_content_bridge_1aa13667f489872f955e6740969973257f" kind="function"><name>totalOps</name></member>
+  </compound>
+  <compound refid="classthemis_1_1toolbox_1_1_text_chunker" kind="class"><name>themis::toolbox::TextChunker</name>
+    <member refid="classthemis_1_1toolbox_1_1_text_chunker_1a16e2c7fceeaab7ae7c25ea17d5c8ec72" kind="variable"><name>splitter_</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_text_chunker_1a0d18ba96217e468f2e99987f65c1ab2e" kind="function"><name>TextChunker</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_text_chunker_1a48601948f44af02bbbb7e9d7c2fb1910" kind="function"><name>TextChunker</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_text_chunker_1adce9a9aaa893409e288b80b95a9810f3" kind="function"><name>~TextChunker</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_text_chunker_1ae98a164dd56d256497c1eefdda7b4b11" kind="function"><name>TextChunker</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_text_chunker_1a524a1027dc49fad9088f1d98e33e597f" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_text_chunker_1a264acd51160b3699213fba6e0b9f72b0" kind="function"><name>TextChunker</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_text_chunker_1ad3bae515b6fae6257b3b388881f4e75e" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_text_chunker_1ad66be2e468fc43f37df06c9551b5bc4b" kind="function"><name>getConfig</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_text_chunker_1afe9273f0b9e068fa20a346ea4f23a17b" kind="function"><name>setConfig</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_text_chunker_1a6cbdc7b85d038ecbd647642757de0cf8" kind="function"><name>chunk</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_text_chunker_1a4c4bb738ace69e8521c3bb5190d2becc" kind="function"><name>chunkTexts</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_text_chunker_1aaf3713b9dfab59b40668183c6d2c086d" kind="function"><name>estimateTokens</name></member>
+  </compound>
+  <compound refid="classthemis_1_1toolbox_1_1_text_normalizer" kind="class"><name>themis::toolbox::TextNormalizer</name>
+    <member refid="classthemis_1_1toolbox_1_1_text_normalizer_1acb75c1b8363452e392f473d4aa1b7c5f" kind="function"><name>TextNormalizer</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_text_normalizer_1a9e64cd31fa4a7c4a18db9c1382d30272" kind="function"><name>~TextNormalizer</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_text_normalizer_1a1ed9853be4a49b69aa86655e0fcbc984" kind="function"><name>TextNormalizer</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_text_normalizer_1a0491d355c5c897d6eb24df1b09d3ea93" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_text_normalizer_1adeab8dc7d469275bdd4a04a24a5e3f43" kind="function"><name>normalize</name></member>
+  </compound>
+  <compound refid="structthemis_1_1toolbox_1_1_text_quality_score" kind="struct"><name>themis::toolbox::TextQualityScore</name>
+    <member refid="structthemis_1_1toolbox_1_1_text_quality_score_1a0131cdd4bb23edd35cc72f3a50fe8b4a" kind="variable"><name>token_count</name></member>
+    <member refid="structthemis_1_1toolbox_1_1_text_quality_score_1a249c284b280141c5443cd350f41c08b6" kind="variable"><name>char_count</name></member>
+    <member refid="structthemis_1_1toolbox_1_1_text_quality_score_1ae502efc80ce6c087c91bedc7e0b53982" kind="variable"><name>language</name></member>
+    <member refid="structthemis_1_1toolbox_1_1_text_quality_score_1aa943db17173477488848250aeba70d4a" kind="variable"><name>is_empty</name></member>
+    <member refid="structthemis_1_1toolbox_1_1_text_quality_score_1ac54bad7ba0501ad256511da3ffa70f1e" kind="variable"><name>has_boilerplate</name></member>
+  </compound>
+  <compound refid="classthemis_1_1toolbox_1_1_text_quality_scorer" kind="class"><name>themis::toolbox::TextQualityScorer</name>
+    <member refid="classthemis_1_1toolbox_1_1_text_quality_scorer_1a45483edb6c24d428531799f410ad2777" kind="function"><name>TextQualityScorer</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_text_quality_scorer_1a58c8133d13438b98d99f6972e20c8bfc" kind="function"><name>~TextQualityScorer</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_text_quality_scorer_1af8a6ea484b2264835e8790cb75d4030a" kind="function"><name>TextQualityScorer</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_text_quality_scorer_1a628728dc487c39f0e12740acbb6a6e4f" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_text_quality_scorer_1ace03734554f3ebed2f1e881ac427a532" kind="function"><name>score</name></member>
+  </compound>
+  <compound refid="classthemis_1_1toolbox_1_1_toolbox_builder" kind="class"><name>themis::toolbox::ToolboxBuilder</name>
+    <member refid="classthemis_1_1toolbox_1_1_toolbox_builder_1aad0671b27170c4d9bcd7f210639b6b20" kind="variable"><name>impl_</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_toolbox_builder_1acab4af460dc384c1df2ba202ee7872ff" kind="function"><name>ToolboxBuilder</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_toolbox_builder_1ae1ec02d660be94c9ab86cb3766ac55e2" kind="function"><name>~ToolboxBuilder</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_toolbox_builder_1ab2f050a924f2da782ff13ddb466bdf2e" kind="function"><name>ToolboxBuilder</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_toolbox_builder_1a0adf47fce8fae8908393f5de64ec8b76" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_toolbox_builder_1a41cde7a967e7272a5dfc74a4664e62e5" kind="function"><name>ToolboxBuilder</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_toolbox_builder_1abea0293f11ad757a4bc0e5b491288f53" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_toolbox_builder_1a0acdb896d36ad5b8339d5fa9a15c10f6" kind="function"><name>withWorkflowProfile</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_toolbox_builder_1a86e2e51bc39c3ecb87e7362763ed3086" kind="function"><name>withGraphWriter</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_toolbox_builder_1a92b73d731aeed09050db9655132596b8" kind="function"><name>withVectorWriter</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_toolbox_builder_1a0c158eaf4c0d80ba8288779bc803ce8f" kind="function"><name>withTextBackend</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_toolbox_builder_1ac3b086d0e7f9bc1efeafb0eef5170856" kind="function"><name>withWorkflowEngine</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_toolbox_builder_1a299e548106c175ca05a6d046ca1cdb74" kind="function"><name>withFormatExtractor</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_toolbox_builder_1a9e781764bc012d8fc666a8b0c18949f6" kind="function"><name>withFormatExtractorFactory</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_toolbox_builder_1abe12d5d8811cf497a458e352780aa69a" kind="function"><name>build</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_toolbox_builder_1a9969154491b7b874b762c41506102d13" kind="function"><name>buildWithBridges</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_toolbox_builder_1a403a81322ab115d0da891aef78129de6" kind="function"><name>graphWriter</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_toolbox_builder_1a8a16836a2a2a2d71bb129ae7513c1984" kind="function"><name>vectorWriter</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_toolbox_builder_1a6e59f67dce9b7ef2d3fba2b0c7d325a0" kind="function"><name>profileCount</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_toolbox_builder_1ac11a62e03c86033383d921f3bf14b80f" kind="function"><name>withTensorDecompositionBackend</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_toolbox_builder_1ad164f814b2576bd77fe171f8c722201a" kind="function"><name>withTensorCoreSink</name></member>
+  </compound>
+  <compound refid="classthemis_1_1toolbox_1_1_toolbox_composite" kind="class"><name>themis::toolbox::ToolboxComposite</name>
+    <member refid="classthemis_1_1toolbox_1_1_toolbox_composite_1ab60a0d5b07f14acb3a92315540d5c0f4" kind="typedef"><name>Route</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_toolbox_composite_1a6913e3eadeb19234ee141d06196ab1c6" kind="variable"><name>routes_</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_toolbox_composite_1a1a0e7146a3d9d4136521041f3153550e" kind="variable"><name>fallback_</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_toolbox_composite_1aa38b9ca5e937b6f1aff9fab353636888" kind="function"><name>ToolboxComposite</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_toolbox_composite_1a0827a301ea6688ee1a33c2215933a4fd" kind="function"><name>~ToolboxComposite</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_toolbox_composite_1a89381ce59597f36243c648d3c0ca9970" kind="function"><name>ToolboxComposite</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_toolbox_composite_1a1c21e05da7dacbf30d0783077168dee7" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_toolbox_composite_1a43f05d3ba4a55b8b94bcd284e4c9d4c6" kind="function"><name>ToolboxComposite</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_toolbox_composite_1a4f22e6bbcbeee10ba3c9270fe75d4df0" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_toolbox_composite_1a2c8aba1213d7da45fd0f4f2b7cae5eaa" kind="function"><name>extractEntities</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_toolbox_composite_1ae1994d7efbb93316bf324b541130263a" kind="function"><name>routes</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_toolbox_composite_1a77095803e9b237a153678d14dfbe3041" kind="function"><name>fallback</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_toolbox_composite_1a6fb6d01ac8b31fcd2e2e9327e7a672ec" kind="function"><name>resolve</name></member>
+  </compound>
+  <compound refid="classthemis_1_1toolbox_1_1_toolbox_composite_builder" kind="class"><name>themis::toolbox::ToolboxCompositeBuilder</name>
+    <member refid="classthemis_1_1toolbox_1_1_toolbox_composite_builder_1a98a2431504a9139f45524abd01f0a097" kind="variable"><name>routes_</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_toolbox_composite_builder_1a92da14f78c721b1a53e3bfaec45e1220" kind="variable"><name>fallback_</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_toolbox_composite_builder_1aab73a8af5038653161851ec07eca5567" kind="function"><name>ToolboxCompositeBuilder</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_toolbox_composite_builder_1ac8f113d537f2618b9d16ca0bf254f4f1" kind="function"><name>addRoute</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_toolbox_composite_builder_1a0b9883750256654fc53f10e54772a978" kind="function"><name>setFallback</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_toolbox_composite_builder_1a034a1c02bf086e8a271753a6dc663fc8" kind="function"><name>build</name></member>
+  </compound>
+  <compound refid="class_toolbox_contract_test" kind="class"><name>ToolboxContractTest</name>
+    <member refid="class_toolbox_contract_test_1aeb5e53ffb2c71d77ecb88fa6bca1dc69" kind="variable"><name>kSeed</name></member>
+    <member refid="class_toolbox_contract_test_1ac1265f858a6b88c4990882ec302f1200" kind="variable"><name>rng_</name></member>
+  </compound>
+  <compound refid="classthemis_1_1toolbox_1_1_toolbox_registry" kind="class"><name>themis::toolbox::ToolboxRegistry</name>
+    <member refid="classthemis_1_1toolbox_1_1_toolbox_registry_1abd0449e6b08f4f1c19c8ddf9debe1b8a" kind="function"><name>ToolboxRegistry</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_toolbox_registry_1ac351bdd30bd3869f83420897d748733d" kind="function"><name>initialize</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_toolbox_registry_1a63324a8845db86eb485ef20c2ea0cb9f" kind="function"><name>instance</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_toolbox_registry_1ad6d50180e0bd79623aada230beb59278" kind="function"><name>isInitialized</name></member>
+    <member refid="classthemis_1_1toolbox_1_1_toolbox_registry_1a3e1a423464c39da80ad6a5ebe9b898ec" kind="function"><name>reset</name></member>
+  </compound>
+  <compound refid="class_toolbox_registry_test" kind="class"><name>ToolboxRegistryTest</name>
+    <member refid="class_toolbox_registry_test_1a36a344da69f943a06850bf6e65e74fdc" kind="function"><name>SetUp</name></member>
+    <member refid="class_toolbox_registry_test_1a45d4cd101e0f66ba4b66be7c83bb827f" kind="function"><name>TearDown</name></member>
+  </compound>
+  <compound refid="namespace_0d000262052006073163261222040224331143074352027311" kind="namespace"><name>@000262052006073163261222040224331143074352027311</name>
+  </compound>
+  <compound refid="namespace_0d155022305267366232067334347227133271366115135017" kind="namespace"><name>@155022305267366232067334347227133271366115135017</name>
+  </compound>
+  <compound refid="namespace_0d276257272141142262075212213167072021316013215130" kind="namespace"><name>@276257272141142262075212213167072021316013215130</name>
+  </compound>
+  <compound refid="namespacetesting" kind="namespace"><name>testing</name>
+  </compound>
+  <compound refid="namespacethemis" kind="namespace"><name>themis</name>
+  </compound>
+  <compound refid="namespacethemis_1_1aql" kind="namespace"><name>themis::aql</name>
+  </compound>
+  <compound refid="namespacethemis_1_1bench" kind="namespace"><name>themis::bench</name>
+  </compound>
+  <compound refid="namespacethemis_1_1bench_1_1toolbox__dedicated" kind="namespace"><name>themis::bench::toolbox_dedicated</name>
+    <member refid="namespacethemis_1_1bench_1_1toolbox__dedicated_1a02f8a53a76a18f590d74bce1b4ea17ac" kind="variable"><name>kCanonicalSeed</name></member>
+    <member refid="namespacethemis_1_1bench_1_1toolbox__dedicated_1ad008492bb025be25d0630d3c2e7eb2fe" kind="variable"><name>kRepetitions</name></member>
+    <member refid="namespacethemis_1_1bench_1_1toolbox__dedicated_1a4303e15ec7a8a5e4d89d90fc9def5b7a" kind="function"><name>stubDispatch</name></member>
+    <member refid="namespacethemis_1_1bench_1_1toolbox__dedicated_1a4c9cce44107aeda24b5d3f4d5f96ac6a" kind="function"><name>stubBridge</name></member>
+    <member refid="namespacethemis_1_1bench_1_1toolbox__dedicated_1ac72d29aac2b093e26d6cea77ea40c0a2" kind="function"><name>stubExtract</name></member>
+    <member refid="namespacethemis_1_1bench_1_1toolbox__dedicated_1a30d07f737e7fa423c346e6e803ae100d" kind="function"><name>BM_Toolbox_ToolDispatch</name></member>
+    <member refid="namespacethemis_1_1bench_1_1toolbox__dedicated_1afa1f18ccc532eb31bed2826a4b5c8363" kind="function"><name>Name</name></member>
+    <member refid="namespacethemis_1_1bench_1_1toolbox__dedicated_1a2e424dc3634c8ac530f17fe7833ccb1b" kind="function"><name>BM_Toolbox_ContentBridge</name></member>
+    <member refid="namespacethemis_1_1bench_1_1toolbox__dedicated_1a955a725cbd5642188056fcd952ca5de8" kind="function"><name>Name</name></member>
+    <member refid="namespacethemis_1_1bench_1_1toolbox__dedicated_1a62a90ee844bd6203ec3bc04048820675" kind="function"><name>BM_Toolbox_ExtractionPipeline</name></member>
+    <member refid="namespacethemis_1_1bench_1_1toolbox__dedicated_1a29fba2fa1efac6311f244a42af05f6a4" kind="function"><name>Name</name></member>
+    <member refid="namespacethemis_1_1bench_1_1toolbox__dedicated_1ac4e43dd85a5418da672cc27d6905c57c" kind="function"><name>BM_Toolbox_BatchComposite</name></member>
+    <member refid="namespacethemis_1_1bench_1_1toolbox__dedicated_1ad38da727e4140c39511bfd88745d1b19" kind="function"><name>Name</name></member>
+  </compound>
+  <compound refid="namespacethemis_1_1ingestion" kind="namespace"><name>themis::ingestion</name>
+  </compound>
+  <compound refid="namespacethemis_1_1rag" kind="namespace"><name>themis::rag</name>
+  </compound>
+  <compound refid="namespacethemis_1_1toolbox" kind="namespace"><name>themis::toolbox</name>
+    <member refid="namespacethemis_1_1toolbox_1aca6fcfd2227a3d5aaf6e811fb3cb5cf0" kind="enum"><name>ToolboxError</name></member>
+    <member refid="namespacethemis_1_1toolbox_1aca6fcfd2227a3d5aaf6e811fb3cb5cf0afb2ee636ad459e1dfe9bb4b5b80a0eb7" kind="enumvalue"><name>kEmptyInput</name></member>
+    <member refid="namespacethemis_1_1toolbox_1aca6fcfd2227a3d5aaf6e811fb3cb5cf0a012944a30eae324fe3f2960a2dc11e58" kind="enumvalue"><name>kNoProcessor</name></member>
+    <member refid="namespacethemis_1_1toolbox_1aca6fcfd2227a3d5aaf6e811fb3cb5cf0aae0c906a9b5bb20c5d805d703066ab71" kind="enumvalue"><name>kProcessorFailed</name></member>
+    <member refid="namespacethemis_1_1toolbox_1aca6fcfd2227a3d5aaf6e811fb3cb5cf0a05dc7201754c396a6809f06299467ad9" kind="enumvalue"><name>kEncodingUnsupported</name></member>
+    <member refid="namespacethemis_1_1toolbox_1a1578ba52bfd7a53bf13df76cca2cb666" kind="typedef"><name>Fingerprint</name></member>
+    <member refid="namespacethemis_1_1toolbox_1a6cb72b1b61c3c398420e86fadfc81125" kind="typedef"><name>EntityCallback</name></member>
+    <member refid="namespacethemis_1_1toolbox_1a87a60bb256f3d70e1e9d624304b7d100" kind="variable"><name>kMinTextSizeForValidation</name></member>
+    <member refid="namespacethemis_1_1toolbox_1a5aeb09f46cf41b7b6b90efd8ad1ca106" kind="function"><name>fingerprint</name></member>
+    <member refid="namespacethemis_1_1toolbox_1aba8dc3a8e9edc3223ac17422d6e56d80" kind="function"><name>detectLanguage</name></member>
+    <member refid="namespacethemis_1_1toolbox_1a00d8815744183486ab8e128ac1985b32" kind="function"><name>chunkText</name></member>
+    <member refid="namespacethemis_1_1toolbox_1a2da4734b0920e08d82ba984be788b07a" kind="function"><name>normalizeText</name></member>
+    <member refid="namespacethemis_1_1toolbox_1aac1d3b64825b424f1d15bdabeac41ff5" kind="function"><name>scoreText</name></member>
+    <member refid="namespacethemis_1_1toolbox_1a2f8de32a2e3edab47975a212788d721d" kind="function"><name>initializeToolbox</name></member>
+    <member refid="namespacethemis_1_1toolbox_1a543ca62c58525ae8a1be5bb9cd5a7a2f" kind="function"><name>globalToolbox</name></member>
+    <member refid="namespacethemis_1_1toolbox_1a49a1d9d4627444d7785c76abc2eedeb8" kind="function"><name>extractEntities</name></member>
+    <member refid="namespacethemis_1_1toolbox_1ac2fb5e33b75d7b9a4910ce68df8a23cd" kind="function"><name>extractEntitySet</name></member>
+    <member refid="namespacethemis_1_1toolbox_1a4cb625f10f049a5d0ad587483da76a95" kind="function"><name>getMetricsText</name></member>
+    <member refid="namespacethemis_1_1toolbox_1a7a6674276028803d1aba6aafab49ee04" kind="function"><name>extractEntitiesStream</name></member>
+    <member refid="namespacethemis_1_1toolbox_1a2c79f3b45a558eff45d281dbf4fe28a2" kind="function"><name>extractEntitiesStream</name></member>
+    <member refid="namespacethemis_1_1toolbox_1a16cda63b4988b74eb1bb3721cb26ffa5" kind="function"><name>extractEntitiesStream</name></member>
+    <member refid="namespacethemis_1_1toolbox_1ae58692c9753712b0a34602d125069eb1" kind="function"><name>extractEntitiesStream</name></member>
+    <member refid="namespacethemis_1_1toolbox_1a0ddedeb0f2e769c1efb426e97a2852d3" kind="function"><name>runWorkflow</name></member>
+    <member refid="namespacethemis_1_1toolbox_1a4b478985d2b1cc597d5d363e07d36481" kind="function"><name>getTextChunkerMetrics</name></member>
+    <member refid="namespacethemis_1_1toolbox_1a7029638f28402473fdd0b9e46886535e" kind="function"><name>getTextNormalizerMetrics</name></member>
+    <member refid="namespacethemis_1_1toolbox_1a6daca96293e5f600ebc7c031a98ba505" kind="function"><name>getTextQualityScorerMetrics</name></member>
+  </compound>
+  <compound refid="namespacethemis_1_1toolbox_1_1_0d054324037053145107206252221027274213302275020312" kind="namespace"><name>themis::toolbox::@054324037053145107206252221027274213302275020312</name>
+  </compound>
+  <compound refid="namespacethemis_1_1toolbox_1_1_0d212141334176235243327256313017147227227204045247" kind="namespace"><name>themis::toolbox::@212141334176235243327256313017147227227204045247</name>
+  </compound>
+  <compound refid="namespacethemis_1_1toolbox_1_1_0d246205220117321375041150055307051206251210050146" kind="namespace"><name>themis::toolbox::@246205220117321375041150055307051206251210050146</name>
+  </compound>
+  <compound refid="namespacethemis_1_1toolbox_1_1_0d257066257343253224110024101355102107132227347275" kind="namespace"><name>themis::toolbox::@257066257343253224110024101355102107132227347275</name>
+  </compound>
+  <compound refid="namespacethemis_1_1toolbox_1_1_0d264224036174241060153252170351243220362053321327" kind="namespace"><name>themis::toolbox::@264224036174241060153252170351243220362053321327</name>
+  </compound>
+  <compound refid="namespacethemis_1_1toolbox_1_1_0d325361140014107175311031020116152210232165126217" kind="namespace"><name>themis::toolbox::@325361140014107175311031020116152210232165126217</name>
+  </compound>
+  <compound refid="bench__toolbox__dedicated__gates_8cpp" kind="file"><name>bench_toolbox_dedicated_gates.cpp</name>
+    <member refid="bench__toolbox__dedicated__gates_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kind="function"><name>BENCHMARK_MAIN</name></member>
+  </compound>
+  <compound refid="bench__toolbox__native__workloads_8cpp" kind="file"><name>bench_toolbox_native_workloads.cpp</name>
+    <member refid="bench__toolbox__native__workloads_8cpp_1a58352593be36f9b830910108ac2f5bb4" kind="function"><name>BM_ExtractEntities_Throughput</name></member>
+    <member refid="bench__toolbox__native__workloads_8cpp_1aac01ee51fd3f3df2010f747635310419" kind="function"><name>Iterations</name></member>
+    <member refid="bench__toolbox__native__workloads_8cpp_1a1b8656acdb641ab0663e38cbf49e3d9d" kind="function"><name>BM_ExtractEntitySet_Latency</name></member>
+    <member refid="bench__toolbox__native__workloads_8cpp_1afc7248df5a4637e9def76dff22c6a417" kind="function"><name>Iterations</name></member>
+    <member refid="bench__toolbox__native__workloads_8cpp_1a67a5aaf6d9790f2f147f9c950ff1b049" kind="function"><name>BM_TextNormalization_Latency</name></member>
+    <member refid="bench__toolbox__native__workloads_8cpp_1a3ae8fc1a26ecc580f71f6d6483f4ed03" kind="function"><name>Iterations</name></member>
+    <member refid="bench__toolbox__native__workloads_8cpp_1a9245981eac453b894dde73c80498aa92" kind="function"><name>BM_LanguageDetection_Latency</name></member>
+    <member refid="bench__toolbox__native__workloads_8cpp_1a88e75c33c96a2afe4f7869acf8eef009" kind="function"><name>BM_ContentFingerprinting_Throughput</name></member>
+    <member refid="bench__toolbox__native__workloads_8cpp_1a9512e86b8e8f483a74a4984168cf6685" kind="function"><name>BM_BridgeProxy_EntitySetLatency</name></member>
+    <member refid="bench__toolbox__native__workloads_8cpp_1a9da0a88859f0c59ce7c3d4fdff310c66" kind="function"><name>BM_EmptyExtraction_Throughput</name></member>
+    <member refid="bench__toolbox__native__workloads_8cpp_1afae50209c7186cd5f415dbd08576edb8" kind="function"><name>Iterations</name></member>
+    <member refid="bench__toolbox__native__workloads_8cpp_1af0dc5aa6141c30da5b1f676d9aa16d46" kind="function"><name>BM_MetricsGeneration</name></member>
+    <member refid="bench__toolbox__native__workloads_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kind="function"><name>BENCHMARK_MAIN</name></member>
+  </compound>
+  <compound refid="bench__toolbox__release__gates_8cpp" kind="file"><name>bench_toolbox_release_gates.cpp</name>
+    <member refid="bench__toolbox__release__gates_8cpp_1a8736b142f45790c15881637c2e7fad0a" kind="variable"><name>kCanonicalSeed</name></member>
+    <member refid="bench__toolbox__release__gates_8cpp_1af8cd3934087cd8b801f0407e14d0671a" kind="function"><name>BM_Fingerprint_DefaultInit</name></member>
+    <member refid="bench__toolbox__release__gates_8cpp_1a3395e81f4225f138389f36528e17fa1c" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__toolbox__release__gates_8cpp_1ad95624a131a343d0f5f9760bddea8496" kind="function"><name>BM_ToolboxError_Cast</name></member>
+    <member refid="bench__toolbox__release__gates_8cpp_1a87fa53f5e4fdc4a8e9bff1d3f92df618" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__toolbox__release__gates_8cpp_1a6a12180f7b93cf66831e34fbd6515cd9" kind="function"><name>BM_Fingerprint_Memset</name></member>
+    <member refid="bench__toolbox__release__gates_8cpp_1afb59d757f27d545e1ae8df0a79ceb95d" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__toolbox__release__gates_8cpp_1a1611c3cbe33b4b7cf5b5050853125a19" kind="function"><name>BM_ToolboxError_SwitchDispatch</name></member>
+    <member refid="bench__toolbox__release__gates_8cpp_1afc3ece881172c691e539ff3fdb3735cd" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__toolbox__release__gates_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kind="function"><name>BENCHMARK_MAIN</name></member>
+  </compound>
+  <compound refid="content__fingerprinter_8h" kind="file"><name>content_fingerprinter.h</name>
+  </compound>
+  <compound refid="content__toolbox__bridge_8h" kind="file"><name>content_toolbox_bridge.h</name>
+  </compound>
+  <compound refid="ingestion__toolbox_8h" kind="file"><name>ingestion_toolbox.h</name>
+  </compound>
+  <compound refid="language__detector_8h" kind="file"><name>language_detector.h</name>
+  </compound>
+  <compound refid="text__chunker_8h" kind="file"><name>text_chunker.h</name>
+  </compound>
+  <compound refid="text__normalizer_8h" kind="file"><name>text_normalizer.h</name>
+  </compound>
+  <compound refid="text__quality__scorer_8h" kind="file"><name>text_quality_scorer.h</name>
+  </compound>
+  <compound refid="toolbox__api__contract_8h" kind="file"><name>toolbox_api_contract.h</name>
+  </compound>
+  <compound refid="toolbox__builder_8h" kind="file"><name>toolbox_builder.h</name>
+  </compound>
+  <compound refid="toolbox__composite_8h" kind="file"><name>toolbox_composite.h</name>
+  </compound>
+  <compound refid="toolbox__registry_8h" kind="file"><name>toolbox_registry.h</name>
+  </compound>
+  <compound refid="toolbox__streaming_8h" kind="file"><name>toolbox_streaming.h</name>
+  </compound>
+  <compound refid="content__fingerprinter_8cpp" kind="file"><name>content_fingerprinter.cpp</name>
+  </compound>
+  <compound refid="content__toolbox__bridge_8cpp" kind="file"><name>content_toolbox_bridge.cpp</name>
+  </compound>
+  <compound refid="ingestion__toolbox_8cpp" kind="file"><name>ingestion_toolbox.cpp</name>
+  </compound>
+  <compound refid="language__detector_8cpp" kind="file"><name>language_detector.cpp</name>
+  </compound>
+  <compound refid="text__chunker_8cpp" kind="file"><name>text_chunker.cpp</name>
+  </compound>
+  <compound refid="text__normalizer_8cpp" kind="file"><name>text_normalizer.cpp</name>
+  </compound>
+  <compound refid="text__quality__scorer_8cpp" kind="file"><name>text_quality_scorer.cpp</name>
+  </compound>
+  <compound refid="toolbox__builder_8cpp" kind="file"><name>toolbox_builder.cpp</name>
+  </compound>
+  <compound refid="toolbox__composite_8cpp" kind="file"><name>toolbox_composite.cpp</name>
+  </compound>
+  <compound refid="toolbox__registry_8cpp" kind="file"><name>toolbox_registry.cpp</name>
+  </compound>
+  <compound refid="toolbox__streaming_8cpp" kind="file"><name>toolbox_streaming.cpp</name>
+  </compound>
+  <compound refid="test__toolbox__contract__hardening__focused_8cpp" kind="file"><name>test_toolbox_contract_hardening_focused.cpp</name>
+    <member refid="test__toolbox__contract__hardening__focused_8cpp_1ad37b9541649ffffdc85abf32e033c2eb" kind="function"><name>TEST_F</name></member>
+    <member refid="test__toolbox__contract__hardening__focused_8cpp_1a61096bcf5ef2eb43d1e755ffe9f52012" kind="function"><name>TEST_F</name></member>
+    <member refid="test__toolbox__contract__hardening__focused_8cpp_1a9520dfb6cb6e058d9401608b274c78db" kind="function"><name>TEST_F</name></member>
+    <member refid="test__toolbox__contract__hardening__focused_8cpp_1af801e37e822eadd6f1bd2ce6e3e628c4" kind="function"><name>TEST_F</name></member>
+    <member refid="test__toolbox__contract__hardening__focused_8cpp_1ab629afeaf7492a0d995981ece9f1ae9a" kind="function"><name>TEST_F</name></member>
+    <member refid="test__toolbox__contract__hardening__focused_8cpp_1a625db95e4d2ad01006047540619cca29" kind="function"><name>TEST_F</name></member>
+    <member refid="test__toolbox__contract__hardening__focused_8cpp_1a79536b34ec572bcedf103d8aa7fe81f7" kind="function"><name>TEST_F</name></member>
+    <member refid="test__toolbox__contract__hardening__focused_8cpp_1af18e82bc7b7645028033692746fe6f97" kind="function"><name>TEST_F</name></member>
+    <member refid="test__toolbox__contract__hardening__focused_8cpp_1aaef1d2c056aafdc6ec4ae9affcf97c4c" kind="function"><name>TEST_F</name></member>
+    <member refid="test__toolbox__contract__hardening__focused_8cpp_1afa43db057990be7c7c0ffb0cd6594bae" kind="function"><name>TEST_F</name></member>
+    <member refid="test__toolbox__contract__hardening__focused_8cpp_1a9b88556a13e68c3275186a32f1e01282" kind="function"><name>TEST_F</name></member>
+    <member refid="test__toolbox__contract__hardening__focused_8cpp_1a85084e648e8c307c2142835a8deec28c" kind="function"><name>TEST_F</name></member>
+    <member refid="test__toolbox__contract__hardening__focused_8cpp_1a70c3fd68fbd0b77773c28441f61e965b" kind="function"><name>TEST_F</name></member>
+    <member refid="test__toolbox__contract__hardening__focused_8cpp_1aaf3ed2f84e2a31ea683f0732aecb2ba9" kind="function"><name>TEST_F</name></member>
+    <member refid="test__toolbox__contract__hardening__focused_8cpp_1addc1d7f76b5153806d033da4e9942d4a" kind="function"><name>TEST_F</name></member>
+    <member refid="test__toolbox__contract__hardening__focused_8cpp_1a4cc6f0bf1e5b856b7033d775fe9ec05d" kind="function"><name>TEST_F</name></member>
+  </compound>
+  <compound refid="test__toolbox__highcardinality__stress_8cpp" kind="file"><name>test_toolbox_highcardinality_stress.cpp</name>
+    <member refid="test__toolbox__highcardinality__stress_8cpp_1a76dde9de0badf9273dc642cc09760ebc" kind="function"><name>TEST</name></member>
+    <member refid="test__toolbox__highcardinality__stress_8cpp_1a54eb776e1fa4d19499fe7a1dc7e982c6" kind="function"><name>TEST</name></member>
+    <member refid="test__toolbox__highcardinality__stress_8cpp_1a1243e34d9f92d89b55024824d40d75d0" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__toolbox__ingestion_8cpp" kind="file"><name>test_toolbox_ingestion.cpp</name>
+    <member refid="test__toolbox__ingestion_8cpp_1a1e4cf9dcebc97b9a8748feb705d76f6c" kind="function"><name>TEST</name></member>
+    <member refid="test__toolbox__ingestion_8cpp_1a2e6521075003c3d2f5ddc4928982faa8" kind="function"><name>TEST</name></member>
+    <member refid="test__toolbox__ingestion_8cpp_1a95d008ce6cc335a0bf7b287afe02711a" kind="function"><name>TEST</name></member>
+    <member refid="test__toolbox__ingestion_8cpp_1a332e7d3eb559a60a0a838a9fdff55a98" kind="function"><name>TEST</name></member>
+    <member refid="test__toolbox__ingestion_8cpp_1a4c2d1ec9222b5fbdcac1a2bf4974103c" kind="function"><name>TEST</name></member>
+    <member refid="test__toolbox__ingestion_8cpp_1a696c37cc25f90967e26f3ac93e103c88" kind="function"><name>TEST</name></member>
+    <member refid="test__toolbox__ingestion_8cpp_1ad6d765aa2053a45930522f83bccf2b1e" kind="function"><name>TEST</name></member>
+    <member refid="test__toolbox__ingestion_8cpp_1a22d2d3885b934d6aa79688d78fc740ae" kind="function"><name>TEST</name></member>
+    <member refid="test__toolbox__ingestion_8cpp_1a4a92c5ec95d125ea30ac21a447a2dec2" kind="function"><name>TEST</name></member>
+    <member refid="test__toolbox__ingestion_8cpp_1aadc3d8a18542e500c14aa433c26f552d" kind="function"><name>TEST</name></member>
+    <member refid="test__toolbox__ingestion_8cpp_1af04385c6abf8376075b98aac8c3bb82f" kind="function"><name>TEST</name></member>
+    <member refid="test__toolbox__ingestion_8cpp_1a83c3cbb31da01804a7c3cd6056f04e79" kind="function"><name>TEST</name></member>
+    <member refid="test__toolbox__ingestion_8cpp_1abf31aef691e364a24fa83b2523ca02da" kind="function"><name>TEST</name></member>
+    <member refid="test__toolbox__ingestion_8cpp_1a35fd5b3bc288aa1992950fdea04e86cc" kind="function"><name>TEST</name></member>
+    <member refid="test__toolbox__ingestion_8cpp_1a2be846415b9ad20637a476ee214aafb5" kind="function"><name>TEST</name></member>
+    <member refid="test__toolbox__ingestion_8cpp_1af5447eb51df733fa5ff202c78643d601" kind="function"><name>TEST</name></member>
+    <member refid="test__toolbox__ingestion_8cpp_1a97397624438bbe1d9683f3ea2b709c96" kind="function"><name>TEST</name></member>
+    <member refid="test__toolbox__ingestion_8cpp_1a47024ce79e047ed9ef8634b700dd58bf" kind="function"><name>TEST</name></member>
+    <member refid="test__toolbox__ingestion_8cpp_1a9d9459b6ff231ca834313160b320d0b3" kind="function"><name>TEST</name></member>
+    <member refid="test__toolbox__ingestion_8cpp_1afee6f8ed690703f69cce67082ffe5ae4" kind="function"><name>TEST</name></member>
+    <member refid="test__toolbox__ingestion_8cpp_1a42780f55939a4ee0637bd906f4a07710" kind="function"><name>TEST</name></member>
+    <member refid="test__toolbox__ingestion_8cpp_1ab98fa72686ad97d04911f6614c7631e8" kind="function"><name>TEST</name></member>
+    <member refid="test__toolbox__ingestion_8cpp_1a0e1ea080067e25a4c72b37cb08b84e5f" kind="function"><name>TEST</name></member>
+    <member refid="test__toolbox__ingestion_8cpp_1aeacf160148776c734f4674d6b3add84e" kind="function"><name>TEST</name></member>
+    <member refid="test__toolbox__ingestion_8cpp_1a9a94f3bae8a93aba0d593e69eb53ebb1" kind="function"><name>TEST</name></member>
+    <member refid="test__toolbox__ingestion_8cpp_1afe3092400968f57f6e1f24740d58df68" kind="function"><name>TEST</name></member>
+    <member refid="test__toolbox__ingestion_8cpp_1adc04d3d70b7bf7152f2302b7d9c9fff0" kind="function"><name>TEST</name></member>
+    <member refid="test__toolbox__ingestion_8cpp_1a42f6aa747440e815162e0a73c185592c" kind="function"><name>TEST</name></member>
+    <member refid="test__toolbox__ingestion_8cpp_1acbd6094db129e11200e77ee982d54104" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__toolbox__phase5_8cpp" kind="file"><name>test_toolbox_phase5.cpp</name>
+    <member refid="test__toolbox__phase5_8cpp_1a334bc059f69da46c3e67b779e2cea4c6" kind="function"><name>TEST</name></member>
+    <member refid="test__toolbox__phase5_8cpp_1abeb057f7ea79d0f64bf5d06fad9c2ede" kind="function"><name>TEST</name></member>
+    <member refid="test__toolbox__phase5_8cpp_1a51945cb2c24af477989585e8ef999f67" kind="function"><name>TEST</name></member>
+    <member refid="test__toolbox__phase5_8cpp_1aa5e02e5a540cdaf13624b2f862fa3384" kind="function"><name>TEST</name></member>
+    <member refid="test__toolbox__phase5_8cpp_1a1cf38ae0c6c34603bed2eccab860ce35" kind="function"><name>TEST</name></member>
+    <member refid="test__toolbox__phase5_8cpp_1a38242807ac3c7d81850b4579d2974a7a" kind="function"><name>TEST</name></member>
+    <member refid="test__toolbox__phase5_8cpp_1af09c98901ac820d32aee079558c8ce58" kind="function"><name>TEST</name></member>
+    <member refid="test__toolbox__phase5_8cpp_1acf5c15f3fec019188d7e0dbd5c8488e6" kind="function"><name>TEST</name></member>
+    <member refid="test__toolbox__phase5_8cpp_1a5cfd6b2cc35b36c0e787864f73c1e90f" kind="function"><name>TEST</name></member>
+    <member refid="test__toolbox__phase5_8cpp_1a8796203af8a3df76fc18e407f5354544" kind="function"><name>TEST_F</name></member>
+    <member refid="test__toolbox__phase5_8cpp_1a3b4f7781d967cd13b1f90252a8ad68ca" kind="function"><name>TEST_F</name></member>
+    <member refid="test__toolbox__phase5_8cpp_1a57eaa15bb728bc2e80816b7cbdd2fc59" kind="function"><name>TEST_F</name></member>
+    <member refid="test__toolbox__phase5_8cpp_1abca0381b1fcde85924b62039952e3513" kind="function"><name>TEST_F</name></member>
+    <member refid="test__toolbox__phase5_8cpp_1a8ba6e629754d5360f56a2acdc63a332c" kind="function"><name>TEST_F</name></member>
+    <member refid="test__toolbox__phase5_8cpp_1a1a5315b88853ed8e34bf532be7636b56" kind="function"><name>TEST_F</name></member>
+    <member refid="test__toolbox__phase5_8cpp_1a95af1118b176b49637903808575c120f" kind="function"><name>TEST_F</name></member>
+    <member refid="test__toolbox__phase5_8cpp_1a9d2b6d1c7a31430951dff09b0d5d6b8f" kind="function"><name>TEST_F</name></member>
+    <member refid="test__toolbox__phase5_8cpp_1a033f3ce273aa92d6c20f05e8ed2eefef" kind="function"><name>TEST_F</name></member>
+    <member refid="test__toolbox__phase5_8cpp_1a5e0bbdb0af060eabe8ca224c8b9f3d5e" kind="function"><name>TEST_F</name></member>
+    <member refid="test__toolbox__phase5_8cpp_1a665d391da8fd6e2f7e7ea2201929fbad" kind="function"><name>TEST_F</name></member>
+    <member refid="test__toolbox__phase5_8cpp_1a5bf1b05c9f43e209831aa36586516ead" kind="function"><name>TEST_F</name></member>
+    <member refid="test__toolbox__phase5_8cpp_1adcf792bc1e0f69abf35175abadac11a1" kind="function"><name>TEST_F</name></member>
+    <member refid="test__toolbox__phase5_8cpp_1a7dc6acb6e3249f595729be4715c13742" kind="function"><name>TEST_F</name></member>
+    <member refid="test__toolbox__phase5_8cpp_1a11176b211bafd56541665d8ff2ae65af" kind="function"><name>TEST_F</name></member>
+    <member refid="test__toolbox__phase5_8cpp_1ab5365085621f029d47837372dafc268e" kind="function"><name>TEST_F</name></member>
+    <member refid="test__toolbox__phase5_8cpp_1af8f4ea63b06a3b504884c16dc14599b4" kind="function"><name>TEST_F</name></member>
+  </compound>
+  <compound refid="test__toolbox__primitives_8cpp" kind="file"><name>test_toolbox_primitives.cpp</name>
+  </compound>
+  <compound refid="test" kind="page"><name>test</name>
+  </compound>
+  <compound refid="dir_13a41d9ad64fb9ae396cb953294783cf" kind="dir"><name>benchmarks</name>
+  </compound>
+  <compound refid="dir_d44c64559bbebec7f509842c48db8b23" kind="dir"><name>include</name>
+  </compound>
+  <compound refid="dir_68267d1309a1af8e8297ef4c3efbcdba" kind="dir"><name>src</name>
+  </compound>
+  <compound refid="dir_59425e443f801f1f2fd8bbe4959a3ccf" kind="dir"><name>tests</name>
+  </compound>
+  <compound refid="dir_600a099f0550a94ce3d4ba1f8caba966" kind="dir"><name>benchmarks/toolbox</name>
+  </compound>
+  <compound refid="dir_dc8d4286420b7aa8efcc9a53b027321f" kind="dir"><name>include/toolbox</name>
+  </compound>
+  <compound refid="dir_07ff14cf5d5d1b3e2eaf958894a8be47" kind="dir"><name>src/toolbox</name>
+  </compound>
+  <compound refid="dir_bc29332c9fce98af3db4be317f900c4b" kind="dir"><name>tests/toolbox</name>
+  </compound>
+</doxygenindex>

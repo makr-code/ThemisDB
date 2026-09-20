@@ -1,0 +1,369 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1acceleration_1_1_error_context_helpers" kind="namespace" language="C++">
+    <compoundname>themis::acceleration::ErrorContextHelpers</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1_1_error_context_helpers_1af287ad83b903a7dbf9d1a2344c6f0eb4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_error_context" kindref="compound">ErrorContext</ref></type>
+        <definition>ErrorContext themis::acceleration::ErrorContextHelpers::createNoDevicesError</definition>
+        <argsstring>(const std::string &amp;backendName)</argsstring>
+        <name>createNoDevicesError</name>
+        <qualifiedname>themis::acceleration::ErrorContextHelpers::createNoDevicesError</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>backendName</declname>
+        </param>
+        <briefdescription>
+<para>Create No Devices Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backendName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: ErrorContext(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/error_context.h" line="128" column="25" bodyfile="include/acceleration/error_context.h" bodystart="128" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1_1_error_context_helpers_1af7bd4cb331dfcb510f096476151b6285" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_error_context" kindref="compound">ErrorContext</ref></type>
+        <definition>ErrorContext themis::acceleration::ErrorContextHelpers::createDriverError</definition>
+        <argsstring>(const std::string &amp;backendName)</argsstring>
+        <name>createDriverError</name>
+        <qualifiedname>themis::acceleration::ErrorContextHelpers::createDriverError</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>backendName</declname>
+        </param>
+        <briefdescription>
+<para>Create Driver Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backendName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: ErrorContext(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/error_context.h" line="143" column="25" bodyfile="include/acceleration/error_context.h" bodystart="143" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1_1_error_context_helpers_1a5885037d36266564290c1e6d61199b02" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_error_context" kindref="compound">ErrorContext</ref></type>
+        <definition>ErrorContext themis::acceleration::ErrorContextHelpers::createContextError</definition>
+        <argsstring>(const std::string &amp;backendName, const std::string &amp;details)</argsstring>
+        <name>createContextError</name>
+        <qualifiedname>themis::acceleration::ErrorContextHelpers::createContextError</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>backendName</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>details</declname>
+        </param>
+        <briefdescription>
+<para>Create Context Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backendName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">details</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: ErrorContext(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/error_context.h" line="159" column="25" bodyfile="include/acceleration/error_context.h" bodystart="159" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1_1_error_context_helpers_1aca4f1f77ee56d3bae9b33eca19bca0ec" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_error_context" kindref="compound">ErrorContext</ref></type>
+        <definition>ErrorContext themis::acceleration::ErrorContextHelpers::createQueueError</definition>
+        <argsstring>(const std::string &amp;backendName, const std::string &amp;details)</argsstring>
+        <name>createQueueError</name>
+        <qualifiedname>themis::acceleration::ErrorContextHelpers::createQueueError</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>backendName</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>details</declname>
+        </param>
+        <briefdescription>
+<para>Create Queue Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backendName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">details</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: ErrorContext(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/error_context.h" line="175" column="25" bodyfile="include/acceleration/error_context.h" bodystart="175" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1_1_error_context_helpers_1a872dc15d5a3cfaf23d022136c40dbd74" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_error_context" kindref="compound">ErrorContext</ref></type>
+        <definition>ErrorContext themis::acceleration::ErrorContextHelpers::createMemoryError</definition>
+        <argsstring>(const std::string &amp;backendName, size_t requestedBytes)</argsstring>
+        <name>createMemoryError</name>
+        <qualifiedname>themis::acceleration::ErrorContextHelpers::createMemoryError</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>backendName</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>requestedBytes</declname>
+        </param>
+        <briefdescription>
+<para>Create Memory Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backendName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">requestedBytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: ErrorContext(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/error_context.h" line="191" column="25" bodyfile="include/acceleration/error_context.h" bodystart="191" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1_1_error_context_helpers_1a6a55fcd465e38bc558520165c7f8c34f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_error_context" kindref="compound">ErrorContext</ref></type>
+        <definition>ErrorContext themis::acceleration::ErrorContextHelpers::createKernelCompilationError</definition>
+        <argsstring>(const std::string &amp;backendName, const std::string &amp;kernelName, const std::string &amp;buildLog)</argsstring>
+        <name>createKernelCompilationError</name>
+        <qualifiedname>themis::acceleration::ErrorContextHelpers::createKernelCompilationError</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>backendName</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>kernelName</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>buildLog</declname>
+        </param>
+        <briefdescription>
+<para>Create Kernel Compilation Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backendName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">kernelName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">buildLog</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), ErrorContext(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/error_context.h" line="208" column="25" bodyfile="include/acceleration/error_context.h" bodystart="208" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1_1_error_context_helpers_1a9a2b93a927a5838896b04f0daeca16bd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_error_context" kindref="compound">ErrorContext</ref></type>
+        <definition>ErrorContext themis::acceleration::ErrorContextHelpers::createKernelLaunchError</definition>
+        <argsstring>(const std::string &amp;backendName, const std::string &amp;kernelName, const std::string &amp;details)</argsstring>
+        <name>createKernelLaunchError</name>
+        <qualifiedname>themis::acceleration::ErrorContextHelpers::createKernelLaunchError</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>backendName</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>kernelName</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>details</declname>
+        </param>
+        <briefdescription>
+<para>Create Kernel Launch Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backendName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">kernelName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">details</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: ErrorContext(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/error_context.h" line="232" column="25" bodyfile="include/acceleration/error_context.h" bodystart="232" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1_1_error_context_helpers_1ac05131265745a900204e8ff30b64744b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_error_context" kindref="compound">ErrorContext</ref></type>
+        <definition>ErrorContext themis::acceleration::ErrorContextHelpers::createValidationError</definition>
+        <argsstring>(const std::string &amp;backendName, AccelerationErrorCode code, const std::string &amp;details)</argsstring>
+        <name>createValidationError</name>
+        <qualifiedname>themis::acceleration::ErrorContextHelpers::createValidationError</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>backendName</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0" kindref="member">AccelerationErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>details</declname>
+        </param>
+        <briefdescription>
+<para>Create Validation Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backendName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">details</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: ErrorContext(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/error_context.h" line="251" column="25" bodyfile="include/acceleration/error_context.h" bodystart="251" bodyend="260"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/error_context.h" line="120" column="1"/>
+  </compounddef>
+</doxygen>

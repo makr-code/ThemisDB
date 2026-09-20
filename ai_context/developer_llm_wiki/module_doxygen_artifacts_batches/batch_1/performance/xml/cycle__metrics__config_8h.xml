@@ -1,0 +1,308 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="cycle__metrics__config_8h" kind="file" language="C++">
+    <compoundname>cycle_metrics_config.h</compoundname>
+    <includes refid="cycle__metrics_8h" local="yes">cycle_metrics.h</includes>
+    <includedby refid="async__metrics__exporter_8cpp" local="yes">src/performance/async_metrics_exporter.cpp</includedby>
+    <includedby refid="test__cycle__metrics_8cpp" local="yes">tests/performance/test_cycle_metrics.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>cycle_metrics.h</label>
+        <link refid="cycle__metrics_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/performance/cycle_metrics_config.h</label>
+        <link refid="cycle__metrics__config_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>atomic</label>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="7">
+        <label>mutex</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/performance/cycle_metrics_config.h</label>
+        <link refid="cycle__metrics__config_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/performance/async_metrics_exporter.cpp</label>
+        <link refid="async__metrics__exporter_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/performance/test_cycle_metrics.cpp</label>
+        <link refid="test__cycle__metrics_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1performance">themis::performance</innernamespace>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="cycle__metrics__config_8h_1aa93bb80e80c022d0f5240e44916af75e" prot="public" static="no">
+        <name>THEMIS_MEASURE_CYCLES_START</name>
+        <param><defname>var</defname></param>
+        <initializer>((void)0)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cycle_metrics_config.h" line="49" column="13" bodyfile="include/performance/cycle_metrics_config.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="cycle__metrics__config_8h_1aa0618aebc154b540b0d4728bb4dfc9b7" prot="public" static="no">
+        <name>THEMIS_MEASURE_CYCLES_END</name>
+        <param><defname>var</defname></param>
+        <initializer>((void)0)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cycle_metrics_config.h" line="50" column="13" bodyfile="include/performance/cycle_metrics_config.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="cycle__metrics__config_8h_1af22e51e191d54075550e9b485c21a911" prot="public" static="no">
+        <name>THEMIS_SCOPED_CYCLE_TIMER</name>
+        <param><defname>var</defname></param>
+        <initializer>((void)0)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cycle_metrics_config.h" line="51" column="13" bodyfile="include/performance/cycle_metrics_config.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="cycle__metrics__config_8h_1a75ccb50848b345a07f3f7a6acffbfea1" prot="public" static="no">
+        <name>THEMIS_RECORD_METRICS</name>
+        <param><defname>operation</defname></param>
+        <param><defname>metrics</defname></param>
+        <initializer>((void)0)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cycle_metrics_config.h" line="69" column="13" bodyfile="include/performance/cycle_metrics_config.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="cycle__metrics__config_8h_1ac85e7c0961993aace4997c4772894e5a" prot="public" static="no">
+        <name>THEMIS_RECORD_FUNCTION_CYCLES</name>
+        <param><defname>function_name</defname></param>
+        <param><defname>cycles</defname></param>
+        <initializer>((void)0)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cycle_metrics_config.h" line="86" column="14" bodyfile="include/performance/cycle_metrics_config.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="cycle__metrics__config_8h_1a84f59666422e8f9421d587422106ad64" prot="public" static="no">
+        <name>THEMIS_GPU_CYCLES_START</name>
+        <param></param>
+        <initializer>nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cycle_metrics_config.h" line="107" column="14" bodyfile="include/performance/cycle_metrics_config.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="cycle__metrics__config_8h_1a5710d06e6cd0364c39aa0d62751eee42" prot="public" static="no">
+        <name>THEMIS_GPU_CYCLES_END</name>
+        <param><defname>event</defname></param>
+        <initializer>0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cycle_metrics_config.h" line="108" column="13" bodyfile="include/performance/cycle_metrics_config.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="cycle__metrics__config_8h_1a3b9df97f4eafeba6a4159fee8f098aff" prot="public" static="no">
+        <name>THEMIS_PMU_START</name>
+        <param><defname>analyzer</defname></param>
+        <initializer>((void)0)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cycle_metrics_config.h" line="140" column="14" bodyfile="include/performance/cycle_metrics_config.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="cycle__metrics__config_8h_1ae7fffa37c0b0684a1644c578c678069d" prot="public" static="no">
+        <name>THEMIS_PMU_STOP</name>
+        <param><defname>analyzer</defname></param>
+        <param><defname>metrics</defname></param>
+        <initializer>((void)0)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cycle_metrics_config.h" line="141" column="13" bodyfile="include/performance/cycle_metrics_config.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="cycle__metrics__config_8h_1a9893881067807cb001cdbdffade2f34c" prot="public" static="no">
+        <name>THEMIS_SCOPED_CACHE_MISS_TIMER</name>
+        <param><defname>analyzer</defname></param>
+        <param><defname>metrics</defname></param>
+        <initializer>((void)0)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cycle_metrics_config.h" line="142" column="13" bodyfile="include/performance/cycle_metrics_config.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="cycle__metrics_8h" kindref="compound">cycle_metrics.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1performance" kindref="compound">performance</ref><sp/>{</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declaration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1performance_1_1_cycle_metrics_collector" kindref="compound">CycleMetricsCollector</ref>;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>performance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CYCLE<sp/>MEASUREMENT<sp/>MACROS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_CYCLE_METRICS</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_MEASURE_CYCLES_START(var)<sp/>\</highlight></codeline>
+<codeline lineno="32"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>var<sp/>=<sp/>::themis::performance::HardwareCycleCounter::cpu_cycles()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_MEASURE_CYCLES_END(var)<sp/>\</highlight></codeline>
+<codeline lineno="39"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>var<sp/>=<sp/>::themis::performance::HardwareCycleCounter::rdtscp()<sp/>-<sp/>var</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_SCOPED_CYCLE_TIMER(var)<sp/>\</highlight></codeline>
+<codeline lineno="46"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>::themis::performance::ScopedCycleTimer<sp/>_scoped_timer_##__LINE__(&amp;var)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Zero<sp/>cost:<sp/>compiles<sp/>to<sp/>nothing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="cycle__metrics__config_8h_1aa93bb80e80c022d0f5240e44916af75e" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_MEASURE_CYCLES_START(var)<sp/>((void)0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="cycle__metrics__config_8h_1aa0618aebc154b540b0d4728bb4dfc9b7" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_MEASURE_CYCLES_END(var)<sp/>((void)0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="cycle__metrics__config_8h_1af22e51e191d54075550e9b485c21a911" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_SCOPED_CYCLE_TIMER(var)<sp/>((void)0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>METRICS<sp/>RECORDING<sp/>MACROS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_METRICS_EXPORT</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_RECORD_METRICS(operation,<sp/>metrics)<sp/>\</highlight></codeline>
+<codeline lineno="65"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>::themis::performance::CycleMetricsCollector::instance()<sp/>\</highlight></codeline>
+<codeline lineno="66"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.recordOperation(operation,<sp/>metrics)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Zero<sp/>cost:<sp/>compiles<sp/>to<sp/>nothing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="cycle__metrics__config_8h_1a75ccb50848b345a07f3f7a6acffbfea1" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_RECORD_METRICS(operation,<sp/>metrics)<sp/>((void)0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DETAILED<sp/>METRICS<sp/>MACROS<sp/>(higher<sp/>overhead)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_DETAILED_METRICS</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_RECORD_FUNCTION_CYCLES(function_name,<sp/>cycles)<sp/>\</highlight></codeline>
+<codeline lineno="83"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>::themis::performance::CycleMetricsCollector::instance()<sp/>\</highlight></codeline>
+<codeline lineno="84"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.recordFunctionCycles(function_name,<sp/>cycles)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="cycle__metrics__config_8h_1ac85e7c0961993aace4997c4772894e5a" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_RECORD_FUNCTION_CYCLES(function_name,<sp/>cycles)<sp/>((void)0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GPU<sp/>METRICS<sp/>MACROS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_GPU_CYCLE_METRICS</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_GPU_CYCLES_START()<sp/>\</highlight></codeline>
+<codeline lineno="98"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>::themis::performance::HardwareCycleCounter::gpu_cycles_start()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_GPU_CYCLES_END(event)<sp/>\</highlight></codeline>
+<codeline lineno="105"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>::themis::performance::HardwareCycleCounter::gpu_cycles_end(event)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="cycle__metrics__config_8h_1a84f59666422e8f9421d587422106ad64" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_GPU_CYCLES_START()<sp/>nullptr</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="cycle__metrics__config_8h_1a5710d06e6cd0364c39aa0d62751eee42" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_GPU_CYCLES_END(event)<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PMU<sp/>CACHE<sp/>MISS<sp/>MACROS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_PMU_COUNTERS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;<ref refid="pmu__counters_8h" kindref="compound">performance/phase4/pmu_counters.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_PMU_START(analyzer)<sp/>(analyzer).start()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_PMU_STOP(analyzer,<sp/>metrics)<sp/>(metrics)<sp/>=<sp/>(analyzer).stop()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_SCOPED_CACHE_MISS_TIMER(analyzer,<sp/>metrics)<sp/>\</highlight></codeline>
+<codeline lineno="137"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>::themis::performance::phase4::ScopedCacheMissTimer<sp/>\</highlight></codeline>
+<codeline lineno="138"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_pmu_timer_##__LINE__((analyzer),<sp/>&amp;(metrics))</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140" refid="cycle__metrics__config_8h_1a3b9df97f4eafeba6a4159fee8f098aff" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_PMU_START(analyzer)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>((void)0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141" refid="cycle__metrics__config_8h_1ae7fffa37c0b0684a1644c578c678069d" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_PMU_STOP(analyzer,<sp/>metrics)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>((void)0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142" refid="cycle__metrics__config_8h_1a9893881067807cb001cdbdffade2f34c" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_SCOPED_CACHE_MISS_TIMER(analyzer,<sp/>metrics)<sp/>((void)0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="include/performance/cycle_metrics_config.h"/>
+  </compounddef>
+</doxygen>

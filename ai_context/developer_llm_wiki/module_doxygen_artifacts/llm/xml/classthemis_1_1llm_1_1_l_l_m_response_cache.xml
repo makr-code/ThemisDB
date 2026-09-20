@@ -1,0 +1,593 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_l_l_m_response_cache" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::LLMResponseCache</compoundname>
+    <includes refid="llm__response__cache_8h" local="no">llm_response_cache.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1_l_l_m_response_cache_1_1_config" prot="public">themis::llm::LLMResponseCache::Config</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_l_l_m_response_cache_1_1_cache_statistics" prot="public">themis::llm::LLMResponseCache::CacheStatistics</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_l_l_m_response_cache_1_1_cached_entry" prot="private">themis::llm::LLMResponseCache::CachedEntry</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_l_l_m_response_cache_1ac9ba9f70e1ae8df88ff9090bfeb229f9" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LLMResponseCache::cache_name_</definition>
+        <argsstring></argsstring>
+        <name>cache_name_</name>
+        <qualifiedname>themis::llm::LLMResponseCache::cache_name_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_response_cache.h" line="154" column="17" bodyfile="include/llm/llm_response_cache.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_l_l_m_response_cache_1a2963e993f2883c53984bbe3457ffda6b" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_l_l_m_response_cache_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::llm::LLMResponseCache::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::LLMResponseCache::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_response_cache.h" line="155" column="12" bodyfile="include/llm/llm_response_cache.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_l_l_m_response_cache_1a565382af9e2eedd2292fadd14c304f20" prot="private" static="no" mutable="yes">
+        <type><ref refid="structthemis_1_1llm_1_1_l_l_m_response_cache_1_1_cache_statistics" kindref="compound">CacheStatistics</ref></type>
+        <definition>CacheStatistics themis::llm::LLMResponseCache::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::llm::LLMResponseCache::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_response_cache.h" line="156" column="29" bodyfile="include/llm/llm_response_cache.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_l_l_m_response_cache_1a015f5810211c5e4b313447643ab12831" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector" kindref="compound">monitoring::LLMMetricsCollector</ref> *</type>
+        <definition>monitoring::LLMMetricsCollector* themis::llm::LLMResponseCache::metrics_collector_</definition>
+        <argsstring></argsstring>
+        <name>metrics_collector_</name>
+        <qualifiedname>themis::llm::LLMResponseCache::metrics_collector_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_response_cache.h" line="159" column="37" bodyfile="include/llm/llm_response_cache.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_l_l_m_response_cache_1a75fee1489eb72c0869ac0bb8cef4d173" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; themis::llm::LLMResponseCache::owned_db_</definition>
+        <argsstring></argsstring>
+        <name>owned_db_</name>
+        <qualifiedname>themis::llm::LLMResponseCache::owned_db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_response_cache.h" line="162" column="21" bodyfile="include/llm/llm_response_cache.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_l_l_m_response_cache_1abd0f0836ccffbc1a91d58904522b88b6" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; VectorIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;VectorIndexManager&gt; themis::llm::LLMResponseCache::vector_index_</definition>
+        <argsstring></argsstring>
+        <name>vector_index_</name>
+        <qualifiedname>themis::llm::LLMResponseCache::vector_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_response_cache.h" line="163" column="21" bodyfile="include/llm/llm_response_cache.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_l_l_m_response_cache_1a49b889c46e21a9dc66628f15f7398622" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, CachedEntry &gt;</type>
+        <definition>std::unordered_map&lt;std::string, CachedEntry&gt; themis::llm::LLMResponseCache::response_store_</definition>
+        <argsstring></argsstring>
+        <name>response_store_</name>
+        <qualifiedname>themis::llm::LLMResponseCache::response_store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_response_cache.h" line="166" column="24" bodyfile="include/llm/llm_response_cache.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_l_l_m_response_cache_1ad5ff7466073c9addfe1b26eaa2253fcb" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::LLMResponseCache::cache_mutex_</definition>
+        <argsstring></argsstring>
+        <name>cache_mutex_</name>
+        <qualifiedname>themis::llm::LLMResponseCache::cache_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_response_cache.h" line="167" column="24" bodyfile="include/llm/llm_response_cache.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_response_cache_1acb8b296e13e708298793a022b7441fb7" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::LLMResponseCache::LLMResponseCache</definition>
+        <argsstring>(const std::string &amp;cache_name, const Config &amp;config)</argsstring>
+        <name>LLMResponseCache</name>
+        <qualifiedname>themis::llm::LLMResponseCache::LLMResponseCache</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cache_name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_l_l_m_response_cache_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>LLMResponse Cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the cache. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_response_cache.h" line="96" column="14" bodyfile="src/llm/llm_response_cache.cpp" bodystart="31" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_response_cache_1a93157787100a20609ae2646d30a6f9dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::LLMResponseCache::~LLMResponseCache</definition>
+        <argsstring>()</argsstring>
+        <name>~LLMResponseCache</name>
+        <qualifiedname>themis::llm::LLMResponseCache::~LLMResponseCache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_response_cache.h" line="97" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_response_cache_1a04b25f39db4112f568bd5a300c544cba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::LLMResponseCache::LLMResponseCache</definition>
+        <argsstring>(const LLMResponseCache &amp;)=delete</argsstring>
+        <name>LLMResponseCache</name>
+        <qualifiedname>themis::llm::LLMResponseCache::LLMResponseCache</qualifiedname>
+        <param>
+          <type>const LLMResponseCache &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_response_cache.h" line="100" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_response_cache_1a166c11d6a4730bbd72803ac711b21cc7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_l_l_m_response_cache_1acb8b296e13e708298793a022b7441fb7" kindref="member">LLMResponseCache</ref> &amp;</type>
+        <definition>LLMResponseCache &amp; themis::llm::LLMResponseCache::operator=</definition>
+        <argsstring>(const LLMResponseCache &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::LLMResponseCache::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1_l_l_m_response_cache_1acb8b296e13e708298793a022b7441fb7" kindref="member">LLMResponseCache</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_response_cache.h" line="101" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_response_cache_1a52d861d473abad165297bf4dcc473fbe" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::LLMResponseCache::LLMResponseCache</definition>
+        <argsstring>(LLMResponseCache &amp;&amp;) noexcept=default</argsstring>
+        <name>LLMResponseCache</name>
+        <qualifiedname>themis::llm::LLMResponseCache::LLMResponseCache</qualifiedname>
+        <param>
+          <type>LLMResponseCache &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_response_cache.h" line="102" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_response_cache_1a788aaf92ce08a159dfef0d80e1cdceb5" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_l_l_m_response_cache_1acb8b296e13e708298793a022b7441fb7" kindref="member">LLMResponseCache</ref> &amp;</type>
+        <definition>LLMResponseCache &amp; themis::llm::LLMResponseCache::operator=</definition>
+        <argsstring>(LLMResponseCache &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::LLMResponseCache::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_l_l_m_response_cache_1acb8b296e13e708298793a022b7441fb7" kindref="member">LLMResponseCache</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_response_cache.h" line="103" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_response_cache_1a4e8ebe8185fdc8a3ebc169ec07c59379" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::LLMResponseCache::put</definition>
+        <argsstring>(const std::string &amp;prompt, const InferenceResponse &amp;response)</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::llm::LLMResponseCache::put</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_inference_response" kindref="compound">InferenceResponse</ref> &amp;</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+<para>Put. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), generateEmbedding(), empty(), THEMIS_WARN(), std::to_string(), hasher(), setPrimaryKey(), setField(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_response_cache.h" line="110" column="10" bodyfile="src/llm/llm_response_cache.cpp" bodystart="124" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_response_cache_1a6f99775954dd56bd7b158934282fa4d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="struct_inference_response" kindref="compound">InferenceResponse</ref> &gt;</type>
+        <definition>std::optional&lt; InferenceResponse &gt; themis::llm::LLMResponseCache::get</definition>
+        <argsstring>(const std::string &amp;prompt)</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::llm::LLMResponseCache::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <briefdescription>
+<para>Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::high_resolution_clock::now(), lock(), std::to_string(), hasher(), find(), end(), isExpired(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_response_cache.h" line="117" column="19" bodyfile="src/llm/llm_response_cache.cpp" bodystart="205" bodyend="386"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_response_cache_1aa1135c3da55c97dc67dfb579be170368" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LLMResponseCache::invalidate</definition>
+        <argsstring>(const std::string &amp;pattern)</argsstring>
+        <name>invalidate</name>
+        <qualifiedname>themis::llm::LLMResponseCache::invalidate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pattern</declname>
+        </param>
+        <briefdescription>
+<para>Invalidate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pattern</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pattern</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), regex_pattern(), begin(), end(), std::regex_search(), removeByPk(), erase(), store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_response_cache.h" line="124" column="12" bodyfile="src/llm/llm_response_cache.cpp" bodystart="394" bodyend="419"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_response_cache_1ad4f830b26ccb92adf28148e367d68d9f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::LLMResponseCache::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::llm::LLMResponseCache::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), shutdown(), init(), store(), recordCacheSize(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_response_cache.h" line="129" column="10" bodyfile="src/llm/llm_response_cache.cpp" bodystart="425" bodyend="449"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_response_cache_1ab6902ea3936c4483a36f107028150bcc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_l_l_m_response_cache_1_1_cache_statistics" kindref="compound">CacheStatistics</ref></type>
+        <definition>LLMResponseCache::CacheStatistics themis::llm::LLMResponseCache::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::llm::LLMResponseCache::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Return access control statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Access control statistics. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/llm_response_cache.h" line="135" column="21" bodyfile="src/llm/llm_response_cache.cpp" bodystart="451" bodyend="464"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_response_cache_1a74f98f6ac47b42e79d5195c55a142ade" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::LLMResponseCache::setMetricsCollector</definition>
+        <argsstring>(monitoring::LLMMetricsCollector *collector)</argsstring>
+        <name>setMetricsCollector</name>
+        <qualifiedname>themis::llm::LLMResponseCache::setMetricsCollector</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector" kindref="compound">monitoring::LLMMetricsCollector</ref> *</type>
+          <declname>collector</declname>
+        </param>
+        <briefdescription>
+<para>Set Metrics Collector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">collector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setMetricsCollector without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_response_cache.h" line="142" column="10" bodyfile="include/llm/llm_response_cache.h" bodystart="142" bodyend="144"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_response_cache_1a21b32496ea312bf9ed41e81f68cc3b8e" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::llm::LLMResponseCache::generateEmbedding</definition>
+        <argsstring>(const std::string &amp;prompt) const</argsstring>
+        <name>generateEmbedding</name>
+        <qualifiedname>themis::llm::LLMResponseCache::generateEmbedding</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <briefdescription>
+<para>Generate Embedding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_response_cache.h" line="174" column="17" bodyfile="src/llm/llm_response_cache.cpp" bodystart="466" bodyend="513"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_response_cache_1a9c50845abfb097b403884072a6cb744f" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::llm::LLMResponseCache::generateSimpleEmbedding</definition>
+        <argsstring>(const std::string &amp;prompt) const</argsstring>
+        <name>generateSimpleEmbedding</name>
+        <qualifiedname>themis::llm::LLMResponseCache::generateSimpleEmbedding</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <briefdescription>
+<para>Generate Simple Embedding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_response_cache.h" line="181" column="17" bodyfile="src/llm/llm_response_cache.cpp" bodystart="515" bodyend="602"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_response_cache_1ae911d16825d04628a5e38cb355c8b849" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMResponseCache::isExpired</definition>
+        <argsstring>(const CachedEntry &amp;entry) const</argsstring>
+        <name>isExpired</name>
+        <qualifiedname>themis::llm::LLMResponseCache::isExpired</qualifiedname>
+        <param>
+          <type>const CachedEntry &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Is Expired. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_response_cache.h" line="188" column="10" bodyfile="src/llm/llm_response_cache.cpp" bodystart="604" bodyend="608"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/llm_response_cache.h" line="40" column="1" bodyfile="include/llm/llm_response_cache.h" bodystart="40" bodyend="189"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_response_cache_1ad5ff7466073c9addfe1b26eaa2253fcb" prot="private" virt="non-virtual"><scope>themis::llm::LLMResponseCache</scope><name>cache_mutex_</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_response_cache_1ac9ba9f70e1ae8df88ff9090bfeb229f9" prot="private" virt="non-virtual"><scope>themis::llm::LLMResponseCache</scope><name>cache_name_</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_response_cache_1ad4f830b26ccb92adf28148e367d68d9f" prot="public" virt="non-virtual"><scope>themis::llm::LLMResponseCache</scope><name>clear</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_response_cache_1a2963e993f2883c53984bbe3457ffda6b" prot="private" virt="non-virtual"><scope>themis::llm::LLMResponseCache</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_response_cache_1a21b32496ea312bf9ed41e81f68cc3b8e" prot="private" virt="non-virtual"><scope>themis::llm::LLMResponseCache</scope><name>generateEmbedding</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_response_cache_1a9c50845abfb097b403884072a6cb744f" prot="private" virt="non-virtual"><scope>themis::llm::LLMResponseCache</scope><name>generateSimpleEmbedding</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_response_cache_1a6f99775954dd56bd7b158934282fa4d1" prot="public" virt="non-virtual"><scope>themis::llm::LLMResponseCache</scope><name>get</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_response_cache_1ab6902ea3936c4483a36f107028150bcc" prot="public" virt="non-virtual"><scope>themis::llm::LLMResponseCache</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_response_cache_1aa1135c3da55c97dc67dfb579be170368" prot="public" virt="non-virtual"><scope>themis::llm::LLMResponseCache</scope><name>invalidate</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_response_cache_1ae911d16825d04628a5e38cb355c8b849" prot="private" virt="non-virtual"><scope>themis::llm::LLMResponseCache</scope><name>isExpired</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_response_cache_1acb8b296e13e708298793a022b7441fb7" prot="public" virt="non-virtual"><scope>themis::llm::LLMResponseCache</scope><name>LLMResponseCache</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_response_cache_1a04b25f39db4112f568bd5a300c544cba" prot="public" virt="non-virtual"><scope>themis::llm::LLMResponseCache</scope><name>LLMResponseCache</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_response_cache_1a52d861d473abad165297bf4dcc473fbe" prot="public" virt="non-virtual"><scope>themis::llm::LLMResponseCache</scope><name>LLMResponseCache</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_response_cache_1a015f5810211c5e4b313447643ab12831" prot="private" virt="non-virtual"><scope>themis::llm::LLMResponseCache</scope><name>metrics_collector_</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_response_cache_1a166c11d6a4730bbd72803ac711b21cc7" prot="public" virt="non-virtual"><scope>themis::llm::LLMResponseCache</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_response_cache_1a788aaf92ce08a159dfef0d80e1cdceb5" prot="public" virt="non-virtual"><scope>themis::llm::LLMResponseCache</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_response_cache_1a75fee1489eb72c0869ac0bb8cef4d173" prot="private" virt="non-virtual"><scope>themis::llm::LLMResponseCache</scope><name>owned_db_</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_response_cache_1a4e8ebe8185fdc8a3ebc169ec07c59379" prot="public" virt="non-virtual"><scope>themis::llm::LLMResponseCache</scope><name>put</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_response_cache_1a49b889c46e21a9dc66628f15f7398622" prot="private" virt="non-virtual"><scope>themis::llm::LLMResponseCache</scope><name>response_store_</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_response_cache_1a74f98f6ac47b42e79d5195c55a142ade" prot="public" virt="non-virtual"><scope>themis::llm::LLMResponseCache</scope><name>setMetricsCollector</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_response_cache_1a565382af9e2eedd2292fadd14c304f20" prot="private" virt="non-virtual"><scope>themis::llm::LLMResponseCache</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_response_cache_1abd0f0836ccffbc1a91d58904522b88b6" prot="private" virt="non-virtual"><scope>themis::llm::LLMResponseCache</scope><name>vector_index_</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_response_cache_1a93157787100a20609ae2646d30a6f9dd" prot="public" virt="non-virtual"><scope>themis::llm::LLMResponseCache</scope><name>~LLMResponseCache</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1ethics_1_1_cultural_ethics_school_descriptor" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::CulturalEthicsSchoolDescriptor</compoundname>
+    <includes refid="ethics__ai__types_8h" local="no">ethics_ai_types.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_cultural_ethics_school_descriptor_1a62d013b656a47d4a744d5d840d88b609" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::CulturalEthicsSchoolDescriptor::school_id</definition>
+        <argsstring></argsstring>
+        <name>school_id</name>
+        <qualifiedname>themis::plugins::ethics::CulturalEthicsSchoolDescriptor::school_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="572" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="572" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_cultural_ethics_school_descriptor_1a02ee8f22e8609f6b20b3ad9ebb330cbb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::CulturalEthicsSchoolDescriptor::display_name</definition>
+        <argsstring></argsstring>
+        <name>display_name</name>
+        <qualifiedname>themis::plugins::ethics::CulturalEthicsSchoolDescriptor::display_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="573" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="573" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_cultural_ethics_school_descriptor_1a2d47284f69a7a1943eb6c0532f13fb91" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::CulturalEthicsSchoolDescriptor::cultural_context</definition>
+        <argsstring></argsstring>
+        <name>cultural_context</name>
+        <qualifiedname>themis::plugins::ethics::CulturalEthicsSchoolDescriptor::cultural_context</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="574" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="574" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_cultural_ethics_school_descriptor_1a79133c48a42278e3d43c013cead52c5c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::plugins::ethics::CulturalEthicsSchoolDescriptor::primary_norm_sources</definition>
+        <argsstring></argsstring>
+        <name>primary_norm_sources</name>
+        <qualifiedname>themis::plugins::ethics::CulturalEthicsSchoolDescriptor::primary_norm_sources</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="575" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="575" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_cultural_ethics_school_descriptor_1a6725e28ad8cb8c058ad7bf42666335c4" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::plugins::ethics::CulturalEthicsSchoolDescriptor::bias_correction_factor</definition>
+        <argsstring></argsstring>
+        <name>bias_correction_factor</name>
+        <qualifiedname>themis::plugins::ethics::CulturalEthicsSchoolDescriptor::bias_correction_factor</qualifiedname>
+        <initializer>{1.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="576" column="12" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="576" bodyend="576"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ethics_ai/ethics_ai_types.h" line="571" column="1" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="571" bodyend="577"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_cultural_ethics_school_descriptor_1a6725e28ad8cb8c058ad7bf42666335c4" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::CulturalEthicsSchoolDescriptor</scope><name>bias_correction_factor</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_cultural_ethics_school_descriptor_1a2d47284f69a7a1943eb6c0532f13fb91" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::CulturalEthicsSchoolDescriptor</scope><name>cultural_context</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_cultural_ethics_school_descriptor_1a02ee8f22e8609f6b20b3ad9ebb330cbb" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::CulturalEthicsSchoolDescriptor</scope><name>display_name</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_cultural_ethics_school_descriptor_1a79133c48a42278e3d43c013cead52c5c" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::CulturalEthicsSchoolDescriptor</scope><name>primary_norm_sources</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_cultural_ethics_school_descriptor_1a62d013b656a47d4a744d5d840d88b609" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::CulturalEthicsSchoolDescriptor</scope><name>school_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,245 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="jwks__security_8h" kind="file" language="C++">
+    <compoundname>jwks_security.h</compoundname>
+    <includes refid="secure__memory_8h" local="yes">auth/secure_memory.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includedby refid="jwks__security_8cpp" local="yes">src/auth/jwks_security.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/auth/jwks_security.h</label>
+        <link refid="jwks__security_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>auth/secure_memory.h</label>
+        <link refid="secure__memory_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>algorithm</label>
+      </node>
+      <node id="4">
+        <label>cstddef</label>
+      </node>
+      <node id="5">
+        <label>cstring</label>
+      </node>
+      <node id="9">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>openssl/crypto.h</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/auth/jwks_security.h</label>
+        <link refid="jwks__security_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/auth/jwks_security.cpp</label>
+        <link refid="jwks__security_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1auth_1_1_j_w_k_s_security_config" prot="public">themis::auth::JWKSSecurityConfig</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config" prot="public">themis::auth::JWKSSecurityConfig::Config</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_j_w_k_s_secure_fetcher" prot="public">themis::auth::JWKSSecureFetcher</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1_1_fetch_stats" prot="public">themis::auth::JWKSSecureFetcher::FetchStats</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_certificate_utils" prot="public">themis::auth::CertificateUtils</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_certificate_utils_1_1_cert_info" prot="public">themis::auth::CertificateUtils::CertInfo</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1auth">themis::auth</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="secure__memory_8h" kindref="compound">auth/secure_memory.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="classthemis_1_1auth_1_1_j_w_k_s_security_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1_j_w_k_s_security_config_1a0f88a2eb6d1774ee37a2074f8f7be342" kindref="member">JWKSSecurityConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="25" refid="classthemis_1_1auth_1_1_j_w_k_s_security_config_1a711a3a87025493c00fd06e0e2ff91c26" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_j_w_k_s_security_config_1a711a3a87025493c00fd06e0e2ff91c26" kindref="member">PinningMode</ref><sp/>{</highlight></codeline>
+<codeline lineno="26" refid="classthemis_1_1auth_1_1_j_w_k_s_security_config_1a711a3a87025493c00fd06e0e2ff91c26ab50339a10e1de285ac99d4c3990b8693" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_j_w_k_s_security_config_1a711a3a87025493c00fd06e0e2ff91c26ab50339a10e1de285ac99d4c3990b8693" kindref="member">NONE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>pinning<sp/>(default)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="classthemis_1_1auth_1_1_j_w_k_s_security_config_1a711a3a87025493c00fd06e0e2ff91c26a5944a3d5d92d1849bd20f002c323c759" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_j_w_k_s_security_config_1a711a3a87025493c00fd06e0e2ff91c26a5944a3d5d92d1849bd20f002c323c759" kindref="member">PUBLIC_KEY</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Pin<sp/>SPKI<sp/>hash<sp/>(recommended)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="classthemis_1_1auth_1_1_j_w_k_s_security_config_1a711a3a87025493c00fd06e0e2ff91c26aad1694fa18786504d416601fa3e96d01" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_j_w_k_s_security_config_1a711a3a87025493c00fd06e0e2ff91c26aad1694fa18786504d416601fa3e96d01" kindref="member">CERTIFICATE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Pin<sp/>entire<sp/>certificate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="classthemis_1_1auth_1_1_j_w_k_s_security_config_1a711a3a87025493c00fd06e0e2ff91c26aecddc45e2a6e1106d6f61124e8341fe0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_j_w_k_s_security_config_1a711a3a87025493c00fd06e0e2ff91c26aecddc45e2a6e1106d6f61124e8341fe0" kindref="member">CA_CERTIFICATE</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Pin<sp/>CA<sp/>certificate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32" refid="classthemis_1_1auth_1_1_j_w_k_s_security_config_1a21744a123a81ee79215536d0acf0843d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_j_w_k_s_security_config_1a21744a123a81ee79215536d0acf0843d" kindref="member">TLSVersion</ref><sp/>{</highlight></codeline>
+<codeline lineno="33" refid="classthemis_1_1auth_1_1_j_w_k_s_security_config_1a21744a123a81ee79215536d0acf0843daf470d9139c3e556e44d5981550169f5d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_j_w_k_s_security_config_1a21744a123a81ee79215536d0acf0843daf470d9139c3e556e44d5981550169f5d" kindref="member">TLS_1_0</ref>,</highlight></codeline>
+<codeline lineno="34" refid="classthemis_1_1auth_1_1_j_w_k_s_security_config_1a21744a123a81ee79215536d0acf0843da9a1d7c0d501ed870ad7a51ed313aef0a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_j_w_k_s_security_config_1a21744a123a81ee79215536d0acf0843da9a1d7c0d501ed870ad7a51ed313aef0a" kindref="member">TLS_1_1</ref>,</highlight></codeline>
+<codeline lineno="35" refid="classthemis_1_1auth_1_1_j_w_k_s_security_config_1a21744a123a81ee79215536d0acf0843da707dc1c0b85efa508ecc2cc365254625" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_j_w_k_s_security_config_1a21744a123a81ee79215536d0acf0843da707dc1c0b85efa508ecc2cc365254625" kindref="member">TLS_1_2</ref>,</highlight></codeline>
+<codeline lineno="36" refid="classthemis_1_1auth_1_1_j_w_k_s_security_config_1a21744a123a81ee79215536d0acf0843da6de65e8f2312c506ac0e9ecc22d21bfe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_j_w_k_s_security_config_1a21744a123a81ee79215536d0acf0843da6de65e8f2312c506ac0e9ecc22d21bfe" kindref="member">TLS_1_3</ref></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Certificate<sp/>Pinning</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1adbc6db24da4c3e3d7cf7c404b6504707" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_j_w_k_s_security_config_1a711a3a87025493c00fd06e0e2ff91c26" kindref="member">PinningMode</ref><sp/><ref refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1adbc6db24da4c3e3d7cf7c404b6504707" kindref="member">pinning_mode</ref><sp/>=<sp/><ref refid="classthemis_1_1auth_1_1_j_w_k_s_security_config_1a711a3a87025493c00fd06e0e2ff91c26ab50339a10e1de285ac99d4c3990b8693" kindref="member">PinningMode::NONE</ref>;</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1a94710075a66bbccf059832411f41afcc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1a94710075a66bbccf059832411f41afcc" kindref="member">pinned_hashes</ref>;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>SHA256<sp/>hashes<sp/>(base64)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1aaac2afb699db053144c331bf13cd5bcb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1aaac2afb699db053144c331bf13cd5bcb" kindref="member">pinned_cert_path</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Path<sp/>to<sp/>pinned<sp/>certificate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>mTLS<sp/>(Mutual<sp/>TLS)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1a02e6ca3cbe3a55b517573cd5c0869e7c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1a02e6ca3cbe3a55b517573cd5c0869e7c" kindref="member">enable_mtls</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1af6d738c0c8ac6791da1c9bb4e4a5a217" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1af6d738c0c8ac6791da1c9bb4e4a5a217" kindref="member">client_cert_path</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Client<sp/>certificate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1aff154ae5006c0cf39bbb01f2cb6d2614" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1aff154ae5006c0cf39bbb01f2cb6d2614" kindref="member">client_key_path</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Client<sp/>private<sp/>key</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1a3503f954283c4b9796eae2660c8dd013" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_secure_string" kindref="compound">SecureString</ref><sp/><ref refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1a3503f954283c4b9796eae2660c8dd013" kindref="member">client_key_password</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Key<sp/>password<sp/>(optional,<sp/>zeroed<sp/>on<sp/>destruction)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>TLS<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1a7f564366d6f9cc5ffe602022ddaeed8f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_j_w_k_s_security_config_1a21744a123a81ee79215536d0acf0843d" kindref="member">TLSVersion</ref><sp/><ref refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1a7f564366d6f9cc5ffe602022ddaeed8f" kindref="member">min_tls_version</ref><sp/>=<sp/><ref refid="classthemis_1_1auth_1_1_j_w_k_s_security_config_1a21744a123a81ee79215536d0acf0843da707dc1c0b85efa508ecc2cc365254625" kindref="member">TLSVersion::TLS_1_2</ref>;</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1a4344f789957f0ca79f2723fc2c58e32b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1a4344f789957f0ca79f2723fc2c58e32b" kindref="member">verify_hostname</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1a08687afaedc5ddca144dda93b21a7148" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1a08687afaedc5ddca144dda93b21a7148" kindref="member">verify_certificate</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1a98e5471d12091d5d74ba23100b575a6d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1a98e5471d12091d5d74ba23100b575a6d" kindref="member">ca_bundle_path</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Custom<sp/>CA<sp/>bundle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cipher<sp/>suites<sp/>(optional,<sp/>empty<sp/>=<sp/>system<sp/>default)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1af2bf98cccf99e00ca7453076f8c0d383" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1af2bf98cccf99e00ca7453076f8c0d383" kindref="member">allowed_ciphers</ref>;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Timeout</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1a665567e3a452729b4e67baff97b79733" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1a665567e3a452729b4e67baff97b79733" kindref="member">connect_timeout_ms</ref><sp/>=<sp/>5000;</highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1a6c7fbeebb047df8176155ad91125f4fa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1a6c7fbeebb047df8176155ad91125f4fa" kindref="member">read_timeout_ms</ref><sp/>=<sp/>5000;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_j_w_k_s_security_config_1a0f88a2eb6d1774ee37a2074f8f7be342" kindref="member">JWKSSecurityConfig</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="72" refid="classthemis_1_1auth_1_1_j_w_k_s_security_config_1a72bef666f0230471f4c4590e6901313d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config" kindref="compound">Config</ref>&amp;<sp/><ref refid="classthemis_1_1auth_1_1_j_w_k_s_security_config_1a72bef666f0230471f4c4590e6901313d" kindref="member">getConfig</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_j_w_k_s_security_config_1a083e7679df87de1c066a00d866de34c4" kindref="member">validate</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>Config<sp/><ref refid="classthemis_1_1auth_1_1_j_w_k_s_security_config_1a6b42a439dfb33119c4a71e9872f2cf9f" kindref="member">withPublicKeyPinning</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>spki_hashes);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>Config<sp/><ref refid="classthemis_1_1auth_1_1_j_w_k_s_security_config_1add700e6863ec25f25d2e0880d951f0d8" kindref="member">withCertificatePinning</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>cert_path);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>Config<sp/><ref refid="classthemis_1_1auth_1_1_j_w_k_s_security_config_1af6a6f2876541c5c5480100a156e6a566" kindref="member">withMTLS</ref>(</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>client_cert_path,</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>client_key_path,</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key_password<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>Config<sp/><ref refid="classthemis_1_1auth_1_1_j_w_k_s_security_config_1ab475c1ff497a1c86ac0500905e807c26" kindref="member">secureDefaults</ref>();</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>Config<sp/>config_;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="classthemis_1_1auth_1_1_j_w_k_s_secure_fetcher" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1ac62053fcac74b16a2ff50c6c4637a971" kindref="member">JWKSSecureFetcher</ref><sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1ac62053fcac74b16a2ff50c6c4637a971" kindref="member">JWKSSecureFetcher</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config" kindref="compound">JWKSSecurityConfig::Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="117" refid="classthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1a557ca1310ddf9571b236f251d02f027d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1a557ca1310ddf9571b236f251d02f027d" kindref="member">~JWKSSecureFetcher</ref>();</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Disable<sp/>copy,<sp/>allow<sp/>move</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120" refid="classthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1a8e2e07035706a12e232941c4419dd44c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1a8e2e07035706a12e232941c4419dd44c" kindref="member">JWKSSecureFetcher</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1ac62053fcac74b16a2ff50c6c4637a971" kindref="member">JWKSSecureFetcher</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="121" refid="classthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1a05fbc8151242ffb6df183f29c35eafcb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1ac62053fcac74b16a2ff50c6c4637a971" kindref="member">JWKSSecureFetcher</ref>&amp;<sp/><ref refid="classthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1a05fbc8151242ffb6df183f29c35eafcb" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1ac62053fcac74b16a2ff50c6c4637a971" kindref="member">JWKSSecureFetcher</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="122" refid="classthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1a94be550ac80635d6a495d58c3a3401e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1a94be550ac80635d6a495d58c3a3401e9" kindref="member">JWKSSecureFetcher</ref>(<ref refid="classthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1ac62053fcac74b16a2ff50c6c4637a971" kindref="member">JWKSSecureFetcher</ref>&amp;&amp;)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="123" refid="classthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1a135d102266e0df2316b5398e1c235609" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1ac62053fcac74b16a2ff50c6c4637a971" kindref="member">JWKSSecureFetcher</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1ac62053fcac74b16a2ff50c6c4637a971" kindref="member">JWKSSecureFetcher</ref>&amp;&amp;)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1ab272d552bd1d66187f1d26590db551f4" kindref="member">fetch</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>url);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1ad6674822ec7dbd28faf9b786b1c12d9a" kindref="member">verifyPinning</ref>(const<sp/>std::vector&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&gt;&amp;<sp/>cert_chain);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="139" refid="structthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1_1_fetch_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/>struct<sp/><ref refid="structthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1_1_fetch_stats" kindref="compound">FetchStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="140" refid="structthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1_1_fetch_stats_1a9e4b4e2b9b7f9ff74d714da0d6bfa2a2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1_1_fetch_stats_1a9e4b4e2b9b7f9ff74d714da0d6bfa2a2" kindref="member">url</ref>;</highlight></codeline>
+<codeline lineno="141" refid="structthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1_1_fetch_stats_1ab5ac3ef7324a11be4528424306430cce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1_1_fetch_stats_1ab5ac3ef7324a11be4528424306430cce" kindref="member">status_code</ref>;</highlight></codeline>
+<codeline lineno="142" refid="structthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1_1_fetch_stats_1a3272bc5e8f6c4d74f92a3f9cf18fda3e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1_1_fetch_stats_1a3272bc5e8f6c4d74f92a3f9cf18fda3e" kindref="member">duration_ms</ref>;</highlight></codeline>
+<codeline lineno="143" refid="structthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1_1_fetch_stats_1aad8757644b3e7621eb1bb2f7186a12f1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1_1_fetch_stats_1aad8757644b3e7621eb1bb2f7186a12f1" kindref="member">tls_version</ref>;</highlight></codeline>
+<codeline lineno="144" refid="structthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1_1_fetch_stats_1acca3d965267e269570d55325df6ccb24" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1_1_fetch_stats_1acca3d965267e269570d55325df6ccb24" kindref="member">cipher_suite</ref>;</highlight></codeline>
+<codeline lineno="145" refid="structthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1_1_fetch_stats_1af018a634dadcc87491ac55cc4d5a4661" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1_1_fetch_stats_1af018a634dadcc87491ac55cc4d5a4661" kindref="member">pinning_verified</ref>;</highlight></codeline>
+<codeline lineno="146" refid="structthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1_1_fetch_stats_1adc76e39cd99ac4cb3bcab76211baca76" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1_1_fetch_stats_1adc76e39cd99ac4cb3bcab76211baca76" kindref="member">mtls_used</ref>;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1_1_fetch_stats" kindref="compound">FetchStats</ref><sp/><ref refid="classthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1a4a5f73aa7cb58bc13a506aad157b3615" kindref="member">getLastFetchStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>computeSPKIHash(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>cert_data);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>setupTLSContext();</highlight></codeline>
+<codeline lineno="170"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172" refid="classthemis_1_1auth_1_1_certificate_utils" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1_certificate_utils" kindref="compound">CertificateUtils</ref><sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1auth_1_1_certificate_utils_1ac4c5c693876c21130402be5f065165a7" kindref="member">computeSPKIHashFromFile</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>cert_path);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1auth_1_1_certificate_utils_1a30e7fb19f5c74dec6c600a3675379017" kindref="member">computeSPKIHashFromPEM</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>cert_pem);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_certificate_utils_1ac90b529f80293ea9da06b6e446bc8544" kindref="member">verifyCertificate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>cert_path);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="195" refid="structthemis_1_1auth_1_1_certificate_utils_1_1_cert_info" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1auth_1_1_certificate_utils_1_1_cert_info" kindref="compound">CertInfo</ref><sp/>{</highlight></codeline>
+<codeline lineno="196" refid="structthemis_1_1auth_1_1_certificate_utils_1_1_cert_info_1a6383f0d56a3554d7da516ca82302f623" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_certificate_utils_1_1_cert_info_1a6383f0d56a3554d7da516ca82302f623" kindref="member">subject</ref>;</highlight></codeline>
+<codeline lineno="197" refid="structthemis_1_1auth_1_1_certificate_utils_1_1_cert_info_1ad8e9762ea9f41bfbb790269723ae87f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_certificate_utils_1_1_cert_info_1ad8e9762ea9f41bfbb790269723ae87f7" kindref="member">issuer</ref>;</highlight></codeline>
+<codeline lineno="198" refid="structthemis_1_1auth_1_1_certificate_utils_1_1_cert_info_1ada64418175abee21f44c7b07c5847446" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_certificate_utils_1_1_cert_info_1ada64418175abee21f44c7b07c5847446" kindref="member">serial_number</ref>;</highlight></codeline>
+<codeline lineno="199" refid="structthemis_1_1auth_1_1_certificate_utils_1_1_cert_info_1aeb1621f77f8d7123fd5cd2e368878c1e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_certificate_utils_1_1_cert_info_1aeb1621f77f8d7123fd5cd2e368878c1e" kindref="member">not_before</ref>;</highlight></codeline>
+<codeline lineno="200" refid="structthemis_1_1auth_1_1_certificate_utils_1_1_cert_info_1a7d82d8824e5990252656aff81d21d068" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_certificate_utils_1_1_cert_info_1a7d82d8824e5990252656aff81d21d068" kindref="member">not_after</ref>;</highlight></codeline>
+<codeline lineno="201" refid="structthemis_1_1auth_1_1_certificate_utils_1_1_cert_info_1a2667d8f5af3a69cdb5e13c1771a98759" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_certificate_utils_1_1_cert_info_1a2667d8f5af3a69cdb5e13c1771a98759" kindref="member">is_expired</ref>;</highlight></codeline>
+<codeline lineno="202" refid="structthemis_1_1auth_1_1_certificate_utils_1_1_cert_info_1a2b929691330fddf22aeeffb13879691c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_certificate_utils_1_1_cert_info_1a2b929691330fddf22aeeffb13879691c" kindref="member">key_size_bits</ref>;</highlight></codeline>
+<codeline lineno="203" refid="structthemis_1_1auth_1_1_certificate_utils_1_1_cert_info_1ade6f3d6d6ab061853ac09887898bd179" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_certificate_utils_1_1_cert_info_1ade6f3d6d6ab061853ac09887898bd179" kindref="member">signature_algorithm</ref>;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_certificate_utils_1_1_cert_info" kindref="compound">CertInfo</ref><sp/><ref refid="classthemis_1_1auth_1_1_certificate_utils_1a4ee230122f577d3df0e3ec7b4a545f01" kindref="member">getCertificateInfo</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>cert_path);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>auth</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/auth/jwks_security.h"/>
+  </compounddef>
+</doxygen>

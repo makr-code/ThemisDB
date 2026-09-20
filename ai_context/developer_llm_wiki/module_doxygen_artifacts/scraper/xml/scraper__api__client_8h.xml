@@ -1,0 +1,258 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="scraper__api__client_8h" kind="file" language="C++">
+    <compoundname>scraper_api_client.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">functional</includes>
+    <includedby refid="scraper__plugin_8h" local="yes">include/scraper/scraper_plugin.h</includedby>
+    <includedby refid="scraper__api__client_8cpp" local="yes">src/scraper/scraper_api_client.cpp</includedby>
+    <includedby refid="test__scraper__plugin_8cpp" local="yes">tests/scraper/test_scraper_plugin.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/scraper/scraper_api_client.h</label>
+        <link refid="scraper__api__client_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>map</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/scraper/scraper_api_client.h</label>
+        <link refid="scraper__api__client_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/scraper/scraper_plugin.h</label>
+        <link refid="scraper__plugin_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>src/scraper/scraper_api_client.cpp</label>
+        <link refid="scraper__api__client_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/scraper/scraper_plugin.cpp</label>
+        <link refid="scraper__plugin_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/scraper/test_scraper_plugin.cpp</label>
+        <link refid="test__scraper__plugin_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/scraper/test_scraper_v12_features_focused.cpp</label>
+        <link refid="test__scraper__v12__features__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1scraper_1_1_api_endpoint_config" prot="public">themis::scraper::ApiEndpointConfig</innerclass>
+    <innerclass refid="structthemis_1_1scraper_1_1_api_result" prot="public">themis::scraper::ApiResult</innerclass>
+    <innerclass refid="classthemis_1_1scraper_1_1_i_scraper_api_client" prot="public">themis::scraper::IScraperApiClient</innerclass>
+    <innerclass refid="classthemis_1_1scraper_1_1_http_scraper_api_client" prot="public">themis::scraper::HttpScraperApiClient</innerclass>
+    <innerclass refid="classthemis_1_1scraper_1_1_in_memory_scraper_api_client" prot="public">themis::scraper::InMemoryScraperApiClient</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1scraper">themis::scraper</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.11 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1scraper" kindref="compound">scraper</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>API<sp/>endpoint<sp/>configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1scraper_1_1_api_endpoint_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1scraper_1_1_api_endpoint_config" kindref="compound">ApiEndpointConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1scraper_1_1_api_endpoint_config_1ab604a62fa77ccc40af04219249776fd2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_api_endpoint_config_1ab604a62fa77ccc40af04219249776fd2" kindref="member">url</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1scraper_1_1_api_endpoint_config_1a31dc0405c1acb4acf6ceab01c46e648f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_api_endpoint_config_1a31dc0405c1acb4acf6ceab01c46e648f" kindref="member">method</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;GET&quot;</highlight><highlight class="normal">;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1scraper_1_1_api_endpoint_config_1a2647874de0110cb3d54e8f6ee664fef8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_api_endpoint_config_1a2647874de0110cb3d54e8f6ee664fef8" kindref="member">pagination_mode</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;page&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1scraper_1_1_api_endpoint_config_1a4820cde97b810166483bd53ad39fed3d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_api_endpoint_config_1a4820cde97b810166483bd53ad39fed3d" kindref="member">page_param</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;page&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1scraper_1_1_api_endpoint_config_1abf5d515d4da7df95bd85660615a4ab52" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_api_endpoint_config_1abf5d515d4da7df95bd85660615a4ab52" kindref="member">page_size_param</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;per_page&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1scraper_1_1_api_endpoint_config_1a83d331ebc2ca021abe117e5dd2bb7026" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_api_endpoint_config_1a83d331ebc2ca021abe117e5dd2bb7026" kindref="member">page_size</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>20;</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1scraper_1_1_api_endpoint_config_1a82f6692b1d445790b43564477d6a7f1d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_api_endpoint_config_1a82f6692b1d445790b43564477d6a7f1d" kindref="member">cursor_field</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1scraper_1_1_api_endpoint_config_1ab3d5ee88babb3d641d165ab10c7b4f00" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_api_endpoint_config_1ab3d5ee88babb3d641d165ab10c7b4f00" kindref="member">next_url_field</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1scraper_1_1_api_endpoint_config_1aa2b25d8d40c19437a91e358d17383d9f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_api_endpoint_config_1aa2b25d8d40c19437a91e358d17383d9f" kindref="member">results_field</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;results&quot;</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1scraper_1_1_api_endpoint_config_1aa905e9929e737b308f95d50f05f9b86e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_api_endpoint_config_1aa905e9929e737b308f95d50f05f9b86e" kindref="member">total_field</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;total&quot;</highlight><highlight class="normal">;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1scraper_1_1_api_endpoint_config_1aa02b3aebb08406ab48beb4786fd50e0f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_api_endpoint_config_1aa02b3aebb08406ab48beb4786fd50e0f" kindref="member">max_pages</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1scraper_1_1_api_endpoint_config_1a5fb61783a03c3ba3761eef61e924169f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1scraper_1_1_api_endpoint_config_1a5fb61783a03c3ba3761eef61e924169f" kindref="member">headers</ref>;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1scraper_1_1_api_endpoint_config_1a9faabc2a25983806213a42b470002782" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_api_endpoint_config_1a9faabc2a25983806213a42b470002782" kindref="member">body_template</ref>;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1scraper_1_1_api_endpoint_config_1a2e567a7f650640b30e2fed1d31c6a4c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_api_endpoint_config_1a2e567a7f650640b30e2fed1d31c6a4c3" kindref="member">search_param</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;q&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>API<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1scraper_1_1_api_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1scraper_1_1_api_result" kindref="compound">ApiResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1scraper_1_1_api_result_1aecee8ace802bdf1f17f82136e80ca7a6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_api_result_1aecee8ace802bdf1f17f82136e80ca7a6" kindref="member">url</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1scraper_1_1_api_result_1a52138a86a5bb59583541794cf5491114" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_api_result_1a52138a86a5bb59583541794cf5491114" kindref="member">raw_json</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1scraper_1_1_api_result_1a3b8fa18052e55ea65248bc8d36281344" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_api_result_1a3b8fa18052e55ea65248bc8d36281344" kindref="member">extracted_text</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1scraper_1_1_api_result_1a1286cd9caf4e9e45fa6c638bc34723d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_api_result_1a1286cd9caf4e9e45fa6c638bc34723d9" kindref="member">title</ref>;</highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1scraper_1_1_api_result_1a0f3a880f8f3a319ff844ecb5a9b72108" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_api_result_1a0f3a880f8f3a319ff844ecb5a9b72108" kindref="member">date</ref>;</highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1scraper_1_1_api_result_1a25ff880002ab79b51e3a2d3143c06ea6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1scraper_1_1_api_result_1a25ff880002ab79b51e3a2d3143c06ea6" kindref="member">fields</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="76"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>HTTP<sp/>fetch<sp/>function<sp/>type<sp/>(injectable<sp/>for<sp/>testing)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="namespacethemis_1_1scraper_1a4992904a8ccbde4b4d6d4dee8c26fa6c" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1scraper_1a4992904a8ccbde4b4d6d4dee8c26fa6c" kindref="member">HttpFetchFn</ref><sp/>=<sp/>std::function&lt;std::string(</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>url,</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>method,</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>headers,</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>body)&gt;;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="classthemis_1_1scraper_1_1_i_scraper_api_client" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1scraper_1_1_i_scraper_api_client" kindref="compound">IScraperApiClient</ref><sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="106" refid="classthemis_1_1scraper_1_1_i_scraper_api_client_1a19fe8e8a47c135840940c6bdd362e293" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scraper_1_1_i_scraper_api_client_1a19fe8e8a47c135840940c6bdd362e293" kindref="member">~IScraperApiClient</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115" refid="classthemis_1_1scraper_1_1_i_scraper_api_client_1a13e74fea6caa8b016d604a1f48953369" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;ApiResult&gt;<sp/><ref refid="classthemis_1_1scraper_1_1_i_scraper_api_client_1a13e74fea6caa8b016d604a1f48953369" kindref="member">fetchAll</ref>(</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scraper_1_1_api_endpoint_config" kindref="compound">ApiEndpointConfig</ref>&amp;<sp/>cfg,</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//<sp/>HTTP<sp/>implementation<sp/>(libcurl)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130" refid="classthemis_1_1scraper_1_1_http_scraper_api_client" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1scraper_1_1_http_scraper_api_client_1acf5eebb988db483a22ad19f8d539e939" kindref="member">HttpScraperApiClient</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scraper_1_1_i_scraper_api_client" kindref="compound">IScraperApiClient</ref><sp/>{</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scraper_1_1_http_scraper_api_client_1acf5eebb988db483a22ad19f8d539e939" kindref="member">HttpScraperApiClient</ref>(<ref refid="namespacethemis_1_1scraper_1a4992904a8ccbde4b4d6d4dee8c26fa6c" kindref="member">HttpFetchFn</ref><sp/>fetch_fn<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="133" refid="classthemis_1_1scraper_1_1_http_scraper_api_client_1a1f8401467ba15e4f7b2abecb6585f019" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1scraper_1_1_http_scraper_api_client_1a1f8401467ba15e4f7b2abecb6585f019" kindref="member">~HttpScraperApiClient</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="classthemis_1_1scraper_1_1_http_scraper_api_client_1a80acf4dbfaba04f27f70363384c47527" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1scraper_1_1_http_scraper_api_client_1a80acf4dbfaba04f27f70363384c47527" kindref="member">HttpScraperApiClient</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scraper_1_1_http_scraper_api_client_1acf5eebb988db483a22ad19f8d539e939" kindref="member">HttpScraperApiClient</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="136" refid="classthemis_1_1scraper_1_1_http_scraper_api_client_1a19d95a2fcb8129d3c054e5429eeedf5e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1scraper_1_1_http_scraper_api_client_1acf5eebb988db483a22ad19f8d539e939" kindref="member">HttpScraperApiClient</ref>&amp;<sp/><ref refid="classthemis_1_1scraper_1_1_http_scraper_api_client_1a19d95a2fcb8129d3c054e5429eeedf5e" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scraper_1_1_http_scraper_api_client_1acf5eebb988db483a22ad19f8d539e939" kindref="member">HttpScraperApiClient</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ApiResult&gt;<sp/><ref refid="classthemis_1_1scraper_1_1_http_scraper_api_client_1a7d610320f50a7ffe9fb4cc39b89a6142" kindref="member">fetchAll</ref>(</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scraper_1_1_api_endpoint_config" kindref="compound">ApiEndpointConfig</ref>&amp;<sp/>cfg,</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1a4992904a8ccbde4b4d6d4dee8c26fa6c" kindref="member">HttpFetchFn</ref><sp/>fetch_fn_;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>buildGetUrl(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scraper_1_1_api_endpoint_config" kindref="compound">ApiEndpointConfig</ref>&amp;<sp/>cfg,</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query,</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>page,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>offset,</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>cursor)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>buildBody(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scraper_1_1_api_endpoint_config" kindref="compound">ApiEndpointConfig</ref>&amp;<sp/>cfg,</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query,</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>page,</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>cursor)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;ApiResult&gt;<sp/>parseResultsArray(</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>json_text,</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>results_field,</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>source_url);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>flattenJson(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>json_text);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>curlFetch(</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>url,</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>method,</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>headers,</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>body);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="comment">//<sp/>In-memory<sp/>mock<sp/>(tests)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182" refid="classthemis_1_1scraper_1_1_in_memory_scraper_api_client" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1scraper_1_1_in_memory_scraper_api_client_1a913b687380cccd13228a5573502c2526" kindref="member">InMemoryScraperApiClient</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scraper_1_1_i_scraper_api_client" kindref="compound">IScraperApiClient</ref><sp/>{</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="184" refid="classthemis_1_1scraper_1_1_in_memory_scraper_api_client_1a913b687380cccd13228a5573502c2526" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1scraper_1_1_in_memory_scraper_api_client_1a913b687380cccd13228a5573502c2526" kindref="member">InMemoryScraperApiClient</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186" refid="classthemis_1_1scraper_1_1_in_memory_scraper_api_client_1a6421f8c63c026e18b62783946d151155" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scraper_1_1_in_memory_scraper_api_client_1a6421f8c63c026e18b62783946d151155" kindref="member">injectResults</ref>(std::vector&lt;ApiResult&gt;<sp/>results)<sp/>{</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>injected_<sp/>=<sp/>std::move(results);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="189" refid="classthemis_1_1scraper_1_1_in_memory_scraper_api_client_1a12527ef0b1c509ff47521b6dcb073e87" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scraper_1_1_in_memory_scraper_api_client_1a12527ef0b1c509ff47521b6dcb073e87" kindref="member">callCount</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>call_count_;<sp/>}</highlight></codeline>
+<codeline lineno="190" refid="classthemis_1_1scraper_1_1_in_memory_scraper_api_client_1aa71946c6d795a2a87e1d60d34d847527" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1scraper_1_1_in_memory_scraper_api_client_1aa71946c6d795a2a87e1d60d34d847527" kindref="member">lastQuery</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>last_query_;<sp/>}</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192" refid="classthemis_1_1scraper_1_1_in_memory_scraper_api_client_1a904a4c4ebd0e84577fea9855180fae1d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ApiResult&gt;<sp/><ref refid="classthemis_1_1scraper_1_1_in_memory_scraper_api_client_1a904a4c4ebd0e84577fea9855180fae1d" kindref="member">fetchAll</ref>(</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scraper_1_1_api_endpoint_config" kindref="compound">ApiEndpointConfig</ref>&amp;<sp/></highlight><highlight class="comment">/*cfg*/</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++call_count_;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>last_query_<sp/>=<sp/>query;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>injected_;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ApiResult&gt;<sp/>injected_;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>call_count_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>last_query_;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>scraper</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/scraper/scraper_api_client.h"/>
+  </compounddef>
+</doxygen>

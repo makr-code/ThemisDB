@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_i_rag_cost_model_service" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::llm::IRagCostModelService</compoundname>
+    <derivedcompoundref refid="class_fixed_rag_cost_model_service" prot="public" virt="non-virtual">FixedRagCostModelService</derivedcompoundref>
+    <derivedcompoundref refid="class_linear_top_k_rag_cost_model_service" prot="public" virt="non-virtual">LinearTopKRagCostModelService</derivedcompoundref>
+    <includes refid="ai__orchestrator_8h" local="no">ai_orchestrator.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_rag_cost_model_service_1a69acfab3101ac7d0e548a966a52c12f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::IRagCostModelService::~IRagCostModelService</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IRagCostModelService</name>
+        <qualifiedname>themis::llm::IRagCostModelService::~IRagCostModelService</qualifiedname>
+        <briefdescription>
+<para>IRag Cost Model Service. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="477" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_rag_cost_model_service_1a948df55eeb46e7d7a60929624e687341" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1_rag_cost_estimate" kindref="compound">RagCostEstimate</ref> &gt;</type>
+        <definition>virtual std::optional&lt; RagCostEstimate &gt; themis::llm::IRagCostModelService::estimate</definition>
+        <argsstring>(const RagCostModelInput &amp;input) const =0</argsstring>
+        <name>estimate</name>
+        <qualifiedname>themis::llm::IRagCostModelService::estimate</qualifiedname>
+        <reimplementedby refid="class_fixed_rag_cost_model_service_1a471f2e7c0f878c506e9db10888b94cc0">estimate</reimplementedby>
+        <reimplementedby refid="class_linear_top_k_rag_cost_model_service_1a91766f14d02ad311fbdb7e8c5741bbb9">estimate</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_rag_cost_model_input" kindref="compound">RagCostModelInput</ref> &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="480" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>FixedRagCostModelService</label>
+        <link refid="class_fixed_rag_cost_model_service"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>LinearTopKRagCostModelService</label>
+        <link refid="class_linear_top_k_rag_cost_model_service"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::llm::IRagCostModelService</label>
+        <link refid="classthemis_1_1llm_1_1_i_rag_cost_model_service"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/llm/ai_orchestrator.h" line="471" column="1" bodyfile="include/llm/ai_orchestrator.h" bodystart="471" bodyend="481"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_i_rag_cost_model_service_1a948df55eeb46e7d7a60929624e687341" prot="public" virt="pure-virtual"><scope>themis::llm::IRagCostModelService</scope><name>estimate</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_rag_cost_model_service_1a69acfab3101ac7d0e548a966a52c12f0" prot="public" virt="virtual"><scope>themis::llm::IRagCostModelService</scope><name>~IRagCostModelService</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

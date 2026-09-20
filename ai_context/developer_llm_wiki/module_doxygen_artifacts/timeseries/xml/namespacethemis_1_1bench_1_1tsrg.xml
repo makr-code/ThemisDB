@@ -1,0 +1,362 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1bench_1_1tsrg" kind="namespace" language="C++">
+    <compoundname>themis::bench::tsrg</compoundname>
+    <innerclass refid="structthemis_1_1bench_1_1tsrg_1_1_time_point" prot="public">themis::bench::tsrg::TimePoint</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1tsrg_1ab8885107f130c26a618432b055afb831" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::bench::tsrg::kTimeseriesCanonicalSeed</definition>
+        <argsstring></argsstring>
+        <name>kTimeseriesCanonicalSeed</name>
+        <qualifiedname>themis::bench::tsrg::kTimeseriesCanonicalSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+<para>Canonical PRNG seed for all TSRG benchmarks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/timeseries/bench_timeseries_release_gates.cpp" line="68" column="27" bodyfile="benchmarks/timeseries/bench_timeseries_release_gates.cpp" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1tsrg_1ab73b9afa6c58a856a9ee900760d78de1" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::tsrg::kWarmupIterations</definition>
+        <argsstring></argsstring>
+        <name>kWarmupIterations</name>
+        <qualifiedname>themis::bench::tsrg::kWarmupIterations</qualifiedname>
+        <initializer>= 200</initializer>
+        <briefdescription>
+<para>Warmup iterations before measurement window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/timeseries/bench_timeseries_release_gates.cpp" line="71" column="22" bodyfile="benchmarks/timeseries/bench_timeseries_release_gates.cpp" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1tsrg_1a36020c6447ddc73491412e5d1b9a9135" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::tsrg::kRepetitions</definition>
+        <argsstring></argsstring>
+        <name>kRepetitions</name>
+        <qualifiedname>themis::bench::tsrg::kRepetitions</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Repetitions per benchmark for variance estimation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/timeseries/bench_timeseries_release_gates.cpp" line="74" column="22" bodyfile="benchmarks/timeseries/bench_timeseries_release_gates.cpp" bodystart="74" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1tsrg_1ad0c9ee937d6984e2a47b3b7a7ae25f49" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::tsrg::writePoint</definition>
+        <argsstring>(std::vector&lt; TimePoint &gt; &amp;series, std::int64_t ts_ns, double value)</argsstring>
+        <name>writePoint</name>
+        <qualifiedname>themis::bench::tsrg::writePoint</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1bench_1_1tsrg_1_1_time_point" kindref="compound">TimePoint</ref> &gt; &amp;</type>
+          <declname>series</declname>
+        </param>
+        <param>
+          <type>std::int64_t</type>
+          <declname>ts_ns</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>In-memory write: append to a series vector (monotonic ts assumed). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/timeseries/bench_timeseries_release_gates.cpp" line="86" column="13" bodyfile="benchmarks/timeseries/bench_timeseries_release_gates.cpp" bodystart="86" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1tsrg_1af6eca498e808afb0c8db35e74b38d30a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>static std::size_t themis::bench::tsrg::rangeQuery</definition>
+        <argsstring>(const std::vector&lt; TimePoint &gt; &amp;series, std::int64_t start, std::int64_t end)</argsstring>
+        <name>rangeQuery</name>
+        <qualifiedname>themis::bench::tsrg::rangeQuery</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1bench_1_1tsrg_1_1_time_point" kindref="compound">TimePoint</ref> &gt; &amp;</type>
+          <declname>series</declname>
+        </param>
+        <param>
+          <type>std::int64_t</type>
+          <declname>start</declname>
+        </param>
+        <param>
+          <type>std::int64_t</type>
+          <declname>end</declname>
+        </param>
+        <briefdescription>
+<para>Range query: linear scan returning points in [start, end] inclusive. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/timeseries/bench_timeseries_release_gates.cpp" line="92" column="20" bodyfile="benchmarks/timeseries/bench_timeseries_release_gates.cpp" bodystart="92" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1tsrg_1a2ee7aeb42558b88c90324fc74f773ad8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::uint64_t</type>
+        <definition>static std::uint64_t themis::bench::tsrg::gorillaEncode</definition>
+        <argsstring>(double v)</argsstring>
+        <name>gorillaEncode</name>
+        <qualifiedname>themis::bench::tsrg::gorillaEncode</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+<para>Gorilla encode: memcpy double → uint64. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/timeseries/bench_timeseries_release_gates.cpp" line="104" column="22" bodyfile="benchmarks/timeseries/bench_timeseries_release_gates.cpp" bodystart="104" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1tsrg_1adbd1389d12cefe47e5838a39475c14ed" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>static double themis::bench::tsrg::gorillaDecode</definition>
+        <argsstring>(std::uint64_t bits)</argsstring>
+        <name>gorillaDecode</name>
+        <qualifiedname>themis::bench::tsrg::gorillaDecode</qualifiedname>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>bits</declname>
+        </param>
+        <briefdescription>
+<para>Gorilla decode: memcpy uint64 → double. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/timeseries/bench_timeseries_release_gates.cpp" line="111" column="15" bodyfile="benchmarks/timeseries/bench_timeseries_release_gates.cpp" bodystart="111" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1tsrg_1a96f96a7fa9df1ac6ae2cd39cba6c892b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>static std::size_t themis::bench::tsrg::downsample</definition>
+        <argsstring>(const std::vector&lt; TimePoint &gt; &amp;input, std::int64_t resolution_ns)</argsstring>
+        <name>downsample</name>
+        <qualifiedname>themis::bench::tsrg::downsample</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1bench_1_1tsrg_1_1_time_point" kindref="compound">TimePoint</ref> &gt; &amp;</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>std::int64_t</type>
+          <declname>resolution_ns</declname>
+        </param>
+        <briefdescription>
+<para>Downsampling: bucket average over resolution_ns intervals. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/timeseries/bench_timeseries_release_gates.cpp" line="118" column="20" bodyfile="benchmarks/timeseries/bench_timeseries_release_gates.cpp" bodystart="118" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1tsrg_1a1ff71f487b3d253baeb3060d1626d151" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::bench::tsrg::retentionExpired</definition>
+        <argsstring>(std::int64_t point_ts, std::int64_t boundary)</argsstring>
+        <name>retentionExpired</name>
+        <qualifiedname>themis::bench::tsrg::retentionExpired</qualifiedname>
+        <param>
+          <type>std::int64_t</type>
+          <declname>point_ts</declname>
+        </param>
+        <param>
+          <type>std::int64_t</type>
+          <declname>boundary</declname>
+        </param>
+        <briefdescription>
+<para>Retention check: compare single timestamp against boundary. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/timeseries/bench_timeseries_release_gates.cpp" line="135" column="13" bodyfile="benchmarks/timeseries/bench_timeseries_release_gates.cpp" bodystart="135" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1tsrg_1a7144463c7efe2feda4cb09c206b01f8a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::int64_t</type>
+        <definition>static std::int64_t themis::bench::tsrg::seriesLookup</definition>
+        <argsstring>(const std::unordered_map&lt; std::string, std::int64_t &gt; &amp;index, const std::string &amp;name)</argsstring>
+        <name>seriesLookup</name>
+        <qualifiedname>themis::bench::tsrg::seriesLookup</qualifiedname>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::int64_t &gt; &amp;</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Series lookup: unordered_map name → series ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/timeseries/bench_timeseries_release_gates.cpp" line="140" column="21" bodyfile="benchmarks/timeseries/bench_timeseries_release_gates.cpp" bodystart="140" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1tsrg_1a0b2e6dd5cd9e768d327a4e189021b49f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::tsrg::BM_TSRG01_WriteThroughput</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_TSRG01_WriteThroughput</name>
+        <qualifiedname>themis::bench::tsrg::BM_TSRG01_WriteThroughput</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>TSRG-01: In-memory write throughput over 10k deterministic points. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GATE-TSRG-01: ≥ 1M points/s. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/timeseries/bench_timeseries_release_gates.cpp" line="156" column="13" bodyfile="benchmarks/timeseries/bench_timeseries_release_gates.cpp" bodystart="156" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1tsrg_1a4732ed13a43fa103c1e006535deed526" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::tsrg::Repetitions</definition>
+        <argsstring>(kRepetitions) -&gt; ReportAggregatesOnly(true)</argsstring>
+        <name>Repetitions</name>
+        <qualifiedname>themis::bench::tsrg::Repetitions</qualifiedname>
+        <param>
+          <type>kRepetitions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/timeseries/bench_timeseries_release_gates.cpp" line="177" column="5" declfile="benchmarks/timeseries/bench_timeseries_release_gates.cpp" declline="177" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1tsrg_1aaa7e742bbbd66c67bb65b10e68a29967" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::tsrg::BM_TSRG02_RangeQuery</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_TSRG02_RangeQuery</name>
+        <qualifiedname>themis::bench::tsrg::BM_TSRG02_RangeQuery</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>TSRG-02: Range query scan over a 1k-point in-memory series. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GATE-TSRG-02: p99 ≤ 500 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/timeseries/bench_timeseries_release_gates.cpp" line="189" column="13" bodyfile="benchmarks/timeseries/bench_timeseries_release_gates.cpp" bodystart="189" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1tsrg_1a42e0efef6f1fea2dffb0af0e395e0539" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::tsrg::BM_TSRG03_GorillaRoundTrip</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_TSRG03_GorillaRoundTrip</name>
+        <qualifiedname>themis::bench::tsrg::BM_TSRG03_GorillaRoundTrip</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>TSRG-03: Gorilla lossless round-trip for 100 double values. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GATE-TSRG-03: p99 ≤ 100 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/timeseries/bench_timeseries_release_gates.cpp" line="223" column="13" bodyfile="benchmarks/timeseries/bench_timeseries_release_gates.cpp" bodystart="223" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1tsrg_1af3435c6bfe9fcb66efcc29d7759c18aa" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::tsrg::BM_TSRG04_Downsampling</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_TSRG04_Downsampling</name>
+        <qualifiedname>themis::bench::tsrg::BM_TSRG04_Downsampling</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>TSRG-04: Downsample 1k points to ~100 buckets (10x reduction). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GATE-TSRG-04: p99 ≤ 1 ms. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/timeseries/bench_timeseries_release_gates.cpp" line="257" column="13" bodyfile="benchmarks/timeseries/bench_timeseries_release_gates.cpp" bodystart="257" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1tsrg_1a627d554257887ed16f2e27e64fe15cba" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::tsrg::BM_TSRG05_RetentionCheck</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_TSRG05_RetentionCheck</name>
+        <qualifiedname>themis::bench::tsrg::BM_TSRG05_RetentionCheck</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>TSRG-05: Retention boundary comparison for a single point. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GATE-TSRG-05: p99 ≤ 50 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/timeseries/bench_timeseries_release_gates.cpp" line="288" column="13" bodyfile="benchmarks/timeseries/bench_timeseries_release_gates.cpp" bodystart="288" bodyend="301"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1tsrg_1aee620c10a9a9665abf9c40f2fb49c551" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::tsrg::BM_TSRG06_SeriesLookup</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_TSRG06_SeriesLookup</name>
+        <qualifiedname>themis::bench::tsrg::BM_TSRG06_SeriesLookup</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>TSRG-06: Series name → ID lookup in an in-memory hash map. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GATE-TSRG-06: p99 ≤ 50 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/timeseries/bench_timeseries_release_gates.cpp" line="315" column="13" bodyfile="benchmarks/timeseries/bench_timeseries_release_gates.cpp" bodystart="315" bodyend="333"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/timeseries/bench_timeseries_release_gates.cpp" line="61" column="1"/>
+  </compounddef>
+</doxygen>

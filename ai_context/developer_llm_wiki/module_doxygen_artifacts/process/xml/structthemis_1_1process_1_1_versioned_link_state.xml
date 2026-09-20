@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_versioned_link_state" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::VersionedLinkState</compoundname>
+    <includes refid="lock__free__linker__contract_8h" local="no">lock_free_linker_contract.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_versioned_link_state_1a9d99f3312cd6c0883a84b0857aecbc65" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1process_1a2aa962a0f0bab21681cfd4dbb1ddf44b" kindref="member">LinkState</ref></type>
+        <definition>LinkState themis::process::VersionedLinkState::state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <qualifiedname>themis::process::VersionedLinkState::state</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1process_1a2aa962a0f0bab21681cfd4dbb1ddf44bac69f06e1a9b016d133907b4e5f5864d2" kindref="member">LinkState::PENDING</ref></initializer>
+        <briefdescription>
+<para>Current link state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/lock_free_linker_contract.h" line="155" column="15" bodyfile="include/process/lock_free_linker_contract.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_versioned_link_state_1a76405232eac98af96e4886405f39085e" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::process::VersionedLinkState::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::process::VersionedLinkState::version</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Version number (incremented on state change). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/lock_free_linker_contract.h" line="158" column="14" bodyfile="include/process/lock_free_linker_contract.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_versioned_link_state_1ae775282a2fbff48a5fb7dbac849df857" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint32_t &gt;</type>
+        <definition>std::atomic&lt;uint32_t&gt; themis::process::VersionedLinkState::ref_count</definition>
+        <argsstring></argsstring>
+        <name>ref_count</name>
+        <qualifiedname>themis::process::VersionedLinkState::ref_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Reference count (number of active references to this link). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/lock_free_linker_contract.h" line="161" column="17" bodyfile="include/process/lock_free_linker_contract.h" bodystart="161" bodyend="161"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1process_1_1_versioned_link_state_1a8fcfe994438de0255f03560abc8e0b00" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::VersionedLinkState::tryTransition</definition>
+        <argsstring>(LinkState expected_state, uint32_t expected_version, LinkState new_state) noexcept</argsstring>
+        <name>tryTransition</name>
+        <qualifiedname>themis::process::VersionedLinkState::tryTransition</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1process_1a2aa962a0f0bab21681cfd4dbb1ddf44b" kindref="member">LinkState</ref></type>
+          <declname>expected_state</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>expected_version</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1process_1a2aa962a0f0bab21681cfd4dbb1ddf44b" kindref="member">LinkState</ref></type>
+          <declname>new_state</declname>
+        </param>
+        <briefdescription>
+<para>Attempt state transition via CAS. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>expected_state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Expected current state </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>expected_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Expected current version </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>new_state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New state to transition to </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if transition succeeded; false if state/version mismatch </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/lock_free_linker_contract.h" line="171" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Versioned link state (for ABA prevention). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Combines state and version; version incremented on every state change. Prevents ABA problem: even if state cycles V1→V2→V1, version differs. </para>
+    </detaileddescription>
+    <location file="include/process/lock_free_linker_contract.h" line="153" column="1" bodyfile="include/process/lock_free_linker_contract.h" bodystart="153" bodyend="173"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_versioned_link_state_1ae775282a2fbff48a5fb7dbac849df857" prot="public" virt="non-virtual"><scope>themis::process::VersionedLinkState</scope><name>ref_count</name></member>
+      <member refid="structthemis_1_1process_1_1_versioned_link_state_1a9d99f3312cd6c0883a84b0857aecbc65" prot="public" virt="non-virtual"><scope>themis::process::VersionedLinkState</scope><name>state</name></member>
+      <member refid="structthemis_1_1process_1_1_versioned_link_state_1a8fcfe994438de0255f03560abc8e0b00" prot="public" virt="non-virtual"><scope>themis::process::VersionedLinkState</scope><name>tryTransition</name></member>
+      <member refid="structthemis_1_1process_1_1_versioned_link_state_1a76405232eac98af96e4886405f39085e" prot="public" virt="non-virtual"><scope>themis::process::VersionedLinkState</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

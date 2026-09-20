@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="eviction__policy_8h" kind="file" language="C++">
+    <compoundname>eviction_policy.h</compoundname>
+    <includes local="yes">core/concerns/eviction_strategies.h</includes>
+    <includes local="no">memory</includes>
+    <includedby refid="adaptive__query__cache_8h" local="yes">include/cache/adaptive_query_cache.h</includedby>
+    <includedby refid="adaptive__query__cache_8cpp" local="yes">src/cache/adaptive_query_cache.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/cache/eviction_policy.h</label>
+        <link refid="eviction__policy_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>core/concerns/eviction_strategies.h</label>
+      </node>
+      <node id="3">
+        <label>memory</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/cache/adaptive_query_cache.h</label>
+        <link refid="adaptive__query__cache_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/cache/eviction_policy.h</label>
+        <link refid="eviction__policy_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/cache/adaptive_query_cache.cpp</label>
+        <link refid="adaptive__query__cache_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/cache/warmup.cpp</label>
+        <link refid="warmup_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/cache/test_cache_admin_api_handler.cpp</label>
+        <link refid="test__cache__admin__api__handler_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/cache/test_cache_contract_hardening.cpp</label>
+        <link refid="test__cache__contract__hardening_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/cache/test_cache_replication.cpp</label>
+        <link refid="test__cache__replication_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/cache/test_cache_tenant_isolation_hardening.cpp</label>
+        <link refid="test__cache__tenant__isolation__hardening_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/cache/test_cache_warmup.cpp</label>
+        <link refid="test__cache__warmup_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/cache/test_phase4_cache_hardening.cpp</label>
+        <link refid="test__phase4__cache__hardening_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1cache">themis::cache</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>2025<sp/>ThemisDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Licensed<sp/>under<sp/>MIT<sp/>License</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;core/concerns/eviction_strategies.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1cache" kindref="compound">cache</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1cache_1a94f306eedae4fad203f5f8b2b887d0f1" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1cache_1a94f306eedae4fad203f5f8b2b887d0f1" kindref="member">EvictionPolicy</ref><sp/>{</highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1cache_1a94f306eedae4fad203f5f8b2b887d0f1a875ecb34f6d21d13d4b9fd4980a8b5af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cache_1a94f306eedae4fad203f5f8b2b887d0f1a875ecb34f6d21d13d4b9fd4980a8b5af" kindref="member">LRU</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1cache_1a94f306eedae4fad203f5f8b2b887d0f1a96a74b4240085d5b2a73287deef3a5fa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cache_1a94f306eedae4fad203f5f8b2b887d0f1a96a74b4240085d5b2a73287deef3a5fa" kindref="member">LFU</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1cache_1a94f306eedae4fad203f5f8b2b887d0f1ad72a48a8ebd238e1497a911e938f46e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cache_1a94f306eedae4fad203f5f8b2b887d0f1ad72a48a8ebd238e1497a911e938f46e8" kindref="member">ARC</ref><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;core::concerns::IEvictionStrategy&gt;</highlight></codeline>
+<codeline lineno="44" refid="namespacethemis_1_1cache_1aca7eb8946c5c2b753d7278ca645715af" refkind="member"><highlight class="normal"><ref refid="namespacethemis_1_1cache_1aca7eb8946c5c2b753d7278ca645715af" kindref="member">makeEvictionStrategy</ref>(<ref refid="namespacethemis_1_1cache_1a94f306eedae4fad203f5f8b2b887d0f1" kindref="member">EvictionPolicy</ref><sp/>policy,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>arc_capacity<sp/>=<sp/>128)<sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(policy)<sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1cache_1a94f306eedae4fad203f5f8b2b887d0f1a96a74b4240085d5b2a73287deef3a5fa" kindref="member">EvictionPolicy::LFU</ref>:</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::make_unique&lt;core::concerns::LFUEvictionStrategy&gt;();</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1cache_1a94f306eedae4fad203f5f8b2b887d0f1ad72a48a8ebd238e1497a911e938f46e8" kindref="member">EvictionPolicy::ARC</ref>:</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::make_unique&lt;core::concerns::ARCEvictionStrategy&gt;(arc_capacity);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1cache_1a94f306eedae4fad203f5f8b2b887d0f1a875ecb34f6d21d13d4b9fd4980a8b5af" kindref="member">EvictionPolicy::LRU</ref>:</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::make_unique&lt;core::concerns::LRUEvictionStrategy&gt;();</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>cache</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/cache/eviction_policy.h"/>
+  </compounddef>
+</doxygen>

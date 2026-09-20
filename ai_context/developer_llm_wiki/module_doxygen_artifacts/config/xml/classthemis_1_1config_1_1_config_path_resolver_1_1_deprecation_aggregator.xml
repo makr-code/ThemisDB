@@ -1,0 +1,346 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_aggregator" kind="class" language="C++" prot="public">
+    <compoundname>themis::config::ConfigPathResolver::DeprecationAggregator</compoundname>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_aggregator_1ab7a5ac91a7ae47eb800b2056e7630ac9" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::config::ConfigPathResolver::DeprecationAggregator::DEFAULT_INTERVAL_SECONDS</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_INTERVAL_SECONDS</name>
+        <qualifiedname>themis::config::ConfigPathResolver::DeprecationAggregator::DEFAULT_INTERVAL_SECONDS</qualifiedname>
+        <initializer>= 300</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/config/config_path_resolver.cpp" line="39" column="26" bodyfile="src/config/config_path_resolver.cpp" bodystart="39" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_aggregator_1a5d19adcc703e7d3e36ef245df7c7067d" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::config::ConfigPathResolver::DeprecationAggregator::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::config::ConfigPathResolver::DeprecationAggregator::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/config/config_path_resolver.cpp" line="186" column="24" bodyfile="src/config/config_path_resolver.cpp" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_aggregator_1a0c164008b7626547f00e5710fd9c2de8" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, uint64_t &gt;</type>
+        <definition>std::unordered_map&lt;std::string, uint64_t&gt; themis::config::ConfigPathResolver::DeprecationAggregator::usage_counts_</definition>
+        <argsstring></argsstring>
+        <name>usage_counts_</name>
+        <qualifiedname>themis::config::ConfigPathResolver::DeprecationAggregator::usage_counts_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/config/config_path_resolver.cpp" line="187" column="24" bodyfile="src/config/config_path_resolver.cpp" bodystart="187" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_aggregator_1a863149b9d7613e3e8a38214f5750caba" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::config::ConfigPathResolver::DeprecationAggregator::thread_mutex_</definition>
+        <argsstring></argsstring>
+        <name>thread_mutex_</name>
+        <qualifiedname>themis::config::ConfigPathResolver::DeprecationAggregator::thread_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/config/config_path_resolver.cpp" line="189" column="16" bodyfile="src/config/config_path_resolver.cpp" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_aggregator_1a80648d10c9613f9fafd3f590e0244798" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::config::ConfigPathResolver::DeprecationAggregator::cv_mutex_</definition>
+        <argsstring></argsstring>
+        <name>cv_mutex_</name>
+        <qualifiedname>themis::config::ConfigPathResolver::DeprecationAggregator::cv_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/config/config_path_resolver.cpp" line="190" column="16" bodyfile="src/config/config_path_resolver.cpp" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_aggregator_1a3de9a6f28d7db22995d4efb95ef041b5" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::config::ConfigPathResolver::DeprecationAggregator::cv_</definition>
+        <argsstring></argsstring>
+        <name>cv_</name>
+        <qualifiedname>themis::config::ConfigPathResolver::DeprecationAggregator::cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/config/config_path_resolver.cpp" line="191" column="29" bodyfile="src/config/config_path_resolver.cpp" bodystart="191" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_aggregator_1a3483ef82c8b8197e78ec675d5c3cc5ad" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::config::ConfigPathResolver::DeprecationAggregator::reporter_thread_</definition>
+        <argsstring></argsstring>
+        <name>reporter_thread_</name>
+        <qualifiedname>themis::config::ConfigPathResolver::DeprecationAggregator::reporter_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/config/config_path_resolver.cpp" line="192" column="17" bodyfile="src/config/config_path_resolver.cpp" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_aggregator_1aec0ce5db3c16a346efee02ad01e3b2fe" prot="private" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::config::ConfigPathResolver::DeprecationAggregator::interval_</definition>
+        <argsstring></argsstring>
+        <name>interval_</name>
+        <qualifiedname>themis::config::ConfigPathResolver::DeprecationAggregator::interval_</qualifiedname>
+        <initializer>{<ref refid="classthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_aggregator_1ab7a5ac91a7ae47eb800b2056e7630ac9" kindref="member">DEFAULT_INTERVAL_SECONDS</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/config/config_path_resolver.cpp" line="193" column="26" bodyfile="src/config/config_path_resolver.cpp" bodystart="193" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_aggregator_1a473a7f7d918c3d431e484fb5aedf4728" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::config::ConfigPathResolver::DeprecationAggregator::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::config::ConfigPathResolver::DeprecationAggregator::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/config/config_path_resolver.cpp" line="194" column="17" bodyfile="src/config/config_path_resolver.cpp" bodystart="194" bodyend="194"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_aggregator_1a3440e0347baacbb9adb2bab8f4bfb90c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::config::ConfigPathResolver::DeprecationAggregator::~DeprecationAggregator</definition>
+        <argsstring>()</argsstring>
+        <name>~DeprecationAggregator</name>
+        <qualifiedname>themis::config::ConfigPathResolver::DeprecationAggregator::~DeprecationAggregator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/config/config_path_resolver.cpp" line="41" column="5" bodyfile="src/config/config_path_resolver.cpp" bodystart="41" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_aggregator_1ac7f767a3fd97b9a7d40cd8924a9482a6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::config::ConfigPathResolver::DeprecationAggregator::incrementUsage</definition>
+        <argsstring>(const std::string &amp;legacy_path)</argsstring>
+        <name>incrementUsage</name>
+        <qualifiedname>themis::config::ConfigPathResolver::DeprecationAggregator::incrementUsage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>legacy_path</declname>
+        </param>
+        <briefdescription>
+<para>Increment Usage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">legacy_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the legacy.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/config/config_path_resolver.cpp" line="50" column="10" bodyfile="src/config/config_path_resolver.cpp" bodystart="50" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_aggregator_1a7a9048f53902765a6852bc6352e7058d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_entry" kindref="compound">ConfigPathResolver::DeprecationEntry</ref> &gt;</type>
+        <definition>std::vector&lt; ConfigPathResolver::DeprecationEntry &gt; themis::config::ConfigPathResolver::DeprecationAggregator::getReport</definition>
+        <argsstring>() const</argsstring>
+        <name>getReport</name>
+        <qualifiedname>themis::config::ConfigPathResolver::DeprecationAggregator::getReport</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/config/config_path_resolver.cpp" line="55" column="17" bodyfile="src/config/config_path_resolver.cpp" bodystart="55" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_aggregator_1a82a718867a241e81fead502ae3728e45" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::config::ConfigPathResolver::DeprecationAggregator::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::config::ConfigPathResolver::DeprecationAggregator::reset</qualifiedname>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/config/config_path_resolver.cpp" line="95" column="10" bodyfile="src/config/config_path_resolver.cpp" bodystart="95" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_aggregator_1afe18c7e88adc042de06bda5f4c769988" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::config::ConfigPathResolver::DeprecationAggregator::start</definition>
+        <argsstring>(int interval_seconds=DEFAULT_INTERVAL_SECONDS)</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::config::ConfigPathResolver::DeprecationAggregator::start</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>interval_seconds</declname>
+          <defval><ref refid="classthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_aggregator_1ab7a5ac91a7ae47eb800b2056e7630ac9" kindref="member">DEFAULT_INTERVAL_SECONDS</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Tlock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">thread_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/config/config_path_resolver.cpp" line="100" column="10" bodyfile="src/config/config_path_resolver.cpp" bodystart="100" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_aggregator_1ad625ba5387beb7a0d0e3016a3fc6f748" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::config::ConfigPathResolver::DeprecationAggregator::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::config::ConfigPathResolver::DeprecationAggregator::stop</qualifiedname>
+        <briefdescription>
+<para>Stop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), notify_all(), tlock(), joinable(), join(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/config/config_path_resolver.cpp" line="119" column="10" bodyfile="src/config/config_path_resolver.cpp" bodystart="119" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_aggregator_1ad3b6497f4fd4564ea832670e1658d687" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::config::ConfigPathResolver::DeprecationAggregator::isRunning</definition>
+        <argsstring>() const</argsstring>
+        <name>isRunning</name>
+        <qualifiedname>themis::config::ConfigPathResolver::DeprecationAggregator::isRunning</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/config/config_path_resolver.cpp" line="132" column="10" bodyfile="src/config/config_path_resolver.cpp" bodystart="132" bodyend="132"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_aggregator_1a3a390d93918f3a3ef814920589335ba6" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::config::ConfigPathResolver::DeprecationAggregator::reporterLoop</definition>
+        <argsstring>()</argsstring>
+        <name>reporterLoop</name>
+        <qualifiedname>themis::config::ConfigPathResolver::DeprecationAggregator::reporterLoop</qualifiedname>
+        <briefdescription>
+<para>Reporter Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: load(), lock(), wait_for(), logReport(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/config/config_path_resolver.cpp" line="139" column="10" bodyfile="src/config/config_path_resolver.cpp" bodystart="139" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_aggregator_1a0694c7b2b998acd31fa054b228d0f6ba" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::config::ConfigPathResolver::DeprecationAggregator::logReport</definition>
+        <argsstring>()</argsstring>
+        <name>logReport</name>
+        <qualifiedname>themis::config::ConfigPathResolver::DeprecationAggregator::logReport</qualifiedname>
+        <briefdescription>
+<para>Log Report. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: <ref refid="classthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_aggregator_1a7a9048f53902765a6852bc6352e7058d" kindref="member">getReport()</ref>, empty(), spdlog::info(), size(), has_value(), year(), month(), day(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/config/config_path_resolver.cpp" line="153" column="10" bodyfile="src/config/config_path_resolver.cpp" bodystart="153" bodyend="184"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/config/config_path_resolver.cpp" line="37" column="1" bodyfile="src/config/config_path_resolver.cpp" bodystart="37" bodyend="195"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_aggregator_1a3de9a6f28d7db22995d4efb95ef041b5" prot="private" virt="non-virtual"><scope>themis::config::ConfigPathResolver::DeprecationAggregator</scope><name>cv_</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_aggregator_1a80648d10c9613f9fafd3f590e0244798" prot="private" virt="non-virtual"><scope>themis::config::ConfigPathResolver::DeprecationAggregator</scope><name>cv_mutex_</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_aggregator_1ab7a5ac91a7ae47eb800b2056e7630ac9" prot="public" virt="non-virtual"><scope>themis::config::ConfigPathResolver::DeprecationAggregator</scope><name>DEFAULT_INTERVAL_SECONDS</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_aggregator_1a7a9048f53902765a6852bc6352e7058d" prot="public" virt="non-virtual"><scope>themis::config::ConfigPathResolver::DeprecationAggregator</scope><name>getReport</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_aggregator_1ac7f767a3fd97b9a7d40cd8924a9482a6" prot="public" virt="non-virtual"><scope>themis::config::ConfigPathResolver::DeprecationAggregator</scope><name>incrementUsage</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_aggregator_1aec0ce5db3c16a346efee02ad01e3b2fe" prot="private" virt="non-virtual"><scope>themis::config::ConfigPathResolver::DeprecationAggregator</scope><name>interval_</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_aggregator_1ad3b6497f4fd4564ea832670e1658d687" prot="public" virt="non-virtual"><scope>themis::config::ConfigPathResolver::DeprecationAggregator</scope><name>isRunning</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_aggregator_1a0694c7b2b998acd31fa054b228d0f6ba" prot="private" virt="non-virtual"><scope>themis::config::ConfigPathResolver::DeprecationAggregator</scope><name>logReport</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_aggregator_1a5d19adcc703e7d3e36ef245df7c7067d" prot="private" virt="non-virtual"><scope>themis::config::ConfigPathResolver::DeprecationAggregator</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_aggregator_1a3483ef82c8b8197e78ec675d5c3cc5ad" prot="private" virt="non-virtual"><scope>themis::config::ConfigPathResolver::DeprecationAggregator</scope><name>reporter_thread_</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_aggregator_1a3a390d93918f3a3ef814920589335ba6" prot="private" virt="non-virtual"><scope>themis::config::ConfigPathResolver::DeprecationAggregator</scope><name>reporterLoop</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_aggregator_1a82a718867a241e81fead502ae3728e45" prot="public" virt="non-virtual"><scope>themis::config::ConfigPathResolver::DeprecationAggregator</scope><name>reset</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_aggregator_1a473a7f7d918c3d431e484fb5aedf4728" prot="private" virt="non-virtual"><scope>themis::config::ConfigPathResolver::DeprecationAggregator</scope><name>running_</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_aggregator_1afe18c7e88adc042de06bda5f4c769988" prot="public" virt="non-virtual"><scope>themis::config::ConfigPathResolver::DeprecationAggregator</scope><name>start</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_aggregator_1ad625ba5387beb7a0d0e3016a3fc6f748" prot="public" virt="non-virtual"><scope>themis::config::ConfigPathResolver::DeprecationAggregator</scope><name>stop</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_aggregator_1a863149b9d7613e3e8a38214f5750caba" prot="private" virt="non-virtual"><scope>themis::config::ConfigPathResolver::DeprecationAggregator</scope><name>thread_mutex_</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_aggregator_1a0c164008b7626547f00e5710fd9c2de8" prot="private" virt="non-virtual"><scope>themis::config::ConfigPathResolver::DeprecationAggregator</scope><name>usage_counts_</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_aggregator_1a3440e0347baacbb9adb2bab8f4bfb90c" prot="public" virt="non-virtual"><scope>themis::config::ConfigPathResolver::DeprecationAggregator</scope><name>~DeprecationAggregator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

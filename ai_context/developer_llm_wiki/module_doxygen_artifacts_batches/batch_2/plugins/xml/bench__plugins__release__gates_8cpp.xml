@@ -1,0 +1,275 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bench__plugins__release__gates_8cpp" kind="file" language="C++">
+    <compoundname>bench_plugins_release_gates.cpp</compoundname>
+    <includes local="no">benchmark/benchmark.h</includes>
+    <includes refid="plugins__api__contract_8h" local="yes">plugins/plugins_api_contract.h</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>benchmarks/plugins/bench_plugins_release_gates.cpp</label>
+        <link refid="bench__plugins__release__gates_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>plugins/plugins_api_contract.h</label>
+        <link refid="plugins__api__contract_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark/benchmark.h</label>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1bench">themis::bench</innernamespace>
+    <innernamespace refid="namespacethemis_1_1bench_1_1plg">themis::bench::plg</innernamespace>
+    <innernamespace refid="namespacethemis_1_1bench_1_1plg__phase5">themis::bench::plg_phase5</innernamespace>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="bench__plugins__release__gates_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_MAIN</definition>
+        <argsstring>()</argsstring>
+        <name>BENCHMARK_MAIN</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/plugins/bench_plugins_release_gates.cpp" line="198" column="1" declfile="benchmarks/plugins/bench_plugins_release_gates.cpp" declline="198" declcolumn="1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Phase 5 plugins module release-gate benchmarks. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides reproducible latency measurements for the plugins module hot paths identified in the plugins module roadmap (Phase 5 — Performance and Hardening).</para>
+<sect1 id="bench__plugins__release__gates_8cpp_1autotoc_md12_1s1"><sect2 id="bench__plugins__release__gates_8cpp_1autotoc_md12">
+<title>Benchmark families</title><para><heading level="3">GATE-PLG-01 — Error enum cast throughput</heading>
+</para>
+<para>Measures the cost of casting PluginsError values from int32_t.</para>
+<para><heading level="3">GATE-PLG-02 — Switch dispatch throughput</heading>
+</para>
+<para>Measures switch-based dispatch across all PluginsError codes; validates compiler jump-table optimisation.</para>
+<para><heading level="3">GATE-PLG-03 — PluginRegistrationDescriptor struct allocation</heading>
+</para>
+<para>Measures in-process heap allocation for PluginRegistrationDescriptor; release gate for plugin churn / hot-plug paths.</para>
+<para><heading level="3">GATE-PLG-04 — Batch error cast (1 000 iterations)</heading>
+</para>
+<para>Amortised error-cast cost across 1 000 mixed codes; simulates a high-churn plugin lifecycle validation hot loop.</para>
+</sect2></sect1>
+<sect1 id="bench__plugins__release__gates_8cpp_1autotoc_md13_1s1"><sect2 id="bench__plugins__release__gates_8cpp_1autotoc_md13">
+<title>Hard release gates</title><para><table rows="5" cols="3"><row>
+<entry thead="yes"><para>Gate ID  </para>
+</entry><entry thead="yes"><para>Benchmark  </para>
+</entry><entry thead="yes"><para>Threshold  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>GATE-PLG-01  </para>
+</entry><entry thead="no"><para>ErrorEnumCast  </para>
+</entry><entry thead="no"><para>p99 ≤ 5 ns  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>GATE-PLG-02  </para>
+</entry><entry thead="no"><para>SwitchDispatch  </para>
+</entry><entry thead="no"><para>p99 ≤ 10 ns  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>GATE-PLG-03  </para>
+</entry><entry thead="no"><para>StructAlloc  </para>
+</entry><entry thead="no"><para>p99 ≤ 500 ns  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>GATE-PLG-04  </para>
+</entry><entry thead="no"><para>BatchCast  </para>
+</entry><entry thead="no"><para>p99 ≤ 5 µs/batch  </para>
+</entry></row>
+</table>
+</para>
+<para>All benchmarks use kCanonicalSeed = 42 for deterministic inputs.</para>
+<para><simplesect kind="see"><para>src/plugins/ROADMAP.md — Phase 5 items </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="plugins__api__contract_8h" kindref="compound">include/plugins/plugins_api_contract.h</ref> </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;benchmark/benchmark.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="plugins__api__contract_8h" kindref="compound">plugins/plugins_api_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="50" refid="namespacethemis_1_1bench" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1bench" kindref="compound">bench</ref><sp/>{</highlight></codeline>
+<codeline lineno="51" refid="namespacethemis_1_1bench_1_1plg" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1bench_1_1plg" kindref="compound">plg</ref><sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/>kCanonicalSeed<sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kRepetitions<sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GATE-PLG-01<sp/>—<sp/>Error<sp/>enum<sp/>cast<sp/>throughput</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_PLG01_ErrorEnumCast(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>int32_t<sp/>raw<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a84d19a0e5cdcf37ecdd50dd11bbfae24" kindref="member">plugins::PluginsError::kSignatureVerifyFailed</ref>);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>e<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763" kindref="member">plugins::PluginsError</ref></highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(raw);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(e);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;GATE-PLG-01:<sp/>p99<sp/>&lt;=<sp/>5<sp/>ns&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><ref refid="bench__plugin__system_8cpp_1a4a1dae14552d856014a9ba904236d7c7" kindref="member">BENCHMARK</ref>(BM_PLG01_ErrorEnumCast)</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kRepetitions)</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;ReportAggregatesOnly(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GATE-PLG-02<sp/>—<sp/>Switch<sp/>dispatch<sp/>throughput</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_PLG02_SwitchDispatch(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763" kindref="member">plugins::PluginsError</ref><sp/>codes[]<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a8c632159fa131f09d04f94e3cbcd8782" kindref="member">plugins::PluginsError::kSuccess</ref>,</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a559c87fdbb96a69c664825c6a237b6c3" kindref="member">plugins::PluginsError::kPluginNotFound</ref>,</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763abf66672239b9934d0ad967723ab1f1d2" kindref="member">plugins::PluginsError::kManifestInvalid</ref>,</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a84d19a0e5cdcf37ecdd50dd11bbfae24" kindref="member">plugins::PluginsError::kSignatureVerifyFailed</ref>,</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a99ca79d1b0d765beeb154c8adb34864d" kindref="member">plugins::PluginsError::kLifecycleTransition</ref>,</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a0f0ea7e69e89a3b0ec9de2af653a549a" kindref="member">plugins::PluginsError::kCapabilityDenied</ref>,</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763ae75d61ab1df56cb487d4e8e77f09d737" kindref="member">plugins::PluginsError::kRegistryConflict</ref>,</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a84c0f992ce2f465361d388cf8c4ec778" kindref="member">plugins::PluginsError::kHealthCheckFailed</ref>,</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763afcd417a134c251034b0d61b07c826394" kindref="member">plugins::PluginsError::kInternalError</ref>,</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>idx<sp/>=<sp/>kCanonicalSeed<sp/>%<sp/>9;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>label<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(codes[idx<sp/>%<sp/>9])<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a8c632159fa131f09d04f94e3cbcd8782" kindref="member">plugins::PluginsError::kSuccess</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>label<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ok&quot;</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a559c87fdbb96a69c664825c6a237b6c3" kindref="member">plugins::PluginsError::kPluginNotFound</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>label<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;notfound&quot;</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763abf66672239b9934d0ad967723ab1f1d2" kindref="member">plugins::PluginsError::kManifestInvalid</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/>label<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;manifest&quot;</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a84d19a0e5cdcf37ecdd50dd11bbfae24" kindref="member">plugins::PluginsError::kSignatureVerifyFailed</ref>:<sp/>label<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;sig&quot;</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a99ca79d1b0d765beeb154c8adb34864d" kindref="member">plugins::PluginsError::kLifecycleTransition</ref>:<sp/><sp/><sp/>label<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;lc&quot;</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a0f0ea7e69e89a3b0ec9de2af653a549a" kindref="member">plugins::PluginsError::kCapabilityDenied</ref>:<sp/><sp/><sp/><sp/><sp/><sp/>label<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;cap&quot;</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763ae75d61ab1df56cb487d4e8e77f09d737" kindref="member">plugins::PluginsError::kRegistryConflict</ref>:<sp/><sp/><sp/><sp/><sp/><sp/>label<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;reg&quot;</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a84c0f992ce2f465361d388cf8c4ec778" kindref="member">plugins::PluginsError::kHealthCheckFailed</ref>:<sp/><sp/><sp/><sp/><sp/>label<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;hc&quot;</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763afcd417a134c251034b0d61b07c826394" kindref="member">plugins::PluginsError::kInternalError</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>label<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;int&quot;</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(label);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++idx;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;GATE-PLG-02:<sp/>p99<sp/>&lt;=<sp/>10<sp/>ns&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><ref refid="bench__plugin__system_8cpp_1a4a1dae14552d856014a9ba904236d7c7" kindref="member">BENCHMARK</ref>(BM_PLG02_SwitchDispatch)</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kRepetitions)</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;ReportAggregatesOnly(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GATE-PLG-03<sp/>—<sp/>PluginRegistrationDescriptor<sp/>struct<sp/>allocation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_PLG03_StructAlloc(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1_plugin_registration_descriptor" kindref="compound">plugins::PluginRegistrationDescriptor</ref><sp/>desc;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>desc.<ref refid="structthemis_1_1plugins_1_1_plugin_registration_descriptor_1aad4e6fa58549c6add885146642abae62" kindref="member">plugin_id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;bench-plugin-42&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>desc.<ref refid="structthemis_1_1plugins_1_1_plugin_registration_descriptor_1ac4fc1ef5bd63eaad3641ebe066a020e7" kindref="member">version</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>desc.<ref refid="structthemis_1_1plugins_1_1_plugin_registration_descriptor_1a4d141f4ca24a6a8780920a910428eeda" kindref="member">hot_plug_eligible</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(desc);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;GATE-PLG-03:<sp/>p99<sp/>&lt;=<sp/>500<sp/>ns&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><ref refid="bench__plugin__system_8cpp_1a4a1dae14552d856014a9ba904236d7c7" kindref="member">BENCHMARK</ref>(BM_PLG03_StructAlloc)</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kRepetitions)</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;ReportAggregatesOnly(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GATE-PLG-04<sp/>—<sp/>Batch<sp/>error<sp/>cast<sp/>(1<sp/>000<sp/>iterations)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_PLG04_BatchCast(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>int32_t<sp/>kRawCodes[]<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>8200,<sp/>8201,<sp/>8202,<sp/>8203,<sp/>8204,<sp/>8205,<sp/>8206,<sp/>8207</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kBatchSize<sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>seed<sp/>=<sp/>kCanonicalSeed;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kBatchSize;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>seed<sp/>^=<sp/>seed<sp/>&lt;&lt;<sp/>13;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>seed<sp/>^=<sp/>seed<sp/>&gt;&gt;<sp/>7;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>seed<sp/>^=<sp/>seed<sp/>&lt;&lt;<sp/>17;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>e<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763" kindref="member">plugins::PluginsError</ref></highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(kRawCodes[seed<sp/>%<sp/>8]);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(e);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations()<sp/>*<sp/>kBatchSize);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;GATE-PLG-04:<sp/>p99<sp/>&lt;=<sp/>5<sp/>us<sp/>per<sp/>batch&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><ref refid="bench__plugin__system_8cpp_1a4a1dae14552d856014a9ba904236d7c7" kindref="member">BENCHMARK</ref>(BM_PLG04_BatchCast)</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kRepetitions)</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;ReportAggregatesOnly(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>plg</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>bench</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Extended<sp/>Phase<sp/>5<sp/>Release<sp/>Gate<sp/>Benchmarks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">bench<sp/>{</highlight></codeline>
+<codeline lineno="166" refid="namespacethemis_1_1bench_1_1plg__phase5" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1bench_1_1plg__phase5" kindref="compound">plg_phase5</ref><sp/>{</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Note:<sp/>Full<sp/>plugin<sp/>lifecycle<sp/>benchmarks<sp/>require<sp/>a<sp/>complete<sp/>test<sp/>infrastructure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight><highlight class="comment">//<sp/>with<sp/>actual<sp/>plugin<sp/>loading.<sp/>These<sp/>templates<sp/>show<sp/>the<sp/>benchmark<sp/>structure.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GATE-PLG-01:<sp/>Plugin<sp/>load<sp/>latency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Target:<sp/>p95<sp/>≤<sp/>50ms,<sp/>p99<sp/>≤<sp/>100ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="comment">//<sp/>This<sp/>requires<sp/>actual<sp/>plugin<sp/>binaries<sp/>and<sp/>would<sp/>be<sp/>part<sp/>of<sp/>integration<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GATE-PLG-02:<sp/>Plugin<sp/>unload<sp/>latency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Target:<sp/>p95<sp/>≤<sp/>30ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Measures<sp/>time<sp/>to<sp/>properly<sp/>unload<sp/>and<sp/>clean<sp/>up<sp/>plugin<sp/>resources</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GATE-PLG-03:<sp/>Registry<sp/>throughput</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Target:<sp/>≥<sp/>10k<sp/>ops/s<sp/>for<sp/>registry<sp/>create<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Measures<sp/>concurrent<sp/>registration<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GATE-PLG-04:<sp/>Plugin<sp/>reload<sp/>latency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Target:<sp/>≤<sp/>200ms<sp/>for<sp/>complete<sp/>reload<sp/>cycle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Measures<sp/>unload<sp/>+<sp/>load<sp/>time<sp/>for<sp/>plugin<sp/>hot-reload</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>plg_phase5</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>bench</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><ref refid="bench__plugins__release__gates_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kindref="member">BENCHMARK_MAIN</ref>();</highlight></codeline>
+    </programlisting>
+    <location file="benchmarks/plugins/bench_plugins_release_gates.cpp"/>
+  </compounddef>
+</doxygen>

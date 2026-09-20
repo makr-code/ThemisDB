@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_ai_inference_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::acceleration::AiInferenceResult</compoundname>
+    <includes refid="ai__hardware__dispatcher_8h" local="no">ai_hardware_dispatcher.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_ai_inference_result_1a2aed9d4c2a4b1046f1531d223cdc095d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::acceleration::AiInferenceResult::output</definition>
+        <argsstring></argsstring>
+        <name>output</name>
+        <qualifiedname>themis::acceleration::AiInferenceResult::output</qualifiedname>
+        <briefdescription>
+<para>Host-side output tensor (FP32). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/ai_hardware_dispatcher.h" line="87" column="19" bodyfile="include/acceleration/ai_hardware_dispatcher.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_ai_inference_result_1a7c97400cafd0d30e418fd9082676ec19" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int64_t &gt;</type>
+        <definition>std::vector&lt;int64_t&gt; themis::acceleration::AiInferenceResult::output_shape</definition>
+        <argsstring></argsstring>
+        <name>output_shape</name>
+        <qualifiedname>themis::acceleration::AiInferenceResult::output_shape</qualifiedname>
+        <briefdescription>
+<para>Output tensor shape dimensions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/ai_hardware_dispatcher.h" line="88" column="17" bodyfile="include/acceleration/ai_hardware_dispatcher.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_ai_inference_result_1a5539fbadb88b886214711e7ad19a1ee8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::AiInferenceResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::acceleration::AiInferenceResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true if inference completed successfully </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/ai_hardware_dispatcher.h" line="89" column="26" bodyfile="include/acceleration/ai_hardware_dispatcher.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_ai_inference_result_1acbb345f43463f328a288b8ddc2d0f72b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::AiInferenceResult::error</definition>
+        <argsstring></argsstring>
+        <name>error</name>
+        <qualifiedname>themis::acceleration::AiInferenceResult::error</qualifiedname>
+        <briefdescription>
+<para>Error message if success is false. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/ai_hardware_dispatcher.h" line="90" column="26" bodyfile="include/acceleration/ai_hardware_dispatcher.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_ai_inference_result_1a89260a7febed63c4d0224a5439721c69" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5" kindref="member">BackendType</ref></type>
+        <definition>BackendType themis::acceleration::AiInferenceResult::backend_used</definition>
+        <argsstring></argsstring>
+        <name>backend_used</name>
+        <qualifiedname>themis::acceleration::AiInferenceResult::backend_used</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5a2b55387dd066c5bac646ac61543d152d" kindref="member">BackendType::CPU</ref></initializer>
+        <briefdescription>
+<para>Backend that executed the model. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/ai_hardware_dispatcher.h" line="91" column="26" bodyfile="include/acceleration/ai_hardware_dispatcher.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_ai_inference_result_1a4a6f1f15bf2436434c8d7544ad2d2e6c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::AiInferenceResult::ep_used</definition>
+        <argsstring></argsstring>
+        <name>ep_used</name>
+        <qualifiedname>themis::acceleration::AiInferenceResult::ep_used</qualifiedname>
+        <briefdescription>
+<para>Execution provider/backend identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/ai_hardware_dispatcher.h" line="92" column="26" bodyfile="include/acceleration/ai_hardware_dispatcher.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_ai_inference_result_1a62c3f0024bb67e510ab12042e8581b06" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::acceleration::AiInferenceResult::latency_ms</definition>
+        <argsstring></argsstring>
+        <name>latency_ms</name>
+        <qualifiedname>themis::acceleration::AiInferenceResult::latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Wall-clock inference time in milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/ai_hardware_dispatcher.h" line="93" column="26" bodyfile="include/acceleration/ai_hardware_dispatcher.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_ai_inference_result_1a4a589b8273c4016e6a14ad1057ecfad1" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint32_t &gt;</type>
+        <definition>std::vector&lt;uint32_t&gt; themis::acceleration::AiInferenceResult::topk_indices</definition>
+        <argsstring></argsstring>
+        <name>topk_indices</name>
+        <qualifiedname>themis::acceleration::AiInferenceResult::topk_indices</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/ai_hardware_dispatcher.h" line="95" column="17" bodyfile="include/acceleration/ai_hardware_dispatcher.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_ai_inference_result_1a75d1d3b64b4eefbd8b1f45c3bb6225c2" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::acceleration::AiInferenceResult::topk_distances</definition>
+        <argsstring></argsstring>
+        <name>topk_distances</name>
+        <qualifiedname>themis::acceleration::AiInferenceResult::topk_distances</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/ai_hardware_dispatcher.h" line="96" column="20" bodyfile="include/acceleration/ai_hardware_dispatcher.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/ai_hardware_dispatcher.h" line="86" column="1" bodyfile="include/acceleration/ai_hardware_dispatcher.h" bodystart="86" bodyend="97"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_ai_inference_result_1a89260a7febed63c4d0224a5439721c69" prot="public" virt="non-virtual"><scope>themis::acceleration::AiInferenceResult</scope><name>backend_used</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_ai_inference_result_1a4a6f1f15bf2436434c8d7544ad2d2e6c" prot="public" virt="non-virtual"><scope>themis::acceleration::AiInferenceResult</scope><name>ep_used</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_ai_inference_result_1acbb345f43463f328a288b8ddc2d0f72b" prot="public" virt="non-virtual"><scope>themis::acceleration::AiInferenceResult</scope><name>error</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_ai_inference_result_1a62c3f0024bb67e510ab12042e8581b06" prot="public" virt="non-virtual"><scope>themis::acceleration::AiInferenceResult</scope><name>latency_ms</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_ai_inference_result_1a2aed9d4c2a4b1046f1531d223cdc095d" prot="public" virt="non-virtual"><scope>themis::acceleration::AiInferenceResult</scope><name>output</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_ai_inference_result_1a7c97400cafd0d30e418fd9082676ec19" prot="public" virt="non-virtual"><scope>themis::acceleration::AiInferenceResult</scope><name>output_shape</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_ai_inference_result_1a5539fbadb88b886214711e7ad19a1ee8" prot="public" virt="non-virtual"><scope>themis::acceleration::AiInferenceResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_ai_inference_result_1a75d1d3b64b4eefbd8b1f45c3bb6225c2" prot="public" virt="non-virtual"><scope>themis::acceleration::AiInferenceResult</scope><name>topk_distances</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_ai_inference_result_1a4a589b8273c4016e6a14ad1057ecfad1" prot="public" virt="non-virtual"><scope>themis::acceleration::AiInferenceResult</scope><name>topk_indices</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

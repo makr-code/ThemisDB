@@ -1,0 +1,177 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_l_d_a_p_auth_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::LDAPAuthResult</compoundname>
+    <includes refid="ldap__authenticator_8h" local="no">ldap_authenticator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_l_d_a_p_auth_result_1a6251ea9bcaa310e53b54e6475c496dff" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::LDAPAuthResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::auth::LDAPAuthResult::success</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="88" column="17" bodyfile="include/auth/ldap_authenticator.h" bodystart="88" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_l_d_a_p_auth_result_1adbb283972ba3a91501a1c26bbfb47db6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::LDAPAuthResult::username</definition>
+        <argsstring></argsstring>
+        <name>username</name>
+        <qualifiedname>themis::auth::LDAPAuthResult::username</qualifiedname>
+        <briefdescription>
+<para>Authenticated username. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="89" column="17" bodyfile="include/auth/ldap_authenticator.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_l_d_a_p_auth_result_1a969c3e3471a3d445a3f233a88a1dcdaa" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::LDAPAuthResult::dn</definition>
+        <argsstring></argsstring>
+        <name>dn</name>
+        <qualifiedname>themis::auth::LDAPAuthResult::dn</qualifiedname>
+        <briefdescription>
+<para>Resolved Distinguished Name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="90" column="17" bodyfile="include/auth/ldap_authenticator.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_l_d_a_p_auth_result_1ac495623fc77eb9fab24f49cbe5be2cdb" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::auth::LDAPAuthResult::roles</definition>
+        <argsstring></argsstring>
+        <name>roles</name>
+        <qualifiedname>themis::auth::LDAPAuthResult::roles</qualifiedname>
+        <briefdescription>
+<para>Mapped ThemisDB roles. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="91" column="17" bodyfile="include/auth/ldap_authenticator.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_l_d_a_p_auth_result_1aef47d0286d15e1368833eb9313e53120" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::auth::LDAPAuthResult::groups</definition>
+        <argsstring></argsstring>
+        <name>groups</name>
+        <qualifiedname>themis::auth::LDAPAuthResult::groups</qualifiedname>
+        <briefdescription>
+<para><ref refid="ldap__connection__pool_8h_1ae1d91d802fce48f28cb3fa636dc5bc1e" kindref="member">LDAP</ref> groups the user belongs to. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="92" column="17" bodyfile="include/auth/ldap_authenticator.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_l_d_a_p_auth_result_1a127a8dc41aef9c3b22da7420f93da72c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::LDAPAuthResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::auth::LDAPAuthResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="93" column="17" bodyfile="include/auth/ldap_authenticator.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1auth_1_1_l_d_a_p_auth_result_1a3b937b1ef1ac15504010d22c086cdfd1" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_l_d_a_p_auth_result" kindref="compound">LDAPAuthResult</ref></type>
+        <definition>static LDAPAuthResult themis::auth::LDAPAuthResult::Success</definition>
+        <argsstring>(const std::string &amp;user, const std::string &amp;distinguished_name, const std::vector&lt; std::string &gt; &amp;mapped_roles, const std::vector&lt; std::string &gt; &amp;ldap_groups={})</argsstring>
+        <name>Success</name>
+        <qualifiedname>themis::auth::LDAPAuthResult::Success</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>distinguished_name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>mapped_roles</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>ldap_groups</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="95" column="27" bodyfile="include/auth/ldap_authenticator.h" bodystart="95" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1auth_1_1_l_d_a_p_auth_result_1a0ef52c706b08e1775109747d41fa749b" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_l_d_a_p_auth_result" kindref="compound">LDAPAuthResult</ref></type>
+        <definition>static LDAPAuthResult themis::auth::LDAPAuthResult::Failed</definition>
+        <argsstring>(const std::string &amp;error)</argsstring>
+        <name>Failed</name>
+        <qualifiedname>themis::auth::LDAPAuthResult::Failed</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error</declname>
+        </param>
+        <briefdescription>
+<para>Failed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="114" column="27" bodyfile="include/auth/ldap_authenticator.h" bodystart="114" bodyend="120"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/ldap_authenticator.h" line="87" column="1" bodyfile="include/auth/ldap_authenticator.h" bodystart="87" bodyend="121"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_l_d_a_p_auth_result_1a969c3e3471a3d445a3f233a88a1dcdaa" prot="public" virt="non-virtual"><scope>themis::auth::LDAPAuthResult</scope><name>dn</name></member>
+      <member refid="structthemis_1_1auth_1_1_l_d_a_p_auth_result_1a127a8dc41aef9c3b22da7420f93da72c" prot="public" virt="non-virtual"><scope>themis::auth::LDAPAuthResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1auth_1_1_l_d_a_p_auth_result_1a0ef52c706b08e1775109747d41fa749b" prot="public" virt="non-virtual"><scope>themis::auth::LDAPAuthResult</scope><name>Failed</name></member>
+      <member refid="structthemis_1_1auth_1_1_l_d_a_p_auth_result_1aef47d0286d15e1368833eb9313e53120" prot="public" virt="non-virtual"><scope>themis::auth::LDAPAuthResult</scope><name>groups</name></member>
+      <member refid="structthemis_1_1auth_1_1_l_d_a_p_auth_result_1ac495623fc77eb9fab24f49cbe5be2cdb" prot="public" virt="non-virtual"><scope>themis::auth::LDAPAuthResult</scope><name>roles</name></member>
+      <member refid="structthemis_1_1auth_1_1_l_d_a_p_auth_result_1a3b937b1ef1ac15504010d22c086cdfd1" prot="public" virt="non-virtual"><scope>themis::auth::LDAPAuthResult</scope><name>Success</name></member>
+      <member refid="structthemis_1_1auth_1_1_l_d_a_p_auth_result_1a6251ea9bcaa310e53b54e6475c496dff" prot="public" virt="non-virtual"><scope>themis::auth::LDAPAuthResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1auth_1_1_l_d_a_p_auth_result_1adbb283972ba3a91501a1c26bbfb47db6" prot="public" virt="non-virtual"><scope>themis::auth::LDAPAuthResult</scope><name>username</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

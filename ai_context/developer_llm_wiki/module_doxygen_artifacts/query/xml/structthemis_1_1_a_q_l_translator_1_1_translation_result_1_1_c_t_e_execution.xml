@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_c_t_e_execution" kind="struct" language="C++" prot="public">
+    <compoundname>themis::AQLTranslator::TranslationResult::CTEExecution</compoundname>
+    <includes refid="aql__translator_8h" local="no">aql_translator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_c_t_e_execution_1a013bc9c7ce67df17458f63f521b9a440" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::AQLTranslator::TranslationResult::CTEExecution::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::AQLTranslator::TranslationResult::CTEExecution::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="116" column="25" bodyfile="include/query/aql_translator.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_c_t_e_execution_1a750437ba3bcce5e29d0528216696ea84" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_query" kindref="compound">query::Query</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;query::Query&gt; themis::AQLTranslator::TranslationResult::CTEExecution::subquery</definition>
+        <argsstring></argsstring>
+        <name>subquery</name>
+        <qualifiedname>themis::AQLTranslator::TranslationResult::CTEExecution::subquery</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="117" column="29" bodyfile="include/query/aql_translator.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_c_t_e_execution_1a516a25564ad2f84668d324ec138af5a4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::AQLTranslator::TranslationResult::CTEExecution::should_materialize</definition>
+        <argsstring></argsstring>
+        <name>should_materialize</name>
+        <qualifiedname>themis::AQLTranslator::TranslationResult::CTEExecution::should_materialize</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="118" column="18" bodyfile="include/query/aql_translator.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/aql_translator.h" line="115" column="9" bodyfile="include/query/aql_translator.h" bodystart="115" bodyend="119"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_c_t_e_execution_1a013bc9c7ce67df17458f63f521b9a440" prot="public" virt="non-virtual"><scope>themis::AQLTranslator::TranslationResult::CTEExecution</scope><name>name</name></member>
+      <member refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_c_t_e_execution_1a516a25564ad2f84668d324ec138af5a4" prot="public" virt="non-virtual"><scope>themis::AQLTranslator::TranslationResult::CTEExecution</scope><name>should_materialize</name></member>
+      <member refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_c_t_e_execution_1a750437ba3bcce5e29d0528216696ea84" prot="public" virt="non-virtual"><scope>themis::AQLTranslator::TranslationResult::CTEExecution</scope><name>subquery</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

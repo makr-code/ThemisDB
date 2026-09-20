@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_sort_spec" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::SortSpec</compoundname>
+    <includes refid="aql__parser_8h" local="no">aql_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_sort_spec_1af0644d8ec58285728c182eb5b8a16f60" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="struct_expression" kindref="compound">Expression</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;Expression&gt; themis::query::SortSpec::expression</definition>
+        <argsstring></argsstring>
+        <name>expression</name>
+        <qualifiedname>themis::query::SortSpec::expression</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="532" column="21" bodyfile="include/query/aql_parser.h" bodystart="532" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_sort_spec_1a0d4597f89efd52dcbeb69de596a755b0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::SortSpec::ascending</definition>
+        <argsstring></argsstring>
+        <name>ascending</name>
+        <qualifiedname>themis::query::SortSpec::ascending</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="533" column="10" bodyfile="include/query/aql_parser.h" bodystart="533" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_sort_spec_1a40dd0538a4dd7573312f59b983145c39" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::SortSpec::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::query::SortSpec::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="535" column="20" bodyfile="include/query/aql_parser.h" bodystart="535" bodyend="540"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/aql_parser.h" line="531" column="1" bodyfile="include/query/aql_parser.h" bodystart="531" bodyend="541"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_sort_spec_1a0d4597f89efd52dcbeb69de596a755b0" prot="public" virt="non-virtual"><scope>themis::query::SortSpec</scope><name>ascending</name></member>
+      <member refid="structthemis_1_1query_1_1_sort_spec_1af0644d8ec58285728c182eb5b8a16f60" prot="public" virt="non-virtual"><scope>themis::query::SortSpec</scope><name>expression</name></member>
+      <member refid="structthemis_1_1query_1_1_sort_spec_1a40dd0538a4dd7573312f59b983145c39" prot="public" virt="non-virtual"><scope>themis::query::SortSpec</scope><name>toJSON</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

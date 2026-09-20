@@ -1,0 +1,577 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_chain_of_thought_builder" kind="class" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::ChainOfThoughtBuilder</compoundname>
+    <includes refid="chain__of__thought_8h" local="no">chain_of_thought.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_chain_of_thought_builder_1a01e9b8e781d413597942ec8fc7425ab5" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_co_t_config" kindref="compound">CoTConfig</ref></type>
+        <definition>CoTConfig themis::prompt_engineering::ChainOfThoughtBuilder::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::prompt_engineering::ChainOfThoughtBuilder::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/chain_of_thought.h" line="199" column="25" bodyfile="include/prompt_engineering/chain_of_thought.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_chain_of_thought_builder_1af5dd89834cec23dede49f1752f4f2387" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_co_t_step" kindref="compound">CoTStep</ref> &gt;</type>
+        <definition>std::vector&lt;CoTStep&gt; themis::prompt_engineering::ChainOfThoughtBuilder::steps_</definition>
+        <argsstring></argsstring>
+        <name>steps_</name>
+        <qualifiedname>themis::prompt_engineering::ChainOfThoughtBuilder::steps_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/chain_of_thought.h" line="200" column="17" bodyfile="include/prompt_engineering/chain_of_thought.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_chain_of_thought_builder_1a3934492de83c6927604a4edd4b2d859c" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::ChainOfThoughtBuilder::final_answer_</definition>
+        <argsstring></argsstring>
+        <name>final_answer_</name>
+        <qualifiedname>themis::prompt_engineering::ChainOfThoughtBuilder::final_answer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/chain_of_thought.h" line="201" column="26" bodyfile="include/prompt_engineering/chain_of_thought.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_chain_of_thought_builder_1af09f3bb80e81c6019763e805d9e95f3c" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_i_chain_of_thought_tracer" kindref="compound">IChainOfThoughtTracer</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;IChainOfThoughtTracer&gt; themis::prompt_engineering::ChainOfThoughtBuilder::tracer_</definition>
+        <argsstring></argsstring>
+        <name>tracer_</name>
+        <qualifiedname>themis::prompt_engineering::ChainOfThoughtBuilder::tracer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/chain_of_thought.h" line="202" column="21" bodyfile="include/prompt_engineering/chain_of_thought.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_chain_of_thought_builder_1a4a7deac5e65e5fb2f2a97d5f9d0f475f" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::ChainOfThoughtBuilder::ChainOfThoughtBuilder</definition>
+        <argsstring>(const CoTConfig &amp;config=CoTConfig{})</argsstring>
+        <name>ChainOfThoughtBuilder</name>
+        <qualifiedname>themis::prompt_engineering::ChainOfThoughtBuilder::ChainOfThoughtBuilder</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_co_t_config" kindref="compound">CoTConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1prompt__engineering_1_1_co_t_config" kindref="compound">CoTConfig</ref>{}</defval>
+        </param>
+        <briefdescription>
+<para>Construct a builder with the given configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>CoT generation settings (defaults apply if omitted). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/chain_of_thought.h" line="64" column="14" bodyfile="src/prompt_engineering/chain_of_thought.cpp" bodystart="23" bodyend="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_chain_of_thought_builder_1a59d70c55a2c1c88200af858c2f8eae7a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1prompt__engineering_1_1_chain_of_thought_builder_1a4a7deac5e65e5fb2f2a97d5f9d0f475f" kindref="member">ChainOfThoughtBuilder</ref> &amp;</type>
+        <definition>ChainOfThoughtBuilder &amp; themis::prompt_engineering::ChainOfThoughtBuilder::addStep</definition>
+        <argsstring>(const std::string &amp;content, const std::string &amp;label=&quot;&quot;)</argsstring>
+        <name>addStep</name>
+        <qualifiedname>themis::prompt_engineering::ChainOfThoughtBuilder::addStep</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>label</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Append a reasoning step. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Step.</para>
+<para>If <computeroutput>label</computeroutput> is empty and <computeroutput>config_.number_steps</computeroutput> is true the label is auto-generated as &quot;&lt;step_prefix&gt;&lt;N&gt;&quot; where N is the 1-based step index.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Instruction or reasoning text. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>label</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional explicit label (overrides auto-numbering). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Reference to <computeroutput>*this</computeroutput> for chaining.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">label</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::to_string(), size(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/chain_of_thought.h" line="76" column="27" bodyfile="src/prompt_engineering/chain_of_thought.cpp" bodystart="37" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_chain_of_thought_builder_1ab2c9e42a72280fce3c8bb9abb1730876" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1prompt__engineering_1_1_chain_of_thought_builder_1a4a7deac5e65e5fb2f2a97d5f9d0f475f" kindref="member">ChainOfThoughtBuilder</ref> &amp;</type>
+        <definition>ChainOfThoughtBuilder &amp; themis::prompt_engineering::ChainOfThoughtBuilder::addReasoningStep</definition>
+        <argsstring>(const std::string &amp;reasoning)</argsstring>
+        <name>addReasoningStep</name>
+        <qualifiedname>themis::prompt_engineering::ChainOfThoughtBuilder::addReasoningStep</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reasoning</declname>
+        </param>
+        <briefdescription>
+<para>Append a reasoning step whose label is &quot;Reasoning&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Reasoning Step.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>reasoning</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Free-form reasoning text. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Reference to <computeroutput>*this</computeroutput> for chaining.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">reasoning</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1prompt__engineering_1_1_chain_of_thought_builder_1a59d70c55a2c1c88200af858c2f8eae7a" kindref="member">addStep()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/chain_of_thought.h" line="84" column="27" bodyfile="src/prompt_engineering/chain_of_thought.cpp" bodystart="60" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_chain_of_thought_builder_1a24384a50dc7374c75f5342a39f517418" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1prompt__engineering_1_1_chain_of_thought_builder_1a4a7deac5e65e5fb2f2a97d5f9d0f475f" kindref="member">ChainOfThoughtBuilder</ref> &amp;</type>
+        <definition>ChainOfThoughtBuilder &amp; themis::prompt_engineering::ChainOfThoughtBuilder::setFinalAnswer</definition>
+        <argsstring>(const std::string &amp;answer)</argsstring>
+        <name>setFinalAnswer</name>
+        <qualifiedname>themis::prompt_engineering::ChainOfThoughtBuilder::setFinalAnswer</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>answer</declname>
+        </param>
+        <briefdescription>
+<para>Set the final answer section content. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Final Answer.</para>
+<para>The final answer is appended after all steps when <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_chain_of_thought_builder_1a2d0e90a37879834ebad7ee0e0a78eabc" kindref="member">build()</ref></computeroutput> is called, preceded by <computeroutput>config_.final_answer_label</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Answer text or instruction. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Reference to <computeroutput>*this</computeroutput> for chaining.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements setFinalAnswer without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/chain_of_thought.h" line="95" column="27" bodyfile="src/prompt_engineering/chain_of_thought.cpp" bodystart="71" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_chain_of_thought_builder_1a2d0e90a37879834ebad7ee0e0a78eabc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::ChainOfThoughtBuilder::build</definition>
+        <argsstring>() const</argsstring>
+        <name>build</name>
+        <qualifiedname>themis::prompt_engineering::ChainOfThoughtBuilder::build</qualifiedname>
+        <briefdescription>
+<para>Assemble all added steps (and optional final answer) into a single prompt string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When a tracer is attached via <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_chain_of_thought_builder_1a56f9feff57ba577cf0393e7f364f47d3" kindref="member">attachTracer()</ref></computeroutput>, this method calls <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_i_chain_of_thought_tracer_1ae5bf66df9be5df2a1fdbcc5dd4c04a5c" kindref="member">IChainOfThoughtTracer::onStepBegin()</ref></computeroutput> and <computeroutput>onStepEnd()</computeroutput> for each step before and after it is appended to the output buffer. These callbacks are declared <computeroutput>noexcept</computeroutput> in <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_i_chain_of_thought_tracer" kindref="compound">IChainOfThoughtTracer</ref></computeroutput>, so tracer implementations must not throw; doing so would invoke <computeroutput>std::terminate</computeroutput>.</para>
+<para><simplesect kind="return"><para>The complete prompt text. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/chain_of_thought.h" line="109" column="17" bodyfile="src/prompt_engineering/chain_of_thought.cpp" bodystart="98" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_chain_of_thought_builder_1a60fd64ce43dcb492e1048b0d8c8c03d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::ChainOfThoughtBuilder::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::prompt_engineering::ChainOfThoughtBuilder::clear</qualifiedname>
+        <briefdescription>
+<para>Remove all steps and the final answer (reset to empty state). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear.</para>
+<para>Implements clear without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/chain_of_thought.h" line="114" column="10" bodyfile="src/prompt_engineering/chain_of_thought.cpp" bodystart="81" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_chain_of_thought_builder_1aa7ec3ae60a9fa219aa79bebe6bea0d8e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::ChainOfThoughtBuilder::stepCount</definition>
+        <argsstring>() const</argsstring>
+        <name>stepCount</name>
+        <qualifiedname>themis::prompt_engineering::ChainOfThoughtBuilder::stepCount</qualifiedname>
+        <briefdescription>
+<para>Return the number of steps currently held. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/chain_of_thought.h" line="119" column="12" bodyfile="src/prompt_engineering/chain_of_thought.cpp" bodystart="86" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_chain_of_thought_builder_1a005012f53ee20821a6b7f7e5c4a362ed" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_co_t_config" kindref="compound">CoTConfig</ref> &amp;</type>
+        <definition>const CoTConfig &amp; themis::prompt_engineering::ChainOfThoughtBuilder::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::prompt_engineering::ChainOfThoughtBuilder::getConfig</qualifiedname>
+        <briefdescription>
+<para>Return a read-only reference to the current configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/chain_of_thought.h" line="124" column="21" bodyfile="src/prompt_engineering/chain_of_thought.cpp" bodystart="90" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_chain_of_thought_builder_1a56f9feff57ba577cf0393e7f364f47d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::ChainOfThoughtBuilder::attachTracer</definition>
+        <argsstring>(std::shared_ptr&lt; IChainOfThoughtTracer &gt; tracer)</argsstring>
+        <name>attachTracer</name>
+        <qualifiedname>themis::prompt_engineering::ChainOfThoughtBuilder::attachTracer</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_i_chain_of_thought_tracer" kindref="compound">IChainOfThoughtTracer</ref> &gt;</type>
+          <declname>tracer</declname>
+        </param>
+        <briefdescription>
+<para>Attach an <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_i_chain_of_thought_tracer" kindref="compound">IChainOfThoughtTracer</ref></computeroutput> to this builder. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Attach Tracer.</para>
+<para>When set, <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_chain_of_thought_builder_1a2d0e90a37879834ebad7ee0e0a78eabc" kindref="member">build()</ref></computeroutput> calls <computeroutput>onStepBegin</computeroutput>/<computeroutput>onStepEnd</computeroutput> for each step. Passing <computeroutput>nullptr</computeroutput> is equivalent to calling <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_chain_of_thought_builder_1aa7ca7f2579912a857823de53a4aa2c4b" kindref="member">detachTracer()</ref></computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tracer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tracer implementation to attach.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tracer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/chain_of_thought.h" line="138" column="10" bodyfile="src/prompt_engineering/chain_of_thought.cpp" bodystart="155" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_chain_of_thought_builder_1aa7ca7f2579912a857823de53a4aa2c4b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::ChainOfThoughtBuilder::detachTracer</definition>
+        <argsstring>()</argsstring>
+        <name>detachTracer</name>
+        <qualifiedname>themis::prompt_engineering::ChainOfThoughtBuilder::detachTracer</qualifiedname>
+        <briefdescription>
+<para>Remove the currently attached tracer (no-op if none is set). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Detach Tracer.</para>
+<para>Calls: reset(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/chain_of_thought.h" line="143" column="10" bodyfile="src/prompt_engineering/chain_of_thought.cpp" bodystart="164" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_chain_of_thought_builder_1ac55b2cc03904151d58177c8b199a071f" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::ChainOfThoughtBuilder::hasTracer</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>hasTracer</name>
+        <qualifiedname>themis::prompt_engineering::ChainOfThoughtBuilder::hasTracer</qualifiedname>
+        <briefdescription>
+<para>Return <computeroutput>true</computeroutput> when a tracer is currently attached. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/chain_of_thought.h" line="148" column="10" bodyfile="src/prompt_engineering/chain_of_thought.cpp" bodystart="168" bodyend="170"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_chain_of_thought_builder_1a7ec6837b2e558d764b633dc0705d837d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::ChainOfThoughtBuilder::buildZeroShot</definition>
+        <argsstring>(const std::string &amp;question)</argsstring>
+        <name>buildZeroShot</name>
+        <qualifiedname>themis::prompt_engineering::ChainOfThoughtBuilder::buildZeroShot</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>question</declname>
+        </param>
+        <briefdescription>
+<para>Build a zero-shot CoT prompt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Build Zero Shot.</para>
+<para>Appends the standard zero-shot chain-of-thought trigger sentence &quot;Let&apos;s think step by step.&quot; after the supplied question.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>question</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The question or task to reason about. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The zero-shot CoT prompt.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">question</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements buildZeroShot without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/chain_of_thought.h" line="163" column="24" bodyfile="src/prompt_engineering/chain_of_thought.cpp" bodystart="182" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_chain_of_thought_builder_1aa50bbfae61007ce4ef58fe03bad45302" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::ChainOfThoughtBuilder::buildFewShot</definition>
+        <argsstring>(const std::string &amp;question, const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;examples)</argsstring>
+        <name>buildFewShot</name>
+        <qualifiedname>themis::prompt_engineering::ChainOfThoughtBuilder::buildFewShot</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>question</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;</type>
+          <declname>examples</declname>
+        </param>
+        <briefdescription>
+<para>Build a few-shot CoT prompt with worked examples. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Each example is rendered as: <programlisting><codeline><highlight class="normal">Q:<sp/>&lt;question&gt;</highlight></codeline>
+<codeline><highlight class="normal">A:<sp/>&lt;reasoning_and_answer&gt;</highlight></codeline>
+</programlisting> followed by <computeroutput>&quot;Q: &lt;question&gt;\nA:&quot;</computeroutput> to elicit the model&apos;s response.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>question</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The target question. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>examples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pairs of (question, reasoning+answer) serving as in-context demonstrations. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The few-shot CoT prompt string. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/chain_of_thought.h" line="180" column="24" bodyfile="src/prompt_engineering/chain_of_thought.cpp" bodystart="186" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_chain_of_thought_builder_1addc57b4dcabaf992b2aca27ff9245d1a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::ChainOfThoughtBuilder::wrapWithCoT</definition>
+        <argsstring>(const std::string &amp;prompt, bool explicit_steps=false)</argsstring>
+        <name>wrapWithCoT</name>
+        <qualifiedname>themis::prompt_engineering::ChainOfThoughtBuilder::wrapWithCoT</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>explicit_steps</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Wrap an existing prompt with CoT instructions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Wrap With Co T.</para>
+<para>Prepends an instruction block that asks the model to reason step by step before answering. When <computeroutput>explicit_steps</computeroutput> is true, numbered step headings are added to the instruction block.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Existing prompt text. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>explicit_steps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Add explicit &quot;Step 1 / Step 2 / …&quot; headings. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The wrapped prompt.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">explicit_steps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/chain_of_thought.h" line="195" column="24" bodyfile="src/prompt_engineering/chain_of_thought.cpp" bodystart="210" bodyend="227"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Builds chain-of-thought prompts with structured reasoning steps. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Usage – builder mode: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1prompt__engineering_1_1_chain_of_thought_builder_1a4a7deac5e65e5fb2f2a97d5f9d0f475f" kindref="member">ChainOfThoughtBuilder</ref><sp/>builder;</highlight></codeline>
+<codeline><highlight class="normal">builder.addStep(</highlight><highlight class="stringliteral">&quot;Identify<sp/>all<sp/>entities<sp/>mentioned<sp/>in<sp/>the<sp/>text.&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.addStep(</highlight><highlight class="stringliteral">&quot;Determine<sp/>the<sp/>relationship<sp/>between<sp/>each<sp/>entity<sp/>pair.&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.setFinalAnswer(</highlight><highlight class="stringliteral">&quot;List<sp/>each<sp/>relationship<sp/>on<sp/>a<sp/>separate<sp/>line.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">std::string<sp/>prompt<sp/>=<sp/>builder.build();</highlight></codeline>
+</programlisting></para>
+<para>Usage – zero-shot shortcut: <programlisting><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>prompt<sp/>=<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_chain_of_thought_builder_1a7ec6837b2e558d764b633dc0705d837d" kindref="member">ChainOfThoughtBuilder::buildZeroShot</ref>(</highlight><highlight class="stringliteral">&quot;What<sp/>is<sp/>17<sp/>×<sp/>24?&quot;</highlight><highlight class="normal">);</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/prompt_engineering/chain_of_thought.h" line="58" column="1" bodyfile="include/prompt_engineering/chain_of_thought.h" bodystart="58" bodyend="203"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_chain_of_thought_builder_1ab2c9e42a72280fce3c8bb9abb1730876" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ChainOfThoughtBuilder</scope><name>addReasoningStep</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_chain_of_thought_builder_1a59d70c55a2c1c88200af858c2f8eae7a" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ChainOfThoughtBuilder</scope><name>addStep</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_chain_of_thought_builder_1a56f9feff57ba577cf0393e7f364f47d3" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ChainOfThoughtBuilder</scope><name>attachTracer</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_chain_of_thought_builder_1a2d0e90a37879834ebad7ee0e0a78eabc" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ChainOfThoughtBuilder</scope><name>build</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_chain_of_thought_builder_1aa50bbfae61007ce4ef58fe03bad45302" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ChainOfThoughtBuilder</scope><name>buildFewShot</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_chain_of_thought_builder_1a7ec6837b2e558d764b633dc0705d837d" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ChainOfThoughtBuilder</scope><name>buildZeroShot</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_chain_of_thought_builder_1a4a7deac5e65e5fb2f2a97d5f9d0f475f" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ChainOfThoughtBuilder</scope><name>ChainOfThoughtBuilder</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_chain_of_thought_builder_1a60fd64ce43dcb492e1048b0d8c8c03d9" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ChainOfThoughtBuilder</scope><name>clear</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_chain_of_thought_builder_1a01e9b8e781d413597942ec8fc7425ab5" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::ChainOfThoughtBuilder</scope><name>config_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_chain_of_thought_builder_1aa7ca7f2579912a857823de53a4aa2c4b" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ChainOfThoughtBuilder</scope><name>detachTracer</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_chain_of_thought_builder_1a3934492de83c6927604a4edd4b2d859c" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::ChainOfThoughtBuilder</scope><name>final_answer_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_chain_of_thought_builder_1a005012f53ee20821a6b7f7e5c4a362ed" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ChainOfThoughtBuilder</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_chain_of_thought_builder_1ac55b2cc03904151d58177c8b199a071f" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ChainOfThoughtBuilder</scope><name>hasTracer</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_chain_of_thought_builder_1a24384a50dc7374c75f5342a39f517418" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ChainOfThoughtBuilder</scope><name>setFinalAnswer</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_chain_of_thought_builder_1aa7ec3ae60a9fa219aa79bebe6bea0d8e" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ChainOfThoughtBuilder</scope><name>stepCount</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_chain_of_thought_builder_1af5dd89834cec23dede49f1752f4f2387" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::ChainOfThoughtBuilder</scope><name>steps_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_chain_of_thought_builder_1af09f3bb80e81c6019763e805d9e95f3c" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::ChainOfThoughtBuilder</scope><name>tracer_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_chain_of_thought_builder_1addc57b4dcabaf992b2aca27ff9245d1a" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ChainOfThoughtBuilder</scope><name>wrapWithCoT</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

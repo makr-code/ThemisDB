@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_hot_spare_failover_event" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::HotSpareFailoverEvent</compoundname>
+    <includes refid="hot__spare__manager_8h" local="no">hot_spare_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_hot_spare_failover_event_1a75c66953500ad81c6ccd7431d0e90c85" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::sharding::HotSpareFailoverEvent::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::sharding::HotSpareFailoverEvent::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="197" column="43" bodyfile="include/sharding/hot_spare_manager.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_hot_spare_failover_event_1aa41c13e0f477786b45d9adab4ee436d5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::HotSpareFailoverEvent::failed_shard_id</definition>
+        <argsstring></argsstring>
+        <name>failed_shard_id</name>
+        <qualifiedname>themis::sharding::HotSpareFailoverEvent::failed_shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="198" column="17" bodyfile="include/sharding/hot_spare_manager.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_hot_spare_failover_event_1a945e54f9c2d61033e78818cb604758a9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::HotSpareFailoverEvent::spare_shard_id</definition>
+        <argsstring></argsstring>
+        <name>spare_shard_id</name>
+        <qualifiedname>themis::sharding::HotSpareFailoverEvent::spare_shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="199" column="17" bodyfile="include/sharding/hot_spare_manager.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_hot_spare_failover_event_1a0e8315ec518ef3b69d2c3ffc22a7b757" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::sharding::HotSpareFailoverEvent::failover_duration</definition>
+        <argsstring></argsstring>
+        <name>failover_duration</name>
+        <qualifiedname>themis::sharding::HotSpareFailoverEvent::failover_duration</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="200" column="31" bodyfile="include/sharding/hot_spare_manager.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_hot_spare_failover_event_1a789f4f990fe94aba2d4f83b3dedc5c8e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::HotSpareFailoverEvent::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::sharding::HotSpareFailoverEvent::success</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="201" column="10" bodyfile="include/sharding/hot_spare_manager.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_hot_spare_failover_event_1a24733c2cecee4032247fb7e6db209edf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::HotSpareFailoverEvent::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::sharding::HotSpareFailoverEvent::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="202" column="17" bodyfile="include/sharding/hot_spare_manager.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Failover Event </para>
+    </detaileddescription>
+    <location file="include/sharding/hot_spare_manager.h" line="196" column="1" bodyfile="include/sharding/hot_spare_manager.h" bodystart="196" bodyend="203"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_hot_spare_failover_event_1a24733c2cecee4032247fb7e6db209edf" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareFailoverEvent</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1sharding_1_1_hot_spare_failover_event_1aa41c13e0f477786b45d9adab4ee436d5" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareFailoverEvent</scope><name>failed_shard_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_hot_spare_failover_event_1a0e8315ec518ef3b69d2c3ffc22a7b757" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareFailoverEvent</scope><name>failover_duration</name></member>
+      <member refid="structthemis_1_1sharding_1_1_hot_spare_failover_event_1a945e54f9c2d61033e78818cb604758a9" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareFailoverEvent</scope><name>spare_shard_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_hot_spare_failover_event_1a789f4f990fe94aba2d4f83b3dedc5c8e" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareFailoverEvent</scope><name>success</name></member>
+      <member refid="structthemis_1_1sharding_1_1_hot_spare_failover_event_1a75c66953500ad81c6ccd7431d0e90c85" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareFailoverEvent</scope><name>timestamp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1transaction_1_1_recoverable_two_phase_coordinator_report" kind="struct" language="C++" prot="public">
+    <compoundname>themis::transaction::RecoverableTwoPhaseCoordinatorReport</compoundname>
+    <includes refid="recoverable__two__phase__coordinator_8h" local="no">recoverable_two_phase_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_recoverable_two_phase_coordinator_report_1ab986390720654f04c12d8bd8c262d973" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::transaction::RecoverableTwoPhaseCoordinatorReport::coordinator_name</definition>
+        <argsstring></argsstring>
+        <name>coordinator_name</name>
+        <qualifiedname>themis::transaction::RecoverableTwoPhaseCoordinatorReport::coordinator_name</qualifiedname>
+        <briefdescription>
+<para>Value from recoveryCoordinatorName(). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/recoverable_two_phase_coordinator.h" line="127" column="17" bodyfile="include/transaction/recoverable_two_phase_coordinator.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_recoverable_two_phase_coordinator_report_1ad4354a8864bc779e27f83a12bbe456e5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::transaction::RecoverableTwoPhaseCoordinatorReport::backend_name</definition>
+        <argsstring></argsstring>
+        <name>backend_name</name>
+        <qualifiedname>themis::transaction::RecoverableTwoPhaseCoordinatorReport::backend_name</qualifiedname>
+        <briefdescription>
+<para>Value from recoveryBackendName(). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/recoverable_two_phase_coordinator.h" line="128" column="17" bodyfile="include/transaction/recoverable_two_phase_coordinator.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_recoverable_two_phase_coordinator_report_1a330f8fc74528a5b8f09663c2ee378acf" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::transaction::RecoverableTwoPhaseCoordinatorReport::in_doubt_before</definition>
+        <argsstring></argsstring>
+        <name>in_doubt_before</name>
+        <qualifiedname>themis::transaction::RecoverableTwoPhaseCoordinatorReport::in_doubt_before</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Non-final transaction count before recovery. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/recoverable_two_phase_coordinator.h" line="129" column="17" bodyfile="include/transaction/recoverable_two_phase_coordinator.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_recoverable_two_phase_coordinator_report_1a32d14247172d552f755183853bdc01c3" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::transaction::RecoverableTwoPhaseCoordinatorReport::resolved</definition>
+        <argsstring></argsstring>
+        <name>resolved</name>
+        <qualifiedname>themis::transaction::RecoverableTwoPhaseCoordinatorReport::resolved</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Transactions successfully re-driven. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/recoverable_two_phase_coordinator.h" line="130" column="17" bodyfile="include/transaction/recoverable_two_phase_coordinator.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_recoverable_two_phase_coordinator_report_1a356e8a6b68977bf31d58edd129add21a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::transaction::RecoverableTwoPhaseCoordinatorReport::in_doubt_after</definition>
+        <argsstring></argsstring>
+        <name>in_doubt_after</name>
+        <qualifiedname>themis::transaction::RecoverableTwoPhaseCoordinatorReport::in_doubt_after</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Non-final transaction count after recovery. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/recoverable_two_phase_coordinator.h" line="131" column="17" bodyfile="include/transaction/recoverable_two_phase_coordinator.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Per-coordinator result of a global recovery pass. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/recoverable_two_phase_coordinator.h" line="126" column="1" bodyfile="include/transaction/recoverable_two_phase_coordinator.h" bodystart="126" bodyend="132"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1transaction_1_1_recoverable_two_phase_coordinator_report_1ad4354a8864bc779e27f83a12bbe456e5" prot="public" virt="non-virtual"><scope>themis::transaction::RecoverableTwoPhaseCoordinatorReport</scope><name>backend_name</name></member>
+      <member refid="structthemis_1_1transaction_1_1_recoverable_two_phase_coordinator_report_1ab986390720654f04c12d8bd8c262d973" prot="public" virt="non-virtual"><scope>themis::transaction::RecoverableTwoPhaseCoordinatorReport</scope><name>coordinator_name</name></member>
+      <member refid="structthemis_1_1transaction_1_1_recoverable_two_phase_coordinator_report_1a356e8a6b68977bf31d58edd129add21a" prot="public" virt="non-virtual"><scope>themis::transaction::RecoverableTwoPhaseCoordinatorReport</scope><name>in_doubt_after</name></member>
+      <member refid="structthemis_1_1transaction_1_1_recoverable_two_phase_coordinator_report_1a330f8fc74528a5b8f09663c2ee378acf" prot="public" virt="non-virtual"><scope>themis::transaction::RecoverableTwoPhaseCoordinatorReport</scope><name>in_doubt_before</name></member>
+      <member refid="structthemis_1_1transaction_1_1_recoverable_two_phase_coordinator_report_1a32d14247172d552f755183853bdc01c3" prot="public" virt="non-virtual"><scope>themis::transaction::RecoverableTwoPhaseCoordinatorReport</scope><name>resolved</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

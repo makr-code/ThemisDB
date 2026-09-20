@@ -1,0 +1,425 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="predictive__detector_8h" kind="file" language="C++">
+    <compoundname>predictive_detector.h</compoundname>
+    <includes refid="redundancy__strategy_8h" local="yes">sharding/redundancy_strategy.h</includes>
+    <includes refid="shard__topology_8h" local="yes">sharding/shard_topology.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">functional</includes>
+    <includedby refid="auto__rebalancer_8cpp" local="yes">src/sharding/auto_rebalancer.cpp</includedby>
+    <includedby refid="predictive__detector_8cpp" local="yes">src/sharding/predictive_detector.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/sharding/predictive_detector.h</label>
+        <link refid="predictive__detector_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sharding/redundancy_strategy.h</label>
+        <link refid="redundancy__strategy_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>sharding/shard_capabilities.h</label>
+        <link refid="shard__capabilities_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>sharding/shard_topology.h</label>
+        <link refid="shard__topology_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>sharding/truetime.h</label>
+        <link refid="truetime_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>sharding/write_concern.h</label>
+        <link refid="write__concern_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>algorithm</label>
+      </node>
+      <node id="13">
+        <label>atomic</label>
+      </node>
+      <node id="9">
+        <label>chrono</label>
+      </node>
+      <node id="16">
+        <label>cstdint</label>
+      </node>
+      <node id="8">
+        <label>functional</label>
+      </node>
+      <node id="14">
+        <label>future</label>
+      </node>
+      <node id="5">
+        <label>map</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>mutex</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="22">
+        <label>set</label>
+      </node>
+      <node id="12">
+        <label>shared_mutex</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="18">
+        <label>thread</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/sharding/predictive_detector.h</label>
+        <link refid="predictive__detector_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/sharding/auto_rebalancer.cpp</label>
+        <link refid="auto__rebalancer_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/sharding/predictive_detector.cpp</label>
+        <link refid="predictive__detector_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_predictive_config" prot="public">themisdb::sharding::PredictiveConfig</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_predictive_shard_metrics" prot="public">themisdb::sharding::PredictiveShardMetrics</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_failure_prediction" prot="public">themisdb::sharding::FailurePrediction</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_predictive_failure_detector" prot="public">themisdb::sharding::PredictiveFailureDetector</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_predictive_failure_detector_1_1_stats" prot="public">themisdb::sharding::PredictiveFailureDetector::Stats</innerclass>
+    <innernamespace refid="namespacethemisdb">themisdb</innernamespace>
+    <innernamespace refid="namespacethemisdb_1_1sharding">themisdb::sharding</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="redundancy__strategy_8h" kindref="compound">sharding/redundancy_strategy.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="shard__topology_8h" kindref="compound">sharding/shard_topology.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb" kindref="compound">themisdb</ref><sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding" kindref="compound">sharding</ref><sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="structthemisdb_1_1sharding_1_1_predictive_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1sharding_1_1_predictive_config" kindref="compound">PredictiveConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="44" refid="structthemisdb_1_1sharding_1_1_predictive_config_1a2d9a795c9b587fcf8207aa2fef33e212" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_predictive_config_1a2d9a795c9b587fcf8207aa2fef33e212" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="45" refid="structthemisdb_1_1sharding_1_1_predictive_config_1a8779b5337e094e229caaba91248d8089" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1sharding_1_1_predictive_config_1a8779b5337e094e229caaba91248d8089" kindref="member">model_path</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Path<sp/>to<sp/>ONNX<sp/>model<sp/>file</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemisdb_1_1sharding_1_1_predictive_config_1a713acb18cf683b57e042488d8486be36" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemisdb_1_1sharding_1_1_predictive_config_1a713acb18cf683b57e042488d8486be36" kindref="member">check_interval</ref>{3600};<sp/><sp/></highlight><highlight class="comment">//<sp/>Default:<sp/>1<sp/>hour</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemisdb_1_1sharding_1_1_predictive_config_1ac0fb014f50218ab957289955eacf6c71" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_predictive_config_1ac0fb014f50218ab957289955eacf6c71" kindref="member">failure_threshold</ref><sp/>=<sp/>0.7f;<sp/><sp/></highlight><highlight class="comment">//<sp/>70%<sp/>probability<sp/>threshold</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="structthemisdb_1_1sharding_1_1_predictive_config_1ab3e8c79902834d9d4ef15b99f4219cb6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_predictive_config_1ab3e8c79902834d9d4ef15b99f4219cb6" kindref="member">lookback_days</ref><sp/>=<sp/>30;<sp/><sp/></highlight><highlight class="comment">//<sp/>Historical<sp/>data<sp/>window</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Alert<sp/>configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="structthemisdb_1_1sharding_1_1_predictive_config_1a164d15162c7ddcef11fb4c3f81fc2fc7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_predictive_config_1a164d15162c7ddcef11fb4c3f81fc2fc7" kindref="member">enable_alerts</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="52" refid="structthemisdb_1_1sharding_1_1_predictive_config_1a0d3e8bac8e38b55f613c99297fb25513" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)&gt;<sp/><ref refid="structthemisdb_1_1sharding_1_1_predictive_config_1a0d3e8bac8e38b55f613c99297fb25513" kindref="member">alert_callback</ref>;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Feature<sp/>extraction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structthemisdb_1_1sharding_1_1_predictive_config_1ae25796c9387727f58e420bd55e27680c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_predictive_config_1ae25796c9387727f58e420bd55e27680c" kindref="member">collect_smart_metrics</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="56" refid="structthemisdb_1_1sharding_1_1_predictive_config_1ad8e1f65469ba73e43e901986d1225697" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_predictive_config_1ad8e1f65469ba73e43e901986d1225697" kindref="member">collect_performance_metrics</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="57" refid="structthemisdb_1_1sharding_1_1_predictive_config_1acf3b904f06a48dd3a2cfb0f34277e03c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_predictive_config_1acf3b904f06a48dd3a2cfb0f34277e03c" kindref="member">collect_io_patterns</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Shard<sp/>Metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="structthemisdb_1_1sharding_1_1_predictive_shard_metrics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1sharding_1_1_predictive_shard_metrics" kindref="compound">PredictiveShardMetrics</ref><sp/>{</highlight></codeline>
+<codeline lineno="65" refid="structthemisdb_1_1sharding_1_1_predictive_shard_metrics_1a7b319f10d0914f5bef40c8747aecf39c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1sharding_1_1_predictive_shard_metrics_1a7b319f10d0914f5bef40c8747aecf39c" kindref="member">shard_id</ref>;</highlight></codeline>
+<codeline lineno="66" refid="structthemisdb_1_1sharding_1_1_predictive_shard_metrics_1a6c453d99a4211f32ccd22559aab1af26" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemisdb_1_1sharding_1_1_predictive_shard_metrics_1a6c453d99a4211f32ccd22559aab1af26" kindref="member">timestamp</ref>;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>SMART<sp/>metrics<sp/>(if<sp/>available)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemisdb_1_1sharding_1_1_predictive_shard_metrics_1a5176a0bbdd42549515500089113c62af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>double&gt;<sp/><ref refid="structthemisdb_1_1sharding_1_1_predictive_shard_metrics_1a5176a0bbdd42549515500089113c62af" kindref="member">smart_attributes</ref>;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Performance<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemisdb_1_1sharding_1_1_predictive_shard_metrics_1a5195a0954c94b5026a67abcf84740ee0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_predictive_shard_metrics_1a5195a0954c94b5026a67abcf84740ee0" kindref="member">avg_latency_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="73" refid="structthemisdb_1_1sharding_1_1_predictive_shard_metrics_1a1f7af44ebcf092cde6f3194e53a8bf4a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_predictive_shard_metrics_1a1f7af44ebcf092cde6f3194e53a8bf4a" kindref="member">p95_latency_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="74" refid="structthemisdb_1_1sharding_1_1_predictive_shard_metrics_1aaee8aeaabfb292d0a1b4d94a31ea1a1e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_predictive_shard_metrics_1aaee8aeaabfb292d0a1b4d94a31ea1a1e" kindref="member">p99_latency_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="75" refid="structthemisdb_1_1sharding_1_1_predictive_shard_metrics_1a14d37b724c4a8945b32dd48704523967" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_predictive_shard_metrics_1a14d37b724c4a8945b32dd48704523967" kindref="member">throughput_ops_per_sec</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>I/O<sp/>patterns</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="structthemisdb_1_1sharding_1_1_predictive_shard_metrics_1a638b9e49ef876f7cb369cc07a91e8261" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_predictive_shard_metrics_1a638b9e49ef876f7cb369cc07a91e8261" kindref="member">read_errors</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="79" refid="structthemisdb_1_1sharding_1_1_predictive_shard_metrics_1a3599b5af6c757e8f002b6ac8c8098c64" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_predictive_shard_metrics_1a3599b5af6c757e8f002b6ac8c8098c64" kindref="member">write_errors</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="80" refid="structthemisdb_1_1sharding_1_1_predictive_shard_metrics_1ae3c0688dcf8e30d50d94d7b1d9568438" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_predictive_shard_metrics_1ae3c0688dcf8e30d50d94d7b1d9568438" kindref="member">retry_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Health<sp/>check<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="structthemisdb_1_1sharding_1_1_predictive_shard_metrics_1ac93721f797d4b1d01a4002feb034a204" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_predictive_shard_metrics_1ac93721f797d4b1d01a4002feb034a204" kindref="member">failed_health_checks</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="84" refid="structthemisdb_1_1sharding_1_1_predictive_shard_metrics_1a3d2f4e81a0fedeb2a5d9bc4ba50fd90a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_predictive_shard_metrics_1a3d2f4e81a0fedeb2a5d9bc4ba50fd90a" kindref="member">recovery_attempts</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="85" refid="structthemisdb_1_1sharding_1_1_predictive_shard_metrics_1a7dc03a52616f7c98d7c7c32ac0a2292e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_predictive_shard_metrics_1a7dc03a52616f7c98d7c7c32ac0a2292e" kindref="member">recovery_success_rate</ref><sp/>=<sp/>1.0f;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Failure<sp/>Prediction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="structthemisdb_1_1sharding_1_1_failure_prediction" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1sharding_1_1_failure_prediction" kindref="compound">FailurePrediction</ref><sp/>{</highlight></codeline>
+<codeline lineno="93" refid="structthemisdb_1_1sharding_1_1_failure_prediction_1ab2ef20fb7d7c2628511a3e2190477c92" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1sharding_1_1_failure_prediction_1ab2ef20fb7d7c2628511a3e2190477c92" kindref="member">shard_id</ref>;</highlight></codeline>
+<codeline lineno="94" refid="structthemisdb_1_1sharding_1_1_failure_prediction_1ac0b93531d51c5dd6974f068f90a0c2e5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_failure_prediction_1ac0b93531d51c5dd6974f068f90a0c2e5" kindref="member">failure_probability</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>0.0<sp/>to<sp/>1.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="structthemisdb_1_1sharding_1_1_failure_prediction_1ab6c7f44d8d23d8dc3fa5d6dea05514f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_failure_prediction_1ab6c7f44d8d23d8dc3fa5d6dea05514f7" kindref="member">predicted_days_to_failure</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>7,<sp/>14,<sp/>or<sp/>30<sp/>days</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="structthemisdb_1_1sharding_1_1_failure_prediction_1a77d887cb8bedc5c6328fa6f8dcbdfa50" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemisdb_1_1sharding_1_1_failure_prediction_1a77d887cb8bedc5c6328fa6f8dcbdfa50" kindref="member">prediction_time</ref>;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Contributing<sp/>factors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="structthemisdb_1_1sharding_1_1_failure_prediction_1ad11cae0ae242cfcadb6e968011ff0576" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>float&gt;<sp/><ref refid="structthemisdb_1_1sharding_1_1_failure_prediction_1ad11cae0ae242cfcadb6e968011ff0576" kindref="member">feature_importance</ref>;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="101" refid="structthemisdb_1_1sharding_1_1_failure_prediction_1a6374cd7af00862cf220d62aa6fce6672" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_failure_prediction_1a6374cd7af00862cf220d62aa6fce6672" kindref="member">isHighRisk</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_failure_prediction_1ac0b93531d51c5dd6974f068f90a0c2e5" kindref="member">failure_probability</ref><sp/>&gt;<sp/>0.7f;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Predictive<sp/>Failure<sp/>Detector</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111" refid="classthemisdb_1_1sharding_1_1_predictive_failure_detector" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1sharding_1_1_predictive_failure_detector_1a04553b90f9777d81d0ccd4e254aea687" kindref="member">PredictiveFailureDetector</ref><sp/>{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_predictive_failure_detector_1a04553b90f9777d81d0ccd4e254aea687" kindref="member">PredictiveFailureDetector</ref>(</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_predictive_config" kindref="compound">PredictiveConfig</ref>&amp;<sp/>config,</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_redundancy_strategy" kindref="compound">RedundancyStrategy</ref>&amp;<sp/>strategy,</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref>&amp;<sp/>topology</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_predictive_failure_detector_1a83151ba100b1e00ded4cedc8746dd1f6" kindref="member">~PredictiveFailureDetector</ref>();</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Lifecycle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_predictive_failure_detector_1a1cb14527e035fc0e6ca1c70e1119c069" kindref="member">start</ref>();</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_predictive_failure_detector_1a7ae0f9507481975bd470e29e5e8d32d2" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_predictive_failure_detector_1aec83442c1f93fef308cfeeaf9d7d7b5f" kindref="member">isRunning</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prediction<sp/>interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;FailurePrediction&gt;<sp/><ref refid="classthemisdb_1_1sharding_1_1_predictive_failure_detector_1ad8d6c2e222a6003e101f50b959324b72" kindref="member">getPredictions</ref>();</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;FailurePrediction&gt;<sp/><ref refid="classthemisdb_1_1sharding_1_1_predictive_failure_detector_1ace92686ca55927d995a05df820a6f3aa" kindref="member">getHighRiskShards</ref>();</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_failure_prediction" kindref="compound">FailurePrediction</ref><sp/><ref refid="classthemisdb_1_1sharding_1_1_predictive_failure_detector_1a5b9d637cec8d7067c3a332113686bdc1" kindref="member">predictShard</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Metrics<sp/>collection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_predictive_failure_detector_1ae0ad78549a35d0cb2aff9b5bdc029772" kindref="member">recordMetrics</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_predictive_shard_metrics" kindref="compound">PredictiveShardMetrics</ref>&amp;<sp/>metrics);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;PredictiveShardMetrics&gt;<sp/><ref refid="classthemisdb_1_1sharding_1_1_predictive_failure_detector_1a992d51a1cb259367cf8d573d24a6bd64" kindref="member">getMetricsHistory</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id,<sp/></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::hours<sp/>lookback)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="structthemisdb_1_1sharding_1_1_predictive_failure_detector_1_1_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1sharding_1_1_predictive_failure_detector_1_1_stats" kindref="compound">Stats</ref><sp/>{</highlight></codeline>
+<codeline lineno="138" refid="structthemisdb_1_1sharding_1_1_predictive_failure_detector_1_1_stats_1a06c83a400919acc6c3e3163181f2e8ff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_predictive_failure_detector_1_1_stats_1a06c83a400919acc6c3e3163181f2e8ff" kindref="member">predictions_made</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="139" refid="structthemisdb_1_1sharding_1_1_predictive_failure_detector_1_1_stats_1a0d87610e29f48d903e0c6883d05e1879" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_predictive_failure_detector_1_1_stats_1a0d87610e29f48d903e0c6883d05e1879" kindref="member">high_risk_detected</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="140" refid="structthemisdb_1_1sharding_1_1_predictive_failure_detector_1_1_stats_1a5cbcc5c15186add7f1ccd5582a5ead31" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_predictive_failure_detector_1_1_stats_1a5cbcc5c15186add7f1ccd5582a5ead31" kindref="member">alerts_sent</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="141" refid="structthemisdb_1_1sharding_1_1_predictive_failure_detector_1_1_stats_1a803e65bd7f19e25dd55c08abdb16f596" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_predictive_failure_detector_1_1_stats_1a803e65bd7f19e25dd55c08abdb16f596" kindref="member">true_positives</ref><sp/>=<sp/>0;<sp/><sp/></highlight><highlight class="comment">//<sp/>Predicted<sp/>failures<sp/>that<sp/>occurred</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142" refid="structthemisdb_1_1sharding_1_1_predictive_failure_detector_1_1_stats_1a5074043c1496c95a53d66a1c86e76138" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_predictive_failure_detector_1_1_stats_1a5074043c1496c95a53d66a1c86e76138" kindref="member">false_positives</ref><sp/>=<sp/>0;<sp/><sp/></highlight><highlight class="comment">//<sp/>Predicted<sp/>failures<sp/>that<sp/>didn&apos;t<sp/>occur</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143" refid="structthemisdb_1_1sharding_1_1_predictive_failure_detector_1_1_stats_1a221cf3737c48dadd9cfad8350acbf5fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemisdb_1_1sharding_1_1_predictive_failure_detector_1_1_stats_1a221cf3737c48dadd9cfad8350acbf5fb" kindref="member">avg_inference_time</ref>{0};</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="145" refid="structthemisdb_1_1sharding_1_1_predictive_failure_detector_1_1_stats_1aeec9e00a62ca3e07d13346733059ca46" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_predictive_failure_detector_1_1_stats_1aeec9e00a62ca3e07d13346733059ca46" kindref="member">getTruePositiveRate</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>total<sp/>=<sp/><ref refid="structthemisdb_1_1sharding_1_1_predictive_failure_detector_1_1_stats_1a803e65bd7f19e25dd55c08abdb16f596" kindref="member">true_positives</ref><sp/>+<sp/><ref refid="structthemisdb_1_1sharding_1_1_predictive_failure_detector_1_1_stats_1a5074043c1496c95a53d66a1c86e76138" kindref="member">false_positives</ref>;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>total<sp/>&gt;<sp/>0<sp/>?<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">float</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="structthemisdb_1_1sharding_1_1_predictive_failure_detector_1_1_stats_1a803e65bd7f19e25dd55c08abdb16f596" kindref="member">true_positives</ref>)<sp/>/<sp/>total<sp/>:<sp/>0.0f;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="150" refid="structthemisdb_1_1sharding_1_1_predictive_failure_detector_1_1_stats_1adb4bce1d752471e9cfce330f871dc3b3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_predictive_failure_detector_1_1_stats_1adb4bce1d752471e9cfce330f871dc3b3" kindref="member">getFalsePositiveRate</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>total<sp/>=<sp/><ref refid="structthemisdb_1_1sharding_1_1_predictive_failure_detector_1_1_stats_1a803e65bd7f19e25dd55c08abdb16f596" kindref="member">true_positives</ref><sp/>+<sp/><ref refid="structthemisdb_1_1sharding_1_1_predictive_failure_detector_1_1_stats_1a5074043c1496c95a53d66a1c86e76138" kindref="member">false_positives</ref>;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>total<sp/>&gt;<sp/>0<sp/>?<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">float</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="structthemisdb_1_1sharding_1_1_predictive_failure_detector_1_1_stats_1a5074043c1496c95a53d66a1c86e76138" kindref="member">false_positives</ref>)<sp/>/<sp/>total<sp/>:<sp/>0.0f;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>Stats<sp/><ref refid="classthemisdb_1_1sharding_1_1_predictive_failure_detector_1a4f00651259f8146f5a72812270e02586" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_predictive_failure_detector_1a8a206eae96cc6f57a8281a819cd0135f" kindref="member">resetStats</ref>();</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>ONNX<sp/>model<sp/>prediction<sp/>injection<sp/>(stub<sp/>#251)<sp/>─────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175" refid="classthemisdb_1_1sharding_1_1_predictive_failure_detector_1a3e5e7973325f01c8d64c312dbe68aee7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1sharding_1_1_predictive_failure_detector_1a3e5e7973325f01c8d64c312dbe68aee7" kindref="member">PredictFn</ref><sp/>=<sp/>std::function&lt;std::vector&lt;float&gt;(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;)&gt;;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_predictive_failure_detector_1af0428d6d7e3b04298cc8b887f4e7e91e" kindref="member">setPredictFn</ref>(<ref refid="classthemisdb_1_1sharding_1_1_predictive_failure_detector_1a3e5e7973325f01c8d64c312dbe68aee7" kindref="member">PredictFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Background<sp/>monitoring</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>monitoringLoop();</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>checkAllShards();</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Feature<sp/>extraction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>extractFeatures(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>computeStatisticalFeatures(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;PredictiveShardMetrics&gt;&amp;<sp/>history);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ML<sp/>inference</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_failure_prediction" kindref="compound">FailurePrediction</ref><sp/>runInference(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id,<sp/></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>features);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>loadModel(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_path);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Alerting</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>sendAlert(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_failure_prediction" kindref="compound">FailurePrediction</ref>&amp;<sp/>prediction);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configuration<sp/>and<sp/>dependencies</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_predictive_config" kindref="compound">PredictiveConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_redundancy_strategy" kindref="compound">RedundancyStrategy</ref>&amp;<sp/>strategy_;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref>&amp;<sp/>topology_;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Threading</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>running_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>monitoring_thread_;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Metrics<sp/>storage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>metrics_mutex_;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::vector&lt;PredictiveShardMetrics&gt;&gt;<sp/>metrics_history_;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prediction<sp/>cache</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>predictions_mutex_;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>FailurePrediction&gt;<sp/>cached_predictions_;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>stats_mutex_;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>Stats<sp/>stats_;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ML<sp/>model<sp/>handle<sp/>(opaque<sp/>pointer<sp/>for<sp/>ONNX<sp/>Runtime)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">ModelImpl;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;ModelImpl&gt;<sp/>model_;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Injection<sp/>slot<sp/>for<sp/>ONNX<sp/>/<sp/>test-double<sp/>predict<sp/>function<sp/>(stub<sp/>#251)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_predictive_failure_detector_1a3e5e7973325f01c8d64c312dbe68aee7" kindref="member">PredictFn</ref><sp/>predict_fn_;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>predict_fn_mutex_;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>sharding</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themisdb</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/sharding/predictive_detector.h"/>
+  </compounddef>
+</doxygen>

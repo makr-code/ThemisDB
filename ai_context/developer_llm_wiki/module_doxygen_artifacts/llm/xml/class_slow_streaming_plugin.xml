@@ -1,0 +1,408 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_slow_streaming_plugin" kind="class" language="C++" prot="public">
+    <compoundname>SlowStreamingPlugin</compoundname>
+    <basecompoundref refid="classthemis_1_1llm_1_1_i_l_l_m_plugin" prot="public" virt="non-virtual">themis::llm::ILLMPlugin</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_slow_streaming_plugin_1ac605fe9ecd9fc23f9482a3774d0d1e88" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; SlowStreamingPlugin::tokens_delivered</definition>
+        <argsstring></argsstring>
+        <name>tokens_delivered</name>
+        <qualifiedname>SlowStreamingPlugin::tokens_delivered</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_timeout_cancellation.cpp" line="69" column="17" bodyfile="tests/llm/test_llm_timeout_cancellation.cpp" bodystart="69" bodyend="69"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_slow_streaming_plugin_1a73aebbab72ca99a08db9d0f7cb5c0188" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int SlowStreamingPlugin::num_tokens_</definition>
+        <argsstring></argsstring>
+        <name>num_tokens_</name>
+        <qualifiedname>SlowStreamingPlugin::num_tokens_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_timeout_cancellation.cpp" line="115" column="9" bodyfile="tests/llm/test_llm_timeout_cancellation.cpp" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_slow_streaming_plugin_1aac8b6c84c519feeeed43375905309c72" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int SlowStreamingPlugin::token_delay_ms_</definition>
+        <argsstring></argsstring>
+        <name>token_delay_ms_</name>
+        <qualifiedname>SlowStreamingPlugin::token_delay_ms_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_timeout_cancellation.cpp" line="116" column="9" bodyfile="tests/llm/test_llm_timeout_cancellation.cpp" bodystart="116" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_slow_streaming_plugin_1ac103b1e4f1799c918c60f746d5300166" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>SlowStreamingPlugin::SlowStreamingPlugin</definition>
+        <argsstring>(int num_tokens=20, int token_delay_ms=30)</argsstring>
+        <name>SlowStreamingPlugin</name>
+        <qualifiedname>SlowStreamingPlugin::SlowStreamingPlugin</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>num_tokens</declname>
+          <defval>20</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>token_delay_ms</declname>
+          <defval>30</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_timeout_cancellation.cpp" line="65" column="14" bodyfile="tests/llm/test_llm_timeout_cancellation.cpp" bodystart="65" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="class_slow_streaming_plugin_1a8586a5fae3c5e2092e99e6bdd5050431" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool SlowStreamingPlugin::loadModel</definition>
+        <argsstring>(const std::string &amp;, const json &amp;) override</argsstring>
+        <name>loadModel</name>
+        <qualifiedname>SlowStreamingPlugin::loadModel</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1ab2f6318ca437d31318a0beca0c5d4742">loadModel</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_timeout_cancellation.cpp" line="71" column="10" bodyfile="tests/llm/test_llm_timeout_cancellation.cpp" bodystart="71" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="class_slow_streaming_plugin_1a4e722b6471f8c9e0217ada9fb63a4c3e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void SlowStreamingPlugin::unloadModel</definition>
+        <argsstring>() override</argsstring>
+        <name>unloadModel</name>
+        <qualifiedname>SlowStreamingPlugin::unloadModel</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a20a8a402b6aca0e9a79b87e5a6c2fd20">unloadModel</reimplements>
+        <briefdescription>
+<para>Unload Model. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_timeout_cancellation.cpp" line="72" column="10" bodyfile="tests/llm/test_llm_timeout_cancellation.cpp" bodystart="72" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="class_slow_streaming_plugin_1a3cf882acf44f5b6019c3fae9f222ede7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1_model_info" kindref="compound">ModelInfo</ref> &gt;</type>
+        <definition>std::optional&lt; ModelInfo &gt; SlowStreamingPlugin::getModelInfo</definition>
+        <argsstring>() const override</argsstring>
+        <name>getModelInfo</name>
+        <qualifiedname>SlowStreamingPlugin::getModelInfo</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a3bfc697aeb24baf7fc2fdf4d697d389c">getModelInfo</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_timeout_cancellation.cpp" line="73" column="19" bodyfile="tests/llm/test_llm_timeout_cancellation.cpp" bodystart="73" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="class_slow_streaming_plugin_1a2825861216eed5c29102addf8c5aa064" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool SlowStreamingPlugin::isModelLoaded</definition>
+        <argsstring>() const override</argsstring>
+        <name>isModelLoaded</name>
+        <qualifiedname>SlowStreamingPlugin::isModelLoaded</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a016365da7a906c3a2c6c81a440591698">isModelLoaded</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_timeout_cancellation.cpp" line="79" column="10" bodyfile="tests/llm/test_llm_timeout_cancellation.cpp" bodystart="79" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="class_slow_streaming_plugin_1a10414b7e3014e734d7ebd2609f6c41c7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="struct_inference_response" kindref="compound">InferenceResponse</ref></type>
+        <definition>InferenceResponse SlowStreamingPlugin::generate</definition>
+        <argsstring>(const InferenceRequest &amp;request) override</argsstring>
+        <name>generate</name>
+        <qualifiedname>SlowStreamingPlugin::generate</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a0554007ed2a748e84472f01a30369a1d">generate</reimplements>
+        <param>
+          <type>const <ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_timeout_cancellation.cpp" line="81" column="23" bodyfile="tests/llm/test_llm_timeout_cancellation.cpp" bodystart="81" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="class_slow_streaming_plugin_1a8a38ad06f16931cacf0be1770ca06112" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="struct_inference_response" kindref="compound">InferenceResponse</ref></type>
+        <definition>InferenceResponse SlowStreamingPlugin::generateRAG</definition>
+        <argsstring>(const RAGContext &amp;, const InferenceRequest &amp;req) override</argsstring>
+        <name>generateRAG</name>
+        <qualifiedname>SlowStreamingPlugin::generateRAG</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a6166ce75f4c3572cab7b4b1c487dfc94">generateRAG</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_r_a_g_context" kindref="compound">RAGContext</ref> &amp;</type>
+        </param>
+        <param>
+          <type>const <ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref> &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_timeout_cancellation.cpp" line="101" column="23" bodyfile="tests/llm/test_llm_timeout_cancellation.cpp" bodystart="101" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="class_slow_streaming_plugin_1adb7f40f27de9227415e5fce33e8d8ce2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; SlowStreamingPlugin::embed</definition>
+        <argsstring>(const std::string &amp;) override</argsstring>
+        <name>embed</name>
+        <qualifiedname>SlowStreamingPlugin::embed</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a14195e7bc658ae90b32b7374169ee239">embed</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_timeout_cancellation.cpp" line="104" column="17" bodyfile="tests/llm/test_llm_timeout_cancellation.cpp" bodystart="104" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="class_slow_streaming_plugin_1afdf5024e6892d98ff1f84692bf10417a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_l_l_m_capabilities" kindref="compound">LLMCapabilities</ref></type>
+        <definition>LLMCapabilities SlowStreamingPlugin::getCapabilities</definition>
+        <argsstring>() const override</argsstring>
+        <name>getCapabilities</name>
+        <qualifiedname>SlowStreamingPlugin::getCapabilities</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a66a14a28b9ddc624c8886eaaaf6abbfa">getCapabilities</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_timeout_cancellation.cpp" line="105" column="21" bodyfile="tests/llm/test_llm_timeout_cancellation.cpp" bodystart="105" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="class_slow_streaming_plugin_1aa94aad951c9478356c7e53034fe2dbf8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json SlowStreamingPlugin::getMemoryStats</definition>
+        <argsstring>() const override</argsstring>
+        <name>getMemoryStats</name>
+        <qualifiedname>SlowStreamingPlugin::getMemoryStats</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1afbc46d4815c236a390d9f17789bb9a99">getMemoryStats</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_timeout_cancellation.cpp" line="106" column="10" bodyfile="tests/llm/test_llm_timeout_cancellation.cpp" bodystart="106" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="class_slow_streaming_plugin_1a5059361888120d242a4a9917a0584b55" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json SlowStreamingPlugin::getPerformanceStats</definition>
+        <argsstring>() const override</argsstring>
+        <name>getPerformanceStats</name>
+        <qualifiedname>SlowStreamingPlugin::getPerformanceStats</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a8817d5900eff52785e71a314d39f0b47">getPerformanceStats</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_timeout_cancellation.cpp" line="107" column="10" bodyfile="tests/llm/test_llm_timeout_cancellation.cpp" bodystart="107" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="class_slow_streaming_plugin_1a1d16f217ab9715854b58eaa37f536da2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool SlowStreamingPlugin::loadLoRA</definition>
+        <argsstring>(const std::string &amp;, const std::string &amp;, float) override</argsstring>
+        <name>loadLoRA</name>
+        <qualifiedname>SlowStreamingPlugin::loadLoRA</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a2c33ddf52b0dc03bc395d8346c805e6b">loadLoRA</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>float</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_timeout_cancellation.cpp" line="108" column="10" bodyfile="tests/llm/test_llm_timeout_cancellation.cpp" bodystart="108" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="class_slow_streaming_plugin_1a24e00e4264921c790cdd67bdfebafc3f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool SlowStreamingPlugin::unloadLoRA</definition>
+        <argsstring>(const std::string &amp;) override</argsstring>
+        <name>unloadLoRA</name>
+        <qualifiedname>SlowStreamingPlugin::unloadLoRA</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1ab72da450bc0dc2904fe7eff875d71667">unloadLoRA</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_timeout_cancellation.cpp" line="109" column="10" bodyfile="tests/llm/test_llm_timeout_cancellation.cpp" bodystart="109" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="class_slow_streaming_plugin_1a4acb63589933cd0e340088f0c71c69c8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_lo_r_a_info" kindref="compound">LoRAInfo</ref> &gt;</type>
+        <definition>std::vector&lt; LoRAInfo &gt; SlowStreamingPlugin::listLoRAs</definition>
+        <argsstring>() const override</argsstring>
+        <name>listLoRAs</name>
+        <qualifiedname>SlowStreamingPlugin::listLoRAs</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1aa4a9a794e561f78c5ed77d2d59343d12">listLoRAs</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_timeout_cancellation.cpp" line="110" column="17" bodyfile="tests/llm/test_llm_timeout_cancellation.cpp" bodystart="110" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="class_slow_streaming_plugin_1add565de4b76963d7f96561065b4d8c75" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; SlowStreamingPlugin::exportLoRA</definition>
+        <argsstring>(const std::string &amp;) override</argsstring>
+        <name>exportLoRA</name>
+        <qualifiedname>SlowStreamingPlugin::exportLoRA</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a5bceecb2024467d70f4e67c951111d9a">exportLoRA</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_timeout_cancellation.cpp" line="111" column="17" bodyfile="tests/llm/test_llm_timeout_cancellation.cpp" bodystart="111" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="class_slow_streaming_plugin_1a932ad6b6ed4d87707128dcf2dadbab01" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool SlowStreamingPlugin::importLoRA</definition>
+        <argsstring>(const std::string &amp;, const std::vector&lt; uint8_t &gt; &amp;) override</argsstring>
+        <name>importLoRA</name>
+        <qualifiedname>SlowStreamingPlugin::importLoRA</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1aca1ef263bd70ffc0d1c04c92a1cd00fc">importLoRA</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_timeout_cancellation.cpp" line="112" column="10" bodyfile="tests/llm/test_llm_timeout_cancellation.cpp" bodystart="112" bodyend="112"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Slow streaming mock plugin. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Emits <computeroutput>num_tokens</computeroutput> tokens via stream_callback, sleeping <computeroutput>token_delay_ms</computeroutput> between each one. This makes it possible to cancel mid-stream. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>SlowStreamingPlugin</label>
+        <link refid="class_slow_streaming_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::ILLMPlugin</label>
+        <link refid="classthemis_1_1llm_1_1_i_l_l_m_plugin"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>SlowStreamingPlugin</label>
+        <link refid="class_slow_streaming_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::ILLMPlugin</label>
+        <link refid="classthemis_1_1llm_1_1_i_l_l_m_plugin"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_llm_timeout_cancellation.cpp" line="63" column="1" bodyfile="tests/llm/test_llm_timeout_cancellation.cpp" bodystart="63" bodyend="117"/>
+    <listofallmembers>
+      <member refid="class_slow_streaming_plugin_1adb7f40f27de9227415e5fce33e8d8ce2" prot="public" virt="virtual"><scope>SlowStreamingPlugin</scope><name>embed</name></member>
+      <member refid="class_slow_streaming_plugin_1add565de4b76963d7f96561065b4d8c75" prot="public" virt="virtual"><scope>SlowStreamingPlugin</scope><name>exportLoRA</name></member>
+      <member refid="class_slow_streaming_plugin_1a10414b7e3014e734d7ebd2609f6c41c7" prot="public" virt="virtual"><scope>SlowStreamingPlugin</scope><name>generate</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1aa5297bc971b879d93360f913a76e9469" prot="public" virt="virtual"><scope>SlowStreamingPlugin</scope><name>generateDraftTokens</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a113e6f344509f115a632b0ee1614b6c2" prot="public" virt="non-virtual"><scope>SlowStreamingPlugin</scope><name>GenerateDraftTokensFn</name></member>
+      <member refid="class_slow_streaming_plugin_1a8a38ad06f16931cacf0be1770ca06112" prot="public" virt="virtual"><scope>SlowStreamingPlugin</scope><name>generateRAG</name></member>
+      <member refid="class_slow_streaming_plugin_1afdf5024e6892d98ff1f84692bf10417a" prot="public" virt="virtual"><scope>SlowStreamingPlugin</scope><name>getCapabilities</name></member>
+      <member refid="class_slow_streaming_plugin_1aa94aad951c9478356c7e53034fe2dbf8" prot="public" virt="virtual"><scope>SlowStreamingPlugin</scope><name>getMemoryStats</name></member>
+      <member refid="class_slow_streaming_plugin_1a3cf882acf44f5b6019c3fae9f222ede7" prot="public" virt="virtual"><scope>SlowStreamingPlugin</scope><name>getModelInfo</name></member>
+      <member refid="class_slow_streaming_plugin_1a5059361888120d242a4a9917a0584b55" prot="public" virt="virtual"><scope>SlowStreamingPlugin</scope><name>getPerformanceStats</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a5570aa4f4dec749da0d2d0b9a5d7e549" prot="public" virt="non-virtual"><scope>SlowStreamingPlugin</scope><name>ILLMPlugin</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1ae20ccb33c21564f563810ed78f50c6cf" prot="public" virt="non-virtual"><scope>SlowStreamingPlugin</scope><name>ILLMPlugin</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a617f63576be5c553550530c3a72c5f53" prot="protected" virt="non-virtual"><scope>SlowStreamingPlugin</scope><name>ILLMPlugin</name></member>
+      <member refid="class_slow_streaming_plugin_1a932ad6b6ed4d87707128dcf2dadbab01" prot="public" virt="virtual"><scope>SlowStreamingPlugin</scope><name>importLoRA</name></member>
+      <member refid="class_slow_streaming_plugin_1a2825861216eed5c29102addf8c5aa064" prot="public" virt="virtual"><scope>SlowStreamingPlugin</scope><name>isModelLoaded</name></member>
+      <member refid="class_slow_streaming_plugin_1a4acb63589933cd0e340088f0c71c69c8" prot="public" virt="virtual"><scope>SlowStreamingPlugin</scope><name>listLoRAs</name></member>
+      <member refid="class_slow_streaming_plugin_1a1d16f217ab9715854b58eaa37f536da2" prot="public" virt="virtual"><scope>SlowStreamingPlugin</scope><name>loadLoRA</name></member>
+      <member refid="class_slow_streaming_plugin_1a8586a5fae3c5e2092e99e6bdd5050431" prot="public" virt="virtual"><scope>SlowStreamingPlugin</scope><name>loadModel</name></member>
+      <member refid="class_slow_streaming_plugin_1a73aebbab72ca99a08db9d0f7cb5c0188" prot="private" virt="non-virtual"><scope>SlowStreamingPlugin</scope><name>num_tokens_</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a06828a4415efeab05bd0d69c7d54828c" prot="public" virt="non-virtual"><scope>SlowStreamingPlugin</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a379dc1e0152b9197835c0a05f95d234c" prot="public" virt="non-virtual"><scope>SlowStreamingPlugin</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1abbcb81e46949a1afe9c567de3f8f6d61" prot="public" virt="non-virtual"><scope>SlowStreamingPlugin</scope><name>setDefaultGenerateDraftTokensFn</name></member>
+      <member refid="class_slow_streaming_plugin_1ac103b1e4f1799c918c60f746d5300166" prot="public" virt="non-virtual"><scope>SlowStreamingPlugin</scope><name>SlowStreamingPlugin</name></member>
+      <member refid="class_slow_streaming_plugin_1aac8b6c84c519feeeed43375905309c72" prot="private" virt="non-virtual"><scope>SlowStreamingPlugin</scope><name>token_delay_ms_</name></member>
+      <member refid="class_slow_streaming_plugin_1ac605fe9ecd9fc23f9482a3774d0d1e88" prot="public" virt="non-virtual"><scope>SlowStreamingPlugin</scope><name>tokens_delivered</name></member>
+      <member refid="class_slow_streaming_plugin_1a24e00e4264921c790cdd67bdfebafc3f" prot="public" virt="virtual"><scope>SlowStreamingPlugin</scope><name>unloadLoRA</name></member>
+      <member refid="class_slow_streaming_plugin_1a4e722b6471f8c9e0217ada9fb63a4c3e" prot="public" virt="virtual"><scope>SlowStreamingPlugin</scope><name>unloadModel</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a9c52c9bc3ec16061fceacc8963da3176" prot="public" virt="virtual"><scope>SlowStreamingPlugin</scope><name>~ILLMPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

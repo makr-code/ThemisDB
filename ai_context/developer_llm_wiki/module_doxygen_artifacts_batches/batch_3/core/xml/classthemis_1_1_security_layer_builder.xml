@@ -1,0 +1,527 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_security_layer_builder" kind="class" language="C++" prot="public">
+    <compoundname>themis::SecurityLayerBuilder</compoundname>
+    <includes refid="security__initialization_8h" local="no">security_initialization.h</includes>
+    <innerclass refid="structthemis_1_1_security_layer_builder_1_1_security_layer" prot="public">themis::SecurityLayerBuilder::SecurityLayer</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1_security_layer_builder_1a5e6476a4123b4218dc9981b22270cabf" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>KeyProviderType</name>
+        <qualifiedname>themis::SecurityLayerBuilder::KeyProviderType</qualifiedname>
+        <enumvalue id="classthemis_1_1_security_layer_builder_1a5e6476a4123b4218dc9981b22270cabfa54b4c4075463b2e02cd69f5cd139b5b2" prot="public">
+          <name>LOCAL</name>
+          <briefdescription>
+<para>In-memory provider for testing/development. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_security_layer_builder_1a5e6476a4123b4218dc9981b22270cabfae9569439466b447c2678d48306e433f9" prot="public">
+          <name>VAULT</name>
+          <briefdescription>
+<para>HashiCorp Vault integration. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_security_layer_builder_1a5e6476a4123b4218dc9981b22270cabfab91400497dbb394f86600c0713c3541b" prot="public">
+          <name>HSM</name>
+          <briefdescription>
+<para>Hardware Security Module (PKCS#11). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/security_initialization.h" line="27" column="5" bodyfile="include/core/security_initialization.h" bodystart="27" bodyend="31"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_security_layer_builder_1a3abf711ef4a2abc164eae1e234fa0073" prot="private" static="no" mutable="no">
+        <type>IKeyProviderPtr</type>
+        <definition>IKeyProviderPtr themis::SecurityLayerBuilder::key_provider_</definition>
+        <argsstring></argsstring>
+        <name>key_provider_</name>
+        <qualifiedname>themis::SecurityLayerBuilder::key_provider_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/security_initialization.h" line="94" column="21" bodyfile="include/core/security_initialization.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_security_layer_builder_1a9fda59fb8f4d8545145e343c23579479" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="classthemis_1_1_security_layer_builder_1a5e6476a4123b4218dc9981b22270cabf" kindref="member">KeyProviderType</ref> &gt;</type>
+        <definition>std::optional&lt;KeyProviderType&gt; themis::SecurityLayerBuilder::key_provider_type_</definition>
+        <argsstring></argsstring>
+        <name>key_provider_type_</name>
+        <qualifiedname>themis::SecurityLayerBuilder::key_provider_type_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/security_initialization.h" line="95" column="19" bodyfile="include/core/security_initialization.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_security_layer_builder_1a1915278f5d3db77068dc52232541f538" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::SecurityLayerBuilder::key_provider_config_</definition>
+        <argsstring></argsstring>
+        <name>key_provider_config_</name>
+        <qualifiedname>themis::SecurityLayerBuilder::key_provider_config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/security_initialization.h" line="96" column="17" bodyfile="include/core/security_initialization.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_security_layer_builder_1ad0ec155755e91b3e7c3582e5701d66f0" prot="private" static="no" mutable="no">
+        <type>EncryptionConfig</type>
+        <definition>EncryptionConfig themis::SecurityLayerBuilder::encryption_config_</definition>
+        <argsstring></argsstring>
+        <name>encryption_config_</name>
+        <qualifiedname>themis::SecurityLayerBuilder::encryption_config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/security_initialization.h" line="97" column="22" bodyfile="include/core/security_initialization.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_security_layer_builder_1af49630cb6287445fafb2b942462d9948" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::SecurityLayerBuilder::rbac_policy_file_</definition>
+        <argsstring></argsstring>
+        <name>rbac_policy_file_</name>
+        <qualifiedname>themis::SecurityLayerBuilder::rbac_policy_file_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/security_initialization.h" line="98" column="17" bodyfile="include/core/security_initialization.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_security_layer_builder_1af6a7795bdb5be6a3e4d3ef7b2b0dd790" prot="private" static="no" mutable="no">
+        <type>auth::JWTValidatorConfig</type>
+        <definition>auth::JWTValidatorConfig themis::SecurityLayerBuilder::jwt_config_</definition>
+        <argsstring></argsstring>
+        <name>jwt_config_</name>
+        <qualifiedname>themis::SecurityLayerBuilder::jwt_config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/security_initialization.h" line="99" column="30" bodyfile="include/core/security_initialization.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_security_layer_builder_1a4b577f8d8d8bb7f77b07ac2f93bc0307" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::SecurityLayerBuilder::jwt_configured_</definition>
+        <argsstring></argsstring>
+        <name>jwt_configured_</name>
+        <qualifiedname>themis::SecurityLayerBuilder::jwt_configured_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/security_initialization.h" line="100" column="10" bodyfile="include/core/security_initialization.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_security_layer_builder_1a3afd605d4e16eab4c51de984ddc7966f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::SecurityLayerBuilder::SecurityLayerBuilder</definition>
+        <argsstring>()</argsstring>
+        <name>SecurityLayerBuilder</name>
+        <qualifiedname>themis::SecurityLayerBuilder::SecurityLayerBuilder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/security_initialization.h" line="41" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_security_layer_builder_1a2c741eca819fbd528e4e7c0d47a192a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_security_layer_builder_1a3afd605d4e16eab4c51de984ddc7966f" kindref="member">SecurityLayerBuilder</ref> &amp;</type>
+        <definition>SecurityLayerBuilder &amp; themis::SecurityLayerBuilder::withKeyProvider</definition>
+        <argsstring>(KeyProviderType type, const std::string &amp;config_json=&quot;{}&quot;)</argsstring>
+        <name>withKeyProvider</name>
+        <qualifiedname>themis::SecurityLayerBuilder::withKeyProvider</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_security_layer_builder_1a5e6476a4123b4218dc9981b22270cabf" kindref="member">KeyProviderType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>config_json</declname>
+          <defval>&quot;{}&quot;</defval>
+        </param>
+        <briefdescription>
+<para>With Key Provider. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config_json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/security_initialization.h" line="43" column="26" bodyfile="src/core/security_initialization.cpp" bodystart="37" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_security_layer_builder_1a9cbc0932d6b90af4d6be7c742fd64c5b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_security_layer_builder_1a3afd605d4e16eab4c51de984ddc7966f" kindref="member">SecurityLayerBuilder</ref> &amp;</type>
+        <definition>SecurityLayerBuilder &amp; themis::SecurityLayerBuilder::withFieldEncryption</definition>
+        <argsstring>(const EncryptionConfig &amp;config)</argsstring>
+        <name>withFieldEncryption</name>
+        <qualifiedname>themis::SecurityLayerBuilder::withFieldEncryption</qualifiedname>
+        <param>
+          <type>const EncryptionConfig &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>With Field Encryption. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/security_initialization.h" line="52" column="26" bodyfile="src/core/security_initialization.cpp" bodystart="72" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_security_layer_builder_1a49a5a65d2adcf46bba59ae524a15da38" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_security_layer_builder_1a3afd605d4e16eab4c51de984ddc7966f" kindref="member">SecurityLayerBuilder</ref> &amp;</type>
+        <definition>SecurityLayerBuilder &amp; themis::SecurityLayerBuilder::withRBACPolicy</definition>
+        <argsstring>(const std::string &amp;policy_file)</argsstring>
+        <name>withRBACPolicy</name>
+        <qualifiedname>themis::SecurityLayerBuilder::withRBACPolicy</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>policy_file</declname>
+        </param>
+        <briefdescription>
+<para>With RBACPolicy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/security_initialization.h" line="60" column="26" bodyfile="src/core/security_initialization.cpp" bodystart="84" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_security_layer_builder_1a53bb3be0e383596ab78c05117d748cdf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_security_layer_builder_1a3afd605d4e16eab4c51de984ddc7966f" kindref="member">SecurityLayerBuilder</ref> &amp;</type>
+        <definition>SecurityLayerBuilder &amp; themis::SecurityLayerBuilder::withJWT</definition>
+        <argsstring>(const std::string &amp;cert_file, const std::vector&lt; std::string &gt; &amp;allowed_issuers)</argsstring>
+        <name>withJWT</name>
+        <qualifiedname>themis::SecurityLayerBuilder::withJWT</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cert_file</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>allowed_issuers</declname>
+        </param>
+        <briefdescription>
+<para>With JWT. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cert_file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">allowed_issuers</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/security_initialization.h" line="69" column="26" bodyfile="src/core/security_initialization.cpp" bodystart="97" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_security_layer_builder_1a20ce8bd9f830abed8f6e607fdbadb5b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_security_layer_builder_1a3afd605d4e16eab4c51de984ddc7966f" kindref="member">SecurityLayerBuilder</ref> &amp;</type>
+        <definition>SecurityLayerBuilder &amp; themis::SecurityLayerBuilder::withJWT</definition>
+        <argsstring>(const auth::JWTValidatorConfig &amp;config)</argsstring>
+        <name>withJWT</name>
+        <qualifiedname>themis::SecurityLayerBuilder::withJWT</qualifiedname>
+        <param>
+          <type>const auth::JWTValidatorConfig &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>With JWT. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/security_initialization.h" line="78" column="26" bodyfile="src/core/security_initialization.cpp" bodystart="118" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_security_layer_builder_1a20c3a3b59f429d2318acf7b45ad98924" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_security_layer_builder_1_1_security_layer" kindref="compound">SecurityLayer</ref></type>
+        <definition>SecurityLayerBuilder::SecurityLayer themis::SecurityLayerBuilder::build</definition>
+        <argsstring>()</argsstring>
+        <name>build</name>
+        <qualifiedname>themis::SecurityLayerBuilder::build</qualifiedname>
+        <briefdescription>
+<para>Build. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1core_1_1_production_mode_1a4def5e92057f5e244e02b9bc24bc6e99" kindref="member">core::ProductionMode::isEnabled()</ref>, has_value(), createKeyProvider(), value(), empty(), setEncryptionConfig(), loadConfig(), <ref refid="classthemis_1_1core_1_1_config_validator_1ae74d16691d4869c6198ca31ebefd6746" kindref="member">core::ConfigValidator::validateJWTConfig()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/security_initialization.h" line="85" column="19" bodyfile="src/core/security_initialization.cpp" bodystart="132" bodyend="218"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1_security_layer_builder_1a468374a1c0885d4934d8fd4a30a40266" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_security_layer_builder_1a3afd605d4e16eab4c51de984ddc7966f" kindref="member">SecurityLayerBuilder</ref></type>
+        <definition>SecurityLayerBuilder themis::SecurityLayerBuilder::standard</definition>
+        <argsstring>()</argsstring>
+        <name>standard</name>
+        <qualifiedname>themis::SecurityLayerBuilder::standard</qualifiedname>
+        <briefdescription>
+<para>Standard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1_security_layer_builder_1a3afd605d4e16eab4c51de984ddc7966f" kindref="member">SecurityLayerBuilder()</ref>, <ref refid="classthemis_1_1_security_layer_builder_1a2c741eca819fbd528e4e7c0d47a192a7" kindref="member">withKeyProvider()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/security_initialization.h" line="91" column="33" bodyfile="src/core/security_initialization.cpp" bodystart="225" bodyend="228"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_security_layer_builder_1ad1d5e54583cbd9f6098600268ea75853" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::SecurityLayerBuilder::loadFile</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>loadFile</name>
+        <qualifiedname>themis::SecurityLayerBuilder::loadFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Load File. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: file(), is_open(), rdbuf(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/security_initialization.h" line="107" column="17" bodyfile="src/core/security_initialization.cpp" bodystart="237" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_security_layer_builder_1aa68a216b8611a823f8337e9292b98159" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>IKeyProviderPtr</type>
+        <definition>IKeyProviderPtr themis::SecurityLayerBuilder::createKeyProvider</definition>
+        <argsstring>(KeyProviderType type, const std::string &amp;config_json)</argsstring>
+        <name>createKeyProvider</name>
+        <qualifiedname>themis::SecurityLayerBuilder::createKeyProvider</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_security_layer_builder_1a5e6476a4123b4218dc9981b22270cabf" kindref="member">KeyProviderType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>config_json</declname>
+        </param>
+        <briefdescription>
+<para>Create Key Provider. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config_json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Library fs path. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">library_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the library. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/core/security_initialization.h" line="115" column="21" bodyfile="src/core/security_initialization.cpp" bodystart="254" bodyend="375"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/core/security_initialization.h" line="25" column="1" bodyfile="include/core/security_initialization.h" bodystart="25" bodyend="118"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_security_layer_builder_1a20c3a3b59f429d2318acf7b45ad98924" prot="public" virt="non-virtual"><scope>themis::SecurityLayerBuilder</scope><name>build</name></member>
+      <member refid="classthemis_1_1_security_layer_builder_1aa68a216b8611a823f8337e9292b98159" prot="private" virt="non-virtual"><scope>themis::SecurityLayerBuilder</scope><name>createKeyProvider</name></member>
+      <member refid="classthemis_1_1_security_layer_builder_1ad0ec155755e91b3e7c3582e5701d66f0" prot="private" virt="non-virtual"><scope>themis::SecurityLayerBuilder</scope><name>encryption_config_</name></member>
+      <member refid="classthemis_1_1_security_layer_builder_1af6a7795bdb5be6a3e4d3ef7b2b0dd790" prot="private" virt="non-virtual"><scope>themis::SecurityLayerBuilder</scope><name>jwt_config_</name></member>
+      <member refid="classthemis_1_1_security_layer_builder_1a4b577f8d8d8bb7f77b07ac2f93bc0307" prot="private" virt="non-virtual"><scope>themis::SecurityLayerBuilder</scope><name>jwt_configured_</name></member>
+      <member refid="classthemis_1_1_security_layer_builder_1a3abf711ef4a2abc164eae1e234fa0073" prot="private" virt="non-virtual"><scope>themis::SecurityLayerBuilder</scope><name>key_provider_</name></member>
+      <member refid="classthemis_1_1_security_layer_builder_1a1915278f5d3db77068dc52232541f538" prot="private" virt="non-virtual"><scope>themis::SecurityLayerBuilder</scope><name>key_provider_config_</name></member>
+      <member refid="classthemis_1_1_security_layer_builder_1a9fda59fb8f4d8545145e343c23579479" prot="private" virt="non-virtual"><scope>themis::SecurityLayerBuilder</scope><name>key_provider_type_</name></member>
+      <member refid="classthemis_1_1_security_layer_builder_1a5e6476a4123b4218dc9981b22270cabf" prot="public" virt="non-virtual"><scope>themis::SecurityLayerBuilder</scope><name>KeyProviderType</name></member>
+      <member refid="classthemis_1_1_security_layer_builder_1ad1d5e54583cbd9f6098600268ea75853" prot="private" virt="non-virtual"><scope>themis::SecurityLayerBuilder</scope><name>loadFile</name></member>
+      <member refid="classthemis_1_1_security_layer_builder_1af49630cb6287445fafb2b942462d9948" prot="private" virt="non-virtual"><scope>themis::SecurityLayerBuilder</scope><name>rbac_policy_file_</name></member>
+      <member refid="classthemis_1_1_security_layer_builder_1a3afd605d4e16eab4c51de984ddc7966f" prot="public" virt="non-virtual"><scope>themis::SecurityLayerBuilder</scope><name>SecurityLayerBuilder</name></member>
+      <member refid="classthemis_1_1_security_layer_builder_1a468374a1c0885d4934d8fd4a30a40266" prot="public" virt="non-virtual"><scope>themis::SecurityLayerBuilder</scope><name>standard</name></member>
+      <member refid="classthemis_1_1_security_layer_builder_1a9cbc0932d6b90af4d6be7c742fd64c5b" prot="public" virt="non-virtual"><scope>themis::SecurityLayerBuilder</scope><name>withFieldEncryption</name></member>
+      <member refid="classthemis_1_1_security_layer_builder_1a53bb3be0e383596ab78c05117d748cdf" prot="public" virt="non-virtual"><scope>themis::SecurityLayerBuilder</scope><name>withJWT</name></member>
+      <member refid="classthemis_1_1_security_layer_builder_1a20ce8bd9f830abed8f6e607fdbadb5b5" prot="public" virt="non-virtual"><scope>themis::SecurityLayerBuilder</scope><name>withJWT</name></member>
+      <member refid="classthemis_1_1_security_layer_builder_1a2c741eca819fbd528e4e7c0d47a192a7" prot="public" virt="non-virtual"><scope>themis::SecurityLayerBuilder</scope><name>withKeyProvider</name></member>
+      <member refid="classthemis_1_1_security_layer_builder_1a49a5a65d2adcf46bba59ae524a15da38" prot="public" virt="non-virtual"><scope>themis::SecurityLayerBuilder</scope><name>withRBACPolicy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

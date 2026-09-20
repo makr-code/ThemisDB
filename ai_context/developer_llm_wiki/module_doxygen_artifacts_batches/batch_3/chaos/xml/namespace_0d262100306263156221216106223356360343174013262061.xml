@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d262100306263156221216106223356360343174013262061" kind="namespace" language="C++">
+    <compoundname>@262100306263156221216106223356360343174013262061</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/chaos/test_chaos_concurrency_hardening.cpp" line="37" column="1"/>
+  </compounddef>
+</doxygen>

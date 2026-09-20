@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1_1_shard_key_predicate" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::QueryFederation::QueryMetadata::ShardKeyPredicate</compoundname>
+    <includes refid="query__federation_8h" local="no">query_federation.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1_1_shard_key_predicate_1ab75287241688a337de8cf19f5e77ce38" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Kind</name>
+        <qualifiedname>themis::query::QueryFederation::QueryMetadata::ShardKeyPredicate::Kind</qualifiedname>
+        <enumvalue id="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1_1_shard_key_predicate_1ab75287241688a337de8cf19f5e77ce38aaebdbcb765394d25d6a604589a890f82" prot="public">
+          <name>POINT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1_1_shard_key_predicate_1ab75287241688a337de8cf19f5e77ce38a01036ddcc971d02f6c32c3da31a119f2" prot="public">
+          <name>RANGE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="175" column="13" bodyfile="include/query/query_federation.h" bodystart="175" bodyend="175"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1_1_shard_key_predicate_1a02d8ccc05cb2f2f1042c07a7a3973715" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1_1_shard_key_predicate_1ab75287241688a337de8cf19f5e77ce38" kindref="member">Kind</ref></type>
+        <definition>Kind themis::query::QueryFederation::QueryMetadata::ShardKeyPredicate::kind</definition>
+        <argsstring></argsstring>
+        <name>kind</name>
+        <qualifiedname>themis::query::QueryFederation::QueryMetadata::ShardKeyPredicate::kind</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="176" column="18" bodyfile="include/query/query_federation.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1_1_shard_key_predicate_1a898899da056c25cbc1ce21be2ba3d2cc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::QueryFederation::QueryMetadata::ShardKeyPredicate::collection</definition>
+        <argsstring></argsstring>
+        <name>collection</name>
+        <qualifiedname>themis::query::QueryFederation::QueryMetadata::ShardKeyPredicate::collection</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="177" column="25" bodyfile="include/query/query_federation.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1_1_shard_key_predicate_1ac0e3d94c54697994bff307aa33c84532" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::QueryFederation::QueryMetadata::ShardKeyPredicate::key_value</definition>
+        <argsstring></argsstring>
+        <name>key_value</name>
+        <qualifiedname>themis::query::QueryFederation::QueryMetadata::ShardKeyPredicate::key_value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="178" column="25" bodyfile="include/query/query_federation.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1_1_shard_key_predicate_1a8d16874104b17eb88ba067ab7b7799b1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::QueryFederation::QueryMetadata::ShardKeyPredicate::key_min</definition>
+        <argsstring></argsstring>
+        <name>key_min</name>
+        <qualifiedname>themis::query::QueryFederation::QueryMetadata::ShardKeyPredicate::key_min</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="179" column="25" bodyfile="include/query/query_federation.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1_1_shard_key_predicate_1a0190a90b26a56bccf9cd46879ae97b5d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::QueryFederation::QueryMetadata::ShardKeyPredicate::key_max</definition>
+        <argsstring></argsstring>
+        <name>key_max</name>
+        <qualifiedname>themis::query::QueryFederation::QueryMetadata::ShardKeyPredicate::key_max</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="180" column="25" bodyfile="include/query/query_federation.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_federation.h" line="174" column="9" bodyfile="include/query/query_federation.h" bodystart="174" bodyend="181"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1_1_shard_key_predicate_1a898899da056c25cbc1ce21be2ba3d2cc" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation::QueryMetadata::ShardKeyPredicate</scope><name>collection</name></member>
+      <member refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1_1_shard_key_predicate_1a0190a90b26a56bccf9cd46879ae97b5d" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation::QueryMetadata::ShardKeyPredicate</scope><name>key_max</name></member>
+      <member refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1_1_shard_key_predicate_1a8d16874104b17eb88ba067ab7b7799b1" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation::QueryMetadata::ShardKeyPredicate</scope><name>key_min</name></member>
+      <member refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1_1_shard_key_predicate_1ac0e3d94c54697994bff307aa33c84532" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation::QueryMetadata::ShardKeyPredicate</scope><name>key_value</name></member>
+      <member refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1_1_shard_key_predicate_1ab75287241688a337de8cf19f5e77ce38" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation::QueryMetadata::ShardKeyPredicate</scope><name>Kind</name></member>
+      <member refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1_1_shard_key_predicate_1a02d8ccc05cb2f2f1042c07a7a3973715" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation::QueryMetadata::ShardKeyPredicate</scope><name>kind</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

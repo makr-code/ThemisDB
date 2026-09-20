@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_ada_lora_doku_training_test" kind="class" language="C++" prot="public">
+    <compoundname>AdaLoraDokuTrainingTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_ada_lora_doku_training_test_1a8e1e916776a0de48d0e36fe3b25b9ee6" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AdaLoraDokuTrainingTest::doku_db_path_</definition>
+        <argsstring></argsstring>
+        <name>doku_db_path_</name>
+        <qualifiedname>AdaLoraDokuTrainingTest::doku_db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_adalora_doku_training.cpp" line="130" column="30" bodyfile="tests/llm/test_llm_adalora_doku_training.cpp" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_ada_lora_doku_training_test_1a20d3bb70d8115bc858d3515c9e23c614" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; AdaLoraDokuTrainingTest::doku_prompts_</definition>
+        <argsstring></argsstring>
+        <name>doku_prompts_</name>
+        <qualifiedname>AdaLoraDokuTrainingTest::doku_prompts_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_adalora_doku_training.cpp" line="131" column="17" bodyfile="tests/llm/test_llm_adalora_doku_training.cpp" bodystart="131" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_ada_lora_doku_training_test_1acd6b32fd723334657344b71890c562bd" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AdaLoraDokuTrainingTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>AdaLoraDokuTrainingTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_adalora_doku_training.cpp" line="121" column="10" bodyfile="tests/llm/test_llm_adalora_doku_training.cpp" bodystart="121" bodyend="128"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AdaLoraDokuTrainingTest</label>
+        <link refid="class_ada_lora_doku_training_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AdaLoraDokuTrainingTest</label>
+        <link refid="class_ada_lora_doku_training_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_llm_adalora_doku_training.cpp" line="119" column="1" bodyfile="tests/llm/test_llm_adalora_doku_training.cpp" bodystart="119" bodyend="132"/>
+    <listofallmembers>
+      <member refid="class_ada_lora_doku_training_test_1a8e1e916776a0de48d0e36fe3b25b9ee6" prot="protected" virt="non-virtual"><scope>AdaLoraDokuTrainingTest</scope><name>doku_db_path_</name></member>
+      <member refid="class_ada_lora_doku_training_test_1a20d3bb70d8115bc858d3515c9e23c614" prot="protected" virt="non-virtual"><scope>AdaLoraDokuTrainingTest</scope><name>doku_prompts_</name></member>
+      <member refid="class_ada_lora_doku_training_test_1acd6b32fd723334657344b71890c562bd" prot="protected" virt="non-virtual"><scope>AdaLoraDokuTrainingTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_perturbed_queries_test" kind="class" language="C++" prot="public">
+    <compoundname>PerturbedQueriesTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::TestWithParam&lt; AdversarialStrategy &gt;</basecompoundref>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>PerturbedQueriesTest</label>
+        <link refid="class_perturbed_queries_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::TestWithParam&lt; AdversarialStrategy &gt;</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>PerturbedQueriesTest</label>
+        <link refid="class_perturbed_queries_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::TestWithParam&lt; AdversarialStrategy &gt;</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/rag/test_rag_adversarial_tester.cpp" line="149" column="1" bodyfile="tests/rag/test_rag_adversarial_tester.cpp" bodystart="149" bodyend="149"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

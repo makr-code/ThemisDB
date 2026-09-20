@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_v_r_a_m_secure_clear_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::VRAMSecureClear::Config</compoundname>
+    <includes refid="vram__secure__clear_8h" local="no">vram_secure_clear.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_v_r_a_m_secure_clear_1_1_config_1ad2fb98970f1e12003e127a3fb0902e64" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::security::VRAMSecureClear::Config::num_passes</definition>
+        <argsstring></argsstring>
+        <name>num_passes</name>
+        <qualifiedname>themis::security::VRAMSecureClear::Config::num_passes</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vram_secure_clear.h" line="42" column="13" bodyfile="include/security/vram_secure_clear.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_v_r_a_m_secure_clear_1_1_config_1ad06072f44e62abb6418be8c2207c005c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::VRAMSecureClear::Config::verify_clear</definition>
+        <argsstring></argsstring>
+        <name>verify_clear</name>
+        <qualifiedname>themis::security::VRAMSecureClear::Config::verify_clear</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vram_secure_clear.h" line="45" column="14" bodyfile="include/security/vram_secure_clear.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_v_r_a_m_secure_clear_1_1_config_1abf6be638cdefe4661e0b0f1583fbb8b7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::VRAMSecureClear::Config::audit_log</definition>
+        <argsstring></argsstring>
+        <name>audit_log</name>
+        <qualifiedname>themis::security::VRAMSecureClear::Config::audit_log</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vram_secure_clear.h" line="48" column="14" bodyfile="include/security/vram_secure_clear.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for secure VRAM clearing. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/vram_secure_clear.h" line="39" column="5" bodyfile="include/security/vram_secure_clear.h" bodystart="39" bodyend="49"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_v_r_a_m_secure_clear_1_1_config_1abf6be638cdefe4661e0b0f1583fbb8b7" prot="public" virt="non-virtual"><scope>themis::security::VRAMSecureClear::Config</scope><name>audit_log</name></member>
+      <member refid="structthemis_1_1security_1_1_v_r_a_m_secure_clear_1_1_config_1ad2fb98970f1e12003e127a3fb0902e64" prot="public" virt="non-virtual"><scope>themis::security::VRAMSecureClear::Config</scope><name>num_passes</name></member>
+      <member refid="structthemis_1_1security_1_1_v_r_a_m_secure_clear_1_1_config_1ad06072f44e62abb6418be8c2207c005c" prot="public" virt="non-virtual"><scope>themis::security::VRAMSecureClear::Config</scope><name>verify_clear</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

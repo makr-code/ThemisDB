@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl_1_1_precedent_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::EthicsSelectionRouter::Impl::PrecedentEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl_1_1_precedent_entry_1a273bbce3ab650e29bf535933677225c8" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::plugins::ethics::EthicsSelectionRouter::Impl::PrecedentEntry::dc_sum</definition>
+        <argsstring></argsstring>
+        <name>dc_sum</name>
+        <qualifiedname>themis::plugins::ethics::EthicsSelectionRouter::Impl::PrecedentEntry::dc_sum</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_selection_router.cpp" line="165" column="32" bodyfile="src/ethics_ai/ethics_selection_router.cpp" bodystart="165" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl_1_1_precedent_entry_1ad8428684414e9fa1d67d41b76283ba87" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::plugins::ethics::EthicsSelectionRouter::Impl::PrecedentEntry::count</definition>
+        <argsstring></argsstring>
+        <name>count</name>
+        <qualifiedname>themis::plugins::ethics::EthicsSelectionRouter::Impl::PrecedentEntry::count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_selection_router.cpp" line="165" column="46" bodyfile="src/ethics_ai/ethics_selection_router.cpp" bodystart="165" bodyend="165"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/ethics_ai/ethics_selection_router.cpp" line="165" column="5" bodyfile="src/ethics_ai/ethics_selection_router.cpp" bodystart="165" bodyend="165"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl_1_1_precedent_entry_1ad8428684414e9fa1d67d41b76283ba87" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsSelectionRouter::Impl::PrecedentEntry</scope><name>count</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl_1_1_precedent_entry_1a273bbce3ab650e29bf535933677225c8" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsSelectionRouter::Impl::PrecedentEntry</scope><name>dc_sum</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

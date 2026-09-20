@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_redis_rate_limiter_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::RedisRateLimiterConfig</compoundname>
+    <includes refid="rate__limiter__v2_8h" local="no">rate_limiter_v2.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_redis_rate_limiter_config_1a0ec05a2f119a67093871653b43abd5ea" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::RedisRateLimiterConfig::host</definition>
+        <argsstring></argsstring>
+        <name>host</name>
+        <qualifiedname>themis::server::RedisRateLimiterConfig::host</qualifiedname>
+        <initializer>= &quot;127.0.0.1&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter_v2.h" line="33" column="17" bodyfile="include/server/rate_limiter_v2.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_redis_rate_limiter_config_1a8365a84f890a660f5ccf1d2beced78db" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::server::RedisRateLimiterConfig::port</definition>
+        <argsstring></argsstring>
+        <name>port</name>
+        <qualifiedname>themis::server::RedisRateLimiterConfig::port</qualifiedname>
+        <initializer>= 6379</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter_v2.h" line="35" column="9" bodyfile="include/server/rate_limiter_v2.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_redis_rate_limiter_config_1a10f43aecebe3078bdb6730ab188d28ec" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::RedisRateLimiterConfig::auth</definition>
+        <argsstring></argsstring>
+        <name>auth</name>
+        <qualifiedname>themis::server::RedisRateLimiterConfig::auth</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter_v2.h" line="37" column="17" bodyfile="include/server/rate_limiter_v2.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_redis_rate_limiter_config_1af6c3fa224c5d06b33342805db2048531" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::RedisRateLimiterConfig::key_prefix</definition>
+        <argsstring></argsstring>
+        <name>key_prefix</name>
+        <qualifiedname>themis::server::RedisRateLimiterConfig::key_prefix</qualifiedname>
+        <initializer>= &quot;themis:rl&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter_v2.h" line="39" column="17" bodyfile="include/server/rate_limiter_v2.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_redis_rate_limiter_config_1ac534360bc6afc602c2b8bde1b51fae03" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::server::RedisRateLimiterConfig::timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>timeout_ms</name>
+        <qualifiedname>themis::server::RedisRateLimiterConfig::timeout_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter_v2.h" line="41" column="9" bodyfile="include/server/rate_limiter_v2.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_redis_rate_limiter_config_1af22d3d2e0c19157260aa914c8dffdcbd" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::server::RedisRateLimiterConfig::max_errors</definition>
+        <argsstring></argsstring>
+        <name>max_errors</name>
+        <qualifiedname>themis::server::RedisRateLimiterConfig::max_errors</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter_v2.h" line="43" column="9" bodyfile="include/server/rate_limiter_v2.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_redis_rate_limiter_config_1a4e1486f4241886dfaa54fabf79347bf6" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::server::RedisRateLimiterConfig::key_ttl_seconds</definition>
+        <argsstring></argsstring>
+        <name>key_ttl_seconds</name>
+        <qualifiedname>themis::server::RedisRateLimiterConfig::key_ttl_seconds</qualifiedname>
+        <initializer>= 3600</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter_v2.h" line="45" column="9" bodyfile="include/server/rate_limiter_v2.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_redis_rate_limiter_config_1a2b2496f95c73798e772845f9a1f8b473" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::server::RedisRateLimiterConfig::pool_size</definition>
+        <argsstring></argsstring>
+        <name>pool_size</name>
+        <qualifiedname>themis::server::RedisRateLimiterConfig::pool_size</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter_v2.h" line="47" column="9" bodyfile="include/server/rate_limiter_v2.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/rate_limiter_v2.h" line="32" column="1" bodyfile="include/server/rate_limiter_v2.h" bodystart="32" bodyend="48"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_redis_rate_limiter_config_1a10f43aecebe3078bdb6730ab188d28ec" prot="public" virt="non-virtual"><scope>themis::server::RedisRateLimiterConfig</scope><name>auth</name></member>
+      <member refid="structthemis_1_1server_1_1_redis_rate_limiter_config_1a0ec05a2f119a67093871653b43abd5ea" prot="public" virt="non-virtual"><scope>themis::server::RedisRateLimiterConfig</scope><name>host</name></member>
+      <member refid="structthemis_1_1server_1_1_redis_rate_limiter_config_1af6c3fa224c5d06b33342805db2048531" prot="public" virt="non-virtual"><scope>themis::server::RedisRateLimiterConfig</scope><name>key_prefix</name></member>
+      <member refid="structthemis_1_1server_1_1_redis_rate_limiter_config_1a4e1486f4241886dfaa54fabf79347bf6" prot="public" virt="non-virtual"><scope>themis::server::RedisRateLimiterConfig</scope><name>key_ttl_seconds</name></member>
+      <member refid="structthemis_1_1server_1_1_redis_rate_limiter_config_1af22d3d2e0c19157260aa914c8dffdcbd" prot="public" virt="non-virtual"><scope>themis::server::RedisRateLimiterConfig</scope><name>max_errors</name></member>
+      <member refid="structthemis_1_1server_1_1_redis_rate_limiter_config_1a2b2496f95c73798e772845f9a1f8b473" prot="public" virt="non-virtual"><scope>themis::server::RedisRateLimiterConfig</scope><name>pool_size</name></member>
+      <member refid="structthemis_1_1server_1_1_redis_rate_limiter_config_1a8365a84f890a660f5ccf1d2beced78db" prot="public" virt="non-virtual"><scope>themis::server::RedisRateLimiterConfig</scope><name>port</name></member>
+      <member refid="structthemis_1_1server_1_1_redis_rate_limiter_config_1ac534360bc6afc602c2b8bde1b51fae03" prot="public" virt="non-virtual"><scope>themis::server::RedisRateLimiterConfig</scope><name>timeout_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_discovered_process_1_1_edge" kind="struct" language="C++" prot="public">
+    <compoundname>themis::DiscoveredProcess::Edge</compoundname>
+    <includes refid="process__mining_8h" local="no">process_mining.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_discovered_process_1_1_edge_1a28f79f467d13bbb9597a4bd518088823" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::DiscoveredProcess::Edge::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::DiscoveredProcess::Edge::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="128" column="21" bodyfile="include/analytics/process_mining.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_discovered_process_1_1_edge_1afbab68c502e7e92f44f2dd8f8a9348e1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::DiscoveredProcess::Edge::from</definition>
+        <argsstring></argsstring>
+        <name>from</name>
+        <qualifiedname>themis::DiscoveredProcess::Edge::from</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="129" column="21" bodyfile="include/analytics/process_mining.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_discovered_process_1_1_edge_1ad022f41db7779b45cb2a76de10df1559" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::DiscoveredProcess::Edge::to</definition>
+        <argsstring></argsstring>
+        <name>to</name>
+        <qualifiedname>themis::DiscoveredProcess::Edge::to</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="130" column="21" bodyfile="include/analytics/process_mining.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_discovered_process_1_1_edge_1aa9dad5d66d6470c39175a55ae7705ca6" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::DiscoveredProcess::Edge::frequency</definition>
+        <argsstring></argsstring>
+        <name>frequency</name>
+        <qualifiedname>themis::DiscoveredProcess::Edge::frequency</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="131" column="13" bodyfile="include/analytics/process_mining.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_discovered_process_1_1_edge_1ae8907e05c47dbfc5e2d0135d1aef66c8" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::DiscoveredProcess::Edge::probability</definition>
+        <argsstring></argsstring>
+        <name>probability</name>
+        <qualifiedname>themis::DiscoveredProcess::Edge::probability</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Wahrscheinlichkeit dieser Transition. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="132" column="16" bodyfile="include/analytics/process_mining.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/process_mining.h" line="127" column="5" bodyfile="include/analytics/process_mining.h" bodystart="127" bodyend="133"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_discovered_process_1_1_edge_1aa9dad5d66d6470c39175a55ae7705ca6" prot="public" virt="non-virtual"><scope>themis::DiscoveredProcess::Edge</scope><name>frequency</name></member>
+      <member refid="structthemis_1_1_discovered_process_1_1_edge_1afbab68c502e7e92f44f2dd8f8a9348e1" prot="public" virt="non-virtual"><scope>themis::DiscoveredProcess::Edge</scope><name>from</name></member>
+      <member refid="structthemis_1_1_discovered_process_1_1_edge_1a28f79f467d13bbb9597a4bd518088823" prot="public" virt="non-virtual"><scope>themis::DiscoveredProcess::Edge</scope><name>id</name></member>
+      <member refid="structthemis_1_1_discovered_process_1_1_edge_1ae8907e05c47dbfc5e2d0135d1aef66c8" prot="public" virt="non-virtual"><scope>themis::DiscoveredProcess::Edge</scope><name>probability</name></member>
+      <member refid="structthemis_1_1_discovered_process_1_1_edge_1ad022f41db7779b45cb2a76de10df1559" prot="public" virt="non-virtual"><scope>themis::DiscoveredProcess::Edge</scope><name>to</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

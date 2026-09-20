@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_decision_record_yaml_processor_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::DecisionRecordYamlProcessor::Config</compoundname>
+    <includes refid="decision__record__yaml__processor_8h" local="no">decision_record_yaml_processor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_decision_record_yaml_processor_1_1_config_1a7ac18f6211f4e6a7a4e602a4976b3ee3" prot="public" static="no" mutable="no">
+        <type>std::filesystem::path</type>
+        <definition>std::filesystem::path themis::llm::DecisionRecordYamlProcessor::Config::log_dir</definition>
+        <argsstring></argsstring>
+        <name>log_dir</name>
+        <qualifiedname>themis::llm::DecisionRecordYamlProcessor::Config::log_dir</qualifiedname>
+        <initializer>{&quot;logs/decisions&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/decision_record_yaml_processor.h" line="71" column="31" bodyfile="include/llm/decision_record_yaml_processor.h" bodystart="71" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_decision_record_yaml_processor_1_1_config_1adc4bd8cdbb3c81b538c0205de291d76c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::DecisionRecordYamlProcessor::Config::max_queue_depth</definition>
+        <argsstring></argsstring>
+        <name>max_queue_depth</name>
+        <qualifiedname>themis::llm::DecisionRecordYamlProcessor::Config::max_queue_depth</qualifiedname>
+        <initializer>{10&apos;000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/decision_record_yaml_processor.h" line="73" column="16" bodyfile="include/llm/decision_record_yaml_processor.h" bodystart="73" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_decision_record_yaml_processor_1_1_config_1a4bead4c8cf684ef51b52843bf5e32059" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::DecisionRecordYamlProcessor::Config::create_daily_subdirs</definition>
+        <argsstring></argsstring>
+        <name>create_daily_subdirs</name>
+        <qualifiedname>themis::llm::DecisionRecordYamlProcessor::Config::create_daily_subdirs</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/decision_record_yaml_processor.h" line="75" column="14" bodyfile="include/llm/decision_record_yaml_processor.h" bodystart="75" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_decision_record_yaml_processor_1_1_config_1ab9e4c45af4085c74b0b64db65398e00c" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::llm::DecisionRecordYamlProcessor::Config::flush_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>flush_timeout_ms</name>
+        <qualifiedname>themis::llm::DecisionRecordYamlProcessor::Config::flush_timeout_ms</qualifiedname>
+        <initializer>{10&apos;000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/decision_record_yaml_processor.h" line="77" column="35" bodyfile="include/llm/decision_record_yaml_processor.h" bodystart="77" bodyend="77"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/decision_record_yaml_processor.h" line="70" column="5" bodyfile="include/llm/decision_record_yaml_processor.h" bodystart="70" bodyend="78"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_decision_record_yaml_processor_1_1_config_1a4bead4c8cf684ef51b52843bf5e32059" prot="public" virt="non-virtual"><scope>themis::llm::DecisionRecordYamlProcessor::Config</scope><name>create_daily_subdirs</name></member>
+      <member refid="structthemis_1_1llm_1_1_decision_record_yaml_processor_1_1_config_1ab9e4c45af4085c74b0b64db65398e00c" prot="public" virt="non-virtual"><scope>themis::llm::DecisionRecordYamlProcessor::Config</scope><name>flush_timeout_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_decision_record_yaml_processor_1_1_config_1a7ac18f6211f4e6a7a4e602a4976b3ee3" prot="public" virt="non-virtual"><scope>themis::llm::DecisionRecordYamlProcessor::Config</scope><name>log_dir</name></member>
+      <member refid="structthemis_1_1llm_1_1_decision_record_yaml_processor_1_1_config_1adc4bd8cdbb3c81b538c0205de291d76c" prot="public" virt="non-virtual"><scope>themis::llm::DecisionRecordYamlProcessor::Config</scope><name>max_queue_depth</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

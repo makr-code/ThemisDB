@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1acceleration" kind="namespace" language="C++">
+    <compoundname>themis::acceleration</compoundname>
+    <innernamespace refid="namespacethemis_1_1acceleration_1_1testing">themis::acceleration::testing</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/gpu/test_break_even_validation.cpp" line="23" column="1"/>
+  </compounddef>
+</doxygen>

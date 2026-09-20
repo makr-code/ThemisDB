@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1config_1_1bench_1_1_config_path_resolver_bench_fixture" kind="class" language="C++" prot="public">
+    <compoundname>themis::config::bench::ConfigPathResolverBenchFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1config_1_1bench_1_1_config_path_resolver_bench_fixture_1a7eb3fc15b0bfccf78e9d7c08d39ddca7" prot="protected" static="no" mutable="no">
+        <type>fs::path</type>
+        <definition>fs::path themis::config::bench::ConfigPathResolverBenchFixture::original_cwd_</definition>
+        <argsstring></argsstring>
+        <name>original_cwd_</name>
+        <qualifiedname>themis::config::bench::ConfigPathResolverBenchFixture::original_cwd_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_path_resolver.cpp" line="90" column="17" bodyfile="benchmarks/config/bench_config_path_resolver.cpp" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1config_1_1bench_1_1_config_path_resolver_bench_fixture_1aa5b9911946e67cbff8681c3f043000ca" prot="protected" static="no" mutable="no">
+        <type>fs::path</type>
+        <definition>fs::path themis::config::bench::ConfigPathResolverBenchFixture::temp_root_</definition>
+        <argsstring></argsstring>
+        <name>temp_root_</name>
+        <qualifiedname>themis::config::bench::ConfigPathResolverBenchFixture::temp_root_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_path_resolver.cpp" line="91" column="17" bodyfile="benchmarks/config/bench_config_path_resolver.cpp" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1config_1_1bench_1_1_config_path_resolver_bench_fixture_1a207201271ac3701fbbbe7886d2ecc641" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::config::bench::ConfigPathResolverBenchFixture::mapped_key_</definition>
+        <argsstring></argsstring>
+        <name>mapped_key_</name>
+        <qualifiedname>themis::config::bench::ConfigPathResolverBenchFixture::mapped_key_</qualifiedname>
+        <briefdescription>
+<para>key that is in PATH_MAPPING and has a file on disk </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_path_resolver.cpp" line="92" column="17" bodyfile="benchmarks/config/bench_config_path_resolver.cpp" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1config_1_1bench_1_1_config_path_resolver_bench_fixture_1ab632ea40e4629528c0bd63451c94e4e3" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::config::bench::ConfigPathResolverBenchFixture::unmapped_abs_</definition>
+        <argsstring></argsstring>
+        <name>unmapped_abs_</name>
+        <qualifiedname>themis::config::bench::ConfigPathResolverBenchFixture::unmapped_abs_</qualifiedname>
+        <briefdescription>
+<para>absolute path to a file with no PATH_MAPPING entry </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_path_resolver.cpp" line="93" column="17" bodyfile="benchmarks/config/bench_config_path_resolver.cpp" bodystart="93" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1config_1_1bench_1_1_config_path_resolver_bench_fixture_1a5e6ff9a0b01b3edf8a7fa83bb8bfbd03" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::config::bench::ConfigPathResolverBenchFixture::SetUp</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::config::bench::ConfigPathResolverBenchFixture::SetUp</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_path_resolver.cpp" line="50" column="10" bodyfile="benchmarks/config/bench_config_path_resolver.cpp" bodystart="50" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1bench_1_1_config_path_resolver_bench_fixture_1a3d2b4ae8378cb8341ae36e4d2e1ff507" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::config::bench::ConfigPathResolverBenchFixture::TearDown</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::config::bench::ConfigPathResolverBenchFixture::TearDown</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_path_resolver.cpp" line="82" column="10" bodyfile="benchmarks/config/bench_config_path_resolver.cpp" bodystart="82" bodyend="87"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Sets up a temporary directory tree that mirrors the config path layout used by <ref refid="classthemis_1_1config_1_1_config_path_resolver" kindref="compound">ConfigPathResolver</ref>.</para>
+<para>Paths created (relative to temp_root_): config/lora_training_config.yaml &lt;- legacy key (mapped) config/ai_ml/lora_training_config.yaml &lt;- new mapped location config/pii_patterns.yaml &lt;- legacy fallback only (new not created) config/unmapped_bench.yaml &lt;- no PATH_MAPPING entry</para>
+<para>The benchmark changes the process working directory to temp_root_ so that <ref refid="classthemis_1_1config_1_1_config_path_resolver" kindref="compound">ConfigPathResolver</ref>&apos;s relative-path filesystem::exists() calls resolve against the synthetic tree. The original CWD is restored in TearDown. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+      <node id="1">
+        <label>themis::config::bench::ConfigPathResolverBenchFixture</label>
+        <link refid="classthemis_1_1config_1_1bench_1_1_config_path_resolver_bench_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+      <node id="1">
+        <label>themis::config::bench::ConfigPathResolverBenchFixture</label>
+        <link refid="classthemis_1_1config_1_1bench_1_1_config_path_resolver_bench_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/config/bench_config_path_resolver.cpp" line="48" column="1" bodyfile="benchmarks/config/bench_config_path_resolver.cpp" bodystart="48" bodyend="94"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1config_1_1bench_1_1_config_path_resolver_bench_fixture_1a207201271ac3701fbbbe7886d2ecc641" prot="protected" virt="non-virtual"><scope>themis::config::bench::ConfigPathResolverBenchFixture</scope><name>mapped_key_</name></member>
+      <member refid="classthemis_1_1config_1_1bench_1_1_config_path_resolver_bench_fixture_1a7eb3fc15b0bfccf78e9d7c08d39ddca7" prot="protected" virt="non-virtual"><scope>themis::config::bench::ConfigPathResolverBenchFixture</scope><name>original_cwd_</name></member>
+      <member refid="classthemis_1_1config_1_1bench_1_1_config_path_resolver_bench_fixture_1a5e6ff9a0b01b3edf8a7fa83bb8bfbd03" prot="public" virt="non-virtual"><scope>themis::config::bench::ConfigPathResolverBenchFixture</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1config_1_1bench_1_1_config_path_resolver_bench_fixture_1a3d2b4ae8378cb8341ae36e4d2e1ff507" prot="public" virt="non-virtual"><scope>themis::config::bench::ConfigPathResolverBenchFixture</scope><name>TearDown</name></member>
+      <member refid="classthemis_1_1config_1_1bench_1_1_config_path_resolver_bench_fixture_1aa5b9911946e67cbff8681c3f043000ca" prot="protected" virt="non-virtual"><scope>themis::config::bench::ConfigPathResolverBenchFixture</scope><name>temp_root_</name></member>
+      <member refid="classthemis_1_1config_1_1bench_1_1_config_path_resolver_bench_fixture_1ab632ea40e4629528c0bd63451c94e4e3" prot="protected" virt="non-virtual"><scope>themis::config::bench::ConfigPathResolverBenchFixture</scope><name>unmapped_abs_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,229 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1user__storage__encrypted" kind="namespace" language="C++">
+    <compoundname>themis::user_storage_encrypted</compoundname>
+    <innerclass refid="structthemis_1_1user__storage__encrypted_1_1_encrypted_mount_descriptor" prot="public">themis::user_storage_encrypted::EncryptedMountDescriptor</innerclass>
+    <innerclass refid="structthemis_1_1user__storage__encrypted_1_1_key_derivation_request" prot="public">themis::user_storage_encrypted::KeyDerivationRequest</innerclass>
+    <innernamespace refid="namespacethemis_1_1user__storage__encrypted_1_1test">themis::user_storage_encrypted::test</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30" prot="public" static="no" strong="yes">
+        <type>int32_t</type>
+        <name>UserStorageEncryptedError</name>
+        <qualifiedname>themis::user_storage_encrypted::UserStorageEncryptedError</qualifiedname>
+        <enumvalue id="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30a8c632159fa131f09d04f94e3cbcd8782" prot="public">
+          <name>kSuccess</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30a89fac98a6c0330a83200efd9e959469a" prot="public">
+          <name>kMountFailed</name>
+          <initializer>= 8600</initializer>
+          <briefdescription>
+<para>Encrypted container mount failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30a7edbbc1dc229b886a002e7b3832b722a" prot="public">
+          <name>kUnmountFailed</name>
+          <initializer>= 8601</initializer>
+          <briefdescription>
+<para>Encrypted container unmount failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30a8b8a8241e3d9a6276628a1c6965dea83" prot="public">
+          <name>kKeyDerivationFailed</name>
+          <initializer>= 8602</initializer>
+          <briefdescription>
+<para>KDF operation failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30a62e2b7540ba13d6eb4e80ccf2ceeda3b" prot="public">
+          <name>kRotationFailed</name>
+          <initializer>= 8603</initializer>
+          <briefdescription>
+<para>Key rotation did not complete atomically. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30a353e71b117acbf17b4d48bbd3f5ea917" prot="public">
+          <name>kBackendUnavailable</name>
+          <initializer>= 8604</initializer>
+          <briefdescription>
+<para>gocryptfs/FUSE backend unavailable. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30a8cc651c72dce2275bb12691f545170ad" prot="public">
+          <name>kInvalidPath</name>
+          <initializer>= 8605</initializer>
+          <briefdescription>
+<para>Container path fails validation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30adc0b458db7d0dd510aae0367dfafc4af" prot="public">
+          <name>kPermissionDenied</name>
+          <initializer>= 8606</initializer>
+          <briefdescription>
+<para>Insufficient filesystem permissions. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30afcd417a134c251034b0d61b07c826394" prot="public">
+          <name>kInternalError</name>
+          <initializer>= 8607</initializer>
+          <briefdescription>
+<para>Unclassified internal error. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Canonical error codes for the <ref refid="namespacethemis_1_1user__storage__encrypted" kindref="compound">user_storage_encrypted</ref> module. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>All encrypted storage operations return or throw with one of these codes. Values are in the reserved range [8600, 8699]. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/user_storage_encrypted_api_contract.h" line="76" column="1" bodyfile="include/user_storage_encrypted/user_storage_encrypted_api_contract.h" bodystart="76" bodyend="86"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1user__storage__encrypted_1a043495cfcad8961bf905e308d45535fb" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::user_storage_encrypted::kMaxContainerPathBytes</definition>
+        <argsstring></argsstring>
+        <name>kMaxContainerPathBytes</name>
+        <qualifiedname>themis::user_storage_encrypted::kMaxContainerPathBytes</qualifiedname>
+        <initializer>= 4096</initializer>
+        <briefdescription>
+<para>Maximum encrypted container path length in bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/user_storage_encrypted_api_contract.h" line="93" column="30" bodyfile="include/user_storage_encrypted/user_storage_encrypted_api_contract.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1user__storage__encrypted_1aad88efe33fc4e92038296a891c684211" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::user_storage_encrypted::kMinPassphraseBytes</definition>
+        <argsstring></argsstring>
+        <name>kMinPassphraseBytes</name>
+        <qualifiedname>themis::user_storage_encrypted::kMinPassphraseBytes</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+<para>Minimum allowed passphrase length in bytes for KDF. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/user_storage_encrypted_api_contract.h" line="96" column="30" bodyfile="include/user_storage_encrypted/user_storage_encrypted_api_contract.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1user__storage__encrypted_1a263a21e84ed27cdc3db4a0b141476ffb" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::user_storage_encrypted::kMaxPassphraseBytes</definition>
+        <argsstring></argsstring>
+        <name>kMaxPassphraseBytes</name>
+        <qualifiedname>themis::user_storage_encrypted::kMaxPassphraseBytes</qualifiedname>
+        <initializer>= 1024</initializer>
+        <briefdescription>
+<para>Maximum allowed passphrase length in bytes for KDF. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/user_storage_encrypted_api_contract.h" line="99" column="30" bodyfile="include/user_storage_encrypted/user_storage_encrypted_api_contract.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1user__storage__encrypted_1a26dda1fdd6789347bedf07020a1b3751" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::user_storage_encrypted::kKdfSaltBytes</definition>
+        <argsstring></argsstring>
+        <name>kKdfSaltBytes</name>
+        <qualifiedname>themis::user_storage_encrypted::kKdfSaltBytes</qualifiedname>
+        <initializer>= 32</initializer>
+        <briefdescription>
+<para>KDF salt length in bytes (fixed). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/user_storage_encrypted_api_contract.h" line="102" column="30" bodyfile="include/user_storage_encrypted/user_storage_encrypted_api_contract.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1user__storage__encrypted_1abaa9b1cf5bb2b8f2a3e6d731f2a93972" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::hours</type>
+        <definition>std::chrono::hours themis::user_storage_encrypted::kDefaultRotationInterval</definition>
+        <argsstring></argsstring>
+        <name>kDefaultRotationInterval</name>
+        <qualifiedname>themis::user_storage_encrypted::kDefaultRotationInterval</qualifiedname>
+        <initializer>{24 * 90}</initializer>
+        <briefdescription>
+<para>Default key rotation interval. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/user_storage_encrypted_api_contract.h" line="105" column="37" bodyfile="include/user_storage_encrypted/user_storage_encrypted_api_contract.h" bodystart="105" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1user__storage__encrypted_1ad61be314ea2613c72723ba70c2788dca" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::user_storage_encrypted::kMaxMountTimeout</definition>
+        <argsstring></argsstring>
+        <name>kMaxMountTimeout</name>
+        <qualifiedname>themis::user_storage_encrypted::kMaxMountTimeout</qualifiedname>
+        <initializer>{60}</initializer>
+        <briefdescription>
+<para>Maximum mount operation timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/user_storage_encrypted_api_contract.h" line="108" column="39" bodyfile="include/user_storage_encrypted/user_storage_encrypted_api_contract.h" bodystart="108" bodyend="108"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1user__storage__encrypted_1a3cef2eca2c4a44f0a69be4c4e0f32577" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::user_storage_encrypted::isUserStorageEncryptedFailClosed</definition>
+        <argsstring>(UserStorageEncryptedError e) noexcept</argsstring>
+        <name>isUserStorageEncryptedFailClosed</name>
+        <qualifiedname>themis::user_storage_encrypted::isUserStorageEncryptedFailClosed</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30" kindref="member">UserStorageEncryptedError</ref></type>
+          <declname>e</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when the given error mandates fail-closed denial of storage access. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/user_storage_encrypted_api_contract.h" line="143" column="24" bodyfile="include/user_storage_encrypted/user_storage_encrypted_api_contract.h" bodystart="143" bodyend="148"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/user_storage_encrypted/user_storage_encrypted_api_contract.h" line="64" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_log_metrics_1_1_snapshot" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::LogMetrics::Snapshot</compoundname>
+    <includes refid="logger_8h" local="no">logger.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_log_metrics_1_1_snapshot_1a6fffb78f348a8150d2397e395c7cf1ff" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::utils::LogMetrics::Snapshot::trace_count</definition>
+        <argsstring></argsstring>
+        <name>trace_count</name>
+        <qualifiedname>themis::utils::LogMetrics::Snapshot::trace_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="47" column="18" bodyfile="include/utils/logger.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_log_metrics_1_1_snapshot_1a23ea49dc146ca4225921fa1deebc6f3c" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::utils::LogMetrics::Snapshot::debug_count</definition>
+        <argsstring></argsstring>
+        <name>debug_count</name>
+        <qualifiedname>themis::utils::LogMetrics::Snapshot::debug_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="48" column="18" bodyfile="include/utils/logger.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_log_metrics_1_1_snapshot_1a6c5cbb2d86e48cf3fb8294335045f17c" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::utils::LogMetrics::Snapshot::info_count</definition>
+        <argsstring></argsstring>
+        <name>info_count</name>
+        <qualifiedname>themis::utils::LogMetrics::Snapshot::info_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="49" column="18" bodyfile="include/utils/logger.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_log_metrics_1_1_snapshot_1ac30b404e528ec597ee824083fa6e1490" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::utils::LogMetrics::Snapshot::warn_count</definition>
+        <argsstring></argsstring>
+        <name>warn_count</name>
+        <qualifiedname>themis::utils::LogMetrics::Snapshot::warn_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="50" column="18" bodyfile="include/utils/logger.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_log_metrics_1_1_snapshot_1a97c15f41d6a76695bb36364e7494e1e2" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::utils::LogMetrics::Snapshot::error_count</definition>
+        <argsstring></argsstring>
+        <name>error_count</name>
+        <qualifiedname>themis::utils::LogMetrics::Snapshot::error_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="51" column="18" bodyfile="include/utils/logger.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_log_metrics_1_1_snapshot_1a10f91267eceadac516361b4bf5f3a27f" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::utils::LogMetrics::Snapshot::critical_count</definition>
+        <argsstring></argsstring>
+        <name>critical_count</name>
+        <qualifiedname>themis::utils::LogMetrics::Snapshot::critical_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="52" column="18" bodyfile="include/utils/logger.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_log_metrics_1_1_snapshot_1aa91bc37d432dfaef888b47f8a1cf3972" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::utils::LogMetrics::Snapshot::total_count</definition>
+        <argsstring></argsstring>
+        <name>total_count</name>
+        <qualifiedname>themis::utils::LogMetrics::Snapshot::total_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="53" column="18" bodyfile="include/utils/logger.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/logger.h" line="46" column="5" bodyfile="include/utils/logger.h" bodystart="46" bodyend="54"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_log_metrics_1_1_snapshot_1a10f91267eceadac516361b4bf5f3a27f" prot="public" virt="non-virtual"><scope>themis::utils::LogMetrics::Snapshot</scope><name>critical_count</name></member>
+      <member refid="structthemis_1_1utils_1_1_log_metrics_1_1_snapshot_1a23ea49dc146ca4225921fa1deebc6f3c" prot="public" virt="non-virtual"><scope>themis::utils::LogMetrics::Snapshot</scope><name>debug_count</name></member>
+      <member refid="structthemis_1_1utils_1_1_log_metrics_1_1_snapshot_1a97c15f41d6a76695bb36364e7494e1e2" prot="public" virt="non-virtual"><scope>themis::utils::LogMetrics::Snapshot</scope><name>error_count</name></member>
+      <member refid="structthemis_1_1utils_1_1_log_metrics_1_1_snapshot_1a6c5cbb2d86e48cf3fb8294335045f17c" prot="public" virt="non-virtual"><scope>themis::utils::LogMetrics::Snapshot</scope><name>info_count</name></member>
+      <member refid="structthemis_1_1utils_1_1_log_metrics_1_1_snapshot_1aa91bc37d432dfaef888b47f8a1cf3972" prot="public" virt="non-virtual"><scope>themis::utils::LogMetrics::Snapshot</scope><name>total_count</name></member>
+      <member refid="structthemis_1_1utils_1_1_log_metrics_1_1_snapshot_1a6fffb78f348a8150d2397e395c7cf1ff" prot="public" virt="non-virtual"><scope>themis::utils::LogMetrics::Snapshot</scope><name>trace_count</name></member>
+      <member refid="structthemis_1_1utils_1_1_log_metrics_1_1_snapshot_1ac30b404e528ec597ee824083fa6e1490" prot="public" virt="non-virtual"><scope>themis::utils::LogMetrics::Snapshot</scope><name>warn_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

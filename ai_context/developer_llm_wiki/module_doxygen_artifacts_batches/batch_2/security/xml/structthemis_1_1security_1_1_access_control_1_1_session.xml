@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_access_control_1_1_session" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::AccessControl::Session</compoundname>
+    <includes refid="access__control_8h" local="no">access_control.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_1_1_session_1aa5a8f4e6a1486f6a531c3a66bb6630e7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::AccessControl::Session::session_id</definition>
+        <argsstring></argsstring>
+        <name>session_id</name>
+        <qualifiedname>themis::security::AccessControl::Session::session_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="174" column="21" bodyfile="include/security/access_control.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_1_1_session_1aafe1b410c3668308598c54016b29aad5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::AccessControl::Session::user_id</definition>
+        <argsstring></argsstring>
+        <name>user_id</name>
+        <qualifiedname>themis::security::AccessControl::Session::user_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="175" column="21" bodyfile="include/security/access_control.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_1_1_session_1a1076d8b7d4cf4cbaeb28f48e3c4b1bc7" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::security::AccessControl::Session::roles</definition>
+        <argsstring></argsstring>
+        <name>roles</name>
+        <qualifiedname>themis::security::AccessControl::Session::roles</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="176" column="21" bodyfile="include/security/access_control.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_1_1_session_1a7e1b85cf7760e8280f94b8210f863d06" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::security::AccessControl::Session::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::security::AccessControl::Session::created_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="177" column="47" bodyfile="include/security/access_control.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_1_1_session_1a3631da2da8ecd46fbcaa3496e1264532" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::security::AccessControl::Session::last_access</definition>
+        <argsstring></argsstring>
+        <name>last_access</name>
+        <qualifiedname>themis::security::AccessControl::Session::last_access</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="178" column="47" bodyfile="include/security/access_control.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_1_1_session_1a88227884df28812155f86a7cbef8ef8b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::AccessControl::Session::mfa_verified</definition>
+        <argsstring></argsstring>
+        <name>mfa_verified</name>
+        <qualifiedname>themis::security::AccessControl::Session::mfa_verified</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="179" column="14" bodyfile="include/security/access_control.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_1_1_session_1a41374034327b6c3ba7e67b3dacf4791d" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::security::AccessControl::Session::attributes</definition>
+        <argsstring></argsstring>
+        <name>attributes</name>
+        <qualifiedname>themis::security::AccessControl::Session::attributes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="180" column="28" bodyfile="include/security/access_control.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/access_control.h" line="173" column="5" bodyfile="include/security/access_control.h" bodystart="173" bodyend="181"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_access_control_1_1_session_1a41374034327b6c3ba7e67b3dacf4791d" prot="public" virt="non-virtual"><scope>themis::security::AccessControl::Session</scope><name>attributes</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_1_1_session_1a7e1b85cf7760e8280f94b8210f863d06" prot="public" virt="non-virtual"><scope>themis::security::AccessControl::Session</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_1_1_session_1a3631da2da8ecd46fbcaa3496e1264532" prot="public" virt="non-virtual"><scope>themis::security::AccessControl::Session</scope><name>last_access</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_1_1_session_1a88227884df28812155f86a7cbef8ef8b" prot="public" virt="non-virtual"><scope>themis::security::AccessControl::Session</scope><name>mfa_verified</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_1_1_session_1a1076d8b7d4cf4cbaeb28f48e3c4b1bc7" prot="public" virt="non-virtual"><scope>themis::security::AccessControl::Session</scope><name>roles</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_1_1_session_1aa5a8f4e6a1486f6a531c3a66bb6630e7" prot="public" virt="non-virtual"><scope>themis::security::AccessControl::Session</scope><name>session_id</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_1_1_session_1aafe1b410c3668308598c54016b29aad5" prot="public" virt="non-virtual"><scope>themis::security::AccessControl::Session</scope><name>user_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

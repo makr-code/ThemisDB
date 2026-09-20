@@ -1,0 +1,191 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1modules_1_1_a_b_test_manager_1_1_test_entry" kind="struct" language="C++" prot="private">
+    <compoundname>themis::modules::ABTestManager::TestEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_a_b_test_manager_1_1_test_entry_1ab16d36740d6fca36709304914ccb24f3" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1modules_1_1_a_b_module_test_config" kindref="compound">ABModuleTestConfig</ref></type>
+        <definition>ABModuleTestConfig themis::modules::ABTestManager::TestEntry::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::modules::ABTestManager::TestEntry::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="393" column="28" bodyfile="include/themis/base/ab_test_manager.h" bodystart="393" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_a_b_test_manager_1_1_test_entry_1ac443a29b7032fad1ee5aa456e65f0380" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1modules_1ad3905b5fe67ae8739bc992c9309b9f0b" kindref="member">ABTestStatus</ref></type>
+        <definition>ABTestStatus themis::modules::ABTestManager::TestEntry::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::modules::ABTestManager::TestEntry::status</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1modules_1ad3905b5fe67ae8739bc992c9309b9f0ba18ff74f43da410c5529f7d6fca84f115" kindref="member">ABTestStatus::ACTIVE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="394" column="28" bodyfile="include/themis/base/ab_test_manager.h" bodystart="394" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_a_b_test_manager_1_1_test_entry_1a392d03cab087aa519d3a06c944f06a22" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::modules::ABTestManager::TestEntry::treatment_loaded</definition>
+        <argsstring></argsstring>
+        <name>treatment_loaded</name>
+        <qualifiedname>themis::modules::ABTestManager::TestEntry::treatment_loaded</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="395" column="28" bodyfile="include/themis/base/ab_test_manager.h" bodystart="395" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_a_b_test_manager_1_1_test_entry_1ab6f133638e0842cf09bce2eff4178a46" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::modules::ABTestManager::TestEntry::persisted_only</definition>
+        <argsstring></argsstring>
+        <name>persisted_only</name>
+        <qualifiedname>themis::modules::ABTestManager::TestEntry::persisted_only</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Restored from storage; not yet re-activated. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="396" column="28" bodyfile="include/themis/base/ab_test_manager.h" bodystart="396" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_a_b_test_manager_1_1_test_entry_1aaaee56b49b95ac591141cfbfbc55a871" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::modules::ABTestManager::TestEntry::start_time</definition>
+        <argsstring></argsstring>
+        <name>start_time</name>
+        <qualifiedname>themis::modules::ABTestManager::TestEntry::start_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="397" column="47" bodyfile="include/themis/base/ab_test_manager.h" bodystart="397" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_a_b_test_manager_1_1_test_entry_1abe952ce2ecf97cf94e98246c101c2826" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1modules_1_1_module_loader" kindref="compound">ModuleLoader</ref> *</type>
+        <definition>ModuleLoader* themis::modules::ABTestManager::TestEntry::loader_ptr</definition>
+        <argsstring></argsstring>
+        <name>loader_ptr</name>
+        <qualifiedname>themis::modules::ABTestManager::TestEntry::loader_ptr</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>Non-owning. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="398" column="27" bodyfile="include/themis/base/ab_test_manager.h" bodystart="398" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_a_b_test_manager_1_1_test_entry_1a1810951a046b28c731a9ea8ed82afb4d" prot="public" static="no" mutable="no">
+        <type>VariantData</type>
+        <definition>VariantData themis::modules::ABTestManager::TestEntry::control</definition>
+        <argsstring></argsstring>
+        <name>control</name>
+        <qualifiedname>themis::modules::ABTestManager::TestEntry::control</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="399" column="28" bodyfile="include/themis/base/ab_test_manager.h" bodystart="399" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_a_b_test_manager_1_1_test_entry_1a3df0803332a820dadbd16d9ca9088b1b" prot="public" static="no" mutable="no">
+        <type>VariantData</type>
+        <definition>VariantData themis::modules::ABTestManager::TestEntry::treatment</definition>
+        <argsstring></argsstring>
+        <name>treatment</name>
+        <qualifiedname>themis::modules::ABTestManager::TestEntry::treatment</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="400" column="28" bodyfile="include/themis/base/ab_test_manager.h" bodystart="400" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_a_b_test_manager_1_1_test_entry_1a430b0d345211a8239b9f65d320165816" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::modules::ABTestManager::TestEntry::outcome_count</definition>
+        <argsstring></argsstring>
+        <name>outcome_count</name>
+        <qualifiedname>themis::modules::ABTestManager::TestEntry::outcome_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of <ref refid="classthemis_1_1modules_1_1_a_b_test_manager_1abd98831e99ff2547a6eadae53543a283" kindref="member">recordOutcome()</ref> calls (for periodic persist). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="401" column="28" bodyfile="include/themis/base/ab_test_manager.h" bodystart="401" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::modules::ABModuleTestConfig</label>
+        <link refid="structthemis_1_1modules_1_1_a_b_module_test_config"/>
+      </node>
+      <node id="1">
+        <label>themis::modules::ABTestManager::TestEntry</label>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>loader_ptr</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>control</edgelabel>
+          <edgelabel>treatment</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::modules::ABTestManager::VariantData</label>
+        <childnode refid="5" relation="usage">
+          <edgelabel>metrics</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>themis::modules::ABVariantMetrics</label>
+        <link refid="structthemis_1_1modules_1_1_a_b_variant_metrics"/>
+      </node>
+      <node id="3">
+        <label>themis::modules::ModuleLoader</label>
+        <link refid="classthemis_1_1modules_1_1_module_loader"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/themis/base/ab_test_manager.h" line="392" column="5" bodyfile="include/themis/base/ab_test_manager.h" bodystart="392" bodyend="402"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1modules_1_1_a_b_test_manager_1_1_test_entry_1ab16d36740d6fca36709304914ccb24f3" prot="public" virt="non-virtual"><scope>themis::modules::ABTestManager::TestEntry</scope><name>config</name></member>
+      <member refid="structthemis_1_1modules_1_1_a_b_test_manager_1_1_test_entry_1a1810951a046b28c731a9ea8ed82afb4d" prot="public" virt="non-virtual"><scope>themis::modules::ABTestManager::TestEntry</scope><name>control</name></member>
+      <member refid="structthemis_1_1modules_1_1_a_b_test_manager_1_1_test_entry_1abe952ce2ecf97cf94e98246c101c2826" prot="public" virt="non-virtual"><scope>themis::modules::ABTestManager::TestEntry</scope><name>loader_ptr</name></member>
+      <member refid="structthemis_1_1modules_1_1_a_b_test_manager_1_1_test_entry_1a430b0d345211a8239b9f65d320165816" prot="public" virt="non-virtual"><scope>themis::modules::ABTestManager::TestEntry</scope><name>outcome_count</name></member>
+      <member refid="structthemis_1_1modules_1_1_a_b_test_manager_1_1_test_entry_1ab6f133638e0842cf09bce2eff4178a46" prot="public" virt="non-virtual"><scope>themis::modules::ABTestManager::TestEntry</scope><name>persisted_only</name></member>
+      <member refid="structthemis_1_1modules_1_1_a_b_test_manager_1_1_test_entry_1aaaee56b49b95ac591141cfbfbc55a871" prot="public" virt="non-virtual"><scope>themis::modules::ABTestManager::TestEntry</scope><name>start_time</name></member>
+      <member refid="structthemis_1_1modules_1_1_a_b_test_manager_1_1_test_entry_1ac443a29b7032fad1ee5aa456e65f0380" prot="public" virt="non-virtual"><scope>themis::modules::ABTestManager::TestEntry</scope><name>status</name></member>
+      <member refid="structthemis_1_1modules_1_1_a_b_test_manager_1_1_test_entry_1a3df0803332a820dadbd16d9ca9088b1b" prot="public" virt="non-virtual"><scope>themis::modules::ABTestManager::TestEntry</scope><name>treatment</name></member>
+      <member refid="structthemis_1_1modules_1_1_a_b_test_manager_1_1_test_entry_1a392d03cab087aa519d3a06c944f06a22" prot="public" virt="non-virtual"><scope>themis::modules::ABTestManager::TestEntry</scope><name>treatment_loaded</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

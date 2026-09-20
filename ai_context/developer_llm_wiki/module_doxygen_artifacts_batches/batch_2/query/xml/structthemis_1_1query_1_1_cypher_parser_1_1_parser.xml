@@ -1,0 +1,702 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_cypher_parser_1_1_parser" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::CypherParser::Parser</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a8067a31d3ca1bb84abb2767fd864ecf7" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_token" kindref="compound">CypherParser::Token</ref> &gt;</type>
+        <definition>std::vector&lt;CypherParser::Token&gt; themis::query::CypherParser::Parser::tokens</definition>
+        <argsstring></argsstring>
+        <name>tokens</name>
+        <qualifiedname>themis::query::CypherParser::Parser::tokens</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/cypher_parser.cpp" line="365" column="17" bodyfile="src/query/cypher_parser.cpp" bodystart="365" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1af40138a63afb651af0f927f77dae30d0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::CypherParser::Parser::cursor</definition>
+        <argsstring></argsstring>
+        <name>cursor</name>
+        <qualifiedname>themis::query::CypherParser::Parser::cursor</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/cypher_parser.cpp" line="366" column="12" bodyfile="src/query/cypher_parser.cpp" bodystart="366" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a48aca32eed8413c9a7bfeabd23dc019c" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::CypherParser::Parser::Parser</definition>
+        <argsstring>(std::vector&lt; CypherParser::Token &gt; toks)</argsstring>
+        <name>Parser</name>
+        <qualifiedname>themis::query::CypherParser::Parser::Parser</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_token" kindref="compound">CypherParser::Token</ref> &gt;</type>
+          <declname>toks</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser" kindref="compound">Parser</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">toks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/cypher_parser.cpp" line="373" column="14" bodyfile="src/query/cypher_parser.cpp" bodystart="373" bodyend="374"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a4d8b1f987aff941d5b2e390296402c2a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_token" kindref="compound">CypherParser::Token</ref> &amp;</type>
+        <definition>const CypherParser::Token &amp; themis::query::CypherParser::Parser::current</definition>
+        <argsstring>() const</argsstring>
+        <name>current</name>
+        <qualifiedname>themis::query::CypherParser::Parser::current</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/cypher_parser.cpp" line="399" column="31" bodyfile="src/query/cypher_parser.cpp" bodystart="399" bodyend="405"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a7abc9c5b315c6dd66a59f0253200ea98" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_token" kindref="compound">CypherParser::Token</ref> &amp;</type>
+        <definition>const CypherParser::Token &amp; themis::query::CypherParser::Parser::peek</definition>
+        <argsstring>(size_t offset=1) const</argsstring>
+        <name>peek</name>
+        <qualifiedname>themis::query::CypherParser::Parser::peek</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>offset</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/cypher_parser.cpp" line="407" column="31" bodyfile="src/query/cypher_parser.cpp" bodystart="407" bodyend="414"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a1827911196e35958ba415b7962501a4c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::CypherParser::Parser::check</definition>
+        <argsstring>(TokenType t) const</argsstring>
+        <name>check</name>
+        <qualifiedname>themis::query::CypherParser::Parser::check</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1query_1a4a64d98c66d201cc2e5b35f71a6543f3" kindref="member">TokenType</ref></type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/cypher_parser.cpp" line="416" column="10" bodyfile="src/query/cypher_parser.cpp" bodystart="416" bodyend="416"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a9be79a3da14559d6b669c68c1e643853" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::CypherParser::Parser::match</definition>
+        <argsstring>(TokenType t)</argsstring>
+        <name>match</name>
+        <qualifiedname>themis::query::CypherParser::Parser::match</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1query_1a4a64d98c66d201cc2e5b35f71a6543f3" kindref="member">TokenType</ref></type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+<para>Match. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a1827911196e35958ba415b7962501a4c" kindref="member">check()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/cypher_parser.cpp" line="424" column="10" bodyfile="src/query/cypher_parser.cpp" bodystart="424" bodyend="427"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a38d81fafeec26ee2502df44f235db4e4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_token" kindref="compound">CypherParser::Token</ref> &amp;</type>
+        <definition>const CypherParser::Token &amp; themis::query::CypherParser::Parser::expect</definition>
+        <argsstring>(TokenType t, const std::string &amp;msg)</argsstring>
+        <name>expect</name>
+        <qualifiedname>themis::query::CypherParser::Parser::expect</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1query_1a4a64d98c66d201cc2e5b35f71a6543f3" kindref="member">TokenType</ref></type>
+          <declname>t</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+<para>Expect. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>CypherParseError</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a1827911196e35958ba415b7962501a4c" kindref="member">check()</ref>, <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a4d8b1f987aff941d5b2e390296402c2a" kindref="member">current()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/cypher_parser.cpp" line="437" column="31" bodyfile="src/query/cypher_parser.cpp" bodystart="437" bodyend="445"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1aedbe973339af82c5aa361efcf3c996c4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::query::CypherParser::Parser::expectIdent</definition>
+        <argsstring>(const std::string &amp;ctx)</argsstring>
+        <name>expectIdent</name>
+        <qualifiedname>themis::query::CypherParser::Parser::expectIdent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Expect Ident. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>CypherParseError</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a1827911196e35958ba415b7962501a4c" kindref="member">check()</ref>, <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a4d8b1f987aff941d5b2e390296402c2a" kindref="member">current()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/cypher_parser.cpp" line="454" column="17" bodyfile="src/query/cypher_parser.cpp" bodystart="454" bodyend="462"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a2708129269b7cb1a861bd7d15cde196e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::CypherParser::Parser::isAtEnd</definition>
+        <argsstring>() const</argsstring>
+        <name>isAtEnd</name>
+        <qualifiedname>themis::query::CypherParser::Parser::isAtEnd</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/cypher_parser.cpp" line="464" column="10" bodyfile="src/query/cypher_parser.cpp" bodystart="464" bodyend="464"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1ac7ec0c657a8edb7ab28beb6f275eef7c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_cypher_a_s_t_node" kindref="compound">CypherASTNode</ref></type>
+        <definition>CypherASTNode themis::query::CypherParser::Parser::parseQuery</definition>
+        <argsstring>()</argsstring>
+        <name>parseQuery</name>
+        <qualifiedname>themis::query::CypherParser::Parser::parseQuery</qualifiedname>
+        <briefdescription>
+<para>Parse <ref refid="structthemis_1_1query_1_1_query" kindref="compound">Query</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>CypherParseError</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a9be79a3da14559d6b669c68c1e643853" kindref="member">match()</ref>, <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a38d81fafeec26ee2502df44f235db4e4" kindref="member">expect()</ref>, push_back(), <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a15dda2575384fa2ace4209976818ebb0" kindref="member">parsePathPattern()</ref>, <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1abeb568bf1f5a3558a2fafeb83db3c970" kindref="member">parseExpr()</ref>, <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1abde2f8cdcbe196780b02d193f6faa833" kindref="member">parseReturnItems()</ref>, <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a1827911196e35958ba415b7962501a4c" kindref="member">check()</ref>, <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1ae3fedff583c0fec659ab57e85a63f84f" kindref="member">parseSortSpecs()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/cypher_parser.cpp" line="485" column="19" bodyfile="src/query/cypher_parser.cpp" bodystart="485" bodyend="556"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a15dda2575384fa2ace4209976818ebb0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_cypher_path_pattern" kindref="compound">CypherPathPattern</ref></type>
+        <definition>CypherPathPattern themis::query::CypherParser::Parser::parsePathPattern</definition>
+        <argsstring>()</argsstring>
+        <name>parsePathPattern</name>
+        <qualifiedname>themis::query::CypherParser::Parser::parsePathPattern</qualifiedname>
+        <briefdescription>
+<para>Parse Path Pattern. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1aa5a107cbcaa2a0947c4e27d5cb8e9e4f" kindref="member">parseNodePattern()</ref>, <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a1827911196e35958ba415b7962501a4c" kindref="member">check()</ref>, <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a1ffd5006085594a37b608eecd47eace4" kindref="member">parseRelPattern()</ref>, push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/cypher_parser.cpp" line="563" column="23" bodyfile="src/query/cypher_parser.cpp" bodystart="563" bodyend="575"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1aa5a107cbcaa2a0947c4e27d5cb8e9e4f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_cypher_node_pattern" kindref="compound">CypherNodePattern</ref></type>
+        <definition>CypherNodePattern themis::query::CypherParser::Parser::parseNodePattern</definition>
+        <argsstring>()</argsstring>
+        <name>parseNodePattern</name>
+        <qualifiedname>themis::query::CypherParser::Parser::parseNodePattern</qualifiedname>
+        <briefdescription>
+<para>Parse Node Pattern. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>CypherParseError</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a38d81fafeec26ee2502df44f235db4e4" kindref="member">expect()</ref>, <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a1827911196e35958ba415b7962501a4c" kindref="member">check()</ref>, <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a9be79a3da14559d6b669c68c1e643853" kindref="member">match()</ref>, <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a4d8b1f987aff941d5b2e390296402c2a" kindref="member">current()</ref>, push_back(), <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a9602ad54e503d3b7cd792cbec5a436a9" kindref="member">parsePropMap()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/cypher_parser.cpp" line="583" column="23" bodyfile="src/query/cypher_parser.cpp" bodystart="583" bodyend="608"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a9602ad54e503d3b7cd792cbec5a436a9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_cypher_property_filter" kindref="compound">CypherPropertyFilter</ref> &gt;</type>
+        <definition>std::vector&lt; CypherPropertyFilter &gt; themis::query::CypherParser::Parser::parsePropMap</definition>
+        <argsstring>()</argsstring>
+        <name>parsePropMap</name>
+        <qualifiedname>themis::query::CypherParser::Parser::parsePropMap</qualifiedname>
+        <briefdescription>
+<para>Parse Prop Map. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a1827911196e35958ba415b7962501a4c" kindref="member">check()</ref>, <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1aedbe973339af82c5aa361efcf3c996c4" kindref="member">expectIdent()</ref>, <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a38d81fafeec26ee2502df44f235db4e4" kindref="member">expect()</ref>, <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a3a5845c854a5d929c6c1dea3004d9c7d" kindref="member">parseLiteralValue()</ref>, push_back(), std::move(), <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a9be79a3da14559d6b669c68c1e643853" kindref="member">match()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/cypher_parser.cpp" line="615" column="17" bodyfile="src/query/cypher_parser.cpp" bodystart="615" bodyend="631"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a3a5845c854a5d929c6c1dea3004d9c7d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1query_1ac952d9530117fac7be6118903a519eb8" kindref="member">CypherLiteralValue</ref></type>
+        <definition>CypherLiteralValue themis::query::CypherParser::Parser::parseLiteralValue</definition>
+        <argsstring>()</argsstring>
+        <name>parseLiteralValue</name>
+        <qualifiedname>themis::query::CypherParser::Parser::parseLiteralValue</qualifiedname>
+        <briefdescription>
+<para>Parse Literal Value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>CypherParseError</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a9be79a3da14559d6b669c68c1e643853" kindref="member">match()</ref>, <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a1827911196e35958ba415b7962501a4c" kindref="member">check()</ref>, std::stoll(), <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a4d8b1f987aff941d5b2e390296402c2a" kindref="member">current()</ref>, THEMIS_WARN(), std::stod(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/cypher_parser.cpp" line="639" column="24" bodyfile="src/query/cypher_parser.cpp" bodystart="639" bodyend="691"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a1ffd5006085594a37b608eecd47eace4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_cypher_rel_pattern" kindref="compound">CypherRelPattern</ref></type>
+        <definition>CypherRelPattern themis::query::CypherParser::Parser::parseRelPattern</definition>
+        <argsstring>()</argsstring>
+        <name>parseRelPattern</name>
+        <qualifiedname>themis::query::CypherParser::Parser::parseRelPattern</qualifiedname>
+        <briefdescription>
+<para>Parse Rel Pattern. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>CypherParseError</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a9be79a3da14559d6b669c68c1e643853" kindref="member">match()</ref>, <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a38d81fafeec26ee2502df44f235db4e4" kindref="member">expect()</ref>, <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a1827911196e35958ba415b7962501a4c" kindref="member">check()</ref>, <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a4d8b1f987aff941d5b2e390296402c2a" kindref="member">current()</ref>, push_back(), <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1aedbe973339af82c5aa361efcf3c996c4" kindref="member">expectIdent()</ref>, std::stoi(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/cypher_parser.cpp" line="699" column="22" bodyfile="src/query/cypher_parser.cpp" bodystart="699" bodyend="800"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1abeb568bf1f5a3558a2fafeb83db3c970" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_cypher_expr" kindref="compound">CypherExpr</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; CypherExpr &gt; themis::query::CypherParser::Parser::parseExpr</definition>
+        <argsstring>()</argsstring>
+        <name>parseExpr</name>
+        <qualifiedname>themis::query::CypherParser::Parser::parseExpr</qualifiedname>
+        <briefdescription>
+<para>Parse Expr. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a1be07879434b64001fc930ffa030e26c" kindref="member">parseOrExpr()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/cypher_parser.cpp" line="808" column="21" bodyfile="src/query/cypher_parser.cpp" bodystart="808" bodyend="810"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a1be07879434b64001fc930ffa030e26c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_cypher_expr" kindref="compound">CypherExpr</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; CypherExpr &gt; themis::query::CypherParser::Parser::parseOrExpr</definition>
+        <argsstring>()</argsstring>
+        <name>parseOrExpr</name>
+        <qualifiedname>themis::query::CypherParser::Parser::parseOrExpr</qualifiedname>
+        <briefdescription>
+<para>Parse Or Expr. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1aa28a8d06417d3369f14068ca73f66221" kindref="member">parseAndExpr()</ref>, <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a9be79a3da14559d6b669c68c1e643853" kindref="member">match()</ref>, std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/cypher_parser.cpp" line="817" column="21" bodyfile="src/query/cypher_parser.cpp" bodystart="817" bodyend="824"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1aa28a8d06417d3369f14068ca73f66221" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_cypher_expr" kindref="compound">CypherExpr</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; CypherExpr &gt; themis::query::CypherParser::Parser::parseAndExpr</definition>
+        <argsstring>()</argsstring>
+        <name>parseAndExpr</name>
+        <qualifiedname>themis::query::CypherParser::Parser::parseAndExpr</qualifiedname>
+        <briefdescription>
+<para>Parse And Expr. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1ad7c3238f74a7da49c3d44508dd4c4c5b" kindref="member">parseNotExpr()</ref>, <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a9be79a3da14559d6b669c68c1e643853" kindref="member">match()</ref>, std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/cypher_parser.cpp" line="831" column="21" bodyfile="src/query/cypher_parser.cpp" bodystart="831" bodyend="838"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1ad7c3238f74a7da49c3d44508dd4c4c5b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_cypher_expr" kindref="compound">CypherExpr</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; CypherExpr &gt; themis::query::CypherParser::Parser::parseNotExpr</definition>
+        <argsstring>()</argsstring>
+        <name>parseNotExpr</name>
+        <qualifiedname>themis::query::CypherParser::Parser::parseNotExpr</qualifiedname>
+        <briefdescription>
+<para>Parse Not Expr. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a9be79a3da14559d6b669c68c1e643853" kindref="member">match()</ref>, <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a4fceac44877a5be73fcbd557df4c2013" kindref="member">parseIsExpr()</ref>, std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/cypher_parser.cpp" line="845" column="21" bodyfile="src/query/cypher_parser.cpp" bodystart="845" bodyend="851"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a4fceac44877a5be73fcbd557df4c2013" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_cypher_expr" kindref="compound">CypherExpr</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; CypherExpr &gt; themis::query::CypherParser::Parser::parseIsExpr</definition>
+        <argsstring>()</argsstring>
+        <name>parseIsExpr</name>
+        <qualifiedname>themis::query::CypherParser::Parser::parseIsExpr</qualifiedname>
+        <briefdescription>
+<para>Parse Is Expr. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>CypherParseError</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1ac580d92a1840ba8721ecd5bbb4b7c600" kindref="member">parseComparison()</ref>, <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a9be79a3da14559d6b669c68c1e643853" kindref="member">match()</ref>, <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a1827911196e35958ba415b7962501a4c" kindref="member">check()</ref>, <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a4d8b1f987aff941d5b2e390296402c2a" kindref="member">current()</ref>, std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/cypher_parser.cpp" line="859" column="21" bodyfile="src/query/cypher_parser.cpp" bodystart="859" bodyend="875"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1ac580d92a1840ba8721ecd5bbb4b7c600" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_cypher_expr" kindref="compound">CypherExpr</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; CypherExpr &gt; themis::query::CypherParser::Parser::parseComparison</definition>
+        <argsstring>()</argsstring>
+        <name>parseComparison</name>
+        <qualifiedname>themis::query::CypherParser::Parser::parseComparison</qualifiedname>
+        <briefdescription>
+<para>Parse Comparison. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a43f672cc8292fd4521bc072a5ad8fc1f" kindref="member">parsePrimary()</ref>, <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a9be79a3da14559d6b669c68c1e643853" kindref="member">match()</ref>, std::move(), <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a1827911196e35958ba415b7962501a4c" kindref="member">check()</ref>, <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a7abc9c5b315c6dd66a59f0253200ea98" kindref="member">peek()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/cypher_parser.cpp" line="882" column="21" bodyfile="src/query/cypher_parser.cpp" bodystart="882" bodyend="933"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a43f672cc8292fd4521bc072a5ad8fc1f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_cypher_expr" kindref="compound">CypherExpr</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; CypherExpr &gt; themis::query::CypherParser::Parser::parsePrimary</definition>
+        <argsstring>()</argsstring>
+        <name>parsePrimary</name>
+        <qualifiedname>themis::query::CypherParser::Parser::parsePrimary</qualifiedname>
+        <briefdescription>
+<para>Parse Primary. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>CypherParseError</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a9be79a3da14559d6b669c68c1e643853" kindref="member">match()</ref>, <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1abeb568bf1f5a3558a2fafeb83db3c970" kindref="member">parseExpr()</ref>, <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a38d81fafeec26ee2502df44f235db4e4" kindref="member">expect()</ref>, <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a1827911196e35958ba415b7962501a4c" kindref="member">check()</ref>, <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a4d8b1f987aff941d5b2e390296402c2a" kindref="member">current()</ref>, std::move(), std::stoll(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/cypher_parser.cpp" line="941" column="21" bodyfile="src/query/cypher_parser.cpp" bodystart="941" bodyend="1035"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1abde2f8cdcbe196780b02d193f6faa833" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::CypherParser::Parser::parseReturnItems</definition>
+        <argsstring>(CypherASTNode &amp;ast)</argsstring>
+        <name>parseReturnItems</name>
+        <qualifiedname>themis::query::CypherParser::Parser::parseReturnItems</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1query_1_1_cypher_a_s_t_node" kindref="compound">CypherASTNode</ref> &amp;</type>
+          <declname>ast</declname>
+        </param>
+        <briefdescription>
+<para>-<mdash/> RETURN items -----------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">ast</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a1827911196e35958ba415b7962501a4c" kindref="member">check()</ref>, push_back(), std::move(), <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1abeb568bf1f5a3558a2fafeb83db3c970" kindref="member">parseExpr()</ref>, <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1aee82826a026b68c7d8ec215a8ca73e9c" kindref="member">collapseDotSpaces()</ref>, <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a9be79a3da14559d6b669c68c1e643853" kindref="member">match()</ref>, <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1aedbe973339af82c5aa361efcf3c996c4" kindref="member">expectIdent()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/cypher_parser.cpp" line="1043" column="10" bodyfile="src/query/cypher_parser.cpp" bodystart="1043" bodyend="1078"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1ae3fedff583c0fec659ab57e85a63f84f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::CypherParser::Parser::parseSortSpecs</definition>
+        <argsstring>(CypherASTNode &amp;ast)</argsstring>
+        <name>parseSortSpecs</name>
+        <qualifiedname>themis::query::CypherParser::Parser::parseSortSpecs</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1query_1_1_cypher_a_s_t_node" kindref="compound">CypherASTNode</ref> &amp;</type>
+          <declname>ast</declname>
+        </param>
+        <briefdescription>
+<para>Parse Sort Specs. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">ast</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1abeb568bf1f5a3558a2fafeb83db3c970" kindref="member">parseExpr()</ref>, <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1aee82826a026b68c7d8ec215a8ca73e9c" kindref="member">collapseDotSpaces()</ref>, <ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a9be79a3da14559d6b669c68c1e643853" kindref="member">match()</ref>, push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/cypher_parser.cpp" line="1086" column="10" bodyfile="src/query/cypher_parser.cpp" bodystart="1086" bodyend="1108"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1aee82826a026b68c7d8ec215a8ca73e9c" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::query::CypherParser::Parser::collapseDotSpaces</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>collapseDotSpaces</name>
+        <qualifiedname>themis::query::CypherParser::Parser::collapseDotSpaces</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Collapse Dot Spaces. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/cypher_parser.cpp" line="382" column="24" bodyfile="src/query/cypher_parser.cpp" bodystart="382" bodyend="395"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1ab5990c61b7dcaa9d04edbc66848619db" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::query::CypherParser::Parser::toUpper</definition>
+        <argsstring>(std::string s)</argsstring>
+        <name>toUpper</name>
+        <qualifiedname>themis::query::CypherParser::Parser::toUpper</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>To Upper. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::transform(), begin(), end(), std::toupper(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/cypher_parser.cpp" line="472" column="24" bodyfile="src/query/cypher_parser.cpp" bodystart="472" bodyend="476"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/query/cypher_parser.cpp" line="364" column="1" bodyfile="src/query/cypher_parser.cpp" bodystart="364" bodyend="1109"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a1827911196e35958ba415b7962501a4c" prot="public" virt="non-virtual"><scope>themis::query::CypherParser::Parser</scope><name>check</name></member>
+      <member refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1aee82826a026b68c7d8ec215a8ca73e9c" prot="public" virt="non-virtual"><scope>themis::query::CypherParser::Parser</scope><name>collapseDotSpaces</name></member>
+      <member refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a4d8b1f987aff941d5b2e390296402c2a" prot="public" virt="non-virtual"><scope>themis::query::CypherParser::Parser</scope><name>current</name></member>
+      <member refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1af40138a63afb651af0f927f77dae30d0" prot="public" virt="non-virtual"><scope>themis::query::CypherParser::Parser</scope><name>cursor</name></member>
+      <member refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a38d81fafeec26ee2502df44f235db4e4" prot="public" virt="non-virtual"><scope>themis::query::CypherParser::Parser</scope><name>expect</name></member>
+      <member refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1aedbe973339af82c5aa361efcf3c996c4" prot="public" virt="non-virtual"><scope>themis::query::CypherParser::Parser</scope><name>expectIdent</name></member>
+      <member refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a2708129269b7cb1a861bd7d15cde196e" prot="public" virt="non-virtual"><scope>themis::query::CypherParser::Parser</scope><name>isAtEnd</name></member>
+      <member refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a9be79a3da14559d6b669c68c1e643853" prot="public" virt="non-virtual"><scope>themis::query::CypherParser::Parser</scope><name>match</name></member>
+      <member refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1aa28a8d06417d3369f14068ca73f66221" prot="public" virt="non-virtual"><scope>themis::query::CypherParser::Parser</scope><name>parseAndExpr</name></member>
+      <member refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1ac580d92a1840ba8721ecd5bbb4b7c600" prot="public" virt="non-virtual"><scope>themis::query::CypherParser::Parser</scope><name>parseComparison</name></member>
+      <member refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1abeb568bf1f5a3558a2fafeb83db3c970" prot="public" virt="non-virtual"><scope>themis::query::CypherParser::Parser</scope><name>parseExpr</name></member>
+      <member refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a4fceac44877a5be73fcbd557df4c2013" prot="public" virt="non-virtual"><scope>themis::query::CypherParser::Parser</scope><name>parseIsExpr</name></member>
+      <member refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a3a5845c854a5d929c6c1dea3004d9c7d" prot="public" virt="non-virtual"><scope>themis::query::CypherParser::Parser</scope><name>parseLiteralValue</name></member>
+      <member refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1aa5a107cbcaa2a0947c4e27d5cb8e9e4f" prot="public" virt="non-virtual"><scope>themis::query::CypherParser::Parser</scope><name>parseNodePattern</name></member>
+      <member refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1ad7c3238f74a7da49c3d44508dd4c4c5b" prot="public" virt="non-virtual"><scope>themis::query::CypherParser::Parser</scope><name>parseNotExpr</name></member>
+      <member refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a1be07879434b64001fc930ffa030e26c" prot="public" virt="non-virtual"><scope>themis::query::CypherParser::Parser</scope><name>parseOrExpr</name></member>
+      <member refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a15dda2575384fa2ace4209976818ebb0" prot="public" virt="non-virtual"><scope>themis::query::CypherParser::Parser</scope><name>parsePathPattern</name></member>
+      <member refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a43f672cc8292fd4521bc072a5ad8fc1f" prot="public" virt="non-virtual"><scope>themis::query::CypherParser::Parser</scope><name>parsePrimary</name></member>
+      <member refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a9602ad54e503d3b7cd792cbec5a436a9" prot="public" virt="non-virtual"><scope>themis::query::CypherParser::Parser</scope><name>parsePropMap</name></member>
+      <member refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1ac7ec0c657a8edb7ab28beb6f275eef7c" prot="public" virt="non-virtual"><scope>themis::query::CypherParser::Parser</scope><name>parseQuery</name></member>
+      <member refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a48aca32eed8413c9a7bfeabd23dc019c" prot="public" virt="non-virtual"><scope>themis::query::CypherParser::Parser</scope><name>Parser</name></member>
+      <member refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a1ffd5006085594a37b608eecd47eace4" prot="public" virt="non-virtual"><scope>themis::query::CypherParser::Parser</scope><name>parseRelPattern</name></member>
+      <member refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1abde2f8cdcbe196780b02d193f6faa833" prot="public" virt="non-virtual"><scope>themis::query::CypherParser::Parser</scope><name>parseReturnItems</name></member>
+      <member refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1ae3fedff583c0fec659ab57e85a63f84f" prot="public" virt="non-virtual"><scope>themis::query::CypherParser::Parser</scope><name>parseSortSpecs</name></member>
+      <member refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a7abc9c5b315c6dd66a59f0253200ea98" prot="public" virt="non-virtual"><scope>themis::query::CypherParser::Parser</scope><name>peek</name></member>
+      <member refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1a8067a31d3ca1bb84abb2767fd864ecf7" prot="public" virt="non-virtual"><scope>themis::query::CypherParser::Parser</scope><name>tokens</name></member>
+      <member refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser_1ab5990c61b7dcaa9d04edbc66848619db" prot="public" virt="non-virtual"><scope>themis::query::CypherParser::Parser</scope><name>toUpper</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

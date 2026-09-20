@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_ada_lo_r_a_layer_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::AdaLoRALayerStats</compoundname>
+    <includes refid="ada__lora__adapter_8h" local="no">ada_lora_adapter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_ada_lo_r_a_layer_stats_1adb082b200127c69c8d6f7a3294f2e51f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::AdaLoRALayerStats::layer_name</definition>
+        <argsstring></argsstring>
+        <name>layer_name</name>
+        <qualifiedname>themis::training::AdaLoRALayerStats::layer_name</qualifiedname>
+        <briefdescription>
+<para>Layer identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/ada_lora_adapter.h" line="26" column="17" bodyfile="include/training/ada_lora_adapter.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_ada_lo_r_a_layer_stats_1ab5872973ca9907b03048eae06a3ed864" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::AdaLoRALayerStats::max_rank</definition>
+        <argsstring></argsstring>
+        <name>max_rank</name>
+        <qualifiedname>themis::training::AdaLoRALayerStats::max_rank</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Maximum allowed rank for this layer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/ada_lora_adapter.h" line="27" column="17" bodyfile="include/training/ada_lora_adapter.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_ada_lo_r_a_layer_stats_1ab2f4cc5a77795068cb8d835f5d58bd96" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::AdaLoRALayerStats::active_rank</definition>
+        <argsstring></argsstring>
+        <name>active_rank</name>
+        <qualifiedname>themis::training::AdaLoRALayerStats::active_rank</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Currently active (unpruned) rank. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/ada_lora_adapter.h" line="28" column="17" bodyfile="include/training/ada_lora_adapter.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_ada_lo_r_a_layer_stats_1a73c422c741427118256025844ea63d90" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::training::AdaLoRALayerStats::importance</definition>
+        <argsstring></argsstring>
+        <name>importance</name>
+        <qualifiedname>themis::training::AdaLoRALayerStats::importance</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Estimated importance score (higher = more important). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/ada_lora_adapter.h" line="29" column="17" bodyfile="include/training/ada_lora_adapter.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Per-layer rank allocation and importance score snapshot. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/training/ada_lora_adapter.h" line="25" column="1" bodyfile="include/training/ada_lora_adapter.h" bodystart="25" bodyend="30"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_ada_lo_r_a_layer_stats_1ab2f4cc5a77795068cb8d835f5d58bd96" prot="public" virt="non-virtual"><scope>themis::training::AdaLoRALayerStats</scope><name>active_rank</name></member>
+      <member refid="structthemis_1_1training_1_1_ada_lo_r_a_layer_stats_1a73c422c741427118256025844ea63d90" prot="public" virt="non-virtual"><scope>themis::training::AdaLoRALayerStats</scope><name>importance</name></member>
+      <member refid="structthemis_1_1training_1_1_ada_lo_r_a_layer_stats_1adb082b200127c69c8d6f7a3294f2e51f" prot="public" virt="non-virtual"><scope>themis::training::AdaLoRALayerStats</scope><name>layer_name</name></member>
+      <member refid="structthemis_1_1training_1_1_ada_lo_r_a_layer_stats_1ab5872973ca9907b03048eae06a3ed864" prot="public" virt="non-virtual"><scope>themis::training::AdaLoRALayerStats</scope><name>max_rank</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

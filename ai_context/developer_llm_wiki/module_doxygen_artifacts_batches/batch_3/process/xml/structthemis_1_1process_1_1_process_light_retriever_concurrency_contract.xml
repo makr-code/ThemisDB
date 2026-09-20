@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_process_light_retriever_concurrency_contract" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::ProcessLightRetrieverConcurrencyContract</compoundname>
+    <includes refid="process__concurrency__contract_8h" local="no">process_concurrency_contract.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_light_retriever_concurrency_contract_1aaaa368a606f944cbb5a88e226805af41" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type><ref refid="namespacethemis_1_1process_1a6a446f9d06bd108b513dab505e31a9da" kindref="member">ConcurrencyPattern</ref></type>
+        <definition>ConcurrencyPattern themis::process::ProcessLightRetrieverConcurrencyContract::pattern</definition>
+        <argsstring></argsstring>
+        <name>pattern</name>
+        <qualifiedname>themis::process::ProcessLightRetrieverConcurrencyContract::pattern</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1process_1a6a446f9d06bd108b513dab505e31a9daa79380125caa71dd11cf0856efb531ce7" kindref="member">ConcurrencyPattern::READ_ONLY_SNAPSHOT</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_concurrency_contract.h" line="239" column="41" bodyfile="include/process/process_concurrency_contract.h" bodystart="239" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_light_retriever_concurrency_contract_1aa3e6078c3abc74640b8ce520ffdc6e4c" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type><ref refid="namespacethemis_1_1process_1ae80706ebe0a10dbc12ba72eb6eb1403e" kindref="member">AtomicityScope</ref></type>
+        <definition>AtomicityScope themis::process::ProcessLightRetrieverConcurrencyContract::atomicity</definition>
+        <argsstring></argsstring>
+        <name>atomicity</name>
+        <qualifiedname>themis::process::ProcessLightRetrieverConcurrencyContract::atomicity</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1process_1ae80706ebe0a10dbc12ba72eb6eb1403ea47c7e7cb36a953a8c47e02000036bb44" kindref="member">AtomicityScope::READ_ONLY</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_concurrency_contract.h" line="240" column="37" bodyfile="include/process/process_concurrency_contract.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_light_retriever_concurrency_contract_1a7e736e087242bbb86afe7dea07b41bfa" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type><ref refid="namespacethemis_1_1process_1a6b3c35ef0746d2097494942a53d39037" kindref="member">ConflictResolution</ref></type>
+        <definition>ConflictResolution themis::process::ProcessLightRetrieverConcurrencyContract::conflict_resolution</definition>
+        <argsstring></argsstring>
+        <name>conflict_resolution</name>
+        <qualifiedname>themis::process::ProcessLightRetrieverConcurrencyContract::conflict_resolution</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1process_1a6b3c35ef0746d2097494942a53d39037ab18ff9ed18b27a951714b14b79b2b687" kindref="member">ConflictResolution::NO_CONFLICTS</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_concurrency_contract.h" line="241" column="41" bodyfile="include/process/process_concurrency_contract.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1process_1_1_process_light_retriever_concurrency_contract_1a6cb3ef292a2ded3f18edbe89560def57" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>static std::string_view themis::process::ProcessLightRetrieverConcurrencyContract::describe</definition>
+        <argsstring>()</argsstring>
+        <name>describe</name>
+        <qualifiedname>themis::process::ProcessLightRetrieverConcurrencyContract::describe</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_concurrency_contract.h" line="243" column="29" bodyfile="include/process/process_concurrency_contract.h" bodystart="243" bodyend="246"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Thread-safety guarantee for <ref refid="classthemis_1_1process_1_1_process_light_retriever" kindref="compound">ProcessLightRetriever</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><bold>Pattern:</bold> READ_ONLY_SNAPSHOT <linebreak/>
+ <bold>Atomicity:</bold> READ_ONLY <linebreak/>
+ <bold>Conflict Resolution:</bold> NO_CONFLICTS</para>
+<para>Retriever is a read-only façade over the graph layer. All queries operate over consistent snapshots. No mutations or locks.</para>
+<para><simplesect kind="invariant"><para>All operations are read-only; no state mutation. </para>
+</simplesect>
+<simplesect kind="invariant"><para>No locks required; snapshot-based reads. </para>
+</simplesect>
+<simplesect kind="invariant"><para>Thread-safe for unlimited concurrent queries. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/process/process_concurrency_contract.h" line="238" column="1" bodyfile="include/process/process_concurrency_contract.h" bodystart="238" bodyend="247"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_process_light_retriever_concurrency_contract_1aa3e6078c3abc74640b8ce520ffdc6e4c" prot="public" virt="non-virtual"><scope>themis::process::ProcessLightRetrieverConcurrencyContract</scope><name>atomicity</name></member>
+      <member refid="structthemis_1_1process_1_1_process_light_retriever_concurrency_contract_1a7e736e087242bbb86afe7dea07b41bfa" prot="public" virt="non-virtual"><scope>themis::process::ProcessLightRetrieverConcurrencyContract</scope><name>conflict_resolution</name></member>
+      <member refid="structthemis_1_1process_1_1_process_light_retriever_concurrency_contract_1a6cb3ef292a2ded3f18edbe89560def57" prot="public" virt="non-virtual"><scope>themis::process::ProcessLightRetrieverConcurrencyContract</scope><name>describe</name></member>
+      <member refid="structthemis_1_1process_1_1_process_light_retriever_concurrency_contract_1aaaa368a606f944cbb5a88e226805af41" prot="public" virt="non-virtual"><scope>themis::process::ProcessLightRetrieverConcurrencyContract</scope><name>pattern</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

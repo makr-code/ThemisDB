@@ -1,0 +1,275 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1evaluation_1_1_ablation_runner" kind="class" language="C++" prot="public">
+    <compoundname>themis::evaluation::AblationRunner</compoundname>
+    <includes refid="ablation__framework_8h" local="no">ablation_framework.h</includes>
+    <innerclass refid="structthemis_1_1evaluation_1_1_ablation_runner_1_1_experiment" prot="private">themis::evaluation::AblationRunner::Experiment</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1evaluation_1_1_ablation_runner_1a6112d51151dfbfda026d8d3e30ea1ae0" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; Experiment &gt;</type>
+        <definition>std::vector&lt;Experiment&gt; themis::evaluation::AblationRunner::experiments_</definition>
+        <argsstring></argsstring>
+        <name>experiments_</name>
+        <qualifiedname>themis::evaluation::AblationRunner::experiments_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/ablation_framework.h" line="223" column="17" bodyfile="src/evaluation/include/ablation_framework.h" bodystart="223" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_ablation_runner_1a3aa3a6efbee9a1e7bfddc6be443eddb9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::evaluation::AblationRunner::AblationRunner</definition>
+        <argsstring>()=default</argsstring>
+        <name>AblationRunner</name>
+        <qualifiedname>themis::evaluation::AblationRunner::AblationRunner</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/ablation_framework.h" line="190" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_ablation_runner_1af397a53f12ae5426d9cfca7704c2cea7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::evaluation::AblationRunner::AblationRunner</definition>
+        <argsstring>(const AblationRunner &amp;)=delete</argsstring>
+        <name>AblationRunner</name>
+        <qualifiedname>themis::evaluation::AblationRunner::AblationRunner</qualifiedname>
+        <param>
+          <type>const AblationRunner &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/ablation_framework.h" line="193" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_ablation_runner_1aff942fb94750c5acc27df40cc85b5100" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1evaluation_1_1_ablation_runner_1a3aa3a6efbee9a1e7bfddc6be443eddb9" kindref="member">AblationRunner</ref> &amp;</type>
+        <definition>AblationRunner &amp; themis::evaluation::AblationRunner::operator=</definition>
+        <argsstring>(const AblationRunner &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::evaluation::AblationRunner::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1evaluation_1_1_ablation_runner_1a3aa3a6efbee9a1e7bfddc6be443eddb9" kindref="member">AblationRunner</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/ablation_framework.h" line="194" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_ablation_runner_1a54d964c52ef1d22c217d69aa7f13a322" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::evaluation::AblationRunner::AblationRunner</definition>
+        <argsstring>(AblationRunner &amp;&amp;)=default</argsstring>
+        <name>AblationRunner</name>
+        <qualifiedname>themis::evaluation::AblationRunner::AblationRunner</qualifiedname>
+        <param>
+          <type>AblationRunner &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/ablation_framework.h" line="195" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_ablation_runner_1ac1509046330b765861ae1462bc239034" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1evaluation_1_1_ablation_runner_1a3aa3a6efbee9a1e7bfddc6be443eddb9" kindref="member">AblationRunner</ref> &amp;</type>
+        <definition>AblationRunner &amp; themis::evaluation::AblationRunner::operator=</definition>
+        <argsstring>(AblationRunner &amp;&amp;)=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::evaluation::AblationRunner::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1evaluation_1_1_ablation_runner_1a3aa3a6efbee9a1e7bfddc6be443eddb9" kindref="member">AblationRunner</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/ablation_framework.h" line="196" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_ablation_runner_1a5287423b5d4478a562cd3a27988842ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::evaluation::AblationRunner::addExperiment</definition>
+        <argsstring>(std::string name, AblationConfig config)</argsstring>
+        <name>addExperiment</name>
+        <qualifiedname>themis::evaluation::AblationRunner::addExperiment</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1evaluation_1_1_ablation_config" kindref="compound">AblationConfig</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Add Experiment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>AblationError</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/ablation_framework.h" line="203" column="10" bodyfile="src/evaluation/src/ablation_framework.cc" bodystart="134" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_ablation_runner_1abea93a2ac868fd8e6d1f73711648925d" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::evaluation::AblationRunner::experimentCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>experimentCount</name>
+        <qualifiedname>themis::evaluation::AblationRunner::experimentCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/ablation_framework.h" line="205" column="18" bodyfile="src/evaluation/src/ablation_framework.cc" bodystart="146" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_ablation_runner_1a41a3089f4b3a3d7634b4898ad577391a" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1evaluation_1_1_ablation_report" kindref="compound">AblationReport</ref></type>
+        <definition>AblationReport themis::evaluation::AblationRunner::run</definition>
+        <argsstring>(const std::vector&lt; AblationQuery &gt; &amp;queries, double max_residual=0.10) const</argsstring>
+        <name>run</name>
+        <qualifiedname>themis::evaluation::AblationRunner::run</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1evaluation_1_1_ablation_query" kindref="compound">AblationQuery</ref> &gt; &amp;</type>
+          <declname>queries</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>max_residual</declname>
+          <defval>0.10</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/ablation_framework.h" line="207" column="21" bodyfile="src/evaluation/src/ablation_framework.cc" bodystart="154" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_ablation_runner_1a11e8d7237b0407d632183d9deb1b9ecb" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::evaluation::AblationRunner::reset</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::evaluation::AblationRunner::reset</qualifiedname>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/ablation_framework.h" line="215" column="10" bodyfile="src/evaluation/src/ablation_framework.cc" bodystart="150" bodyend="152"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_ablation_runner_1a0b31becd1c54cd0d58758477fac69cbe" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1evaluation_1_1_ablation_result" kindref="compound">AblationResult</ref></type>
+        <definition>AblationResult themis::evaluation::AblationRunner::runExperiment</definition>
+        <argsstring>(const Experiment &amp;exp, const std::vector&lt; AblationQuery &gt; &amp;queries, double max_residual) const</argsstring>
+        <name>runExperiment</name>
+        <qualifiedname>themis::evaluation::AblationRunner::runExperiment</qualifiedname>
+        <param>
+          <type>const Experiment &amp;</type>
+          <declname>exp</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1evaluation_1_1_ablation_query" kindref="compound">AblationQuery</ref> &gt; &amp;</type>
+          <declname>queries</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>max_residual</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/ablation_framework.h" line="225" column="21" bodyfile="src/evaluation/src/ablation_framework.cc" bodystart="175" bodyend="310"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/evaluation/include/ablation_framework.h" line="188" column="1" bodyfile="src/evaluation/include/ablation_framework.h" bodystart="188" bodyend="229"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1evaluation_1_1_ablation_runner_1a3aa3a6efbee9a1e7bfddc6be443eddb9" prot="public" virt="non-virtual"><scope>themis::evaluation::AblationRunner</scope><name>AblationRunner</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_ablation_runner_1af397a53f12ae5426d9cfca7704c2cea7" prot="public" virt="non-virtual"><scope>themis::evaluation::AblationRunner</scope><name>AblationRunner</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_ablation_runner_1a54d964c52ef1d22c217d69aa7f13a322" prot="public" virt="non-virtual"><scope>themis::evaluation::AblationRunner</scope><name>AblationRunner</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_ablation_runner_1a5287423b5d4478a562cd3a27988842ca" prot="public" virt="non-virtual"><scope>themis::evaluation::AblationRunner</scope><name>addExperiment</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_ablation_runner_1abea93a2ac868fd8e6d1f73711648925d" prot="public" virt="non-virtual"><scope>themis::evaluation::AblationRunner</scope><name>experimentCount</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_ablation_runner_1a6112d51151dfbfda026d8d3e30ea1ae0" prot="private" virt="non-virtual"><scope>themis::evaluation::AblationRunner</scope><name>experiments_</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_ablation_runner_1aff942fb94750c5acc27df40cc85b5100" prot="public" virt="non-virtual"><scope>themis::evaluation::AblationRunner</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_ablation_runner_1ac1509046330b765861ae1462bc239034" prot="public" virt="non-virtual"><scope>themis::evaluation::AblationRunner</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_ablation_runner_1a11e8d7237b0407d632183d9deb1b9ecb" prot="public" virt="non-virtual"><scope>themis::evaluation::AblationRunner</scope><name>reset</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_ablation_runner_1a41a3089f4b3a3d7634b4898ad577391a" prot="public" virt="non-virtual"><scope>themis::evaluation::AblationRunner</scope><name>run</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_ablation_runner_1a0b31becd1c54cd0d58758477fac69cbe" prot="private" virt="non-virtual"><scope>themis::evaluation::AblationRunner</scope><name>runExperiment</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_adaptive_rule" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::AdaptiveRule</compoundname>
+    <includes refid="lora__data__selection_8h" local="no">lora_data_selection.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_adaptive_rule_1ab071a765a23e73103f7f1f8044a3ba84" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::AdaptiveRule::metric</definition>
+        <argsstring></argsstring>
+        <name>metric</name>
+        <qualifiedname>themis::training::AdaptiveRule::metric</qualifiedname>
+        <briefdescription>
+<para>Monitored metric name (e.g. &quot;avg_quality_score&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="387" column="17" bodyfile="include/training/lora_data_selection.h" bodystart="387" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_adaptive_rule_1a6a12e04e4c21c4ff00c78bc7e380509b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::AdaptiveRule::condition</definition>
+        <argsstring></argsstring>
+        <name>condition</name>
+        <qualifiedname>themis::training::AdaptiveRule::condition</qualifiedname>
+        <briefdescription>
+<para>Comparison operator + threshold (e.g. &quot;&lt; 0.60&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="388" column="17" bodyfile="include/training/lora_data_selection.h" bodystart="388" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_adaptive_rule_1a9228f43a92486eb87f87b32dab0db40a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::AdaptiveRule::action</definition>
+        <argsstring></argsstring>
+        <name>action</name>
+        <qualifiedname>themis::training::AdaptiveRule::action</qualifiedname>
+        <briefdescription>
+<para>Field to adjust (e.g. &quot;decrease_max_toxicity_score&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="389" column="17" bodyfile="include/training/lora_data_selection.h" bodystart="389" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_adaptive_rule_1a4b02fca62dbe6111362643397c13dd34" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::AdaptiveRule::delta</definition>
+        <argsstring></argsstring>
+        <name>delta</name>
+        <qualifiedname>themis::training::AdaptiveRule::delta</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Amount to add to the target field when triggered. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="390" column="17" bodyfile="include/training/lora_data_selection.h" bodystart="390" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1training_1_1_adaptive_rule_1ab6a72c032112230ef5edba273581d345" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::AdaptiveRule::AdaptiveRule</definition>
+        <argsstring>()=default</argsstring>
+        <name>AdaptiveRule</name>
+        <qualifiedname>themis::training::AdaptiveRule::AdaptiveRule</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="392" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single adaptive rule loaded from SelfImprovementModule.yaml. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Each rule watches one monitoring <computeroutput>metric</computeroutput>, compares it against a <computeroutput>condition</computeroutput> threshold, and applies an <computeroutput>action</computeroutput> (adjusting a config field by <computeroutput>delta</computeroutput>) when the condition is met. </para>
+    </detaileddescription>
+    <location file="include/training/lora_data_selection.h" line="386" column="1" bodyfile="include/training/lora_data_selection.h" bodystart="386" bodyend="393"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_adaptive_rule_1a9228f43a92486eb87f87b32dab0db40a" prot="public" virt="non-virtual"><scope>themis::training::AdaptiveRule</scope><name>action</name></member>
+      <member refid="structthemis_1_1training_1_1_adaptive_rule_1ab6a72c032112230ef5edba273581d345" prot="public" virt="non-virtual"><scope>themis::training::AdaptiveRule</scope><name>AdaptiveRule</name></member>
+      <member refid="structthemis_1_1training_1_1_adaptive_rule_1a6a12e04e4c21c4ff00c78bc7e380509b" prot="public" virt="non-virtual"><scope>themis::training::AdaptiveRule</scope><name>condition</name></member>
+      <member refid="structthemis_1_1training_1_1_adaptive_rule_1a4b02fca62dbe6111362643397c13dd34" prot="public" virt="non-virtual"><scope>themis::training::AdaptiveRule</scope><name>delta</name></member>
+      <member refid="structthemis_1_1training_1_1_adaptive_rule_1ab071a765a23e73103f7f1f8044a3ba84" prot="public" virt="non-virtual"><scope>themis::training::AdaptiveRule</scope><name>metric</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

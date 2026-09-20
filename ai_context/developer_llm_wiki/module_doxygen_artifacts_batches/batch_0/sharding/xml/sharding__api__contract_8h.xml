@@ -1,0 +1,261 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="sharding__api__contract_8h" kind="file" language="C++">
+    <compoundname>sharding_api_contract.h</compoundname>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">string</includes>
+    <includedby refid="bench__sharding__release__gates_8cpp" local="yes">benchmarks/sharding/bench_sharding_release_gates.cpp</includedby>
+    <includedby refid="sharding__error__recovery__impl_8h" local="yes">include/sharding/sharding_error_recovery_impl.h</includedby>
+    <includedby refid="test__sharding__contract__hardening__focused_8cpp" local="yes">tests/sharding/test_sharding_contract_hardening_focused.cpp</includedby>
+    <includedby refid="test__sharding__phase3__edgecases_8cpp" local="yes">tests/sharding/test_sharding_phase3_edgecases.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/sharding/sharding_api_contract.h</label>
+        <link refid="sharding__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>cstddef</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/sharding/bench_sharding_release_gates.cpp</label>
+        <link refid="bench__sharding__release__gates_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/sharding/sharding_api_contract.h</label>
+        <link refid="sharding__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/sharding/sharding_error_recovery.h</label>
+        <link refid="sharding__error__recovery_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/sharding/sharding_error_recovery_impl.h</label>
+        <link refid="sharding__error__recovery__impl_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>tests/sharding/test_sharding_contract_hardening_focused.cpp</label>
+        <link refid="test__sharding__contract__hardening__focused_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/sharding/test_sharding_phase3_edgecases.cpp</label>
+        <link refid="test__sharding__phase3__edgecases_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1sharding">themis::sharding</innernamespace>
+    <briefdescription>
+<para>Frozen sharding module API contracts for the active v1.x line. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This header defines the normative contract for the sharding module covering routing (consistent hash), distributed transaction (2PC), WAL durability, migration/rebalance state transitions, error taxonomy, and threading guarantees.</para>
+<sect1 id="sharding__api__contract_8h_1scope">
+<title>Contract Scope</title><para>The contracts below are binding for all implementations that participate in the ThemisDB sharding pipeline:<itemizedlist>
+<listitem><para>Request router (ShardRouter, AdaptiveShardRouter, LocalityAwareRouter)</para>
+</listitem><listitem><para>Consistent hash ring (ConsistentHash)</para>
+</listitem><listitem><para>Distributed transaction coordinator (DistributedCoordinator, TwoPhaseCommit)</para>
+</listitem><listitem><para>WAL (PaxosWal, MetadataWal, RaftWalIntegration)</para>
+</listitem><listitem><para>Data migrator (DataMigrator)</para>
+</listitem><listitem><para>Auto rebalancer (AutoRebalancer)</para>
+</listitem><listitem><para>Quorum manager (QuorumManager)</para>
+</listitem><listitem><para>Health monitor (HealthMonitor, HealthCheck)</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="sharding__api__contract_8h_1versioning">
+<title>Versioning</title><para>This contract is stable within v1.x. Breaking changes require a v2.0 bump with migration notes and a CHANGELOG entry.</para>
+<para><simplesect kind="see"><para>src/sharding/ROADMAP.md — Phase 1 item </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="test__sharding__contract__hardening__focused_8cpp" kindref="compound">tests/sharding/test_sharding_contract_hardening_focused.cpp</ref> — SCR-01..SCR-16 </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="bench__sharding__release__gates_8cpp" kindref="compound">benchmarks/sharding/bench_sharding_release_gates.cpp</ref> — SRG-01..SRG-06 </para>
+</simplesect>
+</para>
+</sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1sharding" kindref="compound">sharding</ref><sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>1<sp/><sp/>Routing<sp/>Contract:<sp/>routeRequest()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Consistent<sp/>hash<sp/>routing<sp/>semantics:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>routeRequest(key)<sp/>maps<sp/>the<sp/>key<sp/>to<sp/>the<sp/>owning<sp/>shard<sp/>via<sp/>a<sp/>virtual-node</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>consistent<sp/>hash<sp/>ring<sp/>(default<sp/>kHashRingVnodes<sp/>virtual<sp/>nodes<sp/>per<sp/>shard).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>The<sp/>mapping<sp/>is<sp/>stable:<sp/>identical<sp/>keys<sp/>always<sp/>route<sp/>to<sp/>the<sp/>same<sp/>shard</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>as<sp/>long<sp/>as<sp/>the<sp/>shard<sp/>set<sp/>is<sp/>unchanged<sp/>(ring<sp/>stability<sp/>guarantee).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>On<sp/>shard<sp/>addition/removal<sp/>only<sp/>~1/N<sp/>of<sp/>keys<sp/>are<sp/>remapped<sp/>(minimal</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>disruption<sp/>guarantee).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Fallback<sp/>order:<sp/>if<sp/>the<sp/>primary<sp/>shard<sp/>is<sp/>unavailable,<sp/>the<sp/>router<sp/>tries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>the<sp/>next<sp/>shard<sp/>in<sp/>ring<sp/>order<sp/>up<sp/>to<sp/>kRoutingMaxFallbackDepth<sp/>times.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>After<sp/>all<sp/>fallbacks<sp/>are<sp/>exhausted,<sp/>routeRequest()<sp/>returns<sp/>SHARD_UNAVAILABLE.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>routeRequest()<sp/>is<sp/>thread-safe;<sp/>the<sp/>hash<sp/>ring<sp/>is<sp/>immutable<sp/>after</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>construction<sp/>and<sp/>updated<sp/>only<sp/>via<sp/>atomic<sp/>ring-swap<sp/>on<sp/>topology<sp/>change.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="namespacethemis_1_1sharding_1a46add84be1953b1dcf45e77909a0f8d6" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1sharding_1a46add84be1953b1dcf45e77909a0f8d6" kindref="member">kHashRingVnodes</ref><sp/>=<sp/>150;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="namespacethemis_1_1sharding_1a422e76c407c3466c16d49602b1eb6909" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1sharding_1a422e76c407c3466c16d49602b1eb6909" kindref="member">kRoutingMaxFallbackDepth</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="namespacethemis_1_1sharding_1a52b74ad2bb0fe1e9f246636e7256a0da" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1sharding_1a52b74ad2bb0fe1e9f246636e7256a0da" kindref="member">kMaxShards</ref><sp/>=<sp/>4096;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>2<sp/><sp/>2PC<sp/>Transaction<sp/>Contract:<sp/>prepare<sp/>/<sp/>commit<sp/>/<sp/>abort</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Two-phase<sp/>commit<sp/>invariants:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>prepare():<sp/>each<sp/>participant<sp/>records<sp/>the<sp/>transaction<sp/>in<sp/>its<sp/>WAL<sp/>before</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>returning<sp/>PREPARED.<sp/>No<sp/>side<sp/>effects<sp/>are<sp/>visible<sp/>before<sp/>commit().</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>commit():<sp/>each<sp/>participant<sp/>applies<sp/>the<sp/>prepared<sp/>writes<sp/>and<sp/>marks<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>transaction<sp/>COMMITTED<sp/>in<sp/>its<sp/>WAL.<sp/>commit()<sp/>is<sp/>idempotent:<sp/>calling<sp/>it</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>on<sp/>an<sp/>already-committed<sp/>transaction<sp/>is<sp/>a<sp/>no-op<sp/>(no<sp/>error).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>abort():<sp/>each<sp/>participant<sp/>rolls<sp/>back<sp/>all<sp/>prepared<sp/>writes<sp/>and<sp/>marks<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>transaction<sp/>ABORTED<sp/>in<sp/>its<sp/>WAL.<sp/>abort()<sp/>is<sp/>idempotent.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Silent<sp/>loss<sp/>is<sp/>NEVER<sp/>permitted:<sp/>every<sp/>transaction<sp/>MUST<sp/>reach<sp/>one<sp/>of</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>{COMMITTED,<sp/>ABORTED,<sp/>IN_DOUBT}<sp/>as<sp/>its<sp/>terminal<sp/>state.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>IN_DOUBT<sp/>state:<sp/>if<sp/>the<sp/>coordinator<sp/>crashes<sp/>after<sp/>prepare()<sp/>but<sp/>before</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>commit()/abort(),<sp/>participants<sp/>remain<sp/>in<sp/>IN_DOUBT<sp/>until<sp/>the<sp/>coordinator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>recovers<sp/>and<sp/>re-drives<sp/>the<sp/>decision.<sp/>Participants<sp/>in<sp/>IN_DOUBT<sp/>MUST<sp/>block</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>conflicting<sp/>writes<sp/>(pessimistic<sp/>locking)<sp/>until<sp/>resolved.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Double-commit<sp/>safety:<sp/>a<sp/>second<sp/>commit()<sp/>call<sp/>for<sp/>the<sp/>same<sp/>txn-id<sp/>is<sp/>a</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>no-op;<sp/>the<sp/>participant<sp/>does<sp/>NOT<sp/>re-apply<sp/>writes<sp/>or<sp/>emit<sp/>a<sp/>WAL<sp/>entry.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="namespacethemis_1_1sharding_1a97e4656229836ca60f850dbc2f1e9dc1" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::milliseconds<sp/><ref refid="namespacethemis_1_1sharding_1a97e4656229836ca60f850dbc2f1e9dc1" kindref="member">kTwoPhaseCommitPrepareTimeout</ref>{5000};</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="namespacethemis_1_1sharding_1a063ee0586f0c9cf132b4ef3fc76ea2c6" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::milliseconds<sp/><ref refid="namespacethemis_1_1sharding_1a063ee0586f0c9cf132b4ef3fc76ea2c6" kindref="member">kTwoPhaseCommitDecisionTimeout</ref>{5000};</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="namespacethemis_1_1sharding_1a370c30ba45e439914248f75682d69387" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::seconds<sp/><ref refid="namespacethemis_1_1sharding_1a370c30ba45e439914248f75682d69387" kindref="member">kInDoubtResolutionTimeout</ref>{30};</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>3<sp/><sp/>WAL<sp/>Durability<sp/>Contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WAL<sp/>append<sp/>semantics:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>append()<sp/>is<sp/>synchronous<sp/>and<sp/>durable:<sp/>the<sp/>call<sp/>does<sp/>not<sp/>return<sp/>until<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>entry<sp/>is<sp/>fsync&apos;d<sp/>(or<sp/>equivalent)<sp/>to<sp/>stable<sp/>storage.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>WAL<sp/>entries<sp/>are<sp/>strictly<sp/>ordered<sp/>by<sp/>LSN<sp/>(Log<sp/>Sequence<sp/>Number).<sp/>LSNs<sp/>are</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>monotonically<sp/>increasing<sp/>with<sp/>no<sp/>gaps.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Recovery<sp/>replay:<sp/>WAL<sp/>entries<sp/>are<sp/>replayed<sp/>in<sp/>LSN<sp/>order.<sp/>Replay<sp/>is</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>idempotent:<sp/>replaying<sp/>the<sp/>same<sp/>LSN<sp/>range<sp/>twice<sp/>has<sp/>no<sp/>additional<sp/>effect.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Corruption<sp/>detection:<sp/>each<sp/>WAL<sp/>entry<sp/>carries<sp/>a<sp/>CRC32<sp/>checksum.<sp/>A</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>mismatch<sp/>during<sp/>replay<sp/>triggers<sp/>WAL_CORRUPTION<sp/>error<sp/>and<sp/>halts<sp/>replay.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Truncation:<sp/>WAL<sp/>entries<sp/>below<sp/>the<sp/>confirmed<sp/>checkpoint<sp/>LSN<sp/>may<sp/>be</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>reclaimed.<sp/>Reclaimed<sp/>entries<sp/>are<sp/>no<sp/>longer<sp/>available<sp/>for<sp/>replay.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="namespacethemis_1_1sharding_1a159e86171eefd31b8af5e99c838c2892" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1sharding_1a159e86171eefd31b8af5e99c838c2892" kindref="member">kMaxWalEntryBytes</ref><sp/>=<sp/>64u<sp/>*<sp/>1024u;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117" refid="namespacethemis_1_1sharding_1a6e9f932aa5e0eea43e3d9817a67f1242" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::milliseconds<sp/><ref refid="namespacethemis_1_1sharding_1a6e9f932aa5e0eea43e3d9817a67f1242" kindref="member">kWalBatchSyncInterval</ref>{0};</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>4<sp/><sp/>Migration<sp/>/<sp/>Rebalance<sp/>Contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/>State<sp/>transition<sp/>guarantees<sp/>during<sp/>shard<sp/>migration:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Migration<sp/>follows<sp/>the<sp/>state<sp/>machine:<sp/>IDLE<sp/>→<sp/>PLANNED<sp/>→<sp/>TRANSFERRING<sp/>→<sp/>VERIFYING<sp/>→<sp/>COMPLETE.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>During<sp/>TRANSFERRING,<sp/>the<sp/>source<sp/>shard<sp/>accepts<sp/>reads.<sp/>Writes<sp/>are<sp/>dual-written</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>to<sp/>both<sp/>source<sp/>and<sp/>target<sp/>to<sp/>prevent<sp/>data<sp/>loss.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>MIGRATION_CONFLICT:<sp/>if<sp/>two<sp/>migration<sp/>operations<sp/>target<sp/>the<sp/>same<sp/>shard</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>concurrently,<sp/>the<sp/>second<sp/>is<sp/>rejected<sp/>with<sp/>MIGRATION_CONFLICT.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>A<sp/>failed<sp/>migration<sp/>MUST<sp/>roll<sp/>back<sp/>to<sp/>the<sp/>previous<sp/>shard<sp/>assignment.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>Partial<sp/>migrations<sp/>that<sp/>cannot<sp/>roll<sp/>back<sp/>are<sp/>logged<sp/>as<sp/>MIGRATION_FAULT.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Rebalance<sp/>respects<sp/>kMaxConcurrentMigrations<sp/>to<sp/>bound<sp/>I/O<sp/>impact.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134" refid="namespacethemis_1_1sharding_1aa1e3119fa52d99c108bc11d26f0b95d5" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1sharding_1aa1e3119fa52d99c108bc11d26f0b95d5" kindref="member">kMaxConcurrentMigrations</ref><sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="namespacethemis_1_1sharding_1a39208d493b8dd251f76c55f310dfa395" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::seconds<sp/><ref refid="namespacethemis_1_1sharding_1a39208d493b8dd251f76c55f310dfa395" kindref="member">kMigrationTransferTimeout</ref>{300};</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>5<sp/><sp/>Error<sp/>Taxonomy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>All<sp/>sharding<sp/>components<sp/>MUST<sp/>map<sp/>internal<sp/>error<sp/>states<sp/>to<sp/>one<sp/>of<sp/>these</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//<sp/>canonical<sp/>error<sp/>codes.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152" refid="namespacethemis_1_1sharding_1a711c6dfc935763d99afbb4ea7bfeeb62" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1sharding_1a711c6dfc935763d99afbb4ea7bfeeb62" kindref="member">ShardingErrorCode</ref><sp/>:<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="154" refid="namespacethemis_1_1sharding_1a711c6dfc935763d99afbb4ea7bfeeb62ae0aa021e21dddbd6d8cecec71e9cf564" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a711c6dfc935763d99afbb4ea7bfeeb62ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">OK</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><sp/>0,</highlight></codeline>
+<codeline lineno="156" refid="namespacethemis_1_1sharding_1a711c6dfc935763d99afbb4ea7bfeeb62afeaaaedf72d0712ee7c4b016d904633f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a711c6dfc935763d99afbb4ea7bfeeb62afeaaaedf72d0712ee7c4b016d904633f" kindref="member">QUORUM_LOST</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><sp/>1,</highlight></codeline>
+<codeline lineno="158" refid="namespacethemis_1_1sharding_1a711c6dfc935763d99afbb4ea7bfeeb62ac92a29b0f2c6b8dbc93a594e61cc43c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a711c6dfc935763d99afbb4ea7bfeeb62ac92a29b0f2c6b8dbc93a594e61cc43c3" kindref="member">COORDINATOR_FAILURE</ref><sp/><sp/><sp/><sp/>=<sp/><sp/>2,</highlight></codeline>
+<codeline lineno="160" refid="namespacethemis_1_1sharding_1a711c6dfc935763d99afbb4ea7bfeeb62af71da8a6c905d1ee9298d5136f147b09" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a711c6dfc935763d99afbb4ea7bfeeb62af71da8a6c905d1ee9298d5136f147b09" kindref="member">SHARD_UNAVAILABLE</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><sp/>3,</highlight></codeline>
+<codeline lineno="162" refid="namespacethemis_1_1sharding_1a711c6dfc935763d99afbb4ea7bfeeb62af6b2248e4f31e0afe6b4115755e03759" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a711c6dfc935763d99afbb4ea7bfeeb62af6b2248e4f31e0afe6b4115755e03759" kindref="member">MIGRATION_CONFLICT</ref><sp/><sp/><sp/><sp/><sp/>=<sp/><sp/>4,</highlight></codeline>
+<codeline lineno="164" refid="namespacethemis_1_1sharding_1a711c6dfc935763d99afbb4ea7bfeeb62ac4120f844c8e2e80a0a382f2987c1de9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a711c6dfc935763d99afbb4ea7bfeeb62ac4120f844c8e2e80a0a382f2987c1de9" kindref="member">WAL_CORRUPTION</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><sp/>5,</highlight></codeline>
+<codeline lineno="166" refid="namespacethemis_1_1sharding_1a711c6dfc935763d99afbb4ea7bfeeb62a0caf64ed857d3a0a059846d66e72bc05" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a711c6dfc935763d99afbb4ea7bfeeb62a0caf64ed857d3a0a059846d66e72bc05" kindref="member">CONSENSUS_TIMEOUT</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><sp/>6,</highlight></codeline>
+<codeline lineno="168" refid="namespacethemis_1_1sharding_1a711c6dfc935763d99afbb4ea7bfeeb62a68d5a0d5360befdcdca630b806a8156f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a711c6dfc935763d99afbb4ea7bfeeb62a68d5a0d5360befdcdca630b806a8156f" kindref="member">TRANSACTION_IN_DOUBT</ref><sp/><sp/><sp/>=<sp/><sp/>7,</highlight></codeline>
+<codeline lineno="170" refid="namespacethemis_1_1sharding_1a711c6dfc935763d99afbb4ea7bfeeb62a17ff75533df0f159bc15261ad7341480" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a711c6dfc935763d99afbb4ea7bfeeb62a17ff75533df0f159bc15261ad7341480" kindref="member">ROUTING_RING_INVALID</ref><sp/><sp/><sp/>=<sp/><sp/>8,</highlight></codeline>
+<codeline lineno="172" refid="namespacethemis_1_1sharding_1a711c6dfc935763d99afbb4ea7bfeeb62a9e0c823f9f7555b28832ad06e9291d44" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a711c6dfc935763d99afbb4ea7bfeeb62a9e0c823f9f7555b28832ad06e9291d44" kindref="member">MIGRATION_FAULT</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><sp/>9,</highlight></codeline>
+<codeline lineno="174" refid="namespacethemis_1_1sharding_1a711c6dfc935763d99afbb4ea7bfeeb62a90322e314b282de97c8ff5961f8213f1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a711c6dfc935763d99afbb4ea7bfeeb62a90322e314b282de97c8ff5961f8213f1" kindref="member">RING_EMPTY</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>10,</highlight></codeline>
+<codeline lineno="176" refid="namespacethemis_1_1sharding_1a711c6dfc935763d99afbb4ea7bfeeb62a1673043b5f09d8c7bf7dbcea6a31f398" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a711c6dfc935763d99afbb4ea7bfeeb62a1673043b5f09d8c7bf7dbcea6a31f398" kindref="member">SHARD_INDEX_OUT_OF_RANGE</ref><sp/>=<sp/>11,</highlight></codeline>
+<codeline lineno="178" refid="namespacethemis_1_1sharding_1a711c6dfc935763d99afbb4ea7bfeeb62ae8c0c70879b5895c615677261d64a1ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a711c6dfc935763d99afbb4ea7bfeeb62ae8c0c70879b5895c615677261d64a1ee" kindref="member">INTERNAL_ERROR</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>12,</highlight></codeline>
+<codeline lineno="179"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>6<sp/><sp/>Threading<sp/>Contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Coordinator<sp/>thread-safety:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>DistributedCoordinator<sp/>is<sp/>thread-safe.<sp/>Concurrent<sp/>prepare/commit/abort</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>calls<sp/>from<sp/>different<sp/>client<sp/>threads<sp/>are<sp/>serialised<sp/>internally<sp/>per<sp/>txn-id.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>The<sp/>coordinator&apos;s<sp/>in-memory<sp/>transaction<sp/>table<sp/>uses<sp/>a<sp/>sharded<sp/>mutex<sp/>to</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>reduce<sp/>contention<sp/>across<sp/>unrelated<sp/>transactions.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Participant<sp/>isolation:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Each<sp/>shard<sp/>participant<sp/>maintains<sp/>an<sp/>independent<sp/>WAL<sp/>and<sp/>state<sp/>machine.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Participant<sp/>state<sp/>is<sp/>not<sp/>shared<sp/>across<sp/>shards;<sp/>cross-shard<sp/>coordination</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>goes<sp/>through<sp/>the<sp/>coordinator<sp/>only.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>HealthMonitor<sp/>probes<sp/>are<sp/>read-only;<sp/>concurrent<sp/>probes<sp/>do<sp/>not<sp/>affect</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>shard<sp/>state.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Hash<sp/>ring:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Ring<sp/>lookup<sp/>(routeRequest)<sp/>is<sp/>lock-free<sp/>for<sp/>reads.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Ring<sp/>topology<sp/>updates<sp/>use<sp/>a<sp/>copy-on-write<sp/>atomic<sp/>swap.<sp/>During<sp/>the<sp/>swap,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>in-flight<sp/>lookups<sp/>complete<sp/>against<sp/>the<sp/>old<sp/>ring;<sp/>new<sp/>lookups<sp/>use<sp/>the<sp/>new<sp/>ring.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204" refid="namespacethemis_1_1sharding_1a1a3c117bd41e4b7d0b9da9b4074806a4" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1sharding_1a1a3c117bd41e4b7d0b9da9b4074806a4" kindref="member">isShardingFailClosedCode</ref>(<ref refid="namespacethemis_1_1sharding_1a711c6dfc935763d99afbb4ea7bfeeb62" kindref="member">ShardingErrorCode</ref><sp/>ec)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ec<sp/>==<sp/><ref refid="namespacethemis_1_1sharding_1a711c6dfc935763d99afbb4ea7bfeeb62afeaaaedf72d0712ee7c4b016d904633f" kindref="member">ShardingErrorCode::QUORUM_LOST</ref></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>ec<sp/>==<sp/><ref refid="namespacethemis_1_1sharding_1a711c6dfc935763d99afbb4ea7bfeeb62ac92a29b0f2c6b8dbc93a594e61cc43c3" kindref="member">ShardingErrorCode::COORDINATOR_FAILURE</ref></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>ec<sp/>==<sp/><ref refid="namespacethemis_1_1sharding_1a711c6dfc935763d99afbb4ea7bfeeb62ac4120f844c8e2e80a0a382f2987c1de9" kindref="member">ShardingErrorCode::WAL_CORRUPTION</ref></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>ec<sp/>==<sp/><ref refid="namespacethemis_1_1sharding_1a711c6dfc935763d99afbb4ea7bfeeb62ae8c0c70879b5895c615677261d64a1ee" kindref="member">ShardingErrorCode::INTERNAL_ERROR</ref>;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>sharding</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/sharding/sharding_api_contract.h"/>
+  </compounddef>
+</doxygen>

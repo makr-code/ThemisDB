@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_distributed_metadata_catalog_test" kind="class" language="C++" prot="public">
+    <compoundname>DistributedMetadataCatalogTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_distributed_metadata_catalog_test_1a49e4c2fbd4f6b8fe54e90c2d56ea9c4f" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; MetadataShardRouter &gt;</type>
+        <definition>std::unique_ptr&lt;MetadataShardRouter&gt; DistributedMetadataCatalogTest::router_</definition>
+        <argsstring></argsstring>
+        <name>router_</name>
+        <qualifiedname>DistributedMetadataCatalogTest::router_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_distributed_catalog.cpp" line="95" column="32" bodyfile="tests/metadata/test_distributed_catalog.cpp" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_distributed_metadata_catalog_test_1abcca1c4a465819a87a3886b925a9fefa" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; std::shared_ptr&lt; MetadataShard &gt; &gt;</type>
+        <definition>std::vector&lt;std::shared_ptr&lt;MetadataShard&gt; &gt; DistributedMetadataCatalogTest::shards_</definition>
+        <argsstring></argsstring>
+        <name>shards_</name>
+        <qualifiedname>DistributedMetadataCatalogTest::shards_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_distributed_catalog.cpp" line="96" column="21" bodyfile="tests/metadata/test_distributed_catalog.cpp" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_distributed_metadata_catalog_test_1a1c721841cdeb229bb5106c28b7d460af" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1_distributed_metadata_catalog" kindref="compound">DistributedMetadataCatalog</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;DistributedMetadataCatalog&gt; DistributedMetadataCatalogTest::catalog_</definition>
+        <argsstring></argsstring>
+        <name>catalog_</name>
+        <qualifiedname>DistributedMetadataCatalogTest::catalog_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_distributed_catalog.cpp" line="97" column="25" bodyfile="tests/metadata/test_distributed_catalog.cpp" bodystart="97" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_distributed_metadata_catalog_test_1a10c06c9171294429d5f8d45687b83b84" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void DistributedMetadataCatalogTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>DistributedMetadataCatalogTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_distributed_catalog.cpp" line="81" column="10" bodyfile="tests/metadata/test_distributed_catalog.cpp" bodystart="81" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="class_distributed_metadata_catalog_test_1a6277b23cc686840a4aa7335ae799040d" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void DistributedMetadataCatalogTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>DistributedMetadataCatalogTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_distributed_catalog.cpp" line="88" column="10" bodyfile="tests/metadata/test_distributed_catalog.cpp" bodystart="88" bodyend="93"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>DistributedMetadataCatalogTest</label>
+        <link refid="class_distributed_metadata_catalog_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>DistributedMetadataCatalogTest</label>
+        <link refid="class_distributed_metadata_catalog_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/metadata/test_distributed_catalog.cpp" line="79" column="1" bodyfile="tests/metadata/test_distributed_catalog.cpp" bodystart="79" bodyend="98"/>
+    <listofallmembers>
+      <member refid="class_distributed_metadata_catalog_test_1a1c721841cdeb229bb5106c28b7d460af" prot="protected" virt="non-virtual"><scope>DistributedMetadataCatalogTest</scope><name>catalog_</name></member>
+      <member refid="class_distributed_metadata_catalog_test_1a49e4c2fbd4f6b8fe54e90c2d56ea9c4f" prot="protected" virt="non-virtual"><scope>DistributedMetadataCatalogTest</scope><name>router_</name></member>
+      <member refid="class_distributed_metadata_catalog_test_1a10c06c9171294429d5f8d45687b83b84" prot="protected" virt="non-virtual"><scope>DistributedMetadataCatalogTest</scope><name>SetUp</name></member>
+      <member refid="class_distributed_metadata_catalog_test_1abcca1c4a465819a87a3886b925a9fefa" prot="protected" virt="non-virtual"><scope>DistributedMetadataCatalogTest</scope><name>shards_</name></member>
+      <member refid="class_distributed_metadata_catalog_test_1a6277b23cc686840a4aa7335ae799040d" prot="protected" virt="non-virtual"><scope>DistributedMetadataCatalogTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

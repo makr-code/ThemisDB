@@ -1,0 +1,337 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="sql__parser_8h" kind="file" language="C++">
+    <compoundname>sql_parser.h</compoundname>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">variant</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="yes">utils/expected.h</includes>
+    <includedby refid="aql__runner_8h" local="yes">include/query/aql_runner.h</includedby>
+    <includedby refid="sql__parser_8cpp" local="yes">src/query/sql_parser.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/query/sql_parser.h</label>
+        <link refid="sql__parser_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="4">
+        <label>variant</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/query/aql_runner.h</label>
+        <link refid="aql__runner_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/query/sql_parser.h</label>
+        <link refid="sql__parser_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/query/aql_runner.cpp</label>
+        <link refid="aql__runner_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/query/sql_parser.cpp</label>
+        <link refid="sql__parser_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/query/test_query_cancellation.cpp</label>
+        <link refid="test__query__cancellation_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/query/test_query_resource_limits.cpp</label>
+        <link refid="test__query__resource__limits_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1query_1_1_s_q_l_expr" prot="public">themis::query::SQLExpr</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_s_q_l_literal_expr" prot="public">themis::query::SQLLiteralExpr</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_s_q_l_column_expr" prot="public">themis::query::SQLColumnExpr</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_s_q_l_binary_op_expr" prot="public">themis::query::SQLBinaryOpExpr</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_s_q_l_unary_op_expr" prot="public">themis::query::SQLUnaryOpExpr</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_s_q_l_list_expr" prot="public">themis::query::SQLListExpr</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_s_q_l_sort_spec" prot="public">themis::query::SQLSortSpec</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_s_q_l_select_statement" prot="public">themis::query::SQLSelectStatement</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_s_q_l_insert_statement" prot="public">themis::query::SQLInsertStatement</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_s_q_l_assignment" prot="public">themis::query::SQLAssignment</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_s_q_l_update_statement" prot="public">themis::query::SQLUpdateStatement</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_s_q_l_delete_statement" prot="public">themis::query::SQLDeleteStatement</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_s_q_l_a_s_t_node" prot="public">themis::query::SQLASTNode</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_s_q_l_parse_error" prot="public">themis::query::SQLParseError</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1_s_q_l_parser" prot="public">themis::query::SQLParser</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1_s_q_l_to_a_q_l_transpiler" prot="public">themis::query::SQLToAQLTranspiler</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1query">themis::query</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.16 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;variant&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/expected.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SQL<sp/>Statement<sp/>Types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1query_1ae82c464ad73e2083d4d0edab8d327a8f" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1ae82c464ad73e2083d4d0edab8d327a8f" kindref="member">SQLStatementType</ref><sp/>{</highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1query_1ae82c464ad73e2083d4d0edab8d327a8fae0626222614bdee31951d84c64e5e9ff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a1070744b96d5ab4a16ed6da1ac0fefdaae0626222614bdee31951d84c64e5e9ff" kindref="member">Select</ref>,</highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1query_1ae82c464ad73e2083d4d0edab8d327a8faa458be0f08b7e4ff3c0f633c100176c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1aa72605c7cddd48a75529795469cddc8faa458be0f08b7e4ff3c0f633c100176c0" kindref="member">Insert</ref>,</highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1query_1ae82c464ad73e2083d4d0edab8d327a8fa06933067aafd48425d67bcb01bba5cb6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1aa72605c7cddd48a75529795469cddc8fa06933067aafd48425d67bcb01bba5cb6" kindref="member">Update</ref>,</highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1query_1ae82c464ad73e2083d4d0edab8d327a8faf2a6c498fb90ee345d997f888fce3b18" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1ae82c464ad73e2083d4d0edab8d327a8faf2a6c498fb90ee345d997f888fce3b18" kindref="member">Delete</ref></highlight></codeline>
+<codeline lineno="34"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SQL<sp/>Value<sp/>–<sp/>a<sp/>literal<sp/>value<sp/>in<sp/>a<sp/>SQL<sp/>statement</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="namespacethemis_1_1query_1a52cb07cd3837eaf7d7ea4bf23b103b7f" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query_1a52cb07cd3837eaf7d7ea4bf23b103b7f" kindref="member">SQLValue</ref><sp/>=<sp/>std::variant&lt;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>std::nullptr_t,<sp/><sp/></highlight><highlight class="comment">//<sp/>NULL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>bool,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>TRUE<sp/>/<sp/>FALSE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>integer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>double,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>float</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>string<sp/>/<sp/>identifier</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal">&gt;;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SQL<sp/>Expression<sp/>nodes<sp/>(WHERE<sp/>conditions,<sp/>SET<sp/>values)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="namespacethemis_1_1query_1a499465f866fd144b44b45b4c1bc39d86" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1a499465f866fd144b44b45b4c1bc39d86" kindref="member">SQLExprType</ref><sp/>{</highlight></codeline>
+<codeline lineno="53" refid="namespacethemis_1_1query_1a499465f866fd144b44b45b4c1bc39d86ad7da1b76e5799f53a399b7a96ba67437" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1aa72605c7cddd48a75529795469cddc8fad7da1b76e5799f53a399b7a96ba67437" kindref="member">Literal</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>constant<sp/>value</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="namespacethemis_1_1query_1a499465f866fd144b44b45b4c1bc39d86a1976d7f704de389d9fe064e08ea35b2d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a499465f866fd144b44b45b4c1bc39d86a1976d7f704de389d9fe064e08ea35b2d" kindref="member">Column</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>col<sp/>or<sp/>table.col<sp/>reference</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="namespacethemis_1_1query_1a499465f866fd144b44b45b4c1bc39d86a72146646648d0b47b0dac2e2af592d39" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1aa72605c7cddd48a75529795469cddc8fa72146646648d0b47b0dac2e2af592d39" kindref="member">BinaryOp</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=,<sp/>!=,<sp/>&lt;,<sp/>&lt;=,<sp/>&gt;,<sp/>&gt;=,<sp/>AND,<sp/>OR,<sp/>IN,<sp/>LIKE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="namespacethemis_1_1query_1a499465f866fd144b44b45b4c1bc39d86a40a92e96cc89b8dd3cf793d4c2a3b6e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1aa72605c7cddd48a75529795469cddc8fa40a92e96cc89b8dd3cf793d4c2a3b6e8" kindref="member">UnaryOp</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>NOT,<sp/>IS<sp/>NULL,<sp/>IS<sp/>NOT<sp/>NULL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="namespacethemis_1_1query_1a499465f866fd144b44b45b4c1bc39d86a4ee29ca12c7d126654bd0e5275de6135" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a499465f866fd144b44b45b4c1bc39d86a4ee29ca12c7d126654bd0e5275de6135" kindref="member">List</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(val1,<sp/>val2,<sp/>...)<sp/>for<sp/>IN<sp/>predicate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1query_1_1_s_q_l_expr" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_s_q_l_expr" kindref="compound">SQLExpr</ref><sp/>{</highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1query_1_1_s_q_l_expr_1a92962f465a26cee5a1a0884ffb0f3a3f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_s_q_l_expr_1a92962f465a26cee5a1a0884ffb0f3a3f" kindref="member">~SQLExpr</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1query_1_1_s_q_l_expr_1a2fe6810ef4d8a8219f266ce073e16fc6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1a499465f866fd144b44b45b4c1bc39d86" kindref="member">SQLExprType</ref><sp/><ref refid="structthemis_1_1query_1_1_s_q_l_expr_1a2fe6810ef4d8a8219f266ce073e16fc6" kindref="member">type</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1query_1_1_s_q_l_expr_1af20858045228af595128fb418c6584cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_s_q_l_expr_1af20858045228af595128fb418c6584cb" kindref="member">toAQL</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>var)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1query_1_1_s_q_l_literal_expr" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_s_q_l_literal_expr_1ada4ecace6669c7305d11e09f51ea8157" kindref="member">SQLLiteralExpr</ref><sp/>:<sp/><ref refid="structthemis_1_1query_1_1_s_q_l_expr" kindref="compound">SQLExpr</ref><sp/>{</highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1query_1_1_s_q_l_literal_expr_1a08acbb19affb85e7fe78bf1a5cb9e03b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a52cb07cd3837eaf7d7ea4bf23b103b7f" kindref="member">SQLValue</ref><sp/><ref refid="structthemis_1_1query_1_1_s_q_l_literal_expr_1a08acbb19affb85e7fe78bf1a5cb9e03b" kindref="member">value</ref>;</highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1query_1_1_s_q_l_literal_expr_1ada4ecace6669c7305d11e09f51ea8157" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_s_q_l_literal_expr_1ada4ecace6669c7305d11e09f51ea8157" kindref="member">SQLLiteralExpr</ref>(<ref refid="namespacethemis_1_1query_1a52cb07cd3837eaf7d7ea4bf23b103b7f" kindref="member">SQLValue</ref><sp/>v)<sp/>:<sp/><ref refid="structthemis_1_1query_1_1_s_q_l_literal_expr_1a08acbb19affb85e7fe78bf1a5cb9e03b" kindref="member">value</ref>(std::move(v))<sp/>{}</highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1query_1_1_s_q_l_literal_expr_1a169378b4243c6ba481fa391f64cc201e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a499465f866fd144b44b45b4c1bc39d86" kindref="member">SQLExprType</ref><sp/><ref refid="structthemis_1_1query_1_1_s_q_l_literal_expr_1a169378b4243c6ba481fa391f64cc201e" kindref="member">type</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1a499465f866fd144b44b45b4c1bc39d86ad7da1b76e5799f53a399b7a96ba67437" kindref="member">SQLExprType::Literal</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_s_q_l_literal_expr_1a32b2d3256bd55297af45f1935d148e52" kindref="member">toAQL</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>var)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1query_1_1_s_q_l_column_expr" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_s_q_l_column_expr_1a30a9b07594a08d6adece8a3d20a4b5b8" kindref="member">SQLColumnExpr</ref><sp/>:<sp/><ref refid="structthemis_1_1query_1_1_s_q_l_expr" kindref="compound">SQLExpr</ref><sp/>{</highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1query_1_1_s_q_l_column_expr_1a77115b9f060833547eaae326f0c91581" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_s_q_l_column_expr_1a77115b9f060833547eaae326f0c91581" kindref="member">table</ref>;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>optional<sp/>table<sp/>alias<sp/>prefix</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1query_1_1_s_q_l_column_expr_1ab8614778b070c2b342fa5ac950aff420" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_s_q_l_column_expr_1ab8614778b070c2b342fa5ac950aff420" kindref="member">column</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1query_1_1_s_q_l_column_expr_1a30a9b07594a08d6adece8a3d20a4b5b8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_s_q_l_column_expr_1a30a9b07594a08d6adece8a3d20a4b5b8" kindref="member">SQLColumnExpr</ref>(std::string<sp/>t,<sp/>std::string<sp/>c)<sp/>:<sp/><ref refid="structthemis_1_1query_1_1_s_q_l_column_expr_1a77115b9f060833547eaae326f0c91581" kindref="member">table</ref>(std::move(t)),<sp/><ref refid="structthemis_1_1query_1_1_s_q_l_column_expr_1ab8614778b070c2b342fa5ac950aff420" kindref="member">column</ref>(std::move(c))<sp/>{}</highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1query_1_1_s_q_l_column_expr_1a5dbe1b841522c32e83ed835a541859bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_s_q_l_column_expr_1a5dbe1b841522c32e83ed835a541859bf" kindref="member">SQLColumnExpr</ref>(std::string<sp/>c)<sp/>:<sp/><ref refid="structthemis_1_1query_1_1_s_q_l_column_expr_1ab8614778b070c2b342fa5ac950aff420" kindref="member">column</ref>(std::move(c))<sp/>{}</highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1query_1_1_s_q_l_column_expr_1a8beb221f88e939538684c74fb1dc6c96" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a499465f866fd144b44b45b4c1bc39d86" kindref="member">SQLExprType</ref><sp/><ref refid="structthemis_1_1query_1_1_s_q_l_column_expr_1a8beb221f88e939538684c74fb1dc6c96" kindref="member">type</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1a499465f866fd144b44b45b4c1bc39d86a1976d7f704de389d9fe064e08ea35b2d" kindref="member">SQLExprType::Column</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_s_q_l_column_expr_1a6458f8aebe934359f7ec706f7fcc1dc6" kindref="member">toAQL</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>var)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1query_1_1_s_q_l_binary_op_expr" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_s_q_l_binary_op_expr_1a4181868eca9d339209b8fd4831b350e7" kindref="member">SQLBinaryOpExpr</ref><sp/>:<sp/><ref refid="structthemis_1_1query_1_1_s_q_l_expr" kindref="compound">SQLExpr</ref><sp/>{</highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1query_1_1_s_q_l_binary_op_expr_1a3a6d57cb7596b1cd2ba6e1510ee44abf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_s_q_l_binary_op_expr_1a3a6d57cb7596b1cd2ba6e1510ee44abf" kindref="member">op</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;==&quot;,<sp/>&quot;!=&quot;,<sp/>&quot;&lt;&quot;,<sp/>&quot;&lt;=&quot;,<sp/>&quot;&gt;&quot;,<sp/>&quot;&gt;=&quot;,<sp/>&quot;AND&quot;,<sp/>&quot;OR&quot;,<sp/>&quot;IN&quot;,<sp/>&quot;LIKE&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1query_1_1_s_q_l_binary_op_expr_1a2c01cc87d79b52c53cd0c6648ad158bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;SQLExpr&gt;<sp/><ref refid="structthemis_1_1query_1_1_s_q_l_binary_op_expr_1a2c01cc87d79b52c53cd0c6648ad158bf" kindref="member">left</ref>;</highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1query_1_1_s_q_l_binary_op_expr_1a96355965c3a660f5e673e937edca733b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;SQLExpr&gt;<sp/><ref refid="structthemis_1_1query_1_1_s_q_l_binary_op_expr_1a96355965c3a660f5e673e937edca733b" kindref="member">right</ref>;</highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1query_1_1_s_q_l_binary_op_expr_1a4181868eca9d339209b8fd4831b350e7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_s_q_l_binary_op_expr_1a4181868eca9d339209b8fd4831b350e7" kindref="member">SQLBinaryOpExpr</ref>(std::string<sp/>o,<sp/>std::shared_ptr&lt;SQLExpr&gt;<sp/>l,<sp/>std::shared_ptr&lt;SQLExpr&gt;<sp/>r)</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="structthemis_1_1query_1_1_s_q_l_binary_op_expr_1a3a6d57cb7596b1cd2ba6e1510ee44abf" kindref="member">op</ref>(std::move(o)),<sp/><ref refid="structthemis_1_1query_1_1_s_q_l_binary_op_expr_1a2c01cc87d79b52c53cd0c6648ad158bf" kindref="member">left</ref>(std::move(l)),<sp/><ref refid="structthemis_1_1query_1_1_s_q_l_binary_op_expr_1a96355965c3a660f5e673e937edca733b" kindref="member">right</ref>(std::move(r))<sp/>{}</highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1query_1_1_s_q_l_binary_op_expr_1ac2c5b2490872a2fac9e51b9e0b45f2aa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a499465f866fd144b44b45b4c1bc39d86" kindref="member">SQLExprType</ref><sp/><ref refid="structthemis_1_1query_1_1_s_q_l_binary_op_expr_1ac2c5b2490872a2fac9e51b9e0b45f2aa" kindref="member">type</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1a499465f866fd144b44b45b4c1bc39d86a72146646648d0b47b0dac2e2af592d39" kindref="member">SQLExprType::BinaryOp</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_s_q_l_binary_op_expr_1a677b476a8096b69e512c802b994ccd80" kindref="member">toAQL</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>var)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1query_1_1_s_q_l_unary_op_expr" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_s_q_l_unary_op_expr_1ab9f9c3262abd2a495a97bfd489e6fc22" kindref="member">SQLUnaryOpExpr</ref><sp/>:<sp/><ref refid="structthemis_1_1query_1_1_s_q_l_expr" kindref="compound">SQLExpr</ref><sp/>{</highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1query_1_1_s_q_l_unary_op_expr_1a3d131712cd5baa005105f2175fbbd966" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_s_q_l_unary_op_expr_1a3d131712cd5baa005105f2175fbbd966" kindref="member">op</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;NOT&quot;,<sp/>&quot;IS_NULL&quot;,<sp/>&quot;IS_NOT_NULL&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1query_1_1_s_q_l_unary_op_expr_1a2a397034ddb53c094399a378cf459f6a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;SQLExpr&gt;<sp/><ref refid="structthemis_1_1query_1_1_s_q_l_unary_op_expr_1a2a397034ddb53c094399a378cf459f6a" kindref="member">operand</ref>;</highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1query_1_1_s_q_l_unary_op_expr_1ab9f9c3262abd2a495a97bfd489e6fc22" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_s_q_l_unary_op_expr_1ab9f9c3262abd2a495a97bfd489e6fc22" kindref="member">SQLUnaryOpExpr</ref>(std::string<sp/>o,<sp/>std::shared_ptr&lt;SQLExpr&gt;<sp/>e)<sp/>:<sp/><ref refid="structthemis_1_1query_1_1_s_q_l_unary_op_expr_1a3d131712cd5baa005105f2175fbbd966" kindref="member">op</ref>(std::move(o)),<sp/><ref refid="structthemis_1_1query_1_1_s_q_l_unary_op_expr_1a2a397034ddb53c094399a378cf459f6a" kindref="member">operand</ref>(std::move(e))<sp/>{}</highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1query_1_1_s_q_l_unary_op_expr_1ac5c917d563ac3290a30f90f170bb09b5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a499465f866fd144b44b45b4c1bc39d86" kindref="member">SQLExprType</ref><sp/><ref refid="structthemis_1_1query_1_1_s_q_l_unary_op_expr_1ac5c917d563ac3290a30f90f170bb09b5" kindref="member">type</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1a499465f866fd144b44b45b4c1bc39d86a40a92e96cc89b8dd3cf793d4c2a3b6e8" kindref="member">SQLExprType::UnaryOp</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_s_q_l_unary_op_expr_1aec25f0c578e28165df9e18a4026f4eb5" kindref="member">toAQL</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>var)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1query_1_1_s_q_l_list_expr" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_s_q_l_list_expr_1a7c47a3b25b807eaacdaa1602ca1693c5" kindref="member">SQLListExpr</ref><sp/>:<sp/><ref refid="structthemis_1_1query_1_1_s_q_l_expr" kindref="compound">SQLExpr</ref><sp/>{</highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1query_1_1_s_q_l_list_expr_1a179c60e5d4f23ae8110d002bb2984687" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::shared_ptr&lt;SQLExpr&gt;&gt;<sp/><ref refid="structthemis_1_1query_1_1_s_q_l_list_expr_1a179c60e5d4f23ae8110d002bb2984687" kindref="member">elements</ref>;</highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1query_1_1_s_q_l_list_expr_1a7c47a3b25b807eaacdaa1602ca1693c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_s_q_l_list_expr_1a7c47a3b25b807eaacdaa1602ca1693c5" kindref="member">SQLListExpr</ref>(std::vector&lt;std::shared_ptr&lt;SQLExpr&gt;&gt;<sp/>elems)<sp/>:<sp/><ref refid="structthemis_1_1query_1_1_s_q_l_list_expr_1a179c60e5d4f23ae8110d002bb2984687" kindref="member">elements</ref>(std::move(elems))<sp/>{}</highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1query_1_1_s_q_l_list_expr_1a41f1e9a3dcaa80f836c7deb29066b9b1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a499465f866fd144b44b45b4c1bc39d86" kindref="member">SQLExprType</ref><sp/><ref refid="structthemis_1_1query_1_1_s_q_l_list_expr_1a41f1e9a3dcaa80f836c7deb29066b9b1" kindref="member">type</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1a499465f866fd144b44b45b4c1bc39d86a4ee29ca12c7d126654bd0e5275de6135" kindref="member">SQLExprType::List</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_s_q_l_list_expr_1a859c3a273416c2a1e4411da77be6b573" kindref="member">toAQL</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>var)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SQL<sp/>Statement<sp/>AST<sp/>nodes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1query_1_1_s_q_l_sort_spec" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_s_q_l_sort_spec" kindref="compound">SQLSortSpec</ref><sp/>{</highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1query_1_1_s_q_l_sort_spec_1ac5fb79d984199cbcf4428b0f506bbab8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_s_q_l_sort_spec_1ac5fb79d984199cbcf4428b0f506bbab8" kindref="member">column</ref>;</highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1query_1_1_s_q_l_sort_spec_1a84b8563519b8fdfe2936984bb6e80808" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_s_q_l_sort_spec_1a84b8563519b8fdfe2936984bb6e80808" kindref="member">ascending</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1query_1_1_s_q_l_select_statement" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_s_q_l_select_statement" kindref="compound">SQLSelectStatement</ref><sp/>{</highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1query_1_1_s_q_l_select_statement_1a04853460aa4f0ea91eb69e1f318b008f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_s_q_l_select_statement_1a04853460aa4f0ea91eb69e1f318b008f" kindref="member">star</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>SELECT<sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122" refid="structthemis_1_1query_1_1_s_q_l_select_statement_1a385e0943f3bc6b340a59de3f1dd71163" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1query_1_1_s_q_l_select_statement_1a385e0943f3bc6b340a59de3f1dd71163" kindref="member">columns</ref>;</highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1query_1_1_s_q_l_select_statement_1a7bfbec94fda9ce593dcdcff2b6711cff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_s_q_l_select_statement_1a7bfbec94fda9ce593dcdcff2b6711cff" kindref="member">table</ref>;</highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1query_1_1_s_q_l_select_statement_1ae11d50c0a30f94f0c67b1776a4c194a2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::shared_ptr&lt;SQLExpr&gt;&gt;<sp/><ref refid="structthemis_1_1query_1_1_s_q_l_select_statement_1ae11d50c0a30f94f0c67b1776a4c194a2" kindref="member">where</ref>;</highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1query_1_1_s_q_l_select_statement_1a09330987bff82e410468331cddb0cc01" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;SQLSortSpec&gt;<sp/><ref refid="structthemis_1_1query_1_1_s_q_l_select_statement_1a09330987bff82e410468331cddb0cc01" kindref="member">order_by</ref>;</highlight></codeline>
+<codeline lineno="126" refid="structthemis_1_1query_1_1_s_q_l_select_statement_1a8f98a3bd84fd6351e774360bd8400a43" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;int64_t&gt;<sp/><ref refid="structthemis_1_1query_1_1_s_q_l_select_statement_1a8f98a3bd84fd6351e774360bd8400a43" kindref="member">limit</ref>;</highlight></codeline>
+<codeline lineno="127" refid="structthemis_1_1query_1_1_s_q_l_select_statement_1ab3574c57e76bc2155c68e34d42804bc8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;int64_t&gt;<sp/><ref refid="structthemis_1_1query_1_1_s_q_l_select_statement_1ab3574c57e76bc2155c68e34d42804bc8" kindref="member">offset</ref>;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1query_1_1_s_q_l_insert_statement" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_s_q_l_insert_statement" kindref="compound">SQLInsertStatement</ref><sp/>{</highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1query_1_1_s_q_l_insert_statement_1a807aab008fc195d66cf5005e66fbe1c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_s_q_l_insert_statement_1a807aab008fc195d66cf5005e66fbe1c6" kindref="member">table</ref>;</highlight></codeline>
+<codeline lineno="132" refid="structthemis_1_1query_1_1_s_q_l_insert_statement_1a766de747726e53a9d16dba61796c12f6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1query_1_1_s_q_l_insert_statement_1a766de747726e53a9d16dba61796c12f6" kindref="member">columns</ref>;</highlight></codeline>
+<codeline lineno="133" refid="structthemis_1_1query_1_1_s_q_l_insert_statement_1aaf85a6690f2d7719d5be76ca8707b56f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;SQLValue&gt;<sp/><ref refid="structthemis_1_1query_1_1_s_q_l_insert_statement_1aaf85a6690f2d7719d5be76ca8707b56f" kindref="member">values</ref>;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136" refid="structthemis_1_1query_1_1_s_q_l_assignment" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_s_q_l_assignment" kindref="compound">SQLAssignment</ref><sp/>{</highlight></codeline>
+<codeline lineno="137" refid="structthemis_1_1query_1_1_s_q_l_assignment_1a9d27c982566c4caf88f91b828225abe0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_s_q_l_assignment_1a9d27c982566c4caf88f91b828225abe0" kindref="member">column</ref>;</highlight></codeline>
+<codeline lineno="138" refid="structthemis_1_1query_1_1_s_q_l_assignment_1af946d88214b8879b592953dbed804129" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a52cb07cd3837eaf7d7ea4bf23b103b7f" kindref="member">SQLValue</ref><sp/><ref refid="structthemis_1_1query_1_1_s_q_l_assignment_1af946d88214b8879b592953dbed804129" kindref="member">value</ref>;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141" refid="structthemis_1_1query_1_1_s_q_l_update_statement" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_s_q_l_update_statement" kindref="compound">SQLUpdateStatement</ref><sp/>{</highlight></codeline>
+<codeline lineno="142" refid="structthemis_1_1query_1_1_s_q_l_update_statement_1ad0c6f8f5bf9f35a2d92ce807c345ca72" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_s_q_l_update_statement_1ad0c6f8f5bf9f35a2d92ce807c345ca72" kindref="member">table</ref>;</highlight></codeline>
+<codeline lineno="143" refid="structthemis_1_1query_1_1_s_q_l_update_statement_1aa443651c0d358febebc43ae1ad5827d5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;SQLAssignment&gt;<sp/><ref refid="structthemis_1_1query_1_1_s_q_l_update_statement_1aa443651c0d358febebc43ae1ad5827d5" kindref="member">assignments</ref>;</highlight></codeline>
+<codeline lineno="144" refid="structthemis_1_1query_1_1_s_q_l_update_statement_1aeede0db26d6efc1d28ac3788c147b814" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::shared_ptr&lt;SQLExpr&gt;&gt;<sp/><ref refid="structthemis_1_1query_1_1_s_q_l_update_statement_1aeede0db26d6efc1d28ac3788c147b814" kindref="member">where</ref>;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147" refid="structthemis_1_1query_1_1_s_q_l_delete_statement" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_s_q_l_delete_statement" kindref="compound">SQLDeleteStatement</ref><sp/>{</highlight></codeline>
+<codeline lineno="148" refid="structthemis_1_1query_1_1_s_q_l_delete_statement_1a779670ea22ae78b264e68903b01f6e07" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_s_q_l_delete_statement_1a779670ea22ae78b264e68903b01f6e07" kindref="member">table</ref>;</highlight></codeline>
+<codeline lineno="149" refid="structthemis_1_1query_1_1_s_q_l_delete_statement_1aec5c3f6d27470b34c440a958306317de" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::shared_ptr&lt;SQLExpr&gt;&gt;<sp/><ref refid="structthemis_1_1query_1_1_s_q_l_delete_statement_1aec5c3f6d27470b34c440a958306317de" kindref="member">where</ref>;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SQL<sp/>AST<sp/>–<sp/>top-level<sp/>node<sp/>wrapping<sp/>the<sp/>concrete<sp/>statement</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156" refid="structthemis_1_1query_1_1_s_q_l_a_s_t_node" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_s_q_l_a_s_t_node" kindref="compound">SQLASTNode</ref><sp/>{</highlight></codeline>
+<codeline lineno="157" refid="structthemis_1_1query_1_1_s_q_l_a_s_t_node_1a350c1e044e8508357e5e7c98b026e40a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1ae82c464ad73e2083d4d0edab8d327a8f" kindref="member">SQLStatementType</ref><sp/><ref refid="structthemis_1_1query_1_1_s_q_l_a_s_t_node_1a350c1e044e8508357e5e7c98b026e40a" kindref="member">statement_type</ref>;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Exactly<sp/>one<sp/>of<sp/>the<sp/>following<sp/>is<sp/>set,<sp/>matching<sp/>statement_type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160" refid="structthemis_1_1query_1_1_s_q_l_a_s_t_node_1a4d90196fee8e09c1bff82314b1c46631" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;SQLSelectStatement&gt;<sp/><ref refid="structthemis_1_1query_1_1_s_q_l_a_s_t_node_1a4d90196fee8e09c1bff82314b1c46631" kindref="member">select</ref>;</highlight></codeline>
+<codeline lineno="161" refid="structthemis_1_1query_1_1_s_q_l_a_s_t_node_1aadfc369a1e30083f4083595dedd63a65" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;SQLInsertStatement&gt;<sp/><ref refid="structthemis_1_1query_1_1_s_q_l_a_s_t_node_1aadfc369a1e30083f4083595dedd63a65" kindref="member">insert</ref>;</highlight></codeline>
+<codeline lineno="162" refid="structthemis_1_1query_1_1_s_q_l_a_s_t_node_1adfdbd42c06c64b8196d53415357ddbba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;SQLUpdateStatement&gt;<sp/><ref refid="structthemis_1_1query_1_1_s_q_l_a_s_t_node_1adfdbd42c06c64b8196d53415357ddbba" kindref="member">update</ref>;</highlight></codeline>
+<codeline lineno="163" refid="structthemis_1_1query_1_1_s_q_l_a_s_t_node_1a4c4e6e167108e11a61428d41958387b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;SQLDeleteStatement&gt;<sp/><ref refid="structthemis_1_1query_1_1_s_q_l_a_s_t_node_1a4c4e6e167108e11a61428d41958387b7" kindref="member">del</ref>;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SQL<sp/>Parse<sp/>Error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170" refid="structthemis_1_1query_1_1_s_q_l_parse_error" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_s_q_l_parse_error" kindref="compound">SQLParseError</ref><sp/>{</highlight></codeline>
+<codeline lineno="171" refid="structthemis_1_1query_1_1_s_q_l_parse_error_1a88f0ac802d7cd1e99db0067a1d766974" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_s_q_l_parse_error_1a88f0ac802d7cd1e99db0067a1d766974" kindref="member">message</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="172" refid="structthemis_1_1query_1_1_s_q_l_parse_error_1a8ba9964e7b3ba9b27bb266f5f852c8bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_s_q_l_parse_error_1a8ba9964e7b3ba9b27bb266f5f852c8bd" kindref="member">position</ref><sp/>=<sp/>0;<sp/><sp/></highlight><highlight class="comment">//<sp/>character<sp/>offset<sp/>into<sp/>the<sp/>query<sp/>string</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174" refid="structthemis_1_1query_1_1_s_q_l_parse_error_1a3ce436f555cb4de625b69526804359e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_s_q_l_parse_error_1a3ce436f555cb4de625b69526804359e9" kindref="member">toString</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;SQL<sp/>parse<sp/>error<sp/>at<sp/>position<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(<ref refid="structthemis_1_1query_1_1_s_q_l_parse_error_1a8ba9964e7b3ba9b27bb266f5f852c8bd" kindref="member">position</ref>)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;:<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/><ref refid="structthemis_1_1query_1_1_s_q_l_parse_error_1a88f0ac802d7cd1e99db0067a1d766974" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="177"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SQLParser</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Parses<sp/>a<sp/>SQL<sp/>query<sp/>string<sp/>(SELECT/INSERT/UPDATE/DELETE)<sp/>into<sp/>an<sp/>SQLASTNode.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Thread-safety:<sp/>NOT<sp/>thread-safe;<sp/>create<sp/>one<sp/>instance<sp/>per<sp/>thread<sp/>or<sp/>protect</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="comment">//<sp/>with<sp/>a<sp/>mutex<sp/>(same<sp/>constraint<sp/>as<sp/>AQLParser).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186" refid="classthemis_1_1query_1_1_s_q_l_parser" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_s_q_l_parser_1aef2dc65164321f48e793c703f89ee371" kindref="member">SQLParser</ref><sp/>{</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="188" refid="classthemis_1_1query_1_1_s_q_l_parser_1aef2dc65164321f48e793c703f89ee371" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_s_q_l_parser_1aef2dc65164321f48e793c703f89ee371" kindref="member">SQLParser</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;SQLASTNode&gt;<sp/><ref refid="classthemis_1_1query_1_1_s_q_l_parser_1ae592b3d4ef82601dcd0e4636a58fbc32" kindref="member">parse</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>sql_query);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Internal<sp/>tokenizer<sp/>/<sp/>parser<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_token" kindref="compound">Token</ref>;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">Lexer;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_parser" kindref="compound">Parser</ref>;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SQLToAQLTranspiler</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Translates<sp/>an<sp/>SQLASTNode<sp/>into<sp/>an<sp/>AQL<sp/>query<sp/>string<sp/>suitable<sp/>for<sp/>execution</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight><highlight class="comment">//<sp/>through<sp/>the<sp/>existing<sp/>AQL<sp/>pipeline<sp/>(executeAql<sp/>/<sp/>AQLParser<sp/>/<sp/>AQLTranslator).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210" refid="classthemis_1_1query_1_1_s_q_l_to_a_q_l_transpiler" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_s_q_l_to_a_q_l_transpiler_1a662125487773c19e8b3f9d77935fb8d6" kindref="member">SQLToAQLTranspiler</ref><sp/>{</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="212" refid="classthemis_1_1query_1_1_s_q_l_to_a_q_l_transpiler_1a662125487773c19e8b3f9d77935fb8d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_s_q_l_to_a_q_l_transpiler_1a662125487773c19e8b3f9d77935fb8d6" kindref="member">SQLToAQLTranspiler</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;std::string&gt;<sp/><ref refid="classthemis_1_1query_1_1_s_q_l_to_a_q_l_transpiler_1a93b400c4835ac617bc0ea01f45797fda" kindref="member">transpile</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_s_q_l_a_s_t_node" kindref="compound">SQLASTNode</ref>&amp;<sp/>ast);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>transpileSelect(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_s_q_l_select_statement" kindref="compound">SQLSelectStatement</ref>&amp;<sp/>stmt);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>transpileInsert(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_s_q_l_insert_statement" kindref="compound">SQLInsertStatement</ref>&amp;<sp/>stmt);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>transpileUpdate(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_s_q_l_update_statement" kindref="compound">SQLUpdateStatement</ref>&amp;<sp/>stmt);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>transpileDelete(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_s_q_l_delete_statement" kindref="compound">SQLDeleteStatement</ref>&amp;<sp/>stmt);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>valueToAQL(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1a52cb07cd3837eaf7d7ea4bf23b103b7f" kindref="member">SQLValue</ref>&amp;<sp/>val);</highlight></codeline>
+<codeline lineno="252"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>query</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/query/sql_parser.h"/>
+  </compounddef>
+</doxygen>

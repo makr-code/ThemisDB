@@ -1,0 +1,286 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="infini__attention__vulkan_8h" kind="file" language="C++">
+    <compoundname>infini_attention_vulkan.h</compoundname>
+    <includes refid="flash__attention_8h" local="yes">../flash_attention.h</includes>
+    <includes refid="flash__attention__config_8h" local="yes">../flash_attention_config.h</includes>
+    <includes local="no">vulkan/vulkan.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="infini__attention__vulkan_8cpp" local="yes">src/llm/attention/vulkan/infini_attention_vulkan.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>../flash_attention.h</label>
+        <link refid="flash__attention_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>flash_attention_config.h</label>
+        <link refid="flash__attention__config_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>kv_cache_manager.h</label>
+        <link refid="kv__cache__manager_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/llm/attention/vulkan/infini_attention_vulkan.h</label>
+        <link refid="infini__attention__vulkan_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>cmath</label>
+      </node>
+      <node id="4">
+        <label>cstddef</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="11">
+        <label>memory</label>
+      </node>
+      <node id="12">
+        <label>mutex</label>
+      </node>
+      <node id="10">
+        <label>queue</label>
+      </node>
+      <node id="13">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>unordered_map</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+      <node id="14">
+        <label>vulkan/vulkan.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/llm/attention/vulkan/infini_attention_vulkan.h</label>
+        <link refid="infini__attention__vulkan_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/llm/attention/vulkan/infini_attention_vulkan.cpp</label>
+        <link refid="infini__attention__vulkan_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan" prot="public">themis::llm::attention::vulkan::InfiniAttentionVulkan</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_config" prot="public">themis::llm::attention::vulkan::InfiniAttentionVulkan::Config</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_vulkan_pipeline" prot="public">themis::llm::attention::vulkan::InfiniAttentionVulkan::VulkanPipeline</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm_1_1attention">themis::llm::attention</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm_1_1attention_1_1vulkan">themis::llm::attention::vulkan</innernamespace>
+    <briefdescription>
+<para>Infini-attention Vulkan compute pipeline API (P2-D02). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides host-side interface for Vulkan compute shader execution on multi-vendor GPUs.</para>
+<para><simplesect kind="author"><para>Copilot Coding Agent (Vulkan Port) </para>
+</simplesect>
+<simplesect kind="date"><para>2026-07-22 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="flash__attention_8h" kindref="compound">../flash_attention.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="flash__attention__config_8h" kindref="compound">../flash_attention_config.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vulkan/vulkan.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1attention" kindref="compound">attention</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1attention_1_1vulkan" kindref="compound">vulkan</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24" refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a369b3520e9f46c32f7f1dfd67efd6b82" kindref="member">InfiniAttentionVulkan</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="26" refid="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_config_1a53dde39319e1625e0bc6762efda153c4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_config_1a53dde39319e1625e0bc6762efda153c4" kindref="member">memory_dim</ref><sp/>=<sp/>128;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_config_1ab1020e407401024137a7908222a7dc95" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_config_1ab1020e407401024137a7908222a7dc95" kindref="member">update_rate</ref><sp/>=<sp/>0.1f;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_config_1aa8d85dbcb1b066ec2aa95608a1f6d74d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_config_1aa8d85dbcb1b066ec2aa95608a1f6d74d" kindref="member">low_rank</ref><sp/>=<sp/>4;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_config_1aeaba2d9a54fe970ac32d6d701241d84e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_config_1aeaba2d9a54fe970ac32d6d701241d84e" kindref="member">enable_fused_ops</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_config_1a803aba343bb42673d587c20da9821e81" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_config_1a803aba343bb42673d587c20da9821e81" kindref="member">max_seq_len</ref><sp/>=<sp/>4096;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_config_1aa554818fb54d456f9d00611bf7e2d7d7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_config_1aa554818fb54d456f9d00611bf7e2d7d7" kindref="member">num_heads</ref><sp/>=<sp/>8;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_config_1a4a1fea35b7eb6243642078cb0b03ca6b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_config_1a4a1fea35b7eb6243642078cb0b03ca6b" kindref="member">head_dim</ref><sp/>=<sp/>64;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_vulkan_pipeline" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_vulkan_pipeline" kindref="compound">VulkanPipeline</ref><sp/>{</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_vulkan_pipeline_1a1584b9bee1df7769c49209268bf95a54" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>VkPipeline<sp/><ref refid="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_vulkan_pipeline_1a1584b9bee1df7769c49209268bf95a54" kindref="member">pipeline</ref><sp/>=<sp/>VK_NULL_HANDLE;</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_vulkan_pipeline_1a6d1d41386a21a1a8fa0ccaa9d0801fb1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>VkPipelineLayout<sp/><ref refid="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_vulkan_pipeline_1a6d1d41386a21a1a8fa0ccaa9d0801fb1" kindref="member">layout</ref><sp/>=<sp/>VK_NULL_HANDLE;</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_vulkan_pipeline_1a3731054b79713d276f3f1ae09fc15748" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>VkDescriptorSetLayout<sp/><ref refid="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_vulkan_pipeline_1a3731054b79713d276f3f1ae09fc15748" kindref="member">descriptor_set_layout</ref><sp/>=<sp/>VK_NULL_HANDLE;</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_vulkan_pipeline_1a64e6b849cfbd34ae9ff7dd2086703a76" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>VkShaderModule<sp/><ref refid="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_vulkan_pipeline_1a64e6b849cfbd34ae9ff7dd2086703a76" kindref="member">shader_module</ref><sp/>=<sp/>VK_NULL_HANDLE;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a369b3520e9f46c32f7f1dfd67efd6b82" kindref="member">InfiniAttentionVulkan</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1ac59538ade03228485a36e64ee1295960" kindref="member">~InfiniAttentionVulkan</ref>();</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388" kindref="member">Status</ref><sp/><ref refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a9d5866feda9cc35bff677e471caa70cf" kindref="member">initialize</ref>();</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388" kindref="member">Status</ref><sp/><ref refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a7b065124aa8c11b1fca6c5067ffcf533" kindref="member">forward</ref>(</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref>&amp;<sp/>Q,</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref>&amp;<sp/>K,</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref>&amp;<sp/>V,</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref>&amp;<sp/>O</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388" kindref="member">Status</ref><sp/><ref refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a6aca63f422c7cd5b317547108d7b3fd7" kindref="member">backward</ref>(</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref>&amp;<sp/>dO,</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref>&amp;<sp/>dQ,</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref>&amp;<sp/>dK,</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref>&amp;<sp/>dV</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_attention_memory_stats" kindref="compound">AttentionMemoryStats</ref><sp/><ref refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1af0e270eb414796d6802998de132cc13e" kindref="member">getMemoryStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a98a560ddf5ae4b930f62a30ac48b3d39" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a98a560ddf5ae4b930f62a30ac48b3d39" kindref="member">getBackendName</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;vulkan&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a479a55844cff0e5d1c896db28dc8cccd" kindref="member">isAvailable</ref>();</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388" kindref="member">Status</ref><sp/><ref refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a994b2a3d49e00b990ad06d00911cca6d" kindref="member">initializeVulkanRuntime</ref>();</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388" kindref="member">Status</ref><sp/><ref refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a31e63161a940cb7d43c6ed162a5fd0dd" kindref="member">resetMemory</ref>();</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a3ff28b95eb1ae1e6a5df6185dd9cb3e7" kindref="member">getCompressiveMemory</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388" kindref="member">Status</ref><sp/><ref refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a493aacee6c5f5c55704c56a1576571a1" kindref="member">restoreCompressiveMemory</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>checkpoint);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>Config<sp/>config_;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>initialized_<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Vulkan<sp/>instance<sp/>and<sp/>device<sp/>handles</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>VkInstance<sp/>vulkan_instance_;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>VkPhysicalDevice<sp/>physical_device_;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>VkDevice<sp/>logical_device_;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>VkQueue<sp/>compute_queue_;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>VkCommandPool<sp/>command_pool_;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compute<sp/>pipelines<sp/>(one<sp/>per<sp/>stage)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>VulkanPipeline<sp/>pipeline_compressive_attention_;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>VulkanPipeline<sp/>pipeline_memory_update_;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>VulkanPipeline<sp/>pipeline_row_sums_;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>VulkanPipeline<sp/>pipeline_blend_;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GPU<sp/>memory<sp/>buffers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>VkBuffer<sp/>buffer_memory_<sp/>=<sp/>VK_NULL_HANDLE;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>VkBuffer<sp/>buffer_memory_update_<sp/>=<sp/>VK_NULL_HANDLE;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>VkBuffer<sp/>buffer_rowsums_<sp/>=<sp/>VK_NULL_HANDLE;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>VkDeviceMemory<sp/>memory_gpu_;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Descriptor<sp/>sets<sp/>for<sp/>kernel<sp/>dispatch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>VkDescriptorPool<sp/>descriptor_pool_<sp/>=<sp/>VK_NULL_HANDLE;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>VkDescriptorSet<sp/>descriptor_set_<sp/>=<sp/>VK_NULL_HANDLE;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>VkBuffer<sp/>allocateGPUBuffer(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size,<sp/>VkBufferUsageFlags<sp/>usage);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388" kindref="member">Status</ref><sp/>releaseGPUBuffer(VkBuffer<sp/>buffer);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>VkShaderModule<sp/>loadShaderModule(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>path)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388" kindref="member">Status</ref><sp/>createComputePipeline(</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>VkShaderModule<sp/>shader_module,</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>VulkanPipeline&amp;<sp/>pipeline</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388" kindref="member">Status</ref><sp/>dispatchKernel(</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>VulkanPipeline&amp;<sp/>pipeline,</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>grid_x,</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>grid_y,</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>grid_z</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388" kindref="member">Status</ref><sp/>computeLocalAttention(</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref>&amp;<sp/>Q,</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref>&amp;<sp/>K,</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref>&amp;<sp/>V,</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref>&amp;<sp/>O</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388" kindref="member">Status</ref><sp/>computeCompressiveAttention(</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref>&amp;<sp/>Q,</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref>&amp;<sp/>O</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388" kindref="member">Status</ref><sp/>updateCompressiveMemory(</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref>&amp;<sp/>K,</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref>&amp;<sp/>V</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388" kindref="member">Status</ref><sp/>blendOutputs(</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref>&amp;<sp/>O_local,</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref>&amp;<sp/>O_comp,</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref>&amp;<sp/>O_final</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388" kindref="member">Status</ref><sp/>copyDeviceToHost(</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>VkBuffer<sp/>device_buffer,</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>host_data,</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388" kindref="member">Status</ref><sp/>copyHostToDevice(</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>host_data,</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>VkBuffer<sp/>device_buffer,</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>vulkan</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>attention</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/attention/vulkan/infini_attention_vulkan.h"/>
+  </compounddef>
+</doxygen>

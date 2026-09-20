@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1voice_1_1_liveness_check_failed_error" kind="class" language="C++" prot="public">
+    <compoundname>themis::voice::LivenessCheckFailedError</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">std::runtime_error</basecompoundref>
+    <includes refid="voice__liveness__checker_8h" local="no">voice_liveness_checker.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_liveness_check_failed_error_1a61bb7da9fa726d7b48e1292df3c5ff6c" prot="private" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::voice::LivenessCheckFailedError::confidence_</definition>
+        <argsstring></argsstring>
+        <name>confidence_</name>
+        <qualifiedname>themis::voice::LivenessCheckFailedError::confidence_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_checker.h" line="56" column="13" bodyfile="include/voice/voice_liveness_checker.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_liveness_check_failed_error_1a976616cfdca90dd496acf09b74c70823" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::LivenessCheckFailedError::LivenessCheckFailedError</definition>
+        <argsstring>(const std::string &amp;reason, uint8_t confidence)</argsstring>
+        <name>LivenessCheckFailedError</name>
+        <qualifiedname>themis::voice::LivenessCheckFailedError::LivenessCheckFailedError</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>confidence</declname>
+        </param>
+        <briefdescription>
+<para>Construct liveness check error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Description of liveness failure </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>confidence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Confidence level (0-100) of the detection </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_checker.h" line="48" column="5" bodyfile="include/voice/voice_liveness_checker.h" bodystart="48" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_liveness_check_failed_error_1af88764514cfb80cf064f5c9a2f1d7827" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::voice::LivenessCheckFailedError::confidence</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::voice::LivenessCheckFailedError::confidence</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_checker.h" line="53" column="14" bodyfile="include/voice/voice_liveness_checker.h" bodystart="53" bodyend="53"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Exception thrown when liveness check fails. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Indicates potential spoofing, replay, or authenticity issue. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::voice::LivenessCheckFailedError</label>
+        <link refid="classthemis_1_1voice_1_1_liveness_check_failed_error"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::voice::LivenessCheckFailedError</label>
+        <link refid="classthemis_1_1voice_1_1_liveness_check_failed_error"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/voice/voice_liveness_checker.h" line="40" column="1" bodyfile="include/voice/voice_liveness_checker.h" bodystart="40" bodyend="57"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1voice_1_1_liveness_check_failed_error_1af88764514cfb80cf064f5c9a2f1d7827" prot="public" virt="non-virtual"><scope>themis::voice::LivenessCheckFailedError</scope><name>confidence</name></member>
+      <member refid="classthemis_1_1voice_1_1_liveness_check_failed_error_1a61bb7da9fa726d7b48e1292df3c5ff6c" prot="private" virt="non-virtual"><scope>themis::voice::LivenessCheckFailedError</scope><name>confidence_</name></member>
+      <member refid="classthemis_1_1voice_1_1_liveness_check_failed_error_1a976616cfdca90dd496acf09b74c70823" prot="public" virt="non-virtual"><scope>themis::voice::LivenessCheckFailedError</scope><name>LivenessCheckFailedError</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

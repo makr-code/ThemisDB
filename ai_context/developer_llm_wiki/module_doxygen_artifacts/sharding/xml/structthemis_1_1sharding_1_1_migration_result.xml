@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_migration_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::MigrationResult</compoundname>
+    <includes refid="data__migrator_8h" local="no">data_migrator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_migration_result_1a80bd2c51ebcd96d81992b9b530c6093a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::MigrationResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::sharding::MigrationResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True bei erfolgreichem Abschluss. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/data_migrator.h" line="51" column="10" bodyfile="include/sharding/data_migrator.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_migration_result_1a712aff74db475554419a1a894179b365" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::MigrationResult::records_migrated</definition>
+        <argsstring></argsstring>
+        <name>records_migrated</name>
+        <qualifiedname>themis::sharding::MigrationResult::records_migrated</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Migrierte Datensaetze. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/data_migrator.h" line="52" column="14" bodyfile="include/sharding/data_migrator.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_migration_result_1ac9ce83c9315bd38b20e165ae0eb14189" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::MigrationResult::bytes_transferred</definition>
+        <argsstring></argsstring>
+        <name>bytes_transferred</name>
+        <qualifiedname>themis::sharding::MigrationResult::bytes_transferred</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Uebertragene Gesamtdatenmenge in Bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/data_migrator.h" line="53" column="14" bodyfile="include/sharding/data_migrator.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_migration_result_1a0d3260f08f0f875d45c33db815ece09c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::sharding::MigrationResult::errors</definition>
+        <argsstring></argsstring>
+        <name>errors</name>
+        <qualifiedname>themis::sharding::MigrationResult::errors</qualifiedname>
+        <briefdescription>
+<para>Batch-spezifische Fehlerdetails. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/data_migrator.h" line="54" column="17" bodyfile="include/sharding/data_migrator.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_migration_result_1a0316e58d843f3ea22e6cfd7e92cd155f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::MigrationResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::sharding::MigrationResult::error_message</qualifiedname>
+        <briefdescription>
+<para>Zusammenfassende Fehlermeldung. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/data_migrator.h" line="55" column="17" bodyfile="include/sharding/data_migrator.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_migration_result_1a98f1aba8ee68f0368198f56da8129aba" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::MigrationResult::migration_id</definition>
+        <argsstring></argsstring>
+        <name>migration_id</name>
+        <qualifiedname>themis::sharding::MigrationResult::migration_id</qualifiedname>
+        <briefdescription>
+<para>Deterministische Tracking-ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/data_migrator.h" line="56" column="17" bodyfile="include/sharding/data_migrator.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_migration_result_1ac6091dc3123ef1a1dda1c1f4a4eb5a00" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::MigrationResult::was_already_completed</definition>
+        <argsstring></argsstring>
+        <name>was_already_completed</name>
+        <qualifiedname>themis::sharding::MigrationResult::was_already_completed</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True, falls Idempotenz die Arbeit uebersprang. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/data_migrator.h" line="57" column="10" bodyfile="include/sharding/data_migrator.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Ergebnis einer abgeschlossenen Migration. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/data_migrator.h" line="50" column="1" bodyfile="include/sharding/data_migrator.h" bodystart="50" bodyend="58"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_migration_result_1ac9ce83c9315bd38b20e165ae0eb14189" prot="public" virt="non-virtual"><scope>themis::sharding::MigrationResult</scope><name>bytes_transferred</name></member>
+      <member refid="structthemis_1_1sharding_1_1_migration_result_1a0316e58d843f3ea22e6cfd7e92cd155f" prot="public" virt="non-virtual"><scope>themis::sharding::MigrationResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1sharding_1_1_migration_result_1a0d3260f08f0f875d45c33db815ece09c" prot="public" virt="non-virtual"><scope>themis::sharding::MigrationResult</scope><name>errors</name></member>
+      <member refid="structthemis_1_1sharding_1_1_migration_result_1a98f1aba8ee68f0368198f56da8129aba" prot="public" virt="non-virtual"><scope>themis::sharding::MigrationResult</scope><name>migration_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_migration_result_1a712aff74db475554419a1a894179b365" prot="public" virt="non-virtual"><scope>themis::sharding::MigrationResult</scope><name>records_migrated</name></member>
+      <member refid="structthemis_1_1sharding_1_1_migration_result_1a80bd2c51ebcd96d81992b9b530c6093a" prot="public" virt="non-virtual"><scope>themis::sharding::MigrationResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1sharding_1_1_migration_result_1ac6091dc3123ef1a1dda1c1f4a4eb5a00" prot="public" virt="non-virtual"><scope>themis::sharding::MigrationResult</scope><name>was_already_completed</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

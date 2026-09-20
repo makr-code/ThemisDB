@@ -1,0 +1,246 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::DistributedTransactionCoordinator::Config</compoundname>
+    <includes refid="distributed__transaction_8h" local="no">distributed_transaction.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config_1acd3f80211d88aa24905a5f881b2d7cec" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::DistributedTransactionCoordinator::Config::prepare_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>prepare_timeout_ms</name>
+        <qualifiedname>themis::sharding::DistributedTransactionCoordinator::Config::prepare_timeout_ms</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+<para>Timeout for prepare phase. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="104" column="18" bodyfile="include/sharding/distributed_transaction.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config_1a5086e4174c6d002bf86e17bc91119e6e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::DistributedTransactionCoordinator::Config::commit_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>commit_timeout_ms</name>
+        <qualifiedname>themis::sharding::DistributedTransactionCoordinator::Config::commit_timeout_ms</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+<para>Timeout for commit phase. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="105" column="18" bodyfile="include/sharding/distributed_transaction.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config_1a80105215e0558043aec68dc7b5a7c0c5" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::DistributedTransactionCoordinator::Config::max_concurrent_txns</definition>
+        <argsstring></argsstring>
+        <name>max_concurrent_txns</name>
+        <qualifiedname>themis::sharding::DistributedTransactionCoordinator::Config::max_concurrent_txns</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+<para>Maximum concurrent transactions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="106" column="18" bodyfile="include/sharding/distributed_transaction.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config_1a9d4f046ab6dc8795412fd27b6fb5d0ad" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::DistributedTransactionCoordinator::Config::enable_read_only_opt</definition>
+        <argsstring></argsstring>
+        <name>enable_read_only_opt</name>
+        <qualifiedname>themis::sharding::DistributedTransactionCoordinator::Config::enable_read_only_opt</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable read-only fast-path optimization. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="107" column="14" bodyfile="include/sharding/distributed_transaction.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config_1ad69ca38c071f58e0f6299bee8335c1ed" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::DistributedTransactionCoordinator::Config::rpc_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>rpc_timeout_ms</name>
+        <qualifiedname>themis::sharding::DistributedTransactionCoordinator::Config::rpc_timeout_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+<para>RPC timeout per shard call. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="108" column="18" bodyfile="include/sharding/distributed_transaction.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config_1a48e36d86363a759d7b8978709665d18e" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::DistributedTransactionCoordinator::Config::max_retries</definition>
+        <argsstring></argsstring>
+        <name>max_retries</name>
+        <qualifiedname>themis::sharding::DistributedTransactionCoordinator::Config::max_retries</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Per-RPC retry attempts. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="109" column="18" bodyfile="include/sharding/distributed_transaction.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config_1a59ce1a701521317014576dc9648fb3b1" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::DistributedTransactionCoordinator::Config::max_commit_retries</definition>
+        <argsstring></argsstring>
+        <name>max_commit_retries</name>
+        <qualifiedname>themis::sharding::DistributedTransactionCoordinator::Config::max_commit_retries</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Maximum retries for commit phase. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="110" column="18" bodyfile="include/sharding/distributed_transaction.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config_1aa484193eb0528367291c54579033f5fc" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::DistributedTransactionCoordinator::Config::retry_backoff_base_ms</definition>
+        <argsstring></argsstring>
+        <name>retry_backoff_base_ms</name>
+        <qualifiedname>themis::sharding::DistributedTransactionCoordinator::Config::retry_backoff_base_ms</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+<para>Base delay for exponential retry backoff. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="111" column="18" bodyfile="include/sharding/distributed_transaction.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config_1a52fce452c8fad76f66b0a75537c4118c" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::DistributedTransactionCoordinator::Config::max_backoff_ms</definition>
+        <argsstring></argsstring>
+        <name>max_backoff_ms</name>
+        <qualifiedname>themis::sharding::DistributedTransactionCoordinator::Config::max_backoff_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+<para>Maximum retry backoff delay. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="112" column="18" bodyfile="include/sharding/distributed_transaction.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config_1abe6dc74829269d8811debec593190552" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::DistributedTransactionCoordinator::Config::enable_recovery_log</definition>
+        <argsstring></argsstring>
+        <name>enable_recovery_log</name>
+        <qualifiedname>themis::sharding::DistributedTransactionCoordinator::Config::enable_recovery_log</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable WAL-based transaction recovery logging. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="113" column="14" bodyfile="include/sharding/distributed_transaction.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config_1a7ff619095104eb1c2757126dd9e0bdcd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::DistributedTransactionCoordinator::Config::wal_directory</definition>
+        <argsstring></argsstring>
+        <name>wal_directory</name>
+        <qualifiedname>themis::sharding::DistributedTransactionCoordinator::Config::wal_directory</qualifiedname>
+        <initializer>= &quot;./wal/coordinator&quot;</initializer>
+        <briefdescription>
+<para>WAL directory used for decision/recovery persistence. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="114" column="21" bodyfile="include/sharding/distributed_transaction.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config_1a487a36f34b8fc145c60ca06ee3f83c1d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::DistributedTransactionCoordinator::Config::coordinator_id</definition>
+        <argsstring></argsstring>
+        <name>coordinator_id</name>
+        <qualifiedname>themis::sharding::DistributedTransactionCoordinator::Config::coordinator_id</qualifiedname>
+        <briefdescription>
+<para>Prometheus label value for coordinator metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="115" column="21" bodyfile="include/sharding/distributed_transaction.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config_1a276ce1158b0616e408607cc5b6cd289e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::DistributedTransactionCoordinator::Config::use_percolator_for_snapshot</definition>
+        <argsstring></argsstring>
+        <name>use_percolator_for_snapshot</name>
+        <qualifiedname>themis::sharding::DistributedTransactionCoordinator::Config::use_percolator_for_snapshot</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When true, transactions with isolation_level == SNAPSHOT_ISOLATION use the Percolator commit path instead of full 2PC:<itemizedlist>
+<listitem><para>Run a cross-shard prepare phase for write-write conflict detection.</para>
+</listitem><listitem><para>Derive commit timestamp from <ref refid="classthemis_1_1sharding_1_1_true_time_1a6f7dc701bd5145d4f9148d941a31854c" kindref="member">TrueTime::now_with_uncertainty()</ref>.</para>
+</listitem><listitem><para>Apply commit-wait before sending COMMIT to participants.</para>
+</listitem></itemizedlist>
+</para>
+<para>SERIALIZABLE transactions always use full 2PC regardless of this flag.</para>
+<para><simplesect kind="warning"><para>Percolator is designed for read-heavy, non-safety-critical workloads. For safety-critical applications that require full ACID guarantees and zero tolerance for anomalies, leave this flag at its default of false so that all transactions use the standard 2PC path. Enable it only after explicitly accepting the trade-offs documented in docs/DISTRIBUTED_TRANSACTIONS.md §Percolator Mode. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="133" column="14" bodyfile="include/sharding/distributed_transaction.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for distributed transaction coordinator. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/distributed_transaction.h" line="103" column="5" bodyfile="include/sharding/distributed_transaction.h" bodystart="103" bodyend="134"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config_1a5086e4174c6d002bf86e17bc91119e6e" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedTransactionCoordinator::Config</scope><name>commit_timeout_ms</name></member>
+      <member refid="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config_1a487a36f34b8fc145c60ca06ee3f83c1d" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedTransactionCoordinator::Config</scope><name>coordinator_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config_1a9d4f046ab6dc8795412fd27b6fb5d0ad" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedTransactionCoordinator::Config</scope><name>enable_read_only_opt</name></member>
+      <member refid="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config_1abe6dc74829269d8811debec593190552" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedTransactionCoordinator::Config</scope><name>enable_recovery_log</name></member>
+      <member refid="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config_1a52fce452c8fad76f66b0a75537c4118c" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedTransactionCoordinator::Config</scope><name>max_backoff_ms</name></member>
+      <member refid="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config_1a59ce1a701521317014576dc9648fb3b1" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedTransactionCoordinator::Config</scope><name>max_commit_retries</name></member>
+      <member refid="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config_1a80105215e0558043aec68dc7b5a7c0c5" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedTransactionCoordinator::Config</scope><name>max_concurrent_txns</name></member>
+      <member refid="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config_1a48e36d86363a759d7b8978709665d18e" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedTransactionCoordinator::Config</scope><name>max_retries</name></member>
+      <member refid="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config_1acd3f80211d88aa24905a5f881b2d7cec" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedTransactionCoordinator::Config</scope><name>prepare_timeout_ms</name></member>
+      <member refid="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config_1aa484193eb0528367291c54579033f5fc" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedTransactionCoordinator::Config</scope><name>retry_backoff_base_ms</name></member>
+      <member refid="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config_1ad69ca38c071f58e0f6299bee8335c1ed" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedTransactionCoordinator::Config</scope><name>rpc_timeout_ms</name></member>
+      <member refid="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config_1a276ce1158b0616e408607cc5b6cd289e" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedTransactionCoordinator::Config</scope><name>use_percolator_for_snapshot</name></member>
+      <member refid="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config_1a7ff619095104eb1c2757126dd9e0bdcd" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedTransactionCoordinator::Config</scope><name>wal_directory</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

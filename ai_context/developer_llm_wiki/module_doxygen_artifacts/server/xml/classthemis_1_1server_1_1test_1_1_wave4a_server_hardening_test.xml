@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1test_1_1_wave4a_server_hardening_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::test::Wave4aServerHardeningTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1test_1_1_wave4a_server_hardening_test_1a163f766dcdcc1ed2c728d22581c67635" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::test::Wave4aServerHardeningTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::server::test::Wave4aServerHardeningTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_wave4a_server_hardening.cpp" line="101" column="10" bodyfile="tests/server/test_wave4a_server_hardening.cpp" bodystart="101" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1test_1_1_wave4a_server_hardening_test_1a06e3463217b71979119634d346b8353c" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::test::Wave4aServerHardeningTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::server::test::Wave4aServerHardeningTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_wave4a_server_hardening.cpp" line="109" column="10" bodyfile="tests/server/test_wave4a_server_hardening.cpp" bodystart="109" bodyend="115"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::server::test::Wave4aServerHardeningTest</label>
+        <link refid="classthemis_1_1server_1_1test_1_1_wave4a_server_hardening_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::server::test::Wave4aServerHardeningTest</label>
+        <link refid="classthemis_1_1server_1_1test_1_1_wave4a_server_hardening_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/server/test_wave4a_server_hardening.cpp" line="99" column="1" bodyfile="tests/server/test_wave4a_server_hardening.cpp" bodystart="99" bodyend="116"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1test_1_1_wave4a_server_hardening_test_1a163f766dcdcc1ed2c728d22581c67635" prot="protected" virt="non-virtual"><scope>themis::server::test::Wave4aServerHardeningTest</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1server_1_1test_1_1_wave4a_server_hardening_test_1a06e3463217b71979119634d346b8353c" prot="protected" virt="non-virtual"><scope>themis::server::test::Wave4aServerHardeningTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

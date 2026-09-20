@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="basic__compile__check_8cpp" kind="file" language="C++">
+    <compoundname>basic_compile_check.cpp</compoundname>
+    <includes refid="test__analytics__concurrency__safety__focused_8cpp" local="yes">test_analytics_concurrency_safety_focused.cpp</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/analytics/basic_compile_check.cpp</label>
+        <link refid="basic__compile__check_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>test_analytics_concurrency_safety_focused.cpp</label>
+        <link refid="test__analytics__concurrency__safety__focused_8cpp"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>array</label>
+      </node>
+      <node id="5">
+        <label>atomic</label>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="7">
+        <label>condition_variable</label>
+      </node>
+      <node id="3">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="8">
+        <label>iostream</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="11">
+        <label>thread</label>
+      </node>
+      <node id="12">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classtesting_1_1_test" prot="public">testing::Test</innerclass>
+    <innernamespace refid="namespacetesting">testing</innernamespace>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="basic__compile__check_8cpp_1adcbe7409673d6c393e01ecc371bd90f1" prot="public" static="no">
+        <name>GTEST_NAMESPACE</name>
+        <initializer><ref refid="namespacetesting" kindref="compound">testing</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/basic_compile_check.cpp" line="2" column="9" bodyfile="tests/analytics/basic_compile_check.cpp" bodystart="2" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Quick<sp/>compile<sp/>check</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>GTEST_NAMESPACE<sp/>testing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3" refid="classtesting_1_1_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacetesting" kindref="compound">testing</ref><sp/>{<sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classtesting_1_1_test" kindref="compound">Test</ref><sp/>{<sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classtesting_1_1_test_1a57a4116f39f6636a80710ded7d42e889" kindref="member">SetUp</ref>()<sp/>{}<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classtesting_1_1_test_1a2889fd829b6c712d98fb3896d28f64a3" kindref="member">TearDown</ref>()<sp/>{}<sp/>};<sp/>}</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="test__analytics__concurrency__safety__focused_8cpp" kindref="compound">test_analytics_concurrency_safety_focused.cpp</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/analytics/basic_compile_check.cpp"/>
+  </compounddef>
+</doxygen>

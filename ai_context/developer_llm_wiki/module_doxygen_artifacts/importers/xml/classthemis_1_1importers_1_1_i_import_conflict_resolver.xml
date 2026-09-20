@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1_i_import_conflict_resolver" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::importers::IImportConflictResolver</compoundname>
+    <derivedcompoundref refid="class_always_keep_resolver" prot="public" virt="non-virtual">AlwaysKeepResolver</derivedcompoundref>
+    <derivedcompoundref refid="class_always_reject_resolver" prot="public" virt="non-virtual">AlwaysRejectResolver</derivedcompoundref>
+    <derivedcompoundref refid="class_always_replace_resolver" prot="public" virt="non-virtual">AlwaysReplaceResolver</derivedcompoundref>
+    <derivedcompoundref refid="class_field_merge_resolver" prot="public" virt="non-virtual">FieldMergeResolver</derivedcompoundref>
+    <includes refid="importer__interfaces_8h" local="no">importer_interfaces.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_i_import_conflict_resolver_1a4a7b20ff9a19de8b06c27808dc633cbe" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::importers::IImportConflictResolver::~IImportConflictResolver</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IImportConflictResolver</name>
+        <qualifiedname>themis::importers::IImportConflictResolver::~IImportConflictResolver</qualifiedname>
+        <briefdescription>
+<para>IImport Conflict Resolver. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interfaces.h" line="51" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_i_import_conflict_resolver_1a2c916d46f479c564c6bd96e05cedf841" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1importers_1_1_conflict_resolution_result" kindref="compound">ConflictResolutionResult</ref></type>
+        <definition>virtual ConflictResolutionResult themis::importers::IImportConflictResolver::resolve</definition>
+        <argsstring>(const json &amp;existing, const json &amp;incoming) const =0</argsstring>
+        <name>resolve</name>
+        <qualifiedname>themis::importers::IImportConflictResolver::resolve</qualifiedname>
+        <reimplementedby refid="class_always_keep_resolver_1a42bc8396741445d8090dddd052b94fd4">resolve</reimplementedby>
+        <reimplementedby refid="class_always_reject_resolver_1a81ce9b5fe4e7724239b5ae4ff3cf9515">resolve</reimplementedby>
+        <reimplementedby refid="class_always_replace_resolver_1af87d8b17d464c249a4b92781254906c9">resolve</reimplementedby>
+        <reimplementedby refid="class_field_merge_resolver_1a6c96754a9688d6b5b66b82abfc40ddf1">resolve</reimplementedby>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref> &amp;</type>
+          <declname>existing</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref> &amp;</type>
+          <declname>incoming</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interfaces.h" line="53" column="39"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>AlwaysKeepResolver</label>
+        <link refid="class_always_keep_resolver"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AlwaysRejectResolver</label>
+        <link refid="class_always_reject_resolver"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>AlwaysReplaceResolver</label>
+        <link refid="class_always_replace_resolver"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>FieldMergeResolver</label>
+        <link refid="class_field_merge_resolver"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::importers::IImportConflictResolver</label>
+        <link refid="classthemis_1_1importers_1_1_i_import_conflict_resolver"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/importers/importer_interfaces.h" line="45" column="1" bodyfile="include/importers/importer_interfaces.h" bodystart="45" bodyend="56"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1importers_1_1_i_import_conflict_resolver_1a2c916d46f479c564c6bd96e05cedf841" prot="public" virt="pure-virtual"><scope>themis::importers::IImportConflictResolver</scope><name>resolve</name></member>
+      <member refid="classthemis_1_1importers_1_1_i_import_conflict_resolver_1a4a7b20ff9a19de8b06c27808dc633cbe" prot="public" virt="virtual"><scope>themis::importers::IImportConflictResolver</scope><name>~IImportConflictResolver</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

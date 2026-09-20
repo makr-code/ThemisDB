@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_distributed_tracing_s_d_k_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::DistributedTracingSDKTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_distributed_tracing_s_d_k_test_1aab13740e980331ec21358c751d47e1c8" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1observability_1_1_distributed_tracing_s_d_k" kindref="compound">DistributedTracingSDK</ref></type>
+        <definition>DistributedTracingSDK themis::observability::DistributedTracingSDKTest::sdk_</definition>
+        <argsstring></argsstring>
+        <name>sdk_</name>
+        <qualifiedname>themis::observability::DistributedTracingSDKTest::sdk_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_distributed_tracing_sdk.cpp" line="30" column="27" bodyfile="tests/observability/test_distributed_tracing_sdk.cpp" bodystart="30" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::observability::DistributedTracingSDKTest</label>
+        <link refid="classthemis_1_1observability_1_1_distributed_tracing_s_d_k_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::observability::DistributedTracingSDK</label>
+        <link refid="classthemis_1_1observability_1_1_distributed_tracing_s_d_k"/>
+      </node>
+      <node id="1">
+        <label>themis::observability::DistributedTracingSDKTest</label>
+        <link refid="classthemis_1_1observability_1_1_distributed_tracing_s_d_k_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>sdk_</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/observability/test_distributed_tracing_sdk.cpp" line="28" column="1" bodyfile="tests/observability/test_distributed_tracing_sdk.cpp" bodystart="28" bodyend="31"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_distributed_tracing_s_d_k_test_1aab13740e980331ec21358c751d47e1c8" prot="protected" virt="non-virtual"><scope>themis::observability::DistributedTracingSDKTest</scope><name>sdk_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

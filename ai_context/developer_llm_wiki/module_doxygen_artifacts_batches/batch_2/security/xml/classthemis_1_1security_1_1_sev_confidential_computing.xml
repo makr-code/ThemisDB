@@ -1,0 +1,189 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1_sev_confidential_computing" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::security::SevConfidentialComputing</compoundname>
+    <basecompoundref refid="classthemis_1_1security_1_1_confidential_computing_base" prot="public" virt="non-virtual">themis::security::ConfidentialComputingBase</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_sev_confidential_computing_1ac6216cfed0b206b3af04547dad46154d" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::SevConfidentialComputing::SevConfidentialComputing</definition>
+        <argsstring>(TeeType type)</argsstring>
+        <name>SevConfidentialComputing</name>
+        <qualifiedname>themis::security::SevConfidentialComputing::SevConfidentialComputing</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1security_1a5839a34a29cd06daa704afb85c01824d" kindref="member">TeeType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Sev Confidential Computing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/confidential_computing.cpp" line="512" column="14" bodyfile="src/security/confidential_computing.cpp" bodystart="512" bodyend="513"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_sev_confidential_computing_1acc6d211e9a85a6cdfbef4328b0e2fc37" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1security_1_1_tee_detection_result" kindref="compound">TeeDetectionResult</ref></type>
+        <definition>TeeDetectionResult themis::security::SevConfidentialComputing::detect</definition>
+        <argsstring>() const override</argsstring>
+        <name>detect</name>
+        <qualifiedname>themis::security::SevConfidentialComputing::detect</qualifiedname>
+        <reimplements refid="classthemis_1_1security_1_1_confidential_computing_1afe609384936135d248f13659f791ec9d">detect</reimplements>
+        <briefdescription>
+<para>Detect the active TEE technology. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Performs CPUID enumeration followed by an optional kernel-driver probe to confirm genuine hardware presence.</para>
+<para><simplesect kind="return"><para>Detection result (type == NONE on ordinary hardware) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/confidential_computing.cpp" line="515" column="24" bodyfile="src/security/confidential_computing.cpp" bodystart="515" bodyend="536"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_sev_confidential_computing_1a71a183db01d374a31ebbe99b5e48bb52" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1security_1_1_tee_attestation_report" kindref="compound">TeeAttestationReport</ref></type>
+        <definition>TeeAttestationReport themis::security::SevConfidentialComputing::getAttestationReport</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;report_data) const override</argsstring>
+        <name>getAttestationReport</name>
+        <qualifiedname>themis::security::SevConfidentialComputing::getAttestationReport</qualifiedname>
+        <reimplements refid="classthemis_1_1security_1_1_confidential_computing_1a769e75f7006943d41d8902b4b05f302f">getAttestationReport</reimplements>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>report_data</declname>
+        </param>
+        <briefdescription>
+<para>Generate a TEE attestation report. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>report_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Up to 64 bytes of caller-supplied data (nonce / challenge) to embed in the report so the verifier can bind the quote to a specific request. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Attestation report; raw_report is empty and is_genuine == false in software-fallback mode. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/confidential_computing.cpp" line="538" column="26" bodyfile="src/security/confidential_computing.cpp" bodystart="538" bodyend="583"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_sev_confidential_computing_1a408d0fce46f7c666ffa271bf70f65473" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::security::SevConfidentialComputing::name</definition>
+        <argsstring>() const override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::security::SevConfidentialComputing::name</qualifiedname>
+        <reimplements refid="classthemis_1_1security_1_1_confidential_computing_1a023f2b47e5ef047cb157575137371d05">name</reimplements>
+        <briefdescription>
+<para>Human-readable name of the active TEE (or &quot;Software fallback&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/confidential_computing.cpp" line="585" column="17" bodyfile="src/security/confidential_computing.cpp" bodystart="585" bodyend="588"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_sev_confidential_computing_1a644945a94050203e88dd44c9bd8cafbf" prot="protected" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::security::SevConfidentialComputing::currentMeasurement</definition>
+        <argsstring>() const override</argsstring>
+        <name>currentMeasurement</name>
+        <qualifiedname>themis::security::SevConfidentialComputing::currentMeasurement</qualifiedname>
+        <reimplements refid="classthemis_1_1security_1_1_confidential_computing_base_1ace1e513c17290ed0e03e482269cba121">currentMeasurement</reimplements>
+        <briefdescription>
+<para>Subclasses override to return the current TEE measurement digest (used for measurement binding in seal/unseal). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/confidential_computing.cpp" line="591" column="17" bodyfile="src/security/confidential_computing.cpp" bodystart="591" bodyend="605"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>themis::security::ConfidentialComputing</label>
+        <link refid="classthemis_1_1security_1_1_confidential_computing"/>
+      </node>
+      <node id="2">
+        <label>themis::security::ConfidentialComputingBase</label>
+        <link refid="classthemis_1_1security_1_1_confidential_computing_base"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::security::SevConfidentialComputing</label>
+        <link refid="classthemis_1_1security_1_1_sev_confidential_computing"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>themis::security::ConfidentialComputing</label>
+        <link refid="classthemis_1_1security_1_1_confidential_computing"/>
+      </node>
+      <node id="2">
+        <label>themis::security::ConfidentialComputingBase</label>
+        <link refid="classthemis_1_1security_1_1_confidential_computing_base"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::security::SevConfidentialComputing</label>
+        <link refid="classthemis_1_1security_1_1_sev_confidential_computing"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/security/confidential_computing.cpp" line="505" column="1" bodyfile="src/security/confidential_computing.cpp" bodystart="505" bodyend="606"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1_confidential_computing_1a65f3f4b0a9f3e17514ec8a01933f636d" prot="public" virt="non-virtual"><scope>themis::security::SevConfidentialComputing</scope><name>ConfidentialComputing</name></member>
+      <member refid="classthemis_1_1security_1_1_confidential_computing_1a02f30cc033edaa202dfc41ca83f559ae" prot="public" virt="non-virtual"><scope>themis::security::SevConfidentialComputing</scope><name>ConfidentialComputing</name></member>
+      <member refid="classthemis_1_1security_1_1_confidential_computing_1a03f61787562dcd3bc27239d8ea08a75e" prot="protected" virt="non-virtual"><scope>themis::security::SevConfidentialComputing</scope><name>ConfidentialComputing</name></member>
+      <member refid="classthemis_1_1security_1_1_confidential_computing_base_1ae5481300108bf9a188ea5727eb42ee1e" prot="public" virt="non-virtual"><scope>themis::security::SevConfidentialComputing</scope><name>ConfidentialComputingBase</name></member>
+      <member refid="classthemis_1_1security_1_1_confidential_computing_1a38971f360137ae080acf86e3da9569dd" prot="public" virt="non-virtual"><scope>themis::security::SevConfidentialComputing</scope><name>create</name></member>
+      <member refid="classthemis_1_1security_1_1_sev_confidential_computing_1a644945a94050203e88dd44c9bd8cafbf" prot="protected" virt="virtual"><scope>themis::security::SevConfidentialComputing</scope><name>currentMeasurement</name></member>
+      <member refid="classthemis_1_1security_1_1_sev_confidential_computing_1acc6d211e9a85a6cdfbef4328b0e2fc37" prot="public" virt="virtual"><scope>themis::security::SevConfidentialComputing</scope><name>detect</name></member>
+      <member refid="classthemis_1_1security_1_1_sev_confidential_computing_1a71a183db01d374a31ebbe99b5e48bb52" prot="public" virt="virtual"><scope>themis::security::SevConfidentialComputing</scope><name>getAttestationReport</name></member>
+      <member refid="classthemis_1_1security_1_1_sev_confidential_computing_1a408d0fce46f7c666ffa271bf70f65473" prot="public" virt="virtual"><scope>themis::security::SevConfidentialComputing</scope><name>name</name></member>
+      <member refid="classthemis_1_1security_1_1_confidential_computing_1ac37a71a61891eb486630582ec26485bd" prot="public" virt="non-virtual"><scope>themis::security::SevConfidentialComputing</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1security_1_1_confidential_computing_1ad1b4cc31aad4758a90af446db3d85e8f" prot="public" virt="non-virtual"><scope>themis::security::SevConfidentialComputing</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1security_1_1_confidential_computing_base_1a71bd9dd223e8851d5c004c688e000ecc" prot="public" virt="virtual"><scope>themis::security::SevConfidentialComputing</scope><name>seal</name></member>
+      <member refid="classthemis_1_1security_1_1_confidential_computing_base_1acd419f5d72298c39e766f2a1d75a5b64" prot="protected" virt="non-virtual"><scope>themis::security::SevConfidentialComputing</scope><name>sealing_key_</name></member>
+      <member refid="classthemis_1_1security_1_1_sev_confidential_computing_1ac6216cfed0b206b3af04547dad46154d" prot="public" virt="non-virtual"><scope>themis::security::SevConfidentialComputing</scope><name>SevConfidentialComputing</name></member>
+      <member refid="classthemis_1_1security_1_1_confidential_computing_base_1a1ef31924e9dd75affbf11b5d35814196" prot="protected" virt="non-virtual"><scope>themis::security::SevConfidentialComputing</scope><name>tee_type_</name></member>
+      <member refid="classthemis_1_1security_1_1_confidential_computing_base_1ae5196cde26eb27a6343d74aa9501d95a" prot="public" virt="virtual"><scope>themis::security::SevConfidentialComputing</scope><name>unseal</name></member>
+      <member refid="classthemis_1_1security_1_1_confidential_computing_1ae7464cdc2ea4f517690aa9f5ff4149d8" prot="public" virt="virtual"><scope>themis::security::SevConfidentialComputing</scope><name>~ConfidentialComputing</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

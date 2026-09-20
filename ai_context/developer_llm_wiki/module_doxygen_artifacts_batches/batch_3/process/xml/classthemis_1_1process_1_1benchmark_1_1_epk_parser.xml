@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1benchmark_1_1_epk_parser" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::benchmark::EpkParser</compoundname>
+    <innerclass refid="structthemis_1_1process_1_1benchmark_1_1_epk_parser_1_1_epk_model" prot="public">themis::process::benchmark::EpkParser::EpkModel</innerclass>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_epk_parser_1a70544957f16ef84e676e18943a2f1544" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1benchmark_1_1_epk_parser_1_1_epk_model" kindref="compound">EpkModel</ref></type>
+        <definition>static EpkModel themis::process::benchmark::EpkParser::parse</definition>
+        <argsstring>(const std::string &amp;xml_content)</argsstring>
+        <name>parse</name>
+        <qualifiedname>themis::process::benchmark::EpkParser::parse</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>xml_content</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_parser_gates.cpp" line="102" column="21" bodyfile="benchmarks/process/bench_process_parser_gates.cpp" bodystart="102" bodyend="129"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>EPK (Event-Driven Process Chain) Parser. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/process/bench_process_parser_gates.cpp" line="93" column="1" bodyfile="benchmarks/process/bench_process_parser_gates.cpp" bodystart="93" bodyend="130"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_epk_parser_1a70544957f16ef84e676e18943a2f1544" prot="public" virt="non-virtual"><scope>themis::process::benchmark::EpkParser</scope><name>parse</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

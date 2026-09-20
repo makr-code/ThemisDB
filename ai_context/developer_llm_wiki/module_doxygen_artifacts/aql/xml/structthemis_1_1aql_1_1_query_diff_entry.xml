@@ -1,0 +1,182 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1_query_diff_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::QueryDiffEntry</compoundname>
+    <includes refid="aql__query__diff__explainer_8h" local="no">aql_query_diff_explainer.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1aql_1_1_query_diff_entry_1a7419b653cd66b8e832d1aa4d14f6b945" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Kind</name>
+        <qualifiedname>themis::aql::QueryDiffEntry::Kind</qualifiedname>
+        <enumvalue id="structthemis_1_1aql_1_1_query_diff_entry_1a7419b653cd66b8e832d1aa4d14f6b945ac83f569c25bdb00ea7efe5aa413be336" prot="public">
+          <name>CLAUSE_ADDED</name>
+          <briefdescription>
+<para>A clause present in <computeroutput>b</computeroutput> is absent from <computeroutput>a</computeroutput>. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1aql_1_1_query_diff_entry_1a7419b653cd66b8e832d1aa4d14f6b945a2438bf81baf2ddc8313bee90b5093c13" prot="public">
+          <name>CLAUSE_REMOVED</name>
+          <briefdescription>
+<para>A clause present in <computeroutput>a</computeroutput> is absent from <computeroutput>b</computeroutput>. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1aql_1_1_query_diff_entry_1a7419b653cd66b8e832d1aa4d14f6b945a829ab6d3538f3898c279c52a1b619910" prot="public">
+          <name>CLAUSE_CHANGED</name>
+          <briefdescription>
+<para>A clause changed between <computeroutput>a</computeroutput> and <computeroutput>b</computeroutput>. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1aql_1_1_query_diff_entry_1a7419b653cd66b8e832d1aa4d14f6b945a5d35d1a6fb4bc3bce01ed4f8f9bfb560" prot="public">
+          <name>FILTER_CHANGED</name>
+          <briefdescription>
+<para>The filter/predicate logic changed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1aql_1_1_query_diff_entry_1a7419b653cd66b8e832d1aa4d14f6b945ad26bdb1e416b271558085e1ee75009ca" prot="public">
+          <name>SORT_CHANGED</name>
+          <briefdescription>
+<para>The sort order or sort keys changed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1aql_1_1_query_diff_entry_1a7419b653cd66b8e832d1aa4d14f6b945afef27de339b4c599360e6397bff81aec" prot="public">
+          <name>LIMIT_CHANGED</name>
+          <briefdescription>
+<para>The LIMIT / OFFSET values changed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1aql_1_1_query_diff_entry_1a7419b653cd66b8e832d1aa4d14f6b945a9a3bf1fb0ea091e1c4a9676f633e8f10" prot="public">
+          <name>RETURN_CHANGED</name>
+          <briefdescription>
+<para>The return projection changed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1aql_1_1_query_diff_entry_1a7419b653cd66b8e832d1aa4d14f6b945a98ea99aa3e1aa0b747de39a43083874a" prot="public">
+          <name>COLLECTION_CHANGED</name>
+          <briefdescription>
+<para>A FOR-loop collection reference changed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1aql_1_1_query_diff_entry_1a7419b653cd66b8e832d1aa4d14f6b945a070f591767330b043989f75263fdf696" prot="public">
+          <name>FUNCTION_ADDED</name>
+          <briefdescription>
+<para>A built-in function call was added. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1aql_1_1_query_diff_entry_1a7419b653cd66b8e832d1aa4d14f6b945a44b59be4673f498cf4dc5af215f49359" prot="public">
+          <name>FUNCTION_REMOVED</name>
+          <briefdescription>
+<para>A built-in function call was removed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1aql_1_1_query_diff_entry_1a7419b653cd66b8e832d1aa4d14f6b945a2b6a3029b4490bb4c70c62b23427d0ad" prot="public">
+          <name>STRUCTURAL</name>
+          <briefdescription>
+<para>Other structural difference. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_diff_explainer.h" line="24" column="5" bodyfile="include/aql/aql_query_diff_explainer.h" bodystart="24" bodyend="36"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_query_diff_entry_1a10d00f5834d1bf974b944f9534590f52" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1aql_1_1_query_diff_entry_1a7419b653cd66b8e832d1aa4d14f6b945" kindref="member">Kind</ref></type>
+        <definition>Kind themis::aql::QueryDiffEntry::kind</definition>
+        <argsstring></argsstring>
+        <name>kind</name>
+        <qualifiedname>themis::aql::QueryDiffEntry::kind</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_diff_explainer.h" line="38" column="17" bodyfile="include/aql/aql_query_diff_explainer.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_query_diff_entry_1a16d09fa7822deed781a51dd6e6e6990e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::QueryDiffEntry::clause_a</definition>
+        <argsstring></argsstring>
+        <name>clause_a</name>
+        <qualifiedname>themis::aql::QueryDiffEntry::clause_a</qualifiedname>
+        <briefdescription>
+<para>Relevant fragment from query <computeroutput>a</computeroutput> (may be empty). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_diff_explainer.h" line="39" column="17" bodyfile="include/aql/aql_query_diff_explainer.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_query_diff_entry_1aef09cfcd0cc8aef13baf7fa54ffdd90c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::QueryDiffEntry::clause_b</definition>
+        <argsstring></argsstring>
+        <name>clause_b</name>
+        <qualifiedname>themis::aql::QueryDiffEntry::clause_b</qualifiedname>
+        <briefdescription>
+<para>Relevant fragment from query <computeroutput>b</computeroutput> (may be empty). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_diff_explainer.h" line="40" column="17" bodyfile="include/aql/aql_query_diff_explainer.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_query_diff_entry_1ae889bf9c2891fe4adc1244a46dc47843" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::QueryDiffEntry::explanation</definition>
+        <argsstring></argsstring>
+        <name>explanation</name>
+        <qualifiedname>themis::aql::QueryDiffEntry::explanation</qualifiedname>
+        <briefdescription>
+<para>Human-readable explanation of this difference. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_diff_explainer.h" line="41" column="17" bodyfile="include/aql/aql_query_diff_explainer.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/aql_query_diff_explainer.h" line="23" column="1" bodyfile="include/aql/aql_query_diff_explainer.h" bodystart="23" bodyend="42"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1_query_diff_entry_1a16d09fa7822deed781a51dd6e6e6990e" prot="public" virt="non-virtual"><scope>themis::aql::QueryDiffEntry</scope><name>clause_a</name></member>
+      <member refid="structthemis_1_1aql_1_1_query_diff_entry_1aef09cfcd0cc8aef13baf7fa54ffdd90c" prot="public" virt="non-virtual"><scope>themis::aql::QueryDiffEntry</scope><name>clause_b</name></member>
+      <member refid="structthemis_1_1aql_1_1_query_diff_entry_1ae889bf9c2891fe4adc1244a46dc47843" prot="public" virt="non-virtual"><scope>themis::aql::QueryDiffEntry</scope><name>explanation</name></member>
+      <member refid="structthemis_1_1aql_1_1_query_diff_entry_1a7419b653cd66b8e832d1aa4d14f6b945" prot="public" virt="non-virtual"><scope>themis::aql::QueryDiffEntry</scope><name>Kind</name></member>
+      <member refid="structthemis_1_1aql_1_1_query_diff_entry_1a10d00f5834d1bf974b944f9534590f52" prot="public" virt="non-virtual"><scope>themis::aql::QueryDiffEntry</scope><name>kind</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

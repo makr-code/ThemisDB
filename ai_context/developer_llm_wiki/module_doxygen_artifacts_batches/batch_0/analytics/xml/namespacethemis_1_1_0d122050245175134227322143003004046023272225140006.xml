@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1_0d122050245175134227322143003004046023272225140006" kind="namespace" language="C++">
+    <compoundname>themis::@122050245175134227322143003004046023272225140006</compoundname>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1_0d122050245175134227322143003004046023272225140006_1a35d5a52ddc5498d02020101e4e0374d1" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>CutType</name>
+        <qualifiedname>themis::@122050245175134227322143003004046023272225140006::CutType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1_0d122050245175134227322143003004046023272225140006_1a35d5a52ddc5498d02020101e4e0374d1ab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1_0d122050245175134227322143003004046023272225140006_1a35d5a52ddc5498d02020101e4e0374d1a97675eb3f268048604dc5155511a2a4d" prot="public">
+          <name>XOR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1_0d122050245175134227322143003004046023272225140006_1a35d5a52ddc5498d02020101e4e0374d1a5826d2990481dd71b3e258ddf8435676" prot="public">
+          <name>SEQ</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1_0d122050245175134227322143003004046023272225140006_1a35d5a52ddc5498d02020101e4e0374d1a558ffc8f5770d8e4f95f51d822685532" prot="public">
+          <name>AND</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1_0d122050245175134227322143003004046023272225140006_1a35d5a52ddc5498d02020101e4e0374d1a9159b3578e4e1eb31ffdf90acd6f6e40" prot="public">
+          <name>LOOP</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/process_mining.cpp" line="1500" column="1" bodyfile="src/analytics/process_mining.cpp" bodystart="1500" bodyend="1500"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/analytics/process_mining.cpp" line="1413" column="1"/>
+  </compounddef>
+</doxygen>

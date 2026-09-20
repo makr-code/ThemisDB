@@ -1,0 +1,583 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1scheduler_1_1test" kind="namespace" language="C++">
+    <compoundname>themis::scheduler::test</compoundname>
+    <innerclass refid="classthemis_1_1scheduler_1_1test_1_1_scheduler_concurrency_test" prot="public">themis::scheduler::test::SchedulerConcurrencyTest</innerclass>
+    <innerclass refid="classthemis_1_1scheduler_1_1test_1_1_scheduler_coordination_failure_test" prot="public">themis::scheduler::test::SchedulerCoordinationFailureTest</innerclass>
+    <innerclass refid="classthemis_1_1scheduler_1_1test_1_1_scheduler_stress_retention_test" prot="public">themis::scheduler::test::SchedulerStressRetentionTest</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1scheduler_1_1test_1acbc0c2f50bbbc514d833dcb453e79771" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::scheduler::test::kTestSeed</definition>
+        <argsstring></argsstring>
+        <name>kTestSeed</name>
+        <qualifiedname>themis::scheduler::test::kTestSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_concurrency_edge_cases.cpp" line="31" column="27" bodyfile="tests/scheduler/test_scheduler_concurrency_edge_cases.cpp" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1scheduler_1_1test_1acbc0c2f50bbbc514d833dcb453e79771" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::scheduler::test::kTestSeed</definition>
+        <argsstring></argsstring>
+        <name>kTestSeed</name>
+        <qualifiedname>themis::scheduler::test::kTestSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_coordination_failures.cpp" line="29" column="27" bodyfile="tests/scheduler/test_scheduler_coordination_failures.cpp" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1scheduler_1_1test_1acbc0c2f50bbbc514d833dcb453e79771" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::scheduler::test::kTestSeed</definition>
+        <argsstring></argsstring>
+        <name>kTestSeed</name>
+        <qualifiedname>themis::scheduler::test::kTestSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_stress_burst_retention.cpp" line="30" column="27" bodyfile="tests/scheduler/test_scheduler_stress_burst_retention.cpp" bodystart="30" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1scheduler_1_1test_1ab43f68998a29b23a3e72e20d26524fcb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scheduler::test::TEST_F</definition>
+        <argsstring>(SchedulerConcurrencyTest, SCE01_ConcurrentRegistration)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::scheduler::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1scheduler_1_1test_1_1_scheduler_concurrency_test" kindref="compound">SchedulerConcurrencyTest</ref></type>
+        </param>
+        <param>
+          <type>SCE01_ConcurrentRegistration</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_concurrency_edge_cases.cpp" line="45" column="1" bodyfile="tests/scheduler/test_scheduler_concurrency_edge_cases.cpp" bodystart="45" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scheduler_1_1test_1a2f48a64b063dd6d74a250b1338303b26" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scheduler::test::TEST_F</definition>
+        <argsstring>(SchedulerConcurrencyTest, SCE02_ConcurrentExecuteAndRegister)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::scheduler::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1scheduler_1_1test_1_1_scheduler_concurrency_test" kindref="compound">SchedulerConcurrencyTest</ref></type>
+        </param>
+        <param>
+          <type>SCE02_ConcurrentExecuteAndRegister</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_concurrency_edge_cases.cpp" line="82" column="1" bodyfile="tests/scheduler/test_scheduler_concurrency_edge_cases.cpp" bodystart="82" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scheduler_1_1test_1a27b755f6851b9aa2f19518498d14f997" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scheduler::test::TEST_F</definition>
+        <argsstring>(SchedulerConcurrencyTest, SCE03_UnregisterWhileRunning)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::scheduler::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1scheduler_1_1test_1_1_scheduler_concurrency_test" kindref="compound">SchedulerConcurrencyTest</ref></type>
+        </param>
+        <param>
+          <type>SCE03_UnregisterWhileRunning</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_concurrency_edge_cases.cpp" line="130" column="1" bodyfile="tests/scheduler/test_scheduler_concurrency_edge_cases.cpp" bodystart="130" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scheduler_1_1test_1a8d692b05ddc46c1d8d6b15a2b6c3c3f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scheduler::test::TEST_F</definition>
+        <argsstring>(SchedulerConcurrencyTest, SCE04_ListDuringConcurrentModification)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::scheduler::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1scheduler_1_1test_1_1_scheduler_concurrency_test" kindref="compound">SchedulerConcurrencyTest</ref></type>
+        </param>
+        <param>
+          <type>SCE04_ListDuringConcurrentModification</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_concurrency_edge_cases.cpp" line="177" column="1" bodyfile="tests/scheduler/test_scheduler_concurrency_edge_cases.cpp" bodystart="177" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scheduler_1_1test_1ab5c9f61987e08951009ead4a593b745e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scheduler::test::TEST_F</definition>
+        <argsstring>(SchedulerConcurrencyTest, SCE05_StatsDuringExecution)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::scheduler::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1scheduler_1_1test_1_1_scheduler_concurrency_test" kindref="compound">SchedulerConcurrencyTest</ref></type>
+        </param>
+        <param>
+          <type>SCE05_StatsDuringExecution</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_concurrency_edge_cases.cpp" line="226" column="1" bodyfile="tests/scheduler/test_scheduler_concurrency_edge_cases.cpp" bodystart="226" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scheduler_1_1test_1a4d58d37e4a900fddd2de6305047c9208" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scheduler::test::TEST_F</definition>
+        <argsstring>(SchedulerConcurrencyTest, SCE06_TriggerEvaluationConcurrent)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::scheduler::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1scheduler_1_1test_1_1_scheduler_concurrency_test" kindref="compound">SchedulerConcurrencyTest</ref></type>
+        </param>
+        <param>
+          <type>SCE06_TriggerEvaluationConcurrent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_concurrency_edge_cases.cpp" line="272" column="1" bodyfile="tests/scheduler/test_scheduler_concurrency_edge_cases.cpp" bodystart="272" bodyend="304"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scheduler_1_1test_1aa198bce7098b1b283562b1459c3ccdd8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scheduler::test::TEST_F</definition>
+        <argsstring>(SchedulerConcurrencyTest, SCE07_AnomalyDetectionConcurrent)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::scheduler::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1scheduler_1_1test_1_1_scheduler_concurrency_test" kindref="compound">SchedulerConcurrencyTest</ref></type>
+        </param>
+        <param>
+          <type>SCE07_AnomalyDetectionConcurrent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_concurrency_edge_cases.cpp" line="310" column="1" bodyfile="tests/scheduler/test_scheduler_concurrency_edge_cases.cpp" bodystart="310" bodyend="343"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scheduler_1_1test_1afcb38b7f4b6152286d04ce829995dbd8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scheduler::test::TEST_F</definition>
+        <argsstring>(SchedulerConcurrencyTest, SCE08_LockOrderingConsistency)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::scheduler::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1scheduler_1_1test_1_1_scheduler_concurrency_test" kindref="compound">SchedulerConcurrencyTest</ref></type>
+        </param>
+        <param>
+          <type>SCE08_LockOrderingConsistency</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_concurrency_edge_cases.cpp" line="349" column="1" bodyfile="tests/scheduler/test_scheduler_concurrency_edge_cases.cpp" bodystart="349" bodyend="381"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scheduler_1_1test_1a3cb4a1f732c8cce0e1c76f218ed92ac5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scheduler::test::TEST</definition>
+        <argsstring>(SchedulerContractHardening, ErrorCodeUniqueness)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::scheduler::test::TEST</qualifiedname>
+        <param>
+          <type>SchedulerContractHardening</type>
+        </param>
+        <param>
+          <type>ErrorCodeUniqueness</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_contract_hardening_focused.cpp" line="15" column="1" bodyfile="tests/scheduler/test_scheduler_contract_hardening_focused.cpp" bodystart="15" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scheduler_1_1test_1af7d184468a974da97ce525e30b9ae233" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scheduler::test::TEST</definition>
+        <argsstring>(SchedulerContractHardening, ErrorCodeRange)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::scheduler::test::TEST</qualifiedname>
+        <param>
+          <type>SchedulerContractHardening</type>
+        </param>
+        <param>
+          <type>ErrorCodeRange</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_contract_hardening_focused.cpp" line="34" column="1" bodyfile="tests/scheduler/test_scheduler_contract_hardening_focused.cpp" bodystart="34" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scheduler_1_1test_1a0fef8d4db72720f3ab9bc523d75775bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scheduler::test::TEST_F</definition>
+        <argsstring>(SchedulerCoordinationFailureTest, SCF01_ExecuteFailsClosedWithoutCoordinator)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::scheduler::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1scheduler_1_1test_1_1_scheduler_coordination_failure_test" kindref="compound">SchedulerCoordinationFailureTest</ref></type>
+        </param>
+        <param>
+          <type>SCF01_ExecuteFailsClosedWithoutCoordinator</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_coordination_failures.cpp" line="46" column="1" bodyfile="tests/scheduler/test_scheduler_coordination_failures.cpp" bodystart="46" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scheduler_1_1test_1ab734aa680ecdf52045043bcfd9ff3b49" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scheduler::test::TEST_F</definition>
+        <argsstring>(SchedulerCoordinationFailureTest, SCF02_RetryOnTransientFailure)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::scheduler::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1scheduler_1_1test_1_1_scheduler_coordination_failure_test" kindref="compound">SchedulerCoordinationFailureTest</ref></type>
+        </param>
+        <param>
+          <type>SCF02_RetryOnTransientFailure</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_coordination_failures.cpp" line="69" column="1" bodyfile="tests/scheduler/test_scheduler_coordination_failures.cpp" bodystart="69" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scheduler_1_1test_1a2024c321d9ff14df5ea267ae642a33d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scheduler::test::TEST_F</definition>
+        <argsstring>(SchedulerCoordinationFailureTest, SCF03_LeaderElectionDuringExecution)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::scheduler::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1scheduler_1_1test_1_1_scheduler_coordination_failure_test" kindref="compound">SchedulerCoordinationFailureTest</ref></type>
+        </param>
+        <param>
+          <type>SCF03_LeaderElectionDuringExecution</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_coordination_failures.cpp" line="85" column="1" bodyfile="tests/scheduler/test_scheduler_coordination_failures.cpp" bodystart="85" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scheduler_1_1test_1a54305a01306de5292a77ec7ae9ddea88" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scheduler::test::TEST_F</definition>
+        <argsstring>(SchedulerCoordinationFailureTest, SCF04_DeactivateOnLeadershipLoss)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::scheduler::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1scheduler_1_1test_1_1_scheduler_coordination_failure_test" kindref="compound">SchedulerCoordinationFailureTest</ref></type>
+        </param>
+        <param>
+          <type>SCF04_DeactivateOnLeadershipLoss</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_coordination_failures.cpp" line="101" column="1" bodyfile="tests/scheduler/test_scheduler_coordination_failures.cpp" bodystart="101" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scheduler_1_1test_1a5242d4f0ef468c4bc6b4369022e10b10" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scheduler::test::TEST_F</definition>
+        <argsstring>(SchedulerCoordinationFailureTest, SCF05_TaskRegistryConsistency)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::scheduler::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1scheduler_1_1test_1_1_scheduler_coordination_failure_test" kindref="compound">SchedulerCoordinationFailureTest</ref></type>
+        </param>
+        <param>
+          <type>SCF05_TaskRegistryConsistency</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_coordination_failures.cpp" line="117" column="1" bodyfile="tests/scheduler/test_scheduler_coordination_failures.cpp" bodystart="117" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scheduler_1_1test_1a496ce18586486830e69f2a7a8f4225a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scheduler::test::TEST_F</definition>
+        <argsstring>(SchedulerCoordinationFailureTest, SCF06_CascadeFailurePrevention)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::scheduler::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1scheduler_1_1test_1_1_scheduler_coordination_failure_test" kindref="compound">SchedulerCoordinationFailureTest</ref></type>
+        </param>
+        <param>
+          <type>SCF06_CascadeFailurePrevention</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_coordination_failures.cpp" line="132" column="1" bodyfile="tests/scheduler/test_scheduler_coordination_failures.cpp" bodystart="132" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scheduler_1_1test_1a3287affafd391429dbff62b9e419f11f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scheduler::test::TEST_F</definition>
+        <argsstring>(SchedulerCoordinationFailureTest, SCF07_DiagnosticsDuringOutage)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::scheduler::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1scheduler_1_1test_1_1_scheduler_coordination_failure_test" kindref="compound">SchedulerCoordinationFailureTest</ref></type>
+        </param>
+        <param>
+          <type>SCF07_DiagnosticsDuringOutage</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_coordination_failures.cpp" line="147" column="1" bodyfile="tests/scheduler/test_scheduler_coordination_failures.cpp" bodystart="147" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scheduler_1_1test_1a7e50fcb0aeb3994391c25624d0b26704" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scheduler::test::TEST_F</definition>
+        <argsstring>(SchedulerCoordinationFailureTest, SCF08_RecoveryFromProlongedOutage)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::scheduler::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1scheduler_1_1test_1_1_scheduler_coordination_failure_test" kindref="compound">SchedulerCoordinationFailureTest</ref></type>
+        </param>
+        <param>
+          <type>SCF08_RecoveryFromProlongedOutage</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_coordination_failures.cpp" line="162" column="1" bodyfile="tests/scheduler/test_scheduler_coordination_failures.cpp" bodystart="162" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scheduler_1_1test_1ac0680811f412c92b404b4211d56318d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scheduler::test::TEST_F</definition>
+        <argsstring>(SchedulerStressRetentionTest, SSB01_BurstRegistration100)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::scheduler::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1scheduler_1_1test_1_1_scheduler_stress_retention_test" kindref="compound">SchedulerStressRetentionTest</ref></type>
+        </param>
+        <param>
+          <type>SSB01_BurstRegistration100</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_stress_burst_retention.cpp" line="49" column="1" bodyfile="tests/scheduler/test_scheduler_stress_burst_retention.cpp" bodystart="49" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scheduler_1_1test_1a38cb612816e9578e7f8cae28c56cfb00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scheduler::test::TEST_F</definition>
+        <argsstring>(SchedulerStressRetentionTest, SSB02_SustainedExecutionUnderBurst)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::scheduler::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1scheduler_1_1test_1_1_scheduler_stress_retention_test" kindref="compound">SchedulerStressRetentionTest</ref></type>
+        </param>
+        <param>
+          <type>SSB02_SustainedExecutionUnderBurst</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_stress_burst_retention.cpp" line="90" column="1" bodyfile="tests/scheduler/test_scheduler_stress_burst_retention.cpp" bodystart="90" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scheduler_1_1test_1ae05a00086d0b7f6e86fa15a64209c8ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scheduler::test::TEST_F</definition>
+        <argsstring>(SchedulerStressRetentionTest, SSB03_RetentionLimitEnforcement)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::scheduler::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1scheduler_1_1test_1_1_scheduler_stress_retention_test" kindref="compound">SchedulerStressRetentionTest</ref></type>
+        </param>
+        <param>
+          <type>SSB03_RetentionLimitEnforcement</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_stress_burst_retention.cpp" line="118" column="1" bodyfile="tests/scheduler/test_scheduler_stress_burst_retention.cpp" bodystart="118" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scheduler_1_1test_1a975d989e42735812ba30a09d322df9fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scheduler::test::TEST_F</definition>
+        <argsstring>(SchedulerStressRetentionTest, SSB04_RetentionEviction)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::scheduler::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1scheduler_1_1test_1_1_scheduler_stress_retention_test" kindref="compound">SchedulerStressRetentionTest</ref></type>
+        </param>
+        <param>
+          <type>SSB04_RetentionEviction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_stress_burst_retention.cpp" line="160" column="1" bodyfile="tests/scheduler/test_scheduler_stress_burst_retention.cpp" bodystart="160" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scheduler_1_1test_1aa61b74724d3bef312d4f0c579db56981" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scheduler::test::TEST_F</definition>
+        <argsstring>(SchedulerStressRetentionTest, SSB05_TriggerEvaluationSustained)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::scheduler::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1scheduler_1_1test_1_1_scheduler_stress_retention_test" kindref="compound">SchedulerStressRetentionTest</ref></type>
+        </param>
+        <param>
+          <type>SSB05_TriggerEvaluationSustained</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_stress_burst_retention.cpp" line="175" column="1" bodyfile="tests/scheduler/test_scheduler_stress_burst_retention.cpp" bodystart="175" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scheduler_1_1test_1ae8d5985f00e0eb79254b1719c65643a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scheduler::test::TEST_F</definition>
+        <argsstring>(SchedulerStressRetentionTest, SSB06_AnomalyDetectionReliability)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::scheduler::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1scheduler_1_1test_1_1_scheduler_stress_retention_test" kindref="compound">SchedulerStressRetentionTest</ref></type>
+        </param>
+        <param>
+          <type>SSB06_AnomalyDetectionReliability</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_stress_burst_retention.cpp" line="205" column="1" bodyfile="tests/scheduler/test_scheduler_stress_burst_retention.cpp" bodystart="205" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scheduler_1_1test_1a8c6391ed5fd9d1c08d0bcfa80bad076b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scheduler::test::TEST_F</definition>
+        <argsstring>(SchedulerStressRetentionTest, SSB07_MemoryStabilityBurst)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::scheduler::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1scheduler_1_1test_1_1_scheduler_stress_retention_test" kindref="compound">SchedulerStressRetentionTest</ref></type>
+        </param>
+        <param>
+          <type>SSB07_MemoryStabilityBurst</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_stress_burst_retention.cpp" line="235" column="1" bodyfile="tests/scheduler/test_scheduler_stress_burst_retention.cpp" bodystart="235" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scheduler_1_1test_1a5298bf1c1d669de370b636c54c3b1714" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scheduler::test::TEST_F</definition>
+        <argsstring>(SchedulerStressRetentionTest, SSB08_OperationDeterminism)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::scheduler::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1scheduler_1_1test_1_1_scheduler_stress_retention_test" kindref="compound">SchedulerStressRetentionTest</ref></type>
+        </param>
+        <param>
+          <type>SSB08_OperationDeterminism</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_stress_burst_retention.cpp" line="263" column="1" bodyfile="tests/scheduler/test_scheduler_stress_burst_retention.cpp" bodystart="263" bodyend="286"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/scheduler/test_scheduler_concurrency_edge_cases.cpp" line="28" column="1"/>
+  </compounddef>
+</doxygen>

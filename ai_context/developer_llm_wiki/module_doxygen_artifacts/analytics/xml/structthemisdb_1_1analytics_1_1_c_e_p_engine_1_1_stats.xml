@@ -1,0 +1,208 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_c_e_p_engine_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::CEPEngine::Stats</compoundname>
+    <includes refid="cep__engine_8h" local="no">cep_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_c_e_p_engine_1_1_stats_1affe8760217ccd6e7cc5ca526389a7382" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::analytics::CEPEngine::Stats::events_received</definition>
+        <argsstring></argsstring>
+        <name>events_received</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::Stats::events_received</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1099" column="18" bodyfile="include/analytics/cep_engine.h" bodystart="1099" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_c_e_p_engine_1_1_stats_1abbafa66d9f91a2ebf1da9ae8c5ebff49" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::analytics::CEPEngine::Stats::events_processed</definition>
+        <argsstring></argsstring>
+        <name>events_processed</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::Stats::events_processed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1100" column="18" bodyfile="include/analytics/cep_engine.h" bodystart="1100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_c_e_p_engine_1_1_stats_1a8d7539fd90884c3e64f775719eb03e6d" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::analytics::CEPEngine::Stats::events_dropped</definition>
+        <argsstring></argsstring>
+        <name>events_dropped</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::Stats::events_dropped</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1101" column="18" bodyfile="include/analytics/cep_engine.h" bodystart="1101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_c_e_p_engine_1_1_stats_1a5edd31b749b301a3d9e18448cc28104b" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::analytics::CEPEngine::Stats::backpressure_events</definition>
+        <argsstring></argsstring>
+        <name>backpressure_events</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::Stats::backpressure_events</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1102" column="18" bodyfile="include/analytics/cep_engine.h" bodystart="1102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_c_e_p_engine_1_1_stats_1a4b1b950449a3e8f23384f7dc42d56bcb" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::analytics::CEPEngine::Stats::pattern_matches</definition>
+        <argsstring></argsstring>
+        <name>pattern_matches</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::Stats::pattern_matches</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1103" column="18" bodyfile="include/analytics/cep_engine.h" bodystart="1103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_c_e_p_engine_1_1_stats_1a1e14422cf57d1515a8ab694711e09908" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::analytics::CEPEngine::Stats::rules_triggered</definition>
+        <argsstring></argsstring>
+        <name>rules_triggered</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::Stats::rules_triggered</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1104" column="18" bodyfile="include/analytics/cep_engine.h" bodystart="1104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_c_e_p_engine_1_1_stats_1a625188758a9d67258972f1f2110f39cb" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::analytics::CEPEngine::Stats::alerts_generated</definition>
+        <argsstring></argsstring>
+        <name>alerts_generated</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::Stats::alerts_generated</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1105" column="18" bodyfile="include/analytics/cep_engine.h" bodystart="1105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_c_e_p_engine_1_1_stats_1a835e539978f83bd10c32d58206a67322" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::analytics::CEPEngine::Stats::queue_depth</definition>
+        <argsstring></argsstring>
+        <name>queue_depth</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::Stats::queue_depth</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1106" column="16" bodyfile="include/analytics/cep_engine.h" bodystart="1106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_c_e_p_engine_1_1_stats_1aa38a1fa5731aee69c4247ae160cbfa4e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::analytics::CEPEngine::Stats::active_streams</definition>
+        <argsstring></argsstring>
+        <name>active_streams</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::Stats::active_streams</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1107" column="16" bodyfile="include/analytics/cep_engine.h" bodystart="1107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_c_e_p_engine_1_1_stats_1af43f2866d744127c63d98d7a0e63b946" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::analytics::CEPEngine::Stats::active_rules</definition>
+        <argsstring></argsstring>
+        <name>active_rules</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::Stats::active_rules</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1108" column="16" bodyfile="include/analytics/cep_engine.h" bodystart="1108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_c_e_p_engine_1_1_stats_1a885361811ff3b321f38200e070d48286" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::analytics::CEPEngine::Stats::avg_latency</definition>
+        <argsstring></argsstring>
+        <name>avg_latency</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::Stats::avg_latency</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1109" column="35" bodyfile="include/analytics/cep_engine.h" bodystart="1109" bodyend="1109"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_c_e_p_engine_1_1_stats_1a1258b837bb09862aad9206a607fd4112" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themisdb::analytics::CEPEngine::Stats::throughput_per_second</definition>
+        <argsstring></argsstring>
+        <name>throughput_per_second</name>
+        <qualifiedname>themisdb::analytics::CEPEngine::Stats::throughput_per_second</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1110" column="15" bodyfile="include/analytics/cep_engine.h" bodystart="1110" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/cep_engine.h" line="1098" column="5" bodyfile="include/analytics/cep_engine.h" bodystart="1098" bodyend="1111"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_c_e_p_engine_1_1_stats_1af43f2866d744127c63d98d7a0e63b946" prot="public" virt="non-virtual"><scope>themisdb::analytics::CEPEngine::Stats</scope><name>active_rules</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_c_e_p_engine_1_1_stats_1aa38a1fa5731aee69c4247ae160cbfa4e" prot="public" virt="non-virtual"><scope>themisdb::analytics::CEPEngine::Stats</scope><name>active_streams</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_c_e_p_engine_1_1_stats_1a625188758a9d67258972f1f2110f39cb" prot="public" virt="non-virtual"><scope>themisdb::analytics::CEPEngine::Stats</scope><name>alerts_generated</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_c_e_p_engine_1_1_stats_1a885361811ff3b321f38200e070d48286" prot="public" virt="non-virtual"><scope>themisdb::analytics::CEPEngine::Stats</scope><name>avg_latency</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_c_e_p_engine_1_1_stats_1a5edd31b749b301a3d9e18448cc28104b" prot="public" virt="non-virtual"><scope>themisdb::analytics::CEPEngine::Stats</scope><name>backpressure_events</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_c_e_p_engine_1_1_stats_1a8d7539fd90884c3e64f775719eb03e6d" prot="public" virt="non-virtual"><scope>themisdb::analytics::CEPEngine::Stats</scope><name>events_dropped</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_c_e_p_engine_1_1_stats_1abbafa66d9f91a2ebf1da9ae8c5ebff49" prot="public" virt="non-virtual"><scope>themisdb::analytics::CEPEngine::Stats</scope><name>events_processed</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_c_e_p_engine_1_1_stats_1affe8760217ccd6e7cc5ca526389a7382" prot="public" virt="non-virtual"><scope>themisdb::analytics::CEPEngine::Stats</scope><name>events_received</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_c_e_p_engine_1_1_stats_1a4b1b950449a3e8f23384f7dc42d56bcb" prot="public" virt="non-virtual"><scope>themisdb::analytics::CEPEngine::Stats</scope><name>pattern_matches</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_c_e_p_engine_1_1_stats_1a835e539978f83bd10c32d58206a67322" prot="public" virt="non-virtual"><scope>themisdb::analytics::CEPEngine::Stats</scope><name>queue_depth</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_c_e_p_engine_1_1_stats_1a1e14422cf57d1515a8ab694711e09908" prot="public" virt="non-virtual"><scope>themisdb::analytics::CEPEngine::Stats</scope><name>rules_triggered</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_c_e_p_engine_1_1_stats_1a1258b837bb09862aad9206a607fd4112" prot="public" virt="non-virtual"><scope>themisdb::analytics::CEPEngine::Stats</scope><name>throughput_per_second</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

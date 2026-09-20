@@ -1,0 +1,333 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_vector_index_manager_1_1_attribute_filter_v2" kind="struct" language="C++" prot="public">
+    <compoundname>themis::VectorIndexManager::AttributeFilterV2</compoundname>
+    <includes refid="vector__index_8h" local="no">vector_index.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1_vector_index_manager_1_1_attribute_filter_v2_1aa5101aad47ae6ed5f134515c6e5d3ff2" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Op</name>
+        <qualifiedname>themis::VectorIndexManager::AttributeFilterV2::Op</qualifiedname>
+        <enumvalue id="structthemis_1_1_vector_index_manager_1_1_attribute_filter_v2_1aa5101aad47ae6ed5f134515c6e5d3ff2a6837aeca94b8f55801166eb031e26a5a" prot="public">
+          <name>EQUALS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_vector_index_manager_1_1_attribute_filter_v2_1aa5101aad47ae6ed5f134515c6e5d3ff2ad898a01a21468f1ad0c7d1c216844db2" prot="public">
+          <name>NOT_EQUALS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_vector_index_manager_1_1_attribute_filter_v2_1aa5101aad47ae6ed5f134515c6e5d3ff2a7c8b81e077a45b6d2c9c03d3a22c0d5b" prot="public">
+          <name>CONTAINS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_vector_index_manager_1_1_attribute_filter_v2_1aa5101aad47ae6ed5f134515c6e5d3ff2a1625ef4fe09f68fa20d3ff6e02cd5c8e" prot="public">
+          <name>GREATER_THAN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_vector_index_manager_1_1_attribute_filter_v2_1aa5101aad47ae6ed5f134515c6e5d3ff2aa327176a0a845c117bdfadec134a95e9" prot="public">
+          <name>LESS_THAN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_vector_index_manager_1_1_attribute_filter_v2_1aa5101aad47ae6ed5f134515c6e5d3ff2a87e6b203bf40967d37a33f9a4438561a" prot="public">
+          <name>GREATER_EQUAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_vector_index_manager_1_1_attribute_filter_v2_1aa5101aad47ae6ed5f134515c6e5d3ff2a8b4a5cd69b217bf93b054ada7f49abd4" prot="public">
+          <name>LESS_EQUAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_vector_index_manager_1_1_attribute_filter_v2_1aa5101aad47ae6ed5f134515c6e5d3ff2ac86ee0d9d7ed3e7b4fdbf486fa6c0ebb" prot="public">
+          <name>IN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_vector_index_manager_1_1_attribute_filter_v2_1aa5101aad47ae6ed5f134515c6e5d3ff2a01036ddcc971d02f6c32c3da31a119f2" prot="public">
+          <name>RANGE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index.h" line="306" column="9" bodyfile="include/index/vector_index.h" bodystart="306" bodyend="316"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_vector_index_manager_1_1_attribute_filter_v2_1a743c40f3325e02978251754b190a7818" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::VectorIndexManager::AttributeFilterV2::field</definition>
+        <argsstring></argsstring>
+        <name>field</name>
+        <qualifiedname>themis::VectorIndexManager::AttributeFilterV2::field</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index.h" line="305" column="21" bodyfile="include/index/vector_index.h" bodystart="305" bodyend="305"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_index_manager_1_1_attribute_filter_v2_1a6a12d92ac8347002e501eee9e218cf27" prot="public" static="no" mutable="no">
+        <type>enum <ref refid="structthemis_1_1_vector_index_manager_1_1_attribute_filter_v2_1aa5101aad47ae6ed5f134515c6e5d3ff2" kindref="member">themis::VectorIndexManager::AttributeFilterV2::Op</ref></type>
+        <definition>enum themis::VectorIndexManager::AttributeFilterV2::Op themis::VectorIndexManager::AttributeFilterV2::op</definition>
+        <argsstring></argsstring>
+        <name>op</name>
+        <qualifiedname>themis::VectorIndexManager::AttributeFilterV2::op</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1_vector_index_manager_1_1_attribute_filter_v2_1aa5101aad47ae6ed5f134515c6e5d3ff2a6837aeca94b8f55801166eb031e26a5a" kindref="member">Op::EQUALS</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index.h" line="316" column="13"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_index_manager_1_1_attribute_filter_v2_1a72488b2091d9ff822dca6ae1e8c4c1b0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::VectorIndexManager::AttributeFilterV2::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::VectorIndexManager::AttributeFilterV2::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index.h" line="318" column="21" bodyfile="include/index/vector_index.h" bodystart="318" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_index_manager_1_1_attribute_filter_v2_1abe65eba79787c1011e2be48aec4ffd70" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::VectorIndexManager::AttributeFilterV2::values</definition>
+        <argsstring></argsstring>
+        <name>values</name>
+        <qualifiedname>themis::VectorIndexManager::AttributeFilterV2::values</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index.h" line="319" column="21" bodyfile="include/index/vector_index.h" bodystart="319" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_index_manager_1_1_attribute_filter_v2_1a825096a1ac275f9310cbf11e4c91ee26" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::VectorIndexManager::AttributeFilterV2::value_min</definition>
+        <argsstring></argsstring>
+        <name>value_min</name>
+        <qualifiedname>themis::VectorIndexManager::AttributeFilterV2::value_min</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index.h" line="320" column="21" bodyfile="include/index/vector_index.h" bodystart="320" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_index_manager_1_1_attribute_filter_v2_1a68abf49705066e3b9b732704759b6ed4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::VectorIndexManager::AttributeFilterV2::value_max</definition>
+        <argsstring></argsstring>
+        <name>value_max</name>
+        <qualifiedname>themis::VectorIndexManager::AttributeFilterV2::value_max</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index.h" line="321" column="21" bodyfile="include/index/vector_index.h" bodystart="321" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1_vector_index_manager_1_1_attribute_filter_v2_1a21a2482efae18f408d659fcc3f9df308" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_vector_index_manager_1_1_attribute_filter_v2" kindref="compound">AttributeFilterV2</ref></type>
+        <definition>static AttributeFilterV2 themis::VectorIndexManager::AttributeFilterV2::Equals</definition>
+        <argsstring>(std::string field, std::string value)</argsstring>
+        <name>Equals</name>
+        <qualifiedname>themis::VectorIndexManager::AttributeFilterV2::Equals</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>field</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Creates an equality filter matching <computeroutput>field</computeroutput> == <computeroutput>value</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>field</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Attribute field name to match against. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Expected value for the equality check. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1_vector_index_manager_1_1_attribute_filter_v2" kindref="compound">AttributeFilterV2</ref> configured for equality matching. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index.h" line="327" column="34" bodyfile="include/index/vector_index.h" bodystart="327" bodyend="329"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_vector_index_manager_1_1_attribute_filter_v2_1aeb2242db84ddbdbc17bd5e558524ed53" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_vector_index_manager_1_1_attribute_filter_v2" kindref="compound">AttributeFilterV2</ref></type>
+        <definition>static AttributeFilterV2 themis::VectorIndexManager::AttributeFilterV2::Range</definition>
+        <argsstring>(std::string field, std::string min, std::string max)</argsstring>
+        <name>Range</name>
+        <qualifiedname>themis::VectorIndexManager::AttributeFilterV2::Range</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>field</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>min</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>max</declname>
+        </param>
+        <briefdescription>
+<para>Creates a range filter matching <computeroutput>min</computeroutput> &lt;= <computeroutput>field</computeroutput> &lt;= <computeroutput>max</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>field</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Attribute field name to apply the range to. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>min</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Lower bound of the range (inclusive). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Upper bound of the range (inclusive). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1_vector_index_manager_1_1_attribute_filter_v2" kindref="compound">AttributeFilterV2</ref> configured for range matching. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index.h" line="335" column="34" bodyfile="include/index/vector_index.h" bodystart="335" bodyend="337"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_vector_index_manager_1_1_attribute_filter_v2_1ad58c47083814d0c41d0c5b9486e33438" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_vector_index_manager_1_1_attribute_filter_v2" kindref="compound">AttributeFilterV2</ref></type>
+        <definition>static AttributeFilterV2 themis::VectorIndexManager::AttributeFilterV2::In</definition>
+        <argsstring>(std::string field, std::vector&lt; std::string &gt; vals)</argsstring>
+        <name>In</name>
+        <qualifiedname>themis::VectorIndexManager::AttributeFilterV2::In</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>field</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>vals</declname>
+        </param>
+        <briefdescription>
+<para>Creates a set-membership filter matching <computeroutput>field</computeroutput> in <computeroutput>vals</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>field</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Attribute field name to check membership for. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>vals</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Set of accepted values. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1_vector_index_manager_1_1_attribute_filter_v2" kindref="compound">AttributeFilterV2</ref> configured for set-membership matching. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index.h" line="342" column="34" bodyfile="include/index/vector_index.h" bodystart="342" bodyend="344"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Extended attribute filter with range, set, and comparison operators for pre-filtering via SecondaryIndex. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/vector_index.h" line="304" column="5" bodyfile="include/index/vector_index.h" bodystart="304" bodyend="345"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_vector_index_manager_1_1_attribute_filter_v2_1a21a2482efae18f408d659fcc3f9df308" prot="public" virt="non-virtual"><scope>themis::VectorIndexManager::AttributeFilterV2</scope><name>Equals</name></member>
+      <member refid="structthemis_1_1_vector_index_manager_1_1_attribute_filter_v2_1a743c40f3325e02978251754b190a7818" prot="public" virt="non-virtual"><scope>themis::VectorIndexManager::AttributeFilterV2</scope><name>field</name></member>
+      <member refid="structthemis_1_1_vector_index_manager_1_1_attribute_filter_v2_1ad58c47083814d0c41d0c5b9486e33438" prot="public" virt="non-virtual"><scope>themis::VectorIndexManager::AttributeFilterV2</scope><name>In</name></member>
+      <member refid="structthemis_1_1_vector_index_manager_1_1_attribute_filter_v2_1aa5101aad47ae6ed5f134515c6e5d3ff2" prot="public" virt="non-virtual"><scope>themis::VectorIndexManager::AttributeFilterV2</scope><name>Op</name></member>
+      <member refid="structthemis_1_1_vector_index_manager_1_1_attribute_filter_v2_1a6a12d92ac8347002e501eee9e218cf27" prot="public" virt="non-virtual"><scope>themis::VectorIndexManager::AttributeFilterV2</scope><name>op</name></member>
+      <member refid="structthemis_1_1_vector_index_manager_1_1_attribute_filter_v2_1aeb2242db84ddbdbc17bd5e558524ed53" prot="public" virt="non-virtual"><scope>themis::VectorIndexManager::AttributeFilterV2</scope><name>Range</name></member>
+      <member refid="structthemis_1_1_vector_index_manager_1_1_attribute_filter_v2_1a72488b2091d9ff822dca6ae1e8c4c1b0" prot="public" virt="non-virtual"><scope>themis::VectorIndexManager::AttributeFilterV2</scope><name>value</name></member>
+      <member refid="structthemis_1_1_vector_index_manager_1_1_attribute_filter_v2_1a68abf49705066e3b9b732704759b6ed4" prot="public" virt="non-virtual"><scope>themis::VectorIndexManager::AttributeFilterV2</scope><name>value_max</name></member>
+      <member refid="structthemis_1_1_vector_index_manager_1_1_attribute_filter_v2_1a825096a1ac275f9310cbf11e4c91ee26" prot="public" virt="non-virtual"><scope>themis::VectorIndexManager::AttributeFilterV2</scope><name>value_min</name></member>
+      <member refid="structthemis_1_1_vector_index_manager_1_1_attribute_filter_v2_1abe65eba79787c1011e2be48aec4ffd70" prot="public" virt="non-virtual"><scope>themis::VectorIndexManager::AttributeFilterV2</scope><name>values</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

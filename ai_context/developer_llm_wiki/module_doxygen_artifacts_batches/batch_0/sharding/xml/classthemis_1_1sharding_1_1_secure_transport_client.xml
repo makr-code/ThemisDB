@@ -1,0 +1,619 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_secure_transport_client" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::SecureTransportClient</compoundname>
+    <includes refid="secure__transport__client_8h" local="no">secure_transport_client.h</includes>
+    <innerclass refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config" prot="public">themis::sharding::SecureTransportClient::Config</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_payload" prot="public">themis::sharding::SecureTransportClient::Payload</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_transfer_result" prot="public">themis::sharding::SecureTransportClient::TransferResult</innerclass>
+    <sectiondef kind="private-type">
+      <memberdef kind="typedef" id="classthemis_1_1sharding_1_1_secure_transport_client_1a35907418c502d05adb104ecd0b176d8d" prot="private" static="no">
+        <type>std::function&lt; bool(const std::string &amp;input, std::string &amp; output)&gt;</type>
+        <definition>using themis::sharding::SecureTransportClient::Lz4CompressFn = std::function&lt;bool(const std::string&amp; input,
+                                             std::string&amp;       output)&gt;</definition>
+        <argsstring></argsstring>
+        <name>Lz4CompressFn</name>
+        <qualifiedname>themis::sharding::SecureTransportClient::Lz4CompressFn</qualifiedname>
+        <briefdescription>
+<para>Type alias for LZ4 compression injection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/secure_transport_client.h" line="137" column="5" bodyfile="include/sharding/secure_transport_client.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1sharding_1_1_secure_transport_client_1a4639be46870fb419ab08437b39a793b1" prot="private" static="no">
+        <type>std::function&lt; bool(const std::string &amp;input, std::string &amp; output, std::size_t original_size)&gt;</type>
+        <definition>using themis::sharding::SecureTransportClient::Lz4DecompressFn = std::function&lt;bool(const std::string&amp; input,
+                                               std::string&amp;       output,
+                                               std::size_t        original_size)&gt;</definition>
+        <argsstring></argsstring>
+        <name>Lz4DecompressFn</name>
+        <qualifiedname>themis::sharding::SecureTransportClient::Lz4DecompressFn</qualifiedname>
+        <briefdescription>
+<para>Type alias for LZ4 decompression injection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/secure_transport_client.h" line="141" column="5" bodyfile="include/sharding/secure_transport_client.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="friend">
+      <memberdef kind="friend" id="classthemis_1_1sharding_1_1_secure_transport_client_1ac9759f56822ce68eeba3031d8e44f625" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>struct</type>
+        <definition>friend struct SecureTransportClientTestAccess</definition>
+        <argsstring></argsstring>
+        <name>SecureTransportClientTestAccess</name>
+        <qualifiedname>themis::sharding::SecureTransportClient::SecureTransportClientTestAccess</qualifiedname>
+        <param>
+          <type>SecureTransportClientTestAccess</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/secure_transport_client.h" line="129" column="19" bodyfile="include/sharding/secure_transport_client.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_secure_transport_client_1a7079a875963395ce3fa4c204a80458b3" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::sharding::SecureTransportClient::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::sharding::SecureTransportClient::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/secure_transport_client.h" line="131" column="12" bodyfile="include/sharding/secure_transport_client.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_secure_transport_client_1ac3fd1ad3bf0647895fb38144fc828d58" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_m_t_l_s_client" kindref="compound">MTLSClient</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;MTLSClient&gt; themis::sharding::SecureTransportClient::mtls_client_</definition>
+        <argsstring></argsstring>
+        <name>mtls_client_</name>
+        <qualifiedname>themis::sharding::SecureTransportClient::mtls_client_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/secure_transport_client.h" line="132" column="21" bodyfile="include/sharding/secure_transport_client.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_secure_transport_client_1ad4d44922638b25f4b0da8c717aab0f86" prot="private" static="no" mutable="no">
+        <type>Lz4CompressFn</type>
+        <definition>Lz4CompressFn themis::sharding::SecureTransportClient::lz4CompressFn_</definition>
+        <argsstring></argsstring>
+        <name>lz4CompressFn_</name>
+        <qualifiedname>themis::sharding::SecureTransportClient::lz4CompressFn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/secure_transport_client.h" line="167" column="21" bodyfile="include/sharding/secure_transport_client.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_secure_transport_client_1a92ffdb800f0ba33d5b05e84288db07cb" prot="private" static="no" mutable="no">
+        <type>Lz4DecompressFn</type>
+        <definition>Lz4DecompressFn themis::sharding::SecureTransportClient::lz4DecompressFn_</definition>
+        <argsstring></argsstring>
+        <name>lz4DecompressFn_</name>
+        <qualifiedname>themis::sharding::SecureTransportClient::lz4DecompressFn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/secure_transport_client.h" line="168" column="21" bodyfile="include/sharding/secure_transport_client.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_secure_transport_client_1a3b85c3a109080cde3797e996a59c864d" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::SecureTransportClient::SecureTransportClient</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>SecureTransportClient</name>
+        <qualifiedname>themis::sharding::SecureTransportClient::SecureTransportClient</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct transport client. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/secure_transport_client.h" line="99" column="14" bodyfile="src/sharding/secure_transport_client.cpp" bodystart="60" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_secure_transport_client_1ae95d59381acb08b88146112708417347" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::SecureTransportClient::~SecureTransportClient</definition>
+        <argsstring>()</argsstring>
+        <name>~SecureTransportClient</name>
+        <qualifiedname>themis::sharding::SecureTransportClient::~SecureTransportClient</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/secure_transport_client.h" line="101" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_secure_transport_client_1a1511b427c1e2a32fea538808d34c6285" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_transfer_result" kindref="compound">TransferResult</ref></type>
+        <definition>SecureTransportClient::TransferResult themis::sharding::SecureTransportClient::transfer</definition>
+        <argsstring>(const std::string &amp;endpoint, const std::string &amp;path, const Payload &amp;payload)</argsstring>
+        <name>transfer</name>
+        <qualifiedname>themis::sharding::SecureTransportClient::transfer</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>endpoint</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_payload" kindref="compound">Payload</ref> &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+<para>Transfer payload to endpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Transfer.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target endpoint (e.g., &quot;https://shard-001:8080&quot;) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>API path (e.g., &quot;/api/v1/lora/receive&quot;) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Data to transfer </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Transfer result</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: transferWithRetry(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/secure_transport_client.h" line="110" column="20" bodyfile="src/sharding/secure_transport_client.cpp" bodystart="168" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_secure_transport_client_1ac1506271c51d958f11fe0026a53cf62b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::SecureTransportClient::isReady</definition>
+        <argsstring>() const</argsstring>
+        <name>isReady</name>
+        <qualifiedname>themis::sharding::SecureTransportClient::isReady</qualifiedname>
+        <briefdescription>
+<para>Check if client is ready. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if mTLS client is initialized </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/secure_transport_client.h" line="120" column="10" bodyfile="src/sharding/secure_transport_client.cpp" bodystart="94" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_secure_transport_client_1a8c493b9d10ff6e9b5ae4794577dd0a88" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_m_t_l_s_client" kindref="compound">MTLSClient</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; MTLSClient &gt; themis::sharding::SecureTransportClient::getMTLSClient</definition>
+        <argsstring>() const</argsstring>
+        <name>getMTLSClient</name>
+        <qualifiedname>themis::sharding::SecureTransportClient::getMTLSClient</qualifiedname>
+        <briefdescription>
+<para>Get underlying mTLS client. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Shared pointer to mTLS client </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/secure_transport_client.h" line="126" column="21" bodyfile="src/sharding/secure_transport_client.cpp" bodystart="98" bodyend="100"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_secure_transport_client_1ac915b7d7d403f577b79f3679a6f166aa" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::SecureTransportClient::setLz4CompressFn</definition>
+        <argsstring>(Lz4CompressFn fn)</argsstring>
+        <name>setLz4CompressFn</name>
+        <qualifiedname>themis::sharding::SecureTransportClient::setLz4CompressFn</qualifiedname>
+        <param>
+          <type>Lz4CompressFn</type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Install an LZ4 compression callback for compressData(). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Lz4 Compress Fn.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callable receiving (input, output) → success.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/secure_transport_client.h" line="149" column="10" bodyfile="src/sharding/secure_transport_client.cpp" bodystart="31" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_secure_transport_client_1aa64383b08e1081eb0391a0452caadc3a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::SecureTransportClient::clearLz4CompressFn</definition>
+        <argsstring>()</argsstring>
+        <name>clearLz4CompressFn</name>
+        <qualifiedname>themis::sharding::SecureTransportClient::clearLz4CompressFn</qualifiedname>
+        <briefdescription>
+<para>Remove the LZ4 compression bridge. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear Lz4 Compress Fn.</para>
+<para>Implements clearLz4CompressFn without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/secure_transport_client.h" line="154" column="10" bodyfile="src/sharding/secure_transport_client.cpp" bodystart="39" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_secure_transport_client_1a8c24a1e0cb05d99e47661102d56f0173" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::SecureTransportClient::setLz4DecompressFn</definition>
+        <argsstring>(Lz4DecompressFn fn)</argsstring>
+        <name>setLz4DecompressFn</name>
+        <qualifiedname>themis::sharding::SecureTransportClient::setLz4DecompressFn</qualifiedname>
+        <param>
+          <type>Lz4DecompressFn</type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Install an LZ4 decompression callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Lz4 Decompress Fn.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callable receiving (input, output, original_size) → success.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/secure_transport_client.h" line="160" column="10" bodyfile="src/sharding/secure_transport_client.cpp" bodystart="48" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_secure_transport_client_1a105c93960c4c5268cc8b741fe286a8fe" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::SecureTransportClient::clearLz4DecompressFn</definition>
+        <argsstring>()</argsstring>
+        <name>clearLz4DecompressFn</name>
+        <qualifiedname>themis::sharding::SecureTransportClient::clearLz4DecompressFn</qualifiedname>
+        <briefdescription>
+<para>Remove the LZ4 decompression bridge. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear Lz4 Decompress Fn.</para>
+<para>Implements clearLz4DecompressFn without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/secure_transport_client.h" line="165" column="10" bodyfile="src/sharding/secure_transport_client.cpp" bodystart="56" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_secure_transport_client_1a6d1ff26246ea2b82b24647a5ce09098a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::SecureTransportClient::compressData</definition>
+        <argsstring>(const std::string &amp;data, std::string &amp;compressed, std::string *compression_codec=nullptr)</argsstring>
+        <name>compressData</name>
+        <qualifiedname>themis::sharding::SecureTransportClient::compressData</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>compressed</declname>
+        </param>
+        <param>
+          <type>std::string *</type>
+          <declname>compression_codec</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Compress data if configured. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compress Data.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input data </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>compressed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output compressed data (if compression applied) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>compression_codec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional output codec string (&quot;zstd&quot; or &quot;lz4&quot;) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if compression was applied</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">compressed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">compression_codec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: size(), utils::zstd_compress(), empty(), std::string(), begin(), end(), spdlog::debug(), lz4CompressFn_(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/secure_transport_client.h" line="177" column="10" bodyfile="src/sharding/secure_transport_client.cpp" bodystart="110" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_secure_transport_client_1addac1746e15ba4be0df1d881f031a9c4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_transfer_result" kindref="compound">TransferResult</ref></type>
+        <definition>SecureTransportClient::TransferResult themis::sharding::SecureTransportClient::transferWithRetry</definition>
+        <argsstring>(const std::string &amp;endpoint, const std::string &amp;path, const Payload &amp;payload, int retry_count)</argsstring>
+        <name>transferWithRetry</name>
+        <qualifiedname>themis::sharding::SecureTransportClient::transferWithRetry</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>endpoint</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_payload" kindref="compound">Payload</ref> &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>retry_count</declname>
+        </param>
+        <briefdescription>
+<para>Perform transfer with retry logic. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Transfer With Retry.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target endpoint </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>API path </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Data to transfer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>retry_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current retry count </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Transfer result</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">retry_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1sharding_1_1_secure_transport_client_1ac1506271c51d958f11fe0026a53cf62b" kindref="member">isReady()</ref>, spdlog::error(), size(), compressData(), is_null(), empty(), utils::Cursor::base64Encode(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/secure_transport_client.h" line="189" column="20" bodyfile="src/sharding/secure_transport_client.cpp" bodystart="185" bodyend="313"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Secure Transport Client. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Shared transport abstraction for secure data transfer between shards. Reuses WAL shipper transport capabilities:<itemizedlist>
+<listitem><para>mTLS for secure communication</para>
+</listitem><listitem><para>Compression (Zstd/LZ4) for efficient transfer</para>
+</listitem><listitem><para>Retry logic with exponential backoff</para>
+</listitem><listitem><para>Integrity checks (checksums/signatures)</para>
+</listitem></itemizedlist>
+</para>
+<para>Used by both <ref refid="classthemis_1_1sharding_1_1_w_a_l_shipper" kindref="compound">WALShipper</ref> and AdapterSyncManager to avoid code duplication. </para>
+    </detaileddescription>
+    <location file="include/sharding/secure_transport_client.h" line="40" column="1" bodyfile="include/sharding/secure_transport_client.h" bodystart="40" bodyend="195"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_secure_transport_client_1aa64383b08e1081eb0391a0452caadc3a" prot="private" virt="non-virtual"><scope>themis::sharding::SecureTransportClient</scope><name>clearLz4CompressFn</name></member>
+      <member refid="classthemis_1_1sharding_1_1_secure_transport_client_1a105c93960c4c5268cc8b741fe286a8fe" prot="private" virt="non-virtual"><scope>themis::sharding::SecureTransportClient</scope><name>clearLz4DecompressFn</name></member>
+      <member refid="classthemis_1_1sharding_1_1_secure_transport_client_1a6d1ff26246ea2b82b24647a5ce09098a" prot="private" virt="non-virtual"><scope>themis::sharding::SecureTransportClient</scope><name>compressData</name></member>
+      <member refid="classthemis_1_1sharding_1_1_secure_transport_client_1a7079a875963395ce3fa4c204a80458b3" prot="private" virt="non-virtual"><scope>themis::sharding::SecureTransportClient</scope><name>config_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_secure_transport_client_1a8c493b9d10ff6e9b5ae4794577dd0a88" prot="public" virt="non-virtual"><scope>themis::sharding::SecureTransportClient</scope><name>getMTLSClient</name></member>
+      <member refid="classthemis_1_1sharding_1_1_secure_transport_client_1ac1506271c51d958f11fe0026a53cf62b" prot="public" virt="non-virtual"><scope>themis::sharding::SecureTransportClient</scope><name>isReady</name></member>
+      <member refid="classthemis_1_1sharding_1_1_secure_transport_client_1a35907418c502d05adb104ecd0b176d8d" prot="private" virt="non-virtual"><scope>themis::sharding::SecureTransportClient</scope><name>Lz4CompressFn</name></member>
+      <member refid="classthemis_1_1sharding_1_1_secure_transport_client_1ad4d44922638b25f4b0da8c717aab0f86" prot="private" virt="non-virtual"><scope>themis::sharding::SecureTransportClient</scope><name>lz4CompressFn_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_secure_transport_client_1a4639be46870fb419ab08437b39a793b1" prot="private" virt="non-virtual"><scope>themis::sharding::SecureTransportClient</scope><name>Lz4DecompressFn</name></member>
+      <member refid="classthemis_1_1sharding_1_1_secure_transport_client_1a92ffdb800f0ba33d5b05e84288db07cb" prot="private" virt="non-virtual"><scope>themis::sharding::SecureTransportClient</scope><name>lz4DecompressFn_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_secure_transport_client_1ac3fd1ad3bf0647895fb38144fc828d58" prot="private" virt="non-virtual"><scope>themis::sharding::SecureTransportClient</scope><name>mtls_client_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_secure_transport_client_1a3b85c3a109080cde3797e996a59c864d" prot="public" virt="non-virtual"><scope>themis::sharding::SecureTransportClient</scope><name>SecureTransportClient</name></member>
+      <member refid="classthemis_1_1sharding_1_1_secure_transport_client_1ac9759f56822ce68eeba3031d8e44f625" prot="private" virt="non-virtual"><scope>themis::sharding::SecureTransportClient</scope><name>SecureTransportClientTestAccess</name></member>
+      <member refid="classthemis_1_1sharding_1_1_secure_transport_client_1ac915b7d7d403f577b79f3679a6f166aa" prot="private" virt="non-virtual"><scope>themis::sharding::SecureTransportClient</scope><name>setLz4CompressFn</name></member>
+      <member refid="classthemis_1_1sharding_1_1_secure_transport_client_1a8c24a1e0cb05d99e47661102d56f0173" prot="private" virt="non-virtual"><scope>themis::sharding::SecureTransportClient</scope><name>setLz4DecompressFn</name></member>
+      <member refid="classthemis_1_1sharding_1_1_secure_transport_client_1a1511b427c1e2a32fea538808d34c6285" prot="public" virt="non-virtual"><scope>themis::sharding::SecureTransportClient</scope><name>transfer</name></member>
+      <member refid="classthemis_1_1sharding_1_1_secure_transport_client_1addac1746e15ba4be0df1d881f031a9c4" prot="private" virt="non-virtual"><scope>themis::sharding::SecureTransportClient</scope><name>transferWithRetry</name></member>
+      <member refid="classthemis_1_1sharding_1_1_secure_transport_client_1ae95d59381acb08b88146112708417347" prot="public" virt="non-virtual"><scope>themis::sharding::SecureTransportClient</scope><name>~SecureTransportClient</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,304 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_v_c_c_p_k_i_client_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::VCCPKIClient::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_v_c_c_p_k_i_client_1_1_impl_1acf2ce0a25187d8da93ce5e2fdcf58491" prot="public" static="no" mutable="no">
+        <type>CURL *</type>
+        <definition>CURL* themis::VCCPKIClient::Impl::curl</definition>
+        <argsstring></argsstring>
+        <name>curl</name>
+        <qualifiedname>themis::VCCPKIClient::Impl::curl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/vcc_pki_client.cpp" line="272" column="10" bodyfile="src/security/vcc_pki_client.cpp" bodystart="272" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_v_c_c_p_k_i_client_1_1_impl_1a9ce96c1c05954fd345d4357d07e241d3" prot="public" static="no" mutable="no">
+        <type>struct curl_slist *</type>
+        <definition>struct curl_slist* themis::VCCPKIClient::Impl::headers</definition>
+        <argsstring></argsstring>
+        <name>headers</name>
+        <qualifiedname>themis::VCCPKIClient::Impl::headers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/vcc_pki_client.cpp" line="273" column="22" bodyfile="src/security/vcc_pki_client.cpp" bodystart="273" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_v_c_c_p_k_i_client_1_1_impl_1a5de1734fd034a7b0b4cfe463e40f732c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::VCCPKIClient::Impl::ca_cert_path</definition>
+        <argsstring></argsstring>
+        <name>ca_cert_path</name>
+        <qualifiedname>themis::VCCPKIClient::Impl::ca_cert_path</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/vcc_pki_client.cpp" line="274" column="17" bodyfile="src/security/vcc_pki_client.cpp" bodystart="274" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_v_c_c_p_k_i_client_1_1_impl_1a17634fb0dbbdd505152750a4d0842239" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::VCCPKIClient::Impl::client_cert_path</definition>
+        <argsstring></argsstring>
+        <name>client_cert_path</name>
+        <qualifiedname>themis::VCCPKIClient::Impl::client_cert_path</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/vcc_pki_client.cpp" line="275" column="17" bodyfile="src/security/vcc_pki_client.cpp" bodystart="275" bodyend="275"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_v_c_c_p_k_i_client_1_1_impl_1a3d66bf3026cba5cf33c55527fe64ed3a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::VCCPKIClient::Impl::client_key_path</definition>
+        <argsstring></argsstring>
+        <name>client_key_path</name>
+        <qualifiedname>themis::VCCPKIClient::Impl::client_key_path</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/vcc_pki_client.cpp" line="276" column="17" bodyfile="src/security/vcc_pki_client.cpp" bodystart="276" bodyend="276"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_v_c_c_p_k_i_client_1_1_impl_1a75f2007c094239ca0be5c77dec5a58f4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::VCCPKIClient::Impl::verify_server</definition>
+        <argsstring></argsstring>
+        <name>verify_server</name>
+        <qualifiedname>themis::VCCPKIClient::Impl::verify_server</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/vcc_pki_client.cpp" line="277" column="10" bodyfile="src/security/vcc_pki_client.cpp" bodystart="277" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_v_c_c_p_k_i_client_1_1_impl_1acbd353002f0f942cb8685a5d54181610" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::VCCPKIClient::Impl::use_mtls</definition>
+        <argsstring></argsstring>
+        <name>use_mtls</name>
+        <qualifiedname>themis::VCCPKIClient::Impl::use_mtls</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/vcc_pki_client.cpp" line="278" column="10" bodyfile="src/security/vcc_pki_client.cpp" bodystart="278" bodyend="278"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_v_c_c_p_k_i_client_1_1_impl_1a6d882fb92d9a1f6986e4faa604796f2c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::VCCPKIClient::Impl::Impl</definition>
+        <argsstring>()</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::VCCPKIClient::Impl::Impl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/vcc_pki_client.cpp" line="280" column="5" bodyfile="src/security/vcc_pki_client.cpp" bodystart="280" bodyend="290"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_v_c_c_p_k_i_client_1_1_impl_1a7bd463b2ee8065a27897206860c31fd6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::VCCPKIClient::Impl::~Impl</definition>
+        <argsstring>()</argsstring>
+        <name>~Impl</name>
+        <qualifiedname>themis::VCCPKIClient::Impl::~Impl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/vcc_pki_client.cpp" line="292" column="5" bodyfile="src/security/vcc_pki_client.cpp" bodystart="292" bodyend="300"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_v_c_c_p_k_i_client_1_1_impl_1a93800c98f273352e0580ab1b84113541" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::VCCPKIClient::Impl::execute</definition>
+        <argsstring>(const std::string &amp;url, const std::string &amp;method, const std::string &amp;body, int timeout_ms)</argsstring>
+        <name>execute</name>
+        <qualifiedname>themis::VCCPKIClient::Impl::execute</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>method</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>timeout_ms</declname>
+        </param>
+        <briefdescription>
+<para>Execute. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: curl_easy_reset(), curl_easy_setopt(), c_str(), empty(), size(), curl_easy_perform(), curl_easy_strerror(), curl_easy_getinfo(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/vcc_pki_client.cpp" line="327" column="17" bodyfile="src/security/vcc_pki_client.cpp" bodystart="327" bodyend="398"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1_v_c_c_p_k_i_client_1_1_impl_1acf8a6942b3232d4e6e4b91f29fb4c376" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>static size_t themis::VCCPKIClient::Impl::writeCallback</definition>
+        <argsstring>(void *contents, size_t size, size_t nmemb, std::string *userp)</argsstring>
+        <name>writeCallback</name>
+        <qualifiedname>themis::VCCPKIClient::Impl::writeCallback</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>contents</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>nmemb</declname>
+        </param>
+        <param>
+          <type>std::string *</type>
+          <declname>userp</declname>
+        </param>
+        <briefdescription>
+<para>Callback for reading response data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">contents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">nmemb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">userp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: append(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/vcc_pki_client.cpp" line="311" column="19" bodyfile="src/security/vcc_pki_client.cpp" bodystart="311" bodyend="315"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/security/vcc_pki_client.cpp" line="271" column="1" bodyfile="src/security/vcc_pki_client.cpp" bodystart="271" bodyend="399"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_v_c_c_p_k_i_client_1_1_impl_1a5de1734fd034a7b0b4cfe463e40f732c" prot="public" virt="non-virtual"><scope>themis::VCCPKIClient::Impl</scope><name>ca_cert_path</name></member>
+      <member refid="structthemis_1_1_v_c_c_p_k_i_client_1_1_impl_1a17634fb0dbbdd505152750a4d0842239" prot="public" virt="non-virtual"><scope>themis::VCCPKIClient::Impl</scope><name>client_cert_path</name></member>
+      <member refid="structthemis_1_1_v_c_c_p_k_i_client_1_1_impl_1a3d66bf3026cba5cf33c55527fe64ed3a" prot="public" virt="non-virtual"><scope>themis::VCCPKIClient::Impl</scope><name>client_key_path</name></member>
+      <member refid="structthemis_1_1_v_c_c_p_k_i_client_1_1_impl_1acf2ce0a25187d8da93ce5e2fdcf58491" prot="public" virt="non-virtual"><scope>themis::VCCPKIClient::Impl</scope><name>curl</name></member>
+      <member refid="structthemis_1_1_v_c_c_p_k_i_client_1_1_impl_1a93800c98f273352e0580ab1b84113541" prot="public" virt="non-virtual"><scope>themis::VCCPKIClient::Impl</scope><name>execute</name></member>
+      <member refid="structthemis_1_1_v_c_c_p_k_i_client_1_1_impl_1a9ce96c1c05954fd345d4357d07e241d3" prot="public" virt="non-virtual"><scope>themis::VCCPKIClient::Impl</scope><name>headers</name></member>
+      <member refid="structthemis_1_1_v_c_c_p_k_i_client_1_1_impl_1a6d882fb92d9a1f6986e4faa604796f2c" prot="public" virt="non-virtual"><scope>themis::VCCPKIClient::Impl</scope><name>Impl</name></member>
+      <member refid="structthemis_1_1_v_c_c_p_k_i_client_1_1_impl_1acbd353002f0f942cb8685a5d54181610" prot="public" virt="non-virtual"><scope>themis::VCCPKIClient::Impl</scope><name>use_mtls</name></member>
+      <member refid="structthemis_1_1_v_c_c_p_k_i_client_1_1_impl_1a75f2007c094239ca0be5c77dec5a58f4" prot="public" virt="non-virtual"><scope>themis::VCCPKIClient::Impl</scope><name>verify_server</name></member>
+      <member refid="structthemis_1_1_v_c_c_p_k_i_client_1_1_impl_1acf8a6942b3232d4e6e4b91f29fb4c376" prot="public" virt="non-virtual"><scope>themis::VCCPKIClient::Impl</scope><name>writeCallback</name></member>
+      <member refid="structthemis_1_1_v_c_c_p_k_i_client_1_1_impl_1a7bd463b2ee8065a27897206860c31fd6" prot="public" virt="non-virtual"><scope>themis::VCCPKIClient::Impl</scope><name>~Impl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

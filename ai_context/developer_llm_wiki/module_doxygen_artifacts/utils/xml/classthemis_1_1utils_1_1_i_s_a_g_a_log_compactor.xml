@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_i_s_a_g_a_log_compactor" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::utils::ISAGALogCompactor</compoundname>
+    <derivedcompoundref refid="classthemis_1_1utils_1_1_s_a_g_a_log_compactor_adapter" prot="public" virt="non-virtual">themis::utils::SAGALogCompactorAdapter</derivedcompoundref>
+    <includes refid="utils__interfaces_8h" local="no">utils_interfaces.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_i_s_a_g_a_log_compactor_1abe0e5b0ff8b59568a58dc2659066a7df" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::utils::ISAGALogCompactor::~ISAGALogCompactor</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ISAGALogCompactor</name>
+        <qualifiedname>themis::utils::ISAGALogCompactor::~ISAGALogCompactor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="512" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_i_s_a_g_a_log_compactor_1a7269c58da960cb01c963a850eb625d94" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::future&lt; <ref refid="structthemis_1_1utils_1_1_compaction_result" kindref="compound">CompactionResult</ref> &gt;</type>
+        <definition>virtual std::future&lt; CompactionResult &gt; themis::utils::ISAGALogCompactor::compact</definition>
+        <argsstring>(SegmentRange range)=0</argsstring>
+        <name>compact</name>
+        <qualifiedname>themis::utils::ISAGALogCompactor::compact</qualifiedname>
+        <reimplementedby refid="classthemis_1_1utils_1_1_s_a_g_a_log_compactor_adapter_1a94abd487eeb17d1681d8720867ce2f21">compact</reimplementedby>
+        <param>
+          <type><ref refid="structthemis_1_1utils_1_1_segment_range" kindref="compound">SegmentRange</ref></type>
+          <declname>range</declname>
+        </param>
+        <briefdescription>
+<para>Begin background compaction over the given segment range. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns immediately. The caller can wait on the future, or discard it for fire-and-forget semantics.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>range</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Segment range to compact. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Future that resolves to a <ref refid="structthemis_1_1utils_1_1_compaction_result" kindref="compound">CompactionResult</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="523" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_i_s_a_g_a_log_compactor_1a1f7ce4814469554bccc9fc5448ed3298" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1utils_1_1_replay_iterator" kindref="compound">ReplayIterator</ref> &gt;</type>
+        <definition>virtual std::unique_ptr&lt; ReplayIterator &gt; themis::utils::ISAGALogCompactor::replay</definition>
+        <argsstring>(SegmentId segmentId)=0</argsstring>
+        <name>replay</name>
+        <qualifiedname>themis::utils::ISAGALogCompactor::replay</qualifiedname>
+        <reimplementedby refid="classthemis_1_1utils_1_1_s_a_g_a_log_compactor_adapter_1a23e7ca5a53fcbe841f2e39d8c2580795">replay</reimplementedby>
+        <param>
+          <type><ref refid="namespacethemis_1_1utils_1a2de9e60cc6e0b7f62802449e32f14d51" kindref="member">SegmentId</ref></type>
+          <declname>segmentId</declname>
+        </param>
+        <briefdescription>
+<para>Open a forward-only iterator over the entries in a compacted segment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>segmentId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the segment to replay. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Owning pointer to a <ref refid="classthemis_1_1utils_1_1_replay_iterator" kindref="compound">ReplayIterator</ref>; never null on success. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="531" column="30"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Async, non-blocking SAGA log compaction interface. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemis_1_1utils_1_1_i_s_a_g_a_log_compactor_1a7269c58da960cb01c963a850eb625d94" kindref="member">compact()</ref> returns immediately; compaction proceeds in the background. The returned future resolves when the background pass completes.</para>
+<para>Compaction MUST preserve all committed SAGA entries; only uncommitted or superseded entries may be removed. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::utils::ISAGALogCompactor</label>
+        <link refid="classthemis_1_1utils_1_1_i_s_a_g_a_log_compactor"/>
+      </node>
+      <node id="2">
+        <label>themis::utils::SAGALogCompactorAdapter</label>
+        <link refid="classthemis_1_1utils_1_1_s_a_g_a_log_compactor_adapter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/utils/utils_interfaces.h" line="510" column="1" bodyfile="include/utils/utils_interfaces.h" bodystart="510" bodyend="532"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1_i_s_a_g_a_log_compactor_1a7269c58da960cb01c963a850eb625d94" prot="public" virt="pure-virtual"><scope>themis::utils::ISAGALogCompactor</scope><name>compact</name></member>
+      <member refid="classthemis_1_1utils_1_1_i_s_a_g_a_log_compactor_1a1f7ce4814469554bccc9fc5448ed3298" prot="public" virt="pure-virtual"><scope>themis::utils::ISAGALogCompactor</scope><name>replay</name></member>
+      <member refid="classthemis_1_1utils_1_1_i_s_a_g_a_log_compactor_1abe0e5b0ff8b59568a58dc2659066a7df" prot="public" virt="virtual"><scope>themis::utils::ISAGALogCompactor</scope><name>~ISAGALogCompactor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

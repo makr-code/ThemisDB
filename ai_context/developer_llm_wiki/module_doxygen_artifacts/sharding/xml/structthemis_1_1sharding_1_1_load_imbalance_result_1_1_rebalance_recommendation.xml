@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_load_imbalance_result_1_1_rebalance_recommendation" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::LoadImbalanceResult::RebalanceRecommendation</compoundname>
+    <includes refid="shard__load__detector_8h" local="no">shard_load_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_load_imbalance_result_1_1_rebalance_recommendation_1a2027559ccbb616445d87483d75417f66" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::LoadImbalanceResult::RebalanceRecommendation::source_shard</definition>
+        <argsstring></argsstring>
+        <name>source_shard</name>
+        <qualifiedname>themis::sharding::LoadImbalanceResult::RebalanceRecommendation::source_shard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="97" column="21" bodyfile="include/sharding/shard_load_detector.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_load_imbalance_result_1_1_rebalance_recommendation_1aeee480263bf60a7e19a905459b754b3d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::LoadImbalanceResult::RebalanceRecommendation::target_shard</definition>
+        <argsstring></argsstring>
+        <name>target_shard</name>
+        <qualifiedname>themis::sharding::LoadImbalanceResult::RebalanceRecommendation::target_shard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="98" column="21" bodyfile="include/sharding/shard_load_detector.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_load_imbalance_result_1_1_rebalance_recommendation_1abd4b951d4de37e2eed83c80266a68004" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::LoadImbalanceResult::RebalanceRecommendation::token_range_start</definition>
+        <argsstring></argsstring>
+        <name>token_range_start</name>
+        <qualifiedname>themis::sharding::LoadImbalanceResult::RebalanceRecommendation::token_range_start</qualifiedname>
+        <briefdescription>
+<para>Inclusive token-range start suggested for migration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="100" column="18" bodyfile="include/sharding/shard_load_detector.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_load_imbalance_result_1_1_rebalance_recommendation_1a8fcdb92d93010ce2d9dbc2b7e86ea9af" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::LoadImbalanceResult::RebalanceRecommendation::token_range_end</definition>
+        <argsstring></argsstring>
+        <name>token_range_end</name>
+        <qualifiedname>themis::sharding::LoadImbalanceResult::RebalanceRecommendation::token_range_end</qualifiedname>
+        <briefdescription>
+<para>Inclusive token-range end suggested for migration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="102" column="18" bodyfile="include/sharding/shard_load_detector.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_load_imbalance_result_1_1_rebalance_recommendation_1a4d20d78d878737fcebe999297b4d064f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::LoadImbalanceResult::RebalanceRecommendation::expected_load_reduction_percent</definition>
+        <argsstring></argsstring>
+        <name>expected_load_reduction_percent</name>
+        <qualifiedname>themis::sharding::LoadImbalanceResult::RebalanceRecommendation::expected_load_reduction_percent</qualifiedname>
+        <briefdescription>
+<para>Estimated source-load reduction achieved by this move. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="104" column="16" bodyfile="include/sharding/shard_load_detector.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_load_imbalance_result_1_1_rebalance_recommendation_1a7fa5755df2af8ebbbcab3889588203d5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::LoadImbalanceResult::RebalanceRecommendation::justification</definition>
+        <argsstring></argsstring>
+        <name>justification</name>
+        <qualifiedname>themis::sharding::LoadImbalanceResult::RebalanceRecommendation::justification</qualifiedname>
+        <briefdescription>
+<para>Text rationale describing why this movement was recommended. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="106" column="21" bodyfile="include/sharding/shard_load_detector.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Suggested movement plan from one hot shard to one cold shard. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/shard_load_detector.h" line="96" column="5" bodyfile="include/sharding/shard_load_detector.h" bodystart="96" bodyend="107"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_load_imbalance_result_1_1_rebalance_recommendation_1a4d20d78d878737fcebe999297b4d064f" prot="public" virt="non-virtual"><scope>themis::sharding::LoadImbalanceResult::RebalanceRecommendation</scope><name>expected_load_reduction_percent</name></member>
+      <member refid="structthemis_1_1sharding_1_1_load_imbalance_result_1_1_rebalance_recommendation_1a7fa5755df2af8ebbbcab3889588203d5" prot="public" virt="non-virtual"><scope>themis::sharding::LoadImbalanceResult::RebalanceRecommendation</scope><name>justification</name></member>
+      <member refid="structthemis_1_1sharding_1_1_load_imbalance_result_1_1_rebalance_recommendation_1a2027559ccbb616445d87483d75417f66" prot="public" virt="non-virtual"><scope>themis::sharding::LoadImbalanceResult::RebalanceRecommendation</scope><name>source_shard</name></member>
+      <member refid="structthemis_1_1sharding_1_1_load_imbalance_result_1_1_rebalance_recommendation_1aeee480263bf60a7e19a905459b754b3d" prot="public" virt="non-virtual"><scope>themis::sharding::LoadImbalanceResult::RebalanceRecommendation</scope><name>target_shard</name></member>
+      <member refid="structthemis_1_1sharding_1_1_load_imbalance_result_1_1_rebalance_recommendation_1a8fcdb92d93010ce2d9dbc2b7e86ea9af" prot="public" virt="non-virtual"><scope>themis::sharding::LoadImbalanceResult::RebalanceRecommendation</scope><name>token_range_end</name></member>
+      <member refid="structthemis_1_1sharding_1_1_load_imbalance_result_1_1_rebalance_recommendation_1abd4b951d4de37e2eed83c80266a68004" prot="public" virt="non-virtual"><scope>themis::sharding::LoadImbalanceResult::RebalanceRecommendation</scope><name>token_range_start</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

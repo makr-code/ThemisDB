@@ -1,0 +1,310 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_null_k_v_state_serializer" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::llm::NullKVStateSerializer</compoundname>
+    <basecompoundref refid="structthemis_1_1llm_1_1_i_k_v_state_serializer" prot="public" virt="non-virtual">themis::llm::IKVStateSerializer</basecompoundref>
+    <includes refid="kv__prefix__transfer__manager_8h" local="no">kv_prefix_transfer_manager.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1llm_1_1_null_k_v_state_serializer_1aa36fd84eaae0cebc23d21ce825e7cae8" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; std::uint8_t &gt;(const std::string &amp;prefix_text, const std::string &amp;model_id)&gt;</type>
+        <definition>using themis::llm::NullKVStateSerializer::SerialiseFn = 
+std::function&lt;std::vector&lt;std::uint8_t&gt;(const std::string&amp; prefix_text,
+                                        const std::string&amp; model_id)&gt;</definition>
+        <argsstring></argsstring>
+        <name>SerialiseFn</name>
+        <qualifiedname>themis::llm::NullKVStateSerializer::SerialiseFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kv_prefix_transfer_manager.h" line="58" column="5" bodyfile="include/llm/kv_prefix_transfer_manager.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1llm_1_1_null_k_v_state_serializer_1a9a9c8d56051fd36d2debc78b21dacf00" prot="public" static="no">
+        <type>std::function&lt; std::string(const std::string &amp;model_id)&gt;</type>
+        <definition>using themis::llm::NullKVStateSerializer::ModelFingerprintFn = 
+std::function&lt;std::string(const std::string&amp; model_id)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ModelFingerprintFn</name>
+        <qualifiedname>themis::llm::NullKVStateSerializer::ModelFingerprintFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kv_prefix_transfer_manager.h" line="61" column="5" bodyfile="include/llm/kv_prefix_transfer_manager.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_null_k_v_state_serializer_1ae0bfc1c0e10eec126b6bd45976d556b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::NullKVStateSerializer::~NullKVStateSerializer</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~NullKVStateSerializer</name>
+        <qualifiedname>themis::llm::NullKVStateSerializer::~NullKVStateSerializer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kv_prefix_transfer_manager.h" line="56" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_null_k_v_state_serializer_1ac676d3593bea3ac84c6183376c47c8b3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; std::uint8_t &gt;</type>
+        <definition>std::vector&lt; std::uint8_t &gt; themis::llm::NullKVStateSerializer::serialise</definition>
+        <argsstring>(const std::string &amp;prefix_text, const std::string &amp;model_id) override</argsstring>
+        <name>serialise</name>
+        <qualifiedname>themis::llm::NullKVStateSerializer::serialise</qualifiedname>
+        <reimplements refid="structthemis_1_1llm_1_1_i_k_v_state_serializer_1ae4c804a897a0b34ec7b6890fd2dc83b3">serialise</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prefix_text</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+<para>Serialise. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prefix_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kv_prefix_transfer_manager.h" line="83" column="17" bodyfile="include/llm/kv_prefix_transfer_manager.h" bodystart="83" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_null_k_v_state_serializer_1ab530457ab42b822f33c9462436b10df5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::NullKVStateSerializer::modelFingerprint</definition>
+        <argsstring>(const std::string &amp;model_id) const override</argsstring>
+        <name>modelFingerprint</name>
+        <qualifiedname>themis::llm::NullKVStateSerializer::modelFingerprint</qualifiedname>
+        <reimplements refid="structthemis_1_1llm_1_1_i_k_v_state_serializer_1aa198feab9aa9319e01c0ef11043cc9ec">modelFingerprint</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+<para>Model Fingerprint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kv_prefix_transfer_manager.h" line="100" column="17" bodyfile="include/llm/kv_prefix_transfer_manager.h" bodystart="100" bodyend="114"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_null_k_v_state_serializer_1af8cb996239f509d4710e16b59f05b652" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::llm::NullKVStateSerializer::setSerialiseFn</definition>
+        <argsstring>(SerialiseFn fn)</argsstring>
+        <name>setSerialiseFn</name>
+        <qualifiedname>themis::llm::NullKVStateSerializer::setSerialiseFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_null_k_v_state_serializer_1aa36fd84eaae0cebc23d21ce825e7cae8" kindref="member">SerialiseFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Serialise Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), serialiseFnMutex(), serialiseFnStorage(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kv_prefix_transfer_manager.h" line="69" column="17" bodyfile="include/llm/kv_prefix_transfer_manager.h" bodystart="69" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_null_k_v_state_serializer_1a437e9edab6df2f20634aed89bc063bc0" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::llm::NullKVStateSerializer::setModelFingerprintFn</definition>
+        <argsstring>(ModelFingerprintFn fn)</argsstring>
+        <name>setModelFingerprintFn</name>
+        <qualifiedname>themis::llm::NullKVStateSerializer::setModelFingerprintFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_null_k_v_state_serializer_1a9a9c8d56051fd36d2debc78b21dacf00" kindref="member">ModelFingerprintFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Model Fingerprint Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), modelFingerprintFnMutex(), modelFingerprintFnStorage(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kv_prefix_transfer_manager.h" line="78" column="17" bodyfile="include/llm/kv_prefix_transfer_manager.h" bodystart="78" bodyend="81"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_null_k_v_state_serializer_1a110d723ddca64d4a5c60a349f8d9dd97" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::mutex &amp;</type>
+        <definition>static std::mutex &amp; themis::llm::NullKVStateSerializer::serialiseFnMutex</definition>
+        <argsstring>()</argsstring>
+        <name>serialiseFnMutex</name>
+        <qualifiedname>themis::llm::NullKVStateSerializer::serialiseFnMutex</qualifiedname>
+        <briefdescription>
+<para>Serialise Fn Mutex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements serialiseFnMutex without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kv_prefix_transfer_manager.h" line="122" column="23" bodyfile="include/llm/kv_prefix_transfer_manager.h" bodystart="122" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_null_k_v_state_serializer_1a544d4c18f9e1c450d3be5ec77a107c62" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_null_k_v_state_serializer_1aa36fd84eaae0cebc23d21ce825e7cae8" kindref="member">SerialiseFn</ref> &amp;</type>
+        <definition>static SerialiseFn &amp; themis::llm::NullKVStateSerializer::serialiseFnStorage</definition>
+        <argsstring>()</argsstring>
+        <name>serialiseFnStorage</name>
+        <qualifiedname>themis::llm::NullKVStateSerializer::serialiseFnStorage</qualifiedname>
+        <briefdescription>
+<para>Serialise Fn Storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements serialiseFnStorage without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kv_prefix_transfer_manager.h" line="131" column="24" bodyfile="include/llm/kv_prefix_transfer_manager.h" bodystart="131" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_null_k_v_state_serializer_1ad1ed86c2c0415052d4f5a8504c89f50f" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::mutex &amp;</type>
+        <definition>static std::mutex &amp; themis::llm::NullKVStateSerializer::modelFingerprintFnMutex</definition>
+        <argsstring>()</argsstring>
+        <name>modelFingerprintFnMutex</name>
+        <qualifiedname>themis::llm::NullKVStateSerializer::modelFingerprintFnMutex</qualifiedname>
+        <briefdescription>
+<para>Model Fingerprint Fn Mutex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements modelFingerprintFnMutex without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kv_prefix_transfer_manager.h" line="140" column="23" bodyfile="include/llm/kv_prefix_transfer_manager.h" bodystart="140" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_null_k_v_state_serializer_1a52e974590e5ea86553e4b88e89a5e3aa" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_null_k_v_state_serializer_1a9a9c8d56051fd36d2debc78b21dacf00" kindref="member">ModelFingerprintFn</ref> &amp;</type>
+        <definition>static ModelFingerprintFn &amp; themis::llm::NullKVStateSerializer::modelFingerprintFnStorage</definition>
+        <argsstring>()</argsstring>
+        <name>modelFingerprintFnStorage</name>
+        <qualifiedname>themis::llm::NullKVStateSerializer::modelFingerprintFnStorage</qualifiedname>
+        <briefdescription>
+<para>Model Fingerprint Fn Storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements modelFingerprintFnStorage without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kv_prefix_transfer_manager.h" line="149" column="31" bodyfile="include/llm/kv_prefix_transfer_manager.h" bodystart="149" bodyend="152"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::llm::IKVStateSerializer</label>
+        <link refid="structthemis_1_1llm_1_1_i_k_v_state_serializer"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::NullKVStateSerializer</label>
+        <link refid="classthemis_1_1llm_1_1_null_k_v_state_serializer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::llm::IKVStateSerializer</label>
+        <link refid="structthemis_1_1llm_1_1_i_k_v_state_serializer"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::NullKVStateSerializer</label>
+        <link refid="classthemis_1_1llm_1_1_null_k_v_state_serializer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/kv_prefix_transfer_manager.h" line="54" column="1" bodyfile="include/llm/kv_prefix_transfer_manager.h" bodystart="54" bodyend="153"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_null_k_v_state_serializer_1ab530457ab42b822f33c9462436b10df5" prot="public" virt="virtual"><scope>themis::llm::NullKVStateSerializer</scope><name>modelFingerprint</name></member>
+      <member refid="classthemis_1_1llm_1_1_null_k_v_state_serializer_1a9a9c8d56051fd36d2debc78b21dacf00" prot="public" virt="non-virtual"><scope>themis::llm::NullKVStateSerializer</scope><name>ModelFingerprintFn</name></member>
+      <member refid="classthemis_1_1llm_1_1_null_k_v_state_serializer_1ad1ed86c2c0415052d4f5a8504c89f50f" prot="private" virt="non-virtual"><scope>themis::llm::NullKVStateSerializer</scope><name>modelFingerprintFnMutex</name></member>
+      <member refid="classthemis_1_1llm_1_1_null_k_v_state_serializer_1a52e974590e5ea86553e4b88e89a5e3aa" prot="private" virt="non-virtual"><scope>themis::llm::NullKVStateSerializer</scope><name>modelFingerprintFnStorage</name></member>
+      <member refid="classthemis_1_1llm_1_1_null_k_v_state_serializer_1ac676d3593bea3ac84c6183376c47c8b3" prot="public" virt="virtual"><scope>themis::llm::NullKVStateSerializer</scope><name>serialise</name></member>
+      <member refid="classthemis_1_1llm_1_1_null_k_v_state_serializer_1aa36fd84eaae0cebc23d21ce825e7cae8" prot="public" virt="non-virtual"><scope>themis::llm::NullKVStateSerializer</scope><name>SerialiseFn</name></member>
+      <member refid="classthemis_1_1llm_1_1_null_k_v_state_serializer_1a110d723ddca64d4a5c60a349f8d9dd97" prot="private" virt="non-virtual"><scope>themis::llm::NullKVStateSerializer</scope><name>serialiseFnMutex</name></member>
+      <member refid="classthemis_1_1llm_1_1_null_k_v_state_serializer_1a544d4c18f9e1c450d3be5ec77a107c62" prot="private" virt="non-virtual"><scope>themis::llm::NullKVStateSerializer</scope><name>serialiseFnStorage</name></member>
+      <member refid="classthemis_1_1llm_1_1_null_k_v_state_serializer_1a437e9edab6df2f20634aed89bc063bc0" prot="public" virt="non-virtual"><scope>themis::llm::NullKVStateSerializer</scope><name>setModelFingerprintFn</name></member>
+      <member refid="classthemis_1_1llm_1_1_null_k_v_state_serializer_1af8cb996239f509d4710e16b59f05b652" prot="public" virt="non-virtual"><scope>themis::llm::NullKVStateSerializer</scope><name>setSerialiseFn</name></member>
+      <member refid="structthemis_1_1llm_1_1_i_k_v_state_serializer_1a654ecf0fd09a410ae058a6c9eb609e0d" prot="public" virt="virtual"><scope>themis::llm::NullKVStateSerializer</scope><name>~IKVStateSerializer</name></member>
+      <member refid="classthemis_1_1llm_1_1_null_k_v_state_serializer_1ae0bfc1c0e10eec126b6bd45976d556b2" prot="public" virt="non-virtual"><scope>themis::llm::NullKVStateSerializer</scope><name>~NullKVStateSerializer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

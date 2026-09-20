@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_gdpr_field_registry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::GdprFieldRegistry</compoundname>
+    <includes refid="schema__dead__weight__detector_8h" local="no">schema_dead_weight_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_gdpr_field_registry_1a78f5c6642767a47111257c0209f7fe31" prot="public" static="no" mutable="no">
+        <type>std::set&lt; std::string &gt;</type>
+        <definition>std::set&lt;std::string&gt; themis::storage::GdprFieldRegistry::protected_paths</definition>
+        <argsstring></argsstring>
+        <name>protected_paths</name>
+        <qualifiedname>themis::storage::GdprFieldRegistry::protected_paths</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/schema_dead_weight_detector.h" line="46" column="14" bodyfile="include/storage/schema_dead_weight_detector.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1storage_1_1_gdpr_field_registry_1a6d7724ec9ace5e57472fda340dc655ca" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::GdprFieldRegistry::isProtected</definition>
+        <argsstring>(const std::string &amp;field_path) const</argsstring>
+        <name>isProtected</name>
+        <qualifiedname>themis::storage::GdprFieldRegistry::isProtected</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>field_path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/schema_dead_weight_detector.h" line="48" column="10" bodyfile="include/storage/schema_dead_weight_detector.h" bodystart="48" bodyend="50"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Registry of GDPR-protected field paths. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Any field whose path appears in this set must never be flagged as dead-weight regardless of its last-access timestamp. </para>
+    </detaileddescription>
+    <location file="include/storage/schema_dead_weight_detector.h" line="45" column="1" bodyfile="include/storage/schema_dead_weight_detector.h" bodystart="45" bodyend="51"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_gdpr_field_registry_1a6d7724ec9ace5e57472fda340dc655ca" prot="public" virt="non-virtual"><scope>themis::storage::GdprFieldRegistry</scope><name>isProtected</name></member>
+      <member refid="structthemis_1_1storage_1_1_gdpr_field_registry_1a78f5c6642767a47111257c0209f7fe31" prot="public" virt="non-virtual"><scope>themis::storage::GdprFieldRegistry</scope><name>protected_paths</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

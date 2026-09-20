@@ -1,0 +1,1116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__wiki__eval__metrics_8cpp" kind="file" language="C++">
+    <compoundname>test_wiki_eval_metrics.cpp</compoundname>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">index/secondary_index.h</includes>
+    <includes local="yes">index/vector_index.h</includes>
+    <includes refid="embedded__llm_8h" local="yes">llm/embedded_llm.h</includes>
+    <includes refid="wiki__index__store_8h" local="yes">llm/wiki_index_store.h</includes>
+    <includes local="yes">storage/rocksdb_wrapper.h</includes>
+    <incdepgraph>
+      <node id="40">
+        <label>llm/block_table.h</label>
+        <link refid="block__table_8h"/>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="38">
+        <label>llm/continuous_batch_scheduler.h</label>
+        <link refid="continuous__batch__scheduler_8h"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>llm/embedded_llm.h</label>
+        <link refid="embedded__llm_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="51">
+        <label>llm/ethical_guidelines_manager.h</label>
+        <link refid="ethical__guidelines__manager_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="53" relation="include">
+        </childnode>
+      </node>
+      <node id="45">
+        <label>llm/grafana_metrics.h</label>
+        <link refid="grafana__metrics_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="48">
+        <label>llm/grammar.h</label>
+        <link refid="grammar_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="49">
+        <label>llm/grammar_cache.h</label>
+        <link refid="grammar__cache_8h"/>
+        <childnode refid="48" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>llm/json_schema_converter.h</label>
+        <link refid="json__schema__converter_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>llm/llama_wrapper.h</label>
+        <link refid="llama__wrapper_8h"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="50">
+        <label>llm/llamacpp_inference_engine.h</label>
+        <link refid="llamacpp__inference__engine_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>llm/llm_model_audit_logger.h</label>
+        <link refid="llm__model__audit__logger_8h"/>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>llm/llm_plugin_interface.h</label>
+        <link refid="llm__plugin__interface_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="36">
+        <label>llm/llm_prefix_cache.h</label>
+        <link refid="llm__prefix__cache_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+      </node>
+      <node id="47">
+        <label>llm/llm_response_cache.h</label>
+        <link refid="llm__response__cache_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>llm/lora_certificate_store.h</label>
+        <link refid="lora__certificate__store_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>llm/lora_security_validator.h</label>
+        <link refid="lora__security__validator_8h"/>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>llm/model_loader.h</label>
+        <link refid="model__loader_8h"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>llm/multi_lora_manager.h</label>
+        <link refid="multi__lora__manager_8h"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="41">
+        <label>llm/paged_block_manager.h</label>
+        <link refid="paged__block__manager_8h"/>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="39">
+        <label>llm/paged_kv_cache.h</label>
+        <link refid="paged__kv__cache_8h"/>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="46">
+        <label>llm/token_quota_manager.h</label>
+        <link refid="token__quota__manager_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="54">
+        <label>llm/wiki_index_store.h</label>
+        <link refid="wiki__index__store_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="55" relation="include">
+        </childnode>
+        <childnode refid="56" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="57" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/llm/test_wiki_eval_metrics.cpp</label>
+        <link refid="test__wiki__eval__metrics_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="54" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="35">
+        <label>condition_variable</label>
+      </node>
+      <node id="57">
+        <label>cstddef</label>
+      </node>
+      <node id="20">
+        <label>cstdint</label>
+      </node>
+      <node id="53">
+        <label>ethics_ai/ethics_ai_types.h</label>
+      </node>
+      <node id="4">
+        <label>filesystem</label>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="24">
+        <label>future</label>
+      </node>
+      <node id="10">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="11">
+        <label>index/secondary_index.h</label>
+      </node>
+      <node id="12">
+        <label>index/vector_index.h</label>
+      </node>
+      <node id="44">
+        <label>list</label>
+      </node>
+      <node id="52">
+        <label>map</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="21">
+        <label>mutex</label>
+      </node>
+      <node id="18">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="17">
+        <label>optional</label>
+      </node>
+      <node id="30">
+        <label>ostream</label>
+      </node>
+      <node id="19">
+        <label>plugins/plugin_interface.h</label>
+      </node>
+      <node id="43">
+        <label>queue</label>
+      </node>
+      <node id="55">
+        <label>rag/hybrid_retriever.h</label>
+      </node>
+      <node id="32">
+        <label>regex</label>
+      </node>
+      <node id="34">
+        <label>shared_mutex</label>
+      </node>
+      <node id="56">
+        <label>storage/base_entity.h</label>
+      </node>
+      <node id="58">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>thread</label>
+      </node>
+      <node id="25">
+        <label>unordered_map</label>
+      </node>
+      <node id="33">
+        <label>unordered_set</label>
+      </node>
+      <node id="29">
+        <label>utils/audit_logger.h</label>
+      </node>
+      <node id="37">
+        <label>utils/clock.h</label>
+      </node>
+      <node id="42">
+        <label>utils/concurrent_cache.h</label>
+      </node>
+      <node id="23">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_wiki_eval_metrics_test" prot="public">WikiEvalMetricsTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__wiki__eval__metrics_8cpp_1af3a3e9be044173b6364bcf4c3915185b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(WikiEvalMetricsTest, EVAL01_EmptyBeforeAnyQuery)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_wiki_eval_metrics_test" kindref="compound">WikiEvalMetricsTest</ref></type>
+        </param>
+        <param>
+          <type>EVAL01_EmptyBeforeAnyQuery</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wiki_eval_metrics.cpp" line="116" column="1" bodyfile="tests/llm/test_wiki_eval_metrics.cpp" bodystart="116" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wiki__eval__metrics_8cpp_1a83f07a0b2e91d68841a7d00d40660e2f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(WikiEvalMetricsTest, EVAL02_P95LatencyRecorded)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_wiki_eval_metrics_test" kindref="compound">WikiEvalMetricsTest</ref></type>
+        </param>
+        <param>
+          <type>EVAL02_P95LatencyRecorded</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wiki_eval_metrics.cpp" line="133" column="1" bodyfile="tests/llm/test_wiki_eval_metrics.cpp" bodystart="133" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wiki__eval__metrics_8cpp_1af80dfbd03210308e88e68d2dc3b512b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(WikiEvalMetricsTest, EVAL03_PerfectRecall)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_wiki_eval_metrics_test" kindref="compound">WikiEvalMetricsTest</ref></type>
+        </param>
+        <param>
+          <type>EVAL03_PerfectRecall</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wiki_eval_metrics.cpp" line="150" column="1" bodyfile="tests/llm/test_wiki_eval_metrics.cpp" bodystart="150" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wiki__eval__metrics_8cpp_1a3ede40bfdbae36b859aabdfbb79a5b80" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(WikiEvalMetricsTest, EVAL04_ZeroRecall)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_wiki_eval_metrics_test" kindref="compound">WikiEvalMetricsTest</ref></type>
+        </param>
+        <param>
+          <type>EVAL04_ZeroRecall</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wiki_eval_metrics.cpp" line="169" column="1" bodyfile="tests/llm/test_wiki_eval_metrics.cpp" bodystart="169" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wiki__eval__metrics_8cpp_1a3098a63aa8456717af59cc7301ba3c02" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(WikiEvalMetricsTest, EVAL05_EmptyGroundTruthRecordsLatencyOnly)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_wiki_eval_metrics_test" kindref="compound">WikiEvalMetricsTest</ref></type>
+        </param>
+        <param>
+          <type>EVAL05_EmptyGroundTruthRecordsLatencyOnly</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wiki_eval_metrics.cpp" line="187" column="1" bodyfile="tests/llm/test_wiki_eval_metrics.cpp" bodystart="187" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wiki__eval__metrics_8cpp_1a990d4263d2cc1975f84821b5b0d03a70" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(WikiEvalMetricsTest, EVAL06_MRR_FirstHitRank1)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_wiki_eval_metrics_test" kindref="compound">WikiEvalMetricsTest</ref></type>
+        </param>
+        <param>
+          <type>EVAL06_MRR_FirstHitRank1</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wiki_eval_metrics.cpp" line="204" column="1" bodyfile="tests/llm/test_wiki_eval_metrics.cpp" bodystart="204" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wiki__eval__metrics_8cpp_1a556b1f6863724998cf0ca9f1a5ba46e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(WikiEvalMetricsTest, EVAL07_RunningMeanMultipleCalls)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_wiki_eval_metrics_test" kindref="compound">WikiEvalMetricsTest</ref></type>
+        </param>
+        <param>
+          <type>EVAL07_RunningMeanMultipleCalls</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wiki_eval_metrics.cpp" line="219" column="1" bodyfile="tests/llm/test_wiki_eval_metrics.cpp" bodystart="219" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wiki__eval__metrics_8cpp_1adc2c80159f6e100e6e28a67d791edd05" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(WikiEvalMetricsTest, EVAL08_ResetClearsAllState)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_wiki_eval_metrics_test" kindref="compound">WikiEvalMetricsTest</ref></type>
+        </param>
+        <param>
+          <type>EVAL08_ResetClearsAllState</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wiki_eval_metrics.cpp" line="238" column="1" bodyfile="tests/llm/test_wiki_eval_metrics.cpp" bodystart="238" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wiki__eval__metrics_8cpp_1a64a5ffe03474d2672642ff68f075e4f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(WikiEvalMetricsTest, EVAL09_ConcurrentCallsAreSafe)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_wiki_eval_metrics_test" kindref="compound">WikiEvalMetricsTest</ref></type>
+        </param>
+        <param>
+          <type>EVAL09_ConcurrentCallsAreSafe</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wiki_eval_metrics.cpp" line="265" column="1" bodyfile="tests/llm/test_wiki_eval_metrics.cpp" bodystart="265" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wiki__eval__metrics_8cpp_1a00bc05bdcca50efd137fe891ce1bbdef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(WikiEvalMetricsTest, EVAL10_LatencyRingBufferWraps)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_wiki_eval_metrics_test" kindref="compound">WikiEvalMetricsTest</ref></type>
+        </param>
+        <param>
+          <type>EVAL10_LatencyRingBufferWraps</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wiki_eval_metrics.cpp" line="304" column="1" bodyfile="tests/llm/test_wiki_eval_metrics.cpp" bodystart="304" bodyend="319"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>EVAL-01..10 — <ref refid="classthemis_1_1llm_1_1_wiki_index_store" kindref="compound">WikiIndexStore</ref> evaluation metric tests (Recall@k / MRR / p95). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Gate criterion (Wave B LLM): implementation of Recall@k / MRR / p95 reporting in <ref refid="classthemis_1_1llm_1_1_wiki_index_store" kindref="compound">WikiIndexStore</ref> (ROADMAP item Q4 2026). All tests run against a real in-memory RocksDB-backed <ref refid="classthemis_1_1llm_1_1_wiki_index_store" kindref="compound">WikiIndexStore</ref>; skipped automatically when RocksDB is unavailable in the build environment.</para>
+<para><simplesect kind="version"><para>0.1.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟡 BETA </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/secondary_index.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/vector_index.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="embedded__llm_8h" kindref="compound">llm/embedded_llm.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="wiki__index__store_8h" kindref="compound">llm/wiki_index_store.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/rocksdb_wrapper.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">themis::llm</ref>;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal">std::string<sp/>makeDbPath(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tag)<sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">fs<sp/>=<sp/>std::filesystem;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ts<sp/>=<sp/>std::chrono::high_resolution_clock::now().time_since_epoch().count();</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(fs::temp_directory_path()<sp/>/</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">&quot;wiki_eval_&quot;</highlight><highlight class="normal"><sp/>+<sp/>tag<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(ts)))</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.string();</highlight></codeline>
+<codeline lineno="42"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Fixture</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="class_wiki_eval_metrics_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_wiki_eval_metrics_test" kindref="compound">WikiEvalMetricsTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_wiki_eval_metrics_test_1aaacce4f3a423f57a182033a49c846a2b" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_wiki_eval_metrics_test_1a14a3897c9efe097cdbf3cd0825b38bfc" kindref="member">db_path_</ref><sp/>=<sp/>makeDbPath(</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>::testing::UnitTest::GetInstance()-&gt;current_test_info()-&gt;name());</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RocksDBWrapper::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.db_path<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="class_wiki_eval_metrics_test_1a14a3897c9efe097cdbf3cd0825b38bfc" kindref="member">db_path_</ref>;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.enable_blobdb<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_wiki_eval_metrics_test_1a396f48951596ddb1c4ce8504c83ece76" kindref="member">db_</ref><sp/>=<sp/>std::make_unique&lt;RocksDBWrapper&gt;(cfg);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!<ref refid="class_wiki_eval_metrics_test_1a396f48951596ddb1c4ce8504c83ece76" kindref="member">db_</ref>-&gt;open())<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;[EVAL]<sp/>RocksDB<sp/>unavailable;<sp/>skipping<sp/>eval<sp/>metric<sp/>tests.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_wiki_eval_metrics_test_1a57b0e207d0a15fa8776d2ea86ac314ce" kindref="member">sim_</ref><sp/>=<sp/>std::make_unique&lt;SecondaryIndexManager&gt;(*<ref refid="class_wiki_eval_metrics_test_1a396f48951596ddb1c4ce8504c83ece76" kindref="member">db_</ref>);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_wiki_eval_metrics_test_1aab6dfc912551e7028ff2cf7ce9e0ba8e" kindref="member">vim_</ref><sp/>=<sp/>std::make_unique&lt;VectorIndexManager&gt;(*<ref refid="class_wiki_eval_metrics_test_1a396f48951596ddb1c4ce8504c83ece76" kindref="member">db_</ref>);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Deterministic<sp/>4-dim<sp/>embed:<sp/>one-hot<sp/>by<sp/>hash.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_wiki_eval_metrics_test_1a72b6e4c23bb35cbd69b53c7a32af332c" kindref="member">llm_</ref>.setEmbedFn([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text)<sp/>-&gt;<sp/>std::vector&lt;float&gt;<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>h<sp/>=<sp/>std::hash&lt;std::string&gt;{}(text);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>v(4,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>v[h<sp/>%<sp/>4]<sp/>=<sp/>1.0f;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>v;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_wiki_eval_metrics_test_1a2ed48635f41f508b36c70acf8fc306d1" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_wiki_eval_metrics_test_1a57b0e207d0a15fa8776d2ea86ac314ce" kindref="member">sim_</ref>.reset();</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_wiki_eval_metrics_test_1aab6dfc912551e7028ff2cf7ce9e0ba8e" kindref="member">vim_</ref>.reset();</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_wiki_eval_metrics_test_1a396f48951596ddb1c4ce8504c83ece76" kindref="member">db_</ref>.reset();</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove_all(<ref refid="class_wiki_eval_metrics_test_1a14a3897c9efe097cdbf3cd0825b38bfc" kindref="member">db_path_</ref>);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;WikiIndexStore&gt;<sp/><ref refid="class_wiki_eval_metrics_test_1ae81072beb2878da37afc5be6c7467713" kindref="member">makeStore</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>table)<sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_wiki_index_config" kindref="compound">WikiIndexConfig</ref><sp/>c;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>c.<ref refid="structthemis_1_1llm_1_1_wiki_index_config_1adf53f121b9c65822001a7329f55f5108" kindref="member">enable_phase_b</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>c.<ref refid="structthemis_1_1llm_1_1_wiki_index_config_1a27766312b30b92ba261e48bac9a06a22" kindref="member">table_name</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>table;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>c.<ref refid="structthemis_1_1llm_1_1_wiki_index_config_1a6aca296e8a33bbb72f272e89c6ac7e5f" kindref="member">embedding_dim</ref><sp/><sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>c.<ref refid="structthemis_1_1llm_1_1_wiki_index_config_1a71b2ea5b4b720261527429ea407d990d" kindref="member">top_k</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>c.<ref refid="structthemis_1_1llm_1_1_wiki_index_config_1ae3453cd689da9c7a5aac646202f886ff" kindref="member">enable_bm25</ref><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>c.<ref refid="structthemis_1_1llm_1_1_wiki_index_config_1a36e26b7570b3d1fe9d1b868a20e387af" kindref="member">enable_vector</ref><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>c.<ref refid="structthemis_1_1llm_1_1_wiki_index_config_1a2dd82f5fffdc9ef534560ee270fd7916" kindref="member">rrf_k</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>60.0;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::make_unique&lt;WikiIndexStore&gt;(*<ref refid="class_wiki_eval_metrics_test_1a57b0e207d0a15fa8776d2ea86ac314ce" kindref="member">sim_</ref>,<sp/>*<ref refid="class_wiki_eval_metrics_test_1aab6dfc912551e7028ff2cf7ce9e0ba8e" kindref="member">vim_</ref>,<sp/><ref refid="class_wiki_eval_metrics_test_1a72b6e4c23bb35cbd69b53c7a32af332c" kindref="member">llm_</ref>,<sp/>c);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_wiki_chunk" kindref="compound">WikiChunk</ref><sp/><ref refid="class_wiki_eval_metrics_test_1a31929b332da220956a7b502849afe41a" kindref="member">makeChunk</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>chunk_id,</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text,</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>doc_id)<sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_wiki_chunk" kindref="compound">WikiChunk</ref><sp/>c;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>c.<ref refid="structthemis_1_1llm_1_1_wiki_chunk_1aaf13407f7f10e1f0c9f8905b54594935" kindref="member">chunk_id</ref><sp/>=<sp/>chunk_id;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>c.<ref refid="structthemis_1_1llm_1_1_wiki_chunk_1aca92da869651544ea836ccfc8a0b6907" kindref="member">text</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>text;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>c.<ref refid="structthemis_1_1llm_1_1_wiki_chunk_1add0b7d7133bc42191dc38bd7f4396bb3" kindref="member">doc_id</ref><sp/><sp/><sp/>=<sp/>doc_id;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>c;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_wiki_eval_metrics_test_1a14a3897c9efe097cdbf3cd0825b38bfc" kindref="member">db_path_</ref>;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;RocksDBWrapper&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_wiki_eval_metrics_test_1a396f48951596ddb1c4ce8504c83ece76" kindref="member">db_</ref>;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;SecondaryIndexManager&gt;<sp/><ref refid="class_wiki_eval_metrics_test_1a57b0e207d0a15fa8776d2ea86ac314ce" kindref="member">sim_</ref>;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;VectorIndexManager&gt;<sp/><sp/><sp/><sp/><ref refid="class_wiki_eval_metrics_test_1aab6dfc912551e7028ff2cf7ce9e0ba8e" kindref="member">vim_</ref>;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_embedded_l_l_m" kindref="compound">EmbeddedLLM</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_wiki_eval_metrics_test_1a72b6e4c23bb35cbd69b53c7a32af332c" kindref="member">llm_</ref>;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EVAL-01:<sp/>empty<sp/>stats<sp/>before<sp/>any<sp/>query</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a30557ac2f9fe8d8c46943892b914a0d6" kindref="member">TEST_F</ref>(<ref refid="class_wiki_eval_metrics_test" kindref="compound">WikiEvalMetricsTest</ref>,<sp/>EVAL01_EmptyBeforeAnyQuery)<sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>store<sp/>=<sp/>makeStore(</highlight><highlight class="stringliteral">&quot;eval01&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_wiki_eval_stats" kindref="compound">WikiEvalStats</ref><sp/>s<sp/>=<sp/>store-&gt;getEvaluationStats();</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(s.<ref refid="structthemis_1_1llm_1_1_wiki_eval_stats_1a77e5dbcc3bcf72369ea7a4b0f8c7a2f2" kindref="member">recall_at_k1</ref>,<sp/><sp/>0.0);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(s.<ref refid="structthemis_1_1llm_1_1_wiki_eval_stats_1ac668fc0412cd4c41bcad2ef579eabfe8" kindref="member">recall_at_k3</ref>,<sp/><sp/>0.0);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(s.<ref refid="structthemis_1_1llm_1_1_wiki_eval_stats_1a77ea5d888f01d3d6fb50956abd4fdfb4" kindref="member">recall_at_k5</ref>,<sp/><sp/>0.0);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(s.<ref refid="structthemis_1_1llm_1_1_wiki_eval_stats_1a24f87ab7a66c74f56e79f703ae95a2eb" kindref="member">recall_at_k10</ref>,<sp/>0.0);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(s.<ref refid="structthemis_1_1llm_1_1_wiki_eval_stats_1afd4a7bae1086065f2beb32709c7da067" kindref="member">mrr</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0.0);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(s.<ref refid="structthemis_1_1llm_1_1_wiki_eval_stats_1acb3f12d44828a3dc12b7b1c67d98c57a" kindref="member">p95_query_latency_ms</ref>,<sp/>0.0);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.<ref refid="structthemis_1_1llm_1_1_wiki_eval_stats_1a8c2f1fafeaa83377f2e359b708131e0e" kindref="member">query_count</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.<ref refid="structthemis_1_1llm_1_1_wiki_eval_stats_1ab4ee5c07f5ef8392d7d8d301fe4bc728" kindref="member">total_query_count</ref>,<sp/>0u);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EVAL-02:<sp/>p95<sp/>latency<sp/>is<sp/>non-zero<sp/>after<sp/>evaluateQuery()<sp/>calls</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a30557ac2f9fe8d8c46943892b914a0d6" kindref="member">TEST_F</ref>(<ref refid="class_wiki_eval_metrics_test" kindref="compound">WikiEvalMetricsTest</ref>,<sp/>EVAL02_P95LatencyRecorded)<sp/>{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>store<sp/>=<sp/>makeStore(</highlight><highlight class="stringliteral">&quot;eval02&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>store-&gt;writeChunk(makeChunk(</highlight><highlight class="stringliteral">&quot;c1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;alpha<sp/>text&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;doc_a&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>store-&gt;flush();</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>20;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>store-&gt;evaluateQuery(</highlight><highlight class="stringliteral">&quot;alpha&quot;</highlight><highlight class="normal">,<sp/>10,<sp/>0.0f,<sp/>{});</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_wiki_eval_stats" kindref="compound">WikiEvalStats</ref><sp/>s<sp/>=<sp/>store-&gt;getEvaluationStats();</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.<ref refid="structthemis_1_1llm_1_1_wiki_eval_stats_1ab4ee5c07f5ef8392d7d8d301fe4bc728" kindref="member">total_query_count</ref>,<sp/>20u);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(s.<ref refid="structthemis_1_1llm_1_1_wiki_eval_stats_1acb3f12d44828a3dc12b7b1c67d98c57a" kindref="member">p95_query_latency_ms</ref>,<sp/>0.0);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EVAL-03:<sp/>perfect<sp/>recall<sp/>—<sp/>relevant<sp/>document<sp/>returned<sp/>at<sp/>rank<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a30557ac2f9fe8d8c46943892b914a0d6" kindref="member">TEST_F</ref>(<ref refid="class_wiki_eval_metrics_test" kindref="compound">WikiEvalMetricsTest</ref>,<sp/>EVAL03_PerfectRecall)<sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>store<sp/>=<sp/>makeStore(</highlight><highlight class="stringliteral">&quot;eval03&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>store-&gt;writeChunk(makeChunk(</highlight><highlight class="stringliteral">&quot;c1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;alpha<sp/>retrieval&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;doc_alpha&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>store-&gt;flush();</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>store-&gt;evaluateQuery(</highlight><highlight class="stringliteral">&quot;alpha<sp/>retrieval&quot;</highlight><highlight class="normal">,<sp/>10,<sp/>0.0f,<sp/>{</highlight><highlight class="stringliteral">&quot;doc_alpha&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_wiki_eval_stats" kindref="compound">WikiEvalStats</ref><sp/>s<sp/>=<sp/>store-&gt;getEvaluationStats();</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.<ref refid="structthemis_1_1llm_1_1_wiki_eval_stats_1a8c2f1fafeaa83377f2e359b708131e0e" kindref="member">query_count</ref>,<sp/>1u);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>recall@1<sp/>=<sp/>1/1<sp/>=<sp/>1.0<sp/>(only<sp/>one<sp/>relevant<sp/>doc,<sp/>returned<sp/>in<sp/>top-1)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(s.<ref refid="structthemis_1_1llm_1_1_wiki_eval_stats_1a77e5dbcc3bcf72369ea7a4b0f8c7a2f2" kindref="member">recall_at_k1</ref>,<sp/>1.0,<sp/>1e-9);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(s.<ref refid="structthemis_1_1llm_1_1_wiki_eval_stats_1a77ea5d888f01d3d6fb50956abd4fdfb4" kindref="member">recall_at_k5</ref>,<sp/>1.0,<sp/>1e-9);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>MRR:<sp/>first<sp/>hit<sp/>at<sp/>rank<sp/>1<sp/>→<sp/>1.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(s.<ref refid="structthemis_1_1llm_1_1_wiki_eval_stats_1afd4a7bae1086065f2beb32709c7da067" kindref="member">mrr</ref>,<sp/>1.0,<sp/>1e-9);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EVAL-04:<sp/>zero<sp/>recall<sp/>—<sp/>no<sp/>relevant<sp/>documents<sp/>in<sp/>results</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a30557ac2f9fe8d8c46943892b914a0d6" kindref="member">TEST_F</ref>(<ref refid="class_wiki_eval_metrics_test" kindref="compound">WikiEvalMetricsTest</ref>,<sp/>EVAL04_ZeroRecall)<sp/>{</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>store<sp/>=<sp/>makeStore(</highlight><highlight class="stringliteral">&quot;eval04&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>store-&gt;writeChunk(makeChunk(</highlight><highlight class="stringliteral">&quot;c1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;unrelated<sp/>content&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;doc_x&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>store-&gt;flush();</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Ground<sp/>truth<sp/>contains<sp/>a<sp/>doc_id<sp/>that<sp/>is<sp/>not<sp/>in<sp/>the<sp/>corpus.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>store-&gt;evaluateQuery(</highlight><highlight class="stringliteral">&quot;unrelated<sp/>content&quot;</highlight><highlight class="normal">,<sp/>10,<sp/>0.0f,<sp/>{</highlight><highlight class="stringliteral">&quot;nonexistent_doc&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_wiki_eval_stats" kindref="compound">WikiEvalStats</ref><sp/>s<sp/>=<sp/>store-&gt;getEvaluationStats();</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.<ref refid="structthemis_1_1llm_1_1_wiki_eval_stats_1a8c2f1fafeaa83377f2e359b708131e0e" kindref="member">query_count</ref>,<sp/>1u);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(s.<ref refid="structthemis_1_1llm_1_1_wiki_eval_stats_1a77e5dbcc3bcf72369ea7a4b0f8c7a2f2" kindref="member">recall_at_k1</ref>,<sp/>0.0);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(s.<ref refid="structthemis_1_1llm_1_1_wiki_eval_stats_1a77ea5d888f01d3d6fb50956abd4fdfb4" kindref="member">recall_at_k5</ref>,<sp/>0.0);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(s.<ref refid="structthemis_1_1llm_1_1_wiki_eval_stats_1afd4a7bae1086065f2beb32709c7da067" kindref="member">mrr</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0.0);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EVAL-05:<sp/>evaluateQuery()<sp/>with<sp/>empty<sp/>ground-truth<sp/>still<sp/>records<sp/>latency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a30557ac2f9fe8d8c46943892b914a0d6" kindref="member">TEST_F</ref>(<ref refid="class_wiki_eval_metrics_test" kindref="compound">WikiEvalMetricsTest</ref>,<sp/>EVAL05_EmptyGroundTruthRecordsLatencyOnly)<sp/>{</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>store<sp/>=<sp/>makeStore(</highlight><highlight class="stringliteral">&quot;eval05&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>store-&gt;writeChunk(makeChunk(</highlight><highlight class="stringliteral">&quot;c1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;some<sp/>content&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;doc_a&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>store-&gt;flush();</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>store-&gt;evaluateQuery(</highlight><highlight class="stringliteral">&quot;some<sp/>content&quot;</highlight><highlight class="normal">,<sp/>10,<sp/>0.0f,<sp/>{});<sp/></highlight><highlight class="comment">//<sp/>no<sp/>ground<sp/>truth</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_wiki_eval_stats" kindref="compound">WikiEvalStats</ref><sp/>s<sp/>=<sp/>store-&gt;getEvaluationStats();</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>With<sp/>no<sp/>ground<sp/>truth,<sp/>no<sp/>recall/MRR<sp/>update<sp/>occurs.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.<ref refid="structthemis_1_1llm_1_1_wiki_eval_stats_1a8c2f1fafeaa83377f2e359b708131e0e" kindref="member">query_count</ref>,<sp/>0u);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>eval_query_count_<sp/>unchanged</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.<ref refid="structthemis_1_1llm_1_1_wiki_eval_stats_1ab4ee5c07f5ef8392d7d8d301fe4bc728" kindref="member">total_query_count</ref>,<sp/>1u);<sp/><sp/></highlight><highlight class="comment">//<sp/>total_query_count_<sp/>incremented<sp/>by<sp/>query()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(s.<ref refid="structthemis_1_1llm_1_1_wiki_eval_stats_1acb3f12d44828a3dc12b7b1c67d98c57a" kindref="member">p95_query_latency_ms</ref>,<sp/>0.0);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EVAL-06:<sp/>MRR<sp/>computation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a30557ac2f9fe8d8c46943892b914a0d6" kindref="member">TEST_F</ref>(<ref refid="class_wiki_eval_metrics_test" kindref="compound">WikiEvalMetricsTest</ref>,<sp/>EVAL06_MRR_FirstHitRank1)<sp/>{</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>store<sp/>=<sp/>makeStore(</highlight><highlight class="stringliteral">&quot;eval06&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>store-&gt;writeChunk(makeChunk(</highlight><highlight class="stringliteral">&quot;c1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;target<sp/>document<sp/>content&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;target_doc&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>store-&gt;flush();</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>store-&gt;evaluateQuery(</highlight><highlight class="stringliteral">&quot;target<sp/>document<sp/>content&quot;</highlight><highlight class="normal">,<sp/>10,<sp/>0.0f,<sp/>{</highlight><highlight class="stringliteral">&quot;target_doc&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_wiki_eval_stats" kindref="compound">WikiEvalStats</ref><sp/>s<sp/>=<sp/>store-&gt;getEvaluationStats();</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Relevant<sp/>doc<sp/>should<sp/>be<sp/>first<sp/>result<sp/>→<sp/>MRR<sp/>=<sp/>1.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(s.<ref refid="structthemis_1_1llm_1_1_wiki_eval_stats_1afd4a7bae1086065f2beb32709c7da067" kindref="member">mrr</ref>,<sp/>1.0,<sp/>1e-9);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EVAL-07:<sp/>running<sp/>mean<sp/>updates<sp/>correctly<sp/>across<sp/>multiple<sp/>calls</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a30557ac2f9fe8d8c46943892b914a0d6" kindref="member">TEST_F</ref>(<ref refid="class_wiki_eval_metrics_test" kindref="compound">WikiEvalMetricsTest</ref>,<sp/>EVAL07_RunningMeanMultipleCalls)<sp/>{</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>store<sp/>=<sp/>makeStore(</highlight><highlight class="stringliteral">&quot;eval07&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>store-&gt;writeChunk(makeChunk(</highlight><highlight class="stringliteral">&quot;c1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;recall<sp/>test<sp/>content&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hit_doc&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>store-&gt;flush();</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Query<sp/>1:<sp/>hit_doc<sp/>is<sp/>relevant<sp/>and<sp/>returned<sp/>→<sp/>recall@1<sp/>=<sp/>1.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>store-&gt;evaluateQuery(</highlight><highlight class="stringliteral">&quot;recall<sp/>test<sp/>content&quot;</highlight><highlight class="normal">,<sp/>10,<sp/>0.0f,<sp/>{</highlight><highlight class="stringliteral">&quot;hit_doc&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Query<sp/>2:<sp/>ground<sp/>truth<sp/>has<sp/>a<sp/>missing<sp/>doc<sp/>→<sp/>recall@1<sp/>=<sp/>0.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>store-&gt;evaluateQuery(</highlight><highlight class="stringliteral">&quot;recall<sp/>test<sp/>content&quot;</highlight><highlight class="normal">,<sp/>10,<sp/>0.0f,<sp/>{</highlight><highlight class="stringliteral">&quot;missing_doc&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_wiki_eval_stats" kindref="compound">WikiEvalStats</ref><sp/>s<sp/>=<sp/>store-&gt;getEvaluationStats();</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.<ref refid="structthemis_1_1llm_1_1_wiki_eval_stats_1a8c2f1fafeaa83377f2e359b708131e0e" kindref="member">query_count</ref>,<sp/>2u);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Mean<sp/>recall@1<sp/>=<sp/>(1.0<sp/>+<sp/>0.0)<sp/>/<sp/>2<sp/>=<sp/>0.5</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(s.<ref refid="structthemis_1_1llm_1_1_wiki_eval_stats_1a77e5dbcc3bcf72369ea7a4b0f8c7a2f2" kindref="member">recall_at_k1</ref>,<sp/>0.5,<sp/>1e-9);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EVAL-08:<sp/>resetEvaluationStats()<sp/>clears<sp/>all<sp/>accumulators<sp/>and<sp/>ring<sp/>buffer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a30557ac2f9fe8d8c46943892b914a0d6" kindref="member">TEST_F</ref>(<ref refid="class_wiki_eval_metrics_test" kindref="compound">WikiEvalMetricsTest</ref>,<sp/>EVAL08_ResetClearsAllState)<sp/>{</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>store<sp/>=<sp/>makeStore(</highlight><highlight class="stringliteral">&quot;eval08&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>store-&gt;writeChunk(makeChunk(</highlight><highlight class="stringliteral">&quot;c1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test<sp/>chunk&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;doc_a&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>store-&gt;flush();</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>store-&gt;evaluateQuery(</highlight><highlight class="stringliteral">&quot;test<sp/>chunk&quot;</highlight><highlight class="normal">,<sp/>10,<sp/>0.0f,<sp/>{</highlight><highlight class="stringliteral">&quot;doc_a&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_wiki_eval_stats" kindref="compound">WikiEvalStats</ref><sp/>s<sp/>=<sp/>store-&gt;getEvaluationStats();</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(s.<ref refid="structthemis_1_1llm_1_1_wiki_eval_stats_1a8c2f1fafeaa83377f2e359b708131e0e" kindref="member">query_count</ref>,<sp/>1u);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GT(s.<ref refid="structthemis_1_1llm_1_1_wiki_eval_stats_1ab4ee5c07f5ef8392d7d8d301fe4bc728" kindref="member">total_query_count</ref>,<sp/>0u);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>store-&gt;resetEvaluationStats();</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_wiki_eval_stats" kindref="compound">WikiEvalStats</ref><sp/>s<sp/>=<sp/>store-&gt;getEvaluationStats();</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(s.<ref refid="structthemis_1_1llm_1_1_wiki_eval_stats_1a8c2f1fafeaa83377f2e359b708131e0e" kindref="member">query_count</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(s.<ref refid="structthemis_1_1llm_1_1_wiki_eval_stats_1ab4ee5c07f5ef8392d7d8d301fe4bc728" kindref="member">total_query_count</ref>,<sp/>0u);</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(s.<ref refid="structthemis_1_1llm_1_1_wiki_eval_stats_1a77e5dbcc3bcf72369ea7a4b0f8c7a2f2" kindref="member">recall_at_k1</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0.0);</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(s.<ref refid="structthemis_1_1llm_1_1_wiki_eval_stats_1afd4a7bae1086065f2beb32709c7da067" kindref="member">mrr</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0.0);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(s.<ref refid="structthemis_1_1llm_1_1_wiki_eval_stats_1acb3f12d44828a3dc12b7b1c67d98c57a" kindref="member">p95_query_latency_ms</ref>,<sp/>0.0);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="260"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EVAL-09:<sp/>concurrent<sp/>evaluateQuery()<sp/>calls<sp/>are<sp/>thread-safe</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a30557ac2f9fe8d8c46943892b914a0d6" kindref="member">TEST_F</ref>(<ref refid="class_wiki_eval_metrics_test" kindref="compound">WikiEvalMetricsTest</ref>,<sp/>EVAL09_ConcurrentCallsAreSafe)<sp/>{</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kThreads<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kQueriesPerThread<sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>store<sp/>=<sp/>makeStore(</highlight><highlight class="stringliteral">&quot;eval09&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>store-&gt;writeChunk(makeChunk(</highlight><highlight class="stringliteral">&quot;c1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;concurrent<sp/>test<sp/>chunk&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;cdoc&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>store-&gt;flush();</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>threads.reserve(kThreads);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>errors{0};</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>0;<sp/>t<sp/>&lt;<sp/>kThreads;<sp/>++t)<sp/>{</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([&amp;store,<sp/>&amp;errors]()<sp/>{</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kQueriesPerThread;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>store-&gt;evaluateQuery(</highlight><highlight class="stringliteral">&quot;concurrent<sp/>test<sp/>chunk&quot;</highlight><highlight class="normal">,<sp/>5,<sp/>0.0f,<sp/>{</highlight><highlight class="stringliteral">&quot;cdoc&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(...)<sp/>{</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++errors;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>th<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>th.join();</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(errors.load(),<sp/>0);</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_wiki_eval_stats" kindref="compound">WikiEvalStats</ref><sp/>s<sp/>=<sp/>store-&gt;getEvaluationStats();</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.<ref refid="structthemis_1_1llm_1_1_wiki_eval_stats_1a8c2f1fafeaa83377f2e359b708131e0e" kindref="member">query_count</ref>,</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">std::size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(kThreads<sp/>*<sp/>kQueriesPerThread));</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>hits<sp/>→<sp/>recall@1<sp/>converges<sp/>to<sp/>1.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(s.<ref refid="structthemis_1_1llm_1_1_wiki_eval_stats_1a77e5dbcc3bcf72369ea7a4b0f8c7a2f2" kindref="member">recall_at_k1</ref>,<sp/>1.0,<sp/>1e-6);</highlight></codeline>
+<codeline lineno="299"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EVAL-10:<sp/>ring<sp/>buffer<sp/>wraps<sp/>correctly<sp/>after<sp/>&gt;<sp/>kLatencyRingSize<sp/>queries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a30557ac2f9fe8d8c46943892b914a0d6" kindref="member">TEST_F</ref>(<ref refid="class_wiki_eval_metrics_test" kindref="compound">WikiEvalMetricsTest</ref>,<sp/>EVAL10_LatencyRingBufferWraps)<sp/>{</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>store<sp/>=<sp/>makeStore(</highlight><highlight class="stringliteral">&quot;eval10&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>store-&gt;writeChunk(makeChunk(</highlight><highlight class="stringliteral">&quot;c1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ring<sp/>buffer<sp/>test&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;rdoc&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>store-&gt;flush();</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Issue<sp/>more<sp/>queries<sp/>than<sp/>kLatencyRingSize<sp/>(1024)<sp/>to<sp/>force<sp/>wrapping.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/>kQueries<sp/>=<sp/>1100;</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kQueries;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>store-&gt;evaluateQuery(</highlight><highlight class="stringliteral">&quot;ring<sp/>buffer<sp/>test&quot;</highlight><highlight class="normal">,<sp/>5,<sp/>0.0f,<sp/>{});</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_wiki_eval_stats" kindref="compound">WikiEvalStats</ref><sp/>s<sp/>=<sp/>store-&gt;getEvaluationStats();</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.<ref refid="structthemis_1_1llm_1_1_wiki_eval_stats_1ab4ee5c07f5ef8392d7d8d301fe4bc728" kindref="member">total_query_count</ref>,<sp/>kQueries);</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>p95<sp/>must<sp/>remain<sp/>a<sp/>sane<sp/>positive<sp/>value<sp/>after<sp/>ring-buffer<sp/>wrap.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(s.<ref refid="structthemis_1_1llm_1_1_wiki_eval_stats_1acb3f12d44828a3dc12b7b1c67d98c57a" kindref="member">p95_query_latency_ms</ref>,<sp/>0.0);</highlight></codeline>
+<codeline lineno="319"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/llm/test_wiki_eval_metrics.cpp"/>
+  </compounddef>
+</doxygen>

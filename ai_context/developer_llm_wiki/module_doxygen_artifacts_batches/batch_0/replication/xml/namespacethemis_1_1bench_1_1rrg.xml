@@ -1,0 +1,358 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1bench_1_1rrg" kind="namespace" language="C++">
+    <compoundname>themis::bench::rrg</compoundname>
+    <innerclass refid="structthemis_1_1bench_1_1rrg_1_1_lww_version" prot="public">themis::bench::rrg::LwwVersion</innerclass>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1bench_1_1rrg_1a56f62c2735394321019c14d73317ba51" prot="public" static="no">
+        <type>std::map&lt; std::string, std::int64_t &gt;</type>
+        <definition>using themis::bench::rrg::GCounter = std::map&lt;std::string, std::int64_t&gt;</definition>
+        <argsstring></argsstring>
+        <name>GCounter</name>
+        <qualifiedname>themis::bench::rrg::GCounter</qualifiedname>
+        <briefdescription>
+<para>Simple <ref refid="namespacethemis_1_1bench_1_1rrg_1a56f62c2735394321019c14d73317ba51" kindref="member">GCounter</ref>: node_id → counter. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_release_gates.cpp" line="81" column="1" bodyfile="benchmarks/replication/bench_replication_release_gates.cpp" bodystart="81" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1rrg_1a7c36c464bac0be9314985d404c158c4f" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::bench::rrg::kReplicationCanonicalSeed</definition>
+        <argsstring></argsstring>
+        <name>kReplicationCanonicalSeed</name>
+        <qualifiedname>themis::bench::rrg::kReplicationCanonicalSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+<para>Canonical PRNG seed for all RRG benchmarks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_release_gates.cpp" line="68" column="27" bodyfile="benchmarks/replication/bench_replication_release_gates.cpp" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1rrg_1a332a22d83b83fbdb62929785d66dda5e" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::rrg::kWarmupIterations</definition>
+        <argsstring></argsstring>
+        <name>kWarmupIterations</name>
+        <qualifiedname>themis::bench::rrg::kWarmupIterations</qualifiedname>
+        <initializer>= 200</initializer>
+        <briefdescription>
+<para>Warmup iterations before measurement window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_release_gates.cpp" line="71" column="22" bodyfile="benchmarks/replication/bench_replication_release_gates.cpp" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1rrg_1af3fb1cfe9a61cbaa81db1d0c4c95afc2" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::rrg::kRepetitions</definition>
+        <argsstring></argsstring>
+        <name>kRepetitions</name>
+        <qualifiedname>themis::bench::rrg::kRepetitions</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Repetitions per benchmark for variance estimation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_release_gates.cpp" line="74" column="22" bodyfile="benchmarks/replication/bench_replication_release_gates.cpp" bodystart="74" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1rrg_1a7e122e28d4ae4c92689f08ab63cc2152" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1bench_1_1rrg_1a56f62c2735394321019c14d73317ba51" kindref="member">GCounter</ref></type>
+        <definition>static GCounter themis::bench::rrg::gCounterMerge</definition>
+        <argsstring>(const GCounter &amp;a, const GCounter &amp;b)</argsstring>
+        <name>gCounterMerge</name>
+        <qualifiedname>themis::bench::rrg::gCounterMerge</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1bench_1_1rrg_1a56f62c2735394321019c14d73317ba51" kindref="member">GCounter</ref> &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1bench_1_1rrg_1a56f62c2735394321019c14d73317ba51" kindref="member">GCounter</ref> &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_release_gates.cpp" line="83" column="17" bodyfile="benchmarks/replication/bench_replication_release_gates.cpp" bodystart="83" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1rrg_1a47af70be80b0f97b0ba90aea831965e2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1bench_1_1rrg_1_1_lww_version" kindref="compound">LwwVersion</ref></type>
+        <definition>static LwwVersion themis::bench::rrg::lwwResolve</definition>
+        <argsstring>(const LwwVersion &amp;a, const LwwVersion &amp;b)</argsstring>
+        <name>lwwResolve</name>
+        <qualifiedname>themis::bench::rrg::lwwResolve</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1bench_1_1rrg_1_1_lww_version" kindref="compound">LwwVersion</ref> &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1bench_1_1rrg_1_1_lww_version" kindref="compound">LwwVersion</ref> &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_release_gates.cpp" line="97" column="19" bodyfile="benchmarks/replication/bench_replication_release_gates.cpp" bodystart="97" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1rrg_1a6912d6236f69bed4fa3287958bab459d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::array&lt; std::uint8_t, 128 &gt;</type>
+        <definition>static std::array&lt; std::uint8_t, 128 &gt; themis::bench::rrg::serializeEvent</definition>
+        <argsstring>(std::int64_t lsn, const char *payload)</argsstring>
+        <name>serializeEvent</name>
+        <qualifiedname>themis::bench::rrg::serializeEvent</qualifiedname>
+        <param>
+          <type>std::int64_t</type>
+          <declname>lsn</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+<para>Simulated 128-byte change event payload serialisation (copy into array). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_release_gates.cpp" line="105" column="19" bodyfile="benchmarks/replication/bench_replication_release_gates.cpp" bodystart="105" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1rrg_1a6e0c6e37abe28087cc8f5d6b07c61211" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::bench::rrg::walApply</definition>
+        <argsstring>(std::vector&lt; std::int64_t &gt; &amp;applied, std::int64_t lsn)</argsstring>
+        <name>walApply</name>
+        <qualifiedname>themis::bench::rrg::walApply</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::int64_t &gt; &amp;</type>
+          <declname>applied</declname>
+        </param>
+        <param>
+          <type>std::int64_t</type>
+          <declname>lsn</declname>
+        </param>
+        <briefdescription>
+<para>In-memory WAL apply: append LSN to applied list. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_release_gates.cpp" line="116" column="13" bodyfile="benchmarks/replication/bench_replication_release_gates.cpp" bodystart="116" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1rrg_1a763e7d1b0e8dcb83d8a7481070eb331a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::int64_t</type>
+        <definition>static std::int64_t themis::bench::rrg::partitionOffsetLookup</definition>
+        <argsstring>(const std::unordered_map&lt; int, std::int64_t &gt; &amp;offsets, int partition_id)</argsstring>
+        <name>partitionOffsetLookup</name>
+        <qualifiedname>themis::bench::rrg::partitionOffsetLookup</qualifiedname>
+        <param>
+          <type>const std::unordered_map&lt; int, std::int64_t &gt; &amp;</type>
+          <declname>offsets</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>partition_id</declname>
+        </param>
+        <briefdescription>
+<para>Partition offset lookup: hash map read. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_release_gates.cpp" line="122" column="21" bodyfile="benchmarks/replication/bench_replication_release_gates.cpp" bodystart="122" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1rrg_1abc245ebf79638e39f8d0f088b5f0da9f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::bench::rrg::isLagExceeded</definition>
+        <argsstring>(std::int64_t applied_lsn, std::int64_t upstream_lsn, std::int64_t max_gap)</argsstring>
+        <name>isLagExceeded</name>
+        <qualifiedname>themis::bench::rrg::isLagExceeded</qualifiedname>
+        <param>
+          <type>std::int64_t</type>
+          <declname>applied_lsn</declname>
+        </param>
+        <param>
+          <type>std::int64_t</type>
+          <declname>upstream_lsn</declname>
+        </param>
+        <param>
+          <type>std::int64_t</type>
+          <declname>max_gap</declname>
+        </param>
+        <briefdescription>
+<para>Replication lag check: compare two LSN values. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_release_gates.cpp" line="129" column="13" bodyfile="benchmarks/replication/bench_replication_release_gates.cpp" bodystart="129" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1rrg_1a3e98168e6de6867de4207431284231dc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::rrg::BM_RRG01_GCounterMerge</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_RRG01_GCounterMerge</name>
+        <qualifiedname>themis::bench::rrg::BM_RRG01_GCounterMerge</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>RRG-01: G-Counter merge throughput over 1k merge operations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GATE-RRG-01: ≥ 500k ops/s. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_release_gates.cpp" line="143" column="13" bodyfile="benchmarks/replication/bench_replication_release_gates.cpp" bodystart="143" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1rrg_1ab81562d770e01a2eee1a83171a7cf0f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::rrg::Repetitions</definition>
+        <argsstring>(kRepetitions) -&gt; ReportAggregatesOnly(true)</argsstring>
+        <name>Repetitions</name>
+        <qualifiedname>themis::bench::rrg::Repetitions</qualifiedname>
+        <param>
+          <type>kRepetitions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_release_gates.cpp" line="158" column="5" declfile="benchmarks/replication/bench_replication_release_gates.cpp" declline="158" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1rrg_1ace474c6f86a94fd4375fb4aa0660078d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::rrg::BM_RRG02_LwwResolve</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_RRG02_LwwResolve</name>
+        <qualifiedname>themis::bench::rrg::BM_RRG02_LwwResolve</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>RRG-02: LWW resolution latency for a single conflicting pair. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GATE-RRG-02: p99 ≤ 50 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_release_gates.cpp" line="170" column="13" bodyfile="benchmarks/replication/bench_replication_release_gates.cpp" bodystart="170" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1rrg_1a5f694c3f8a3a3947f1da833cf84b175c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::rrg::BM_RRG03_EventSerialize</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_RRG03_EventSerialize</name>
+        <qualifiedname>themis::bench::rrg::BM_RRG03_EventSerialize</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>RRG-03: Serialise a 128-byte change event payload. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GATE-RRG-03: p99 ≤ 100 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_release_gates.cpp" line="199" column="13" bodyfile="benchmarks/replication/bench_replication_release_gates.cpp" bodystart="199" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1rrg_1aaf64ee3c9760f469910dbaee92da344d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::rrg::BM_RRG04_WalApply</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_RRG04_WalApply</name>
+        <qualifiedname>themis::bench::rrg::BM_RRG04_WalApply</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>RRG-04: In-memory WAL event apply latency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GATE-RRG-04: p99 ≤ 500 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_release_gates.cpp" line="225" column="13" bodyfile="benchmarks/replication/bench_replication_release_gates.cpp" bodystart="225" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1rrg_1a0ea17dffec1065adddb399067d99ff26" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::rrg::BM_RRG05_PartitionOffsetLookup</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_RRG05_PartitionOffsetLookup</name>
+        <qualifiedname>themis::bench::rrg::BM_RRG05_PartitionOffsetLookup</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>RRG-05: Partition offset lookup in an in-memory hash map. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GATE-RRG-05: p99 ≤ 100 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_release_gates.cpp" line="254" column="13" bodyfile="benchmarks/replication/bench_replication_release_gates.cpp" bodystart="254" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1rrg_1adaeca9aa58be39133e88b475e64586fa" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::rrg::BM_RRG06_LagCheck</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_RRG06_LagCheck</name>
+        <qualifiedname>themis::bench::rrg::BM_RRG06_LagCheck</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>RRG-06: Replication lag evaluation (two LSN comparison). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GATE-RRG-06: p99 ≤ 50 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_release_gates.cpp" line="286" column="13" bodyfile="benchmarks/replication/bench_replication_release_gates.cpp" bodystart="286" bodyend="301"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/replication/bench_replication_release_gates.cpp" line="61" column="1"/>
+  </compounddef>
+</doxygen>

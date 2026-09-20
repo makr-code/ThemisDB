@@ -1,0 +1,550 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__server__openapi__drift__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_server_openapi_drift_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="openapi__route__registry_8h" local="yes">server/openapi_route_registry.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>server/openapi_route_registry.h</label>
+        <link refid="openapi__route__registry_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/server/test_server_openapi_drift_focused.cpp</label>
+        <link refid="test__server__openapi__drift__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>atomic</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="4">
+        <label>mutex</label>
+      </node>
+      <node id="8">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="5">
+        <label>shared_mutex</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>thread</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_open_api_drift_test" prot="public">OpenApiDriftTest</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="test__server__openapi__drift__focused_8cpp_1af19a0bc9ed6d1fd35f4d8b541870a288" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t kOpenApiDriftSeed</definition>
+        <argsstring></argsstring>
+        <name>kOpenApiDriftSeed</name>
+        <initializer>= 2025U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_openapi_drift_focused.cpp" line="38" column="27" bodyfile="tests/server/test_server_openapi_drift_focused.cpp" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__server__openapi__drift__focused_8cpp_1a018af1b3bd4d3505fbe04a34573742a3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1server_1_1_route_entry" kindref="compound">RouteEntry</ref></type>
+        <definition>static RouteEntry makeEntry</definition>
+        <argsstring>(const std::string &amp;path, const std::string &amp;method, const std::string &amp;operation_id, const std::string &amp;summary=&quot;&quot;, bool deprecated=false)</argsstring>
+        <name>makeEntry</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>method</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>summary</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>deprecated</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Build a minimal <ref refid="structthemis_1_1server_1_1_route_entry" kindref="compound">RouteEntry</ref> for use in tests. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_openapi_drift_focused.cpp" line="45" column="19" bodyfile="tests/server/test_server_openapi_drift_focused.cpp" bodystart="45" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="test__server__openapi__drift__focused_8cpp_1a453885de752d37d4f73916a7a82487eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OpenApiDriftTest, SOD01_NoDriftBaseline)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_open_api_drift_test" kindref="compound">OpenApiDriftTest</ref></type>
+        </param>
+        <param>
+          <type>SOD01_NoDriftBaseline</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_openapi_drift_focused.cpp" line="76" column="1" bodyfile="tests/server/test_server_openapi_drift_focused.cpp" bodystart="76" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="test__server__openapi__drift__focused_8cpp_1a264497df870fb2e1a92c439e2b0c34a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OpenApiDriftTest, SOD02_ChangedRouteDetected)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_open_api_drift_test" kindref="compound">OpenApiDriftTest</ref></type>
+        </param>
+        <param>
+          <type>SOD02_ChangedRouteDetected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_openapi_drift_focused.cpp" line="96" column="1" bodyfile="tests/server/test_server_openapi_drift_focused.cpp" bodystart="96" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="test__server__openapi__drift__focused_8cpp_1a8e919ba588d6bf708538513ced8724bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OpenApiDriftTest, SOD03_RemovedRouteDetected)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_open_api_drift_test" kindref="compound">OpenApiDriftTest</ref></type>
+        </param>
+        <param>
+          <type>SOD03_RemovedRouteDetected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_openapi_drift_focused.cpp" line="119" column="1" bodyfile="tests/server/test_server_openapi_drift_focused.cpp" bodystart="119" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="test__server__openapi__drift__focused_8cpp_1ab7471e7398bff514490318832595e782" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OpenApiDriftTest, SOD04_OperationIdChangedDetected)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_open_api_drift_test" kindref="compound">OpenApiDriftTest</ref></type>
+        </param>
+        <param>
+          <type>SOD04_OperationIdChangedDetected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_openapi_drift_focused.cpp" line="143" column="1" bodyfile="tests/server/test_server_openapi_drift_focused.cpp" bodystart="143" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="test__server__openapi__drift__focused_8cpp_1a5bdadeb789d4d1a1bf80aeaf6a958904" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OpenApiDriftTest, SOD05_NewUnannotatedPathDetected)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_open_api_drift_test" kindref="compound">OpenApiDriftTest</ref></type>
+        </param>
+        <param>
+          <type>SOD05_NewUnannotatedPathDetected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_openapi_drift_focused.cpp" line="160" column="1" bodyfile="tests/server/test_server_openapi_drift_focused.cpp" bodystart="160" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="test__server__openapi__drift__focused_8cpp_1a87545e97851bc593a1ba32fc3c8b6008" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OpenApiDriftTest, SOD06_DriftResolvesAfterAnnotation)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_open_api_drift_test" kindref="compound">OpenApiDriftTest</ref></type>
+        </param>
+        <param>
+          <type>SOD06_DriftResolvesAfterAnnotation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_openapi_drift_focused.cpp" line="181" column="1" bodyfile="tests/server/test_server_openapi_drift_focused.cpp" bodystart="181" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="test__server__openapi__drift__focused_8cpp_1a4ff36e7ccc1e5ab4577f4e4b6db20ac7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OpenApiDriftTest, SOD07_ThreadSafeConcurrentRegistrationAndSnapshot)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_open_api_drift_test" kindref="compound">OpenApiDriftTest</ref></type>
+        </param>
+        <param>
+          <type>SOD07_ThreadSafeConcurrentRegistrationAndSnapshot</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_openapi_drift_focused.cpp" line="203" column="1" bodyfile="tests/server/test_server_openapi_drift_focused.cpp" bodystart="203" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="test__server__openapi__drift__focused_8cpp_1ac3954d2a0e0a40afbc0704b81a4026e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OpenApiDriftTest, SOD08_SpecRoundtripSnapshotEquality)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_open_api_drift_test" kindref="compound">OpenApiDriftTest</ref></type>
+        </param>
+        <param>
+          <type>SOD08_SpecRoundtripSnapshotEquality</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_openapi_drift_focused.cpp" line="247" column="1" bodyfile="tests/server/test_server_openapi_drift_focused.cpp" bodystart="247" bodyend="275"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Server Module — OpenAPI Drift Detection focused regression tests. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Phase 3 Schema-Governance acceptance tests for the <ref refid="classthemis_1_1server_1_1_route_registry_1a052076f400a7864b79f09c615f24efb0" kindref="member">RouteRegistry::captureSpecSnapshot()</ref> / detectDrift() API.</para>
+<para>Test IDs (Phase 3, OpenAPI Drift Detection):<itemizedlist>
+<listitem><para><bold>SOD-01</bold> — No-drift baseline: identical registry before and after</para>
+</listitem><listitem><para><bold>SOD-02</bold> — Schema change on existing handler detected as &quot;changed&quot;</para>
+</listitem><listitem><para><bold>SOD-03</bold> — Path removed from registry detected as &quot;removed&quot;</para>
+</listitem><listitem><para><bold>SOD-04</bold> — <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref> schema change (operationId mutation) detected</para>
+</listitem><listitem><para><bold>SOD-05</bold> — New path added without annotation → detected as &quot;added&quot;</para>
+</listitem><listitem><para><bold>SOD-06</bold> — Drift resolves after annotation is added post-registration</para>
+</listitem><listitem><para><bold>SOD-07</bold> — Thread-safe concurrent registration + snapshot (no races)</para>
+</listitem><listitem><para><bold>SOD-08</bold> — Spec roundtrip: registry → snapshot → compare → equality</para>
+</listitem></itemizedlist>
+</para>
+<para>All tests are fully in-process. Deterministic seed: kOpenApiDriftSeed = 2025.</para>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="note"><para>CTest labels: release_critical;server;phase3;schema </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="openapi__route__registry_8h" kindref="compound">server/openapi_route_registry.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1server" kindref="compound">themis::server</ref>;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Canonical<sp/>seed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/>kOpenApiDriftSeed<sp/>=<sp/>2025U;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_route_entry" kindref="compound">RouteEntry</ref><sp/>makeEntry(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path,</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>method,</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>operation_id,</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>summary<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>deprecated<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="50"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1server_1_1_route_operation" kindref="compound">RouteOperation</ref><sp/>op;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>op.<ref refid="structthemis_1_1server_1_1_route_operation_1a36f973792a84211d8bba32ecb921dd45" kindref="member">operationId</ref><sp/>=<sp/>operation_id;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>op.<ref refid="structthemis_1_1server_1_1_route_operation_1aeb25ba1f1617fea90f3237926648a3f6" kindref="member">summary</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>summary;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>op.<ref refid="structthemis_1_1server_1_1_route_operation_1ab94b1fe1058c92cdf4494d375773c503" kindref="member">deprecated</ref><sp/><sp/>=<sp/>deprecated;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_route_entry" kindref="compound">RouteEntry</ref>{path,<sp/>method,<sp/>std::move(op)};</highlight></codeline>
+<codeline lineno="56"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>fixture:<sp/>clean<sp/>registry<sp/>between<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="class_open_api_drift_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_open_api_drift_test" kindref="compound">OpenApiDriftTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_open_api_drift_test_1ad197141fc1145df39051d155614d335b" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1server_1_1_route_registry_1ac8695a9b59560ff201c07bce22767539" kindref="member">RouteRegistry::instance</ref>().<ref refid="classthemis_1_1server_1_1_route_registry_1a204801c6235b263c922bbafc23e5c839" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_open_api_drift_test_1a4e7fb8124b48e1e445549aa7e01c15ca" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1server_1_1_route_registry_1ac8695a9b59560ff201c07bce22767539" kindref="member">RouteRegistry::instance</ref>().<ref refid="classthemis_1_1server_1_1_route_registry_1a204801c6235b263c922bbafc23e5c839" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1server_1_1_route_registry" kindref="compound">RouteRegistry</ref>&amp;<sp/><ref refid="class_open_api_drift_test_1a72d8374f594443673687a8c54d94cf85" kindref="member">registry</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_route_registry_1ac8695a9b59560ff201c07bce22767539" kindref="member">RouteRegistry::instance</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SOD-01:<sp/>No-drift<sp/>baseline</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><ref refid="test__server__openapi__drift__focused_8cpp_1a453885de752d37d4f73916a7a82487eb" kindref="member">TEST_F</ref>(<ref refid="class_open_api_drift_test" kindref="compound">OpenApiDriftTest</ref>,<sp/>SOD01_NoDriftBaseline)<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>registry().registerRoute(makeEntry(</highlight><highlight class="stringliteral">&quot;/api/v1/users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;GET&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;listUsers&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;List<sp/>all<sp/>users&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>snap1<sp/>=<sp/>registry().captureSpecSnapshot();</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>snap2<sp/>=<sp/>registry().captureSpecSnapshot();</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(snap1,<sp/>snap2)</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Two<sp/>snapshots<sp/>of<sp/>an<sp/>unchanged<sp/>registry<sp/>must<sp/>be<sp/>identical&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>report<sp/>=<sp/>registry().detectDrift(snap1);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(report.hasDrift())</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Comparing<sp/>a<sp/>snapshot<sp/>to<sp/>itself<sp/>must<sp/>report<sp/>no<sp/>drift&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(report.added.empty());</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(report.removed.empty());</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(report.changed.empty());</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SOD-02:<sp/>Handler<sp/>registered<sp/>with<sp/>different<sp/>request<sp/>schema<sp/>detected<sp/>as<sp/>&quot;changed&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><ref refid="test__server__openapi__drift__focused_8cpp_1a453885de752d37d4f73916a7a82487eb" kindref="member">TEST_F</ref>(<ref refid="class_open_api_drift_test" kindref="compound">OpenApiDriftTest</ref>,<sp/>SOD02_ChangedRouteDetected)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>registry().registerRoute(makeEntry(</highlight><highlight class="stringliteral">&quot;/api/v1/users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;GET&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;listUsers&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;List<sp/>users&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>baseline<sp/>=<sp/>registry().captureSpecSnapshot();</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Re-register<sp/>with<sp/>a<sp/>different<sp/>summary<sp/>(simulates<sp/>schema<sp/>change)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>registry().registerRoute(makeEntry(</highlight><highlight class="stringliteral">&quot;/api/v1/users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;GET&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;listUsers&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;List<sp/>users<sp/>(v2<sp/>schema<sp/>—<sp/>updated)&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>report<sp/>=<sp/>registry().detectDrift(baseline);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(report.hasDrift())</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Schema<sp/>change<sp/>on<sp/>an<sp/>existing<sp/>route<sp/>must<sp/>be<sp/>detected&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(report.changed.empty())</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Changed<sp/>routes<sp/>list<sp/>must<sp/>be<sp/>non-empty&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(report.added.empty())</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;No<sp/>new<sp/>routes<sp/>were<sp/>registered;<sp/>added<sp/>list<sp/>must<sp/>be<sp/>empty&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(report.removed.empty())</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;No<sp/>routes<sp/>were<sp/>removed;<sp/>removed<sp/>list<sp/>must<sp/>be<sp/>empty&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SOD-03:<sp/>Path<sp/>removed<sp/>from<sp/>registry<sp/>detected<sp/>as<sp/>&quot;removed&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><ref refid="test__server__openapi__drift__focused_8cpp_1a453885de752d37d4f73916a7a82487eb" kindref="member">TEST_F</ref>(<ref refid="class_open_api_drift_test" kindref="compound">OpenApiDriftTest</ref>,<sp/>SOD03_RemovedRouteDetected)<sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>registry().registerRoute(makeEntry(</highlight><highlight class="stringliteral">&quot;/api/v1/users&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;GET&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;listUsers&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>registry().registerRoute(makeEntry(</highlight><highlight class="stringliteral">&quot;/api/v1/sessions&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;DELETE&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;deleteSession&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>baseline<sp/>=<sp/>registry().captureSpecSnapshot();</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>a<sp/>route<sp/>being<sp/>removed<sp/>by<sp/>clearing<sp/>and<sp/>re-registering<sp/>only<sp/>one</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>registry().clear();</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>registry().registerRoute(makeEntry(</highlight><highlight class="stringliteral">&quot;/api/v1/users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;GET&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;listUsers&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>report<sp/>=<sp/>registry().detectDrift(baseline);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(report.hasDrift())</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Removed<sp/>route<sp/>must<sp/>be<sp/>detected<sp/>as<sp/>drift&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(report.removed.size(),<sp/>1u)</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Exactly<sp/>one<sp/>route<sp/>was<sp/>removed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(report.added.empty())</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;No<sp/>new<sp/>routes<sp/>were<sp/>added&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(report.changed.empty())</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;The<sp/>remaining<sp/>route<sp/>was<sp/>not<sp/>changed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SOD-04:<sp/>Response<sp/>schema<sp/>change<sp/>(operationId<sp/>mutation)<sp/>detected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><ref refid="test__server__openapi__drift__focused_8cpp_1a453885de752d37d4f73916a7a82487eb" kindref="member">TEST_F</ref>(<ref refid="class_open_api_drift_test" kindref="compound">OpenApiDriftTest</ref>,<sp/>SOD04_OperationIdChangedDetected)<sp/>{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>registry().registerRoute(makeEntry(</highlight><highlight class="stringliteral">&quot;/api/v1/items&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;POST&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;createItem&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>baseline<sp/>=<sp/>registry().captureSpecSnapshot();</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Change<sp/>operationId<sp/>(response<sp/>schema<sp/>identifier<sp/>mutation)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>registry().registerRoute(makeEntry(</highlight><highlight class="stringliteral">&quot;/api/v1/items&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;POST&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;createItemV2&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>report<sp/>=<sp/>registry().detectDrift(baseline);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(report.hasDrift())</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;operationId<sp/>change<sp/>must<sp/>be<sp/>detected<sp/>as<sp/>drift&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(report.changed.empty());</highlight></codeline>
+<codeline lineno="155"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SOD-05:<sp/>New<sp/>path<sp/>added<sp/>without<sp/>annotation<sp/>detected<sp/>as<sp/>&quot;added&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><ref refid="test__server__openapi__drift__focused_8cpp_1a453885de752d37d4f73916a7a82487eb" kindref="member">TEST_F</ref>(<ref refid="class_open_api_drift_test" kindref="compound">OpenApiDriftTest</ref>,<sp/>SOD05_NewUnannotatedPathDetected)<sp/>{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>registry().registerRoute(makeEntry(</highlight><highlight class="stringliteral">&quot;/api/v1/users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;GET&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;listUsers&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>baseline<sp/>=<sp/>registry().captureSpecSnapshot();</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Add<sp/>a<sp/>new<sp/>route<sp/>after<sp/>snapshot<sp/>—<sp/>simulates<sp/>a<sp/>handler<sp/>deployed<sp/>without</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>a<sp/>corresponding<sp/>OpenAPI<sp/>annotation<sp/>in<sp/>the<sp/>baseline<sp/>spec</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>registry().registerRoute(makeEntry(</highlight><highlight class="stringliteral">&quot;/api/v1/internal/debug&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;GET&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;debugDump&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>report<sp/>=<sp/>registry().detectDrift(baseline);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(report.hasDrift())</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;New<sp/>undocumented<sp/>route<sp/>must<sp/>be<sp/>detected<sp/>as<sp/>drift&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(report.added.size(),<sp/>1u)</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Exactly<sp/>one<sp/>route<sp/>was<sp/>added&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(report.removed.empty());</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(report.changed.empty());</highlight></codeline>
+<codeline lineno="176"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SOD-06:<sp/>Drift<sp/>resolves<sp/>after<sp/>annotation<sp/>is<sp/>added<sp/>post-registration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><ref refid="test__server__openapi__drift__focused_8cpp_1a453885de752d37d4f73916a7a82487eb" kindref="member">TEST_F</ref>(<ref refid="class_open_api_drift_test" kindref="compound">OpenApiDriftTest</ref>,<sp/>SOD06_DriftResolvesAfterAnnotation)<sp/>{</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>registry().registerRoute(makeEntry(</highlight><highlight class="stringliteral">&quot;/api/v1/users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;GET&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;listUsers&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>registry().registerRoute(makeEntry(</highlight><highlight class="stringliteral">&quot;/api/v1/items&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;GET&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;listItems&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>baseline<sp/>=<sp/>registry().captureSpecSnapshot();</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Add<sp/>a<sp/>new<sp/>route<sp/>(drift)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>registry().registerRoute(makeEntry(</highlight><highlight class="stringliteral">&quot;/api/v1/new-feature&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;PUT&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;newFeature&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>report1<sp/>=<sp/>registry().detectDrift(baseline);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(report1.hasDrift())</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Drift<sp/>must<sp/>be<sp/>present<sp/>before<sp/>annotation<sp/>is<sp/>completed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Take<sp/>a<sp/>new<sp/>baseline<sp/>snapshot<sp/>(annotation<sp/>added<sp/>—<sp/>drift<sp/>resolved)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>new_baseline<sp/>=<sp/>registry().captureSpecSnapshot();</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>report2<sp/>=<sp/>registry().detectDrift(new_baseline);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(report2.hasDrift())</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Drift<sp/>must<sp/>resolve<sp/>once<sp/>a<sp/>new<sp/>baseline<sp/>snapshot<sp/>is<sp/>captured&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SOD-07:<sp/>Thread-safe<sp/>concurrent<sp/>registration<sp/>+<sp/>snapshot<sp/>(no<sp/>races)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><ref refid="test__server__openapi__drift__focused_8cpp_1a453885de752d37d4f73916a7a82487eb" kindref="member">TEST_F</ref>(<ref refid="class_open_api_drift_test" kindref="compound">OpenApiDriftTest</ref>,<sp/>SOD07_ThreadSafeConcurrentRegistrationAndSnapshot)<sp/>{</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kThreads<sp/><sp/><sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kPerThread<sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>errors{0};</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>worker<sp/>=<sp/>[&amp;](</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>thread_id)<sp/>{</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kPerThread;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>path<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/api/v1/t&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(thread_id)</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;/r&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>registry().registerRoute(</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeEntry(path,<sp/></highlight><highlight class="stringliteral">&quot;GET&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;op-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(thread_id)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)));</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Interleave<sp/>snapshot<sp/>captures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(i<sp/>%<sp/>3<sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[[maybe_unused]]<sp/>std::string<sp/>snap<sp/>=<sp/>registry().captureSpecSnapshot();</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(...)<sp/>{</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errors.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>threads.reserve(kThreads);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>0;<sp/>t<sp/>&lt;<sp/>kThreads;<sp/>++t)<sp/>{</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back(worker,<sp/>t);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>th<sp/>:<sp/>threads)<sp/>{<sp/>th.join();<sp/>}</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(errors.load(),<sp/>0)</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;No<sp/>exceptions<sp/>or<sp/>races<sp/>must<sp/>occur<sp/>during<sp/>concurrent<sp/>registration<sp/>and<sp/>snapshot&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Final<sp/>snapshot<sp/>must<sp/>be<sp/>consistent<sp/>(no<sp/>partial<sp/>state)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>final_snap<sp/>=<sp/>registry().captureSpecSnapshot();</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>report<sp/>=<sp/>registry().detectDrift(final_snap);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(report.hasDrift())</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Snapshot<sp/>taken<sp/>immediately<sp/>after<sp/>concurrent<sp/>writes<sp/>must<sp/>show<sp/>no<sp/>drift<sp/>vs<sp/>itself&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SOD-08:<sp/>Spec<sp/>roundtrip:<sp/>registry<sp/>→<sp/>snapshot<sp/>→<sp/>compare<sp/>→<sp/>equality</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><ref refid="test__server__openapi__drift__focused_8cpp_1a453885de752d37d4f73916a7a82487eb" kindref="member">TEST_F</ref>(<ref refid="class_open_api_drift_test" kindref="compound">OpenApiDriftTest</ref>,<sp/>SOD08_SpecRoundtripSnapshotEquality)<sp/>{</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Register<sp/>a<sp/>set<sp/>of<sp/>routes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::tuple&lt;std::string,<sp/>std::string,<sp/>std::string&gt;&gt;<sp/>routes<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;/api/v1/users&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;GET&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;listUsers&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;/api/v1/users&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;POST&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;createUser&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;/api/v1/users/{id}&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;GET&quot;</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="stringliteral">&quot;getUser&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;/api/v1/users/{id}&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;PUT&quot;</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="stringliteral">&quot;updateUser&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;/api/v1/users/{id}&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;DELETE&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;deleteUser&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>[path,<sp/>method,<sp/>opid]<sp/>:<sp/>routes)<sp/>{</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>registry().registerRoute(makeEntry(path,<sp/>method,<sp/>opid));</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>snap<sp/>=<sp/>registry().captureSpecSnapshot();</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Snapshot<sp/>must<sp/>be<sp/>non-empty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(snap.empty())</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Snapshot<sp/>must<sp/>not<sp/>be<sp/>empty<sp/>for<sp/>a<sp/>non-empty<sp/>registry&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Comparing<sp/>the<sp/>snapshot<sp/>to<sp/>itself<sp/>must<sp/>show<sp/>zero<sp/>drift</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>report<sp/>=<sp/>registry().detectDrift(snap);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(report.hasDrift())</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Snapshot<sp/>roundtrip<sp/>must<sp/>show<sp/>no<sp/>drift&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Snapshot<sp/>must<sp/>be<sp/>deterministic:<sp/>two<sp/>calls<sp/>must<sp/>return<sp/>identical<sp/>strings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>snap2<sp/>=<sp/>registry().captureSpecSnapshot();</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(snap,<sp/>snap2)</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;captureSpecSnapshot<sp/>must<sp/>be<sp/>deterministic<sp/>for<sp/>an<sp/>unchanged<sp/>registry&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="275"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/server/test_server_openapi_drift_focused.cpp"/>
+  </compounddef>
+</doxygen>

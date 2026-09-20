@@ -1,0 +1,1624 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classchimera_1_1_qdrant_adapter" kind="class" language="C++" prot="public">
+    <compoundname>chimera::QdrantAdapter</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">IDatabaseAdapter</basecompoundref>
+    <basecompoundref refid="classchimera_1_1_i_batch_adapter" prot="public" virt="non-virtual">chimera::IBatchAdapter</basecompoundref>
+    <includes refid="qdrant__adapter_8hpp" local="no">qdrant_adapter.hpp</includes>
+    <innerclass refid="structchimera_1_1_qdrant_adapter_1_1_queued_vector" prot="private">chimera::QdrantAdapter::QueuedVector</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classchimera_1_1_qdrant_adapter_1a4e7f75914572e2a80d819fe479813206" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool chimera::QdrantAdapter::connected_</definition>
+        <argsstring></argsstring>
+        <name>connected_</name>
+        <qualifiedname>chimera::QdrantAdapter::connected_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/qdrant_adapter.hpp" line="205" column="10" bodyfile="include/chimera/qdrant_adapter.hpp" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classchimera_1_1_qdrant_adapter_1a09efab3ae24d469db7fc2babfb3f6dee" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string chimera::QdrantAdapter::connection_string_</definition>
+        <argsstring></argsstring>
+        <name>connection_string_</name>
+        <qualifiedname>chimera::QdrantAdapter::connection_string_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/qdrant_adapter.hpp" line="206" column="17" bodyfile="include/chimera/qdrant_adapter.hpp" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classchimera_1_1_qdrant_adapter_1a37c210c4ec0b9e6993fbc018115097ee" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex chimera::QdrantAdapter::batch_mutex_</definition>
+        <argsstring></argsstring>
+        <name>batch_mutex_</name>
+        <qualifiedname>chimera::QdrantAdapter::batch_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/qdrant_adapter.hpp" line="218" column="24" bodyfile="include/chimera/qdrant_adapter.hpp" bodystart="218" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classchimera_1_1_qdrant_adapter_1abee8d33e9c5b463b03e6d34ceeae9d2e" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; QueuedVector &gt;</type>
+        <definition>std::vector&lt;QueuedVector&gt; chimera::QdrantAdapter::vector_queue_</definition>
+        <argsstring></argsstring>
+        <name>vector_queue_</name>
+        <qualifiedname>chimera::QdrantAdapter::vector_queue_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/qdrant_adapter.hpp" line="219" column="17" bodyfile="include/chimera/qdrant_adapter.hpp" bodystart="219" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classchimera_1_1_qdrant_adapter_1a61165784a7f2c1ccf671e0320693b891" prot="private" static="no" mutable="no">
+        <type><ref refid="structchimera_1_1_batch_config" kindref="compound">BatchConfig</ref></type>
+        <definition>BatchConfig chimera::QdrantAdapter::batch_config_</definition>
+        <argsstring></argsstring>
+        <name>batch_config_</name>
+        <qualifiedname>chimera::QdrantAdapter::batch_config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/qdrant_adapter.hpp" line="220" column="17" bodyfile="include/chimera/qdrant_adapter.hpp" bodystart="220" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classchimera_1_1_qdrant_adapter_1aab83b39f719cc94b4b0c78859aa8ab63" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>chimera::QdrantAdapter::QdrantAdapter</definition>
+        <argsstring>()</argsstring>
+        <name>QdrantAdapter</name>
+        <qualifiedname>chimera::QdrantAdapter::QdrantAdapter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/qdrant_adapter.hpp" line="24" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_qdrant_adapter_1a58992fea239374f01a7dce0c23a6ce44" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>chimera::QdrantAdapter::~QdrantAdapter</definition>
+        <argsstring>() override</argsstring>
+        <name>~QdrantAdapter</name>
+        <qualifiedname>chimera::QdrantAdapter::~QdrantAdapter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/qdrant_adapter.hpp" line="26" column="5" bodyfile="src/chimera/qdrant_adapter.cpp" bodystart="36" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_qdrant_adapter_1aef3790a58fbabcbf3040486fba5650bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; bool &gt;</type>
+        <definition>Result&lt; bool &gt; chimera::QdrantAdapter::connect</definition>
+        <argsstring>(const std::string &amp;connection_string, const std::map&lt; std::string, std::string &gt; &amp;options={}) override</argsstring>
+        <name>connect</name>
+        <qualifiedname>chimera::QdrantAdapter::connect</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>connection_string</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>options</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/qdrant_adapter.hpp" line="32" column="12" bodyfile="src/chimera/qdrant_adapter.cpp" bodystart="46" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_qdrant_adapter_1af661e74d6b7fcd13f898986feb6b207c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; bool &gt;</type>
+        <definition>Result&lt; bool &gt; chimera::QdrantAdapter::disconnect</definition>
+        <argsstring>() override</argsstring>
+        <name>disconnect</name>
+        <qualifiedname>chimera::QdrantAdapter::disconnect</qualifiedname>
+        <briefdescription>
+<para>Disconnect. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: clear(), ok(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/qdrant_adapter.hpp" line="37" column="12" bodyfile="src/chimera/qdrant_adapter.cpp" bodystart="89" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_qdrant_adapter_1ae97d308e62067edd7d8a90e6a485b144" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool chimera::QdrantAdapter::is_connected</definition>
+        <argsstring>() const override</argsstring>
+        <name>is_connected</name>
+        <qualifiedname>chimera::QdrantAdapter::is_connected</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/qdrant_adapter.hpp" line="38" column="10" bodyfile="src/chimera/qdrant_adapter.cpp" bodystart="95" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_qdrant_adapter_1a2bd688584441ccbd7116906f082b5258" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; <ref refid="structchimera_1_1_relational_table" kindref="compound">RelationalTable</ref> &gt;</type>
+        <definition>Result&lt; RelationalTable &gt; chimera::QdrantAdapter::execute_query</definition>
+        <argsstring>(const std::string &amp;query, const std::vector&lt; Scalar &gt; &amp;params={}) override</argsstring>
+        <name>execute_query</name>
+        <qualifiedname>chimera::QdrantAdapter::execute_query</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="namespacechimera_1ad6242315598fd088735827495e1d8e4e" kindref="member">Scalar</ref> &gt; &amp;</type>
+          <declname>params</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Execute query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/qdrant_adapter.hpp" line="41" column="12" bodyfile="src/chimera/qdrant_adapter.cpp" bodystart="110" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_qdrant_adapter_1a261aed28c9ebe0115b3a961e67127c11" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; size_t &gt;</type>
+        <definition>Result&lt; size_t &gt; chimera::QdrantAdapter::insert_row</definition>
+        <argsstring>(const std::string &amp;table_name, const RelationalRow &amp;row) override</argsstring>
+        <name>insert_row</name>
+        <qualifiedname>chimera::QdrantAdapter::insert_row</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structchimera_1_1_relational_row" kindref="compound">RelationalRow</ref> &amp;</type>
+          <declname>row</declname>
+        </param>
+        <briefdescription>
+<para>Insert row. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/qdrant_adapter.hpp" line="46" column="12" bodyfile="src/chimera/qdrant_adapter.cpp" bodystart="127" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_qdrant_adapter_1a3dc507c13d73a1a3f20dfef2589a6c56" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; size_t &gt;</type>
+        <definition>Result&lt; size_t &gt; chimera::QdrantAdapter::batch_insert</definition>
+        <argsstring>(const std::string &amp;table_name, const std::vector&lt; RelationalRow &gt; &amp;rows) override</argsstring>
+        <name>batch_insert</name>
+        <qualifiedname>chimera::QdrantAdapter::batch_insert</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structchimera_1_1_relational_row" kindref="compound">RelationalRow</ref> &gt; &amp;</type>
+          <declname>rows</declname>
+        </param>
+        <briefdescription>
+<para>Batch insert. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/qdrant_adapter.hpp" line="51" column="12" bodyfile="src/chimera/qdrant_adapter.cpp" bodystart="144" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_qdrant_adapter_1af55ba638e344eff8f05c115fe2d85af6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; <ref refid="structchimera_1_1_query_statistics" kindref="compound">QueryStatistics</ref> &gt;</type>
+        <definition>Result&lt; QueryStatistics &gt; chimera::QdrantAdapter::get_query_statistics</definition>
+        <argsstring>() const override</argsstring>
+        <name>get_query_statistics</name>
+        <qualifiedname>chimera::QdrantAdapter::get_query_statistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/qdrant_adapter.hpp" line="56" column="12" bodyfile="src/chimera/qdrant_adapter.cpp" bodystart="154" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_qdrant_adapter_1a7431540a223c6776827bf0ae9862ea24" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; std::string &gt;</type>
+        <definition>Result&lt; std::string &gt; chimera::QdrantAdapter::insert_vector</definition>
+        <argsstring>(const std::string &amp;collection, const Vector &amp;vector) override</argsstring>
+        <name>insert_vector</name>
+        <qualifiedname>chimera::QdrantAdapter::insert_vector</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const Vector &amp;</type>
+          <declname>vector</declname>
+        </param>
+        <briefdescription>
+<para>Insert vector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(), generate_id(), ok(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/qdrant_adapter.hpp" line="62" column="12" bodyfile="src/chimera/qdrant_adapter.cpp" bodystart="170" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_qdrant_adapter_1a451804c11acdfa09a420ca72a4e5cb18" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; size_t &gt;</type>
+        <definition>Result&lt; size_t &gt; chimera::QdrantAdapter::batch_insert_vectors</definition>
+        <argsstring>(const std::string &amp;collection, const std::vector&lt; Vector &gt; &amp;vectors) override</argsstring>
+        <name>batch_insert_vectors</name>
+        <qualifiedname>chimera::QdrantAdapter::batch_insert_vectors</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; Vector &gt; &amp;</type>
+          <declname>vectors</declname>
+        </param>
+        <briefdescription>
+<para>Batch insert vectors. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vectors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(), lock(), push_back(), generate_id(), ok(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/qdrant_adapter.hpp" line="67" column="12" bodyfile="src/chimera/qdrant_adapter.cpp" bodystart="202" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_qdrant_adapter_1a6cacd085ffdf8a5ccd35ca1a254f52f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; std::vector&lt; std::pair&lt; Vector, double &gt; &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; std::pair&lt; Vector, double &gt; &gt; &gt; chimera::QdrantAdapter::search_vectors</definition>
+        <argsstring>(const std::string &amp;collection, const Vector &amp;query_vector, size_t k, const std::map&lt; std::string, Scalar &gt; &amp;filters={}) override</argsstring>
+        <name>search_vectors</name>
+        <qualifiedname>chimera::QdrantAdapter::search_vectors</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const Vector &amp;</type>
+          <declname>query_vector</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, <ref refid="namespacechimera_1ad6242315598fd088735827495e1d8e4e" kindref="member">Scalar</ref> &gt; &amp;</type>
+          <declname>filters</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/qdrant_adapter.hpp" line="72" column="12" bodyfile="src/chimera/qdrant_adapter.cpp" bodystart="223" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_qdrant_adapter_1a2ac5f76d895c353dfbd051023cd33c10" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; bool &gt;</type>
+        <definition>Result&lt; bool &gt; chimera::QdrantAdapter::create_index</definition>
+        <argsstring>(const std::string &amp;collection, size_t dimensions, const std::map&lt; std::string, Scalar &gt; &amp;index_params={}) override</argsstring>
+        <name>create_index</name>
+        <qualifiedname>chimera::QdrantAdapter::create_index</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>dimensions</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, <ref refid="namespacechimera_1ad6242315598fd088735827495e1d8e4e" kindref="member">Scalar</ref> &gt; &amp;</type>
+          <declname>index_params</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/qdrant_adapter.hpp" line="79" column="12" bodyfile="src/chimera/qdrant_adapter.cpp" bodystart="250" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_qdrant_adapter_1a135d83cd5642160e83132e14e9ebce5a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; std::string &gt;</type>
+        <definition>Result&lt; std::string &gt; chimera::QdrantAdapter::insert_node</definition>
+        <argsstring>(const GraphNode &amp;node) override</argsstring>
+        <name>insert_node</name>
+        <qualifiedname>chimera::QdrantAdapter::insert_node</qualifiedname>
+        <param>
+          <type>const GraphNode &amp;</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+<para>Insert node. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/qdrant_adapter.hpp" line="86" column="12" bodyfile="src/chimera/qdrant_adapter.cpp" bodystart="285" bodyend="290"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_qdrant_adapter_1a20f36b77550ebd7e3264b43b30ee3c03" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; std::string &gt;</type>
+        <definition>Result&lt; std::string &gt; chimera::QdrantAdapter::insert_edge</definition>
+        <argsstring>(const GraphEdge &amp;edge) override</argsstring>
+        <name>insert_edge</name>
+        <qualifiedname>chimera::QdrantAdapter::insert_edge</qualifiedname>
+        <param>
+          <type>const GraphEdge &amp;</type>
+          <declname>edge</declname>
+        </param>
+        <briefdescription>
+<para>Insert edge. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/qdrant_adapter.hpp" line="87" column="12" bodyfile="src/chimera/qdrant_adapter.cpp" bodystart="298" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_qdrant_adapter_1abb5881296f66664aba1d0436ff2abdd4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; GraphPath &gt;</type>
+        <definition>Result&lt; GraphPath &gt; chimera::QdrantAdapter::shortest_path</definition>
+        <argsstring>(const std::string &amp;source_id, const std::string &amp;target_id, size_t max_depth=10) override</argsstring>
+        <name>shortest_path</name>
+        <qualifiedname>chimera::QdrantAdapter::shortest_path</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_depth</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+<para>Shortest path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size_t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/qdrant_adapter.hpp" line="89" column="12" bodyfile="src/chimera/qdrant_adapter.cpp" bodystart="313" bodyend="322"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_qdrant_adapter_1a4b242e339f2d2758b38279df35b096ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; std::vector&lt; GraphNode &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; GraphNode &gt; &gt; chimera::QdrantAdapter::traverse</definition>
+        <argsstring>(const std::string &amp;start_id, size_t max_depth, const std::vector&lt; std::string &gt; &amp;edge_labels={}) override</argsstring>
+        <name>traverse</name>
+        <qualifiedname>chimera::QdrantAdapter::traverse</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>start_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_depth</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>edge_labels</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Traverse. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size_t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/qdrant_adapter.hpp" line="95" column="12" bodyfile="src/chimera/qdrant_adapter.cpp" bodystart="332" bodyend="341"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_qdrant_adapter_1ae7296fa6302f01905f5961e7b1d79335" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; std::vector&lt; GraphPath &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; GraphPath &gt; &gt; chimera::QdrantAdapter::execute_graph_query</definition>
+        <argsstring>(const std::string &amp;query, const std::map&lt; std::string, Scalar &gt; &amp;params={}) override</argsstring>
+        <name>execute_graph_query</name>
+        <qualifiedname>chimera::QdrantAdapter::execute_graph_query</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, <ref refid="namespacechimera_1ad6242315598fd088735827495e1d8e4e" kindref="member">Scalar</ref> &gt; &amp;</type>
+          <declname>params</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/qdrant_adapter.hpp" line="101" column="12" bodyfile="src/chimera/qdrant_adapter.cpp" bodystart="343" bodyend="351"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_qdrant_adapter_1a7e1c97dd472fe1a2a1f11e8720801c23" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; std::string &gt;</type>
+        <definition>Result&lt; std::string &gt; chimera::QdrantAdapter::insert_document</definition>
+        <argsstring>(const std::string &amp;collection, const Document &amp;doc) override</argsstring>
+        <name>insert_document</name>
+        <qualifiedname>chimera::QdrantAdapter::insert_document</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const Document &amp;</type>
+          <declname>doc</declname>
+        </param>
+        <briefdescription>
+<para>Insert document. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/qdrant_adapter.hpp" line="107" column="12" bodyfile="src/chimera/qdrant_adapter.cpp" bodystart="364" bodyend="372"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_qdrant_adapter_1a7fd240c36c62dc01533a6fd22ad1d4d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; size_t &gt;</type>
+        <definition>Result&lt; size_t &gt; chimera::QdrantAdapter::batch_insert_documents</definition>
+        <argsstring>(const std::string &amp;collection, const std::vector&lt; Document &gt; &amp;docs) override</argsstring>
+        <name>batch_insert_documents</name>
+        <qualifiedname>chimera::QdrantAdapter::batch_insert_documents</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; Document &gt; &amp;</type>
+          <declname>docs</declname>
+        </param>
+        <briefdescription>
+<para>Batch insert documents. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/qdrant_adapter.hpp" line="112" column="12" bodyfile="src/chimera/qdrant_adapter.cpp" bodystart="381" bodyend="389"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_qdrant_adapter_1ae92e2032266c9c2d9e06581330b34276" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; std::vector&lt; Document &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; Document &gt; &gt; chimera::QdrantAdapter::find_documents</definition>
+        <argsstring>(const std::string &amp;collection, const std::map&lt; std::string, Scalar &gt; &amp;filter, size_t limit=100) override</argsstring>
+        <name>find_documents</name>
+        <qualifiedname>chimera::QdrantAdapter::find_documents</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, <ref refid="namespacechimera_1ad6242315598fd088735827495e1d8e4e" kindref="member">Scalar</ref> &gt; &amp;</type>
+          <declname>filter</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>limit</declname>
+          <defval>100</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/qdrant_adapter.hpp" line="117" column="12" bodyfile="src/chimera/qdrant_adapter.cpp" bodystart="391" bodyend="400"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_qdrant_adapter_1a506c38f0477c7d5a836c3069aab084ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; size_t &gt;</type>
+        <definition>Result&lt; size_t &gt; chimera::QdrantAdapter::update_documents</definition>
+        <argsstring>(const std::string &amp;collection, const std::map&lt; std::string, Scalar &gt; &amp;filter, const std::map&lt; std::string, Scalar &gt; &amp;updates) override</argsstring>
+        <name>update_documents</name>
+        <qualifiedname>chimera::QdrantAdapter::update_documents</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, <ref refid="namespacechimera_1ad6242315598fd088735827495e1d8e4e" kindref="member">Scalar</ref> &gt; &amp;</type>
+          <declname>filter</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, <ref refid="namespacechimera_1ad6242315598fd088735827495e1d8e4e" kindref="member">Scalar</ref> &gt; &amp;</type>
+          <declname>updates</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/qdrant_adapter.hpp" line="123" column="12" bodyfile="src/chimera/qdrant_adapter.cpp" bodystart="402" bodyend="411"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_qdrant_adapter_1a0964f665b4eb2fd5ee26060a7162b1a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; std::string &gt;</type>
+        <definition>Result&lt; std::string &gt; chimera::QdrantAdapter::begin_transaction</definition>
+        <argsstring>(const TransactionOptions &amp;options={}) override</argsstring>
+        <name>begin_transaction</name>
+        <qualifiedname>chimera::QdrantAdapter::begin_transaction</qualifiedname>
+        <param>
+          <type>const TransactionOptions &amp;</type>
+          <declname>options</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Begin transaction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/qdrant_adapter.hpp" line="130" column="12" bodyfile="src/chimera/qdrant_adapter.cpp" bodystart="423" bodyend="430"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_qdrant_adapter_1a0cddd8659e8b035e66a022691339c7dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; bool &gt;</type>
+        <definition>Result&lt; bool &gt; chimera::QdrantAdapter::commit_transaction</definition>
+        <argsstring>(const std::string &amp;transaction_id) override</argsstring>
+        <name>commit_transaction</name>
+        <qualifiedname>chimera::QdrantAdapter::commit_transaction</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <briefdescription>
+<para>Commit transaction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/qdrant_adapter.hpp" line="134" column="12" bodyfile="src/chimera/qdrant_adapter.cpp" bodystart="438" bodyend="443"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_qdrant_adapter_1af232895ea546015585f2cdec4d8c9b92" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; bool &gt;</type>
+        <definition>Result&lt; bool &gt; chimera::QdrantAdapter::rollback_transaction</definition>
+        <argsstring>(const std::string &amp;transaction_id) override</argsstring>
+        <name>rollback_transaction</name>
+        <qualifiedname>chimera::QdrantAdapter::rollback_transaction</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <briefdescription>
+<para>Rollback transaction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/qdrant_adapter.hpp" line="135" column="12" bodyfile="src/chimera/qdrant_adapter.cpp" bodystart="451" bodyend="456"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_qdrant_adapter_1a2ac319212e1102b360db8784d67340cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; std::string &gt;</type>
+        <definition>Result&lt; std::string &gt; chimera::QdrantAdapter::create_savepoint</definition>
+        <argsstring>(const std::string &amp;transaction_id, const std::string &amp;savepoint_name) override</argsstring>
+        <name>create_savepoint</name>
+        <qualifiedname>chimera::QdrantAdapter::create_savepoint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>savepoint_name</declname>
+        </param>
+        <briefdescription>
+<para>Create savepoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/qdrant_adapter.hpp" line="137" column="12" bodyfile="src/chimera/qdrant_adapter.cpp" bodystart="465" bodyend="473"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_qdrant_adapter_1a4d38293f6773c89d6c809b8da284d4be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; bool &gt;</type>
+        <definition>Result&lt; bool &gt; chimera::QdrantAdapter::rollback_to_savepoint</definition>
+        <argsstring>(const std::string &amp;transaction_id, const std::string &amp;savepoint_name) override</argsstring>
+        <name>rollback_to_savepoint</name>
+        <qualifiedname>chimera::QdrantAdapter::rollback_to_savepoint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>savepoint_name</declname>
+        </param>
+        <briefdescription>
+<para>Rollback to savepoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/qdrant_adapter.hpp" line="142" column="12" bodyfile="src/chimera/qdrant_adapter.cpp" bodystart="482" bodyend="490"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_qdrant_adapter_1a3c3f0f17863371452aa149f4bf89999a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; bool &gt;</type>
+        <definition>Result&lt; bool &gt; chimera::QdrantAdapter::release_savepoint</definition>
+        <argsstring>(const std::string &amp;transaction_id, const std::string &amp;savepoint_name) override</argsstring>
+        <name>release_savepoint</name>
+        <qualifiedname>chimera::QdrantAdapter::release_savepoint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>savepoint_name</declname>
+        </param>
+        <briefdescription>
+<para>Release savepoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/qdrant_adapter.hpp" line="147" column="12" bodyfile="src/chimera/qdrant_adapter.cpp" bodystart="499" bodyend="507"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_qdrant_adapter_1a725e64c20ed75ed1c7e786ca59512ece" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; TransactionStats &gt;</type>
+        <definition>Result&lt; TransactionStats &gt; chimera::QdrantAdapter::get_transaction_stats</definition>
+        <argsstring>(const std::string &amp;transaction_id) override</argsstring>
+        <name>get_transaction_stats</name>
+        <qualifiedname>chimera::QdrantAdapter::get_transaction_stats</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <briefdescription>
+<para>Get transaction stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/qdrant_adapter.hpp" line="152" column="12" bodyfile="src/chimera/qdrant_adapter.cpp" bodystart="515" bodyend="522"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_qdrant_adapter_1a6ec5e09cfe9540e2fc0c6d80af2bde63" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; <ref refid="namespacechimera_1a049810d1c4a4924e492bc235cff6f16c" kindref="member">TransactionState</ref> &gt;</type>
+        <definition>Result&lt; TransactionState &gt; chimera::QdrantAdapter::get_transaction_state</definition>
+        <argsstring>(const std::string &amp;transaction_id) override</argsstring>
+        <name>get_transaction_state</name>
+        <qualifiedname>chimera::QdrantAdapter::get_transaction_state</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <briefdescription>
+<para>Get transaction state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/qdrant_adapter.hpp" line="156" column="12" bodyfile="src/chimera/qdrant_adapter.cpp" bodystart="530" bodyend="537"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_qdrant_adapter_1a8db02ca329a02184462fb05d325face7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; SystemInfo &gt;</type>
+        <definition>Result&lt; SystemInfo &gt; chimera::QdrantAdapter::get_system_info</definition>
+        <argsstring>() const override</argsstring>
+        <name>get_system_info</name>
+        <qualifiedname>chimera::QdrantAdapter::get_system_info</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/qdrant_adapter.hpp" line="161" column="12" bodyfile="src/chimera/qdrant_adapter.cpp" bodystart="543" bodyend="549"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_qdrant_adapter_1a9afd2c06cc28174315ec3e25c7dd95e9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; SystemMetrics &gt;</type>
+        <definition>Result&lt; SystemMetrics &gt; chimera::QdrantAdapter::get_metrics</definition>
+        <argsstring>() const override</argsstring>
+        <name>get_metrics</name>
+        <qualifiedname>chimera::QdrantAdapter::get_metrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/qdrant_adapter.hpp" line="162" column="12" bodyfile="src/chimera/qdrant_adapter.cpp" bodystart="551" bodyend="565"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_qdrant_adapter_1a7e2eb96da20960432d3692be3a519c73" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool chimera::QdrantAdapter::has_capability</definition>
+        <argsstring>(Capability cap) const override</argsstring>
+        <name>has_capability</name>
+        <qualifiedname>chimera::QdrantAdapter::has_capability</qualifiedname>
+        <param>
+          <type>Capability</type>
+          <declname>cap</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/qdrant_adapter.hpp" line="163" column="10" bodyfile="src/chimera/qdrant_adapter.cpp" bodystart="567" bodyend="578"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_qdrant_adapter_1ad87361ff15bbbafb10b045935c1c7f83" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; Capability &gt;</type>
+        <definition>std::vector&lt; Capability &gt; chimera::QdrantAdapter::get_capabilities</definition>
+        <argsstring>() const override</argsstring>
+        <name>get_capabilities</name>
+        <qualifiedname>chimera::QdrantAdapter::get_capabilities</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/qdrant_adapter.hpp" line="164" column="17" bodyfile="src/chimera/qdrant_adapter.cpp" bodystart="580" bodyend="586"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_qdrant_adapter_1a8b06c5af4406c8bc43412b9004ea0473" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; bool &gt;</type>
+        <definition>Result&lt; bool &gt; chimera::QdrantAdapter::queue_insert</definition>
+        <argsstring>(const std::string &amp;table_name, const RelationalRow &amp;row) override</argsstring>
+        <name>queue_insert</name>
+        <qualifiedname>chimera::QdrantAdapter::queue_insert</qualifiedname>
+        <reimplements refid="classchimera_1_1_i_batch_adapter_1a06a669ff9a00cbaf7add1d0b8675b497">queue_insert</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structchimera_1_1_relational_row" kindref="compound">RelationalRow</ref> &amp;</type>
+          <declname>row</declname>
+        </param>
+        <briefdescription>
+<para>Queue insert. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">row</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/qdrant_adapter.hpp" line="170" column="12" bodyfile="src/chimera/qdrant_adapter.cpp" bodystart="599" bodyend="607"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_qdrant_adapter_1af84f053fb8fd412def3cb6642b000412" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; bool &gt;</type>
+        <definition>Result&lt; bool &gt; chimera::QdrantAdapter::queue_insert_batch</definition>
+        <argsstring>(const std::string &amp;table_name, const std::vector&lt; RelationalRow &gt; &amp;rows) override</argsstring>
+        <name>queue_insert_batch</name>
+        <qualifiedname>chimera::QdrantAdapter::queue_insert_batch</qualifiedname>
+        <reimplements refid="classchimera_1_1_i_batch_adapter_1ac8c18ce7b1b88be91f753c76909a9891">queue_insert_batch</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structchimera_1_1_relational_row" kindref="compound">RelationalRow</ref> &gt; &amp;</type>
+          <declname>rows</declname>
+        </param>
+        <briefdescription>
+<para>Queue insert batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/qdrant_adapter.hpp" line="175" column="12" bodyfile="src/chimera/qdrant_adapter.cpp" bodystart="616" bodyend="624"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_qdrant_adapter_1a4f6ec4093f345845e869fe5c2cd39665" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; bool &gt;</type>
+        <definition>Result&lt; bool &gt; chimera::QdrantAdapter::queue_update</definition>
+        <argsstring>(const std::string &amp;table_name, const RelationalRow &amp;row, const std::string &amp;where_clause) override</argsstring>
+        <name>queue_update</name>
+        <qualifiedname>chimera::QdrantAdapter::queue_update</qualifiedname>
+        <reimplements refid="classchimera_1_1_i_batch_adapter_1a51edda8e8032b7cc1736da4b6a913347">queue_update</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structchimera_1_1_relational_row" kindref="compound">RelationalRow</ref> &amp;</type>
+          <declname>row</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>where_clause</declname>
+        </param>
+        <briefdescription>
+<para>Queue update. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">row</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">where_clause</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/qdrant_adapter.hpp" line="180" column="12" bodyfile="src/chimera/qdrant_adapter.cpp" bodystart="634" bodyend="643"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_qdrant_adapter_1a921cdd70656c8efe25debc1d32178fe0" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; bool &gt;</type>
+        <definition>Result&lt; bool &gt; chimera::QdrantAdapter::queue_delete</definition>
+        <argsstring>(const std::string &amp;table_name, const std::string &amp;where_clause) override</argsstring>
+        <name>queue_delete</name>
+        <qualifiedname>chimera::QdrantAdapter::queue_delete</qualifiedname>
+        <reimplements refid="classchimera_1_1_i_batch_adapter_1a1e5db3984d63b99cda6c27af6869a936">queue_delete</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>where_clause</declname>
+        </param>
+        <briefdescription>
+<para>Queue delete. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">where_clause</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/qdrant_adapter.hpp" line="186" column="12" bodyfile="src/chimera/qdrant_adapter.cpp" bodystart="652" bodyend="660"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_qdrant_adapter_1a6b536d3d3e3c736f936f6186a2cf6520" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; <ref refid="structchimera_1_1_batch_statistics" kindref="compound">BatchStatistics</ref> &gt;</type>
+        <definition>Result&lt; BatchStatistics &gt; chimera::QdrantAdapter::flush</definition>
+        <argsstring>() override</argsstring>
+        <name>flush</name>
+        <qualifiedname>chimera::QdrantAdapter::flush</qualifiedname>
+        <reimplements refid="classchimera_1_1_i_batch_adapter_1af9886ab465bca45b2a1e9b167fce345e">flush</reimplements>
+        <briefdescription>
+<para>Flush. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), size(), clear(), ok(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/qdrant_adapter.hpp" line="191" column="12" bodyfile="src/chimera/qdrant_adapter.cpp" bodystart="667" bodyend="676"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_qdrant_adapter_1a3da7f1e194581f555fa8ef8ac80bc4c9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t chimera::QdrantAdapter::get_pending_count</definition>
+        <argsstring>() const override</argsstring>
+        <name>get_pending_count</name>
+        <qualifiedname>chimera::QdrantAdapter::get_pending_count</qualifiedname>
+        <reimplements refid="classchimera_1_1_i_batch_adapter_1afe84ae9ea2d76d718cf9f469323f51c3">get_pending_count</reimplements>
+        <briefdescription>
+<para>Get pending count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/chimera/qdrant_adapter.hpp" line="193" column="12" bodyfile="src/chimera/qdrant_adapter.cpp" bodystart="678" bodyend="686"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_qdrant_adapter_1a1db2b0416f384fc442fbda29483e236f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; bool &gt;</type>
+        <definition>Result&lt; bool &gt; chimera::QdrantAdapter::set_batch_config</definition>
+        <argsstring>(const BatchConfig &amp;config) override</argsstring>
+        <name>set_batch_config</name>
+        <qualifiedname>chimera::QdrantAdapter::set_batch_config</qualifiedname>
+        <reimplements refid="classchimera_1_1_i_batch_adapter_1abf33b0d9e45a4b4d96d4caa463e2f920">set_batch_config</reimplements>
+        <param>
+          <type>const <ref refid="structchimera_1_1_batch_config" kindref="compound">BatchConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Set batch config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), ok(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/qdrant_adapter.hpp" line="195" column="12" bodyfile="src/chimera/qdrant_adapter.cpp" bodystart="694" bodyend="698"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_qdrant_adapter_1a6796f65799ab94a18f5ccc47f74b5b3b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>const <ref refid="structchimera_1_1_batch_config" kindref="compound">BatchConfig</ref> &amp;</type>
+        <definition>const BatchConfig &amp; chimera::QdrantAdapter::get_batch_config</definition>
+        <argsstring>() const override</argsstring>
+        <name>get_batch_config</name>
+        <qualifiedname>chimera::QdrantAdapter::get_batch_config</qualifiedname>
+        <reimplements refid="classchimera_1_1_i_batch_adapter_1a4072a7f9d05047ad5da5bf06d6e40599">get_batch_config</reimplements>
+        <briefdescription>
+<para>Get batch config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/qdrant_adapter.hpp" line="197" column="23" bodyfile="src/chimera/qdrant_adapter.cpp" bodystart="700" bodyend="702"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classchimera_1_1_qdrant_adapter_1afc51f72b08c7b39b142b2ddf267de171" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string chimera::QdrantAdapter::generate_id</definition>
+        <argsstring>()</argsstring>
+        <name>generate_id</name>
+        <qualifiedname>chimera::QdrantAdapter::generate_id</qualifiedname>
+        <briefdescription>
+<para>Generate id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: utils::generate_uuid_v4(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/qdrant_adapter.hpp" line="230" column="24" bodyfile="src/chimera/qdrant_adapter.cpp" bodystart="713" bodyend="715"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_qdrant_adapter_1a96bc55a07fac52ad979996c98d133c28" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool chimera::QdrantAdapter::is_valid_connection_string</definition>
+        <argsstring>(const std::string &amp;cs)</argsstring>
+        <name>is_valid_connection_string</name>
+        <qualifiedname>chimera::QdrantAdapter::is_valid_connection_string</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cs</declname>
+        </param>
+        <briefdescription>
+<para>Is valid connection string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/qdrant_adapter.hpp" line="236" column="17" bodyfile="src/chimera/qdrant_adapter.cpp" bodystart="723" bodyend="728"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_qdrant_adapter_1a1e26f67a65162a22cd373d7c34c727fd" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string chimera::QdrantAdapter::mask_credentials</definition>
+        <argsstring>(const std::string &amp;cs)</argsstring>
+        <name>mask_credentials</name>
+        <qualifiedname>chimera::QdrantAdapter::mask_credentials</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cs</declname>
+        </param>
+        <briefdescription>
+<para>Mask credentials. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements mask_credentials without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/qdrant_adapter.hpp" line="242" column="24" bodyfile="src/chimera/qdrant_adapter.cpp" bodystart="736" bodyend="740"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>IDatabaseAdapter</label>
+      </node>
+      <node id="3">
+        <label>chimera::IBatchAdapter</label>
+        <link refid="classchimera_1_1_i_batch_adapter"/>
+      </node>
+      <node id="1">
+        <label>chimera::QdrantAdapter</label>
+        <link refid="classchimera_1_1_qdrant_adapter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>IDatabaseAdapter</label>
+      </node>
+      <node id="3">
+        <label>chimera::IBatchAdapter</label>
+        <link refid="classchimera_1_1_i_batch_adapter"/>
+      </node>
+      <node id="1">
+        <label>chimera::QdrantAdapter</label>
+        <link refid="classchimera_1_1_qdrant_adapter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/chimera/qdrant_adapter.hpp" line="21" column="1" bodyfile="include/chimera/qdrant_adapter.hpp" bodystart="22" bodyend="243"/>
+    <listofallmembers>
+      <member refid="classchimera_1_1_qdrant_adapter_1a61165784a7f2c1ccf671e0320693b891" prot="private" virt="non-virtual"><scope>chimera::QdrantAdapter</scope><name>batch_config_</name></member>
+      <member refid="classchimera_1_1_qdrant_adapter_1a3dc507c13d73a1a3f20dfef2589a6c56" prot="public" virt="non-virtual"><scope>chimera::QdrantAdapter</scope><name>batch_insert</name></member>
+      <member refid="classchimera_1_1_qdrant_adapter_1a7fd240c36c62dc01533a6fd22ad1d4d5" prot="public" virt="non-virtual"><scope>chimera::QdrantAdapter</scope><name>batch_insert_documents</name></member>
+      <member refid="classchimera_1_1_qdrant_adapter_1a451804c11acdfa09a420ca72a4e5cb18" prot="public" virt="non-virtual"><scope>chimera::QdrantAdapter</scope><name>batch_insert_vectors</name></member>
+      <member refid="classchimera_1_1_qdrant_adapter_1a37c210c4ec0b9e6993fbc018115097ee" prot="private" virt="non-virtual"><scope>chimera::QdrantAdapter</scope><name>batch_mutex_</name></member>
+      <member refid="classchimera_1_1_qdrant_adapter_1a0964f665b4eb2fd5ee26060a7162b1a8" prot="public" virt="non-virtual"><scope>chimera::QdrantAdapter</scope><name>begin_transaction</name></member>
+      <member refid="classchimera_1_1_qdrant_adapter_1a0cddd8659e8b035e66a022691339c7dc" prot="public" virt="non-virtual"><scope>chimera::QdrantAdapter</scope><name>commit_transaction</name></member>
+      <member refid="classchimera_1_1_qdrant_adapter_1aef3790a58fbabcbf3040486fba5650bd" prot="public" virt="non-virtual"><scope>chimera::QdrantAdapter</scope><name>connect</name></member>
+      <member refid="classchimera_1_1_qdrant_adapter_1a4e7f75914572e2a80d819fe479813206" prot="private" virt="non-virtual"><scope>chimera::QdrantAdapter</scope><name>connected_</name></member>
+      <member refid="classchimera_1_1_qdrant_adapter_1a09efab3ae24d469db7fc2babfb3f6dee" prot="private" virt="non-virtual"><scope>chimera::QdrantAdapter</scope><name>connection_string_</name></member>
+      <member refid="classchimera_1_1_qdrant_adapter_1a2ac5f76d895c353dfbd051023cd33c10" prot="public" virt="non-virtual"><scope>chimera::QdrantAdapter</scope><name>create_index</name></member>
+      <member refid="classchimera_1_1_qdrant_adapter_1a2ac319212e1102b360db8784d67340cf" prot="public" virt="non-virtual"><scope>chimera::QdrantAdapter</scope><name>create_savepoint</name></member>
+      <member refid="classchimera_1_1_qdrant_adapter_1af661e74d6b7fcd13f898986feb6b207c" prot="public" virt="non-virtual"><scope>chimera::QdrantAdapter</scope><name>disconnect</name></member>
+      <member refid="classchimera_1_1_qdrant_adapter_1ae7296fa6302f01905f5961e7b1d79335" prot="public" virt="non-virtual"><scope>chimera::QdrantAdapter</scope><name>execute_graph_query</name></member>
+      <member refid="classchimera_1_1_qdrant_adapter_1a2bd688584441ccbd7116906f082b5258" prot="public" virt="non-virtual"><scope>chimera::QdrantAdapter</scope><name>execute_query</name></member>
+      <member refid="classchimera_1_1_qdrant_adapter_1ae92e2032266c9c2d9e06581330b34276" prot="public" virt="non-virtual"><scope>chimera::QdrantAdapter</scope><name>find_documents</name></member>
+      <member refid="classchimera_1_1_qdrant_adapter_1a6b536d3d3e3c736f936f6186a2cf6520" prot="public" virt="virtual"><scope>chimera::QdrantAdapter</scope><name>flush</name></member>
+      <member refid="classchimera_1_1_qdrant_adapter_1afc51f72b08c7b39b142b2ddf267de171" prot="private" virt="non-virtual"><scope>chimera::QdrantAdapter</scope><name>generate_id</name></member>
+      <member refid="classchimera_1_1_qdrant_adapter_1a6796f65799ab94a18f5ccc47f74b5b3b" prot="public" virt="virtual"><scope>chimera::QdrantAdapter</scope><name>get_batch_config</name></member>
+      <member refid="classchimera_1_1_qdrant_adapter_1ad87361ff15bbbafb10b045935c1c7f83" prot="public" virt="non-virtual"><scope>chimera::QdrantAdapter</scope><name>get_capabilities</name></member>
+      <member refid="classchimera_1_1_qdrant_adapter_1a9afd2c06cc28174315ec3e25c7dd95e9" prot="public" virt="non-virtual"><scope>chimera::QdrantAdapter</scope><name>get_metrics</name></member>
+      <member refid="classchimera_1_1_qdrant_adapter_1a3da7f1e194581f555fa8ef8ac80bc4c9" prot="public" virt="virtual"><scope>chimera::QdrantAdapter</scope><name>get_pending_count</name></member>
+      <member refid="classchimera_1_1_qdrant_adapter_1af55ba638e344eff8f05c115fe2d85af6" prot="public" virt="non-virtual"><scope>chimera::QdrantAdapter</scope><name>get_query_statistics</name></member>
+      <member refid="classchimera_1_1_qdrant_adapter_1a8db02ca329a02184462fb05d325face7" prot="public" virt="non-virtual"><scope>chimera::QdrantAdapter</scope><name>get_system_info</name></member>
+      <member refid="classchimera_1_1_qdrant_adapter_1a6ec5e09cfe9540e2fc0c6d80af2bde63" prot="public" virt="non-virtual"><scope>chimera::QdrantAdapter</scope><name>get_transaction_state</name></member>
+      <member refid="classchimera_1_1_qdrant_adapter_1a725e64c20ed75ed1c7e786ca59512ece" prot="public" virt="non-virtual"><scope>chimera::QdrantAdapter</scope><name>get_transaction_stats</name></member>
+      <member refid="classchimera_1_1_qdrant_adapter_1a7e2eb96da20960432d3692be3a519c73" prot="public" virt="non-virtual"><scope>chimera::QdrantAdapter</scope><name>has_capability</name></member>
+      <member refid="classchimera_1_1_qdrant_adapter_1a7e1c97dd472fe1a2a1f11e8720801c23" prot="public" virt="non-virtual"><scope>chimera::QdrantAdapter</scope><name>insert_document</name></member>
+      <member refid="classchimera_1_1_qdrant_adapter_1a20f36b77550ebd7e3264b43b30ee3c03" prot="public" virt="non-virtual"><scope>chimera::QdrantAdapter</scope><name>insert_edge</name></member>
+      <member refid="classchimera_1_1_qdrant_adapter_1a135d83cd5642160e83132e14e9ebce5a" prot="public" virt="non-virtual"><scope>chimera::QdrantAdapter</scope><name>insert_node</name></member>
+      <member refid="classchimera_1_1_qdrant_adapter_1a261aed28c9ebe0115b3a961e67127c11" prot="public" virt="non-virtual"><scope>chimera::QdrantAdapter</scope><name>insert_row</name></member>
+      <member refid="classchimera_1_1_qdrant_adapter_1a7431540a223c6776827bf0ae9862ea24" prot="public" virt="non-virtual"><scope>chimera::QdrantAdapter</scope><name>insert_vector</name></member>
+      <member refid="classchimera_1_1_qdrant_adapter_1ae97d308e62067edd7d8a90e6a485b144" prot="public" virt="non-virtual"><scope>chimera::QdrantAdapter</scope><name>is_connected</name></member>
+      <member refid="classchimera_1_1_qdrant_adapter_1a96bc55a07fac52ad979996c98d133c28" prot="private" virt="non-virtual"><scope>chimera::QdrantAdapter</scope><name>is_valid_connection_string</name></member>
+      <member refid="classchimera_1_1_qdrant_adapter_1a1e26f67a65162a22cd373d7c34c727fd" prot="private" virt="non-virtual"><scope>chimera::QdrantAdapter</scope><name>mask_credentials</name></member>
+      <member refid="classchimera_1_1_qdrant_adapter_1aab83b39f719cc94b4b0c78859aa8ab63" prot="public" virt="non-virtual"><scope>chimera::QdrantAdapter</scope><name>QdrantAdapter</name></member>
+      <member refid="classchimera_1_1_qdrant_adapter_1a921cdd70656c8efe25debc1d32178fe0" prot="public" virt="virtual"><scope>chimera::QdrantAdapter</scope><name>queue_delete</name></member>
+      <member refid="classchimera_1_1_qdrant_adapter_1a8b06c5af4406c8bc43412b9004ea0473" prot="public" virt="virtual"><scope>chimera::QdrantAdapter</scope><name>queue_insert</name></member>
+      <member refid="classchimera_1_1_qdrant_adapter_1af84f053fb8fd412def3cb6642b000412" prot="public" virt="virtual"><scope>chimera::QdrantAdapter</scope><name>queue_insert_batch</name></member>
+      <member refid="classchimera_1_1_qdrant_adapter_1a4f6ec4093f345845e869fe5c2cd39665" prot="public" virt="virtual"><scope>chimera::QdrantAdapter</scope><name>queue_update</name></member>
+      <member refid="classchimera_1_1_qdrant_adapter_1a3c3f0f17863371452aa149f4bf89999a" prot="public" virt="non-virtual"><scope>chimera::QdrantAdapter</scope><name>release_savepoint</name></member>
+      <member refid="classchimera_1_1_qdrant_adapter_1a4d38293f6773c89d6c809b8da284d4be" prot="public" virt="non-virtual"><scope>chimera::QdrantAdapter</scope><name>rollback_to_savepoint</name></member>
+      <member refid="classchimera_1_1_qdrant_adapter_1af232895ea546015585f2cdec4d8c9b92" prot="public" virt="non-virtual"><scope>chimera::QdrantAdapter</scope><name>rollback_transaction</name></member>
+      <member refid="classchimera_1_1_qdrant_adapter_1a6cacd085ffdf8a5ccd35ca1a254f52f5" prot="public" virt="non-virtual"><scope>chimera::QdrantAdapter</scope><name>search_vectors</name></member>
+      <member refid="classchimera_1_1_qdrant_adapter_1a1db2b0416f384fc442fbda29483e236f" prot="public" virt="virtual"><scope>chimera::QdrantAdapter</scope><name>set_batch_config</name></member>
+      <member refid="classchimera_1_1_qdrant_adapter_1abb5881296f66664aba1d0436ff2abdd4" prot="public" virt="non-virtual"><scope>chimera::QdrantAdapter</scope><name>shortest_path</name></member>
+      <member refid="classchimera_1_1_qdrant_adapter_1a4b242e339f2d2758b38279df35b096ff" prot="public" virt="non-virtual"><scope>chimera::QdrantAdapter</scope><name>traverse</name></member>
+      <member refid="classchimera_1_1_qdrant_adapter_1a506c38f0477c7d5a836c3069aab084ea" prot="public" virt="non-virtual"><scope>chimera::QdrantAdapter</scope><name>update_documents</name></member>
+      <member refid="classchimera_1_1_qdrant_adapter_1abee8d33e9c5b463b03e6d34ceeae9d2e" prot="private" virt="non-virtual"><scope>chimera::QdrantAdapter</scope><name>vector_queue_</name></member>
+      <member refid="classchimera_1_1_i_batch_adapter_1a3b13094d4f2875c5682d37ad891c1a0d" prot="public" virt="virtual"><scope>chimera::QdrantAdapter</scope><name>~IBatchAdapter</name></member>
+      <member refid="classchimera_1_1_qdrant_adapter_1a58992fea239374f01a7dce0c23a6ce44" prot="public" virt="non-virtual"><scope>chimera::QdrantAdapter</scope><name>~QdrantAdapter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

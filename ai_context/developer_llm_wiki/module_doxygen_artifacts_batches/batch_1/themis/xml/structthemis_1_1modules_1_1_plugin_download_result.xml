@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1modules_1_1_plugin_download_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::modules::PluginDownloadResult</compoundname>
+    <includes refid="remote__registry__client_8h" local="no">remote_registry_client.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_plugin_download_result_1ab19535cf625289d7e01fd346d87e7702" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::modules::PluginDownloadResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::modules::PluginDownloadResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/remote_registry_client.h" line="130" column="17" bodyfile="include/themis/base/remote_registry_client.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_plugin_download_result_1afaf353e614467651f9f709531f9e3575" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::PluginDownloadResult::local_path</definition>
+        <argsstring></argsstring>
+        <name>local_path</name>
+        <qualifiedname>themis::modules::PluginDownloadResult::local_path</qualifiedname>
+        <briefdescription>
+<para>Where the binary was saved on disk. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/remote_registry_client.h" line="131" column="17" bodyfile="include/themis/base/remote_registry_client.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_plugin_download_result_1a0ec7f66a912d376076efd732d1b167cd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::PluginDownloadResult::plugin_name</definition>
+        <argsstring></argsstring>
+        <name>plugin_name</name>
+        <qualifiedname>themis::modules::PluginDownloadResult::plugin_name</qualifiedname>
+        <briefdescription>
+<para>Name from <ref refid="structthemis_1_1modules_1_1_registry_plugin_entry" kindref="compound">RegistryPluginEntry</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/remote_registry_client.h" line="132" column="17" bodyfile="include/themis/base/remote_registry_client.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_plugin_download_result_1a4567f35b1f1ee57a9fcc720a664a8edd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::PluginDownloadResult::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::modules::PluginDownloadResult::version</qualifiedname>
+        <briefdescription>
+<para>Version from <ref refid="structthemis_1_1modules_1_1_registry_plugin_entry" kindref="compound">RegistryPluginEntry</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/remote_registry_client.h" line="133" column="17" bodyfile="include/themis/base/remote_registry_client.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_plugin_download_result_1a089ee1ab726c41edcd976ec49080c582" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::PluginDownloadResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::modules::PluginDownloadResult::error_message</qualifiedname>
+        <briefdescription>
+<para>Non-empty on failure. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/remote_registry_client.h" line="134" column="17" bodyfile="include/themis/base/remote_registry_client.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of downloading a plugin from the remote registry. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/base/remote_registry_client.h" line="129" column="1" bodyfile="include/themis/base/remote_registry_client.h" bodystart="129" bodyend="135"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1modules_1_1_plugin_download_result_1a089ee1ab726c41edcd976ec49080c582" prot="public" virt="non-virtual"><scope>themis::modules::PluginDownloadResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1modules_1_1_plugin_download_result_1afaf353e614467651f9f709531f9e3575" prot="public" virt="non-virtual"><scope>themis::modules::PluginDownloadResult</scope><name>local_path</name></member>
+      <member refid="structthemis_1_1modules_1_1_plugin_download_result_1a0ec7f66a912d376076efd732d1b167cd" prot="public" virt="non-virtual"><scope>themis::modules::PluginDownloadResult</scope><name>plugin_name</name></member>
+      <member refid="structthemis_1_1modules_1_1_plugin_download_result_1ab19535cf625289d7e01fd346d87e7702" prot="public" virt="non-virtual"><scope>themis::modules::PluginDownloadResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1modules_1_1_plugin_download_result_1a4567f35b1f1ee57a9fcc720a664a8edd" prot="public" virt="non-virtual"><scope>themis::modules::PluginDownloadResult</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

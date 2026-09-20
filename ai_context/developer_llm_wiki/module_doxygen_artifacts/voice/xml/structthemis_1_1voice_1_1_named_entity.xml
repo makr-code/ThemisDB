@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_named_entity" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::NamedEntity</compoundname>
+    <includes refid="voice__intent__detector_8h" local="no">voice_intent_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_named_entity_1a618caab81c7aa231155c78cffb6d6d30" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::NamedEntity::text</definition>
+        <argsstring></argsstring>
+        <name>text</name>
+        <qualifiedname>themis::voice::NamedEntity::text</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+<para>Entity text as found in input. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="83" column="17" bodyfile="include/voice/voice_intent_detector.h" bodystart="83" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_named_entity_1ab91997dabab94f76a899165f8ed07798" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::NamedEntity::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::voice::NamedEntity::type</qualifiedname>
+        <briefdescription>
+<para>Entity type: DATE, PERSON, ORGANIZATION, NUMBER, METRIC, OBJECT, TIME_RANGE. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="86" column="17" bodyfile="include/voice/voice_intent_detector.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_named_entity_1a0a55628400d35a0ed5d57f6aa8473f16" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::NamedEntity::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::voice::NamedEntity::confidence</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Confidence [0.0, 1.0] in the entity extraction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="89" column="11" bodyfile="include/voice/voice_intent_detector.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_named_entity_1adb36c3cd45a3e551a6a658de45d7468e" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::voice::NamedEntity::start_offset</definition>
+        <argsstring></argsstring>
+        <name>start_offset</name>
+        <qualifiedname>themis::voice::NamedEntity::start_offset</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Start byte offset in input text. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="92" column="9" bodyfile="include/voice/voice_intent_detector.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_named_entity_1a4f0fdd7ba7e54774f40f3bb83d3aab0d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::voice::NamedEntity::end_offset</definition>
+        <argsstring></argsstring>
+        <name>end_offset</name>
+        <qualifiedname>themis::voice::NamedEntity::end_offset</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>End byte offset in input text. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="95" column="9" bodyfile="include/voice/voice_intent_detector.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Extracted named entity from text (frozen types). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_intent_detector.h" line="81" column="1" bodyfile="include/voice/voice_intent_detector.h" bodystart="81" bodyend="96"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_named_entity_1a0a55628400d35a0ed5d57f6aa8473f16" prot="public" virt="non-virtual"><scope>themis::voice::NamedEntity</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1voice_1_1_named_entity_1a4f0fdd7ba7e54774f40f3bb83d3aab0d" prot="public" virt="non-virtual"><scope>themis::voice::NamedEntity</scope><name>end_offset</name></member>
+      <member refid="structthemis_1_1voice_1_1_named_entity_1adb36c3cd45a3e551a6a658de45d7468e" prot="public" virt="non-virtual"><scope>themis::voice::NamedEntity</scope><name>start_offset</name></member>
+      <member refid="structthemis_1_1voice_1_1_named_entity_1a618caab81c7aa231155c78cffb6d6d30" prot="public" virt="non-virtual"><scope>themis::voice::NamedEntity</scope><name>text</name></member>
+      <member refid="structthemis_1_1voice_1_1_named_entity_1ab91997dabab94f76a899165f8ed07798" prot="public" virt="non-virtual"><scope>themis::voice::NamedEntity</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

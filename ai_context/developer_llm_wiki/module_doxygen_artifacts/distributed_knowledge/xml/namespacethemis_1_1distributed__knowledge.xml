@@ -1,0 +1,817 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1distributed__knowledge" kind="namespace" language="C++">
+    <compoundname>themis::distributed_knowledge</compoundname>
+    <innerclass refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement" prot="public">themis::distributed_knowledge::AdapterCapabilityAnnouncement</innerclass>
+    <innerclass refid="classthemis_1_1distributed__knowledge_1_1_always_permit_trust_policy" prot="public">themis::distributed_knowledge::AlwaysPermitTrustPolicy</innerclass>
+    <innerclass refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync" prot="public">themis::distributed_knowledge::CrossShardFeedbackSync</innerclass>
+    <innerclass refid="structthemis_1_1distributed__knowledge_1_1_distillation_bounded_policy" prot="public">themis::distributed_knowledge::DistillationBoundedPolicy</innerclass>
+    <innerclass refid="structthemis_1_1distributed__knowledge_1_1_distillation_config" prot="public">themis::distributed_knowledge::DistillationConfig</innerclass>
+    <innerclass refid="structthemis_1_1distributed__knowledge_1_1_distillation_model_card" prot="public">themis::distributed_knowledge::DistillationModelCard</innerclass>
+    <innerclass refid="structthemis_1_1distributed__knowledge_1_1_distillation_round" prot="public">themis::distributed_knowledge::DistillationRound</innerclass>
+    <innerclass refid="classthemis_1_1distributed__knowledge_1_1_distributed_knowledge_diagnostic_emitter" prot="public">themis::distributed_knowledge::DistributedKnowledgeDiagnosticEmitter</innerclass>
+    <innerclass refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event" prot="public">themis::distributed_knowledge::DKDiagnosticEvent</innerclass>
+    <innerclass refid="structthemis_1_1distributed__knowledge_1_1_encrypted_gradient" prot="public">themis::distributed_knowledge::EncryptedGradient</innerclass>
+    <innerclass refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator" prot="public">themis::distributed_knowledge::FederatedDistillationCoordinator</innerclass>
+    <innerclass refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger" prot="public">themis::distributed_knowledge::FederatedRAGMerger</innerclass>
+    <innerclass refid="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config" prot="public">themis::distributed_knowledge::FederatedRAGMergerConfig</innerclass>
+    <innerclass refid="structthemis_1_1distributed__knowledge_1_1_federation_config" prot="public">themis::distributed_knowledge::FederationConfig</innerclass>
+    <innerclass refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary" prot="public">themis::distributed_knowledge::FeedbackSummary</innerclass>
+    <innerclass refid="structthemis_1_1distributed__knowledge_1_1_feedback_sync_config" prot="public">themis::distributed_knowledge::FeedbackSyncConfig</innerclass>
+    <innerclass refid="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta" prot="public">themis::distributed_knowledge::GlobalAdapterDelta</innerclass>
+    <innerclass refid="classthemis_1_1distributed__knowledge_1_1_gossip_adapter_publisher" prot="public">themis::distributed_knowledge::GossipAdapterPublisher</innerclass>
+    <innerclass refid="classthemis_1_1distributed__knowledge_1_1_i_d_k_diagnostic_listener" prot="public">themis::distributed_knowledge::IDKDiagnosticListener</innerclass>
+    <innerclass refid="classthemis_1_1distributed__knowledge_1_1_i_federated_distillation_coordinator" prot="public">themis::distributed_knowledge::IFederatedDistillationCoordinator</innerclass>
+    <innerclass refid="classthemis_1_1distributed__knowledge_1_1_i_federation_trust_policy" prot="public">themis::distributed_knowledge::IFederationTrustPolicy</innerclass>
+    <innerclass refid="classthemis_1_1distributed__knowledge_1_1_i_lo_r_a_federation_coordinator" prot="public">themis::distributed_knowledge::ILoRAFederationCoordinator</innerclass>
+    <innerclass refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator" prot="public">themis::distributed_knowledge::LoRAFederationCoordinator</innerclass>
+    <innerclass refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context" prot="public">themis::distributed_knowledge::MergedRAGContext</innerclass>
+    <innerclass refid="structthemis_1_1distributed__knowledge_1_1_merge_hardening_policy" prot="public">themis::distributed_knowledge::MergeHardeningPolicy</innerclass>
+    <innerclass refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document" prot="public">themis::distributed_knowledge::RetrievedDocument</innerclass>
+    <innerclass refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result" prot="public">themis::distributed_knowledge::ShardRetrievalResult</innerclass>
+    <innerclass refid="structthemis_1_1distributed__knowledge_1_1_soft_label" prot="public">themis::distributed_knowledge::SoftLabel</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1distributed__knowledge_1a5570bfce4206912a23d4fde2c14c0057" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>AdapterDomainType</name>
+        <qualifiedname>themis::distributed_knowledge::AdapterDomainType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1distributed__knowledge_1a5570bfce4206912a23d4fde2c14c0057ab61773b9b3968a9988d765d728985862" prot="public">
+          <name>GENERAL</name>
+          <briefdescription>
+<para>No specific specialisation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__knowledge_1a5570bfce4206912a23d4fde2c14c0057a63b6380ad1c102c8387da25f71256eba" prot="public">
+          <name>SECURITY_MONITOR</name>
+          <briefdescription>
+<para>Security anomaly detection / IntentAlert domain. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__knowledge_1a5570bfce4206912a23d4fde2c14c0057a48223173d9bae7b0beb2b38d71942196" prot="public">
+          <name>SCHEMA_ADVISOR</name>
+          <briefdescription>
+<para>Schema evolution / dead-weight analysis. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__knowledge_1a5570bfce4206912a23d4fde2c14c0057ae6bed345f53943469741d7295552fcd4" prot="public">
+          <name>TRANSACTION</name>
+          <briefdescription>
+<para>Transaction conflict prediction / batch hints. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__knowledge_1a5570bfce4206912a23d4fde2c14c0057a72d0ff12af2d847e53d66baaf95cb944" prot="public">
+          <name>MULTI_TENANT</name>
+          <briefdescription>
+<para>Multi-tenant workload fingerprinting. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__knowledge_1a5570bfce4206912a23d4fde2c14c0057a1aa9fe0235b02ffbb2efb13e43d59aa9" prot="public">
+          <name>EXPLAINABILITY</name>
+          <briefdescription>
+<para>AI decision explanation / DBA dialog. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__knowledge_1a5570bfce4206912a23d4fde2c14c0057a4939a0c5f946aa98a33244d2f3cfef58" prot="public">
+          <name>VECTOR_SEARCH</name>
+          <briefdescription>
+<para>ANN / vector-index specialisation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__knowledge_1a5570bfce4206912a23d4fde2c14c0057a0371bb9af9d38a90a3ef955633035ddb" prot="public">
+          <name>PROCESS_MINING</name>
+          <briefdescription>
+<para>Process mining / conformance checking. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__knowledge_1a5570bfce4206912a23d4fde2c14c0057a1e23e9a76735e87600dc4dd405202575" prot="public">
+          <name>GEOSPATIAL</name>
+          <briefdescription>
+<para>Geospatial query optimisation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__knowledge_1a5570bfce4206912a23d4fde2c14c0057ac53151ffd180a17416e8f09b1ca4bfc3" prot="public">
+          <name>LEGAL</name>
+          <briefdescription>
+<para>Legal document analysis / contract intelligence. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__knowledge_1a5570bfce4206912a23d4fde2c14c0057aea68388b0642cfd18735a4a166494310" prot="public">
+          <name>MEDICAL</name>
+          <briefdescription>
+<para>Medical / healthcare NLP and clinical decision support. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__knowledge_1a5570bfce4206912a23d4fde2c14c0057a72baef04098f035e8a320b03ad197818" prot="public">
+          <name>CUSTOM</name>
+          <briefdescription>
+<para>Shard-defined domain (see custom_domain_label). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/adapter_capability_announcement.h" line="26" column="1" bodyfile="include/distributed_knowledge/adapter_capability_announcement.h" bodystart="26" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1distributed__knowledge_1a268d66497aa30618b14309f7102a178b" prot="public" static="no" strong="yes">
+        <type>int</type>
+        <name>LwwDecision</name>
+        <qualifiedname>themis::distributed_knowledge::LwwDecision</qualifiedname>
+        <enumvalue id="namespacethemis_1_1distributed__knowledge_1a268d66497aa30618b14309f7102a178bac1c699830d1f93e6006083c8e66f9329" prot="public">
+          <name>LocalWins</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__knowledge_1a268d66497aa30618b14309f7102a178bafb0d29ad4a448f485d741d1bb5590669" prot="public">
+          <name>RemoteWins</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__knowledge_1a268d66497aa30618b14309f7102a178bab100297bc36c197e260e6d0399761ec9" prot="public">
+          <name>Identical</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/distributed_knowledge_api_contract.h" line="87" column="1" bodyfile="include/distributed_knowledge/distributed_knowledge_api_contract.h" bodystart="87" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1distributed__knowledge_1a5996c6b26d9923acf1d6978c524a0f0b" prot="public" static="no" strong="yes">
+        <type>int</type>
+        <name>DKErrorCode</name>
+        <qualifiedname>themis::distributed_knowledge::DKErrorCode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1distributed__knowledge_1a5996c6b26d9923acf1d6978c524a0f0bae0aa021e21dddbd6d8cecec71e9cf564" prot="public">
+          <name>OK</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__knowledge_1a5996c6b26d9923acf1d6978c524a0f0ba1ab4e637edc3b093ebbf6544441e5759" prot="public">
+          <name>ENTITY_NOT_FOUND</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__knowledge_1a5996c6b26d9923acf1d6978c524a0f0baf1bcbf8e67ee40bb3f58cf89b17833b7" prot="public">
+          <name>FEDERATION_TIMEOUT</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__knowledge_1a5996c6b26d9923acf1d6978c524a0f0ba7f2ba9f1d809839e5f1365966a074a61" prot="public">
+          <name>CONFLICT_UNRESOLVABLE</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__knowledge_1a5996c6b26d9923acf1d6978c524a0f0ba2f63cbddf74f05c390552b36825550ff" prot="public">
+          <name>GRAPH_CORRUPTED</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__knowledge_1a5996c6b26d9923acf1d6978c524a0f0ba9982a2360464eae76f585b2b923eaef8" prot="public">
+          <name>RETRIEVAL_LIMIT_EXCEEDED</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__knowledge_1a5996c6b26d9923acf1d6978c524a0f0ba082cfb8f68451ed0e607fd633561101b" prot="public">
+          <name>TOMBSTONE_PROPAGATION_FAILED</name>
+          <initializer>= 6</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__knowledge_1a5996c6b26d9923acf1d6978c524a0f0bac9833d0686295366b459058715004097" prot="public">
+          <name>CRDT_MERGE_TYPE_MISMATCH</name>
+          <initializer>= 7</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__knowledge_1a5996c6b26d9923acf1d6978c524a0f0bae8c0c70879b5895c615677261d64a1ee" prot="public">
+          <name>INTERNAL_ERROR</name>
+          <initializer>= 8</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__knowledge_1a5996c6b26d9923acf1d6978c524a0f0ba1620d0f6d867933bc1b5ae4ea210e6e5" prot="public">
+          <name>TRUST_GATE_REJECTED</name>
+          <initializer>= 9</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/distributed_knowledge_api_contract.h" line="116" column="1" bodyfile="include/distributed_knowledge/distributed_knowledge_api_contract.h" bodystart="116" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1distributed__knowledge_1ab4e9e689b6ec887fc0f9de5c6eff4e79" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>TimeoutBehavior</name>
+        <qualifiedname>themis::distributed_knowledge::TimeoutBehavior</qualifiedname>
+        <enumvalue id="namespacethemis_1_1distributed__knowledge_1ab4e9e689b6ec887fc0f9de5c6eff4e79a7d8e2271b5e4fbbed93c60aa39bf350f" prot="public">
+          <name>FAIL_CLOSED</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__knowledge_1ab4e9e689b6ec887fc0f9de5c6eff4e79ac6d0b87b065348b4bc999742b2efd22c" prot="public">
+          <name>BEST_EFFORT</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/distributed_knowledge_api_contract.h" line="208" column="1" bodyfile="include/distributed_knowledge/distributed_knowledge_api_contract.h" bodystart="208" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1distributed__knowledge_1a585452f8bd2e2603d7c7896b60b7ac56" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>PolicyGateEnforcement</name>
+        <qualifiedname>themis::distributed_knowledge::PolicyGateEnforcement</qualifiedname>
+        <enumvalue id="namespacethemis_1_1distributed__knowledge_1a585452f8bd2e2603d7c7896b60b7ac56a7d8e2271b5e4fbbed93c60aa39bf350f" prot="public">
+          <name>FAIL_CLOSED</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__knowledge_1a585452f8bd2e2603d7c7896b60b7ac56a1b51d7fd255c794f1d3f9a845c32c6e9" prot="public">
+          <name>LOG_ONLY</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/distributed_knowledge_api_contract.h" line="235" column="1" bodyfile="include/distributed_knowledge/distributed_knowledge_api_contract.h" bodystart="235" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1distributed__knowledge_1a4316b8877b7dfec7c517d9ee69aec50b" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>TrustDecision</name>
+        <qualifiedname>themis::distributed_knowledge::TrustDecision</qualifiedname>
+        <enumvalue id="namespacethemis_1_1distributed__knowledge_1a4316b8877b7dfec7c517d9ee69aec50ba695fb83069aa8ac43c138b05ccaa206d" prot="public">
+          <name>PERMIT</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__knowledge_1a4316b8877b7dfec7c517d9ee69aec50ba59b228d9fec9b88833bfe5d812ed8ad4" prot="public">
+          <name>REJECT</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/distributed_knowledge_api_contract.h" line="258" column="1" bodyfile="include/distributed_knowledge/distributed_knowledge_api_contract.h" bodystart="258" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1distributed__knowledge_1a60f550c75f32b0e88ec555bdf785331f" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>DKDiagnosticSeverity</name>
+        <qualifiedname>themis::distributed_knowledge::DKDiagnosticSeverity</qualifiedname>
+        <enumvalue id="namespacethemis_1_1distributed__knowledge_1a60f550c75f32b0e88ec555bdf785331fa551b723eafd6a31d444fcb2f5920fbd3" prot="public">
+          <name>INFO</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Informational; no action required. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__knowledge_1a60f550c75f32b0e88ec555bdf785331fa059e9861e0400dfbe05c98a841f3f96b" prot="public">
+          <name>WARNING</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Degraded path taken; operator should investigate. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__knowledge_1a60f550c75f32b0e88ec555bdf785331fabb1ca97ec761fc37101737ba0aa2e7c5" prot="public">
+          <name>ERROR</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Operation failed; immediate attention recommended. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__knowledge_1a60f550c75f32b0e88ec555bdf785331fa19da7170bea36556dde582519795f3fc" prot="public">
+          <name>FATAL</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>Unrecoverable failure; service restart may be required. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/distributed_knowledge_api_contract.h" line="290" column="1" bodyfile="include/distributed_knowledge/distributed_knowledge_api_contract.h" bodystart="290" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1distributed__knowledge_1a74e5263f1b7d7f097eb6c0ff36854f87" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>DKDiagnosticEventType</name>
+        <qualifiedname>themis::distributed_knowledge::DKDiagnosticEventType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1distributed__knowledge_1a74e5263f1b7d7f097eb6c0ff36854f87a1598e3942841ec8abd0cdb0e9ba49e70" prot="public">
+          <name>MERGE_TIMEOUT</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>A shard merge exceeded the latency budget. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__knowledge_1a74e5263f1b7d7f097eb6c0ff36854f87ac481361e74b8fb938b6d80993180c6ca" prot="public">
+          <name>DEDUP_COLLISION</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>A duplicate doc_id or summary_id was detected. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__knowledge_1a74e5263f1b7d7f097eb6c0ff36854f87a46865df27a193a241689896dcd0f34da" prot="public">
+          <name>PARTIAL_SHARD_MERGE</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Merge completed with fewer shards than requested. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__knowledge_1a74e5263f1b7d7f097eb6c0ff36854f87a549e0d5b792100b22681215d7f952a72" prot="public">
+          <name>TRUST_GATE_REJECT</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>Trust gate rejected an incoming announcement. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__knowledge_1a74e5263f1b7d7f097eb6c0ff36854f87a03abcb7bc53a5cceea76d291046dd385" prot="public">
+          <name>FEDERATION_ROLLBACK</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+<para>A federation round was rolled back. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__knowledge_1a74e5263f1b7d7f097eb6c0ff36854f87a169cb04bda558347b02294770e4b9e0c" prot="public">
+          <name>POLICY_VIOLATION</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+<para>A bounded-policy or budget constraint was violated. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__knowledge_1a74e5263f1b7d7f097eb6c0ff36854f87ab0c895fc1406351b83ece502f285efd6" prot="public">
+          <name>PRIVACY_BUDGET_WARN</name>
+          <initializer>= 6</initializer>
+          <briefdescription>
+<para>DP epsilon approaching or at the budget ceiling. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/distributed_knowledge_api_contract.h" line="297" column="1" bodyfile="include/distributed_knowledge/distributed_knowledge_api_contract.h" bodystart="297" bodyend="305"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1distributed__knowledge_1a368bd326dd64b9132c94998235006fe9" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>MergeStrategy</name>
+        <qualifiedname>themis::distributed_knowledge::MergeStrategy</qualifiedname>
+        <enumvalue id="namespacethemis_1_1distributed__knowledge_1a368bd326dd64b9132c94998235006fe9a8fdd94a3c07ad9e986d786268523affd" prot="public">
+          <name>RECIPROCAL_RANK_FUSION</name>
+          <briefdescription>
+<para>Default: robust multi-shard re-ranking. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__knowledge_1a368bd326dd64b9132c94998235006fe9ab38bfd483014db8397d56f7af575942f" prot="public">
+          <name>SCORE_WEIGHTED</name>
+          <briefdescription>
+<para>Multiply by shard adapter accuracy_delta. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__knowledge_1a368bd326dd64b9132c94998235006fe9a1ebd8dbf8c34e255f5cbf28f35860b71" prot="public">
+          <name>ROUND_ROBIN</name>
+          <briefdescription>
+<para>Interleaved diversity sampling. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Algorithm used to merge retrieval results across shards. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_rag_merger.h" line="32" column="1" bodyfile="include/distributed_knowledge/federated_rag_merger.h" bodystart="32" bodyend="36"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1distributed__knowledge_1ad9b0ca240878f6a7c2b8b108e8a9bf58" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::distributed_knowledge::kMaxEntityIdBytes</definition>
+        <argsstring></argsstring>
+        <name>kMaxEntityIdBytes</name>
+        <qualifiedname>themis::distributed_knowledge::kMaxEntityIdBytes</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/distributed_knowledge_api_contract.h" line="63" column="30" bodyfile="include/distributed_knowledge/distributed_knowledge_api_contract.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1distributed__knowledge_1ab197597fefde532af5c063f90bfe2d1c" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::distributed_knowledge::kMaxRelationTypeBytes</definition>
+        <argsstring></argsstring>
+        <name>kMaxRelationTypeBytes</name>
+        <qualifiedname>themis::distributed_knowledge::kMaxRelationTypeBytes</qualifiedname>
+        <initializer>= 128</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/distributed_knowledge_api_contract.h" line="65" column="30" bodyfile="include/distributed_knowledge/distributed_knowledge_api_contract.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1distributed__knowledge_1a9403b9bfb781b21f5bd503c0538b3206" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::distributed_knowledge::kMaxEntityPayloadBytes</definition>
+        <argsstring></argsstring>
+        <name>kMaxEntityPayloadBytes</name>
+        <qualifiedname>themis::distributed_knowledge::kMaxEntityPayloadBytes</qualifiedname>
+        <initializer>= 64 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/distributed_knowledge_api_contract.h" line="67" column="30" bodyfile="include/distributed_knowledge/distributed_knowledge_api_contract.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1distributed__knowledge_1a2e10876f8c2055735e8cab53615538a3" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::distributed_knowledge::kMaxNeighboursPerQuery</definition>
+        <argsstring></argsstring>
+        <name>kMaxNeighboursPerQuery</name>
+        <qualifiedname>themis::distributed_knowledge::kMaxNeighboursPerQuery</qualifiedname>
+        <initializer>= 10&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/distributed_knowledge_api_contract.h" line="69" column="30" bodyfile="include/distributed_knowledge/distributed_knowledge_api_contract.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1distributed__knowledge_1a0ca3b4997574e80a2f79940f8e1775d0" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::distributed_knowledge::kFederationNodeTimeout</definition>
+        <argsstring></argsstring>
+        <name>kFederationNodeTimeout</name>
+        <qualifiedname>themis::distributed_knowledge::kFederationNodeTimeout</qualifiedname>
+        <initializer>{5&apos;000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/distributed_knowledge_api_contract.h" line="75" column="44" bodyfile="include/distributed_knowledge/distributed_knowledge_api_contract.h" bodystart="75" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1distributed__knowledge_1aae6faa8307f40eb73391756aef9f3717" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::distributed_knowledge::kFederationMaxNodeTimeout</definition>
+        <argsstring></argsstring>
+        <name>kFederationMaxNodeTimeout</name>
+        <qualifiedname>themis::distributed_knowledge::kFederationMaxNodeTimeout</qualifiedname>
+        <initializer>{30&apos;000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/distributed_knowledge_api_contract.h" line="77" column="44" bodyfile="include/distributed_knowledge/distributed_knowledge_api_contract.h" bodystart="77" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1distributed__knowledge_1afba41b1580d7e739660715c82b618298" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::distributed_knowledge::kMaxFederationPeers</definition>
+        <argsstring></argsstring>
+        <name>kMaxFederationPeers</name>
+        <qualifiedname>themis::distributed_knowledge::kMaxFederationPeers</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/distributed_knowledge_api_contract.h" line="79" column="30" bodyfile="include/distributed_knowledge/distributed_knowledge_api_contract.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1distributed__knowledge_1a6615ccb90b80a38940c1e5cb5c978fd5" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::distributed_knowledge::kMaxFederationResultEntities</definition>
+        <argsstring></argsstring>
+        <name>kMaxFederationResultEntities</name>
+        <qualifiedname>themis::distributed_knowledge::kMaxFederationResultEntities</qualifiedname>
+        <initializer>= 100&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/distributed_knowledge_api_contract.h" line="81" column="30" bodyfile="include/distributed_knowledge/distributed_knowledge_api_contract.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1distributed__knowledge_1a0f2879c2c9a1c90707f29dbef14bddb8" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::distributed_knowledge::kMaxPathQueryDepth</definition>
+        <argsstring></argsstring>
+        <name>kMaxPathQueryDepth</name>
+        <qualifiedname>themis::distributed_knowledge::kMaxPathQueryDepth</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/distributed_knowledge_api_contract.h" line="147" column="30" bodyfile="include/distributed_knowledge/distributed_knowledge_api_contract.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1distributed__knowledge_1a02fbe32e2956db0c8efbb0b0ead5e394" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::distributed_knowledge::kMaxPathQueryResults</definition>
+        <argsstring></argsstring>
+        <name>kMaxPathQueryResults</name>
+        <qualifiedname>themis::distributed_knowledge::kMaxPathQueryResults</qualifiedname>
+        <initializer>= 1&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/distributed_knowledge_api_contract.h" line="149" column="30" bodyfile="include/distributed_knowledge/distributed_knowledge_api_contract.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1distributed__knowledge_1a00bd5a00545762a140ffbec28b13cc14" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::distributed_knowledge::kExpectedPropagationDelay</definition>
+        <argsstring></argsstring>
+        <name>kExpectedPropagationDelay</name>
+        <qualifiedname>themis::distributed_knowledge::kExpectedPropagationDelay</qualifiedname>
+        <initializer>{5}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/distributed_knowledge_api_contract.h" line="159" column="39" bodyfile="include/distributed_knowledge/distributed_knowledge_api_contract.h" bodystart="159" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1distributed__knowledge_1a5b968f906f2037aa815c45347ac33775" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::distributed_knowledge::kMergeStrategyRRFDescription</definition>
+        <argsstring></argsstring>
+        <name>kMergeStrategyRRFDescription</name>
+        <qualifiedname>themis::distributed_knowledge::kMergeStrategyRRFDescription</qualifiedname>
+        <initializer>                                                     =
+&quot;Reciprocal Rank Fusion: robust, scales scores for heterogeneous shard result ranges&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/distributed_knowledge_api_contract.h" line="177" column="29" bodyfile="include/distributed_knowledge/distributed_knowledge_api_contract.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1distributed__knowledge_1a55caadebb2b288c59ca185e4f8c64005" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::distributed_knowledge::kMergeStrategyWeightedDescription</definition>
+        <argsstring></argsstring>
+        <name>kMergeStrategyWeightedDescription</name>
+        <qualifiedname>themis::distributed_knowledge::kMergeStrategyWeightedDescription</qualifiedname>
+        <initializer>                                                          =
+&quot;Score-weighted: respects shard accuracy, lightweight computation&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/distributed_knowledge_api_contract.h" line="180" column="29" bodyfile="include/distributed_knowledge/distributed_knowledge_api_contract.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1distributed__knowledge_1aa1fbff73e4b78baa049c80108d4d6a92" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::distributed_knowledge::kMergeStrategyRoundRobinDescription</definition>
+        <argsstring></argsstring>
+        <name>kMergeStrategyRoundRobinDescription</name>
+        <qualifiedname>themis::distributed_knowledge::kMergeStrategyRoundRobinDescription</qualifiedname>
+        <initializer>                                                            =
+&quot;Round-robin: interleaved diversity sampling across shards&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/distributed_knowledge_api_contract.h" line="183" column="29" bodyfile="include/distributed_knowledge/distributed_knowledge_api_contract.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1distributed__knowledge_1aa674241524755968bcf2ef49120ff6e9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_knowledge::adapterDomainTypeToString</definition>
+        <argsstring>(AdapterDomainType t)</argsstring>
+        <name>adapterDomainTypeToString</name>
+        <qualifiedname>themis::distributed_knowledge::adapterDomainTypeToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1distributed__knowledge_1a5570bfce4206912a23d4fde2c14c0057" kindref="member">AdapterDomainType</ref></type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+<para>Adapter Domain Type To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements adapterDomainTypeToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/adapter_capability_announcement.h" line="47" column="20" bodyfile="include/distributed_knowledge/adapter_capability_announcement.h" bodystart="47" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1distributed__knowledge_1acecd81fa31b64998a8606fe6b71cbad5" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1distributed__knowledge_1a268d66497aa30618b14309f7102a178b" kindref="member">LwwDecision</ref></type>
+        <definition>LwwDecision themis::distributed_knowledge::resolveLww</definition>
+        <argsstring>(std::int64_t local_ts, std::int64_t remote_ts, const std::string &amp;local_node, const std::string &amp;remote_node) noexcept</argsstring>
+        <name>resolveLww</name>
+        <qualifiedname>themis::distributed_knowledge::resolveLww</qualifiedname>
+        <param>
+          <type>std::int64_t</type>
+          <declname>local_ts</declname>
+        </param>
+        <param>
+          <type>std::int64_t</type>
+          <declname>remote_ts</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>local_node</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>remote_node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/distributed_knowledge_api_contract.h" line="93" column="21" bodyfile="include/distributed_knowledge/distributed_knowledge_api_contract.h" bodystart="93" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1distributed__knowledge_1a651df040528b35079a0648d1edad638c" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_knowledge::isRetryableCode</definition>
+        <argsstring>(DKErrorCode code) noexcept</argsstring>
+        <name>isRetryableCode</name>
+        <qualifiedname>themis::distributed_knowledge::isRetryableCode</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1distributed__knowledge_1a5996c6b26d9923acf1d6978c524a0f0b" kindref="member">DKErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/distributed_knowledge_api_contract.h" line="138" column="24" bodyfile="include/distributed_knowledge/distributed_knowledge_api_contract.h" bodystart="138" bodyend="141"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/distributed_knowledge/adapter_capability_announcement.h" line="20" column="1"/>
+  </compounddef>
+</doxygen>

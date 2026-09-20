@@ -1,0 +1,806 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1updates_1_1_blue_green_deployment" kind="class" language="C++" prot="public">
+    <compoundname>themis::updates::BlueGreenDeployment</compoundname>
+    <includes refid="blue__green__deployment_8h" local="no">blue_green_deployment.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1updates_1_1_blue_green_deployment_1adf2c9473e0dff1b4907629441f9d5b2d" prot="public" static="no">
+        <type>std::function&lt; void(<ref refid="namespacethemis_1_1updates_1a2041391a736228a16328458487d05556" kindref="member">DeploymentSlot</ref>, const std::string &amp;)&gt;</type>
+        <definition>using themis::updates::BlueGreenDeployment::PromotionCallback = 
+std::function&lt;void(DeploymentSlot ,
+                   const std::string&amp; )&gt;</definition>
+        <argsstring></argsstring>
+        <name>PromotionCallback</name>
+        <qualifiedname>themis::updates::BlueGreenDeployment::PromotionCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Callback invoked after a successful slot promotion. Receives the new active slot and the promoted version string. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/blue_green_deployment.h" line="130" column="5" bodyfile="include/updates/blue_green_deployment.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1updates_1_1_blue_green_deployment_1ad463bf17c8f7a554e80bbd816c0a2e14" prot="public" static="no">
+        <type>std::function&lt; void(const std::string &amp;)&gt;</type>
+        <definition>using themis::updates::BlueGreenDeployment::RollbackCallback = 
+std::function&lt;void(const std::string&amp; )&gt;</definition>
+        <argsstring></argsstring>
+        <name>RollbackCallback</name>
+        <qualifiedname>themis::updates::BlueGreenDeployment::RollbackCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Callback invoked when a rollback is triggered. Receives a human-readable reason string. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/blue_green_deployment.h" line="136" column="5" bodyfile="include/updates/blue_green_deployment.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_blue_green_deployment_1af243091359d29b0c2721748da0fadfa0" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::updates::BlueGreenDeployment::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::updates::BlueGreenDeployment::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/blue_green_deployment.h" line="260" column="24" bodyfile="include/updates/blue_green_deployment.h" bodystart="260" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_blue_green_deployment_1a363abd38f3b19c2df89fe40353ef13e6" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1updates_1_1_hot_reload_engine" kindref="compound">HotReloadEngine</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;HotReloadEngine&gt; themis::updates::BlueGreenDeployment::engine_</definition>
+        <argsstring></argsstring>
+        <name>engine_</name>
+        <qualifiedname>themis::updates::BlueGreenDeployment::engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/blue_green_deployment.h" line="262" column="21" bodyfile="include/updates/blue_green_deployment.h" bodystart="262" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_blue_green_deployment_1a7997d92258036eced4fa118b80082dca" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1updates_1_1_blue_green_config" kindref="compound">BlueGreenConfig</ref></type>
+        <definition>BlueGreenConfig themis::updates::BlueGreenDeployment::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::updates::BlueGreenDeployment::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/blue_green_deployment.h" line="263" column="21" bodyfile="include/updates/blue_green_deployment.h" bodystart="263" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_blue_green_deployment_1a1de184fdea54443e4a6036bd36a062ba" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1updates_1a2041391a736228a16328458487d05556" kindref="member">DeploymentSlot</ref></type>
+        <definition>DeploymentSlot themis::updates::BlueGreenDeployment::active_slot_</definition>
+        <argsstring></argsstring>
+        <name>active_slot_</name>
+        <qualifiedname>themis::updates::BlueGreenDeployment::active_slot_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/blue_green_deployment.h" line="265" column="20" bodyfile="include/updates/blue_green_deployment.h" bodystart="265" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_blue_green_deployment_1ae92021c4ef67d6aa9d98a2b803838604" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::BlueGreenDeployment::blue_version_</definition>
+        <argsstring></argsstring>
+        <name>blue_version_</name>
+        <qualifiedname>themis::updates::BlueGreenDeployment::blue_version_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/blue_green_deployment.h" line="267" column="17" bodyfile="include/updates/blue_green_deployment.h" bodystart="267" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_blue_green_deployment_1addef78c910115029199c1e56078199bd" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::BlueGreenDeployment::green_version_</definition>
+        <argsstring></argsstring>
+        <name>green_version_</name>
+        <qualifiedname>themis::updates::BlueGreenDeployment::green_version_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/blue_green_deployment.h" line="268" column="17" bodyfile="include/updates/blue_green_deployment.h" bodystart="268" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_blue_green_deployment_1a1173a51c4a0042fd5fc24f662e75d2dd" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::BlueGreenDeployment::standby_deployed_</definition>
+        <argsstring></argsstring>
+        <name>standby_deployed_</name>
+        <qualifiedname>themis::updates::BlueGreenDeployment::standby_deployed_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/blue_green_deployment.h" line="270" column="10" bodyfile="include/updates/blue_green_deployment.h" bodystart="270" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_blue_green_deployment_1ae3dd24715704d39284b38861758ed04a" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::BlueGreenDeployment::is_promoted_</definition>
+        <argsstring></argsstring>
+        <name>is_promoted_</name>
+        <qualifiedname>themis::updates::BlueGreenDeployment::is_promoted_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/blue_green_deployment.h" line="271" column="10" bodyfile="include/updates/blue_green_deployment.h" bodystart="271" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_blue_green_deployment_1a7808a6cbc0ff5d6f8e9b387dd9b622b4" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::BlueGreenDeployment::is_rolled_back_</definition>
+        <argsstring></argsstring>
+        <name>is_rolled_back_</name>
+        <qualifiedname>themis::updates::BlueGreenDeployment::is_rolled_back_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/blue_green_deployment.h" line="272" column="10" bodyfile="include/updates/blue_green_deployment.h" bodystart="272" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_blue_green_deployment_1a07f65e49cf98eb1fb942ac4e0b7db36f" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::BlueGreenDeployment::rollback_id_</definition>
+        <argsstring></argsstring>
+        <name>rollback_id_</name>
+        <qualifiedname>themis::updates::BlueGreenDeployment::rollback_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/blue_green_deployment.h" line="273" column="17" bodyfile="include/updates/blue_green_deployment.h" bodystart="273" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_blue_green_deployment_1a62ccc7f97ed194f1bd6911b7e6950ebb" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::BlueGreenDeployment::rollback_reason_</definition>
+        <argsstring></argsstring>
+        <name>rollback_reason_</name>
+        <qualifiedname>themis::updates::BlueGreenDeployment::rollback_reason_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/blue_green_deployment.h" line="274" column="17" bodyfile="include/updates/blue_green_deployment.h" bodystart="274" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_blue_green_deployment_1ae633a671dd532c504a92e016df7cace0" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::updates::BlueGreenDeployment::success_count_</definition>
+        <argsstring></argsstring>
+        <name>success_count_</name>
+        <qualifiedname>themis::updates::BlueGreenDeployment::success_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/blue_green_deployment.h" line="277" column="12" bodyfile="include/updates/blue_green_deployment.h" bodystart="277" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_blue_green_deployment_1a85fa160b602ed8dd4a829d2120090395" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::updates::BlueGreenDeployment::error_count_</definition>
+        <argsstring></argsstring>
+        <name>error_count_</name>
+        <qualifiedname>themis::updates::BlueGreenDeployment::error_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/blue_green_deployment.h" line="278" column="12" bodyfile="include/updates/blue_green_deployment.h" bodystart="278" bodyend="278"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_blue_green_deployment_1acba752128088cf107bb06179c26418b6" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1updates_1_1_blue_green_deployment_1adf2c9473e0dff1b4907629441f9d5b2d" kindref="member">PromotionCallback</ref></type>
+        <definition>PromotionCallback themis::updates::BlueGreenDeployment::promotion_cb_</definition>
+        <argsstring></argsstring>
+        <name>promotion_cb_</name>
+        <qualifiedname>themis::updates::BlueGreenDeployment::promotion_cb_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/blue_green_deployment.h" line="280" column="23" bodyfile="include/updates/blue_green_deployment.h" bodystart="280" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_blue_green_deployment_1afa8f07518eb7287d67ee3ed81441a5ec" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1updates_1_1_blue_green_deployment_1ad463bf17c8f7a554e80bbd816c0a2e14" kindref="member">RollbackCallback</ref></type>
+        <definition>RollbackCallback themis::updates::BlueGreenDeployment::rollback_cb_</definition>
+        <argsstring></argsstring>
+        <name>rollback_cb_</name>
+        <qualifiedname>themis::updates::BlueGreenDeployment::rollback_cb_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/blue_green_deployment.h" line="281" column="23" bodyfile="include/updates/blue_green_deployment.h" bodystart="281" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_blue_green_deployment_1acc8d3e417c77a26fbf96d3ae21262506" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::BlueGreenDeployment::BlueGreenDeployment</definition>
+        <argsstring>(std::shared_ptr&lt; HotReloadEngine &gt; engine, const BlueGreenConfig &amp;config={})</argsstring>
+        <name>BlueGreenDeployment</name>
+        <qualifiedname>themis::updates::BlueGreenDeployment::BlueGreenDeployment</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1updates_1_1_hot_reload_engine" kindref="compound">HotReloadEngine</ref> &gt;</type>
+          <declname>engine</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1updates_1_1_blue_green_config" kindref="compound">BlueGreenConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Construct a blue/green deployment controller. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared hot-reload engine (must outlive this object). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Deployment configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if engine is null. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/blue_green_deployment.h" line="145" column="5" bodyfile="src/updates/blue_green_deployment.cpp" bodystart="31" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_blue_green_deployment_1ab2e61e6abbd5e4e421b858ebfa04864c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::BlueGreenDeployment::~BlueGreenDeployment</definition>
+        <argsstring>()=default</argsstring>
+        <name>~BlueGreenDeployment</name>
+        <qualifiedname>themis::updates::BlueGreenDeployment::~BlueGreenDeployment</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/blue_green_deployment.h" line="148" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_blue_green_deployment_1af6ffa8522a5aa261f2cbc9aa4d94cbc2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::BlueGreenDeployment::BlueGreenDeployment</definition>
+        <argsstring>(const BlueGreenDeployment &amp;)=delete</argsstring>
+        <name>BlueGreenDeployment</name>
+        <qualifiedname>themis::updates::BlueGreenDeployment::BlueGreenDeployment</qualifiedname>
+        <param>
+          <type>const BlueGreenDeployment &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/blue_green_deployment.h" line="151" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_blue_green_deployment_1afb2cbd0e09783e8b389426628f2d2cd0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1updates_1_1_blue_green_deployment_1acc8d3e417c77a26fbf96d3ae21262506" kindref="member">BlueGreenDeployment</ref> &amp;</type>
+        <definition>BlueGreenDeployment &amp; themis::updates::BlueGreenDeployment::operator=</definition>
+        <argsstring>(const BlueGreenDeployment &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::updates::BlueGreenDeployment::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1updates_1_1_blue_green_deployment_1acc8d3e417c77a26fbf96d3ae21262506" kindref="member">BlueGreenDeployment</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/blue_green_deployment.h" line="152" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_blue_green_deployment_1a756257daf738ef972a002af457eb1e73" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1updates_1_1_reload_result" kindref="compound">ReloadResult</ref></type>
+        <definition>ReloadResult themis::updates::BlueGreenDeployment::deployToStandby</definition>
+        <argsstring>(const std::string &amp;version)</argsstring>
+        <name>deployToStandby</name>
+        <qualifiedname>themis::updates::BlueGreenDeployment::deployToStandby</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Deploy a new version to the standby slot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Deploy To Standby.</para>
+<para>Calls <ref refid="classthemis_1_1updates_1_1_hot_reload_engine_1a035c22b0954f4d2bbc06536215bd034d" kindref="member">HotReloadEngine::applyHotReload</ref> for the given version and stores the resulting rollback ID for future use. The active slot is unchanged.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Version string to deploy (e.g., &quot;1.6.0&quot;). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result from <ref refid="classthemis_1_1updates_1_1_hot_reload_engine_1a035c22b0954f4d2bbc06536215bd034d" kindref="member">HotReloadEngine::applyHotReload</ref>.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), <ref refid="batch5__safety__helpers_8h_1add82efa459e0af380b68522c29b9fd44" kindref="member">LOG_WARN()</ref>, standbySlot(), <ref refid="batch5__safety__helpers_8h_1a378e28bfcb78d17285210d6bbb70a083" kindref="member">LOG_INFO()</ref>, applyHotReload(), <ref refid="batch5__safety__helpers_8h_1ad4a9117ce894e3319e903142347a0f63" kindref="member">LOG_ERROR()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/blue_green_deployment.h" line="165" column="18" bodyfile="src/updates/blue_green_deployment.cpp" bodystart="66" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_blue_green_deployment_1aaf419ff04ab5ca9d4a217a5413fce72b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::updates::BlueGreenDeployment::promote</definition>
+        <argsstring>()</argsstring>
+        <name>promote</name>
+        <qualifiedname>themis::updates::BlueGreenDeployment::promote</qualifiedname>
+        <briefdescription>
+<para>Promote the standby slot to active. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Promote.</para>
+<para>Swaps the active and standby slots. Resets per-promotion health counters and invokes the promotion callback. Has no effect if the standby has not been deployed, if the deployment was already promoted, or if it was rolled back.</para>
+<para><simplesect kind="return"><para>true if the promotion succeeded. </para>
+</simplesect>
+<simplesect kind="return"><para>false if preconditions are not met (see above).</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), <ref refid="batch5__safety__helpers_8h_1add82efa459e0af380b68522c29b9fd44" kindref="member">LOG_WARN()</ref>, standbySlot(), <ref refid="batch5__safety__helpers_8h_1a378e28bfcb78d17285210d6bbb70a083" kindref="member">LOG_INFO()</ref>, cb(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/blue_green_deployment.h" line="178" column="10" bodyfile="src/updates/blue_green_deployment.cpp" bodystart="131" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_blue_green_deployment_1a967065f5f9f336f6253d1ef268f77a44" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::updates::BlueGreenDeployment::rollback</definition>
+        <argsstring>(const std::string &amp;reason=&quot;&quot;)</argsstring>
+        <name>rollback</name>
+        <qualifiedname>themis::updates::BlueGreenDeployment::rollback</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Roll back to the previous active slot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Rollback.</para>
+<para>Uses the stored rollback ID (from deployToStandby) to invoke <ref refid="classthemis_1_1updates_1_1_hot_reload_engine_1a7edab47678434d4b06f8845fac42ee6a" kindref="member">HotReloadEngine::rollback</ref>. Sets the internal is_rolled_back flag and invokes the rollback callback.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Human-readable reason for the rollback (optional). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if rollback succeeded or no rollback ID was available.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), <ref refid="batch5__safety__helpers_8h_1add82efa459e0af380b68522c29b9fd44" kindref="member">LOG_WARN()</ref>, empty(), cb(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/blue_green_deployment.h" line="190" column="10" bodyfile="src/updates/blue_green_deployment.cpp" bodystart="189" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_blue_green_deployment_1a79a249df0b8cfd3ca3a7964d91f4ca9c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::BlueGreenDeployment::reportSuccess</definition>
+        <argsstring>()</argsstring>
+        <name>reportSuccess</name>
+        <qualifiedname>themis::updates::BlueGreenDeployment::reportSuccess</qualifiedname>
+        <briefdescription>
+<para>Record one successful operation after the standby was promoted. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Report Success.</para>
+<para>If <ref refid="classthemis_1_1updates_1_1_blue_green_deployment_1a160d9cd9248d2dfb6571f6f34d328059" kindref="member">shouldRollback()</ref> returns true after updating the counters the automatic rollback is triggered.</para>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/blue_green_deployment.h" line="200" column="10" bodyfile="src/updates/blue_green_deployment.cpp" bodystart="240" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_blue_green_deployment_1ad4036023b4750492a065056d29c6ebe2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::BlueGreenDeployment::reportError</definition>
+        <argsstring>()</argsstring>
+        <name>reportError</name>
+        <qualifiedname>themis::updates::BlueGreenDeployment::reportError</qualifiedname>
+        <briefdescription>
+<para>Record one failed operation after the standby was promoted. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Report Error.</para>
+<para>Automatically triggers rollback when <ref refid="classthemis_1_1updates_1_1_blue_green_deployment_1a7b938b77011868de1a31a0e7ebe5150e" kindref="member">errorRate()</ref> exceeds the configured threshold and the minimum sample count has been reached.</para>
+<para>Calls: lock(), std::to_string(), <ref refid="batch5__safety__helpers_8h_1add82efa459e0af380b68522c29b9fd44" kindref="member">LOG_WARN()</ref>, <ref refid="classthemis_1_1updates_1_1_blue_green_deployment_1a967065f5f9f336f6253d1ef268f77a44" kindref="member">rollback()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/blue_green_deployment.h" line="208" column="10" bodyfile="src/updates/blue_green_deployment.cpp" bodystart="249" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_blue_green_deployment_1a7b938b77011868de1a31a0e7ebe5150e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::updates::BlueGreenDeployment::errorRate</definition>
+        <argsstring>() const</argsstring>
+        <name>errorRate</name>
+        <qualifiedname>themis::updates::BlueGreenDeployment::errorRate</qualifiedname>
+        <briefdescription>
+<para>Current error rate since the last promotion (0.0 – 1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns 0.0 when no events have been recorded yet. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/updates/blue_green_deployment.h" line="215" column="12" bodyfile="src/updates/blue_green_deployment.cpp" bodystart="282" bodyend="294"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_blue_green_deployment_1a160d9cd9248d2dfb6571f6f34d328059" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::updates::BlueGreenDeployment::shouldRollback</definition>
+        <argsstring>() const</argsstring>
+        <name>shouldRollback</name>
+        <qualifiedname>themis::updates::BlueGreenDeployment::shouldRollback</qualifiedname>
+        <briefdescription>
+<para>Return true if the error rate exceeds the threshold and the minimum sample count has been reached. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/updates/blue_green_deployment.h" line="221" column="10" bodyfile="src/updates/blue_green_deployment.cpp" bodystart="296" bodyend="313"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_blue_green_deployment_1a235ecebfbc154057f14bb822a584faaa" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1updates_1_1_blue_green_status" kindref="compound">BlueGreenStatus</ref></type>
+        <definition>BlueGreenStatus themis::updates::BlueGreenDeployment::status</definition>
+        <argsstring>() const</argsstring>
+        <name>status</name>
+        <qualifiedname>themis::updates::BlueGreenDeployment::status</qualifiedname>
+        <briefdescription>
+<para>Get a snapshot of the current deployment state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/updates/blue_green_deployment.h" line="228" column="21" bodyfile="src/updates/blue_green_deployment.cpp" bodystart="319" bodyend="345"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_blue_green_deployment_1a1024fc84f70b3a32fa70335e7c965d4d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1updates_1a2041391a736228a16328458487d05556" kindref="member">DeploymentSlot</ref></type>
+        <definition>DeploymentSlot themis::updates::BlueGreenDeployment::activeSlot</definition>
+        <argsstring>() const</argsstring>
+        <name>activeSlot</name>
+        <qualifiedname>themis::updates::BlueGreenDeployment::activeSlot</qualifiedname>
+        <briefdescription>
+<para>Return the currently active slot. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/updates/blue_green_deployment.h" line="233" column="20" bodyfile="src/updates/blue_green_deployment.cpp" bodystart="347" bodyend="355"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_blue_green_deployment_1a9b99e4bfa92af7e47047d913ac1170db" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::updates::BlueGreenDeployment::slotVersion</definition>
+        <argsstring>(DeploymentSlot slot) const</argsstring>
+        <name>slotVersion</name>
+        <qualifiedname>themis::updates::BlueGreenDeployment::slotVersion</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1updates_1a2041391a736228a16328458487d05556" kindref="member">DeploymentSlot</ref></type>
+          <declname>slot</declname>
+        </param>
+        <briefdescription>
+<para>Return the version string associated with a slot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns an empty string when no version has been deployed to the slot. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/updates/blue_green_deployment.h" line="240" column="17" bodyfile="src/updates/blue_green_deployment.cpp" bodystart="357" bodyend="365"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_blue_green_deployment_1a33bdaceade4641a7abbf338d3f02ea3f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::BlueGreenDeployment::setPromotionCallback</definition>
+        <argsstring>(PromotionCallback cb)</argsstring>
+        <name>setPromotionCallback</name>
+        <qualifiedname>themis::updates::BlueGreenDeployment::setPromotionCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1_blue_green_deployment_1adf2c9473e0dff1b4907629441f9d5b2d" kindref="member">PromotionCallback</ref></type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+<para>Register a callback invoked after a successful promotion. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Promotion Callback.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Receives (new_active_slot, promoted_version).</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/blue_green_deployment.h" line="248" column="10" bodyfile="src/updates/blue_green_deployment.cpp" bodystart="376" bodyend="379"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_blue_green_deployment_1a52c26327cc9356cc8973c1df4af3a056" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::BlueGreenDeployment::setRollbackCallback</definition>
+        <argsstring>(RollbackCallback cb)</argsstring>
+        <name>setRollbackCallback</name>
+        <qualifiedname>themis::updates::BlueGreenDeployment::setRollbackCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1_blue_green_deployment_1ad463bf17c8f7a554e80bbd816c0a2e14" kindref="member">RollbackCallback</ref></type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+<para>Register a callback invoked when a rollback is triggered. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Rollback Callback.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Receives the human-readable rollback reason.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/blue_green_deployment.h" line="254" column="10" bodyfile="src/updates/blue_green_deployment.cpp" bodystart="386" bodyend="389"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_blue_green_deployment_1a17b92675aa8e9b4b8f93a5d6fb0d221b" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1updates_1a2041391a736228a16328458487d05556" kindref="member">DeploymentSlot</ref></type>
+        <definition>DeploymentSlot themis::updates::BlueGreenDeployment::standbySlot</definition>
+        <argsstring>() const</argsstring>
+        <name>standbySlot</name>
+        <qualifiedname>themis::updates::BlueGreenDeployment::standbySlot</qualifiedname>
+        <briefdescription>
+<para>Return the slot that is currently standby (opposite of active_slot_). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/blue_green_deployment.h" line="258" column="20" bodyfile="src/updates/blue_green_deployment.cpp" bodystart="51" bodyend="54"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Blue/green deployment controller. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Manages two deployment slots (BLUE and GREEN) so that a new version can be deployed to the idle standby slot, validated, and then promoted to active atomically. If the promoted version develops problems the controller can roll back to the previous active slot using the stored rollback ID from <ref refid="classthemis_1_1updates_1_1_hot_reload_engine" kindref="compound">HotReloadEngine</ref>.</para>
+<para>Usage example: <programlisting><codeline><highlight class="normal">BlueGreenConfig<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1updates_1_1_blue_green_deployment_1acc8d3e417c77a26fbf96d3ae21262506" kindref="member">BlueGreenDeployment</ref><sp/>bg(hot_reload_engine,<sp/>cfg);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>1.<sp/>Deploy<sp/>new<sp/>version<sp/>to<sp/>standby<sp/>(green)<sp/>slot</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>bg.deployToStandby(</highlight><highlight class="stringliteral">&quot;1.6.0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!result.success)<sp/>{<sp/>handle_error();<sp/>}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>2.<sp/>Run<sp/>health<sp/>checks<sp/>on<sp/>the<sp/>standby<sp/>slot</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>...</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>3.<sp/>Promote<sp/>standby<sp/>to<sp/>active</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!bg.promote())<sp/>{<sp/>handle_promotion_failure();<sp/>}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>4.<sp/>Observe<sp/>post-promotion<sp/>health<sp/>events</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">bg.reportSuccess();</highlight></codeline>
+<codeline><highlight class="normal">bg.reportError();</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>5.<sp/>Rollback<sp/>if<sp/>needed</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(bg.shouldRollback())<sp/>{<sp/>bg.rollback(</highlight><highlight class="stringliteral">&quot;error<sp/>rate<sp/>too<sp/>high&quot;</highlight><highlight class="normal">);<sp/>}</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/updates/blue_green_deployment.h" line="126" column="1" bodyfile="include/updates/blue_green_deployment.h" bodystart="126" bodyend="282"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1updates_1_1_blue_green_deployment_1a1de184fdea54443e4a6036bd36a062ba" prot="private" virt="non-virtual"><scope>themis::updates::BlueGreenDeployment</scope><name>active_slot_</name></member>
+      <member refid="classthemis_1_1updates_1_1_blue_green_deployment_1a1024fc84f70b3a32fa70335e7c965d4d" prot="public" virt="non-virtual"><scope>themis::updates::BlueGreenDeployment</scope><name>activeSlot</name></member>
+      <member refid="classthemis_1_1updates_1_1_blue_green_deployment_1ae92021c4ef67d6aa9d98a2b803838604" prot="private" virt="non-virtual"><scope>themis::updates::BlueGreenDeployment</scope><name>blue_version_</name></member>
+      <member refid="classthemis_1_1updates_1_1_blue_green_deployment_1acc8d3e417c77a26fbf96d3ae21262506" prot="public" virt="non-virtual"><scope>themis::updates::BlueGreenDeployment</scope><name>BlueGreenDeployment</name></member>
+      <member refid="classthemis_1_1updates_1_1_blue_green_deployment_1af6ffa8522a5aa261f2cbc9aa4d94cbc2" prot="public" virt="non-virtual"><scope>themis::updates::BlueGreenDeployment</scope><name>BlueGreenDeployment</name></member>
+      <member refid="classthemis_1_1updates_1_1_blue_green_deployment_1a7997d92258036eced4fa118b80082dca" prot="private" virt="non-virtual"><scope>themis::updates::BlueGreenDeployment</scope><name>config_</name></member>
+      <member refid="classthemis_1_1updates_1_1_blue_green_deployment_1a756257daf738ef972a002af457eb1e73" prot="public" virt="non-virtual"><scope>themis::updates::BlueGreenDeployment</scope><name>deployToStandby</name></member>
+      <member refid="classthemis_1_1updates_1_1_blue_green_deployment_1a363abd38f3b19c2df89fe40353ef13e6" prot="private" virt="non-virtual"><scope>themis::updates::BlueGreenDeployment</scope><name>engine_</name></member>
+      <member refid="classthemis_1_1updates_1_1_blue_green_deployment_1a85fa160b602ed8dd4a829d2120090395" prot="private" virt="non-virtual"><scope>themis::updates::BlueGreenDeployment</scope><name>error_count_</name></member>
+      <member refid="classthemis_1_1updates_1_1_blue_green_deployment_1a7b938b77011868de1a31a0e7ebe5150e" prot="public" virt="non-virtual"><scope>themis::updates::BlueGreenDeployment</scope><name>errorRate</name></member>
+      <member refid="classthemis_1_1updates_1_1_blue_green_deployment_1addef78c910115029199c1e56078199bd" prot="private" virt="non-virtual"><scope>themis::updates::BlueGreenDeployment</scope><name>green_version_</name></member>
+      <member refid="classthemis_1_1updates_1_1_blue_green_deployment_1ae3dd24715704d39284b38861758ed04a" prot="private" virt="non-virtual"><scope>themis::updates::BlueGreenDeployment</scope><name>is_promoted_</name></member>
+      <member refid="classthemis_1_1updates_1_1_blue_green_deployment_1a7808a6cbc0ff5d6f8e9b387dd9b622b4" prot="private" virt="non-virtual"><scope>themis::updates::BlueGreenDeployment</scope><name>is_rolled_back_</name></member>
+      <member refid="classthemis_1_1updates_1_1_blue_green_deployment_1af243091359d29b0c2721748da0fadfa0" prot="private" virt="non-virtual"><scope>themis::updates::BlueGreenDeployment</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1updates_1_1_blue_green_deployment_1afb2cbd0e09783e8b389426628f2d2cd0" prot="public" virt="non-virtual"><scope>themis::updates::BlueGreenDeployment</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1updates_1_1_blue_green_deployment_1aaf419ff04ab5ca9d4a217a5413fce72b" prot="public" virt="non-virtual"><scope>themis::updates::BlueGreenDeployment</scope><name>promote</name></member>
+      <member refid="classthemis_1_1updates_1_1_blue_green_deployment_1acba752128088cf107bb06179c26418b6" prot="private" virt="non-virtual"><scope>themis::updates::BlueGreenDeployment</scope><name>promotion_cb_</name></member>
+      <member refid="classthemis_1_1updates_1_1_blue_green_deployment_1adf2c9473e0dff1b4907629441f9d5b2d" prot="public" virt="non-virtual"><scope>themis::updates::BlueGreenDeployment</scope><name>PromotionCallback</name></member>
+      <member refid="classthemis_1_1updates_1_1_blue_green_deployment_1ad4036023b4750492a065056d29c6ebe2" prot="public" virt="non-virtual"><scope>themis::updates::BlueGreenDeployment</scope><name>reportError</name></member>
+      <member refid="classthemis_1_1updates_1_1_blue_green_deployment_1a79a249df0b8cfd3ca3a7964d91f4ca9c" prot="public" virt="non-virtual"><scope>themis::updates::BlueGreenDeployment</scope><name>reportSuccess</name></member>
+      <member refid="classthemis_1_1updates_1_1_blue_green_deployment_1a967065f5f9f336f6253d1ef268f77a44" prot="public" virt="non-virtual"><scope>themis::updates::BlueGreenDeployment</scope><name>rollback</name></member>
+      <member refid="classthemis_1_1updates_1_1_blue_green_deployment_1afa8f07518eb7287d67ee3ed81441a5ec" prot="private" virt="non-virtual"><scope>themis::updates::BlueGreenDeployment</scope><name>rollback_cb_</name></member>
+      <member refid="classthemis_1_1updates_1_1_blue_green_deployment_1a07f65e49cf98eb1fb942ac4e0b7db36f" prot="private" virt="non-virtual"><scope>themis::updates::BlueGreenDeployment</scope><name>rollback_id_</name></member>
+      <member refid="classthemis_1_1updates_1_1_blue_green_deployment_1a62ccc7f97ed194f1bd6911b7e6950ebb" prot="private" virt="non-virtual"><scope>themis::updates::BlueGreenDeployment</scope><name>rollback_reason_</name></member>
+      <member refid="classthemis_1_1updates_1_1_blue_green_deployment_1ad463bf17c8f7a554e80bbd816c0a2e14" prot="public" virt="non-virtual"><scope>themis::updates::BlueGreenDeployment</scope><name>RollbackCallback</name></member>
+      <member refid="classthemis_1_1updates_1_1_blue_green_deployment_1a33bdaceade4641a7abbf338d3f02ea3f" prot="public" virt="non-virtual"><scope>themis::updates::BlueGreenDeployment</scope><name>setPromotionCallback</name></member>
+      <member refid="classthemis_1_1updates_1_1_blue_green_deployment_1a52c26327cc9356cc8973c1df4af3a056" prot="public" virt="non-virtual"><scope>themis::updates::BlueGreenDeployment</scope><name>setRollbackCallback</name></member>
+      <member refid="classthemis_1_1updates_1_1_blue_green_deployment_1a160d9cd9248d2dfb6571f6f34d328059" prot="public" virt="non-virtual"><scope>themis::updates::BlueGreenDeployment</scope><name>shouldRollback</name></member>
+      <member refid="classthemis_1_1updates_1_1_blue_green_deployment_1a9b99e4bfa92af7e47047d913ac1170db" prot="public" virt="non-virtual"><scope>themis::updates::BlueGreenDeployment</scope><name>slotVersion</name></member>
+      <member refid="classthemis_1_1updates_1_1_blue_green_deployment_1a1173a51c4a0042fd5fc24f662e75d2dd" prot="private" virt="non-virtual"><scope>themis::updates::BlueGreenDeployment</scope><name>standby_deployed_</name></member>
+      <member refid="classthemis_1_1updates_1_1_blue_green_deployment_1a17b92675aa8e9b4b8f93a5d6fb0d221b" prot="private" virt="non-virtual"><scope>themis::updates::BlueGreenDeployment</scope><name>standbySlot</name></member>
+      <member refid="classthemis_1_1updates_1_1_blue_green_deployment_1a235ecebfbc154057f14bb822a584faaa" prot="public" virt="non-virtual"><scope>themis::updates::BlueGreenDeployment</scope><name>status</name></member>
+      <member refid="classthemis_1_1updates_1_1_blue_green_deployment_1ae633a671dd532c504a92e016df7cace0" prot="private" virt="non-virtual"><scope>themis::updates::BlueGreenDeployment</scope><name>success_count_</name></member>
+      <member refid="classthemis_1_1updates_1_1_blue_green_deployment_1ab2e61e6abbd5e4e421b858ebfa04864c" prot="public" virt="non-virtual"><scope>themis::updates::BlueGreenDeployment</scope><name>~BlueGreenDeployment</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

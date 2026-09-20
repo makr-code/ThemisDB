@@ -1,0 +1,579 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__aql__token__stream_8cpp" kind="file" language="C++">
+    <compoundname>test_aql_token_stream.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="aql__token__stream_8h" local="yes">aql/aql_token_stream.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>aql/aql_token_stream.h</label>
+        <link refid="aql__token__stream_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>aql/llm_error_codes.h</label>
+        <link refid="llm__error__codes_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/aql/test_aql_token_stream.cpp</label>
+        <link refid="test__aql__token__stream_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>atomic</label>
+      </node>
+      <node id="12">
+        <label>chrono</label>
+      </node>
+      <node id="8">
+        <label>condition_variable</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="11">
+        <label>queue</label>
+      </node>
+      <node id="6">
+        <label>stdexcept</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="13">
+        <label>thread</label>
+      </node>
+      <node id="14">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__aql__token__stream_8cpp_1a9c44ceff82617dcc29b217988ab4353a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AQLTokenStreamTest, EmptyStreamReturnsNulloptImmediately)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AQLTokenStreamTest</type>
+        </param>
+        <param>
+          <type>EmptyStreamReturnsNulloptImmediately</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_token_stream.cpp" line="19" column="1" bodyfile="tests/aql/test_aql_token_stream.cpp" bodystart="19" bodyend="24"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__token__stream_8cpp_1a160dda85cd75a8426b5b0bd1c2d96047" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AQLTokenStreamTest, PushAndDrainSingleToken)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AQLTokenStreamTest</type>
+        </param>
+        <param>
+          <type>PushAndDrainSingleToken</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_token_stream.cpp" line="26" column="1" bodyfile="tests/aql/test_aql_token_stream.cpp" bodystart="26" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__token__stream_8cpp_1acd7883aca1f602d9bda7747877d87a64" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AQLTokenStreamTest, PushMultipleTokensPreservesOrder)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AQLTokenStreamTest</type>
+        </param>
+        <param>
+          <type>PushMultipleTokensPreservesOrder</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_token_stream.cpp" line="39" column="1" bodyfile="tests/aql/test_aql_token_stream.cpp" bodystart="39" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__token__stream_8cpp_1a788b929f60e6c9621991f23b4a5138db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AQLTokenStreamTest, PushEmptyStringIsAllowed)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AQLTokenStreamTest</type>
+        </param>
+        <param>
+          <type>PushEmptyStringIsAllowed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_token_stream.cpp" line="55" column="1" bodyfile="tests/aql/test_aql_token_stream.cpp" bodystart="55" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__token__stream_8cpp_1a0db016af97fe0d4e65ee14a123acf087" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AQLTokenStreamTest, CloseIsIdempotent)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AQLTokenStreamTest</type>
+        </param>
+        <param>
+          <type>CloseIsIdempotent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_token_stream.cpp" line="65" column="1" bodyfile="tests/aql/test_aql_token_stream.cpp" bodystart="65" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__token__stream_8cpp_1ad9f3934840d50c25c5a84f7dcbe08dfc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AQLTokenStreamTest, CancelReturnsFalseFromNextToken)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AQLTokenStreamTest</type>
+        </param>
+        <param>
+          <type>CancelReturnsFalseFromNextToken</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_token_stream.cpp" line="80" column="1" bodyfile="tests/aql/test_aql_token_stream.cpp" bodystart="80" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__token__stream_8cpp_1a26a399b2a1c70a9295e84d0793f57799" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AQLTokenStreamTest, CancelIsIdempotent)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AQLTokenStreamTest</type>
+        </param>
+        <param>
+          <type>CancelIsIdempotent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_token_stream.cpp" line="87" column="1" bodyfile="tests/aql/test_aql_token_stream.cpp" bodystart="87" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__token__stream_8cpp_1a454023a724bdfb40754ed13840fe5bd8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AQLTokenStreamTest, PushAfterCancelIsDiscarded)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AQLTokenStreamTest</type>
+        </param>
+        <param>
+          <type>PushAfterCancelIsDiscarded</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_token_stream.cpp" line="94" column="1" bodyfile="tests/aql/test_aql_token_stream.cpp" bodystart="94" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__token__stream_8cpp_1ae50d2e75242fca31d0795e7de24457a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AQLTokenStreamTest, CancelUnblocksWaitingConsumer)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AQLTokenStreamTest</type>
+        </param>
+        <param>
+          <type>CancelUnblocksWaitingConsumer</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_token_stream.cpp" line="103" column="1" bodyfile="tests/aql/test_aql_token_stream.cpp" bodystart="103" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__token__stream_8cpp_1a4a1de16c3eb1d1304d443cf4e6906294" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AQLTokenStreamTest, ProducerThreadPushesConsumerReceivesAll)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AQLTokenStreamTest</type>
+        </param>
+        <param>
+          <type>ProducerThreadPushesConsumerReceivesAll</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_token_stream.cpp" line="122" column="1" bodyfile="tests/aql/test_aql_token_stream.cpp" bodystart="122" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__token__stream_8cpp_1a2fc3f26f1e010383a1975e75cba48d7c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AQLTokenStreamTest, RangeBasedForLoopDrainsStream)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AQLTokenStreamTest</type>
+        </param>
+        <param>
+          <type>RangeBasedForLoopDrainsStream</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_token_stream.cpp" line="146" column="1" bodyfile="tests/aql/test_aql_token_stream.cpp" bodystart="146" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__token__stream_8cpp_1a5df312c4ec1bd72671769bbd3b27a8ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AQLTokenStreamTest, CancelMidStreamStopsIteration)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AQLTokenStreamTest</type>
+        </param>
+        <param>
+          <type>CancelMidStreamStopsIteration</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_token_stream.cpp" line="169" column="1" bodyfile="tests/aql/test_aql_token_stream.cpp" bodystart="169" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__token__stream_8cpp_1a4592e7f7bc0c9a778ac922fc20944e68" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AQLTokenStreamTest, IsClosedReflectsCloseCall)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AQLTokenStreamTest</type>
+        </param>
+        <param>
+          <type>IsClosedReflectsCloseCall</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_token_stream.cpp" line="205" column="1" bodyfile="tests/aql/test_aql_token_stream.cpp" bodystart="205" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__token__stream_8cpp_1a300aa6722f200abca4fc8d5787db1cb2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AQLTokenStreamTest, IsCancelledReflectsCancelCall)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AQLTokenStreamTest</type>
+        </param>
+        <param>
+          <type>IsCancelledReflectsCancelCall</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_token_stream.cpp" line="212" column="1" bodyfile="tests/aql/test_aql_token_stream.cpp" bodystart="212" bodyend="217"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unit tests for <ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream" kindref="compound">AQLTokenStream</ref> – thread-safe generic token streaming. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="aql__token__stream_8h" kindref="compound">aql/aql_token_stream.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1aql" kindref="compound">themis::aql</ref>;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Basic<sp/>single-threaded<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><ref refid="test__aql__token__stream_8cpp_1a9c44ceff82617dcc29b217988ab4353a" kindref="member">TEST</ref>(AQLTokenStreamTest,<sp/>EmptyStreamReturnsNulloptImmediately)<sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream" kindref="compound">AQLTokenStream</ref><sp/>stream;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>stream.<ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1a84ebfec3f9bc00a317ed7d6451ebd28d" kindref="member">close</ref>();</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>token<sp/>=<sp/>stream.<ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1aa2863f7f2823c7b0314d4f8ec31b2f8e" kindref="member">nextToken</ref>();</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(token.has_value());</highlight></codeline>
+<codeline lineno="24"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><ref refid="test__aql__token__stream_8cpp_1a9c44ceff82617dcc29b217988ab4353a" kindref="member">TEST</ref>(AQLTokenStreamTest,<sp/>PushAndDrainSingleToken)<sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream" kindref="compound">AQLTokenStream</ref><sp/>stream;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>stream.<ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1a4cc602eb79d8cf6dc3692c405440ca8e" kindref="member">push</ref>(</highlight><highlight class="stringliteral">&quot;hello&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>stream.<ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1a84ebfec3f9bc00a317ed7d6451ebd28d" kindref="member">close</ref>();</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t1<sp/>=<sp/>stream.<ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1aa2863f7f2823c7b0314d4f8ec31b2f8e" kindref="member">nextToken</ref>();</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(t1.has_value());</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*t1,<sp/></highlight><highlight class="stringliteral">&quot;hello&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t2<sp/>=<sp/>stream.<ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1aa2863f7f2823c7b0314d4f8ec31b2f8e" kindref="member">nextToken</ref>();</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(t2.has_value());<sp/><sp/></highlight><highlight class="comment">//<sp/>end<sp/>of<sp/>stream</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><ref refid="test__aql__token__stream_8cpp_1a9c44ceff82617dcc29b217988ab4353a" kindref="member">TEST</ref>(AQLTokenStreamTest,<sp/>PushMultipleTokensPreservesOrder)<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream" kindref="compound">AQLTokenStream</ref><sp/>stream;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>tokens<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;tok1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;tok2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;tok3&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;tok4&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>t<sp/>:<sp/>tokens)<sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>stream.<ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1a4cc602eb79d8cf6dc3692c405440ca8e" kindref="member">push</ref>(t);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>stream.<ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1a84ebfec3f9bc00a317ed7d6451ebd28d" kindref="member">close</ref>();</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>expected<sp/>:<sp/>tokens)<sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>got<sp/>=<sp/>stream.<ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1aa2863f7f2823c7b0314d4f8ec31b2f8e" kindref="member">nextToken</ref>();</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(got.has_value());</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(*got,<sp/>expected);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(stream.<ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1aa2863f7f2823c7b0314d4f8ec31b2f8e" kindref="member">nextToken</ref>().has_value());</highlight></codeline>
+<codeline lineno="53"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><ref refid="test__aql__token__stream_8cpp_1a9c44ceff82617dcc29b217988ab4353a" kindref="member">TEST</ref>(AQLTokenStreamTest,<sp/>PushEmptyStringIsAllowed)<sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream" kindref="compound">AQLTokenStream</ref><sp/>stream;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>stream.<ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1a4cc602eb79d8cf6dc3692c405440ca8e" kindref="member">push</ref>(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>stream.<ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1a84ebfec3f9bc00a317ed7d6451ebd28d" kindref="member">close</ref>();</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>token<sp/>=<sp/>stream.<ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1aa2863f7f2823c7b0314d4f8ec31b2f8e" kindref="member">nextToken</ref>();</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(token.has_value());</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*token,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><ref refid="test__aql__token__stream_8cpp_1a9c44ceff82617dcc29b217988ab4353a" kindref="member">TEST</ref>(AQLTokenStreamTest,<sp/>CloseIsIdempotent)<sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream" kindref="compound">AQLTokenStream</ref><sp/>stream;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>stream.<ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1a4cc602eb79d8cf6dc3692c405440ca8e" kindref="member">push</ref>(</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>stream.<ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1a84ebfec3f9bc00a317ed7d6451ebd28d" kindref="member">close</ref>();</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>stream.<ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1a84ebfec3f9bc00a317ed7d6451ebd28d" kindref="member">close</ref>();<sp/><sp/></highlight><highlight class="comment">//<sp/>should<sp/>not<sp/>throw<sp/>or<sp/>block</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>stream.<ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1aa2863f7f2823c7b0314d4f8ec31b2f8e" kindref="member">nextToken</ref>();</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(t.has_value());</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*t,<sp/></highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Cancellation<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><ref refid="test__aql__token__stream_8cpp_1a9c44ceff82617dcc29b217988ab4353a" kindref="member">TEST</ref>(AQLTokenStreamTest,<sp/>CancelReturnsFalseFromNextToken)<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream" kindref="compound">AQLTokenStream</ref><sp/>stream;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>stream.<ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1a0808247db3368b31a0059979fd527a40" kindref="member">cancel</ref>();</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>token<sp/>=<sp/>stream.<ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1aa2863f7f2823c7b0314d4f8ec31b2f8e" kindref="member">nextToken</ref>();</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(token.has_value());</highlight></codeline>
+<codeline lineno="85"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><ref refid="test__aql__token__stream_8cpp_1a9c44ceff82617dcc29b217988ab4353a" kindref="member">TEST</ref>(AQLTokenStreamTest,<sp/>CancelIsIdempotent)<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream" kindref="compound">AQLTokenStream</ref><sp/>stream;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>stream.<ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1a0808247db3368b31a0059979fd527a40" kindref="member">cancel</ref>();</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>stream.<ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1a0808247db3368b31a0059979fd527a40" kindref="member">cancel</ref>();<sp/><sp/></highlight><highlight class="comment">//<sp/>should<sp/>not<sp/>throw</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(stream.<ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1af5cb5723257d507ca1640fa78960f214" kindref="member">isCancelled</ref>());</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><ref refid="test__aql__token__stream_8cpp_1a9c44ceff82617dcc29b217988ab4353a" kindref="member">TEST</ref>(AQLTokenStreamTest,<sp/>PushAfterCancelIsDiscarded)<sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream" kindref="compound">AQLTokenStream</ref><sp/>stream;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>stream.<ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1a0808247db3368b31a0059979fd527a40" kindref="member">cancel</ref>();</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>stream.<ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1a4cc602eb79d8cf6dc3692c405440ca8e" kindref="member">push</ref>(</highlight><highlight class="stringliteral">&quot;discarded&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>stream.<ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1a84ebfec3f9bc00a317ed7d6451ebd28d" kindref="member">close</ref>();</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>token<sp/>=<sp/>stream.<ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1aa2863f7f2823c7b0314d4f8ec31b2f8e" kindref="member">nextToken</ref>();</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(token.has_value());</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><ref refid="test__aql__token__stream_8cpp_1a9c44ceff82617dcc29b217988ab4353a" kindref="member">TEST</ref>(AQLTokenStreamTest,<sp/>CancelUnblocksWaitingConsumer)<sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stream<sp/>=<sp/>std::make_shared&lt;AQLTokenStream&gt;();</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/>received;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>consumer([&amp;]<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>received<sp/>=<sp/>stream-&gt;<ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1aa2863f7f2823c7b0314d4f8ec31b2f8e" kindref="member">nextToken</ref>();</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(20));</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>stream-&gt;<ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1a0808247db3368b31a0059979fd527a40" kindref="member">cancel</ref>();<sp/><sp/></highlight><highlight class="comment">//<sp/>should<sp/>unblock<sp/>the<sp/>consumer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>consumer.join();</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(received.has_value());</highlight></codeline>
+<codeline lineno="116"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Producer/consumer<sp/>concurrency<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><ref refid="test__aql__token__stream_8cpp_1a9c44ceff82617dcc29b217988ab4353a" kindref="member">TEST</ref>(AQLTokenStreamTest,<sp/>ProducerThreadPushesConsumerReceivesAll)<sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stream<sp/>=<sp/>std::make_shared&lt;AQLTokenStream&gt;();</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>N<sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>producer([&amp;]<sp/>{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>N;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stream-&gt;<ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1a4cc602eb79d8cf6dc3692c405440ca8e" kindref="member">push</ref>(</highlight><highlight class="stringliteral">&quot;token_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i));</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stream-&gt;<ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1a84ebfec3f9bc00a317ed7d6451ebd28d" kindref="member">close</ref>();</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>received<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>stream-&gt;<ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1aa2863f7f2823c7b0314d4f8ec31b2f8e" kindref="member">nextToken</ref>())<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>received.push_back(*t);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>producer.join();</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(received.size()),<sp/>N);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>N;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(received[i],<sp/></highlight><highlight class="stringliteral">&quot;token_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i));</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="144"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><ref refid="test__aql__token__stream_8cpp_1a9c44ceff82617dcc29b217988ab4353a" kindref="member">TEST</ref>(AQLTokenStreamTest,<sp/>RangeBasedForLoopDrainsStream)<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stream<sp/>=<sp/>std::make_shared&lt;AQLTokenStream&gt;();</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>producer([&amp;]<sp/>{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stream-&gt;<ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1a4cc602eb79d8cf6dc3692c405440ca8e" kindref="member">push</ref>(std::to_string(i));</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stream-&gt;<ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1a84ebfec3f9bc00a317ed7d6451ebd28d" kindref="member">close</ref>();</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>collected<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>token<sp/>:<sp/>*stream)<sp/>{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>collected.push_back(token);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>producer.join();</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(collected.size(),<sp/>std::size_t(5));</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(collected[i],<sp/>std::to_string(i));</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><ref refid="test__aql__token__stream_8cpp_1a9c44ceff82617dcc29b217988ab4353a" kindref="member">TEST</ref>(AQLTokenStreamTest,<sp/>CancelMidStreamStopsIteration)<sp/>{</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stream<sp/>=<sp/>std::make_shared&lt;AQLTokenStream&gt;();</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>producer([&amp;]<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>1000;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(stream-&gt;isCancelled())<sp/>{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stream-&gt;push(</highlight><highlight class="stringliteral">&quot;t&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::microseconds(100));</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stream-&gt;close();</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Consumer<sp/>reads<sp/>a<sp/>few<sp/>tokens<sp/>then<sp/>cancels.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>stream-&gt;nextToken())<sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++count;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(count<sp/>&gt;=<sp/>3)<sp/>{</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stream-&gt;cancel();</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Drain<sp/>any<sp/>remaining<sp/>tokens<sp/>after<sp/>cancel<sp/>(nextToken<sp/>returns<sp/>nullopt).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(stream-&gt;nextToken().has_value())<sp/>{<sp/></highlight><highlight class="comment">/*<sp/>drain<sp/>*/</highlight><highlight class="normal"><sp/>}</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>producer.join();</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(count,<sp/>3);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(stream-&gt;isCancelled());</highlight></codeline>
+<codeline lineno="199"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="comment">//<sp/>State<sp/>query<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><ref refid="test__aql__token__stream_8cpp_1a9c44ceff82617dcc29b217988ab4353a" kindref="member">TEST</ref>(AQLTokenStreamTest,<sp/>IsClosedReflectsCloseCall)<sp/>{</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream" kindref="compound">AQLTokenStream</ref><sp/>stream;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(stream.<ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1aabfde0c2ad1b287375857731711b1794" kindref="member">isClosed</ref>());</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>stream.<ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1a84ebfec3f9bc00a317ed7d6451ebd28d" kindref="member">close</ref>();</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(stream.<ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1aabfde0c2ad1b287375857731711b1794" kindref="member">isClosed</ref>());</highlight></codeline>
+<codeline lineno="210"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><ref refid="test__aql__token__stream_8cpp_1a9c44ceff82617dcc29b217988ab4353a" kindref="member">TEST</ref>(AQLTokenStreamTest,<sp/>IsCancelledReflectsCancelCall)<sp/>{</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream" kindref="compound">AQLTokenStream</ref><sp/>stream;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(stream.<ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1af5cb5723257d507ca1640fa78960f214" kindref="member">isCancelled</ref>());</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>stream.<ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1a0808247db3368b31a0059979fd527a40" kindref="member">cancel</ref>();</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(stream.<ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1af5cb5723257d507ca1640fa78960f214" kindref="member">isCancelled</ref>());</highlight></codeline>
+<codeline lineno="217"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/aql/test_aql_token_stream.cpp"/>
+  </compounddef>
+</doxygen>

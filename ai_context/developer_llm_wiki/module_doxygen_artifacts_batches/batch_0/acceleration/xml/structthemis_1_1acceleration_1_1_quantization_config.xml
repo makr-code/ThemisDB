@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_quantization_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::acceleration::QuantizationConfig</compoundname>
+    <includes refid="quantized__backend_8h" local="no">quantized_backend.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_quantization_config_1aa3dcc993adc6efafe506ba581d43c95f" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1acceleration_1a66f5d0ed75e175de9b7c66bde28c2b2e" kindref="member">QuantizationScheme</ref></type>
+        <definition>QuantizationScheme themis::acceleration::QuantizationConfig::scheme</definition>
+        <argsstring></argsstring>
+        <name>scheme</name>
+        <qualifiedname>themis::acceleration::QuantizationConfig::scheme</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1acceleration_1a66f5d0ed75e175de9b7c66bde28c2b2eafb6472773f3aa5c856d5a81b8f92f55e" kindref="member">QuantizationScheme::INT8_SYMMETRIC</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/quantized_backend.h" line="32" column="24" bodyfile="include/acceleration/quantized_backend.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_quantization_config_1ad0234deb9f575b787a16e04350f900ab" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::acceleration::QuantizationConfig::group_size</definition>
+        <argsstring></argsstring>
+        <name>group_size</name>
+        <qualifiedname>themis::acceleration::QuantizationConfig::group_size</qualifiedname>
+        <initializer>= 128</initializer>
+        <briefdescription>
+<para>Group size for INT4_GROUPED scheme. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/quantized_backend.h" line="33" column="9" bodyfile="include/acceleration/quantized_backend.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_quantization_config_1a494422170e86434ace03e1895512e080" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::QuantizationConfig::per_channel</definition>
+        <argsstring></argsstring>
+        <name>per_channel</name>
+        <qualifiedname>themis::acceleration::QuantizationConfig::per_channel</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Per-channel (true) vs per-tensor (false). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/quantized_backend.h" line="34" column="10" bodyfile="include/acceleration/quantized_backend.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_quantization_config_1aa0dee240ce7aef45fce7beb5ee9b06b3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::QuantizationConfig::enable_calibration</definition>
+        <argsstring></argsstring>
+        <name>enable_calibration</name>
+        <qualifiedname>themis::acceleration::QuantizationConfig::enable_calibration</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Run post-training calibration pass. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/quantized_backend.h" line="35" column="10" bodyfile="include/acceleration/quantized_backend.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_quantization_config_1a2ba3b46740f2c8a580065ea6796b0160" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::acceleration::QuantizationConfig::calibration_percentile</definition>
+        <argsstring></argsstring>
+        <name>calibration_percentile</name>
+        <qualifiedname>themis::acceleration::QuantizationConfig::calibration_percentile</qualifiedname>
+        <initializer>= 99.9f</initializer>
+        <briefdescription>
+<para>Percentile clipping for calibration range. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/quantized_backend.h" line="36" column="11" bodyfile="include/acceleration/quantized_backend.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Parameters controlling how tensors are quantised. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/quantized_backend.h" line="31" column="1" bodyfile="include/acceleration/quantized_backend.h" bodystart="31" bodyend="37"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_quantization_config_1a2ba3b46740f2c8a580065ea6796b0160" prot="public" virt="non-virtual"><scope>themis::acceleration::QuantizationConfig</scope><name>calibration_percentile</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_quantization_config_1aa0dee240ce7aef45fce7beb5ee9b06b3" prot="public" virt="non-virtual"><scope>themis::acceleration::QuantizationConfig</scope><name>enable_calibration</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_quantization_config_1ad0234deb9f575b787a16e04350f900ab" prot="public" virt="non-virtual"><scope>themis::acceleration::QuantizationConfig</scope><name>group_size</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_quantization_config_1a494422170e86434ace03e1895512e080" prot="public" virt="non-virtual"><scope>themis::acceleration::QuantizationConfig</scope><name>per_channel</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_quantization_config_1aa3dcc993adc6efafe506ba581d43c95f" prot="public" virt="non-virtual"><scope>themis::acceleration::QuantizationConfig</scope><name>scheme</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

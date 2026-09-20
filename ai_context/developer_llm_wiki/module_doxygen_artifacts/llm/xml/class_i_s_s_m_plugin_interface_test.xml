@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_i_s_s_m_plugin_interface_test" kind="class" language="C++" prot="public">
+    <compoundname>ISSMPluginInterfaceTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_i_s_s_m_plugin_interface_test_1af591bc1ea101c06c37d69724db503f48" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub" kindref="compound">SyntheticSSMStub</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;SyntheticSSMStub&gt; ISSMPluginInterfaceTest::plugin_</definition>
+        <argsstring></argsstring>
+        <name>plugin_</name>
+        <qualifiedname>ISSMPluginInterfaceTest::plugin_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_ssm_plugin_interface.cpp" line="34" column="21" bodyfile="tests/llm/test_ssm_plugin_interface.cpp" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_i_s_s_m_plugin_interface_test_1a97892d532f76ca32d055fb86bc8f0446" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ISSMPluginInterfaceTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ISSMPluginInterfaceTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_ssm_plugin_interface.cpp" line="29" column="10" bodyfile="tests/llm/test_ssm_plugin_interface.cpp" bodystart="29" bodyend="32"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ISSMPluginInterfaceTest</label>
+        <link refid="class_i_s_s_m_plugin_interface_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ISSMPluginInterfaceTest</label>
+        <link refid="class_i_s_s_m_plugin_interface_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_ssm_plugin_interface.cpp" line="27" column="1" bodyfile="tests/llm/test_ssm_plugin_interface.cpp" bodystart="27" bodyend="35"/>
+    <listofallmembers>
+      <member refid="class_i_s_s_m_plugin_interface_test_1af591bc1ea101c06c37d69724db503f48" prot="protected" virt="non-virtual"><scope>ISSMPluginInterfaceTest</scope><name>plugin_</name></member>
+      <member refid="class_i_s_s_m_plugin_interface_test_1a97892d532f76ca32d055fb86bc8f0446" prot="protected" virt="non-virtual"><scope>ISSMPluginInterfaceTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

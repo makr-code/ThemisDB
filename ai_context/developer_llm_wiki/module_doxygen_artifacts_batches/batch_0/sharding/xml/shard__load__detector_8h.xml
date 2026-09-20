@@ -1,0 +1,345 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="shard__load__detector_8h" kind="file" language="C++">
+    <compoundname>shard_load_detector.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">map</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">deque</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="auto__rebalancer_8h" local="yes">include/sharding/auto_rebalancer.h</includedby>
+    <includedby refid="shard__load__detector_8cpp" local="yes">src/sharding/shard_load_detector.cpp</includedby>
+    <includedby refid="test__sharding__phase2__hardening_8cpp" local="yes">tests/sharding/test_sharding_phase2_hardening.cpp</includedby>
+    <includedby refid="test__sharding__uncovered_8cpp" local="yes">tests/sharding/test_sharding_uncovered.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/sharding/shard_load_detector.h</label>
+        <link refid="shard__load__detector_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>atomic</label>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>deque</label>
+      </node>
+      <node id="3">
+        <label>map</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>mutex</label>
+      </node>
+      <node id="11">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/sharding/auto_rebalancer.h</label>
+        <link refid="auto__rebalancer_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/sharding/shard_load_detector.h</label>
+        <link refid="shard__load__detector_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/sharding/auto_rebalancer.cpp</label>
+        <link refid="auto__rebalancer_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/sharding/shard_load_detector.cpp</label>
+        <link refid="shard__load__detector_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/sharding/test_sharding_phase2_hardening.cpp</label>
+        <link refid="test__sharding__phase2__hardening_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/sharding/test_sharding_uncovered.cpp</label>
+        <link refid="test__sharding__uncovered_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1sharding_1_1_shard_load_metrics" prot="public">themis::sharding::ShardLoadMetrics</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_load_forecast" prot="public">themis::sharding::LoadForecast</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_load_imbalance_result" prot="public">themis::sharding::LoadImbalanceResult</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_load_imbalance_result_1_1_rebalance_recommendation" prot="public">themis::sharding::LoadImbalanceResult::RebalanceRecommendation</innerclass>
+    <innerclass refid="classthemis_1_1sharding_1_1_shard_load_detector" prot="public">themis::sharding::ShardLoadDetector</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_shard_load_detector_1_1_config" prot="public">themis::sharding::ShardLoadDetector::Config</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1sharding">themis::sharding</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;deque&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1sharding" kindref="compound">sharding</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref>;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_prometheus_metrics" kindref="compound">PrometheusMetrics</ref>;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1sharding_1_1_shard_load_metrics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_shard_load_metrics" kindref="compound">ShardLoadMetrics</ref><sp/>{</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1sharding_1_1_shard_load_metrics_1a8b0f24070a61eed554a2b6ec6fe1b93e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_shard_load_metrics_1a8b0f24070a61eed554a2b6ec6fe1b93e" kindref="member">shard_id</ref>;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Storage<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1sharding_1_1_shard_load_metrics_1aa40b02fcab088dbca9d6651be864406e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_shard_load_metrics_1aa40b02fcab088dbca9d6651be864406e" kindref="member">total_records</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1sharding_1_1_shard_load_metrics_1aba74edb0fa6e7a209b2d7d1879e9e392" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_shard_load_metrics_1aba74edb0fa6e7a209b2d7d1879e9e392" kindref="member">total_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1sharding_1_1_shard_load_metrics_1ad12d67c98cc0fc1cc44af9ca77102c95" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_shard_load_metrics_1ad12d67c98cc0fc1cc44af9ca77102c95" kindref="member">storage_usage_percent</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Request<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1sharding_1_1_shard_load_metrics_1a99d1f8b56a5d94ad0793a5dd7ad8e694" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_shard_load_metrics_1a99d1f8b56a5d94ad0793a5dd7ad8e694" kindref="member">requests_per_sec</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1sharding_1_1_shard_load_metrics_1a4ceca4b9fa6e33748d52315cc242e479" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_shard_load_metrics_1a4ceca4b9fa6e33748d52315cc242e479" kindref="member">read_requests_per_sec</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1sharding_1_1_shard_load_metrics_1a287514d72ada6aae812e57fcbbb863f1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_shard_load_metrics_1a287514d72ada6aae812e57fcbbb863f1" kindref="member">write_requests_per_sec</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Performance<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1sharding_1_1_shard_load_metrics_1a271939a030a4f9f17f49414dfcd126d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_shard_load_metrics_1a271939a030a4f9f17f49414dfcd126d0" kindref="member">avg_latency_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1sharding_1_1_shard_load_metrics_1a66982dd3e039a0e0719b74b94d5b4b27" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_shard_load_metrics_1a66982dd3e039a0e0719b74b94d5b4b27" kindref="member">p95_latency_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1sharding_1_1_shard_load_metrics_1a9ffaae24663b8fcb3ead0d8c26a04c88" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_shard_load_metrics_1a9ffaae24663b8fcb3ead0d8c26a04c88" kindref="member">p99_latency_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Resource<sp/>usage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1sharding_1_1_shard_load_metrics_1a681d96af8c0df41f13849f6e00f99d61" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_shard_load_metrics_1a681d96af8c0df41f13849f6e00f99d61" kindref="member">cpu_usage_percent</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1sharding_1_1_shard_load_metrics_1a365f083f329e04372372b1f9f540a878" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_shard_load_metrics_1a365f083f329e04372372b1f9f540a878" kindref="member">memory_usage_mb</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Token<sp/>range<sp/>coverage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1sharding_1_1_shard_load_metrics_1aafcb31f58da48d28e8bf3ad9b2857b2f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_shard_load_metrics_1aafcb31f58da48d28e8bf3ad9b2857b2f" kindref="member">token_range_coverage</ref><sp/>=<sp/>0.0;<sp/><sp/></highlight><highlight class="comment">//<sp/>Percentage<sp/>of<sp/>total<sp/>ring</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Timestamp</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1sharding_1_1_shard_load_metrics_1a2285921e488467abbcd5e78869590436" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1sharding_1_1_shard_load_metrics_1a2285921e488467abbcd5e78869590436" kindref="member">last_update</ref>;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1sharding_1_1_load_forecast" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_load_forecast" kindref="compound">LoadForecast</ref><sp/>{</highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1sharding_1_1_load_forecast_1a1fb9ce8f6846d78c1c3df683ed25f08a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_load_forecast_1a1fb9ce8f6846d78c1c3df683ed25f08a" kindref="member">shard_id</ref>;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Predicted<sp/>load<sp/>values<sp/>(0–100<sp/>scale)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1sharding_1_1_load_forecast_1a56c0fe17fdfeaccfc54394638b638476" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_load_forecast_1a56c0fe17fdfeaccfc54394638b638476" kindref="member">predicted_cpu_percent</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1sharding_1_1_load_forecast_1afb61906c401a146da3371d50e2ec5b8f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_load_forecast_1afb61906c401a146da3371d50e2ec5b8f" kindref="member">predicted_storage_percent</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1sharding_1_1_load_forecast_1a9b0af00ae1c3f08a64f578dad4b4dc13" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_load_forecast_1a9b0af00ae1c3f08a64f578dad4b4dc13" kindref="member">predicted_composite_load</ref><sp/>=<sp/>0.0;<sp/><sp/></highlight><highlight class="comment">//<sp/>Weighted<sp/>composite<sp/>score</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Confidence<sp/>interval<sp/>(±)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1sharding_1_1_load_forecast_1aaa2f2b11dcb87eb7a562fb6ac40f39c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_load_forecast_1aaa2f2b11dcb87eb7a562fb6ac40f39c2" kindref="member">confidence_interval</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Forecast<sp/>horizon<sp/>used</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1sharding_1_1_load_forecast_1a8e18838d80023a4d6b7d0749d35728d1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::minutes<sp/><ref refid="structthemis_1_1sharding_1_1_load_forecast_1a8e18838d80023a4d6b7d0749d35728d1" kindref="member">horizon</ref>{5};</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Whether<sp/>the<sp/>forecast<sp/>is<sp/>based<sp/>on<sp/>sufficient<sp/>history<sp/>(false<sp/>=<sp/>best-guess<sp/>only)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1sharding_1_1_load_forecast_1aa393656361663906b0caf50b2a936d3b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_load_forecast_1aa393656361663906b0caf50b2a936d3b" kindref="member">has_sufficient_history</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1sharding_1_1_load_imbalance_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_load_imbalance_result" kindref="compound">LoadImbalanceResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1sharding_1_1_load_imbalance_result_1a0bc19bbe34feb606a2c5c461f18a4398" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_load_imbalance_result_1a0bc19bbe34feb606a2c5c461f18a4398" kindref="member">is_imbalanced</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1sharding_1_1_load_imbalance_result_1a430453d4e27fbce699c687509b54d8bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_load_imbalance_result_1a430453d4e27fbce699c687509b54d8bc" kindref="member">reason</ref>;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Hotspots<sp/>(overloaded<sp/>shards)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1sharding_1_1_load_imbalance_result_1a7fa418df32ebc242b06ae2e6099728eb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1sharding_1_1_load_imbalance_result_1a7fa418df32ebc242b06ae2e6099728eb" kindref="member">hotspot_shards</ref>;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cold<sp/>shards<sp/>(underutilized)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1sharding_1_1_load_imbalance_result_1aa30c5c0c26604bd3d8e4427eeb3ed17b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1sharding_1_1_load_imbalance_result_1aa30c5c0c26604bd3d8e4427eeb3ed17b" kindref="member">cold_shards</ref>;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Recommended<sp/>rebalance<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1sharding_1_1_load_imbalance_result_1_1_rebalance_recommendation" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_load_imbalance_result_1_1_rebalance_recommendation" kindref="compound">RebalanceRecommendation</ref><sp/>{</highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1sharding_1_1_load_imbalance_result_1_1_rebalance_recommendation_1a2027559ccbb616445d87483d75417f66" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_load_imbalance_result_1_1_rebalance_recommendation_1a2027559ccbb616445d87483d75417f66" kindref="member">source_shard</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Overloaded<sp/>shard</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1sharding_1_1_load_imbalance_result_1_1_rebalance_recommendation_1aeee480263bf60a7e19a905459b754b3d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_load_imbalance_result_1_1_rebalance_recommendation_1aeee480263bf60a7e19a905459b754b3d" kindref="member">target_shard</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Underloaded<sp/>shard</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1sharding_1_1_load_imbalance_result_1_1_rebalance_recommendation_1abd4b951d4de37e2eed83c80266a68004" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_load_imbalance_result_1_1_rebalance_recommendation_1abd4b951d4de37e2eed83c80266a68004" kindref="member">token_range_start</ref>;</highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1sharding_1_1_load_imbalance_result_1_1_rebalance_recommendation_1a8fcdb92d93010ce2d9dbc2b7e86ea9af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_load_imbalance_result_1_1_rebalance_recommendation_1a8fcdb92d93010ce2d9dbc2b7e86ea9af" kindref="member">token_range_end</ref>;</highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1sharding_1_1_load_imbalance_result_1_1_rebalance_recommendation_1a4d20d78d878737fcebe999297b4d064f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_load_imbalance_result_1_1_rebalance_recommendation_1a4d20d78d878737fcebe999297b4d064f" kindref="member">expected_load_reduction_percent</ref>;</highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1sharding_1_1_load_imbalance_result_1_1_rebalance_recommendation_1a7fa5755df2af8ebbbcab3889588203d5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_load_imbalance_result_1_1_rebalance_recommendation_1a7fa5755df2af8ebbbcab3889588203d5" kindref="member">justification</ref>;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1sharding_1_1_load_imbalance_result_1addd68f457449fb5ba5093c01c25d30aa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RebalanceRecommendation&gt;<sp/><ref refid="structthemis_1_1sharding_1_1_load_imbalance_result_1addd68f457449fb5ba5093c01c25d30aa" kindref="member">recommendations</ref>;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Overall<sp/>cluster<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1sharding_1_1_load_imbalance_result_1a0ac6c1b664d38f10b08cec2cc5106aeb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_load_imbalance_result_1a0ac6c1b664d38f10b08cec2cc5106aeb" kindref="member">cluster_load_variance</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1sharding_1_1_load_imbalance_result_1a70deb21fa77944271eaa1df8f2097554" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_load_imbalance_result_1a70deb21fa77944271eaa1df8f2097554" kindref="member">cluster_avg_load</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1sharding_1_1_load_imbalance_result_1a71f371329db92db98ffcc9f00a3127cf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_load_imbalance_result_1a71f371329db92db98ffcc9f00a3127cf" kindref="member">max_shard_load</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1sharding_1_1_load_imbalance_result_1a5b5db9f555a5e9710dd8a23f9e43290f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_load_imbalance_result_1a5b5db9f555a5e9710dd8a23f9e43290f" kindref="member">min_shard_load</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139" refid="classthemis_1_1sharding_1_1_shard_load_detector" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_shard_load_detector_1a63f1db083def5593155b6687e649117b" kindref="member">ShardLoadDetector</ref><sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="142" refid="structthemis_1_1sharding_1_1_shard_load_detector_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_shard_load_detector_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Detection<sp/>thresholds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144" refid="structthemis_1_1sharding_1_1_shard_load_detector_1_1_config_1aacf6679396664004f9e545c8daa7d702" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_shard_load_detector_1_1_config_1aacf6679396664004f9e545c8daa7d702" kindref="member">storage_imbalance_threshold</ref><sp/>=<sp/>0.30;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>30%<sp/>difference</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145" refid="structthemis_1_1sharding_1_1_shard_load_detector_1_1_config_1a11f9331446b2fe47946dfcf73c44d34b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_shard_load_detector_1_1_config_1a11f9331446b2fe47946dfcf73c44d34b" kindref="member">request_imbalance_threshold</ref><sp/>=<sp/>0.50;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>50%<sp/>difference</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146" refid="structthemis_1_1sharding_1_1_shard_load_detector_1_1_config_1ab5e4d9312e4dfc779d4be4d2bc87d428" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_shard_load_detector_1_1_config_1ab5e4d9312e4dfc779d4be4d2bc87d428" kindref="member">latency_degradation_threshold</ref><sp/>=<sp/>2.0;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>2x<sp/>average</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147" refid="structthemis_1_1sharding_1_1_shard_load_detector_1_1_config_1a166f3f42b889b35470fc443be60b75c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_shard_load_detector_1_1_config_1a166f3f42b889b35470fc443be60b75c3" kindref="member">cpu_exhaustion_threshold</ref><sp/>=<sp/>0.80;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>80%<sp/>CPU</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148" refid="structthemis_1_1sharding_1_1_shard_load_detector_1_1_config_1a3b961d1d94221f3925195de28bf6ec45" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_shard_load_detector_1_1_config_1a3b961d1d94221f3925195de28bf6ec45" kindref="member">storage_exhaustion_threshold</ref><sp/>=<sp/>0.85;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>85%<sp/>storage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Minimum<sp/>data<sp/>for<sp/>detection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151" refid="structthemis_1_1sharding_1_1_shard_load_detector_1_1_config_1a3190289e408e619d2cde86290f21a794" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_shard_load_detector_1_1_config_1a3190289e408e619d2cde86290f21a794" kindref="member">min_shards_for_detection</ref><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="152" refid="structthemis_1_1sharding_1_1_shard_load_detector_1_1_config_1af435f28d7c6ffc09a0471d5d0695a3d5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_shard_load_detector_1_1_config_1af435f28d7c6ffc09a0471d5d0695a3d5" kindref="member">min_samples_per_shard</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Detection<sp/>interval</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155" refid="structthemis_1_1sharding_1_1_shard_load_detector_1_1_config_1a7537e9c21b56dcf773b7d3a40a5a7dce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1sharding_1_1_shard_load_detector_1_1_config_1a7537e9c21b56dcf773b7d3a40a5a7dce" kindref="member">detection_interval</ref>{std::chrono::minutes(5)};</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cooldown<sp/>after<sp/>rebalancing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158" refid="structthemis_1_1sharding_1_1_shard_load_detector_1_1_config_1afdab7a1f36760bde158427a2a3f96133" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1sharding_1_1_shard_load_detector_1_1_config_1afdab7a1f36760bde158427a2a3f96133" kindref="member">rebalance_cooldown</ref>{std::chrono::hours(1)};</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_shard_load_detector_1a63f1db083def5593155b6687e649117b" kindref="member">ShardLoadDetector</ref>(</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ShardTopology&gt;<sp/>topology,</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;PrometheusMetrics&gt;<sp/>metrics</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_shard_load_detector_1a63f1db083def5593155b6687e649117b" kindref="member">ShardLoadDetector</ref>(</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ShardTopology&gt;<sp/>topology,</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;PrometheusMetrics&gt;<sp/>metrics,</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Config&amp;<sp/>config</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_shard_load_detector_1ae1d4380b849b101e4c1eb5fa2b5f1287" kindref="member">updateShardLoad</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_shard_load_metrics" kindref="compound">ShardLoadMetrics</ref>&amp;<sp/>metrics);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_load_imbalance_result" kindref="compound">LoadImbalanceResult</ref><sp/><ref refid="classthemis_1_1sharding_1_1_shard_load_detector_1a27a24dfac1a385b76a02eedc65ec48e4" kindref="member">detectImbalance</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;ShardLoadMetrics&gt;<sp/><ref refid="classthemis_1_1sharding_1_1_shard_load_detector_1a8d1514826359fa3114f9fbcc917f0894" kindref="member">getShardLoad</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>ShardLoadMetrics&gt;<sp/><ref refid="classthemis_1_1sharding_1_1_shard_load_detector_1ab65ff9aaf58bb6046a88c5fe6f9f1181" kindref="member">getAllShardLoads</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_shard_load_detector_1a95309d30c7676785fe4e92b8c72b42ba" kindref="member">recordRebalanceTriggered</ref>();</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_shard_load_detector_1add1ef5fe080334777e7754d3d3cccf8e" kindref="member">isInCooldown</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1sharding_1_1_shard_load_detector_1aedffb33fb82eda5eaf7767b94cf95114" kindref="member">getStatistics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;LoadForecast&gt;<sp/><ref refid="classthemis_1_1sharding_1_1_shard_load_detector_1af729f9db96ed459ae7b14a9ca1b62de1" kindref="member">forecastLoad</ref>(</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id,</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::minutes<sp/>horizon<sp/>=<sp/>std::chrono::minutes{5}</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235" refid="classthemis_1_1sharding_1_1_shard_load_detector_1a8c72cee1d16cdc102fae1d11317749c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_shard_load_detector_1a8c72cee1d16cdc102fae1d11317749c5" kindref="member">kMaxHistorySamples</ref><sp/>=<sp/>60;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ShardTopology&gt;<sp/>topology_;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;PrometheusMetrics&gt;<sp/>metrics_;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_shard_load_detector_1_1_config" kindref="compound">Config</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Load<sp/>metrics<sp/>per<sp/>shard<sp/>(latest<sp/>snapshot)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>ShardLoadMetrics&gt;<sp/>shard_loads_;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-shard<sp/>history<sp/>for<sp/>trend-based<sp/>forecasting<sp/>(ring-buffer<sp/>semantics<sp/>via<sp/>deque)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::deque&lt;ShardLoadMetrics&gt;&gt;<sp/>shard_load_history_;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cooldown<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/>last_rebalance_time_;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;<sp/>total_detections_{0};</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;<sp/>imbalance_detections_{0};</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>rebalance_triggers_{0};</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Detection<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>detectStorageImbalance(</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>ShardLoadMetrics&gt;&amp;<sp/>loads,</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>LoadImbalanceResult&amp;<sp/>result</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>detectRequestImbalance(</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>ShardLoadMetrics&gt;&amp;<sp/>loads,</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>LoadImbalanceResult&amp;<sp/>result</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>detectLatencyDegradation(</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>ShardLoadMetrics&gt;&amp;<sp/>loads,</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>LoadImbalanceResult&amp;<sp/>result</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>detectResourceExhaustion(</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>ShardLoadMetrics&gt;&amp;<sp/>loads,</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>LoadImbalanceResult&amp;<sp/>result</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>generateRebalanceRecommendations(</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>ShardLoadMetrics&gt;&amp;<sp/>loads,</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>LoadImbalanceResult&amp;<sp/>result</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>calculateLoad(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ShardLoadMetrics&amp;<sp/>metrics)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>calculateVariance(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;double&gt;&amp;<sp/>values)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::pair&lt;double,<sp/>double&gt;<sp/>linearRegression(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;double&gt;&amp;<sp/>values);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>sharding</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/sharding/shard_load_detector.h"/>
+  </compounddef>
+</doxygen>

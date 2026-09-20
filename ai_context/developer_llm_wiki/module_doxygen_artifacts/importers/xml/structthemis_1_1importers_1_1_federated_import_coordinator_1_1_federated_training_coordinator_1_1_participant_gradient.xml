@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_training_coordinator_1_1_participant_gradient" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::FederatedImportCoordinator::FederatedTrainingCoordinator::ParticipantGradient</compoundname>
+    <includes refid="federated__learning_8h" local="no">federated_learning.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_training_coordinator_1_1_participant_gradient_1a95339bc4b18c1221a7fc1565ed332fee" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::FederatedImportCoordinator::FederatedTrainingCoordinator::ParticipantGradient::participant_id</definition>
+        <argsstring></argsstring>
+        <name>participant_id</name>
+        <qualifiedname>themis::importers::FederatedImportCoordinator::FederatedTrainingCoordinator::ParticipantGradient::participant_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/federated_learning.h" line="113" column="25" bodyfile="include/importers/federated_learning.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_training_coordinator_1_1_participant_gradient_1a8c7d6b9e852e67b8c8c80d36e5abea45" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themis::importers::FederatedImportCoordinator::FederatedTrainingCoordinator::ParticipantGradient::gradient</definition>
+        <argsstring></argsstring>
+        <name>gradient</name>
+        <qualifiedname>themis::importers::FederatedImportCoordinator::FederatedTrainingCoordinator::ParticipantGradient::gradient</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/federated_learning.h" line="114" column="25" bodyfile="include/importers/federated_learning.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_training_coordinator_1_1_participant_gradient_1a286f186ed506f48162d3547b68c2ec2a" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::importers::FederatedImportCoordinator::FederatedTrainingCoordinator::ParticipantGradient::sample_count</definition>
+        <argsstring></argsstring>
+        <name>sample_count</name>
+        <qualifiedname>themis::importers::FederatedImportCoordinator::FederatedTrainingCoordinator::ParticipantGradient::sample_count</qualifiedname>
+        <initializer>{1}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/federated_learning.h" line="115" column="25" bodyfile="include/importers/federated_learning.h" bodystart="115" bodyend="115"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/federated_learning.h" line="112" column="9" bodyfile="include/importers/federated_learning.h" bodystart="112" bodyend="116"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_training_coordinator_1_1_participant_gradient_1a8c7d6b9e852e67b8c8c80d36e5abea45" prot="public" virt="non-virtual"><scope>themis::importers::FederatedImportCoordinator::FederatedTrainingCoordinator::ParticipantGradient</scope><name>gradient</name></member>
+      <member refid="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_training_coordinator_1_1_participant_gradient_1a95339bc4b18c1221a7fc1565ed332fee" prot="public" virt="non-virtual"><scope>themis::importers::FederatedImportCoordinator::FederatedTrainingCoordinator::ParticipantGradient</scope><name>participant_id</name></member>
+      <member refid="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_training_coordinator_1_1_participant_gradient_1a286f186ed506f48162d3547b68c2ec2a" prot="public" virt="non-virtual"><scope>themis::importers::FederatedImportCoordinator::FederatedTrainingCoordinator::ParticipantGradient</scope><name>sample_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,215 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__tensor_1_1_checkpoint" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::Checkpoint</compoundname>
+    <includes refid="crash__recovery__checkpoint_8h" local="no">crash_recovery_checkpoint.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_checkpoint_1af6c160f0bd8ffec7fbcb9b558b723c88" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::distributed_tensor::Checkpoint::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::distributed_tensor::Checkpoint::version</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/crash_recovery_checkpoint.h" line="53" column="12" bodyfile="src/distributed_tensor/include/crash_recovery_checkpoint.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_checkpoint_1a945941bba93c0989a6f5c2ec92687037" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::distributed_tensor::Checkpoint::created_at_unix_sec</definition>
+        <argsstring></argsstring>
+        <name>created_at_unix_sec</name>
+        <qualifiedname>themis::distributed_tensor::Checkpoint::created_at_unix_sec</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/crash_recovery_checkpoint.h" line="55" column="11" bodyfile="src/distributed_tensor/include/crash_recovery_checkpoint.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_checkpoint_1a0cd2ece363201f0205d4a5d0af2df7b8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::Checkpoint::artifact_id</definition>
+        <argsstring></argsstring>
+        <name>artifact_id</name>
+        <qualifiedname>themis::distributed_tensor::Checkpoint::artifact_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/crash_recovery_checkpoint.h" line="57" column="15" bodyfile="src/distributed_tensor/include/crash_recovery_checkpoint.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_checkpoint_1aa9b000014c3053e888dcc22b5805186b" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1distributed__tensor_1_1_delta_window" kindref="compound">DeltaWindow</ref></type>
+        <definition>DeltaWindow themis::distributed_tensor::Checkpoint::delta_window</definition>
+        <argsstring></argsstring>
+        <name>delta_window</name>
+        <qualifiedname>themis::distributed_tensor::Checkpoint::delta_window</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/crash_recovery_checkpoint.h" line="59" column="15" bodyfile="src/distributed_tensor/include/crash_recovery_checkpoint.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_checkpoint_1a23f3887b0f46895a74c2088cb474abc9" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref></type>
+        <definition>ArtifactManifest themis::distributed_tensor::Checkpoint::current_manifest</definition>
+        <argsstring></argsstring>
+        <name>current_manifest</name>
+        <qualifiedname>themis::distributed_tensor::Checkpoint::current_manifest</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/crash_recovery_checkpoint.h" line="61" column="20" bodyfile="src/distributed_tensor/include/crash_recovery_checkpoint.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_checkpoint_1a96ff0667a62cfd7e03605168630f6953" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::Checkpoint::artifact_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>artifact_size_bytes</name>
+        <qualifiedname>themis::distributed_tensor::Checkpoint::artifact_size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/crash_recovery_checkpoint.h" line="63" column="12" bodyfile="src/distributed_tensor/include/crash_recovery_checkpoint.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_checkpoint_1a9432be80ad6250ec05cb69d818845572" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::distributed_tensor::Checkpoint::last_decision</definition>
+        <argsstring></argsstring>
+        <name>last_decision</name>
+        <qualifiedname>themis::distributed_tensor::Checkpoint::last_decision</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/crash_recovery_checkpoint.h" line="65" column="12" bodyfile="src/distributed_tensor/include/crash_recovery_checkpoint.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_checkpoint_1a48b8daa19af65e0cdaef2e95a2db558f" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::distributed_tensor::Checkpoint::progress_percent</definition>
+        <argsstring></argsstring>
+        <name>progress_percent</name>
+        <qualifiedname>themis::distributed_tensor::Checkpoint::progress_percent</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/crash_recovery_checkpoint.h" line="67" column="12" bodyfile="src/distributed_tensor/include/crash_recovery_checkpoint.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_checkpoint_1a5b7620178a6622b157dd4dd55f0321fc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::Checkpoint::last_error_message</definition>
+        <argsstring></argsstring>
+        <name>last_error_message</name>
+        <qualifiedname>themis::distributed_tensor::Checkpoint::last_error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/crash_recovery_checkpoint.h" line="69" column="15" bodyfile="src/distributed_tensor/include/crash_recovery_checkpoint.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_checkpoint_1a43aaced0ac001ff7cc3932febab876f9" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::distributed_tensor::Checkpoint::retry_count</definition>
+        <argsstring></argsstring>
+        <name>retry_count</name>
+        <qualifiedname>themis::distributed_tensor::Checkpoint::retry_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/crash_recovery_checkpoint.h" line="71" column="12" bodyfile="src/distributed_tensor/include/crash_recovery_checkpoint.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_checkpoint_1a51fc931cb471de3c294334ff26f698c0" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::distributed_tensor::Checkpoint::max_retries</definition>
+        <argsstring></argsstring>
+        <name>max_retries</name>
+        <qualifiedname>themis::distributed_tensor::Checkpoint::max_retries</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/crash_recovery_checkpoint.h" line="73" column="12" bodyfile="src/distributed_tensor/include/crash_recovery_checkpoint.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="4">
+        <label>themis::distributed_tensor::ArtifactIntegrity</label>
+        <link refid="structthemis_1_1distributed__tensor_1_1_artifact_integrity"/>
+      </node>
+      <node id="3">
+        <label>themis::distributed_tensor::ArtifactManifest</label>
+        <link refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>integrity</edgelabel>
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::distributed_tensor::Checkpoint</label>
+        <link refid="structthemis_1_1distributed__tensor_1_1_checkpoint"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>delta_window</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>current_manifest</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::distributed_tensor::DeltaWindow</label>
+        <link refid="structthemis_1_1distributed__tensor_1_1_delta_window"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/distributed_tensor/include/crash_recovery_checkpoint.h" line="52" column="1" bodyfile="src/distributed_tensor/include/crash_recovery_checkpoint.h" bodystart="52" bodyend="74"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__tensor_1_1_checkpoint_1a0cd2ece363201f0205d4a5d0af2df7b8" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::Checkpoint</scope><name>artifact_id</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_checkpoint_1a96ff0667a62cfd7e03605168630f6953" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::Checkpoint</scope><name>artifact_size_bytes</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_checkpoint_1a945941bba93c0989a6f5c2ec92687037" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::Checkpoint</scope><name>created_at_unix_sec</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_checkpoint_1a23f3887b0f46895a74c2088cb474abc9" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::Checkpoint</scope><name>current_manifest</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_checkpoint_1aa9b000014c3053e888dcc22b5805186b" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::Checkpoint</scope><name>delta_window</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_checkpoint_1a9432be80ad6250ec05cb69d818845572" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::Checkpoint</scope><name>last_decision</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_checkpoint_1a5b7620178a6622b157dd4dd55f0321fc" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::Checkpoint</scope><name>last_error_message</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_checkpoint_1a51fc931cb471de3c294334ff26f698c0" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::Checkpoint</scope><name>max_retries</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_checkpoint_1a48b8daa19af65e0cdaef2e95a2db558f" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::Checkpoint</scope><name>progress_percent</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_checkpoint_1a43aaced0ac001ff7cc3932febab876f9" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::Checkpoint</scope><name>retry_count</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_checkpoint_1af6c160f0bd8ffec7fbcb9b558b723c88" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::Checkpoint</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

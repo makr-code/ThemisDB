@@ -1,0 +1,241 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_buffer_pool" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::graph::test::phase3::res::BufferPool</compoundname>
+    <innerclass refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_buffer_pool_1_1_metrics" prot="public">themisdb::graph::test::phase3::res::BufferPool::Metrics</innerclass>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_buffer_pool_1a641d8396f94535ebcde20aab340b41fd" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::graph::test::phase3::res::BufferPool::kClasses[]</definition>
+        <argsstring>[]</argsstring>
+        <name>kClasses</name>
+        <qualifiedname>themisdb::graph::test::phase3::res::BufferPool::kClasses</qualifiedname>
+        <initializer>= {128, 256, 512, 1024, 2048, 4096}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1435" column="29" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1435" bodyend="1435"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_buffer_pool_1a43b19fed95f9265538c7019023eb2b09" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::graph::test::phase3::res::BufferPool::kNumClasses</definition>
+        <argsstring></argsstring>
+        <name>kNumClasses</name>
+        <qualifiedname>themisdb::graph::test::phase3::res::BufferPool::kNumClasses</qualifiedname>
+        <initializer>= 6</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1436" column="29" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1436" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_buffer_pool_1acb1bddd8fb8bb75c7d1f861f2032a9f3" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::graph::test::phase3::res::BufferPool::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>themisdb::graph::test::phase3::res::BufferPool::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1502" column="24" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1502" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_buffer_pool_1ae37555aa6c88d4fad19bf1ca7d05832c" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::unique_ptr&lt; std::vector&lt; uint8_t &gt; &gt; &gt;</type>
+        <definition>std::vector&lt;std::unique_ptr&lt;std::vector&lt;uint8_t&gt; &gt; &gt; themisdb::graph::test::phase3::res::BufferPool::slabs_[kNumClasses]</definition>
+        <argsstring>[kNumClasses]</argsstring>
+        <name>slabs_</name>
+        <qualifiedname>themisdb::graph::test::phase3::res::BufferPool::slabs_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1503" column="17" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1503" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_buffer_pool_1aca9f2003f048b19b592d502a92d10d3b" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::graph::test::phase3::res::BufferPool::request_count_</definition>
+        <argsstring></argsstring>
+        <name>request_count_</name>
+        <qualifiedname>themisdb::graph::test::phase3::res::BufferPool::request_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1504" column="14" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1504" bodyend="1504"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_buffer_pool_1a7a59254622c738e7e14c762c36c5ff1d" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::graph::test::phase3::res::BufferPool::cold_allocations_</definition>
+        <argsstring></argsstring>
+        <name>cold_allocations_</name>
+        <qualifiedname>themisdb::graph::test::phase3::res::BufferPool::cold_allocations_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1505" column="14" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1505" bodyend="1505"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_buffer_pool_1a3023d0225791ac17b226a30cfd372561" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_buffer_pool_1_1_metrics" kindref="compound">Metrics</ref></type>
+        <definition>Metrics themisdb::graph::test::phase3::res::BufferPool::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themisdb::graph::test::phase3::res::BufferPool::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1506" column="13" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1506" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_buffer_pool_1a9b4dcc5b9fe5c78d4b6431105685e1c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::res::BufferPool::BufferPool</definition>
+        <argsstring>()=default</argsstring>
+        <name>BufferPool</name>
+        <qualifiedname>themisdb::graph::test::phase3::res::BufferPool::BufferPool</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1444" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_buffer_pool_1a9ebe8e18b0b981dcab9104e65dd268e2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt; *</type>
+        <definition>std::vector&lt; uint8_t &gt; * themisdb::graph::test::phase3::res::BufferPool::alloc</definition>
+        <argsstring>(size_t size)</argsstring>
+        <name>alloc</name>
+        <qualifiedname>themisdb::graph::test::phase3::res::BufferPool::alloc</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Allocate a buffer of at least <computeroutput>size</computeroutput> bytes. Returns nullptr if size exceeds max class (4096). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1448" column="17" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1448" bodyend="1462"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_buffer_pool_1a01d4f233a9bf3435e2e08b13780ff8f3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::graph::test::phase3::res::BufferPool::free</definition>
+        <argsstring>(std::vector&lt; uint8_t &gt; *buf, size_t size)</argsstring>
+        <name>free</name>
+        <qualifiedname>themisdb::graph::test::phase3::res::BufferPool::free</qualifiedname>
+        <param>
+          <type>std::vector&lt; uint8_t &gt; *</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Return a buffer back to the pool (nullptr is silently ignored). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1465" column="10" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1465" bodyend="1478"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_buffer_pool_1ab3d537b9bd8bbe8b9282abf1be3e4bf4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themisdb::graph::test::phase3::res::BufferPool::reuseRate</definition>
+        <argsstring>() const</argsstring>
+        <name>reuseRate</name>
+        <qualifiedname>themisdb::graph::test::phase3::res::BufferPool::reuseRate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1480" column="12" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1480" bodyend="1489"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_buffer_pool_1a5813dbb6d7f2ccf6c31eb4e7c76bbac2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_buffer_pool_1_1_metrics" kindref="compound">Metrics</ref></type>
+        <definition>Metrics themisdb::graph::test::phase3::res::BufferPool::metrics</definition>
+        <argsstring>() const</argsstring>
+        <name>metrics</name>
+        <qualifiedname>themisdb::graph::test::phase3::res::BufferPool::metrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1491" column="13" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1491" bodyend="1491"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_buffer_pool_1a847c8e71211a589579ff209ccd54d5a7" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>static size_t themisdb::graph::test::phase3::res::BufferPool::classFor</definition>
+        <argsstring>(size_t size)</argsstring>
+        <name>classFor</name>
+        <qualifiedname>themisdb::graph::test::phase3::res::BufferPool::classFor</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1494" column="19" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1494" bodyend="1500"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Slab-allocator style buffer pool with size classes. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Size classes: 128, 256, 512, 1024, 2048, 4096 bytes. Buffers are reused (allocated once, returned to pool on free). </para>
+    </detaileddescription>
+    <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1433" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1433" bodyend="1507"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_buffer_pool_1a9ebe8e18b0b981dcab9104e65dd268e2" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::res::BufferPool</scope><name>alloc</name></member>
+      <member refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_buffer_pool_1a9b4dcc5b9fe5c78d4b6431105685e1c8" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::res::BufferPool</scope><name>BufferPool</name></member>
+      <member refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_buffer_pool_1a847c8e71211a589579ff209ccd54d5a7" prot="private" virt="non-virtual"><scope>themisdb::graph::test::phase3::res::BufferPool</scope><name>classFor</name></member>
+      <member refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_buffer_pool_1a7a59254622c738e7e14c762c36c5ff1d" prot="private" virt="non-virtual"><scope>themisdb::graph::test::phase3::res::BufferPool</scope><name>cold_allocations_</name></member>
+      <member refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_buffer_pool_1a01d4f233a9bf3435e2e08b13780ff8f3" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::res::BufferPool</scope><name>free</name></member>
+      <member refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_buffer_pool_1a641d8396f94535ebcde20aab340b41fd" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::res::BufferPool</scope><name>kClasses</name></member>
+      <member refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_buffer_pool_1a43b19fed95f9265538c7019023eb2b09" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::res::BufferPool</scope><name>kNumClasses</name></member>
+      <member refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_buffer_pool_1a5813dbb6d7f2ccf6c31eb4e7c76bbac2" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::res::BufferPool</scope><name>metrics</name></member>
+      <member refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_buffer_pool_1a3023d0225791ac17b226a30cfd372561" prot="private" virt="non-virtual"><scope>themisdb::graph::test::phase3::res::BufferPool</scope><name>metrics_</name></member>
+      <member refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_buffer_pool_1acb1bddd8fb8bb75c7d1f861f2032a9f3" prot="private" virt="non-virtual"><scope>themisdb::graph::test::phase3::res::BufferPool</scope><name>mu_</name></member>
+      <member refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_buffer_pool_1aca9f2003f048b19b592d502a92d10d3b" prot="private" virt="non-virtual"><scope>themisdb::graph::test::phase3::res::BufferPool</scope><name>request_count_</name></member>
+      <member refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_buffer_pool_1ab3d537b9bd8bbe8b9282abf1be3e4bf4" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::res::BufferPool</scope><name>reuseRate</name></member>
+      <member refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_buffer_pool_1ae37555aa6c88d4fad19bf1ca7d05832c" prot="private" virt="non-virtual"><scope>themisdb::graph::test::phase3::res::BufferPool</scope><name>slabs_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

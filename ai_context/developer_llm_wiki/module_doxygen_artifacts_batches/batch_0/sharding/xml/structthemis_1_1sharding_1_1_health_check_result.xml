@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_health_check_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::HealthCheckResult</compoundname>
+    <includes refid="health__monitor_8h" local="no">health_monitor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_health_check_result_1aaacd516d52544ad9ae9a665f6f765a20" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::HealthCheckResult::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themis::sharding::HealthCheckResult::node_id</qualifiedname>
+        <briefdescription>
+<para>Node identifier for the checked target. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="40" column="17" bodyfile="include/sharding/health_monitor.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_health_check_result_1acf34b658a9b93ac42269c7657b530954" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1sharding_1ae1eab07d10949d0a0e025259600721f7" kindref="member">HealthStatus</ref></type>
+        <definition>HealthStatus themis::sharding::HealthCheckResult::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::sharding::HealthCheckResult::status</qualifiedname>
+        <briefdescription>
+<para>Current computed health state after state-machine transition. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="42" column="18" bodyfile="include/sharding/health_monitor.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_health_check_result_1a85478340a5fa5e6b8a7b10b2c57fa001" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::sharding::HealthCheckResult::last_check</definition>
+        <argsstring></argsstring>
+        <name>last_check</name>
+        <qualifiedname>themis::sharding::HealthCheckResult::last_check</qualifiedname>
+        <briefdescription>
+<para>Timestamp of most recent check execution. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="44" column="43" bodyfile="include/sharding/health_monitor.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_health_check_result_1a26a0db2029e2e1becfb1584c66be43db" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::sharding::HealthCheckResult::response_time</definition>
+        <argsstring></argsstring>
+        <name>response_time</name>
+        <qualifiedname>themis::sharding::HealthCheckResult::response_time</qualifiedname>
+        <briefdescription>
+<para>End-to-end health endpoint response latency. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="46" column="31" bodyfile="include/sharding/health_monitor.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_health_check_result_1ae2316d2841ad4117f1e405989adf57b8" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::HealthCheckResult::consecutive_failures</definition>
+        <argsstring></argsstring>
+        <name>consecutive_failures</name>
+        <qualifiedname>themis::sharding::HealthCheckResult::consecutive_failures</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Consecutive failed checks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="48" column="14" bodyfile="include/sharding/health_monitor.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_health_check_result_1af0b03aef538f64a43c0b18623ab30b05" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::HealthCheckResult::consecutive_successes</definition>
+        <argsstring></argsstring>
+        <name>consecutive_successes</name>
+        <qualifiedname>themis::sharding::HealthCheckResult::consecutive_successes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Consecutive successful checks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="50" column="14" bodyfile="include/sharding/health_monitor.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_health_check_result_1a6dbc71ef04d9bd17470f74ca98264ec0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::HealthCheckResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::sharding::HealthCheckResult::error_message</qualifiedname>
+        <briefdescription>
+<para>Diagnostic message for failures/timeouts. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="52" column="17" bodyfile="include/sharding/health_monitor.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_health_check_result_1ae8737e2d49ea86aefc226fbd4fe8f42b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::HealthCheckResult::isHealthy</definition>
+        <argsstring>() const</argsstring>
+        <name>isHealthy</name>
+        <qualifiedname>themis::sharding::HealthCheckResult::isHealthy</qualifiedname>
+        <briefdescription>
+<para>Convenience predicate for operationally healthy states. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true for HEALTHY and RECOVERING states. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="58" column="10" bodyfile="include/sharding/health_monitor.h" bodystart="58" bodyend="60"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result payload for one node health-check cycle. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/health_monitor.h" line="38" column="1" bodyfile="include/sharding/health_monitor.h" bodystart="38" bodyend="61"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_health_check_result_1ae2316d2841ad4117f1e405989adf57b8" prot="public" virt="non-virtual"><scope>themis::sharding::HealthCheckResult</scope><name>consecutive_failures</name></member>
+      <member refid="structthemis_1_1sharding_1_1_health_check_result_1af0b03aef538f64a43c0b18623ab30b05" prot="public" virt="non-virtual"><scope>themis::sharding::HealthCheckResult</scope><name>consecutive_successes</name></member>
+      <member refid="structthemis_1_1sharding_1_1_health_check_result_1a6dbc71ef04d9bd17470f74ca98264ec0" prot="public" virt="non-virtual"><scope>themis::sharding::HealthCheckResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1sharding_1_1_health_check_result_1ae8737e2d49ea86aefc226fbd4fe8f42b" prot="public" virt="non-virtual"><scope>themis::sharding::HealthCheckResult</scope><name>isHealthy</name></member>
+      <member refid="structthemis_1_1sharding_1_1_health_check_result_1a85478340a5fa5e6b8a7b10b2c57fa001" prot="public" virt="non-virtual"><scope>themis::sharding::HealthCheckResult</scope><name>last_check</name></member>
+      <member refid="structthemis_1_1sharding_1_1_health_check_result_1aaacd516d52544ad9ae9a665f6f765a20" prot="public" virt="non-virtual"><scope>themis::sharding::HealthCheckResult</scope><name>node_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_health_check_result_1a26a0db2029e2e1becfb1584c66be43db" prot="public" virt="non-virtual"><scope>themis::sharding::HealthCheckResult</scope><name>response_time</name></member>
+      <member refid="structthemis_1_1sharding_1_1_health_check_result_1acf34b658a9b93ac42269c7657b530954" prot="public" virt="non-virtual"><scope>themis::sharding::HealthCheckResult</scope><name>status</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1bench_1_1llm__hp_1_1_stub_cancel_token" kind="class" language="C++" prot="public">
+    <compoundname>themis::bench::llm_hp::StubCancelToken</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1bench_1_1llm__hp_1_1_stub_cancel_token_1a3d51e8bbf009fbb2cc72163f98cb2e5b" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::bench::llm_hp::StubCancelToken::cancelled_</definition>
+        <argsstring></argsstring>
+        <name>cancelled_</name>
+        <qualifiedname>themis::bench::llm_hp::StubCancelToken::cancelled_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_hotpaths.cpp" line="114" column="17" bodyfile="benchmarks/llm/bench_llm_hotpaths.cpp" bodystart="114" bodyend="114"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1bench_1_1llm__hp_1_1_stub_cancel_token_1a218bd2e8234d1befe2f454874504ef76" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::bench::llm_hp::StubCancelToken::isCancelled</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isCancelled</name>
+        <qualifiedname>themis::bench::llm_hp::StubCancelToken::isCancelled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_hotpaths.cpp" line="109" column="10" bodyfile="benchmarks/llm/bench_llm_hotpaths.cpp" bodystart="109" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1llm__hp_1_1_stub_cancel_token_1a8457ce3143ed46c2b9f033fbb52e888f" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::llm_hp::StubCancelToken::cancel</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>cancel</name>
+        <qualifiedname>themis::bench::llm_hp::StubCancelToken::cancel</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_hotpaths.cpp" line="112" column="10" bodyfile="benchmarks/llm/bench_llm_hotpaths.cpp" bodystart="112" bodyend="112"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Stub cancellation token. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/llm/bench_llm_hotpaths.cpp" line="107" column="1" bodyfile="benchmarks/llm/bench_llm_hotpaths.cpp" bodystart="107" bodyend="115"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1bench_1_1llm__hp_1_1_stub_cancel_token_1a8457ce3143ed46c2b9f033fbb52e888f" prot="public" virt="non-virtual"><scope>themis::bench::llm_hp::StubCancelToken</scope><name>cancel</name></member>
+      <member refid="classthemis_1_1bench_1_1llm__hp_1_1_stub_cancel_token_1a3d51e8bbf009fbb2cc72163f98cb2e5b" prot="private" virt="non-virtual"><scope>themis::bench::llm_hp::StubCancelToken</scope><name>cancelled_</name></member>
+      <member refid="classthemis_1_1bench_1_1llm__hp_1_1_stub_cancel_token_1a218bd2e8234d1befe2f454874504ef76" prot="public" virt="non-virtual"><scope>themis::bench::llm_hp::StubCancelToken</scope><name>isCancelled</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_preprocessing_step" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::PreprocessingStep</compoundname>
+    <includes refid="training__interfaces_8h" local="no">training_interfaces.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_preprocessing_step_1ac6ab38067c7a04600053f8b05434449f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::PreprocessingStep::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::training::PreprocessingStep::name</qualifiedname>
+        <briefdescription>
+<para>Step identifier (e.g., &quot;tokenise&quot;, &quot;dedup&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="58" column="17" bodyfile="include/training/training_interfaces.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_preprocessing_step_1a9ff6a89a1acabcd73668fbc22fc151d8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::PreprocessingStep::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::training::PreprocessingStep::version</qualifiedname>
+        <briefdescription>
+<para>Component version string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="59" column="17" bodyfile="include/training/training_interfaces.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_preprocessing_step_1a2445f146a81cdc9b4966614b5a27ce71" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::PreprocessingStep::parameters</definition>
+        <argsstring></argsstring>
+        <name>parameters</name>
+        <qualifiedname>themis::training::PreprocessingStep::parameters</qualifiedname>
+        <briefdescription>
+<para>Serialised step parameters (JSON or key=value). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="60" column="17" bodyfile="include/training/training_interfaces.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1training_1_1_preprocessing_step_1ac261992b43324c60a357120fdc7c18be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::PreprocessingStep::PreprocessingStep</definition>
+        <argsstring>()=default</argsstring>
+        <name>PreprocessingStep</name>
+        <qualifiedname>themis::training::PreprocessingStep::PreprocessingStep</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="62" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Preprocessing step recorded in a provenance entry. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/training/training_interfaces.h" line="57" column="1" bodyfile="include/training/training_interfaces.h" bodystart="57" bodyend="63"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_preprocessing_step_1ac6ab38067c7a04600053f8b05434449f" prot="public" virt="non-virtual"><scope>themis::training::PreprocessingStep</scope><name>name</name></member>
+      <member refid="structthemis_1_1training_1_1_preprocessing_step_1a2445f146a81cdc9b4966614b5a27ce71" prot="public" virt="non-virtual"><scope>themis::training::PreprocessingStep</scope><name>parameters</name></member>
+      <member refid="structthemis_1_1training_1_1_preprocessing_step_1ac261992b43324c60a357120fdc7c18be" prot="public" virt="non-virtual"><scope>themis::training::PreprocessingStep</scope><name>PreprocessingStep</name></member>
+      <member refid="structthemis_1_1training_1_1_preprocessing_step_1a9ff6a89a1acabcd73668fbc22fc151d8" prot="public" virt="non-virtual"><scope>themis::training::PreprocessingStep</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

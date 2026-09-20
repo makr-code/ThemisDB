@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_gateway_node" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::GatewayNode</compoundname>
+    <includes refid="distributed__gateway_8h" local="no">distributed_gateway.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_gateway_node_1a9779d53a63241701d90174ccc3d16730" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::GatewayNode::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themis::server::GatewayNode::node_id</qualifiedname>
+        <briefdescription>
+<para>Unique node identifier (e.g. &quot;gw-1&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="36" column="17" bodyfile="include/server/distributed_gateway.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_gateway_node_1a9b1688b7b5bd1979441c4dc1d79b5054" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::GatewayNode::address</definition>
+        <argsstring></argsstring>
+        <name>address</name>
+        <qualifiedname>themis::server::GatewayNode::address</qualifiedname>
+        <briefdescription>
+<para>Host address (IP or hostname). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="37" column="17" bodyfile="include/server/distributed_gateway.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_gateway_node_1a7824fe123c12b989828aca1e0b760035" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t themis::server::GatewayNode::port</definition>
+        <argsstring></argsstring>
+        <name>port</name>
+        <qualifiedname>themis::server::GatewayNode::port</qualifiedname>
+        <initializer>{8080}</initializer>
+        <briefdescription>
+<para>HTTP(S) port. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="38" column="17" bodyfile="include/server/distributed_gateway.h" bodystart="38" bodyend="38"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1server_1_1_gateway_node_1a3cf0fd078623d183b3ee6ffbe012a523" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::GatewayNode::operator==</definition>
+        <argsstring>(const GatewayNode &amp;o) const noexcept</argsstring>
+        <name>operator==</name>
+        <qualifiedname>themis::server::GatewayNode::operator==</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_gateway_node" kindref="compound">GatewayNode</ref> &amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="40" column="10" bodyfile="include/server/distributed_gateway.h" bodystart="40" bodyend="42"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/distributed_gateway.h" line="35" column="1" bodyfile="include/server/distributed_gateway.h" bodystart="35" bodyend="43"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_gateway_node_1a9b1688b7b5bd1979441c4dc1d79b5054" prot="public" virt="non-virtual"><scope>themis::server::GatewayNode</scope><name>address</name></member>
+      <member refid="structthemis_1_1server_1_1_gateway_node_1a9779d53a63241701d90174ccc3d16730" prot="public" virt="non-virtual"><scope>themis::server::GatewayNode</scope><name>node_id</name></member>
+      <member refid="structthemis_1_1server_1_1_gateway_node_1a3cf0fd078623d183b3ee6ffbe012a523" prot="public" virt="non-virtual"><scope>themis::server::GatewayNode</scope><name>operator==</name></member>
+      <member refid="structthemis_1_1server_1_1_gateway_node_1a7824fe123c12b989828aca1e0b760035" prot="public" virt="non-virtual"><scope>themis::server::GatewayNode</scope><name>port</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

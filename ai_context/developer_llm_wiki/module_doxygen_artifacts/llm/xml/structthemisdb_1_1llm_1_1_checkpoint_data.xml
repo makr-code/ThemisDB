@@ -1,0 +1,221 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1llm_1_1_checkpoint_data" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::llm::CheckpointData</compoundname>
+    <includes refid="llamacpp__training__backend_8h" local="no">llamacpp_training_backend.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1llm_1_1_checkpoint_data_1abfb77facd7cd09525ee0e39b32e43b74" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::llm::CheckpointData::epoch</definition>
+        <argsstring></argsstring>
+        <name>epoch</name>
+        <qualifiedname>themisdb::llm::CheckpointData::epoch</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_training_backend.h" line="197" column="9" bodyfile="include/llm/llamacpp_training_backend.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1llm_1_1_checkpoint_data_1a5d8811b8c79114e55ce34074041c6825" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::llm::CheckpointData::global_step</definition>
+        <argsstring></argsstring>
+        <name>global_step</name>
+        <qualifiedname>themisdb::llm::CheckpointData::global_step</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_training_backend.h" line="198" column="9" bodyfile="include/llm/llamacpp_training_backend.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1llm_1_1_checkpoint_data_1a10222fae5fac540583063fca4d42fb5b" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::vector&lt; float &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::vector&lt;float&gt; &gt; themisdb::llm::CheckpointData::lora_weights</definition>
+        <argsstring></argsstring>
+        <name>lora_weights</name>
+        <qualifiedname>themisdb::llm::CheckpointData::lora_weights</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_training_backend.h" line="199" column="14" bodyfile="include/llm/llamacpp_training_backend.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1llm_1_1_checkpoint_data_1a85d54618a4e7dc7b78c12a9da34ce78d" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::vector&lt; float &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::vector&lt;float&gt; &gt; themisdb::llm::CheckpointData::optimizer_state</definition>
+        <argsstring></argsstring>
+        <name>optimizer_state</name>
+        <qualifiedname>themisdb::llm::CheckpointData::optimizer_state</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_training_backend.h" line="200" column="14" bodyfile="include/llm/llamacpp_training_backend.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1llm_1_1_checkpoint_data_1abedee22e3577753f599450ec13b028fd" prot="public" static="no" mutable="no">
+        <type>TrainingMetrics</type>
+        <definition>TrainingMetrics themisdb::llm::CheckpointData::metrics</definition>
+        <argsstring></argsstring>
+        <name>metrics</name>
+        <qualifiedname>themisdb::llm::CheckpointData::metrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_training_backend.h" line="201" column="21" bodyfile="include/llm/llamacpp_training_backend.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1llm_1_1_checkpoint_data_1a51275f6837115287a369ed8b321f96aa" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::llm::CheckpointData::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themisdb::llm::CheckpointData::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_training_backend.h" line="202" column="17" bodyfile="include/llm/llamacpp_training_backend.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1llm_1_1_checkpoint_data_1abe461b9cbd54f63dd70b0d08d89958f1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::llm::CheckpointData::base_model_hash</definition>
+        <argsstring></argsstring>
+        <name>base_model_hash</name>
+        <qualifiedname>themisdb::llm::CheckpointData::base_model_hash</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_training_backend.h" line="203" column="17" bodyfile="include/llm/llamacpp_training_backend.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1llm_1_1_checkpoint_data_1aa9f8635ac2904360d7f09056938f66ee" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1llm_1_1_lo_r_a_layer_config" kindref="compound">LoRALayerConfig</ref></type>
+        <definition>LoRALayerConfig themisdb::llm::CheckpointData::lora_config</definition>
+        <argsstring></argsstring>
+        <name>lora_config</name>
+        <qualifiedname>themisdb::llm::CheckpointData::lora_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_training_backend.h" line="204" column="21" bodyfile="include/llm/llamacpp_training_backend.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1llm_1_1_checkpoint_data_1aa1ccf3e695305d102919c6b21ea5067c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themisdb::llm::CheckpointData::~CheckpointData</definition>
+        <argsstring>()=default</argsstring>
+        <name>~CheckpointData</name>
+        <qualifiedname>themisdb::llm::CheckpointData::~CheckpointData</qualifiedname>
+        <briefdescription>
+<para>Checkpoint Data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_training_backend.h" line="196" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1llm_1_1_checkpoint_data_1aefa877eacdd31ebb7de33feae5684c86" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::llm::CheckpointData::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themisdb::llm::CheckpointData::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_training_backend.h" line="206" column="20" bodyfile="include/llm/llamacpp_training_backend.h" bodystart="206" bodyend="216"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemisdb_1_1llm_1_1_checkpoint_data_1afbe6ddcff3f12bbaa0162cd53af502e1" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1llm_1_1_checkpoint_data" kindref="compound">CheckpointData</ref></type>
+        <definition>static CheckpointData themisdb::llm::CheckpointData::fromJSON</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJSON</name>
+        <qualifiedname>themisdb::llm::CheckpointData::fromJSON</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_training_backend.h" line="224" column="27" bodyfile="include/llm/llamacpp_training_backend.h" bodystart="224" bodyend="233"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themisdb::llm::CheckpointData</label>
+        <link refid="structthemisdb_1_1llm_1_1_checkpoint_data"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>lora_config</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themisdb::llm::LoRALayerConfig</label>
+        <link refid="structthemisdb_1_1llm_1_1_lo_r_a_layer_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/llamacpp_training_backend.h" line="191" column="1" bodyfile="include/llm/llamacpp_training_backend.h" bodystart="191" bodyend="234"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1llm_1_1_checkpoint_data_1abe461b9cbd54f63dd70b0d08d89958f1" prot="public" virt="non-virtual"><scope>themisdb::llm::CheckpointData</scope><name>base_model_hash</name></member>
+      <member refid="structthemisdb_1_1llm_1_1_checkpoint_data_1abfb77facd7cd09525ee0e39b32e43b74" prot="public" virt="non-virtual"><scope>themisdb::llm::CheckpointData</scope><name>epoch</name></member>
+      <member refid="structthemisdb_1_1llm_1_1_checkpoint_data_1afbe6ddcff3f12bbaa0162cd53af502e1" prot="public" virt="non-virtual"><scope>themisdb::llm::CheckpointData</scope><name>fromJSON</name></member>
+      <member refid="structthemisdb_1_1llm_1_1_checkpoint_data_1a5d8811b8c79114e55ce34074041c6825" prot="public" virt="non-virtual"><scope>themisdb::llm::CheckpointData</scope><name>global_step</name></member>
+      <member refid="structthemisdb_1_1llm_1_1_checkpoint_data_1aa9f8635ac2904360d7f09056938f66ee" prot="public" virt="non-virtual"><scope>themisdb::llm::CheckpointData</scope><name>lora_config</name></member>
+      <member refid="structthemisdb_1_1llm_1_1_checkpoint_data_1a10222fae5fac540583063fca4d42fb5b" prot="public" virt="non-virtual"><scope>themisdb::llm::CheckpointData</scope><name>lora_weights</name></member>
+      <member refid="structthemisdb_1_1llm_1_1_checkpoint_data_1abedee22e3577753f599450ec13b028fd" prot="public" virt="non-virtual"><scope>themisdb::llm::CheckpointData</scope><name>metrics</name></member>
+      <member refid="structthemisdb_1_1llm_1_1_checkpoint_data_1a85d54618a4e7dc7b78c12a9da34ce78d" prot="public" virt="non-virtual"><scope>themisdb::llm::CheckpointData</scope><name>optimizer_state</name></member>
+      <member refid="structthemisdb_1_1llm_1_1_checkpoint_data_1a51275f6837115287a369ed8b321f96aa" prot="public" virt="non-virtual"><scope>themisdb::llm::CheckpointData</scope><name>timestamp</name></member>
+      <member refid="structthemisdb_1_1llm_1_1_checkpoint_data_1aefa877eacdd31ebb7de33feae5684c86" prot="public" virt="non-virtual"><scope>themisdb::llm::CheckpointData</scope><name>toJSON</name></member>
+      <member refid="structthemisdb_1_1llm_1_1_checkpoint_data_1aa1ccf3e695305d102919c6b21ea5067c" prot="public" virt="virtual"><scope>themisdb::llm::CheckpointData</scope><name>~CheckpointData</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

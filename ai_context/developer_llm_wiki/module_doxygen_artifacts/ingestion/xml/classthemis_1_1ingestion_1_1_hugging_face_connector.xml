@@ -1,0 +1,640 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1_hugging_face_connector" kind="class" language="C++" prot="public">
+    <compoundname>themis::ingestion::HuggingFaceConnector</compoundname>
+    <basecompoundref refid="classthemis_1_1ingestion_1_1_i_source_connector" prot="public" virt="non-virtual">themis::ingestion::ISourceConnector</basecompoundref>
+    <includes refid="huggingface__connector_8h" local="no">huggingface_connector.h</includes>
+    <innerclass refid="classthemis_1_1ingestion_1_1_hugging_face_connector_1_1_impl" prot="public">themis::ingestion::HuggingFaceConnector::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_hugging_face_connector_1accafbead1e875cfa6f85e43736cadae3" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_hugging_face_connector_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::ingestion::HuggingFaceConnector::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::ingestion::HuggingFaceConnector::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/huggingface_connector.h" line="179" column="21" bodyfile="include/ingestion/huggingface_connector.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_hugging_face_connector_1a8f9d2e4b2dcf32ed77c32d8253e00e25" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::HuggingFaceConnector::HuggingFaceConnector</definition>
+        <argsstring>()</argsstring>
+        <name>HuggingFaceConnector</name>
+        <qualifiedname>themis::ingestion::HuggingFaceConnector::HuggingFaceConnector</qualifiedname>
+        <briefdescription>
+<para>Construct HuggingFace connector. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/huggingface_connector.h" line="46" column="5" bodyfile="src/ingestion/huggingface_connector.cpp" bodystart="785" bodyend="787"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_hugging_face_connector_1ae9a3de3f5a21b02e800657177e78fa7a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::HuggingFaceConnector::~HuggingFaceConnector</definition>
+        <argsstring>() override</argsstring>
+        <name>~HuggingFaceConnector</name>
+        <qualifiedname>themis::ingestion::HuggingFaceConnector::~HuggingFaceConnector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/huggingface_connector.h" line="48" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_hugging_face_connector_1af13f7e921d7cca12f799c3846d01bc5f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::HuggingFaceConnector::HuggingFaceConnector</definition>
+        <argsstring>(const HuggingFaceConnector &amp;)=delete</argsstring>
+        <name>HuggingFaceConnector</name>
+        <qualifiedname>themis::ingestion::HuggingFaceConnector::HuggingFaceConnector</qualifiedname>
+        <param>
+          <type>const HuggingFaceConnector &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/huggingface_connector.h" line="51" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_hugging_face_connector_1a3066108fc7e949d6598c59360b8bbaa3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1ingestion_1_1_hugging_face_connector_1a8f9d2e4b2dcf32ed77c32d8253e00e25" kindref="member">HuggingFaceConnector</ref> &amp;</type>
+        <definition>HuggingFaceConnector &amp; themis::ingestion::HuggingFaceConnector::operator=</definition>
+        <argsstring>(const HuggingFaceConnector &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::ingestion::HuggingFaceConnector::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1ingestion_1_1_hugging_face_connector_1a8f9d2e4b2dcf32ed77c32d8253e00e25" kindref="member">HuggingFaceConnector</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/huggingface_connector.h" line="52" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_hugging_face_connector_1a669aaf5297d2faf63a9ec7c2431e242e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::HuggingFaceConnector::initialize</definition>
+        <argsstring>(const SourceConfig &amp;config) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::ingestion::HuggingFaceConnector::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_source_connector_1ab6a018a611fc4bcc353665f96b59bfd5">initialize</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_source_config" kindref="compound">SourceConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Initialize connector with configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Gap 8 (AI_ML_IMPACT_ASSESSMENT.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source configuration with:<itemizedlist>
+<listitem><para>location: dataset name (e.g., &quot;lexlms/ger_legal_data&quot;)</para>
+</listitem><listitem><para>options[&quot;split&quot;]: dataset split (train/test/validation)</para>
+</listitem><listitem><para>options[&quot;streaming&quot;]: &quot;true&quot; for streaming mode</para>
+</listitem><listitem><para>options[&quot;token&quot;]: HuggingFace API token (optional)</para>
+</listitem><listitem><para>options[&quot;revision&quot;]: dataset revision/branch (optional) </para>
+</listitem></itemizedlist>
+</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if initialization successful</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+md §7 — Severity: Medium/S1) — implemented 2026-04-21. The data classification gate is performed inside <ref refid="classthemis_1_1ingestion_1_1_hugging_face_connector_1a669aaf5297d2faf63a9ec7c2431e242e" kindref="member">initialize()</ref> by calling ModelGovernancePolicy::checkExportPermission() with purpose=&quot;DATA_INGESTION&quot; when an ingestion policy has been injected via <ref refid="classthemis_1_1ingestion_1_1_hugging_face_connector_1a4bc737dd0ba66918d86798a1087d5427" kindref="member">setIngestionPolicy()</ref>. When no policy is set (nullptr), a WARN is logged and the gate is bypassed (degraded mode) to preserve backward compatibility with existing connectors. Tracked: src/ingestion/FUTURE_ENHANCEMENTS.md §&quot;Data Classification Gate for External Connectors&quot; Calls: hasIngestionPolicy(), find(), end(), checkIngestionPermission(), THEMIS_ERROR(), THEMIS_INFO(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/huggingface_connector.h" line="64" column="10" bodyfile="src/ingestion/huggingface_connector.cpp" bodystart="797" bodyend="827"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_hugging_face_connector_1a1f3b6179fd8f5faa58dbe27567c3587c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::HuggingFaceConnector::isAvailable</definition>
+        <argsstring>() const override</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::ingestion::HuggingFaceConnector::isAvailable</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_source_connector_1ae6d4963df23947b6546b6a943f8a7d2d">isAvailable</reimplements>
+        <briefdescription>
+<para>Check if HuggingFace Hub is accessible. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if dataset can be accessed </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/huggingface_connector.h" line="70" column="10" bodyfile="src/ingestion/huggingface_connector.cpp" bodystart="829" bodyend="831"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_hugging_face_connector_1adcacba9d757c55e6980adb1c03d25534" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t themis::ingestion::HuggingFaceConnector::getDocumentCount</definition>
+        <argsstring>() const override</argsstring>
+        <name>getDocumentCount</name>
+        <qualifiedname>themis::ingestion::HuggingFaceConnector::getDocumentCount</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_source_connector_1a22a97b14d4935c62895fa668e021ab4e">getDocumentCount</reimplements>
+        <briefdescription>
+<para>Get total number of documents in dataset. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Document count (may require pre-loading metadata) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/huggingface_connector.h" line="76" column="12" bodyfile="src/ingestion/huggingface_connector.cpp" bodystart="833" bodyend="835"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_hugging_face_connector_1a9daf779ece80647339be07132d9ba3c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1ingestion_1_1_ingestion_stats" kindref="compound">IngestionStats</ref></type>
+        <definition>IngestionStats themis::ingestion::HuggingFaceConnector::ingest</definition>
+        <argsstring>(const std::string &amp;target_collection, ProgressCallback progress_callback) override</argsstring>
+        <name>ingest</name>
+        <qualifiedname>themis::ingestion::HuggingFaceConnector::ingest</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_source_connector_1add9fbbb52139b936dba9a2236a80edbb">ingest</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_collection</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1ingestion_1a08c45a80d5fd20fa7f8af7fd52290e94" kindref="member">ProgressCallback</ref></type>
+          <declname>progress_callback</declname>
+        </param>
+        <briefdescription>
+<para>Ingest documents from HuggingFace dataset. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Ingest.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>target_collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target collection in ThemisDB </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>progress_callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional progress callback </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Ingestion statistics</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target_collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">progress_callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements ingest without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/huggingface_connector.h" line="84" column="20" bodyfile="src/ingestion/huggingface_connector.cpp" bodystart="844" bodyend="847"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_hugging_face_connector_1a567c43a694d6e09f71c41038965b5b76" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::HuggingFaceConnector::setApiToken</definition>
+        <argsstring>(const std::string &amp;token)</argsstring>
+        <name>setApiToken</name>
+        <qualifiedname>themis::ingestion::HuggingFaceConnector::setApiToken</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>token</declname>
+        </param>
+        <briefdescription>
+<para>Set API token for authenticated access. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Api Token.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>HuggingFace API token</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setApiToken without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/huggingface_connector.h" line="91" column="10" bodyfile="src/ingestion/huggingface_connector.cpp" bodystart="854" bodyend="856"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_hugging_face_connector_1a74c3572b1da0213da7c803ad305153e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::HuggingFaceConnector::setBatchSize</definition>
+        <argsstring>(size_t batch_size)</argsstring>
+        <name>setBatchSize</name>
+        <qualifiedname>themis::ingestion::HuggingFaceConnector::setBatchSize</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>batch_size</declname>
+        </param>
+        <briefdescription>
+<para>Set batch size for ingestion. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Batch Size.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>batch_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of documents to process per batch</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setBatchSize without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/huggingface_connector.h" line="97" column="10" bodyfile="src/ingestion/huggingface_connector.cpp" bodystart="863" bodyend="865"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_hugging_face_connector_1a084c162a7cf7d24ff9b24a061f2b42cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::HuggingFaceConnector::setStreamingMode</definition>
+        <argsstring>(bool enabled)</argsstring>
+        <name>setStreamingMode</name>
+        <qualifiedname>themis::ingestion::HuggingFaceConnector::setStreamingMode</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+        </param>
+        <briefdescription>
+<para>Enable/disable streaming mode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Streaming Mode.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>enabled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to use streaming (recommended for large datasets)</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">enabled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setStreamingMode without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/huggingface_connector.h" line="103" column="10" bodyfile="src/ingestion/huggingface_connector.cpp" bodystart="872" bodyend="874"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_hugging_face_connector_1a278d8296a422ddffc6f565cffca66314" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::HuggingFaceConnector::setRetryConfig</definition>
+        <argsstring>(const RetryConfig &amp;config)</argsstring>
+        <name>setRetryConfig</name>
+        <qualifiedname>themis::ingestion::HuggingFaceConnector::setRetryConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_retry_config" kindref="compound">RetryConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Configure retry and timeout behaviour. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Retry Config.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Retry settings (attempts, back-off, timeout)</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setRetryConfig without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/huggingface_connector.h" line="109" column="10" bodyfile="src/ingestion/huggingface_connector.cpp" bodystart="881" bodyend="883"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_hugging_face_connector_1ad27b2e3f9a7801885064046692b2709b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::HuggingFaceConnector::setOAuthConfig</definition>
+        <argsstring>(const OAuthConfig &amp;config)</argsstring>
+        <name>setOAuthConfig</name>
+        <qualifiedname>themis::ingestion::HuggingFaceConnector::setOAuthConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_o_auth_config" kindref="compound">OAuthConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Configure OAuth 2.0 token refresh for this connector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set OAuth Config.</para>
+<para>When set, the connector automatically attempts a token refresh (RFC 6749 §6) upon receiving HTTP 401 from the HuggingFace Hub API. The refreshed access token is cached inside the connector and used for all subsequent requests in the same ingestion run.</para>
+<para><computeroutput>config.access_token</computeroutput> is used immediately as the Bearer token; if it is empty, the static API token (set via <computeroutput><ref refid="classthemis_1_1ingestion_1_1_hugging_face_connector_1a567c43a694d6e09f71c41038965b5b76" kindref="member">setApiToken()</ref></computeroutput> or <computeroutput>options["token"]</computeroutput>) is used until the first refresh.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>OAuth configuration including token endpoint, client credentials, and the refresh token.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setOAuthConfig without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/huggingface_connector.h" line="126" column="10" bodyfile="src/ingestion/huggingface_connector.cpp" bodystart="890" bodyend="892"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_hugging_face_connector_1a5668c7ac0fee6df0fe79016afc4ca9bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::HuggingFaceConnector::setHttpGetForTesting</definition>
+        <argsstring>(ApiHttpGetFn fn)</argsstring>
+        <name>setHttpGetForTesting</name>
+        <qualifiedname>themis::ingestion::HuggingFaceConnector::setHttpGetForTesting</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1ingestion_1a1e4fa390cb9bdc63e5bbecc33469e214" kindref="member">ApiHttpGetFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Inject a mock HTTP GET function for dataset API calls (unit testing only). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Http Get For Testing.</para>
+<para>When set, every HTTP GET that would normally be performed via libcurl is replaced by a call to <computeroutput>fn</computeroutput>. The function receives the URL and the Bearer token, and returns <computeroutput>{status_code, response_body}</computeroutput>.</para>
+<para>Pass an empty <computeroutput><ref refid="namespacethemis_1_1ingestion_1a1e4fa390cb9bdc63e5bbecc33469e214" kindref="member">ApiHttpGetFn</ref>{}</computeroutput> to restore the real libcurl path.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/huggingface_connector.h" line="137" column="10" bodyfile="src/ingestion/huggingface_connector.cpp" bodystart="899" bodyend="901"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_hugging_face_connector_1a1bab48841dfee5482308ffc0bc137a63" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::HuggingFaceConnector::setHttpPostForTesting</definition>
+        <argsstring>(ApiHttpPostFn fn)</argsstring>
+        <name>setHttpPostForTesting</name>
+        <qualifiedname>themis::ingestion::HuggingFaceConnector::setHttpPostForTesting</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1ingestion_1a22d9df0422ccb57efc40c73b1a67c6d0" kindref="member">ApiHttpPostFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Inject a mock HTTP POST function for OAuth token refresh (unit testing only). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Http Post For Testing.</para>
+<para>When set, every token-refresh POST that would normally be performed via libcurl is replaced by a call to <computeroutput>fn</computeroutput>. The function receives the token endpoint URL and the URL-encoded form body, and returns <computeroutput>{status_code, response_body}</computeroutput>.</para>
+<para>Pass an empty <computeroutput><ref refid="namespacethemis_1_1ingestion_1a22d9df0422ccb57efc40c73b1a67c6d0" kindref="member">ApiHttpPostFn</ref>{}</computeroutput> to restore the real libcurl path.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/huggingface_connector.h" line="149" column="10" bodyfile="src/ingestion/huggingface_connector.cpp" bodystart="908" bodyend="910"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_hugging_face_connector_1ad75344cbfa8135c91cf554d0910292ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::HuggingFaceConnector::setDocumentValidator</definition>
+        <argsstring>(DocumentValidatorFn validator) override</argsstring>
+        <name>setDocumentValidator</name>
+        <qualifiedname>themis::ingestion::HuggingFaceConnector::setDocumentValidator</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_source_connector_1a762b4b0305a9c2a3e466d00c6e05df84">setDocumentValidator</reimplements>
+        <param>
+          <type><ref refid="namespacethemis_1_1ingestion_1a9b9e88e0ec7ef5e4f0a5afc3bc61bb1b" kindref="member">DocumentValidatorFn</ref></type>
+          <declname>validator</declname>
+        </param>
+        <briefdescription>
+<para>Inject a per-document validator called before each write. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Document Validator.</para>
+<para>When set, the validator is called for every document counted in a streaming chunk. Documents that fail validation are counted as failed (not processed). Pass an empty <computeroutput><ref refid="namespacethemis_1_1ingestion_1a9b9e88e0ec7ef5e4f0a5afc3bc61bb1b" kindref="member">DocumentValidatorFn</ref></computeroutput> to remove a previously set validator.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>validator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Validator callback; empty = disable</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">validator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/huggingface_connector.h" line="161" column="10" bodyfile="src/ingestion/huggingface_connector.cpp" bodystart="917" bodyend="919"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_hugging_face_connector_1a4bc737dd0ba66918d86798a1087d5427" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::HuggingFaceConnector::setIngestionPolicy</definition>
+        <argsstring>(std::shared_ptr&lt; governance::ModelGovernancePolicy &gt; policy)</argsstring>
+        <name>setIngestionPolicy</name>
+        <qualifiedname>themis::ingestion::HuggingFaceConnector::setIngestionPolicy</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; governance::ModelGovernancePolicy &gt;</type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+<para>Set the governance policy for data classification checks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Ingestion Policy.</para>
+<para>When set, <computeroutput><ref refid="classthemis_1_1ingestion_1_1_hugging_face_connector_1a669aaf5297d2faf63a9ec7c2431e242e" kindref="member">initialize()</ref></computeroutput> calls <computeroutput>policy-&gt;checkExportPermission()</computeroutput> with purpose=&quot;DATA_INGESTION&quot; before accepting the configuration. If the decision is DENY, <computeroutput><ref refid="classthemis_1_1ingestion_1_1_hugging_face_connector_1a669aaf5297d2faf63a9ec7c2431e242e" kindref="member">initialize()</ref></computeroutput> returns false and logs the denial reason. When <computeroutput>policy</computeroutput> is nullptr, the classification gate is bypassed and a WARN is logged (Gap 8 degraded mode — AI_ML_IMPACT_ASSESSMENT.md §7).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Governance policy to consult; may be nullptr.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/huggingface_connector.h" line="174" column="10" bodyfile="src/ingestion/huggingface_connector.cpp" bodystart="925" bodyend="929"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>HuggingFace dataset connector. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Downloads datasets from HuggingFace Hub via REST API and ingests them into ThemisDB. Supports streaming for large datasets.</para>
+<para>Example usage: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_hugging_face_connector_1a8f9d2e4b2dcf32ed77c32d8253e00e25" kindref="member">HuggingFaceConnector</ref><sp/>connector;</highlight></codeline>
+<codeline><highlight class="normal">SourceConfig<sp/>config{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.source_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;hf_legal&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.type<sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1ac26ea3ec62832c4278b31929df0e755fa25e63a158754f6ce42160bc5084e0b05" kindref="member">SourceType::HUGGINGFACE</ref>,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.location<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;lexlms/ger_legal_data&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.options<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;split&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;train&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;streaming&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;true&quot;</highlight><highlight class="normal">}}</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+<codeline><highlight class="normal">connector.initialize(config);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>connector.ingest(</highlight><highlight class="stringliteral">&quot;legal_documents&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::ingestion::HuggingFaceConnector</label>
+        <link refid="classthemis_1_1ingestion_1_1_hugging_face_connector"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::ingestion::ISourceConnector</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_source_connector"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::ingestion::HuggingFaceConnector</label>
+        <link refid="classthemis_1_1ingestion_1_1_hugging_face_connector"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::ingestion::ISourceConnector</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_source_connector"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/ingestion/huggingface_connector.h" line="41" column="1" bodyfile="include/ingestion/huggingface_connector.h" bodystart="41" bodyend="180"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1_hugging_face_connector_1adcacba9d757c55e6980adb1c03d25534" prot="public" virt="virtual"><scope>themis::ingestion::HuggingFaceConnector</scope><name>getDocumentCount</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_hugging_face_connector_1a8f9d2e4b2dcf32ed77c32d8253e00e25" prot="public" virt="non-virtual"><scope>themis::ingestion::HuggingFaceConnector</scope><name>HuggingFaceConnector</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_hugging_face_connector_1af13f7e921d7cca12f799c3846d01bc5f" prot="public" virt="non-virtual"><scope>themis::ingestion::HuggingFaceConnector</scope><name>HuggingFaceConnector</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_hugging_face_connector_1accafbead1e875cfa6f85e43736cadae3" prot="private" virt="non-virtual"><scope>themis::ingestion::HuggingFaceConnector</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_hugging_face_connector_1a9daf779ece80647339be07132d9ba3c7" prot="public" virt="virtual"><scope>themis::ingestion::HuggingFaceConnector</scope><name>ingest</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_hugging_face_connector_1a669aaf5297d2faf63a9ec7c2431e242e" prot="public" virt="virtual"><scope>themis::ingestion::HuggingFaceConnector</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_hugging_face_connector_1a1f3b6179fd8f5faa58dbe27567c3587c" prot="public" virt="virtual"><scope>themis::ingestion::HuggingFaceConnector</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_hugging_face_connector_1a3066108fc7e949d6598c59360b8bbaa3" prot="public" virt="non-virtual"><scope>themis::ingestion::HuggingFaceConnector</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_hugging_face_connector_1a567c43a694d6e09f71c41038965b5b76" prot="public" virt="non-virtual"><scope>themis::ingestion::HuggingFaceConnector</scope><name>setApiToken</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_hugging_face_connector_1a74c3572b1da0213da7c803ad305153e6" prot="public" virt="non-virtual"><scope>themis::ingestion::HuggingFaceConnector</scope><name>setBatchSize</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_hugging_face_connector_1ad75344cbfa8135c91cf554d0910292ab" prot="public" virt="virtual"><scope>themis::ingestion::HuggingFaceConnector</scope><name>setDocumentValidator</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_hugging_face_connector_1a5668c7ac0fee6df0fe79016afc4ca9bb" prot="public" virt="non-virtual"><scope>themis::ingestion::HuggingFaceConnector</scope><name>setHttpGetForTesting</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_hugging_face_connector_1a1bab48841dfee5482308ffc0bc137a63" prot="public" virt="non-virtual"><scope>themis::ingestion::HuggingFaceConnector</scope><name>setHttpPostForTesting</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_hugging_face_connector_1a4bc737dd0ba66918d86798a1087d5427" prot="public" virt="non-virtual"><scope>themis::ingestion::HuggingFaceConnector</scope><name>setIngestionPolicy</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_hugging_face_connector_1ad27b2e3f9a7801885064046692b2709b" prot="public" virt="non-virtual"><scope>themis::ingestion::HuggingFaceConnector</scope><name>setOAuthConfig</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_hugging_face_connector_1a278d8296a422ddffc6f565cffca66314" prot="public" virt="non-virtual"><scope>themis::ingestion::HuggingFaceConnector</scope><name>setRetryConfig</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_hugging_face_connector_1a084c162a7cf7d24ff9b24a061f2b42cb" prot="public" virt="non-virtual"><scope>themis::ingestion::HuggingFaceConnector</scope><name>setStreamingMode</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_hugging_face_connector_1ae9a3de3f5a21b02e800657177e78fa7a" prot="public" virt="non-virtual"><scope>themis::ingestion::HuggingFaceConnector</scope><name>~HuggingFaceConnector</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_source_connector_1af3935b3583056d092875221c07ecf7d4" prot="public" virt="virtual"><scope>themis::ingestion::HuggingFaceConnector</scope><name>~ISourceConnector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

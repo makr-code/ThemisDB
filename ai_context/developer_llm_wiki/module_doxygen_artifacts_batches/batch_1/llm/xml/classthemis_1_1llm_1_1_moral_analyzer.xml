@@ -1,0 +1,1714 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_moral_analyzer" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::MoralAnalyzer</compoundname>
+    <includes refid="moral__analyzer_8h" local="no">moral_analyzer.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_scenario" prot="public">themis::llm::MoralAnalyzer::EthicalScenario</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_predicted_outcome" prot="public">themis::llm::MoralAnalyzer::PredictedOutcome</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_argument" prot="public">themis::llm::MoralAnalyzer::EthicalArgument</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_reasoning_path" prot="public">themis::llm::MoralAnalyzer::ReasoningPath</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision" prot="public">themis::llm::MoralAnalyzer::EthicalDecision</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_status" prot="public">themis::llm::MoralAnalyzer::Status</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_moral_analyzer_1af7a2790e9a75426ff0cfaf9dfdb9b43a" prot="private" static="no" mutable="no">
+        <type>RocksDBWrapper &amp;</type>
+        <definition>RocksDBWrapper&amp; themis::llm::MoralAnalyzer::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="264" column="20" bodyfile="include/llm/moral_analyzer.h" bodystart="264" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_moral_analyzer_1a987b2c950794c82e994863741516bc69" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; PropertyGraphManager &gt;</type>
+        <definition>std::unique_ptr&lt;PropertyGraphManager&gt; themis::llm::MoralAnalyzer::graph_manager_</definition>
+        <argsstring></argsstring>
+        <name>graph_manager_</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::graph_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="265" column="21" bodyfile="include/llm/moral_analyzer.h" bodystart="265" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_moral_analyzer_1a1b18ac4fe0d23aafe9d752c0a9db9136" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_ethical_guidelines_manager" kindref="compound">EthicalGuidelinesManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;EthicalGuidelinesManager&gt; themis::llm::MoralAnalyzer::ethical_guidelines_</definition>
+        <argsstring></argsstring>
+        <name>ethical_guidelines_</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::ethical_guidelines_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="266" column="21" bodyfile="include/llm/moral_analyzer.h" bodystart="266" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_moral_analyzer_1a18d18329da765e20a0baef21ba918db1" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; VectorIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;VectorIndexManager&gt; themis::llm::MoralAnalyzer::vector_index_</definition>
+        <argsstring></argsstring>
+        <name>vector_index_</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::vector_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="267" column="21" bodyfile="include/llm/moral_analyzer.h" bodystart="267" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_moral_analyzer_1a94dd570cacafad32c4cc5b3d0afb45e5" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_a_i_decision_auditor" kindref="compound">AIDecisionAuditor</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;AIDecisionAuditor&gt; themis::llm::MoralAnalyzer::decision_auditor_</definition>
+        <argsstring></argsstring>
+        <name>decision_auditor_</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::decision_auditor_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="268" column="21" bodyfile="include/llm/moral_analyzer.h" bodystart="268" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_moral_analyzer_1a1e43a30c16c233b3fad2c832633c7b21" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_inference_engine_enhanced" kindref="compound">InferenceEngineEnhanced</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;InferenceEngineEnhanced&gt; themis::llm::MoralAnalyzer::llm_engine_</definition>
+        <argsstring></argsstring>
+        <name>llm_engine_</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::llm_engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="269" column="21" bodyfile="include/llm/moral_analyzer.h" bodystart="269" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_moral_analyzer_1a4e689193e820802753099910dc16117d" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::MoralAnalyzer::MoralAnalyzer</definition>
+        <argsstring>(RocksDBWrapper &amp;db, std::shared_ptr&lt; EthicalGuidelinesManager &gt; ethical_guidelines=nullptr, std::shared_ptr&lt; VectorIndexManager &gt; vector_index=nullptr, std::shared_ptr&lt; AIDecisionAuditor &gt; decision_auditor=nullptr, std::shared_ptr&lt; InferenceEngineEnhanced &gt; llm_engine=nullptr)</argsstring>
+        <name>MoralAnalyzer</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::MoralAnalyzer</qualifiedname>
+        <param>
+          <type>RocksDBWrapper &amp;</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_ethical_guidelines_manager" kindref="compound">EthicalGuidelinesManager</ref> &gt;</type>
+          <declname>ethical_guidelines</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; VectorIndexManager &gt;</type>
+          <declname>vector_index</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_a_i_decision_auditor" kindref="compound">AIDecisionAuditor</ref> &gt;</type>
+          <declname>decision_auditor</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_inference_engine_enhanced" kindref="compound">InferenceEngineEnhanced</ref> &gt;</type>
+          <declname>llm_engine</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="111" column="14" bodyfile="src/llm/moral_analyzer.cpp" bodystart="25" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_moral_analyzer_1a634bdd1930004bde247303142fcbd3cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_status" kindref="compound">Status</ref></type>
+        <definition>MoralAnalyzer::Status themis::llm::MoralAnalyzer::buildDecisionGraph</definition>
+        <argsstring>(const EthicalScenario &amp;scenario)</argsstring>
+        <name>buildDecisionGraph</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::buildDecisionGraph</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_scenario" kindref="compound">EthicalScenario</ref> &amp;</type>
+          <declname>scenario</declname>
+        </param>
+        <briefdescription>
+<para>Build Decision Graph. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">scenario</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">scenario</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: validateScenario(), <ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_status_1a6a87662097c831013fdd27afb768320a" kindref="member">Status::Error()</ref>, addScenarioNode(), addStakeholderNodes(), addActionNodes(), <ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_status_1a9a92bb8720929d0af0811a643fd7c671" kindref="member">Status::OK()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="124" column="12" bodyfile="src/llm/moral_analyzer.cpp" bodystart="45" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_moral_analyzer_1ab4757186f852d045b8295cae4fbbc302" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_status" kindref="compound">Status</ref>, <ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision" kindref="compound">EthicalDecision</ref> &gt;</type>
+        <definition>std::pair&lt; MoralAnalyzer::Status, MoralAnalyzer::EthicalDecision &gt; themis::llm::MoralAnalyzer::analyzeWithPhilosophy</definition>
+        <argsstring>(const EthicalScenario &amp;scenario, const std::string &amp;philosophy)</argsstring>
+        <name>analyzeWithPhilosophy</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::analyzeWithPhilosophy</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_scenario" kindref="compound">EthicalScenario</ref> &amp;</type>
+          <declname>scenario</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>philosophy</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="126" column="15" bodyfile="src/llm/moral_analyzer.cpp" bodystart="346" bodyend="419"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_moral_analyzer_1a04d0cead739f60b6451e5c78e39d6e78" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_status" kindref="compound">Status</ref>, <ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision" kindref="compound">EthicalDecision</ref> &gt;</type>
+        <definition>std::pair&lt; MoralAnalyzer::Status, MoralAnalyzer::EthicalDecision &gt; themis::llm::MoralAnalyzer::analyzeMultiPhilosophy</definition>
+        <argsstring>(const EthicalScenario &amp;scenario, const std::vector&lt; std::string &gt; &amp;philosophies)</argsstring>
+        <name>analyzeMultiPhilosophy</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::analyzeMultiPhilosophy</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_scenario" kindref="compound">EthicalScenario</ref> &amp;</type>
+          <declname>scenario</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>philosophies</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="131" column="15" bodyfile="src/llm/moral_analyzer.cpp" bodystart="422" bodyend="452"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_moral_analyzer_1aa40ceaf4560c6157e5fd56dcd1a76f80" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_reasoning_path" kindref="compound">ReasoningPath</ref></type>
+        <definition>MoralAnalyzer::ReasoningPath themis::llm::MoralAnalyzer::evaluateDeontological</definition>
+        <argsstring>(const EthicalScenario &amp;scenario, const std::string &amp;action)</argsstring>
+        <name>evaluateDeontological</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::evaluateDeontological</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_scenario" kindref="compound">EthicalScenario</ref> &amp;</type>
+          <declname>scenario</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>action</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate Deontological. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">scenario</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">action</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">scenario</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">action</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: scoreActionByPrinciples(), push_back(), size(), std::abs(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="142" column="19" bodyfile="src/llm/moral_analyzer.cpp" bodystart="461" bodyend="512"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_moral_analyzer_1a6017dbc7cb985cfca761bb61743d42e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_reasoning_path" kindref="compound">ReasoningPath</ref></type>
+        <definition>MoralAnalyzer::ReasoningPath themis::llm::MoralAnalyzer::evaluateConsequentialist</definition>
+        <argsstring>(const EthicalScenario &amp;scenario, const std::string &amp;action)</argsstring>
+        <name>evaluateConsequentialist</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::evaluateConsequentialist</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_scenario" kindref="compound">EthicalScenario</ref> &amp;</type>
+          <declname>scenario</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>action</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate Consequentialist. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">scenario</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">action</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">scenario</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">action</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1_moral_analyzer_1a9969cff709ff4a8b13aa1b2022be7b69" kindref="member">predictOutcomes()</ref>, <ref refid="classthemis_1_1llm_1_1_moral_analyzer_1a2bd12780ebe0d545bba513a00dc4360e" kindref="member">calculateExpectedUtility()</ref>, push_back(), std::abs(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="153" column="19" bodyfile="src/llm/moral_analyzer.cpp" bodystart="521" bodyend="561"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_moral_analyzer_1acb4d05a65ec39468eb080b386bec314a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_reasoning_path" kindref="compound">ReasoningPath</ref></type>
+        <definition>MoralAnalyzer::ReasoningPath themis::llm::MoralAnalyzer::evaluateVirtueEthics</definition>
+        <argsstring>(const EthicalScenario &amp;scenario, const std::string &amp;action)</argsstring>
+        <name>evaluateVirtueEthics</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::evaluateVirtueEthics</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_scenario" kindref="compound">EthicalScenario</ref> &amp;</type>
+          <declname>scenario</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>action</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate Virtue Ethics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">scenario</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">action</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">scenario</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">action</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: scoreActionByPrinciples(), push_back(), size(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="164" column="19" bodyfile="src/llm/moral_analyzer.cpp" bodystart="570" bodyend="608"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_moral_analyzer_1a9969cff709ff4a8b13aa1b2022be7b69" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_predicted_outcome" kindref="compound">PredictedOutcome</ref> &gt;</type>
+        <definition>std::vector&lt; MoralAnalyzer::PredictedOutcome &gt; themis::llm::MoralAnalyzer::predictOutcomes</definition>
+        <argsstring>(const EthicalScenario &amp;scenario, const std::string &amp;action)</argsstring>
+        <name>predictOutcomes</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::predictOutcomes</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_scenario" kindref="compound">EthicalScenario</ref> &amp;</type>
+          <declname>scenario</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>action</declname>
+        </param>
+        <briefdescription>
+<para>Predict Outcomes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">scenario</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">action</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">scenario</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">action</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: calculateStakeholderImpacts(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="175" column="17" bodyfile="src/llm/moral_analyzer.cpp" bodystart="617" bodyend="646"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_moral_analyzer_1a2bd12780ebe0d545bba513a00dc4360e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::llm::MoralAnalyzer::calculateExpectedUtility</definition>
+        <argsstring>(const std::vector&lt; PredictedOutcome &gt; &amp;outcomes)</argsstring>
+        <name>calculateExpectedUtility</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::calculateExpectedUtility</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_predicted_outcome" kindref="compound">PredictedOutcome</ref> &gt; &amp;</type>
+          <declname>outcomes</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Expected Utility. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">outcomes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">outcomes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements calculateExpectedUtility without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="185" column="12" bodyfile="src/llm/moral_analyzer.cpp" bodystart="654" bodyend="664"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_moral_analyzer_1a18d9779be14ed91d9bf126376d7041ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_argument" kindref="compound">EthicalArgument</ref> &gt;</type>
+        <definition>std::vector&lt; MoralAnalyzer::EthicalArgument &gt; themis::llm::MoralAnalyzer::generateArguments</definition>
+        <argsstring>(const EthicalScenario &amp;scenario, const std::string &amp;action, const std::string &amp;philosophy)</argsstring>
+        <name>generateArguments</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::generateArguments</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_scenario" kindref="compound">EthicalScenario</ref> &amp;</type>
+          <declname>scenario</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>action</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>philosophy</declname>
+        </param>
+        <briefdescription>
+<para>Generate Arguments. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">scenario</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">action</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">philosophy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">scenario</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">action</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">philosophy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="196" column="17" bodyfile="src/llm/moral_analyzer.cpp" bodystart="674" bodyend="702"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_moral_analyzer_1a25eaec61584301137667aa22a22e7645" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::llm::MoralAnalyzer::recommendPhilosophies</definition>
+        <argsstring>(const EthicalScenario &amp;scenario, bool use_llm=true)</argsstring>
+        <name>recommendPhilosophies</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::recommendPhilosophies</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_scenario" kindref="compound">EthicalScenario</ref> &amp;</type>
+          <declname>scenario</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>use_llm</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Recommend Philosophies. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">scenario</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">use_llm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::transform(), begin(), end(), find(), contains(), push_back(), std::find(), <ref refid="classthemis_1_1llm_1_1_moral_analyzer_1a103ab8066a80b99e23de3cfe1c399d0b" kindref="member">detectEthicalImplicationsViaLLM()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="202" column="17" bodyfile="src/llm/moral_analyzer.cpp" bodystart="1311" bodyend="1428"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_moral_analyzer_1a103ab8066a80b99e23de3cfe1c399d0b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_status" kindref="compound">Status</ref>, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::pair&lt; MoralAnalyzer::Status, std::vector&lt; std::string &gt; &gt; themis::llm::MoralAnalyzer::detectEthicalImplicationsViaLLM</definition>
+        <argsstring>(const EthicalScenario &amp;scenario)</argsstring>
+        <name>detectEthicalImplicationsViaLLM</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::detectEthicalImplicationsViaLLM</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_scenario" kindref="compound">EthicalScenario</ref> &amp;</type>
+          <declname>scenario</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="207" column="15" bodyfile="src/llm/moral_analyzer.cpp" bodystart="1431" bodyend="1542"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_moral_analyzer_1aa1e5f955017954ef7b6371ee5fb1e332" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision" kindref="compound">EthicalDecision</ref></type>
+        <definition>MoralAnalyzer::EthicalDecision themis::llm::MoralAnalyzer::synthesizeDecision</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; std::string, ReasoningPath &gt; &gt; &amp;paths)</argsstring>
+        <name>synthesizeDecision</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::synthesizeDecision</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, <ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_reasoning_path" kindref="compound">ReasoningPath</ref> &gt; &gt; &amp;</type>
+          <declname>paths</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="211" column="21" bodyfile="src/llm/moral_analyzer.cpp" bodystart="704" bodyend="761"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_moral_analyzer_1a5545f9579f16d81d1ab5f27f023f79ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::llm::MoralAnalyzer::checkConsistency</definition>
+        <argsstring>(const EthicalDecision &amp;decision)</argsstring>
+        <name>checkConsistency</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::checkConsistency</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision" kindref="compound">EthicalDecision</ref> &amp;</type>
+          <declname>decision</declname>
+        </param>
+        <briefdescription>
+<para>Check Consistency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">decision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">decision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), size(), std::min(), std::max(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="220" column="12" bodyfile="src/llm/moral_analyzer.cpp" bodystart="769" bodyend="784"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_moral_analyzer_1a794772d5d66ac54525ee9c7b0fea59fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::llm::MoralAnalyzer::assessFairness</definition>
+        <argsstring>(const EthicalDecision &amp;decision)</argsstring>
+        <name>assessFairness</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::assessFairness</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision" kindref="compound">EthicalDecision</ref> &amp;</type>
+          <declname>decision</declname>
+        </param>
+        <briefdescription>
+<para>Assess Fairness. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">decision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">decision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="227" column="12" bodyfile="src/llm/moral_analyzer.cpp" bodystart="792" bodyend="808"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_moral_analyzer_1adf2b9d9fae5330713c842e5698f7d96f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; <ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_scenario" kindref="compound">EthicalScenario</ref>, <ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision" kindref="compound">EthicalDecision</ref> &gt; &gt;</type>
+        <definition>std::vector&lt; std::pair&lt; MoralAnalyzer::EthicalScenario, MoralAnalyzer::EthicalDecision &gt; &gt; themis::llm::MoralAnalyzer::retrieveSimilarScenarios</definition>
+        <argsstring>(const EthicalScenario &amp;scenario, int limit=5)</argsstring>
+        <name>retrieveSimilarScenarios</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::retrieveSimilarScenarios</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_scenario" kindref="compound">EthicalScenario</ref> &amp;</type>
+          <declname>scenario</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>limit</declname>
+          <defval>5</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="230" column="5" bodyfile="src/llm/moral_analyzer.cpp" bodystart="811" bodyend="818"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_moral_analyzer_1a836d25d4189835dd63a168c2f522a8d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_status" kindref="compound">Status</ref></type>
+        <definition>MoralAnalyzer::Status themis::llm::MoralAnalyzer::storeDecision</definition>
+        <argsstring>(const EthicalDecision &amp;decision, const std::vector&lt; float &gt; &amp;scenario_embedding={}, const std::string &amp;user_id=&quot;ethics_system&quot;)</argsstring>
+        <name>storeDecision</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::storeDecision</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision" kindref="compound">EthicalDecision</ref> &amp;</type>
+          <declname>decision</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>scenario_embedding</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+          <defval>&quot;ethics_system&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Store Decision. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">decision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scenario_embedding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: decision_entity(), setField(), std::string(), <ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json()</ref>, dump(), json::object(), addNode(), <ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_status_1a6a87662097c831013fdd27afb768320a" kindref="member">Status::Error()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="235" column="12" bodyfile="src/llm/moral_analyzer.cpp" bodystart="828" bodyend="982"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_moral_analyzer_1afba807fca02b743cab276da6ff8acd0d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::MoralAnalyzer::exportDecisionGraphDOT</definition>
+        <argsstring>(const std::string &amp;scenario_id)</argsstring>
+        <name>exportDecisionGraphDOT</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::exportDecisionGraphDOT</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>scenario_id</declname>
+        </param>
+        <briefdescription>
+<para>Export Decision Graph DOT. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">scenario_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the scenario. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">scenario_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the scenario. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="246" column="17" bodyfile="src/llm/moral_analyzer.cpp" bodystart="1058" bodyend="1073"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_moral_analyzer_1a74f1fd6a7c2a3115114e8b452ed3f650" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::MoralAnalyzer::getReasoningExplanation</definition>
+        <argsstring>(const EthicalDecision &amp;decision)</argsstring>
+        <name>getReasoningExplanation</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::getReasoningExplanation</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision" kindref="compound">EthicalDecision</ref> &amp;</type>
+          <declname>decision</declname>
+        </param>
+        <briefdescription>
+<para>Get Reasoning Explanation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">decision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">decision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="253" column="17" bodyfile="src/llm/moral_analyzer.cpp" bodystart="1081" bodyend="1114"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_moral_analyzer_1ad5927e7e7d2d75e3a6415e7e00afb8a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_status" kindref="compound">Status</ref></type>
+        <definition>MoralAnalyzer::Status themis::llm::MoralAnalyzer::clearDecisionGraph</definition>
+        <argsstring>(const std::string &amp;scenario_id)</argsstring>
+        <name>clearDecisionGraph</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::clearDecisionGraph</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>scenario_id</declname>
+        </param>
+        <briefdescription>
+<para>Clear Decision Graph. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">scenario_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the scenario. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_status_1a9a92bb8720929d0af0811a643fd7c671" kindref="member">Status::OK()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="260" column="12" bodyfile="src/llm/moral_analyzer.cpp" bodystart="1122" bodyend="1127"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_moral_analyzer_1af958314028efd74c8d55cec2356b041f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::llm::MoralAnalyzer::extractKeywords</definition>
+        <argsstring>(const EthicalDecision &amp;decision)</argsstring>
+        <name>extractKeywords</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::extractKeywords</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision" kindref="compound">EthicalDecision</ref> &amp;</type>
+          <declname>decision</declname>
+        </param>
+        <briefdescription>
+<para>Extract Keywords. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">decision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">decision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: push_back(), iss(), erase(), std::remove_if(), begin(), end(), std::ispunct(), length(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="278" column="17" bodyfile="src/llm/moral_analyzer.cpp" bodystart="990" bodyend="1050"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_moral_analyzer_1a5831e160d748d28702bf812dc83167fb" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_status" kindref="compound">Status</ref></type>
+        <definition>MoralAnalyzer::Status themis::llm::MoralAnalyzer::addScenarioNode</definition>
+        <argsstring>(const EthicalScenario &amp;scenario)</argsstring>
+        <name>addScenarioNode</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::addScenarioNode</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_scenario" kindref="compound">EthicalScenario</ref> &amp;</type>
+          <declname>scenario</declname>
+        </param>
+        <briefdescription>
+<para>Add Scenario Node. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">scenario</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">scenario</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: scenario_entity(), setField(), std::string(), <ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json()</ref>, dump(), addNode(), <ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_status_1a6a87662097c831013fdd27afb768320a" kindref="member">Status::Error()</ref>, <ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_status_1a9a92bb8720929d0af0811a643fd7c671" kindref="member">Status::OK()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="285" column="12" bodyfile="src/llm/moral_analyzer.cpp" bodystart="81" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_moral_analyzer_1a4af24b73178e4dc42b92fd4c8af1c149" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_status" kindref="compound">Status</ref></type>
+        <definition>MoralAnalyzer::Status themis::llm::MoralAnalyzer::addStakeholderNodes</definition>
+        <argsstring>(const EthicalScenario &amp;scenario, const std::string &amp;scenario_node_id)</argsstring>
+        <name>addStakeholderNodes</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::addStakeholderNodes</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_scenario" kindref="compound">EthicalScenario</ref> &amp;</type>
+          <declname>scenario</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>scenario_node_id</declname>
+        </param>
+        <briefdescription>
+<para>Add Stakeholder Nodes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">scenario</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scenario_node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the scenario node. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">scenario</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scenario_node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the scenario node. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: stakeholder_entity(), setField(), std::string(), <ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json()</ref>, dump(), addNode(), <ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_status_1a6a87662097c831013fdd27afb768320a" kindref="member">Status::Error()</ref>, involves_edge(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="293" column="12" bodyfile="src/llm/moral_analyzer.cpp" bodystart="107" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_moral_analyzer_1a00e7978244b38066f11acd309d8f5a00" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_status" kindref="compound">Status</ref></type>
+        <definition>MoralAnalyzer::Status themis::llm::MoralAnalyzer::addPrincipleNodes</definition>
+        <argsstring>(const EthicalScenario &amp;scenario, const std::string &amp;scenario_node_id, const std::string &amp;philosophy)</argsstring>
+        <name>addPrincipleNodes</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::addPrincipleNodes</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_scenario" kindref="compound">EthicalScenario</ref> &amp;</type>
+          <declname>scenario</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>scenario_node_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>philosophy</declname>
+        </param>
+        <briefdescription>
+<para>Add Principle Nodes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">scenario</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scenario_node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the scenario node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">philosophy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">scenario</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scenario_node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the scenario node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">philosophy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: loadPrinciplesForPhilosophy(), principle_entity(), setField(), std::string(), <ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json()</ref>, dump(), addNode(), <ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_status_1a6a87662097c831013fdd27afb768320a" kindref="member">Status::Error()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="305" column="12" bodyfile="src/llm/moral_analyzer.cpp" bodystart="157" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_moral_analyzer_1a7ee15aef2964f6b3922cc7d23cfa32b7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_status" kindref="compound">Status</ref></type>
+        <definition>MoralAnalyzer::Status themis::llm::MoralAnalyzer::addActionNodes</definition>
+        <argsstring>(const EthicalScenario &amp;scenario, const std::string &amp;scenario_node_id)</argsstring>
+        <name>addActionNodes</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::addActionNodes</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_scenario" kindref="compound">EthicalScenario</ref> &amp;</type>
+          <declname>scenario</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>scenario_node_id</declname>
+        </param>
+        <briefdescription>
+<para>Add Action Nodes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">scenario</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scenario_node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the scenario node. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">scenario</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scenario_node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the scenario node. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: action_entity(), setField(), std::string(), addNode(), <ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_status_1a6a87662097c831013fdd27afb768320a" kindref="member">Status::Error()</ref>, considers_edge(), addEdge(), <ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_status_1a9a92bb8720929d0af0811a643fd7c671" kindref="member">Status::OK()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="317" column="12" bodyfile="src/llm/moral_analyzer.cpp" bodystart="209" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_moral_analyzer_1ac5f4703635053301aca0a9ccfc0ab2fe" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_status" kindref="compound">Status</ref></type>
+        <definition>MoralAnalyzer::Status themis::llm::MoralAnalyzer::addOutcomeNodes</definition>
+        <argsstring>(const std::string &amp;action_id, const std::vector&lt; PredictedOutcome &gt; &amp;outcomes)</argsstring>
+        <name>addOutcomeNodes</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::addOutcomeNodes</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>action_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_predicted_outcome" kindref="compound">PredictedOutcome</ref> &gt; &amp;</type>
+          <declname>outcomes</declname>
+        </param>
+        <briefdescription>
+<para>Add Outcome Nodes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">action_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the action. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">outcomes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">action_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the action. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">outcomes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), std::to_string(), outcome_entity(), setField(), std::string(), addNode(), <ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_status_1a6a87662097c831013fdd27afb768320a" kindref="member">Status::Error()</ref>, leads_edge(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="328" column="12" bodyfile="src/llm/moral_analyzer.cpp" bodystart="256" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_moral_analyzer_1a3d480b32f1b6dcf16a33419a232300d7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_status" kindref="compound">Status</ref></type>
+        <definition>MoralAnalyzer::Status themis::llm::MoralAnalyzer::addArgumentNodes</definition>
+        <argsstring>(const std::string &amp;action_id, const std::vector&lt; EthicalArgument &gt; &amp;arguments)</argsstring>
+        <name>addArgumentNodes</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::addArgumentNodes</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>action_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_argument" kindref="compound">EthicalArgument</ref> &gt; &amp;</type>
+          <declname>arguments</declname>
+        </param>
+        <briefdescription>
+<para>Add Argument Nodes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">action_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the action. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">arguments</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">action_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the action. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">arguments</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: arg_entity(), setField(), std::string(), addNode(), <ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_status_1a6a87662097c831013fdd27afb768320a" kindref="member">Status::Error()</ref>, arg_edge(), addEdge(), <ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_status_1a9a92bb8720929d0af0811a643fd7c671" kindref="member">Status::OK()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="339" column="12" bodyfile="src/llm/moral_analyzer.cpp" bodystart="304" bodyend="343"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_moral_analyzer_1a81b63ee9fa960bc39f08df0dfcf883bc" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_reasoning_path" kindref="compound">ReasoningPath</ref></type>
+        <definition>ReasoningPath themis::llm::MoralAnalyzer::traverseReasoningPath</definition>
+        <argsstring>(const std::string &amp;scenario_id, const std::string &amp;action_id, const std::string &amp;philosophy)</argsstring>
+        <name>traverseReasoningPath</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::traverseReasoningPath</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>scenario_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>action_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>philosophy</declname>
+        </param>
+        <briefdescription>
+<para>Traverse Reasoning Path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">scenario_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the scenario. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">action_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the action. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">philosophy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="351" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_moral_analyzer_1a5e360163b9de7a9cf39a8211da115383" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::llm::MoralAnalyzer::loadPrinciplesForPhilosophy</definition>
+        <argsstring>(const std::string &amp;philosophy)</argsstring>
+        <name>loadPrinciplesForPhilosophy</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::loadPrinciplesForPhilosophy</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>philosophy</declname>
+        </param>
+        <briefdescription>
+<para>Load Principles For Philosophy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">philosophy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">philosophy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements loadPrinciplesForPhilosophy without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="362" column="17" bodyfile="src/llm/moral_analyzer.cpp" bodystart="1135" bodyend="1153"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_moral_analyzer_1aa9cfdb197fd4611f23a96a1a1ded246d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::llm::MoralAnalyzer::scoreActionByPrinciples</definition>
+        <argsstring>(const std::string &amp;action, const std::vector&lt; std::string &gt; &amp;principles, const std::string &amp;philosophy)</argsstring>
+        <name>scoreActionByPrinciples</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::scoreActionByPrinciples</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>action</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>principles</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>philosophy</declname>
+        </param>
+        <briefdescription>
+<para>Score Action By Principles. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">action</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">principles</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">philosophy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">action</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">principles</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::transform(), begin(), end(), find(), empty(), size(), std::min(), std::max(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="373" column="12" bodyfile="src/llm/moral_analyzer.cpp" bodystart="1163" bodyend="1200"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_moral_analyzer_1a47f303e24ce7500ceaa4f02cee5ea2a5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::map&lt; std::string, double &gt;</type>
+        <definition>std::map&lt; std::string, double &gt; themis::llm::MoralAnalyzer::calculateStakeholderImpacts</definition>
+        <argsstring>(const EthicalScenario &amp;scenario, const std::string &amp;action)</argsstring>
+        <name>calculateStakeholderImpacts</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::calculateStakeholderImpacts</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_scenario" kindref="compound">EthicalScenario</ref> &amp;</type>
+          <declname>scenario</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>action</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="379" column="14" bodyfile="src/llm/moral_analyzer.cpp" bodystart="1202" bodyend="1234"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_moral_analyzer_1a8d7dfb0bca3ba4d53b2fd092f177fc6f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::MoralAnalyzer::formatDecisionText</definition>
+        <argsstring>(const EthicalDecision &amp;decision)</argsstring>
+        <name>formatDecisionText</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::formatDecisionText</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision" kindref="compound">EthicalDecision</ref> &amp;</type>
+          <declname>decision</declname>
+        </param>
+        <briefdescription>
+<para>Format Decision Text. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">decision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">decision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), size(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="389" column="17" bodyfile="src/llm/moral_analyzer.cpp" bodystart="1242" bodyend="1283"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_moral_analyzer_1a9e3e6d0db0304396ccab29f308804eff" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::MoralAnalyzer::validateScenario</definition>
+        <argsstring>(const EthicalScenario &amp;scenario)</argsstring>
+        <name>validateScenario</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::validateScenario</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_scenario" kindref="compound">EthicalScenario</ref> &amp;</type>
+          <declname>scenario</declname>
+        </param>
+        <briefdescription>
+<para>Validate Scenario. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">scenario</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">scenario</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="398" column="10" bodyfile="src/llm/moral_analyzer.cpp" bodystart="1291" bodyend="1302"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/moral_analyzer.h" line="29" column="1" bodyfile="include/llm/moral_analyzer.h" bodystart="29" bodyend="399"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_moral_analyzer_1a7ee15aef2964f6b3922cc7d23cfa32b7" prot="private" virt="non-virtual"><scope>themis::llm::MoralAnalyzer</scope><name>addActionNodes</name></member>
+      <member refid="classthemis_1_1llm_1_1_moral_analyzer_1a3d480b32f1b6dcf16a33419a232300d7" prot="private" virt="non-virtual"><scope>themis::llm::MoralAnalyzer</scope><name>addArgumentNodes</name></member>
+      <member refid="classthemis_1_1llm_1_1_moral_analyzer_1ac5f4703635053301aca0a9ccfc0ab2fe" prot="private" virt="non-virtual"><scope>themis::llm::MoralAnalyzer</scope><name>addOutcomeNodes</name></member>
+      <member refid="classthemis_1_1llm_1_1_moral_analyzer_1a00e7978244b38066f11acd309d8f5a00" prot="private" virt="non-virtual"><scope>themis::llm::MoralAnalyzer</scope><name>addPrincipleNodes</name></member>
+      <member refid="classthemis_1_1llm_1_1_moral_analyzer_1a5831e160d748d28702bf812dc83167fb" prot="private" virt="non-virtual"><scope>themis::llm::MoralAnalyzer</scope><name>addScenarioNode</name></member>
+      <member refid="classthemis_1_1llm_1_1_moral_analyzer_1a4af24b73178e4dc42b92fd4c8af1c149" prot="private" virt="non-virtual"><scope>themis::llm::MoralAnalyzer</scope><name>addStakeholderNodes</name></member>
+      <member refid="classthemis_1_1llm_1_1_moral_analyzer_1a04d0cead739f60b6451e5c78e39d6e78" prot="public" virt="non-virtual"><scope>themis::llm::MoralAnalyzer</scope><name>analyzeMultiPhilosophy</name></member>
+      <member refid="classthemis_1_1llm_1_1_moral_analyzer_1ab4757186f852d045b8295cae4fbbc302" prot="public" virt="non-virtual"><scope>themis::llm::MoralAnalyzer</scope><name>analyzeWithPhilosophy</name></member>
+      <member refid="classthemis_1_1llm_1_1_moral_analyzer_1a794772d5d66ac54525ee9c7b0fea59fb" prot="public" virt="non-virtual"><scope>themis::llm::MoralAnalyzer</scope><name>assessFairness</name></member>
+      <member refid="classthemis_1_1llm_1_1_moral_analyzer_1a634bdd1930004bde247303142fcbd3cc" prot="public" virt="non-virtual"><scope>themis::llm::MoralAnalyzer</scope><name>buildDecisionGraph</name></member>
+      <member refid="classthemis_1_1llm_1_1_moral_analyzer_1a2bd12780ebe0d545bba513a00dc4360e" prot="public" virt="non-virtual"><scope>themis::llm::MoralAnalyzer</scope><name>calculateExpectedUtility</name></member>
+      <member refid="classthemis_1_1llm_1_1_moral_analyzer_1a47f303e24ce7500ceaa4f02cee5ea2a5" prot="private" virt="non-virtual"><scope>themis::llm::MoralAnalyzer</scope><name>calculateStakeholderImpacts</name></member>
+      <member refid="classthemis_1_1llm_1_1_moral_analyzer_1a5545f9579f16d81d1ab5f27f023f79ab" prot="public" virt="non-virtual"><scope>themis::llm::MoralAnalyzer</scope><name>checkConsistency</name></member>
+      <member refid="classthemis_1_1llm_1_1_moral_analyzer_1ad5927e7e7d2d75e3a6415e7e00afb8a0" prot="public" virt="non-virtual"><scope>themis::llm::MoralAnalyzer</scope><name>clearDecisionGraph</name></member>
+      <member refid="classthemis_1_1llm_1_1_moral_analyzer_1af7a2790e9a75426ff0cfaf9dfdb9b43a" prot="private" virt="non-virtual"><scope>themis::llm::MoralAnalyzer</scope><name>db_</name></member>
+      <member refid="classthemis_1_1llm_1_1_moral_analyzer_1a94dd570cacafad32c4cc5b3d0afb45e5" prot="private" virt="non-virtual"><scope>themis::llm::MoralAnalyzer</scope><name>decision_auditor_</name></member>
+      <member refid="classthemis_1_1llm_1_1_moral_analyzer_1a103ab8066a80b99e23de3cfe1c399d0b" prot="public" virt="non-virtual"><scope>themis::llm::MoralAnalyzer</scope><name>detectEthicalImplicationsViaLLM</name></member>
+      <member refid="classthemis_1_1llm_1_1_moral_analyzer_1a1b18ac4fe0d23aafe9d752c0a9db9136" prot="private" virt="non-virtual"><scope>themis::llm::MoralAnalyzer</scope><name>ethical_guidelines_</name></member>
+      <member refid="classthemis_1_1llm_1_1_moral_analyzer_1a6017dbc7cb985cfca761bb61743d42e0" prot="public" virt="non-virtual"><scope>themis::llm::MoralAnalyzer</scope><name>evaluateConsequentialist</name></member>
+      <member refid="classthemis_1_1llm_1_1_moral_analyzer_1aa40ceaf4560c6157e5fd56dcd1a76f80" prot="public" virt="non-virtual"><scope>themis::llm::MoralAnalyzer</scope><name>evaluateDeontological</name></member>
+      <member refid="classthemis_1_1llm_1_1_moral_analyzer_1acb4d05a65ec39468eb080b386bec314a" prot="public" virt="non-virtual"><scope>themis::llm::MoralAnalyzer</scope><name>evaluateVirtueEthics</name></member>
+      <member refid="classthemis_1_1llm_1_1_moral_analyzer_1afba807fca02b743cab276da6ff8acd0d" prot="public" virt="non-virtual"><scope>themis::llm::MoralAnalyzer</scope><name>exportDecisionGraphDOT</name></member>
+      <member refid="classthemis_1_1llm_1_1_moral_analyzer_1af958314028efd74c8d55cec2356b041f" prot="private" virt="non-virtual"><scope>themis::llm::MoralAnalyzer</scope><name>extractKeywords</name></member>
+      <member refid="classthemis_1_1llm_1_1_moral_analyzer_1a8d7dfb0bca3ba4d53b2fd092f177fc6f" prot="private" virt="non-virtual"><scope>themis::llm::MoralAnalyzer</scope><name>formatDecisionText</name></member>
+      <member refid="classthemis_1_1llm_1_1_moral_analyzer_1a18d9779be14ed91d9bf126376d7041ae" prot="public" virt="non-virtual"><scope>themis::llm::MoralAnalyzer</scope><name>generateArguments</name></member>
+      <member refid="classthemis_1_1llm_1_1_moral_analyzer_1a74f1fd6a7c2a3115114e8b452ed3f650" prot="public" virt="non-virtual"><scope>themis::llm::MoralAnalyzer</scope><name>getReasoningExplanation</name></member>
+      <member refid="classthemis_1_1llm_1_1_moral_analyzer_1a987b2c950794c82e994863741516bc69" prot="private" virt="non-virtual"><scope>themis::llm::MoralAnalyzer</scope><name>graph_manager_</name></member>
+      <member refid="classthemis_1_1llm_1_1_moral_analyzer_1a1e43a30c16c233b3fad2c832633c7b21" prot="private" virt="non-virtual"><scope>themis::llm::MoralAnalyzer</scope><name>llm_engine_</name></member>
+      <member refid="classthemis_1_1llm_1_1_moral_analyzer_1a5e360163b9de7a9cf39a8211da115383" prot="private" virt="non-virtual"><scope>themis::llm::MoralAnalyzer</scope><name>loadPrinciplesForPhilosophy</name></member>
+      <member refid="classthemis_1_1llm_1_1_moral_analyzer_1a4e689193e820802753099910dc16117d" prot="public" virt="non-virtual"><scope>themis::llm::MoralAnalyzer</scope><name>MoralAnalyzer</name></member>
+      <member refid="classthemis_1_1llm_1_1_moral_analyzer_1a9969cff709ff4a8b13aa1b2022be7b69" prot="public" virt="non-virtual"><scope>themis::llm::MoralAnalyzer</scope><name>predictOutcomes</name></member>
+      <member refid="classthemis_1_1llm_1_1_moral_analyzer_1a25eaec61584301137667aa22a22e7645" prot="public" virt="non-virtual"><scope>themis::llm::MoralAnalyzer</scope><name>recommendPhilosophies</name></member>
+      <member refid="classthemis_1_1llm_1_1_moral_analyzer_1adf2b9d9fae5330713c842e5698f7d96f" prot="public" virt="non-virtual"><scope>themis::llm::MoralAnalyzer</scope><name>retrieveSimilarScenarios</name></member>
+      <member refid="classthemis_1_1llm_1_1_moral_analyzer_1aa9cfdb197fd4611f23a96a1a1ded246d" prot="private" virt="non-virtual"><scope>themis::llm::MoralAnalyzer</scope><name>scoreActionByPrinciples</name></member>
+      <member refid="classthemis_1_1llm_1_1_moral_analyzer_1a836d25d4189835dd63a168c2f522a8d9" prot="public" virt="non-virtual"><scope>themis::llm::MoralAnalyzer</scope><name>storeDecision</name></member>
+      <member refid="classthemis_1_1llm_1_1_moral_analyzer_1aa1e5f955017954ef7b6371ee5fb1e332" prot="public" virt="non-virtual"><scope>themis::llm::MoralAnalyzer</scope><name>synthesizeDecision</name></member>
+      <member refid="classthemis_1_1llm_1_1_moral_analyzer_1a81b63ee9fa960bc39f08df0dfcf883bc" prot="private" virt="non-virtual"><scope>themis::llm::MoralAnalyzer</scope><name>traverseReasoningPath</name></member>
+      <member refid="classthemis_1_1llm_1_1_moral_analyzer_1a9e3e6d0db0304396ccab29f308804eff" prot="private" virt="non-virtual"><scope>themis::llm::MoralAnalyzer</scope><name>validateScenario</name></member>
+      <member refid="classthemis_1_1llm_1_1_moral_analyzer_1a18d18329da765e20a0baef21ba918db1" prot="private" virt="non-virtual"><scope>themis::llm::MoralAnalyzer</scope><name>vector_index_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

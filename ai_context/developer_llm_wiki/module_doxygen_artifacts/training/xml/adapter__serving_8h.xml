@@ -1,0 +1,231 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="adapter__serving_8h" kind="file" language="C++">
+    <compoundname>adapter_serving.h</compoundname>
+    <includes local="no">string</includes>
+    <includes refid="training__error__codes_8h" local="yes">training/training_error_codes.h</includes>
+    <includes refid="training__exceptions_8h" local="yes">training/training_exceptions.h</includes>
+    <includedby refid="incremental__lora__trainer_8h" local="yes">include/training/incremental_lora_trainer.h</includedby>
+    <includedby refid="adapter__serving_8cpp" local="yes">src/training/adapter_serving.cpp</includedby>
+    <includedby refid="incremental__lora__trainer_8cpp" local="yes">src/training/incremental_lora_trainer.cpp</includedby>
+    <includedby refid="test__training__diagnostics__consistency_8cpp" local="yes">tests/training/test_training_diagnostics_consistency.cpp</includedby>
+    <includedby refid="test__training__phase2_8cpp" local="yes">tests/training/test_training_phase2.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/training/adapter_serving.h</label>
+        <link refid="adapter__serving_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>training/training_error_codes.h</label>
+        <link refid="training__error__codes_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>training/training_exceptions.h</label>
+        <link refid="training__exceptions_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>stdexcept</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>unordered_map</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/training/adapter_serving.h</label>
+        <link refid="adapter__serving_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/training/incremental_lora_trainer.h</label>
+        <link refid="incremental__lora__trainer_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/training/training_pipeline.h</label>
+        <link refid="training__pipeline_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>src/training/adapter_serving.cpp</label>
+        <link refid="adapter__serving_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/training/examples/database_optimizer_labeler.cpp</label>
+        <link refid="database__optimizer__labeler_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/training/incremental_lora_trainer.cpp</label>
+        <link refid="incremental__lora__trainer_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/training/training_pipeline.cpp</label>
+        <link refid="training__pipeline_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/training/test_training_convergence.cpp</label>
+        <link refid="test__training__convergence_8cpp"/>
+      </node>
+      <node id="12">
+        <label>tests/training/test_training_diagnostics_consistency.cpp</label>
+        <link refid="test__training__diagnostics__consistency_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/training/test_training_phase2.cpp</label>
+        <link refid="test__training__phase2_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/training/test_training_pipeline_e2e.cpp</label>
+        <link refid="test__training__pipeline__e2e_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/training/test_training_pipeline_injection_qw40.cpp</label>
+        <link refid="test__training__pipeline__injection__qw40_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1training_1_1_i_l_l_m_router" prot="public">themis::training::ILLMRouter</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_deploy_result" prot="public">themis::training::DeployResult</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1training">themis::training</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.10 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 96/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="training__error__codes_8h" kindref="compound">training/training_error_codes.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="training__exceptions_8h" kindref="compound">training/training_exceptions.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1training" kindref="compound">training</ref><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ILLMRouter<sp/>—<sp/>abstract<sp/>LLM<sp/>router<sp/>interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="classthemis_1_1training_1_1_i_l_l_m_router" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1training_1_1_i_l_l_m_router" kindref="compound">ILLMRouter</ref><sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_i_l_l_m_router_1af4d95ab376b9dc4e9ca73c96af36723d" kindref="member">~ILLMRouter</ref>();</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="classthemis_1_1training_1_1_i_l_l_m_router_1ab0ae6f264b2b8c4c93b989cc89897cc9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_i_l_l_m_router_1ab0ae6f264b2b8c4c93b989cc89897cc9" kindref="member">setAdapterWeight</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>version,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>weight)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="classthemis_1_1training_1_1_i_l_l_m_router_1a825941b31d3bd0a13cdd3faab7e3751d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_i_l_l_m_router_1a825941b31d3bd0a13cdd3faab7e3751d" kindref="member">isAvailable</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="classthemis_1_1training_1_1_i_l_l_m_router_1a27b277568504e9bfa8b01deb31be55d4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1training_1_1_i_l_l_m_router_1a27b277568504e9bfa8b01deb31be55d4" kindref="member">activeVersion</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DeployResult</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1training_1_1_deploy_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1training_1_1_deploy_result_1ae666bc49f2c1affd2b9e035e0da5f646" kindref="member">DeployResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1training_1_1_deploy_result_1a9a1bf54e3ab1ecb3865cebe2ee2e8c6d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_deploy_result_1a9a1bf54e3ab1ecb3865cebe2ee2e8c6d" kindref="member">success</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1training_1_1_deploy_result_1a599c257b145f2de9a98e78493d356546" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1training_1_1_deploy_result_1a599c257b145f2de9a98e78493d356546" kindref="member">active_version</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1training_1_1_deploy_result_1acb9d90400e22a1bbd8df09f3e7eef57c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_deploy_result_1acb9d90400e22a1bbd8df09f3e7eef57c" kindref="member">split_applied</ref><sp/><sp/>=<sp/>0.0f;<sp/><sp/></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1training_1_1_deploy_result_1a4157d0679a3082deb69a626db766ece2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1training_1_1_deploy_result_1a4157d0679a3082deb69a626db766ece2" kindref="member">error</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1training_1_1_deploy_result_1ae666bc49f2c1affd2b9e035e0da5f646" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_deploy_result_1ae666bc49f2c1affd2b9e035e0da5f646" kindref="member">DeployResult</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1training_1_1_deploy_result_1a73dee5d23b48fd9fe75ac351b19bf08e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_deploy_result_1ae666bc49f2c1affd2b9e035e0da5f646" kindref="member">DeployResult</ref><sp/><ref refid="structthemis_1_1training_1_1_deploy_result_1a73dee5d23b48fd9fe75ac351b19bf08e" kindref="member">ok</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>version,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>split)<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_deploy_result_1ae666bc49f2c1affd2b9e035e0da5f646" kindref="member">DeployResult</ref><sp/>r;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1training_1_1_deploy_result_1a9a1bf54e3ab1ecb3865cebe2ee2e8c6d" kindref="member">success</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1training_1_1_deploy_result_1a599c257b145f2de9a98e78493d356546" kindref="member">active_version</ref><sp/>=<sp/>version;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1training_1_1_deploy_result_1acb9d90400e22a1bbd8df09f3e7eef57c" kindref="member">split_applied</ref><sp/><sp/>=<sp/>split;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>r;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1training_1_1_deploy_result_1a8533a1bd50c9f5fa65a4b4e3e75fb55f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_deploy_result_1ae666bc49f2c1affd2b9e035e0da5f646" kindref="member">DeployResult</ref><sp/><ref refid="structthemis_1_1training_1_1_deploy_result_1a8533a1bd50c9f5fa65a4b4e3e75fb55f" kindref="member">fail</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>reason)<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_deploy_result_1ae666bc49f2c1affd2b9e035e0da5f646" kindref="member">DeployResult</ref><sp/>r;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1training_1_1_deploy_result_1a9a1bf54e3ab1ecb3865cebe2ee2e8c6d" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1training_1_1_deploy_result_1a4157d0679a3082deb69a626db766ece2" kindref="member">error</ref><sp/><sp/><sp/>=<sp/>reason;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>r;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Phase<sp/>2:<sp/>Deployment<sp/>Validation<sp/>(determinism<sp/>and<sp/>readiness<sp/>checks)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal">std::string<sp/><ref refid="namespacethemis_1_1training_1a91ef69bb49179fbfc900851bdfdd0d35" kindref="member">validateDeploymentReadiness</ref>(</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_version,</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>checkpoint_path,</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>expected_sha256<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal">std::string<sp/><ref refid="namespacethemis_1_1training_1a975dd237b85085b50ea1623c7001101d" kindref="member">computeDeploymentFingerprint</ref>(</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_version,</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>checkpoint_sha256);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>training</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/training/adapter_serving.h"/>
+  </compounddef>
+</doxygen>

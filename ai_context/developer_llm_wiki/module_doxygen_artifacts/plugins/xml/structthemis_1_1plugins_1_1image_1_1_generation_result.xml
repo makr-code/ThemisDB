@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1image_1_1_generation_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::image::GenerationResult</compoundname>
+    <includes refid="image__analysis__interface_8h" local="no">image_analysis_interface.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_generation_result_1a563a6c514af48fb0a0d251942a8ef8e5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::image::GenerationResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::plugins::image::GenerationResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="188" column="10" bodyfile="include/plugins/image_analysis_interface.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_generation_result_1af7a0a4cd5cd7c30c4175885aa5df1b0e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::image::GenerationResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::plugins::image::GenerationResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="189" column="17" bodyfile="include/plugins/image_analysis_interface.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_generation_result_1a517183b3f60c1ba516c5bda8d5fd3500" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::plugins::image::GenerationResult::image_data</definition>
+        <argsstring></argsstring>
+        <name>image_data</name>
+        <qualifiedname>themis::plugins::image::GenerationResult::image_data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="191" column="17" bodyfile="include/plugins/image_analysis_interface.h" bodystart="191" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_generation_result_1af476d7ae65fa28d7f1540c9002caa8f8" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1plugins_1_1image_1_1_image_metadata" kindref="compound">ImageMetadata</ref></type>
+        <definition>ImageMetadata themis::plugins::image::GenerationResult::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::plugins::image::GenerationResult::metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="192" column="19" bodyfile="include/plugins/image_analysis_interface.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_generation_result_1aeec26949a7847fb830259f39b2742d66" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::image::GenerationResult::model_name</definition>
+        <argsstring></argsstring>
+        <name>model_name</name>
+        <qualifiedname>themis::plugins::image::GenerationResult::model_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="194" column="17" bodyfile="include/plugins/image_analysis_interface.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_generation_result_1a3534b5b945c0265e07b34947f2237fc5" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::plugins::image::GenerationResult::inference_time_ms</definition>
+        <argsstring></argsstring>
+        <name>inference_time_ms</name>
+        <qualifiedname>themis::plugins::image::GenerationResult::inference_time_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="195" column="13" bodyfile="include/plugins/image_analysis_interface.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_generation_result_1a4f93b902d2eb7e9b09e913dfd9d49a1f" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::plugins::image::GenerationResult::seed_used</definition>
+        <argsstring></argsstring>
+        <name>seed_used</name>
+        <qualifiedname>themis::plugins::image::GenerationResult::seed_used</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="198" column="13" bodyfile="include/plugins/image_analysis_interface.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Image Generation Result. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::plugins::image::GenerationResult</label>
+        <link refid="structthemis_1_1plugins_1_1image_1_1_generation_result"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>metadata</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::plugins::image::ImageMetadata</label>
+        <link refid="structthemis_1_1plugins_1_1image_1_1_image_metadata"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/plugins/image_analysis_interface.h" line="187" column="1" bodyfile="include/plugins/image_analysis_interface.h" bodystart="187" bodyend="199"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_generation_result_1af7a0a4cd5cd7c30c4175885aa5df1b0e" prot="public" virt="non-virtual"><scope>themis::plugins::image::GenerationResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_generation_result_1a517183b3f60c1ba516c5bda8d5fd3500" prot="public" virt="non-virtual"><scope>themis::plugins::image::GenerationResult</scope><name>image_data</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_generation_result_1a3534b5b945c0265e07b34947f2237fc5" prot="public" virt="non-virtual"><scope>themis::plugins::image::GenerationResult</scope><name>inference_time_ms</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_generation_result_1af476d7ae65fa28d7f1540c9002caa8f8" prot="public" virt="non-virtual"><scope>themis::plugins::image::GenerationResult</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_generation_result_1aeec26949a7847fb830259f39b2742d66" prot="public" virt="non-virtual"><scope>themis::plugins::image::GenerationResult</scope><name>model_name</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_generation_result_1a4f93b902d2eb7e9b09e913dfd9d49a1f" prot="public" virt="non-virtual"><scope>themis::plugins::image::GenerationResult</scope><name>seed_used</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_generation_result_1a563a6c514af48fb0a0d251942a8ef8e5" prot="public" virt="non-virtual"><scope>themis::plugins::image::GenerationResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

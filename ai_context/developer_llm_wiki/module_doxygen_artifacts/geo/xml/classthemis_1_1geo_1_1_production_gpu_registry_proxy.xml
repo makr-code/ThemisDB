@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1geo_1_1_production_gpu_registry_proxy" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::geo::ProductionGpuRegistryProxy</compoundname>
+    <basecompoundref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend" prot="public" virt="non-virtual">themis::geo::ISpatialComputeBackend</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_production_gpu_registry_proxy_1a3551f05ed560087b10bd9778aeec21af" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>const char *</type>
+        <definition>const char * themis::geo::ProductionGpuRegistryProxy::name</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::geo::ProductionGpuRegistryProxy::name</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a1c4449a6016a5eb97a9103d5db3d3e48">name</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/gpu_backend_production.cpp" line="1035" column="16" bodyfile="src/geo/gpu_backend_production.cpp" bodystart="1035" bodyend="1037"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_production_gpu_registry_proxy_1a27cabe85b30df56d0aaa347f42eda979" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::geo::ProductionGpuRegistryProxy::isAvailable</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::geo::ProductionGpuRegistryProxy::isAvailable</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a9425c0b8acfa7591052b641da875de6b">isAvailable</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/gpu_backend_production.cpp" line="1038" column="10" bodyfile="src/geo/gpu_backend_production.cpp" bodystart="1038" bodyend="1041"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_production_gpu_registry_proxy_1a71dc0dd09f4796ee3514a531d7468dff" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1geo_1_1_spatial_batch_results" kindref="compound">SpatialBatchResults</ref></type>
+        <definition>SpatialBatchResults themis::geo::ProductionGpuRegistryProxy::batchIntersects</definition>
+        <argsstring>(const SpatialBatchInputs &amp;in) override</argsstring>
+        <name>batchIntersects</name>
+        <qualifiedname>themis::geo::ProductionGpuRegistryProxy::batchIntersects</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1af47ef704007f683b97adc804495d41ca">batchIntersects</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1geo_1_1_spatial_batch_inputs" kindref="compound">SpatialBatchInputs</ref> &amp;</type>
+          <declname>in</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/gpu_backend_production.cpp" line="1042" column="25" bodyfile="src/geo/gpu_backend_production.cpp" bodystart="1042" bodyend="1050"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_production_gpu_registry_proxy_1aded8ab68d95cbaaae88b0cdbc6954a52" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::geo::ProductionGpuRegistryProxy::exactIntersects</definition>
+        <argsstring>(const GeometryInfo &amp;g1, const GeometryInfo &amp;g2) override</argsstring>
+        <name>exactIntersects</name>
+        <qualifiedname>themis::geo::ProductionGpuRegistryProxy::exactIntersects</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a84c6d241e0607e0fae2033d7a94489f8">exactIntersects</reimplements>
+        <param>
+          <type>const GeometryInfo &amp;</type>
+          <declname>g1</declname>
+        </param>
+        <param>
+          <type>const GeometryInfo &amp;</type>
+          <declname>g2</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/gpu_backend_production.cpp" line="1051" column="10" bodyfile="src/geo/gpu_backend_production.cpp" bodystart="1051" bodyend="1054"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::geo::ISpatialComputeBackend</label>
+        <link refid="classthemis_1_1geo_1_1_i_spatial_compute_backend"/>
+      </node>
+      <node id="1">
+        <label>themis::geo::ProductionGpuRegistryProxy</label>
+        <link refid="classthemis_1_1geo_1_1_production_gpu_registry_proxy"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::geo::ISpatialComputeBackend</label>
+        <link refid="classthemis_1_1geo_1_1_i_spatial_compute_backend"/>
+      </node>
+      <node id="1">
+        <label>themis::geo::ProductionGpuRegistryProxy</label>
+        <link refid="classthemis_1_1geo_1_1_production_gpu_registry_proxy"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/geo/gpu_backend_production.cpp" line="1033" column="1" bodyfile="src/geo/gpu_backend_production.cpp" bodystart="1033" bodyend="1055"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1geo_1_1_production_gpu_registry_proxy_1a71dc0dd09f4796ee3514a531d7468dff" prot="public" virt="virtual"><scope>themis::geo::ProductionGpuRegistryProxy</scope><name>batchIntersects</name></member>
+      <member refid="classthemis_1_1geo_1_1_production_gpu_registry_proxy_1aded8ab68d95cbaaae88b0cdbc6954a52" prot="public" virt="virtual"><scope>themis::geo::ProductionGpuRegistryProxy</scope><name>exactIntersects</name></member>
+      <member refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a6f7d1da128cc4b93dd3d1345f56b329e" prot="public" virt="virtual"><scope>themis::geo::ProductionGpuRegistryProxy</scope><name>geodesicDistance</name></member>
+      <member refid="classthemis_1_1geo_1_1_production_gpu_registry_proxy_1a27cabe85b30df56d0aaa347f42eda979" prot="public" virt="virtual"><scope>themis::geo::ProductionGpuRegistryProxy</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1geo_1_1_production_gpu_registry_proxy_1a3551f05ed560087b10bd9778aeec21af" prot="public" virt="virtual"><scope>themis::geo::ProductionGpuRegistryProxy</scope><name>name</name></member>
+      <member refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a6cee7527b53f693b1f8eeb255488d19e" prot="public" virt="virtual"><scope>themis::geo::ProductionGpuRegistryProxy</scope><name>stBuffer</name></member>
+      <member refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a1e4ba225af0b839f94b1f4877b9af33b" prot="public" virt="virtual"><scope>themis::geo::ProductionGpuRegistryProxy</scope><name>stDifference</name></member>
+      <member refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a75a0a61492e8bf2755c3307e901206d7" prot="public" virt="virtual"><scope>themis::geo::ProductionGpuRegistryProxy</scope><name>stUnion</name></member>
+      <member refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1ac73e2531ea40978af133460e88a1a242" prot="public" virt="virtual"><scope>themis::geo::ProductionGpuRegistryProxy</scope><name>~ISpatialComputeBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

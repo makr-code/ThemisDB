@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_bpmn_parsing_determinism_spec" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::BpmnParsingDeterminismSpec</compoundname>
+    <includes refid="process__determinism__spec_8h" local="no">process_determinism_spec.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_bpmn_parsing_determinism_spec_1ab88cb6102953cf21f7f047e9d531d13d" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type><ref refid="namespacethemis_1_1process_1a47b3035d47c051fd0cea480c24aaf445" kindref="member">DeterminismClass</ref></type>
+        <definition>DeterminismClass themis::process::BpmnParsingDeterminismSpec::determinism</definition>
+        <argsstring></argsstring>
+        <name>determinism</name>
+        <qualifiedname>themis::process::BpmnParsingDeterminismSpec::determinism</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1process_1a47b3035d47c051fd0cea480c24aaf445aa96d65db20752636785d8fc9bf721e92" kindref="member">DeterminismClass::FULLY_DETERMINISTIC</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_determinism_spec.h" line="135" column="39" bodyfile="include/process/process_determinism_spec.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_bpmn_parsing_determinism_spec_1aedd147fbd6a4a2f411f2852ec4d40f8f" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type><ref refid="namespacethemis_1_1process_1aa7825524477a7af2eba0fd35722ad1bb" kindref="member">ConflictScope</ref></type>
+        <definition>ConflictScope themis::process::BpmnParsingDeterminismSpec::conflict_scope</definition>
+        <argsstring></argsstring>
+        <name>conflict_scope</name>
+        <qualifiedname>themis::process::BpmnParsingDeterminismSpec::conflict_scope</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1process_1aa7825524477a7af2eba0fd35722ad1bbab18ff9ed18b27a951714b14b79b2b687" kindref="member">ConflictScope::NO_CONFLICTS</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_determinism_spec.h" line="136" column="36" bodyfile="include/process/process_determinism_spec.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1process_1_1_bpmn_parsing_determinism_spec_1aa248bad0b1ebdcd99a610738f587b832" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>static std::string_view themis::process::BpmnParsingDeterminismSpec::uuid_namespace</definition>
+        <argsstring>()</argsstring>
+        <name>uuid_namespace</name>
+        <qualifiedname>themis::process::BpmnParsingDeterminismSpec::uuid_namespace</qualifiedname>
+        <briefdescription>
+<para>UUID v5 namespace for stable model ID generation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_determinism_spec.h" line="139" column="29" bodyfile="include/process/process_determinism_spec.h" bodystart="139" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_bpmn_parsing_determinism_spec_1aee16a2e7e2ae05ab7539289acffa3031" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>static std::string_view themis::process::BpmnParsingDeterminismSpec::describe</definition>
+        <argsstring>()</argsstring>
+        <name>describe</name>
+        <qualifiedname>themis::process::BpmnParsingDeterminismSpec::describe</qualifiedname>
+        <briefdescription>
+<para>Expected behavior when parsing the same BPMN twice. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_determinism_spec.h" line="144" column="29" bodyfile="include/process/process_determinism_spec.h" bodystart="144" bodyend="147"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Guarantees for BPMN model parsing and import. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><bold>Determinism:</bold> FULLY_DETERMINISTIC <linebreak/>
+ <bold>Condition:</bold> UUID generation uses RFC 4122 v5 with stable namespace <linebreak/>
+ <bold>Output:</bold> Identical BPMN source produces identical model structure</para>
+<para><simplesect kind="invariant"><para>Multiple parses of the same BPMN produce identical model IDs </para>
+</simplesect>
+<simplesect kind="invariant"><para>Node and link ordering within model is stable </para>
+</simplesect>
+<simplesect kind="invariant"><para>No random element names or ordering </para>
+</simplesect>
+<simplesect kind="invariant"><para>Parse tree traversal is deterministic </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/process/process_determinism_spec.h" line="134" column="1" bodyfile="include/process/process_determinism_spec.h" bodystart="134" bodyend="148"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_bpmn_parsing_determinism_spec_1aedd147fbd6a4a2f411f2852ec4d40f8f" prot="public" virt="non-virtual"><scope>themis::process::BpmnParsingDeterminismSpec</scope><name>conflict_scope</name></member>
+      <member refid="structthemis_1_1process_1_1_bpmn_parsing_determinism_spec_1aee16a2e7e2ae05ab7539289acffa3031" prot="public" virt="non-virtual"><scope>themis::process::BpmnParsingDeterminismSpec</scope><name>describe</name></member>
+      <member refid="structthemis_1_1process_1_1_bpmn_parsing_determinism_spec_1ab88cb6102953cf21f7f047e9d531d13d" prot="public" virt="non-virtual"><scope>themis::process::BpmnParsingDeterminismSpec</scope><name>determinism</name></member>
+      <member refid="structthemis_1_1process_1_1_bpmn_parsing_determinism_spec_1aa248bad0b1ebdcd99a610738f587b832" prot="public" virt="non-virtual"><scope>themis::process::BpmnParsingDeterminismSpec</scope><name>uuid_namespace</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

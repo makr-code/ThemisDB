@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1applications_1_1_feedback_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::applications::FeedbackStats</compoundname>
+    <includes refid="themis__help__lora_8h" local="no">themis_help_lora.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1applications_1_1_feedback_stats_1a29d81e5113723641927a45ef950848bf" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::applications::FeedbackStats::total_feedback</definition>
+        <argsstring></argsstring>
+        <name>total_feedback</name>
+        <qualifiedname>themis::llm::applications::FeedbackStats::total_feedback</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/applications/themis_help_lora.h" line="52" column="12" bodyfile="include/llm/applications/themis_help_lora.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1applications_1_1_feedback_stats_1ae8ed33a3df7ff9f37a8080668de68caf" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::applications::FeedbackStats::positive_feedback</definition>
+        <argsstring></argsstring>
+        <name>positive_feedback</name>
+        <qualifiedname>themis::llm::applications::FeedbackStats::positive_feedback</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/applications/themis_help_lora.h" line="53" column="12" bodyfile="include/llm/applications/themis_help_lora.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1applications_1_1_feedback_stats_1a2a7ae15513a1eac80493616758ded39c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::applications::FeedbackStats::negative_feedback</definition>
+        <argsstring></argsstring>
+        <name>negative_feedback</name>
+        <qualifiedname>themis::llm::applications::FeedbackStats::negative_feedback</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/applications/themis_help_lora.h" line="54" column="12" bodyfile="include/llm/applications/themis_help_lora.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1applications_1_1_feedback_stats_1af7b9b75f50feab7140a55bece9c1330b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::applications::FeedbackStats::positive_ratio</definition>
+        <argsstring></argsstring>
+        <name>positive_ratio</name>
+        <qualifiedname>themis::llm::applications::FeedbackStats::positive_ratio</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/applications/themis_help_lora.h" line="55" column="12" bodyfile="include/llm/applications/themis_help_lora.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1applications_1_1_feedback_stats_1aba351bff89d1025d29571fc2334f716f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::applications::FeedbackStats::~FeedbackStats</definition>
+        <argsstring>()=default</argsstring>
+        <name>~FeedbackStats</name>
+        <qualifiedname>themis::llm::applications::FeedbackStats::~FeedbackStats</qualifiedname>
+        <briefdescription>
+<para><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback" kindref="compound">Feedback</ref> Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/applications/themis_help_lora.h" line="51" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/applications/themis_help_lora.h" line="46" column="1" bodyfile="include/llm/applications/themis_help_lora.h" bodystart="46" bodyend="56"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1applications_1_1_feedback_stats_1a2a7ae15513a1eac80493616758ded39c" prot="public" virt="non-virtual"><scope>themis::llm::applications::FeedbackStats</scope><name>negative_feedback</name></member>
+      <member refid="structthemis_1_1llm_1_1applications_1_1_feedback_stats_1ae8ed33a3df7ff9f37a8080668de68caf" prot="public" virt="non-virtual"><scope>themis::llm::applications::FeedbackStats</scope><name>positive_feedback</name></member>
+      <member refid="structthemis_1_1llm_1_1applications_1_1_feedback_stats_1af7b9b75f50feab7140a55bece9c1330b" prot="public" virt="non-virtual"><scope>themis::llm::applications::FeedbackStats</scope><name>positive_ratio</name></member>
+      <member refid="structthemis_1_1llm_1_1applications_1_1_feedback_stats_1a29d81e5113723641927a45ef950848bf" prot="public" virt="non-virtual"><scope>themis::llm::applications::FeedbackStats</scope><name>total_feedback</name></member>
+      <member refid="structthemis_1_1llm_1_1applications_1_1_feedback_stats_1aba351bff89d1025d29571fc2334f716f" prot="public" virt="virtual"><scope>themis::llm::applications::FeedbackStats</scope><name>~FeedbackStats</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

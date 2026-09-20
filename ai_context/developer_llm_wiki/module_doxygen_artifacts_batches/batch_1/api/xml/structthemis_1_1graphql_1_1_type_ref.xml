@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graphql_1_1_type_ref" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graphql::TypeRef</compoundname>
+    <includes refid="graphql_8h" local="no">graphql.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_type_ref_1a5ce4d707879f757cd6b3835e5d6907fd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graphql::TypeRef::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::graphql::TypeRef::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="626" column="17" bodyfile="include/api/graphql.h" bodystart="626" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_type_ref_1a7b24c022ad878b92048a1eaf263dbf6a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::graphql::TypeRef::is_non_null</definition>
+        <argsstring></argsstring>
+        <name>is_non_null</name>
+        <qualifiedname>themis::graphql::TypeRef::is_non_null</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="627" column="10" bodyfile="include/api/graphql.h" bodystart="627" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_type_ref_1aa9913f0826fe7d94f275895a834c607e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::graphql::TypeRef::is_list</definition>
+        <argsstring></argsstring>
+        <name>is_list</name>
+        <qualifiedname>themis::graphql::TypeRef::is_list</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="628" column="10" bodyfile="include/api/graphql.h" bodystart="628" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_type_ref_1a218ec2623a9337c461c008c1e1e19449" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1graphql_1_1_type_ref" kindref="compound">TypeRef</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;TypeRef&gt; themis::graphql::TypeRef::of_type</definition>
+        <argsstring></argsstring>
+        <name>of_type</name>
+        <qualifiedname>themis::graphql::TypeRef::of_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="629" column="21" bodyfile="include/api/graphql.h" bodystart="629" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/graphql.h" line="625" column="1" bodyfile="include/api/graphql.h" bodystart="625" bodyend="630"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graphql_1_1_type_ref_1aa9913f0826fe7d94f275895a834c607e" prot="public" virt="non-virtual"><scope>themis::graphql::TypeRef</scope><name>is_list</name></member>
+      <member refid="structthemis_1_1graphql_1_1_type_ref_1a7b24c022ad878b92048a1eaf263dbf6a" prot="public" virt="non-virtual"><scope>themis::graphql::TypeRef</scope><name>is_non_null</name></member>
+      <member refid="structthemis_1_1graphql_1_1_type_ref_1a5ce4d707879f757cd6b3835e5d6907fd" prot="public" virt="non-virtual"><scope>themis::graphql::TypeRef</scope><name>name</name></member>
+      <member refid="structthemis_1_1graphql_1_1_type_ref_1a218ec2623a9337c461c008c1e1e19449" prot="public" virt="non-virtual"><scope>themis::graphql::TypeRef</scope><name>of_type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

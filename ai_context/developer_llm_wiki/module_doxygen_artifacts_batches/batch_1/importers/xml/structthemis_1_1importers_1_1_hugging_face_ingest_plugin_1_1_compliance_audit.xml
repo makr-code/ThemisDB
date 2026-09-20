@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_hugging_face_ingest_plugin_1_1_compliance_audit" kind="struct" language="C++" prot="private">
+    <compoundname>themis::importers::HuggingFaceIngestPlugin::ComplianceAudit</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_hugging_face_ingest_plugin_1_1_compliance_audit_1a2b50986ed318c81a453f26ae3736a795" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::HuggingFaceIngestPlugin::ComplianceAudit::document_id</definition>
+        <argsstring></argsstring>
+        <name>document_id</name>
+        <qualifiedname>themis::importers::HuggingFaceIngestPlugin::ComplianceAudit::document_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="148" column="21" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_hugging_face_ingest_plugin_1_1_compliance_audit_1a4efc16f202e810c172604cb59a4dce27" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::HuggingFaceIngestPlugin::ComplianceAudit::license_passed</definition>
+        <argsstring></argsstring>
+        <name>license_passed</name>
+        <qualifiedname>themis::importers::HuggingFaceIngestPlugin::ComplianceAudit::license_passed</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="149" column="14" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_hugging_face_ingest_plugin_1_1_compliance_audit_1a8430ee6f6cfba8c502a8a75b7b1f7714" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::HuggingFaceIngestPlugin::ComplianceAudit::redaction_applied</definition>
+        <argsstring></argsstring>
+        <name>redaction_applied</name>
+        <qualifiedname>themis::importers::HuggingFaceIngestPlugin::ComplianceAudit::redaction_applied</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="150" column="14" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_hugging_face_ingest_plugin_1_1_compliance_audit_1a3a4d1d4ce98f9c1287d1ea333a4171f0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::HuggingFaceIngestPlugin::ComplianceAudit::notes</definition>
+        <argsstring></argsstring>
+        <name>notes</name>
+        <qualifiedname>themis::importers::HuggingFaceIngestPlugin::ComplianceAudit::notes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="151" column="21" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/huggingface_ingest_plugin.h" line="147" column="5" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="147" bodyend="152"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_hugging_face_ingest_plugin_1_1_compliance_audit_1a2b50986ed318c81a453f26ae3736a795" prot="public" virt="non-virtual"><scope>themis::importers::HuggingFaceIngestPlugin::ComplianceAudit</scope><name>document_id</name></member>
+      <member refid="structthemis_1_1importers_1_1_hugging_face_ingest_plugin_1_1_compliance_audit_1a4efc16f202e810c172604cb59a4dce27" prot="public" virt="non-virtual"><scope>themis::importers::HuggingFaceIngestPlugin::ComplianceAudit</scope><name>license_passed</name></member>
+      <member refid="structthemis_1_1importers_1_1_hugging_face_ingest_plugin_1_1_compliance_audit_1a3a4d1d4ce98f9c1287d1ea333a4171f0" prot="public" virt="non-virtual"><scope>themis::importers::HuggingFaceIngestPlugin::ComplianceAudit</scope><name>notes</name></member>
+      <member refid="structthemis_1_1importers_1_1_hugging_face_ingest_plugin_1_1_compliance_audit_1a8430ee6f6cfba8c502a8a75b7b1f7714" prot="public" virt="non-virtual"><scope>themis::importers::HuggingFaceIngestPlugin::ComplianceAudit</scope><name>redaction_applied</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_training_step" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::training::RLAIFTrainingStep</compoundname>
+    <includes refid="rlaif__trainer_8h" local="no">rlaif_trainer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_training_step_1adb043f563f67a6d0f9128f8869796834" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::training::RLAIFTrainingStep::query</definition>
+        <argsstring></argsstring>
+        <name>query</name>
+        <qualifiedname>themis::rag::training::RLAIFTrainingStep::query</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="104" column="17" bodyfile="include/rag/rlaif_trainer.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_training_step_1ab74c5f4d7db26fdb1c9386803f5d8bc4" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1training_1_1_constitutional_revision" kindref="compound">ConstitutionalRevision</ref> &gt;</type>
+        <definition>std::vector&lt;ConstitutionalRevision&gt; themis::rag::training::RLAIFTrainingStep::revision_chain</definition>
+        <argsstring></argsstring>
+        <name>revision_chain</name>
+        <qualifiedname>themis::rag::training::RLAIFTrainingStep::revision_chain</qualifiedname>
+        <briefdescription>
+<para>All iterations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="105" column="17" bodyfile="include/rag/rlaif_trainer.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_training_step_1a241107c8844691dfe165e0ba583333ce" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1training_1_1_preference_pair" kindref="compound">PreferencePair</ref></type>
+        <definition>PreferencePair themis::rag::training::RLAIFTrainingStep::preference_pair</definition>
+        <argsstring></argsstring>
+        <name>preference_pair</name>
+        <qualifiedname>themis::rag::training::RLAIFTrainingStep::preference_pair</qualifiedname>
+        <briefdescription>
+<para>Final pair for training. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="106" column="20" bodyfile="include/rag/rlaif_trainer.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_training_step_1afeaff8917039ffc7b5efee0daac659d2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::training::RLAIFTrainingStep::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::rag::training::RLAIFTrainingStep::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true if a usable pair was produced </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="107" column="10" bodyfile="include/rag/rlaif_trainer.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_training_step_1ab636aa52e0ff065453340f1c412ca046" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::training::RLAIFTrainingStep::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::rag::training::RLAIFTrainingStep::error_message</qualifiedname>
+        <briefdescription>
+<para>Set when success == false. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="108" column="17" bodyfile="include/rag/rlaif_trainer.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_training_step_1a2e138ce0c19bb5c66a8fe96c7d0a8743" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::rag::training::RLAIFTrainingStep::elapsed_ms</definition>
+        <argsstring></argsstring>
+        <name>elapsed_ms</name>
+        <qualifiedname>themis::rag::training::RLAIFTrainingStep::elapsed_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="109" column="31" bodyfile="include/rag/rlaif_trainer.h" bodystart="109" bodyend="109"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of a complete RLAIF training step. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::rag::training::PreferencePair</label>
+        <link refid="structthemis_1_1rag_1_1training_1_1_preference_pair"/>
+      </node>
+      <node id="1">
+        <label>themis::rag::training::RLAIFTrainingStep</label>
+        <link refid="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_training_step"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>preference_pair</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/rag/rlaif_trainer.h" line="103" column="1" bodyfile="include/rag/rlaif_trainer.h" bodystart="103" bodyend="110"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_training_step_1a2e138ce0c19bb5c66a8fe96c7d0a8743" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFTrainingStep</scope><name>elapsed_ms</name></member>
+      <member refid="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_training_step_1ab636aa52e0ff065453340f1c412ca046" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFTrainingStep</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_training_step_1a241107c8844691dfe165e0ba583333ce" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFTrainingStep</scope><name>preference_pair</name></member>
+      <member refid="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_training_step_1adb043f563f67a6d0f9128f8869796834" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFTrainingStep</scope><name>query</name></member>
+      <member refid="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_training_step_1ab74c5f4d7db26fdb1c9386803f5d8bc4" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFTrainingStep</scope><name>revision_chain</name></member>
+      <member refid="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_training_step_1afeaff8917039ffc7b5efee0daac659d2" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFTrainingStep</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

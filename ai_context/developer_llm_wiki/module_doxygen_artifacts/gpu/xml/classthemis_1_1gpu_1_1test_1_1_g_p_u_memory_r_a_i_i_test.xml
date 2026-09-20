@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::test::GPUMemoryRAIITest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test_1ad9800eb07b541867ebb16f85532445c2" prot="protected" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::test::GPUMemoryRAIITest::gpu_available_</definition>
+        <argsstring></argsstring>
+        <name>gpu_available_</name>
+        <qualifiedname>themis::gpu::test::GPUMemoryRAIITest::gpu_available_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_memory_raii_batch1.cpp" line="52" column="8" bodyfile="tests/gpu/test_gpu_memory_raii_batch1.cpp" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test_1aa42c11a637f460209a055976c7b7d4d7" prot="protected" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::test::GPUMemoryRAIITest::allocations_cleared_</definition>
+        <argsstring></argsstring>
+        <name>allocations_cleared_</name>
+        <qualifiedname>themis::gpu::test::GPUMemoryRAIITest::allocations_cleared_</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_memory_raii_batch1.cpp" line="53" column="8" bodyfile="tests/gpu/test_gpu_memory_raii_batch1.cpp" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test_1a3d3903ae4a9df35ac196f04a80029f80" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::test::GPUMemoryRAIITest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::gpu::test::GPUMemoryRAIITest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_memory_raii_batch1.cpp" line="39" column="8" bodyfile="tests/gpu/test_gpu_memory_raii_batch1.cpp" bodystart="39" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test_1aab4cb8d3a0d4b0fe69c05f6cdd46c785" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::test::GPUMemoryRAIITest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::gpu::test::GPUMemoryRAIITest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_memory_raii_batch1.cpp" line="47" column="8" bodyfile="tests/gpu/test_gpu_memory_raii_batch1.cpp" bodystart="47" bodyend="50"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::gpu::test::GPUMemoryRAIITest</label>
+        <link refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::gpu::test::GPUMemoryRAIITest</label>
+        <link refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/gpu/test_gpu_memory_raii_batch1.cpp" line="37" column="1" bodyfile="tests/gpu/test_gpu_memory_raii_batch1.cpp" bodystart="37" bodyend="54"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test_1aa42c11a637f460209a055976c7b7d4d7" prot="protected" virt="non-virtual"><scope>themis::gpu::test::GPUMemoryRAIITest</scope><name>allocations_cleared_</name></member>
+      <member refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test_1ad9800eb07b541867ebb16f85532445c2" prot="protected" virt="non-virtual"><scope>themis::gpu::test::GPUMemoryRAIITest</scope><name>gpu_available_</name></member>
+      <member refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test_1a3d3903ae4a9df35ac196f04a80029f80" prot="protected" virt="non-virtual"><scope>themis::gpu::test::GPUMemoryRAIITest</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test_1aab4cb8d3a0d4b0fe69c05f6cdd46c785" prot="protected" virt="non-virtual"><scope>themis::gpu::test::GPUMemoryRAIITest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

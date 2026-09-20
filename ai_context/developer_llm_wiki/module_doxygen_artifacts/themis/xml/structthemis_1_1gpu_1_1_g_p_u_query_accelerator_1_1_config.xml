@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUQueryAccelerator::Config</compoundname>
+    <includes refid="query__accelerator_8h" local="no">query_accelerator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_config_1a614cce42c8b5136a7ca914179af9ed59" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUQueryAccelerator::Config::gpu_threshold_rows</definition>
+        <argsstring></argsstring>
+        <name>gpu_threshold_rows</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::Config::gpu_threshold_rows</qualifiedname>
+        <initializer>= 10&apos;000</initializer>
+        <briefdescription>
+<para><ref refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_row" kindref="compound">Row</ref> count below which the CPU path is used even when GPU is active. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="197" column="16" bodyfile="include/themis/gpu/query_accelerator.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_config_1a172092ae248e6caa12f0899ad9033904" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUQueryAccelerator::Config::force_cpu</definition>
+        <argsstring></argsstring>
+        <name>force_cpu</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::Config::force_cpu</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Force CPU path unconditionally (useful for testing or CPU-only builds). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="199" column="14" bodyfile="include/themis/gpu/query_accelerator.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_config_1a12f131b62decba550aa0f3dbcf4bef15" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUQueryAccelerator::Config::enable_graph_cache</definition>
+        <argsstring></argsstring>
+        <name>enable_graph_cache</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::Config::enable_graph_cache</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Enable CUDA graph capture for recurring query execution patterns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="201" column="14" bodyfile="include/themis/gpu/query_accelerator.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_config_1ad98001fe59ff5860063cdaebdfa9e476" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1a6c1590ebf9239ce5c1340b0c77c19698" kindref="member">PrecisionMode</ref></type>
+        <definition>PrecisionMode themis::gpu::GPUQueryAccelerator::Config::precision_mode</definition>
+        <argsstring></argsstring>
+        <name>precision_mode</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::Config::precision_mode</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1a6c1590ebf9239ce5c1340b0c77c19698a693aa0bef84c25fe81c7e62e72f9313d" kindref="member">PrecisionMode::FP32</ref></initializer>
+        <briefdescription>
+<para>Precision mode for Tensor Core dot-product operations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="203" column="23" bodyfile="include/themis/gpu/query_accelerator.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/gpu/query_accelerator.h" line="195" column="5" bodyfile="include/themis/gpu/query_accelerator.h" bodystart="195" bodyend="204"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_config_1a12f131b62decba550aa0f3dbcf4bef15" prot="public" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator::Config</scope><name>enable_graph_cache</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_config_1a172092ae248e6caa12f0899ad9033904" prot="public" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator::Config</scope><name>force_cpu</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_config_1a614cce42c8b5136a7ca914179af9ed59" prot="public" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator::Config</scope><name>gpu_threshold_rows</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_config_1ad98001fe59ff5860063cdaebdfa9e476" prot="public" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator::Config</scope><name>precision_mode</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

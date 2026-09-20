@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1_1_fit_cache_key_hash" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::ForecastModel::Impl::FitCacheKeyHash</compoundname>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1_1_fit_cache_key_hash_1ae4ad1695472ee3b9e312d530a19e52b9" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::analytics::ForecastModel::Impl::FitCacheKeyHash::operator()</definition>
+        <argsstring>(const FitCacheKey &amp;k) const noexcept</argsstring>
+        <name>operator()</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::Impl::FitCacheKeyHash::operator()</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1_1_fit_cache_key" kindref="compound">FitCacheKey</ref> &amp;</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/forecasting.cpp" line="1627" column="16" bodyfile="src/analytics/forecasting.cpp" bodystart="1627" bodyend="1634"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/analytics/forecasting.cpp" line="1626" column="5" bodyfile="src/analytics/forecasting.cpp" bodystart="1626" bodyend="1635"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1_1_fit_cache_key_hash_1ae4ad1695472ee3b9e312d530a19e52b9" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel::Impl::FitCacheKeyHash</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

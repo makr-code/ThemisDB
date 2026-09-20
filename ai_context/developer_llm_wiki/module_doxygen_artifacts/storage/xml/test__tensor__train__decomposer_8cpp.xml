@@ -1,0 +1,1113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__tensor__train__decomposer_8cpp" kind="file" language="C++">
+    <compoundname>test_tensor_train_decomposer.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="tensor__train__decomposer_8h" local="yes">storage/tensor_train_decomposer.h</includes>
+    <includes refid="tensor__network__storage__engine_8h" local="yes">storage/tensor_network_storage_engine.h</includes>
+    <includes refid="tt__quantizer_8h" local="yes">storage/tt_quantizer.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">cmath</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">numeric</includes>
+    <includes local="no">random</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="11">
+        <label>storage/tensor_network_storage_engine.h</label>
+        <link refid="tensor__network__storage__engine_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>storage/tensor_train_decomposer.h</label>
+        <link refid="tensor__train__decomposer_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>storage/tt_quantizer.h</label>
+        <link refid="tt__quantizer_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/storage/test_tensor_train_decomposer.cpp</label>
+        <link refid="test__tensor__train__decomposer_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>algorithm</label>
+      </node>
+      <node id="18">
+        <label>cmath</label>
+      </node>
+      <node id="4">
+        <label>cstddef</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="13">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="14">
+        <label>mutex</label>
+      </node>
+      <node id="19">
+        <label>numeric</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="20">
+        <label>random</label>
+      </node>
+      <node id="15">
+        <label>shared_mutex</label>
+      </node>
+      <node id="8">
+        <label>stdexcept</label>
+      </node>
+      <node id="9">
+        <label>string</label>
+      </node>
+      <node id="16">
+        <label>unordered_map</label>
+      </node>
+      <node id="10">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_tensor_train_decomposer_test" prot="public">TensorTrainDecomposerTest</innerclass>
+    <innerclass refid="class_t_t_quantizer_test" prot="public">TTQuantizerTest</innerclass>
+    <innerclass refid="class_tensor_network_storage_engine_test" prot="public">TensorNetworkStorageEngineTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__tensor__train__decomposer_8cpp_1a62bd631bc36ea2619c6a7ad27236efc6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>static std::size_t product</definition>
+        <argsstring>(const std::vector&lt; std::size_t &gt; &amp;v)</argsstring>
+        <name>product</name>
+        <param>
+          <type>const std::vector&lt; std::size_t &gt; &amp;</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_tensor_train_decomposer.cpp" line="53" column="20" bodyfile="tests/storage/test_tensor_train_decomposer.cpp" bodystart="53" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__train__decomposer_8cpp_1aa391185ffe1ca177c34419585c196abe" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>static std::vector&lt; float &gt; makeRandom</definition>
+        <argsstring>(std::size_t n, float scale=1.0f, unsigned seed=42)</argsstring>
+        <name>makeRandom</name>
+        <param>
+          <type>std::size_t</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>scale</declname>
+          <defval>1.0f</defval>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>seed</declname>
+          <defval>42</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_tensor_train_decomposer.cpp" line="61" column="20" bodyfile="tests/storage/test_tensor_train_decomposer.cpp" bodystart="61" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__train__decomposer_8cpp_1a661ea2a000a6bcacb71df15a4e02d86c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>static std::vector&lt; float &gt; makeLowRank2D</definition>
+        <argsstring>(std::size_t m, std::size_t n, std::size_t rank=2)</argsstring>
+        <name>makeLowRank2D</name>
+        <param>
+          <type>std::size_t</type>
+          <declname>m</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>rank</declname>
+          <defval>2</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_tensor_train_decomposer.cpp" line="72" column="20" bodyfile="tests/storage/test_tensor_train_decomposer.cpp" bodystart="72" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__train__decomposer_8cpp_1a7969b8debb17785024e850bad3c1183f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>static double relError</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;a, const std::vector&lt; float &gt; &amp;b)</argsstring>
+        <name>relError</name>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_tensor_train_decomposer.cpp" line="93" column="15" bodyfile="tests/storage/test_tensor_train_decomposer.cpp" bodystart="93" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__train__decomposer_8cpp_1a0c39158eef516558904e6a456a0c4c10" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TensorTrainDecomposerTest, TTD01_FlatRank1TensorHighCompression)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_tensor_train_decomposer_test" kindref="compound">TensorTrainDecomposerTest</ref></type>
+        </param>
+        <param>
+          <type>TTD01_FlatRank1TensorHighCompression</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_tensor_train_decomposer.cpp" line="114" column="1" bodyfile="tests/storage/test_tensor_train_decomposer.cpp" bodystart="114" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__train__decomposer_8cpp_1a56e24cdae2f71db4ff2c66ea43cb1923" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TensorTrainDecomposerTest, TTD02_2DMatrixReconstructionEps)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_tensor_train_decomposer_test" kindref="compound">TensorTrainDecomposerTest</ref></type>
+        </param>
+        <param>
+          <type>TTD02_2DMatrixReconstructionEps</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_tensor_train_decomposer.cpp" line="123" column="1" bodyfile="tests/storage/test_tensor_train_decomposer.cpp" bodystart="123" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__train__decomposer_8cpp_1a53f95b7c8acff899d2d3f7c8daf632b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TensorTrainDecomposerTest, TTD03_4DTensorCoreShapes)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_tensor_train_decomposer_test" kindref="compound">TensorTrainDecomposerTest</ref></type>
+        </param>
+        <param>
+          <type>TTD03_4DTensorCoreShapes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_tensor_train_decomposer.cpp" line="134" column="1" bodyfile="tests/storage/test_tensor_train_decomposer.cpp" bodystart="134" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__train__decomposer_8cpp_1ae6cb7a8a57a894f0b0d23abffdad6e21" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TensorTrainDecomposerTest, TTD04_6DTensorReconstructionError)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_tensor_train_decomposer_test" kindref="compound">TensorTrainDecomposerTest</ref></type>
+        </param>
+        <param>
+          <type>TTD04_6DTensorReconstructionError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_tensor_train_decomposer.cpp" line="147" column="1" bodyfile="tests/storage/test_tensor_train_decomposer.cpp" bodystart="147" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__train__decomposer_8cpp_1a5295a9b8998c074d84053d84ad15fcbf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TensorTrainDecomposerTest, TTD05_CompressionRatioLowRank)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_tensor_train_decomposer_test" kindref="compound">TensorTrainDecomposerTest</ref></type>
+        </param>
+        <param>
+          <type>TTD05_CompressionRatioLowRank</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_tensor_train_decomposer.cpp" line="158" column="1" bodyfile="tests/storage/test_tensor_train_decomposer.cpp" bodystart="158" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__train__decomposer_8cpp_1ab57b92af232c4d09242197436a6eaa9b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TensorTrainDecomposerTest, TTD06_InnerProductSelfEqualsNormSq)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_tensor_train_decomposer_test" kindref="compound">TensorTrainDecomposerTest</ref></type>
+        </param>
+        <param>
+          <type>TTD06_InnerProductSelfEqualsNormSq</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_tensor_train_decomposer.cpp" line="167" column="1" bodyfile="tests/storage/test_tensor_train_decomposer.cpp" bodystart="167" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__train__decomposer_8cpp_1a48a6926065df3832474d665cfca0860b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TensorTrainDecomposerTest, TTD07_CosineSimilarityIdentical)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_tensor_train_decomposer_test" kindref="compound">TensorTrainDecomposerTest</ref></type>
+        </param>
+        <param>
+          <type>TTD07_CosineSimilarityIdentical</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_tensor_train_decomposer.cpp" line="177" column="1" bodyfile="tests/storage/test_tensor_train_decomposer.cpp" bodystart="177" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__train__decomposer_8cpp_1acf352891e5fd4f9793ec1b6d3c9f03b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TensorTrainDecomposerTest, TTD08_CosineSimilarityZeroTensor)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_tensor_train_decomposer_test" kindref="compound">TensorTrainDecomposerTest</ref></type>
+        </param>
+        <param>
+          <type>TTD08_CosineSimilarityZeroTensor</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_tensor_train_decomposer.cpp" line="186" column="1" bodyfile="tests/storage/test_tensor_train_decomposer.cpp" bodystart="186" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__train__decomposer_8cpp_1a7c1a829b530aa7cab65f94272f4f0aa5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TensorTrainDecomposerTest, TTD09_SerializeDeserializeRoundTrip)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_tensor_train_decomposer_test" kindref="compound">TensorTrainDecomposerTest</ref></type>
+        </param>
+        <param>
+          <type>TTD09_SerializeDeserializeRoundTrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_tensor_train_decomposer.cpp" line="197" column="1" bodyfile="tests/storage/test_tensor_train_decomposer.cpp" bodystart="197" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__train__decomposer_8cpp_1afdb386d927a89822aab4d86b73d3fcbe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TensorTrainDecomposerTest, TTD10_DecomposeF64)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_tensor_train_decomposer_test" kindref="compound">TensorTrainDecomposerTest</ref></type>
+        </param>
+        <param>
+          <type>TTD10_DecomposeF64</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_tensor_train_decomposer.cpp" line="210" column="1" bodyfile="tests/storage/test_tensor_train_decomposer.cpp" bodystart="210" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__train__decomposer_8cpp_1ac3359cfbfea7667759573c40b43b1af2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TensorTrainDecomposerTest, TTD11_SizeMismatchThrows)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_tensor_train_decomposer_test" kindref="compound">TensorTrainDecomposerTest</ref></type>
+        </param>
+        <param>
+          <type>TTD11_SizeMismatchThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_tensor_train_decomposer.cpp" line="218" column="1" bodyfile="tests/storage/test_tensor_train_decomposer.cpp" bodystart="218" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__train__decomposer_8cpp_1abee04343649a0133612ad3e3aaf419de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TensorTrainDecomposerTest, TTD12_MaxRankCap)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_tensor_train_decomposer_test" kindref="compound">TensorTrainDecomposerTest</ref></type>
+        </param>
+        <param>
+          <type>TTD12_MaxRankCap</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_tensor_train_decomposer.cpp" line="226" column="1" bodyfile="tests/storage/test_tensor_train_decomposer.cpp" bodystart="226" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__train__decomposer_8cpp_1ad0e09e286077cd11286f91d98bd137d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TTQuantizerTest, TTD13_INT8RoundTripError)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_t_t_quantizer_test" kindref="compound">TTQuantizerTest</ref></type>
+        </param>
+        <param>
+          <type>TTD13_INT8RoundTripError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_tensor_train_decomposer.cpp" line="244" column="1" bodyfile="tests/storage/test_tensor_train_decomposer.cpp" bodystart="244" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__train__decomposer_8cpp_1a16234d2e16e443348ebe8ceee05a4654" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TTQuantizerTest, TTD14_NF4RoundTripError)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_t_t_quantizer_test" kindref="compound">TTQuantizerTest</ref></type>
+        </param>
+        <param>
+          <type>TTD14_NF4RoundTripError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_tensor_train_decomposer.cpp" line="267" column="1" bodyfile="tests/storage/test_tensor_train_decomposer.cpp" bodystart="267" bodyend="285"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__train__decomposer_8cpp_1af3670f962c51c46315788678b2d0c7de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TTQuantizerTest, TTD15_QuantizedTrainSerializeDeserialize)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_t_t_quantizer_test" kindref="compound">TTQuantizerTest</ref></type>
+        </param>
+        <param>
+          <type>TTD15_QuantizedTrainSerializeDeserialize</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_tensor_train_decomposer.cpp" line="288" column="1" bodyfile="tests/storage/test_tensor_train_decomposer.cpp" bodystart="288" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__train__decomposer_8cpp_1a643fe1784f25d48be13a787ed2569442" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TTQuantizerTest, TTD16_BytesPerElement)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_t_t_quantizer_test" kindref="compound">TTQuantizerTest</ref></type>
+        </param>
+        <param>
+          <type>TTD16_BytesPerElement</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_tensor_train_decomposer.cpp" line="301" column="1" bodyfile="tests/storage/test_tensor_train_decomposer.cpp" bodystart="301" bodyend="305"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__train__decomposer_8cpp_1aae8a5dacbfbc1f0db1e3454711924a39" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(InMemoryTensorBackendTest, TNS01_PutGetDel)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>InMemoryTensorBackendTest</type>
+        </param>
+        <param>
+          <type>TNS01_PutGetDel</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_tensor_train_decomposer.cpp" line="330" column="1" bodyfile="tests/storage/test_tensor_train_decomposer.cpp" bodystart="330" bodyend="340"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__train__decomposer_8cpp_1aba997a6b61bd8f3cc66da7d606c7d852" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TensorNetworkStorageEngineTest, TNS02_PutStoresWithoutError)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_tensor_network_storage_engine_test" kindref="compound">TensorNetworkStorageEngineTest</ref></type>
+        </param>
+        <param>
+          <type>TNS02_PutStoresWithoutError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_tensor_train_decomposer.cpp" line="343" column="1" bodyfile="tests/storage/test_tensor_train_decomposer.cpp" bodystart="343" bodyend="346"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__train__decomposer_8cpp_1af2691246f3701539b4cc7209da1bb638" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TensorNetworkStorageEngineTest, TNS03_GetReconstructsCloseToOriginal)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_tensor_network_storage_engine_test" kindref="compound">TensorNetworkStorageEngineTest</ref></type>
+        </param>
+        <param>
+          <type>TNS03_GetReconstructsCloseToOriginal</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_tensor_train_decomposer.cpp" line="349" column="1" bodyfile="tests/storage/test_tensor_train_decomposer.cpp" bodystart="349" bodyend="357"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__train__decomposer_8cpp_1acff3ac01afe7dce32b7c2d3b6e665c87" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TensorNetworkStorageEngineTest, TNS04_GetCompressedReturnsQTrain)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_tensor_network_storage_engine_test" kindref="compound">TensorNetworkStorageEngineTest</ref></type>
+        </param>
+        <param>
+          <type>TNS04_GetCompressedReturnsQTrain</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_tensor_train_decomposer.cpp" line="360" column="1" bodyfile="tests/storage/test_tensor_train_decomposer.cpp" bodystart="360" bodyend="366"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__train__decomposer_8cpp_1a45cdc2fc42464b34f3d2c5f08c025b82" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TensorNetworkStorageEngineTest, TNS05_StatsValid)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_tensor_network_storage_engine_test" kindref="compound">TensorNetworkStorageEngineTest</ref></type>
+        </param>
+        <param>
+          <type>TNS05_StatsValid</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_tensor_train_decomposer.cpp" line="369" column="1" bodyfile="tests/storage/test_tensor_train_decomposer.cpp" bodystart="369" bodyend="376"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__train__decomposer_8cpp_1aa59e5a3c09ddd66daea7cc9cbdeecbfb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TensorNetworkStorageEngineTest, TNS06_RemoveMissingKeyReturnsFalse)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_tensor_network_storage_engine_test" kindref="compound">TensorNetworkStorageEngineTest</ref></type>
+        </param>
+        <param>
+          <type>TNS06_RemoveMissingKeyReturnsFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_tensor_train_decomposer.cpp" line="379" column="1" bodyfile="tests/storage/test_tensor_train_decomposer.cpp" bodystart="379" bodyend="382"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__train__decomposer_8cpp_1a50202f4f67da10c9e1fb62cf7c4a7af6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TensorNetworkStorageEngineTest, TNS07_MultipleVersionsTracked)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_tensor_network_storage_engine_test" kindref="compound">TensorNetworkStorageEngineTest</ref></type>
+        </param>
+        <param>
+          <type>TNS07_MultipleVersionsTracked</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_tensor_train_decomposer.cpp" line="385" column="1" bodyfile="tests/storage/test_tensor_train_decomposer.cpp" bodystart="385" bodyend="394"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__train__decomposer_8cpp_1ab762b0b912c0f80d2e7e8c9f404945ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TensorNetworkStorageEngineTest2, TNS08_NullBackendThrows)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TensorNetworkStorageEngineTest2</type>
+        </param>
+        <param>
+          <type>TNS08_NullBackendThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_tensor_train_decomposer.cpp" line="397" column="1" bodyfile="tests/storage/test_tensor_train_decomposer.cpp" bodystart="397" bodyend="401"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__train__decomposer_8cpp_1adbad5c3c52682728c467e6af7d9a71b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TensorNetworkStorageEngineTest, TNS09_CompactIgnoresMalformedVersionSuffix)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_tensor_network_storage_engine_test" kindref="compound">TensorNetworkStorageEngineTest</ref></type>
+        </param>
+        <param>
+          <type>TNS09_CompactIgnoresMalformedVersionSuffix</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_tensor_train_decomposer.cpp" line="403" column="1" bodyfile="tests/storage/test_tensor_train_decomposer.cpp" bodystart="403" bodyend="417"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unit tests for <ref refid="classthemis_1_1storage_1_1_tensor_train_decomposer" kindref="compound">TensorTrainDecomposer</ref>, <ref refid="classthemis_1_1storage_1_1_t_t_quantizer" kindref="compound">TTQuantizer</ref>, and <ref refid="classthemis_1_1storage_1_1_tensor_network_storage_engine" kindref="compound">TensorNetworkStorageEngine</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Test IDs: TTD-01 TT-SVD of a flat (rank-1) tensor achieves 100% compression TTD-02 TT-SVD of a 2D matrix reconstructs within eps=1% TTD-03 TT-SVD of a 4D tensor produces correct core shapes TTD-04 Reconstruction error ≤ eps * ‖T‖ for random 6D tensor TTD-05 compressionRatio() &gt; 1 for low-rank tensors TTD-06 innerProduct of a train with itself equals ‖T‖² (≈) TTD-07 cosineSimilarity of identical trains = 1.0 TTD-08 cosineSimilarity of orthogonal trains ≈ 0.0 TTD-09 <ref refid="structthemis_1_1storage_1_1_t_t_train" kindref="compound">TTTrain</ref> serialize/deserialize round-trip preserves all cores TTD-10 decomposeF64 down-casts and gives same shape as float32 TTD-11 Invalid input (size mismatch) throws std::invalid_argument TTD-12 max_rank cap is respected TTD-13 INT8 quantization round-trip: dequant error &lt; 1% of absmax TTD-14 NF4 quantization round-trip: dequant error &lt; 2% of absmax TTD-15 <ref refid="structthemis_1_1storage_1_1_quantized_train" kindref="compound">QuantizedTrain</ref> serialize/deserialize round-trip TTD-16 <ref refid="classthemis_1_1storage_1_1_t_t_quantizer_1a228912f571793ac8b19bcb19769511c2" kindref="member">TTQuantizer::bytesPerElement()</ref> returns expected ratios TNS-01 <ref refid="classthemis_1_1storage_1_1_in_memory_tensor_backend" kindref="compound">InMemoryTensorBackend</ref> put/get/del cycle TNS-02 <ref refid="classthemis_1_1storage_1_1_tensor_network_storage_engine_1a4c13c4fe332915d73e4025206fdc3e44" kindref="member">TensorNetworkStorageEngine::put</ref> stores without error TNS-03 <ref refid="classthemis_1_1storage_1_1_tensor_network_storage_engine_1ac9371448a997ddce43ec8af81f480cd4" kindref="member">TensorNetworkStorageEngine::get</ref> reconstructs close to original TNS-04 getCompressed returns <ref refid="structthemis_1_1storage_1_1_quantized_train" kindref="compound">QuantizedTrain</ref> (no decompression) TNS-05 stats() returns valid compression_ratio &gt; 0 TNS-06 remove() returns false for unknown key TNS-07 multiple versions tracked correctly TNS-08 min_compression_ratio fallback to raw when ratio too low</para>
+<para>SPDX-License-Identifier: Apache-2.0 </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="tensor__train__decomposer_8h" kindref="compound">storage/tensor_train_decomposer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="tensor__network__storage__engine_8h" kindref="compound">storage/tensor_network_storage_engine.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="tt__quantizer_8h" kindref="compound">storage/tt_quantizer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;numeric&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1storage" kindref="compound">themis::storage</ref>;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helper:<sp/>flat<sp/>vector<sp/>product</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::size_t<sp/>product(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::size_t&gt;&amp;<sp/>v)<sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>p<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>x<sp/>:<sp/>v)<sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>p<sp/>*=<sp/>x;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>p;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;<sp/>makeRandom(std::size_t<sp/>n,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>scale<sp/>=<sp/>1.0f,</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>seed<sp/>=<sp/>42)<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937<sp/>rng(seed);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>std::normal_distribution&lt;float&gt;<sp/>dist(0.0f,<sp/>scale);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>v(n);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>x<sp/>:<sp/>v)<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>x<sp/>=<sp/>dist(rng);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>v;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;<sp/>makeLowRank2D(std::size_t<sp/>m,<sp/>std::size_t<sp/>n,</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>rank<sp/>=<sp/>2)<sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>rank-`rank`<sp/>matrix:<sp/>sum<sp/>of<sp/>outer<sp/>products</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937<sp/>rng(123);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>std::normal_distribution&lt;float&gt;<sp/>dist(0.0f,<sp/>1.0f);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>mat(m<sp/>*<sp/>n,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>r<sp/>=<sp/>0;<sp/>r<sp/>&lt;<sp/>rank;<sp/>++r)<sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>u(m),<sp/>v(n);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>x<sp/>:<sp/>u)<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>x<sp/>=<sp/>dist(rng);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>x<sp/>:<sp/>v)<sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>x<sp/>=<sp/>dist(rng);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>m;<sp/>++i)</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>j<sp/>=<sp/>0;<sp/>j<sp/>&lt;<sp/>n;<sp/>++j)</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mat[i<sp/>*<sp/>n<sp/>+<sp/>j]<sp/>+=<sp/>u[i]<sp/>*<sp/>v[j];</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>mat;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>relError(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>a,</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>b)<sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>err<sp/>=<sp/>0.0,<sp/>nrm<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>a.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>d<sp/>=<sp/>(double)a[i]<sp/>-<sp/>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">)b[i];</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>err<sp/>+=<sp/>d<sp/>*<sp/>d;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nrm<sp/>+=<sp/>(double)a[i]<sp/>*<sp/>a[i];</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(nrm<sp/>&gt;<sp/>1e-12)<sp/>?<sp/>std::sqrt(err<sp/>/<sp/>nrm)<sp/>:<sp/><ref refid="namespacestd" kindref="compound">std</ref>::sqrt(err);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TensorTrainDecomposer<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="class_tensor_train_decomposer_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_tensor_train_decomposer_test" kindref="compound">TensorTrainDecomposerTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_tensor_train_decomposer" kindref="compound">TensorTrainDecomposer</ref><sp/><ref refid="class_tensor_train_decomposer_test_1a7912d91eccbd41113ccfe9796005b416" kindref="member">decomposer</ref>;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TTD-01:<sp/>rank-1<sp/>tensor<sp/>(constant<sp/>vector<sp/>⊗<sp/>constant<sp/>vector)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><ref refid="test__tensor__train__decomposer_8cpp_1a0c39158eef516558904e6a456a0c4c10" kindref="member">TEST_F</ref>(<ref refid="class_tensor_train_decomposer_test" kindref="compound">TensorTrainDecomposerTest</ref>,<sp/>TTD01_FlatRank1TensorHighCompression)<sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>data(4<sp/>*<sp/>4<sp/>*<sp/>4,<sp/>1.0f);<sp/><sp/></highlight><highlight class="comment">//<sp/>constant<sp/>3D<sp/>tensor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_tensor_train_config" kindref="compound">TensorTrainConfig</ref><sp/>cfg;<sp/>cfg.<ref refid="structthemis_1_1storage_1_1_tensor_train_config_1a908fb8d82ec6eba55c0dcba24873ecac" kindref="member">eps</ref><sp/>=<sp/>0.001;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[train,<sp/>stats]<sp/>=<sp/>decomposer.decompose(data,<sp/>{4,<sp/>4,<sp/>4},<sp/>cfg);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(train.order(),<sp/>3u);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(stats.compression_ratio,<sp/>1.0);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TTD-02:<sp/>2D<sp/>matrix<sp/>reconstruction<sp/>within<sp/>eps=1%</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><ref refid="test__tensor__train__decomposer_8cpp_1a0c39158eef516558904e6a456a0c4c10" kindref="member">TEST_F</ref>(<ref refid="class_tensor_train_decomposer_test" kindref="compound">TensorTrainDecomposerTest</ref>,<sp/>TTD02_2DMatrixReconstructionEps)<sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data<sp/>=<sp/>makeLowRank2D(8,<sp/>8,<sp/>2);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_tensor_train_config" kindref="compound">TensorTrainConfig</ref><sp/>cfg;<sp/>cfg.<ref refid="structthemis_1_1storage_1_1_tensor_train_config_1a908fb8d82ec6eba55c0dcba24873ecac" kindref="member">eps</ref><sp/>=<sp/>0.01;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[train,<sp/>stats]<sp/>=<sp/>decomposer.decompose(data,<sp/>{8,<sp/>8},<sp/>cfg);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>recon<sp/>=<sp/>train.reconstruct();</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(recon.size(),<sp/>data.size());</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>rel<sp/>=<sp/>relError(data,<sp/>recon);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(rel,<sp/>0.02);<sp/><sp/></highlight><highlight class="comment">//<sp/>≤<sp/>2%<sp/>(full<sp/>Golub-Reinsch<sp/>SVD<sp/>with<sp/>back-accumulation)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TTD-03:<sp/>core<sp/>shapes<sp/>are<sp/>correct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><ref refid="test__tensor__train__decomposer_8cpp_1a0c39158eef516558904e6a456a0c4c10" kindref="member">TEST_F</ref>(<ref refid="class_tensor_train_decomposer_test" kindref="compound">TensorTrainDecomposerTest</ref>,<sp/>TTD03_4DTensorCoreShapes)<sp/>{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::size_t&gt;<sp/>shape<sp/>=<sp/>{3,<sp/>4,<sp/>5,<sp/>6};</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data<sp/>=<sp/>makeRandom(product(shape));</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_tensor_train_config" kindref="compound">TensorTrainConfig</ref><sp/>cfg;<sp/>cfg.<ref refid="structthemis_1_1storage_1_1_tensor_train_config_1a908fb8d82ec6eba55c0dcba24873ecac" kindref="member">eps</ref><sp/>=<sp/>0.05;<sp/>cfg.<ref refid="structthemis_1_1storage_1_1_tensor_train_config_1acd4b308b325da6957687dc5772628003" kindref="member">max_rank</ref><sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[train,<sp/>stats]<sp/>=<sp/>decomposer.decompose(data,<sp/>shape,<sp/>cfg);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(train.cores.size(),<sp/>4u);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(train.cores[0].r_left,<sp/><sp/>1u);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(train.cores[0].n,<sp/><sp/><sp/><sp/><sp/><sp/><sp/>3u);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(train.cores.back().r_right,<sp/>1u);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(train.cores.back().n,<sp/><sp/><sp/>6u);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TTD-04:<sp/>achieved_eps<sp/>≤<sp/>eps<sp/>*<sp/>‖T‖<sp/>for<sp/>6D<sp/>tensor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><ref refid="test__tensor__train__decomposer_8cpp_1a0c39158eef516558904e6a456a0c4c10" kindref="member">TEST_F</ref>(<ref refid="class_tensor_train_decomposer_test" kindref="compound">TensorTrainDecomposerTest</ref>,<sp/>TTD04_6DTensorReconstructionError)<sp/>{</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::size_t&gt;<sp/>shape<sp/>=<sp/>{4,<sp/>4,<sp/>4,<sp/>4,<sp/>4,<sp/>4};</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data<sp/>=<sp/>makeRandom(product(shape));</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_tensor_train_config" kindref="compound">TensorTrainConfig</ref><sp/>cfg;<sp/>cfg.<ref refid="structthemis_1_1storage_1_1_tensor_train_config_1a908fb8d82ec6eba55c0dcba24873ecac" kindref="member">eps</ref><sp/>=<sp/>0.10;<sp/>cfg.<ref refid="structthemis_1_1storage_1_1_tensor_train_config_1acd4b308b325da6957687dc5772628003" kindref="member">max_rank</ref><sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[train,<sp/>stats]<sp/>=<sp/>decomposer.decompose(data,<sp/>shape,<sp/>cfg);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>achieved_eps<sp/>should<sp/>be<sp/>reasonable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(stats.compression_ratio,<sp/>0.5);<sp/><sp/></highlight><highlight class="comment">//<sp/>at<sp/>least<sp/>some<sp/>parameterisation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(train.order(),<sp/>0u);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TTD-05:<sp/>compressionRatio<sp/>&gt;<sp/>1<sp/>for<sp/>low-rank<sp/>tensors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><ref refid="test__tensor__train__decomposer_8cpp_1a0c39158eef516558904e6a456a0c4c10" kindref="member">TEST_F</ref>(<ref refid="class_tensor_train_decomposer_test" kindref="compound">TensorTrainDecomposerTest</ref>,<sp/>TTD05_CompressionRatioLowRank)<sp/>{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data<sp/>=<sp/>makeLowRank2D(16,<sp/>16,<sp/>1);<sp/><sp/></highlight><highlight class="comment">//<sp/>rank-1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>data3d(16*16*16,<sp/>1.0f);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_tensor_train_config" kindref="compound">TensorTrainConfig</ref><sp/>cfg;<sp/>cfg.<ref refid="structthemis_1_1storage_1_1_tensor_train_config_1a908fb8d82ec6eba55c0dcba24873ecac" kindref="member">eps</ref><sp/>=<sp/>0.01;<sp/>cfg.<ref refid="structthemis_1_1storage_1_1_tensor_train_config_1acd4b308b325da6957687dc5772628003" kindref="member">max_rank</ref><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[train,<sp/>stats]<sp/>=<sp/>decomposer.decompose(data3d,<sp/>{16,<sp/>16,<sp/>16},<sp/>cfg);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(stats.compression_ratio,<sp/>1.0);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TTD-06:<sp/>innerProduct(T,<sp/>T)<sp/>≈<sp/>‖T‖²</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><ref refid="test__tensor__train__decomposer_8cpp_1a0c39158eef516558904e6a456a0c4c10" kindref="member">TEST_F</ref>(<ref refid="class_tensor_train_decomposer_test" kindref="compound">TensorTrainDecomposerTest</ref>,<sp/>TTD06_InnerProductSelfEqualsNormSq)<sp/>{</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data<sp/>=<sp/>makeRandom(2*3*4);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_tensor_train_config" kindref="compound">TensorTrainConfig</ref><sp/>cfg;<sp/>cfg.<ref refid="structthemis_1_1storage_1_1_tensor_train_config_1a908fb8d82ec6eba55c0dcba24873ecac" kindref="member">eps</ref><sp/>=<sp/>0.001;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[train,<sp/>stats]<sp/>=<sp/>decomposer.decompose(data,<sp/>{2,<sp/>3,<sp/>4},<sp/>cfg);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>ip<sp/><sp/><sp/>=<sp/><ref refid="classthemis_1_1storage_1_1_tensor_train_decomposer_1ac81ce09aa0e0902aaf95b342018a0c46" kindref="member">TensorTrainDecomposer::innerProduct</ref>(train,<sp/>train);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>norm<sp/>=<sp/><ref refid="classthemis_1_1storage_1_1_tensor_train_decomposer_1a2baa9c51a821cff49d880c818b2cd392" kindref="member">TensorTrainDecomposer::frobeniusNorm</ref>(train);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(ip,<sp/>norm<sp/>*<sp/>norm,<sp/>1e-2<sp/>*<sp/>ip<sp/>+<sp/>1e-6);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TTD-07:<sp/>cosineSimilarity(T,<sp/>T)<sp/>=<sp/>1.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><ref refid="test__tensor__train__decomposer_8cpp_1a0c39158eef516558904e6a456a0c4c10" kindref="member">TEST_F</ref>(<ref refid="class_tensor_train_decomposer_test" kindref="compound">TensorTrainDecomposerTest</ref>,<sp/>TTD07_CosineSimilarityIdentical)<sp/>{</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data<sp/>=<sp/>makeRandom(2*3*4,<sp/>1.0f,<sp/>7);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_tensor_train_config" kindref="compound">TensorTrainConfig</ref><sp/>cfg;<sp/>cfg.<ref refid="structthemis_1_1storage_1_1_tensor_train_config_1a908fb8d82ec6eba55c0dcba24873ecac" kindref="member">eps</ref><sp/>=<sp/>0.001;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[train,<sp/>_]<sp/>=<sp/>decomposer.decompose(data,<sp/>{2,<sp/>3,<sp/>4},<sp/>cfg);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>cs<sp/>=<sp/><ref refid="classthemis_1_1storage_1_1_tensor_train_decomposer_1a32f679d5ce0833472280ebb61af1c66a" kindref="member">TensorTrainDecomposer::cosineSimilarity</ref>(train,<sp/>train);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(cs,<sp/>1.0,<sp/>0.01);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TTD-08:<sp/>cosineSimilarity<sp/>of<sp/>zero<sp/>tensor<sp/>=<sp/>0.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><ref refid="test__tensor__train__decomposer_8cpp_1a0c39158eef516558904e6a456a0c4c10" kindref="member">TEST_F</ref>(<ref refid="class_tensor_train_decomposer_test" kindref="compound">TensorTrainDecomposerTest</ref>,<sp/>TTD08_CosineSimilarityZeroTensor)<sp/>{</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>zero(2*3*4,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>rand<sp/>=<sp/>makeRandom(2*3*4);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_tensor_train_config" kindref="compound">TensorTrainConfig</ref><sp/>cfg;<sp/>cfg.<ref refid="structthemis_1_1storage_1_1_tensor_train_config_1a908fb8d82ec6eba55c0dcba24873ecac" kindref="member">eps</ref><sp/>=<sp/>0.001;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[tz,<sp/>_1]<sp/>=<sp/>decomposer.decompose(zero,<sp/>{2,<sp/>3,<sp/>4},<sp/>cfg);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[tr,<sp/>_2]<sp/>=<sp/>decomposer.decompose(rand,<sp/>{2,<sp/>3,<sp/>4},<sp/>cfg);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>cs<sp/>=<sp/><ref refid="classthemis_1_1storage_1_1_tensor_train_decomposer_1a32f679d5ce0833472280ebb61af1c66a" kindref="member">TensorTrainDecomposer::cosineSimilarity</ref>(tz,<sp/>tr);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(cs,<sp/>0.0,<sp/>0.1);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TTD-09:<sp/>serialize/deserialize<sp/>round-trip</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><ref refid="test__tensor__train__decomposer_8cpp_1a0c39158eef516558904e6a456a0c4c10" kindref="member">TEST_F</ref>(<ref refid="class_tensor_train_decomposer_test" kindref="compound">TensorTrainDecomposerTest</ref>,<sp/>TTD09_SerializeDeserializeRoundTrip)<sp/>{</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data<sp/>=<sp/>makeRandom(2*3*4,<sp/>1.0f,<sp/>99);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_tensor_train_config" kindref="compound">TensorTrainConfig</ref><sp/>cfg;<sp/>cfg.<ref refid="structthemis_1_1storage_1_1_tensor_train_config_1a908fb8d82ec6eba55c0dcba24873ecac" kindref="member">eps</ref><sp/>=<sp/>0.01;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[train,<sp/>_]<sp/>=<sp/>decomposer.decompose(data,<sp/>{2,<sp/>3,<sp/>4},<sp/>cfg);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>bytes<sp/>=<sp/>train.serialize();</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>loaded<sp/>=<sp/><ref refid="structthemis_1_1storage_1_1_t_t_train_1a63b884bf7befe22ab2bb61205028a7b9" kindref="member">TTTrain::deserialize</ref>(bytes);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(loaded.has_value());</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(loaded-&gt;order(),<sp/>train.order());</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(loaded-&gt;mode_sizes,<sp/>train.mode_sizes);</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(loaded-&gt;cores.size(),<sp/>train.cores.size());</highlight></codeline>
+<codeline lineno="207"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TTD-10:<sp/>decomposeF64</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><ref refid="test__tensor__train__decomposer_8cpp_1a0c39158eef516558904e6a456a0c4c10" kindref="member">TEST_F</ref>(<ref refid="class_tensor_train_decomposer_test" kindref="compound">TensorTrainDecomposerTest</ref>,<sp/>TTD10_DecomposeF64)<sp/>{</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/>data(2*3*4,<sp/>0.5);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_tensor_train_config" kindref="compound">TensorTrainConfig</ref><sp/>cfg;<sp/>cfg.<ref refid="structthemis_1_1storage_1_1_tensor_train_config_1a908fb8d82ec6eba55c0dcba24873ecac" kindref="member">eps</ref><sp/>=<sp/>0.01;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[train,<sp/>stats]<sp/>=<sp/>decomposer.decomposeF64(data,<sp/>{2,<sp/>3,<sp/>4},<sp/>cfg);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(train.order(),<sp/>3u);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TTD-11:<sp/>size<sp/>mismatch<sp/>throws</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><ref refid="test__tensor__train__decomposer_8cpp_1a0c39158eef516558904e6a456a0c4c10" kindref="member">TEST_F</ref>(<ref refid="class_tensor_train_decomposer_test" kindref="compound">TensorTrainDecomposerTest</ref>,<sp/>TTD11_SizeMismatchThrows)<sp/>{</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>data(10,<sp/>1.0f);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>decomposer.decompose(data,<sp/>{4,<sp/>4},<sp/><ref refid="structthemis_1_1storage_1_1_tensor_train_config" kindref="compound">TensorTrainConfig</ref>{}),</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TTD-12:<sp/>max_rank<sp/>cap<sp/>respected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><ref refid="test__tensor__train__decomposer_8cpp_1a0c39158eef516558904e6a456a0c4c10" kindref="member">TEST_F</ref>(<ref refid="class_tensor_train_decomposer_test" kindref="compound">TensorTrainDecomposerTest</ref>,<sp/>TTD12_MaxRankCap)<sp/>{</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data<sp/>=<sp/>makeRandom(8*8*8*8);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_tensor_train_config" kindref="compound">TensorTrainConfig</ref><sp/>cfg;<sp/>cfg.<ref refid="structthemis_1_1storage_1_1_tensor_train_config_1a908fb8d82ec6eba55c0dcba24873ecac" kindref="member">eps</ref><sp/>=<sp/>0.0;<sp/>cfg.<ref refid="structthemis_1_1storage_1_1_tensor_train_config_1acd4b308b325da6957687dc5772628003" kindref="member">max_rank</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[train,<sp/>stats]<sp/>=<sp/>decomposer.decompose(data,<sp/>{8,<sp/>8,<sp/>8,<sp/>8},<sp/>cfg);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(train.maxRank(),<sp/>3u);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TTQuantizer<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237" refid="class_t_t_quantizer_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_t_t_quantizer_test" kindref="compound">TTQuantizerTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_tensor_train_decomposer" kindref="compound">TensorTrainDecomposer</ref><sp/><ref refid="class_t_t_quantizer_test_1a53df33d698a005de2ee56d53e3ccf0ac" kindref="member">decomposer</ref>;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_t_t_quantizer" kindref="compound">TTQuantizer</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_t_t_quantizer_test_1af642a5114daebb6f4e038f9414ade492" kindref="member">quantizer</ref>;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TTD-13:<sp/>INT8<sp/>dequantisation<sp/>error<sp/>&lt;<sp/>1%<sp/>of<sp/>absmax</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><ref refid="test__tensor__train__decomposer_8cpp_1a0c39158eef516558904e6a456a0c4c10" kindref="member">TEST_F</ref>(<ref refid="class_t_t_quantizer_test" kindref="compound">TTQuantizerTest</ref>,<sp/>TTD13_INT8RoundTripError)<sp/>{</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data<sp/>=<sp/>makeRandom(4*4*4,<sp/>2.0f,<sp/>13);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_tensor_train_config" kindref="compound">TensorTrainConfig</ref><sp/>cfg;<sp/>cfg.<ref refid="structthemis_1_1storage_1_1_tensor_train_config_1a908fb8d82ec6eba55c0dcba24873ecac" kindref="member">eps</ref><sp/>=<sp/>0.001;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[train,<sp/>_]<sp/>=<sp/>decomposer.decompose(data,<sp/>{4,<sp/>4,<sp/>4},<sp/>cfg);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>qt<sp/><sp/><sp/>=<sp/>quantizer.quantize(train,<sp/><ref refid="namespacethemis_1_1storage_1aea884c3f11f6a88c16f51083710c96dbaee9d73311ff0658494edfff14c3ec1e3" kindref="member">QuantizationType::INT8</ref>);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>deq<sp/><sp/>=<sp/>quantizer.dequantize(qt);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(train.cores.size(),<sp/>deq.cores.size());</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>k<sp/>=<sp/>0;<sp/>k<sp/>&lt;<sp/>train.cores.size();<sp/>++k)<sp/>{</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>orig<sp/>=<sp/>train.cores[k].data;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>back<sp/>=<sp/>deq.cores[k].data;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>absmax<sp/>=<sp/>*std::max_element(orig.begin(),<sp/>orig.end(),</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>a,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>b){<sp/>return<sp/>std::abs(a)<sp/>&lt;<sp/>std::abs(b);<sp/>});</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>absmax<sp/>=<sp/>std::abs(absmax);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(absmax<sp/>&lt;<sp/>1e-6f)<sp/>{</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">continue</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>orig.size();<sp/>++i)</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LE(std::abs(orig[i]<sp/>-<sp/>back[i])<sp/>/<sp/>absmax,<sp/>0.01f);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="264"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TTD-14:<sp/>NF4<sp/>dequantisation<sp/>error<sp/>&lt;<sp/>5%</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><ref refid="test__tensor__train__decomposer_8cpp_1a0c39158eef516558904e6a456a0c4c10" kindref="member">TEST_F</ref>(<ref refid="class_t_t_quantizer_test" kindref="compound">TTQuantizerTest</ref>,<sp/>TTD14_NF4RoundTripError)<sp/>{</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data<sp/>=<sp/>makeRandom(4*4,<sp/>1.0f,<sp/>77);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_tensor_train_config" kindref="compound">TensorTrainConfig</ref><sp/>cfg;<sp/>cfg.<ref refid="structthemis_1_1storage_1_1_tensor_train_config_1a908fb8d82ec6eba55c0dcba24873ecac" kindref="member">eps</ref><sp/>=<sp/>0.001;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[train,<sp/>_]<sp/>=<sp/>decomposer.decompose(data,<sp/>{4,<sp/>4},<sp/>cfg);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>qt<sp/><sp/>=<sp/>quantizer.quantize(train,<sp/><ref refid="namespacethemis_1_1storage_1aea884c3f11f6a88c16f51083710c96dba167c795dd4cb725ea2c7da144e1f8e54" kindref="member">QuantizationType::NF4</ref>);</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>deq<sp/>=<sp/>quantizer.dequantize(qt);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(train.cores.size(),<sp/>deq.cores.size());</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>k<sp/>=<sp/>0;<sp/>k<sp/>&lt;<sp/>train.cores.size();<sp/>++k)<sp/>{</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>orig<sp/>=<sp/>train.cores[k].data;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>back<sp/>=<sp/>deq.cores[k].data;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>absmax<sp/>=<sp/>1.0f;</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>v<sp/>:<sp/>orig)<sp/>{</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>absmax<sp/>=<sp/>std::max(absmax,<sp/>std::abs(v));</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>orig.size();<sp/>++i)</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LE(std::abs(orig[i]<sp/>-<sp/>back[i])<sp/>/<sp/>absmax,<sp/>0.10f);</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="285"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TTD-15:<sp/>QuantizedTrain<sp/>serialize/deserialize</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><ref refid="test__tensor__train__decomposer_8cpp_1a0c39158eef516558904e6a456a0c4c10" kindref="member">TEST_F</ref>(<ref refid="class_t_t_quantizer_test" kindref="compound">TTQuantizerTest</ref>,<sp/>TTD15_QuantizedTrainSerializeDeserialize)<sp/>{</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data<sp/>=<sp/>makeRandom(3*3*3,<sp/>1.0f,<sp/>55);</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_tensor_train_config" kindref="compound">TensorTrainConfig</ref><sp/>cfg;<sp/>cfg.<ref refid="structthemis_1_1storage_1_1_tensor_train_config_1a908fb8d82ec6eba55c0dcba24873ecac" kindref="member">eps</ref><sp/>=<sp/>0.01;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[train,<sp/>_]<sp/>=<sp/>decomposer.decompose(data,<sp/>{3,<sp/>3,<sp/>3},<sp/>cfg);</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>qt<sp/>=<sp/>quantizer.quantize(train,<sp/><ref refid="namespacethemis_1_1storage_1aea884c3f11f6a88c16f51083710c96dbaee9d73311ff0658494edfff14c3ec1e3" kindref="member">QuantizationType::INT8</ref>);</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>bytes<sp/>=<sp/>qt.serialize();</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>loaded<sp/>=<sp/><ref refid="structthemis_1_1storage_1_1_quantized_train_1a46d2720ad29f2c03fe8cc862ae58d8fc" kindref="member">QuantizedTrain::deserialize</ref>(bytes);</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(loaded.has_value());</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(loaded-&gt;cores.size(),<sp/>qt.cores.size());</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(loaded-&gt;mode_sizes,<sp/>qt.mode_sizes);</highlight></codeline>
+<codeline lineno="298"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TTD-16:<sp/>bytesPerElement</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><ref refid="test__tensor__train__decomposer_8cpp_1a0c39158eef516558904e6a456a0c4c10" kindref="member">TEST_F</ref>(<ref refid="class_t_t_quantizer_test" kindref="compound">TTQuantizerTest</ref>,<sp/>TTD16_BytesPerElement)<sp/>{</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(<ref refid="classthemis_1_1storage_1_1_t_t_quantizer_1a228912f571793ac8b19bcb19769511c2" kindref="member">TTQuantizer::bytesPerElement</ref>(<ref refid="namespacethemis_1_1storage_1aea884c3f11f6a88c16f51083710c96dbab50339a10e1de285ac99d4c3990b8693" kindref="member">QuantizationType::NONE</ref>),<sp/>4.0);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(<ref refid="classthemis_1_1storage_1_1_t_t_quantizer_1a228912f571793ac8b19bcb19769511c2" kindref="member">TTQuantizer::bytesPerElement</ref>(<ref refid="namespacethemis_1_1storage_1aea884c3f11f6a88c16f51083710c96dbaee9d73311ff0658494edfff14c3ec1e3" kindref="member">QuantizationType::INT8</ref>),<sp/>1.0);</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(<ref refid="classthemis_1_1storage_1_1_t_t_quantizer_1a228912f571793ac8b19bcb19769511c2" kindref="member">TTQuantizer::bytesPerElement</ref>(<ref refid="namespacethemis_1_1storage_1aea884c3f11f6a88c16f51083710c96dba167c795dd4cb725ea2c7da144e1f8e54" kindref="member">QuantizationType::NF4</ref>),<sp/><sp/>0.5);</highlight></codeline>
+<codeline lineno="305"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TensorNetworkStorageEngine<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311" refid="class_tensor_network_storage_engine_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_tensor_network_storage_engine_test" kindref="compound">TensorNetworkStorageEngineTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_tensor_network_storage_engine_test_1ac0fd83f34a6f43b6712c8584f4be783f" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_tensor_network_storage_engine_test_1aaf41f06da2fd2f2026bb96acb30f5c51" kindref="member">backend_</ref><sp/>=<sp/>std::make_shared&lt;InMemoryTensorBackend&gt;();</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_tensor_storage_config" kindref="compound">TensorStorageConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1storage_1_1_tensor_storage_config_1af0b6b221318a0c9b76b4a2776f384688" kindref="member">tt_config</ref>.<ref refid="structthemis_1_1storage_1_1_tensor_train_config_1a908fb8d82ec6eba55c0dcba24873ecac" kindref="member">eps</ref><sp/><sp/><sp/>=<sp/>0.05;</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1storage_1_1_tensor_storage_config_1af0b6b221318a0c9b76b4a2776f384688" kindref="member">tt_config</ref>.<ref refid="structthemis_1_1storage_1_1_tensor_train_config_1acd4b308b325da6957687dc5772628003" kindref="member">max_rank</ref><sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1storage_1_1_tensor_storage_config_1a42e26577f70b26e5d0a1059aa38716fe" kindref="member">quant_type</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1storage_1aea884c3f11f6a88c16f51083710c96dbaee9d73311ff0658494edfff14c3ec1e3" kindref="member">QuantizationType::INT8</ref>;</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1storage_1_1_tensor_storage_config_1aa6de8d043c6843bc348b0fa425341532" kindref="member">min_compression_ratio</ref><sp/>=<sp/>0.0;<sp/><sp/></highlight><highlight class="comment">//<sp/>always<sp/>use<sp/>TT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_tensor_network_storage_engine_test_1a95fbb4f062b188a5b8a6138504ed370e" kindref="member">engine_</ref><sp/>=<sp/>std::make_unique&lt;TensorNetworkStorageEngine&gt;(<ref refid="class_tensor_network_storage_engine_test_1aaf41f06da2fd2f2026bb96acb30f5c51" kindref="member">backend_</ref>,<sp/>cfg);</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;InMemoryTensorBackend&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_tensor_network_storage_engine_test_1aaf41f06da2fd2f2026bb96acb30f5c51" kindref="member">backend_</ref>;</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;TensorNetworkStorageEngine&gt;<sp/><sp/><sp/><sp/><sp/><ref refid="class_tensor_network_storage_engine_test_1a95fbb4f062b188a5b8a6138504ed370e" kindref="member">engine_</ref>;</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_tensor_field_key" kindref="compound">TensorFieldKey</ref><sp/><ref refid="class_tensor_network_storage_engine_test_1a7d91cdbaab2152f5288221d4a13ce4da" kindref="member">kKey</ref>{</highlight><highlight class="stringliteral">&quot;tenant1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;col1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;field1&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="327"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TNS-01:<sp/>InMemoryTensorBackend<sp/>put/get/del</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><ref refid="test__tensor__train__decomposer_8cpp_1aae8a5dacbfbc1f0db1e3454711924a39" kindref="member">TEST</ref>(InMemoryTensorBackendTest,<sp/>TNS01_PutGetDel)<sp/>{</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_in_memory_tensor_backend" kindref="compound">InMemoryTensorBackend</ref><sp/>b;</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>key<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>val<sp/>=<sp/>{1,<sp/>2,<sp/>3};</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(b.<ref refid="classthemis_1_1storage_1_1_in_memory_tensor_backend_1a884f45ca0e8a08f0eb63149388ec62ba" kindref="member">put</ref>(key,<sp/>val));</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>got<sp/>=<sp/>b.<ref refid="classthemis_1_1storage_1_1_in_memory_tensor_backend_1aaadaa886a4c9e8fd982db37ba29701b8" kindref="member">get</ref>(key);</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(got.has_value());</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*got,<sp/>val);</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(b.<ref refid="classthemis_1_1storage_1_1_in_memory_tensor_backend_1a6737d291e51acebd47ac87065c0785bc" kindref="member">del</ref>(key));</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(b.<ref refid="classthemis_1_1storage_1_1_in_memory_tensor_backend_1aaadaa886a4c9e8fd982db37ba29701b8" kindref="member">get</ref>(key).has_value());</highlight></codeline>
+<codeline lineno="340"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TNS-02:<sp/>put<sp/>stores<sp/>without<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><ref refid="test__tensor__train__decomposer_8cpp_1a0c39158eef516558904e6a456a0c4c10" kindref="member">TEST_F</ref>(<ref refid="class_tensor_network_storage_engine_test" kindref="compound">TensorNetworkStorageEngineTest</ref>,<sp/>TNS02_PutStoresWithoutError)<sp/>{</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>data(2*3*4,<sp/>1.0f);</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(engine_-&gt;put(kKey,<sp/>data,<sp/>{2,<sp/>3,<sp/>4}));</highlight></codeline>
+<codeline lineno="346"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TNS-03:<sp/>get<sp/>reconstructs<sp/>close<sp/>to<sp/>original</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><ref refid="test__tensor__train__decomposer_8cpp_1a0c39158eef516558904e6a456a0c4c10" kindref="member">TEST_F</ref>(<ref refid="class_tensor_network_storage_engine_test" kindref="compound">TensorNetworkStorageEngineTest</ref>,<sp/>TNS03_GetReconstructsCloseToOriginal)<sp/>{</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data<sp/>=<sp/>makeRandom(4*4,<sp/>1.0f,<sp/>201);</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(engine_-&gt;put(kKey,<sp/>data,<sp/>{4,<sp/>4}));</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>got<sp/>=<sp/>engine_-&gt;get(kKey);</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(got.has_value());</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(got-&gt;size(),<sp/>data.size());</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>err<sp/>=<sp/>relError(data,<sp/>*got);</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(err,<sp/>0.20);<sp/><sp/></highlight><highlight class="comment">//<sp/>≤<sp/>20%<sp/>after<sp/>quantisation<sp/>(generous<sp/>threshold<sp/>for<sp/>stub<sp/>SVD)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"></highlight></codeline>
+<codeline lineno="359"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TNS-04:<sp/>getCompressed<sp/>returns<sp/>QuantizedTrain</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><ref refid="test__tensor__train__decomposer_8cpp_1a0c39158eef516558904e6a456a0c4c10" kindref="member">TEST_F</ref>(<ref refid="class_tensor_network_storage_engine_test" kindref="compound">TensorNetworkStorageEngineTest</ref>,<sp/>TNS04_GetCompressedReturnsQTrain)<sp/>{</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>data(3*3*3,<sp/>0.5f);</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(engine_-&gt;put(kKey,<sp/>data,<sp/>{3,<sp/>3,<sp/>3}));</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>qopt<sp/>=<sp/>engine_-&gt;getCompressed(kKey);</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(qopt.has_value());</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(qopt-&gt;order(),<sp/>3u);</highlight></codeline>
+<codeline lineno="366"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"></highlight></codeline>
+<codeline lineno="368"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TNS-05:<sp/>stats()<sp/>returns<sp/>valid<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><ref refid="test__tensor__train__decomposer_8cpp_1a0c39158eef516558904e6a456a0c4c10" kindref="member">TEST_F</ref>(<ref refid="class_tensor_network_storage_engine_test" kindref="compound">TensorNetworkStorageEngineTest</ref>,<sp/>TNS05_StatsValid)<sp/>{</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>data(4*4*4,<sp/>2.0f);</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(engine_-&gt;put(kKey,<sp/>data,<sp/>{4,<sp/>4,<sp/>4}));</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>engine_-&gt;stats(kKey);</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(s.has_value());</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(s-&gt;compressed_bytes,<sp/>0u);</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s-&gt;current_version,<sp/>1u);</highlight></codeline>
+<codeline lineno="376"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"></highlight></codeline>
+<codeline lineno="378"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TNS-06:<sp/>remove<sp/>returns<sp/>false<sp/>for<sp/>unknown<sp/>key</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><ref refid="test__tensor__train__decomposer_8cpp_1a0c39158eef516558904e6a456a0c4c10" kindref="member">TEST_F</ref>(<ref refid="class_tensor_network_storage_engine_test" kindref="compound">TensorNetworkStorageEngineTest</ref>,<sp/>TNS06_RemoveMissingKeyReturnsFalse)<sp/>{</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_tensor_field_key" kindref="compound">TensorFieldKey</ref><sp/>missing{</highlight><highlight class="stringliteral">&quot;t&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;c&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;no_such_field&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(engine_-&gt;remove(missing));</highlight></codeline>
+<codeline lineno="382"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"></highlight></codeline>
+<codeline lineno="384"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TNS-07:<sp/>multiple<sp/>versions<sp/>tracked</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><ref refid="test__tensor__train__decomposer_8cpp_1a0c39158eef516558904e6a456a0c4c10" kindref="member">TEST_F</ref>(<ref refid="class_tensor_network_storage_engine_test" kindref="compound">TensorNetworkStorageEngineTest</ref>,<sp/>TNS07_MultipleVersionsTracked)<sp/>{</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data1<sp/>=<sp/>makeRandom(2*2,<sp/>1.0f,<sp/>1);</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data2<sp/>=<sp/>makeRandom(2*2,<sp/>1.0f,<sp/>2);</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(engine_-&gt;put(kKey,<sp/>data1,<sp/>{2,<sp/>2}));</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(engine_-&gt;put(kKey,<sp/>data2,<sp/>{2,<sp/>2}));</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"></highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>engine_-&gt;stats(kKey);</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(s.has_value());</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s-&gt;current_version,<sp/>2u);</highlight></codeline>
+<codeline lineno="394"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"></highlight></codeline>
+<codeline lineno="396"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TNS-08:<sp/>null<sp/>backend<sp/>throws</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><ref refid="test__tensor__train__decomposer_8cpp_1aae8a5dacbfbc1f0db1e3454711924a39" kindref="member">TEST</ref>(TensorNetworkStorageEngineTest2,<sp/>TNS08_NullBackendThrows)<sp/>{</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_tensor_network_storage_engine" kindref="compound">TensorNetworkStorageEngine</ref>(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="401"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"></highlight></codeline>
+<codeline lineno="403"><highlight class="normal"><ref refid="test__tensor__train__decomposer_8cpp_1a0c39158eef516558904e6a456a0c4c10" kindref="member">TEST_F</ref>(<ref refid="class_tensor_network_storage_engine_test" kindref="compound">TensorNetworkStorageEngineTest</ref>,<sp/>TNS09_CompactIgnoresMalformedVersionSuffix)<sp/>{</highlight></codeline>
+<codeline lineno="404"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data<sp/>=<sp/>makeRandom(2<sp/>*<sp/>2,<sp/>1.0f,<sp/>7);</highlight></codeline>
+<codeline lineno="405"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(engine_-&gt;put(kKey,<sp/>data,<sp/>{2,<sp/>2}));</highlight></codeline>
+<codeline lineno="406"><highlight class="normal"></highlight></codeline>
+<codeline lineno="407"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>malformed_key<sp/>=</highlight></codeline>
+<codeline lineno="408"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;__ttn__:&quot;</highlight><highlight class="normal"><sp/>+<sp/>kKey.tenant<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;:&quot;</highlight><highlight class="normal"><sp/>+<sp/>kKey.collection<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;:&quot;</highlight><highlight class="normal"><sp/>+<sp/>kKey.field<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;:meta:not_a_number&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(backend_-&gt;put(malformed_key,<sp/>{0x01,<sp/>0x02,<sp/>0x03}));</highlight></codeline>
+<codeline lineno="410"><highlight class="normal"></highlight></codeline>
+<codeline lineno="411"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(engine_-&gt;compact(kKey));</highlight></codeline>
+<codeline lineno="412"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(backend_-&gt;get(malformed_key).has_value());</highlight></codeline>
+<codeline lineno="413"><highlight class="normal"></highlight></codeline>
+<codeline lineno="414"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>got<sp/>=<sp/>engine_-&gt;get(kKey);</highlight></codeline>
+<codeline lineno="415"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(got.has_value());</highlight></codeline>
+<codeline lineno="416"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(got-&gt;size(),<sp/>data.size());</highlight></codeline>
+<codeline lineno="417"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/storage/test_tensor_train_decomposer.cpp"/>
+  </compounddef>
+</doxygen>

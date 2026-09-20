@@ -1,0 +1,207 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1_allocation_guard" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::AllocationGuard</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_allocation_guard_1a74bf7bb89749c2a944354de458067b6e" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_g_p_u_memory_manager" kindref="compound">GPUMemoryManager</ref> *</type>
+        <definition>GPUMemoryManager* themis::gpu::AllocationGuard::manager_</definition>
+        <argsstring></argsstring>
+        <name>manager_</name>
+        <qualifiedname>themis::gpu::AllocationGuard::manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gpu/gpu_memory_manager_edition.cpp" line="57" column="22" bodyfile="src/gpu/gpu_memory_manager_edition.cpp" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_allocation_guard_1a56516d86521fe5a13b35f3fc927fecc6" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::AllocationGuard::size_</definition>
+        <argsstring></argsstring>
+        <name>size_</name>
+        <qualifiedname>themis::gpu::AllocationGuard::size_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gpu/gpu_memory_manager_edition.cpp" line="58" column="14" bodyfile="src/gpu/gpu_memory_manager_edition.cpp" bodystart="58" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_allocation_guard_1acba42939da5ea9bbaf6a094f83f9e888" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::AllocationGuard::tenant_id_</definition>
+        <argsstring></argsstring>
+        <name>tenant_id_</name>
+        <qualifiedname>themis::gpu::AllocationGuard::tenant_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gpu/gpu_memory_manager_edition.cpp" line="59" column="17" bodyfile="src/gpu/gpu_memory_manager_edition.cpp" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_allocation_guard_1ad04aff94dc1048731f567080546de422" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::AllocationGuard::committed_</definition>
+        <argsstring></argsstring>
+        <name>committed_</name>
+        <qualifiedname>themis::gpu::AllocationGuard::committed_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gpu/gpu_memory_manager_edition.cpp" line="60" column="10" bodyfile="src/gpu/gpu_memory_manager_edition.cpp" bodystart="60" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_allocation_guard_1ac0a89bce9cddcc79c95f9212440997e8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::AllocationGuard::AllocationGuard</definition>
+        <argsstring>(GPUMemoryManager *mgr, uint64_t size, const std::string &amp;tenant_id)</argsstring>
+        <name>AllocationGuard</name>
+        <qualifiedname>themis::gpu::AllocationGuard::AllocationGuard</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_g_p_u_memory_manager" kindref="compound">GPUMemoryManager</ref> *</type>
+          <declname>mgr</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gpu/gpu_memory_manager_edition.cpp" line="39" column="5" bodyfile="src/gpu/gpu_memory_manager_edition.cpp" bodystart="39" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_allocation_guard_1ab63c06480d29c9a2ae8eb3c52811dd3a" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::AllocationGuard::~AllocationGuard</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~AllocationGuard</name>
+        <qualifiedname>themis::gpu::AllocationGuard::~AllocationGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gpu/gpu_memory_manager_edition.cpp" line="42" column="5" bodyfile="src/gpu/gpu_memory_manager_edition.cpp" bodystart="42" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_allocation_guard_1a46e9befaf2ae6295782d3dcea90760d1" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::AllocationGuard::commit</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>commit</name>
+        <qualifiedname>themis::gpu::AllocationGuard::commit</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gpu/gpu_memory_manager_edition.cpp" line="48" column="10" bodyfile="src/gpu/gpu_memory_manager_edition.cpp" bodystart="48" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_allocation_guard_1af238c2b9161b8935299c66a1ef3eeaf9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::AllocationGuard::AllocationGuard</definition>
+        <argsstring>(const AllocationGuard &amp;)=delete</argsstring>
+        <name>AllocationGuard</name>
+        <qualifiedname>themis::gpu::AllocationGuard::AllocationGuard</qualifiedname>
+        <param>
+          <type>const AllocationGuard &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gpu/gpu_memory_manager_edition.cpp" line="51" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_allocation_guard_1a1b3d7eb8eb3fff65640b4c2f0701a7fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_allocation_guard_1ac0a89bce9cddcc79c95f9212440997e8" kindref="member">AllocationGuard</ref> &amp;</type>
+        <definition>AllocationGuard &amp; themis::gpu::AllocationGuard::operator=</definition>
+        <argsstring>(const AllocationGuard &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::AllocationGuard::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1gpu_1_1_allocation_guard_1ac0a89bce9cddcc79c95f9212440997e8" kindref="member">AllocationGuard</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gpu/gpu_memory_manager_edition.cpp" line="52" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_allocation_guard_1ae900363939cf1a59663c2cc9f71d397b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::AllocationGuard::AllocationGuard</definition>
+        <argsstring>(AllocationGuard &amp;&amp;)=delete</argsstring>
+        <name>AllocationGuard</name>
+        <qualifiedname>themis::gpu::AllocationGuard::AllocationGuard</qualifiedname>
+        <param>
+          <type>AllocationGuard &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gpu/gpu_memory_manager_edition.cpp" line="53" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_allocation_guard_1acf42e9bf48be55368fea2f657130a606" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_allocation_guard_1ac0a89bce9cddcc79c95f9212440997e8" kindref="member">AllocationGuard</ref> &amp;</type>
+        <definition>AllocationGuard &amp; themis::gpu::AllocationGuard::operator=</definition>
+        <argsstring>(AllocationGuard &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::AllocationGuard::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_allocation_guard_1ac0a89bce9cddcc79c95f9212440997e8" kindref="member">AllocationGuard</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gpu/gpu_memory_manager_edition.cpp" line="54" column="21"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/gpu/gpu_memory_manager_edition.cpp" line="37" column="1" bodyfile="src/gpu/gpu_memory_manager_edition.cpp" bodystart="37" bodyend="61"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1_allocation_guard_1ac0a89bce9cddcc79c95f9212440997e8" prot="public" virt="non-virtual"><scope>themis::gpu::AllocationGuard</scope><name>AllocationGuard</name></member>
+      <member refid="classthemis_1_1gpu_1_1_allocation_guard_1af238c2b9161b8935299c66a1ef3eeaf9" prot="public" virt="non-virtual"><scope>themis::gpu::AllocationGuard</scope><name>AllocationGuard</name></member>
+      <member refid="classthemis_1_1gpu_1_1_allocation_guard_1ae900363939cf1a59663c2cc9f71d397b" prot="public" virt="non-virtual"><scope>themis::gpu::AllocationGuard</scope><name>AllocationGuard</name></member>
+      <member refid="classthemis_1_1gpu_1_1_allocation_guard_1a46e9befaf2ae6295782d3dcea90760d1" prot="public" virt="non-virtual"><scope>themis::gpu::AllocationGuard</scope><name>commit</name></member>
+      <member refid="classthemis_1_1gpu_1_1_allocation_guard_1ad04aff94dc1048731f567080546de422" prot="private" virt="non-virtual"><scope>themis::gpu::AllocationGuard</scope><name>committed_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_allocation_guard_1a74bf7bb89749c2a944354de458067b6e" prot="private" virt="non-virtual"><scope>themis::gpu::AllocationGuard</scope><name>manager_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_allocation_guard_1a1b3d7eb8eb3fff65640b4c2f0701a7fc" prot="public" virt="non-virtual"><scope>themis::gpu::AllocationGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1gpu_1_1_allocation_guard_1acf42e9bf48be55368fea2f657130a606" prot="public" virt="non-virtual"><scope>themis::gpu::AllocationGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1gpu_1_1_allocation_guard_1a56516d86521fe5a13b35f3fc927fecc6" prot="private" virt="non-virtual"><scope>themis::gpu::AllocationGuard</scope><name>size_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_allocation_guard_1acba42939da5ea9bbaf6a094f83f9e888" prot="private" virt="non-virtual"><scope>themis::gpu::AllocationGuard</scope><name>tenant_id_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_allocation_guard_1ab63c06480d29c9a2ae8eb3c52811dd3a" prot="public" virt="non-virtual"><scope>themis::gpu::AllocationGuard</scope><name>~AllocationGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

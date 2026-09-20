@@ -1,0 +1,153 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_j_w_k_s_validator_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::JWKSValidator::Config</compoundname>
+    <includes refid="jwks__validator_8h" local="no">jwks_validator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_k_s_validator_1_1_config_1a7896488d4c32e27a5399fee41ab0de38" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::JWKSValidator::Config::strict_mode</definition>
+        <argsstring></argsstring>
+        <name>strict_mode</name>
+        <qualifiedname>themis::auth::JWKSValidator::Config::strict_mode</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_validator.h" line="43" column="14" bodyfile="include/auth/jwks_validator.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_k_s_validator_1_1_config_1ad8fed9066e5f6ab0472afc7f7b1b3ef1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::auth::JWKSValidator::Config::max_keys</definition>
+        <argsstring></argsstring>
+        <name>max_keys</name>
+        <qualifiedname>themis::auth::JWKSValidator::Config::max_keys</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_validator.h" line="46" column="16" bodyfile="include/auth/jwks_validator.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_k_s_validator_1_1_config_1a92adfc3ce4358f173935fcd3a01e1c52" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::auth::JWKSValidator::Config::allowed_key_types</definition>
+        <argsstring></argsstring>
+        <name>allowed_key_types</name>
+        <qualifiedname>themis::auth::JWKSValidator::Config::allowed_key_types</qualifiedname>
+        <initializer>= {&quot;RSA&quot;, &quot;EC&quot;, &quot;oct&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_validator.h" line="49" column="21" bodyfile="include/auth/jwks_validator.h" bodystart="49" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_k_s_validator_1_1_config_1ac19a28dd1992c610628f3e9e21c5dd9c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::auth::JWKSValidator::Config::allowed_algorithms</definition>
+        <argsstring></argsstring>
+        <name>allowed_algorithms</name>
+        <qualifiedname>themis::auth::JWKSValidator::Config::allowed_algorithms</qualifiedname>
+        <initializer>                               = {
+    &quot;RS256&quot;, &quot;RS384&quot;, &quot;RS512&quot;,
+    &quot;ES256&quot;, &quot;ES384&quot;, &quot;ES512&quot;,
+    &quot;HS256&quot;, &quot;HS384&quot;, &quot;HS512&quot;
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_validator.h" line="52" column="21" bodyfile="include/auth/jwks_validator.h" bodystart="52" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_k_s_validator_1_1_config_1af36b0de747265fd6ffb75d1f3f1974e8" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::auth::JWKSValidator::Config::min_rsa_key_size</definition>
+        <argsstring></argsstring>
+        <name>min_rsa_key_size</name>
+        <qualifiedname>themis::auth::JWKSValidator::Config::min_rsa_key_size</qualifiedname>
+        <initializer>= 2048</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_validator.h" line="59" column="16" bodyfile="include/auth/jwks_validator.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_k_s_validator_1_1_config_1adddd77dc583adc2be840ffff89a46646" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::JWKSValidator::Config::require_kid</definition>
+        <argsstring></argsstring>
+        <name>require_kid</name>
+        <qualifiedname>themis::auth::JWKSValidator::Config::require_kid</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_validator.h" line="62" column="14" bodyfile="include/auth/jwks_validator.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_k_s_validator_1_1_config_1a32fd4eb9bf27e11681f0c0059f45db20" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::JWKSValidator::Config::require_use</definition>
+        <argsstring></argsstring>
+        <name>require_use</name>
+        <qualifiedname>themis::auth::JWKSValidator::Config::require_use</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_validator.h" line="65" column="14" bodyfile="include/auth/jwks_validator.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1auth_1_1_j_w_k_s_validator_1_1_config_1a2e96530f9b4f31f56b77334dd93c254f" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_j_w_k_s_validator_1_1_config" kindref="compound">Config</ref></type>
+        <definition>static Config themis::auth::JWKSValidator::Config::defaults</definition>
+        <argsstring>()</argsstring>
+        <name>defaults</name>
+        <qualifiedname>themis::auth::JWKSValidator::Config::defaults</qualifiedname>
+        <briefdescription>
+<para>Defaults. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements defaults without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_validator.h" line="72" column="23" bodyfile="include/auth/jwks_validator.h" bodystart="72" bodyend="72"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/jwks_validator.h" line="41" column="5" bodyfile="include/auth/jwks_validator.h" bodystart="41" bodyend="73"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_j_w_k_s_validator_1_1_config_1ac19a28dd1992c610628f3e9e21c5dd9c" prot="public" virt="non-virtual"><scope>themis::auth::JWKSValidator::Config</scope><name>allowed_algorithms</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_k_s_validator_1_1_config_1a92adfc3ce4358f173935fcd3a01e1c52" prot="public" virt="non-virtual"><scope>themis::auth::JWKSValidator::Config</scope><name>allowed_key_types</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_k_s_validator_1_1_config_1a2e96530f9b4f31f56b77334dd93c254f" prot="public" virt="non-virtual"><scope>themis::auth::JWKSValidator::Config</scope><name>defaults</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_k_s_validator_1_1_config_1ad8fed9066e5f6ab0472afc7f7b1b3ef1" prot="public" virt="non-virtual"><scope>themis::auth::JWKSValidator::Config</scope><name>max_keys</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_k_s_validator_1_1_config_1af36b0de747265fd6ffb75d1f3f1974e8" prot="public" virt="non-virtual"><scope>themis::auth::JWKSValidator::Config</scope><name>min_rsa_key_size</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_k_s_validator_1_1_config_1adddd77dc583adc2be840ffff89a46646" prot="public" virt="non-virtual"><scope>themis::auth::JWKSValidator::Config</scope><name>require_kid</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_k_s_validator_1_1_config_1a32fd4eb9bf27e11681f0c0059f45db20" prot="public" virt="non-virtual"><scope>themis::auth::JWKSValidator::Config</scope><name>require_use</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_k_s_validator_1_1_config_1a7896488d4c32e27a5399fee41ab0de38" prot="public" virt="non-virtual"><scope>themis::auth::JWKSValidator::Config</scope><name>strict_mode</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

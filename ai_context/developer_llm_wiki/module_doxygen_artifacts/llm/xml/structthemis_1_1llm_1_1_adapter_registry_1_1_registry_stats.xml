@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_adapter_registry_1_1_registry_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::AdapterRegistry::RegistryStats</compoundname>
+    <includes refid="adapter__registry_8h" local="no">adapter_registry.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_registry_1_1_registry_stats_1ae65a5e530d6af534bc47242df7c02288" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::AdapterRegistry::RegistryStats::total_adapters</definition>
+        <argsstring></argsstring>
+        <name>total_adapters</name>
+        <qualifiedname>themis::llm::AdapterRegistry::RegistryStats::total_adapters</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="424" column="16" bodyfile="include/llm/adapter_registry.h" bodystart="424" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_registry_1_1_registry_stats_1abac66652f95fbf922c2d072d506ce51c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::AdapterRegistry::RegistryStats::total_base_models</definition>
+        <argsstring></argsstring>
+        <name>total_base_models</name>
+        <qualifiedname>themis::llm::AdapterRegistry::RegistryStats::total_base_models</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="425" column="16" bodyfile="include/llm/adapter_registry.h" bodystart="425" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_registry_1_1_registry_stats_1a0495b0ee07416770e358f215729b3aec" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, size_t &gt;</type>
+        <definition>std::map&lt;std::string, size_t&gt; themis::llm::AdapterRegistry::RegistryStats::adapters_per_base_model</definition>
+        <argsstring></argsstring>
+        <name>adapters_per_base_model</name>
+        <qualifiedname>themis::llm::AdapterRegistry::RegistryStats::adapters_per_base_model</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="426" column="18" bodyfile="include/llm/adapter_registry.h" bodystart="426" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_registry_1_1_registry_stats_1a6f4bbc1d05fc64d465bf14d258bcb39b" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, size_t &gt;</type>
+        <definition>std::map&lt;std::string, size_t&gt; themis::llm::AdapterRegistry::RegistryStats::adapters_per_domain</definition>
+        <argsstring></argsstring>
+        <name>adapters_per_domain</name>
+        <qualifiedname>themis::llm::AdapterRegistry::RegistryStats::adapters_per_domain</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="427" column="18" bodyfile="include/llm/adapter_registry.h" bodystart="427" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_registry_1_1_registry_stats_1a3e350203318b8a96e4fd326d27998055" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::AdapterRegistry::RegistryStats::signed_adapters</definition>
+        <argsstring></argsstring>
+        <name>signed_adapters</name>
+        <qualifiedname>themis::llm::AdapterRegistry::RegistryStats::signed_adapters</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="428" column="16" bodyfile="include/llm/adapter_registry.h" bodystart="428" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_registry_1_1_registry_stats_1a29406a1b15085fc20b11a6e18e87800d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::AdapterRegistry::RegistryStats::deployed_adapters</definition>
+        <argsstring></argsstring>
+        <name>deployed_adapters</name>
+        <qualifiedname>themis::llm::AdapterRegistry::RegistryStats::deployed_adapters</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="429" column="16" bodyfile="include/llm/adapter_registry.h" bodystart="429" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_adapter_registry_1_1_registry_stats_1a2176c0c77ecac498ce99c18be710cf55" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::llm::AdapterRegistry::RegistryStats::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::llm::AdapterRegistry::RegistryStats::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="435" column="24"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/adapter_registry.h" line="423" column="5" bodyfile="include/llm/adapter_registry.h" bodystart="423" bodyend="436"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_adapter_registry_1_1_registry_stats_1a0495b0ee07416770e358f215729b3aec" prot="public" virt="non-virtual"><scope>themis::llm::AdapterRegistry::RegistryStats</scope><name>adapters_per_base_model</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_registry_1_1_registry_stats_1a6f4bbc1d05fc64d465bf14d258bcb39b" prot="public" virt="non-virtual"><scope>themis::llm::AdapterRegistry::RegistryStats</scope><name>adapters_per_domain</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_registry_1_1_registry_stats_1a29406a1b15085fc20b11a6e18e87800d" prot="public" virt="non-virtual"><scope>themis::llm::AdapterRegistry::RegistryStats</scope><name>deployed_adapters</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_registry_1_1_registry_stats_1a3e350203318b8a96e4fd326d27998055" prot="public" virt="non-virtual"><scope>themis::llm::AdapterRegistry::RegistryStats</scope><name>signed_adapters</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_registry_1_1_registry_stats_1a2176c0c77ecac498ce99c18be710cf55" prot="public" virt="non-virtual"><scope>themis::llm::AdapterRegistry::RegistryStats</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_registry_1_1_registry_stats_1ae65a5e530d6af534bc47242df7c02288" prot="public" virt="non-virtual"><scope>themis::llm::AdapterRegistry::RegistryStats</scope><name>total_adapters</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_registry_1_1_registry_stats_1abac66652f95fbf922c2d072d506ce51c" prot="public" virt="non-virtual"><scope>themis::llm::AdapterRegistry::RegistryStats</scope><name>total_base_models</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

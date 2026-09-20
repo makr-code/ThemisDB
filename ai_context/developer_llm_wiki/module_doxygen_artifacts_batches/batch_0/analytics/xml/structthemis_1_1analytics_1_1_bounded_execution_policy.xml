@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1analytics_1_1_bounded_execution_policy" kind="struct" language="C++" prot="public">
+    <compoundname>themis::analytics::BoundedExecutionPolicy</compoundname>
+    <includes refid="analytics__api__contract_8h" local="no">analytics_api_contract.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_bounded_execution_policy_1a73087ab1ab825a5f387038f7ccec68c6" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::analytics::BoundedExecutionPolicy::max_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>max_latency_ms</name>
+        <qualifiedname>themis::analytics::BoundedExecutionPolicy::max_latency_ms</qualifiedname>
+        <initializer>= 0u</initializer>
+        <briefdescription>
+<para>Wall-clock timeout in milliseconds. 0 means no timeout enforced. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_api_contract.h" line="280" column="14" bodyfile="include/analytics/analytics_api_contract.h" bodystart="280" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_bounded_execution_policy_1a15e6bca190e1d4c636a372a35265d1d0" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::analytics::BoundedExecutionPolicy::max_concurrent_requests</definition>
+        <argsstring></argsstring>
+        <name>max_concurrent_requests</name>
+        <qualifiedname>themis::analytics::BoundedExecutionPolicy::max_concurrent_requests</qualifiedname>
+        <initializer>= 0u</initializer>
+        <briefdescription>
+<para>Maximum number of concurrent operations. 0 means unlimited. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_api_contract.h" line="282" column="14" bodyfile="include/analytics/analytics_api_contract.h" bodystart="282" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_bounded_execution_policy_1ab08088a9cccf122eed08cbc4b4d47241" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::analytics::BoundedExecutionPolicy::queue_depth</definition>
+        <argsstring></argsstring>
+        <name>queue_depth</name>
+        <qualifiedname>themis::analytics::BoundedExecutionPolicy::queue_depth</qualifiedname>
+        <initializer>= 0u</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum depth of the waiting queue when the concurrency limit is full. 0 means callers are rejected immediately on saturation (no queuing). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_api_contract.h" line="285" column="14" bodyfile="include/analytics/analytics_api_contract.h" bodystart="285" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1analytics_1_1_bounded_execution_policy_1aef276700dac4052924524e4fd7dc7c6f" prot="public" static="no" nodiscard="yes" constexpr="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::analytics::BoundedExecutionPolicy::isConstrained</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isConstrained</name>
+        <qualifiedname>themis::analytics::BoundedExecutionPolicy::isConstrained</qualifiedname>
+        <briefdescription>
+<para>Returns true when this policy imposes at least one limit. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_api_contract.h" line="288" column="21" bodyfile="include/analytics/analytics_api_contract.h" bodystart="288" bodyend="292"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Resource and latency limits applied to bounded-execution operations. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Callers embed a <computeroutput><ref refid="structthemis_1_1analytics_1_1_bounded_execution_policy" kindref="compound">BoundedExecutionPolicy</ref></computeroutput> in their request or configuration to declare the acceptable resource envelope for a single operation. The enforcing layer (circuit-breaker or semaphore) rejects calls that would violate the limits before dispatching to the back-end.</para>
+<para><heading level="3">Field semantics</heading>
+</para>
+<para><itemizedlist>
+<listitem><para><computeroutput><ref refid="structthemis_1_1analytics_1_1_bounded_execution_policy_1a73087ab1ab825a5f387038f7ccec68c6" kindref="member">max_latency_ms</ref></computeroutput> — wall-clock timeout in milliseconds; 0 = no timeout.</para>
+</listitem><listitem><para><computeroutput><ref refid="structthemis_1_1analytics_1_1_bounded_execution_policy_1a15e6bca190e1d4c636a372a35265d1d0" kindref="member">max_concurrent_requests</ref></computeroutput> — maximum in-flight requests sharing one policy instance; 0 = unlimited.</para>
+</listitem><listitem><para><computeroutput><ref refid="structthemis_1_1analytics_1_1_bounded_execution_policy_1ab08088a9cccf122eed08cbc4b4d47241" kindref="member">queue_depth</ref></computeroutput> — maximum number of requests allowed to wait when the concurrency limit is reached; 0 = no queuing (reject immediately on saturation).</para>
+</listitem></itemizedlist>
+</para>
+<para><heading level="3">Enforcement contract</heading>
+</para>
+<para>When a call is rejected due to policy limits, the enforcing component MUST return an appropriate status code (<computeroutput>MLServingStatus::TIMEOUT</computeroutput> / <computeroutput><ref refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfca1c26b81ba92ea70f693a4356fd035c94" kindref="member">AnalyticsErrorCode::STREAM_BACKPRESSURE</ref></computeroutput>) and MUST NOT block the caller beyond <computeroutput><ref refid="structthemis_1_1analytics_1_1_bounded_execution_policy_1a73087ab1ab825a5f387038f7ccec68c6" kindref="member">max_latency_ms</ref></computeroutput> milliseconds. </para>
+    </detaileddescription>
+    <location file="include/analytics/analytics_api_contract.h" line="278" column="1" bodyfile="include/analytics/analytics_api_contract.h" bodystart="278" bodyend="293"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1analytics_1_1_bounded_execution_policy_1aef276700dac4052924524e4fd7dc7c6f" prot="public" virt="non-virtual"><scope>themis::analytics::BoundedExecutionPolicy</scope><name>isConstrained</name></member>
+      <member refid="structthemis_1_1analytics_1_1_bounded_execution_policy_1a15e6bca190e1d4c636a372a35265d1d0" prot="public" virt="non-virtual"><scope>themis::analytics::BoundedExecutionPolicy</scope><name>max_concurrent_requests</name></member>
+      <member refid="structthemis_1_1analytics_1_1_bounded_execution_policy_1a73087ab1ab825a5f387038f7ccec68c6" prot="public" virt="non-virtual"><scope>themis::analytics::BoundedExecutionPolicy</scope><name>max_latency_ms</name></member>
+      <member refid="structthemis_1_1analytics_1_1_bounded_execution_policy_1ab08088a9cccf122eed08cbc4b4d47241" prot="public" virt="non-virtual"><scope>themis::analytics::BoundedExecutionPolicy</scope><name>queue_depth</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

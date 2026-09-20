@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_llm_rerank_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::LlmRerankResult</compoundname>
+    <includes refid="llm__reranker_8h" local="no">llm_reranker.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_llm_rerank_result_1ae08e1c66a19b6389f254f9d5fe9aa9f1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::LlmRerankResult::document_id</definition>
+        <argsstring></argsstring>
+        <name>document_id</name>
+        <qualifiedname>themis::LlmRerankResult::document_id</qualifiedname>
+        <briefdescription>
+<para>Primary key. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/llm_reranker.h" line="35" column="17" bodyfile="include/search/llm_reranker.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_llm_rerank_result_1a90b3314a08a13786510f0e1c8f717d10" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::LlmRerankResult::llm_score</definition>
+        <argsstring></argsstring>
+        <name>llm_score</name>
+        <qualifiedname>themis::LlmRerankResult::llm_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>LLM-assigned relevance score, normalised to [0, 1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/llm_reranker.h" line="36" column="12" bodyfile="include/search/llm_reranker.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_llm_rerank_result_1a96d87175ce352a1572447dd01193cc2f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::LlmRerankResult::initial_score</definition>
+        <argsstring></argsstring>
+        <name>initial_score</name>
+        <qualifiedname>themis::LlmRerankResult::initial_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Original retrieval score preserved for reference. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/llm_reranker.h" line="37" column="12" bodyfile="include/search/llm_reranker.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_llm_rerank_result_1ad75b9b122fd8543f6376a5319558cf03" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::LlmRerankResult::final_score</definition>
+        <argsstring></argsstring>
+        <name>final_score</name>
+        <qualifiedname>themis::LlmRerankResult::final_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Blended score: llm_weight * llm_score + (1-llm_weight) * initial_score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/llm_reranker.h" line="38" column="12" bodyfile="include/search/llm_reranker.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_llm_rerank_result_1a55edc0fb290e5bd47b3c9ab84ea7c6e3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::LlmRerankResult::llm_scored</definition>
+        <argsstring></argsstring>
+        <name>llm_scored</name>
+        <qualifiedname>themis::LlmRerankResult::llm_scored</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether the LLM actually provided a score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/llm_reranker.h" line="39" column="10" bodyfile="include/search/llm_reranker.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A document after LLM-based re-ranking. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/search/llm_reranker.h" line="34" column="1" bodyfile="include/search/llm_reranker.h" bodystart="34" bodyend="40"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_llm_rerank_result_1ae08e1c66a19b6389f254f9d5fe9aa9f1" prot="public" virt="non-virtual"><scope>themis::LlmRerankResult</scope><name>document_id</name></member>
+      <member refid="structthemis_1_1_llm_rerank_result_1ad75b9b122fd8543f6376a5319558cf03" prot="public" virt="non-virtual"><scope>themis::LlmRerankResult</scope><name>final_score</name></member>
+      <member refid="structthemis_1_1_llm_rerank_result_1a96d87175ce352a1572447dd01193cc2f" prot="public" virt="non-virtual"><scope>themis::LlmRerankResult</scope><name>initial_score</name></member>
+      <member refid="structthemis_1_1_llm_rerank_result_1a90b3314a08a13786510f0e1c8f717d10" prot="public" virt="non-virtual"><scope>themis::LlmRerankResult</scope><name>llm_score</name></member>
+      <member refid="structthemis_1_1_llm_rerank_result_1a55edc0fb290e5bd47b3c9ab84ea7c6e3" prot="public" virt="non-virtual"><scope>themis::LlmRerankResult</scope><name>llm_scored</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

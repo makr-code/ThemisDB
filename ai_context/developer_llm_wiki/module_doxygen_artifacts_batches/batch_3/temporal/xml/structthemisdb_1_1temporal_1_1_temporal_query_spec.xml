@@ -1,0 +1,193 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1temporal_1_1_temporal_query_spec" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::temporal::TemporalQuerySpec</compoundname>
+    <includes refid="temporal__query__engine_8h" local="no">temporal_query_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_temporal_query_spec_1a1934229b91e2b353a6eb098c12d563af" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1temporal_1ac8a38b2433f07202ace2c3bb43a1c189" kindref="member">TemporalClause</ref></type>
+        <definition>TemporalClause themisdb::temporal::TemporalQuerySpec::clause</definition>
+        <argsstring></argsstring>
+        <name>clause</name>
+        <qualifiedname>themisdb::temporal::TemporalQuerySpec::clause</qualifiedname>
+        <initializer>{<ref refid="namespacethemisdb_1_1temporal_1ac8a38b2433f07202ace2c3bb43a1c189a23e14f9b48cc9c3e8b0cbd19416a622d" kindref="member">TemporalClause::AS_OF</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_query_engine.h" line="121" column="20" bodyfile="include/temporal/temporal_query_engine.h" bodystart="121" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_temporal_query_spec_1a29fcc2ba3d0b1e49280a1a20fe7aa6d4" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+        <definition>Timestamp themisdb::temporal::TemporalQuerySpec::start_time</definition>
+        <argsstring></argsstring>
+        <name>start_time</name>
+        <qualifiedname>themisdb::temporal::TemporalQuerySpec::start_time</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_query_engine.h" line="122" column="15" bodyfile="include/temporal/temporal_query_engine.h" bodystart="122" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_temporal_query_spec_1a107a1d22b0b5a14b689acb204caf82b1" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+        <definition>Timestamp themisdb::temporal::TemporalQuerySpec::end_time</definition>
+        <argsstring></argsstring>
+        <name>end_time</name>
+        <qualifiedname>themisdb::temporal::TemporalQuerySpec::end_time</qualifiedname>
+        <initializer>{kMaxTimestamp}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_query_engine.h" line="123" column="15" bodyfile="include/temporal/temporal_query_engine.h" bodystart="123" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_temporal_query_spec_1a7f15bdc411de2debdcca19f93377c5f6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::temporal::TemporalQuerySpec::include_deleted</definition>
+        <argsstring></argsstring>
+        <name>include_deleted</name>
+        <qualifiedname>themisdb::temporal::TemporalQuerySpec::include_deleted</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_query_engine.h" line="124" column="10" bodyfile="include/temporal/temporal_query_engine.h" bodystart="124" bodyend="124"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemisdb_1_1temporal_1_1_temporal_query_spec_1a1bee73928f7c708d81915c3acd3cdcda" prot="public" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_temporal_query_spec" kindref="compound">TemporalQuerySpec</ref></type>
+        <definition>static TemporalQuerySpec themisdb::temporal::TemporalQuerySpec::asOf</definition>
+        <argsstring>(Timestamp t) noexcept</argsstring>
+        <name>asOf</name>
+        <qualifiedname>themisdb::temporal::TemporalQuerySpec::asOf</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+<para>Convenience factory — FOR SYSTEM_TIME AS OF &lt;t&gt;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_query_engine.h" line="127" column="30" bodyfile="include/temporal/temporal_query_engine.h" bodystart="127" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1temporal_1_1_temporal_query_spec_1af3a99b8787cc08418940245392690c8d" prot="public" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_temporal_query_spec" kindref="compound">TemporalQuerySpec</ref></type>
+        <definition>static TemporalQuerySpec themisdb::temporal::TemporalQuerySpec::fromTo</definition>
+        <argsstring>(Timestamp s, Timestamp e) noexcept</argsstring>
+        <name>fromTo</name>
+        <qualifiedname>themisdb::temporal::TemporalQuerySpec::fromTo</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>s</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>e</declname>
+        </param>
+        <briefdescription>
+<para>Convenience factory — FOR SYSTEM_TIME FROM <s> TO &lt;e&gt;. </s></para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_query_engine.h" line="131" column="30" bodyfile="include/temporal/temporal_query_engine.h" bodystart="131" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1temporal_1_1_temporal_query_spec_1aaff4f5f48312605768a3ba1fc78f08a5" prot="public" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_temporal_query_spec" kindref="compound">TemporalQuerySpec</ref></type>
+        <definition>static TemporalQuerySpec themisdb::temporal::TemporalQuerySpec::betweenAnd</definition>
+        <argsstring>(Timestamp s, Timestamp e) noexcept</argsstring>
+        <name>betweenAnd</name>
+        <qualifiedname>themisdb::temporal::TemporalQuerySpec::betweenAnd</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>s</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>e</declname>
+        </param>
+        <briefdescription>
+<para>Convenience factory — FOR SYSTEM_TIME BETWEEN <s> AND &lt;e&gt;. </s></para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_query_engine.h" line="135" column="30" bodyfile="include/temporal/temporal_query_engine.h" bodystart="135" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1temporal_1_1_temporal_query_spec_1a3989f4776b68db91bdb383a6cb94cc2b" prot="public" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_temporal_query_spec" kindref="compound">TemporalQuerySpec</ref></type>
+        <definition>static TemporalQuerySpec themisdb::temporal::TemporalQuerySpec::containedIn</definition>
+        <argsstring>(Timestamp s, Timestamp e) noexcept</argsstring>
+        <name>containedIn</name>
+        <qualifiedname>themisdb::temporal::TemporalQuerySpec::containedIn</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>s</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>e</declname>
+        </param>
+        <briefdescription>
+<para>Convenience factory — FOR SYSTEM_TIME CONTAINED IN PERIOD (<s>, &lt;e&gt;). </s></para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_query_engine.h" line="139" column="30" bodyfile="include/temporal/temporal_query_engine.h" bodystart="139" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1temporal_1_1_temporal_query_spec_1aa75e379f924b532f88c877027955f263" prot="public" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_temporal_query_spec" kindref="compound">TemporalQuerySpec</ref></type>
+        <definition>static TemporalQuerySpec themisdb::temporal::TemporalQuerySpec::all</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>all</name>
+        <qualifiedname>themisdb::temporal::TemporalQuerySpec::all</qualifiedname>
+        <briefdescription>
+<para>Convenience factory — FOR SYSTEM_TIME ALL. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_query_engine.h" line="143" column="30" bodyfile="include/temporal/temporal_query_engine.h" bodystart="143" bodyend="145"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Structured specification for a SQL:2011 temporal query.</para>
+<para>For AS_OF queries only start_time is used. For FROM_TO / BETWEEN_AND / CONTAINED_IN both start_time and end_time are used. For ALL neither start_time nor end_time is relevant.</para>
+<para>include_deleted: when true, rows that have been logically deleted (i.e. their most-recent version carries an explicit &quot;deleted&quot; flag in their data) are included in the result. When false (default) such rows are excluded. </para>
+    </detaileddescription>
+    <location file="include/temporal/temporal_query_engine.h" line="120" column="1" bodyfile="include/temporal/temporal_query_engine.h" bodystart="120" bodyend="146"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1temporal_1_1_temporal_query_spec_1aa75e379f924b532f88c877027955f263" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalQuerySpec</scope><name>all</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_temporal_query_spec_1a1bee73928f7c708d81915c3acd3cdcda" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalQuerySpec</scope><name>asOf</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_temporal_query_spec_1aaff4f5f48312605768a3ba1fc78f08a5" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalQuerySpec</scope><name>betweenAnd</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_temporal_query_spec_1a1934229b91e2b353a6eb098c12d563af" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalQuerySpec</scope><name>clause</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_temporal_query_spec_1a3989f4776b68db91bdb383a6cb94cc2b" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalQuerySpec</scope><name>containedIn</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_temporal_query_spec_1a107a1d22b0b5a14b689acb204caf82b1" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalQuerySpec</scope><name>end_time</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_temporal_query_spec_1af3a99b8787cc08418940245392690c8d" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalQuerySpec</scope><name>fromTo</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_temporal_query_spec_1a7f15bdc411de2debdcca19f93377c5f6" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalQuerySpec</scope><name>include_deleted</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_temporal_query_spec_1a29fcc2ba3d0b1e49280a1a20fe7aa6d4" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalQuerySpec</scope><name>start_time</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

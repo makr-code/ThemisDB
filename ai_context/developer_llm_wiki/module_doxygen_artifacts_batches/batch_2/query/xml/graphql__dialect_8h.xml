@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="graphql__dialect_8h" kind="file" language="C++">
+    <compoundname>graphql_dialect.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">map</includes>
+    <includes local="no">functional</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>include/query/graphql_dialect.h</label>
+        <link refid="graphql__dialect_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>map</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="structthemis_1_1query_1_1_graph_q_l_field" prot="public">themis::query::GraphQLField</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_graph_q_l_query" prot="public">themis::query::GraphQLQuery</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_graph_q_l_result" prot="public">themis::query::GraphQLResult</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1_i_graph_q_l_dialect" prot="public">themis::query::IGraphQLDialect</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1query">themis::query</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.1.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 85/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GraphQL<sp/>query<sp/>dialect<sp/>support<sp/>for<sp/>ThemisDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{<sp/></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21" refid="structthemis_1_1query_1_1_graph_q_l_field" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_graph_q_l_field" kindref="compound">GraphQLField</ref><sp/>{</highlight></codeline>
+<codeline lineno="22" refid="structthemis_1_1query_1_1_graph_q_l_field_1ae92f0aaceb364e7f8c2e78097654c73c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_graph_q_l_field_1ae92f0aaceb364e7f8c2e78097654c73c" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="23" refid="structthemis_1_1query_1_1_graph_q_l_field_1ab3f3542c961c25b94c09355c5e60f101" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_graph_q_l_field_1ab3f3542c961c25b94c09355c5e60f101" kindref="member">alias</ref>;</highlight></codeline>
+<codeline lineno="24" refid="structthemis_1_1query_1_1_graph_q_l_field_1a178d38e1584753c4781dc216899f2195" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;GraphQLField&gt;<sp/><ref refid="structthemis_1_1query_1_1_graph_q_l_field_1a178d38e1584753c4781dc216899f2195" kindref="member">sub_fields</ref>;</highlight></codeline>
+<codeline lineno="25" refid="structthemis_1_1query_1_1_graph_q_l_field_1a2cf59197b09c2afa9ba85ce77141db33" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1query_1_1_graph_q_l_field_1a2cf59197b09c2afa9ba85ce77141db33" kindref="member">arguments</ref>;</highlight></codeline>
+<codeline lineno="26" refid="structthemis_1_1query_1_1_graph_q_l_field_1a48048afcfa839455622a6fc2c77dcdfd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1query_1_1_graph_q_l_field_1a48048afcfa839455622a6fc2c77dcdfd" kindref="member">directives</ref>;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1query_1_1_graph_q_l_query" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_graph_q_l_query" kindref="compound">GraphQLQuery</ref><sp/>{</highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1query_1_1_graph_q_l_query_1ad0c65e90b66af2605b4ab390a213e250" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_graph_q_l_query_1ad0c65e90b66af2605b4ab390a213e250" kindref="member">operation_type</ref>;</highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1query_1_1_graph_q_l_query_1aac0c23e4ef8f66eb06196c2626a4c407" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_graph_q_l_query_1aac0c23e4ef8f66eb06196c2626a4c407" kindref="member">operation_name</ref>;</highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1query_1_1_graph_q_l_query_1a99593b4495295db2c3b7a012a793ea8c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;GraphQLField&gt;<sp/><ref refid="structthemis_1_1query_1_1_graph_q_l_query_1a99593b4495295db2c3b7a012a793ea8c" kindref="member">selection_set</ref>;</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1query_1_1_graph_q_l_query_1a0f2654789f7caec70a5fbcb74a276902" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1query_1_1_graph_q_l_query_1a0f2654789f7caec70a5fbcb74a276902" kindref="member">variables</ref>;</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1query_1_1_graph_q_l_query_1ad3ce74c89891638391d7e42e6c6fc66d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_graph_q_l_query_1ad3ce74c89891638391d7e42e6c6fc66d" kindref="member">raw_query</ref>;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1query_1_1_graph_q_l_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_graph_q_l_result" kindref="compound">GraphQLResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1query_1_1_graph_q_l_result_1a43c0642199aa1f0957e4fd784bc30b5b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_graph_q_l_result_1a43c0642199aa1f0957e4fd784bc30b5b" kindref="member">data_json</ref>;</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1query_1_1_graph_q_l_result_1a6633cf57d37313ec92db99569598a6c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::map&lt;std::string,<sp/>std::string&gt;&gt;<sp/><ref refid="structthemis_1_1query_1_1_graph_q_l_result_1a6633cf57d37313ec92db99569598a6c9" kindref="member">errors</ref>;</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1query_1_1_graph_q_l_result_1a23b593a3516d8d76d6059b1edc36786f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1query_1_1_graph_q_l_result_1a23b593a3516d8d76d6059b1edc36786f" kindref="member">extensions</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1query_1_1_graph_q_l_result_1a36a2b72891e4dfe74ec258997749c4d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_graph_q_l_result_1a36a2b72891e4dfe74ec258997749c4d0" kindref="member">has_errors</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>!<ref refid="structthemis_1_1query_1_1_graph_q_l_result_1a6633cf57d37313ec92db99569598a6c9" kindref="member">errors</ref>.empty();<sp/>}</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="classthemis_1_1query_1_1_i_graph_q_l_dialect" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_i_graph_q_l_dialect" kindref="compound">IGraphQLDialect</ref><sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="51" refid="classthemis_1_1query_1_1_i_graph_q_l_dialect_1a5b248b15dbabe77b3da2f20ace879418" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_i_graph_q_l_dialect_1a5b248b15dbabe77b3da2f20ace879418" kindref="member">~IGraphQLDialect</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="57" refid="classthemis_1_1query_1_1_i_graph_q_l_dialect_1ad55f018ba1d9222c348ce28d80725ad7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_graph_q_l_query" kindref="compound">GraphQLQuery</ref><sp/><ref refid="classthemis_1_1query_1_1_i_graph_q_l_dialect_1ad55f018ba1d9222c348ce28d80725ad7" kindref="member">parse</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query_str)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="63" refid="classthemis_1_1query_1_1_i_graph_q_l_dialect_1a5294447669eaec27b371a50a9329d261" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1query_1_1_i_graph_q_l_dialect_1a5294447669eaec27b371a50a9329d261" kindref="member">toAQL</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_graph_q_l_query" kindref="compound">GraphQLQuery</ref>&amp;<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="64" refid="classthemis_1_1query_1_1_i_graph_q_l_dialect_1a9bf395bd33adfb7fdfc92aa8e186f0da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_graph_q_l_result" kindref="compound">GraphQLResult</ref><sp/><ref refid="classthemis_1_1query_1_1_i_graph_q_l_dialect_1a9bf395bd33adfb7fdfc92aa8e186f0da" kindref="member">execute</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query_str,</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>variables<sp/>=<sp/>{})<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="66" refid="classthemis_1_1query_1_1_i_graph_q_l_dialect_1a97fcc0abfc1045209a08f6b9c24ada1f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_i_graph_q_l_dialect_1a97fcc0abfc1045209a08f6b9c24ada1f" kindref="member">registerTypeResolver</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>type_name,</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;std::string(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_graph_q_l_field" kindref="compound">GraphQLField</ref>&amp;)&gt;<sp/>resolver)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="72" refid="classthemis_1_1query_1_1_i_graph_q_l_dialect_1a623bf527f395888e0d43b669094e19fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1query_1_1_i_graph_q_l_dialect_1a623bf527f395888e0d43b669094e19fd" kindref="member">schemaSDL</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal">}}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::query</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/query/graphql_dialect.h"/>
+  </compounddef>
+</doxygen>

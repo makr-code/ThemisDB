@@ -1,0 +1,1048 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1transaction_1_1_crash_recovery_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::transaction::CrashRecoveryManager</compoundname>
+    <includes refid="crash__recovery__manager_8h" local="no">crash_recovery_manager.h</includes>
+    <innerclass refid="structthemis_1_1transaction_1_1_crash_recovery_manager_1_1_operation_entry" prot="public">themis::transaction::CrashRecoveryManager::OperationEntry</innerclass>
+    <innerclass refid="structthemis_1_1transaction_1_1_crash_recovery_manager_1_1_log_entry" prot="public">themis::transaction::CrashRecoveryManager::LogEntry</innerclass>
+    <innerclass refid="structthemis_1_1transaction_1_1_crash_recovery_manager_1_1_recovery_result" prot="public">themis::transaction::CrashRecoveryManager::RecoveryResult</innerclass>
+    <innerclass refid="structthemis_1_1transaction_1_1_crash_recovery_manager_1_1_recovery_metrics" prot="public">themis::transaction::CrashRecoveryManager::RecoveryMetrics</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1transaction_1_1_crash_recovery_manager_1a8b031ef64f0a6d7b217f0921b1ac1d71" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>EntryType</name>
+        <qualifiedname>themis::transaction::CrashRecoveryManager::EntryType</qualifiedname>
+        <enumvalue id="classthemis_1_1transaction_1_1_crash_recovery_manager_1a8b031ef64f0a6d7b217f0921b1ac1d71a19aad9f2fe3ce0023298ab83f7e75775" prot="public">
+          <name>BEGIN</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Transaction start. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1transaction_1_1_crash_recovery_manager_1a8b031ef64f0a6d7b217f0921b1ac1d71ad6a0beecbcc46b64a23307ffc084ed36" prot="public">
+          <name>OPERATION</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Single write within a transaction (undo/redo log). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1transaction_1_1_crash_recovery_manager_1a8b031ef64f0a6d7b217f0921b1ac1d71a1d0ba376e273b9d622641124d8c59264" prot="public">
+          <name>COMMIT</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Transaction committed successfully. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1transaction_1_1_crash_recovery_manager_1a8b031ef64f0a6d7b217f0921b1ac1d71a8d12a2ca7e5a64036d7251a3eda51a38" prot="public">
+          <name>ABORT</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>Transaction rolled back / aborted. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1transaction_1_1_crash_recovery_manager_1a8b031ef64f0a6d7b217f0921b1ac1d71a0f15e1247e93ddfa95c008106eb0d22f" prot="public">
+          <name>CHECKPOINT</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+<para>Recovery checkpoint – entries before this are safe to prune. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/crash_recovery_manager.h" line="37" column="5" bodyfile="include/transaction/crash_recovery_manager.h" bodystart="37" bodyend="43"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_crash_recovery_manager_1abdea12a0370552481a90ed1f46771e00" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::transaction::CrashRecoveryManager::wal_path_</definition>
+        <argsstring></argsstring>
+        <name>wal_path_</name>
+        <qualifiedname>themis::transaction::CrashRecoveryManager::wal_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/crash_recovery_manager.h" line="178" column="17" bodyfile="include/transaction/crash_recovery_manager.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_crash_recovery_manager_1a9470f05daa4d0fe54f92133d4b5bddc3" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::transaction::CrashRecoveryManager::sync_on_write_</definition>
+        <argsstring></argsstring>
+        <name>sync_on_write_</name>
+        <qualifiedname>themis::transaction::CrashRecoveryManager::sync_on_write_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/crash_recovery_manager.h" line="179" column="17" bodyfile="include/transaction/crash_recovery_manager.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_crash_recovery_manager_1af905a5848533cb80ead2deca3646e76b" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::transaction::CrashRecoveryManager::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::transaction::CrashRecoveryManager::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/crash_recovery_manager.h" line="181" column="24" bodyfile="include/transaction/crash_recovery_manager.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_crash_recovery_manager_1a041d18e32474288197406ab371adc3dd" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; uint64_t, std::vector&lt; <ref refid="structthemis_1_1transaction_1_1_crash_recovery_manager_1_1_operation_entry" kindref="compound">OperationEntry</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;uint64_t, std::vector&lt;OperationEntry&gt; &gt; themis::transaction::CrashRecoveryManager::pending_ops_</definition>
+        <argsstring></argsstring>
+        <name>pending_ops_</name>
+        <qualifiedname>themis::transaction::CrashRecoveryManager::pending_ops_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/crash_recovery_manager.h" line="185" column="24" bodyfile="include/transaction/crash_recovery_manager.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_crash_recovery_manager_1a46d56c1f231c66098613a43d1667a08c" prot="private" static="no" mutable="no">
+        <type>std::unordered_set&lt; uint64_t &gt;</type>
+        <definition>std::unordered_set&lt;uint64_t&gt; themis::transaction::CrashRecoveryManager::committed_ids_</definition>
+        <argsstring></argsstring>
+        <name>committed_ids_</name>
+        <qualifiedname>themis::transaction::CrashRecoveryManager::committed_ids_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/crash_recovery_manager.h" line="186" column="24" bodyfile="include/transaction/crash_recovery_manager.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_crash_recovery_manager_1a7c974f5117f80ee7adbab02a27677ee4" prot="private" static="no" mutable="no">
+        <type>std::unordered_set&lt; uint64_t &gt;</type>
+        <definition>std::unordered_set&lt;uint64_t&gt; themis::transaction::CrashRecoveryManager::aborted_ids_</definition>
+        <argsstring></argsstring>
+        <name>aborted_ids_</name>
+        <qualifiedname>themis::transaction::CrashRecoveryManager::aborted_ids_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/crash_recovery_manager.h" line="187" column="24" bodyfile="include/transaction/crash_recovery_manager.h" bodystart="187" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_crash_recovery_manager_1a558e5b5ea3e711ec0aa1029f57b439d3" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::transaction::CrashRecoveryManager::metric_begins_</definition>
+        <argsstring></argsstring>
+        <name>metric_begins_</name>
+        <qualifiedname>themis::transaction::CrashRecoveryManager::metric_begins_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/crash_recovery_manager.h" line="190" column="17" bodyfile="include/transaction/crash_recovery_manager.h" bodystart="190" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_crash_recovery_manager_1ac8df88577e9ec4f213e2db29a37b2cda" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::transaction::CrashRecoveryManager::metric_ops_</definition>
+        <argsstring></argsstring>
+        <name>metric_ops_</name>
+        <qualifiedname>themis::transaction::CrashRecoveryManager::metric_ops_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/crash_recovery_manager.h" line="191" column="17" bodyfile="include/transaction/crash_recovery_manager.h" bodystart="191" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_crash_recovery_manager_1a045a786114f30f30630b807d0d59a5b2" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::transaction::CrashRecoveryManager::metric_commits_</definition>
+        <argsstring></argsstring>
+        <name>metric_commits_</name>
+        <qualifiedname>themis::transaction::CrashRecoveryManager::metric_commits_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/crash_recovery_manager.h" line="192" column="17" bodyfile="include/transaction/crash_recovery_manager.h" bodystart="192" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_crash_recovery_manager_1aaa85d3b0ad6a2caa116726c1bfe50c8b" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::transaction::CrashRecoveryManager::metric_aborts_</definition>
+        <argsstring></argsstring>
+        <name>metric_aborts_</name>
+        <qualifiedname>themis::transaction::CrashRecoveryManager::metric_aborts_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/crash_recovery_manager.h" line="193" column="17" bodyfile="include/transaction/crash_recovery_manager.h" bodystart="193" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_crash_recovery_manager_1abb3c28419690360a9b5e098ec886ffe8" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::transaction::CrashRecoveryManager::metric_prunes_</definition>
+        <argsstring></argsstring>
+        <name>metric_prunes_</name>
+        <qualifiedname>themis::transaction::CrashRecoveryManager::metric_prunes_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/crash_recovery_manager.h" line="194" column="17" bodyfile="include/transaction/crash_recovery_manager.h" bodystart="194" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_crash_recovery_manager_1a5353d0952df2d20bee729476b4a36890" prot="private" static="no" mutable="yes">
+        <type>std::vector&lt; uint64_t &gt;</type>
+        <definition>std::vector&lt;uint64_t&gt; themis::transaction::CrashRecoveryManager::last_in_flight_ids_</definition>
+        <argsstring></argsstring>
+        <name>last_in_flight_ids_</name>
+        <qualifiedname>themis::transaction::CrashRecoveryManager::last_in_flight_ids_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/crash_recovery_manager.h" line="197" column="25" bodyfile="include/transaction/crash_recovery_manager.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_crash_recovery_manager_1ac1339e395004198ea88728db9c06e20b" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::transaction::CrashRecoveryManager::CrashRecoveryManager</definition>
+        <argsstring>(const std::string &amp;wal_path, bool sync_on_write=true)</argsstring>
+        <name>CrashRecoveryManager</name>
+        <qualifiedname>themis::transaction::CrashRecoveryManager::CrashRecoveryManager</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>wal_path</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>sync_on_write</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/crash_recovery_manager.h" line="90" column="14" bodyfile="src/transaction/crash_recovery_manager.cpp" bodystart="158" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_crash_recovery_manager_1a00334170dc453baa9afc49955aa6ced4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::transaction::CrashRecoveryManager::~CrashRecoveryManager</definition>
+        <argsstring>()</argsstring>
+        <name>~CrashRecoveryManager</name>
+        <qualifiedname>themis::transaction::CrashRecoveryManager::~CrashRecoveryManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/crash_recovery_manager.h" line="92" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_crash_recovery_manager_1a67313daa042e7ed309f2f71721fae826" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::transaction::CrashRecoveryManager::CrashRecoveryManager</definition>
+        <argsstring>(const CrashRecoveryManager &amp;)=delete</argsstring>
+        <name>CrashRecoveryManager</name>
+        <qualifiedname>themis::transaction::CrashRecoveryManager::CrashRecoveryManager</qualifiedname>
+        <param>
+          <type>const CrashRecoveryManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/crash_recovery_manager.h" line="94" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_crash_recovery_manager_1a221b329e872e856d0dcf2d11f5803408" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1transaction_1_1_crash_recovery_manager_1ac1339e395004198ea88728db9c06e20b" kindref="member">CrashRecoveryManager</ref> &amp;</type>
+        <definition>CrashRecoveryManager &amp; themis::transaction::CrashRecoveryManager::operator=</definition>
+        <argsstring>(const CrashRecoveryManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::transaction::CrashRecoveryManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1transaction_1_1_crash_recovery_manager_1ac1339e395004198ea88728db9c06e20b" kindref="member">CrashRecoveryManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/crash_recovery_manager.h" line="95" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_crash_recovery_manager_1a597ccb6109d062869c55aca0830c59d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::transaction::CrashRecoveryManager::logBegin</definition>
+        <argsstring>(uint64_t txn_id, IsolationLevel isolation)</argsstring>
+        <name>logBegin</name>
+        <qualifiedname>themis::transaction::CrashRecoveryManager::logBegin</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>txn_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7" kindref="member">IsolationLevel</ref></type>
+          <declname>isolation</declname>
+        </param>
+        <briefdescription>
+<para>Log Begin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">isolation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">isolation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), emplace(), erase(), nowMs(), appendLine(), serialize(), fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/crash_recovery_manager.h" line="103" column="10" bodyfile="src/transaction/crash_recovery_manager.cpp" bodystart="192" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_crash_recovery_manager_1af257de3a34bc572f5cff6366a513f8a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::transaction::CrashRecoveryManager::logOperation</definition>
+        <argsstring>(uint64_t txn_id, const std::string &amp;op, const std::string &amp;key, const std::optional&lt; std::string &gt; &amp;old_value, const std::optional&lt; std::string &gt; &amp;new_value)</argsstring>
+        <name>logOperation</name>
+        <qualifiedname>themis::transaction::CrashRecoveryManager::logOperation</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>txn_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>op</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::string &gt; &amp;</type>
+          <declname>old_value</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::string &gt; &amp;</type>
+          <declname>new_value</declname>
+        </param>
+        <briefdescription>
+<para>Log Operation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">op</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">old_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/crash_recovery_manager.h" line="113" column="10" bodyfile="src/transaction/crash_recovery_manager.cpp" bodystart="216" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_crash_recovery_manager_1a731b25a7ce673efe91fbc58dbe68155f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::transaction::CrashRecoveryManager::logCommit</definition>
+        <argsstring>(uint64_t txn_id)</argsstring>
+        <name>logCommit</name>
+        <qualifiedname>themis::transaction::CrashRecoveryManager::logCommit</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>Log Commit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/crash_recovery_manager.h" line="123" column="10" bodyfile="src/transaction/crash_recovery_manager.cpp" bodystart="253" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_crash_recovery_manager_1a14fd6a682fcd2c00a36e7723b111d65d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::transaction::CrashRecoveryManager::logAbort</definition>
+        <argsstring>(uint64_t txn_id)</argsstring>
+        <name>logAbort</name>
+        <qualifiedname>themis::transaction::CrashRecoveryManager::logAbort</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>Log Abort. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/crash_recovery_manager.h" line="129" column="10" bodyfile="src/transaction/crash_recovery_manager.cpp" bodystart="272" bodyend="289"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_crash_recovery_manager_1afa09e3125f3e07a3cb1e469d9ebc2508" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::transaction::CrashRecoveryManager::needsRecovery</definition>
+        <argsstring>() const</argsstring>
+        <name>needsRecovery</name>
+        <qualifiedname>themis::transaction::CrashRecoveryManager::needsRecovery</qualifiedname>
+        <briefdescription>
+<para>Needs Recovery. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/crash_recovery_manager.h" line="136" column="10" bodyfile="src/transaction/crash_recovery_manager.cpp" bodystart="342" bodyend="352"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_crash_recovery_manager_1a14946ad3158eeeb2c9392ddd3574d113" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1transaction_1_1_crash_recovery_manager_1_1_recovery_result" kindref="compound">RecoveryResult</ref></type>
+        <definition>CrashRecoveryManager::RecoveryResult themis::transaction::CrashRecoveryManager::recover</definition>
+        <argsstring>(RocksDBWrapper &amp;db)</argsstring>
+        <name>recover</name>
+        <qualifiedname>themis::transaction::CrashRecoveryManager::recover</qualifiedname>
+        <param>
+          <type>RocksDBWrapper &amp;</type>
+          <declname>db</declname>
+        </param>
+        <briefdescription>
+<para>Recover. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+F. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">wal_path_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">binary</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/crash_recovery_manager.h" line="143" column="20" bodyfile="src/transaction/crash_recovery_manager.cpp" bodystart="355" bodyend="477"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_crash_recovery_manager_1a0390f174007b158f460338f46f5be721" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint64_t &gt;</type>
+        <definition>std::vector&lt; uint64_t &gt; themis::transaction::CrashRecoveryManager::getInFlightTransactionIds</definition>
+        <argsstring>() const</argsstring>
+        <name>getInFlightTransactionIds</name>
+        <qualifiedname>themis::transaction::CrashRecoveryManager::getInFlightTransactionIds</qualifiedname>
+        <briefdescription>
+<para>Get In Flight Transaction Ids. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/crash_recovery_manager.h" line="149" column="17" bodyfile="src/transaction/crash_recovery_manager.cpp" bodystart="480" bodyend="488"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_crash_recovery_manager_1a0ecabdd3f383fecd5935f58735624d66" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::transaction::CrashRecoveryManager::pruneLog</definition>
+        <argsstring>()</argsstring>
+        <name>pruneLog</name>
+        <qualifiedname>themis::transaction::CrashRecoveryManager::pruneLog</qualifiedname>
+        <briefdescription>
+<para>Prune Log. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(), scanInFlight(), f(), is_open(), std::getline(), deserialize(), push_back(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/crash_recovery_manager.h" line="156" column="12" bodyfile="src/transaction/crash_recovery_manager.cpp" bodystart="499" bodyend="544"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_crash_recovery_manager_1a1e0385947d56338d136342de3369cc75" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1transaction_1_1_crash_recovery_manager_1_1_recovery_metrics" kindref="compound">RecoveryMetrics</ref></type>
+        <definition>CrashRecoveryManager::RecoveryMetrics themis::transaction::CrashRecoveryManager::getMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>getMetrics</name>
+        <qualifiedname>themis::transaction::CrashRecoveryManager::getMetrics</qualifiedname>
+        <briefdescription>
+<para>Get Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/crash_recovery_manager.h" line="162" column="21" bodyfile="src/transaction/crash_recovery_manager.cpp" bodystart="551" bodyend="559"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_crash_recovery_manager_1a87f893e384f9340057d45b38619b3b93" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1transaction_1_1_crash_recovery_manager_1_1_log_entry" kindref="compound">LogEntry</ref> &gt;</type>
+        <definition>std::vector&lt; CrashRecoveryManager::LogEntry &gt; themis::transaction::CrashRecoveryManager::readAllEntries</definition>
+        <argsstring>() const</argsstring>
+        <name>readAllEntries</name>
+        <qualifiedname>themis::transaction::CrashRecoveryManager::readAllEntries</qualifiedname>
+        <briefdescription>
+<para>Read All Entries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+F. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">wal_path_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">binary</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/crash_recovery_manager.h" line="169" column="17" bodyfile="src/transaction/crash_recovery_manager.cpp" bodystart="562" bodyend="590"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_crash_recovery_manager_1a6874e87c98caebbe959d8de1df51c456" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::transaction::CrashRecoveryManager::pendingTransactionCount</definition>
+        <argsstring>() const</argsstring>
+        <name>pendingTransactionCount</name>
+        <qualifiedname>themis::transaction::CrashRecoveryManager::pendingTransactionCount</qualifiedname>
+        <briefdescription>
+<para>Pending Transaction Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/crash_recovery_manager.h" line="175" column="12" bodyfile="src/transaction/crash_recovery_manager.cpp" bodystart="592" bodyend="600"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_crash_recovery_manager_1af57c5fa3051820f9ddf8d89002c56eef" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::transaction::CrashRecoveryManager::appendLine</definition>
+        <argsstring>(const std::string &amp;json_line)</argsstring>
+        <name>appendLine</name>
+        <qualifiedname>themis::transaction::CrashRecoveryManager::appendLine</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>json_line</declname>
+        </param>
+        <briefdescription>
+<para>Append Line. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">json_line</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">json_line</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: f(), is_open(), THEMIS_WARN(), flush(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/crash_recovery_manager.h" line="203" column="10" bodyfile="src/transaction/crash_recovery_manager.cpp" bodystart="173" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_crash_recovery_manager_1ae10121fd12e406875e694b7821bfcff2" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unordered_set&lt; uint64_t &gt;</type>
+        <definition>std::unordered_set&lt; uint64_t &gt; themis::transaction::CrashRecoveryManager::scanInFlight</definition>
+        <argsstring>() const</argsstring>
+        <name>scanInFlight</name>
+        <qualifiedname>themis::transaction::CrashRecoveryManager::scanInFlight</qualifiedname>
+        <briefdescription>
+<para>Scan In Flight. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>F. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">wal_path_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">binary</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/crash_recovery_manager.h" line="209" column="24" bodyfile="src/transaction/crash_recovery_manager.cpp" bodystart="296" bodyend="340"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_crash_recovery_manager_1a3cc3bcd49f45ca9b48b1a49ea81e8be0" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::transaction::CrashRecoveryManager::serialize</definition>
+        <argsstring>(const LogEntry &amp;e)</argsstring>
+        <name>serialize</name>
+        <qualifiedname>themis::transaction::CrashRecoveryManager::serialize</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1transaction_1_1_crash_recovery_manager_1_1_log_entry" kindref="compound">LogEntry</ref> &amp;</type>
+          <declname>e</declname>
+        </param>
+        <briefdescription>
+<para>Serialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">e</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/crash_recovery_manager.h" line="216" column="24" bodyfile="src/transaction/crash_recovery_manager.cpp" bodystart="101" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_crash_recovery_manager_1a3570d80c6edf883dcc5f73c13ea5d8e2" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1transaction_1_1_crash_recovery_manager_1_1_log_entry" kindref="compound">LogEntry</ref> &gt;</type>
+        <definition>std::optional&lt; CrashRecoveryManager::LogEntry &gt; themis::transaction::CrashRecoveryManager::deserialize</definition>
+        <argsstring>(const std::string &amp;line)</argsstring>
+        <name>deserialize</name>
+        <qualifiedname>themis::transaction::CrashRecoveryManager::deserialize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>line</declname>
+        </param>
+        <briefdescription>
+<para>Deserialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">line</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/crash_recovery_manager.h" line="223" column="26" bodyfile="src/transaction/crash_recovery_manager.cpp" bodystart="122" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_crash_recovery_manager_1a2e3a1423e3e871b72fc3e88e9a5a22e7" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::transaction::CrashRecoveryManager::base64Encode</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>base64Encode</name>
+        <qualifiedname>themis::transaction::CrashRecoveryManager::base64Encode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Base64 Encode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/crash_recovery_manager.h" line="230" column="24" bodyfile="src/transaction/crash_recovery_manager.cpp" bodystart="43" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_crash_recovery_manager_1a7b4e0f04c8c0e4524272f4e8ae260b0a" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::transaction::CrashRecoveryManager::base64Decode</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>base64Decode</name>
+        <qualifiedname>themis::transaction::CrashRecoveryManager::base64Decode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Base64 Decode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/crash_recovery_manager.h" line="237" column="24" bodyfile="src/transaction/crash_recovery_manager.cpp" bodystart="68" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_crash_recovery_manager_1afff96e0e389cfd6ac88505d11024d86a" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::transaction::CrashRecoveryManager::nowMs</definition>
+        <argsstring>()</argsstring>
+        <name>nowMs</name>
+        <qualifiedname>themis::transaction::CrashRecoveryManager::nowMs</qualifiedname>
+        <briefdescription>
+<para>Now Ms. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/crash_recovery_manager.h" line="243" column="20" bodyfile="src/transaction/crash_recovery_manager.cpp" bodystart="34" bodyend="37"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/crash_recovery_manager.h" line="33" column="1" bodyfile="include/transaction/crash_recovery_manager.h" bodystart="33" bodyend="244"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1transaction_1_1_crash_recovery_manager_1a7c974f5117f80ee7adbab02a27677ee4" prot="private" virt="non-virtual"><scope>themis::transaction::CrashRecoveryManager</scope><name>aborted_ids_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_crash_recovery_manager_1af57c5fa3051820f9ddf8d89002c56eef" prot="private" virt="non-virtual"><scope>themis::transaction::CrashRecoveryManager</scope><name>appendLine</name></member>
+      <member refid="classthemis_1_1transaction_1_1_crash_recovery_manager_1a7b4e0f04c8c0e4524272f4e8ae260b0a" prot="private" virt="non-virtual"><scope>themis::transaction::CrashRecoveryManager</scope><name>base64Decode</name></member>
+      <member refid="classthemis_1_1transaction_1_1_crash_recovery_manager_1a2e3a1423e3e871b72fc3e88e9a5a22e7" prot="private" virt="non-virtual"><scope>themis::transaction::CrashRecoveryManager</scope><name>base64Encode</name></member>
+      <member refid="classthemis_1_1transaction_1_1_crash_recovery_manager_1a46d56c1f231c66098613a43d1667a08c" prot="private" virt="non-virtual"><scope>themis::transaction::CrashRecoveryManager</scope><name>committed_ids_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_crash_recovery_manager_1ac1339e395004198ea88728db9c06e20b" prot="public" virt="non-virtual"><scope>themis::transaction::CrashRecoveryManager</scope><name>CrashRecoveryManager</name></member>
+      <member refid="classthemis_1_1transaction_1_1_crash_recovery_manager_1a67313daa042e7ed309f2f71721fae826" prot="public" virt="non-virtual"><scope>themis::transaction::CrashRecoveryManager</scope><name>CrashRecoveryManager</name></member>
+      <member refid="classthemis_1_1transaction_1_1_crash_recovery_manager_1a3570d80c6edf883dcc5f73c13ea5d8e2" prot="private" virt="non-virtual"><scope>themis::transaction::CrashRecoveryManager</scope><name>deserialize</name></member>
+      <member refid="classthemis_1_1transaction_1_1_crash_recovery_manager_1a8b031ef64f0a6d7b217f0921b1ac1d71" prot="public" virt="non-virtual"><scope>themis::transaction::CrashRecoveryManager</scope><name>EntryType</name></member>
+      <member refid="classthemis_1_1transaction_1_1_crash_recovery_manager_1a0390f174007b158f460338f46f5be721" prot="public" virt="non-virtual"><scope>themis::transaction::CrashRecoveryManager</scope><name>getInFlightTransactionIds</name></member>
+      <member refid="classthemis_1_1transaction_1_1_crash_recovery_manager_1a1e0385947d56338d136342de3369cc75" prot="public" virt="non-virtual"><scope>themis::transaction::CrashRecoveryManager</scope><name>getMetrics</name></member>
+      <member refid="classthemis_1_1transaction_1_1_crash_recovery_manager_1a5353d0952df2d20bee729476b4a36890" prot="private" virt="non-virtual"><scope>themis::transaction::CrashRecoveryManager</scope><name>last_in_flight_ids_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_crash_recovery_manager_1a14fd6a682fcd2c00a36e7723b111d65d" prot="public" virt="non-virtual"><scope>themis::transaction::CrashRecoveryManager</scope><name>logAbort</name></member>
+      <member refid="classthemis_1_1transaction_1_1_crash_recovery_manager_1a597ccb6109d062869c55aca0830c59d7" prot="public" virt="non-virtual"><scope>themis::transaction::CrashRecoveryManager</scope><name>logBegin</name></member>
+      <member refid="classthemis_1_1transaction_1_1_crash_recovery_manager_1a731b25a7ce673efe91fbc58dbe68155f" prot="public" virt="non-virtual"><scope>themis::transaction::CrashRecoveryManager</scope><name>logCommit</name></member>
+      <member refid="classthemis_1_1transaction_1_1_crash_recovery_manager_1af257de3a34bc572f5cff6366a513f8a7" prot="public" virt="non-virtual"><scope>themis::transaction::CrashRecoveryManager</scope><name>logOperation</name></member>
+      <member refid="classthemis_1_1transaction_1_1_crash_recovery_manager_1aaa85d3b0ad6a2caa116726c1bfe50c8b" prot="private" virt="non-virtual"><scope>themis::transaction::CrashRecoveryManager</scope><name>metric_aborts_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_crash_recovery_manager_1a558e5b5ea3e711ec0aa1029f57b439d3" prot="private" virt="non-virtual"><scope>themis::transaction::CrashRecoveryManager</scope><name>metric_begins_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_crash_recovery_manager_1a045a786114f30f30630b807d0d59a5b2" prot="private" virt="non-virtual"><scope>themis::transaction::CrashRecoveryManager</scope><name>metric_commits_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_crash_recovery_manager_1ac8df88577e9ec4f213e2db29a37b2cda" prot="private" virt="non-virtual"><scope>themis::transaction::CrashRecoveryManager</scope><name>metric_ops_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_crash_recovery_manager_1abb3c28419690360a9b5e098ec886ffe8" prot="private" virt="non-virtual"><scope>themis::transaction::CrashRecoveryManager</scope><name>metric_prunes_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_crash_recovery_manager_1af905a5848533cb80ead2deca3646e76b" prot="private" virt="non-virtual"><scope>themis::transaction::CrashRecoveryManager</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_crash_recovery_manager_1afa09e3125f3e07a3cb1e469d9ebc2508" prot="public" virt="non-virtual"><scope>themis::transaction::CrashRecoveryManager</scope><name>needsRecovery</name></member>
+      <member refid="classthemis_1_1transaction_1_1_crash_recovery_manager_1afff96e0e389cfd6ac88505d11024d86a" prot="private" virt="non-virtual"><scope>themis::transaction::CrashRecoveryManager</scope><name>nowMs</name></member>
+      <member refid="classthemis_1_1transaction_1_1_crash_recovery_manager_1a221b329e872e856d0dcf2d11f5803408" prot="public" virt="non-virtual"><scope>themis::transaction::CrashRecoveryManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1transaction_1_1_crash_recovery_manager_1a041d18e32474288197406ab371adc3dd" prot="private" virt="non-virtual"><scope>themis::transaction::CrashRecoveryManager</scope><name>pending_ops_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_crash_recovery_manager_1a6874e87c98caebbe959d8de1df51c456" prot="public" virt="non-virtual"><scope>themis::transaction::CrashRecoveryManager</scope><name>pendingTransactionCount</name></member>
+      <member refid="classthemis_1_1transaction_1_1_crash_recovery_manager_1a0ecabdd3f383fecd5935f58735624d66" prot="public" virt="non-virtual"><scope>themis::transaction::CrashRecoveryManager</scope><name>pruneLog</name></member>
+      <member refid="classthemis_1_1transaction_1_1_crash_recovery_manager_1a87f893e384f9340057d45b38619b3b93" prot="public" virt="non-virtual"><scope>themis::transaction::CrashRecoveryManager</scope><name>readAllEntries</name></member>
+      <member refid="classthemis_1_1transaction_1_1_crash_recovery_manager_1a14946ad3158eeeb2c9392ddd3574d113" prot="public" virt="non-virtual"><scope>themis::transaction::CrashRecoveryManager</scope><name>recover</name></member>
+      <member refid="classthemis_1_1transaction_1_1_crash_recovery_manager_1ae10121fd12e406875e694b7821bfcff2" prot="private" virt="non-virtual"><scope>themis::transaction::CrashRecoveryManager</scope><name>scanInFlight</name></member>
+      <member refid="classthemis_1_1transaction_1_1_crash_recovery_manager_1a3cc3bcd49f45ca9b48b1a49ea81e8be0" prot="private" virt="non-virtual"><scope>themis::transaction::CrashRecoveryManager</scope><name>serialize</name></member>
+      <member refid="classthemis_1_1transaction_1_1_crash_recovery_manager_1a9470f05daa4d0fe54f92133d4b5bddc3" prot="private" virt="non-virtual"><scope>themis::transaction::CrashRecoveryManager</scope><name>sync_on_write_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_crash_recovery_manager_1abdea12a0370552481a90ed1f46771e00" prot="private" virt="non-virtual"><scope>themis::transaction::CrashRecoveryManager</scope><name>wal_path_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_crash_recovery_manager_1a00334170dc453baa9afc49955aa6ced4" prot="public" virt="non-virtual"><scope>themis::transaction::CrashRecoveryManager</scope><name>~CrashRecoveryManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

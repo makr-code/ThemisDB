@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_co_t_evaluator_test" kind="class" language="C++" prot="public">
+    <compoundname>CoTEvaluatorTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_co_t_evaluator_test_1a36959909d27824303aa1589fb8539304" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_co_t_evaluator_1_1_config" kindref="compound">CoTEvaluator::Config</ref></type>
+        <definition>CoTEvaluator::Config CoTEvaluatorTest::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>CoTEvaluatorTest::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase4.cpp" line="145" column="26" bodyfile="tests/rag/test_rag_judge_phase4.cpp" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_co_t_evaluator_test_1aa8259b156facb99e28627dd44bfcfc02" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;std::string, std::string&gt; &gt; CoTEvaluatorTest::sample_docs</definition>
+        <argsstring></argsstring>
+        <name>sample_docs</name>
+        <qualifiedname>CoTEvaluatorTest::sample_docs</qualifiedname>
+        <initializer>                        = {
+    {&quot;doc1&quot;, &quot;Machine learning is a subset of AI.&quot;},
+    {&quot;doc2&quot;, &quot;Deep learning uses neural networks.&quot;}
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase4.cpp" line="147" column="17" bodyfile="tests/rag/test_rag_judge_phase4.cpp" bodystart="147" bodyend="150"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>CoTEvaluatorTest</label>
+        <link refid="class_co_t_evaluator_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>CoTEvaluatorTest</label>
+        <link refid="class_co_t_evaluator_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::rag::judge::CoTEvaluator::Config</label>
+        <link refid="structthemis_1_1rag_1_1judge_1_1_co_t_evaluator_1_1_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/rag/test_rag_judge_phase4.cpp" line="143" column="1" bodyfile="tests/rag/test_rag_judge_phase4.cpp" bodystart="143" bodyend="151"/>
+    <listofallmembers>
+      <member refid="class_co_t_evaluator_test_1a36959909d27824303aa1589fb8539304" prot="protected" virt="non-virtual"><scope>CoTEvaluatorTest</scope><name>config</name></member>
+      <member refid="class_co_t_evaluator_test_1aa8259b156facb99e28627dd44bfcfc02" prot="protected" virt="non-virtual"><scope>CoTEvaluatorTest</scope><name>sample_docs</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

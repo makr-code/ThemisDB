@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_embedding_cache_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::EmbeddingCache::Config</compoundname>
+    <includes refid="embedding__cache_8h" local="no">embedding_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_embedding_cache_1_1_config_1ab528bd1fa60f802f07774abbc367cbbd" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::EmbeddingCache::Config::max_entries</definition>
+        <argsstring></argsstring>
+        <name>max_entries</name>
+        <qualifiedname>themis::EmbeddingCache::Config::max_entries</qualifiedname>
+        <initializer>= 100000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/embedding_cache.h" line="29" column="16" bodyfile="include/cache/embedding_cache.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_embedding_cache_1_1_config_1af78f52209a2ea4b1d17d3cb985e77755" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::EmbeddingCache::Config::ttl_seconds</definition>
+        <argsstring></argsstring>
+        <name>ttl_seconds</name>
+        <qualifiedname>themis::EmbeddingCache::Config::ttl_seconds</qualifiedname>
+        <initializer>= 3600</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/embedding_cache.h" line="30" column="13" bodyfile="include/cache/embedding_cache.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_embedding_cache_1_1_config_1aad9ec02a8321b036c4acfd3f812bb2a5" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::EmbeddingCache::Config::similarity_threshold</definition>
+        <argsstring></argsstring>
+        <name>similarity_threshold</name>
+        <qualifiedname>themis::EmbeddingCache::Config::similarity_threshold</qualifiedname>
+        <initializer>= 0.95f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/embedding_cache.h" line="31" column="15" bodyfile="include/cache/embedding_cache.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_embedding_cache_1_1_config_1aec75a997913a2a762fe4c82dc443b658" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::EmbeddingCache::Config::embedding_dim</definition>
+        <argsstring></argsstring>
+        <name>embedding_dim</name>
+        <qualifiedname>themis::EmbeddingCache::Config::embedding_dim</qualifiedname>
+        <initializer>= 1536</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/embedding_cache.h" line="32" column="16" bodyfile="include/cache/embedding_cache.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_embedding_cache_1_1_config_1a05c8eaeaa9bcc9178a8fa131910feea5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::EmbeddingCache::Config::use_vector_index</definition>
+        <argsstring></argsstring>
+        <name>use_vector_index</name>
+        <qualifiedname>themis::EmbeddingCache::Config::use_vector_index</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/embedding_cache.h" line="33" column="14" bodyfile="include/cache/embedding_cache.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_embedding_cache_1_1_config_1a816020fa6c966cc5498c6014edd84c96" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::EmbeddingCache::Config::cache_dir</definition>
+        <argsstring></argsstring>
+        <name>cache_dir</name>
+        <qualifiedname>themis::EmbeddingCache::Config::cache_dir</qualifiedname>
+        <initializer>= &quot;/tmp/themis_embedding_cache&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/embedding_cache.h" line="34" column="21" bodyfile="include/cache/embedding_cache.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/embedding_cache.h" line="28" column="5" bodyfile="include/cache/embedding_cache.h" bodystart="28" bodyend="35"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_embedding_cache_1_1_config_1a816020fa6c966cc5498c6014edd84c96" prot="public" virt="non-virtual"><scope>themis::EmbeddingCache::Config</scope><name>cache_dir</name></member>
+      <member refid="structthemis_1_1_embedding_cache_1_1_config_1aec75a997913a2a762fe4c82dc443b658" prot="public" virt="non-virtual"><scope>themis::EmbeddingCache::Config</scope><name>embedding_dim</name></member>
+      <member refid="structthemis_1_1_embedding_cache_1_1_config_1ab528bd1fa60f802f07774abbc367cbbd" prot="public" virt="non-virtual"><scope>themis::EmbeddingCache::Config</scope><name>max_entries</name></member>
+      <member refid="structthemis_1_1_embedding_cache_1_1_config_1aad9ec02a8321b036c4acfd3f812bb2a5" prot="public" virt="non-virtual"><scope>themis::EmbeddingCache::Config</scope><name>similarity_threshold</name></member>
+      <member refid="structthemis_1_1_embedding_cache_1_1_config_1af78f52209a2ea4b1d17d3cb985e77755" prot="public" virt="non-virtual"><scope>themis::EmbeddingCache::Config</scope><name>ttl_seconds</name></member>
+      <member refid="structthemis_1_1_embedding_cache_1_1_config_1a05c8eaeaa9bcc9178a8fa131910feea5" prot="public" virt="non-virtual"><scope>themis::EmbeddingCache::Config</scope><name>use_vector_index</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

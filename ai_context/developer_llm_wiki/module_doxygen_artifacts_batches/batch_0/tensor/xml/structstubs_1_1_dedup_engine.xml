@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structstubs_1_1_dedup_engine" kind="struct" language="C++" prot="public">
+    <compoundname>stubs::DedupEngine</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structstubs_1_1_dedup_engine_1a4a4392e8a796738af1f693c4c964f767" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; stubs::DedupEngine::ops</definition>
+        <argsstring></argsstring>
+        <name>ops</name>
+        <qualifiedname>stubs::DedupEngine::ops</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_dedicated_gates.cpp" line="43" column="17" bodyfile="benchmarks/tensor/bench_tensor_dedicated_gates.cpp" bodystart="43" bodyend="43"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structstubs_1_1_dedup_engine_1a4ca13017b6cccf4a006a940411df4fe4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool stubs::DedupEngine::dedup</definition>
+        <argsstring>(uint64_t fp)</argsstring>
+        <name>dedup</name>
+        <qualifiedname>stubs::DedupEngine::dedup</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>fp</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_dedicated_gates.cpp" line="44" column="10" bodyfile="benchmarks/tensor/bench_tensor_dedicated_gates.cpp" bodystart="44" bodyend="48"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/tensor/bench_tensor_dedicated_gates.cpp" line="42" column="1" bodyfile="benchmarks/tensor/bench_tensor_dedicated_gates.cpp" bodystart="42" bodyend="49"/>
+    <listofallmembers>
+      <member refid="structstubs_1_1_dedup_engine_1a4ca13017b6cccf4a006a940411df4fe4" prot="public" virt="non-virtual"><scope>stubs::DedupEngine</scope><name>dedup</name></member>
+      <member refid="structstubs_1_1_dedup_engine_1a4a4392e8a796738af1f693c4c964f767" prot="public" virt="non-virtual"><scope>stubs::DedupEngine</scope><name>ops</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

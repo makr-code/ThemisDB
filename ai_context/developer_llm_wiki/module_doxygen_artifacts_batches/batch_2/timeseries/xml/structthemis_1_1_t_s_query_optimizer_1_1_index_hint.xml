@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_t_s_query_optimizer_1_1_index_hint" kind="struct" language="C++" prot="public">
+    <compoundname>themis::TSQueryOptimizer::IndexHint</compoundname>
+    <includes refid="query__optimizer_8h" local="no">query_optimizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_t_s_query_optimizer_1_1_index_hint_1acb9b03fc47c46c0baa71490742fb6fc0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::TSQueryOptimizer::IndexHint::metric</definition>
+        <argsstring></argsstring>
+        <name>metric</name>
+        <qualifiedname>themis::TSQueryOptimizer::IndexHint::metric</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/query_optimizer.h" line="256" column="21" bodyfile="include/timeseries/query_optimizer.h" bodystart="256" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_query_optimizer_1_1_index_hint_1acf80a8dc00f9815138a15bafc7e152a8" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_t_s_query_optimizer_1af70a488c9f526ff6c600a554d58905e2" kindref="member">IndexType</ref></type>
+        <definition>IndexType themis::TSQueryOptimizer::IndexHint::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::TSQueryOptimizer::IndexHint::type</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1_t_s_query_optimizer_1af70a488c9f526ff6c600a554d58905e2a6adf97f83acf6453d4a6a4b1070f3754" kindref="member">IndexType::None</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/query_optimizer.h" line="257" column="21" bodyfile="include/timeseries/query_optimizer.h" bodystart="257" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_query_optimizer_1_1_index_hint_1ab3a29a6dd09379a06c7b6e644d77515c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::TSQueryOptimizer::IndexHint::selectivity</definition>
+        <argsstring></argsstring>
+        <name>selectivity</name>
+        <qualifiedname>themis::TSQueryOptimizer::IndexHint::selectivity</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+<para>Estimated fraction of rows selected (0.0 – 1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/query_optimizer.h" line="258" column="21" bodyfile="include/timeseries/query_optimizer.h" bodystart="258" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/timeseries/query_optimizer.h" line="255" column="5" bodyfile="include/timeseries/query_optimizer.h" bodystart="255" bodyend="259"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_t_s_query_optimizer_1_1_index_hint_1acb9b03fc47c46c0baa71490742fb6fc0" prot="public" virt="non-virtual"><scope>themis::TSQueryOptimizer::IndexHint</scope><name>metric</name></member>
+      <member refid="structthemis_1_1_t_s_query_optimizer_1_1_index_hint_1ab3a29a6dd09379a06c7b6e644d77515c" prot="public" virt="non-virtual"><scope>themis::TSQueryOptimizer::IndexHint</scope><name>selectivity</name></member>
+      <member refid="structthemis_1_1_t_s_query_optimizer_1_1_index_hint_1acf80a8dc00f9815138a15bafc7e152a8" prot="public" virt="non-virtual"><scope>themis::TSQueryOptimizer::IndexHint</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_s_s_l_deleter" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::SSLDeleter</compoundname>
+    <includes refid="mtls__connection__factory_8h" local="no">mtls_connection_factory.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_s_s_l_deleter_1aa0b2521d18035cc8f7c9bd4e2a477ac0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::SSLDeleter::operator()</definition>
+        <argsstring>(SSL *ptr) const</argsstring>
+        <name>operator()</name>
+        <qualifiedname>themis::sharding::SSLDeleter::operator()</qualifiedname>
+        <param>
+          <type><ref refid="mtls__connection__factory_8h_1a71f21e09bf365489dab9d85bd4785e24" kindref="member">SSL</ref> *</type>
+          <declname>ptr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_factory.h" line="38" column="10" bodyfile="src/sharding/mtls_connection_factory.cpp" bodystart="85" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_s_s_l_deleter_1aa0b2521d18035cc8f7c9bd4e2a477ac0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::SSLDeleter::operator()</definition>
+        <argsstring>(SSL *ptr) const</argsstring>
+        <name>operator()</name>
+        <qualifiedname>themis::sharding::SSLDeleter::operator()</qualifiedname>
+        <param>
+          <type><ref refid="mtls__connection__factory_8h_1a71f21e09bf365489dab9d85bd4785e24" kindref="member">SSL</ref> *</type>
+          <declname>ptr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_pool.h" line="35" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Custom deleter for OpenSSL <ref refid="mtls__connection__factory_8h_1a71f21e09bf365489dab9d85bd4785e24" kindref="member">SSL</ref> connection objects. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Used with <computeroutput>std::unique_ptr&lt;<ref refid="mtls__connection__factory_8h_1a71f21e09bf365489dab9d85bd4785e24" kindref="member">SSL</ref>, <ref refid="structthemis_1_1sharding_1_1_s_s_l_deleter" kindref="compound">SSLDeleter</ref>&gt;</computeroutput> to ensure <computeroutput>SSL_free()</computeroutput> is called when the pointer goes out of scope. <computeroutput>SSL_free()</computeroutput> also releases the underlying BIO (and thus the socket file descriptor / SOCKET handle) when <computeroutput>BIO_CLOSE</computeroutput> was specified during BIO creation. </para>
+    </detaileddescription>
+    <location file="include/sharding/mtls_connection_factory.h" line="37" column="1" bodyfile="include/sharding/mtls_connection_factory.h" bodystart="37" bodyend="39"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_s_s_l_deleter_1aa0b2521d18035cc8f7c9bd4e2a477ac0" prot="public" virt="non-virtual"><scope>themis::sharding::SSLDeleter</scope><name>operator()</name></member>
+      <member refid="structthemis_1_1sharding_1_1_s_s_l_deleter_1aa0b2521d18035cc8f7c9bd4e2a477ac0" prot="public" virt="non-virtual"><scope>themis::sharding::SSLDeleter</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,413 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1graphql_1_1_schema" kind="class" language="C++" prot="public">
+    <compoundname>themis::graphql::Schema</compoundname>
+    <includes refid="graphql_8h" local="no">graphql.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1graphql_1_1_schema_1af1aea4b35d32ee83a4122465a3b220fb" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1graphql_1_1_type_definition" kindref="compound">TypeDefinition</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, TypeDefinition&gt; themis::graphql::Schema::types_</definition>
+        <argsstring></argsstring>
+        <name>types_</name>
+        <qualifiedname>themis::graphql::Schema::types_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="719" column="24" bodyfile="include/api/graphql.h" bodystart="719" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graphql_1_1_schema_1a6ca3e9de39832c84472730751d04907f" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graphql::Schema::query_type_</definition>
+        <argsstring></argsstring>
+        <name>query_type_</name>
+        <qualifiedname>themis::graphql::Schema::query_type_</qualifiedname>
+        <initializer>= &quot;Query&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="720" column="17" bodyfile="include/api/graphql.h" bodystart="720" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graphql_1_1_schema_1a91293c6e4720b104f22c48ba315a646b" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graphql::Schema::mutation_type_</definition>
+        <argsstring></argsstring>
+        <name>mutation_type_</name>
+        <qualifiedname>themis::graphql::Schema::mutation_type_</qualifiedname>
+        <initializer>= &quot;Mutation&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="721" column="17" bodyfile="include/api/graphql.h" bodystart="721" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graphql_1_1_schema_1a7406742b7e429b0c88cd8600539e1cfa" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graphql::Schema::subscription_type_</definition>
+        <argsstring></argsstring>
+        <name>subscription_type_</name>
+        <qualifiedname>themis::graphql::Schema::subscription_type_</qualifiedname>
+        <initializer>= &quot;Subscription&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="722" column="17" bodyfile="include/api/graphql.h" bodystart="722" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graphql_1_1_schema_1a7d6180303ea61b673239188ff074f16b" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::graphql::Schema::introspection_enabled_</definition>
+        <argsstring></argsstring>
+        <name>introspection_enabled_</name>
+        <qualifiedname>themis::graphql::Schema::introspection_enabled_</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="723" column="10" bodyfile="include/api/graphql.h" bodystart="723" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_schema_1a5fd6258386d217ddb415c465d7c357ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graphql::Schema::Schema</definition>
+        <argsstring>()</argsstring>
+        <name>Schema</name>
+        <qualifiedname>themis::graphql::Schema::Schema</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="659" column="5" bodyfile="src/api/graphql.cpp" bodystart="1040" bodyend="1071"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_schema_1af74fe74bca54850777eb8784b220f5e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graphql::Schema::addType</definition>
+        <argsstring>(TypeDefinition type)</argsstring>
+        <name>addType</name>
+        <qualifiedname>themis::graphql::Schema::addType</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1graphql_1_1_type_definition" kindref="compound">TypeDefinition</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Add Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="665" column="10" bodyfile="src/api/graphql.cpp" bodystart="1078" bodyend="1080"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_schema_1ac0e37039f2805dc2017224a8a17ad18a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1graphql_1_1_type_definition" kindref="compound">TypeDefinition</ref> *</type>
+        <definition>const TypeDefinition * themis::graphql::Schema::getType</definition>
+        <argsstring>(std::string_view name) const</argsstring>
+        <name>getType</name>
+        <qualifiedname>themis::graphql::Schema::getType</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Get Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="671" column="26" bodyfile="src/api/graphql.cpp" bodystart="1082" bodyend="1085"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_schema_1a347b14989a0072a3e2cfd835a0f5bdf1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graphql::Schema::setQueryType</definition>
+        <argsstring>(std::string_view name)</argsstring>
+        <name>setQueryType</name>
+        <qualifiedname>themis::graphql::Schema::setQueryType</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Set Query Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setQueryType without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="678" column="10" bodyfile="include/api/graphql.h" bodystart="678" bodyend="678"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_schema_1a6ba85e901522247af76e2cb52d2ee5ec" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graphql::Schema::setMutationType</definition>
+        <argsstring>(std::string_view name)</argsstring>
+        <name>setMutationType</name>
+        <qualifiedname>themis::graphql::Schema::setMutationType</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Set Mutation Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setMutationType without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="684" column="10" bodyfile="include/api/graphql.h" bodystart="684" bodyend="684"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_schema_1a6d76322c3e9a5c254773170c73333544" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graphql::Schema::setSubscriptionType</definition>
+        <argsstring>(std::string_view name)</argsstring>
+        <name>setSubscriptionType</name>
+        <qualifiedname>themis::graphql::Schema::setSubscriptionType</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Set Subscription Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setSubscriptionType without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="690" column="10" bodyfile="include/api/graphql.h" bodystart="690" bodyend="690"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_schema_1abd55b1d2aabf86dfa34884c384d2a128" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::graphql::Schema::queryType</definition>
+        <argsstring>() const</argsstring>
+        <name>queryType</name>
+        <qualifiedname>themis::graphql::Schema::queryType</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="692" column="23" bodyfile="include/api/graphql.h" bodystart="692" bodyend="692"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_schema_1ac178d96aa108ab22fd40782d806a9c4f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::graphql::Schema::mutationType</definition>
+        <argsstring>() const</argsstring>
+        <name>mutationType</name>
+        <qualifiedname>themis::graphql::Schema::mutationType</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="693" column="23" bodyfile="include/api/graphql.h" bodystart="693" bodyend="693"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_schema_1a8adcbe3f95a2684aef9fbb8b3bcf075d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::graphql::Schema::subscriptionType</definition>
+        <argsstring>() const</argsstring>
+        <name>subscriptionType</name>
+        <qualifiedname>themis::graphql::Schema::subscriptionType</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="694" column="23" bodyfile="include/api/graphql.h" bodystart="694" bodyend="694"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_schema_1a93914db4b76bf5a09427e6ecadd896a3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graphql::Schema::setIntrospectionEnabled</definition>
+        <argsstring>(bool enabled)</argsstring>
+        <name>setIntrospectionEnabled</name>
+        <qualifiedname>themis::graphql::Schema::setIntrospectionEnabled</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+        </param>
+        <briefdescription>
+<para>Set Introspection Enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">enabled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setIntrospectionEnabled without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="702" column="10" bodyfile="include/api/graphql.h" bodystart="702" bodyend="702"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_schema_1a8313e86d6c4d2095ef246d74e85f762b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graphql::Schema::isIntrospectionEnabled</definition>
+        <argsstring>() const</argsstring>
+        <name>isIntrospectionEnabled</name>
+        <qualifiedname>themis::graphql::Schema::isIntrospectionEnabled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="703" column="10" bodyfile="include/api/graphql.h" bodystart="703" bodyend="703"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_schema_1a948e0a4da99613424b658a9fcfbfa3c9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::graphql::Schema::toSDL</definition>
+        <argsstring>() const</argsstring>
+        <name>toSDL</name>
+        <qualifiedname>themis::graphql::Schema::toSDL</qualifiedname>
+        <briefdescription>
+<para>Generate SDL (<ref refid="classthemis_1_1graphql_1_1_schema" kindref="compound">Schema</ref> Definition Language). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="709" column="17" bodyfile="src/api/graphql.cpp" bodystart="1087" bodyend="1212"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_schema_1ac120916bf5cfaa658bffc5359f692d2d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1graphql_1_1_value" kindref="compound">Value</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; Value &gt; themis::graphql::Schema::introspect</definition>
+        <argsstring>(const Field &amp;field) const</argsstring>
+        <name>introspect</name>
+        <qualifiedname>themis::graphql::Schema::introspect</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1graphql_1_1_field" kindref="compound">Field</ref> &amp;</type>
+          <declname>field</declname>
+        </param>
+        <briefdescription>
+<para>Introspection support (respects introspection policy). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">field</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="716" column="21" bodyfile="src/api/graphql.cpp" bodystart="1214" bodyend="1341"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/graphql.h" line="657" column="1" bodyfile="include/api/graphql.h" bodystart="657" bodyend="724"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1graphql_1_1_schema_1af74fe74bca54850777eb8784b220f5e2" prot="public" virt="non-virtual"><scope>themis::graphql::Schema</scope><name>addType</name></member>
+      <member refid="classthemis_1_1graphql_1_1_schema_1ac0e37039f2805dc2017224a8a17ad18a" prot="public" virt="non-virtual"><scope>themis::graphql::Schema</scope><name>getType</name></member>
+      <member refid="classthemis_1_1graphql_1_1_schema_1ac120916bf5cfaa658bffc5359f692d2d" prot="public" virt="non-virtual"><scope>themis::graphql::Schema</scope><name>introspect</name></member>
+      <member refid="classthemis_1_1graphql_1_1_schema_1a7d6180303ea61b673239188ff074f16b" prot="private" virt="non-virtual"><scope>themis::graphql::Schema</scope><name>introspection_enabled_</name></member>
+      <member refid="classthemis_1_1graphql_1_1_schema_1a8313e86d6c4d2095ef246d74e85f762b" prot="public" virt="non-virtual"><scope>themis::graphql::Schema</scope><name>isIntrospectionEnabled</name></member>
+      <member refid="classthemis_1_1graphql_1_1_schema_1a91293c6e4720b104f22c48ba315a646b" prot="private" virt="non-virtual"><scope>themis::graphql::Schema</scope><name>mutation_type_</name></member>
+      <member refid="classthemis_1_1graphql_1_1_schema_1ac178d96aa108ab22fd40782d806a9c4f" prot="public" virt="non-virtual"><scope>themis::graphql::Schema</scope><name>mutationType</name></member>
+      <member refid="classthemis_1_1graphql_1_1_schema_1a6ca3e9de39832c84472730751d04907f" prot="private" virt="non-virtual"><scope>themis::graphql::Schema</scope><name>query_type_</name></member>
+      <member refid="classthemis_1_1graphql_1_1_schema_1abd55b1d2aabf86dfa34884c384d2a128" prot="public" virt="non-virtual"><scope>themis::graphql::Schema</scope><name>queryType</name></member>
+      <member refid="classthemis_1_1graphql_1_1_schema_1a5fd6258386d217ddb415c465d7c357ee" prot="public" virt="non-virtual"><scope>themis::graphql::Schema</scope><name>Schema</name></member>
+      <member refid="classthemis_1_1graphql_1_1_schema_1a93914db4b76bf5a09427e6ecadd896a3" prot="public" virt="non-virtual"><scope>themis::graphql::Schema</scope><name>setIntrospectionEnabled</name></member>
+      <member refid="classthemis_1_1graphql_1_1_schema_1a6ba85e901522247af76e2cb52d2ee5ec" prot="public" virt="non-virtual"><scope>themis::graphql::Schema</scope><name>setMutationType</name></member>
+      <member refid="classthemis_1_1graphql_1_1_schema_1a347b14989a0072a3e2cfd835a0f5bdf1" prot="public" virt="non-virtual"><scope>themis::graphql::Schema</scope><name>setQueryType</name></member>
+      <member refid="classthemis_1_1graphql_1_1_schema_1a6d76322c3e9a5c254773170c73333544" prot="public" virt="non-virtual"><scope>themis::graphql::Schema</scope><name>setSubscriptionType</name></member>
+      <member refid="classthemis_1_1graphql_1_1_schema_1a7406742b7e429b0c88cd8600539e1cfa" prot="private" virt="non-virtual"><scope>themis::graphql::Schema</scope><name>subscription_type_</name></member>
+      <member refid="classthemis_1_1graphql_1_1_schema_1a8adcbe3f95a2684aef9fbb8b3bcf075d" prot="public" virt="non-virtual"><scope>themis::graphql::Schema</scope><name>subscriptionType</name></member>
+      <member refid="classthemis_1_1graphql_1_1_schema_1a948e0a4da99613424b658a9fcfbfa3c9" prot="public" virt="non-virtual"><scope>themis::graphql::Schema</scope><name>toSDL</name></member>
+      <member refid="classthemis_1_1graphql_1_1_schema_1af1aea4b35d32ee83a4122465a3b220fb" prot="private" virt="non-virtual"><scope>themis::graphql::Schema</scope><name>types_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

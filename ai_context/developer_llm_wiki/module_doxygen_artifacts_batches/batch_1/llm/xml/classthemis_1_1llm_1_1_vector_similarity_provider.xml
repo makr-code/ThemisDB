@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_vector_similarity_provider" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::llm::VectorSimilarityProvider</compoundname>
+    <includes refid="multi__model__training__data_8h" local="no">multi_model_training_data.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_vector_similarity_provider_1a102e570bd57f95400d801db60866f2ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::VectorSimilarityProvider::~VectorSimilarityProvider</definition>
+        <argsstring>()=default</argsstring>
+        <name>~VectorSimilarityProvider</name>
+        <qualifiedname>themis::llm::VectorSimilarityProvider::~VectorSimilarityProvider</qualifiedname>
+        <briefdescription>
+<para>Vector Similarity Provider. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_model_training_data.h" line="285" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_vector_similarity_provider_1a2a33af57e550fc440c677001a7d24c50" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_vector_similarity" kindref="compound">VectorSimilarity</ref></type>
+        <definition>virtual VectorSimilarity themis::llm::VectorSimilarityProvider::findSimilar</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;query_embedding, float threshold, int top_k)=0</argsstring>
+        <name>findSimilar</name>
+        <qualifiedname>themis::llm::VectorSimilarityProvider::findSimilar</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>query_embedding</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>threshold</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>top_k</declname>
+        </param>
+        <briefdescription>
+<para>Find Similar. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_embedding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">top_k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_model_training_data.h" line="294" column="30"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/multi_model_training_data.h" line="279" column="1" bodyfile="include/llm/multi_model_training_data.h" bodystart="279" bodyend="299"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_vector_similarity_provider_1a2a33af57e550fc440c677001a7d24c50" prot="public" virt="pure-virtual"><scope>themis::llm::VectorSimilarityProvider</scope><name>findSimilar</name></member>
+      <member refid="classthemis_1_1llm_1_1_vector_similarity_provider_1a102e570bd57f95400d801db60866f2ae" prot="public" virt="virtual"><scope>themis::llm::VectorSimilarityProvider</scope><name>~VectorSimilarityProvider</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

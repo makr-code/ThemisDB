@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1temporal_1_1_bi_temporal_join_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::temporal::BiTemporalJoin::Config</compoundname>
+    <includes refid="bitemporal__join_8h" local="no">bitemporal_join.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_bi_temporal_join_1_1_config_1a9c8f79bf9ecc17b90b2efccc3fead1e4" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1temporal_1_1_bi_temporal_join_1a9df7ecf5e6fdbc86722393ffd5c12bb3" kindref="member">JoinMode</ref></type>
+        <definition>JoinMode themisdb::temporal::BiTemporalJoin::Config::mode</definition>
+        <argsstring></argsstring>
+        <name>mode</name>
+        <qualifiedname>themisdb::temporal::BiTemporalJoin::Config::mode</qualifiedname>
+        <initializer>= <ref refid="classthemisdb_1_1temporal_1_1_bi_temporal_join_1a9df7ecf5e6fdbc86722393ffd5c12bb3acccfe17114c661dae430f95367cfc2b4" kindref="member">JoinMode::SEQUENCED</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/bitemporal_join.h" line="92" column="18" bodyfile="include/temporal/bitemporal_join.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_bi_temporal_join_1_1_config_1ac7a391ed91caf58f9f644d134da8f6a8" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+        <definition>Timestamp themisdb::temporal::BiTemporalJoin::Config::as_of</definition>
+        <argsstring></argsstring>
+        <name>as_of</name>
+        <qualifiedname>themisdb::temporal::BiTemporalJoin::Config::as_of</qualifiedname>
+        <initializer>= kMaxTimestamp</initializer>
+        <briefdescription>
+<para>For CURRENT and SNAPSHOT modes: the reference point-in-time. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>kMaxTimestamp = &quot;now&quot; </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/bitemporal_join.h" line="95" column="19" bodyfile="include/temporal/bitemporal_join.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_bi_temporal_join_1_1_config_1aaae2463fb3f274d34789046f6e2de05b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::temporal::BiTemporalJoin::Config::apply_sys_time_predicate</definition>
+        <argsstring></argsstring>
+        <name>apply_sys_time_predicate</name>
+        <qualifiedname>themisdb::temporal::BiTemporalJoin::Config::apply_sys_time_predicate</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>For SNAPSHOT mode: constrain system-time as well as valid-time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/bitemporal_join.h" line="98" column="14" bodyfile="include/temporal/bitemporal_join.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_bi_temporal_join_1_1_config_1aa2a466bf64550440f1edf700c930e970" prot="public" static="no" mutable="no">
+        <type>std::function&lt; std::string(const <ref refid="structthemisdb_1_1temporal_1_1_bi_temporal_row" kindref="compound">BiTemporalRow</ref> &amp;)&gt;</type>
+        <definition>std::function&lt;std::string(const BiTemporalRow&amp;)&gt; themisdb::temporal::BiTemporalJoin::Config::left_key_fn</definition>
+        <argsstring></argsstring>
+        <name>left_key_fn</name>
+        <qualifiedname>themisdb::temporal::BiTemporalJoin::Config::left_key_fn</qualifiedname>
+        <briefdescription>
+<para>Key extractor for the left table (default: use <ref refid="structthemisdb_1_1temporal_1_1_bi_temporal_row_1a1cb0b2de0c98bd61fdee62a55029cd0c" kindref="member">BiTemporalRow::key</ref>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/bitemporal_join.h" line="101" column="23" bodyfile="include/temporal/bitemporal_join.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_bi_temporal_join_1_1_config_1a0dec04da6cb4af5c44606d050f0a37ab" prot="public" static="no" mutable="no">
+        <type>std::function&lt; std::string(const <ref refid="structthemisdb_1_1temporal_1_1_bi_temporal_row" kindref="compound">BiTemporalRow</ref> &amp;)&gt;</type>
+        <definition>std::function&lt;std::string(const BiTemporalRow&amp;)&gt; themisdb::temporal::BiTemporalJoin::Config::right_key_fn</definition>
+        <argsstring></argsstring>
+        <name>right_key_fn</name>
+        <qualifiedname>themisdb::temporal::BiTemporalJoin::Config::right_key_fn</qualifiedname>
+        <briefdescription>
+<para>Key extractor for the right table (default: use <ref refid="structthemisdb_1_1temporal_1_1_bi_temporal_row_1a1cb0b2de0c98bd61fdee62a55029cd0c" kindref="member">BiTemporalRow::key</ref>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/bitemporal_join.h" line="103" column="23" bodyfile="include/temporal/bitemporal_join.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for the join operator. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/temporal/bitemporal_join.h" line="91" column="5" bodyfile="include/temporal/bitemporal_join.h" bodystart="91" bodyend="104"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1temporal_1_1_bi_temporal_join_1_1_config_1aaae2463fb3f274d34789046f6e2de05b" prot="public" virt="non-virtual"><scope>themisdb::temporal::BiTemporalJoin::Config</scope><name>apply_sys_time_predicate</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_bi_temporal_join_1_1_config_1ac7a391ed91caf58f9f644d134da8f6a8" prot="public" virt="non-virtual"><scope>themisdb::temporal::BiTemporalJoin::Config</scope><name>as_of</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_bi_temporal_join_1_1_config_1aa2a466bf64550440f1edf700c930e970" prot="public" virt="non-virtual"><scope>themisdb::temporal::BiTemporalJoin::Config</scope><name>left_key_fn</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_bi_temporal_join_1_1_config_1a9c8f79bf9ecc17b90b2efccc3fead1e4" prot="public" virt="non-virtual"><scope>themisdb::temporal::BiTemporalJoin::Config</scope><name>mode</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_bi_temporal_join_1_1_config_1a0dec04da6cb4af5c44606d050f0a37ab" prot="public" virt="non-virtual"><scope>themisdb::temporal::BiTemporalJoin::Config</scope><name>right_key_fn</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,419 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_cdn_cache_middleware" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::CdnCacheMiddleware</compoundname>
+    <includes refid="cdn__cache__middleware_8h" local="no">cdn_cache_middleware.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_cdn_cache_middleware_1aadbaf9f8f4c5eefabc2432a51ddbc18d" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1server_1_1_cdn_route_policy" kindref="compound">CdnRoutePolicy</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, CdnRoutePolicy&gt; themis::server::CdnCacheMiddleware::policies_</definition>
+        <argsstring></argsstring>
+        <name>policies_</name>
+        <qualifiedname>themis::server::CdnCacheMiddleware::policies_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cdn_cache_middleware.h" line="103" column="24" bodyfile="include/server/cdn_cache_middleware.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_cdn_cache_middleware_1ae83a5bc22da235b56380bcef60fa6302" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::CdnCacheMiddleware::CdnCacheMiddleware</definition>
+        <argsstring>()=default</argsstring>
+        <name>CdnCacheMiddleware</name>
+        <qualifiedname>themis::server::CdnCacheMiddleware::CdnCacheMiddleware</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cdn_cache_middleware.h" line="56" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_cdn_cache_middleware_1a17a83afcf0962e4462150c2ddb04690a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::CdnCacheMiddleware::registerPolicy</definition>
+        <argsstring>(const std::string &amp;path_prefix, const CdnRoutePolicy &amp;policy)</argsstring>
+        <name>registerPolicy</name>
+        <qualifiedname>themis::server::CdnCacheMiddleware::registerPolicy</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path_prefix</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_cdn_route_policy" kindref="compound">CdnRoutePolicy</ref> &amp;</type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+<para>Register a retention policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path_prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Retention policy definition to store. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cdn_cache_middleware.h" line="64" column="10" bodyfile="src/server/cdn_cache_middleware.cpp" bodystart="36" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_cdn_cache_middleware_1a451fc7f0ddfa01f7a7d023404dd2e4a7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::CdnCacheMiddleware::apply</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, http::response&lt; http::string_body &gt; &amp;res) const</argsstring>
+        <name>apply</name>
+        <qualifiedname>themis::server::CdnCacheMiddleware::apply</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>http::response&lt; http::string_body &gt; &amp;</type>
+          <declname>res</declname>
+        </param>
+        <briefdescription>
+<para>Apply. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cdn_cache_middleware.h" line="72" column="10" bodyfile="src/server/cdn_cache_middleware.cpp" bodystart="171" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_cdn_cache_middleware_1a80f7d7c0bff5430d167eabad31eb44fa" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::CdnCacheMiddleware::checkConditional</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const http::response&lt; http::string_body &gt; &amp;res) const</argsstring>
+        <name>checkConditional</name>
+        <qualifiedname>themis::server::CdnCacheMiddleware::checkConditional</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const http::response&lt; http::string_body &gt; &amp;</type>
+          <declname>res</declname>
+        </param>
+        <briefdescription>
+<para>Check Conditional. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cdn_cache_middleware.h" line="82" column="10" bodyfile="src/server/cdn_cache_middleware.cpp" bodystart="242" bodyend="265"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_cdn_cache_middleware_1a9f1b7f3ac44454120c1255d5ae44fe2c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::CdnCacheMiddleware::generateETag</definition>
+        <argsstring>(const std::string &amp;body)</argsstring>
+        <name>generateETag</name>
+        <qualifiedname>themis::server::CdnCacheMiddleware::generateETag</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+<para>Generate ETag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: themis::hash::fnv1a64(), std::setfill(), std::setw(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cdn_cache_middleware.h" line="92" column="24" bodyfile="src/server/cdn_cache_middleware.cpp" bodystart="108" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_cdn_cache_middleware_1a55769d5a1f23a8f75b62a85ff5769163" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::CdnCacheMiddleware::buildCacheControlValue</definition>
+        <argsstring>(const CdnRoutePolicy &amp;policy, bool is_write)</argsstring>
+        <name>buildCacheControlValue</name>
+        <qualifiedname>themis::server::CdnCacheMiddleware::buildCacheControlValue</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_cdn_route_policy" kindref="compound">CdnRoutePolicy</ref> &amp;</type>
+          <declname>policy</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>is_write</declname>
+        </param>
+        <briefdescription>
+<para>Build Cache Control Value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">is_write</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cdn_cache_middleware.h" line="100" column="24" bodyfile="src/server/cdn_cache_middleware.cpp" bodystart="121" bodyend="165"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_cdn_cache_middleware_1a1d60ad5a5373b844128b091d33c0bd66" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1server_1_1_cdn_route_policy" kindref="compound">CdnRoutePolicy</ref> *</type>
+        <definition>const CdnRoutePolicy * themis::server::CdnCacheMiddleware::findPolicy</definition>
+        <argsstring>(const std::string &amp;path) const</argsstring>
+        <name>findPolicy</name>
+        <qualifiedname>themis::server::CdnCacheMiddleware::findPolicy</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Find Policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cdn_cache_middleware.h" line="110" column="26" bodyfile="src/server/cdn_cache_middleware.cpp" bodystart="43" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_cdn_cache_middleware_1ac8eb31994ad63b23567eee03300056bd" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::CdnCacheMiddleware::extractPath</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>extractPath</name>
+        <qualifiedname>themis::server::CdnCacheMiddleware::extractPath</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Extract Path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cdn_cache_middleware.h" line="117" column="24" bodyfile="src/server/cdn_cache_middleware.cpp" bodystart="67" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_cdn_cache_middleware_1af59931ef26c6587a2759193db7be39da" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::CdnCacheMiddleware::isWriteMethod</definition>
+        <argsstring>(http::verb method)</argsstring>
+        <name>isWriteMethod</name>
+        <qualifiedname>themis::server::CdnCacheMiddleware::isWriteMethod</qualifiedname>
+        <param>
+          <type>http::verb</type>
+          <declname>method</declname>
+        </param>
+        <briefdescription>
+<para>Is Write Method. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements isWriteMethod without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cdn_cache_middleware.h" line="124" column="17" bodyfile="src/server/cdn_cache_middleware.cpp" bodystart="84" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_cdn_cache_middleware_1aebddffe4b83558b6b5517e8f301f395d" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::CdnCacheMiddleware::isServerError</definition>
+        <argsstring>(http::status status)</argsstring>
+        <name>isServerError</name>
+        <qualifiedname>themis::server::CdnCacheMiddleware::isServerError</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <briefdescription>
+<para>Is Server Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements isServerError without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cdn_cache_middleware.h" line="131" column="17" bodyfile="src/server/cdn_cache_middleware.cpp" bodystart="97" bodyend="100"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/cdn_cache_middleware.h" line="54" column="1" bodyfile="include/server/cdn_cache_middleware.h" bodystart="54" bodyend="132"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_cdn_cache_middleware_1a451fc7f0ddfa01f7a7d023404dd2e4a7" prot="public" virt="non-virtual"><scope>themis::server::CdnCacheMiddleware</scope><name>apply</name></member>
+      <member refid="classthemis_1_1server_1_1_cdn_cache_middleware_1a55769d5a1f23a8f75b62a85ff5769163" prot="public" virt="non-virtual"><scope>themis::server::CdnCacheMiddleware</scope><name>buildCacheControlValue</name></member>
+      <member refid="classthemis_1_1server_1_1_cdn_cache_middleware_1ae83a5bc22da235b56380bcef60fa6302" prot="public" virt="non-virtual"><scope>themis::server::CdnCacheMiddleware</scope><name>CdnCacheMiddleware</name></member>
+      <member refid="classthemis_1_1server_1_1_cdn_cache_middleware_1a80f7d7c0bff5430d167eabad31eb44fa" prot="public" virt="non-virtual"><scope>themis::server::CdnCacheMiddleware</scope><name>checkConditional</name></member>
+      <member refid="classthemis_1_1server_1_1_cdn_cache_middleware_1ac8eb31994ad63b23567eee03300056bd" prot="private" virt="non-virtual"><scope>themis::server::CdnCacheMiddleware</scope><name>extractPath</name></member>
+      <member refid="classthemis_1_1server_1_1_cdn_cache_middleware_1a1d60ad5a5373b844128b091d33c0bd66" prot="private" virt="non-virtual"><scope>themis::server::CdnCacheMiddleware</scope><name>findPolicy</name></member>
+      <member refid="classthemis_1_1server_1_1_cdn_cache_middleware_1a9f1b7f3ac44454120c1255d5ae44fe2c" prot="public" virt="non-virtual"><scope>themis::server::CdnCacheMiddleware</scope><name>generateETag</name></member>
+      <member refid="classthemis_1_1server_1_1_cdn_cache_middleware_1aebddffe4b83558b6b5517e8f301f395d" prot="private" virt="non-virtual"><scope>themis::server::CdnCacheMiddleware</scope><name>isServerError</name></member>
+      <member refid="classthemis_1_1server_1_1_cdn_cache_middleware_1af59931ef26c6587a2759193db7be39da" prot="private" virt="non-virtual"><scope>themis::server::CdnCacheMiddleware</scope><name>isWriteMethod</name></member>
+      <member refid="classthemis_1_1server_1_1_cdn_cache_middleware_1aadbaf9f8f4c5eefabc2432a51ddbc18d" prot="private" virt="non-virtual"><scope>themis::server::CdnCacheMiddleware</scope><name>policies_</name></member>
+      <member refid="classthemis_1_1server_1_1_cdn_cache_middleware_1a17a83afcf0962e4462150c2ddb04690a" prot="public" virt="non-virtual"><scope>themis::server::CdnCacheMiddleware</scope><name>registerPolicy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

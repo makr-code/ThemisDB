@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1projects_1_1_bundle_export_options" kind="struct" language="C++" prot="public">
+    <compoundname>themis::projects::BundleExportOptions</compoundname>
+    <includes refid="project__bundle_8h" local="no">project_bundle.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_bundle_export_options_1a236a28572c189285c690216ee2dc3da3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::projects::BundleExportOptions::include_data</definition>
+        <argsstring></argsstring>
+        <name>include_data</name>
+        <qualifiedname>themis::projects::BundleExportOptions::include_data</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_bundle.h" line="30" column="10" bodyfile="include/projects/project_bundle.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_bundle_export_options_1a94859e04151302cc4f6ca21e1c9d9313" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::projects::BundleExportOptions::include_schema</definition>
+        <argsstring></argsstring>
+        <name>include_schema</name>
+        <qualifiedname>themis::projects::BundleExportOptions::include_schema</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_bundle.h" line="31" column="10" bodyfile="include/projects/project_bundle.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_bundle_export_options_1aac288fa560a6b2b95241fb8ce99cbe92" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::projects::BundleExportOptions::include_indexes</definition>
+        <argsstring></argsstring>
+        <name>include_indexes</name>
+        <qualifiedname>themis::projects::BundleExportOptions::include_indexes</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_bundle.h" line="32" column="10" bodyfile="include/projects/project_bundle.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_bundle_export_options_1aae323e018435ade7ae25eef920730942" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::projects::BundleExportOptions::include_permissions</definition>
+        <argsstring></argsstring>
+        <name>include_permissions</name>
+        <qualifiedname>themis::projects::BundleExportOptions::include_permissions</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_bundle.h" line="33" column="10" bodyfile="include/projects/project_bundle.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_bundle_export_options_1aa9e0cb66cea2f237cbdeb5683ae67260" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::projects::BundleExportOptions::encryption_key</definition>
+        <argsstring></argsstring>
+        <name>encryption_key</name>
+        <qualifiedname>themis::projects::BundleExportOptions::encryption_key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_bundle.h" line="34" column="17" bodyfile="include/projects/project_bundle.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_bundle_export_options_1a785c2d82a2ea5ebaed8d381cb84a9b7d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::projects::BundleExportOptions::compression_level</definition>
+        <argsstring></argsstring>
+        <name>compression_level</name>
+        <qualifiedname>themis::projects::BundleExportOptions::compression_level</qualifiedname>
+        <initializer>= &quot;fast&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_bundle.h" line="35" column="17" bodyfile="include/projects/project_bundle.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/projects/project_bundle.h" line="29" column="1" bodyfile="include/projects/project_bundle.h" bodystart="29" bodyend="36"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1projects_1_1_bundle_export_options_1a785c2d82a2ea5ebaed8d381cb84a9b7d" prot="public" virt="non-virtual"><scope>themis::projects::BundleExportOptions</scope><name>compression_level</name></member>
+      <member refid="structthemis_1_1projects_1_1_bundle_export_options_1aa9e0cb66cea2f237cbdeb5683ae67260" prot="public" virt="non-virtual"><scope>themis::projects::BundleExportOptions</scope><name>encryption_key</name></member>
+      <member refid="structthemis_1_1projects_1_1_bundle_export_options_1a236a28572c189285c690216ee2dc3da3" prot="public" virt="non-virtual"><scope>themis::projects::BundleExportOptions</scope><name>include_data</name></member>
+      <member refid="structthemis_1_1projects_1_1_bundle_export_options_1aac288fa560a6b2b95241fb8ce99cbe92" prot="public" virt="non-virtual"><scope>themis::projects::BundleExportOptions</scope><name>include_indexes</name></member>
+      <member refid="structthemis_1_1projects_1_1_bundle_export_options_1aae323e018435ade7ae25eef920730942" prot="public" virt="non-virtual"><scope>themis::projects::BundleExportOptions</scope><name>include_permissions</name></member>
+      <member refid="structthemis_1_1projects_1_1_bundle_export_options_1a94859e04151302cc4f6ca21e1c9d9313" prot="public" virt="non-virtual"><scope>themis::projects::BundleExportOptions</scope><name>include_schema</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

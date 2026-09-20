@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1storage_1_1_dictionary_codec" kind="class" language="C++" prot="public">
+    <compoundname>themis::storage::DictionaryCodec</compoundname>
+    <includes refid="columnar__format_8h" local="no">columnar_format.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_dictionary_codec_1adf9f1c9de29e97a105860e0445230037" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; uint8_t &gt; &gt; themis::storage::DictionaryCodec::encodeStrings</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;data)</argsstring>
+        <name>encodeStrings</name>
+        <qualifiedname>themis::storage::DictionaryCodec::encodeStrings</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Encode Strings. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), find(), end(), size(), max(), tl::unexpected(), Error(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_format.h" line="121" column="19" bodyfile="src/storage/columnar_format.cpp" bodystart="223" bodyend="283"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_dictionary_codec_1adafa63836f2516ea98d3b8e3a0a4210d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::vector&lt; std::string &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; std::string &gt; &gt; themis::storage::DictionaryCodec::decodeStrings</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;encoded)</argsstring>
+        <name>decodeStrings</name>
+        <qualifiedname>themis::storage::DictionaryCodec::decodeStrings</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>encoded</declname>
+        </param>
+        <briefdescription>
+<para>Decode Strings. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">encoded</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), tl::unexpected(), Error(), std::memcpy(), reserve(), str(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_format.h" line="124" column="19" bodyfile="src/storage/columnar_format.cpp" bodystart="291" bodyend="394"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_dictionary_codec_1a329534db3cbeb3d48280804986a11e98" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::DictionaryCodec::shouldUseDictionary</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;data, double min_compression_ratio=1.5)</argsstring>
+        <name>shouldUseDictionary</name>
+        <qualifiedname>themis::storage::DictionaryCodec::shouldUseDictionary</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>min_compression_ratio</declname>
+          <defval>1.5</defval>
+        </param>
+        <briefdescription>
+<para>Should Use Dictionary. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">min_compression_ratio</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), unique_strings(), begin(), end(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_format.h" line="127" column="17" bodyfile="src/storage/columnar_format.cpp" bodystart="403" bodyend="419"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Dictionary Encoding Codec. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/columnar_format.h" line="118" column="1" bodyfile="include/storage/columnar_format.h" bodystart="118" bodyend="129"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1storage_1_1_dictionary_codec_1adafa63836f2516ea98d3b8e3a0a4210d" prot="public" virt="non-virtual"><scope>themis::storage::DictionaryCodec</scope><name>decodeStrings</name></member>
+      <member refid="classthemis_1_1storage_1_1_dictionary_codec_1adf9f1c9de29e97a105860e0445230037" prot="public" virt="non-virtual"><scope>themis::storage::DictionaryCodec</scope><name>encodeStrings</name></member>
+      <member refid="classthemis_1_1storage_1_1_dictionary_codec_1a329534db3cbeb3d48280804986a11e98" prot="public" virt="non-virtual"><scope>themis::storage::DictionaryCodec</scope><name>shouldUseDictionary</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

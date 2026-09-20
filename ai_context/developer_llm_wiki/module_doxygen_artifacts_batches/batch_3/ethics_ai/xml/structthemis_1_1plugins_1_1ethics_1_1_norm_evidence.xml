@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1ethics_1_1_norm_evidence" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::NormEvidence</compoundname>
+    <includes refid="ethics__ai__types_8h" local="no">ethics_ai_types.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_norm_evidence_1ac44ec1f0b59225383fd145e132e0e679" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_norm_citation" kindref="compound">NormCitation</ref> &gt;</type>
+        <definition>std::vector&lt;NormCitation&gt; themis::plugins::ethics::NormEvidence::citations</definition>
+        <argsstring></argsstring>
+        <name>citations</name>
+        <qualifiedname>themis::plugins::ethics::NormEvidence::citations</qualifiedname>
+        <briefdescription>
+<para>Norm citations relevant for the decision. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="368" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="368" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_norm_evidence_1ae46073b39aff42e58fd066865b56b0c5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::ethics::NormEvidence::legal_db_unavailable</definition>
+        <argsstring></argsstring>
+        <name>legal_db_unavailable</name>
+        <qualifiedname>themis::plugins::ethics::NormEvidence::legal_db_unavailable</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>True when legal_db could not be queried. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="369" column="10" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="369" bodyend="369"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ethics_ai/ethics_ai_types.h" line="367" column="1" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="367" bodyend="370"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_norm_evidence_1ac44ec1f0b59225383fd145e132e0e679" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::NormEvidence</scope><name>citations</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_norm_evidence_1ae46073b39aff42e58fd066865b56b0c5" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::NormEvidence</scope><name>legal_db_unavailable</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1evaluation_1_1_provenance_assertion" kind="struct" language="C++" prot="public">
+    <compoundname>themis::evaluation::ProvenanceAssertion</compoundname>
+    <includes refid="retrieval__metrics_8h" local="no">retrieval_metrics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_provenance_assertion_1abc6f2ffd4c589af7293dc086f5e59dcf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::evaluation::ProvenanceAssertion::claim_id</definition>
+        <argsstring></argsstring>
+        <name>claim_id</name>
+        <qualifiedname>themis::evaluation::ProvenanceAssertion::claim_id</qualifiedname>
+        <briefdescription>
+<para>Claim being attributed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="132" column="17" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_provenance_assertion_1a889b2cf13254f08a0b7676aa73966dbf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::evaluation::ProvenanceAssertion::source_id</definition>
+        <argsstring></argsstring>
+        <name>source_id</name>
+        <qualifiedname>themis::evaluation::ProvenanceAssertion::source_id</qualifiedname>
+        <briefdescription>
+<para>Attributed source document or node. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="133" column="17" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_provenance_assertion_1a259b51ae77b5c7712b556954b10f2329" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::evaluation::ProvenanceAssertion::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::evaluation::ProvenanceAssertion::confidence</qualifiedname>
+        <briefdescription>
+<para>Attribution confidence in [0, 1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="134" column="17" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/evaluation/include/retrieval_metrics.h" line="131" column="1" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="131" bodyend="135"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1evaluation_1_1_provenance_assertion_1abc6f2ffd4c589af7293dc086f5e59dcf" prot="public" virt="non-virtual"><scope>themis::evaluation::ProvenanceAssertion</scope><name>claim_id</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_provenance_assertion_1a259b51ae77b5c7712b556954b10f2329" prot="public" virt="non-virtual"><scope>themis::evaluation::ProvenanceAssertion</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_provenance_assertion_1a889b2cf13254f08a0b7676aa73966dbf" prot="public" virt="non-virtual"><scope>themis::evaluation::ProvenanceAssertion</scope><name>source_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

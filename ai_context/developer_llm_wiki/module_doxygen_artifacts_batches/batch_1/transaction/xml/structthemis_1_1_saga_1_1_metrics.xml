@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_saga_1_1_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::Saga::Metrics</compoundname>
+    <includes refid="saga_8h" local="no">saga.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_saga_1_1_metrics_1a2672bfddce2f4b737694a9afc33d3f5d" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::Saga::Metrics::total_steps</definition>
+        <argsstring></argsstring>
+        <name>total_steps</name>
+        <qualifiedname>themis::Saga::Metrics::total_steps</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga.h" line="110" column="18" bodyfile="include/transaction/saga.h" bodystart="110" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_saga_1_1_metrics_1af354ad400395e4eb65b97c4d06955e4d" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::Saga::Metrics::compensated_steps</definition>
+        <argsstring></argsstring>
+        <name>compensated_steps</name>
+        <qualifiedname>themis::Saga::Metrics::compensated_steps</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga.h" line="111" column="18" bodyfile="include/transaction/saga.h" bodystart="111" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_saga_1_1_metrics_1a9d918d9d4c467dc4b87985af3689d5ae" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::Saga::Metrics::failed_compensations</definition>
+        <argsstring></argsstring>
+        <name>failed_compensations</name>
+        <qualifiedname>themis::Saga::Metrics::failed_compensations</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Steps that threw during compensation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga.h" line="112" column="18" bodyfile="include/transaction/saga.h" bodystart="112" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_saga_1_1_metrics_1a84ba743320409483acc9e9cd841b9a13" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::Saga::Metrics::retried_compensations</definition>
+        <argsstring></argsstring>
+        <name>retried_compensations</name>
+        <qualifiedname>themis::Saga::Metrics::retried_compensations</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Steps that succeeded only after retry. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga.h" line="113" column="18" bodyfile="include/transaction/saga.h" bodystart="113" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_saga_1_1_metrics_1a8b55d5b807923b77be41cb347ecd5203" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::Saga::Metrics::duration_ms</definition>
+        <argsstring></argsstring>
+        <name>duration_ms</name>
+        <qualifiedname>themis::Saga::Metrics::duration_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga.h" line="114" column="18" bodyfile="include/transaction/saga.h" bodystart="114" bodyend="114"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/saga.h" line="109" column="5" bodyfile="include/transaction/saga.h" bodystart="109" bodyend="115"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_saga_1_1_metrics_1af354ad400395e4eb65b97c4d06955e4d" prot="public" virt="non-virtual"><scope>themis::Saga::Metrics</scope><name>compensated_steps</name></member>
+      <member refid="structthemis_1_1_saga_1_1_metrics_1a8b55d5b807923b77be41cb347ecd5203" prot="public" virt="non-virtual"><scope>themis::Saga::Metrics</scope><name>duration_ms</name></member>
+      <member refid="structthemis_1_1_saga_1_1_metrics_1a9d918d9d4c467dc4b87985af3689d5ae" prot="public" virt="non-virtual"><scope>themis::Saga::Metrics</scope><name>failed_compensations</name></member>
+      <member refid="structthemis_1_1_saga_1_1_metrics_1a84ba743320409483acc9e9cd841b9a13" prot="public" virt="non-virtual"><scope>themis::Saga::Metrics</scope><name>retried_compensations</name></member>
+      <member refid="structthemis_1_1_saga_1_1_metrics_1a2672bfddce2f4b737694a9afc33d3f5d" prot="public" virt="non-virtual"><scope>themis::Saga::Metrics</scope><name>total_steps</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

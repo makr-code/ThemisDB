@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_query_expander_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::QueryExpander::Config</compoundname>
+    <includes refid="query__expander_8h" local="no">query_expander.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_query_expander_1_1_config_1aecb7458c54cc20bb8ffe3a4a768887d4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::QueryExpander::Config::use_synonyms</definition>
+        <argsstring></argsstring>
+        <name>use_synonyms</name>
+        <qualifiedname>themis::QueryExpander::Config::use_synonyms</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Expand with synonym terms. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/query_expander.h" line="75" column="14" bodyfile="include/search/query_expander.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_query_expander_1_1_config_1a67d2468edc7c842979620dd0e0c544b3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::QueryExpander::Config::correct_spelling</definition>
+        <argsstring></argsstring>
+        <name>correct_spelling</name>
+        <qualifiedname>themis::QueryExpander::Config::correct_spelling</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Apply best-effort spelling correction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/query_expander.h" line="76" column="14" bodyfile="include/search/query_expander.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_query_expander_1_1_config_1a009085c3323fb0d99a1d4cebebeab443" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::QueryExpander::Config::detect_phrases</definition>
+        <argsstring></argsstring>
+        <name>detect_phrases</name>
+        <qualifiedname>themis::QueryExpander::Config::detect_phrases</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Preserve multi-word synonym phrases. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/query_expander.h" line="77" column="14" bodyfile="include/search/query_expander.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_query_expander_1_1_config_1a8fce5775195f44abc71b2f7b789edbed" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::QueryExpander::Config::synonym_weight</definition>
+        <argsstring></argsstring>
+        <name>synonym_weight</name>
+        <qualifiedname>themis::QueryExpander::Config::synonym_weight</qualifiedname>
+        <initializer>= 0.8</initializer>
+        <briefdescription>
+<para>Relative importance of synonym terms (informational). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/query_expander.h" line="78" column="16" bodyfile="include/search/query_expander.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_query_expander_1_1_config_1a1550013e632d11fbe34e1a1a5aeb99da" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::QueryExpander::Config::frequency_weight</definition>
+        <argsstring></argsstring>
+        <name>frequency_weight</name>
+        <qualifiedname>themis::QueryExpander::Config::frequency_weight</qualifiedname>
+        <initializer>= 0.3</initializer>
+        <briefdescription>
+<para>Weight of word-frequency signal in confidence score [0,1]; 0 disables frequency blending. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/query_expander.h" line="79" column="16" bodyfile="include/search/query_expander.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_query_expander_1_1_config_1ade2872217578417c65db6bf869e83fd2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::QueryExpander::Config::max_expansions</definition>
+        <argsstring></argsstring>
+        <name>max_expansions</name>
+        <qualifiedname>themis::QueryExpander::Config::max_expansions</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Maximum number of synonym terms to add. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/query_expander.h" line="80" column="16" bodyfile="include/search/query_expander.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_query_expander_1_1_config_1ae22cbd9d6a1f8b5b7a5ef63ce53b9cd3" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::QueryExpander::Config::max_edit_distance</definition>
+        <argsstring></argsstring>
+        <name>max_edit_distance</name>
+        <qualifiedname>themis::QueryExpander::Config::max_edit_distance</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+<para>Maximum edit distance for spelling correction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/query_expander.h" line="81" column="13" bodyfile="include/search/query_expander.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1_query_expander_1_1_config_1ad8849114bb559d01b767dd6558b33968" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_query_expander_1_1_config" kindref="compound">Config</ref></type>
+        <definition>static Config themis::QueryExpander::Config::defaults</definition>
+        <argsstring>()</argsstring>
+        <name>defaults</name>
+        <qualifiedname>themis::QueryExpander::Config::defaults</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/query_expander.h" line="82" column="23" bodyfile="include/search/query_expander.h" bodystart="82" bodyend="82"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/search/query_expander.h" line="74" column="5" bodyfile="include/search/query_expander.h" bodystart="74" bodyend="83"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_query_expander_1_1_config_1a67d2468edc7c842979620dd0e0c544b3" prot="public" virt="non-virtual"><scope>themis::QueryExpander::Config</scope><name>correct_spelling</name></member>
+      <member refid="structthemis_1_1_query_expander_1_1_config_1ad8849114bb559d01b767dd6558b33968" prot="public" virt="non-virtual"><scope>themis::QueryExpander::Config</scope><name>defaults</name></member>
+      <member refid="structthemis_1_1_query_expander_1_1_config_1a009085c3323fb0d99a1d4cebebeab443" prot="public" virt="non-virtual"><scope>themis::QueryExpander::Config</scope><name>detect_phrases</name></member>
+      <member refid="structthemis_1_1_query_expander_1_1_config_1a1550013e632d11fbe34e1a1a5aeb99da" prot="public" virt="non-virtual"><scope>themis::QueryExpander::Config</scope><name>frequency_weight</name></member>
+      <member refid="structthemis_1_1_query_expander_1_1_config_1ae22cbd9d6a1f8b5b7a5ef63ce53b9cd3" prot="public" virt="non-virtual"><scope>themis::QueryExpander::Config</scope><name>max_edit_distance</name></member>
+      <member refid="structthemis_1_1_query_expander_1_1_config_1ade2872217578417c65db6bf869e83fd2" prot="public" virt="non-virtual"><scope>themis::QueryExpander::Config</scope><name>max_expansions</name></member>
+      <member refid="structthemis_1_1_query_expander_1_1_config_1a8fce5775195f44abc71b2f7b789edbed" prot="public" virt="non-virtual"><scope>themis::QueryExpander::Config</scope><name>synonym_weight</name></member>
+      <member refid="structthemis_1_1_query_expander_1_1_config_1aecb7458c54cc20bb8ffe3a4a768887d4" prot="public" virt="non-virtual"><scope>themis::QueryExpander::Config</scope><name>use_synonyms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

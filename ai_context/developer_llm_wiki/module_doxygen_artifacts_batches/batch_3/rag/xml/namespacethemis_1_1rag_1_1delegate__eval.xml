@@ -1,0 +1,157 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1rag_1_1delegate__eval" kind="namespace" language="C++">
+    <compoundname>themis::rag::delegate_eval</compoundname>
+    <innerclass refid="classthemis_1_1rag_1_1delegate__eval_1_1_i_domain_evaluator" prot="public">themis::rag::delegate_eval::IDomainEvaluator</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1delegate__eval_1_1_round_trip_edit_pair" prot="public">themis::rag::delegate_eval::RoundTripEditPair</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1delegate__eval_1_1_delegate_evaluator_config" prot="public">themis::rag::delegate_eval::DelegateEvaluatorConfig</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1delegate__eval_1_1_reconstruction_score_at_k" prot="public">themis::rag::delegate_eval::ReconstructionScoreAtK</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1delegate__eval_1_1_relay_result" prot="public">themis::rag::delegate_eval::RelayResult</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator" prot="public">themis::rag::delegate_eval::RoundTripSimulator</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1delegate__eval_1_1_json_document_evaluator" prot="public">themis::rag::delegate_eval::JsonDocumentEvaluator</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1delegate__eval_1_1_aql_query_evaluator" prot="public">themis::rag::delegate_eval::AqlQueryEvaluator</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1delegate__eval_1_1_plain_text_evaluator" prot="public">themis::rag::delegate_eval::PlainTextEvaluator</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1delegate__eval_1_1_xml_process_evaluator" prot="public">themis::rag::delegate_eval::XmlProcessEvaluator</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1delegate__eval_1_1_markdown_evaluator" prot="public">themis::rag::delegate_eval::MarkdownEvaluator</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1delegate__eval_1_1_delegate_evaluator_factory" prot="public">themis::rag::delegate_eval::DelegateEvaluatorFactory</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1rag_1_1delegate__eval_1a27a27b5e82f6b11343ccd146bb8cba8b" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>DomainType</name>
+        <qualifiedname>themis::rag::delegate_eval::DomainType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1rag_1_1delegate__eval_1a27a27b5e82f6b11343ccd146bb8cba8bafb1dcfa4a7110c5721a6e9ed2118b124" prot="public">
+          <name>JSON_DOCUMENT</name>
+          <briefdescription>
+<para>JSON object — field-level overlap scoring. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1delegate__eval_1a27a27b5e82f6b11343ccd146bb8cba8ba3725a574ca60a9701ffcae5b6827641a" prot="public">
+          <name>AQL_QUERY</name>
+          <briefdescription>
+<para>AQL query string — token-level Jaccard scoring. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1delegate__eval_1a27a27b5e82f6b11343ccd146bb8cba8baae7d3557f5e0b4e9cca075db3dfa7e9d" prot="public">
+          <name>PLAIN_TEXT</name>
+          <briefdescription>
+<para>Arbitrary UTF-8 text — character-level edit distance. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1delegate__eval_1a27a27b5e82f6b11343ccd146bb8cba8ba06d53571201b4c2aa16554971af6365e" prot="public">
+          <name>MARKDOWN</name>
+          <briefdescription>
+<para>Markdown document — treated as plain text for scoring. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1delegate__eval_1a27a27b5e82f6b11343ccd146bb8cba8ba40937993531243c9a7f88360de27df05" prot="public">
+          <name>XML_PROCESS</name>
+          <briefdescription>
+<para>XML/ARIS process model — element-count + attribute overlap. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Supported document domains for round-trip evaluation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add new domains by extending this enum and providing a corresponding evaluator class registered in <computeroutput><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_delegate_evaluator_factory_1ad2670771dad50f8a14e2f17f104ad106" kindref="member">DelegateEvaluatorFactory::createForDomain()</ref></computeroutput>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/delegate_evaluator.h" line="36" column="1" bodyfile="include/rag/delegate_evaluator.h" bodystart="36" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1rag_1_1delegate__eval_1a108125b3ca005e1e3b5f6b4763ca770a" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>StopReason</name>
+        <qualifiedname>themis::rag::delegate_eval::StopReason</qualifiedname>
+        <enumvalue id="namespacethemis_1_1rag_1_1delegate__eval_1a108125b3ca005e1e3b5f6b4763ca770aa2aa4029d1e4c1e0f0d8febd58c9afe33" prot="public">
+          <name>COMPLETED_NORMALLY</name>
+          <briefdescription>
+<para>All requested round trips executed successfully. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1delegate__eval_1a108125b3ca005e1e3b5f6b4763ca770aac4f16930bbe97be0ecda8ae843de8c03" prot="public">
+          <name>EDIT_FAILED</name>
+          <briefdescription>
+<para><computeroutput><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a77690185c5e7ffb2644027fe860989b4" kindref="member">EditFn</ref></computeroutput> threw an exception during a forward or backward edit </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1delegate__eval_1a108125b3ca005e1e3b5f6b4763ca770aa70d0ec1955c6bc7e6686692afbb3ee12" prot="public">
+          <name>BUDGET_EXCEEDED</name>
+          <briefdescription>
+<para><computeroutput>DelegateEvaluatorConfig::max_interactions</computeroutput> hit (future use) </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Reason the <computeroutput><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator" kindref="compound">RoundTripSimulator</ref></computeroutput> relay terminated. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/delegate_evaluator.h" line="144" column="1" bodyfile="include/rag/delegate_evaluator.h" bodystart="144" bodyend="148"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1rag_1_1delegate__eval_1a212cf6ebc69c48af30ae907d14e8567f" prot="public" static="no">
+        <type>double</type>
+        <definition>using themis::rag::delegate_eval::ReconstructionScore = double</definition>
+        <argsstring></argsstring>
+        <name>ReconstructionScore</name>
+        <qualifiedname>themis::rag::delegate_eval::ReconstructionScore</qualifiedname>
+        <briefdescription>
+<para>Scalar reconstruction fidelity in <computeroutput>[0.0, 1.0]</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>1.0 — perfectly reconstructed (original == recovered). 0.0 — complete loss (nothing in common). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/delegate_evaluator.h" line="54" column="1" bodyfile="include/rag/delegate_evaluator.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1rag_1_1delegate__eval_1a77690185c5e7ffb2644027fe860989b4" prot="public" static="no">
+        <type>std::function&lt; std::string(const std::string &amp;current_doc, const std::string &amp;instruction)&gt;</type>
+        <definition>using themis::rag::delegate_eval::EditFn = std::function&lt;std::string(const std::string&amp; current_doc,
+                                         const std::string&amp; instruction)&gt;</definition>
+        <argsstring></argsstring>
+        <name>EditFn</name>
+        <qualifiedname>themis::rag::delegate_eval::EditFn</qualifiedname>
+        <briefdescription>
+<para>Caller-supplied editing function. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The function receives:<itemizedlist>
+<listitem><para><computeroutput>current_doc</computeroutput> — the document in its current state.</para>
+</listitem><listitem><para><computeroutput>instruction</computeroutput> — the edit instruction (forward or backward).</para>
+</listitem></itemizedlist>
+</para>
+<para>It must return the edited document as a string. Throwing an exception is treated as a failed edit: <computeroutput><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator" kindref="compound">RoundTripSimulator</ref></computeroutput> records RS = 0.0 for that iteration and terminates the relay with <computeroutput><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a108125b3ca005e1e3b5f6b4763ca770aac4f16930bbe97be0ecda8ae843de8c03" kindref="member">StopReason::EDIT_FAILED</ref></computeroutput>.</para>
+<para><bold>Thread safety:</bold> the lambda is invoked sequentially inside <computeroutput>run()</computeroutput>; no concurrent calls to the same lambda occur. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/delegate_evaluator.h" line="134" column="1" bodyfile="include/rag/delegate_evaluator.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/delegate_evaluator.h" line="24" column="1"/>
+  </compounddef>
+</doxygen>

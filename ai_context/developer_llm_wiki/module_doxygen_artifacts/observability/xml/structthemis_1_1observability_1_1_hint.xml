@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_hint" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::Hint</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_hint_1a1cd2ca6a8e188f601d6a994913daa73c" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string themis::observability::Hint::hint_id</definition>
+        <argsstring></argsstring>
+        <name>hint_id</name>
+        <qualifiedname>themis::observability::Hint::hint_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" line="69" column="12" bodyfile="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_hint_1a21a1ce5ab1157921d29ee5c4edfbfe1a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::observability::Hint::hint_value</definition>
+        <argsstring></argsstring>
+        <name>hint_value</name>
+        <qualifiedname>themis::observability::Hint::hint_value</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" line="70" column="14" bodyfile="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" bodystart="70" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_hint_1a08021a4ea3e90bc614e8de3c9980beb5" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::observability::Hint::timestamp_ns</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ns</name>
+        <qualifiedname>themis::observability::Hint::timestamp_ns</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" line="71" column="14" bodyfile="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" bodystart="71" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1observability_1_1_hint_1a84f02054122cd1babf00b49fd6e5d6f5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::observability::Hint::operator==</definition>
+        <argsstring>(const Hint &amp;other) const</argsstring>
+        <name>operator==</name>
+        <qualifiedname>themis::observability::Hint::operator==</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_hint" kindref="compound">Hint</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" line="73" column="10" bodyfile="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" bodystart="73" bodyend="75"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="structthemis_1_1observability_1_1_hint" kindref="compound">Hint</ref> structure for deduplication. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" line="68" column="1" bodyfile="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" bodystart="68" bodyend="76"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_hint_1a1cd2ca6a8e188f601d6a994913daa73c" prot="public" virt="non-virtual"><scope>themis::observability::Hint</scope><name>hint_id</name></member>
+      <member refid="structthemis_1_1observability_1_1_hint_1a21a1ce5ab1157921d29ee5c4edfbfe1a" prot="public" virt="non-virtual"><scope>themis::observability::Hint</scope><name>hint_value</name></member>
+      <member refid="structthemis_1_1observability_1_1_hint_1a84f02054122cd1babf00b49fd6e5d6f5" prot="public" virt="non-virtual"><scope>themis::observability::Hint</scope><name>operator==</name></member>
+      <member refid="structthemis_1_1observability_1_1_hint_1a08021a4ea3e90bc614e8de3c9980beb5" prot="public" virt="non-virtual"><scope>themis::observability::Hint</scope><name>timestamp_ns</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

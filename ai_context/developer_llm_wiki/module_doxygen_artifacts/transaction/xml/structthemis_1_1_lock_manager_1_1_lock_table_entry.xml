@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_lock_manager_1_1_lock_table_entry" kind="struct" language="C++" prot="private">
+    <compoundname>themis::LockManager::LockTableEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_lock_manager_1_1_lock_table_entry_1a37f20a30550d4cfd64a0e81325fcd9ed" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; LockEntry &gt;</type>
+        <definition>std::vector&lt;LockEntry&gt; themis::LockManager::LockTableEntry::holders</definition>
+        <argsstring></argsstring>
+        <name>holders</name>
+        <qualifiedname>themis::LockManager::LockTableEntry::holders</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="252" column="46" bodyfile="include/transaction/lock_manager.h" bodystart="252" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_lock_manager_1_1_lock_table_entry_1a40a2ed4d0990ba89a6de08896020bf7c" prot="public" static="no" mutable="no">
+        <type>std::list&lt; std::shared_ptr&lt; LockRequest &gt; &gt;</type>
+        <definition>std::list&lt;std::shared_ptr&lt;LockRequest&gt; &gt; themis::LockManager::LockTableEntry::waiters</definition>
+        <argsstring></argsstring>
+        <name>waiters</name>
+        <qualifiedname>themis::LockManager::LockTableEntry::waiters</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="253" column="27" bodyfile="include/transaction/lock_manager.h" bodystart="253" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/lock_manager.h" line="251" column="5" bodyfile="include/transaction/lock_manager.h" bodystart="251" bodyend="254"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_lock_manager_1_1_lock_table_entry_1a37f20a30550d4cfd64a0e81325fcd9ed" prot="public" virt="non-virtual"><scope>themis::LockManager::LockTableEntry</scope><name>holders</name></member>
+      <member refid="structthemis_1_1_lock_manager_1_1_lock_table_entry_1a40a2ed4d0990ba89a6de08896020bf7c" prot="public" virt="non-virtual"><scope>themis::LockManager::LockTableEntry</scope><name>waiters</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

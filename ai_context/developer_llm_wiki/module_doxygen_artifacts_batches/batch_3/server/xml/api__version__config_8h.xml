@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="api__version__config_8h" kind="file" language="C++">
+    <compoundname>api_version_config.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includedby refid="api__gateway_8cpp" local="yes">src/server/api_gateway.cpp</includedby>
+    <includedby refid="api__version_8cpp" local="yes">src/server/api_version.cpp</includedby>
+    <includedby refid="http__server_8cpp" local="yes">src/server/http_server.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/server/api_version_config.h</label>
+        <link refid="api__version__config_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/server/api_version_config.h</label>
+        <link refid="api__version__config_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/server/api_gateway.cpp</label>
+        <link refid="api__gateway_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/server/api_version.cpp</label>
+        <link refid="api__version_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/server/http_server.cpp</label>
+        <link refid="http__server_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1server_1_1_a_p_i_version_config" prot="public">themis::server::APIVersionConfig</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1server">themis::server</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten.</para>
+</simplesect>
+<simplesect kind="note"><para><bold>Header-Only Configuration</bold>: Defines API version constants. No .cpp implementation needed. Values are constexpr and available at compile time. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1server" kindref="compound">themis::server</ref><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="structthemis_1_1server_1_1_a_p_i_version_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1server_1_1_a_p_i_version_config" kindref="compound">APIVersionConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Current<sp/>stable<sp/>API<sp/>version<sp/>(from<sp/>VERSION<sp/>file:<sp/>1.4.1-dev)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1server_1_1_a_p_i_version_config_1aea220721baefd1911496c14c5d1676c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="structthemis_1_1server_1_1_a_p_i_version_config_1aea220721baefd1911496c14c5d1676c8" kindref="member">CURRENT_MAJOR</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1server_1_1_a_p_i_version_config_1ad772329981b5c8db790e3a4c66f4d135" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="structthemis_1_1server_1_1_a_p_i_version_config_1ad772329981b5c8db790e3a4c66f4d135" kindref="member">CURRENT_MINOR</ref><sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1server_1_1_a_p_i_version_config_1af12ccad57d9d54b5412b00d69b9e4c91" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="structthemis_1_1server_1_1_a_p_i_version_config_1af12ccad57d9d54b5412b00d69b9e4c91" kindref="member">CURRENT_PATCH</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Minimum<sp/>supported<sp/>API<sp/>version<sp/>(oldest<sp/>version<sp/>still<sp/>supported)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1server_1_1_a_p_i_version_config_1a2b31e0ea65524e77299fc5a0ef8fdd3d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="structthemis_1_1server_1_1_a_p_i_version_config_1a2b31e0ea65524e77299fc5a0ef8fdd3d" kindref="member">MINIMUM_MAJOR</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1server_1_1_a_p_i_version_config_1af226c477cf9506f66dc5d99d644072f0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="structthemis_1_1server_1_1_a_p_i_version_config_1af226c477cf9506f66dc5d99d644072f0" kindref="member">MINIMUM_MINOR</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1server_1_1_a_p_i_version_config_1a7222b68498345387af483e72017a57b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="structthemis_1_1server_1_1_a_p_i_version_config_1a7222b68498345387af483e72017a57b7" kindref="member">MINIMUM_PATCH</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Deprecation<sp/>policy<sp/>duration<sp/>(in<sp/>days)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1server_1_1_a_p_i_version_config_1a5a71fb6c98003828ea3f3ac0e0197dec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_a_p_i_version_config_1a5a71fb6c98003828ea3f3ac0e0197dec" kindref="member">DEPRECATION_PERIOD_DAYS</ref><sp/>=<sp/>730;<sp/></highlight><highlight class="comment">//<sp/>24<sp/>months<sp/>(~2<sp/>years)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::server</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/server/api_version_config.h"/>
+  </compounddef>
+</doxygen>

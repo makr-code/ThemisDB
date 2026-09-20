@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis" kind="namespace" language="C++">
+    <compoundname>themis</compoundname>
+    <innernamespace refid="namespacethemis_1_1acceleration">themis::acceleration</innernamespace>
+    <innernamespace refid="namespacethemis_1_1bench">themis::bench</innernamespace>
+    <innernamespace refid="namespacethemis_1_1geo">themis::geo</innernamespace>
+    <briefdescription>
+<para>Phase 2/3 Geo Module Integration - Coordinates hardening components. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Focused acceptance tests for Geo Module Phase 2/3 hardening.</para>
+<para>Phase 2/3 Geo Module Hardening Implementation.</para>
+<para>This module coordinates the integration of Phase 2/3 hardening components (backend dispatch timeout enforcement, geometry validation, spatial index contract verification, and unified diagnostics) with the existing geo module.</para>
+<para>Roadmap reference: src/geo/ROADMAP.md §&quot;Phase 2 &amp; Phase 3&quot; FUTURE_ENHANCEMENTS reference: src/geo/FUTURE_ENHANCEMENTS.md</para>
+<para>This module consolidates the hardening work for:</para>
+<para><bold>Phase 2 (Core Implementation):</bold><itemizedlist>
+<listitem><para>Backend dispatch determinism: ensure GPU/CPU fallback is silent, result-consistent, and bounded (≤100µs)</para>
+</listitem><listitem><para>Geometry internals: strengthen coordinate validation, ring closure, minimum vertices</para>
+</listitem><listitem><para>Spatial index contracts: verify insert durability, bounding-box consistency, concurrent safety</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Phase 3 (Error Handling &amp; Edge Cases):</bold><itemizedlist>
+<listitem><para>Fail-closed behavior: all invalid geometry → explicit GeoErrorCode, no silent degradation</para>
+</listitem><listitem><para>Unified diagnostics: consolidated error messages across join/clustering/raster/temporal paths</para>
+</listitem><listitem><para>Diagnostic helpers: actionable errors for backend fallback and capability drift incidents</para>
+</listitem></itemizedlist>
+</para>
+<para>Roadmap reference: src/geo/ROADMAP.md §&quot;Phase 2 &amp; Phase 3&quot; FUTURE_ENHANCEMENTS reference: src/geo/FUTURE_ENHANCEMENTS.md §&quot;Implementation Notes&quot;</para>
+<para>Tests verify:<itemizedlist>
+<listitem><para>Phase 2 (Core): backend dispatch timeout enforcement, geometry validation, spatial index contracts</para>
+</listitem><listitem><para>Phase 3 (Error Handling): fail-closed behavior, unified diagnostics, error recovery</para>
+</listitem></itemizedlist>
+</para>
+<para>Test naming convention: P23-NN (Phase 2/3, test number 01-16) P23-01..P23-04: Backend dispatch timeout enforcement P23-05..P23-08: Geometry validation integration P23-09..P23-12: Fallback metrics accuracy P23-13..P23-16: Spatial index contract verification</para>
+<para>Roadmap reference: src/geo/ROADMAP.md §&quot;Phase 4: Tests&quot; </para>
+    </detaileddescription>
+    <location file="include/geo/device_detector.h" line="20" column="1"/>
+  </compounddef>
+</doxygen>

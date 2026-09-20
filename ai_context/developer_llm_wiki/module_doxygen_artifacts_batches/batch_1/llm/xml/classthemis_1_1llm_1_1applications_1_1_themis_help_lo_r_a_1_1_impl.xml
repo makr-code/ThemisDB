@@ -1,0 +1,528 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::applications::ThemisHelpLoRA::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1a493591f06a76081cc62fbfab4d8aa9e4" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; IThemisHelpLoRA &gt;</type>
+        <definition>std::shared_ptr&lt;IThemisHelpLoRA&gt; themis::llm::applications::ThemisHelpLoRA::Impl::impl</definition>
+        <argsstring></argsstring>
+        <name>impl</name>
+        <qualifiedname>themis::llm::applications::ThemisHelpLoRA::Impl::impl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/api/themis_help_lora_adapter.cpp" line="12" column="21" bodyfile="src/llm/api/themis_help_lora_adapter.cpp" bodystart="12" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1aaebaf59c30398c737b23ef648a8504ff" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::llm::applications::ThemisHelpLoRA::Impl::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::llm::applications::ThemisHelpLoRA::Impl::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/applications/themis_help_lora.cpp" line="64" column="12" bodyfile="src/llm/applications/themis_help_lora.cpp" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1a27fd70d39ca712ecb238ec3d2987db55" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator" kindref="compound">lora::LoRAOrchestrator</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;lora::LoRAOrchestrator&gt; themis::llm::applications::ThemisHelpLoRA::Impl::orchestrator</definition>
+        <argsstring></argsstring>
+        <name>orchestrator</name>
+        <qualifiedname>themis::llm::applications::ThemisHelpLoRA::Impl::orchestrator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/applications/themis_help_lora.cpp" line="67" column="21" bodyfile="src/llm/applications/themis_help_lora.cpp" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1a94a918fde96a4abbdeadc7874026deaf" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger" kindref="compound">lora::LoRAAuditLogger</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;lora::LoRAAuditLogger&gt; themis::llm::applications::ThemisHelpLoRA::Impl::lora_audit</definition>
+        <argsstring></argsstring>
+        <name>lora_audit</name>
+        <qualifiedname>themis::llm::applications::ThemisHelpLoRA::Impl::lora_audit</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/applications/themis_help_lora.cpp" line="68" column="21" bodyfile="src/llm/applications/themis_help_lora.cpp" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1a105715670911cc78e55e5f091ff2f0d5" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_l_l_m_model_audit_logger" kindref="compound">LLMModelAuditLogger</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;LLMModelAuditLogger&gt; themis::llm::applications::ThemisHelpLoRA::Impl::llm_audit</definition>
+        <argsstring></argsstring>
+        <name>llm_audit</name>
+        <qualifiedname>themis::llm::applications::ThemisHelpLoRA::Impl::llm_audit</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/applications/themis_help_lora.cpp" line="69" column="21" bodyfile="src/llm/applications/themis_help_lora.cpp" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1ac76548779698a5339412f3d9d85f9078" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_llama_wrapper" kindref="compound">LlamaWrapper</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;LlamaWrapper&gt; themis::llm::applications::ThemisHelpLoRA::Impl::llama_wrapper</definition>
+        <argsstring></argsstring>
+        <name>llama_wrapper</name>
+        <qualifiedname>themis::llm::applications::ThemisHelpLoRA::Impl::llama_wrapper</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/applications/themis_help_lora.cpp" line="70" column="21" bodyfile="src/llm/applications/themis_help_lora.cpp" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1af5e638ed2adfb654322ffebf6bb3c92d" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service" kindref="compound">LoRATrainingService</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;LoRATrainingService&gt; themis::llm::applications::ThemisHelpLoRA::Impl::training_service</definition>
+        <argsstring></argsstring>
+        <name>training_service</name>
+        <qualifiedname>themis::llm::applications::ThemisHelpLoRA::Impl::training_service</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/applications/themis_help_lora.cpp" line="71" column="21" bodyfile="src/llm/applications/themis_help_lora.cpp" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1ac11a082f98d90784650b9d529279edf7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::applications::ThemisHelpLoRA::Impl::current_adapter_version</definition>
+        <argsstring></argsstring>
+        <name>current_adapter_version</name>
+        <qualifiedname>themis::llm::applications::ThemisHelpLoRA::Impl::current_adapter_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/applications/themis_help_lora.cpp" line="74" column="17" bodyfile="src/llm/applications/themis_help_lora.cpp" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1adcef3c60df81d6cb1ed667f02c91ac42" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::applications::ThemisHelpLoRA::Impl::version_history</definition>
+        <argsstring></argsstring>
+        <name>version_history</name>
+        <qualifiedname>themis::llm::applications::ThemisHelpLoRA::Impl::version_history</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/applications/themis_help_lora.cpp" line="75" column="17" bodyfile="src/llm/applications/themis_help_lora.cpp" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1a6870abbc4193386984c8e4056c3fc679" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::llm::applications::ThemisHelpLoRA::Impl::is_trained</definition>
+        <argsstring></argsstring>
+        <name>is_trained</name>
+        <qualifiedname>themis::llm::applications::ThemisHelpLoRA::Impl::is_trained</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/applications/themis_help_lora.cpp" line="76" column="17" bodyfile="src/llm/applications/themis_help_lora.cpp" bodystart="76" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1a3a10ae1728d14085fe3867a18739a85b" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int64_t &gt;</type>
+        <definition>std::atomic&lt;int64_t&gt; themis::llm::applications::ThemisHelpLoRA::Impl::total_queries</definition>
+        <argsstring></argsstring>
+        <name>total_queries</name>
+        <qualifiedname>themis::llm::applications::ThemisHelpLoRA::Impl::total_queries</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/applications/themis_help_lora.cpp" line="77" column="17" bodyfile="src/llm/applications/themis_help_lora.cpp" bodystart="77" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1a2196fbfdfc765d18307715300b96ddd6" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int64_t &gt;</type>
+        <definition>std::atomic&lt;int64_t&gt; themis::llm::applications::ThemisHelpLoRA::Impl::successful_queries</definition>
+        <argsstring></argsstring>
+        <name>successful_queries</name>
+        <qualifiedname>themis::llm::applications::ThemisHelpLoRA::Impl::successful_queries</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/applications/themis_help_lora.cpp" line="78" column="17" bodyfile="src/llm/applications/themis_help_lora.cpp" bodystart="78" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1ac8609f0bc2cad2fbd064a8f09f40e796" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int64_t &gt;</type>
+        <definition>std::atomic&lt;int64_t&gt; themis::llm::applications::ThemisHelpLoRA::Impl::total_latency_us</definition>
+        <argsstring></argsstring>
+        <name>total_latency_us</name>
+        <qualifiedname>themis::llm::applications::ThemisHelpLoRA::Impl::total_latency_us</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Cumulative query latency in microseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/applications/themis_help_lora.cpp" line="79" column="17" bodyfile="src/llm/applications/themis_help_lora.cpp" bodystart="79" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1a0ff3de0eb281c60df03e38dd9d372bbc" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1applications_1_1_feedback_item" kindref="compound">FeedbackItem</ref> &gt;</type>
+        <definition>std::vector&lt;FeedbackItem&gt; themis::llm::applications::ThemisHelpLoRA::Impl::feedback_buffer</definition>
+        <argsstring></argsstring>
+        <name>feedback_buffer</name>
+        <qualifiedname>themis::llm::applications::ThemisHelpLoRA::Impl::feedback_buffer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/applications/themis_help_lora.cpp" line="82" column="17" bodyfile="src/llm/applications/themis_help_lora.cpp" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1ab6b8c5c517e9851c6ae360be9e899049" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::applications::ThemisHelpLoRA::Impl::feedback_mutex</definition>
+        <argsstring></argsstring>
+        <name>feedback_mutex</name>
+        <qualifiedname>themis::llm::applications::ThemisHelpLoRA::Impl::feedback_mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/applications/themis_help_lora.cpp" line="83" column="24" bodyfile="src/llm/applications/themis_help_lora.cpp" bodystart="83" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1a1b1122257ada648a7970a96789524f14" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::applications::ThemisHelpLoRA::Impl::Impl</definition>
+        <argsstring>()</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::llm::applications::ThemisHelpLoRA::Impl::Impl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/api/themis_help_lora_adapter.cpp" line="11" column="5" bodyfile="src/llm/api/themis_help_lora_adapter.cpp" bodystart="11" bodyend="11"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1ab64b5f440de0e719de0467faeff35e09" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::applications::ThemisHelpLoRA::Impl::isTrained</definition>
+        <argsstring>() const</argsstring>
+        <name>isTrained</name>
+        <qualifiedname>themis::llm::applications::ThemisHelpLoRA::Impl::isTrained</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/api/themis_help_lora_adapter.cpp" line="13" column="10" bodyfile="src/llm/api/themis_help_lora_adapter.cpp" bodystart="13" bodyend="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1afe774c93ffc6904d5bdf4c69459241ee" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::applications::ThemisHelpLoRA::Impl::query</definition>
+        <argsstring>(const std::string &amp;prompt)</argsstring>
+        <name>query</name>
+        <qualifiedname>themis::llm::applications::ThemisHelpLoRA::Impl::query</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <briefdescription>
+<para>Query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/api/themis_help_lora_adapter.cpp" line="20" column="17" bodyfile="src/llm/api/themis_help_lora_adapter.cpp" bodystart="20" bodyend="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1a903bc2c650023e5310621b6c8eb49ccf" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1applications_1_1_performance_metrics" kindref="compound">PerformanceMetrics</ref></type>
+        <definition>PerformanceMetrics themis::llm::applications::ThemisHelpLoRA::Impl::getMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>getMetrics</name>
+        <qualifiedname>themis::llm::applications::ThemisHelpLoRA::Impl::getMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/api/themis_help_lora_adapter.cpp" line="21" column="24" bodyfile="src/llm/api/themis_help_lora_adapter.cpp" bodystart="21" bodyend="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1aaf26475d41a09d3dc2d035a325148313" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1applications_1_1_feedback_stats" kindref="compound">FeedbackStats</ref></type>
+        <definition>FeedbackStats themis::llm::applications::ThemisHelpLoRA::Impl::getFeedbackStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getFeedbackStats</name>
+        <qualifiedname>themis::llm::applications::ThemisHelpLoRA::Impl::getFeedbackStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/api/themis_help_lora_adapter.cpp" line="22" column="19" bodyfile="src/llm/api/themis_help_lora_adapter.cpp" bodystart="22" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1a081457d78b9c04914eaf063c4531e059" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::applications::ThemisHelpLoRA::Impl::getVersion</definition>
+        <argsstring>() const</argsstring>
+        <name>getVersion</name>
+        <qualifiedname>themis::llm::applications::ThemisHelpLoRA::Impl::getVersion</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/api/themis_help_lora_adapter.cpp" line="23" column="17" bodyfile="src/llm/api/themis_help_lora_adapter.cpp" bodystart="23" bodyend="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1a7bb48533992ab76cdeb72a31715b5d5e" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::applications::ThemisHelpLoRA::Impl::Impl</definition>
+        <argsstring>(const Config &amp;cfg)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::llm::applications::ThemisHelpLoRA::Impl::Impl</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl" kindref="compound">Impl</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/applications/themis_help_lora.cpp" line="90" column="14" bodyfile="src/llm/applications/themis_help_lora.cpp" bodystart="90" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1a41d134c08b20ac51cc51cad0c3b03f37" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::applications::ThemisHelpLoRA::Impl::resolveBaseModelPath</definition>
+        <argsstring>() const</argsstring>
+        <name>resolveBaseModelPath</name>
+        <qualifiedname>themis::llm::applications::ThemisHelpLoRA::Impl::resolveBaseModelPath</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/applications/themis_help_lora.cpp" line="145" column="17" bodyfile="src/llm/applications/themis_help_lora.cpp" bodystart="145" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1acb4fe25e5e1cd3b39e15a65d66f6a1cb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::applications::ThemisHelpLoRA::Impl::buildDocumentationPrompt</definition>
+        <argsstring>(const std::string &amp;question)</argsstring>
+        <name>buildDocumentationPrompt</name>
+        <qualifiedname>themis::llm::applications::ThemisHelpLoRA::Impl::buildDocumentationPrompt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>question</declname>
+        </param>
+        <briefdescription>
+<para>Build Documentation Prompt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">question</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/applications/themis_help_lora.cpp" line="168" column="17" bodyfile="src/llm/applications/themis_help_lora.cpp" bodystart="168" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1a3d49bc4dcfa8543e9878166174570ce0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::applications::ThemisHelpLoRA::Impl::queryInternal</definition>
+        <argsstring>(const std::string &amp;question, const std::string &amp;)</argsstring>
+        <name>queryInternal</name>
+        <qualifiedname>themis::llm::applications::ThemisHelpLoRA::Impl::queryInternal</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>question</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+<para>Query Internal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">question</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), isModelLoaded(), spdlog::info(), model_path_provider(), empty(), spdlog::warn(), loadModel(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/applications/themis_help_lora.cpp" line="188" column="17" bodyfile="src/llm/applications/themis_help_lora.cpp" bodystart="188" bodyend="282"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1a46cfabd6a85e19b6bb94efe20b2d5dc9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::applications::ThemisHelpLoRA::Impl::generatePlaceholderResponse</definition>
+        <argsstring>(const std::string &amp;question)</argsstring>
+        <name>generatePlaceholderResponse</name>
+        <qualifiedname>themis::llm::applications::ThemisHelpLoRA::Impl::generatePlaceholderResponse</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>question</declname>
+        </param>
+        <briefdescription>
+<para>Generate Placeholder Response. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">question</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::transform(), begin(), end(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/applications/themis_help_lora.cpp" line="290" column="17" bodyfile="src/llm/applications/themis_help_lora.cpp" bodystart="290" bodyend="329"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::llm::applications::ThemisHelpLoRA::Config</label>
+        <link refid="structthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_config"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>hyperparameters</edgelabel>
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::llm::applications::ThemisHelpLoRA::Impl</label>
+        <link refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::llm::lora::LoRAHyperparameters</label>
+        <link refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_hyperparameters"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/llm/api/themis_help_lora_adapter.cpp" line="9" column="1" bodyfile="src/llm/api/themis_help_lora_adapter.cpp" bodystart="9" bodyend="24"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1acb4fe25e5e1cd3b39e15a65d66f6a1cb" prot="public" virt="non-virtual"><scope>themis::llm::applications::ThemisHelpLoRA::Impl</scope><name>buildDocumentationPrompt</name></member>
+      <member refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1aaebaf59c30398c737b23ef648a8504ff" prot="public" virt="non-virtual"><scope>themis::llm::applications::ThemisHelpLoRA::Impl</scope><name>config</name></member>
+      <member refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1ac11a082f98d90784650b9d529279edf7" prot="public" virt="non-virtual"><scope>themis::llm::applications::ThemisHelpLoRA::Impl</scope><name>current_adapter_version</name></member>
+      <member refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1a0ff3de0eb281c60df03e38dd9d372bbc" prot="public" virt="non-virtual"><scope>themis::llm::applications::ThemisHelpLoRA::Impl</scope><name>feedback_buffer</name></member>
+      <member refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1ab6b8c5c517e9851c6ae360be9e899049" prot="public" virt="non-virtual"><scope>themis::llm::applications::ThemisHelpLoRA::Impl</scope><name>feedback_mutex</name></member>
+      <member refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1a46cfabd6a85e19b6bb94efe20b2d5dc9" prot="public" virt="non-virtual"><scope>themis::llm::applications::ThemisHelpLoRA::Impl</scope><name>generatePlaceholderResponse</name></member>
+      <member refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1aaf26475d41a09d3dc2d035a325148313" prot="public" virt="non-virtual"><scope>themis::llm::applications::ThemisHelpLoRA::Impl</scope><name>getFeedbackStats</name></member>
+      <member refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1a903bc2c650023e5310621b6c8eb49ccf" prot="public" virt="non-virtual"><scope>themis::llm::applications::ThemisHelpLoRA::Impl</scope><name>getMetrics</name></member>
+      <member refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1a081457d78b9c04914eaf063c4531e059" prot="public" virt="non-virtual"><scope>themis::llm::applications::ThemisHelpLoRA::Impl</scope><name>getVersion</name></member>
+      <member refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1a1b1122257ada648a7970a96789524f14" prot="public" virt="non-virtual"><scope>themis::llm::applications::ThemisHelpLoRA::Impl</scope><name>Impl</name></member>
+      <member refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1a7bb48533992ab76cdeb72a31715b5d5e" prot="public" virt="non-virtual"><scope>themis::llm::applications::ThemisHelpLoRA::Impl</scope><name>Impl</name></member>
+      <member refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1a493591f06a76081cc62fbfab4d8aa9e4" prot="public" virt="non-virtual"><scope>themis::llm::applications::ThemisHelpLoRA::Impl</scope><name>impl</name></member>
+      <member refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1a6870abbc4193386984c8e4056c3fc679" prot="public" virt="non-virtual"><scope>themis::llm::applications::ThemisHelpLoRA::Impl</scope><name>is_trained</name></member>
+      <member refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1ab64b5f440de0e719de0467faeff35e09" prot="public" virt="non-virtual"><scope>themis::llm::applications::ThemisHelpLoRA::Impl</scope><name>isTrained</name></member>
+      <member refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1ac76548779698a5339412f3d9d85f9078" prot="public" virt="non-virtual"><scope>themis::llm::applications::ThemisHelpLoRA::Impl</scope><name>llama_wrapper</name></member>
+      <member refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1a105715670911cc78e55e5f091ff2f0d5" prot="public" virt="non-virtual"><scope>themis::llm::applications::ThemisHelpLoRA::Impl</scope><name>llm_audit</name></member>
+      <member refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1a94a918fde96a4abbdeadc7874026deaf" prot="public" virt="non-virtual"><scope>themis::llm::applications::ThemisHelpLoRA::Impl</scope><name>lora_audit</name></member>
+      <member refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1a27fd70d39ca712ecb238ec3d2987db55" prot="public" virt="non-virtual"><scope>themis::llm::applications::ThemisHelpLoRA::Impl</scope><name>orchestrator</name></member>
+      <member refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1afe774c93ffc6904d5bdf4c69459241ee" prot="public" virt="non-virtual"><scope>themis::llm::applications::ThemisHelpLoRA::Impl</scope><name>query</name></member>
+      <member refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1a3d49bc4dcfa8543e9878166174570ce0" prot="public" virt="non-virtual"><scope>themis::llm::applications::ThemisHelpLoRA::Impl</scope><name>queryInternal</name></member>
+      <member refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1a41d134c08b20ac51cc51cad0c3b03f37" prot="public" virt="non-virtual"><scope>themis::llm::applications::ThemisHelpLoRA::Impl</scope><name>resolveBaseModelPath</name></member>
+      <member refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1a2196fbfdfc765d18307715300b96ddd6" prot="public" virt="non-virtual"><scope>themis::llm::applications::ThemisHelpLoRA::Impl</scope><name>successful_queries</name></member>
+      <member refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1ac8609f0bc2cad2fbd064a8f09f40e796" prot="public" virt="non-virtual"><scope>themis::llm::applications::ThemisHelpLoRA::Impl</scope><name>total_latency_us</name></member>
+      <member refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1a3a10ae1728d14085fe3867a18739a85b" prot="public" virt="non-virtual"><scope>themis::llm::applications::ThemisHelpLoRA::Impl</scope><name>total_queries</name></member>
+      <member refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1af5e638ed2adfb654322ffebf6bb3c92d" prot="public" virt="non-virtual"><scope>themis::llm::applications::ThemisHelpLoRA::Impl</scope><name>training_service</name></member>
+      <member refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1adcef3c60df81d6cb1ed667f02c91ac42" prot="public" virt="non-virtual"><scope>themis::llm::applications::ThemisHelpLoRA::Impl</scope><name>version_history</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

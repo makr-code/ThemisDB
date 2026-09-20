@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_quality_check" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::QualityCheck</compoundname>
+    <includes refid="prompt__quality__evaluator_8h" local="no">prompt_quality_evaluator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_quality_check_1a23cc94adeb5cdb8ef4b86f8702503f21" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::QualityCheck::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::prompt_engineering::QualityCheck::id</qualifiedname>
+        <briefdescription>
+<para>Stable identifier, e.g. &quot;INJ-001&quot;, &quot;DIV-001&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_quality_evaluator.h" line="27" column="17" bodyfile="include/prompt_engineering/prompt_quality_evaluator.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_quality_check_1aaaebf62eb1b42399e5c410f0a5288d0c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::QualityCheck::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::prompt_engineering::QualityCheck::description</qualifiedname>
+        <briefdescription>
+<para>Human-readable description of what was checked. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_quality_evaluator.h" line="28" column="17" bodyfile="include/prompt_engineering/prompt_quality_evaluator.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_quality_check_1af3b17a8a2191808d0d02d9f122c0c167" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::QualityCheck::passed</definition>
+        <argsstring></argsstring>
+        <name>passed</name>
+        <qualifiedname>themis::prompt_engineering::QualityCheck::passed</qualifiedname>
+        <briefdescription>
+<para><computeroutput>true</computeroutput> if the check passed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_quality_evaluator.h" line="29" column="17" bodyfile="include/prompt_engineering/prompt_quality_evaluator.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_quality_check_1a0d23cd7edeeddf26e46080ea9209aaf0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::QualityCheck::detail</definition>
+        <argsstring></argsstring>
+        <name>detail</name>
+        <qualifiedname>themis::prompt_engineering::QualityCheck::detail</qualifiedname>
+        <briefdescription>
+<para>Additional context when <computeroutput>!passed</computeroutput> (empty on pass). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_quality_evaluator.h" line="30" column="17" bodyfile="include/prompt_engineering/prompt_quality_evaluator.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of a single quality check applied to a prompt. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/prompt_quality_evaluator.h" line="26" column="1" bodyfile="include/prompt_engineering/prompt_quality_evaluator.h" bodystart="26" bodyend="31"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_quality_check_1aaaebf62eb1b42399e5c410f0a5288d0c" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::QualityCheck</scope><name>description</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_quality_check_1a0d23cd7edeeddf26e46080ea9209aaf0" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::QualityCheck</scope><name>detail</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_quality_check_1a23cc94adeb5cdb8ef4b86f8702503f21" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::QualityCheck</scope><name>id</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_quality_check_1af3b17a8a2191808d0d02d9f122c0c167" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::QualityCheck</scope><name>passed</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

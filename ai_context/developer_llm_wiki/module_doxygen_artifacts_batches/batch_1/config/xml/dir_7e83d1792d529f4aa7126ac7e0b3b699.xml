@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_7e83d1792d529f4aa7126ac7e0b3b699" kind="dir">
+    <compoundname>src/config</compoundname>
+    <innerfile refid="config__audit__log_8cpp">config_audit_log.cpp</innerfile>
+    <innerfile refid="config__encrypted__store_8cpp">config_encrypted_store.cpp</innerfile>
+    <innerfile refid="config__file__watcher_8cpp">config_file_watcher.cpp</innerfile>
+    <innerfile refid="config__metrics__exporter_8cpp">config_metrics_exporter.cpp</innerfile>
+    <innerfile refid="config__path__resolver_8cpp">config_path_resolver.cpp</innerfile>
+    <innerfile refid="config__schema__validator_8cpp">config_schema_validator.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/config/"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,191 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_graph_query_optimizer_benchmark_fixture" kind="class" language="C++" prot="public">
+    <compoundname>GraphQueryOptimizerBenchmarkFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_graph_query_optimizer_benchmark_fixture_1a92c5d8098297ecd5d2b6e94d3cb5becf" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string GraphQueryOptimizerBenchmarkFixture::test_db_path_</definition>
+        <argsstring></argsstring>
+        <name>test_db_path_</name>
+        <qualifiedname>GraphQueryOptimizerBenchmarkFixture::test_db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_graph_query_optimizer.cpp" line="106" column="17" bodyfile="benchmarks/graph/bench_graph_query_optimizer.cpp" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_graph_query_optimizer_benchmark_fixture_1a1c4ea3902884f500200f82b51b1bb0fc" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;themis::RocksDBWrapper&gt; GraphQueryOptimizerBenchmarkFixture::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>GraphQueryOptimizerBenchmarkFixture::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_graph_query_optimizer.cpp" line="107" column="21" bodyfile="benchmarks/graph/bench_graph_query_optimizer.cpp" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_graph_query_optimizer_benchmark_fixture_1a2d699891123be49bb16f2cd8ee9c431b" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::GraphIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;themis::GraphIndexManager&gt; GraphQueryOptimizerBenchmarkFixture::graph_mgr_</definition>
+        <argsstring></argsstring>
+        <name>graph_mgr_</name>
+        <qualifiedname>GraphQueryOptimizerBenchmarkFixture::graph_mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_graph_query_optimizer.cpp" line="108" column="21" bodyfile="benchmarks/graph/bench_graph_query_optimizer.cpp" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_graph_query_optimizer_benchmark_fixture_1af75004a48e3758597532e01e6a17e94e" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1graph_1_1_graph_query_optimizer" kindref="compound">GraphQueryOptimizer</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;GraphQueryOptimizer&gt; GraphQueryOptimizerBenchmarkFixture::optimizer_</definition>
+        <argsstring></argsstring>
+        <name>optimizer_</name>
+        <qualifiedname>GraphQueryOptimizerBenchmarkFixture::optimizer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_graph_query_optimizer.cpp" line="109" column="21" bodyfile="benchmarks/graph/bench_graph_query_optimizer.cpp" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_graph_query_optimizer_benchmark_fixture_1a84cb8f3d696cbcda96667b48be396c93" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1graph_1_1_parallel_traversal" kindref="compound">themis::graph::ParallelTraversal</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;themis::graph::ParallelTraversal&gt; GraphQueryOptimizerBenchmarkFixture::parallel_traversal_</definition>
+        <argsstring></argsstring>
+        <name>parallel_traversal_</name>
+        <qualifiedname>GraphQueryOptimizerBenchmarkFixture::parallel_traversal_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_graph_query_optimizer.cpp" line="110" column="21" bodyfile="benchmarks/graph/bench_graph_query_optimizer.cpp" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_graph_query_optimizer_benchmark_fixture_1a147868b6b704189331b4252b1cd4a531" prot="protected" static="no" mutable="no">
+        <type>int</type>
+        <definition>int GraphQueryOptimizerBenchmarkFixture::graph_size_</definition>
+        <argsstring></argsstring>
+        <name>graph_size_</name>
+        <qualifiedname>GraphQueryOptimizerBenchmarkFixture::graph_size_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_graph_query_optimizer.cpp" line="111" column="9" bodyfile="benchmarks/graph/bench_graph_query_optimizer.cpp" bodystart="111" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_graph_query_optimizer_benchmark_fixture_1a5b4d1a6672b3bc666a5b1bd4d60e441c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GraphQueryOptimizerBenchmarkFixture::SetUp</definition>
+        <argsstring>(const ::benchmark::State &amp;state) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>GraphQueryOptimizerBenchmarkFixture::SetUp</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_graph_query_optimizer.cpp" line="22" column="10" bodyfile="benchmarks/graph/bench_graph_query_optimizer.cpp" bodystart="22" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="class_graph_query_optimizer_benchmark_fixture_1ab4ac23c966a9707988b5891bd3cfa897" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GraphQueryOptimizerBenchmarkFixture::TearDown</definition>
+        <argsstring>(const ::benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>GraphQueryOptimizerBenchmarkFixture::TearDown</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_graph_query_optimizer.cpp" line="54" column="10" bodyfile="benchmarks/graph/bench_graph_query_optimizer.cpp" bodystart="54" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="class_graph_query_optimizer_benchmark_fixture_1a614b44ad50e047ec19965f8f053e333e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GraphQueryOptimizerBenchmarkFixture::buildTestGraph</definition>
+        <argsstring>(int num_nodes, int avg_degree)</argsstring>
+        <name>buildTestGraph</name>
+        <qualifiedname>GraphQueryOptimizerBenchmarkFixture::buildTestGraph</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>num_nodes</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>avg_degree</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_graph_query_optimizer.cpp" line="67" column="10" bodyfile="benchmarks/graph/bench_graph_query_optimizer.cpp" bodystart="67" bodyend="103"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>GraphQueryOptimizerBenchmarkFixture</label>
+        <link refid="class_graph_query_optimizer_benchmark_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>GraphQueryOptimizerBenchmarkFixture</label>
+        <link refid="class_graph_query_optimizer_benchmark_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/graph/bench_graph_query_optimizer.cpp" line="20" column="1" bodyfile="benchmarks/graph/bench_graph_query_optimizer.cpp" bodystart="20" bodyend="112"/>
+    <listofallmembers>
+      <member refid="class_graph_query_optimizer_benchmark_fixture_1a614b44ad50e047ec19965f8f053e333e" prot="public" virt="non-virtual"><scope>GraphQueryOptimizerBenchmarkFixture</scope><name>buildTestGraph</name></member>
+      <member refid="class_graph_query_optimizer_benchmark_fixture_1a1c4ea3902884f500200f82b51b1bb0fc" prot="protected" virt="non-virtual"><scope>GraphQueryOptimizerBenchmarkFixture</scope><name>db_</name></member>
+      <member refid="class_graph_query_optimizer_benchmark_fixture_1a2d699891123be49bb16f2cd8ee9c431b" prot="protected" virt="non-virtual"><scope>GraphQueryOptimizerBenchmarkFixture</scope><name>graph_mgr_</name></member>
+      <member refid="class_graph_query_optimizer_benchmark_fixture_1a147868b6b704189331b4252b1cd4a531" prot="protected" virt="non-virtual"><scope>GraphQueryOptimizerBenchmarkFixture</scope><name>graph_size_</name></member>
+      <member refid="class_graph_query_optimizer_benchmark_fixture_1af75004a48e3758597532e01e6a17e94e" prot="protected" virt="non-virtual"><scope>GraphQueryOptimizerBenchmarkFixture</scope><name>optimizer_</name></member>
+      <member refid="class_graph_query_optimizer_benchmark_fixture_1a84cb8f3d696cbcda96667b48be396c93" prot="protected" virt="non-virtual"><scope>GraphQueryOptimizerBenchmarkFixture</scope><name>parallel_traversal_</name></member>
+      <member refid="class_graph_query_optimizer_benchmark_fixture_1a5b4d1a6672b3bc666a5b1bd4d60e441c" prot="public" virt="non-virtual"><scope>GraphQueryOptimizerBenchmarkFixture</scope><name>SetUp</name></member>
+      <member refid="class_graph_query_optimizer_benchmark_fixture_1ab4ac23c966a9707988b5891bd3cfa897" prot="public" virt="non-virtual"><scope>GraphQueryOptimizerBenchmarkFixture</scope><name>TearDown</name></member>
+      <member refid="class_graph_query_optimizer_benchmark_fixture_1a92c5d8098297ecd5d2b6e94d3cb5becf" prot="protected" virt="non-virtual"><scope>GraphQueryOptimizerBenchmarkFixture</scope><name>test_db_path_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

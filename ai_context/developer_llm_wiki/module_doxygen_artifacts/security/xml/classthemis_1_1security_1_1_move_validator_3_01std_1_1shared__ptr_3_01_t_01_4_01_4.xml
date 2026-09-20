@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1_move_validator_3_01std_1_1shared__ptr_3_01_t_01_4_01_4" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::MoveValidator&lt; std::shared_ptr&lt; T &gt; &gt;</compoundname>
+    <includes refid="safe__move_8h" local="no">safe_move.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_move_validator_3_01std_1_1shared__ptr_3_01_t_01_4_01_4_1ae45451753f3dce3bf3b2dd2b63e24599" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::security::MoveValidator&lt; std::shared_ptr&lt; T &gt; &gt;::validatePreMove</definition>
+        <argsstring>(const std::shared_ptr&lt; T &gt; &amp;ptr)</argsstring>
+        <name>validatePreMove</name>
+        <qualifiedname>themis::security::MoveValidator&lt; std::shared_ptr&lt; T &gt; &gt;::validatePreMove</qualifiedname>
+        <param>
+          <type>const std::shared_ptr&lt; T &gt; &amp;</type>
+          <declname>ptr</declname>
+        </param>
+        <briefdescription>
+<para>Validate Pre Move. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements validatePreMove without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_move.h" line="477" column="15" bodyfile="include/security/safe_move.h" bodystart="477" bodyend="479"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_move_validator_3_01std_1_1shared__ptr_3_01_t_01_4_01_4_1a2189f43a7b7cc3852bb1c10ec2a9aa18" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::security::MoveValidator&lt; std::shared_ptr&lt; T &gt; &gt;::validatePostMove</definition>
+        <argsstring>(const std::shared_ptr&lt; T &gt; &amp;ptr)</argsstring>
+        <name>validatePostMove</name>
+        <qualifiedname>themis::security::MoveValidator&lt; std::shared_ptr&lt; T &gt; &gt;::validatePostMove</qualifiedname>
+        <param>
+          <type>const std::shared_ptr&lt; T &gt; &amp;</type>
+          <declname>ptr</declname>
+        </param>
+        <briefdescription>
+<para>Validate Post Move. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>MoveSourceNotCleared</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements validatePostMove without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Move Source Not Cleared. <simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/security/safe_move.h" line="487" column="15" bodyfile="include/security/safe_move.h" bodystart="487" bodyend="496"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_move_validator_3_01std_1_1shared__ptr_3_01_t_01_4_01_4_1a0fdf17e644513dba379b592b7d88e270" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::security::MoveValidator&lt; std::shared_ptr&lt; T &gt; &gt;::validateMoveDestination</definition>
+        <argsstring>(const std::shared_ptr&lt; T &gt; &amp;ptr)</argsstring>
+        <name>validateMoveDestination</name>
+        <qualifiedname>themis::security::MoveValidator&lt; std::shared_ptr&lt; T &gt; &gt;::validateMoveDestination</qualifiedname>
+        <param>
+          <type>const std::shared_ptr&lt; T &gt; &amp;</type>
+          <declname>ptr</declname>
+        </param>
+        <briefdescription>
+<para>Validate Move Destination. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements validateMoveDestination without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_move.h" line="503" column="15" bodyfile="include/security/safe_move.h" bodystart="503" bodyend="505"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Specialization for std::shared_ptr move validation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointed-to type </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <location file="include/security/safe_move.h" line="470" column="1" bodyfile="include/security/safe_move.h" bodystart="470" bodyend="506"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1_move_validator_3_01std_1_1shared__ptr_3_01_t_01_4_01_4_1a0fdf17e644513dba379b592b7d88e270" prot="public" virt="non-virtual"><scope>themis::security::MoveValidator&lt; std::shared_ptr&lt; T &gt; &gt;</scope><name>validateMoveDestination</name></member>
+      <member refid="classthemis_1_1security_1_1_move_validator_3_01std_1_1shared__ptr_3_01_t_01_4_01_4_1a2189f43a7b7cc3852bb1c10ec2a9aa18" prot="public" virt="non-virtual"><scope>themis::security::MoveValidator&lt; std::shared_ptr&lt; T &gt; &gt;</scope><name>validatePostMove</name></member>
+      <member refid="classthemis_1_1security_1_1_move_validator_3_01std_1_1shared__ptr_3_01_t_01_4_01_4_1ae45451753f3dce3bf3b2dd2b63e24599" prot="public" virt="non-virtual"><scope>themis::security::MoveValidator&lt; std::shared_ptr&lt; T &gt; &gt;</scope><name>validatePreMove</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

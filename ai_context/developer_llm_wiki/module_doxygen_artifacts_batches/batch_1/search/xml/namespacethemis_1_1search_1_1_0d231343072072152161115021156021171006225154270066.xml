@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1search_1_1_0d231343072072152161115021156021171006225154270066" kind="namespace" language="C++">
+    <compoundname>themis::search::@231343072072152161115021156021171006225154270066</compoundname>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1search_1_1_0d231343072072152161115021156021171006225154270066_1a23d6580c0501fbac9a4668595790f69f" prot="public" static="no" strong="yes">
+        <type>std::uint8_t</type>
+        <name>DeadlineState</name>
+        <qualifiedname>themis::search::@231343072072152161115021156021171006225154270066::DeadlineState</qualifiedname>
+        <enumvalue id="namespacethemis_1_1search_1_1_0d231343072072152161115021156021171006225154270066_1a23d6580c0501fbac9a4668595790f69fa07ca5050e697392c9ed47e6453f1453f" prot="public">
+          <name>Completed</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1search_1_1_0d231343072072152161115021156021171006225154270066_1a23d6580c0501fbac9a4668595790f69fa9541eb2348d883dd8e32ae0420274c4c" prot="public">
+          <name>TimedOut</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1search_1_1_0d231343072072152161115021156021171006225154270066_1a23d6580c0501fbac9a4668595790f69fad7c8c85bf79bbe1b7188497c32c3b0ca" prot="public">
+          <name>Failed</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/search/layered_retrieval_orchestrator.cpp" line="30" column="1" bodyfile="src/search/layered_retrieval_orchestrator.cpp" bodystart="30" bodyend="34"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/search/layered_retrieval_orchestrator.cpp" line="25" column="1"/>
+  </compounddef>
+</doxygen>

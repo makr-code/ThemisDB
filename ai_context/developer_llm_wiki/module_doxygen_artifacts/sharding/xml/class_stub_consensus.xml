@@ -1,0 +1,227 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_consensus" kind="class" language="C++" prot="public">
+    <compoundname>StubConsensus</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_consensus_1a29ac51ce525d77c9c9c81d2a21c159a5" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; StubConsensus::fail_propose_</definition>
+        <argsstring></argsstring>
+        <name>fail_propose_</name>
+        <qualifiedname>StubConsensus::fail_propose_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp" line="142" column="21" bodyfile="tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp" bodystart="142" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_consensus_1a1ff1979fd36926223af3b62147915f31" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; StubConsensus::fail_commit_</definition>
+        <argsstring></argsstring>
+        <name>fail_commit_</name>
+        <qualifiedname>StubConsensus::fail_commit_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp" line="143" column="21" bodyfile="tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp" bodystart="143" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_consensus_1a58490d79ba03403783d2c9359fdec276" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; StubConsensus::slow_ms_</definition>
+        <argsstring></argsstring>
+        <name>slow_ms_</name>
+        <qualifiedname>StubConsensus::slow_ms_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp" line="144" column="22" bodyfile="tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp" bodystart="144" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_consensus_1a97d4d910b4bf1ec4aa5a6c8e8aed1bcf" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubConsensus::next_index_</definition>
+        <argsstring></argsstring>
+        <name>next_index_</name>
+        <qualifiedname>StubConsensus::next_index_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp" line="145" column="17" bodyfile="tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp" bodystart="145" bodyend="145"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_consensus_1ac8cfb348b9950bf74a6c271623d9eea5" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>StubConsensus::StubConsensus</definition>
+        <argsstring>(bool fail_propose=false, bool fail_commit=false, bool slow_ms=0)</argsstring>
+        <name>StubConsensus</name>
+        <qualifiedname>StubConsensus::StubConsensus</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>fail_propose</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>fail_commit</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>slow_ms</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp" line="104" column="14" bodyfile="tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp" bodystart="104" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_consensus_1a56575241493ef4a5a255a9085163d948" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; uint64_t &gt;</type>
+        <definition>std::optional&lt; uint64_t &gt; StubConsensus::propose</definition>
+        <argsstring>(const std::string &amp;)</argsstring>
+        <name>propose</name>
+        <qualifiedname>StubConsensus::propose</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+<para>Propose operation; returns nullopt when failure is injected. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp" line="113" column="19" bodyfile="tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp" bodystart="113" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_consensus_1a395e75790f79e90dffd196297ec4a14a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool StubConsensus::waitForCommit</definition>
+        <argsstring>(uint64_t, std::chrono::milliseconds timeout=std::chrono::milliseconds(100))</argsstring>
+        <name>waitForCommit</name>
+        <qualifiedname>StubConsensus::waitForCommit</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>timeout</declname>
+          <defval>std::chrono::milliseconds(100)</defval>
+        </param>
+        <briefdescription>
+<para>Wait for commit up to timeout; returns false on timeout/failure. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp" line="123" column="10" bodyfile="tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp" bodystart="123" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_consensus_1af78688073d71bef67873a45756c29c5a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubConsensus::commitIndex</definition>
+        <argsstring>() const</argsstring>
+        <name>commitIndex</name>
+        <qualifiedname>StubConsensus::commitIndex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp" line="135" column="14" bodyfile="tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp" bodystart="135" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_consensus_1a74324ed714319895037564f66fe1ff47" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StubConsensus::setFailPropose</definition>
+        <argsstring>(bool v)</argsstring>
+        <name>setFailPropose</name>
+        <qualifiedname>StubConsensus::setFailPropose</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp" line="137" column="10" bodyfile="tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp" bodystart="137" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_consensus_1ab849f677189b4a6064d3b390f5ccbc14" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StubConsensus::setFailCommit</definition>
+        <argsstring>(bool v)</argsstring>
+        <name>setFailCommit</name>
+        <qualifiedname>StubConsensus::setFailCommit</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp" line="138" column="10" bodyfile="tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp" bodystart="138" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_consensus_1a26ae16ea687569cb83328073426c7de4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StubConsensus::setSlowMs</definition>
+        <argsstring>(int ms)</argsstring>
+        <name>setSlowMs</name>
+        <qualifiedname>StubConsensus::setSlowMs</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>ms</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp" line="139" column="10" bodyfile="tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp" bodystart="139" bodyend="139"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Stub consensus module with configurable failure / timeout injection. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp" line="102" column="1" bodyfile="tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp" bodystart="102" bodyend="146"/>
+    <listofallmembers>
+      <member refid="class_stub_consensus_1af78688073d71bef67873a45756c29c5a" prot="public" virt="non-virtual"><scope>StubConsensus</scope><name>commitIndex</name></member>
+      <member refid="class_stub_consensus_1a1ff1979fd36926223af3b62147915f31" prot="private" virt="non-virtual"><scope>StubConsensus</scope><name>fail_commit_</name></member>
+      <member refid="class_stub_consensus_1a29ac51ce525d77c9c9c81d2a21c159a5" prot="private" virt="non-virtual"><scope>StubConsensus</scope><name>fail_propose_</name></member>
+      <member refid="class_stub_consensus_1a97d4d910b4bf1ec4aa5a6c8e8aed1bcf" prot="private" virt="non-virtual"><scope>StubConsensus</scope><name>next_index_</name></member>
+      <member refid="class_stub_consensus_1a56575241493ef4a5a255a9085163d948" prot="public" virt="non-virtual"><scope>StubConsensus</scope><name>propose</name></member>
+      <member refid="class_stub_consensus_1ab849f677189b4a6064d3b390f5ccbc14" prot="public" virt="non-virtual"><scope>StubConsensus</scope><name>setFailCommit</name></member>
+      <member refid="class_stub_consensus_1a74324ed714319895037564f66fe1ff47" prot="public" virt="non-virtual"><scope>StubConsensus</scope><name>setFailPropose</name></member>
+      <member refid="class_stub_consensus_1a26ae16ea687569cb83328073426c7de4" prot="public" virt="non-virtual"><scope>StubConsensus</scope><name>setSlowMs</name></member>
+      <member refid="class_stub_consensus_1a58490d79ba03403783d2c9359fdec276" prot="private" virt="non-virtual"><scope>StubConsensus</scope><name>slow_ms_</name></member>
+      <member refid="class_stub_consensus_1ac8cfb348b9950bf74a6c271623d9eea5" prot="public" virt="non-virtual"><scope>StubConsensus</scope><name>StubConsensus</name></member>
+      <member refid="class_stub_consensus_1a395e75790f79e90dffd196297ec4a14a" prot="public" virt="non-virtual"><scope>StubConsensus</scope><name>waitForCommit</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

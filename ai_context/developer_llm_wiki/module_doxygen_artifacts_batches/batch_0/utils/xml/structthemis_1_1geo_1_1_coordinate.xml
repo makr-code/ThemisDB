@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1geo_1_1_coordinate" kind="struct" language="C++" prot="public">
+    <compoundname>themis::geo::Coordinate</compoundname>
+    <includes refid="ewkb_8h" local="no">ewkb.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_coordinate_1a7c9f4acfaa2f84671a01fefa6b4af557" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::geo::Coordinate::x</definition>
+        <argsstring></argsstring>
+        <name>x</name>
+        <qualifiedname>themis::geo::Coordinate::x</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/geo/ewkb.h" line="44" column="12" bodyfile="include/utils/geo/ewkb.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_coordinate_1a770f2bb1c13caf70a4f65cf31edd88a6" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::geo::Coordinate::y</definition>
+        <argsstring></argsstring>
+        <name>y</name>
+        <qualifiedname>themis::geo::Coordinate::y</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/geo/ewkb.h" line="45" column="12" bodyfile="include/utils/geo/ewkb.h" bodystart="45" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_coordinate_1a17553e8ed2dcc2ef2fcb00eb5dd18857" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; double &gt;</type>
+        <definition>std::optional&lt;double&gt; themis::geo::Coordinate::z</definition>
+        <argsstring></argsstring>
+        <name>z</name>
+        <qualifiedname>themis::geo::Coordinate::z</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/geo/ewkb.h" line="46" column="19" bodyfile="include/utils/geo/ewkb.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1geo_1_1_coordinate_1a21bfaca974b9b168d3520c299150d1f1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::Coordinate::Coordinate</definition>
+        <argsstring>()</argsstring>
+        <name>Coordinate</name>
+        <qualifiedname>themis::geo::Coordinate::Coordinate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/geo/ewkb.h" line="48" column="5" bodyfile="include/utils/geo/ewkb.h" bodystart="48" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1geo_1_1_coordinate_1a4b62d2f035cea9e2eae3591c156374fd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::Coordinate::Coordinate</definition>
+        <argsstring>(double x_, double y_)</argsstring>
+        <name>Coordinate</name>
+        <qualifiedname>themis::geo::Coordinate::Coordinate</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>x_</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>y_</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/geo/ewkb.h" line="49" column="5" bodyfile="include/utils/geo/ewkb.h" bodystart="49" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1geo_1_1_coordinate_1a2c53fd896e30054f7cd47119672551b8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::Coordinate::Coordinate</definition>
+        <argsstring>(double x_, double y_, double z_)</argsstring>
+        <name>Coordinate</name>
+        <qualifiedname>themis::geo::Coordinate::Coordinate</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>x_</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>y_</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>z_</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/geo/ewkb.h" line="50" column="5" bodyfile="include/utils/geo/ewkb.h" bodystart="50" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1geo_1_1_coordinate_1a364d08c3dfc5923790b2864498a48a6a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::geo::Coordinate::hasZ</definition>
+        <argsstring>() const</argsstring>
+        <name>hasZ</name>
+        <qualifiedname>themis::geo::Coordinate::hasZ</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/geo/ewkb.h" line="52" column="10" bodyfile="include/utils/geo/ewkb.h" bodystart="52" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1geo_1_1_coordinate_1affd2f50cf8b616dbaf54d012a5d185a2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::geo::Coordinate::getZ</definition>
+        <argsstring>() const</argsstring>
+        <name>getZ</name>
+        <qualifiedname>themis::geo::Coordinate::getZ</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/geo/ewkb.h" line="53" column="12" bodyfile="include/utils/geo/ewkb.h" bodystart="53" bodyend="53"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/geo/ewkb.h" line="43" column="1" bodyfile="include/utils/geo/ewkb.h" bodystart="43" bodyend="54"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1geo_1_1_coordinate_1a21bfaca974b9b168d3520c299150d1f1" prot="public" virt="non-virtual"><scope>themis::geo::Coordinate</scope><name>Coordinate</name></member>
+      <member refid="structthemis_1_1geo_1_1_coordinate_1a4b62d2f035cea9e2eae3591c156374fd" prot="public" virt="non-virtual"><scope>themis::geo::Coordinate</scope><name>Coordinate</name></member>
+      <member refid="structthemis_1_1geo_1_1_coordinate_1a2c53fd896e30054f7cd47119672551b8" prot="public" virt="non-virtual"><scope>themis::geo::Coordinate</scope><name>Coordinate</name></member>
+      <member refid="structthemis_1_1geo_1_1_coordinate_1affd2f50cf8b616dbaf54d012a5d185a2" prot="public" virt="non-virtual"><scope>themis::geo::Coordinate</scope><name>getZ</name></member>
+      <member refid="structthemis_1_1geo_1_1_coordinate_1a364d08c3dfc5923790b2864498a48a6a" prot="public" virt="non-virtual"><scope>themis::geo::Coordinate</scope><name>hasZ</name></member>
+      <member refid="structthemis_1_1geo_1_1_coordinate_1a7c9f4acfaa2f84671a01fefa6b4af557" prot="public" virt="non-virtual"><scope>themis::geo::Coordinate</scope><name>x</name></member>
+      <member refid="structthemis_1_1geo_1_1_coordinate_1a770f2bb1c13caf70a4f65cf31edd88a6" prot="public" virt="non-virtual"><scope>themis::geo::Coordinate</scope><name>y</name></member>
+      <member refid="structthemis_1_1geo_1_1_coordinate_1a17553e8ed2dcc2ef2fcb00eb5dd18857" prot="public" virt="non-virtual"><scope>themis::geo::Coordinate</scope><name>z</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

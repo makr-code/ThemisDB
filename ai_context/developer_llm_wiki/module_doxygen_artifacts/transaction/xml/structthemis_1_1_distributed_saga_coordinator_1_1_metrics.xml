@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_distributed_saga_coordinator_1_1_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::DistributedSagaCoordinator::Metrics</compoundname>
+    <includes refid="distributed__saga_8h" local="no">distributed_saga.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_distributed_saga_coordinator_1_1_metrics_1a18cc5dc8af5f6b224b646bd085be8a58" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::DistributedSagaCoordinator::Metrics::sagas_started</definition>
+        <argsstring></argsstring>
+        <name>sagas_started</name>
+        <qualifiedname>themis::DistributedSagaCoordinator::Metrics::sagas_started</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="326" column="18" bodyfile="include/transaction/distributed_saga.h" bodystart="326" bodyend="326"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_distributed_saga_coordinator_1_1_metrics_1a2bb279599fa597ff13bdb4c0b00b7fa5" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::DistributedSagaCoordinator::Metrics::sagas_completed</definition>
+        <argsstring></argsstring>
+        <name>sagas_completed</name>
+        <qualifiedname>themis::DistributedSagaCoordinator::Metrics::sagas_completed</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="327" column="18" bodyfile="include/transaction/distributed_saga.h" bodystart="327" bodyend="327"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_distributed_saga_coordinator_1_1_metrics_1aa70c266ea390759808c2c2173c97cf9e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::DistributedSagaCoordinator::Metrics::sagas_compensated</definition>
+        <argsstring></argsstring>
+        <name>sagas_compensated</name>
+        <qualifiedname>themis::DistributedSagaCoordinator::Metrics::sagas_compensated</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="328" column="18" bodyfile="include/transaction/distributed_saga.h" bodystart="328" bodyend="328"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_distributed_saga_coordinator_1_1_metrics_1a58a2c3420a838d85ddc8f416aaffc52f" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::DistributedSagaCoordinator::Metrics::sagas_failed</definition>
+        <argsstring></argsstring>
+        <name>sagas_failed</name>
+        <qualifiedname>themis::DistributedSagaCoordinator::Metrics::sagas_failed</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="329" column="18" bodyfile="include/transaction/distributed_saga.h" bodystart="329" bodyend="329"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_distributed_saga_coordinator_1_1_metrics_1a88629d5d968935df501f0b2ed5094f35" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::DistributedSagaCoordinator::Metrics::total_step_executions</definition>
+        <argsstring></argsstring>
+        <name>total_step_executions</name>
+        <qualifiedname>themis::DistributedSagaCoordinator::Metrics::total_step_executions</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="330" column="18" bodyfile="include/transaction/distributed_saga.h" bodystart="330" bodyend="330"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_distributed_saga_coordinator_1_1_metrics_1a68ea17ed74fdd9e6522693c62f9c0e09" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::DistributedSagaCoordinator::Metrics::total_compensations</definition>
+        <argsstring></argsstring>
+        <name>total_compensations</name>
+        <qualifiedname>themis::DistributedSagaCoordinator::Metrics::total_compensations</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="331" column="18" bodyfile="include/transaction/distributed_saga.h" bodystart="331" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_distributed_saga_coordinator_1_1_metrics_1a69063b214772ece5365591ff0780e385" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::DistributedSagaCoordinator::Metrics::total_step_retries</definition>
+        <argsstring></argsstring>
+        <name>total_step_retries</name>
+        <qualifiedname>themis::DistributedSagaCoordinator::Metrics::total_step_retries</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="332" column="18" bodyfile="include/transaction/distributed_saga.h" bodystart="332" bodyend="332"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_distributed_saga_coordinator_1_1_metrics_1a2c8a83cde5040edc461b43b7b2c3239b" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::DistributedSagaCoordinator::Metrics::total_timeout_aborts</definition>
+        <argsstring></argsstring>
+        <name>total_timeout_aborts</name>
+        <qualifiedname>themis::DistributedSagaCoordinator::Metrics::total_timeout_aborts</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="333" column="18" bodyfile="include/transaction/distributed_saga.h" bodystart="333" bodyend="333"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_distributed_saga_coordinator_1_1_metrics_1a18940007f8199e89aaae8d3e976f8244" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::DistributedSagaCoordinator::Metrics::consensus_checks_total</definition>
+        <argsstring></argsstring>
+        <name>consensus_checks_total</name>
+        <qualifiedname>themis::DistributedSagaCoordinator::Metrics::consensus_checks_total</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="334" column="18" bodyfile="include/transaction/distributed_saga.h" bodystart="334" bodyend="334"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_distributed_saga_coordinator_1_1_metrics_1a1f72ddde53f4ecfa8f07878f987df02a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::DistributedSagaCoordinator::Metrics::consensus_checks_failed</definition>
+        <argsstring></argsstring>
+        <name>consensus_checks_failed</name>
+        <qualifiedname>themis::DistributedSagaCoordinator::Metrics::consensus_checks_failed</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="335" column="18" bodyfile="include/transaction/distributed_saga.h" bodystart="335" bodyend="335"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/distributed_saga.h" line="325" column="5" bodyfile="include/transaction/distributed_saga.h" bodystart="325" bodyend="336"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_distributed_saga_coordinator_1_1_metrics_1a1f72ddde53f4ecfa8f07878f987df02a" prot="public" virt="non-virtual"><scope>themis::DistributedSagaCoordinator::Metrics</scope><name>consensus_checks_failed</name></member>
+      <member refid="structthemis_1_1_distributed_saga_coordinator_1_1_metrics_1a18940007f8199e89aaae8d3e976f8244" prot="public" virt="non-virtual"><scope>themis::DistributedSagaCoordinator::Metrics</scope><name>consensus_checks_total</name></member>
+      <member refid="structthemis_1_1_distributed_saga_coordinator_1_1_metrics_1aa70c266ea390759808c2c2173c97cf9e" prot="public" virt="non-virtual"><scope>themis::DistributedSagaCoordinator::Metrics</scope><name>sagas_compensated</name></member>
+      <member refid="structthemis_1_1_distributed_saga_coordinator_1_1_metrics_1a2bb279599fa597ff13bdb4c0b00b7fa5" prot="public" virt="non-virtual"><scope>themis::DistributedSagaCoordinator::Metrics</scope><name>sagas_completed</name></member>
+      <member refid="structthemis_1_1_distributed_saga_coordinator_1_1_metrics_1a58a2c3420a838d85ddc8f416aaffc52f" prot="public" virt="non-virtual"><scope>themis::DistributedSagaCoordinator::Metrics</scope><name>sagas_failed</name></member>
+      <member refid="structthemis_1_1_distributed_saga_coordinator_1_1_metrics_1a18cc5dc8af5f6b224b646bd085be8a58" prot="public" virt="non-virtual"><scope>themis::DistributedSagaCoordinator::Metrics</scope><name>sagas_started</name></member>
+      <member refid="structthemis_1_1_distributed_saga_coordinator_1_1_metrics_1a68ea17ed74fdd9e6522693c62f9c0e09" prot="public" virt="non-virtual"><scope>themis::DistributedSagaCoordinator::Metrics</scope><name>total_compensations</name></member>
+      <member refid="structthemis_1_1_distributed_saga_coordinator_1_1_metrics_1a88629d5d968935df501f0b2ed5094f35" prot="public" virt="non-virtual"><scope>themis::DistributedSagaCoordinator::Metrics</scope><name>total_step_executions</name></member>
+      <member refid="structthemis_1_1_distributed_saga_coordinator_1_1_metrics_1a69063b214772ece5365591ff0780e385" prot="public" virt="non-virtual"><scope>themis::DistributedSagaCoordinator::Metrics</scope><name>total_step_retries</name></member>
+      <member refid="structthemis_1_1_distributed_saga_coordinator_1_1_metrics_1a2c8a83cde5040edc461b43b7b2c3239b" prot="public" virt="non-virtual"><scope>themis::DistributedSagaCoordinator::Metrics</scope><name>total_timeout_aborts</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

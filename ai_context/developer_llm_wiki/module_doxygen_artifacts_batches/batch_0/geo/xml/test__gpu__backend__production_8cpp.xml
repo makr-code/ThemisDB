@@ -1,0 +1,1003 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__gpu__backend__production_8cpp" kind="file" language="C++">
+    <compoundname>test_gpu_backend_production.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="spatial__backend_8h" local="yes">geo/spatial_backend.h</includes>
+    <includes local="yes">utils/geo/ewkb.h</includes>
+    <includes local="no">cmath</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstring</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">atomic</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>geo/spatial_backend.h</label>
+        <link refid="spatial__backend_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/geo/test_gpu_backend_production.cpp</label>
+        <link refid="test__gpu__backend__production_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>atomic</label>
+      </node>
+      <node id="11">
+        <label>chrono</label>
+      </node>
+      <node id="10">
+        <label>cmath</label>
+      </node>
+      <node id="7">
+        <label>cstdint</label>
+      </node>
+      <node id="12">
+        <label>cstring</label>
+      </node>
+      <node id="8">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="13">
+        <label>thread</label>
+      </node>
+      <node id="9">
+        <label>utils/geo/ewkb.h</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_gpu_backend_production_test" prot="public">GpuBackendProductionTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__gpu__backend__production_8cpp_1a96524becd68dcd2b7302fb7c92922a8b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GpuBackendProductionTest, BackendAvailable)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_gpu_backend_production_test" kindref="compound">GpuBackendProductionTest</ref></type>
+        </param>
+        <param>
+          <type>BackendAvailable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_gpu_backend_production.cpp" line="33" column="1" bodyfile="tests/geo/test_gpu_backend_production.cpp" bodystart="33" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__backend__production_8cpp_1ae7709eb5aadddd26d1d7b5c7ad75c7c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GpuBackendProductionTest, BackendName)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_gpu_backend_production_test" kindref="compound">GpuBackendProductionTest</ref></type>
+        </param>
+        <param>
+          <type>BackendName</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_gpu_backend_production.cpp" line="51" column="1" bodyfile="tests/geo/test_gpu_backend_production.cpp" bodystart="51" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__backend__production_8cpp_1aa18caf1b341cd266088f446c93bcaf4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GpuBackendProductionTest, EmptyBatchInput)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_gpu_backend_production_test" kindref="compound">GpuBackendProductionTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyBatchInput</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_gpu_backend_production.cpp" line="58" column="1" bodyfile="tests/geo/test_gpu_backend_production.cpp" bodystart="58" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__backend__production_8cpp_1a8c29316e945902b81750e5cc3169fcc1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GpuBackendProductionTest, SmallBatchInput)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_gpu_backend_production_test" kindref="compound">GpuBackendProductionTest</ref></type>
+        </param>
+        <param>
+          <type>SmallBatchInput</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_gpu_backend_production.cpp" line="67" column="1" bodyfile="tests/geo/test_gpu_backend_production.cpp" bodystart="67" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__backend__production_8cpp_1a7788244d39ef565f889b13dcc1f3b610" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GpuBackendProductionTest, MediumBatchInput)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_gpu_backend_production_test" kindref="compound">GpuBackendProductionTest</ref></type>
+        </param>
+        <param>
+          <type>MediumBatchInput</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_gpu_backend_production.cpp" line="76" column="1" bodyfile="tests/geo/test_gpu_backend_production.cpp" bodystart="76" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__backend__production_8cpp_1a582b46f6ca728d072253875abd08ef6b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GpuBackendProductionTest, LargeBatchInput)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_gpu_backend_production_test" kindref="compound">GpuBackendProductionTest</ref></type>
+        </param>
+        <param>
+          <type>LargeBatchInput</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_gpu_backend_production.cpp" line="92" column="1" bodyfile="tests/geo/test_gpu_backend_production.cpp" bodystart="92" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__backend__production_8cpp_1a774cf837000d8db7e9b9bfe5e63506df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GpuBackendProductionTest, ExactIntersectsPointPolygon)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_gpu_backend_production_test" kindref="compound">GpuBackendProductionTest</ref></type>
+        </param>
+        <param>
+          <type>ExactIntersectsPointPolygon</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_gpu_backend_production.cpp" line="108" column="1" bodyfile="tests/geo/test_gpu_backend_production.cpp" bodystart="108" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__backend__production_8cpp_1a409670c64a8751d4d13769892fca27a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GpuBackendProductionTest, ExactIntersectsPointOnBoundary)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_gpu_backend_production_test" kindref="compound">GpuBackendProductionTest</ref></type>
+        </param>
+        <param>
+          <type>ExactIntersectsPointOnBoundary</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_gpu_backend_production.cpp" line="135" column="1" bodyfile="tests/geo/test_gpu_backend_production.cpp" bodystart="135" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__backend__production_8cpp_1a43667a97738e94950af6ec0ab1e545a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GpuBackendProductionTest, ExactIntersectsOverlappingPolygons)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_gpu_backend_production_test" kindref="compound">GpuBackendProductionTest</ref></type>
+        </param>
+        <param>
+          <type>ExactIntersectsOverlappingPolygons</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_gpu_backend_production.cpp" line="155" column="1" bodyfile="tests/geo/test_gpu_backend_production.cpp" bodystart="155" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__backend__production_8cpp_1aa250952d436a79aacb1af810458996ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GpuBackendProductionTest, ExactIntersectsNonOverlappingPolygons)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_gpu_backend_production_test" kindref="compound">GpuBackendProductionTest</ref></type>
+        </param>
+        <param>
+          <type>ExactIntersectsNonOverlappingPolygons</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_gpu_backend_production.cpp" line="181" column="1" bodyfile="tests/geo/test_gpu_backend_production.cpp" bodystart="181" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__backend__production_8cpp_1a3fc5a2e7729e6d592428e05edf314978" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GpuBackendProductionTest, ExactIntersectsPointPoint)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_gpu_backend_production_test" kindref="compound">GpuBackendProductionTest</ref></type>
+        </param>
+        <param>
+          <type>ExactIntersectsPointPoint</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_gpu_backend_production.cpp" line="205" column="1" bodyfile="tests/geo/test_gpu_backend_production.cpp" bodystart="205" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__backend__production_8cpp_1aa6c76ccbc2bd43a299155b795b271b93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GpuBackendProductionTest, BatchProcessingConsistency)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_gpu_backend_production_test" kindref="compound">GpuBackendProductionTest</ref></type>
+        </param>
+        <param>
+          <type>BatchProcessingConsistency</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_gpu_backend_production.cpp" line="220" column="1" bodyfile="tests/geo/test_gpu_backend_production.cpp" bodystart="220" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__backend__production_8cpp_1aff0ca0d6d0a2f5cbcb6d435a998f775f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GpuBackendProductionTest, ThreadSafety)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_gpu_backend_production_test" kindref="compound">GpuBackendProductionTest</ref></type>
+        </param>
+        <param>
+          <type>ThreadSafety</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_gpu_backend_production.cpp" line="233" column="1" bodyfile="tests/geo/test_gpu_backend_production.cpp" bodystart="233" bodyend="282"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__backend__production_8cpp_1a78c6ba0425cc56a45991e638e040b3fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GpuBackendProductionTest, PerformanceBenchmark)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_gpu_backend_production_test" kindref="compound">GpuBackendProductionTest</ref></type>
+        </param>
+        <param>
+          <type>PerformanceBenchmark</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_gpu_backend_production.cpp" line="285" column="1" bodyfile="tests/geo/test_gpu_backend_production.cpp" bodystart="285" bodyend="307"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__backend__production_8cpp_1abeb0e75915d93f27c37e1513be83dd84" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GpuBackendProductionTest, BoostCpuBackendAvailable)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_gpu_backend_production_test" kindref="compound">GpuBackendProductionTest</ref></type>
+        </param>
+        <param>
+          <type>BoostCpuBackendAvailable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_gpu_backend_production.cpp" line="310" column="1" bodyfile="tests/geo/test_gpu_backend_production.cpp" bodystart="310" bodyend="318"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__backend__production_8cpp_1a63ee0277d70bdd441364f0f5d9de1fd1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GpuProductionParityTest, BatchIntersects_LShapeAndSquare_OverlappingMBR_NoIntersection)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GpuProductionParityTest</type>
+        </param>
+        <param>
+          <type>BatchIntersects_LShapeAndSquare_OverlappingMBR_NoIntersection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_gpu_backend_production.cpp" line="379" column="1" bodyfile="tests/geo/test_gpu_backend_production.cpp" bodystart="379" bodyend="417"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__backend__production_8cpp_1a4106a288a311aa659241843e786181e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GpuProductionParityTest, BatchIntersects_10K_MatchesCpuExact)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GpuProductionParityTest</type>
+        </param>
+        <param>
+          <type>BatchIntersects_10K_MatchesCpuExact</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_gpu_backend_production.cpp" line="423" column="1" bodyfile="tests/geo/test_gpu_backend_production.cpp" bodystart="423" bodyend="466"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__backend__production_8cpp_1afa60c0ff44d7b08871d8c50fc86c38b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GpuProductionParityTest, ExactIntersects_PointInPolygon_MatchesCpuExact)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GpuProductionParityTest</type>
+        </param>
+        <param>
+          <type>ExactIntersects_PointInPolygon_MatchesCpuExact</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_gpu_backend_production.cpp" line="472" column="1" bodyfile="tests/geo/test_gpu_backend_production.cpp" bodystart="472" bodyend="500"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__backend__production_8cpp_1abf8beb9a09ceee9ca009e7b844deab3f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GpuProductionRegistryTest, ProductionBackendIsRegistered)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GpuProductionRegistryTest</type>
+        </param>
+        <param>
+          <type>ProductionBackendIsRegistered</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_gpu_backend_production.cpp" line="506" column="1" bodyfile="tests/geo/test_gpu_backend_production.cpp" bodystart="506" bodyend="509"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__backend__production_8cpp_1a8dd8088ecf33dffb01adf0578f01bd69" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GpuProductionRegistryTest, ProductionBackendIsAvailable)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GpuProductionRegistryTest</type>
+        </param>
+        <param>
+          <type>ProductionBackendIsAvailable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_gpu_backend_production.cpp" line="511" column="1" bodyfile="tests/geo/test_gpu_backend_production.cpp" bodystart="511" bodyend="519"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="spatial__backend_8h" kindref="compound">geo/spatial_backend.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/geo/ewkb.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstring&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1geo" kindref="compound">themis::geo</ref>;</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Production<sp/>GPU<sp/>Backend<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18" refid="class_gpu_backend_production_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_gpu_backend_production_test" kindref="compound">GpuBackendProductionTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_gpu_backend_production_test_1afd1f94a1192f7f14c37a5205d797bc98" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_gpu_backend_production_test_1aca28f12de660130efdad124053f9ff7f" kindref="member">backend_</ref><sp/>=<sp/><ref refid="namespacethemis_1_1geo_1affd317ca9221251575dc975b7461229a" kindref="member">getProductionGpuBackend</ref>();</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_NE(<ref refid="class_gpu_backend_production_test_1aca28f12de660130efdad124053f9ff7f" kindref="member">backend_</ref>,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_gpu_backend_production_test_1a83c208bbda3dfa0529fce59e8ffb1469" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_gpu_backend_production_test_1aca28f12de660130efdad124053f9ff7f" kindref="member">backend_</ref><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend" kindref="compound">ISpatialComputeBackend</ref>*<sp/><ref refid="class_gpu_backend_production_test_1aca28f12de660130efdad124053f9ff7f" kindref="member">backend_</ref>;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Backend<sp/>availability</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><ref refid="test__gpu__backend__production_8cpp_1a96524becd68dcd2b7302fb7c92922a8b" kindref="member">TEST_F</ref>(<ref refid="class_gpu_backend_production_test" kindref="compound">GpuBackendProductionTest</ref>,<sp/>BackendAvailable)<sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(backend_,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(backend_-&gt;isAvailable());</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>always<sp/>have<sp/>a<sp/>backend<sp/>(at<sp/>minimum<sp/>CPU-parallel)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>name<sp/>=<sp/>backend_-&gt;name();</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(name,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Valid<sp/>backend<sp/>names</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>backend_name(name);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>backend_name<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;cuda_gpu&quot;</highlight><highlight class="normal"><sp/>||<sp/></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>backend_name<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;opencl_gpu&quot;</highlight><highlight class="normal"><sp/>||<sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>backend_name<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;cpu_parallel&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Backend<sp/>name<sp/>consistency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><ref refid="test__gpu__backend__production_8cpp_1a96524becd68dcd2b7302fb7c92922a8b" kindref="member">TEST_F</ref>(<ref refid="class_gpu_backend_production_test" kindref="compound">GpuBackendProductionTest</ref>,<sp/>BackendName)<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>name<sp/>=<sp/>backend_-&gt;name();</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(name,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(strlen(name),<sp/>0);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Empty<sp/>batch<sp/>input</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><ref refid="test__gpu__backend__production_8cpp_1a96524becd68dcd2b7302fb7c92922a8b" kindref="member">TEST_F</ref>(<ref refid="class_gpu_backend_production_test" kindref="compound">GpuBackendProductionTest</ref>,<sp/>EmptyBatchInput)<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_spatial_batch_inputs" kindref="compound">SpatialBatchInputs</ref><sp/>inputs;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>inputs.<ref refid="structthemis_1_1geo_1_1_spatial_batch_inputs_1add0683cd3d44799b8ee13868af1284ac" kindref="member">count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>backend_-&gt;batchIntersects(inputs);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(results.mask.size(),<sp/>0);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Small<sp/>batch<sp/>input</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><ref refid="test__gpu__backend__production_8cpp_1a96524becd68dcd2b7302fb7c92922a8b" kindref="member">TEST_F</ref>(<ref refid="class_gpu_backend_production_test" kindref="compound">GpuBackendProductionTest</ref>,<sp/>SmallBatchInput)<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_spatial_batch_inputs" kindref="compound">SpatialBatchInputs</ref><sp/>inputs;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>inputs.<ref refid="structthemis_1_1geo_1_1_spatial_batch_inputs_1add0683cd3d44799b8ee13868af1284ac" kindref="member">count</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>backend_-&gt;batchIntersects(inputs);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(results.mask.size(),<sp/>10);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Medium<sp/>batch<sp/>input<sp/>(CPU-parallel<sp/>should<sp/>handle<sp/>efficiently)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><ref refid="test__gpu__backend__production_8cpp_1a96524becd68dcd2b7302fb7c92922a8b" kindref="member">TEST_F</ref>(<ref refid="class_gpu_backend_production_test" kindref="compound">GpuBackendProductionTest</ref>,<sp/>MediumBatchInput)<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_spatial_batch_inputs" kindref="compound">SpatialBatchInputs</ref><sp/>inputs;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>inputs.<ref refid="structthemis_1_1geo_1_1_spatial_batch_inputs_1add0683cd3d44799b8ee13868af1284ac" kindref="member">count</ref><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>start<sp/>=<sp/>std::chrono::high_resolution_clock::now();</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>backend_-&gt;batchIntersects(inputs);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>end<sp/>=<sp/>std::chrono::high_resolution_clock::now();</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(results.mask.size(),<sp/>1000);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>duration<sp/>=<sp/>std::chrono::duration_cast&lt;std::chrono::milliseconds&gt;(end<sp/>-<sp/>start);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>complete<sp/>within<sp/>reasonable<sp/>time<sp/>(&lt;<sp/>1<sp/>second<sp/>for<sp/>1000<sp/>items)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(duration.count(),<sp/>1000);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Large<sp/>batch<sp/>input</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><ref refid="test__gpu__backend__production_8cpp_1a96524becd68dcd2b7302fb7c92922a8b" kindref="member">TEST_F</ref>(<ref refid="class_gpu_backend_production_test" kindref="compound">GpuBackendProductionTest</ref>,<sp/>LargeBatchInput)<sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_spatial_batch_inputs" kindref="compound">SpatialBatchInputs</ref><sp/>inputs;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>inputs.<ref refid="structthemis_1_1geo_1_1_spatial_batch_inputs_1add0683cd3d44799b8ee13868af1284ac" kindref="member">count</ref><sp/>=<sp/>10000;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>start<sp/>=<sp/>std::chrono::high_resolution_clock::now();</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>backend_-&gt;batchIntersects(inputs);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>end<sp/>=<sp/>std::chrono::high_resolution_clock::now();</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(results.mask.size(),<sp/>10000);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>duration<sp/>=<sp/>std::chrono::duration_cast&lt;std::chrono::milliseconds&gt;(end<sp/>-<sp/>start);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>complete<sp/>within<sp/>reasonable<sp/>time<sp/>(&lt;<sp/>5<sp/>seconds<sp/>for<sp/>10000<sp/>items)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(duration.count(),<sp/>5000);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Exact<sp/>intersects<sp/>-<sp/>Point<sp/>with<sp/>polygon</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><ref refid="test__gpu__backend__production_8cpp_1a96524becd68dcd2b7302fb7c92922a8b" kindref="member">TEST_F</ref>(<ref refid="class_gpu_backend_production_test" kindref="compound">GpuBackendProductionTest</ref>,<sp/>ExactIntersectsPointPolygon)<sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>a<sp/>simple<sp/>polygon<sp/>(square)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>GeometryInfo<sp/>polygon(GeometryType::Polygon);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>polygon.coords<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Coordinate(0.0,<sp/>0.0),</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Coordinate(10.0,<sp/>0.0),</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Coordinate(10.0,<sp/>10.0),</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Coordinate(0.0,<sp/>10.0),</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Coordinate(0.0,<sp/>0.0)<sp/><sp/></highlight><highlight class="comment">//<sp/>Closed<sp/>ring</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Point<sp/>inside<sp/>polygon</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>GeometryInfo<sp/>point_inside(GeometryType::Point);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>point_inside.coords<sp/>=<sp/>{Coordinate(5.0,<sp/>5.0)};</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(backend_-&gt;exactIntersects(point_inside,<sp/>polygon));</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(backend_-&gt;exactIntersects(polygon,<sp/>point_inside));</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Point<sp/>outside<sp/>polygon</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>GeometryInfo<sp/>point_outside(GeometryType::Point);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>point_outside.coords<sp/>=<sp/>{Coordinate(15.0,<sp/>15.0)};</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(backend_-&gt;exactIntersects(point_outside,<sp/>polygon));</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(backend_-&gt;exactIntersects(polygon,<sp/>point_outside));</highlight></codeline>
+<codeline lineno="132"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Exact<sp/>intersects<sp/>-<sp/>Point<sp/>on<sp/>polygon<sp/>boundary</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><ref refid="test__gpu__backend__production_8cpp_1a96524becd68dcd2b7302fb7c92922a8b" kindref="member">TEST_F</ref>(<ref refid="class_gpu_backend_production_test" kindref="compound">GpuBackendProductionTest</ref>,<sp/>ExactIntersectsPointOnBoundary)<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>GeometryInfo<sp/>polygon(GeometryType::Polygon);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>polygon.coords<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Coordinate(0.0,<sp/>0.0),</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Coordinate(10.0,<sp/>0.0),</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Coordinate(10.0,<sp/>10.0),</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Coordinate(0.0,<sp/>10.0),</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Coordinate(0.0,<sp/>0.0)</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Point<sp/>on<sp/>boundary<sp/>(should<sp/>intersect)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>GeometryInfo<sp/>point_on_edge(GeometryType::Point);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>point_on_edge.coords<sp/>=<sp/>{Coordinate(5.0,<sp/>0.0)};</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Boundary<sp/>points<sp/>may<sp/>or<sp/>may<sp/>not<sp/>intersect<sp/>depending<sp/>on<sp/>implementation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Both<sp/>behaviors<sp/>are<sp/>acceptable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>backend_-&gt;exactIntersects(point_on_edge,<sp/>polygon);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Exact<sp/>intersects<sp/>-<sp/>Overlapping<sp/>polygons</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><ref refid="test__gpu__backend__production_8cpp_1a96524becd68dcd2b7302fb7c92922a8b" kindref="member">TEST_F</ref>(<ref refid="class_gpu_backend_production_test" kindref="compound">GpuBackendProductionTest</ref>,<sp/>ExactIntersectsOverlappingPolygons)<sp/>{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>polygon</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>GeometryInfo<sp/>polygon1(GeometryType::Polygon);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>polygon1.coords<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Coordinate(0.0,<sp/>0.0),</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Coordinate(10.0,<sp/>0.0),</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Coordinate(10.0,<sp/>10.0),</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Coordinate(0.0,<sp/>10.0),</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Coordinate(0.0,<sp/>0.0)</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Second<sp/>polygon<sp/>overlapping<sp/>first</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>GeometryInfo<sp/>polygon2(GeometryType::Polygon);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>polygon2.coords<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Coordinate(5.0,<sp/>5.0),</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Coordinate(15.0,<sp/>5.0),</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Coordinate(15.0,<sp/>15.0),</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Coordinate(5.0,<sp/>15.0),</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Coordinate(5.0,<sp/>5.0)</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(backend_-&gt;exactIntersects(polygon1,<sp/>polygon2));</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(backend_-&gt;exactIntersects(polygon2,<sp/>polygon1));</highlight></codeline>
+<codeline lineno="178"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Exact<sp/>intersects<sp/>-<sp/>Non-overlapping<sp/>polygons</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><ref refid="test__gpu__backend__production_8cpp_1a96524becd68dcd2b7302fb7c92922a8b" kindref="member">TEST_F</ref>(<ref refid="class_gpu_backend_production_test" kindref="compound">GpuBackendProductionTest</ref>,<sp/>ExactIntersectsNonOverlappingPolygons)<sp/>{</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>GeometryInfo<sp/>polygon1(GeometryType::Polygon);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>polygon1.coords<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Coordinate(0.0,<sp/>0.0),</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Coordinate(10.0,<sp/>0.0),</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Coordinate(10.0,<sp/>10.0),</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Coordinate(0.0,<sp/>10.0),</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Coordinate(0.0,<sp/>0.0)</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>GeometryInfo<sp/>polygon2(GeometryType::Polygon);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>polygon2.coords<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Coordinate(20.0,<sp/>20.0),</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Coordinate(30.0,<sp/>20.0),</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Coordinate(30.0,<sp/>30.0),</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Coordinate(20.0,<sp/>30.0),</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Coordinate(20.0,<sp/>20.0)</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(backend_-&gt;exactIntersects(polygon1,<sp/>polygon2));</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(backend_-&gt;exactIntersects(polygon2,<sp/>polygon1));</highlight></codeline>
+<codeline lineno="202"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Exact<sp/>intersects<sp/>-<sp/>Point-point</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><ref refid="test__gpu__backend__production_8cpp_1a96524becd68dcd2b7302fb7c92922a8b" kindref="member">TEST_F</ref>(<ref refid="class_gpu_backend_production_test" kindref="compound">GpuBackendProductionTest</ref>,<sp/>ExactIntersectsPointPoint)<sp/>{</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>GeometryInfo<sp/>point1(GeometryType::Point);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>point1.coords<sp/>=<sp/>{Coordinate(5.0,<sp/>5.0)};</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>GeometryInfo<sp/>point2(GeometryType::Point);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>point2.coords<sp/>=<sp/>{Coordinate(5.0,<sp/>5.0)};</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>GeometryInfo<sp/>point3(GeometryType::Point);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>point3.coords<sp/>=<sp/>{Coordinate(10.0,<sp/>10.0)};</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(backend_-&gt;exactIntersects(point1,<sp/>point2));</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(backend_-&gt;exactIntersects(point1,<sp/>point3));</highlight></codeline>
+<codeline lineno="217"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Batch<sp/>processing<sp/>consistency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><ref refid="test__gpu__backend__production_8cpp_1a96524becd68dcd2b7302fb7c92922a8b" kindref="member">TEST_F</ref>(<ref refid="class_gpu_backend_production_test" kindref="compound">GpuBackendProductionTest</ref>,<sp/>BatchProcessingConsistency)<sp/>{</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Multiple<sp/>calls<sp/>should<sp/>return<sp/>consistent<sp/>results</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_spatial_batch_inputs" kindref="compound">SpatialBatchInputs</ref><sp/>inputs;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>inputs.<ref refid="structthemis_1_1geo_1_1_spatial_batch_inputs_1add0683cd3d44799b8ee13868af1284ac" kindref="member">count</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results1<sp/>=<sp/>backend_-&gt;batchIntersects(inputs);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results2<sp/>=<sp/>backend_-&gt;batchIntersects(inputs);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(results1.mask.size(),<sp/>results2.mask.size());</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(results1.mask.size(),<sp/>100);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Thread<sp/>safety<sp/>(basic<sp/>check)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><ref refid="test__gpu__backend__production_8cpp_1a96524becd68dcd2b7302fb7c92922a8b" kindref="member">TEST_F</ref>(<ref refid="class_gpu_backend_production_test" kindref="compound">GpuBackendProductionTest</ref>,<sp/>ThreadSafety)<sp/>{</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>multiple<sp/>threads<sp/>calling<sp/>the<sp/>backend</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>num_threads<sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>calls_per_thread<sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>success_count{0};</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>exception_occurred{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>exception_message<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mutex<sp/>exception_mutex<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>0;<sp/>t<sp/>&lt;<sp/>num_threads;<sp/>++t)<sp/>{</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([</highlight><highlight class="keyword">this</highlight><highlight class="normal">,<sp/>&amp;success_count,<sp/>&amp;exception_occurred,<sp/></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&amp;exception_message,<sp/>&amp;exception_mutex,<sp/>calls_per_thread]()<sp/>{</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>calls_per_thread;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_spatial_batch_inputs" kindref="compound">SpatialBatchInputs</ref><sp/>inputs;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>inputs.<ref refid="structthemis_1_1geo_1_1_spatial_batch_inputs_1add0683cd3d44799b8ee13868af1284ac" kindref="member">count</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>backend_-&gt;batchIntersects(inputs);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(results.mask.size()<sp/>==<sp/>10)<sp/>{</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>success_count++;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::exception&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Capture<sp/>first<sp/>exception<sp/>message<sp/>for<sp/>diagnostics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!exception_occurred.exchange(</highlight><highlight class="keyword">true</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lock(exception_mutex);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>exception_message<sp/>=<sp/>e.what();</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(...)<sp/>{</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Capture<sp/>unknown<sp/>exception</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!exception_occurred.exchange(</highlight><highlight class="keyword">true</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lock(exception_mutex);</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>exception_message<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Unknown<sp/>exception&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>thread<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>thread.join();</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>calls<sp/>should<sp/>succeed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(exception_occurred.load())<sp/>{</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FAIL()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Exception<sp/>in<sp/>thread:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>exception_message;</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(success_count.load(),<sp/>num_threads<sp/>*<sp/>calls_per_thread);</highlight></codeline>
+<codeline lineno="282"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Performance<sp/>benchmark<sp/>(informational<sp/>only)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><ref refid="test__gpu__backend__production_8cpp_1a96524becd68dcd2b7302fb7c92922a8b" kindref="member">TEST_F</ref>(<ref refid="class_gpu_backend_production_test" kindref="compound">GpuBackendProductionTest</ref>,<sp/>PerformanceBenchmark)<sp/>{</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;size_t&gt;<sp/>batch_sizes<sp/>=<sp/>{10,<sp/>100,<sp/>1000,<sp/>10000};</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>batch_size<sp/>:<sp/>batch_sizes)<sp/>{</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_spatial_batch_inputs" kindref="compound">SpatialBatchInputs</ref><sp/>inputs;</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>inputs.<ref refid="structthemis_1_1geo_1_1_spatial_batch_inputs_1add0683cd3d44799b8ee13868af1284ac" kindref="member">count</ref><sp/>=<sp/>batch_size;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>start<sp/>=<sp/>std::chrono::high_resolution_clock::now();</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>backend_-&gt;batchIntersects(inputs);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>end<sp/>=<sp/>std::chrono::high_resolution_clock::now();</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>duration<sp/>=<sp/>std::chrono::duration_cast&lt;std::chrono::microseconds&gt;(end<sp/>-<sp/>start);</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Log<sp/>performance<sp/>info</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Backend:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>backend_-&gt;name()<sp/></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;,<sp/>Batch<sp/>size:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>batch_size</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;,<sp/>Duration:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>duration.count()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>µs&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;,<sp/>Per<sp/>item:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>(duration.count()<sp/>/<sp/>batch_size)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>µs&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(results.mask.size(),<sp/>batch_size);</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="307"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Get<sp/>Boost<sp/>CPU<sp/>backend</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><ref refid="test__gpu__backend__production_8cpp_1a96524becd68dcd2b7302fb7c92922a8b" kindref="member">TEST_F</ref>(<ref refid="class_gpu_backend_production_test" kindref="compound">GpuBackendProductionTest</ref>,<sp/>BoostCpuBackendAvailable)<sp/>{</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>boost_backend<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1af8acf1e6da1ea4cdc92075ea21d6866e" kindref="member">getBoostCpuBackend</ref>();</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>May<sp/>be<sp/>null<sp/>if<sp/>Boost.Geometry<sp/>not<sp/>available</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(boost_backend)<sp/>{</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(boost_backend-&gt;isAvailable());</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_STREQ(boost_backend-&gt;name(),<sp/></highlight><highlight class="stringliteral">&quot;boost_cpu_exact&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="318"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CUDA/OpenCL<sp/>parity<sp/>tests<sp/>(v1.4.0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Compare<sp/>production<sp/>GPU<sp/>backend<sp/>results<sp/>against<sp/>the<sp/>CPU<sp/>exact<sp/>backend<sp/>for<sp/>a</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight><highlight class="comment">//<sp/>10<sp/>K<sp/>geometry<sp/>pair<sp/>dataset.<sp/><sp/>Both<sp/>backends<sp/>must<sp/>agree<sp/>on<sp/>all<sp/>intersection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight><highlight class="comment">//<sp/>results<sp/>(GPU<sp/>uses<sp/>MBR-based<sp/>fast<sp/>path;<sp/>CPU<sp/>uses<sp/>exact<sp/>ray-casting).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Tests<sp/>are<sp/>run<sp/>unconditionally<sp/>—<sp/>the<sp/>production<sp/>backend<sp/>always<sp/>falls<sp/>back<sp/>to</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CPU-parallel<sp/>when<sp/>no<sp/>GPU<sp/>is<sp/>present,<sp/>so<sp/>the<sp/>results<sp/>still<sp/>need<sp/>to<sp/>match.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"></highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Build<sp/>a<sp/>simple<sp/>axis-aligned<sp/>polygon<sp/>(square)<sp/>centred<sp/>at<sp/>(cx,<sp/>cy)<sp/>with</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"></highlight><highlight class="comment">//<sp/>half-width<sp/>hw.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>makeSquare(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>cx,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>cy,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>hw)<sp/>{</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>GeometryInfo<sp/>g(GeometryType::Polygon);</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/>g.rings.push_back({</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{cx<sp/>-<sp/>hw,<sp/>cy<sp/>-<sp/>hw},<sp/>{cx<sp/>+<sp/>hw,<sp/>cy<sp/>-<sp/>hw},</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{cx<sp/>+<sp/>hw,<sp/>cy<sp/>+<sp/>hw},<sp/>{cx<sp/>-<sp/>hw,<sp/>cy<sp/>+<sp/>hw},</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{cx<sp/>-<sp/>hw,<sp/>cy<sp/>-<sp/>hw}<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>closed<sp/>ring</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>g;</highlight></codeline>
+<codeline lineno="342"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Build<sp/>an<sp/>L-shaped<sp/>polygon<sp/>within<sp/>the<sp/>[ox,<sp/>ox+2]<sp/>×<sp/>[oy,<sp/>oy+2]<sp/>bounding<sp/>box.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight><highlight class="comment">//<sp/>The<sp/>L<sp/>occupies<sp/>the<sp/>left<sp/>column<sp/>and<sp/>bottom<sp/>row,<sp/>leaving<sp/>the<sp/>top-right<sp/>1×1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"></highlight><highlight class="comment">//<sp/>cell<sp/>empty.<sp/><sp/>MBR<sp/>=<sp/>[ox,<sp/>oy,<sp/>ox+2,<sp/>oy+2].</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>makeLShape(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>ox,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>oy)<sp/>{</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/>GeometryInfo<sp/>g(GeometryType::Polygon);</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Outer<sp/>ring<sp/>(closed):<sp/>columns<sp/>go<sp/>left<sp/>then<sp/>right;<sp/>rows<sp/>go<sp/>bottom<sp/>then<sp/>top.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/>g.rings.push_back({</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{ox,<sp/><sp/><sp/>oy},<sp/><sp/><sp/>{ox+2,<sp/>oy},<sp/><sp/><sp/>{ox+2,<sp/>oy+1},</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{ox+1,<sp/>oy+1},<sp/>{ox+1,<sp/>oy+2},<sp/>{ox,<sp/><sp/><sp/>oy+2},</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{ox,<sp/><sp/><sp/>oy}<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>closed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>g;</highlight></codeline>
+<codeline lineno="356"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"></highlight></codeline>
+<codeline lineno="358"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Seeded<sp/>pseudo-random<sp/>doubles<sp/>in<sp/>[lo,<sp/>hi].</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="359"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;double&gt;<sp/>seededDoubles(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>count,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lo,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>hi,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>seed)<sp/>{</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/>v(count);</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>x<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(seed)<sp/>*<sp/>1234567.89;</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>count;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>x<sp/>=<sp/>std::fmod(x<sp/>*<sp/>1.6180339887<sp/>+<sp/>2.7182818284,<sp/>1.0e7);</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>v[i]<sp/>=<sp/>lo<sp/>+<sp/>std::fmod(std::abs(x),<sp/>1.0)<sp/>*<sp/>(hi<sp/>-<sp/>lo);</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>v;</highlight></codeline>
+<codeline lineno="367"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"></highlight></codeline>
+<codeline lineno="369"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>anonymous<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="370"><highlight class="normal"></highlight></codeline>
+<codeline lineno="371"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="372"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Non-intersecting<sp/>geometries<sp/>with<sp/>overlapping<sp/>MBRs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="373"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="374"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Two<sp/>L-shaped<sp/>polygons<sp/>share<sp/>a<sp/>common<sp/>2×2<sp/>bounding<sp/>box<sp/>but<sp/>their<sp/>actual</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="375"><highlight class="normal"></highlight><highlight class="comment">//<sp/>shapes<sp/>do<sp/>not<sp/>overlap.<sp/><sp/>This<sp/>validates<sp/>that<sp/>batchIntersects<sp/>returns<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="376"><highlight class="normal"></highlight><highlight class="comment">//<sp/>(correct)<sp/>and<sp/>not<sp/>1<sp/>(false<sp/>positive<sp/>from<sp/>a<sp/>pure<sp/>MBR<sp/>filter).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="377"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="378"><highlight class="normal"></highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><ref refid="test__gpu__backend__production_8cpp_1a63ee0277d70bdd441364f0f5d9de1fd1" kindref="member">TEST</ref>(GpuProductionParityTest,<sp/>BatchIntersects_LShapeAndSquare_OverlappingMBR_NoIntersection)<sp/>{</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>L-shape<sp/>A<sp/>occupies<sp/>left<sp/>column<sp/>+<sp/>bottom<sp/>row<sp/>of<sp/>[0,0,2,2].</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Small<sp/>square<sp/>B<sp/>sits<sp/>in<sp/>the<sp/>top-right<sp/>1×1<sp/>cell<sp/>[1,1,2,2]<sp/>—<sp/>inside<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>MBR<sp/>of<sp/>A<sp/>but<sp/>completely<sp/>in<sp/>the<sp/>&quot;empty&quot;<sp/>part<sp/>of<sp/>the<sp/>L.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/>GeometryInfo<sp/>lshape<sp/>=<sp/>makeLShape(0.0,<sp/>0.0);</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"></highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Small<sp/>square<sp/>strictly<sp/>inside<sp/>the<sp/>empty<sp/>top-right<sp/>corner<sp/>of<sp/>the<sp/>L.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/>GeometryInfo<sp/>small_sq(GeometryType::Polygon);</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/>small_sq.rings.push_back({</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{1.1,<sp/>1.1},<sp/>{1.9,<sp/>1.1},<sp/>{1.9,<sp/>1.9},<sp/>{1.1,<sp/>1.9},<sp/>{1.1,<sp/>1.1}</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"></highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Confirm:<sp/>MBRs<sp/>overlap<sp/>(small_sq<sp/>is<sp/>inside<sp/>L&apos;s<sp/>MBR).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>mbr_l<sp/><sp/>=<sp/>lshape.computeMBR();</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>mbr_sq<sp/>=<sp/>small_sq.computeMBR();</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mbr_l.intersects(mbr_sq))</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Test<sp/>pre-condition:<sp/>MBRs<sp/>must<sp/>overlap&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="396"><highlight class="normal"></highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Confirm:<sp/>CPU<sp/>exact<sp/>backend<sp/>says<sp/>they<sp/>do<sp/>NOT<sp/>intersect.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>cpu<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a28cb4be068b844c22d99f9484510fd8f" kindref="member">getCpuExactBackend</ref>();</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(cpu,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>cpu_exact<sp/>=<sp/>cpu-&gt;exactIntersects(lshape,<sp/>small_sq);</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(cpu_exact)</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Test<sp/>pre-condition:<sp/>L-shape<sp/>and<sp/>square<sp/>in<sp/>empty<sp/>corner<sp/>must<sp/>NOT<sp/>intersect&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="403"><highlight class="normal"></highlight></codeline>
+<codeline lineno="404"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GPU<sp/>production<sp/>backend<sp/>must<sp/>also<sp/>return<sp/>0<sp/>(no<sp/>intersection).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="405"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_spatial_batch_inputs" kindref="compound">SpatialBatchInputs</ref><sp/>in;</highlight></codeline>
+<codeline lineno="406"><highlight class="normal"><sp/><sp/><sp/><sp/>in.<ref refid="structthemis_1_1geo_1_1_spatial_batch_inputs_1add0683cd3d44799b8ee13868af1284ac" kindref="member">count</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="407"><highlight class="normal"><sp/><sp/><sp/><sp/>in.<ref refid="structthemis_1_1geo_1_1_spatial_batch_inputs_1abb587a9a704edc555d0dc79311addf95" kindref="member">geoms_a</ref><sp/>=<sp/>{lshape};</highlight></codeline>
+<codeline lineno="408"><highlight class="normal"><sp/><sp/><sp/><sp/>in.<ref refid="structthemis_1_1geo_1_1_spatial_batch_inputs_1a1417504162afab5bb796f301b4b9fed0" kindref="member">geoms_b</ref><sp/>=<sp/>{small_sq};</highlight></codeline>
+<codeline lineno="409"><highlight class="normal"></highlight></codeline>
+<codeline lineno="410"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>gpu<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1affd317ca9221251575dc975b7461229a" kindref="member">getProductionGpuBackend</ref>();</highlight></codeline>
+<codeline lineno="411"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(gpu,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="412"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>gpu_results<sp/>=<sp/>gpu-&gt;batchIntersects(in);</highlight></codeline>
+<codeline lineno="413"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(gpu_results.mask.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="414"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(gpu_results.mask[0],<sp/>0u)</highlight></codeline>
+<codeline lineno="415"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;batchIntersects<sp/>must<sp/>return<sp/>0<sp/>for<sp/>L-shape<sp/>vs<sp/>square-in-empty-corner<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="416"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;(overlapping<sp/>MBR,<sp/>non-intersecting<sp/>geometry)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="417"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="418"><highlight class="normal"></highlight></codeline>
+<codeline lineno="419"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="420"><highlight class="normal"></highlight><highlight class="comment">//<sp/>10<sp/>K<sp/>batch-intersects<sp/>parity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="421"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="422"><highlight class="normal"></highlight></codeline>
+<codeline lineno="423"><highlight class="normal"><ref refid="test__gpu__backend__production_8cpp_1a63ee0277d70bdd441364f0f5d9de1fd1" kindref="member">TEST</ref>(GpuProductionParityTest,<sp/>BatchIntersects_10K_MatchesCpuExact)<sp/>{</highlight></codeline>
+<codeline lineno="424"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kN<sp/>=<sp/>10000;</highlight></codeline>
+<codeline lineno="425"><highlight class="normal"></highlight></codeline>
+<codeline lineno="426"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>geometry<sp/>pairs:<sp/>random<sp/>WGS-84<sp/>bounding<sp/>boxes.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="427"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cx_a<sp/>=<sp/>seededDoubles(kN,<sp/>-179.0,<sp/><sp/>179.0,<sp/>1);</highlight></codeline>
+<codeline lineno="428"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cy_a<sp/>=<sp/>seededDoubles(kN,<sp/><sp/>-89.0,<sp/><sp/><sp/>89.0,<sp/>2);</highlight></codeline>
+<codeline lineno="429"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>hw_a<sp/>=<sp/>seededDoubles(kN,<sp/><sp/><sp/><sp/>0.01,<sp/><sp/><sp/>1.0,<sp/><sp/>3);</highlight></codeline>
+<codeline lineno="430"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cx_b<sp/>=<sp/>seededDoubles(kN,<sp/>-179.0,<sp/><sp/>179.0,<sp/>4);</highlight></codeline>
+<codeline lineno="431"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cy_b<sp/>=<sp/>seededDoubles(kN,<sp/><sp/>-89.0,<sp/><sp/><sp/>89.0,<sp/>5);</highlight></codeline>
+<codeline lineno="432"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>hw_b<sp/>=<sp/>seededDoubles(kN,<sp/><sp/><sp/><sp/>0.01,<sp/><sp/><sp/>1.0,<sp/><sp/>6);</highlight></codeline>
+<codeline lineno="433"><highlight class="normal"></highlight></codeline>
+<codeline lineno="434"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_spatial_batch_inputs" kindref="compound">SpatialBatchInputs</ref><sp/>in;</highlight></codeline>
+<codeline lineno="435"><highlight class="normal"><sp/><sp/><sp/><sp/>in.<ref refid="structthemis_1_1geo_1_1_spatial_batch_inputs_1add0683cd3d44799b8ee13868af1284ac" kindref="member">count</ref><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(kN);</highlight></codeline>
+<codeline lineno="436"><highlight class="normal"><sp/><sp/><sp/><sp/>in.<ref refid="structthemis_1_1geo_1_1_spatial_batch_inputs_1abb587a9a704edc555d0dc79311addf95" kindref="member">geoms_a</ref>.reserve(kN);</highlight></codeline>
+<codeline lineno="437"><highlight class="normal"><sp/><sp/><sp/><sp/>in.<ref refid="structthemis_1_1geo_1_1_spatial_batch_inputs_1a1417504162afab5bb796f301b4b9fed0" kindref="member">geoms_b</ref>.reserve(kN);</highlight></codeline>
+<codeline lineno="438"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kN;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="439"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>in.<ref refid="structthemis_1_1geo_1_1_spatial_batch_inputs_1abb587a9a704edc555d0dc79311addf95" kindref="member">geoms_a</ref>.push_back(makeSquare(cx_a[i],<sp/>cy_a[i],<sp/>hw_a[i]));</highlight></codeline>
+<codeline lineno="440"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>in.<ref refid="structthemis_1_1geo_1_1_spatial_batch_inputs_1a1417504162afab5bb796f301b4b9fed0" kindref="member">geoms_b</ref>.push_back(makeSquare(cx_b[i],<sp/>cy_b[i],<sp/>hw_b[i]));</highlight></codeline>
+<codeline lineno="441"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="442"><highlight class="normal"></highlight></codeline>
+<codeline lineno="443"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reference:<sp/>CPU<sp/>exact<sp/>backend<sp/>(MBR-based<sp/>for<sp/>polygon<sp/>pairs)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="444"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>cpu<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a28cb4be068b844c22d99f9484510fd8f" kindref="member">getCpuExactBackend</ref>();</highlight></codeline>
+<codeline lineno="445"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(cpu,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="446"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cpu_results<sp/>=<sp/>cpu-&gt;batchIntersects(in);</highlight></codeline>
+<codeline lineno="447"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(cpu_results.mask.size(),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(kN));</highlight></codeline>
+<codeline lineno="448"><highlight class="normal"></highlight></codeline>
+<codeline lineno="449"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GPU<sp/>production<sp/>backend</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="450"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>gpu<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1affd317ca9221251575dc975b7461229a" kindref="member">getProductionGpuBackend</ref>();</highlight></codeline>
+<codeline lineno="451"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(gpu,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="452"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(gpu-&gt;isAvailable());</highlight></codeline>
+<codeline lineno="453"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>gpu_results<sp/>=<sp/>gpu-&gt;batchIntersects(in);</highlight></codeline>
+<codeline lineno="454"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(gpu_results.mask.size(),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(kN));</highlight></codeline>
+<codeline lineno="455"><highlight class="normal"></highlight></codeline>
+<codeline lineno="456"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Both<sp/>backends<sp/>must<sp/>agree<sp/>on<sp/>every<sp/>pair.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="457"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>mismatch<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="458"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kN;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="459"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((cpu_results.mask[i]<sp/>!=<sp/>0)<sp/>!=<sp/>(gpu_results.mask[i]<sp/>!=<sp/>0))<sp/>{</highlight></codeline>
+<codeline lineno="460"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++mismatch;</highlight></codeline>
+<codeline lineno="461"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="462"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="463"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mismatch,<sp/>0)</highlight></codeline>
+<codeline lineno="464"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Production<sp/>GPU<sp/>backend<sp/>has<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>mismatch</highlight></codeline>
+<codeline lineno="465"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>intersection<sp/>mismatches<sp/>vs<sp/>CPU<sp/>exact<sp/>backend<sp/>over<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>kN<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>pairs&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="466"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="467"><highlight class="normal"></highlight></codeline>
+<codeline lineno="468"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="469"><highlight class="normal"></highlight><highlight class="comment">//<sp/>exactIntersects<sp/>parity:<sp/>point-in-polygon</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="470"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="471"><highlight class="normal"></highlight></codeline>
+<codeline lineno="472"><highlight class="normal"><ref refid="test__gpu__backend__production_8cpp_1a63ee0277d70bdd441364f0f5d9de1fd1" kindref="member">TEST</ref>(GpuProductionParityTest,<sp/>ExactIntersects_PointInPolygon_MatchesCpuExact)<sp/>{</highlight></codeline>
+<codeline lineno="473"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kN<sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="474"><highlight class="normal"></highlight></codeline>
+<codeline lineno="475"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Fixed<sp/>square<sp/>polygon<sp/>in<sp/>WGS-84<sp/>range.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="476"><highlight class="normal"><sp/><sp/><sp/><sp/>GeometryInfo<sp/>poly<sp/>=<sp/>makeSquare(10.0,<sp/>48.0,<sp/>2.0);<sp/><sp/></highlight><highlight class="comment">//<sp/>centred<sp/>at<sp/>(10,<sp/>48)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="477"><highlight class="normal"></highlight></codeline>
+<codeline lineno="478"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>cpu<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a28cb4be068b844c22d99f9484510fd8f" kindref="member">getCpuExactBackend</ref>();</highlight></codeline>
+<codeline lineno="479"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(cpu,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="480"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>gpu<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1affd317ca9221251575dc975b7461229a" kindref="member">getProductionGpuBackend</ref>();</highlight></codeline>
+<codeline lineno="481"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(gpu,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="482"><highlight class="normal"></highlight></codeline>
+<codeline lineno="483"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>lats<sp/>=<sp/>seededDoubles(kN,<sp/>44.0,<sp/>52.0,<sp/>7);</highlight></codeline>
+<codeline lineno="484"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>lons<sp/>=<sp/>seededDoubles(kN,<sp/><sp/>6.0,<sp/>14.0,<sp/>8);</highlight></codeline>
+<codeline lineno="485"><highlight class="normal"></highlight></codeline>
+<codeline lineno="486"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>mismatch<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="487"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kN;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="488"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GeometryInfo<sp/>pt(GeometryType::Point);</highlight></codeline>
+<codeline lineno="489"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pt.coords.push_back({lons[i],<sp/>lats[i]});</highlight></codeline>
+<codeline lineno="490"><highlight class="normal"></highlight></codeline>
+<codeline lineno="491"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>cpu_hit<sp/>=<sp/>cpu-&gt;exactIntersects(pt,<sp/>poly);</highlight></codeline>
+<codeline lineno="492"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>gpu_hit<sp/>=<sp/>gpu-&gt;exactIntersects(pt,<sp/>poly);</highlight></codeline>
+<codeline lineno="493"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cpu_hit<sp/>!=<sp/>gpu_hit)<sp/>{</highlight></codeline>
+<codeline lineno="494"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++mismatch;</highlight></codeline>
+<codeline lineno="495"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="496"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="497"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mismatch,<sp/>0)</highlight></codeline>
+<codeline lineno="498"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Production<sp/>GPU<sp/>backend<sp/>has<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>mismatch</highlight></codeline>
+<codeline lineno="499"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>exactIntersects<sp/>mismatches<sp/>vs<sp/>CPU<sp/>exact<sp/>backend<sp/>over<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>kN<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>points&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="500"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="501"><highlight class="normal"></highlight></codeline>
+<codeline lineno="502"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="503"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Registry:<sp/>production<sp/>GPU<sp/>backend<sp/>is<sp/>discoverable<sp/>at<sp/>runtime</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="504"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="505"><highlight class="normal"></highlight></codeline>
+<codeline lineno="506"><highlight class="normal"><ref refid="test__gpu__backend__production_8cpp_1a63ee0277d70bdd441364f0f5d9de1fd1" kindref="member">TEST</ref>(GpuProductionRegistryTest,<sp/>ProductionBackendIsRegistered)<sp/>{</highlight></codeline>
+<codeline lineno="507"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>reg<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1ad2396953eda3033a82e5d1fe8a8e5971" kindref="member">getGeoBackendRegistry</ref>();</highlight></codeline>
+<codeline lineno="508"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(reg,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;getGeoBackendRegistry()<sp/>must<sp/>return<sp/>a<sp/>non-null<sp/>registry&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="509"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="510"><highlight class="normal"></highlight></codeline>
+<codeline lineno="511"><highlight class="normal"><ref refid="test__gpu__backend__production_8cpp_1a63ee0277d70bdd441364f0f5d9de1fd1" kindref="member">TEST</ref>(GpuProductionRegistryTest,<sp/>ProductionBackendIsAvailable)<sp/>{</highlight></codeline>
+<codeline lineno="512"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>backend<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1affd317ca9221251575dc975b7461229a" kindref="member">getProductionGpuBackend</ref>();</highlight></codeline>
+<codeline lineno="513"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(backend,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="514"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(backend-&gt;isAvailable());</highlight></codeline>
+<codeline lineno="515"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Backend<sp/>name<sp/>must<sp/>be<sp/>one<sp/>of<sp/>the<sp/>known<sp/>GPU<sp/>or<sp/>CPU-parallel<sp/>names.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="516"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>name(backend-&gt;name());</highlight></codeline>
+<codeline lineno="517"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(name<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;cuda_gpu&quot;</highlight><highlight class="normal"><sp/>||<sp/>name<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;opencl_gpu&quot;</highlight><highlight class="normal"><sp/>||<sp/>name<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;cpu_parallel&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="518"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Unexpected<sp/>production<sp/>backend<sp/>name:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>name;</highlight></codeline>
+<codeline lineno="519"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/geo/test_gpu_backend_production.cpp"/>
+  </compounddef>
+</doxygen>

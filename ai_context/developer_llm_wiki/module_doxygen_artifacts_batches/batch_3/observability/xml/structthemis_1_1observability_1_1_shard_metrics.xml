@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_shard_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::ShardMetrics</compoundname>
+    <includes refid="metric__aggregator_8h" local="no">metric_aggregator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_shard_metrics_1ae63505d1a29a01c529a87f1271bc802f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::ShardMetrics::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::observability::ShardMetrics::shard_id</qualifiedname>
+        <briefdescription>
+<para>Logical shard identifier (e.g. &quot;shard-0&quot;, &quot;replica-us-east-1&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_aggregator.h" line="95" column="17" bodyfile="include/observability/metric_aggregator.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_shard_metrics_1ab3dc445776a961465a7d3d348849a0ba" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::vector&lt; double &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::vector&lt;double&gt; &gt; themis::observability::ShardMetrics::metrics</definition>
+        <argsstring></argsstring>
+        <name>metrics</name>
+        <qualifiedname>themis::observability::ShardMetrics::metrics</qualifiedname>
+        <briefdescription>
+<para>Per-metric raw observation vectors. Key is the metric name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_aggregator.h" line="97" column="14" bodyfile="include/observability/metric_aggregator.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_shard_metrics_1a9fa2167dba202d6e2696f1a595ef070c" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::observability::ShardMetrics::labels</definition>
+        <argsstring></argsstring>
+        <name>labels</name>
+        <qualifiedname>themis::observability::ShardMetrics::labels</qualifiedname>
+        <briefdescription>
+<para>Shard-level labels applied to every metric in this snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_aggregator.h" line="99" column="14" bodyfile="include/observability/metric_aggregator.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_shard_metrics_1a04aacefee151fc96466b87c886849d50" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::observability::ShardMetrics::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::observability::ShardMetrics::timestamp</qualifiedname>
+        <initializer>{std::chrono::system_clock::now()}</initializer>
+        <briefdescription>
+<para>When this snapshot was captured (defaults to now). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_aggregator.h" line="101" column="43" bodyfile="include/observability/metric_aggregator.h" bodystart="101" bodyend="101"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="structthemis_1_1observability_1_1_metric" kindref="compound">Metric</ref> observations sourced from a single shard. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Each <computeroutput><ref refid="structthemis_1_1observability_1_1_shard_metrics" kindref="compound">ShardMetrics</ref></computeroutput> bundles all named metric readings collected from one database shard into a single transfer object suitable for cross-shard aggregation via <computeroutput><ref refid="classthemis_1_1observability_1_1_metric_aggregator_1a021d305daaa752d19d6a613481d0cf71" kindref="member">MetricAggregator::aggregateShardMetrics()</ref></computeroutput>. </para>
+    </detaileddescription>
+    <location file="include/observability/metric_aggregator.h" line="93" column="1" bodyfile="include/observability/metric_aggregator.h" bodystart="93" bodyend="102"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_shard_metrics_1a9fa2167dba202d6e2696f1a595ef070c" prot="public" virt="non-virtual"><scope>themis::observability::ShardMetrics</scope><name>labels</name></member>
+      <member refid="structthemis_1_1observability_1_1_shard_metrics_1ab3dc445776a961465a7d3d348849a0ba" prot="public" virt="non-virtual"><scope>themis::observability::ShardMetrics</scope><name>metrics</name></member>
+      <member refid="structthemis_1_1observability_1_1_shard_metrics_1ae63505d1a29a01c529a87f1271bc802f" prot="public" virt="non-virtual"><scope>themis::observability::ShardMetrics</scope><name>shard_id</name></member>
+      <member refid="structthemis_1_1observability_1_1_shard_metrics_1a04aacefee151fc96466b87c886849d50" prot="public" virt="non-virtual"><scope>themis::observability::ShardMetrics</scope><name>timestamp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,226 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_batch_guard" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::BatchGuard</compoundname>
+    <includes refid="llm__memory__safety__utils_8h" local="no">llm_memory_safety_utils.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1llm_1_1_batch_guard_1a130215a084337c04d96cc8eb0a4c8cfa" prot="public" static="no">
+        <type>std::function&lt; void()&gt;</type>
+        <definition>using themis::llm::BatchGuard::BatchReleaser = std::function&lt;void()&gt;</definition>
+        <argsstring></argsstring>
+        <name>BatchReleaser</name>
+        <qualifiedname>themis::llm::BatchGuard::BatchReleaser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="479" column="3" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="479" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_batch_guard_1a9c0284b41961dcc127eb1e0c1462e9ca" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::BatchGuard::batch_id_</definition>
+        <argsstring></argsstring>
+        <name>batch_id_</name>
+        <qualifiedname>themis::llm::BatchGuard::batch_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="529" column="7" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="529" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_batch_guard_1a6ac7aa630f30987aa7799f6cf8a6681b" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1_batch_guard_1a130215a084337c04d96cc8eb0a4c8cfa" kindref="member">BatchReleaser</ref></type>
+        <definition>BatchReleaser themis::llm::BatchGuard::releaser_</definition>
+        <argsstring></argsstring>
+        <name>releaser_</name>
+        <qualifiedname>themis::llm::BatchGuard::releaser_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="530" column="17" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="530" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_batch_guard_1a4f73fae2180d9353e0bdca2026609765" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::llm::BatchGuard::is_released_</definition>
+        <argsstring></argsstring>
+        <name>is_released_</name>
+        <qualifiedname>themis::llm::BatchGuard::is_released_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="531" column="15" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="531" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_batch_guard_1aa01b7b96fe6aa69ed05f19807e690fbe" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::BatchGuard::BatchGuard</definition>
+        <argsstring>(int batch_id, BatchReleaser releaser)</argsstring>
+        <name>BatchGuard</name>
+        <qualifiedname>themis::llm::BatchGuard::BatchGuard</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>batch_id</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_batch_guard_1a130215a084337c04d96cc8eb0a4c8cfa" kindref="member">BatchReleaser</ref></type>
+          <declname>releaser</declname>
+        </param>
+        <briefdescription>
+<para>Batch Guard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the batch. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">releaser</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="487" column="12" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="487" bodyend="490"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_batch_guard_1a4b5897466a60db471f3f060d86db6ac1" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::BatchGuard::BatchGuard</definition>
+        <argsstring>(BatchGuard &amp;&amp;other) noexcept</argsstring>
+        <name>BatchGuard</name>
+        <qualifiedname>themis::llm::BatchGuard::BatchGuard</qualifiedname>
+        <param>
+          <type>BatchGuard &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="493" column="3" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="493" bodyend="500"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_batch_guard_1aff47fdc16404f30c7d34593d581e530e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::BatchGuard::BatchGuard</definition>
+        <argsstring>(const BatchGuard &amp;)=delete</argsstring>
+        <name>BatchGuard</name>
+        <qualifiedname>themis::llm::BatchGuard::BatchGuard</qualifiedname>
+        <param>
+          <type>const BatchGuard &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="503" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_batch_guard_1a3acd9da5f1d0ffd185df875b81422968" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_batch_guard_1aa01b7b96fe6aa69ed05f19807e690fbe" kindref="member">BatchGuard</ref> &amp;</type>
+        <definition>BatchGuard &amp; themis::llm::BatchGuard::operator=</definition>
+        <argsstring>(const BatchGuard &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::BatchGuard::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1_batch_guard_1aa01b7b96fe6aa69ed05f19807e690fbe" kindref="member">BatchGuard</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="504" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_batch_guard_1aad736a863f86b8650bc41f31ec25c8ba" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::BatchGuard::~BatchGuard</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~BatchGuard</name>
+        <qualifiedname>themis::llm::BatchGuard::~BatchGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="507" column="3" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="507" bodyend="509"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_batch_guard_1a9f88cc6608c85b9e124144fecd002cd0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::llm::BatchGuard::getId</definition>
+        <argsstring>() const</argsstring>
+        <name>getId</name>
+        <qualifiedname>themis::llm::BatchGuard::getId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="511" column="7" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="511" bodyend="511"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_batch_guard_1a7a1bb16a83e899228deda37bd6cee5c1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::BatchGuard::release</definition>
+        <argsstring>()</argsstring>
+        <name>release</name>
+        <qualifiedname>themis::llm::BatchGuard::release</qualifiedname>
+        <briefdescription>
+<para>Release. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: releaser_(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="517" column="8" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="517" bodyend="526"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/llm_memory_safety_utils.h" line="477" column="1" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="477" bodyend="532"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_batch_guard_1a9c0284b41961dcc127eb1e0c1462e9ca" prot="private" virt="non-virtual"><scope>themis::llm::BatchGuard</scope><name>batch_id_</name></member>
+      <member refid="classthemis_1_1llm_1_1_batch_guard_1aa01b7b96fe6aa69ed05f19807e690fbe" prot="public" virt="non-virtual"><scope>themis::llm::BatchGuard</scope><name>BatchGuard</name></member>
+      <member refid="classthemis_1_1llm_1_1_batch_guard_1a4b5897466a60db471f3f060d86db6ac1" prot="public" virt="non-virtual"><scope>themis::llm::BatchGuard</scope><name>BatchGuard</name></member>
+      <member refid="classthemis_1_1llm_1_1_batch_guard_1aff47fdc16404f30c7d34593d581e530e" prot="public" virt="non-virtual"><scope>themis::llm::BatchGuard</scope><name>BatchGuard</name></member>
+      <member refid="classthemis_1_1llm_1_1_batch_guard_1a130215a084337c04d96cc8eb0a4c8cfa" prot="public" virt="non-virtual"><scope>themis::llm::BatchGuard</scope><name>BatchReleaser</name></member>
+      <member refid="classthemis_1_1llm_1_1_batch_guard_1a9f88cc6608c85b9e124144fecd002cd0" prot="public" virt="non-virtual"><scope>themis::llm::BatchGuard</scope><name>getId</name></member>
+      <member refid="classthemis_1_1llm_1_1_batch_guard_1a4f73fae2180d9353e0bdca2026609765" prot="private" virt="non-virtual"><scope>themis::llm::BatchGuard</scope><name>is_released_</name></member>
+      <member refid="classthemis_1_1llm_1_1_batch_guard_1a3acd9da5f1d0ffd185df875b81422968" prot="public" virt="non-virtual"><scope>themis::llm::BatchGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_batch_guard_1a7a1bb16a83e899228deda37bd6cee5c1" prot="public" virt="non-virtual"><scope>themis::llm::BatchGuard</scope><name>release</name></member>
+      <member refid="classthemis_1_1llm_1_1_batch_guard_1a6ac7aa630f30987aa7799f6cf8a6681b" prot="private" virt="non-virtual"><scope>themis::llm::BatchGuard</scope><name>releaser_</name></member>
+      <member refid="classthemis_1_1llm_1_1_batch_guard_1aad736a863f86b8650bc41f31ec25c8ba" prot="public" virt="non-virtual"><scope>themis::llm::BatchGuard</scope><name>~BatchGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_assertion_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::WebAuthnAuthenticator::AssertionResult</compoundname>
+    <includes refid="webauthn__authenticator_8h" local="no">webauthn_authenticator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_assertion_result_1a971b329ba51defd7be31837cc3520ecd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::WebAuthnAuthenticator::AssertionResult::credential_id</definition>
+        <argsstring></argsstring>
+        <name>credential_id</name>
+        <qualifiedname>themis::auth::WebAuthnAuthenticator::AssertionResult::credential_id</qualifiedname>
+        <briefdescription>
+<para>Identifies which credential was used. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/webauthn_authenticator.h" line="94" column="21" bodyfile="include/auth/webauthn_authenticator.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_assertion_result_1a48fb45c22f1e5ebd0579f3cb1a1cae7a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::auth::WebAuthnAuthenticator::AssertionResult::sign_count</definition>
+        <argsstring></argsstring>
+        <name>sign_count</name>
+        <qualifiedname>themis::auth::WebAuthnAuthenticator::AssertionResult::sign_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>New counter value (store this). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/webauthn_authenticator.h" line="95" column="18" bodyfile="include/auth/webauthn_authenticator.h" bodystart="95" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_assertion_result_1a74d88dbfe6a3a4e2433bd0683cec67ef" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::auth::WebAuthnAuthenticator::AssertionResult::user_handle</definition>
+        <argsstring></argsstring>
+        <name>user_handle</name>
+        <qualifiedname>themis::auth::WebAuthnAuthenticator::AssertionResult::user_handle</qualifiedname>
+        <briefdescription>
+<para>Set for discoverable credentials. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/webauthn_authenticator.h" line="96" column="23" bodyfile="include/auth/webauthn_authenticator.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/webauthn_authenticator.h" line="93" column="5" bodyfile="include/auth/webauthn_authenticator.h" bodystart="93" bodyend="97"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_assertion_result_1a971b329ba51defd7be31837cc3520ecd" prot="public" virt="non-virtual"><scope>themis::auth::WebAuthnAuthenticator::AssertionResult</scope><name>credential_id</name></member>
+      <member refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_assertion_result_1a48fb45c22f1e5ebd0579f3cb1a1cae7a" prot="public" virt="non-virtual"><scope>themis::auth::WebAuthnAuthenticator::AssertionResult</scope><name>sign_count</name></member>
+      <member refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_assertion_result_1a74d88dbfe6a3a4e2433bd0683cec67ef" prot="public" virt="non-virtual"><scope>themis::auth::WebAuthnAuthenticator::AssertionResult</scope><name>user_handle</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

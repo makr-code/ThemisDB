@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_changefeed_1_1_list_options" kind="struct" language="C++" prot="public">
+    <compoundname>themis::Changefeed::ListOptions</compoundname>
+    <includes refid="changefeed_8h" local="no">changefeed.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_changefeed_1_1_list_options_1a24481ff2361fd65d75a7cddc945709b3" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::Changefeed::ListOptions::from_sequence</definition>
+        <argsstring></argsstring>
+        <name>from_sequence</name>
+        <qualifiedname>themis::Changefeed::ListOptions::from_sequence</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="80" column="18" bodyfile="include/cdc/changefeed.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_changefeed_1_1_list_options_1a25c05ad81bd438fdb18a114036aa781a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::Changefeed::ListOptions::to_sequence</definition>
+        <argsstring></argsstring>
+        <name>to_sequence</name>
+        <qualifiedname>themis::Changefeed::ListOptions::to_sequence</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="81" column="18" bodyfile="include/cdc/changefeed.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_changefeed_1_1_list_options_1a70c448f6c82eddf4d74b2daa69e349f5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::Changefeed::ListOptions::limit</definition>
+        <argsstring></argsstring>
+        <name>limit</name>
+        <qualifiedname>themis::Changefeed::ListOptions::limit</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="82" column="16" bodyfile="include/cdc/changefeed.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_changefeed_1_1_list_options_1aa6f215c6baffc1ba68ddae2b98567633" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::Changefeed::ListOptions::long_poll_ms</definition>
+        <argsstring></argsstring>
+        <name>long_poll_ms</name>
+        <qualifiedname>themis::Changefeed::ListOptions::long_poll_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="83" column="18" bodyfile="include/cdc/changefeed.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_changefeed_1_1_list_options_1aafb764f79f83743df49f6bbba7529659" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::Changefeed::ListOptions::key_prefix</definition>
+        <argsstring></argsstring>
+        <name>key_prefix</name>
+        <qualifiedname>themis::Changefeed::ListOptions::key_prefix</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="84" column="23" bodyfile="include/cdc/changefeed.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_changefeed_1_1_list_options_1afb9c9764cc592b3c5956ea88cfc60ae2" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="classthemis_1_1_changefeed_1a1c985f349b58773fb6e152df70b5c7f0" kindref="member">ChangeEventType</ref> &gt;</type>
+        <definition>std::optional&lt;ChangeEventType&gt; themis::Changefeed::ListOptions::event_type</definition>
+        <argsstring></argsstring>
+        <name>event_type</name>
+        <qualifiedname>themis::Changefeed::ListOptions::event_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="85" column="23" bodyfile="include/cdc/changefeed.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_changefeed_1_1_list_options_1a3d199bca9e7a046e02bfde3e77efea1c" prot="public" static="no" mutable="no">
+        <type>std::set&lt; <ref refid="classthemis_1_1_changefeed_1a1c985f349b58773fb6e152df70b5c7f0" kindref="member">ChangeEventType</ref> &gt;</type>
+        <definition>std::set&lt;ChangeEventType&gt; themis::Changefeed::ListOptions::event_types</definition>
+        <argsstring></argsstring>
+        <name>event_types</name>
+        <qualifiedname>themis::Changefeed::ListOptions::event_types</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="86" column="18" bodyfile="include/cdc/changefeed.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cdc/changefeed.h" line="79" column="5" bodyfile="include/cdc/changefeed.h" bodystart="79" bodyend="87"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_changefeed_1_1_list_options_1afb9c9764cc592b3c5956ea88cfc60ae2" prot="public" virt="non-virtual"><scope>themis::Changefeed::ListOptions</scope><name>event_type</name></member>
+      <member refid="structthemis_1_1_changefeed_1_1_list_options_1a3d199bca9e7a046e02bfde3e77efea1c" prot="public" virt="non-virtual"><scope>themis::Changefeed::ListOptions</scope><name>event_types</name></member>
+      <member refid="structthemis_1_1_changefeed_1_1_list_options_1a24481ff2361fd65d75a7cddc945709b3" prot="public" virt="non-virtual"><scope>themis::Changefeed::ListOptions</scope><name>from_sequence</name></member>
+      <member refid="structthemis_1_1_changefeed_1_1_list_options_1aafb764f79f83743df49f6bbba7529659" prot="public" virt="non-virtual"><scope>themis::Changefeed::ListOptions</scope><name>key_prefix</name></member>
+      <member refid="structthemis_1_1_changefeed_1_1_list_options_1a70c448f6c82eddf4d74b2daa69e349f5" prot="public" virt="non-virtual"><scope>themis::Changefeed::ListOptions</scope><name>limit</name></member>
+      <member refid="structthemis_1_1_changefeed_1_1_list_options_1aa6f215c6baffc1ba68ddae2b98567633" prot="public" virt="non-virtual"><scope>themis::Changefeed::ListOptions</scope><name>long_poll_ms</name></member>
+      <member refid="structthemis_1_1_changefeed_1_1_list_options_1a25c05ad81bd438fdb18a114036aa781a" prot="public" virt="non-virtual"><scope>themis::Changefeed::ListOptions</scope><name>to_sequence</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

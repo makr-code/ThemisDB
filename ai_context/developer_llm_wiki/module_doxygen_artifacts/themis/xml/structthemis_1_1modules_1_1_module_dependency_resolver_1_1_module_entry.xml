@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1modules_1_1_module_dependency_resolver_1_1_module_entry" kind="struct" language="C++" prot="private">
+    <compoundname>themis::modules::ModuleDependencyResolver::ModuleEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_module_dependency_resolver_1_1_module_entry_1a9bbd3aed1e20523f0860ba2d361b93c9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::ModuleDependencyResolver::ModuleEntry::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::modules::ModuleDependencyResolver::ModuleEntry::version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="974" column="21" bodyfile="include/themis/base/module_loader.h" bodystart="974" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_module_dependency_resolver_1_1_module_entry_1a5f06ee0ae94ce5db3a9bf5a4c5a7c8e1" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1modules_1_1_module_dependency" kindref="compound">ModuleDependency</ref> &gt;</type>
+        <definition>std::vector&lt;ModuleDependency&gt; themis::modules::ModuleDependencyResolver::ModuleEntry::deps</definition>
+        <argsstring></argsstring>
+        <name>deps</name>
+        <qualifiedname>themis::modules::ModuleDependencyResolver::ModuleEntry::deps</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="975" column="21" bodyfile="include/themis/base/module_loader.h" bodystart="975" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/base/module_loader.h" line="973" column="5" bodyfile="include/themis/base/module_loader.h" bodystart="973" bodyend="976"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1modules_1_1_module_dependency_resolver_1_1_module_entry_1a5f06ee0ae94ce5db3a9bf5a4c5a7c8e1" prot="public" virt="non-virtual"><scope>themis::modules::ModuleDependencyResolver::ModuleEntry</scope><name>deps</name></member>
+      <member refid="structthemis_1_1modules_1_1_module_dependency_resolver_1_1_module_entry_1a9bbd3aed1e20523f0860ba2d361b93c9" prot="public" virt="non-virtual"><scope>themis::modules::ModuleDependencyResolver::ModuleEntry</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

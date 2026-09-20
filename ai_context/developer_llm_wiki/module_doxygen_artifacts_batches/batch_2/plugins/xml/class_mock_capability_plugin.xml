@@ -1,0 +1,276 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_mock_capability_plugin" kind="class" language="C++" prot="public">
+    <compoundname>MockCapabilityPlugin</compoundname>
+    <basecompoundref refid="classthemis_1_1plugins_1_1_i_themis_plugin" prot="public" virt="non-virtual">themis::plugins::IThemisPlugin</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_mock_capability_plugin_1a699d41a40e8207d21e5b30cf1824daf0" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1plugins_1_1_plugin_capabilities" kindref="compound">PluginCapabilities</ref></type>
+        <definition>PluginCapabilities MockCapabilityPlugin::load_capabilities</definition>
+        <argsstring></argsstring>
+        <name>load_capabilities</name>
+        <qualifiedname>MockCapabilityPlugin::load_capabilities</qualifiedname>
+        <briefdescription>
+<para>Reported during / immediately after load. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_capability_escalation.cpp" line="40" column="24" bodyfile="tests/plugins/test_plugin_capability_escalation.cpp" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_capability_plugin_1a3f05967abaa19e3503d134904ff18769" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1plugins_1_1_plugin_capabilities" kindref="compound">PluginCapabilities</ref></type>
+        <definition>PluginCapabilities MockCapabilityPlugin::runtime_capabilities</definition>
+        <argsstring></argsstring>
+        <name>runtime_capabilities</name>
+        <qualifiedname>MockCapabilityPlugin::runtime_capabilities</qualifiedname>
+        <briefdescription>
+<para>Reported on subsequent <ref refid="class_mock_capability_plugin_1ace51c7976b6f61c2a64eb2b55738a9c7" kindref="member">getCapabilities()</ref> calls. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_capability_escalation.cpp" line="41" column="24" bodyfile="tests/plugins/test_plugin_capability_escalation.cpp" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_capability_plugin_1a851c6f836c31078d069c9d329f7cb8de" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool MockCapabilityPlugin::use_runtime_caps</definition>
+        <argsstring></argsstring>
+        <name>use_runtime_caps</name>
+        <qualifiedname>MockCapabilityPlugin::use_runtime_caps</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_capability_escalation.cpp" line="44" column="10" bodyfile="tests/plugins/test_plugin_capability_escalation.cpp" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_mock_capability_plugin_1aa2d97583a924eec1468c14ff02239093" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string MockCapabilityPlugin::name_</definition>
+        <argsstring></argsstring>
+        <name>name_</name>
+        <qualifiedname>MockCapabilityPlugin::name_</qualifiedname>
+        <initializer>{&quot;mock_cap_plugin&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_capability_escalation.cpp" line="61" column="17" bodyfile="tests/plugins/test_plugin_capability_escalation.cpp" bodystart="61" bodyend="61"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_mock_capability_plugin_1aeda9f003400fbf170ff6752f50e3a9cf" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>const char *</type>
+        <definition>const char * MockCapabilityPlugin::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>MockCapabilityPlugin::getName</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a4da1fa333828ac56c3ed6f16ce3c5aba">getName</reimplements>
+        <briefdescription>
+<para>Get plugin name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_capability_escalation.cpp" line="46" column="16" bodyfile="tests/plugins/test_plugin_capability_escalation.cpp" bodystart="46" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_capability_plugin_1a44483c142b70f9ab6dd31e629c1bc33d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>const char *</type>
+        <definition>const char * MockCapabilityPlugin::getVersion</definition>
+        <argsstring>() const override</argsstring>
+        <name>getVersion</name>
+        <qualifiedname>MockCapabilityPlugin::getVersion</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a81e2f78a0da28fd06ecfa101c194a86f">getVersion</reimplements>
+        <briefdescription>
+<para>Get plugin version (semantic versioning). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_capability_escalation.cpp" line="47" column="16" bodyfile="tests/plugins/test_plugin_capability_escalation.cpp" bodystart="47" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_capability_plugin_1abf3cfa5f50ed27064754ef2eed498cb6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1plugins_1a69594568f8b761bc4ddc46b693ffcd12" kindref="member">PluginType</ref></type>
+        <definition>PluginType MockCapabilityPlugin::getType</definition>
+        <argsstring>() const override</argsstring>
+        <name>getType</name>
+        <qualifiedname>MockCapabilityPlugin::getType</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a345352902f94b962a8f7a06efdd7c209">getType</reimplements>
+        <briefdescription>
+<para>Get plugin type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_capability_escalation.cpp" line="48" column="17" bodyfile="tests/plugins/test_plugin_capability_escalation.cpp" bodystart="48" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_capability_plugin_1ace51c7976b6f61c2a64eb2b55738a9c7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1_plugin_capabilities" kindref="compound">PluginCapabilities</ref></type>
+        <definition>PluginCapabilities MockCapabilityPlugin::getCapabilities</definition>
+        <argsstring>() const override</argsstring>
+        <name>getCapabilities</name>
+        <qualifiedname>MockCapabilityPlugin::getCapabilities</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a4568190ca9797eb96a4b16c41316fc31">getCapabilities</reimplements>
+        <briefdescription>
+<para>Get plugin capabilities. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_capability_escalation.cpp" line="50" column="24" bodyfile="tests/plugins/test_plugin_capability_escalation.cpp" bodystart="50" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_capability_plugin_1ae18f69ad390ada81d189ab89b8ad3b83" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool MockCapabilityPlugin::initialize</definition>
+        <argsstring>(const char *) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>MockCapabilityPlugin::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a802b81062bdde015f7fbc2961b284035">initialize</reimplements>
+        <param>
+          <type>const char *</type>
+          <declname>config_json</declname>
+        </param>
+        <briefdescription>
+<para>Initialize plugin with configuration JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config_json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Configuration as JSON string </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if initialized successfully </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_capability_escalation.cpp" line="54" column="10" bodyfile="tests/plugins/test_plugin_capability_escalation.cpp" bodystart="54" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_capability_plugin_1adeee1f100e1c3279f540b9542b56c463" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void MockCapabilityPlugin::shutdown</definition>
+        <argsstring>() override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>MockCapabilityPlugin::shutdown</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a9fd174de9ca45c407e34e76327ae0691">shutdown</reimplements>
+        <briefdescription>
+<para>Shutdown plugin and release resources. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_capability_escalation.cpp" line="55" column="10" bodyfile="tests/plugins/test_plugin_capability_escalation.cpp" bodystart="55" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_capability_plugin_1ad44b029285e06faea12d76624651a95c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void *</type>
+        <definition>void * MockCapabilityPlugin::getInstance</definition>
+        <argsstring>() override</argsstring>
+        <name>getInstance</name>
+        <qualifiedname>MockCapabilityPlugin::getInstance</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a51a406edfdfb764244c4d4cab177effc">getInstance</reimplements>
+        <briefdescription>
+<para>Get plugin instance (type-specific). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to plugin implementation (must be cast to specific type)</para>
+</simplesect>
+For COMPUTE_BACKEND: Cast to acceleration::BackendPlugin* For BLOB_STORAGE: Cast to storage::IBlobStorageBackend* For IMPORTER: Cast to importers::IImporter* </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_capability_escalation.cpp" line="56" column="10" bodyfile="tests/plugins/test_plugin_capability_escalation.cpp" bodystart="56" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_capability_plugin_1aec6c3352898dcc820ef089e110c6347a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void MockCapabilityPlugin::setName</definition>
+        <argsstring>(const std::string &amp;n)</argsstring>
+        <name>setName</name>
+        <qualifiedname>MockCapabilityPlugin::setName</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_capability_escalation.cpp" line="58" column="10" bodyfile="tests/plugins/test_plugin_capability_escalation.cpp" bodystart="58" bodyend="58"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Test plugin whose capabilities can be mutated between calls. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>loadCapabilities_ is what the plugin reports at initialization (frozen by <ref refid="class_plugin_manager" kindref="compound">PluginManager</ref>). runtimeCapabilities_ is what the plugin reports after load; when different from loadCapabilities_, it simulates a post-activation capability escalation attempt. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>MockCapabilityPlugin</label>
+        <link refid="class_mock_capability_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::plugins::IThemisPlugin</label>
+        <link refid="classthemis_1_1plugins_1_1_i_themis_plugin"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>MockCapabilityPlugin</label>
+        <link refid="class_mock_capability_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>load_capabilities</edgelabel>
+          <edgelabel>runtime_capabilities</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::plugins::IThemisPlugin</label>
+        <link refid="classthemis_1_1plugins_1_1_i_themis_plugin"/>
+      </node>
+      <node id="3">
+        <label>themis::plugins::PluginCapabilities</label>
+        <link refid="structthemis_1_1plugins_1_1_plugin_capabilities"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/plugins/test_plugin_capability_escalation.cpp" line="38" column="1" bodyfile="tests/plugins/test_plugin_capability_escalation.cpp" bodystart="38" bodyend="62"/>
+    <listofallmembers>
+      <member refid="class_mock_capability_plugin_1ace51c7976b6f61c2a64eb2b55738a9c7" prot="public" virt="virtual"><scope>MockCapabilityPlugin</scope><name>getCapabilities</name></member>
+      <member refid="class_mock_capability_plugin_1ad44b029285e06faea12d76624651a95c" prot="public" virt="virtual"><scope>MockCapabilityPlugin</scope><name>getInstance</name></member>
+      <member refid="class_mock_capability_plugin_1aeda9f003400fbf170ff6752f50e3a9cf" prot="public" virt="virtual"><scope>MockCapabilityPlugin</scope><name>getName</name></member>
+      <member refid="class_mock_capability_plugin_1abf3cfa5f50ed27064754ef2eed498cb6" prot="public" virt="virtual"><scope>MockCapabilityPlugin</scope><name>getType</name></member>
+      <member refid="class_mock_capability_plugin_1a44483c142b70f9ab6dd31e629c1bc33d" prot="public" virt="virtual"><scope>MockCapabilityPlugin</scope><name>getVersion</name></member>
+      <member refid="class_mock_capability_plugin_1ae18f69ad390ada81d189ab89b8ad3b83" prot="public" virt="virtual"><scope>MockCapabilityPlugin</scope><name>initialize</name></member>
+      <member refid="class_mock_capability_plugin_1a699d41a40e8207d21e5b30cf1824daf0" prot="public" virt="non-virtual"><scope>MockCapabilityPlugin</scope><name>load_capabilities</name></member>
+      <member refid="class_mock_capability_plugin_1aa2d97583a924eec1468c14ff02239093" prot="private" virt="non-virtual"><scope>MockCapabilityPlugin</scope><name>name_</name></member>
+      <member refid="class_mock_capability_plugin_1a3f05967abaa19e3503d134904ff18769" prot="public" virt="non-virtual"><scope>MockCapabilityPlugin</scope><name>runtime_capabilities</name></member>
+      <member refid="class_mock_capability_plugin_1aec6c3352898dcc820ef089e110c6347a" prot="public" virt="non-virtual"><scope>MockCapabilityPlugin</scope><name>setName</name></member>
+      <member refid="class_mock_capability_plugin_1adeee1f100e1c3279f540b9542b56c463" prot="public" virt="virtual"><scope>MockCapabilityPlugin</scope><name>shutdown</name></member>
+      <member refid="class_mock_capability_plugin_1a851c6f836c31078d069c9d329f7cb8de" prot="public" virt="non-virtual"><scope>MockCapabilityPlugin</scope><name>use_runtime_caps</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_themis_plugin_1abb0d48872b714d51216b8937899152be" prot="public" virt="virtual"><scope>MockCapabilityPlugin</scope><name>~IThemisPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,155 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_cdc_pipeline_bench_fixture" kind="class" language="C++" prot="public">
+    <compoundname>CdcPipelineBenchFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_cdc_pipeline_bench_fixture_1a5d794dbffdf5716b1d27eea614be57cb" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string CdcPipelineBenchFixture::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>CdcPipelineBenchFixture::db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cdc/bench_cdc_pipeline.cpp" line="77" column="42" bodyfile="benchmarks/cdc/bench_cdc_pipeline.cpp" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cdc_pipeline_bench_fixture_1a765d403bc69e73d61fb38bea04e433eb" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; CdcPipelineBenchFixture::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>CdcPipelineBenchFixture::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cdc/bench_cdc_pipeline.cpp" line="78" column="26" bodyfile="benchmarks/cdc/bench_cdc_pipeline.cpp" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cdc_pipeline_bench_fixture_1a5c9dce4edbdea9b3337303ef2faa6ec0" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_changefeed" kindref="compound">Changefeed</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Changefeed&gt; CdcPipelineBenchFixture::changefeed_</definition>
+        <argsstring></argsstring>
+        <name>changefeed_</name>
+        <qualifiedname>CdcPipelineBenchFixture::changefeed_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cdc/bench_cdc_pipeline.cpp" line="79" column="30" bodyfile="benchmarks/cdc/bench_cdc_pipeline.cpp" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cdc_pipeline_bench_fixture_1a65074c0cc15e7615ee520975c51cd199" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1cdc_1_1_consumer_group_manager" kindref="compound">ConsumerGroupManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;ConsumerGroupManager&gt; CdcPipelineBenchFixture::manager_</definition>
+        <argsstring></argsstring>
+        <name>manager_</name>
+        <qualifiedname>CdcPipelineBenchFixture::manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cdc/bench_cdc_pipeline.cpp" line="80" column="21" bodyfile="benchmarks/cdc/bench_cdc_pipeline.cpp" bodystart="80" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_cdc_pipeline_bench_fixture_1ae32d15ffe2b9de74041815a3de863c37" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CdcPipelineBenchFixture::SetUp</definition>
+        <argsstring>(const ::benchmark::State &amp;) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>CdcPipelineBenchFixture::SetUp</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cdc/bench_cdc_pipeline.cpp" line="34" column="10" bodyfile="benchmarks/cdc/bench_cdc_pipeline.cpp" bodystart="34" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cdc_pipeline_bench_fixture_1a7bf07f6c98526a2ae5c56a72c584aa8d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CdcPipelineBenchFixture::TearDown</definition>
+        <argsstring>(const ::benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>CdcPipelineBenchFixture::TearDown</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cdc/bench_cdc_pipeline.cpp" line="55" column="10" bodyfile="benchmarks/cdc/bench_cdc_pipeline.cpp" bodystart="55" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cdc_pipeline_bench_fixture_1ae6c62aede1db13ec4d7a5b659ed1df51" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CdcPipelineBenchFixture::seedEvents</definition>
+        <argsstring>(int n)</argsstring>
+        <name>seedEvents</name>
+        <qualifiedname>CdcPipelineBenchFixture::seedEvents</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cdc/bench_cdc_pipeline.cpp" line="65" column="10" bodyfile="benchmarks/cdc/bench_cdc_pipeline.cpp" bodystart="65" bodyend="74"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>CdcPipelineBenchFixture</label>
+        <link refid="class_cdc_pipeline_bench_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>CdcPipelineBenchFixture</label>
+        <link refid="class_cdc_pipeline_bench_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/cdc/bench_cdc_pipeline.cpp" line="32" column="1" bodyfile="benchmarks/cdc/bench_cdc_pipeline.cpp" bodystart="32" bodyend="81"/>
+    <listofallmembers>
+      <member refid="class_cdc_pipeline_bench_fixture_1a5c9dce4edbdea9b3337303ef2faa6ec0" prot="protected" virt="non-virtual"><scope>CdcPipelineBenchFixture</scope><name>changefeed_</name></member>
+      <member refid="class_cdc_pipeline_bench_fixture_1a765d403bc69e73d61fb38bea04e433eb" prot="protected" virt="non-virtual"><scope>CdcPipelineBenchFixture</scope><name>db_</name></member>
+      <member refid="class_cdc_pipeline_bench_fixture_1a5d794dbffdf5716b1d27eea614be57cb" prot="protected" virt="non-virtual"><scope>CdcPipelineBenchFixture</scope><name>db_path_</name></member>
+      <member refid="class_cdc_pipeline_bench_fixture_1a65074c0cc15e7615ee520975c51cd199" prot="protected" virt="non-virtual"><scope>CdcPipelineBenchFixture</scope><name>manager_</name></member>
+      <member refid="class_cdc_pipeline_bench_fixture_1ae6c62aede1db13ec4d7a5b659ed1df51" prot="public" virt="non-virtual"><scope>CdcPipelineBenchFixture</scope><name>seedEvents</name></member>
+      <member refid="class_cdc_pipeline_bench_fixture_1ae32d15ffe2b9de74041815a3de863c37" prot="public" virt="non-virtual"><scope>CdcPipelineBenchFixture</scope><name>SetUp</name></member>
+      <member refid="class_cdc_pipeline_bench_fixture_1a7bf07f6c98526a2ae5c56a72c584aa8d" prot="public" virt="non-virtual"><scope>CdcPipelineBenchFixture</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

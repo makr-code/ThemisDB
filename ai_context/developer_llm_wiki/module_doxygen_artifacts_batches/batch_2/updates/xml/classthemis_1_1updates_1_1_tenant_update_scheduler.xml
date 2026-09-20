@@ -1,0 +1,1369 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1updates_1_1_tenant_update_scheduler" kind="class" language="C++" prot="public">
+    <compoundname>themis::updates::TenantUpdateScheduler</compoundname>
+    <includes refid="tenant__update__scheduler_8h" local="no">tenant_update_scheduler.h</includes>
+    <innerclass refid="structthemis_1_1updates_1_1_tenant_update_scheduler_1_1_tenant_state" prot="private">themis::updates::TenantUpdateScheduler::TenantState</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1updates_1_1_tenant_update_scheduler_1adb7c3a01760b53389ca3067f726d936a" prot="public" static="no">
+        <type>std::function&lt; std::chrono::system_clock::time_point()&gt;</type>
+        <definition>using themis::updates::TenantUpdateScheduler::ClockFn = std::function&lt;std::chrono::system_clock::time_point()&gt;</definition>
+        <argsstring></argsstring>
+        <name>ClockFn</name>
+        <qualifiedname>themis::updates::TenantUpdateScheduler::ClockFn</qualifiedname>
+        <briefdescription>
+<para>Clock function injected for unit-testability. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Defaults to <computeroutput>std::chrono::system_clock::now</computeroutput>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/tenant_update_scheduler.h" line="174" column="5" bodyfile="include/updates/tenant_update_scheduler.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_tenant_update_scheduler_1ad2f7fd666e79a25292e8f054c40ca43f" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::updates::TenantUpdateScheduler::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::updates::TenantUpdateScheduler::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/tenant_update_scheduler.h" line="402" column="24" bodyfile="include/updates/tenant_update_scheduler.h" bodystart="402" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_tenant_update_scheduler_1af5fd05afd165b39ecb355bfef6c82dfd" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, TenantState &gt;</type>
+        <definition>std::unordered_map&lt;std::string, TenantState&gt; themis::updates::TenantUpdateScheduler::tenants_</definition>
+        <argsstring></argsstring>
+        <name>tenants_</name>
+        <qualifiedname>themis::updates::TenantUpdateScheduler::tenants_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/tenant_update_scheduler.h" line="403" column="24" bodyfile="include/updates/tenant_update_scheduler.h" bodystart="403" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_tenant_update_scheduler_1a2247b0c945643773d3f248dac069948a" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1updates_1_1_tenant_update_scheduler_1adb7c3a01760b53389ca3067f726d936a" kindref="member">ClockFn</ref></type>
+        <definition>ClockFn themis::updates::TenantUpdateScheduler::clock_fn_</definition>
+        <argsstring></argsstring>
+        <name>clock_fn_</name>
+        <qualifiedname>themis::updates::TenantUpdateScheduler::clock_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/tenant_update_scheduler.h" line="404" column="13" bodyfile="include/updates/tenant_update_scheduler.h" bodystart="404" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_tenant_update_scheduler_1abbbc25deaee994aa785afb434a341938" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::TenantUpdateScheduler::TenantUpdateScheduler</definition>
+        <argsstring>()</argsstring>
+        <name>TenantUpdateScheduler</name>
+        <qualifiedname>themis::updates::TenantUpdateScheduler::TenantUpdateScheduler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/tenant_update_scheduler.h" line="178" column="5" bodyfile="src/updates/tenant_update_scheduler.cpp" bodystart="37" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_tenant_update_scheduler_1ade88dbc0ac872115cdd366ce6235b9b0" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::TenantUpdateScheduler::TenantUpdateScheduler</definition>
+        <argsstring>(ClockFn clock_fn)</argsstring>
+        <name>TenantUpdateScheduler</name>
+        <qualifiedname>themis::updates::TenantUpdateScheduler::TenantUpdateScheduler</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1_tenant_update_scheduler_1adb7c3a01760b53389ca3067f726d936a" kindref="member">ClockFn</ref></type>
+          <declname>clock_fn</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/tenant_update_scheduler.h" line="179" column="14" bodyfile="src/updates/tenant_update_scheduler.cpp" bodystart="41" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_tenant_update_scheduler_1ac86e3b96fc10d9af9c4da49ea618936d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::TenantUpdateScheduler::~TenantUpdateScheduler</definition>
+        <argsstring>()=default</argsstring>
+        <name>~TenantUpdateScheduler</name>
+        <qualifiedname>themis::updates::TenantUpdateScheduler::~TenantUpdateScheduler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/tenant_update_scheduler.h" line="180" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_tenant_update_scheduler_1ade88aad6b48dc6900cede592fd3c7e30" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::TenantUpdateScheduler::TenantUpdateScheduler</definition>
+        <argsstring>(const TenantUpdateScheduler &amp;)=delete</argsstring>
+        <name>TenantUpdateScheduler</name>
+        <qualifiedname>themis::updates::TenantUpdateScheduler::TenantUpdateScheduler</qualifiedname>
+        <param>
+          <type>const TenantUpdateScheduler &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/tenant_update_scheduler.h" line="183" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_tenant_update_scheduler_1a6d0c84a81a519f3dc11d9aab49f313bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1updates_1_1_tenant_update_scheduler_1abbbc25deaee994aa785afb434a341938" kindref="member">TenantUpdateScheduler</ref> &amp;</type>
+        <definition>TenantUpdateScheduler &amp; themis::updates::TenantUpdateScheduler::operator=</definition>
+        <argsstring>(const TenantUpdateScheduler &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::updates::TenantUpdateScheduler::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1updates_1_1_tenant_update_scheduler_1abbbc25deaee994aa785afb434a341938" kindref="member">TenantUpdateScheduler</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/tenant_update_scheduler.h" line="184" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_tenant_update_scheduler_1accf7d7f569a1d8b56ed1de3f6f600742" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::TenantUpdateScheduler::setMaintenanceWindow</definition>
+        <argsstring>(const std::string &amp;tenant_id, const MaintenanceWindow &amp;window)</argsstring>
+        <name>setMaintenanceWindow</name>
+        <qualifiedname>themis::updates::TenantUpdateScheduler::setMaintenanceWindow</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1updates_1_1_maintenance_window" kindref="compound">MaintenanceWindow</ref> &amp;</type>
+          <declname>window</declname>
+        </param>
+        <briefdescription>
+<para>Configure (or replace) the maintenance window for a tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Maintenance Window.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Stable tenant identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Window configuration.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/updates/tenant_update_scheduler.h" line="193" column="10" bodyfile="src/updates/tenant_update_scheduler.cpp" bodystart="59" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_tenant_update_scheduler_1af00fb9936140939ec9f468f00ac2c4fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::TenantUpdateScheduler::removeMaintenanceWindow</definition>
+        <argsstring>(const std::string &amp;tenant_id)</argsstring>
+        <name>removeMaintenanceWindow</name>
+        <qualifiedname>themis::updates::TenantUpdateScheduler::removeMaintenanceWindow</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove the maintenance window for a tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove Maintenance Window.</para>
+<para>After removal, <computeroutput><ref refid="classthemis_1_1updates_1_1_tenant_update_scheduler_1a79306a5d20360c0311589544e93b800d" kindref="member">canUpdateNow()</ref></computeroutput> returns false for the tenant unless the CRITICAL bypass applies (<computeroutput>critical_auto_update</computeroutput> is true and the update priority is CRITICAL).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/updates/tenant_update_scheduler.h" line="203" column="10" bodyfile="src/updates/tenant_update_scheduler.cpp" bodystart="76" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_tenant_update_scheduler_1afc41e6d813fe061e82aa10abf18be352" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1updates_1_1_maintenance_window" kindref="compound">MaintenanceWindow</ref> &gt;</type>
+        <definition>std::optional&lt; MaintenanceWindow &gt; themis::updates::TenantUpdateScheduler::getMaintenanceWindow</definition>
+        <argsstring>(const std::string &amp;tenant_id) const</argsstring>
+        <name>getMaintenanceWindow</name>
+        <qualifiedname>themis::updates::TenantUpdateScheduler::getMaintenanceWindow</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve the maintenance window for a tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>std::nullopt if no window is configured. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/updates/tenant_update_scheduler.h" line="210" column="5" bodyfile="src/updates/tenant_update_scheduler.cpp" bodystart="91" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_tenant_update_scheduler_1a92e83fc4d84d6adcc88e71796e4c5dbb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::TenantUpdateScheduler::addBlackoutPeriod</definition>
+        <argsstring>(const std::string &amp;tenant_id, const BlackoutPeriod &amp;period)</argsstring>
+        <name>addBlackoutPeriod</name>
+        <qualifiedname>themis::updates::TenantUpdateScheduler::addBlackoutPeriod</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1updates_1_1_blackout_period" kindref="compound">BlackoutPeriod</ref> &amp;</type>
+          <declname>period</declname>
+        </param>
+        <briefdescription>
+<para>Add a blackout period for a tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Blackout Period.</para>
+<para>A tenant with an active blackout is never eligible for updates regardless of the maintenance window (blackouts take precedence).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Stable tenant identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>period</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Blackout period with a caller-supplied unique <computeroutput>id</computeroutput>.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">period</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/updates/tenant_update_scheduler.h" line="223" column="10" bodyfile="src/updates/tenant_update_scheduler.cpp" bodystart="115" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_tenant_update_scheduler_1a262a14768ef342c2b96930e81a7e2437" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::updates::TenantUpdateScheduler::removeBlackoutPeriod</definition>
+        <argsstring>(const std::string &amp;tenant_id, const std::string &amp;blackout_id)</argsstring>
+        <name>removeBlackoutPeriod</name>
+        <qualifiedname>themis::updates::TenantUpdateScheduler::removeBlackoutPeriod</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blackout_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove a specific blackout period by its <computeroutput>id</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove Blackout Period.</para>
+<para><simplesect kind="return"><para>true if the period was found and removed.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">blackout_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the blackout. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/updates/tenant_update_scheduler.h" line="230" column="10" bodyfile="src/updates/tenant_update_scheduler.cpp" bodystart="135" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_tenant_update_scheduler_1a674d8052c85e12fc8663b1905e21646d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1updates_1_1_blackout_period" kindref="compound">BlackoutPeriod</ref> &gt;</type>
+        <definition>std::vector&lt; BlackoutPeriod &gt; themis::updates::TenantUpdateScheduler::getBlackoutPeriods</definition>
+        <argsstring>(const std::string &amp;tenant_id) const</argsstring>
+        <name>getBlackoutPeriods</name>
+        <qualifiedname>themis::updates::TenantUpdateScheduler::getBlackoutPeriods</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Return all configured blackout periods for a tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns every stored period regardless of whether it is currently active or has already expired. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/updates/tenant_update_scheduler.h" line="240" column="5" bodyfile="src/updates/tenant_update_scheduler.cpp" bodystart="159" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_tenant_update_scheduler_1a45edf25d2002e6ce7d1fb21d4cca337d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::TenantUpdateScheduler::setUpdatePolicy</definition>
+        <argsstring>(const std::string &amp;tenant_id, const UpdatePolicy &amp;policy)</argsstring>
+        <name>setUpdatePolicy</name>
+        <qualifiedname>themis::updates::TenantUpdateScheduler::setUpdatePolicy</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1updates_1_1_update_policy" kindref="compound">UpdatePolicy</ref> &amp;</type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+<para>Set the update policy for a tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Update Policy.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/updates/tenant_update_scheduler.h" line="247" column="10" bodyfile="src/updates/tenant_update_scheduler.cpp" bodystart="183" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_tenant_update_scheduler_1aa4b96faf18e97d0e1dcd8a7cfc00f793" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1updates_1_1_update_policy" kindref="compound">UpdatePolicy</ref></type>
+        <definition>UpdatePolicy themis::updates::TenantUpdateScheduler::getUpdatePolicy</definition>
+        <argsstring>(const std::string &amp;tenant_id) const</argsstring>
+        <name>getUpdatePolicy</name>
+        <qualifiedname>themis::updates::TenantUpdateScheduler::getUpdatePolicy</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Get the update policy for a tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Default policy if none has been explicitly set. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/updates/tenant_update_scheduler.h" line="254" column="18" bodyfile="src/updates/tenant_update_scheduler.cpp" bodystart="199" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_tenant_update_scheduler_1ae3658669712bbc6ba737c8910465d4f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::TenantUpdateScheduler::recordNotification</definition>
+        <argsstring>(const std::string &amp;tenant_id, const std::string &amp;pending_version)</argsstring>
+        <name>recordNotification</name>
+        <qualifiedname>themis::updates::TenantUpdateScheduler::recordNotification</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pending_version</declname>
+        </param>
+        <briefdescription>
+<para>Record that the tenant has been notified of a pending update. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Notification.</para>
+<para>The notification timestamp is stored and used to enforce <computeroutput><ref refid="structthemis_1_1updates_1_1_update_policy_1a2ec0cbb7e539826db50b8808a4913a62" kindref="member">UpdatePolicy::notification_lead_time</ref></computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tenant identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pending_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Version that will be applied.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pending_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/updates/tenant_update_scheduler.h" line="267" column="10" bodyfile="src/updates/tenant_update_scheduler.cpp" bodystart="223" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_tenant_update_scheduler_1a8fb3d5a84edbac59174fc4cd12704c9c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::updates::TenantUpdateScheduler::grantConsent</definition>
+        <argsstring>(const std::string &amp;tenant_id, const std::string &amp;version)</argsstring>
+        <name>grantConsent</name>
+        <qualifiedname>themis::updates::TenantUpdateScheduler::grantConsent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Grant explicit consent for the pending update. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Grant Consent.</para>
+<para>Required when <computeroutput><ref refid="structthemis_1_1updates_1_1_update_policy_1a9d2ac382cbd225f7fa9efb4ee5311940" kindref="member">UpdatePolicy::auto_update</ref></computeroutput> is false.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tenant identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Version being consented to (must match pending). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if consent was accepted.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/updates/tenant_update_scheduler.h" line="279" column="10" bodyfile="src/updates/tenant_update_scheduler.cpp" bodystart="247" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_tenant_update_scheduler_1a5f730cbd6c15e9d5927cf5afd039defc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::TenantUpdateScheduler::revokeConsent</definition>
+        <argsstring>(const std::string &amp;tenant_id)</argsstring>
+        <name>revokeConsent</name>
+        <qualifiedname>themis::updates::TenantUpdateScheduler::revokeConsent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Revoke previously granted consent (e.g., tenant changed mind). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Revoke Consent.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/updates/tenant_update_scheduler.h" line="285" column="10" bodyfile="src/updates/tenant_update_scheduler.cpp" bodystart="279" bodyend="291"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_tenant_update_scheduler_1ae12d2a813dad4b30db7727527443eab5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::updates::TenantUpdateScheduler::hasConsent</definition>
+        <argsstring>(const std::string &amp;tenant_id) const</argsstring>
+        <name>hasConsent</name>
+        <qualifiedname>themis::updates::TenantUpdateScheduler::hasConsent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Check whether consent is currently granted for a tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/updates/tenant_update_scheduler.h" line="290" column="10" bodyfile="src/updates/tenant_update_scheduler.cpp" bodystart="293" bodyend="309"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_tenant_update_scheduler_1a79306a5d20360c0311589544e93b800d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::updates::TenantUpdateScheduler::canUpdateNow</definition>
+        <argsstring>(const std::string &amp;tenant_id, UpdatePriority priority=UpdatePriority::NORMAL) const</argsstring>
+        <name>canUpdateNow</name>
+        <qualifiedname>themis::updates::TenantUpdateScheduler::canUpdateNow</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1updates_1a1130798a8742ca2057bbbe0bd9852204" kindref="member">UpdatePriority</ref></type>
+          <declname>priority</declname>
+          <defval><ref refid="namespacethemis_1_1updates_1a1130798a8742ca2057bbbe0bd9852204a1e23852820b9154316c7c06e2b7ba051" kindref="member">UpdatePriority::NORMAL</ref></defval>
+        </param>
+        <briefdescription>
+<para>Check whether a tenant update may proceed right now. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Evaluation order:<orderedlist>
+<listitem><para>Active blackout period → false (unless CRITICAL + critical_auto_update).</para>
+</listitem><listitem><para>Outside maintenance window → false (unless CRITICAL + critical_auto_update).</para>
+</listitem><listitem><para>Notification lead time not yet elapsed → false.</para>
+</listitem><listitem><para><computeroutput>auto_update</computeroutput> false and consent not granted → false.</para>
+</listitem><listitem><para>All checks pass → true.</para>
+</listitem></orderedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tenant identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>priority</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Priority tier of the update (default: NORMAL). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true when the update may be applied now. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/updates/tenant_update_scheduler.h" line="308" column="10" bodyfile="src/updates/tenant_update_scheduler.cpp" bodystart="315" bodyend="383"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_tenant_update_scheduler_1aa2dea6734347de42f02f7ce49196411a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::updates::TenantUpdateScheduler::getNextMaintenanceWindow</definition>
+        <argsstring>(const std::string &amp;tenant_id) const</argsstring>
+        <name>getNextMaintenanceWindow</name>
+        <qualifiedname>themis::updates::TenantUpdateScheduler::getNextMaintenanceWindow</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Return the start time of the next maintenance window. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Searches up to 7 days into the future. Returns an empty string if no maintenance window is configured for the tenant.</para>
+<para><simplesect kind="return"><para>ISO-8601 UTC datetime string (e.g., &quot;2026-03-14T02:00:00Z&quot;) or an empty string when no window can be found. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/updates/tenant_update_scheduler.h" line="320" column="17" bodyfile="src/updates/tenant_update_scheduler.cpp" bodystart="404" bodyend="497"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_tenant_update_scheduler_1aeba72fbc8a1bafb867312170e61150c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1updates_1_1_reload_result" kindref="compound">ReloadResult</ref></type>
+        <definition>ReloadResult themis::updates::TenantUpdateScheduler::applyUpdate</definition>
+        <argsstring>(const std::string &amp;tenant_id, const std::string &amp;version, HotReloadEngine &amp;engine, UpdatePriority priority=UpdatePriority::NORMAL)</argsstring>
+        <name>applyUpdate</name>
+        <qualifiedname>themis::updates::TenantUpdateScheduler::applyUpdate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1_hot_reload_engine" kindref="compound">HotReloadEngine</ref> &amp;</type>
+          <declname>engine</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1updates_1a1130798a8742ca2057bbbe0bd9852204" kindref="member">UpdatePriority</ref></type>
+          <declname>priority</declname>
+          <defval><ref refid="namespacethemis_1_1updates_1a1130798a8742ca2057bbbe0bd9852204a1e23852820b9154316c7c06e2b7ba051" kindref="member">UpdatePriority::NORMAL</ref></defval>
+        </param>
+        <briefdescription>
+<para>Apply an update for a specific tenant using the provided engine. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Apply Update.</para>
+<para>Validates scheduling constraints before delegating to <computeroutput><ref refid="classthemis_1_1updates_1_1_hot_reload_engine_1a035c22b0954f4d2bbc06536215bd034d" kindref="member">HotReloadEngine::applyHotReload</ref></computeroutput>. Stores the resulting rollback ID for later use by <computeroutput><ref refid="classthemis_1_1updates_1_1_tenant_update_scheduler_1aa2b72b48bc788987d716952d38ee93f9" kindref="member">rollbackTenant()</ref></computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tenant identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Version to apply. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Engine used for the actual file update. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>priority</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Priority tier of this update. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1updates_1_1_reload_result" kindref="compound">ReloadResult</ref> from the engine; on scheduling refusal <computeroutput>success</computeroutput> is false and <computeroutput>error_message</computeroutput> explains why.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">priority</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/updates/tenant_update_scheduler.h" line="338" column="18" bodyfile="src/updates/tenant_update_scheduler.cpp" bodystart="511" bodyend="595"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_tenant_update_scheduler_1aa2b72b48bc788987d716952d38ee93f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::updates::TenantUpdateScheduler::rollbackTenant</definition>
+        <argsstring>(const std::string &amp;tenant_id, HotReloadEngine &amp;engine)</argsstring>
+        <name>rollbackTenant</name>
+        <qualifiedname>themis::updates::TenantUpdateScheduler::rollbackTenant</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1_hot_reload_engine" kindref="compound">HotReloadEngine</ref> &amp;</type>
+          <declname>engine</declname>
+        </param>
+        <briefdescription>
+<para>Rollback the last update applied for a tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Rollback Tenant.</para>
+<para>Uses the rollback ID stored by the most recent successful <computeroutput><ref refid="classthemis_1_1updates_1_1_tenant_update_scheduler_1aeba72fbc8a1bafb867312170e61150c8" kindref="member">applyUpdate()</ref></computeroutput> call for this tenant.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tenant identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Engine used to perform the rollback. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the rollback succeeded or there was nothing to roll back.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/updates/tenant_update_scheduler.h" line="353" column="10" bodyfile="src/updates/tenant_update_scheduler.cpp" bodystart="603" bodyend="644"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_tenant_update_scheduler_1a77b516fd817bfd81be2721f4e7819d24" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1updates_1_1_tenant_update_status" kindref="compound">TenantUpdateStatus</ref> &gt;</type>
+        <definition>std::optional&lt; TenantUpdateStatus &gt; themis::updates::TenantUpdateScheduler::getTenantStatus</definition>
+        <argsstring>(const std::string &amp;tenant_id) const</argsstring>
+        <name>getTenantStatus</name>
+        <qualifiedname>themis::updates::TenantUpdateScheduler::getTenantStatus</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Return a status snapshot for a tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>std::nullopt if the tenant is not registered. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/updates/tenant_update_scheduler.h" line="363" column="5" bodyfile="src/updates/tenant_update_scheduler.cpp" bodystart="651" bodyend="676"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_tenant_update_scheduler_1a82e82de9f12351f81824a15695d4061a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1updates_1_1_tenant_update_status" kindref="compound">TenantUpdateStatus</ref> &gt;</type>
+        <definition>std::vector&lt; TenantUpdateStatus &gt; themis::updates::TenantUpdateScheduler::getAllTenantStatuses</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllTenantStatuses</name>
+        <qualifiedname>themis::updates::TenantUpdateScheduler::getAllTenantStatuses</qualifiedname>
+        <briefdescription>
+<para>Return status snapshots for all known tenants. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/updates/tenant_update_scheduler.h" line="368" column="17" bodyfile="src/updates/tenant_update_scheduler.cpp" bodystart="679" bodyend="704"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_tenant_update_scheduler_1a8ed908c039d71ffbb4a84071b39e5978" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::TenantUpdateScheduler::removeTenant</definition>
+        <argsstring>(const std::string &amp;tenant_id)</argsstring>
+        <name>removeTenant</name>
+        <qualifiedname>themis::updates::TenantUpdateScheduler::removeTenant</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove all state for a tenant (de-provisioning). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove Tenant.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/updates/tenant_update_scheduler.h" line="373" column="10" bodyfile="src/updates/tenant_update_scheduler.cpp" bodystart="710" bodyend="719"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_tenant_update_scheduler_1a06828bc25f16a706b56118ed351af06a" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::updates::TenantUpdateScheduler::parseMinutes</definition>
+        <argsstring>(const std::string &amp;hhmm)</argsstring>
+        <name>parseMinutes</name>
+        <qualifiedname>themis::updates::TenantUpdateScheduler::parseMinutes</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>hhmm</declname>
+        </param>
+        <briefdescription>
+<para>Parse Minutes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">hhmm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/tenant_update_scheduler.h" line="389" column="16" bodyfile="src/updates/tenant_update_scheduler.cpp" bodystart="730" bodyend="745"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_tenant_update_scheduler_1a4fba90e6bffa1fc99e740ef0414c8dd5" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::updates::TenantUpdateScheduler::isInWindow</definition>
+        <argsstring>(const MaintenanceWindow &amp;win, std::chrono::system_clock::time_point tp)</argsstring>
+        <name>isInWindow</name>
+        <qualifiedname>themis::updates::TenantUpdateScheduler::isInWindow</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1updates_1_1_maintenance_window" kindref="compound">MaintenanceWindow</ref> &amp;</type>
+          <declname>win</declname>
+        </param>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>tp</declname>
+        </param>
+        <briefdescription>
+<para>Is In Window. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">win</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/tenant_update_scheduler.h" line="392" column="17" bodyfile="src/updates/tenant_update_scheduler.cpp" bodystart="753" bodyend="822"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_tenant_update_scheduler_1a3129aa7386041b49658aa6edc96ef7a5" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::updates::TenantUpdateScheduler::isInBlackout</definition>
+        <argsstring>(const std::vector&lt; BlackoutPeriod &gt; &amp;blackouts, std::chrono::system_clock::time_point tp)</argsstring>
+        <name>isInBlackout</name>
+        <qualifiedname>themis::updates::TenantUpdateScheduler::isInBlackout</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1updates_1_1_blackout_period" kindref="compound">BlackoutPeriod</ref> &gt; &amp;</type>
+          <declname>blackouts</declname>
+        </param>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>tp</declname>
+        </param>
+        <briefdescription>
+<para>Is In Blackout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blackouts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/tenant_update_scheduler.h" line="396" column="17" bodyfile="src/updates/tenant_update_scheduler.cpp" bodystart="830" bodyend="840"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_tenant_update_scheduler_1abbe0190e7f6f5e5a8552cdc468f157ba" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::updates::TenantUpdateScheduler::formatUtc</definition>
+        <argsstring>(std::chrono::system_clock::time_point tp)</argsstring>
+        <name>formatUtc</name>
+        <qualifiedname>themis::updates::TenantUpdateScheduler::formatUtc</qualifiedname>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>tp</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/tenant_update_scheduler.h" line="400" column="24" bodyfile="src/updates/tenant_update_scheduler.cpp" bodystart="843" bodyend="861"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Manages per-tenant update schedules and maintenance windows. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Thread-safe: all public methods are protected by an internal mutex.</para>
+<para>Design notes:<itemizedlist>
+<listitem><para>The scheduler is transport-agnostic: it only decides <emphasis>whether</emphasis> an update can proceed. Callers use <computeroutput><ref refid="classthemis_1_1updates_1_1_hot_reload_engine" kindref="compound">HotReloadEngine</ref></computeroutput> directly after <computeroutput><ref refid="classthemis_1_1updates_1_1_tenant_update_scheduler_1a79306a5d20360c0311589544e93b800d" kindref="member">canUpdateNow()</ref></computeroutput> returns true.</para>
+</listitem><listitem><para>Timezone-aware scheduling requires a tz database. Without one the scheduler operates on UTC. The <computeroutput><ref refid="structthemis_1_1updates_1_1_maintenance_window_1a35fd41930cd1eddcce2be4ba0b46d66f" kindref="member">MaintenanceWindow::timezone</ref></computeroutput> field is stored for documentation purposes; full tz support can be added as a later enhancement.</para>
+</listitem><listitem><para>For cross-midnight windows (e.g., 23:00 → 05:00) the arithmetic is handled correctly by comparing modular minute-of-day values. </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/updates/tenant_update_scheduler.h" line="167" column="1" bodyfile="include/updates/tenant_update_scheduler.h" bodystart="167" bodyend="405"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1updates_1_1_tenant_update_scheduler_1a92e83fc4d84d6adcc88e71796e4c5dbb" prot="public" virt="non-virtual"><scope>themis::updates::TenantUpdateScheduler</scope><name>addBlackoutPeriod</name></member>
+      <member refid="classthemis_1_1updates_1_1_tenant_update_scheduler_1aeba72fbc8a1bafb867312170e61150c8" prot="public" virt="non-virtual"><scope>themis::updates::TenantUpdateScheduler</scope><name>applyUpdate</name></member>
+      <member refid="classthemis_1_1updates_1_1_tenant_update_scheduler_1a79306a5d20360c0311589544e93b800d" prot="public" virt="non-virtual"><scope>themis::updates::TenantUpdateScheduler</scope><name>canUpdateNow</name></member>
+      <member refid="classthemis_1_1updates_1_1_tenant_update_scheduler_1a2247b0c945643773d3f248dac069948a" prot="private" virt="non-virtual"><scope>themis::updates::TenantUpdateScheduler</scope><name>clock_fn_</name></member>
+      <member refid="classthemis_1_1updates_1_1_tenant_update_scheduler_1adb7c3a01760b53389ca3067f726d936a" prot="public" virt="non-virtual"><scope>themis::updates::TenantUpdateScheduler</scope><name>ClockFn</name></member>
+      <member refid="classthemis_1_1updates_1_1_tenant_update_scheduler_1abbe0190e7f6f5e5a8552cdc468f157ba" prot="private" virt="non-virtual"><scope>themis::updates::TenantUpdateScheduler</scope><name>formatUtc</name></member>
+      <member refid="classthemis_1_1updates_1_1_tenant_update_scheduler_1a82e82de9f12351f81824a15695d4061a" prot="public" virt="non-virtual"><scope>themis::updates::TenantUpdateScheduler</scope><name>getAllTenantStatuses</name></member>
+      <member refid="classthemis_1_1updates_1_1_tenant_update_scheduler_1a674d8052c85e12fc8663b1905e21646d" prot="public" virt="non-virtual"><scope>themis::updates::TenantUpdateScheduler</scope><name>getBlackoutPeriods</name></member>
+      <member refid="classthemis_1_1updates_1_1_tenant_update_scheduler_1afc41e6d813fe061e82aa10abf18be352" prot="public" virt="non-virtual"><scope>themis::updates::TenantUpdateScheduler</scope><name>getMaintenanceWindow</name></member>
+      <member refid="classthemis_1_1updates_1_1_tenant_update_scheduler_1aa2dea6734347de42f02f7ce49196411a" prot="public" virt="non-virtual"><scope>themis::updates::TenantUpdateScheduler</scope><name>getNextMaintenanceWindow</name></member>
+      <member refid="classthemis_1_1updates_1_1_tenant_update_scheduler_1a77b516fd817bfd81be2721f4e7819d24" prot="public" virt="non-virtual"><scope>themis::updates::TenantUpdateScheduler</scope><name>getTenantStatus</name></member>
+      <member refid="classthemis_1_1updates_1_1_tenant_update_scheduler_1aa4b96faf18e97d0e1dcd8a7cfc00f793" prot="public" virt="non-virtual"><scope>themis::updates::TenantUpdateScheduler</scope><name>getUpdatePolicy</name></member>
+      <member refid="classthemis_1_1updates_1_1_tenant_update_scheduler_1a8fb3d5a84edbac59174fc4cd12704c9c" prot="public" virt="non-virtual"><scope>themis::updates::TenantUpdateScheduler</scope><name>grantConsent</name></member>
+      <member refid="classthemis_1_1updates_1_1_tenant_update_scheduler_1ae12d2a813dad4b30db7727527443eab5" prot="public" virt="non-virtual"><scope>themis::updates::TenantUpdateScheduler</scope><name>hasConsent</name></member>
+      <member refid="classthemis_1_1updates_1_1_tenant_update_scheduler_1a3129aa7386041b49658aa6edc96ef7a5" prot="private" virt="non-virtual"><scope>themis::updates::TenantUpdateScheduler</scope><name>isInBlackout</name></member>
+      <member refid="classthemis_1_1updates_1_1_tenant_update_scheduler_1a4fba90e6bffa1fc99e740ef0414c8dd5" prot="private" virt="non-virtual"><scope>themis::updates::TenantUpdateScheduler</scope><name>isInWindow</name></member>
+      <member refid="classthemis_1_1updates_1_1_tenant_update_scheduler_1ad2f7fd666e79a25292e8f054c40ca43f" prot="private" virt="non-virtual"><scope>themis::updates::TenantUpdateScheduler</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1updates_1_1_tenant_update_scheduler_1a6d0c84a81a519f3dc11d9aab49f313bb" prot="public" virt="non-virtual"><scope>themis::updates::TenantUpdateScheduler</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1updates_1_1_tenant_update_scheduler_1a06828bc25f16a706b56118ed351af06a" prot="private" virt="non-virtual"><scope>themis::updates::TenantUpdateScheduler</scope><name>parseMinutes</name></member>
+      <member refid="classthemis_1_1updates_1_1_tenant_update_scheduler_1ae3658669712bbc6ba737c8910465d4f4" prot="public" virt="non-virtual"><scope>themis::updates::TenantUpdateScheduler</scope><name>recordNotification</name></member>
+      <member refid="classthemis_1_1updates_1_1_tenant_update_scheduler_1a262a14768ef342c2b96930e81a7e2437" prot="public" virt="non-virtual"><scope>themis::updates::TenantUpdateScheduler</scope><name>removeBlackoutPeriod</name></member>
+      <member refid="classthemis_1_1updates_1_1_tenant_update_scheduler_1af00fb9936140939ec9f468f00ac2c4fe" prot="public" virt="non-virtual"><scope>themis::updates::TenantUpdateScheduler</scope><name>removeMaintenanceWindow</name></member>
+      <member refid="classthemis_1_1updates_1_1_tenant_update_scheduler_1a8ed908c039d71ffbb4a84071b39e5978" prot="public" virt="non-virtual"><scope>themis::updates::TenantUpdateScheduler</scope><name>removeTenant</name></member>
+      <member refid="classthemis_1_1updates_1_1_tenant_update_scheduler_1a5f730cbd6c15e9d5927cf5afd039defc" prot="public" virt="non-virtual"><scope>themis::updates::TenantUpdateScheduler</scope><name>revokeConsent</name></member>
+      <member refid="classthemis_1_1updates_1_1_tenant_update_scheduler_1aa2b72b48bc788987d716952d38ee93f9" prot="public" virt="non-virtual"><scope>themis::updates::TenantUpdateScheduler</scope><name>rollbackTenant</name></member>
+      <member refid="classthemis_1_1updates_1_1_tenant_update_scheduler_1accf7d7f569a1d8b56ed1de3f6f600742" prot="public" virt="non-virtual"><scope>themis::updates::TenantUpdateScheduler</scope><name>setMaintenanceWindow</name></member>
+      <member refid="classthemis_1_1updates_1_1_tenant_update_scheduler_1a45edf25d2002e6ce7d1fb21d4cca337d" prot="public" virt="non-virtual"><scope>themis::updates::TenantUpdateScheduler</scope><name>setUpdatePolicy</name></member>
+      <member refid="classthemis_1_1updates_1_1_tenant_update_scheduler_1af5fd05afd165b39ecb355bfef6c82dfd" prot="private" virt="non-virtual"><scope>themis::updates::TenantUpdateScheduler</scope><name>tenants_</name></member>
+      <member refid="classthemis_1_1updates_1_1_tenant_update_scheduler_1abbbc25deaee994aa785afb434a341938" prot="public" virt="non-virtual"><scope>themis::updates::TenantUpdateScheduler</scope><name>TenantUpdateScheduler</name></member>
+      <member refid="classthemis_1_1updates_1_1_tenant_update_scheduler_1ade88dbc0ac872115cdd366ce6235b9b0" prot="public" virt="non-virtual"><scope>themis::updates::TenantUpdateScheduler</scope><name>TenantUpdateScheduler</name></member>
+      <member refid="classthemis_1_1updates_1_1_tenant_update_scheduler_1ade88aad6b48dc6900cede592fd3c7e30" prot="public" virt="non-virtual"><scope>themis::updates::TenantUpdateScheduler</scope><name>TenantUpdateScheduler</name></member>
+      <member refid="classthemis_1_1updates_1_1_tenant_update_scheduler_1ac86e3b96fc10d9af9c4da49ea618936d" prot="public" virt="non-virtual"><scope>themis::updates::TenantUpdateScheduler</scope><name>~TenantUpdateScheduler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

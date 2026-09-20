@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_temporal_c_d_c_test" kind="class" language="C++" prot="public">
+    <compoundname>TemporalCDCTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_temporal_c_d_c_test_1a0a7a208c06303401a5adcc656c65c192" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c" kindref="compound">TemporalCDC</ref></type>
+        <definition>TemporalCDC TemporalCDCTest::cdc</definition>
+        <argsstring></argsstring>
+        <name>cdc</name>
+        <qualifiedname>TemporalCDCTest::cdc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_cdc.cpp" line="16" column="17" bodyfile="tests/temporal/test_temporal_cdc.cpp" bodystart="16" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_temporal_c_d_c_test_1ad0879b9b24ec1a2ab93269e5fcb8f3c0" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_change_event" kindref="compound">ChangeEvent</ref></type>
+        <definition>ChangeEvent TemporalCDCTest::makeEvent</definition>
+        <argsstring>(const std::string &amp;table, ChangeType type, const std::string &amp;entity_id, Timestamp ts=1000)</argsstring>
+        <name>makeEvent</name>
+        <qualifiedname>TemporalCDCTest::makeEvent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1ad8b41d0d86d3ac7fec625c5121aea6aa" kindref="member">ChangeType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>entity_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>ts</declname>
+          <defval>1000</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_cdc.cpp" line="18" column="17" bodyfile="tests/temporal/test_temporal_cdc.cpp" bodystart="18" bodyend="30"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>TemporalCDCTest</label>
+        <link refid="class_temporal_c_d_c_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>TemporalCDCTest</label>
+        <link refid="class_temporal_c_d_c_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>cdc</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themisdb::temporal::TemporalCDC</label>
+        <link refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/temporal/test_temporal_cdc.cpp" line="14" column="1" bodyfile="tests/temporal/test_temporal_cdc.cpp" bodystart="14" bodyend="31"/>
+    <listofallmembers>
+      <member refid="class_temporal_c_d_c_test_1a0a7a208c06303401a5adcc656c65c192" prot="protected" virt="non-virtual"><scope>TemporalCDCTest</scope><name>cdc</name></member>
+      <member refid="class_temporal_c_d_c_test_1ad0879b9b24ec1a2ab93269e5fcb8f3c0" prot="protected" virt="non-virtual"><scope>TemporalCDCTest</scope><name>makeEvent</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

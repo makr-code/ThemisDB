@@ -1,0 +1,787 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="benchmark__hybrid__search_8cpp" kind="file" language="C++">
+    <compoundname>benchmark_hybrid_search.cpp</compoundname>
+    <includes local="no">benchmark/benchmark.h</includes>
+    <includes refid="hybrid__search_8h" local="yes">search/hybrid_search.h</includes>
+    <includes local="no">random</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>benchmarks/search/benchmark_hybrid_search.cpp</label>
+        <link refid="benchmark__hybrid__search_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>search/hybrid_search.h</label>
+        <link refid="hybrid__search_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>search/search_error_codes.h</label>
+        <link refid="search__error__codes_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark/benchmark.h</label>
+      </node>
+      <node id="8">
+        <label>cstdint</label>
+      </node>
+      <node id="14">
+        <label>index/vector_index.h</label>
+      </node>
+      <node id="12">
+        <label>memory</label>
+      </node>
+      <node id="13">
+        <label>optional</label>
+      </node>
+      <node id="15">
+        <label>random</label>
+      </node>
+      <node id="9">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>themis/export.h</label>
+      </node>
+      <node id="6">
+        <label>themis/search/llm_reranker_factory.h</label>
+      </node>
+      <node id="5">
+        <label>themis/search/llm_reranker_interface.h</label>
+      </node>
+      <node id="10">
+        <label>unordered_map</label>
+      </node>
+      <node id="11">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="benchmark__hybrid__search_8cpp_1ab30efc490f8e7f2267c0c683d642c1d7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_hybrid_search_1_1_result" kindref="compound">HybridSearch::Result</ref> &gt;</type>
+        <definition>static std::vector&lt; HybridSearch::Result &gt; makeCandidates</definition>
+        <argsstring>(int n, bool bm25, std::mt19937 &amp;rng)</argsstring>
+        <name>makeCandidates</name>
+        <param>
+          <type>int</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>bm25</declname>
+        </param>
+        <param>
+          <type>std::mt19937 &amp;</type>
+          <declname>rng</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/search/benchmark_hybrid_search.cpp" line="31" column="1" bodyfile="benchmarks/search/benchmark_hybrid_search.cpp" bodystart="31" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="benchmark__hybrid__search_8cpp_1a6f88030271c115e9319b84e36a08bddc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; std::vector&lt; <ref refid="structthemis_1_1_hybrid_search_1_1_result" kindref="compound">HybridSearch::Result</ref> &gt;, std::vector&lt; <ref refid="structthemis_1_1_hybrid_search_1_1_result" kindref="compound">HybridSearch::Result</ref> &gt; &gt;</type>
+        <definition>static std::pair&lt; std::vector&lt; HybridSearch::Result &gt;, std::vector&lt; HybridSearch::Result &gt; &gt; makeOverlappingCandidates</definition>
+        <argsstring>(int n, int overlap, std::mt19937 &amp;rng)</argsstring>
+        <name>makeOverlappingCandidates</name>
+        <param>
+          <type>int</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>overlap</declname>
+        </param>
+        <param>
+          <type>std::mt19937 &amp;</type>
+          <declname>rng</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/search/benchmark_hybrid_search.cpp" line="52" column="1" bodyfile="benchmarks/search/benchmark_hybrid_search.cpp" bodystart="52" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="benchmark__hybrid__search_8cpp_1ae238e13731e30c18b88c25cb31d54a2c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_RRF_BM25Only</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_RRF_BM25Only</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/search/benchmark_hybrid_search.cpp" line="66" column="13" bodyfile="benchmarks/search/benchmark_hybrid_search.cpp" bodystart="66" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="benchmark__hybrid__search_8cpp_1a4f812375c39c67f1352f66f2dafdfdd7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_RRF_BM25Only) -&gt; Arg(10) -&gt;Arg(50) -&gt;Arg(100) -&gt;Arg(500) -&gt;Arg(1000)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_RRF_BM25Only</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/search/benchmark_hybrid_search.cpp" line="85" column="1" declfile="benchmarks/search/benchmark_hybrid_search.cpp" declline="85" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="benchmark__hybrid__search_8cpp_1a87dec553fc321308471059a2d6b9fbf5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_RRF_VectorOnly</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_RRF_VectorOnly</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/search/benchmark_hybrid_search.cpp" line="87" column="13" bodyfile="benchmarks/search/benchmark_hybrid_search.cpp" bodystart="87" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="benchmark__hybrid__search_8cpp_1a8fe0929b305c30c1a7c1f8c943e70f0e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_RRF_VectorOnly) -&gt; Arg(10) -&gt;Arg(50) -&gt;Arg(100) -&gt;Arg(500) -&gt;Arg(1000)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_RRF_VectorOnly</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/search/benchmark_hybrid_search.cpp" line="106" column="1" declfile="benchmarks/search/benchmark_hybrid_search.cpp" declline="106" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="benchmark__hybrid__search_8cpp_1ad7af8aba0db6211555aaa02634fce16d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_RRF_Hybrid_NoOverlap</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_RRF_Hybrid_NoOverlap</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/search/benchmark_hybrid_search.cpp" line="108" column="13" bodyfile="benchmarks/search/benchmark_hybrid_search.cpp" bodystart="108" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="benchmark__hybrid__search_8cpp_1abdca13ea0fbd998215e5bb3c0751e90a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_RRF_Hybrid_NoOverlap) -&gt; Arg(50) -&gt;Arg(100) -&gt;Arg(500)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_RRF_Hybrid_NoOverlap</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/search/benchmark_hybrid_search.cpp" line="129" column="1" declfile="benchmarks/search/benchmark_hybrid_search.cpp" declline="129" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="benchmark__hybrid__search_8cpp_1ab861be8b45d2cb549fca5452d47b3fd5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_RRF_Hybrid_50PctOverlap</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_RRF_Hybrid_50PctOverlap</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/search/benchmark_hybrid_search.cpp" line="131" column="13" bodyfile="benchmarks/search/benchmark_hybrid_search.cpp" bodystart="131" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="benchmark__hybrid__search_8cpp_1a252899748f956a265306321a9d41b5ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_RRF_Hybrid_50PctOverlap) -&gt; Arg(50) -&gt;Arg(100) -&gt;Arg(500)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_RRF_Hybrid_50PctOverlap</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/search/benchmark_hybrid_search.cpp" line="150" column="1" declfile="benchmarks/search/benchmark_hybrid_search.cpp" declline="150" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="benchmark__hybrid__search_8cpp_1aa496637ae949b8ec14a985ba3bca8d25" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_RRF_Hybrid_FullOverlap</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_RRF_Hybrid_FullOverlap</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/search/benchmark_hybrid_search.cpp" line="152" column="13" bodyfile="benchmarks/search/benchmark_hybrid_search.cpp" bodystart="152" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="benchmark__hybrid__search_8cpp_1ad2dd008f318e58140ec97310074a725a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_RRF_Hybrid_FullOverlap) -&gt; Arg(50) -&gt;Arg(100) -&gt;Arg(500)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_RRF_Hybrid_FullOverlap</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/search/benchmark_hybrid_search.cpp" line="172" column="1" declfile="benchmarks/search/benchmark_hybrid_search.cpp" declline="172" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="benchmark__hybrid__search_8cpp_1a371e38db60ecff10bb56a409ab869bd9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_Linear_Hybrid</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_Linear_Hybrid</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/search/benchmark_hybrid_search.cpp" line="178" column="13" bodyfile="benchmarks/search/benchmark_hybrid_search.cpp" bodystart="178" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="benchmark__hybrid__search_8cpp_1ab8bf7bf95d240a219fc5d8556541bba3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_Linear_Hybrid) -&gt; Arg(10) -&gt;Arg(50) -&gt;Arg(100)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_Linear_Hybrid</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/search/benchmark_hybrid_search.cpp" line="199" column="1" declfile="benchmarks/search/benchmark_hybrid_search.cpp" declline="199" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="benchmark__hybrid__search_8cpp_1ac5cac858c9c78bc33578fbeabb93b92d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_NormalizeScores_BM25</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_NormalizeScores_BM25</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/search/benchmark_hybrid_search.cpp" line="205" column="13" bodyfile="benchmarks/search/benchmark_hybrid_search.cpp" bodystart="205" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="benchmark__hybrid__search_8cpp_1ade00c04671fa20eff8e936a8bd0e05d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_NormalizeScores_BM25) -&gt; Arg(10) -&gt;Arg(100) -&gt;Arg(1000) -&gt;Arg(10000)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_NormalizeScores_BM25</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/search/benchmark_hybrid_search.cpp" line="227" column="1" declfile="benchmarks/search/benchmark_hybrid_search.cpp" declline="227" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="benchmark__hybrid__search_8cpp_1ac8cdbafa835747b51b2ac12d879cc2db" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_NormalizeScores_Vector</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_NormalizeScores_Vector</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/search/benchmark_hybrid_search.cpp" line="229" column="13" bodyfile="benchmarks/search/benchmark_hybrid_search.cpp" bodystart="229" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="function" id="benchmark__hybrid__search_8cpp_1ac2ceb5d83af93d158fe91c67e20f21d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_NormalizeScores_Vector) -&gt; Arg(10) -&gt;Arg(100) -&gt;Arg(1000) -&gt;Arg(10000)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_NormalizeScores_Vector</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/search/benchmark_hybrid_search.cpp" line="250" column="1" declfile="benchmarks/search/benchmark_hybrid_search.cpp" declline="250" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="benchmark__hybrid__search_8cpp_1a016312f075d423f37da7c0580f462c3c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_ConfigConstruction</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_ConfigConstruction</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/search/benchmark_hybrid_search.cpp" line="256" column="13" bodyfile="benchmarks/search/benchmark_hybrid_search.cpp" bodystart="256" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="function" id="benchmark__hybrid__search_8cpp_1ae218afd7ffb0f8dc1a406a34d33d92c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_ConfigConstruction)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_ConfigConstruction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/search/benchmark_hybrid_search.cpp" line="267" column="1" declfile="benchmarks/search/benchmark_hybrid_search.cpp" declline="267" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="benchmark__hybrid__search_8cpp_1aa11b4d7242e3db5c3f058f665f484349" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_RRF_VaryingRrfK</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_RRF_VaryingRrfK</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/search/benchmark_hybrid_search.cpp" line="273" column="13" bodyfile="benchmarks/search/benchmark_hybrid_search.cpp" bodystart="273" bodyend="293"/>
+      </memberdef>
+      <memberdef kind="function" id="benchmark__hybrid__search_8cpp_1ac09cd87ff53e7742d51973a15090fe3e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_RRF_VaryingRrfK) -&gt; Arg(1) -&gt;Arg(10) -&gt;Arg(60) -&gt;Arg(100) -&gt;Arg(1000)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_RRF_VaryingRrfK</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/search/benchmark_hybrid_search.cpp" line="294" column="1" declfile="benchmarks/search/benchmark_hybrid_search.cpp" declline="294" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="benchmark__hybrid__search_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_MAIN</definition>
+        <argsstring>()</argsstring>
+        <name>BENCHMARK_MAIN</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/search/benchmark_hybrid_search.cpp" line="296" column="1" declfile="benchmarks/search/benchmark_hybrid_search.cpp" declline="296" declcolumn="1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Standalone benchmarks for <ref refid="classthemis_1_1_hybrid_search" kindref="compound">HybridSearch</ref> (RRF, linear combination, score normalization). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>These benchmarks use only in-process data structures (no live database I/O) to measure the algorithmic cost of:<itemizedlist>
+<listitem><para>reciprocalRankFusion() with varying candidate pool sizes</para>
+</listitem><listitem><para>Linear combination fusion</para>
+</listitem><listitem><para>normalizeScores() (BM25 and vector)</para>
+</listitem><listitem><para>Config construction + validation overhead</para>
+</listitem></itemizedlist>
+</para>
+<para>Build: cmake <ndash/>build . <ndash/>target benchmark_hybrid_search <ndash/>config Release Run: ./benchmarks/benchmark_hybrid_search [<ndash/>benchmark_filter=...] </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;benchmark/benchmark.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="hybrid__search_8h" kindref="compound">search/hybrid_search.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helper:<sp/>build<sp/>a<sp/>ranked<sp/>candidate<sp/>list<sp/>of<sp/>`n`<sp/>results</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;HybridSearch::Result&gt;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal">makeCandidates(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>n,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>bm25,<sp/>std::mt19937&amp;<sp/>rng)<sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uniform_real_distribution&lt;double&gt;<sp/>score_dist(0.0,<sp/>10.0);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;HybridSearch::Result&gt;<sp/>list;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>list.reserve(n);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>n;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_hybrid_search_1_1_result" kindref="compound">HybridSearch::Result</ref><sp/>r;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1_hybrid_search_1_1_result_1a5f98f4a5ae5e0b6136e5748854649cb8" kindref="member">document_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;doc&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(bm25)<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1_hybrid_search_1_1_result_1a4c7f6f683c9aa48a467ecd0634a955eb" kindref="member">bm25_score</ref><sp/>=<sp/>score_dist(rng);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1_hybrid_search_1_1_result_1a890e8eb9ec9d2d6a0ca79d6adfd0f791" kindref="member">bm25_rank</ref><sp/><sp/>=<sp/>i<sp/>+<sp/>1;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1_hybrid_search_1_1_result_1a9efb285ce451e53a0599494f96bebe25" kindref="member">vector_score</ref><sp/>=<sp/>score_dist(rng);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1_hybrid_search_1_1_result_1a2dcf839e1974d770f8fc2fe5b7a8c46e" kindref="member">vector_rank</ref><sp/><sp/>=<sp/>i<sp/>+<sp/>1;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>list.push_back(r);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>list;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Build<sp/>list<sp/>where<sp/>the<sp/>first<sp/>`overlap`<sp/>documents<sp/>appear<sp/>in<sp/>both<sp/>lists</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::pair&lt;std::vector&lt;HybridSearch::Result&gt;,<sp/>std::vector&lt;HybridSearch::Result&gt;&gt;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">makeOverlappingCandidates(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>n,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>overlap,<sp/>std::mt19937&amp;<sp/>rng)<sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>bm25<sp/>=<sp/>makeCandidates(n,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/>rng);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>vec<sp/><sp/>=<sp/>makeCandidates(n,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>rng);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Align<sp/>the<sp/>first<sp/>`overlap`<sp/>PKs<sp/>so<sp/>they<sp/>appear<sp/>in<sp/>both<sp/>lists</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>overlap<sp/>&amp;&amp;<sp/>i<sp/>&lt;<sp/>n;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vec[i].document_id<sp/>=<sp/>bm25[i].document_id;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{bm25,<sp/>vec};</highlight></codeline>
+<codeline lineno="60"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RRF<sp/>benchmarks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_RRF_BM25Only(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>n<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.range(0));</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937<sp/>rng(42);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>bm25<sp/>=<sp/>makeCandidates(n,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/>rng);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_hybrid_search_1_1_config" kindref="compound">HybridSearch::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_hybrid_search_1_1_config_1a4a5dba6b00d1667b394279ca33afe11e" kindref="member">k</ref><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(std::min(n,<sp/>10));</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_hybrid_search_1_1_config_1a0f219c83c2f163fd527b0208236fc18d" kindref="member">max_k</ref><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(n);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_hybrid_search_1_1_config_1a82ff68429f754936fa9dfa206a179b1f" kindref="member">max_candidates</ref><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(n);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_hybrid_search_1_1_config_1a738a3d9d327054ca9b663465c7729fe5" kindref="member">k_bm25</ref><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(n);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_hybrid_search_1_1_config_1ae1c7b448d6a4844e8507626955bf7926" kindref="member">k_vector</ref><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(n);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_hybrid_search" kindref="compound">HybridSearch</ref><sp/>hs(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>cfg);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>hs.reciprocalRankFusion(bm25,<sp/>{});</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(results);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations()<sp/>*<sp/>n);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><ref refid="benchmark__hybrid__search_8cpp_1a4f812375c39c67f1352f66f2dafdfdd7" kindref="member">BENCHMARK</ref>(BM_RRF_BM25Only)-&gt;Arg(10)-&gt;Arg(50)-&gt;Arg(100)-&gt;Arg(500)-&gt;Arg(1000);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_RRF_VectorOnly(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>n<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.range(0));</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937<sp/>rng(42);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>vec<sp/>=<sp/>makeCandidates(n,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>rng);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_hybrid_search_1_1_config" kindref="compound">HybridSearch::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_hybrid_search_1_1_config_1a4a5dba6b00d1667b394279ca33afe11e" kindref="member">k</ref><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(std::min(n,<sp/>10));</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_hybrid_search_1_1_config_1a0f219c83c2f163fd527b0208236fc18d" kindref="member">max_k</ref><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(n);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_hybrid_search_1_1_config_1a82ff68429f754936fa9dfa206a179b1f" kindref="member">max_candidates</ref><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(n);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_hybrid_search_1_1_config_1a738a3d9d327054ca9b663465c7729fe5" kindref="member">k_bm25</ref><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(n);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_hybrid_search_1_1_config_1ae1c7b448d6a4844e8507626955bf7926" kindref="member">k_vector</ref><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(n);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_hybrid_search" kindref="compound">HybridSearch</ref><sp/>hs(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>cfg);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>hs.reciprocalRankFusion({},<sp/>vec);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(results);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations()<sp/>*<sp/>n);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><ref refid="benchmark__hybrid__search_8cpp_1a4f812375c39c67f1352f66f2dafdfdd7" kindref="member">BENCHMARK</ref>(BM_RRF_VectorOnly)-&gt;Arg(10)-&gt;Arg(50)-&gt;Arg(100)-&gt;Arg(500)-&gt;Arg(1000);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_RRF_Hybrid_NoOverlap(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>n<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.range(0));</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937<sp/>rng(42);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>bm25<sp/>=<sp/>makeCandidates(n,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/>rng);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>vec<sp/><sp/>=<sp/>makeCandidates(n,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>rng);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>distinct<sp/>PKs<sp/>→<sp/>no<sp/>overlap</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_hybrid_search_1_1_config" kindref="compound">HybridSearch::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_hybrid_search_1_1_config_1a4a5dba6b00d1667b394279ca33afe11e" kindref="member">k</ref><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(std::min(n,<sp/>10));</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_hybrid_search_1_1_config_1a0f219c83c2f163fd527b0208236fc18d" kindref="member">max_k</ref><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(2<sp/>*<sp/>n);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_hybrid_search_1_1_config_1a82ff68429f754936fa9dfa206a179b1f" kindref="member">max_candidates</ref><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(n);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_hybrid_search_1_1_config_1a738a3d9d327054ca9b663465c7729fe5" kindref="member">k_bm25</ref><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(n);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_hybrid_search_1_1_config_1ae1c7b448d6a4844e8507626955bf7926" kindref="member">k_vector</ref><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(n);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_hybrid_search" kindref="compound">HybridSearch</ref><sp/>hs(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>cfg);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>hs.reciprocalRankFusion(bm25,<sp/>vec);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(results);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations()<sp/>*<sp/>2<sp/>*<sp/>n);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><ref refid="benchmark__hybrid__search_8cpp_1a4f812375c39c67f1352f66f2dafdfdd7" kindref="member">BENCHMARK</ref>(BM_RRF_Hybrid_NoOverlap)-&gt;Arg(50)-&gt;Arg(100)-&gt;Arg(500);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_RRF_Hybrid_50PctOverlap(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>n<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.range(0));</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937<sp/>rng(42);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[bm25,<sp/>vec]<sp/>=<sp/>makeOverlappingCandidates(n,<sp/>n<sp/>/<sp/>2,<sp/>rng);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_hybrid_search_1_1_config" kindref="compound">HybridSearch::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_hybrid_search_1_1_config_1a4a5dba6b00d1667b394279ca33afe11e" kindref="member">k</ref><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(std::min(n,<sp/>10));</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_hybrid_search_1_1_config_1a0f219c83c2f163fd527b0208236fc18d" kindref="member">max_k</ref><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(2<sp/>*<sp/>n);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_hybrid_search_1_1_config_1a82ff68429f754936fa9dfa206a179b1f" kindref="member">max_candidates</ref><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(n);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_hybrid_search_1_1_config_1a738a3d9d327054ca9b663465c7729fe5" kindref="member">k_bm25</ref><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(n);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_hybrid_search_1_1_config_1ae1c7b448d6a4844e8507626955bf7926" kindref="member">k_vector</ref><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(n);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_hybrid_search" kindref="compound">HybridSearch</ref><sp/>hs(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>cfg);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>hs.reciprocalRankFusion(bm25,<sp/>vec);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(results);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations()<sp/>*<sp/>2<sp/>*<sp/>n);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><ref refid="benchmark__hybrid__search_8cpp_1a4f812375c39c67f1352f66f2dafdfdd7" kindref="member">BENCHMARK</ref>(BM_RRF_Hybrid_50PctOverlap)-&gt;Arg(50)-&gt;Arg(100)-&gt;Arg(500);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_RRF_Hybrid_FullOverlap(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>documents<sp/>appear<sp/>in<sp/>both<sp/>lists<sp/>(best<sp/>case<sp/>for<sp/>overlap<sp/>check)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>n<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.range(0));</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937<sp/>rng(42);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[bm25,<sp/>vec]<sp/>=<sp/>makeOverlappingCandidates(n,<sp/>n,<sp/>rng);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_hybrid_search_1_1_config" kindref="compound">HybridSearch::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_hybrid_search_1_1_config_1a4a5dba6b00d1667b394279ca33afe11e" kindref="member">k</ref><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(std::min(n,<sp/>10));</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_hybrid_search_1_1_config_1a0f219c83c2f163fd527b0208236fc18d" kindref="member">max_k</ref><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(n);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_hybrid_search_1_1_config_1a82ff68429f754936fa9dfa206a179b1f" kindref="member">max_candidates</ref><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(n);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_hybrid_search_1_1_config_1a738a3d9d327054ca9b663465c7729fe5" kindref="member">k_bm25</ref><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(n);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_hybrid_search_1_1_config_1ae1c7b448d6a4844e8507626955bf7926" kindref="member">k_vector</ref><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(n);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_hybrid_search" kindref="compound">HybridSearch</ref><sp/>hs(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>cfg);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>hs.reciprocalRankFusion(bm25,<sp/>vec);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(results);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations()<sp/>*<sp/>n);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><ref refid="benchmark__hybrid__search_8cpp_1a4f812375c39c67f1352f66f2dafdfdd7" kindref="member">BENCHMARK</ref>(BM_RRF_Hybrid_FullOverlap)-&gt;Arg(50)-&gt;Arg(100)-&gt;Arg(500);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Linear<sp/>combination<sp/>benchmarks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_Linear_Hybrid(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>n<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.range(0));</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937<sp/>rng(42);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_hybrid_search_1_1_config" kindref="compound">HybridSearch::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_hybrid_search_1_1_config_1a5e333c5dee7f7a950b0b48bfbb2201dc" kindref="member">use_rrf</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_hybrid_search_1_1_config_1a4a5dba6b00d1667b394279ca33afe11e" kindref="member">k</ref><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(std::min(n,<sp/>10));</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_hybrid_search_1_1_config_1a0f219c83c2f163fd527b0208236fc18d" kindref="member">max_k</ref><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(2<sp/>*<sp/>n);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_hybrid_search_1_1_config_1a82ff68429f754936fa9dfa206a179b1f" kindref="member">max_candidates</ref><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(n);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_hybrid_search_1_1_config_1a738a3d9d327054ca9b663465c7729fe5" kindref="member">k_bm25</ref><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(n);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_hybrid_search_1_1_config_1ae1c7b448d6a4844e8507626955bf7926" kindref="member">k_vector</ref><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(n);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_hybrid_search" kindref="compound">HybridSearch</ref><sp/>hs(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>cfg);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Pre-build<sp/>inputs<sp/>(search()<sp/>with<sp/>null<sp/>indices<sp/>returns<sp/>empty,<sp/>so<sp/>drive<sp/>via<sp/>search())</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>a<sp/>linear<sp/>benchmark<sp/>we<sp/>just<sp/>test<sp/>the<sp/>overhead<sp/>of<sp/>search()<sp/>with<sp/>no<sp/>backends</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>hs.search(</highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(results);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="198"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><ref refid="benchmark__hybrid__search_8cpp_1a4f812375c39c67f1352f66f2dafdfdd7" kindref="member">BENCHMARK</ref>(BM_Linear_Hybrid)-&gt;Arg(10)-&gt;Arg(50)-&gt;Arg(100);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="comment">//<sp/>normalizeScores<sp/>benchmarks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_NormalizeScores_BM25(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>n<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.range(0));</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937<sp/>rng(42);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uniform_real_distribution&lt;double&gt;<sp/>dist(0.0,<sp/>100.0);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>base<sp/>results<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;HybridSearch::Result&gt;<sp/>base;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>base.reserve(n);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>n;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_hybrid_search_1_1_result" kindref="compound">HybridSearch::Result</ref><sp/>r;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1_hybrid_search_1_1_result_1a5f98f4a5ae5e0b6136e5748854649cb8" kindref="member">document_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;doc&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1_hybrid_search_1_1_result_1a4c7f6f683c9aa48a467ecd0634a955eb" kindref="member">bm25_score</ref><sp/>=<sp/>dist(rng);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>base.push_back(r);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>base;<sp/></highlight><highlight class="comment">//<sp/>copy<sp/>to<sp/>avoid<sp/>in-place<sp/>mutation<sp/>affecting<sp/>next<sp/>iteration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_hybrid_search_1ae9d18b157e2a438a5903f434ccc3dcca" kindref="member">HybridSearch::normalizeScores</ref>(results,<sp/></highlight><highlight class="comment">/*is_bm25=*/</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(results);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations()<sp/>*<sp/>n);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><ref refid="benchmark__hybrid__search_8cpp_1a4f812375c39c67f1352f66f2dafdfdd7" kindref="member">BENCHMARK</ref>(BM_NormalizeScores_BM25)-&gt;Arg(10)-&gt;Arg(100)-&gt;Arg(1000)-&gt;Arg(10000);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_NormalizeScores_Vector(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>n<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.range(0));</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937<sp/>rng(42);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uniform_real_distribution&lt;double&gt;<sp/>dist(0.0,<sp/>1.0);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;HybridSearch::Result&gt;<sp/>base;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>base.reserve(n);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>n;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_hybrid_search_1_1_result" kindref="compound">HybridSearch::Result</ref><sp/>r;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1_hybrid_search_1_1_result_1a5f98f4a5ae5e0b6136e5748854649cb8" kindref="member">document_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;doc&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1_hybrid_search_1_1_result_1a9efb285ce451e53a0599494f96bebe25" kindref="member">vector_score</ref><sp/>=<sp/>dist(rng);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>base.push_back(r);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>base;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_hybrid_search_1ae9d18b157e2a438a5903f434ccc3dcca" kindref="member">HybridSearch::normalizeScores</ref>(results,<sp/></highlight><highlight class="comment">/*is_bm25=*/</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(results);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations()<sp/>*<sp/>n);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><ref refid="benchmark__hybrid__search_8cpp_1a4f812375c39c67f1352f66f2dafdfdd7" kindref="member">BENCHMARK</ref>(BM_NormalizeScores_Vector)-&gt;Arg(10)-&gt;Arg(100)-&gt;Arg(1000)-&gt;Arg(10000);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Config<sp/>construction<sp/>overhead</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_ConfigConstruction(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_hybrid_search_1_1_config" kindref="compound">HybridSearch::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_hybrid_search_1_1_config_1a4a5dba6b00d1667b394279ca33afe11e" kindref="member">k</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_hybrid_search_1_1_config_1a738a3d9d327054ca9b663465c7729fe5" kindref="member">k_bm25</ref><sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_hybrid_search_1_1_config_1ae1c7b448d6a4844e8507626955bf7926" kindref="member">k_vector</ref><sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_hybrid_search" kindref="compound">HybridSearch</ref><sp/>hs(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>cfg);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(hs);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="266"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><ref refid="benchmark__hybrid__search_8cpp_1a4f812375c39c67f1352f66f2dafdfdd7" kindref="member">BENCHMARK</ref>(BM_ConfigConstruction);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Varying<sp/>rrf_k<sp/>parameter<sp/>sensitivity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_RRF_VaryingRrfK(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>rrf_k<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.range(0));</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937<sp/>rng(42);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>bm25<sp/>=<sp/>makeCandidates(50,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/>rng);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>vec<sp/><sp/>=<sp/>makeCandidates(50,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>rng);</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_hybrid_search_1_1_config" kindref="compound">HybridSearch::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_hybrid_search_1_1_config_1a97852878b845fd1802c4756dc5c8740b" kindref="member">rrf_k</ref><sp/>=<sp/>rrf_k;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_hybrid_search_1_1_config_1a4a5dba6b00d1667b394279ca33afe11e" kindref="member">k</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_hybrid_search_1_1_config_1a0f219c83c2f163fd527b0208236fc18d" kindref="member">max_k</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_hybrid_search_1_1_config_1a82ff68429f754936fa9dfa206a179b1f" kindref="member">max_candidates</ref><sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_hybrid_search_1_1_config_1a738a3d9d327054ca9b663465c7729fe5" kindref="member">k_bm25</ref><sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_hybrid_search_1_1_config_1ae1c7b448d6a4844e8507626955bf7926" kindref="member">k_vector</ref><sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_hybrid_search" kindref="compound">HybridSearch</ref><sp/>hs(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>cfg);</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>hs.reciprocalRankFusion(bm25,<sp/>vec);</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(results);</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations()<sp/>*<sp/>100);</highlight></codeline>
+<codeline lineno="293"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><ref refid="benchmark__hybrid__search_8cpp_1a4f812375c39c67f1352f66f2dafdfdd7" kindref="member">BENCHMARK</ref>(BM_RRF_VaryingRrfK)-&gt;Arg(1)-&gt;Arg(10)-&gt;Arg(60)-&gt;Arg(100)-&gt;Arg(1000);</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><ref refid="benchmark__hybrid__search_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kindref="member">BENCHMARK_MAIN</ref>();</highlight></codeline>
+    </programlisting>
+    <location file="benchmarks/search/benchmark_hybrid_search.cpp"/>
+  </compounddef>
+</doxygen>

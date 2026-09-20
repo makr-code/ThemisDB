@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_atomic_update_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::AtomicUpdateResult</compoundname>
+    <includes refid="policy__conflict__detector_8h" local="no">policy_conflict_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_atomic_update_result_1a6db49c5a4c48743abef9ca3528e8c6d8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::AtomicUpdateResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::governance::AtomicUpdateResult::success</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Whether update succeeded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_conflict_detector.h" line="99" column="10" bodyfile="include/governance/policy_conflict_detector.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_atomic_update_result_1ac99c994da05c1a572191f1924e8921f5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::AtomicUpdateResult::transaction_id</definition>
+        <argsstring></argsstring>
+        <name>transaction_id</name>
+        <qualifiedname>themis::governance::AtomicUpdateResult::transaction_id</qualifiedname>
+        <briefdescription>
+<para>Transaction identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_conflict_detector.h" line="100" column="17" bodyfile="include/governance/policy_conflict_detector.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_atomic_update_result_1a9132be936a3673b1c5239e30ad90afcc" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_policy_conflict" kindref="compound">PolicyConflict</ref> &gt;</type>
+        <definition>std::vector&lt;PolicyConflict&gt; themis::governance::AtomicUpdateResult::conflicts_detected</definition>
+        <argsstring></argsstring>
+        <name>conflicts_detected</name>
+        <qualifiedname>themis::governance::AtomicUpdateResult::conflicts_detected</qualifiedname>
+        <briefdescription>
+<para>Any conflicts found. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_conflict_detector.h" line="101" column="17" bodyfile="include/governance/policy_conflict_detector.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_atomic_update_result_1a0c5a838da2e94d3a68a424ffb8d977b9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::AtomicUpdateResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::governance::AtomicUpdateResult::error_message</qualifiedname>
+        <briefdescription>
+<para>Error details if failed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_conflict_detector.h" line="102" column="17" bodyfile="include/governance/policy_conflict_detector.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_atomic_update_result_1a44fb01cef1ff261d1cc941e0ed968194" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::governance::AtomicUpdateResult::affected_rules</definition>
+        <argsstring></argsstring>
+        <name>affected_rules</name>
+        <qualifiedname>themis::governance::AtomicUpdateResult::affected_rules</qualifiedname>
+        <briefdescription>
+<para>Rules affected by update. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_conflict_detector.h" line="103" column="17" bodyfile="include/governance/policy_conflict_detector.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_atomic_update_result_1a4eaf6084be78afe41e6a9bdd4c649ac1" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::AtomicUpdateResult::operation_time_us</definition>
+        <argsstring></argsstring>
+        <name>operation_time_us</name>
+        <qualifiedname>themis::governance::AtomicUpdateResult::operation_time_us</qualifiedname>
+        <briefdescription>
+<para>Microseconds to complete. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_conflict_detector.h" line="104" column="13" bodyfile="include/governance/policy_conflict_detector.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/policy_conflict_detector.h" line="98" column="1" bodyfile="include/governance/policy_conflict_detector.h" bodystart="98" bodyend="105"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_atomic_update_result_1a44fb01cef1ff261d1cc941e0ed968194" prot="public" virt="non-virtual"><scope>themis::governance::AtomicUpdateResult</scope><name>affected_rules</name></member>
+      <member refid="structthemis_1_1governance_1_1_atomic_update_result_1a9132be936a3673b1c5239e30ad90afcc" prot="public" virt="non-virtual"><scope>themis::governance::AtomicUpdateResult</scope><name>conflicts_detected</name></member>
+      <member refid="structthemis_1_1governance_1_1_atomic_update_result_1a0c5a838da2e94d3a68a424ffb8d977b9" prot="public" virt="non-virtual"><scope>themis::governance::AtomicUpdateResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1governance_1_1_atomic_update_result_1a4eaf6084be78afe41e6a9bdd4c649ac1" prot="public" virt="non-virtual"><scope>themis::governance::AtomicUpdateResult</scope><name>operation_time_us</name></member>
+      <member refid="structthemis_1_1governance_1_1_atomic_update_result_1a6db49c5a4c48743abef9ca3528e8c6d8" prot="public" virt="non-virtual"><scope>themis::governance::AtomicUpdateResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1governance_1_1_atomic_update_result_1ac99c994da05c1a572191f1924e8921f5" prot="public" virt="non-virtual"><scope>themis::governance::AtomicUpdateResult</scope><name>transaction_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

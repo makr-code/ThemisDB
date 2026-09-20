@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_cypher_node_pattern" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::CypherNodePattern</compoundname>
+    <includes refid="cypher__parser_8h" local="no">cypher_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_cypher_node_pattern_1a1485321f99a22c3e751ebd15659739a9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::CypherNodePattern::variable</definition>
+        <argsstring></argsstring>
+        <name>variable</name>
+        <qualifiedname>themis::query::CypherNodePattern::variable</qualifiedname>
+        <briefdescription>
+<para>empty when anonymous </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cypher_parser.h" line="53" column="17" bodyfile="include/query/cypher_parser.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_cypher_node_pattern_1a9d39b3620c8f6a560acbffdfbed0b073" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::query::CypherNodePattern::labels</definition>
+        <argsstring></argsstring>
+        <name>labels</name>
+        <qualifiedname>themis::query::CypherNodePattern::labels</qualifiedname>
+        <briefdescription>
+<para>can be multiple: (n:A:B) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cypher_parser.h" line="54" column="17" bodyfile="include/query/cypher_parser.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_cypher_node_pattern_1aa24bc24532785fc616fdef18e7f2ce24" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_cypher_property_filter" kindref="compound">CypherPropertyFilter</ref> &gt;</type>
+        <definition>std::vector&lt;CypherPropertyFilter&gt; themis::query::CypherNodePattern::properties</definition>
+        <argsstring></argsstring>
+        <name>properties</name>
+        <qualifiedname>themis::query::CypherNodePattern::properties</qualifiedname>
+        <briefdescription>
+<para>inline { key: value } </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cypher_parser.h" line="55" column="17" bodyfile="include/query/cypher_parser.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/cypher_parser.h" line="52" column="1" bodyfile="include/query/cypher_parser.h" bodystart="52" bodyend="56"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_cypher_node_pattern_1a9d39b3620c8f6a560acbffdfbed0b073" prot="public" virt="non-virtual"><scope>themis::query::CypherNodePattern</scope><name>labels</name></member>
+      <member refid="structthemis_1_1query_1_1_cypher_node_pattern_1aa24bc24532785fc616fdef18e7f2ce24" prot="public" virt="non-virtual"><scope>themis::query::CypherNodePattern</scope><name>properties</name></member>
+      <member refid="structthemis_1_1query_1_1_cypher_node_pattern_1a1485321f99a22c3e751ebd15659739a9" prot="public" virt="non-virtual"><scope>themis::query::CypherNodePattern</scope><name>variable</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1governance_1_1ccpa_1_1sections" kind="namespace" language="C++">
+    <compoundname>themis::governance::ccpa::sections</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1ccpa_1_1sections_1a52abe16129f0c4867da2df03b7d429e9" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::ccpa::sections::kPrivacyPolicy</definition>
+        <argsstring></argsstring>
+        <name>kPrivacyPolicy</name>
+        <qualifiedname>themis::governance::ccpa::sections::kPrivacyPolicy</qualifiedname>
+        <initializer>= &quot;Section 1798.100&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="273" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="273" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1ccpa_1_1sections_1ad57d85dc356ae4ce41e9c6b4bc9262cc" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::ccpa::sections::kConsumerRights</definition>
+        <argsstring></argsstring>
+        <name>kConsumerRights</name>
+        <qualifiedname>themis::governance::ccpa::sections::kConsumerRights</qualifiedname>
+        <initializer>= &quot;Section 1798.100&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="274" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="274" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1ccpa_1_1sections_1abe0d6e076571fb0d1f39c514685650c2" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::ccpa::sections::kSaleOfPersonalInformation</definition>
+        <argsstring></argsstring>
+        <name>kSaleOfPersonalInformation</name>
+        <qualifiedname>themis::governance::ccpa::sections::kSaleOfPersonalInformation</qualifiedname>
+        <initializer>= &quot;Section 1798.115&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="275" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="275" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1ccpa_1_1sections_1ab35dfcebb3af12f87952631e2ba973e6" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::ccpa::sections::kDataSecurity</definition>
+        <argsstring></argsstring>
+        <name>kDataSecurity</name>
+        <qualifiedname>themis::governance::ccpa::sections::kDataSecurity</qualifiedname>
+        <initializer>= &quot;Section 1798.100&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="276" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="276" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1ccpa_1_1sections_1a34a2d6a6c52e439d774d0cc54c0842d9" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::ccpa::sections::kVerification</definition>
+        <argsstring></argsstring>
+        <name>kVerification</name>
+        <qualifiedname>themis::governance::ccpa::sections::kVerification</qualifiedname>
+        <initializer>= &quot;Section 1798.130&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="277" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="277" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1ccpa_1_1sections_1aa405d285b61bc9b552f2531adbd7af4e" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::ccpa::sections::kOptOut</definition>
+        <argsstring></argsstring>
+        <name>kOptOut</name>
+        <qualifiedname>themis::governance::ccpa::sections::kOptOut</qualifiedname>
+        <initializer>= &quot;Section 1798.120&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="278" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="278" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/compliance_mapping.h" line="272" column="1"/>
+  </compounddef>
+</doxygen>

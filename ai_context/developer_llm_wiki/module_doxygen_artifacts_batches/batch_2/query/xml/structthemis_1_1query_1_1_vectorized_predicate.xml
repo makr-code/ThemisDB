@@ -1,0 +1,600 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_vectorized_predicate" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::VectorizedPredicate</compoundname>
+    <includes refid="vectorized__execution_8h" local="no">vectorized_execution.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1query_1_1_vectorized_predicate_1a973ef60d67650996dd321653d4b0992f" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Op</name>
+        <qualifiedname>themis::query::VectorizedPredicate::Op</qualifiedname>
+        <enumvalue id="structthemis_1_1query_1_1_vectorized_predicate_1a973ef60d67650996dd321653d4b0992fa3718b5ecf60aa0dba49e150e96cb1fc3" prot="public">
+          <name>Eq</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1query_1_1_vectorized_predicate_1a973ef60d67650996dd321653d4b0992fa4dec99baa99738721da9c9b0c1a92498" prot="public">
+          <name>Ne</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1query_1_1_vectorized_predicate_1a973ef60d67650996dd321653d4b0992fa50033c15af7795cd6617f117b29d6922" prot="public">
+          <name>Lt</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1query_1_1_vectorized_predicate_1a973ef60d67650996dd321653d4b0992fabccd5ec3ec8fd3a4471e71e9b407c60c" prot="public">
+          <name>Le</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1query_1_1_vectorized_predicate_1a973ef60d67650996dd321653d4b0992fa086cb8308e5a36e7c4ed1f8873ad801f" prot="public">
+          <name>Gt</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1query_1_1_vectorized_predicate_1a973ef60d67650996dd321653d4b0992fac6a675552648c0becb8283f05c172483" prot="public">
+          <name>Ge</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1query_1_1_vectorized_predicate_1a973ef60d67650996dd321653d4b0992faf0050362b45a1bdf34a9b8ab6c97a433" prot="public">
+          <name>IsNull</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1query_1_1_vectorized_predicate_1a973ef60d67650996dd321653d4b0992fa99c0b87e5e7c0a8bb743819dd0c06f12" prot="public">
+          <name>IsNotNull</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="63" column="5" bodyfile="include/query/vectorized_execution.h" bodystart="63" bodyend="63"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_vectorized_predicate_1ae25a3f7b586734934510ecaa8723034a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::VectorizedPredicate::field</definition>
+        <argsstring></argsstring>
+        <name>field</name>
+        <qualifiedname>themis::query::VectorizedPredicate::field</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="65" column="20" bodyfile="include/query/vectorized_execution.h" bodystart="65" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_vectorized_predicate_1a2d8c8d87ec519a6d47e171d01727dd2b" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_vectorized_predicate_1a973ef60d67650996dd321653d4b0992f" kindref="member">Op</ref></type>
+        <definition>Op themis::query::VectorizedPredicate::op</definition>
+        <argsstring></argsstring>
+        <name>op</name>
+        <qualifiedname>themis::query::VectorizedPredicate::op</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1query_1_1_vectorized_predicate_1a973ef60d67650996dd321653d4b0992fa3718b5ecf60aa0dba49e150e96cb1fc3" kindref="member">Op::Eq</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="66" column="20" bodyfile="include/query/vectorized_execution.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_vectorized_predicate_1a037f7aaf5ee433fb38699f4595a898c0" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::VectorizedPredicate::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::query::VectorizedPredicate::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="67" column="20" bodyfile="include/query/vectorized_execution.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_vectorized_predicate_1a017dd633b55070cf298b2c24e1b28597" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_vectorized_predicate" kindref="compound">VectorizedPredicate</ref></type>
+        <definition>VectorizedPredicate themis::query::VectorizedPredicate::eq</definition>
+        <argsstring>(std::string field, nlohmann::json value)</argsstring>
+        <name>eq</name>
+        <qualifiedname>themis::query::VectorizedPredicate::eq</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>field</declname>
+        </param>
+        <param>
+          <type>nlohmann::json</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Eq. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">field</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">field</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="76" column="32" bodyfile="src/query/vectorized_execution.cpp" bodystart="69" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_vectorized_predicate_1a17cb5e9c1696c0e0a4ef33807754cc2f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_vectorized_predicate" kindref="compound">VectorizedPredicate</ref></type>
+        <definition>VectorizedPredicate themis::query::VectorizedPredicate::ne</definition>
+        <argsstring>(std::string field, nlohmann::json value)</argsstring>
+        <name>ne</name>
+        <qualifiedname>themis::query::VectorizedPredicate::ne</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>field</declname>
+        </param>
+        <param>
+          <type>nlohmann::json</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Ne. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">field</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">field</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="83" column="32" bodyfile="src/query/vectorized_execution.cpp" bodystart="79" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_vectorized_predicate_1aa1d2aa4d79f50678975d1e930133ef9a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_vectorized_predicate" kindref="compound">VectorizedPredicate</ref></type>
+        <definition>VectorizedPredicate themis::query::VectorizedPredicate::lt</definition>
+        <argsstring>(std::string field, nlohmann::json value)</argsstring>
+        <name>lt</name>
+        <qualifiedname>themis::query::VectorizedPredicate::lt</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>field</declname>
+        </param>
+        <param>
+          <type>nlohmann::json</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Lt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">field</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">field</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="90" column="32" bodyfile="src/query/vectorized_execution.cpp" bodystart="89" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_vectorized_predicate_1a9c4579d4fe67bea1ae8208916ff73aad" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_vectorized_predicate" kindref="compound">VectorizedPredicate</ref></type>
+        <definition>VectorizedPredicate themis::query::VectorizedPredicate::le</definition>
+        <argsstring>(std::string field, nlohmann::json value)</argsstring>
+        <name>le</name>
+        <qualifiedname>themis::query::VectorizedPredicate::le</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>field</declname>
+        </param>
+        <param>
+          <type>nlohmann::json</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Le. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">field</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">field</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="97" column="32" bodyfile="src/query/vectorized_execution.cpp" bodystart="99" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_vectorized_predicate_1ac664a810c2b3798188a3de28e5beda52" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_vectorized_predicate" kindref="compound">VectorizedPredicate</ref></type>
+        <definition>VectorizedPredicate themis::query::VectorizedPredicate::gt</definition>
+        <argsstring>(std::string field, nlohmann::json value)</argsstring>
+        <name>gt</name>
+        <qualifiedname>themis::query::VectorizedPredicate::gt</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>field</declname>
+        </param>
+        <param>
+          <type>nlohmann::json</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Gt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">field</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">field</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="104" column="32" bodyfile="src/query/vectorized_execution.cpp" bodystart="109" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_vectorized_predicate_1a6c49adc2366147f73a9d0f08f2b2abc2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_vectorized_predicate" kindref="compound">VectorizedPredicate</ref></type>
+        <definition>VectorizedPredicate themis::query::VectorizedPredicate::ge</definition>
+        <argsstring>(std::string field, nlohmann::json value)</argsstring>
+        <name>ge</name>
+        <qualifiedname>themis::query::VectorizedPredicate::ge</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>field</declname>
+        </param>
+        <param>
+          <type>nlohmann::json</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Ge. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">field</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">field</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="111" column="32" bodyfile="src/query/vectorized_execution.cpp" bodystart="119" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_vectorized_predicate_1a81932fef391fb64c6ca84c47c1649cf6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_vectorized_predicate" kindref="compound">VectorizedPredicate</ref></type>
+        <definition>VectorizedPredicate themis::query::VectorizedPredicate::isNull</definition>
+        <argsstring>(std::string field)</argsstring>
+        <name>isNull</name>
+        <qualifiedname>themis::query::VectorizedPredicate::isNull</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>field</declname>
+        </param>
+        <briefdescription>
+<para>Is Null. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">field</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">field</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="117" column="32" bodyfile="src/query/vectorized_execution.cpp" bodystart="128" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_vectorized_predicate_1a55931d93baf495a3c6cd5fed955fd261" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_vectorized_predicate" kindref="compound">VectorizedPredicate</ref></type>
+        <definition>VectorizedPredicate themis::query::VectorizedPredicate::isNotNull</definition>
+        <argsstring>(std::string field)</argsstring>
+        <name>isNotNull</name>
+        <qualifiedname>themis::query::VectorizedPredicate::isNotNull</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>field</declname>
+        </param>
+        <briefdescription>
+<para>Is Not Null. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">field</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">field</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="123" column="32" bodyfile="src/query/vectorized_execution.cpp" bodystart="137" bodyend="139"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/vectorized_execution.h" line="62" column="1" bodyfile="include/query/vectorized_execution.h" bodystart="62" bodyend="124"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_vectorized_predicate_1a017dd633b55070cf298b2c24e1b28597" prot="public" virt="non-virtual"><scope>themis::query::VectorizedPredicate</scope><name>eq</name></member>
+      <member refid="structthemis_1_1query_1_1_vectorized_predicate_1ae25a3f7b586734934510ecaa8723034a" prot="public" virt="non-virtual"><scope>themis::query::VectorizedPredicate</scope><name>field</name></member>
+      <member refid="structthemis_1_1query_1_1_vectorized_predicate_1a6c49adc2366147f73a9d0f08f2b2abc2" prot="public" virt="non-virtual"><scope>themis::query::VectorizedPredicate</scope><name>ge</name></member>
+      <member refid="structthemis_1_1query_1_1_vectorized_predicate_1ac664a810c2b3798188a3de28e5beda52" prot="public" virt="non-virtual"><scope>themis::query::VectorizedPredicate</scope><name>gt</name></member>
+      <member refid="structthemis_1_1query_1_1_vectorized_predicate_1a55931d93baf495a3c6cd5fed955fd261" prot="public" virt="non-virtual"><scope>themis::query::VectorizedPredicate</scope><name>isNotNull</name></member>
+      <member refid="structthemis_1_1query_1_1_vectorized_predicate_1a81932fef391fb64c6ca84c47c1649cf6" prot="public" virt="non-virtual"><scope>themis::query::VectorizedPredicate</scope><name>isNull</name></member>
+      <member refid="structthemis_1_1query_1_1_vectorized_predicate_1a9c4579d4fe67bea1ae8208916ff73aad" prot="public" virt="non-virtual"><scope>themis::query::VectorizedPredicate</scope><name>le</name></member>
+      <member refid="structthemis_1_1query_1_1_vectorized_predicate_1aa1d2aa4d79f50678975d1e930133ef9a" prot="public" virt="non-virtual"><scope>themis::query::VectorizedPredicate</scope><name>lt</name></member>
+      <member refid="structthemis_1_1query_1_1_vectorized_predicate_1a17cb5e9c1696c0e0a4ef33807754cc2f" prot="public" virt="non-virtual"><scope>themis::query::VectorizedPredicate</scope><name>ne</name></member>
+      <member refid="structthemis_1_1query_1_1_vectorized_predicate_1a973ef60d67650996dd321653d4b0992f" prot="public" virt="non-virtual"><scope>themis::query::VectorizedPredicate</scope><name>Op</name></member>
+      <member refid="structthemis_1_1query_1_1_vectorized_predicate_1a2d8c8d87ec519a6d47e171d01727dd2b" prot="public" virt="non-virtual"><scope>themis::query::VectorizedPredicate</scope><name>op</name></member>
+      <member refid="structthemis_1_1query_1_1_vectorized_predicate_1a037f7aaf5ee433fb38699f4595a898c0" prot="public" virt="non-virtual"><scope>themis::query::VectorizedPredicate</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

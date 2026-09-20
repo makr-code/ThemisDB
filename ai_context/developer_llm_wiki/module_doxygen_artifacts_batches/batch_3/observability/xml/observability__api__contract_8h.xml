@@ -1,0 +1,331 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="observability__api__contract_8h" kind="file" language="C++">
+    <compoundname>observability_api_contract.h</compoundname>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includedby refid="bench__observability__release__gates_8cpp" local="yes">benchmarks/observability/bench_observability_release_gates.cpp</includedby>
+    <includedby refid="distributed__tracing__sdk_8cpp" local="yes">src/observability/distributed_tracing_sdk.cpp</includedby>
+    <includedby refid="exporter__stress__framework_8cpp" local="yes">src/observability/exporter_stress_framework.cpp</includedby>
+    <includedby refid="high__cardinality__metrics_8cpp" local="yes">src/observability/high_cardinality_metrics.cpp</includedby>
+    <includedby refid="metrics__collector_8cpp" local="yes">src/observability/metrics_collector.cpp</includedby>
+    <includedby refid="operator__remediation__engine_8cpp" local="yes">src/observability/operator_remediation_engine.cpp</includedby>
+    <includedby refid="test__observability__contract__hardening__focused_8cpp" local="yes">tests/observability/test_observability_contract_hardening_focused.cpp</includedby>
+    <includedby refid="test__observability__hardening_8cpp" local="yes">tests/observability/test_observability_hardening.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/observability/observability_api_contract.h</label>
+        <link refid="observability__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/observability/bench_observability_release_gates.cpp</label>
+        <link refid="bench__observability__release__gates_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/observability/observability_api_contract.h</label>
+        <link refid="observability__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/observability/distributed_tracing_sdk.cpp</label>
+        <link refid="distributed__tracing__sdk_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/observability/exporter_stress_framework.cpp</label>
+        <link refid="exporter__stress__framework_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/observability/high_cardinality_metrics.cpp</label>
+        <link refid="high__cardinality__metrics_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/observability/metrics_collector.cpp</label>
+        <link refid="metrics__collector_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/observability/operator_remediation_engine.cpp</label>
+        <link refid="operator__remediation__engine_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/observability/test_observability_contract_hardening_focused.cpp</label>
+        <link refid="test__observability__contract__hardening__focused_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/observability/test_observability_hardening.cpp</label>
+        <link refid="test__observability__hardening_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1observability">themis::observability</innernamespace>
+    <briefdescription>
+<para>Frozen observability contract for counter/gauge/histogram, tracing, logging, SLO, and export. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This header defines the normative contract for the observability module. All observability components (metrics collectors, tracers, loggers, SLO reporters, and exporters) must honour the semantics defined here within the v1.x major line.</para>
+<sect1 id="observability__api__contract_8h_1autotoc_md10_1s1"><sect2 id="observability__api__contract_8h_1autotoc_md10">
+<title>Contract Scope</title><para><itemizedlist>
+<listitem><para>MetricsCollector (<ref refid="metrics__collector_8h" kindref="compound">metrics_collector.h</ref>) — counter/gauge/histogram semantics</para>
+</listitem><listitem><para>OpenTelemetryTracer (<ref refid="opentelemetry__tracer_8h" kindref="compound">opentelemetry_tracer.h</ref>) — span parent-child linkage</para>
+</listitem><listitem><para>LogAggregator (<ref refid="log__aggregator_8h" kindref="compound">log_aggregator.h</ref>) — structured log immutability</para>
+</listitem><listitem><para>SloReporter (<ref refid="slo__reporter_8h" kindref="compound">slo_reporter.h</ref>) — SLO measurement window closure</para>
+</listitem><listitem><para>Prometheus/OTLP exporters — push/pull protocol contract</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="observability__api__contract_8h_1autotoc_md11_1s1"><sect2 id="observability__api__contract_8h_1autotoc_md11">
+<title>Metrics Contract</title><para>Counters MUST be monotonically non-decreasing. Any reset must be explicit and communicated to consumers via a <computeroutput>counter_reset</computeroutput> annotation. Gauges may move in both directions. Histogram bucket boundaries are immutable after the histogram is created.</para>
+</sect2></sect1>
+<sect1 id="observability__api__contract_8h_1autotoc_md12_1s1"><sect2 id="observability__api__contract_8h_1autotoc_md12">
+<title>Tracing Contract</title><para>Span parent-child relationships are deterministic: a child span&apos;s <computeroutput>parent_span_id</computeroutput> always matches an existing ancestor&apos;s <computeroutput>span_id</computeroutput> within the same trace. Spans are not lost under normal load (non-degraded path). Dropped spans (overload path) surface the TRACE_SPAN_DROPPED error code.</para>
+</sect2></sect1>
+<sect1 id="observability__api__contract_8h_1autotoc_md13_1s1"><sect2 id="observability__api__contract_8h_1autotoc_md13">
+<title>Logging Contract</title><para>Structured log entries are immutable after being written. Fields must not be mutated, reordered, or truncated post-write.</para>
+</sect2></sect1>
+<sect1 id="observability__api__contract_8h_1autotoc_md14_1s1"><sect2 id="observability__api__contract_8h_1autotoc_md14">
+<title>SLO Contract</title><para>An SLO measurement window is closed (sealed) at its configured boundary. Late updates after window closure are rejected with SLO_WINDOW_INVALID.</para>
+</sect2></sect1>
+<sect1 id="observability__api__contract_8h_1autotoc_md15_1s1"><sect2 id="observability__api__contract_8h_1autotoc_md15">
+<title>Versioning</title><para>This contract is stable within v1.x. Breaking changes require a v2.0 bump.</para>
+<para><simplesect kind="see"><para>src/observability/ROADMAP.md — Phase 1 item </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="metrics__collector_8h" kindref="compound">include/observability/metrics_collector.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="opentelemetry__tracer_8h" kindref="compound">include/observability/opentelemetry_tracer.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="slo__reporter_8h" kindref="compound">include/observability/slo_reporter.h</ref> </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1observability" kindref="compound">observability</ref><sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>1<sp/><sp/>Metric<sp/>constraints</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="namespacethemis_1_1observability_1a5e84387a19755866a0886c3684330880" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1observability_1a5e84387a19755866a0886c3684330880" kindref="member">kMaxMetricLabels</ref><sp/>=<sp/>32;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="namespacethemis_1_1observability_1ad238fe76c9f355c80ab212502eed667e" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1observability_1ad238fe76c9f355c80ab212502eed667e" kindref="member">kMaxLabelKeyBytes</ref><sp/>=<sp/>128;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="namespacethemis_1_1observability_1ac2db4fe414d9ad3cd03df4face6c06be" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1observability_1ac2db4fe414d9ad3cd03df4face6c06be" kindref="member">kMaxLabelValueBytes</ref><sp/>=<sp/>256;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="namespacethemis_1_1observability_1a4a4f8c0a631ed1448f96b3a56b89df2e" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1observability_1a4a4f8c0a631ed1448f96b3a56b89df2e" kindref="member">kMaxMetricCardinality</ref><sp/>=<sp/>100&apos;000;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>2<sp/><sp/>Histogram<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="namespacethemis_1_1observability_1ac0eda1f8f007fddd275f3806e98845ba" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1observability_1ac0eda1f8f007fddd275f3806e98845ba" kindref="member">kMaxHistogramBuckets</ref><sp/>=<sp/>256;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="namespacethemis_1_1observability_1ac262b71aa1eb0e41b5ad6d7382611ce2" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1observability_1ac262b71aa1eb0e41b5ad6d7382611ce2" kindref="member">kHistogramBucketSentinel</ref><sp/>=<sp/>-1.0;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>3<sp/><sp/>Tracing<sp/>constraints</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="namespacethemis_1_1observability_1a4c24d79128511f37a884b6ff5c335cf1" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1observability_1a4c24d79128511f37a884b6ff5c335cf1" kindref="member">kMaxSpanNestingDepth</ref><sp/>=<sp/>128;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="namespacethemis_1_1observability_1ad7812b6e47a26feff89cb8b3819b123a" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1observability_1ad7812b6e47a26feff89cb8b3819b123a" kindref="member">kMaxSpanAttributes</ref><sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="namespacethemis_1_1observability_1ad6487b413bed4089f1f65bf5bdbd01f0" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1observability_1ad6487b413bed4089f1f65bf5bdbd01f0" kindref="member">kTraceIdBytes</ref><sp/>=<sp/>16;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="namespacethemis_1_1observability_1ac80819349963f20568bd63300385f389" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1observability_1ac80819349963f20568bd63300385f389" kindref="member">kSpanIdBytes</ref><sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>4<sp/><sp/>SLO<sp/>window<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="namespacethemis_1_1observability_1a737311659103a23be5b55739da62517b" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::seconds<sp/><ref refid="namespacethemis_1_1observability_1a737311659103a23be5b55739da62517b" kindref="member">kMinSloWindowDuration</ref>{60};</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111" refid="namespacethemis_1_1observability_1a360d641d6db4469d83bb7e26eaca7657" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::hours<sp/><ref refid="namespacethemis_1_1observability_1a360d641d6db4469d83bb7e26eaca7657" kindref="member">kMaxSloWindowDuration</ref>{24<sp/>*<sp/>30};</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115" refid="namespacethemis_1_1observability_1a56b76b4e1e7b63426fbafabe89d2be71" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::seconds<sp/><ref refid="namespacethemis_1_1observability_1a56b76b4e1e7b63426fbafabe89d2be71" kindref="member">kSloWindowGracePeriod</ref>{5};</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>5<sp/><sp/>Export<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122" refid="namespacethemis_1_1observability_1a7432c9f758a671502224050c6ba3e67b" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::seconds<sp/><ref refid="namespacethemis_1_1observability_1a7432c9f758a671502224050c6ba3e67b" kindref="member">kPrometheusDefaultScrapeTimeout</ref>{10};</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125" refid="namespacethemis_1_1observability_1a9ffcc34199424fae10402da55f491460" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1observability_1a9ffcc34199424fae10402da55f491460" kindref="member">kOtlpMaxBatchSize</ref><sp/>=<sp/>512;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128" refid="namespacethemis_1_1observability_1ab61038390ceefd045c128cad00d364da" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1observability_1ab61038390ceefd045c128cad00d364da" kindref="member">kMaxScrapeMetrics</ref><sp/>=<sp/>50&apos;000;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>5b<sp/><sp/>Phase<sp/>2<sp/>Distributed<sp/>Tracing<sp/>SDK<sp/>constraints</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="namespacethemis_1_1observability_1af82fb41d9081a79ad345f7b54f7300b4" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1observability_1af82fb41d9081a79ad345f7b54f7300b4" kindref="member">kMaxBaggageItems</ref><sp/>=<sp/>128;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138" refid="namespacethemis_1_1observability_1a617396ca7d06df92b7d01c91f9c6afac" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1observability_1a617396ca7d06df92b7d01c91f9c6afac" kindref="member">kMaxBaggageKeyBytes</ref><sp/>=<sp/>128;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141" refid="namespacethemis_1_1observability_1a8aaee26104beb6dcce1fb97fedd17e51" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1observability_1a8aaee26104beb6dcce1fb97fedd17e51" kindref="member">kMaxBaggageValueBytes</ref><sp/>=<sp/>1024;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144" refid="namespacethemis_1_1observability_1a6679780a609a7cd9895f758533731181" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1observability_1a6679780a609a7cd9895f758533731181" kindref="member">kMaxTraceContextHeaderBytes</ref><sp/>=<sp/>4096;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>5c<sp/><sp/>Phase<sp/>2<sp/>High-Cardinality<sp/>Metrics<sp/>constraints</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151" refid="namespacethemis_1_1observability_1a827be377f55a0df02600e3babc0206a9" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1observability_1a827be377f55a0df02600e3babc0206a9" kindref="member">kDefaultHighCardinalityLimit</ref><sp/>=<sp/>10&apos;000;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154" refid="namespacethemis_1_1observability_1ab62a0fa9a9ee7fed76d9fcd202ae0218" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1observability_1ab62a0fa9a9ee7fed76d9fcd202ae0218" kindref="member">kMaxHighCardinalityLimit</ref><sp/>=<sp/>100&apos;000;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157" refid="namespacethemis_1_1observability_1ad59c28e48b41eff426b88ae339048fe3" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1observability_1ad59c28e48b41eff426b88ae339048fe3" kindref="member">kCardinalityWarningThreshold</ref><sp/>=<sp/>8&apos;000;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160" refid="namespacethemis_1_1observability_1a8c8bc68d5ef8b2e67aa1442e96d12c5e" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="namespacethemis_1_1observability_1a8c8bc68d5ef8b2e67aa1442e96d12c5e" kindref="member">kCardinalityOtherLabel</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;__other&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>5d<sp/><sp/>Phase<sp/>2<sp/>Operator<sp/>Remediation<sp/>Engine<sp/>constraints</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167" refid="namespacethemis_1_1observability_1a6934d8af5fbbc829d1ac3fba3e0b2e88" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1observability_1a6934d8af5fbbc829d1ac3fba3e0b2e88" kindref="member">kMaxActiveRemediationHints</ref><sp/>=<sp/>256;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170" refid="namespacethemis_1_1observability_1aef42a7b115cfc0ec018063bef870cf3d" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::uint32_t<sp/><ref refid="namespacethemis_1_1observability_1aef42a7b115cfc0ec018063bef870cf3d" kindref="member">kRemediationHintDeduplicationSeconds</ref><sp/>=<sp/>300;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173" refid="namespacethemis_1_1observability_1a2a6fe758b2d75576936dcaf2637e0b1d" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1observability_1a2a6fe758b2d75576936dcaf2637e0b1d" kindref="member">kMaxRemediationActionsPerHint</ref><sp/>=<sp/>16;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176" refid="namespacethemis_1_1observability_1aafbf270fb8af36c90fb95817adc96d7a" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1observability_1aafbf270fb8af36c90fb95817adc96d7a" kindref="member">kMaxRemediationHintLength</ref><sp/>=<sp/>4096;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>6<sp/><sp/>Error<sp/>taxonomy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188" refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5" kindref="member">ObservabilityErrorCode</ref><sp/>:<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="190" refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5ae0aa021e21dddbd6d8cecec71e9cf564" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">OK</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193" refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5a99c280b23baf5d8e8c5c04a6736c17e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5a99c280b23baf5d8e8c5c04a6736c17e9" kindref="member">METRIC_OVERFLOW</ref><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196" refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5a9813547ed8a4a71d87c245a29b3de613" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5a9813547ed8a4a71d87c245a29b3de613" kindref="member">TRACE_SPAN_DROPPED</ref><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199" refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5ad9507d1764f63a8bef1fca78f404d0f1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5ad9507d1764f63a8bef1fca78f404d0f1" kindref="member">LOG_WRITE_FAILED</ref><sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202" refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5a36bf5f6575bf7281f99a20cce83d1455" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5a36bf5f6575bf7281f99a20cce83d1455" kindref="member">SLO_WINDOW_INVALID</ref><sp/>=<sp/>4,</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205" refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5a1cc8d6981287c1f0769c386bb2ee8fa5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5a1cc8d6981287c1f0769c386bb2ee8fa5" kindref="member">EXPORTER_UNAVAILABLE</ref><sp/>=<sp/>5,</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208" refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5abb66f8df5fc6e0943b2ba6254bd2e636" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5abb66f8df5fc6e0943b2ba6254bd2e636" kindref="member">HISTOGRAM_BUCKET_ORDER_INVALID</ref><sp/>=<sp/>6,</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211" refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5a1e2951efa9708bc02e3f66a3af14dbec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5a1e2951efa9708bc02e3f66a3af14dbec" kindref="member">METRIC_CARDINALITY_EXCEEDED</ref><sp/>=<sp/>7,</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214" refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5aa0e9cb0c53f29af79b0e4d6c8364ed74" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5aa0e9cb0c53f29af79b0e4d6c8364ed74" kindref="member">SPAN_DEPTH_EXCEEDED</ref><sp/>=<sp/>8,</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217" refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5ae8c0c70879b5895c615677261d64a1ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5ae8c0c70879b5895c615677261d64a1ee" kindref="member">INTERNAL_ERROR</ref><sp/>=<sp/>9,</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>===<sp/>Phase<sp/>2:<sp/>Observability<sp/>Expansion<sp/>(Distributed<sp/>Tracing<sp/>SDK)<sp/><sp/>===</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221" refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5acecafa4ddab256b67eaa35ab890236a2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5acecafa4ddab256b67eaa35ab890236a2" kindref="member">DTI_INVALID_TRACE_CONTEXT</ref><sp/>=<sp/>10,</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224" refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5a1b17f73d2a1ed276e7d1c88762ff9b0c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5a1b17f73d2a1ed276e7d1c88762ff9b0c" kindref="member">DTI_BAGGAGE_OVERFLOW</ref><sp/>=<sp/>11,</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227" refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5a0986d5b4fbfee819a9657975bb96d402" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5a0986d5b4fbfee819a9657975bb96d402" kindref="member">DTI_UNSUPPORTED_FORMAT</ref><sp/>=<sp/>12,</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230" refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5ac70bbd7cd59a2b171ba9d8f46b6fc59b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5ac70bbd7cd59a2b171ba9d8f46b6fc59b" kindref="member">DTI_HEADER_PARSE_ERROR</ref><sp/>=<sp/>13,</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233" refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5a3fc9b1d0211f42828739c56318e1cc1d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5a3fc9b1d0211f42828739c56318e1cc1d" kindref="member">DTI_CONTEXT_PROPAGATION_FAILED</ref><sp/>=<sp/>14,</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236" refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5a70b908aba8f9cbb1bdba86d496fe9bde" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5a70b908aba8f9cbb1bdba86d496fe9bde" kindref="member">DTI_INTERNAL_ERROR</ref><sp/>=<sp/>15,</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>===<sp/>Phase<sp/>2:<sp/>Observability<sp/>Expansion<sp/>(High-Cardinality<sp/>Metrics)<sp/>===</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240" refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5a30769c69d8a5c0bfa45025284a8aa54c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5a30769c69d8a5c0bfa45025284a8aa54c" kindref="member">HCM_CARDINALITY_LIMIT_EXCEEDED</ref><sp/>=<sp/>16,</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243" refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5ab67f9011fa188dd72601fb0e935f1f2e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5ab67f9011fa188dd72601fb0e935f1f2e" kindref="member">HCM_INVALID_FALLBACK_STRATEGY</ref><sp/>=<sp/>17,</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246" refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5a4f2e219149f14875bd1cff49b3e18ea4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5a4f2e219149f14875bd1cff49b3e18ea4" kindref="member">HCM_MEMORY_LIMIT_EXCEEDED</ref><sp/>=<sp/>18,</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249" refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5ae374d89a6316b68f45491ed5d8c73330" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5ae374d89a6316b68f45491ed5d8c73330" kindref="member">HCM_UNSUPPORTED_POLICY</ref><sp/>=<sp/>19,</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252" refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5a9e8e140cdef853657a39e0ab101706f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5a9e8e140cdef853657a39e0ab101706f7" kindref="member">HCM_INTERNAL_ERROR</ref><sp/>=<sp/>20,</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>===<sp/>Phase<sp/>2:<sp/>Observability<sp/>Expansion<sp/>(Operator<sp/>Remediation<sp/>Engine)<sp/>===</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256" refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5a723e8766d1ab9526d99e0636912d3c00" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5a723e8766d1ab9526d99e0636912d3c00" kindref="member">ORE_PATTERN_MATCH_ERROR</ref><sp/>=<sp/>26,</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259" refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5a81a04c8ffedc3ff0cd11070443de3043" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5a81a04c8ffedc3ff0cd11070443de3043" kindref="member">ORE_INVALID_METRIC_DATA</ref><sp/>=<sp/>27,</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262" refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5afc1da1bbbdfbe27cad4f6ace32ee439a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5afc1da1bbbdfbe27cad4f6ace32ee439a" kindref="member">ORE_LISTENER_NOTIFICATION_FAILED</ref><sp/>=<sp/>28,</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265" refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5a797c2349c4de90183a62e35d96236e1d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5a797c2349c4de90183a62e35d96236e1d" kindref="member">ORE_DUPLICATE_PATTERN</ref><sp/>=<sp/>29,</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268" refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5afcd7b98101a9779ea9ce928534cbd133" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5afcd7b98101a9779ea9ce928534cbd133" kindref="member">ORE_INTERNAL_ERROR</ref><sp/>=<sp/>30,</highlight></codeline>
+<codeline lineno="269"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272" refid="namespacethemis_1_1observability_1af544c45679a773c348f55be8a9cb0fe1" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1observability_1af544c45679a773c348f55be8a9cb0fe1" kindref="member">isDataLossCode</ref>(<ref refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5" kindref="member">ObservabilityErrorCode</ref><sp/>code)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5a9813547ed8a4a71d87c245a29b3de613" kindref="member">ObservabilityErrorCode::TRACE_SPAN_DROPPED</ref></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5ad9507d1764f63a8bef1fca78f404d0f1" kindref="member">ObservabilityErrorCode::LOG_WRITE_FAILED</ref>;</highlight></codeline>
+<codeline lineno="275"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>7<sp/><sp/>Counter<sp/>monotonicity<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Implementations<sp/>MUST<sp/>guarantee:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>counter.value(t2)<sp/>&gt;=<sp/>counter.value(t1)<sp/><sp/>for<sp/>all<sp/>t2<sp/>&gt;<sp/>t1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight><highlight class="comment">//<sp/>The<sp/>only<sp/>exception<sp/>is<sp/>an<sp/>explicit<sp/>reset<sp/>(e.g.<sp/>process<sp/>restart),<sp/>which<sp/>MUST</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight><highlight class="comment">//<sp/>be<sp/>signalled<sp/>to<sp/>consumers<sp/>out-of-band.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288" refid="namespacethemis_1_1observability_1ae084927d13765d3ac8ef5eae358eda1a" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1observability_1ae084927d13765d3ac8ef5eae358eda1a" kindref="member">isValidCounterTransition</ref>(</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::int64_t<sp/>prev,<sp/>std::int64_t<sp/>next)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>next<sp/>&gt;=<sp/>prev;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>8<sp/><sp/>Structured<sp/>log<sp/>immutability<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Once<sp/>a<sp/>log<sp/>entry<sp/>is<sp/>appended<sp/>to<sp/>the<sp/>write-ahead<sp/>buffer,<sp/>its<sp/>field<sp/>set<sp/>is</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight><highlight class="comment">//<sp/>frozen.<sp/><sp/>Consumers<sp/>downstream<sp/>of<sp/>the<sp/>pipeline<sp/>receive<sp/>the<sp/>exact<sp/>byte<sp/>sequence</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight><highlight class="comment">//<sp/>produced<sp/>at<sp/>write<sp/>time.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="302" refid="namespacethemis_1_1observability_1a240a9875444941c874951c64b5bb6f30" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1observability_1a240a9875444941c874951c64b5bb6f30" kindref="member">kMaxLogEntryBytes</ref><sp/>=<sp/>64<sp/>*<sp/>1024;</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight></codeline>
+<codeline lineno="305" refid="namespacethemis_1_1observability_1a42c9a5ac60dc05f45e7b98a24801fc55" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1observability_1a42c9a5ac60dc05f45e7b98a24801fc55" kindref="member">kMaxLogFields</ref><sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>observability</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/observability/observability_api_contract.h"/>
+  </compounddef>
+</doxygen>

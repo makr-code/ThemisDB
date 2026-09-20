@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_tensor_metadata" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::TensorMetadata</compoundname>
+    <includes refid="gguf__loader_8h" local="no">gguf_loader.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_tensor_metadata_1afca9b829b5ebeaa6e5bd91005dd7e0bc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::TensorMetadata::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::llm::TensorMetadata::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_loader.h" line="76" column="17" bodyfile="include/llm/gguf_loader.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_tensor_metadata_1a8370ef7dd4d7cc744a6cbfdcb98dacaa" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int64_t &gt;</type>
+        <definition>std::vector&lt;int64_t&gt; themis::llm::TensorMetadata::shape</definition>
+        <argsstring></argsstring>
+        <name>shape</name>
+        <qualifiedname>themis::llm::TensorMetadata::shape</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_loader.h" line="77" column="17" bodyfile="include/llm/gguf_loader.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_tensor_metadata_1a131c629da6538b61d5d04aacaf494ca6" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1a80a3c3a1d024611a70e0988c894f7af1" kindref="member">GGMLType</ref></type>
+        <definition>GGMLType themis::llm::TensorMetadata::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::llm::TensorMetadata::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_loader.h" line="78" column="14" bodyfile="include/llm/gguf_loader.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_tensor_metadata_1a357656e92cedcd8f7807775dc5b9000e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::TensorMetadata::offset</definition>
+        <argsstring></argsstring>
+        <name>offset</name>
+        <qualifiedname>themis::llm::TensorMetadata::offset</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_loader.h" line="79" column="12" bodyfile="include/llm/gguf_loader.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_tensor_metadata_1a37e14c459297db2263ec32902cbb4367" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::TensorMetadata::size</definition>
+        <argsstring></argsstring>
+        <name>size</name>
+        <qualifiedname>themis::llm::TensorMetadata::size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_loader.h" line="80" column="12" bodyfile="include/llm/gguf_loader.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_tensor_metadata_1a72c3554e040540ef22f15fc3d31941b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::TensorMetadata::~TensorMetadata</definition>
+        <argsstring>()=default</argsstring>
+        <name>~TensorMetadata</name>
+        <qualifiedname>themis::llm::TensorMetadata::~TensorMetadata</qualifiedname>
+        <briefdescription>
+<para>Tensor Metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_loader.h" line="75" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_tensor_metadata_1a36c9e5b614fa3d8e98999d99426e9059" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::TensorMetadata::type_string</definition>
+        <argsstring>() const</argsstring>
+        <name>type_string</name>
+        <qualifiedname>themis::llm::TensorMetadata::type_string</qualifiedname>
+        <briefdescription>
+<para>Helper to get type as string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_loader.h" line="86" column="17" bodyfile="src/llm/gguf_loader.cpp" bodystart="125" bodyend="144"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/gguf_loader.h" line="70" column="1" bodyfile="include/llm/gguf_loader.h" bodystart="70" bodyend="87"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_tensor_metadata_1afca9b829b5ebeaa6e5bd91005dd7e0bc" prot="public" virt="non-virtual"><scope>themis::llm::TensorMetadata</scope><name>name</name></member>
+      <member refid="structthemis_1_1llm_1_1_tensor_metadata_1a357656e92cedcd8f7807775dc5b9000e" prot="public" virt="non-virtual"><scope>themis::llm::TensorMetadata</scope><name>offset</name></member>
+      <member refid="structthemis_1_1llm_1_1_tensor_metadata_1a8370ef7dd4d7cc744a6cbfdcb98dacaa" prot="public" virt="non-virtual"><scope>themis::llm::TensorMetadata</scope><name>shape</name></member>
+      <member refid="structthemis_1_1llm_1_1_tensor_metadata_1a37e14c459297db2263ec32902cbb4367" prot="public" virt="non-virtual"><scope>themis::llm::TensorMetadata</scope><name>size</name></member>
+      <member refid="structthemis_1_1llm_1_1_tensor_metadata_1a131c629da6538b61d5d04aacaf494ca6" prot="public" virt="non-virtual"><scope>themis::llm::TensorMetadata</scope><name>type</name></member>
+      <member refid="structthemis_1_1llm_1_1_tensor_metadata_1a36c9e5b614fa3d8e98999d99426e9059" prot="public" virt="non-virtual"><scope>themis::llm::TensorMetadata</scope><name>type_string</name></member>
+      <member refid="structthemis_1_1llm_1_1_tensor_metadata_1a72c3554e040540ef22f15fc3d31941b7" prot="public" virt="virtual"><scope>themis::llm::TensorMetadata</scope><name>~TensorMetadata</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

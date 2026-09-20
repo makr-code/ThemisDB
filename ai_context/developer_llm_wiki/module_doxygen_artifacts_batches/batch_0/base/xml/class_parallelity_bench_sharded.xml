@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_parallelity_bench_sharded" kind="class" language="C++" prot="public">
+    <compoundname>ParallelityBenchSharded</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_parallelity_bench_sharded_1abe2533be181fa9cd9d97cebd807800e7" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; DatabaseFixture &gt;</type>
+        <definition>std::unique_ptr&lt;DatabaseFixture&gt; ParallelityBenchSharded::fixture_</definition>
+        <argsstring></argsstring>
+        <name>fixture_</name>
+        <qualifiedname>ParallelityBenchSharded::fixture_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_advanced_patterns.cpp" line="2411" column="21" bodyfile="benchmarks/base/bench_advanced_patterns.cpp" bodystart="2411" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parallelity_bench_sharded_1a34fef5407b3c4c5aa4db2c5eca42da6b" prot="protected" static="no" mutable="no">
+        <type>RocksDBWrapper *</type>
+        <definition>RocksDBWrapper* ParallelityBenchSharded::db_wrapper_</definition>
+        <argsstring></argsstring>
+        <name>db_wrapper_</name>
+        <qualifiedname>ParallelityBenchSharded::db_wrapper_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_advanced_patterns.cpp" line="2412" column="20" bodyfile="benchmarks/base/bench_advanced_patterns.cpp" bodystart="2412" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parallelity_bench_sharded_1abce6f7123649ce58b5fd26232a4dbda3" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; std::unique_ptr&lt; SecondaryIndexManager &gt; &gt;</type>
+        <definition>std::vector&lt;std::unique_ptr&lt;SecondaryIndexManager&gt; &gt; ParallelityBenchSharded::shards_</definition>
+        <argsstring></argsstring>
+        <name>shards_</name>
+        <qualifiedname>ParallelityBenchSharded::shards_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_advanced_patterns.cpp" line="2413" column="17" bodyfile="benchmarks/base/bench_advanced_patterns.cpp" bodystart="2413" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_parallelity_bench_sharded_1a09b805e2bec20aad59f5aa79122beb00" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ParallelityBenchSharded::SetUp</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ParallelityBenchSharded::SetUp</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_advanced_patterns.cpp" line="2393" column="10" bodyfile="benchmarks/base/bench_advanced_patterns.cpp" bodystart="2393" bodyend="2403"/>
+      </memberdef>
+      <memberdef kind="function" id="class_parallelity_bench_sharded_1ac092d412db38f3bae0b5e515536fefd2" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ParallelityBenchSharded::TearDown</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>ParallelityBenchSharded::TearDown</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_advanced_patterns.cpp" line="2405" column="10" bodyfile="benchmarks/base/bench_advanced_patterns.cpp" bodystart="2405" bodyend="2408"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Sharded parallel benchmark - each thread writes to own table/shard This tests true parallelization without write serialization </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ParallelityBenchSharded</label>
+        <link refid="class_parallelity_bench_sharded"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ParallelityBenchSharded</label>
+        <link refid="class_parallelity_bench_sharded"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/base/bench_advanced_patterns.cpp" line="2391" column="1" bodyfile="benchmarks/base/bench_advanced_patterns.cpp" bodystart="2391" bodyend="2414"/>
+    <listofallmembers>
+      <member refid="class_parallelity_bench_sharded_1a34fef5407b3c4c5aa4db2c5eca42da6b" prot="protected" virt="non-virtual"><scope>ParallelityBenchSharded</scope><name>db_wrapper_</name></member>
+      <member refid="class_parallelity_bench_sharded_1abe2533be181fa9cd9d97cebd807800e7" prot="protected" virt="non-virtual"><scope>ParallelityBenchSharded</scope><name>fixture_</name></member>
+      <member refid="class_parallelity_bench_sharded_1a09b805e2bec20aad59f5aa79122beb00" prot="protected" virt="non-virtual"><scope>ParallelityBenchSharded</scope><name>SetUp</name></member>
+      <member refid="class_parallelity_bench_sharded_1abce6f7123649ce58b5fd26232a4dbda3" prot="protected" virt="non-virtual"><scope>ParallelityBenchSharded</scope><name>shards_</name></member>
+      <member refid="class_parallelity_bench_sharded_1ac092d412db38f3bae0b5e515536fefd2" prot="protected" virt="non-virtual"><scope>ParallelityBenchSharded</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

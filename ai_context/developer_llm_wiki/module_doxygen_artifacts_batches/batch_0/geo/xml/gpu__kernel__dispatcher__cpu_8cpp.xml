@@ -1,0 +1,191 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="gpu__kernel__dispatcher__cpu_8cpp" kind="file" language="C++">
+    <compoundname>gpu_kernel_dispatcher_cpu.cpp</compoundname>
+    <includes refid="gpu__kernel__dispatcher_8h" local="yes">geo/gpu_kernel_dispatcher.h</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">mutex</includes>
+    <incdepgraph>
+      <node id="2">
+        <label>geo/gpu_kernel_dispatcher.h</label>
+        <link refid="gpu__kernel__dispatcher_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>src/geo/gpu_kernel_dispatcher_cpu.cpp</label>
+        <link refid="gpu__kernel__dispatcher__cpu_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>acceleration/kernel_invocation.h</label>
+      </node>
+      <node id="3">
+        <label>cstddef</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="8">
+        <label>stdexcept</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1geo">themis::geo</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 84/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>STUB/SIMULATION<sp/>NOTE:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Purpose:<sp/>Provide<sp/>a<sp/>CPU-only<sp/>(non-CUDA)<sp/>implementation<sp/>of<sp/>GpuKernelDispatcher</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>so<sp/>that<sp/>the<sp/>geo<sp/>module<sp/>can<sp/>be<sp/>compiled<sp/>and<sp/>run<sp/>without<sp/>CUDA.<sp/><sp/>All<sp/>dispatch()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>calls<sp/>return<sp/>immediately<sp/>with<sp/>dispatched=false;<sp/>the<sp/>spatial<sp/>backend<sp/>falls</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>through<sp/>to<sp/>the<sp/>CPU<sp/>geometry<sp/>engine<sp/>for<sp/>every<sp/>request.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Activation:<sp/>THEMIS_GEO_CUDA<sp/>is<sp/>OFF<sp/>(default<sp/>on<sp/>machines<sp/>without<sp/>a<sp/>CUDA-</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>capable<sp/>GPU<sp/>or<sp/>without<sp/>the<sp/>CUDA<sp/>toolkit<sp/>installed).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Production<sp/>Delta:<sp/>All<sp/>geospatial<sp/>kernels<sp/>(distance<sp/>matrix,<sp/>containment</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>bitset,<sp/>spatial<sp/>join)<sp/>execute<sp/>on<sp/>the<sp/>CPU<sp/>instead<sp/>of<sp/>the<sp/>GPU.<sp/><sp/>Throughput</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>is<sp/>reduced<sp/>by<sp/>up<sp/>to<sp/>10–100×<sp/>for<sp/>large<sp/>batch<sp/>requests<sp/>(1<sp/>M+<sp/>points).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Latency<sp/>SLOs<sp/>for<sp/>geo-heavy<sp/>queries<sp/>will<sp/>not<sp/>be<sp/>met<sp/>at<sp/>scale.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Removal<sp/>Plan:<sp/>Install<sp/>the<sp/>CUDA<sp/>toolkit,<sp/>ensure<sp/>a<sp/>CUDA-capable<sp/>GPU<sp/>is</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>present,<sp/>and<sp/>rebuild<sp/>with<sp/>-DTHEMIS_GEO_CUDA=ON.<sp/><sp/>The<sp/>GPU<sp/>dispatcher</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>implementation<sp/>(gpu_kernel_dispatcher.cu<sp/>/<sp/>.cpp)<sp/>is<sp/>then<sp/>compiled</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>instead<sp/>of<sp/>this<sp/>file.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Roadmap<sp/>ref:<sp/>src/geo/FUTURE_ENHANCEMENTS.md<sp/>§&quot;CUDA<sp/>Geospatial<sp/>Kernels&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>gpu_kernel_dispatcher_cpu.cpp<sp/>—<sp/>no-op<sp/>stub<sp/>for<sp/>non-CUDA<sp/>builds.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Compiled<sp/>when<sp/>THEMIS_GEO_CUDA<sp/>is<sp/>OFF<sp/>so<sp/>that<sp/>the<sp/>rest<sp/>of<sp/>the<sp/>geo<sp/>module</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>can<sp/>unconditionally<sp/>include<sp/>&quot;geo/gpu_kernel_dispatcher.h&quot;<sp/>and<sp/>call</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GpuKernelDispatcher<sp/>without<sp/>depending<sp/>on<sp/>CUDA.<sp/><sp/>All<sp/>dispatch()<sp/>calls</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>return<sp/>immediately<sp/>with<sp/>dispatched=false.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gpu__kernel__dispatcher_8h" kindref="compound">geo/gpu_kernel_dispatcher.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1geo" kindref="compound">geo</ref><sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal">std::mutex<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>s_dispatch_mutex;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><ref refid="classthemis_1_1geo_1_1_gpu_kernel_dispatcher_1a591ffb5a66b62fa1afea0021cbe445e3" kindref="member">GpuKernelDispatcher::ContainmentDispatchFn</ref><sp/>s_containment_dispatch_fn;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><ref refid="classthemis_1_1geo_1_1_gpu_kernel_dispatcher_1a572aafa18d6e7ca60b594f0da5b42ca7" kindref="member">GpuKernelDispatcher::DistanceDispatchFn</ref><sp/><sp/><sp/><sp/>s_distance_dispatch_fn;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_gpu_kernel_dispatcher_1ac48bbdec93659b0a35afcd98377dfd6f" kindref="member">GpuKernelDispatcher::setContainmentDispatchFn</ref>(ContainmentDispatchFn<sp/>fn)<sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lk(s_dispatch_mutex);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>s_containment_dispatch_fn<sp/>=<sp/>std::move(fn);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_gpu_kernel_dispatcher_1aa8478e79949fc97ace1be63df34441dc" kindref="member">GpuKernelDispatcher::setDistanceDispatchFn</ref>(DistanceDispatchFn<sp/>fn)<sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lk(s_dispatch_mutex);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>s_distance_dispatch_fn<sp/>=<sp/>std::move(fn);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><ref refid="classthemis_1_1geo_1_1_gpu_kernel_dispatcher_1a3e191a3955e24c9d32d8c5438c60a687" kindref="member">GpuKernelDispatcher::GpuKernelDispatcher</ref>(</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>themis::acceleration::GeoKernelDispatch&amp;<sp/>dt)<sp/>noexcept</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>:<sp/>dispatch_table_(dt)</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">{}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_gpu_kernel_dispatcher_1a0627ce1d0ccff2368deae52258fb1406" kindref="member">GpuKernelDispatcher::isAvailable</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lk(s_dispatch_mutex);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(s_containment_dispatch_fn)<sp/>||</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(s_distance_dispatch_fn);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><ref refid="structthemis_1_1geo_1_1_gpu_kernel_dispatcher_1_1_containment_result" kindref="compound">GpuKernelDispatcher::ContainmentResult</ref><sp/><ref refid="classthemis_1_1geo_1_1_gpu_kernel_dispatcher_1aefb73e5852d0afb7214560e0d9ec9122" kindref="member">GpuKernelDispatcher::dispatchContainment</ref>(</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">*<sp/>point_lats,</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">*<sp/>point_lons,</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>numPoints,</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">*<sp/>polygon_coords,</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>numPolygonVertices</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_gpu_kernel_dispatcher_1a591ffb5a66b62fa1afea0021cbe445e3" kindref="member">ContainmentDispatchFn</ref><sp/>fn;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lk(s_dispatch_mutex);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fn<sp/>=<sp/>s_containment_dispatch_fn;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(fn<sp/>&amp;&amp;<sp/>point_lats<sp/>&amp;&amp;<sp/>point_lons<sp/>&amp;&amp;<sp/>polygon_coords<sp/>&amp;&amp;<sp/>numPoints<sp/>&gt;<sp/>0<sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>numPolygonVertices<sp/>&gt;=<sp/>3)<sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>fn(point_lats,<sp/>point_lons,<sp/>numPoints,<sp/>polygon_coords,<sp/>numPolygonVertices);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(...)<sp/>{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="structthemis_1_1geo_1_1_gpu_kernel_dispatcher_1_1_containment_result" kindref="compound">ContainmentResult</ref>{};</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.<ref refid="structthemis_1_1geo_1_1_gpu_kernel_dispatcher_1_1_containment_result_1a3ef0149d2e447d82ed2819c750a369cc" kindref="member">error_code</ref><sp/>=<sp/>-1;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1geo_1_1_gpu_kernel_dispatcher_1_1_containment_result" kindref="compound">ContainmentResult</ref>{};</highlight></codeline>
+<codeline lineno="118"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><ref refid="structthemis_1_1geo_1_1_gpu_kernel_dispatcher_1_1_distance_result" kindref="compound">GpuKernelDispatcher::DistanceResult</ref><sp/><ref refid="classthemis_1_1geo_1_1_gpu_kernel_dispatcher_1a80cc0ecb1f1b390ed5823bd873af6f35" kindref="member">GpuKernelDispatcher::dispatchDistance</ref>(</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">*<sp/>lats1,</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">*<sp/>lons1,</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">*<sp/>lats2,</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">*<sp/>lons2,</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>count,</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::acceleration::GeoDistanceFormula<sp/>formula</highlight></codeline>
+<codeline lineno="138"><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_gpu_kernel_dispatcher_1a572aafa18d6e7ca60b594f0da5b42ca7" kindref="member">DistanceDispatchFn</ref><sp/>fn;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lk(s_dispatch_mutex);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fn<sp/>=<sp/>s_distance_dispatch_fn;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(fn<sp/>&amp;&amp;<sp/>lats1<sp/>&amp;&amp;<sp/>lons1<sp/>&amp;&amp;<sp/>lats2<sp/>&amp;&amp;<sp/>lons2<sp/>&amp;&amp;<sp/>count<sp/>&gt;<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>fn(lats1,<sp/>lons1,<sp/>lats2,<sp/>lons2,<sp/>count,<sp/>formula);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(...)<sp/>{</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="structthemis_1_1geo_1_1_gpu_kernel_dispatcher_1_1_distance_result" kindref="compound">DistanceResult</ref>{};</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.<ref refid="structthemis_1_1geo_1_1_gpu_kernel_dispatcher_1_1_distance_result_1ac4692457fa6bab5d90ba1034f547e1a0" kindref="member">error_code</ref><sp/>=<sp/>-1;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1geo_1_1_gpu_kernel_dispatcher_1_1_distance_result" kindref="compound">DistanceResult</ref>{};</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>geo</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="src/geo/gpu_kernel_dispatcher_cpu.cpp"/>
+  </compounddef>
+</doxygen>

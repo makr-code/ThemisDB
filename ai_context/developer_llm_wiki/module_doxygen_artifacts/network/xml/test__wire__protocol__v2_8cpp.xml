@@ -1,0 +1,1594 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__wire__protocol__v2_8cpp" kind="file" language="C++">
+    <compoundname>test_wire_protocol_v2.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">themis/network/wire_protocol_v2.hpp</includes>
+    <includes local="no">cstring</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/network/test_wire_protocol_v2.cpp</label>
+        <link refid="test__wire__protocol__v2_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>cstring</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="3">
+        <label>themis/network/wire_protocol_v2.hpp</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__wire__protocol__v2_8cpp_1aba133bc66c05bc195d7f1c93961610b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireV2Constants, MagicValue)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WireV2Constants</type>
+        </param>
+        <param>
+          <type>MagicValue</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_v2.cpp" line="20" column="1" bodyfile="tests/network/test_wire_protocol_v2.cpp" bodystart="20" bodyend="23"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__v2_8cpp_1a9f0d7adf0ba56bcb639ebf4959a0e79e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireV2Constants, Version)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WireV2Constants</type>
+        </param>
+        <param>
+          <type>Version</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_v2.cpp" line="25" column="1" bodyfile="tests/network/test_wire_protocol_v2.cpp" bodystart="25" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__v2_8cpp_1ad084eed2a4ea74391b15d2969853967b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireV2Constants, HeaderSize)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WireV2Constants</type>
+        </param>
+        <param>
+          <type>HeaderSize</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_v2.cpp" line="29" column="1" bodyfile="tests/network/test_wire_protocol_v2.cpp" bodystart="29" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__v2_8cpp_1a691ad3aa25c96ac9ac4fc075f68cbc1e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireV2Constants, MaxPayload)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WireV2Constants</type>
+        </param>
+        <param>
+          <type>MaxPayload</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_v2.cpp" line="34" column="1" bodyfile="tests/network/test_wire_protocol_v2.cpp" bodystart="34" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__v2_8cpp_1ab89d7d5d8b15e1fb6cf9ec03dac708e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireV2Constants, DefaultWindow)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WireV2Constants</type>
+        </param>
+        <param>
+          <type>DefaultWindow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_v2.cpp" line="38" column="1" bodyfile="tests/network/test_wire_protocol_v2.cpp" bodystart="38" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__v2_8cpp_1a11f35a15169fcf4d3a1e1a08af3feb2e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(V2FrameHeader, ValidHeader)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>V2FrameHeader</type>
+        </param>
+        <param>
+          <type>ValidHeader</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_v2.cpp" line="44" column="1" bodyfile="tests/network/test_wire_protocol_v2.cpp" bodystart="44" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__v2_8cpp_1ae75a9795b1a7450b4e970a23de8798cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(V2FrameHeader, InvalidMagic)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>V2FrameHeader</type>
+        </param>
+        <param>
+          <type>InvalidMagic</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_v2.cpp" line="51" column="1" bodyfile="tests/network/test_wire_protocol_v2.cpp" bodystart="51" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__v2_8cpp_1ad1aa960d23e7ea5ac168c52a0f9e0514" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(V2FrameHeader, InvalidVersion)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>V2FrameHeader</type>
+        </param>
+        <param>
+          <type>InvalidVersion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_v2.cpp" line="58" column="1" bodyfile="tests/network/test_wire_protocol_v2.cpp" bodystart="58" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__v2_8cpp_1a505735d7725d12d3dafe9583d80a4ca0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(V2FrameHeader, GetType)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>V2FrameHeader</type>
+        </param>
+        <param>
+          <type>GetType</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_v2.cpp" line="65" column="1" bodyfile="tests/network/test_wire_protocol_v2.cpp" bodystart="65" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__v2_8cpp_1abc6457f1669d7ecdf18a14f0f5474fa4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(V2FrameHeader, HasFlag)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>V2FrameHeader</type>
+        </param>
+        <param>
+          <type>HasFlag</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_v2.cpp" line="77" column="1" bodyfile="tests/network/test_wire_protocol_v2.cpp" bodystart="77" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__v2_8cpp_1a54ba738cd48103173ac91c12ff7fd6e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(V2FrameHeader, NoFlags)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>V2FrameHeader</type>
+        </param>
+        <param>
+          <type>NoFlags</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_v2.cpp" line="88" column="1" bodyfile="tests/network/test_wire_protocol_v2.cpp" bodystart="88" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__v2_8cpp_1a60d174461169ea6674479e15a3d2e5ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(V2Stream, DefaultState)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>V2Stream</type>
+        </param>
+        <param>
+          <type>DefaultState</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_v2.cpp" line="97" column="1" bodyfile="tests/network/test_wire_protocol_v2.cpp" bodystart="97" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__v2_8cpp_1a49ca4e2ad9afa9620bc5c5b6070a6795" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(V2Stream, OpenState)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>V2Stream</type>
+        </param>
+        <param>
+          <type>OpenState</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_v2.cpp" line="107" column="1" bodyfile="tests/network/test_wire_protocol_v2.cpp" bodystart="107" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__v2_8cpp_1a54d51266571df78250f3e9242f28f5f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(V2Stream, HalfClosedRemoteIsOpen)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>V2Stream</type>
+        </param>
+        <param>
+          <type>HalfClosedRemoteIsOpen</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_v2.cpp" line="113" column="1" bodyfile="tests/network/test_wire_protocol_v2.cpp" bodystart="113" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__v2_8cpp_1ac85e96a52fdb8f83990581ecc2ac4b02" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(V2Stream, HalfClosedLocalIsNotOpen)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>V2Stream</type>
+        </param>
+        <param>
+          <type>HalfClosedLocalIsNotOpen</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_v2.cpp" line="119" column="1" bodyfile="tests/network/test_wire_protocol_v2.cpp" bodystart="119" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__v2_8cpp_1a9554a81fb94f6012cb742de3e0882520" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(V2Stream, ClosedIsNotOpen)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>V2Stream</type>
+        </param>
+        <param>
+          <type>ClosedIsNotOpen</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_v2.cpp" line="125" column="1" bodyfile="tests/network/test_wire_protocol_v2.cpp" bodystart="125" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__v2_8cpp_1a4d91b060a4af422fe3afb5f729bd90e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(V2ConnectionConfig, Defaults)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>V2ConnectionConfig</type>
+        </param>
+        <param>
+          <type>Defaults</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_v2.cpp" line="133" column="1" bodyfile="tests/network/test_wire_protocol_v2.cpp" bodystart="133" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__v2_8cpp_1aa617b900b070aed9893bdac1d3f4b05c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(V2FrameType, EnumValues)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>V2FrameType</type>
+        </param>
+        <param>
+          <type>EnumValues</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_v2.cpp" line="150" column="1" bodyfile="tests/network/test_wire_protocol_v2.cpp" bodystart="150" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__v2_8cpp_1af10c77625dd2515552e7cbffd840301f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(V2Server, ConstructDestruct)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>V2Server</type>
+        </param>
+        <param>
+          <type>ConstructDestruct</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_v2.cpp" line="165" column="1" bodyfile="tests/network/test_wire_protocol_v2.cpp" bodystart="165" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__v2_8cpp_1a8b58b5c2d303432e2f10375462983028" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(V2Server, InitialStatistics)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>V2Server</type>
+        </param>
+        <param>
+          <type>InitialStatistics</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_v2.cpp" line="174" column="1" bodyfile="tests/network/test_wire_protocol_v2.cpp" bodystart="174" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__v2_8cpp_1a10c55eb4547fbdc2d4225344f736a623" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(V2Server, HandlerRegistrationDoesNotThrow)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>V2Server</type>
+        </param>
+        <param>
+          <type>HandlerRegistrationDoesNotThrow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_v2.cpp" line="185" column="1" bodyfile="tests/network/test_wire_protocol_v2.cpp" bodystart="185" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__v2_8cpp_1a7a9c5521f2a01cfa48efa2f7a2f5535d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(V2Stream, ReservedLocalIsNotOpen)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>V2Stream</type>
+        </param>
+        <param>
+          <type>ReservedLocalIsNotOpen</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_v2.cpp" line="202" column="1" bodyfile="tests/network/test_wire_protocol_v2.cpp" bodystart="202" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__v2_8cpp_1a3f1a52787b3746cc442c0c2beca5fb33" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(V2Stream, ReservedRemoteIsNotOpen)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>V2Stream</type>
+        </param>
+        <param>
+          <type>ReservedRemoteIsNotOpen</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_v2.cpp" line="208" column="1" bodyfile="tests/network/test_wire_protocol_v2.cpp" bodystart="208" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__v2_8cpp_1a28b2c682cb012bc072f30276aa4e6241" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(V2Stream, WindowDefaults)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>V2Stream</type>
+        </param>
+        <param>
+          <type>WindowDefaults</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_v2.cpp" line="214" column="1" bodyfile="tests/network/test_wire_protocol_v2.cpp" bodystart="214" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__v2_8cpp_1a3636521d743cceba2c5b2b6b74036951" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(V2Stream, PriorityDefault)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>V2Stream</type>
+        </param>
+        <param>
+          <type>PriorityDefault</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_v2.cpp" line="220" column="1" bodyfile="tests/network/test_wire_protocol_v2.cpp" bodystart="220" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__v2_8cpp_1a283f22e789fc99778b3b52db8a378aad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(V2FrameFlags, EnumValues)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>V2FrameFlags</type>
+        </param>
+        <param>
+          <type>EnumValues</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_v2.cpp" line="227" column="1" bodyfile="tests/network/test_wire_protocol_v2.cpp" bodystart="227" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__v2_8cpp_1a26e58b5deef0926e0e386ca2f0b7c43f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(V2SettingId, EnumValues)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>V2SettingId</type>
+        </param>
+        <param>
+          <type>EnumValues</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_v2.cpp" line="239" column="1" bodyfile="tests/network/test_wire_protocol_v2.cpp" bodystart="239" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__v2_8cpp_1a3a41b3f932d2a6f01980e1076ddf8d55" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(V2ConnectionConfig, CustomValues)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>V2ConnectionConfig</type>
+        </param>
+        <param>
+          <type>CustomValues</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_v2.cpp" line="250" column="1" bodyfile="tests/network/test_wire_protocol_v2.cpp" bodystart="250" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__v2_8cpp_1a45fe0261ca7a0f3554df624c3970ed20" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(V2FrameHeader, StreamIdZeroIsConnectionLevel)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>V2FrameHeader</type>
+        </param>
+        <param>
+          <type>StreamIdZeroIsConnectionLevel</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_v2.cpp" line="273" column="1" bodyfile="tests/network/test_wire_protocol_v2.cpp" bodystart="273" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__v2_8cpp_1a4c492bf6cbcea252aeb2ebe52ad24b6b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(V2FrameHeader, MaxStreamId)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>V2FrameHeader</type>
+        </param>
+        <param>
+          <type>MaxStreamId</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_v2.cpp" line="282" column="1" bodyfile="tests/network/test_wire_protocol_v2.cpp" bodystart="282" bodyend="289"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__v2_8cpp_1a9620e93ce8f2254b291a54753c4167bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(V2FrameHeader, PayloadLength)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>V2FrameHeader</type>
+        </param>
+        <param>
+          <type>PayloadLength</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_v2.cpp" line="291" column="1" bodyfile="tests/network/test_wire_protocol_v2.cpp" bodystart="291" bodyend="297"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__v2_8cpp_1ae5a5d23f9d43499bfc836bdb96871bad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(V2Stream, IndependentStreams)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>V2Stream</type>
+        </param>
+        <param>
+          <type>IndependentStreams</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_v2.cpp" line="301" column="1" bodyfile="tests/network/test_wire_protocol_v2.cpp" bodystart="301" bodyend="309"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__v2_8cpp_1acdc022f1e9893d1650d4f84cc46bbccf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(V2Stream, HalfClosedTransitionFromOpen)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>V2Stream</type>
+        </param>
+        <param>
+          <type>HalfClosedTransitionFromOpen</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_v2.cpp" line="311" column="1" bodyfile="tests/network/test_wire_protocol_v2.cpp" bodystart="311" bodyend="324"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__v2_8cpp_1aebb3dce79f36396503509a1fff87a3de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(V2Server, PushToNonexistentConnectionReturnsFalse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>V2Server</type>
+        </param>
+        <param>
+          <type>PushToNonexistentConnectionReturnsFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_v2.cpp" line="328" column="1" bodyfile="tests/network/test_wire_protocol_v2.cpp" bodystart="328" bodyend="335"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__v2_8cpp_1ae1b354f794f238adfaeee6a5941cc938" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(V2Server, AggregateFrameStatsInitiallyZero)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>V2Server</type>
+        </param>
+        <param>
+          <type>AggregateFrameStatsInitiallyZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_v2.cpp" line="339" column="1" bodyfile="tests/network/test_wire_protocol_v2.cpp" bodystart="339" bodyend="349"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__v2_8cpp_1a3338789ec0e214114b8af0466361aee7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(V2FrameHeader, CompressedFlagRoundtrip)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>V2FrameHeader</type>
+        </param>
+        <param>
+          <type>CompressedFlagRoundtrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_v2.cpp" line="353" column="1" bodyfile="tests/network/test_wire_protocol_v2.cpp" bodystart="353" bodyend="365"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__v2_8cpp_1a61d7525adfa3b3346faa18dc0774c7d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(V2FrameHeader, ZstdCompressedFlagRoundtrip)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>V2FrameHeader</type>
+        </param>
+        <param>
+          <type>ZstdCompressedFlagRoundtrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_v2.cpp" line="369" column="1" bodyfile="tests/network/test_wire_protocol_v2.cpp" bodystart="369" bodyend="383"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__v2_8cpp_1ae809523f5fa141c3727bebac6e46cb99" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(V2FrameHeader, BothCompressionFlagsAreIndependent)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>V2FrameHeader</type>
+        </param>
+        <param>
+          <type>BothCompressionFlagsAreIndependent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_v2.cpp" line="385" column="1" bodyfile="tests/network/test_wire_protocol_v2.cpp" bodystart="385" bodyend="399"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__v2_8cpp_1abb599af5579c6f3d11f6cd08fe43595d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(V2ConnectionConfig, ZstdCompressionDefaults)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>V2ConnectionConfig</type>
+        </param>
+        <param>
+          <type>ZstdCompressionDefaults</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_v2.cpp" line="401" column="1" bodyfile="tests/network/test_wire_protocol_v2.cpp" bodystart="401" bodyend="408"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__v2_8cpp_1a656acc155cf637795182e8830a39f767" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(V2ConnectionConfig, ZstdOverridesLZ4WhenBothEnabled)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>V2ConnectionConfig</type>
+        </param>
+        <param>
+          <type>ZstdOverridesLZ4WhenBothEnabled</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_v2.cpp" line="410" column="1" bodyfile="tests/network/test_wire_protocol_v2.cpp" bodystart="410" bodyend="417"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__v2_8cpp_1a5c476e652986778e462a359fe63854cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(V2Stream, DependencyDefaults)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>V2Stream</type>
+        </param>
+        <param>
+          <type>DependencyDefaults</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_v2.cpp" line="421" column="1" bodyfile="tests/network/test_wire_protocol_v2.cpp" bodystart="421" bodyend="426"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__v2_8cpp_1abe04691e0fc5b14838f4bb3bffb7ec47" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(V2Stream, PriorityAndDependencySetDirectly)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>V2Stream</type>
+        </param>
+        <param>
+          <type>PriorityAndDependencySetDirectly</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_v2.cpp" line="428" column="1" bodyfile="tests/network/test_wire_protocol_v2.cpp" bodystart="428" bodyend="441"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__v2_8cpp_1a9f6a912ca4ebda092e93646d182882db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(V2Stream, DependencyRootZeroMeansNoParent)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>V2Stream</type>
+        </param>
+        <param>
+          <type>DependencyRootZeroMeansNoParent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_v2.cpp" line="443" column="1" bodyfile="tests/network/test_wire_protocol_v2.cpp" bodystart="443" bodyend="447"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__v2_8cpp_1ad050c5e2a459eef74049ed30ab0c3939" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(V2FrameType, PriorityFrameTypeIsDeclared)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>V2FrameType</type>
+        </param>
+        <param>
+          <type>PriorityFrameTypeIsDeclared</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_v2.cpp" line="449" column="1" bodyfile="tests/network/test_wire_protocol_v2.cpp" bodystart="449" bodyend="452"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__v2_8cpp_1ae8dbf511614f4ca0213251f5b6d62fc1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(V2FrameFlags, PriorityFlagInHeadersFrame)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>V2FrameFlags</type>
+        </param>
+        <param>
+          <type>PriorityFlagInHeadersFrame</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_v2.cpp" line="454" column="1" bodyfile="tests/network/test_wire_protocol_v2.cpp" bodystart="454" bodyend="468"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__v2_8cpp_1a3ef644fc32192f53d1ec121348f2221f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(V2Server, SetStreamPriorityDoesNotThrow)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>V2Server</type>
+        </param>
+        <param>
+          <type>SetStreamPriorityDoesNotThrow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_v2.cpp" line="470" column="1" bodyfile="tests/network/test_wire_protocol_v2.cpp" bodystart="470" bodyend="482"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__v2_8cpp_1a21f9f5371bc9b4bb0cd7c9cca417d88f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(V2Stream, MultipleDependencyChain)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>V2Stream</type>
+        </param>
+        <param>
+          <type>MultipleDependencyChain</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_v2.cpp" line="484" column="1" bodyfile="tests/network/test_wire_protocol_v2.cpp" bodystart="484" bodyend="498"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__v2_8cpp_1a821ff6dbd97862c42ba9a93c05b71d67" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(V2Stream, SelfDependencyIsInvalidPerRFC7540_S5_3_1)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>V2Stream</type>
+        </param>
+        <param>
+          <type>SelfDependencyIsInvalidPerRFC7540_S5_3_1</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_v2.cpp" line="502" column="1" bodyfile="tests/network/test_wire_protocol_v2.cpp" bodystart="502" bodyend="519"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__v2_8cpp_1a2cb426c11627147d0d7263be7e2fa893" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(V2Stream, ConnectionStreamZeroMustNotBeReprioritised)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>V2Stream</type>
+        </param>
+        <param>
+          <type>ConnectionStreamZeroMustNotBeReprioritised</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_v2.cpp" line="521" column="1" bodyfile="tests/network/test_wire_protocol_v2.cpp" bodystart="521" bodyend="535"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__v2_8cpp_1a192138ba19cd76a52afb56a13dc2c09d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(V2Stream, SetStreamPriorityIgnoresSelfDependencyWithExclusiveBit)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>V2Stream</type>
+        </param>
+        <param>
+          <type>SetStreamPriorityIgnoresSelfDependencyWithExclusiveBit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_v2.cpp" line="537" column="1" bodyfile="tests/network/test_wire_protocol_v2.cpp" bodystart="537" bodyend="546"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__v2_8cpp_1a2f114702a40fdb17352826706b0fad56" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(V2Server, SetStreamPriorityOnStreamZeroIsNoOp)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>V2Server</type>
+        </param>
+        <param>
+          <type>SetStreamPriorityOnStreamZeroIsNoOp</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_v2.cpp" line="548" column="1" bodyfile="tests/network/test_wire_protocol_v2.cpp" bodystart="548" bodyend="556"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__v2_8cpp_1a54519cd6921759385ab1d63c4bd62680" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(V2Server, SetStreamPrioritySelfDependencyIsNoOp)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>V2Server</type>
+        </param>
+        <param>
+          <type>SetStreamPrioritySelfDependencyIsNoOp</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_v2.cpp" line="558" column="1" bodyfile="tests/network/test_wire_protocol_v2.cpp" bodystart="558" bodyend="566"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unit tests for Wire Protocol V2 types, constants, and frame serialization. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tests cover:<itemizedlist>
+<listitem><para>V2 protocol constants</para>
+</listitem><listitem><para>V2FrameHeader is_valid() / get_type() / has_flag()</para>
+</listitem><listitem><para>V2Stream state machine helpers</para>
+</listitem><listitem><para>V2ConnectionConfig defaults</para>
+</listitem><listitem><para>V2Server construction / lifecycle (without starting a real server) </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/network/wire_protocol_v2.hpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstring&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1wire" kindref="compound">themis::wire</ref>;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>Constant<sp/>Tests<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><ref refid="test__wire__protocol__v2_8cpp_1aba133bc66c05bc195d7f1c93961610b3" kindref="member">TEST</ref>(WireV2Constants,<sp/>MagicValue)<sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;TMD2&quot;<sp/>in<sp/>big-endian<sp/>ASCII</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(WIRE_V2_MAGIC,<sp/>0x544D4432u);</highlight></codeline>
+<codeline lineno="23"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><ref refid="test__wire__protocol__v2_8cpp_1aba133bc66c05bc195d7f1c93961610b3" kindref="member">TEST</ref>(WireV2Constants,<sp/>Version)<sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(WIRE_VERSION_2,<sp/>0x02u);</highlight></codeline>
+<codeline lineno="27"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><ref refid="test__wire__protocol__v2_8cpp_1aba133bc66c05bc195d7f1c93961610b3" kindref="member">TEST</ref>(WireV2Constants,<sp/>HeaderSize)<sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(V2_HEADER_SIZE,<sp/>16u);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(V2FrameHeader),<sp/>V2_HEADER_SIZE);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><ref refid="test__wire__protocol__v2_8cpp_1aba133bc66c05bc195d7f1c93961610b3" kindref="member">TEST</ref>(WireV2Constants,<sp/>MaxPayload)<sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(V2_MAX_PAYLOAD,<sp/>16u<sp/>*<sp/>1024<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><ref refid="test__wire__protocol__v2_8cpp_1aba133bc66c05bc195d7f1c93961610b3" kindref="member">TEST</ref>(WireV2Constants,<sp/>DefaultWindow)<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(V2_DEFAULT_WINDOW,<sp/>64u<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>V2FrameHeader<sp/>Tests<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><ref refid="test__wire__protocol__v2_8cpp_1aba133bc66c05bc195d7f1c93961610b3" kindref="member">TEST</ref>(V2FrameHeader,<sp/>ValidHeader)<sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>V2FrameHeader<sp/>h{};</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>h.magic<sp/><sp/><sp/>=<sp/>WIRE_V2_MAGIC;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>h.version<sp/>=<sp/>WIRE_VERSION_2;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(h.is_valid());</highlight></codeline>
+<codeline lineno="49"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><ref refid="test__wire__protocol__v2_8cpp_1aba133bc66c05bc195d7f1c93961610b3" kindref="member">TEST</ref>(V2FrameHeader,<sp/>InvalidMagic)<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>V2FrameHeader<sp/>h{};</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>h.magic<sp/><sp/><sp/>=<sp/>0xDEADBEEF;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>h.version<sp/>=<sp/>WIRE_VERSION_2;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(h.is_valid());</highlight></codeline>
+<codeline lineno="56"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><ref refid="test__wire__protocol__v2_8cpp_1aba133bc66c05bc195d7f1c93961610b3" kindref="member">TEST</ref>(V2FrameHeader,<sp/>InvalidVersion)<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>V2FrameHeader<sp/>h{};</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>h.magic<sp/><sp/><sp/>=<sp/>WIRE_V2_MAGIC;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>h.version<sp/>=<sp/>0x01;<sp/></highlight><highlight class="comment">//<sp/>v1,<sp/>not<sp/>v2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(h.is_valid());</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><ref refid="test__wire__protocol__v2_8cpp_1aba133bc66c05bc195d7f1c93961610b3" kindref="member">TEST</ref>(V2FrameHeader,<sp/>GetType)<sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>V2FrameHeader<sp/>h{};</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>h.frame_type<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(V2FrameType::DATA);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(h.get_type(),<sp/>V2FrameType::DATA);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>h.frame_type<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(V2FrameType::SETTINGS);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(h.get_type(),<sp/>V2FrameType::SETTINGS);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>h.frame_type<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(V2FrameType::GOAWAY);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(h.get_type(),<sp/>V2FrameType::GOAWAY);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><ref refid="test__wire__protocol__v2_8cpp_1aba133bc66c05bc195d7f1c93961610b3" kindref="member">TEST</ref>(V2FrameHeader,<sp/>HasFlag)<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>V2FrameHeader<sp/>h{};</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>h.flags<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint16_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(V2FrameFlags::END_STREAM)<sp/>|</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint16_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(V2FrameFlags::COMPRESSED);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(h.has_flag(V2FrameFlags::END_STREAM));</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(h.has_flag(V2FrameFlags::COMPRESSED));</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(h.has_flag(V2FrameFlags::END_HEADERS));</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(h.has_flag(V2FrameFlags::PADDED));</highlight></codeline>
+<codeline lineno="86"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><ref refid="test__wire__protocol__v2_8cpp_1aba133bc66c05bc195d7f1c93961610b3" kindref="member">TEST</ref>(V2FrameHeader,<sp/>NoFlags)<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>V2FrameHeader<sp/>h{};</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>h.flags<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint16_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(V2FrameFlags::NONE);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(h.has_flag(V2FrameFlags::END_STREAM));</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(h.has_flag(V2FrameFlags::COMPRESSED));</highlight></codeline>
+<codeline lineno="93"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>V2Stream<sp/>Tests<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><ref refid="test__wire__protocol__v2_8cpp_1aba133bc66c05bc195d7f1c93961610b3" kindref="member">TEST</ref>(V2Stream,<sp/>DefaultState)<sp/>{</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>V2Stream<sp/>s;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.stream_id,<sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.state,<sp/><sp/><sp/><sp/><sp/><sp/><sp/>V2StreamState::IDLE);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.send_window,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(V2_DEFAULT_WINDOW));</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.recv_window,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(V2_DEFAULT_WINDOW));</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.priority,<sp/><sp/><sp/><sp/>16u);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(s.is_open());</highlight></codeline>
+<codeline lineno="105"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><ref refid="test__wire__protocol__v2_8cpp_1aba133bc66c05bc195d7f1c93961610b3" kindref="member">TEST</ref>(V2Stream,<sp/>OpenState)<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>V2Stream<sp/>s;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>s.state<sp/>=<sp/>V2StreamState::OPEN;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(s.is_open());</highlight></codeline>
+<codeline lineno="111"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><ref refid="test__wire__protocol__v2_8cpp_1aba133bc66c05bc195d7f1c93961610b3" kindref="member">TEST</ref>(V2Stream,<sp/>HalfClosedRemoteIsOpen)<sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>V2Stream<sp/>s;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>s.state<sp/>=<sp/>V2StreamState::HALF_CLOSED_REMOTE;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(s.is_open());</highlight></codeline>
+<codeline lineno="117"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><ref refid="test__wire__protocol__v2_8cpp_1aba133bc66c05bc195d7f1c93961610b3" kindref="member">TEST</ref>(V2Stream,<sp/>HalfClosedLocalIsNotOpen)<sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>V2Stream<sp/>s;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>s.state<sp/>=<sp/>V2StreamState::HALF_CLOSED_LOCAL;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(s.is_open());</highlight></codeline>
+<codeline lineno="123"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><ref refid="test__wire__protocol__v2_8cpp_1aba133bc66c05bc195d7f1c93961610b3" kindref="member">TEST</ref>(V2Stream,<sp/>ClosedIsNotOpen)<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>V2Stream<sp/>s;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>s.state<sp/>=<sp/>V2StreamState::CLOSED;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(s.is_open());</highlight></codeline>
+<codeline lineno="129"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>V2ConnectionConfig<sp/>Tests<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><ref refid="test__wire__protocol__v2_8cpp_1aba133bc66c05bc195d7f1c93961610b3" kindref="member">TEST</ref>(V2ConnectionConfig,<sp/>Defaults)<sp/>{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>V2ConnectionConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.max_concurrent_streams,<sp/>100u);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.initial_window_size,<sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(V2_DEFAULT_WINDOW));</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.max_frame_size,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(V2_MAX_PAYLOAD));</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cfg.enable_server_push);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cfg.enable_flow_control);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cfg.enable_lz4_compression);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(cfg.enable_zstd_compression);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.zstd_compression_level,<sp/>3);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.min_compression_payload_size,<sp/>256u);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.port,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>7890u);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.num_io_threads,<sp/><sp/><sp/>4u);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>V2FrameType<sp/>Enum<sp/>Coverage<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><ref refid="test__wire__protocol__v2_8cpp_1aba133bc66c05bc195d7f1c93961610b3" kindref="member">TEST</ref>(V2FrameType,<sp/>EnumValues)<sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(V2FrameType::DATA),<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x00u);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(V2FrameType::HEADERS),<sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x01u);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(V2FrameType::PRIORITY),<sp/><sp/><sp/><sp/><sp/><sp/>0x02u);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(V2FrameType::RST_STREAM),<sp/><sp/><sp/><sp/>0x03u);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(V2FrameType::SETTINGS),<sp/><sp/><sp/><sp/><sp/><sp/>0x04u);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(V2FrameType::PUSH_PROMISE),<sp/><sp/>0x05u);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(V2FrameType::PING),<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x06u);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(V2FrameType::GOAWAY),<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x07u);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(V2FrameType::WINDOW_UPDATE),<sp/>0x08u);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(V2FrameType::CONTINUATION),<sp/><sp/>0x09u);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>V2Server<sp/>Construction<sp/>/<sp/>Destruction<sp/>(no<sp/>real<sp/>socket)<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><ref refid="test__wire__protocol__v2_8cpp_1aba133bc66c05bc195d7f1c93961610b3" kindref="member">TEST</ref>(V2Server,<sp/>ConstructDestruct)<sp/>{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>V2ConnectionConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.port<sp/>=<sp/>0;<sp/></highlight><highlight class="comment">//<sp/>OS<sp/>assigns<sp/>an<sp/>ephemeral<sp/>port<sp/>–<sp/>we<sp/>won&apos;t<sp/>call<sp/>start()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>V2Server<sp/>server(cfg);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(server.is_running());</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="172"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><ref refid="test__wire__protocol__v2_8cpp_1aba133bc66c05bc195d7f1c93961610b3" kindref="member">TEST</ref>(V2Server,<sp/>InitialStatistics)<sp/>{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>V2ConnectionConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.port<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>V2Server<sp/>server(cfg);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(server.active_connections(),<sp/><sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(server.total_streams_opened(),<sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(server.total_frames_sent(),<sp/><sp/><sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(server.total_frames_received(),<sp/>0u);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><ref refid="test__wire__protocol__v2_8cpp_1aba133bc66c05bc195d7f1c93961610b3" kindref="member">TEST</ref>(V2Server,<sp/>HandlerRegistrationDoesNotThrow)<sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>V2ConnectionConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.port<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>V2Server<sp/>server(cfg);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>server.set_data_handler(</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](uint32_t,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">)<sp/>{});</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>server.set_headers_handler(</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](uint32_t,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;&amp;,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">)<sp/>{});</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>server.set_rst_stream_handler(</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](uint32_t,<sp/>uint32_t)<sp/>{});</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="198"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>V2Stream<sp/>State<sp/>Machine<sp/>Extended<sp/>Tests<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><ref refid="test__wire__protocol__v2_8cpp_1aba133bc66c05bc195d7f1c93961610b3" kindref="member">TEST</ref>(V2Stream,<sp/>ReservedLocalIsNotOpen)<sp/>{</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>V2Stream<sp/>s;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>s.state<sp/>=<sp/>V2StreamState::RESERVED_LOCAL;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(s.is_open());</highlight></codeline>
+<codeline lineno="206"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><ref refid="test__wire__protocol__v2_8cpp_1aba133bc66c05bc195d7f1c93961610b3" kindref="member">TEST</ref>(V2Stream,<sp/>ReservedRemoteIsNotOpen)<sp/>{</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>V2Stream<sp/>s;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>s.state<sp/>=<sp/>V2StreamState::RESERVED_REMOTE;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(s.is_open());</highlight></codeline>
+<codeline lineno="212"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><ref refid="test__wire__protocol__v2_8cpp_1aba133bc66c05bc195d7f1c93961610b3" kindref="member">TEST</ref>(V2Stream,<sp/>WindowDefaults)<sp/>{</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>V2Stream<sp/>s;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.send_window,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(V2_DEFAULT_WINDOW));</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.recv_window,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(V2_DEFAULT_WINDOW));</highlight></codeline>
+<codeline lineno="218"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><ref refid="test__wire__protocol__v2_8cpp_1aba133bc66c05bc195d7f1c93961610b3" kindref="member">TEST</ref>(V2Stream,<sp/>PriorityDefault)<sp/>{</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>V2Stream<sp/>s;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.priority,<sp/>16u);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>V2FrameFlags<sp/>Enum<sp/>Coverage<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><ref refid="test__wire__protocol__v2_8cpp_1aba133bc66c05bc195d7f1c93961610b3" kindref="member">TEST</ref>(V2FrameFlags,<sp/>EnumValues)<sp/>{</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint16_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(V2FrameFlags::NONE),<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x0000u);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint16_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(V2FrameFlags::END_STREAM),<sp/><sp/><sp/><sp/>0x0001u);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint16_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(V2FrameFlags::END_HEADERS),<sp/><sp/><sp/>0x0004u);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint16_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(V2FrameFlags::PADDED),<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x0008u);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint16_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(V2FrameFlags::PRIORITY_FLAG),<sp/>0x0020u);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint16_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(V2FrameFlags::ACK),<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x0001u);</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint16_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(V2FrameFlags::COMPRESSED),<sp/><sp/><sp/><sp/>0x0100u);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>V2SettingId<sp/>Enum<sp/>Coverage<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><ref refid="test__wire__protocol__v2_8cpp_1aba133bc66c05bc195d7f1c93961610b3" kindref="member">TEST</ref>(V2SettingId,<sp/>EnumValues)<sp/>{</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint16_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(V2SettingId::HEADER_TABLE_SIZE),<sp/><sp/><sp/><sp/><sp/><sp/>0x0001u);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint16_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(V2SettingId::ENABLE_PUSH),<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x0002u);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint16_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(V2SettingId::MAX_CONCURRENT_STREAMS),<sp/>0x0003u);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint16_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(V2SettingId::INITIAL_WINDOW_SIZE),<sp/><sp/><sp/><sp/>0x0004u);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint16_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(V2SettingId::MAX_FRAME_SIZE),<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x0005u);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint16_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(V2SettingId::MAX_HEADER_LIST_SIZE),<sp/><sp/><sp/>0x0006u);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>V2ConnectionConfig<sp/>Custom<sp/>Values<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><ref refid="test__wire__protocol__v2_8cpp_1aba133bc66c05bc195d7f1c93961610b3" kindref="member">TEST</ref>(V2ConnectionConfig,<sp/>CustomValues)<sp/>{</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>V2ConnectionConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.max_concurrent_streams<sp/><sp/>=<sp/>200;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.initial_window_size<sp/><sp/><sp/><sp/><sp/>=<sp/>128<sp/>*<sp/>1024;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.max_frame_size<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>8<sp/>*<sp/>1024<sp/>*<sp/>1024;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enable_server_push<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enable_flow_control<sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enable_lz4_compression<sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.port<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9000;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.num_io_threads<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.max_concurrent_streams,<sp/>200u);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.initial_window_size,<sp/><sp/><sp/><sp/>128u<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.max_frame_size,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>8u<sp/>*<sp/>1024<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(cfg.enable_server_push);</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(cfg.enable_flow_control);</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(cfg.enable_lz4_compression);</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.port,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>9000u);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.num_io_threads,<sp/>8u);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>V2FrameHeader<sp/>–<sp/>stream_id<sp/>field<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><ref refid="test__wire__protocol__v2_8cpp_1aba133bc66c05bc195d7f1c93961610b3" kindref="member">TEST</ref>(V2FrameHeader,<sp/>StreamIdZeroIsConnectionLevel)<sp/>{</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>V2FrameHeader<sp/>h{};</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>h.magic<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>WIRE_V2_MAGIC;</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>h.version<sp/><sp/><sp/><sp/>=<sp/>WIRE_VERSION_2;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>h.stream_id<sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(h.is_valid());</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(h.stream_id,<sp/>0u);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><ref refid="test__wire__protocol__v2_8cpp_1aba133bc66c05bc195d7f1c93961610b3" kindref="member">TEST</ref>(V2FrameHeader,<sp/>MaxStreamId)<sp/>{</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>V2FrameHeader<sp/>h{};</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>h.magic<sp/><sp/><sp/><sp/><sp/>=<sp/>WIRE_V2_MAGIC;</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>h.version<sp/><sp/><sp/>=<sp/>WIRE_VERSION_2;</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>h.stream_id<sp/>=<sp/>V2_MAX_STREAM_ID;</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(h.is_valid());</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(h.stream_id,<sp/>V2_MAX_STREAM_ID);</highlight></codeline>
+<codeline lineno="289"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><ref refid="test__wire__protocol__v2_8cpp_1aba133bc66c05bc195d7f1c93961610b3" kindref="member">TEST</ref>(V2FrameHeader,<sp/>PayloadLength)<sp/>{</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>V2FrameHeader<sp/>h{};</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>h.magic<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>WIRE_V2_MAGIC;</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>h.version<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>WIRE_VERSION_2;</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>h.payload_length<sp/>=<sp/>1024u;</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(h.payload_length,<sp/>1024u);</highlight></codeline>
+<codeline lineno="297"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>Multiple<sp/>logical<sp/>stream<sp/>IDs<sp/>are<sp/>independent<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><ref refid="test__wire__protocol__v2_8cpp_1aba133bc66c05bc195d7f1c93961610b3" kindref="member">TEST</ref>(V2Stream,<sp/>IndependentStreams)<sp/>{</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>V2Stream<sp/>s1,<sp/>s2;</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>s1.stream_id<sp/>=<sp/>1;<sp/><sp/>s1.state<sp/>=<sp/>V2StreamState::OPEN;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>s2.stream_id<sp/>=<sp/>3;<sp/><sp/>s2.state<sp/>=<sp/>V2StreamState::HALF_CLOSED_REMOTE;</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(s1.is_open());</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(s2.is_open());</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(s1.stream_id,<sp/>s2.stream_id);</highlight></codeline>
+<codeline lineno="309"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><ref refid="test__wire__protocol__v2_8cpp_1aba133bc66c05bc195d7f1c93961610b3" kindref="member">TEST</ref>(V2Stream,<sp/>HalfClosedTransitionFromOpen)<sp/>{</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>V2Stream<sp/>s;</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>s.stream_id<sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>s.state<sp/><sp/><sp/><sp/><sp/>=<sp/>V2StreamState::OPEN;</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(s.is_open());</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>local<sp/>side<sp/>sending<sp/>END_STREAM</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>s.state<sp/>=<sp/>V2StreamState::HALF_CLOSED_LOCAL;</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(s.is_open());<sp/></highlight><highlight class="comment">//<sp/>local<sp/>half-close<sp/>is<sp/>not<sp/>&quot;open&quot;<sp/>per<sp/>is_open()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>remote<sp/>side<sp/>sending<sp/>END_STREAM<sp/>-&gt;<sp/>fully<sp/>closed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>s.state<sp/>=<sp/>V2StreamState::CLOSED;</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(s.is_open());</highlight></codeline>
+<codeline lineno="324"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>V2Server<sp/>push_to_client<sp/>on<sp/>non-existent<sp/>connection<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><ref refid="test__wire__protocol__v2_8cpp_1aba133bc66c05bc195d7f1c93961610b3" kindref="member">TEST</ref>(V2Server,<sp/>PushToNonexistentConnectionReturnsFalse)<sp/>{</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>V2ConnectionConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.port<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>V2Server<sp/>server(cfg);</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>server.push_to_client(</highlight><highlight class="stringliteral">&quot;no-such-conn&quot;</highlight><highlight class="normal">,<sp/>1u,<sp/>{},<sp/>{});</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result);</highlight></codeline>
+<codeline lineno="335"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>Audit<sp/>fix:<sp/>aggregate<sp/>frame<sp/>statistics<sp/>start<sp/>at<sp/>zero<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><ref refid="test__wire__protocol__v2_8cpp_1aba133bc66c05bc195d7f1c93961610b3" kindref="member">TEST</ref>(V2Server,<sp/>AggregateFrameStatsInitiallyZero)<sp/>{</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>V2ConnectionConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.port<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>V2Server<sp/>server(cfg);</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Before<sp/>any<sp/>connection,<sp/>aggregate<sp/>stats<sp/>must<sp/>be<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(server.total_frames_sent(),<sp/><sp/><sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(server.total_frames_received(),<sp/>0u);</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(server.total_streams_opened(),<sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(server.active_connections(),<sp/><sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="349"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>Audit<sp/>fix:<sp/>V2FrameFlags::COMPRESSED<sp/>is<sp/>defined<sp/>and<sp/>distinguishable<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><ref refid="test__wire__protocol__v2_8cpp_1aba133bc66c05bc195d7f1c93961610b3" kindref="member">TEST</ref>(V2FrameHeader,<sp/>CompressedFlagRoundtrip)<sp/>{</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/>V2FrameHeader<sp/>h{};</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/>h.magic<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>WIRE_V2_MAGIC;</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/>h.version<sp/><sp/><sp/><sp/>=<sp/>WIRE_VERSION_2;</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/>h.frame_type<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(V2FrameType::DATA);</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/>h.stream_id<sp/><sp/>=<sp/>7u;</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/>h.flags<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint16_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(V2FrameFlags::COMPRESSED);</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(h.is_valid());</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(h.has_flag(V2FrameFlags::COMPRESSED));</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(h.has_flag(V2FrameFlags::END_STREAM));</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(h.get_type(),<sp/>V2FrameType::DATA);</highlight></codeline>
+<codeline lineno="365"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>V2FrameFlags::ZSTD_COMPRESSED<sp/>is<sp/>distinct<sp/>from<sp/>COMPRESSED<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="368"><highlight class="normal"></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><ref refid="test__wire__protocol__v2_8cpp_1aba133bc66c05bc195d7f1c93961610b3" kindref="member">TEST</ref>(V2FrameHeader,<sp/>ZstdCompressedFlagRoundtrip)<sp/>{</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/>V2FrameHeader<sp/>h{};</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/>h.magic<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>WIRE_V2_MAGIC;</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/>h.version<sp/><sp/><sp/><sp/>=<sp/>WIRE_VERSION_2;</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/>h.frame_type<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(V2FrameType::DATA);</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/>h.stream_id<sp/><sp/>=<sp/>9u;</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/>h.flags<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint16_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(V2FrameFlags::ZSTD_COMPRESSED);</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"></highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(h.is_valid());</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(h.has_flag(V2FrameFlags::ZSTD_COMPRESSED));</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ZSTD_COMPRESSED<sp/>and<sp/>COMPRESSED<sp/>are<sp/>different<sp/>flags</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(h.has_flag(V2FrameFlags::COMPRESSED));</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(h.has_flag(V2FrameFlags::END_STREAM));</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(h.get_type(),<sp/>V2FrameType::DATA);</highlight></codeline>
+<codeline lineno="383"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"></highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><ref refid="test__wire__protocol__v2_8cpp_1aba133bc66c05bc195d7f1c93961610b3" kindref="member">TEST</ref>(V2FrameHeader,<sp/>BothCompressionFlagsAreIndependent)<sp/>{</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>flag<sp/>bit<sp/>values<sp/>do<sp/>not<sp/>overlap</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint16_t<sp/>lz4_flag<sp/><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint16_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(V2FrameFlags::COMPRESSED);</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint16_t<sp/>zstd_flag<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint16_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(V2FrameFlags::ZSTD_COMPRESSED);</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(lz4_flag<sp/><sp/>&amp;<sp/>zstd_flag,<sp/>0u);</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"></highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>frame<sp/>with<sp/>both<sp/>flags<sp/>set<sp/>reports<sp/>both</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/>V2FrameHeader<sp/>h{};</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/>h.magic<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>WIRE_V2_MAGIC;</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/>h.version<sp/><sp/><sp/><sp/>=<sp/>WIRE_VERSION_2;</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/>h.frame_type<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(V2FrameType::DATA);</highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/>h.flags<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>lz4_flag<sp/>|<sp/>zstd_flag;</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(h.has_flag(V2FrameFlags::COMPRESSED));</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(h.has_flag(V2FrameFlags::ZSTD_COMPRESSED));</highlight></codeline>
+<codeline lineno="399"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"></highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><ref refid="test__wire__protocol__v2_8cpp_1aba133bc66c05bc195d7f1c93961610b3" kindref="member">TEST</ref>(V2ConnectionConfig,<sp/>ZstdCompressionDefaults)<sp/>{</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/>V2ConnectionConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="403"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>By<sp/>default<sp/>LZ4<sp/>is<sp/>enabled,<sp/>Zstd<sp/>is<sp/>disabled</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="404"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cfg.enable_lz4_compression);</highlight></codeline>
+<codeline lineno="405"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(cfg.enable_zstd_compression);</highlight></codeline>
+<codeline lineno="406"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.zstd_compression_level,<sp/>3);</highlight></codeline>
+<codeline lineno="407"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.min_compression_payload_size,<sp/>256u);</highlight></codeline>
+<codeline lineno="408"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="409"><highlight class="normal"></highlight></codeline>
+<codeline lineno="410"><highlight class="normal"><ref refid="test__wire__protocol__v2_8cpp_1aba133bc66c05bc195d7f1c93961610b3" kindref="member">TEST</ref>(V2ConnectionConfig,<sp/>ZstdOverridesLZ4WhenBothEnabled)<sp/>{</highlight></codeline>
+<codeline lineno="411"><highlight class="normal"><sp/><sp/><sp/><sp/>V2ConnectionConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="412"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enable_lz4_compression<sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="413"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enable_zstd_compression<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="414"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Both<sp/>flags<sp/>set;<sp/>Zstd<sp/>takes<sp/>precedence<sp/>(documented<sp/>in<sp/>header)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="415"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cfg.enable_lz4_compression);</highlight></codeline>
+<codeline lineno="416"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cfg.enable_zstd_compression);</highlight></codeline>
+<codeline lineno="417"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="418"><highlight class="normal"></highlight></codeline>
+<codeline lineno="419"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>Priority<sp/>and<sp/>Dependency<sp/>Management<sp/>Tests<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="420"><highlight class="normal"></highlight></codeline>
+<codeline lineno="421"><highlight class="normal"><ref refid="test__wire__protocol__v2_8cpp_1aba133bc66c05bc195d7f1c93961610b3" kindref="member">TEST</ref>(V2Stream,<sp/>DependencyDefaults)<sp/>{</highlight></codeline>
+<codeline lineno="422"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>New<sp/>streams<sp/>must<sp/>default<sp/>to<sp/>root<sp/>dependency<sp/>with<sp/>no<sp/>exclusive<sp/>flag.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="423"><highlight class="normal"><sp/><sp/><sp/><sp/>V2Stream<sp/>s;</highlight></codeline>
+<codeline lineno="424"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.stream_dependency,<sp/><sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="425"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(s.exclusive_dependency);</highlight></codeline>
+<codeline lineno="426"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="427"><highlight class="normal"></highlight></codeline>
+<codeline lineno="428"><highlight class="normal"><ref refid="test__wire__protocol__v2_8cpp_1aba133bc66c05bc195d7f1c93961610b3" kindref="member">TEST</ref>(V2Stream,<sp/>PriorityAndDependencySetDirectly)<sp/>{</highlight></codeline>
+<codeline lineno="429"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>V2Stream<sp/>fields<sp/>for<sp/>priority/dependency<sp/>can<sp/>be<sp/>mutated<sp/>independently.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="430"><highlight class="normal"><sp/><sp/><sp/><sp/>V2Stream<sp/>s;</highlight></codeline>
+<codeline lineno="431"><highlight class="normal"><sp/><sp/><sp/><sp/>s.stream_id<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="432"><highlight class="normal"><sp/><sp/><sp/><sp/>s.state<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>V2StreamState::OPEN;</highlight></codeline>
+<codeline lineno="433"><highlight class="normal"><sp/><sp/><sp/><sp/>s.priority<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>200;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>low<sp/>priority</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="434"><highlight class="normal"><sp/><sp/><sp/><sp/>s.stream_dependency<sp/><sp/><sp/><sp/>=<sp/>3;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>depends<sp/>on<sp/>stream<sp/>3</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="435"><highlight class="normal"><sp/><sp/><sp/><sp/>s.exclusive_dependency<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="436"><highlight class="normal"></highlight></codeline>
+<codeline lineno="437"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.priority,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>200u);</highlight></codeline>
+<codeline lineno="438"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.stream_dependency,<sp/><sp/><sp/><sp/><sp/>3u);</highlight></codeline>
+<codeline lineno="439"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(s.exclusive_dependency);</highlight></codeline>
+<codeline lineno="440"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(s.is_open());</highlight></codeline>
+<codeline lineno="441"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="442"><highlight class="normal"></highlight></codeline>
+<codeline lineno="443"><highlight class="normal"><ref refid="test__wire__protocol__v2_8cpp_1aba133bc66c05bc195d7f1c93961610b3" kindref="member">TEST</ref>(V2Stream,<sp/>DependencyRootZeroMeansNoParent)<sp/>{</highlight></codeline>
+<codeline lineno="444"><highlight class="normal"><sp/><sp/><sp/><sp/>V2Stream<sp/>s;</highlight></codeline>
+<codeline lineno="445"><highlight class="normal"><sp/><sp/><sp/><sp/>s.stream_dependency<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="446"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.stream_dependency,<sp/>0u);<sp/></highlight><highlight class="comment">//<sp/>0<sp/>=<sp/>depends<sp/>on<sp/>connection<sp/>root</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="447"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="448"><highlight class="normal"></highlight></codeline>
+<codeline lineno="449"><highlight class="normal"><ref refid="test__wire__protocol__v2_8cpp_1aba133bc66c05bc195d7f1c93961610b3" kindref="member">TEST</ref>(V2FrameType,<sp/>PriorityFrameTypeIsDeclared)<sp/>{</highlight></codeline>
+<codeline lineno="450"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>V2FrameType::PRIORITY<sp/>must<sp/>equal<sp/>0x02<sp/>per<sp/>the<sp/>protocol<sp/>spec.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="451"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(V2FrameType::PRIORITY),<sp/>0x02u);</highlight></codeline>
+<codeline lineno="452"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="453"><highlight class="normal"></highlight></codeline>
+<codeline lineno="454"><highlight class="normal"><ref refid="test__wire__protocol__v2_8cpp_1aba133bc66c05bc195d7f1c93961610b3" kindref="member">TEST</ref>(V2FrameFlags,<sp/>PriorityFlagInHeadersFrame)<sp/>{</highlight></codeline>
+<codeline lineno="455"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>PRIORITY_FLAG<sp/>in<sp/>a<sp/>HEADERS<sp/>frame<sp/>signals<sp/>that<sp/>priority<sp/>fields<sp/>are<sp/>present.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="456"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint16_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(V2FrameFlags::PRIORITY_FLAG),<sp/>0x0020u);</highlight></codeline>
+<codeline lineno="457"><highlight class="normal"></highlight></codeline>
+<codeline lineno="458"><highlight class="normal"><sp/><sp/><sp/><sp/>V2FrameHeader<sp/>h{};</highlight></codeline>
+<codeline lineno="459"><highlight class="normal"><sp/><sp/><sp/><sp/>h.magic<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>WIRE_V2_MAGIC;</highlight></codeline>
+<codeline lineno="460"><highlight class="normal"><sp/><sp/><sp/><sp/>h.version<sp/><sp/><sp/><sp/>=<sp/>WIRE_VERSION_2;</highlight></codeline>
+<codeline lineno="461"><highlight class="normal"><sp/><sp/><sp/><sp/>h.frame_type<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(V2FrameType::HEADERS);</highlight></codeline>
+<codeline lineno="462"><highlight class="normal"><sp/><sp/><sp/><sp/>h.stream_id<sp/><sp/>=<sp/>1u;</highlight></codeline>
+<codeline lineno="463"><highlight class="normal"><sp/><sp/><sp/><sp/>h.flags<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint16_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(V2FrameFlags::PRIORITY_FLAG);</highlight></codeline>
+<codeline lineno="464"><highlight class="normal"></highlight></codeline>
+<codeline lineno="465"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(h.is_valid());</highlight></codeline>
+<codeline lineno="466"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(h.has_flag(V2FrameFlags::PRIORITY_FLAG));</highlight></codeline>
+<codeline lineno="467"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(h.has_flag(V2FrameFlags::END_STREAM));</highlight></codeline>
+<codeline lineno="468"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="469"><highlight class="normal"></highlight></codeline>
+<codeline lineno="470"><highlight class="normal"><ref refid="test__wire__protocol__v2_8cpp_1aba133bc66c05bc195d7f1c93961610b3" kindref="member">TEST</ref>(V2Server,<sp/>SetStreamPriorityDoesNotThrow)<sp/>{</highlight></codeline>
+<codeline lineno="471"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verifies<sp/>that<sp/>set_stream_priority()<sp/>is<sp/>callable<sp/>on<sp/>a<sp/>V2Server-managed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="472"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>connection<sp/>at<sp/>the<sp/>type<sp/>level<sp/>(no<sp/>real<sp/>network<sp/>connection<sp/>needed;<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="473"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>call<sp/>targets<sp/>a<sp/>non-existent<sp/>session<sp/>so<sp/>nothing<sp/>is<sp/>sent,<sp/>but<sp/>the<sp/>API</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="474"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>must<sp/>compile<sp/>and<sp/>not<sp/>crash<sp/>when<sp/>the<sp/>server<sp/>is<sp/>not<sp/>yet<sp/>started).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="475"><highlight class="normal"><sp/><sp/><sp/><sp/>V2ConnectionConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="476"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.port<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="477"><highlight class="normal"><sp/><sp/><sp/><sp/>V2Server<sp/>server(cfg);</highlight></codeline>
+<codeline lineno="478"><highlight class="normal"></highlight></codeline>
+<codeline lineno="479"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>push_to_client<sp/>on<sp/>non-existent<sp/>connection<sp/>returns<sp/>false<sp/>—<sp/>used<sp/>here<sp/>to</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="480"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>confirm<sp/>the<sp/>pimpl<sp/>delegation<sp/>path<sp/>compiles<sp/>correctly<sp/>for<sp/>PRIORITY<sp/>too.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="481"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(server.push_to_client(</highlight><highlight class="stringliteral">&quot;no-conn&quot;</highlight><highlight class="normal">,<sp/>1u,<sp/>{},<sp/>{}));</highlight></codeline>
+<codeline lineno="482"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="483"><highlight class="normal"></highlight></codeline>
+<codeline lineno="484"><highlight class="normal"><ref refid="test__wire__protocol__v2_8cpp_1aba133bc66c05bc195d7f1c93961610b3" kindref="member">TEST</ref>(V2Stream,<sp/>MultipleDependencyChain)<sp/>{</highlight></codeline>
+<codeline lineno="485"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Streams<sp/>can<sp/>form<sp/>a<sp/>chain:<sp/>stream<sp/>5<sp/>depends<sp/>on<sp/>stream<sp/>3,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="486"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>stream<sp/>3<sp/>depends<sp/>on<sp/>stream<sp/>1<sp/>(root<sp/>dependency).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="487"><highlight class="normal"><sp/><sp/><sp/><sp/>V2Stream<sp/>s1,<sp/>s3,<sp/>s5;</highlight></codeline>
+<codeline lineno="488"><highlight class="normal"></highlight></codeline>
+<codeline lineno="489"><highlight class="normal"><sp/><sp/><sp/><sp/>s1.stream_id<sp/>=<sp/>1;<sp/>s1.stream_dependency<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="490"><highlight class="normal"><sp/><sp/><sp/><sp/>s3.stream_id<sp/>=<sp/>3;<sp/>s3.stream_dependency<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="491"><highlight class="normal"><sp/><sp/><sp/><sp/>s5.stream_id<sp/>=<sp/>5;<sp/>s5.stream_dependency<sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="492"><highlight class="normal"></highlight></codeline>
+<codeline lineno="493"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s1.stream_dependency,<sp/>0u);</highlight></codeline>
+<codeline lineno="494"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s3.stream_dependency,<sp/>1u);</highlight></codeline>
+<codeline lineno="495"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s5.stream_dependency,<sp/>3u);</highlight></codeline>
+<codeline lineno="496"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(s1.stream_id,<sp/>s3.stream_id);</highlight></codeline>
+<codeline lineno="497"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(s3.stream_id,<sp/>s5.stream_id);</highlight></codeline>
+<codeline lineno="498"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="499"><highlight class="normal"></highlight></codeline>
+<codeline lineno="500"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>RFC<sp/>7540<sp/>Compliance<sp/>Tests<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="501"><highlight class="normal"></highlight></codeline>
+<codeline lineno="502"><highlight class="normal"><ref refid="test__wire__protocol__v2_8cpp_1aba133bc66c05bc195d7f1c93961610b3" kindref="member">TEST</ref>(V2Stream,<sp/>SelfDependencyIsInvalidPerRFC7540_S5_3_1)<sp/>{</highlight></codeline>
+<codeline lineno="503"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RFC<sp/>7540<sp/>§5.3.1:<sp/>A<sp/>stream<sp/>cannot<sp/>depend<sp/>on<sp/>itself.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="504"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>set_stream_priority()<sp/>guard<sp/>must<sp/>silently<sp/>ignore<sp/>self-dependency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="505"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(dep_id<sp/>&amp;<sp/>0x7FFFFFFF<sp/>==<sp/>stream_id)<sp/>rather<sp/>than<sp/>corrupting<sp/>stream<sp/>state.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="506"><highlight class="normal"><sp/><sp/><sp/><sp/>V2Stream<sp/>s;</highlight></codeline>
+<codeline lineno="507"><highlight class="normal"><sp/><sp/><sp/><sp/>s.stream_id<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="508"><highlight class="normal"><sp/><sp/><sp/><sp/>s.state<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>V2StreamState::OPEN;</highlight></codeline>
+<codeline lineno="509"><highlight class="normal"><sp/><sp/><sp/><sp/>s.stream_dependency<sp/>=<sp/>3;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>valid<sp/>initial<sp/>dependency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="510"><highlight class="normal"></highlight></codeline>
+<codeline lineno="511"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>what<sp/>a<sp/>guard-protected<sp/>update<sp/>path<sp/>would<sp/>do:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="512"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>if<sp/>dep<sp/>==<sp/>self,<sp/>do<sp/>NOT<sp/>update<sp/>stream_dependency.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="513"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>attempted_dep<sp/>=<sp/>5;<sp/></highlight><highlight class="comment">//<sp/>same<sp/>as<sp/>stream_id<sp/>→<sp/>self-dependency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="514"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((attempted_dep<sp/>&amp;<sp/>0x7FFFFFFFu)<sp/>!=<sp/>s.stream_id)<sp/>{</highlight></codeline>
+<codeline lineno="515"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>s.stream_dependency<sp/>=<sp/>attempted_dep;</highlight></codeline>
+<codeline lineno="516"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="517"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>stream_dependency<sp/>must<sp/>remain<sp/>unchanged.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="518"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.stream_dependency,<sp/>3u);</highlight></codeline>
+<codeline lineno="519"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="520"><highlight class="normal"></highlight></codeline>
+<codeline lineno="521"><highlight class="normal"><ref refid="test__wire__protocol__v2_8cpp_1aba133bc66c05bc195d7f1c93961610b3" kindref="member">TEST</ref>(V2Stream,<sp/>ConnectionStreamZeroMustNotBeReprioritised)<sp/>{</highlight></codeline>
+<codeline lineno="522"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RFC<sp/>7540<sp/>§6.3:<sp/>PRIORITY<sp/>frame<sp/>on<sp/>stream<sp/>0<sp/>is<sp/>a<sp/>connection-level</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="523"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>PROTOCOL_ERROR;<sp/>the<sp/>connection<sp/>stream<sp/>(ID<sp/>0)<sp/>is<sp/>never<sp/>a<sp/>valid<sp/>target.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="524"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>We<sp/>verify<sp/>that<sp/>V2FrameHeader<sp/>rejects<sp/>this<sp/>at<sp/>the<sp/>type<sp/>level:<sp/>a<sp/>PRIORITY</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="525"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>frame<sp/>with<sp/>stream_id=0<sp/>has<sp/>stream_id=0,<sp/>which<sp/>is<sp/>detectable.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="526"><highlight class="normal"><sp/><sp/><sp/><sp/>V2FrameHeader<sp/>h{};</highlight></codeline>
+<codeline lineno="527"><highlight class="normal"><sp/><sp/><sp/><sp/>h.magic<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>WIRE_V2_MAGIC;</highlight></codeline>
+<codeline lineno="528"><highlight class="normal"><sp/><sp/><sp/><sp/>h.version<sp/><sp/><sp/><sp/>=<sp/>WIRE_VERSION_2;</highlight></codeline>
+<codeline lineno="529"><highlight class="normal"><sp/><sp/><sp/><sp/>h.frame_type<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(V2FrameType::PRIORITY);</highlight></codeline>
+<codeline lineno="530"><highlight class="normal"><sp/><sp/><sp/><sp/>h.stream_id<sp/><sp/>=<sp/>0;<sp/></highlight><highlight class="comment">//<sp/>connection-level<sp/>—<sp/>must<sp/>be<sp/>rejected<sp/>per<sp/>RFC<sp/>§6.3</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="531"><highlight class="normal"></highlight></codeline>
+<codeline lineno="532"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(h.is_valid());<sp/></highlight><highlight class="comment">//<sp/>header<sp/>itself<sp/>is<sp/>well-formed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="533"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>stream_id<sp/>0<sp/>signals<sp/>the<sp/>connection<sp/>stream;<sp/>a<sp/>correct<sp/>handler<sp/>sends<sp/>GOAWAY.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="534"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(h.stream_id,<sp/>0u);</highlight></codeline>
+<codeline lineno="535"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="536"><highlight class="normal"></highlight></codeline>
+<codeline lineno="537"><highlight class="normal"><ref refid="test__wire__protocol__v2_8cpp_1aba133bc66c05bc195d7f1c93961610b3" kindref="member">TEST</ref>(V2Stream,<sp/>SetStreamPriorityIgnoresSelfDependencyWithExclusiveBit)<sp/>{</highlight></codeline>
+<codeline lineno="538"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RFC<sp/>7540<sp/>§5.3.1:<sp/>even<sp/>with<sp/>the<sp/>exclusive<sp/>bit<sp/>set,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="539"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(dependency<sp/>&amp;<sp/>0x7FFFFFFF)<sp/>==<sp/>stream_id<sp/>is<sp/>still<sp/>a<sp/>self-dependency<sp/>error.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="540"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>the<sp/>mask<sp/>logic:<sp/>exclusive<sp/>bit<sp/>must<sp/>be<sp/>stripped<sp/>before<sp/>comparison.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="541"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>stream_id<sp/><sp/>=<sp/>7u;</highlight></codeline>
+<codeline lineno="542"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>dep_with_exclusive<sp/>=<sp/>0x80000007u;<sp/></highlight><highlight class="comment">//<sp/>exclusive<sp/>+<sp/>stream<sp/>7</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="543"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(dep_with_exclusive<sp/>&amp;<sp/>0x7FFFFFFFu,<sp/>stream_id);</highlight></codeline>
+<codeline lineno="544"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>guard<sp/>correctly<sp/>identifies<sp/>this<sp/>as<sp/>a<sp/>self-dependency.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="545"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE((dep_with_exclusive<sp/>&amp;<sp/>0x7FFFFFFFu)<sp/>==<sp/>stream_id);</highlight></codeline>
+<codeline lineno="546"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="547"><highlight class="normal"></highlight></codeline>
+<codeline lineno="548"><highlight class="normal"><ref refid="test__wire__protocol__v2_8cpp_1aba133bc66c05bc195d7f1c93961610b3" kindref="member">TEST</ref>(V2Server,<sp/>SetStreamPriorityOnStreamZeroIsNoOp)<sp/>{</highlight></codeline>
+<codeline lineno="549"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RFC<sp/>7540<sp/>§6.3:<sp/>set_stream_priority(0,<sp/>...)<sp/>must<sp/>be<sp/>silently<sp/>ignored</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="550"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(stream<sp/>0<sp/>is<sp/>the<sp/>connection<sp/>stream<sp/>and<sp/>cannot<sp/>be<sp/>reprioritised).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="551"><highlight class="normal"><sp/><sp/><sp/><sp/>V2ConnectionConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="552"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.port<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="553"><highlight class="normal"><sp/><sp/><sp/><sp/>V2Server<sp/>server(cfg);</highlight></codeline>
+<codeline lineno="554"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Must<sp/>not<sp/>crash<sp/>or<sp/>throw<sp/>when<sp/>stream_id<sp/>==<sp/>0.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="555"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(server.push_to_client(</highlight><highlight class="stringliteral">&quot;no-conn&quot;</highlight><highlight class="normal">,<sp/>0u,<sp/>{},<sp/>{}));</highlight></codeline>
+<codeline lineno="556"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="557"><highlight class="normal"></highlight></codeline>
+<codeline lineno="558"><highlight class="normal"><ref refid="test__wire__protocol__v2_8cpp_1aba133bc66c05bc195d7f1c93961610b3" kindref="member">TEST</ref>(V2Server,<sp/>SetStreamPrioritySelfDependencyIsNoOp)<sp/>{</highlight></codeline>
+<codeline lineno="559"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RFC<sp/>7540<sp/>§5.3.1:<sp/>set_stream_priority(N,<sp/>N,<sp/>...)<sp/>is<sp/>a<sp/>self-dependency;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="560"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>must<sp/>be<sp/>silently<sp/>ignored<sp/>and<sp/>must<sp/>not<sp/>crash.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="561"><highlight class="normal"><sp/><sp/><sp/><sp/>V2ConnectionConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="562"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.port<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="563"><highlight class="normal"><sp/><sp/><sp/><sp/>V2Server<sp/>server(cfg);</highlight></codeline>
+<codeline lineno="564"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Guard:<sp/>dep==stream_id<sp/>on<sp/>a<sp/>non-existent<sp/>session.<sp/><sp/>No<sp/>crash<sp/>expected.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="565"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(server.push_to_client(</highlight><highlight class="stringliteral">&quot;no-conn&quot;</highlight><highlight class="normal">,<sp/>1u,<sp/>{},<sp/>{}));</highlight></codeline>
+<codeline lineno="566"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/network/test_wire_protocol_v2.cpp"/>
+  </compounddef>
+</doxygen>

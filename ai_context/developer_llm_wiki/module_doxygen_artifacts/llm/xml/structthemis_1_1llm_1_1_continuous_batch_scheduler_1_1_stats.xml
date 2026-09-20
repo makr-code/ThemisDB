@@ -1,0 +1,256 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::ContinuousBatchScheduler::Stats</compoundname>
+    <includes refid="continuous__batch__scheduler_8h" local="no">continuous_batch_scheduler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1aba229cdb8700e79d008388bd185a9fac" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::ContinuousBatchScheduler::Stats::total_requests</definition>
+        <argsstring></argsstring>
+        <name>total_requests</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::Stats::total_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="222" column="16" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="222" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1a45eb6109e0a8212756a86db1de699c66" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::ContinuousBatchScheduler::Stats::active_requests</definition>
+        <argsstring></argsstring>
+        <name>active_requests</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::Stats::active_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="223" column="16" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="223" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1a84da32d70b3cb418414cd38ca88bb1da" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::ContinuousBatchScheduler::Stats::completed_requests</definition>
+        <argsstring></argsstring>
+        <name>completed_requests</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::Stats::completed_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="224" column="16" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="224" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1ab503e825864f80cabfe3f5adc0a16f79" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::ContinuousBatchScheduler::Stats::failed_requests</definition>
+        <argsstring></argsstring>
+        <name>failed_requests</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::Stats::failed_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="225" column="16" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="225" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1aaa88fe389347b97584a514cf010b4ea9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::ContinuousBatchScheduler::Stats::preempted_requests</definition>
+        <argsstring></argsstring>
+        <name>preempted_requests</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::Stats::preempted_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="226" column="16" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="226" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1a7f82009ad91bad1140f533908664339d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::ContinuousBatchScheduler::Stats::rejected_requests</definition>
+        <argsstring></argsstring>
+        <name>rejected_requests</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::Stats::rejected_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="228" column="16" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="228" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1a9b61b16d2f411c769f9a21db13b93dad" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::ContinuousBatchScheduler::Stats::avg_scheduling_time_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_scheduling_time_ms</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::Stats::avg_scheduling_time_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="230" column="16" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1a5bcd2d13ba76310a25621d7f6db99f43" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::ContinuousBatchScheduler::Stats::avg_time_to_first_token_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_time_to_first_token_ms</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::Stats::avg_time_to_first_token_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="231" column="16" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="231" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1a53fc247c2a56f2d456bb2485578546ae" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::ContinuousBatchScheduler::Stats::avg_tokens_per_second</definition>
+        <argsstring></argsstring>
+        <name>avg_tokens_per_second</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::Stats::avg_tokens_per_second</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="232" column="16" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="232" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1a53d183735723fdafa659c2334a8dbffc" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::ContinuousBatchScheduler::Stats::current_batch_size</definition>
+        <argsstring></argsstring>
+        <name>current_batch_size</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::Stats::current_batch_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="234" column="16" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1aaea20f71bf619080aa4d91ecf7f152b6" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::ContinuousBatchScheduler::Stats::max_batch_size_seen</definition>
+        <argsstring></argsstring>
+        <name>max_batch_size_seen</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::Stats::max_batch_size_seen</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="235" column="16" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="235" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1a7c172b392277ca033e112fa0c144bd8b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::ContinuousBatchScheduler::Stats::batch_retry_count</definition>
+        <argsstring></argsstring>
+        <name>batch_retry_count</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::Stats::batch_retry_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="236" column="16" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1a03765a605079ba729a7489f8b2c22bce" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::ContinuousBatchScheduler::Stats::adaptive_prefill_chunk_size_tokens</definition>
+        <argsstring></argsstring>
+        <name>adaptive_prefill_chunk_size_tokens</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::Stats::adaptive_prefill_chunk_size_tokens</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="237" column="16" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1a4f55fb85f83b678109fe43b2f3633088" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::ContinuousBatchScheduler::Stats::current_queue_depth</definition>
+        <argsstring></argsstring>
+        <name>current_queue_depth</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::Stats::current_queue_depth</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="239" column="16" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="239" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1ac511cbcd0e67b507b953a8d3158486ae" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::ContinuousBatchScheduler::Stats::kv_budget_exhausted_count</definition>
+        <argsstring></argsstring>
+        <name>kv_budget_exhausted_count</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::Stats::kv_budget_exhausted_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="240" column="16" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/continuous_batch_scheduler.h" line="221" column="5" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="221" bodyend="241"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1a45eb6109e0a8212756a86db1de699c66" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler::Stats</scope><name>active_requests</name></member>
+      <member refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1a03765a605079ba729a7489f8b2c22bce" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler::Stats</scope><name>adaptive_prefill_chunk_size_tokens</name></member>
+      <member refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1a9b61b16d2f411c769f9a21db13b93dad" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler::Stats</scope><name>avg_scheduling_time_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1a5bcd2d13ba76310a25621d7f6db99f43" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler::Stats</scope><name>avg_time_to_first_token_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1a53fc247c2a56f2d456bb2485578546ae" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler::Stats</scope><name>avg_tokens_per_second</name></member>
+      <member refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1a7c172b392277ca033e112fa0c144bd8b" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler::Stats</scope><name>batch_retry_count</name></member>
+      <member refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1a84da32d70b3cb418414cd38ca88bb1da" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler::Stats</scope><name>completed_requests</name></member>
+      <member refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1a53d183735723fdafa659c2334a8dbffc" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler::Stats</scope><name>current_batch_size</name></member>
+      <member refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1a4f55fb85f83b678109fe43b2f3633088" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler::Stats</scope><name>current_queue_depth</name></member>
+      <member refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1ab503e825864f80cabfe3f5adc0a16f79" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler::Stats</scope><name>failed_requests</name></member>
+      <member refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1ac511cbcd0e67b507b953a8d3158486ae" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler::Stats</scope><name>kv_budget_exhausted_count</name></member>
+      <member refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1aaea20f71bf619080aa4d91ecf7f152b6" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler::Stats</scope><name>max_batch_size_seen</name></member>
+      <member refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1aaa88fe389347b97584a514cf010b4ea9" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler::Stats</scope><name>preempted_requests</name></member>
+      <member refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1a7f82009ad91bad1140f533908664339d" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler::Stats</scope><name>rejected_requests</name></member>
+      <member refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1aba229cdb8700e79d008388bd185a9fac" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler::Stats</scope><name>total_requests</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

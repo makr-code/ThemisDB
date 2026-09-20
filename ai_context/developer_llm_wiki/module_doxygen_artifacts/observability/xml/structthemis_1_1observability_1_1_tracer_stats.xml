@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_tracer_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::TracerStats</compoundname>
+    <includes refid="tracer_8h" local="no">tracer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_tracer_stats_1a87b91a86b0f92b36040c74aa97105e8a" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::observability::TracerStats::total_spans</definition>
+        <argsstring></argsstring>
+        <name>total_spans</name>
+        <qualifiedname>themis::observability::TracerStats::total_spans</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Total spans created since initialization. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/tracer.h" line="32" column="13" bodyfile="include/observability/tracer.h" bodystart="32" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_tracer_stats_1a8324a65f800d71678b589d82dbc51656" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::observability::TracerStats::active_spans</definition>
+        <argsstring></argsstring>
+        <name>active_spans</name>
+        <qualifiedname>themis::observability::TracerStats::active_spans</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Spans that have been started but not yet ended. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/tracer.h" line="33" column="13" bodyfile="include/observability/tracer.h" bodystart="33" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_tracer_stats_1a123aabf81198148ca17ab88a7efc7c3b" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::observability::TracerStats::dropped_spans</definition>
+        <argsstring></argsstring>
+        <name>dropped_spans</name>
+        <qualifiedname>themis::observability::TracerStats::dropped_spans</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Spans dropped due to sampling. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/tracer.h" line="34" column="13" bodyfile="include/observability/tracer.h" bodystart="34" bodyend="34"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Statistics snapshot exported by <ref refid="classthemis_1_1observability_1_1_observability_tracer" kindref="compound">ObservabilityTracer</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/tracer.h" line="31" column="1" bodyfile="include/observability/tracer.h" bodystart="31" bodyend="35"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_tracer_stats_1a8324a65f800d71678b589d82dbc51656" prot="public" virt="non-virtual"><scope>themis::observability::TracerStats</scope><name>active_spans</name></member>
+      <member refid="structthemis_1_1observability_1_1_tracer_stats_1a123aabf81198148ca17ab88a7efc7c3b" prot="public" virt="non-virtual"><scope>themis::observability::TracerStats</scope><name>dropped_spans</name></member>
+      <member refid="structthemis_1_1observability_1_1_tracer_stats_1a87b91a86b0f92b36040c74aa97105e8a" prot="public" virt="non-virtual"><scope>themis::observability::TracerStats</scope><name>total_spans</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

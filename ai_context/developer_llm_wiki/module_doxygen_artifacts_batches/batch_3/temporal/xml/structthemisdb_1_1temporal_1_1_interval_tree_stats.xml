@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1temporal_1_1_interval_tree_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::temporal::IntervalTreeStats</compoundname>
+    <includes refid="interval__tree__index_8h" local="no">interval_tree_index.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_interval_tree_stats_1a584ef72467291229c6c45cb38ccf610e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::IntervalTreeStats::total_entries</definition>
+        <argsstring></argsstring>
+        <name>total_entries</name>
+        <qualifiedname>themisdb::temporal::IntervalTreeStats::total_entries</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/interval_tree_index.h" line="57" column="15" bodyfile="include/temporal/interval_tree_index.h" bodystart="57" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_interval_tree_stats_1aaabe131659969899cbeb382d0170fba0" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+        <definition>Timestamp themisdb::temporal::IntervalTreeStats::min_start</definition>
+        <argsstring></argsstring>
+        <name>min_start</name>
+        <qualifiedname>themisdb::temporal::IntervalTreeStats::min_start</qualifiedname>
+        <initializer>{kMaxTimestamp}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/interval_tree_index.h" line="58" column="15" bodyfile="include/temporal/interval_tree_index.h" bodystart="58" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_interval_tree_stats_1a4efe29759bef7b6f973530956a1ab5e7" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+        <definition>Timestamp themisdb::temporal::IntervalTreeStats::max_end</definition>
+        <argsstring></argsstring>
+        <name>max_end</name>
+        <qualifiedname>themisdb::temporal::IntervalTreeStats::max_end</qualifiedname>
+        <initializer>{kMinTimestamp}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/interval_tree_index.h" line="59" column="15" bodyfile="include/temporal/interval_tree_index.h" bodystart="59" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_interval_tree_stats_1ad67892ebba2ec63d7fd28a70c1e083f6" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::IntervalTreeStats::point_queries</definition>
+        <argsstring></argsstring>
+        <name>point_queries</name>
+        <qualifiedname>themisdb::temporal::IntervalTreeStats::point_queries</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/interval_tree_index.h" line="60" column="15" bodyfile="include/temporal/interval_tree_index.h" bodystart="60" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_interval_tree_stats_1a1f4d5e490e0144040fac3e538878da30" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::IntervalTreeStats::overlap_queries</definition>
+        <argsstring></argsstring>
+        <name>overlap_queries</name>
+        <qualifiedname>themisdb::temporal::IntervalTreeStats::overlap_queries</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/interval_tree_index.h" line="61" column="15" bodyfile="include/temporal/interval_tree_index.h" bodystart="61" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_interval_tree_stats_1ac9a29ee30e272dfaeed51e80dbb9beae" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::IntervalTreeStats::height</definition>
+        <argsstring></argsstring>
+        <name>height</name>
+        <qualifiedname>themisdb::temporal::IntervalTreeStats::height</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Current tree height (informational). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/interval_tree_index.h" line="62" column="15" bodyfile="include/temporal/interval_tree_index.h" bodystart="62" bodyend="62"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1temporal_1_1_interval_tree_stats_1a83395b79f7494c88f91ff4f11d26319d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::temporal::IntervalTreeStats::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themisdb::temporal::IntervalTreeStats::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/interval_tree_index.h" line="64" column="20" bodyfile="include/temporal/interval_tree_index.h" bodystart="64" bodyend="71"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Snapshot statistics for an <ref refid="classthemisdb_1_1temporal_1_1_interval_tree_index" kindref="compound">IntervalTreeIndex</ref> instance. </para>
+    </detaileddescription>
+    <location file="include/temporal/interval_tree_index.h" line="56" column="1" bodyfile="include/temporal/interval_tree_index.h" bodystart="56" bodyend="72"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1temporal_1_1_interval_tree_stats_1ac9a29ee30e272dfaeed51e80dbb9beae" prot="public" virt="non-virtual"><scope>themisdb::temporal::IntervalTreeStats</scope><name>height</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_interval_tree_stats_1a4efe29759bef7b6f973530956a1ab5e7" prot="public" virt="non-virtual"><scope>themisdb::temporal::IntervalTreeStats</scope><name>max_end</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_interval_tree_stats_1aaabe131659969899cbeb382d0170fba0" prot="public" virt="non-virtual"><scope>themisdb::temporal::IntervalTreeStats</scope><name>min_start</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_interval_tree_stats_1a1f4d5e490e0144040fac3e538878da30" prot="public" virt="non-virtual"><scope>themisdb::temporal::IntervalTreeStats</scope><name>overlap_queries</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_interval_tree_stats_1ad67892ebba2ec63d7fd28a70c1e083f6" prot="public" virt="non-virtual"><scope>themisdb::temporal::IntervalTreeStats</scope><name>point_queries</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_interval_tree_stats_1a83395b79f7494c88f91ff4f11d26319d" prot="public" virt="non-virtual"><scope>themisdb::temporal::IntervalTreeStats</scope><name>toJson</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_interval_tree_stats_1a584ef72467291229c6c45cb38ccf610e" prot="public" virt="non-virtual"><scope>themisdb::temporal::IntervalTreeStats</scope><name>total_entries</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1_recovery_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::RecoveryResult</compoundname>
+    <includes refid="self__healing__plugin_8h" local="no">self_healing_plugin.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_recovery_result_1a88939c6172d7a11673043dc21e10df7e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::RecoveryResult::successful</definition>
+        <argsstring></argsstring>
+        <name>successful</name>
+        <qualifiedname>themis::plugins::RecoveryResult::successful</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/self_healing_plugin.h" line="243" column="10" bodyfile="include/plugins/self_healing_plugin.h" bodystart="243" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_recovery_result_1a1ffff7b10e354f90ed6675b0d06d8fac" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1plugins_1a8eeee246c798f0d40ad1cd4bda660f1d" kindref="member">RecoveryAction</ref></type>
+        <definition>RecoveryAction themis::plugins::RecoveryResult::action_taken</definition>
+        <argsstring></argsstring>
+        <name>action_taken</name>
+        <qualifiedname>themis::plugins::RecoveryResult::action_taken</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1plugins_1a8eeee246c798f0d40ad1cd4bda660f1dab50339a10e1de285ac99d4c3990b8693" kindref="member">RecoveryAction::NONE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/self_healing_plugin.h" line="244" column="20" bodyfile="include/plugins/self_healing_plugin.h" bodystart="244" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_recovery_result_1a78df3591b74a1f13593aa0e925655b7b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::RecoveryResult::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::plugins::RecoveryResult::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/self_healing_plugin.h" line="245" column="17" bodyfile="include/plugins/self_healing_plugin.h" bodystart="245" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_recovery_result_1a8ac7ba4a490c81a813965f0b2dcb01e2" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::plugins::RecoveryResult::duration</definition>
+        <argsstring></argsstring>
+        <name>duration</name>
+        <qualifiedname>themis::plugins::RecoveryResult::duration</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/self_healing_plugin.h" line="246" column="31" bodyfile="include/plugins/self_healing_plugin.h" bodystart="246" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_recovery_result_1a73638a07a775dd7f12b045aa23e5a062" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1plugins_1a4983d42b198325e2b99195e4cafdc606" kindref="member">PluginHealthStatus</ref></type>
+        <definition>PluginHealthStatus themis::plugins::RecoveryResult::status_after_recovery</definition>
+        <argsstring></argsstring>
+        <name>status_after_recovery</name>
+        <qualifiedname>themis::plugins::RecoveryResult::status_after_recovery</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1plugins_1a4983d42b198325e2b99195e4cafdc606a7438a7e4e4f36f04fda32fa100121e47" kindref="member">PluginHealthStatus::UNHEALTHY</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/self_healing_plugin.h" line="247" column="24" bodyfile="include/plugins/self_healing_plugin.h" bodystart="247" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Recovery result information. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/plugins/self_healing_plugin.h" line="242" column="1" bodyfile="include/plugins/self_healing_plugin.h" bodystart="242" bodyend="248"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1_recovery_result_1a1ffff7b10e354f90ed6675b0d06d8fac" prot="public" virt="non-virtual"><scope>themis::plugins::RecoveryResult</scope><name>action_taken</name></member>
+      <member refid="structthemis_1_1plugins_1_1_recovery_result_1a8ac7ba4a490c81a813965f0b2dcb01e2" prot="public" virt="non-virtual"><scope>themis::plugins::RecoveryResult</scope><name>duration</name></member>
+      <member refid="structthemis_1_1plugins_1_1_recovery_result_1a78df3591b74a1f13593aa0e925655b7b" prot="public" virt="non-virtual"><scope>themis::plugins::RecoveryResult</scope><name>message</name></member>
+      <member refid="structthemis_1_1plugins_1_1_recovery_result_1a73638a07a775dd7f12b045aa23e5a062" prot="public" virt="non-virtual"><scope>themis::plugins::RecoveryResult</scope><name>status_after_recovery</name></member>
+      <member refid="structthemis_1_1plugins_1_1_recovery_result_1a88939c6172d7a11673043dc21e10df7e" prot="public" virt="non-virtual"><scope>themis::plugins::RecoveryResult</scope><name>successful</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

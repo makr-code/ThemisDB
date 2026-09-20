@@ -1,0 +1,232 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="query__rewrite__rule_8h" kind="file" language="C++">
+    <compoundname>query_rewrite_rule.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="query__rewrite__rule_8cpp" local="yes">src/query/query_rewrite_rule.cpp</includedby>
+    <includedby refid="test__query__future__interfaces_8cpp" local="yes">tests/query/test_query_future_interfaces.cpp</includedby>
+    <includedby refid="test__query__phase__a__gap__fixes_8cpp" local="yes">tests/query/test_query_phase_a_gap_fixes.cpp</includedby>
+    <includedby refid="test__query__safety__fixes_8cpp" local="yes">tests/query/test_query_safety_fixes.cpp</includedby>
+    <includedby refid="test__wave1__critical__gap__fixes_8cpp" local="yes">tests/query/test_wave1_critical_gap_fixes.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/query/query_rewrite_rule.h</label>
+        <link refid="query__rewrite__rule_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>unordered_map</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/query/query_rewrite_rule.h</label>
+        <link refid="query__rewrite__rule_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/query/query_rewrite_rule.cpp</label>
+        <link refid="query__rewrite__rule_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/query/test_query_future_interfaces.cpp</label>
+        <link refid="test__query__future__interfaces_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/query/test_query_phase_a_gap_fixes.cpp</label>
+        <link refid="test__query__phase__a__gap__fixes_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/query/test_query_safety_fixes.cpp</label>
+        <link refid="test__query__safety__fixes_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/query/test_wave1_critical_gap_fixes.cpp</label>
+        <link refid="test__wave1__critical__gap__fixes_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1query_1_1_rewrite_context" prot="public">themis::query::RewriteContext</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_rewrite_stats" prot="public">themis::query::RewriteStats</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1_i_query_rewrite_rule" prot="public">themis::query::IQueryRewriteRule</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1_predicate_pushdown_rule" prot="public">themis::query::PredicatePushdownRule</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1_projection_pushdown_rule" prot="public">themis::query::ProjectionPushdownRule</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1_or_to_in_rewrite_rule" prot="public">themis::query::OrToInRewriteRule</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1_constant_folding_rule" prot="public">themis::query::ConstantFoldingRule</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1_common_subexpression_rule" prot="public">themis::query::CommonSubexpressionRule</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1_query_rewrite_pipeline" prot="public">themis::query::QueryRewritePipeline</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1query">themis::query</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.10 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24" refid="structthemis_1_1query_1_1_rewrite_context" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_rewrite_context" kindref="compound">RewriteContext</ref><sp/>{</highlight></codeline>
+<codeline lineno="25" refid="structthemis_1_1query_1_1_rewrite_context_1a0b8bc2babe57991a8aaef5396ebb9889" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>size_t&gt;<sp/><ref refid="structthemis_1_1query_1_1_rewrite_context_1a0b8bc2babe57991a8aaef5396ebb9889" kindref="member">collection_row_counts</ref>;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1query_1_1_rewrite_context_1aadc717ddb7468e9a56355f099c731217" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_rewrite_context_1aadc717ddb7468e9a56355f099c731217" kindref="member">or_to_in_threshold</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1query_1_1_rewrite_context_1a90ff88586de2bd0e27fd8b1b0a2ae47f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_rewrite_context_1a90ff88586de2bd0e27fd8b1b0a2ae47f" kindref="member">enable_constant_folding</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1query_1_1_rewrite_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_rewrite_stats" kindref="compound">RewriteStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1query_1_1_rewrite_stats_1a807ebffb576b1f6b5ff9c9fb56df53d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_rewrite_stats_1a807ebffb576b1f6b5ff9c9fb56df53d6" kindref="member">rules_applied</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1query_1_1_rewrite_stats_1ab1926c205640487e3cecbd2439909bfa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1query_1_1_rewrite_stats_1ab1926c205640487e3cecbd2439909bfa" kindref="member">applied_rule_names</ref>;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1query_1_1_rewrite_stats_1ae558adce5edf22aa8fadd2671df6e56a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_rewrite_stats_1ae558adce5edf22aa8fadd2671df6e56a" kindref="member">total_transformations</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="classthemis_1_1query_1_1_i_query_rewrite_rule" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_i_query_rewrite_rule" kindref="compound">IQueryRewriteRule</ref><sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="46" refid="classthemis_1_1query_1_1_i_query_rewrite_rule_1ae198d76b9e5f1ce78389e8af51f5636e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_i_query_rewrite_rule_1ae198d76b9e5f1ce78389e8af51f5636e" kindref="member">~IQueryRewriteRule</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="classthemis_1_1query_1_1_i_query_rewrite_rule_1a7188c91178e7a315f921bce09de1e456" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1query_1_1_i_query_rewrite_rule_1a7188c91178e7a315f921bce09de1e456" kindref="member">name</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="classthemis_1_1query_1_1_i_query_rewrite_rule_1aa5f40172d8eeecc21b3c66f936cda68d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_i_query_rewrite_rule_1aa5f40172d8eeecc21b3c66f936cda68d" kindref="member">applies</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>plan,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_rewrite_context" kindref="compound">RewriteContext</ref>&amp;<sp/>ctx)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="classthemis_1_1query_1_1_i_query_rewrite_rule_1a9091b6186534bf99d50fc785ca8bf9a1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_i_query_rewrite_rule_1a9091b6186534bf99d50fc785ca8bf9a1" kindref="member">apply</ref>(nlohmann::json&amp;<sp/>plan,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_rewrite_context" kindref="compound">RewriteContext</ref>&amp;<sp/>ctx)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Concrete<sp/>rules</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="classthemis_1_1query_1_1_predicate_pushdown_rule" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_predicate_pushdown_rule" kindref="compound">PredicatePushdownRule</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_i_query_rewrite_rule" kindref="compound">IQueryRewriteRule</ref><sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="61" refid="classthemis_1_1query_1_1_predicate_pushdown_rule_1aa49f44f0044705e8bc0d2ac6fd82aad7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_predicate_pushdown_rule_1aa49f44f0044705e8bc0d2ac6fd82aad7" kindref="member">~PredicatePushdownRule</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="62" refid="classthemis_1_1query_1_1_predicate_pushdown_rule_1ab73113f25e4347bb120ae6b32ef18ae5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1query_1_1_predicate_pushdown_rule_1ab73113f25e4347bb120ae6b32ef18ae5" kindref="member">name</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;PredicatePushdown&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_predicate_pushdown_rule_1aa430606296e1cc13bf55accff7a18ce8" kindref="member">applies</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>plan,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_rewrite_context" kindref="compound">RewriteContext</ref>&amp;<sp/>ctx)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_predicate_pushdown_rule_1a2ecda2b02be37b5bcdefa41e3603d183" kindref="member">apply</ref>(nlohmann::json&amp;<sp/>plan,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_rewrite_context" kindref="compound">RewriteContext</ref>&amp;<sp/>ctx)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="classthemis_1_1query_1_1_projection_pushdown_rule" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_projection_pushdown_rule" kindref="compound">ProjectionPushdownRule</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_i_query_rewrite_rule" kindref="compound">IQueryRewriteRule</ref><sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="69" refid="classthemis_1_1query_1_1_projection_pushdown_rule_1aedccd5b43e0d1e90f03a1cf1fb7c968a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_projection_pushdown_rule_1aedccd5b43e0d1e90f03a1cf1fb7c968a" kindref="member">~ProjectionPushdownRule</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="70" refid="classthemis_1_1query_1_1_projection_pushdown_rule_1a7b819e0b1642eb69d5f34b24094eeaf5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1query_1_1_projection_pushdown_rule_1a7b819e0b1642eb69d5f34b24094eeaf5" kindref="member">name</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;ProjectionPushdown&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_projection_pushdown_rule_1a4654206bbb26d3f180c04d32517377e7" kindref="member">applies</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>plan,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_rewrite_context" kindref="compound">RewriteContext</ref>&amp;<sp/>ctx)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_projection_pushdown_rule_1af25414f757b50cc4d29f15db5ceffab5" kindref="member">apply</ref>(nlohmann::json&amp;<sp/>plan,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_rewrite_context" kindref="compound">RewriteContext</ref>&amp;<sp/>ctx)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="classthemis_1_1query_1_1_or_to_in_rewrite_rule" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_or_to_in_rewrite_rule" kindref="compound">OrToInRewriteRule</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_i_query_rewrite_rule" kindref="compound">IQueryRewriteRule</ref><sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="77" refid="classthemis_1_1query_1_1_or_to_in_rewrite_rule_1ac65e3477ea084635adaf69c6a195045d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_or_to_in_rewrite_rule_1ac65e3477ea084635adaf69c6a195045d" kindref="member">~OrToInRewriteRule</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78" refid="classthemis_1_1query_1_1_or_to_in_rewrite_rule_1a5aa7f0b0d34443d2ca8fe0134335ef9a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1query_1_1_or_to_in_rewrite_rule_1a5aa7f0b0d34443d2ca8fe0134335ef9a" kindref="member">name</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;OrToIn&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_or_to_in_rewrite_rule_1aba25e16500ac02834ec61ff380feda1b" kindref="member">applies</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>plan,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_rewrite_context" kindref="compound">RewriteContext</ref>&amp;<sp/>ctx)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_or_to_in_rewrite_rule_1aafbf7f17bc309bcfcfb2be6d35c16a0f" kindref="member">apply</ref>(nlohmann::json&amp;<sp/>plan,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_rewrite_context" kindref="compound">RewriteContext</ref>&amp;<sp/>ctx)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="classthemis_1_1query_1_1_constant_folding_rule" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_constant_folding_rule" kindref="compound">ConstantFoldingRule</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_i_query_rewrite_rule" kindref="compound">IQueryRewriteRule</ref><sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="85" refid="classthemis_1_1query_1_1_constant_folding_rule_1abc1f6e58ebc14556e8b53a5ae31a6f9a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_constant_folding_rule_1abc1f6e58ebc14556e8b53a5ae31a6f9a" kindref="member">~ConstantFoldingRule</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="86" refid="classthemis_1_1query_1_1_constant_folding_rule_1a8324db320a5921e041eefdaf215e9902" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1query_1_1_constant_folding_rule_1a8324db320a5921e041eefdaf215e9902" kindref="member">name</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;ConstantFolding&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_constant_folding_rule_1a1d603c7c5a7721ca72a1e2c9087980f1" kindref="member">applies</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>plan,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_rewrite_context" kindref="compound">RewriteContext</ref>&amp;<sp/>ctx)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_constant_folding_rule_1a162a566f99131888689d7d5f45c4cb3d" kindref="member">apply</ref>(nlohmann::json&amp;<sp/>plan,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_rewrite_context" kindref="compound">RewriteContext</ref>&amp;<sp/>ctx)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="classthemis_1_1query_1_1_common_subexpression_rule" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_common_subexpression_rule" kindref="compound">CommonSubexpressionRule</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_i_query_rewrite_rule" kindref="compound">IQueryRewriteRule</ref><sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="93" refid="classthemis_1_1query_1_1_common_subexpression_rule_1adcce391b9b2d2f2e91c55ab54b5a580b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_common_subexpression_rule_1adcce391b9b2d2f2e91c55ab54b5a580b" kindref="member">~CommonSubexpressionRule</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="94" refid="classthemis_1_1query_1_1_common_subexpression_rule_1aba0981f846e7b777e48c850d71708c7f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1query_1_1_common_subexpression_rule_1aba0981f846e7b777e48c850d71708c7f" kindref="member">name</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;CommonSubexpressionElimination&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_common_subexpression_rule_1aa6981c341a7520523a741fb86b541f22" kindref="member">applies</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>plan,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_rewrite_context" kindref="compound">RewriteContext</ref>&amp;<sp/>ctx)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_common_subexpression_rule_1ae970dd5fc02d9a819ca98371bfcd777f" kindref="member">apply</ref>(nlohmann::json&amp;<sp/>plan,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_rewrite_context" kindref="compound">RewriteContext</ref>&amp;<sp/>ctx)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Pipeline</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="classthemis_1_1query_1_1_query_rewrite_pipeline" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_query_rewrite_pipeline_1a578472323205bbcf33198eadbcfc1f67" kindref="member">QueryRewritePipeline</ref><sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="105" refid="classthemis_1_1query_1_1_query_rewrite_pipeline_1a7111a638ffeaaec40ad506e4ec440dd9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_query_rewrite_pipeline_1a7111a638ffeaaec40ad506e4ec440dd9" kindref="member">kDefaultMaxIterations</ref><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_query_rewrite_pipeline_1a578472323205bbcf33198eadbcfc1f67" kindref="member">QueryRewritePipeline</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>max_iterations<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_query_rewrite_pipeline_1a7111a638ffeaaec40ad506e4ec440dd9" kindref="member">kDefaultMaxIterations</ref>);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_query_rewrite_pipeline_1a998b69753b04e293b78a6e81c3f813db" kindref="member">addRule</ref>(std::shared_ptr&lt;IQueryRewriteRule&gt;<sp/>rule);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_query_rewrite_pipeline_1a1b02b62946b5a247fc9428c62b47293a" kindref="member">clearRules</ref>();</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_query_rewrite_pipeline_1ae38aa322e7550480599675ee95bccc3b" kindref="member">ruleCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_rewrite_stats" kindref="compound">RewriteStats</ref><sp/><ref refid="classthemis_1_1query_1_1_query_rewrite_pipeline_1ae56464b23b7736b84931d4146ebb554d" kindref="member">run</ref>(nlohmann::json&amp;<sp/>plan,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_rewrite_context" kindref="compound">RewriteContext</ref>&amp;<sp/>ctx)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_query_rewrite_pipeline_1a578472323205bbcf33198eadbcfc1f67" kindref="member">QueryRewritePipeline</ref><sp/><ref refid="classthemis_1_1query_1_1_query_rewrite_pipeline_1abccd942484dd4e7016791193066fd9e8" kindref="member">createDefault</ref>();</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::shared_ptr&lt;IQueryRewriteRule&gt;&gt;<sp/>rules_;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>max_iterations_{<ref refid="classthemis_1_1query_1_1_query_rewrite_pipeline_1a7111a638ffeaaec40ad506e4ec440dd9" kindref="member">kDefaultMaxIterations</ref>};</highlight></codeline>
+<codeline lineno="143"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>query</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/query/query_rewrite_rule.h"/>
+  </compounddef>
+</doxygen>

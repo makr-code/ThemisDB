@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1optimizations_1_1_performance_monitor_1_1_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::optimizations::PerformanceMonitor::Metrics</compoundname>
+    <includes refid="raid__optimizations_8h" local="no">raid_optimizations.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1optimizations_1_1_performance_monitor_1_1_metrics_1a2309277b3c64fe0382e7e062045245a7" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::optimizations::PerformanceMonitor::Metrics::total_writes</definition>
+        <argsstring></argsstring>
+        <name>total_writes</name>
+        <qualifiedname>themisdb::sharding::optimizations::PerformanceMonitor::Metrics::total_writes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raid_optimizations.h" line="385" column="18" bodyfile="include/sharding/raid_optimizations.h" bodystart="385" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1optimizations_1_1_performance_monitor_1_1_metrics_1a823b01dd446aae8c6573612c2e0fd1cf" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::optimizations::PerformanceMonitor::Metrics::total_reads</definition>
+        <argsstring></argsstring>
+        <name>total_reads</name>
+        <qualifiedname>themisdb::sharding::optimizations::PerformanceMonitor::Metrics::total_reads</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raid_optimizations.h" line="386" column="18" bodyfile="include/sharding/raid_optimizations.h" bodystart="386" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1optimizations_1_1_performance_monitor_1_1_metrics_1a9a23c36058f832c41ab9a03764de92f6" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::optimizations::PerformanceMonitor::Metrics::bytes_written</definition>
+        <argsstring></argsstring>
+        <name>bytes_written</name>
+        <qualifiedname>themisdb::sharding::optimizations::PerformanceMonitor::Metrics::bytes_written</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raid_optimizations.h" line="387" column="18" bodyfile="include/sharding/raid_optimizations.h" bodystart="387" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1optimizations_1_1_performance_monitor_1_1_metrics_1a6c67b1d4b8df8da8bc97a92c5264df8a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::optimizations::PerformanceMonitor::Metrics::bytes_read</definition>
+        <argsstring></argsstring>
+        <name>bytes_read</name>
+        <qualifiedname>themisdb::sharding::optimizations::PerformanceMonitor::Metrics::bytes_read</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raid_optimizations.h" line="388" column="18" bodyfile="include/sharding/raid_optimizations.h" bodystart="388" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1optimizations_1_1_performance_monitor_1_1_metrics_1a3b944466e88bb15e897cbcd881a9ee34" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::optimizations::PerformanceMonitor::Metrics::avg_write_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_write_latency_ms</name>
+        <qualifiedname>themisdb::sharding::optimizations::PerformanceMonitor::Metrics::avg_write_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raid_optimizations.h" line="389" column="16" bodyfile="include/sharding/raid_optimizations.h" bodystart="389" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1optimizations_1_1_performance_monitor_1_1_metrics_1a1b6db75dc01f8b00214dc50b8c141157" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::optimizations::PerformanceMonitor::Metrics::avg_read_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_read_latency_ms</name>
+        <qualifiedname>themisdb::sharding::optimizations::PerformanceMonitor::Metrics::avg_read_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raid_optimizations.h" line="390" column="16" bodyfile="include/sharding/raid_optimizations.h" bodystart="390" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1optimizations_1_1_performance_monitor_1_1_metrics_1acc246fc49edd13dd5fe2ba18cbf9ec77" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::optimizations::PerformanceMonitor::Metrics::cache_hits</definition>
+        <argsstring></argsstring>
+        <name>cache_hits</name>
+        <qualifiedname>themisdb::sharding::optimizations::PerformanceMonitor::Metrics::cache_hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raid_optimizations.h" line="391" column="18" bodyfile="include/sharding/raid_optimizations.h" bodystart="391" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1optimizations_1_1_performance_monitor_1_1_metrics_1ad9d2ac7d46702417ad706b088a3117e5" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::optimizations::PerformanceMonitor::Metrics::cache_misses</definition>
+        <argsstring></argsstring>
+        <name>cache_misses</name>
+        <qualifiedname>themisdb::sharding::optimizations::PerformanceMonitor::Metrics::cache_misses</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raid_optimizations.h" line="392" column="18" bodyfile="include/sharding/raid_optimizations.h" bodystart="392" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/raid_optimizations.h" line="384" column="5" bodyfile="include/sharding/raid_optimizations.h" bodystart="384" bodyend="393"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1optimizations_1_1_performance_monitor_1_1_metrics_1a1b6db75dc01f8b00214dc50b8c141157" prot="public" virt="non-virtual"><scope>themisdb::sharding::optimizations::PerformanceMonitor::Metrics</scope><name>avg_read_latency_ms</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1optimizations_1_1_performance_monitor_1_1_metrics_1a3b944466e88bb15e897cbcd881a9ee34" prot="public" virt="non-virtual"><scope>themisdb::sharding::optimizations::PerformanceMonitor::Metrics</scope><name>avg_write_latency_ms</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1optimizations_1_1_performance_monitor_1_1_metrics_1a6c67b1d4b8df8da8bc97a92c5264df8a" prot="public" virt="non-virtual"><scope>themisdb::sharding::optimizations::PerformanceMonitor::Metrics</scope><name>bytes_read</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1optimizations_1_1_performance_monitor_1_1_metrics_1a9a23c36058f832c41ab9a03764de92f6" prot="public" virt="non-virtual"><scope>themisdb::sharding::optimizations::PerformanceMonitor::Metrics</scope><name>bytes_written</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1optimizations_1_1_performance_monitor_1_1_metrics_1acc246fc49edd13dd5fe2ba18cbf9ec77" prot="public" virt="non-virtual"><scope>themisdb::sharding::optimizations::PerformanceMonitor::Metrics</scope><name>cache_hits</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1optimizations_1_1_performance_monitor_1_1_metrics_1ad9d2ac7d46702417ad706b088a3117e5" prot="public" virt="non-virtual"><scope>themisdb::sharding::optimizations::PerformanceMonitor::Metrics</scope><name>cache_misses</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1optimizations_1_1_performance_monitor_1_1_metrics_1a823b01dd446aae8c6573612c2e0fd1cf" prot="public" virt="non-virtual"><scope>themisdb::sharding::optimizations::PerformanceMonitor::Metrics</scope><name>total_reads</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1optimizations_1_1_performance_monitor_1_1_metrics_1a2309277b3c64fe0382e7e062045245a7" prot="public" virt="non-virtual"><scope>themisdb::sharding::optimizations::PerformanceMonitor::Metrics</scope><name>total_writes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

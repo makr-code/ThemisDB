@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_compat_policy" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::CompatPolicy</compoundname>
+    <includes refid="api__version_8h" local="no">api_version.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_compat_policy_1ad4231f52ff950d28fa7155852369a0ef" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::CompatPolicy::allow_field_removal</definition>
+        <argsstring></argsstring>
+        <name>allow_field_removal</name>
+        <qualifiedname>themis::server::CompatPolicy::allow_field_removal</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>If false, removing a field is a violation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version.h" line="192" column="10" bodyfile="include/server/api_version.h" bodystart="192" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_compat_policy_1abe212c6f7b26ed1a58a417f508f39d0d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::CompatPolicy::allow_field_rename</definition>
+        <argsstring></argsstring>
+        <name>allow_field_rename</name>
+        <qualifiedname>themis::server::CompatPolicy::allow_field_rename</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>If false, renaming a field is a violation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version.h" line="193" column="10" bodyfile="include/server/api_version.h" bodystart="193" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_compat_policy_1a5138108e0a405744fdff735c581e8e5e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::CompatPolicy::allow_type_narrowing</definition>
+        <argsstring></argsstring>
+        <name>allow_type_narrowing</name>
+        <qualifiedname>themis::server::CompatPolicy::allow_type_narrowing</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>If false, narrowing a field&apos;s wire type is a violation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version.h" line="194" column="10" bodyfile="include/server/api_version.h" bodystart="194" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_compat_policy_1a2c695a693b00e5d5deaf3cde6b11f87f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::CompatPolicy::allow_path_rename</definition>
+        <argsstring></argsstring>
+        <name>allow_path_rename</name>
+        <qualifiedname>themis::server::CompatPolicy::allow_path_rename</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>If false, renaming an endpoint path is a violation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version.h" line="195" column="10" bodyfile="include/server/api_version.h" bodystart="195" bodyend="195"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/api_version.h" line="191" column="1" bodyfile="include/server/api_version.h" bodystart="191" bodyend="196"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_compat_policy_1ad4231f52ff950d28fa7155852369a0ef" prot="public" virt="non-virtual"><scope>themis::server::CompatPolicy</scope><name>allow_field_removal</name></member>
+      <member refid="structthemis_1_1server_1_1_compat_policy_1abe212c6f7b26ed1a58a417f508f39d0d" prot="public" virt="non-virtual"><scope>themis::server::CompatPolicy</scope><name>allow_field_rename</name></member>
+      <member refid="structthemis_1_1server_1_1_compat_policy_1a2c695a693b00e5d5deaf3cde6b11f87f" prot="public" virt="non-virtual"><scope>themis::server::CompatPolicy</scope><name>allow_path_rename</name></member>
+      <member refid="structthemis_1_1server_1_1_compat_policy_1a5138108e0a405744fdff735c581e8e5e" prot="public" virt="non-virtual"><scope>themis::server::CompatPolicy</scope><name>allow_type_narrowing</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,204 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_congestion_diagnostics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::network::CongestionDiagnostics</compoundname>
+    <includes refid="bbr__congestion__control_8h" local="no">bbr_congestion_control.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_congestion_diagnostics_1a062e9cdb45fbd2f2ea67857d08052d24" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::network::CongestionDiagnostics::algorithm</definition>
+        <argsstring></argsstring>
+        <name>algorithm</name>
+        <qualifiedname>themis::network::CongestionDiagnostics::algorithm</qualifiedname>
+        <briefdescription>
+<para>Active algorithm name as reported by the kernel (e.g., &quot;bbr2&quot;, &quot;cubic&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/bbr_congestion_control.h" line="101" column="17" bodyfile="include/network/bbr_congestion_control.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_congestion_diagnostics_1abfbb46ea81724a3752fdc121416c1249" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::CongestionDiagnostics::bandwidth_bps</definition>
+        <argsstring></argsstring>
+        <name>bandwidth_bps</name>
+        <qualifiedname>themis::network::CongestionDiagnostics::bandwidth_bps</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>BBR bandwidth estimate in bits per second. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/bbr_congestion_control.h" line="104" column="14" bodyfile="include/network/bbr_congestion_control.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_congestion_diagnostics_1a5aa59e1b6972f93114bc4528be98daed" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::CongestionDiagnostics::min_rtt_us</definition>
+        <argsstring></argsstring>
+        <name>min_rtt_us</name>
+        <qualifiedname>themis::network::CongestionDiagnostics::min_rtt_us</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Minimum RTT estimate in microseconds (0 if not measured). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/bbr_congestion_control.h" line="107" column="14" bodyfile="include/network/bbr_congestion_control.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_congestion_diagnostics_1ab4840a0f03dfd841ce72211db7ff8ae1" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::CongestionDiagnostics::srtt_us</definition>
+        <argsstring></argsstring>
+        <name>srtt_us</name>
+        <qualifiedname>themis::network::CongestionDiagnostics::srtt_us</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Current smoothed RTT in microseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/bbr_congestion_control.h" line="110" column="14" bodyfile="include/network/bbr_congestion_control.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_congestion_diagnostics_1af75f688764cb442839b4701c004378e1" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::CongestionDiagnostics::cwnd_bytes</definition>
+        <argsstring></argsstring>
+        <name>cwnd_bytes</name>
+        <qualifiedname>themis::network::CongestionDiagnostics::cwnd_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Current congestion window in bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/bbr_congestion_control.h" line="113" column="14" bodyfile="include/network/bbr_congestion_control.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_congestion_diagnostics_1a100e7961423e31a9f69f0d1f57f6a6f8" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::CongestionDiagnostics::inflight_bytes</definition>
+        <argsstring></argsstring>
+        <name>inflight_bytes</name>
+        <qualifiedname>themis::network::CongestionDiagnostics::inflight_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Bytes currently in flight (sent but not yet acknowledged). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/bbr_congestion_control.h" line="116" column="14" bodyfile="include/network/bbr_congestion_control.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_congestion_diagnostics_1abbcb6c2610be2f486f185b9e6711f51f" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::CongestionDiagnostics::pacing_rate_bps</definition>
+        <argsstring></argsstring>
+        <name>pacing_rate_bps</name>
+        <qualifiedname>themis::network::CongestionDiagnostics::pacing_rate_bps</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Pacing rate in bytes per second (0 if pacing not active). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/bbr_congestion_control.h" line="119" column="14" bodyfile="include/network/bbr_congestion_control.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_congestion_diagnostics_1a0c5347b93d07ef5775fc53dea89506e4" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::CongestionDiagnostics::rto_count</definition>
+        <argsstring></argsstring>
+        <name>rto_count</name>
+        <qualifiedname>themis::network::CongestionDiagnostics::rto_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of retransmit timeouts (RTO) on this connection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/bbr_congestion_control.h" line="122" column="14" bodyfile="include/network/bbr_congestion_control.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_congestion_diagnostics_1aae1d66bbf02d7aad722b3604a9729c81" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::CongestionDiagnostics::fast_retransmit_count</definition>
+        <argsstring></argsstring>
+        <name>fast_retransmit_count</name>
+        <qualifiedname>themis::network::CongestionDiagnostics::fast_retransmit_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of fast retransmits. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/bbr_congestion_control.h" line="125" column="14" bodyfile="include/network/bbr_congestion_control.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_congestion_diagnostics_1acb6ebf3ae54ca1f5e7a60926a99ec572" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::network::CongestionDiagnostics::has_loss</definition>
+        <argsstring></argsstring>
+        <name>has_loss</name>
+        <qualifiedname>themis::network::CongestionDiagnostics::has_loss</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True if the connection has suffered any packet loss event. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/bbr_congestion_control.h" line="128" column="10" bodyfile="include/network/bbr_congestion_control.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_congestion_diagnostics_1a1a7afe643ff90b09ceaa3f167754237c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::network::CongestionDiagnostics::has_ecn_congestion</definition>
+        <argsstring></argsstring>
+        <name>has_ecn_congestion</name>
+        <qualifiedname>themis::network::CongestionDiagnostics::has_ecn_congestion</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True if ECN-capable and at least one CE mark was received. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/bbr_congestion_control.h" line="131" column="10" bodyfile="include/network/bbr_congestion_control.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Diagnostic snapshot of per-connection BBR/CUBIC congestion state. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All fields are read from the kernel via TCP_INFO / TCP_CC_INFO getsockopt. Fields that the kernel does not populate are zero-initialised. </para>
+    </detaileddescription>
+    <location file="include/network/bbr_congestion_control.h" line="99" column="1" bodyfile="include/network/bbr_congestion_control.h" bodystart="99" bodyend="132"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_congestion_diagnostics_1a062e9cdb45fbd2f2ea67857d08052d24" prot="public" virt="non-virtual"><scope>themis::network::CongestionDiagnostics</scope><name>algorithm</name></member>
+      <member refid="structthemis_1_1network_1_1_congestion_diagnostics_1abfbb46ea81724a3752fdc121416c1249" prot="public" virt="non-virtual"><scope>themis::network::CongestionDiagnostics</scope><name>bandwidth_bps</name></member>
+      <member refid="structthemis_1_1network_1_1_congestion_diagnostics_1af75f688764cb442839b4701c004378e1" prot="public" virt="non-virtual"><scope>themis::network::CongestionDiagnostics</scope><name>cwnd_bytes</name></member>
+      <member refid="structthemis_1_1network_1_1_congestion_diagnostics_1aae1d66bbf02d7aad722b3604a9729c81" prot="public" virt="non-virtual"><scope>themis::network::CongestionDiagnostics</scope><name>fast_retransmit_count</name></member>
+      <member refid="structthemis_1_1network_1_1_congestion_diagnostics_1a1a7afe643ff90b09ceaa3f167754237c" prot="public" virt="non-virtual"><scope>themis::network::CongestionDiagnostics</scope><name>has_ecn_congestion</name></member>
+      <member refid="structthemis_1_1network_1_1_congestion_diagnostics_1acb6ebf3ae54ca1f5e7a60926a99ec572" prot="public" virt="non-virtual"><scope>themis::network::CongestionDiagnostics</scope><name>has_loss</name></member>
+      <member refid="structthemis_1_1network_1_1_congestion_diagnostics_1a100e7961423e31a9f69f0d1f57f6a6f8" prot="public" virt="non-virtual"><scope>themis::network::CongestionDiagnostics</scope><name>inflight_bytes</name></member>
+      <member refid="structthemis_1_1network_1_1_congestion_diagnostics_1a5aa59e1b6972f93114bc4528be98daed" prot="public" virt="non-virtual"><scope>themis::network::CongestionDiagnostics</scope><name>min_rtt_us</name></member>
+      <member refid="structthemis_1_1network_1_1_congestion_diagnostics_1abbcb6c2610be2f486f185b9e6711f51f" prot="public" virt="non-virtual"><scope>themis::network::CongestionDiagnostics</scope><name>pacing_rate_bps</name></member>
+      <member refid="structthemis_1_1network_1_1_congestion_diagnostics_1a0c5347b93d07ef5775fc53dea89506e4" prot="public" virt="non-virtual"><scope>themis::network::CongestionDiagnostics</scope><name>rto_count</name></member>
+      <member refid="structthemis_1_1network_1_1_congestion_diagnostics_1ab4840a0f03dfd841ce72211db7ff8ae1" prot="public" virt="non-virtual"><scope>themis::network::CongestionDiagnostics</scope><name>srtt_us</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

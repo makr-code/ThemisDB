@@ -1,0 +1,221 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_vision_resource_limits" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::VisionResourceLimits</compoundname>
+    <includes refid="vision__config_8h" local="no">vision_config.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_resource_limits_1a7691a10d18bb82f07a1b9e51919ac80e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::VisionResourceLimits::max_memory_mb</definition>
+        <argsstring></argsstring>
+        <name>max_memory_mb</name>
+        <qualifiedname>themis::llm::VisionResourceLimits::max_memory_mb</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Maximum memory usage. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="84" column="12" bodyfile="include/llm/vision_config.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_resource_limits_1a8a389d5411c0a238b1aa1f26a1c87002" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::VisionResourceLimits::max_memory_per_request_mb</definition>
+        <argsstring></argsstring>
+        <name>max_memory_per_request_mb</name>
+        <qualifiedname>themis::llm::VisionResourceLimits::max_memory_per_request_mb</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Memory per request. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="85" column="12" bodyfile="include/llm/vision_config.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_resource_limits_1aa72b18601d652df045b05da70c401858" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::VisionResourceLimits::max_vram_mb</definition>
+        <argsstring></argsstring>
+        <name>max_vram_mb</name>
+        <qualifiedname>themis::llm::VisionResourceLimits::max_vram_mb</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Maximum VRAM usage. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="86" column="12" bodyfile="include/llm/vision_config.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_resource_limits_1ae093804728773bf7dac8bc7a55976e4b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::VisionResourceLimits::max_vram_per_model_mb</definition>
+        <argsstring></argsstring>
+        <name>max_vram_per_model_mb</name>
+        <qualifiedname>themis::llm::VisionResourceLimits::max_vram_per_model_mb</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>VRAM per model. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="87" column="12" bodyfile="include/llm/vision_config.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_resource_limits_1ad01d2f72ce436d48c0183069a44005de" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::VisionResourceLimits::max_concurrent_requests</definition>
+        <argsstring></argsstring>
+        <name>max_concurrent_requests</name>
+        <qualifiedname>themis::llm::VisionResourceLimits::max_concurrent_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Max concurrent requests. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="88" column="12" bodyfile="include/llm/vision_config.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_resource_limits_1a95d86b4f0307feb020f341790cee6e0e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::VisionResourceLimits::max_concurrent_models</definition>
+        <argsstring></argsstring>
+        <name>max_concurrent_models</name>
+        <qualifiedname>themis::llm::VisionResourceLimits::max_concurrent_models</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Max models loaded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="89" column="12" bodyfile="include/llm/vision_config.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_resource_limits_1a011b8960c3fa2ca0af912ced72314cc7" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::VisionResourceLimits::max_queue_size</definition>
+        <argsstring></argsstring>
+        <name>max_queue_size</name>
+        <qualifiedname>themis::llm::VisionResourceLimits::max_queue_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Request queue size. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="90" column="12" bodyfile="include/llm/vision_config.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_resource_limits_1acbd6a05bda2c086f1be6713ec906e377" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::llm::VisionResourceLimits::max_inference_time</definition>
+        <argsstring></argsstring>
+        <name>max_inference_time</name>
+        <qualifiedname>themis::llm::VisionResourceLimits::max_inference_time</qualifiedname>
+        <briefdescription>
+<para>Max inference time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="91" column="26" bodyfile="include/llm/vision_config.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_resource_limits_1a673ee795bf34f6f11bc0a2b7ff2d182c" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::llm::VisionResourceLimits::max_model_load_time</definition>
+        <argsstring></argsstring>
+        <name>max_model_load_time</name>
+        <qualifiedname>themis::llm::VisionResourceLimits::max_model_load_time</qualifiedname>
+        <briefdescription>
+<para>Max model load time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="92" column="26" bodyfile="include/llm/vision_config.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_resource_limits_1aebf1fd6dd9f51accc316e11371ef82e3" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::llm::VisionResourceLimits::request_timeout</definition>
+        <argsstring></argsstring>
+        <name>request_timeout</name>
+        <qualifiedname>themis::llm::VisionResourceLimits::request_timeout</qualifiedname>
+        <briefdescription>
+<para>Request timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="93" column="26" bodyfile="include/llm/vision_config.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_resource_limits_1af76d9ba028ef088394bc8526e1c8dbc2" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::VisionResourceLimits::cpu_inference_threads</definition>
+        <argsstring></argsstring>
+        <name>cpu_inference_threads</name>
+        <qualifiedname>themis::llm::VisionResourceLimits::cpu_inference_threads</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+<para>CPU threads for image encoding (clip_image_encode). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="94" column="9" bodyfile="include/llm/vision_config.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_vision_resource_limits_1ad5c14cccc65ac1417a0eaee4f811f2e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::VisionResourceLimits::~VisionResourceLimits</definition>
+        <argsstring>()=default</argsstring>
+        <name>~VisionResourceLimits</name>
+        <qualifiedname>themis::llm::VisionResourceLimits::~VisionResourceLimits</qualifiedname>
+        <briefdescription>
+<para>Vision Resource Limits. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="83" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/vision_config.h" line="78" column="1" bodyfile="include/llm/vision_config.h" bodystart="78" bodyend="95"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_vision_resource_limits_1af76d9ba028ef088394bc8526e1c8dbc2" prot="public" virt="non-virtual"><scope>themis::llm::VisionResourceLimits</scope><name>cpu_inference_threads</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_resource_limits_1a95d86b4f0307feb020f341790cee6e0e" prot="public" virt="non-virtual"><scope>themis::llm::VisionResourceLimits</scope><name>max_concurrent_models</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_resource_limits_1ad01d2f72ce436d48c0183069a44005de" prot="public" virt="non-virtual"><scope>themis::llm::VisionResourceLimits</scope><name>max_concurrent_requests</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_resource_limits_1acbd6a05bda2c086f1be6713ec906e377" prot="public" virt="non-virtual"><scope>themis::llm::VisionResourceLimits</scope><name>max_inference_time</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_resource_limits_1a7691a10d18bb82f07a1b9e51919ac80e" prot="public" virt="non-virtual"><scope>themis::llm::VisionResourceLimits</scope><name>max_memory_mb</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_resource_limits_1a8a389d5411c0a238b1aa1f26a1c87002" prot="public" virt="non-virtual"><scope>themis::llm::VisionResourceLimits</scope><name>max_memory_per_request_mb</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_resource_limits_1a673ee795bf34f6f11bc0a2b7ff2d182c" prot="public" virt="non-virtual"><scope>themis::llm::VisionResourceLimits</scope><name>max_model_load_time</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_resource_limits_1a011b8960c3fa2ca0af912ced72314cc7" prot="public" virt="non-virtual"><scope>themis::llm::VisionResourceLimits</scope><name>max_queue_size</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_resource_limits_1aa72b18601d652df045b05da70c401858" prot="public" virt="non-virtual"><scope>themis::llm::VisionResourceLimits</scope><name>max_vram_mb</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_resource_limits_1ae093804728773bf7dac8bc7a55976e4b" prot="public" virt="non-virtual"><scope>themis::llm::VisionResourceLimits</scope><name>max_vram_per_model_mb</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_resource_limits_1aebf1fd6dd9f51accc316e11371ef82e3" prot="public" virt="non-virtual"><scope>themis::llm::VisionResourceLimits</scope><name>request_timeout</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_resource_limits_1ad5c14cccc65ac1417a0eaee4f811f2e3" prot="public" virt="virtual"><scope>themis::llm::VisionResourceLimits</scope><name>~VisionResourceLimits</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

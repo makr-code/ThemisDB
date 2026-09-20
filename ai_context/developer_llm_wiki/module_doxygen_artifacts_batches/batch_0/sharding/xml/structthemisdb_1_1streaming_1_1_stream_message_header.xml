@@ -1,0 +1,206 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1streaming_1_1_stream_message_header" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::streaming::StreamMessageHeader</compoundname>
+    <includes refid="stream__protocol_8h" local="no">stream_protocol.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_message_header_1ab1fc55332bfa2f06a7e620b55c13cd65" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themisdb::streaming::StreamMessageHeader::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themisdb::streaming::StreamMessageHeader::version</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="200" column="13" bodyfile="include/sharding/stream_protocol.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_message_header_1a7a9f0c690eb4ec30857841e9cb12ebe3" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1streaming_1aa9eb823b11b96dd91bcf59f228376fbd" kindref="member">StreamMessageType</ref></type>
+        <definition>StreamMessageType themisdb::streaming::StreamMessageHeader::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themisdb::streaming::StreamMessageHeader::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="201" column="23" bodyfile="include/sharding/stream_protocol.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_message_header_1a694f54ae3afedf076f52d76224d5a213" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::streaming::StreamMessageHeader::session_id</definition>
+        <argsstring></argsstring>
+        <name>session_id</name>
+        <qualifiedname>themisdb::streaming::StreamMessageHeader::session_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="202" column="14" bodyfile="include/sharding/stream_protocol.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_message_header_1a99ee87666c053fe01c1fc7c26eac025e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::streaming::StreamMessageHeader::sequence_number</definition>
+        <argsstring></argsstring>
+        <name>sequence_number</name>
+        <qualifiedname>themisdb::streaming::StreamMessageHeader::sequence_number</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="203" column="14" bodyfile="include/sharding/stream_protocol.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_message_header_1aa404c6b0cdd2d77f738b5dd914b221a5" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::streaming::StreamMessageHeader::payload_length</definition>
+        <argsstring></argsstring>
+        <name>payload_length</name>
+        <qualifiedname>themisdb::streaming::StreamMessageHeader::payload_length</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="204" column="14" bodyfile="include/sharding/stream_protocol.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_message_header_1a4fe074a81a05f80a0ba46c05a5886a43" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::streaming::StreamMessageHeader::flags</definition>
+        <argsstring></argsstring>
+        <name>flags</name>
+        <qualifiedname>themisdb::streaming::StreamMessageHeader::flags</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="205" column="14" bodyfile="include/sharding/stream_protocol.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_message_header_1aeb9f452b3e355aeade9ffc0a68b2fa5b" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::streaming::StreamMessageHeader::checksum</definition>
+        <argsstring></argsstring>
+        <name>checksum</name>
+        <qualifiedname>themisdb::streaming::StreamMessageHeader::checksum</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="206" column="14" bodyfile="include/sharding/stream_protocol.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_message_header_1ad047f615e11ee975d619faa33142cde0" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::streaming::StreamMessageHeader::SIZE</definition>
+        <argsstring></argsstring>
+        <name>SIZE</name>
+        <qualifiedname>themisdb::streaming::StreamMessageHeader::SIZE</qualifiedname>
+        <initializer>= 26</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="208" column="29" bodyfile="include/sharding/stream_protocol.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1streaming_1_1_stream_message_header_1a7336500032bdd7dfda074363746b321c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themisdb::streaming::StreamMessageHeader::serialize</definition>
+        <argsstring>() const</argsstring>
+        <name>serialize</name>
+        <qualifiedname>themisdb::streaming::StreamMessageHeader::serialize</qualifiedname>
+        <briefdescription>
+<para>Serialize message header into fixed-size big-endian wire format. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Result. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">SIZE</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="211" column="17" bodyfile="src/sharding/stream_protocol.cpp" bodystart="160" bodyend="202"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemisdb_1_1streaming_1_1_stream_message_header_1a393ad04b52bdba71b948457f98b4bed0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1streaming_1_1_stream_message_header" kindref="compound">StreamMessageHeader</ref> &gt;</type>
+        <definition>std::optional&lt; StreamMessageHeader &gt; themisdb::streaming::StreamMessageHeader::deserialize</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>deserialize</name>
+        <qualifiedname>themisdb::streaming::StreamMessageHeader::deserialize</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Parse message header from wire bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Deserialize.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="214" column="26" bodyfile="src/sharding/stream_protocol.cpp" bodystart="210" bodyend="250"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Stream message header (binary protocol) </para>
+    </detaileddescription>
+    <location file="include/sharding/stream_protocol.h" line="199" column="1" bodyfile="include/sharding/stream_protocol.h" bodystart="199" bodyend="215"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_message_header_1aeb9f452b3e355aeade9ffc0a68b2fa5b" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamMessageHeader</scope><name>checksum</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_message_header_1a393ad04b52bdba71b948457f98b4bed0" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamMessageHeader</scope><name>deserialize</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_message_header_1a4fe074a81a05f80a0ba46c05a5886a43" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamMessageHeader</scope><name>flags</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_message_header_1aa404c6b0cdd2d77f738b5dd914b221a5" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamMessageHeader</scope><name>payload_length</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_message_header_1a99ee87666c053fe01c1fc7c26eac025e" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamMessageHeader</scope><name>sequence_number</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_message_header_1a7336500032bdd7dfda074363746b321c" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamMessageHeader</scope><name>serialize</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_message_header_1a694f54ae3afedf076f52d76224d5a213" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamMessageHeader</scope><name>session_id</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_message_header_1ad047f615e11ee975d619faa33142cde0" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamMessageHeader</scope><name>SIZE</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_message_header_1a7a9f0c690eb4ec30857841e9cb12ebe3" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamMessageHeader</scope><name>type</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_message_header_1ab1fc55332bfa2f06a7e620b55c13cd65" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamMessageHeader</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

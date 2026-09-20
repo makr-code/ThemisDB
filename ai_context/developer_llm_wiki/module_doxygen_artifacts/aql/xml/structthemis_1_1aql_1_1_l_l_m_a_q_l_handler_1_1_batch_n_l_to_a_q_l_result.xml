@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_batch_n_l_to_a_q_l_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::LLMAQLHandler::BatchNLToAQLResult</compoundname>
+    <includes refid="llm__aql__handler_8h" local="no">llm_aql_handler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_batch_n_l_to_a_q_l_result_1a8b5d06832e6260b107a859b8b4bab257" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::LLMAQLHandler::BatchNLToAQLResult::aql_query</definition>
+        <argsstring></argsstring>
+        <name>aql_query</name>
+        <qualifiedname>themis::aql::LLMAQLHandler::BatchNLToAQLResult::aql_query</qualifiedname>
+        <briefdescription>
+<para>Translated AQL query; empty when translation failed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_aql_handler.h" line="328" column="21" bodyfile="include/aql/llm_aql_handler.h" bodystart="328" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_batch_n_l_to_a_q_l_result_1a3db7beaf2c1011d6d18b0d1e51ec8018" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::LLMAQLHandler::BatchNLToAQLResult::error</definition>
+        <argsstring></argsstring>
+        <name>error</name>
+        <qualifiedname>themis::aql::LLMAQLHandler::BatchNLToAQLResult::error</qualifiedname>
+        <briefdescription>
+<para>Error message if translation failed; empty on success. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_aql_handler.h" line="329" column="21" bodyfile="include/aql/llm_aql_handler.h" bodystart="329" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_batch_n_l_to_a_q_l_result_1aa945a969aaba4d0e97217c0d0125accd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::aql::LLMAQLHandler::BatchNLToAQLResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::aql::LLMAQLHandler::BatchNLToAQLResult::success</qualifiedname>
+        <briefdescription>
+<para>true if translation succeeded </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_aql_handler.h" line="330" column="14" bodyfile="include/aql/llm_aql_handler.h" bodystart="330" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/llm_aql_handler.h" line="327" column="5" bodyfile="include/aql/llm_aql_handler.h" bodystart="327" bodyend="331"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_batch_n_l_to_a_q_l_result_1a8b5d06832e6260b107a859b8b4bab257" prot="public" virt="non-virtual"><scope>themis::aql::LLMAQLHandler::BatchNLToAQLResult</scope><name>aql_query</name></member>
+      <member refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_batch_n_l_to_a_q_l_result_1a3db7beaf2c1011d6d18b0d1e51ec8018" prot="public" virt="non-virtual"><scope>themis::aql::LLMAQLHandler::BatchNLToAQLResult</scope><name>error</name></member>
+      <member refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_batch_n_l_to_a_q_l_result_1aa945a969aaba4d0e97217c0d0125accd" prot="public" virt="non-virtual"><scope>themis::aql::LLMAQLHandler::BatchNLToAQLResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

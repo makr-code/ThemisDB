@@ -1,0 +1,169 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_incremental_exporter_test" kind="class" language="C++" prot="public">
+    <compoundname>IncrementalExporterTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_incremental_exporter_test_1a61fd76daa85e2cb2733225c1b155f317" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string IncrementalExporterTest::test_dir_</definition>
+        <argsstring></argsstring>
+        <name>test_dir_</name>
+        <qualifiedname>IncrementalExporterTest::test_dir_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_incremental_exporter.cpp" line="89" column="17" bodyfile="tests/exporters/test_incremental_exporter.cpp" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_incremental_exporter_test_1a1319821654feb24108174dadef483ec9" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; BaseEntity &gt;</type>
+        <definition>std::vector&lt;BaseEntity&gt; IncrementalExporterTest::test_entities_</definition>
+        <argsstring></argsstring>
+        <name>test_entities_</name>
+        <qualifiedname>IncrementalExporterTest::test_entities_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_incremental_exporter.cpp" line="90" column="17" bodyfile="tests/exporters/test_incremental_exporter.cpp" bodystart="90" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_incremental_exporter_test_1ab8897792edfaaf5a07656aee454b11a8" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void IncrementalExporterTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>IncrementalExporterTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_incremental_exporter.cpp" line="40" column="10" bodyfile="tests/exporters/test_incremental_exporter.cpp" bodystart="40" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="class_incremental_exporter_test_1af58a43fb3954e7d98e721b9f5a49ad59" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void IncrementalExporterTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>IncrementalExporterTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_incremental_exporter.cpp" line="50" column="10" bodyfile="tests/exporters/test_incremental_exporter.cpp" bodystart="50" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="class_incremental_exporter_test_1a676247a509e23d68acbabd4912c6979c" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void IncrementalExporterTest::createTestEntities</definition>
+        <argsstring>(int count)</argsstring>
+        <name>createTestEntities</name>
+        <qualifiedname>IncrementalExporterTest::createTestEntities</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Create entities with _seq field values 1..count. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_incremental_exporter.cpp" line="57" column="10" bodyfile="tests/exporters/test_incremental_exporter.cpp" bodystart="57" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="class_incremental_exporter_test_1a00680e98662c1f00b61a866a05722630" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; IncrementalExporterTest::readLines</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>readLines</name>
+        <qualifiedname>IncrementalExporterTest::readLines</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_incremental_exporter.cpp" line="69" column="17" bodyfile="tests/exporters/test_incremental_exporter.cpp" bodystart="69" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="class_incremental_exporter_test_1a36fc53df83e9f22126019db013894966" prot="protected" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string IncrementalExporterTest::watermarkPath</definition>
+        <argsstring>() const</argsstring>
+        <name>watermarkPath</name>
+        <qualifiedname>IncrementalExporterTest::watermarkPath</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_incremental_exporter.cpp" line="81" column="17" bodyfile="tests/exporters/test_incremental_exporter.cpp" bodystart="81" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="class_incremental_exporter_test_1af627842489d0745fdedd54904248dc70" prot="protected" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string IncrementalExporterTest::outputPath</definition>
+        <argsstring>() const</argsstring>
+        <name>outputPath</name>
+        <qualifiedname>IncrementalExporterTest::outputPath</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_incremental_exporter.cpp" line="85" column="17" bodyfile="tests/exporters/test_incremental_exporter.cpp" bodystart="85" bodyend="87"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>IncrementalExporterTest</label>
+        <link refid="class_incremental_exporter_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>IncrementalExporterTest</label>
+        <link refid="class_incremental_exporter_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/exporters/test_incremental_exporter.cpp" line="38" column="1" bodyfile="tests/exporters/test_incremental_exporter.cpp" bodystart="38" bodyend="91"/>
+    <listofallmembers>
+      <member refid="class_incremental_exporter_test_1a676247a509e23d68acbabd4912c6979c" prot="protected" virt="non-virtual"><scope>IncrementalExporterTest</scope><name>createTestEntities</name></member>
+      <member refid="class_incremental_exporter_test_1af627842489d0745fdedd54904248dc70" prot="protected" virt="non-virtual"><scope>IncrementalExporterTest</scope><name>outputPath</name></member>
+      <member refid="class_incremental_exporter_test_1a00680e98662c1f00b61a866a05722630" prot="protected" virt="non-virtual"><scope>IncrementalExporterTest</scope><name>readLines</name></member>
+      <member refid="class_incremental_exporter_test_1ab8897792edfaaf5a07656aee454b11a8" prot="protected" virt="non-virtual"><scope>IncrementalExporterTest</scope><name>SetUp</name></member>
+      <member refid="class_incremental_exporter_test_1af58a43fb3954e7d98e721b9f5a49ad59" prot="protected" virt="non-virtual"><scope>IncrementalExporterTest</scope><name>TearDown</name></member>
+      <member refid="class_incremental_exporter_test_1a61fd76daa85e2cb2733225c1b155f317" prot="protected" virt="non-virtual"><scope>IncrementalExporterTest</scope><name>test_dir_</name></member>
+      <member refid="class_incremental_exporter_test_1a1319821654feb24108174dadef483ec9" prot="protected" virt="non-virtual"><scope>IncrementalExporterTest</scope><name>test_entities_</name></member>
+      <member refid="class_incremental_exporter_test_1a36fc53df83e9f22126019db013894966" prot="protected" virt="non-virtual"><scope>IncrementalExporterTest</scope><name>watermarkPath</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1api_1_1_span_data" kind="struct" language="C++" prot="public">
+    <compoundname>themis::api::SpanData</compoundname>
+    <includes refid="otlp__exporter_8h" local="no">otlp_exporter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_span_data_1aa84de767aeb415e69e64cdfa21dbf1fc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::api::SpanData::trace_id</definition>
+        <argsstring></argsstring>
+        <name>trace_id</name>
+        <qualifiedname>themis::api::SpanData::trace_id</qualifiedname>
+        <briefdescription>
+<para>32 hex chars (128-bit); e.g. from X-Correlation-ID </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/otlp_exporter.h" line="118" column="18" bodyfile="include/api/otlp_exporter.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_span_data_1a91b5663f289f374f7f9ac9ac0e95fb29" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::api::SpanData::span_id</definition>
+        <argsstring></argsstring>
+        <name>span_id</name>
+        <qualifiedname>themis::api::SpanData::span_id</qualifiedname>
+        <briefdescription>
+<para>16 hex chars (64-bit); unique per request leg </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/otlp_exporter.h" line="119" column="18" bodyfile="include/api/otlp_exporter.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_span_data_1a60b0aba89a118b6e307818b3b104da4d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::api::SpanData::parent_span_id</definition>
+        <argsstring></argsstring>
+        <name>parent_span_id</name>
+        <qualifiedname>themis::api::SpanData::parent_span_id</qualifiedname>
+        <briefdescription>
+<para>16 hex chars, or empty for root spans </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/otlp_exporter.h" line="120" column="18" bodyfile="include/api/otlp_exporter.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_span_data_1af1708276a2e64196250eb70ac6d9cff3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::api::SpanData::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::api::SpanData::name</qualifiedname>
+        <briefdescription>
+<para>Span name, e.g. &quot;HTTP GET /v1/entity/{id}&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/otlp_exporter.h" line="121" column="18" bodyfile="include/api/otlp_exporter.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_span_data_1a8314b622c6e3f2912086add8b8fb30c3" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::api::SpanData::start_time_unix_nano</definition>
+        <argsstring></argsstring>
+        <name>start_time_unix_nano</name>
+        <qualifiedname>themis::api::SpanData::start_time_unix_nano</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>epoch nanoseconds </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/otlp_exporter.h" line="122" column="18" bodyfile="include/api/otlp_exporter.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_span_data_1a2cb97833e281e7cbd67180b8f3900226" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::api::SpanData::end_time_unix_nano</definition>
+        <argsstring></argsstring>
+        <name>end_time_unix_nano</name>
+        <qualifiedname>themis::api::SpanData::end_time_unix_nano</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>epoch nanoseconds </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/otlp_exporter.h" line="123" column="18" bodyfile="include/api/otlp_exporter.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_span_data_1a3720836b9e428639e774e18321b9142a" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::api::SpanData::status_code</definition>
+        <argsstring></argsstring>
+        <name>status_code</name>
+        <qualifiedname>themis::api::SpanData::status_code</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>0 = Unset, 1 = OK, 2 = Error (OTLP StatusCode) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/otlp_exporter.h" line="124" column="18" bodyfile="include/api/otlp_exporter.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_span_data_1afad036445344dcac766cc2350dbf5793" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::api::SpanData::status_message</definition>
+        <argsstring></argsstring>
+        <name>status_message</name>
+        <qualifiedname>themis::api::SpanData::status_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/otlp_exporter.h" line="125" column="18" bodyfile="include/api/otlp_exporter.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_span_data_1a72841f8e6058d77c4da05c5215e8cb6a" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::api::SpanData::attributes</definition>
+        <argsstring></argsstring>
+        <name>attributes</name>
+        <qualifiedname>themis::api::SpanData::attributes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/otlp_exporter.h" line="127" column="24" bodyfile="include/api/otlp_exporter.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/otlp_exporter.h" line="117" column="1" bodyfile="include/api/otlp_exporter.h" bodystart="117" bodyend="128"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1api_1_1_span_data_1a72841f8e6058d77c4da05c5215e8cb6a" prot="public" virt="non-virtual"><scope>themis::api::SpanData</scope><name>attributes</name></member>
+      <member refid="structthemis_1_1api_1_1_span_data_1a2cb97833e281e7cbd67180b8f3900226" prot="public" virt="non-virtual"><scope>themis::api::SpanData</scope><name>end_time_unix_nano</name></member>
+      <member refid="structthemis_1_1api_1_1_span_data_1af1708276a2e64196250eb70ac6d9cff3" prot="public" virt="non-virtual"><scope>themis::api::SpanData</scope><name>name</name></member>
+      <member refid="structthemis_1_1api_1_1_span_data_1a60b0aba89a118b6e307818b3b104da4d" prot="public" virt="non-virtual"><scope>themis::api::SpanData</scope><name>parent_span_id</name></member>
+      <member refid="structthemis_1_1api_1_1_span_data_1a91b5663f289f374f7f9ac9ac0e95fb29" prot="public" virt="non-virtual"><scope>themis::api::SpanData</scope><name>span_id</name></member>
+      <member refid="structthemis_1_1api_1_1_span_data_1a8314b622c6e3f2912086add8b8fb30c3" prot="public" virt="non-virtual"><scope>themis::api::SpanData</scope><name>start_time_unix_nano</name></member>
+      <member refid="structthemis_1_1api_1_1_span_data_1a3720836b9e428639e774e18321b9142a" prot="public" virt="non-virtual"><scope>themis::api::SpanData</scope><name>status_code</name></member>
+      <member refid="structthemis_1_1api_1_1_span_data_1afad036445344dcac766cc2350dbf5793" prot="public" virt="non-virtual"><scope>themis::api::SpanData</scope><name>status_message</name></member>
+      <member refid="structthemis_1_1api_1_1_span_data_1aa84de767aeb415e69e64cdfa21dbf1fc" prot="public" virt="non-virtual"><scope>themis::api::SpanData</scope><name>trace_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

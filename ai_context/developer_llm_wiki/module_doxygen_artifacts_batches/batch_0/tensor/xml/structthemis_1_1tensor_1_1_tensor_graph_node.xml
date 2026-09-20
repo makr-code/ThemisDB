@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1tensor_1_1_tensor_graph_node" kind="struct" language="C++" prot="public">
+    <compoundname>themis::tensor::TensorGraphNode</compoundname>
+    <includes refid="hiss__structural__search_8h" local="no">hiss_structural_search.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_graph_node_1a54d3bd35400b0867fe8dbacfe58c70aa" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::TensorGraphNode::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::tensor::TensorGraphNode::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hiss_structural_search.h" line="28" column="17" bodyfile="include/tensor/hiss_structural_search.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_graph_node_1a24d5e90e39a45a8595a056bd685d6ff0" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TensorGraphNode::mode_index</definition>
+        <argsstring></argsstring>
+        <name>mode_index</name>
+        <qualifiedname>themis::tensor::TensorGraphNode::mode_index</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hiss_structural_search.h" line="29" column="17" bodyfile="include/tensor/hiss_structural_search.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_graph_node_1a5d5da1bbed84d726dd45b8425098c9d5" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TensorGraphNode::rank_left</definition>
+        <argsstring></argsstring>
+        <name>rank_left</name>
+        <qualifiedname>themis::tensor::TensorGraphNode::rank_left</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hiss_structural_search.h" line="30" column="17" bodyfile="include/tensor/hiss_structural_search.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_graph_node_1a05d09fd40a627793dabc5e66d145edc3" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TensorGraphNode::rank_right</definition>
+        <argsstring></argsstring>
+        <name>rank_right</name>
+        <qualifiedname>themis::tensor::TensorGraphNode::rank_right</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hiss_structural_search.h" line="31" column="17" bodyfile="include/tensor/hiss_structural_search.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_graph_node_1a7f10b83229756a36bf1753dcfd2b6093" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TensorGraphNode::mode_size</definition>
+        <argsstring></argsstring>
+        <name>mode_size</name>
+        <qualifiedname>themis::tensor::TensorGraphNode::mode_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hiss_structural_search.h" line="32" column="17" bodyfile="include/tensor/hiss_structural_search.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_graph_node_1adfecf8fc8281961fe9673e34ac49131e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::tensor::TensorGraphNode::entropy_score</definition>
+        <argsstring></argsstring>
+        <name>entropy_score</name>
+        <qualifiedname>themis::tensor::TensorGraphNode::entropy_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hiss_structural_search.h" line="33" column="17" bodyfile="include/tensor/hiss_structural_search.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/tensor/hiss_structural_search.h" line="27" column="1" bodyfile="include/tensor/hiss_structural_search.h" bodystart="27" bodyend="34"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1tensor_1_1_tensor_graph_node_1adfecf8fc8281961fe9673e34ac49131e" prot="public" virt="non-virtual"><scope>themis::tensor::TensorGraphNode</scope><name>entropy_score</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_graph_node_1a54d3bd35400b0867fe8dbacfe58c70aa" prot="public" virt="non-virtual"><scope>themis::tensor::TensorGraphNode</scope><name>id</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_graph_node_1a24d5e90e39a45a8595a056bd685d6ff0" prot="public" virt="non-virtual"><scope>themis::tensor::TensorGraphNode</scope><name>mode_index</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_graph_node_1a7f10b83229756a36bf1753dcfd2b6093" prot="public" virt="non-virtual"><scope>themis::tensor::TensorGraphNode</scope><name>mode_size</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_graph_node_1a5d5da1bbed84d726dd45b8425098c9d5" prot="public" virt="non-virtual"><scope>themis::tensor::TensorGraphNode</scope><name>rank_left</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_graph_node_1a05d09fd40a627793dabc5e66d145edc3" prot="public" virt="non-virtual"><scope>themis::tensor::TensorGraphNode</scope><name>rank_right</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

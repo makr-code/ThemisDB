@@ -1,0 +1,498 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="gpu__error_8h" kind="file" language="C++">
+    <compoundname>gpu_error.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">spdlog/spdlog.h</includes>
+    <includedby refid="gpu__checked__ops_8h" local="yes">include/themis/gpu/gpu_checked_ops.h</includedby>
+    <includedby refid="gpu__memory_8h" local="yes">include/themis/gpu/gpu_memory.h</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/themis/gpu/gpu_error.h</label>
+        <link refid="gpu__error_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="3">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>spdlog/spdlog.h</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/themis/gpu/gpu_checked_ops.h</label>
+        <link refid="gpu__checked__ops_8h"/>
+      </node>
+      <node id="1">
+        <label>include/themis/gpu/gpu_error.h</label>
+        <link refid="gpu__error_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/themis/gpu/gpu_memory.h</label>
+        <link refid="gpu__memory_8h"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1gpu_1_1_g_p_u_error_handler" prot="public">themis::gpu::GPUErrorHandler</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1gpu">themis::gpu</innernamespace>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="gpu__error_8h_1acc7879c81144836818b034332fa0e352" prot="public" static="no">
+        <name>CHECKED_CUDA</name>
+        <param><defname>stmt</defname></param>
+        <initializer>(stmt)</initializer>
+        <briefdescription>
+<para>Macro for CUDA error checking with automatic error handling. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Safe CUDA operation wrapper. On error, automatically handles via GPUErrorHandler::handleError(). Thread-safe; zero overhead on success.</para>
+<para>Expands to: <programlisting filename=".cpp"><codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="gpu__error_8h_1a00a732ab4048fd2446773b198c3e7a9d" kindref="member">cudaError_t</ref><sp/>err<sp/>=<sp/>(stmt);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(err<sp/>!=<sp/><ref refid="gpu__error_8h_1a3b2ae102ff50ab2803f6670e8f73895b" kindref="member">cudaSuccess</ref>)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_error_handler_1a7c9d8442a62fa478274c9ec00bae691c" kindref="member">themis::gpu::GPUErrorHandler::Create</ref>()-&gt;handleError(err,<sp/>#stmt);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para>Behavior:<itemizedlist>
+<listitem><para>Executes stmt and captures <ref refid="gpu__error_8h_1a00a732ab4048fd2446773b198c3e7a9d" kindref="member">cudaError_t</ref> result</para>
+</listitem><listitem><para>On success (cudaSuccess), no action</para>
+</listitem><listitem><para>On error, passes to handler with source location (stmt as context)</para>
+</listitem><listitem><para>Handler applies recovery policy; may throw on critical</para>
+</listitem><listitem><para>Thread-safe; safe to use in concurrent kernels/streams</para>
+</listitem><listitem><para>Zero overhead on success path (inline, branch prediction friendly)</para>
+</listitem></itemizedlist>
+</para>
+<para>Example: <programlisting filename=".cpp"><codeline><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>d_data<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="gpu__error_8h_1acc7879c81144836818b034332fa0e352" kindref="member">CHECKED_CUDA</ref>(cudaMalloc(&amp;d_data,<sp/>num_bytes));<sp/><sp/></highlight><highlight class="comment">//<sp/>throws<sp/>on<sp/>OOM</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="gpu__error_8h_1acc7879c81144836818b034332fa0e352" kindref="member">CHECKED_CUDA</ref>(cudaMemcpy(d_data,<sp/>h_data,<sp/>num_bytes,<sp/>cudaMemcpyHostToDevice));</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="gpu__error_8h_1acc7879c81144836818b034332fa0e352" kindref="member">CHECKED_CUDA</ref>(cudaFree(d_data));</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="see"><para><ref refid="gpu__error_8h_1a71be4b5712150caa6571b7988052f4c2" kindref="member">CHECKED_HIP</ref> - HIP equivalent </para>
+</simplesect>
+<simplesect kind="see"><para>ErrorRecoveryPolicy - Recovery action </para>
+</simplesect>
+<simplesect kind="see"><para>GPUErrorHandler::handleError - Handler implementation </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_error.h" line="391" column="10" bodyfile="include/themis/gpu/gpu_error.h" bodystart="391" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="gpu__error_8h_1a71be4b5712150caa6571b7988052f4c2" prot="public" static="no">
+        <name>CHECKED_HIP</name>
+        <param><defname>stmt</defname></param>
+        <initializer>(stmt)</initializer>
+        <briefdescription>
+<para>Macro for HIP error checking with automatic error handling. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Safe HIP operation wrapper. Identical to CHECKED_CUDA but for HIP calls.</para>
+<para>Expands to: <programlisting filename=".cpp"><codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="gpu__error_8h_1a6c352248d614260de71c5548284d94fc" kindref="member">hipError_t</ref><sp/>err<sp/>=<sp/>(stmt);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(err<sp/>!=<sp/><ref refid="gpu__error_8h_1aa036b9f2b1363f8d69962080203b159b" kindref="member">hipSuccess</ref>)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_error_handler_1a7c9d8442a62fa478274c9ec00bae691c" kindref="member">themis::gpu::GPUErrorHandler::Create</ref>()-&gt;handleError(err,<sp/>#stmt);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para>Behavior: Identical to CHECKED_CUDA, but for HIP calls.<itemizedlist>
+<listitem><para>Thread-safe; concurrent stream safe</para>
+</listitem><listitem><para>Zero overhead on success</para>
+</listitem><listitem><para>Integrates with Phase C fallback policy</para>
+</listitem></itemizedlist>
+</para>
+<para>Example: <programlisting filename=".cpp"><codeline><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>d_data<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="gpu__error_8h_1a71be4b5712150caa6571b7988052f4c2" kindref="member">CHECKED_HIP</ref>(hipMalloc(&amp;d_data,<sp/>num_bytes));</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="gpu__error_8h_1a71be4b5712150caa6571b7988052f4c2" kindref="member">CHECKED_HIP</ref>(hipMemcpy(d_data,<sp/>h_data,<sp/>num_bytes,<sp/>hipMemcpyHostToDevice));</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="gpu__error_8h_1a71be4b5712150caa6571b7988052f4c2" kindref="member">CHECKED_HIP</ref>(hipFree(d_data));</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="see"><para><ref refid="gpu__error_8h_1acc7879c81144836818b034332fa0e352" kindref="member">CHECKED_CUDA</ref> - CUDA equivalent </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_error.h" line="432" column="10" bodyfile="include/themis/gpu/gpu_error.h" bodystart="432" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="gpu__error_8h_1ac51058dc44416031141d6011eb4415e1" prot="public" static="no">
+        <name>TRY_CUDA</name>
+        <param><defname>stmt</defname></param>
+        <param><defname>fallback_action</defname></param>
+        <initializer>(stmt)</initializer>
+        <briefdescription>
+<para>Macro for CUDA error checking with custom fallback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Custom CUDA error handler. On error, executes fallback_action instead of applying default recovery policy.</para>
+<sect1 id="gpu__error_8h_1autotoc_md15_1s1"><sect2 id="gpu__error_8h_1autotoc_md15">
+<title>Error Codes</title><para>Each CUDA/HIP error code maps to a GPUErrorClass taxonomy:<itemizedlist>
+<listitem><para>kQuotaExceeded: Memory allocation failures (OOM)</para>
+</listitem><listitem><para>kKernelTimeout: Kernel execution exceeds SLA (5 seconds)</para>
+</listitem><listitem><para>kBackendUnavailable: Device offline or driver error</para>
+</listitem><listitem><para>kMemoryCommunication: Host&lt;-&gt;Device transfer failure</para>
+</listitem><listitem><para>kNumerical: NaN or precision loss detection</para>
+</listitem><listitem><para>kUnsupportedOperation: Kernel not supported by device</para>
+</listitem></itemizedlist>
+</para>
+<para>Recovery policy is automatically selected per error class. See GPUErrorHandler::defaultPolicy() for detailed mappings.</para>
+</sect2></sect1>
+<sect1 id="gpu__error_8h_1autotoc_md16_1s1"><sect2 id="gpu__error_8h_1autotoc_md16">
+<title>Integration with RAII</title><para>Use with <ref refid="gpu__memory_8h" kindref="compound">gpu_memory.h</ref> for fully safe GPU memory management:<itemizedlist>
+<listitem><para>unique_gpu_ptr: RAII ownership (like std::unique_ptr)</para>
+</listitem><listitem><para>make_unique_gpu: Factory for safe allocation</para>
+</listitem><listitem><para>shared_gpu_ptr: Reference-counted shared ownership</para>
+</listitem><listitem><para>make_shared_gpu: Factory for shared allocation</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="see"><para><ref refid="gpu__error_8h" kindref="compound">include/themis/gpu/gpu_error.h</ref> (GPUErrorHandler, GPUErrorClass) </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="gpu__memory_8h" kindref="compound">include/themis/gpu/gpu_memory.h</ref> (RAII wrappers) </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="gpu__timeout_8h" kindref="compound">include/themis/gpu/gpu_timeout.h</ref> (KernelSLAGuard) </para>
+</simplesect>
+<simplesect kind="see"><para>ai_working/gpu_phase_c_readiness_plan.md (Phase C roadmap)</para>
+</simplesect>
+<simplesect kind="author"><para>ThemisDB GPU Team </para>
+</simplesect>
+<simplesect kind="date"><para>2026-08-18</para>
+</simplesect>
+Expands to: <programlisting filename=".cpp"><codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="gpu__error_8h_1a00a732ab4048fd2446773b198c3e7a9d" kindref="member">cudaError_t</ref><sp/>err<sp/>=<sp/>(stmt);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(err<sp/>!=<sp/><ref refid="gpu__error_8h_1a3b2ae102ff50ab2803f6670e8f73895b" kindref="member">cudaSuccess</ref>)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_error_handler_1a7c9d8442a62fa478274c9ec00bae691c" kindref="member">themis::gpu::GPUErrorHandler::Create</ref>()-&gt;logError(err,<sp/>#stmt);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>fallback_action;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para>Behavior:<itemizedlist>
+<listitem><para>Executes stmt and captures error</para>
+</listitem><listitem><para>On error, logs diagnostic and executes fallback_action</para>
+</listitem><listitem><para>Does NOT apply handler recovery policy; caller controls action</para>
+</listitem><listitem><para>Useful for retry patterns or custom error handling</para>
+</listitem></itemizedlist>
+</para>
+<para>Example: <programlisting filename=".cpp"><codeline><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>retry_count<sp/>=<sp/>0;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="gpu__error_8h_1ac51058dc44416031141d6011eb4415e1" kindref="member">TRY_CUDA</ref>(cudaMalloc(&amp;ptr,<sp/>size),<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(++retry_count<sp/>&lt;<sp/>3)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sleep<sp/>and<sp/>retry</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(100));</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;cudaMalloc<sp/>failed<sp/>after<sp/>3<sp/>retries&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal">});</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="see"><para><ref refid="gpu__error_8h_1acc7879c81144836818b034332fa0e352" kindref="member">CHECKED_CUDA</ref> - For typical error handling </para>
+</simplesect>
+</para>
+</sect2></sect1>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_error.h" line="481" column="10" bodyfile="include/themis/gpu/gpu_error.h" bodystart="481" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="gpu__error_8h_1a00a732ab4048fd2446773b198c3e7a9d" prot="public" static="no">
+        <type>int</type>
+        <definition>using cudaError_t = int</definition>
+        <argsstring></argsstring>
+        <name>cudaError_t</name>
+        <briefdescription>
+<para>Stub type for non-CUDA builds so the GPUErrorHandler API compiles without requiring cuda_runtime.h. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_error.h" line="74" column="1" bodyfile="include/themis/gpu/gpu_error.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="gpu__error_8h_1a6c352248d614260de71c5548284d94fc" prot="public" static="no">
+        <type>int</type>
+        <definition>using hipError_t = int</definition>
+        <argsstring></argsstring>
+        <name>hipError_t</name>
+        <briefdescription>
+<para>Stub type for non-HIP builds so the GPUErrorHandler API compiles without requiring hip_runtime.h. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_error.h" line="84" column="1" bodyfile="include/themis/gpu/gpu_error.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="gpu__error_8h_1a3b2ae102ff50ab2803f6670e8f73895b" prot="public" static="no" constexpr="yes" mutable="no">
+        <type><ref refid="gpu__error_8h_1a00a732ab4048fd2446773b198c3e7a9d" kindref="member">cudaError_t</ref></type>
+        <definition>cudaError_t cudaSuccess</definition>
+        <argsstring></argsstring>
+        <name>cudaSuccess</name>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Sentinel for &quot;no CUDA error&quot; in stub builds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_error.h" line="76" column="30" bodyfile="include/themis/gpu/gpu_error.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="gpu__error_8h_1aa036b9f2b1363f8d69962080203b159b" prot="public" static="no" constexpr="yes" mutable="no">
+        <type><ref refid="gpu__error_8h_1a6c352248d614260de71c5548284d94fc" kindref="member">hipError_t</ref></type>
+        <definition>hipError_t hipSuccess</definition>
+        <argsstring></argsstring>
+        <name>hipSuccess</name>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Sentinel for &quot;no HIP error&quot; in stub builds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_error.h" line="86" column="29" bodyfile="include/themis/gpu/gpu_error.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>CUDA/HIP error handling infrastructure for ThemisDB GPU subsystem. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides foundational error handling, recovery policies, and error-to-class taxonomy for CUDA and HIP backends. This header is part of Phase C readiness (GPU Phase C: Hybrid Retrieval Rollout - bounded GPU refinement phase).</para>
+<sect1 id="gpu__error_8h_1autotoc_md17_1s1"><sect2 id="gpu__error_8h_1autotoc_md17">
+<title>Module Status</title><para><bold>Maturity</bold>: 🟢 PRODUCTION-READY (Phase 1 - Foundational) <linebreak/>
+ <bold>Version</bold>: 0.0.47 <linebreak/>
+ <bold>Phase</bold>: GPU Phase C - Foundational Error Handling <linebreak/>
+ <bold>Gap Summary</bold>: total=0; Implementation complete <linebreak/>
+</para>
+</sect2></sect1>
+<sect1 id="gpu__error_8h_1autotoc_md18_1s1"><sect2 id="gpu__error_8h_1autotoc_md18">
+<title>Purpose</title><para>This module establishes a common error handling interface for CUDA and HIP calls, enabling:<itemizedlist>
+<listitem><para>Unified error classification across backends</para>
+</listitem><listitem><para>Deterministic recovery policies per error class</para>
+</listitem><listitem><para>Automatic fallback to CPU execution</para>
+</listitem><listitem><para>Diagnostic logging via spdlog</para>
+</listitem><listitem><para>Integration with Phase C circuit-breaker safe-fail</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="gpu__error_8h_1autotoc_md19_1s1"><sect2 id="gpu__error_8h_1autotoc_md19">
+<title>Design Notes</title><para><bold>Error Taxonomy</bold> (GPUErrorClass enum):<itemizedlist>
+<listitem><para>kQuotaExceeded: VRAM budget denial → immediate CPU fallback</para>
+</listitem><listitem><para>kKernelTimeout: SLA violation (5s hard limit) → immediate CPU fallback + diagnostic</para>
+</listitem><listitem><para>kBackendUnavailable: Device offline / driver error → CPU fallback + mark unavailable</para>
+</listitem><listitem><para>kMemoryCommunication: H2D/D2H transfer failure → retry once, then CPU fallback</para>
+</listitem><listitem><para>kNumerical: Precision loss, NaN detection → emit warning, continue with caution</para>
+</listitem><listitem><para>kUnsupportedOperation: Kernel not available for config → CPU fallback</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Recovery Policies</bold> (ErrorRecoveryPolicy enum):<itemizedlist>
+<listitem><para>kFallbackCPU: Immediately degrade to CPU execution</para>
+</listitem><listitem><para>kRetryOnce: Single retry attempt before CPU fallback</para>
+</listitem><listitem><para>kMarkUnavailable: Mark device/kernel unavailable for duration</para>
+</listitem><listitem><para>kEmitWarning: Log warning and continue (non-blocking)</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Exception Safety</bold>:<itemizedlist>
+<listitem><para>noexcept where possible; all error handlers document exception contract</para>
+</listitem><listitem><para>Thread-safe: GPUErrorHandler protected by internal mutex for concurrent stream access</para>
+</listitem><listitem><para>RAII: error context automatically cleaned up on scope exit</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Macro Convention</bold>:<itemizedlist>
+<listitem><para><ref refid="gpu__error_8h_1acc7879c81144836818b034332fa0e352" kindref="member">CHECKED_CUDA(stmt)</ref> - CUDA error checking wrapper; fails fast on error</para>
+</listitem><listitem><para><ref refid="gpu__error_8h_1a71be4b5712150caa6571b7988052f4c2" kindref="member">CHECKED_HIP(stmt)</ref> - HIP error checking wrapper; fails fast on error</para>
+</listitem><listitem><para>Both macros support deferred error handling via ErrorRecoveryPolicy</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="see"><para><ref refid="gpu__memory_8h" kindref="compound">include/themis/gpu/gpu_memory.h</ref> (RAII GPU memory wrapper) </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="gpu__timeout_8h" kindref="compound">include/themis/gpu/gpu_timeout.h</ref> (KernelSLAGuard enforcement) </para>
+</simplesect>
+<simplesect kind="see"><para>src/gpu/gpu_error.cpp (GPUErrorHandler implementation) </para>
+</simplesect>
+<simplesect kind="see"><para>ai_working/gpu_phase_c_readiness_plan.md (Phase C roadmap)</para>
+</simplesect>
+<simplesect kind="author"><para>ThemisDB GPU Team </para>
+</simplesect>
+<simplesect kind="date"><para>2026-08-01 </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;spdlog/spdlog.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(__CUDACC__)<sp/>||<sp/>defined(THEMIS_CUDA_ENABLED)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="preprocessor">#<sp/><sp/>include<sp/>&lt;cuda_runtime.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="gpu__error_8h_1a00a732ab4048fd2446773b198c3e7a9d" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="gpu__error_8h_1a00a732ab4048fd2446773b198c3e7a9d" kindref="member">cudaError_t</ref><sp/>=<sp/>int;</highlight></codeline>
+<codeline lineno="76" refid="gpu__error_8h_1a3b2ae102ff50ab2803f6670e8f73895b" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/><ref refid="gpu__error_8h_1a00a732ab4048fd2446773b198c3e7a9d" kindref="member">cudaError_t</ref><sp/><ref refid="gpu__error_8h_1a3b2ae102ff50ab2803f6670e8f73895b" kindref="member">cudaSuccess</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(THEMIS_HIP_ENABLED)<sp/>||<sp/>defined(__HIP__)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="preprocessor">#<sp/><sp/>include<sp/>&lt;hip/hip_runtime.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="gpu__error_8h_1a6c352248d614260de71c5548284d94fc" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="gpu__error_8h_1a6c352248d614260de71c5548284d94fc" kindref="member">hipError_t</ref><sp/>=<sp/>int;</highlight></codeline>
+<codeline lineno="86" refid="gpu__error_8h_1aa036b9f2b1363f8d69962080203b159b" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/><ref refid="gpu__error_8h_1a6c352248d614260de71c5548284d94fc" kindref="member">hipError_t</ref><sp/><ref refid="gpu__error_8h_1aa036b9f2b1363f8d69962080203b159b" kindref="member">hipSuccess</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">gpu<sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="namespacethemis_1_1gpu_1a3a571daf696b6722a5ea7e8c31ce39be" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1gpu_1a3a571daf696b6722a5ea7e8c31ce39be" kindref="member">GPUErrorClass</ref><sp/>:<sp/>std::uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="102" refid="namespacethemis_1_1gpu_1a3a571daf696b6722a5ea7e8c31ce39bea8d83460fe7aadda95b8be728c9f201f5" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1gpu_1a3a571daf696b6722a5ea7e8c31ce39bea8d83460fe7aadda95b8be728c9f201f5" kindref="member">kQuotaExceeded</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="namespacethemis_1_1gpu_1a3a571daf696b6722a5ea7e8c31ce39bea93c06f92dc4e4ad3fd14ac410d9f03b5" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1gpu_1a3a571daf696b6722a5ea7e8c31ce39bea93c06f92dc4e4ad3fd14ac410d9f03b5" kindref="member">kKernelTimeout</ref><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="namespacethemis_1_1gpu_1a3a571daf696b6722a5ea7e8c31ce39bea353e71b117acbf17b4d48bbd3f5ea917" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1gpu_1a3a571daf696b6722a5ea7e8c31ce39bea353e71b117acbf17b4d48bbd3f5ea917" kindref="member">kBackendUnavailable</ref><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="namespacethemis_1_1gpu_1a3a571daf696b6722a5ea7e8c31ce39bea8a94b50a54fbaf74578ff9f58464e071" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1gpu_1a3a571daf696b6722a5ea7e8c31ce39bea8a94b50a54fbaf74578ff9f58464e071" kindref="member">kMemoryCommunication</ref><sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124" refid="namespacethemis_1_1gpu_1a3a571daf696b6722a5ea7e8c31ce39bea11e056546dc98d05184024cc7e757eee" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1gpu_1a3a571daf696b6722a5ea7e8c31ce39bea11e056546dc98d05184024cc7e757eee" kindref="member">kNumerical</ref><sp/>=<sp/>4,</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130" refid="namespacethemis_1_1gpu_1a3a571daf696b6722a5ea7e8c31ce39beae94d8fc3b86877c5422f6546f8aea2dc" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1gpu_1a3a571daf696b6722a5ea7e8c31ce39beae94d8fc3b86877c5422f6546f8aea2dc" kindref="member">kUnsupportedOperation</ref><sp/>=<sp/>5,</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="namespacethemis_1_1gpu_1a3a571daf696b6722a5ea7e8c31ce39bea25c2dc47991b3df171ed5192bcf70390" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1gpu_1a3a571daf696b6722a5ea7e8c31ce39bea25c2dc47991b3df171ed5192bcf70390" kindref="member">kUnknown</ref><sp/>=<sp/>6,</highlight></codeline>
+<codeline lineno="134"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143" refid="namespacethemis_1_1gpu_1a30d47f4ddde5b64868af48c766608e57" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1gpu_1a30d47f4ddde5b64868af48c766608e57" kindref="member">ErrorRecoveryPolicy</ref><sp/>:<sp/>std::uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="146" refid="namespacethemis_1_1gpu_1a30d47f4ddde5b64868af48c766608e57a34e237c55c76fab45daa63c41d7c033d" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1gpu_1a30d47f4ddde5b64868af48c766608e57a34e237c55c76fab45daa63c41d7c033d" kindref="member">kFallbackCPU</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150" refid="namespacethemis_1_1gpu_1a30d47f4ddde5b64868af48c766608e57a8ad02e6fd4b215d7ea19c7b0fe44c4c5" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1gpu_1a30d47f4ddde5b64868af48c766608e57a8ad02e6fd4b215d7ea19c7b0fe44c4c5" kindref="member">kRetryOnce</ref><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154" refid="namespacethemis_1_1gpu_1a30d47f4ddde5b64868af48c766608e57a48a373d3cde426e0f9ae0816f2d1acf5" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1gpu_1a30d47f4ddde5b64868af48c766608e57a48a373d3cde426e0f9ae0816f2d1acf5" kindref="member">kMarkUnavailable</ref><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158" refid="namespacethemis_1_1gpu_1a30d47f4ddde5b64868af48c766608e57af0119e7d9f7dd2efcf7957bac20fc5d3" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1gpu_1a30d47f4ddde5b64868af48c766608e57af0119e7d9f7dd2efcf7957bac20fc5d3" kindref="member">kEmitWarning</ref><sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="159"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185" refid="classthemis_1_1gpu_1_1_g_p_u_error_handler" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1gpu_1_1_g_p_u_error_handler_1a5aaa34c48e66861d346fa49233f8df79" kindref="member">GPUErrorHandler</ref><sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="187" refid="classthemis_1_1gpu_1_1_g_p_u_error_handler_1a91e30d90fded737113059d481d5fba4f" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_error_handler_1a91e30d90fded737113059d481d5fba4f" kindref="member">~GPUErrorHandler</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190" refid="classthemis_1_1gpu_1_1_g_p_u_error_handler_1a5aaa34c48e66861d346fa49233f8df79" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_error_handler_1a5aaa34c48e66861d346fa49233f8df79" kindref="member">GPUErrorHandler</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_error_handler_1a5aaa34c48e66861d346fa49233f8df79" kindref="member">GPUErrorHandler</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="191" refid="classthemis_1_1gpu_1_1_g_p_u_error_handler_1af27fa089886549dc5f935f899d7606b4" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_error_handler_1a5aaa34c48e66861d346fa49233f8df79" kindref="member">GPUErrorHandler</ref>&amp;<sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_error_handler_1af27fa089886549dc5f935f899d7606b4" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_error_handler_1a5aaa34c48e66861d346fa49233f8df79" kindref="member">GPUErrorHandler</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(__CUDACC__)<sp/>||<sp/>defined(THEMIS_CUDA_ENABLED)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>logError(<ref refid="gpu__error_8h_1a00a732ab4048fd2446773b198c3e7a9d" kindref="member">cudaError_t</ref><sp/>cuda_err,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>context)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(THEMIS_HIP_ENABLED)<sp/>||<sp/>defined(__HIP__)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>logError(<ref refid="gpu__error_8h_1a6c352248d614260de71c5548284d94fc" kindref="member">hipError_t</ref><sp/>hip_err,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>context)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(__CUDACC__)<sp/>||<sp/>defined(THEMIS_CUDA_ENABLED)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>handleError(<ref refid="gpu__error_8h_1a00a732ab4048fd2446773b198c3e7a9d" kindref="member">cudaError_t</ref><sp/>cuda_err,<sp/></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>context,</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1gpu_1a30d47f4ddde5b64868af48c766608e57" kindref="member">ErrorRecoveryPolicy</ref>*<sp/>policy<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(THEMIS_HIP_ENABLED)<sp/>||<sp/>defined(__HIP__)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>handleError(<ref refid="gpu__error_8h_1a6c352248d614260de71c5548284d94fc" kindref="member">hipError_t</ref><sp/>hip_err,</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>context,</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1gpu_1a30d47f4ddde5b64868af48c766608e57" kindref="member">ErrorRecoveryPolicy</ref>*<sp/>policy<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(__CUDACC__)<sp/>||<sp/>defined(THEMIS_CUDA_ENABLED)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1gpu_1a3a571daf696b6722a5ea7e8c31ce39be" kindref="member">GPUErrorClass</ref><sp/>classifyError(<ref refid="gpu__error_8h_1a00a732ab4048fd2446773b198c3e7a9d" kindref="member">cudaError_t</ref><sp/>cuda_err)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(THEMIS_HIP_ENABLED)<sp/>||<sp/>defined(__HIP__)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1gpu_1a3a571daf696b6722a5ea7e8c31ce39be" kindref="member">GPUErrorClass</ref><sp/>classifyError(<ref refid="gpu__error_8h_1a6c352248d614260de71c5548284d94fc" kindref="member">hipError_t</ref><sp/>hip_err)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291" refid="classthemis_1_1gpu_1_1_g_p_u_error_handler_1a657d37a0c06c7015fb83a8a6f8f2a6d2" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1gpu_1a30d47f4ddde5b64868af48c766608e57" kindref="member">ErrorRecoveryPolicy</ref><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_error_handler_1a657d37a0c06c7015fb83a8a6f8f2a6d2" kindref="member">defaultPolicy</ref>(<ref refid="namespacethemis_1_1gpu_1a3a571daf696b6722a5ea7e8c31ce39be" kindref="member">GPUErrorClass</ref><sp/>error_class)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299" refid="classthemis_1_1gpu_1_1_g_p_u_error_handler_1a2269ad45790b304f135cee2be0ef5ab4" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_error_handler_1a2269ad45790b304f135cee2be0ef5ab4" kindref="member">errorClassName</ref>(<ref refid="namespacethemis_1_1gpu_1a3a571daf696b6722a5ea7e8c31ce39be" kindref="member">GPUErrorClass</ref><sp/>error_class)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309" refid="classthemis_1_1gpu_1_1_g_p_u_error_handler_1a59e8ab3e1ce59eb5ca6425605764ba02" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_error_handler_1a59e8ab3e1ce59eb5ca6425605764ba02" kindref="member">cudaErrorName</ref>(<ref refid="gpu__error_8h_1a00a732ab4048fd2446773b198c3e7a9d" kindref="member">cudaError_t</ref><sp/>cuda_err)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="319" refid="classthemis_1_1gpu_1_1_g_p_u_error_handler_1a7e89b421bd22983f69f6c3368edfd72f" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_error_handler_1a7e89b421bd22983f69f6c3368edfd72f" kindref="member">hipErrorName</ref>(<ref refid="gpu__error_8h_1a6c352248d614260de71c5548284d94fc" kindref="member">hipError_t</ref><sp/>hip_err)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight></codeline>
+<codeline lineno="329" refid="classthemis_1_1gpu_1_1_g_p_u_error_handler_1a7c9d8442a62fa478274c9ec00bae691c" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;GPUErrorHandler&gt;<sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_error_handler_1a7c9d8442a62fa478274c9ec00bae691c" kindref="member">Create</ref>();</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight></codeline>
+<codeline lineno="338" refid="classthemis_1_1gpu_1_1_g_p_u_error_handler_1a9dc594c217e3f42cb72f1c9b369f8098" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;spdlog::logger&gt;<sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_error_handler_1a9dc594c217e3f42cb72f1c9b369f8098" kindref="member">GetLogger</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/>protected:</highlight></codeline>
+<codeline lineno="341" refid="classthemis_1_1gpu_1_1_g_p_u_error_handler_1adb7cd89bb63d9e67249b4227d5be0cdb" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_error_handler_1a5aaa34c48e66861d346fa49233f8df79" kindref="member">GPUErrorHandler</ref>()<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="342"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CHECKED_CUDA<sp/>/<sp/>CHECKED_HIP<sp/>Macros</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"></highlight></codeline>
+<codeline lineno="382"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(__CUDACC__)<sp/>||<sp/>defined(THEMIS_CUDA_ENABLED)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="383"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CHECKED_CUDA(stmt)<sp/>\</highlight></codeline>
+<codeline lineno="384"><highlight class="preprocessor"><sp/><sp/>do<sp/>{<sp/>\</highlight></codeline>
+<codeline lineno="385"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>cudaError_t<sp/>_cuda_err<sp/>=<sp/>(stmt);<sp/>\</highlight></codeline>
+<codeline lineno="386"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>if<sp/>(_cuda_err<sp/>!=<sp/>cudaSuccess)<sp/>{<sp/>\</highlight></codeline>
+<codeline lineno="387"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/>themis::gpu::GPUErrorHandler::Create()-&gt;handleError(_cuda_err,<sp/>#stmt);<sp/>\</highlight></codeline>
+<codeline lineno="388"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>}<sp/>\</highlight></codeline>
+<codeline lineno="389"><highlight class="preprocessor"><sp/><sp/>}<sp/>while<sp/>(0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="390"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="391" refid="gpu__error_8h_1acc7879c81144836818b034332fa0e352" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CHECKED_CUDA(stmt)<sp/>(stmt)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="392"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="393"><highlight class="normal"></highlight></codeline>
+<codeline lineno="423"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(THEMIS_HIP_ENABLED)<sp/>||<sp/>defined(__HIP__)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="424"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CHECKED_HIP(stmt)<sp/>\</highlight></codeline>
+<codeline lineno="425"><highlight class="preprocessor"><sp/><sp/>do<sp/>{<sp/>\</highlight></codeline>
+<codeline lineno="426"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>hipError_t<sp/>_hip_err<sp/>=<sp/>(stmt);<sp/>\</highlight></codeline>
+<codeline lineno="427"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>if<sp/>(_hip_err<sp/>!=<sp/>hipSuccess)<sp/>{<sp/>\</highlight></codeline>
+<codeline lineno="428"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/>themis::gpu::GPUErrorHandler::Create()-&gt;handleError(_hip_err,<sp/>#stmt);<sp/>\</highlight></codeline>
+<codeline lineno="429"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>}<sp/>\</highlight></codeline>
+<codeline lineno="430"><highlight class="preprocessor"><sp/><sp/>}<sp/>while<sp/>(0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="431"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="432" refid="gpu__error_8h_1a71be4b5712150caa6571b7988052f4c2" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CHECKED_HIP(stmt)<sp/>(stmt)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="433"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="434"><highlight class="normal"></highlight></codeline>
+<codeline lineno="471"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(__CUDACC__)<sp/>||<sp/>defined(THEMIS_CUDA_ENABLED)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="472"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>TRY_CUDA(stmt,<sp/>fallback_action)<sp/>\</highlight></codeline>
+<codeline lineno="473"><highlight class="preprocessor"><sp/><sp/>do<sp/>{<sp/>\</highlight></codeline>
+<codeline lineno="474"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>cudaError_t<sp/>_cuda_err<sp/>=<sp/>(stmt);<sp/>\</highlight></codeline>
+<codeline lineno="475"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>if<sp/>(_cuda_err<sp/>!=<sp/>cudaSuccess)<sp/>{<sp/>\</highlight></codeline>
+<codeline lineno="476"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/>themis::gpu::GPUErrorHandler::Create()-&gt;logError(_cuda_err,<sp/>#stmt);<sp/>\</highlight></codeline>
+<codeline lineno="477"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/>fallback_action;<sp/>\</highlight></codeline>
+<codeline lineno="478"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>}<sp/>\</highlight></codeline>
+<codeline lineno="479"><highlight class="preprocessor"><sp/><sp/>}<sp/>while<sp/>(0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="480"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="481" refid="gpu__error_8h_1ac51058dc44416031141d6011eb4415e1" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>TRY_CUDA(stmt,<sp/>fallback_action)<sp/>(stmt)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="482"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="483"><highlight class="normal"></highlight></codeline>
+<codeline lineno="484"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>gpu</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="485"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/themis/gpu/gpu_error.h"/>
+  </compounddef>
+</doxygen>

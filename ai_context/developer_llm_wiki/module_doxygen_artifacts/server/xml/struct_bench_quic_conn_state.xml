@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_bench_quic_conn_state" kind="struct" language="C++" prot="public">
+    <compoundname>BenchQuicConnState</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_bench_quic_conn_state_1af4320d316159606d8da97bbe39cb8496" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_bench_peer_endpoint" kindref="compound">BenchPeerEndpoint</ref></type>
+        <definition>BenchPeerEndpoint BenchQuicConnState::current_peer</definition>
+        <argsstring></argsstring>
+        <name>current_peer</name>
+        <qualifiedname>BenchQuicConnState::current_peer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_http3_gates.cpp" line="72" column="29" bodyfile="benchmarks/server/bench_server_http3_gates.cpp" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_bench_quic_conn_state_1a97d854464df18c8c965a9cf7c63c155e" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint32_t &gt;</type>
+        <definition>std::atomic&lt;uint32_t&gt; BenchQuicConnState::migration_count</definition>
+        <argsstring></argsstring>
+        <name>migration_count</name>
+        <qualifiedname>BenchQuicConnState::migration_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_http3_gates.cpp" line="73" column="19" bodyfile="benchmarks/server/bench_server_http3_gates.cpp" bodystart="73" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_bench_quic_conn_state_1af89da3163fb153451be0adfe905e54a5" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; BenchQuicConnState::draining</definition>
+        <argsstring></argsstring>
+        <name>draining</name>
+        <qualifiedname>BenchQuicConnState::draining</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_http3_gates.cpp" line="74" column="23" bodyfile="benchmarks/server/bench_server_http3_gates.cpp" bodystart="74" bodyend="74"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_bench_quic_conn_state_1a47ed0000482eceb6940b0e310b1906a7" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void BenchQuicConnState::onPathMigration</definition>
+        <argsstring>(const BenchPeerEndpoint &amp;new_peer) noexcept</argsstring>
+        <name>onPathMigration</name>
+        <qualifiedname>BenchQuicConnState::onPathMigration</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_bench_peer_endpoint" kindref="compound">BenchPeerEndpoint</ref> &amp;</type>
+          <declname>new_peer</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_http3_gates.cpp" line="76" column="17" bodyfile="benchmarks/server/bench_server_http3_gates.cpp" bodystart="76" bodyend="80"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Minimal QUIC connection state stub for migration benchmarking. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Mirrors the bookkeeping that Http3Session::onPathMigration() performs: atomic counter increment and endpoint update (no ngtcp2 linkage needed). </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>BenchPeerEndpoint</label>
+        <link refid="struct_bench_peer_endpoint"/>
+      </node>
+      <node id="1">
+        <label>BenchQuicConnState</label>
+        <link refid="struct_bench_quic_conn_state"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>current_peer</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/server/bench_server_http3_gates.cpp" line="71" column="1" bodyfile="benchmarks/server/bench_server_http3_gates.cpp" bodystart="71" bodyend="81"/>
+    <listofallmembers>
+      <member refid="struct_bench_quic_conn_state_1af4320d316159606d8da97bbe39cb8496" prot="public" virt="non-virtual"><scope>BenchQuicConnState</scope><name>current_peer</name></member>
+      <member refid="struct_bench_quic_conn_state_1af89da3163fb153451be0adfe905e54a5" prot="public" virt="non-virtual"><scope>BenchQuicConnState</scope><name>draining</name></member>
+      <member refid="struct_bench_quic_conn_state_1a97d854464df18c8c965a9cf7c63c155e" prot="public" virt="non-virtual"><scope>BenchQuicConnState</scope><name>migration_count</name></member>
+      <member refid="struct_bench_quic_conn_state_1a47ed0000482eceb6940b0e310b1906a7" prot="public" virt="non-virtual"><scope>BenchQuicConnState</scope><name>onPathMigration</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

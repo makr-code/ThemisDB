@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_retrieval_consistency_determinism_spec" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::RetrievalConsistencyDeterminismSpec</compoundname>
+    <includes refid="process__determinism__spec_8h" local="no">process_determinism_spec.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_retrieval_consistency_determinism_spec_1a490e5cd2d966f635896760387c88ec87" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type><ref refid="namespacethemis_1_1process_1a47b3035d47c051fd0cea480c24aaf445" kindref="member">DeterminismClass</ref></type>
+        <definition>DeterminismClass themis::process::RetrievalConsistencyDeterminismSpec::determinism</definition>
+        <argsstring></argsstring>
+        <name>determinism</name>
+        <qualifiedname>themis::process::RetrievalConsistencyDeterminismSpec::determinism</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1process_1a47b3035d47c051fd0cea480c24aaf445ad2b5f349b8320dbb3216b8094969a8d4" kindref="member">DeterminismClass::SNAPSHOT_DETERMINISTIC</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_determinism_spec.h" line="280" column="39" bodyfile="include/process/process_determinism_spec.h" bodystart="280" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_retrieval_consistency_determinism_spec_1a6e1a833db09ac571961abec235eba6b4" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type><ref refid="namespacethemis_1_1process_1aa7825524477a7af2eba0fd35722ad1bb" kindref="member">ConflictScope</ref></type>
+        <definition>ConflictScope themis::process::RetrievalConsistencyDeterminismSpec::conflict_scope</definition>
+        <argsstring></argsstring>
+        <name>conflict_scope</name>
+        <qualifiedname>themis::process::RetrievalConsistencyDeterminismSpec::conflict_scope</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1process_1aa7825524477a7af2eba0fd35722ad1bbab18ff9ed18b27a951714b14b79b2b687" kindref="member">ConflictScope::NO_CONFLICTS</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_determinism_spec.h" line="281" column="36" bodyfile="include/process/process_determinism_spec.h" bodystart="281" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1process_1_1_retrieval_consistency_determinism_spec_1ab568c0697bab613211bf0e2118c1d25a" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>static std::string_view themis::process::RetrievalConsistencyDeterminismSpec::describe</definition>
+        <argsstring>()</argsstring>
+        <name>describe</name>
+        <qualifiedname>themis::process::RetrievalConsistencyDeterminismSpec::describe</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_determinism_spec.h" line="283" column="29" bodyfile="include/process/process_determinism_spec.h" bodystart="283" bodyend="287"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Guarantees for retrieval and graph traversal consistency. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><bold>Determinism:</bold> SNAPSHOT_DETERMINISTIC <linebreak/>
+ <bold>Isolation:</bold> All queries operate over a consistent snapshot at a single instant <linebreak/>
+ <bold>Ordering:</bold> Graph traversal order is deterministic per snapshot</para>
+<para>Queries return consistent snapshots captured at a single instant in time. Concurrent queries may see different snapshots (if model changes between queries), but each snapshot is internally consistent.</para>
+<para><simplesect kind="invariant"><para>All edges and nodes in a query result are from the same snapshot instant </para>
+</simplesect>
+<simplesect kind="invariant"><para>Graph traversal (BFS, PPR) order is deterministic for a given snapshot </para>
+</simplesect>
+<simplesect kind="invariant"><para>Repeated queries with identical input yield identical results (same snapshot) </para>
+</simplesect>
+<simplesect kind="invariant"><para>Newer queries may see updates from model changes (different snapshot)</para>
+</simplesect>
+<simplesect kind="note"><para><bold>Non-deterministic aspect:</bold> Community detection algorithm is deterministic, but community ordering may vary across model versions (different graph structure). </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/process/process_determinism_spec.h" line="279" column="1" bodyfile="include/process/process_determinism_spec.h" bodystart="279" bodyend="288"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_retrieval_consistency_determinism_spec_1a6e1a833db09ac571961abec235eba6b4" prot="public" virt="non-virtual"><scope>themis::process::RetrievalConsistencyDeterminismSpec</scope><name>conflict_scope</name></member>
+      <member refid="structthemis_1_1process_1_1_retrieval_consistency_determinism_spec_1ab568c0697bab613211bf0e2118c1d25a" prot="public" virt="non-virtual"><scope>themis::process::RetrievalConsistencyDeterminismSpec</scope><name>describe</name></member>
+      <member refid="structthemis_1_1process_1_1_retrieval_consistency_determinism_spec_1a490e5cd2d966f635896760387c88ec87" prot="public" virt="non-virtual"><scope>themis::process::RetrievalConsistencyDeterminismSpec</scope><name>determinism</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

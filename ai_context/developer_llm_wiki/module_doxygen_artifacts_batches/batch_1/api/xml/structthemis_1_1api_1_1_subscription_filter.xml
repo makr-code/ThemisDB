@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1api_1_1_subscription_filter" kind="struct" language="C++" prot="public">
+    <compoundname>themis::api::SubscriptionFilter</compoundname>
+    <includes refid="subscription__multiplexer_8h" local="no">subscription_multiplexer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_subscription_filter_1ae856bbc1d2d858216f464ecc88d17a15" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::api::SubscriptionFilter::topic</definition>
+        <argsstring></argsstring>
+        <name>topic</name>
+        <qualifiedname>themis::api::SubscriptionFilter::topic</qualifiedname>
+        <briefdescription>
+<para>Topic/channel to subscribe to (non-empty). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/subscription_multiplexer.h" line="58" column="17" bodyfile="include/api/subscription_multiplexer.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_subscription_filter_1a2e7d18f932c2c06f77170d8d46965b8b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::api::SubscriptionFilter::filter_expr</definition>
+        <argsstring></argsstring>
+        <name>filter_expr</name>
+        <qualifiedname>themis::api::SubscriptionFilter::filter_expr</qualifiedname>
+        <briefdescription>
+<para>Optional AQL-style filter expression. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/subscription_multiplexer.h" line="59" column="17" bodyfile="include/api/subscription_multiplexer.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_subscription_filter_1a5ad84d79e98f1a4b7b4efacd38360131" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::api::SubscriptionFilter::last_event_id</definition>
+        <argsstring></argsstring>
+        <name>last_event_id</name>
+        <qualifiedname>themis::api::SubscriptionFilter::last_event_id</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+<para>Resume from event ID; -1 = from latest. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/subscription_multiplexer.h" line="60" column="17" bodyfile="include/api/subscription_multiplexer.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/subscription_multiplexer.h" line="57" column="1" bodyfile="include/api/subscription_multiplexer.h" bodystart="57" bodyend="61"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1api_1_1_subscription_filter_1a2e7d18f932c2c06f77170d8d46965b8b" prot="public" virt="non-virtual"><scope>themis::api::SubscriptionFilter</scope><name>filter_expr</name></member>
+      <member refid="structthemis_1_1api_1_1_subscription_filter_1a5ad84d79e98f1a4b7b4efacd38360131" prot="public" virt="non-virtual"><scope>themis::api::SubscriptionFilter</scope><name>last_event_id</name></member>
+      <member refid="structthemis_1_1api_1_1_subscription_filter_1ae856bbc1d2d858216f464ecc88d17a15" prot="public" virt="non-virtual"><scope>themis::api::SubscriptionFilter</scope><name>topic</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

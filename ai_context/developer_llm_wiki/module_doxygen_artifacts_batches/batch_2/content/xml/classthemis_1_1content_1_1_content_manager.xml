@@ -1,0 +1,2244 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1content_1_1_content_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::content::ContentManager</compoundname>
+    <includes refid="content__manager_8h" local="no">content_manager.h</includes>
+    <innerclass refid="structthemis_1_1content_1_1_content_manager_1_1_ingest_result" prot="public">themis::content::ContentManager::IngestResult</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_content_manager_1_1_stats" prot="public">themis::content::ContentManager::Stats</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_content_manager_1_1_metrics" prot="public">themis::content::ContentManager::Metrics</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_manager_1a2800b26008ad9d38a396355684cb000c" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; themis::content::ContentManager::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>themis::content::ContentManager::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="438" column="21" bodyfile="include/content/content_manager.h" bodystart="438" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_manager_1a1b6d5c6e787193b20a1142900cae5279" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; VectorIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;VectorIndexManager&gt; themis::content::ContentManager::vector_index_</definition>
+        <argsstring></argsstring>
+        <name>vector_index_</name>
+        <qualifiedname>themis::content::ContentManager::vector_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="439" column="21" bodyfile="include/content/content_manager.h" bodystart="439" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_manager_1af33c5dc38ce5c427731f85c7d26fac8b" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; GraphIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;GraphIndexManager&gt; themis::content::ContentManager::graph_index_</definition>
+        <argsstring></argsstring>
+        <name>graph_index_</name>
+        <qualifiedname>themis::content::ContentManager::graph_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="440" column="21" bodyfile="include/content/content_manager.h" bodystart="440" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_manager_1a5f9794c4cbe7fe12c1d50b0a03f4d32c" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; SecondaryIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;SecondaryIndexManager&gt; themis::content::ContentManager::secondary_index_</definition>
+        <argsstring></argsstring>
+        <name>secondary_index_</name>
+        <qualifiedname>themis::content::ContentManager::secondary_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="441" column="21" bodyfile="include/content/content_manager.h" bodystart="441" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_manager_1a17545ad583f35f9625f9b2d0c48cbf99" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; FieldEncryption &gt;</type>
+        <definition>std::shared_ptr&lt;FieldEncryption&gt; themis::content::ContentManager::field_encryption_</definition>
+        <argsstring></argsstring>
+        <name>field_encryption_</name>
+        <qualifiedname>themis::content::ContentManager::field_encryption_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="442" column="21" bodyfile="include/content/content_manager.h" bodystart="442" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_manager_1a81947d2787b2ef2ce96a0324eb90e30d" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::security::MalwareFilterManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::security::MalwareFilterManager&gt; themis::content::ContentManager::malware_filter_</definition>
+        <argsstring></argsstring>
+        <name>malware_filter_</name>
+        <qualifiedname>themis::content::ContentManager::malware_filter_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="443" column="21" bodyfile="include/content/content_manager.h" bodystart="443" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_manager_1a67a6bd56b6f4e12ef2b80a6887abe7cc" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1content_1_1_embedding_pipeline" kindref="compound">EmbeddingPipeline</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;EmbeddingPipeline&gt; themis::content::ContentManager::embedding_pipeline_</definition>
+        <argsstring></argsstring>
+        <name>embedding_pipeline_</name>
+        <qualifiedname>themis::content::ContentManager::embedding_pipeline_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="444" column="21" bodyfile="include/content/content_manager.h" bodystart="444" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_manager_1a0fa9d31e1ddccaea16379fd42983d070" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1content_1_1_deduplication_checker" kindref="compound">DeduplicationChecker</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;DeduplicationChecker&gt; themis::content::ContentManager::dedup_checker_</definition>
+        <argsstring></argsstring>
+        <name>dedup_checker_</name>
+        <qualifiedname>themis::content::ContentManager::dedup_checker_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="445" column="21" bodyfile="include/content/content_manager.h" bodystart="445" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_manager_1a8beed65def97198c5cba5feb5a6f4cd2" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1content_1_1_processor_chain_config" kindref="compound">ProcessorChainConfig</ref></type>
+        <definition>ProcessorChainConfig themis::content::ContentManager::processor_chain_config_</definition>
+        <argsstring></argsstring>
+        <name>processor_chain_config_</name>
+        <qualifiedname>themis::content::ContentManager::processor_chain_config_</qualifiedname>
+        <briefdescription>
+<para>Configurable stage chain. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="446" column="26" bodyfile="include/content/content_manager.h" bodystart="446" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_manager_1ab96ec6b6dbd914db117de101073b7dff" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1content_1_1_mime_detector" kindref="compound">MimeDetector</ref></type>
+        <definition>MimeDetector themis::content::ContentManager::mime_detector_</definition>
+        <argsstring></argsstring>
+        <name>mime_detector_</name>
+        <qualifiedname>themis::content::ContentManager::mime_detector_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="448" column="18" bodyfile="include/content/content_manager.h" bodystart="448" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_manager_1acba2d904c571b0ea6b77319c64a86607" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="structthemis_1_1content_1_1_content_category" kindref="compound">ContentCategory</ref>, std::unique_ptr&lt; <ref refid="classthemis_1_1content_1_1_i_content_processor" kindref="compound">IContentProcessor</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;ContentCategory, std::unique_ptr&lt;IContentProcessor&gt; &gt; themis::content::ContentManager::processors_</definition>
+        <argsstring></argsstring>
+        <name>processors_</name>
+        <qualifiedname>themis::content::ContentManager::processors_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="451" column="24" bodyfile="include/content/content_manager.h" bodystart="451" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_manager_1aee61d4e01a72aa487726ede212e2e117" prot="private" static="no" mutable="yes">
+        <type><ref refid="structthemis_1_1content_1_1_content_manager_1_1_metrics" kindref="compound">Metrics</ref></type>
+        <definition>Metrics themis::content::ContentManager::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::content::ContentManager::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="454" column="21" bodyfile="include/content/content_manager.h" bodystart="454" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_manager_1aaed95adc8342ce826fb094e6e7f999e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::ContentManager::ContentManager</definition>
+        <argsstring>(std::shared_ptr&lt; RocksDBWrapper &gt; storage, std::shared_ptr&lt; VectorIndexManager &gt; vector_index, std::shared_ptr&lt; GraphIndexManager &gt; graph_index, std::shared_ptr&lt; SecondaryIndexManager &gt; secondary_index, std::shared_ptr&lt; FieldEncryption &gt; field_encryption=nullptr)</argsstring>
+        <name>ContentManager</name>
+        <qualifiedname>themis::content::ContentManager::ContentManager</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+          <declname>storage</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; VectorIndexManager &gt;</type>
+          <declname>vector_index</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; GraphIndexManager &gt;</type>
+          <declname>graph_index</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; SecondaryIndexManager &gt;</type>
+          <declname>secondary_index</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; FieldEncryption &gt;</type>
+          <declname>field_encryption</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="162" column="5" bodyfile="src/content/content_manager.cpp" bodystart="737" bodyend="748"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_manager_1a8214d20fcc04fa0e237e2c761f714a6e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::ContentManager::~ContentManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ContentManager</name>
+        <qualifiedname>themis::content::ContentManager::~ContentManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="170" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_manager_1a71a11f761314bbff1a87c61b27b6c860" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::ContentManager::registerProcessor</definition>
+        <argsstring>(std::unique_ptr&lt; IContentProcessor &gt; processor)</argsstring>
+        <name>registerProcessor</name>
+        <qualifiedname>themis::content::ContentManager::registerProcessor</qualifiedname>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="classthemis_1_1content_1_1_i_content_processor" kindref="compound">IContentProcessor</ref> &gt;</type>
+          <declname>processor</declname>
+        </param>
+        <briefdescription>
+<para>Register Processor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">processor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">processor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: getSupportedCategories(), empty(), front(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="176" column="10" bodyfile="src/content/content_manager.cpp" bodystart="798" bodyend="808"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_manager_1a59f46ae90d81b341eca4a12d077ba636" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_status" kindref="compound">Status</ref></type>
+        <definition>Status themis::content::ContentManager::importContent</definition>
+        <argsstring>(const json &amp;spec, const std::optional&lt; std::string &gt; &amp;blob=std::nullopt, const std::string &amp;user_context=&quot;&quot;)</argsstring>
+        <name>importContent</name>
+        <qualifiedname>themis::content::ContentManager::importContent</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref> &amp;</type>
+          <declname>spec</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::string &gt; &amp;</type>
+          <declname>blob</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_context</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Import Content. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">spec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: is_object(), contains(), <ref refid="structthemis_1_1content_1_1_status_1a436e87233b7b5cacb9043db1bbb983ac" kindref="member">Status::Error()</ref>, <ref refid="structthemis_1_1content_1_1_content_meta_1a41bbc2a8de9e8672f97e23fb44432768" kindref="member">ContentMeta::fromJson()</ref>, empty(), generateUuid(), has_value(), scan(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="179" column="13" bodyfile="src/content/content_manager.cpp" bodystart="918" bodyend="1399"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_manager_1abc9a391645dcd3569d0599c2162ceebd" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_content_manager_1_1_ingest_result" kindref="compound">IngestResult</ref></type>
+        <definition>ContentManager::IngestResult themis::content::ContentManager::ingestRawBlob</definition>
+        <argsstring>(const std::string &amp;blob, const std::string &amp;filename, const std::string &amp;mime_type=&quot;&quot;, const std::string &amp;user_context=&quot;&quot;, const json &amp;config=json::object())</argsstring>
+        <name>ingestRawBlob</name>
+        <qualifiedname>themis::content::ContentManager::ingestRawBlob</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime_type</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_context</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>json::object()</defval>
+        </param>
+        <briefdescription>
+<para>Ingest Raw Blob. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mime_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), validateFilename(), failed(), <ref refid="classthemis_1_1content_1_1_content_type_registry_1abbdd3453b667cf2d90cf8e3773255d0e" kindref="member">ContentTypeRegistry::instance()</ref>, detectFromBlob(), find_last_of(), substr(), getByExtension(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="198" column="19" bodyfile="src/content/content_manager.cpp" bodystart="2326" bodyend="2980"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_manager_1ad5e3035922424741dbe72388253b3d02" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_content_manager_1_1_ingest_result" kindref="compound">IngestResult</ref></type>
+        <definition>ContentManager::IngestResult themis::content::ContentManager::ingestStream</definition>
+        <argsstring>(std::istream &amp;stream, const std::string &amp;filename, const std::string &amp;mime_type=&quot;&quot;, const std::string &amp;user_context=&quot;&quot;, const json &amp;config=json::object())</argsstring>
+        <name>ingestStream</name>
+        <qualifiedname>themis::content::ContentManager::ingestStream</qualifiedname>
+        <param>
+          <type>std::istream &amp;</type>
+          <declname>stream</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime_type</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_context</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>json::object()</defval>
+        </param>
+        <briefdescription>
+<para>Ingest Stream. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">stream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mime_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: good(), value(), resize(), std::min(), read(), data(), size(), gcount(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="206" column="19" bodyfile="src/content/content_manager.cpp" bodystart="2992" bodyend="3366"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_manager_1a84881d1c3c69e361c0aaa2e34244aba1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1content_1_1_content_meta" kindref="compound">ContentMeta</ref> &gt;</type>
+        <definition>std::optional&lt; ContentMeta &gt; themis::content::ContentManager::getContentMeta</definition>
+        <argsstring>(const std::string &amp;content_id, const std::string &amp;user_context=&quot;&quot;)</argsstring>
+        <name>getContentMeta</name>
+        <qualifiedname>themis::content::ContentManager::getContentMeta</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_context</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Get Content Meta. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">content_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the content. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: normalizeId(), std::string(), get(), s(), begin(), end(), json::parse(), contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="215" column="19" bodyfile="src/content/content_manager.cpp" bodystart="1408" bodyend="1470"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_manager_1a81dd10a44a52464d63c30b6f8c51d7b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::content::ContentManager::getContentBlob</definition>
+        <argsstring>(const std::string &amp;content_id, const std::string &amp;user_context=&quot;&quot;)</argsstring>
+        <name>getContentBlob</name>
+        <qualifiedname>themis::content::ContentManager::getContentBlob</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_context</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Get Content Blob. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">content_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the content. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: normalizeId(), std::string(), get(), <ref refid="classthemis_1_1content_1_1_content_manager_1a84881d1c3c69e361c0aaa2e34244aba1" kindref="member">getContentMeta()</ref>, empty(), raw(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="217" column="19" bodyfile="src/content/content_manager.cpp" bodystart="1478" bodyend="1567"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_manager_1adceeb0908c21bdb802fed09ff9c3a506" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1content_1_1_chunk_meta" kindref="compound">ChunkMeta</ref> &gt;</type>
+        <definition>std::vector&lt; ChunkMeta &gt; themis::content::ContentManager::getContentChunks</definition>
+        <argsstring>(const std::string &amp;content_id)</argsstring>
+        <name>getContentChunks</name>
+        <qualifiedname>themis::content::ContentManager::getContentChunks</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Content Chunks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">content_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the content. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">content_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the content. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: normalizeId(), std::string(), get(), s(), begin(), end(), json::parse(), contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="224" column="17" bodyfile="src/content/content_manager.cpp" bodystart="1575" bodyend="1612"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_manager_1a6eaa4de04b29d99d61c2ecdf35c441e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1content_1_1_chunk_meta" kindref="compound">ChunkMeta</ref> &gt;</type>
+        <definition>std::optional&lt; ChunkMeta &gt; themis::content::ContentManager::getChunk</definition>
+        <argsstring>(const std::string &amp;chunk_id)</argsstring>
+        <name>getChunk</name>
+        <qualifiedname>themis::content::ContentManager::getChunk</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>chunk_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Chunk. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">chunk_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the chunk. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">chunk_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the chunk. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: normalizeId(), get(), std::string(), s(), begin(), end(), json::parse(), <ref refid="structthemis_1_1content_1_1_chunk_meta_1a54fa9b57eb3bba45cab4b79df4b737df" kindref="member">ChunkMeta::fromJson()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="231" column="19" bodyfile="src/content/content_manager.cpp" bodystart="1620" bodyend="1635"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_manager_1a65882eef6d29c6a9ac05b67ce1ed1b52" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1content_1_1_content_assembly" kindref="compound">ContentAssembly</ref> &gt;</type>
+        <definition>std::optional&lt; ContentAssembly &gt; themis::content::ContentManager::assembleContent</definition>
+        <argsstring>(const std::string &amp;content_id, bool include_text=false)</argsstring>
+        <name>assembleContent</name>
+        <qualifiedname>themis::content::ContentManager::assembleContent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content_id</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>include_text</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Assemble Content. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">content_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the content. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">include_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1content_1_1_content_manager_1a84881d1c3c69e361c0aaa2e34244aba1" kindref="member">getContentMeta()</ref>, has_value(), <ref refid="classthemis_1_1content_1_1_content_manager_1adceeb0908c21bdb802fed09ff9c3a506" kindref="member">getContentChunks()</ref>, size(), empty(), reserve(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="233" column="19" bodyfile="src/content/content_manager.cpp" bodystart="1655" bodyend="1689"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_manager_1a64bb95041700f863158204445f8932c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1content_1_1_chunk_meta" kindref="compound">ChunkMeta</ref> &gt;</type>
+        <definition>std::optional&lt; ChunkMeta &gt; themis::content::ContentManager::getNextChunk</definition>
+        <argsstring>(const std::string &amp;chunk_id)</argsstring>
+        <name>getNextChunk</name>
+        <qualifiedname>themis::content::ContentManager::getNextChunk</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>chunk_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Next Chunk. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">chunk_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the chunk. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">chunk_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the chunk. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1content_1_1_content_manager_1a6eaa4de04b29d99d61c2ecdf35c441e5" kindref="member">getChunk()</ref>, has_value(), <ref refid="classthemis_1_1content_1_1_content_manager_1adceeb0908c21bdb802fed09ff9c3a506" kindref="member">getContentChunks()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="240" column="19" bodyfile="src/content/content_manager.cpp" bodystart="1697" bodyend="1716"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_manager_1ae3d6437cbd79073806e4d8acaaf14cdd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1content_1_1_chunk_meta" kindref="compound">ChunkMeta</ref> &gt;</type>
+        <definition>std::optional&lt; ChunkMeta &gt; themis::content::ContentManager::getPreviousChunk</definition>
+        <argsstring>(const std::string &amp;chunk_id)</argsstring>
+        <name>getPreviousChunk</name>
+        <qualifiedname>themis::content::ContentManager::getPreviousChunk</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>chunk_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Previous Chunk. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">chunk_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the chunk. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">chunk_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the chunk. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1content_1_1_content_manager_1a6eaa4de04b29d99d61c2ecdf35c441e5" kindref="member">getChunk()</ref>, has_value(), <ref refid="classthemis_1_1content_1_1_content_manager_1adceeb0908c21bdb802fed09ff9c3a506" kindref="member">getContentChunks()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="247" column="19" bodyfile="src/content/content_manager.cpp" bodystart="1724" bodyend="1747"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_manager_1a76c82e4c2c862250e11a43057c456ba4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1content_1_1_chunk_meta" kindref="compound">ChunkMeta</ref> &gt;</type>
+        <definition>std::vector&lt; ChunkMeta &gt; themis::content::ContentManager::getChunkRange</definition>
+        <argsstring>(const std::string &amp;content_id, int start_seq, int count)</argsstring>
+        <name>getChunkRange</name>
+        <qualifiedname>themis::content::ContentManager::getChunkRange</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>start_seq</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Get Chunk Range. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">content_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the content. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">start_seq</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">content_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the content. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">start_seq</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1content_1_1_content_manager_1adceeb0908c21bdb802fed09ff9c3a506" kindref="member">getContentChunks()</ref>, push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="256" column="17" bodyfile="src/content/content_manager.cpp" bodystart="1757" bodyend="1777"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_manager_1ae23f2b4b49d71cc511c2b481b96d8a1d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; std::string, float &gt; &gt;</type>
+        <definition>std::vector&lt; std::pair&lt; std::string, float &gt; &gt; themis::content::ContentManager::searchContent</definition>
+        <argsstring>(const std::string &amp;query_text, int k, const json &amp;filters=json::object())</argsstring>
+        <name>searchContent</name>
+        <qualifiedname>themis::content::ContentManager::searchContent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_text</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref> &amp;</type>
+          <declname>filters</declname>
+          <defval>json::object()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="258" column="17" bodyfile="src/content/content_manager.cpp" bodystart="1779" bodyend="1807"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_manager_1aa805ac700ca4a84488cd6b1cdc630300" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; std::string, float &gt; &gt;</type>
+        <definition>std::vector&lt; std::pair&lt; std::string, float &gt; &gt; themis::content::ContentManager::searchContentHybrid</definition>
+        <argsstring>(const std::string &amp;query_text, int k, const json &amp;filters=json::object(), float vector_weight=0.5f, float fulltext_weight=0.5f, float rrf_k=60.0f)</argsstring>
+        <name>searchContentHybrid</name>
+        <qualifiedname>themis::content::ContentManager::searchContentHybrid</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_text</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref> &amp;</type>
+          <declname>filters</declname>
+          <defval>json::object()</defval>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>vector_weight</declname>
+          <defval>0.5f</defval>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>fulltext_weight</declname>
+          <defval>0.5f</defval>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>rrf_k</declname>
+          <defval>60.0f</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="264" column="17" bodyfile="src/content/content_manager.cpp" bodystart="1809" bodyend="1921"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_manager_1a2c6a8eabfd623eb57947e233ca5a1235" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; std::string, float &gt; &gt;</type>
+        <definition>std::vector&lt; std::pair&lt; std::string, float &gt; &gt; themis::content::ContentManager::searchWithExpansion</definition>
+        <argsstring>(const std::string &amp;query_text, int k, int expansion_hops, const json &amp;filters=json::object())</argsstring>
+        <name>searchWithExpansion</name>
+        <qualifiedname>themis::content::ContentManager::searchWithExpansion</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_text</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>expansion_hops</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref> &amp;</type>
+          <declname>filters</declname>
+          <defval>json::object()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="273" column="17" bodyfile="src/content/content_manager.cpp" bodystart="1923" bodyend="2037"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_manager_1a09e336dc814fe7354f26a328496e2a70" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_status" kindref="compound">Status</ref></type>
+        <definition>Status themis::content::ContentManager::deleteContent</definition>
+        <argsstring>(const std::string &amp;content_id)</argsstring>
+        <name>deleteContent</name>
+        <qualifiedname>themis::content::ContentManager::deleteContent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content_id</declname>
+        </param>
+        <briefdescription>
+<para>Delete Content. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">content_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the content. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: normalizeId(), <ref refid="classthemis_1_1content_1_1_content_manager_1adceeb0908c21bdb802fed09ff9c3a506" kindref="member">getContentChunks()</ref>, del(), std::string(), removeByPk(), hasFulltextIndex(), erase(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="280" column="13" bodyfile="src/content/content_manager.cpp" bodystart="2045" bodyend="2067"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_manager_1a313e6b978b0dc2a9b502a71629c8d521" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::content::ContentManager::resolvePath</definition>
+        <argsstring>(const std::string &amp;virtual_path)</argsstring>
+        <name>resolvePath</name>
+        <qualifiedname>themis::content::ContentManager::resolvePath</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>virtual_path</declname>
+        </param>
+        <briefdescription>
+<para>Resolve Path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>===================== Virtual Filesystem =====================</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">virtual_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the virtual. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">virtual_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the virtual. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), back(), pop_back(), scanPrefix(), json::parse(), contains(), key_str(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="287" column="19" bodyfile="src/content/content_manager.cpp" bodystart="2090" bodyend="2121"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_manager_1a21794a0f885bbad798813d8b90f0ba22" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1content_1_1_content_meta" kindref="compound">ContentMeta</ref> &gt;</type>
+        <definition>std::vector&lt; ContentMeta &gt; themis::content::ContentManager::listDirectory</definition>
+        <argsstring>(const std::string &amp;virtual_path)</argsstring>
+        <name>listDirectory</name>
+        <qualifiedname>themis::content::ContentManager::listDirectory</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>virtual_path</declname>
+        </param>
+        <briefdescription>
+<para>List Directory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">virtual_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the virtual. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">virtual_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the virtual. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), back(), pop_back(), <ref refid="classthemis_1_1content_1_1_content_manager_1a313e6b978b0dc2a9b502a71629c8d521" kindref="member">resolvePath()</ref>, has_value(), scanPrefix(), json::parse(), contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="294" column="17" bodyfile="src/content/content_manager.cpp" bodystart="2129" bodyend="2187"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_manager_1a9407674d58c8c0cc7f2630ca856721bc" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_status" kindref="compound">Status</ref></type>
+        <definition>Status themis::content::ContentManager::createDirectory</definition>
+        <argsstring>(const std::string &amp;virtual_path, bool recursive=false)</argsstring>
+        <name>createDirectory</name>
+        <qualifiedname>themis::content::ContentManager::createDirectory</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>virtual_path</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>recursive</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Create Directory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">virtual_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the virtual. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">recursive</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), back(), pop_back(), <ref refid="classthemis_1_1content_1_1_content_manager_1a313e6b978b0dc2a9b502a71629c8d521" kindref="member">resolvePath()</ref>, has_value(), <ref refid="structthemis_1_1content_1_1_status_1a436e87233b7b5cacb9043db1bbb983ac" kindref="member">Status::Error()</ref>, rfind(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="296" column="13" bodyfile="src/content/content_manager.cpp" bodystart="2196" bodyend="2259"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_manager_1a4d970af42dd4f5855a6a69558e59bfb3" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_status" kindref="compound">Status</ref></type>
+        <definition>Status themis::content::ContentManager::registerPath</definition>
+        <argsstring>(const std::string &amp;content_id, const std::string &amp;virtual_path)</argsstring>
+        <name>registerPath</name>
+        <qualifiedname>themis::content::ContentManager::registerPath</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>virtual_path</declname>
+        </param>
+        <briefdescription>
+<para>Register Path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">content_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the content. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">virtual_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the virtual. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), back(), pop_back(), <ref refid="classthemis_1_1content_1_1_content_manager_1a313e6b978b0dc2a9b502a71629c8d521" kindref="member">resolvePath()</ref>, has_value(), <ref refid="structthemis_1_1content_1_1_status_1a436e87233b7b5cacb9043db1bbb983ac" kindref="member">Status::Error()</ref>, get(), json::parse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="298" column="13" bodyfile="src/content/content_manager.cpp" bodystart="2268" bodyend="2314"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_manager_1affea32cf178f17645404e09d14231698" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1content_1_1_i_content_processor" kindref="compound">IContentProcessor</ref> *</type>
+        <definition>IContentProcessor * themis::content::ContentManager::getProcessor</definition>
+        <argsstring>(ContentCategory category)</argsstring>
+        <name>getProcessor</name>
+        <qualifiedname>themis::content::ContentManager::getProcessor</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1content_1_1_content_category" kindref="compound">ContentCategory</ref></type>
+          <declname>category</declname>
+        </param>
+        <briefdescription>
+<para>Get Processor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">category</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">category</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Calls: find(), end(), get(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="305" column="23" bodyfile="src/content/content_manager.cpp" bodystart="2075" bodyend="2081"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_manager_1aec276825f935f7a96365ef3a07c89a9b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_content_manager_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>ContentManager::Stats themis::content::ContentManager::getStats</definition>
+        <argsstring>()</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::content::ContentManager::getStats</qualifiedname>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1content_1_1_content_manager_1_1_stats" kindref="compound">Stats</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getApproximateSize(), scanPrefix(), getVectorCount(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="318" column="11" bodyfile="src/content/content_manager.cpp" bodystart="3373" bodyend="3388"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_manager_1af17181743cf2383c0786ff8dfbbacfa4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1content_1_1_content_manager_1_1_metrics" kindref="compound">Metrics</ref> &amp;</type>
+        <definition>const ContentManager::Metrics &amp; themis::content::ContentManager::getMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>getMetrics</name>
+        <qualifiedname>themis::content::ContentManager::getMetrics</qualifiedname>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1content_1_1_content_manager_1_1_metrics" kindref="compound">Metrics</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="351" column="19" bodyfile="src/content/content_manager.cpp" bodystart="750" bodyend="752"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_manager_1ad59250daae582807773ea7d094f66342" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::ContentManager::setMalwareFilter</definition>
+        <argsstring>(std::shared_ptr&lt; themis::security::MalwareFilterManager &gt; malware_filter)</argsstring>
+        <name>setMalwareFilter</name>
+        <qualifiedname>themis::content::ContentManager::setMalwareFilter</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; themis::security::MalwareFilterManager &gt;</type>
+          <declname>malware_filter</declname>
+        </param>
+        <briefdescription>
+<para>Set Malware Filter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">malware_filter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">malware_filter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="357" column="10" bodyfile="src/content/content_manager.cpp" bodystart="759" bodyend="761"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_manager_1a3f5d31dee3622b4d9cd9d33f6041eead" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; themis::security::MalwareFilterManager &gt;</type>
+        <definition>std::shared_ptr&lt; themis::security::MalwareFilterManager &gt; themis::content::ContentManager::getMalwareFilter</definition>
+        <argsstring>() const</argsstring>
+        <name>getMalwareFilter</name>
+        <qualifiedname>themis::content::ContentManager::getMalwareFilter</qualifiedname>
+        <briefdescription>
+<para>Get Malware Filter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="363" column="21" bodyfile="src/content/content_manager.cpp" bodystart="763" bodyend="765"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_manager_1a0368e08f3d48cb5f5524a205e341bc4c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::ContentManager::setEmbeddingPipeline</definition>
+        <argsstring>(std::shared_ptr&lt; EmbeddingPipeline &gt; pipeline)</argsstring>
+        <name>setEmbeddingPipeline</name>
+        <qualifiedname>themis::content::ContentManager::setEmbeddingPipeline</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1content_1_1_embedding_pipeline" kindref="compound">EmbeddingPipeline</ref> &gt;</type>
+          <declname>pipeline</declname>
+        </param>
+        <briefdescription>
+<para>Set Embedding Pipeline. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pipeline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pipeline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="373" column="10" bodyfile="src/content/content_manager_embedding.cpp" bodystart="20" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_manager_1a473f5f6d22695d384f17f05c1aeb7688" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::content::ContentManager::generateEmbedding</definition>
+        <argsstring>(const std::string &amp;text, const std::string &amp;model_name=&quot;&quot;)</argsstring>
+        <name>generateEmbedding</name>
+        <qualifiedname>themis::content::ContentManager::generateEmbedding</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_name</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Generate Embedding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="375" column="17" bodyfile="src/content/content_manager_embedding.cpp" bodystart="30" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_manager_1a9df0a2e84c6aef30e95060a16781fa9c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::ContentManager::analyzeContent</definition>
+        <argsstring>(const std::string &amp;content_id)</argsstring>
+        <name>analyzeContent</name>
+        <qualifiedname>themis::content::ContentManager::analyzeContent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content_id</declname>
+        </param>
+        <briefdescription>
+<para>Analyze Content. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">content_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the content. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">content_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the content. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1content_1_1_content_manager_1a84881d1c3c69e361c0aaa2e34244aba1" kindref="member">getContentMeta()</ref>, getExtractedText(), empty(), substr(), std::min(), size(), size_t(), THEMIS_LLM_GENERATE(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="387" column="10" bodyfile="src/content/content_manager_llm.cpp" bodystart="26" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_manager_1aa043c1ca4da526ae10ee7c191ceecd9a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::content::ContentManager::generateTags</definition>
+        <argsstring>(const std::string &amp;content_id, int max_tags=10)</argsstring>
+        <name>generateTags</name>
+        <qualifiedname>themis::content::ContentManager::generateTags</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_tags</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+<para>Generate Tags. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">content_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the content. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_tags</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getExtractedText(), empty(), substr(), std::min(), size(), size_t(), THEMIS_LLM_GENERATE(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="389" column="17" bodyfile="src/content/content_manager_llm.cpp" bodystart="96" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_manager_1aa7541c3dc5013e8485e65c1f63a51659" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::ContentManager::summarizeContent</definition>
+        <argsstring>(const std::string &amp;content_id, int max_words=100)</argsstring>
+        <name>summarizeContent</name>
+        <qualifiedname>themis::content::ContentManager::summarizeContent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_words</declname>
+          <defval>100</defval>
+        </param>
+        <briefdescription>
+<para>Summarize Content. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">content_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the content. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_words</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getExtractedText(), empty(), substr(), std::min(), size(), size_t(), THEMIS_LLM_GENERATE(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="394" column="17" bodyfile="src/content/content_manager_llm.cpp" bodystart="143" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_manager_1afda9b78a12f5ac055da7e700ee4aa258" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::ContentManager::classifyContent</definition>
+        <argsstring>(const std::string &amp;content_id)</argsstring>
+        <name>classifyContent</name>
+        <qualifiedname>themis::content::ContentManager::classifyContent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content_id</declname>
+        </param>
+        <briefdescription>
+<para>Classify Content. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">content_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the content. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">content_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the content. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getExtractedText(), empty(), substr(), std::min(), size(), size_t(), THEMIS_LLM_GENERATE(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="404" column="17" bodyfile="src/content/content_manager_llm.cpp" bodystart="180" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_manager_1a8b2485457721331078f848d038187012" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::ContentManager::extractEntities</definition>
+        <argsstring>(const std::string &amp;content_id)</argsstring>
+        <name>extractEntities</name>
+        <qualifiedname>themis::content::ContentManager::extractEntities</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content_id</declname>
+        </param>
+        <briefdescription>
+<para>Extract Entities. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">content_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the content. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">content_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the content. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: json::object(), json::array(), getExtractedText(), empty(), substr(), std::min(), size(), size_t(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="411" column="10" bodyfile="src/content/content_manager_llm.cpp" bodystart="223" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_manager_1aec70d121f8202e98d81b78615a511cb3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::ContentManager::setDeduplicationChecker</definition>
+        <argsstring>(std::shared_ptr&lt; DeduplicationChecker &gt; checker)</argsstring>
+        <name>setDeduplicationChecker</name>
+        <qualifiedname>themis::content::ContentManager::setDeduplicationChecker</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1content_1_1_deduplication_checker" kindref="compound">DeduplicationChecker</ref> &gt;</type>
+          <declname>checker</declname>
+        </param>
+        <briefdescription>
+<para>Set Deduplication Checker. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">checker</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">checker</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="417" column="10" bodyfile="src/content/content_manager.cpp" bodystart="772" bodyend="774"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_manager_1a6831daaa40cba196ac9c9f187376ae1b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1content_1_1_deduplication_checker" kindref="compound">DeduplicationChecker</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; DeduplicationChecker &gt; themis::content::ContentManager::getDeduplicationChecker</definition>
+        <argsstring>() const</argsstring>
+        <name>getDeduplicationChecker</name>
+        <qualifiedname>themis::content::ContentManager::getDeduplicationChecker</qualifiedname>
+        <briefdescription>
+<para>Get Deduplication Checker. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="423" column="21" bodyfile="src/content/content_manager.cpp" bodystart="776" bodyend="778"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_manager_1a9e88f6bbcd55233702329be05a6104be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::ContentManager::setProcessorChainConfig</definition>
+        <argsstring>(const ProcessorChainConfig &amp;config)</argsstring>
+        <name>setProcessorChainConfig</name>
+        <qualifiedname>themis::content::ContentManager::setProcessorChainConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1content_1_1_processor_chain_config" kindref="compound">ProcessorChainConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Set Processor Chain Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setProcessorChainConfig without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="429" column="10" bodyfile="src/content/content_manager.cpp" bodystart="785" bodyend="787"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_manager_1a3d5710ccfd1ffed6d64121b69ba2fe48" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="classthemis_1_1content_1_1_processor_chain_config" kindref="compound">ProcessorChainConfig</ref> &amp;</type>
+        <definition>const ProcessorChainConfig &amp; themis::content::ContentManager::getProcessorChainConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getProcessorChainConfig</name>
+        <qualifiedname>themis::content::ContentManager::getProcessorChainConfig</qualifiedname>
+        <briefdescription>
+<para>Get Processor Chain Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="435" column="32" bodyfile="src/content/content_manager.cpp" bodystart="789" bodyend="791"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_manager_1a44be159abc0866c5fd4511767c03f5d9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::ContentManager::generateUuid</definition>
+        <argsstring>()</argsstring>
+        <name>generateUuid</name>
+        <qualifiedname>themis::content::ContentManager::generateUuid</qualifiedname>
+        <briefdescription>
+<para>Generate Uuid. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: steady_clock::now(), time_since_epoch(), count(), rng(), std::setw(), std::setfill(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="461" column="17" bodyfile="src/content/content_manager.cpp" bodystart="815" bodyend="822"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_manager_1a491fdad5f44cdbbd157ff0db687b50e0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::ContentManager::normalizeId</definition>
+        <argsstring>(const std::string &amp;id, const std::string &amp;prefix)</argsstring>
+        <name>normalizeId</name>
+        <qualifiedname>themis::content::ContentManager::normalizeId</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prefix</declname>
+        </param>
+        <briefdescription>
+<para>Normalize Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: rfind(), substr(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="468" column="17" bodyfile="src/content/content_manager.cpp" bodystart="831" bodyend="836"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_manager_1a387f485b0c70490a086497822c5f27c7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::ContentManager::computeSHA256</definition>
+        <argsstring>(const std::string &amp;blob)</argsstring>
+        <name>computeSHA256</name>
+        <qualifiedname>themis::content::ContentManager::computeSHA256</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+<para>Compute SHA256. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: SHA256(), data(), size(), std::setfill(), std::setw(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="474" column="17" bodyfile="src/content/content_manager.cpp" bodystart="844" bodyend="853"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_manager_1abc0f05f238681b508ad8d072c56ef5eb" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::content::ContentManager::checkDuplicateByHash</definition>
+        <argsstring>(const std::string &amp;hash)</argsstring>
+        <name>checkDuplicateByHash</name>
+        <qualifiedname>themis::content::ContentManager::checkDuplicateByHash</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>hash</declname>
+        </param>
+        <briefdescription>
+<para>Check Duplicate By Hash. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::string(), get(), s(), begin(), end(), json::parse(), contains(), is_array(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="480" column="19" bodyfile="src/content/content_manager.cpp" bodystart="861" bodyend="878"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_manager_1ae4ab01782310543e37256c924e2ab59c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::ContentManager::createChunkGraph</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;chunk_ids, const std::string &amp;content_id, const std::string &amp;chunk_type)</argsstring>
+        <name>createChunkGraph</name>
+        <qualifiedname>themis::content::ContentManager::createChunkGraph</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>chunk_ids</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>chunk_type</declname>
+        </param>
+        <briefdescription>
+<para>Create Chunk Graph. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">chunk_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">content_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the content. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">chunk_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="488" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_manager_1ae27a0238b23c6a933c26a8edb83d3999" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::ContentManager::createHierarchicalGraph</definition>
+        <argsstring>(const std::string &amp;parent_id, const std::vector&lt; std::string &gt; &amp;child_ids, const std::string &amp;edge_type)</argsstring>
+        <name>createHierarchicalGraph</name>
+        <qualifiedname>themis::content::ContentManager::createHierarchicalGraph</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>parent_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>child_ids</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>edge_type</declname>
+        </param>
+        <briefdescription>
+<para>Create Hierarchical Graph. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">parent_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the parent. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">child_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">edge_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="500" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_manager_1a59f1fdfb012093cdcebaa6930d8cc216" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::ContentManager::parseAnalysisResult</definition>
+        <argsstring>(const std::string &amp;analysis_text, const ContentMeta &amp;meta)</argsstring>
+        <name>parseAnalysisResult</name>
+        <qualifiedname>themis::content::ContentManager::parseAnalysisResult</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>analysis_text</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_content_meta" kindref="compound">ContentMeta</ref> &amp;</type>
+          <declname>meta</declname>
+        </param>
+        <briefdescription>
+<para>Parse Analysis Result. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">analysis_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">meta</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">analysis_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">meta</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: iss(), std::getline(), find(), empty(), str(), clear(), size(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="512" column="10" bodyfile="src/content/content_manager_llm.cpp" bodystart="273" bodyend="348"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_manager_1af0a0a7300006e51d139b50384eec890d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::content::ContentManager::parseTags</definition>
+        <argsstring>(const std::string &amp;tags_text)</argsstring>
+        <name>parseTags</name>
+        <qualifiedname>themis::content::ContentManager::parseTags</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tags_text</declname>
+        </param>
+        <briefdescription>
+<para>Parse Tags. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tags_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tags_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: ss(), std::getline(), erase(), find_first_not_of(), find_last_not_of(), empty(), size(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="518" column="17" bodyfile="src/content/content_manager_llm.cpp" bodystart="356" bodyend="372"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_manager_1a464aa65da696611769443385021a79ad" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::ContentManager::parseEntities</definition>
+        <argsstring>(const std::string &amp;entities_text)</argsstring>
+        <name>parseEntities</name>
+        <qualifiedname>themis::content::ContentManager::parseEntities</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>entities_text</declname>
+        </param>
+        <briefdescription>
+<para>Parse Entities. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entities_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entities_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: json::array(), iss(), std::getline(), find(), empty(), substr(), erase(), find_first_not_of(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="524" column="10" bodyfile="src/content/content_manager_llm.cpp" bodystart="380" bodyend="417"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_manager_1a6ac1979cb4fafe354c5a42f2769a9230" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::ContentManager::getExtractedText</definition>
+        <argsstring>(const std::string &amp;content_id)</argsstring>
+        <name>getExtractedText</name>
+        <qualifiedname>themis::content::ContentManager::getExtractedText</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Extracted Text. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">content_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the content. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">content_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the content. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1content_1_1_content_manager_1adceeb0908c21bdb802fed09ff9c3a506" kindref="member">getContentChunks()</ref>, reserve(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="530" column="17" bodyfile="src/content/content_manager_llm.cpp" bodystart="425" bodyend="433"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/content_manager.h" line="160" column="1" bodyfile="include/content/content_manager.h" bodystart="160" bodyend="531"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1content_1_1_content_manager_1a9df0a2e84c6aef30e95060a16781fa9c" prot="public" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>analyzeContent</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1a65882eef6d29c6a9ac05b67ce1ed1b52" prot="public" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>assembleContent</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1abc0f05f238681b508ad8d072c56ef5eb" prot="private" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>checkDuplicateByHash</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1afda9b78a12f5ac055da7e700ee4aa258" prot="public" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>classifyContent</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1a387f485b0c70490a086497822c5f27c7" prot="private" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>computeSHA256</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1aaed95adc8342ce826fb094e6e7f999e4" prot="public" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>ContentManager</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1ae4ab01782310543e37256c924e2ab59c" prot="private" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>createChunkGraph</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1a9407674d58c8c0cc7f2630ca856721bc" prot="public" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>createDirectory</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1ae27a0238b23c6a933c26a8edb83d3999" prot="private" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>createHierarchicalGraph</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1a0fa9d31e1ddccaea16379fd42983d070" prot="private" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>dedup_checker_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1a09e336dc814fe7354f26a328496e2a70" prot="public" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>deleteContent</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1a67a6bd56b6f4e12ef2b80a6887abe7cc" prot="private" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>embedding_pipeline_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1a8b2485457721331078f848d038187012" prot="public" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>extractEntities</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1a17545ad583f35f9625f9b2d0c48cbf99" prot="private" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>field_encryption_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1a473f5f6d22695d384f17f05c1aeb7688" prot="public" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>generateEmbedding</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1aa043c1ca4da526ae10ee7c191ceecd9a" prot="public" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>generateTags</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1a44be159abc0866c5fd4511767c03f5d9" prot="private" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>generateUuid</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1a6eaa4de04b29d99d61c2ecdf35c441e5" prot="public" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>getChunk</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1a76c82e4c2c862250e11a43057c456ba4" prot="public" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>getChunkRange</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1a81dd10a44a52464d63c30b6f8c51d7b1" prot="public" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>getContentBlob</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1adceeb0908c21bdb802fed09ff9c3a506" prot="public" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>getContentChunks</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1a84881d1c3c69e361c0aaa2e34244aba1" prot="public" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>getContentMeta</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1a6831daaa40cba196ac9c9f187376ae1b" prot="public" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>getDeduplicationChecker</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1a6ac1979cb4fafe354c5a42f2769a9230" prot="private" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>getExtractedText</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1a3f5d31dee3622b4d9cd9d33f6041eead" prot="public" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>getMalwareFilter</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1af17181743cf2383c0786ff8dfbbacfa4" prot="public" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>getMetrics</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1a64bb95041700f863158204445f8932c9" prot="public" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>getNextChunk</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1ae3d6437cbd79073806e4d8acaaf14cdd" prot="public" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>getPreviousChunk</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1affea32cf178f17645404e09d14231698" prot="public" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>getProcessor</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1a3d5710ccfd1ffed6d64121b69ba2fe48" prot="public" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>getProcessorChainConfig</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1aec276825f935f7a96365ef3a07c89a9b" prot="public" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1af33c5dc38ce5c427731f85c7d26fac8b" prot="private" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>graph_index_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1a59f46ae90d81b341eca4a12d077ba636" prot="public" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>importContent</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1abc9a391645dcd3569d0599c2162ceebd" prot="public" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>ingestRawBlob</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1ad5e3035922424741dbe72388253b3d02" prot="public" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>ingestStream</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1a21794a0f885bbad798813d8b90f0ba22" prot="public" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>listDirectory</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1a81947d2787b2ef2ce96a0324eb90e30d" prot="private" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>malware_filter_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1aee61d4e01a72aa487726ede212e2e117" prot="private" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1ab96ec6b6dbd914db117de101073b7dff" prot="private" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>mime_detector_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1a491fdad5f44cdbbd157ff0db687b50e0" prot="private" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>normalizeId</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1a59f1fdfb012093cdcebaa6930d8cc216" prot="private" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>parseAnalysisResult</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1a464aa65da696611769443385021a79ad" prot="private" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>parseEntities</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1af0a0a7300006e51d139b50384eec890d" prot="private" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>parseTags</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1a8beed65def97198c5cba5feb5a6f4cd2" prot="private" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>processor_chain_config_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1acba2d904c571b0ea6b77319c64a86607" prot="private" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>processors_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1a4d970af42dd4f5855a6a69558e59bfb3" prot="public" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>registerPath</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1a71a11f761314bbff1a87c61b27b6c860" prot="public" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>registerProcessor</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1a313e6b978b0dc2a9b502a71629c8d521" prot="public" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>resolvePath</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1ae23f2b4b49d71cc511c2b481b96d8a1d" prot="public" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>searchContent</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1aa805ac700ca4a84488cd6b1cdc630300" prot="public" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>searchContentHybrid</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1a2c6a8eabfd623eb57947e233ca5a1235" prot="public" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>searchWithExpansion</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1a5f9794c4cbe7fe12c1d50b0a03f4d32c" prot="private" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>secondary_index_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1aec70d121f8202e98d81b78615a511cb3" prot="public" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>setDeduplicationChecker</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1a0368e08f3d48cb5f5524a205e341bc4c" prot="public" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>setEmbeddingPipeline</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1ad59250daae582807773ea7d094f66342" prot="public" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>setMalwareFilter</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1a9e88f6bbcd55233702329be05a6104be" prot="public" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>setProcessorChainConfig</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1a2800b26008ad9d38a396355684cb000c" prot="private" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>storage_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1aa7541c3dc5013e8485e65c1f63a51659" prot="public" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>summarizeContent</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1a1b6d5c6e787193b20a1142900cae5279" prot="private" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>vector_index_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_manager_1a8214d20fcc04fa0e237e2c761f714a6e" prot="public" virt="non-virtual"><scope>themis::content::ContentManager</scope><name>~ContentManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

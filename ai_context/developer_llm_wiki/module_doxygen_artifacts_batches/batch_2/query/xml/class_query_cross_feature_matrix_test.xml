@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_query_cross_feature_matrix_test" kind="class" language="C++" prot="public">
+    <compoundname>QueryCrossFeatureMatrixTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_query_cross_feature_matrix_test_1a03aa2494ca99ecd6d73c9c76f12f4b42" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1query_1_1_a_q_l_parser" kindref="compound">AQLParser</ref></type>
+        <definition>AQLParser QueryCrossFeatureMatrixTest::parser_</definition>
+        <argsstring></argsstring>
+        <name>parser_</name>
+        <qualifiedname>QueryCrossFeatureMatrixTest::parser_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_cross_feature_matrix.cpp" line="67" column="15" bodyfile="tests/query/test_query_cross_feature_matrix.cpp" bodystart="67" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>QueryCrossFeatureMatrixTest</label>
+        <link refid="class_query_cross_feature_matrix_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>QueryCrossFeatureMatrixTest</label>
+        <link refid="class_query_cross_feature_matrix_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>parser_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::query::AQLParser</label>
+        <link refid="classthemis_1_1query_1_1_a_q_l_parser"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/query/test_query_cross_feature_matrix.cpp" line="65" column="1" bodyfile="tests/query/test_query_cross_feature_matrix.cpp" bodystart="65" bodyend="68"/>
+    <listofallmembers>
+      <member refid="class_query_cross_feature_matrix_test_1a03aa2494ca99ecd6d73c9c76f12f4b42" prot="protected" virt="non-virtual"><scope>QueryCrossFeatureMatrixTest</scope><name>parser_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

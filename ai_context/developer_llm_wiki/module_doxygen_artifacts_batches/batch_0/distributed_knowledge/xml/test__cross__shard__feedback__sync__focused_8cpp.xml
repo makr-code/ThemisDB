@@ -1,0 +1,593 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__cross__shard__feedback__sync__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_cross_shard_feedback_sync_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">gmock/gmock.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">chrono</includes>
+    <includes refid="cross__shard__feedback__sync_8h" local="yes">distributed_knowledge/cross_shard_feedback_sync.h</includes>
+    <incdepgraph>
+      <node id="7">
+        <label>distributed_knowledge/cross_shard_feedback_sync.h</label>
+        <link refid="cross__shard__feedback__sync_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/distributed_knowledge/test_cross_shard_feedback_sync_focused.cpp</label>
+        <link refid="test__cross__shard__feedback__sync__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="10">
+        <label>functional</label>
+      </node>
+      <node id="3">
+        <label>gmock/gmock.h</label>
+      </node>
+      <node id="14">
+        <label>governance/gdpr_subject_rights.h</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="15">
+        <label>llm/decision_record_yaml_processor.h</label>
+      </node>
+      <node id="11">
+        <label>memory</label>
+      </node>
+      <node id="12">
+        <label>mutex</label>
+      </node>
+      <node id="4">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="13">
+        <label>optional</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>unordered_set</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_cross_shard_feedback_sync_test" prot="public">CrossShardFeedbackSyncTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__cross__shard__feedback__sync__focused_8cpp_1a1fa07591652b7c6b46718bb8339d56db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CrossShardFeedbackSyncTest, CreateFeedbackSummary)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_cross_shard_feedback_sync_test" kindref="compound">CrossShardFeedbackSyncTest</ref></type>
+        </param>
+        <param>
+          <type>CreateFeedbackSummary</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000016"><xreftitle>Test</xreftitle><xrefdescription><para>CSS-01: <ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary" kindref="compound">FeedbackSummary</ref> creation with required fields.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that a <ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary" kindref="compound">FeedbackSummary</ref> can be constructed and its fields are accessible as documented. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_cross_shard_feedback_sync_focused.cpp" line="70" column="1" bodyfile="tests/distributed_knowledge/test_cross_shard_feedback_sync_focused.cpp" bodystart="70" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cross__shard__feedback__sync__focused_8cpp_1abb511c967894ce6066ea029e9663c398" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CrossShardFeedbackSyncTest, FeedbackSummaryJsonRoundTrip)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_cross_shard_feedback_sync_test" kindref="compound">CrossShardFeedbackSyncTest</ref></type>
+        </param>
+        <param>
+          <type>FeedbackSummaryJsonRoundTrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000017"><xreftitle>Test</xreftitle><xrefdescription><para>CSS-02: <ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary" kindref="compound">FeedbackSummary</ref> JSON serialization round-trip.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that toJson() / fromJson() preserve all fields. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_cross_shard_feedback_sync_focused.cpp" line="84" column="1" bodyfile="tests/distributed_knowledge/test_cross_shard_feedback_sync_focused.cpp" bodystart="84" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cross__shard__feedback__sync__focused_8cpp_1a54843581e86a9b5c187839b11538e202" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CrossShardFeedbackSyncTest, FeedbackSummaryDefaultShardOriginIsAnon)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_cross_shard_feedback_sync_test" kindref="compound">CrossShardFeedbackSyncTest</ref></type>
+        </param>
+        <param>
+          <type>FeedbackSummaryDefaultShardOriginIsAnon</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000018"><xreftitle>Test</xreftitle><xrefdescription><para>CSS-03: <ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary" kindref="compound">FeedbackSummary</ref> shard_origin defaults to ANON.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that the default value for shard_origin is &quot;ANON&quot; as required by the privacy contract. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_cross_shard_feedback_sync_focused.cpp" line="105" column="1" bodyfile="tests/distributed_knowledge/test_cross_shard_feedback_sync_focused.cpp" bodystart="105" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cross__shard__feedback__sync__focused_8cpp_1a112a4c5b130098691a81a4adffef43eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CrossShardFeedbackSyncTest, PublishFeedbackDispatchesGossipMessage)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_cross_shard_feedback_sync_test" kindref="compound">CrossShardFeedbackSyncTest</ref></type>
+        </param>
+        <param>
+          <type>PublishFeedbackDispatchesGossipMessage</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000019"><xreftitle>Test</xreftitle><xrefdescription><para>CSS-04: publishFeedback() dispatches a gossip message.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that publishFeedback() calls the gossip function exactly once and increments publishedCount(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_cross_shard_feedback_sync_focused.cpp" line="120" column="1" bodyfile="tests/distributed_knowledge/test_cross_shard_feedback_sync_focused.cpp" bodystart="120" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cross__shard__feedback__sync__focused_8cpp_1a154d403177479d1aa7d47a279ee2ebce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CrossShardFeedbackSyncTest, HandleInboundSummaryInvokesCallback)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_cross_shard_feedback_sync_test" kindref="compound">CrossShardFeedbackSyncTest</ref></type>
+        </param>
+        <param>
+          <type>HandleInboundSummaryInvokesCallback</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000020"><xreftitle>Test</xreftitle><xrefdescription><para>CSS-05: handleInboundSummary() invokes the registered callback.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that after setting a feedback callback, processing an inbound summary payload calls the callback with the correct summary_id. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_cross_shard_feedback_sync_focused.cpp" line="135" column="1" bodyfile="tests/distributed_knowledge/test_cross_shard_feedback_sync_focused.cpp" bodystart="135" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cross__shard__feedback__sync__focused_8cpp_1a4f82552b00644167026dc8746b9b8869" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CrossShardFeedbackSyncTest, PublishFeedbackRejectsWrongEmbeddingDim)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_cross_shard_feedback_sync_test" kindref="compound">CrossShardFeedbackSyncTest</ref></type>
+        </param>
+        <param>
+          <type>PublishFeedbackRejectsWrongEmbeddingDim</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000021"><xreftitle>Test</xreftitle><xrefdescription><para>CSS-06: publishFeedback() throws when embedding dimension is wrong.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that the embedding dimension validator rejects a summary whose reason_embedding length differs from max_embedding_dim. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_cross_shard_feedback_sync_focused.cpp" line="156" column="1" bodyfile="tests/distributed_knowledge/test_cross_shard_feedback_sync_focused.cpp" bodystart="156" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cross__shard__feedback__sync__focused_8cpp_1a8fb78eab92689184697deb6c63f3f62f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CrossShardFeedbackSyncTest, DuplicateSummaryIsDeduped)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_cross_shard_feedback_sync_test" kindref="compound">CrossShardFeedbackSyncTest</ref></type>
+        </param>
+        <param>
+          <type>DuplicateSummaryIsDeduped</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000022"><xreftitle>Test</xreftitle><xrefdescription><para>CSS-07: Duplicate inbound summary_id is deduplicated.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that sending the same payload twice results in receivedCount()==1 and deduplicatedCount()==1. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_cross_shard_feedback_sync_focused.cpp" line="175" column="1" bodyfile="tests/distributed_knowledge/test_cross_shard_feedback_sync_focused.cpp" bodystart="175" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cross__shard__feedback__sync__focused_8cpp_1aed0bcec456d0dcda8f50801c0599f987" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CrossShardFeedbackSyncTest, MultipleDistinctSummariesAllReceived)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_cross_shard_feedback_sync_test" kindref="compound">CrossShardFeedbackSyncTest</ref></type>
+        </param>
+        <param>
+          <type>MultipleDistinctSummariesAllReceived</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000023"><xreftitle>Test</xreftitle><xrefdescription><para>CSS-08: Multiple distinct summaries all received.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that five distinct inbound summaries are all processed (no false-positive deduplication). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_cross_shard_feedback_sync_focused.cpp" line="194" column="1" bodyfile="tests/distributed_knowledge/test_cross_shard_feedback_sync_focused.cpp" bodystart="194" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cross__shard__feedback__sync__focused_8cpp_1a7e87990a1bd11f595dbf2e68420e6c4f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CrossShardFeedbackSyncTest, InboundPolicyCheckRejectsSummary)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_cross_shard_feedback_sync_test" kindref="compound">CrossShardFeedbackSyncTest</ref></type>
+        </param>
+        <param>
+          <type>InboundPolicyCheckRejectsSummary</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000024"><xreftitle>Test</xreftitle><xrefdescription><para>CSS-09: Inbound policy check rejects summaries.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that a policy check returning false causes the summary to be silently dropped and rejectedByPolicyCount() is incremented. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_cross_shard_feedback_sync_focused.cpp" line="216" column="1" bodyfile="tests/distributed_knowledge/test_cross_shard_feedback_sync_focused.cpp" bodystart="216" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cross__shard__feedback__sync__focused_8cpp_1ab21c3c3381b2937172f8e714999cab01" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CrossShardFeedbackSyncTest, ZeroTrustEnforcerThrowsOnHighRisk)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_cross_shard_feedback_sync_test" kindref="compound">CrossShardFeedbackSyncTest</ref></type>
+        </param>
+        <param>
+          <type>ZeroTrustEnforcerThrowsOnHighRisk</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000025"><xreftitle>Test</xreftitle><xrefdescription><para>CSS-10: ZeroTrust enforcer returning false throws on high-risk summary.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that when the ZeroTrust enforcer returns false, handleInboundSummary() throws std::runtime_error for the high-risk summary. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_cross_shard_feedback_sync_focused.cpp" line="236" column="1" bodyfile="tests/distributed_knowledge/test_cross_shard_feedback_sync_focused.cpp" bodystart="236" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cross__shard__feedback__sync__focused_8cpp_1abb0a5f41c3aea78ad6ba13fd4c39ce02" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CrossShardFeedbackSyncTest, GetStatsReturnsJsonWithCounters)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_cross_shard_feedback_sync_test" kindref="compound">CrossShardFeedbackSyncTest</ref></type>
+        </param>
+        <param>
+          <type>GetStatsReturnsJsonWithCounters</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000026"><xreftitle>Test</xreftitle><xrefdescription><para>CSS-11: getStats() returns a JSON object with expected counters.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that getStats() returns a JSON object containing at minimum &quot;published&quot; and &quot;received&quot; after some operations. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_cross_shard_feedback_sync_focused.cpp" line="254" column="1" bodyfile="tests/distributed_knowledge/test_cross_shard_feedback_sync_focused.cpp" bodystart="254" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cross__shard__feedback__sync__focused_8cpp_1a8f19bfa43e094cb48ce3fc3c6d4c7a71" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CrossShardFeedbackSyncTest, FeedbackSyncConfigValidation)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_cross_shard_feedback_sync_test" kindref="compound">CrossShardFeedbackSyncTest</ref></type>
+        </param>
+        <param>
+          <type>FeedbackSyncConfigValidation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000027"><xreftitle>Test</xreftitle><xrefdescription><para>CSS-12: <ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_sync_config" kindref="compound">FeedbackSyncConfig</ref> validation.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that a correctly constructed <ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_sync_config" kindref="compound">FeedbackSyncConfig</ref> reports isValid() == true, and that degenerate configs (dim=0) are rejected. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_cross_shard_feedback_sync_focused.cpp" line="270" column="1" bodyfile="tests/distributed_knowledge/test_cross_shard_feedback_sync_focused.cpp" bodystart="270" bodyend="276"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Focused unit tests for cross-shard feedback synchronization. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tests the core distributed knowledge feedback sync paths against the actual production API surface:<itemizedlist>
+<listitem><para><ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary" kindref="compound">FeedbackSummary</ref> creation and JSON round-trip</para>
+</listitem><listitem><para><ref refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync" kindref="compound">CrossShardFeedbackSync</ref> publish/receive lifecycle</para>
+</listitem><listitem><para>Deduplication by summary_id</para>
+</listitem><listitem><para>Inbound policy check and ZeroTrust enforcer</para>
+</listitem><listitem><para>Observability counters (publishedCount, receivedCount, deduplicatedCount)</para>
+</listitem></itemizedlist>
+</para>
+<para>Target: Production readiness validation for feedback sync layer. Q3 2026 Hardening: dedup semantics, policy-edge feedback filtering, determinism. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gmock/gmock.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="cross__shard__feedback__sync_8h" kindref="compound">distributed_knowledge/cross_shard_feedback_sync.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1distributed__knowledge" kindref="compound">themis::distributed_knowledge</ref>;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="test__adapter__capability__announcement__focused_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>Fixtures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="class_cross_shard_feedback_sync_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_cross_shard_feedback_sync_test" kindref="compound">CrossShardFeedbackSyncTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_cross_shard_feedback_sync_test_1aef179ef431fa179e80bbb76dce58a919" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_cross_shard_feedback_sync_test_1a3b31766ff706c4e9e938b16704376878" kindref="member">cfg_</ref>.max_embedding_dim<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>4;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Small<sp/>dim<sp/>for<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_cross_shard_feedback_sync_test_1a3b31766ff706c4e9e938b16704376878" kindref="member">cfg_</ref>.dedup_cache_size<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_cross_shard_feedback_sync_test_1a3b31766ff706c4e9e938b16704376878" kindref="member">cfg_</ref>.validate_embedding_dim<sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_cross_shard_feedback_sync_test_1a877abeddd55518fcd2975090081f3847" kindref="member">gossip_messages_</ref>.clear();</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_sync_config" kindref="compound">FeedbackSyncConfig</ref><sp/><ref refid="class_cross_shard_feedback_sync_test_1a3b31766ff706c4e9e938b16704376878" kindref="member">cfg_</ref>;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;json&gt;<sp/><sp/><ref refid="class_cross_shard_feedback_sync_test_1a877abeddd55518fcd2975090081f3847" kindref="member">gossip_messages_</ref>;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="class_cross_shard_feedback_sync_test_1a6d6b9567e8595c5c8ab43c2502875232" kindref="member">make_gossip_fn</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>[</highlight><highlight class="keyword">this</highlight><highlight class="normal">](<ref refid="test__adapter__capability__announcement__focused_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>msg)<sp/>{<sp/><ref refid="class_cross_shard_feedback_sync_test_1a877abeddd55518fcd2975090081f3847" kindref="member">gossip_messages_</ref>.push_back(std::move(msg));<sp/>};</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary" kindref="compound">FeedbackSummary</ref><sp/><ref refid="class_cross_shard_feedback_sync_test_1a2d449c42ce185cea0cef0ecca052db6f" kindref="member">makeSummary</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>type_label<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;USER_NEGATIVE&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary" kindref="compound">FeedbackSummary</ref><sp/>s;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>s.<ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1a751495b630e07c3bbfb24be5a7a9f52c" kindref="member">summary_id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>id;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>s.<ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1a335529705f3c4978def22eaef7da4e01" kindref="member">feedback_type_label</ref><sp/>=<sp/>type_label;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>s.<ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1ae76ac87d79775879fbfd10d2b6a01214" kindref="member">reason_embedding</ref><sp/><sp/><sp/><sp/>=<sp/>{0.1f,<sp/>0.2f,<sp/>0.3f,<sp/>0.4f};</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>s.<ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1a21b1dcb7c12805787bbf347f3b2075f7" kindref="member">rlaif_round</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>s;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FeedbackSummary<sp/>Tests<sp/>(CSS-01..CSS-03)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><ref refid="test__cross__shard__feedback__sync__focused_8cpp_1a1fa07591652b7c6b46718bb8339d56db" kindref="member">TEST_F</ref>(<ref refid="class_cross_shard_feedback_sync_test" kindref="compound">CrossShardFeedbackSyncTest</ref>,<sp/>CreateFeedbackSummary)<sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary" kindref="compound">FeedbackSummary</ref><sp/>s<sp/>=<sp/>makeSummary(</highlight><highlight class="stringliteral">&quot;sum-001&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;USER_NEGATIVE&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.<ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1a751495b630e07c3bbfb24be5a7a9f52c" kindref="member">summary_id</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;sum-001&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.<ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1a335529705f3c4978def22eaef7da4e01" kindref="member">feedback_type_label</ref>,<sp/></highlight><highlight class="stringliteral">&quot;USER_NEGATIVE&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.<ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1ae76ac87d79775879fbfd10d2b6a01214" kindref="member">reason_embedding</ref>.size(),<sp/>4u);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.<ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1a21b1dcb7c12805787bbf347f3b2075f7" kindref="member">rlaif_round</ref>,<sp/>1u);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><ref refid="test__cross__shard__feedback__sync__focused_8cpp_1a1fa07591652b7c6b46718bb8339d56db" kindref="member">TEST_F</ref>(<ref refid="class_cross_shard_feedback_sync_test" kindref="compound">CrossShardFeedbackSyncTest</ref>,<sp/>FeedbackSummaryJsonRoundTrip)<sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary" kindref="compound">FeedbackSummary</ref><sp/>original<sp/>=<sp/>makeSummary(</highlight><highlight class="stringliteral">&quot;sum-round-trip&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;SECURITY_ISSUE&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>original.<ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1a45eeaff3721941db019d6e2a9511c39f" kindref="member">shard_origin</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ANON&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>original.<ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1a21b1dcb7c12805787bbf347f3b2075f7" kindref="member">rlaif_round</ref><sp/><sp/>=<sp/>7;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__adapter__capability__announcement__focused_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>j<sp/>=<sp/>original.<ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1acad34323eb3107a8852b88a51d023f14" kindref="member">toJson</ref>();</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary" kindref="compound">FeedbackSummary</ref><sp/>restored<sp/>=<sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1adba3f7ba30e0228c14f8b266d5bb1749" kindref="member">FeedbackSummary::fromJson</ref>(j);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(restored.<ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1a751495b630e07c3bbfb24be5a7a9f52c" kindref="member">summary_id</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>original.<ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1a751495b630e07c3bbfb24be5a7a9f52c" kindref="member">summary_id</ref>);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(restored.<ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1a335529705f3c4978def22eaef7da4e01" kindref="member">feedback_type_label</ref>,<sp/>original.<ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1a335529705f3c4978def22eaef7da4e01" kindref="member">feedback_type_label</ref>);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(restored.<ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1a45eeaff3721941db019d6e2a9511c39f" kindref="member">shard_origin</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;ANON&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(restored.<ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1a21b1dcb7c12805787bbf347f3b2075f7" kindref="member">rlaif_round</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>7u);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(restored.<ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1ae76ac87d79775879fbfd10d2b6a01214" kindref="member">reason_embedding</ref>.size(),<sp/>original.<ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1ae76ac87d79775879fbfd10d2b6a01214" kindref="member">reason_embedding</ref>.size());</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><ref refid="test__cross__shard__feedback__sync__focused_8cpp_1a1fa07591652b7c6b46718bb8339d56db" kindref="member">TEST_F</ref>(<ref refid="class_cross_shard_feedback_sync_test" kindref="compound">CrossShardFeedbackSyncTest</ref>,<sp/>FeedbackSummaryDefaultShardOriginIsAnon)<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary" kindref="compound">FeedbackSummary</ref><sp/>s;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.<ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1a45eeaff3721941db019d6e2a9511c39f" kindref="member">shard_origin</ref>,<sp/></highlight><highlight class="stringliteral">&quot;ANON&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Publish/Receive<sp/>Tests<sp/>(CSS-04..CSS-06)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><ref refid="test__cross__shard__feedback__sync__focused_8cpp_1a1fa07591652b7c6b46718bb8339d56db" kindref="member">TEST_F</ref>(<ref refid="class_cross_shard_feedback_sync_test" kindref="compound">CrossShardFeedbackSyncTest</ref>,<sp/>PublishFeedbackDispatchesGossipMessage)<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync" kindref="compound">CrossShardFeedbackSync</ref><sp/>sync(cfg_,<sp/></highlight><highlight class="stringliteral">&quot;shard-001&quot;</highlight><highlight class="normal">,<sp/>make_gossip_fn());</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>sync.publishFeedback(makeSummary(</highlight><highlight class="stringliteral">&quot;sum-001&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sync.publishedCount(),<sp/>1u);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(gossip_messages_.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><ref refid="test__cross__shard__feedback__sync__focused_8cpp_1a1fa07591652b7c6b46718bb8339d56db" kindref="member">TEST_F</ref>(<ref refid="class_cross_shard_feedback_sync_test" kindref="compound">CrossShardFeedbackSyncTest</ref>,<sp/>HandleInboundSummaryInvokesCallback)<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync" kindref="compound">CrossShardFeedbackSync</ref><sp/>sync(cfg_,<sp/></highlight><highlight class="stringliteral">&quot;shard-002&quot;</highlight><highlight class="normal">,<sp/>make_gossip_fn());</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>received_id<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>sync.setFeedbackCallback([&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary" kindref="compound">FeedbackSummary</ref>&amp;<sp/>s)<sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>received_id<sp/>=<sp/>s.<ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1a751495b630e07c3bbfb24be5a7a9f52c" kindref="member">summary_id</ref>;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary" kindref="compound">FeedbackSummary</ref><sp/>original<sp/>=<sp/>makeSummary(</highlight><highlight class="stringliteral">&quot;sum-inbound&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>sync.handleInboundSummary(original.<ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1acad34323eb3107a8852b88a51d023f14" kindref="member">toJson</ref>());</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(received_id,<sp/></highlight><highlight class="stringliteral">&quot;sum-inbound&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sync.receivedCount(),<sp/>1u);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><ref refid="test__cross__shard__feedback__sync__focused_8cpp_1a1fa07591652b7c6b46718bb8339d56db" kindref="member">TEST_F</ref>(<ref refid="class_cross_shard_feedback_sync_test" kindref="compound">CrossShardFeedbackSyncTest</ref>,<sp/>PublishFeedbackRejectsWrongEmbeddingDim)<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync" kindref="compound">CrossShardFeedbackSync</ref><sp/>sync(cfg_,<sp/></highlight><highlight class="stringliteral">&quot;shard-001&quot;</highlight><highlight class="normal">,<sp/>make_gossip_fn());</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary" kindref="compound">FeedbackSummary</ref><sp/>bad<sp/>=<sp/>makeSummary(</highlight><highlight class="stringliteral">&quot;sum-bad&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>bad.<ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1ae76ac87d79775879fbfd10d2b6a01214" kindref="member">reason_embedding</ref><sp/>=<sp/>{0.1f,<sp/>0.2f};<sp/><sp/></highlight><highlight class="comment">//<sp/>dim=2,<sp/>expected<sp/>4</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(sync.publishFeedback(bad),<sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Deduplication<sp/>Tests<sp/>(CSS-07..CSS-08)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><ref refid="test__cross__shard__feedback__sync__focused_8cpp_1a1fa07591652b7c6b46718bb8339d56db" kindref="member">TEST_F</ref>(<ref refid="class_cross_shard_feedback_sync_test" kindref="compound">CrossShardFeedbackSyncTest</ref>,<sp/>DuplicateSummaryIsDeduped)<sp/>{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync" kindref="compound">CrossShardFeedbackSync</ref><sp/>sync(cfg_,<sp/></highlight><highlight class="stringliteral">&quot;shard-002&quot;</highlight><highlight class="normal">,<sp/>make_gossip_fn());</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary" kindref="compound">FeedbackSummary</ref><sp/>s<sp/>=<sp/>makeSummary(</highlight><highlight class="stringliteral">&quot;sum-dup&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__adapter__capability__announcement__focused_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>payload<sp/>=<sp/>s.<ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1acad34323eb3107a8852b88a51d023f14" kindref="member">toJson</ref>();</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>sync.handleInboundSummary(payload);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>sync.handleInboundSummary(payload);<sp/><sp/></highlight><highlight class="comment">//<sp/>duplicate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sync.receivedCount(),<sp/><sp/><sp/><sp/><sp/><sp/>1u);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sync.deduplicatedCount(),<sp/><sp/>1u);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><ref refid="test__cross__shard__feedback__sync__focused_8cpp_1a1fa07591652b7c6b46718bb8339d56db" kindref="member">TEST_F</ref>(<ref refid="class_cross_shard_feedback_sync_test" kindref="compound">CrossShardFeedbackSyncTest</ref>,<sp/>MultipleDistinctSummariesAllReceived)<sp/>{</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync" kindref="compound">CrossShardFeedbackSync</ref><sp/>sync(cfg_,<sp/></highlight><highlight class="stringliteral">&quot;shard-002&quot;</highlight><highlight class="normal">,<sp/>make_gossip_fn());</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary" kindref="compound">FeedbackSummary</ref><sp/>s<sp/>=<sp/>makeSummary(</highlight><highlight class="stringliteral">&quot;sum-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i));</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sync.handleInboundSummary(s.<ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1acad34323eb3107a8852b88a51d023f14" kindref="member">toJson</ref>());</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sync.receivedCount(),<sp/><sp/><sp/><sp/><sp/>5u);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sync.deduplicatedCount(),<sp/>0u);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Policy<sp/>and<sp/>ZeroTrust<sp/>Tests<sp/>(CSS-09..CSS-10)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><ref refid="test__cross__shard__feedback__sync__focused_8cpp_1a1fa07591652b7c6b46718bb8339d56db" kindref="member">TEST_F</ref>(<ref refid="class_cross_shard_feedback_sync_test" kindref="compound">CrossShardFeedbackSyncTest</ref>,<sp/>InboundPolicyCheckRejectsSummary)<sp/>{</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync" kindref="compound">CrossShardFeedbackSync</ref><sp/>sync(cfg_,<sp/></highlight><highlight class="stringliteral">&quot;shard-002&quot;</highlight><highlight class="normal">,<sp/>make_gossip_fn());</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>sync.setInboundPolicyCheck([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary" kindref="compound">FeedbackSummary</ref>&amp;)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/>});</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>callback_called<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>sync.setFeedbackCallback([&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary" kindref="compound">FeedbackSummary</ref>&amp;)<sp/>{<sp/>callback_called<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>});</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>sync.handleInboundSummary(makeSummary(</highlight><highlight class="stringliteral">&quot;sum-rejected&quot;</highlight><highlight class="normal">).toJson());</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(callback_called);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sync.rejectedByPolicyCount(),<sp/>1u);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><ref refid="test__cross__shard__feedback__sync__focused_8cpp_1a1fa07591652b7c6b46718bb8339d56db" kindref="member">TEST_F</ref>(<ref refid="class_cross_shard_feedback_sync_test" kindref="compound">CrossShardFeedbackSyncTest</ref>,<sp/>ZeroTrustEnforcerThrowsOnHighRisk)<sp/>{</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync" kindref="compound">CrossShardFeedbackSync</ref><sp/>sync(cfg_,<sp/></highlight><highlight class="stringliteral">&quot;shard-002&quot;</highlight><highlight class="normal">,<sp/>make_gossip_fn());</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>sync.setZeroTrustEnforcer([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary" kindref="compound">FeedbackSummary</ref>&amp;)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/>});</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(sync.handleInboundSummary(makeSummary(</highlight><highlight class="stringliteral">&quot;sum-risky&quot;</highlight><highlight class="normal">).toJson()),</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Observability<sp/>and<sp/>Config<sp/>Tests<sp/>(CSS-11..CSS-12)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><ref refid="test__cross__shard__feedback__sync__focused_8cpp_1a1fa07591652b7c6b46718bb8339d56db" kindref="member">TEST_F</ref>(<ref refid="class_cross_shard_feedback_sync_test" kindref="compound">CrossShardFeedbackSyncTest</ref>,<sp/>GetStatsReturnsJsonWithCounters)<sp/>{</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync" kindref="compound">CrossShardFeedbackSync</ref><sp/>sync(cfg_,<sp/></highlight><highlight class="stringliteral">&quot;shard-001&quot;</highlight><highlight class="normal">,<sp/>make_gossip_fn());</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>sync.publishFeedback(makeSummary(</highlight><highlight class="stringliteral">&quot;sum-stats-1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>sync.publishFeedback(makeSummary(</highlight><highlight class="stringliteral">&quot;sum-stats-2&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__adapter__capability__announcement__focused_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>stats<sp/>=<sp/>sync.getStats();</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(stats.contains(</highlight><highlight class="stringliteral">&quot;published&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats[</highlight><highlight class="stringliteral">&quot;published&quot;</highlight><highlight class="normal">].get&lt;size_t&gt;(),<sp/>2u);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><ref refid="test__cross__shard__feedback__sync__focused_8cpp_1a1fa07591652b7c6b46718bb8339d56db" kindref="member">TEST_F</ref>(<ref refid="class_cross_shard_feedback_sync_test" kindref="compound">CrossShardFeedbackSyncTest</ref>,<sp/>FeedbackSyncConfigValidation)<sp/>{</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cfg_.isValid());</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_sync_config" kindref="compound">FeedbackSyncConfig</ref><sp/>bad_cfg;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>bad_cfg.<ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_sync_config_1aad201301214f1daa10b47603cdaf0dd1" kindref="member">max_embedding_dim</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(bad_cfg.<ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_sync_config_1af6c09035292933873e3a365d13b5b2e2" kindref="member">isValid</ref>());</highlight></codeline>
+<codeline lineno="276"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>Summary</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="283"><highlight class="comment"><sp/>*<sp/>Test<sp/>Coverage<sp/>Summary<sp/>(CSS-01..CSS-12):</highlight></codeline>
+<codeline lineno="284"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="285"><highlight class="comment"><sp/>*<sp/>CSS-01:<sp/>FeedbackSummary<sp/>creation<sp/>with<sp/>required<sp/>fields</highlight></codeline>
+<codeline lineno="286"><highlight class="comment"><sp/>*<sp/>CSS-02:<sp/>FeedbackSummary<sp/>JSON<sp/>serialization<sp/>round-trip</highlight></codeline>
+<codeline lineno="287"><highlight class="comment"><sp/>*<sp/>CSS-03:<sp/>FeedbackSummary<sp/>shard_origin<sp/>defaults<sp/>to<sp/>ANON</highlight></codeline>
+<codeline lineno="288"><highlight class="comment"><sp/>*<sp/>CSS-04:<sp/>publishFeedback()<sp/>dispatches<sp/>a<sp/>gossip<sp/>message</highlight></codeline>
+<codeline lineno="289"><highlight class="comment"><sp/>*<sp/>CSS-05:<sp/>handleInboundSummary()<sp/>invokes<sp/>the<sp/>registered<sp/>callback</highlight></codeline>
+<codeline lineno="290"><highlight class="comment"><sp/>*<sp/>CSS-06:<sp/>publishFeedback()<sp/>throws<sp/>on<sp/>wrong<sp/>embedding<sp/>dimension</highlight></codeline>
+<codeline lineno="291"><highlight class="comment"><sp/>*<sp/>CSS-07:<sp/>Duplicate<sp/>inbound<sp/>summary_id<sp/>is<sp/>deduplicated</highlight></codeline>
+<codeline lineno="292"><highlight class="comment"><sp/>*<sp/>CSS-08:<sp/>Multiple<sp/>distinct<sp/>summaries<sp/>all<sp/>received</highlight></codeline>
+<codeline lineno="293"><highlight class="comment"><sp/>*<sp/>CSS-09:<sp/>Inbound<sp/>policy<sp/>check<sp/>rejects<sp/>summaries</highlight></codeline>
+<codeline lineno="294"><highlight class="comment"><sp/>*<sp/>CSS-10:<sp/>ZeroTrust<sp/>enforcer<sp/>throws<sp/>on<sp/>high-risk<sp/>summary</highlight></codeline>
+<codeline lineno="295"><highlight class="comment"><sp/>*<sp/>CSS-11:<sp/>getStats()<sp/>returns<sp/>JSON<sp/>with<sp/>expected<sp/>counters</highlight></codeline>
+<codeline lineno="296"><highlight class="comment"><sp/>*<sp/>CSS-12:<sp/>FeedbackSyncConfig<sp/>validation</highlight></codeline>
+<codeline lineno="297"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="298"><highlight class="comment"><sp/>*<sp/>Target:<sp/>Q3<sp/>2026<sp/>Hardening<sp/>-<sp/>dedup<sp/>semantics,<sp/>replay<sp/>prevention,<sp/>privacy<sp/>filtering.</highlight></codeline>
+<codeline lineno="299"><highlight class="comment"><sp/>*<sp/>Status:<sp/>Focused<sp/>unit<sp/>test<sp/>suite<sp/>for<sp/>cross-shard<sp/>feedback<sp/>sync<sp/>layer.</highlight></codeline>
+<codeline lineno="300"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/distributed_knowledge/test_cross_shard_feedback_sync_focused.cpp"/>
+  </compounddef>
+</doxygen>

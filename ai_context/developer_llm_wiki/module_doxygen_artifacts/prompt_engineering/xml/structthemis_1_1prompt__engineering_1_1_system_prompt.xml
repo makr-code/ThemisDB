@@ -1,0 +1,181 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_system_prompt" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::SystemPrompt</compoundname>
+    <includes refid="system__prompt__manager_8h" local="no">system_prompt_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_system_prompt_1ab610dde246cbf587c144b3d6e53f6360" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::SystemPrompt::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::prompt_engineering::SystemPrompt::id</qualifiedname>
+        <briefdescription>
+<para>Internal identifier (role string by default). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/system_prompt_manager.h" line="42" column="20" bodyfile="include/prompt_engineering/system_prompt_manager.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_system_prompt_1a964871fe2d38a1c2e4d83d372da6d9bf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::SystemPrompt::content</definition>
+        <argsstring></argsstring>
+        <name>content</name>
+        <qualifiedname>themis::prompt_engineering::SystemPrompt::content</qualifiedname>
+        <briefdescription>
+<para>Prompt text; supports <computeroutput>{placeholder}</computeroutput> variables. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/system_prompt_manager.h" line="43" column="20" bodyfile="include/prompt_engineering/system_prompt_manager.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_system_prompt_1a01d30ae34efbc58bee56290cedbc6765" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1prompt__engineering_1a2a4ac5e3cb74c8e141901185142cc45d" kindref="member">Role</ref></type>
+        <definition>Role themis::prompt_engineering::SystemPrompt::role</definition>
+        <argsstring></argsstring>
+        <name>role</name>
+        <qualifiedname>themis::prompt_engineering::SystemPrompt::role</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1prompt__engineering_1a2a4ac5e3cb74c8e141901185142cc45da5b39c8b553c821e7cddc6da64b5bd2ee" kindref="member">Role::DEFAULT</ref></initializer>
+        <briefdescription>
+<para>Owning role. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/system_prompt_manager.h" line="44" column="20" bodyfile="include/prompt_engineering/system_prompt_manager.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_system_prompt_1a8c8adec47c82ec43ec257def71541809" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::SystemPrompt::custom_role</definition>
+        <argsstring></argsstring>
+        <name>custom_role</name>
+        <qualifiedname>themis::prompt_engineering::SystemPrompt::custom_role</qualifiedname>
+        <briefdescription>
+<para>Set when role == <ref refid="namespacethemis_1_1prompt__engineering_1a2a4ac5e3cb74c8e141901185142cc45da72baef04098f035e8a320b03ad197818" kindref="member">Role::CUSTOM</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/system_prompt_manager.h" line="45" column="20" bodyfile="include/prompt_engineering/system_prompt_manager.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_system_prompt_1a08c654e0ff51813515af6f27afe8bde1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::SystemPrompt::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::prompt_engineering::SystemPrompt::version</qualifiedname>
+        <briefdescription>
+<para>Version string (e.g. &quot;1.0&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/system_prompt_manager.h" line="46" column="20" bodyfile="include/prompt_engineering/system_prompt_manager.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_system_prompt_1a240f7a3d76936fd90cfbd39ac4fca15c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::SystemPrompt::active</definition>
+        <argsstring></argsstring>
+        <name>active</name>
+        <qualifiedname>themis::prompt_engineering::SystemPrompt::active</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/system_prompt_manager.h" line="47" column="20" bodyfile="include/prompt_engineering/system_prompt_manager.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_system_prompt_1a3e462171166baba38efe3a07ec892754" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::prompt_engineering::SystemPrompt::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::prompt_engineering::SystemPrompt::metadata</qualifiedname>
+        <briefdescription>
+<para>Arbitrary metadata for tracking / experiments. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/system_prompt_manager.h" line="48" column="20" bodyfile="include/prompt_engineering/system_prompt_manager.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1prompt__engineering_1_1_system_prompt_1af607904dda999e2326dd9853723dd1b7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::prompt_engineering::SystemPrompt::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::prompt_engineering::SystemPrompt::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/system_prompt_manager.h" line="50" column="20" bodyfile="src/prompt_engineering/system_prompt_manager.cpp" bodystart="21" bodyend="31"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1prompt__engineering_1_1_system_prompt_1aca647ebcb9227211e190aa0b3a0d7572" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_system_prompt" kindref="compound">SystemPrompt</ref></type>
+        <definition>SystemPrompt themis::prompt_engineering::SystemPrompt::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::prompt_engineering::SystemPrompt::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: value(), <ref refid="classthemis_1_1prompt__engineering_1_1_system_prompt_manager_1aa75d7b5866571c8ac1a1f9d3ace6dffd" kindref="member">SystemPromptManager::stringToRole()</ref>, contains(), is_object(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/system_prompt_manager.h" line="51" column="25" bodyfile="src/prompt_engineering/system_prompt_manager.cpp" bodystart="39" bodyend="51"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Represents a single stored system prompt. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/system_prompt_manager.h" line="41" column="1" bodyfile="include/prompt_engineering/system_prompt_manager.h" bodystart="41" bodyend="52"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_system_prompt_1a240f7a3d76936fd90cfbd39ac4fca15c" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::SystemPrompt</scope><name>active</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_system_prompt_1a964871fe2d38a1c2e4d83d372da6d9bf" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::SystemPrompt</scope><name>content</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_system_prompt_1a8c8adec47c82ec43ec257def71541809" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::SystemPrompt</scope><name>custom_role</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_system_prompt_1aca647ebcb9227211e190aa0b3a0d7572" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::SystemPrompt</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_system_prompt_1ab610dde246cbf587c144b3d6e53f6360" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::SystemPrompt</scope><name>id</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_system_prompt_1a3e462171166baba38efe3a07ec892754" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::SystemPrompt</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_system_prompt_1a01d30ae34efbc58bee56290cedbc6765" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::SystemPrompt</scope><name>role</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_system_prompt_1af607904dda999e2326dd9853723dd1b7" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::SystemPrompt</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_system_prompt_1a08c654e0ff51813515af6f27afe8bde1" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::SystemPrompt</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

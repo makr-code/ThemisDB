@@ -1,0 +1,361 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1_a_q_l_token_stream" kind="class" language="C++" prot="public">
+    <compoundname>themis::aql::AQLTokenStream</compoundname>
+    <includes refid="aql__token__stream_8h" local="no">aql_token_stream.h</includes>
+    <innerclass refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1_1_iterator" prot="public">themis::aql::AQLTokenStream::Iterator</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_a_q_l_token_stream_1a56ec181bbb528bd066d2ef8b131c45ad" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::aql::AQLTokenStream::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::aql::AQLTokenStream::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_token_stream.h" line="171" column="37" bodyfile="include/aql/aql_token_stream.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_a_q_l_token_stream_1ae7420593f71324e91f0c88c60c35d2c4" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::aql::AQLTokenStream::cv_</definition>
+        <argsstring></argsstring>
+        <name>cv_</name>
+        <qualifiedname>themis::aql::AQLTokenStream::cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_token_stream.h" line="172" column="37" bodyfile="include/aql/aql_token_stream.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_a_q_l_token_stream_1a4644570ceab3043b588cb377f397c27a" prot="private" static="no" mutable="no">
+        <type>std::queue&lt; std::string &gt;</type>
+        <definition>std::queue&lt;std::string&gt; themis::aql::AQLTokenStream::queue_</definition>
+        <argsstring></argsstring>
+        <name>queue_</name>
+        <qualifiedname>themis::aql::AQLTokenStream::queue_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_token_stream.h" line="173" column="24" bodyfile="include/aql/aql_token_stream.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_a_q_l_token_stream_1aa907d435a36383c1d075ddd736b16c20" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::aql::AQLTokenStream::closed_</definition>
+        <argsstring></argsstring>
+        <name>closed_</name>
+        <qualifiedname>themis::aql::AQLTokenStream::closed_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_token_stream.h" line="174" column="37" bodyfile="include/aql/aql_token_stream.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_a_q_l_token_stream_1a47f7ec6d48b83d0c3697c6a021e9b333" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::aql::AQLTokenStream::cancelled_</definition>
+        <argsstring></argsstring>
+        <name>cancelled_</name>
+        <qualifiedname>themis::aql::AQLTokenStream::cancelled_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_token_stream.h" line="175" column="31" bodyfile="include/aql/aql_token_stream.h" bodystart="175" bodyend="175"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_token_stream_1aaa995388f9791238192e7d9a97bd02c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::AQLTokenStream::AQLTokenStream</definition>
+        <argsstring>()=default</argsstring>
+        <name>AQLTokenStream</name>
+        <qualifiedname>themis::aql::AQLTokenStream::AQLTokenStream</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_token_stream.h" line="27" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_token_stream_1a1c78f523c42b438e5978fd7058e1e1b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::AQLTokenStream::AQLTokenStream</definition>
+        <argsstring>(const AQLTokenStream &amp;)=delete</argsstring>
+        <name>AQLTokenStream</name>
+        <qualifiedname>themis::aql::AQLTokenStream::AQLTokenStream</qualifiedname>
+        <param>
+          <type>const AQLTokenStream &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_token_stream.h" line="30" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_token_stream_1ad68645abad211fdc4e67398d83560c3f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1aaa995388f9791238192e7d9a97bd02c0" kindref="member">AQLTokenStream</ref> &amp;</type>
+        <definition>AQLTokenStream &amp; themis::aql::AQLTokenStream::operator=</definition>
+        <argsstring>(const AQLTokenStream &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::aql::AQLTokenStream::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1aaa995388f9791238192e7d9a97bd02c0" kindref="member">AQLTokenStream</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_token_stream.h" line="31" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_token_stream_1a7f1d2f17956cb76e25a77af8d192d390" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::AQLTokenStream::AQLTokenStream</definition>
+        <argsstring>(AQLTokenStream &amp;&amp;) noexcept=default</argsstring>
+        <name>AQLTokenStream</name>
+        <qualifiedname>themis::aql::AQLTokenStream::AQLTokenStream</qualifiedname>
+        <param>
+          <type>AQLTokenStream &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_token_stream.h" line="32" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_token_stream_1a14e62b27fcbe7eca901416d7f7dfe134" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1aaa995388f9791238192e7d9a97bd02c0" kindref="member">AQLTokenStream</ref> &amp;</type>
+        <definition>AQLTokenStream &amp; themis::aql::AQLTokenStream::operator=</definition>
+        <argsstring>(AQLTokenStream &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::aql::AQLTokenStream::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1aaa995388f9791238192e7d9a97bd02c0" kindref="member">AQLTokenStream</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_token_stream.h" line="33" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_token_stream_1a8ac41557378296db770fd36fe0e85067" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::AQLTokenStream::~AQLTokenStream</definition>
+        <argsstring>()</argsstring>
+        <name>~AQLTokenStream</name>
+        <qualifiedname>themis::aql::AQLTokenStream::~AQLTokenStream</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_token_stream.h" line="35" column="5" bodyfile="include/aql/aql_token_stream.h" bodystart="35" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_token_stream_1a4cc602eb79d8cf6dc3692c405440ca8e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::AQLTokenStream::push</definition>
+        <argsstring>(const std::string &amp;token)</argsstring>
+        <name>push</name>
+        <qualifiedname>themis::aql::AQLTokenStream::push</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>token</declname>
+        </param>
+        <briefdescription>
+<para>Push. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), notify_one(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_token_stream.h" line="49" column="10" bodyfile="include/aql/aql_token_stream.h" bodystart="49" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_token_stream_1a84ebfec3f9bc00a317ed7d6451ebd28d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::AQLTokenStream::close</definition>
+        <argsstring>()</argsstring>
+        <name>close</name>
+        <qualifiedname>themis::aql::AQLTokenStream::close</qualifiedname>
+        <briefdescription>
+<para>Close. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), notify_all(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_token_stream.h" line="64" column="10" bodyfile="include/aql/aql_token_stream.h" bodystart="64" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_token_stream_1aa2863f7f2823c7b0314d4f8ec31b2f8e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::aql::AQLTokenStream::nextToken</definition>
+        <argsstring>()</argsstring>
+        <name>nextToken</name>
+        <qualifiedname>themis::aql::AQLTokenStream::nextToken</qualifiedname>
+        <briefdescription>
+<para>Next Token. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), wait(), empty(), front(), pop(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_token_stream.h" line="81" column="19" bodyfile="include/aql/aql_token_stream.h" bodystart="81" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_token_stream_1a0808247db3368b31a0059979fd527a40" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::AQLTokenStream::cancel</definition>
+        <argsstring>()</argsstring>
+        <name>cancel</name>
+        <qualifiedname>themis::aql::AQLTokenStream::cancel</qualifiedname>
+        <briefdescription>
+<para>Cancel. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), notify_all(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_token_stream.h" line="98" column="10" bodyfile="include/aql/aql_token_stream.h" bodystart="98" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_token_stream_1af5cb5723257d507ca1640fa78960f214" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::aql::AQLTokenStream::isCancelled</definition>
+        <argsstring>() const</argsstring>
+        <name>isCancelled</name>
+        <qualifiedname>themis::aql::AQLTokenStream::isCancelled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_token_stream.h" line="106" column="10" bodyfile="include/aql/aql_token_stream.h" bodystart="106" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_token_stream_1aabfde0c2ad1b287375857731711b1794" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::aql::AQLTokenStream::isClosed</definition>
+        <argsstring>() const</argsstring>
+        <name>isClosed</name>
+        <qualifiedname>themis::aql::AQLTokenStream::isClosed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/aql/aql_token_stream.h" line="110" column="10" bodyfile="include/aql/aql_token_stream.h" bodystart="110" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_token_stream_1a707c5efb4aa11faf24bb8b8029736659" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1_1_iterator" kindref="compound">Iterator</ref></type>
+        <definition>Iterator themis::aql::AQLTokenStream::begin</definition>
+        <argsstring>()</argsstring>
+        <name>begin</name>
+        <qualifiedname>themis::aql::AQLTokenStream::begin</qualifiedname>
+        <briefdescription>
+<para>Begin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Iterator(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_token_stream.h" line="161" column="14" bodyfile="include/aql/aql_token_stream.h" bodystart="161" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_token_stream_1af9d215a03f075097a6a1f42fa32e4bcf" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1_1_iterator" kindref="compound">Iterator</ref></type>
+        <definition>Iterator themis::aql::AQLTokenStream::end</definition>
+        <argsstring>()</argsstring>
+        <name>end</name>
+        <qualifiedname>themis::aql::AQLTokenStream::end</qualifiedname>
+        <briefdescription>
+<para>End. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Iterator(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_token_stream.h" line="168" column="14" bodyfile="include/aql/aql_token_stream.h" bodystart="168" bodyend="168"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/aql_token_stream.h" line="25" column="1" bodyfile="include/aql/aql_token_stream.h" bodystart="25" bodyend="176"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1aaa995388f9791238192e7d9a97bd02c0" prot="public" virt="non-virtual"><scope>themis::aql::AQLTokenStream</scope><name>AQLTokenStream</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1a1c78f523c42b438e5978fd7058e1e1b4" prot="public" virt="non-virtual"><scope>themis::aql::AQLTokenStream</scope><name>AQLTokenStream</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1a7f1d2f17956cb76e25a77af8d192d390" prot="public" virt="non-virtual"><scope>themis::aql::AQLTokenStream</scope><name>AQLTokenStream</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1a707c5efb4aa11faf24bb8b8029736659" prot="public" virt="non-virtual"><scope>themis::aql::AQLTokenStream</scope><name>begin</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1a0808247db3368b31a0059979fd527a40" prot="public" virt="non-virtual"><scope>themis::aql::AQLTokenStream</scope><name>cancel</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1a47f7ec6d48b83d0c3697c6a021e9b333" prot="private" virt="non-virtual"><scope>themis::aql::AQLTokenStream</scope><name>cancelled_</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1a84ebfec3f9bc00a317ed7d6451ebd28d" prot="public" virt="non-virtual"><scope>themis::aql::AQLTokenStream</scope><name>close</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1aa907d435a36383c1d075ddd736b16c20" prot="private" virt="non-virtual"><scope>themis::aql::AQLTokenStream</scope><name>closed_</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1ae7420593f71324e91f0c88c60c35d2c4" prot="private" virt="non-virtual"><scope>themis::aql::AQLTokenStream</scope><name>cv_</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1af9d215a03f075097a6a1f42fa32e4bcf" prot="public" virt="non-virtual"><scope>themis::aql::AQLTokenStream</scope><name>end</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1af5cb5723257d507ca1640fa78960f214" prot="public" virt="non-virtual"><scope>themis::aql::AQLTokenStream</scope><name>isCancelled</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1aabfde0c2ad1b287375857731711b1794" prot="public" virt="non-virtual"><scope>themis::aql::AQLTokenStream</scope><name>isClosed</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1a56ec181bbb528bd066d2ef8b131c45ad" prot="private" virt="non-virtual"><scope>themis::aql::AQLTokenStream</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1aa2863f7f2823c7b0314d4f8ec31b2f8e" prot="public" virt="non-virtual"><scope>themis::aql::AQLTokenStream</scope><name>nextToken</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1ad68645abad211fdc4e67398d83560c3f" prot="public" virt="non-virtual"><scope>themis::aql::AQLTokenStream</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1a14e62b27fcbe7eca901416d7f7dfe134" prot="public" virt="non-virtual"><scope>themis::aql::AQLTokenStream</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1a4cc602eb79d8cf6dc3692c405440ca8e" prot="public" virt="non-virtual"><scope>themis::aql::AQLTokenStream</scope><name>push</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1a4644570ceab3043b588cb377f397c27a" prot="private" virt="non-virtual"><scope>themis::aql::AQLTokenStream</scope><name>queue_</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_token_stream_1a8ac41557378296db770fd36fe0e85067" prot="public" virt="non-virtual"><scope>themis::aql::AQLTokenStream</scope><name>~AQLTokenStream</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

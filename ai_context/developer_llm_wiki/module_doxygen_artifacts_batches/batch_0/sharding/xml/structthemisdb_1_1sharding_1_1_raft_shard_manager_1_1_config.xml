@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_raft_shard_manager_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::RaftShardManager::Config</compoundname>
+    <includes refid="raft__shard__manager_8h" local="no">raft_shard_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_raft_shard_manager_1_1_config_1a46f1f213a1d00befd8921a92573e150e" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_raft_consensus_1_1_config" kindref="compound">RaftConsensus::Config</ref></type>
+        <definition>RaftConsensus::Config themisdb::sharding::RaftShardManager::Config::raft_config</definition>
+        <argsstring></argsstring>
+        <name>raft_config</name>
+        <qualifiedname>themisdb::sharding::RaftShardManager::Config::raft_config</qualifiedname>
+        <briefdescription>
+<para>Base Raft settings inherited per shard. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_shard_manager.h" line="64" column="31" bodyfile="include/sharding/raft_shard_manager.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_raft_shard_manager_1_1_config_1aca962b8d2885eeeac4d5380db2635e87" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::RaftShardManager::Config::replication_factor</definition>
+        <argsstring></argsstring>
+        <name>replication_factor</name>
+        <qualifiedname>themisdb::sharding::RaftShardManager::Config::replication_factor</qualifiedname>
+        <initializer>{3}</initializer>
+        <briefdescription>
+<para>Required replica count per shard. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_shard_manager.h" line="65" column="16" bodyfile="include/sharding/raft_shard_manager.h" bodystart="65" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_raft_shard_manager_1_1_config_1a00fbf5f208ef913767734cb6303e64cd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::RaftShardManager::Config::enable_auto_start</definition>
+        <argsstring></argsstring>
+        <name>enable_auto_start</name>
+        <qualifiedname>themisdb::sharding::RaftShardManager::Config::enable_auto_start</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>Start Raft immediately after initialization. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_shard_manager.h" line="66" column="14" bodyfile="include/sharding/raft_shard_manager.h" bodystart="66" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_raft_shard_manager_1_1_config_1afbe8a4259f71c9984c97666d77e05228" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::sharding::RaftShardManager::Config::leader_check_interval</definition>
+        <argsstring></argsstring>
+        <name>leader_check_interval</name>
+        <qualifiedname>themisdb::sharding::RaftShardManager::Config::leader_check_interval</qualifiedname>
+        <initializer>{1000}</initializer>
+        <briefdescription>
+<para>Polling interval for leader checks/monitoring. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_shard_manager.h" line="67" column="35" bodyfile="include/sharding/raft_shard_manager.h" bodystart="67" bodyend="67"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for Raft per shard. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="3">
+        <label>themisdb::sharding::RaftConfig</label>
+        <link refid="structthemisdb_1_1sharding_1_1_raft_config"/>
+      </node>
+      <node id="2">
+        <label>themisdb::sharding::RaftConsensus::Config</label>
+        <link refid="structthemisdb_1_1sharding_1_1_raft_consensus_1_1_config"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>raft_config</edgelabel>
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themisdb::sharding::RaftShardManager::Config</label>
+        <link refid="structthemisdb_1_1sharding_1_1_raft_shard_manager_1_1_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>raft_config</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/sharding/raft_shard_manager.h" line="63" column="5" bodyfile="include/sharding/raft_shard_manager.h" bodystart="63" bodyend="68"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_raft_shard_manager_1_1_config_1a00fbf5f208ef913767734cb6303e64cd" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftShardManager::Config</scope><name>enable_auto_start</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_raft_shard_manager_1_1_config_1afbe8a4259f71c9984c97666d77e05228" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftShardManager::Config</scope><name>leader_check_interval</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_raft_shard_manager_1_1_config_1a46f1f213a1d00befd8921a92573e150e" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftShardManager::Config</scope><name>raft_config</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_raft_shard_manager_1_1_config_1aca962b8d2885eeeac4d5380db2635e87" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftShardManager::Config</scope><name>replication_factor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

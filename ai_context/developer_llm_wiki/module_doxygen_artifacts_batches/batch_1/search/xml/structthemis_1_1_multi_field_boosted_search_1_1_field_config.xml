@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_multi_field_boosted_search_1_1_field_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::MultiFieldBoostedSearch::FieldConfig</compoundname>
+    <includes refid="multi__field__search_8h" local="no">multi_field_search.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_multi_field_boosted_search_1_1_field_config_1a49c3ecb38a7293f08ff81e286014448b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::MultiFieldBoostedSearch::FieldConfig::table</definition>
+        <argsstring></argsstring>
+        <name>table</name>
+        <qualifiedname>themis::MultiFieldBoostedSearch::FieldConfig::table</qualifiedname>
+        <briefdescription>
+<para>Table containing this field. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/multi_field_search.h" line="69" column="21" bodyfile="include/search/multi_field_search.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_multi_field_boosted_search_1_1_field_config_1ac7a44dcb9bdc8b2c46636d45876e962b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::MultiFieldBoostedSearch::FieldConfig::column</definition>
+        <argsstring></argsstring>
+        <name>column</name>
+        <qualifiedname>themis::MultiFieldBoostedSearch::FieldConfig::column</qualifiedname>
+        <briefdescription>
+<para>Column (field) name to search. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/multi_field_search.h" line="70" column="21" bodyfile="include/search/multi_field_search.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_multi_field_boosted_search_1_1_field_config_1a109c6541088a7d26b6428a51c01de53a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::MultiFieldBoostedSearch::FieldConfig::boost</definition>
+        <argsstring></argsstring>
+        <name>boost</name>
+        <qualifiedname>themis::MultiFieldBoostedSearch::FieldConfig::boost</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+<para>Boost multiplier (higher = more important). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/multi_field_search.h" line="71" column="16" bodyfile="include/search/multi_field_search.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for a single searchable field. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/search/multi_field_search.h" line="68" column="5" bodyfile="include/search/multi_field_search.h" bodystart="68" bodyend="72"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_multi_field_boosted_search_1_1_field_config_1a109c6541088a7d26b6428a51c01de53a" prot="public" virt="non-virtual"><scope>themis::MultiFieldBoostedSearch::FieldConfig</scope><name>boost</name></member>
+      <member refid="structthemis_1_1_multi_field_boosted_search_1_1_field_config_1ac7a44dcb9bdc8b2c46636d45876e962b" prot="public" virt="non-virtual"><scope>themis::MultiFieldBoostedSearch::FieldConfig</scope><name>column</name></member>
+      <member refid="structthemis_1_1_multi_field_boosted_search_1_1_field_config_1a49c3ecb38a7293f08ff81e286014448b" prot="public" virt="non-virtual"><scope>themis::MultiFieldBoostedSearch::FieldConfig</scope><name>table</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

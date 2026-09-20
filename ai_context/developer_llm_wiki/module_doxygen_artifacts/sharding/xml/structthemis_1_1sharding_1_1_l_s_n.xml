@@ -1,0 +1,258 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_l_s_n" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::LSN</compoundname>
+    <includes refid="wal__manager_8h" local="no">wal_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_l_s_n_1a35a4349ec3536d4085a29c871c42117b" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::LSN::segment</definition>
+        <argsstring></argsstring>
+        <name>segment</name>
+        <qualifiedname>themis::sharding::LSN::segment</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_manager.h" line="75" column="14" bodyfile="include/sharding/wal_manager.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_l_s_n_1aed626f0039200d2aaaa54e5b26627fe9" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::LSN::offset</definition>
+        <argsstring></argsstring>
+        <name>offset</name>
+        <qualifiedname>themis::sharding::LSN::offset</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_manager.h" line="76" column="14" bodyfile="include/sharding/wal_manager.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_l_s_n_1a1491e9e7ba99da10be0cb548721f4928" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::LSN::LSN</definition>
+        <argsstring>()</argsstring>
+        <name>LSN</name>
+        <qualifiedname>themis::sharding::LSN::LSN</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_manager.h" line="78" column="5" bodyfile="include/sharding/wal_manager.h" bodystart="78" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_l_s_n_1a6d72b1267445001a92eea7ef7579da6c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::LSN::LSN</definition>
+        <argsstring>(uint64_t seg, uint64_t off)</argsstring>
+        <name>LSN</name>
+        <qualifiedname>themis::sharding::LSN::LSN</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>seg</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>off</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_manager.h" line="79" column="5" bodyfile="include/sharding/wal_manager.h" bodystart="79" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_l_s_n_1a0e2cb869fc5470e3a69efe9b71963e9e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::LSN::operator&lt;</definition>
+        <argsstring>(const LSN &amp;other) const</argsstring>
+        <name>operator&lt;</name>
+        <qualifiedname>themis::sharding::LSN::operator&lt;</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_l_s_n_1a1491e9e7ba99da10be0cb548721f4928" kindref="member">LSN</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Strict ordering by segment first, then offset. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_manager.h" line="82" column="5" bodyfile="include/sharding/wal_manager.h" bodystart="82" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_l_s_n_1a2577f9f5a36c43bf719ae507dbc71d33" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::LSN::operator==</definition>
+        <argsstring>(const LSN &amp;other) const</argsstring>
+        <name>operator==</name>
+        <qualifiedname>themis::sharding::LSN::operator==</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_l_s_n_1a1491e9e7ba99da10be0cb548721f4928" kindref="member">LSN</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Equality across both segment and offset components. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_manager.h" line="90" column="10" bodyfile="include/sharding/wal_manager.h" bodystart="90" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_l_s_n_1a7b88d60f1c52149123149e921edf2083" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::LSN::operator&lt;=</definition>
+        <argsstring>(const LSN &amp;other) const</argsstring>
+        <name>operator&lt;=</name>
+        <qualifiedname>themis::sharding::LSN::operator&lt;=</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_l_s_n_1a1491e9e7ba99da10be0cb548721f4928" kindref="member">LSN</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Non-strict ordering helper. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_manager.h" line="95" column="5" bodyfile="include/sharding/wal_manager.h" bodystart="95" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_l_s_n_1ad335836e3aeb651b3ad83b602473e22f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::LSN::operator&gt;</definition>
+        <argsstring>(const LSN &amp;other) const</argsstring>
+        <name>operator&gt;</name>
+        <qualifiedname>themis::sharding::LSN::operator&gt;</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_l_s_n_1a1491e9e7ba99da10be0cb548721f4928" kindref="member">LSN</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Strict greater-than ordering helper. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_manager.h" line="100" column="10" bodyfile="include/sharding/wal_manager.h" bodystart="100" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_l_s_n_1ac704f112b9c63653962de52763e45298" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::LSN::operator&gt;=</definition>
+        <argsstring>(const LSN &amp;other) const</argsstring>
+        <name>operator&gt;=</name>
+        <qualifiedname>themis::sharding::LSN::operator&gt;=</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_l_s_n_1a1491e9e7ba99da10be0cb548721f4928" kindref="member">LSN</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Non-strict greater-than ordering helper. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_manager.h" line="105" column="10" bodyfile="include/sharding/wal_manager.h" bodystart="105" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_l_s_n_1ab28536490c5f20f4f0af6c56d93bfc4f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::LSN::toString</definition>
+        <argsstring>() const</argsstring>
+        <name>toString</name>
+        <qualifiedname>themis::sharding::LSN::toString</qualifiedname>
+        <briefdescription>
+<para>Format <ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref> as &quot;segment/offset&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_manager.h" line="110" column="17" bodyfile="include/sharding/wal_manager.h" bodystart="110" bodyend="112"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_l_s_n_1abf5d2bd022cce4532fc3f70b75c467bd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_l_s_n_1a1491e9e7ba99da10be0cb548721f4928" kindref="member">LSN</ref></type>
+        <definition>LSN themis::sharding::LSN::fromString</definition>
+        <argsstring>(const std::string &amp;str)</argsstring>
+        <name>fromString</name>
+        <qualifiedname>themis::sharding::LSN::fromString</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>str</declname>
+        </param>
+        <briefdescription>
+<para>Parse <ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref> from segment/offset text representation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>From String.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: find(), std::stoull(), substr(), <ref refid="structthemis_1_1sharding_1_1_l_s_n_1a1491e9e7ba99da10be0cb548721f4928" kindref="member">LSN()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_manager.h" line="115" column="16" bodyfile="src/sharding/wal_manager.cpp" bodystart="33" bodyend="43"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Log sequence position identifying one byte-offset in WAL history. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Write-Ahead Log (WAL) Manager</para>
+<para>Manages write-ahead logs for replica synchronization. Inspired by PostgreSQL&apos;s WAL architecture.</para>
+<para>Features:<itemizedlist>
+<listitem><para>Sequential log writing</para>
+</listitem><listitem><para>Log segment rotation</para>
+</listitem><listitem><para>Position tracking (<ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref> - Log Sequence Number)</para>
+</listitem><listitem><para>Atomic log entries</para>
+</listitem><listitem><para>Crash recovery support </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/sharding/wal_manager.h" line="74" column="1" bodyfile="include/sharding/wal_manager.h" bodystart="74" bodyend="116"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_l_s_n_1abf5d2bd022cce4532fc3f70b75c467bd" prot="public" virt="non-virtual"><scope>themis::sharding::LSN</scope><name>fromString</name></member>
+      <member refid="structthemis_1_1sharding_1_1_l_s_n_1a1491e9e7ba99da10be0cb548721f4928" prot="public" virt="non-virtual"><scope>themis::sharding::LSN</scope><name>LSN</name></member>
+      <member refid="structthemis_1_1sharding_1_1_l_s_n_1a6d72b1267445001a92eea7ef7579da6c" prot="public" virt="non-virtual"><scope>themis::sharding::LSN</scope><name>LSN</name></member>
+      <member refid="structthemis_1_1sharding_1_1_l_s_n_1aed626f0039200d2aaaa54e5b26627fe9" prot="public" virt="non-virtual"><scope>themis::sharding::LSN</scope><name>offset</name></member>
+      <member refid="structthemis_1_1sharding_1_1_l_s_n_1a0e2cb869fc5470e3a69efe9b71963e9e" prot="public" virt="non-virtual"><scope>themis::sharding::LSN</scope><name>operator&lt;</name></member>
+      <member refid="structthemis_1_1sharding_1_1_l_s_n_1a7b88d60f1c52149123149e921edf2083" prot="public" virt="non-virtual"><scope>themis::sharding::LSN</scope><name>operator&lt;=</name></member>
+      <member refid="structthemis_1_1sharding_1_1_l_s_n_1a2577f9f5a36c43bf719ae507dbc71d33" prot="public" virt="non-virtual"><scope>themis::sharding::LSN</scope><name>operator==</name></member>
+      <member refid="structthemis_1_1sharding_1_1_l_s_n_1ad335836e3aeb651b3ad83b602473e22f" prot="public" virt="non-virtual"><scope>themis::sharding::LSN</scope><name>operator&gt;</name></member>
+      <member refid="structthemis_1_1sharding_1_1_l_s_n_1ac704f112b9c63653962de52763e45298" prot="public" virt="non-virtual"><scope>themis::sharding::LSN</scope><name>operator&gt;=</name></member>
+      <member refid="structthemis_1_1sharding_1_1_l_s_n_1a35a4349ec3536d4085a29c871c42117b" prot="public" virt="non-virtual"><scope>themis::sharding::LSN</scope><name>segment</name></member>
+      <member refid="structthemis_1_1sharding_1_1_l_s_n_1ab28536490c5f20f4f0af6c56d93bfc4f" prot="public" virt="non-virtual"><scope>themis::sharding::LSN</scope><name>toString</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

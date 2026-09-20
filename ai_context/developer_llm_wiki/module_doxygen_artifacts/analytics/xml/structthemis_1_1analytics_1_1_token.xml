@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1analytics_1_1_token" kind="struct" language="C++" prot="public">
+    <compoundname>themis::analytics::Token</compoundname>
+    <includes refid="nlp__text__analyzer_8h" local="no">nlp_text_analyzer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_token_1a7c39cdff08c922732b83a36f885580eb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::analytics::Token::text</definition>
+        <argsstring></argsstring>
+        <name>text</name>
+        <qualifiedname>themis::analytics::Token::text</qualifiedname>
+        <briefdescription>
+<para>The token text. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="28" column="17" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_token_1a731f90ad7d56f209c3bddd2db0810ee8" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::analytics::Token::position</definition>
+        <argsstring></argsstring>
+        <name>position</name>
+        <qualifiedname>themis::analytics::Token::position</qualifiedname>
+        <briefdescription>
+<para>Position in original text. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="29" column="12" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_token_1af54f1af42f5542a220c3f2f189219137" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::analytics::Token::lemma</definition>
+        <argsstring></argsstring>
+        <name>lemma</name>
+        <qualifiedname>themis::analytics::Token::lemma</qualifiedname>
+        <briefdescription>
+<para>Base form of the word. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="30" column="17" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_token_1acb50e1c40eb310c75c6f16f223000bdf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::analytics::Token::pos_tag</definition>
+        <argsstring></argsstring>
+        <name>pos_tag</name>
+        <qualifiedname>themis::analytics::Token::pos_tag</qualifiedname>
+        <briefdescription>
+<para>Part-of-speech tag (NOUN, VERB, etc.). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="31" column="17" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1analytics_1_1_token_1a58b25ce95f0c0d1ae52fb505b387007c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::Token::Token</definition>
+        <argsstring>()=default</argsstring>
+        <name>Token</name>
+        <qualifiedname>themis::analytics::Token::Token</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="33" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1analytics_1_1_token_1a2c11a58c5117debd70309aeb6d9a1b24" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::Token::Token</definition>
+        <argsstring>(std::string t, size_t pos)</argsstring>
+        <name>Token</name>
+        <qualifiedname>themis::analytics::Token::Token</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>t</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>pos</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="34" column="5" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="34" bodyend="34"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/nlp_text_analyzer.h" line="27" column="1" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="27" bodyend="35"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1analytics_1_1_token_1af54f1af42f5542a220c3f2f189219137" prot="public" virt="non-virtual"><scope>themis::analytics::Token</scope><name>lemma</name></member>
+      <member refid="structthemis_1_1analytics_1_1_token_1acb50e1c40eb310c75c6f16f223000bdf" prot="public" virt="non-virtual"><scope>themis::analytics::Token</scope><name>pos_tag</name></member>
+      <member refid="structthemis_1_1analytics_1_1_token_1a731f90ad7d56f209c3bddd2db0810ee8" prot="public" virt="non-virtual"><scope>themis::analytics::Token</scope><name>position</name></member>
+      <member refid="structthemis_1_1analytics_1_1_token_1a7c39cdff08c922732b83a36f885580eb" prot="public" virt="non-virtual"><scope>themis::analytics::Token</scope><name>text</name></member>
+      <member refid="structthemis_1_1analytics_1_1_token_1a58b25ce95f0c0d1ae52fb505b387007c" prot="public" virt="non-virtual"><scope>themis::analytics::Token</scope><name>Token</name></member>
+      <member refid="structthemis_1_1analytics_1_1_token_1a2c11a58c5117debd70309aeb6d9a1b24" prot="public" virt="non-virtual"><scope>themis::analytics::Token</scope><name>Token</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

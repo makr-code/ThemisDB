@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test" kind="page">
+    <compoundname>test</compoundname>
+    <title>Test List</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><variablelist>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1process_1a23ef5e10140d936529dce85d8ccc2a22" kindref="member">themis::process::TEST</ref>  (ProcessGraphRagBoundsTest, P23_03_PropertiesMapAccess)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000001"/>P23-03: Verify properties map access is bounds-safe </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1process_1aa850d7ac6ab21898a59b430160ca0bb7" kindref="member">themis::process::TEST_F</ref>  (<ref refid="classthemis_1_1process_1_1_dmn_evaluator_thread_safety_test" kindref="compound">DmnEvaluatorThreadSafetyTest</ref>, P23_04_ConcurrentLoadsSafe)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000002"/>P23-04: Verify concurrent loads don&apos;t cause data races </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1process_1a036a8a28241b0a308ced3e78b4b7e499" kindref="member">themis::process::TEST_F</ref>  (<ref refid="classthemis_1_1process_1_1_dmn_evaluator_thread_safety_test" kindref="compound">DmnEvaluatorThreadSafetyTest</ref>, P23_05_ConcurrentEvaluateLoadSafe)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000003"/>P23-05: Verify concurrent evaluation and load calls are safe </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1process_1a8882795b9b71f434b4369419518b3a51" kindref="member">themis::process::TEST_F</ref>  (<ref refid="classthemis_1_1process_1_1_vcc_vpb_importer_resource_test" kindref="compound">VccVpbImporterResourceTest</ref>, P23_06_YamlImportResourceSafety)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000004"/>P23-06: Verify YAML list import has proper resource management </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1process_1aa61937506ab2d58f0fe18314c90b8331" kindref="member">themis::process::TEST_F</ref>  (<ref refid="classthemis_1_1process_1_1_vcc_vpb_importer_resource_test" kindref="compound">VccVpbImporterResourceTest</ref>, P23_06_YamlImportExceptionSafety)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000005"/>P23-06 Extended: Verify exception safety in YAML parsing</para>
+</listitem>
+</variablelist>
+</para>
+    </detaileddescription>
+    <location file="test"/>
+  </compounddef>
+</doxygen>

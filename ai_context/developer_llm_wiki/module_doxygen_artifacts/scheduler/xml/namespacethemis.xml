@@ -1,0 +1,311 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis" kind="namespace" language="C++">
+    <compoundname>themis</compoundname>
+    <innerclass refid="structthemis_1_1_c_d_c_trigger_config" prot="public">themis::CDCTriggerConfig</innerclass>
+    <innerclass refid="classthemis_1_1_distributed_task_coordinator" prot="public">themis::DistributedTaskCoordinator</innerclass>
+    <innerclass refid="classthemis_1_1_event_trigger" prot="public">themis::EventTrigger</innerclass>
+    <innerclass refid="classthemis_1_1_event_trigger_manager" prot="public">themis::EventTriggerManager</innerclass>
+    <innerclass refid="structthemis_1_1_hybrid_retention_config" prot="public">themis::HybridRetentionConfig</innerclass>
+    <innerclass refid="classthemis_1_1_hybrid_retention_manager" prot="public">themis::HybridRetentionManager</innerclass>
+    <innerclass refid="structthemis_1_1_hybrid_retention_stats" prot="public">themis::HybridRetentionStats</innerclass>
+    <innerclass refid="structthemis_1_1_scheduled_task" prot="public">themis::ScheduledTask</innerclass>
+    <innerclass refid="classthemis_1_1_task_scheduler" prot="public">themis::TaskScheduler</innerclass>
+    <innernamespace refid="namespacethemis_1_1bench">themis::bench</innernamespace>
+    <innernamespace refid="namespacethemis_1_1query">themis::query</innernamespace>
+    <innernamespace refid="namespacethemis_1_1scheduler">themis::scheduler</innernamespace>
+    <innernamespace refid="namespacethemis_1_1utils">themis::utils</innernamespace>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1a2fc17512a57c687fa92b431087cbecd2" prot="public" static="no">
+        <type>query::QueryEngine</type>
+        <definition>using themis::QueryEngine = query::QueryEngine</definition>
+        <argsstring></argsstring>
+        <name>QueryEngine</name>
+        <qualifiedname>themis::QueryEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/hybrid_retention_manager.h" line="27" column="1" bodyfile="include/scheduler/hybrid_retention_manager.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1afaa04f11baac3d4be051091a12d08fb7" prot="public" static="yes" mutable="no" thread_local="yes">
+        <type>TLSRequestContext</type>
+        <definition>TLSRequestContext themis::tls_request_ctx</definition>
+        <argsstring></argsstring>
+        <name>tls_request_ctx</name>
+        <qualifiedname>themis::tls_request_ctx</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/scheduler/task_scheduler.cpp" line="94" column="39" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1afaf0fe3a2b0f53c10e549da9faab8e4d" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::DEFAULT_AUDIT_USER</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_AUDIT_USER</name>
+        <qualifiedname>themis::DEFAULT_AUDIT_USER</qualifiedname>
+        <initializer>= &quot;system&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/scheduler/task_scheduler.cpp" line="165" column="29" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1a63a048b552fac49e4c74b771818c9541" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::DEFAULT_AUDIT_IP</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_AUDIT_IP</name>
+        <qualifiedname>themis::DEFAULT_AUDIT_IP</qualifiedname>
+        <initializer>= &quot;localhost&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/scheduler/task_scheduler.cpp" line="166" column="29" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="166" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1a1942fb9d188e12c1412f24156bd963ea" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::setDefaultAuditContext</definition>
+        <argsstring>(scheduler::TaskAuditEvent &amp;event)</argsstring>
+        <name>setDefaultAuditContext</name>
+        <qualifiedname>themis::setDefaultAuditContext</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1scheduler_1_1_task_audit_event" kindref="compound">scheduler::TaskAuditEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Helper function to set audit context from thread-local RequestContext. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1_task_scheduler_1a858983f149761f39c001356327de5e06" kindref="member">TaskScheduler::currentUserId()</ref>, <ref refid="classthemis_1_1_task_scheduler_1a84bbeb5254a3ac49e61f89a6d0697935" kindref="member">TaskScheduler::currentClientIp()</ref>, empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/scheduler/task_scheduler.cpp" line="173" column="13" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="173" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1a215bd8ccba6b4b2ae2cc8d45ad5b2b41" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::setDefaultAuditContext</definition>
+        <argsstring>(scheduler::TaskSecurityEvent &amp;event)</argsstring>
+        <name>setDefaultAuditContext</name>
+        <qualifiedname>themis::setDefaultAuditContext</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1scheduler_1_1_task_security_event" kindref="compound">scheduler::TaskSecurityEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Set Default Audit Context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1_task_scheduler_1a858983f149761f39c001356327de5e06" kindref="member">TaskScheduler::currentUserId()</ref>, <ref refid="classthemis_1_1_task_scheduler_1a84bbeb5254a3ac49e61f89a6d0697935" kindref="member">TaskScheduler::currentClientIp()</ref>, empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/scheduler/task_scheduler.cpp" line="184" column="13" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="184" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1a8f9e710e0be8ca3a7dcb9be843e3a3ff" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::logUnauthorizedPermissionAttempt</definition>
+        <argsstring>(const std::shared_ptr&lt; scheduler::TaskAuditManager &gt; &amp;audit_manager, const std::string &amp;task_id, const std::string &amp;task_name, const std::string &amp;required_permission, const std::string &amp;operation, const std::string &amp;reason)</argsstring>
+        <name>logUnauthorizedPermissionAttempt</name>
+        <qualifiedname>themis::logUnauthorizedPermissionAttempt</qualifiedname>
+        <param>
+          <type>const std::shared_ptr&lt; <ref refid="classthemis_1_1scheduler_1_1_task_audit_manager" kindref="compound">scheduler::TaskAuditManager</ref> &gt; &amp;</type>
+          <declname>audit_manager</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>required_permission</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+<para>Log Unauthorized Permission Attempt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">audit_manager</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the task. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">task_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the task. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">required_permission</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/scheduler/task_scheduler.cpp" line="199" column="13" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="199" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1a57cf6c21bd4d7376200f6cc68e238292" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::getTriggerTypeString</definition>
+        <argsstring>(ScheduledTask::TriggerType type)</argsstring>
+        <name>getTriggerTypeString</name>
+        <qualifiedname>themis::getTriggerTypeString</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1_scheduled_task_1a7e38bd7aaba2e024b37a42854d4751d5" kindref="member">ScheduledTask::TriggerType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Helper function to convert trigger type to string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements getTriggerTypeString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/scheduler/task_scheduler.cpp" line="248" column="20" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="248" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1ade14777292b7636beced98f49bd7be39" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_scheduled_task_1a72657dd4a9921241ba8b116d5fc61a7a" kindref="member">ScheduledTask::ErrorCategory</ref></type>
+        <definition>static ScheduledTask::ErrorCategory themis::categorizeError</definition>
+        <argsstring>(const std::string &amp;error_message)</argsstring>
+        <name>categorizeError</name>
+        <qualifiedname>themis::categorizeError</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error_message</declname>
+        </param>
+        <briefdescription>
+<para>── Error categorization helper ────────────────────────────────────────────── Classify a failure message into one of the <ref refid="structthemis_1_1_scheduled_task_1a72657dd4a9921241ba8b116d5fc61a7a" kindref="member">ScheduledTask::ErrorCategory</ref> values. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">error_message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+This function is intentionally conservative: when in doubt it returns TRANSIENT so that the retry policy is not prematurely abandoned. Calls: find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/scheduler/task_scheduler.cpp" line="422" column="37" bodyfile="src/scheduler/task_scheduler.cpp" bodystart="422" bodyend="456"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1a66e18919882587b58d6ed11daf2968e1" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>SchedulerError</name>
+        <qualifiedname>themis::SchedulerError</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/scheduler_api_contract.h" line="95" column="1" bodyfile="include/scheduler/scheduler_api_contract.h" bodystart="72" bodyend="82"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/scheduler/distributed_task_coordinator.h" line="27" column="1"/>
+  </compounddef>
+</doxygen>

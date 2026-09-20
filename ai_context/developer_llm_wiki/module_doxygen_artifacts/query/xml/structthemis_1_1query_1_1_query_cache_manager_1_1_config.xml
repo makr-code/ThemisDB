@@ -1,0 +1,190 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_query_cache_manager_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::QueryCacheManager::Config</compoundname>
+    <includes refid="query__cache__manager_8h" local="no">query_cache_manager.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1query_1_1_query_cache_manager_1_1_config_1a4a162afac4ea352078ce984fd89f6eb6" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>CacheType</name>
+        <qualifiedname>themis::query::QueryCacheManager::Config::CacheType</qualifiedname>
+        <enumvalue id="structthemis_1_1query_1_1_query_cache_manager_1_1_config_1a4a162afac4ea352078ce984fd89f6eb6ae4ac03f6c9f00665644e868dd1fb9f1e" prot="public">
+          <name>BASIC</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1query_1_1_query_cache_manager_1_1_config_1a4a162afac4ea352078ce984fd89f6eb6a90cff4f81e21a20801df4abe9cbf0cbe" prot="public">
+          <name>ADAPTIVE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="37" column="9" bodyfile="include/query/query_cache_manager.h" bodystart="37" bodyend="40"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_cache_manager_1_1_config_1ab3306a12c76399b7ec60f0769b355c9b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::QueryCacheManager::Config::enable_caching</definition>
+        <argsstring></argsstring>
+        <name>enable_caching</name>
+        <qualifiedname>themis::query::QueryCacheManager::Config::enable_caching</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="34" column="14" bodyfile="include/query/query_cache_manager.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_cache_manager_1_1_config_1a0e6ae278cdf2d4816bcd950e4493ece4" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_query_cache_manager_1_1_config_1a4a162afac4ea352078ce984fd89f6eb6" kindref="member">CacheType</ref></type>
+        <definition>CacheType themis::query::QueryCacheManager::Config::cache_type</definition>
+        <argsstring></argsstring>
+        <name>cache_type</name>
+        <qualifiedname>themis::query::QueryCacheManager::Config::cache_type</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1query_1_1_query_cache_manager_1_1_config_1a4a162afac4ea352078ce984fd89f6eb6a90cff4f81e21a20801df4abe9cbf0cbe" kindref="member">CacheType::ADAPTIVE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="41" column="19" bodyfile="include/query/query_cache_manager.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_cache_manager_1_1_config_1a952be67bfab62c96e29520394acb22fe" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::QueryCacheManager::Config::enable_workload_detection</definition>
+        <argsstring></argsstring>
+        <name>enable_workload_detection</name>
+        <qualifiedname>themis::query::QueryCacheManager::Config::enable_workload_detection</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="44" column="14" bodyfile="include/query/query_cache_manager.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_cache_manager_1_1_config_1a1270d04abb9dae6841862883d6b24981" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::QueryCacheManager::Config::workload_detection_sample_rate</definition>
+        <argsstring></argsstring>
+        <name>workload_detection_sample_rate</name>
+        <qualifiedname>themis::query::QueryCacheManager::Config::workload_detection_sample_rate</qualifiedname>
+        <initializer>= 0.1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="45" column="16" bodyfile="include/query/query_cache_manager.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_cache_manager_1_1_config_1a9bbaf95d1192ed6d7e607a5fd446b45c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::QueryCacheManager::Config::enable_cache_warming</definition>
+        <argsstring></argsstring>
+        <name>enable_cache_warming</name>
+        <qualifiedname>themis::query::QueryCacheManager::Config::enable_cache_warming</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="48" column="14" bodyfile="include/query/query_cache_manager.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_cache_manager_1_1_config_1a641a81e4af73bc849749b8bcccbe579f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::QueryCacheManager::Config::cache_warm_top_k</definition>
+        <argsstring></argsstring>
+        <name>cache_warm_top_k</name>
+        <qualifiedname>themis::query::QueryCacheManager::Config::cache_warm_top_k</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="49" column="16" bodyfile="include/query/query_cache_manager.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_cache_manager_1_1_config_1abedf1393b9aa15bc0a5a8aea1c9081c6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::QueryCacheManager::Config::enable_detailed_stats</definition>
+        <argsstring></argsstring>
+        <name>enable_detailed_stats</name>
+        <qualifiedname>themis::query::QueryCacheManager::Config::enable_detailed_stats</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="52" column="14" bodyfile="include/query/query_cache_manager.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_cache_manager_1_1_config_1a5155dfe20aec4dbe98e1c4560329429e" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::query::QueryCacheManager::Config::stats_report_interval</definition>
+        <argsstring></argsstring>
+        <name>stats_report_interval</name>
+        <qualifiedname>themis::query::QueryCacheManager::Config::stats_report_interval</qualifiedname>
+        <initializer>{300}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="53" column="30" bodyfile="include/query/query_cache_manager.h" bodystart="53" bodyend="53"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_query_cache_manager_1_1_config_1a64b8d2b24038199edba01c17cce680bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::QueryCacheManager::Config::Config</definition>
+        <argsstring>()=default</argsstring>
+        <name>Config</name>
+        <qualifiedname>themis::query::QueryCacheManager::Config::Config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="55" column="9"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_cache_manager.h" line="32" column="5" bodyfile="include/query/query_cache_manager.h" bodystart="32" bodyend="56"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_query_cache_manager_1_1_config_1a0e6ae278cdf2d4816bcd950e4493ece4" prot="public" virt="non-virtual"><scope>themis::query::QueryCacheManager::Config</scope><name>cache_type</name></member>
+      <member refid="structthemis_1_1query_1_1_query_cache_manager_1_1_config_1a641a81e4af73bc849749b8bcccbe579f" prot="public" virt="non-virtual"><scope>themis::query::QueryCacheManager::Config</scope><name>cache_warm_top_k</name></member>
+      <member refid="structthemis_1_1query_1_1_query_cache_manager_1_1_config_1a4a162afac4ea352078ce984fd89f6eb6" prot="public" virt="non-virtual"><scope>themis::query::QueryCacheManager::Config</scope><name>CacheType</name></member>
+      <member refid="structthemis_1_1query_1_1_query_cache_manager_1_1_config_1a64b8d2b24038199edba01c17cce680bc" prot="public" virt="non-virtual"><scope>themis::query::QueryCacheManager::Config</scope><name>Config</name></member>
+      <member refid="structthemis_1_1query_1_1_query_cache_manager_1_1_config_1a9bbaf95d1192ed6d7e607a5fd446b45c" prot="public" virt="non-virtual"><scope>themis::query::QueryCacheManager::Config</scope><name>enable_cache_warming</name></member>
+      <member refid="structthemis_1_1query_1_1_query_cache_manager_1_1_config_1ab3306a12c76399b7ec60f0769b355c9b" prot="public" virt="non-virtual"><scope>themis::query::QueryCacheManager::Config</scope><name>enable_caching</name></member>
+      <member refid="structthemis_1_1query_1_1_query_cache_manager_1_1_config_1abedf1393b9aa15bc0a5a8aea1c9081c6" prot="public" virt="non-virtual"><scope>themis::query::QueryCacheManager::Config</scope><name>enable_detailed_stats</name></member>
+      <member refid="structthemis_1_1query_1_1_query_cache_manager_1_1_config_1a952be67bfab62c96e29520394acb22fe" prot="public" virt="non-virtual"><scope>themis::query::QueryCacheManager::Config</scope><name>enable_workload_detection</name></member>
+      <member refid="structthemis_1_1query_1_1_query_cache_manager_1_1_config_1a5155dfe20aec4dbe98e1c4560329429e" prot="public" virt="non-virtual"><scope>themis::query::QueryCacheManager::Config</scope><name>stats_report_interval</name></member>
+      <member refid="structthemis_1_1query_1_1_query_cache_manager_1_1_config_1a1270d04abb9dae6841862883d6b24981" prot="public" virt="non-virtual"><scope>themis::query::QueryCacheManager::Config</scope><name>workload_detection_sample_rate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

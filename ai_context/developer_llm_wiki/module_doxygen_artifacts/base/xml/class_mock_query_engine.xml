@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_mock_query_engine" kind="class" language="C++" prot="public">
+    <compoundname>MockQueryEngine</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">IQueryEngine</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_mock_query_engine_1a4d285ddb31e0a8c4cdf23b220e247f90" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>Result&lt; std::string &gt;</type>
+        <definition>Result&lt; std::string &gt; MockQueryEngine::execute</definition>
+        <argsstring>(const std::string &amp;) override</argsstring>
+        <name>execute</name>
+        <qualifiedname>MockQueryEngine::execute</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="117" column="12" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="117" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_query_engine_1a8434d278915aa6de24ca9458245a78c4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; MockQueryEngine::validate</definition>
+        <argsstring>(const std::string &amp;) const override</argsstring>
+        <name>validate</name>
+        <qualifiedname>MockQueryEngine::validate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="121" column="12" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="121" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_query_engine_1a44d30e47b23dd9d9f0dbe67f6ca4991b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>Result&lt; std::unique_ptr&lt; IExpressionEvaluator &gt; &gt;</type>
+        <definition>Result&lt; std::unique_ptr&lt; IExpressionEvaluator &gt; &gt; MockQueryEngine::createExpressionEvaluator</definition>
+        <argsstring>() const override</argsstring>
+        <name>createExpressionEvaluator</name>
+        <qualifiedname>MockQueryEngine::createExpressionEvaluator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="126" column="5" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="126" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_query_engine_1aed6cd4bb98fa2130eccd5d46f70188dd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>Result&lt; std::string &gt;</type>
+        <definition>Result&lt; std::string &gt; MockQueryEngine::explainQuery</definition>
+        <argsstring>(const std::string &amp;) const override</argsstring>
+        <name>explainQuery</name>
+        <qualifiedname>MockQueryEngine::explainQuery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="131" column="12" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="131" bodyend="133"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>IQueryEngine</label>
+      </node>
+      <node id="1">
+        <label>MockQueryEngine</label>
+        <link refid="class_mock_query_engine"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>IQueryEngine</label>
+      </node>
+      <node id="1">
+        <label>MockQueryEngine</label>
+        <link refid="class_mock_query_engine"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/base/test_base_interfaces.cpp" line="115" column="1" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="115" bodyend="134"/>
+    <listofallmembers>
+      <member refid="class_mock_query_engine_1a44d30e47b23dd9d9f0dbe67f6ca4991b" prot="public" virt="non-virtual"><scope>MockQueryEngine</scope><name>createExpressionEvaluator</name></member>
+      <member refid="class_mock_query_engine_1a4d285ddb31e0a8c4cdf23b220e247f90" prot="public" virt="non-virtual"><scope>MockQueryEngine</scope><name>execute</name></member>
+      <member refid="class_mock_query_engine_1aed6cd4bb98fa2130eccd5d46f70188dd" prot="public" virt="non-virtual"><scope>MockQueryEngine</scope><name>explainQuery</name></member>
+      <member refid="class_mock_query_engine_1a8434d278915aa6de24ca9458245a78c4" prot="public" virt="non-virtual"><scope>MockQueryEngine</scope><name>validate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

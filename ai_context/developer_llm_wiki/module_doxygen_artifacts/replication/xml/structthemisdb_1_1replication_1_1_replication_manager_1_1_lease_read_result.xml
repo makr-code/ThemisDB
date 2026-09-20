@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_replication_manager_1_1_lease_read_result" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::replication::ReplicationManager::LeaseReadResult</compoundname>
+    <includes refid="replication__manager_8h" local="no">replication_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_manager_1_1_lease_read_result_1a13e491000b5483d86351767fe6045921" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::replication::ReplicationManager::LeaseReadResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::LeaseReadResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true when the read could be served </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="960" column="15" bodyfile="include/replication/replication_manager.h" bodystart="960" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_manager_1_1_lease_read_result_1a59385e276e7b490005c6bed2984c5c28" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::replication::ReplicationManager::LeaseReadResult::served_under_lease</definition>
+        <argsstring></argsstring>
+        <name>served_under_lease</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::LeaseReadResult::served_under_lease</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true when linearizable via lease </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="961" column="15" bodyfile="include/replication/replication_manager.h" bodystart="961" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_manager_1_1_lease_read_result_1a0e7a54619770fdaedff0586cecb4f662" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::ReplicationManager::LeaseReadResult::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::LeaseReadResult::node_id</qualifiedname>
+        <briefdescription>
+<para>node that served the read </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="962" column="21" bodyfile="include/replication/replication_manager.h" bodystart="962" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_manager_1_1_lease_read_result_1a293197dfe602baf2479f5c0479d5586b" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::ReplicationManager::LeaseReadResult::commit_index</definition>
+        <argsstring></argsstring>
+        <name>commit_index</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::LeaseReadResult::commit_index</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>WAL sequence visible at read time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="963" column="21" bodyfile="include/replication/replication_manager.h" bodystart="963" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Result returned by <ref refid="classthemisdb_1_1replication_1_1_replication_manager_1ab4245c5882a82add81f3b25ce43b55e4" kindref="member">leaseRead()</ref>. </para>
+    </detaileddescription>
+    <location file="include/replication/replication_manager.h" line="959" column="5" bodyfile="include/replication/replication_manager.h" bodystart="959" bodyend="964"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_replication_manager_1_1_lease_read_result_1a293197dfe602baf2479f5c0479d5586b" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationManager::LeaseReadResult</scope><name>commit_index</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_manager_1_1_lease_read_result_1a0e7a54619770fdaedff0586cecb4f662" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationManager::LeaseReadResult</scope><name>node_id</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_manager_1_1_lease_read_result_1a59385e276e7b490005c6bed2984c5c28" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationManager::LeaseReadResult</scope><name>served_under_lease</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_manager_1_1_lease_read_result_1a13e491000b5483d86351767fe6045921" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationManager::LeaseReadResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

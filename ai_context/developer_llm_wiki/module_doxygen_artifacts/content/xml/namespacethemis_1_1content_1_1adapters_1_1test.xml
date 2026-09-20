@@ -1,0 +1,318 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1content_1_1adapters_1_1test" kind="namespace" language="C++">
+    <compoundname>themis::content::adapters::test</compoundname>
+    <innerclass refid="classthemis_1_1content_1_1adapters_1_1test_1_1_c_m_t___f_i_n__36___adapter_factory_ownership" prot="public">themis::content::adapters::test::CMT_FIN_36_AdapterFactoryOwnership</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1adapters_1_1test_1_1_c_m_t___f_i_n__37___adapter_raii_lifetime" prot="public">themis::content::adapters::test::CMT_FIN_37_AdapterRaiiLifetime</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1adapters_1_1test_1_1_c_m_t___f_i_n__38___adapter_extract_scope" prot="public">themis::content::adapters::test::CMT_FIN_38_AdapterExtractScope</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1adapters_1_1test_1_1_c_m_t___f_i_n__39___stack_heap_boundary" prot="public">themis::content::adapters::test::CMT_FIN_39_StackHeapBoundary</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1adapters_1_1test_1_1_c_m_t___f_i_n__40___move_semantics" prot="public">themis::content::adapters::test::CMT_FIN_40_MoveSemantics</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1adapters_1_1test_1a04ff47b9b73b331c70cfa2c16fee28d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::adapters::test::TEST_F</definition>
+        <argsstring>(CMT_FIN_36_AdapterFactoryOwnership, ImageExtractorReturnsValidSharedPtr)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::adapters::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1adapters_1_1test_1_1_c_m_t___f_i_n__36___adapter_factory_ownership" kindref="compound">CMT_FIN_36_AdapterFactoryOwnership</ref></type>
+        </param>
+        <param>
+          <type>ImageExtractorReturnsValidSharedPtr</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_adapter_scope_validation.cpp" line="40" column="1" bodyfile="tests/content/test_adapter_scope_validation.cpp" bodystart="40" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1adapters_1_1test_1a183ee351c5060e867a2bac3c7de91af7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::adapters::test::TEST_F</definition>
+        <argsstring>(CMT_FIN_36_AdapterFactoryOwnership, PdfExtractorReturnsValidSharedPtr)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::adapters::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1adapters_1_1test_1_1_c_m_t___f_i_n__36___adapter_factory_ownership" kindref="compound">CMT_FIN_36_AdapterFactoryOwnership</ref></type>
+        </param>
+        <param>
+          <type>PdfExtractorReturnsValidSharedPtr</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_adapter_scope_validation.cpp" line="49" column="1" bodyfile="tests/content/test_adapter_scope_validation.cpp" bodystart="49" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1adapters_1_1test_1aec55401ce57c1650c32824e0908f98bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::adapters::test::TEST_F</definition>
+        <argsstring>(CMT_FIN_36_AdapterFactoryOwnership, OfficeExtractorReturnsValidSharedPtr)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::adapters::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1adapters_1_1test_1_1_c_m_t___f_i_n__36___adapter_factory_ownership" kindref="compound">CMT_FIN_36_AdapterFactoryOwnership</ref></type>
+        </param>
+        <param>
+          <type>OfficeExtractorReturnsValidSharedPtr</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_adapter_scope_validation.cpp" line="57" column="1" bodyfile="tests/content/test_adapter_scope_validation.cpp" bodystart="57" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1adapters_1_1test_1ab22c9b949f14c29561fbcb0e057fab1a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::adapters::test::TEST_F</definition>
+        <argsstring>(CMT_FIN_36_AdapterFactoryOwnership, ArchiveExtractorReturnsValidSharedPtr)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::adapters::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1adapters_1_1test_1_1_c_m_t___f_i_n__36___adapter_factory_ownership" kindref="compound">CMT_FIN_36_AdapterFactoryOwnership</ref></type>
+        </param>
+        <param>
+          <type>ArchiveExtractorReturnsValidSharedPtr</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_adapter_scope_validation.cpp" line="66" column="1" bodyfile="tests/content/test_adapter_scope_validation.cpp" bodystart="66" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1adapters_1_1test_1a394d2592d93f2edd1371243c269b89f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::adapters::test::TEST_F</definition>
+        <argsstring>(CMT_FIN_36_AdapterFactoryOwnership, AudioExtractorReturnsValidSharedPtr)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::adapters::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1adapters_1_1test_1_1_c_m_t___f_i_n__36___adapter_factory_ownership" kindref="compound">CMT_FIN_36_AdapterFactoryOwnership</ref></type>
+        </param>
+        <param>
+          <type>AudioExtractorReturnsValidSharedPtr</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_adapter_scope_validation.cpp" line="74" column="1" bodyfile="tests/content/test_adapter_scope_validation.cpp" bodystart="74" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1adapters_1_1test_1a354b4b3fd9e57d39519ee6ebd3b9b3db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::adapters::test::TEST_F</definition>
+        <argsstring>(CMT_FIN_37_AdapterRaiiLifetime, ImageExtractorScopedLifetime)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::adapters::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1adapters_1_1test_1_1_c_m_t___f_i_n__37___adapter_raii_lifetime" kindref="compound">CMT_FIN_37_AdapterRaiiLifetime</ref></type>
+        </param>
+        <param>
+          <type>ImageExtractorScopedLifetime</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_adapter_scope_validation.cpp" line="88" column="1" bodyfile="tests/content/test_adapter_scope_validation.cpp" bodystart="88" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1adapters_1_1test_1aaa33ca2c45c69a30297d716c954ce5bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::adapters::test::TEST_F</definition>
+        <argsstring>(CMT_FIN_37_AdapterRaiiLifetime, PdfExtractorScopedLifetime)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::adapters::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1adapters_1_1test_1_1_c_m_t___f_i_n__37___adapter_raii_lifetime" kindref="compound">CMT_FIN_37_AdapterRaiiLifetime</ref></type>
+        </param>
+        <param>
+          <type>PdfExtractorScopedLifetime</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_adapter_scope_validation.cpp" line="100" column="1" bodyfile="tests/content/test_adapter_scope_validation.cpp" bodystart="100" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1adapters_1_1test_1a04b41c25764cb552f1780f2d64be2e1b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::adapters::test::TEST_F</definition>
+        <argsstring>(CMT_FIN_37_AdapterRaiiLifetime, ArchiveExtractorScopedLifetime)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::adapters::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1adapters_1_1test_1_1_c_m_t___f_i_n__37___adapter_raii_lifetime" kindref="compound">CMT_FIN_37_AdapterRaiiLifetime</ref></type>
+        </param>
+        <param>
+          <type>ArchiveExtractorScopedLifetime</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_adapter_scope_validation.cpp" line="112" column="1" bodyfile="tests/content/test_adapter_scope_validation.cpp" bodystart="112" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1adapters_1_1test_1a0431580738b751c239f07f8344c1c49f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::adapters::test::TEST_F</definition>
+        <argsstring>(CMT_FIN_38_AdapterExtractScope, ImageExtractorReturnsSelfOwnedResult)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::adapters::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1adapters_1_1test_1_1_c_m_t___f_i_n__38___adapter_extract_scope" kindref="compound">CMT_FIN_38_AdapterExtractScope</ref></type>
+        </param>
+        <param>
+          <type>ImageExtractorReturnsSelfOwnedResult</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_adapter_scope_validation.cpp" line="129" column="1" bodyfile="tests/content/test_adapter_scope_validation.cpp" bodystart="129" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1adapters_1_1test_1abb4534117ae098c7034dcbfdee50dc58" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::adapters::test::TEST_F</definition>
+        <argsstring>(CMT_FIN_38_AdapterExtractScope, PdfExtractorReturnsSelfOwnedResult)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::adapters::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1adapters_1_1test_1_1_c_m_t___f_i_n__38___adapter_extract_scope" kindref="compound">CMT_FIN_38_AdapterExtractScope</ref></type>
+        </param>
+        <param>
+          <type>PdfExtractorReturnsSelfOwnedResult</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_adapter_scope_validation.cpp" line="153" column="1" bodyfile="tests/content/test_adapter_scope_validation.cpp" bodystart="153" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1adapters_1_1test_1a1f12e80cf6a39b6cd659697a5ee85b67" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::adapters::test::TEST_F</definition>
+        <argsstring>(CMT_FIN_39_StackHeapBoundary, ImageExtractorNoStackEscapeOnExtract)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::adapters::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1adapters_1_1test_1_1_c_m_t___f_i_n__39___stack_heap_boundary" kindref="compound">CMT_FIN_39_StackHeapBoundary</ref></type>
+        </param>
+        <param>
+          <type>ImageExtractorNoStackEscapeOnExtract</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_adapter_scope_validation.cpp" line="180" column="1" bodyfile="tests/content/test_adapter_scope_validation.cpp" bodystart="180" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1adapters_1_1test_1a5dd3b2fca5df1f977b041cc725b6175e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::adapters::test::TEST_F</definition>
+        <argsstring>(CMT_FIN_39_StackHeapBoundary, PdfExtractorNoStackEscapeOnExtract)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::adapters::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1adapters_1_1test_1_1_c_m_t___f_i_n__39___stack_heap_boundary" kindref="compound">CMT_FIN_39_StackHeapBoundary</ref></type>
+        </param>
+        <param>
+          <type>PdfExtractorNoStackEscapeOnExtract</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_adapter_scope_validation.cpp" line="203" column="1" bodyfile="tests/content/test_adapter_scope_validation.cpp" bodystart="203" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1adapters_1_1test_1ad025b9d4115e7ab270bdf108d85d9dc8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::adapters::test::TEST_F</definition>
+        <argsstring>(CMT_FIN_40_MoveSemantics, ImageExtractorMovePreservesValidity)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::adapters::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1adapters_1_1test_1_1_c_m_t___f_i_n__40___move_semantics" kindref="compound">CMT_FIN_40_MoveSemantics</ref></type>
+        </param>
+        <param>
+          <type>ImageExtractorMovePreservesValidity</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_adapter_scope_validation.cpp" line="229" column="1" bodyfile="tests/content/test_adapter_scope_validation.cpp" bodystart="229" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1adapters_1_1test_1ab75b571be37c2ddae84c78a47d54a839" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::adapters::test::TEST_F</definition>
+        <argsstring>(CMT_FIN_40_MoveSemantics, PdfExtractorMovePreservesValidity)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::adapters::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1adapters_1_1test_1_1_c_m_t___f_i_n__40___move_semantics" kindref="compound">CMT_FIN_40_MoveSemantics</ref></type>
+        </param>
+        <param>
+          <type>PdfExtractorMovePreservesValidity</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_adapter_scope_validation.cpp" line="245" column="1" bodyfile="tests/content/test_adapter_scope_validation.cpp" bodystart="245" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1adapters_1_1test_1a3652b0dd082da9e7cd119a186d10d87a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::adapters::test::TEST_F</definition>
+        <argsstring>(CMT_FIN_40_MoveSemantics, CopyAndMoveMultipleAdapters)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::adapters::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1adapters_1_1test_1_1_c_m_t___f_i_n__40___move_semantics" kindref="compound">CMT_FIN_40_MoveSemantics</ref></type>
+        </param>
+        <param>
+          <type>CopyAndMoveMultipleAdapters</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_adapter_scope_validation.cpp" line="261" column="1" bodyfile="tests/content/test_adapter_scope_validation.cpp" bodystart="261" bodyend="283"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/content/test_adapter_scope_validation.cpp" line="24" column="1"/>
+  </compounddef>
+</doxygen>

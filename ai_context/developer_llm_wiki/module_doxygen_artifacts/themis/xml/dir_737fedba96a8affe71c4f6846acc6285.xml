@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_737fedba96a8affe71c4f6846acc6285" kind="dir">
+    <compoundname>include/themis/llm</compoundname>
+    <innerfile refid="illm__resource__policy_8h">illm_resource_policy.h</innerfile>
+    <innerfile refid="llm__factory_8h">llm_factory.h</innerfile>
+    <innerfile refid="llm__interfaces_8h">llm_interfaces.h</innerfile>
+    <innerfile refid="llm__plugin__manager_8h">llm_plugin_manager.h</innerfile>
+    <innerfile refid="lora__orchestrator__interface_8h">lora_orchestrator_interface.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/llm/"/>
+  </compounddef>
+</doxygen>

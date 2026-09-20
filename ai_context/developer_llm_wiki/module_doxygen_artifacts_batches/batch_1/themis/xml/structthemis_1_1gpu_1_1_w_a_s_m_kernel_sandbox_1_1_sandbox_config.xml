@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_sandbox_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::WASMKernelSandbox::SandboxConfig</compoundname>
+    <includes refid="wasm__kernel__sandbox_8h" local="no">wasm_kernel_sandbox.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_sandbox_config_1a07abc5c1682bbe462b2b51959fdd1f21" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::WASMKernelSandbox::SandboxConfig::memory_limit_bytes</definition>
+        <argsstring></argsstring>
+        <name>memory_limit_bytes</name>
+        <qualifiedname>themis::gpu::WASMKernelSandbox::SandboxConfig::memory_limit_bytes</qualifiedname>
+        <initializer>= 64 * 1024 * 1024</initializer>
+        <briefdescription>
+<para>Maximum linear memory for a single kernel execution in bytes. 0 = no limit enforced in CPU simulation path. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/wasm_kernel_sandbox.h" line="64" column="18" bodyfile="include/themis/gpu/wasm_kernel_sandbox.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_sandbox_config_1ab3bd0d6bce419740614e399209c1b211" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::gpu::WASMKernelSandbox::SandboxConfig::max_execution_ms</definition>
+        <argsstring></argsstring>
+        <name>max_execution_ms</name>
+        <qualifiedname>themis::gpu::WASMKernelSandbox::SandboxConfig::max_execution_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+<para>Wall-clock execution timeout per kernel in milliseconds. 0 = no timeout enforced. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/wasm_kernel_sandbox.h" line="70" column="18" bodyfile="include/themis/gpu/wasm_kernel_sandbox.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_sandbox_config_1a40b0daf8ed80648d991cf74e382bbf1d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::WASMKernelSandbox::SandboxConfig::allow_host_calls</definition>
+        <argsstring></argsstring>
+        <name>allow_host_calls</name>
+        <qualifiedname>themis::gpu::WASMKernelSandbox::SandboxConfig::allow_host_calls</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>When true, the sandbox permits host function calls listed in the kernel&apos;s capability manifest. When false all host imports are blocked (strict isolation). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/wasm_kernel_sandbox.h" line="77" column="14" bodyfile="include/themis/gpu/wasm_kernel_sandbox.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/gpu/wasm_kernel_sandbox.h" line="59" column="5" bodyfile="include/themis/gpu/wasm_kernel_sandbox.h" bodystart="59" bodyend="78"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_sandbox_config_1a40b0daf8ed80648d991cf74e382bbf1d" prot="public" virt="non-virtual"><scope>themis::gpu::WASMKernelSandbox::SandboxConfig</scope><name>allow_host_calls</name></member>
+      <member refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_sandbox_config_1ab3bd0d6bce419740614e399209c1b211" prot="public" virt="non-virtual"><scope>themis::gpu::WASMKernelSandbox::SandboxConfig</scope><name>max_execution_ms</name></member>
+      <member refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_sandbox_config_1a07abc5c1682bbe462b2b51959fdd1f21" prot="public" virt="non-virtual"><scope>themis::gpu::WASMKernelSandbox::SandboxConfig</scope><name>memory_limit_bytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

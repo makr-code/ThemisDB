@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_parser_diagnostics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::ParserDiagnostics</compoundname>
+    <includes refid="aql__parser__service_8h" local="no">aql_parser_service.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_parser_diagnostics_1a17e1b6d286b42fdec98212554a7cdd16" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::query::ParserDiagnostics::line_number</definition>
+        <argsstring></argsstring>
+        <name>line_number</name>
+        <qualifiedname>themis::query::ParserDiagnostics::line_number</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser_service.h" line="25" column="14" bodyfile="include/query/aql_parser_service.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_parser_diagnostics_1aaeda87c2425809e39356980e390e255d" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::query::ParserDiagnostics::column_number</definition>
+        <argsstring></argsstring>
+        <name>column_number</name>
+        <qualifiedname>themis::query::ParserDiagnostics::column_number</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser_service.h" line="27" column="14" bodyfile="include/query/aql_parser_service.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_parser_diagnostics_1aa9ca4fbf8377dee601805b7efe728a2d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::ParserDiagnostics::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::query::ParserDiagnostics::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser_service.h" line="29" column="17" bodyfile="include/query/aql_parser_service.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_parser_diagnostics_1aa3ae8e1533ecedba166a9876a2a4e16e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::ParserDiagnostics::error_context</definition>
+        <argsstring></argsstring>
+        <name>error_context</name>
+        <qualifiedname>themis::query::ParserDiagnostics::error_context</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser_service.h" line="31" column="17" bodyfile="include/query/aql_parser_service.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_parser_diagnostics_1ad1dc3bda82039d5dcf073772131ecce1" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::query::ParserDiagnostics::suggestions</definition>
+        <argsstring></argsstring>
+        <name>suggestions</name>
+        <qualifiedname>themis::query::ParserDiagnostics::suggestions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser_service.h" line="33" column="17" bodyfile="include/query/aql_parser_service.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_parser_diagnostics_1afc76ada9e205fff7e914951994b5e9b8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::ParserDiagnostics::error_category</definition>
+        <argsstring></argsstring>
+        <name>error_category</name>
+        <qualifiedname>themis::query::ParserDiagnostics::error_category</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser_service.h" line="35" column="17" bodyfile="include/query/aql_parser_service.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/aql_parser_service.h" line="24" column="1" bodyfile="include/query/aql_parser_service.h" bodystart="24" bodyend="36"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_parser_diagnostics_1aaeda87c2425809e39356980e390e255d" prot="public" virt="non-virtual"><scope>themis::query::ParserDiagnostics</scope><name>column_number</name></member>
+      <member refid="structthemis_1_1query_1_1_parser_diagnostics_1afc76ada9e205fff7e914951994b5e9b8" prot="public" virt="non-virtual"><scope>themis::query::ParserDiagnostics</scope><name>error_category</name></member>
+      <member refid="structthemis_1_1query_1_1_parser_diagnostics_1aa3ae8e1533ecedba166a9876a2a4e16e" prot="public" virt="non-virtual"><scope>themis::query::ParserDiagnostics</scope><name>error_context</name></member>
+      <member refid="structthemis_1_1query_1_1_parser_diagnostics_1aa9ca4fbf8377dee601805b7efe728a2d" prot="public" virt="non-virtual"><scope>themis::query::ParserDiagnostics</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1query_1_1_parser_diagnostics_1a17e1b6d286b42fdec98212554a7cdd16" prot="public" virt="non-virtual"><scope>themis::query::ParserDiagnostics</scope><name>line_number</name></member>
+      <member refid="structthemis_1_1query_1_1_parser_diagnostics_1ad1dc3bda82039d5dcf073772131ecce1" prot="public" virt="non-virtual"><scope>themis::query::ParserDiagnostics</scope><name>suggestions</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

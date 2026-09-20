@@ -1,0 +1,751 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__query__result__type__annotation_8cpp" kind="file" language="C++">
+    <compoundname>test_query_result_type_annotation.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes refid="result__type__annotation_8h" local="yes">query/result_type_annotation.h</includes>
+    <incdepgraph>
+      <node id="4">
+        <label>query/result_type_annotation.h</label>
+        <link refid="result__type__annotation_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/query/test_query_result_type_annotation.cpp</label>
+        <link refid="test__query__result__type__annotation_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="3">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__query__result__type__annotation_8cpp_1a4c92664e92e9eb80d09f5c9f3bc077bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ResultFieldTypeTest, NullValue)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ResultFieldTypeTest</type>
+        </param>
+        <param>
+          <type>NullValue</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_result_type_annotation.cpp" line="22" column="1" bodyfile="tests/query/test_query_result_type_annotation.cpp" bodystart="22" bodyend="24"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__result__type__annotation_8cpp_1a65085d58c597a1e1dd54c64b8c80eea3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ResultFieldTypeTest, BoolValue)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ResultFieldTypeTest</type>
+        </param>
+        <param>
+          <type>BoolValue</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_result_type_annotation.cpp" line="26" column="1" bodyfile="tests/query/test_query_result_type_annotation.cpp" bodystart="26" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__result__type__annotation_8cpp_1a0ea1e0d58f4ef7b548324bb6095fbb11" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ResultFieldTypeTest, IntValue)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ResultFieldTypeTest</type>
+        </param>
+        <param>
+          <type>IntValue</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_result_type_annotation.cpp" line="31" column="1" bodyfile="tests/query/test_query_result_type_annotation.cpp" bodystart="31" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__result__type__annotation_8cpp_1a23a985e927c090a7452ef565468c1f40" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ResultFieldTypeTest, FloatValue)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ResultFieldTypeTest</type>
+        </param>
+        <param>
+          <type>FloatValue</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_result_type_annotation.cpp" line="37" column="1" bodyfile="tests/query/test_query_result_type_annotation.cpp" bodystart="37" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__result__type__annotation_8cpp_1a3abd0966de4f598e19b8dc032cf7ef53" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ResultFieldTypeTest, IntegerStoredAsFloat)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ResultFieldTypeTest</type>
+        </param>
+        <param>
+          <type>IntegerStoredAsFloat</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_result_type_annotation.cpp" line="42" column="1" bodyfile="tests/query/test_query_result_type_annotation.cpp" bodystart="42" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__result__type__annotation_8cpp_1acd8b944529023246b8586f65c6d90fe2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ResultFieldTypeTest, StringValue)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ResultFieldTypeTest</type>
+        </param>
+        <param>
+          <type>StringValue</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_result_type_annotation.cpp" line="47" column="1" bodyfile="tests/query/test_query_result_type_annotation.cpp" bodystart="47" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__result__type__annotation_8cpp_1abe363d3c5a3ee1bc4371d2eec5aa4c87" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ResultFieldTypeTest, ObjectValue)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ResultFieldTypeTest</type>
+        </param>
+        <param>
+          <type>ObjectValue</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_result_type_annotation.cpp" line="52" column="1" bodyfile="tests/query/test_query_result_type_annotation.cpp" bodystart="52" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__result__type__annotation_8cpp_1a76a2ac2a7399c96341fa1ccc456f93f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ResultFieldTypeTest, ArrayValue)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ResultFieldTypeTest</type>
+        </param>
+        <param>
+          <type>ArrayValue</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_result_type_annotation.cpp" line="56" column="1" bodyfile="tests/query/test_query_result_type_annotation.cpp" bodystart="56" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__result__type__annotation_8cpp_1a1ff66da40d0ff2dbc5232d87d2f86b99" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ResultFieldTypeTest, VectorValue)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ResultFieldTypeTest</type>
+        </param>
+        <param>
+          <type>VectorValue</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_result_type_annotation.cpp" line="63" column="1" bodyfile="tests/query/test_query_result_type_annotation.cpp" bodystart="63" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__result__type__annotation_8cpp_1ae444bd46feab0b1214e247e8e456074a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ResultFieldTypeTest, EmptyArray)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ResultFieldTypeTest</type>
+        </param>
+        <param>
+          <type>EmptyArray</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_result_type_annotation.cpp" line="69" column="1" bodyfile="tests/query/test_query_result_type_annotation.cpp" bodystart="69" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__result__type__annotation_8cpp_1a18e36f2ffe2f483f85f2627209bb622a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(InferResultSchemaTest, EmptyRowArray)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>InferResultSchemaTest</type>
+        </param>
+        <param>
+          <type>EmptyRowArray</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_result_type_annotation.cpp" line="77" column="1" bodyfile="tests/query/test_query_result_type_annotation.cpp" bodystart="77" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__result__type__annotation_8cpp_1aace94b13f12d42dd59e805b48dbece5b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(InferResultSchemaTest, NonArrayInput)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>InferResultSchemaTest</type>
+        </param>
+        <param>
+          <type>NonArrayInput</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_result_type_annotation.cpp" line="83" column="1" bodyfile="tests/query/test_query_result_type_annotation.cpp" bodystart="83" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__result__type__annotation_8cpp_1ad36bf04ce1f81a3ccc18ac41af422d0c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(InferResultSchemaTest, SingleRowAllTypes)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>InferResultSchemaTest</type>
+        </param>
+        <param>
+          <type>SingleRowAllTypes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_result_type_annotation.cpp" line="89" column="1" bodyfile="tests/query/test_query_result_type_annotation.cpp" bodystart="89" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__result__type__annotation_8cpp_1a10a4627dc6aef36e2b49692839ac8bbc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(InferResultSchemaTest, NullableWhenExplicitNullInRow)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>InferResultSchemaTest</type>
+        </param>
+        <param>
+          <type>NullableWhenExplicitNullInRow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_result_type_annotation.cpp" line="124" column="1" bodyfile="tests/query/test_query_result_type_annotation.cpp" bodystart="124" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__result__type__annotation_8cpp_1a8e9f2bed9be44594c60d567d44ad3c02" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(InferResultSchemaTest, NullableWhenFieldAbsentInSomeRows)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>InferResultSchemaTest</type>
+        </param>
+        <param>
+          <type>NullableWhenFieldAbsentInSomeRows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_result_type_annotation.cpp" line="137" column="1" bodyfile="tests/query/test_query_result_type_annotation.cpp" bodystart="137" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__result__type__annotation_8cpp_1a4a0c474aa76839a10bf22d5408e69837" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(InferResultSchemaTest, NotNullableWhenPresentInAllRows)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>InferResultSchemaTest</type>
+        </param>
+        <param>
+          <type>NotNullableWhenPresentInAllRows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_result_type_annotation.cpp" line="153" column="1" bodyfile="tests/query/test_query_result_type_annotation.cpp" bodystart="153" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__result__type__annotation_8cpp_1ad32091b65b4583341e559d9fe6b01721" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(InferResultSchemaTest, IntPromotedToFloatAcrossRows)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>InferResultSchemaTest</type>
+        </param>
+        <param>
+          <type>IntPromotedToFloatAcrossRows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_result_type_annotation.cpp" line="169" column="1" bodyfile="tests/query/test_query_result_type_annotation.cpp" bodystart="169" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__result__type__annotation_8cpp_1a883125386f076d3367d615552a6aae3f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(InferResultSchemaTest, VectorField)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>InferResultSchemaTest</type>
+        </param>
+        <param>
+          <type>VectorField</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_result_type_annotation.cpp" line="181" column="1" bodyfile="tests/query/test_query_result_type_annotation.cpp" bodystart="181" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__result__type__annotation_8cpp_1aaabd034da97826685c8b734ba9206af5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ResultFieldAnnotationTest, ToJson_NonArray)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ResultFieldAnnotationTest</type>
+        </param>
+        <param>
+          <type>ToJson_NonArray</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_result_type_annotation.cpp" line="197" column="1" bodyfile="tests/query/test_query_result_type_annotation.cpp" bodystart="197" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__result__type__annotation_8cpp_1a6f15076a9552d31ac07bab24edace1d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ResultFieldAnnotationTest, ToJson_Array)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ResultFieldAnnotationTest</type>
+        </param>
+        <param>
+          <type>ToJson_Array</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_result_type_annotation.cpp" line="210" column="1" bodyfile="tests/query/test_query_result_type_annotation.cpp" bodystart="210" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__result__type__annotation_8cpp_1af305e743fbf937feee6116bf173e28e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QueryResultSchemaTest, ToJson)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>QueryResultSchemaTest</type>
+        </param>
+        <param>
+          <type>ToJson</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_result_type_annotation.cpp" line="225" column="1" bodyfile="tests/query/test_query_result_type_annotation.cpp" bodystart="225" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__result__type__annotation_8cpp_1a6c0aad2a0bf62592062f76f575047858" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QueryResultSchemaTest, FindReturnsNullForMissingField)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>QueryResultSchemaTest</type>
+        </param>
+        <param>
+          <type>FindReturnsNullForMissingField</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_result_type_annotation.cpp" line="238" column="1" bodyfile="tests/query/test_query_result_type_annotation.cpp" bodystart="238" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__result__type__annotation_8cpp_1a367ab2f382089ff5e728ee73d04c2d8a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ResultFieldTypeNameTest, AllTypes)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ResultFieldTypeNameTest</type>
+        </param>
+        <param>
+          <type>AllTypes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_result_type_annotation.cpp" line="247" column="1" bodyfile="tests/query/test_query_result_type_annotation.cpp" bodystart="247" bodyend="257"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Tests<sp/>for<sp/>query<sp/>result<sp/>type<sp/>annotations<sp/>(Issue<sp/>#1432)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Validates:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>inferFieldType()<sp/>classifies<sp/>all<sp/>JSON<sp/>value<sp/>kinds<sp/>correctly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>inferResultSchema()<sp/>builds<sp/>a<sp/>well-formed<sp/>schema<sp/>from<sp/>a<sp/>result<sp/>array</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Nullable<sp/>detection<sp/>when<sp/>fields<sp/>are<sp/>absent<sp/>or<sp/>null<sp/>in<sp/>some<sp/>rows</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>VECTOR<sp/>detection<sp/>for<sp/>numeric<sp/>arrays</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>ResultFieldAnnotation::toJson()<sp/>/<sp/>QueryResultSchema::toJson()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>QueryResultSchema::find()<sp/>lookup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="result__type__annotation_8h" kindref="compound">query/result_type_annotation.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query" kindref="compound">themis::query</ref>;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>inferFieldType</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><ref refid="test__query__result__type__annotation_8cpp_1a4c92664e92e9eb80d09f5c9f3bc077bd" kindref="member">TEST</ref>(ResultFieldTypeTest,<sp/>NullValue)<sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1query_1aa09692df721c5ce45c407f0211be9730" kindref="member">inferFieldType</ref>(<ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref>(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)),<sp/><ref refid="namespacethemis_1_1query_1ac91093ffc77be070d1e511836dcdcc41abadc789d64efa09e2be666a687efeb5d" kindref="member">ResultFieldType::NULL_TYPE</ref>);</highlight></codeline>
+<codeline lineno="24"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><ref refid="test__query__result__type__annotation_8cpp_1a4c92664e92e9eb80d09f5c9f3bc077bd" kindref="member">TEST</ref>(ResultFieldTypeTest,<sp/>BoolValue)<sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1query_1aa09692df721c5ce45c407f0211be9730" kindref="member">inferFieldType</ref>(<ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref>(</highlight><highlight class="keyword">true</highlight><highlight class="normal">)),<sp/><sp/><ref refid="namespacethemis_1_1query_1ac91093ffc77be070d1e511836dcdcc41aa97b2c144243b2b9d2c593ec268b62f5" kindref="member">ResultFieldType::BOOL</ref>);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1query_1aa09692df721c5ce45c407f0211be9730" kindref="member">inferFieldType</ref>(<ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref>(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)),<sp/><ref refid="namespacethemis_1_1query_1ac91093ffc77be070d1e511836dcdcc41aa97b2c144243b2b9d2c593ec268b62f5" kindref="member">ResultFieldType::BOOL</ref>);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><ref refid="test__query__result__type__annotation_8cpp_1a4c92664e92e9eb80d09f5c9f3bc077bd" kindref="member">TEST</ref>(ResultFieldTypeTest,<sp/>IntValue)<sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1query_1aa09692df721c5ce45c407f0211be9730" kindref="member">inferFieldType</ref>(<ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref>(42)),<sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1ac91093ffc77be070d1e511836dcdcc41a53f93baa3057821107c750323892fa92" kindref="member">ResultFieldType::INT</ref>);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1query_1aa09692df721c5ce45c407f0211be9730" kindref="member">inferFieldType</ref>(<ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref>(-7)),<sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1ac91093ffc77be070d1e511836dcdcc41a53f93baa3057821107c750323892fa92" kindref="member">ResultFieldType::INT</ref>);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1query_1aa09692df721c5ce45c407f0211be9730" kindref="member">inferFieldType</ref>(<ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref>(0)),<sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1ac91093ffc77be070d1e511836dcdcc41a53f93baa3057821107c750323892fa92" kindref="member">ResultFieldType::INT</ref>);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><ref refid="test__query__result__type__annotation_8cpp_1a4c92664e92e9eb80d09f5c9f3bc077bd" kindref="member">TEST</ref>(ResultFieldTypeTest,<sp/>FloatValue)<sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1query_1aa09692df721c5ce45c407f0211be9730" kindref="member">inferFieldType</ref>(<ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref>(3.14)),<sp/><ref refid="namespacethemis_1_1query_1ac91093ffc77be070d1e511836dcdcc41ae738c26bf4ce1037fa81b039a915cbf6" kindref="member">ResultFieldType::FLOAT</ref>);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1query_1aa09692df721c5ce45c407f0211be9730" kindref="member">inferFieldType</ref>(<ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref>(-0.5)),<sp/><ref refid="namespacethemis_1_1query_1ac91093ffc77be070d1e511836dcdcc41ae738c26bf4ce1037fa81b039a915cbf6" kindref="member">ResultFieldType::FLOAT</ref>);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><ref refid="test__query__result__type__annotation_8cpp_1a4c92664e92e9eb80d09f5c9f3bc077bd" kindref="member">TEST</ref>(ResultFieldTypeTest,<sp/>IntegerStoredAsFloat)<sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>2.0<sp/>should<sp/>be<sp/>classified<sp/>as<sp/>INT<sp/>(no<sp/>fractional<sp/>part)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1query_1aa09692df721c5ce45c407f0211be9730" kindref="member">inferFieldType</ref>(<ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref>(2.0)),<sp/><ref refid="namespacethemis_1_1query_1ac91093ffc77be070d1e511836dcdcc41a53f93baa3057821107c750323892fa92" kindref="member">ResultFieldType::INT</ref>);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><ref refid="test__query__result__type__annotation_8cpp_1a4c92664e92e9eb80d09f5c9f3bc077bd" kindref="member">TEST</ref>(ResultFieldTypeTest,<sp/>StringValue)<sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1query_1aa09692df721c5ce45c407f0211be9730" kindref="member">inferFieldType</ref>(<ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref>(</highlight><highlight class="stringliteral">&quot;hello&quot;</highlight><highlight class="normal">)),<sp/><ref refid="namespacethemis_1_1query_1ac91093ffc77be070d1e511836dcdcc41a63b588d5559f64f89a416e656880b949" kindref="member">ResultFieldType::STRING</ref>);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1query_1aa09692df721c5ce45c407f0211be9730" kindref="member">inferFieldType</ref>(<ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref>(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)),<sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1ac91093ffc77be070d1e511836dcdcc41a63b588d5559f64f89a416e656880b949" kindref="member">ResultFieldType::STRING</ref>);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><ref refid="test__query__result__type__annotation_8cpp_1a4c92664e92e9eb80d09f5c9f3bc077bd" kindref="member">TEST</ref>(ResultFieldTypeTest,<sp/>ObjectValue)<sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1query_1aa09692df721c5ce45c407f0211be9730" kindref="member">inferFieldType</ref>(json{{</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">,<sp/>1}}),<sp/><ref refid="namespacethemis_1_1query_1ac91093ffc77be070d1e511836dcdcc41a8eee8e217391199668cbac89472ace53" kindref="member">ResultFieldType::OBJECT</ref>);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><ref refid="test__query__result__type__annotation_8cpp_1a4c92664e92e9eb80d09f5c9f3bc077bd" kindref="member">TEST</ref>(ResultFieldTypeTest,<sp/>ArrayValue)<sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Mixed<sp/>/<sp/>non-numeric<sp/>array<sp/>→<sp/>ARRAY</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1query_1aa09692df721c5ce45c407f0211be9730" kindref="member">inferFieldType</ref>(json{</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;c&quot;</highlight><highlight class="normal">}),<sp/><ref refid="namespacethemis_1_1query_1ac91093ffc77be070d1e511836dcdcc41acb4fb1757fb37c43cded35d3eb857c43" kindref="member">ResultFieldType::ARRAY</ref>);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Single-element<sp/>numeric<sp/>array<sp/>→<sp/>ARRAY<sp/>(not<sp/>VECTOR;<sp/>needs<sp/>&gt;1<sp/>element)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1query_1aa09692df721c5ce45c407f0211be9730" kindref="member">inferFieldType</ref>(json{1.0}),<sp/><ref refid="namespacethemis_1_1query_1ac91093ffc77be070d1e511836dcdcc41acb4fb1757fb37c43cded35d3eb857c43" kindref="member">ResultFieldType::ARRAY</ref>);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><ref refid="test__query__result__type__annotation_8cpp_1a4c92664e92e9eb80d09f5c9f3bc077bd" kindref="member">TEST</ref>(ResultFieldTypeTest,<sp/>VectorValue)<sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Numeric<sp/>array<sp/>with<sp/>&gt;1<sp/>elements<sp/>→<sp/>VECTOR</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref><sp/>vec<sp/>=<sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref>{0.1,<sp/>0.2,<sp/>0.3,<sp/>0.4};</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1query_1aa09692df721c5ce45c407f0211be9730" kindref="member">inferFieldType</ref>(vec),<sp/><ref refid="namespacethemis_1_1query_1ac91093ffc77be070d1e511836dcdcc41a87752381b583740610f1dfeb07fdad7e" kindref="member">ResultFieldType::VECTOR</ref>);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><ref refid="test__query__result__type__annotation_8cpp_1a4c92664e92e9eb80d09f5c9f3bc077bd" kindref="member">TEST</ref>(ResultFieldTypeTest,<sp/>EmptyArray)<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1query_1aa09692df721c5ce45c407f0211be9730" kindref="member">inferFieldType</ref>(json::array()),<sp/><ref refid="namespacethemis_1_1query_1ac91093ffc77be070d1e511836dcdcc41acb4fb1757fb37c43cded35d3eb857c43" kindref="member">ResultFieldType::ARRAY</ref>);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>inferResultSchema<sp/>–<sp/>basic<sp/>cases</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><ref refid="test__query__result__type__annotation_8cpp_1a4c92664e92e9eb80d09f5c9f3bc077bd" kindref="member">TEST</ref>(InferResultSchemaTest,<sp/>EmptyRowArray)<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_result_schema" kindref="compound">QueryResultSchema</ref><sp/>schema<sp/>=<sp/><ref refid="namespacethemis_1_1query_1a4600a517ad6c764badfe2ae0c358df12" kindref="member">inferResultSchema</ref>(json::array(),<sp/></highlight><highlight class="stringliteral">&quot;conjunctive&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(schema.<ref refid="structthemis_1_1query_1_1_query_result_schema_1a64bfbd03db976bdbab74c84ad2852e2a" kindref="member">query_type</ref>,<sp/></highlight><highlight class="stringliteral">&quot;conjunctive&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(schema.<ref refid="structthemis_1_1query_1_1_query_result_schema_1a1255c11bd6c60fce649b4eb920f239a4" kindref="member">fields</ref>.empty());</highlight></codeline>
+<codeline lineno="81"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><ref refid="test__query__result__type__annotation_8cpp_1a4c92664e92e9eb80d09f5c9f3bc077bd" kindref="member">TEST</ref>(InferResultSchemaTest,<sp/>NonArrayInput)<sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>a<sp/>non-array<sp/>is<sp/>passed<sp/>the<sp/>function<sp/>should<sp/>return<sp/>an<sp/>empty<sp/>schema</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_result_schema" kindref="compound">QueryResultSchema</ref><sp/>schema<sp/>=<sp/><ref refid="namespacethemis_1_1query_1a4600a517ad6c764badfe2ae0c358df12" kindref="member">inferResultSchema</ref>(json{{</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">}},<sp/></highlight><highlight class="stringliteral">&quot;unknown&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(schema.<ref refid="structthemis_1_1query_1_1_query_result_schema_1a1255c11bd6c60fce649b4eb920f239a4" kindref="member">fields</ref>.empty());</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><ref refid="test__query__result__type__annotation_8cpp_1a4c92664e92e9eb80d09f5c9f3bc077bd" kindref="member">TEST</ref>(InferResultSchemaTest,<sp/>SingleRowAllTypes)<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref><sp/>rows<sp/>=<sp/>json::array({</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;abc&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;count&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/>42},</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;score&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/>9.5},</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;active&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;deleted&quot;</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;meta&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">}}},</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;tags&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">}}}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_result_schema" kindref="compound">QueryResultSchema</ref><sp/>schema<sp/>=<sp/><ref refid="namespacethemis_1_1query_1a4600a517ad6c764badfe2ae0c358df12" kindref="member">inferResultSchema</ref>(rows,<sp/></highlight><highlight class="stringliteral">&quot;conjunctive&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(schema.fields.size(),<sp/>7u);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>schema.find(</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>count<sp/><sp/><sp/>=<sp/>schema.find(</highlight><highlight class="stringliteral">&quot;count&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>score<sp/><sp/><sp/>=<sp/>schema.find(</highlight><highlight class="stringliteral">&quot;score&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>active<sp/><sp/>=<sp/>schema.find(</highlight><highlight class="stringliteral">&quot;active&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>deleted<sp/>=<sp/>schema.find(</highlight><highlight class="stringliteral">&quot;deleted&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>meta<sp/><sp/><sp/><sp/>=<sp/>schema.find(</highlight><highlight class="stringliteral">&quot;meta&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>tags<sp/><sp/><sp/><sp/>=<sp/>schema.find(</highlight><highlight class="stringliteral">&quot;tags&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);<sp/><sp/>EXPECT_EQ(id-&gt;type,<sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1ac91093ffc77be070d1e511836dcdcc41a63b588d5559f64f89a416e656880b949" kindref="member">ResultFieldType::STRING</ref>);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(count,<sp/><sp/><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);<sp/><sp/>EXPECT_EQ(count-&gt;type,<sp/><sp/><ref refid="namespacethemis_1_1query_1ac91093ffc77be070d1e511836dcdcc41a53f93baa3057821107c750323892fa92" kindref="member">ResultFieldType::INT</ref>);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(score,<sp/><sp/><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);<sp/><sp/>EXPECT_EQ(score-&gt;type,<sp/><sp/><ref refid="namespacethemis_1_1query_1ac91093ffc77be070d1e511836dcdcc41ae738c26bf4ce1037fa81b039a915cbf6" kindref="member">ResultFieldType::FLOAT</ref>);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(active,<sp/><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);<sp/><sp/>EXPECT_EQ(active-&gt;type,<sp/><ref refid="namespacethemis_1_1query_1ac91093ffc77be070d1e511836dcdcc41aa97b2c144243b2b9d2c593ec268b62f5" kindref="member">ResultFieldType::BOOL</ref>);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(deleted,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);<sp/><sp/>EXPECT_EQ(deleted-&gt;type,<ref refid="namespacethemis_1_1query_1ac91093ffc77be070d1e511836dcdcc41abadc789d64efa09e2be666a687efeb5d" kindref="member">ResultFieldType::NULL_TYPE</ref>);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(meta,<sp/><sp/><sp/><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);<sp/><sp/>EXPECT_EQ(meta-&gt;type,<sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1ac91093ffc77be070d1e511836dcdcc41a8eee8e217391199668cbac89472ace53" kindref="member">ResultFieldType::OBJECT</ref>);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(tags,<sp/><sp/><sp/><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);<sp/><sp/>EXPECT_EQ(tags-&gt;type,<sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1ac91093ffc77be070d1e511836dcdcc41acb4fb1757fb37c43cded35d3eb857c43" kindref="member">ResultFieldType::ARRAY</ref>);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">//<sp/>────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Nullable<sp/>detection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/>────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><ref refid="test__query__result__type__annotation_8cpp_1a4c92664e92e9eb80d09f5c9f3bc077bd" kindref="member">TEST</ref>(InferResultSchemaTest,<sp/>NullableWhenExplicitNullInRow)<sp/>{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref><sp/>rows<sp/>=<sp/>json::array({</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Alice&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">,<sp/>30}},</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Bob&quot;</highlight><highlight class="normal">},<sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">}}</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_result_schema" kindref="compound">QueryResultSchema</ref><sp/>schema<sp/>=<sp/><ref refid="namespacethemis_1_1query_1a4600a517ad6c764badfe2ae0c358df12" kindref="member">inferResultSchema</ref>(rows,<sp/></highlight><highlight class="stringliteral">&quot;conjunctive&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>age<sp/>=<sp/>schema.find(</highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(age,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(age-&gt;nullable);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(age-&gt;type,<sp/><ref refid="namespacethemis_1_1query_1ac91093ffc77be070d1e511836dcdcc41a53f93baa3057821107c750323892fa92" kindref="member">ResultFieldType::INT</ref>);<sp/></highlight><highlight class="comment">//<sp/>null<sp/>row<sp/>doesn&apos;t<sp/>override<sp/>the<sp/>INT<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><ref refid="test__query__result__type__annotation_8cpp_1a4c92664e92e9eb80d09f5c9f3bc077bd" kindref="member">TEST</ref>(InferResultSchemaTest,<sp/>NullableWhenFieldAbsentInSomeRows)<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref><sp/>rows<sp/>=<sp/>json::array({</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Alice&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;a@b.c&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Bob&quot;</highlight><highlight class="normal">}}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_result_schema" kindref="compound">QueryResultSchema</ref><sp/>schema<sp/>=<sp/><ref refid="namespacethemis_1_1query_1a4600a517ad6c764badfe2ae0c358df12" kindref="member">inferResultSchema</ref>(rows,<sp/></highlight><highlight class="stringliteral">&quot;conjunctive&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>email<sp/>=<sp/>schema.find(</highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(email,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(email-&gt;nullable);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>name<sp/>=<sp/>schema.find(</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(name,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(name-&gt;nullable);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><ref refid="test__query__result__type__annotation_8cpp_1a4c92664e92e9eb80d09f5c9f3bc077bd" kindref="member">TEST</ref>(InferResultSchemaTest,<sp/>NotNullableWhenPresentInAllRows)<sp/>{</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref><sp/>rows<sp/>=<sp/>json::array({</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;pk&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;u1&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;city&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Berlin&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;pk&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;u2&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;city&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Munich&quot;</highlight><highlight class="normal">}}</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_result_schema" kindref="compound">QueryResultSchema</ref><sp/>schema<sp/>=<sp/><ref refid="namespacethemis_1_1query_1a4600a517ad6c764badfe2ae0c358df12" kindref="member">inferResultSchema</ref>(rows,<sp/></highlight><highlight class="stringliteral">&quot;conjunctive&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>city<sp/>=<sp/>schema.find(</highlight><highlight class="stringliteral">&quot;city&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(city,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(city-&gt;nullable);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="comment">//<sp/>────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Type<sp/>promotion<sp/>across<sp/>rows</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="comment">//<sp/>────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><ref refid="test__query__result__type__annotation_8cpp_1a4c92664e92e9eb80d09f5c9f3bc077bd" kindref="member">TEST</ref>(InferResultSchemaTest,<sp/>IntPromotedToFloatAcrossRows)<sp/>{</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref><sp/>rows<sp/>=<sp/>json::array({</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;val&quot;</highlight><highlight class="normal">,<sp/>1}},</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;val&quot;</highlight><highlight class="normal">,<sp/>2.5}}</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_result_schema" kindref="compound">QueryResultSchema</ref><sp/>schema<sp/>=<sp/><ref refid="namespacethemis_1_1query_1a4600a517ad6c764badfe2ae0c358df12" kindref="member">inferResultSchema</ref>(rows,<sp/></highlight><highlight class="stringliteral">&quot;t&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>val<sp/>=<sp/>schema.find(</highlight><highlight class="stringliteral">&quot;val&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(val,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(val-&gt;type,<sp/><ref refid="namespacethemis_1_1query_1ac91093ffc77be070d1e511836dcdcc41ae738c26bf4ce1037fa81b039a915cbf6" kindref="member">ResultFieldType::FLOAT</ref>);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><ref refid="test__query__result__type__annotation_8cpp_1a4c92664e92e9eb80d09f5c9f3bc077bd" kindref="member">TEST</ref>(InferResultSchemaTest,<sp/>VectorField)<sp/>{</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref><sp/>rows<sp/>=<sp/>json::array({</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;pk&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;u1&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;embedding&quot;</highlight><highlight class="normal">,<sp/>{0.1,<sp/>0.2,<sp/>0.3,<sp/>0.4}}}</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_result_schema" kindref="compound">QueryResultSchema</ref><sp/>schema<sp/>=<sp/><ref refid="namespacethemis_1_1query_1a4600a517ad6c764badfe2ae0c358df12" kindref="member">inferResultSchema</ref>(rows,<sp/></highlight><highlight class="stringliteral">&quot;vector_geo&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>emb<sp/>=<sp/>schema.find(</highlight><highlight class="stringliteral">&quot;embedding&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(emb,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(emb-&gt;type,<sp/><ref refid="namespacethemis_1_1query_1ac91093ffc77be070d1e511836dcdcc41a87752381b583740610f1dfeb07fdad7e" kindref="member">ResultFieldType::VECTOR</ref>);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(emb-&gt;is_array);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight><highlight class="comment">//<sp/>────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Serialisation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight><highlight class="comment">//<sp/>────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><ref refid="test__query__result__type__annotation_8cpp_1a4c92664e92e9eb80d09f5c9f3bc077bd" kindref="member">TEST</ref>(ResultFieldAnnotationTest,<sp/>ToJson_NonArray)<sp/>{</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_result_field_annotation" kindref="compound">ResultFieldAnnotation</ref><sp/>ann;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>ann.<ref refid="structthemis_1_1query_1_1_result_field_annotation_1a6f83f3cd21305d870814fab7c9c86634" kindref="member">name</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>ann.<ref refid="structthemis_1_1query_1_1_result_field_annotation_1aa1a8e5f34f75eae38ebbbf9fe9208ce0" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1query_1ac91093ffc77be070d1e511836dcdcc41a53f93baa3057821107c750323892fa92" kindref="member">ResultFieldType::INT</ref>;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>ann.<ref refid="structthemis_1_1query_1_1_result_field_annotation_1a945f0cc4e62fae7058fe3bc12204e5d1" kindref="member">nullable</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref><sp/>j<sp/>=<sp/>ann.<ref refid="structthemis_1_1query_1_1_result_field_annotation_1a25172419c943dd8a6dc562c278640483" kindref="member">toJson</ref>();</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">],<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">],<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;INT&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;nullable&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(j.contains(</highlight><highlight class="stringliteral">&quot;element_type&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="208"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><ref refid="test__query__result__type__annotation_8cpp_1a4c92664e92e9eb80d09f5c9f3bc077bd" kindref="member">TEST</ref>(ResultFieldAnnotationTest,<sp/>ToJson_Array)<sp/>{</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_result_field_annotation" kindref="compound">ResultFieldAnnotation</ref><sp/>ann;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>ann.<ref refid="structthemis_1_1query_1_1_result_field_annotation_1a6f83f3cd21305d870814fab7c9c86634" kindref="member">name</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;tags&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>ann.<ref refid="structthemis_1_1query_1_1_result_field_annotation_1aa1a8e5f34f75eae38ebbbf9fe9208ce0" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1query_1ac91093ffc77be070d1e511836dcdcc41acb4fb1757fb37c43cded35d3eb857c43" kindref="member">ResultFieldType::ARRAY</ref>;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>ann.<ref refid="structthemis_1_1query_1_1_result_field_annotation_1a4d9c2635e68480288d7f1ef006dbc5c2" kindref="member">is_array</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>ann.<ref refid="structthemis_1_1query_1_1_result_field_annotation_1a835a19eb49c40f64485cf38f6c0c7f33" kindref="member">element_type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1query_1ac91093ffc77be070d1e511836dcdcc41a63b588d5559f64f89a416e656880b949" kindref="member">ResultFieldType::STRING</ref>;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>ann.<ref refid="structthemis_1_1query_1_1_result_field_annotation_1a945f0cc4e62fae7058fe3bc12204e5d1" kindref="member">nullable</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref><sp/>j<sp/>=<sp/>ann.<ref refid="structthemis_1_1query_1_1_result_field_annotation_1a25172419c943dd8a6dc562c278640483" kindref="member">toJson</ref>();</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">],<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;tags&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">],<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;ARRAY&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;nullable&quot;</highlight><highlight class="normal">],<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;element_type&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;STRING&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><ref refid="test__query__result__type__annotation_8cpp_1a4c92664e92e9eb80d09f5c9f3bc077bd" kindref="member">TEST</ref>(QueryResultSchemaTest,<sp/>ToJson)<sp/>{</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref><sp/>rows<sp/>=<sp/>json::array({</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;score&quot;</highlight><highlight class="normal">,<sp/>1.0}}</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_result_schema" kindref="compound">QueryResultSchema</ref><sp/>schema<sp/>=<sp/><ref refid="namespacethemis_1_1query_1a4600a517ad6c764badfe2ae0c358df12" kindref="member">inferResultSchema</ref>(rows,<sp/></highlight><highlight class="stringliteral">&quot;conjunctive&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref><sp/>j<sp/>=<sp/>schema.toJson();</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;query_type&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;conjunctive&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(j[</highlight><highlight class="stringliteral">&quot;fields&quot;</highlight><highlight class="normal">].is_array());</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_GE(j[</highlight><highlight class="stringliteral">&quot;fields&quot;</highlight><highlight class="normal">].size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><ref refid="test__query__result__type__annotation_8cpp_1a4c92664e92e9eb80d09f5c9f3bc077bd" kindref="member">TEST</ref>(QueryResultSchemaTest,<sp/>FindReturnsNullForMissingField)<sp/>{</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_result_schema" kindref="compound">QueryResultSchema</ref><sp/>schema;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(schema.<ref refid="structthemis_1_1query_1_1_query_result_schema_1a15e6fbe559bacf20de9dfb06cb777c52" kindref="member">find</ref>(</highlight><highlight class="stringliteral">&quot;nonexistent&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight><highlight class="comment">//<sp/>────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight><highlight class="comment">//<sp/>resultFieldTypeName</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight><highlight class="comment">//<sp/>────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><ref refid="test__query__result__type__annotation_8cpp_1a4c92664e92e9eb80d09f5c9f3bc077bd" kindref="member">TEST</ref>(ResultFieldTypeNameTest,<sp/>AllTypes)<sp/>{</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1query_1a60299519b82d6843f00f7824bd470912" kindref="member">resultFieldTypeName</ref>(<ref refid="namespacethemis_1_1query_1ac91093ffc77be070d1e511836dcdcc41a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">ResultFieldType::UNKNOWN</ref>),<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;UNKNOWN&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1query_1a60299519b82d6843f00f7824bd470912" kindref="member">resultFieldTypeName</ref>(<ref refid="namespacethemis_1_1query_1ac91093ffc77be070d1e511836dcdcc41abadc789d64efa09e2be666a687efeb5d" kindref="member">ResultFieldType::NULL_TYPE</ref>),<sp/></highlight><highlight class="stringliteral">&quot;NULL&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1query_1a60299519b82d6843f00f7824bd470912" kindref="member">resultFieldTypeName</ref>(<ref refid="namespacethemis_1_1query_1ac91093ffc77be070d1e511836dcdcc41aa97b2c144243b2b9d2c593ec268b62f5" kindref="member">ResultFieldType::BOOL</ref>),<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;BOOL&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1query_1a60299519b82d6843f00f7824bd470912" kindref="member">resultFieldTypeName</ref>(<ref refid="namespacethemis_1_1query_1ac91093ffc77be070d1e511836dcdcc41a53f93baa3057821107c750323892fa92" kindref="member">ResultFieldType::INT</ref>),<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;INT&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1query_1a60299519b82d6843f00f7824bd470912" kindref="member">resultFieldTypeName</ref>(<ref refid="namespacethemis_1_1query_1ac91093ffc77be070d1e511836dcdcc41ae738c26bf4ce1037fa81b039a915cbf6" kindref="member">ResultFieldType::FLOAT</ref>),<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;FLOAT&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1query_1a60299519b82d6843f00f7824bd470912" kindref="member">resultFieldTypeName</ref>(<ref refid="namespacethemis_1_1query_1ac91093ffc77be070d1e511836dcdcc41a63b588d5559f64f89a416e656880b949" kindref="member">ResultFieldType::STRING</ref>),<sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;STRING&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1query_1a60299519b82d6843f00f7824bd470912" kindref="member">resultFieldTypeName</ref>(<ref refid="namespacethemis_1_1query_1ac91093ffc77be070d1e511836dcdcc41acb4fb1757fb37c43cded35d3eb857c43" kindref="member">ResultFieldType::ARRAY</ref>),<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;ARRAY&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1query_1a60299519b82d6843f00f7824bd470912" kindref="member">resultFieldTypeName</ref>(<ref refid="namespacethemis_1_1query_1ac91093ffc77be070d1e511836dcdcc41a8eee8e217391199668cbac89472ace53" kindref="member">ResultFieldType::OBJECT</ref>),<sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;OBJECT&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1query_1a60299519b82d6843f00f7824bd470912" kindref="member">resultFieldTypeName</ref>(<ref refid="namespacethemis_1_1query_1ac91093ffc77be070d1e511836dcdcc41a87752381b583740610f1dfeb07fdad7e" kindref="member">ResultFieldType::VECTOR</ref>),<sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;VECTOR&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="257"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/query/test_query_result_type_annotation.cpp"/>
+  </compounddef>
+</doxygen>

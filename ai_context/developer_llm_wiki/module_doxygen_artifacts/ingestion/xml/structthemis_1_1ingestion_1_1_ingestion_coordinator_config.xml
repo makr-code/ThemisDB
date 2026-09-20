@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_ingestion_coordinator_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::IngestionCoordinatorConfig</compoundname>
+    <includes refid="ingestion__coordinator_8h" local="no">ingestion_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_coordinator_config_1a23d7e49e620ec613da4601f798e21a60" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ingestion::IngestionCoordinatorConfig::num_nodes</definition>
+        <argsstring></argsstring>
+        <name>num_nodes</name>
+        <qualifiedname>themis::ingestion::IngestionCoordinatorConfig::num_nodes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of in-process worker nodes (0 = hardware_concurrency / 2, min 1). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_coordinator.h" line="464" column="12" bodyfile="include/ingestion/ingestion_coordinator.h" bodystart="464" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_coordinator_config_1aa53956a336c2a20f7690851c5a77c126" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::ingestion::IngestionCoordinatorConfig::lease_ttl</definition>
+        <argsstring></argsstring>
+        <name>lease_ttl</name>
+        <qualifiedname>themis::ingestion::IngestionCoordinatorConfig::lease_ttl</qualifiedname>
+        <initializer>{5000}</initializer>
+        <briefdescription>
+<para>Leader lease TTL. The lease is renewed every <computeroutput><ref refid="structthemis_1_1ingestion_1_1_ingestion_coordinator_config_1aa53956a336c2a20f7690851c5a77c126" kindref="member">lease_ttl</ref> / 2</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_coordinator.h" line="466" column="31" bodyfile="include/ingestion/ingestion_coordinator.h" bodystart="466" bodyend="466"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_coordinator_config_1a60ac08f1de0e634b084c962816afb5dc" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::ingestion::IngestionCoordinatorConfig::worker_timeout</definition>
+        <argsstring></argsstring>
+        <name>worker_timeout</name>
+        <qualifiedname>themis::ingestion::IngestionCoordinatorConfig::worker_timeout</qualifiedname>
+        <initializer>{120}</initializer>
+        <briefdescription>
+<para>Per-worker ingest call timeout. Coordinator fails a worker on expiry. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_coordinator.h" line="468" column="26" bodyfile="include/ingestion/ingestion_coordinator.h" bodystart="468" bodyend="468"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_coordinator_config_1a8f702204f190adafb1e12ae1d3f8a48a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::IngestionCoordinatorConfig::target_collection</definition>
+        <argsstring></argsstring>
+        <name>target_collection</name>
+        <qualifiedname>themis::ingestion::IngestionCoordinatorConfig::target_collection</qualifiedname>
+        <initializer>= &quot;legal_documents&quot;</initializer>
+        <briefdescription>
+<para>Target collection for ingested documents. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_coordinator.h" line="470" column="17" bodyfile="include/ingestion/ingestion_coordinator.h" bodystart="470" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_coordinator_config_1af10af6161d3925bf8a6f5a69ee3a7ef0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::IngestionCoordinatorConfig::db_connection</definition>
+        <argsstring></argsstring>
+        <name>db_connection</name>
+        <qualifiedname>themis::ingestion::IngestionCoordinatorConfig::db_connection</qualifiedname>
+        <briefdescription>
+<para>Database connection string passed to each worker&apos;s <ref refid="classthemis_1_1ingestion_1_1_ingestion_manager" kindref="compound">IngestionManager</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_coordinator.h" line="472" column="17" bodyfile="include/ingestion/ingestion_coordinator.h" bodystart="472" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_ingestion_coordinator_config_1aed6c4df882042e85d701e2e927ee1b25" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::IngestionCoordinatorConfig::IngestionCoordinatorConfig</definition>
+        <argsstring>()=default</argsstring>
+        <name>IngestionCoordinatorConfig</name>
+        <qualifiedname>themis::ingestion::IngestionCoordinatorConfig::IngestionCoordinatorConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_coordinator.h" line="474" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for <ref refid="classthemis_1_1ingestion_1_1_ingestion_coordinator" kindref="compound">IngestionCoordinator</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Defined outside the class to allow its use as a default argument in <ref refid="classthemis_1_1ingestion_1_1_ingestion_coordinator" kindref="compound">IngestionCoordinator</ref>&apos;s constructor. </para>
+    </detaileddescription>
+    <location file="include/ingestion/ingestion_coordinator.h" line="462" column="1" bodyfile="include/ingestion/ingestion_coordinator.h" bodystart="462" bodyend="475"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_coordinator_config_1af10af6161d3925bf8a6f5a69ee3a7ef0" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionCoordinatorConfig</scope><name>db_connection</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_coordinator_config_1aed6c4df882042e85d701e2e927ee1b25" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionCoordinatorConfig</scope><name>IngestionCoordinatorConfig</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_coordinator_config_1aa53956a336c2a20f7690851c5a77c126" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionCoordinatorConfig</scope><name>lease_ttl</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_coordinator_config_1a23d7e49e620ec613da4601f798e21a60" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionCoordinatorConfig</scope><name>num_nodes</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_coordinator_config_1a8f702204f190adafb1e12ae1d3f8a48a" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionCoordinatorConfig</scope><name>target_collection</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_coordinator_config_1a60ac08f1de0e634b084c962816afb5dc" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionCoordinatorConfig</scope><name>worker_timeout</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

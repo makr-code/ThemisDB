@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_async_inference_engine_1_1_request_queue_item" kind="struct" language="C++" prot="private">
+    <compoundname>themis::llm::AsyncInferenceEngine::RequestQueueItem</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_async_inference_engine_1_1_request_queue_item_1aa1fffffcdb567627c1a0f7dd2d6ac0b2" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1llm_1_1_async_inference_request" kindref="compound">AsyncInferenceRequest</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;AsyncInferenceRequest&gt; themis::llm::AsyncInferenceEngine::RequestQueueItem::request</definition>
+        <argsstring></argsstring>
+        <name>request</name>
+        <qualifiedname>themis::llm::AsyncInferenceEngine::RequestQueueItem::request</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/async_inference_engine.h" line="224" column="25" bodyfile="include/llm/async_inference_engine.h" bodystart="224" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_async_inference_engine_1_1_request_queue_item_1a5768d3c78896d6fb66730b2412d19a8b" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; std::promise&lt; <ref refid="struct_inference_response" kindref="compound">InferenceResponse</ref> &gt; &gt;</type>
+        <definition>std::shared_ptr&lt;std::promise&lt;InferenceResponse&gt; &gt; themis::llm::AsyncInferenceEngine::RequestQueueItem::promise</definition>
+        <argsstring></argsstring>
+        <name>promise</name>
+        <qualifiedname>themis::llm::AsyncInferenceEngine::RequestQueueItem::promise</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/async_inference_engine.h" line="227" column="25" bodyfile="include/llm/async_inference_engine.h" bodystart="227" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_async_inference_engine_1_1_request_queue_item_1ac959e625f5b361e380f95743cab348e6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::AsyncInferenceEngine::RequestQueueItem::operator&lt;</definition>
+        <argsstring>(const RequestQueueItem &amp;other) const</argsstring>
+        <name>operator&lt;</name>
+        <qualifiedname>themis::llm::AsyncInferenceEngine::RequestQueueItem::operator&lt;</qualifiedname>
+        <param>
+          <type>const RequestQueueItem &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/async_inference_engine.h" line="230" column="9" bodyfile="include/llm/async_inference_engine.h" bodystart="230" bodyend="232"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/async_inference_engine.h" line="223" column="5" bodyfile="include/llm/async_inference_engine.h" bodystart="223" bodyend="233"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_request_queue_item_1ac959e625f5b361e380f95743cab348e6" prot="public" virt="non-virtual"><scope>themis::llm::AsyncInferenceEngine::RequestQueueItem</scope><name>operator&lt;</name></member>
+      <member refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_request_queue_item_1a5768d3c78896d6fb66730b2412d19a8b" prot="public" virt="non-virtual"><scope>themis::llm::AsyncInferenceEngine::RequestQueueItem</scope><name>promise</name></member>
+      <member refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_request_queue_item_1aa1fffffcdb567627c1a0f7dd2d6ac0b2" prot="public" virt="non-virtual"><scope>themis::llm::AsyncInferenceEngine::RequestQueueItem</scope><name>request</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

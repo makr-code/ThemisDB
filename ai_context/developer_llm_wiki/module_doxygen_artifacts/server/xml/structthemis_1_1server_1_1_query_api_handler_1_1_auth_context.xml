@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_query_api_handler_1_1_auth_context" kind="struct" language="C++" prot="private">
+    <compoundname>themis::server::QueryApiHandler::AuthContext</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_query_api_handler_1_1_auth_context_1a2ea3710a0e9db2d547d2764277474e65" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::QueryApiHandler::AuthContext::user_id</definition>
+        <argsstring></argsstring>
+        <name>user_id</name>
+        <qualifiedname>themis::server::QueryApiHandler::AuthContext::user_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/query_api_handler.h" line="166" column="21" bodyfile="include/server/query_api_handler.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_query_api_handler_1_1_auth_context_1a8d948115314530d3762a7b4d24eb3eb8" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::server::QueryApiHandler::AuthContext::groups</definition>
+        <argsstring></argsstring>
+        <name>groups</name>
+        <qualifiedname>themis::server::QueryApiHandler::AuthContext::groups</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/query_api_handler.h" line="167" column="21" bodyfile="include/server/query_api_handler.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/query_api_handler.h" line="165" column="5" bodyfile="include/server/query_api_handler.h" bodystart="165" bodyend="168"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_query_api_handler_1_1_auth_context_1a8d948115314530d3762a7b4d24eb3eb8" prot="public" virt="non-virtual"><scope>themis::server::QueryApiHandler::AuthContext</scope><name>groups</name></member>
+      <member refid="structthemis_1_1server_1_1_query_api_handler_1_1_auth_context_1a2ea3710a0e9db2d547d2764277474e65" prot="public" virt="non-virtual"><scope>themis::server::QueryApiHandler::AuthContext</scope><name>user_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

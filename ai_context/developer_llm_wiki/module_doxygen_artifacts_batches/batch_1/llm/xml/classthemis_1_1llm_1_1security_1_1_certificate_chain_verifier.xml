@@ -1,0 +1,231 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1security_1_1_certificate_chain_verifier" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::security::CertificateChainVerifier</compoundname>
+    <basecompoundref refid="classthemis_1_1llm_1_1security_1_1_i_signature_verifier" prot="public" virt="non-virtual">themis::llm::security::ISignatureVerifier</basecompoundref>
+    <includes refid="signature__verifier_8h" local="no">signature_verifier.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1security_1_1_certificate_chain_verifier_1a875e90d3869036ff25a5d9071dd4caf3" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::security::CertificateChainVerifier::ca_bundle_path_</definition>
+        <argsstring></argsstring>
+        <name>ca_bundle_path_</name>
+        <qualifiedname>themis::llm::security::CertificateChainVerifier::ca_bundle_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/security/signature_verifier.h" line="189" column="17" bodyfile="include/llm/security/signature_verifier.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1security_1_1_certificate_chain_verifier_1a5c2617ce30489e34fdf3d7aabf169f2d" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::security::CertificateChainVerifier::CertificateChainVerifier</definition>
+        <argsstring>(const std::string &amp;ca_bundle_path)</argsstring>
+        <name>CertificateChainVerifier</name>
+        <qualifiedname>themis::llm::security::CertificateChainVerifier::CertificateChainVerifier</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ca_bundle_path</declname>
+        </param>
+        <briefdescription>
+<para>Certificate Chain Verifier. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ca_bundle_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the ca bundle. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/security/signature_verifier.h" line="179" column="14" bodyfile="src/llm/security/signature_verifier.cpp" bodystart="282" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1security_1_1_certificate_chain_verifier_1a98639325b1dab1247fb0e70c78f80a86" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::security::CertificateChainVerifier::~CertificateChainVerifier</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~CertificateChainVerifier</name>
+        <qualifiedname>themis::llm::security::CertificateChainVerifier::~CertificateChainVerifier</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/security/signature_verifier.h" line="180" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1security_1_1_certificate_chain_verifier_1a3c5bbe337caa1834368ec00209a0bdb9" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1llm_1_1security_1_1_signature_verification_result" kindref="compound">SignatureVerificationResult</ref></type>
+        <definition>SignatureVerificationResult themis::llm::security::CertificateChainVerifier::verify</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data, const std::vector&lt; uint8_t &gt; &amp;signature, const std::string &amp;cert_pem) override</argsstring>
+        <name>verify</name>
+        <qualifiedname>themis::llm::security::CertificateChainVerifier::verify</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1security_1_1_i_signature_verifier_1ada1e97b2ca0c01f67f7be08f9abd3139">verify</reimplements>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>signature</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cert_pem</declname>
+        </param>
+        <briefdescription>
+<para>Verify identity and enforce network policies for a request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">signature</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cert_pem</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Verification result.</para>
+</simplesect>
+Calls: bio(), BIO_new_mem_buf(), data(), size(), spdlog::error(), cert(), PEM_read_bio_X509(), get(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/security/signature_verifier.h" line="182" column="33" bodyfile="src/llm/security/signature_verifier.cpp" bodystart="297" bodyend="411"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1security_1_1_certificate_chain_verifier_1ab2ca4e6401e852275bb581151de5b41e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::security::CertificateChainVerifier::verifyCertificateChain</definition>
+        <argsstring>(X509 *cert, X509_STORE *store)</argsstring>
+        <name>verifyCertificateChain</name>
+        <qualifiedname>themis::llm::security::CertificateChainVerifier::verifyCertificateChain</qualifiedname>
+        <param>
+          <type>X509 *</type>
+          <declname>cert</declname>
+        </param>
+        <param>
+          <type>X509_STORE *</type>
+          <declname>store</declname>
+        </param>
+        <briefdescription>
+<para>Verify Certificate Chain. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">cert</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">store</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">cert</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">store</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::error(), spdlog::debug(), ctx(), X509_STORE_CTX_new(), X509_STORE_CTX_init(), get(), ERR_error_string_n(), ERR_get_error(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/security/signature_verifier.h" line="197" column="10" bodyfile="src/llm/security/signature_verifier.cpp" bodystart="420" bodyend="488"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::llm::security::CertificateChainVerifier</label>
+        <link refid="classthemis_1_1llm_1_1security_1_1_certificate_chain_verifier"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::security::ISignatureVerifier</label>
+        <link refid="classthemis_1_1llm_1_1security_1_1_i_signature_verifier"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::llm::security::CertificateChainVerifier</label>
+        <link refid="classthemis_1_1llm_1_1security_1_1_certificate_chain_verifier"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::security::ISignatureVerifier</label>
+        <link refid="classthemis_1_1llm_1_1security_1_1_i_signature_verifier"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/security/signature_verifier.h" line="172" column="1" bodyfile="include/llm/security/signature_verifier.h" bodystart="172" bodyend="198"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1security_1_1_certificate_chain_verifier_1a875e90d3869036ff25a5d9071dd4caf3" prot="private" virt="non-virtual"><scope>themis::llm::security::CertificateChainVerifier</scope><name>ca_bundle_path_</name></member>
+      <member refid="classthemis_1_1llm_1_1security_1_1_certificate_chain_verifier_1a5c2617ce30489e34fdf3d7aabf169f2d" prot="public" virt="non-virtual"><scope>themis::llm::security::CertificateChainVerifier</scope><name>CertificateChainVerifier</name></member>
+      <member refid="classthemis_1_1llm_1_1security_1_1_i_signature_verifier_1ad5833d6841cdbffb5f8751852d04f97a" prot="protected" virt="non-virtual"><scope>themis::llm::security::CertificateChainVerifier</scope><name>next_</name></member>
+      <member refid="classthemis_1_1llm_1_1security_1_1_i_signature_verifier_1a87aa27793e40fb53af607bb717efd56f" prot="protected" virt="non-virtual"><scope>themis::llm::security::CertificateChainVerifier</scope><name>passToNext</name></member>
+      <member refid="classthemis_1_1llm_1_1security_1_1_i_signature_verifier_1a594ea8849b227f38c1b988a503862ea3" prot="public" virt="non-virtual"><scope>themis::llm::security::CertificateChainVerifier</scope><name>setNext</name></member>
+      <member refid="classthemis_1_1llm_1_1security_1_1_certificate_chain_verifier_1a3c5bbe337caa1834368ec00209a0bdb9" prot="public" virt="virtual"><scope>themis::llm::security::CertificateChainVerifier</scope><name>verify</name></member>
+      <member refid="classthemis_1_1llm_1_1security_1_1_certificate_chain_verifier_1ab2ca4e6401e852275bb581151de5b41e" prot="private" virt="non-virtual"><scope>themis::llm::security::CertificateChainVerifier</scope><name>verifyCertificateChain</name></member>
+      <member refid="classthemis_1_1llm_1_1security_1_1_certificate_chain_verifier_1a98639325b1dab1247fb0e70c78f80a86" prot="public" virt="non-virtual"><scope>themis::llm::security::CertificateChainVerifier</scope><name>~CertificateChainVerifier</name></member>
+      <member refid="classthemis_1_1llm_1_1security_1_1_i_signature_verifier_1a3c0e71a6114beeffd099739471fc24e0" prot="public" virt="virtual"><scope>themis::llm::security::CertificateChainVerifier</scope><name>~ISignatureVerifier</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

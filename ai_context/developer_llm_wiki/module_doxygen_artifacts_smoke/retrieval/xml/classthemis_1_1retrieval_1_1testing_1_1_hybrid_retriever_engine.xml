@@ -1,0 +1,264 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_engine" kind="class" language="C++" prot="public">
+    <compoundname>themis::retrieval::testing::HybridRetrieverEngine</compoundname>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_engine_1a71fa57aec9764c24f9518589859984c5" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>RetrievalMode</name>
+        <qualifiedname>themis::retrieval::testing::HybridRetrieverEngine::RetrievalMode</qualifiedname>
+        <enumvalue id="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_engine_1a71fa57aec9764c24f9518589859984c5ae367f803355b31810e62453987cdf6c2" prot="public">
+          <name>EXACT_FIRST</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_engine_1a71fa57aec9764c24f9518589859984c5ab180bf9f1fdbc8f7334af968e1987382" prot="public">
+          <name>ADVISORY_ANN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_engine_1a71fa57aec9764c24f9518589859984c5af8fdcdeccc470b32cbc71985e7c76c8c" prot="public">
+          <name>EXACT_ONLY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" line="184" column="5" bodyfile="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" bodystart="184" bodyend="188"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_engine_1acc8cbeef808f4d68eaeea4a979e35b1f" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1retrieval_1_1testing_1_1_mock_exact_retriever" kindref="compound">MockExactRetriever</ref></type>
+        <definition>MockExactRetriever themis::retrieval::testing::HybridRetrieverEngine::exact_</definition>
+        <argsstring></argsstring>
+        <name>exact_</name>
+        <qualifiedname>themis::retrieval::testing::HybridRetrieverEngine::exact_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" line="250" column="24" bodyfile="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" bodystart="250" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_engine_1a9c3d563e7a382fb22e8888e25e5e3a4a" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1retrieval_1_1testing_1_1_mock_a_n_n_retriever" kindref="compound">MockANNRetriever</ref></type>
+        <definition>MockANNRetriever themis::retrieval::testing::HybridRetrieverEngine::ann_</definition>
+        <argsstring></argsstring>
+        <name>ann_</name>
+        <qualifiedname>themis::retrieval::testing::HybridRetrieverEngine::ann_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" line="251" column="22" bodyfile="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" bodystart="251" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_engine_1a48e4b613d64a1208aa1b42e45f5eed47" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_engine_1a71fa57aec9764c24f9518589859984c5" kindref="member">RetrievalMode</ref></type>
+        <definition>RetrievalMode themis::retrieval::testing::HybridRetrieverEngine::mode_</definition>
+        <argsstring></argsstring>
+        <name>mode_</name>
+        <qualifiedname>themis::retrieval::testing::HybridRetrieverEngine::mode_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" line="252" column="19" bodyfile="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" bodystart="252" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_engine_1aba68517269967ae652bb6aa6e1b00005" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::retrieval::testing::HybridRetrieverEngine::exact_threshold_</definition>
+        <argsstring></argsstring>
+        <name>exact_threshold_</name>
+        <qualifiedname>themis::retrieval::testing::HybridRetrieverEngine::exact_threshold_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" line="253" column="12" bodyfile="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" bodystart="253" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_engine_1a5e32e0e5c1b71d55adf249fb56ad2bdf" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::retrieval::testing::HybridRetrieverEngine::fallback_to_ann_</definition>
+        <argsstring></argsstring>
+        <name>fallback_to_ann_</name>
+        <qualifiedname>themis::retrieval::testing::HybridRetrieverEngine::fallback_to_ann_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" line="254" column="10" bodyfile="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" bodystart="254" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_engine_1a2ba6efa2d4cbc6d8dbfd63d6e3ecd797" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::retrieval::testing::HybridRetrieverEngine::HybridRetrieverEngine</definition>
+        <argsstring>()</argsstring>
+        <name>HybridRetrieverEngine</name>
+        <qualifiedname>themis::retrieval::testing::HybridRetrieverEngine::HybridRetrieverEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" line="190" column="5" bodyfile="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" bodystart="190" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_engine_1a0eb4e03dd04dbf19ca179cf54ec65b65" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1retrieval_1_1testing_1_1_retrieval_result" kindref="compound">RetrievalResult</ref> &gt;</type>
+        <definition>std::vector&lt; RetrievalResult &gt; themis::retrieval::testing::HybridRetrieverEngine::retrieve</definition>
+        <argsstring>(const std::string &amp;query, const std::vector&lt; float &gt; &amp;query_vector, size_t top_k=10)</argsstring>
+        <name>retrieve</name>
+        <qualifiedname>themis::retrieval::testing::HybridRetrieverEngine::retrieve</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>query_vector</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>top_k</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Hybrid retrieve: exact-first with fallback </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" line="198" column="17" bodyfile="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" bodystart="198" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_engine_1a0f6c23a3afab43e3b3b16ec940b4480b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::retrieval::testing::HybridRetrieverEngine::setMode</definition>
+        <argsstring>(RetrievalMode mode)</argsstring>
+        <name>setMode</name>
+        <qualifiedname>themis::retrieval::testing::HybridRetrieverEngine::setMode</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_engine_1a71fa57aec9764c24f9518589859984c5" kindref="member">RetrievalMode</ref></type>
+          <declname>mode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" line="230" column="10" bodyfile="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" bodystart="230" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_engine_1a4e091895bac63a1c3c1c9f95c6868531" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_engine_1a71fa57aec9764c24f9518589859984c5" kindref="member">RetrievalMode</ref></type>
+        <definition>RetrievalMode themis::retrieval::testing::HybridRetrieverEngine::getMode</definition>
+        <argsstring>() const</argsstring>
+        <name>getMode</name>
+        <qualifiedname>themis::retrieval::testing::HybridRetrieverEngine::getMode</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" line="231" column="19" bodyfile="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" bodystart="231" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_engine_1a70612f6d15ac04cc80dc536a5852b712" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::retrieval::testing::HybridRetrieverEngine::addDocument</definition>
+        <argsstring>(const std::string &amp;id, const std::string &amp;content, const std::vector&lt; float &gt; &amp;vector)</argsstring>
+        <name>addDocument</name>
+        <qualifiedname>themis::retrieval::testing::HybridRetrieverEngine::addDocument</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>vector</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" line="233" column="10" bodyfile="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" bodystart="233" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_engine_1a35824dc045d9c5f4050691ceafef61df" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::retrieval::testing::HybridRetrieverEngine::clearData</definition>
+        <argsstring>()</argsstring>
+        <name>clearData</name>
+        <qualifiedname>themis::retrieval::testing::HybridRetrieverEngine::clearData</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" line="240" column="10" bodyfile="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" bodystart="240" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_engine_1abc2ab6c29121998935da3533c74d3ddd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::retrieval::testing::HybridRetrieverEngine::getDocumentCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getDocumentCount</name>
+        <qualifiedname>themis::retrieval::testing::HybridRetrieverEngine::getDocumentCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" line="245" column="12" bodyfile="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" bodystart="245" bodyend="247"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Hybrid retrieval engine implementing exact-first with ANN fallback. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" line="182" column="1" bodyfile="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" bodystart="182" bodyend="255"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_engine_1a70612f6d15ac04cc80dc536a5852b712" prot="public" virt="non-virtual"><scope>themis::retrieval::testing::HybridRetrieverEngine</scope><name>addDocument</name></member>
+      <member refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_engine_1a9c3d563e7a382fb22e8888e25e5e3a4a" prot="private" virt="non-virtual"><scope>themis::retrieval::testing::HybridRetrieverEngine</scope><name>ann_</name></member>
+      <member refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_engine_1a35824dc045d9c5f4050691ceafef61df" prot="public" virt="non-virtual"><scope>themis::retrieval::testing::HybridRetrieverEngine</scope><name>clearData</name></member>
+      <member refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_engine_1acc8cbeef808f4d68eaeea4a979e35b1f" prot="private" virt="non-virtual"><scope>themis::retrieval::testing::HybridRetrieverEngine</scope><name>exact_</name></member>
+      <member refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_engine_1aba68517269967ae652bb6aa6e1b00005" prot="private" virt="non-virtual"><scope>themis::retrieval::testing::HybridRetrieverEngine</scope><name>exact_threshold_</name></member>
+      <member refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_engine_1a5e32e0e5c1b71d55adf249fb56ad2bdf" prot="private" virt="non-virtual"><scope>themis::retrieval::testing::HybridRetrieverEngine</scope><name>fallback_to_ann_</name></member>
+      <member refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_engine_1abc2ab6c29121998935da3533c74d3ddd" prot="public" virt="non-virtual"><scope>themis::retrieval::testing::HybridRetrieverEngine</scope><name>getDocumentCount</name></member>
+      <member refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_engine_1a4e091895bac63a1c3c1c9f95c6868531" prot="public" virt="non-virtual"><scope>themis::retrieval::testing::HybridRetrieverEngine</scope><name>getMode</name></member>
+      <member refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_engine_1a2ba6efa2d4cbc6d8dbfd63d6e3ecd797" prot="public" virt="non-virtual"><scope>themis::retrieval::testing::HybridRetrieverEngine</scope><name>HybridRetrieverEngine</name></member>
+      <member refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_engine_1a48e4b613d64a1208aa1b42e45f5eed47" prot="private" virt="non-virtual"><scope>themis::retrieval::testing::HybridRetrieverEngine</scope><name>mode_</name></member>
+      <member refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_engine_1a71fa57aec9764c24f9518589859984c5" prot="public" virt="non-virtual"><scope>themis::retrieval::testing::HybridRetrieverEngine</scope><name>RetrievalMode</name></member>
+      <member refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_engine_1a0eb4e03dd04dbf19ca179cf54ec65b65" prot="public" virt="non-virtual"><scope>themis::retrieval::testing::HybridRetrieverEngine</scope><name>retrieve</name></member>
+      <member refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_engine_1a0f6c23a3afab43e3b3b16ec940b4480b" prot="public" virt="non-virtual"><scope>themis::retrieval::testing::HybridRetrieverEngine</scope><name>setMode</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

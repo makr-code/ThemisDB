@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_bias_score" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::BiasScore</compoundname>
+    <includes refid="rag__judge_8h" local="no">rag_judge.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_bias_score_1a9de381f15635cc683dadb2d5159c0018" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::BiasScore::overall_score</definition>
+        <argsstring></argsstring>
+        <name>overall_score</name>
+        <qualifiedname>themis::rag::judge::BiasScore::overall_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Overall bias magnitude (0.0 = no bias, 1.0 = extreme bias). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="67" column="12" bodyfile="include/rag/rag_judge.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_bias_score_1a3d16c4c7a55b883b3e33682f2beda365" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::BiasScore::gender_bias</definition>
+        <argsstring></argsstring>
+        <name>gender_bias</name>
+        <qualifiedname>themis::rag::judge::BiasScore::gender_bias</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Gender bias component (0.0–1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="70" column="12" bodyfile="include/rag/rag_judge.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_bias_score_1aa4af2d69817d60ad5bb212958ac742a7" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::BiasScore::occupational_bias</definition>
+        <argsstring></argsstring>
+        <name>occupational_bias</name>
+        <qualifiedname>themis::rag::judge::BiasScore::occupational_bias</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Occupational stereotype bias (0.0–1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="73" column="12" bodyfile="include/rag/rag_judge.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_bias_score_1a0b9c0cfe224ce405f6de3bd5b5a5b1bf" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::BiasScore::ethnicity_bias</definition>
+        <argsstring></argsstring>
+        <name>ethnicity_bias</name>
+        <qualifiedname>themis::rag::judge::BiasScore::ethnicity_bias</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Ethnicity/cultural bias (0.0–1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="76" column="12" bodyfile="include/rag/rag_judge.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_bias_score_1aab787f55bda25eaf092598c7a1b346a5" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::BiasScore::stereotype_density</definition>
+        <argsstring></argsstring>
+        <name>stereotype_density</name>
+        <qualifiedname>themis::rag::judge::BiasScore::stereotype_density</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Stereotype density: freq(biased_terms) / total_terms in passage. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="79" column="12" bodyfile="include/rag/rag_judge.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_bias_score_1ac375d4f228edd971096c600e489190c6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::BiasScore::flagged</definition>
+        <argsstring></argsstring>
+        <name>flagged</name>
+        <qualifiedname>themis::rag::judge::BiasScore::flagged</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True if this document likely contains problematic bias. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="82" column="10" bodyfile="include/rag/rag_judge.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_bias_score_1a776acde3151b0322b72de8af80158bc6" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::BiasScore::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::rag::judge::BiasScore::confidence</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Confidence in the bias score (0.0–1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="85" column="12" bodyfile="include/rag/rag_judge.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Bias score for a document (Wave A3: Fairness &amp; Bias Detection). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Quantifies detected biases across multiple dimensions (gender, occupational, ethnicity, intersectional). Added in v1.20.0 for ethical RAG evaluation.</para>
+<para>@reference Bolukbasi et al. (2016) &quot;Man is to Computer Programmer
+           as Woman is to Homemaker: Debiasing Word Embeddings&quot; NeurIPS 2016, arXiv:1607.06520 </para>
+    </detaileddescription>
+    <location file="include/rag/rag_judge.h" line="65" column="1" bodyfile="include/rag/rag_judge.h" bodystart="65" bodyend="86"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_bias_score_1a776acde3151b0322b72de8af80158bc6" prot="public" virt="non-virtual"><scope>themis::rag::judge::BiasScore</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_bias_score_1a0b9c0cfe224ce405f6de3bd5b5a5b1bf" prot="public" virt="non-virtual"><scope>themis::rag::judge::BiasScore</scope><name>ethnicity_bias</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_bias_score_1ac375d4f228edd971096c600e489190c6" prot="public" virt="non-virtual"><scope>themis::rag::judge::BiasScore</scope><name>flagged</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_bias_score_1a3d16c4c7a55b883b3e33682f2beda365" prot="public" virt="non-virtual"><scope>themis::rag::judge::BiasScore</scope><name>gender_bias</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_bias_score_1aa4af2d69817d60ad5bb212958ac742a7" prot="public" virt="non-virtual"><scope>themis::rag::judge::BiasScore</scope><name>occupational_bias</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_bias_score_1a9de381f15635cc683dadb2d5159c0018" prot="public" virt="non-virtual"><scope>themis::rag::judge::BiasScore</scope><name>overall_score</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_bias_score_1aab787f55bda25eaf092598c7a1b346a5" prot="public" virt="non-virtual"><scope>themis::rag::judge::BiasScore</scope><name>stereotype_density</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

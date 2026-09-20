@@ -1,0 +1,174 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::DistributedCoordinator::Statistics</compoundname>
+    <includes refid="distributed__coordinator_8h" local="no">distributed_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1a17ae7124d1b5b27ac53f4e8d0fc5fd2c" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::DistributedCoordinator::Statistics::elections_started</definition>
+        <argsstring></argsstring>
+        <name>elections_started</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::Statistics::elections_started</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Number of election rounds initiated. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="85" column="21" bodyfile="include/sharding/distributed_coordinator.h" bodystart="85" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1ae96a9180b7feab6ce74a2f410b73ec80" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::DistributedCoordinator::Statistics::elections_won</definition>
+        <argsstring></argsstring>
+        <name>elections_won</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::Statistics::elections_won</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Number of elections won. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="86" column="21" bodyfile="include/sharding/distributed_coordinator.h" bodystart="86" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1acd7765ec87eca0a94deb53efe253c8f6" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::DistributedCoordinator::Statistics::elections_lost</definition>
+        <argsstring></argsstring>
+        <name>elections_lost</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::Statistics::elections_lost</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Number of elections lost. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="87" column="21" bodyfile="include/sharding/distributed_coordinator.h" bodystart="87" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1ab20337b561cdc913d6c471da7a246c77" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::DistributedCoordinator::Statistics::leader_failures_detected</definition>
+        <argsstring></argsstring>
+        <name>leader_failures_detected</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::Statistics::leader_failures_detected</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Number of detected leader-failure events. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="88" column="21" bodyfile="include/sharding/distributed_coordinator.h" bodystart="88" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1a5f065e57f3fe26617be8598f3638578a" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::DistributedCoordinator::Statistics::tasks_coordinated</definition>
+        <argsstring></argsstring>
+        <name>tasks_coordinated</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::Statistics::tasks_coordinated</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Number of coordinated tasks accepted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="89" column="21" bodyfile="include/sharding/distributed_coordinator.h" bodystart="89" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1a393ec392da64f6e10a3a7df22c15651b" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; double &gt;</type>
+        <definition>std::atomic&lt;double&gt; themis::sharding::DistributedCoordinator::Statistics::avg_lease_duration_seconds</definition>
+        <argsstring></argsstring>
+        <name>avg_lease_duration_seconds</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::Statistics::avg_lease_duration_seconds</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Average effective leader lease duration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="90" column="21" bodyfile="include/sharding/distributed_coordinator.h" bodystart="90" bodyend="90"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1a0a5fb46db8e26e0e14893be76937e8d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::DistributedCoordinator::Statistics::Statistics</definition>
+        <argsstring>()=default</argsstring>
+        <name>Statistics</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::Statistics::Statistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="92" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1a1392f63e019abce87c0423024b594bf0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::DistributedCoordinator::Statistics::Statistics</definition>
+        <argsstring>(const Statistics &amp;other)</argsstring>
+        <name>Statistics</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::Statistics::Statistics</qualifiedname>
+        <param>
+          <type>const Statistics &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="93" column="9" bodyfile="include/sharding/distributed_coordinator.h" bodystart="93" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1a1aeffd5b842703ac92a9188b1fe05930" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1a0a5fb46db8e26e0e14893be76937e8d9" kindref="member">Statistics</ref> &amp;</type>
+        <definition>Statistics &amp; themis::sharding::DistributedCoordinator::Statistics::operator=</definition>
+        <argsstring>(const Statistics &amp;other)</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::Statistics::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1a0a5fb46db8e26e0e14893be76937e8d9" kindref="member">Statistics</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="101" column="20" bodyfile="include/sharding/distributed_coordinator.h" bodystart="101" bodyend="111"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Runtime coordination statistics counters. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/distributed_coordinator.h" line="84" column="5" bodyfile="include/sharding/distributed_coordinator.h" bodystart="84" bodyend="112"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1a393ec392da64f6e10a3a7df22c15651b" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator::Statistics</scope><name>avg_lease_duration_seconds</name></member>
+      <member refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1acd7765ec87eca0a94deb53efe253c8f6" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator::Statistics</scope><name>elections_lost</name></member>
+      <member refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1a17ae7124d1b5b27ac53f4e8d0fc5fd2c" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator::Statistics</scope><name>elections_started</name></member>
+      <member refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1ae96a9180b7feab6ce74a2f410b73ec80" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator::Statistics</scope><name>elections_won</name></member>
+      <member refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1ab20337b561cdc913d6c471da7a246c77" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator::Statistics</scope><name>leader_failures_detected</name></member>
+      <member refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1a1aeffd5b842703ac92a9188b1fe05930" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator::Statistics</scope><name>operator=</name></member>
+      <member refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1a0a5fb46db8e26e0e14893be76937e8d9" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator::Statistics</scope><name>Statistics</name></member>
+      <member refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1a1392f63e019abce87c0423024b594bf0" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator::Statistics</scope><name>Statistics</name></member>
+      <member refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1a5f065e57f3fe26617be8598f3638578a" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator::Statistics</scope><name>tasks_coordinated</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

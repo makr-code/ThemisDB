@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1temporal_1_1_temporal_tier_manager_1_1_table_tier_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::temporal::TemporalTierManager::TableTierStats</compoundname>
+    <includes refid="temporal__tier__manager_8h" local="no">temporal_tier_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_temporal_tier_manager_1_1_table_tier_stats_1a713af8a0033bccd7658724b3e3300d66" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::TemporalTierManager::TableTierStats::total_hot_versions</definition>
+        <argsstring></argsstring>
+        <name>total_hot_versions</name>
+        <qualifiedname>themisdb::temporal::TemporalTierManager::TableTierStats::total_hot_versions</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="431" column="18" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="431" bodyend="431"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_temporal_tier_manager_1_1_table_tier_stats_1aeab41172b22d1f852194d56ef3deb642" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::TemporalTierManager::TableTierStats::total_warm_blocks</definition>
+        <argsstring></argsstring>
+        <name>total_warm_blocks</name>
+        <qualifiedname>themisdb::temporal::TemporalTierManager::TableTierStats::total_warm_blocks</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="432" column="18" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="432" bodyend="432"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_temporal_tier_manager_1_1_table_tier_stats_1af4157b368d486746fe9ed190cbbef7f5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::TemporalTierManager::TableTierStats::total_warm_versions</definition>
+        <argsstring></argsstring>
+        <name>total_warm_versions</name>
+        <qualifiedname>themisdb::temporal::TemporalTierManager::TableTierStats::total_warm_versions</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="433" column="18" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="433" bodyend="433"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_temporal_tier_manager_1_1_table_tier_stats_1a1364ad9eeef662b0cb0a3548f40b75be" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::temporal::TemporalTierManager::TableTierStats::total_warm_bytes</definition>
+        <argsstring></argsstring>
+        <name>total_warm_bytes</name>
+        <qualifiedname>themisdb::temporal::TemporalTierManager::TableTierStats::total_warm_bytes</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="434" column="18" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="434" bodyend="434"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_temporal_tier_manager_1_1_table_tier_stats_1a7eb0a2b4d05024ad9cb114ccf787dbfe" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::TemporalTierManager::TableTierStats::total_cold_versions</definition>
+        <argsstring></argsstring>
+        <name>total_cold_versions</name>
+        <qualifiedname>themisdb::temporal::TemporalTierManager::TableTierStats::total_cold_versions</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="435" column="18" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="435" bodyend="435"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_temporal_tier_manager_1_1_table_tier_stats_1a85fde4645987a9bd1fd0990ce789799d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::TemporalTierManager::TableTierStats::flush_hot_to_warm_count</definition>
+        <argsstring></argsstring>
+        <name>flush_hot_to_warm_count</name>
+        <qualifiedname>themisdb::temporal::TemporalTierManager::TableTierStats::flush_hot_to_warm_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="436" column="18" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="436" bodyend="436"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_temporal_tier_manager_1_1_table_tier_stats_1a5a2cc8d590fec5b46afac1eb4a65dec3" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::TemporalTierManager::TableTierStats::flush_warm_to_cold_count</definition>
+        <argsstring></argsstring>
+        <name>flush_warm_to_cold_count</name>
+        <qualifiedname>themisdb::temporal::TemporalTierManager::TableTierStats::flush_warm_to_cold_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="437" column="18" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="437" bodyend="437"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Aggregate tier stats for table_name. </para>
+    </detaileddescription>
+    <location file="include/temporal/temporal_tier_manager.h" line="430" column="5" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="430" bodyend="438"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1temporal_1_1_temporal_tier_manager_1_1_table_tier_stats_1a85fde4645987a9bd1fd0990ce789799d" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalTierManager::TableTierStats</scope><name>flush_hot_to_warm_count</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_temporal_tier_manager_1_1_table_tier_stats_1a5a2cc8d590fec5b46afac1eb4a65dec3" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalTierManager::TableTierStats</scope><name>flush_warm_to_cold_count</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_temporal_tier_manager_1_1_table_tier_stats_1a7eb0a2b4d05024ad9cb114ccf787dbfe" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalTierManager::TableTierStats</scope><name>total_cold_versions</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_temporal_tier_manager_1_1_table_tier_stats_1a713af8a0033bccd7658724b3e3300d66" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalTierManager::TableTierStats</scope><name>total_hot_versions</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_temporal_tier_manager_1_1_table_tier_stats_1aeab41172b22d1f852194d56ef3deb642" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalTierManager::TableTierStats</scope><name>total_warm_blocks</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_temporal_tier_manager_1_1_table_tier_stats_1a1364ad9eeef662b0cb0a3548f40b75be" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalTierManager::TableTierStats</scope><name>total_warm_bytes</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_temporal_tier_manager_1_1_table_tier_stats_1af4157b368d486746fe9ed190cbbef7f5" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalTierManager::TableTierStats</scope><name>total_warm_versions</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

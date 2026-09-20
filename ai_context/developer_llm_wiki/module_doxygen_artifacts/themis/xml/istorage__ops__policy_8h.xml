@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="istorage__ops__policy_8h" kind="file" language="C++">
+    <compoundname>istorage_ops_policy.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includedby refid="edition__manager_8h" local="yes">include/themis/edition_manager.h</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/themis/storage/istorage_ops_policy.h</label>
+        <link refid="istorage__ops__policy_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/themis/edition_manager.h</label>
+        <link refid="edition__manager_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/themis/storage/istorage_ops_policy.h</label>
+        <link refid="istorage__ops__policy_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/themis/edition_manager.cpp</label>
+        <link refid="edition__manager_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/themis/test_themis_integration.cpp</label>
+        <link refid="test__themis__integration_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1storage_1_1_i_storage_ops_policy" prot="public">themis::storage::IStorageOpsPolicy</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1storage">themis::storage</innernamespace>
+    <briefdescription>
+<para>Abstract storage-operations policy for background jobs, compaction, and snapshots in ThemisDB. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Governs three storage-operation axes: concurrent background maintenance jobs, compaction I/O throughput, and simultaneous snapshot operations. Sits in Tier 2 of the four-tier resource-governance chain:</para>
+<para><programlisting><codeline><highlight class="normal">compile-time<sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>(edition.h)<sp/><sp/><sp/><sp/>←<sp/>absolute<sp/>ceiling,<sp/>never<sp/>overridable</highlight></codeline>
+<codeline><highlight class="normal">RuntimeLicenseGate<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>←<sp/>edition-tier<sp/>ceiling</highlight></codeline>
+<codeline><highlight class="normal">IStorageOpsPolicy<sp/><sp/><sp/>(</highlight><highlight class="keyword">this</highlight><highlight class="normal"><sp/>file)<sp/><sp/><sp/><sp/><sp/><sp/><sp/>←<sp/></highlight><highlight class="keywordtype">signed</highlight><highlight class="normal">-plugin<sp/>fine-tuning</highlight></codeline>
+<codeline><highlight class="normal">StorageOpsConfig<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>←<sp/>per-deployment<sp/>operational<sp/>tuning</highlight></codeline>
+</programlisting></para>
+<para>All implementations must be individually thread-safe.</para>
+<para><simplesect kind="note"><para>This interface is part of the edition-policy plugin contract (IEditionPolicyPlugin::createStorageOpsPolicy). Claimed limits are validated against the compile-time ceilings in <ref refid="edition_8h" kindref="compound">edition.h</ref> (STORAGE_MAX_BACKGROUND_JOBS, STORAGE_MAX_COMPACTION_BYTES_PER_SEC, STORAGE_MAX_CONCURRENT_SNAPSHOTS) before EditionManager accepts the policy. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1storage" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1storage" kindref="compound">storage</ref><sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="classthemis_1_1storage_1_1_i_storage_ops_policy" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1a3f637d67726196bf35243b5c251e279a" kindref="member">IStorageOpsPolicy</ref><sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="49" refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1a505f2e662694f08f4fc2f3a4b29da988" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1a505f2e662694f08f4fc2f3a4b29da988" kindref="member">~IStorageOpsPolicy</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>non-movable<sp/>by<sp/>default.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1a3f637d67726196bf35243b5c251e279a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1a3f637d67726196bf35243b5c251e279a" kindref="member">IStorageOpsPolicy</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1a3f637d67726196bf35243b5c251e279a" kindref="member">IStorageOpsPolicy</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="53" refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1a59a5849a4623d3db233c03ab939aa57d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1a3f637d67726196bf35243b5c251e279a" kindref="member">IStorageOpsPolicy</ref>&amp;<sp/><ref refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1a59a5849a4623d3db233c03ab939aa57d" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1a3f637d67726196bf35243b5c251e279a" kindref="member">IStorageOpsPolicy</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Background<sp/>jobs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1ad342b9f1554e57b068daacf468dcc598" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1ad342b9f1554e57b068daacf468dcc598" kindref="member">canScheduleJob</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1ac035743c415fc76fe11148789b5667f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1ac035743c415fc76fe11148789b5667f7" kindref="member">onJobStarted</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>job_id)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1a1a859693d2ce45da00e8ddc68ba81fdc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1a1a859693d2ce45da00e8ddc68ba81fdc" kindref="member">onJobFinished</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>job_id)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1a0e48a4a6408dfffa54b03f0dd28c3fb1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>int32_t<sp/><ref refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1a0e48a4a6408dfffa54b03f0dd28c3fb1" kindref="member">activeJobCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1a37a6a0b4c96fda73ae93335f84531e6f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>int32_t<sp/><ref refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1a37a6a0b4c96fda73ae93335f84531e6f" kindref="member">maxBackgroundJobs</ref>()<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compaction<sp/>rate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112" refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1ac886b2a1bc54ff467b0519a67d647471" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>virtual<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1ac886b2a1bc54ff467b0519a67d647471" kindref="member">allowCompactionBytes</ref>(uint64_t<sp/>bytes)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117" refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1a78294325bf85461c35195104e90a63b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>virtual<sp/>uint64_t<sp/><ref refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1a78294325bf85461c35195104e90a63b0" kindref="member">maxCompactionBytesPerSec</ref>()<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Snapshot<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131" refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1a67482c74540c620ecda5e92bbcd1aa3d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>virtual<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1a67482c74540c620ecda5e92bbcd1aa3d" kindref="member">canStartSnapshot</ref>()<sp/>const<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140" refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1afac1e47206834749afe1d7dfa00f7358" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>virtual<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1afac1e47206834749afe1d7dfa00f7358" kindref="member">onSnapshotStarted</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>snapshot_id)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150" refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1a7b4703cd626519c84dab1036d907a06b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>virtual<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1a7b4703cd626519c84dab1036d907a06b" kindref="member">onSnapshotFinished</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>snapshot_id)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155" refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1ab33d57315a6f272e0dc51563b224ad4c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>virtual<sp/>int32_t<sp/><ref refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1ab33d57315a6f272e0dc51563b224ad4c" kindref="member">maxConcurrentSnapshots</ref>()<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Status</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167" refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1ac5e481988e8c682fbc1cf7a98c385104" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>virtual<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1ac5e481988e8c682fbc1cf7a98c385104" kindref="member">isEnforced</ref>()<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal">protected:</highlight></codeline>
+<codeline lineno="170" refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1aac61aec86d4902c17890f65de1c9d662" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1a3f637d67726196bf35243b5c251e279a" kindref="member">IStorageOpsPolicy</ref>()<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="171" refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1a19d5c0637dc6d7b92a094653c927ff07" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1a3f637d67726196bf35243b5c251e279a" kindref="member">IStorageOpsPolicy</ref>(<ref refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1a3f637d67726196bf35243b5c251e279a" kindref="member">IStorageOpsPolicy</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="172" refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1a4acccf4438f7c65df4b033a7fc4f6507" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1a3f637d67726196bf35243b5c251e279a" kindref="member">IStorageOpsPolicy</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1storage_1_1_i_storage_ops_policy_1a3f637d67726196bf35243b5c251e279a" kindref="member">IStorageOpsPolicy</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>storage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/themis/storage/istorage_ops_policy.h"/>
+  </compounddef>
+</doxygen>

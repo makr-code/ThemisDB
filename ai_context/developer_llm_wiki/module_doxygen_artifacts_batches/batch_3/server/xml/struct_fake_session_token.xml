@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_fake_session_token" kind="struct" language="C++" prot="public">
+    <compoundname>FakeSessionToken</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_fake_session_token_1a02eeb1884adafe35b105e90edc0d996d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string FakeSessionToken::token_id</definition>
+        <argsstring></argsstring>
+        <name>token_id</name>
+        <qualifiedname>FakeSessionToken::token_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_http3_stress_focused.cpp" line="99" column="17" bodyfile="tests/server/test_server_http3_stress_focused.cpp" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_fake_session_token_1a262888eaaf3a4112cc92afb6665f695b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool FakeSessionToken::valid</definition>
+        <argsstring></argsstring>
+        <name>valid</name>
+        <qualifiedname>FakeSessionToken::valid</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_http3_stress_focused.cpp" line="100" column="10" bodyfile="tests/server/test_server_http3_stress_focused.cpp" bodystart="100" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_fake_session_token_1a62337855cee52b762fc3e12df4301d20" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool FakeSessionToken::replayed</definition>
+        <argsstring></argsstring>
+        <name>replayed</name>
+        <qualifiedname>FakeSessionToken::replayed</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_http3_stress_focused.cpp" line="101" column="10" bodyfile="tests/server/test_server_http3_stress_focused.cpp" bodystart="101" bodyend="101"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Session-token representation for 0-RTT stub. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/server/test_server_http3_stress_focused.cpp" line="98" column="1" bodyfile="tests/server/test_server_http3_stress_focused.cpp" bodystart="98" bodyend="102"/>
+    <listofallmembers>
+      <member refid="struct_fake_session_token_1a62337855cee52b762fc3e12df4301d20" prot="public" virt="non-virtual"><scope>FakeSessionToken</scope><name>replayed</name></member>
+      <member refid="struct_fake_session_token_1a02eeb1884adafe35b105e90edc0d996d" prot="public" virt="non-virtual"><scope>FakeSessionToken</scope><name>token_id</name></member>
+      <member refid="struct_fake_session_token_1a262888eaaf3a4112cc92afb6665f695b" prot="public" virt="non-virtual"><scope>FakeSessionToken</scope><name>valid</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

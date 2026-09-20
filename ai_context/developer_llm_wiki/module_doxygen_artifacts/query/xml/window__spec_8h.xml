@@ -1,0 +1,221 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="window__spec_8h" kind="file" language="C++">
+    <compoundname>window_spec.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includes local="no">chrono</includes>
+    <includedby refid="bench__continuous__query_8cpp" local="yes">benchmarks/query/bench_continuous_query.cpp</includedby>
+    <includedby refid="continuous__query__engine_8h" local="yes">include/query/continuous_query_engine.h</includedby>
+    <includedby refid="continuous__query__registry_8h" local="yes">include/query/continuous_query_registry.h</includedby>
+    <includedby refid="synopsis__store_8h" local="yes">include/query/synopsis_store.h</includedby>
+    <includedby refid="test__continuous__query__e2e_8cpp" local="yes">tests/query/test_continuous_query_e2e.cpp</includedby>
+    <includedby refid="test__continuous__query__engine_8cpp" local="yes">tests/query/test_continuous_query_engine.cpp</includedby>
+    <includedby refid="test__continuous__query__hardening_8cpp" local="yes">tests/query/test_continuous_query_hardening.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/query/window_spec.h</label>
+        <link refid="window__spec_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/query/bench_continuous_query.cpp</label>
+        <link refid="bench__continuous__query_8cpp"/>
+      </node>
+      <node id="3">
+        <label>include/query/continuous_query_engine.h</label>
+        <link refid="continuous__query__engine_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/query/continuous_query_engine_impl.h</label>
+        <link refid="continuous__query__engine__impl_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>include/query/continuous_query_planner.h</label>
+        <link refid="continuous__query__planner_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>include/query/continuous_query_registry.h</label>
+        <link refid="continuous__query__registry_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>include/query/synopsis_store.h</label>
+        <link refid="synopsis__store_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/query/window_spec.h</label>
+        <link refid="window__spec_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>src/query/continuous_query_engine.cpp</label>
+        <link refid="continuous__query__engine_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/query/continuous_query_planner.cpp</label>
+        <link refid="continuous__query__planner_8cpp"/>
+      </node>
+      <node id="14">
+        <label>src/query/synopsis_store.cpp</label>
+        <link refid="synopsis__store_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/query/test_continuous_query_e2e.cpp</label>
+        <link refid="test__continuous__query__e2e_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/query/test_continuous_query_engine.cpp</label>
+        <link refid="test__continuous__query__engine_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/query/test_continuous_query_hardening.cpp</label>
+        <link refid="test__continuous__query__hardening_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/query/test_wave1_critical_gap_fixes.cpp</label>
+        <link refid="test__wave1__critical__gap__fixes_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1query_1_1_window_spec" prot="public">themis::query::WindowSpec</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1query">themis::query</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.1 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1query_1_1_window_spec" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_window_spec" kindref="compound">WindowSpec</ref><sp/>{</highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1query_1_1_window_spec_1a28d017baaf2e0e090d0112d5d9dc454e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_window_spec_1a28d017baaf2e0e090d0112d5d9dc454e" kindref="member">Type</ref><sp/>{</highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1query_1_1_window_spec_1a28d017baaf2e0e090d0112d5d9dc454ea099e1358da84d50874ffe32cf9507e17" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_window_spec_1a28d017baaf2e0e090d0112d5d9dc454ea099e1358da84d50874ffe32cf9507e17" kindref="member">TIME_SLIDING</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1query_1_1_window_spec_1a28d017baaf2e0e090d0112d5d9dc454ead0e198c9ba6ec178296f9c84231a8483" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_window_spec_1a28d017baaf2e0e090d0112d5d9dc454ead0e198c9ba6ec178296f9c84231a8483" kindref="member">COUNT_SLIDING</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1query_1_1_window_spec_1a28d017baaf2e0e090d0112d5d9dc454ea95ad2287637805c77de2453d860476b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_window_spec_1a28d017baaf2e0e090d0112d5d9dc454ea95ad2287637805c77de2453d860476b2" kindref="member">TUMBLING</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1query_1_1_window_spec_1a899cd605d0e5909916641d96f8b6aa27" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_window_spec_1a28d017baaf2e0e090d0112d5d9dc454e" kindref="member">Type</ref><sp/><ref refid="structthemis_1_1query_1_1_window_spec_1a899cd605d0e5909916641d96f8b6aa27" kindref="member">type</ref>{<ref refid="structthemis_1_1query_1_1_window_spec_1a28d017baaf2e0e090d0112d5d9dc454ea099e1358da84d50874ffe32cf9507e17" kindref="member">Type::TIME_SLIDING</ref>};</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>TIME_SLIDING<sp/>/<sp/>TUMBLING<sp/>fields</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1query_1_1_window_spec_1af048e15b55f08634492b421ffb962079" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1query_1_1_window_spec_1af048e15b55f08634492b421ffb962079" kindref="member">range_ms</ref>{60&apos;000};<sp/><sp/></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1query_1_1_window_spec_1aa6bddbcd6d1bfce1a4ca5962ce0432a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1query_1_1_window_spec_1aa6bddbcd6d1bfce1a4ca5962ce0432a7" kindref="member">slide_ms</ref>{1&apos;000};<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>COUNT_SLIDING<sp/>fields</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1query_1_1_window_spec_1a91cb03f6694ff862aaeede4eafefa4d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1query_1_1_window_spec_1a91cb03f6694ff862aaeede4eafefa4d0" kindref="member">rows</ref>{1&apos;000};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1query_1_1_window_spec_1acb3127d6b6b058c0d989bca0bbc23b90" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1query_1_1_window_spec_1acb3127d6b6b058c0d989bca0bbc23b90" kindref="member">slide_rows</ref>{100};<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1query_1_1_window_spec_1a92b09d237e98add8365678bea96a5ff3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_window_spec_1a92b09d237e98add8365678bea96a5ff3" kindref="member">partition_by</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----<sp/>helpers<sp/>----</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1query_1_1_window_spec_1aaf683c50b884fecdb173c2cb7b37678d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1query_1_1_window_spec_1aaf683c50b884fecdb173c2cb7b37678d" kindref="member">slideInterval</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="structthemis_1_1query_1_1_window_spec_1a899cd605d0e5909916641d96f8b6aa27" kindref="member">type</ref><sp/>==<sp/><ref refid="structthemis_1_1query_1_1_window_spec_1a28d017baaf2e0e090d0112d5d9dc454ea95ad2287637805c77de2453d860476b2" kindref="member">Type::TUMBLING</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::chrono::milliseconds{<ref refid="structthemis_1_1query_1_1_window_spec_1af048e15b55f08634492b421ffb962079" kindref="member">range_ms</ref>};</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::chrono::milliseconds{<ref refid="structthemis_1_1query_1_1_window_spec_1aa6bddbcd6d1bfce1a4ca5962ce0432a7" kindref="member">slide_ms</ref>};</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1query_1_1_window_spec_1ae0646bfe0b3e5e9fa564191ecf759960" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1query_1_1_window_spec_1ae0646bfe0b3e5e9fa564191ecf759960" kindref="member">windowWidth</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::chrono::milliseconds{<ref refid="structthemis_1_1query_1_1_window_spec_1af048e15b55f08634492b421ffb962079" kindref="member">range_ms</ref>};</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1query_1_1_window_spec_1a5f09581c3dfcef0c3d0023b74751fb90" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_window_spec_1a5f09581c3dfcef0c3d0023b74751fb90" kindref="member">isTimeBased</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_window_spec_1a899cd605d0e5909916641d96f8b6aa27" kindref="member">type</ref><sp/>==<sp/><ref refid="structthemis_1_1query_1_1_window_spec_1a28d017baaf2e0e090d0112d5d9dc454ea099e1358da84d50874ffe32cf9507e17" kindref="member">Type::TIME_SLIDING</ref><sp/>||<sp/><ref refid="structthemis_1_1query_1_1_window_spec_1a899cd605d0e5909916641d96f8b6aa27" kindref="member">type</ref><sp/>==<sp/><ref refid="structthemis_1_1query_1_1_window_spec_1a28d017baaf2e0e090d0112d5d9dc454ea95ad2287637805c77de2453d860476b2" kindref="member">Type::TUMBLING</ref>;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>query</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/query/window_spec.h"/>
+  </compounddef>
+</doxygen>

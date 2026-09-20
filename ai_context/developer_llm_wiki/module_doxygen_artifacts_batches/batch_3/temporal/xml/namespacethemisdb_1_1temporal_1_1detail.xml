@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemisdb_1_1temporal_1_1detail" kind="namespace" language="C++">
+    <compoundname>themisdb::temporal::detail</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemisdb_1_1temporal_1_1detail_1a73ea2f5d7970de7d4b77d1651a280b1c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &gt;</type>
+        <definition>std::vector&lt; VersionedDocument &gt; themisdb::temporal::detail::queryAsOfCached</definition>
+        <argsstring>(const SystemVersionedTable &amp;table, Timestamp as_of, QueryCache &amp;cache, const std::vector&lt; RowFilter &gt; &amp;filters)</argsstring>
+        <name>queryAsOfCached</name>
+        <qualifiedname>themisdb::temporal::detail::queryAsOfCached</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref> &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>as_of</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1temporal_1_1_query_cache" kindref="compound">QueryCache</ref> &amp;</type>
+          <declname>cache</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_row_filter" kindref="compound">RowFilter</ref> &gt; &amp;</type>
+          <declname>filters</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Query As Of Cached. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Cached AS-OF query.</para>
+<para>Returns the cached result if available; otherwise executes <ref refid="classthemisdb_1_1temporal_1_1_temporal_query_engine_1adc025569c1727f8b2fef9f85dc59e729" kindref="member">TemporalQueryEngine::queryAsOf()</ref>, caches the result, and returns it. The cache is keyed on (table.tableName(), as_of); field-level filters are applied <emphasis>after</emphasis> cache lookup so that the cache stores unfiltered result sets and multiple filter combinations can reuse the same entry.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>as_of</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Point-in-time (ms since epoch). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cache</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared <ref refid="classthemisdb_1_1temporal_1_1_query_cache" kindref="compound">QueryCache</ref> instance. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>filters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional field-level row filters (applied post-cache).</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">as_of</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">cache</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">filters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: get(), tableName(), has_value(), std::move(), value(), <ref refid="classthemisdb_1_1temporal_1_1_temporal_query_engine_1adc025569c1727f8b2fef9f85dc59e729" kindref="member">TemporalQueryEngine::queryAsOf()</ref>, put(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/temporal/temporal_query_engine.cpp" line="779" column="13" bodyfile="src/temporal/temporal_query_engine.cpp" bodystart="779" bodyend="810" declfile="include/temporal/temporal_query_engine.h" declline="567" declcolumn="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/temporal/temporal_query_engine.h" line="551" column="1"/>
+  </compounddef>
+</doxygen>

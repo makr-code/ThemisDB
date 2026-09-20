@@ -1,0 +1,650 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__metadata__shard_8cpp" kind="file" language="C++">
+    <compoundname>test_metadata_shard.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">sharding/metadata_shard.h</includes>
+    <includes local="no">thread</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/metadata/test_metadata_shard.cpp</label>
+        <link refid="test__metadata__shard_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="3">
+        <label>sharding/metadata_shard.h</label>
+      </node>
+      <node id="4">
+        <label>thread</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_metadata_shard_test" prot="public">MetadataShardTest</innerclass>
+    <innerclass refid="class_metadata_shard_router_test" prot="public">MetadataShardRouterTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__metadata__shard_8cpp_1a3ce0efb77d7ef849591dc241eee613b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MetadataShardTest, BasicPutAndGet)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_metadata_shard_test" kindref="compound">MetadataShardTest</ref></type>
+        </param>
+        <param>
+          <type>BasicPutAndGet</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_shard.cpp" line="41" column="1" bodyfile="tests/metadata/test_metadata_shard.cpp" bodystart="41" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="test__metadata__shard_8cpp_1a83aa930cef139cadddd5efa553044b87" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MetadataShardTest, GetNonExistentKey)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_metadata_shard_test" kindref="compound">MetadataShardTest</ref></type>
+        </param>
+        <param>
+          <type>GetNonExistentKey</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_shard.cpp" line="55" column="1" bodyfile="tests/metadata/test_metadata_shard.cpp" bodystart="55" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="test__metadata__shard_8cpp_1a632bea0845858b415c9b1d52ded1cea7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MetadataShardTest, UpdateIncrementsVersion)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_metadata_shard_test" kindref="compound">MetadataShardTest</ref></type>
+        </param>
+        <param>
+          <type>UpdateIncrementsVersion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_shard.cpp" line="60" column="1" bodyfile="tests/metadata/test_metadata_shard.cpp" bodystart="60" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="test__metadata__shard_8cpp_1a927bbde79b5ffbd269f8ef6fa72c5147" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MetadataShardTest, CacheHit)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_metadata_shard_test" kindref="compound">MetadataShardTest</ref></type>
+        </param>
+        <param>
+          <type>CacheHit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_shard.cpp" line="76" column="1" bodyfile="tests/metadata/test_metadata_shard.cpp" bodystart="76" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="test__metadata__shard_8cpp_1ad24d14756555de0e354a8bb54f81da1a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MetadataShardTest, ListKeys)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_metadata_shard_test" kindref="compound">MetadataShardTest</ref></type>
+        </param>
+        <param>
+          <type>ListKeys</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_shard.cpp" line="94" column="1" bodyfile="tests/metadata/test_metadata_shard.cpp" bodystart="94" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="test__metadata__shard_8cpp_1adce2b1761d006226c1702e75a0138e07" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MetadataShardTest, Remove)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_metadata_shard_test" kindref="compound">MetadataShardTest</ref></type>
+        </param>
+        <param>
+          <type>Remove</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_shard.cpp" line="107" column="1" bodyfile="tests/metadata/test_metadata_shard.cpp" bodystart="107" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="test__metadata__shard_8cpp_1ac4291de2b83cf97d1da0d61d7b515465" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MetadataShardTest, GetStatistics)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_metadata_shard_test" kindref="compound">MetadataShardTest</ref></type>
+        </param>
+        <param>
+          <type>GetStatistics</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_shard.cpp" line="117" column="1" bodyfile="tests/metadata/test_metadata_shard.cpp" bodystart="117" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="test__metadata__shard_8cpp_1ab4c1889b73adb29ecc2e92cd5f753b2f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MetadataShardTest, PartitionStatistics)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_metadata_shard_test" kindref="compound">MetadataShardTest</ref></type>
+        </param>
+        <param>
+          <type>PartitionStatistics</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_shard.cpp" line="132" column="1" bodyfile="tests/metadata/test_metadata_shard.cpp" bodystart="132" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="test__metadata__shard_8cpp_1aa48e98651059e5460a42eb02d42d3b98" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MetadataShardTest, BoundedCacheEviction)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_metadata_shard_test" kindref="compound">MetadataShardTest</ref></type>
+        </param>
+        <param>
+          <type>BoundedCacheEviction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_shard.cpp" line="144" column="1" bodyfile="tests/metadata/test_metadata_shard.cpp" bodystart="144" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="test__metadata__shard_8cpp_1a23eafebbdcd56a4f48e0362f8952cafa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MetadataShardTest, MultiplePartitions)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_metadata_shard_test" kindref="compound">MetadataShardTest</ref></type>
+        </param>
+        <param>
+          <type>MultiplePartitions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_shard.cpp" line="155" column="1" bodyfile="tests/metadata/test_metadata_shard.cpp" bodystart="155" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="test__metadata__shard_8cpp_1a5411bda12c8a41eca4e7b9bfcc28c4da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MetadataShardTest, ThreadSafety)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_metadata_shard_test" kindref="compound">MetadataShardTest</ref></type>
+        </param>
+        <param>
+          <type>ThreadSafety</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_shard.cpp" line="168" column="1" bodyfile="tests/metadata/test_metadata_shard.cpp" bodystart="168" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="test__metadata__shard_8cpp_1a5790482b443ff3e3df976f798512d3c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MetadataShardTest, ConcurrentPutSameKey_VersionIsMonotonicallyIncreasing)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_metadata_shard_test" kindref="compound">MetadataShardTest</ref></type>
+        </param>
+        <param>
+          <type>ConcurrentPutSameKey_VersionIsMonotonicallyIncreasing</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_shard.cpp" line="195" column="1" bodyfile="tests/metadata/test_metadata_shard.cpp" bodystart="195" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="test__metadata__shard_8cpp_1a674bae2d23aa7c81b1cda9a9aeeff10d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MetadataShardRouterTest, RoutingPutAndGet)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_metadata_shard_router_test" kindref="compound">MetadataShardRouterTest</ref></type>
+        </param>
+        <param>
+          <type>RoutingPutAndGet</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_shard.cpp" line="261" column="1" bodyfile="tests/metadata/test_metadata_shard.cpp" bodystart="261" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="function" id="test__metadata__shard_8cpp_1acb11aeee5bfdbd1ad028c1e209e3df1d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MetadataShardRouterTest, ConsistentRouting)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_metadata_shard_router_test" kindref="compound">MetadataShardRouterTest</ref></type>
+        </param>
+        <param>
+          <type>ConsistentRouting</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_shard.cpp" line="271" column="1" bodyfile="tests/metadata/test_metadata_shard.cpp" bodystart="271" bodyend="283"/>
+      </memberdef>
+      <memberdef kind="function" id="test__metadata__shard_8cpp_1a2b3d00b432247f26349844bfa4ccc461" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MetadataShardRouterTest, ListKeysScatterGather)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_metadata_shard_router_test" kindref="compound">MetadataShardRouterTest</ref></type>
+        </param>
+        <param>
+          <type>ListKeysScatterGather</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_shard.cpp" line="285" column="1" bodyfile="tests/metadata/test_metadata_shard.cpp" bodystart="285" bodyend="294"/>
+      </memberdef>
+      <memberdef kind="function" id="test__metadata__shard_8cpp_1a8405b46a8e2284634dcd64084f849071" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MetadataShardRouterTest, RouterStatistics)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_metadata_shard_router_test" kindref="compound">MetadataShardRouterTest</ref></type>
+        </param>
+        <param>
+          <type>RouterStatistics</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_shard.cpp" line="296" column="1" bodyfile="tests/metadata/test_metadata_shard.cpp" bodystart="296" bodyend="305"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Copyright<sp/>2025<sp/>ThemisDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Licensed<sp/>under<sp/>MIT<sp/>License</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;sharding/metadata_shard.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themisdb::sharding;</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10" refid="class_metadata_shard_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_metadata_shard_test" kindref="compound">MetadataShardTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_metadata_shard_test_1ae60109594ac2510b929a4bdb3e2208ce" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>a<sp/>simple<sp/>config</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>MetadataShardConfig<sp/>config;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.shard_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test_shard_0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.partitions<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>MetadataPartitionKey::SCHEMA,</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>MetadataPartitionKey::INDEX</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.num_metadata_shards<sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.enable_cache<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.cache_size<sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.cache_ttl<sp/>=<sp/>std::chrono::seconds(10);</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.enforce_strong_consistency<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>consensus<sp/>for<sp/>testing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>shard<sp/>without<sp/>consensus<sp/>module</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_metadata_shard_test_1a87c7450d726fe0b96625eb8d88428aac" kindref="member">shard</ref><sp/>=<sp/>std::make_unique&lt;MetadataShard&gt;(config,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_metadata_shard_test_1a87c7450d726fe0b96625eb8d88428aac" kindref="member">shard</ref>-&gt;initialize();</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_metadata_shard_test_1a87c7450d726fe0b96625eb8d88428aac" kindref="member">shard</ref>-&gt;start();</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_metadata_shard_test_1a6b523ad5950a1a1930312b30972686bf" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="class_metadata_shard_test_1a87c7450d726fe0b96625eb8d88428aac" kindref="member">shard</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_metadata_shard_test_1a87c7450d726fe0b96625eb8d88428aac" kindref="member">shard</ref>-&gt;stop();</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;MetadataShard&gt;<sp/><ref refid="class_metadata_shard_test_1a87c7450d726fe0b96625eb8d88428aac" kindref="member">shard</ref>;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><ref refid="test__metadata__shard_8cpp_1a3ce0efb77d7ef849591dc241eee613b4" kindref="member">TEST_F</ref>(<ref refid="class_metadata_shard_test" kindref="compound">MetadataShardTest</ref>,<sp/>BasicPutAndGet)<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>value<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test_table&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;columns&quot;</highlight><highlight class="normal">,<sp/>5}};</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(shard-&gt;put(MetadataPartitionKey::SCHEMA,<sp/></highlight><highlight class="stringliteral">&quot;table1&quot;</highlight><highlight class="normal">,<sp/>value));</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>entry<sp/>=<sp/>shard-&gt;get(MetadataPartitionKey::SCHEMA,<sp/></highlight><highlight class="stringliteral">&quot;table1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(entry.has_value());</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(entry-&gt;key,<sp/></highlight><highlight class="stringliteral">&quot;table1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(entry-&gt;value[</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;test_table&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(entry-&gt;value[</highlight><highlight class="stringliteral">&quot;columns&quot;</highlight><highlight class="normal">],<sp/>5);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(entry-&gt;partition,<sp/>MetadataPartitionKey::SCHEMA);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(entry-&gt;version,<sp/>1);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><ref refid="test__metadata__shard_8cpp_1a3ce0efb77d7ef849591dc241eee613b4" kindref="member">TEST_F</ref>(<ref refid="class_metadata_shard_test" kindref="compound">MetadataShardTest</ref>,<sp/>GetNonExistentKey)<sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>entry<sp/>=<sp/>shard-&gt;get(MetadataPartitionKey::SCHEMA,<sp/></highlight><highlight class="stringliteral">&quot;nonexistent&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(entry.has_value());</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><ref refid="test__metadata__shard_8cpp_1a3ce0efb77d7ef849591dc241eee613b4" kindref="member">TEST_F</ref>(<ref refid="class_metadata_shard_test" kindref="compound">MetadataShardTest</ref>,<sp/>UpdateIncrementsVersion)<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>value1<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test_table_v1&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>value2<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test_table_v2&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(shard-&gt;put(MetadataPartitionKey::SCHEMA,<sp/></highlight><highlight class="stringliteral">&quot;table1&quot;</highlight><highlight class="normal">,<sp/>value1));</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>entry1<sp/>=<sp/>shard-&gt;get(MetadataPartitionKey::SCHEMA,<sp/></highlight><highlight class="stringliteral">&quot;table1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(entry1.has_value());</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(entry1-&gt;version,<sp/>1);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(shard-&gt;put(MetadataPartitionKey::SCHEMA,<sp/></highlight><highlight class="stringliteral">&quot;table1&quot;</highlight><highlight class="normal">,<sp/>value2));</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>entry2<sp/>=<sp/>shard-&gt;get(MetadataPartitionKey::SCHEMA,<sp/></highlight><highlight class="stringliteral">&quot;table1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(entry2.has_value());</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(entry2-&gt;version,<sp/>2);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(entry2-&gt;value[</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;test_table_v2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><ref refid="test__metadata__shard_8cpp_1a3ce0efb77d7ef849591dc241eee613b4" kindref="member">TEST_F</ref>(<ref refid="class_metadata_shard_test" kindref="compound">MetadataShardTest</ref>,<sp/>CacheHit)<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>value<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;cached_table&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>put</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(shard-&gt;put(MetadataPartitionKey::SCHEMA,<sp/></highlight><highlight class="stringliteral">&quot;table1&quot;</highlight><highlight class="normal">,<sp/>value));</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>get<sp/>(cache<sp/>miss,<sp/>then<sp/>cached)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>entry1<sp/>=<sp/>shard-&gt;get(MetadataPartitionKey::SCHEMA,<sp/></highlight><highlight class="stringliteral">&quot;table1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(entry1.has_value());</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Second<sp/>get<sp/>(should<sp/>be<sp/>cache<sp/>hit)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>entry2<sp/>=<sp/>shard-&gt;get(MetadataPartitionKey::SCHEMA,<sp/></highlight><highlight class="stringliteral">&quot;table1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(entry2.has_value());</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>shard-&gt;getStatistics();</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(stats[</highlight><highlight class="stringliteral">&quot;cache_hits&quot;</highlight><highlight class="normal">],<sp/>0);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><ref refid="test__metadata__shard_8cpp_1a3ce0efb77d7ef849591dc241eee613b4" kindref="member">TEST_F</ref>(<ref refid="class_metadata_shard_test" kindref="compound">MetadataShardTest</ref>,<sp/>ListKeys)<sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>shard-&gt;put(MetadataPartitionKey::SCHEMA,<sp/></highlight><highlight class="stringliteral">&quot;table1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;t1&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>shard-&gt;put(MetadataPartitionKey::SCHEMA,<sp/></highlight><highlight class="stringliteral">&quot;table2&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;t2&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>shard-&gt;put(MetadataPartitionKey::SCHEMA,<sp/></highlight><highlight class="stringliteral">&quot;table3&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;t3&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>shard-&gt;put(MetadataPartitionKey::INDEX,<sp/></highlight><highlight class="stringliteral">&quot;index1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;i1&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>schema_keys<sp/>=<sp/>shard-&gt;listKeys(MetadataPartitionKey::SCHEMA);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(schema_keys.size(),<sp/>3);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>index_keys<sp/>=<sp/>shard-&gt;listKeys(MetadataPartitionKey::INDEX);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(index_keys.size(),<sp/>1);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><ref refid="test__metadata__shard_8cpp_1a3ce0efb77d7ef849591dc241eee613b4" kindref="member">TEST_F</ref>(<ref refid="class_metadata_shard_test" kindref="compound">MetadataShardTest</ref>,<sp/>Remove)<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>value<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test_table&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(shard-&gt;put(MetadataPartitionKey::SCHEMA,<sp/></highlight><highlight class="stringliteral">&quot;table1&quot;</highlight><highlight class="normal">,<sp/>value));</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(shard-&gt;get(MetadataPartitionKey::SCHEMA,<sp/></highlight><highlight class="stringliteral">&quot;table1&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(shard-&gt;remove(MetadataPartitionKey::SCHEMA,<sp/></highlight><highlight class="stringliteral">&quot;table1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(shard-&gt;get(MetadataPartitionKey::SCHEMA,<sp/></highlight><highlight class="stringliteral">&quot;table1&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><ref refid="test__metadata__shard_8cpp_1a3ce0efb77d7ef849591dc241eee613b4" kindref="member">TEST_F</ref>(<ref refid="class_metadata_shard_test" kindref="compound">MetadataShardTest</ref>,<sp/>GetStatistics)<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Perform<sp/>some<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>shard-&gt;put(MetadataPartitionKey::SCHEMA,<sp/></highlight><highlight class="stringliteral">&quot;table1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;t1&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>shard-&gt;put(MetadataPartitionKey::SCHEMA,<sp/></highlight><highlight class="stringliteral">&quot;table2&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;t2&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>shard-&gt;get(MetadataPartitionKey::SCHEMA,<sp/></highlight><highlight class="stringliteral">&quot;table1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>shard-&gt;get(MetadataPartitionKey::SCHEMA,<sp/></highlight><highlight class="stringliteral">&quot;nonexistent&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>shard-&gt;getStatistics();</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats[</highlight><highlight class="stringliteral">&quot;shard_id&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;test_shard_0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats[</highlight><highlight class="stringliteral">&quot;total_reads&quot;</highlight><highlight class="normal">],<sp/>2);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats[</highlight><highlight class="stringliteral">&quot;total_writes&quot;</highlight><highlight class="normal">],<sp/>2);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(stats.contains(</highlight><highlight class="stringliteral">&quot;cache_size&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(stats.contains(</highlight><highlight class="stringliteral">&quot;cache_hit_ratio&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="130"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><ref refid="test__metadata__shard_8cpp_1a3ce0efb77d7ef849591dc241eee613b4" kindref="member">TEST_F</ref>(<ref refid="class_metadata_shard_test" kindref="compound">MetadataShardTest</ref>,<sp/>PartitionStatistics)<sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>shard-&gt;put(MetadataPartitionKey::SCHEMA,<sp/></highlight><highlight class="stringliteral">&quot;table1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;t1&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>shard-&gt;put(MetadataPartitionKey::SCHEMA,<sp/></highlight><highlight class="stringliteral">&quot;table2&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;t2&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>shard-&gt;put(MetadataPartitionKey::INDEX,<sp/></highlight><highlight class="stringliteral">&quot;index1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;i1&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>schema_stats<sp/>=<sp/>shard-&gt;getPartitionStats(MetadataPartitionKey::SCHEMA);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(schema_stats[</highlight><highlight class="stringliteral">&quot;entry_count&quot;</highlight><highlight class="normal">],<sp/>2);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>index_stats<sp/>=<sp/>shard-&gt;getPartitionStats(MetadataPartitionKey::INDEX);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(index_stats[</highlight><highlight class="stringliteral">&quot;entry_count&quot;</highlight><highlight class="normal">],<sp/>1);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><ref refid="test__metadata__shard_8cpp_1a3ce0efb77d7ef849591dc241eee613b4" kindref="member">TEST_F</ref>(<ref refid="class_metadata_shard_test" kindref="compound">MetadataShardTest</ref>,<sp/>BoundedCacheEviction)<sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Fill<sp/>cache<sp/>beyond<sp/>capacity<sp/>(100<sp/>entries)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>150;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/>value<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/>i}};</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shard-&gt;put(MetadataPartitionKey::SCHEMA,<sp/></highlight><highlight class="stringliteral">&quot;table&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/>value);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>shard-&gt;getStatistics();</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(stats[</highlight><highlight class="stringliteral">&quot;cache_size&quot;</highlight><highlight class="normal">],<sp/>100);<sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>not<sp/>exceed<sp/>max_entries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><ref refid="test__metadata__shard_8cpp_1a3ce0efb77d7ef849591dc241eee613b4" kindref="member">TEST_F</ref>(<ref refid="class_metadata_shard_test" kindref="compound">MetadataShardTest</ref>,<sp/>MultiplePartitions)<sp/>{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>shard-&gt;put(MetadataPartitionKey::SCHEMA,<sp/></highlight><highlight class="stringliteral">&quot;key1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;schema&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>shard-&gt;put(MetadataPartitionKey::INDEX,<sp/></highlight><highlight class="stringliteral">&quot;key1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;index&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>schema_entry<sp/>=<sp/>shard-&gt;get(MetadataPartitionKey::SCHEMA,<sp/></highlight><highlight class="stringliteral">&quot;key1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(schema_entry.has_value());</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(schema_entry-&gt;value[</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;schema&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>index_entry<sp/>=<sp/>shard-&gt;get(MetadataPartitionKey::INDEX,<sp/></highlight><highlight class="stringliteral">&quot;key1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(index_entry.has_value());</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(index_entry-&gt;value[</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;index&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><ref refid="test__metadata__shard_8cpp_1a3ce0efb77d7ef849591dc241eee613b4" kindref="member">TEST_F</ref>(<ref refid="class_metadata_shard_test" kindref="compound">MetadataShardTest</ref>,<sp/>ThreadSafety)<sp/>{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>num_threads<sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>operations_per_thread<sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>0;<sp/>t<sp/>&lt;<sp/>num_threads;<sp/>t++)<sp/>{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([</highlight><highlight class="keyword">this</highlight><highlight class="normal">,<sp/>t,<sp/>operations_per_thread]()<sp/>{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>operations_per_thread;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>key<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;key_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(t)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/>value<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;thread&quot;</highlight><highlight class="normal">,<sp/>t},<sp/>{</highlight><highlight class="stringliteral">&quot;op&quot;</highlight><highlight class="normal">,<sp/>i}};</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shard-&gt;put(MetadataPartitionKey::SCHEMA,<sp/>key,<sp/>value);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>entry<sp/>=<sp/>shard-&gt;get(MetadataPartitionKey::SCHEMA,<sp/>key);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(entry.has_value());</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>thread<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>thread.join();</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>shard-&gt;getStatistics();</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats[</highlight><highlight class="stringliteral">&quot;total_writes&quot;</highlight><highlight class="normal">],<sp/>num_threads<sp/>*<sp/>operations_per_thread);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><ref refid="test__metadata__shard_8cpp_1a3ce0efb77d7ef849591dc241eee613b4" kindref="member">TEST_F</ref>(<ref refid="class_metadata_shard_test" kindref="compound">MetadataShardTest</ref>,<sp/>ConcurrentPutSameKey_VersionIsMonotonicallyIncreasing)<sp/>{</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Regression<sp/>test<sp/>for<sp/>the<sp/>TOCTOU<sp/>bug<sp/>where<sp/>two<sp/>concurrent<sp/>put()<sp/>calls<sp/>on<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>same<sp/>key<sp/>could<sp/>race<sp/>between<sp/>version-read<sp/>and<sp/>write<sp/>scopes,<sp/>producing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>duplicate<sp/>or<sp/>out-of-order<sp/>versions.<sp/>The<sp/>fix<sp/>merges<sp/>both<sp/>into<sp/>a<sp/>single<sp/>lock</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>scope<sp/>so<sp/>version<sp/>increments<sp/>are<sp/>strictly<sp/>serialised.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>num_threads<sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>writes_per_thread<sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>threads.reserve(num_threads);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>0;<sp/>t<sp/>&lt;<sp/>num_threads;<sp/>++t)<sp/>{</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([</highlight><highlight class="keyword">this</highlight><highlight class="normal">,<sp/>writes_per_thread]()<sp/>{</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>writes_per_thread;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/>value<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;counter&quot;</highlight><highlight class="normal">,<sp/>i}};</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shard-&gt;put(MetadataPartitionKey::SCHEMA,<sp/></highlight><highlight class="stringliteral">&quot;shared_key&quot;</highlight><highlight class="normal">,<sp/>value);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>th<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>th.join();</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>entry<sp/>=<sp/>shard-&gt;get(MetadataPartitionKey::SCHEMA,<sp/></highlight><highlight class="stringliteral">&quot;shared_key&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(entry.has_value());</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>final<sp/>version<sp/>must<sp/>be<sp/>at<sp/>most<sp/>the<sp/>total<sp/>number<sp/>of<sp/>writes<sp/>(it<sp/>may<sp/>be</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>less<sp/>if<sp/>the<sp/>implementation<sp/>coalesces<sp/>concurrent<sp/>writes),<sp/>but<sp/>it<sp/>must<sp/>be</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>strictly<sp/>positive<sp/>and<sp/>non-zero.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(entry-&gt;version,<sp/>1);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(entry-&gt;version,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(num_threads<sp/>*<sp/>writes_per_thread));</highlight></codeline>
+<codeline lineno="224"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Router<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228" refid="class_metadata_shard_router_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_metadata_shard_router_test" kindref="compound">MetadataShardRouterTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_metadata_shard_router_test_1a3c28d6eb6b881aafbc3b000cb1d662a6" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_metadata_shard_router_test_1a220df465c7fe30d16e45e011a6951013" kindref="member">router</ref><sp/>=<sp/>std::make_unique&lt;MetadataShardRouter&gt;(3);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>3<sp/>shards</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>3;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>MetadataShardConfig<sp/>config;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.shard_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;shard_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.partitions<sp/>=<sp/>{MetadataPartitionKey::SCHEMA};</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.enable_cache<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.cache_size<sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.enforce_strong_consistency<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>shard<sp/>=<sp/>std::make_shared&lt;MetadataShard&gt;(config,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shard-&gt;initialize();</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shard-&gt;start();</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_metadata_shard_router_test_1a220df465c7fe30d16e45e011a6951013" kindref="member">router</ref>-&gt;addShard(config.shard_id,<sp/>shard);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_metadata_shard_router_test_1ad639926c254d45d02d162e73a8934e88" kindref="member">shards</ref>.push_back(shard);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_metadata_shard_router_test_1a435670cffe9a05d9eabdf7f76778c011" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>shard<sp/>:<sp/><ref refid="class_metadata_shard_router_test_1ad639926c254d45d02d162e73a8934e88" kindref="member">shards</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shard-&gt;stop();</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;MetadataShardRouter&gt;<sp/><ref refid="class_metadata_shard_router_test_1a220df465c7fe30d16e45e011a6951013" kindref="member">router</ref>;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::shared_ptr&lt;MetadataShard&gt;&gt;<sp/><ref refid="class_metadata_shard_router_test_1ad639926c254d45d02d162e73a8934e88" kindref="member">shards</ref>;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><ref refid="test__metadata__shard_8cpp_1a3ce0efb77d7ef849591dc241eee613b4" kindref="member">TEST_F</ref>(<ref refid="class_metadata_shard_router_test" kindref="compound">MetadataShardRouterTest</ref>,<sp/>RoutingPutAndGet)<sp/>{</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>value<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;routed_table&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(router-&gt;put(MetadataPartitionKey::SCHEMA,<sp/></highlight><highlight class="stringliteral">&quot;table1&quot;</highlight><highlight class="normal">,<sp/>value));</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>entry<sp/>=<sp/>router-&gt;get(MetadataPartitionKey::SCHEMA,<sp/></highlight><highlight class="stringliteral">&quot;table1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(entry.has_value());</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(entry-&gt;value[</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;routed_table&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><ref refid="test__metadata__shard_8cpp_1a3ce0efb77d7ef849591dc241eee613b4" kindref="member">TEST_F</ref>(<ref refid="class_metadata_shard_router_test" kindref="compound">MetadataShardRouterTest</ref>,<sp/>ConsistentRouting)<sp/>{</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>value<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Put<sp/>to<sp/>a<sp/>key</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(router-&gt;put(MetadataPartitionKey::SCHEMA,<sp/></highlight><highlight class="stringliteral">&quot;table1&quot;</highlight><highlight class="normal">,<sp/>value));</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Get<sp/>multiple<sp/>times<sp/>should<sp/>route<sp/>to<sp/>the<sp/>same<sp/>shard</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>entry<sp/>=<sp/>router-&gt;get(MetadataPartitionKey::SCHEMA,<sp/></highlight><highlight class="stringliteral">&quot;table1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(entry.has_value());</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(entry-&gt;value[</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="283"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><ref refid="test__metadata__shard_8cpp_1a3ce0efb77d7ef849591dc241eee613b4" kindref="member">TEST_F</ref>(<ref refid="class_metadata_shard_router_test" kindref="compound">MetadataShardRouterTest</ref>,<sp/>ListKeysScatterGather)<sp/>{</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Put<sp/>keys<sp/>that<sp/>will<sp/>be<sp/>distributed<sp/>across<sp/>shards</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>router-&gt;put(MetadataPartitionKey::SCHEMA,<sp/></highlight><highlight class="stringliteral">&quot;table1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/>1}});</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>router-&gt;put(MetadataPartitionKey::SCHEMA,<sp/></highlight><highlight class="stringliteral">&quot;table2&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/>2}});</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>router-&gt;put(MetadataPartitionKey::SCHEMA,<sp/></highlight><highlight class="stringliteral">&quot;table3&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/>3}});</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>router-&gt;put(MetadataPartitionKey::SCHEMA,<sp/></highlight><highlight class="stringliteral">&quot;table4&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/>4}});</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>keys<sp/>=<sp/>router-&gt;listKeys(MetadataPartitionKey::SCHEMA);</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(keys.size(),<sp/>4);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><ref refid="test__metadata__shard_8cpp_1a3ce0efb77d7ef849591dc241eee613b4" kindref="member">TEST_F</ref>(<ref refid="class_metadata_shard_router_test" kindref="compound">MetadataShardRouterTest</ref>,<sp/>RouterStatistics)<sp/>{</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>router-&gt;put(MetadataPartitionKey::SCHEMA,<sp/></highlight><highlight class="stringliteral">&quot;table1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/>1}});</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>router-&gt;get(MetadataPartitionKey::SCHEMA,<sp/></highlight><highlight class="stringliteral">&quot;table1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>router-&gt;remove(MetadataPartitionKey::SCHEMA,<sp/></highlight><highlight class="stringliteral">&quot;table1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>router-&gt;getStatistics();</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats[</highlight><highlight class="stringliteral">&quot;num_shards&quot;</highlight><highlight class="normal">],<sp/>3);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats[</highlight><highlight class="stringliteral">&quot;total_operations&quot;</highlight><highlight class="normal">],<sp/>3);</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats[</highlight><highlight class="stringliteral">&quot;routing_errors&quot;</highlight><highlight class="normal">],<sp/>0);</highlight></codeline>
+<codeline lineno="305"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/metadata/test_metadata_shard.cpp"/>
+  </compounddef>
+</doxygen>

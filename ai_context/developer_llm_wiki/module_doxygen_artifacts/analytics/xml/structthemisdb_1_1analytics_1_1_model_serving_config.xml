@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_model_serving_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::ModelServingConfig</compoundname>
+    <includes refid="model__serving_8h" local="no">model_serving.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_model_serving_config_1a03c1dc8e33bb0baf3fe6a443e7e37c59" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::analytics::ModelServingConfig::max_models</definition>
+        <argsstring></argsstring>
+        <name>max_models</name>
+        <qualifiedname>themisdb::analytics::ModelServingConfig::max_models</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/model_serving.h" line="76" column="12" bodyfile="include/analytics/model_serving.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_model_serving_config_1a5c68e13a45f703205f899fb0e122e412" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::analytics::ModelServingConfig::max_batch_size</definition>
+        <argsstring></argsstring>
+        <name>max_batch_size</name>
+        <qualifiedname>themisdb::analytics::ModelServingConfig::max_batch_size</qualifiedname>
+        <initializer>= 10&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/model_serving.h" line="78" column="12" bodyfile="include/analytics/model_serving.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_model_serving_config_1a3d221857297aee52c44a5711e6e90602" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::ModelServingConfig::track_latency</definition>
+        <argsstring></argsstring>
+        <name>track_latency</name>
+        <qualifiedname>themisdb::analytics::ModelServingConfig::track_latency</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/model_serving.h" line="80" column="12" bodyfile="include/analytics/model_serving.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_model_serving_config_1aaffe3063ebd3acdc8ee79fce7a4be8c9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::analytics::ModelServingConfig::latency_window</definition>
+        <argsstring></argsstring>
+        <name>latency_window</name>
+        <qualifiedname>themisdb::analytics::ModelServingConfig::latency_window</qualifiedname>
+        <initializer>= 1&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/model_serving.h" line="82" column="12" bodyfile="include/analytics/model_serving.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_model_serving_config_1a5b2fda6517c69ca7bf34080499c4da36" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::ModelServingConfig::require_model_integrity</definition>
+        <argsstring></argsstring>
+        <name>require_model_integrity</name>
+        <qualifiedname>themisdb::analytics::ModelServingConfig::require_model_integrity</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/model_serving.h" line="84" column="12" bodyfile="include/analytics/model_serving.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/model_serving.h" line="75" column="1" bodyfile="include/analytics/model_serving.h" bodystart="75" bodyend="85"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_model_serving_config_1aaffe3063ebd3acdc8ee79fce7a4be8c9" prot="public" virt="non-virtual"><scope>themisdb::analytics::ModelServingConfig</scope><name>latency_window</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_model_serving_config_1a5c68e13a45f703205f899fb0e122e412" prot="public" virt="non-virtual"><scope>themisdb::analytics::ModelServingConfig</scope><name>max_batch_size</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_model_serving_config_1a03c1dc8e33bb0baf3fe6a443e7e37c59" prot="public" virt="non-virtual"><scope>themisdb::analytics::ModelServingConfig</scope><name>max_models</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_model_serving_config_1a5b2fda6517c69ca7bf34080499c4da36" prot="public" virt="non-virtual"><scope>themisdb::analytics::ModelServingConfig</scope><name>require_model_integrity</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_model_serving_config_1a3d221857297aee52c44a5711e6e90602" prot="public" virt="non-virtual"><scope>themisdb::analytics::ModelServingConfig</scope><name>track_latency</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

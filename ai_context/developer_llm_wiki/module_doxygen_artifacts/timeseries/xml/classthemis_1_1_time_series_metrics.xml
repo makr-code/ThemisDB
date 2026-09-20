@@ -1,0 +1,2336 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_time_series_metrics" kind="class" language="C++" prot="public">
+    <compoundname>themis::TimeSeriesMetrics</compoundname>
+    <includes refid="timeseries__metrics_8h" local="no">timeseries_metrics.h</includes>
+    <innerclass refid="structthemis_1_1_time_series_metrics_1_1_config" prot="public">themis::TimeSeriesMetrics::Config</innerclass>
+    <innerclass refid="structthemis_1_1_time_series_metrics_1_1_per_metric_stats" prot="private">themis::TimeSeriesMetrics::PerMetricStats</innerclass>
+    <innerclass refid="structthemis_1_1_time_series_metrics_1_1_agg_refresh_stats" prot="private">themis::TimeSeriesMetrics::AggRefreshStats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_time_series_metrics_1a4a2b545c7fbc4f76a738c2cea13c2f2c" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_time_series_metrics_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::TimeSeriesMetrics::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::TimeSeriesMetrics::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="248" column="12" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="248" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_time_series_metrics_1af4b599610a3b9e958cf811f77d309754" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TimeSeriesMetrics::total_data_points_written_</definition>
+        <argsstring></argsstring>
+        <name>total_data_points_written_</name>
+        <qualifiedname>themis::TimeSeriesMetrics::total_data_points_written_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="251" column="17" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="251" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_time_series_metrics_1a21c56a86051b1e1d32bad7485a44fcd1" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TimeSeriesMetrics::total_batches_written_</definition>
+        <argsstring></argsstring>
+        <name>total_batches_written_</name>
+        <qualifiedname>themis::TimeSeriesMetrics::total_batches_written_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="252" column="17" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="252" bodyend="252"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_time_series_metrics_1aa45934d3519ac1528cfde6f53f8db947" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TimeSeriesMetrics::total_compressed_batches_</definition>
+        <argsstring></argsstring>
+        <name>total_compressed_batches_</name>
+        <qualifiedname>themis::TimeSeriesMetrics::total_compressed_batches_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="253" column="17" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="253" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_time_series_metrics_1aab75ebb6ebe4a839b456d1db902544da" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TimeSeriesMetrics::write_errors_</definition>
+        <argsstring></argsstring>
+        <name>write_errors_</name>
+        <qualifiedname>themis::TimeSeriesMetrics::write_errors_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="254" column="17" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="254" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_time_series_metrics_1abe2d2d7d645c2485b6739b1b9a1ca27e" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TimeSeriesMetrics::total_bytes_written_uncompressed_</definition>
+        <argsstring></argsstring>
+        <name>total_bytes_written_uncompressed_</name>
+        <qualifiedname>themis::TimeSeriesMetrics::total_bytes_written_uncompressed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="255" column="17" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="255" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_time_series_metrics_1a3022558c625f77eea9714218ad23e058" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TimeSeriesMetrics::total_bytes_written_compressed_</definition>
+        <argsstring></argsstring>
+        <name>total_bytes_written_compressed_</name>
+        <qualifiedname>themis::TimeSeriesMetrics::total_bytes_written_compressed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="256" column="17" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="256" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_time_series_metrics_1ab00a1f7cbf3e2296eedaa29e7c925c0b" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TimeSeriesMetrics::out_of_order_accepted_</definition>
+        <argsstring></argsstring>
+        <name>out_of_order_accepted_</name>
+        <qualifiedname>themis::TimeSeriesMetrics::out_of_order_accepted_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="257" column="17" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="257" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_time_series_metrics_1af332cf5e89fd3d16237f9cc7982cf41e" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TimeSeriesMetrics::late_arrival_rejected_</definition>
+        <argsstring></argsstring>
+        <name>late_arrival_rejected_</name>
+        <qualifiedname>themis::TimeSeriesMetrics::late_arrival_rejected_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="258" column="17" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="258" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_time_series_metrics_1a8a08e21f18c16e74f752a07b5e4eea9d" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TimeSeriesMetrics::total_backpressure_events_</definition>
+        <argsstring></argsstring>
+        <name>total_backpressure_events_</name>
+        <qualifiedname>themis::TimeSeriesMetrics::total_backpressure_events_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="259" column="17" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="259" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_time_series_metrics_1a34d49f4004e408675317f2463c795cf9" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TimeSeriesMetrics::total_overdue_flush_events_</definition>
+        <argsstring></argsstring>
+        <name>total_overdue_flush_events_</name>
+        <qualifiedname>themis::TimeSeriesMetrics::total_overdue_flush_events_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="260" column="17" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="260" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_time_series_metrics_1a56bebc8f89bc26a19f858aec3dc18ab9" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TimeSeriesMetrics::total_queries_executed_</definition>
+        <argsstring></argsstring>
+        <name>total_queries_executed_</name>
+        <qualifiedname>themis::TimeSeriesMetrics::total_queries_executed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="263" column="17" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="263" bodyend="263"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_time_series_metrics_1aaefeb32e0c48ea72370a3f2350e72e0d" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TimeSeriesMetrics::total_aggregations_executed_</definition>
+        <argsstring></argsstring>
+        <name>total_aggregations_executed_</name>
+        <qualifiedname>themis::TimeSeriesMetrics::total_aggregations_executed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="264" column="17" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="264" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_time_series_metrics_1aa0cf82a82a332ae51da75ff5da0f7644" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TimeSeriesMetrics::total_data_points_returned_</definition>
+        <argsstring></argsstring>
+        <name>total_data_points_returned_</name>
+        <qualifiedname>themis::TimeSeriesMetrics::total_data_points_returned_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="265" column="17" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="265" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_time_series_metrics_1a8cb1faf2dec6ad68888e506fc78ce914" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TimeSeriesMetrics::optimizer_hits_</definition>
+        <argsstring></argsstring>
+        <name>optimizer_hits_</name>
+        <qualifiedname>themis::TimeSeriesMetrics::optimizer_hits_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="266" column="17" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="266" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_time_series_metrics_1adf1d1a9b72e437878e2bf7eda6337d7f" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TimeSeriesMetrics::optimizer_misses_</definition>
+        <argsstring></argsstring>
+        <name>optimizer_misses_</name>
+        <qualifiedname>themis::TimeSeriesMetrics::optimizer_misses_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="267" column="17" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="267" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_time_series_metrics_1a3033bca2595b59191b22d61b238f587a" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TimeSeriesMetrics::current_data_points_</definition>
+        <argsstring></argsstring>
+        <name>current_data_points_</name>
+        <qualifiedname>themis::TimeSeriesMetrics::current_data_points_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="270" column="17" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="270" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_time_series_metrics_1a45644861d135923eabfcd13749a10bb0" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TimeSeriesMetrics::current_metrics_count_</definition>
+        <argsstring></argsstring>
+        <name>current_metrics_count_</name>
+        <qualifiedname>themis::TimeSeriesMetrics::current_metrics_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="271" column="17" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="271" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_time_series_metrics_1af31a294fee8ba7a6406ba53d181b6c87" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TimeSeriesMetrics::current_storage_bytes_</definition>
+        <argsstring></argsstring>
+        <name>current_storage_bytes_</name>
+        <qualifiedname>themis::TimeSeriesMetrics::current_storage_bytes_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="272" column="17" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="272" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_time_series_metrics_1a49e9564178c2728b7dd31a883f9d45df" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TimeSeriesMetrics::total_retention_runs_</definition>
+        <argsstring></argsstring>
+        <name>total_retention_runs_</name>
+        <qualifiedname>themis::TimeSeriesMetrics::total_retention_runs_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="275" column="17" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="275" bodyend="275"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_time_series_metrics_1ab01d3aa31c21e45b57fde62043bf83fd" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TimeSeriesMetrics::total_data_points_deleted_</definition>
+        <argsstring></argsstring>
+        <name>total_data_points_deleted_</name>
+        <qualifiedname>themis::TimeSeriesMetrics::total_data_points_deleted_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="276" column="17" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="276" bodyend="276"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_time_series_metrics_1ac62227411c18771f32fd47e6960f492e" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TimeSeriesMetrics::total_continuous_agg_refreshes_</definition>
+        <argsstring></argsstring>
+        <name>total_continuous_agg_refreshes_</name>
+        <qualifiedname>themis::TimeSeriesMetrics::total_continuous_agg_refreshes_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="279" column="17" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="279" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_time_series_metrics_1a5255b5aa1bb081a863be00c1aba17d79" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TimeSeriesMetrics::total_continuous_agg_points_generated_</definition>
+        <argsstring></argsstring>
+        <name>total_continuous_agg_points_generated_</name>
+        <qualifiedname>themis::TimeSeriesMetrics::total_continuous_agg_points_generated_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="280" column="17" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="280" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_time_series_metrics_1a2bf97f5fc6134590ddab38c5ce57d6de" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::TimeSeriesMetrics::latency_mutex_</definition>
+        <argsstring></argsstring>
+        <name>latency_mutex_</name>
+        <qualifiedname>themis::TimeSeriesMetrics::latency_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="283" column="24" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="283" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_time_series_metrics_1a14fb88343fa66d286ef9cfb9c27d79eb" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::TimeSeriesMetrics::total_write_latency_ms_</definition>
+        <argsstring></argsstring>
+        <name>total_write_latency_ms_</name>
+        <qualifiedname>themis::TimeSeriesMetrics::total_write_latency_ms_</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="284" column="12" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="284" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_time_series_metrics_1a7b55c147066dcca2ad84c4dc42e99b52" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::TimeSeriesMetrics::write_latency_count_</definition>
+        <argsstring></argsstring>
+        <name>write_latency_count_</name>
+        <qualifiedname>themis::TimeSeriesMetrics::write_latency_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="285" column="14" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="285" bodyend="285"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_time_series_metrics_1a70c86c5e8dac9d25617a5a60819fb239" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::TimeSeriesMetrics::total_query_latency_ms_</definition>
+        <argsstring></argsstring>
+        <name>total_query_latency_ms_</name>
+        <qualifiedname>themis::TimeSeriesMetrics::total_query_latency_ms_</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="286" column="12" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="286" bodyend="286"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_time_series_metrics_1a46b8729b85a68c4408ff81359f32154d" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::TimeSeriesMetrics::query_latency_count_</definition>
+        <argsstring></argsstring>
+        <name>query_latency_count_</name>
+        <qualifiedname>themis::TimeSeriesMetrics::query_latency_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="287" column="14" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="287" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_time_series_metrics_1aeae7edf57e5fcb60970bd2c9db7f3b52" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::TimeSeriesMetrics::total_aggregation_latency_ms_</definition>
+        <argsstring></argsstring>
+        <name>total_aggregation_latency_ms_</name>
+        <qualifiedname>themis::TimeSeriesMetrics::total_aggregation_latency_ms_</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="288" column="12" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="288" bodyend="288"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_time_series_metrics_1a0120aea46e3834c51e9e911467464ccb" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::TimeSeriesMetrics::aggregation_latency_count_</definition>
+        <argsstring></argsstring>
+        <name>aggregation_latency_count_</name>
+        <qualifiedname>themis::TimeSeriesMetrics::aggregation_latency_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="289" column="14" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="289" bodyend="289"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_time_series_metrics_1a31bc66181fdef1377a8d794412e70dc5" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::TimeSeriesMetrics::per_metric_mutex_</definition>
+        <argsstring></argsstring>
+        <name>per_metric_mutex_</name>
+        <qualifiedname>themis::TimeSeriesMetrics::per_metric_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="292" column="24" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="292" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_time_series_metrics_1a47ece476712216b4f4542e0e7c5c3eed" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, PerMetricStats &gt;</type>
+        <definition>std::map&lt;std::string, PerMetricStats&gt; themis::TimeSeriesMetrics::per_metric_stats_</definition>
+        <argsstring></argsstring>
+        <name>per_metric_stats_</name>
+        <qualifiedname>themis::TimeSeriesMetrics::per_metric_stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="300" column="14" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="300" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_time_series_metrics_1abf8dc4dd9f4f9bfe6ced6f18d9b3db66" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::TimeSeriesMetrics::agg_metrics_mutex_</definition>
+        <argsstring></argsstring>
+        <name>agg_metrics_mutex_</name>
+        <qualifiedname>themis::TimeSeriesMetrics::agg_metrics_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="303" column="24" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="303" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_time_series_metrics_1a8ca6d3e42510806cd426f327c042dd37" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, AggRefreshStats &gt;</type>
+        <definition>std::map&lt;std::string, AggRefreshStats&gt; themis::TimeSeriesMetrics::agg_refresh_stats_</definition>
+        <argsstring></argsstring>
+        <name>agg_refresh_stats_</name>
+        <qualifiedname>themis::TimeSeriesMetrics::agg_refresh_stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="309" column="14" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="309" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_time_series_metrics_1ac7cd9de1a1990b99cc74f2bc71e694f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::TimeSeriesMetrics::TimeSeriesMetrics</definition>
+        <argsstring>()</argsstring>
+        <name>TimeSeriesMetrics</name>
+        <qualifiedname>themis::TimeSeriesMetrics::TimeSeriesMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="45" column="5" bodyfile="src/timeseries/timeseries_metrics.cpp" bodystart="20" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_time_series_metrics_1a8d91be33cb7f3be0b7f29e86de9697c3" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::TimeSeriesMetrics::TimeSeriesMetrics</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>TimeSeriesMetrics</name>
+        <qualifiedname>themis::TimeSeriesMetrics::TimeSeriesMetrics</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_time_series_metrics_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Time Series Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="51" column="14" bodyfile="src/timeseries/timeseries_metrics.cpp" bodystart="24" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_time_series_metrics_1a66635aa9cfda6188444f60877ef78760" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::TimeSeriesMetrics::~TimeSeriesMetrics</definition>
+        <argsstring>()=default</argsstring>
+        <name>~TimeSeriesMetrics</name>
+        <qualifiedname>themis::TimeSeriesMetrics::~TimeSeriesMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="52" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_time_series_metrics_1a465d733b4e519bccff526f06f4ddbe2b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TimeSeriesMetrics::recordDataPointWrite</definition>
+        <argsstring>(const std::string &amp;metric_name, double latency_ms, bool success=true)</argsstring>
+        <name>recordDataPointWrite</name>
+        <qualifiedname>themis::TimeSeriesMetrics::recordDataPointWrite</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric_name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>latency_ms</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Record a data point write operation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Data Point Write.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>metric_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the metric </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Operation latency in milliseconds </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the operation succeeded</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metric_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the metric. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: fetch_add(), lock(), recordLatency(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="62" column="10" bodyfile="src/timeseries/timeseries_metrics.cpp" bodystart="35" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_time_series_metrics_1a9908477fb4d6e883c5590252be4b1518" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TimeSeriesMetrics::recordOutOfOrderWrite</definition>
+        <argsstring>(const std::string &amp;metric_name, bool rejected)</argsstring>
+        <name>recordOutOfOrderWrite</name>
+        <qualifiedname>themis::TimeSeriesMetrics::recordOutOfOrderWrite</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric_name</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>rejected</declname>
+        </param>
+        <briefdescription>
+<para>Record an out-of-order data point write. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Out Of Order Write.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>metric_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the metric </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rejected</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>true if the point was rejected (outside late-arrival window); false if it was accepted (within window but out-of-order)</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rejected</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="70" column="10" bodyfile="src/timeseries/timeseries_metrics.cpp" bodystart="61" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_time_series_metrics_1a7af1ba08d5fcdb4f6b13f5f3f4623e95" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TimeSeriesMetrics::recordBatchWrite</definition>
+        <argsstring>(size_t num_points, double latency_ms, bool compressed, bool success=true)</argsstring>
+        <name>recordBatchWrite</name>
+        <qualifiedname>themis::TimeSeriesMetrics::recordBatchWrite</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>num_points</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>latency_ms</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>compressed</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Record a batch write operation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Batch Write.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>num_points</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of data points in batch </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Operation latency in milliseconds </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>compressed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether compression was used </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the operation succeeded</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">num_points</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">compressed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: fetch_add(), lock(), recordLatency(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="79" column="10" bodyfile="src/timeseries/timeseries_metrics.cpp" bodystart="77" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_time_series_metrics_1ad407cd7cbc8776a491dea9aec48ad129" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TimeSeriesMetrics::recordCompression</definition>
+        <argsstring>(const std::string &amp;metric_name, size_t uncompressed_bytes, size_t compressed_bytes)</argsstring>
+        <name>recordCompression</name>
+        <qualifiedname>themis::TimeSeriesMetrics::recordCompression</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric_name</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>uncompressed_bytes</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>compressed_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Record compression statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Compression.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>metric_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the metric </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>uncompressed_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Size before compression </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>compressed_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Size after compression</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metric_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the metric. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">uncompressed_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">compressed_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: fetch_add(), empty(), lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="87" column="10" bodyfile="src/timeseries/timeseries_metrics.cpp" bodystart="102" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_time_series_metrics_1a57021950cdf78a5f456a4dc7c72e5101" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TimeSeriesMetrics::recordQuery</definition>
+        <argsstring>(const std::string &amp;metric_name, double latency_ms, size_t result_count, int64_t time_range_ms)</argsstring>
+        <name>recordQuery</name>
+        <qualifiedname>themis::TimeSeriesMetrics::recordQuery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric_name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>latency_ms</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>result_count</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>time_range_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record a query operation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Query.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>metric_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the metric </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query latency in milliseconds </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>result_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of data points returned </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>time_range_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Time range covered by query</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metric_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the metric. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">result_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">int64_t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: fetch_add(), lock(), recordLatency(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="98" column="10" bodyfile="src/timeseries/timeseries_metrics.cpp" bodystart="121" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_time_series_metrics_1afeacd7e6bdf45d77f3a047e8a00f9ca0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TimeSeriesMetrics::recordAggregation</definition>
+        <argsstring>(const std::string &amp;metric_name, double latency_ms, size_t data_points_scanned, bool optimizer_used)</argsstring>
+        <name>recordAggregation</name>
+        <qualifiedname>themis::TimeSeriesMetrics::recordAggregation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric_name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>latency_ms</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>data_points_scanned</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>optimizer_used</declname>
+        </param>
+        <briefdescription>
+<para>Record an aggregation operation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Aggregation.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>metric_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the metric </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Aggregation latency in milliseconds </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data_points_scanned</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of data points scanned </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>optimizer_used</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether query optimizer was used</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size_t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">optimizer_used</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: fetch_add(), lock(), recordLatency(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="107" column="10" bodyfile="src/timeseries/timeseries_metrics.cpp" bodystart="147" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_time_series_metrics_1a9805a8d08760d0dfab7d3fdccbe957ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TimeSeriesMetrics::recordOptimizerResult</definition>
+        <argsstring>(bool hit)</argsstring>
+        <name>recordOptimizerResult</name>
+        <qualifiedname>themis::TimeSeriesMetrics::recordOptimizerResult</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>hit</declname>
+        </param>
+        <briefdescription>
+<para>Record query optimizer hit/miss. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Optimizer Result.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>hit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether optimizer could optimize the query</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="113" column="10" bodyfile="src/timeseries/timeseries_metrics.cpp" bodystart="168" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_time_series_metrics_1a5bfabd45a2675baf3ff79e31f9833778" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TimeSeriesMetrics::recordBackpressure</definition>
+        <argsstring>(const std::string &amp;metric_name=&quot;&quot;)</argsstring>
+        <name>recordBackpressure</name>
+        <qualifiedname>themis::TimeSeriesMetrics::recordBackpressure</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric_name</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Record a backpressure event from <ref refid="classthemis_1_1_t_s_auto_buffer" kindref="compound">TSAutoBuffer</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Backpressure.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>metric_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the metric triggering backpressure (empty = global)</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="119" column="10" bodyfile="src/timeseries/timeseries_metrics.cpp" bodystart="206" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_time_series_metrics_1a6b970275645dd9735f985799775482aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TimeSeriesMetrics::recordOverdueFlush</definition>
+        <argsstring>(const std::string &amp;metric_name=&quot;&quot;, double age_ms=0.0)</argsstring>
+        <name>recordOverdueFlush</name>
+        <qualifiedname>themis::TimeSeriesMetrics::recordOverdueFlush</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric_name</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>age_ms</declname>
+          <defval>0.0</defval>
+        </param>
+        <briefdescription>
+<para>Record an overdue flush event from <ref refid="classthemis_1_1_t_s_auto_buffer" kindref="compound">TSAutoBuffer</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Overdue Flush.</para>
+<para>An overdue flush occurs when buffered data is older than the configured flush interval but could not be written because <ref refid="classthemis_1_1_t_s_store" kindref="compound">TSStore</ref> returned errors on the previous flush attempt.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>metric_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the metric with overdue data (empty = global) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>age_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Age of the oldest buffered point in milliseconds</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">double</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="131" column="10" bodyfile="src/timeseries/timeseries_metrics.cpp" bodystart="216" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_time_series_metrics_1a7d602762f6151a2802acfdc018d16bd0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TimeSeriesMetrics::updateStorageStats</definition>
+        <argsstring>(size_t total_data_points, size_t total_metrics, size_t total_size_bytes)</argsstring>
+        <name>updateStorageStats</name>
+        <qualifiedname>themis::TimeSeriesMetrics::updateStorageStats</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>total_data_points</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>total_metrics</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>total_size_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Update storage statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update Storage Stats.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>total_data_points</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Total number of data points </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>total_metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of unique metrics </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>total_size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Total storage size in bytes</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">total_data_points</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">total_metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">total_size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="141" column="10" bodyfile="src/timeseries/timeseries_metrics.cpp" bodystart="183" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_time_series_metrics_1ac2b60332307eff176983829809ff817e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TimeSeriesMetrics::recordRetention</definition>
+        <argsstring>(const std::string &amp;metric_name, size_t deleted_points, double latency_ms)</argsstring>
+        <name>recordRetention</name>
+        <qualifiedname>themis::TimeSeriesMetrics::recordRetention</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric_name</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>deleted_points</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>latency_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record a retention operation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Retention.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>metric_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the metric (empty for global) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>deleted_points</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of data points deleted </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Operation latency in milliseconds</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deleted_points</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">double</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="149" column="10" bodyfile="src/timeseries/timeseries_metrics.cpp" bodystart="196" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_time_series_metrics_1a4156af2c8a330bea89cf7487902d4e65" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TimeSeriesMetrics::recordContinuousAggregateRefresh</definition>
+        <argsstring>(const std::string &amp;metric_name, int64_t window_ms, double latency_ms, size_t points_processed)</argsstring>
+        <name>recordContinuousAggregateRefresh</name>
+        <qualifiedname>themis::TimeSeriesMetrics::recordContinuousAggregateRefresh</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric_name</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>window_ms</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>latency_ms</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>points_processed</declname>
+        </param>
+        <briefdescription>
+<para>Record continuous aggregate refresh. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Continuous Aggregate Refresh.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>metric_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source metric name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>window_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Aggregation window in milliseconds </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Refresh latency in milliseconds </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>points_processed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of points processed</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">int64_t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">double</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">points_processed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="160" column="10" bodyfile="src/timeseries/timeseries_metrics.cpp" bodystart="228" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_time_series_metrics_1ac1ebdee5f239f326e5aeb957798d3163" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TimeSeriesMetrics::recordAggRefreshLatency</definition>
+        <argsstring>(const std::string &amp;agg_id, double latency_ms)</argsstring>
+        <name>recordAggRefreshLatency</name>
+        <qualifiedname>themis::TimeSeriesMetrics::recordAggRefreshLatency</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>agg_id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>latency_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record incremental aggregate refresh latency tagged with aggregate ID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Agg Refresh Latency.</para>
+<para>This complements <ref refid="classthemis_1_1_time_series_metrics_1a4156af2c8a330bea89cf7487902d4e65" kindref="member">recordContinuousAggregateRefresh()</ref> with per-aggregate granularity so operators can distinguish slow aggregates.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>agg_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique aggregate identifier (e.g., &quot;cpu:s1:60000ms&quot;) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Refresh duration in milliseconds</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">agg_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the agg. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: fetch_add(), lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="172" column="10" bodyfile="src/timeseries/timeseries_metrics.cpp" bodystart="240" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_time_series_metrics_1a20d1fa4f8ecc38632da9c194334c796d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TimeSeriesMetrics::recordAggRefreshLag</definition>
+        <argsstring>(const std::string &amp;agg_id, double lag_ms)</argsstring>
+        <name>recordAggRefreshLag</name>
+        <qualifiedname>themis::TimeSeriesMetrics::recordAggRefreshLag</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>agg_id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>lag_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record the lag between the aggregate watermark and wall-clock now. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Agg Refresh Lag.</para>
+<para>Lag = now_ms – watermark_ms. A growing lag indicates that the scheduler is falling behind ingestion rate.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>agg_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique aggregate identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>lag_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Lag in milliseconds (0 if fully caught up)</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">agg_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the agg. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lag_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="183" column="10" bodyfile="src/timeseries/timeseries_metrics.cpp" bodystart="254" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_time_series_metrics_1a3df4652d14c99781c61377ae0267ad66" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::TimeSeriesMetrics::exportPrometheus</definition>
+        <argsstring>() const</argsstring>
+        <name>exportPrometheus</name>
+        <qualifiedname>themis::TimeSeriesMetrics::exportPrometheus</qualifiedname>
+        <briefdescription>
+<para>Export metrics in Prometheus text format. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>String containing all metrics in Prometheus format </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">agg_metrics_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="191" column="17" bodyfile="src/timeseries/timeseries_metrics.cpp" bodystart="287" bodyend="437"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_time_series_metrics_1aa8f858af217450f295897641473bc60b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::TimeSeriesMetrics::exportJson</definition>
+        <argsstring>() const</argsstring>
+        <name>exportJson</name>
+        <qualifiedname>themis::TimeSeriesMetrics::exportJson</qualifiedname>
+        <briefdescription>
+<para>Export metrics as JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>String containing all metrics in JSON format </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">agg_metrics_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">per_metric_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="197" column="17" bodyfile="src/timeseries/timeseries_metrics.cpp" bodystart="439" bodyend="531"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_time_series_metrics_1a4f2b6946582b9de062fd21b5f7c21715" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TimeSeriesMetrics::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::TimeSeriesMetrics::reset</qualifiedname>
+        <briefdescription>
+<para>Reset all metrics (for testing). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset the modification detection flag.</para>
+<para>Calls: store(), lock(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="202" column="10" bodyfile="src/timeseries/timeseries_metrics.cpp" bodystart="537" bodyend="584"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_time_series_metrics_1a07bbb4014cef76381850bc61ec49e87e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::TimeSeriesMetrics::getTotalDataPointsWritten</definition>
+        <argsstring>() const</argsstring>
+        <name>getTotalDataPointsWritten</name>
+        <qualifiedname>themis::TimeSeriesMetrics::getTotalDataPointsWritten</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="206" column="14" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="206" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_time_series_metrics_1aa97abcf211e77d5db585a59271c23b8f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::TimeSeriesMetrics::getTotalBatchesWritten</definition>
+        <argsstring>() const</argsstring>
+        <name>getTotalBatchesWritten</name>
+        <qualifiedname>themis::TimeSeriesMetrics::getTotalBatchesWritten</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="207" column="14" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="207" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_time_series_metrics_1ad6b1029c2610dddd1a2eaca6cc820605" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::TimeSeriesMetrics::getTotalQueriesExecuted</definition>
+        <argsstring>() const</argsstring>
+        <name>getTotalQueriesExecuted</name>
+        <qualifiedname>themis::TimeSeriesMetrics::getTotalQueriesExecuted</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="208" column="14" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="208" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_time_series_metrics_1abd683e196f64443c58452381a6450c5e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::TimeSeriesMetrics::getTotalAggregationsExecuted</definition>
+        <argsstring>() const</argsstring>
+        <name>getTotalAggregationsExecuted</name>
+        <qualifiedname>themis::TimeSeriesMetrics::getTotalAggregationsExecuted</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="209" column="14" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="209" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_time_series_metrics_1a467077d64537d481d0fd812df1630808" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::TimeSeriesMetrics::getOptimizerHits</definition>
+        <argsstring>() const</argsstring>
+        <name>getOptimizerHits</name>
+        <qualifiedname>themis::TimeSeriesMetrics::getOptimizerHits</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="210" column="14" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="210" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_time_series_metrics_1a67cacdb96f59a21243fe4b90b7fc0db7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::TimeSeriesMetrics::getOptimizerMisses</definition>
+        <argsstring>() const</argsstring>
+        <name>getOptimizerMisses</name>
+        <qualifiedname>themis::TimeSeriesMetrics::getOptimizerMisses</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="211" column="14" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="211" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_time_series_metrics_1afd4ec4c62bd8d1b6e380b119e1e778f9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::TimeSeriesMetrics::getOutOfOrderAccepted</definition>
+        <argsstring>() const</argsstring>
+        <name>getOutOfOrderAccepted</name>
+        <qualifiedname>themis::TimeSeriesMetrics::getOutOfOrderAccepted</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="212" column="14" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="212" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_time_series_metrics_1a02cde20952a30dd0b063a7b03d49c2de" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::TimeSeriesMetrics::getLateArrivalRejected</definition>
+        <argsstring>() const</argsstring>
+        <name>getLateArrivalRejected</name>
+        <qualifiedname>themis::TimeSeriesMetrics::getLateArrivalRejected</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="213" column="14" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="213" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_time_series_metrics_1af98abc9da219805c5e9a3fb659d49102" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::TimeSeriesMetrics::getTotalBackpressureEvents</definition>
+        <argsstring>() const</argsstring>
+        <name>getTotalBackpressureEvents</name>
+        <qualifiedname>themis::TimeSeriesMetrics::getTotalBackpressureEvents</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="214" column="14" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="214" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_time_series_metrics_1abf65b97802f3b17e1f3e31ef37d808d5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::TimeSeriesMetrics::getTotalOverdueFlushEvents</definition>
+        <argsstring>() const</argsstring>
+        <name>getTotalOverdueFlushEvents</name>
+        <qualifiedname>themis::TimeSeriesMetrics::getTotalOverdueFlushEvents</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="215" column="14" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="215" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_time_series_metrics_1a86c16bb637efb56c7aabe328c7682579" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::TimeSeriesMetrics::getAverageWriteLatency</definition>
+        <argsstring>() const</argsstring>
+        <name>getAverageWriteLatency</name>
+        <qualifiedname>themis::TimeSeriesMetrics::getAverageWriteLatency</qualifiedname>
+        <briefdescription>
+<para>Get Average Write Latency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="221" column="12" bodyfile="src/timeseries/timeseries_metrics.cpp" bodystart="586" bodyend="594"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_time_series_metrics_1a78bb9fa5e3dcab5b73e4095a25516a11" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::TimeSeriesMetrics::getAverageQueryLatency</definition>
+        <argsstring>() const</argsstring>
+        <name>getAverageQueryLatency</name>
+        <qualifiedname>themis::TimeSeriesMetrics::getAverageQueryLatency</qualifiedname>
+        <briefdescription>
+<para>Get Average Query Latency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="226" column="12" bodyfile="src/timeseries/timeseries_metrics.cpp" bodystart="596" bodyend="604"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_time_series_metrics_1aebdeaf530d14d79c6b2abf465c53894a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::TimeSeriesMetrics::getAverageCompressionRatio</definition>
+        <argsstring>() const</argsstring>
+        <name>getAverageCompressionRatio</name>
+        <qualifiedname>themis::TimeSeriesMetrics::getAverageCompressionRatio</qualifiedname>
+        <briefdescription>
+<para>Get Average Compression Ratio. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="231" column="12" bodyfile="src/timeseries/timeseries_metrics.cpp" bodystart="606" bodyend="614"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_time_series_metrics_1ab361ad9190c5d8abe2190d063ac60b00" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::TimeSeriesMetrics::getAggRefreshLatency</definition>
+        <argsstring>(const std::string &amp;agg_id) const</argsstring>
+        <name>getAggRefreshLatency</name>
+        <qualifiedname>themis::TimeSeriesMetrics::getAggRefreshLatency</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>agg_id</declname>
+        </param>
+        <briefdescription>
+<para>Get average refresh latency for a specific aggregate (for testing). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Average latency in ms, or -1 if no data recorded for <computeroutput>agg_id</computeroutput>. </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">agg_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">agg_metrics_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="238" column="12" bodyfile="src/timeseries/timeseries_metrics.cpp" bodystart="259" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_time_series_metrics_1aedcdddf041981ead0e93bbe109ef9a3b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::TimeSeriesMetrics::getAggRefreshLag</definition>
+        <argsstring>(const std::string &amp;agg_id) const</argsstring>
+        <name>getAggRefreshLag</name>
+        <qualifiedname>themis::TimeSeriesMetrics::getAggRefreshLag</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>agg_id</declname>
+        </param>
+        <briefdescription>
+<para>Get last recorded lag for a specific aggregate (for testing). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Last lag in ms, or -1 if no data recorded for <computeroutput>agg_id</computeroutput>. </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">agg_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">agg_metrics_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="245" column="12" bodyfile="src/timeseries/timeseries_metrics.cpp" bodystart="273" bodyend="285"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_time_series_metrics_1a70f034995b139681794d779befd83a7a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TimeSeriesMetrics::recordLatency</definition>
+        <argsstring>(double &amp;total_latency, uint64_t &amp;count, double latency_ms)</argsstring>
+        <name>recordLatency</name>
+        <qualifiedname>themis::TimeSeriesMetrics::recordLatency</qualifiedname>
+        <param>
+          <type>double &amp;</type>
+          <declname>total_latency</declname>
+        </param>
+        <param>
+          <type>uint64_t &amp;</type>
+          <declname>count</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>latency_ms</declname>
+        </param>
+        <briefdescription>
+<para>Helper methods. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Latency.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">total_latency</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">total_latency</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements recordLatency without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="317" column="10" bodyfile="src/timeseries/timeseries_metrics.cpp" bodystart="623" bodyend="626"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_time_series_metrics_1aadb2ff2e7c4c8bdbea734a7f4f962c10" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::TimeSeriesMetrics::getAverageLatency</definition>
+        <argsstring>(double total_latency, uint64_t count) const</argsstring>
+        <name>getAverageLatency</name>
+        <qualifiedname>themis::TimeSeriesMetrics::getAverageLatency</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>total_latency</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Get Average Latency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">total_latency</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="324" column="12" bodyfile="src/timeseries/timeseries_metrics.cpp" bodystart="628" bodyend="630"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_time_series_metrics_1ad2aea23297205ca78e5914634c3e7c72" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::TimeSeriesMetrics::formatPrometheusMetric</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;type, const std::string &amp;help, uint64_t value) const</argsstring>
+        <name>formatPrometheusMetric</name>
+        <qualifiedname>themis::TimeSeriesMetrics::formatPrometheusMetric</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>help</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Format Prometheus Metric. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">help</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="333" column="17" bodyfile="src/timeseries/timeseries_metrics.cpp" bodystart="632" bodyend="639"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_time_series_metrics_1a4da70a05aa5e7dd431521d24cc2d9c4a" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::TimeSeriesMetrics::formatPrometheusMetric</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;type, const std::string &amp;help, double value) const</argsstring>
+        <name>formatPrometheusMetric</name>
+        <qualifiedname>themis::TimeSeriesMetrics::formatPrometheusMetric</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>help</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Format Prometheus Metric. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">help</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="343" column="17" bodyfile="src/timeseries/timeseries_metrics.cpp" bodystart="641" bodyend="648"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Prometheus-style metrics for time series operations. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tracks performance, storage, and operational metrics for <ref refid="classthemis_1_1_t_s_store" kindref="compound">TSStore</ref>. Provides insights into ingestion rate, query performance, compression efficiency, and storage utilization.</para>
+<para>Metrics Categories:<itemizedlist>
+<listitem><para>Ingestion: Data point writes, batch operations, throughput</para>
+</listitem><listitem><para>Query: Query count, latency, result set sizes</para>
+</listitem><listitem><para>Aggregation: Aggregation operations, optimization hits</para>
+</listitem><listitem><para>Storage: Data size, compression ratio, retention operations</para>
+</listitem><listitem><para>Performance: Operation latencies, cache hits </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/timeseries/timeseries_metrics.h" line="37" column="1" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="37" bodyend="345"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_time_series_metrics_1abf8dc4dd9f4f9bfe6ced6f18d9b3db66" prot="private" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>agg_metrics_mutex_</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1a8ca6d3e42510806cd426f327c042dd37" prot="private" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>agg_refresh_stats_</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1a0120aea46e3834c51e9e911467464ccb" prot="private" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>aggregation_latency_count_</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1a4a2b545c7fbc4f76a738c2cea13c2f2c" prot="private" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1a3033bca2595b59191b22d61b238f587a" prot="private" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>current_data_points_</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1a45644861d135923eabfcd13749a10bb0" prot="private" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>current_metrics_count_</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1af31a294fee8ba7a6406ba53d181b6c87" prot="private" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>current_storage_bytes_</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1aa8f858af217450f295897641473bc60b" prot="public" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>exportJson</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1a3df4652d14c99781c61377ae0267ad66" prot="public" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>exportPrometheus</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1ad2aea23297205ca78e5914634c3e7c72" prot="private" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>formatPrometheusMetric</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1a4da70a05aa5e7dd431521d24cc2d9c4a" prot="private" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>formatPrometheusMetric</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1aedcdddf041981ead0e93bbe109ef9a3b" prot="public" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>getAggRefreshLag</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1ab361ad9190c5d8abe2190d063ac60b00" prot="public" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>getAggRefreshLatency</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1aebdeaf530d14d79c6b2abf465c53894a" prot="public" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>getAverageCompressionRatio</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1aadb2ff2e7c4c8bdbea734a7f4f962c10" prot="private" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>getAverageLatency</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1a78bb9fa5e3dcab5b73e4095a25516a11" prot="public" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>getAverageQueryLatency</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1a86c16bb637efb56c7aabe328c7682579" prot="public" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>getAverageWriteLatency</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1a02cde20952a30dd0b063a7b03d49c2de" prot="public" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>getLateArrivalRejected</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1a467077d64537d481d0fd812df1630808" prot="public" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>getOptimizerHits</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1a67cacdb96f59a21243fe4b90b7fc0db7" prot="public" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>getOptimizerMisses</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1afd4ec4c62bd8d1b6e380b119e1e778f9" prot="public" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>getOutOfOrderAccepted</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1abd683e196f64443c58452381a6450c5e" prot="public" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>getTotalAggregationsExecuted</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1af98abc9da219805c5e9a3fb659d49102" prot="public" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>getTotalBackpressureEvents</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1aa97abcf211e77d5db585a59271c23b8f" prot="public" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>getTotalBatchesWritten</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1a07bbb4014cef76381850bc61ec49e87e" prot="public" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>getTotalDataPointsWritten</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1abf65b97802f3b17e1f3e31ef37d808d5" prot="public" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>getTotalOverdueFlushEvents</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1ad6b1029c2610dddd1a2eaca6cc820605" prot="public" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>getTotalQueriesExecuted</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1af332cf5e89fd3d16237f9cc7982cf41e" prot="private" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>late_arrival_rejected_</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1a2bf97f5fc6134590ddab38c5ce57d6de" prot="private" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>latency_mutex_</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1a8cb1faf2dec6ad68888e506fc78ce914" prot="private" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>optimizer_hits_</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1adf1d1a9b72e437878e2bf7eda6337d7f" prot="private" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>optimizer_misses_</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1ab00a1f7cbf3e2296eedaa29e7c925c0b" prot="private" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>out_of_order_accepted_</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1a31bc66181fdef1377a8d794412e70dc5" prot="private" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>per_metric_mutex_</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1a47ece476712216b4f4542e0e7c5c3eed" prot="private" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>per_metric_stats_</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1a46b8729b85a68c4408ff81359f32154d" prot="private" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>query_latency_count_</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1a20d1fa4f8ecc38632da9c194334c796d" prot="public" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>recordAggRefreshLag</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1ac1ebdee5f239f326e5aeb957798d3163" prot="public" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>recordAggRefreshLatency</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1afeacd7e6bdf45d77f3a047e8a00f9ca0" prot="public" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>recordAggregation</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1a5bfabd45a2675baf3ff79e31f9833778" prot="public" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>recordBackpressure</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1a7af1ba08d5fcdb4f6b13f5f3f4623e95" prot="public" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>recordBatchWrite</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1ad407cd7cbc8776a491dea9aec48ad129" prot="public" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>recordCompression</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1a4156af2c8a330bea89cf7487902d4e65" prot="public" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>recordContinuousAggregateRefresh</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1a465d733b4e519bccff526f06f4ddbe2b" prot="public" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>recordDataPointWrite</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1a70f034995b139681794d779befd83a7a" prot="private" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>recordLatency</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1a9805a8d08760d0dfab7d3fdccbe957ee" prot="public" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>recordOptimizerResult</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1a9908477fb4d6e883c5590252be4b1518" prot="public" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>recordOutOfOrderWrite</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1a6b970275645dd9735f985799775482aa" prot="public" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>recordOverdueFlush</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1a57021950cdf78a5f456a4dc7c72e5101" prot="public" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>recordQuery</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1ac2b60332307eff176983829809ff817e" prot="public" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>recordRetention</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1a4f2b6946582b9de062fd21b5f7c21715" prot="public" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>reset</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1ac7cd9de1a1990b99cc74f2bc71e694f4" prot="public" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>TimeSeriesMetrics</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1a8d91be33cb7f3be0b7f29e86de9697c3" prot="public" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>TimeSeriesMetrics</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1aeae7edf57e5fcb60970bd2c9db7f3b52" prot="private" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>total_aggregation_latency_ms_</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1aaefeb32e0c48ea72370a3f2350e72e0d" prot="private" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>total_aggregations_executed_</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1a8a08e21f18c16e74f752a07b5e4eea9d" prot="private" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>total_backpressure_events_</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1a21c56a86051b1e1d32bad7485a44fcd1" prot="private" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>total_batches_written_</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1a3022558c625f77eea9714218ad23e058" prot="private" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>total_bytes_written_compressed_</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1abe2d2d7d645c2485b6739b1b9a1ca27e" prot="private" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>total_bytes_written_uncompressed_</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1aa45934d3519ac1528cfde6f53f8db947" prot="private" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>total_compressed_batches_</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1a5255b5aa1bb081a863be00c1aba17d79" prot="private" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>total_continuous_agg_points_generated_</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1ac62227411c18771f32fd47e6960f492e" prot="private" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>total_continuous_agg_refreshes_</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1ab01d3aa31c21e45b57fde62043bf83fd" prot="private" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>total_data_points_deleted_</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1aa0cf82a82a332ae51da75ff5da0f7644" prot="private" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>total_data_points_returned_</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1af4b599610a3b9e958cf811f77d309754" prot="private" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>total_data_points_written_</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1a34d49f4004e408675317f2463c795cf9" prot="private" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>total_overdue_flush_events_</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1a56bebc8f89bc26a19f858aec3dc18ab9" prot="private" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>total_queries_executed_</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1a70c86c5e8dac9d25617a5a60819fb239" prot="private" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>total_query_latency_ms_</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1a49e9564178c2728b7dd31a883f9d45df" prot="private" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>total_retention_runs_</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1a14fb88343fa66d286ef9cfb9c27d79eb" prot="private" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>total_write_latency_ms_</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1a7d602762f6151a2802acfdc018d16bd0" prot="public" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>updateStorageStats</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1aab75ebb6ebe4a839b456d1db902544da" prot="private" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>write_errors_</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1a7b55c147066dcca2ad84c4dc42e99b52" prot="private" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>write_latency_count_</name></member>
+      <member refid="classthemis_1_1_time_series_metrics_1a66635aa9cfda6188444f60877ef78760" prot="public" virt="non-virtual"><scope>themis::TimeSeriesMetrics</scope><name>~TimeSeriesMetrics</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

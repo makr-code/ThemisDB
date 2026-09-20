@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1projects_1_1_template_options" kind="struct" language="C++" prot="public">
+    <compoundname>themis::projects::TemplateOptions</compoundname>
+    <includes refid="project__template_8h" local="no">project_template.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_template_options_1a3a35b9d9dd2e22675c7850894b8511f6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::projects::TemplateOptions::project_name</definition>
+        <argsstring></argsstring>
+        <name>project_name</name>
+        <qualifiedname>themis::projects::TemplateOptions::project_name</qualifiedname>
+        <briefdescription>
+<para>Name for the new project (required). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_template.h" line="55" column="17" bodyfile="include/projects/project_template.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_template_options_1ae95b111f27ce31aa30a81087a88d250c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::projects::TemplateOptions::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::projects::TemplateOptions::description</qualifiedname>
+        <briefdescription>
+<para>Optional project description. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_template.h" line="56" column="17" bodyfile="include/projects/project_template.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_template_options_1a7cd6640d6d90699c552d5f23851449cc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::projects::TemplateOptions::include_sample_data</definition>
+        <argsstring></argsstring>
+        <name>include_sample_data</name>
+        <qualifiedname>themis::projects::TemplateOptions::include_sample_data</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Pre-populate with sample data. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_template.h" line="57" column="17" bodyfile="include/projects/project_template.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_template_options_1a029212fdd61d39ba590e7da4a8336705" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1projects_1aa6ebfecbbf761b81a776c2845d5200d7" kindref="member">json</ref></type>
+        <definition>json themis::projects::TemplateOptions::extra_config</definition>
+        <argsstring></argsstring>
+        <name>extra_config</name>
+        <qualifiedname>themis::projects::TemplateOptions::extra_config</qualifiedname>
+        <initializer>= json::object()</initializer>
+        <briefdescription>
+<para>Template-specific overrides. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_template.h" line="58" column="17" bodyfile="include/projects/project_template.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration options for template instantiation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/projects/project_template.h" line="54" column="1" bodyfile="include/projects/project_template.h" bodystart="54" bodyend="59"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1projects_1_1_template_options_1ae95b111f27ce31aa30a81087a88d250c" prot="public" virt="non-virtual"><scope>themis::projects::TemplateOptions</scope><name>description</name></member>
+      <member refid="structthemis_1_1projects_1_1_template_options_1a029212fdd61d39ba590e7da4a8336705" prot="public" virt="non-virtual"><scope>themis::projects::TemplateOptions</scope><name>extra_config</name></member>
+      <member refid="structthemis_1_1projects_1_1_template_options_1a7cd6640d6d90699c552d5f23851449cc" prot="public" virt="non-virtual"><scope>themis::projects::TemplateOptions</scope><name>include_sample_data</name></member>
+      <member refid="structthemis_1_1projects_1_1_template_options_1a3a35b9d9dd2e22675c7850894b8511f6" prot="public" virt="non-virtual"><scope>themis::projects::TemplateOptions</scope><name>project_name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

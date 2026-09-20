@@ -1,0 +1,258 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_batch_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::BatchStats</compoundname>
+    <includes refid="continuous__batch__scheduler_8h" local="no">continuous_batch_scheduler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_batch_stats_1a23abf1c8a778044e0ee22db6e3c9b8d7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::sharding::BatchStats::current_batch_size</definition>
+        <argsstring></argsstring>
+        <name>current_batch_size</name>
+        <qualifiedname>themisdb::sharding::BatchStats::current_batch_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="113" column="14" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_batch_stats_1ac867015b087af6fb1b76dcb799d18fc2" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::sharding::BatchStats::max_batch_size</definition>
+        <argsstring></argsstring>
+        <name>max_batch_size</name>
+        <qualifiedname>themisdb::sharding::BatchStats::max_batch_size</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="114" column="14" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_batch_stats_1adce331d50b52c24a6a2ac63d8f15a33f" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::sharding::BatchStats::max_tokens_per_batch</definition>
+        <argsstring></argsstring>
+        <name>max_tokens_per_batch</name>
+        <qualifiedname>themisdb::sharding::BatchStats::max_tokens_per_batch</qualifiedname>
+        <initializer>= 8192</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="115" column="14" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_batch_stats_1aea2871bcb66bd34ac332ef5b6022a950" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::BatchStats::avg_tokens_per_second</definition>
+        <argsstring></argsstring>
+        <name>avg_tokens_per_second</name>
+        <qualifiedname>themisdb::sharding::BatchStats::avg_tokens_per_second</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="118" column="12" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_batch_stats_1abd3351972c9770f79103059c79ef702b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::BatchStats::avg_time_to_first_token_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_time_to_first_token_ms</name>
+        <qualifiedname>themisdb::sharding::BatchStats::avg_time_to_first_token_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="119" column="12" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_batch_stats_1a44cf81a0181aa9295a2163fcc19668fc" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::BatchStats::throughput_tokens_per_second</definition>
+        <argsstring></argsstring>
+        <name>throughput_tokens_per_second</name>
+        <qualifiedname>themisdb::sharding::BatchStats::throughput_tokens_per_second</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="120" column="12" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_batch_stats_1add308939108046b6d7cca3decbebbbe5" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::sharding::BatchStats::pending_requests</definition>
+        <argsstring></argsstring>
+        <name>pending_requests</name>
+        <qualifiedname>themisdb::sharding::BatchStats::pending_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="123" column="14" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_batch_stats_1a9dbe34e8c2a4654c1493c13d94e1860f" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::sharding::BatchStats::in_progress_requests</definition>
+        <argsstring></argsstring>
+        <name>in_progress_requests</name>
+        <qualifiedname>themisdb::sharding::BatchStats::in_progress_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="124" column="14" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_batch_stats_1a9edb6db8573af45d34a0a6486f72855c" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::sharding::BatchStats::completed_requests</definition>
+        <argsstring></argsstring>
+        <name>completed_requests</name>
+        <qualifiedname>themisdb::sharding::BatchStats::completed_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="125" column="14" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_batch_stats_1a2682f00b2ff538705b55fdb87cd89494" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::sharding::BatchStats::cancelled_requests</definition>
+        <argsstring></argsstring>
+        <name>cancelled_requests</name>
+        <qualifiedname>themisdb::sharding::BatchStats::cancelled_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="126" column="14" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_batch_stats_1a055382f2de86d93498052223799d518e" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::sharding::BatchStats::failed_requests</definition>
+        <argsstring></argsstring>
+        <name>failed_requests</name>
+        <qualifiedname>themisdb::sharding::BatchStats::failed_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="127" column="14" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_batch_stats_1a3db105b968b86b1e98e0f9435c81bb5c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::BatchStats::p50_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>p50_latency_ms</name>
+        <qualifiedname>themisdb::sharding::BatchStats::p50_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="130" column="12" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_batch_stats_1a7d0dfcf3b0275a4fa93f00a70d15b8ae" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::BatchStats::p95_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>p95_latency_ms</name>
+        <qualifiedname>themisdb::sharding::BatchStats::p95_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="131" column="12" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_batch_stats_1a03595732cbe29e0f0ce7a16aa2c6e44d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::BatchStats::p99_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>p99_latency_ms</name>
+        <qualifiedname>themisdb::sharding::BatchStats::p99_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="132" column="12" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_batch_stats_1a69c843dad1060f2b32e7a360e07faccf" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::sharding::BatchStats::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themisdb::sharding::BatchStats::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="134" column="20" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="134" bodyend="151"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Batch scheduling statistics. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/continuous_batch_scheduler.h" line="111" column="1" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="111" bodyend="152"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_batch_stats_1abd3351972c9770f79103059c79ef702b" prot="public" virt="non-virtual"><scope>themisdb::sharding::BatchStats</scope><name>avg_time_to_first_token_ms</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_batch_stats_1aea2871bcb66bd34ac332ef5b6022a950" prot="public" virt="non-virtual"><scope>themisdb::sharding::BatchStats</scope><name>avg_tokens_per_second</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_batch_stats_1a2682f00b2ff538705b55fdb87cd89494" prot="public" virt="non-virtual"><scope>themisdb::sharding::BatchStats</scope><name>cancelled_requests</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_batch_stats_1a9edb6db8573af45d34a0a6486f72855c" prot="public" virt="non-virtual"><scope>themisdb::sharding::BatchStats</scope><name>completed_requests</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_batch_stats_1a23abf1c8a778044e0ee22db6e3c9b8d7" prot="public" virt="non-virtual"><scope>themisdb::sharding::BatchStats</scope><name>current_batch_size</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_batch_stats_1a055382f2de86d93498052223799d518e" prot="public" virt="non-virtual"><scope>themisdb::sharding::BatchStats</scope><name>failed_requests</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_batch_stats_1a9dbe34e8c2a4654c1493c13d94e1860f" prot="public" virt="non-virtual"><scope>themisdb::sharding::BatchStats</scope><name>in_progress_requests</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_batch_stats_1ac867015b087af6fb1b76dcb799d18fc2" prot="public" virt="non-virtual"><scope>themisdb::sharding::BatchStats</scope><name>max_batch_size</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_batch_stats_1adce331d50b52c24a6a2ac63d8f15a33f" prot="public" virt="non-virtual"><scope>themisdb::sharding::BatchStats</scope><name>max_tokens_per_batch</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_batch_stats_1a3db105b968b86b1e98e0f9435c81bb5c" prot="public" virt="non-virtual"><scope>themisdb::sharding::BatchStats</scope><name>p50_latency_ms</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_batch_stats_1a7d0dfcf3b0275a4fa93f00a70d15b8ae" prot="public" virt="non-virtual"><scope>themisdb::sharding::BatchStats</scope><name>p95_latency_ms</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_batch_stats_1a03595732cbe29e0f0ce7a16aa2c6e44d" prot="public" virt="non-virtual"><scope>themisdb::sharding::BatchStats</scope><name>p99_latency_ms</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_batch_stats_1add308939108046b6d7cca3decbebbbe5" prot="public" virt="non-virtual"><scope>themisdb::sharding::BatchStats</scope><name>pending_requests</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_batch_stats_1a44cf81a0181aa9295a2163fcc19668fc" prot="public" virt="non-virtual"><scope>themisdb::sharding::BatchStats</scope><name>throughput_tokens_per_second</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_batch_stats_1a69c843dad1060f2b32e7a360e07faccf" prot="public" virt="non-virtual"><scope>themisdb::sharding::BatchStats</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

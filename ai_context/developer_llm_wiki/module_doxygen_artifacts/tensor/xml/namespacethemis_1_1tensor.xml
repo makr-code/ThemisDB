@@ -1,0 +1,1255 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1tensor" kind="namespace" language="C++">
+    <compoundname>themis::tensor</compoundname>
+    <innerclass refid="structthemis_1_1tensor_1_1_adapter_metadata" prot="public">themis::tensor::AdapterMetadata</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_adapter_repository" prot="public">themis::tensor::AdapterRepository</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_adapter_summary" prot="public">themis::tensor::AdapterSummary</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_adaptive_routing" prot="public">themis::tensor::AdaptiveRouting</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_base_tensor_summary" prot="public">themis::tensor::BaseTensorSummary</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_butterfly_config" prot="public">themis::tensor::ButterflyConfig</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_chunk_summary" prot="public">themis::tensor::ChunkSummary</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_column_schema" prot="public">themis::tensor::ColumnSchema</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_composite_detector" prot="public">themis::tensor::CompositeDetector</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_compression_config" prot="public">themis::tensor::CompressionConfig</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_compression_factory" prot="public">themis::tensor::CompressionFactory</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_compression_guard" prot="public">themis::tensor::CompressionGuard</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_compression_result" prot="public">themis::tensor::CompressionResult</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_content_hash_detector" prot="public">themis::tensor::ContentHashDetector</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_cost_based_prioritization" prot="public">themis::tensor::CostBasedPrioritization</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_edge_case_result" prot="public">themis::tensor::EdgeCaseResult</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_embedding_based_detector" prot="public">themis::tensor::EmbeddingBasedDetector</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_entity_summary" prot="public">themis::tensor::EntitySummary</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_error_context" prot="public">themis::tensor::ErrorContext</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_fallback_compression_strategy" prot="public">themis::tensor::FallbackCompressionStrategy</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_fallback_routing_strategy" prot="public">themis::tensor::FallbackRoutingStrategy</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_federated_tensor_summary" prot="public">themis::tensor::FederatedTensorSummary</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_fingerprint_entry" prot="public">themis::tensor::FingerprintEntry</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_fingerprint_summary" prot="public">themis::tensor::FingerprintSummary</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_flat_h_t_index" prot="public">themis::tensor::FlatHTIndex</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_flat_tensor_index" prot="public">themis::tensor::FlatTensorIndex</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_ggml_core_descriptor" prot="public">themis::tensor::GgmlCoreDescriptor</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_hashing_strategy" prot="public">themis::tensor::HashingStrategy</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_hiss_config" prot="public">themis::tensor::HissConfig</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_hiss_reshaper" prot="public">themis::tensor::HissReshaper</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_hiss_structural_search_engine" prot="public">themis::tensor::HissStructuralSearchEngine</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_hnsw_t_t_bridge" prot="public">themis::tensor::HnswTTBridge</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_hnsw_t_t_config" prot="public">themis::tensor::HnswTTConfig</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_h_t_contraction_engine" prot="public">themis::tensor::HTContractionEngine</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_h_t_node" prot="public">themis::tensor::HTNode</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_h_t_search_result" prot="public">themis::tensor::HTSearchResult</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_h_t_train" prot="public">themis::tensor::HTTrain</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_hyper_index_builder" prot="public">themis::tensor::HyperIndexBuilder</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_hyper_index_config" prot="public">themis::tensor::HyperIndexConfig</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_hyper_index_tensor" prot="public">themis::tensor::HyperIndexTensor</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_i_compression_strategy" prot="public">themis::tensor::ICompressionStrategy</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_i_hierarchical_tucker_index" prot="public">themis::tensor::IHierarchicalTuckerIndex</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_i_image_encoder" prot="public">themis::tensor::IImageEncoder</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_index_handle" prot="public">themis::tensor::IndexHandle</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_i_prioritization_strategy" prot="public">themis::tensor::IPrioritizationStrategy</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_i_redundancy_detector" prot="public">themis::tensor::IRedundancyDetector</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_i_routing_strategy" prot="public">themis::tensor::IRoutingStrategy</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_i_tensor_index" prot="public">themis::tensor::ITensorIndex</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_i_text_encoder" prot="public">themis::tensor::ITextEncoder</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_metadata_based_detector" prot="public">themis::tensor::MetadataBasedDetector</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_mmap_core_slice" prot="public">themis::tensor::MmapCoreSlice</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_package_summary" prot="public">themis::tensor::PackageSummary</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph" prot="public">themis::tensor::PersistentTensorFingerprintGraph</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_q_t_t_mapping_descriptor" prot="public">themis::tensor::QTTMappingDescriptor</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_q_t_train" prot="public">themis::tensor::QTTrain</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_quality_based_routing" prot="public">themis::tensor::QualityBasedRouting</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_quantization_strategy" prot="public">themis::tensor::QuantizationStrategy</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_rank_based_prioritization" prot="public">themis::tensor::RankBasedPrioritization</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_raster_grid" prot="public">themis::tensor::RasterGrid</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_redundancy_factory" prot="public">themis::tensor::RedundancyFactory</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_redundancy_metrics" prot="public">themis::tensor::RedundancyMetrics</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_resilience_metrics" prot="public">themis::tensor::ResilienceMetrics</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_resilience_monitor" prot="public">themis::tensor::ResilienceMonitor</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_routing_decision" prot="public">themis::tensor::RoutingDecision</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_routing_factory" prot="public">themis::tensor::RoutingFactory</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_routing_guard" prot="public">themis::tensor::RoutingGuard</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_sampling_strategy" prot="public">themis::tensor::SamplingStrategy</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_shard_aware_routing" prot="public">themis::tensor::ShardAwareRouting</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_shard_summary" prot="public">themis::tensor::ShardSummary</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_similarity_based_detector" prot="public">themis::tensor::SimilarityBasedDetector</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_similarity_based_prioritization" prot="public">themis::tensor::SimilarityBasedPrioritization</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_similarity_result" prot="public">themis::tensor::SimilarityResult</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_summary_factory" prot="public">themis::tensor::SummaryFactory</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_table_row" prot="public">themis::tensor::TableRow</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_template_catalog" prot="public">themis::tensor::TemplateCatalog</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_tensor_acceleration_stats" prot="public">themis::tensor::TensorAccelerationStats</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_tensor_butterfly_operator" prot="public">themis::tensor::TensorButterflyOperator</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_tensor_compression_routing_accelerator" prot="public">themis::tensor::TensorCompressionRoutingAccelerator</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_tensor_core_storage_bridge" prot="public">themis::tensor::TensorCoreStorageBridge</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_tensor_edge_case_handler" prot="public">themis::tensor::TensorEdgeCaseHandler</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_tensor_error_handler" prot="public">themis::tensor::TensorErrorHandler</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_tensor_fingerprint_graph" prot="public">themis::tensor::TensorFingerprintGraph</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_tensor_graph_edge" prot="public">themis::tensor::TensorGraphEdge</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_tensor_graph_node" prot="public">themis::tensor::TensorGraphNode</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_tensor_index_manager" prot="public">themis::tensor::TensorIndexManager</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_tensor_index_stats" prot="public">themis::tensor::TensorIndexStats</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_tensor_ingestion_bridge" prot="public">themis::tensor::TensorIngestionBridge</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_tensor_layer_context" prot="public">themis::tensor::TensorLayerContext</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_tensor_layer_plan" prot="public">themis::tensor::TensorLayerPlan</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_tensor_layer_summary" prot="public">themis::tensor::TensorLayerSummary</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_tensor_mid_layer" prot="public">themis::tensor::TensorMidLayer</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge" prot="public">themis::tensor::TensorMmapBridge</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_tensor_network_graph" prot="public">themis::tensor::TensorNetworkGraph</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_tensor_search_result" prot="public">themis::tensor::TensorSearchResult</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_tensor_train" prot="public">themis::tensor::TensorTrain</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_tensor_train_core" prot="public">themis::tensor::TensorTrainCore</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_tensor_workflow_health_summary" prot="public">themis::tensor::TensorWorkflowHealthSummary</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_tensor_workflow_observability" prot="public">themis::tensor::TensorWorkflowObservability</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_tensor_workflow_slo_config" prot="public">themis::tensor::TensorWorkflowSloConfig</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_t_n_s_r_config" prot="public">themis::tensor::TNSRConfig</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_t_n_s_r_report" prot="public">themis::tensor::TNSRReport</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_t_n_s_r_task" prot="public">themis::tensor::TNSRTask</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_t_t_decomposition_strategy" prot="public">themis::tensor::TTDecompositionStrategy</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_u_t_r_config" prot="public">themis::tensor::UTRConfig</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_u_t_r_converter" prot="public">themis::tensor::UTRConverter</innerclass>
+    <innernamespace refid="namespacethemis_1_1tensor_1_1bench">themis::tensor::bench</innernamespace>
+    <innernamespace refid="namespacethemis_1_1tensor_1_1test">themis::tensor::test</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1tensor_1ae023149cf94e141a7731e4baaaac5e6e" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>CompressionAlgorithm</name>
+        <qualifiedname>themis::tensor::CompressionAlgorithm</qualifiedname>
+        <enumvalue id="namespacethemis_1_1tensor_1ae023149cf94e141a7731e4baaaac5e6eab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1tensor_1ae023149cf94e141a7731e4baaaac5e6eac62b5413de317fe0de5490028a270b31" prot="public">
+          <name>TT_SVD</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1tensor_1ae023149cf94e141a7731e4baaaac5e6eae1f2d5134ed2543d38a0de9751cf75d9" prot="public">
+          <name>AUTO</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Configuration for tensor compression operations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/compression_strategy.h" line="30" column="1" bodyfile="include/tensor/compression_strategy.h" bodystart="30" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1tensor_1a5c36d5b11ba3b59e660be8b8642040d4" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>EncoderQuality</name>
+        <qualifiedname>themis::tensor::EncoderQuality</qualifiedname>
+        <enumvalue id="namespacethemis_1_1tensor_1a5c36d5b11ba3b59e660be8b8642040d4a0dfb69ba8b5b824dfb9c6a2f63532707" prot="public">
+          <name>SEMANTIC</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Learned / neural encoder (highest quality). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1tensor_1a5c36d5b11ba3b59e660be8b8642040d4af176338d29d8c14985e566b91bdb7991" prot="public">
+          <name>LEXICAL</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Statistical / n-gram feature encoder (medium quality). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1tensor_1a5c36d5b11ba3b59e660be8b8642040d4a50b7748612b28db487d115f220bb77ab" prot="public">
+          <name>HASH</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Hash-projection fallback (lowest quality — degraded mode). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Semantic quality tier reported by <computeroutput><ref refid="classthemis_1_1tensor_1_1_i_text_encoder" kindref="compound">ITextEncoder</ref></computeroutput> and <computeroutput><ref refid="classthemis_1_1tensor_1_1_i_image_encoder" kindref="compound">IImageEncoder</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Used to detect degraded operation when a high-quality encoder backend is not available and the system has fallen back to a lower-tier implementation. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/encoder_interface.h" line="36" column="1" bodyfile="include/tensor/encoder_interface.h" bodystart="36" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1tensor_1aa6a9743068bf6665f55da2350cfe002b" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>ColumnType</name>
+        <qualifiedname>themis::tensor::ColumnType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1tensor_1aa6a9743068bf6665f55da2350cfe002bab22f521f17b09d0fd389e231f8f6d66d" prot="public">
+          <name>NUMERIC</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Float or integer values; bucketed by uniform range. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1tensor_1aa6a9743068bf6665f55da2350cfe002bae38583f3a073fa2a86a841b672aba548" prot="public">
+          <name>CATEGORY</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>String category values; bucketed by frequency rank. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1tensor_1aa6a9743068bf6665f55da2350cfe002bac48d5da12d702e73d6966069f2687376" prot="public">
+          <name>BOOLEAN</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>true / false (2 buckets) </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hyper_index_builder.h" line="29" column="1" bodyfile="include/tensor/hyper_index_builder.h" bodystart="29" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1tensor_1adaa7e05434a45d2ee9122a88495cc5cc" prot="public" static="no" strong="yes">
+        <type>int</type>
+        <name>TensorErrorCode</name>
+        <qualifiedname>themis::tensor::TensorErrorCode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1tensor_1adaa7e05434a45d2ee9122a88495cc5cca20f5dfee199086d7b0914746683ecc0f" prot="public">
+          <name>SHAPE_MISMATCH</name>
+          <initializer>= 500</initializer>
+          <briefdescription>
+<para>Reshape or binary-op shape mismatch (element counts differ or dims incompatible). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1tensor_1adaa7e05434a45d2ee9122a88495cc5ccae05dbc8cfe9626ae56e78bde5ba196a6" prot="public">
+          <name>DEVICE_UNAVAILABLE</name>
+          <initializer>= 501</initializer>
+          <briefdescription>
+<para>Requested device (GPU) is unavailable and no CPU fallback is possible. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1tensor_1adaa7e05434a45d2ee9122a88495cc5ccac56ddb8056b120c9d5fee05981f219c6" prot="public">
+          <name>OUT_OF_MEMORY</name>
+          <initializer>= 502</initializer>
+          <briefdescription>
+<para>Tensor allocation failed due to device or host memory exhaustion. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1tensor_1adaa7e05434a45d2ee9122a88495cc5ccaecfd1e700099afce2fdab6b9c5b4a34b" prot="public">
+          <name>DTYPE_INCOMPATIBLE</name>
+          <initializer>= 503</initializer>
+          <briefdescription>
+<para>Binary or cast operation between two incompatible dtypes. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1tensor_1adaa7e05434a45d2ee9122a88495cc5cca5a2ff7a2f2c3b40268e57995408f8e9d" prot="public">
+          <name>UNSUPPORTED_OPERATION</name>
+          <initializer>= 504</initializer>
+          <briefdescription>
+<para>Operation is not supported for the given tensor rank, dtype, or layout. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1tensor_1adaa7e05434a45d2ee9122a88495cc5cca2b543e38651ed5fb8c494d6acf4fd5df" prot="public">
+          <name>VIEW_LIFETIME_VIOLATION</name>
+          <initializer>= 505</initializer>
+          <briefdescription>
+<para>A non-owning view was accessed after its parent tensor was freed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1tensor_1adaa7e05434a45d2ee9122a88495cc5cca325cb35403e53158c3aa098c0f5b2c95" prot="public">
+          <name>RANK_EXCEEDED</name>
+          <initializer>= 506</initializer>
+          <briefdescription>
+<para>Tensor rank exceeds kMaxTensorRank. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1tensor_1adaa7e05434a45d2ee9122a88495cc5ccae8c0c70879b5895c615677261d64a1ee" prot="public">
+          <name>INTERNAL_ERROR</name>
+          <initializer>= 599</initializer>
+          <briefdescription>
+<para>Unclassified tensor internal error. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Canonical tensor error codes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Codes in range [500, 599] are tensor-specific. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_api_contract.h" line="146" column="1" bodyfile="include/tensor/tensor_api_contract.h" bodystart="146" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678" prot="public" static="no" strong="yes">
+        <type>int</type>
+        <name>TensorDtype</name>
+        <qualifiedname>themis::tensor::TensorDtype</qualifiedname>
+        <enumvalue id="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678a26e6ed77470c6f2f830ecf874e6c0d55" prot="public">
+          <name>Float16</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678a166495adc0d0f53bee6baecc577f5204" prot="public">
+          <name>Float32</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678ad2b556d8a8f5c8ac323f51a4b82e79a0" prot="public">
+          <name>Float64</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678a7d839b2c12bfd40ac121b4cc9e81c539" prot="public">
+          <name>Int8</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678a39bc2ae44b184207f560ff8619823208" prot="public">
+          <name>Int16</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678ac06129f6e6e15c09328365e553f1dc31" prot="public">
+          <name>Int32</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678afbde23b11d7e59af7828e81144c8b487" prot="public">
+          <name>Int64</name>
+          <initializer>= 6</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678ac26f15e86e3de4c398a8273272aba034" prot="public">
+          <name>Bool</name>
+          <initializer>= 7</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Enumeration of supported tensor data types. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_api_contract.h" line="199" column="1" bodyfile="include/tensor/tensor_api_contract.h" bodystart="199" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1tensor_1af047ac11b132f1fc9a4c2504516b9221" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>OperatorType</name>
+        <qualifiedname>themis::tensor::OperatorType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1tensor_1af047ac11b132f1fc9a4c2504516b9221a667d9ad5dc062018cfdc1ec703400be5" prot="public">
+          <name>FOURIER</name>
+          <briefdescription>
+<para>Walsh-Hadamard Transform (real-valued butterfly proxy for DFT). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1tensor_1af047ac11b132f1fc9a4c2504516b9221a3ad9a5098dbd53d7e449e1b5058e674b" prot="public">
+          <name>RADON</name>
+          <briefdescription>
+<para>Radon transform (not yet implemented — STUB #171). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1tensor_1af047ac11b132f1fc9a4c2504516b9221a417cd7aba46a82affe0d327e7f5d2194" prot="public">
+          <name>GREENS_FUNCTION</name>
+          <briefdescription>
+<para>Green&apos;s function operator (not yet implemented — STUB #171). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Integral operator family for the butterfly factorisation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_butterfly_operator.h" line="30" column="1" bodyfile="include/tensor/tensor_butterfly_operator.h" bodystart="30" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1tensor_1af4950e25c4551b79bf7b7fc9e3cdce15" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>TensorIncidentClass</name>
+        <qualifiedname>themis::tensor::TensorIncidentClass</qualifiedname>
+        <enumvalue id="namespacethemis_1_1tensor_1af4950e25c4551b79bf7b7fc9e3cdce15acb4ae3b37047fb4b2c0d16f8bf84f076" prot="public">
+          <name>INDEX</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Index manager resource constraints, concurrency limits, or routing failures. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1tensor_1af4950e25c4551b79bf7b7fc9e3cdce15aa75a1789547188e39e2e344c286d2b62" prot="public">
+          <name>BRIDGE</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Bridge-layer faults: core, ingestion, mmap, or backend injection errors. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1tensor_1af4950e25c4551b79bf7b7fc9e3cdce15adf150ffe9c901904a3508118be939cf2" prot="public">
+          <name>FINGERPRINT</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Fingerprint graph concurrent access patterns or consistency errors. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1tensor_1af4950e25c4551b79bf7b7fc9e3cdce15ae51bb7efac4957f34f53c259f06da571" prot="public">
+          <name>DEDUP</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>Deduplication detection memory bounds or latency violations. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1tensor_1af4950e25c4551b79bf7b7fc9e3cdce15a0dd0595e89c6c35ae25fb9a093919e9f" prot="public">
+          <name>EXPORT_REPLAY</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+<para>Export/replay operations or error recovery paths. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1tensor_1af4950e25c4551b79bf7b7fc9e3cdce15ac942dc2a9f958acddc67e11472d3ca0b" prot="public">
+          <name>GENERIC</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+<para>Generic tensor operation errors not categorized above. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Unified incident classification for all tensor module failures. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Provides a consistent taxonomy for categorizing all tensor-related incidents across the index manager, bridge layer, fingerprint graph, and deduplication system for standardized diagnostics and monitoring.</para>
+<para><simplesect kind="see"><para>Phase 3 Task 3.2 Acceptance Criteria </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="480" column="1" bodyfile="include/tensor/tensor_error_handling.h" bodystart="480" bodyend="498"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1tensor_1a8ef85b987ac7f3e79643904c124d5552" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>TensorLayerKind</name>
+        <qualifiedname>themis::tensor::TensorLayerKind</qualifiedname>
+        <enumvalue id="namespacethemis_1_1tensor_1a8ef85b987ac7f3e79643904c124d5552a8601c10b2797050a900697daac0c0001" prot="public">
+          <name>Adapter</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1tensor_1a8ef85b987ac7f3e79643904c124d5552a209802fb858e2c83205027dbbb5d9e6c" prot="public">
+          <name>Package</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1tensor_1a8ef85b987ac7f3e79643904c124d5552a7ef9473d9fc5a4ee368e734a585ca9b7" prot="public">
+          <name>ShardSummary</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1tensor_1a8ef85b987ac7f3e79643904c124d5552a0844c0c1b4ff269fa3d937e0452bacb1" prot="public">
+          <name>FingerprintSummary</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mid_layer.h" line="26" column="1" bodyfile="include/tensor/tensor_mid_layer.h" bodystart="26" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1tensor_1a73ec359ee10de20cd9f84756cb445dc7" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>SummaryFreshnessState</name>
+        <qualifiedname>themis::tensor::SummaryFreshnessState</qualifiedname>
+        <enumvalue id="namespacethemis_1_1tensor_1a73ec359ee10de20cd9f84756cb445dc7aa56278fcd527ad6b4619050916ca2ca8" prot="public">
+          <name>FRESH</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Summary is current and can be used for routing. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1tensor_1a73ec359ee10de20cd9f84756cb445dc7a4d855a061b3066dc14a3b12ed26b5456" prot="public">
+          <name>STALE</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Summary has exceeded TTL and should be rejected. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1tensor_1a73ec359ee10de20cd9f84756cb445dc7accc0377a8afbf50e7094f5c23a8af223" prot="public">
+          <name>INVALID</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Summary is corrupted or invalid. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Freshness state of a shard summary. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Used to track whether a summary is suitable for routing decisions, exact fragment loading, or must be rejected as stale. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_summary_types.h" line="146" column="1" bodyfile="include/tensor/tensor_summary_types.h" bodystart="146" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1tensor_1a6d1137c07511e43abf5b3703ed021e8a" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>DocumentStructureHint</name>
+        <qualifiedname>themis::tensor::DocumentStructureHint</qualifiedname>
+        <enumvalue id="namespacethemis_1_1tensor_1a6d1137c07511e43abf5b3703ed021e8aab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>No structural information; uniform paragraph splits. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1tensor_1a6d1137c07511e43abf5b3703ed021e8aad473f89caa2621cbac56ade8371d45fe" prot="public">
+          <name>PARAGRAPHS</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Splits at double-newlines. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1tensor_1a6d1137c07511e43abf5b3703ed021e8aaec9da399751786d27d1b6afd4a7f8f67" prot="public">
+          <name>SENTENCES</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Splits at sentence boundaries (period+space heuristic). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/utr_converter.h" line="54" column="1" bodyfile="include/tensor/utr_converter.h" bodystart="54" bodyend="58"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1tensor_1ae59a569acb81a278a6e9c4ee8e3811d2" prot="public" static="no">
+        <type><ref refid="classthemis_1_1tensor_1_1_similarity_based_detector" kindref="compound">SimilarityBasedDetector</ref></type>
+        <definition>using themis::tensor::SimilarityBasedRedundancyDetector = SimilarityBasedDetector</definition>
+        <argsstring></argsstring>
+        <name>SimilarityBasedRedundancyDetector</name>
+        <qualifiedname>themis::tensor::SimilarityBasedRedundancyDetector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_compat.h" line="42" column="1" bodyfile="include/tensor/tensor_compat.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1tensor_1ad0b0ce94f843d450d14cf28668f6f2ef" prot="public" static="no">
+        <type><ref refid="classthemis_1_1tensor_1_1_t_t_decomposition_strategy" kindref="compound">TTDecompositionStrategy</ref></type>
+        <definition>using themis::tensor::CompressionStrategy = TTDecompositionStrategy</definition>
+        <argsstring></argsstring>
+        <name>CompressionStrategy</name>
+        <qualifiedname>themis::tensor::CompressionStrategy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_compat.h" line="45" column="1" bodyfile="include/tensor/tensor_compat.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1tensor_1a74b1a3e631cbbd6b1f6cfdcbfa8dc705" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::kMaxTensorRank</definition>
+        <argsstring></argsstring>
+        <name>kMaxTensorRank</name>
+        <qualifiedname>themis::tensor::kMaxTensorRank</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+<para>Maximum number of dimensions (rank) supported by a tensor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_api_contract.h" line="56" column="30" bodyfile="include/tensor/tensor_api_contract.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1tensor_1a12725f7e9a863a2c497d5b18c4b7c74d" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::kMaxTensorElements</definition>
+        <argsstring></argsstring>
+        <name>kMaxTensorElements</name>
+        <qualifiedname>themis::tensor::kMaxTensorElements</qualifiedname>
+        <initializer>= 1&apos;000&apos;000&apos;000u</initializer>
+        <briefdescription>
+<para>Maximum number of elements in a single tensor (guards against OOM). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_api_contract.h" line="59" column="30" bodyfile="include/tensor/tensor_api_contract.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1tensor_1a761ad940c7fb7c43100e32c0e6cb0f17" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::tensor::kDeviceDispatchToleranceF32</definition>
+        <argsstring></argsstring>
+        <name>kDeviceDispatchToleranceF32</name>
+        <qualifiedname>themis::tensor::kDeviceDispatchToleranceF32</qualifiedname>
+        <initializer>= 1e-6</initializer>
+        <briefdescription>
+<para>Relative tolerance for CPU vs GPU numerical equivalence (float32). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_api_contract.h" line="83" column="25" bodyfile="include/tensor/tensor_api_contract.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1tensor_1a74af1ec1be06f8f47ec0ed4cfc62e97f" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::tensor::kDeviceDispatchToleranceF64</definition>
+        <argsstring></argsstring>
+        <name>kDeviceDispatchToleranceF64</name>
+        <qualifiedname>themis::tensor::kDeviceDispatchToleranceF64</qualifiedname>
+        <initializer>= 1e-10</initializer>
+        <briefdescription>
+<para>Relative tolerance for CPU vs GPU numerical equivalence (float64). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_api_contract.h" line="86" column="25" bodyfile="include/tensor/tensor_api_contract.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1a293aa2e6c9bc5770df46271a3fc0a1f1" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::tensor::isHardTensorError</definition>
+        <argsstring>(TensorErrorCode code) noexcept</argsstring>
+        <name>isHardTensorError</name>
+        <qualifiedname>themis::tensor::isHardTensorError</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1tensor_1adaa7e05434a45d2ee9122a88495cc5cc" kindref="member">TensorErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when the error code is a non-retryable hard error. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_api_contract.h" line="175" column="24" bodyfile="include/tensor/tensor_api_contract.h" bodystart="175" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1a70af4754811df763d23415c2f7709716" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::tensor::isResourceError</definition>
+        <argsstring>(TensorErrorCode code) noexcept</argsstring>
+        <name>isResourceError</name>
+        <qualifiedname>themis::tensor::isResourceError</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1tensor_1adaa7e05434a45d2ee9122a88495cc5cc" kindref="member">TensorErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when the error code is a resource-exhaustion condition that may be retried after releasing resources. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_api_contract.h" line="187" column="24" bodyfile="include/tensor/tensor_api_contract.h" bodystart="187" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1a0b76eeb59f0244331c2ca5f24499912b" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::dtypeByteSize</definition>
+        <argsstring>(TensorDtype dtype) noexcept</argsstring>
+        <name>dtypeByteSize</name>
+        <qualifiedname>themis::tensor::dtypeByteSize</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678" kindref="member">TensorDtype</ref></type>
+          <declname>dtype</declname>
+        </param>
+        <briefdescription>
+<para>Returns the byte size of one element for the given dtype. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_api_contract.h" line="213" column="31" bodyfile="include/tensor/tensor_api_contract.h" bodystart="213" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1aa32d666506f1af049c6b2a8da6c530e2" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::tensor::areDtypesCompatible</definition>
+        <argsstring>(TensorDtype a, TensorDtype b) noexcept</argsstring>
+        <name>areDtypesCompatible</name>
+        <qualifiedname>themis::tensor::areDtypesCompatible</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678" kindref="member">TensorDtype</ref></type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678" kindref="member">TensorDtype</ref></type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when two dtypes are compatible for binary arithmetic. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compatibility requires identical dtype; mixed-precision requires explicit accumulation_dtype parameter (out-of-scope for this predicate). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_api_contract.h" line="233" column="24" bodyfile="include/tensor/tensor_api_contract.h" bodystart="233" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1a49b254cde4043539e3aaead763f10a4f" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::tensor::incidentClassToString</definition>
+        <argsstring>(TensorIncidentClass incident_class) noexcept</argsstring>
+        <name>incidentClassToString</name>
+        <qualifiedname>themis::tensor::incidentClassToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1tensor_1af4950e25c4551b79bf7b7fc9e3cdce15" kindref="member">TensorIncidentClass</ref></type>
+          <declname>incident_class</declname>
+        </param>
+        <briefdescription>
+<para>Convert incident class to human-readable string for logging. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>incident_class</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The incident class to convert </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>String representation (e.g., &quot;BRIDGE&quot;, &quot;FINGERPRINT&quot;) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="506" column="19" bodyfile="include/tensor/tensor_error_handling.h" bodystart="506" bodyend="516"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1a9a26cb70c05d6546099569edaa2f2117" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::emitTensorDiagnostic</definition>
+        <argsstring>(TensorIncidentClass incident_class, const std::string &amp;error_code, const std::string &amp;error_message, const std::map&lt; std::string, std::string &gt; &amp;context={}) noexcept</argsstring>
+        <name>emitTensorDiagnostic</name>
+        <qualifiedname>themis::tensor::emitTensorDiagnostic</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1tensor_1af4950e25c4551b79bf7b7fc9e3cdce15" kindref="member">TensorIncidentClass</ref></type>
+          <declname>incident_class</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error_code</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error_message</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>context</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Emit a diagnostic event for tensor module operations (unified interface). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Thread-safe helper for emitting structured diagnostic events during error handling and recovery. Used to ensure all error paths produce diagnostic telemetry for MTTR reduction.</para>
+<para>This unified function is called by all phase 3 error handling paths (TNCH-01..TNCH-16 contract hardening tests).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>incident_class</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Classification from <ref refid="namespacethemis_1_1tensor_1af4950e25c4551b79bf7b7fc9e3cdce15" kindref="member">TensorIncidentClass</ref> enum </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>error_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Semantic error code (e.g., &quot;TENSOR-9510&quot;, &quot;TENSOR-9520&quot;) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>error_message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Human-readable error message </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional context key-value pairs (module, adapter_id, etc.)</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="see"><para>Phase 3 Task 3.2: &quot;All 8+ error paths in tensor_fingerprint_graph.cpp + 4+ paths in tensor_index_manager.cpp use unified emission&quot; </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tensor/tensor_error_handling.cpp" line="582" column="6" bodyfile="src/tensor/tensor_error_handling.cpp" bodystart="582" bodyend="589" declfile="include/tensor/tensor_error_handling.h" declline="539" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1a48763d99494d806ef33cf4048b825a47" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::emitFingerprintDiagnostic</definition>
+        <argsstring>(const std::string &amp;error_code, const std::string &amp;detail, const std::string &amp;adapter_key=&quot;&quot;) noexcept</argsstring>
+        <name>emitFingerprintDiagnostic</name>
+        <qualifiedname>themis::tensor::emitFingerprintDiagnostic</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error_code</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>detail</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_key</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Convenience wrapper for fingerprint graph diagnostics (unified). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Automatically categorizes incident as FINGERPRINT class.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>error_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>TENSOR-specific error code </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>detail</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error detail (e.g., operation, reason, value) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>adapter_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional adapter identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tensor/tensor_error_handling.cpp" line="591" column="6" bodyfile="src/tensor/tensor_error_handling.cpp" bodystart="591" bodyend="606" declfile="include/tensor/tensor_error_handling.h" declline="554" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1a48bc12e699a85fc1860ec0f55ba516db" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::emitIndexDiagnostic</definition>
+        <argsstring>(const std::string &amp;error_code, const std::string &amp;detail, const std::string &amp;index_key=&quot;&quot;) noexcept</argsstring>
+        <name>emitIndexDiagnostic</name>
+        <qualifiedname>themis::tensor::emitIndexDiagnostic</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error_code</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>detail</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>index_key</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Convenience wrapper for index manager diagnostics (unified). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Automatically categorizes incident as INDEX class.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>error_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>TENSOR-specific error code </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>detail</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error detail </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>index_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional index identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tensor/tensor_error_handling.cpp" line="608" column="6" bodyfile="src/tensor/tensor_error_handling.cpp" bodystart="608" bodyend="623" declfile="include/tensor/tensor_error_handling.h" declline="568" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1a4f2fc1bc5a397b73987bbac087f28a40" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::emitBridgeDiagnostic</definition>
+        <argsstring>(const std::string &amp;error_code, const std::string &amp;detail, const std::string &amp;bridge_id=&quot;&quot;) noexcept</argsstring>
+        <name>emitBridgeDiagnostic</name>
+        <qualifiedname>themis::tensor::emitBridgeDiagnostic</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error_code</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>detail</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>bridge_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Convenience wrapper for bridge-layer diagnostics (unified). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Automatically categorizes incident as BRIDGE class.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>error_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>TENSOR-specific error code </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>detail</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error detail (e.g., backend, serialization error) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>bridge_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional bridge identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tensor/tensor_error_handling.cpp" line="625" column="6" bodyfile="src/tensor/tensor_error_handling.cpp" bodystart="625" bodyend="640" declfile="include/tensor/tensor_error_handling.h" declline="582" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1a2fad833e3f5f34e59b8e8487d2098054" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::emitDedupDiagnostic</definition>
+        <argsstring>(const std::string &amp;error_code, const std::string &amp;detail, const std::string &amp;dedup_id=&quot;&quot;) noexcept</argsstring>
+        <name>emitDedupDiagnostic</name>
+        <qualifiedname>themis::tensor::emitDedupDiagnostic</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error_code</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>detail</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dedup_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Convenience wrapper for deduplication diagnostics (unified). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Automatically categorizes incident as DEDUP class.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>error_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>TENSOR-specific error code </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>detail</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error detail (e.g., memory bound, latency violation) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>dedup_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional deduplication component identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tensor/tensor_error_handling.cpp" line="642" column="6" bodyfile="src/tensor/tensor_error_handling.cpp" bodystart="642" bodyend="657" declfile="include/tensor/tensor_error_handling.h" declline="596" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1acf8518f7676a0a84a770711c4c5c594d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::tensor::getCurrentTimestamp</definition>
+        <argsstring>()</argsstring>
+        <name>getCurrentTimestamp</name>
+        <qualifiedname>themis::tensor::getCurrentTimestamp</qualifiedname>
+        <briefdescription>
+<para>============================================================================ Helper: Get current ISO-8601 timestamp ============================================================================ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), std::chrono::system_clock::to_time_t(), std::put_time(), std::gmtime(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tensor/tensor_error_handling.cpp" line="24" column="20" bodyfile="src/tensor/tensor_error_handling.cpp" bodystart="24" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1a69402e925fcfee42508dd6c1cfaefbbf" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::tensor::emitUnifiedDiagnostic</definition>
+        <argsstring>(TensorIncidentClass incident_class, const std::string &amp;error_code, const std::string &amp;error_message, const std::map&lt; std::string, std::string &gt; &amp;context) noexcept</argsstring>
+        <name>emitUnifiedDiagnostic</name>
+        <qualifiedname>themis::tensor::emitUnifiedDiagnostic</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1tensor_1af4950e25c4551b79bf7b7fc9e3cdce15" kindref="member">TensorIncidentClass</ref></type>
+          <declname>incident_class</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error_code</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error_message</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tensor/tensor_error_handling.cpp" line="548" column="13" bodyfile="src/tensor/tensor_error_handling.cpp" bodystart="548" bodyend="580"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1a482163f779e22489c2ed91aa4605c6e8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1tensor_1_1_tensor_fingerprint_graph_1af626dc8b1e2edc3c29569ac5601af6de" kindref="member">TensorFingerprintGraph::ExactSimilarityFn</ref></type>
+        <definition>static TensorFingerprintGraph::ExactSimilarityFn themis::tensor::getExactSimilarityFn</definition>
+        <argsstring>()</argsstring>
+        <name>getExactSimilarityFn</name>
+        <qualifiedname>themis::tensor::getExactSimilarityFn</qualifiedname>
+        <briefdescription>
+<para>Get Exact Similarity Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tensor/tensor_fingerprint_graph.cpp" line="59" column="50" bodyfile="src/tensor/tensor_fingerprint_graph.cpp" bodystart="59" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1a9962fd740098be244306e626821f7e43" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>static float themis::tensor::computeCosineSimilarity</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;a, const std::vector&lt; float &gt; &amp;b)</argsstring>
+        <name>computeCosineSimilarity</name>
+        <qualifiedname>themis::tensor::computeCosineSimilarity</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>Compute Cosine Similarity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::min(), size(), std::sqrt(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tensor/tensor_redundancy_detection.cpp" line="28" column="14" bodyfile="src/tensor/tensor_redundancy_detection.cpp" bodystart="28" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1acf8518f7676a0a84a770711c4c5c594d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::tensor::getCurrentTimestamp</definition>
+        <argsstring>()</argsstring>
+        <name>getCurrentTimestamp</name>
+        <qualifiedname>themis::tensor::getCurrentTimestamp</qualifiedname>
+        <briefdescription>
+<para>============================================================================ Helper: Get current ISO-8601 timestamp ============================================================================ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), std::chrono::system_clock::to_time_t(), std::put_time(), std::gmtime(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tensor/tensor_summary_types.cpp" line="21" column="20" bodyfile="src/tensor/tensor_summary_types.cpp" bodystart="21" bodyend="27"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/tensor/adapter_repository.h" line="31" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_changefeed_1_1_watermarks" kind="struct" language="C++" prot="public">
+    <compoundname>Changefeed::Watermarks</compoundname>
+    <includes refid="changefeed_8h" local="no">changefeed.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_changefeed_1_1_watermarks_1a63405caf4be3a27ec301acb018d144ee" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::Changefeed::Watermarks::low_watermark</definition>
+        <argsstring></argsstring>
+        <name>low_watermark</name>
+        <qualifiedname>Changefeed::Watermarks::low_watermark</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="108" column="18" bodyfile="include/cdc/changefeed.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_changefeed_1_1_watermarks_1a9376955c58cda80c2612a5d8254516a3" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::Changefeed::Watermarks::high_watermark</definition>
+        <argsstring></argsstring>
+        <name>high_watermark</name>
+        <qualifiedname>Changefeed::Watermarks::high_watermark</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="109" column="18" bodyfile="include/cdc/changefeed.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_changefeed_1_1_watermarks_1afb05b33a5cc4bc2aa2d6bcadb6c826df" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::Changefeed::Watermarks::oldest_timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>oldest_timestamp_ms</name>
+        <qualifiedname>Changefeed::Watermarks::oldest_timestamp_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="110" column="17" bodyfile="include/cdc/changefeed.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_changefeed_1_1_watermarks_1a31e067303dcf224457144747c6f5e051" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::Changefeed::Watermarks::newest_timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>newest_timestamp_ms</name>
+        <qualifiedname>Changefeed::Watermarks::newest_timestamp_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="111" column="17" bodyfile="include/cdc/changefeed.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cdc/changefeed.h" line="107" column="5" bodyfile="include/cdc/changefeed.h" bodystart="107" bodyend="112"/>
+    <listofallmembers>
+      <member refid="struct_changefeed_1_1_watermarks_1a9376955c58cda80c2612a5d8254516a3" prot="public" virt="non-virtual"><scope>Changefeed::Watermarks</scope><name>high_watermark</name></member>
+      <member refid="struct_changefeed_1_1_watermarks_1a63405caf4be3a27ec301acb018d144ee" prot="public" virt="non-virtual"><scope>Changefeed::Watermarks</scope><name>low_watermark</name></member>
+      <member refid="struct_changefeed_1_1_watermarks_1a31e067303dcf224457144747c6f5e051" prot="public" virt="non-virtual"><scope>Changefeed::Watermarks</scope><name>newest_timestamp_ms</name></member>
+      <member refid="struct_changefeed_1_1_watermarks_1afb05b33a5cc4bc2aa2d6bcadb6c826df" prot="public" virt="non-virtual"><scope>Changefeed::Watermarks</scope><name>oldest_timestamp_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

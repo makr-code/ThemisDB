@@ -1,0 +1,290 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cache_1_1_eviction_scheduler" kind="class" language="C++" prot="public">
+    <compoundname>themis::cache::EvictionScheduler</compoundname>
+    <includes refid="eviction_8h" local="no">eviction.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_eviction_scheduler_1a96aa6ae43f69409e7cc3762100142df0" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1cache_1acfcf928a61bd2f19f8d25d891ef910af" kindref="member">EvictionScoringFn</ref></type>
+        <definition>EvictionScoringFn themis::cache::EvictionScheduler::scoring_fn_</definition>
+        <argsstring></argsstring>
+        <name>scoring_fn_</name>
+        <qualifiedname>themis::cache::EvictionScheduler::scoring_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/eviction.h" line="120" column="23" bodyfile="include/cache/eviction.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_eviction_scheduler_1acc3bafa1b3e69f96dbe9b7d20056e64b" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::EvictionScheduler::EvictionScheduler</definition>
+        <argsstring>(EvictionScoringFn scoring_fn)</argsstring>
+        <name>EvictionScheduler</name>
+        <qualifiedname>themis::cache::EvictionScheduler::EvictionScheduler</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1cache_1acfcf928a61bd2f19f8d25d891ef910af" kindref="member">EvictionScoringFn</ref></type>
+          <declname>scoring_fn</declname>
+        </param>
+        <briefdescription>
+<para>Eviction Scheduler. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">scoring_fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/eviction.h" line="73" column="14" bodyfile="src/cache/eviction.cpp" bodystart="30" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_eviction_scheduler_1aa292dfb1969af4dfb5ddb15d91ec33ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::EvictionScheduler::~EvictionScheduler</definition>
+        <argsstring>()=default</argsstring>
+        <name>~EvictionScheduler</name>
+        <qualifiedname>themis::cache::EvictionScheduler::~EvictionScheduler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/eviction.h" line="75" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_eviction_scheduler_1a964060d2c1f3634d84e7d4b814c906c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::EvictionScheduler::EvictionScheduler</definition>
+        <argsstring>(const EvictionScheduler &amp;)=delete</argsstring>
+        <name>EvictionScheduler</name>
+        <qualifiedname>themis::cache::EvictionScheduler::EvictionScheduler</qualifiedname>
+        <param>
+          <type>const EvictionScheduler &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/eviction.h" line="77" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_eviction_scheduler_1a66a61b8c74976b5aa7e512cdad3f36ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1cache_1_1_eviction_scheduler_1acc3bafa1b3e69f96dbe9b7d20056e64b" kindref="member">EvictionScheduler</ref> &amp;</type>
+        <definition>EvictionScheduler &amp; themis::cache::EvictionScheduler::operator=</definition>
+        <argsstring>(const EvictionScheduler &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::cache::EvictionScheduler::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1cache_1_1_eviction_scheduler_1acc3bafa1b3e69f96dbe9b7d20056e64b" kindref="member">EvictionScheduler</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/eviction.h" line="78" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_eviction_scheduler_1a6186727cd25803646a35d97f21bcce41" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::EvictionScheduler::EvictionScheduler</definition>
+        <argsstring>(EvictionScheduler &amp;&amp;) noexcept=default</argsstring>
+        <name>EvictionScheduler</name>
+        <qualifiedname>themis::cache::EvictionScheduler::EvictionScheduler</qualifiedname>
+        <param>
+          <type>EvictionScheduler &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/eviction.h" line="79" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_eviction_scheduler_1a79433fde48c6e131ee449f7ef534489e" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1cache_1_1_eviction_scheduler_1acc3bafa1b3e69f96dbe9b7d20056e64b" kindref="member">EvictionScheduler</ref> &amp;</type>
+        <definition>EvictionScheduler &amp; themis::cache::EvictionScheduler::operator=</definition>
+        <argsstring>(EvictionScheduler &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::cache::EvictionScheduler::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1_eviction_scheduler_1acc3bafa1b3e69f96dbe9b7d20056e64b" kindref="member">EvictionScheduler</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/eviction.h" line="80" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_eviction_scheduler_1ada8793f5c1b276db55dea16943e71052" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1cache_1_1_eviction_result" kindref="compound">EvictionResult</ref></type>
+        <definition>EvictionResult themis::cache::EvictionScheduler::select</definition>
+        <argsstring>(std::vector&lt; EvictionCandidate &gt; &amp;candidates, std::size_t target_free_bytes) const</argsstring>
+        <name>select</name>
+        <qualifiedname>themis::cache::EvictionScheduler::select</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1cache_1_1_eviction_candidate" kindref="compound">EvictionCandidate</ref> &gt; &amp;</type>
+          <declname>candidates</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>target_free_bytes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/eviction.h" line="82" column="21" bodyfile="src/cache/eviction.cpp" bodystart="64" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_eviction_scheduler_1a40e7b81e06ee0f3df49f44d6cda6328a" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::cache::EvictionScheduler::score</definition>
+        <argsstring>(const EvictionCandidate &amp;c) const noexcept</argsstring>
+        <name>score</name>
+        <qualifiedname>themis::cache::EvictionScheduler::score</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1cache_1_1_eviction_candidate" kindref="compound">EvictionCandidate</ref> &amp;</type>
+          <declname>c</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/eviction.h" line="86" column="13" bodyfile="src/cache/eviction.cpp" bodystart="55" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_eviction_scheduler_1a169a6a304d0bc81bee0196970d441475" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::EvictionScheduler::set_scoring_fn</definition>
+        <argsstring>(EvictionScoringFn scoring_fn)</argsstring>
+        <name>set_scoring_fn</name>
+        <qualifiedname>themis::cache::EvictionScheduler::set_scoring_fn</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1cache_1acfcf928a61bd2f19f8d25d891ef910af" kindref="member">EvictionScoringFn</ref></type>
+          <declname>scoring_fn</declname>
+        </param>
+        <briefdescription>
+<para>Set scoring fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>------------------------------------------------------------------------<mdash/> <ref refid="classthemis_1_1cache_1_1_eviction_scheduler_1a169a6a304d0bc81bee0196970d441475" kindref="member">EvictionScheduler::set_scoring_fn</ref> ------------------------------------------------------------------------<mdash/></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">scoring_fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/eviction.h" line="92" column="10" bodyfile="src/cache/eviction.cpp" bodystart="43" bodyend="49"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_eviction_scheduler_1a9e2b1b803b5500ac1db82fdefd6fac16" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1cache_1acfcf928a61bd2f19f8d25d891ef910af" kindref="member">EvictionScoringFn</ref></type>
+        <definition>EvictionScoringFn themis::cache::EvictionScheduler::lru_policy</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>lru_policy</name>
+        <qualifiedname>themis::cache::EvictionScheduler::lru_policy</qualifiedname>
+        <briefdescription>
+<para>Lru policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/eviction.h" line="103" column="30" bodyfile="src/cache/eviction.cpp" bodystart="133" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_eviction_scheduler_1a7590fd38f872706893c03963bcdf97a2" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1cache_1acfcf928a61bd2f19f8d25d891ef910af" kindref="member">EvictionScoringFn</ref></type>
+        <definition>EvictionScoringFn themis::cache::EvictionScheduler::lfu_policy</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>lfu_policy</name>
+        <qualifiedname>themis::cache::EvictionScheduler::lfu_policy</qualifiedname>
+        <briefdescription>
+<para>Lfu policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/eviction.h" line="110" column="30" bodyfile="src/cache/eviction.cpp" bodystart="141" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_eviction_scheduler_1aad6a3db2de6094b3df41374c6391dd07" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1cache_1acfcf928a61bd2f19f8d25d891ef910af" kindref="member">EvictionScoringFn</ref></type>
+        <definition>EvictionScoringFn themis::cache::EvictionScheduler::size_aware_lru_policy</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>size_aware_lru_policy</name>
+        <qualifiedname>themis::cache::EvictionScheduler::size_aware_lru_policy</qualifiedname>
+        <briefdescription>
+<para>Size aware lru policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/eviction.h" line="117" column="30" bodyfile="src/cache/eviction.cpp" bodystart="148" bodyend="157"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/eviction.h" line="66" column="1" bodyfile="include/cache/eviction.h" bodystart="66" bodyend="121"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cache_1_1_eviction_scheduler_1acc3bafa1b3e69f96dbe9b7d20056e64b" prot="public" virt="non-virtual"><scope>themis::cache::EvictionScheduler</scope><name>EvictionScheduler</name></member>
+      <member refid="classthemis_1_1cache_1_1_eviction_scheduler_1a964060d2c1f3634d84e7d4b814c906c7" prot="public" virt="non-virtual"><scope>themis::cache::EvictionScheduler</scope><name>EvictionScheduler</name></member>
+      <member refid="classthemis_1_1cache_1_1_eviction_scheduler_1a6186727cd25803646a35d97f21bcce41" prot="public" virt="non-virtual"><scope>themis::cache::EvictionScheduler</scope><name>EvictionScheduler</name></member>
+      <member refid="classthemis_1_1cache_1_1_eviction_scheduler_1a7590fd38f872706893c03963bcdf97a2" prot="public" virt="non-virtual"><scope>themis::cache::EvictionScheduler</scope><name>lfu_policy</name></member>
+      <member refid="classthemis_1_1cache_1_1_eviction_scheduler_1a9e2b1b803b5500ac1db82fdefd6fac16" prot="public" virt="non-virtual"><scope>themis::cache::EvictionScheduler</scope><name>lru_policy</name></member>
+      <member refid="classthemis_1_1cache_1_1_eviction_scheduler_1a66a61b8c74976b5aa7e512cdad3f36ec" prot="public" virt="non-virtual"><scope>themis::cache::EvictionScheduler</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1cache_1_1_eviction_scheduler_1a79433fde48c6e131ee449f7ef534489e" prot="public" virt="non-virtual"><scope>themis::cache::EvictionScheduler</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1cache_1_1_eviction_scheduler_1a40e7b81e06ee0f3df49f44d6cda6328a" prot="public" virt="non-virtual"><scope>themis::cache::EvictionScheduler</scope><name>score</name></member>
+      <member refid="classthemis_1_1cache_1_1_eviction_scheduler_1a96aa6ae43f69409e7cc3762100142df0" prot="private" virt="non-virtual"><scope>themis::cache::EvictionScheduler</scope><name>scoring_fn_</name></member>
+      <member refid="classthemis_1_1cache_1_1_eviction_scheduler_1ada8793f5c1b276db55dea16943e71052" prot="public" virt="non-virtual"><scope>themis::cache::EvictionScheduler</scope><name>select</name></member>
+      <member refid="classthemis_1_1cache_1_1_eviction_scheduler_1a169a6a304d0bc81bee0196970d441475" prot="public" virt="non-virtual"><scope>themis::cache::EvictionScheduler</scope><name>set_scoring_fn</name></member>
+      <member refid="classthemis_1_1cache_1_1_eviction_scheduler_1aad6a3db2de6094b3df41374c6391dd07" prot="public" virt="non-virtual"><scope>themis::cache::EvictionScheduler</scope><name>size_aware_lru_policy</name></member>
+      <member refid="classthemis_1_1cache_1_1_eviction_scheduler_1aa292dfb1969af4dfb5ddb15d91ec33ae" prot="public" virt="non-virtual"><scope>themis::cache::EvictionScheduler</scope><name>~EvictionScheduler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

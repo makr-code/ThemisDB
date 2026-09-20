@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_cluster_node" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::ClusterNode</compoundname>
+    <includes refid="distributed__token__blacklist_8h" local="no">distributed_token_blacklist.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_cluster_node_1aa034a883c60f5365549658fe2f41100d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::ClusterNode::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themis::auth::ClusterNode::node_id</qualifiedname>
+        <briefdescription>
+<para>Unique node identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="31" column="17" bodyfile="include/auth/distributed_token_blacklist.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_cluster_node_1a51c906d4cf39118a355119d14b1967d6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::ClusterNode::rpc_address</definition>
+        <argsstring></argsstring>
+        <name>rpc_address</name>
+        <qualifiedname>themis::auth::ClusterNode::rpc_address</qualifiedname>
+        <briefdescription>
+<para>Network address for RPC (e.g., &quot;192.168.1.1:9090&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="32" column="17" bodyfile="include/auth/distributed_token_blacklist.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_cluster_node_1a93d2159c2c7b9eca688b0cacc744652e" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::auth::ClusterNode::rpc_port</definition>
+        <argsstring></argsstring>
+        <name>rpc_port</name>
+        <qualifiedname>themis::auth::ClusterNode::rpc_port</qualifiedname>
+        <initializer>{9090}</initializer>
+        <briefdescription>
+<para>RPC port for replication. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="33" column="9" bodyfile="include/auth/distributed_token_blacklist.h" bodystart="33" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_cluster_node_1ac83fe2c11890b1ffd33297433516e088" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::ClusterNode::is_leader</definition>
+        <argsstring></argsstring>
+        <name>is_leader</name>
+        <qualifiedname>themis::auth::ClusterNode::is_leader</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>Whether this node is the leader. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="34" column="10" bodyfile="include/auth/distributed_token_blacklist.h" bodystart="34" bodyend="34"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/distributed_token_blacklist.h" line="30" column="1" bodyfile="include/auth/distributed_token_blacklist.h" bodystart="30" bodyend="35"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_cluster_node_1ac83fe2c11890b1ffd33297433516e088" prot="public" virt="non-virtual"><scope>themis::auth::ClusterNode</scope><name>is_leader</name></member>
+      <member refid="structthemis_1_1auth_1_1_cluster_node_1aa034a883c60f5365549658fe2f41100d" prot="public" virt="non-virtual"><scope>themis::auth::ClusterNode</scope><name>node_id</name></member>
+      <member refid="structthemis_1_1auth_1_1_cluster_node_1a51c906d4cf39118a355119d14b1967d6" prot="public" virt="non-virtual"><scope>themis::auth::ClusterNode</scope><name>rpc_address</name></member>
+      <member refid="structthemis_1_1auth_1_1_cluster_node_1a93d2159c2c7b9eca688b0cacc744652e" prot="public" virt="non-virtual"><scope>themis::auth::ClusterNode</scope><name>rpc_port</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

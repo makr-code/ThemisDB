@@ -1,0 +1,171 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="stream__writer_8h" kind="file" language="C++">
+    <compoundname>stream_writer.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">fstream</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="incremental__exporter_8cpp" local="yes">src/exporters/incremental_exporter.cpp</includedby>
+    <includedby refid="join__exporter_8cpp" local="yes">src/exporters/join_exporter.cpp</includedby>
+    <includedby refid="jsonl__llm__exporter_8cpp" local="yes">src/exporters/jsonl_llm_exporter.cpp</includedby>
+    <includedby refid="stream__writer_8cpp" local="yes">src/exporters/stream_writer.cpp</includedby>
+    <includedby refid="streaming__exporter_8cpp" local="yes">src/exporters/streaming_exporter.cpp</includedby>
+    <includedby refid="test__jsonl__llm__exporter_8cpp" local="yes">tests/exporters/test_jsonl_llm_exporter.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/exporters/stream_writer.h</label>
+        <link refid="stream__writer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>fstream</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/exporters/stream_writer.h</label>
+        <link refid="stream__writer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/exporters/incremental_exporter.cpp</label>
+        <link refid="incremental__exporter_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/exporters/join_exporter.cpp</label>
+        <link refid="join__exporter_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/exporters/jsonl_llm_exporter.cpp</label>
+        <link refid="jsonl__llm__exporter_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/exporters/stream_writer.cpp</label>
+        <link refid="stream__writer_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/exporters/streaming_exporter.cpp</label>
+        <link refid="streaming__exporter_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/exporters/test_jsonl_llm_exporter.cpp</label>
+        <link refid="test__jsonl__llm__exporter_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1exporters_1_1_stream_writer" prot="public">themis::exporters::StreamWriter</innerclass>
+    <innerclass refid="structthemis_1_1exporters_1_1_stream_writer_1_1_config" prot="public">themis::exporters::StreamWriter::Config</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1exporters">themis::exporters</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1exporters" kindref="compound">themis::exporters</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21" refid="namespacethemis_1_1exporters_1afd4318f568c7f64aa815f40e7455ffe5" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1exporters_1afd4318f568c7f64aa815f40e7455ffe5" kindref="member">CompressionType</ref><sp/>{</highlight></codeline>
+<codeline lineno="22" refid="namespacethemis_1_1exporters_1afd4318f568c7f64aa815f40e7455ffe5ab50339a10e1de285ac99d4c3990b8693" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1exporters_1a6aab9dec3cc3ae92ecb0dce365803855ab50339a10e1de285ac99d4c3990b8693" kindref="member">NONE</ref>,</highlight></codeline>
+<codeline lineno="23" refid="namespacethemis_1_1exporters_1afd4318f568c7f64aa815f40e7455ffe5af1cd28417b03cfab3a8e16d66e34e18a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1exporters_1afd4318f568c7f64aa815f40e7455ffe5af1cd28417b03cfab3a8e16d66e34e18a" kindref="member">GZIP</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="24" refid="namespacethemis_1_1exporters_1afd4318f568c7f64aa815f40e7455ffe5a8406cc2302e19183037b61249546b234" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1exporters_1afd4318f568c7f64aa815f40e7455ffe5a8406cc2302e19183037b61249546b234" kindref="member">ZSTD</ref></highlight></codeline>
+<codeline lineno="25"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="classthemis_1_1exporters_1_1_stream_writer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1exporters_1_1_stream_writer_1a000591f5995cd1dd853a3614c5b5335f" kindref="member">StreamWriter</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1exporters_1_1_stream_writer_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1exporters_1_1_stream_writer_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1exporters_1_1_stream_writer_1_1_config_1a2a26c0c3bf9d301092cf055f5e179122" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1exporters_1_1_stream_writer_1_1_config_1a2a26c0c3bf9d301092cf055f5e179122" kindref="member">output_path</ref>;</highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1exporters_1_1_stream_writer_1_1_config_1a0263069a678c57513f464d6329d9ae23" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1exporters_1afd4318f568c7f64aa815f40e7455ffe5" kindref="member">CompressionType</ref><sp/><ref refid="structthemis_1_1exporters_1_1_stream_writer_1_1_config_1a0263069a678c57513f464d6329d9ae23" kindref="member">compression</ref><sp/>=<sp/><ref refid="namespacethemis_1_1exporters_1afd4318f568c7f64aa815f40e7455ffe5ab50339a10e1de285ac99d4c3990b8693" kindref="member">CompressionType::NONE</ref>;</highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1exporters_1_1_stream_writer_1_1_config_1a75da72dfc502e85778c3177ab3e10a67" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1exporters_1_1_stream_writer_1_1_config_1a75da72dfc502e85778c3177ab3e10a67" kindref="member">compression_level</ref><sp/>=<sp/>3;<sp/><sp/></highlight><highlight class="comment">//<sp/>1-22<sp/>for<sp/>zstd;<sp/>level<sp/>3<sp/>is<sp/>the<sp/>default<sp/>(good<sp/>speed/compression<sp/>ratio)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1exporters_1_1_stream_writer_1_1_config_1a5bdef4cb104b4866495d58fca87b3cca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1exporters_1_1_stream_writer_1_1_config_1a5bdef4cb104b4866495d58fca87b3cca" kindref="member">buffer_size</ref><sp/>=<sp/>8192;</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1exporters_1_1_stream_writer_1_1_config_1a378400bd6f909e2ecd58661946ad02b6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1exporters_1_1_stream_writer_1_1_config_1a378400bd6f909e2ecd58661946ad02b6" kindref="member">max_file_size</ref><sp/>=<sp/>0;<sp/><sp/></highlight><highlight class="comment">//<sp/>0<sp/>=<sp/>unlimited</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_stream_writer_1a000591f5995cd1dd853a3614c5b5335f" kindref="member">StreamWriter</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1exporters_1_1_stream_writer_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1exporters_1_1_stream_writer_1a694e80e4c6789ba97130c3d42d17c384" kindref="member">~StreamWriter</ref>();</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_stream_writer_1aabe5c93789c69f3c3db6dd3cf52111be" kindref="member">write</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>data);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_stream_writer_1aabe5c93789c69f3c3db6dd3cf52111be" kindref="member">write</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>data,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_stream_writer_1a78fb5fdb362914cce408ecfaa620d8b3" kindref="member">flush</ref>();</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_stream_writer_1a59447bf56805966df90dcb99af4e747a" kindref="member">close</ref>();</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="67" refid="classthemis_1_1exporters_1_1_stream_writer_1a5c690503a3174f2fd97a9b09967cbefe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_stream_writer_1a5c690503a3174f2fd97a9b09967cbefe" kindref="member">getBytesWritten</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>bytes_written_;<sp/>}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="69" refid="classthemis_1_1exporters_1_1_stream_writer_1a6c8ac30177bf0d3e3858d5e71877b484" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_stream_writer_1a6c8ac30177bf0d3e3858d5e71877b484" kindref="member">getCompressedBytesWritten</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>compressed_bytes_written_;<sp/>}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71" refid="classthemis_1_1exporters_1_1_stream_writer_1a76b656c007a0e8c732070863f3a0c0cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_stream_writer_1a76b656c007a0e8c732070863f3a0c0cb" kindref="member">isLimitReached</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_.max_file_size<sp/>&gt;<sp/>0<sp/>&amp;&amp;<sp/>compressed_bytes_written_<sp/>&gt;=<sp/>config_.max_file_size;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>Config<sp/>config_;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>std::ofstream<sp/>file_;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;char&gt;<sp/>buffer_;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>buffer_pos_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>bytes_written_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>compressed_bytes_written_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compression<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>compression_state_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>zstd<sp/>stream<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>initCompression();</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>writeBuffer();</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>compressAndWrite([[maybe_unused]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>data,<sp/>[[maybe_unused]]<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>finalizeCompression();</highlight></codeline>
+<codeline lineno="99"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::exporters</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/exporters/stream_writer.h"/>
+  </compounddef>
+</doxygen>

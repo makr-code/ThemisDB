@@ -1,0 +1,265 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::LoRATrainingConfig::AdapterConfig</compoundname>
+    <includes refid="lora__training__config_8h" local="no">lora_training_config.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1a07edc55fd7c49527de483dca26f94682" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRATrainingConfig::AdapterConfig::adapter_id</definition>
+        <argsstring></argsstring>
+        <name>adapter_id</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingConfig::AdapterConfig::adapter_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_config.h" line="80" column="21" bodyfile="include/llm/lora_framework/lora_training_config.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1a6ab39193c9851b3719fe121846227130" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRATrainingConfig::AdapterConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingConfig::AdapterConfig::enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_config.h" line="81" column="14" bodyfile="include/llm/lora_framework/lora_training_config.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1a4917b58262cccf85e25c2f2afdce9184" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRATrainingConfig::AdapterConfig::base_model_name</definition>
+        <argsstring></argsstring>
+        <name>base_model_name</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingConfig::AdapterConfig::base_model_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_config.h" line="84" column="21" bodyfile="include/llm/lora_framework/lora_training_config.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1a6c1ff0d04143e800bed78824500b20e1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRATrainingConfig::AdapterConfig::base_model_path</definition>
+        <argsstring></argsstring>
+        <name>base_model_path</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingConfig::AdapterConfig::base_model_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_config.h" line="85" column="21" bodyfile="include/llm/lora_framework/lora_training_config.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1a4bb91357b6502959514a6424e45253e4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRATrainingConfig::AdapterConfig::base_model_type</definition>
+        <argsstring></argsstring>
+        <name>base_model_type</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingConfig::AdapterConfig::base_model_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_config.h" line="86" column="21" bodyfile="include/llm/lora_framework/lora_training_config.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1a2152c1ddfcc0d482d517e42ab93db5b0" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_hyperparameters" kindref="compound">LoRAHyperparameters</ref></type>
+        <definition>LoRAHyperparameters themis::llm::lora::LoRATrainingConfig::AdapterConfig::hyperparameters</definition>
+        <argsstring></argsstring>
+        <name>hyperparameters</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingConfig::AdapterConfig::hyperparameters</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_config.h" line="89" column="29" bodyfile="include/llm/lora_framework/lora_training_config.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1a84569ee458f67b9ec3afff4e2d005776" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_data_source" kindref="compound">TrainingDataSource</ref> &gt;</type>
+        <definition>std::map&lt;std::string, TrainingDataSource&gt; themis::llm::lora::LoRATrainingConfig::AdapterConfig::training_data</definition>
+        <argsstring></argsstring>
+        <name>training_data</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingConfig::AdapterConfig::training_data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_config.h" line="92" column="18" bodyfile="include/llm/lora_framework/lora_training_config.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1a012cb6c2d784661cf9d024fde8ea1627" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_feedback_weighting" kindref="compound">FeedbackWeighting</ref></type>
+        <definition>FeedbackWeighting themis::llm::lora::LoRATrainingConfig::AdapterConfig::feedback_weighting</definition>
+        <argsstring></argsstring>
+        <name>feedback_weighting</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingConfig::AdapterConfig::feedback_weighting</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_config.h" line="95" column="27" bodyfile="include/llm/lora_framework/lora_training_config.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1a5d26a52009b5d03fad954d48b0c77fe2" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_trigger" kindref="compound">TrainingTrigger</ref></type>
+        <definition>TrainingTrigger themis::llm::lora::LoRATrainingConfig::AdapterConfig::triggers</definition>
+        <argsstring></argsstring>
+        <name>triggers</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingConfig::AdapterConfig::triggers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_config.h" line="98" column="25" bodyfile="include/llm/lora_framework/lora_training_config.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1a0dc07a9100a457880cf9eac142ba1e6a" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_quality_config" kindref="compound">QualityConfig</ref></type>
+        <definition>QualityConfig themis::llm::lora::LoRATrainingConfig::AdapterConfig::quality</definition>
+        <argsstring></argsstring>
+        <name>quality</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingConfig::AdapterConfig::quality</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_config.h" line="101" column="23" bodyfile="include/llm/lora_framework/lora_training_config.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1a706947d4666730fd82d193a4abbc829b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRATrainingConfig::AdapterConfig::device</definition>
+        <argsstring></argsstring>
+        <name>device</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingConfig::AdapterConfig::device</qualifiedname>
+        <initializer>= &quot;cuda&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_config.h" line="104" column="21" bodyfile="include/llm/lora_framework/lora_training_config.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1ae3037834c8840c86e4b4aeda04a306ae" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::LoRATrainingConfig::AdapterConfig::device_id</definition>
+        <argsstring></argsstring>
+        <name>device_id</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingConfig::AdapterConfig::device_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_config.h" line="105" column="13" bodyfile="include/llm/lora_framework/lora_training_config.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1aace3341d7a53e62f800bd7f689f831a3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRATrainingConfig::AdapterConfig::mixed_precision</definition>
+        <argsstring></argsstring>
+        <name>mixed_precision</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingConfig::AdapterConfig::mixed_precision</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_config.h" line="106" column="14" bodyfile="include/llm/lora_framework/lora_training_config.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1a183361f599e49913f648e47e2d0edb3d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::LoRATrainingConfig::AdapterConfig::gradient_accumulation_steps</definition>
+        <argsstring></argsstring>
+        <name>gradient_accumulation_steps</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingConfig::AdapterConfig::gradient_accumulation_steps</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_config.h" line="107" column="13" bodyfile="include/llm/lora_framework/lora_training_config.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::llm::lora::LoRAHyperparameters</label>
+        <link refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_hyperparameters"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::lora::LoRATrainingConfig::AdapterConfig</label>
+        <link refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>hyperparameters</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>feedback_weighting</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>triggers</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>quality</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::llm::lora::LoRATrainingConfig::FeedbackWeighting</label>
+        <link refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_feedback_weighting"/>
+      </node>
+      <node id="5">
+        <label>themis::llm::lora::LoRATrainingConfig::QualityConfig</label>
+        <link refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_quality_config"/>
+      </node>
+      <node id="4">
+        <label>themis::llm::lora::LoRATrainingConfig::TrainingTrigger</label>
+        <link refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_trigger"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/lora_framework/lora_training_config.h" line="79" column="5" bodyfile="include/llm/lora_framework/lora_training_config.h" bodystart="79" bodyend="108"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1a07edc55fd7c49527de483dca26f94682" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingConfig::AdapterConfig</scope><name>adapter_id</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1a4917b58262cccf85e25c2f2afdce9184" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingConfig::AdapterConfig</scope><name>base_model_name</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1a6c1ff0d04143e800bed78824500b20e1" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingConfig::AdapterConfig</scope><name>base_model_path</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1a4bb91357b6502959514a6424e45253e4" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingConfig::AdapterConfig</scope><name>base_model_type</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1a706947d4666730fd82d193a4abbc829b" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingConfig::AdapterConfig</scope><name>device</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1ae3037834c8840c86e4b4aeda04a306ae" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingConfig::AdapterConfig</scope><name>device_id</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1a6ab39193c9851b3719fe121846227130" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingConfig::AdapterConfig</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1a012cb6c2d784661cf9d024fde8ea1627" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingConfig::AdapterConfig</scope><name>feedback_weighting</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1a183361f599e49913f648e47e2d0edb3d" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingConfig::AdapterConfig</scope><name>gradient_accumulation_steps</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1a2152c1ddfcc0d482d517e42ab93db5b0" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingConfig::AdapterConfig</scope><name>hyperparameters</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1aace3341d7a53e62f800bd7f689f831a3" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingConfig::AdapterConfig</scope><name>mixed_precision</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1a0dc07a9100a457880cf9eac142ba1e6a" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingConfig::AdapterConfig</scope><name>quality</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1a84569ee458f67b9ec3afff4e2d005776" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingConfig::AdapterConfig</scope><name>training_data</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1a5d26a52009b5d03fad954d48b0c77fe2" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingConfig::AdapterConfig</scope><name>triggers</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

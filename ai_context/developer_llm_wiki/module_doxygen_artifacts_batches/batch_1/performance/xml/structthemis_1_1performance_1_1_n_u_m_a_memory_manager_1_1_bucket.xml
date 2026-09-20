@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1_n_u_m_a_memory_manager_1_1_bucket" kind="struct" language="C++" prot="private">
+    <compoundname>themis::performance::NUMAMemoryManager::Bucket</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_n_u_m_a_memory_manager_1_1_bucket_1ad3c1fb34951f01db791176c1812ee9f5" prot="public" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::performance::NUMAMemoryManager::Bucket::mtx</definition>
+        <argsstring></argsstring>
+        <name>mtx</name>
+        <qualifiedname>themis::performance::NUMAMemoryManager::Bucket::mtx</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_memory_manager.h" line="215" column="45" bodyfile="include/performance/numa_memory_manager.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_n_u_m_a_memory_manager_1_1_bucket_1a9be5b5096e2ac4eee56ea46d335c4b64" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; void *, AllocEntry &gt;</type>
+        <definition>std::unordered_map&lt;void*, AllocEntry&gt; themis::performance::NUMAMemoryManager::Bucket::entries</definition>
+        <argsstring></argsstring>
+        <name>entries</name>
+        <qualifiedname>themis::performance::NUMAMemoryManager::Bucket::entries</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_memory_manager.h" line="216" column="28" bodyfile="include/performance/numa_memory_manager.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/numa_memory_manager.h" line="214" column="5" bodyfile="include/performance/numa_memory_manager.h" bodystart="214" bodyend="217"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1_n_u_m_a_memory_manager_1_1_bucket_1a9be5b5096e2ac4eee56ea46d335c4b64" prot="public" virt="non-virtual"><scope>themis::performance::NUMAMemoryManager::Bucket</scope><name>entries</name></member>
+      <member refid="structthemis_1_1performance_1_1_n_u_m_a_memory_manager_1_1_bucket_1ad3c1fb34951f01db791176c1812ee9f5" prot="public" virt="non-virtual"><scope>themis::performance::NUMAMemoryManager::Bucket</scope><name>mtx</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_mock_command_parser_1_1_parse_result" kind="struct" language="C++" prot="public">
+    <compoundname>MockCommandParser::ParseResult</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_mock_command_parser_1_1_parse_result_1a318e09f3872280bb06001f76ca3816d6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string MockCommandParser::ParseResult::command</definition>
+        <argsstring></argsstring>
+        <name>command</name>
+        <qualifiedname>MockCommandParser::ParseResult::command</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_assistant_latency.cpp" line="30" column="21" bodyfile="benchmarks/voice/bench_voice_assistant_latency.cpp" bodystart="30" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_mock_command_parser_1_1_parse_result_1a0c0423e5a7aab7df58e733b4041d886d" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; MockCommandParser::ParseResult::parameters</definition>
+        <argsstring></argsstring>
+        <name>parameters</name>
+        <qualifiedname>MockCommandParser::ParseResult::parameters</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_assistant_latency.cpp" line="31" column="18" bodyfile="benchmarks/voice/bench_voice_assistant_latency.cpp" bodystart="31" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/voice/bench_voice_assistant_latency.cpp" line="29" column="5" bodyfile="benchmarks/voice/bench_voice_assistant_latency.cpp" bodystart="29" bodyend="32"/>
+    <listofallmembers>
+      <member refid="struct_mock_command_parser_1_1_parse_result_1a318e09f3872280bb06001f76ca3816d6" prot="public" virt="non-virtual"><scope>MockCommandParser::ParseResult</scope><name>command</name></member>
+      <member refid="struct_mock_command_parser_1_1_parse_result_1a0c0423e5a7aab7df58e733b4041d886d" prot="public" virt="non-virtual"><scope>MockCommandParser::ParseResult</scope><name>parameters</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

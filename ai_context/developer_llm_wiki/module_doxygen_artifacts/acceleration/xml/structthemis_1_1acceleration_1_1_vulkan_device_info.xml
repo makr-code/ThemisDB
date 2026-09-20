@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_vulkan_device_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::acceleration::VulkanDeviceInfo</compoundname>
+    <includes refid="vulkan__backend_8h" local="no">vulkan_backend.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_vulkan_device_info_1aec44efb6975173a4dfeaf0c820bdc62a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::acceleration::VulkanDeviceInfo::device_index</definition>
+        <argsstring></argsstring>
+        <name>device_index</name>
+        <qualifiedname>themis::acceleration::VulkanDeviceInfo::device_index</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Vulkan physical device index. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vulkan_backend.h" line="53" column="14" bodyfile="include/acceleration/vulkan_backend.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_vulkan_device_info_1a73534ae905c6ec2bcb93cdd020a6a08f" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::acceleration::VulkanDeviceInfo::vendor_id</definition>
+        <argsstring></argsstring>
+        <name>vendor_id</name>
+        <qualifiedname>themis::acceleration::VulkanDeviceInfo::vendor_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>PCI vendor ID (see <ref refid="namespacethemis_1_1acceleration_1_1vendor__id" kindref="compound">vendor_id</ref>::*). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vulkan_backend.h" line="54" column="14" bodyfile="include/acceleration/vulkan_backend.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_vulkan_device_info_1a4f39ce591b9c451211b73bd7a774f42b" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::acceleration::VulkanDeviceInfo::device_id</definition>
+        <argsstring></argsstring>
+        <name>device_id</name>
+        <qualifiedname>themis::acceleration::VulkanDeviceInfo::device_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>PCI device ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vulkan_backend.h" line="55" column="14" bodyfile="include/acceleration/vulkan_backend.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_vulkan_device_info_1ae2e1c1bf0fec34c288cd50df8612b1be" prot="public" static="no" mutable="no">
+        <type>char</type>
+        <definition>char themis::acceleration::VulkanDeviceInfo::device_name[256]</definition>
+        <argsstring>[256]</argsstring>
+        <name>device_name</name>
+        <qualifiedname>themis::acceleration::VulkanDeviceInfo::device_name</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+<para>Human-readable name (null-terminated). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vulkan_backend.h" line="56" column="14" bodyfile="include/acceleration/vulkan_backend.h" bodystart="56" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_vulkan_device_info_1ad10dc5134b51cbf2842136b40f89ecdd" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::acceleration::VulkanDeviceInfo::vram_bytes</definition>
+        <argsstring></argsstring>
+        <name>vram_bytes</name>
+        <qualifiedname>themis::acceleration::VulkanDeviceInfo::vram_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Dedicated GPU VRAM in bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vulkan_backend.h" line="57" column="14" bodyfile="include/acceleration/vulkan_backend.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_vulkan_device_info_1aa8f42c1301b702ac1163bcd5c7e58769" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::VulkanDeviceInfo::supports_fp16</definition>
+        <argsstring></argsstring>
+        <name>supports_fp16</name>
+        <qualifiedname>themis::acceleration::VulkanDeviceInfo::supports_fp16</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>VK_KHR_shader_float16_int8 available. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vulkan_backend.h" line="58" column="14" bodyfile="include/acceleration/vulkan_backend.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_vulkan_device_info_1a127dc51d8a4ce3416f66eef3eebaa1bb" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::VulkanDeviceInfo::supports_int8</definition>
+        <argsstring></argsstring>
+        <name>supports_int8</name>
+        <qualifiedname>themis::acceleration::VulkanDeviceInfo::supports_int8</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>8-bit integer arithmetic available </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vulkan_backend.h" line="59" column="14" bodyfile="include/acceleration/vulkan_backend.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_vulkan_device_info_1a36af919c399e0225f4cb0c226bf1efba" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::VulkanDeviceInfo::is_discrete</definition>
+        <argsstring></argsstring>
+        <name>is_discrete</name>
+        <qualifiedname>themis::acceleration::VulkanDeviceInfo::is_discrete</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Discrete GPU (dGPU) vs. integrated. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vulkan_backend.h" line="60" column="14" bodyfile="include/acceleration/vulkan_backend.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/vulkan_backend.h" line="52" column="1" bodyfile="include/acceleration/vulkan_backend.h" bodystart="52" bodyend="61"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_vulkan_device_info_1a4f39ce591b9c451211b73bd7a774f42b" prot="public" virt="non-virtual"><scope>themis::acceleration::VulkanDeviceInfo</scope><name>device_id</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_vulkan_device_info_1aec44efb6975173a4dfeaf0c820bdc62a" prot="public" virt="non-virtual"><scope>themis::acceleration::VulkanDeviceInfo</scope><name>device_index</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_vulkan_device_info_1ae2e1c1bf0fec34c288cd50df8612b1be" prot="public" virt="non-virtual"><scope>themis::acceleration::VulkanDeviceInfo</scope><name>device_name</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_vulkan_device_info_1a36af919c399e0225f4cb0c226bf1efba" prot="public" virt="non-virtual"><scope>themis::acceleration::VulkanDeviceInfo</scope><name>is_discrete</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_vulkan_device_info_1aa8f42c1301b702ac1163bcd5c7e58769" prot="public" virt="non-virtual"><scope>themis::acceleration::VulkanDeviceInfo</scope><name>supports_fp16</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_vulkan_device_info_1a127dc51d8a4ce3416f66eef3eebaa1bb" prot="public" virt="non-virtual"><scope>themis::acceleration::VulkanDeviceInfo</scope><name>supports_int8</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_vulkan_device_info_1a73534ae905c6ec2bcb93cdd020a6a08f" prot="public" virt="non-virtual"><scope>themis::acceleration::VulkanDeviceInfo</scope><name>vendor_id</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_vulkan_device_info_1ad10dc5134b51cbf2842136b40f89ecdd" prot="public" virt="non-virtual"><scope>themis::acceleration::VulkanDeviceInfo</scope><name>vram_bytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

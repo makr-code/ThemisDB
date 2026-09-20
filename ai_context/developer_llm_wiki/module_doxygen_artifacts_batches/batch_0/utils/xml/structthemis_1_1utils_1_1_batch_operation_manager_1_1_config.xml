@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_batch_operation_manager_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::BatchOperationManager::Config</compoundname>
+    <includes refid="batch__operation__manager_8h" local="no">batch_operation_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_batch_operation_manager_1_1_config_1a7069e0f3f905578c27c81acc79af9099" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::BatchOperationManager&lt; T &gt;::Config::min_batch_size</definition>
+        <argsstring></argsstring>
+        <name>min_batch_size</name>
+        <qualifiedname>themis::utils::BatchOperationManager::Config::min_batch_size</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+<para>Minimum batch size. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/batch_operation_manager.h" line="51" column="16" bodyfile="include/utils/batch_operation_manager.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_batch_operation_manager_1_1_config_1ab9073d1276457f517c7d3a19500e63cc" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::BatchOperationManager&lt; T &gt;::Config::max_batch_size</definition>
+        <argsstring></argsstring>
+        <name>max_batch_size</name>
+        <qualifiedname>themis::utils::BatchOperationManager::Config::max_batch_size</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+<para>Maximum batch size. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/batch_operation_manager.h" line="52" column="16" bodyfile="include/utils/batch_operation_manager.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_batch_operation_manager_1_1_config_1a676b3040e8243acf54efa095a81adfcc" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::BatchOperationManager&lt; T &gt;::Config::initial_batch_size</definition>
+        <argsstring></argsstring>
+        <name>initial_batch_size</name>
+        <qualifiedname>themis::utils::BatchOperationManager::Config::initial_batch_size</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+<para>Initial batch size. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/batch_operation_manager.h" line="53" column="16" bodyfile="include/utils/batch_operation_manager.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_batch_operation_manager_1_1_config_1a1f5ae2610ad792d2fedd4d87c0e9648d" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::utils::BatchOperationManager&lt; T &gt;::Config::max_latency</definition>
+        <argsstring></argsstring>
+        <name>max_latency</name>
+        <qualifiedname>themis::utils::BatchOperationManager::Config::max_latency</qualifiedname>
+        <initializer>{100}</initializer>
+        <briefdescription>
+<para>Max time to wait for batch fill. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/batch_operation_manager.h" line="54" column="35" bodyfile="include/utils/batch_operation_manager.h" bodystart="54" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_batch_operation_manager_1_1_config_1a9ca441b6945fd4ef23b9693d6d554824" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::utils::BatchOperationManager&lt; T &gt;::Config::adaptive_sizing</definition>
+        <argsstring></argsstring>
+        <name>adaptive_sizing</name>
+        <qualifiedname>themis::utils::BatchOperationManager::Config::adaptive_sizing</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable adaptive batch size tuning. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/batch_operation_manager.h" line="55" column="14" bodyfile="include/utils/batch_operation_manager.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_batch_operation_manager_1_1_config_1a4571b7cd6d8edbc5c055cd31d41865b5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::BatchOperationManager&lt; T &gt;::Config::queue_capacity</definition>
+        <argsstring></argsstring>
+        <name>queue_capacity</name>
+        <qualifiedname>themis::utils::BatchOperationManager::Config::queue_capacity</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+<para>Maximum queued items. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/batch_operation_manager.h" line="56" column="16" bodyfile="include/utils/batch_operation_manager.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_batch_operation_manager_1_1_config_1a8d67c5ce8e067f49acc41dfc50cb261d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::utils::BatchOperationManager&lt; T &gt;::Config::target_cpu_utilization</definition>
+        <argsstring></argsstring>
+        <name>target_cpu_utilization</name>
+        <qualifiedname>themis::utils::BatchOperationManager::Config::target_cpu_utilization</qualifiedname>
+        <initializer>= 0.8</initializer>
+        <briefdescription>
+<para>Target CPU utilization (0.0-1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/batch_operation_manager.h" line="57" column="16" bodyfile="include/utils/batch_operation_manager.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/batch_operation_manager.h" line="50" column="5" bodyfile="include/utils/batch_operation_manager.h" bodystart="50" bodyend="58"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_batch_operation_manager_1_1_config_1a9ca441b6945fd4ef23b9693d6d554824" prot="public" virt="non-virtual"><scope>themis::utils::BatchOperationManager::Config</scope><name>adaptive_sizing</name></member>
+      <member refid="structthemis_1_1utils_1_1_batch_operation_manager_1_1_config_1a676b3040e8243acf54efa095a81adfcc" prot="public" virt="non-virtual"><scope>themis::utils::BatchOperationManager::Config</scope><name>initial_batch_size</name></member>
+      <member refid="structthemis_1_1utils_1_1_batch_operation_manager_1_1_config_1ab9073d1276457f517c7d3a19500e63cc" prot="public" virt="non-virtual"><scope>themis::utils::BatchOperationManager::Config</scope><name>max_batch_size</name></member>
+      <member refid="structthemis_1_1utils_1_1_batch_operation_manager_1_1_config_1a1f5ae2610ad792d2fedd4d87c0e9648d" prot="public" virt="non-virtual"><scope>themis::utils::BatchOperationManager::Config</scope><name>max_latency</name></member>
+      <member refid="structthemis_1_1utils_1_1_batch_operation_manager_1_1_config_1a7069e0f3f905578c27c81acc79af9099" prot="public" virt="non-virtual"><scope>themis::utils::BatchOperationManager::Config</scope><name>min_batch_size</name></member>
+      <member refid="structthemis_1_1utils_1_1_batch_operation_manager_1_1_config_1a4571b7cd6d8edbc5c055cd31d41865b5" prot="public" virt="non-virtual"><scope>themis::utils::BatchOperationManager::Config</scope><name>queue_capacity</name></member>
+      <member refid="structthemis_1_1utils_1_1_batch_operation_manager_1_1_config_1a8d67c5ce8e067f49acc41dfc50cb261d" prot="public" virt="non-virtual"><scope>themis::utils::BatchOperationManager::Config</scope><name>target_cpu_utilization</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

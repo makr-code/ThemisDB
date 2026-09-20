@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_process_agentic_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::ProcessAgenticConfig</compoundname>
+    <includes refid="process__agentic__rag_8h" local="no">process_agentic_rag.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_agentic_config_1a745827aa3d257c48c53d4fc5fd267394" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::process::ProcessAgenticConfig::max_iterations</definition>
+        <argsstring></argsstring>
+        <name>max_iterations</name>
+        <qualifiedname>themis::process::ProcessAgenticConfig::max_iterations</qualifiedname>
+        <initializer>{4}</initializer>
+        <briefdescription>
+<para>Maximum number of retrieval–evaluate–detect–reformulate cycles. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_agentic_rag.h" line="65" column="12" bodyfile="include/process/process_agentic_rag.h" bodystart="65" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_agentic_config_1a09e8902cace8576992388724f1c2dae0" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::process::ProcessAgenticConfig::quality_threshold</definition>
+        <argsstring></argsstring>
+        <name>quality_threshold</name>
+        <qualifiedname>themis::process::ProcessAgenticConfig::quality_threshold</qualifiedname>
+        <initializer>{0.75}</initializer>
+        <briefdescription>
+<para>Minimum overall quality score to consider the loop successful. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_agentic_rag.h" line="68" column="12" bodyfile="include/process/process_agentic_rag.h" bodystart="68" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_agentic_config_1adc6908862c004b5a40c5c9e46b5f8bae" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::process::ProcessAgenticConfig::faithfulness_threshold</definition>
+        <argsstring></argsstring>
+        <name>faithfulness_threshold</name>
+        <qualifiedname>themis::process::ProcessAgenticConfig::faithfulness_threshold</qualifiedname>
+        <initializer>{0.80}</initializer>
+        <briefdescription>
+<para>Minimum faithfulness score required. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_agentic_rag.h" line="71" column="12" bodyfile="include/process/process_agentic_rag.h" bodystart="71" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_agentic_config_1a014eb37f5b23bbf4ae5ba872e54c6c69" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::process::ProcessAgenticConfig::max_total_documents</definition>
+        <argsstring></argsstring>
+        <name>max_total_documents</name>
+        <qualifiedname>themis::process::ProcessAgenticConfig::max_total_documents</qualifiedname>
+        <initializer>{40}</initializer>
+        <briefdescription>
+<para>Maximum accumulated documents across all iterations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_agentic_rag.h" line="74" column="12" bodyfile="include/process/process_agentic_rag.h" bodystart="74" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_agentic_config_1a1d986958a7af22627323d5ef3d4c63fc" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1process_1_1_process_rag_config" kindref="compound">ProcessRagConfig</ref></type>
+        <definition>ProcessRagConfig themis::process::ProcessAgenticConfig::rag_config</definition>
+        <argsstring></argsstring>
+        <name>rag_config</name>
+        <qualifiedname>themis::process::ProcessAgenticConfig::rag_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><ref refid="structthemis_1_1process_1_1_process_rag_config" kindref="compound">ProcessRagConfig</ref> forwarded to <ref refid="classthemis_1_1process_1_1_process_graph_rag_1ad0fea75fe4ff6855dba1bd2295123bc0" kindref="member">ProcessGraphRag::retrieve()</ref> on each iteration. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_agentic_rag.h" line="78" column="22" bodyfile="include/process/process_agentic_rag.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Tuning parameters for <ref refid="classthemis_1_1process_1_1_process_agentic_rag" kindref="compound">ProcessAgenticRag</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::process::ProcessAgenticConfig</label>
+        <link refid="structthemis_1_1process_1_1_process_agentic_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>rag_config</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::process::ProcessRagConfig</label>
+        <link refid="structthemis_1_1process_1_1_process_rag_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/process/process_agentic_rag.h" line="63" column="1" bodyfile="include/process/process_agentic_rag.h" bodystart="63" bodyend="79"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_process_agentic_config_1adc6908862c004b5a40c5c9e46b5f8bae" prot="public" virt="non-virtual"><scope>themis::process::ProcessAgenticConfig</scope><name>faithfulness_threshold</name></member>
+      <member refid="structthemis_1_1process_1_1_process_agentic_config_1a745827aa3d257c48c53d4fc5fd267394" prot="public" virt="non-virtual"><scope>themis::process::ProcessAgenticConfig</scope><name>max_iterations</name></member>
+      <member refid="structthemis_1_1process_1_1_process_agentic_config_1a014eb37f5b23bbf4ae5ba872e54c6c69" prot="public" virt="non-virtual"><scope>themis::process::ProcessAgenticConfig</scope><name>max_total_documents</name></member>
+      <member refid="structthemis_1_1process_1_1_process_agentic_config_1a09e8902cace8576992388724f1c2dae0" prot="public" virt="non-virtual"><scope>themis::process::ProcessAgenticConfig</scope><name>quality_threshold</name></member>
+      <member refid="structthemis_1_1process_1_1_process_agentic_config_1a1d986958a7af22627323d5ef3d4c63fc" prot="public" virt="non-virtual"><scope>themis::process::ProcessAgenticConfig</scope><name>rag_config</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

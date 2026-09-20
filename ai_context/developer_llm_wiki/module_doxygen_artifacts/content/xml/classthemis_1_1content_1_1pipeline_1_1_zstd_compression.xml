@@ -1,0 +1,327 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1content_1_1pipeline_1_1_zstd_compression" kind="class" language="C++" prot="public">
+    <compoundname>themis::content::pipeline::ZstdCompression</compoundname>
+    <includes refid="zstd__compression_8h" local="no">zstd_compression.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1content_1_1pipeline_1_1_zstd_compression_1a61c63506f69e81eeba8dfcb086dc9449" prot="public" static="no">
+        <type>std::function&lt; void(size_t processed, size_t total)&gt;</type>
+        <definition>using themis::content::pipeline::ZstdCompression::StreamCallback = std::function&lt;void(size_t processed, size_t total)&gt;</definition>
+        <argsstring></argsstring>
+        <name>StreamCallback</name>
+        <qualifiedname>themis::content::pipeline::ZstdCompression::StreamCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/zstd_compression.h" line="28" column="5" bodyfile="include/content/pipeline/zstd_compression.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1content_1_1pipeline_1_1_zstd_compression_1a5b119a2d9b9f9b18b1f53d09b30cc783" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::pipeline::ZstdCompression::compression_level_</definition>
+        <argsstring></argsstring>
+        <name>compression_level_</name>
+        <qualifiedname>themis::content::pipeline::ZstdCompression::compression_level_</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/zstd_compression.h" line="71" column="9" bodyfile="include/content/pipeline/zstd_compression.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1pipeline_1_1_zstd_compression_1a77c2af985d2a21a2191be432e8feb0a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::pipeline::ZstdCompression::ZstdCompression</definition>
+        <argsstring>()=default</argsstring>
+        <name>ZstdCompression</name>
+        <qualifiedname>themis::content::pipeline::ZstdCompression::ZstdCompression</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/zstd_compression.h" line="30" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1pipeline_1_1_zstd_compression_1a180c0eccdbc3ed13359bf3a4252f64b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::pipeline::ZstdCompression::~ZstdCompression</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ZstdCompression</name>
+        <qualifiedname>themis::content::pipeline::ZstdCompression::~ZstdCompression</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/zstd_compression.h" line="31" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1pipeline_1_1_zstd_compression_1a9c1c696df49345b9ae0b657f1e533d9f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::content::pipeline::ZstdCompression::compress</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>compress</name>
+        <qualifiedname>themis::content::pipeline::ZstdCompression::compress</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Compress. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: themis::utils::zstd_compress(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/zstd_compression.h" line="38" column="17" bodyfile="src/content/pipeline/zstd_compression.cpp" bodystart="26" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1pipeline_1_1_zstd_compression_1a32bbc7c98bcf7e515960bb5a86a102dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::content::pipeline::ZstdCompression::decompress</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;compressed_data)</argsstring>
+        <name>decompress</name>
+        <qualifiedname>themis::content::pipeline::ZstdCompression::decompress</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>compressed_data</declname>
+        </param>
+        <briefdescription>
+<para>Decompress. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">compressed_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">compressed_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: themis::utils::zstd_decompress(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/zstd_compression.h" line="45" column="17" bodyfile="src/content/pipeline/zstd_compression.cpp" bodystart="41" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1pipeline_1_1_zstd_compression_1a8f752d66989a7b9bacc142dbd241a508" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::content::pipeline::ZstdCompression::compress_streaming</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data, size_t chunk_size=1024 *1024, StreamCallback callback=nullptr)</argsstring>
+        <name>compress_streaming</name>
+        <qualifiedname>themis::content::pipeline::ZstdCompression::compress_streaming</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>chunk_size</declname>
+          <defval>1024 *1024</defval>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1pipeline_1_1_zstd_compression_1a61c63506f69e81eeba8dfcb086dc9449" kindref="member">StreamCallback</ref></type>
+          <declname>callback</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Compress streaming. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">chunk_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), themis::utils::zstd_compress(), size(), std::min(), callback(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/zstd_compression.h" line="47" column="17" bodyfile="src/content/pipeline/zstd_compression.cpp" bodystart="58" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1pipeline_1_1_zstd_compression_1ab4a19c8ca1ef39499f346b37cc04a7a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::content::pipeline::ZstdCompression::decompress_streaming</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;compressed_data, StreamCallback callback=nullptr)</argsstring>
+        <name>decompress_streaming</name>
+        <qualifiedname>themis::content::pipeline::ZstdCompression::decompress_streaming</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>compressed_data</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1pipeline_1_1_zstd_compression_1a61c63506f69e81eeba8dfcb086dc9449" kindref="member">StreamCallback</ref></type>
+          <declname>callback</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Decompress streaming. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">compressed_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), themis::utils::zstd_decompress(), callback(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/zstd_compression.h" line="53" column="17" bodyfile="src/content/pipeline/zstd_compression.cpp" bodystart="104" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1pipeline_1_1_zstd_compression_1a1d4507175769c07d1da78217eb1522aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::pipeline::ZstdCompression::set_compression_level</definition>
+        <argsstring>(int level)</argsstring>
+        <name>set_compression_level</name>
+        <qualifiedname>themis::content::pipeline::ZstdCompression::set_compression_level</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+<para>Set compression level. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements set_compression_level without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/zstd_compression.h" line="62" column="10" bodyfile="src/content/pipeline/zstd_compression.cpp" bodystart="132" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1pipeline_1_1_zstd_compression_1ae48285ed4ca8d152e5e5788bb1a4b870" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::content::pipeline::ZstdCompression::get_compression_level</definition>
+        <argsstring>() const</argsstring>
+        <name>get_compression_level</name>
+        <qualifiedname>themis::content::pipeline::ZstdCompression::get_compression_level</qualifiedname>
+        <briefdescription>
+<para>Get compression level. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/zstd_compression.h" line="68" column="9" bodyfile="src/content/pipeline/zstd_compression.cpp" bodystart="144" bodyend="146"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/pipeline/zstd_compression.h" line="26" column="1" bodyfile="include/content/pipeline/zstd_compression.h" bodystart="26" bodyend="72"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1content_1_1pipeline_1_1_zstd_compression_1a9c1c696df49345b9ae0b657f1e533d9f" prot="public" virt="non-virtual"><scope>themis::content::pipeline::ZstdCompression</scope><name>compress</name></member>
+      <member refid="classthemis_1_1content_1_1pipeline_1_1_zstd_compression_1a8f752d66989a7b9bacc142dbd241a508" prot="public" virt="non-virtual"><scope>themis::content::pipeline::ZstdCompression</scope><name>compress_streaming</name></member>
+      <member refid="classthemis_1_1content_1_1pipeline_1_1_zstd_compression_1a5b119a2d9b9f9b18b1f53d09b30cc783" prot="private" virt="non-virtual"><scope>themis::content::pipeline::ZstdCompression</scope><name>compression_level_</name></member>
+      <member refid="classthemis_1_1content_1_1pipeline_1_1_zstd_compression_1a32bbc7c98bcf7e515960bb5a86a102dd" prot="public" virt="non-virtual"><scope>themis::content::pipeline::ZstdCompression</scope><name>decompress</name></member>
+      <member refid="classthemis_1_1content_1_1pipeline_1_1_zstd_compression_1ab4a19c8ca1ef39499f346b37cc04a7a5" prot="public" virt="non-virtual"><scope>themis::content::pipeline::ZstdCompression</scope><name>decompress_streaming</name></member>
+      <member refid="classthemis_1_1content_1_1pipeline_1_1_zstd_compression_1ae48285ed4ca8d152e5e5788bb1a4b870" prot="public" virt="non-virtual"><scope>themis::content::pipeline::ZstdCompression</scope><name>get_compression_level</name></member>
+      <member refid="classthemis_1_1content_1_1pipeline_1_1_zstd_compression_1a1d4507175769c07d1da78217eb1522aa" prot="public" virt="non-virtual"><scope>themis::content::pipeline::ZstdCompression</scope><name>set_compression_level</name></member>
+      <member refid="classthemis_1_1content_1_1pipeline_1_1_zstd_compression_1a61c63506f69e81eeba8dfcb086dc9449" prot="public" virt="non-virtual"><scope>themis::content::pipeline::ZstdCompression</scope><name>StreamCallback</name></member>
+      <member refid="classthemis_1_1content_1_1pipeline_1_1_zstd_compression_1a77c2af985d2a21a2191be432e8feb0a1" prot="public" virt="non-virtual"><scope>themis::content::pipeline::ZstdCompression</scope><name>ZstdCompression</name></member>
+      <member refid="classthemis_1_1content_1_1pipeline_1_1_zstd_compression_1a180c0eccdbc3ed13359bf3a4252f64b6" prot="public" virt="non-virtual"><scope>themis::content::pipeline::ZstdCompression</scope><name>~ZstdCompression</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

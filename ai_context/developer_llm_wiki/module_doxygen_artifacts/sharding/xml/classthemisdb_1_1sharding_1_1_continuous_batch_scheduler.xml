@@ -1,0 +1,1536 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::ContinuousBatchScheduler</compoundname>
+    <includes refid="continuous__batch__scheduler_8h" local="no">continuous_batch_scheduler.h</includes>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1_1_request" prot="private">themisdb::sharding::ContinuousBatchScheduler::Request</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a9b6ca9ffa555b9f9244c4ccd5addbfa3" prot="public" static="no">
+        <type>std::function&lt; void( int64_t request_id, const std::vector&lt; int &gt; &amp;output_token_ids, const <ref refid="structthemisdb_1_1sharding_1_1_request_stats" kindref="compound">RequestStats</ref> &amp;stats)&gt;</type>
+        <definition>using themisdb::sharding::ContinuousBatchScheduler::RequestCompletionCallback = std::function&lt;void(
+       int64_t request_id,
+       const std::vector&lt;int&gt;&amp; output_token_ids,
+       const RequestStats&amp; stats
+   )&gt;</definition>
+        <argsstring></argsstring>
+        <name>RequestCompletionCallback</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::RequestCompletionCallback</qualifiedname>
+        <briefdescription>
+<para>Callback for request completion. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="238" column="5" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1aecd0fc43437057e92ea661c09b8b17f9" prot="public" static="no">
+        <type>std::function&lt; bool( int64_t request_id, const std::vector&lt; int &gt; &amp;input_token_ids, std::vector&lt; int &gt; &amp;output_token_ids, bool is_prefill)&gt;</type>
+        <definition>using themisdb::sharding::ContinuousBatchScheduler::TokenGenerationCallback = std::function&lt;bool(
+       int64_t request_id,
+       const std::vector&lt;int&gt;&amp; input_token_ids,
+       std::vector&lt;int&gt;&amp; output_token_ids,
+       bool is_prefill
+   )&gt;</definition>
+        <argsstring></argsstring>
+        <name>TokenGenerationCallback</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::TokenGenerationCallback</qualifiedname>
+        <briefdescription>
+<para>Callback for token generation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="247" column="5" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="247" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a60717f583f373ee0ecb3a2605a884178" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_continuous_batch_scheduler_config" kindref="compound">ContinuousBatchSchedulerConfig</ref></type>
+        <definition>ContinuousBatchSchedulerConfig themisdb::sharding::ContinuousBatchScheduler::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="474" column="36" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="474" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a4f6d29d09a0c5e2f248e055cb7706c50" prot="private" static="no" mutable="no">
+        <type>KVCacheManager *</type>
+        <definition>KVCacheManager* themisdb::sharding::ContinuousBatchScheduler::kv_cache_manager_</definition>
+        <argsstring></argsstring>
+        <name>kv_cache_manager_</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::kv_cache_manager_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="475" column="20" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="475" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a4ab78c2a6261d3bc26014a10a46cd8be" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::queue&lt; Request &gt; &gt;</type>
+        <definition>std::vector&lt;std::queue&lt;Request&gt; &gt; themisdb::sharding::ContinuousBatchScheduler::priority_queues_</definition>
+        <argsstring></argsstring>
+        <name>priority_queues_</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::priority_queues_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="478" column="17" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="478" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a2e5c14fab915ea5b2708c51d745e8aa8" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; int64_t, Request &gt;</type>
+        <definition>std::unordered_map&lt;int64_t, Request&gt; themisdb::sharding::ContinuousBatchScheduler::in_progress_requests_</definition>
+        <argsstring></argsstring>
+        <name>in_progress_requests_</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::in_progress_requests_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="481" column="24" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="481" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a07356221af6bb1452162506b13276be3" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; int64_t, <ref refid="structthemisdb_1_1sharding_1_1_request_stats" kindref="compound">RequestStats</ref> &gt;</type>
+        <definition>std::unordered_map&lt;int64_t, RequestStats&gt; themisdb::sharding::ContinuousBatchScheduler::completed_requests_</definition>
+        <argsstring></argsstring>
+        <name>completed_requests_</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::completed_requests_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="484" column="24" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="484" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a766541bb52f568e16ef089263809ff58" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; int64_t &gt;</type>
+        <definition>std::vector&lt;int64_t&gt; themisdb::sharding::ContinuousBatchScheduler::current_batch_request_ids_</definition>
+        <argsstring></argsstring>
+        <name>current_batch_request_ids_</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::current_batch_request_ids_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="487" column="17" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="487" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a3147a8360175c0c4e153708082f5453c" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themisdb::sharding::ContinuousBatchScheduler::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="490" column="17" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="490" bodyend="490"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1ab0683a3eaf35dea46cbcda8e0bd0d50f" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themisdb::sharding::ContinuousBatchScheduler::paused_</definition>
+        <argsstring></argsstring>
+        <name>paused_</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::paused_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="491" column="17" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="491" bodyend="491"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a9b163f02e16c3295553c92f18dde0c38" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::sharding::ContinuousBatchScheduler::stats_mutex_</definition>
+        <argsstring></argsstring>
+        <name>stats_mutex_</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::stats_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="494" column="24" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="494" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1ada3a152fd6f5f04ff9198233c49f55f5" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_batch_stats" kindref="compound">BatchStats</ref></type>
+        <definition>BatchStats themisdb::sharding::ContinuousBatchScheduler::current_stats_</definition>
+        <argsstring></argsstring>
+        <name>current_stats_</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::current_stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="495" column="16" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="495" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a91b4ee5b50517154a836e4dfd213da55" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themisdb::sharding::ContinuousBatchScheduler::latency_history_ms_</definition>
+        <argsstring></argsstring>
+        <name>latency_history_ms_</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::latency_history_ms_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="496" column="17" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="496" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a345fda6e54892d48fef6d779d4f32d87" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1aecd0fc43437057e92ea661c09b8b17f9" kindref="member">TokenGenerationCallback</ref></type>
+        <definition>TokenGenerationCallback themisdb::sharding::ContinuousBatchScheduler::draft_model_callback_</definition>
+        <argsstring></argsstring>
+        <name>draft_model_callback_</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::draft_model_callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="499" column="29" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="499" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a2fed4d1a1e9e523cf9831e30c7be6924" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1aecd0fc43437057e92ea661c09b8b17f9" kindref="member">TokenGenerationCallback</ref></type>
+        <definition>TokenGenerationCallback themisdb::sharding::ContinuousBatchScheduler::target_model_callback_</definition>
+        <argsstring></argsstring>
+        <name>target_model_callback_</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::target_model_callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="500" column="29" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="500" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1ad8f4ac878d5224d2f81519c65cb11881" prot="private" static="no" mutable="no">
+        <type>std::function&lt; void(const <ref refid="structthemisdb_1_1sharding_1_1_batch_stats" kindref="compound">BatchStats</ref> &amp;)&gt;</type>
+        <definition>std::function&lt;void(const BatchStats&amp;)&gt; themisdb::sharding::ContinuousBatchScheduler::metrics_callback_</definition>
+        <argsstring></argsstring>
+        <name>metrics_callback_</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::metrics_callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="503" column="19" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="503" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a85bb29e12e44bdb59173cfea6434e835" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::sharding::ContinuousBatchScheduler::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="506" column="24" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="506" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1aaa4e84cdf21a865bd606946aa9fdb821" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themisdb::sharding::ContinuousBatchScheduler::cv_</definition>
+        <argsstring></argsstring>
+        <name>cv_</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="507" column="29" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="507" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a8d45cde0dae29e5d46c5966466fdbc5c" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::ContinuousBatchScheduler::ContinuousBatchScheduler</definition>
+        <argsstring>(const ContinuousBatchSchedulerConfig &amp;config, KVCacheManager *kv_cache_manager=nullptr)</argsstring>
+        <name>ContinuousBatchScheduler</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::ContinuousBatchScheduler</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_continuous_batch_scheduler_config" kindref="compound">ContinuousBatchSchedulerConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>KVCacheManager *</type>
+          <declname>kv_cache_manager</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Construct <ref refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler" kindref="compound">ContinuousBatchScheduler</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Scheduler configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>kv_cache_manager</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>KV cache manager for token state </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="259" column="14" bodyfile="src/sharding/continuous_batch_scheduler.cpp" bodystart="24" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a7878fb90d1745fab5b0d84240aafe356" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::ContinuousBatchScheduler::~ContinuousBatchScheduler</definition>
+        <argsstring>()</argsstring>
+        <name>~ContinuousBatchScheduler</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::~ContinuousBatchScheduler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="264" column="5" bodyfile="src/sharding/continuous_batch_scheduler.cpp" bodystart="44" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1aa5521369b2d5355b592f9ec97610ae8b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::ContinuousBatchScheduler::ContinuousBatchScheduler</definition>
+        <argsstring>(const ContinuousBatchScheduler &amp;)=delete</argsstring>
+        <name>ContinuousBatchScheduler</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::ContinuousBatchScheduler</qualifiedname>
+        <param>
+          <type>const ContinuousBatchScheduler &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="267" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a853ee87b5f88235bf3e52d2b2e499006" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a8d45cde0dae29e5d46c5966466fdbc5c" kindref="member">ContinuousBatchScheduler</ref> &amp;</type>
+        <definition>ContinuousBatchScheduler &amp; themisdb::sharding::ContinuousBatchScheduler::operator=</definition>
+        <argsstring>(const ContinuousBatchScheduler &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a8d45cde0dae29e5d46c5966466fdbc5c" kindref="member">ContinuousBatchScheduler</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="268" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a18500c1b6026143f9cc1fd4ad21efeb7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::ContinuousBatchScheduler::submitRequest</definition>
+        <argsstring>(int64_t request_id, int64_t user_id, const std::string &amp;model_id, const std::string &amp;lora_adapter_id, const std::vector&lt; int &gt; &amp;input_token_ids, SchedulingPriority priority, RequestCompletionCallback callback)</argsstring>
+        <name>submitRequest</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::submitRequest</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>request_id</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>lora_adapter_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>input_token_ids</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1sharding_1afface7462e40093984ddef934a41300e" kindref="member">SchedulingPriority</ref></type>
+          <declname>priority</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a9b6ca9ffa555b9f9244c4ccd5addbfa3" kindref="member">RequestCompletionCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Submit a new inference request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Submit Request.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique request identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>User identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Model identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>lora_adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>LoRA adapter identifier (empty for base model) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>input_token_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input token IDs </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>priority</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Request priority </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Completion callback </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if request was accepted, false if queue is full</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the request. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lora_adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the lora adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">input_token_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">priority</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), spdlog::warn(), size(), std::chrono::steady_clock::now(), std::move(), getPriorityQueueIndex(), push(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="285" column="10" bodyfile="src/sharding/continuous_batch_scheduler.cpp" bodystart="65" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a23c00a872eb2faacfc6e8d176723fe4a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::ContinuousBatchScheduler::cancelRequest</definition>
+        <argsstring>(int64_t request_id)</argsstring>
+        <name>cancelRequest</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::cancelRequest</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>request_id</declname>
+        </param>
+        <briefdescription>
+<para>Cancel a pending request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Cancel Request.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Request identifier to cancel </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if request was found and cancelled</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the request. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), erase(), clearRequestCache(), spdlog::info(), empty(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="300" column="10" bodyfile="src/sharding/continuous_batch_scheduler.cpp" bodystart="126" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1afd32708f6a6e65997be1f530e653bba8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::ContinuousBatchScheduler::processNextBatch</definition>
+        <argsstring>()</argsstring>
+        <name>processNextBatch</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::processNextBatch</qualifiedname>
+        <briefdescription>
+<para>Process the next batch of requests This is called iteratively by the inference loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Process Next Batch.</para>
+<para>Calls: lock(), selectNextBatch(), empty(), size(), spdlog::debug(), find(), end(), std::chrono::steady_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="306" column="10" bodyfile="src/sharding/continuous_batch_scheduler.cpp" bodystart="186" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1ac21aecd61a8293b00c05bfb967a78670" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::ContinuousBatchScheduler::hasPendingRequests</definition>
+        <argsstring>() const</argsstring>
+        <name>hasPendingRequests</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::hasPendingRequests</qualifiedname>
+        <briefdescription>
+<para>Check if there are requests ready to process. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="311" column="10" bodyfile="src/sharding/continuous_batch_scheduler.cpp" bodystart="289" bodyend="297"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1ac96de12fec1b06db70a764c092ece8b9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_batch_stats" kindref="compound">BatchStats</ref></type>
+        <definition>BatchStats themisdb::sharding::ContinuousBatchScheduler::getCurrentStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentStats</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::getCurrentStats</qualifiedname>
+        <briefdescription>
+<para>Get current batch statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="316" column="16" bodyfile="src/sharding/continuous_batch_scheduler.cpp" bodystart="299" bodyend="307"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a0f6cc404849360bd3aa4cec1ac768479" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::ContinuousBatchScheduler::updateConfig</definition>
+        <argsstring>(const ContinuousBatchSchedulerConfig &amp;config)</argsstring>
+        <name>updateConfig</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::updateConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_continuous_batch_scheduler_config" kindref="compound">ContinuousBatchSchedulerConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Update scheduler configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update the access control configuration.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New configuration</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New access control configuration.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), isValid(), spdlog::error(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="326" column="10" bodyfile="src/sharding/continuous_batch_scheduler.cpp" bodystart="318" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1aaa807e83dfeac23cbb39e36c6c11e199" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemisdb_1_1sharding_1_1_continuous_batch_scheduler_config" kindref="compound">ContinuousBatchSchedulerConfig</ref> &amp;</type>
+        <definition>const ContinuousBatchSchedulerConfig &amp; themisdb::sharding::ContinuousBatchScheduler::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::getConfig</qualifiedname>
+        <briefdescription>
+<para>Get current configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="331" column="42" bodyfile="src/sharding/continuous_batch_scheduler.cpp" bodystart="333" bodyend="335"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1aa568940020f3da59af5a7a3996ca908b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::ContinuousBatchScheduler::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::start</qualifiedname>
+        <briefdescription>
+<para>Start the scheduler. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start.</para>
+<para>Calls: lock(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="336" column="10" bodyfile="src/sharding/continuous_batch_scheduler.cpp" bodystart="341" bodyend="351"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a8c35d31cae871f23f43ea43122041f5b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::ContinuousBatchScheduler::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::stop</qualifiedname>
+        <briefdescription>
+<para>Stop the scheduler. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stop.</para>
+<para>Calls: lock(), empty(), pop(), std::chrono::steady_clock::now(), clear(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="341" column="10" bodyfile="src/sharding/continuous_batch_scheduler.cpp" bodystart="357" bodyend="385"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a2c4b065ae1896a20b0824811a475ff39" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::ContinuousBatchScheduler::pause</definition>
+        <argsstring>()</argsstring>
+        <name>pause</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::pause</qualifiedname>
+        <briefdescription>
+<para>Pause scheduling (for maintenance). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Pause.</para>
+<para>Calls: lock(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="346" column="10" bodyfile="src/sharding/continuous_batch_scheduler.cpp" bodystart="391" bodyend="395"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a280cde093b508142f81958aeb6805ad3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::ContinuousBatchScheduler::resume</definition>
+        <argsstring>()</argsstring>
+        <name>resume</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::resume</qualifiedname>
+        <briefdescription>
+<para>Resume scheduling. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Resume.</para>
+<para>Calls: lock(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="351" column="10" bodyfile="src/sharding/continuous_batch_scheduler.cpp" bodystart="401" bodyend="405"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a4babd069483d48d7bdad4e94b00b705f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::ContinuousBatchScheduler::isRunning</definition>
+        <argsstring>() const</argsstring>
+        <name>isRunning</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::isRunning</qualifiedname>
+        <briefdescription>
+<para>Check if scheduler is running. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="356" column="10" bodyfile="src/sharding/continuous_batch_scheduler.cpp" bodystart="407" bodyend="409"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a498ca112f54a892c2759379e49fcb927" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::ContinuousBatchScheduler::updateRequestPriority</definition>
+        <argsstring>(int64_t request_id, SchedulingPriority priority)</argsstring>
+        <name>updateRequestPriority</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::updateRequestPriority</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>request_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1sharding_1afface7462e40093984ddef934a41300e" kindref="member">SchedulingPriority</ref></type>
+          <declname>priority</declname>
+        </param>
+        <briefdescription>
+<para>Update request priority. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update Request Priority.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Request identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>priority</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New priority </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if request was found and updated</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the request. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">priority</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), spdlog::warn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="368" column="10" bodyfile="src/sharding/continuous_batch_scheduler.cpp" bodystart="422" bodyend="438"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1aba050a00c33a0239a4b1d7cb33022c4b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unordered_map&lt; <ref refid="namespacethemisdb_1_1sharding_1afface7462e40093984ddef934a41300e" kindref="member">SchedulingPriority</ref>, uint32_t &gt;</type>
+        <definition>std::unordered_map&lt; SchedulingPriority, uint32_t &gt; themisdb::sharding::ContinuousBatchScheduler::getRequestCountByPriority</definition>
+        <argsstring>() const</argsstring>
+        <name>getRequestCountByPriority</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::getRequestCountByPriority</qualifiedname>
+        <briefdescription>
+<para>Get current request count by priority. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="373" column="24" bodyfile="src/sharding/continuous_batch_scheduler.cpp" bodystart="441" bodyend="462"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a72dede558b7f41d8fc41e46c5298e3a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::ContinuousBatchScheduler::enableSpeculativeDecoding</definition>
+        <argsstring>(TokenGenerationCallback draft_model_callback, TokenGenerationCallback target_model_callback)</argsstring>
+        <name>enableSpeculativeDecoding</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::enableSpeculativeDecoding</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1aecd0fc43437057e92ea661c09b8b17f9" kindref="member">TokenGenerationCallback</ref></type>
+          <declname>draft_model_callback</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1aecd0fc43437057e92ea661c09b8b17f9" kindref="member">TokenGenerationCallback</ref></type>
+          <declname>target_model_callback</declname>
+        </param>
+        <briefdescription>
+<para>Enable speculative decoding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Enable Speculative Decoding.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>draft_model_callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback for draft model generation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>target_model_callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback for target model verification</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">draft_model_callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_model_callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="384" column="10" bodyfile="src/sharding/continuous_batch_scheduler.cpp" bodystart="474" bodyend="482"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a7fe2ef2ee0cdb29eefd225d23b115859" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::ContinuousBatchScheduler::disableSpeculativeDecoding</definition>
+        <argsstring>()</argsstring>
+        <name>disableSpeculativeDecoding</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::disableSpeculativeDecoding</qualifiedname>
+        <briefdescription>
+<para>Disable speculative decoding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Disable Speculative Decoding.</para>
+<para>Calls: lock(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="392" column="10" bodyfile="src/sharding/continuous_batch_scheduler.cpp" bodystart="488" bodyend="493"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1aad5cf343c9a43ad3b8ad1b8e612c0f17" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::ContinuousBatchScheduler::isSpeculativeDecodingEnabled</definition>
+        <argsstring>() const</argsstring>
+        <name>isSpeculativeDecodingEnabled</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::isSpeculativeDecodingEnabled</qualifiedname>
+        <briefdescription>
+<para>Check if speculative decoding is enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="397" column="10" bodyfile="src/sharding/continuous_batch_scheduler.cpp" bodystart="495" bodyend="503"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a885ae184a0f621697987830980025af2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::ContinuousBatchScheduler::setKVCacheManager</definition>
+        <argsstring>(KVCacheManager *kv_cache_manager)</argsstring>
+        <name>setKVCacheManager</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::setKVCacheManager</qualifiedname>
+        <param>
+          <type>KVCacheManager *</type>
+          <declname>kv_cache_manager</declname>
+        </param>
+        <briefdescription>
+<para>Set KV cache manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set KVCache Manager.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>kv_cache_manager</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>KV cache manager</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">kv_cache_manager</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="407" column="10" bodyfile="src/sharding/continuous_batch_scheduler.cpp" bodystart="514" bodyend="518"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1ab84fdfa6a239eca9113a518f9524e826" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>KVCacheManager *</type>
+        <definition>KVCacheManager * themisdb::sharding::ContinuousBatchScheduler::getKVCacheManager</definition>
+        <argsstring>()</argsstring>
+        <name>getKVCacheManager</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::getKVCacheManager</qualifiedname>
+        <briefdescription>
+<para>Get KV cache manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get KVCache Manager.</para>
+<para><simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Implements getKVCacheManager without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="412" column="20" bodyfile="src/sharding/continuous_batch_scheduler.cpp" bodystart="525" bodyend="527"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a15496a9fe2ad5f74e6079874b4c6f9a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::ContinuousBatchScheduler::clearKVCache</definition>
+        <argsstring>(int64_t request_id)</argsstring>
+        <name>clearKVCache</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::clearKVCache</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>request_id</declname>
+        </param>
+        <briefdescription>
+<para>Clear KV cache for a specific request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear KVCache.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Request identifier</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the request.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), clearRequestCache(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="418" column="10" bodyfile="src/sharding/continuous_batch_scheduler.cpp" bodystart="534" bodyend="539"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a31d3ef124bb5a681d87f2451fa50596d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::sharding::ContinuousBatchScheduler::getStatsJson</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatsJson</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::getStatsJson</qualifiedname>
+        <briefdescription>
+<para>Get detailed statistics as JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="427" column="20" bodyfile="src/sharding/continuous_batch_scheduler.cpp" bodystart="545" bodyend="553"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a372f8d651a571e7f8d9659955043f6a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::ContinuousBatchScheduler::resetStats</definition>
+        <argsstring>()</argsstring>
+        <name>resetStats</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::resetStats</qualifiedname>
+        <briefdescription>
+<para>Reset statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset Stats.</para>
+<para>Calls: lock(), BatchStats(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="432" column="10" bodyfile="src/sharding/continuous_batch_scheduler.cpp" bodystart="559" bodyend="565"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a9ab7bdb4d56d22acc7cff3608a14c97f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1sharding_1_1_request_stats" kindref="compound">RequestStats</ref> &gt;</type>
+        <definition>std::optional&lt; RequestStats &gt; themisdb::sharding::ContinuousBatchScheduler::getRequestStats</definition>
+        <argsstring>(int64_t request_id) const</argsstring>
+        <name>getRequestStats</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::getRequestStats</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>request_id</declname>
+        </param>
+        <briefdescription>
+<para>Get request statistics by ID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Request identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemisdb_1_1sharding_1_1_request_stats" kindref="compound">RequestStats</ref> or nullopt if not found </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="439" column="19" bodyfile="src/sharding/continuous_batch_scheduler.cpp" bodystart="567" bodyend="579"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1aecf9876995b506dabdfe94d8c865114b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::ContinuousBatchScheduler::onMetricsUpdate</definition>
+        <argsstring>(std::function&lt; void(const BatchStats &amp;)&gt; callback)</argsstring>
+        <name>onMetricsUpdate</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::onMetricsUpdate</qualifiedname>
+        <param>
+          <type>std::function&lt; void(const <ref refid="structthemisdb_1_1sharding_1_1_batch_stats" kindref="compound">BatchStats</ref> &amp;)&gt;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Register metrics callback. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="444" column="10" bodyfile="src/sharding/continuous_batch_scheduler.cpp" bodystart="581" bodyend="589"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a800911c7f04e370bdb6496a874087328" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::ContinuousBatchScheduler::getPriorityQueueIndex</definition>
+        <argsstring>(SchedulingPriority priority) const</argsstring>
+        <name>getPriorityQueueIndex</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::getPriorityQueueIndex</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1sharding_1afface7462e40093984ddef934a41300e" kindref="member">SchedulingPriority</ref></type>
+          <declname>priority</declname>
+        </param>
+        <briefdescription>
+<para>Get the index for a priority level. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="516" column="12" bodyfile="src/sharding/continuous_batch_scheduler.cpp" bodystart="595" bodyend="603"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a1deeed46c4d418a94162fbd04338a97a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; int64_t &gt;</type>
+        <definition>std::vector&lt; int64_t &gt; themisdb::sharding::ContinuousBatchScheduler::selectNextBatch</definition>
+        <argsstring>()</argsstring>
+        <name>selectNextBatch</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::selectNextBatch</qualifiedname>
+        <briefdescription>
+<para>Select requests for the next batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Select Next Batch.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), empty(), std::move(), front(), pop(), push(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="521" column="17" bodyfile="src/sharding/continuous_batch_scheduler.cpp" bodystart="610" bodyend="642"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a1b02a0f8285524734a0180c0e18ae20a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::ContinuousBatchScheduler::processPrefill</definition>
+        <argsstring>(Request &amp;request)</argsstring>
+        <name>processPrefill</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::processPrefill</qualifiedname>
+        <param>
+          <type>Request &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+<para>Process prefill phase for a request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Process Prefill.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: target_model_callback_(), size(), std::chrono::steady_clock::now(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="526" column="10" bodyfile="src/sharding/continuous_batch_scheduler.cpp" bodystart="650" bodyend="680"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1aca833b1252f4a6bc6d177577ed23324d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::ContinuousBatchScheduler::processDecode</definition>
+        <argsstring>(Request &amp;request)</argsstring>
+        <name>processDecode</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::processDecode</qualifiedname>
+        <param>
+          <type>Request &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+<para>Process decode phase for a request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Process Decode.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: target_model_callback_(), size(), insert(), end(), begin(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="531" column="10" bodyfile="src/sharding/continuous_batch_scheduler.cpp" bodystart="751" bodyend="786"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a6955b7e54e32dad1099c551de78efa3d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::ContinuousBatchScheduler::processChunkedPrefill</definition>
+        <argsstring>(Request &amp;request)</argsstring>
+        <name>processChunkedPrefill</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::processChunkedPrefill</qualifiedname>
+        <param>
+          <type>Request &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+<para>Process chunked prefill. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Process Chunked Prefill.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: size(), spdlog::debug(), std::min(), chunk_input(), begin(), target_model_callback_(), std::chrono::steady_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="536" column="10" bodyfile="src/sharding/continuous_batch_scheduler.cpp" bodystart="688" bodyend="743"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a1c87ea4c36fcbc518f061d7e0fa4ecdc" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::ContinuousBatchScheduler::processSpeculativeDecoding</definition>
+        <argsstring>(Request &amp;request)</argsstring>
+        <name>processSpeculativeDecoding</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::processSpeculativeDecoding</qualifiedname>
+        <param>
+          <type>Request &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+<para>Process speculative decoding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Process Speculative Decoding.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::warn(), processDecode(), clear(), draft_model_callback_(), spdlog::debug(), size(), empty(), insert(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="541" column="10" bodyfile="src/sharding/continuous_batch_scheduler.cpp" bodystart="794" bodyend="869"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1abb45ccf62a153283d479f8f09b925d5b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::ContinuousBatchScheduler::checkPreemption</definition>
+        <argsstring>()</argsstring>
+        <name>checkPreemption</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::checkPreemption</qualifiedname>
+        <briefdescription>
+<para>Check if preemption is needed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Check Preemption.</para>
+<para>Calls: size(), spdlog::info(), <ref refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a23c00a872eb2faacfc6e8d176723fe4a" kindref="member">cancelRequest()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="546" column="10" bodyfile="src/sharding/continuous_batch_scheduler.cpp" bodystart="875" bodyend="902"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a14fc4e529414c6e4d06bc5dd85d2ad29" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::ContinuousBatchScheduler::updateRequestState</definition>
+        <argsstring>(int64_t request_id, RequestState state)</argsstring>
+        <name>updateRequestState</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::updateRequestState</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>request_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1sharding_1a908b3d5a344e5d5ebbb49da08e656f3c" kindref="member">RequestState</ref></type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>Update request state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update Request State.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the request. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="551" column="10" bodyfile="src/sharding/continuous_batch_scheduler.cpp" bodystart="910" bodyend="915"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a26eef4a8e9db631cf30348426e001036" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::ContinuousBatchScheduler::updateStats</definition>
+        <argsstring>(const Request &amp;request)</argsstring>
+        <name>updateStats</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::updateStats</qualifiedname>
+        <param>
+          <type>const Request &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+<para>Update statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update Stats.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), count(), push_back(), size(), erase(), begin(), empty(), std::sort(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="556" column="10" bodyfile="src/sharding/continuous_batch_scheduler.cpp" bodystart="922" bodyend="965"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1abab538b79f0e60095ddf946513a9e8ec" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::ContinuousBatchScheduler::notifyMetricsCallback</definition>
+        <argsstring>()</argsstring>
+        <name>notifyMetricsCallback</name>
+        <qualifiedname>themisdb::sharding::ContinuousBatchScheduler::notifyMetricsCallback</qualifiedname>
+        <briefdescription>
+<para>Notify metrics callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Notify Metrics Callback.</para>
+<para>Calls: metrics_callback_(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="561" column="10" bodyfile="src/sharding/continuous_batch_scheduler.cpp" bodystart="971" bodyend="975"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Continuous Batch Scheduler for LLM Inference. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implements vLLM-style continuous batching with the following features:<itemizedlist>
+<listitem><para>Iteration-level scheduling (Orca-style)</para>
+</listitem><listitem><para>Chunked prefill (Sarathi-Serve-style)</para>
+</listitem><listitem><para>Request priority queues</para>
+</listitem><listitem><para>Adaptive batch sizing</para>
+</listitem><listitem><para>Preemption support</para>
+</listitem><listitem><para>Statistics tracking</para>
+</listitem></itemizedlist>
+</para>
+<para>This scheduler is designed for per-shard inference in a converged storage-retrieval-inference architecture. </para>
+    </detaileddescription>
+    <location file="include/sharding/continuous_batch_scheduler.h" line="233" column="1" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="233" bodyend="562"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a23c00a872eb2faacfc6e8d176723fe4a" prot="public" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>cancelRequest</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1abb45ccf62a153283d479f8f09b925d5b" prot="private" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>checkPreemption</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a15496a9fe2ad5f74e6079874b4c6f9a8" prot="public" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>clearKVCache</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a07356221af6bb1452162506b13276be3" prot="private" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>completed_requests_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a60717f583f373ee0ecb3a2605a884178" prot="private" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a8d45cde0dae29e5d46c5966466fdbc5c" prot="public" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>ContinuousBatchScheduler</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1aa5521369b2d5355b592f9ec97610ae8b" prot="public" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>ContinuousBatchScheduler</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a766541bb52f568e16ef089263809ff58" prot="private" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>current_batch_request_ids_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1ada3a152fd6f5f04ff9198233c49f55f5" prot="private" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>current_stats_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1aaa4e84cdf21a865bd606946aa9fdb821" prot="private" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>cv_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a7fe2ef2ee0cdb29eefd225d23b115859" prot="public" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>disableSpeculativeDecoding</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a345fda6e54892d48fef6d779d4f32d87" prot="private" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>draft_model_callback_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a72dede558b7f41d8fc41e46c5298e3a2" prot="public" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>enableSpeculativeDecoding</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1aaa807e83dfeac23cbb39e36c6c11e199" prot="public" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>getConfig</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1ac96de12fec1b06db70a764c092ece8b9" prot="public" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>getCurrentStats</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1ab84fdfa6a239eca9113a518f9524e826" prot="public" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>getKVCacheManager</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a800911c7f04e370bdb6496a874087328" prot="private" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>getPriorityQueueIndex</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1aba050a00c33a0239a4b1d7cb33022c4b" prot="public" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>getRequestCountByPriority</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a9ab7bdb4d56d22acc7cff3608a14c97f" prot="public" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>getRequestStats</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a31d3ef124bb5a681d87f2451fa50596d" prot="public" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>getStatsJson</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1ac21aecd61a8293b00c05bfb967a78670" prot="public" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>hasPendingRequests</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a2e5c14fab915ea5b2708c51d745e8aa8" prot="private" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>in_progress_requests_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a4babd069483d48d7bdad4e94b00b705f" prot="public" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>isRunning</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1aad5cf343c9a43ad3b8ad1b8e612c0f17" prot="public" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>isSpeculativeDecodingEnabled</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a4f6d29d09a0c5e2f248e055cb7706c50" prot="private" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>kv_cache_manager_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a91b4ee5b50517154a836e4dfd213da55" prot="private" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>latency_history_ms_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1ad8f4ac878d5224d2f81519c65cb11881" prot="private" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>metrics_callback_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a85bb29e12e44bdb59173cfea6434e835" prot="private" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>mutex_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1abab538b79f0e60095ddf946513a9e8ec" prot="private" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>notifyMetricsCallback</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1aecf9876995b506dabdfe94d8c865114b" prot="public" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>onMetricsUpdate</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a853ee87b5f88235bf3e52d2b2e499006" prot="public" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a2c4b065ae1896a20b0824811a475ff39" prot="public" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>pause</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1ab0683a3eaf35dea46cbcda8e0bd0d50f" prot="private" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>paused_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a4ab78c2a6261d3bc26014a10a46cd8be" prot="private" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>priority_queues_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a6955b7e54e32dad1099c551de78efa3d" prot="private" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>processChunkedPrefill</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1aca833b1252f4a6bc6d177577ed23324d" prot="private" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>processDecode</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1afd32708f6a6e65997be1f530e653bba8" prot="public" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>processNextBatch</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a1b02a0f8285524734a0180c0e18ae20a" prot="private" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>processPrefill</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a1c87ea4c36fcbc518f061d7e0fa4ecdc" prot="private" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>processSpeculativeDecoding</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a9b6ca9ffa555b9f9244c4ccd5addbfa3" prot="public" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>RequestCompletionCallback</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a372f8d651a571e7f8d9659955043f6a5" prot="public" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>resetStats</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a280cde093b508142f81958aeb6805ad3" prot="public" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>resume</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a3147a8360175c0c4e153708082f5453c" prot="private" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>running_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a1deeed46c4d418a94162fbd04338a97a" prot="private" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>selectNextBatch</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a885ae184a0f621697987830980025af2" prot="public" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>setKVCacheManager</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1aa568940020f3da59af5a7a3996ca908b" prot="public" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>start</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a9b163f02e16c3295553c92f18dde0c38" prot="private" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>stats_mutex_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a8c35d31cae871f23f43ea43122041f5b" prot="public" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>stop</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a18500c1b6026143f9cc1fd4ad21efeb7" prot="public" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>submitRequest</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a2fed4d1a1e9e523cf9831e30c7be6924" prot="private" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>target_model_callback_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1aecd0fc43437057e92ea661c09b8b17f9" prot="public" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>TokenGenerationCallback</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a0f6cc404849360bd3aa4cec1ac768479" prot="public" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>updateConfig</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a498ca112f54a892c2759379e49fcb927" prot="public" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>updateRequestPriority</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a14fc4e529414c6e4d06bc5dd85d2ad29" prot="private" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>updateRequestState</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a26eef4a8e9db631cf30348426e001036" prot="private" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>updateStats</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler_1a7878fb90d1745fab5b0d84240aafe356" prot="public" virt="non-virtual"><scope>themisdb::sharding::ContinuousBatchScheduler</scope><name>~ContinuousBatchScheduler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

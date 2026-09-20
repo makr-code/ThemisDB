@@ -1,0 +1,229 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::index::GPUVectorIndex::Statistics</compoundname>
+    <includes refid="gpu__vector__index_8h" local="no">gpu_vector_index.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_statistics_1aa3d30ba9a9cc79eee5a655fe2c977889" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::GPUVectorIndex::Statistics::numVectors</definition>
+        <argsstring></argsstring>
+        <name>numVectors</name>
+        <qualifiedname>themis::index::GPUVectorIndex::Statistics::numVectors</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index.h" line="83" column="16" bodyfile="include/index/gpu_vector_index.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_statistics_1adb05afe2ca741ece3bc7822f0fad25be" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::GPUVectorIndex::Statistics::dimension</definition>
+        <argsstring></argsstring>
+        <name>dimension</name>
+        <qualifiedname>themis::index::GPUVectorIndex::Statistics::dimension</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index.h" line="84" column="16" bodyfile="include/index/gpu_vector_index.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_statistics_1a5f74c155505b503498940adb8429174a" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1index_1_1_g_p_u_vector_index_1adc7623c1f256d2b4b67f20ae2d98bcb1" kindref="member">Backend</ref></type>
+        <definition>Backend themis::index::GPUVectorIndex::Statistics::activeBackend</definition>
+        <argsstring></argsstring>
+        <name>activeBackend</name>
+        <qualifiedname>themis::index::GPUVectorIndex::Statistics::activeBackend</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1index_1_1_g_p_u_vector_index_1adc7623c1f256d2b4b67f20ae2d98bcb1a2b55387dd066c5bac646ac61543d152d" kindref="member">Backend::CPU</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index.h" line="85" column="17" bodyfile="include/index/gpu_vector_index.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_statistics_1ad362b520cad70ccb8c4043526797e4fa" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::GPUVectorIndex::Statistics::vramUsageBytes</definition>
+        <argsstring></argsstring>
+        <name>vramUsageBytes</name>
+        <qualifiedname>themis::index::GPUVectorIndex::Statistics::vramUsageBytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index.h" line="86" column="16" bodyfile="include/index/gpu_vector_index.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_statistics_1af76440facaa7e0cd34dcdc86f8e896b4" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::index::GPUVectorIndex::Statistics::avgQueryTimeMs</definition>
+        <argsstring></argsstring>
+        <name>avgQueryTimeMs</name>
+        <qualifiedname>themis::index::GPUVectorIndex::Statistics::avgQueryTimeMs</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index.h" line="87" column="16" bodyfile="include/index/gpu_vector_index.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_statistics_1a3bc6e044b0ba098a3e8688a4a49ecd93" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::index::GPUVectorIndex::Statistics::throughputQPS</definition>
+        <argsstring></argsstring>
+        <name>throughputQPS</name>
+        <qualifiedname>themis::index::GPUVectorIndex::Statistics::throughputQPS</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index.h" line="88" column="16" bodyfile="include/index/gpu_vector_index.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_statistics_1a5fab5793bd19911b4ae7f04405313065" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::index::GPUVectorIndex::Statistics::isGPUActive</definition>
+        <argsstring></argsstring>
+        <name>isGPUActive</name>
+        <qualifiedname>themis::index::GPUVectorIndex::Statistics::isGPUActive</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index.h" line="89" column="14" bodyfile="include/index/gpu_vector_index.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_statistics_1aa6d718237ffb3b07e552f21dd26d811e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::index::GPUVectorIndex::Statistics::oversubscriptionActive</definition>
+        <argsstring></argsstring>
+        <name>oversubscriptionActive</name>
+        <qualifiedname>themis::index::GPUVectorIndex::Statistics::oversubscriptionActive</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index.h" line="91" column="14" bodyfile="include/index/gpu_vector_index.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_statistics_1af5f7a325d6c6d6b2ec09b390ba3da23a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::GPUVectorIndex::Statistics::oversubHotPartitions</definition>
+        <argsstring></argsstring>
+        <name>oversubHotPartitions</name>
+        <qualifiedname>themis::index::GPUVectorIndex::Statistics::oversubHotPartitions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Partitions currently in VRAM. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index.h" line="92" column="16" bodyfile="include/index/gpu_vector_index.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_statistics_1a6bed37f49b4282ed7c15a77706d8d6bb" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::GPUVectorIndex::Statistics::oversubColdPartitions</definition>
+        <argsstring></argsstring>
+        <name>oversubColdPartitions</name>
+        <qualifiedname>themis::index::GPUVectorIndex::Statistics::oversubColdPartitions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Partitions in host RAM only. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index.h" line="93" column="16" bodyfile="include/index/gpu_vector_index.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_statistics_1a572b24c99b48f89c644d04a1588d5362" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::GPUVectorIndex::Statistics::oversubEvictions</definition>
+        <argsstring></argsstring>
+        <name>oversubEvictions</name>
+        <qualifiedname>themis::index::GPUVectorIndex::Statistics::oversubEvictions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total LRU evictions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index.h" line="94" column="16" bodyfile="include/index/gpu_vector_index.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_statistics_1aee42ba41a0efeaf65eeebd773c3e2c9f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::GPUVectorIndex::Statistics::oversubLoads</definition>
+        <argsstring></argsstring>
+        <name>oversubLoads</name>
+        <qualifiedname>themis::index::GPUVectorIndex::Statistics::oversubLoads</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total partition loads into VRAM. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index.h" line="95" column="16" bodyfile="include/index/gpu_vector_index.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_statistics_1a166a03be1347c13a8c29b19663adf569" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::index::GPUVectorIndex::Statistics::oversubPrefetchHitRate</definition>
+        <argsstring></argsstring>
+        <name>oversubPrefetchHitRate</name>
+        <qualifiedname>themis::index::GPUVectorIndex::Statistics::oversubPrefetchHitRate</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Prefetch hit rate [0,1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index.h" line="96" column="16" bodyfile="include/index/gpu_vector_index.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/gpu_vector_index.h" line="82" column="5" bodyfile="include/index/gpu_vector_index.h" bodystart="82" bodyend="97"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_statistics_1a5f74c155505b503498940adb8429174a" prot="public" virt="non-virtual"><scope>themis::index::GPUVectorIndex::Statistics</scope><name>activeBackend</name></member>
+      <member refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_statistics_1af76440facaa7e0cd34dcdc86f8e896b4" prot="public" virt="non-virtual"><scope>themis::index::GPUVectorIndex::Statistics</scope><name>avgQueryTimeMs</name></member>
+      <member refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_statistics_1adb05afe2ca741ece3bc7822f0fad25be" prot="public" virt="non-virtual"><scope>themis::index::GPUVectorIndex::Statistics</scope><name>dimension</name></member>
+      <member refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_statistics_1a5fab5793bd19911b4ae7f04405313065" prot="public" virt="non-virtual"><scope>themis::index::GPUVectorIndex::Statistics</scope><name>isGPUActive</name></member>
+      <member refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_statistics_1aa3d30ba9a9cc79eee5a655fe2c977889" prot="public" virt="non-virtual"><scope>themis::index::GPUVectorIndex::Statistics</scope><name>numVectors</name></member>
+      <member refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_statistics_1a6bed37f49b4282ed7c15a77706d8d6bb" prot="public" virt="non-virtual"><scope>themis::index::GPUVectorIndex::Statistics</scope><name>oversubColdPartitions</name></member>
+      <member refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_statistics_1a572b24c99b48f89c644d04a1588d5362" prot="public" virt="non-virtual"><scope>themis::index::GPUVectorIndex::Statistics</scope><name>oversubEvictions</name></member>
+      <member refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_statistics_1af5f7a325d6c6d6b2ec09b390ba3da23a" prot="public" virt="non-virtual"><scope>themis::index::GPUVectorIndex::Statistics</scope><name>oversubHotPartitions</name></member>
+      <member refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_statistics_1aee42ba41a0efeaf65eeebd773c3e2c9f" prot="public" virt="non-virtual"><scope>themis::index::GPUVectorIndex::Statistics</scope><name>oversubLoads</name></member>
+      <member refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_statistics_1a166a03be1347c13a8c29b19663adf569" prot="public" virt="non-virtual"><scope>themis::index::GPUVectorIndex::Statistics</scope><name>oversubPrefetchHitRate</name></member>
+      <member refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_statistics_1aa6d718237ffb3b07e552f21dd26d811e" prot="public" virt="non-virtual"><scope>themis::index::GPUVectorIndex::Statistics</scope><name>oversubscriptionActive</name></member>
+      <member refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_statistics_1a3bc6e044b0ba098a3e8688a4a49ecd93" prot="public" virt="non-virtual"><scope>themis::index::GPUVectorIndex::Statistics</scope><name>throughputQPS</name></member>
+      <member refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_statistics_1ad362b520cad70ccb8c4043526797e4fa" prot="public" virt="non-virtual"><scope>themis::index::GPUVectorIndex::Statistics</scope><name>vramUsageBytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

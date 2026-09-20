@@ -1,0 +1,210 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1performance_1_1phase4_1_1_zero_copy_buffer" kind="class" language="C++" prot="public">
+    <compoundname>themis::performance::phase4::ZeroCopyBuffer</compoundname>
+    <includes refid="io__uring__zero__copy_8h" local="no">io_uring_zero_copy.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase4_1_1_zero_copy_buffer_1a012ce1b5840ed01e780d7989ed35aa5f" prot="private" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::performance::phase4::ZeroCopyBuffer::data_</definition>
+        <argsstring></argsstring>
+        <name>data_</name>
+        <qualifiedname>themis::performance::phase4::ZeroCopyBuffer::data_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/io_uring_zero_copy.h" line="99" column="11" bodyfile="include/performance/phase4/io_uring_zero_copy.h" bodystart="99" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase4_1_1_zero_copy_buffer_1a2f9a56d01a008c0d0d77835677853d1e" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::phase4::ZeroCopyBuffer::size_</definition>
+        <argsstring></argsstring>
+        <name>size_</name>
+        <qualifiedname>themis::performance::phase4::ZeroCopyBuffer::size_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/io_uring_zero_copy.h" line="100" column="12" bodyfile="include/performance/phase4/io_uring_zero_copy.h" bodystart="100" bodyend="100"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_zero_copy_buffer_1a50c0b670fdb1692e0ab803078187fa36" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::phase4::ZeroCopyBuffer::ZeroCopyBuffer</definition>
+        <argsstring>(size_t size)</argsstring>
+        <name>ZeroCopyBuffer</name>
+        <qualifiedname>themis::performance::phase4::ZeroCopyBuffer::ZeroCopyBuffer</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Allocate a buffer of <computeroutput>size</computeroutput> bytes aligned to the system page size. The buffer is NOT registered at construction; call register_with_ring() after associating it with an <ref refid="classthemis_1_1performance_1_1phase4_1_1_io_uring_zero_copy_i_o" kindref="compound">IoUringZeroCopyIO</ref> instance. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/io_uring_zero_copy.h" line="82" column="14" bodyfile="src/performance/phase4/io_uring_zero_copy.cpp" bodystart="95" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_zero_copy_buffer_1a186b82f998421d541a37626cb7accd1b" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::phase4::ZeroCopyBuffer::~ZeroCopyBuffer</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~ZeroCopyBuffer</name>
+        <qualifiedname>themis::performance::phase4::ZeroCopyBuffer::~ZeroCopyBuffer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/io_uring_zero_copy.h" line="83" column="5" bodyfile="src/performance/phase4/io_uring_zero_copy.cpp" bodystart="111" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_zero_copy_buffer_1a57c60ef3a3b1f068582bfb4cc022bbf1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::phase4::ZeroCopyBuffer::ZeroCopyBuffer</definition>
+        <argsstring>(const ZeroCopyBuffer &amp;)=delete</argsstring>
+        <name>ZeroCopyBuffer</name>
+        <qualifiedname>themis::performance::phase4::ZeroCopyBuffer::ZeroCopyBuffer</qualifiedname>
+        <param>
+          <type>const ZeroCopyBuffer &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/io_uring_zero_copy.h" line="85" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_zero_copy_buffer_1a0af77b8b94c4b6f8db4c2d367ef2cde2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1performance_1_1phase4_1_1_zero_copy_buffer_1a50c0b670fdb1692e0ab803078187fa36" kindref="member">ZeroCopyBuffer</ref> &amp;</type>
+        <definition>ZeroCopyBuffer &amp; themis::performance::phase4::ZeroCopyBuffer::operator=</definition>
+        <argsstring>(const ZeroCopyBuffer &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::performance::phase4::ZeroCopyBuffer::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1performance_1_1phase4_1_1_zero_copy_buffer_1a50c0b670fdb1692e0ab803078187fa36" kindref="member">ZeroCopyBuffer</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/io_uring_zero_copy.h" line="86" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_zero_copy_buffer_1aeceac11318d3988eb300aeefeef5382a" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::phase4::ZeroCopyBuffer::ZeroCopyBuffer</definition>
+        <argsstring>(ZeroCopyBuffer &amp;&amp;other) noexcept</argsstring>
+        <name>ZeroCopyBuffer</name>
+        <qualifiedname>themis::performance::phase4::ZeroCopyBuffer::ZeroCopyBuffer</qualifiedname>
+        <param>
+          <type>ZeroCopyBuffer &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/io_uring_zero_copy.h" line="88" column="5" bodyfile="src/performance/phase4/io_uring_zero_copy.cpp" bodystart="123" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_zero_copy_buffer_1ade6cf2f073ff02f0b03cba9697d156f9" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1performance_1_1phase4_1_1_zero_copy_buffer_1a50c0b670fdb1692e0ab803078187fa36" kindref="member">ZeroCopyBuffer</ref> &amp;</type>
+        <definition>ZeroCopyBuffer &amp; themis::performance::phase4::ZeroCopyBuffer::operator=</definition>
+        <argsstring>(ZeroCopyBuffer &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::performance::phase4::ZeroCopyBuffer::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1performance_1_1phase4_1_1_zero_copy_buffer_1a50c0b670fdb1692e0ab803078187fa36" kindref="member">ZeroCopyBuffer</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/io_uring_zero_copy.h" line="89" column="20" bodyfile="src/performance/phase4/io_uring_zero_copy.cpp" bodystart="129" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_zero_copy_buffer_1aa92e433db94bef10ea181f515621b9ed" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::performance::phase4::ZeroCopyBuffer::data</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>data</name>
+        <qualifiedname>themis::performance::phase4::ZeroCopyBuffer::data</qualifiedname>
+        <briefdescription>
+<para>Pointer to the start of the buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/io_uring_zero_copy.h" line="92" column="11" bodyfile="include/performance/phase4/io_uring_zero_copy.h" bodystart="92" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_zero_copy_buffer_1a680f9185dfd0d1f7dcdb1add8835affd" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::performance::phase4::ZeroCopyBuffer::size</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::performance::phase4::ZeroCopyBuffer::size</qualifiedname>
+        <briefdescription>
+<para>Usable capacity in bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/io_uring_zero_copy.h" line="94" column="12" bodyfile="include/performance/phase4/io_uring_zero_copy.h" bodystart="94" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_zero_copy_buffer_1a44a7526dd6b3fb7e673190f4ab182555" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::phase4::ZeroCopyBuffer::valid</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>valid</name>
+        <qualifiedname>themis::performance::phase4::ZeroCopyBuffer::valid</qualifiedname>
+        <briefdescription>
+<para>Returns true if the buffer was successfully allocated. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/io_uring_zero_copy.h" line="96" column="12" bodyfile="include/performance/phase4/io_uring_zero_copy.h" bodystart="96" bodyend="96"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>A contiguous memory region that is pre-registered with the io_uring kernel interface via io_uring_register(IORING_REGISTER_BUFFERS).</para>
+<para>Registered buffers allow the kernel to pin pages once at registration time instead of per-I/O, eliminating DMA-map overhead per send/recv.</para>
+<para>Not copyable (the registered mapping is tied to the backing fd). Movable. </para>
+    </detaileddescription>
+    <location file="include/performance/phase4/io_uring_zero_copy.h" line="77" column="1" bodyfile="include/performance/phase4/io_uring_zero_copy.h" bodystart="77" bodyend="101"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_zero_copy_buffer_1aa92e433db94bef10ea181f515621b9ed" prot="public" virt="non-virtual"><scope>themis::performance::phase4::ZeroCopyBuffer</scope><name>data</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_zero_copy_buffer_1a012ce1b5840ed01e780d7989ed35aa5f" prot="private" virt="non-virtual"><scope>themis::performance::phase4::ZeroCopyBuffer</scope><name>data_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_zero_copy_buffer_1a0af77b8b94c4b6f8db4c2d367ef2cde2" prot="public" virt="non-virtual"><scope>themis::performance::phase4::ZeroCopyBuffer</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_zero_copy_buffer_1ade6cf2f073ff02f0b03cba9697d156f9" prot="public" virt="non-virtual"><scope>themis::performance::phase4::ZeroCopyBuffer</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_zero_copy_buffer_1a680f9185dfd0d1f7dcdb1add8835affd" prot="public" virt="non-virtual"><scope>themis::performance::phase4::ZeroCopyBuffer</scope><name>size</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_zero_copy_buffer_1a2f9a56d01a008c0d0d77835677853d1e" prot="private" virt="non-virtual"><scope>themis::performance::phase4::ZeroCopyBuffer</scope><name>size_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_zero_copy_buffer_1a44a7526dd6b3fb7e673190f4ab182555" prot="public" virt="non-virtual"><scope>themis::performance::phase4::ZeroCopyBuffer</scope><name>valid</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_zero_copy_buffer_1a50c0b670fdb1692e0ab803078187fa36" prot="public" virt="non-virtual"><scope>themis::performance::phase4::ZeroCopyBuffer</scope><name>ZeroCopyBuffer</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_zero_copy_buffer_1a57c60ef3a3b1f068582bfb4cc022bbf1" prot="public" virt="non-virtual"><scope>themis::performance::phase4::ZeroCopyBuffer</scope><name>ZeroCopyBuffer</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_zero_copy_buffer_1aeceac11318d3988eb300aeefeef5382a" prot="public" virt="non-virtual"><scope>themis::performance::phase4::ZeroCopyBuffer</scope><name>ZeroCopyBuffer</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_zero_copy_buffer_1a186b82f998421d541a37626cb7accd1b" prot="public" virt="non-virtual"><scope>themis::performance::phase4::ZeroCopyBuffer</scope><name>~ZeroCopyBuffer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

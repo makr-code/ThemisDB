@@ -1,0 +1,157 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1transaction_1_1_snapshot_manager_1_1_snapshot" kind="struct" language="C++" prot="public">
+    <compoundname>themis::transaction::SnapshotManager::Snapshot</compoundname>
+    <includes refid="snapshot__manager_8h" local="no">snapshot_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_snapshot_manager_1_1_snapshot_1aab479280e924c0244936c524f4759160" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::transaction::SnapshotManager::Snapshot::tag_name</definition>
+        <argsstring></argsstring>
+        <name>tag_name</name>
+        <qualifiedname>themis::transaction::SnapshotManager::Snapshot::tag_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/snapshot_manager.h" line="31" column="21" bodyfile="include/transaction/snapshot_manager.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_snapshot_manager_1_1_snapshot_1a8d17ae161d43acfdf85b9f76b004519e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::transaction::SnapshotManager::Snapshot::sequence_number</definition>
+        <argsstring></argsstring>
+        <name>sequence_number</name>
+        <qualifiedname>themis::transaction::SnapshotManager::Snapshot::sequence_number</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/snapshot_manager.h" line="32" column="18" bodyfile="include/transaction/snapshot_manager.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_snapshot_manager_1_1_snapshot_1abbdd3dc145e21c46b7d0c8d363b61b4b" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::transaction::SnapshotManager::Snapshot::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themis::transaction::SnapshotManager::Snapshot::timestamp_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/snapshot_manager.h" line="33" column="17" bodyfile="include/transaction/snapshot_manager.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_snapshot_manager_1_1_snapshot_1ad07a93cd7cea9c858ba6c873dfbe39be" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::transaction::SnapshotManager::Snapshot::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::transaction::SnapshotManager::Snapshot::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/snapshot_manager.h" line="34" column="21" bodyfile="include/transaction/snapshot_manager.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_snapshot_manager_1_1_snapshot_1a1cdb64f762cb4e2bf5b52b4f45ff06cd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::transaction::SnapshotManager::Snapshot::created_by</definition>
+        <argsstring></argsstring>
+        <name>created_by</name>
+        <qualifiedname>themis::transaction::SnapshotManager::Snapshot::created_by</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/snapshot_manager.h" line="35" column="21" bodyfile="include/transaction/snapshot_manager.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1transaction_1_1_snapshot_manager_1_1_snapshot_1a67f9deb0572904078084238f4a51d5ee" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1transaction_1ada1fce812dfe6e6dd9904ce74ebdfed9" kindref="member">json</ref></type>
+        <definition>json themis::transaction::SnapshotManager::Snapshot::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::transaction::SnapshotManager::Snapshot::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/snapshot_manager.h" line="41" column="14" bodyfile="src/transaction/snapshot_manager.cpp" bodystart="22" bodyend="30"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1transaction_1_1_snapshot_manager_1_1_snapshot_1a3b1141e9f6b0a51bbe083184bf7cebb3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1transaction_1_1_snapshot_manager_1_1_snapshot" kindref="compound">Snapshot</ref></type>
+        <definition>SnapshotManager::Snapshot themis::transaction::SnapshotManager::Snapshot::fromJson</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::transaction::SnapshotManager::Snapshot::fromJson</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1transaction_1ada1fce812dfe6e6dd9904ce74ebdfed9" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements fromJson without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/snapshot_manager.h" line="47" column="25" bodyfile="src/transaction/snapshot_manager.cpp" bodystart="38" bodyend="46"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/snapshot_manager.h" line="30" column="5" bodyfile="include/transaction/snapshot_manager.h" bodystart="30" bodyend="48"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1transaction_1_1_snapshot_manager_1_1_snapshot_1a1cdb64f762cb4e2bf5b52b4f45ff06cd" prot="public" virt="non-virtual"><scope>themis::transaction::SnapshotManager::Snapshot</scope><name>created_by</name></member>
+      <member refid="structthemis_1_1transaction_1_1_snapshot_manager_1_1_snapshot_1ad07a93cd7cea9c858ba6c873dfbe39be" prot="public" virt="non-virtual"><scope>themis::transaction::SnapshotManager::Snapshot</scope><name>description</name></member>
+      <member refid="structthemis_1_1transaction_1_1_snapshot_manager_1_1_snapshot_1a3b1141e9f6b0a51bbe083184bf7cebb3" prot="public" virt="non-virtual"><scope>themis::transaction::SnapshotManager::Snapshot</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1transaction_1_1_snapshot_manager_1_1_snapshot_1a8d17ae161d43acfdf85b9f76b004519e" prot="public" virt="non-virtual"><scope>themis::transaction::SnapshotManager::Snapshot</scope><name>sequence_number</name></member>
+      <member refid="structthemis_1_1transaction_1_1_snapshot_manager_1_1_snapshot_1aab479280e924c0244936c524f4759160" prot="public" virt="non-virtual"><scope>themis::transaction::SnapshotManager::Snapshot</scope><name>tag_name</name></member>
+      <member refid="structthemis_1_1transaction_1_1_snapshot_manager_1_1_snapshot_1abbdd3dc145e21c46b7d0c8d363b61b4b" prot="public" virt="non-virtual"><scope>themis::transaction::SnapshotManager::Snapshot</scope><name>timestamp_ms</name></member>
+      <member refid="structthemis_1_1transaction_1_1_snapshot_manager_1_1_snapshot_1a67f9deb0572904078084238f4a51d5ee" prot="public" virt="non-virtual"><scope>themis::transaction::SnapshotManager::Snapshot</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

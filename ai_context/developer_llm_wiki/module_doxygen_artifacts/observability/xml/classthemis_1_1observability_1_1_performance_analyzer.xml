@@ -1,0 +1,868 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_performance_analyzer" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::PerformanceAnalyzer</compoundname>
+    <includes refid="performance__analyzer_8h" local="no">performance_analyzer.h</includes>
+    <innerclass refid="classthemis_1_1observability_1_1_performance_analyzer_1_1_impl" prot="public">themis::observability::PerformanceAnalyzer::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_performance_analyzer_1a40b440a673392908494a030675cb9649" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1observability_1_1_performance_analyzer_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::observability::PerformanceAnalyzer::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::observability::PerformanceAnalyzer::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/performance_analyzer.h" line="185" column="21" bodyfile="include/observability/performance_analyzer.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_performance_analyzer_1aca3d931917abfd02859caa531e5cdb31" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::PerformanceAnalyzer::PerformanceAnalyzer</definition>
+        <argsstring>(const PerformanceAnalyzerConfig &amp;config=PerformanceAnalyzerConfig{})</argsstring>
+        <name>PerformanceAnalyzer</name>
+        <qualifiedname>themis::observability::PerformanceAnalyzer::PerformanceAnalyzer</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_performance_analyzer_config" kindref="compound">PerformanceAnalyzerConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1observability_1_1_performance_analyzer_config" kindref="compound">PerformanceAnalyzerConfig</ref>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/performance_analyzer.h" line="103" column="14" bodyfile="src/observability/performance_analyzer.cpp" bodystart="142" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_performance_analyzer_1a96fb134e174b1fbaaf74f5d31904ca26" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::PerformanceAnalyzer::~PerformanceAnalyzer</definition>
+        <argsstring>()</argsstring>
+        <name>~PerformanceAnalyzer</name>
+        <qualifiedname>themis::observability::PerformanceAnalyzer::~PerformanceAnalyzer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/performance_analyzer.h" line="105" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_performance_analyzer_1a527c7f84d944693e3db90d0f6e9ac7df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::PerformanceAnalyzer::PerformanceAnalyzer</definition>
+        <argsstring>(const PerformanceAnalyzer &amp;)=delete</argsstring>
+        <name>PerformanceAnalyzer</name>
+        <qualifiedname>themis::observability::PerformanceAnalyzer::PerformanceAnalyzer</qualifiedname>
+        <param>
+          <type>const PerformanceAnalyzer &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/performance_analyzer.h" line="108" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_performance_analyzer_1a7b6e808afda75f864912e7e528e32ceb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1observability_1_1_performance_analyzer_1aca3d931917abfd02859caa531e5cdb31" kindref="member">PerformanceAnalyzer</ref> &amp;</type>
+        <definition>PerformanceAnalyzer &amp; themis::observability::PerformanceAnalyzer::operator=</definition>
+        <argsstring>(const PerformanceAnalyzer &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::observability::PerformanceAnalyzer::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1observability_1_1_performance_analyzer_1aca3d931917abfd02859caa531e5cdb31" kindref="member">PerformanceAnalyzer</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/performance_analyzer.h" line="109" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_performance_analyzer_1ac6fc7e18b1ece7d735136d15d16ed2c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1observability_1_1_performance_analysis" kindref="compound">PerformanceAnalysis</ref></type>
+        <definition>PerformanceAnalysis themis::observability::PerformanceAnalyzer::analyze</definition>
+        <argsstring>(const QueryProfiler &amp;query_profiler, const StorageProfiler &amp;storage_profiler)</argsstring>
+        <name>analyze</name>
+        <qualifiedname>themis::observability::PerformanceAnalyzer::analyze</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1observability_1_1_query_profiler" kindref="compound">QueryProfiler</ref> &amp;</type>
+          <declname>query_profiler</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1observability_1_1_storage_profiler" kindref="compound">StorageProfiler</ref> &amp;</type>
+          <declname>storage_profiler</declname>
+        </param>
+        <briefdescription>
+<para>Analyze performance using profilers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Analyze.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query_profiler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query profiler instance </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>storage_profiler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Storage profiler instance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Performance analysis result</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_profiler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">storage_profiler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), <ref refid="classthemis_1_1observability_1_1_performance_analyzer_1a6d16e03e3fee63cc3beec97cd7ddd3ad" kindref="member">analyze_queries()</ref>, insert(), end(), begin(), <ref refid="classthemis_1_1observability_1_1_performance_analyzer_1ad98a7aad7ab2a32735df534ba6813304" kindref="member">analyze_storage()</ref>, <ref refid="classthemis_1_1observability_1_1_performance_analyzer_1a83e38e013ed85062eb489bcc3c0d110b" kindref="member">analyze_cache()</ref>, <ref refid="classthemis_1_1observability_1_1_performance_analyzer_1a2776830ca2a6e4730d5aebed2dceb5f5" kindref="member">analyze_indexes()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/performance_analyzer.h" line="117" column="25" bodyfile="src/observability/performance_analyzer.cpp" bodystart="154" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_performance_analyzer_1a6d16e03e3fee63cc3beec97cd7ddd3ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1observability_1_1_performance_issue" kindref="compound">PerformanceIssue</ref> &gt;</type>
+        <definition>std::vector&lt; PerformanceIssue &gt; themis::observability::PerformanceAnalyzer::analyze_queries</definition>
+        <argsstring>(const QueryProfiler &amp;query_profiler)</argsstring>
+        <name>analyze_queries</name>
+        <qualifiedname>themis::observability::PerformanceAnalyzer::analyze_queries</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1observability_1_1_query_profiler" kindref="compound">QueryProfiler</ref> &amp;</type>
+          <declname>query_profiler</declname>
+        </param>
+        <briefdescription>
+<para>Analyze query performance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Analyze queries.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query_profiler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query profiler instance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of identified issues</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_profiler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: check_slow_queries(), empty(), push_back(), check_full_scans(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/performance_analyzer.h" line="125" column="17" bodyfile="src/observability/performance_analyzer.cpp" bodystart="209" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_performance_analyzer_1ad98a7aad7ab2a32735df534ba6813304" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1observability_1_1_performance_issue" kindref="compound">PerformanceIssue</ref> &gt;</type>
+        <definition>std::vector&lt; PerformanceIssue &gt; themis::observability::PerformanceAnalyzer::analyze_storage</definition>
+        <argsstring>(const StorageProfiler &amp;storage_profiler)</argsstring>
+        <name>analyze_storage</name>
+        <qualifiedname>themis::observability::PerformanceAnalyzer::analyze_storage</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1observability_1_1_storage_profiler" kindref="compound">StorageProfiler</ref> &amp;</type>
+          <declname>storage_profiler</declname>
+        </param>
+        <briefdescription>
+<para>Analyze storage performance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Analyze storage.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>storage_profiler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Storage profiler instance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of identified issues</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">storage_profiler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: check_write_amplification(), empty(), push_back(), check_read_amplification(), check_slow_storage_ops(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/performance_analyzer.h" line="132" column="17" bodyfile="src/observability/performance_analyzer.cpp" bodystart="234" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_performance_analyzer_1a83e38e013ed85062eb489bcc3c0d110b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1observability_1_1_performance_issue" kindref="compound">PerformanceIssue</ref> &gt;</type>
+        <definition>std::vector&lt; PerformanceIssue &gt; themis::observability::PerformanceAnalyzer::analyze_cache</definition>
+        <argsstring>(const QueryProfiler &amp;query_profiler, const StorageProfiler &amp;storage_profiler)</argsstring>
+        <name>analyze_cache</name>
+        <qualifiedname>themis::observability::PerformanceAnalyzer::analyze_cache</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1observability_1_1_query_profiler" kindref="compound">QueryProfiler</ref> &amp;</type>
+          <declname>query_profiler</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1observability_1_1_storage_profiler" kindref="compound">StorageProfiler</ref> &amp;</type>
+          <declname>storage_profiler</declname>
+        </param>
+        <briefdescription>
+<para>Analyze cache performance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Analyze cache.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query_profiler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query profiler instance </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>storage_profiler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Storage profiler instance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of identified issues</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_profiler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">storage_profiler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: check_cache_hit_rate(), empty(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/performance_analyzer.h" line="140" column="17" bodyfile="src/observability/performance_analyzer.cpp" bodystart="266" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_performance_analyzer_1a2776830ca2a6e4730d5aebed2dceb5f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1observability_1_1_performance_issue" kindref="compound">PerformanceIssue</ref> &gt;</type>
+        <definition>std::vector&lt; PerformanceIssue &gt; themis::observability::PerformanceAnalyzer::analyze_indexes</definition>
+        <argsstring>(const QueryProfiler &amp;query_profiler)</argsstring>
+        <name>analyze_indexes</name>
+        <qualifiedname>themis::observability::PerformanceAnalyzer::analyze_indexes</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1observability_1_1_query_profiler" kindref="compound">QueryProfiler</ref> &amp;</type>
+          <declname>query_profiler</declname>
+        </param>
+        <briefdescription>
+<para>Analyze index usage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Analyze indexes.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query_profiler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query profiler instance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of identified issues</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_profiler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: check_index_usage(), empty(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/performance_analyzer.h" line="148" column="17" bodyfile="src/observability/performance_analyzer.cpp" bodystart="285" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_performance_analyzer_1a0f3bf2aeae62f7b8a648e00bf947c957" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1observability_1a75e021f6745639f5feec3d55bbf2899d" kindref="member">json</ref></type>
+        <definition>json themis::observability::PerformanceAnalyzer::generate_recommendations</definition>
+        <argsstring>(const std::vector&lt; PerformanceIssue &gt; &amp;issues)</argsstring>
+        <name>generate_recommendations</name>
+        <qualifiedname>themis::observability::PerformanceAnalyzer::generate_recommendations</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1observability_1_1_performance_issue" kindref="compound">PerformanceIssue</ref> &gt; &amp;</type>
+          <declname>issues</declname>
+        </param>
+        <briefdescription>
+<para>Generate optimization recommendations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Generate recommendations.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>issues</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identified issues </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>JSON with recommendations</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">issues</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: json::array(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/performance_analyzer.h" line="155" column="10" bodyfile="src/observability/performance_analyzer.cpp" bodystart="303" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_performance_analyzer_1ac96f384a608a73a23f69437deaff97be" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1observability_1_1_performance_analyzer_config" kindref="compound">PerformanceAnalyzerConfig</ref></type>
+        <definition>PerformanceAnalyzerConfig themis::observability::PerformanceAnalyzer::get_config</definition>
+        <argsstring>() const</argsstring>
+        <name>get_config</name>
+        <qualifiedname>themis::observability::PerformanceAnalyzer::get_config</qualifiedname>
+        <briefdescription>
+<para>Get configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/performance_analyzer.h" line="160" column="31" bodyfile="src/observability/performance_analyzer.cpp" bodystart="333" bodyend="335"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_performance_analyzer_1a84bc9326b52a7ff420fe7af3902f88ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::PerformanceAnalyzer::set_config</definition>
+        <argsstring>(const PerformanceAnalyzerConfig &amp;config)</argsstring>
+        <name>set_config</name>
+        <qualifiedname>themis::observability::PerformanceAnalyzer::set_config</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_performance_analyzer_config" kindref="compound">PerformanceAnalyzerConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Set configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set config.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements set_config without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/performance_analyzer.h" line="165" column="10" bodyfile="src/observability/performance_analyzer.cpp" bodystart="342" bodyend="344"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_performance_analyzer_1aa6af1a9c8ac6793eee51fdfa31b16be5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::PerformanceAnalyzer::export_analysis</definition>
+        <argsstring>(const PerformanceAnalysis &amp;analysis, const std::string &amp;filename) const</argsstring>
+        <name>export_analysis</name>
+        <qualifiedname>themis::observability::PerformanceAnalyzer::export_analysis</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_performance_analysis" kindref="compound">PerformanceAnalysis</ref> &amp;</type>
+          <declname>analysis</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename</declname>
+        </param>
+        <briefdescription>
+<para>Export analysis to JSON file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>analysis</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Analysis result </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output file path </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>File. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/performance_analyzer.h" line="172" column="10" bodyfile="src/observability/performance_analyzer.cpp" bodystart="346" bodyend="355"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_performance_analyzer_1a99ccd8cc862a1bf64fffd7075059efa6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::PerformanceAnalyzer::export_html_report</definition>
+        <argsstring>(const PerformanceAnalysis &amp;analysis, const std::string &amp;filename) const</argsstring>
+        <name>export_html_report</name>
+        <qualifiedname>themis::observability::PerformanceAnalyzer::export_html_report</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_performance_analysis" kindref="compound">PerformanceAnalysis</ref> &amp;</type>
+          <declname>analysis</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename</declname>
+        </param>
+        <briefdescription>
+<para>Export analysis to HTML report. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>analysis</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Analysis result </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output file path </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>File. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Generate html header. <simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Generate html issue section. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">issue</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Generate html footer. <simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/performance_analyzer.h" line="180" column="10" bodyfile="src/observability/performance_analyzer.cpp" bodystart="357" bodyend="397"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_performance_analyzer_1a6d73005a1ada1ae9b7c594ca45788d49" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1observability_1_1_performance_issue" kindref="compound">PerformanceIssue</ref></type>
+        <definition>PerformanceIssue themis::observability::PerformanceAnalyzer::check_slow_queries</definition>
+        <argsstring>(const QueryProfiler &amp;query_profiler)</argsstring>
+        <name>check_slow_queries</name>
+        <qualifiedname>themis::observability::PerformanceAnalyzer::check_slow_queries</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1observability_1_1_query_profiler" kindref="compound">QueryProfiler</ref> &amp;</type>
+          <declname>query_profiler</declname>
+        </param>
+        <briefdescription>
+<para>Check slow queries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_profiler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: get_slow_queries(), empty(), size(), std::to_string(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/performance_analyzer.h" line="187" column="22" bodyfile="src/observability/performance_analyzer.cpp" bodystart="405" bodyend="431"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_performance_analyzer_1ac923b002e147915c5729f4b54f8ffb32" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1observability_1_1_performance_issue" kindref="compound">PerformanceIssue</ref></type>
+        <definition>PerformanceIssue themis::observability::PerformanceAnalyzer::check_full_scans</definition>
+        <argsstring>(const QueryProfiler &amp;query_profiler)</argsstring>
+        <name>check_full_scans</name>
+        <qualifiedname>themis::observability::PerformanceAnalyzer::check_full_scans</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1observability_1_1_query_profiler" kindref="compound">QueryProfiler</ref> &amp;</type>
+          <declname>query_profiler</declname>
+        </param>
+        <briefdescription>
+<para>Check full scans. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_profiler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: get_statistics(), value(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/performance_analyzer.h" line="188" column="22" bodyfile="src/observability/performance_analyzer.cpp" bodystart="439" bodyend="481"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_performance_analyzer_1a8cb20c6c2f21ccddd2951b12fb177214" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1observability_1_1_performance_issue" kindref="compound">PerformanceIssue</ref></type>
+        <definition>PerformanceIssue themis::observability::PerformanceAnalyzer::check_index_usage</definition>
+        <argsstring>(const QueryProfiler &amp;query_profiler)</argsstring>
+        <name>check_index_usage</name>
+        <qualifiedname>themis::observability::PerformanceAnalyzer::check_index_usage</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1observability_1_1_query_profiler" kindref="compound">QueryProfiler</ref> &amp;</type>
+          <declname>query_profiler</declname>
+        </param>
+        <briefdescription>
+<para>Check index usage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_profiler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: get_statistics(), value(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/performance_analyzer.h" line="189" column="22" bodyfile="src/observability/performance_analyzer.cpp" bodystart="489" bodyend="515"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_performance_analyzer_1a9fef4b92f388f37b344052b7a818ffd7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1observability_1_1_performance_issue" kindref="compound">PerformanceIssue</ref></type>
+        <definition>PerformanceIssue themis::observability::PerformanceAnalyzer::check_cache_hit_rate</definition>
+        <argsstring>(const QueryProfiler &amp;query_profiler, const StorageProfiler &amp;storage_profiler)</argsstring>
+        <name>check_cache_hit_rate</name>
+        <qualifiedname>themis::observability::PerformanceAnalyzer::check_cache_hit_rate</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1observability_1_1_query_profiler" kindref="compound">QueryProfiler</ref> &amp;</type>
+          <declname>query_profiler</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1observability_1_1_storage_profiler" kindref="compound">StorageProfiler</ref> &amp;</type>
+          <declname>storage_profiler</declname>
+        </param>
+        <briefdescription>
+<para>Check cache hit rate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_profiler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">storage_profiler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: get_cache_metrics(), empty(), contains(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/performance_analyzer.h" line="190" column="22" bodyfile="src/observability/performance_analyzer.cpp" bodystart="524" bodyend="554"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_performance_analyzer_1a718a9992a9608e415376cecde5d5e834" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1observability_1_1_performance_issue" kindref="compound">PerformanceIssue</ref></type>
+        <definition>PerformanceIssue themis::observability::PerformanceAnalyzer::check_write_amplification</definition>
+        <argsstring>(const StorageProfiler &amp;storage_profiler)</argsstring>
+        <name>check_write_amplification</name>
+        <qualifiedname>themis::observability::PerformanceAnalyzer::check_write_amplification</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1observability_1_1_storage_profiler" kindref="compound">StorageProfiler</ref> &amp;</type>
+          <declname>storage_profiler</declname>
+        </param>
+        <briefdescription>
+<para>Check write amplification. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">storage_profiler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: get_amplification_metrics(), empty(), value(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/performance_analyzer.h" line="192" column="22" bodyfile="src/observability/performance_analyzer.cpp" bodystart="562" bodyend="590"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_performance_analyzer_1aca376a5be8ad469c5db5439d1bbe9f33" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1observability_1_1_performance_issue" kindref="compound">PerformanceIssue</ref></type>
+        <definition>PerformanceIssue themis::observability::PerformanceAnalyzer::check_read_amplification</definition>
+        <argsstring>(const StorageProfiler &amp;storage_profiler)</argsstring>
+        <name>check_read_amplification</name>
+        <qualifiedname>themis::observability::PerformanceAnalyzer::check_read_amplification</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1observability_1_1_storage_profiler" kindref="compound">StorageProfiler</ref> &amp;</type>
+          <declname>storage_profiler</declname>
+        </param>
+        <briefdescription>
+<para>Check read amplification. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">storage_profiler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: get_amplification_metrics(), empty(), value(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/performance_analyzer.h" line="193" column="22" bodyfile="src/observability/performance_analyzer.cpp" bodystart="598" bodyend="626"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_performance_analyzer_1a61e21309b91ce36bc250246e3d1e335a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1observability_1_1_performance_issue" kindref="compound">PerformanceIssue</ref></type>
+        <definition>PerformanceIssue themis::observability::PerformanceAnalyzer::check_slow_storage_ops</definition>
+        <argsstring>(const StorageProfiler &amp;storage_profiler)</argsstring>
+        <name>check_slow_storage_ops</name>
+        <qualifiedname>themis::observability::PerformanceAnalyzer::check_slow_storage_ops</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1observability_1_1_storage_profiler" kindref="compound">StorageProfiler</ref> &amp;</type>
+          <declname>storage_profiler</declname>
+        </param>
+        <briefdescription>
+<para>Check slow storage ops. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">storage_profiler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: get_slow_operations(), empty(), size(), std::to_string(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/performance_analyzer.h" line="194" column="22" bodyfile="src/observability/performance_analyzer.cpp" bodystart="634" bodyend="660"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_performance_analyzer_1a6392c66196c58a5019f6da602ef5ec5e" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::observability::PerformanceAnalyzer::generate_html_header</definition>
+        <argsstring>() const</argsstring>
+        <name>generate_html_header</name>
+        <qualifiedname>themis::observability::PerformanceAnalyzer::generate_html_header</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/performance_analyzer.h" line="196" column="17" bodyfile="src/observability/performance_analyzer.cpp" bodystart="662" bodyend="664"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_performance_analyzer_1a45cae3665b72f8e00e47bd74960cd53c" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::observability::PerformanceAnalyzer::generate_html_footer</definition>
+        <argsstring>() const</argsstring>
+        <name>generate_html_footer</name>
+        <qualifiedname>themis::observability::PerformanceAnalyzer::generate_html_footer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/performance_analyzer.h" line="197" column="17" bodyfile="src/observability/performance_analyzer.cpp" bodystart="666" bodyend="668"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_performance_analyzer_1a9435fdad7ba5ac668d37566013fb01e0" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::observability::PerformanceAnalyzer::generate_html_issue_section</definition>
+        <argsstring>(const PerformanceIssue &amp;issue) const</argsstring>
+        <name>generate_html_issue_section</name>
+        <qualifiedname>themis::observability::PerformanceAnalyzer::generate_html_issue_section</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_performance_issue" kindref="compound">PerformanceIssue</ref> &amp;</type>
+          <declname>issue</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/performance_analyzer.h" line="198" column="17" bodyfile="src/observability/performance_analyzer.cpp" bodystart="670" bodyend="697"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Performance analyzer. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Analyzes query and storage profiles to identify performance issues and provide optimization recommendations. </para>
+    </detaileddescription>
+    <location file="include/observability/performance_analyzer.h" line="101" column="1" bodyfile="include/observability/performance_analyzer.h" bodystart="101" bodyend="199"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_performance_analyzer_1ac6fc7e18b1ece7d735136d15d16ed2c4" prot="public" virt="non-virtual"><scope>themis::observability::PerformanceAnalyzer</scope><name>analyze</name></member>
+      <member refid="classthemis_1_1observability_1_1_performance_analyzer_1a83e38e013ed85062eb489bcc3c0d110b" prot="public" virt="non-virtual"><scope>themis::observability::PerformanceAnalyzer</scope><name>analyze_cache</name></member>
+      <member refid="classthemis_1_1observability_1_1_performance_analyzer_1a2776830ca2a6e4730d5aebed2dceb5f5" prot="public" virt="non-virtual"><scope>themis::observability::PerformanceAnalyzer</scope><name>analyze_indexes</name></member>
+      <member refid="classthemis_1_1observability_1_1_performance_analyzer_1a6d16e03e3fee63cc3beec97cd7ddd3ad" prot="public" virt="non-virtual"><scope>themis::observability::PerformanceAnalyzer</scope><name>analyze_queries</name></member>
+      <member refid="classthemis_1_1observability_1_1_performance_analyzer_1ad98a7aad7ab2a32735df534ba6813304" prot="public" virt="non-virtual"><scope>themis::observability::PerformanceAnalyzer</scope><name>analyze_storage</name></member>
+      <member refid="classthemis_1_1observability_1_1_performance_analyzer_1a9fef4b92f388f37b344052b7a818ffd7" prot="private" virt="non-virtual"><scope>themis::observability::PerformanceAnalyzer</scope><name>check_cache_hit_rate</name></member>
+      <member refid="classthemis_1_1observability_1_1_performance_analyzer_1ac923b002e147915c5729f4b54f8ffb32" prot="private" virt="non-virtual"><scope>themis::observability::PerformanceAnalyzer</scope><name>check_full_scans</name></member>
+      <member refid="classthemis_1_1observability_1_1_performance_analyzer_1a8cb20c6c2f21ccddd2951b12fb177214" prot="private" virt="non-virtual"><scope>themis::observability::PerformanceAnalyzer</scope><name>check_index_usage</name></member>
+      <member refid="classthemis_1_1observability_1_1_performance_analyzer_1aca376a5be8ad469c5db5439d1bbe9f33" prot="private" virt="non-virtual"><scope>themis::observability::PerformanceAnalyzer</scope><name>check_read_amplification</name></member>
+      <member refid="classthemis_1_1observability_1_1_performance_analyzer_1a6d73005a1ada1ae9b7c594ca45788d49" prot="private" virt="non-virtual"><scope>themis::observability::PerformanceAnalyzer</scope><name>check_slow_queries</name></member>
+      <member refid="classthemis_1_1observability_1_1_performance_analyzer_1a61e21309b91ce36bc250246e3d1e335a" prot="private" virt="non-virtual"><scope>themis::observability::PerformanceAnalyzer</scope><name>check_slow_storage_ops</name></member>
+      <member refid="classthemis_1_1observability_1_1_performance_analyzer_1a718a9992a9608e415376cecde5d5e834" prot="private" virt="non-virtual"><scope>themis::observability::PerformanceAnalyzer</scope><name>check_write_amplification</name></member>
+      <member refid="classthemis_1_1observability_1_1_performance_analyzer_1aa6af1a9c8ac6793eee51fdfa31b16be5" prot="public" virt="non-virtual"><scope>themis::observability::PerformanceAnalyzer</scope><name>export_analysis</name></member>
+      <member refid="classthemis_1_1observability_1_1_performance_analyzer_1a99ccd8cc862a1bf64fffd7075059efa6" prot="public" virt="non-virtual"><scope>themis::observability::PerformanceAnalyzer</scope><name>export_html_report</name></member>
+      <member refid="classthemis_1_1observability_1_1_performance_analyzer_1a45cae3665b72f8e00e47bd74960cd53c" prot="private" virt="non-virtual"><scope>themis::observability::PerformanceAnalyzer</scope><name>generate_html_footer</name></member>
+      <member refid="classthemis_1_1observability_1_1_performance_analyzer_1a6392c66196c58a5019f6da602ef5ec5e" prot="private" virt="non-virtual"><scope>themis::observability::PerformanceAnalyzer</scope><name>generate_html_header</name></member>
+      <member refid="classthemis_1_1observability_1_1_performance_analyzer_1a9435fdad7ba5ac668d37566013fb01e0" prot="private" virt="non-virtual"><scope>themis::observability::PerformanceAnalyzer</scope><name>generate_html_issue_section</name></member>
+      <member refid="classthemis_1_1observability_1_1_performance_analyzer_1a0f3bf2aeae62f7b8a648e00bf947c957" prot="public" virt="non-virtual"><scope>themis::observability::PerformanceAnalyzer</scope><name>generate_recommendations</name></member>
+      <member refid="classthemis_1_1observability_1_1_performance_analyzer_1ac96f384a608a73a23f69437deaff97be" prot="public" virt="non-virtual"><scope>themis::observability::PerformanceAnalyzer</scope><name>get_config</name></member>
+      <member refid="classthemis_1_1observability_1_1_performance_analyzer_1a40b440a673392908494a030675cb9649" prot="private" virt="non-virtual"><scope>themis::observability::PerformanceAnalyzer</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1observability_1_1_performance_analyzer_1a7b6e808afda75f864912e7e528e32ceb" prot="public" virt="non-virtual"><scope>themis::observability::PerformanceAnalyzer</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1observability_1_1_performance_analyzer_1aca3d931917abfd02859caa531e5cdb31" prot="public" virt="non-virtual"><scope>themis::observability::PerformanceAnalyzer</scope><name>PerformanceAnalyzer</name></member>
+      <member refid="classthemis_1_1observability_1_1_performance_analyzer_1a527c7f84d944693e3db90d0f6e9ac7df" prot="public" virt="non-virtual"><scope>themis::observability::PerformanceAnalyzer</scope><name>PerformanceAnalyzer</name></member>
+      <member refid="classthemis_1_1observability_1_1_performance_analyzer_1a84bc9326b52a7ff420fe7af3902f88ef" prot="public" virt="non-virtual"><scope>themis::observability::PerformanceAnalyzer</scope><name>set_config</name></member>
+      <member refid="classthemis_1_1observability_1_1_performance_analyzer_1a96fb134e174b1fbaaf74f5d31904ca26" prot="public" virt="non-virtual"><scope>themis::observability::PerformanceAnalyzer</scope><name>~PerformanceAnalyzer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

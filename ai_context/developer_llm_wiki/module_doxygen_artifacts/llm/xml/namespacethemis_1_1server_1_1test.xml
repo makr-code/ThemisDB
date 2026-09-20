@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1server_1_1test" kind="namespace" language="C++">
+    <compoundname>themis::server::test</compoundname>
+    <innerclass refid="classthemis_1_1server_1_1test_1_1_l_l_m_aql_explain_stream_api_test" prot="public">themis::server::test::LLMAqlExplainStreamApiTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1test_1a6f306403651beda35d743c6a77efe7da" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::request&lt; http::string_body &gt;</type>
+        <definition>static http::request&lt; http::string_body &gt; themis::server::test::makePostRequest</definition>
+        <argsstring>(const std::string &amp;target, const json &amp;body_json, const std::string &amp;auth_token=&quot;&quot;)</argsstring>
+        <name>makePostRequest</name>
+        <qualifiedname>themis::server::test::makePostRequest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>const json &amp;</type>
+          <declname>body_json</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>auth_token</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_aql_explain_stream_api.cpp" line="32" column="22" bodyfile="tests/llm/test_llm_aql_explain_stream_api.cpp" bodystart="32" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1test_1afe8ca97e7a96ba4da6d3d8c8ee4b0cbd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::request&lt; http::string_body &gt;</type>
+        <definition>static http::request&lt; http::string_body &gt; themis::server::test::makeGetRequest</definition>
+        <argsstring>(const std::string &amp;target, const std::string &amp;auth_token=&quot;&quot;)</argsstring>
+        <name>makeGetRequest</name>
+        <qualifiedname>themis::server::test::makeGetRequest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>auth_token</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_aql_explain_stream_api.cpp" line="48" column="22" bodyfile="tests/llm/test_llm_aql_explain_stream_api.cpp" bodystart="48" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1test_1a3e3a20d7704f3bb27ba54be806b55107" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::test::TEST_F</definition>
+        <argsstring>(LLMAqlExplainStreamApiTest, UnauthorizedRequestReturns401)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::server::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1test_1_1_l_l_m_aql_explain_stream_api_test" kindref="compound">LLMAqlExplainStreamApiTest</ref></type>
+        </param>
+        <param>
+          <type>UnauthorizedRequestReturns401</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_aql_explain_stream_api.cpp" line="86" column="1" bodyfile="tests/llm/test_llm_aql_explain_stream_api.cpp" bodystart="86" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1test_1a990ca80d165e75e1aa3c88956b793d8e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::test::TEST_F</definition>
+        <argsstring>(LLMAqlExplainStreamApiTest, GetToExplainStreamReturns404)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::server::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1test_1_1_l_l_m_aql_explain_stream_api_test" kindref="compound">LLMAqlExplainStreamApiTest</ref></type>
+        </param>
+        <param>
+          <type>GetToExplainStreamReturns404</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_aql_explain_stream_api.cpp" line="94" column="1" bodyfile="tests/llm/test_llm_aql_explain_stream_api.cpp" bodystart="94" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1test_1a550ebb750b8e925c0c6f6e994ae4926c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::test::TEST_F</definition>
+        <argsstring>(LLMAqlExplainStreamApiTest, GeneralStreamEndpointRequiresPrompt)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::server::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1test_1_1_l_l_m_aql_explain_stream_api_test" kindref="compound">LLMAqlExplainStreamApiTest</ref></type>
+        </param>
+        <param>
+          <type>GeneralStreamEndpointRequiresPrompt</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_aql_explain_stream_api.cpp" line="102" column="1" bodyfile="tests/llm/test_llm_aql_explain_stream_api.cpp" bodystart="102" bodyend="108"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/llm/test_llm_aql_explain_stream_api.cpp" line="26" column="1"/>
+  </compounddef>
+</doxygen>

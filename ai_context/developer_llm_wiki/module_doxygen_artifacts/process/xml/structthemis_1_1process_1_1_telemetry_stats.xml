@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_telemetry_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::TelemetryStats</compoundname>
+    <includes refid="process__telemetry__integration_8h" local="no">process_telemetry_integration.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_telemetry_stats_1aaec89ebabaf2d6221ece3845ee912d61" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::TelemetryStats::spans_created</definition>
+        <argsstring></argsstring>
+        <name>spans_created</name>
+        <qualifiedname>themis::process::TelemetryStats::spans_created</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_integration.h" line="47" column="12" bodyfile="include/process/process_telemetry_integration.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_telemetry_stats_1aa4319ceaa26779e7115d83bf30cb0c9a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::TelemetryStats::spans_exported</definition>
+        <argsstring></argsstring>
+        <name>spans_exported</name>
+        <qualifiedname>themis::process::TelemetryStats::spans_exported</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_integration.h" line="48" column="12" bodyfile="include/process/process_telemetry_integration.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_telemetry_stats_1a39f44fb0fdb1b920b92f3d496bb9bb64" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::TelemetryStats::avg_overhead_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_overhead_ms</name>
+        <qualifiedname>themis::process::TelemetryStats::avg_overhead_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_integration.h" line="49" column="12" bodyfile="include/process/process_telemetry_integration.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_telemetry_stats_1ae9a9b9e53694caf1a4bacc21ab4e5613" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::TelemetryStats::max_overhead_ms</definition>
+        <argsstring></argsstring>
+        <name>max_overhead_ms</name>
+        <qualifiedname>themis::process::TelemetryStats::max_overhead_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_integration.h" line="50" column="12" bodyfile="include/process/process_telemetry_integration.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_telemetry_stats_1a593b183a41ddac4be392b6ebdb304225" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::TelemetryStats::budget_violations</definition>
+        <argsstring></argsstring>
+        <name>budget_violations</name>
+        <qualifiedname>themis::process::TelemetryStats::budget_violations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_integration.h" line="51" column="12" bodyfile="include/process/process_telemetry_integration.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Telemetry statistics. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/process/process_telemetry_integration.h" line="46" column="1" bodyfile="include/process/process_telemetry_integration.h" bodystart="46" bodyend="52"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_telemetry_stats_1a39f44fb0fdb1b920b92f3d496bb9bb64" prot="public" virt="non-virtual"><scope>themis::process::TelemetryStats</scope><name>avg_overhead_ms</name></member>
+      <member refid="structthemis_1_1process_1_1_telemetry_stats_1a593b183a41ddac4be392b6ebdb304225" prot="public" virt="non-virtual"><scope>themis::process::TelemetryStats</scope><name>budget_violations</name></member>
+      <member refid="structthemis_1_1process_1_1_telemetry_stats_1ae9a9b9e53694caf1a4bacc21ab4e5613" prot="public" virt="non-virtual"><scope>themis::process::TelemetryStats</scope><name>max_overhead_ms</name></member>
+      <member refid="structthemis_1_1process_1_1_telemetry_stats_1aaec89ebabaf2d6221ece3845ee912d61" prot="public" virt="non-virtual"><scope>themis::process::TelemetryStats</scope><name>spans_created</name></member>
+      <member refid="structthemis_1_1process_1_1_telemetry_stats_1aa4319ceaa26779e7115d83bf30cb0c9a" prot="public" virt="non-virtual"><scope>themis::process::TelemetryStats</scope><name>spans_exported</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

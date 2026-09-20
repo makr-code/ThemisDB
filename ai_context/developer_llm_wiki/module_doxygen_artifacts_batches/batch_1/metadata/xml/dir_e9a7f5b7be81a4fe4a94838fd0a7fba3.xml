@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_e9a7f5b7be81a4fe4a94838fd0a7fba3" kind="dir">
+    <compoundname>include/metadata</compoundname>
+    <innerfile refid="aql__schema__bridge_8h">aql_schema_bridge.h</innerfile>
+    <innerfile refid="catalog__exporter_8h">catalog_exporter.h</innerfile>
+    <innerfile refid="column__lineage_8h">column_lineage.h</innerfile>
+    <innerfile refid="distributed__catalog_8h">distributed_catalog.h</innerfile>
+    <innerfile refid="er__diagram__exporter_8h">er_diagram_exporter.h</innerfile>
+    <innerfile refid="imetadata__change__listener_8h">imetadata_change_listener.h</innerfile>
+    <innerfile refid="imetadata__encryption__provider_8h">imetadata_encryption_provider.h</innerfile>
+    <innerfile refid="imetadata__export__policy_8h">imetadata_export_policy.h</innerfile>
+    <innerfile refid="imetadata__security__provider_8h">imetadata_security_provider.h</innerfile>
+    <innerfile refid="index__recommender_8h">index_recommender.h</innerfile>
+    <innerfile refid="information__schema_8h">information_schema.h</innerfile>
+    <innerfile refid="metadata__api__contract_8h">metadata_api_contract.h</innerfile>
+    <innerfile refid="metadata__snapshot_8h">metadata_snapshot.h</innerfile>
+    <innerfile refid="schema__audit__log_8h">schema_audit_log.h</innerfile>
+    <innerfile refid="schema__consistency__checker_8h">schema_consistency_checker.h</innerfile>
+    <innerfile refid="schema__constraints_8h">schema_constraints.h</innerfile>
+    <innerfile refid="schema__diff_8h">schema_diff.h</innerfile>
+    <innerfile refid="schema__manager_8h">schema_manager.h</innerfile>
+    <innerfile refid="schema__version__manager_8h">schema_version_manager.h</innerfile>
+    <innerfile refid="statistics__collector_8h">statistics_collector.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/metadata/"/>
+  </compounddef>
+</doxygen>

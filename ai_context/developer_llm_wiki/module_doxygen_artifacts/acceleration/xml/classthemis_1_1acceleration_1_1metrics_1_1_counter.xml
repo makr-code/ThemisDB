@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1acceleration_1_1metrics_1_1_counter" kind="class" language="C++" prot="public">
+    <compoundname>themis::acceleration::metrics::Counter</compoundname>
+    <basecompoundref refid="classthemis_1_1acceleration_1_1metrics_1_1_metric" prot="public" virt="non-virtual">themis::acceleration::metrics::Metric</basecompoundref>
+    <includes refid="metrics__collector_8h" local="no">metrics_collector.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1metrics_1_1_counter_1a92236d2a8734d2cba8d6c4f7e0eeea08" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::acceleration::metrics::Counter::value_</definition>
+        <argsstring></argsstring>
+        <name>value_</name>
+        <qualifiedname>themis::acceleration::metrics::Counter::value_</qualifiedname>
+        <briefdescription>
+<para>Atomic counter value. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/metrics_collector.h" line="93" column="17" bodyfile="include/acceleration/metrics/metrics_collector.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1metrics_1_1_counter_1a63534a4df2090a79158fcf44c27d844a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::metrics::Counter::Counter</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;description)</argsstring>
+        <name>Counter</name>
+        <qualifiedname>themis::acceleration::metrics::Counter::Counter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>description</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/metrics_collector.h" line="69" column="5" bodyfile="include/acceleration/metrics/metrics_collector.h" bodystart="69" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1metrics_1_1_counter_1a30017cfc47e7ac0fee1f94c90df91d8c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::metrics::Counter::increment</definition>
+        <argsstring>(uint64_t delta=1)</argsstring>
+        <name>increment</name>
+        <qualifiedname>themis::acceleration::metrics::Counter::increment</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>delta</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/metrics_collector.h" line="72" column="10" bodyfile="include/acceleration/metrics/metrics_collector.h" bodystart="72" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1metrics_1_1_counter_1a7c162db37981957ebe489c3239f056a1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::acceleration::metrics::Counter::value</definition>
+        <argsstring>() const</argsstring>
+        <name>value</name>
+        <qualifiedname>themis::acceleration::metrics::Counter::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/metrics_collector.h" line="76" column="14" bodyfile="include/acceleration/metrics/metrics_collector.h" bodystart="76" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1metrics_1_1_counter_1aed2b305c3eec9beca2c29fd75bea5a5b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::metrics::Counter::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::acceleration::metrics::Counter::reset</qualifiedname>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/metrics_collector.h" line="84" column="10" bodyfile="include/acceleration/metrics/metrics_collector.h" bodystart="84" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1metrics_1_1_counter_1aa39ea564132ac888c8257409f5c5ecfe" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::metrics::Counter::serialize</definition>
+        <argsstring>() const override</argsstring>
+        <name>serialize</name>
+        <qualifiedname>themis::acceleration::metrics::Counter::serialize</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1metrics_1_1_metric_1a8cdabb43320e11cc5d67c7e4282bc5dc">serialize</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/metrics_collector.h" line="88" column="17" bodyfile="include/acceleration/metrics/metrics_collector.h" bodystart="88" bodyend="90"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::acceleration::metrics::Counter</label>
+        <link refid="classthemis_1_1acceleration_1_1metrics_1_1_counter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::acceleration::metrics::Metric</label>
+        <link refid="classthemis_1_1acceleration_1_1metrics_1_1_metric"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::acceleration::metrics::Counter</label>
+        <link refid="classthemis_1_1acceleration_1_1metrics_1_1_counter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::acceleration::metrics::Metric</label>
+        <link refid="classthemis_1_1acceleration_1_1metrics_1_1_metric"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/acceleration/metrics/metrics_collector.h" line="67" column="1" bodyfile="include/acceleration/metrics/metrics_collector.h" bodystart="67" bodyend="94"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_counter_1a63534a4df2090a79158fcf44c27d844a" prot="public" virt="non-virtual"><scope>themis::acceleration::metrics::Counter</scope><name>Counter</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_metric_1a3bc275d1d5af3a7bc61cd2958e8ea61f" prot="public" virt="non-virtual"><scope>themis::acceleration::metrics::Counter</scope><name>description</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_metric_1a7ca704d465091be7595cf8c1c55551f9" prot="protected" virt="non-virtual"><scope>themis::acceleration::metrics::Counter</scope><name>description_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_counter_1a30017cfc47e7ac0fee1f94c90df91d8c" prot="public" virt="non-virtual"><scope>themis::acceleration::metrics::Counter</scope><name>increment</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_metric_1abf86806255be20a34f305660c88f4e0a" prot="public" virt="non-virtual"><scope>themis::acceleration::metrics::Counter</scope><name>Metric</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_metric_1aadcf4365f60491c6a8cd6a8bc18ff92c" prot="public" virt="non-virtual"><scope>themis::acceleration::metrics::Counter</scope><name>name</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_metric_1a75b611abc18c4e4c5f0efdbcd23d1b56" prot="protected" virt="non-virtual"><scope>themis::acceleration::metrics::Counter</scope><name>name_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_counter_1aed2b305c3eec9beca2c29fd75bea5a5b" prot="public" virt="non-virtual"><scope>themis::acceleration::metrics::Counter</scope><name>reset</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_counter_1aa39ea564132ac888c8257409f5c5ecfe" prot="public" virt="virtual"><scope>themis::acceleration::metrics::Counter</scope><name>serialize</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_metric_1a3c861bacfc74e9c3667a2e4eefd12e32" prot="public" virt="non-virtual"><scope>themis::acceleration::metrics::Counter</scope><name>type</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_metric_1ab9cfe5ad6c6a599f5bb842fdb6e539cc" prot="protected" virt="non-virtual"><scope>themis::acceleration::metrics::Counter</scope><name>type_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_counter_1a7c162db37981957ebe489c3239f056a1" prot="public" virt="non-virtual"><scope>themis::acceleration::metrics::Counter</scope><name>value</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_counter_1a92236d2a8734d2cba8d6c4f7e0eeea08" prot="private" virt="non-virtual"><scope>themis::acceleration::metrics::Counter</scope><name>value_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_metric_1a429231908c192821685e910b57e7ab5d" prot="public" virt="virtual"><scope>themis::acceleration::metrics::Counter</scope><name>~Metric</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

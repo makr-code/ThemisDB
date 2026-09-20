@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_g_p_u_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::GPUConfig</compoundname>
+    <includes refid="gpu__erasure__coder_8h" local="no">gpu_erasure_coder.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_g_p_u_config_1af9198936742b29c8cbc470f9b84f39f4" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::sharding::GPUConfig::device_id</definition>
+        <argsstring></argsstring>
+        <name>device_id</name>
+        <qualifiedname>themisdb::sharding::GPUConfig::device_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gpu_erasure_coder.h" line="46" column="9" bodyfile="include/sharding/gpu_erasure_coder.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_g_p_u_config_1adfaecbc5b28670b3255a3c79be9fde78" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::GPUConfig::batch_size</definition>
+        <argsstring></argsstring>
+        <name>batch_size</name>
+        <qualifiedname>themisdb::sharding::GPUConfig::batch_size</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gpu_erasure_coder.h" line="47" column="12" bodyfile="include/sharding/gpu_erasure_coder.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_g_p_u_config_1a511a7899d2da278bcf0c1e1dc460f6a8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::GPUConfig::async_compute</definition>
+        <argsstring></argsstring>
+        <name>async_compute</name>
+        <qualifiedname>themisdb::sharding::GPUConfig::async_compute</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gpu_erasure_coder.h" line="48" column="10" bodyfile="include/sharding/gpu_erasure_coder.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_g_p_u_config_1a2bab7276e4abcdf408f4a9791620b098" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::GPUConfig::fallback_cpu</definition>
+        <argsstring></argsstring>
+        <name>fallback_cpu</name>
+        <qualifiedname>themisdb::sharding::GPUConfig::fallback_cpu</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gpu_erasure_coder.h" line="49" column="10" bodyfile="include/sharding/gpu_erasure_coder.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_g_p_u_config_1a40aef3c5f9849b2bd742d9a11f893f5a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::GPUConfig::min_size_for_gpu</definition>
+        <argsstring></argsstring>
+        <name>min_size_for_gpu</name>
+        <qualifiedname>themisdb::sharding::GPUConfig::min_size_for_gpu</qualifiedname>
+        <initializer>= 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gpu_erasure_coder.h" line="50" column="12" bodyfile="include/sharding/gpu_erasure_coder.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_g_p_u_config_1a44ad199e296463979dfe81cc8ea27b8b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::GPUConfig::use_pinned_memory</definition>
+        <argsstring></argsstring>
+        <name>use_pinned_memory</name>
+        <qualifiedname>themisdb::sharding::GPUConfig::use_pinned_memory</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gpu_erasure_coder.h" line="53" column="10" bodyfile="include/sharding/gpu_erasure_coder.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_g_p_u_config_1aab2bc7dc4fa8c64e6cf84050ae38ee9e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::GPUConfig::pinned_buffer_size</definition>
+        <argsstring></argsstring>
+        <name>pinned_buffer_size</name>
+        <qualifiedname>themisdb::sharding::GPUConfig::pinned_buffer_size</qualifiedname>
+        <initializer>= 64 * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gpu_erasure_coder.h" line="54" column="12" bodyfile="include/sharding/gpu_erasure_coder.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_g_p_u_config_1a5717b4e7e7030987c77c003222f4a44c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::sharding::GPUConfig::cuda_streams</definition>
+        <argsstring></argsstring>
+        <name>cuda_streams</name>
+        <qualifiedname>themisdb::sharding::GPUConfig::cuda_streams</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gpu_erasure_coder.h" line="57" column="9" bodyfile="include/sharding/gpu_erasure_coder.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_g_p_u_config_1aeb6c8b762e5482bb4f288ac2531335eb" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::GPUConfig::max_gpu_memory_mb</definition>
+        <argsstring></argsstring>
+        <name>max_gpu_memory_mb</name>
+        <qualifiedname>themisdb::sharding::GPUConfig::max_gpu_memory_mb</qualifiedname>
+        <initializer>= 2048</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gpu_erasure_coder.h" line="58" column="12" bodyfile="include/sharding/gpu_erasure_coder.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>GPU Configuration for Erasure Coding </para>
+    </detaileddescription>
+    <location file="include/sharding/gpu_erasure_coder.h" line="45" column="1" bodyfile="include/sharding/gpu_erasure_coder.h" bodystart="45" bodyend="59"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_g_p_u_config_1a511a7899d2da278bcf0c1e1dc460f6a8" prot="public" virt="non-virtual"><scope>themisdb::sharding::GPUConfig</scope><name>async_compute</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_g_p_u_config_1adfaecbc5b28670b3255a3c79be9fde78" prot="public" virt="non-virtual"><scope>themisdb::sharding::GPUConfig</scope><name>batch_size</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_g_p_u_config_1a5717b4e7e7030987c77c003222f4a44c" prot="public" virt="non-virtual"><scope>themisdb::sharding::GPUConfig</scope><name>cuda_streams</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_g_p_u_config_1af9198936742b29c8cbc470f9b84f39f4" prot="public" virt="non-virtual"><scope>themisdb::sharding::GPUConfig</scope><name>device_id</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_g_p_u_config_1a2bab7276e4abcdf408f4a9791620b098" prot="public" virt="non-virtual"><scope>themisdb::sharding::GPUConfig</scope><name>fallback_cpu</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_g_p_u_config_1aeb6c8b762e5482bb4f288ac2531335eb" prot="public" virt="non-virtual"><scope>themisdb::sharding::GPUConfig</scope><name>max_gpu_memory_mb</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_g_p_u_config_1a40aef3c5f9849b2bd742d9a11f893f5a" prot="public" virt="non-virtual"><scope>themisdb::sharding::GPUConfig</scope><name>min_size_for_gpu</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_g_p_u_config_1aab2bc7dc4fa8c64e6cf84050ae38ee9e" prot="public" virt="non-virtual"><scope>themisdb::sharding::GPUConfig</scope><name>pinned_buffer_size</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_g_p_u_config_1a44ad199e296463979dfe81cc8ea27b8b" prot="public" virt="non-virtual"><scope>themisdb::sharding::GPUConfig</scope><name>use_pinned_memory</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

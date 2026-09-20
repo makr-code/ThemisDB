@@ -1,0 +1,361 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1training_1_1_database_domain_auto_labeler" kind="class" language="C++" prot="public">
+    <compoundname>themis::training::DatabaseDomainAutoLabeler</compoundname>
+    <includes refid="database__domain__auto__labeler_8h" local="no">database_domain_auto_labeler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_database_domain_auto_labeler_1a5cb659919d92966718f4477411b35c06" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::DatabaseDomainAutoLabeler::sensitivity_ms_</definition>
+        <argsstring></argsstring>
+        <name>sensitivity_ms_</name>
+        <qualifiedname>themis::training::DatabaseDomainAutoLabeler::sensitivity_ms_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/database_domain_auto_labeler.h" line="149" column="12" bodyfile="include/training/database_domain_auto_labeler.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1training_1_1_database_domain_auto_labeler_1a393efedf2d211e80325a21f28c70b898" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::DatabaseDomainAutoLabeler::DatabaseDomainAutoLabeler</definition>
+        <argsstring>(double sensitivity_ms=10.0)</argsstring>
+        <name>DatabaseDomainAutoLabeler</name>
+        <qualifiedname>themis::training::DatabaseDomainAutoLabeler::DatabaseDomainAutoLabeler</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>sensitivity_ms</declname>
+          <defval>10.0</defval>
+        </param>
+        <briefdescription>
+<para>Construct with optional sensitivity parameter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sensitivity_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Latency delta (ms) that maps to sigmoid inflection point (confidence = 0.73). Default: 10.0 ms. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/database_domain_auto_labeler.h" line="68" column="14" bodyfile="src/training/database_domain_auto_labeler.cpp" bodystart="89" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_database_domain_auto_labeler_1af5b034f82ba014ce2c63020d5dc6e10c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_labeled_db_sample" kindref="compound">LabeledDbSample</ref></type>
+        <definition>LabeledDbSample themis::training::DatabaseDomainAutoLabeler::labelFromBaoDecision</definition>
+        <argsstring>(const std::string &amp;query, const std::string &amp;bao_plan_json, double delta_p99_ms) const</argsstring>
+        <name>labelFromBaoDecision</name>
+        <qualifiedname>themis::training::DatabaseDomainAutoLabeler::labelFromBaoDecision</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>bao_plan_json</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>delta_p99_ms</declname>
+        </param>
+        <briefdescription>
+<para>Create a labeled sample from a BaoOptimizer decision log entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>SQL query string. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>bao_plan_json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>JSON-serialized BaoOptimizer plan. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>delta_p99_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Latency improvement: negative = query got faster. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1training_1_1_labeled_db_sample" kindref="compound">LabeledDbSample</ref> with <computeroutput>source = "bao_log"</computeroutput>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/database_domain_auto_labeler.h" line="80" column="21" bodyfile="src/training/database_domain_auto_labeler.cpp" bodystart="122" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_database_domain_auto_labeler_1a5a697d9fcd6b7fc046e0ecbd6b125a3a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_labeled_db_sample" kindref="compound">LabeledDbSample</ref></type>
+        <definition>LabeledDbSample themis::training::DatabaseDomainAutoLabeler::labelFromDBAFeedback</definition>
+        <argsstring>(const FeedbackEntry &amp;entry) const</argsstring>
+        <name>labelFromDBAFeedback</name>
+        <qualifiedname>themis::training::DatabaseDomainAutoLabeler::labelFromDBAFeedback</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_feedback_entry" kindref="compound">FeedbackEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Create a labeled sample from a DBA feedback entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Negative (is_positive=false) feedback receives confidence ≥ 0.9, reflecting high signal strength.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1training_1_1_feedback_entry" kindref="compound">FeedbackEntry</ref> from the DBA or system operator. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1training_1_1_labeled_db_sample" kindref="compound">LabeledDbSample</ref> with <computeroutput>source = "dba_feedback"</computeroutput>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/database_domain_auto_labeler.h" line="94" column="21" bodyfile="src/training/database_domain_auto_labeler.cpp" bodystart="132" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_database_domain_auto_labeler_1a24c006b53e0ab1d7a9613657ea299c8a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="struct_labeled_db_sample" kindref="compound">LabeledDbSample</ref> &gt;</type>
+        <definition>std::vector&lt; LabeledDbSample &gt; themis::training::DatabaseDomainAutoLabeler::labelFromLogFile</definition>
+        <argsstring>(const std::string &amp;log_path, size_t max_samples=50000, double min_confidence=0.0) const</argsstring>
+        <name>labelFromLogFile</name>
+        <qualifiedname>themis::training::DatabaseDomainAutoLabeler::labelFromLogFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>log_path</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_samples</declname>
+          <defval>50000</defval>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>min_confidence</declname>
+          <defval>0.0</defval>
+        </param>
+        <briefdescription>
+<para>Batch-label samples from a query log file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Each line in the file must be a JSON object with at least the fields <computeroutput>"<ref refid="namespacethemis_1_1query" kindref="compound">query</ref>"</computeroutput>, <computeroutput>"plan"</computeroutput>, and <computeroutput>"delta_p99_ms"</computeroutput>. Lines that cannot be parsed are silently skipped and counted in the returned stats.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>log_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the query log file. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of samples to return (0 = unlimited). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>min_confidence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Filter: samples below this threshold are discarded. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of labeled samples (may be empty if file is missing / empty). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>File. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">log_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the log. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/training/database_domain_auto_labeler.h" line="108" column="17" bodyfile="src/training/database_domain_auto_labeler.cpp" bodystart="149" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_database_domain_auto_labeler_1ad2cc6ff3e27824d90ecefc409e31e9ce" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::training::DatabaseDomainAutoLabeler::computeConfidence</definition>
+        <argsstring>(double delta_p99_ms) const</argsstring>
+        <name>computeConfidence</name>
+        <qualifiedname>themis::training::DatabaseDomainAutoLabeler::computeConfidence</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>delta_p99_ms</declname>
+        </param>
+        <briefdescription>
+<para>Map a latency delta to a confidence score in [0.0, 1.0]. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>confidence = sigmoid(|delta_p99_ms| / sensitivity_ms)</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>delta_p99_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Measured latency improvement (sign is ignored). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Confidence in [0.5, 1.0). Returns exactly 0.5 when delta == 0. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/database_domain_auto_labeler.h" line="123" column="13" bodyfile="src/training/database_domain_auto_labeler.cpp" bodystart="95" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_database_domain_auto_labeler_1a20e0520b5b1a401974fe9c4f6e6c69f9" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::training::DatabaseDomainAutoLabeler::sensitivityMs</definition>
+        <argsstring>() const</argsstring>
+        <name>sensitivityMs</name>
+        <qualifiedname>themis::training::DatabaseDomainAutoLabeler::sensitivityMs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/database_domain_auto_labeler.h" line="127" column="13" bodyfile="include/training/database_domain_auto_labeler.h" bodystart="127" bodyend="127"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1training_1_1_database_domain_auto_labeler_1abf094b78b5703312490b131bc431bf61" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::training::DatabaseDomainAutoLabeler::exportToJsonl</definition>
+        <argsstring>(const std::vector&lt; LabeledDbSample &gt; &amp;samples)</argsstring>
+        <name>exportToJsonl</name>
+        <qualifiedname>themis::training::DatabaseDomainAutoLabeler::exportToJsonl</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="struct_labeled_db_sample" kindref="compound">LabeledDbSample</ref> &gt; &amp;</type>
+          <declname>samples</declname>
+        </param>
+        <briefdescription>
+<para>Serialize a batch of labeled samples to a JSONL string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para>Each sample is emitted as one compact JSON object on its own line: <programlisting><codeline><highlight class="normal">{</highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">:</highlight><highlight class="stringliteral">&quot;SELECT<sp/>…&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;explain_plan&quot;</highlight><highlight class="normal">:</highlight><highlight class="stringliteral">&quot;…&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;latency_delta_ms&quot;</highlight><highlight class="normal">:-42.5}</highlight></codeline>
+</programlisting></para>
+<para>The output is suitable for appending to a <computeroutput>.jsonl</computeroutput> log file or piping to a downstream ingestion tool.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Samples to serialize (may be empty). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>JSONL string; empty string when <computeroutput>samples</computeroutput> is empty.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/database_domain_auto_labeler.h" line="145" column="25" bodyfile="src/training/database_domain_auto_labeler.cpp" bodystart="206" bodyend="240"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1training_1_1_database_domain_auto_labeler_1a11948e90b51dd9678ac135a9a21315eb" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_labeled_db_sample" kindref="compound">LabeledDbSample</ref></type>
+        <definition>LabeledDbSample themis::training::DatabaseDomainAutoLabeler::buildSample</definition>
+        <argsstring>(const std::string &amp;query, const std::string &amp;plan_json, double delta_p99_ms, const std::string &amp;source) const</argsstring>
+        <name>buildSample</name>
+        <qualifiedname>themis::training::DatabaseDomainAutoLabeler::buildSample</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plan_json</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>delta_p99_ms</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source</declname>
+        </param>
+        <briefdescription>
+<para>Internal: build a <ref refid="structthemis_1_1training_1_1_labeled_db_sample" kindref="compound">LabeledDbSample</ref> from raw components. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/database_domain_auto_labeler.h" line="152" column="21" bodyfile="src/training/database_domain_auto_labeler.cpp" bodystart="104" bodyend="118"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Auto-labeler for database-domain LoRA training samples. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Stateless helper class (all methods are <computeroutput>const</computeroutput>). Instantiation is cheap; the same instance may be shared across threads.</para>
+<para>Example: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1training_1_1_database_domain_auto_labeler_1a393efedf2d211e80325a21f28c70b898" kindref="member">DatabaseDomainAutoLabeler</ref><sp/>labeler;</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sample<sp/>=<sp/>labeler.<ref refid="class_database_domain_auto_labeler_1af5b034f82ba014ce2c63020d5dc6e10c" kindref="member">labelFromBaoDecision</ref>(query,<sp/>plan_json,<sp/>-15.0);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>sample.confidence<sp/>≈<sp/>0.82,<sp/>sample.label<sp/>==<sp/>DomainType::DATABASE_OPTIMIZER</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/training/database_domain_auto_labeler.h" line="61" column="1" bodyfile="include/training/database_domain_auto_labeler.h" bodystart="61" bodyend="157"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1training_1_1_database_domain_auto_labeler_1a11948e90b51dd9678ac135a9a21315eb" prot="private" virt="non-virtual"><scope>themis::training::DatabaseDomainAutoLabeler</scope><name>buildSample</name></member>
+      <member refid="classthemis_1_1training_1_1_database_domain_auto_labeler_1ad2cc6ff3e27824d90ecefc409e31e9ce" prot="public" virt="non-virtual"><scope>themis::training::DatabaseDomainAutoLabeler</scope><name>computeConfidence</name></member>
+      <member refid="classthemis_1_1training_1_1_database_domain_auto_labeler_1a393efedf2d211e80325a21f28c70b898" prot="public" virt="non-virtual"><scope>themis::training::DatabaseDomainAutoLabeler</scope><name>DatabaseDomainAutoLabeler</name></member>
+      <member refid="classthemis_1_1training_1_1_database_domain_auto_labeler_1abf094b78b5703312490b131bc431bf61" prot="public" virt="non-virtual"><scope>themis::training::DatabaseDomainAutoLabeler</scope><name>exportToJsonl</name></member>
+      <member refid="classthemis_1_1training_1_1_database_domain_auto_labeler_1af5b034f82ba014ce2c63020d5dc6e10c" prot="public" virt="non-virtual"><scope>themis::training::DatabaseDomainAutoLabeler</scope><name>labelFromBaoDecision</name></member>
+      <member refid="classthemis_1_1training_1_1_database_domain_auto_labeler_1a5a697d9fcd6b7fc046e0ecbd6b125a3a" prot="public" virt="non-virtual"><scope>themis::training::DatabaseDomainAutoLabeler</scope><name>labelFromDBAFeedback</name></member>
+      <member refid="classthemis_1_1training_1_1_database_domain_auto_labeler_1a24c006b53e0ab1d7a9613657ea299c8a" prot="public" virt="non-virtual"><scope>themis::training::DatabaseDomainAutoLabeler</scope><name>labelFromLogFile</name></member>
+      <member refid="classthemis_1_1training_1_1_database_domain_auto_labeler_1a5cb659919d92966718f4477411b35c06" prot="private" virt="non-virtual"><scope>themis::training::DatabaseDomainAutoLabeler</scope><name>sensitivity_ms_</name></member>
+      <member refid="classthemis_1_1training_1_1_database_domain_auto_labeler_1a20e0520b5b1a401974fe9c4f6e6c69f9" prot="public" virt="non-virtual"><scope>themis::training::DatabaseDomainAutoLabeler</scope><name>sensitivityMs</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

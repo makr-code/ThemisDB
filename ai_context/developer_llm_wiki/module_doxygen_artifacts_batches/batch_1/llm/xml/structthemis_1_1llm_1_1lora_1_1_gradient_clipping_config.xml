@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_gradient_clipping_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::GradientClippingConfig</compoundname>
+    <includes refid="gradient__utils_8h" local="no">gradient_utils.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_gradient_clipping_config_1a1b0f5ca6de3d8d24077de41fb23e7188" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1a33bb469a2abb3a823c15a56f1c6ed707" kindref="member">ClippingMethod</ref></type>
+        <definition>ClippingMethod themis::llm::lora::GradientClippingConfig::method</definition>
+        <argsstring></argsstring>
+        <name>method</name>
+        <qualifiedname>themis::llm::lora::GradientClippingConfig::method</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1llm_1_1lora_1a33bb469a2abb3a823c15a56f1c6ed707ab50339a10e1de285ac99d4c3990b8693" kindref="member">ClippingMethod::NONE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_utils.h" line="32" column="20" bodyfile="include/llm/lora_framework/gradient_utils.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_gradient_clipping_config_1a2254d8acc4053df0651f1fd2a841d308" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::GradientClippingConfig::max_norm</definition>
+        <argsstring></argsstring>
+        <name>max_norm</name>
+        <qualifiedname>themis::llm::lora::GradientClippingConfig::max_norm</qualifiedname>
+        <initializer>= 1.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_utils.h" line="33" column="11" bodyfile="include/llm/lora_framework/gradient_utils.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_gradient_clipping_config_1a9fbf4bd0ed93d47c3e7ee0f4ff77bc1c" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::GradientClippingConfig::clip_value</definition>
+        <argsstring></argsstring>
+        <name>clip_value</name>
+        <qualifiedname>themis::llm::lora::GradientClippingConfig::clip_value</qualifiedname>
+        <initializer>= 10.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_utils.h" line="34" column="11" bodyfile="include/llm/lora_framework/gradient_utils.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_gradient_clipping_config_1abcff96cf0a61e03ac1d7642b2a2bfe5a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::GradientClippingConfig::adaptive</definition>
+        <argsstring></argsstring>
+        <name>adaptive</name>
+        <qualifiedname>themis::llm::lora::GradientClippingConfig::adaptive</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_utils.h" line="35" column="10" bodyfile="include/llm/lora_framework/gradient_utils.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_gradient_clipping_config_1a162d3d3e89981e67923c6b3891fbb384" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref></type>
+        <definition>json themis::llm::lora::GradientClippingConfig::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::llm::lora::GradientClippingConfig::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_utils.h" line="37" column="10" bodyfile="include/llm/lora_framework/gradient_utils.h" bodystart="37" bodyend="44"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_gradient_clipping_config_1ad0b8f8e848556ef7181b5c34989ca455" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_clipping_config" kindref="compound">GradientClippingConfig</ref></type>
+        <definition>static GradientClippingConfig themis::llm::lora::GradientClippingConfig::fromJSON</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJSON</name>
+        <qualifiedname>themis::llm::lora::GradientClippingConfig::fromJSON</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_utils.h" line="52" column="35" bodyfile="include/llm/lora_framework/gradient_utils.h" bodystart="52" bodyend="67"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/gradient_utils.h" line="31" column="1" bodyfile="include/llm/lora_framework/gradient_utils.h" bodystart="31" bodyend="68"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_gradient_clipping_config_1abcff96cf0a61e03ac1d7642b2a2bfe5a" prot="public" virt="non-virtual"><scope>themis::llm::lora::GradientClippingConfig</scope><name>adaptive</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_gradient_clipping_config_1a9fbf4bd0ed93d47c3e7ee0f4ff77bc1c" prot="public" virt="non-virtual"><scope>themis::llm::lora::GradientClippingConfig</scope><name>clip_value</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_gradient_clipping_config_1ad0b8f8e848556ef7181b5c34989ca455" prot="public" virt="non-virtual"><scope>themis::llm::lora::GradientClippingConfig</scope><name>fromJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_gradient_clipping_config_1a2254d8acc4053df0651f1fd2a841d308" prot="public" virt="non-virtual"><scope>themis::llm::lora::GradientClippingConfig</scope><name>max_norm</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_gradient_clipping_config_1a1b0f5ca6de3d8d24077de41fb23e7188" prot="public" virt="non-virtual"><scope>themis::llm::lora::GradientClippingConfig</scope><name>method</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_gradient_clipping_config_1a162d3d3e89981e67923c6b3891fbb384" prot="public" virt="non-virtual"><scope>themis::llm::lora::GradientClippingConfig</scope><name>toJSON</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

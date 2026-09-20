@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::TOTPReplayCache::Statistics</compoundname>
+    <includes refid="totp__replay__cache_8h" local="no">totp_replay_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_statistics_1a37c13d40d028d8ec40c1cfb40e02894c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::auth::TOTPReplayCache::Statistics::total_users</definition>
+        <argsstring></argsstring>
+        <name>total_users</name>
+        <qualifiedname>themis::auth::TOTPReplayCache::Statistics::total_users</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/totp_replay_cache.h" line="85" column="16" bodyfile="include/auth/totp_replay_cache.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_statistics_1aca2311b838b12de0877b442af204256f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::auth::TOTPReplayCache::Statistics::total_codes</definition>
+        <argsstring></argsstring>
+        <name>total_codes</name>
+        <qualifiedname>themis::auth::TOTPReplayCache::Statistics::total_codes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/totp_replay_cache.h" line="86" column="16" bodyfile="include/auth/totp_replay_cache.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_statistics_1a4d3399cb6932a13750d6baf502f5faaa" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::auth::TOTPReplayCache::Statistics::replay_attempts_blocked</definition>
+        <argsstring></argsstring>
+        <name>replay_attempts_blocked</name>
+        <qualifiedname>themis::auth::TOTPReplayCache::Statistics::replay_attempts_blocked</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/totp_replay_cache.h" line="87" column="16" bodyfile="include/auth/totp_replay_cache.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_statistics_1ad1c28aa27117157b16e7a01954c06b99" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::auth::TOTPReplayCache::Statistics::entries_expired</definition>
+        <argsstring></argsstring>
+        <name>entries_expired</name>
+        <qualifiedname>themis::auth::TOTPReplayCache::Statistics::entries_expired</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/totp_replay_cache.h" line="88" column="16" bodyfile="include/auth/totp_replay_cache.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/totp_replay_cache.h" line="84" column="5" bodyfile="include/auth/totp_replay_cache.h" bodystart="84" bodyend="89"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_statistics_1ad1c28aa27117157b16e7a01954c06b99" prot="public" virt="non-virtual"><scope>themis::auth::TOTPReplayCache::Statistics</scope><name>entries_expired</name></member>
+      <member refid="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_statistics_1a4d3399cb6932a13750d6baf502f5faaa" prot="public" virt="non-virtual"><scope>themis::auth::TOTPReplayCache::Statistics</scope><name>replay_attempts_blocked</name></member>
+      <member refid="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_statistics_1aca2311b838b12de0877b442af204256f" prot="public" virt="non-virtual"><scope>themis::auth::TOTPReplayCache::Statistics</scope><name>total_codes</name></member>
+      <member refid="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_statistics_1a37c13d40d028d8ec40c1cfb40e02894c" prot="public" virt="non-virtual"><scope>themis::auth::TOTPReplayCache::Statistics</scope><name>total_users</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

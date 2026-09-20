@@ -1,0 +1,344 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="resource__monitor_8h" kind="file" language="C++">
+    <compoundname>resource_monitor.h</compoundname>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="resource__monitor_8cpp" local="yes">src/ingestion/resource_monitor.cpp</includedby>
+    <includedby refid="test__ingestion__queue__saturation__stress_8cpp" local="yes">tests/ingestion/test_ingestion_queue_saturation_stress.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/ingestion/resource_monitor.h</label>
+        <link refid="resource__monitor_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="6">
+        <label>map</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>mutex</label>
+      </node>
+      <node id="9">
+        <label>optional</label>
+      </node>
+      <node id="10">
+        <label>string</label>
+      </node>
+      <node id="11">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/ingestion/resource_monitor.h</label>
+        <link refid="resource__monitor_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/ingestion/resource_monitor.cpp</label>
+        <link refid="resource__monitor_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/ingestion/test_ingestion_queue_saturation_stress.cpp</label>
+        <link refid="test__ingestion__queue__saturation__stress_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1ingestion_1_1_resource_exhaustion_alert" prot="public">themis::ingestion::ResourceExhaustionAlert</innerclass>
+    <innerclass refid="structthemis_1_1ingestion_1_1_quality_check_timeout_config" prot="public">themis::ingestion::QualityCheckTimeoutConfig</innerclass>
+    <innerclass refid="classthemis_1_1ingestion_1_1_resource_monitor" prot="public">themis::ingestion::ResourceMonitor</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1ingestion">themis::ingestion</innernamespace>
+    <briefdescription>
+<para>Memory and resource exhaustion detection for ingestion pipelines. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Phase 2.9 (Bounded Resources + Stress Tests) — ING-IMPL-002, ING-IMPL-004</para>
+<para>Provides:<itemizedlist>
+<listitem><para>System memory monitoring and exhaustion alerts</para>
+</listitem><listitem><para>Per-component resource tracking</para>
+</listitem><listitem><para>Quality check timeout mechanisms</para>
+</listitem><listitem><para>Distributed resource coordination hints</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="see"><para>src/ingestion/ROADMAP.md — Phase 2.9 item </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1ingestion" kindref="compound">ingestion</ref><sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Resource<sp/>exhaustion<sp/>alert</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1ingestion_1aea2b5c682ff91fec47228c5b3340050d" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1ingestion_1aea2b5c682ff91fec47228c5b3340050d" kindref="member">ResourceExhaustionType</ref><sp/>{</highlight></codeline>
+<codeline lineno="40" refid="namespacethemis_1_1ingestion_1aea2b5c682ff91fec47228c5b3340050da44f3f7f07b99bd9bf164011f82d16f2e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a3dbd43e8b6284bb68c3ae5126d591285a44f3f7f07b99bd9bf164011f82d16f2e" kindref="member">MEMORY_PRESSURE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41" refid="namespacethemis_1_1ingestion_1aea2b5c682ff91fec47228c5b3340050da812a4b2c022d1f8fea7d9fe80e696dbc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a3dbd43e8b6284bb68c3ae5126d591285a812a4b2c022d1f8fea7d9fe80e696dbc" kindref="member">QUEUE_SATURATION</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42" refid="namespacethemis_1_1ingestion_1aea2b5c682ff91fec47228c5b3340050daff1e1ae421537bdb659a12ce99da3743" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564aff1e1ae421537bdb659a12ce99da3743" kindref="member">QUALITY_CHECK_TIMEOUT</ref>,<sp/></highlight></codeline>
+<codeline lineno="43" refid="namespacethemis_1_1ingestion_1aea2b5c682ff91fec47228c5b3340050dab930f6f674bfdddaf44c3c5b4657a53a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a3dbd43e8b6284bb68c3ae5126d591285ab930f6f674bfdddaf44c3c5b4657a53a" kindref="member">CONNECTION_POOL_EXHAUSTED</ref>,<sp/></highlight></codeline>
+<codeline lineno="44" refid="namespacethemis_1_1ingestion_1aea2b5c682ff91fec47228c5b3340050da3672597bffab2082fd010565e64ce372" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a3dbd43e8b6284bb68c3ae5126d591285a3672597bffab2082fd010565e64ce372" kindref="member">DISK_SPACE_LOW</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45" refid="namespacethemis_1_1ingestion_1aea2b5c682ff91fec47228c5b3340050daf0d1c5bdb2992554064f67d96640efd0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564af0d1c5bdb2992554064f67d96640efd0" kindref="member">THREAD_POOL_EXHAUSTED</ref><sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1ingestion_1_1_resource_exhaustion_alert" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1ingestion_1_1_resource_exhaustion_alert" kindref="compound">ResourceExhaustionAlert</ref><sp/>{</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1ingestion_1_1_resource_exhaustion_alert_1aeca225bae2b8a99f831ee7f492a94880" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1aea2b5c682ff91fec47228c5b3340050d" kindref="member">ResourceExhaustionType</ref><sp/><ref refid="structthemis_1_1ingestion_1_1_resource_exhaustion_alert_1aeca225bae2b8a99f831ee7f492a94880" kindref="member">type</ref>;</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1ingestion_1_1_resource_exhaustion_alert_1a347204b6b0f4cc91be152dab0b1f1b17" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1ingestion_1_1_resource_exhaustion_alert_1a347204b6b0f4cc91be152dab0b1f1b17" kindref="member">component</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1ingestion_1_1_resource_exhaustion_alert_1adb4e63af1ba6a7df3c05be9b3ba497fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1ingestion_1_1_resource_exhaustion_alert_1adb4e63af1ba6a7df3c05be9b3ba497fd" kindref="member">description</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1ingestion_1_1_resource_exhaustion_alert_1af3b171ab523bf36f4644fc9069e294a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_resource_exhaustion_alert_1af3b171ab523bf36f4644fc9069e294a7" kindref="member">current_usage</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1ingestion_1_1_resource_exhaustion_alert_1a9752fec29792f3b1405fb3878572b49a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_resource_exhaustion_alert_1a9752fec29792f3b1405fb3878572b49a" kindref="member">threshold</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1ingestion_1_1_resource_exhaustion_alert_1acbc90d15f1a5295bc96184ea2ba6c990" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1ingestion_1_1_resource_exhaustion_alert_1acbc90d15f1a5295bc96184ea2ba6c990" kindref="member">timestamp</ref>;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="namespacethemis_1_1ingestion_1a41f28f9c030a3052cf76994d1e58a61a" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a41f28f9c030a3052cf76994d1e58a61a" kindref="member">ResourceExhaustionCallback</ref><sp/>=<sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_resource_exhaustion_alert" kindref="compound">ResourceExhaustionAlert</ref>&amp;)&gt;;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Quality<sp/>check<sp/>timeout<sp/>configuration<sp/>and<sp/>results</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1ingestion_1_1_quality_check_timeout_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1ingestion_1_1_quality_check_timeout_config" kindref="compound">QualityCheckTimeoutConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1ingestion_1_1_quality_check_timeout_config_1a9dbaeb0bf2b881bb330d360ef7fefe0f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1ingestion_1_1_quality_check_timeout_config_1a9dbaeb0bf2b881bb330d360ef7fefe0f" kindref="member">timeout_ms</ref><sp/>=<sp/>std::chrono::seconds(5);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1ingestion_1_1_quality_check_timeout_config_1a33215093dcad300dd558aad787757b1a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1ingestion_1_1_quality_check_timeout_config_1a33215093dcad300dd558aad787757b1a" kindref="member">escape_valve</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;fail_closed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1ingestion_1_1_quality_check_timeout_config_1a9b184f77dd6160d2130b2352c0b95178" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1ingestion_1_1_quality_check_timeout_config_1a9b184f77dd6160d2130b2352c0b95178" kindref="member">max_deferred_checks</ref><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1ingestion_1_1_quality_check_timeout_config_1aa2adabfa3405973d937f539089a4e733" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_quality_check_timeout_config_1aa2adabfa3405973d937f539089a4e733" kindref="member">enable_parallel_checks</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1ingestion_1_1_quality_check_timeout_config_1a3fde09f3baad56a93b63cd8fa3fb512a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_quality_check_timeout_config_1a3fde09f3baad56a93b63cd8fa3fb512a" kindref="member">parallel_check_limit</ref><sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125" refid="namespacethemis_1_1ingestion_1a055358810ed6c5a9adaca523641f023c" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1ingestion_1a055358810ed6c5a9adaca523641f023c" kindref="member">QualityCheckResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="126" refid="namespacethemis_1_1ingestion_1a055358810ed6c5a9adaca523641f023ca7a95bf926a0333f57705aeac07a362a2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a055358810ed6c5a9adaca523641f023ca7a95bf926a0333f57705aeac07a362a2" kindref="member">PASS</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="127" refid="namespacethemis_1_1ingestion_1a055358810ed6c5a9adaca523641f023cac2759effffc94bb9acc71d69fe3e8a1f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a055358810ed6c5a9adaca523641f023cac2759effffc94bb9acc71d69fe3e8a1f" kindref="member">FAIL</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="128" refid="namespacethemis_1_1ingestion_1a055358810ed6c5a9adaca523641f023ca070a0fb40f6c308ab544b227660aadff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a055358810ed6c5a9adaca523641f023ca070a0fb40f6c308ab544b227660aadff" kindref="member">TIMEOUT</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="129" refid="namespacethemis_1_1ingestion_1a055358810ed6c5a9adaca523641f023cae3d9a2ed4146353ae729818f8bcc329d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a055358810ed6c5a9adaca523641f023cae3d9a2ed4146353ae729818f8bcc329d" kindref="member">DEFERRED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="130" refid="namespacethemis_1_1ingestion_1a055358810ed6c5a9adaca523641f023cafd2ad03593ec9e18d6b8a56b66e7c6dd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a055358810ed6c5a9adaca523641f023cafd2ad03593ec9e18d6b8a56b66e7c6dd" kindref="member">ESCAPE_VALVE</ref><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="131"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Resource<sp/>monitor<sp/>for<sp/>tracking<sp/>system<sp/>and<sp/>component<sp/>resource<sp/>usage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171" refid="classthemis_1_1ingestion_1_1_resource_monitor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_resource_monitor_1af6f3f28c723532860cc52f6c25825378" kindref="member">ResourceMonitor</ref><sp/>{</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="176" refid="classthemis_1_1ingestion_1_1_resource_monitor_1af6f3f28c723532860cc52f6c25825378" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_resource_monitor_1af6f3f28c723532860cc52f6c25825378" kindref="member">ResourceMonitor</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178" refid="classthemis_1_1ingestion_1_1_resource_monitor_1a85743c517340e04c0c1d83cdcdb69269" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_resource_monitor_1a85743c517340e04c0c1d83cdcdb69269" kindref="member">~ResourceMonitor</ref>()<sp/>{<sp/><ref refid="classthemis_1_1ingestion_1_1_resource_monitor_1a737d600c91f3dadf93fbac505a21c23e" kindref="member">stopMonitoring</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Delete<sp/>copy/move<sp/>to<sp/>prevent<sp/>multiple<sp/>monitor<sp/>instances</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181" refid="classthemis_1_1ingestion_1_1_resource_monitor_1a93e40c531ef4fc1a139569d1668fd364" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_resource_monitor_1a93e40c531ef4fc1a139569d1668fd364" kindref="member">ResourceMonitor</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_resource_monitor_1af6f3f28c723532860cc52f6c25825378" kindref="member">ResourceMonitor</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="182" refid="classthemis_1_1ingestion_1_1_resource_monitor_1a16e14d3bfadbd485cf1370026bee7991" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_resource_monitor_1af6f3f28c723532860cc52f6c25825378" kindref="member">ResourceMonitor</ref>&amp;<sp/><ref refid="classthemis_1_1ingestion_1_1_resource_monitor_1a16e14d3bfadbd485cf1370026bee7991" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_resource_monitor_1af6f3f28c723532860cc52f6c25825378" kindref="member">ResourceMonitor</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Lifecycle<sp/>───────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192" refid="classthemis_1_1ingestion_1_1_resource_monitor_1a133139d3a3a24315d84353c4d8ea587f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_resource_monitor_1a133139d3a3a24315d84353c4d8ea587f" kindref="member">startMonitoring</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(is_running_.exchange(</highlight><highlight class="keyword">true</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Already<sp/>running</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Monitoring<sp/>implementation<sp/>details<sp/>(polling<sp/>thread,<sp/>etc.)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>to<sp/>be<sp/>implemented<sp/>in<sp/>.cpp<sp/>file</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203" refid="classthemis_1_1ingestion_1_1_resource_monitor_1a737d600c91f3dadf93fbac505a21c23e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_resource_monitor_1a737d600c91f3dadf93fbac505a21c23e" kindref="member">stopMonitoring</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>is_running_.store(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210" refid="classthemis_1_1ingestion_1_1_resource_monitor_1ac8c0fafc095c3e75016c2173e8717d5d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_resource_monitor_1ac8c0fafc095c3e75016c2173e8717d5d" kindref="member">isMonitoring</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>is_running_.load();<sp/>}</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Alert<sp/>registration<sp/>──────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218" refid="classthemis_1_1ingestion_1_1_resource_monitor_1a195a30325da4efa5cad3bd1b3d272685" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_resource_monitor_1a195a30325da4efa5cad3bd1b3d272685" kindref="member">onResourceExhaustion</ref>(<ref refid="namespacethemis_1_1ingestion_1a41f28f9c030a3052cf76994d1e58a61a" kindref="member">ResourceExhaustionCallback</ref><sp/>callback)<sp/>{</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lock(callback_mutex_);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>exhaustion_callbacks_.push_back(callback);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>System<sp/>memory<sp/>monitoring<sp/>────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229" refid="classthemis_1_1ingestion_1_1_resource_monitor_1aceaa8fc7d9560e8d19f66d3ed53b09c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_resource_monitor_1aceaa8fc7d9560e8d19f66d3ed53b09c9" kindref="member">getSystemMemoryPercent</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lock(state_mutex_);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>system_memory_percent_;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238" refid="classthemis_1_1ingestion_1_1_resource_monitor_1a3d1a9cdbf31996c5eca32b36d22a0a7e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_resource_monitor_1a3d1a9cdbf31996c5eca32b36d22a0a7e" kindref="member">setMemoryExhaustionThreshold</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>percent_threshold)<sp/>{</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lock(state_mutex_);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>memory_exhaustion_threshold_<sp/>=<sp/>percent_threshold;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246" refid="classthemis_1_1ingestion_1_1_resource_monitor_1a1c1a83eb88ce31b4c9ea465d2e7329db" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_resource_monitor_1a1c1a83eb88ce31b4c9ea465d2e7329db" kindref="member">getMemoryExhaustionThreshold</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lock(state_mutex_);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>memory_exhaustion_threshold_;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Component<sp/>memory<sp/>tracking<sp/>───────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258" refid="classthemis_1_1ingestion_1_1_resource_monitor_1aa615a587f5a13e86a5112a4b9aceb844" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_resource_monitor_1aa615a587f5a13e86a5112a4b9aceb844" kindref="member">registerComponentMemory</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>component_name,</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>memory_bytes)<sp/>{</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lock(state_mutex_);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>component_memory_[component_name]<sp/>=<sp/>memory_bytes;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269" refid="classthemis_1_1ingestion_1_1_resource_monitor_1aa93a710d218dbc4bd3b48f8a9d05c582" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_resource_monitor_1aa93a710d218dbc4bd3b48f8a9d05c582" kindref="member">updateComponentMemory</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>component_name,</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>memory_bytes)<sp/>{</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lock(state_mutex_);</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>component_memory_[component_name]<sp/>=<sp/>memory_bytes;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280" refid="classthemis_1_1ingestion_1_1_resource_monitor_1a7608350bf45123f490591aba72d4d836" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::size_t&gt;<sp/><ref refid="classthemis_1_1ingestion_1_1_resource_monitor_1a7608350bf45123f490591aba72d4d836" kindref="member">getComponentMemory</ref>(</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>component_name)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lock(state_mutex_);</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>it<sp/>=<sp/>component_memory_.find(component_name);</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(it<sp/>!=<sp/>component_memory_.end())<sp/>{</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>it-&gt;second;</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::nullopt;</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293" refid="classthemis_1_1ingestion_1_1_resource_monitor_1ab0f12dd8d758a43b710f05dc46ec31ce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="classthemis_1_1ingestion_1_1_resource_monitor_1ab0f12dd8d758a43b710f05dc46ec31ce" kindref="member">getTotalComponentMemory</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lock(state_mutex_);</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>total<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>kv<sp/>:<sp/>component_memory_)<sp/>{</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>total<sp/>+=<sp/>kv.second;</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>total;</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306" refid="classthemis_1_1ingestion_1_1_resource_monitor_1a1e5d77e5811368cce03ec314ec689660" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::size_t&gt;<sp/><ref refid="classthemis_1_1ingestion_1_1_resource_monitor_1a1e5d77e5811368cce03ec314ec689660" kindref="member">getAllComponentMemory</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lock(state_mutex_);</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>component_memory_;</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314" refid="classthemis_1_1ingestion_1_1_resource_monitor_1a838aec4e6027c82d6a21d427b918da18" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_resource_monitor_1a838aec4e6027c82d6a21d427b918da18" kindref="member">unregisterComponent</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>component_name)<sp/>{</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lock(state_mutex_);</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>component_memory_.erase(component_name);</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Quality<sp/>check<sp/>timeout<sp/>support<sp/>───────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight></codeline>
+<codeline lineno="324" refid="classthemis_1_1ingestion_1_1_resource_monitor_1adae8ba5b0fb038f98b8885196d6a25ac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_resource_monitor_1adae8ba5b0fb038f98b8885196d6a25ac" kindref="member">setQualityCheckTimeoutConfig</ref>(</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_quality_check_timeout_config" kindref="compound">QualityCheckTimeoutConfig</ref>&amp;<sp/>config)<sp/>{</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lock(state_mutex_);</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>qc_timeout_config_<sp/>=<sp/>config;</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight></codeline>
+<codeline lineno="333" refid="classthemis_1_1ingestion_1_1_resource_monitor_1a37f7da9504aa3b7530ffa613adef9069" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_quality_check_timeout_config" kindref="compound">QualityCheckTimeoutConfig</ref><sp/><ref refid="classthemis_1_1ingestion_1_1_resource_monitor_1a37f7da9504aa3b7530ffa613adef9069" kindref="member">getQualityCheckTimeoutConfig</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lock(state_mutex_);</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>qc_timeout_config_;</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Distributed<sp/>resource<sp/>coordination<sp/>───────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight></codeline>
+<codeline lineno="349" refid="classthemis_1_1ingestion_1_1_resource_monitor_1a21aa262e1f03f2d38d5ba7d880239c9b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_resource_monitor_1a21aa262e1f03f2d38d5ba7d880239c9b" kindref="member">setDistributedClusterSize</ref>(std::size_t<sp/>node_count)<sp/>{</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lock(state_mutex_);</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cluster_size_<sp/>=<sp/>node_count;</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"></highlight></codeline>
+<codeline lineno="357" refid="classthemis_1_1ingestion_1_1_resource_monitor_1a1fd625fb8cb2ad51b26b9a45f8925fb4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="classthemis_1_1ingestion_1_1_resource_monitor_1a1fd625fb8cb2ad51b26b9a45f8925fb4" kindref="member">getDistributedClusterSize</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lock(state_mutex_);</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cluster_size_;</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"></highlight></codeline>
+<codeline lineno="374" refid="classthemis_1_1ingestion_1_1_resource_monitor_1ae0fdc8d691a45050a156a3e1eb87194b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="classthemis_1_1ingestion_1_1_resource_monitor_1ae0fdc8d691a45050a156a3e1eb87194b" kindref="member">calculatePerNodeQuota</ref>(std::size_t<sp/>cluster_wide_limit)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lock(state_mutex_);</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cluster_size_<sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cluster_wide_limit;</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cluster_wide_limit<sp/>/<sp/>cluster_size_;</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"></highlight></codeline>
+<codeline lineno="382"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>callback_mutex_;</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>state_mutex_;</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>is_running_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"></highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>System<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>system_memory_percent_<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>memory_exhaustion_threshold_<sp/>=<sp/>85.0;<sp/><sp/></highlight><highlight class="comment">//<sp/>Alert<sp/>at<sp/>85%</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="390"><highlight class="normal"></highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Component<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::size_t&gt;<sp/>component_memory_;</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"></highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Quality<sp/>check<sp/>config</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/>QualityCheckTimeoutConfig<sp/>qc_timeout_config_;</highlight></codeline>
+<codeline lineno="396"><highlight class="normal"></highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Distributed<sp/>coordination</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>cluster_size_<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"></highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Callbacks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ResourceExhaustionCallback&gt;<sp/>exhaustion_callbacks_;</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"></highlight></codeline>
+<codeline lineno="403"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper<sp/>to<sp/>generate<sp/>and<sp/>dispatch<sp/>exhaustion<sp/>alert</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="404"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>alertExhaustion(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ResourceExhaustionAlert&amp;<sp/>alert)<sp/>{</highlight></codeline>
+<codeline lineno="405"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lock(callback_mutex_);</highlight></codeline>
+<codeline lineno="406"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>cb<sp/>:<sp/>exhaustion_callbacks_)<sp/>{</highlight></codeline>
+<codeline lineno="407"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cb(alert);</highlight></codeline>
+<codeline lineno="408"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="410"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="411"><highlight class="normal"></highlight></codeline>
+<codeline lineno="412"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ingestion</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="413"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/ingestion/resource_monitor.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,205 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1_in_memory_vector_writer" kind="class" language="C++" prot="public">
+    <compoundname>themis::ingestion::InMemoryVectorWriter</compoundname>
+    <basecompoundref refid="classthemis_1_1ingestion_1_1_i_vector_writer" prot="public" virt="non-virtual">themis::ingestion::IVectorWriter</basecompoundref>
+    <includes refid="ingestion__sinks_8h" local="no">ingestion_sinks.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_in_memory_vector_writer_1a07948221b23060d0a573863ec7d29f24" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::ingestion::InMemoryVectorWriter::mtx_</definition>
+        <argsstring></argsstring>
+        <name>mtx_</name>
+        <qualifiedname>themis::ingestion::InMemoryVectorWriter::mtx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_sinks.h" line="235" column="53" bodyfile="include/ingestion/ingestion_sinks.h" bodystart="235" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_in_memory_vector_writer_1a9a31095fe3f2973d18e53c75346aa338" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1ingestion_1_1_vector_record" kindref="compound">VectorRecord</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, VectorRecord&gt; themis::ingestion::InMemoryVectorWriter::records_</definition>
+        <argsstring></argsstring>
+        <name>records_</name>
+        <qualifiedname>themis::ingestion::InMemoryVectorWriter::records_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_sinks.h" line="236" column="25" bodyfile="include/ingestion/ingestion_sinks.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_in_memory_vector_writer_1a2ca4aac3407ac47567a3a2d12567c0c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::ingestion::InMemoryVectorWriter::writeVectors</definition>
+        <argsstring>(const std::vector&lt; VectorRecord &gt; &amp;records) override</argsstring>
+        <name>writeVectors</name>
+        <qualifiedname>themis::ingestion::InMemoryVectorWriter::writeVectors</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_vector_writer_1a72c6318311c50c2b63c1fef7de33fee1">writeVectors</reimplements>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1ingestion_1_1_vector_record" kindref="compound">VectorRecord</ref> &gt; &amp;</type>
+          <declname>records</declname>
+        </param>
+        <briefdescription>
+<para>Write Vectors. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">records</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_sinks.h" line="222" column="18" bodyfile="src/ingestion/ingestion_sinks.cpp" bodystart="217" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_in_memory_vector_writer_1aebf925001729042607251f9555eb456e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::ingestion::InMemoryVectorWriter::vectorCount</definition>
+        <argsstring>() const override</argsstring>
+        <name>vectorCount</name>
+        <qualifiedname>themis::ingestion::InMemoryVectorWriter::vectorCount</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_vector_writer_1a4b29b9a276336ecf177fb1bf767a5b1b">vectorCount</reimplements>
+        <briefdescription>
+<para>Returns the number of vectors currently indexed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mtx_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_sinks.h" line="223" column="24" bodyfile="src/ingestion/ingestion_sinks.cpp" bodystart="225" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_in_memory_vector_writer_1ad05821b2e0e48df33e005c2d0760957a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>const <ref refid="structthemis_1_1ingestion_1_1_vector_record" kindref="compound">VectorRecord</ref> *</type>
+        <definition>const VectorRecord * themis::ingestion::InMemoryVectorWriter::findByChunkId</definition>
+        <argsstring>(const std::string &amp;chunk_id) const override</argsstring>
+        <name>findByChunkId</name>
+        <qualifiedname>themis::ingestion::InMemoryVectorWriter::findByChunkId</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_vector_writer_1ab2b16e33a675776dc950bbca10a4ea91">findByChunkId</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>chunk_id</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve a stored vector record by chunk_id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns nullptr when not found. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mtx_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_sinks.h" line="224" column="24" bodyfile="src/ingestion/ingestion_sinks.cpp" bodystart="235" bodyend="244"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_in_memory_vector_writer_1a43581201d839424b74e980898cfafb7d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::unordered_map&lt; std::string, <ref refid="structthemis_1_1ingestion_1_1_vector_record" kindref="compound">VectorRecord</ref> &gt; &amp;</type>
+        <definition>const std::unordered_map&lt; std::string, VectorRecord &gt; &amp; themis::ingestion::InMemoryVectorWriter::records</definition>
+        <argsstring>() const</argsstring>
+        <name>records</name>
+        <qualifiedname>themis::ingestion::InMemoryVectorWriter::records</qualifiedname>
+        <briefdescription>
+<para>Direct read access for test assertions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_sinks.h" line="227" column="30" bodyfile="include/ingestion/ingestion_sinks.h" bodystart="227" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_in_memory_vector_writer_1a33e8c6f7769f169ba18df4b8a1cf26e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::InMemoryVectorWriter::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::ingestion::InMemoryVectorWriter::clear</qualifiedname>
+        <briefdescription>
+<para>Clear all stored data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear.</para>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_sinks.h" line="232" column="10" bodyfile="src/ingestion/ingestion_sinks.cpp" bodystart="250" bodyend="253"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Thread-safe in-memory <computeroutput><ref refid="classthemis_1_1ingestion_1_1_i_vector_writer" kindref="compound">IVectorWriter</ref></computeroutput> implementation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::ingestion::IVectorWriter</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_vector_writer"/>
+      </node>
+      <node id="1">
+        <label>themis::ingestion::InMemoryVectorWriter</label>
+        <link refid="classthemis_1_1ingestion_1_1_in_memory_vector_writer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::ingestion::IVectorWriter</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_vector_writer"/>
+      </node>
+      <node id="1">
+        <label>themis::ingestion::InMemoryVectorWriter</label>
+        <link refid="classthemis_1_1ingestion_1_1_in_memory_vector_writer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/ingestion/ingestion_sinks.h" line="220" column="1" bodyfile="include/ingestion/ingestion_sinks.h" bodystart="220" bodyend="237"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1_in_memory_vector_writer_1a33e8c6f7769f169ba18df4b8a1cf26e1" prot="public" virt="non-virtual"><scope>themis::ingestion::InMemoryVectorWriter</scope><name>clear</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_in_memory_vector_writer_1ad05821b2e0e48df33e005c2d0760957a" prot="public" virt="virtual"><scope>themis::ingestion::InMemoryVectorWriter</scope><name>findByChunkId</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_in_memory_vector_writer_1a07948221b23060d0a573863ec7d29f24" prot="private" virt="non-virtual"><scope>themis::ingestion::InMemoryVectorWriter</scope><name>mtx_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_in_memory_vector_writer_1a43581201d839424b74e980898cfafb7d" prot="public" virt="non-virtual"><scope>themis::ingestion::InMemoryVectorWriter</scope><name>records</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_in_memory_vector_writer_1a9a31095fe3f2973d18e53c75346aa338" prot="private" virt="non-virtual"><scope>themis::ingestion::InMemoryVectorWriter</scope><name>records_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_in_memory_vector_writer_1aebf925001729042607251f9555eb456e" prot="public" virt="virtual"><scope>themis::ingestion::InMemoryVectorWriter</scope><name>vectorCount</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_in_memory_vector_writer_1a2ca4aac3407ac47567a3a2d12567c0c5" prot="public" virt="virtual"><scope>themis::ingestion::InMemoryVectorWriter</scope><name>writeVectors</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_vector_writer_1af9a420cc1a968e95d32f93041ccced49" prot="public" virt="virtual"><scope>themis::ingestion::InMemoryVectorWriter</scope><name>~IVectorWriter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

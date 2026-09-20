@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_c_t_e_evaluator_1_1_recursive_c_t_e_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::CTEEvaluator::RecursiveCTEConfig</compoundname>
+    <includes refid="cte__subquery_8h" local="no">cte_subquery.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_c_t_e_evaluator_1_1_recursive_c_t_e_config_1a689d778a4b1d2243766c32e59215ce1d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::CTEEvaluator::RecursiveCTEConfig::max_iterations</definition>
+        <argsstring></argsstring>
+        <name>max_iterations</name>
+        <qualifiedname>themis::query::CTEEvaluator::RecursiveCTEConfig::max_iterations</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cte_subquery.h" line="34" column="16" bodyfile="include/query/cte_subquery.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_c_t_e_evaluator_1_1_recursive_c_t_e_config_1a74572e48b217a29727e46ef5253c28a8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::CTEEvaluator::RecursiveCTEConfig::enable_cycle_detection</definition>
+        <argsstring></argsstring>
+        <name>enable_cycle_detection</name>
+        <qualifiedname>themis::query::CTEEvaluator::RecursiveCTEConfig::enable_cycle_detection</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cte_subquery.h" line="35" column="14" bodyfile="include/query/cte_subquery.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_c_t_e_evaluator_1_1_recursive_c_t_e_config_1a875a6ed539bec26135f573cfd652d7e5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::CTEEvaluator::RecursiveCTEConfig::max_result_size</definition>
+        <argsstring></argsstring>
+        <name>max_result_size</name>
+        <qualifiedname>themis::query::CTEEvaluator::RecursiveCTEConfig::max_result_size</qualifiedname>
+        <initializer>= 1000000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cte_subquery.h" line="36" column="16" bodyfile="include/query/cte_subquery.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/cte_subquery.h" line="33" column="5" bodyfile="include/query/cte_subquery.h" bodystart="33" bodyend="37"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_c_t_e_evaluator_1_1_recursive_c_t_e_config_1a74572e48b217a29727e46ef5253c28a8" prot="public" virt="non-virtual"><scope>themis::query::CTEEvaluator::RecursiveCTEConfig</scope><name>enable_cycle_detection</name></member>
+      <member refid="structthemis_1_1query_1_1_c_t_e_evaluator_1_1_recursive_c_t_e_config_1a689d778a4b1d2243766c32e59215ce1d" prot="public" virt="non-virtual"><scope>themis::query::CTEEvaluator::RecursiveCTEConfig</scope><name>max_iterations</name></member>
+      <member refid="structthemis_1_1query_1_1_c_t_e_evaluator_1_1_recursive_c_t_e_config_1a875a6ed539bec26135f573cfd652d7e5" prot="public" virt="non-virtual"><scope>themis::query::CTEEvaluator::RecursiveCTEConfig</scope><name>max_result_size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

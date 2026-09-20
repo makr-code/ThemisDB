@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1analytics_1_1test_1_1_memory_safety_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::analytics::test::MemorySafetyTest</compoundname>
+    <basecompoundref refid="classtesting_1_1_test" prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1test_1_1_memory_safety_test_1a38b510d430648cd898115a0fe88bff66" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::analytics::test::MemorySafetyTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::analytics::test::MemorySafetyTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_memory_safety_focused.cpp" line="150" column="10" bodyfile="tests/analytics/test_analytics_memory_safety_focused.cpp" bodystart="150" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1test_1_1_memory_safety_test_1afb7e74d8f33149ca4b961550f680c19c" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::analytics::test::MemorySafetyTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::analytics::test::MemorySafetyTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_memory_safety_focused.cpp" line="151" column="10" bodyfile="tests/analytics/test_analytics_memory_safety_focused.cpp" bodystart="151" bodyend="151"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+        <link refid="classtesting_1_1_test"/>
+      </node>
+      <node id="1">
+        <label>themis::analytics::test::MemorySafetyTest</label>
+        <link refid="classthemis_1_1analytics_1_1test_1_1_memory_safety_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+        <link refid="classtesting_1_1_test"/>
+      </node>
+      <node id="1">
+        <label>themis::analytics::test::MemorySafetyTest</label>
+        <link refid="classthemis_1_1analytics_1_1test_1_1_memory_safety_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/analytics/test_analytics_memory_safety_focused.cpp" line="148" column="1" bodyfile="tests/analytics/test_analytics_memory_safety_focused.cpp" bodystart="148" bodyend="152"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1analytics_1_1test_1_1_memory_safety_test_1a38b510d430648cd898115a0fe88bff66" prot="protected" virt="non-virtual"><scope>themis::analytics::test::MemorySafetyTest</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1analytics_1_1test_1_1_memory_safety_test_1afb7e74d8f33149ca4b961550f680c19c" prot="protected" virt="non-virtual"><scope>themis::analytics::test::MemorySafetyTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

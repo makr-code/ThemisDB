@@ -1,0 +1,311 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_degraded_mode_executor" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::DegradedModeExecutor</compoundname>
+    <includes refid="federation__resilience_8h" local="no">federation_resilience.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1query_1_1_degraded_mode_executor_1adf9b2b9dfbed9b62bc0dac12ff8a48bf" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Strategy</name>
+        <qualifiedname>themis::query::DegradedModeExecutor::Strategy</qualifiedname>
+        <enumvalue id="classthemis_1_1query_1_1_degraded_mode_executor_1adf9b2b9dfbed9b62bc0dac12ff8a48bfa38bda4a8ea78664a7b63663cdaaad07d" prot="public">
+          <name>FAIL_FAST</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1query_1_1_degraded_mode_executor_1adf9b2b9dfbed9b62bc0dac12ff8a48bfae23297c86884c074c8123c06ba08eb6d" prot="public">
+          <name>PARTIAL_RESULTS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1query_1_1_degraded_mode_executor_1adf9b2b9dfbed9b62bc0dac12ff8a48bfacde6b6aaa7c29ff10f2570021720f8d5" prot="public">
+          <name>FALLBACK_REPLICA</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1query_1_1_degraded_mode_executor_1adf9b2b9dfbed9b62bc0dac12ff8a48bfac6d0b87b065348b4bc999742b2efd22c" prot="public">
+          <name>BEST_EFFORT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="100" column="5" bodyfile="include/query/federation_resilience.h" bodystart="100" bodyend="105"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_degraded_mode_executor_1a12d14b0a2083bb1bc247450c88cc20c4" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1query_1_1_degraded_mode_executor_1adf9b2b9dfbed9b62bc0dac12ff8a48bf" kindref="member">Strategy</ref></type>
+        <definition>Strategy themis::query::DegradedModeExecutor::strategy_</definition>
+        <argsstring></argsstring>
+        <name>strategy_</name>
+        <qualifiedname>themis::query::DegradedModeExecutor::strategy_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="136" column="14" bodyfile="include/query/federation_resilience.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_degraded_mode_executor_1acd05c4d4a9845d761a94cd05bf2c65ed" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::DegradedModeExecutor::minimum_coverage_pct_</definition>
+        <argsstring></argsstring>
+        <name>minimum_coverage_pct_</name>
+        <qualifiedname>themis::query::DegradedModeExecutor::minimum_coverage_pct_</qualifiedname>
+        <initializer>= 50.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="137" column="12" bodyfile="include/query/federation_resilience.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_degraded_mode_executor_1ad1bb3ca6cf58f2276c2d92390ef61d30" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::query::DegradedModeExecutor::degraded_executions_</definition>
+        <argsstring></argsstring>
+        <name>degraded_executions_</name>
+        <qualifiedname>themis::query::DegradedModeExecutor::degraded_executions_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="138" column="14" bodyfile="include/query/federation_resilience.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_degraded_mode_executor_1a4b6f5d46f44d26d0385c0aadd70ac22c" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::query::DegradedModeExecutor::partial_result_queries_</definition>
+        <argsstring></argsstring>
+        <name>partial_result_queries_</name>
+        <qualifiedname>themis::query::DegradedModeExecutor::partial_result_queries_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="139" column="14" bodyfile="include/query/federation_resilience.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_degraded_mode_executor_1a4bf1024e223acdccd80ce32b837024d6" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::DegradedModeExecutor::DegradedModeExecutor</definition>
+        <argsstring>(Strategy strategy=Strategy::PARTIAL_RESULTS)</argsstring>
+        <name>DegradedModeExecutor</name>
+        <qualifiedname>themis::query::DegradedModeExecutor::DegradedModeExecutor</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1_degraded_mode_executor_1adf9b2b9dfbed9b62bc0dac12ff8a48bf" kindref="member">Strategy</ref></type>
+          <declname>strategy</declname>
+          <defval><ref refid="classthemis_1_1query_1_1_degraded_mode_executor_1adf9b2b9dfbed9b62bc0dac12ff8a48bfae23297c86884c074c8123c06ba08eb6d" kindref="member">Strategy::PARTIAL_RESULTS</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="107" column="14" bodyfile="src/query/federation_resilience.cpp" bodystart="164" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_degraded_mode_executor_1aba37c0e0a250a7d9f06e3bbb11736af6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::DegradedModeExecutor::setStrategy</definition>
+        <argsstring>(Strategy strategy)</argsstring>
+        <name>setStrategy</name>
+        <qualifiedname>themis::query::DegradedModeExecutor::setStrategy</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1_degraded_mode_executor_1adf9b2b9dfbed9b62bc0dac12ff8a48bf" kindref="member">Strategy</ref></type>
+          <declname>strategy</declname>
+        </param>
+        <briefdescription>
+<para>Set <ref refid="classthemis_1_1query_1_1_degraded_mode_executor_1adf9b2b9dfbed9b62bc0dac12ff8a48bf" kindref="member">Strategy</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">strategy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">strategy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="113" column="10" bodyfile="src/query/federation_resilience.cpp" bodystart="175" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_degraded_mode_executor_1aa836850b947e0bfd158b87633e6301d3" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1query_1_1_degraded_mode_executor_1adf9b2b9dfbed9b62bc0dac12ff8a48bf" kindref="member">Strategy</ref></type>
+        <definition>DegradedModeExecutor::Strategy themis::query::DegradedModeExecutor::getStrategy</definition>
+        <argsstring>() const</argsstring>
+        <name>getStrategy</name>
+        <qualifiedname>themis::query::DegradedModeExecutor::getStrategy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="115" column="15" bodyfile="src/query/federation_resilience.cpp" bodystart="181" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_degraded_mode_executor_1aab7d080b7b3903de2014f5cc3a475cea" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::DegradedModeExecutor::shouldProceedDegraded</definition>
+        <argsstring>(size_t available_shards, size_t total_shards) const</argsstring>
+        <name>shouldProceedDegraded</name>
+        <qualifiedname>themis::query::DegradedModeExecutor::shouldProceedDegraded</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>available_shards</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>total_shards</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="117" column="11" bodyfile="src/query/federation_resilience.cpp" bodystart="185" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_degraded_mode_executor_1a9d1caa788ab32107048c0642484c1c67" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::query::DegradedModeExecutor::calculateConfidence</definition>
+        <argsstring>(size_t available_shards, size_t total_shards) const</argsstring>
+        <name>calculateConfidence</name>
+        <qualifiedname>themis::query::DegradedModeExecutor::calculateConfidence</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>available_shards</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>total_shards</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="121" column="13" bodyfile="src/query/federation_resilience.cpp" bodystart="209" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_degraded_mode_executor_1a1c22b4f78473e54f4a5aa2cce73071b2" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::query::DegradedModeExecutor::getMinimumCoverage</definition>
+        <argsstring>() const</argsstring>
+        <name>getMinimumCoverage</name>
+        <qualifiedname>themis::query::DegradedModeExecutor::getMinimumCoverage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="125" column="13" bodyfile="src/query/federation_resilience.cpp" bodystart="219" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_degraded_mode_executor_1a211841f1407062da367c8b4386268384" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::DegradedModeExecutor::setMinimumCoverage</definition>
+        <argsstring>(double coverage_pct)</argsstring>
+        <name>setMinimumCoverage</name>
+        <qualifiedname>themis::query::DegradedModeExecutor::setMinimumCoverage</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>coverage_pct</declname>
+        </param>
+        <briefdescription>
+<para>Set Minimum Coverage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">coverage_pct</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">coverage_pct</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::warn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="131" column="10" bodyfile="src/query/federation_resilience.cpp" bodystart="228" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_degraded_mode_executor_1a6d9db2ce36521082a25c5fe146d18241" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::query::DegradedModeExecutor::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::query::DegradedModeExecutor::getStatistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="133" column="18" bodyfile="src/query/federation_resilience.cpp" bodystart="236" bodyend="260"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/federation_resilience.h" line="98" column="1" bodyfile="include/query/federation_resilience.h" bodystart="98" bodyend="140"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_degraded_mode_executor_1a9d1caa788ab32107048c0642484c1c67" prot="public" virt="non-virtual"><scope>themis::query::DegradedModeExecutor</scope><name>calculateConfidence</name></member>
+      <member refid="classthemis_1_1query_1_1_degraded_mode_executor_1ad1bb3ca6cf58f2276c2d92390ef61d30" prot="private" virt="non-virtual"><scope>themis::query::DegradedModeExecutor</scope><name>degraded_executions_</name></member>
+      <member refid="classthemis_1_1query_1_1_degraded_mode_executor_1a4bf1024e223acdccd80ce32b837024d6" prot="public" virt="non-virtual"><scope>themis::query::DegradedModeExecutor</scope><name>DegradedModeExecutor</name></member>
+      <member refid="classthemis_1_1query_1_1_degraded_mode_executor_1a1c22b4f78473e54f4a5aa2cce73071b2" prot="public" virt="non-virtual"><scope>themis::query::DegradedModeExecutor</scope><name>getMinimumCoverage</name></member>
+      <member refid="classthemis_1_1query_1_1_degraded_mode_executor_1a6d9db2ce36521082a25c5fe146d18241" prot="public" virt="non-virtual"><scope>themis::query::DegradedModeExecutor</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1query_1_1_degraded_mode_executor_1aa836850b947e0bfd158b87633e6301d3" prot="public" virt="non-virtual"><scope>themis::query::DegradedModeExecutor</scope><name>getStrategy</name></member>
+      <member refid="classthemis_1_1query_1_1_degraded_mode_executor_1acd05c4d4a9845d761a94cd05bf2c65ed" prot="private" virt="non-virtual"><scope>themis::query::DegradedModeExecutor</scope><name>minimum_coverage_pct_</name></member>
+      <member refid="classthemis_1_1query_1_1_degraded_mode_executor_1a4b6f5d46f44d26d0385c0aadd70ac22c" prot="private" virt="non-virtual"><scope>themis::query::DegradedModeExecutor</scope><name>partial_result_queries_</name></member>
+      <member refid="classthemis_1_1query_1_1_degraded_mode_executor_1a211841f1407062da367c8b4386268384" prot="public" virt="non-virtual"><scope>themis::query::DegradedModeExecutor</scope><name>setMinimumCoverage</name></member>
+      <member refid="classthemis_1_1query_1_1_degraded_mode_executor_1aba37c0e0a250a7d9f06e3bbb11736af6" prot="public" virt="non-virtual"><scope>themis::query::DegradedModeExecutor</scope><name>setStrategy</name></member>
+      <member refid="classthemis_1_1query_1_1_degraded_mode_executor_1aab7d080b7b3903de2014f5cc3a475cea" prot="public" virt="non-virtual"><scope>themis::query::DegradedModeExecutor</scope><name>shouldProceedDegraded</name></member>
+      <member refid="classthemis_1_1query_1_1_degraded_mode_executor_1adf9b2b9dfbed9b62bc0dac12ff8a48bf" prot="public" virt="non-virtual"><scope>themis::query::DegradedModeExecutor</scope><name>Strategy</name></member>
+      <member refid="classthemis_1_1query_1_1_degraded_mode_executor_1a12d14b0a2083bb1bc247450c88cc20c4" prot="private" virt="non-virtual"><scope>themis::query::DegradedModeExecutor</scope><name>strategy_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

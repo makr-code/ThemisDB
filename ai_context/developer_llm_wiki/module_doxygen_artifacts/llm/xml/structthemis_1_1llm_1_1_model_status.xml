@@ -1,0 +1,235 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_model_status" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::ModelStatus</compoundname>
+    <includes refid="llm__deployment__plugin_8h" local="no">llm_deployment_plugin.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_status_1a14c083b222840fd54697d605637dcac3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ModelStatus::model_id</definition>
+        <argsstring></argsstring>
+        <name>model_id</name>
+        <qualifiedname>themis::llm::ModelStatus::model_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_deployment_plugin.h" line="105" column="17" bodyfile="include/llm/llm_deployment_plugin.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_status_1a04e78253581a674c351a4e3ffe898ff8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ModelStatus::model_path</definition>
+        <argsstring></argsstring>
+        <name>model_path</name>
+        <qualifiedname>themis::llm::ModelStatus::model_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_deployment_plugin.h" line="106" column="17" bodyfile="include/llm/llm_deployment_plugin.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_status_1a7061ca2ead882738ccda82b36621250f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ModelStatus::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::llm::ModelStatus::version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_deployment_plugin.h" line="107" column="17" bodyfile="include/llm/llm_deployment_plugin.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_status_1a85ab0a2d7f3d2dfb3fb6afdad18e637b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ModelStatus::format</definition>
+        <argsstring></argsstring>
+        <name>format</name>
+        <qualifiedname>themis::llm::ModelStatus::format</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_deployment_plugin.h" line="108" column="17" bodyfile="include/llm/llm_deployment_plugin.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_status_1aff236ac9e3a4b5baf2fe027fdc70d461" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::ModelStatus::is_loaded</definition>
+        <argsstring></argsstring>
+        <name>is_loaded</name>
+        <qualifiedname>themis::llm::ModelStatus::is_loaded</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_deployment_plugin.h" line="110" column="10" bodyfile="include/llm/llm_deployment_plugin.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_status_1a343b48094a0c20fb7840b9a389f35899" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::ModelStatus::is_cached</definition>
+        <argsstring></argsstring>
+        <name>is_cached</name>
+        <qualifiedname>themis::llm::ModelStatus::is_cached</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_deployment_plugin.h" line="111" column="10" bodyfile="include/llm/llm_deployment_plugin.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_status_1a4b18ed77b18091d33b39884721e59c1a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::ModelStatus::size_bytes</definition>
+        <argsstring></argsstring>
+        <name>size_bytes</name>
+        <qualifiedname>themis::llm::ModelStatus::size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_deployment_plugin.h" line="113" column="12" bodyfile="include/llm/llm_deployment_plugin.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_status_1a9768b17318ca89222895fa82cd9c8d81" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ModelStatus::checksum</definition>
+        <argsstring></argsstring>
+        <name>checksum</name>
+        <qualifiedname>themis::llm::ModelStatus::checksum</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_deployment_plugin.h" line="114" column="17" bodyfile="include/llm/llm_deployment_plugin.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_status_1ae83add8a7489934a29c54026dd96a3f4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ModelStatus::checksum_type</definition>
+        <argsstring></argsstring>
+        <name>checksum_type</name>
+        <qualifiedname>themis::llm::ModelStatus::checksum_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_deployment_plugin.h" line="115" column="17" bodyfile="include/llm/llm_deployment_plugin.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_status_1af8cb69ce6d6efd61b858b86aac7cd956" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::llm::ModelStatus::downloaded_at</definition>
+        <argsstring></argsstring>
+        <name>downloaded_at</name>
+        <qualifiedname>themis::llm::ModelStatus::downloaded_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_deployment_plugin.h" line="117" column="43" bodyfile="include/llm/llm_deployment_plugin.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_status_1a0d8c01c574ff82ef48132e9fb52fb8d3" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::llm::ModelStatus::last_used_at</definition>
+        <argsstring></argsstring>
+        <name>last_used_at</name>
+        <qualifiedname>themis::llm::ModelStatus::last_used_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_deployment_plugin.h" line="118" column="43" bodyfile="include/llm/llm_deployment_plugin.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_status_1a69e1dcd5728c6d7debae1b45bd983a2b" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::llm::ModelStatus::last_verified_at</definition>
+        <argsstring></argsstring>
+        <name>last_verified_at</name>
+        <qualifiedname>themis::llm::ModelStatus::last_verified_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_deployment_plugin.h" line="119" column="43" bodyfile="include/llm/llm_deployment_plugin.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_status_1aae9224672ecdadd091efca5cfb3eb27e" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json themis::llm::ModelStatus::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::llm::ModelStatus::metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_deployment_plugin.h" line="121" column="10" bodyfile="include/llm/llm_deployment_plugin.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_model_status_1a90b3df0880cf42330b351d7ece0f8e99" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::ModelStatus::~ModelStatus</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ModelStatus</name>
+        <qualifiedname>themis::llm::ModelStatus::~ModelStatus</qualifiedname>
+        <briefdescription>
+<para>Model Status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_deployment_plugin.h" line="104" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/llm_deployment_plugin.h" line="99" column="1" bodyfile="include/llm/llm_deployment_plugin.h" bodystart="99" bodyend="122"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_model_status_1a9768b17318ca89222895fa82cd9c8d81" prot="public" virt="non-virtual"><scope>themis::llm::ModelStatus</scope><name>checksum</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_status_1ae83add8a7489934a29c54026dd96a3f4" prot="public" virt="non-virtual"><scope>themis::llm::ModelStatus</scope><name>checksum_type</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_status_1af8cb69ce6d6efd61b858b86aac7cd956" prot="public" virt="non-virtual"><scope>themis::llm::ModelStatus</scope><name>downloaded_at</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_status_1a85ab0a2d7f3d2dfb3fb6afdad18e637b" prot="public" virt="non-virtual"><scope>themis::llm::ModelStatus</scope><name>format</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_status_1a343b48094a0c20fb7840b9a389f35899" prot="public" virt="non-virtual"><scope>themis::llm::ModelStatus</scope><name>is_cached</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_status_1aff236ac9e3a4b5baf2fe027fdc70d461" prot="public" virt="non-virtual"><scope>themis::llm::ModelStatus</scope><name>is_loaded</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_status_1a0d8c01c574ff82ef48132e9fb52fb8d3" prot="public" virt="non-virtual"><scope>themis::llm::ModelStatus</scope><name>last_used_at</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_status_1a69e1dcd5728c6d7debae1b45bd983a2b" prot="public" virt="non-virtual"><scope>themis::llm::ModelStatus</scope><name>last_verified_at</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_status_1aae9224672ecdadd091efca5cfb3eb27e" prot="public" virt="non-virtual"><scope>themis::llm::ModelStatus</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_status_1a14c083b222840fd54697d605637dcac3" prot="public" virt="non-virtual"><scope>themis::llm::ModelStatus</scope><name>model_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_status_1a04e78253581a674c351a4e3ffe898ff8" prot="public" virt="non-virtual"><scope>themis::llm::ModelStatus</scope><name>model_path</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_status_1a4b18ed77b18091d33b39884721e59c1a" prot="public" virt="non-virtual"><scope>themis::llm::ModelStatus</scope><name>size_bytes</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_status_1a7061ca2ead882738ccda82b36621250f" prot="public" virt="non-virtual"><scope>themis::llm::ModelStatus</scope><name>version</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_status_1a90b3df0880cf42330b351d7ece0f8e99" prot="public" virt="virtual"><scope>themis::llm::ModelStatus</scope><name>~ModelStatus</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

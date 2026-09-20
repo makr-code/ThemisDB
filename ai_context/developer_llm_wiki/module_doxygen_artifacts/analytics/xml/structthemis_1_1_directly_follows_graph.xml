@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_directly_follows_graph" kind="struct" language="C++" prot="public">
+    <compoundname>themis::DirectlyFollowsGraph</compoundname>
+    <includes refid="process__mining_8h" local="no">process_mining.h</includes>
+    <innerclass refid="structthemis_1_1_directly_follows_graph_1_1_edge" prot="public">themis::DirectlyFollowsGraph::Edge</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_directly_follows_graph_1a99f645eb34976881f839dc10f3d5e62b" prot="public" static="no" mutable="no">
+        <type>std::set&lt; std::string &gt;</type>
+        <definition>std::set&lt;std::string&gt; themis::DirectlyFollowsGraph::activities</definition>
+        <argsstring></argsstring>
+        <name>activities</name>
+        <qualifiedname>themis::DirectlyFollowsGraph::activities</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="91" column="14" bodyfile="include/analytics/process_mining.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_directly_follows_graph_1ac58c0948feffd69fd32d17d12b5b8db8" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_directly_follows_graph_1_1_edge" kindref="compound">Edge</ref> &gt;</type>
+        <definition>std::vector&lt;Edge&gt; themis::DirectlyFollowsGraph::edges</definition>
+        <argsstring></argsstring>
+        <name>edges</name>
+        <qualifiedname>themis::DirectlyFollowsGraph::edges</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="100" column="17" bodyfile="include/analytics/process_mining.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_directly_follows_graph_1a6a46afa1efc415f1d6c7e2b010091bee" prot="public" static="no" mutable="no">
+        <type>std::set&lt; std::string &gt;</type>
+        <definition>std::set&lt;std::string&gt; themis::DirectlyFollowsGraph::start_activities</definition>
+        <argsstring></argsstring>
+        <name>start_activities</name>
+        <qualifiedname>themis::DirectlyFollowsGraph::start_activities</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="103" column="14" bodyfile="include/analytics/process_mining.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_directly_follows_graph_1a7ac68051c1590179d1554e8af07ff082" prot="public" static="no" mutable="no">
+        <type>std::set&lt; std::string &gt;</type>
+        <definition>std::set&lt;std::string&gt; themis::DirectlyFollowsGraph::end_activities</definition>
+        <argsstring></argsstring>
+        <name>end_activities</name>
+        <qualifiedname>themis::DirectlyFollowsGraph::end_activities</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="104" column="14" bodyfile="include/analytics/process_mining.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_directly_follows_graph_1a17db742018dd4fa735d443d9735b4de3" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, int &gt;</type>
+        <definition>std::map&lt;std::string, int&gt; themis::DirectlyFollowsGraph::self_loops</definition>
+        <argsstring></argsstring>
+        <name>self_loops</name>
+        <qualifiedname>themis::DirectlyFollowsGraph::self_loops</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="107" column="14" bodyfile="include/analytics/process_mining.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/process_mining.h" line="90" column="1" bodyfile="include/analytics/process_mining.h" bodystart="90" bodyend="108"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_directly_follows_graph_1a99f645eb34976881f839dc10f3d5e62b" prot="public" virt="non-virtual"><scope>themis::DirectlyFollowsGraph</scope><name>activities</name></member>
+      <member refid="structthemis_1_1_directly_follows_graph_1ac58c0948feffd69fd32d17d12b5b8db8" prot="public" virt="non-virtual"><scope>themis::DirectlyFollowsGraph</scope><name>edges</name></member>
+      <member refid="structthemis_1_1_directly_follows_graph_1a7ac68051c1590179d1554e8af07ff082" prot="public" virt="non-virtual"><scope>themis::DirectlyFollowsGraph</scope><name>end_activities</name></member>
+      <member refid="structthemis_1_1_directly_follows_graph_1a17db742018dd4fa735d443d9735b4de3" prot="public" virt="non-virtual"><scope>themis::DirectlyFollowsGraph</scope><name>self_loops</name></member>
+      <member refid="structthemis_1_1_directly_follows_graph_1a6a46afa1efc415f1d6c7e2b010091bee" prot="public" virt="non-virtual"><scope>themis::DirectlyFollowsGraph</scope><name>start_activities</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

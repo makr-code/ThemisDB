@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stress_stub_facet_filter" kind="class" language="C++" prot="public">
+    <compoundname>StressStubFacetFilter</compoundname>
+    <innerclass refid="struct_stress_stub_facet_filter_1_1_filter_result" prot="public">StressStubFacetFilter::FilterResult</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stress_stub_facet_filter_1aab4e92e0bd84f0ac47e0293a2a9894e0" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StressStubFacetFilter::total_</definition>
+        <argsstring></argsstring>
+        <name>total_</name>
+        <qualifiedname>StressStubFacetFilter::total_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_highcardinality_stress.cpp" line="86" column="17" bodyfile="tests/search/test_search_highcardinality_stress.cpp" bodystart="86" bodyend="86"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stress_stub_facet_filter_1ad4c1ebc16036d245dee9dac76c6d4b3b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="struct_stress_stub_facet_filter_1_1_filter_result" kindref="compound">FilterResult</ref></type>
+        <definition>FilterResult StressStubFacetFilter::filter</definition>
+        <argsstring>(const std::string &amp;facet_key, const std::string &amp;facet_value, uint32_t candidate_count)</argsstring>
+        <name>filter</name>
+        <qualifiedname>StressStubFacetFilter::filter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>facet_key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>facet_value</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>candidate_count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_highcardinality_stress.cpp" line="76" column="18" bodyfile="tests/search/test_search_highcardinality_stress.cpp" bodystart="76" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stress_stub_facet_filter_1a8fff5b664888f0acab72ea5cd6aa17ea" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StressStubFacetFilter::total</definition>
+        <argsstring>() const</argsstring>
+        <name>total</name>
+        <qualifiedname>StressStubFacetFilter::total</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_highcardinality_stress.cpp" line="84" column="14" bodyfile="tests/search/test_search_highcardinality_stress.cpp" bodystart="84" bodyend="84"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/search/test_search_highcardinality_stress.cpp" line="73" column="1" bodyfile="tests/search/test_search_highcardinality_stress.cpp" bodystart="73" bodyend="87"/>
+    <listofallmembers>
+      <member refid="class_stress_stub_facet_filter_1ad4c1ebc16036d245dee9dac76c6d4b3b" prot="public" virt="non-virtual"><scope>StressStubFacetFilter</scope><name>filter</name></member>
+      <member refid="class_stress_stub_facet_filter_1a8fff5b664888f0acab72ea5cd6aa17ea" prot="public" virt="non-virtual"><scope>StressStubFacetFilter</scope><name>total</name></member>
+      <member refid="class_stress_stub_facet_filter_1aab4e92e0bd84f0ac47e0293a2a9894e0" prot="private" virt="non-virtual"><scope>StressStubFacetFilter</scope><name>total_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

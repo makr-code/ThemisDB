@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_join_query" kind="struct" language="C++" prot="public">
+    <compoundname>themis::AQLTranslator::TranslationResult::JoinQuery</compoundname>
+    <includes refid="aql__translator_8h" local="no">aql_translator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_join_query_1a6962b894f67b1bbb3a787308f2c52cfd" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_for_node" kindref="compound">query::ForNode</ref> &gt;</type>
+        <definition>std::vector&lt;query::ForNode&gt; themis::AQLTranslator::TranslationResult::JoinQuery::for_nodes</definition>
+        <argsstring></argsstring>
+        <name>for_nodes</name>
+        <qualifiedname>themis::AQLTranslator::TranslationResult::JoinQuery::for_nodes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="83" column="25" bodyfile="include/query/aql_translator.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_join_query_1a446decf6fb76029af969997d35f38286" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_filter_node" kindref="compound">query::FilterNode</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::shared_ptr&lt;query::FilterNode&gt; &gt; themis::AQLTranslator::TranslationResult::JoinQuery::filters</definition>
+        <argsstring></argsstring>
+        <name>filters</name>
+        <qualifiedname>themis::AQLTranslator::TranslationResult::JoinQuery::filters</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="84" column="25" bodyfile="include/query/aql_translator.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_join_query_1aef26921823cb92502ef9edf465869c27" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_let_node" kindref="compound">query::LetNode</ref> &gt;</type>
+        <definition>std::vector&lt;query::LetNode&gt; themis::AQLTranslator::TranslationResult::JoinQuery::let_nodes</definition>
+        <argsstring></argsstring>
+        <name>let_nodes</name>
+        <qualifiedname>themis::AQLTranslator::TranslationResult::JoinQuery::let_nodes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="85" column="25" bodyfile="include/query/aql_translator.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_join_query_1a4f2c8398ae76cd608bf4165d1ad3d301" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_return_node" kindref="compound">query::ReturnNode</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;query::ReturnNode&gt; themis::AQLTranslator::TranslationResult::JoinQuery::return_node</definition>
+        <argsstring></argsstring>
+        <name>return_node</name>
+        <qualifiedname>themis::AQLTranslator::TranslationResult::JoinQuery::return_node</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="86" column="29" bodyfile="include/query/aql_translator.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_join_query_1a7e87bb943f570229a2461346fcc5b1fb" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_sort_node" kindref="compound">query::SortNode</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;query::SortNode&gt; themis::AQLTranslator::TranslationResult::JoinQuery::sort</definition>
+        <argsstring></argsstring>
+        <name>sort</name>
+        <qualifiedname>themis::AQLTranslator::TranslationResult::JoinQuery::sort</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="87" column="29" bodyfile="include/query/aql_translator.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_join_query_1a2c540c3f1502a32cb1908f5bc8435979" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_limit_node" kindref="compound">query::LimitNode</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;query::LimitNode&gt; themis::AQLTranslator::TranslationResult::JoinQuery::limit</definition>
+        <argsstring></argsstring>
+        <name>limit</name>
+        <qualifiedname>themis::AQLTranslator::TranslationResult::JoinQuery::limit</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="88" column="29" bodyfile="include/query/aql_translator.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_join_query_1ab349fcdf0750f8927d858d6ae9ccb267" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_collect_node" kindref="compound">query::CollectNode</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;query::CollectNode&gt; themis::AQLTranslator::TranslationResult::JoinQuery::collect</definition>
+        <argsstring></argsstring>
+        <name>collect</name>
+        <qualifiedname>themis::AQLTranslator::TranslationResult::JoinQuery::collect</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="89" column="29" bodyfile="include/query/aql_translator.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/aql_translator.h" line="82" column="9" bodyfile="include/query/aql_translator.h" bodystart="82" bodyend="90"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_join_query_1ab349fcdf0750f8927d858d6ae9ccb267" prot="public" virt="non-virtual"><scope>themis::AQLTranslator::TranslationResult::JoinQuery</scope><name>collect</name></member>
+      <member refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_join_query_1a446decf6fb76029af969997d35f38286" prot="public" virt="non-virtual"><scope>themis::AQLTranslator::TranslationResult::JoinQuery</scope><name>filters</name></member>
+      <member refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_join_query_1a6962b894f67b1bbb3a787308f2c52cfd" prot="public" virt="non-virtual"><scope>themis::AQLTranslator::TranslationResult::JoinQuery</scope><name>for_nodes</name></member>
+      <member refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_join_query_1aef26921823cb92502ef9edf465869c27" prot="public" virt="non-virtual"><scope>themis::AQLTranslator::TranslationResult::JoinQuery</scope><name>let_nodes</name></member>
+      <member refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_join_query_1a2c540c3f1502a32cb1908f5bc8435979" prot="public" virt="non-virtual"><scope>themis::AQLTranslator::TranslationResult::JoinQuery</scope><name>limit</name></member>
+      <member refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_join_query_1a4f2c8398ae76cd608bf4165d1ad3d301" prot="public" virt="non-virtual"><scope>themis::AQLTranslator::TranslationResult::JoinQuery</scope><name>return_node</name></member>
+      <member refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_join_query_1a7e87bb943f570229a2461346fcc5b1fb" prot="public" virt="non-virtual"><scope>themis::AQLTranslator::TranslationResult::JoinQuery</scope><name>sort</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

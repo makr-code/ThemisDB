@@ -1,0 +1,234 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_process_stress_scenarios" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::ProcessStressScenarios</compoundname>
+    <includes refid="process__stress__scenarios_8h" local="no">process_stress_scenarios.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1process_1_1_process_stress_scenarios_1a59e8b264f6bece1cf67aafea12256035" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1process_1_1_deep_nesting_stress" kindref="compound">DeepNestingStress</ref> &amp;</type>
+        <definition>static const DeepNestingStress &amp; themis::process::ProcessStressScenarios::deepNesting</definition>
+        <argsstring>()</argsstring>
+        <name>deepNesting</name>
+        <qualifiedname>themis::process::ProcessStressScenarios::deepNesting</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="446" column="36"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_process_stress_scenarios_1ae5674c0d6f81a0286dd30df3292ae945" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1process_1_1_large_element_count_stress" kindref="compound">LargeElementCountStress</ref> &amp;</type>
+        <definition>static const LargeElementCountStress &amp; themis::process::ProcessStressScenarios::largeElementCount</definition>
+        <argsstring>()</argsstring>
+        <name>largeElementCount</name>
+        <qualifiedname>themis::process::ProcessStressScenarios::largeElementCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="447" column="42"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_process_stress_scenarios_1a23cc260374ebe5ee0f8eac0c890609e1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1process_1_1_malformed_xml_recovery_stress" kindref="compound">MalformedXmlRecoveryStress</ref> &amp;</type>
+        <definition>static const MalformedXmlRecoveryStress &amp; themis::process::ProcessStressScenarios::malformedXmlRecovery</definition>
+        <argsstring>()</argsstring>
+        <name>malformedXmlRecovery</name>
+        <qualifiedname>themis::process::ProcessStressScenarios::malformedXmlRecovery</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="448" column="45"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_process_stress_scenarios_1aef9e256323f9df7f745536cbcbbfc74d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1process_1_1_unsupported_gateway_stress" kindref="compound">UnsupportedGatewayStress</ref> &amp;</type>
+        <definition>static const UnsupportedGatewayStress &amp; themis::process::ProcessStressScenarios::unsupportedGateway</definition>
+        <argsstring>()</argsstring>
+        <name>unsupportedGateway</name>
+        <qualifiedname>themis::process::ProcessStressScenarios::unsupportedGateway</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="449" column="43"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_process_stress_scenarios_1a1cc6ca503d51440fff8d976808458262" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1process_1_1_orphaned_link_resolution_stress" kindref="compound">OrphanedLinkResolutionStress</ref> &amp;</type>
+        <definition>static const OrphanedLinkResolutionStress &amp; themis::process::ProcessStressScenarios::orphanedLinkResolution</definition>
+        <argsstring>()</argsstring>
+        <name>orphanedLinkResolution</name>
+        <qualifiedname>themis::process::ProcessStressScenarios::orphanedLinkResolution</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="452" column="47"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_process_stress_scenarios_1a7ac3fd710fa2aa913a58c374533f5259" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1process_1_1_circular_reference_detection_stress" kindref="compound">CircularReferenceDetectionStress</ref> &amp;</type>
+        <definition>static const CircularReferenceDetectionStress &amp; themis::process::ProcessStressScenarios::circularReferenceDetection</definition>
+        <argsstring>()</argsstring>
+        <name>circularReferenceDetection</name>
+        <qualifiedname>themis::process::ProcessStressScenarios::circularReferenceDetection</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="453" column="51"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_process_stress_scenarios_1a2373bac8abe8cae05c8dd3023815daf3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1process_1_1_bulk_link_creation_stress" kindref="compound">BulkLinkCreationStress</ref> &amp;</type>
+        <definition>static const BulkLinkCreationStress &amp; themis::process::ProcessStressScenarios::bulkLinkCreation</definition>
+        <argsstring>()</argsstring>
+        <name>bulkLinkCreation</name>
+        <qualifiedname>themis::process::ProcessStressScenarios::bulkLinkCreation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="454" column="41"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_process_stress_scenarios_1a5636db61047114b655b7cce55ec51c52" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1process_1_1_link_attribute_mutation_stress" kindref="compound">LinkAttributeMutationStress</ref> &amp;</type>
+        <definition>static const LinkAttributeMutationStress &amp; themis::process::ProcessStressScenarios::linkAttributeMutation</definition>
+        <argsstring>()</argsstring>
+        <name>linkAttributeMutation</name>
+        <qualifiedname>themis::process::ProcessStressScenarios::linkAttributeMutation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="455" column="46"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_process_stress_scenarios_1a653cf552ce0f0d5b8b700f0bc6d6bb48" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1process_1_1_empty_graph_query_stress" kindref="compound">EmptyGraphQueryStress</ref> &amp;</type>
+        <definition>static const EmptyGraphQueryStress &amp; themis::process::ProcessStressScenarios::emptyGraphQuery</definition>
+        <argsstring>()</argsstring>
+        <name>emptyGraphQuery</name>
+        <qualifiedname>themis::process::ProcessStressScenarios::emptyGraphQuery</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="458" column="40"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_process_stress_scenarios_1a5e1e7fc8f6d225d28b90864e13be1d27" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1process_1_1_large_context_size_stress" kindref="compound">LargeContextSizeStress</ref> &amp;</type>
+        <definition>static const LargeContextSizeStress &amp; themis::process::ProcessStressScenarios::largeContextSize</definition>
+        <argsstring>()</argsstring>
+        <name>largeContextSize</name>
+        <qualifiedname>themis::process::ProcessStressScenarios::largeContextSize</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="459" column="41"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_process_stress_scenarios_1ab997f26efe20d754d58c604dbaaabc27" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1process_1_1_community_detection_timeout_stress" kindref="compound">CommunityDetectionTimeoutStress</ref> &amp;</type>
+        <definition>static const CommunityDetectionTimeoutStress &amp; themis::process::ProcessStressScenarios::communityDetectionTimeout</definition>
+        <argsstring>()</argsstring>
+        <name>communityDetectionTimeout</name>
+        <qualifiedname>themis::process::ProcessStressScenarios::communityDetectionTimeout</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="460" column="50"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_process_stress_scenarios_1aac70db7f23db4dd5311ed489f1add20e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1process_1_1_concurrent_query_churn_stress" kindref="compound">ConcurrentQueryChurnStress</ref> &amp;</type>
+        <definition>static const ConcurrentQueryChurnStress &amp; themis::process::ProcessStressScenarios::concurrentQueryChurn</definition>
+        <argsstring>()</argsstring>
+        <name>concurrentQueryChurn</name>
+        <qualifiedname>themis::process::ProcessStressScenarios::concurrentQueryChurn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="461" column="45"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_process_stress_scenarios_1a92fbd8884dbc47f120211765d5478ddb" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int32_t</type>
+        <definition>static int32_t themis::process::ProcessStressScenarios::totalScenarioCount</definition>
+        <argsstring>()</argsstring>
+        <name>totalScenarioCount</name>
+        <qualifiedname>themis::process::ProcessStressScenarios::totalScenarioCount</qualifiedname>
+        <briefdescription>
+<para>Count of all defined scenarios. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="464" column="20" bodyfile="include/process/process_stress_scenarios.h" bodystart="464" bodyend="464"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_process_stress_scenarios_1aee0f3ca50e2ca70a41f884fc2823141d" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>static std::string_view themis::process::ProcessStressScenarios::getScenarioName</definition>
+        <argsstring>(int32_t index)</argsstring>
+        <name>getScenarioName</name>
+        <qualifiedname>themis::process::ProcessStressScenarios::getScenarioName</qualifiedname>
+        <param>
+          <type>int32_t</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+<para>Get scenario by index (0-based). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="467" column="30"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Container for all stress scenarios. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides centralized access to all defined scenarios for test automation. </para>
+    </detaileddescription>
+    <location file="include/process/process_stress_scenarios.h" line="444" column="1" bodyfile="include/process/process_stress_scenarios.h" bodystart="444" bodyend="468"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_process_stress_scenarios_1a2373bac8abe8cae05c8dd3023815daf3" prot="public" virt="non-virtual"><scope>themis::process::ProcessStressScenarios</scope><name>bulkLinkCreation</name></member>
+      <member refid="structthemis_1_1process_1_1_process_stress_scenarios_1a7ac3fd710fa2aa913a58c374533f5259" prot="public" virt="non-virtual"><scope>themis::process::ProcessStressScenarios</scope><name>circularReferenceDetection</name></member>
+      <member refid="structthemis_1_1process_1_1_process_stress_scenarios_1ab997f26efe20d754d58c604dbaaabc27" prot="public" virt="non-virtual"><scope>themis::process::ProcessStressScenarios</scope><name>communityDetectionTimeout</name></member>
+      <member refid="structthemis_1_1process_1_1_process_stress_scenarios_1aac70db7f23db4dd5311ed489f1add20e" prot="public" virt="non-virtual"><scope>themis::process::ProcessStressScenarios</scope><name>concurrentQueryChurn</name></member>
+      <member refid="structthemis_1_1process_1_1_process_stress_scenarios_1a59e8b264f6bece1cf67aafea12256035" prot="public" virt="non-virtual"><scope>themis::process::ProcessStressScenarios</scope><name>deepNesting</name></member>
+      <member refid="structthemis_1_1process_1_1_process_stress_scenarios_1a653cf552ce0f0d5b8b700f0bc6d6bb48" prot="public" virt="non-virtual"><scope>themis::process::ProcessStressScenarios</scope><name>emptyGraphQuery</name></member>
+      <member refid="structthemis_1_1process_1_1_process_stress_scenarios_1aee0f3ca50e2ca70a41f884fc2823141d" prot="public" virt="non-virtual"><scope>themis::process::ProcessStressScenarios</scope><name>getScenarioName</name></member>
+      <member refid="structthemis_1_1process_1_1_process_stress_scenarios_1a5e1e7fc8f6d225d28b90864e13be1d27" prot="public" virt="non-virtual"><scope>themis::process::ProcessStressScenarios</scope><name>largeContextSize</name></member>
+      <member refid="structthemis_1_1process_1_1_process_stress_scenarios_1ae5674c0d6f81a0286dd30df3292ae945" prot="public" virt="non-virtual"><scope>themis::process::ProcessStressScenarios</scope><name>largeElementCount</name></member>
+      <member refid="structthemis_1_1process_1_1_process_stress_scenarios_1a5636db61047114b655b7cce55ec51c52" prot="public" virt="non-virtual"><scope>themis::process::ProcessStressScenarios</scope><name>linkAttributeMutation</name></member>
+      <member refid="structthemis_1_1process_1_1_process_stress_scenarios_1a23cc260374ebe5ee0f8eac0c890609e1" prot="public" virt="non-virtual"><scope>themis::process::ProcessStressScenarios</scope><name>malformedXmlRecovery</name></member>
+      <member refid="structthemis_1_1process_1_1_process_stress_scenarios_1a1cc6ca503d51440fff8d976808458262" prot="public" virt="non-virtual"><scope>themis::process::ProcessStressScenarios</scope><name>orphanedLinkResolution</name></member>
+      <member refid="structthemis_1_1process_1_1_process_stress_scenarios_1a92fbd8884dbc47f120211765d5478ddb" prot="public" virt="non-virtual"><scope>themis::process::ProcessStressScenarios</scope><name>totalScenarioCount</name></member>
+      <member refid="structthemis_1_1process_1_1_process_stress_scenarios_1aef9e256323f9df7f745536cbcbbfc74d" prot="public" virt="non-virtual"><scope>themis::process::ProcessStressScenarios</scope><name>unsupportedGateway</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

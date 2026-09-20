@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_l_l_m_r_a_i_i_tests" kind="class" language="C++" prot="public">
+    <compoundname>LLMRAIITests</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_l_l_m_r_a_i_i_tests_1a0cf24884e404627bf2db73a34801eaa6" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LLMRAIITests::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>LLMRAIITests::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_phase1_hardening.cpp" line="225" column="10" bodyfile="tests/llm/test_llm_phase1_hardening.cpp" bodystart="225" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="class_l_l_m_r_a_i_i_tests_1a3bda771e6ab141c8ce7b2590e2d7f6a6" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LLMRAIITests::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>LLMRAIITests::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_phase1_hardening.cpp" line="229" column="10" bodyfile="tests/llm/test_llm_phase1_hardening.cpp" bodystart="229" bodyend="231"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>LLMRAIITests</label>
+        <link refid="class_l_l_m_r_a_i_i_tests"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>LLMRAIITests</label>
+        <link refid="class_l_l_m_r_a_i_i_tests"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_llm_phase1_hardening.cpp" line="223" column="1" bodyfile="tests/llm/test_llm_phase1_hardening.cpp" bodystart="223" bodyend="232"/>
+    <listofallmembers>
+      <member refid="class_l_l_m_r_a_i_i_tests_1a0cf24884e404627bf2db73a34801eaa6" prot="protected" virt="non-virtual"><scope>LLMRAIITests</scope><name>SetUp</name></member>
+      <member refid="class_l_l_m_r_a_i_i_tests_1a3bda771e6ab141c8ce7b2590e2d7f6a6" prot="protected" virt="non-virtual"><scope>LLMRAIITests</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

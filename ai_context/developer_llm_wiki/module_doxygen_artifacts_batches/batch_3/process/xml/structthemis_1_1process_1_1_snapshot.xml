@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_snapshot" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::Snapshot</compoundname>
+    <includes refid="federation__replica__manager_8h" local="no">federation_replica_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_snapshot_1a193e6f07bf8c64d79927707dfa483be7" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::Snapshot::snapshot_index</definition>
+        <argsstring></argsstring>
+        <name>snapshot_index</name>
+        <qualifiedname>themis::process::Snapshot::snapshot_index</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federation_replica_manager.h" line="45" column="12" bodyfile="include/process/federation_replica_manager.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_snapshot_1ab538f4d624351d50ad120a0192876346" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::Snapshot::snapshot_term</definition>
+        <argsstring></argsstring>
+        <name>snapshot_term</name>
+        <qualifiedname>themis::process::Snapshot::snapshot_term</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federation_replica_manager.h" line="46" column="12" bodyfile="include/process/federation_replica_manager.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_snapshot_1a4aff24e0d40765989076beca5a862da2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::Snapshot::state_blob</definition>
+        <argsstring></argsstring>
+        <name>state_blob</name>
+        <qualifiedname>themis::process::Snapshot::state_blob</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federation_replica_manager.h" line="47" column="15" bodyfile="include/process/federation_replica_manager.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_snapshot_1a77b783ade5a59765b7f9fbcf116e0273" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::process::Snapshot::checksum</definition>
+        <argsstring></argsstring>
+        <name>checksum</name>
+        <qualifiedname>themis::process::Snapshot::checksum</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federation_replica_manager.h" line="48" column="12" bodyfile="include/process/federation_replica_manager.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_snapshot_1ab82da9635e6755cf4df3171b1d249281" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::Snapshot::created_at_ms</definition>
+        <argsstring></argsstring>
+        <name>created_at_ms</name>
+        <qualifiedname>themis::process::Snapshot::created_at_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federation_replica_manager.h" line="49" column="12" bodyfile="include/process/federation_replica_manager.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_snapshot_1adf711cdb442bc89b3e7b87a9b8dd9bdb" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::Snapshot::duration_ms</definition>
+        <argsstring></argsstring>
+        <name>duration_ms</name>
+        <qualifiedname>themis::process::Snapshot::duration_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federation_replica_manager.h" line="50" column="12" bodyfile="include/process/federation_replica_manager.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="structthemis_1_1process_1_1_snapshot" kindref="compound">Snapshot</ref> representation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/process/federation_replica_manager.h" line="44" column="1" bodyfile="include/process/federation_replica_manager.h" bodystart="44" bodyend="51"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_snapshot_1a77b783ade5a59765b7f9fbcf116e0273" prot="public" virt="non-virtual"><scope>themis::process::Snapshot</scope><name>checksum</name></member>
+      <member refid="structthemis_1_1process_1_1_snapshot_1ab82da9635e6755cf4df3171b1d249281" prot="public" virt="non-virtual"><scope>themis::process::Snapshot</scope><name>created_at_ms</name></member>
+      <member refid="structthemis_1_1process_1_1_snapshot_1adf711cdb442bc89b3e7b87a9b8dd9bdb" prot="public" virt="non-virtual"><scope>themis::process::Snapshot</scope><name>duration_ms</name></member>
+      <member refid="structthemis_1_1process_1_1_snapshot_1a193e6f07bf8c64d79927707dfa483be7" prot="public" virt="non-virtual"><scope>themis::process::Snapshot</scope><name>snapshot_index</name></member>
+      <member refid="structthemis_1_1process_1_1_snapshot_1ab538f4d624351d50ad120a0192876346" prot="public" virt="non-virtual"><scope>themis::process::Snapshot</scope><name>snapshot_term</name></member>
+      <member refid="structthemis_1_1process_1_1_snapshot_1a4aff24e0d40765989076beca5a862da2" prot="public" virt="non-virtual"><scope>themis::process::Snapshot</scope><name>state_blob</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

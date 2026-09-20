@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_pattern_match" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::PatternMatch</compoundname>
+    <includes refid="cep__engine_8h" local="no">cep_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_pattern_match_1a42480a85e80a1e6f4ffff3b14fc14ecb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::PatternMatch::pattern_id</definition>
+        <argsstring></argsstring>
+        <name>pattern_id</name>
+        <qualifiedname>themisdb::analytics::PatternMatch::pattern_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="262" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="262" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_pattern_match_1ac2f4d5d09887afb44161468f9b2af35a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::PatternMatch::rule_id</definition>
+        <argsstring></argsstring>
+        <name>rule_id</name>
+        <qualifiedname>themisdb::analytics::PatternMatch::rule_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="263" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="263" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_pattern_match_1a270c52e57e1df320c83428077c491657" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themisdb::analytics::PatternMatch::match_time</definition>
+        <argsstring></argsstring>
+        <name>match_time</name>
+        <qualifiedname>themisdb::analytics::PatternMatch::match_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="264" column="43" bodyfile="include/analytics/cep_engine.h" bodystart="264" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_pattern_match_1aacdabda96770daf399e75699ec6766a0" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_event" kindref="compound">Event</ref> &gt;</type>
+        <definition>std::vector&lt;Event&gt; themisdb::analytics::PatternMatch::matched_events</definition>
+        <argsstring></argsstring>
+        <name>matched_events</name>
+        <qualifiedname>themisdb::analytics::PatternMatch::matched_events</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="265" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="265" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_pattern_match_1a2673f13c57021ec831da5771c91d9f59" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="namespacethemisdb_1_1analytics_1a67926481b5ed676de498c44c9531342b" kindref="member">CepFieldValue</ref> &gt;</type>
+        <definition>std::map&lt;std::string, CepFieldValue&gt; themisdb::analytics::PatternMatch::bindings</definition>
+        <argsstring></argsstring>
+        <name>bindings</name>
+        <qualifiedname>themisdb::analytics::PatternMatch::bindings</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="266" column="14" bodyfile="include/analytics/cep_engine.h" bodystart="266" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_pattern_match_1a14984c3e06c5499341340ffeb6f1f8b7" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::analytics::PatternMatch::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themisdb::analytics::PatternMatch::confidence</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="267" column="12" bodyfile="include/analytics/cep_engine.h" bodystart="267" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/cep_engine.h" line="261" column="1" bodyfile="include/analytics/cep_engine.h" bodystart="261" bodyend="268"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_pattern_match_1a2673f13c57021ec831da5771c91d9f59" prot="public" virt="non-virtual"><scope>themisdb::analytics::PatternMatch</scope><name>bindings</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_pattern_match_1a14984c3e06c5499341340ffeb6f1f8b7" prot="public" virt="non-virtual"><scope>themisdb::analytics::PatternMatch</scope><name>confidence</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_pattern_match_1a270c52e57e1df320c83428077c491657" prot="public" virt="non-virtual"><scope>themisdb::analytics::PatternMatch</scope><name>match_time</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_pattern_match_1aacdabda96770daf399e75699ec6766a0" prot="public" virt="non-virtual"><scope>themisdb::analytics::PatternMatch</scope><name>matched_events</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_pattern_match_1a42480a85e80a1e6f4ffff3b14fc14ecb" prot="public" virt="non-virtual"><scope>themisdb::analytics::PatternMatch</scope><name>pattern_id</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_pattern_match_1ac2f4d5d09887afb44161468f9b2af35a" prot="public" virt="non-virtual"><scope>themisdb::analytics::PatternMatch</scope><name>rule_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

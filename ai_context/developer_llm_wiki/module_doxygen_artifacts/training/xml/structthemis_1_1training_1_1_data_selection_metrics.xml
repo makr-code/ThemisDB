@@ -1,0 +1,168 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_data_selection_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::DataSelectionMetrics</compoundname>
+    <includes refid="lora__data__selection_8h" local="no">lora_data_selection.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_data_selection_metrics_1a1df7543c5744df041ae38136b45ff3d5" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::DataSelectionMetrics::avg_quality_score</definition>
+        <argsstring></argsstring>
+        <name>avg_quality_score</name>
+        <qualifiedname>themis::training::DataSelectionMetrics::avg_quality_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="220" column="12" bodyfile="include/training/lora_data_selection.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_data_selection_metrics_1adab72724da64af71b9a3aa68837cf7a2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::DataSelectionMetrics::avg_difficulty_score</definition>
+        <argsstring></argsstring>
+        <name>avg_difficulty_score</name>
+        <qualifiedname>themis::training::DataSelectionMetrics::avg_difficulty_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="221" column="12" bodyfile="include/training/lora_data_selection.h" bodystart="221" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_data_selection_metrics_1a4fcd7d5f5f110fad6ea045b9340e647e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::DataSelectionMetrics::diversity_score</definition>
+        <argsstring></argsstring>
+        <name>diversity_score</name>
+        <qualifiedname>themis::training::DataSelectionMetrics::diversity_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Average type-token ratio (TTR) of the selected sample set. Range [0, 1]: higher values indicate greater vocabulary diversity. Computed by <computeroutput><ref refid="classthemis_1_1training_1_1_data_selection_pipeline_1a1b1994c1070c060d5ba9fd646c2254ed" kindref="member">DataSelectionPipeline::computeMetrics()</ref></computeroutput> using normalised (lowercased, punctuation-stripped) tokens. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="226" column="12" bodyfile="include/training/lora_data_selection.h" bodystart="226" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_data_selection_metrics_1a6f9dcb9929829d1da4da7da7b4ee21b8" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::DataSelectionMetrics::filter_rejection_rate</definition>
+        <argsstring></argsstring>
+        <name>filter_rejection_rate</name>
+        <qualifiedname>themis::training::DataSelectionMetrics::filter_rejection_rate</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Fraction of candidates rejected by Stage 1. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="227" column="12" bodyfile="include/training/lora_data_selection.h" bodystart="227" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_data_selection_metrics_1adbff3eebf41bc583afecbcc06e198b32" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::DataSelectionMetrics::dedup_removal_rate</definition>
+        <argsstring></argsstring>
+        <name>dedup_removal_rate</name>
+        <qualifiedname>themis::training::DataSelectionMetrics::dedup_removal_rate</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Fraction removed by Stage 2. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="228" column="12" bodyfile="include/training/lora_data_selection.h" bodystart="228" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_data_selection_metrics_1ac3b0788470720f7284234a04ed86165b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::DataSelectionMetrics::training_accuracy</definition>
+        <argsstring></argsstring>
+        <name>training_accuracy</name>
+        <qualifiedname>themis::training::DataSelectionMetrics::training_accuracy</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Last known training accuracy. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="229" column="12" bodyfile="include/training/lora_data_selection.h" bodystart="229" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_data_selection_metrics_1a9d71ba6fef912965c507adaea4affefd" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::DataSelectionMetrics::inference_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>inference_latency_ms</name>
+        <qualifiedname>themis::training::DataSelectionMetrics::inference_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Last observed inference latency. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="230" column="12" bodyfile="include/training/lora_data_selection.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_data_selection_metrics_1a5818961b6fe015cad2462771d7b672c9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::DataSelectionMetrics::duplicate_ratio</definition>
+        <argsstring></argsstring>
+        <name>duplicate_ratio</name>
+        <qualifiedname>themis::training::DataSelectionMetrics::duplicate_ratio</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Fraction of near-duplicates detected. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="231" column="12" bodyfile="include/training/lora_data_selection.h" bodystart="231" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1training_1_1_data_selection_metrics_1a28bb8d1f9f405d1ce4102b1e1a7a4021" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::DataSelectionMetrics::DataSelectionMetrics</definition>
+        <argsstring>()=default</argsstring>
+        <name>DataSelectionMetrics</name>
+        <qualifiedname>themis::training::DataSelectionMetrics::DataSelectionMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="233" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Runtime monitoring metrics used by the self-improvement module to decide whether adaptive thresholds should be adjusted. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/training/lora_data_selection.h" line="219" column="1" bodyfile="include/training/lora_data_selection.h" bodystart="219" bodyend="234"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_data_selection_metrics_1adab72724da64af71b9a3aa68837cf7a2" prot="public" virt="non-virtual"><scope>themis::training::DataSelectionMetrics</scope><name>avg_difficulty_score</name></member>
+      <member refid="structthemis_1_1training_1_1_data_selection_metrics_1a1df7543c5744df041ae38136b45ff3d5" prot="public" virt="non-virtual"><scope>themis::training::DataSelectionMetrics</scope><name>avg_quality_score</name></member>
+      <member refid="structthemis_1_1training_1_1_data_selection_metrics_1a28bb8d1f9f405d1ce4102b1e1a7a4021" prot="public" virt="non-virtual"><scope>themis::training::DataSelectionMetrics</scope><name>DataSelectionMetrics</name></member>
+      <member refid="structthemis_1_1training_1_1_data_selection_metrics_1adbff3eebf41bc583afecbcc06e198b32" prot="public" virt="non-virtual"><scope>themis::training::DataSelectionMetrics</scope><name>dedup_removal_rate</name></member>
+      <member refid="structthemis_1_1training_1_1_data_selection_metrics_1a4fcd7d5f5f110fad6ea045b9340e647e" prot="public" virt="non-virtual"><scope>themis::training::DataSelectionMetrics</scope><name>diversity_score</name></member>
+      <member refid="structthemis_1_1training_1_1_data_selection_metrics_1a5818961b6fe015cad2462771d7b672c9" prot="public" virt="non-virtual"><scope>themis::training::DataSelectionMetrics</scope><name>duplicate_ratio</name></member>
+      <member refid="structthemis_1_1training_1_1_data_selection_metrics_1a6f9dcb9929829d1da4da7da7b4ee21b8" prot="public" virt="non-virtual"><scope>themis::training::DataSelectionMetrics</scope><name>filter_rejection_rate</name></member>
+      <member refid="structthemis_1_1training_1_1_data_selection_metrics_1a9d71ba6fef912965c507adaea4affefd" prot="public" virt="non-virtual"><scope>themis::training::DataSelectionMetrics</scope><name>inference_latency_ms</name></member>
+      <member refid="structthemis_1_1training_1_1_data_selection_metrics_1ac3b0788470720f7284234a04ed86165b" prot="public" virt="non-virtual"><scope>themis::training::DataSelectionMetrics</scope><name>training_accuracy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

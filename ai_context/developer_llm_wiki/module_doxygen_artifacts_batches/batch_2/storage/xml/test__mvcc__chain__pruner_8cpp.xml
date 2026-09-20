@@ -1,0 +1,650 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__mvcc__chain__pruner_8cpp" kind="file" language="C++">
+    <compoundname>test_mvcc_chain_pruner.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes refid="hlc_8h" local="yes">storage/hlc.h</includes>
+    <includes refid="mvcc__chain__pruner_8h" local="yes">storage/mvcc_chain_pruner.h</includes>
+    <includes refid="mvcc__store_8h" local="yes">storage/mvcc_store.h</includes>
+    <includes refid="rocksdb__wrapper_8h" local="yes">storage/rocksdb_wrapper.h</includes>
+    <includes local="yes">temporal/temporal_tier_manager.h</includes>
+    <includes local="yes">temporal/temporal_types.h</includes>
+    <incdepgraph>
+      <node id="6">
+        <label>storage/hlc.h</label>
+        <link refid="hlc_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>storage/mvcc_chain_pruner.h</label>
+        <link refid="mvcc__chain__pruner_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>storage/mvcc_store.h</label>
+        <link refid="mvcc__store_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>storage/nvme_manager.h</label>
+        <link refid="nvme__manager_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>storage/rocksdb_wrapper.h</label>
+        <link refid="rocksdb__wrapper_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/storage/test_mvcc_chain_pruner.cpp</label>
+        <link refid="test__mvcc__chain__pruner_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>atomic</label>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="18">
+        <label>condition_variable</label>
+      </node>
+      <node id="21">
+        <label>cstddef</label>
+      </node>
+      <node id="8">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>filesystem</label>
+      </node>
+      <node id="16">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="13">
+        <label>memory</label>
+      </node>
+      <node id="17">
+        <label>mutex</label>
+      </node>
+      <node id="15">
+        <label>optional</label>
+      </node>
+      <node id="22">
+        <label>shared_mutex</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="14">
+        <label>string_view</label>
+      </node>
+      <node id="24">
+        <label>temporal/temporal_tier_manager.h</label>
+      </node>
+      <node id="25">
+        <label>temporal/temporal_types.h</label>
+      </node>
+      <node id="23">
+        <label>unordered_map</label>
+      </node>
+      <node id="19">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_m_v_c_c_chain_pruner_test" prot="public">MVCCChainPrunerTest</innerclass>
+    <innernamespace refid="namespacethemisdb_1_1temporal">themisdb::temporal</innernamespace>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__mvcc__chain__pruner_8cpp_1a6fbcc850a21ab229cb550afda766d62c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MVCCChainPrunerTest, PruneKeyMigratesVersionsBelowHorizon)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_m_v_c_c_chain_pruner_test" kindref="compound">MVCCChainPrunerTest</ref></type>
+        </param>
+        <param>
+          <type>PruneKeyMigratesVersionsBelowHorizon</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_mvcc_chain_pruner.cpp" line="113" column="1" bodyfile="tests/storage/test_mvcc_chain_pruner.cpp" bodystart="113" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mvcc__chain__pruner_8cpp_1a38fc1d9730fe87c6b0bf9fb4cbe18e09" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MVCCChainPrunerTest, PruneKeyRespectsMinVersionsToKeep)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_m_v_c_c_chain_pruner_test" kindref="compound">MVCCChainPrunerTest</ref></type>
+        </param>
+        <param>
+          <type>PruneKeyRespectsMinVersionsToKeep</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_mvcc_chain_pruner.cpp" line="141" column="1" bodyfile="tests/storage/test_mvcc_chain_pruner.cpp" bodystart="141" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mvcc__chain__pruner_8cpp_1a7133fe655c41d4aa865c994586815200" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MVCCChainPrunerTest, PruneKeyNoOpWhenHorizonBeforeAllVersions)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_m_v_c_c_chain_pruner_test" kindref="compound">MVCCChainPrunerTest</ref></type>
+        </param>
+        <param>
+          <type>PruneKeyNoOpWhenHorizonBeforeAllVersions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_mvcc_chain_pruner.cpp" line="162" column="1" bodyfile="tests/storage/test_mvcc_chain_pruner.cpp" bodystart="162" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mvcc__chain__pruner_8cpp_1a52c9b522ce27a6a63c26502743c2c3c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MVCCChainPrunerTest, PruneKeySetsSysTimeCorrectly)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_m_v_c_c_chain_pruner_test" kindref="compound">MVCCChainPrunerTest</ref></type>
+        </param>
+        <param>
+          <type>PruneKeySetsSysTimeCorrectly</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_mvcc_chain_pruner.cpp" line="180" column="1" bodyfile="tests/storage/test_mvcc_chain_pruner.cpp" bodystart="180" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mvcc__chain__pruner_8cpp_1ade47cd0158c1fb5080d5af1e6471e5df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MVCCChainPrunerTest, PruneKeyHandlesBinaryValues)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_m_v_c_c_chain_pruner_test" kindref="compound">MVCCChainPrunerTest</ref></type>
+        </param>
+        <param>
+          <type>PruneKeyHandlesBinaryValues</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_mvcc_chain_pruner.cpp" line="213" column="1" bodyfile="tests/storage/test_mvcc_chain_pruner.cpp" bodystart="213" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mvcc__chain__pruner_8cpp_1ad2fd635ed20616b3ede21d9945835280" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MVCCChainPrunerTest, PruneAllMigratesMultipleKeys)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_m_v_c_c_chain_pruner_test" kindref="compound">MVCCChainPrunerTest</ref></type>
+        </param>
+        <param>
+          <type>PruneAllMigratesMultipleKeys</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_mvcc_chain_pruner.cpp" line="238" column="1" bodyfile="tests/storage/test_mvcc_chain_pruner.cpp" bodystart="238" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mvcc__chain__pruner_8cpp_1a343dda42cbfd087e1ca6a7950eca90bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MVCCChainPrunerTest, SetSafeHorizonIsMonotoneAndPruneAllSafeUsesIt)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_m_v_c_c_chain_pruner_test" kindref="compound">MVCCChainPrunerTest</ref></type>
+        </param>
+        <param>
+          <type>SetSafeHorizonIsMonotoneAndPruneAllSafeUsesIt</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_mvcc_chain_pruner.cpp" line="266" column="1" bodyfile="tests/storage/test_mvcc_chain_pruner.cpp" bodystart="266" bodyend="285"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mvcc__chain__pruner_8cpp_1adde94b55048e81d20dcb139b70c40dfe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MVCCChainPrunerTest, PruneAllSafeIsNoOpWithZeroHorizon)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_m_v_c_c_chain_pruner_test" kindref="compound">MVCCChainPrunerTest</ref></type>
+        </param>
+        <param>
+          <type>PruneAllSafeIsNoOpWithZeroHorizon</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_mvcc_chain_pruner.cpp" line="290" column="1" bodyfile="tests/storage/test_mvcc_chain_pruner.cpp" bodystart="290" bodyend="299"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="hlc_8h" kindref="compound">storage/hlc.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="mvcc__chain__pruner_8h" kindref="compound">storage/mvcc_chain_pruner.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="mvcc__store_8h" kindref="compound">storage/mvcc_store.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="rocksdb__wrapper_8h" kindref="compound">storage/rocksdb_wrapper.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;temporal/temporal_tier_manager.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;temporal/temporal_types.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themisdb::temporal;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>fixture</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="class_m_v_c_c_chain_pruner_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_m_v_c_c_chain_pruner_test" kindref="compound">MVCCChainPrunerTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_m_v_c_c_chain_pruner_test_1ad9b7c9d4a468b3bde19007d59cea3d22" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_m_v_c_c_chain_pruner_test_1a8062b0fb24622394e85aaf68c7c8571d" kindref="member">db_path_</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;./data/test_mvcc_chain_pruner&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(std::filesystem::exists(<ref refid="class_m_v_c_c_chain_pruner_test_1a8062b0fb24622394e85aaf68c7c8571d" kindref="member">db_path_</ref>))<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove_all(<ref refid="class_m_v_c_c_chain_pruner_test_1a8062b0fb24622394e85aaf68c7c8571d" kindref="member">db_path_</ref>);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config" kindref="compound">RocksDBWrapper::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1aac7b570e259673885921721d3e43aef4" kindref="member">db_path</ref><sp/><sp/><sp/><sp/>=<sp/><ref refid="class_m_v_c_c_chain_pruner_test_1a8062b0fb24622394e85aaf68c7c8571d" kindref="member">db_path_</ref>;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1adc4f26507263cbaa4de37217fbb6e357" kindref="member">enable_wal</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_m_v_c_c_chain_pruner_test_1a86a316fae2f57a961343d142cc71d8fa" kindref="member">rocksdb_</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::make_shared&lt;RocksDBWrapper&gt;(cfg);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="class_m_v_c_c_chain_pruner_test_1a86a316fae2f57a961343d142cc71d8fa" kindref="member">rocksdb_</ref>-&gt;open());</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_m_v_c_c_chain_pruner_test_1a300a0835c12a377606a24b782fe8b47c" kindref="member">clock_</ref><sp/>=<sp/>std::make_shared&lt;HybridLogicalClock&gt;();</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_m_v_c_c_chain_pruner_test_1adf8bc32e2be9d56cefe46c17d37af36d" kindref="member">mvcc_</ref><sp/><sp/>=<sp/>std::make_shared&lt;MVCCStore&gt;(<ref refid="class_m_v_c_c_chain_pruner_test_1a86a316fae2f57a961343d142cc71d8fa" kindref="member">rocksdb_</ref>,<sp/><ref refid="class_m_v_c_c_chain_pruner_test_1a300a0835c12a377606a24b782fe8b47c" kindref="member">clock_</ref>);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>TemporalTierManager<sp/>with<sp/>a<sp/>small<sp/>hot-tier<sp/>cap<sp/>to<sp/>keep<sp/>tests<sp/>simple.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>TierPolicy<sp/>policy;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>policy.hot_max_versions_per_key<sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>policy.warm_max_blocks_per_key<sp/><sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_m_v_c_c_chain_pruner_test_1ad7ea109a0419881cf59bbab5685acd71" kindref="member">tier_</ref><sp/>=<sp/>std::make_shared&lt;TemporalTierManager&gt;(policy);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_m_v_c_c_chain_pruner_test_1a27ae32e0aa859d08f6dfdfe3831a7b56" kindref="member">pruner_</ref><sp/>=<sp/>std::make_unique&lt;MVCCChainPruner&gt;(<ref refid="class_m_v_c_c_chain_pruner_test_1adf8bc32e2be9d56cefe46c17d37af36d" kindref="member">mvcc_</ref>,<sp/><ref refid="class_m_v_c_c_chain_pruner_test_1ad7ea109a0419881cf59bbab5685acd71" kindref="member">tier_</ref>);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_m_v_c_c_chain_pruner_test_1a5af9c713771ce0b4e2507e1d321a6f18" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_m_v_c_c_chain_pruner_test_1a27ae32e0aa859d08f6dfdfe3831a7b56" kindref="member">pruner_</ref>.reset();</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_m_v_c_c_chain_pruner_test_1ad7ea109a0419881cf59bbab5685acd71" kindref="member">tier_</ref>.reset();</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_m_v_c_c_chain_pruner_test_1adf8bc32e2be9d56cefe46c17d37af36d" kindref="member">mvcc_</ref>.reset();</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_m_v_c_c_chain_pruner_test_1a86a316fae2f57a961343d142cc71d8fa" kindref="member">rocksdb_</ref>.reset();</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(std::filesystem::exists(<ref refid="class_m_v_c_c_chain_pruner_test_1a8062b0fb24622394e85aaf68c7c8571d" kindref="member">db_path_</ref>))<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove_all(<ref refid="class_m_v_c_c_chain_pruner_test_1a8062b0fb24622394e85aaf68c7c8571d" kindref="member">db_path_</ref>);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper:<sp/>write<sp/>N<sp/>sequential<sp/>versions<sp/>of<sp/>`key`<sp/>and<sp/>return<sp/>their<sp/>timestamps.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;HLCTimestamp&gt;<sp/><ref refid="class_m_v_c_c_chain_pruner_test_1aee572c57d4f4d39ee9d895de73854768" kindref="member">writeVersions</ref>(</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key,</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>values</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;HLCTimestamp&gt;<sp/>tss<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>v<sp/>:<sp/>values)<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tss.push_back(<ref refid="class_m_v_c_c_chain_pruner_test_1adf8bc32e2be9d56cefe46c17d37af36d" kindref="member">mvcc_</ref>-&gt;put(key,<sp/>{v.begin(),<sp/>v.end()}));</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>tss;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper:<sp/>count<sp/>MVCC<sp/>versions<sp/>remaining<sp/>for<sp/>`key`.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="class_m_v_c_c_chain_pruner_test_1a0383dbe983a063f86aebe8a467054b68" kindref="member">countMvccVersions</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key)<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>n<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_m_v_c_c_chain_pruner_test_1adf8bc32e2be9d56cefe46c17d37af36d" kindref="member">mvcc_</ref>-&gt;scanVersions(key,<sp/>[&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_m_v_c_c_store_1_1_version_entry" kindref="compound">MVCCStore::VersionEntry</ref>&amp;)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++n;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>n;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper:<sp/>count<sp/>tier<sp/>entries<sp/>for<sp/>(table,<sp/>key).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="class_m_v_c_c_chain_pruner_test_1a4be7b394ada2cf224502617a079d7d3d" kindref="member">countTierVersions</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>table,</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key)<sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_m_v_c_c_chain_pruner_test_1ad7ea109a0419881cf59bbab5685acd71" kindref="member">tier_</ref>-&gt;getHistory(table,<sp/>key).size();</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_m_v_c_c_chain_pruner_test_1a8062b0fb24622394e85aaf68c7c8571d" kindref="member">db_path_</ref>;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;RocksDBWrapper&gt;<sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_m_v_c_c_chain_pruner_test_1a86a316fae2f57a961343d142cc71d8fa" kindref="member">rocksdb_</ref>;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;HybridLogicalClock&gt;<sp/><sp/><ref refid="class_m_v_c_c_chain_pruner_test_1a300a0835c12a377606a24b782fe8b47c" kindref="member">clock_</ref>;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;MVCCStore&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_m_v_c_c_chain_pruner_test_1adf8bc32e2be9d56cefe46c17d37af36d" kindref="member">mvcc_</ref>;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;TemporalTierManager&gt;<sp/><ref refid="class_m_v_c_c_chain_pruner_test_1ad7ea109a0419881cf59bbab5685acd71" kindref="member">tier_</ref>;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;MVCCChainPruner&gt;<sp/><sp/><sp/><sp/><sp/><ref refid="class_m_v_c_c_chain_pruner_test_1a27ae32e0aa859d08f6dfdfe3831a7b56" kindref="member">pruner_</ref>;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MCP-01:<sp/>pruneKey<sp/>migrates<sp/>versions<sp/>below<sp/>horizon<sp/>into<sp/>tier<sp/>manager</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><ref refid="test__mvcc__chain__pruner_8cpp_1a6fbcc850a21ab229cb550afda766d62c" kindref="member">TEST_F</ref>(<ref refid="class_m_v_c_c_chain_pruner_test" kindref="compound">MVCCChainPrunerTest</ref>,<sp/>PruneKeyMigratesVersionsBelowHorizon)<sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Write<sp/>4<sp/>versions:<sp/>v0,<sp/>v1,<sp/>v2,<sp/>v3.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tss<sp/>=<sp/>writeVersions(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;v0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v3&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(tss.size(),<sp/>4u);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Set<sp/>horizon<sp/>=<sp/>ts(v2),<sp/>keep<sp/>1<sp/>newest<sp/>→<sp/>v0<sp/>and<sp/>v1<sp/>are<sp/>eligible.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_m_v_c_c_chain_pruner_1_1_config" kindref="compound">MVCCChainPruner::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_m_v_c_c_chain_pruner_1_1_config_1abe639f32645360a6573f6af21a3c4995" kindref="member">min_versions_to_keep</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_m_v_c_c_chain_pruner_1_1_config_1a1758691486bfbdf2a9415737ff7ff68f" kindref="member">table_name</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;t1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Horizon<sp/>is<sp/>ts(v2):<sp/>versions<sp/>v0,<sp/>v1<sp/>are<sp/>strictly<sp/>below.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>pruner_-&gt;pruneKey(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>tss[2],<sp/>cfg);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.keys_scanned,<sp/><sp/><sp/><sp/><sp/><sp/>1u);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.keys_pruned,<sp/><sp/><sp/><sp/><sp/><sp/><sp/>1u);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.versions_migrated,<sp/>2u);<sp/><sp/></highlight><highlight class="comment">//<sp/>v0,<sp/>v1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.versions_deleted,<sp/><sp/>2u);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>MVCC<sp/>store<sp/>should<sp/>now<sp/>hold<sp/>only<sp/>v2,<sp/>v3<sp/>(2<sp/>versions).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(countMvccVersions(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">),<sp/>2u);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Tier<sp/>manager<sp/>should<sp/>hold<sp/>2<sp/>migrated<sp/>documents.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(countTierVersions(</highlight><highlight class="stringliteral">&quot;t1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">),<sp/>2u);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MCP-02:<sp/>pruneKey<sp/>respects<sp/>min_versions_to_keep</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><ref refid="test__mvcc__chain__pruner_8cpp_1a6fbcc850a21ab229cb550afda766d62c" kindref="member">TEST_F</ref>(<ref refid="class_m_v_c_c_chain_pruner_test" kindref="compound">MVCCChainPrunerTest</ref>,<sp/>PruneKeyRespectsMinVersionsToKeep)<sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tss<sp/>=<sp/>writeVersions(</highlight><highlight class="stringliteral">&quot;k2&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;c&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;d&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;e&quot;</highlight><highlight class="normal">});<sp/><sp/></highlight><highlight class="comment">//<sp/>5<sp/>versions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_m_v_c_c_chain_pruner_1_1_config" kindref="compound">MVCCChainPruner::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_m_v_c_c_chain_pruner_1_1_config_1abe639f32645360a6573f6af21a3c4995" kindref="member">min_versions_to_keep</ref><sp/>=<sp/>3;<sp/><sp/></highlight><highlight class="comment">//<sp/>keep<sp/>newest<sp/>3:<sp/>c,<sp/>d,<sp/>e</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.table_name<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;t2&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Horizon<sp/>beyond<sp/>all<sp/>versions<sp/>→<sp/>everything<sp/>is<sp/>a<sp/>candidate.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref><sp/>beyond{tss.back().value<sp/>+<sp/>1};</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>pruner_-&gt;pruneKey(</highlight><highlight class="stringliteral">&quot;k2&quot;</highlight><highlight class="normal">,<sp/>beyond,<sp/>cfg);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>max_deletable<sp/>=<sp/>5<sp/>-<sp/>3<sp/>=<sp/>2;<sp/>eligible<sp/>=<sp/>5<sp/>(all<sp/>below<sp/>horizon).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.versions_migrated,<sp/>2u);<sp/><sp/></highlight><highlight class="comment">//<sp/>a,<sp/>b</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.versions_deleted,<sp/><sp/>2u);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(countMvccVersions(</highlight><highlight class="stringliteral">&quot;k2&quot;</highlight><highlight class="normal">),<sp/><sp/><sp/>3u);<sp/><sp/></highlight><highlight class="comment">//<sp/>c,<sp/>d,<sp/>e<sp/>remain</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(countTierVersions(</highlight><highlight class="stringliteral">&quot;t2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;k2&quot;</highlight><highlight class="normal">),<sp/>2u);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MCP-03:<sp/>pruneKey<sp/>with<sp/>no<sp/>versions<sp/>below<sp/>horizon<sp/>is<sp/>a<sp/>no-op</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><ref refid="test__mvcc__chain__pruner_8cpp_1a6fbcc850a21ab229cb550afda766d62c" kindref="member">TEST_F</ref>(<ref refid="class_m_v_c_c_chain_pruner_test" kindref="compound">MVCCChainPrunerTest</ref>,<sp/>PruneKeyNoOpWhenHorizonBeforeAllVersions)<sp/>{</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tss<sp/>=<sp/>writeVersions(</highlight><highlight class="stringliteral">&quot;k3&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;y&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;z&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)tss;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Horizon<sp/>is<sp/>before<sp/>the<sp/>oldest<sp/>version<sp/>—<sp/>nothing<sp/>to<sp/>prune.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref><sp/>too_old{0};</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>pruner_-&gt;pruneKey(</highlight><highlight class="stringliteral">&quot;k3&quot;</highlight><highlight class="normal">,<sp/>too_old,<sp/>{});</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.versions_migrated,<sp/>0u);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.versions_deleted,<sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.keys_pruned,<sp/><sp/><sp/><sp/><sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(countMvccVersions(</highlight><highlight class="stringliteral">&quot;k3&quot;</highlight><highlight class="normal">),<sp/><sp/>3u);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(countTierVersions(</highlight><highlight class="stringliteral">&quot;mvcc&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;k3&quot;</highlight><highlight class="normal">),<sp/>0u);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MCP-04:<sp/>pruneKey<sp/>sets<sp/>correct<sp/>sys_time<sp/>(start=cur.ts,<sp/>end=next.ts)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><ref refid="test__mvcc__chain__pruner_8cpp_1a6fbcc850a21ab229cb550afda766d62c" kindref="member">TEST_F</ref>(<ref refid="class_m_v_c_c_chain_pruner_test" kindref="compound">MVCCChainPrunerTest</ref>,<sp/>PruneKeySetsSysTimeCorrectly)<sp/>{</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tss<sp/>=<sp/>writeVersions(</highlight><highlight class="stringliteral">&quot;k4&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;p&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;q&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;r&quot;</highlight><highlight class="normal">});<sp/><sp/></highlight><highlight class="comment">//<sp/>v0,<sp/>v1,<sp/>v2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_m_v_c_c_chain_pruner_1_1_config" kindref="compound">MVCCChainPruner::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_m_v_c_c_chain_pruner_1_1_config_1abe639f32645360a6573f6af21a3c4995" kindref="member">min_versions_to_keep</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.table_name<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;t4&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prune<sp/>v0,<sp/>v1<sp/>(horizon<sp/>=<sp/>ts(v2)).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>pruner_-&gt;pruneKey(</highlight><highlight class="stringliteral">&quot;k4&quot;</highlight><highlight class="normal">,<sp/>tss[2],<sp/>cfg);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>history<sp/>=<sp/>tier_-&gt;getHistory(</highlight><highlight class="stringliteral">&quot;t4&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;k4&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(history.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>History<sp/>is<sp/>sorted<sp/>ascending<sp/>by<sp/>sys_start.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>v0:<sp/>[tss[0],<sp/>tss[1])</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>v1:<sp/>[tss[1],<sp/>tss[2])</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>h0<sp/>=<sp/>history[0];</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>h1<sp/>=<sp/>history[1];</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(h0.sys_time.start,</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">Timestamp</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(tss[0].value));</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(h0.sys_time.end,</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">Timestamp</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(tss[1].value));</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(h1.sys_time.start,</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">Timestamp</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(tss[1].value));</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(h1.sys_time.end,</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">Timestamp</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(tss[2].value));</highlight></codeline>
+<codeline lineno="208"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MCP-05:<sp/>pruneKey<sp/>handles<sp/>non-JSON<sp/>binary<sp/>values<sp/>(hex<sp/>fallback)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><ref refid="test__mvcc__chain__pruner_8cpp_1a6fbcc850a21ab229cb550afda766d62c" kindref="member">TEST_F</ref>(<ref refid="class_m_v_c_c_chain_pruner_test" kindref="compound">MVCCChainPrunerTest</ref>,<sp/>PruneKeyHandlesBinaryValues)<sp/>{</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Write<sp/>binary<sp/>(non-UTF-8,<sp/>non-JSON)<sp/>value.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;<sp/>binary_val<sp/>=<sp/>{0x00,<sp/>0xFF,<sp/>0xAB,<sp/>0xCD};</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref><sp/>ts0<sp/>=<sp/>mvcc_-&gt;put(</highlight><highlight class="stringliteral">&quot;k5&quot;</highlight><highlight class="normal">,<sp/>binary_val);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Write<sp/>a<sp/>second<sp/>version<sp/>so<sp/>ts0<sp/>can<sp/>be<sp/>pruned<sp/>(keeps<sp/>ts1).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref><sp/>ts1<sp/>=<sp/>mvcc_-&gt;put(</highlight><highlight class="stringliteral">&quot;k5&quot;</highlight><highlight class="normal">,<sp/>{0x01});</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_m_v_c_c_chain_pruner_1_1_config" kindref="compound">MVCCChainPruner::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_m_v_c_c_chain_pruner_1_1_config_1abe639f32645360a6573f6af21a3c4995" kindref="member">min_versions_to_keep</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_m_v_c_c_chain_pruner_1_1_config_1a1758691486bfbdf2a9415737ff7ff68f" kindref="member">table_name</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;t5&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>pruner_-&gt;pruneKey(</highlight><highlight class="stringliteral">&quot;k5&quot;</highlight><highlight class="normal">,<sp/>ts1,<sp/>cfg);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.versions_migrated,<sp/>1u);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>history<sp/>=<sp/>tier_-&gt;getHistory(</highlight><highlight class="stringliteral">&quot;t5&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;k5&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(history.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>document<sp/>should<sp/>carry<sp/>a<sp/>&quot;_raw&quot;<sp/>field<sp/>with<sp/>the<sp/>hex-encoded<sp/>bytes.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(history[0].data.contains(</highlight><highlight class="stringliteral">&quot;_raw&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(history[0].data[</highlight><highlight class="stringliteral">&quot;_raw&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;00ffabcd&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MCP-06:<sp/>pruneAll<sp/>migrates<sp/>multiple<sp/>keys<sp/>in<sp/>a<sp/>single<sp/>call</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><ref refid="test__mvcc__chain__pruner_8cpp_1a6fbcc850a21ab229cb550afda766d62c" kindref="member">TEST_F</ref>(<ref refid="class_m_v_c_c_chain_pruner_test" kindref="compound">MVCCChainPrunerTest</ref>,<sp/>PruneAllMigratesMultipleKeys)<sp/>{</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tss_a<sp/>=<sp/>writeVersions(</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;a0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;a1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;a2&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tss_b<sp/>=<sp/>writeVersions(</highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;b0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;b1&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Horizon<sp/>past<sp/>all<sp/>versions;<sp/>keep<sp/>1<sp/>newest<sp/>each.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref><sp/>beyond{tss_b.back().value<sp/>+<sp/>1};</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_m_v_c_c_chain_pruner_1_1_config" kindref="compound">MVCCChainPruner::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_m_v_c_c_chain_pruner_1_1_config_1abe639f32645360a6573f6af21a3c4995" kindref="member">min_versions_to_keep</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_m_v_c_c_chain_pruner_1_1_config_1a1758691486bfbdf2a9415737ff7ff68f" kindref="member">table_name</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;tall&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>pruner_-&gt;pruneAll(beyond,<sp/>cfg);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.keys_scanned,<sp/><sp/><sp/><sp/><sp/><sp/>2u);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.keys_pruned,<sp/><sp/><sp/><sp/><sp/><sp/><sp/>2u);</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>a:<sp/>3<sp/>total,<sp/>keep<sp/>1<sp/>→<sp/>2<sp/>migrated;<sp/>b:<sp/>2<sp/>total,<sp/>keep<sp/>1<sp/>→<sp/>1<sp/>migrated</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.versions_migrated,<sp/>3u);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.versions_deleted,<sp/><sp/>3u);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(countMvccVersions(</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">),<sp/>1u);</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(countMvccVersions(</highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">),<sp/>1u);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(countTierVersions(</highlight><highlight class="stringliteral">&quot;tall&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">),<sp/>2u);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(countTierVersions(</highlight><highlight class="stringliteral">&quot;tall&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">),<sp/>1u);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MCP-07:<sp/>setSafeHorizon<sp/>is<sp/>monotone;<sp/>pruneAllSafe<sp/>respects<sp/>it</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><ref refid="test__mvcc__chain__pruner_8cpp_1a6fbcc850a21ab229cb550afda766d62c" kindref="member">TEST_F</ref>(<ref refid="class_m_v_c_c_chain_pruner_test" kindref="compound">MVCCChainPrunerTest</ref>,<sp/>SetSafeHorizonIsMonotoneAndPruneAllSafeUsesIt)<sp/>{</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tss<sp/>=<sp/>writeVersions(</highlight><highlight class="stringliteral">&quot;m&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;m0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;m1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;m2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;m3&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Set<sp/>horizon<sp/>to<sp/>ts(m2).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>pruner_-&gt;setSafeHorizon(tss[2]);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(pruner_-&gt;safeHorizon().value,<sp/>tss[2].value);</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Attempt<sp/>to<sp/>move<sp/>horizon<sp/>backward<sp/>—<sp/>must<sp/>be<sp/>silently<sp/>ignored.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>pruner_-&gt;setSafeHorizon(tss[0]);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(pruner_-&gt;safeHorizon().value,<sp/>tss[2].value);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>pruneAllSafe<sp/>uses<sp/>the<sp/>safe<sp/>horizon<sp/>(tss[2])<sp/>to<sp/>prune<sp/>m0,<sp/>m1.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_m_v_c_c_chain_pruner_1_1_config" kindref="compound">MVCCChainPruner::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_m_v_c_c_chain_pruner_1_1_config_1abe639f32645360a6573f6af21a3c4995" kindref="member">min_versions_to_keep</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_m_v_c_c_chain_pruner_1_1_config_1a1758691486bfbdf2a9415737ff7ff68f" kindref="member">table_name</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;tsafe&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>pruner_-&gt;pruneAllSafe(cfg);</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.versions_migrated,<sp/>2u);<sp/><sp/></highlight><highlight class="comment">//<sp/>m0,<sp/>m1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(countMvccVersions(</highlight><highlight class="stringliteral">&quot;m&quot;</highlight><highlight class="normal">),<sp/><sp/>2u);<sp/><sp/></highlight><highlight class="comment">//<sp/>m2,<sp/>m3<sp/>remain</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MCP-08:<sp/>pruneAllSafe<sp/>is<sp/>a<sp/>no-op<sp/>when<sp/>safe<sp/>horizon<sp/>is<sp/>zero</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><ref refid="test__mvcc__chain__pruner_8cpp_1a6fbcc850a21ab229cb550afda766d62c" kindref="member">TEST_F</ref>(<ref refid="class_m_v_c_c_chain_pruner_test" kindref="compound">MVCCChainPrunerTest</ref>,<sp/>PruneAllSafeIsNoOpWithZeroHorizon)<sp/>{</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>writeVersions(</highlight><highlight class="stringliteral">&quot;n&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;n0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Default<sp/>safe_horizon<sp/>is<sp/>0<sp/>→<sp/>pruneAllSafe<sp/>should<sp/>do<sp/>nothing.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>pruner_-&gt;pruneAllSafe({});</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.keys_scanned,<sp/><sp/><sp/><sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.versions_migrated,<sp/>0u);</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(countMvccVersions(</highlight><highlight class="stringliteral">&quot;n&quot;</highlight><highlight class="normal">),<sp/><sp/>2u);</highlight></codeline>
+<codeline lineno="299"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/storage/test_mvcc_chain_pruner.cpp"/>
+  </compounddef>
+</doxygen>

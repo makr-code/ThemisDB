@@ -1,0 +1,289 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_exporter_stress_test_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::ExporterStressTestConfig</compoundname>
+    <includes refid="exporter__stress__framework_8h" local="no">exporter_stress_framework.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_exporter_stress_test_config_1a0579b3a2037d5d93a6a4d6db70dd408d" prot="public" static="no" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t themis::observability::ExporterStressTestConfig::metrics_per_second</definition>
+        <argsstring></argsstring>
+        <name>metrics_per_second</name>
+        <qualifiedname>themis::observability::ExporterStressTestConfig::metrics_per_second</qualifiedname>
+        <initializer>{5000}</initializer>
+        <briefdescription>
+<para>Target number of metrics per second to generate. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/exporter_stress_framework.h" line="55" column="19" bodyfile="include/observability/exporter_stress_framework.h" bodystart="55" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_exporter_stress_test_config_1a3e0d7ea02fc6056051e8e84c8e5b11ef" prot="public" static="no" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t themis::observability::ExporterStressTestConfig::spans_per_second</definition>
+        <argsstring></argsstring>
+        <name>spans_per_second</name>
+        <qualifiedname>themis::observability::ExporterStressTestConfig::spans_per_second</qualifiedname>
+        <initializer>{2000}</initializer>
+        <briefdescription>
+<para>Target number of spans per second to generate. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/exporter_stress_framework.h" line="58" column="19" bodyfile="include/observability/exporter_stress_framework.h" bodystart="58" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_exporter_stress_test_config_1a79d7ebdaf31b5b1303d50929849e0970" prot="public" static="no" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t themis::observability::ExporterStressTestConfig::metric_cardinality</definition>
+        <argsstring></argsstring>
+        <name>metric_cardinality</name>
+        <qualifiedname>themis::observability::ExporterStressTestConfig::metric_cardinality</qualifiedname>
+        <initializer>{100}</initializer>
+        <briefdescription>
+<para>Number of distinct label sets per metric (cardinality). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/exporter_stress_framework.h" line="61" column="19" bodyfile="include/observability/exporter_stress_framework.h" bodystart="61" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_exporter_stress_test_config_1a4eb7acca9901e90a05a0b7370eb38557" prot="public" static="no" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t themis::observability::ExporterStressTestConfig::duration_seconds</definition>
+        <argsstring></argsstring>
+        <name>duration_seconds</name>
+        <qualifiedname>themis::observability::ExporterStressTestConfig::duration_seconds</qualifiedname>
+        <initializer>{60}</initializer>
+        <briefdescription>
+<para>Test duration in seconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/exporter_stress_framework.h" line="64" column="19" bodyfile="include/observability/exporter_stress_framework.h" bodystart="64" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_exporter_stress_test_config_1aef95e51bab6de119dae4582795f6bc12" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1observability_1a841324aa4ef1fa0bf512adb875f80831" kindref="member">FailureMode</ref></type>
+        <definition>FailureMode themis::observability::ExporterStressTestConfig::failure_mode</definition>
+        <argsstring></argsstring>
+        <name>failure_mode</name>
+        <qualifiedname>themis::observability::ExporterStressTestConfig::failure_mode</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1observability_1a841324aa4ef1fa0bf512adb875f80831ab50339a10e1de285ac99d4c3990b8693" kindref="member">FailureMode::NONE</ref>}</initializer>
+        <briefdescription>
+<para>Failure mode to simulate. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/exporter_stress_framework.h" line="67" column="17" bodyfile="include/observability/exporter_stress_framework.h" bodystart="67" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_exporter_stress_test_config_1a0d17d88a5c8f422d28554f14c6f0d9d8" prot="public" static="no" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t themis::observability::ExporterStressTestConfig::p95_latency_ms_threshold</definition>
+        <argsstring></argsstring>
+        <name>p95_latency_ms_threshold</name>
+        <qualifiedname>themis::observability::ExporterStressTestConfig::p95_latency_ms_threshold</qualifiedname>
+        <initializer>{10}</initializer>
+        <briefdescription>
+<para>P95 latency threshold for metrics export (milliseconds). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/exporter_stress_framework.h" line="70" column="19" bodyfile="include/observability/exporter_stress_framework.h" bodystart="70" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_exporter_stress_test_config_1a7d1c427f30625ed5e4935978c666dcd9" prot="public" static="no" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t themis::observability::ExporterStressTestConfig::p99_latency_ms_threshold</definition>
+        <argsstring></argsstring>
+        <name>p99_latency_ms_threshold</name>
+        <qualifiedname>themis::observability::ExporterStressTestConfig::p99_latency_ms_threshold</qualifiedname>
+        <initializer>{50}</initializer>
+        <briefdescription>
+<para>P99 latency threshold for metrics export (milliseconds). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/exporter_stress_framework.h" line="73" column="19" bodyfile="include/observability/exporter_stress_framework.h" bodystart="73" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_exporter_stress_test_config_1a0e2dd207cb8a11f994c44c9d4e66823f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::ExporterStressTestConfig::acceptable_metric_loss_percent</definition>
+        <argsstring></argsstring>
+        <name>acceptable_metric_loss_percent</name>
+        <qualifiedname>themis::observability::ExporterStressTestConfig::acceptable_metric_loss_percent</qualifiedname>
+        <initializer>{0.1}</initializer>
+        <briefdescription>
+<para>Maximum allowed metric loss percentage (0-100). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/exporter_stress_framework.h" line="76" column="12" bodyfile="include/observability/exporter_stress_framework.h" bodystart="76" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_exporter_stress_test_config_1a62075da19407f2f723473bee4f3e4ae9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::ExporterStressTestConfig::acceptable_span_loss_percent</definition>
+        <argsstring></argsstring>
+        <name>acceptable_span_loss_percent</name>
+        <qualifiedname>themis::observability::ExporterStressTestConfig::acceptable_span_loss_percent</qualifiedname>
+        <initializer>{1.0}</initializer>
+        <briefdescription>
+<para>Maximum allowed span loss percentage (0-100). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/exporter_stress_framework.h" line="79" column="12" bodyfile="include/observability/exporter_stress_framework.h" bodystart="79" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_exporter_stress_test_config_1ae80fd069eda60db45c6eb6a2f746e452" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::ExporterStressTestConfig::validate_recovery</definition>
+        <argsstring></argsstring>
+        <name>validate_recovery</name>
+        <qualifiedname>themis::observability::ExporterStressTestConfig::validate_recovery</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>Whether to validate exporter recovery after backend failure. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/exporter_stress_framework.h" line="82" column="10" bodyfile="include/observability/exporter_stress_framework.h" bodystart="82" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_exporter_stress_test_config_1adf9742e40e57b9ca55ec50f4a7a7ccde" prot="public" static="no" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t themis::observability::ExporterStressTestConfig::recovery_timeout_seconds</definition>
+        <argsstring></argsstring>
+        <name>recovery_timeout_seconds</name>
+        <qualifiedname>themis::observability::ExporterStressTestConfig::recovery_timeout_seconds</qualifiedname>
+        <initializer>{30}</initializer>
+        <briefdescription>
+<para>Recovery validation timeout (seconds). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/exporter_stress_framework.h" line="85" column="19" bodyfile="include/observability/exporter_stress_framework.h" bodystart="85" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_exporter_stress_test_config_1a103b224ac00a0b4ccbead7d5f2bc70b5" prot="public" static="no" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t themis::observability::ExporterStressTestConfig::concurrent_producers</definition>
+        <argsstring></argsstring>
+        <name>concurrent_producers</name>
+        <qualifiedname>themis::observability::ExporterStressTestConfig::concurrent_producers</qualifiedname>
+        <initializer>{4}</initializer>
+        <briefdescription>
+<para>Number of concurrent producer threads. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/exporter_stress_framework.h" line="88" column="19" bodyfile="include/observability/exporter_stress_framework.h" bodystart="88" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_exporter_stress_test_config_1a660b05c5aa85d67da1bfe24061cfb191" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::ExporterStressTestConfig::measure_memory</definition>
+        <argsstring></argsstring>
+        <name>measure_memory</name>
+        <qualifiedname>themis::observability::ExporterStressTestConfig::measure_memory</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>Whether to measure memory usage. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/exporter_stress_framework.h" line="91" column="10" bodyfile="include/observability/exporter_stress_framework.h" bodystart="91" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_exporter_stress_test_config_1a512f56d2517cfdfc8b052206343aff3a" prot="public" static="no" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t themis::observability::ExporterStressTestConfig::memory_threshold_mb</definition>
+        <argsstring></argsstring>
+        <name>memory_threshold_mb</name>
+        <qualifiedname>themis::observability::ExporterStressTestConfig::memory_threshold_mb</qualifiedname>
+        <initializer>{512}</initializer>
+        <briefdescription>
+<para>Memory usage threshold (MB). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/exporter_stress_framework.h" line="94" column="19" bodyfile="include/observability/exporter_stress_framework.h" bodystart="94" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_exporter_stress_test_config_1a0912a571a6ab420704f600e716f4f1d6" prot="public" static="no" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t themis::observability::ExporterStressTestConfig::random_seed</definition>
+        <argsstring></argsstring>
+        <name>random_seed</name>
+        <qualifiedname>themis::observability::ExporterStressTestConfig::random_seed</qualifiedname>
+        <initializer>{42}</initializer>
+        <briefdescription>
+<para>Random seed for reproducible test runs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/exporter_stress_framework.h" line="97" column="19" bodyfile="include/observability/exporter_stress_framework.h" bodystart="97" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_exporter_stress_test_config_1a5a47603cd16985fc91a3e9ceb97c6c8a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::ExporterStressTestConfig::verbose</definition>
+        <argsstring></argsstring>
+        <name>verbose</name>
+        <qualifiedname>themis::observability::ExporterStressTestConfig::verbose</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>Whether to emit debug/trace logging. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/exporter_stress_framework.h" line="100" column="10" bodyfile="include/observability/exporter_stress_framework.h" bodystart="100" bodyend="100"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Stress test configuration parameters. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/exporter_stress_framework.h" line="53" column="1" bodyfile="include/observability/exporter_stress_framework.h" bodystart="53" bodyend="101"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_exporter_stress_test_config_1a0e2dd207cb8a11f994c44c9d4e66823f" prot="public" virt="non-virtual"><scope>themis::observability::ExporterStressTestConfig</scope><name>acceptable_metric_loss_percent</name></member>
+      <member refid="structthemis_1_1observability_1_1_exporter_stress_test_config_1a62075da19407f2f723473bee4f3e4ae9" prot="public" virt="non-virtual"><scope>themis::observability::ExporterStressTestConfig</scope><name>acceptable_span_loss_percent</name></member>
+      <member refid="structthemis_1_1observability_1_1_exporter_stress_test_config_1a103b224ac00a0b4ccbead7d5f2bc70b5" prot="public" virt="non-virtual"><scope>themis::observability::ExporterStressTestConfig</scope><name>concurrent_producers</name></member>
+      <member refid="structthemis_1_1observability_1_1_exporter_stress_test_config_1a4eb7acca9901e90a05a0b7370eb38557" prot="public" virt="non-virtual"><scope>themis::observability::ExporterStressTestConfig</scope><name>duration_seconds</name></member>
+      <member refid="structthemis_1_1observability_1_1_exporter_stress_test_config_1aef95e51bab6de119dae4582795f6bc12" prot="public" virt="non-virtual"><scope>themis::observability::ExporterStressTestConfig</scope><name>failure_mode</name></member>
+      <member refid="structthemis_1_1observability_1_1_exporter_stress_test_config_1a660b05c5aa85d67da1bfe24061cfb191" prot="public" virt="non-virtual"><scope>themis::observability::ExporterStressTestConfig</scope><name>measure_memory</name></member>
+      <member refid="structthemis_1_1observability_1_1_exporter_stress_test_config_1a512f56d2517cfdfc8b052206343aff3a" prot="public" virt="non-virtual"><scope>themis::observability::ExporterStressTestConfig</scope><name>memory_threshold_mb</name></member>
+      <member refid="structthemis_1_1observability_1_1_exporter_stress_test_config_1a79d7ebdaf31b5b1303d50929849e0970" prot="public" virt="non-virtual"><scope>themis::observability::ExporterStressTestConfig</scope><name>metric_cardinality</name></member>
+      <member refid="structthemis_1_1observability_1_1_exporter_stress_test_config_1a0579b3a2037d5d93a6a4d6db70dd408d" prot="public" virt="non-virtual"><scope>themis::observability::ExporterStressTestConfig</scope><name>metrics_per_second</name></member>
+      <member refid="structthemis_1_1observability_1_1_exporter_stress_test_config_1a0d17d88a5c8f422d28554f14c6f0d9d8" prot="public" virt="non-virtual"><scope>themis::observability::ExporterStressTestConfig</scope><name>p95_latency_ms_threshold</name></member>
+      <member refid="structthemis_1_1observability_1_1_exporter_stress_test_config_1a7d1c427f30625ed5e4935978c666dcd9" prot="public" virt="non-virtual"><scope>themis::observability::ExporterStressTestConfig</scope><name>p99_latency_ms_threshold</name></member>
+      <member refid="structthemis_1_1observability_1_1_exporter_stress_test_config_1a0912a571a6ab420704f600e716f4f1d6" prot="public" virt="non-virtual"><scope>themis::observability::ExporterStressTestConfig</scope><name>random_seed</name></member>
+      <member refid="structthemis_1_1observability_1_1_exporter_stress_test_config_1adf9742e40e57b9ca55ec50f4a7a7ccde" prot="public" virt="non-virtual"><scope>themis::observability::ExporterStressTestConfig</scope><name>recovery_timeout_seconds</name></member>
+      <member refid="structthemis_1_1observability_1_1_exporter_stress_test_config_1a3e0d7ea02fc6056051e8e84c8e5b11ef" prot="public" virt="non-virtual"><scope>themis::observability::ExporterStressTestConfig</scope><name>spans_per_second</name></member>
+      <member refid="structthemis_1_1observability_1_1_exporter_stress_test_config_1ae80fd069eda60db45c6eb6a2f746e452" prot="public" virt="non-virtual"><scope>themis::observability::ExporterStressTestConfig</scope><name>validate_recovery</name></member>
+      <member refid="structthemis_1_1observability_1_1_exporter_stress_test_config_1a5a47603cd16985fc91a3e9ceb97c6c8a" prot="public" virt="non-virtual"><scope>themis::observability::ExporterStressTestConfig</scope><name>verbose</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

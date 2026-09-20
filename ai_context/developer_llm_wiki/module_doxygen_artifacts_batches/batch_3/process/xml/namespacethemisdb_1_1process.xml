@@ -1,0 +1,325 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemisdb_1_1process" kind="namespace" language="C++">
+    <compoundname>themisdb::process</compoundname>
+    <innerclass refid="structthemisdb_1_1process_1_1_audit_trail_entry" prot="public">themisdb::process::AuditTrailEntry</innerclass>
+    <innerclass refid="structthemisdb_1_1process_1_1_crash_fault_tolerance_gates" prot="public">themisdb::process::CrashFaultToleranceGates</innerclass>
+    <innerclass refid="classthemisdb_1_1process_1_1_federation_consensus_manager" prot="public">themisdb::process::FederationConsensusManager</innerclass>
+    <innerclass refid="structthemisdb_1_1process_1_1_partition_detection_result" prot="public">themisdb::process::PartitionDetectionResult</innerclass>
+    <innerclass refid="classthemisdb_1_1process_1_1_process_audit_logger" prot="public">themisdb::process::ProcessAuditLogger</innerclass>
+    <innerclass refid="structthemisdb_1_1process_1_1_process_federation_config" prot="public">themisdb::process::ProcessFederationConfig</innerclass>
+    <innerclass refid="structthemisdb_1_1process_1_1_replication_status" prot="public">themisdb::process::ReplicationStatus</innerclass>
+    <innerclass refid="structthemisdb_1_1process_1_1_snapshot_index" prot="public">themisdb::process::SnapshotIndex</innerclass>
+    <innerclass refid="structthemisdb_1_1process_1_1_temporal_query_result" prot="public">themisdb::process::TemporalQueryResult</innerclass>
+    <innerclass refid="structthemisdb_1_1process_1_1_thread_safety_guarantee" prot="public">themisdb::process::ThreadSafetyGuarantee</innerclass>
+    <innernamespace refid="namespacethemisdb_1_1process_1_1stress__scenarios">themisdb::process::stress_scenarios</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemisdb_1_1process_1acde909679cca1779951b4bc252045f6c" prot="public" static="no" strong="yes">
+        <type>std::uint8_t</type>
+        <name>ConsensusState</name>
+        <qualifiedname>themisdb::process::ConsensusState</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1process_1acde909679cca1779951b4bc252045f6ca1c5babdbf4c1bea8e9e2069dafc26de2" prot="public">
+          <name>kFollower</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Replica following leader&apos;s log. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1process_1acde909679cca1779951b4bc252045f6ca9693599042f54ae88a57dbf4dbff4d72" prot="public">
+          <name>kCandidate</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Replica requesting votes for leadership. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1process_1acde909679cca1779951b4bc252045f6cacac5b31b9f972b4c982e4aac8921540f" prot="public">
+          <name>kLeader</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Replica has achieved quorum consensus. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1process_1acde909679cca1779951b4bc252045f6cab62fa3c9492b6dae76c23d6dfa466611" prot="public">
+          <name>kFailed</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>Unrecoverable consensus failure. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Consensus state machine states. </para>
+        </briefdescription>
+        <detaileddescription>
+<sect1 id="namespacethemisdb_1_1process_1consensus_states">
+<title>State Transitions</title><para><table rows="6" cols="3"><row>
+<entry thead="yes"><para>From  </para>
+</entry><entry thead="yes"><para>To  </para>
+</entry><entry thead="yes"><para>Condition  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>FOLLOWER  </para>
+</entry><entry thead="no"><para>CANDIDATE  </para>
+</entry><entry thead="no"><para>Heartbeat timeout  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>CANDIDATE  </para>
+</entry><entry thead="no"><para>LEADER  </para>
+</entry><entry thead="no"><para>Won majority vote  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>CANDIDATE  </para>
+</entry><entry thead="no"><para>FOLLOWER  </para>
+</entry><entry thead="no"><para>Discovered leader or lost vote  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>LEADER  </para>
+</entry><entry thead="no"><para>FOLLOWER  </para>
+</entry><entry thead="no"><para>Discovered higher term  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>ANY  </para>
+</entry><entry thead="no"><para>FAILED  </para>
+</entry><entry thead="no"><para>Critical error (consensus corrupted)  </para>
+</entry></row>
+</table>
+</para>
+</sect1>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_contract.h" line="165" column="1" bodyfile="include/process/process_federation_contract.h" bodystart="165" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1process_1a4cae6748c2c12eab0dc4f72ead1e83a2" prot="public" static="no" strong="yes">
+        <type>std::uint8_t</type>
+        <name>ConsensusPhase</name>
+        <qualifiedname>themisdb::process::ConsensusPhase</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1process_1a4cae6748c2c12eab0dc4f72ead1e83a2af5137a026a4b2f3b1c8a21cfc60dd14b" prot="public">
+          <name>kIdle</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Waiting for write operation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1process_1a4cae6748c2c12eab0dc4f72ead1e83a2aec63f5d78aeb8f95cf2b0b9b4da9cc2c" prot="public">
+          <name>kLeaderElection</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Voting phase. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1process_1a4cae6748c2c12eab0dc4f72ead1e83a2af00e236c7caa3ca457c6d38f847f442f" prot="public">
+          <name>kLogReplication</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Sending entries to followers. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1process_1a4cae6748c2c12eab0dc4f72ead1e83a2a9c45143dd28d2f41b6b4c1bdf2ac1a4d" prot="public">
+          <name>kCommit</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>Applying to state machine. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Consensus phase enumeration (for span attributes and diagnostics). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_contract.h" line="175" column="1" bodyfile="include/process/process_federation_contract.h" bodystart="175" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1process_1a9f336abe131c4545f344e3cff8e6a4b0" prot="public" static="no" strong="yes">
+        <type>std::uint8_t</type>
+        <name>ConcurrencyPattern</name>
+        <qualifiedname>themisdb::process::ConcurrencyPattern</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1process_1a9f336abe131c4545f344e3cff8e6a4b0a921f72f9600dd4f5d288449d4d57874d" prot="public">
+          <name>kSnapshotIsolation</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Snapshot isolation: readers do not block writers. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1process_1a9f336abe131c4545f344e3cff8e6a4b0a399df85a3540298a188da2bfa8ef2418" prot="public">
+          <name>kFineGrainedLocking</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Fine-grained locking: per-entity atomicity. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1process_1a9f336abe131c4545f344e3cff8e6a4b0a81bed5d4366e76d12df6d7acb5173216" prot="public">
+          <name>kStateless</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Stateless: no per-instance state (fully thread-safe). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1process_1a9f336abe131c4545f344e3cff8e6a4b0a1c773380e02823c9af6f7ab1a8824ddc" prot="public">
+          <name>kReplicatedStateMachine</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>Replicated state machine: single writer (leader), multiple readers. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Thread-safety guarantee patterns for federation-aware APIs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_contract.h" line="203" column="1" bodyfile="include/process/process_federation_contract.h" bodystart="203" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1process_1afba64c73420a584c45680b5420be490c" prot="public" static="no" strong="yes">
+        <type>std::uint8_t</type>
+        <name>ConsistencyLevel</name>
+        <qualifiedname>themisdb::process::ConsistencyLevel</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1process_1afba64c73420a584c45680b5420be490ca6618d71ea07d1ddd6ece5a22bcac946b" prot="public">
+          <name>kStrong</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Writes wait for majority quorum; highest safety. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1process_1afba64c73420a584c45680b5420be490caa7c01de95ace52ea07a5ca5f1d6f3862" prot="public">
+          <name>kEventual</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Writes complete on leader; async replication to followers. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1process_1afba64c73420a584c45680b5420be490cafcf37e733f29d6aa14fb34fa737a809a" prot="public">
+          <name>kLocal</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Writes complete on leader; no replication (local-only). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Consistency level for write operations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_contract.h" line="255" column="1" bodyfile="include/process/process_federation_contract.h" bodystart="255" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1process_1aa5ce699f95a28e670beca864d15c0959" prot="public" static="no" strong="yes">
+        <type>std::uint8_t</type>
+        <name>DeltaEncodingFormat</name>
+        <qualifiedname>themisdb::process::DeltaEncodingFormat</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1process_1aa5ce699f95a28e670beca864d15c0959a5aa233c8badede12d443f52adff2fb72" prot="public">
+          <name>kJsonMergePatch</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>RFC 7386 JSON Merge Patch (recommended). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1process_1aa5ce699f95a28e670beca864d15c0959a365fd063889d53238c6a0b3b0c636c7e" prot="public">
+          <name>kBinaryDiff</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Binary diff format (reserved for future). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Delta encoding format. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_contract.h" line="114" column="1" bodyfile="include/process/process_telemetry_contract.h" bodystart="114" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1process_1a8244f10e3b59abf5ddf002142e2b0522" prot="public" static="no" strong="yes">
+        <type>std::uint8_t</type>
+        <name>AuditStorageBackend</name>
+        <qualifiedname>themisdb::process::AuditStorageBackend</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1process_1a8244f10e3b59abf5ddf002142e2b0522a5eced7b095ca2e98613012ddc0f9010d" prot="public">
+          <name>kRocksDB</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>RocksDB backend (primary; local SSD). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1process_1a8244f10e3b59abf5ddf002142e2b0522a19f1e519b9f1f6af86172b6b5f2c25e6" prot="public">
+          <name>kFile</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>File-based backend (local filesystem). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1process_1a8244f10e3b59abf5ddf002142e2b0522abbe5e23597e4939c426f60291c6ef6c1" prot="public">
+          <name>kS3</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>S3 backend (cloud storage). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1process_1a8244f10e3b59abf5ddf002142e2b0522a62daf6760aa0e901461b249437b033b3" prot="public">
+          <name>kDualWrite</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>Dual-write backend (RocksDB + S3). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Storage backend enumeration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_contract.h" line="184" column="1" bodyfile="include/process/process_telemetry_contract.h" bodystart="184" bodyend="196"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/process/process_federation_contract.h" line="114" column="1"/>
+  </compounddef>
+</doxygen>

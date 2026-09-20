@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_temporal_validity" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::TemporalValidity</compoundname>
+    <includes refid="legal__domain_8h" local="no">legal_domain.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_temporal_validity_1ad0335c0a6aa428933076d2eb348d0b9c" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::ingestion::TemporalValidity::effective_from</definition>
+        <argsstring></argsstring>
+        <name>effective_from</name>
+        <qualifiedname>themis::ingestion::TemporalValidity::effective_from</qualifiedname>
+        <briefdescription>
+<para>ISO-8601 or raw string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/legal_domain.h" line="119" column="19" bodyfile="include/ingestion/legal_domain.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_temporal_validity_1a93542ce07187e6f3a6030eb5807d4bc1" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::ingestion::TemporalValidity::effective_to</definition>
+        <argsstring></argsstring>
+        <name>effective_to</name>
+        <qualifiedname>themis::ingestion::TemporalValidity::effective_to</qualifiedname>
+        <briefdescription>
+<para>ISO-8601 or raw string; nullopt = open-ended. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/legal_domain.h" line="120" column="19" bodyfile="include/ingestion/legal_domain.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_temporal_validity_1af1f692bad8ea38aeabf5451be258b923" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::TemporalValidity::source_hint</definition>
+        <argsstring></argsstring>
+        <name>source_hint</name>
+        <qualifiedname>themis::ingestion::TemporalValidity::source_hint</qualifiedname>
+        <briefdescription>
+<para>Snippet that triggered extraction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/legal_domain.h" line="121" column="32" bodyfile="include/ingestion/legal_domain.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Temporal validity window for a legal document or provision. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ingestion/legal_domain.h" line="118" column="1" bodyfile="include/ingestion/legal_domain.h" bodystart="118" bodyend="122"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_temporal_validity_1ad0335c0a6aa428933076d2eb348d0b9c" prot="public" virt="non-virtual"><scope>themis::ingestion::TemporalValidity</scope><name>effective_from</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_temporal_validity_1a93542ce07187e6f3a6030eb5807d4bc1" prot="public" virt="non-virtual"><scope>themis::ingestion::TemporalValidity</scope><name>effective_to</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_temporal_validity_1af1f692bad8ea38aeabf5451be258b923" prot="public" virt="non-virtual"><scope>themis::ingestion::TemporalValidity</scope><name>source_hint</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

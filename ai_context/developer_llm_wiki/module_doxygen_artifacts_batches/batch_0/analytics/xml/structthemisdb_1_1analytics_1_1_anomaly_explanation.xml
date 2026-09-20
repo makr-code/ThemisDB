@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_anomaly_explanation" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::AnomalyExplanation</compoundname>
+    <includes refid="anomaly__detection_8h" local="no">anomaly_detection.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_anomaly_explanation_1ad62bae7d6d618f2c652236ad0d10d6eb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::AnomalyExplanation::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themisdb::analytics::AnomalyExplanation::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/anomaly_detection.h" line="174" column="17" bodyfile="include/analytics/anomaly_detection.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_anomaly_explanation_1ae97b5c8d4511ef58e07fea85098b30c9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::analytics::AnomalyExplanation::score</definition>
+        <argsstring></argsstring>
+        <name>score</name>
+        <qualifiedname>themisdb::analytics::AnomalyExplanation::score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/anomaly_detection.h" line="175" column="17" bodyfile="include/analytics/anomaly_detection.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_anomaly_explanation_1a863f4b0857c34ea6caafa8c95a262555" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; std::string, double &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;std::string, double&gt; &gt; themisdb::analytics::AnomalyExplanation::feature_contributions</definition>
+        <argsstring></argsstring>
+        <name>feature_contributions</name>
+        <qualifiedname>themisdb::analytics::AnomalyExplanation::feature_contributions</qualifiedname>
+        <briefdescription>
+<para>sorted desc by abs contribution </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/anomaly_detection.h" line="176" column="17" bodyfile="include/analytics/anomaly_detection.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_anomaly_explanation_1a1f21c9969ef7da2ed7eaaab21c741399" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::AnomalyExplanation::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themisdb::analytics::AnomalyExplanation::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/anomaly_detection.h" line="177" column="17" bodyfile="include/analytics/anomaly_detection.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/anomaly_detection.h" line="173" column="1" bodyfile="include/analytics/anomaly_detection.h" bodystart="173" bodyend="178"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_anomaly_explanation_1a1f21c9969ef7da2ed7eaaab21c741399" prot="public" virt="non-virtual"><scope>themisdb::analytics::AnomalyExplanation</scope><name>description</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_anomaly_explanation_1a863f4b0857c34ea6caafa8c95a262555" prot="public" virt="non-virtual"><scope>themisdb::analytics::AnomalyExplanation</scope><name>feature_contributions</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_anomaly_explanation_1ad62bae7d6d618f2c652236ad0d10d6eb" prot="public" virt="non-virtual"><scope>themisdb::analytics::AnomalyExplanation</scope><name>id</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_anomaly_explanation_1ae97b5c8d4511ef58e07fea85098b30c9" prot="public" virt="non-virtual"><scope>themisdb::analytics::AnomalyExplanation</scope><name>score</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

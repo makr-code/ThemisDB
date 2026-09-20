@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cdc_1_1_cdc_web_socket_handler_1_1_pending_event" kind="struct" language="C++" prot="private">
+    <compoundname>themis::cdc::CdcWebSocketHandler::PendingEvent</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_cdc_web_socket_handler_1_1_pending_event_1ac3e20de23cd6d87d2cde4cf4b02317b4" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::cdc::CdcWebSocketHandler::PendingEvent::frame</definition>
+        <argsstring></argsstring>
+        <name>frame</name>
+        <qualifiedname>themis::cdc::CdcWebSocketHandler::PendingEvent::frame</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_ws_handler.h" line="70" column="24" bodyfile="include/cdc/cdc_ws_handler.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_cdc_web_socket_handler_1_1_pending_event_1abec16c7a7e5340fc458969b5778c763f" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::cdc::CdcWebSocketHandler::PendingEvent::sent_at</definition>
+        <argsstring></argsstring>
+        <name>sent_at</name>
+        <qualifiedname>themis::cdc::CdcWebSocketHandler::PendingEvent::sent_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_ws_handler.h" line="71" column="47" bodyfile="include/cdc/cdc_ws_handler.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cdc/cdc_ws_handler.h" line="69" column="5" bodyfile="include/cdc/cdc_ws_handler.h" bodystart="69" bodyend="72"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cdc_1_1_cdc_web_socket_handler_1_1_pending_event_1ac3e20de23cd6d87d2cde4cf4b02317b4" prot="public" virt="non-virtual"><scope>themis::cdc::CdcWebSocketHandler::PendingEvent</scope><name>frame</name></member>
+      <member refid="structthemis_1_1cdc_1_1_cdc_web_socket_handler_1_1_pending_event_1abec16c7a7e5340fc458969b5778c763f" prot="public" virt="non-virtual"><scope>themis::cdc::CdcWebSocketHandler::PendingEvent</scope><name>sent_at</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

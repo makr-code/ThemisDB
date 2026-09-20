@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_a2c986c84eac48c07de5e38c3b5bdd1b" kind="dir">
+    <compoundname>tests/document</compoundname>
+    <innerfile refid="test__document__conflict__diagnostics__focused_8cpp">test_document_conflict_diagnostics_focused.cpp</innerfile>
+    <innerfile refid="test__document__highcardinality__stress_8cpp">test_document_highcardinality_stress.cpp</innerfile>
+    <innerfile refid="test__document__round__trip__persistence__focused_8cpp">test_document_round_trip_persistence_focused.cpp</innerfile>
+    <innerfile refid="test__document__schema__hardening__focused_8cpp">test_document_schema_hardening_focused.cpp</innerfile>
+    <innerfile refid="test__document__store_8cpp">test_document_store.cpp</innerfile>
+    <innerfile refid="test__document__xdomea__focused_8cpp">test_document_xdomea_focused.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/document/"/>
+  </compounddef>
+</doxygen>

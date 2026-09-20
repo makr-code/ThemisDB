@@ -1,0 +1,404 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="policy__review_8h" kind="file" language="C++">
+    <compoundname>policy_review.h</compoundname>
+    <includes refid="policy__manager_8h" local="yes">governance/policy_manager.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="policy__review_8cpp" local="yes">src/governance/policy_review.cpp</includedby>
+    <incdepgraph>
+      <node id="14">
+        <label>governance_diagnostics.h</label>
+        <link refid="governance__diagnostics_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>governance/policy_manager.h</label>
+        <link refid="policy__manager_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/governance/policy_review.h</label>
+        <link refid="policy__review_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>policy_version_history.h</label>
+        <link refid="policy__version__history_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>cstdint</label>
+      </node>
+      <node id="10">
+        <label>functional</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>mutex</label>
+      </node>
+      <node id="12">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="9">
+        <label>shared_mutex</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="15">
+        <label>themis/export.h</label>
+      </node>
+      <node id="5">
+        <label>unordered_map</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/governance/policy_review.h</label>
+        <link refid="policy__review_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/governance/policy_review.cpp</label>
+        <link refid="policy__review_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1governance_1_1_policy_review" prot="public">themis::governance::PolicyReview</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_review_scheduler" prot="public">themis::governance::ReviewScheduler</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_review_scheduler_1_1_review_schedule" prot="public">themis::governance::ReviewScheduler::ReviewSchedule</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_review_workflow" prot="public">themis::governance::ReviewWorkflow</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_policy_expiration" prot="public">themis::governance::PolicyExpiration</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_policy_expiration_1_1_expiration_config" prot="public">themis::governance::PolicyExpiration::ExpirationConfig</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_policy_expiration_1_1_expiration_warning" prot="public">themis::governance::PolicyExpiration::ExpirationWarning</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_notification_manager" prot="public">themis::governance::NotificationManager</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification" prot="public">themis::governance::NotificationManager::Notification</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_config" prot="public">themis::governance::NotificationManager::NotificationConfig</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1governance">themis::governance</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="policy__manager_8h" kindref="compound">governance/policy_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1governance" kindref="compound">governance</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="structthemis_1_1governance_1_1_policy_review" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1governance_1_1_policy_review" kindref="compound">PolicyReview</ref><sp/>{</highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1governance_1_1_policy_review_1a1de31631ae9a4fb6a10350297f9d4611" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_policy_review_1a1de31631ae9a4fb6a10350297f9d4611" kindref="member">review_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Unique<sp/>review<sp/>identifier</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1governance_1_1_policy_review_1a8b30d7e91ae4b39f28c96366595e1f85" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_policy_review_1a8b30d7e91ae4b39f28c96366595e1f85" kindref="member">rule_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rule<sp/>being<sp/>reviewed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1governance_1_1_policy_review_1a7834b1fdd5e19c130e24c5f8104bbab2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_policy_review_1a7834b1fdd5e19c130e24c5f8104bbab2" kindref="member">status</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>pending,<sp/>approved,<sp/>rejected,<sp/>expired</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1governance_1_1_policy_review_1a3cec1af9924cae59d4c982e623d1d0c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_policy_review_1a3cec1af9924cae59d4c982e623d1d0c3" kindref="member">reviewer</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>User<sp/>assigned<sp/>to<sp/>review</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1governance_1_1_policy_review_1a6a532ec280adcb604bee62a27d2381de" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_policy_review_1a6a532ec280adcb604bee62a27d2381de" kindref="member">requester</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>User<sp/>who<sp/>requested<sp/>review</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1governance_1_1_policy_review_1a4700532f3c86b21a09fe853f28f7d6e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1governance_1_1_policy_review_1a4700532f3c86b21a09fe853f28f7d6e1" kindref="member">created_at</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>When<sp/>review<sp/>was<sp/>created</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1governance_1_1_policy_review_1a31038eebd266c7b3c8f862cbeb60ce4e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1governance_1_1_policy_review_1a31038eebd266c7b3c8f862cbeb60ce4e" kindref="member">due_date</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Review<sp/>deadline</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1governance_1_1_policy_review_1a3921c1c3ae11d29030a68fab6d3a1934" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1governance_1_1_policy_review_1a3921c1c3ae11d29030a68fab6d3a1934" kindref="member">completed_at</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>When<sp/>review<sp/>was<sp/>completed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1governance_1_1_policy_review_1aa8cf85383e9186d418c010771a40ba50" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_policy_review_1aa8cf85383e9186d418c010771a40ba50" kindref="member">review_notes</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reviewer&apos;s<sp/>notes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1governance_1_1_policy_review_1a726bfa825338ff51abc8771204de157d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_policy_review_1a726bfa825338ff51abc8771204de157d" kindref="member">rejection_reason</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reason<sp/>if<sp/>rejected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1governance_1_1_policy_review_1a3da54de5a6571382fee06efe699c0a0e" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_policy_review" kindref="compound">PolicyReview</ref><sp/><ref refid="structthemis_1_1governance_1_1_policy_review_1acff236ea3282e49d7b84fcebafbb84b4" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="classthemis_1_1governance_1_1_review_scheduler" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1governance_1_1_review_scheduler_1a5f837fb82986cc3cafbfa759e8ec1b67" kindref="member">ReviewScheduler</ref><sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1governance_1_1_review_scheduler_1_1_review_schedule" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1governance_1_1_review_scheduler_1_1_review_schedule" kindref="compound">ReviewSchedule</ref><sp/>{</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1governance_1_1_review_scheduler_1_1_review_schedule_1a24b568ca8de63ceacd0c35c276646536" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_review_scheduler_1_1_review_schedule_1a24b568ca8de63ceacd0c35c276646536" kindref="member">rule_id</ref>;</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1governance_1_1_review_scheduler_1_1_review_schedule_1a2ca20c9520013065b58f076aca123dbc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_review_scheduler_1_1_review_schedule_1a2ca20c9520013065b58f076aca123dbc" kindref="member">review_period_days</ref><sp/>=<sp/>90;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Review<sp/>every<sp/>N<sp/>days</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1governance_1_1_review_scheduler_1_1_review_schedule_1a3ab4f108c5ddac35db38979b78793016" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1governance_1_1_review_scheduler_1_1_review_schedule_1a3ab4f108c5ddac35db38979b78793016" kindref="member">last_review_date</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Last<sp/>review<sp/>timestamp</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1governance_1_1_review_scheduler_1_1_review_schedule_1a6f50ffcc2f99ceab867d2d1d357ed622" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1governance_1_1_review_scheduler_1_1_review_schedule_1a6f50ffcc2f99ceab867d2d1d357ed622" kindref="member">next_review_date</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Next<sp/>scheduled<sp/>review</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1governance_1_1_review_scheduler_1_1_review_schedule_1a288e817aae8cfc29d3a76906f32a5e62" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_review_scheduler_1_1_review_schedule_1a288e817aae8cfc29d3a76906f32a5e62" kindref="member">auto_review_enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Whether<sp/>automatic<sp/>scheduling<sp/>is<sp/>enabled</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1governance_1_1_review_scheduler_1_1_review_schedule_1a2de530980257aa46a5ebeac53c86f8c3" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_review_scheduler_1_1_review_schedule" kindref="compound">ReviewSchedule</ref><sp/><ref refid="structthemis_1_1governance_1_1_review_scheduler_1_1_review_schedule_1a3576e83fd54bfee85742b67a155e6c7e" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_review_scheduler_1a9ba311a2ffb9defb48525ffef8d5c8d5" kindref="member">setSchedule</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>rule_id,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>review_period_days);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;ReviewSchedule&gt;<sp/><ref refid="classthemis_1_1governance_1_1_review_scheduler_1a4c8407519ff941ffa072f4a76d24f3f1" kindref="member">getSchedule</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>rule_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_review_scheduler_1a7b90c27c7ef3ea062c38f1e825f311f8" kindref="member">removeSchedule</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>rule_id);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ReviewSchedule&gt;<sp/><ref refid="classthemis_1_1governance_1_1_review_scheduler_1a6aa35279b416a4208da22aefbee7ab38" kindref="member">getAllSchedules</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1governance_1_1_review_scheduler_1a47ce4207afd66ca995f00cf5c0a4a02a" kindref="member">getRulesDueForReview</ref>(int64_t<sp/>current_time<sp/>=<sp/>0)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1governance_1_1_review_scheduler_1a859ddb91ec7f3ba0b19f9c0f5576f43b" kindref="member">getOverdueReviews</ref>(int64_t<sp/>current_time<sp/>=<sp/>0)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_review_scheduler_1af8397c9238a62bdf85ae67b83b26c91b" kindref="member">markAsReviewed</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>rule_id,<sp/>int64_t<sp/>review_time<sp/>=<sp/>0);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1governance_1_1_review_scheduler_1acce2e36c4af999da36425a91659def8c" kindref="member">exportSchedules</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_review_scheduler_1a022faafb1b55c8878a1fc57e5d4250d6" kindref="member">importSchedules</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>ReviewSchedule&gt;<sp/>schedules_;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="classthemis_1_1governance_1_1_review_workflow" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1governance_1_1_review_workflow" kindref="compound">ReviewWorkflow</ref><sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1governance_1_1_review_workflow_1abe298da5290bf4b6e1a886225fa5be7f" kindref="member">createReview</ref>(</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>rule_id,</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>reviewer,</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>requester,</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>days_to_complete<sp/>=<sp/>7</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;PolicyReview&gt;<sp/><ref refid="classthemis_1_1governance_1_1_review_workflow_1a2cd847e4365cb4da0a2c77fb9ef8c641" kindref="member">getReview</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>review_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;PolicyReview&gt;<sp/><ref refid="classthemis_1_1governance_1_1_review_workflow_1ae782bc08ae4c966f709c1d7fd0be6d8c" kindref="member">listReviews</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;PolicyReview&gt;<sp/><ref refid="classthemis_1_1governance_1_1_review_workflow_1a54c2f934be7fca598932c29c376ef31a" kindref="member">listReviewsByStatus</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>status)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;PolicyReview&gt;<sp/><ref refid="classthemis_1_1governance_1_1_review_workflow_1a1098348e305f6b3995785c419ce87a96" kindref="member">listReviewsByReviewer</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>reviewer)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;PolicyReview&gt;<sp/><ref refid="classthemis_1_1governance_1_1_review_workflow_1a16a28f68c74a53259c3891547a8cf06e" kindref="member">listPendingReviews</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_review_workflow_1a6ad21ff88450035a47398f8367be1e28" kindref="member">approveReview</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>review_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>notes);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_review_workflow_1a2841a32271df8dae54d8db11a14cfdad" kindref="member">rejectReview</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>review_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>reason,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>notes);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;PolicyReview&gt;<sp/><ref refid="classthemis_1_1governance_1_1_review_workflow_1ad0602548c639cb3769d4a9a0f2987cb9" kindref="member">getReviewHistory</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>rule_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;PolicyReview&gt;<sp/><ref refid="classthemis_1_1governance_1_1_review_workflow_1aad4b232aa684506354e8be15a7a88411" kindref="member">getOverdueReviews</ref>(int64_t<sp/>current_time<sp/>=<sp/>0)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_review_workflow_1ad35d6e282abd21c063ecedfebb7557c4" kindref="member">cancelReview</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>review_id);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1governance_1_1_review_workflow_1aa0b3d97bd02125c33e576d5c741fabf1" kindref="member">exportReviews</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_review_workflow_1a80b1d5027d89c7eb65eaecd71ca17cc8" kindref="member">importReviews</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>PolicyReview&gt;<sp/>reviews_;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>generateReviewId()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222" refid="classthemis_1_1governance_1_1_policy_expiration" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1governance_1_1_policy_expiration" kindref="compound">PolicyExpiration</ref><sp/>{</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="224" refid="structthemis_1_1governance_1_1_policy_expiration_1_1_expiration_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1governance_1_1_policy_expiration_1_1_expiration_config" kindref="compound">ExpirationConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="225" refid="structthemis_1_1governance_1_1_policy_expiration_1_1_expiration_config_1a6857e59136cce9ee7832b13803069ede" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_policy_expiration_1_1_expiration_config_1a6857e59136cce9ee7832b13803069ede" kindref="member">rule_id</ref>;</highlight></codeline>
+<codeline lineno="226" refid="structthemis_1_1governance_1_1_policy_expiration_1_1_expiration_config_1a2f823b792367a4f8cef4fcd4bb87c1b5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1governance_1_1_policy_expiration_1_1_expiration_config_1a2f823b792367a4f8cef4fcd4bb87c1b5" kindref="member">expiration_date</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>When<sp/>rule<sp/>expires</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227" refid="structthemis_1_1governance_1_1_policy_expiration_1_1_expiration_config_1a218e87ec7bb0b41a8a5b8067cf4fa0ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_policy_expiration_1_1_expiration_config_1a218e87ec7bb0b41a8a5b8067cf4fa0ec" kindref="member">grace_period_days</ref><sp/>=<sp/>7;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Days<sp/>before<sp/>automatic<sp/>disable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228" refid="structthemis_1_1governance_1_1_policy_expiration_1_1_expiration_config_1a96ba3e600d5aa9dc0db8ee36fa5a1a5f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_policy_expiration_1_1_expiration_config_1a96ba3e600d5aa9dc0db8ee36fa5a1a5f" kindref="member">auto_disable_enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Whether<sp/>to<sp/>auto-disable<sp/>on<sp/>expiration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229" refid="structthemis_1_1governance_1_1_policy_expiration_1_1_expiration_config_1a49c5572fe1a8edb704bb73cf5142ef03" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;int&gt;<sp/><ref refid="structthemis_1_1governance_1_1_policy_expiration_1_1_expiration_config_1a49c5572fe1a8edb704bb73cf5142ef03" kindref="member">warning_days</ref><sp/>=<sp/>{30,<sp/>14,<sp/>7};<sp/></highlight><highlight class="comment">//<sp/>Days<sp/>before<sp/>expiration<sp/>to<sp/>warn</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1governance_1_1_policy_expiration_1_1_expiration_config_1a1ef11d7178936cb81fa2d1b614dad94f" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_policy_expiration_1_1_expiration_config" kindref="compound">ExpirationConfig</ref><sp/><ref refid="structthemis_1_1governance_1_1_policy_expiration_1_1_expiration_config_1a388d28606609d5c7d4e4b6dcb366571d" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="244" refid="structthemis_1_1governance_1_1_policy_expiration_1_1_expiration_warning" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1governance_1_1_policy_expiration_1_1_expiration_warning" kindref="compound">ExpirationWarning</ref><sp/>{</highlight></codeline>
+<codeline lineno="245" refid="structthemis_1_1governance_1_1_policy_expiration_1_1_expiration_warning_1aa722d611dcbedec5b49533282404c6ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_policy_expiration_1_1_expiration_warning_1aa722d611dcbedec5b49533282404c6ed" kindref="member">rule_id</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="246" refid="structthemis_1_1governance_1_1_policy_expiration_1_1_expiration_warning_1aba231e10e42b037612e4ea3ca28a055f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1governance_1_1_policy_expiration_1_1_expiration_warning_1aba231e10e42b037612e4ea3ca28a055f" kindref="member">expiration_date</ref>;</highlight></codeline>
+<codeline lineno="247" refid="structthemis_1_1governance_1_1_policy_expiration_1_1_expiration_warning_1ab468e0178df3897801ba37c1678d5a65" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_policy_expiration_1_1_expiration_warning_1ab468e0178df3897801ba37c1678d5a65" kindref="member">days_until_expiration</ref>;</highlight></codeline>
+<codeline lineno="248" refid="structthemis_1_1governance_1_1_policy_expiration_1_1_expiration_warning_1a3d2ebd677f628dbe16f03797e2dbe30d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_policy_expiration_1_1_expiration_warning_1a3d2ebd677f628dbe16f03797e2dbe30d" kindref="member">severity</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>info,<sp/>warning,<sp/>critical</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1governance_1_1_policy_expiration_1_1_expiration_warning_1a6345be96c493e2a45caa023cd7c40c38" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_policy_expiration_1a1f2f002e625ed67346047003805c618c" kindref="member">setExpiration</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>rule_id,<sp/>int64_t<sp/>expiration_date,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>grace_period_days<sp/>=<sp/>7);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;ExpirationConfig&gt;<sp/><ref refid="classthemis_1_1governance_1_1_policy_expiration_1aab346b32cc78bf8fa9eefa0ab2120514" kindref="member">getExpiration</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>rule_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_policy_expiration_1a34c59fc3033263b34112755f25e6e963" kindref="member">removeExpiration</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>rule_id);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ExpirationConfig&gt;<sp/><ref refid="classthemis_1_1governance_1_1_policy_expiration_1af2b9f8bb08441166c8a00dc1ba9a1bbd" kindref="member">getAllExpirations</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1governance_1_1_policy_expiration_1afeec9c5062b88746e5a7a0fa02eaba24" kindref="member">getExpiredRules</ref>(int64_t<sp/>current_time<sp/>=<sp/>0)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ExpirationWarning&gt;<sp/><ref refid="classthemis_1_1governance_1_1_policy_expiration_1aa18c820fddafc8d6515b73459b2e6b42" kindref="member">getRulesExpiringSoon</ref>(int64_t<sp/>current_time<sp/>=<sp/>0)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1governance_1_1_policy_expiration_1a9fa477d2fe1cdc022c44652c42329c90" kindref="member">processExpirations</ref>(<ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref>&amp;<sp/>policy_mgr,<sp/>int64_t<sp/>current_time<sp/>=<sp/>0);</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_policy_expiration_1afc0bdcbcb4105577819383b133955733" kindref="member">extendExpiration</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>rule_id,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>additional_days);</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1governance_1_1_policy_expiration_1a7753a98964b5c0cd3cc2144b5fc503e1" kindref="member">exportExpirations</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_policy_expiration_1ad6a36c4dbee4c2641d431a25948592f7" kindref="member">importExpirations</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>ExpirationConfig&gt;<sp/>expirations_;</highlight></codeline>
+<codeline lineno="307"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309" refid="classthemis_1_1governance_1_1_notification_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1governance_1_1_notification_manager" kindref="compound">NotificationManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="311" refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification" kindref="compound">Notification</ref><sp/>{</highlight></codeline>
+<codeline lineno="312" refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_1aa65e96268a7a26a1d7b18a3a0cd310ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_1aa65e96268a7a26a1d7b18a3a0cd310ae" kindref="member">notification_id</ref>;</highlight></codeline>
+<codeline lineno="313" refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_1ad69736621003b255f500d309eee9e430" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_1ad69736621003b255f500d309eee9e430" kindref="member">notification_type</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>review_due,<sp/>review_overdue,<sp/>expiration_warning,<sp/>etc.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="314" refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_1a71fbaf439bd41a72855ce8515cbf3538" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_1a71fbaf439bd41a72855ce8515cbf3538" kindref="member">recipient</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Email<sp/>or<sp/>webhook<sp/>URL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="315" refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_1ac7b403a984807809684da14c1d2bcf70" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_1ac7b403a984807809684da14c1d2bcf70" kindref="member">subject</ref>;</highlight></codeline>
+<codeline lineno="316" refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_1a08e25b8663492bffb625250b4faa82df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_1a08e25b8663492bffb625250b4faa82df" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="317" refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_1aea79badfc8a5c4d22a18d3cdab621968" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_1aea79badfc8a5c4d22a18d3cdab621968" kindref="member">created_at</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="318" refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_1ad86d29fc96f321cb10d418c7a7e9499b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_1ad86d29fc96f321cb10d418c7a7e9499b" kindref="member">sent</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="319" refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_1a0072be427e8a6b4eb7162cb5a5d18377" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_1a0072be427e8a6b4eb7162cb5a5d18377" kindref="member">sent_at</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_1a3f4be08bf3fe62e8d32b410efbb158b8" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="328" refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_config" kindref="compound">NotificationConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="329" refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_config_1a3f1e868bde5d24627c8083c21dd9b4f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_config_1a3f1e868bde5d24627c8083c21dd9b4f5" kindref="member">email_enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="330" refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_config_1a0ebf04961b91809bdb522bb7aa2b6f1f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_config_1a0ebf04961b91809bdb522bb7aa2b6f1f" kindref="member">smtp_server</ref>;</highlight></codeline>
+<codeline lineno="331" refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_config_1a16607f10d8dd8b29018597bbc4b4b7d7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_config_1a16607f10d8dd8b29018597bbc4b4b7d7" kindref="member">smtp_port</ref><sp/>=<sp/>587;</highlight></codeline>
+<codeline lineno="332" refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_config_1afb7bb21f61db7c51fc55aa132b532573" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_config_1afb7bb21f61db7c51fc55aa132b532573" kindref="member">smtp_username</ref>;</highlight></codeline>
+<codeline lineno="333" refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_config_1ae5cc8bb805e17bf487e13342519af47e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_config_1ae5cc8bb805e17bf487e13342519af47e" kindref="member">smtp_password</ref>;</highlight></codeline>
+<codeline lineno="334" refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_config_1ae07a6a41223044e8d378bf8c9dc93fa3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_config_1ae07a6a41223044e8d378bf8c9dc93fa3" kindref="member">from_email</ref>;</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="336" refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_config_1a4a7b67b69d06726da7c6d95af7a79edb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_config_1a4a7b67b69d06726da7c6d95af7a79edb" kindref="member">webhook_enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="337" refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_config_1ac26e99236692afab90c58c2b4b2fd158" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_config_1ac26e99236692afab90c58c2b4b2fd158" kindref="member">webhook_url</ref>;</highlight></codeline>
+<codeline lineno="338" refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_config_1a98aaed2246247abf34b0dd74a962c61d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_config_1a98aaed2246247abf34b0dd74a962c61d" kindref="member">webhook_secret</ref>;</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_config_1a7067c1c86bdd02b3c0acc1a22677080f" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_config" kindref="compound">NotificationConfig</ref><sp/><ref refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_config_1ac2d0f706e64f68dadef1f4955a73b73a" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_notification_manager_1aed060937a0d75bb311c7e54442df16fe" kindref="member">configure</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_config" kindref="compound">NotificationConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_config" kindref="compound">NotificationConfig</ref><sp/><ref refid="classthemis_1_1governance_1_1_notification_manager_1a0cc2c63257985286e2072c55acd39026" kindref="member">getConfig</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_notification_manager_1aa88307f0d055b6f3d70452a36ba66be8" kindref="member">notifyReviewDue</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>recipient,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_policy_review" kindref="compound">PolicyReview</ref>&amp;<sp/>review);</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_notification_manager_1a910957df84c352802b1f5a84ee12f67b" kindref="member">notifyReviewOverdue</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>recipient,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_policy_review" kindref="compound">PolicyReview</ref>&amp;<sp/>review,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>days_overdue);</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_notification_manager_1ae76667b031f5503dd4933e92d6ac2c65" kindref="member">notifyExpirationWarning</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>recipient,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_policy_expiration_1_1_expiration_warning" kindref="compound">PolicyExpiration::ExpirationWarning</ref>&amp;<sp/>warning);</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_notification_manager_1a625be7dfe38a8d7803e772000faa7fd3" kindref="member">notifyRuleExpired</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>recipient,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>rule_id);</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="406"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1governance_1_1_notification_manager_1a7b576a93dd693f5a427905b7e34abcb6" kindref="member">createNotification</ref>(</highlight></codeline>
+<codeline lineno="407"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>type,</highlight></codeline>
+<codeline lineno="408"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>recipient,</highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>subject,</highlight></codeline>
+<codeline lineno="410"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message</highlight></codeline>
+<codeline lineno="411"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="412"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="417"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Notification&gt;<sp/><ref refid="classthemis_1_1governance_1_1_notification_manager_1a940a26979ff3b9242f114afe81e3f1b7" kindref="member">getPendingNotifications</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="418"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="423"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_notification_manager_1a12a592be879271876d049053c78eaafa" kindref="member">markAsSent</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>notification_id);</highlight></codeline>
+<codeline lineno="424"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="425"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Notification&gt;<sp/><ref refid="classthemis_1_1governance_1_1_notification_manager_1aa1e72be5b9c4df6a31afc33eaf2791ed" kindref="member">getNotificationHistory</ref>(int64_t<sp/>since<sp/>=<sp/>0)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="426"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="427"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="428"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="429"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_config" kindref="compound">NotificationConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="430"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>Notification&gt;<sp/>notifications_;</highlight></codeline>
+<codeline lineno="431"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="436"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>generateNotificationId()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="442"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>sendEmail(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification" kindref="compound">Notification</ref>&amp;<sp/>notification);</highlight></codeline>
+<codeline lineno="448"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>sendWebhook(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification" kindref="compound">Notification</ref>&amp;<sp/>notification);</highlight></codeline>
+<codeline lineno="449"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="450"><highlight class="normal"></highlight></codeline>
+<codeline lineno="451"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>governance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="452"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="453"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/governance/policy_review.h"/>
+  </compounddef>
+</doxygen>

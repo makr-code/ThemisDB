@@ -1,0 +1,1548 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_prompt_version_control" kind="class" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::PromptVersionControl</compoundname>
+    <includes refid="prompt__version__control_8h" local="no">prompt_version_control.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1a8ee6e296dedb85d90c92b72eeee467c1" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::prompt_engineering::PromptVersionControl::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::prompt_engineering::PromptVersionControl::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="306" column="24" bodyfile="include/prompt_engineering/prompt_version_control.h" bodystart="306" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1a3f730a043bd5e3a244e29232d12a6e60" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1prompt__engineering_1_1_prompt_version" kindref="compound">PromptVersion</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, PromptVersion&gt; themis::prompt_engineering::PromptVersionControl::versions_</definition>
+        <argsstring></argsstring>
+        <name>versions_</name>
+        <qualifiedname>themis::prompt_engineering::PromptVersionControl::versions_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="309" column="24" bodyfile="include/prompt_engineering/prompt_version_control.h" bodystart="309" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1a411cc2c7b91fc8cda66ef74fb3f1c3ab" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::unordered_map&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::unordered_map&lt;std::string, std::string&gt; &gt; themis::prompt_engineering::PromptVersionControl::branches_</definition>
+        <argsstring></argsstring>
+        <name>branches_</name>
+        <qualifiedname>themis::prompt_engineering::PromptVersionControl::branches_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="312" column="24" bodyfile="include/prompt_engineering/prompt_version_control.h" bodystart="312" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1ab824b9696806fa8d92f2f0aecb7790ef" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::unordered_map&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::unordered_map&lt;std::string, std::string&gt; &gt; themis::prompt_engineering::PromptVersionControl::tags_</definition>
+        <argsstring></argsstring>
+        <name>tags_</name>
+        <qualifiedname>themis::prompt_engineering::PromptVersionControl::tags_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="315" column="24" bodyfile="include/prompt_engineering/prompt_version_control.h" bodystart="315" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1aa3ea79949c83fed897cfa5cb14016756" prot="private" static="no" mutable="no">
+        <type>RocksDBWrapper *</type>
+        <definition>RocksDBWrapper* themis::prompt_engineering::PromptVersionControl::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::prompt_engineering::PromptVersionControl::db_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="318" column="20" bodyfile="include/prompt_engineering/prompt_version_control.h" bodystart="318" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1a6b2a05732a2a8dccce650ac746990283" prot="private" static="no" mutable="no">
+        <type>rocksdb::ColumnFamilyHandle *</type>
+        <definition>rocksdb::ColumnFamilyHandle* themis::prompt_engineering::PromptVersionControl::cf_</definition>
+        <argsstring></argsstring>
+        <name>cf_</name>
+        <qualifiedname>themis::prompt_engineering::PromptVersionControl::cf_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="319" column="33" bodyfile="include/prompt_engineering/prompt_version_control.h" bodystart="319" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1a02fb1f16e36d99a5b20b8f5f132812c3" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::prompt_engineering::PromptVersionControl::KEY_PREFIX_VERSION</definition>
+        <argsstring></argsstring>
+        <name>KEY_PREFIX_VERSION</name>
+        <qualifiedname>themis::prompt_engineering::PromptVersionControl::KEY_PREFIX_VERSION</qualifiedname>
+        <initializer>= &quot;version:&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="321" column="33" bodyfile="include/prompt_engineering/prompt_version_control.h" bodystart="321" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1a9e1020e51d69d8e5c0d320443213a075" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::prompt_engineering::PromptVersionControl::KEY_PREFIX_BRANCH</definition>
+        <argsstring></argsstring>
+        <name>KEY_PREFIX_BRANCH</name>
+        <qualifiedname>themis::prompt_engineering::PromptVersionControl::KEY_PREFIX_BRANCH</qualifiedname>
+        <initializer>= &quot;branch:&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="322" column="33" bodyfile="include/prompt_engineering/prompt_version_control.h" bodystart="322" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1a231380c4d82ffa191e2a13b927594487" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::prompt_engineering::PromptVersionControl::KEY_PREFIX_TAG</definition>
+        <argsstring></argsstring>
+        <name>KEY_PREFIX_TAG</name>
+        <qualifiedname>themis::prompt_engineering::PromptVersionControl::KEY_PREFIX_TAG</qualifiedname>
+        <initializer>= &quot;tag:&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="323" column="33" bodyfile="include/prompt_engineering/prompt_version_control.h" bodystart="323" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1ada2530d4ce2c0db55e3994bda46da485" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::PromptVersionControl::PromptVersionControl</definition>
+        <argsstring>()</argsstring>
+        <name>PromptVersionControl</name>
+        <qualifiedname>themis::prompt_engineering::PromptVersionControl::PromptVersionControl</qualifiedname>
+        <briefdescription>
+<para>Constructor for in-memory version control. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="124" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1a48fd4d725ac820b6b80a7765dd85e2d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::PromptVersionControl::PromptVersionControl</definition>
+        <argsstring>(RocksDBWrapper *db, rocksdb::ColumnFamilyHandle *cf=nullptr)</argsstring>
+        <name>PromptVersionControl</name>
+        <qualifiedname>themis::prompt_engineering::PromptVersionControl::PromptVersionControl</qualifiedname>
+        <param>
+          <type>RocksDBWrapper *</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>rocksdb::ColumnFamilyHandle *</type>
+          <declname>cf</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Constructor with RocksDB persistence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RocksDB wrapper (not owned) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Column family handle (optional, uses default if null) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="131" column="5" bodyfile="src/prompt_engineering/prompt_version_control.cpp" bodystart="128" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1aa6eeadd376a4e5fbd919167a88587437" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::PromptVersionControl::commit</definition>
+        <argsstring>(const std::string &amp;prompt_id, const std::string &amp;content, const std::string &amp;message, const std::string &amp;author=&quot;system&quot;, const std::string &amp;branch=&quot;main&quot;, const nlohmann::json &amp;metadata={})</argsstring>
+        <name>commit</name>
+        <qualifiedname>themis::prompt_engineering::PromptVersionControl::commit</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>author</declname>
+          <defval>&quot;system&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>branch</declname>
+          <defval>&quot;main&quot;</defval>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>metadata</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Commit a new version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Commit.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prompt template ID </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prompt content </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Commit message describing changes </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>author</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Author of this version (default: &quot;system&quot;) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>branch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Branch name (default: &quot;main&quot;) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Additional metadata </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Version ID of the new commit</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the prompt. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">author</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">branch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), count(), generateVersionId(), std::chrono::system_clock::now(), persistVersion(), persistBranch(), THEMIS_DEBUG(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="143" column="17" bodyfile="src/prompt_engineering/prompt_version_control.cpp" bodystart="146" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1a11a164de133d1e3ef66f34d3d1f872aa" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_prompt_version" kindref="compound">PromptVersion</ref> &gt;</type>
+        <definition>std::optional&lt; PromptVersion &gt; themis::prompt_engineering::PromptVersionControl::getVersion</definition>
+        <argsstring>(const std::string &amp;version_id) const</argsstring>
+        <name>getVersion</name>
+        <qualifiedname>themis::prompt_engineering::PromptVersionControl::getVersion</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version_id</declname>
+        </param>
+        <briefdescription>
+<para>Get a specific version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>version_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Version identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Version details, or nullopt if not found </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="157" column="19" bodyfile="src/prompt_engineering/prompt_version_control.cpp" bodystart="200" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1a737fc5b5f3448eb750939ad8a548c7f9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_prompt_version" kindref="compound">PromptVersion</ref> &gt;</type>
+        <definition>std::vector&lt; PromptVersion &gt; themis::prompt_engineering::PromptVersionControl::getHistory</definition>
+        <argsstring>(const std::string &amp;prompt_id, const std::string &amp;branch=&quot;&quot;, size_t limit=0) const</argsstring>
+        <name>getHistory</name>
+        <qualifiedname>themis::prompt_engineering::PromptVersionControl::getHistory</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>branch</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>limit</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Get version history for a prompt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prompt template ID </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>branch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Branch name (empty = all branches) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>limit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of versions (0 = all) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of versions in reverse chronological order </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="166" column="17" bodyfile="src/prompt_engineering/prompt_version_control.cpp" bodystart="218" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1ac645aec022c68c5348eb2fdbb135154b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_prompt_version" kindref="compound">PromptVersion</ref> &gt;</type>
+        <definition>std::optional&lt; PromptVersion &gt; themis::prompt_engineering::PromptVersionControl::getLatest</definition>
+        <argsstring>(const std::string &amp;prompt_id, const std::string &amp;branch=&quot;main&quot;) const</argsstring>
+        <name>getLatest</name>
+        <qualifiedname>themis::prompt_engineering::PromptVersionControl::getLatest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>branch</declname>
+          <defval>&quot;main&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Get the latest version for a prompt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prompt template ID </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>branch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Branch name (default: &quot;main&quot;) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Latest version, or nullopt if none exists </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="178" column="19" bodyfile="src/prompt_engineering/prompt_version_control.cpp" bodystart="257" bodyend="285"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1a1140866c3e0eee7ea07c300117b9833f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::PromptVersionControl::rollback</definition>
+        <argsstring>(const std::string &amp;prompt_id, const std::string &amp;version_id, const std::string &amp;message=&quot;Rollback to previous version&quot;)</argsstring>
+        <name>rollback</name>
+        <qualifiedname>themis::prompt_engineering::PromptVersionControl::rollback</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+          <defval>&quot;Rollback to previous version&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Rollback to a specific version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Rollback.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prompt template ID </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Version to rollback to </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Commit message for rollback </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>New version ID after rollback</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the prompt. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the version. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(), THEMIS_ERROR(), generateVersionId(), substr(), std::chrono::system_clock::now(), persistVersion(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="190" column="17" bodyfile="src/prompt_engineering/prompt_version_control.cpp" bodystart="295" bodyend="341"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1a1d17d97effe784b3a7787c77809b0868" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::PromptVersionControl::rollbackN</definition>
+        <argsstring>(const std::string &amp;prompt_id, size_t versions=1, const std::string &amp;branch=&quot;main&quot;)</argsstring>
+        <name>rollbackN</name>
+        <qualifiedname>themis::prompt_engineering::PromptVersionControl::rollbackN</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>versions</declname>
+          <defval>1</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>branch</declname>
+          <defval>&quot;main&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Rollback N versions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Rollback N.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prompt template ID </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>versions</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of versions to rollback (default: 1) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>branch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Branch name (default: &quot;main&quot;) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>New version ID after rollback, or empty if failed</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the prompt. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">versions</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">branch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(), count(), THEMIS_ERROR(), empty(), THEMIS_WARN(), unlock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="203" column="17" bodyfile="src/prompt_engineering/prompt_version_control.cpp" bodystart="351" bodyend="382"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1a57f05505679e779093cd74ea51c341e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::PromptVersionControl::createBranch</definition>
+        <argsstring>(const std::string &amp;prompt_id, const std::string &amp;branch_name, const std::string &amp;from_version=&quot;&quot;)</argsstring>
+        <name>createBranch</name>
+        <qualifiedname>themis::prompt_engineering::PromptVersionControl::createBranch</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>branch_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>from_version</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Create a new branch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Branch.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prompt template ID </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>branch_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New branch name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>from_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Version to branch from (empty = latest on main) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if successful</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the prompt. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">branch_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the branch. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">from_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), count(), THEMIS_WARN(), empty(), THEMIS_ERROR(), std::chrono::system_clock::now(), persistBranch(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="216" column="10" bodyfile="src/prompt_engineering/prompt_version_control.cpp" bodystart="392" bodyend="439"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1ab3493cc2d1ec88b1e9146ae0ac8de0a9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_branch_info" kindref="compound">BranchInfo</ref> &gt;</type>
+        <definition>std::vector&lt; BranchInfo &gt; themis::prompt_engineering::PromptVersionControl::listBranches</definition>
+        <argsstring>(const std::string &amp;prompt_id) const</argsstring>
+        <name>listBranches</name>
+        <qualifiedname>themis::prompt_engineering::PromptVersionControl::listBranches</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt_id</declname>
+        </param>
+        <briefdescription>
+<para>List all branches for a prompt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prompt template ID </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of branch information </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="227" column="17" bodyfile="src/prompt_engineering/prompt_version_control.cpp" bodystart="441" bodyend="488"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1a91349408ca59b62f76bfc15a50381289" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_diff" kindref="compound">PromptDiff</ref></type>
+        <definition>PromptDiff themis::prompt_engineering::PromptVersionControl::diff</definition>
+        <argsstring>(const std::string &amp;version_a, const std::string &amp;version_b) const</argsstring>
+        <name>diff</name>
+        <qualifiedname>themis::prompt_engineering::PromptVersionControl::diff</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version_a</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version_b</declname>
+        </param>
+        <briefdescription>
+<para>Get diff between two versions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>version_a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>First version ID </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version_b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Second version ID </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Diff information </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="235" column="16" bodyfile="src/prompt_engineering/prompt_version_control.cpp" bodystart="490" bodyend="511"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1a31b094a6558cd9c25df6695e1fd95e7d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_merge_result" kindref="compound">MergeResult</ref></type>
+        <definition>MergeResult themis::prompt_engineering::PromptVersionControl::merge</definition>
+        <argsstring>(const std::string &amp;prompt_id, const std::string &amp;source_branch, const std::string &amp;target_branch=&quot;main&quot;, const std::string &amp;strategy=&quot;auto&quot;, const std::string &amp;message=&quot;Merge branches&quot;)</argsstring>
+        <name>merge</name>
+        <qualifiedname>themis::prompt_engineering::PromptVersionControl::merge</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_branch</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_branch</declname>
+          <defval>&quot;main&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>strategy</declname>
+          <defval>&quot;auto&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+          <defval>&quot;Merge branches&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Merge a branch into another. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Merge.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prompt template ID </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>source_branch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Branch to merge from </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>target_branch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Branch to merge into (default: &quot;main&quot;) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>strategy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Merge strategy (&quot;auto&quot;, &quot;ours&quot;, &quot;theirs&quot;) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Commit message for merge </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Merge result</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the prompt. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">source_branch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_branch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">strategy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(), push_back(), count(), at(), empty(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="246" column="17" bodyfile="src/prompt_engineering/prompt_version_control.cpp" bodystart="523" bodyend="666"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1a2f32527cc2ce8627d88b9dbdd224bc84" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt; std::string, std::string &gt; themis::prompt_engineering::PromptVersionControl::getGenealogy</definition>
+        <argsstring>(const std::string &amp;prompt_id) const</argsstring>
+        <name>getGenealogy</name>
+        <qualifiedname>themis::prompt_engineering::PromptVersionControl::getGenealogy</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt_id</declname>
+        </param>
+        <briefdescription>
+<para>Get version genealogy (parent-child relationships). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prompt template ID </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Map of version_id -&gt; parent_version_id </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="259" column="24" bodyfile="src/prompt_engineering/prompt_version_control.cpp" bodystart="668" bodyend="687"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1a5f11df92046fbb32c90608125f4c65f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::PromptVersionControl::tag</definition>
+        <argsstring>(const std::string &amp;version_id, const std::string &amp;tag_name)</argsstring>
+        <name>tag</name>
+        <qualifiedname>themis::prompt_engineering::PromptVersionControl::tag</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tag_name</declname>
+        </param>
+        <briefdescription>
+<para>Tag a version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Tag.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>version_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Version to tag </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>tag_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tag name (e.g., &quot;v1.0&quot;, &quot;production&quot;) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if successful</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">version_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the version. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tag_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the tag. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), THEMIS_ERROR(), THEMIS_INFO(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="269" column="10" bodyfile="src/prompt_engineering/prompt_version_control.cpp" bodystart="696" bodyend="711"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1af1e1c8f452a8ab5683ae2a9788b25723" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_prompt_version" kindref="compound">PromptVersion</ref> &gt;</type>
+        <definition>std::optional&lt; PromptVersion &gt; themis::prompt_engineering::PromptVersionControl::getByTag</definition>
+        <argsstring>(const std::string &amp;prompt_id, const std::string &amp;tag_name) const</argsstring>
+        <name>getByTag</name>
+        <qualifiedname>themis::prompt_engineering::PromptVersionControl::getByTag</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tag_name</declname>
+        </param>
+        <briefdescription>
+<para>Get version by tag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prompt template ID </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>tag_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tag name </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Version with this tag, or nullopt if not found </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="277" column="19" bodyfile="src/prompt_engineering/prompt_version_control.cpp" bodystart="713" bodyend="740"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1a803a946722fe79cab4fff153cbd7c903" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt; std::string, std::string &gt; themis::prompt_engineering::PromptVersionControl::listTags</definition>
+        <argsstring>(const std::string &amp;prompt_id) const</argsstring>
+        <name>listTags</name>
+        <qualifiedname>themis::prompt_engineering::PromptVersionControl::listTags</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt_id</declname>
+        </param>
+        <briefdescription>
+<para>List all tags for a prompt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prompt template ID </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Map of tag_name -&gt; version_id </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="287" column="24" bodyfile="src/prompt_engineering/prompt_version_control.cpp" bodystart="742" bodyend="758"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1adf46214851aba07c79bf932c48060b76" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::PromptVersionControl::updatePerformanceScore</definition>
+        <argsstring>(const std::string &amp;version_id, double score)</argsstring>
+        <name>updatePerformanceScore</name>
+        <qualifiedname>themis::prompt_engineering::PromptVersionControl::updatePerformanceScore</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version_id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>score</declname>
+        </param>
+        <briefdescription>
+<para>Update performance score for a version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update Performance Score.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>version_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Version identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>score</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Performance score (0.0-1.0)</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the version. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">score</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), std::max(), std::min(), persistVersion(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="296" column="10" bodyfile="src/prompt_engineering/prompt_version_control.cpp" bodystart="766" bodyend="780"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1a5aa2006298769f614840b654010ef28c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::prompt_engineering::PromptVersionControl::getStats</definition>
+        <argsstring>(const std::string &amp;prompt_id) const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::prompt_engineering::PromptVersionControl::getStats</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt_id</declname>
+        </param>
+        <briefdescription>
+<para>Get statistics about version history. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prompt template ID </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>JSON with statistics </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="303" column="20" bodyfile="src/prompt_engineering/prompt_version_control.cpp" bodystart="782" bodyend="823"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1afdb12dd8909bba2aa6e06e6f221db324" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::PromptVersionControl::generateVersionId</definition>
+        <argsstring>(const std::string &amp;prompt_id, const std::string &amp;content, const std::string &amp;parent) const</argsstring>
+        <name>generateVersionId</name>
+        <qualifiedname>themis::prompt_engineering::PromptVersionControl::generateVersionId</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>parent</declname>
+        </param>
+        <briefdescription>
+<para>Generate unique version ID (SHA-like hash). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="328" column="17" bodyfile="src/prompt_engineering/prompt_version_control.cpp" bodystart="829" bodyend="848"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1a1831f27c8c3cd75403b2a0d72b36fb01" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::PromptVersionControl::persistVersion</definition>
+        <argsstring>(const PromptVersion &amp;version)</argsstring>
+        <name>persistVersion</name>
+        <qualifiedname>themis::prompt_engineering::PromptVersionControl::persistVersion</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_prompt_version" kindref="compound">PromptVersion</ref> &amp;</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Persist version to RocksDB. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Persist Version.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::string(), toJson(), dump(), bytes(), begin(), end(), put(), THEMIS_ERROR(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="337" column="10" bodyfile="src/prompt_engineering/prompt_version_control.cpp" bodystart="855" bodyend="867"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1a0a0cef85abe594e74ec38303b60bc5a8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::PromptVersionControl::persistBranch</definition>
+        <argsstring>(const std::string &amp;prompt_id, const BranchInfo &amp;branch)</argsstring>
+        <name>persistBranch</name>
+        <qualifiedname>themis::prompt_engineering::PromptVersionControl::persistBranch</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_branch_info" kindref="compound">BranchInfo</ref> &amp;</type>
+          <declname>branch</declname>
+        </param>
+        <briefdescription>
+<para>Persist branch info to RocksDB. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Persist Branch.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the prompt. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">branch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::string(), toJson(), dump(), bytes(), begin(), end(), put(), THEMIS_ERROR(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="342" column="10" bodyfile="src/prompt_engineering/prompt_version_control.cpp" bodystart="875" bodyend="890"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1af085c142e123263697f43c944ee0296c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::PromptVersionControl::loadFromDB</definition>
+        <argsstring>()</argsstring>
+        <name>loadFromDB</name>
+        <qualifiedname>themis::prompt_engineering::PromptVersionControl::loadFromDB</qualifiedname>
+        <briefdescription>
+<para>Load versions from RocksDB. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load From DB.</para>
+<para>Calls: scanPrefix(), nlohmann::json::parse(), std::string(), <ref refid="structthemis_1_1prompt__engineering_1_1_prompt_version_1aff081c29fb20e9e7f88c5e68835c1d3f" kindref="member">PromptVersion::fromJson()</ref>, THEMIS_WARN(), what(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="347" column="10" bodyfile="src/prompt_engineering/prompt_version_control.cpp" bodystart="896" bodyend="920"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1afc5278b1c7ccdba08690994c05c65f60" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_diff" kindref="compound">PromptDiff</ref></type>
+        <definition>PromptDiff themis::prompt_engineering::PromptVersionControl::computeDiff</definition>
+        <argsstring>(const std::string &amp;version_a_id, const std::string &amp;content_a, const std::string &amp;version_b_id, const std::string &amp;content_b) const</argsstring>
+        <name>computeDiff</name>
+        <qualifiedname>themis::prompt_engineering::PromptVersionControl::computeDiff</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version_a_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content_a</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version_b_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content_b</declname>
+        </param>
+        <briefdescription>
+<para>Compute diff between two strings. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Iss. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="352" column="16" bodyfile="src/prompt_engineering/prompt_version_control.cpp" bodystart="922" bodyend="1071"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1ad336341260850ffc1ea460929bad823d" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_merge_result" kindref="compound">MergeResult</ref></type>
+        <definition>MergeResult themis::prompt_engineering::PromptVersionControl::autoMerge</definition>
+        <argsstring>(const PromptVersion &amp;base, const PromptVersion &amp;source, const PromptVersion &amp;target) const</argsstring>
+        <name>autoMerge</name>
+        <qualifiedname>themis::prompt_engineering::PromptVersionControl::autoMerge</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_prompt_version" kindref="compound">PromptVersion</ref> &amp;</type>
+          <declname>base</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_prompt_version" kindref="compound">PromptVersion</ref> &amp;</type>
+          <declname>source</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_prompt_version" kindref="compound">PromptVersion</ref> &amp;</type>
+          <declname>target</declname>
+        </param>
+        <briefdescription>
+<para>Attempt automatic merge. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Iss. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="362" column="17" bodyfile="src/prompt_engineering/prompt_version_control.cpp" bodystart="1073" bodyend="1276"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Version control system for prompts. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Git-like version control:<itemizedlist>
+<listitem><para>Commit versions with descriptive messages</para>
+</listitem><listitem><para>Branch management (create, switch, merge)</para>
+</listitem><listitem><para>Complete history tracking</para>
+</listitem><listitem><para>Rollback to any version</para>
+</listitem><listitem><para>Diff between versions</para>
+</listitem><listitem><para>Merge branches with conflict detection</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread-safe for concurrent operations. </para>
+    </detaileddescription>
+    <location file="include/prompt_engineering/prompt_version_control.h" line="119" column="1" bodyfile="include/prompt_engineering/prompt_version_control.h" bodystart="119" bodyend="367"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1ad336341260850ffc1ea460929bad823d" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptVersionControl</scope><name>autoMerge</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1a411cc2c7b91fc8cda66ef74fb3f1c3ab" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptVersionControl</scope><name>branches_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1a6b2a05732a2a8dccce650ac746990283" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptVersionControl</scope><name>cf_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1aa6eeadd376a4e5fbd919167a88587437" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptVersionControl</scope><name>commit</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1afc5278b1c7ccdba08690994c05c65f60" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptVersionControl</scope><name>computeDiff</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1a57f05505679e779093cd74ea51c341e8" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptVersionControl</scope><name>createBranch</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1aa3ea79949c83fed897cfa5cb14016756" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptVersionControl</scope><name>db_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1a91349408ca59b62f76bfc15a50381289" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptVersionControl</scope><name>diff</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1afdb12dd8909bba2aa6e06e6f221db324" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptVersionControl</scope><name>generateVersionId</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1af1e1c8f452a8ab5683ae2a9788b25723" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptVersionControl</scope><name>getByTag</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1a2f32527cc2ce8627d88b9dbdd224bc84" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptVersionControl</scope><name>getGenealogy</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1a737fc5b5f3448eb750939ad8a548c7f9" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptVersionControl</scope><name>getHistory</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1ac645aec022c68c5348eb2fdbb135154b" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptVersionControl</scope><name>getLatest</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1a5aa2006298769f614840b654010ef28c" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptVersionControl</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1a11a164de133d1e3ef66f34d3d1f872aa" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptVersionControl</scope><name>getVersion</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1a9e1020e51d69d8e5c0d320443213a075" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptVersionControl</scope><name>KEY_PREFIX_BRANCH</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1a231380c4d82ffa191e2a13b927594487" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptVersionControl</scope><name>KEY_PREFIX_TAG</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1a02fb1f16e36d99a5b20b8f5f132812c3" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptVersionControl</scope><name>KEY_PREFIX_VERSION</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1ab3493cc2d1ec88b1e9146ae0ac8de0a9" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptVersionControl</scope><name>listBranches</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1a803a946722fe79cab4fff153cbd7c903" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptVersionControl</scope><name>listTags</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1af085c142e123263697f43c944ee0296c" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptVersionControl</scope><name>loadFromDB</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1a31b094a6558cd9c25df6695e1fd95e7d" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptVersionControl</scope><name>merge</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1a8ee6e296dedb85d90c92b72eeee467c1" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptVersionControl</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1a0a0cef85abe594e74ec38303b60bc5a8" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptVersionControl</scope><name>persistBranch</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1a1831f27c8c3cd75403b2a0d72b36fb01" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptVersionControl</scope><name>persistVersion</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1ada2530d4ce2c0db55e3994bda46da485" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptVersionControl</scope><name>PromptVersionControl</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1a48fd4d725ac820b6b80a7765dd85e2d9" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptVersionControl</scope><name>PromptVersionControl</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1a1140866c3e0eee7ea07c300117b9833f" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptVersionControl</scope><name>rollback</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1a1d17d97effe784b3a7787c77809b0868" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptVersionControl</scope><name>rollbackN</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1a5f11df92046fbb32c90608125f4c65f2" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptVersionControl</scope><name>tag</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1ab824b9696806fa8d92f2f0aecb7790ef" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptVersionControl</scope><name>tags_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1adf46214851aba07c79bf932c48060b76" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptVersionControl</scope><name>updatePerformanceScore</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1a3f730a043bd5e3a244e29232d12a6e60" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptVersionControl</scope><name>versions_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

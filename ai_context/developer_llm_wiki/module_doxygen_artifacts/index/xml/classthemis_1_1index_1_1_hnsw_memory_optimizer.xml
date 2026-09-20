@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1index_1_1_hnsw_memory_optimizer" kind="class" language="C++" prot="public">
+    <compoundname>themis::index::HnswMemoryOptimizer</compoundname>
+    <includes refid="hnsw__parameter__tuner_8h" local="no">hnsw_parameter_tuner.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1index_1_1_hnsw_memory_optimizer_1a468edb72e62a5db44dc792f76e311d97" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::index::HnswMemoryOptimizer::prefetchNodes</definition>
+        <argsstring>(const std::vector&lt; size_t &gt; &amp;node_ids)</argsstring>
+        <name>prefetchNodes</name>
+        <qualifiedname>themis::index::HnswMemoryOptimizer::prefetchNodes</qualifiedname>
+        <param>
+          <type>const std::vector&lt; size_t &gt; &amp;</type>
+          <declname>node_ids</declname>
+        </param>
+        <briefdescription>
+<para>Prefetch memory for HNSW graph traversal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>node_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Node IDs to prefetch </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="283" column="17" bodyfile="src/index/hnsw_parameter_tuner.cpp" bodystart="589" bodyend="607"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_hnsw_memory_optimizer_1a0f9a7f820eabd220d5c502ad55de8eba" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::index::HnswMemoryOptimizer::getCacheLineSize</definition>
+        <argsstring>()</argsstring>
+        <name>getCacheLineSize</name>
+        <qualifiedname>themis::index::HnswMemoryOptimizer::getCacheLineSize</qualifiedname>
+        <briefdescription>
+<para>Get optimal cache-line size for platform. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Cache Line Size.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: defined(), sysconf(), sysctlbyname(), GetLogicalProcessorInformation(), buf(), data(), __cpuid(), volatile(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="288" column="19" bodyfile="src/index/hnsw_parameter_tuner.cpp" bodystart="614" bodyend="675"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_hnsw_memory_optimizer_1a6564acc2f4c95a20fb2ddb2536751244" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::index::HnswMemoryOptimizer::alignToCacheLine</definition>
+        <argsstring>(size_t size)</argsstring>
+        <name>alignToCacheLine</name>
+        <qualifiedname>themis::index::HnswMemoryOptimizer::alignToCacheLine</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Align size to cache line boundary. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="293" column="19" bodyfile="src/index/hnsw_parameter_tuner.cpp" bodystart="677" bodyend="680"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_hnsw_memory_optimizer_1adf5c8e7e9bb23d8ca54afbda64a2c848" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::index::HnswMemoryOptimizer::hasSIMDPrefetch</definition>
+        <argsstring>()</argsstring>
+        <name>hasSIMDPrefetch</name>
+        <qualifiedname>themis::index::HnswMemoryOptimizer::hasSIMDPrefetch</qualifiedname>
+        <briefdescription>
+<para>Check if SIMD prefetching is available. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Has SIMDPrefetch.</para>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements hasSIMDPrefetch without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="298" column="17" bodyfile="src/index/hnsw_parameter_tuner.cpp" bodystart="687" bodyend="693"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>HNSW Memory Optimizer. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Optimizes memory layout and access patterns for HNSW index:<itemizedlist>
+<listitem><para>Cache-line alignment for frequently accessed data</para>
+</listitem><listitem><para>Prefetching hints for graph traversal</para>
+</listitem><listitem><para>Memory pool for node allocation </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/index/hnsw_parameter_tuner.h" line="277" column="1" bodyfile="include/index/hnsw_parameter_tuner.h" bodystart="277" bodyend="299"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1index_1_1_hnsw_memory_optimizer_1a6564acc2f4c95a20fb2ddb2536751244" prot="public" virt="non-virtual"><scope>themis::index::HnswMemoryOptimizer</scope><name>alignToCacheLine</name></member>
+      <member refid="classthemis_1_1index_1_1_hnsw_memory_optimizer_1a0f9a7f820eabd220d5c502ad55de8eba" prot="public" virt="non-virtual"><scope>themis::index::HnswMemoryOptimizer</scope><name>getCacheLineSize</name></member>
+      <member refid="classthemis_1_1index_1_1_hnsw_memory_optimizer_1adf5c8e7e9bb23d8ca54afbda64a2c848" prot="public" virt="non-virtual"><scope>themis::index::HnswMemoryOptimizer</scope><name>hasSIMDPrefetch</name></member>
+      <member refid="classthemis_1_1index_1_1_hnsw_memory_optimizer_1a468edb72e62a5db44dc792f76e311d97" prot="public" virt="non-virtual"><scope>themis::index::HnswMemoryOptimizer</scope><name>prefetchNodes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

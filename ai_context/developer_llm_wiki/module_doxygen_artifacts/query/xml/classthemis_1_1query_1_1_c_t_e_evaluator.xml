@@ -1,0 +1,356 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_c_t_e_evaluator" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::CTEEvaluator</compoundname>
+    <includes refid="cte__subquery_8h" local="no">cte_subquery.h</includes>
+    <innerclass refid="structthemis_1_1query_1_1_c_t_e_evaluator_1_1_recursive_c_t_e_config" prot="public">themis::query::CTEEvaluator::RecursiveCTEConfig</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_c_t_e_evaluator_1a9708702cb808d44f45b3dafbbf6bc311" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; nlohmann::json &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;nlohmann::json&gt; &gt; themis::query::CTEEvaluator::cteResults_</definition>
+        <argsstring></argsstring>
+        <name>cteResults_</name>
+        <qualifiedname>themis::query::CTEEvaluator::cteResults_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cte_subquery.h" line="89" column="24" bodyfile="include/query/cte_subquery.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_c_t_e_evaluator_1ab076e50380b960b3debc176d60cfb275" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_c_t_e_evaluator_1_1_recursive_c_t_e_config" kindref="compound">RecursiveCTEConfig</ref></type>
+        <definition>RecursiveCTEConfig themis::query::CTEEvaluator::recursiveConfig_</definition>
+        <argsstring></argsstring>
+        <name>recursiveConfig_</name>
+        <qualifiedname>themis::query::CTEEvaluator::recursiveConfig_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cte_subquery.h" line="92" column="24" bodyfile="include/query/cte_subquery.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_c_t_e_evaluator_1a03c8d2592e5624469ec9a4773b506066" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::CTEEvaluator::CTEEvaluator</definition>
+        <argsstring>()=default</argsstring>
+        <name>CTEEvaluator</name>
+        <qualifiedname>themis::query::CTEEvaluator::CTEEvaluator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cte_subquery.h" line="39" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_c_t_e_evaluator_1ae8d9f1992229a1f9c304b283fa605af6" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::CTEEvaluator::CTEEvaluator</definition>
+        <argsstring>(const RecursiveCTEConfig &amp;config)</argsstring>
+        <name>CTEEvaluator</name>
+        <qualifiedname>themis::query::CTEEvaluator::CTEEvaluator</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_c_t_e_evaluator_1_1_recursive_c_t_e_config" kindref="compound">RecursiveCTEConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cte_subquery.h" line="40" column="14" bodyfile="include/query/cte_subquery.h" bodystart="40" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_c_t_e_evaluator_1ab57b690686c8c7058d9a872cba801d27" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::query::CTEEvaluator::evaluateCTE</definition>
+        <argsstring>(const CTEDefinition &amp;cte, QueryEngine &amp;queryEngine, bool is_recursive=false)</argsstring>
+        <name>evaluateCTE</name>
+        <qualifiedname>themis::query::CTEEvaluator::evaluateCTE</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_c_t_e_definition" kindref="compound">CTEDefinition</ref> &amp;</type>
+          <declname>cte</declname>
+        </param>
+        <param>
+          <type><ref refid="class_query_engine" kindref="compound">QueryEngine</ref> &amp;</type>
+          <declname>queryEngine</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>is_recursive</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cte_subquery.h" line="42" column="12" bodyfile="src/query/cte_subquery.cpp" bodystart="38" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_c_t_e_evaluator_1a34311e24463db5dd958e595ec05447d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::query::CTEEvaluator::evaluateRecursiveCTE</definition>
+        <argsstring>(const CTEDefinition &amp;cte, QueryEngine &amp;queryEngine)</argsstring>
+        <name>evaluateRecursiveCTE</name>
+        <qualifiedname>themis::query::CTEEvaluator::evaluateRecursiveCTE</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_c_t_e_definition" kindref="compound">CTEDefinition</ref> &amp;</type>
+          <declname>cte</declname>
+        </param>
+        <param>
+          <type><ref refid="class_query_engine" kindref="compound">QueryEngine</ref> &amp;</type>
+          <declname>queryEngine</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate Recursive CTE. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cte</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">queryEngine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cte_subquery.h" line="54" column="12" bodyfile="src/query/cte_subquery.cpp" bodystart="103" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_c_t_e_evaluator_1a8a18f70b1502b96cb3683f9269d62e12" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; nlohmann::json &gt;</type>
+        <definition>std::vector&lt; nlohmann::json &gt; themis::query::CTEEvaluator::getCTEResults</definition>
+        <argsstring>(const std::string &amp;cteName) const</argsstring>
+        <name>getCTEResults</name>
+        <qualifiedname>themis::query::CTEEvaluator::getCTEResults</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cteName</declname>
+        </param>
+        <briefdescription>
+<para>Get CTEResults. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cteName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cte_subquery.h" line="64" column="17" bodyfile="src/query/cte_subquery.cpp" bodystart="272" bodyend="278"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_c_t_e_evaluator_1abf01171f8ca0935da2869d9233dd9a5d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::CTEEvaluator::hasCTE</definition>
+        <argsstring>(const std::string &amp;cteName) const</argsstring>
+        <name>hasCTE</name>
+        <qualifiedname>themis::query::CTEEvaluator::hasCTE</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cteName</declname>
+        </param>
+        <briefdescription>
+<para>Has CTE. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cteName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cte_subquery.h" line="71" column="10" bodyfile="src/query/cte_subquery.cpp" bodystart="280" bodyend="282"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_c_t_e_evaluator_1af21fdde8a2a019943319697ce02a9cd5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::CTEEvaluator::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::query::CTEEvaluator::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements clear without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cte_subquery.h" line="76" column="10" bodyfile="src/query/cte_subquery.cpp" bodystart="288" bodyend="290"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_c_t_e_evaluator_1afd043fc7ddecdfcf2cedefcc04b6a8fe" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::CTEEvaluator::setRecursiveConfig</definition>
+        <argsstring>(const RecursiveCTEConfig &amp;config)</argsstring>
+        <name>setRecursiveConfig</name>
+        <qualifiedname>themis::query::CTEEvaluator::setRecursiveConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_c_t_e_evaluator_1_1_recursive_c_t_e_config" kindref="compound">RecursiveCTEConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Set Recursive Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setRecursiveConfig without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cte_subquery.h" line="83" column="10" bodyfile="include/query/cte_subquery.h" bodystart="83" bodyend="85"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_c_t_e_evaluator_1a41c1ceefd97678887c82a332299da9b4" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::CTEEvaluator::areResultsEqual</definition>
+        <argsstring>(const std::vector&lt; nlohmann::json &gt; &amp;a, const std::vector&lt; nlohmann::json &gt; &amp;b) const</argsstring>
+        <name>areResultsEqual</name>
+        <qualifiedname>themis::query::CTEEvaluator::areResultsEqual</qualifiedname>
+        <param>
+          <type>const std::vector&lt; nlohmann::json &gt; &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; nlohmann::json &gt; &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>Are Results Equal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cte_subquery.h" line="100" column="10" bodyfile="src/query/cte_subquery.cpp" bodystart="241" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_c_t_e_evaluator_1adfba743726f038fce4f03ad17fd407db" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::CTEEvaluator::detectCycle</definition>
+        <argsstring>(const std::vector&lt; nlohmann::json &gt; &amp;newResults, const std::vector&lt; std::vector&lt; nlohmann::json &gt; &gt; &amp;history) const</argsstring>
+        <name>detectCycle</name>
+        <qualifiedname>themis::query::CTEEvaluator::detectCycle</qualifiedname>
+        <param>
+          <type>const std::vector&lt; nlohmann::json &gt; &amp;</type>
+          <declname>newResults</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; nlohmann::json &gt; &gt; &amp;</type>
+          <declname>history</declname>
+        </param>
+        <briefdescription>
+<para>Detect Cycle. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">newResults</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">history</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cte_subquery.h" line="111" column="10" bodyfile="src/query/cte_subquery.cpp" bodystart="259" bodyend="270"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/cte_subquery.h" line="31" column="1" bodyfile="include/query/cte_subquery.h" bodystart="31" bodyend="115"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_c_t_e_evaluator_1a41c1ceefd97678887c82a332299da9b4" prot="private" virt="non-virtual"><scope>themis::query::CTEEvaluator</scope><name>areResultsEqual</name></member>
+      <member refid="classthemis_1_1query_1_1_c_t_e_evaluator_1af21fdde8a2a019943319697ce02a9cd5" prot="public" virt="non-virtual"><scope>themis::query::CTEEvaluator</scope><name>clear</name></member>
+      <member refid="classthemis_1_1query_1_1_c_t_e_evaluator_1a03c8d2592e5624469ec9a4773b506066" prot="public" virt="non-virtual"><scope>themis::query::CTEEvaluator</scope><name>CTEEvaluator</name></member>
+      <member refid="classthemis_1_1query_1_1_c_t_e_evaluator_1ae8d9f1992229a1f9c304b283fa605af6" prot="public" virt="non-virtual"><scope>themis::query::CTEEvaluator</scope><name>CTEEvaluator</name></member>
+      <member refid="classthemis_1_1query_1_1_c_t_e_evaluator_1a9708702cb808d44f45b3dafbbf6bc311" prot="private" virt="non-virtual"><scope>themis::query::CTEEvaluator</scope><name>cteResults_</name></member>
+      <member refid="classthemis_1_1query_1_1_c_t_e_evaluator_1adfba743726f038fce4f03ad17fd407db" prot="private" virt="non-virtual"><scope>themis::query::CTEEvaluator</scope><name>detectCycle</name></member>
+      <member refid="classthemis_1_1query_1_1_c_t_e_evaluator_1ab57b690686c8c7058d9a872cba801d27" prot="public" virt="non-virtual"><scope>themis::query::CTEEvaluator</scope><name>evaluateCTE</name></member>
+      <member refid="classthemis_1_1query_1_1_c_t_e_evaluator_1a34311e24463db5dd958e595ec05447d0" prot="public" virt="non-virtual"><scope>themis::query::CTEEvaluator</scope><name>evaluateRecursiveCTE</name></member>
+      <member refid="classthemis_1_1query_1_1_c_t_e_evaluator_1a8a18f70b1502b96cb3683f9269d62e12" prot="public" virt="non-virtual"><scope>themis::query::CTEEvaluator</scope><name>getCTEResults</name></member>
+      <member refid="classthemis_1_1query_1_1_c_t_e_evaluator_1abf01171f8ca0935da2869d9233dd9a5d" prot="public" virt="non-virtual"><scope>themis::query::CTEEvaluator</scope><name>hasCTE</name></member>
+      <member refid="classthemis_1_1query_1_1_c_t_e_evaluator_1ab076e50380b960b3debc176d60cfb275" prot="private" virt="non-virtual"><scope>themis::query::CTEEvaluator</scope><name>recursiveConfig_</name></member>
+      <member refid="classthemis_1_1query_1_1_c_t_e_evaluator_1afd043fc7ddecdfcf2cedefcc04b6a8fe" prot="public" virt="non-virtual"><scope>themis::query::CTEEvaluator</scope><name>setRecursiveConfig</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

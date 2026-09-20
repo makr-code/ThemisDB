@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_spatial_hint_parser" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::SpatialHintParser</compoundname>
+    <includes refid="geospatial__optimizer__hints_8h" local="no">geospatial_optimizer_hints.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_spatial_hint_parser_1a1b888a5c3038f521a58d9f4f4c53df25" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_spatial_hint" kindref="compound">SpatialHint</ref></type>
+        <definition>SpatialHint themis::query::SpatialHintParser::parseHint</definition>
+        <argsstring>(const std::string &amp;hintString)</argsstring>
+        <name>parseHint</name>
+        <qualifiedname>themis::query::SpatialHintParser::parseHint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>hintString</declname>
+        </param>
+        <briefdescription>
+<para>Parse Hint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">hintString</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">hintString</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: ws_regex(), std::regex_replace(), hint_regex(), std::regex_search(), THEMIS_WARN(), str(), erase(), find_first_not_of(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_optimizer_hints.h" line="92" column="24" bodyfile="src/query/geospatial_optimizer_hints.cpp" bodystart="119" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_spatial_hint_parser_1a39916b5d295ad9f326a847ce14490aa0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::SpatialHintParser::validateHint</definition>
+        <argsstring>(const SpatialHint &amp;hint, const std::map&lt; std::string, std::string &gt; &amp;availableIndexes)</argsstring>
+        <name>validateHint</name>
+        <qualifiedname>themis::query::SpatialHintParser::validateHint</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_spatial_hint" kindref="compound">SpatialHint</ref> &amp;</type>
+          <declname>hint</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>availableIndexes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_optimizer_hints.h" line="94" column="17" bodyfile="src/query/geospatial_optimizer_hints.cpp" bodystart="189" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_spatial_hint_parser_1ac77dd509ef2b6c0523573de22094aad6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::query::SpatialHintParser::getHintWarning</definition>
+        <argsstring>(const SpatialHint &amp;hint, const std::map&lt; std::string, std::string &gt; &amp;availableIndexes)</argsstring>
+        <name>getHintWarning</name>
+        <qualifiedname>themis::query::SpatialHintParser::getHintWarning</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_spatial_hint" kindref="compound">SpatialHint</ref> &amp;</type>
+          <declname>hint</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>availableIndexes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_optimizer_hints.h" line="98" column="24" bodyfile="src/query/geospatial_optimizer_hints.cpp" bodystart="216" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_spatial_hint_parser_1a88f6fcc95aff41f88ddfac43075a7cf6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_spatial_hint" kindref="compound">SpatialHint</ref> &gt;</type>
+        <definition>std::vector&lt; SpatialHint &gt; themis::query::SpatialHintParser::parseHintsFromQuery</definition>
+        <argsstring>(const std::string &amp;queryText)</argsstring>
+        <name>parseHintsFromQuery</name>
+        <qualifiedname>themis::query::SpatialHintParser::parseHintsFromQuery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>queryText</declname>
+        </param>
+        <briefdescription>
+<para>Parse Hints From <ref refid="structthemis_1_1query_1_1_query" kindref="compound">Query</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">queryText</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">queryText</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: hint_pattern(), iter(), begin(), end(), str(), <ref refid="classthemis_1_1query_1_1_spatial_hint_parser_1a1b888a5c3038f521a58d9f4f4c53df25" kindref="member">parseHint()</ref>, isValid(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_optimizer_hints.h" line="107" column="24" bodyfile="src/query/geospatial_optimizer_hints.cpp" bodystart="251" bodyend="275"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/geospatial_optimizer_hints.h" line="85" column="1" bodyfile="include/query/geospatial_optimizer_hints.h" bodystart="85" bodyend="109"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_spatial_hint_parser_1ac77dd509ef2b6c0523573de22094aad6" prot="public" virt="non-virtual"><scope>themis::query::SpatialHintParser</scope><name>getHintWarning</name></member>
+      <member refid="classthemis_1_1query_1_1_spatial_hint_parser_1a1b888a5c3038f521a58d9f4f4c53df25" prot="public" virt="non-virtual"><scope>themis::query::SpatialHintParser</scope><name>parseHint</name></member>
+      <member refid="classthemis_1_1query_1_1_spatial_hint_parser_1a88f6fcc95aff41f88ddfac43075a7cf6" prot="public" virt="non-virtual"><scope>themis::query::SpatialHintParser</scope><name>parseHintsFromQuery</name></member>
+      <member refid="classthemis_1_1query_1_1_spatial_hint_parser_1a39916b5d295ad9f326a847ce14490aa0" prot="public" virt="non-virtual"><scope>themis::query::SpatialHintParser</scope><name>validateHint</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

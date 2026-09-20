@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_policy_validator_1_1_conflict_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::PolicyValidator::ConflictResult</compoundname>
+    <includes refid="policy__validation_8h" local="no">policy_validation.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_validator_1_1_conflict_result_1ad0b40e1f771292ff78c6c61783f27527" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicyValidator::ConflictResult::conflict_id</definition>
+        <argsstring></argsstring>
+        <name>conflict_id</name>
+        <qualifiedname>themis::governance::PolicyValidator::ConflictResult::conflict_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validation.h" line="31" column="21" bodyfile="include/governance/policy_validation.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_validator_1_1_conflict_result_1a5af13e038d8c04cbaa790cfe330dfbb1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicyValidator::ConflictResult::conflict_type</definition>
+        <argsstring></argsstring>
+        <name>conflict_type</name>
+        <qualifiedname>themis::governance::PolicyValidator::ConflictResult::conflict_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validation.h" line="32" column="21" bodyfile="include/governance/policy_validation.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_validator_1_1_conflict_result_1a2206a8e6b1f1127551b3d1ccee31ed37" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::governance::PolicyValidator::ConflictResult::conflicting_rule_ids</definition>
+        <argsstring></argsstring>
+        <name>conflicting_rule_ids</name>
+        <qualifiedname>themis::governance::PolicyValidator::ConflictResult::conflicting_rule_ids</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validation.h" line="33" column="21" bodyfile="include/governance/policy_validation.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_validator_1_1_conflict_result_1ae882eaf448a52438245d9e0b0e34ab2f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicyValidator::ConflictResult::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::governance::PolicyValidator::ConflictResult::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validation.h" line="34" column="21" bodyfile="include/governance/policy_validation.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_validator_1_1_conflict_result_1abe02922b2d0e1202b8138f720ed4d282" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicyValidator::ConflictResult::severity</definition>
+        <argsstring></argsstring>
+        <name>severity</name>
+        <qualifiedname>themis::governance::PolicyValidator::ConflictResult::severity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validation.h" line="35" column="21" bodyfile="include/governance/policy_validation.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_validator_1_1_conflict_result_1aa8c91856b55ff63ab39e0510c675b12e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicyValidator::ConflictResult::recommendation</definition>
+        <argsstring></argsstring>
+        <name>recommendation</name>
+        <qualifiedname>themis::governance::PolicyValidator::ConflictResult::recommendation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validation.h" line="36" column="21" bodyfile="include/governance/policy_validation.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_policy_validator_1_1_conflict_result_1ab3acc6076dbc3adc243c16ef64c09584" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::PolicyValidator::ConflictResult::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::governance::PolicyValidator::ConflictResult::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validation.h" line="42" column="24" bodyfile="src/governance/policy_validation.cpp" bodystart="30" bodyend="39"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/policy_validation.h" line="30" column="5" bodyfile="include/governance/policy_validation.h" bodystart="30" bodyend="43"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_policy_validator_1_1_conflict_result_1ad0b40e1f771292ff78c6c61783f27527" prot="public" virt="non-virtual"><scope>themis::governance::PolicyValidator::ConflictResult</scope><name>conflict_id</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_validator_1_1_conflict_result_1a5af13e038d8c04cbaa790cfe330dfbb1" prot="public" virt="non-virtual"><scope>themis::governance::PolicyValidator::ConflictResult</scope><name>conflict_type</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_validator_1_1_conflict_result_1a2206a8e6b1f1127551b3d1ccee31ed37" prot="public" virt="non-virtual"><scope>themis::governance::PolicyValidator::ConflictResult</scope><name>conflicting_rule_ids</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_validator_1_1_conflict_result_1ae882eaf448a52438245d9e0b0e34ab2f" prot="public" virt="non-virtual"><scope>themis::governance::PolicyValidator::ConflictResult</scope><name>description</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_validator_1_1_conflict_result_1aa8c91856b55ff63ab39e0510c675b12e" prot="public" virt="non-virtual"><scope>themis::governance::PolicyValidator::ConflictResult</scope><name>recommendation</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_validator_1_1_conflict_result_1abe02922b2d0e1202b8138f720ed4d282" prot="public" virt="non-virtual"><scope>themis::governance::PolicyValidator::ConflictResult</scope><name>severity</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_validator_1_1_conflict_result_1ab3acc6076dbc3adc243c16ef64c09584" prot="public" virt="non-virtual"><scope>themis::governance::PolicyValidator::ConflictResult</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

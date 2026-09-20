@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_unavailable_l_l_m_router" kind="class" language="C++" prot="public">
+    <compoundname>UnavailableLLMRouter</compoundname>
+    <basecompoundref refid="classthemis_1_1training_1_1_i_l_l_m_router" prot="public" virt="non-virtual">themis::training::ILLMRouter</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_unavailable_l_l_m_router_1ae1b6950337c2644e470ba94ab767815c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool UnavailableLLMRouter::setAdapterWeight</definition>
+        <argsstring>(const std::string &amp;, float) override</argsstring>
+        <name>setAdapterWeight</name>
+        <qualifiedname>UnavailableLLMRouter::setAdapterWeight</qualifiedname>
+        <reimplements refid="classthemis_1_1training_1_1_i_l_l_m_router_1ab0ae6f264b2b8c4c93b989cc89897cc9">setAdapterWeight</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>weight</declname>
+        </param>
+        <briefdescription>
+<para>Update the traffic weight for the named adapter version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Sets the fraction of incoming inference requests that should be routed to <computeroutput>version</computeroutput>. Implementations must normalise weights across all registered versions so that the total sums to 1.0.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Adapter version identifier (e.g., &quot;legal_v1.1&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>weight</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Desired traffic fraction in [0.0, 1.0]. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success; false if the version is unknown to the router (the caller may retry after loading the adapter). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_training_phase2.cpp" line="52" column="10" bodyfile="tests/training/test_training_phase2.cpp" bodystart="52" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="class_unavailable_l_l_m_router_1ae55b797bf0746b2ff967515a7cc95d55" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool UnavailableLLMRouter::isAvailable</definition>
+        <argsstring>() const override</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>UnavailableLLMRouter::isAvailable</qualifiedname>
+        <reimplements refid="classthemis_1_1training_1_1_i_l_l_m_router_1a825941b31d3bd0a13cdd3faab7e3751d">isAvailable</reimplements>
+        <briefdescription>
+<para>Whether the router is reachable and ready to accept weight updates. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_training_phase2.cpp" line="53" column="10" bodyfile="tests/training/test_training_phase2.cpp" bodystart="53" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="class_unavailable_l_l_m_router_1a8fbc9a0d9e92bdb3732ca2a3e9a38071" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string UnavailableLLMRouter::activeVersion</definition>
+        <argsstring>() const override</argsstring>
+        <name>activeVersion</name>
+        <qualifiedname>UnavailableLLMRouter::activeVersion</qualifiedname>
+        <reimplements refid="classthemis_1_1training_1_1_i_l_l_m_router_1a27b277568504e9bfa8b01deb31be55d4">activeVersion</reimplements>
+        <briefdescription>
+<para>Return the version identifier that currently receives 100% of traffic, or an empty string if no version is fully active. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_training_phase2.cpp" line="54" column="17" bodyfile="tests/training/test_training_phase2.cpp" bodystart="54" bodyend="54"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>UnavailableLLMRouter</label>
+        <link refid="class_unavailable_l_l_m_router"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::training::ILLMRouter</label>
+        <link refid="classthemis_1_1training_1_1_i_l_l_m_router"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>UnavailableLLMRouter</label>
+        <link refid="class_unavailable_l_l_m_router"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::training::ILLMRouter</label>
+        <link refid="classthemis_1_1training_1_1_i_l_l_m_router"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/training/test_training_phase2.cpp" line="50" column="1" bodyfile="tests/training/test_training_phase2.cpp" bodystart="50" bodyend="55"/>
+    <listofallmembers>
+      <member refid="class_unavailable_l_l_m_router_1a8fbc9a0d9e92bdb3732ca2a3e9a38071" prot="public" virt="virtual"><scope>UnavailableLLMRouter</scope><name>activeVersion</name></member>
+      <member refid="class_unavailable_l_l_m_router_1ae55b797bf0746b2ff967515a7cc95d55" prot="public" virt="virtual"><scope>UnavailableLLMRouter</scope><name>isAvailable</name></member>
+      <member refid="class_unavailable_l_l_m_router_1ae1b6950337c2644e470ba94ab767815c" prot="public" virt="virtual"><scope>UnavailableLLMRouter</scope><name>setAdapterWeight</name></member>
+      <member refid="classthemis_1_1training_1_1_i_l_l_m_router_1af4d95ab376b9dc4e9ca73c96af36723d" prot="public" virt="virtual"><scope>UnavailableLLMRouter</scope><name>~ILLMRouter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

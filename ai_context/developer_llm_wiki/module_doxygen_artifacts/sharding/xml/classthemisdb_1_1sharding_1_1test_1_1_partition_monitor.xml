@@ -1,0 +1,159 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1test_1_1_partition_monitor" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::test::PartitionMonitor</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1test_1_1_partition_monitor_1a22deed405116de7d14bc6e0c77b1cda6" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::sharding::test::PartitionMonitor::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>themisdb::sharding::test::PartitionMonitor::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="668" column="65" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="668" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1test_1_1_partition_monitor_1a54767c6db5e13075eba84c01d7c2220b" prot="private" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::sharding::test::PartitionMonitor::detection_ttl_</definition>
+        <argsstring></argsstring>
+        <name>detection_ttl_</name>
+        <qualifiedname>themisdb::sharding::test::PartitionMonitor::detection_ttl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="669" column="65" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="669" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1test_1_1_partition_monitor_1ad2efc0cc5d5413a3970775ae8ba803f4" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::chrono::steady_clock::time_point &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::chrono::steady_clock::time_point&gt; themisdb::sharding::test::PartitionMonitor::partitioned_</definition>
+        <argsstring></argsstring>
+        <name>partitioned_</name>
+        <qualifiedname>themisdb::sharding::test::PartitionMonitor::partitioned_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="671" column="19" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="671" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1test_1_1_partition_monitor_1a7fe1aa5920e8e9e270595680cf50a1f3" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::PartitionMonitor::PartitionMonitor</definition>
+        <argsstring>(std::chrono::milliseconds detection_ttl=50ms)</argsstring>
+        <name>PartitionMonitor</name>
+        <qualifiedname>themisdb::sharding::test::PartitionMonitor::PartitionMonitor</qualifiedname>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>detection_ttl</declname>
+          <defval>50ms</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="633" column="14" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="633" bodyend="634"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1test_1_1_partition_monitor_1ac7e91a8ca240b149645c7db4b58ddce1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::test::PartitionMonitor::simulatePartition</definition>
+        <argsstring>(const std::string &amp;shard_id)</argsstring>
+        <name>simulatePartition</name>
+        <qualifiedname>themisdb::sharding::test::PartitionMonitor::simulatePartition</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="636" column="10" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="636" bodyend="639"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1test_1_1_partition_monitor_1a4ae6de0b34970869789e54ea53d97f9d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::test::PartitionMonitor::healPartition</definition>
+        <argsstring>(const std::string &amp;shard_id)</argsstring>
+        <name>healPartition</name>
+        <qualifiedname>themisdb::sharding::test::PartitionMonitor::healPartition</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="641" column="10" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="641" bodyend="644"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1test_1_1_partition_monitor_1a2ed2cf0569e343a74b635b4ab3f434e8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::test::PartitionMonitor::isPartitioned</definition>
+        <argsstring>(const std::string &amp;shard_id) const</argsstring>
+        <name>isPartitioned</name>
+        <qualifiedname>themisdb::sharding::test::PartitionMonitor::isPartitioned</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="646" column="10" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="646" bodyend="649"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1test_1_1_partition_monitor_1abf3c1648ad0e4da18c326000aa765fc1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themisdb::sharding::test::PartitionMonitor::detect</definition>
+        <argsstring>() const</argsstring>
+        <name>detect</name>
+        <qualifiedname>themisdb::sharding::test::PartitionMonitor::detect</qualifiedname>
+        <briefdescription>
+<para>Detect all shards that have been partitioned within the TTL window. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Vector of shard IDs detected as partitioned. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="655" column="17" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="655" bodyend="665"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Simulates shard-partition detection with a configurable TTL. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="631" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="631" bodyend="672"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_partition_monitor_1abf3c1648ad0e4da18c326000aa765fc1" prot="public" virt="non-virtual"><scope>themisdb::sharding::test::PartitionMonitor</scope><name>detect</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_partition_monitor_1a54767c6db5e13075eba84c01d7c2220b" prot="private" virt="non-virtual"><scope>themisdb::sharding::test::PartitionMonitor</scope><name>detection_ttl_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_partition_monitor_1a4ae6de0b34970869789e54ea53d97f9d" prot="public" virt="non-virtual"><scope>themisdb::sharding::test::PartitionMonitor</scope><name>healPartition</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_partition_monitor_1a2ed2cf0569e343a74b635b4ab3f434e8" prot="public" virt="non-virtual"><scope>themisdb::sharding::test::PartitionMonitor</scope><name>isPartitioned</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_partition_monitor_1a22deed405116de7d14bc6e0c77b1cda6" prot="private" virt="non-virtual"><scope>themisdb::sharding::test::PartitionMonitor</scope><name>mu_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_partition_monitor_1ad2efc0cc5d5413a3970775ae8ba803f4" prot="private" virt="non-virtual"><scope>themisdb::sharding::test::PartitionMonitor</scope><name>partitioned_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_partition_monitor_1a7fe1aa5920e8e9e270595680cf50a1f3" prot="public" virt="non-virtual"><scope>themisdb::sharding::test::PartitionMonitor</scope><name>PartitionMonitor</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_partition_monitor_1ac7e91a8ca240b149645c7db4b58ddce1" prot="public" virt="non-virtual"><scope>themisdb::sharding::test::PartitionMonitor</scope><name>simulatePartition</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

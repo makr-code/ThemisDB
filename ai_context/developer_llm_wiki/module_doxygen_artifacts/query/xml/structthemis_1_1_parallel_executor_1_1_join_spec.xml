@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_parallel_executor_1_1_join_spec" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ParallelExecutor::JoinSpec</compoundname>
+    <includes refid="parallel__executor_8h" local="no">parallel_executor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_parallel_executor_1_1_join_spec_1aa43db742c5896d65a8fd474e98390a2c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ParallelExecutor::JoinSpec::left_key</definition>
+        <argsstring></argsstring>
+        <name>left_key</name>
+        <qualifiedname>themis::ParallelExecutor::JoinSpec::left_key</qualifiedname>
+        <briefdescription>
+<para>Field name on the left (probe) side. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/parallel_executor.h" line="62" column="21" bodyfile="include/query/parallel_executor.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_parallel_executor_1_1_join_spec_1adfcb922912559c43472ee14b650e7f50" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ParallelExecutor::JoinSpec::right_key</definition>
+        <argsstring></argsstring>
+        <name>right_key</name>
+        <qualifiedname>themis::ParallelExecutor::JoinSpec::right_key</qualifiedname>
+        <briefdescription>
+<para>Field name on the right (build) side. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/parallel_executor.h" line="63" column="21" bodyfile="include/query/parallel_executor.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/parallel_executor.h" line="61" column="5" bodyfile="include/query/parallel_executor.h" bodystart="61" bodyend="64"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_parallel_executor_1_1_join_spec_1aa43db742c5896d65a8fd474e98390a2c" prot="public" virt="non-virtual"><scope>themis::ParallelExecutor::JoinSpec</scope><name>left_key</name></member>
+      <member refid="structthemis_1_1_parallel_executor_1_1_join_spec_1adfcb922912559c43472ee14b650e7f50" prot="public" virt="non-virtual"><scope>themis::ParallelExecutor::JoinSpec</scope><name>right_key</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

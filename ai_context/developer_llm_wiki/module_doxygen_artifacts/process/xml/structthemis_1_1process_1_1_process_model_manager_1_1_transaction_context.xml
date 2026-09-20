@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_process_model_manager_1_1_transaction_context" kind="struct" language="C++" prot="private">
+    <compoundname>themis::process::ProcessModelManager::TransactionContext</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_model_manager_1_1_transaction_context_1a6f9b852b934c612f820f6bdfb046efc4" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::ProcessModelManager::TransactionContext::txn_id</definition>
+        <argsstring></argsstring>
+        <name>txn_id</name>
+        <qualifiedname>themis::process::ProcessModelManager::TransactionContext::txn_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="478" column="18" bodyfile="include/process/process_model_manager.h" bodystart="478" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_model_manager_1_1_transaction_context_1a53795e42cfb044c58a93d7b4455accb4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ProcessModelManager::TransactionContext::model_id</definition>
+        <argsstring></argsstring>
+        <name>model_id</name>
+        <qualifiedname>themis::process::ProcessModelManager::TransactionContext::model_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="479" column="21" bodyfile="include/process/process_model_manager.h" bodystart="479" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_model_manager_1_1_transaction_context_1add32b2f6f8578de36924c6b1c0333899" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::process::ProcessModelManager::TransactionContext::start_time_ms</definition>
+        <argsstring></argsstring>
+        <name>start_time_ms</name>
+        <qualifiedname>themis::process::ProcessModelManager::TransactionContext::start_time_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="480" column="17" bodyfile="include/process/process_model_manager.h" bodystart="480" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_model_manager_1_1_transaction_context_1a6d6c83a6434757bfb3dee2649164fd33" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::process::ProcessModelManager::TransactionContext::revision_at_start</definition>
+        <argsstring></argsstring>
+        <name>revision_at_start</name>
+        <qualifiedname>themis::process::ProcessModelManager::TransactionContext::revision_at_start</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="481" column="13" bodyfile="include/process/process_model_manager.h" bodystart="481" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_model_manager_1_1_transaction_context_1a64daf83136c428cb149b9f39822b26f3" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::process::ProcessModelManager::TransactionContext::modified_keys</definition>
+        <argsstring></argsstring>
+        <name>modified_keys</name>
+        <qualifiedname>themis::process::ProcessModelManager::TransactionContext::modified_keys</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="482" column="21" bodyfile="include/process/process_model_manager.h" bodystart="482" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_model_manager_1_1_transaction_context_1a641ba41fd98c26a60f920e30a66b9892" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::process::ProcessModelManager::TransactionContext::is_active</definition>
+        <argsstring></argsstring>
+        <name>is_active</name>
+        <qualifiedname>themis::process::ProcessModelManager::TransactionContext::is_active</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="483" column="14" bodyfile="include/process/process_model_manager.h" bodystart="483" bodyend="483"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Transaction context for multi-step operations requiring atomicity. Used to detect conflicts and roll back on high-churn scenarios. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/process/process_model_manager.h" line="477" column="5" bodyfile="include/process/process_model_manager.h" bodystart="477" bodyend="484"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_process_model_manager_1_1_transaction_context_1a641ba41fd98c26a60f920e30a66b9892" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelManager::TransactionContext</scope><name>is_active</name></member>
+      <member refid="structthemis_1_1process_1_1_process_model_manager_1_1_transaction_context_1a53795e42cfb044c58a93d7b4455accb4" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelManager::TransactionContext</scope><name>model_id</name></member>
+      <member refid="structthemis_1_1process_1_1_process_model_manager_1_1_transaction_context_1a64daf83136c428cb149b9f39822b26f3" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelManager::TransactionContext</scope><name>modified_keys</name></member>
+      <member refid="structthemis_1_1process_1_1_process_model_manager_1_1_transaction_context_1a6d6c83a6434757bfb3dee2649164fd33" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelManager::TransactionContext</scope><name>revision_at_start</name></member>
+      <member refid="structthemis_1_1process_1_1_process_model_manager_1_1_transaction_context_1add32b2f6f8578de36924c6b1c0333899" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelManager::TransactionContext</scope><name>start_time_ms</name></member>
+      <member refid="structthemis_1_1process_1_1_process_model_manager_1_1_transaction_context_1a6f9b852b934c612f820f6bdfb046efc4" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelManager::TransactionContext</scope><name>txn_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

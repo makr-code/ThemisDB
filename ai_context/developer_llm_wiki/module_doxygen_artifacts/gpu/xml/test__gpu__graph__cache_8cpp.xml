@@ -1,0 +1,1095 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__gpu__graph__cache_8cpp" kind="file" language="C++">
+    <compoundname>test_gpu_graph_cache.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">themis/gpu/graph_cache.h</includes>
+    <includes local="yes">themis/gpu/query_accelerator.h</includes>
+    <includes local="no">cstring</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/gpu/test_gpu_graph_cache.cpp</label>
+        <link refid="test__gpu__graph__cache_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>cstring</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="3">
+        <label>themis/gpu/graph_cache.h</label>
+      </node>
+      <node id="4">
+        <label>themis/gpu/query_accelerator.h</label>
+      </node>
+      <node id="6">
+        <label>thread</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__gpu__graph__cache_8cpp_1a5a5f8485f2bcba394b5e7e885737880b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QueryShapeTest, EqualShapesCompareEqual)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>QueryShapeTest</type>
+        </param>
+        <param>
+          <type>EqualShapesCompareEqual</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_graph_cache.cpp" line="14" column="1" bodyfile="tests/gpu/test_gpu_graph_cache.cpp" bodystart="14" bodyend="18"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__graph__cache_8cpp_1ad74ff01335811603c88fd3e2fc22050d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QueryShapeTest, DifferentOpTypesNotEqual)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>QueryShapeTest</type>
+        </param>
+        <param>
+          <type>DifferentOpTypesNotEqual</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_graph_cache.cpp" line="20" column="1" bodyfile="tests/gpu/test_gpu_graph_cache.cpp" bodystart="20" bodyend="24"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__graph__cache_8cpp_1a733a8886a88523b0d0d40708e5ce225f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QueryShapeTest, DifferentRowCountsNotEqual)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>QueryShapeTest</type>
+        </param>
+        <param>
+          <type>DifferentRowCountsNotEqual</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_graph_cache.cpp" line="26" column="1" bodyfile="tests/gpu/test_gpu_graph_cache.cpp" bodystart="26" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__graph__cache_8cpp_1a323abe8a7225e5688684bd4ca20ff50f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QueryShapeTest, DifferentParamHashesNotEqual)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>QueryShapeTest</type>
+        </param>
+        <param>
+          <type>DifferentParamHashesNotEqual</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_graph_cache.cpp" line="32" column="1" bodyfile="tests/gpu/test_gpu_graph_cache.cpp" bodystart="32" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__graph__cache_8cpp_1ac111748de03719525252af729b990b5c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QueryShapeTest, HashFunctionProducesDifferentValuesForDifferentShapes)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>QueryShapeTest</type>
+        </param>
+        <param>
+          <type>HashFunctionProducesDifferentValuesForDifferentShapes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_graph_cache.cpp" line="38" column="1" bodyfile="tests/gpu/test_gpu_graph_cache.cpp" bodystart="38" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__graph__cache_8cpp_1aaecfdf8786849a4df8aa68909e616a78" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QueryShapeTest, HashFunctionIsConsistentForEqualShapes)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>QueryShapeTest</type>
+        </param>
+        <param>
+          <type>HashFunctionIsConsistentForEqualShapes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_graph_cache.cpp" line="48" column="1" bodyfile="tests/gpu/test_gpu_graph_cache.cpp" bodystart="48" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__graph__cache_8cpp_1a5463c904e6852c8f6cd6287086c2d8ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUGraphCacheTest, InitiallyEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUGraphCacheTest</type>
+        </param>
+        <param>
+          <type>InitiallyEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_graph_cache.cpp" line="59" column="1" bodyfile="tests/gpu/test_gpu_graph_cache.cpp" bodystart="59" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__graph__cache_8cpp_1a314eb8008f79b79aa27ba718fd505214" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUGraphCacheTest, LookupOnEmptyCacheReturnsMiss)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUGraphCacheTest</type>
+        </param>
+        <param>
+          <type>LookupOnEmptyCacheReturnsMiss</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_graph_cache.cpp" line="64" column="1" bodyfile="tests/gpu/test_gpu_graph_cache.cpp" bodystart="64" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__graph__cache_8cpp_1a990751e224500d926e1d0c591f898770" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUGraphCacheTest, CaptureAddsEntry)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUGraphCacheTest</type>
+        </param>
+        <param>
+          <type>CaptureAddsEntry</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_graph_cache.cpp" line="70" column="1" bodyfile="tests/gpu/test_gpu_graph_cache.cpp" bodystart="70" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__graph__cache_8cpp_1a829b94d2959a75f0081f47c92bb13706" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUGraphCacheTest, LookupAfterCaptureReturnsEntry)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUGraphCacheTest</type>
+        </param>
+        <param>
+          <type>LookupAfterCaptureReturnsEntry</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_graph_cache.cpp" line="77" column="1" bodyfile="tests/gpu/test_gpu_graph_cache.cpp" bodystart="77" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__graph__cache_8cpp_1ac88caaad15267c169857c572a358209c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUGraphCacheTest, LookupIncrementsReplayCount)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUGraphCacheTest</type>
+        </param>
+        <param>
+          <type>LookupIncrementsReplayCount</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_graph_cache.cpp" line="86" column="1" bodyfile="tests/gpu/test_gpu_graph_cache.cpp" bodystart="86" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__graph__cache_8cpp_1a19082bfcc1a0da7d39e8556843ac5bbb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUGraphCacheTest, CaptureExistingShapeIncrementsCapturCount)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUGraphCacheTest</type>
+        </param>
+        <param>
+          <type>CaptureExistingShapeIncrementsCapturCount</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_graph_cache.cpp" line="97" column="1" bodyfile="tests/gpu/test_gpu_graph_cache.cpp" bodystart="97" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__graph__cache_8cpp_1aefcb12d29336a4c9796593fd1b665f91" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUGraphCacheTest, MultipleDistinctShapesCached)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUGraphCacheTest</type>
+        </param>
+        <param>
+          <type>MultipleDistinctShapesCached</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_graph_cache.cpp" line="109" column="1" bodyfile="tests/gpu/test_gpu_graph_cache.cpp" bodystart="109" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__graph__cache_8cpp_1a6059c9e298f6d992d8716f8f65100b1c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUGraphCacheTest, InvalidateRemovesEntry)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUGraphCacheTest</type>
+        </param>
+        <param>
+          <type>InvalidateRemovesEntry</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_graph_cache.cpp" line="122" column="1" bodyfile="tests/gpu/test_gpu_graph_cache.cpp" bodystart="122" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__graph__cache_8cpp_1aa1969705288763db952aa8543d6b8881" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUGraphCacheTest, InvalidateUnknownShapeIsNoop)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUGraphCacheTest</type>
+        </param>
+        <param>
+          <type>InvalidateUnknownShapeIsNoop</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_graph_cache.cpp" line="132" column="1" bodyfile="tests/gpu/test_gpu_graph_cache.cpp" bodystart="132" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__graph__cache_8cpp_1ac54a416423a1fdc6ea127d4c7e9805ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUGraphCacheTest, ClearRemovesAllEntries)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUGraphCacheTest</type>
+        </param>
+        <param>
+          <type>ClearRemovesAllEntries</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_graph_cache.cpp" line="139" column="1" bodyfile="tests/gpu/test_gpu_graph_cache.cpp" bodystart="139" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__graph__cache_8cpp_1ae55499883a6fdf9ab142b69f096ff90d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUGraphCacheTest, LRUEvictionWhenCacheFull)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUGraphCacheTest</type>
+        </param>
+        <param>
+          <type>LRUEvictionWhenCacheFull</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_graph_cache.cpp" line="152" column="1" bodyfile="tests/gpu/test_gpu_graph_cache.cpp" bodystart="152" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__graph__cache_8cpp_1a401878f06f4321070e34318bd3745d4a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUGraphCacheTest, EvictionIncreasesEvictionCounter)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUGraphCacheTest</type>
+        </param>
+        <param>
+          <type>EvictionIncreasesEvictionCounter</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_graph_cache.cpp" line="176" column="1" bodyfile="tests/gpu/test_gpu_graph_cache.cpp" bodystart="176" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__graph__cache_8cpp_1a0b42f1f073e238ec87e835bd20be189b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUGraphCacheTest, StatsHitsAndMisses)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUGraphCacheTest</type>
+        </param>
+        <param>
+          <type>StatsHitsAndMisses</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_graph_cache.cpp" line="189" column="1" bodyfile="tests/gpu/test_gpu_graph_cache.cpp" bodystart="189" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__graph__cache_8cpp_1a86c79de8eee6e45afbd87a3a93d2db35" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="test__gpu__query__accelerator_8cpp_1a667f168b285cadda99fc7449abd98843" kindref="member">GPUQueryAccelerator::Row</ref> &gt;</type>
+        <definition>static std::vector&lt; GPUQueryAccelerator::Row &gt; makeAccRows</definition>
+        <argsstring>(size_t n)</argsstring>
+        <name>makeAccRows</name>
+        <param>
+          <type>size_t</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_graph_cache.cpp" line="212" column="20" bodyfile="tests/gpu/test_gpu_graph_cache.cpp" bodystart="212" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__graph__cache_8cpp_1a0c3916acece1edd90035290d3390b70b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>static double extractVal</definition>
+        <argsstring>(const GPUQueryAccelerator::Row &amp;r)</argsstring>
+        <name>extractVal</name>
+        <param>
+          <type>const <ref refid="test__gpu__query__accelerator_8cpp_1a667f168b285cadda99fc7449abd98843" kindref="member">GPUQueryAccelerator::Row</ref> &amp;</type>
+          <declname>r</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_graph_cache.cpp" line="223" column="15" bodyfile="tests/gpu/test_gpu_graph_cache.cpp" bodystart="223" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__graph__cache_8cpp_1a998fc5fe073ba980ffcf9d67ffefc3f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUQueryAcceleratorGraphTest, DisabledByDefaultNoStats)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUQueryAcceleratorGraphTest</type>
+        </param>
+        <param>
+          <type>DisabledByDefaultNoStats</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_graph_cache.cpp" line="232" column="1" bodyfile="tests/gpu/test_gpu_graph_cache.cpp" bodystart="232" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__graph__cache_8cpp_1a3454fd5291c8ec0b12bc52622486d971" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUQueryAcceleratorGraphTest, EnableViaConfig)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUQueryAcceleratorGraphTest</type>
+        </param>
+        <param>
+          <type>EnableViaConfig</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_graph_cache.cpp" line="240" column="1" bodyfile="tests/gpu/test_gpu_graph_cache.cpp" bodystart="240" bodyend="252"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__graph__cache_8cpp_1a384a593b37fcccb3897f5bceb1d13e27" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUQueryAcceleratorGraphTest, SecondIdenticalScanIsHit)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUQueryAcceleratorGraphTest</type>
+        </param>
+        <param>
+          <type>SecondIdenticalScanIsHit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_graph_cache.cpp" line="254" column="1" bodyfile="tests/gpu/test_gpu_graph_cache.cpp" bodystart="254" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__graph__cache_8cpp_1a891ff3543b97b9f20452ef9edd89102c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUQueryAcceleratorGraphTest, DifferentRowCountsAreDifferentShapes)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUQueryAcceleratorGraphTest</type>
+        </param>
+        <param>
+          <type>DifferentRowCountsAreDifferentShapes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_graph_cache.cpp" line="269" column="1" bodyfile="tests/gpu/test_gpu_graph_cache.cpp" bodystart="269" bodyend="281"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__graph__cache_8cpp_1a3be782d5a132cf063a790dd6604bf484" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUQueryAcceleratorGraphTest, SortCacheHit)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUQueryAcceleratorGraphTest</type>
+        </param>
+        <param>
+          <type>SortCacheHit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_graph_cache.cpp" line="283" column="1" bodyfile="tests/gpu/test_gpu_graph_cache.cpp" bodystart="283" bodyend="296"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__graph__cache_8cpp_1a6d6e5a271b313159b527b1385cbc6b3c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUQueryAcceleratorGraphTest, SortOrderDifferentiatesShapes)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUQueryAcceleratorGraphTest</type>
+        </param>
+        <param>
+          <type>SortOrderDifferentiatesShapes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_graph_cache.cpp" line="298" column="1" bodyfile="tests/gpu/test_gpu_graph_cache.cpp" bodystart="298" bodyend="311"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__graph__cache_8cpp_1a702f537212528a55ced5e55bffac89c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUQueryAcceleratorGraphTest, AggregateCacheHit)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUQueryAcceleratorGraphTest</type>
+        </param>
+        <param>
+          <type>AggregateCacheHit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_graph_cache.cpp" line="313" column="1" bodyfile="tests/gpu/test_gpu_graph_cache.cpp" bodystart="313" bodyend="326"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__graph__cache_8cpp_1afb03b3ef5b10c5beb2e39db1622cf6f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUQueryAcceleratorGraphTest, AggregateFuncDifferentiatesShapes)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUQueryAcceleratorGraphTest</type>
+        </param>
+        <param>
+          <type>AggregateFuncDifferentiatesShapes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_graph_cache.cpp" line="328" column="1" bodyfile="tests/gpu/test_gpu_graph_cache.cpp" bodystart="328" bodyend="341"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__graph__cache_8cpp_1a7b8064b7935cf06274ad1ee2cd5f9509" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUQueryAcceleratorGraphTest, EnableDisableToggle)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUQueryAcceleratorGraphTest</type>
+        </param>
+        <param>
+          <type>EnableDisableToggle</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_graph_cache.cpp" line="343" column="1" bodyfile="tests/gpu/test_gpu_graph_cache.cpp" bodystart="343" bodyend="362"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__graph__cache_8cpp_1a65e9d6ab0a608d2898984f7f4d062c42" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUQueryAcceleratorGraphTest, GetGraphCacheStatsReflectsHitsAndMisses)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUQueryAcceleratorGraphTest</type>
+        </param>
+        <param>
+          <type>GetGraphCacheStatsReflectsHitsAndMisses</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_graph_cache.cpp" line="364" column="1" bodyfile="tests/gpu/test_gpu_graph_cache.cpp" bodystart="364" bodyend="378"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__graph__cache_8cpp_1a24bc6b52dd1e3b612609fce84d332652" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUQueryAcceleratorGraphTest, ExistingBehaviourUnchangedWhenCacheDisabled)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUQueryAcceleratorGraphTest</type>
+        </param>
+        <param>
+          <type>ExistingBehaviourUnchangedWhenCacheDisabled</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_graph_cache.cpp" line="380" column="1" bodyfile="tests/gpu/test_gpu_graph_cache.cpp" bodystart="380" bodyend="392"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__graph__cache_8cpp_1af9783e3a5f616cb3670e3bcebbc6edfd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUGraphCacheTest, ConcurrentCaptureAndLookupIsSafe)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUGraphCacheTest</type>
+        </param>
+        <param>
+          <type>ConcurrentCaptureAndLookupIsSafe</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_graph_cache.cpp" line="398" column="1" bodyfile="tests/gpu/test_gpu_graph_cache.cpp" bodystart="398" bodyend="415"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/gpu/graph_cache.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/gpu/query_accelerator.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstring&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1gpu" kindref="compound">themis::gpu</ref>;</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/>QueryShape<sp/>equality<sp/>and<sp/>hashing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><ref refid="test__gpu__graph__cache_8cpp_1a5a5f8485f2bcba394b5e7e885737880b" kindref="member">TEST</ref>(QueryShapeTest,<sp/>EqualShapesCompareEqual)<sp/>{</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>QueryShape<sp/>a{QueryShape::OpType::SCAN,<sp/>100,<sp/>0};</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/>QueryShape<sp/>b{QueryShape::OpType::SCAN,<sp/>100,<sp/>0};</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(a<sp/>==<sp/>b);</highlight></codeline>
+<codeline lineno="18"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><ref refid="test__gpu__graph__cache_8cpp_1a5a5f8485f2bcba394b5e7e885737880b" kindref="member">TEST</ref>(QueryShapeTest,<sp/>DifferentOpTypesNotEqual)<sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>QueryShape<sp/>a{QueryShape::OpType::SCAN,<sp/>100,<sp/>0};</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>QueryShape<sp/>b{QueryShape::OpType::SORT,<sp/>100,<sp/>0};</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(a<sp/>==<sp/>b);</highlight></codeline>
+<codeline lineno="24"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><ref refid="test__gpu__graph__cache_8cpp_1a5a5f8485f2bcba394b5e7e885737880b" kindref="member">TEST</ref>(QueryShapeTest,<sp/>DifferentRowCountsNotEqual)<sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>QueryShape<sp/>a{QueryShape::OpType::SCAN,<sp/>100,<sp/>0};</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>QueryShape<sp/>b{QueryShape::OpType::SCAN,<sp/>200,<sp/>0};</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(a<sp/>==<sp/>b);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><ref refid="test__gpu__graph__cache_8cpp_1a5a5f8485f2bcba394b5e7e885737880b" kindref="member">TEST</ref>(QueryShapeTest,<sp/>DifferentParamHashesNotEqual)<sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>QueryShape<sp/>a{QueryShape::OpType::AGGREGATE,<sp/>50,<sp/>1};</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>QueryShape<sp/>b{QueryShape::OpType::AGGREGATE,<sp/>50,<sp/>2};</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(a<sp/>==<sp/>b);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><ref refid="test__gpu__graph__cache_8cpp_1a5a5f8485f2bcba394b5e7e885737880b" kindref="member">TEST</ref>(QueryShapeTest,<sp/>HashFunctionProducesDifferentValuesForDifferentShapes)<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>QueryShapeHash<sp/>hasher;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>QueryShape<sp/>a{QueryShape::OpType::SCAN,<sp/>100,<sp/>0};</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>QueryShape<sp/>b{QueryShape::OpType::SORT,<sp/>100,<sp/>0};</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>QueryShape<sp/>c{QueryShape::OpType::SCAN,<sp/>200,<sp/>0};</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Hashes<sp/>should<sp/>differ<sp/>(no<sp/>strict<sp/>guarantee,<sp/>but<sp/>these<sp/>are<sp/>well-separated).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(hasher(a),<sp/>hasher(b));</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(hasher(a),<sp/>hasher(c));</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><ref refid="test__gpu__graph__cache_8cpp_1a5a5f8485f2bcba394b5e7e885737880b" kindref="member">TEST</ref>(QueryShapeTest,<sp/>HashFunctionIsConsistentForEqualShapes)<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>QueryShapeHash<sp/>hasher;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>QueryShape<sp/>a{QueryShape::OpType::JOIN,<sp/>500,<sp/>42};</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>QueryShape<sp/>b{QueryShape::OpType::JOIN,<sp/>500,<sp/>42};</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(hasher(a),<sp/>hasher(b));</highlight></codeline>
+<codeline lineno="53"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GPUGraphCache<sp/>—<sp/>basic<sp/>capture<sp/>/<sp/>lookup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><ref refid="test__gpu__graph__cache_8cpp_1a5a5f8485f2bcba394b5e7e885737880b" kindref="member">TEST</ref>(GPUGraphCacheTest,<sp/>InitiallyEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUGraphCache<sp/>cache;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cache.size(),<sp/>0u);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><ref refid="test__gpu__graph__cache_8cpp_1a5a5f8485f2bcba394b5e7e885737880b" kindref="member">TEST</ref>(GPUGraphCacheTest,<sp/>LookupOnEmptyCacheReturnsMiss)<sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUGraphCache<sp/>cache;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>QueryShape<sp/>shape{QueryShape::OpType::SCAN,<sp/>100,<sp/>0};</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cache.lookup(shape),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><ref refid="test__gpu__graph__cache_8cpp_1a5a5f8485f2bcba394b5e7e885737880b" kindref="member">TEST</ref>(GPUGraphCacheTest,<sp/>CaptureAddsEntry)<sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUGraphCache<sp/>cache;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>QueryShape<sp/>shape{QueryShape::OpType::SCAN,<sp/>100,<sp/>0};</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.capture(shape);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cache.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><ref refid="test__gpu__graph__cache_8cpp_1a5a5f8485f2bcba394b5e7e885737880b" kindref="member">TEST</ref>(GPUGraphCacheTest,<sp/>LookupAfterCaptureReturnsEntry)<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUGraphCache<sp/>cache;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>QueryShape<sp/>shape{QueryShape::OpType::SORT,<sp/>200,<sp/>1};</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.capture(shape);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GraphEntry*<sp/>entry<sp/>=<sp/>cache.lookup(shape);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(entry,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(entry-&gt;replay_count,<sp/>1u);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><ref refid="test__gpu__graph__cache_8cpp_1a5a5f8485f2bcba394b5e7e885737880b" kindref="member">TEST</ref>(GPUGraphCacheTest,<sp/>LookupIncrementsReplayCount)<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUGraphCache<sp/>cache;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>QueryShape<sp/>shape{QueryShape::OpType::AGGREGATE,<sp/>50,<sp/>3};</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.capture(shape);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.lookup(shape);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.lookup(shape);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GraphEntry*<sp/>entry<sp/>=<sp/>cache.lookup(shape);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(entry,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(entry-&gt;replay_count,<sp/>3u);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><ref refid="test__gpu__graph__cache_8cpp_1a5a5f8485f2bcba394b5e7e885737880b" kindref="member">TEST</ref>(GPUGraphCacheTest,<sp/>CaptureExistingShapeIncrementsCapturCount)<sp/>{</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUGraphCache<sp/>cache;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>QueryShape<sp/>shape{QueryShape::OpType::SCAN,<sp/>10,<sp/>0};</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.capture(shape);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.capture(shape);<sp/><sp/></highlight><highlight class="comment">//<sp/>idempotent<sp/>—<sp/>same<sp/>shape</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cache.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GraphEntry*<sp/>entry<sp/>=<sp/>cache.lookup(shape);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(entry,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(entry-&gt;capture_count,<sp/>2u);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><ref refid="test__gpu__graph__cache_8cpp_1a5a5f8485f2bcba394b5e7e885737880b" kindref="member">TEST</ref>(GPUGraphCacheTest,<sp/>MultipleDistinctShapesCached)<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUGraphCache<sp/>cache;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.capture({QueryShape::OpType::SCAN,<sp/><sp/><sp/><sp/><sp/><sp/>100,<sp/>0});</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.capture({QueryShape::OpType::SORT,<sp/><sp/><sp/><sp/><sp/><sp/>200,<sp/>1});</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.capture({QueryShape::OpType::AGGREGATE,<sp/>300,<sp/>2});</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.capture({QueryShape::OpType::JOIN,<sp/><sp/><sp/><sp/><sp/><sp/>400,<sp/>0});</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cache.size(),<sp/>4u);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GPUGraphCache<sp/>—<sp/>invalidate<sp/>/<sp/>clear</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><ref refid="test__gpu__graph__cache_8cpp_1a5a5f8485f2bcba394b5e7e885737880b" kindref="member">TEST</ref>(GPUGraphCacheTest,<sp/>InvalidateRemovesEntry)<sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUGraphCache<sp/>cache;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>QueryShape<sp/>shape{QueryShape::OpType::SCAN,<sp/>10,<sp/>0};</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.capture(shape);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(cache.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.invalidate(shape);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cache.size(),<sp/>0u);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cache.lookup(shape),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><ref refid="test__gpu__graph__cache_8cpp_1a5a5f8485f2bcba394b5e7e885737880b" kindref="member">TEST</ref>(GPUGraphCacheTest,<sp/>InvalidateUnknownShapeIsNoop)<sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUGraphCache<sp/>cache;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>QueryShape<sp/>shape{QueryShape::OpType::SCAN,<sp/>999,<sp/>0};</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(cache.invalidate(shape));</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cache.size(),<sp/>0u);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><ref refid="test__gpu__graph__cache_8cpp_1a5a5f8485f2bcba394b5e7e885737880b" kindref="member">TEST</ref>(GPUGraphCacheTest,<sp/>ClearRemovesAllEntries)<sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUGraphCache<sp/>cache;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.capture({QueryShape::OpType::SCAN,<sp/>1,<sp/>0});</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.capture({QueryShape::OpType::SORT,<sp/>2,<sp/>0});</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(cache.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.clear();</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cache.size(),<sp/>0u);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GPUGraphCache<sp/>—<sp/>LRU<sp/>eviction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><ref refid="test__gpu__graph__cache_8cpp_1a5a5f8485f2bcba394b5e7e885737880b" kindref="member">TEST</ref>(GPUGraphCacheTest,<sp/>LRUEvictionWhenCacheFull)<sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUGraphCache<sp/>cache;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>kMax<sp/>=<sp/>GPUGraphCache::kMaxEntries;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Fill<sp/>the<sp/>cache<sp/>to<sp/>capacity.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kMax;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cache.capture({QueryShape::OpType::SCAN,<sp/>i,<sp/>0});</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(cache.size(),<sp/>kMax);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Access<sp/>shape<sp/>0<sp/>last<sp/>so<sp/>it<sp/>becomes<sp/>the<sp/>MRU<sp/>and<sp/>survives<sp/>eviction.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.lookup({QueryShape::OpType::SCAN,<sp/>0,<sp/>0});</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Insert<sp/>one<sp/>more<sp/>entry<sp/>—<sp/>this<sp/>should<sp/>evict<sp/>the<sp/>LRU<sp/>entry<sp/>(one<sp/>of<sp/>1..kMax-1).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.capture({QueryShape::OpType::SCAN,<sp/>kMax,<sp/>0});</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cache.size(),<sp/>kMax);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Shape<sp/>0<sp/>(MRU)<sp/>must<sp/>still<sp/>be<sp/>present.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(cache.lookup({QueryShape::OpType::SCAN,<sp/>0,<sp/>0}),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>newly<sp/>inserted<sp/>shape<sp/>must<sp/>be<sp/>present.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(cache.lookup({QueryShape::OpType::SCAN,<sp/>kMax,<sp/>0}),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><ref refid="test__gpu__graph__cache_8cpp_1a5a5f8485f2bcba394b5e7e885737880b" kindref="member">TEST</ref>(GPUGraphCacheTest,<sp/>EvictionIncreasesEvictionCounter)<sp/>{</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUGraphCache<sp/>cache;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>kMax<sp/>=<sp/>GPUGraphCache::kMaxEntries;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;=<sp/>kMax;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cache.capture({QueryShape::OpType::SORT,<sp/>i,<sp/>0});</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(cache.getStats().evictions,<sp/>1u);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GPUGraphCache<sp/>—<sp/>stats</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><ref refid="test__gpu__graph__cache_8cpp_1a5a5f8485f2bcba394b5e7e885737880b" kindref="member">TEST</ref>(GPUGraphCacheTest,<sp/>StatsHitsAndMisses)<sp/>{</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUGraphCache<sp/>cache;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>QueryShape<sp/>shape{QueryShape::OpType::AGGREGATE,<sp/>100,<sp/>5};</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>lookup:<sp/>miss</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.lookup(shape);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Capture</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.capture(shape);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Second<sp/>lookup:<sp/>hit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.lookup(shape);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Third<sp/>lookup:<sp/>hit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.lookup(shape);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>cache.getStats();</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.misses,<sp/>1u);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.hits,<sp/><sp/><sp/>2u);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.entries,<sp/>1u);</highlight></codeline>
+<codeline lineno="206"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GPUQueryAccelerator<sp/>—<sp/>graph<sp/>cache<sp/>integration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;GPUQueryAccelerator::Row&gt;<sp/>makeAccRows(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>n)<sp/>{</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;GPUQueryAccelerator::Row&gt;<sp/>rows(n);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>n;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rows[i].id<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>v<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">float</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rows[i].data.resize(</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::memcpy(rows[i].data.data(),<sp/>&amp;v,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>rows;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>extractVal(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GPUQueryAccelerator::Row&amp;<sp/>r)<sp/>{</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(r.data.size()<sp/>&lt;<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0.0;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>v<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>std::memcpy(&amp;v,<sp/>r.data.data(),<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(v);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><ref refid="test__gpu__graph__cache_8cpp_1a5a5f8485f2bcba394b5e7e885737880b" kindref="member">TEST</ref>(GPUQueryAcceleratorGraphTest,<sp/>DisabledByDefaultNoStats)<sp/>{</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUQueryAccelerator<sp/>acc;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>acc.scan(makeAccRows(5));</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>acc.getStats();</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.graph_cache_hits,<sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.graph_cache_misses,<sp/>0u);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><ref refid="test__gpu__graph__cache_8cpp_1a5a5f8485f2bcba394b5e7e885737880b" kindref="member">TEST</ref>(GPUQueryAcceleratorGraphTest,<sp/>EnableViaConfig)<sp/>{</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUQueryAccelerator::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.force_cpu<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enable_graph_cache<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUQueryAccelerator<sp/>acc(cfg);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rows<sp/>=<sp/>makeAccRows(10);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>acc.scan(rows);<sp/><sp/></highlight><highlight class="comment">//<sp/>first<sp/>call<sp/>→<sp/>miss</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>acc.getStats();</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.graph_cache_misses,<sp/>1u);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.graph_cache_hits,<sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="252"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><ref refid="test__gpu__graph__cache_8cpp_1a5a5f8485f2bcba394b5e7e885737880b" kindref="member">TEST</ref>(GPUQueryAcceleratorGraphTest,<sp/>SecondIdenticalScanIsHit)<sp/>{</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUQueryAccelerator::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.force_cpu<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enable_graph_cache<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUQueryAccelerator<sp/>acc(cfg);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rows<sp/>=<sp/>makeAccRows(8);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>acc.scan(rows);<sp/><sp/></highlight><highlight class="comment">//<sp/>miss</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>acc.scan(rows);<sp/><sp/></highlight><highlight class="comment">//<sp/>hit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>acc.getStats();</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.graph_cache_misses,<sp/>1u);</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.graph_cache_hits,<sp/><sp/><sp/>1u);</highlight></codeline>
+<codeline lineno="267"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><ref refid="test__gpu__graph__cache_8cpp_1a5a5f8485f2bcba394b5e7e885737880b" kindref="member">TEST</ref>(GPUQueryAcceleratorGraphTest,<sp/>DifferentRowCountsAreDifferentShapes)<sp/>{</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUQueryAccelerator::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.force_cpu<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enable_graph_cache<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUQueryAccelerator<sp/>acc(cfg);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>acc.scan(makeAccRows(5));<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>miss</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>acc.scan(makeAccRows(10));<sp/><sp/></highlight><highlight class="comment">//<sp/>miss<sp/>(different<sp/>shape)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>acc.getStats();</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.graph_cache_misses,<sp/>2u);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.graph_cache_hits,<sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="281"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><ref refid="test__gpu__graph__cache_8cpp_1a5a5f8485f2bcba394b5e7e885737880b" kindref="member">TEST</ref>(GPUQueryAcceleratorGraphTest,<sp/>SortCacheHit)<sp/>{</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUQueryAccelerator::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.force_cpu<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enable_graph_cache<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUQueryAccelerator<sp/>acc(cfg);</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rows<sp/>=<sp/>makeAccRows(6);</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>acc.sort(rows,<sp/>extractVal,<sp/>GPUQueryAccelerator::SortOrder::ASC);<sp/><sp/></highlight><highlight class="comment">//<sp/>miss</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>acc.sort(rows,<sp/>extractVal,<sp/>GPUQueryAccelerator::SortOrder::ASC);<sp/><sp/></highlight><highlight class="comment">//<sp/>hit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>acc.getStats();</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.graph_cache_misses,<sp/>1u);</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.graph_cache_hits,<sp/><sp/><sp/>1u);</highlight></codeline>
+<codeline lineno="296"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><ref refid="test__gpu__graph__cache_8cpp_1a5a5f8485f2bcba394b5e7e885737880b" kindref="member">TEST</ref>(GPUQueryAcceleratorGraphTest,<sp/>SortOrderDifferentiatesShapes)<sp/>{</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUQueryAccelerator::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.force_cpu<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enable_graph_cache<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUQueryAccelerator<sp/>acc(cfg);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rows<sp/>=<sp/>makeAccRows(4);</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>acc.sort(rows,<sp/>extractVal,<sp/>GPUQueryAccelerator::SortOrder::ASC);<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>miss</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>acc.sort(rows,<sp/>extractVal,<sp/>GPUQueryAccelerator::SortOrder::DESC);<sp/><sp/></highlight><highlight class="comment">//<sp/>miss<sp/>(different<sp/>param)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>acc.getStats();</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.graph_cache_misses,<sp/>2u);</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.graph_cache_hits,<sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="311"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><ref refid="test__gpu__graph__cache_8cpp_1a5a5f8485f2bcba394b5e7e885737880b" kindref="member">TEST</ref>(GPUQueryAcceleratorGraphTest,<sp/>AggregateCacheHit)<sp/>{</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUQueryAccelerator::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.force_cpu<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enable_graph_cache<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUQueryAccelerator<sp/>acc(cfg);</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rows<sp/>=<sp/>makeAccRows(7);</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>acc.aggregate(rows,<sp/>GPUQueryAccelerator::AggFunc::SUM,<sp/>extractVal);<sp/><sp/></highlight><highlight class="comment">//<sp/>miss</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>acc.aggregate(rows,<sp/>GPUQueryAccelerator::AggFunc::SUM,<sp/>extractVal);<sp/><sp/></highlight><highlight class="comment">//<sp/>hit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>acc.getStats();</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.graph_cache_misses,<sp/>1u);</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.graph_cache_hits,<sp/><sp/><sp/>1u);</highlight></codeline>
+<codeline lineno="326"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><ref refid="test__gpu__graph__cache_8cpp_1a5a5f8485f2bcba394b5e7e885737880b" kindref="member">TEST</ref>(GPUQueryAcceleratorGraphTest,<sp/>AggregateFuncDifferentiatesShapes)<sp/>{</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUQueryAccelerator::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.force_cpu<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enable_graph_cache<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUQueryAccelerator<sp/>acc(cfg);</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rows<sp/>=<sp/>makeAccRows(7);</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>acc.aggregate(rows,<sp/>GPUQueryAccelerator::AggFunc::SUM,<sp/>extractVal);<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>miss</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/>acc.aggregate(rows,<sp/>GPUQueryAccelerator::AggFunc::COUNT,<sp/>extractVal);<sp/></highlight><highlight class="comment">//<sp/>miss</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>acc.getStats();</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.graph_cache_misses,<sp/>2u);</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.graph_cache_hits,<sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="341"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><ref refid="test__gpu__graph__cache_8cpp_1a5a5f8485f2bcba394b5e7e885737880b" kindref="member">TEST</ref>(GPUQueryAcceleratorGraphTest,<sp/>EnableDisableToggle)<sp/>{</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUQueryAccelerator<sp/>acc;</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rows<sp/>=<sp/>makeAccRows(5);</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Disabled<sp/>by<sp/>default.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/>acc.scan(rows);</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(acc.getStats().graph_cache_misses,<sp/>0u);</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/>acc.enableGraphCache();</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/>acc.scan(rows);<sp/><sp/></highlight><highlight class="comment">//<sp/>miss</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(acc.getStats().graph_cache_misses,<sp/>1u);</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Disable<sp/>—<sp/>subsequent<sp/>scans<sp/>should<sp/>not<sp/>update<sp/>cache<sp/>counters.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/>acc.disableGraphCache();</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/>acc.resetStats();</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/>acc.scan(rows);</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(acc.getStats().graph_cache_misses,<sp/>0u);</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(acc.getStats().graph_cache_hits,<sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="362"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"></highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><ref refid="test__gpu__graph__cache_8cpp_1a5a5f8485f2bcba394b5e7e885737880b" kindref="member">TEST</ref>(GPUQueryAcceleratorGraphTest,<sp/>GetGraphCacheStatsReflectsHitsAndMisses)<sp/>{</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUQueryAccelerator::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.force_cpu<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enable_graph_cache<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUQueryAccelerator<sp/>acc(cfg);</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"></highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rows<sp/>=<sp/>makeAccRows(9);</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/>acc.scan(rows);<sp/><sp/></highlight><highlight class="comment">//<sp/>miss</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/>acc.scan(rows);<sp/><sp/></highlight><highlight class="comment">//<sp/>hit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/>acc.scan(rows);<sp/><sp/></highlight><highlight class="comment">//<sp/>hit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="374"><highlight class="normal"></highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cs<sp/>=<sp/>acc.getGraphCacheStats();</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cs.misses,<sp/>1u);</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cs.hits,<sp/><sp/><sp/>2u);</highlight></codeline>
+<codeline lineno="378"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"></highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><ref refid="test__gpu__graph__cache_8cpp_1a5a5f8485f2bcba394b5e7e885737880b" kindref="member">TEST</ref>(GPUQueryAcceleratorGraphTest,<sp/>ExistingBehaviourUnchangedWhenCacheDisabled)<sp/>{</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUQueryAccelerator::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.force_cpu<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enable_graph_cache<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUQueryAccelerator<sp/>acc(cfg);</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"></highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rows<sp/>=<sp/>makeAccRows(5);</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/><sp/>=<sp/>acc.scan(rows);</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res.rows_scanned,<sp/>5u);</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res.rows_passed,<sp/><sp/>5u);</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(acc.getStats().total_scans,<sp/>1u);</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(acc.getStats().graph_cache_hits,<sp/>0u);</highlight></codeline>
+<codeline lineno="392"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"></highlight></codeline>
+<codeline lineno="394"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="395"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Thread<sp/>safety</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="396"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="397"><highlight class="normal"></highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><ref refid="test__gpu__graph__cache_8cpp_1a5a5f8485f2bcba394b5e7e885737880b" kindref="member">TEST</ref>(GPUGraphCacheTest,<sp/>ConcurrentCaptureAndLookupIsSafe)<sp/>{</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUGraphCache<sp/>cache;</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/>QueryShape<sp/>shape{QueryShape::OpType::SCAN,<sp/>16,<sp/>0};</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"></highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kThreads<sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="403"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads;</highlight></codeline>
+<codeline lineno="404"><highlight class="normal"><sp/><sp/><sp/><sp/>threads.reserve(kThreads<sp/>*<sp/>2);</highlight></codeline>
+<codeline lineno="405"><highlight class="normal"></highlight></codeline>
+<codeline lineno="406"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>0;<sp/>t<sp/>&lt;<sp/>kThreads;<sp/>++t)<sp/>{</highlight></codeline>
+<codeline lineno="407"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([&amp;]()<sp/>{<sp/>cache.capture(shape);<sp/>});</highlight></codeline>
+<codeline lineno="408"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([&amp;]()<sp/>{<sp/>cache.lookup(shape);<sp/>});</highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="410"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>th<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="411"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>th.join();</highlight></codeline>
+<codeline lineno="412"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="413"><highlight class="normal"></highlight></codeline>
+<codeline lineno="414"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cache.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="415"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/gpu/test_gpu_graph_cache.cpp"/>
+  </compounddef>
+</doxygen>

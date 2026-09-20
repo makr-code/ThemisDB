@@ -1,0 +1,215 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_wiki_rag_source" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::WikiRagSource</compoundname>
+    <includes refid="wiki__rag__source_8h" local="no">wiki_rag_source.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_wiki_rag_source_1aaa7d73a601e7e80b9409e6226ba71739" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1_i_wiki_index_reader" kindref="compound">IWikiIndexReader</ref> &amp;</type>
+        <definition>IWikiIndexReader&amp; themis::llm::WikiRagSource::reader_</definition>
+        <argsstring></argsstring>
+        <name>reader_</name>
+        <qualifiedname>themis::llm::WikiRagSource::reader_</qualifiedname>
+        <briefdescription>
+<para>Underlying index reader. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_rag_source.h" line="123" column="23" bodyfile="include/llm/wiki_rag_source.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_wiki_rag_source_1a8217ee1cdf73b5bc31e65d53c965e5c6" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_wiki_rag_source_config" kindref="compound">WikiRagSourceConfig</ref></type>
+        <definition>WikiRagSourceConfig themis::llm::WikiRagSource::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::WikiRagSource::config_</qualifiedname>
+        <briefdescription>
+<para>Operational configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_rag_source.h" line="124" column="25" bodyfile="include/llm/wiki_rag_source.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_wiki_rag_source_1a5abdbfaeaa147309dce30b76255de970" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::WikiRagSource::WikiRagSource</definition>
+        <argsstring>(IWikiIndexReader &amp;reader, WikiRagSourceConfig config={})</argsstring>
+        <name>WikiRagSource</name>
+        <qualifiedname>themis::llm::WikiRagSource::WikiRagSource</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_i_wiki_index_reader" kindref="compound">IWikiIndexReader</ref> &amp;</type>
+          <declname>reader</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1_wiki_rag_source_config" kindref="compound">WikiRagSourceConfig</ref></type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Construct from an index reader and optional config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>reader</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Fully initialised index reader (must remain alive for the lifetime of this object). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Operational configuration; defaults are production-safe. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_rag_source.h" line="84" column="14" bodyfile="src/llm/wiki_rag_source.cpp" bodystart="30" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_wiki_rag_source_1af968790e0f497cd68363c21a443e6994" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>rag::StageResult</type>
+        <definition>rag::StageResult themis::llm::WikiRagSource::retrieveFromWiki</definition>
+        <argsstring>(rag::ModularRAGContext &amp;ctx)</argsstring>
+        <name>retrieveFromWiki</name>
+        <qualifiedname>themis::llm::WikiRagSource::retrieveFromWiki</qualifiedname>
+        <param>
+          <type>rag::ModularRAGContext &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve wiki chunks for the query in <computeroutput>ctx</computeroutput> and populate <computeroutput>StageResult</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Retrieve From Wiki.</para>
+<para>This method satisfies the <computeroutput>RAGStageHandler</computeroutput> type alias and may be assigned directly to <computeroutput>ModularRAGPipelineConfig::retrieve_fn</computeroutput>.</para>
+<para>Steps:<orderedlist>
+<listitem><para>Calls <computeroutput>reader.query(ctx.query, config_.top_k, config_.min_score)</computeroutput>.</para>
+</listitem><listitem><para>Converts each <computeroutput><ref refid="structthemis_1_1llm_1_1_wiki_chunk" kindref="compound">WikiChunk</ref></computeroutput> to a <computeroutput>RAGCandidate</computeroutput> with <computeroutput>source_namespace = config_.source_namespace</computeroutput>.</para>
+</listitem><listitem><para>Appends provenance tags.</para>
+</listitem><listitem><para>Returns <computeroutput>StageResult</computeroutput> with <computeroutput>StageStatus::Success</computeroutput> and populated <computeroutput>candidates</computeroutput>.</para>
+</listitem></orderedlist>
+</para>
+<para>On error:<itemizedlist>
+<listitem><para>If <computeroutput>fail_open = false</computeroutput> (default): returns <computeroutput>StageStatus::Error</computeroutput> + diagnostic.</para>
+</listitem><listitem><para>If <computeroutput>fail_open = true</computeroutput>: returns <computeroutput>StageStatus::Skipped</computeroutput> + diagnostic.</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Mutable pipeline context; <computeroutput>ctx.query</computeroutput> is the input text. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Stage result with wiki candidates (or skipped on error).</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), isReady(), spdlog::warn(), provenanceTag(), query(), reserve(), size(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_rag_source.h" line="108" column="23" bodyfile="src/llm/wiki_rag_source.cpp" bodystart="63" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_wiki_rag_source_1a26ca6692d738ba27f3b630d624ad47e7" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="classthemis_1_1llm_1_1_i_wiki_index_reader" kindref="compound">IWikiIndexReader</ref> &amp;</type>
+        <definition>const IWikiIndexReader &amp; themis::llm::WikiRagSource::reader</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>reader</name>
+        <qualifiedname>themis::llm::WikiRagSource::reader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Reference to the underlying reader. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_rag_source.h" line="111" column="29" bodyfile="include/llm/wiki_rag_source.h" bodystart="111" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_wiki_rag_source_1a2f37bc0fa9d958e3a8a4c1fc6d9e6626" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1llm_1_1_wiki_rag_source_config" kindref="compound">WikiRagSourceConfig</ref> &amp;</type>
+        <definition>const WikiRagSourceConfig &amp; themis::llm::WikiRagSource::config</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::llm::WikiRagSource::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Current source configuration. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_rag_source.h" line="114" column="32" bodyfile="include/llm/wiki_rag_source.h" bodystart="114" bodyend="114"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_wiki_rag_source_1aa88de7827b1c005560bcfe70ee48759b" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::WikiRagSource::provenanceTag</definition>
+        <argsstring>() const</argsstring>
+        <name>provenanceTag</name>
+        <qualifiedname>themis::llm::WikiRagSource::provenanceTag</qualifiedname>
+        <briefdescription>
+<para>Determine the provenance tag for this reader type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Provenance string such as <computeroutput>"retrieve:wiki-hybrid"</computeroutput>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_rag_source.h" line="121" column="18" bodyfile="src/llm/wiki_rag_source.cpp" bodystart="40" bodyend="51"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RAG stage handler that retrieves <computeroutput>RAGCandidate</computeroutput>s from a wiki index. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Delegates retrieval to an <computeroutput><ref refid="classthemis_1_1llm_1_1_i_wiki_index_reader" kindref="compound">IWikiIndexReader</ref></computeroutput> and converts the resulting <computeroutput><ref refid="structthemis_1_1llm_1_1_wiki_chunk" kindref="compound">WikiChunk</ref></computeroutput> list into a <computeroutput>StageResult</computeroutput> suitable for the <computeroutput>ModularRAGPipeline</computeroutput>.</para>
+<para>Provenance tags appended per candidate:<itemizedlist>
+<listitem><para><computeroutput>"retrieve:wiki-hybrid"</computeroutput> when the reader is a <computeroutput><ref refid="classthemis_1_1llm_1_1_wiki_index_store" kindref="compound">WikiIndexStore</ref></computeroutput> (BM25+vector)</para>
+</listitem><listitem><para><computeroutput>"retrieve:wiki-json"</computeroutput> when the reader is a <computeroutput><ref refid="classthemis_1_1llm_1_1_json_wiki_index_reader" kindref="compound">JsonWikiIndexReader</ref></computeroutput></para>
+</listitem><listitem><para><computeroutput>"retrieve:wiki"</computeroutput> for any other <computeroutput><ref refid="classthemis_1_1llm_1_1_i_wiki_index_reader" kindref="compound">IWikiIndexReader</ref></computeroutput> implementation </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/llm/wiki_rag_source.h" line="75" column="1" bodyfile="include/llm/wiki_rag_source.h" bodystart="75" bodyend="125"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_wiki_rag_source_1a2f37bc0fa9d958e3a8a4c1fc6d9e6626" prot="public" virt="non-virtual"><scope>themis::llm::WikiRagSource</scope><name>config</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_rag_source_1a8217ee1cdf73b5bc31e65d53c965e5c6" prot="private" virt="non-virtual"><scope>themis::llm::WikiRagSource</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_rag_source_1aa88de7827b1c005560bcfe70ee48759b" prot="private" virt="non-virtual"><scope>themis::llm::WikiRagSource</scope><name>provenanceTag</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_rag_source_1a26ca6692d738ba27f3b630d624ad47e7" prot="public" virt="non-virtual"><scope>themis::llm::WikiRagSource</scope><name>reader</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_rag_source_1aaa7d73a601e7e80b9409e6226ba71739" prot="private" virt="non-virtual"><scope>themis::llm::WikiRagSource</scope><name>reader_</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_rag_source_1af968790e0f497cd68363c21a443e6994" prot="public" virt="non-virtual"><scope>themis::llm::WikiRagSource</scope><name>retrieveFromWiki</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_rag_source_1a5abdbfaeaa147309dce30b76255de970" prot="public" virt="non-virtual"><scope>themis::llm::WikiRagSource</scope><name>WikiRagSource</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

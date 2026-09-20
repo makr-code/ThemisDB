@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_experiment_descriptor" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::ExperimentDescriptor</compoundname>
+    <includes refid="prompt__ab__experiment_8h" local="no">prompt_ab_experiment.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_experiment_descriptor_1af0209cf528338197b50d4a6e2154c759" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1prompt__engineering_1a8100da3471ca30599a8ced050f560329" kindref="member">ExperimentKey</ref></type>
+        <definition>ExperimentKey themis::prompt_engineering::ExperimentDescriptor::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>themis::prompt_engineering::ExperimentDescriptor::key</qualifiedname>
+        <briefdescription>
+<para>Unique experiment key. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="409" column="27" bodyfile="include/prompt_engineering/prompt_ab_experiment.h" bodystart="409" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_experiment_descriptor_1a4ec6683acb6da7d62b5a82ce3f5792ab" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_a_b_variant" kindref="compound">ABVariant</ref> &gt;</type>
+        <definition>std::vector&lt;ABVariant&gt; themis::prompt_engineering::ExperimentDescriptor::variants</definition>
+        <argsstring></argsstring>
+        <name>variants</name>
+        <qualifiedname>themis::prompt_engineering::ExperimentDescriptor::variants</qualifiedname>
+        <briefdescription>
+<para>All variants for this experiment. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="410" column="17" bodyfile="include/prompt_engineering/prompt_ab_experiment.h" bodystart="410" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_experiment_descriptor_1a960b27fa9a4234dbd949c3f4f434aa50" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::ExperimentDescriptor::active</definition>
+        <argsstring></argsstring>
+        <name>active</name>
+        <qualifiedname>themis::prompt_engineering::ExperimentDescriptor::active</qualifiedname>
+        <briefdescription>
+<para>Whether the experiment is currently running. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="411" column="27" bodyfile="include/prompt_engineering/prompt_ab_experiment.h" bodystart="411" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Descriptor used by <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_i_prompt_a_b_framework_1a7b8661616b7cced0af15b3619a0840ea" kindref="member">IPromptABFramework::listExperiments()</ref></computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/prompt_ab_experiment.h" line="408" column="1" bodyfile="include/prompt_engineering/prompt_ab_experiment.h" bodystart="408" bodyend="412"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_experiment_descriptor_1a960b27fa9a4234dbd949c3f4f434aa50" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ExperimentDescriptor</scope><name>active</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_experiment_descriptor_1af0209cf528338197b50d4a6e2154c759" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ExperimentDescriptor</scope><name>key</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_experiment_descriptor_1a4ec6683acb6da7d62b5a82ce3f5792ab" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ExperimentDescriptor</scope><name>variants</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

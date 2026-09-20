@@ -1,0 +1,1174 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_field_encryption" kind="class" language="C++" prot="public">
+    <compoundname>FieldEncryption</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">IFieldEncryption</basecompoundref>
+    <derivedcompoundref refid="classthemis_1_1security_1_1_hybrid_encryption" prot="public" virt="non-virtual">themis::security::HybridEncryption</derivedcompoundref>
+    <includes refid="include_2security_2encryption_8h" local="no">encryption.h</includes>
+    <innerclass refid="struct_field_encryption_1_1_metrics" prot="public">FieldEncryption::Metrics</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_field_encryption_1acdd92e2e332ec9691d1cf676ca8d9970" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; KeyProvider &gt;</type>
+        <definition>std::shared_ptr&lt;KeyProvider&gt; themis::FieldEncryption::key_provider_</definition>
+        <argsstring></argsstring>
+        <name>key_provider_</name>
+        <qualifiedname>FieldEncryption::key_provider_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/encryption.h" line="262" column="21" bodyfile="include/security/encryption.h" bodystart="262" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_field_encryption_1aadee5da4ec53d144c9a651c64576cd21" prot="private" static="no" mutable="no">
+        <type>EncryptionConfig</type>
+        <definition>EncryptionConfig themis::FieldEncryption::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>FieldEncryption::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/encryption.h" line="263" column="22" bodyfile="include/security/encryption.h" bodystart="263" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_field_encryption_1aa4f81bdc9b3ec2f04f9b329dd0cc1067" prot="private" static="no" mutable="yes">
+        <type><ref refid="struct_field_encryption_1_1_metrics" kindref="compound">Metrics</ref></type>
+        <definition>Metrics themis::FieldEncryption::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>FieldEncryption::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/encryption.h" line="264" column="21" bodyfile="include/security/encryption.h" bodystart="264" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_field_encryption_1a070efcdba8d62d317c7530155abbeca8" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::FieldEncryption::FieldEncryption</definition>
+        <argsstring>(std::shared_ptr&lt; KeyProvider &gt; key_provider)</argsstring>
+        <name>FieldEncryption</name>
+        <qualifiedname>FieldEncryption::FieldEncryption</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; KeyProvider &gt;</type>
+          <declname>key_provider</declname>
+        </param>
+        <briefdescription>
+<para>Field Encryption. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_provider</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/encryption.h" line="107" column="14" bodyfile="src/security/field_encryption.cpp" bodystart="332" bodyend="338"/>
+      </memberdef>
+      <memberdef kind="function" id="class_field_encryption_1a4ce201c5b783ce8000e7675ff803aa28" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::FieldEncryption::~FieldEncryption</definition>
+        <argsstring>()</argsstring>
+        <name>~FieldEncryption</name>
+        <qualifiedname>FieldEncryption::~FieldEncryption</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/encryption.h" line="109" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="class_field_encryption_1a8d67322879fbc6023ae9e0142775756a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_encrypted_blob" kindref="compound">EncryptedBlob</ref></type>
+        <definition>EncryptedBlob themis::FieldEncryption::encrypt</definition>
+        <argsstring>(const std::string &amp;plaintext, const std::string &amp;key_id)</argsstring>
+        <name>encrypt</name>
+        <qualifiedname>FieldEncryption::encrypt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plaintext</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <briefdescription>
+<para>Encrypt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plaintext</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plaintext</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: plaintext_bytes(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/encryption.h" line="123" column="19" bodyfile="src/security/field_encryption.cpp" bodystart="470" bodyend="473"/>
+      </memberdef>
+      <memberdef kind="function" id="class_field_encryption_1aec9e2a022d7b1e45efa0ac81688bba7a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_encrypted_blob" kindref="compound">EncryptedBlob</ref></type>
+        <definition>EncryptedBlob themis::FieldEncryption::encrypt</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;plaintext, const std::string &amp;key_id)</argsstring>
+        <name>encrypt</name>
+        <qualifiedname>FieldEncryption::encrypt</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>plaintext</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <briefdescription>
+<para>Encrypt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plaintext</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plaintext</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: license::RuntimeLicenseGate::instance(), isFeatureAllowed(), std::chrono::high_resolution_clock::now(), getKey(), getKeyMetadata(), encryptInternal(), fetch_add(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/encryption.h" line="131" column="19" bodyfile="src/security/field_encryption.cpp" bodystart="483" bodyend="527"/>
+      </memberdef>
+      <memberdef kind="function" id="class_field_encryption_1a189efd8aaf6fdeda8fda3cc3f3b0f2c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::FieldEncryption::decryptToString</definition>
+        <argsstring>(const EncryptedBlob &amp;blob)</argsstring>
+        <name>decryptToString</name>
+        <qualifiedname>FieldEncryption::decryptToString</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_encrypted_blob" kindref="compound">EncryptedBlob</ref> &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+<para>Decrypt To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="class_field_encryption_1a41e4445eb24c1699ce222f70eef990dd" kindref="member">decryptToBytes()</ref>, std::string(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/encryption.h" line="138" column="17" bodyfile="src/security/field_encryption.cpp" bodystart="535" bodyend="538"/>
+      </memberdef>
+      <memberdef kind="function" id="class_field_encryption_1a41e4445eb24c1699ce222f70eef990dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::FieldEncryption::decryptToBytes</definition>
+        <argsstring>(const EncryptedBlob &amp;blob)</argsstring>
+        <name>decryptToBytes</name>
+        <qualifiedname>FieldEncryption::decryptToBytes</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_encrypted_blob" kindref="compound">EncryptedBlob</ref> &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+<para>Decrypt To Bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::high_resolution_clock::now(), getKey(), decryptInternal(), fetch_add(), size(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/encryption.h" line="145" column="17" bodyfile="src/security/field_encryption.cpp" bodystart="546" bodyend="582"/>
+      </memberdef>
+      <memberdef kind="function" id="class_field_encryption_1a5c5efdb1e3c85e18fff6ac1f0b69c1c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_encrypted_blob" kindref="compound">EncryptedBlob</ref></type>
+        <definition>EncryptedBlob themis::FieldEncryption::encryptWithKey</definition>
+        <argsstring>(const std::string &amp;plaintext, const std::string &amp;key_id, uint32_t key_version, const std::vector&lt; uint8_t &gt; &amp;key)</argsstring>
+        <name>encryptWithKey</name>
+        <qualifiedname>FieldEncryption::encryptWithKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plaintext</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>key_version</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Encrypt With Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plaintext</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plaintext</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: plaintext_bytes(), begin(), end(), encryptInternal(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/encryption.h" line="155" column="19" bodyfile="src/security/field_encryption.cpp" bodystart="593" bodyend="599"/>
+      </memberdef>
+      <memberdef kind="function" id="class_field_encryption_1a1aac9ae49f085895ab0b42d4fb39f59f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::FieldEncryption::decryptWithKey</definition>
+        <argsstring>(const EncryptedBlob &amp;blob, const std::vector&lt; uint8_t &gt; &amp;key)</argsstring>
+        <name>decryptWithKey</name>
+        <qualifiedname>FieldEncryption::decryptWithKey</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_encrypted_blob" kindref="compound">EncryptedBlob</ref> &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Decrypt With Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: decryptInternal(), std::string(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/encryption.h" line="166" column="17" bodyfile="src/security/field_encryption.cpp" bodystart="608" bodyend="612"/>
+      </memberdef>
+      <memberdef kind="function" id="class_field_encryption_1a6303f9f054a431448cbc880fb428e6d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="struct_encrypted_blob" kindref="compound">EncryptedBlob</ref> &gt;</type>
+        <definition>std::vector&lt; EncryptedBlob &gt; themis::FieldEncryption::encryptEntityBatch</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;items, const std::string &amp;key_id)</argsstring>
+        <name>encryptEntityBatch</name>
+        <qualifiedname>FieldEncryption::encryptEntityBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;</type>
+          <declname>items</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/encryption.h" line="169" column="17" bodyfile="src/security/field_encryption.cpp" bodystart="261" bodyend="328"/>
+      </memberdef>
+      <memberdef kind="function" id="class_field_encryption_1ae07c0f662d9c57d8895ffaffff264294" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::FieldEncryption::decrypt</definition>
+        <argsstring>(const EncryptedBlob &amp;blob)</argsstring>
+        <name>decrypt</name>
+        <qualifiedname>FieldEncryption::decrypt</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_encrypted_blob" kindref="compound">EncryptedBlob</ref> &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+<para>Decrypt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="class_field_encryption_1a189efd8aaf6fdeda8fda3cc3f3b0f2c5" kindref="member">decryptToString()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/encryption.h" line="178" column="17" bodyfile="include/security/encryption.h" bodystart="178" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="class_field_encryption_1a0a644dce77ddb767ca7eb82436e948d7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; KeyProvider &gt;</type>
+        <definition>std::shared_ptr&lt; KeyProvider &gt; themis::FieldEncryption::getKeyProvider</definition>
+        <argsstring>() const</argsstring>
+        <name>getKeyProvider</name>
+        <qualifiedname>FieldEncryption::getKeyProvider</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/encryption.h" line="182" column="21" bodyfile="include/security/encryption.h" bodystart="182" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="class_field_encryption_1a4f62ff7c113681b6e7502393a648e8fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::FieldEncryption::encrypt_field</definition>
+        <argsstring>(const std::string &amp;field_name, const std::vector&lt; uint8_t &gt; &amp;plaintext) override</argsstring>
+        <name>encrypt_field</name>
+        <qualifiedname>FieldEncryption::encrypt_field</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>field_name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>plaintext</declname>
+        </param>
+        <briefdescription>
+<para>Encrypt field. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">field_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the field. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">plaintext</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/encryption.h" line="188" column="17" bodyfile="src/security/field_encryption.cpp" bodystart="424" bodyend="439"/>
+      </memberdef>
+      <memberdef kind="function" id="class_field_encryption_1ae70acf2b1d5ab072818f3c530559a709" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::FieldEncryption::decrypt_field</definition>
+        <argsstring>(const std::string &amp;field_name, const std::vector&lt; uint8_t &gt; &amp;ciphertext) override</argsstring>
+        <name>decrypt_field</name>
+        <qualifiedname>FieldEncryption::decrypt_field</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>field_name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>ciphertext</declname>
+        </param>
+        <briefdescription>
+<para>Decrypt field. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">field_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the field. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ciphertext</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/encryption.h" line="192" column="17" bodyfile="src/security/field_encryption.cpp" bodystart="447" bodyend="461"/>
+      </memberdef>
+      <memberdef kind="function" id="class_field_encryption_1a7a63491e35edb8e089b79e05a161866b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::FieldEncryption::should_encrypt</definition>
+        <argsstring>(const std::string &amp;field_name) const override</argsstring>
+        <name>should_encrypt</name>
+        <qualifiedname>FieldEncryption::should_encrypt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>field_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/encryption.h" line="196" column="10" bodyfile="src/security/field_encryption.cpp" bodystart="403" bodyend="416"/>
+      </memberdef>
+      <memberdef kind="function" id="class_field_encryption_1adc5593da1c6a15e0c3334a513088bb93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::FieldEncryption::setEncryptionConfig</definition>
+        <argsstring>(const EncryptionConfig &amp;config)</argsstring>
+        <name>setEncryptionConfig</name>
+        <qualifiedname>FieldEncryption::setEncryptionConfig</qualifiedname>
+        <param>
+          <type>const EncryptionConfig &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Set Encryption <ref refid="test__tls__hot__reload_8cpp_1abbae112e09a650b420da55146a2ca8b1" kindref="member">Config</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setEncryptionConfig without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/encryption.h" line="202" column="10" bodyfile="src/security/field_encryption.cpp" bodystart="388" bodyend="390"/>
+      </memberdef>
+      <memberdef kind="function" id="class_field_encryption_1a8fd155a50cd680d40c7c208a13bed0e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::FieldEncryption::decryptAndReEncrypt</definition>
+        <argsstring>(const EncryptedBlob &amp;blob, const std::string &amp;key_id, std::optional&lt; EncryptedBlob &gt; &amp;updated_blob)</argsstring>
+        <name>decryptAndReEncrypt</name>
+        <qualifiedname>FieldEncryption::decryptAndReEncrypt</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_encrypted_blob" kindref="compound">EncryptedBlob</ref> &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; <ref refid="struct_encrypted_blob" kindref="compound">EncryptedBlob</ref> &gt; &amp;</type>
+          <declname>updated_blob</declname>
+        </param>
+        <briefdescription>
+<para>Decrypt And Re Encrypt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>===== Lazy Re-Encryption Implementation =====</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">updated_blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">updated_blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getKey(), decryptInternal(), plaintext(), begin(), end(), <ref refid="class_field_encryption_1a572317a0c17df4ff69bc4fa16a9be1fb" kindref="member">needsReEncryption()</ref>, <ref refid="class_field_encryption_1a8d67322879fbc6023ae9e0142775756a" kindref="member">encrypt()</ref>, fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/encryption.h" line="211" column="17" bodyfile="src/security/field_encryption.cpp" bodystart="781" bodyend="815"/>
+      </memberdef>
+      <memberdef kind="function" id="class_field_encryption_1a572317a0c17df4ff69bc4fa16a9be1fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::FieldEncryption::needsReEncryption</definition>
+        <argsstring>(const EncryptedBlob &amp;blob, const std::string &amp;key_id)</argsstring>
+        <name>needsReEncryption</name>
+        <qualifiedname>FieldEncryption::needsReEncryption</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_encrypted_blob" kindref="compound">EncryptedBlob</ref> &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <briefdescription>
+<para>Needs Re Encryption. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: getCurrentVersion(), THEMIS_WARN(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/encryption.h" line="221" column="10" bodyfile="src/security/field_encryption.cpp" bodystart="824" bodyend="846"/>
+      </memberdef>
+      <memberdef kind="function" id="class_field_encryption_1af4c149b29de1b83a48f4adbdc5b78dcd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="struct_field_encryption_1_1_metrics" kindref="compound">Metrics</ref> &amp;</type>
+        <definition>const Metrics &amp; themis::FieldEncryption::getMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>getMetrics</name>
+        <qualifiedname>FieldEncryption::getMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/encryption.h" line="259" column="19" bodyfile="include/security/encryption.h" bodystart="259" bodyend="259"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_field_encryption_1a48b38794f8715c03c32aa313d2c9a734" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="class_field_encryption" kindref="compound">FieldEncryption</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; FieldEncryption &gt; themis::FieldEncryption::createDefault</definition>
+        <argsstring>()</argsstring>
+        <name>createDefault</name>
+        <qualifiedname>FieldEncryption::createDefault</qualifiedname>
+        <briefdescription>
+<para>Create Default. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::getenv(), std::string_view(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/encryption.h" line="115" column="28" bodyfile="src/security/field_encryption.cpp" bodystart="348" bodyend="381"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_field_encryption_1ab436a8f0e0de83f2edc541cd9181eb94" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::FieldEncryption::generateIV</definition>
+        <argsstring>() const</argsstring>
+        <name>generateIV</name>
+        <qualifiedname>FieldEncryption::generateIV</qualifiedname>
+        <briefdescription>
+<para>Generate IV. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/encryption.h" line="270" column="17" bodyfile="src/security/field_encryption.cpp" bodystart="614" bodyend="622"/>
+      </memberdef>
+      <memberdef kind="function" id="class_field_encryption_1aa2810128561d744c9af0b60516d40a7c" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::FieldEncryption::getKeyIdForField</definition>
+        <argsstring>(const std::string &amp;field_name) const</argsstring>
+        <name>getKeyIdForField</name>
+        <qualifiedname>FieldEncryption::getKeyIdForField</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>field_name</declname>
+        </param>
+        <briefdescription>
+<para>Get Key Id For Field. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">field_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the field. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/encryption.h" line="277" column="17" bodyfile="src/security/field_encryption.cpp" bodystart="392" bodyend="401"/>
+      </memberdef>
+      <memberdef kind="function" id="class_field_encryption_1a866e7433beb8ee1b3cd6aa04a035ebc5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_encrypted_blob" kindref="compound">EncryptedBlob</ref></type>
+        <definition>EncryptedBlob themis::FieldEncryption::encryptInternal</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;plaintext, const std::string &amp;key_id, uint32_t key_version, const std::vector&lt; uint8_t &gt; &amp;key)</argsstring>
+        <name>encryptInternal</name>
+        <qualifiedname>FieldEncryption::encryptInternal</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>plaintext</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>key_version</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Encrypt Internal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plaintext</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plaintext</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>EncryptionException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(), generateIV(), ctx(), EVP_CIPHER_CTX_new(), get(), EVP_EncryptInit_ex(), EVP_aes_256_gcm(), EVP_CIPHER_CTX_ctrl(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/encryption.h" line="287" column="19" bodyfile="src/security/field_encryption.cpp" bodystart="634" bodyend="695"/>
+      </memberdef>
+      <memberdef kind="function" id="class_field_encryption_1aa67b5cd6f84c0f29397d95f992c3a77a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::FieldEncryption::decryptInternal</definition>
+        <argsstring>(const EncryptedBlob &amp;blob, const std::vector&lt; uint8_t &gt; &amp;key)</argsstring>
+        <name>decryptInternal</name>
+        <qualifiedname>FieldEncryption::decryptInternal</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_encrypted_blob" kindref="compound">EncryptedBlob</ref> &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Decrypt Internal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>DecryptionException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(), ctx(), EVP_CIPHER_CTX_new(), get(), EVP_DecryptInit_ex(), EVP_aes_256_gcm(), EVP_CIPHER_CTX_ctrl(), data(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/encryption.h" line="298" column="17" bodyfile="src/security/field_encryption.cpp" bodystart="705" bodyend="770"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>FieldEncryption</label>
+        <link refid="class_field_encryption"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>IFieldEncryption</label>
+      </node>
+      <node id="3">
+        <label>themis::security::HybridEncryption</label>
+        <link refid="classthemis_1_1security_1_1_hybrid_encryption"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>FieldEncryption</label>
+        <link refid="class_field_encryption"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>IFieldEncryption</label>
+      </node>
+    </collaborationgraph>
+    <location file="include/security/encryption.h" line="100" column="1" bodyfile="include/security/encryption.h" bodystart="100" bodyend="300"/>
+    <listofallmembers>
+      <member refid="class_field_encryption_1aadee5da4ec53d144c9a651c64576cd21" prot="private" virt="non-virtual"><scope>FieldEncryption</scope><name>config_</name></member>
+      <member refid="class_field_encryption_1a48b38794f8715c03c32aa313d2c9a734" prot="public" virt="non-virtual"><scope>FieldEncryption</scope><name>createDefault</name></member>
+      <member refid="class_field_encryption_1ae07c0f662d9c57d8895ffaffff264294" prot="public" virt="non-virtual"><scope>FieldEncryption</scope><name>decrypt</name></member>
+      <member refid="class_field_encryption_1ae70acf2b1d5ab072818f3c530559a709" prot="public" virt="non-virtual"><scope>FieldEncryption</scope><name>decrypt_field</name></member>
+      <member refid="class_field_encryption_1a8fd155a50cd680d40c7c208a13bed0e3" prot="public" virt="non-virtual"><scope>FieldEncryption</scope><name>decryptAndReEncrypt</name></member>
+      <member refid="class_field_encryption_1aa67b5cd6f84c0f29397d95f992c3a77a" prot="private" virt="non-virtual"><scope>FieldEncryption</scope><name>decryptInternal</name></member>
+      <member refid="class_field_encryption_1a41e4445eb24c1699ce222f70eef990dd" prot="public" virt="non-virtual"><scope>FieldEncryption</scope><name>decryptToBytes</name></member>
+      <member refid="class_field_encryption_1a189efd8aaf6fdeda8fda3cc3f3b0f2c5" prot="public" virt="non-virtual"><scope>FieldEncryption</scope><name>decryptToString</name></member>
+      <member refid="class_field_encryption_1a1aac9ae49f085895ab0b42d4fb39f59f" prot="public" virt="non-virtual"><scope>FieldEncryption</scope><name>decryptWithKey</name></member>
+      <member refid="class_field_encryption_1a8d67322879fbc6023ae9e0142775756a" prot="public" virt="non-virtual"><scope>FieldEncryption</scope><name>encrypt</name></member>
+      <member refid="class_field_encryption_1aec9e2a022d7b1e45efa0ac81688bba7a" prot="public" virt="non-virtual"><scope>FieldEncryption</scope><name>encrypt</name></member>
+      <member refid="class_field_encryption_1a4f62ff7c113681b6e7502393a648e8fe" prot="public" virt="non-virtual"><scope>FieldEncryption</scope><name>encrypt_field</name></member>
+      <member refid="class_field_encryption_1a6303f9f054a431448cbc880fb428e6d6" prot="public" virt="non-virtual"><scope>FieldEncryption</scope><name>encryptEntityBatch</name></member>
+      <member refid="class_field_encryption_1a866e7433beb8ee1b3cd6aa04a035ebc5" prot="private" virt="non-virtual"><scope>FieldEncryption</scope><name>encryptInternal</name></member>
+      <member refid="class_field_encryption_1a5c5efdb1e3c85e18fff6ac1f0b69c1c6" prot="public" virt="non-virtual"><scope>FieldEncryption</scope><name>encryptWithKey</name></member>
+      <member refid="class_field_encryption_1a070efcdba8d62d317c7530155abbeca8" prot="public" virt="non-virtual"><scope>FieldEncryption</scope><name>FieldEncryption</name></member>
+      <member refid="class_field_encryption_1ab436a8f0e0de83f2edc541cd9181eb94" prot="private" virt="non-virtual"><scope>FieldEncryption</scope><name>generateIV</name></member>
+      <member refid="class_field_encryption_1aa2810128561d744c9af0b60516d40a7c" prot="private" virt="non-virtual"><scope>FieldEncryption</scope><name>getKeyIdForField</name></member>
+      <member refid="class_field_encryption_1a0a644dce77ddb767ca7eb82436e948d7" prot="public" virt="non-virtual"><scope>FieldEncryption</scope><name>getKeyProvider</name></member>
+      <member refid="class_field_encryption_1af4c149b29de1b83a48f4adbdc5b78dcd" prot="public" virt="non-virtual"><scope>FieldEncryption</scope><name>getMetrics</name></member>
+      <member refid="class_field_encryption_1acdd92e2e332ec9691d1cf676ca8d9970" prot="private" virt="non-virtual"><scope>FieldEncryption</scope><name>key_provider_</name></member>
+      <member refid="class_field_encryption_1aa4f81bdc9b3ec2f04f9b329dd0cc1067" prot="private" virt="non-virtual"><scope>FieldEncryption</scope><name>metrics_</name></member>
+      <member refid="class_field_encryption_1a572317a0c17df4ff69bc4fa16a9be1fb" prot="public" virt="non-virtual"><scope>FieldEncryption</scope><name>needsReEncryption</name></member>
+      <member refid="class_field_encryption_1adc5593da1c6a15e0c3334a513088bb93" prot="public" virt="non-virtual"><scope>FieldEncryption</scope><name>setEncryptionConfig</name></member>
+      <member refid="class_field_encryption_1a7a63491e35edb8e089b79e05a161866b" prot="public" virt="non-virtual"><scope>FieldEncryption</scope><name>should_encrypt</name></member>
+      <member refid="class_field_encryption_1a4ce201c5b783ce8000e7675ff803aa28" prot="public" virt="non-virtual"><scope>FieldEncryption</scope><name>~FieldEncryption</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

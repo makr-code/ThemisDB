@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::DistributedCoordinator::Config</compoundname>
+    <includes refid="distributed__coordinator_8h" local="no">distributed_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_config_1a93a2287b331115082f9f6c8e224d06ce" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::DistributedCoordinator::Config::leader_lease_seconds</definition>
+        <argsstring></argsstring>
+        <name>leader_lease_seconds</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::Config::leader_lease_seconds</qualifiedname>
+        <initializer>= 30</initializer>
+        <briefdescription>
+<para>Leader lease duration in seconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="63" column="18" bodyfile="include/sharding/distributed_coordinator.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_config_1a0d4ebda3940e8ba1dcd1edf783db41b9" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::DistributedCoordinator::Config::heartbeat_interval_ms</definition>
+        <argsstring></argsstring>
+        <name>heartbeat_interval_ms</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::Config::heartbeat_interval_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+<para>Leader heartbeat cadence in milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="64" column="18" bodyfile="include/sharding/distributed_coordinator.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_config_1a5085249841ce6580090becdd13648acd" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::DistributedCoordinator::Config::election_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>election_timeout_ms</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::Config::election_timeout_ms</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+<para>Election timeout in milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="65" column="18" bodyfile="include/sharding/distributed_coordinator.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_config_1a2502484a5d4cf628e6019b86bca057de" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::DistributedCoordinator::Config::enable_automatic_failover</definition>
+        <argsstring></argsstring>
+        <name>enable_automatic_failover</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::Config::enable_automatic_failover</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Auto-start elections on leader failure. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="66" column="14" bodyfile="include/sharding/distributed_coordinator.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_config_1ac668f8effbf268a4d1ac1d1ef639e1d5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::DistributedCoordinator::Config::enable_leader_stickiness</definition>
+        <argsstring></argsstring>
+        <name>enable_leader_stickiness</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::Config::enable_leader_stickiness</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Prefer current/previous leader continuity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="67" column="14" bodyfile="include/sharding/distributed_coordinator.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_config_1a8ec5fb69e20d2e07ecd7196085a72b76" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::sharding::DistributedCoordinator::Config::leader_stickiness_bonus</definition>
+        <argsstring></argsstring>
+        <name>leader_stickiness_bonus</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::Config::leader_stickiness_bonus</qualifiedname>
+        <initializer>= 0.3f</initializer>
+        <briefdescription>
+<para>Re-election bias factor for sticky leader behavior. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="68" column="15" bodyfile="include/sharding/distributed_coordinator.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Runtime tuning for election, heartbeat, and lease behavior. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/distributed_coordinator.h" line="62" column="5" bodyfile="include/sharding/distributed_coordinator.h" bodystart="62" bodyend="69"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_config_1a5085249841ce6580090becdd13648acd" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator::Config</scope><name>election_timeout_ms</name></member>
+      <member refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_config_1a2502484a5d4cf628e6019b86bca057de" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator::Config</scope><name>enable_automatic_failover</name></member>
+      <member refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_config_1ac668f8effbf268a4d1ac1d1ef639e1d5" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator::Config</scope><name>enable_leader_stickiness</name></member>
+      <member refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_config_1a0d4ebda3940e8ba1dcd1edf783db41b9" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator::Config</scope><name>heartbeat_interval_ms</name></member>
+      <member refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_config_1a93a2287b331115082f9f6c8e224d06ce" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator::Config</scope><name>leader_lease_seconds</name></member>
+      <member refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_config_1a8ec5fb69e20d2e07ecd7196085a72b76" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator::Config</scope><name>leader_stickiness_bonus</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

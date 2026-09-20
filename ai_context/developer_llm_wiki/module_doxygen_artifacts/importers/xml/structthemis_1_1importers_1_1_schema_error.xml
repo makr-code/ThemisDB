@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_schema_error" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::SchemaError</compoundname>
+    <includes refid="schema__validator_8h" local="no">schema_validator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_schema_error_1a198977f24b531c49b577b930daf3e29e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::SchemaError::error_type</definition>
+        <argsstring></argsstring>
+        <name>error_type</name>
+        <qualifiedname>themis::importers::SchemaError::error_type</qualifiedname>
+        <briefdescription>
+<para>Error type (NULL_TABLE_NAME, CIRCULAR_FK, etc.). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_validator.h" line="84" column="17" bodyfile="include/importers/schema_validator.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_schema_error_1a4005417b7b22aecb3452e66a5366a502" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::SchemaError::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::importers::SchemaError::message</qualifiedname>
+        <briefdescription>
+<para>Human-readable error message. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_validator.h" line="85" column="17" bodyfile="include/importers/schema_validator.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_schema_error_1a3c286b6fa1679c232cf67363ffe0706a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::SchemaError::affected_item</definition>
+        <argsstring></argsstring>
+        <name>affected_item</name>
+        <qualifiedname>themis::importers::SchemaError::affected_item</qualifiedname>
+        <briefdescription>
+<para>What caused error (table/column name). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_validator.h" line="86" column="17" bodyfile="include/importers/schema_validator.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_schema_error_1a3774be0fc8ae065651af1f00c155a9e9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::SchemaError::suggestion</definition>
+        <argsstring></argsstring>
+        <name>suggestion</name>
+        <qualifiedname>themis::importers::SchemaError::suggestion</qualifiedname>
+        <briefdescription>
+<para>How to fix (e.g., &quot;provide table name&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_validator.h" line="87" column="17" bodyfile="include/importers/schema_validator.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/schema_validator.h" line="83" column="1" bodyfile="include/importers/schema_validator.h" bodystart="83" bodyend="88"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_schema_error_1a3c286b6fa1679c232cf67363ffe0706a" prot="public" virt="non-virtual"><scope>themis::importers::SchemaError</scope><name>affected_item</name></member>
+      <member refid="structthemis_1_1importers_1_1_schema_error_1a198977f24b531c49b577b930daf3e29e" prot="public" virt="non-virtual"><scope>themis::importers::SchemaError</scope><name>error_type</name></member>
+      <member refid="structthemis_1_1importers_1_1_schema_error_1a4005417b7b22aecb3452e66a5366a502" prot="public" virt="non-virtual"><scope>themis::importers::SchemaError</scope><name>message</name></member>
+      <member refid="structthemis_1_1importers_1_1_schema_error_1a3774be0fc8ae065651af1f00c155a9e9" prot="public" virt="non-virtual"><scope>themis::importers::SchemaError</scope><name>suggestion</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1whisper_1_1_speech_segment" kind="struct" language="C++" prot="public">
+    <compoundname>themis::whisper::SpeechSegment</compoundname>
+    <includes refid="voice__activity__detector_8h" local="no">voice_activity_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1whisper_1_1_speech_segment_1a00d18e488e9361c4ce38a189675825b3" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::whisper::SpeechSegment::start_sample</definition>
+        <argsstring></argsstring>
+        <name>start_sample</name>
+        <qualifiedname>themis::whisper::SpeechSegment::start_sample</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Inclusive starting sample index of the speech segment in samples. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Inclusive start sample index </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/voice_activity_detector.h" line="32" column="17" bodyfile="include/whisper/voice_activity_detector.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1whisper_1_1_speech_segment_1a96776d7c926be7a602a48b60c807110a" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::whisper::SpeechSegment::end_sample</definition>
+        <argsstring></argsstring>
+        <name>end_sample</name>
+        <qualifiedname>themis::whisper::SpeechSegment::end_sample</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Exclusive ending sample index of the speech segment in samples. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Exclusive end sample index </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/voice_activity_detector.h" line="36" column="17" bodyfile="include/whisper/voice_activity_detector.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Represents a detected segment of speech in the audio stream. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This structure encapsulates the timing and duration information for an identified speech burst. Samples should be interpreted against the known original sample rate of the recording. </para>
+    </detaileddescription>
+    <location file="include/whisper/voice_activity_detector.h" line="28" column="1" bodyfile="include/whisper/voice_activity_detector.h" bodystart="28" bodyend="37"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1whisper_1_1_speech_segment_1a96776d7c926be7a602a48b60c807110a" prot="public" virt="non-virtual"><scope>themis::whisper::SpeechSegment</scope><name>end_sample</name></member>
+      <member refid="structthemis_1_1whisper_1_1_speech_segment_1a00d18e488e9361c4ce38a189675825b3" prot="public" virt="non-virtual"><scope>themis::whisper::SpeechSegment</scope><name>start_sample</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

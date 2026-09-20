@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_8fabfc12e3ae95272e0712b05eba0b32" kind="dir">
+    <compoundname>tests/themis</compoundname>
+    <innerfile refid="test__themis__contract__hardening__focused_8cpp">test_themis_contract_hardening_focused.cpp</innerfile>
+    <innerfile refid="test__themis__core__grpc__service__bridge_8cpp">test_themis_core_grpc_service_bridge.cpp</innerfile>
+    <innerfile refid="test__themis__highcardinality__stress_8cpp">test_themis_highcardinality_stress.cpp</innerfile>
+    <innerfile refid="test__themis__integration_8cpp">test_themis_integration.cpp</innerfile>
+    <innerfile refid="test__themis__wire__protocol__server_8cpp">test_themis_wire_protocol_server.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/themis/"/>
+  </compounddef>
+</doxygen>

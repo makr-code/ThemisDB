@@ -1,0 +1,418 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_paxos_snapshot_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::PaxosSnapshotManager</compoundname>
+    <includes refid="paxos__snapshot_8h" local="no">paxos_snapshot.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_paxos_snapshot_manager_1a14f6b452e85a50c32a2bcce83596babd" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::PaxosSnapshotManager::snapshot_directory_</definition>
+        <argsstring></argsstring>
+        <name>snapshot_directory_</name>
+        <qualifiedname>themis::sharding::PaxosSnapshotManager::snapshot_directory_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_snapshot.h" line="171" column="17" bodyfile="include/sharding/paxos_snapshot.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_paxos_snapshot_manager_1a88d55678ca37f535499b7a3b3aec0324" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::PaxosSnapshotManager::max_snapshots_</definition>
+        <argsstring></argsstring>
+        <name>max_snapshots_</name>
+        <qualifiedname>themis::sharding::PaxosSnapshotManager::max_snapshots_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_snapshot.h" line="172" column="12" bodyfile="include/sharding/paxos_snapshot.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_paxos_snapshot_manager_1a536350a5ffb18e343acd8ec96077e702" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::sharding::PaxosSnapshotManager::compression_level_</definition>
+        <argsstring></argsstring>
+        <name>compression_level_</name>
+        <qualifiedname>themis::sharding::PaxosSnapshotManager::compression_level_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_snapshot.h" line="173" column="9" bodyfile="include/sharding/paxos_snapshot.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_paxos_snapshot_manager_1a6a5c08a40f54762c000534ad9d634d76" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::sharding::PaxosSnapshotManager::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::sharding::PaxosSnapshotManager::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_snapshot.h" line="174" column="24" bodyfile="include/sharding/paxos_snapshot.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_paxos_snapshot_manager_1ae1ebee0f084f6cd1e32f5ea3995f33c8" prot="private" static="no" mutable="yes">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::PaxosSnapshotManager::last_snapshot_id_</definition>
+        <argsstring></argsstring>
+        <name>last_snapshot_id_</name>
+        <qualifiedname>themis::sharding::PaxosSnapshotManager::last_snapshot_id_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_snapshot.h" line="175" column="22" bodyfile="include/sharding/paxos_snapshot.h" bodystart="175" bodyend="175"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_paxos_snapshot_manager_1aa81af0124238046ce98d7c2a09ee413a" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::PaxosSnapshotManager::PaxosSnapshotManager</definition>
+        <argsstring>(const std::string &amp;snapshot_directory, size_t max_snapshots=10, int compression_level=3)</argsstring>
+        <name>PaxosSnapshotManager</name>
+        <qualifiedname>themis::sharding::PaxosSnapshotManager::PaxosSnapshotManager</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>snapshot_directory</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_snapshots</declname>
+          <defval>10</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>compression_level</declname>
+          <defval>3</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_snapshot.h" line="114" column="14" bodyfile="src/sharding/paxos_snapshot.cpp" bodystart="149" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_paxos_snapshot_manager_1a41c71840f8fce673e7fff86517318c6d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::PaxosSnapshotManager::~PaxosSnapshotManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~PaxosSnapshotManager</name>
+        <qualifiedname>themis::sharding::PaxosSnapshotManager::~PaxosSnapshotManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_snapshot.h" line="117" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_paxos_snapshot_manager_1aace4b430302e8cec7baf15674e4ecc4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; uint64_t &gt;</type>
+        <definition>std::optional&lt; uint64_t &gt; themis::sharding::PaxosSnapshotManager::createSnapshot</definition>
+        <argsstring>(const std::string &amp;node_id, const LSN &amp;last_applied_lsn, uint64_t last_committed_slot, uint64_t current_round, const std::map&lt; uint64_t, PaxosInstance &gt; &amp;instances, const std::map&lt; uint64_t, ConsensusLogEntry &gt; &amp;committed_log)</argsstring>
+        <name>createSnapshot</name>
+        <qualifiedname>themis::sharding::PaxosSnapshotManager::createSnapshot</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref> &amp;</type>
+          <declname>last_applied_lsn</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>last_committed_slot</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>current_round</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; uint64_t, <ref refid="namespacethemis_1_1sharding_1abd068d07c3408e3700681f550c4efe23" kindref="member">PaxosInstance</ref> &gt; &amp;</type>
+          <declname>instances</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; uint64_t, <ref refid="namespacethemis_1_1sharding_1a346da5d5acb806b2d86dac7e0f741161" kindref="member">ConsensusLogEntry</ref> &gt; &amp;</type>
+          <declname>committed_log</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Create a new snapshot from current Paxos state <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Node creating the snapshot </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>last_applied_lsn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Last WAL <ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref> applied </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>last_committed_slot</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Last committed slot </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>current_round</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current Paxos round </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>instances</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Active Paxos instances </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>committed_log</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Committed log entries </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Snapshot ID on success, nullopt on failure </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/paxos_snapshot.h" line="129" column="19" bodyfile="src/sharding/paxos_snapshot.cpp" bodystart="165" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_paxos_snapshot_manager_1a3c6c1ad674369e1b7ff9853cbab5ee0b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1sharding_1_1_paxos_snapshot" kindref="compound">PaxosSnapshot</ref> &gt;</type>
+        <definition>std::optional&lt; PaxosSnapshot &gt; themis::sharding::PaxosSnapshotManager::loadLatestSnapshot</definition>
+        <argsstring>()</argsstring>
+        <name>loadLatestSnapshot</name>
+        <qualifiedname>themis::sharding::PaxosSnapshotManager::loadLatestSnapshot</qualifiedname>
+        <briefdescription>
+<para>Load Latest Snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load the most recent snapshot <simplesect kind="return"><para>Snapshot on success, nullopt if no snapshot exists</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), <ref refid="classthemis_1_1sharding_1_1_paxos_snapshot_manager_1a6173b9fddba7326c49e5780b6a986739" kindref="member">listSnapshots()</ref>, empty(), spdlog::info(), <ref refid="classthemis_1_1sharding_1_1_paxos_snapshot_manager_1aef4468640692e2aa9d92a501041841df" kindref="member">loadSnapshot()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_snapshot.h" line="142" column="19" bodyfile="src/sharding/paxos_snapshot.cpp" bodystart="310" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_paxos_snapshot_manager_1aef4468640692e2aa9d92a501041841df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1sharding_1_1_paxos_snapshot" kindref="compound">PaxosSnapshot</ref> &gt;</type>
+        <definition>std::optional&lt; PaxosSnapshot &gt; themis::sharding::PaxosSnapshotManager::loadSnapshot</definition>
+        <argsstring>(uint64_t snapshot_id)</argsstring>
+        <name>loadSnapshot</name>
+        <qualifiedname>themis::sharding::PaxosSnapshotManager::loadSnapshot</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>snapshot_id</declname>
+        </param>
+        <briefdescription>
+<para>Load Snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load a specific snapshot by ID <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>snapshot_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Snapshot ID to load </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Snapshot on success, nullopt if not found</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the snapshot. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1sharding_1_1_paxos_snapshot_manager_1a0d679bcbf242c4d51aa60a501a18fb06" kindref="member">getSnapshotPath()</ref>, file(), is_open(), spdlog::warn(), read(), gcount(), spdlog::error(), tellg(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_snapshot.h" line="149" column="19" bodyfile="src/sharding/paxos_snapshot.cpp" bodystart="329" bodyend="408"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_paxos_snapshot_manager_1a6173b9fddba7326c49e5780b6a986739" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint64_t &gt;</type>
+        <definition>std::vector&lt; uint64_t &gt; themis::sharding::PaxosSnapshotManager::listSnapshots</definition>
+        <argsstring>() const</argsstring>
+        <name>listSnapshots</name>
+        <qualifiedname>themis::sharding::PaxosSnapshotManager::listSnapshots</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>List all available snapshots <simplesect kind="return"><para>Vector of snapshot IDs (sorted newest first) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_snapshot.h" line="155" column="17" bodyfile="src/sharding/paxos_snapshot.cpp" bodystart="410" bodyend="443"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_paxos_snapshot_manager_1aaf117f1743da8f9f38d662396a7b1576" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::PaxosSnapshotManager::cleanupOldSnapshots</definition>
+        <argsstring>(size_t keep_count)</argsstring>
+        <name>cleanupOldSnapshots</name>
+        <qualifiedname>themis::sharding::PaxosSnapshotManager::cleanupOldSnapshots</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>keep_count</declname>
+        </param>
+        <briefdescription>
+<para>Cleanup Old Snapshots. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Delete old snapshots, keeping only the most recent N <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>keep_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of snapshots to keep</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">keep_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1sharding_1_1_paxos_snapshot_manager_1a6173b9fddba7326c49e5780b6a986739" kindref="member">listSnapshots()</ref>, size(), <ref refid="classthemis_1_1sharding_1_1_paxos_snapshot_manager_1a0d679bcbf242c4d51aa60a501a18fb06" kindref="member">getSnapshotPath()</ref>, std::filesystem::remove(), spdlog::info(), spdlog::error(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_snapshot.h" line="161" column="10" bodyfile="src/sharding/paxos_snapshot.cpp" bodystart="450" bodyend="468"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_paxos_snapshot_manager_1a0d679bcbf242c4d51aa60a501a18fb06" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::PaxosSnapshotManager::getSnapshotPath</definition>
+        <argsstring>(uint64_t snapshot_id) const</argsstring>
+        <name>getSnapshotPath</name>
+        <qualifiedname>themis::sharding::PaxosSnapshotManager::getSnapshotPath</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>snapshot_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get snapshot file path for a given ID <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>snapshot_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Snapshot ID </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Full file path </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_snapshot.h" line="168" column="17" bodyfile="src/sharding/paxos_snapshot.cpp" bodystart="470" bodyend="472"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_paxos_snapshot_manager_1a5d1713608e40126653d1fdb433e9afbc" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::PaxosSnapshotManager::generateSnapshotId</definition>
+        <argsstring>() const</argsstring>
+        <name>generateSnapshotId</name>
+        <qualifiedname>themis::sharding::PaxosSnapshotManager::generateSnapshotId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_snapshot.h" line="178" column="14" bodyfile="src/sharding/paxos_snapshot.cpp" bodystart="474" bodyend="487"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Paxos Snapshot Manager (Phase 2.1)</para>
+<para>Manages creation, storage, and restoration of Paxos snapshots.</para>
+<para>Features:<itemizedlist>
+<listitem><para>Periodic snapshot creation</para>
+</listitem><listitem><para>ZSTD snapshot compression (compression_level 3, target &gt;3× ratio)</para>
+</listitem><listitem><para>Snapshot transfer to new replicas</para>
+</listitem><listitem><para>Automatic old snapshot cleanup </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/sharding/paxos_snapshot.h" line="112" column="1" bodyfile="include/sharding/paxos_snapshot.h" bodystart="112" bodyend="179"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_paxos_snapshot_manager_1aaf117f1743da8f9f38d662396a7b1576" prot="public" virt="non-virtual"><scope>themis::sharding::PaxosSnapshotManager</scope><name>cleanupOldSnapshots</name></member>
+      <member refid="classthemis_1_1sharding_1_1_paxos_snapshot_manager_1a536350a5ffb18e343acd8ec96077e702" prot="private" virt="non-virtual"><scope>themis::sharding::PaxosSnapshotManager</scope><name>compression_level_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_paxos_snapshot_manager_1aace4b430302e8cec7baf15674e4ecc4e" prot="public" virt="non-virtual"><scope>themis::sharding::PaxosSnapshotManager</scope><name>createSnapshot</name></member>
+      <member refid="classthemis_1_1sharding_1_1_paxos_snapshot_manager_1a5d1713608e40126653d1fdb433e9afbc" prot="private" virt="non-virtual"><scope>themis::sharding::PaxosSnapshotManager</scope><name>generateSnapshotId</name></member>
+      <member refid="classthemis_1_1sharding_1_1_paxos_snapshot_manager_1a0d679bcbf242c4d51aa60a501a18fb06" prot="public" virt="non-virtual"><scope>themis::sharding::PaxosSnapshotManager</scope><name>getSnapshotPath</name></member>
+      <member refid="classthemis_1_1sharding_1_1_paxos_snapshot_manager_1ae1ebee0f084f6cd1e32f5ea3995f33c8" prot="private" virt="non-virtual"><scope>themis::sharding::PaxosSnapshotManager</scope><name>last_snapshot_id_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_paxos_snapshot_manager_1a6173b9fddba7326c49e5780b6a986739" prot="public" virt="non-virtual"><scope>themis::sharding::PaxosSnapshotManager</scope><name>listSnapshots</name></member>
+      <member refid="classthemis_1_1sharding_1_1_paxos_snapshot_manager_1a3c6c1ad674369e1b7ff9853cbab5ee0b" prot="public" virt="non-virtual"><scope>themis::sharding::PaxosSnapshotManager</scope><name>loadLatestSnapshot</name></member>
+      <member refid="classthemis_1_1sharding_1_1_paxos_snapshot_manager_1aef4468640692e2aa9d92a501041841df" prot="public" virt="non-virtual"><scope>themis::sharding::PaxosSnapshotManager</scope><name>loadSnapshot</name></member>
+      <member refid="classthemis_1_1sharding_1_1_paxos_snapshot_manager_1a88d55678ca37f535499b7a3b3aec0324" prot="private" virt="non-virtual"><scope>themis::sharding::PaxosSnapshotManager</scope><name>max_snapshots_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_paxos_snapshot_manager_1a6a5c08a40f54762c000534ad9d634d76" prot="private" virt="non-virtual"><scope>themis::sharding::PaxosSnapshotManager</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_paxos_snapshot_manager_1aa81af0124238046ce98d7c2a09ee413a" prot="public" virt="non-virtual"><scope>themis::sharding::PaxosSnapshotManager</scope><name>PaxosSnapshotManager</name></member>
+      <member refid="classthemis_1_1sharding_1_1_paxos_snapshot_manager_1a14f6b452e85a50c32a2bcce83596babd" prot="private" virt="non-virtual"><scope>themis::sharding::PaxosSnapshotManager</scope><name>snapshot_directory_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_paxos_snapshot_manager_1a41c71840f8fce673e7fff86517318c6d" prot="public" virt="non-virtual"><scope>themis::sharding::PaxosSnapshotManager</scope><name>~PaxosSnapshotManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

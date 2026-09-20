@@ -1,0 +1,458 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::image::ONNXClipPlugin::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1a0ba8d5db51146b3a41bbec5d6981001d" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::plugins::image::ONNXClipPlugin::Impl::mutex</definition>
+        <argsstring></argsstring>
+        <name>mutex</name>
+        <qualifiedname>themis::plugins::image::ONNXClipPlugin::Impl::mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/onnx_clip/onnx_clip_plugin.cpp" line="227" column="24" bodyfile="src/onnx_clip/onnx_clip_plugin.cpp" bodystart="227" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1acb7d6803610dbbad089673d5d4ee56fb" prot="public" static="no" mutable="yes">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::plugins::image::ONNXClipPlugin::Impl::cv_drain_complete</definition>
+        <argsstring></argsstring>
+        <name>cv_drain_complete</name>
+        <qualifiedname>themis::plugins::image::ONNXClipPlugin::Impl::cv_drain_complete</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/onnx_clip/onnx_clip_plugin.cpp" line="228" column="37" bodyfile="src/onnx_clip/onnx_clip_plugin.cpp" bodystart="228" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1a88367f4026a7a708a41b31b973b65a4a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::image::ONNXClipPlugin::Impl::ready</definition>
+        <argsstring></argsstring>
+        <name>ready</name>
+        <qualifiedname>themis::plugins::image::ONNXClipPlugin::Impl::ready</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/onnx_clip/onnx_clip_plugin.cpp" line="230" column="10" bodyfile="src/onnx_clip/onnx_clip_plugin.cpp" bodystart="230" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1a1a3129f0a8aa30409d8cfe29f0d72e22" prot="public" static="no" mutable="no">
+        <type>BackendType</type>
+        <definition>BackendType themis::plugins::image::ONNXClipPlugin::Impl::backend</definition>
+        <argsstring></argsstring>
+        <name>backend</name>
+        <qualifiedname>themis::plugins::image::ONNXClipPlugin::Impl::backend</qualifiedname>
+        <initializer>= BackendType::CPU</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/onnx_clip/onnx_clip_plugin.cpp" line="231" column="17" bodyfile="src/onnx_clip/onnx_clip_plugin.cpp" bodystart="231" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1af16a2967f06f80177f24d5b1b94f8d73" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::image::ONNXClipPlugin::Impl::model_name</definition>
+        <argsstring></argsstring>
+        <name>model_name</name>
+        <qualifiedname>themis::plugins::image::ONNXClipPlugin::Impl::model_name</qualifiedname>
+        <initializer>= &quot;clip-vit-base-patch32&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/onnx_clip/onnx_clip_plugin.cpp" line="232" column="17" bodyfile="src/onnx_clip/onnx_clip_plugin.cpp" bodystart="232" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1ac7b1971f454f12d3cf9ffa67a314a319" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::plugins::image::ONNXClipPlugin::Impl::embedding_dim</definition>
+        <argsstring></argsstring>
+        <name>embedding_dim</name>
+        <qualifiedname>themis::plugins::image::ONNXClipPlugin::Impl::embedding_dim</qualifiedname>
+        <initializer>= 512</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/onnx_clip/onnx_clip_plugin.cpp" line="233" column="9" bodyfile="src/onnx_clip/onnx_clip_plugin.cpp" bodystart="233" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1a415b7077650bf1bfe99087ef9e048078" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::plugins::image::ONNXClipPlugin::Impl::max_batch_size</definition>
+        <argsstring></argsstring>
+        <name>max_batch_size</name>
+        <qualifiedname>themis::plugins::image::ONNXClipPlugin::Impl::max_batch_size</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/onnx_clip/onnx_clip_plugin.cpp" line="234" column="9" bodyfile="src/onnx_clip/onnx_clip_plugin.cpp" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1a155cd20a634c9bfafc8cca87535e5deb" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; themis::plugins::image::ONNXClipPlugin::Impl::in_flight_requests_</definition>
+        <argsstring></argsstring>
+        <name>in_flight_requests_</name>
+        <qualifiedname>themis::plugins::image::ONNXClipPlugin::Impl::in_flight_requests_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/onnx_clip/onnx_clip_plugin.cpp" line="237" column="17" bodyfile="src/onnx_clip/onnx_clip_plugin.cpp" bodystart="237" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1ac829e930f18a2a6ffb571146288b06fa" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::plugins::image::ONNXClipPlugin::Impl::total_inferences</definition>
+        <argsstring></argsstring>
+        <name>total_inferences</name>
+        <qualifiedname>themis::plugins::image::ONNXClipPlugin::Impl::total_inferences</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/onnx_clip/onnx_clip_plugin.cpp" line="239" column="14" bodyfile="src/onnx_clip/onnx_clip_plugin.cpp" bodystart="239" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1a622b7cd4c770088de7efc18484b56cce" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::plugins::image::ONNXClipPlugin::Impl::total_batches</definition>
+        <argsstring></argsstring>
+        <name>total_batches</name>
+        <qualifiedname>themis::plugins::image::ONNXClipPlugin::Impl::total_batches</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/onnx_clip/onnx_clip_plugin.cpp" line="240" column="14" bodyfile="src/onnx_clip/onnx_clip_plugin.cpp" bodystart="240" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1abb44977bf15c0e431e71b03fb5720206" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::plugins::image::ONNXClipPlugin::Impl::total_errors</definition>
+        <argsstring></argsstring>
+        <name>total_errors</name>
+        <qualifiedname>themis::plugins::image::ONNXClipPlugin::Impl::total_errors</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/onnx_clip/onnx_clip_plugin.cpp" line="241" column="14" bodyfile="src/onnx_clip/onnx_clip_plugin.cpp" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1a031bad6e840b65758bcaef54a28f6ab0" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::plugins::image::ONNXClipPlugin::Impl::total_images</definition>
+        <argsstring></argsstring>
+        <name>total_images</name>
+        <qualifiedname>themis::plugins::image::ONNXClipPlugin::Impl::total_images</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/onnx_clip/onnx_clip_plugin.cpp" line="242" column="14" bodyfile="src/onnx_clip/onnx_clip_plugin.cpp" bodystart="242" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1a141d7857e4886fee883a52ac396b1f0e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::plugins::image::ONNXClipPlugin::Impl::total_text_inferences</definition>
+        <argsstring></argsstring>
+        <name>total_text_inferences</name>
+        <qualifiedname>themis::plugins::image::ONNXClipPlugin::Impl::total_text_inferences</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/onnx_clip/onnx_clip_plugin.cpp" line="243" column="14" bodyfile="src/onnx_clip/onnx_clip_plugin.cpp" bodystart="243" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1a55eed11a39f6852e588a91a23532935d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::plugins::image::ONNXClipPlugin::Impl::total_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>total_latency_ms</name>
+        <qualifiedname>themis::plugins::image::ONNXClipPlugin::Impl::total_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/onnx_clip/onnx_clip_plugin.cpp" line="244" column="12" bodyfile="src/onnx_clip/onnx_clip_plugin.cpp" bodystart="244" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1a655a59bf9604575b6d17c3094b9068eb" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::plugins::image::ONNXClipPlugin::Impl::clip_embeddings_total</definition>
+        <argsstring></argsstring>
+        <name>clip_embeddings_total</name>
+        <qualifiedname>themis::plugins::image::ONNXClipPlugin::Impl::clip_embeddings_total</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/onnx_clip/onnx_clip_plugin.cpp" line="247" column="14" bodyfile="src/onnx_clip/onnx_clip_plugin.cpp" bodystart="247" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1ad8a22d7adec8884fe6a190ee59871c63" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::plugins::image::ONNXClipPlugin::Impl::clip_text_embeddings_total</definition>
+        <argsstring></argsstring>
+        <name>clip_text_embeddings_total</name>
+        <qualifiedname>themis::plugins::image::ONNXClipPlugin::Impl::clip_text_embeddings_total</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/onnx_clip/onnx_clip_plugin.cpp" line="248" column="14" bodyfile="src/onnx_clip/onnx_clip_plugin.cpp" bodystart="248" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1a74f170c298897213185491ddb89852a0" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::plugins::image::ONNXClipPlugin::Impl::clip_batch_embeddings_total</definition>
+        <argsstring></argsstring>
+        <name>clip_batch_embeddings_total</name>
+        <qualifiedname>themis::plugins::image::ONNXClipPlugin::Impl::clip_batch_embeddings_total</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/onnx_clip/onnx_clip_plugin.cpp" line="249" column="14" bodyfile="src/onnx_clip/onnx_clip_plugin.cpp" bodystart="249" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1a5a6061cc141388466c3a36808d26d034" prot="public" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::plugins::image::ONNXClipPlugin::Impl::mmap_ptr_</definition>
+        <argsstring></argsstring>
+        <name>mmap_ptr_</name>
+        <qualifiedname>themis::plugins::image::ONNXClipPlugin::Impl::mmap_ptr_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+<para>Mapped region pointer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/onnx_clip/onnx_clip_plugin.cpp" line="254" column="10" bodyfile="src/onnx_clip/onnx_clip_plugin.cpp" bodystart="254" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1acea57b7a67a6fec45e6c8cddcc8279e6" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::plugins::image::ONNXClipPlugin::Impl::mmap_size_</definition>
+        <argsstring></argsstring>
+        <name>mmap_size_</name>
+        <qualifiedname>themis::plugins::image::ONNXClipPlugin::Impl::mmap_size_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Mapped size in bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/onnx_clip/onnx_clip_plugin.cpp" line="255" column="12" bodyfile="src/onnx_clip/onnx_clip_plugin.cpp" bodystart="255" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1acb36058c11a32d43eefce0d873194e21" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::plugins::image::ONNXClipPlugin::Impl::mmap_fd_</definition>
+        <argsstring></argsstring>
+        <name>mmap_fd_</name>
+        <qualifiedname>themis::plugins::image::ONNXClipPlugin::Impl::mmap_fd_</qualifiedname>
+        <initializer>{-1}</initializer>
+        <briefdescription>
+<para>Linux: file descriptor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/onnx_clip/onnx_clip_plugin.cpp" line="257" column="9" bodyfile="src/onnx_clip/onnx_clip_plugin.cpp" bodystart="257" bodyend="257"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1a0c11ddc63d25784e48ad6589c5af1579" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::image::ONNXClipPlugin::Impl::loadModelMmap</definition>
+        <argsstring>(const std::string &amp;model_path)</argsstring>
+        <name>loadModelMmap</name>
+        <qualifiedname>themis::plugins::image::ONNXClipPlugin::Impl::loadModelMmap</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_path</declname>
+        </param>
+        <briefdescription>
+<para>Load Model Mmap. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: file_check(), is_open(), seekg(), tellg(), close(), open(), c_str(), mmap(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/onnx_clip/onnx_clip_plugin.cpp" line="269" column="10" bodyfile="src/onnx_clip/onnx_clip_plugin.cpp" bodystart="269" bodyend="401"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1a06cb83984952609e25dc201bb69a0eb9" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::image::ONNXClipPlugin::Impl::cleanupMmap</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>cleanupMmap</name>
+        <qualifiedname>themis::plugins::image::ONNXClipPlugin::Impl::cleanupMmap</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/onnx_clip/onnx_clip_plugin.cpp" line="403" column="10" bodyfile="src/onnx_clip/onnx_clip_plugin.cpp" bodystart="403" bodyend="431"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1ad814efcaea2fac80eb6ce6777180dcaa" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::image::ONNXClipPlugin::Impl::~Impl</definition>
+        <argsstring>()</argsstring>
+        <name>~Impl</name>
+        <qualifiedname>themis::plugins::image::ONNXClipPlugin::Impl::~Impl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/onnx_clip/onnx_clip_plugin.cpp" line="434" column="5" bodyfile="src/onnx_clip/onnx_clip_plugin.cpp" bodystart="434" bodyend="436"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1ae9d97f42a161ea515ffeabfd71d298cf" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>EmbeddingResult</type>
+        <definition>EmbeddingResult themis::plugins::image::ONNXClipPlugin::Impl::computeEmbedding</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;image_data, const ImageMetadata *metadata, const std::string &amp;model, int embedding_dim_value) const</argsstring>
+        <name>computeEmbedding</name>
+        <qualifiedname>themis::plugins::image::ONNXClipPlugin::Impl::computeEmbedding</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>image_data</declname>
+        </param>
+        <param>
+          <type>const ImageMetadata *</type>
+          <declname>metadata</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>embedding_dim_value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/onnx_clip/onnx_clip_plugin.cpp" line="438" column="21" bodyfile="src/onnx_clip/onnx_clip_plugin.cpp" bodystart="438" bodyend="472"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1a9fa7d845be23fcf00c4c8770ec810dae" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>EmbeddingResult</type>
+        <definition>EmbeddingResult themis::plugins::image::ONNXClipPlugin::Impl::computeTextEmbedding</definition>
+        <argsstring>(const std::string &amp;text, const std::string &amp;model, int embedding_dim_value) const</argsstring>
+        <name>computeTextEmbedding</name>
+        <qualifiedname>themis::plugins::image::ONNXClipPlugin::Impl::computeTextEmbedding</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>embedding_dim_value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/onnx_clip/onnx_clip_plugin.cpp" line="474" column="21" bodyfile="src/onnx_clip/onnx_clip_plugin.cpp" bodystart="474" bodyend="513"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/onnx_clip/onnx_clip_plugin.cpp" line="226" column="1" bodyfile="src/onnx_clip/onnx_clip_plugin.cpp" bodystart="226" bodyend="514"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1a1a3129f0a8aa30409d8cfe29f0d72e22" prot="public" virt="non-virtual"><scope>themis::plugins::image::ONNXClipPlugin::Impl</scope><name>backend</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1a06cb83984952609e25dc201bb69a0eb9" prot="public" virt="non-virtual"><scope>themis::plugins::image::ONNXClipPlugin::Impl</scope><name>cleanupMmap</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1a74f170c298897213185491ddb89852a0" prot="public" virt="non-virtual"><scope>themis::plugins::image::ONNXClipPlugin::Impl</scope><name>clip_batch_embeddings_total</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1a655a59bf9604575b6d17c3094b9068eb" prot="public" virt="non-virtual"><scope>themis::plugins::image::ONNXClipPlugin::Impl</scope><name>clip_embeddings_total</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1ad8a22d7adec8884fe6a190ee59871c63" prot="public" virt="non-virtual"><scope>themis::plugins::image::ONNXClipPlugin::Impl</scope><name>clip_text_embeddings_total</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1ae9d97f42a161ea515ffeabfd71d298cf" prot="public" virt="non-virtual"><scope>themis::plugins::image::ONNXClipPlugin::Impl</scope><name>computeEmbedding</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1a9fa7d845be23fcf00c4c8770ec810dae" prot="public" virt="non-virtual"><scope>themis::plugins::image::ONNXClipPlugin::Impl</scope><name>computeTextEmbedding</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1acb7d6803610dbbad089673d5d4ee56fb" prot="public" virt="non-virtual"><scope>themis::plugins::image::ONNXClipPlugin::Impl</scope><name>cv_drain_complete</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1ac7b1971f454f12d3cf9ffa67a314a319" prot="public" virt="non-virtual"><scope>themis::plugins::image::ONNXClipPlugin::Impl</scope><name>embedding_dim</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1a155cd20a634c9bfafc8cca87535e5deb" prot="public" virt="non-virtual"><scope>themis::plugins::image::ONNXClipPlugin::Impl</scope><name>in_flight_requests_</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1a0c11ddc63d25784e48ad6589c5af1579" prot="public" virt="non-virtual"><scope>themis::plugins::image::ONNXClipPlugin::Impl</scope><name>loadModelMmap</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1a415b7077650bf1bfe99087ef9e048078" prot="public" virt="non-virtual"><scope>themis::plugins::image::ONNXClipPlugin::Impl</scope><name>max_batch_size</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1acb36058c11a32d43eefce0d873194e21" prot="public" virt="non-virtual"><scope>themis::plugins::image::ONNXClipPlugin::Impl</scope><name>mmap_fd_</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1a5a6061cc141388466c3a36808d26d034" prot="public" virt="non-virtual"><scope>themis::plugins::image::ONNXClipPlugin::Impl</scope><name>mmap_ptr_</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1acea57b7a67a6fec45e6c8cddcc8279e6" prot="public" virt="non-virtual"><scope>themis::plugins::image::ONNXClipPlugin::Impl</scope><name>mmap_size_</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1af16a2967f06f80177f24d5b1b94f8d73" prot="public" virt="non-virtual"><scope>themis::plugins::image::ONNXClipPlugin::Impl</scope><name>model_name</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1a0ba8d5db51146b3a41bbec5d6981001d" prot="public" virt="non-virtual"><scope>themis::plugins::image::ONNXClipPlugin::Impl</scope><name>mutex</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1a88367f4026a7a708a41b31b973b65a4a" prot="public" virt="non-virtual"><scope>themis::plugins::image::ONNXClipPlugin::Impl</scope><name>ready</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1a622b7cd4c770088de7efc18484b56cce" prot="public" virt="non-virtual"><scope>themis::plugins::image::ONNXClipPlugin::Impl</scope><name>total_batches</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1abb44977bf15c0e431e71b03fb5720206" prot="public" virt="non-virtual"><scope>themis::plugins::image::ONNXClipPlugin::Impl</scope><name>total_errors</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1a031bad6e840b65758bcaef54a28f6ab0" prot="public" virt="non-virtual"><scope>themis::plugins::image::ONNXClipPlugin::Impl</scope><name>total_images</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1ac829e930f18a2a6ffb571146288b06fa" prot="public" virt="non-virtual"><scope>themis::plugins::image::ONNXClipPlugin::Impl</scope><name>total_inferences</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1a55eed11a39f6852e588a91a23532935d" prot="public" virt="non-virtual"><scope>themis::plugins::image::ONNXClipPlugin::Impl</scope><name>total_latency_ms</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1a141d7857e4886fee883a52ac396b1f0e" prot="public" virt="non-virtual"><scope>themis::plugins::image::ONNXClipPlugin::Impl</scope><name>total_text_inferences</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl_1ad814efcaea2fac80eb6ce6777180dcaa" prot="public" virt="non-virtual"><scope>themis::plugins::image::ONNXClipPlugin::Impl</scope><name>~Impl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

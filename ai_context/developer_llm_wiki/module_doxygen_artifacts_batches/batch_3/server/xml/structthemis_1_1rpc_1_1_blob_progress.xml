@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rpc_1_1_blob_progress" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rpc::BlobProgress</compoundname>
+    <includes refid="blob__transfer__handler_8h" local="no">blob_transfer_handler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_blob_progress_1a60438a407050e1d0547d4c4cf90628e0" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::rpc::BlobProgress::total_bytes</definition>
+        <argsstring></argsstring>
+        <name>total_bytes</name>
+        <qualifiedname>themis::rpc::BlobProgress::total_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/blob_transfer_handler.h" line="62" column="14" bodyfile="include/server/rpc/blob_transfer_handler.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_blob_progress_1afb2d0e2773dd8e0ff1ccef270f2954fa" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::rpc::BlobProgress::transferred_bytes</definition>
+        <argsstring></argsstring>
+        <name>transferred_bytes</name>
+        <qualifiedname>themis::rpc::BlobProgress::transferred_bytes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/blob_transfer_handler.h" line="63" column="14" bodyfile="include/server/rpc/blob_transfer_handler.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_blob_progress_1a4268aedeabb64d28d857d4d539531c1c" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::rpc::BlobProgress::total_chunks</definition>
+        <argsstring></argsstring>
+        <name>total_chunks</name>
+        <qualifiedname>themis::rpc::BlobProgress::total_chunks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/blob_transfer_handler.h" line="64" column="14" bodyfile="include/server/rpc/blob_transfer_handler.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_blob_progress_1ae8f88aefa0b660f075929c40699a8764" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::rpc::BlobProgress::transferred_chunks</definition>
+        <argsstring></argsstring>
+        <name>transferred_chunks</name>
+        <qualifiedname>themis::rpc::BlobProgress::transferred_chunks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/blob_transfer_handler.h" line="65" column="14" bodyfile="include/server/rpc/blob_transfer_handler.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_blob_progress_1aaf13e99c4c083d80418edabd8eca8d17" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rpc::BlobProgress::compression_ratio</definition>
+        <argsstring></argsstring>
+        <name>compression_ratio</name>
+        <qualifiedname>themis::rpc::BlobProgress::compression_ratio</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/blob_transfer_handler.h" line="66" column="12" bodyfile="include/server/rpc/blob_transfer_handler.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_blob_progress_1a08052d6b3791a53e102a188b68966c26" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::rpc::BlobProgress::elapsed_ms</definition>
+        <argsstring></argsstring>
+        <name>elapsed_ms</name>
+        <qualifiedname>themis::rpc::BlobProgress::elapsed_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/blob_transfer_handler.h" line="67" column="14" bodyfile="include/server/rpc/blob_transfer_handler.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_blob_progress_1a6c28bba0b1e4830b1b1e2a4a75bb2c24" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::rpc::BlobProgress::estimated_remaining_ms</definition>
+        <argsstring></argsstring>
+        <name>estimated_remaining_ms</name>
+        <qualifiedname>themis::rpc::BlobProgress::estimated_remaining_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/blob_transfer_handler.h" line="68" column="14" bodyfile="include/server/rpc/blob_transfer_handler.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_blob_progress_1a32dd641786e963d6e08b8bf4d93da6e0" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rpc::BlobProgress::transfer_speed_mbps</definition>
+        <argsstring></argsstring>
+        <name>transfer_speed_mbps</name>
+        <qualifiedname>themis::rpc::BlobProgress::transfer_speed_mbps</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/blob_transfer_handler.h" line="69" column="12" bodyfile="include/server/rpc/blob_transfer_handler.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/rpc/blob_transfer_handler.h" line="61" column="1" bodyfile="include/server/rpc/blob_transfer_handler.h" bodystart="61" bodyend="70"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rpc_1_1_blob_progress_1aaf13e99c4c083d80418edabd8eca8d17" prot="public" virt="non-virtual"><scope>themis::rpc::BlobProgress</scope><name>compression_ratio</name></member>
+      <member refid="structthemis_1_1rpc_1_1_blob_progress_1a08052d6b3791a53e102a188b68966c26" prot="public" virt="non-virtual"><scope>themis::rpc::BlobProgress</scope><name>elapsed_ms</name></member>
+      <member refid="structthemis_1_1rpc_1_1_blob_progress_1a6c28bba0b1e4830b1b1e2a4a75bb2c24" prot="public" virt="non-virtual"><scope>themis::rpc::BlobProgress</scope><name>estimated_remaining_ms</name></member>
+      <member refid="structthemis_1_1rpc_1_1_blob_progress_1a60438a407050e1d0547d4c4cf90628e0" prot="public" virt="non-virtual"><scope>themis::rpc::BlobProgress</scope><name>total_bytes</name></member>
+      <member refid="structthemis_1_1rpc_1_1_blob_progress_1a4268aedeabb64d28d857d4d539531c1c" prot="public" virt="non-virtual"><scope>themis::rpc::BlobProgress</scope><name>total_chunks</name></member>
+      <member refid="structthemis_1_1rpc_1_1_blob_progress_1a32dd641786e963d6e08b8bf4d93da6e0" prot="public" virt="non-virtual"><scope>themis::rpc::BlobProgress</scope><name>transfer_speed_mbps</name></member>
+      <member refid="structthemis_1_1rpc_1_1_blob_progress_1afb2d0e2773dd8e0ff1ccef270f2954fa" prot="public" virt="non-virtual"><scope>themis::rpc::BlobProgress</scope><name>transferred_bytes</name></member>
+      <member refid="structthemis_1_1rpc_1_1_blob_progress_1ae8f88aefa0b660f075929c40699a8764" prot="public" virt="non-virtual"><scope>themis::rpc::BlobProgress</scope><name>transferred_chunks</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

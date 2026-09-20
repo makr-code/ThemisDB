@@ -1,0 +1,496 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="auth__rate__limiter_8h" kind="file" language="C++">
+    <compoundname>auth_rate_limiter.h</compoundname>
+    <includes refid="rate__limiter__backend_8h" local="yes">auth/rate_limiter_backend.h</includes>
+    <includes local="yes">server/rate_limiter.h</includes>
+    <includes local="yes">utils/audit_logger.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">unordered_set</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">shared_mutex</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">cstdint</includes>
+    <includedby refid="auth__rate__limiter_8cpp" local="yes">src/auth/auth_rate_limiter.cpp</includedby>
+    <includedby refid="test__auth__anomaly__detection_8cpp" local="yes">tests/auth/test_auth_anomaly_detection.cpp</includedby>
+    <includedby refid="test__auth__protocol__matrix__regression_8cpp" local="yes">tests/auth/test_auth_protocol_matrix_regression.cpp</includedby>
+    <includedby refid="test__auth__rate__limiter_8cpp" local="yes">tests/auth/test_auth_rate_limiter.cpp</includedby>
+    <includedby refid="test__auth__rate__limiter__distributed_8cpp" local="yes">tests/auth/test_auth_rate_limiter_distributed.cpp</includedby>
+    <includedby refid="test__auth__wavec__rate__limiting_8cpp" local="yes">tests/auth/test_auth_wavec_rate_limiting.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/auth/auth_rate_limiter.h</label>
+        <link refid="auth__rate__limiter_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>auth/rate_limiter_backend.h</label>
+        <link refid="rate__limiter__backend_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>atomic</label>
+      </node>
+      <node id="8">
+        <label>chrono</label>
+      </node>
+      <node id="9">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>functional</label>
+      </node>
+      <node id="15">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>mutex</label>
+      </node>
+      <node id="16">
+        <label>optional</label>
+      </node>
+      <node id="11">
+        <label>server/rate_limiter.h</label>
+      </node>
+      <node id="14">
+        <label>shared_mutex</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>unordered_map</label>
+      </node>
+      <node id="13">
+        <label>unordered_set</label>
+      </node>
+      <node id="12">
+        <label>utils/audit_logger.h</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/auth/auth_rate_limiter.h</label>
+        <link refid="auth__rate__limiter_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/auth/auth_rate_limiter.cpp</label>
+        <link refid="auth__rate__limiter_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/auth/test_auth_anomaly_detection.cpp</label>
+        <link refid="test__auth__anomaly__detection_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/auth/test_auth_protocol_matrix_regression.cpp</label>
+        <link refid="test__auth__protocol__matrix__regression_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/auth/test_auth_rate_limiter.cpp</label>
+        <link refid="test__auth__rate__limiter_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/auth/test_auth_rate_limiter_distributed.cpp</label>
+        <link refid="test__auth__rate__limiter__distributed_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/auth/test_auth_wavec_rate_limiting.cpp</label>
+        <link refid="test__auth__wavec__rate__limiting_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1auth_1_1_auth_rate_limit_config" prot="public">themis::auth::AuthRateLimitConfig</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1_1_credential_stuffing_redis_config" prot="public">themis::auth::AuthRateLimitConfig::CredentialStuffingRedisConfig</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_auth_anomaly_event" prot="public">themis::auth::AuthAnomalyEvent</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_failed_attempt" prot="public">themis::auth::FailedAttempt</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_lockout_info" prot="public">themis::auth::LockoutInfo</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_account_lockout_manager" prot="public">themis::auth::AccountLockoutManager</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_auth_rate_limiter" prot="public">themis::auth::AuthRateLimiter</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_auth_rate_limiter_1_1_statistics" prot="public">themis::auth::AuthRateLimiter::Statistics</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_auth_rate_limiter_1_1_credential_stuffing_entry" prot="private">themis::auth::AuthRateLimiter::CredentialStuffingEntry</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1auth">themis::auth</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="rate__limiter__backend_8h" kindref="compound">auth/rate_limiter_backend.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;server/rate_limiter.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/audit_logger.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;shared_mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref><sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declaration<sp/>to<sp/>avoid<sp/>circular<sp/>includes.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1_auth_metrics" kindref="compound">AuthMetrics</ref>;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1auth_1ac7d6b4ac0ba21600479d41e737d954a4" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1auth_1ac7d6b4ac0ba21600479d41e737d954a4" kindref="member">CredentialStuffingOutcome</ref><sp/>{</highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1auth_1ac7d6b4ac0ba21600479d41e737d954a4a9725825c796122ef40f01b2d8794f902" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1ac7d6b4ac0ba21600479d41e737d954a4a9725825c796122ef40f01b2d8794f902" kindref="member">ALLOWED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37" refid="namespacethemis_1_1auth_1ac7d6b4ac0ba21600479d41e737d954a4ac273e1e603d457ed7774a9cd7775e3ce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1ac7d6b4ac0ba21600479d41e737d954a4ac273e1e603d457ed7774a9cd7775e3ce" kindref="member">CAPTCHA_REQUIRED</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="38" refid="namespacethemis_1_1auth_1ac7d6b4ac0ba21600479d41e737d954a4aec5ca836e7993cd8770a788c04988b2e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1ac7d6b4ac0ba21600479d41e737d954a4aec5ca836e7993cd8770a788c04988b2e" kindref="member">OTP_REQUIRED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1auth_1ac7d6b4ac0ba21600479d41e737d954a4a732b7a76ae2476651eabcd9f1d03a960" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1ac7d6b4ac0ba21600479d41e737d954a4a732b7a76ae2476651eabcd9f1d03a960" kindref="member">ACCOUNT_LOCKED_24H</ref><sp/></highlight></codeline>
+<codeline lineno="40"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1auth_1_1_auth_rate_limit_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1auth_1_1_auth_rate_limit_config" kindref="compound">AuthRateLimitConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-IP<sp/>rate<sp/>limit<sp/>for<sp/>auth<sp/>attempts</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1a106f40290c361a6e2f32536798e4a456" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1a106f40290c361a6e2f32536798e4a456" kindref="member">max_attempts_per_ip_per_minute</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-user<sp/>rate<sp/>limit<sp/>for<sp/>auth<sp/>attempts</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1a484b87c230a850e4e0aa78406d1e2c8c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1a484b87c230a850e4e0aa78406d1e2c8c" kindref="member">max_attempts_per_user_per_minute</ref><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Account<sp/>lockout<sp/>configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compatibility<sp/>alias<sp/>for<sp/>the<sp/>historical<sp/>name<sp/>used<sp/>by<sp/>older<sp/>auth<sp/>tests.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prefer<sp/>lockout_failed_attempts<sp/>for<sp/>new<sp/>code;<sp/>the<sp/>effective<sp/>value<sp/>resolves</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>to<sp/>the<sp/>non-default<sp/>legacy<sp/>alias<sp/>when<sp/>it<sp/>is<sp/>explicitly<sp/>set.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1a5e6bc45bfd1a49c855fbc359274bf933" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1a5e6bc45bfd1a49c855fbc359274bf933" kindref="member">lockout_failed_attempts</ref><sp/>=<sp/>5;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Lock<sp/>after<sp/>N<sp/>failed<sp/>attempts</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1ab64dc9385964271aa14292f3d509f63e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1ab64dc9385964271aa14292f3d509f63e" kindref="member">max_failures_before_lockout</ref><sp/>=<sp/>5;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Deprecated<sp/>alias<sp/>kept<sp/>for<sp/>compatibility</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1a0e00c71a8aef0f08573ad42ddb54eeef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::minutes<sp/><ref refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1a0e00c71a8aef0f08573ad42ddb54eeef" kindref="member">lockout_window</ref>{15};<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Within<sp/>this<sp/>time<sp/>window</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1a9178b0b7e55d802c34f1b59ec049e6b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::minutes<sp/><ref refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1a9178b0b7e55d802c34f1b59ec049e6b7" kindref="member">lockout_duration</ref>{15};<sp/></highlight><highlight class="comment">//<sp/>Lock<sp/>for<sp/>this<sp/>duration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable/disable<sp/>features</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1a59c7ef24fbbf01f139946aac8d49eb48" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1a59c7ef24fbbf01f139946aac8d49eb48" kindref="member">enable_ip_rate_limiting</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1a8537bee8ec512787f15770297947dff8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1a8537bee8ec512787f15770297947dff8" kindref="member">enable_user_rate_limiting</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1a86ba6dd3d85725a74c6bcc03aebc4146" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1a86ba6dd3d85725a74c6bcc03aebc4146" kindref="member">enable_account_lockout</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Whitelist<sp/>IPs<sp/>(no<sp/>rate<sp/>limiting)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1a295be80e0a86f246ebfa5e44d089f670" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1a295be80e0a86f246ebfa5e44d089f670" kindref="member">whitelist_ips</ref>;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Credential-stuffing<sp/>detection<sp/>────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>When<sp/>a<sp/>single<sp/>IP<sp/>attempts<sp/>authentication<sp/>against<sp/>at<sp/>least</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>credential_stuffing_user_threshold<sp/>distinct<sp/>usernames<sp/>within</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>credential_stuffing_window_seconds,<sp/>a<sp/>CREDENTIAL_STUFFING_SUSPECTED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>anomaly<sp/>event<sp/>is<sp/>fired.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1a536fbf9bc7d7de806ff7d00283d8cebe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1a536fbf9bc7d7de806ff7d00283d8cebe" kindref="member">enable_credential_stuffing_detection</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1a51e56d78a8cf830ff34a2f71796d2d2d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1a51e56d78a8cf830ff34a2f71796d2d2d" kindref="member">credential_stuffing_user_threshold</ref><sp/><sp/><sp/>=<sp/>10;<sp/><sp/></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1a077157ad320f83ed17d3e45b490645ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1a077157ad320f83ed17d3e45b490645ee" kindref="member">credential_stuffing_window_seconds</ref><sp/>=<sp/>60;<sp/><sp/></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Credential-stuffing<sp/>persistent<sp/>backend<sp/>(Redis)<sp/>───────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>When<sp/>true,<sp/>per-user<sp/>breach<sp/>counts<sp/>are<sp/>persisted<sp/>in<sp/>Redis<sp/>under<sp/>the<sp/>key</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>&quot;cs:{user_id}:{YYYYMMDD}&quot;<sp/>with<sp/>a<sp/>25-hour<sp/>TTL.<sp/><sp/>This<sp/>enables</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>cross-session,<sp/>cross-restart<sp/>detection<sp/>and<sp/>supports<sp/>the<sp/>exponential</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>back-off<sp/>escalation<sp/>policy.<sp/><sp/>Falls<sp/>back<sp/>to<sp/>an<sp/>in-process<sp/>counter<sp/>map</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>when<sp/>Redis<sp/>is<sp/>unavailable<sp/>or<sp/>when<sp/>THEMIS_ENABLE_REDIS<sp/>is<sp/>not<sp/>defined.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1ad3a98a2b8e42d9b24930bf8062bfcde3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1ad3a98a2b8e42d9b24930bf8062bfcde3" kindref="member">enable_cs_persistent_backend</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1_1_credential_stuffing_redis_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1_1_credential_stuffing_redis_config" kindref="compound">CredentialStuffingRedisConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1_1_credential_stuffing_redis_config_1afe8d588dc8f7af7381c39b57800f64aa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1_1_credential_stuffing_redis_config_1afe8d588dc8f7af7381c39b57800f64aa" kindref="member">host</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;127.0.0.1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1_1_credential_stuffing_redis_config_1a032622114e903b4afa2dc051c9a16a2d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1_1_credential_stuffing_redis_config_1a032622114e903b4afa2dc051c9a16a2d" kindref="member">port</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>6379;</highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1_1_credential_stuffing_redis_config_1a50ffd54ce2aa783bea89cbe0d7777ee7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1_1_credential_stuffing_redis_config_1a50ffd54ce2aa783bea89cbe0d7777ee7" kindref="member">auth</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1_1_credential_stuffing_redis_config_1ae118e1374f7df2b7018395e8cb5ec5ba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1_1_credential_stuffing_redis_config_1ae118e1374f7df2b7018395e8cb5ec5ba" kindref="member">timeout_ms</ref><sp/><sp/>=<sp/>5000;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1a2290737c6a6f8f06f200cdbe3e923e22" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1_1_credential_stuffing_redis_config" kindref="compound">CredentialStuffingRedisConfig</ref><sp/><ref refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1a2290737c6a6f8f06f200cdbe3e923e22" kindref="member">cs_redis</ref>;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1auth_1_1_auth_anomaly_event" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1auth_1_1_auth_anomaly_event" kindref="compound">AuthAnomalyEvent</ref><sp/>{</highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1auth_1_1_auth_anomaly_event_1adad5c3fc6ae8ffb7ec4f138e5e91685e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_auth_anomaly_event_1adad5c3fc6ae8ffb7ec4f138e5e91685e" kindref="member">Type</ref><sp/>{</highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1auth_1_1_auth_anomaly_event_1adad5c3fc6ae8ffb7ec4f138e5e91685ea5de834ab1a6cb119c11cc28778ce706a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_auth_anomaly_event_1adad5c3fc6ae8ffb7ec4f138e5e91685ea5de834ab1a6cb119c11cc28778ce706a" kindref="member">BRUTE_FORCE_DETECTED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1auth_1_1_auth_anomaly_event_1adad5c3fc6ae8ffb7ec4f138e5e91685ea908f6c24d52ad7eccad87f9c4e359b0c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_auth_anomaly_event_1adad5c3fc6ae8ffb7ec4f138e5e91685ea908f6c24d52ad7eccad87f9c4e359b0c" kindref="member">CREDENTIAL_STUFFING_SUSPECTED</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1auth_1_1_auth_anomaly_event_1adad5c3fc6ae8ffb7ec4f138e5e91685eae8792cad8079cb2f6336d84f3ae40445" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_auth_anomaly_event_1adad5c3fc6ae8ffb7ec4f138e5e91685eae8792cad8079cb2f6336d84f3ae40445" kindref="member">ACCOUNT_LOCKOUT_TRIGGERED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1auth_1_1_auth_anomaly_event_1a1f260a9f07789d764e3633beee515014" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_auth_anomaly_event_1adad5c3fc6ae8ffb7ec4f138e5e91685e" kindref="member">Type</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_auth_anomaly_event_1a1f260a9f07789d764e3633beee515014" kindref="member">type</ref>;</highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1auth_1_1_auth_anomaly_event_1ab0a0f77eecccfcdce5de1a6ec8e7931f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_auth_anomaly_event_1ab0a0f77eecccfcdce5de1a6ec8e7931f" kindref="member">ip</ref>;</highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1auth_1_1_auth_anomaly_event_1a2e638e94210601e2012bb269b4aeccfc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_auth_anomaly_event_1a2e638e94210601e2012bb269b4aeccfc" kindref="member">user_id</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1auth_1_1_auth_anomaly_event_1ab600defe1427fc9a1530b7417b6491fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_auth_anomaly_event_1ab600defe1427fc9a1530b7417b6491fd" kindref="member">detail</ref>;</highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1auth_1_1_auth_anomaly_event_1a4dc62ffef2c8bfdb5f30ddaeb24174ac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1auth_1_1_auth_anomaly_event_1a4dc62ffef2c8bfdb5f30ddaeb24174ac" kindref="member">timestamp</ref>;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1auth_1_1_auth_anomaly_event_1adc3845889d7fff1fadc17f4258908f0b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1ac7d6b4ac0ba21600479d41e737d954a4" kindref="member">CredentialStuffingOutcome</ref><sp/><ref refid="structthemis_1_1auth_1_1_auth_anomaly_event_1adc3845889d7fff1fadc17f4258908f0b" kindref="member">cs_outcome</ref><sp/>=<sp/><ref refid="namespacethemis_1_1auth_1ac7d6b4ac0ba21600479d41e737d954a4a9725825c796122ef40f01b2d8794f902" kindref="member">CredentialStuffingOutcome::ALLOWED</ref>;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="namespacethemis_1_1auth_1a4fdebaf05c9d80c65b129546d399be81" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1auth_1a4fdebaf05c9d80c65b129546d399be81" kindref="member">AuthAnomalyCallback</ref><sp/>=<sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_auth_anomaly_event" kindref="compound">AuthAnomalyEvent</ref>&amp;)&gt;;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1auth_1_1_failed_attempt" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1auth_1_1_failed_attempt" kindref="compound">FailedAttempt</ref><sp/>{</highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1auth_1_1_failed_attempt_1af16120655aa6a8589193420a658aad7d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1auth_1_1_failed_attempt_1af16120655aa6a8589193420a658aad7d" kindref="member">timestamp</ref>;</highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1auth_1_1_failed_attempt_1ae955c32c4371f5312276e65c25f23116" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_failed_attempt_1ae955c32c4371f5312276e65c25f23116" kindref="member">ip_address</ref>;</highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1auth_1_1_failed_attempt_1af1f418c8e5a32da0c373dc7a0e64536b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_failed_attempt_1af1f418c8e5a32da0c373dc7a0e64536b" kindref="member">user_id</ref>;</highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1auth_1_1_failed_attempt_1a564781827e7a8a3904d7f658b4b725da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_failed_attempt_1a564781827e7a8a3904d7f658b4b725da" kindref="member">reason</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>e.g.,<sp/>&quot;invalid_password&quot;,<sp/>&quot;invalid_token&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1auth_1_1_lockout_info" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1auth_1_1_lockout_info" kindref="compound">LockoutInfo</ref><sp/>{</highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1auth_1_1_lockout_info_1a32143bfb59137d0dfe8ec0a9107a52ac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_lockout_info_1a32143bfb59137d0dfe8ec0a9107a52ac" kindref="member">is_locked</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1auth_1_1_lockout_info_1a5e2b8802b50b66c4dbdb45f562eb43ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1auth_1_1_lockout_info_1a5e2b8802b50b66c4dbdb45f562eb43ed" kindref="member">locked_until</ref>;</highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1auth_1_1_lockout_info_1abe39b7eca9a73e413eff71c3ac71d8e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_lockout_info_1abe39b7eca9a73e413eff71c3ac71d8e9" kindref="member">failed_attempts</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1auth_1_1_lockout_info_1a436de6311078a767638cd1392247dbc1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1auth_1_1_lockout_info_1a436de6311078a767638cd1392247dbc1" kindref="member">first_failure</ref>;</highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1auth_1_1_lockout_info_1af4cd5af43e5292ffea9d192db95b6ef0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1auth_1_1_lockout_info_1af4cd5af43e5292ffea9d192db95b6ef0" kindref="member">last_failure</ref>;</highlight></codeline>
+<codeline lineno="122" refid="structthemis_1_1auth_1_1_lockout_info_1a9ad8c3ea3e81569f0fa7c01fe69ffbd2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;FailedAttempt&gt;<sp/><ref refid="structthemis_1_1auth_1_1_lockout_info_1a9ad8c3ea3e81569f0fa7c01fe69ffbd2" kindref="member">recent_failures</ref>;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125" refid="classthemis_1_1auth_1_1_account_lockout_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1_account_lockout_manager_1af5bb949a48c7cccdf22fa1d39ccabdf8" kindref="member">AccountLockoutManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_account_lockout_manager_1af5bb949a48c7cccdf22fa1d39ccabdf8" kindref="member">AccountLockoutManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_auth_rate_limit_config" kindref="compound">AuthRateLimitConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_account_lockout_manager_1aa235c539fa4727c011b3b425af3b8d50" kindref="member">recordFailedAttempt</ref>(</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id,</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>ip_address,</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>reason</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_account_lockout_manager_1a6fda9651d07d7c3d96c5b601f091bfdc" kindref="member">recordSuccessfulAuth</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_account_lockout_manager_1a47e12fab3565d17c898b49a544446b7e" kindref="member">isAccountLocked</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;LockoutInfo&gt;<sp/><ref refid="classthemis_1_1auth_1_1_account_lockout_manager_1a7759928125b5a5e1d45ad8a2f5e2ed4c" kindref="member">getLockoutInfo</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_account_lockout_manager_1abf9119d5a0e35f14ae68d6637e7271a7" kindref="member">unlockAccount</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_account_lockout_manager_1a9b4599c97cd7633f77a0bf9ee90ed678" kindref="member">getLockedAccountCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_account_lockout_manager_1a12cda879e4bf217daf3bb1f9a208e777" kindref="member">forceLockAccount</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id,<sp/>std::chrono::seconds<sp/>duration);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_account_lockout_manager_1a7ab9a7d66607cc42099ca7047018ca44" kindref="member">cleanup</ref>();</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_account_lockout_manager_1a91b4f3716fbf969dcd3286e3fda8c941" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>lockAccount(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_lockout_info" kindref="compound">LockoutInfo</ref>&amp;<sp/>info);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>shouldLockAccount(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_lockout_info" kindref="compound">LockoutInfo</ref>&amp;<sp/>info)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_auth_rate_limit_config" kindref="compound">AuthRateLimitConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-user<sp/>lockout<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>LockoutInfo&gt;<sp/>lockout_state_;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::shared_mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cleanup<sp/>interval<sp/>(5<sp/>minutes)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/>CLEANUP_INTERVAL_SECONDS<sp/>=<sp/>300;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>last_cleanup_;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223" refid="classthemis_1_1auth_1_1_auth_rate_limiter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1_auth_rate_limiter_1ad0f6006222b0af1506718c7fee03d3b7" kindref="member">AuthRateLimiter</ref><sp/>{</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_auth_rate_limiter_1ad0f6006222b0af1506718c7fee03d3b7" kindref="member">AuthRateLimiter</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_auth_rate_limit_config" kindref="compound">AuthRateLimitConfig</ref>&amp;<sp/>config<sp/>=<sp/><ref refid="structthemis_1_1auth_1_1_auth_rate_limit_config" kindref="compound">AuthRateLimitConfig</ref>());</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_auth_rate_limiter_1a69a4de3f12141b02b235419b4745250d" kindref="member">allowAuthAttempt</ref>(</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>ip_address,</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_auth_rate_limiter_1a85e8069711fd4251b6d2c0b25dd9a8de" kindref="member">recordFailedAuth</ref>(</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id,</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>ip_address,</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>reason</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_auth_rate_limiter_1ab7172bf0be540264d887fe98d323c193" kindref="member">recordSuccessfulAuth</ref>(</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id,</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>ip_address</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_auth_rate_limiter_1a7106f63c5d062e81a17a6965d3482a24" kindref="member">isAccountLocked</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;LockoutInfo&gt;<sp/><ref refid="classthemis_1_1auth_1_1_auth_rate_limiter_1a269e12d5ee81c9a0d6adfcb0fd262f73" kindref="member">getLockoutInfo</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_auth_rate_limiter_1ad10779127d99c2a74454d980a31e8cd4" kindref="member">unlockAccount</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="classthemis_1_1auth_1_1_auth_rate_limiter_1ac70f56fbd0e92637944c2bcb7ba1c68f" kindref="member">getRetryAfter</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>ip_address)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_auth_rate_limiter_1af50dfdf1c1ff0328e25ac392cf58ec62" kindref="member">isWhitelisted</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>ip_address)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_auth_rate_limiter_1acbcb849c2e5a6f948a5d269ae88ef523" kindref="member">setAnomalyCallback</ref>(<ref refid="namespacethemis_1_1auth_1a4fdebaf05c9d80c65b129546d399be81" kindref="member">AuthAnomalyCallback</ref><sp/>callback);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_auth_rate_limiter_1a1821a250f33e5a411c8b324fe4892783" kindref="member">setAuditLogger</ref>(utils::AuditLogger*<sp/>logger);</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_auth_rate_limiter_1ab6a46f48cd33a53838453ffe5f96ca57" kindref="member">setBackend</ref>(std::shared_ptr&lt;IRateLimiterBackend&gt;<sp/>backend);</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_auth_rate_limiter_1a02c8c08ddf9c330ddd2b19454653b88a" kindref="member">setMetrics</ref>(<ref refid="classthemis_1_1auth_1_1_auth_metrics" kindref="compound">AuthMetrics</ref>*<sp/>metrics);</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_auth_rate_limiter_1aacc95694b067e2e0d14f60eb30562708" kindref="member">updateConfig</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_auth_rate_limit_config" kindref="compound">AuthRateLimitConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="319" refid="structthemis_1_1auth_1_1_auth_rate_limiter_1_1_statistics" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1auth_1_1_auth_rate_limiter_1_1_statistics" kindref="compound">Statistics</ref><sp/>{</highlight></codeline>
+<codeline lineno="320" refid="structthemis_1_1auth_1_1_auth_rate_limiter_1_1_statistics_1a5e51672b1076a09c1648a51438d20506" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_auth_rate_limiter_1_1_statistics_1a5e51672b1076a09c1648a51438d20506" kindref="member">total_auth_attempts</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="321" refid="structthemis_1_1auth_1_1_auth_rate_limiter_1_1_statistics_1a1692bc317476cd51c2fbf88b9896d997" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_auth_rate_limiter_1_1_statistics_1a1692bc317476cd51c2fbf88b9896d997" kindref="member">allowed_attempts</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="322" refid="structthemis_1_1auth_1_1_auth_rate_limiter_1_1_statistics_1a199ac86ffbc40cc846e198f3c1b48e5c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_auth_rate_limiter_1_1_statistics_1a199ac86ffbc40cc846e198f3c1b48e5c" kindref="member">rate_limited_attempts</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="323" refid="structthemis_1_1auth_1_1_auth_rate_limiter_1_1_statistics_1a20e868e49d7647c10e253b286e973eeb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_auth_rate_limiter_1_1_statistics_1a20e868e49d7647c10e253b286e973eeb" kindref="member">lockout_blocked_attempts</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="324" refid="structthemis_1_1auth_1_1_auth_rate_limiter_1_1_statistics_1a3b561b3fa258be8e52524830cb56e0d7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_auth_rate_limiter_1_1_statistics_1a3b561b3fa258be8e52524830cb56e0d7" kindref="member">successful_auths</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="325" refid="structthemis_1_1auth_1_1_auth_rate_limiter_1_1_statistics_1aef607857b70af8c2ea943f48f5a1c8f9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_auth_rate_limiter_1_1_statistics_1aef607857b70af8c2ea943f48f5a1c8f9" kindref="member">failed_auths</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="326" refid="structthemis_1_1auth_1_1_auth_rate_limiter_1_1_statistics_1af909466470c9e86cf53142e88eba3cc7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_auth_rate_limiter_1_1_statistics_1af909466470c9e86cf53142e88eba3cc7" kindref="member">currently_locked_accounts</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_auth_rate_limiter_1_1_statistics" kindref="compound">Statistics</ref><sp/><ref refid="classthemis_1_1auth_1_1_auth_rate_limiter_1a3e592090c45d56c2648782d4facc80c3" kindref="member">getStatistics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_auth_rate_limiter_1ae31eb48166f031343cef846072942b2a" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_auth_rate_limiter_1ace070acc973b43d1ef52b5239263072f" kindref="member">cleanup</ref>();</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_auth_rate_limit_config" kindref="compound">AuthRateLimitConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>IP-based<sp/>rate<sp/>limiting</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;server::RateLimiter&gt;<sp/>ip_rate_limiter_;</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-user<sp/>rate<sp/>limiting</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;server::RateLimiter&gt;<sp/>user_rate_limiter_;</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Account<sp/>lockout<sp/>management</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;AccountLockoutManager&gt;<sp/>lockout_manager_;</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optional<sp/>pluggable<sp/>backend<sp/>for<sp/>distributed<sp/>counter<sp/>storage.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>When<sp/>set,<sp/>replaces<sp/>ip_rate_limiter_<sp/>and<sp/>user_rate_limiter_<sp/>for<sp/>counting.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Protected<sp/>by<sp/>stats_mutex_.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;IRateLimiterBackend&gt;<sp/>backend_;</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"></highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Credential-stuffing<sp/>detection<sp/>state<sp/>─────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">CredentialStuffingEntry<sp/>{</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_set&lt;std::string&gt;<sp/>usernames;<sp/><sp/></highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Timestamps<sp/>of<sp/>each<sp/>attempt<sp/>(for<sp/>rolling-window<sp/>pruning)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::chrono::steady_clock::time_point&gt;<sp/>attempt_times;</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>alerted<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>CredentialStuffingEntry&gt;<sp/>stuffing_state_;</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"></highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Anomaly<sp/>detection<sp/>callback<sp/>–<sp/>protected<sp/>by<sp/>a<sp/>separate<sp/>mutex<sp/>so<sp/>it<sp/>can<sp/>be</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>called<sp/>safely<sp/>while<sp/>stats_mutex_<sp/>is<sp/>held.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::shared_mutex<sp/>callback_mutex_;</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1a4fdebaf05c9d80c65b129546d399be81" kindref="member">AuthAnomalyCallback</ref><sp/>anomaly_callback_;</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/>utils::AuditLogger*<sp/>audit_logger_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_auth_metrics" kindref="compound">AuthMetrics</ref>*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metrics_<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>fireAuthAnomaly(<ref refid="structthemis_1_1auth_1_1_auth_anomaly_event_1adad5c3fc6ae8ffb7ec4f138e5e91685e" kindref="member">AuthAnomalyEvent::Type</ref><sp/>type,</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>ip,</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id,</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="namespacethemis_1_1auth_1_1detail" kindref="compound">detail</ref>,</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1ac7d6b4ac0ba21600479d41e737d954a4" kindref="member">CredentialStuffingOutcome</ref><sp/>cs_outcome</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1auth_1ac7d6b4ac0ba21600479d41e737d954a4a9725825c796122ef40f01b2d8794f902" kindref="member">CredentialStuffingOutcome::ALLOWED</ref>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"></highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>trackCredentialStuffing(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>ip,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id,</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_auth_rate_limit_config" kindref="compound">AuthRateLimitConfig</ref>&amp;<sp/>cfg);</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"></highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>csBreachKey(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id);</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"></highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>incrementAndGetBreachCount(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id);</highlight></codeline>
+<codeline lineno="410"><highlight class="normal"></highlight></codeline>
+<codeline lineno="416"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1auth_1ac7d6b4ac0ba21600479d41e737d954a4" kindref="member">CredentialStuffingOutcome</ref><sp/>outcomeFromBreachCount(uint32_t<sp/>count);</highlight></codeline>
+<codeline lineno="417"><highlight class="normal"></highlight></codeline>
+<codeline lineno="425"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1ac7d6b4ac0ba21600479d41e737d954a4" kindref="member">CredentialStuffingOutcome</ref><sp/>escalateCredentialStuffing(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id,</highlight></codeline>
+<codeline lineno="426"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>ip);</highlight></codeline>
+<codeline lineno="427"><highlight class="normal"></highlight></codeline>
+<codeline lineno="428"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>In-memory<sp/>fallback<sp/>breach-count<sp/>map<sp/>(key<sp/>=<sp/>csBreachKey(user_id)).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="429"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Guarded<sp/>by<sp/>cs_breach_mutex_.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="430"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>uint32_t&gt;<sp/>cs_breach_count_;</highlight></codeline>
+<codeline lineno="431"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>cs_breach_mutex_;</highlight></codeline>
+<codeline lineno="432"><highlight class="normal"></highlight></codeline>
+<codeline lineno="433"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_REDIS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="434"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Redis<sp/>connection<sp/>for<sp/>persistent<sp/>stuffing<sp/>counters.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="435"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Guarded<sp/>by<sp/>cs_redis_mutex_.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="436"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">redisContext*<sp/>cs_redis_ctx_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="437"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/><sp/><sp/>cs_redis_mutex_;</highlight></codeline>
+<codeline lineno="442"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>connectCsRedis();</highlight></codeline>
+<codeline lineno="443"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="444"><highlight class="normal"></highlight></codeline>
+<codeline lineno="445"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics<sp/>—<sp/>individual<sp/>counters<sp/>are<sp/>atomic<sp/>so<sp/>they<sp/>can<sp/>be<sp/>updated<sp/>without</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="446"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>holding<sp/>stats_mutex_,<sp/>which<sp/>is<sp/>reserved<sp/>for<sp/>config_<sp/>and<sp/>backend_.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="447"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>getStatistics()<sp/>snapshots<sp/>all<sp/>atomics<sp/>into<sp/>a<sp/>Statistics<sp/>struct.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="448"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;size_t&gt;<sp/>stat_total_auth_attempts_{0};</highlight></codeline>
+<codeline lineno="449"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;size_t&gt;<sp/>stat_allowed_attempts_{0};</highlight></codeline>
+<codeline lineno="450"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;size_t&gt;<sp/>stat_rate_limited_attempts_{0};</highlight></codeline>
+<codeline lineno="451"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;size_t&gt;<sp/>stat_lockout_blocked_attempts_{0};</highlight></codeline>
+<codeline lineno="452"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;size_t&gt;<sp/>stat_successful_auths_{0};</highlight></codeline>
+<codeline lineno="453"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;size_t&gt;<sp/>stat_failed_auths_{0};</highlight></codeline>
+<codeline lineno="454"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;size_t&gt;<sp/>stat_currently_locked_accounts_{0};</highlight></codeline>
+<codeline lineno="455"><highlight class="normal"></highlight></codeline>
+<codeline lineno="456"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Protects<sp/>config_<sp/>and<sp/>backend_.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="457"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Lock<sp/>hierarchy:<sp/>stats_mutex_<sp/>must<sp/>be<sp/>acquired<sp/>BEFORE<sp/>stuffing_mutex_<sp/>when</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="458"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>both<sp/>are<sp/>needed<sp/>simultaneously.<sp/><sp/>Hot<sp/>paths<sp/>acquire<sp/>them<sp/>sequentially<sp/>(never</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="459"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>nested)<sp/>to<sp/>avoid<sp/>holding<sp/>stats_mutex_<sp/>during<sp/>I/O.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="460"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::shared_mutex<sp/>stats_mutex_;</highlight></codeline>
+<codeline lineno="461"><highlight class="normal"></highlight></codeline>
+<codeline lineno="462"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Protects<sp/>stuffing_state_<sp/>only<sp/>(separate<sp/>from<sp/>stats_mutex_<sp/>so<sp/>rate-limiter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="463"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>calls<sp/>and<sp/>backend<sp/>I/O<sp/>are<sp/>never<sp/>serialised<sp/>against<sp/>stuffing<sp/>detection).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="464"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>stuffing_mutex_;</highlight></codeline>
+<codeline lineno="465"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="466"><highlight class="normal"></highlight></codeline>
+<codeline lineno="467"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>auth</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="468"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/auth/auth_rate_limiter.h"/>
+  </compounddef>
+</doxygen>

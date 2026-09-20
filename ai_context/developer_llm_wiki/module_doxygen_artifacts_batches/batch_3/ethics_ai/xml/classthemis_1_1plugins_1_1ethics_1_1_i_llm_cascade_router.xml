@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1ethics_1_1_i_llm_cascade_router" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::plugins::ethics::ILlmCascadeRouter</compoundname>
+    <derivedcompoundref refid="classthemis_1_1plugins_1_1ethics_1_1_llm_cascade_router" prot="public" virt="non-virtual">themis::plugins::ethics::LlmCascadeRouter</derivedcompoundref>
+    <includes refid="llm__cascade__router_8h" local="no">llm_cascade_router.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_i_llm_cascade_router_1a86a32a3e3381e7b4229514434f8e3d01" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::plugins::ethics::ILlmCascadeRouter::~ILlmCascadeRouter</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ILlmCascadeRouter</name>
+        <qualifiedname>themis::plugins::ethics::ILlmCascadeRouter::~ILlmCascadeRouter</qualifiedname>
+        <briefdescription>
+<para>ILlm Cascade Router. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/llm_cascade_router.h" line="79" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_i_llm_cascade_router_1a6ea4a83a7a06bac1b14f2af794f82b38" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1ethics_1_1_cascade_routing_decision" kindref="compound">CascadeRoutingDecision</ref></type>
+        <definition>virtual CascadeRoutingDecision themis::plugins::ethics::ILlmCascadeRouter::routeForRound</definition>
+        <argsstring>(const std::string &amp;round_role, size_t estimated_prompt_tokens) const =0</argsstring>
+        <name>routeForRound</name>
+        <qualifiedname>themis::plugins::ethics::ILlmCascadeRouter::routeForRound</qualifiedname>
+        <reimplementedby refid="classthemis_1_1plugins_1_1ethics_1_1_llm_cascade_router_1a8ced0a3f21c4fc5646b1c93654c8e75a">routeForRound</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>round_role</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>estimated_prompt_tokens</declname>
+        </param>
+        <briefdescription>
+<para>Route For Round. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">round_role</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">estimated_prompt_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/llm_cascade_router.h" line="87" column="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_i_llm_cascade_router_1a47a72d651cea894053b43916f8640cd6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1ethics_1_1_model_token_budget" kindref="compound">ModelTokenBudget</ref></type>
+        <definition>virtual ModelTokenBudget themis::plugins::ethics::ILlmCascadeRouter::budgetForRound</definition>
+        <argsstring>(const std::string &amp;round_role) const =0</argsstring>
+        <name>budgetForRound</name>
+        <qualifiedname>themis::plugins::ethics::ILlmCascadeRouter::budgetForRound</qualifiedname>
+        <reimplementedby refid="classthemis_1_1plugins_1_1ethics_1_1_llm_cascade_router_1a34a5bf9fb625cc332b8c346d102b04fc">budgetForRound</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>round_role</declname>
+        </param>
+        <briefdescription>
+<para>Budget For Round. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">round_role</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/llm_cascade_router.h" line="96" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_i_llm_cascade_router_1af5a874f4a5fd11291322af092e5dc8ff" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1plugins_1_1ethics_1a893683e2fd8f8952d6c1b437674d4b18" kindref="member">CascadeModelTier</ref></type>
+        <definition>virtual CascadeModelTier themis::plugins::ethics::ILlmCascadeRouter::tierForRound</definition>
+        <argsstring>(const std::string &amp;round_role) const noexcept=0</argsstring>
+        <name>tierForRound</name>
+        <qualifiedname>themis::plugins::ethics::ILlmCascadeRouter::tierForRound</qualifiedname>
+        <reimplementedby refid="classthemis_1_1plugins_1_1ethics_1_1_llm_cascade_router_1a2c75bb15a3442e8ab51489db1ab7f4dd">tierForRound</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>round_role</declname>
+        </param>
+        <briefdescription>
+<para>Tier For Round. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">round_role</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/llm_cascade_router.h" line="105" column="30"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::plugins::ethics::ILlmCascadeRouter</label>
+        <link refid="classthemis_1_1plugins_1_1ethics_1_1_i_llm_cascade_router"/>
+      </node>
+      <node id="2">
+        <label>themis::plugins::ethics::LlmCascadeRouter</label>
+        <link refid="classthemis_1_1plugins_1_1ethics_1_1_llm_cascade_router"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/ethics_ai/llm_cascade_router.h" line="73" column="1" bodyfile="include/ethics_ai/llm_cascade_router.h" bodystart="73" bodyend="107"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_i_llm_cascade_router_1a47a72d651cea894053b43916f8640cd6" prot="public" virt="pure-virtual"><scope>themis::plugins::ethics::ILlmCascadeRouter</scope><name>budgetForRound</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_i_llm_cascade_router_1a6ea4a83a7a06bac1b14f2af794f82b38" prot="public" virt="pure-virtual"><scope>themis::plugins::ethics::ILlmCascadeRouter</scope><name>routeForRound</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_i_llm_cascade_router_1af5a874f4a5fd11291322af092e5dc8ff" prot="public" virt="pure-virtual"><scope>themis::plugins::ethics::ILlmCascadeRouter</scope><name>tierForRound</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_i_llm_cascade_router_1a86a32a3e3381e7b4229514434f8e3d01" prot="public" virt="virtual"><scope>themis::plugins::ethics::ILlmCascadeRouter</scope><name>~ILlmCascadeRouter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

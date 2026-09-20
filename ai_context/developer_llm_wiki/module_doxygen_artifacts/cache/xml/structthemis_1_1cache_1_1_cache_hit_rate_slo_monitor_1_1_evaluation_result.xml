@@ -1,0 +1,200 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cache::CacheHitRateSloMonitor::EvaluationResult</compoundname>
+    <includes refid="cache__hit__rate__slo__monitor_8h" local="no">cache_hit_rate_slo_monitor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result_1a378e28b2da6e4697ee94437ace1f27f7" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::cache::CacheHitRateSloMonitor::EvaluationResult::hit_rate</definition>
+        <argsstring></argsstring>
+        <name>hit_rate</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::EvaluationResult::hit_rate</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Computed hit rate [0, 1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="120" column="16" bodyfile="include/cache/cache_hit_rate_slo_monitor.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result_1a195b31814773da2e9a1071ee2eaa42f3" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::CacheHitRateSloMonitor::EvaluationResult::total_requests</definition>
+        <argsstring></argsstring>
+        <name>total_requests</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::EvaluationResult::total_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total requests evaluated. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="121" column="18" bodyfile="include/cache/cache_hit_rate_slo_monitor.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result_1a1a283d3bd1e3ef4113166177844671e4" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a5ebef9df70beed703d21807d0c317a86" kindref="member">ViolationLevel</ref></type>
+        <definition>ViolationLevel themis::cache::CacheHitRateSloMonitor::EvaluationResult::level</definition>
+        <argsstring></argsstring>
+        <name>level</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::EvaluationResult::level</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a5ebef9df70beed703d21807d0c317a86ab50339a10e1de285ac99d4c3990b8693" kindref="member">ViolationLevel::NONE</ref></initializer>
+        <briefdescription>
+<para>Current violation level. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="122" column="24" bodyfile="include/cache/cache_hit_rate_slo_monitor.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result_1aa0e2c37512b590bc742a43cfac012034" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::cache::CacheHitRateSloMonitor::EvaluationResult::alert_fired</definition>
+        <argsstring></argsstring>
+        <name>alert_fired</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::EvaluationResult::alert_fired</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True if a hit-rate alert was fired this call. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="123" column="14" bodyfile="include/cache/cache_hit_rate_slo_monitor.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result_1a61833487e218b5c2d2cc453b9e0ad4a7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::cache::CacheHitRateSloMonitor::EvaluationResult::alert_resolved</definition>
+        <argsstring></argsstring>
+        <name>alert_resolved</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::EvaluationResult::alert_resolved</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True if a hit-rate alert was resolved this call. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="124" column="14" bodyfile="include/cache/cache_hit_rate_slo_monitor.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result_1afcda49078543bfd67a6a286d757372ce" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::cache::CacheHitRateSloMonitor::EvaluationResult::p50_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>p50_latency_ms</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::EvaluationResult::p50_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="128" column="16" bodyfile="include/cache/cache_hit_rate_slo_monitor.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result_1a4c52bbd56eef12d126ecc98eebfcedad" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::cache::CacheHitRateSloMonitor::EvaluationResult::p95_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>p95_latency_ms</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::EvaluationResult::p95_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="129" column="16" bodyfile="include/cache/cache_hit_rate_slo_monitor.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result_1a0bc968b5d2cabf01b4d1f9e3f8469e3f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::cache::CacheHitRateSloMonitor::EvaluationResult::p99_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>p99_latency_ms</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::EvaluationResult::p99_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="130" column="16" bodyfile="include/cache/cache_hit_rate_slo_monitor.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result_1ad91be1b77adb47afa4d0d97c2f588029" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a5ebef9df70beed703d21807d0c317a86" kindref="member">ViolationLevel</ref></type>
+        <definition>ViolationLevel themis::cache::CacheHitRateSloMonitor::EvaluationResult::latency_level</definition>
+        <argsstring></argsstring>
+        <name>latency_level</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::EvaluationResult::latency_level</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a5ebef9df70beed703d21807d0c317a86ab50339a10e1de285ac99d4c3990b8693" kindref="member">ViolationLevel::NONE</ref></initializer>
+        <briefdescription>
+<para>Current latency violation level. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="132" column="24" bodyfile="include/cache/cache_hit_rate_slo_monitor.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result_1a847d971999a65304456bcd74f9c29eca" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::cache::CacheHitRateSloMonitor::EvaluationResult::latency_alert_fired</definition>
+        <argsstring></argsstring>
+        <name>latency_alert_fired</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::EvaluationResult::latency_alert_fired</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True if a latency alert was fired this call. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="133" column="14" bodyfile="include/cache/cache_hit_rate_slo_monitor.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result_1a88b87ef3928d45c4e2d797ddced7bfd3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::cache::CacheHitRateSloMonitor::EvaluationResult::latency_alert_resolved</definition>
+        <argsstring></argsstring>
+        <name>latency_alert_resolved</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::EvaluationResult::latency_alert_resolved</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True if a latency alert was resolved this call. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="134" column="14" bodyfile="include/cache/cache_hit_rate_slo_monitor.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/cache_hit_rate_slo_monitor.h" line="119" column="5" bodyfile="include/cache/cache_hit_rate_slo_monitor.h" bodystart="119" bodyend="135"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result_1aa0e2c37512b590bc742a43cfac012034" prot="public" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor::EvaluationResult</scope><name>alert_fired</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result_1a61833487e218b5c2d2cc453b9e0ad4a7" prot="public" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor::EvaluationResult</scope><name>alert_resolved</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result_1a378e28b2da6e4697ee94437ace1f27f7" prot="public" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor::EvaluationResult</scope><name>hit_rate</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result_1a847d971999a65304456bcd74f9c29eca" prot="public" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor::EvaluationResult</scope><name>latency_alert_fired</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result_1a88b87ef3928d45c4e2d797ddced7bfd3" prot="public" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor::EvaluationResult</scope><name>latency_alert_resolved</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result_1ad91be1b77adb47afa4d0d97c2f588029" prot="public" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor::EvaluationResult</scope><name>latency_level</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result_1a1a283d3bd1e3ef4113166177844671e4" prot="public" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor::EvaluationResult</scope><name>level</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result_1afcda49078543bfd67a6a286d757372ce" prot="public" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor::EvaluationResult</scope><name>p50_latency_ms</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result_1a4c52bbd56eef12d126ecc98eebfcedad" prot="public" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor::EvaluationResult</scope><name>p95_latency_ms</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result_1a0bc968b5d2cabf01b4d1f9e3f8469e3f" prot="public" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor::EvaluationResult</scope><name>p99_latency_ms</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result_1a195b31814773da2e9a1071ee2eaa42f3" prot="public" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor::EvaluationResult</scope><name>total_requests</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

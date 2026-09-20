@@ -1,0 +1,258 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1resource_1_1_resource_pool_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::resource::ResourcePoolManager</compoundname>
+    <includes refid="resource__pool__manager_8h" local="no">resource_pool_manager.h</includes>
+    <innerclass refid="structthemis_1_1resource_1_1_resource_pool_manager_1_1_config" prot="public">themis::resource::ResourcePoolManager::Config</innerclass>
+    <innerclass refid="structthemis_1_1resource_1_1_resource_pool_manager_1_1_global_statistics" prot="public">themis::resource::ResourcePoolManager::GlobalStatistics</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1resource_1_1_resource_pool_manager_1a2b528ff8a7b82fcfc6fe7872443b7350" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1resource_1_1_resource_pool_manager_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::resource::ResourcePoolManager::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>themis::resource::ResourcePoolManager::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="214" column="48" bodyfile="include/base/resource_pool_manager.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1resource_1_1_resource_pool_manager_1a3c62a9e7bdd33324ca4cbaa910bf02f6" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1resource_1_1_adaptive_connection_pool" kindref="compound">AdaptiveConnectionPool</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;AdaptiveConnectionPool&gt; themis::resource::ResourcePoolManager::conn_pool_</definition>
+        <argsstring></argsstring>
+        <name>conn_pool_</name>
+        <qualifiedname>themis::resource::ResourcePoolManager::conn_pool_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="215" column="24" bodyfile="include/base/resource_pool_manager.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1resource_1_1_resource_pool_manager_1a1c1fbb28a0cb2647a00327376e7a7356" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1resource_1_1_buffer_pool" kindref="compound">BufferPool</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;BufferPool&gt; themis::resource::ResourcePoolManager::buf_pool_</definition>
+        <argsstring></argsstring>
+        <name>buf_pool_</name>
+        <qualifiedname>themis::resource::ResourcePoolManager::buf_pool_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="216" column="36" bodyfile="include/base/resource_pool_manager.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1resource_1_1_resource_pool_manager_1a2c90999979dd174b9a0d953eda8c1d30" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::resource::ResourcePoolManager::shutdown_</definition>
+        <argsstring></argsstring>
+        <name>shutdown_</name>
+        <qualifiedname>themis::resource::ResourcePoolManager::shutdown_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="217" column="42" bodyfile="include/base/resource_pool_manager.h" bodystart="217" bodyend="217"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1resource_1_1_resource_pool_manager_1a3254bcba8e4a2c06d3a286c6b24b1183" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::resource::ResourcePoolManager::ResourcePoolManager</definition>
+        <argsstring>()</argsstring>
+        <name>ResourcePoolManager</name>
+        <qualifiedname>themis::resource::ResourcePoolManager::ResourcePoolManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="178" column="5" bodyfile="src/base/resource_pool_manager.cpp" bodystart="254" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1resource_1_1_resource_pool_manager_1ad6ea04641f72e2c0c4d0e7728ba863f9" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::resource::ResourcePoolManager::ResourcePoolManager</definition>
+        <argsstring>(const Config &amp;cfg)</argsstring>
+        <name>ResourcePoolManager</name>
+        <qualifiedname>themis::resource::ResourcePoolManager::ResourcePoolManager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1resource_1_1_resource_pool_manager_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Resource Pool Manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="185" column="14" bodyfile="src/base/resource_pool_manager.cpp" bodystart="257" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1resource_1_1_resource_pool_manager_1ac2150c2048b0a153db2907743893423f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::resource::ResourcePoolManager::~ResourcePoolManager</definition>
+        <argsstring>()</argsstring>
+        <name>~ResourcePoolManager</name>
+        <qualifiedname>themis::resource::ResourcePoolManager::~ResourcePoolManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="187" column="5" bodyfile="src/base/resource_pool_manager.cpp" bodystart="262" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1resource_1_1_resource_pool_manager_1ab3c2657b6c363a4e327fcbae5e54dc1d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::resource::ResourcePoolManager::ResourcePoolManager</definition>
+        <argsstring>(const ResourcePoolManager &amp;)=delete</argsstring>
+        <name>ResourcePoolManager</name>
+        <qualifiedname>themis::resource::ResourcePoolManager::ResourcePoolManager</qualifiedname>
+        <param>
+          <type>const ResourcePoolManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="190" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1resource_1_1_resource_pool_manager_1a25b281bddd3da860a85a212bb1dcaef6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1resource_1_1_resource_pool_manager_1a3254bcba8e4a2c06d3a286c6b24b1183" kindref="member">ResourcePoolManager</ref> &amp;</type>
+        <definition>ResourcePoolManager &amp; themis::resource::ResourcePoolManager::operator=</definition>
+        <argsstring>(const ResourcePoolManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::resource::ResourcePoolManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1resource_1_1_resource_pool_manager_1a3254bcba8e4a2c06d3a286c6b24b1183" kindref="member">ResourcePoolManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="191" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1resource_1_1_resource_pool_manager_1a84b16c8e68220748472427405aea60d4" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1resource_1_1_adaptive_connection_pool" kindref="compound">AdaptiveConnectionPool</ref> &amp;</type>
+        <definition>AdaptiveConnectionPool &amp; themis::resource::ResourcePoolManager::connectionPool</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>connectionPool</name>
+        <qualifiedname>themis::resource::ResourcePoolManager::connectionPool</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="193" column="29" bodyfile="include/base/resource_pool_manager.h" bodystart="193" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1resource_1_1_resource_pool_manager_1af965a74987f783555f666573c676e50e" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1resource_1_1_buffer_pool" kindref="compound">BufferPool</ref> &amp;</type>
+        <definition>BufferPool &amp; themis::resource::ResourcePoolManager::bufferPool</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>bufferPool</name>
+        <qualifiedname>themis::resource::ResourcePoolManager::bufferPool</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="197" column="17" bodyfile="include/base/resource_pool_manager.h" bodystart="197" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1resource_1_1_resource_pool_manager_1a31602596bfd837b18e6d0a51b5dcc5c7" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1resource_1_1_resource_pool_manager_1_1_global_statistics" kindref="compound">GlobalStatistics</ref></type>
+        <definition>ResourcePoolManager::GlobalStatistics themis::resource::ResourcePoolManager::statistics</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>statistics</name>
+        <qualifiedname>themis::resource::ResourcePoolManager::statistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="201" column="23" bodyfile="src/base/resource_pool_manager.cpp" bodystart="267" bodyend="288"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1resource_1_1_resource_pool_manager_1a4f63b4daa2d944d04eba0b0a69750dde" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::resource::ResourcePoolManager::shutdown</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::resource::ResourcePoolManager::shutdown</qualifiedname>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="207" column="10" bodyfile="src/base/resource_pool_manager.cpp" bodystart="290" bodyend="296"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1resource_1_1_resource_pool_manager_1a25e6b27b4fc7d6054ae5ee3a32507b38" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::resource::ResourcePoolManager::is_shutdown</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>is_shutdown</name>
+        <qualifiedname>themis::resource::ResourcePoolManager::is_shutdown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="209" column="11" bodyfile="include/base/resource_pool_manager.h" bodystart="209" bodyend="211"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/base/resource_pool_manager.h" line="161" column="1" bodyfile="include/base/resource_pool_manager.h" bodystart="161" bodyend="218"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1resource_1_1_resource_pool_manager_1a1c1fbb28a0cb2647a00327376e7a7356" prot="private" virt="non-virtual"><scope>themis::resource::ResourcePoolManager</scope><name>buf_pool_</name></member>
+      <member refid="classthemis_1_1resource_1_1_resource_pool_manager_1af965a74987f783555f666573c676e50e" prot="public" virt="non-virtual"><scope>themis::resource::ResourcePoolManager</scope><name>bufferPool</name></member>
+      <member refid="classthemis_1_1resource_1_1_resource_pool_manager_1a2b528ff8a7b82fcfc6fe7872443b7350" prot="private" virt="non-virtual"><scope>themis::resource::ResourcePoolManager</scope><name>cfg_</name></member>
+      <member refid="classthemis_1_1resource_1_1_resource_pool_manager_1a3c62a9e7bdd33324ca4cbaa910bf02f6" prot="private" virt="non-virtual"><scope>themis::resource::ResourcePoolManager</scope><name>conn_pool_</name></member>
+      <member refid="classthemis_1_1resource_1_1_resource_pool_manager_1a84b16c8e68220748472427405aea60d4" prot="public" virt="non-virtual"><scope>themis::resource::ResourcePoolManager</scope><name>connectionPool</name></member>
+      <member refid="classthemis_1_1resource_1_1_resource_pool_manager_1a25e6b27b4fc7d6054ae5ee3a32507b38" prot="public" virt="non-virtual"><scope>themis::resource::ResourcePoolManager</scope><name>is_shutdown</name></member>
+      <member refid="classthemis_1_1resource_1_1_resource_pool_manager_1a25b281bddd3da860a85a212bb1dcaef6" prot="public" virt="non-virtual"><scope>themis::resource::ResourcePoolManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1resource_1_1_resource_pool_manager_1a3254bcba8e4a2c06d3a286c6b24b1183" prot="public" virt="non-virtual"><scope>themis::resource::ResourcePoolManager</scope><name>ResourcePoolManager</name></member>
+      <member refid="classthemis_1_1resource_1_1_resource_pool_manager_1ad6ea04641f72e2c0c4d0e7728ba863f9" prot="public" virt="non-virtual"><scope>themis::resource::ResourcePoolManager</scope><name>ResourcePoolManager</name></member>
+      <member refid="classthemis_1_1resource_1_1_resource_pool_manager_1ab3c2657b6c363a4e327fcbae5e54dc1d" prot="public" virt="non-virtual"><scope>themis::resource::ResourcePoolManager</scope><name>ResourcePoolManager</name></member>
+      <member refid="classthemis_1_1resource_1_1_resource_pool_manager_1a4f63b4daa2d944d04eba0b0a69750dde" prot="public" virt="non-virtual"><scope>themis::resource::ResourcePoolManager</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1resource_1_1_resource_pool_manager_1a2c90999979dd174b9a0d953eda8c1d30" prot="private" virt="non-virtual"><scope>themis::resource::ResourcePoolManager</scope><name>shutdown_</name></member>
+      <member refid="classthemis_1_1resource_1_1_resource_pool_manager_1a31602596bfd837b18e6d0a51b5dcc5c7" prot="public" virt="non-virtual"><scope>themis::resource::ResourcePoolManager</scope><name>statistics</name></member>
+      <member refid="classthemis_1_1resource_1_1_resource_pool_manager_1ac2150c2048b0a153db2907743893423f" prot="public" virt="non-virtual"><scope>themis::resource::ResourcePoolManager</scope><name>~ResourcePoolManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

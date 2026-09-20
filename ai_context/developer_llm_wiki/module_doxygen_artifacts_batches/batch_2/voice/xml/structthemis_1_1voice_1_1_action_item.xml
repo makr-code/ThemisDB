@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_action_item" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::ActionItem</compoundname>
+    <includes refid="voice__meeting__support_8h" local="no">voice_meeting_support.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_action_item_1a8f198fe332f2c812f97548b59ef2ff14" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::ActionItem::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::voice::ActionItem::id</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_meeting_support.h" line="27" column="17" bodyfile="include/voice/voice_meeting_support.h" bodystart="27" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_action_item_1a1d0acdeb3d82b1bf4eb52f152709fd8b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::ActionItem::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::voice::ActionItem::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_meeting_support.h" line="28" column="17" bodyfile="include/voice/voice_meeting_support.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_action_item_1ae5fb39bbde3ab526aef15c740da64959" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::ActionItem::assignee</definition>
+        <argsstring></argsstring>
+        <name>assignee</name>
+        <qualifiedname>themis::voice::ActionItem::assignee</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_meeting_support.h" line="29" column="17" bodyfile="include/voice/voice_meeting_support.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_action_item_1aee31c737a973444de23c8c184fc1c769" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::ActionItem::due_date</definition>
+        <argsstring></argsstring>
+        <name>due_date</name>
+        <qualifiedname>themis::voice::ActionItem::due_date</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_meeting_support.h" line="30" column="17" bodyfile="include/voice/voice_meeting_support.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_action_item_1abec5946b6df195ea688abae368cf38cb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::ActionItem::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::voice::ActionItem::status</qualifiedname>
+        <initializer>= &quot;pending&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_meeting_support.h" line="31" column="17" bodyfile="include/voice/voice_meeting_support.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_action_item_1adac3ac15b1d0314be6f33a94b31acce1" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::ActionItem::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::voice::ActionItem::confidence</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_meeting_support.h" line="32" column="11" bodyfile="include/voice/voice_meeting_support.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_action_item_1ae2cc1c700b3253db5bd38cb9f903b196" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::ActionItem::source_timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>source_timestamp_ms</name>
+        <qualifiedname>themis::voice::ActionItem::source_timestamp_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_meeting_support.h" line="33" column="13" bodyfile="include/voice/voice_meeting_support.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_action_item_1ad038e5666cc172a0a397b30794824709" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::ActionItem::source_speaker</definition>
+        <argsstring></argsstring>
+        <name>source_speaker</name>
+        <qualifiedname>themis::voice::ActionItem::source_speaker</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_meeting_support.h" line="34" column="17" bodyfile="include/voice/voice_meeting_support.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_meeting_support.h" line="26" column="1" bodyfile="include/voice/voice_meeting_support.h" bodystart="26" bodyend="35"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_action_item_1ae5fb39bbde3ab526aef15c740da64959" prot="public" virt="non-virtual"><scope>themis::voice::ActionItem</scope><name>assignee</name></member>
+      <member refid="structthemis_1_1voice_1_1_action_item_1adac3ac15b1d0314be6f33a94b31acce1" prot="public" virt="non-virtual"><scope>themis::voice::ActionItem</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1voice_1_1_action_item_1a1d0acdeb3d82b1bf4eb52f152709fd8b" prot="public" virt="non-virtual"><scope>themis::voice::ActionItem</scope><name>description</name></member>
+      <member refid="structthemis_1_1voice_1_1_action_item_1aee31c737a973444de23c8c184fc1c769" prot="public" virt="non-virtual"><scope>themis::voice::ActionItem</scope><name>due_date</name></member>
+      <member refid="structthemis_1_1voice_1_1_action_item_1a8f198fe332f2c812f97548b59ef2ff14" prot="public" virt="non-virtual"><scope>themis::voice::ActionItem</scope><name>id</name></member>
+      <member refid="structthemis_1_1voice_1_1_action_item_1ad038e5666cc172a0a397b30794824709" prot="public" virt="non-virtual"><scope>themis::voice::ActionItem</scope><name>source_speaker</name></member>
+      <member refid="structthemis_1_1voice_1_1_action_item_1ae2cc1c700b3253db5bd38cb9f903b196" prot="public" virt="non-virtual"><scope>themis::voice::ActionItem</scope><name>source_timestamp_ms</name></member>
+      <member refid="structthemis_1_1voice_1_1_action_item_1abec5946b6df195ea688abae368cf38cb" prot="public" virt="non-virtual"><scope>themis::voice::ActionItem</scope><name>status</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

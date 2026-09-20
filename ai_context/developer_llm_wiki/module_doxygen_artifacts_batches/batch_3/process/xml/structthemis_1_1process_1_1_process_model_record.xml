@@ -1,0 +1,390 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_process_model_record" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::ProcessModelRecord</compoundname>
+    <includes refid="process__model__manager_8h" local="no">process_model_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_model_record_1a72f4aec96ca2f648f178f409d4244774" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ProcessModelRecord::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::process::ProcessModelRecord::id</qualifiedname>
+        <briefdescription>
+<para>Unique model ID (e.g. &quot;bauantrag_standard&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="77" column="17" bodyfile="include/process/process_model_manager.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_model_record_1a1d53df2f4efa62f9ba57360ad96174c5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ProcessModelRecord::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::process::ProcessModelRecord::name</qualifiedname>
+        <briefdescription>
+<para>Human-readable name (DE). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="78" column="17" bodyfile="include/process/process_model_manager.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_model_record_1ad2a408d64240328b098f70091aeaf284" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ProcessModelRecord::name_en</definition>
+        <argsstring></argsstring>
+        <name>name_en</name>
+        <qualifiedname>themis::process::ProcessModelRecord::name_en</qualifiedname>
+        <briefdescription>
+<para>Human-readable name (EN). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="79" column="17" bodyfile="include/process/process_model_manager.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_model_record_1a13dd4e8a8db9ce53fff1d6bb44a074ca" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ProcessModelRecord::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::process::ProcessModelRecord::version</qualifiedname>
+        <briefdescription>
+<para>Semantic version string (&quot;1.0.0&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="80" column="17" bodyfile="include/process/process_model_manager.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_model_record_1a134bcf041f6129e0e42aec42f33d4747" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::process::ProcessModelRecord::revision</definition>
+        <argsstring></argsstring>
+        <name>revision</name>
+        <qualifiedname>themis::process::ProcessModelRecord::revision</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Auto-incremented on every save. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="81" column="17" bodyfile="include/process/process_model_manager.h" bodystart="81" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_model_record_1a6d093e1ac63a3a1a77bb5b664390bbb8" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1process_1ab94b6a0b17c791df3b72d4a68ab73dc6" kindref="member">ProcessNotation</ref></type>
+        <definition>ProcessNotation themis::process::ProcessModelRecord::notation</definition>
+        <argsstring></argsstring>
+        <name>notation</name>
+        <qualifiedname>themis::process::ProcessModelRecord::notation</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1process_1ab94b6a0b17c791df3b72d4a68ab73dc6ac9ae3527cc4cdf79c04b9ef7e6a81bcb" kindref="member">ProcessNotation::BPMN_2_0</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="84" column="21" bodyfile="include/process/process_model_manager.h" bodystart="84" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_model_record_1a1883ba67ff9524cc10141f35b3d71a2b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83" kindref="member">ProcessDomain</ref></type>
+        <definition>ProcessDomain themis::process::ProcessModelRecord::domain</definition>
+        <argsstring></argsstring>
+        <name>domain</name>
+        <qualifiedname>themis::process::ProcessModelRecord::domain</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83a124f71327e0b6686ec9acf8336784424" kindref="member">ProcessDomain::BUSINESS</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="85" column="21" bodyfile="include/process/process_model_manager.h" bodystart="85" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_model_record_1abdc9b69e7c70e42ae729aa10729d0b1c" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1process_1a3e3663b2db3b75c8007d61cc101a7f93" kindref="member">ProcessModelState</ref></type>
+        <definition>ProcessModelState themis::process::ProcessModelRecord::state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <qualifiedname>themis::process::ProcessModelRecord::state</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1process_1a3e3663b2db3b75c8007d61cc101a7f93a521019040a0f4f7773357aa6bc22180b" kindref="member">ProcessModelState::DRAFT</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="86" column="23" bodyfile="include/process/process_model_manager.h" bodystart="86" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_model_record_1ad4940a161717d248ed8e6afb0f88b4f0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ProcessModelRecord::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::process::ProcessModelRecord::description</qualifiedname>
+        <briefdescription>
+<para>Short DE description. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="89" column="17" bodyfile="include/process/process_model_manager.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_model_record_1abcdfdffeb6d7bf9887a3caf754422c1e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ProcessModelRecord::description_en</definition>
+        <argsstring></argsstring>
+        <name>description_en</name>
+        <qualifiedname>themis::process::ProcessModelRecord::description_en</qualifiedname>
+        <briefdescription>
+<para>Short EN description. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="90" column="17" bodyfile="include/process/process_model_manager.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_model_record_1ab38ca2f4b911174966aa86537de447ba" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ProcessModelRecord::long_description</definition>
+        <argsstring></argsstring>
+        <name>long_description</name>
+        <qualifiedname>themis::process::ProcessModelRecord::long_description</qualifiedname>
+        <briefdescription>
+<para>Detailed description for LLM context. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="91" column="17" bodyfile="include/process/process_model_manager.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_model_record_1adc2eb8c8f4cf56619a234a244a836c80" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::process::ProcessModelRecord::compliance_tags</definition>
+        <argsstring></argsstring>
+        <name>compliance_tags</name>
+        <qualifiedname>themis::process::ProcessModelRecord::compliance_tags</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="94" column="17" bodyfile="include/process/process_model_manager.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_model_record_1a7bd21cbdb94b46992da025a3bfeea55d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ProcessModelRecord::owner</definition>
+        <argsstring></argsstring>
+        <name>owner</name>
+        <qualifiedname>themis::process::ProcessModelRecord::owner</qualifiedname>
+        <briefdescription>
+<para>Responsible team or role. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="97" column="17" bodyfile="include/process/process_model_manager.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_model_record_1aed560335643b9c4248ecc89d5ba77f97" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ProcessModelRecord::created_by</definition>
+        <argsstring></argsstring>
+        <name>created_by</name>
+        <qualifiedname>themis::process::ProcessModelRecord::created_by</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="98" column="17" bodyfile="include/process/process_model_manager.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_model_record_1a517051332bde4d6359fae6f730d90326" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ProcessModelRecord::updated_by</definition>
+        <argsstring></argsstring>
+        <name>updated_by</name>
+        <qualifiedname>themis::process::ProcessModelRecord::updated_by</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="99" column="17" bodyfile="include/process/process_model_manager.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_model_record_1a618b4120dd8ba699e5d5313846c83c35" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::process::ProcessModelRecord::created_at_ms</definition>
+        <argsstring></argsstring>
+        <name>created_at_ms</name>
+        <qualifiedname>themis::process::ProcessModelRecord::created_at_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="100" column="17" bodyfile="include/process/process_model_manager.h" bodystart="100" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_model_record_1aff81b74e8d5d330cff35362e1a38c609" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::process::ProcessModelRecord::updated_at_ms</definition>
+        <argsstring></argsstring>
+        <name>updated_at_ms</name>
+        <qualifiedname>themis::process::ProcessModelRecord::updated_at_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="101" column="17" bodyfile="include/process/process_model_manager.h" bodystart="101" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_model_record_1af57f26649b88ef8a259184c35c4438bf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ProcessModelRecord::raw_payload</definition>
+        <argsstring></argsstring>
+        <name>raw_payload</name>
+        <qualifiedname>themis::process::ProcessModelRecord::raw_payload</qualifiedname>
+        <briefdescription>
+<para>Original format payload (BPMN XML, EPK text, YAML). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="104" column="17" bodyfile="include/process/process_model_manager.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_model_record_1a814c6661c9a25fb16172544b0d2e2e88" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::process::ProcessModelRecord::normalized</definition>
+        <argsstring></argsstring>
+        <name>normalized</name>
+        <qualifiedname>themis::process::ProcessModelRecord::normalized</qualifiedname>
+        <briefdescription>
+<para>Canonical JSON process graph (nodes + edges + metadata). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="107" column="20" bodyfile="include/process/process_model_manager.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_model_record_1a7b3ba75eade2675218e23971130916c2" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::process::ProcessModelRecord::embedding</definition>
+        <argsstring></argsstring>
+        <name>embedding</name>
+        <qualifiedname>themis::process::ProcessModelRecord::embedding</qualifiedname>
+        <briefdescription>
+<para>Optional: pre-computed text embedding. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="110" column="17" bodyfile="include/process/process_model_manager.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1process_1_1_process_model_record_1a29700ab2421353dbd6322f9667efa325" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::process::ProcessModelRecord::toDocument</definition>
+        <argsstring>() const</argsstring>
+        <name>toDocument</name>
+        <qualifiedname>themis::process::ProcessModelRecord::toDocument</qualifiedname>
+        <briefdescription>
+<para>Serialize the record to a BaseEntity-compatible JSON document. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Uses reserved ThemisDB field names so that the document is indexable by the process graph engine. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="118" column="21" bodyfile="src/process/process_model_manager.cpp" bodystart="209" bodyend="242"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1process_1_1_process_model_record_1ad7b1109257b55f9eb8c4234871959d5d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_process_model_record" kindref="compound">ProcessModelRecord</ref></type>
+        <definition>ProcessModelRecord themis::process::ProcessModelRecord::fromDocument</definition>
+        <argsstring>(const nlohmann::json &amp;doc)</argsstring>
+        <name>fromDocument</name>
+        <qualifiedname>themis::process::ProcessModelRecord::fromDocument</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>doc</declname>
+        </param>
+        <briefdescription>
+<para>Deserialize a JSON document back into a <ref refid="structthemis_1_1process_1_1_process_model_record" kindref="compound">ProcessModelRecord</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>From Document.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">doc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(), is_string(), getStr(), value(), <ref refid="namespacethemis_1_1process_1a82cff8388bec86942ba3855e46acd2ff" kindref="member">notationFromString()</ref>, <ref refid="namespacethemis_1_1process_1a202ff5d7da898bafac8e22efed10b53a" kindref="member">domainFromString()</ref>, <ref refid="namespacethemis_1_1process_1aac413c465affc211788974a771a11d73" kindref="member">stateFromString()</ref>, is_array(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="123" column="31" bodyfile="src/process/process_model_manager.cpp" bodystart="250" bodyend="302"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Metadata record that accompanies each process model stored as a base-entity. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All fields map to reserved or well-known JSON keys so that AQL queries can filter and sort process models without additional joins. </para>
+    </detaileddescription>
+    <location file="include/process/process_model_manager.h" line="75" column="1" bodyfile="include/process/process_model_manager.h" bodystart="75" bodyend="124"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_process_model_record_1adc2eb8c8f4cf56619a234a244a836c80" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelRecord</scope><name>compliance_tags</name></member>
+      <member refid="structthemis_1_1process_1_1_process_model_record_1a618b4120dd8ba699e5d5313846c83c35" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelRecord</scope><name>created_at_ms</name></member>
+      <member refid="structthemis_1_1process_1_1_process_model_record_1aed560335643b9c4248ecc89d5ba77f97" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelRecord</scope><name>created_by</name></member>
+      <member refid="structthemis_1_1process_1_1_process_model_record_1ad4940a161717d248ed8e6afb0f88b4f0" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelRecord</scope><name>description</name></member>
+      <member refid="structthemis_1_1process_1_1_process_model_record_1abcdfdffeb6d7bf9887a3caf754422c1e" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelRecord</scope><name>description_en</name></member>
+      <member refid="structthemis_1_1process_1_1_process_model_record_1a1883ba67ff9524cc10141f35b3d71a2b" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelRecord</scope><name>domain</name></member>
+      <member refid="structthemis_1_1process_1_1_process_model_record_1a7b3ba75eade2675218e23971130916c2" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelRecord</scope><name>embedding</name></member>
+      <member refid="structthemis_1_1process_1_1_process_model_record_1ad7b1109257b55f9eb8c4234871959d5d" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelRecord</scope><name>fromDocument</name></member>
+      <member refid="structthemis_1_1process_1_1_process_model_record_1a72f4aec96ca2f648f178f409d4244774" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelRecord</scope><name>id</name></member>
+      <member refid="structthemis_1_1process_1_1_process_model_record_1ab38ca2f4b911174966aa86537de447ba" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelRecord</scope><name>long_description</name></member>
+      <member refid="structthemis_1_1process_1_1_process_model_record_1a1d53df2f4efa62f9ba57360ad96174c5" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelRecord</scope><name>name</name></member>
+      <member refid="structthemis_1_1process_1_1_process_model_record_1ad2a408d64240328b098f70091aeaf284" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelRecord</scope><name>name_en</name></member>
+      <member refid="structthemis_1_1process_1_1_process_model_record_1a814c6661c9a25fb16172544b0d2e2e88" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelRecord</scope><name>normalized</name></member>
+      <member refid="structthemis_1_1process_1_1_process_model_record_1a6d093e1ac63a3a1a77bb5b664390bbb8" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelRecord</scope><name>notation</name></member>
+      <member refid="structthemis_1_1process_1_1_process_model_record_1a7bd21cbdb94b46992da025a3bfeea55d" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelRecord</scope><name>owner</name></member>
+      <member refid="structthemis_1_1process_1_1_process_model_record_1af57f26649b88ef8a259184c35c4438bf" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelRecord</scope><name>raw_payload</name></member>
+      <member refid="structthemis_1_1process_1_1_process_model_record_1a134bcf041f6129e0e42aec42f33d4747" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelRecord</scope><name>revision</name></member>
+      <member refid="structthemis_1_1process_1_1_process_model_record_1abdc9b69e7c70e42ae729aa10729d0b1c" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelRecord</scope><name>state</name></member>
+      <member refid="structthemis_1_1process_1_1_process_model_record_1a29700ab2421353dbd6322f9667efa325" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelRecord</scope><name>toDocument</name></member>
+      <member refid="structthemis_1_1process_1_1_process_model_record_1aff81b74e8d5d330cff35362e1a38c609" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelRecord</scope><name>updated_at_ms</name></member>
+      <member refid="structthemis_1_1process_1_1_process_model_record_1a517051332bde4d6359fae6f730d90326" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelRecord</scope><name>updated_by</name></member>
+      <member refid="structthemis_1_1process_1_1_process_model_record_1a13dd4e8a8db9ce53fff1d6bb44a074ca" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelRecord</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,402 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="tiered__index__manager_8h" kind="file" language="C++">
+    <compoundname>tiered_index_manager.h</compoundname>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">shared_mutex</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="ann__frontdoor_8h" local="yes">include/index/ann_frontdoor.h</includedby>
+    <includedby refid="tiered__index__manager_8cpp" local="yes">src/index/tiered_index_manager.cpp</includedby>
+    <includedby refid="test__tiered__index__migration_8cpp" local="yes">tests/index/test_tiered_index_migration.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/index/tiered_index_manager.h</label>
+        <link refid="tiered__index__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="8">
+        <label>optional</label>
+      </node>
+      <node id="7">
+        <label>shared_mutex</label>
+      </node>
+      <node id="9">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>unordered_map</label>
+      </node>
+      <node id="11">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/index/ann_frontdoor.h</label>
+        <link refid="ann__frontdoor_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/index/tiered_index_manager.h</label>
+        <link refid="tiered__index__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/index/ann_frontdoor.cpp</label>
+        <link refid="ann__frontdoor_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/index/tiered_index_manager.cpp</label>
+        <link refid="tiered__index__manager_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/index/test_ann_cpu_parity.cpp</label>
+        <link refid="test__ann__cpu__parity_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/index/test_ann_frontdoor.cpp</label>
+        <link refid="test__ann__frontdoor_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/index/test_ann_frontdoor_single_shard.cpp</label>
+        <link refid="test__ann__frontdoor__single__shard_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/index/test_ann_frontdoor_validation_focused.cpp</label>
+        <link refid="test__ann__frontdoor__validation__focused_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/index/test_tiered_index_migration.cpp</label>
+        <link refid="test__tiered__index__migration_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1index_1_1_index_tier_meta" prot="public">themis::index::IndexTierMeta</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_tier_migration_policy" prot="public">themis::index::TierMigrationPolicy</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_migration_result" prot="public">themis::index::MigrationResult</innerclass>
+    <innerclass refid="classthemis_1_1index_1_1_tiered_index_manager" prot="public">themis::index::TieredIndexManager</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1index">themis::index</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Cold/Warm<sp/>Tier<sp/>Index<sp/>Migration<sp/>for<sp/>ThemisDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Manages<sp/>the<sp/>lifecycle<sp/>of<sp/>indexes<sp/>across<sp/>three<sp/>storage<sp/>tiers:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>HOT<sp/><sp/>–<sp/>Indexes<sp/>fully<sp/>loaded<sp/>in<sp/>memory<sp/>(or<sp/>on<sp/>fast<sp/>NVMe<sp/>SSD).<sp/>Lowest</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>query<sp/>latency,<sp/>highest<sp/>memory<sp/>cost.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>WARM<sp/>–<sp/>Indexes<sp/>serialised<sp/>to<sp/>a<sp/>local<sp/>disk<sp/>path<sp/>but<sp/>not<sp/>held<sp/>in<sp/>memory.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Moderate<sp/>latency<sp/>(file<sp/>I/O<sp/>on<sp/>first<sp/>access),<sp/>lower<sp/>memory<sp/>cost.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>COLD<sp/>–<sp/>Indexes<sp/>archived<sp/>to<sp/>an<sp/>object-storage<sp/>URI<sp/>(s3://,<sp/>gcs://,<sp/>etc.)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>or<sp/>a<sp/>slow<sp/>local<sp/>archive<sp/>path.<sp/>Highest<sp/>latency;<sp/>accessed<sp/>rarely.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Migration<sp/>is<sp/>driven<sp/>by<sp/>two<sp/>configurable<sp/>policies:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>1.<sp/>Age-based<sp/><sp/><sp/>–<sp/>move<sp/>index<sp/>down<sp/>a<sp/>tier<sp/>when<sp/>last<sp/>accessed<sp/>&gt;<sp/>N<sp/>seconds<sp/>ago</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>2.<sp/>Access-based<sp/>–<sp/>promote<sp/>index<sp/>up<sp/>a<sp/>tier<sp/>when<sp/>access<sp/>count<sp/>exceeds<sp/>threshold</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Thread<sp/>safety:<sp/>all<sp/>public<sp/>methods<sp/>are<sp/>thread-safe<sp/>(mutex-protected<sp/>registry).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Usage:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>TieredIndexManager<sp/>mgr(warm_dir,<sp/>cold_dir);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>mgr.setPolicy(policy);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>mgr.registerIndex(&quot;my_index&quot;,<sp/>IndexTierMeta::Tier::HOT,<sp/>&quot;/path/to/data&quot;);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>mgr.recordAccess(&quot;my_index&quot;);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>mgr.runMigrationPass();<sp/><sp/>//<sp/>demote<sp/>stale<sp/>/<sp/>promote<sp/>hot<sp/>indexes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;shared_mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1index" kindref="compound">index</ref><sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IndexTierMeta<sp/>–<sp/>per-index<sp/>tier<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1index_1_1_index_tier_meta" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1index_1_1_index_tier_meta" kindref="compound">IndexTierMeta</ref><sp/>{</highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1index_1_1_index_tier_meta_1afaccd90a18f11929eb20d90843bbdcd6a3f7ff4daa99912d1b0c8c64340edb9fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_index_tier_meta_1afaccd90a18f11929eb20d90843bbdcd6" kindref="member">Tier</ref><sp/>{<sp/><ref refid="structthemis_1_1index_1_1_index_tier_meta_1afaccd90a18f11929eb20d90843bbdcd6ac429fde8b1b986d42f84ba63dbfef6ac" kindref="member">HOT</ref><sp/>=<sp/>0,<sp/><ref refid="structthemis_1_1index_1_1_index_tier_meta_1afaccd90a18f11929eb20d90843bbdcd6a11523c55fca0d056eda7dbbe810490ca" kindref="member">WARM</ref><sp/>=<sp/>1,<sp/><ref refid="structthemis_1_1index_1_1_index_tier_meta_1afaccd90a18f11929eb20d90843bbdcd6a3f7ff4daa99912d1b0c8c64340edb9fb" kindref="member">COLD</ref><sp/>=<sp/>2<sp/>};</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1index_1_1_index_tier_meta_1ade453fe4997814704b534e945f7b2b4b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="structthemis_1_1index_1_1_index_tier_meta_1ade453fe4997814704b534e945f7b2b4b" kindref="member">tierName</ref>(<ref refid="structthemis_1_1index_1_1_index_tier_meta_1afaccd90a18f11929eb20d90843bbdcd6" kindref="member">Tier</ref><sp/>t)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(t)<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>Tier::HOT:<sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;hot&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>Tier::WARM:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;warm&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>Tier::COLD:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;cold&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;unknown&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1index_1_1_index_tier_meta_1ae7a9ec09fd896708b6c5402b91ed9cbc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_index_tier_meta_1afaccd90a18f11929eb20d90843bbdcd6" kindref="member">Tier</ref><sp/><ref refid="structthemis_1_1index_1_1_index_tier_meta_1ae7a9ec09fd896708b6c5402b91ed9cbc" kindref="member">tier</ref><sp/>=<sp/>Tier::HOT;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1index_1_1_index_tier_meta_1a0f1368a1dca94d0ce76f3795f43624b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1index_1_1_index_tier_meta_1a0f1368a1dca94d0ce76f3795f43624b0" kindref="member">data_path</ref>;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1index_1_1_index_tier_meta_1a4f23f1eb454fd1c8a23d0658f3264d78" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/><ref refid="structthemis_1_1index_1_1_index_tier_meta_1a4f23f1eb454fd1c8a23d0658f3264d78" kindref="member">last_access</ref>;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1index_1_1_index_tier_meta_1aed327ba597c4731c040078ddb5f964f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1index_1_1_index_tier_meta_1aed327ba597c4731c040078ddb5f964f7" kindref="member">access_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1index_1_1_index_tier_meta_1a4c3cbded13e7d131adac463465294a95" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1index_1_1_index_tier_meta_1a4c3cbded13e7d131adac463465294a95" kindref="member">size_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TierMigrationPolicy<sp/>–<sp/>thresholds<sp/>that<sp/>drive<sp/>automatic<sp/>migrations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1index_1_1_tier_migration_policy" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1index_1_1_tier_migration_policy" kindref="compound">TierMigrationPolicy</ref><sp/>{</highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1index_1_1_tier_migration_policy_1a3398ba7af6519a3017b73b4457bd8c18" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1index_1_1_tier_migration_policy_1a3398ba7af6519a3017b73b4457bd8c18" kindref="member">hot_to_warm_idle_secs</ref><sp/>=<sp/>3600;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>1<sp/>hour</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1index_1_1_tier_migration_policy_1ad0a086c6663cc96bcabbc97f2eb8b916" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1index_1_1_tier_migration_policy_1ad0a086c6663cc96bcabbc97f2eb8b916" kindref="member">warm_to_cold_idle_secs</ref><sp/>=<sp/>86400;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>24<sp/>hours</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1index_1_1_tier_migration_policy_1a8fa76a617207d7a076d734b13a743c37" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1index_1_1_tier_migration_policy_1a8fa76a617207d7a076d734b13a743c37" kindref="member">warm_to_hot_access_threshold</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1index_1_1_tier_migration_policy_1acab7ec18dae239eb1c1ea3836e0c9387" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1index_1_1_tier_migration_policy_1acab7ec18dae239eb1c1ea3836e0c9387" kindref="member">cold_to_warm_access_threshold</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1index_1_1_tier_migration_policy_1ab1a5d480802abffbc35d9c9a10bf8239" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1index_1_1_tier_migration_policy_1ab1a5d480802abffbc35d9c9a10bf8239" kindref="member">promotion_window_secs</ref><sp/>=<sp/>300;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>5<sp/>minutes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MigrationResult<sp/>–<sp/>outcome<sp/>of<sp/>a<sp/>single<sp/>index<sp/>migration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115" refid="namespacethemis_1_1index_1a0d249c2213bc681631512468ed658817" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1index_1a0d249c2213bc681631512468ed658817" kindref="member">MigrationDiagnosticCode</ref><sp/>{</highlight></codeline>
+<codeline lineno="116" refid="namespacethemis_1_1index_1a0d249c2213bc681631512468ed658817ab50339a10e1de285ac99d4c3990b8693" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a09856b0ad584f6b2e4c9b04347758df2ab50339a10e1de285ac99d4c3990b8693" kindref="member">NONE</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="117" refid="namespacethemis_1_1index_1a0d249c2213bc681631512468ed658817a5598b849e4723dd4b18c43b0cb5e1ec1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a0d249c2213bc681631512468ed658817a5598b849e4723dd4b18c43b0cb5e1ec1" kindref="member">INDEX_NOT_FOUND</ref>,</highlight></codeline>
+<codeline lineno="118" refid="namespacethemis_1_1index_1a0d249c2213bc681631512468ed658817a070fc2a27c84023d378ac999c74bacc7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a0d249c2213bc681631512468ed658817a070fc2a27c84023d378ac999c74bacc7" kindref="member">TIER_MISMATCH</ref>,</highlight></codeline>
+<codeline lineno="119" refid="namespacethemis_1_1index_1a0d249c2213bc681631512468ed658817a64ceb838f8aba611131e7afd5ac9311c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a0d249c2213bc681631512468ed658817a64ceb838f8aba611131e7afd5ac9311c" kindref="member">EXPORT_FAILED</ref>,</highlight></codeline>
+<codeline lineno="120" refid="namespacethemis_1_1index_1a0d249c2213bc681631512468ed658817ab638e29a26ee65ab75fcd1204577a723" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a0d249c2213bc681631512468ed658817ab638e29a26ee65ab75fcd1204577a723" kindref="member">IMPORT_FAILED</ref></highlight></codeline>
+<codeline lineno="121"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1index_1_1_migration_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1index_1_1_migration_result" kindref="compound">MigrationResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1index_1_1_migration_result_1a2a7908783f4db624d4264b5b3f62bba9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_migration_result_1a2a7908783f4db624d4264b5b3f62bba9" kindref="member">ok</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1index_1_1_migration_result_1ae77b7f76e451019c2beabfe6b7a07607" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a0d249c2213bc681631512468ed658817" kindref="member">MigrationDiagnosticCode</ref><sp/><ref refid="structthemis_1_1index_1_1_migration_result_1ae77b7f76e451019c2beabfe6b7a07607" kindref="member">code</ref><sp/>=<sp/><ref refid="namespacethemis_1_1index_1a0d249c2213bc681631512468ed658817ab50339a10e1de285ac99d4c3990b8693" kindref="member">MigrationDiagnosticCode::NONE</ref>;</highlight></codeline>
+<codeline lineno="126" refid="structthemis_1_1index_1_1_migration_result_1adea43aaed61ef06e4557e8fbe01aa471" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1index_1_1_migration_result_1adea43aaed61ef06e4557e8fbe01aa471" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="127" refid="structthemis_1_1index_1_1_migration_result_1abe9eb2ac8cfc2f3c1ff58e30d8e40e29" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1index_1_1_migration_result_1abe9eb2ac8cfc2f3c1ff58e30d8e40e29" kindref="member">index_name</ref>;</highlight></codeline>
+<codeline lineno="128" refid="structthemis_1_1index_1_1_migration_result_1a29b9c6b49238fef06e3a8194b0cb55cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1index_1_1_migration_result_1a29b9c6b49238fef06e3a8194b0cb55cd" kindref="member">source_path</ref>;</highlight></codeline>
+<codeline lineno="129" refid="structthemis_1_1index_1_1_migration_result_1a598a89023aa29186d4e03d3593b69615" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1index_1_1_migration_result_1a598a89023aa29186d4e03d3593b69615" kindref="member">target_path</ref>;</highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1index_1_1_migration_result_1a5161cd94074da0e5e65ef05142fa6aaa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_index_tier_meta_1afaccd90a18f11929eb20d90843bbdcd6" kindref="member">IndexTierMeta::Tier</ref><sp/><ref refid="structthemis_1_1index_1_1_migration_result_1a5161cd94074da0e5e65ef05142fa6aaa" kindref="member">from_tier</ref>{};</highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1index_1_1_migration_result_1a99115443ddbde2e80a800041acb05611" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_index_tier_meta_1afaccd90a18f11929eb20d90843bbdcd6" kindref="member">IndexTierMeta::Tier</ref><sp/><ref refid="structthemis_1_1index_1_1_migration_result_1a99115443ddbde2e80a800041acb05611" kindref="member">to_tier</ref>{};</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="structthemis_1_1index_1_1_migration_result_1a16527e452b3f92383f11fd9587b91b3a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_migration_result" kindref="compound">MigrationResult</ref><sp/><ref refid="structthemis_1_1index_1_1_migration_result_1a16527e452b3f92383f11fd9587b91b3a" kindref="member">Ok</ref>(std::string<sp/>name,</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_index_tier_meta_1afaccd90a18f11929eb20d90843bbdcd6" kindref="member">IndexTierMeta::Tier</ref><sp/>from,</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_index_tier_meta_1afaccd90a18f11929eb20d90843bbdcd6" kindref="member">IndexTierMeta::Tier</ref><sp/>to,</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>source<sp/>=<sp/>{},</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>target<sp/>=<sp/>{})<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a0d249c2213bc681631512468ed658817ab50339a10e1de285ac99d4c3990b8693" kindref="member">MigrationDiagnosticCode::NONE</ref>,</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::move(name),</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::move(source),</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::move(target),</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>from,</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>to};</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="147" refid="structthemis_1_1index_1_1_migration_result_1a3df41cbce98bfe2570dfd97874873a81" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_migration_result" kindref="compound">MigrationResult</ref><sp/><ref refid="structthemis_1_1index_1_1_migration_result_1a3df41cbce98bfe2570dfd97874873a81" kindref="member">Err</ref>(std::string<sp/>name,</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_index_tier_meta_1afaccd90a18f11929eb20d90843bbdcd6" kindref="member">IndexTierMeta::Tier</ref><sp/>from,</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_index_tier_meta_1afaccd90a18f11929eb20d90843bbdcd6" kindref="member">IndexTierMeta::Tier</ref><sp/>to,</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a0d249c2213bc681631512468ed658817" kindref="member">MigrationDiagnosticCode</ref><sp/>diagnostic_code,</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>msg,</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>source<sp/>=<sp/>{},</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>target<sp/>=<sp/>{})<sp/>{</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>diagnostic_code,</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::move(msg),</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::move(name),</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::move(source),</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::move(target),</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>from,</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>to};</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="163"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TieredIndexManager</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175" refid="classthemis_1_1index_1_1_tiered_index_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1index_1_1_tiered_index_manager_1a4508b813c3f65640295a6382c337db9e" kindref="member">TieredIndexManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="181" refid="classthemis_1_1index_1_1_tiered_index_manager_1a7420207dfd0bd2c7264caabc6aeb4425" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1index_1_1_tiered_index_manager_1a7420207dfd0bd2c7264caabc6aeb4425" kindref="member">ExportFn</ref><sp/><sp/>=<sp/>std::function&lt;bool(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>index_name,</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>dest_path)&gt;;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188" refid="classthemis_1_1index_1_1_tiered_index_manager_1a207c20e6515c672c0daa287d64a31a0f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1index_1_1_tiered_index_manager_1a207c20e6515c672c0daa287d64a31a0f" kindref="member">ImportFn</ref><sp/><sp/>=<sp/>std::function&lt;bool(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>index_name,</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>src_path)&gt;;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_tiered_index_manager_1a4508b813c3f65640295a6382c337db9e" kindref="member">TieredIndexManager</ref>(std::string<sp/>warm_base_dir,</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>cold_base_dir);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196" refid="classthemis_1_1index_1_1_tiered_index_manager_1a189235ae356d18cc10f09288fbeb7b3a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_tiered_index_manager_1a189235ae356d18cc10f09288fbeb7b3a" kindref="member">~TieredIndexManager</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_tiered_index_manager_1acc9ff6fb9f5fc0d3319d33c55c93826e" kindref="member">setPolicy</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_tier_migration_policy" kindref="compound">TierMigrationPolicy</ref>&amp;<sp/><ref refid="classthemis_1_1index_1_1_tiered_index_manager_1a651f80d94df8a7151d2c15e406daa6ce" kindref="member">policy</ref>);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_tier_migration_policy" kindref="compound">TierMigrationPolicy</ref><sp/><ref refid="classthemis_1_1index_1_1_tiered_index_manager_1a651f80d94df8a7151d2c15e406daa6ce" kindref="member">policy</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_tiered_index_manager_1a16029dd8c0236fb97b3bc742b2359098" kindref="member">setExportFn</ref>(<ref refid="classthemis_1_1index_1_1_tiered_index_manager_1a7420207dfd0bd2c7264caabc6aeb4425" kindref="member">ExportFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_tiered_index_manager_1a6cd25cd71a174bc16ddcca77c0cc5827" kindref="member">setImportFn</ref>(<ref refid="classthemis_1_1index_1_1_tiered_index_manager_1a207c20e6515c672c0daa287d64a31a0f" kindref="member">ImportFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Registry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_tiered_index_manager_1abcecd04555e58389216c32aee40d0261" kindref="member">registerIndex</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name,</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>data_path,</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>size_bytes<sp/>=<sp/>0);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_tiered_index_manager_1abcecd04555e58389216c32aee40d0261" kindref="member">registerIndex</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/>name,</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_index_tier_meta_1afaccd90a18f11929eb20d90843bbdcd6" kindref="member">IndexTierMeta::Tier</ref><sp/><sp/>tier,</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/>data_path,</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>size_bytes<sp/>=<sp/>0);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_tiered_index_manager_1a07d69f198155c7b857a0d502056eaa8b" kindref="member">unregisterIndex</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_tiered_index_manager_1a3f6cc4a12e6d0dd56a7e220290fe316c" kindref="member">hasIndex</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;IndexTierMeta&gt;<sp/><ref refid="classthemis_1_1index_1_1_tiered_index_manager_1af8b70c2e9a2023e263b8f3c8ba53c802" kindref="member">getMetadata</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1index_1_1_tiered_index_manager_1a44d61781d05decf81338682a122885a7" kindref="member">listIndexes</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1index_1_1_tiered_index_manager_1ab5718d4877fd8c150232e392177016b1" kindref="member">listIndexesByTier</ref>(<ref refid="structthemis_1_1index_1_1_index_tier_meta_1afaccd90a18f11929eb20d90843bbdcd6" kindref="member">IndexTierMeta::Tier</ref><sp/>tier)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Access<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_tiered_index_manager_1a0ca358b61d0b0e86773c6ce4e26d249d" kindref="member">recordAccess</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_tiered_index_manager_1adae787e362bd93d8cb92303609627747" kindref="member">resetAccessCount</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Manual<sp/>migration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_migration_result" kindref="compound">MigrationResult</ref><sp/><ref refid="classthemis_1_1index_1_1_tiered_index_manager_1acf73495c72040b79acbec67bec353e30" kindref="member">migrateTo</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name,<sp/><ref refid="structthemis_1_1index_1_1_index_tier_meta_1afaccd90a18f11929eb20d90843bbdcd6" kindref="member">IndexTierMeta::Tier</ref><sp/>target);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_migration_result" kindref="compound">MigrationResult</ref><sp/><ref refid="classthemis_1_1index_1_1_tiered_index_manager_1abe6c270801241927eda763fbcfcc5276" kindref="member">promoteToHot</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_migration_result" kindref="compound">MigrationResult</ref><sp/><ref refid="classthemis_1_1index_1_1_tiered_index_manager_1a600a508d60e8adca62f54f87e3b797c9" kindref="member">demoteToWarm</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name);</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_migration_result" kindref="compound">MigrationResult</ref><sp/><ref refid="classthemis_1_1index_1_1_tiered_index_manager_1aa3970bbb6a1e66f76a7e0daeecc1ed3e" kindref="member">demoteToCold</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Automatic<sp/>migration<sp/>pass</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MigrationResult&gt;<sp/><ref refid="classthemis_1_1index_1_1_tiered_index_manager_1a0c2de51c216211412116d685513f8811" kindref="member">runMigrationPass</ref>();</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Tier<sp/>path<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1index_1_1_tiered_index_manager_1a26dbb55b52f5bd26f0c8fba0589b437b" kindref="member">warmPath</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1index_1_1_tiered_index_manager_1a3c07c099f7c1a9fe0dcb7911604e1091" kindref="member">coldPath</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Derive<sp/>the<sp/>destination<sp/>path<sp/>for<sp/>a<sp/>tier.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>pathForTier(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name,<sp/><ref refid="structthemis_1_1index_1_1_index_tier_meta_1afaccd90a18f11929eb20d90843bbdcd6" kindref="member">IndexTierMeta::Tier</ref><sp/>tier)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Execute<sp/>the<sp/>actual<sp/>migration<sp/>(calls<sp/>export_fn_<sp/>/<sp/>import_fn_<sp/>as<sp/>needed).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Caller<sp/>must<sp/>NOT<sp/>hold<sp/>registry_mutex_.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_migration_result" kindref="compound">MigrationResult</ref><sp/>doMigrate(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name,</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_index_tier_meta_1afaccd90a18f11929eb20d90843bbdcd6" kindref="member">IndexTierMeta::Tier</ref><sp/>from,</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_index_tier_meta_1afaccd90a18f11929eb20d90843bbdcd6" kindref="member">IndexTierMeta::Tier</ref><sp/>to);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::shared_mutex<sp/>registry_mutex_;</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>IndexTierMeta&gt;<sp/>registry_;</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>warm_base_dir_;</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>cold_base_dir_;</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_tier_migration_policy" kindref="compound">TierMigrationPolicy</ref><sp/>policy_;</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_tiered_index_manager_1a7420207dfd0bd2c7264caabc6aeb4425" kindref="member">ExportFn</ref><sp/>export_fn_;</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_tiered_index_manager_1a207c20e6515c672c0daa287d64a31a0f" kindref="member">ImportFn</ref><sp/>import_fn_;</highlight></codeline>
+<codeline lineno="314"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/index/tiered_index_manager.h"/>
+  </compounddef>
+</doxygen>

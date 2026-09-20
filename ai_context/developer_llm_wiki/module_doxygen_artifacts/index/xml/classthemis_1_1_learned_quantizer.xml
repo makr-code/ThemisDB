@@ -1,0 +1,598 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_learned_quantizer" kind="class" language="C++" prot="public">
+    <compoundname>themis::LearnedQuantizer</compoundname>
+    <includes refid="learned__quantizer_8h" local="no">learned_quantizer.h</includes>
+    <innerclass refid="structthemis_1_1_learned_quantizer_1_1_config" prot="public">themis::LearnedQuantizer::Config</innerclass>
+    <innerclass refid="structthemis_1_1_learned_quantizer_1_1_status" prot="public">themis::LearnedQuantizer::Status</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_learned_quantizer_1a82d0c003a299aa3eb71873375966b368" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::LearnedQuantizer::dimension_</definition>
+        <argsstring></argsstring>
+        <name>dimension_</name>
+        <qualifiedname>themis::LearnedQuantizer::dimension_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_quantizer.h" line="144" column="9" bodyfile="include/index/learned_quantizer.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_learned_quantizer_1a55d4a0d95a868696f3d2e931321fb78c" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::LearnedQuantizer::num_bins_</definition>
+        <argsstring></argsstring>
+        <name>num_bins_</name>
+        <qualifiedname>themis::LearnedQuantizer::num_bins_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_quantizer.h" line="145" column="9" bodyfile="include/index/learned_quantizer.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_learned_quantizer_1a1b1f5ab346ef2cfcdc54d606148bcf89" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_learned_quantizer_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::LearnedQuantizer::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::LearnedQuantizer::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_quantizer.h" line="146" column="12" bodyfile="include/index/learned_quantizer.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_learned_quantizer_1a8c69e74a7416645f7aa91831e878b065" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::LearnedQuantizer::trained_</definition>
+        <argsstring></argsstring>
+        <name>trained_</name>
+        <qualifiedname>themis::LearnedQuantizer::trained_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_quantizer.h" line="147" column="10" bodyfile="include/index/learned_quantizer.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_learned_quantizer_1acd6ed04f3023187de3842531cfaeca3c" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; float &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;float&gt; &gt; themis::LearnedQuantizer::per_dim_thresholds_</definition>
+        <argsstring></argsstring>
+        <name>per_dim_thresholds_</name>
+        <qualifiedname>themis::LearnedQuantizer::per_dim_thresholds_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_quantizer.h" line="151" column="17" bodyfile="include/index/learned_quantizer.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_learned_quantizer_1a3e60de9347dc78ecb728c0f42c0656ad" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; float &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;float&gt; &gt; themis::LearnedQuantizer::per_dim_centroids_</definition>
+        <argsstring></argsstring>
+        <name>per_dim_centroids_</name>
+        <qualifiedname>themis::LearnedQuantizer::per_dim_centroids_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_quantizer.h" line="155" column="17" bodyfile="include/index/learned_quantizer.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_learned_quantizer_1a1cd898f32aa25a52ebf2187d7e1ad365" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::LearnedQuantizer::global_thresholds_</definition>
+        <argsstring></argsstring>
+        <name>global_thresholds_</name>
+        <qualifiedname>themis::LearnedQuantizer::global_thresholds_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_quantizer.h" line="158" column="17" bodyfile="include/index/learned_quantizer.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_learned_quantizer_1ae8a8b7bd8c10adf9d5bed62e2b1cb8eb" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::LearnedQuantizer::global_centroids_</definition>
+        <argsstring></argsstring>
+        <name>global_centroids_</name>
+        <qualifiedname>themis::LearnedQuantizer::global_centroids_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_quantizer.h" line="161" column="17" bodyfile="include/index/learned_quantizer.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_learned_quantizer_1ae753666a85616737389dc7f18e5496df" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::LearnedQuantizer::LearnedQuantizer</definition>
+        <argsstring>(int dimension, const Config &amp;config)</argsstring>
+        <name>LearnedQuantizer</name>
+        <qualifiedname>themis::LearnedQuantizer::LearnedQuantizer</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>dimension</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_learned_quantizer_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct a new Learned Quantizer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dimension</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector dimension </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Configuration parameters </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_quantizer.h" line="85" column="14" bodyfile="src/index/learned_quantizer.cpp" bodystart="22" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_learned_quantizer_1a683ec5dab670103d42a976b7853c8e0b" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_learned_quantizer_1_1_status" kindref="compound">Status</ref></type>
+        <definition>LearnedQuantizer::Status themis::LearnedQuantizer::train</definition>
+        <argsstring>(const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;training_vectors)</argsstring>
+        <name>train</name>
+        <qualifiedname>themis::LearnedQuantizer::train</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;</type>
+          <declname>training_vectors</declname>
+        </param>
+        <briefdescription>
+<para>Train quantizer by learning optimal thresholds from data Uses Lloyd&apos;s algorithm (1D K-means) to find optimal thresholds. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Train.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>training_vectors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Training data (num_vectors x dimension) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1_learned_quantizer_1_1_status" kindref="compound">Status</ref> indicating success or failure</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">training_vectors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), <ref refid="structthemis_1_1_learned_quantizer_1_1_status_1a2c814529474919786555a7b2cf35e726" kindref="member">Status::Error()</ref>, size(), THEMIS_INFO(), reserve(), push_back(), learnThresholds(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_quantizer.h" line="93" column="13" bodyfile="src/index/learned_quantizer.cpp" bodystart="59" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_learned_quantizer_1a4c5f9938fcb3ef1766234d041984fc32" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::LearnedQuantizer::encode</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;vector) const</argsstring>
+        <name>encode</name>
+        <qualifiedname>themis::LearnedQuantizer::encode</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>vector</declname>
+        </param>
+        <briefdescription>
+<para>Encode a vector using learned thresholds. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>vector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input vector (dimension floats) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Quantized codes (dimension * bits_per_dimension / 8 bytes) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_quantizer.h" line="100" column="18" bodyfile="src/index/learned_quantizer.cpp" bodystart="223" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_learned_quantizer_1ac923456296d639e7e33c8ee0b79cbed4" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::LearnedQuantizer::decode</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;codes) const</argsstring>
+        <name>decode</name>
+        <qualifiedname>themis::LearnedQuantizer::decode</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>codes</declname>
+        </param>
+        <briefdescription>
+<para>Decode quantized codes back to approximate vector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>codes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Quantized codes </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Reconstructed vector (dimension floats) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_quantizer.h" line="107" column="18" bodyfile="src/index/learned_quantizer.cpp" bodystart="281" bodyend="348"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_learned_quantizer_1a9754bc9d52d0183b47173d5e72c57276" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::LearnedQuantizer::asymmetricDistance</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;query, const std::vector&lt; uint8_t &gt; &amp;codes) const</argsstring>
+        <name>asymmetricDistance</name>
+        <qualifiedname>themis::LearnedQuantizer::asymmetricDistance</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>codes</declname>
+        </param>
+        <briefdescription>
+<para>Compute asymmetric distance between query and quantized codes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query vector (dimension floats) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>codes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Quantized codes </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Approximate L2 distance </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_quantizer.h" line="115" column="12" bodyfile="src/index/learned_quantizer.cpp" bodystart="350" bodyend="425"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_learned_quantizer_1ae95529cf90a63508e093491c13fc0c39" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::LearnedQuantizer::isTrained</definition>
+        <argsstring>() const</argsstring>
+        <name>isTrained</name>
+        <qualifiedname>themis::LearnedQuantizer::isTrained</qualifiedname>
+        <briefdescription>
+<para>Check if quantizer is trained. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_quantizer.h" line="121" column="11" bodyfile="include/index/learned_quantizer.h" bodystart="121" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_learned_quantizer_1a96cc7f7724715c062a91de6ec4b6f423" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::LearnedQuantizer::getCompressionRatio</definition>
+        <argsstring>() const</argsstring>
+        <name>getCompressionRatio</name>
+        <qualifiedname>themis::LearnedQuantizer::getCompressionRatio</qualifiedname>
+        <briefdescription>
+<para>Get compression ratio. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_quantizer.h" line="126" column="12" bodyfile="src/index/learned_quantizer.cpp" bodystart="439" bodyend="443"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_learned_quantizer_1a92127d62d739a0c9688d22a6ae9c84d9" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::LearnedQuantizer::getEncodedSize</definition>
+        <argsstring>() const</argsstring>
+        <name>getEncodedSize</name>
+        <qualifiedname>themis::LearnedQuantizer::getEncodedSize</qualifiedname>
+        <briefdescription>
+<para>Get encoded size in bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_quantizer.h" line="131" column="13" bodyfile="src/index/learned_quantizer.cpp" bodystart="445" bodyend="452"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_learned_quantizer_1aa6fd22fb174c84beb2894b62e3d1ae4b" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::LearnedQuantizer::getMemoryUsage</definition>
+        <argsstring>() const</argsstring>
+        <name>getMemoryUsage</name>
+        <qualifiedname>themis::LearnedQuantizer::getMemoryUsage</qualifiedname>
+        <briefdescription>
+<para>Get memory usage in bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_quantizer.h" line="136" column="13" bodyfile="src/index/learned_quantizer.cpp" bodystart="454" bodyend="470"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_learned_quantizer_1a7aafac9a8a57c0d0e987c63dd39c97fc" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::LearnedQuantizer::getDimension</definition>
+        <argsstring>() const</argsstring>
+        <name>getDimension</name>
+        <qualifiedname>themis::LearnedQuantizer::getDimension</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_quantizer.h" line="139" column="10" bodyfile="include/index/learned_quantizer.h" bodystart="139" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_learned_quantizer_1a8d5a2dfe24b6bb44e87d640d0b84ef36" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::LearnedQuantizer::getBitsPerDimension</definition>
+        <argsstring>() const</argsstring>
+        <name>getBitsPerDimension</name>
+        <qualifiedname>themis::LearnedQuantizer::getBitsPerDimension</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_quantizer.h" line="140" column="10" bodyfile="include/index/learned_quantizer.h" bodystart="140" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_learned_quantizer_1a03117783a64a2d5ef29c260065de53c5" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::LearnedQuantizer::getNumBins</definition>
+        <argsstring>() const</argsstring>
+        <name>getNumBins</name>
+        <qualifiedname>themis::LearnedQuantizer::getNumBins</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_quantizer.h" line="141" column="10" bodyfile="include/index/learned_quantizer.h" bodystart="141" bodyend="141"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_learned_quantizer_1a0123f17140800ceb09d631a76cf8b45f" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::LearnedQuantizer::learnThresholds</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;values, std::vector&lt; float &gt; &amp;thresholds, std::vector&lt; float &gt; &amp;centroids) const</argsstring>
+        <name>learnThresholds</name>
+        <qualifiedname>themis::LearnedQuantizer::learnThresholds</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; float &gt; &amp;</type>
+          <declname>thresholds</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; float &gt; &amp;</type>
+          <declname>centroids</declname>
+        </param>
+        <briefdescription>
+<para>Learn thresholds and centroids via Lloyd&apos;s algorithm (1D K-means). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>1D data for a single dimension </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>thresholds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output thresholds (num_bins - 1) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>centroids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output centroids (num_bins) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_quantizer.h" line="172" column="10" bodyfile="src/index/learned_quantizer.cpp" bodystart="119" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_learned_quantizer_1a6e5ed2378f0192abd44c5d3e3d9e1647" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::LearnedQuantizer::findBin</definition>
+        <argsstring>(float value, const std::vector&lt; float &gt; &amp;thresholds) const</argsstring>
+        <name>findBin</name>
+        <qualifiedname>themis::LearnedQuantizer::findBin</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>thresholds</declname>
+        </param>
+        <briefdescription>
+<para>Find bin index for a value given thresholds. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input value </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>thresholds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Threshold values (num_bins - 1) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Bin index (0 to num_bins - 1) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_quantizer.h" line="182" column="9" bodyfile="src/index/learned_quantizer.cpp" bodystart="427" bodyend="437"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_learned_quantizer_1a72d38fd5836462b13de473ea967aefcb" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::LearnedQuantizer::initializeThresholds</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;values) const</argsstring>
+        <name>initializeThresholds</name>
+        <qualifiedname>themis::LearnedQuantizer::initializeThresholds</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <briefdescription>
+<para>Initialize thresholds using percentiles or uniform spacing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Sorted values </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Initial thresholds </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_quantizer.h" line="189" column="17" bodyfile="src/index/learned_quantizer.cpp" bodystart="188" bodyend="221"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Learned Quantization with Adaptive Threshold Learning. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>RESEARCH IMPLEMENTATION - NOT USED IN PRODUCTION (v1.4.1)</para>
+<para>Implements learned quantization that adapts quantization thresholds to the actual data distribution, achieving better compression-accuracy trade-offs than fixed quantization schemes. Uses Lloyd&apos;s algorithm to learn optimal thresholds per dimension.</para>
+<para><xrefsect id="deprecated_1_deprecated000001"><xreftitle>Deprecated</xreftitle><xrefdescription><para>NOT USED IN PRODUCTION CODE. Research implementation for vector compression studies.</para>
+</xrefdescription></xrefsect></para>
+<para>Sources:<itemizedlist>
+<listitem><para>Algorithm: Learned Quantization / Adaptive Quantization</para>
+</listitem><listitem><para>Paper: Chen, X., et al. (2021). &quot;Learned Quantization for High-Dimensional Vector Search&quot; ACM SIGMOD International Conference on Management of Data</para>
+</listitem><listitem><para>DOI: 10.1145/3448016.3457550</para>
+</listitem><listitem><para>Paper: Cao, Y., et al. (2017). &quot;Deep Quantization Network for Efficient Image Retrieval&quot; AAAI Conference on Artificial Intelligence</para>
+</listitem><listitem><para>Implementation: Optimized for ThemisDB with per-dimension and per-block modes</para>
+</listitem></itemizedlist>
+</para>
+<para>Features:<itemizedlist>
+<listitem><para>Configurable bit-width (2-8 bits per dimension)</para>
+</listitem><listitem><para>Per-dimension or per-block quantization</para>
+</listitem><listitem><para>Adaptive threshold learning via Lloyd&apos;s algorithm</para>
+</listitem><listitem><para>Asymmetric distance computation</para>
+</listitem><listitem><para>Better accuracy than uniform quantization at same bit rate</para>
+</listitem></itemizedlist>
+</para>
+<para>Part of ThemisDB v1.4.1 - Feature: Vector Compression Research (#914) </para>
+    </detaileddescription>
+    <location file="include/index/learned_quantizer.h" line="52" column="1" bodyfile="include/index/learned_quantizer.h" bodystart="53" bodyend="190"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_learned_quantizer_1a9754bc9d52d0183b47173d5e72c57276" prot="public" virt="non-virtual"><scope>themis::LearnedQuantizer</scope><name>asymmetricDistance</name></member>
+      <member refid="classthemis_1_1_learned_quantizer_1a1b1f5ab346ef2cfcdc54d606148bcf89" prot="private" virt="non-virtual"><scope>themis::LearnedQuantizer</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_learned_quantizer_1ac923456296d639e7e33c8ee0b79cbed4" prot="public" virt="non-virtual"><scope>themis::LearnedQuantizer</scope><name>decode</name></member>
+      <member refid="classthemis_1_1_learned_quantizer_1a82d0c003a299aa3eb71873375966b368" prot="private" virt="non-virtual"><scope>themis::LearnedQuantizer</scope><name>dimension_</name></member>
+      <member refid="classthemis_1_1_learned_quantizer_1a4c5f9938fcb3ef1766234d041984fc32" prot="public" virt="non-virtual"><scope>themis::LearnedQuantizer</scope><name>encode</name></member>
+      <member refid="classthemis_1_1_learned_quantizer_1a6e5ed2378f0192abd44c5d3e3d9e1647" prot="private" virt="non-virtual"><scope>themis::LearnedQuantizer</scope><name>findBin</name></member>
+      <member refid="classthemis_1_1_learned_quantizer_1a8d5a2dfe24b6bb44e87d640d0b84ef36" prot="public" virt="non-virtual"><scope>themis::LearnedQuantizer</scope><name>getBitsPerDimension</name></member>
+      <member refid="classthemis_1_1_learned_quantizer_1a96cc7f7724715c062a91de6ec4b6f423" prot="public" virt="non-virtual"><scope>themis::LearnedQuantizer</scope><name>getCompressionRatio</name></member>
+      <member refid="classthemis_1_1_learned_quantizer_1a7aafac9a8a57c0d0e987c63dd39c97fc" prot="public" virt="non-virtual"><scope>themis::LearnedQuantizer</scope><name>getDimension</name></member>
+      <member refid="classthemis_1_1_learned_quantizer_1a92127d62d739a0c9688d22a6ae9c84d9" prot="public" virt="non-virtual"><scope>themis::LearnedQuantizer</scope><name>getEncodedSize</name></member>
+      <member refid="classthemis_1_1_learned_quantizer_1aa6fd22fb174c84beb2894b62e3d1ae4b" prot="public" virt="non-virtual"><scope>themis::LearnedQuantizer</scope><name>getMemoryUsage</name></member>
+      <member refid="classthemis_1_1_learned_quantizer_1a03117783a64a2d5ef29c260065de53c5" prot="public" virt="non-virtual"><scope>themis::LearnedQuantizer</scope><name>getNumBins</name></member>
+      <member refid="classthemis_1_1_learned_quantizer_1ae8a8b7bd8c10adf9d5bed62e2b1cb8eb" prot="private" virt="non-virtual"><scope>themis::LearnedQuantizer</scope><name>global_centroids_</name></member>
+      <member refid="classthemis_1_1_learned_quantizer_1a1cd898f32aa25a52ebf2187d7e1ad365" prot="private" virt="non-virtual"><scope>themis::LearnedQuantizer</scope><name>global_thresholds_</name></member>
+      <member refid="classthemis_1_1_learned_quantizer_1a72d38fd5836462b13de473ea967aefcb" prot="private" virt="non-virtual"><scope>themis::LearnedQuantizer</scope><name>initializeThresholds</name></member>
+      <member refid="classthemis_1_1_learned_quantizer_1ae95529cf90a63508e093491c13fc0c39" prot="public" virt="non-virtual"><scope>themis::LearnedQuantizer</scope><name>isTrained</name></member>
+      <member refid="classthemis_1_1_learned_quantizer_1ae753666a85616737389dc7f18e5496df" prot="public" virt="non-virtual"><scope>themis::LearnedQuantizer</scope><name>LearnedQuantizer</name></member>
+      <member refid="classthemis_1_1_learned_quantizer_1a0123f17140800ceb09d631a76cf8b45f" prot="private" virt="non-virtual"><scope>themis::LearnedQuantizer</scope><name>learnThresholds</name></member>
+      <member refid="classthemis_1_1_learned_quantizer_1a55d4a0d95a868696f3d2e931321fb78c" prot="private" virt="non-virtual"><scope>themis::LearnedQuantizer</scope><name>num_bins_</name></member>
+      <member refid="classthemis_1_1_learned_quantizer_1a3e60de9347dc78ecb728c0f42c0656ad" prot="private" virt="non-virtual"><scope>themis::LearnedQuantizer</scope><name>per_dim_centroids_</name></member>
+      <member refid="classthemis_1_1_learned_quantizer_1acd6ed04f3023187de3842531cfaeca3c" prot="private" virt="non-virtual"><scope>themis::LearnedQuantizer</scope><name>per_dim_thresholds_</name></member>
+      <member refid="classthemis_1_1_learned_quantizer_1a683ec5dab670103d42a976b7853c8e0b" prot="public" virt="non-virtual"><scope>themis::LearnedQuantizer</scope><name>train</name></member>
+      <member refid="classthemis_1_1_learned_quantizer_1a8c69e74a7416645f7aa91831e878b065" prot="private" virt="non-virtual"><scope>themis::LearnedQuantizer</scope><name>trained_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

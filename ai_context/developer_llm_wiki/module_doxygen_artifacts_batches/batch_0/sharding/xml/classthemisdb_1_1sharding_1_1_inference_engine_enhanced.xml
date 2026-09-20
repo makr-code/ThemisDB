@@ -1,0 +1,2466 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::InferenceEngineEnhanced</compoundname>
+    <includes refid="inference__engine__enhanced_8h" local="no">inference_engine_enhanced.h</includes>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_inference_engine_enhanced_1_1_request_state" prot="private">themisdb::sharding::InferenceEngineEnhanced::RequestState</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1ab454d3dc46655d661f9ac8b290e0257e" prot="public" static="no">
+        <type>std::function&lt; void(int64_t request_id, const <ref refid="structthemisdb_1_1sharding_1_1_token_generation_result" kindref="compound">TokenGenerationResult</ref> &amp;)&gt;</type>
+        <definition>using themisdb::sharding::InferenceEngineEnhanced::TokenCallback = std::function&lt;void(int64_t request_id, const TokenGenerationResult&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>TokenCallback</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::TokenCallback</qualifiedname>
+        <briefdescription>
+<para>Callback for token generation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="249" column="5" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="249" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a0cd7e8e32adf2a827d721ac263041a2a" prot="public" static="no">
+        <type>std::function&lt; void(int64_t request_id, const std::string &amp;output_text)&gt;</type>
+        <definition>using themisdb::sharding::InferenceEngineEnhanced::CompletionCallback = std::function&lt;void(int64_t request_id, const std::string&amp; output_text)&gt;</definition>
+        <argsstring></argsstring>
+        <name>CompletionCallback</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::CompletionCallback</qualifiedname>
+        <briefdescription>
+<para>Callback for request completion. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="254" column="5" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="254" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a121f253642c4b68dd359370246d6bffc" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemisdb_1_1sharding_1_1_lo_r_a_config" kindref="compound">LoRAConfig</ref> &amp;adapter_config)&gt;</type>
+        <definition>using themisdb::sharding::InferenceEngineEnhanced::CapabilityUpdateCallback = std::function&lt;void(const LoRAConfig&amp; adapter_config)&gt;</definition>
+        <argsstring></argsstring>
+        <name>CapabilityUpdateCallback</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::CapabilityUpdateCallback</qualifiedname>
+        <briefdescription>
+<para>Callback for adapter capability update. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="259" column="5" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="259" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a34619f6552fc5d3703c359d686023945" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_model_config" kindref="compound">ModelConfig</ref></type>
+        <definition>ModelConfig themisdb::sharding::InferenceEngineEnhanced::model_config_</definition>
+        <argsstring></argsstring>
+        <name>model_config_</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::model_config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="656" column="17" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="656" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a4b87f5638868e51cfb9f27ce7b4d75a2" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler" kindref="compound">ContinuousBatchScheduler</ref> *</type>
+        <definition>ContinuousBatchScheduler* themisdb::sharding::InferenceEngineEnhanced::scheduler_</definition>
+        <argsstring></argsstring>
+        <name>scheduler_</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::scheduler_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="657" column="30" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="657" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1ad4b95bc3ad527533c56d0b181fb37fbd" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache" kindref="compound">PagedKVCache</ref> *</type>
+        <definition>PagedKVCache* themisdb::sharding::InferenceEngineEnhanced::kv_cache_</definition>
+        <argsstring></argsstring>
+        <name>kv_cache_</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::kv_cache_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="658" column="18" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="658" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a1f82ade5f06dd64afd2253ae9ee5e9a8" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::InferenceEngineEnhanced::model_loaded_</definition>
+        <argsstring></argsstring>
+        <name>model_loaded_</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::model_loaded_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="661" column="10" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="661" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1ab9ac305a20db0d3dc0556dd4d121ab2f" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::InferenceEngineEnhanced::ready_</definition>
+        <argsstring></argsstring>
+        <name>ready_</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::ready_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="662" column="10" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="662" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a0a3c21e54ecd1074b394b1aa4a1ef59c" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::InferenceEngineEnhanced::speculative_decoding_enabled_</definition>
+        <argsstring></argsstring>
+        <name>speculative_decoding_enabled_</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::speculative_decoding_enabled_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="665" column="10" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="665" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1afb3b509f9a98c702cd16662dd84ac811" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::InferenceEngineEnhanced::draft_model_id_</definition>
+        <argsstring></argsstring>
+        <name>draft_model_id_</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::draft_model_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="666" column="17" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="666" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a8252e7b3299ac14d823df0c9673f3ae6" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::InferenceEngineEnhanced::target_model_id_</definition>
+        <argsstring></argsstring>
+        <name>target_model_id_</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::target_model_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="667" column="17" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="667" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1aee0cd12d950197b292a1b5c201f9ec90" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemisdb_1_1sharding_1_1_lo_r_a_config" kindref="compound">LoRAConfig</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, LoRAConfig&gt; themisdb::sharding::InferenceEngineEnhanced::loaded_adapters_</definition>
+        <argsstring></argsstring>
+        <name>loaded_adapters_</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::loaded_adapters_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="670" column="24" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="670" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a9437eec7ee87b2aaf9dc75c62eca6d8b" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themisdb::sharding::InferenceEngineEnhanced::domain_to_adapter_</definition>
+        <argsstring></argsstring>
+        <name>domain_to_adapter_</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::domain_to_adapter_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="671" column="24" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="671" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a2eabe16869a09e66cadf4b78cf8baa8f" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; int64_t, RequestState &gt;</type>
+        <definition>std::unordered_map&lt;int64_t, RequestState&gt; themisdb::sharding::InferenceEngineEnhanced::active_requests_</definition>
+        <argsstring></argsstring>
+        <name>active_requests_</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::active_requests_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="674" column="24" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="674" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a0a16a831034c09ca29c70538c2327b36" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::sharding::InferenceEngineEnhanced::stats_mutex_</definition>
+        <argsstring></argsstring>
+        <name>stats_mutex_</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::stats_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="677" column="24" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="677" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1aaf820326e8d97d0761fec56037ec6e12" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_inference_stats" kindref="compound">InferenceStats</ref></type>
+        <definition>InferenceStats themisdb::sharding::InferenceEngineEnhanced::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="678" column="20" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="678" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a8bddb97d5e0b988f97debc5576cfc6e5" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a121f253642c4b68dd359370246d6bffc" kindref="member">CapabilityUpdateCallback</ref></type>
+        <definition>CapabilityUpdateCallback themisdb::sharding::InferenceEngineEnhanced::capability_update_callback_</definition>
+        <argsstring></argsstring>
+        <name>capability_update_callback_</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::capability_update_callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="681" column="30" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="681" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a9da489ef01cbd6797d63e1b54479d161" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::sharding::InferenceEngineEnhanced::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="684" column="24" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="684" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a34a3a9a2ec5da45e1cc2a72c2fa7403b" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::InferenceEngineEnhanced::InferenceEngineEnhanced</definition>
+        <argsstring>(const ModelConfig &amp;model_config)</argsstring>
+        <name>InferenceEngineEnhanced</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::InferenceEngineEnhanced</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_model_config" kindref="compound">ModelConfig</ref> &amp;</type>
+          <declname>model_config</declname>
+        </param>
+        <briefdescription>
+<para>Construct <ref refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced" kindref="compound">InferenceEngineEnhanced</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>model_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Model configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="265" column="14" bodyfile="src/sharding/inference_engine_enhanced.cpp" bodystart="26" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a7b9825579f4434aa3836eef84fba92ec" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::InferenceEngineEnhanced::~InferenceEngineEnhanced</definition>
+        <argsstring>()</argsstring>
+        <name>~InferenceEngineEnhanced</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::~InferenceEngineEnhanced</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="267" column="5" bodyfile="src/sharding/inference_engine_enhanced.cpp" bodystart="37" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1acd076c3b56944bd96be11f70cc9d97e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::InferenceEngineEnhanced::InferenceEngineEnhanced</definition>
+        <argsstring>(const InferenceEngineEnhanced &amp;)=delete</argsstring>
+        <name>InferenceEngineEnhanced</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::InferenceEngineEnhanced</qualifiedname>
+        <param>
+          <type>const InferenceEngineEnhanced &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="270" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a4f6c2206d566830a5f09ee7de4011d5f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a34a3a9a2ec5da45e1cc2a72c2fa7403b" kindref="member">InferenceEngineEnhanced</ref> &amp;</type>
+        <definition>InferenceEngineEnhanced &amp; themisdb::sharding::InferenceEngineEnhanced::operator=</definition>
+        <argsstring>(const InferenceEngineEnhanced &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a34a3a9a2ec5da45e1cc2a72c2fa7403b" kindref="member">InferenceEngineEnhanced</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="271" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a908c6dca4bb1e7db08ca470b76caccc1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::InferenceEngineEnhanced::initialize</definition>
+        <argsstring>()</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::initialize</qualifiedname>
+        <briefdescription>
+<para>Initialize the inference engine. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Initialize.</para>
+<para><simplesect kind="return"><para>true if initialization succeeded</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), empty(), <ref refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1af5ef42b65eac48794bc717563952e03a" kindref="member">loadModel()</ref>, spdlog::error(), <ref refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1ab9e1ddea78be4c367ce842ba90e3b8ee" kindref="member">loadLoRAAdapter()</ref>, spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="281" column="10" bodyfile="src/sharding/inference_engine_enhanced.cpp" bodystart="51" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1afc2e8167c5dcd309f34ba11cad236667" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::InferenceEngineEnhanced::shutdown</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::shutdown</qualifiedname>
+        <briefdescription>
+<para>Shutdown the inference engine. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="286" column="10" bodyfile="src/sharding/inference_engine_enhanced.cpp" bodystart="81" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1af5ef42b65eac48794bc717563952e03a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::InferenceEngineEnhanced::loadModel</definition>
+        <argsstring>(const std::string &amp;model_path)</argsstring>
+        <name>loadModel</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::loadModel</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_path</declname>
+        </param>
+        <briefdescription>
+<para>Load a model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load Model.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>model_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to model </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if loading succeeded</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), empty(), spdlog::error(), spdlog::info(), std::this_thread::sleep_for(), std::chrono::milliseconds(), isValid(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="293" column="10" bodyfile="src/sharding/inference_engine_enhanced.cpp" bodystart="119" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a3a8c39c585eb211a5d4b052853830675" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::InferenceEngineEnhanced::unloadModel</definition>
+        <argsstring>()</argsstring>
+        <name>unloadModel</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::unloadModel</qualifiedname>
+        <briefdescription>
+<para>Unload the current model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Unload Model.</para>
+<para>Calls: lock(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="298" column="10" bodyfile="src/sharding/inference_engine_enhanced.cpp" bodystart="157" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a048b4cdf5eb9fcab6b7208c64eccebed" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::InferenceEngineEnhanced::isModelLoaded</definition>
+        <argsstring>() const</argsstring>
+        <name>isModelLoaded</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::isModelLoaded</qualifiedname>
+        <briefdescription>
+<para>Check if model is loaded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="303" column="10" bodyfile="src/sharding/inference_engine_enhanced.cpp" bodystart="172" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a2b18c1382e60ea4f900dcf0bd8323cf2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::InferenceEngineEnhanced::generate</definition>
+        <argsstring>(int64_t request_id, const std::string &amp;prompt_text, uint32_t max_tokens, InferenceMode mode=InferenceMode::BATCH, const std::string &amp;adapter_id=&quot;&quot;, TokenCallback token_callback=nullptr, CompletionCallback completion_callback=nullptr)</argsstring>
+        <name>generate</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::generate</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>request_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt_text</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>max_tokens</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1sharding_1a33b6548919f811e3936fb17ee7ad5742" kindref="member">InferenceMode</ref></type>
+          <declname>mode</declname>
+          <defval><ref refid="namespacethemisdb_1_1sharding_1a33b6548919f811e3936fb17ee7ad5742a3dba7f2d2578ffb4bd657af94b1add80" kindref="member">InferenceMode::BATCH</ref></defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1ab454d3dc46655d661f9ac8b290e0257e" kindref="member">TokenCallback</ref></type>
+          <declname>token_callback</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a0cd7e8e32adf2a827d721ac263041a2a" kindref="member">CompletionCallback</ref></type>
+          <declname>completion_callback</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Generate tokens for a request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Generate.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Request identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>prompt_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input prompt text </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum tokens to generate </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Inference mode </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>LoRA adapter identifier (empty for base model) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>token_callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Token generation callback </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>completion_callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Completion callback </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if generation started successfully</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the request. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">token_callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">completion_callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), spdlog::error(), find(), end(), spdlog::warn(), tokenize(), reserveRequest(), std::chrono::steady_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="320" column="10" bodyfile="src/sharding/inference_engine_enhanced.cpp" bodystart="198" bodyend="278"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a76513820dfcfbb3c0b30d4483b0043d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::InferenceEngineEnhanced::generateTokens</definition>
+        <argsstring>(int64_t request_id, const std::vector&lt; int &gt; &amp;input_token_ids, uint32_t max_tokens, bool is_prefill, std::vector&lt; int &gt; &amp;output_token_ids)</argsstring>
+        <name>generateTokens</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::generateTokens</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>request_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>input_token_ids</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>max_tokens</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>is_prefill</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; int &gt; &amp;</type>
+          <declname>output_token_ids</declname>
+        </param>
+        <briefdescription>
+<para>Generate tokens from token IDs. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Generate Tokens.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Request identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>input_token_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input token IDs </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum tokens to generate </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>is_prefill</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether this is prefill phase </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>output_token_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output token IDs </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if generation succeeded</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the request. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">input_token_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">is_prefill</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">output_token_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), spdlog::warn(), std::chrono::steady_clock::now(), gen(), rd(), vocab_dist(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="339" column="10" bodyfile="src/sharding/inference_engine_enhanced.cpp" bodystart="290" bodyend="352"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a14843796c0ae927c0e0ebd32e7b81222" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themisdb::sharding::InferenceEngineEnhanced::generateSingleToken</definition>
+        <argsstring>(int64_t request_id, const std::vector&lt; int &gt; &amp;input_token_ids, bool is_prefill)</argsstring>
+        <name>generateSingleToken</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::generateSingleToken</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>request_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>input_token_ids</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>is_prefill</declname>
+        </param>
+        <briefdescription>
+<para>Generate a single token. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Generate Single Token.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Request identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>input_token_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input token IDs </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>is_prefill</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether this is prefill phase </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Generated token ID or -1 on error</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the request. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">input_token_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">is_prefill</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a76513820dfcfbb3c0b30d4483b0043d7" kindref="member">generateTokens()</ref>, empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="354" column="9" bodyfile="src/sharding/inference_engine_enhanced.cpp" bodystart="362" bodyend="375"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a351734b8c8da824703eed8fe4d452133" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::InferenceEngineEnhanced::cancelRequest</definition>
+        <argsstring>(int64_t request_id)</argsstring>
+        <name>cancelRequest</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::cancelRequest</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>request_id</declname>
+        </param>
+        <briefdescription>
+<para>Cancel generation for a request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Cancel Request.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Request identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if cancelled successfully</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the request. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), clearRequestCache(), spdlog::info(), spdlog::warn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="365" column="10" bodyfile="src/sharding/inference_engine_enhanced.cpp" bodystart="383" bodyend="402"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a78b9fae1211e6421a0d7d2aa1bc37f1f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::InferenceEngineEnhanced::isRequestInProgress</definition>
+        <argsstring>(int64_t request_id) const</argsstring>
+        <name>isRequestInProgress</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::isRequestInProgress</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>request_id</declname>
+        </param>
+        <briefdescription>
+<para>Check if a request is in progress. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Request identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="371" column="10" bodyfile="src/sharding/inference_engine_enhanced.cpp" bodystart="404" bodyend="413"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a153d89ed1cb88229b9759751816a1696" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::InferenceEngineEnhanced::startStreaming</definition>
+        <argsstring>(int64_t request_id, const std::string &amp;prompt_text, uint32_t max_tokens, const std::string &amp;adapter_id=&quot;&quot;, TokenCallback token_callback=nullptr, CompletionCallback completion_callback=nullptr)</argsstring>
+        <name>startStreaming</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::startStreaming</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>request_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt_text</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>max_tokens</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1ab454d3dc46655d661f9ac8b290e0257e" kindref="member">TokenCallback</ref></type>
+          <declname>token_callback</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a0cd7e8e32adf2a827d721ac263041a2a" kindref="member">CompletionCallback</ref></type>
+          <declname>completion_callback</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Start streaming generation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start Streaming.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Request identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>prompt_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input prompt text </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum tokens to generate </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>LoRA adapter identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>token_callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Token callback (called for each generated token) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>completion_callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Completion callback </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if streaming started successfully</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the request. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">token_callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">completion_callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a2b18c1382e60ea4f900dcf0bd8323cf2" kindref="member">generate()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="387" column="10" bodyfile="src/sharding/inference_engine_enhanced.cpp" bodystart="430" bodyend="447"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a4851072bf629318d2efbd5442788f6d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::InferenceEngineEnhanced::stopStreaming</definition>
+        <argsstring>(int64_t request_id)</argsstring>
+        <name>stopStreaming</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::stopStreaming</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>request_id</declname>
+        </param>
+        <briefdescription>
+<para>Stop streaming for a request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stop Streaming.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Request identifier</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the request.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a351734b8c8da824703eed8fe4d452133" kindref="member">cancelRequest()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="400" column="10" bodyfile="src/sharding/inference_engine_enhanced.cpp" bodystart="454" bodyend="456"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1af0fef883c923f70f49255b1abd977f50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::InferenceEngineEnhanced::enableSpeculativeDecoding</definition>
+        <argsstring>(const std::string &amp;draft_model_id, const std::string &amp;target_model_id)</argsstring>
+        <name>enableSpeculativeDecoding</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::enableSpeculativeDecoding</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>draft_model_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_model_id</declname>
+        </param>
+        <briefdescription>
+<para>Enable speculative decoding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Enable Speculative Decoding.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>draft_model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Draft model identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>target_model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target model identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if speculative decoding is enabled</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">draft_model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the draft model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the target model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), empty(), spdlog::error(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="412" column="10" bodyfile="src/sharding/inference_engine_enhanced.cpp" bodystart="469" bodyend="487"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a5f08c0d8a291ac1ce28916e917ee5d0b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::InferenceEngineEnhanced::disableSpeculativeDecoding</definition>
+        <argsstring>()</argsstring>
+        <name>disableSpeculativeDecoding</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::disableSpeculativeDecoding</qualifiedname>
+        <briefdescription>
+<para>Disable speculative decoding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Disable Speculative Decoding.</para>
+<para>Calls: lock(), clear(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="420" column="10" bodyfile="src/sharding/inference_engine_enhanced.cpp" bodystart="493" bodyend="500"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1ac0d1cbaf4f356f1ea308c4c0d4153929" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::InferenceEngineEnhanced::isSpeculativeDecodingEnabled</definition>
+        <argsstring>() const</argsstring>
+        <name>isSpeculativeDecodingEnabled</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::isSpeculativeDecodingEnabled</qualifiedname>
+        <briefdescription>
+<para>Check if speculative decoding is enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="425" column="10" bodyfile="src/sharding/inference_engine_enhanced.cpp" bodystart="502" bodyend="510"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a1b17b052bc9667a4c6536bc212482dcf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::InferenceEngineEnhanced::generateDraftTokens</definition>
+        <argsstring>(int64_t request_id, const std::vector&lt; int &gt; &amp;input_token_ids, uint32_t max_draft_tokens, std::vector&lt; int &gt; &amp;draft_token_ids)</argsstring>
+        <name>generateDraftTokens</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::generateDraftTokens</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>request_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>input_token_ids</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>max_draft_tokens</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; int &gt; &amp;</type>
+          <declname>draft_token_ids</declname>
+        </param>
+        <briefdescription>
+<para>Generate draft tokens for speculative decoding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Generate Draft Tokens.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Request identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>input_token_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input token IDs </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_draft_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum draft tokens to generate </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>draft_token_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output draft token IDs </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if draft generation succeeded</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the request. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">input_token_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_draft_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">draft_token_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), spdlog::warn(), gen(), rd(), vocab_dist(), push_back(), spdlog::debug(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="435" column="10" bodyfile="src/sharding/inference_engine_enhanced.cpp" bodystart="521" bodyend="548"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a2c1f48baaf8a544910a06453f1ecee2c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themisdb::sharding::InferenceEngineEnhanced::verifyDraftTokens</definition>
+        <argsstring>(int64_t request_id, const std::vector&lt; int &gt; &amp;input_token_ids, const std::vector&lt; int &gt; &amp;draft_token_ids, std::vector&lt; int &gt; &amp;verified_token_ids)</argsstring>
+        <name>verifyDraftTokens</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::verifyDraftTokens</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>request_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>input_token_ids</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>draft_token_ids</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; int &gt; &amp;</type>
+          <declname>verified_token_ids</declname>
+        </param>
+        <briefdescription>
+<para>Verify draft tokens with target model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verify Draft Tokens.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Request identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>input_token_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input token IDs </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>draft_token_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Draft token IDs to verify </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>verified_token_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output verified token IDs </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Acceptance rate (0.0 to 1.0)</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the request. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">input_token_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">draft_token_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">verified_token_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), spdlog::warn(), empty(), gen(), rd(), accept_dist(), size(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="450" column="12" bodyfile="src/sharding/inference_engine_enhanced.cpp" bodystart="559" bodyend="607"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1ab9e1ddea78be4c367ce842ba90e3b8ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::InferenceEngineEnhanced::loadLoRAAdapter</definition>
+        <argsstring>(const LoRAConfig &amp;adapter_config)</argsstring>
+        <name>loadLoRAAdapter</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::loadLoRAAdapter</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_lo_r_a_config" kindref="compound">LoRAConfig</ref> &amp;</type>
+          <declname>adapter_config</declname>
+        </param>
+        <briefdescription>
+<para>Load a LoRA adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load Lo RAAdapter.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>adapter_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Adapter configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if loading succeeded</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), isValid(), spdlog::error(), find(), end(), spdlog::warn(), spdlog::info(), std::this_thread::sleep_for(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="466" column="10" bodyfile="src/sharding/inference_engine_enhanced.cpp" bodystart="619" bodyend="652"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a1bcf35b89a097e663b1ee2f32c5df222" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::InferenceEngineEnhanced::unloadLoRAAdapter</definition>
+        <argsstring>(const std::string &amp;adapter_id)</argsstring>
+        <name>unloadLoRAAdapter</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::unloadLoRAAdapter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Unload a LoRA adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Unload Lo RAAdapter.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Adapter identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if unloading succeeded</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), spdlog::warn(), spdlog::info(), begin(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="473" column="10" bodyfile="src/sharding/inference_engine_enhanced.cpp" bodystart="660" bodyend="685"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a3c862cdf5013a028d0a3053bfb8db493" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1sharding_1_1_lo_r_a_config" kindref="compound">LoRAConfig</ref> &gt;</type>
+        <definition>std::optional&lt; LoRAConfig &gt; themisdb::sharding::InferenceEngineEnhanced::getAdapterConfig</definition>
+        <argsstring>(const std::string &amp;adapter_id) const</argsstring>
+        <name>getAdapterConfig</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::getAdapterConfig</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Get loaded adapter configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Adapter identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Adapter configuration or nullopt if not found </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="480" column="19" bodyfile="src/sharding/inference_engine_enhanced.cpp" bodystart="687" bodyend="701"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1ae9ba14a4d66e450b34d01da102ed0fe3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1sharding_1_1_lo_r_a_config" kindref="compound">LoRAConfig</ref> &gt;</type>
+        <definition>std::vector&lt; LoRAConfig &gt; themisdb::sharding::InferenceEngineEnhanced::getAllAdapterConfigs</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllAdapterConfigs</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::getAllAdapterConfigs</qualifiedname>
+        <briefdescription>
+<para>Get all loaded adapter configurations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="485" column="17" bodyfile="src/sharding/inference_engine_enhanced.cpp" bodystart="703" bodyend="716"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a60d110404033402957f3e579934ff9c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::InferenceEngineEnhanced::setActiveAdapter</definition>
+        <argsstring>(const std::string &amp;domain, const std::string &amp;adapter_id)</argsstring>
+        <name>setActiveAdapter</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::setActiveAdapter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>domain</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Set the active adapter for a domain. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Active Adapter.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>domain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Domain identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Adapter identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if set successfully</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">domain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), spdlog::warn(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="493" column="10" bodyfile="src/sharding/inference_engine_enhanced.cpp" bodystart="725" bodyend="739"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a361b5be3effbb38077dc6c037b76100b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1sharding_1_1_lo_r_a_config" kindref="compound">LoRAConfig</ref> &gt;</type>
+        <definition>std::optional&lt; LoRAConfig &gt; themisdb::sharding::InferenceEngineEnhanced::getActiveAdapter</definition>
+        <argsstring>(const std::string &amp;domain) const</argsstring>
+        <name>getActiveAdapter</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::getActiveAdapter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>domain</declname>
+        </param>
+        <briefdescription>
+<para>Get the active adapter for a domain. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>domain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Domain identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Adapter configuration or nullopt if not found </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="500" column="19" bodyfile="src/sharding/inference_engine_enhanced.cpp" bodystart="741" bodyend="753"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a332cf4f63e5249c5904e66814f44ea44" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::InferenceEngineEnhanced::updateAdapterCapabilities</definition>
+        <argsstring>(const std::string &amp;adapter_id, double accuracy_delta, double performance_delta_p99_ms)</argsstring>
+        <name>updateAdapterCapabilities</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::updateAdapterCapabilities</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>accuracy_delta</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>performance_delta_p99_ms</declname>
+        </param>
+        <briefdescription>
+<para>Update adapter capability metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update Adapter Capabilities.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Adapter identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>accuracy_delta</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Accuracy improvement </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>performance_delta_p99_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>P99 latency delta</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">accuracy_delta</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">performance_delta_p99_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), spdlog::debug(), capability_update_callback_(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="508" column="10" bodyfile="src/sharding/inference_engine_enhanced.cpp" bodystart="762" bodyend="782"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a5039bcb6b5a911b9625135a747e42807" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::InferenceEngineEnhanced::setKVCache</definition>
+        <argsstring>(PagedKVCache *kv_cache)</argsstring>
+        <name>setKVCache</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::setKVCache</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache" kindref="compound">PagedKVCache</ref> *</type>
+          <declname>kv_cache</declname>
+        </param>
+        <briefdescription>
+<para>Set KV cache manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set KVCache.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>kv_cache</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>KV cache manager</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">kv_cache</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), <ref refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1ae3007522e88ecde11c15cb1e644fe485" kindref="member">setScheduler()</ref>, spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="522" column="10" bodyfile="src/sharding/inference_engine_enhanced.cpp" bodystart="793" bodyend="802"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a3268bdab2e8147934b5b0fa6a33e36e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache" kindref="compound">PagedKVCache</ref> *</type>
+        <definition>PagedKVCache * themisdb::sharding::InferenceEngineEnhanced::getKVCache</definition>
+        <argsstring>()</argsstring>
+        <name>getKVCache</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::getKVCache</qualifiedname>
+        <briefdescription>
+<para>Get KV cache manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get KVCache.</para>
+<para><simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Implements getKVCache without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="527" column="18" bodyfile="src/sharding/inference_engine_enhanced.cpp" bodystart="809" bodyend="811"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a7c94d1195102f7c39c2144c45457cfeb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::InferenceEngineEnhanced::clearKVCache</definition>
+        <argsstring>(int64_t request_id)</argsstring>
+        <name>clearKVCache</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::clearKVCache</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>request_id</declname>
+        </param>
+        <briefdescription>
+<para>Clear KV cache for a request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear KVCache.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Request identifier</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the request.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: clearRequestCache(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="533" column="10" bodyfile="src/sharding/inference_engine_enhanced.cpp" bodystart="818" bodyend="822"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1ae3007522e88ecde11c15cb1e644fe485" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::InferenceEngineEnhanced::setScheduler</definition>
+        <argsstring>(ContinuousBatchScheduler *scheduler)</argsstring>
+        <name>setScheduler</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::setScheduler</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler" kindref="compound">ContinuousBatchScheduler</ref> *</type>
+          <declname>scheduler</declname>
+        </param>
+        <briefdescription>
+<para>Set the scheduler. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Scheduler.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>scheduler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Continuous batch scheduler</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">scheduler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="543" column="10" bodyfile="src/sharding/inference_engine_enhanced.cpp" bodystart="833" bodyend="842"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a640a718ffb35a99b425558e09510df6a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler" kindref="compound">ContinuousBatchScheduler</ref> *</type>
+        <definition>ContinuousBatchScheduler * themisdb::sharding::InferenceEngineEnhanced::getScheduler</definition>
+        <argsstring>()</argsstring>
+        <name>getScheduler</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::getScheduler</qualifiedname>
+        <briefdescription>
+<para>Get the scheduler. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Scheduler.</para>
+<para><simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Implements getScheduler without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="548" column="30" bodyfile="src/sharding/inference_engine_enhanced.cpp" bodystart="849" bodyend="851"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1ae5b1fe9bc354b6bbaabcfde1192ed7d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::InferenceEngineEnhanced::setCapabilityUpdateCallback</definition>
+        <argsstring>(CapabilityUpdateCallback callback)</argsstring>
+        <name>setCapabilityUpdateCallback</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::setCapabilityUpdateCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a121f253642c4b68dd359370246d6bffc" kindref="member">CapabilityUpdateCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Set capability update callback for gossip. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Capability Update Callback.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback to receive capability updates</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="558" column="10" bodyfile="src/sharding/inference_engine_enhanced.cpp" bodystart="862" bodyend="865"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a1b08f3be157ec0661f8191fc7b4206e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::InferenceEngineEnhanced::broadcastAdapterCapabilities</definition>
+        <argsstring>()</argsstring>
+        <name>broadcastAdapterCapabilities</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::broadcastAdapterCapabilities</qualifiedname>
+        <briefdescription>
+<para>Broadcast adapter capabilities (for gossip). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Broadcast Adapter Capabilities.</para>
+<para>Calls: lock(), capability_update_callback_(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="563" column="10" bodyfile="src/sharding/inference_engine_enhanced.cpp" bodystart="871" bodyend="879"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a689f54366bf9162c8d78bc4e2617620c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::sharding::InferenceEngineEnhanced::getCapabilityAnnouncement</definition>
+        <argsstring>(const std::string &amp;adapter_id) const</argsstring>
+        <name>getCapabilityAnnouncement</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::getCapabilityAnnouncement</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Get capability announcement for an adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Adapter identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Capability announcement JSON </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="570" column="20" bodyfile="src/sharding/inference_engine_enhanced.cpp" bodystart="881" bodyend="904"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1ac157e61c43730bbd255b3b4639a51e77" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_inference_stats" kindref="compound">InferenceStats</ref></type>
+        <definition>InferenceStats themisdb::sharding::InferenceEngineEnhanced::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::getStats</qualifiedname>
+        <briefdescription>
+<para>Get current inference statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="579" column="20" bodyfile="src/sharding/inference_engine_enhanced.cpp" bodystart="910" bodyend="918"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a2128c2c330ee11453c2a4bece2d5e0f5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::sharding::InferenceEngineEnhanced::getStatsJson</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatsJson</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::getStatsJson</qualifiedname>
+        <briefdescription>
+<para>Get detailed statistics as JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="584" column="20" bodyfile="src/sharding/inference_engine_enhanced.cpp" bodystart="920" bodyend="928"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1ab8e6c73de42bc6b52e84ac1b4b8fb523" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::InferenceEngineEnhanced::resetStats</definition>
+        <argsstring>()</argsstring>
+        <name>resetStats</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::resetStats</qualifiedname>
+        <briefdescription>
+<para>Reset statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset Stats.</para>
+<para>Calls: lock(), InferenceStats(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="589" column="10" bodyfile="src/sharding/inference_engine_enhanced.cpp" bodystart="934" bodyend="937"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a0b6494f3059874a4c4af38d9a9f0425f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::sharding::InferenceEngineEnhanced::getModelInfo</definition>
+        <argsstring>() const</argsstring>
+        <name>getModelInfo</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::getModelInfo</qualifiedname>
+        <briefdescription>
+<para>Get model information. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="594" column="20" bodyfile="src/sharding/inference_engine_enhanced.cpp" bodystart="939" bodyend="963"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a39f169abf46be4ce6345513f58961474" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::InferenceEngineEnhanced::updateConfig</definition>
+        <argsstring>(const ModelConfig &amp;config)</argsstring>
+        <name>updateConfig</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::updateConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_model_config" kindref="compound">ModelConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Update model configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update the access control configuration.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New configuration</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New access control configuration.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), isValid(), spdlog::error(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="604" column="10" bodyfile="src/sharding/inference_engine_enhanced.cpp" bodystart="974" bodyend="984"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a2ef60da9f04cd007894be69e74970c16" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemisdb_1_1sharding_1_1_model_config" kindref="compound">ModelConfig</ref> &amp;</type>
+        <definition>const ModelConfig &amp; themisdb::sharding::InferenceEngineEnhanced::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::getConfig</qualifiedname>
+        <briefdescription>
+<para>Get current configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="609" column="23" bodyfile="src/sharding/inference_engine_enhanced.cpp" bodystart="986" bodyend="988"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1acbff63de875c9ebf0b816bd7e3163204" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::InferenceEngineEnhanced::isReady</definition>
+        <argsstring>() const</argsstring>
+        <name>isReady</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::isReady</qualifiedname>
+        <briefdescription>
+<para>Check if engine is ready. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="614" column="10" bodyfile="src/sharding/inference_engine_enhanced.cpp" bodystart="990" bodyend="998"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a7bf7cbed0a705df80afa57b18fe83c2e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::InferenceEngineEnhanced::getStatusString</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatusString</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::getStatusString</qualifiedname>
+        <briefdescription>
+<para>Get engine status. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="619" column="17" bodyfile="src/sharding/inference_engine_enhanced.cpp" bodystart="1000" bodyend="1018"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1af242ec254d49973ff4b05a7d9f1da1ba" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt; int &gt; themisdb::sharding::InferenceEngineEnhanced::tokenize</definition>
+        <argsstring>(const std::string &amp;text) const</argsstring>
+        <name>tokenize</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::tokenize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Tokenize text to token IDs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="693" column="17" bodyfile="src/sharding/inference_engine_enhanced.cpp" bodystart="1024" bodyend="1057"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1aed68a5aa3657c4ca1de813962c19594d" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::InferenceEngineEnhanced::detokenize</definition>
+        <argsstring>(const std::vector&lt; int &gt; &amp;token_ids) const</argsstring>
+        <name>detokenize</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::detokenize</qualifiedname>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>token_ids</declname>
+        </param>
+        <briefdescription>
+<para>Detokenize token IDs to text. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="698" column="17" bodyfile="src/sharding/inference_engine_enhanced.cpp" bodystart="1059" bodyend="1071"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1ab2337379f262d53e0de3bfc8e71407b5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::InferenceEngineEnhanced::applySampling</definition>
+        <argsstring>(std::vector&lt; float &gt; &amp;logits, double temperature, double top_p, double top_k, double repeat_penalty)</argsstring>
+        <name>applySampling</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::applySampling</qualifiedname>
+        <param>
+          <type>std::vector&lt; float &gt; &amp;</type>
+          <declname>logits</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>temperature</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>top_p</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>top_k</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>repeat_penalty</declname>
+        </param>
+        <briefdescription>
+<para>Apply sampling to logits. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Apply Sampling.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">logits</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">temperature</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">top_p</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">top_k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">repeat_penalty</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements applySampling without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="703" column="10" bodyfile="src/sharding/inference_engine_enhanced.cpp" bodystart="1082" bodyend="1100"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a1286e6e2929475fc839f5021f0d7c1a5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::InferenceEngineEnhanced::updateStats</definition>
+        <argsstring>(const RequestState &amp;request)</argsstring>
+        <name>updateStats</name>
+        <qualifiedname>themisdb::sharding::InferenceEngineEnhanced::updateStats</qualifiedname>
+        <param>
+          <type>const RequestState &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+<para>Update statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update Stats.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="714" column="10" bodyfile="src/sharding/inference_engine_enhanced.cpp" bodystart="1107" bodyend="1122"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Enhanced Inference Engine for Converged Storage-Inference. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides LLM inference capabilities integrated with:<itemizedlist>
+<listitem><para><ref refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler" kindref="compound">ContinuousBatchScheduler</ref> for request scheduling</para>
+</listitem><listitem><para><ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache" kindref="compound">PagedKVCache</ref> for KV state management</para>
+</listitem><listitem><para>LoRA adapter support for domain-specific fine-tuning</para>
+</listitem><listitem><para>Speculative decoding support</para>
+</listitem><listitem><para>Streaming generation support</para>
+</listitem></itemizedlist>
+</para>
+<para>This engine is designed for per-shard inference in a converged storage-retrieval-inference architecture. </para>
+    </detaileddescription>
+    <location file="include/sharding/inference_engine_enhanced.h" line="244" column="1" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="244" bodyend="715"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a2eabe16869a09e66cadf4b78cf8baa8f" prot="private" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>active_requests_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1ab2337379f262d53e0de3bfc8e71407b5" prot="private" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>applySampling</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a1b08f3be157ec0661f8191fc7b4206e0" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>broadcastAdapterCapabilities</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a351734b8c8da824703eed8fe4d452133" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>cancelRequest</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a8bddb97d5e0b988f97debc5576cfc6e5" prot="private" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>capability_update_callback_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a121f253642c4b68dd359370246d6bffc" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>CapabilityUpdateCallback</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a7c94d1195102f7c39c2144c45457cfeb" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>clearKVCache</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a0cd7e8e32adf2a827d721ac263041a2a" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>CompletionCallback</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1aed68a5aa3657c4ca1de813962c19594d" prot="private" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>detokenize</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a5f08c0d8a291ac1ce28916e917ee5d0b" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>disableSpeculativeDecoding</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a9437eec7ee87b2aaf9dc75c62eca6d8b" prot="private" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>domain_to_adapter_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1afb3b509f9a98c702cd16662dd84ac811" prot="private" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>draft_model_id_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1af0fef883c923f70f49255b1abd977f50" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>enableSpeculativeDecoding</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a2b18c1382e60ea4f900dcf0bd8323cf2" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>generate</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a1b17b052bc9667a4c6536bc212482dcf" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>generateDraftTokens</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a14843796c0ae927c0e0ebd32e7b81222" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>generateSingleToken</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a76513820dfcfbb3c0b30d4483b0043d7" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>generateTokens</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a361b5be3effbb38077dc6c037b76100b" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>getActiveAdapter</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a3c862cdf5013a028d0a3053bfb8db493" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>getAdapterConfig</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1ae9ba14a4d66e450b34d01da102ed0fe3" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>getAllAdapterConfigs</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a689f54366bf9162c8d78bc4e2617620c" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>getCapabilityAnnouncement</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a2ef60da9f04cd007894be69e74970c16" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>getConfig</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a3268bdab2e8147934b5b0fa6a33e36e7" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>getKVCache</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a0b6494f3059874a4c4af38d9a9f0425f" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>getModelInfo</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a640a718ffb35a99b425558e09510df6a" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>getScheduler</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1ac157e61c43730bbd255b3b4639a51e77" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>getStats</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a2128c2c330ee11453c2a4bece2d5e0f5" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>getStatsJson</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a7bf7cbed0a705df80afa57b18fe83c2e" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>getStatusString</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a34a3a9a2ec5da45e1cc2a72c2fa7403b" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>InferenceEngineEnhanced</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1acd076c3b56944bd96be11f70cc9d97e5" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>InferenceEngineEnhanced</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a908c6dca4bb1e7db08ca470b76caccc1" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>initialize</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a048b4cdf5eb9fcab6b7208c64eccebed" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>isModelLoaded</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1acbff63de875c9ebf0b816bd7e3163204" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>isReady</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a78b9fae1211e6421a0d7d2aa1bc37f1f" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>isRequestInProgress</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1ac0d1cbaf4f356f1ea308c4c0d4153929" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>isSpeculativeDecodingEnabled</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1ad4b95bc3ad527533c56d0b181fb37fbd" prot="private" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>kv_cache_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1aee0cd12d950197b292a1b5c201f9ec90" prot="private" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>loaded_adapters_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1ab9e1ddea78be4c367ce842ba90e3b8ee" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>loadLoRAAdapter</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1af5ef42b65eac48794bc717563952e03a" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>loadModel</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a34619f6552fc5d3703c359d686023945" prot="private" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>model_config_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a1f82ade5f06dd64afd2253ae9ee5e9a8" prot="private" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>model_loaded_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a9da489ef01cbd6797d63e1b54479d161" prot="private" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>mutex_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a4f6c2206d566830a5f09ee7de4011d5f" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1ab9ac305a20db0d3dc0556dd4d121ab2f" prot="private" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>ready_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1ab8e6c73de42bc6b52e84ac1b4b8fb523" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>resetStats</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a4b87f5638868e51cfb9f27ce7b4d75a2" prot="private" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>scheduler_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a60d110404033402957f3e579934ff9c4" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>setActiveAdapter</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1ae5b1fe9bc354b6bbaabcfde1192ed7d1" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>setCapabilityUpdateCallback</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a5039bcb6b5a911b9625135a747e42807" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>setKVCache</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1ae3007522e88ecde11c15cb1e644fe485" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>setScheduler</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1afc2e8167c5dcd309f34ba11cad236667" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>shutdown</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a0a3c21e54ecd1074b394b1aa4a1ef59c" prot="private" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>speculative_decoding_enabled_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a153d89ed1cb88229b9759751816a1696" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>startStreaming</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1aaf820326e8d97d0761fec56037ec6e12" prot="private" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>stats_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a0a16a831034c09ca29c70538c2327b36" prot="private" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>stats_mutex_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a4851072bf629318d2efbd5442788f6d2" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>stopStreaming</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a8252e7b3299ac14d823df0c9673f3ae6" prot="private" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>target_model_id_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1ab454d3dc46655d661f9ac8b290e0257e" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>TokenCallback</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1af242ec254d49973ff4b05a7d9f1da1ba" prot="private" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>tokenize</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a1bcf35b89a097e663b1ee2f32c5df222" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>unloadLoRAAdapter</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a3a8c39c585eb211a5d4b052853830675" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>unloadModel</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a332cf4f63e5249c5904e66814f44ea44" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>updateAdapterCapabilities</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a39f169abf46be4ce6345513f58961474" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>updateConfig</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a1286e6e2929475fc839f5021f0d7c1a5" prot="private" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>updateStats</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a2c1f48baaf8a544910a06453f1ecee2c" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>verifyDraftTokens</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced_1a7b9825579f4434aa3836eef84fba92ec" prot="public" virt="non-virtual"><scope>themisdb::sharding::InferenceEngineEnhanced</scope><name>~InferenceEngineEnhanced</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,177 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_multi_g_p_u_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::MultiGPUConfig</compoundname>
+    <includes refid="multi__lora__manager_8h" local="no">multi_lora_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_g_p_u_config_1a7791d1edfb0d5451a0971abf45c1fe36" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::MultiGPUConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::llm::MultiGPUConfig::enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="50" column="10" bodyfile="include/llm/multi_lora_manager.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_g_p_u_config_1ab0a7bbb2f642c034849b1bff070e3a4f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; themis::llm::MultiGPUConfig::devices</definition>
+        <argsstring></argsstring>
+        <name>devices</name>
+        <qualifiedname>themis::llm::MultiGPUConfig::devices</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="51" column="17" bodyfile="include/llm/multi_lora_manager.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_g_p_u_config_1abc1d4ac55b39c28cc91444c6b478270b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1ac97a4f1a11d739b2dd52142a3c24873d" kindref="member">MultiGPUStrategy</ref></type>
+        <definition>MultiGPUStrategy themis::llm::MultiGPUConfig::strategy</definition>
+        <argsstring></argsstring>
+        <name>strategy</name>
+        <qualifiedname>themis::llm::MultiGPUConfig::strategy</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1llm_1ac97a4f1a11d739b2dd52142a3c24873da1ebd8dbf8c34e255f5cbf28f35860b71" kindref="member">MultiGPUStrategy::ROUND_ROBIN</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="52" column="22" bodyfile="include/llm/multi_lora_manager.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_g_p_u_config_1a627b5e8859cbd0b06f66c06f8a52e6b8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::MultiGPUConfig::enable_peer_transfer</definition>
+        <argsstring></argsstring>
+        <name>enable_peer_transfer</name>
+        <qualifiedname>themis::llm::MultiGPUConfig::enable_peer_transfer</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="53" column="10" bodyfile="include/llm/multi_lora_manager.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_g_p_u_config_1a7c0e5f599d01c8a136b63ec4b7de3b39" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::MultiGPUConfig::max_vram_per_gpu_mb</definition>
+        <argsstring></argsstring>
+        <name>max_vram_per_gpu_mb</name>
+        <qualifiedname>themis::llm::MultiGPUConfig::max_vram_per_gpu_mb</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1llm_1_1_multi_g_p_u_config_1a7e7fbe45acf1dae483acd3e51313dc07" kindref="member">DEFAULT_MAX_VRAM_PER_GPU_MB</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="56" column="12" bodyfile="include/llm/multi_lora_manager.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_g_p_u_config_1a3060283c7fcf77245e63cd4611c13276" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::MultiGPUConfig::enable_load_balancing</definition>
+        <argsstring></argsstring>
+        <name>enable_load_balancing</name>
+        <qualifiedname>themis::llm::MultiGPUConfig::enable_load_balancing</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="59" column="10" bodyfile="include/llm/multi_lora_manager.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_g_p_u_config_1a57a3a004424d993805587b2ebf92ecb5" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::MultiGPUConfig::load_balance_threshold</definition>
+        <argsstring></argsstring>
+        <name>load_balance_threshold</name>
+        <qualifiedname>themis::llm::MultiGPUConfig::load_balance_threshold</qualifiedname>
+        <initializer>= 0.8f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="60" column="11" bodyfile="include/llm/multi_lora_manager.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_g_p_u_config_1ab80aca6c02329995c4bb3b3ad0c80950" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::MultiGPUConfig::enable_fault_tolerance</definition>
+        <argsstring></argsstring>
+        <name>enable_fault_tolerance</name>
+        <qualifiedname>themis::llm::MultiGPUConfig::enable_fault_tolerance</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="63" column="10" bodyfile="include/llm/multi_lora_manager.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_g_p_u_config_1a961152d79ca3e0faae4da0ec5cfc382f" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::MultiGPUConfig::health_check_interval_sec</definition>
+        <argsstring></argsstring>
+        <name>health_check_interval_sec</name>
+        <qualifiedname>themis::llm::MultiGPUConfig::health_check_interval_sec</qualifiedname>
+        <initializer>= 30</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="64" column="9" bodyfile="include/llm/multi_lora_manager.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_g_p_u_config_1a7e7fbe45acf1dae483acd3e51313dc07" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::MultiGPUConfig::DEFAULT_MAX_VRAM_PER_GPU_MB</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_MAX_VRAM_PER_GPU_MB</name>
+        <qualifiedname>themis::llm::MultiGPUConfig::DEFAULT_MAX_VRAM_PER_GPU_MB</qualifiedname>
+        <initializer>= 24 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="55" column="29" bodyfile="include/llm/multi_lora_manager.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/multi_lora_manager.h" line="49" column="1" bodyfile="include/llm/multi_lora_manager.h" bodystart="49" bodyend="65"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_multi_g_p_u_config_1a7e7fbe45acf1dae483acd3e51313dc07" prot="public" virt="non-virtual"><scope>themis::llm::MultiGPUConfig</scope><name>DEFAULT_MAX_VRAM_PER_GPU_MB</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_g_p_u_config_1ab0a7bbb2f642c034849b1bff070e3a4f" prot="public" virt="non-virtual"><scope>themis::llm::MultiGPUConfig</scope><name>devices</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_g_p_u_config_1ab80aca6c02329995c4bb3b3ad0c80950" prot="public" virt="non-virtual"><scope>themis::llm::MultiGPUConfig</scope><name>enable_fault_tolerance</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_g_p_u_config_1a3060283c7fcf77245e63cd4611c13276" prot="public" virt="non-virtual"><scope>themis::llm::MultiGPUConfig</scope><name>enable_load_balancing</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_g_p_u_config_1a627b5e8859cbd0b06f66c06f8a52e6b8" prot="public" virt="non-virtual"><scope>themis::llm::MultiGPUConfig</scope><name>enable_peer_transfer</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_g_p_u_config_1a7791d1edfb0d5451a0971abf45c1fe36" prot="public" virt="non-virtual"><scope>themis::llm::MultiGPUConfig</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_g_p_u_config_1a961152d79ca3e0faae4da0ec5cfc382f" prot="public" virt="non-virtual"><scope>themis::llm::MultiGPUConfig</scope><name>health_check_interval_sec</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_g_p_u_config_1a57a3a004424d993805587b2ebf92ecb5" prot="public" virt="non-virtual"><scope>themis::llm::MultiGPUConfig</scope><name>load_balance_threshold</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_g_p_u_config_1a7c0e5f599d01c8a136b63ec4b7de3b39" prot="public" virt="non-virtual"><scope>themis::llm::MultiGPUConfig</scope><name>max_vram_per_gpu_mb</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_g_p_u_config_1abc1d4ac55b39c28cc91444c6b478270b" prot="public" virt="non-virtual"><scope>themis::llm::MultiGPUConfig</scope><name>strategy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

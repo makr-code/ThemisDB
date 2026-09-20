@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_graph_optimization_fixture" kind="class" language="C++" prot="public">
+    <compoundname>GraphOptimizationFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_graph_optimization_fixture_1a5fa4607d73b5193b6aab0929850cc665" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; QueryPlanner &gt;</type>
+        <definition>std::unique_ptr&lt;QueryPlanner&gt; GraphOptimizationFixture::planner_</definition>
+        <argsstring></argsstring>
+        <name>planner_</name>
+        <qualifiedname>GraphOptimizationFixture::planner_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_graph_release_gates.cpp" line="76" column="21" bodyfile="benchmarks/graph/bench_graph_release_gates.cpp" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_graph_optimization_fixture_1a116b539d711cf7da69a6a1b72e0792b0" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; GraphTraversal &gt;</type>
+        <definition>std::unique_ptr&lt;GraphTraversal&gt; GraphOptimizationFixture::traversal_</definition>
+        <argsstring></argsstring>
+        <name>traversal_</name>
+        <qualifiedname>GraphOptimizationFixture::traversal_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_graph_release_gates.cpp" line="77" column="21" bodyfile="benchmarks/graph/bench_graph_release_gates.cpp" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_graph_optimization_fixture_1a2849e7d9ac8d72a0e528c4157b4c65a2" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1graph_1_1_knowledge_graph_reasoner" kindref="compound">KnowledgeGraphReasoner</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;KnowledgeGraphReasoner&gt; GraphOptimizationFixture::reasoner_</definition>
+        <argsstring></argsstring>
+        <name>reasoner_</name>
+        <qualifiedname>GraphOptimizationFixture::reasoner_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_graph_release_gates.cpp" line="78" column="21" bodyfile="benchmarks/graph/bench_graph_release_gates.cpp" bodystart="78" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_graph_optimization_fixture_1a6e8ccd7ac286d86cbd18b449928fff06" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GraphOptimizationFixture::SetUp</definition>
+        <argsstring>(const ::benchmark::State &amp;) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>GraphOptimizationFixture::SetUp</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_graph_release_gates.cpp" line="80" column="10" bodyfile="benchmarks/graph/bench_graph_release_gates.cpp" bodystart="80" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="class_graph_optimization_fixture_1a49509066c98b1fa01d8285821a3e19ad" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GraphOptimizationFixture::TearDown</definition>
+        <argsstring>(const ::benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>GraphOptimizationFixture::TearDown</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_graph_release_gates.cpp" line="86" column="10" bodyfile="benchmarks/graph/bench_graph_release_gates.cpp" bodystart="86" bodyend="90"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>GraphOptimizationFixture</label>
+        <link refid="class_graph_optimization_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>GraphOptimizationFixture</label>
+        <link refid="class_graph_optimization_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/graph/bench_graph_release_gates.cpp" line="74" column="1" bodyfile="benchmarks/graph/bench_graph_release_gates.cpp" bodystart="74" bodyend="91"/>
+    <listofallmembers>
+      <member refid="class_graph_optimization_fixture_1a5fa4607d73b5193b6aab0929850cc665" prot="protected" virt="non-virtual"><scope>GraphOptimizationFixture</scope><name>planner_</name></member>
+      <member refid="class_graph_optimization_fixture_1a2849e7d9ac8d72a0e528c4157b4c65a2" prot="protected" virt="non-virtual"><scope>GraphOptimizationFixture</scope><name>reasoner_</name></member>
+      <member refid="class_graph_optimization_fixture_1a6e8ccd7ac286d86cbd18b449928fff06" prot="protected" virt="non-virtual"><scope>GraphOptimizationFixture</scope><name>SetUp</name></member>
+      <member refid="class_graph_optimization_fixture_1a49509066c98b1fa01d8285821a3e19ad" prot="protected" virt="non-virtual"><scope>GraphOptimizationFixture</scope><name>TearDown</name></member>
+      <member refid="class_graph_optimization_fixture_1a116b539d711cf7da69a6a1b72e0792b0" prot="protected" virt="non-virtual"><scope>GraphOptimizationFixture</scope><name>traversal_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

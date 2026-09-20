@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1_federated_import_coordinator_1_1_secure_aggregation_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::importers::FederatedImportCoordinator::SecureAggregationManager</compoundname>
+    <includes refid="federated__learning_8h" local="no">federated_learning.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_federated_import_coordinator_1_1_secure_aggregation_manager_1a31d301db5cfd72372c2d2c6ef909f8a3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt; double &gt; themis::importers::FederatedImportCoordinator::SecureAggregationManager::maskGradient</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;gradient, const std::string &amp;participant_id, const std::string &amp;round_id) const</argsstring>
+        <name>maskGradient</name>
+        <qualifiedname>themis::importers::FederatedImportCoordinator::SecureAggregationManager::maskGradient</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>gradient</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>participant_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>round_id</declname>
+        </param>
+        <briefdescription>
+<para>Mask Gradient. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gradient</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">participant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the participant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">round_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the round. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/federated_learning.h" line="87" column="21" bodyfile="src/importers/federated_learning.cpp" bodystart="286" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_federated_import_coordinator_1_1_secure_aggregation_manager_1a06503c296cfd1da1c4ffc4805fbb4cbe" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt; double &gt; themis::importers::FederatedImportCoordinator::SecureAggregationManager::unmaskAggregatedGradient</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;masked_sum, const std::vector&lt; std::string &gt; &amp;participant_ids, const std::string &amp;round_id) const</argsstring>
+        <name>unmaskAggregatedGradient</name>
+        <qualifiedname>themis::importers::FederatedImportCoordinator::SecureAggregationManager::unmaskAggregatedGradient</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>masked_sum</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>participant_ids</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>round_id</declname>
+        </param>
+        <briefdescription>
+<para>Unmask Aggregated Gradient. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">masked_sum</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">participant_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">round_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the round. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/federated_learning.h" line="100" column="21" bodyfile="src/importers/federated_learning.cpp" bodystart="300" bodyend="312"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/federated_learning.h" line="78" column="5" bodyfile="include/importers/federated_learning.h" bodystart="78" bodyend="105"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1importers_1_1_federated_import_coordinator_1_1_secure_aggregation_manager_1a31d301db5cfd72372c2d2c6ef909f8a3" prot="public" virt="non-virtual"><scope>themis::importers::FederatedImportCoordinator::SecureAggregationManager</scope><name>maskGradient</name></member>
+      <member refid="classthemis_1_1importers_1_1_federated_import_coordinator_1_1_secure_aggregation_manager_1a06503c296cfd1da1c4ffc4805fbb4cbe" prot="public" virt="non-virtual"><scope>themis::importers::FederatedImportCoordinator::SecureAggregationManager</scope><name>unmaskAggregatedGradient</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

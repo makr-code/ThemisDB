@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1exporters_1_1_hub_upload_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::exporters::HubUploadResult</compoundname>
+    <includes refid="huggingface__hub__client_8h" local="no">huggingface_hub_client.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_hub_upload_result_1aa7447453ae0d04c176d078c4f059de2a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::exporters::HubUploadResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::exporters::HubUploadResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/huggingface_hub_client.h" line="39" column="10" bodyfile="include/exporters/huggingface_hub_client.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_hub_upload_result_1ad20f5868a31fdac896d22ecf85ea08f5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::HubUploadResult::dataset_url</definition>
+        <argsstring></argsstring>
+        <name>dataset_url</name>
+        <qualifiedname>themis::exporters::HubUploadResult::dataset_url</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/huggingface_hub_client.h" line="40" column="17" bodyfile="include/exporters/huggingface_hub_client.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_hub_upload_result_1a56c1b80c89aec1a787d93ea5415cc251" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::HubUploadResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::exporters::HubUploadResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/huggingface_hub_client.h" line="41" column="17" bodyfile="include/exporters/huggingface_hub_client.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_hub_upload_result_1a259c61ac309d8dbf347a375c7d1d4271" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::exporters::HubUploadResult::http_status</definition>
+        <argsstring></argsstring>
+        <name>http_status</name>
+        <qualifiedname>themis::exporters::HubUploadResult::http_status</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/huggingface_hub_client.h" line="42" column="9" bodyfile="include/exporters/huggingface_hub_client.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/exporters/huggingface_hub_client.h" line="38" column="1" bodyfile="include/exporters/huggingface_hub_client.h" bodystart="38" bodyend="43"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1exporters_1_1_hub_upload_result_1ad20f5868a31fdac896d22ecf85ea08f5" prot="public" virt="non-virtual"><scope>themis::exporters::HubUploadResult</scope><name>dataset_url</name></member>
+      <member refid="structthemis_1_1exporters_1_1_hub_upload_result_1a56c1b80c89aec1a787d93ea5415cc251" prot="public" virt="non-virtual"><scope>themis::exporters::HubUploadResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1exporters_1_1_hub_upload_result_1a259c61ac309d8dbf347a375c7d1d4271" prot="public" virt="non-virtual"><scope>themis::exporters::HubUploadResult</scope><name>http_status</name></member>
+      <member refid="structthemis_1_1exporters_1_1_hub_upload_result_1aa7447453ae0d04c176d078c4f059de2a" prot="public" virt="non-virtual"><scope>themis::exporters::HubUploadResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

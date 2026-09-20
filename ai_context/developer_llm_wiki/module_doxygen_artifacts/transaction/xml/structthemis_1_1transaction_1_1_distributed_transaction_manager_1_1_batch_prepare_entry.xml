@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1transaction_1_1_distributed_transaction_manager_1_1_batch_prepare_entry" kind="struct" language="C++" prot="private">
+    <compoundname>themis::transaction::DistributedTransactionManager::BatchPrepareEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_distributed_transaction_manager_1_1_batch_prepare_entry_1a7aec1adedcbdfedb0332fd5da26150ef" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1af5a7e7a47b0149ae7a6216d775a3537c" kindref="member">TransactionId</ref></type>
+        <definition>TransactionId themis::transaction::DistributedTransactionManager::BatchPrepareEntry::txn_id</definition>
+        <argsstring></argsstring>
+        <name>txn_id</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::BatchPrepareEntry::txn_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="541" column="32" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="541" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_distributed_transaction_manager_1_1_batch_prepare_entry_1ad360c408ab2be03f4e7fcf1fa486cf35" prot="public" static="no" mutable="no">
+        <type>std::promise&lt; bool &gt;</type>
+        <definition>std::promise&lt;bool&gt; themis::transaction::DistributedTransactionManager::BatchPrepareEntry::result</definition>
+        <argsstring></argsstring>
+        <name>result</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::BatchPrepareEntry::result</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="542" column="26" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="542" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/distributed_transaction_manager.h" line="540" column="5" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="540" bodyend="543"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1transaction_1_1_distributed_transaction_manager_1_1_batch_prepare_entry_1ad360c408ab2be03f4e7fcf1fa486cf35" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager::BatchPrepareEntry</scope><name>result</name></member>
+      <member refid="structthemis_1_1transaction_1_1_distributed_transaction_manager_1_1_batch_prepare_entry_1a7aec1adedcbdfedb0332fd5da26150ef" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager::BatchPrepareEntry</scope><name>txn_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

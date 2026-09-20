@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_matrix_kernel_dispatch" kind="struct" language="C++" prot="public">
+    <compoundname>themis::acceleration::MatrixKernelDispatch</compoundname>
+    <includes refid="kernel__invocation_8h" local="no">kernel_invocation.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_matrix_kernel_dispatch_1a7385f749d4d94b683391e0219cfe73b9" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1acceleration_1a1df65092778a4c201960a6649007209d" kindref="member">MatrixKernelFn</ref></type>
+        <definition>MatrixKernelFn themis::acceleration::MatrixKernelDispatch::launchMatmul</definition>
+        <argsstring></argsstring>
+        <name>launchMatmul</name>
+        <qualifiedname>themis::acceleration::MatrixKernelDispatch::launchMatmul</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>General GEMM launcher (FP32/FP16/BF16). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_invocation.h" line="266" column="20" bodyfile="include/acceleration/kernel_invocation.h" bodystart="266" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Matrix kernel dispatch table — one per backend instance. A null <computeroutput>launchMatmul</computeroutput> means the backend does not support matrix ops. </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::acceleration::MatrixKernelDispatch</label>
+        <link refid="structthemis_1_1acceleration_1_1_matrix_kernel_dispatch"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>launchMatmul</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::acceleration::MatrixKernelParams</label>
+        <link refid="structthemis_1_1acceleration_1_1_matrix_kernel_params"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/acceleration/kernel_invocation.h" line="265" column="1" bodyfile="include/acceleration/kernel_invocation.h" bodystart="265" bodyend="267"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_matrix_kernel_dispatch_1a7385f749d4d94b683391e0219cfe73b9" prot="public" virt="non-virtual"><scope>themis::acceleration::MatrixKernelDispatch</scope><name>launchMatmul</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

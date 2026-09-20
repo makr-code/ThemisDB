@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="group__storage" kind="group">
+    <compoundname>storage</compoundname>
+    <title>Storage Module</title>
+    <innerclass refid="structthemis_1_1_shard_info" prot="public">themis::ShardInfo</innerclass>
+    <innerclass refid="structthemis_1_1_r_a_i_d_config" prot="public">themis::RAIDConfig</innerclass>
+    <innerclass refid="structthemis_1_1_file_integrity_info" prot="public">themis::FileIntegrityInfo</innerclass>
+    <innerclass refid="structthemis_1_1_backup_options" prot="public">themis::BackupOptions</innerclass>
+    <innerclass refid="structthemis_1_1_p_i_t_r_options" prot="public">themis::PITROptions</innerclass>
+    <innerclass refid="structthemis_1_1_recovery_stats" prot="public">themis::RecoveryStats</innerclass>
+    <innerclass refid="classthemis_1_1_backup_manager" prot="public">themis::BackupManager</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="group__storage_1gaa7796885f64c867cdf3f892812672149" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>RAIDMode</name>
+        <qualifiedname>themis::RAIDMode</qualifiedname>
+        <enumvalue id="group__storage_1ggaa7796885f64c867cdf3f892812672149ab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__storage_1ggaa7796885f64c867cdf3f892812672149af64edeba3236e43862427641fbc5876a" prot="public">
+          <name>RAID0</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__storage_1ggaa7796885f64c867cdf3f892812672149aafd0c6e27d41e812892b94f43171ae3d" prot="public">
+          <name>RAID1</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__storage_1ggaa7796885f64c867cdf3f892812672149a67dd612c2e96ae789ee22fffe6e751bd" prot="public">
+          <name>RAID5</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__storage_1ggaa7796885f64c867cdf3f892812672149a8c68f6195fb0884b2462b9fa9b70d6b6" prot="public">
+          <name>RAID6</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__storage_1ggaa7796885f64c867cdf3f892812672149aa7018f03b18f085514eba335923e334a" prot="public">
+          <name>RAID10</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Supported redundancy layouts for backup coordination. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="35" column="1" bodyfile="include/storage/backup_manager.h" bodystart="35" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="enum" id="group__storage_1ga735a2b5f31bda6737b967fde9d418947" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>CompressionType</name>
+        <qualifiedname>themis::CompressionType</qualifiedname>
+        <enumvalue id="group__storage_1gga735a2b5f31bda6737b967fde9d418947ab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__storage_1gga735a2b5f31bda6737b967fde9d418947af1cd28417b03cfab3a8e16d66e34e18a" prot="public">
+          <name>GZIP</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__storage_1gga735a2b5f31bda6737b967fde9d418947a8406cc2302e19183037b61249546b234" prot="public">
+          <name>ZSTD</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__storage_1gga735a2b5f31bda6737b967fde9d418947aca0c64c0de8f56bc573828ea6d764594" prot="public">
+          <name>LZ4</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Compression modes supported by backup creation and restore flows. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="72" column="1" bodyfile="include/storage/backup_manager.h" bodystart="72" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="enum" id="group__storage_1gaf7e7cc47cbb8962dec1c4013af54c72d" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>StorageBackend</name>
+        <qualifiedname>themis::StorageBackend</qualifiedname>
+        <enumvalue id="group__storage_1ggaf7e7cc47cbb8962dec1c4013af54c72da54b4c4075463b2e02cd69f5cd139b5b2" prot="public">
+          <name>LOCAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__storage_1ggaf7e7cc47cbb8962dec1c4013af54c72dae2ab7c65b21ed8cc1c3b642b5e36429e" prot="public">
+          <name>S3</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__storage_1ggaf7e7cc47cbb8962dec1c4013af54c72da0f783f732d106dbf30f255f311e83e67" prot="public">
+          <name>GCS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__storage_1ggaf7e7cc47cbb8962dec1c4013af54c72da71335a48a021ae2aeb7df636ba3d2483" prot="public">
+          <name>AZURE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Transport backends available to backup upload and restore operations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="99" column="1" bodyfile="include/storage/backup_manager.h" bodystart="99" bodyend="104"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Persistence, recovery, blob, and storage-integrity services. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

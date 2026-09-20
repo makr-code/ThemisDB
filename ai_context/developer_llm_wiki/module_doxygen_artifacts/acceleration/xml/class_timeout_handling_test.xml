@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_timeout_handling_test" kind="class" language="C++" prot="public">
+    <compoundname>TimeoutHandlingTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_timeout_handling_test_1a6f0b1affd3b0f773f43f4f7337e472bf" prot="protected" static="no" mutable="no">
+        <type>FailureRecoveryLog</type>
+        <definition>FailureRecoveryLog TimeoutHandlingTest::recovery_log</definition>
+        <argsstring></argsstring>
+        <name>recovery_log</name>
+        <qualifiedname>TimeoutHandlingTest::recovery_log</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/acceleration/test_acceleration_failure_handling.cpp" line="181" column="24" bodyfile="tests/acceleration/test_acceleration_failure_handling.cpp" bodystart="181" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="class_timeout_handling_test_1ace0c37eb42fa53a05431785fe0cd39e1" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int TimeoutHandlingTest::TIMEOUT_MS</definition>
+        <argsstring></argsstring>
+        <name>TIMEOUT_MS</name>
+        <qualifiedname>TimeoutHandlingTest::TIMEOUT_MS</qualifiedname>
+        <initializer>= 50</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/acceleration/test_acceleration_failure_handling.cpp" line="182" column="26" bodyfile="tests/acceleration/test_acceleration_failure_handling.cpp" bodystart="182" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_timeout_handling_test_1a7d4b00f014eda44cb3f1a03848f9f3a7" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TimeoutHandlingTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>TimeoutHandlingTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/acceleration/test_acceleration_failure_handling.cpp" line="184" column="10" bodyfile="tests/acceleration/test_acceleration_failure_handling.cpp" bodystart="184" bodyend="186"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>TimeoutHandlingTest</label>
+        <link refid="class_timeout_handling_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>TimeoutHandlingTest</label>
+        <link refid="class_timeout_handling_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>recovery_log</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>anonymous:recovery_log</label>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/acceleration/test_acceleration_failure_handling.cpp" line="179" column="1" bodyfile="tests/acceleration/test_acceleration_failure_handling.cpp" bodystart="179" bodyend="187"/>
+    <listofallmembers>
+      <member refid="class_timeout_handling_test_1a6f0b1affd3b0f773f43f4f7337e472bf" prot="protected" virt="non-virtual"><scope>TimeoutHandlingTest</scope><name>recovery_log</name></member>
+      <member refid="class_timeout_handling_test_1a7d4b00f014eda44cb3f1a03848f9f3a7" prot="protected" virt="non-virtual"><scope>TimeoutHandlingTest</scope><name>SetUp</name></member>
+      <member refid="class_timeout_handling_test_1ace0c37eb42fa53a05431785fe0cd39e1" prot="protected" virt="non-virtual"><scope>TimeoutHandlingTest</scope><name>TIMEOUT_MS</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

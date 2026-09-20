@@ -1,0 +1,500 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1_self_r_a_g_controller" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::SelfRAGController</compoundname>
+    <includes refid="self__rag_8h" local="no">self_rag.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1rag_1_1_self_r_a_g_controller_1a57345cf3b7403331d8107c09e4d05bd8" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; <ref refid="structthemis_1_1rag_1_1_self_r_a_g_document" kindref="compound">SelfRAGDocument</ref> &gt;(const std::string &amp;<ref refid="namespacethemis_1_1query" kindref="compound">query</ref>, size_t top_k)&gt;</type>
+        <definition>using themis::rag::SelfRAGController::RetrievalCallback = 
+std::function&lt;std::vector&lt;SelfRAGDocument&gt;(const std::string&amp; query,
+                                            size_t             top_k)&gt;</definition>
+        <argsstring></argsstring>
+        <name>RetrievalCallback</name>
+        <qualifiedname>themis::rag::SelfRAGController::RetrievalCallback</qualifiedname>
+        <briefdescription>
+<para>Callback type for the retrieval function injected by the caller. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The retrieval query string. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>top_k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of passages to return. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of candidate documents (may be empty on failure). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/self_rag.h" line="124" column="5" bodyfile="include/rag/self_rag.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1rag_1_1_self_r_a_g_controller_1a465ad032344c31b80d708744b16f60ea" prot="public" static="no">
+        <type>std::function&lt; double(const std::string &amp; <ref refid="namespacethemis_1_1query" kindref="compound">query</ref>, const <ref refid="structthemis_1_1rag_1_1_self_r_a_g_document" kindref="compound">SelfRAGDocument</ref> &amp;doc)&gt;</type>
+        <definition>using themis::rag::SelfRAGController::CriticCallback = 
+std::function&lt;double(const std::string&amp;     query,
+                     const SelfRAGDocument&amp; doc)&gt;</definition>
+        <argsstring></argsstring>
+        <name>CriticCallback</name>
+        <qualifiedname>themis::rag::SelfRAGController::CriticCallback</qualifiedname>
+        <briefdescription>
+<para>Optional callback for scoring query-document relevance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When not set the controller falls back to blended retrieval score and lexical query-document overlap.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The retrieval query. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>doc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Candidate passage. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Relevance score in [0, 1]. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/self_rag.h" line="138" column="5" bodyfile="include/rag/self_rag.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_self_r_a_g_controller_1aebd93a3d15b9ff9ff17665d68b900501" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1_self_r_a_g_config" kindref="compound">SelfRAGConfig</ref></type>
+        <definition>SelfRAGConfig themis::rag::SelfRAGController::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>themis::rag::SelfRAGController::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/self_rag.h" line="229" column="23" bodyfile="include/rag/self_rag.h" bodystart="229" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_self_r_a_g_controller_1ac7a26c43e7a1ec46756128d45a3ae512" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1rag_1_1_self_r_a_g_controller_1a57345cf3b7403331d8107c09e4d05bd8" kindref="member">RetrievalCallback</ref></type>
+        <definition>RetrievalCallback themis::rag::SelfRAGController::retrieval_cb_</definition>
+        <argsstring></argsstring>
+        <name>retrieval_cb_</name>
+        <qualifiedname>themis::rag::SelfRAGController::retrieval_cb_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/self_rag.h" line="230" column="23" bodyfile="include/rag/self_rag.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_self_r_a_g_controller_1a4738da8e625875f603d9559afb0989b9" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1rag_1_1_self_r_a_g_controller_1a465ad032344c31b80d708744b16f60ea" kindref="member">CriticCallback</ref></type>
+        <definition>CriticCallback themis::rag::SelfRAGController::critic_cb_</definition>
+        <argsstring></argsstring>
+        <name>critic_cb_</name>
+        <qualifiedname>themis::rag::SelfRAGController::critic_cb_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/self_rag.h" line="231" column="23" bodyfile="include/rag/self_rag.h" bodystart="231" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_self_r_a_g_controller_1a43ec3749bad0b3413477c64032ffff1a" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::rag::SelfRAGController::seen_ids_</definition>
+        <argsstring></argsstring>
+        <name>seen_ids_</name>
+        <qualifiedname>themis::rag::SelfRAGController::seen_ids_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/self_rag.h" line="234" column="17" bodyfile="include/rag/self_rag.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_self_r_a_g_controller_1a9ce250e4d6b586792e0cc2d264e87fd9" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::SelfRAGController::SelfRAGController</definition>
+        <argsstring>(SelfRAGConfig cfg={})</argsstring>
+        <name>SelfRAGController</name>
+        <qualifiedname>themis::rag::SelfRAGController::SelfRAGController</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1rag_1_1_self_r_a_g_config" kindref="compound">SelfRAGConfig</ref></type>
+          <declname>cfg</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/self_rag.h" line="142" column="14" bodyfile="src/rag/self_rag.cpp" bodystart="164" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_self_r_a_g_controller_1a3bfead9b4b0b6d48a35efcbdc6f0cd4b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::SelfRAGController::~SelfRAGController</definition>
+        <argsstring>()</argsstring>
+        <name>~SelfRAGController</name>
+        <qualifiedname>themis::rag::SelfRAGController::~SelfRAGController</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/self_rag.h" line="143" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_self_r_a_g_controller_1a2ee79e2c11d45b53e5a388ab476c1e1f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::SelfRAGController::setRetrievalCallback</definition>
+        <argsstring>(RetrievalCallback cb)</argsstring>
+        <name>setRetrievalCallback</name>
+        <qualifiedname>themis::rag::SelfRAGController::setRetrievalCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1rag_1_1_self_r_a_g_controller_1a57345cf3b7403331d8107c09e4d05bd8" kindref="member">RetrievalCallback</ref></type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+<para>Inject the retrieval backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Retrieval Callback.</para>
+<para>Must be set before calling <computeroutput><ref refid="classthemis_1_1rag_1_1_self_r_a_g_controller_1ae55aba07d46f64feb9f5ef3a65b7c627" kindref="member">runRefinementLoop()</ref></computeroutput>. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Retrieval function (see <ref refid="classthemis_1_1rag_1_1_self_r_a_g_controller_1a57345cf3b7403331d8107c09e4d05bd8" kindref="member">RetrievalCallback</ref>).</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/self_rag.h" line="155" column="10" bodyfile="src/rag/self_rag.cpp" bodystart="181" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_self_r_a_g_controller_1a3507dc3767f5418ec6722aadffab93ac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::SelfRAGController::setCriticCallback</definition>
+        <argsstring>(CriticCallback cb)</argsstring>
+        <name>setCriticCallback</name>
+        <qualifiedname>themis::rag::SelfRAGController::setCriticCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1rag_1_1_self_r_a_g_controller_1a465ad032344c31b80d708744b16f60ea" kindref="member">CriticCallback</ref></type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+<para>Inject an optional critic scoring function. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Critic Callback.</para>
+<para>When not set the controller uses a blended retrieval-score/lexical overlap heuristic as proxy critic confidence. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Critic function (see <ref refid="classthemis_1_1rag_1_1_self_r_a_g_controller_1a465ad032344c31b80d708744b16f60ea" kindref="member">CriticCallback</ref>).</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/self_rag.h" line="164" column="10" bodyfile="src/rag/self_rag.cpp" bodystart="190" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_self_r_a_g_controller_1a882038339e24509aafe32c5a0ed143d4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::rag::SelfRAGController::shouldRetrieve</definition>
+        <argsstring>(const std::string &amp;query, double query_confidence=0.0) const</argsstring>
+        <name>shouldRetrieve</name>
+        <qualifiedname>themis::rag::SelfRAGController::shouldRetrieve</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>query_confidence</declname>
+          <defval>0.0</defval>
+        </param>
+        <briefdescription>
+<para>Decide whether retrieval is needed for the given query context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns <computeroutput>true</computeroutput> (retrieve) when the controller estimates that the query requires external evidence. The heuristic compares <computeroutput>query_confidence</computeroutput> against <computeroutput>cfg_.retrieval_confidence_threshold</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The natural-language query. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>query_confidence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Caller-supplied confidence in [0, 1]. When omitted the controller defaults to a low value (always retrieves). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if retrieval should be triggered. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/self_rag.h" line="183" column="10" bodyfile="src/rag/self_rag.cpp" bodystart="198" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_self_r_a_g_controller_1a98f79df38b6b6db43d55778e37c33ecb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1_rated_document" kindref="compound">RatedDocument</ref> &gt;</type>
+        <definition>std::vector&lt; RatedDocument &gt; themis::rag::SelfRAGController::criticDocuments</definition>
+        <argsstring>(const std::string &amp;query, const std::vector&lt; SelfRAGDocument &gt; &amp;documents) const</argsstring>
+        <name>criticDocuments</name>
+        <qualifiedname>themis::rag::SelfRAGController::criticDocuments</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1_self_r_a_g_document" kindref="compound">SelfRAGDocument</ref> &gt; &amp;</type>
+          <declname>documents</declname>
+        </param>
+        <briefdescription>
+<para>Grade a set of retrieved documents for the given query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Applies the critic callback (or retrieval-score proxy) to each document and assigns a <computeroutput><ref refid="namespacethemis_1_1rag_1a34a7718bb220d05867d720d4e994da2c" kindref="member">CriticVerdict</ref></computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The retrieval query. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>documents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Candidate passages. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of rated documents in the same order as <computeroutput>documents</computeroutput>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/self_rag.h" line="196" column="17" bodyfile="src/rag/self_rag.cpp" bodystart="240" bodyend="447"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_self_r_a_g_controller_1ae55aba07d46f64feb9f5ef3a65b7c627" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1_self_r_a_g_result" kindref="compound">SelfRAGResult</ref></type>
+        <definition>SelfRAGResult themis::rag::SelfRAGController::runRefinementLoop</definition>
+        <argsstring>(const std::string &amp;query, double query_confidence=0.0)</argsstring>
+        <name>runRefinementLoop</name>
+        <qualifiedname>themis::rag::SelfRAGController::runRefinementLoop</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>query_confidence</declname>
+          <defval>0.0</defval>
+        </param>
+        <briefdescription>
+<para>Run the full Self-RAG refinement loop for a query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Run Refinement Loop.</para>
+<para>Algorithm:<orderedlist>
+<listitem><para>Call <computeroutput><ref refid="classthemis_1_1rag_1_1_self_r_a_g_controller_1a882038339e24509aafe32c5a0ed143d4" kindref="member">shouldRetrieve()</ref></computeroutput>. If false, return early with empty result.</para>
+</listitem><listitem><para>Retrieve <computeroutput>top_k</computeroutput> documents via the retrieval callback.</para>
+</listitem><listitem><para>Critic all retrieved documents.</para>
+</listitem><listitem><para>If <computeroutput>target_relevant_docs</computeroutput> Relevant passages found → stop.</para>
+</listitem><listitem><para>Otherwise increment round counter and re-retrieve (up to max_rounds).</para>
+</listitem></orderedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Natural-language query. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>query_confidence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Confidence override passed to <computeroutput><ref refid="classthemis_1_1rag_1_1_self_r_a_g_controller_1a882038339e24509aafe32c5a0ed143d4" kindref="member">shouldRetrieve()</ref></computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput><ref refid="structthemis_1_1rag_1_1_self_r_a_g_result" kindref="compound">SelfRAGResult</ref></computeroutput> with graded passages and per-round stats. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if no retrieval callback has been set.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query_confidence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/self_rag.h" line="215" column="19" bodyfile="src/rag/self_rag.cpp" bodystart="479" bodyend="624"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_self_r_a_g_controller_1ae37aa733eb8036bf8ffc8c617445f90b" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1rag_1_1_self_r_a_g_config" kindref="compound">SelfRAGConfig</ref> &amp;</type>
+        <definition>const SelfRAGConfig &amp; themis::rag::SelfRAGController::config</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::rag::SelfRAGController::config</qualifiedname>
+        <briefdescription>
+<para>Return the active configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/self_rag.h" line="223" column="25" bodyfile="include/rag/self_rag.h" bodystart="223" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_self_r_a_g_controller_1a1ae2fc53ad7d56a2445b5a9f31d38ae5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::SelfRAGController::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::rag::SelfRAGController::reset</qualifiedname>
+        <briefdescription>
+<para>Reset internal round state (for reuse across queries). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset the modification detection flag.</para>
+<para>Calls: clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/self_rag.h" line="226" column="10" bodyfile="src/rag/self_rag.cpp" bodystart="634" bodyend="636"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_self_r_a_g_controller_1a458394d93d6f0d662eae8cff2bb762ca" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1_self_r_a_g_document" kindref="compound">SelfRAGDocument</ref> &gt;</type>
+        <definition>std::vector&lt; SelfRAGDocument &gt; themis::rag::SelfRAGController::deduplicate</definition>
+        <argsstring>(std::vector&lt; SelfRAGDocument &gt; candidates) const</argsstring>
+        <name>deduplicate</name>
+        <qualifiedname>themis::rag::SelfRAGController::deduplicate</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1_self_r_a_g_document" kindref="compound">SelfRAGDocument</ref> &gt;</type>
+          <declname>candidates</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/self_rag.h" line="236" column="17" bodyfile="src/rag/self_rag.cpp" bodystart="453" bodyend="467"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Self-RAG controller: retrieval decision, critic, and refinement loop. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Thread-safety: individual <computeroutput><ref refid="classthemis_1_1rag_1_1_self_r_a_g_controller" kindref="compound">SelfRAGController</ref></computeroutput> instances are <bold>not</bold> thread-safe. Each inference thread should own its own instance, or callers must synchronise externally. </para>
+    </detaileddescription>
+    <location file="include/rag/self_rag.h" line="115" column="1" bodyfile="include/rag/self_rag.h" bodystart="115" bodyend="238"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1_self_r_a_g_controller_1aebd93a3d15b9ff9ff17665d68b900501" prot="private" virt="non-virtual"><scope>themis::rag::SelfRAGController</scope><name>cfg_</name></member>
+      <member refid="classthemis_1_1rag_1_1_self_r_a_g_controller_1ae37aa733eb8036bf8ffc8c617445f90b" prot="public" virt="non-virtual"><scope>themis::rag::SelfRAGController</scope><name>config</name></member>
+      <member refid="classthemis_1_1rag_1_1_self_r_a_g_controller_1a4738da8e625875f603d9559afb0989b9" prot="private" virt="non-virtual"><scope>themis::rag::SelfRAGController</scope><name>critic_cb_</name></member>
+      <member refid="classthemis_1_1rag_1_1_self_r_a_g_controller_1a465ad032344c31b80d708744b16f60ea" prot="public" virt="non-virtual"><scope>themis::rag::SelfRAGController</scope><name>CriticCallback</name></member>
+      <member refid="classthemis_1_1rag_1_1_self_r_a_g_controller_1a98f79df38b6b6db43d55778e37c33ecb" prot="public" virt="non-virtual"><scope>themis::rag::SelfRAGController</scope><name>criticDocuments</name></member>
+      <member refid="classthemis_1_1rag_1_1_self_r_a_g_controller_1a458394d93d6f0d662eae8cff2bb762ca" prot="private" virt="non-virtual"><scope>themis::rag::SelfRAGController</scope><name>deduplicate</name></member>
+      <member refid="classthemis_1_1rag_1_1_self_r_a_g_controller_1a1ae2fc53ad7d56a2445b5a9f31d38ae5" prot="public" virt="non-virtual"><scope>themis::rag::SelfRAGController</scope><name>reset</name></member>
+      <member refid="classthemis_1_1rag_1_1_self_r_a_g_controller_1ac7a26c43e7a1ec46756128d45a3ae512" prot="private" virt="non-virtual"><scope>themis::rag::SelfRAGController</scope><name>retrieval_cb_</name></member>
+      <member refid="classthemis_1_1rag_1_1_self_r_a_g_controller_1a57345cf3b7403331d8107c09e4d05bd8" prot="public" virt="non-virtual"><scope>themis::rag::SelfRAGController</scope><name>RetrievalCallback</name></member>
+      <member refid="classthemis_1_1rag_1_1_self_r_a_g_controller_1ae55aba07d46f64feb9f5ef3a65b7c627" prot="public" virt="non-virtual"><scope>themis::rag::SelfRAGController</scope><name>runRefinementLoop</name></member>
+      <member refid="classthemis_1_1rag_1_1_self_r_a_g_controller_1a43ec3749bad0b3413477c64032ffff1a" prot="private" virt="non-virtual"><scope>themis::rag::SelfRAGController</scope><name>seen_ids_</name></member>
+      <member refid="classthemis_1_1rag_1_1_self_r_a_g_controller_1a9ce250e4d6b586792e0cc2d264e87fd9" prot="public" virt="non-virtual"><scope>themis::rag::SelfRAGController</scope><name>SelfRAGController</name></member>
+      <member refid="classthemis_1_1rag_1_1_self_r_a_g_controller_1a3507dc3767f5418ec6722aadffab93ac" prot="public" virt="non-virtual"><scope>themis::rag::SelfRAGController</scope><name>setCriticCallback</name></member>
+      <member refid="classthemis_1_1rag_1_1_self_r_a_g_controller_1a2ee79e2c11d45b53e5a388ab476c1e1f" prot="public" virt="non-virtual"><scope>themis::rag::SelfRAGController</scope><name>setRetrievalCallback</name></member>
+      <member refid="classthemis_1_1rag_1_1_self_r_a_g_controller_1a882038339e24509aafe32c5a0ed143d4" prot="public" virt="non-virtual"><scope>themis::rag::SelfRAGController</scope><name>shouldRetrieve</name></member>
+      <member refid="classthemis_1_1rag_1_1_self_r_a_g_controller_1a3bfead9b4b0b6d48a35efcbdc6f0cd4b" prot="public" virt="non-virtual"><scope>themis::rag::SelfRAGController</scope><name>~SelfRAGController</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

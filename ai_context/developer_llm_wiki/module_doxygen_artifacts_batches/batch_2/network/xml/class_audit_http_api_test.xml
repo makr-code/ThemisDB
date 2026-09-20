@@ -1,0 +1,220 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_audit_http_api_test" kind="class" language="C++" prot="public">
+    <compoundname>AuditHttpApiTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_audit_http_api_test_1ae181921cbde8d048f00c9681a0dfee75" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::server::HttpServer &gt;</type>
+        <definition>std::unique_ptr&lt;themis::server::HttpServer&gt; AuditHttpApiTest::server_</definition>
+        <argsstring></argsstring>
+        <name>server_</name>
+        <qualifiedname>AuditHttpApiTest::server_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_audit.cpp" line="124" column="21" bodyfile="tests/network/test_http_audit.cpp" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_audit_http_api_test_1a6944808a4a72cadbf0d322a8d048866b" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;themis::RocksDBWrapper&gt; AuditHttpApiTest::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>AuditHttpApiTest::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_audit.cpp" line="125" column="21" bodyfile="tests/network/test_http_audit.cpp" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_audit_http_api_test_1a264556ea37099130ac33eef6cf04babd" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::SecondaryIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::SecondaryIndexManager&gt; AuditHttpApiTest::secondary_index_</definition>
+        <argsstring></argsstring>
+        <name>secondary_index_</name>
+        <qualifiedname>AuditHttpApiTest::secondary_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_audit.cpp" line="126" column="21" bodyfile="tests/network/test_http_audit.cpp" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_audit_http_api_test_1ab8c03262b134d309e217c77fa9b26fdf" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::GraphIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::GraphIndexManager&gt; AuditHttpApiTest::graph_index_</definition>
+        <argsstring></argsstring>
+        <name>graph_index_</name>
+        <qualifiedname>AuditHttpApiTest::graph_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_audit.cpp" line="127" column="21" bodyfile="tests/network/test_http_audit.cpp" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_audit_http_api_test_1add2a6ce3410d8c52ed56730e744ce01b" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::VectorIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::VectorIndexManager&gt; AuditHttpApiTest::vector_index_</definition>
+        <argsstring></argsstring>
+        <name>vector_index_</name>
+        <qualifiedname>AuditHttpApiTest::vector_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_audit.cpp" line="128" column="21" bodyfile="tests/network/test_http_audit.cpp" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_audit_http_api_test_1a1c5ad699a0c57263609e4691476f8d57" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::TransactionManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::TransactionManager&gt; AuditHttpApiTest::tx_manager_</definition>
+        <argsstring></argsstring>
+        <name>tx_manager_</name>
+        <qualifiedname>AuditHttpApiTest::tx_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_audit.cpp" line="129" column="21" bodyfile="tests/network/test_http_audit.cpp" bodystart="129" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_audit_http_api_test_1a4feb02f7a028fafc29ef0999c2337bcc" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AuditHttpApiTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>AuditHttpApiTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_audit.cpp" line="27" column="10" bodyfile="tests/network/test_http_audit.cpp" bodystart="27" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="class_audit_http_api_test_1af0fc3ee719b7a5add2ef27c2908ff468" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AuditHttpApiTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>AuditHttpApiTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_audit.cpp" line="75" column="10" bodyfile="tests/network/test_http_audit.cpp" bodystart="75" bodyend="89"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_audit_http_api_test_1af5e274224ad52c0632cce429d8c545f2" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>static http::response&lt; http::string_body &gt; AuditHttpApiTest::http_get</definition>
+        <argsstring>(const std::string &amp;host, const std::string &amp;port, const std::string &amp;target)</argsstring>
+        <name>http_get</name>
+        <qualifiedname>AuditHttpApiTest::http_get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>host</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>port</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_audit.cpp" line="91" column="27" bodyfile="tests/network/test_http_audit.cpp" bodystart="91" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="class_audit_http_api_test_1a2880581f7712d3ef6aaa948d77a7b61c" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>static http::response&lt; http::string_body &gt; AuditHttpApiTest::http_get_auth</definition>
+        <argsstring>(const std::string &amp;host, const std::string &amp;port, const std::string &amp;target, const std::string &amp;bearer)</argsstring>
+        <name>http_get_auth</name>
+        <qualifiedname>AuditHttpApiTest::http_get_auth</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>host</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>port</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>bearer</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_audit.cpp" line="107" column="27" bodyfile="tests/network/test_http_audit.cpp" bodystart="107" bodyend="122"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AuditHttpApiTest</label>
+        <link refid="class_audit_http_api_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AuditHttpApiTest</label>
+        <link refid="class_audit_http_api_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/network/test_http_audit.cpp" line="25" column="1" bodyfile="tests/network/test_http_audit.cpp" bodystart="25" bodyend="130"/>
+    <listofallmembers>
+      <member refid="class_audit_http_api_test_1ab8c03262b134d309e217c77fa9b26fdf" prot="protected" virt="non-virtual"><scope>AuditHttpApiTest</scope><name>graph_index_</name></member>
+      <member refid="class_audit_http_api_test_1af5e274224ad52c0632cce429d8c545f2" prot="protected" virt="non-virtual"><scope>AuditHttpApiTest</scope><name>http_get</name></member>
+      <member refid="class_audit_http_api_test_1a2880581f7712d3ef6aaa948d77a7b61c" prot="protected" virt="non-virtual"><scope>AuditHttpApiTest</scope><name>http_get_auth</name></member>
+      <member refid="class_audit_http_api_test_1a264556ea37099130ac33eef6cf04babd" prot="protected" virt="non-virtual"><scope>AuditHttpApiTest</scope><name>secondary_index_</name></member>
+      <member refid="class_audit_http_api_test_1ae181921cbde8d048f00c9681a0dfee75" prot="protected" virt="non-virtual"><scope>AuditHttpApiTest</scope><name>server_</name></member>
+      <member refid="class_audit_http_api_test_1a4feb02f7a028fafc29ef0999c2337bcc" prot="protected" virt="non-virtual"><scope>AuditHttpApiTest</scope><name>SetUp</name></member>
+      <member refid="class_audit_http_api_test_1a6944808a4a72cadbf0d322a8d048866b" prot="protected" virt="non-virtual"><scope>AuditHttpApiTest</scope><name>storage_</name></member>
+      <member refid="class_audit_http_api_test_1af0fc3ee719b7a5add2ef27c2908ff468" prot="protected" virt="non-virtual"><scope>AuditHttpApiTest</scope><name>TearDown</name></member>
+      <member refid="class_audit_http_api_test_1a1c5ad699a0c57263609e4691476f8d57" prot="protected" virt="non-virtual"><scope>AuditHttpApiTest</scope><name>tx_manager_</name></member>
+      <member refid="class_audit_http_api_test_1add2a6ce3410d8c52ed56730e744ce01b" prot="protected" virt="non-virtual"><scope>AuditHttpApiTest</scope><name>vector_index_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

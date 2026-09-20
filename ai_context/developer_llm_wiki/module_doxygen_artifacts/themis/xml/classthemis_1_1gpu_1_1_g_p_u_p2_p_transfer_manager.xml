@@ -1,0 +1,549 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUP2PTransferManager</compoundname>
+    <includes refid="p2p__transfer_8h" local="no">p2p_transfer.h</includes>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_transfer_request" prot="public">themis::gpu::GPUP2PTransferManager::TransferRequest</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_transfer_result" prot="public">themis::gpu::GPUP2PTransferManager::TransferResult</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_stats" prot="public">themis::gpu::GPUP2PTransferManager::Stats</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_pair_info" prot="private">themis::gpu::GPUP2PTransferManager::PairInfo</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ad544262a673b856567e519157cac15eb" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Status</name>
+        <qualifiedname>themis::gpu::GPUP2PTransferManager::Status</qualifiedname>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ad544262a673b856567e519157cac15ebae0aa021e21dddbd6d8cecec71e9cf564" prot="public">
+          <name>OK</name>
+          <briefdescription>
+<para>Operation succeeded. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ad544262a673b856567e519157cac15ebae012afe4765f50531b90f8db218bf1cc" prot="public">
+          <name>FEATURE_DISABLED</name>
+          <briefdescription>
+<para>PEER_TO_PEER feature flag is off. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ad544262a673b856567e519157cac15eba1392ec0f4cd63fc7281cbb1e1ef79a62" prot="public">
+          <name>PEER_ACCESS_NOT_SUPPORTED</name>
+          <briefdescription>
+<para>Hardware does not support P2P access. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ad544262a673b856567e519157cac15eba3b3317363372e1a291f34c96dfcbd3b1" prot="public">
+          <name>PEER_ACCESS_ALREADY_ENABLED</name>
+          <briefdescription>
+<para>enablePeerAccess called when already enabled </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ad544262a673b856567e519157cac15ebae6b72f0ced6ab8b67020fa5055688a30" prot="public">
+          <name>PEER_ACCESS_NOT_ENABLED</name>
+          <briefdescription>
+<para>transfer called without enablePeerAccess </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ad544262a673b856567e519157cac15eba148e069c03dea724f9401060aee30ca3" prot="public">
+          <name>INVALID_DEVICE</name>
+          <briefdescription>
+<para>src or dst device index out of range </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ad544262a673b856567e519157cac15eba25c5b26be4eebc0ac7ce0fa56dd199ce" prot="public">
+          <name>TRANSFER_FAILED</name>
+          <briefdescription>
+<para>cudaMemcpyPeer / hipMemcpyPeer returned error </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ad544262a673b856567e519157cac15ebac56ddb8056b120c9d5fee05981f219c6" prot="public">
+          <name>OUT_OF_MEMORY</name>
+          <briefdescription>
+<para>Insufficient device memory for the transfer. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/p2p_transfer.h" line="67" column="5" bodyfile="include/themis/gpu/p2p_transfer.h" bodystart="67" bodyend="76"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1a71231ec71d1afe496bd192f1dc7d65a9" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::gpu::GPUP2PTransferManager::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::gpu::GPUP2PTransferManager::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/p2p_transfer.h" line="225" column="24" bodyfile="include/themis/gpu/p2p_transfer.h" bodystart="225" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1a0e636c7bfd92ca097e34f60ea884fd5c" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; uint32_t, PairInfo &gt;</type>
+        <definition>std::unordered_map&lt;uint32_t, PairInfo&gt; themis::gpu::GPUP2PTransferManager::enabled_pairs_</definition>
+        <argsstring></argsstring>
+        <name>enabled_pairs_</name>
+        <qualifiedname>themis::gpu::GPUP2PTransferManager::enabled_pairs_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/p2p_transfer.h" line="236" column="24" bodyfile="include/themis/gpu/p2p_transfer.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1a2fa3ba8ce592512833bf4cde697b77c0" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Stats themis::gpu::GPUP2PTransferManager::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::gpu::GPUP2PTransferManager::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/p2p_transfer.h" line="238" column="11" bodyfile="include/themis/gpu/p2p_transfer.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1a004c6ebce8ffef907d2c242471c6fafa" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ad3ea4b803ca2304103c4c8ea9fbdd0cd" kindref="member">GPUP2PTransferManager</ref> &amp;</type>
+        <definition>static GPUP2PTransferManager &amp; themis::gpu::GPUP2PTransferManager::GetInstance</definition>
+        <argsstring>()</argsstring>
+        <name>GetInstance</name>
+        <qualifiedname>themis::gpu::GPUP2PTransferManager::GetInstance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/p2p_transfer.h" line="115" column="34" bodyfile="include/themis/gpu/p2p_transfer.h" bodystart="115" bodyend="118"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ad3ea4b803ca2304103c4c8ea9fbdd0cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUP2PTransferManager::GPUP2PTransferManager</definition>
+        <argsstring>(const GPUP2PTransferManager &amp;)=delete</argsstring>
+        <name>GPUP2PTransferManager</name>
+        <qualifiedname>themis::gpu::GPUP2PTransferManager::GPUP2PTransferManager</qualifiedname>
+        <param>
+          <type>const GPUP2PTransferManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/p2p_transfer.h" line="121" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1a91576ac9b6c7aa96aafa8eb5b6a02f5f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ad3ea4b803ca2304103c4c8ea9fbdd0cd" kindref="member">GPUP2PTransferManager</ref> &amp;</type>
+        <definition>GPUP2PTransferManager &amp; themis::gpu::GPUP2PTransferManager::operator=</definition>
+        <argsstring>(const GPUP2PTransferManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::GPUP2PTransferManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ad3ea4b803ca2304103c4c8ea9fbdd0cd" kindref="member">GPUP2PTransferManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/p2p_transfer.h" line="122" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1a2ea9985dcedf9ca548bdc0a2459ccdea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUP2PTransferManager::GPUP2PTransferManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>GPUP2PTransferManager</name>
+        <qualifiedname>themis::gpu::GPUP2PTransferManager::GPUP2PTransferManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/p2p_transfer.h" line="124" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1abadbc7297a0e8267d8ffcc4476decb33" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUP2PTransferManager::~GPUP2PTransferManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~GPUP2PTransferManager</name>
+        <qualifiedname>themis::gpu::GPUP2PTransferManager::~GPUP2PTransferManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/p2p_transfer.h" line="125" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1a741fd3cfd47db6ba922c8037590973a7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUP2PTransferManager::canAccessPeer</definition>
+        <argsstring>(int src_device, int dst_device, const std::vector&lt; DeviceInfo &gt; &amp;devices={}) const</argsstring>
+        <name>canAccessPeer</name>
+        <qualifiedname>themis::gpu::GPUP2PTransferManager::canAccessPeer</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>src_device</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>dst_device</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1gpu_1_1_device_info" kindref="compound">DeviceInfo</ref> &gt; &amp;</type>
+          <declname>devices</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Check whether direct P2P access is possible between two devices. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Does NOT require the PEER_TO_PEER feature flag; always callable.</para>
+<para>On CUDA: calls <computeroutput>cudaDeviceCanAccessPeer</computeroutput>. On HIP: calls <computeroutput>hipDeviceCanAccessPeer</computeroutput>. CPU fallback: returns false (no hardware P2P available).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>src_device</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source GPU device index. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>dst_device</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Destination GPU device index. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>devices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device list from <computeroutput><ref refid="classthemis_1_1gpu_1_1_device_discovery_1a18428cb9bab04204c46760636d336c56" kindref="member">DeviceDiscovery::Enumerate()</ref></computeroutput>. Pass an empty vector to use the live driver query. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true when direct P2P access is supported. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/p2p_transfer.h" line="146" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1a5ddb067fda113141e11b95c4f1e94d6a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ad544262a673b856567e519157cac15eb" kindref="member">Status</ref></type>
+        <definition>Status themis::gpu::GPUP2PTransferManager::enablePeerAccess</definition>
+        <argsstring>(int src_device, int dst_device, const std::vector&lt; DeviceInfo &gt; &amp;devices={})</argsstring>
+        <name>enablePeerAccess</name>
+        <qualifiedname>themis::gpu::GPUP2PTransferManager::enablePeerAccess</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>src_device</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>dst_device</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1gpu_1_1_device_info" kindref="compound">DeviceInfo</ref> &gt; &amp;</type>
+          <declname>devices</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Enable direct peer access from src_device to dst_device. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Requires <computeroutput>PEER_TO_PEER</computeroutput> feature flag. Peer access must be supported (see <computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1a741fd3cfd47db6ba922c8037590973a7" kindref="member">canAccessPeer</ref></computeroutput>) and must not have been enabled already for this pair. On the CPU simulation path this always returns PEER_ACCESS_NOT_SUPPORTED.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>src_device</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source GPU device index. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>dst_device</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Destination GPU device index. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>devices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device list for capability checks. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ad544262a673b856567e519157cac15ebae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">Status::OK</ref> or an error code. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/p2p_transfer.h" line="162" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ad755979bed799a2785bafe0a44f7ba42" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ad544262a673b856567e519157cac15eb" kindref="member">Status</ref></type>
+        <definition>Status themis::gpu::GPUP2PTransferManager::disablePeerAccess</definition>
+        <argsstring>(int src_device, int dst_device)</argsstring>
+        <name>disablePeerAccess</name>
+        <qualifiedname>themis::gpu::GPUP2PTransferManager::disablePeerAccess</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>src_device</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>dst_device</declname>
+        </param>
+        <briefdescription>
+<para>Disable direct peer access from src_device to dst_device. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Requires <computeroutput>PEER_TO_PEER</computeroutput> feature flag. Peer access must currently be enabled for this pair.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>src_device</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source GPU device index. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>dst_device</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Destination GPU device index. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ad544262a673b856567e519157cac15ebae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">Status::OK</ref> or an error code. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/p2p_transfer.h" line="175" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1a26ff5fa7c27f3b0a7584d3d48e08b3da" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUP2PTransferManager::isPeerAccessEnabled</definition>
+        <argsstring>(int src_device, int dst_device) const</argsstring>
+        <name>isPeerAccessEnabled</name>
+        <qualifiedname>themis::gpu::GPUP2PTransferManager::isPeerAccessEnabled</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>src_device</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>dst_device</declname>
+        </param>
+        <briefdescription>
+<para>Return true when peer access has been enabled for the pair (src_device → dst_device). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/p2p_transfer.h" line="181" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1a071f4b9afdcf0c2a9b473991898d9162" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_transfer_result" kindref="compound">TransferResult</ref></type>
+        <definition>TransferResult themis::gpu::GPUP2PTransferManager::transfer</definition>
+        <argsstring>(const TransferRequest &amp;request, const std::vector&lt; DeviceInfo &gt; &amp;devices={})</argsstring>
+        <name>transfer</name>
+        <qualifiedname>themis::gpu::GPUP2PTransferManager::transfer</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_transfer_request" kindref="compound">TransferRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1gpu_1_1_device_info" kindref="compound">DeviceInfo</ref> &gt; &amp;</type>
+          <declname>devices</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Perform a direct GPU-to-GPU memory transfer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Requires <computeroutput>PEER_TO_PEER</computeroutput> feature flag.</para>
+<para>Transfer routing (best available path, in priority order):<orderedlist>
+<listitem><para>NVLink — when a NVLink link is detected between the two devices.</para>
+</listitem><listitem><para>PCIe P2P — when peer access is enabled and NVLink is not present.</para>
+</listitem><listitem><para>CPU fallback — when no hardware P2P is available; the operation succeeds via a host-side <computeroutput>memcpy</computeroutput> simulation so that tests can exercise the full transfer pipeline without GPU hardware.</para>
+</listitem></orderedlist>
+</para>
+<para>On CUDA the actual transfer is <computeroutput>cudaMemcpyPeer(dst, dst_dev, src,
+src_dev, size)</computeroutput>. On HIP it is <computeroutput>hipMemcpyPeer</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Describes source, destination, pointers, and size. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>devices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device list for topology decisions. Pass an empty vector to use <computeroutput><ref refid="classthemis_1_1gpu_1_1_device_discovery_1a18428cb9bab04204c46760636d336c56" kindref="member">DeviceDiscovery::Enumerate()</ref></computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_transfer_result" kindref="compound">TransferResult</ref> with ok==true on success. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/p2p_transfer.h" line="207" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ae3e85254a74f1e737e518b8211eb36a3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Stats themis::gpu::GPUP2PTransferManager::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::gpu::GPUP2PTransferManager::getStats</qualifiedname>
+        <briefdescription>
+<para>Return current transfer statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/p2p_transfer.h" line="217" column="11"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1a7ecccb1890f677ffad52898458c23716" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUP2PTransferManager::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::gpu::GPUP2PTransferManager::reset</qualifiedname>
+        <briefdescription>
+<para>Reset statistics and remove all enabled peer-access records. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/p2p_transfer.h" line="222" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ae61a49a59c0db895f02e3e7659b7ee33" prot="private" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>static uint32_t themis::gpu::GPUP2PTransferManager::pairKey</definition>
+        <argsstring>(int src, int dst) noexcept</argsstring>
+        <name>pairKey</name>
+        <qualifiedname>themis::gpu::GPUP2PTransferManager::pairKey</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>dst</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/p2p_transfer.h" line="240" column="21" bodyfile="include/themis/gpu/p2p_transfer.h" bodystart="240" bodyend="243"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Peer-to-peer GPU-to-GPU direct transfer manager (NVLink/PCIe). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Enables and manages direct memory transfers between GPU devices without routing data through host (CPU) memory. On NVIDIA hardware with NVLink the transfers use the high-bandwidth NVLink fabric; on other pairs they use PCIe peer-to-peer DMA. When neither path is available (e.g. CI without CUDA/HIP hardware) all transfers transparently fall back to a CPU simulation so that the full API can be exercised without real GPU hardware.</para>
+<sect1 id="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1autotoc_md37_1s1"><sect2 id="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1autotoc_md37">
+<title>Hardware integration</title><para>When <computeroutput>THEMIS_ENABLE_CUDA</computeroutput> is defined:<itemizedlist>
+<listitem><para><computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1a741fd3cfd47db6ba922c8037590973a7" kindref="member">canAccessPeer</ref></computeroutput> → <computeroutput>cudaDeviceCanAccessPeer</computeroutput></para>
+</listitem><listitem><para><computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1a5ddb067fda113141e11b95c4f1e94d6a" kindref="member">enablePeerAccess</ref></computeroutput> → <computeroutput>cudaDeviceEnablePeerAccess</computeroutput></para>
+</listitem><listitem><para><computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ad755979bed799a2785bafe0a44f7ba42" kindref="member">disablePeerAccess</ref></computeroutput> → <computeroutput>cudaDeviceDisablePeerAccess</computeroutput></para>
+</listitem><listitem><para><computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1a071f4b9afdcf0c2a9b473991898d9162" kindref="member">transfer</ref></computeroutput> → <computeroutput>cudaMemcpyPeer</computeroutput></para>
+</listitem></itemizedlist>
+</para>
+<para>When <computeroutput>THEMIS_ENABLE_HIP</computeroutput> is defined (and CUDA is absent):<itemizedlist>
+<listitem><para><computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1a741fd3cfd47db6ba922c8037590973a7" kindref="member">canAccessPeer</ref></computeroutput> → <computeroutput>hipDeviceCanAccessPeer</computeroutput></para>
+</listitem><listitem><para><computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1a5ddb067fda113141e11b95c4f1e94d6a" kindref="member">enablePeerAccess</ref></computeroutput> → <computeroutput>hipDeviceEnablePeerAccess</computeroutput></para>
+</listitem><listitem><para><computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ad755979bed799a2785bafe0a44f7ba42" kindref="member">disablePeerAccess</ref></computeroutput> → <computeroutput>hipDeviceDisablePeerAccess</computeroutput></para>
+</listitem><listitem><para><computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1a071f4b9afdcf0c2a9b473991898d9162" kindref="member">transfer</ref></computeroutput> → <computeroutput>hipMemcpyPeer</computeroutput></para>
+</listitem></itemizedlist>
+</para>
+<para>CPU fallback path: peer access capability returns false; <computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1a071f4b9afdcf0c2a9b473991898d9162" kindref="member">transfer</ref></computeroutput> succeeds via an in-memory <computeroutput>memcpy</computeroutput> simulation so tests always pass.</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1autotoc_md38_1s1"><sect2 id="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1autotoc_md38">
+<title>Feature gate</title><para>All mutating operations require <computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1a98634c6f2cebbbb028998d15c07316b0ab79a473320bb56764bc6188aea66cfc5" kindref="member">GPUFeatureFlags::Feature::PEER_TO_PEER</ref></computeroutput> to be enabled. Read-only queries (<computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1a741fd3cfd47db6ba922c8037590973a7" kindref="member">canAccessPeer</ref></computeroutput>, <computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1a26ff5fa7c27f3b0a7584d3d48e08b3da" kindref="member">isPeerAccessEnabled</ref></computeroutput>, <computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ae3e85254a74f1e737e518b8211eb36a3" kindref="member">getStats</ref></computeroutput>) are always permitted. The feature is enabled by default for ENTERPRISE and HYPERSCALER editions.</para>
+<para>Thread safety: all public methods are protected by an internal mutex. </para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/themis/gpu/p2p_transfer.h" line="62" column="1" bodyfile="include/themis/gpu/p2p_transfer.h" bodystart="62" bodyend="244"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1a741fd3cfd47db6ba922c8037590973a7" prot="public" virt="non-virtual"><scope>themis::gpu::GPUP2PTransferManager</scope><name>canAccessPeer</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ad755979bed799a2785bafe0a44f7ba42" prot="public" virt="non-virtual"><scope>themis::gpu::GPUP2PTransferManager</scope><name>disablePeerAccess</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1a0e636c7bfd92ca097e34f60ea884fd5c" prot="private" virt="non-virtual"><scope>themis::gpu::GPUP2PTransferManager</scope><name>enabled_pairs_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1a5ddb067fda113141e11b95c4f1e94d6a" prot="public" virt="non-virtual"><scope>themis::gpu::GPUP2PTransferManager</scope><name>enablePeerAccess</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1a004c6ebce8ffef907d2c242471c6fafa" prot="public" virt="non-virtual"><scope>themis::gpu::GPUP2PTransferManager</scope><name>GetInstance</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ae3e85254a74f1e737e518b8211eb36a3" prot="public" virt="non-virtual"><scope>themis::gpu::GPUP2PTransferManager</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ad3ea4b803ca2304103c4c8ea9fbdd0cd" prot="public" virt="non-virtual"><scope>themis::gpu::GPUP2PTransferManager</scope><name>GPUP2PTransferManager</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1a2ea9985dcedf9ca548bdc0a2459ccdea" prot="public" virt="non-virtual"><scope>themis::gpu::GPUP2PTransferManager</scope><name>GPUP2PTransferManager</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1a26ff5fa7c27f3b0a7584d3d48e08b3da" prot="public" virt="non-virtual"><scope>themis::gpu::GPUP2PTransferManager</scope><name>isPeerAccessEnabled</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1a71231ec71d1afe496bd192f1dc7d65a9" prot="private" virt="non-virtual"><scope>themis::gpu::GPUP2PTransferManager</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1a91576ac9b6c7aa96aafa8eb5b6a02f5f" prot="public" virt="non-virtual"><scope>themis::gpu::GPUP2PTransferManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ae61a49a59c0db895f02e3e7659b7ee33" prot="private" virt="non-virtual"><scope>themis::gpu::GPUP2PTransferManager</scope><name>pairKey</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1a7ecccb1890f677ffad52898458c23716" prot="public" virt="non-virtual"><scope>themis::gpu::GPUP2PTransferManager</scope><name>reset</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1a2fa3ba8ce592512833bf4cde697b77c0" prot="private" virt="non-virtual"><scope>themis::gpu::GPUP2PTransferManager</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ad544262a673b856567e519157cac15eb" prot="public" virt="non-virtual"><scope>themis::gpu::GPUP2PTransferManager</scope><name>Status</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1a071f4b9afdcf0c2a9b473991898d9162" prot="public" virt="non-virtual"><scope>themis::gpu::GPUP2PTransferManager</scope><name>transfer</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1abadbc7297a0e8267d8ffcc4476decb33" prot="public" virt="non-virtual"><scope>themis::gpu::GPUP2PTransferManager</scope><name>~GPUP2PTransferManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

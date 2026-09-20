@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_h_s_m_key_provider_adapter_test" kind="class" language="C++" prot="public">
+    <compoundname>HSMKeyProviderAdapterTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_h_s_m_key_provider_adapter_test_1a3fcc2f704e6c049174c6f26f4bda8751" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string HSMKeyProviderAdapterTest::hsm_library_path</definition>
+        <argsstring></argsstring>
+        <name>hsm_library_path</name>
+        <qualifiedname>HSMKeyProviderAdapterTest::hsm_library_path</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_key_provider_adapter.cpp" line="22" column="17" bodyfile="tests/security/test_hsm_key_provider_adapter.cpp" bodystart="22" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_h_s_m_key_provider_adapter_test_1ac5d552b5e19bbbcf667fd60f0f29028e" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string HSMKeyProviderAdapterTest::hsm_pin</definition>
+        <argsstring></argsstring>
+        <name>hsm_pin</name>
+        <qualifiedname>HSMKeyProviderAdapterTest::hsm_pin</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_key_provider_adapter.cpp" line="23" column="17" bodyfile="tests/security/test_hsm_key_provider_adapter.cpp" bodystart="23" bodyend="23"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_h_s_m_key_provider_adapter_test_1aa0c26ece10a1b788b8c09bbb2ddbb26f" prot="protected" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t HSMKeyProviderAdapterTest::hsm_slot</definition>
+        <argsstring></argsstring>
+        <name>hsm_slot</name>
+        <qualifiedname>HSMKeyProviderAdapterTest::hsm_slot</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_key_provider_adapter.cpp" line="24" column="14" bodyfile="tests/security/test_hsm_key_provider_adapter.cpp" bodystart="24" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_h_s_m_key_provider_adapter_test_1a420c6b1ca3beec4d3beac49dfc72cf80" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HSMKeyProviderAdapterTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>HSMKeyProviderAdapterTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_key_provider_adapter.cpp" line="26" column="10" bodyfile="tests/security/test_hsm_key_provider_adapter.cpp" bodystart="26" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="class_h_s_m_key_provider_adapter_test_1afb50351784a694310e39acb8d9ba3084" prot="protected" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool HSMKeyProviderAdapterTest::isHSMAvailable</definition>
+        <argsstring>() const</argsstring>
+        <name>isHSMAvailable</name>
+        <qualifiedname>HSMKeyProviderAdapterTest::isHSMAvailable</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_key_provider_adapter.cpp" line="53" column="10" bodyfile="tests/security/test_hsm_key_provider_adapter.cpp" bodystart="53" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="class_h_s_m_key_provider_adapter_test_1aec675529fdc946f03e86729de2e1ca4e" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_h_s_m_config" kindref="compound">HSMConfig</ref></type>
+        <definition>HSMConfig HSMKeyProviderAdapterTest::createTestConfig</definition>
+        <argsstring>()</argsstring>
+        <name>createTestConfig</name>
+        <qualifiedname>HSMKeyProviderAdapterTest::createTestConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_key_provider_adapter.cpp" line="58" column="15" bodyfile="tests/security/test_hsm_key_provider_adapter.cpp" bodystart="58" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="class_h_s_m_key_provider_adapter_test_1a03eb221321fb20a514d6f0837885de92" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1security_1_1_h_s_m_provider" kindref="compound">HSMProvider</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; HSMProvider &gt; HSMKeyProviderAdapterTest::createHSM</definition>
+        <argsstring>()</argsstring>
+        <name>createHSM</name>
+        <qualifiedname>HSMKeyProviderAdapterTest::createHSM</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_key_provider_adapter.cpp" line="70" column="21" bodyfile="tests/security/test_hsm_key_provider_adapter.cpp" bodystart="70" bodyend="77"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="class_h_s_m_key_provider_adapter" kindref="compound">HSMKeyProviderAdapter</ref> Tests</para>
+<para>These tests verify the adapter that bridges <ref refid="classthemis_1_1security_1_1_h_s_m_provider" kindref="compound">HSMProvider</ref> with <ref refid="classthemis_1_1_key_provider" kindref="compound">KeyProvider</ref> interface for use with <ref refid="class_field_encryption" kindref="compound">FieldEncryption</ref> in LoRA adapter storage.</para>
+<para>Note: These tests require SoftHSM2 to be installed and configured. See <ref refid="test__hsm__provider_8cpp" kindref="compound">test_hsm_provider.cpp</ref> for setup instructions. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>HSMKeyProviderAdapterTest</label>
+        <link refid="class_h_s_m_key_provider_adapter_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>HSMKeyProviderAdapterTest</label>
+        <link refid="class_h_s_m_key_provider_adapter_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/security/test_hsm_key_provider_adapter.cpp" line="20" column="1" bodyfile="tests/security/test_hsm_key_provider_adapter.cpp" bodystart="20" bodyend="78"/>
+    <listofallmembers>
+      <member refid="class_h_s_m_key_provider_adapter_test_1a03eb221321fb20a514d6f0837885de92" prot="protected" virt="non-virtual"><scope>HSMKeyProviderAdapterTest</scope><name>createHSM</name></member>
+      <member refid="class_h_s_m_key_provider_adapter_test_1aec675529fdc946f03e86729de2e1ca4e" prot="protected" virt="non-virtual"><scope>HSMKeyProviderAdapterTest</scope><name>createTestConfig</name></member>
+      <member refid="class_h_s_m_key_provider_adapter_test_1a3fcc2f704e6c049174c6f26f4bda8751" prot="protected" virt="non-virtual"><scope>HSMKeyProviderAdapterTest</scope><name>hsm_library_path</name></member>
+      <member refid="class_h_s_m_key_provider_adapter_test_1ac5d552b5e19bbbcf667fd60f0f29028e" prot="protected" virt="non-virtual"><scope>HSMKeyProviderAdapterTest</scope><name>hsm_pin</name></member>
+      <member refid="class_h_s_m_key_provider_adapter_test_1aa0c26ece10a1b788b8c09bbb2ddbb26f" prot="protected" virt="non-virtual"><scope>HSMKeyProviderAdapterTest</scope><name>hsm_slot</name></member>
+      <member refid="class_h_s_m_key_provider_adapter_test_1afb50351784a694310e39acb8d9ba3084" prot="protected" virt="non-virtual"><scope>HSMKeyProviderAdapterTest</scope><name>isHSMAvailable</name></member>
+      <member refid="class_h_s_m_key_provider_adapter_test_1a420c6b1ca3beec4d3beac49dfc72cf80" prot="protected" virt="non-virtual"><scope>HSMKeyProviderAdapterTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_entity_ref" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::EntityRef</compoundname>
+    <includes refid="training__interfaces_8h" local="no">training_interfaces.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_entity_ref_1a2318254a5df44aee40c78e78167e9a35" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::EntityRef::entity_key</definition>
+        <argsstring></argsstring>
+        <name>entity_key</name>
+        <qualifiedname>themis::training::EntityRef::entity_key</qualifiedname>
+        <briefdescription>
+<para>Primary entity identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="96" column="17" bodyfile="include/training/training_interfaces.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_entity_ref_1a5569ce64f1f851bbc2653c5d3a1f63dd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::EntityRef::graph_schema_version</definition>
+        <argsstring></argsstring>
+        <name>graph_schema_version</name>
+        <qualifiedname>themis::training::EntityRef::graph_schema_version</qualifiedname>
+        <briefdescription>
+<para>Graph schema version at query time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="97" column="17" bodyfile="include/training/training_interfaces.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1training_1_1_entity_ref_1a4ff17920f8bf3548b0abc1f90431687d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::EntityRef::EntityRef</definition>
+        <argsstring>()=default</argsstring>
+        <name>EntityRef</name>
+        <qualifiedname>themis::training::EntityRef::EntityRef</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="99" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1training_1_1_entity_ref_1acd5624436278e2ed4275b88ae1616bff" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::EntityRef::EntityRef</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;schema_version=&quot;&quot;)</argsstring>
+        <name>EntityRef</name>
+        <qualifiedname>themis::training::EntityRef::EntityRef</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>schema_version</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="100" column="14" bodyfile="include/training/training_interfaces.h" bodystart="100" bodyend="102"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Reference to a knowledge-graph entity used as an enrichment query key. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/training/training_interfaces.h" line="95" column="1" bodyfile="include/training/training_interfaces.h" bodystart="95" bodyend="103"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_entity_ref_1a2318254a5df44aee40c78e78167e9a35" prot="public" virt="non-virtual"><scope>themis::training::EntityRef</scope><name>entity_key</name></member>
+      <member refid="structthemis_1_1training_1_1_entity_ref_1a4ff17920f8bf3548b0abc1f90431687d" prot="public" virt="non-virtual"><scope>themis::training::EntityRef</scope><name>EntityRef</name></member>
+      <member refid="structthemis_1_1training_1_1_entity_ref_1acd5624436278e2ed4275b88ae1616bff" prot="public" virt="non-virtual"><scope>themis::training::EntityRef</scope><name>EntityRef</name></member>
+      <member refid="structthemis_1_1training_1_1_entity_ref_1a5569ce64f1f851bbc2653c5d3a1f63dd" prot="public" virt="non-virtual"><scope>themis::training::EntityRef</scope><name>graph_schema_version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

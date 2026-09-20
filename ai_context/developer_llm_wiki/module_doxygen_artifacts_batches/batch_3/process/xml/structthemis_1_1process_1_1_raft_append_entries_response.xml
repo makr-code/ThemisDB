@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_raft_append_entries_response" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::RaftAppendEntriesResponse</compoundname>
+    <includes refid="federated__consensus__contract_8h" local="no">federated_consensus_contract.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_raft_append_entries_response_1a83218e0b119c7e7a05de98a6da6daecd" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::RaftAppendEntriesResponse::term</definition>
+        <argsstring></argsstring>
+        <name>term</name>
+        <qualifiedname>themis::process::RaftAppendEntriesResponse::term</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Current term of follower (to update leader&apos;s term if needed). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_consensus_contract.h" line="327" column="14" bodyfile="include/process/federated_consensus_contract.h" bodystart="327" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_raft_append_entries_response_1a19419cd8e1ee09a3165933c15fee53f0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::process::RaftAppendEntriesResponse::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::process::RaftAppendEntriesResponse::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true if follower contained entry matching prev_log_index and prev_log_term </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_consensus_contract.h" line="330" column="10" bodyfile="include/process/federated_consensus_contract.h" bodystart="330" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_raft_append_entries_response_1a9e1db467dc9cfa68b84492233e4bcfe6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::RaftAppendEntriesResponse::failure_reason</definition>
+        <argsstring></argsstring>
+        <name>failure_reason</name>
+        <qualifiedname>themis::process::RaftAppendEntriesResponse::failure_reason</qualifiedname>
+        <briefdescription>
+<para>Reason for failure (if success=false). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_consensus_contract.h" line="333" column="17" bodyfile="include/process/federated_consensus_contract.h" bodystart="333" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_raft_append_entries_response_1a5a57e8e8dfc254701167c50e30c67426" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::RaftAppendEntriesResponse::match_index</definition>
+        <argsstring></argsstring>
+        <name>match_index</name>
+        <qualifiedname>themis::process::RaftAppendEntriesResponse::match_index</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Highest index successfully replicated (for leader to know where to retry from). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_consensus_contract.h" line="336" column="14" bodyfile="include/process/federated_consensus_contract.h" bodystart="336" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_raft_append_entries_response_1a9013c0401b42013daad1f1ca68d44ddd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::RaftAppendEntriesResponse::trace_id</definition>
+        <argsstring></argsstring>
+        <name>trace_id</name>
+        <qualifiedname>themis::process::RaftAppendEntriesResponse::trace_id</qualifiedname>
+        <briefdescription>
+<para>Correlation ID for tracing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_consensus_contract.h" line="339" column="17" bodyfile="include/process/federated_consensus_contract.h" bodystart="339" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Append entries response for Raft log replication. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/process/federated_consensus_contract.h" line="325" column="1" bodyfile="include/process/federated_consensus_contract.h" bodystart="325" bodyend="340"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_raft_append_entries_response_1a9e1db467dc9cfa68b84492233e4bcfe6" prot="public" virt="non-virtual"><scope>themis::process::RaftAppendEntriesResponse</scope><name>failure_reason</name></member>
+      <member refid="structthemis_1_1process_1_1_raft_append_entries_response_1a5a57e8e8dfc254701167c50e30c67426" prot="public" virt="non-virtual"><scope>themis::process::RaftAppendEntriesResponse</scope><name>match_index</name></member>
+      <member refid="structthemis_1_1process_1_1_raft_append_entries_response_1a19419cd8e1ee09a3165933c15fee53f0" prot="public" virt="non-virtual"><scope>themis::process::RaftAppendEntriesResponse</scope><name>success</name></member>
+      <member refid="structthemis_1_1process_1_1_raft_append_entries_response_1a83218e0b119c7e7a05de98a6da6daecd" prot="public" virt="non-virtual"><scope>themis::process::RaftAppendEntriesResponse</scope><name>term</name></member>
+      <member refid="structthemis_1_1process_1_1_raft_append_entries_response_1a9013c0401b42013daad1f1ca68d44ddd" prot="public" virt="non-virtual"><scope>themis::process::RaftAppendEntriesResponse</scope><name>trace_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,246 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_inline_training_engine_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::InlineTrainingEngine::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inline_training_engine_1_1_impl_1a5f61b3904d4f9e70aa4e0eaa334e052c" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_adapter_registry" kindref="compound">AdapterRegistry</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;AdapterRegistry&gt; themis::llm::InlineTrainingEngine::Impl::registry</definition>
+        <argsstring></argsstring>
+        <name>registry</name>
+        <qualifiedname>themis::llm::InlineTrainingEngine::Impl::registry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/inline_training_engine.cpp" line="314" column="26" bodyfile="src/llm/inline_training_engine.cpp" bodystart="314" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inline_training_engine_1_1_impl_1aee40d77099fef24a06a33551cf99ee6b" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_training_data_iterator" kindref="compound">TrainingDataIterator</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;TrainingDataIterator&gt; themis::llm::InlineTrainingEngine::Impl::data_iterator</definition>
+        <argsstring></argsstring>
+        <name>data_iterator</name>
+        <qualifiedname>themis::llm::InlineTrainingEngine::Impl::data_iterator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/inline_training_engine.cpp" line="315" column="21" bodyfile="src/llm/inline_training_engine.cpp" bodystart="315" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inline_training_engine_1_1_impl_1afe745ac8f06c85760542abc86f3a24b2" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_inline_training_config" kindref="compound">InlineTrainingConfig</ref></type>
+        <definition>InlineTrainingConfig themis::llm::InlineTrainingEngine::Impl::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::llm::InlineTrainingEngine::Impl::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/inline_training_engine.cpp" line="318" column="26" bodyfile="src/llm/inline_training_engine.cpp" bodystart="318" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inline_training_engine_1_1_impl_1ae6d858fb7d4b69f6264161385e851314" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::llm::InlineTrainingEngine::Impl::m_adam</definition>
+        <argsstring></argsstring>
+        <name>m_adam</name>
+        <qualifiedname>themis::llm::InlineTrainingEngine::Impl::m_adam</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/inline_training_engine.cpp" line="321" column="17" bodyfile="src/llm/inline_training_engine.cpp" bodystart="321" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inline_training_engine_1_1_impl_1a4733a9faa29251061ccb9b5ce053f6d7" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::llm::InlineTrainingEngine::Impl::v_adam</definition>
+        <argsstring></argsstring>
+        <name>v_adam</name>
+        <qualifiedname>themis::llm::InlineTrainingEngine::Impl::v_adam</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/inline_training_engine.cpp" line="322" column="17" bodyfile="src/llm/inline_training_engine.cpp" bodystart="322" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inline_training_engine_1_1_impl_1abe58d13128a04bff1e2573962095d8a9" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::llm::InlineTrainingEngine::Impl::m_sgd</definition>
+        <argsstring></argsstring>
+        <name>m_sgd</name>
+        <qualifiedname>themis::llm::InlineTrainingEngine::Impl::m_sgd</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/inline_training_engine.cpp" line="323" column="17" bodyfile="src/llm/inline_training_engine.cpp" bodystart="323" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inline_training_engine_1_1_impl_1a44e243917e81a4e1d45833a9270c05de" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::llm::InlineTrainingEngine::Impl::model_params_</definition>
+        <argsstring></argsstring>
+        <name>model_params_</name>
+        <qualifiedname>themis::llm::InlineTrainingEngine::Impl::model_params_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/inline_training_engine.cpp" line="328" column="17" bodyfile="src/llm/inline_training_engine.cpp" bodystart="328" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inline_training_engine_1_1_impl_1aff28e9997fc6ac3bbb053f010463054c" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::InlineTrainingEngine::Impl::state_mutex</definition>
+        <argsstring></argsstring>
+        <name>state_mutex</name>
+        <qualifiedname>themis::llm::InlineTrainingEngine::Impl::state_mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/inline_training_engine.cpp" line="331" column="24" bodyfile="src/llm/inline_training_engine.cpp" bodystart="331" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inline_training_engine_1_1_impl_1accf730f10797e94510bee3f93b031d7b" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::llm::InlineTrainingEngine::Impl::stop_flag</definition>
+        <argsstring></argsstring>
+        <name>stop_flag</name>
+        <qualifiedname>themis::llm::InlineTrainingEngine::Impl::stop_flag</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/inline_training_engine.cpp" line="332" column="18" bodyfile="src/llm/inline_training_engine.cpp" bodystart="332" bodyend="332"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inline_training_engine_1_1_impl_1a44cb53969783a545d1218f3b941321e9" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::llm::InlineTrainingEngine::Impl::is_training</definition>
+        <argsstring></argsstring>
+        <name>is_training</name>
+        <qualifiedname>themis::llm::InlineTrainingEngine::Impl::is_training</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/inline_training_engine.cpp" line="333" column="18" bodyfile="src/llm/inline_training_engine.cpp" bodystart="333" bodyend="333"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inline_training_engine_1_1_impl_1aebe316e3092e1d2f0ebc0de6dcca0d28" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_training_state" kindref="compound">TrainingState</ref></type>
+        <definition>TrainingState themis::llm::InlineTrainingEngine::Impl::current_state</definition>
+        <argsstring></argsstring>
+        <name>current_state</name>
+        <qualifiedname>themis::llm::InlineTrainingEngine::Impl::current_state</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/inline_training_engine.cpp" line="336" column="19" bodyfile="src/llm/inline_training_engine.cpp" bodystart="336" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inline_training_engine_1_1_impl_1a1d23653014a2fc080dad22241e3ff594" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; governance::ModelGovernancePolicy &gt;</type>
+        <definition>std::shared_ptr&lt;governance::ModelGovernancePolicy&gt; themis::llm::InlineTrainingEngine::Impl::governance_policy</definition>
+        <argsstring></argsstring>
+        <name>governance_policy</name>
+        <qualifiedname>themis::llm::InlineTrainingEngine::Impl::governance_policy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/inline_training_engine.cpp" line="339" column="21" bodyfile="src/llm/inline_training_engine.cpp" bodystart="339" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inline_training_engine_1_1_impl_1a153217c444643fb681509f7ccbe911e6" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1ad8d2463cbac93980b3d71ec4276ddd28" kindref="member">GradientComputerFn</ref></type>
+        <definition>GradientComputerFn themis::llm::InlineTrainingEngine::Impl::gradient_computer_fn</definition>
+        <argsstring></argsstring>
+        <name>gradient_computer_fn</name>
+        <qualifiedname>themis::llm::InlineTrainingEngine::Impl::gradient_computer_fn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/inline_training_engine.cpp" line="342" column="24" bodyfile="src/llm/inline_training_engine.cpp" bodystart="342" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::llm::InlineTrainingConfig</label>
+        <link refid="structthemis_1_1llm_1_1_inline_training_config"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>optimizer</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>scheduler</edgelabel>
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::llm::InlineTrainingEngine::Impl</label>
+        <link refid="structthemis_1_1llm_1_1_inline_training_engine_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>current_state</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::llm::OptimizerConfig</label>
+        <link refid="structthemis_1_1llm_1_1_optimizer_config"/>
+      </node>
+      <node id="4">
+        <label>themis::llm::SchedulerConfig</label>
+        <link refid="structthemis_1_1llm_1_1_scheduler_config"/>
+      </node>
+      <node id="5">
+        <label>themis::llm::TrainingState</label>
+        <link refid="structthemis_1_1llm_1_1_training_state"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/llm/inline_training_engine.cpp" line="312" column="1" bodyfile="src/llm/inline_training_engine.cpp" bodystart="312" bodyend="343"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_inline_training_engine_1_1_impl_1afe745ac8f06c85760542abc86f3a24b2" prot="public" virt="non-virtual"><scope>themis::llm::InlineTrainingEngine::Impl</scope><name>config</name></member>
+      <member refid="structthemis_1_1llm_1_1_inline_training_engine_1_1_impl_1aebe316e3092e1d2f0ebc0de6dcca0d28" prot="public" virt="non-virtual"><scope>themis::llm::InlineTrainingEngine::Impl</scope><name>current_state</name></member>
+      <member refid="structthemis_1_1llm_1_1_inline_training_engine_1_1_impl_1aee40d77099fef24a06a33551cf99ee6b" prot="public" virt="non-virtual"><scope>themis::llm::InlineTrainingEngine::Impl</scope><name>data_iterator</name></member>
+      <member refid="structthemis_1_1llm_1_1_inline_training_engine_1_1_impl_1a1d23653014a2fc080dad22241e3ff594" prot="public" virt="non-virtual"><scope>themis::llm::InlineTrainingEngine::Impl</scope><name>governance_policy</name></member>
+      <member refid="structthemis_1_1llm_1_1_inline_training_engine_1_1_impl_1a153217c444643fb681509f7ccbe911e6" prot="public" virt="non-virtual"><scope>themis::llm::InlineTrainingEngine::Impl</scope><name>gradient_computer_fn</name></member>
+      <member refid="structthemis_1_1llm_1_1_inline_training_engine_1_1_impl_1a44cb53969783a545d1218f3b941321e9" prot="public" virt="non-virtual"><scope>themis::llm::InlineTrainingEngine::Impl</scope><name>is_training</name></member>
+      <member refid="structthemis_1_1llm_1_1_inline_training_engine_1_1_impl_1ae6d858fb7d4b69f6264161385e851314" prot="public" virt="non-virtual"><scope>themis::llm::InlineTrainingEngine::Impl</scope><name>m_adam</name></member>
+      <member refid="structthemis_1_1llm_1_1_inline_training_engine_1_1_impl_1abe58d13128a04bff1e2573962095d8a9" prot="public" virt="non-virtual"><scope>themis::llm::InlineTrainingEngine::Impl</scope><name>m_sgd</name></member>
+      <member refid="structthemis_1_1llm_1_1_inline_training_engine_1_1_impl_1a44e243917e81a4e1d45833a9270c05de" prot="public" virt="non-virtual"><scope>themis::llm::InlineTrainingEngine::Impl</scope><name>model_params_</name></member>
+      <member refid="structthemis_1_1llm_1_1_inline_training_engine_1_1_impl_1a5f61b3904d4f9e70aa4e0eaa334e052c" prot="public" virt="non-virtual"><scope>themis::llm::InlineTrainingEngine::Impl</scope><name>registry</name></member>
+      <member refid="structthemis_1_1llm_1_1_inline_training_engine_1_1_impl_1aff28e9997fc6ac3bbb053f010463054c" prot="public" virt="non-virtual"><scope>themis::llm::InlineTrainingEngine::Impl</scope><name>state_mutex</name></member>
+      <member refid="structthemis_1_1llm_1_1_inline_training_engine_1_1_impl_1accf730f10797e94510bee3f93b031d7b" prot="public" virt="non-virtual"><scope>themis::llm::InlineTrainingEngine::Impl</scope><name>stop_flag</name></member>
+      <member refid="structthemis_1_1llm_1_1_inline_training_engine_1_1_impl_1a4733a9faa29251061ccb9b5ce053f6d7" prot="public" virt="non-virtual"><scope>themis::llm::InlineTrainingEngine::Impl</scope><name>v_adam</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

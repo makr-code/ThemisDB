@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1delegate__eval_1_1_delegate_evaluator_factory" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::delegate_eval::DelegateEvaluatorFactory</compoundname>
+    <includes refid="delegate__evaluator_8h" local="no">delegate_evaluator.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1delegate__eval_1_1_delegate_evaluator_factory_1ad2670771dad50f8a14e2f17f104ad106" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_i_domain_evaluator" kindref="compound">IDomainEvaluator</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; IDomainEvaluator &gt; themis::rag::delegate_eval::DelegateEvaluatorFactory::createForDomain</definition>
+        <argsstring>(DomainType domain)</argsstring>
+        <name>createForDomain</name>
+        <qualifiedname>themis::rag::delegate_eval::DelegateEvaluatorFactory::createForDomain</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a27a27b5e82f6b11343ccd146bb8cba8b" kindref="member">DomainType</ref></type>
+          <declname>domain</declname>
+        </param>
+        <briefdescription>
+<para>Create the appropriate evaluator for the given domain. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>domain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target document domain. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A non-null <computeroutput>unique_ptr</computeroutput> to the matching evaluator. The return value must not be discarded.</para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If an unknown <computeroutput><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a27a27b5e82f6b11343ccd146bb8cba8b" kindref="member">DomainType</ref></computeroutput> value is passed. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/delegate_evaluator.h" line="527" column="29" bodyfile="src/rag/delegate_evaluator.cpp" bodystart="567" bodyend="581"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1delegate__eval_1_1_delegate_evaluator_factory_1aa0bd93f1c526b45315b63cd0f7d27e1b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator" kindref="compound">RoundTripSimulator</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; RoundTripSimulator &gt; themis::rag::delegate_eval::DelegateEvaluatorFactory::createSimulator</definition>
+        <argsstring>(const DelegateEvaluatorConfig &amp;config={})</argsstring>
+        <name>createSimulator</name>
+        <qualifiedname>themis::rag::delegate_eval::DelegateEvaluatorFactory::createSimulator</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1delegate__eval_1_1_delegate_evaluator_config" kindref="compound">DelegateEvaluatorConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Create a <computeroutput><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator" kindref="compound">RoundTripSimulator</ref></computeroutput> with the given configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Simulator configuration (default: <computeroutput><ref refid="structthemis_1_1rag_1_1delegate__eval_1_1_delegate_evaluator_config" kindref="compound">DelegateEvaluatorConfig</ref>{}</computeroutput>). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/delegate_evaluator.h" line="534" column="28" bodyfile="src/rag/delegate_evaluator.cpp" bodystart="584" bodyend="586"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Factory for <computeroutput><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_i_domain_evaluator" kindref="compound">IDomainEvaluator</ref></computeroutput> instances keyed by <computeroutput><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a27a27b5e82f6b11343ccd146bb8cba8b" kindref="member">DomainType</ref></computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All returned objects are heap-allocated via <computeroutput>std::unique_ptr</computeroutput> with no external library dependencies. </para>
+    </detaileddescription>
+    <location file="include/rag/delegate_evaluator.h" line="516" column="1" bodyfile="include/rag/delegate_evaluator.h" bodystart="516" bodyend="536"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1delegate__eval_1_1_delegate_evaluator_factory_1ad2670771dad50f8a14e2f17f104ad106" prot="public" virt="non-virtual"><scope>themis::rag::delegate_eval::DelegateEvaluatorFactory</scope><name>createForDomain</name></member>
+      <member refid="classthemis_1_1rag_1_1delegate__eval_1_1_delegate_evaluator_factory_1aa0bd93f1c526b45315b63cd0f7d27e1b" prot="public" virt="non-virtual"><scope>themis::rag::delegate_eval::DelegateEvaluatorFactory</scope><name>createSimulator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

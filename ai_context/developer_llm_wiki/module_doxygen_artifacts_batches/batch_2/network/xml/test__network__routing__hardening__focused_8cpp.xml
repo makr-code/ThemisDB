@@ -1,0 +1,576 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__network__routing__hardening__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_network_routing_hardening_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="network__api__contract_8h" local="yes">network/network_api_contract.h</includes>
+    <includes refid="adaptive__circuit__breaker_8h" local="yes">network/adaptive_circuit_breaker.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="8">
+        <label>network/adaptive_circuit_breaker.h</label>
+        <link refid="adaptive__circuit__breaker_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>network/network_api_contract.h</label>
+        <link refid="network__api__contract_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/network/test_network_routing_hardening_focused.cpp</label>
+        <link refid="test__network__routing__hardening__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>atomic</label>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>cstddef</label>
+      </node>
+      <node id="6">
+        <label>cstdint</label>
+      </node>
+      <node id="10">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="11">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="12">
+        <label>unordered_map</label>
+      </node>
+      <node id="13">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="test__network__routing__hardening__focused_8cpp_1a95bcd357388d36f948cbcb5c94b4dbef" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t kNrhSeed</definition>
+        <argsstring></argsstring>
+        <name>kNrhSeed</name>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_routing_hardening_focused.cpp" line="70" column="32" bodyfile="tests/network/test_network_routing_hardening_focused.cpp" bodystart="70" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__network__routing__hardening__focused_8cpp_1a34605d021d3136f04d01bbb82b5c9c91" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkRoutingHardening, NRH01_PrimaryRegionDownFallsBackToSecondary)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkRoutingHardening</type>
+        </param>
+        <param>
+          <type>NRH01_PrimaryRegionDownFallsBackToSecondary</type>
+        </param>
+        <briefdescription>
+<para>NRH-01: Primary region all backends down → cross-region fallback succeeds; returned code is OK (not connection-closing). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_routing_hardening_focused.cpp" line="185" column="1" bodyfile="tests/network/test_network_routing_hardening_focused.cpp" bodystart="185" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__routing__hardening__focused_8cpp_1a3b4c49cccfbd777d407c8ce8b5bf693f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkRoutingHardening, NRH02_AllRegionsDownRoutingUnavailable)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkRoutingHardening</type>
+        </param>
+        <param>
+          <type>NRH02_AllRegionsDownRoutingUnavailable</type>
+        </param>
+        <briefdescription>
+<para>NRH-02: All regions fully down → ROUTING_UNAVAILABLE, not connection-closing (transport stays open, caller decides retry). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_routing_hardening_focused.cpp" line="203" column="1" bodyfile="tests/network/test_network_routing_hardening_focused.cpp" bodystart="203" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__routing__hardening__focused_8cpp_1accaa91c32543a266980a7cdc21c2713d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkRoutingHardening, NRH03_LbSwitchesToStandbyAfterThreshold)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkRoutingHardening</type>
+        </param>
+        <param>
+          <type>NRH03_LbSwitchesToStandbyAfterThreshold</type>
+        </param>
+        <briefdescription>
+<para>NRH-03: After kFailoverThreshold consecutive failures LB switches from PRIMARY to STANDBY — no connection-closing error emitted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_routing_hardening_focused.cpp" line="224" column="1" bodyfile="tests/network/test_network_routing_hardening_focused.cpp" bodystart="224" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__routing__hardening__focused_8cpp_1a370d099010f8711134727f2a7fb97a9c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkRoutingHardening, NRH04_LbRecoversToPrimaryAfterSuccesses)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkRoutingHardening</type>
+        </param>
+        <param>
+          <type>NRH04_LbRecoversToPrimaryAfterSuccesses</type>
+        </param>
+        <briefdescription>
+<para>NRH-04: After kRecoveryThreshold consecutive successes on STANDBY, LB recovers back to PRIMARY — deterministic round-trip. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_routing_hardening_focused.cpp" line="243" column="1" bodyfile="tests/network/test_network_routing_hardening_focused.cpp" bodystart="243" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__routing__hardening__focused_8cpp_1a0a035e2333e61989246718b199508e75" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkRoutingHardening, NRH05_RoutingUnavailableNotConnectionClosing)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkRoutingHardening</type>
+        </param>
+        <param>
+          <type>NRH05_RoutingUnavailableNotConnectionClosing</type>
+        </param>
+        <briefdescription>
+<para>NRH-05: ROUTING_UNAVAILABLE is not connection-closing — routing errors belong to cluster-layer, not transport-layer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_routing_hardening_focused.cpp" line="270" column="1" bodyfile="tests/network/test_network_routing_hardening_focused.cpp" bodystart="270" bodyend="275"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__routing__hardening__focused_8cpp_1afd1666d701725b136fb15179aac61fd6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkRoutingHardening, NRH06_QuorumDegradedClassification)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkRoutingHardening</type>
+        </param>
+        <param>
+          <type>NRH06_QuorumDegradedClassification</type>
+        </param>
+        <briefdescription>
+<para>NRH-06: QUORUM_DEGRADED is not connection-closing and not a rate-limit transient — it is a cluster health signal only. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_routing_hardening_focused.cpp" line="281" column="1" bodyfile="tests/network/test_network_routing_hardening_focused.cpp" bodystart="281" bodyend="289"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__routing__hardening__focused_8cpp_1af3924440842716a987bf6da8e627b8c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkRoutingHardening, NRH07_AllDegradedDeterministicFallback)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkRoutingHardening</type>
+        </param>
+        <param>
+          <type>NRH07_AllDegradedDeterministicFallback</type>
+        </param>
+        <briefdescription>
+<para>NRH-07: When all backends are degraded/down, router returns exactly ROUTING_UNAVAILABLE — no undefined code, no infinite loop. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_routing_hardening_focused.cpp" line="299" column="1" bodyfile="tests/network/test_network_routing_hardening_focused.cpp" bodystart="299" bodyend="316"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__routing__hardening__focused_8cpp_1a1dceb08ecda889121eb11c9321ac219d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkRoutingHardening, NRH08_CircuitBreakerOpensOnRepeatedFailures)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkRoutingHardening</type>
+        </param>
+        <param>
+          <type>NRH08_CircuitBreakerOpensOnRepeatedFailures</type>
+        </param>
+        <briefdescription>
+<para>NRH-08: <ref refid="classthemis_1_1network_1_1_adaptive_circuit_breaker" kindref="compound">AdaptiveCircuitBreaker</ref> opens after failure_threshold consecutive failures; subsequent requests are fast-rejected (shouldAllow() returns false). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_routing_hardening_focused.cpp" line="327" column="1" bodyfile="tests/network/test_network_routing_hardening_focused.cpp" bodystart="327" bodyend="350"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Phase 3 — Routing and Topology Hardening focused tests (NRH-01..NRH-08). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Covers the two Q4 2026 open items from src/network/ROADMAP.md § Phase 3:<orderedlist>
+<listitem><para>Expand routing correctness checks under changing health/latency/topology signals.</para>
+</listitem><listitem><para>Harden load-balancing state transitions and recovery under churn.</para>
+</listitem></orderedlist>
+</para>
+<para>Also covers the Q4 2026 Planned Feature:<itemizedlist>
+<listitem><para>Strengthen distributed routing and failover diagnostics for operator triage.</para>
+</listitem></itemizedlist>
+</para>
+<para>All tests are deterministic and self-contained — no live sockets, no external dependencies beyond the contract header.</para>
+<sect1 id="test__network__routing__hardening__focused_8cpp_1autotoc_md8_1s1"><sect2 id="test__network__routing__hardening__focused_8cpp_1autotoc_md8">
+<title>Test Cases</title><para><heading level="3">NRH-01..NRH-02 — Topology-Aware Routing Under Region Failure</heading>
+</para>
+<para>NRH-01 Primary region fully down → router falls back to secondary region; fallback result is not connection-closing (routing rerouted). NRH-02 Cross-region fallback exhausted (all regions down) → ROUTING_UNAVAILABLE returned; not connection-closing.</para>
+<para><heading level="3">NRH-03..NRH-04 — Load-Balancer State Transitions Under Churn</heading>
+</para>
+<para>NRH-03 Load balancer switches from primary to standby after threshold consecutive failures without returning a connection-closing error. NRH-04 Load balancer recovers to primary after standby delivers consecutive successes — state transitions are deterministic.</para>
+<para><heading level="3">NRH-05..NRH-06 — Routing Error Classification</heading>
+</para>
+<para>NRH-05 ROUTING_UNAVAILABLE is not connection-closing — cluster routing errors do not terminate transport connections. NRH-06 QUORUM_DEGRADED is not connection-closing and not rate-limit transient — it is a cluster-level signal only.</para>
+<para><heading level="3">NRH-07 — All Backends Degraded: Deterministic Fallback</heading>
+</para>
+<para>NRH-07 When every tracked backend is degraded, the router returns ROUTING_UNAVAILABLE (not an unexpected error code) and does not loop infinitely.</para>
+<para><heading level="3">NRH-08 — Circuit Breaker Integration with Routing</heading>
+</para>
+<para>NRH-08 After failure_threshold consecutive failures the circuit OPENS; subsequent routing attempts are fast-rejected (no call through).</para>
+<para><simplesect kind="see"><para><ref refid="network__api__contract_8h" kindref="compound">include/network/network_api_contract.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="adaptive__circuit__breaker_8h" kindref="compound">include/network/adaptive_circuit_breaker.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para>src/network/ROADMAP.md — Phase 3 items </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="network__api__contract_8h" kindref="compound">network/network_api_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="adaptive__circuit__breaker_8h" kindref="compound">network/adaptive_circuit_breaker.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1network" kindref="compound">themis::network</ref>;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std::chrono_literals;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Deterministic<sp/>seed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::uint64_t<sp/>kNrhSeed<sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Minimal<sp/>in-process<sp/>mocks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Backend<sp/>health<sp/>model<sp/>—<sp/>used<sp/>for<sp/>routing<sp/>and<sp/>load-balancing<sp/>mocks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/>BackendHealth<sp/>{<sp/><ref refid="namespacethemis_1_1network_1aaa7872f4c711e887427d15f6074c3b9faf068ebe4133e3e6563080836268ea979" kindref="member">HEALTHY</ref>,<sp/><ref refid="namespacethemis_1_1network_1aaa7872f4c711e887427d15f6074c3b9fa0021017005f0e5134b204c2e69d3d4ed" kindref="member">DEGRADED</ref>,<sp/>DOWN<sp/>};</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">BackendInfo<sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/>name;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>BackendHealth<sp/>health{BackendHealth::HEALTHY};</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><sp/><sp/>latencyMs{10};</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/>region<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="88"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Minimal<sp/>topology-aware<sp/>router<sp/>mock</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Strategy:<sp/>prefer<sp/>healthy<sp/>backends<sp/>in<sp/>primary<sp/>region;<sp/>fall<sp/>back<sp/>to<sp/>other</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>regions;<sp/>if<sp/>all<sp/>backends<sp/>are<sp/>down,<sp/>return<sp/>ROUTING_UNAVAILABLE.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">MockTopologyRouter<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>addBackend(BackendInfo<sp/>b)<sp/>{<sp/>backends_.push_back(std::move(b));<sp/>}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75" kindref="member">NetworkErrorCode</ref><sp/>select(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>preferredRegion,</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string&amp;<sp/>outName)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Pass<sp/>1:<sp/>healthy<sp/>backend<sp/>in<sp/>preferred<sp/>region.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>b<sp/>:<sp/>backends_)<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(b.region<sp/>==<sp/>preferredRegion<sp/>&amp;&amp;<sp/>b.health<sp/>==<sp/>BackendHealth::HEALTHY)<sp/>{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>outName<sp/>=<sp/>b.name;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NetworkErrorCode::OK;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Pass<sp/>2:<sp/>healthy<sp/>backend<sp/>in<sp/>any<sp/>region<sp/>(cross-region<sp/>fallback).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>b<sp/>:<sp/>backends_)<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(b.health<sp/>==<sp/>BackendHealth::HEALTHY)<sp/>{</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>outName<sp/>=<sp/>b.name;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NetworkErrorCode::OK;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>backends<sp/>are<sp/>down<sp/>or<sp/>degraded.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NetworkErrorCode::ROUTING_UNAVAILABLE;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;BackendInfo&gt;<sp/>backends_;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Simple<sp/>load-balancer<sp/>state<sp/>machine<sp/>mock<sp/>—<sp/>models<sp/>primary/standby<sp/>churn</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/>LbRole<sp/>{<sp/>PRIMARY,<sp/>STANDBY<sp/>};</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">MockLoadBalancer<sp/>{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>LbRole<sp/><sp/><sp/>role{LbRole::PRIMARY};</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>consecutiveFailures{0};</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>consecutiveSuccesses{0};</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kFailoverThreshold{3};<sp/><sp/></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kRecoveryThreshold{2};<sp/><sp/></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>recordFailure()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++consecutiveFailures;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>consecutiveSuccesses<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(role<sp/>==<sp/>LbRole::PRIMARY<sp/>&amp;&amp;<sp/>consecutiveFailures<sp/>&gt;=<sp/>kFailoverThreshold)<sp/>{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>role<sp/>=<sp/>LbRole::STANDBY;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>consecutiveFailures<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>recordSuccess()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++consecutiveSuccesses;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>consecutiveFailures<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(role<sp/>==<sp/>LbRole::STANDBY<sp/>&amp;&amp;<sp/>consecutiveSuccesses<sp/>&gt;=<sp/>kRecoveryThreshold)<sp/>{</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>role<sp/>=<sp/>LbRole::PRIMARY;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>consecutiveSuccesses<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75" kindref="member">NetworkErrorCode</ref><sp/>forward(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>succeed)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(succeed)<sp/>{</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>recordSuccess();</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NetworkErrorCode::OK;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>recordFailure();</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NetworkErrorCode::TRANSPORT_WRITE_ERROR;<sp/><sp/></highlight><highlight class="comment">//<sp/>transient</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="173"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>anonymous<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="comment">//<sp/>NRH-01..NRH-02<sp/>—<sp/>Topology-Aware<sp/>Routing<sp/>Under<sp/>Region<sp/>Failure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><ref refid="test__network__routing__hardening__focused_8cpp_1a34605d021d3136f04d01bbb82b5c9c91" kindref="member">TEST</ref>(NetworkRoutingHardening,<sp/>NRH01_PrimaryRegionDownFallsBackToSecondary)<sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>MockTopologyRouter<sp/>router;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>router.addBackend({</highlight><highlight class="stringliteral">&quot;primary-a&quot;</highlight><highlight class="normal">,<sp/>BackendHealth::DOWN,<sp/><sp/><sp/><sp/>10,<sp/></highlight><highlight class="stringliteral">&quot;eu-west&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>router.addBackend({</highlight><highlight class="stringliteral">&quot;primary-b&quot;</highlight><highlight class="normal">,<sp/>BackendHealth::DOWN,<sp/><sp/><sp/><sp/>10,<sp/></highlight><highlight class="stringliteral">&quot;eu-west&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>router.addBackend({</highlight><highlight class="stringliteral">&quot;fallback-a&quot;</highlight><highlight class="normal">,<sp/>BackendHealth::HEALTHY,<sp/>50,<sp/></highlight><highlight class="stringliteral">&quot;us-east&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>selected<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>code<sp/>=<sp/>router.select(</highlight><highlight class="stringliteral">&quot;eu-west&quot;</highlight><highlight class="normal">,<sp/>selected);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(code,<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">NetworkErrorCode::OK</ref>)</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Cross-region<sp/>fallback<sp/>must<sp/>succeed<sp/>when<sp/>primary<sp/>region<sp/>is<sp/>down&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(selected,<sp/></highlight><highlight class="stringliteral">&quot;fallback-a&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1network_1a67e2f0e85d93bf16f07909fd4762df03" kindref="member">isConnectionClosingError</ref>(code));</highlight></codeline>
+<codeline lineno="197"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><ref refid="test__network__routing__hardening__focused_8cpp_1a34605d021d3136f04d01bbb82b5c9c91" kindref="member">TEST</ref>(NetworkRoutingHardening,<sp/>NRH02_AllRegionsDownRoutingUnavailable)<sp/>{</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>MockTopologyRouter<sp/>router;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>router.addBackend({</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">,<sp/>BackendHealth::DOWN,<sp/>10,<sp/></highlight><highlight class="stringliteral">&quot;eu-west&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>router.addBackend({</highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">,<sp/>BackendHealth::DOWN,<sp/>10,<sp/></highlight><highlight class="stringliteral">&quot;us-east&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>router.addBackend({</highlight><highlight class="stringliteral">&quot;c&quot;</highlight><highlight class="normal">,<sp/>BackendHealth::DOWN,<sp/>10,<sp/></highlight><highlight class="stringliteral">&quot;ap-south&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>selected<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>code<sp/>=<sp/>router.select(</highlight><highlight class="stringliteral">&quot;eu-west&quot;</highlight><highlight class="normal">,<sp/>selected);</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(code,<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ac6388c623680d7b5b4334ea09b64ab45" kindref="member">NetworkErrorCode::ROUTING_UNAVAILABLE</ref>);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1network_1a67e2f0e85d93bf16f07909fd4762df03" kindref="member">isConnectionClosingError</ref>(code))</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;ROUTING_UNAVAILABLE<sp/>must<sp/>not<sp/>close<sp/>the<sp/>transport<sp/>connection&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight><highlight class="comment">//<sp/>NRH-03..NRH-04<sp/>—<sp/>Load-Balancer<sp/>State<sp/>Transitions<sp/>Under<sp/>Churn</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><ref refid="test__network__routing__hardening__focused_8cpp_1a34605d021d3136f04d01bbb82b5c9c91" kindref="member">TEST</ref>(NetworkRoutingHardening,<sp/>NRH03_LbSwitchesToStandbyAfterThreshold)<sp/>{</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>MockLoadBalancer<sp/>lb;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(lb.role,<sp/>LbRole::PRIMARY);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Drive<sp/>failures<sp/>up<sp/>to<sp/>threshold.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>lb.kFailoverThreshold<sp/>-<sp/>1;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lb.recordFailure();</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(lb.role,<sp/>LbRole::PRIMARY)</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Must<sp/>stay<sp/>PRIMARY<sp/>until<sp/>threshold<sp/>at<sp/>step<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>i;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>lb.recordFailure();<sp/><sp/></highlight><highlight class="comment">//<sp/>reaches<sp/>threshold</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(lb.role,<sp/>LbRole::STANDBY)</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Must<sp/>switch<sp/>to<sp/>STANDBY<sp/>at<sp/>failure<sp/>threshold&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><ref refid="test__network__routing__hardening__focused_8cpp_1a34605d021d3136f04d01bbb82b5c9c91" kindref="member">TEST</ref>(NetworkRoutingHardening,<sp/>NRH04_LbRecoversToPrimaryAfterSuccesses)<sp/>{</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>MockLoadBalancer<sp/>lb;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Trigger<sp/>failover<sp/>first.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>lb.kFailoverThreshold;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>lb.recordFailure();</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(lb.role,<sp/>LbRole::STANDBY);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Drive<sp/>successes<sp/>up<sp/>to<sp/>recovery<sp/>threshold.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>lb.kRecoveryThreshold<sp/>-<sp/>1;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lb.recordSuccess();</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(lb.role,<sp/>LbRole::STANDBY)</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Must<sp/>stay<sp/>STANDBY<sp/>until<sp/>recovery<sp/>threshold<sp/>at<sp/>step<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>i;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>lb.recordSuccess();<sp/><sp/></highlight><highlight class="comment">//<sp/>reaches<sp/>threshold</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(lb.role,<sp/>LbRole::PRIMARY)</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Must<sp/>recover<sp/>to<sp/>PRIMARY<sp/>at<sp/>success<sp/>threshold&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight><highlight class="comment">//<sp/>NRH-05..NRH-06<sp/>—<sp/>Routing<sp/>Error<sp/>Classification</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><ref refid="test__network__routing__hardening__focused_8cpp_1a34605d021d3136f04d01bbb82b5c9c91" kindref="member">TEST</ref>(NetworkRoutingHardening,<sp/>NRH05_RoutingUnavailableNotConnectionClosing)<sp/>{</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1network_1a67e2f0e85d93bf16f07909fd4762df03" kindref="member">isConnectionClosingError</ref>(<ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ac6388c623680d7b5b4334ea09b64ab45" kindref="member">NetworkErrorCode::ROUTING_UNAVAILABLE</ref>))</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;ROUTING_UNAVAILABLE<sp/>must<sp/>not<sp/>mandate<sp/>transport<sp/>connection<sp/>closure&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1network_1ab89627f567fd641a325ebaaf902b8ad8" kindref="member">isRateLimitTransient</ref>(<ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ac6388c623680d7b5b4334ea09b64ab45" kindref="member">NetworkErrorCode::ROUTING_UNAVAILABLE</ref>))</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;ROUTING_UNAVAILABLE<sp/>is<sp/>not<sp/>a<sp/>rate-limit<sp/>transient<sp/>code&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="275"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><ref refid="test__network__routing__hardening__focused_8cpp_1a34605d021d3136f04d01bbb82b5c9c91" kindref="member">TEST</ref>(NetworkRoutingHardening,<sp/>NRH06_QuorumDegradedClassification)<sp/>{</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1network_1a67e2f0e85d93bf16f07909fd4762df03" kindref="member">isConnectionClosingError</ref>(<ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a0dde4c0549c0aa9d75332ace206aec40" kindref="member">NetworkErrorCode::QUORUM_DEGRADED</ref>))</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;QUORUM_DEGRADED<sp/>must<sp/>not<sp/>close<sp/>the<sp/>transport&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1network_1ab89627f567fd641a325ebaaf902b8ad8" kindref="member">isRateLimitTransient</ref>(<ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a0dde4c0549c0aa9d75332ace206aec40" kindref="member">NetworkErrorCode::QUORUM_DEGRADED</ref>))</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;QUORUM_DEGRADED<sp/>is<sp/>not<sp/>a<sp/>transient<sp/>rate-limit<sp/>event&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>it<sp/>has<sp/>a<sp/>distinct,<sp/>defined<sp/>numeric<sp/>value<sp/>from<sp/>transport<sp/>errors.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a0dde4c0549c0aa9d75332ace206aec40" kindref="member">NetworkErrorCode::QUORUM_DEGRADED</ref>),</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a06e231de202bc95d06df42f58b5fb187" kindref="member">NetworkErrorCode::TRANSPORT_UNAVAILABLE</ref>));</highlight></codeline>
+<codeline lineno="289"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight><highlight class="comment">//<sp/>NRH-07<sp/>—<sp/>All<sp/>Backends<sp/>Degraded:<sp/>Deterministic<sp/>Fallback</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><ref refid="test__network__routing__hardening__focused_8cpp_1a34605d021d3136f04d01bbb82b5c9c91" kindref="member">TEST</ref>(NetworkRoutingHardening,<sp/>NRH07_AllDegradedDeterministicFallback)<sp/>{</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>MockTopologyRouter<sp/>router;</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Populate<sp/>with<sp/>degraded-only<sp/>backends<sp/>across<sp/>regions.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>router.addBackend({</highlight><highlight class="stringliteral">&quot;backend-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BackendHealth::DEGRADED,<sp/>100,</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;region-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i<sp/>%<sp/>3)});</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>selected<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Call<sp/>multiple<sp/>times<sp/>—<sp/>must<sp/>be<sp/>deterministic.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>attempt<sp/>=<sp/>0;<sp/>attempt<sp/>&lt;<sp/>5;<sp/>++attempt)<sp/>{</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>code<sp/>=<sp/>router.select(</highlight><highlight class="stringliteral">&quot;region-0&quot;</highlight><highlight class="normal">,<sp/>selected);</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(code,<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ac6388c623680d7b5b4334ea09b64ab45" kindref="member">NetworkErrorCode::ROUTING_UNAVAILABLE</ref>)</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;All-degraded<sp/>state<sp/>must<sp/>always<sp/>return<sp/>ROUTING_UNAVAILABLE<sp/>(attempt<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/>attempt<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="316"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"></highlight><highlight class="comment">//<sp/>NRH-08<sp/>—<sp/>Circuit<sp/>Breaker<sp/>Integration<sp/>with<sp/>Routing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><ref refid="test__network__routing__hardening__focused_8cpp_1a34605d021d3136f04d01bbb82b5c9c91" kindref="member">TEST</ref>(NetworkRoutingHardening,<sp/>NRH08_CircuitBreakerOpensOnRepeatedFailures)<sp/>{</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_config" kindref="compound">AdaptiveCircuitBreaker::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_config_1ac3f6cdb138ca303ae920e02449019e48" kindref="member">failure_threshold</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_config_1a2b494ef121cacdf3aa9466fbc67dc854" kindref="member">enable_adaptive_threshold</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>deterministic<sp/>for<sp/>this<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_config_1a4067381a8ba207b3ecc103a406b70d14" kindref="member">open_timeout</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::seconds(60);</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_adaptive_circuit_breaker" kindref="compound">AdaptiveCircuitBreaker</ref><sp/>cb(cfg);</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Before<sp/>threshold:<sp/>circuit<sp/>is<sp/>CLOSED,<sp/>requests<sp/>allowed.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>static_cast&lt;int&gt;(cfg.<ref refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_config_1ac3f6cdb138ca303ae920e02449019e48" kindref="member">failure_threshold</ref>);<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(cb.shouldAllow())</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Circuit<sp/>must<sp/>allow<sp/>requests<sp/>before<sp/>threshold<sp/>(step<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>i<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cb.recordFailure();</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>threshold:<sp/>circuit<sp/>must<sp/>be<sp/>OPEN,<sp/>requests<sp/>rejected.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(cb.shouldAllow())</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Circuit<sp/>must<sp/>be<sp/>OPEN<sp/>after<sp/>failure_threshold<sp/>consecutive<sp/>failures&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>via<sp/>stats.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>cb.getStats();</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.state,<sp/><ref refid="namespacethemis_1_1network_1a868803888e70d266528aff29a96193bdaa38bd5138bf35514df41a1795ebbf5c3" kindref="member">CircuitState::OPEN</ref>)</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Stats<sp/>must<sp/>reflect<sp/>OPEN<sp/>state&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(stats.failed_calls,<sp/>cfg.<ref refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_config_1ac3f6cdb138ca303ae920e02449019e48" kindref="member">failure_threshold</ref>);</highlight></codeline>
+<codeline lineno="350"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/network/test_network_routing_hardening_focused.cpp"/>
+  </compounddef>
+</doxygen>

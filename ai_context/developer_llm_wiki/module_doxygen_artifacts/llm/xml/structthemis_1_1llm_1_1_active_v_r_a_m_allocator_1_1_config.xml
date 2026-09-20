@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::ActiveVRAMAllocator::Config</compoundname>
+    <includes refid="active__vram__allocator_8h" local="no">active_vram_allocator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_config_1a1a5250b752d872db9247d73adfaea4c2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::ActiveVRAMAllocator::Config::max_vram_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_vram_bytes</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::Config::max_vram_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/active_vram_allocator.h" line="35" column="16" bodyfile="include/llm/active_vram_allocator.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_config_1af9d9e7d5faaa2c1bf7f6e49323ac5f02" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::ActiveVRAMAllocator::Config::max_cpu_spill_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_cpu_spill_bytes</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::Config::max_cpu_spill_bytes</qualifiedname>
+        <initializer>= 16ULL * 1024 * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/active_vram_allocator.h" line="37" column="16" bodyfile="include/llm/active_vram_allocator.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_config_1a0918ccacab5d7c0bebc349cf2e0e1e0c" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::ActiveVRAMAllocator::Config::oom_threshold_fraction</definition>
+        <argsstring></argsstring>
+        <name>oom_threshold_fraction</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::Config::oom_threshold_fraction</qualifiedname>
+        <initializer>= 0.90f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/active_vram_allocator.h" line="39" column="15" bodyfile="include/llm/active_vram_allocator.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_config_1a47249243891d56c0d5dc6ad319823523" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::ActiveVRAMAllocator::Config::min_free_vram_reserve</definition>
+        <argsstring></argsstring>
+        <name>min_free_vram_reserve</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::Config::min_free_vram_reserve</qualifiedname>
+        <initializer>= 512ULL * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/active_vram_allocator.h" line="41" column="16" bodyfile="include/llm/active_vram_allocator.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_config_1ae1a93d3b66728a8fe3e8da7ae7d4c07f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::ActiveVRAMAllocator::Config::enable_defragmentation</definition>
+        <argsstring></argsstring>
+        <name>enable_defragmentation</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::Config::enable_defragmentation</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/active_vram_allocator.h" line="43" column="14" bodyfile="include/llm/active_vram_allocator.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_config_1ae5e3821443b21696f1f90fd46dbc30f2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::ActiveVRAMAllocator::Config::enable_cpu_spilling</definition>
+        <argsstring></argsstring>
+        <name>enable_cpu_spilling</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::Config::enable_cpu_spilling</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/active_vram_allocator.h" line="45" column="14" bodyfile="include/llm/active_vram_allocator.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_config_1acc7869b13d33823a850ef7193c4081ee" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::ActiveVRAMAllocator::Config::gpu_device_id</definition>
+        <argsstring></argsstring>
+        <name>gpu_device_id</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::Config::gpu_device_id</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/active_vram_allocator.h" line="47" column="13" bodyfile="include/llm/active_vram_allocator.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_config_1ac23440eae6c4e917bd4c101f78122a86" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::ActiveVRAMAllocator::Config::block_alignment</definition>
+        <argsstring></argsstring>
+        <name>block_alignment</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::Config::block_alignment</qualifiedname>
+        <initializer>= 4096</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/active_vram_allocator.h" line="49" column="16" bodyfile="include/llm/active_vram_allocator.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/active_vram_allocator.h" line="34" column="5" bodyfile="include/llm/active_vram_allocator.h" bodystart="34" bodyend="50"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_config_1ac23440eae6c4e917bd4c101f78122a86" prot="public" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::Config</scope><name>block_alignment</name></member>
+      <member refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_config_1ae5e3821443b21696f1f90fd46dbc30f2" prot="public" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::Config</scope><name>enable_cpu_spilling</name></member>
+      <member refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_config_1ae1a93d3b66728a8fe3e8da7ae7d4c07f" prot="public" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::Config</scope><name>enable_defragmentation</name></member>
+      <member refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_config_1acc7869b13d33823a850ef7193c4081ee" prot="public" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::Config</scope><name>gpu_device_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_config_1af9d9e7d5faaa2c1bf7f6e49323ac5f02" prot="public" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::Config</scope><name>max_cpu_spill_bytes</name></member>
+      <member refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_config_1a1a5250b752d872db9247d73adfaea4c2" prot="public" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::Config</scope><name>max_vram_bytes</name></member>
+      <member refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_config_1a47249243891d56c0d5dc6ad319823523" prot="public" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::Config</scope><name>min_free_vram_reserve</name></member>
+      <member refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_config_1a0918ccacab5d7c0bebc349cf2e0e1e0c" prot="public" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::Config</scope><name>oom_threshold_fraction</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

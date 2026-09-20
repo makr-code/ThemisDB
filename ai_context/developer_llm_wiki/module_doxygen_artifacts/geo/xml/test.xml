@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test" kind="page">
+    <compoundname>test</compoundname>
+    <title>Test List</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><variablelist>
+<varlistentry><term>Member <ref refid="test__geo__hardening__focused_8cpp_1a87ad4b5b85d04181da12bf9a489e8549" kindref="member">TEST</ref>  (GeoPolicy, GCH20_DefaultValues)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000001"/>GCH-20 — defaultSpatialQueryPolicy() returns documented defaults.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__geo__hardening__focused_8cpp_1ab110cd09936cc8f67e1d690bd8d70c99" kindref="member">TEST</ref>  (GeoPolicy, GCH21_RejectsNegativeMaxDepth)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000002"/>GCH-21 — validateSpatialQueryPolicy() rejects negative max_depth.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__geo__hardening__focused_8cpp_1ab7173307bddff87cf3489f6f61be6fac" kindref="member">TEST</ref>  (GeoPolicy, GCH22_RejectsNegativeTimeout)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000003"/>GCH-22 — validateSpatialQueryPolicy() rejects negative timeout.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__geo__hardening__focused_8cpp_1a56f61affe4b0bfad23380f260c10b3d5" kindref="member">TEST</ref>  (GeoPolicy, GCH23_CollectionPermitted)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000004"/>GCH-23 — isSpatialCollectionPermitted(): open and closed policy. An empty allowed_collections permits everything; a non-empty list is an allowlist.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__geo__hardening__focused_8cpp_1abdbb660860d89f70776d2de31ea8d2ed" kindref="member">TEST</ref>  (GeoVincenty, GCH24_AntipodalFallbackFinite)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000005"/>GCH-24 — geodesicDistance() returns a finite, non-negative result for nearly-antipodal points (which previously caused Vincenty non-convergence and returned -1.0; now falls back to Haversine). </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1geo_1_1test_1a6ab6b2c48a2713004ffa2de287d43fb7" kindref="member">themis::geo::test::TEST</ref>  (GeoPhase2Phase3FocusedTest, P23_01_TimeoutGuardInitialization)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000006"/>P23-01: <ref refid="classthemis_1_1geo_1_1_backend_dispatch_timeout_guard" kindref="compound">BackendDispatchTimeoutGuard</ref> initializes with correct deadline. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1geo_1_1test_1a5ae6bb677d657aa576efaff38deeaf93" kindref="member">themis::geo::test::TEST</ref>  (GeoPhase2Phase3FocusedTest, P23_02_TimeoutGuardExpiration)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000007"/>P23-02: <ref refid="classthemis_1_1geo_1_1_backend_dispatch_timeout_guard" kindref="compound">BackendDispatchTimeoutGuard</ref> expires after deadline. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1geo_1_1test_1aef35bb052262b91568098f659f805045" kindref="member">themis::geo::test::TEST</ref>  (GeoPhase2Phase3FocusedTest, P23_03_TimeoutGuardCaching)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000008"/>P23-03: <ref refid="classthemis_1_1geo_1_1_backend_dispatch_timeout_guard" kindref="compound">BackendDispatchTimeoutGuard</ref> caches expiration result. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1geo_1_1test_1afa46b32834c26f893bb9abfe6ee22474" kindref="member">themis::geo::test::TEST</ref>  (GeoPhase2Phase3FocusedTest, P23_04_BackendSelectionBudget)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000009"/>P23-04: Contract: kBackendSelectionBudget is 100 microseconds. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1geo_1_1test_1aa451b4fc21708d0a39f75da517c650db" kindref="member">themis::geo::test::TEST</ref>  (GeoPhase2Phase3FocusedTest, P23_05_Wgs84ValidCoordinates)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000010"/>P23-05: WGS84 coordinate validation accepts valid coordinates. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1geo_1_1test_1a3462c4122f9cc047e0ab09cb27b0a8ff" kindref="member">themis::geo::test::TEST</ref>  (GeoPhase2Phase3FocusedTest, P23_06_Wgs84OutOfBoundsCoordinates)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000011"/>P23-06: WGS84 coordinate validation rejects out-of-bounds coordinates. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1geo_1_1test_1a33fb43e6f34c9aed9b2fae0b6fffa374" kindref="member">themis::geo::test::TEST</ref>  (GeoPhase2Phase3FocusedTest, P23_07_RingClosureValidation)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000012"/>P23-07: Ring closure validation verifies first == last coordinate. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1geo_1_1test_1accba05abc83b67af020d4ce85d557fb3" kindref="member">themis::geo::test::TEST</ref>  (GeoPhase2Phase3FocusedTest, P23_08_MinimumVertexRequirements)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000013"/>P23-08: Minimum vertex requirements for LineString and Polygon. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1geo_1_1test_1ae0d0840c47eaae26cfe6528216628441" kindref="member">themis::geo::test::TEST</ref>  (GeoPhase2Phase3FocusedTest, P23_09_DistanceConsistencyIdentical)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000014"/>P23-09: Distance result consistency verifies within relative tolerance. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1geo_1_1test_1a4a71e411589b939cc269a1b1841ef364" kindref="member">themis::geo::test::TEST</ref>  (GeoPhase2Phase3FocusedTest, P23_10_DistanceConsistencyWithinTolerance)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000015"/>P23-10: Distance results within tolerance pass consistency check. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1geo_1_1test_1a1b6c3823363729c21a26e04ca72c3b21" kindref="member">themis::geo::test::TEST</ref>  (GeoPhase2Phase3FocusedTest, P23_11_DistanceConsistencyOutsideTolerance)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000016"/>P23-11: Distance results outside tolerance fail consistency check. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1geo_1_1test_1a4d3d5b266326ce19a504bd43aaf41809" kindref="member">themis::geo::test::TEST</ref>  (GeoPhase2Phase3FocusedTest, P23_12_ContainmentConsistency)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000017"/>P23-12: Containment result consistency checks bitset equality. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1geo_1_1test_1a564f5f43cc0853493e83a96291723db4" kindref="member">themis::geo::test::TEST</ref>  (GeoPhase2Phase3FocusedTest, P23_13_IndexQueryConsistency)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000018"/>P23-13: Spatial index query consistency detects results outside envelope. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1geo_1_1test_1a609c8bc6d12de99079a317eaa4c2e0fe" kindref="member">themis::geo::test::TEST</ref>  (GeoPhase2Phase3FocusedTest, P23_14_IndexQueryEdgeCases)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000019"/>P23-14: Spatial index query consistency handles edge cases. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1geo_1_1test_1a14616e6ade5a3e4fe26bbe76c575cada" kindref="member">themis::geo::test::TEST</ref>  (GeoPhase2Phase3FocusedTest, P23_15_ValidationErrorMessages)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000020"/>P23-15: Geometry validation error messages are actionable. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1geo_1_1test_1a039a7b5a64b1efebbe62013f9201d35b" kindref="member">themis::geo::test::TEST</ref>  (GeoPhase2Phase3FocusedTest, P23_16_BackendFallbackDiagnostic)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000021"/>P23-16: Backend fallback diagnostic formats complete context. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1geo_1_1test_1ae3d2c12b11c862c239a7fc524a130dd2" kindref="member">themis::geo::test::TEST</ref>  (GeoQ4Hardening, GEH01_StandardPrecisionCpuOnly)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000022"/>GEH-01: STANDARD precision CPU-only dispatch returns correct result.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1geo_1_1test_1a6acb3efae65923ff644cc53cab9d507f" kindref="member">themis::geo::test::TEST</ref>  (GeoQ4Hardening, GEH02_HighPrecisionCpuOnly)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000023"/>GEH-02: HIGH precision CPU-only dispatch returns value within tolerance.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1geo_1_1test_1ad2c77a7305d77a7dc9a1d0ae8ff05396" kindref="member">themis::geo::test::TEST</ref>  (GeoQ4Hardening, GEH03_UltraPrecisionForcesCpu)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000024"/>GEH-03: ULTRA precision forces CPU path regardless of GPU availability. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1geo_1_1test_1a31b99bf0e31e0606bc9c8d3788b43121" kindref="member">themis::geo::test::TEST</ref>  (GeoQ4Hardening, GEH04_CpuGpuParityWithinTolerance)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000025"/>GEH-04: CPU_AND_GPU parity within STANDARD tolerance, no drift recorded.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1geo_1_1test_1ab26a003d0458dd9efad411c897b508ac" kindref="member">themis::geo::test::TEST</ref>  (GeoQ4Hardening, GEH05_GpuUnavailableFallbackToCpu)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000026"/>GEH-05: GPU returning nullopt triggers silent CPU fallback.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1geo_1_1test_1a2f22de74b7dc79174e93feca4721d32d" kindref="member">themis::geo::test::TEST</ref>  (GeoQ4Hardening, GEH06_GpuExceptionIncrementssFallbackCount)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000027"/>GEH-06: GPU function throwing an exception increments fallback count.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1geo_1_1test_1a668e56b98509aabec75d8109beeda075" kindref="member">themis::geo::test::TEST</ref>  (GeoQ4Hardening, GEH07_ParityMismatchIncrementsDriftCounter)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000028"/>GEH-07: CPU/GPU parity mismatch increments drift counter and returns CPU result.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1geo_1_1test_1ae5ce4cba93941095a4fc259f0322d678" kindref="member">themis::geo::test::TEST</ref>  (GeoQ4Hardening, GEH08_PersistentDriftFlagSetAfterThreshold)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000029"/>GEH-08: After kDriftThreshold mismatches, hasCapabilityDrift() returns true.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1geo_1_1test_1a6237b6484d0060cd023b1e347428fd8b" kindref="member">themis::geo::test::TEST</ref>  (GeoQ4Hardening, GEH09_ValidWgs84CoordinatesOk)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000030"/>GEH-09: Valid WGS84 coordinates return OK.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1geo_1_1test_1a7d26c54ce01a54b280c35520fa5d3f98" kindref="member">themis::geo::test::TEST</ref>  (GeoQ4Hardening, GEH10_LongitudeOutOfBounds)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000031"/>GEH-10: Longitude out of WGS84 bounds returns COORDINATE_OUT_OF_BOUNDS.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1geo_1_1test_1adc63aa3cdb696e5b926457fabec233b2" kindref="member">themis::geo::test::TEST</ref>  (GeoQ4Hardening, GEH11_LatitudeOutOfBounds)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000032"/>GEH-11: Latitude out of WGS84 bounds returns COORDINATE_OUT_OF_BOUNDS.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1geo_1_1test_1aa2f1ff12ffed3ff8f6db3df9e02afa81" kindref="member">themis::geo::test::TEST</ref>  (GeoQ4Hardening, GEH12_NanCoordinateInvalid)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000033"/>GEH-12: NaN coordinate returns GEOMETRY_INVALID.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1geo_1_1test_1a64fed6db06330c71071fbef11b50d98a" kindref="member">themis::geo::test::TEST</ref>  (GeoQ4Hardening, GEH13_ValidClosedRingOk)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000034"/>GEH-13: Valid closed polygon ring returns OK.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1geo_1_1test_1a4c34792ec514f982e8aad847bf6e867e" kindref="member">themis::geo::test::TEST</ref>  (GeoQ4Hardening, GEH14_OpenRingInvalid)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000035"/>GEH-14: Open ring (first ≠ last) returns GEOMETRY_INVALID.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1geo_1_1test_1ac74a0d15adc363faeb9619a87f9c867b" kindref="member">themis::geo::test::TEST</ref>  (GeoQ4Hardening, GEH15_ShortRingInvalid)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000036"/>GEH-15: Ring with fewer than 4 points returns GEOMETRY_INVALID.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1geo_1_1test_1aab5fd23a38deceb1d71766436fb244e4" kindref="member">themis::geo::test::TEST</ref>  (GeoQ4Hardening, GEH16_RingWithInvalidCoordinateReturnsError)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000037"/>GEH-16: Ring with out-of-bounds coordinate returns COORDINATE_OUT_OF_BOUNDS.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1geo_1_1test_1abb578be850937eaacf630e1b1217e138" kindref="member">themis::geo::test::TEST</ref>  (GeoQ4Hardening, GEH17_RecordIncidentStoresCorrectFields)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000038"/>GEH-17: recordIncident stores incident with correct fields.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1geo_1_1test_1ad3005658341b1c8beecdf3f9110504cd" kindref="member">themis::geo::test::TEST</ref>  (GeoQ4Hardening, GEH18_IncidentsBySeverityFiltersCorrectly)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000039"/>GEH-18: incidentsBySeverity filters to &gt;= min_severity.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1geo_1_1test_1a0c331502089a5b80a34308b1929558b4" kindref="member">themis::geo::test::TEST</ref>  (GeoQ4Hardening, GEH19_HasCriticalIncidentsCorrect)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000040"/>GEH-19: hasCriticalIncidents returns true only when CRITICAL incidents exist.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1geo_1_1test_1ad20b0d497ca4464e19c315f69e8a7aaf" kindref="member">themis::geo::test::TEST</ref>  (GeoQ4Hardening, GEH20_FormatSummaryContainsIncidentDetails)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000041"/>GEH-20: formatSummary produces non-empty output with incident details. </para>
+</listitem>
+</variablelist>
+</para>
+    </detaileddescription>
+    <location file="test"/>
+  </compounddef>
+</doxygen>

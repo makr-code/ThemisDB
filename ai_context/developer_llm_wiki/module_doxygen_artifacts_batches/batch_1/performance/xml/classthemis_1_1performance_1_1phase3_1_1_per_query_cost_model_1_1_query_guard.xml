@@ -1,0 +1,269 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_query_guard" kind="class" language="C++" prot="public">
+    <compoundname>themis::performance::phase3::PerQueryCostModel::QueryGuard</compoundname>
+    <includes refid="per__query__cost__model_8h" local="no">per_query_cost_model.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_query_guard_1a1cd09cadbd260c1aa0dbe13f4dd41ba7" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1a0635cad475ea83bbbcd893fffd85040c" kindref="member">PerQueryCostModel</ref> *</type>
+        <definition>PerQueryCostModel* themis::performance::phase3::PerQueryCostModel::QueryGuard::model_</definition>
+        <argsstring></argsstring>
+        <name>model_</name>
+        <qualifiedname>themis::performance::phase3::PerQueryCostModel::QueryGuard::model_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/per_query_cost_model.h" line="137" column="49" bodyfile="include/performance/phase3/per_query_cost_model.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_query_guard_1ac9e3807f811614273c18c1c9ec4817d9" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::performance::phase3::PerQueryCostModel::QueryGuard::query_type_</definition>
+        <argsstring></argsstring>
+        <name>query_type_</name>
+        <qualifiedname>themis::performance::phase3::PerQueryCostModel::QueryGuard::query_type_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/per_query_cost_model.h" line="138" column="50" bodyfile="include/performance/phase3/per_query_cost_model.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_query_guard_1a1266f7cbdf4bae42560f65d9893310b7" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::phase3::PerQueryCostModel::QueryGuard::estimated_cost_</definition>
+        <argsstring></argsstring>
+        <name>estimated_cost_</name>
+        <qualifiedname>themis::performance::phase3::PerQueryCostModel::QueryGuard::estimated_cost_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/per_query_cost_model.h" line="139" column="50" bodyfile="include/performance/phase3/per_query_cost_model.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_query_guard_1aef0911ba2df3f1ba33fcf975acb3423c" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::phase3::PerQueryCostModel::QueryGuard::start_cycles_</definition>
+        <argsstring></argsstring>
+        <name>start_cycles_</name>
+        <qualifiedname>themis::performance::phase3::PerQueryCostModel::QueryGuard::start_cycles_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/per_query_cost_model.h" line="140" column="50" bodyfile="include/performance/phase3/per_query_cost_model.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_query_guard_1a3a0430fd3897dea24654e930249b827f" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::performance::phase3::PerQueryCostModel::QueryGuard::start_wall_</definition>
+        <argsstring></argsstring>
+        <name>start_wall_</name>
+        <qualifiedname>themis::performance::phase3::PerQueryCostModel::QueryGuard::start_wall_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/per_query_cost_model.h" line="141" column="50" bodyfile="include/performance/phase3/per_query_cost_model.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_query_guard_1ab5069bed28b079518d5b54d19ebf3397" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::performance::phase3::PerQueryCostModel::QueryGuard::ended_</definition>
+        <argsstring></argsstring>
+        <name>ended_</name>
+        <qualifiedname>themis::performance::phase3::PerQueryCostModel::QueryGuard::ended_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/per_query_cost_model.h" line="142" column="50" bodyfile="include/performance/phase3/per_query_cost_model.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_query_guard_1a9912bfab5073494d16cff9f70bb9ada6" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::phase3::PerQueryCostModel::QueryGuard::QueryGuard</definition>
+        <argsstring>(PerQueryCostModel &amp;model, std::string query_type, double estimated_cost) noexcept</argsstring>
+        <name>QueryGuard</name>
+        <qualifiedname>themis::performance::phase3::PerQueryCostModel::QueryGuard::QueryGuard</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1a0635cad475ea83bbbcd893fffd85040c" kindref="member">PerQueryCostModel</ref> &amp;</type>
+          <declname>model</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>query_type</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>estimated_cost</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/per_query_cost_model.h" line="116" column="9" bodyfile="src/performance/phase3/per_query_cost_model.cpp" bodystart="374" bodyend="383"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_query_guard_1a20527028e572ce37127465df19a845c3" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::phase3::PerQueryCostModel::QueryGuard::~QueryGuard</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~QueryGuard</name>
+        <qualifiedname>themis::performance::phase3::PerQueryCostModel::QueryGuard::~QueryGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/per_query_cost_model.h" line="119" column="9" bodyfile="src/performance/phase3/per_query_cost_model.cpp" bodystart="396" bodyend="400"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_query_guard_1aab20c3cf25ad276a4ed6ec569f1f01dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::phase3::PerQueryCostModel::QueryGuard::QueryGuard</definition>
+        <argsstring>(const QueryGuard &amp;)=delete</argsstring>
+        <name>QueryGuard</name>
+        <qualifiedname>themis::performance::phase3::PerQueryCostModel::QueryGuard::QueryGuard</qualifiedname>
+        <param>
+          <type>const QueryGuard &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/per_query_cost_model.h" line="122" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_query_guard_1a90652d8229fa9acc3041dedf4752f8fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_query_guard_1a9912bfab5073494d16cff9f70bb9ada6" kindref="member">QueryGuard</ref> &amp;</type>
+        <definition>QueryGuard &amp; themis::performance::phase3::PerQueryCostModel::QueryGuard::operator=</definition>
+        <argsstring>(const QueryGuard &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::performance::phase3::PerQueryCostModel::QueryGuard::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_query_guard_1a9912bfab5073494d16cff9f70bb9ada6" kindref="member">QueryGuard</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/per_query_cost_model.h" line="123" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_query_guard_1ac486982ddd13ff19fc022ed9ae765c5c" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::phase3::PerQueryCostModel::QueryGuard::QueryGuard</definition>
+        <argsstring>(QueryGuard &amp;&amp;) noexcept</argsstring>
+        <name>QueryGuard</name>
+        <qualifiedname>themis::performance::phase3::PerQueryCostModel::QueryGuard::QueryGuard</qualifiedname>
+        <param>
+          <type>QueryGuard &amp;&amp;</type>
+          <defname>other</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/per_query_cost_model.h" line="126" column="9" bodyfile="src/performance/phase3/per_query_cost_model.cpp" bodystart="385" bodyend="394"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_query_guard_1a65d6d5beddf94949a033199d2b75f4cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_query_guard_1a9912bfab5073494d16cff9f70bb9ada6" kindref="member">QueryGuard</ref> &amp;</type>
+        <definition>QueryGuard &amp; themis::performance::phase3::PerQueryCostModel::QueryGuard::operator=</definition>
+        <argsstring>(QueryGuard &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::performance::phase3::PerQueryCostModel::QueryGuard::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_query_guard_1a9912bfab5073494d16cff9f70bb9ada6" kindref="member">QueryGuard</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/per_query_cost_model.h" line="127" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_query_guard_1a418cd367f915e3638020ec1e6686a629" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::phase3::PerQueryCostModel::QueryGuard::end</definition>
+        <argsstring>(size_t rows_processed=0, size_t pages_read=0) noexcept</argsstring>
+        <name>end</name>
+        <qualifiedname>themis::performance::phase3::PerQueryCostModel::QueryGuard::end</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>rows_processed</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>pages_read</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Finalise the measurement and push the record. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>rows_processed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of rows touched. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pages_read</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of storage pages read. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/per_query_cost_model.h" line="134" column="14" bodyfile="src/performance/phase3/per_query_cost_model.cpp" bodystart="402" bodyend="435"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RAII guard returned by <ref refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1aa2a744dc827dbac1b9d03f2a2b3bc6bb" kindref="member">beginQuery()</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Calls <ref refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_query_guard_1a418cd367f915e3638020ec1e6686a629" kindref="member">end()</ref> automatically on destruction if not called explicitly. </para>
+    </detaileddescription>
+    <location file="include/performance/phase3/per_query_cost_model.h" line="114" column="5" bodyfile="include/performance/phase3/per_query_cost_model.h" bodystart="114" bodyend="143"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_query_guard_1a418cd367f915e3638020ec1e6686a629" prot="public" virt="non-virtual"><scope>themis::performance::phase3::PerQueryCostModel::QueryGuard</scope><name>end</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_query_guard_1ab5069bed28b079518d5b54d19ebf3397" prot="private" virt="non-virtual"><scope>themis::performance::phase3::PerQueryCostModel::QueryGuard</scope><name>ended_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_query_guard_1a1266f7cbdf4bae42560f65d9893310b7" prot="private" virt="non-virtual"><scope>themis::performance::phase3::PerQueryCostModel::QueryGuard</scope><name>estimated_cost_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_query_guard_1a1cd09cadbd260c1aa0dbe13f4dd41ba7" prot="private" virt="non-virtual"><scope>themis::performance::phase3::PerQueryCostModel::QueryGuard</scope><name>model_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_query_guard_1a90652d8229fa9acc3041dedf4752f8fb" prot="public" virt="non-virtual"><scope>themis::performance::phase3::PerQueryCostModel::QueryGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_query_guard_1a65d6d5beddf94949a033199d2b75f4cc" prot="public" virt="non-virtual"><scope>themis::performance::phase3::PerQueryCostModel::QueryGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_query_guard_1ac9e3807f811614273c18c1c9ec4817d9" prot="private" virt="non-virtual"><scope>themis::performance::phase3::PerQueryCostModel::QueryGuard</scope><name>query_type_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_query_guard_1a9912bfab5073494d16cff9f70bb9ada6" prot="public" virt="non-virtual"><scope>themis::performance::phase3::PerQueryCostModel::QueryGuard</scope><name>QueryGuard</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_query_guard_1aab20c3cf25ad276a4ed6ec569f1f01dc" prot="public" virt="non-virtual"><scope>themis::performance::phase3::PerQueryCostModel::QueryGuard</scope><name>QueryGuard</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_query_guard_1ac486982ddd13ff19fc022ed9ae765c5c" prot="public" virt="non-virtual"><scope>themis::performance::phase3::PerQueryCostModel::QueryGuard</scope><name>QueryGuard</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_query_guard_1aef0911ba2df3f1ba33fcf975acb3423c" prot="private" virt="non-virtual"><scope>themis::performance::phase3::PerQueryCostModel::QueryGuard</scope><name>start_cycles_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_query_guard_1a3a0430fd3897dea24654e930249b827f" prot="private" virt="non-virtual"><scope>themis::performance::phase3::PerQueryCostModel::QueryGuard</scope><name>start_wall_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_query_guard_1a20527028e572ce37127465df19a845c3" prot="public" virt="non-virtual"><scope>themis::performance::phase3::PerQueryCostModel::QueryGuard</scope><name>~QueryGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

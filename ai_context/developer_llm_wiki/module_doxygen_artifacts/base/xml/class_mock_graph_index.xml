@@ -1,0 +1,211 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_mock_graph_index" kind="class" language="C++" prot="public">
+    <compoundname>MockGraphIndex</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">IGraphIndex</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_mock_graph_index_1a3f71f5491d6844747e8dcea0d4679d96" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; GraphEdge &gt;</type>
+        <definition>std::vector&lt;GraphEdge&gt; MockGraphIndex::edges_</definition>
+        <argsstring></argsstring>
+        <name>edges_</name>
+        <qualifiedname>MockGraphIndex::edges_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="340" column="17" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="340" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_mock_graph_index_1a27e9a31e046302709c8e1552a8ff101b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool MockGraphIndex::insertEdge</definition>
+        <argsstring>(const GraphEdge &amp;edge) override</argsstring>
+        <name>insertEdge</name>
+        <qualifiedname>MockGraphIndex::insertEdge</qualifiedname>
+        <param>
+          <type>const GraphEdge &amp;</type>
+          <declname>edge</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="278" column="10" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="278" bodyend="281"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_graph_index_1ac2450af55ac403a90a54f07adc7d30c5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool MockGraphIndex::removeEdge</definition>
+        <argsstring>(std::string_view from, std::string_view to, std::string_view edge_type=&quot;&quot;) override</argsstring>
+        <name>removeEdge</name>
+        <qualifiedname>MockGraphIndex::removeEdge</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>to</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>edge_type</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="283" column="10" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="283" bodyend="294"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_graph_index_1ad7767dd270f780c2c45288dd6f7a8165" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; GraphEdge &gt;</type>
+        <definition>std::vector&lt; GraphEdge &gt; MockGraphIndex::getOutgoingEdges</definition>
+        <argsstring>(std::string_view node_id, std::string_view edge_type=&quot;&quot;) const override</argsstring>
+        <name>getOutgoingEdges</name>
+        <qualifiedname>MockGraphIndex::getOutgoingEdges</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>node_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>edge_type</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="296" column="17" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="296" bodyend="307"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_graph_index_1addfeb4076c61d61bcb15f170c4f5e4e8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; GraphEdge &gt;</type>
+        <definition>std::vector&lt; GraphEdge &gt; MockGraphIndex::getIncomingEdges</definition>
+        <argsstring>(std::string_view node_id, std::string_view edge_type=&quot;&quot;) const override</argsstring>
+        <name>getIncomingEdges</name>
+        <qualifiedname>MockGraphIndex::getIncomingEdges</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>node_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>edge_type</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="309" column="17" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="309" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_graph_index_1a2423aa9ab5c14d3dcca94bc7515976ee" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; MockGraphIndex::findShortestPath</definition>
+        <argsstring>(std::string_view from, std::string_view to, std::string_view=&quot;&quot;, uint32_t=0) const override</argsstring>
+        <name>findShortestPath</name>
+        <qualifiedname>MockGraphIndex::findShortestPath</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>to</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="322" column="17" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="322" bodyend="334"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_graph_index_1a7fa2ab1eb7f520a8fc834845e3e1b38f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string MockGraphIndex::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>MockGraphIndex::getName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="336" column="17" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="336" bodyend="336"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_graph_index_1a1d2458f9fe2cc75f8dc559bb80183094" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string MockGraphIndex::getStatistics</definition>
+        <argsstring>() const override</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>MockGraphIndex::getStatistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="337" column="17" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="337" bodyend="337"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>IGraphIndex</label>
+      </node>
+      <node id="1">
+        <label>MockGraphIndex</label>
+        <link refid="class_mock_graph_index"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>IGraphIndex</label>
+      </node>
+      <node id="1">
+        <label>MockGraphIndex</label>
+        <link refid="class_mock_graph_index"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/base/test_base_interfaces.cpp" line="276" column="1" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="276" bodyend="341"/>
+    <listofallmembers>
+      <member refid="class_mock_graph_index_1a3f71f5491d6844747e8dcea0d4679d96" prot="private" virt="non-virtual"><scope>MockGraphIndex</scope><name>edges_</name></member>
+      <member refid="class_mock_graph_index_1a2423aa9ab5c14d3dcca94bc7515976ee" prot="public" virt="non-virtual"><scope>MockGraphIndex</scope><name>findShortestPath</name></member>
+      <member refid="class_mock_graph_index_1addfeb4076c61d61bcb15f170c4f5e4e8" prot="public" virt="non-virtual"><scope>MockGraphIndex</scope><name>getIncomingEdges</name></member>
+      <member refid="class_mock_graph_index_1a7fa2ab1eb7f520a8fc834845e3e1b38f" prot="public" virt="non-virtual"><scope>MockGraphIndex</scope><name>getName</name></member>
+      <member refid="class_mock_graph_index_1ad7767dd270f780c2c45288dd6f7a8165" prot="public" virt="non-virtual"><scope>MockGraphIndex</scope><name>getOutgoingEdges</name></member>
+      <member refid="class_mock_graph_index_1a1d2458f9fe2cc75f8dc559bb80183094" prot="public" virt="non-virtual"><scope>MockGraphIndex</scope><name>getStatistics</name></member>
+      <member refid="class_mock_graph_index_1a27e9a31e046302709c8e1552a8ff101b" prot="public" virt="non-virtual"><scope>MockGraphIndex</scope><name>insertEdge</name></member>
+      <member refid="class_mock_graph_index_1ac2450af55ac403a90a54f07adc7d30c5" prot="public" virt="non-virtual"><scope>MockGraphIndex</scope><name>removeEdge</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

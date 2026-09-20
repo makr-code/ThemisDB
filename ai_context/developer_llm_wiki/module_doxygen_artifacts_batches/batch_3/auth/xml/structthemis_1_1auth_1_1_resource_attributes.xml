@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_resource_attributes" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::ResourceAttributes</compoundname>
+    <includes refid="authorization__policy_8h" local="no">authorization_policy.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_resource_attributes_1a3e10005fa8f45e756000dd011aca2f59" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::ResourceAttributes::resource_id</definition>
+        <argsstring></argsstring>
+        <name>resource_id</name>
+        <qualifiedname>themis::auth::ResourceAttributes::resource_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/authorization_policy.h" line="43" column="17" bodyfile="include/auth/authorization_policy.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_resource_attributes_1a4c6cdaffe289e74928b0e33c0fcb7666" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::ResourceAttributes::resource_type</definition>
+        <argsstring></argsstring>
+        <name>resource_type</name>
+        <qualifiedname>themis::auth::ResourceAttributes::resource_type</qualifiedname>
+        <briefdescription>
+<para>e.g. &quot;document&quot;, &quot;collection&quot;, &quot;query&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/authorization_policy.h" line="44" column="17" bodyfile="include/auth/authorization_policy.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_resource_attributes_1adadab13db0127db8cd042d7cc3ec1ece" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::ResourceAttributes::owner_id</definition>
+        <argsstring></argsstring>
+        <name>owner_id</name>
+        <qualifiedname>themis::auth::ResourceAttributes::owner_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/authorization_policy.h" line="45" column="17" bodyfile="include/auth/authorization_policy.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_resource_attributes_1afd2c0b59246e02e149737b3bc1c67944" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::ResourceAttributes::classification</definition>
+        <argsstring></argsstring>
+        <name>classification</name>
+        <qualifiedname>themis::auth::ResourceAttributes::classification</qualifiedname>
+        <briefdescription>
+<para>Data sensitivity label (e.g. &quot;confidential&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/authorization_policy.h" line="46" column="17" bodyfile="include/auth/authorization_policy.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_resource_attributes_1adb9739f3626209d8a12521cc594b0711" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::auth::ResourceAttributes::labels</definition>
+        <argsstring></argsstring>
+        <name>labels</name>
+        <qualifiedname>themis::auth::ResourceAttributes::labels</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/authorization_policy.h" line="47" column="14" bodyfile="include/auth/authorization_policy.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/authorization_policy.h" line="42" column="1" bodyfile="include/auth/authorization_policy.h" bodystart="42" bodyend="48"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_resource_attributes_1afd2c0b59246e02e149737b3bc1c67944" prot="public" virt="non-virtual"><scope>themis::auth::ResourceAttributes</scope><name>classification</name></member>
+      <member refid="structthemis_1_1auth_1_1_resource_attributes_1adb9739f3626209d8a12521cc594b0711" prot="public" virt="non-virtual"><scope>themis::auth::ResourceAttributes</scope><name>labels</name></member>
+      <member refid="structthemis_1_1auth_1_1_resource_attributes_1adadab13db0127db8cd042d7cc3ec1ece" prot="public" virt="non-virtual"><scope>themis::auth::ResourceAttributes</scope><name>owner_id</name></member>
+      <member refid="structthemis_1_1auth_1_1_resource_attributes_1a3e10005fa8f45e756000dd011aca2f59" prot="public" virt="non-virtual"><scope>themis::auth::ResourceAttributes</scope><name>resource_id</name></member>
+      <member refid="structthemis_1_1auth_1_1_resource_attributes_1a4c6cdaffe289e74928b0e33c0fcb7666" prot="public" virt="non-virtual"><scope>themis::auth::ResourceAttributes</scope><name>resource_type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

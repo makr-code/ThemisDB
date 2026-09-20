@@ -1,0 +1,203 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1test_1_1_mock_replication_system" kind="class" language="C++" prot="public">
+    <compoundname>themis::test::MockReplicationSystem</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_mock_replication_system_1a9a353de20048306294c484da9fd6968b" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::unique_ptr&lt; <ref refid="classthemis_1_1test_1_1_mock_replica" kindref="compound">MockReplica</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::unique_ptr&lt;MockReplica&gt; &gt; themis::test::MockReplicationSystem::replicas_</definition>
+        <argsstring></argsstring>
+        <name>replicas_</name>
+        <qualifiedname>themis::test::MockReplicationSystem::replicas_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_chaos.cpp" line="178" column="17" bodyfile="tests/replication/test_replication_chaos.cpp" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_mock_replication_system_1adf6f8edb1193b11d3e34149f53711daa" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::test::MockReplicationSystem::quorum_size_</definition>
+        <argsstring></argsstring>
+        <name>quorum_size_</name>
+        <qualifiedname>themis::test::MockReplicationSystem::quorum_size_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_chaos.cpp" line="179" column="9" bodyfile="tests/replication/test_replication_chaos.cpp" bodystart="179" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1test_1_1_mock_replication_system_1a6da0d95facbf2eb86b266099c2d50743" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::MockReplicationSystem::MockReplicationSystem</definition>
+        <argsstring>(int replica_count=3)</argsstring>
+        <name>MockReplicationSystem</name>
+        <qualifiedname>themis::test::MockReplicationSystem::MockReplicationSystem</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>replica_count</declname>
+          <defval>3</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_chaos.cpp" line="95" column="14" bodyfile="tests/replication/test_replication_chaos.cpp" bodystart="95" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_mock_replication_system_1aecd9d598e8c75872505346b308d50245" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::test::MockReplicationSystem::getReplicaCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getReplicaCount</name>
+        <qualifiedname>themis::test::MockReplicationSystem::getReplicaCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_chaos.cpp" line="107" column="9" bodyfile="tests/replication/test_replication_chaos.cpp" bodystart="107" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_mock_replication_system_1afb72aedbd47dd529dff61f73edc346bd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1test_1_1_mock_replica" kindref="compound">MockReplica</ref> *</type>
+        <definition>MockReplica * themis::test::MockReplicationSystem::getReplica</definition>
+        <argsstring>(int id)</argsstring>
+        <name>getReplica</name>
+        <qualifiedname>themis::test::MockReplicationSystem::getReplica</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_chaos.cpp" line="109" column="17" bodyfile="tests/replication/test_replication_chaos.cpp" bodystart="109" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_mock_replication_system_1a3f37a377daf60124c6df275b9dd3005b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::test::MockReplicationSystem::getLeaderId</definition>
+        <argsstring>() const</argsstring>
+        <name>getLeaderId</name>
+        <qualifiedname>themis::test::MockReplicationSystem::getLeaderId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_chaos.cpp" line="116" column="9" bodyfile="tests/replication/test_replication_chaos.cpp" bodystart="116" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_mock_replication_system_1aba6765bcd9c64d36a508f17add0ee10b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::test::MockReplicationSystem::getHealthyReplicaCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getHealthyReplicaCount</name>
+        <qualifiedname>themis::test::MockReplicationSystem::getHealthyReplicaCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_chaos.cpp" line="125" column="9" bodyfile="tests/replication/test_replication_chaos.cpp" bodystart="125" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_mock_replication_system_1a4fa1c208302c5aefe2b4a2a0db868718" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::test::MockReplicationSystem::hasQuorum</definition>
+        <argsstring>() const</argsstring>
+        <name>hasQuorum</name>
+        <qualifiedname>themis::test::MockReplicationSystem::hasQuorum</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_chaos.cpp" line="135" column="10" bodyfile="tests/replication/test_replication_chaos.cpp" bodystart="135" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_mock_replication_system_1a056d56456b20f0bab156f6cd6913163c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::test::MockReplicationSystem::shipWAL</definition>
+        <argsstring>(int wal_entry_count)</argsstring>
+        <name>shipWAL</name>
+        <qualifiedname>themis::test::MockReplicationSystem::shipWAL</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>wal_entry_count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_chaos.cpp" line="137" column="10" bodyfile="tests/replication/test_replication_chaos.cpp" bodystart="137" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_mock_replication_system_1a53161a4bd9b5790ca6ebe9f3230292e9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::test::MockReplicationSystem::updateReplicaLag</definition>
+        <argsstring>(int replica_id, int lag_ms)</argsstring>
+        <name>updateReplicaLag</name>
+        <qualifiedname>themis::test::MockReplicationSystem::updateReplicaLag</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>replica_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>lag_ms</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_chaos.cpp" line="148" column="10" bodyfile="tests/replication/test_replication_chaos.cpp" bodystart="148" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_mock_replication_system_1a83e2af1d5dc261bce254c0f91bcff2fb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::test::MockReplicationSystem::failover</definition>
+        <argsstring>()</argsstring>
+        <name>failover</name>
+        <qualifiedname>themis::test::MockReplicationSystem::failover</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_chaos.cpp" line="160" column="10" bodyfile="tests/replication/test_replication_chaos.cpp" bodystart="160" bodyend="175"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/replication/test_replication_chaos.cpp" line="93" column="1" bodyfile="tests/replication/test_replication_chaos.cpp" bodystart="93" bodyend="180"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1test_1_1_mock_replication_system_1a83e2af1d5dc261bce254c0f91bcff2fb" prot="public" virt="non-virtual"><scope>themis::test::MockReplicationSystem</scope><name>failover</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_replication_system_1aba6765bcd9c64d36a508f17add0ee10b" prot="public" virt="non-virtual"><scope>themis::test::MockReplicationSystem</scope><name>getHealthyReplicaCount</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_replication_system_1a3f37a377daf60124c6df275b9dd3005b" prot="public" virt="non-virtual"><scope>themis::test::MockReplicationSystem</scope><name>getLeaderId</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_replication_system_1afb72aedbd47dd529dff61f73edc346bd" prot="public" virt="non-virtual"><scope>themis::test::MockReplicationSystem</scope><name>getReplica</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_replication_system_1aecd9d598e8c75872505346b308d50245" prot="public" virt="non-virtual"><scope>themis::test::MockReplicationSystem</scope><name>getReplicaCount</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_replication_system_1a4fa1c208302c5aefe2b4a2a0db868718" prot="public" virt="non-virtual"><scope>themis::test::MockReplicationSystem</scope><name>hasQuorum</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_replication_system_1a6da0d95facbf2eb86b266099c2d50743" prot="public" virt="non-virtual"><scope>themis::test::MockReplicationSystem</scope><name>MockReplicationSystem</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_replication_system_1adf6f8edb1193b11d3e34149f53711daa" prot="private" virt="non-virtual"><scope>themis::test::MockReplicationSystem</scope><name>quorum_size_</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_replication_system_1a9a353de20048306294c484da9fd6968b" prot="private" virt="non-virtual"><scope>themis::test::MockReplicationSystem</scope><name>replicas_</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_replication_system_1a056d56456b20f0bab156f6cd6913163c" prot="public" virt="non-virtual"><scope>themis::test::MockReplicationSystem</scope><name>shipWAL</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_replication_system_1a53161a4bd9b5790ca6ebe9f3230292e9" prot="public" virt="non-virtual"><scope>themis::test::MockReplicationSystem</scope><name>updateReplicaLag</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

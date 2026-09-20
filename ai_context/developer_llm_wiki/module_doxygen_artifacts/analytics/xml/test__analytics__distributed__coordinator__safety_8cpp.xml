@@ -1,0 +1,926 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__analytics__distributed__coordinator__safety_8cpp" kind="file" language="C++">
+    <compoundname>test_analytics_distributed_coordinator_safety.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="distributed__analytics_8h" local="yes">analytics/distributed_analytics.h</includes>
+    <includes refid="olap_8h" local="yes">analytics/olap.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>analytics/distributed_analytics.h</label>
+        <link refid="distributed__analytics_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>analytics/olap.h</label>
+        <link refid="olap_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/analytics/test_analytics_distributed_coordinator_safety.cpp</label>
+        <link refid="test__analytics__distributed__coordinator__safety_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>atomic</label>
+      </node>
+      <node id="14">
+        <label>chrono</label>
+      </node>
+      <node id="16">
+        <label>condition_variable</label>
+      </node>
+      <node id="13">
+        <label>cstdint</label>
+      </node>
+      <node id="12">
+        <label>functional</label>
+      </node>
+      <node id="17">
+        <label>future</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="10">
+        <label>memory</label>
+      </node>
+      <node id="18">
+        <label>mutex</label>
+      </node>
+      <node id="9">
+        <label>optional</label>
+      </node>
+      <node id="19">
+        <label>queue</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>string_view</label>
+      </node>
+      <node id="20">
+        <label>thread</label>
+      </node>
+      <node id="8">
+        <label>unordered_map</label>
+      </node>
+      <node id="11">
+        <label>variant</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_controlled_executor" prot="public">ControlledExecutor</innerclass>
+    <innerclass refid="class_distributed_analytics_safety_test" prot="public">DistributedAnalyticsSafetyTest</innerclass>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="test__analytics__distributed__coordinator__safety_8cpp_1a8b47afb9dc74d79e986abd7e2c8eb334" prot="public" static="no">
+        <type><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query" kindref="compound">themis::analytics::OLAPQuery</ref></type>
+        <definition>using OLAPQuery = themis::analytics::OLAPQuery</definition>
+        <argsstring></argsstring>
+        <name>OLAPQuery</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" line="27" column="1" bodyfile="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="test__analytics__distributed__coordinator__safety_8cpp_1a3b88b9c5f1e8b9e1690589fe79feca45" prot="public" static="no">
+        <type><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result" kindref="compound">themis::analytics::OLAPResult</ref></type>
+        <definition>using OLAPResult = themis::analytics::OLAPResult</definition>
+        <argsstring></argsstring>
+        <name>OLAPResult</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" line="28" column="1" bodyfile="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="test__analytics__distributed__coordinator__safety_8cpp_1a3dbf925ceb6b6894d5777e2be511972c" prot="public" static="no">
+        <type><ref refid="structthemis_1_1analytics_1_1_measure" kindref="compound">themis::analytics::Measure</ref></type>
+        <definition>using Measure = themis::analytics::Measure</definition>
+        <argsstring></argsstring>
+        <name>Measure</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" line="29" column="1" bodyfile="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="test__analytics__distributed__coordinator__safety_8cpp_1acf434b037e6f4987bcb284487f352af2" prot="public" static="no">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1a71c4c933746b1be0da4b4a9a705f8798" kindref="member">DistributedAnalyticsSharding::CircuitBreakerState</ref></type>
+        <definition>using CircuitBreakerState = DistributedAnalyticsSharding::CircuitBreakerState</definition>
+        <argsstring></argsstring>
+        <name>CircuitBreakerState</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" line="30" column="1" bodyfile="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" bodystart="30" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__analytics__distributed__coordinator__safety_8cpp_1a70c40b5ad9b3aed29fa8724b11ed9de1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DistributedAnalyticsSafetyTest, CircuitBreakerInitiallyClosed)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_distributed_analytics_safety_test" kindref="compound">DistributedAnalyticsSafetyTest</ref></type>
+        </param>
+        <param>
+          <type>CircuitBreakerInitiallyClosed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>DCS-01: Circuit breaker starts in CLOSED state. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" line="133" column="1" bodyfile="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" bodystart="133" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="test__analytics__distributed__coordinator__safety_8cpp_1a6507fc6c93cac368292c08c2a04673c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DistributedAnalyticsSafetyTest, CircuitBreakerOpensAfterThreshold)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_distributed_analytics_safety_test" kindref="compound">DistributedAnalyticsSafetyTest</ref></type>
+        </param>
+        <param>
+          <type>CircuitBreakerOpensAfterThreshold</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>DCS-02: Circuit breaker transitions to OPEN after failure threshold. Shard fails 3 times consecutively, circuit opens. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" line="155" column="1" bodyfile="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" bodystart="155" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="test__analytics__distributed__coordinator__safety_8cpp_1aa2407b4017b22eeaf119fecfa42ebc5d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DistributedAnalyticsSafetyTest, OpenCircuitRejectsRequests)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_distributed_analytics_safety_test" kindref="compound">DistributedAnalyticsSafetyTest</ref></type>
+        </param>
+        <param>
+          <type>OpenCircuitRejectsRequests</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>DCS-03: OPEN circuit rejects requests (fail-closed behavior). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" line="176" column="1" bodyfile="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" bodystart="176" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="test__analytics__distributed__coordinator__safety_8cpp_1ab2074792ec03f9a001ac88c93ef95f6f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DistributedAnalyticsSafetyTest, HalfOpenAllowsRecovery)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_distributed_analytics_safety_test" kindref="compound">DistributedAnalyticsSafetyTest</ref></type>
+        </param>
+        <param>
+          <type>HalfOpenAllowsRecovery</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>DCS-04: HALF_OPEN state allows limited recovery attempts. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" line="205" column="1" bodyfile="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" bodystart="205" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="test__analytics__distributed__coordinator__safety_8cpp_1a619304e710ba239977e853bf472181b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DistributedAnalyticsSafetyTest, ConsecutiveFailuresResetOnSuccess)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_distributed_analytics_safety_test" kindref="compound">DistributedAnalyticsSafetyTest</ref></type>
+        </param>
+        <param>
+          <type>ConsecutiveFailuresResetOnSuccess</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>DCS-05: Consecutive failures reset on success. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" line="230" column="1" bodyfile="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" bodystart="230" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="function" id="test__analytics__distributed__coordinator__safety_8cpp_1a96aa919f4ffa47a20e5883ae0ab9f84f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DistributedAnalyticsSafetyTest, RecoveryAttemptsLimited)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_distributed_analytics_safety_test" kindref="compound">DistributedAnalyticsSafetyTest</ref></type>
+        </param>
+        <param>
+          <type>RecoveryAttemptsLimited</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>DCS-06: Recovery attempts limit enforced. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" line="259" column="1" bodyfile="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" bodystart="259" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="test__analytics__distributed__coordinator__safety_8cpp_1a5182ebe18c780bc136736a1e462c8be4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DistributedAnalyticsSafetyTest, DegradationMultipleShardsFailure)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_distributed_analytics_safety_test" kindref="compound">DistributedAnalyticsSafetyTest</ref></type>
+        </param>
+        <param>
+          <type>DegradationMultipleShardsFailure</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>DSD-01: Degradation with multiple shard failures. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" line="289" column="1" bodyfile="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" bodystart="289" bodyend="314"/>
+      </memberdef>
+      <memberdef kind="function" id="test__analytics__distributed__coordinator__safety_8cpp_1adff95d8aee34e4d91fc43edc695288e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DistributedAnalyticsSafetyTest, FailClosedUnderSustainedLoad)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_distributed_analytics_safety_test" kindref="compound">DistributedAnalyticsSafetyTest</ref></type>
+        </param>
+        <param>
+          <type>FailClosedUnderSustainedLoad</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>DSD-02: Consistent fail-closed behavior under sustained load. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" line="319" column="1" bodyfile="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" bodystart="319" bodyend="334"/>
+      </memberdef>
+      <memberdef kind="function" id="test__analytics__distributed__coordinator__safety_8cpp_1ab1af48173819b41a31107b901444ed9b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DistributedAnalyticsSafetyTest, ErrorPathDiagnosticsIncluded)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_distributed_analytics_safety_test" kindref="compound">DistributedAnalyticsSafetyTest</ref></type>
+        </param>
+        <param>
+          <type>ErrorPathDiagnosticsIncluded</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>DSD-03: Error path diagnostics included in results. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" line="339" column="1" bodyfile="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" bodystart="339" bodyend="364"/>
+      </memberdef>
+      <memberdef kind="function" id="test__analytics__distributed__coordinator__safety_8cpp_1a4c71a243e6eb5f7921e00ab543ab58a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DistributedAnalyticsSafetyTest, TimeoutTreatedAsFailure)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_distributed_analytics_safety_test" kindref="compound">DistributedAnalyticsSafetyTest</ref></type>
+        </param>
+        <param>
+          <type>TimeoutTreatedAsFailure</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>TMO-01: Timeout is treated as shard failure. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" line="373" column="1" bodyfile="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" bodystart="373" bodyend="384"/>
+      </memberdef>
+      <memberdef kind="function" id="test__analytics__distributed__coordinator__safety_8cpp_1ad231242089dd836dfa75335ab31bedb0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DistributedAnalyticsSafetyTest, DisabledCircuitBreakerAllowsFailed)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_distributed_analytics_safety_test" kindref="compound">DistributedAnalyticsSafetyTest</ref></type>
+        </param>
+        <param>
+          <type>DisabledCircuitBreakerAllowsFailed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>CFG-01: Disabled circuit breaker allows all requests through. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" line="393" column="1" bodyfile="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" bodystart="393" bodyend="413"/>
+      </memberdef>
+      <memberdef kind="function" id="test__analytics__distributed__coordinator__safety_8cpp_1a7aa9e935754d85d2b50d4d541a4f1394" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DistributedAnalyticsSafetyTest, RecoveryAfterTransientFailures)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_distributed_analytics_safety_test" kindref="compound">DistributedAnalyticsSafetyTest</ref></type>
+        </param>
+        <param>
+          <type>RecoveryAfterTransientFailures</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>E2E-01: Recovery to healthy state after transient failures. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" line="422" column="1" bodyfile="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" bodystart="422" bodyend="451"/>
+      </memberdef>
+      <memberdef kind="function" id="test__analytics__distributed__coordinator__safety_8cpp_1ab4d36d71c9c0cc6d0ce1e539a3881527" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DistributedAnalyticsSafetyTest, NoShardsRegistered)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_distributed_analytics_safety_test" kindref="compound">DistributedAnalyticsSafetyTest</ref></type>
+        </param>
+        <param>
+          <type>NoShardsRegistered</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>EDGE-01: No shards registered - graceful degradation. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" line="460" column="1" bodyfile="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" bodystart="460" bodyend="467"/>
+      </memberdef>
+      <memberdef kind="function" id="test__analytics__distributed__coordinator__safety_8cpp_1a63268a3aa0cbcd761cb7ffee70360908" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DistributedAnalyticsSafetyTest, AllShardsCircuitOpen)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_distributed_analytics_safety_test" kindref="compound">DistributedAnalyticsSafetyTest</ref></type>
+        </param>
+        <param>
+          <type>AllShardsCircuitOpen</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>EDGE-02: All shards open circuit - no healthy shards available. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" line="472" column="1" bodyfile="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" bodystart="472" bodyend="491"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"><sp/>*<sp/>ThemisDB<sp/>Distributed<sp/>Analytics<sp/>Coordinator<sp/>Safety<sp/>Controls<sp/>Tests</highlight></codeline>
+<codeline lineno="3"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="4"><highlight class="comment"><sp/>*<sp/>@file<sp/>test_analytics_distributed_coordinator_safety.cpp</highlight></codeline>
+<codeline lineno="5"><highlight class="comment"><sp/>*<sp/>@brief<sp/>Tests<sp/>for<sp/>circuit<sp/>breaker,<sp/>bounded<sp/>queue,<sp/>and<sp/>recovery<sp/>mechanisms<sp/>(Phase<sp/>2.2)</highlight></codeline>
+<codeline lineno="6"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="7"><highlight class="comment"><sp/>*<sp/>Tests<sp/>covering:</highlight></codeline>
+<codeline lineno="8"><highlight class="comment"><sp/>*<sp/><sp/><sp/>-<sp/>Circuit<sp/>breaker<sp/>state<sp/>transitions<sp/>(CLOSED<sp/>→<sp/>OPEN<sp/>→<sp/>HALF_OPEN<sp/>→<sp/>CLOSED)</highlight></codeline>
+<codeline lineno="9"><highlight class="comment"><sp/>*<sp/><sp/><sp/>-<sp/>Consecutive<sp/>failure<sp/>threshold<sp/>enforcement</highlight></codeline>
+<codeline lineno="10"><highlight class="comment"><sp/>*<sp/><sp/><sp/>-<sp/>Recovery<sp/>delay<sp/>and<sp/>exponential<sp/>backoff</highlight></codeline>
+<codeline lineno="11"><highlight class="comment"><sp/>*<sp/><sp/><sp/>-<sp/>Bounded<sp/>queue<sp/>enqueue/dequeue<sp/>with<sp/>backpressure</highlight></codeline>
+<codeline lineno="12"><highlight class="comment"><sp/>*<sp/><sp/><sp/>-<sp/>Degradation<sp/>scenarios<sp/>(multiple<sp/>shard<sp/>failures)</highlight></codeline>
+<codeline lineno="13"><highlight class="comment"><sp/>*<sp/><sp/><sp/>-<sp/>Error-path<sp/>handling<sp/>for<sp/>unsupported<sp/>states</highlight></codeline>
+<codeline lineno="14"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="distributed__analytics_8h" kindref="compound">analytics/distributed_analytics.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="olap_8h" kindref="compound">analytics/olap.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1analytics" kindref="compound">themisdb::analytics</ref>;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="test__analytics__distributed__coordinator__safety_8cpp_1a8b47afb9dc74d79e986abd7e2c8eb334" kindref="member">OLAPQuery</ref><sp/>=<sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query" kindref="compound">themis::analytics::OLAPQuery</ref>;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="test__analytics__distributed__coordinator__safety_8cpp_1a3b88b9c5f1e8b9e1690589fe79feca45" kindref="member">OLAPResult</ref><sp/>=<sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result" kindref="compound">themis::analytics::OLAPResult</ref>;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="test__analytics__distributed__coordinator__safety_8cpp_1a3dbf925ceb6b6894d5777e2be511972c" kindref="member">Measure</ref><sp/>=<sp/><ref refid="structthemis_1_1analytics_1_1_measure" kindref="compound">themis::analytics::Measure</ref>;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="test__analytics__distributed__coordinator__safety_8cpp_1acf434b037e6f4987bcb284487f352af2" kindref="member">CircuitBreakerState</ref><sp/>=<sp/><ref refid="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1a71c4c933746b1be0da4b4a9a705f8798" kindref="member">DistributedAnalyticsSharding::CircuitBreakerState</ref>;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>Fixtures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="class_controlled_executor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_controlled_executor_1a006a70bab8e24c8fe9ab867fc8b525bb" kindref="member">ControlledExecutor</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_shard_query_executor" kindref="compound">ShardQueryExecutor</ref><sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="class_controlled_executor_1ac9e98e0b4991c032eb203a8720270e1c" kindref="member">Behavior</ref><sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_controlled_executor_1ac9e98e0b4991c032eb203a8720270e1cad0749aaba8b833466dfcbb0428e4f89c" kindref="member">SUCCESS</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Return<sp/>successful<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_controlled_executor_1ac9e98e0b4991c032eb203a8720270e1cac2759effffc94bb9acc71d69fe3e8a1f" kindref="member">FAIL</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Throw<sp/>exception</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_controlled_executor_1ac9e98e0b4991c032eb203a8720270e1ca070a0fb40f6c308ab544b227660aadff" kindref="member">TIMEOUT</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>timeout<sp/>by<sp/>sleeping</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_controlled_executor_1ac9e98e0b4991c032eb203a8720270e1ca84d47cc4c667c97e9cc26e4cf92072f8" kindref="member">INTERMITTENT</ref><sp/><sp/></highlight><highlight class="comment">//<sp/>Fail<sp/>N<sp/>times,<sp/>then<sp/>succeed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_controlled_executor_1a006a70bab8e24c8fe9ab867fc8b525bb" kindref="member">ControlledExecutor</ref>(<ref refid="class_controlled_executor_1ac9e98e0b4991c032eb203a8720270e1c" kindref="member">Behavior</ref><sp/>behavior<sp/>=<sp/><ref refid="class_controlled_executor_1ac9e98e0b4991c032eb203a8720270e1cad0749aaba8b833466dfcbb0428e4f89c" kindref="member">Behavior::SUCCESS</ref>,<sp/></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>fail_count<sp/>=<sp/>0)</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>behavior_(behavior),<sp/>fail_count_(fail_count),<sp/>attempt_count_(0)<sp/>{}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__analytics__distributed__coordinator__safety_8cpp_1a3b88b9c5f1e8b9e1690589fe79feca45" kindref="member">OLAPResult</ref><sp/><ref refid="class_controlled_executor_1a8c86036cf1731e31db5114a2396a338b" kindref="member">execute</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id,</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="test__analytics__distributed__coordinator__safety_8cpp_1a8b47afb9dc74d79e986abd7e2c8eb334" kindref="member">OLAPQuery</ref>&amp;<sp/>query)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>attempt_count_++;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(behavior_)<sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="class_controlled_executor_1ac9e98e0b4991c032eb203a8720270e1cad0749aaba8b833466dfcbb0428e4f89c" kindref="member">Behavior::SUCCESS</ref>:</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="test__analytics__distributed__coordinator__safety_8cpp_1a3b88b9c5f1e8b9e1690589fe79feca45" kindref="member">OLAPResult</ref>{};</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="class_controlled_executor_1ac9e98e0b4991c032eb203a8720270e1cac2759effffc94bb9acc71d69fe3e8a1f" kindref="member">Behavior::FAIL</ref>:</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;Simulated<sp/>shard<sp/>failure&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="class_controlled_executor_1ac9e98e0b4991c032eb203a8720270e1ca070a0fb40f6c308ab544b227660aadff" kindref="member">Behavior::TIMEOUT</ref>:</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::seconds(10));</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="test__analytics__distributed__coordinator__safety_8cpp_1a3b88b9c5f1e8b9e1690589fe79feca45" kindref="member">OLAPResult</ref>{};</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="class_controlled_executor_1ac9e98e0b4991c032eb203a8720270e1ca84d47cc4c667c97e9cc26e4cf92072f8" kindref="member">Behavior::INTERMITTENT</ref>:</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(attempt_count_<sp/>&lt;=<sp/>fail_count_)<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;Intermittent<sp/>failure<sp/>#&quot;</highlight><highlight class="normal"><sp/>+<sp/></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::to_string(attempt_count_));</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="test__analytics__distributed__coordinator__safety_8cpp_1a3b88b9c5f1e8b9e1690589fe79feca45" kindref="member">OLAPResult</ref>{};</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="test__analytics__distributed__coordinator__safety_8cpp_1a3b88b9c5f1e8b9e1690589fe79feca45" kindref="member">OLAPResult</ref>{};</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_controlled_executor_1a32ddf2d3d49763a401a51ecfe0549092" kindref="member">isHealthy</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>behavior_<sp/>!=<sp/><ref refid="class_controlled_executor_1ac9e98e0b4991c032eb203a8720270e1cac2759effffc94bb9acc71d69fe3e8a1f" kindref="member">Behavior::FAIL</ref>;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="class_controlled_executor_1a091810266ed5eec702fad06f07abeeac" kindref="member">getAttemptCount</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>attempt_count_;<sp/>}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_controlled_executor_1a1945916db7791fd5b9fa45807aedd8a8" kindref="member">reset</ref>()<sp/>{<sp/>attempt_count_<sp/>=<sp/>0;<sp/>}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_controlled_executor_1ac9e98e0b4991c032eb203a8720270e1c" kindref="member">Behavior</ref><sp/>behavior_;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>fail_count_;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint32_t&gt;<sp/>attempt_count_{0};</highlight></codeline>
+<codeline lineno="88"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="class_distributed_analytics_safety_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_distributed_analytics_safety_test" kindref="compound">DistributedAnalyticsSafetyTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classtesting_1_1_test" kindref="compound">::testing::Test</ref><sp/>{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_distributed_analytics_safety_test_1a56353c7ca19ff5fd1fd200b8191a4542" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Default<sp/>config<sp/>with<sp/>safety<sp/>controls<sp/>enabled</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config" kindref="compound">DistributedAnalyticsSharding::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a0c00fcab8de6ad925b9361409bdaf24d" kindref="member">enable_circuit_breaker</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a99c3926aa814b2fedb511c6ff575af42" kindref="member">circuit_breaker_failure_threshold</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1ada6e9126dd76584c7429b0ad535eb2cc" kindref="member">circuit_breaker_recovery_delay_ms</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a10779b64effc69949e1ee85e47157ef0" kindref="member">circuit_breaker_max_recovery_delay_ms</ref><sp/>=<sp/>5000;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a8a041d54e437f1f6e1d7f4c1b5c6c98e" kindref="member">circuit_breaker_recovery_attempts</ref><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a75df67138ad2d22fc182877a250306b0" kindref="member">max_queued_requests_per_shard</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1aa871485e021a87e3d34643e5796a5443" kindref="member">queue_enqueue_timeout_ms</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a62434b58985c9bbb1b9c1be739a71d6b" kindref="member">shard_timeout_ms</ref><sp/>=<sp/>500;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a4d8a111618f68d9bb06580d86af89180" kindref="member">health_check_interval</ref><sp/>=<sp/>std::chrono::milliseconds(50);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_distributed_analytics_safety_test_1a7128a2711237e17f1b1cee53d7e99ecd" kindref="member">das_</ref><sp/>=<sp/>std::make_unique&lt;DistributedAnalyticsSharding&gt;(cfg);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;DistributedAnalyticsSharding&gt;<sp/><ref refid="class_distributed_analytics_safety_test_1a7128a2711237e17f1b1cee53d7e99ecd" kindref="member">das_</ref>;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__analytics__distributed__coordinator__safety_8cpp_1a8b47afb9dc74d79e986abd7e2c8eb334" kindref="member">OLAPQuery</ref><sp/><ref refid="class_distributed_analytics_safety_test_1a9cb89952b5da9a5718af63b0fb2d8621" kindref="member">makeSimpleQuery</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="test__analytics__distributed__coordinator__safety_8cpp_1a8b47afb9dc74d79e986abd7e2c8eb334" kindref="member">OLAPQuery</ref><sp/>q;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>q.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1a26d794162df6903794467719f2451cc3" kindref="member">collection</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test_collection&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>q.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1a64c088e5a0aea4537d770d231ca42695" kindref="member">dimensions</ref><sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;region&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="test__analytics__distributed__coordinator__safety_8cpp_1a3dbf925ceb6b6894d5777e2be511972c" kindref="member">Measure</ref><sp/>m;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>m.<ref refid="structthemis_1_1analytics_1_1_measure_1a89f472b9c625c18c1de3ee7a90729efd" kindref="member">name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;total&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>m.<ref refid="structthemis_1_1analytics_1_1_measure_1a4f018c3465506fa602cd686016a2e498" kindref="member">field</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;amount&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>m.<ref refid="structthemis_1_1analytics_1_1_measure_1aba0bcfb20d39731c5f615ad0ee7249ee" kindref="member">function</ref><sp/>=<sp/><ref refid="structthemis_1_1analytics_1_1_measure_1a1f68caed395613ae677ae66afc6618c2aa0ec87054b5e5b7847d0d8780a01a3d5" kindref="member">Measure::Function::Sum</ref>;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>q.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1a1409e019af8ca60501dd36f95eec4682" kindref="member">measures</ref><sp/>=<sp/>{m};</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>q;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Safety<sp/>Control<sp/>Tests:<sp/>Circuit<sp/>Breaker</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><ref refid="namespacethemisdb_1_1analytics_1a42a80bd2a3884621fb37d3c81725c8a2" kindref="member">TEST_F</ref>(<ref refid="class_distributed_analytics_safety_test" kindref="compound">DistributedAnalyticsSafetyTest</ref>,<sp/>CircuitBreakerInitiallyClosed)<sp/>{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>executor<sp/>=<sp/>std::make_shared&lt;ControlledExecutor&gt;(</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_controlled_executor_1ac9e98e0b4991c032eb203a8720270e1cad0749aaba8b833466dfcbb0428e4f89c" kindref="member">ControlledExecutor::Behavior::SUCCESS</ref>);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>das_-&gt;addShard(</highlight><highlight class="stringliteral">&quot;shard_1&quot;</highlight><highlight class="normal">,<sp/>executor);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>query<sp/>=<sp/>makeSimpleQuery();</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>das_-&gt;executeDistributed(query);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>shards<sp/>should<sp/>be<sp/>successful</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.successful_shards,<sp/>1u);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.shard_info.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!result.shard_info.empty())<sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.shard_info[0].success);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(result.shard_info[0].circuit_state,<sp/></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>CircuitBreakerState::CLOSED);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="149"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><ref refid="namespacethemisdb_1_1analytics_1a42a80bd2a3884621fb37d3c81725c8a2" kindref="member">TEST_F</ref>(<ref refid="class_distributed_analytics_safety_test" kindref="compound">DistributedAnalyticsSafetyTest</ref>,<sp/>CircuitBreakerOpensAfterThreshold)<sp/>{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>executor<sp/>=<sp/>std::make_shared&lt;ControlledExecutor&gt;(</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_controlled_executor_1ac9e98e0b4991c032eb203a8720270e1cac2759effffc94bb9acc71d69fe3e8a1f" kindref="member">ControlledExecutor::Behavior::FAIL</ref>);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>das_-&gt;addShard(</highlight><highlight class="stringliteral">&quot;failing_shard&quot;</highlight><highlight class="normal">,<sp/>executor);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>query<sp/>=<sp/>makeSimpleQuery();</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>3<sp/>failures<sp/>should<sp/>trigger<sp/>circuit<sp/>opening</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>3;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>das_-&gt;executeDistributed(query);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(result.successful_shards,<sp/>0u);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>3<sp/>failures,<sp/>circuit<sp/>should<sp/>be<sp/>OPEN<sp/>and<sp/>shard<sp/>should<sp/>be<sp/>skipped</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>das_-&gt;executeDistributed(query);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.total_shards,<sp/>0u);<sp/><sp/></highlight><highlight class="comment">//<sp/>Shard<sp/>is<sp/>skipped<sp/>when<sp/>circuit<sp/>is<sp/>OPEN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><ref refid="namespacethemisdb_1_1analytics_1a42a80bd2a3884621fb37d3c81725c8a2" kindref="member">TEST_F</ref>(<ref refid="class_distributed_analytics_safety_test" kindref="compound">DistributedAnalyticsSafetyTest</ref>,<sp/>OpenCircuitRejectsRequests)<sp/>{</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config" kindref="compound">DistributedAnalyticsSharding::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a0c00fcab8de6ad925b9361409bdaf24d" kindref="member">enable_circuit_breaker</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a99c3926aa814b2fedb511c6ff575af42" kindref="member">circuit_breaker_failure_threshold</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1ada6e9126dd76584c7429b0ad535eb2cc" kindref="member">circuit_breaker_recovery_delay_ms</ref><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a10779b64effc69949e1ee85e47157ef0" kindref="member">circuit_breaker_max_recovery_delay_ms</ref><sp/>=<sp/>5000;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a8a041d54e437f1f6e1d7f4c1b5c6c98e" kindref="member">circuit_breaker_recovery_attempts</ref><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a06c84e844883cb76c46a9358c5295c71" kindref="member">retry_config</ref>.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1_1_retry_config_1a16a4f56b8b8498a0763ef00df078604d" kindref="member">max_retries</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>das<sp/>=<sp/>std::make_unique&lt;DistributedAnalyticsSharding&gt;(cfg);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>executor<sp/>=<sp/>std::make_shared&lt;ControlledExecutor&gt;(</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_controlled_executor_1ac9e98e0b4991c032eb203a8720270e1ca84d47cc4c667c97e9cc26e4cf92072f8" kindref="member">ControlledExecutor::Behavior::INTERMITTENT</ref>,<sp/>5);<sp/><sp/></highlight><highlight class="comment">//<sp/>Fail<sp/>first<sp/>5<sp/>times</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>das-&gt;addShard(</highlight><highlight class="stringliteral">&quot;intermittent_shard&quot;</highlight><highlight class="normal">,<sp/>executor);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>query<sp/>=<sp/>makeSimpleQuery();</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Trigger<sp/>circuit<sp/>opening</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>3;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>das-&gt;executeDistributed(query);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Now<sp/>circuit<sp/>should<sp/>be<sp/>OPEN;<sp/>verify<sp/>shard<sp/>is<sp/>skipped</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>das-&gt;executeDistributed(query);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.total_shards,<sp/>0u);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><ref refid="namespacethemisdb_1_1analytics_1a42a80bd2a3884621fb37d3c81725c8a2" kindref="member">TEST_F</ref>(<ref refid="class_distributed_analytics_safety_test" kindref="compound">DistributedAnalyticsSafetyTest</ref>,<sp/>HalfOpenAllowsRecovery)<sp/>{</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>executor<sp/>=<sp/>std::make_shared&lt;ControlledExecutor&gt;(</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_controlled_executor_1ac9e98e0b4991c032eb203a8720270e1ca84d47cc4c667c97e9cc26e4cf92072f8" kindref="member">ControlledExecutor::Behavior::INTERMITTENT</ref>,<sp/>3);<sp/><sp/></highlight><highlight class="comment">//<sp/>Fail<sp/>3<sp/>times,<sp/>then<sp/>succeed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>das_-&gt;addShard(</highlight><highlight class="stringliteral">&quot;recovery_shard&quot;</highlight><highlight class="normal">,<sp/>executor);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>query<sp/>=<sp/>makeSimpleQuery();</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Trigger<sp/>circuit<sp/>opening<sp/>(3<sp/>failures)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>3;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>das_-&gt;executeDistributed(query);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Wait<sp/>for<sp/>recovery<sp/>delay<sp/>to<sp/>elapse</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(150));</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Next<sp/>request<sp/>should<sp/>attempt<sp/>recovery<sp/>(HALF_OPEN<sp/>state)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>das_-&gt;executeDistributed(query);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Shard<sp/>is<sp/>now<sp/>available<sp/>for<sp/>recovery<sp/>attempt<sp/>(HALF_OPEN)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>test<sp/>verifies<sp/>the<sp/>circuit<sp/>can<sp/>transition<sp/>to<sp/>HALF_OPEN<sp/>after<sp/>delay</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(result.shard_info.size(),<sp/>0u);<sp/><sp/></highlight><highlight class="comment">//<sp/>May<sp/>succeed<sp/>or<sp/>fail<sp/>again</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><ref refid="namespacethemisdb_1_1analytics_1a42a80bd2a3884621fb37d3c81725c8a2" kindref="member">TEST_F</ref>(<ref refid="class_distributed_analytics_safety_test" kindref="compound">DistributedAnalyticsSafetyTest</ref>,<sp/>ConsecutiveFailuresResetOnSuccess)<sp/>{</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config" kindref="compound">DistributedAnalyticsSharding::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a0c00fcab8de6ad925b9361409bdaf24d" kindref="member">enable_circuit_breaker</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a99c3926aa814b2fedb511c6ff575af42" kindref="member">circuit_breaker_failure_threshold</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1ada6e9126dd76584c7429b0ad535eb2cc" kindref="member">circuit_breaker_recovery_delay_ms</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a10779b64effc69949e1ee85e47157ef0" kindref="member">circuit_breaker_max_recovery_delay_ms</ref><sp/>=<sp/>5000;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a8a041d54e437f1f6e1d7f4c1b5c6c98e" kindref="member">circuit_breaker_recovery_attempts</ref><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a06c84e844883cb76c46a9358c5295c71" kindref="member">retry_config</ref>.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1_1_retry_config_1a16a4f56b8b8498a0763ef00df078604d" kindref="member">max_retries</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>das<sp/>=<sp/>std::make_unique&lt;DistributedAnalyticsSharding&gt;(cfg);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>executor<sp/>=<sp/>std::make_shared&lt;ControlledExecutor&gt;(</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_controlled_executor_1ac9e98e0b4991c032eb203a8720270e1ca84d47cc4c667c97e9cc26e4cf92072f8" kindref="member">ControlledExecutor::Behavior::INTERMITTENT</ref>,<sp/>1);<sp/><sp/></highlight><highlight class="comment">//<sp/>Fail<sp/>once,<sp/>then<sp/>succeed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>das-&gt;addShard(</highlight><highlight class="stringliteral">&quot;resilient_shard&quot;</highlight><highlight class="normal">,<sp/>executor);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>query<sp/>=<sp/>makeSimpleQuery();</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>execution<sp/>fails</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result1<sp/>=<sp/>das-&gt;executeDistributed(query);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result1.successful_shards,<sp/>0u);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Second<sp/>execution<sp/>succeeds<sp/>-<sp/>should<sp/>reset<sp/>failure<sp/>counter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result2<sp/>=<sp/>das-&gt;executeDistributed(query);</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result2.successful_shards,<sp/>1u);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result2.shard_info[0].circuit_consecutive_failures,<sp/>0u);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><ref refid="namespacethemisdb_1_1analytics_1a42a80bd2a3884621fb37d3c81725c8a2" kindref="member">TEST_F</ref>(<ref refid="class_distributed_analytics_safety_test" kindref="compound">DistributedAnalyticsSafetyTest</ref>,<sp/>RecoveryAttemptsLimited)<sp/>{</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>executor<sp/>=<sp/>std::make_shared&lt;ControlledExecutor&gt;(</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_controlled_executor_1ac9e98e0b4991c032eb203a8720270e1cac2759effffc94bb9acc71d69fe3e8a1f" kindref="member">ControlledExecutor::Behavior::FAIL</ref>);<sp/><sp/></highlight><highlight class="comment">//<sp/>Always<sp/>fails</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>das_-&gt;addShard(</highlight><highlight class="stringliteral">&quot;failing_shard&quot;</highlight><highlight class="normal">,<sp/>executor);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>query<sp/>=<sp/>makeSimpleQuery();</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Trigger<sp/>circuit<sp/>opening</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>3;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>das_-&gt;executeDistributed(query);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Wait<sp/>and<sp/>try<sp/>recovery</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(150));</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Recovery<sp/>attempt<sp/>fails,<sp/>continues<sp/>to<sp/>fail</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>das_-&gt;executeDistributed(query);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Shard<sp/>remains<sp/>unreachable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(150));</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="280"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Safety<sp/>Control<sp/>Tests:<sp/>Degradation<sp/>Scenarios</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><ref refid="namespacethemisdb_1_1analytics_1a42a80bd2a3884621fb37d3c81725c8a2" kindref="member">TEST_F</ref>(<ref refid="class_distributed_analytics_safety_test" kindref="compound">DistributedAnalyticsSafetyTest</ref>,<sp/>DegradationMultipleShardsFailure)<sp/>{</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Add<sp/>healthy<sp/>shard</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>healthy<sp/>=<sp/>std::make_shared&lt;ControlledExecutor&gt;(</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_controlled_executor_1ac9e98e0b4991c032eb203a8720270e1cad0749aaba8b833466dfcbb0428e4f89c" kindref="member">ControlledExecutor::Behavior::SUCCESS</ref>);</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>das_-&gt;addShard(</highlight><highlight class="stringliteral">&quot;healthy_shard&quot;</highlight><highlight class="normal">,<sp/>healthy);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Add<sp/>failing<sp/>shards</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>failing1<sp/>=<sp/>std::make_shared&lt;ControlledExecutor&gt;(</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_controlled_executor_1ac9e98e0b4991c032eb203a8720270e1cac2759effffc94bb9acc71d69fe3e8a1f" kindref="member">ControlledExecutor::Behavior::FAIL</ref>);</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>failing2<sp/>=<sp/>std::make_shared&lt;ControlledExecutor&gt;(</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_controlled_executor_1ac9e98e0b4991c032eb203a8720270e1cac2759effffc94bb9acc71d69fe3e8a1f" kindref="member">ControlledExecutor::Behavior::FAIL</ref>);</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>das_-&gt;addShard(</highlight><highlight class="stringliteral">&quot;failing_1&quot;</highlight><highlight class="normal">,<sp/>failing1);</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>das_-&gt;addShard(</highlight><highlight class="stringliteral">&quot;failing_2&quot;</highlight><highlight class="normal">,<sp/>failing2);</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>query<sp/>=<sp/>makeSimpleQuery();</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Trigger<sp/>circuit<sp/>opening<sp/>on<sp/>failing<sp/>shards</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>3;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>das_-&gt;executeDistributed(query);</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Only<sp/>healthy<sp/>shard<sp/>should<sp/>respond</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>das_-&gt;executeDistributed(query);</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.total_shards,<sp/>1u);<sp/><sp/></highlight><highlight class="comment">//<sp/>Only<sp/>healthy<sp/>shard</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.successful_shards,<sp/>1u);</highlight></codeline>
+<codeline lineno="314"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><ref refid="namespacethemisdb_1_1analytics_1a42a80bd2a3884621fb37d3c81725c8a2" kindref="member">TEST_F</ref>(<ref refid="class_distributed_analytics_safety_test" kindref="compound">DistributedAnalyticsSafetyTest</ref>,<sp/>FailClosedUnderSustainedLoad)<sp/>{</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>executor<sp/>=<sp/>std::make_shared&lt;ControlledExecutor&gt;(</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_controlled_executor_1ac9e98e0b4991c032eb203a8720270e1cac2759effffc94bb9acc71d69fe3e8a1f" kindref="member">ControlledExecutor::Behavior::FAIL</ref>);</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>das_-&gt;addShard(</highlight><highlight class="stringliteral">&quot;unreliable_shard&quot;</highlight><highlight class="normal">,<sp/>executor);</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>query<sp/>=<sp/>makeSimpleQuery();</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Issue<sp/>many<sp/>requests<sp/>-<sp/>circuit<sp/>should<sp/>open<sp/>and<sp/>stay<sp/>open</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>das_-&gt;executeDistributed(query);</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(i<sp/>&gt;=<sp/>3)<sp/>{</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>opening,<sp/>shard<sp/>should<sp/>be<sp/>completely<sp/>skipped</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(result.total_shards,<sp/>0u);</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="334"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><ref refid="namespacethemisdb_1_1analytics_1a42a80bd2a3884621fb37d3c81725c8a2" kindref="member">TEST_F</ref>(<ref refid="class_distributed_analytics_safety_test" kindref="compound">DistributedAnalyticsSafetyTest</ref>,<sp/>ErrorPathDiagnosticsIncluded)<sp/>{</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config" kindref="compound">DistributedAnalyticsSharding::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a0c00fcab8de6ad925b9361409bdaf24d" kindref="member">enable_circuit_breaker</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a99c3926aa814b2fedb511c6ff575af42" kindref="member">circuit_breaker_failure_threshold</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1ada6e9126dd76584c7429b0ad535eb2cc" kindref="member">circuit_breaker_recovery_delay_ms</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a10779b64effc69949e1ee85e47157ef0" kindref="member">circuit_breaker_max_recovery_delay_ms</ref><sp/>=<sp/>5000;</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a8a041d54e437f1f6e1d7f4c1b5c6c98e" kindref="member">circuit_breaker_recovery_attempts</ref><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a06c84e844883cb76c46a9358c5295c71" kindref="member">retry_config</ref>.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1_1_retry_config_1a16a4f56b8b8498a0763ef00df078604d" kindref="member">max_retries</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>das<sp/>=<sp/>std::make_unique&lt;DistributedAnalyticsSharding&gt;(cfg);</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>executor<sp/>=<sp/>std::make_shared&lt;ControlledExecutor&gt;(</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_controlled_executor_1ac9e98e0b4991c032eb203a8720270e1ca84d47cc4c667c97e9cc26e4cf92072f8" kindref="member">ControlledExecutor::Behavior::INTERMITTENT</ref>,<sp/>1);</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/>das-&gt;addShard(</highlight><highlight class="stringliteral">&quot;diagnostic_shard&quot;</highlight><highlight class="normal">,<sp/>executor);</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>query<sp/>=<sp/>makeSimpleQuery();</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>das-&gt;executeDistributed(query);</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(result.shard_info.size(),<sp/>0u);</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!result.shard_info.empty())<sp/>{</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.shard_info[0].success);</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NE(result.shard_info[0].error,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(result.shard_info[0].circuit_state,<sp/></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>CircuitBreakerState::CLOSED);<sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>failure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(result.shard_info[0].circuit_consecutive_failures,<sp/>1u);</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="364"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Timeout<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="368"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"></highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><ref refid="namespacethemisdb_1_1analytics_1a42a80bd2a3884621fb37d3c81725c8a2" kindref="member">TEST_F</ref>(<ref refid="class_distributed_analytics_safety_test" kindref="compound">DistributedAnalyticsSafetyTest</ref>,<sp/>TimeoutTreatedAsFailure)<sp/>{</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>test<sp/>uses<sp/>TIMEOUT<sp/>behavior<sp/>but<sp/>with<sp/>a<sp/>short<sp/>timeout<sp/>config</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>to<sp/>avoid<sp/>actually<sp/>waiting<sp/>for<sp/>10<sp/>seconds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>executor<sp/>=<sp/>std::make_shared&lt;ControlledExecutor&gt;(</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_controlled_executor_1ac9e98e0b4991c032eb203a8720270e1cad0749aaba8b833466dfcbb0428e4f89c" kindref="member">ControlledExecutor::Behavior::SUCCESS</ref>);</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/>das_-&gt;addShard(</highlight><highlight class="stringliteral">&quot;normal_shard&quot;</highlight><highlight class="normal">,<sp/>executor);</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"></highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>query<sp/>=<sp/>makeSimpleQuery();</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>das_-&gt;executeDistributed(query);</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"></highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.successful_shards,<sp/>1u);</highlight></codeline>
+<codeline lineno="384"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"></highlight></codeline>
+<codeline lineno="386"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="387"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Configuration<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="388"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="389"><highlight class="normal"></highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><ref refid="namespacethemisdb_1_1analytics_1a42a80bd2a3884621fb37d3c81725c8a2" kindref="member">TEST_F</ref>(<ref refid="class_distributed_analytics_safety_test" kindref="compound">DistributedAnalyticsSafetyTest</ref>,<sp/>DisabledCircuitBreakerAllowsFailed)<sp/>{</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config" kindref="compound">DistributedAnalyticsSharding::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a0c00fcab8de6ad925b9361409bdaf24d" kindref="member">enable_circuit_breaker</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Disable<sp/>circuit<sp/>breaker</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a06c84e844883cb76c46a9358c5295c71" kindref="member">retry_config</ref>.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1_1_retry_config_1a16a4f56b8b8498a0763ef00df078604d" kindref="member">max_retries</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"></highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>das<sp/>=<sp/>std::make_unique&lt;DistributedAnalyticsSharding&gt;(cfg);</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>executor<sp/>=<sp/>std::make_shared&lt;ControlledExecutor&gt;(</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_controlled_executor_1ac9e98e0b4991c032eb203a8720270e1ca84d47cc4c667c97e9cc26e4cf92072f8" kindref="member">ControlledExecutor::Behavior::INTERMITTENT</ref>,<sp/>5);</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/>das-&gt;addShard(</highlight><highlight class="stringliteral">&quot;failing_shard&quot;</highlight><highlight class="normal">,<sp/>executor);</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"></highlight></codeline>
+<codeline lineno="403"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>query<sp/>=<sp/>makeSimpleQuery();</highlight></codeline>
+<codeline lineno="404"><highlight class="normal"></highlight></codeline>
+<codeline lineno="405"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Even<sp/>with<sp/>failures,<sp/>requests<sp/>should<sp/>be<sp/>attempted<sp/>(circuit<sp/>disabled)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="406"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="407"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>das-&gt;executeDistributed(query);</highlight></codeline>
+<codeline lineno="408"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(result.total_shards,<sp/>1u);</highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(result.successful_shards,<sp/>0u);</highlight></codeline>
+<codeline lineno="410"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_FALSE(result.shard_info.empty());</highlight></codeline>
+<codeline lineno="411"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.shard_info[0].success);</highlight></codeline>
+<codeline lineno="412"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="413"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="414"><highlight class="normal"></highlight></codeline>
+<codeline lineno="415"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="416"><highlight class="normal"></highlight><highlight class="comment">//<sp/>End-to-End<sp/>Safety<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="417"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="418"><highlight class="normal"></highlight></codeline>
+<codeline lineno="422"><highlight class="normal"><ref refid="namespacethemisdb_1_1analytics_1a42a80bd2a3884621fb37d3c81725c8a2" kindref="member">TEST_F</ref>(<ref refid="class_distributed_analytics_safety_test" kindref="compound">DistributedAnalyticsSafetyTest</ref>,<sp/>RecoveryAfterTransientFailures)<sp/>{</highlight></codeline>
+<codeline lineno="423"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config" kindref="compound">DistributedAnalyticsSharding::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="424"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a0c00fcab8de6ad925b9361409bdaf24d" kindref="member">enable_circuit_breaker</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="425"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a99c3926aa814b2fedb511c6ff575af42" kindref="member">circuit_breaker_failure_threshold</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="426"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1ada6e9126dd76584c7429b0ad535eb2cc" kindref="member">circuit_breaker_recovery_delay_ms</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="427"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a10779b64effc69949e1ee85e47157ef0" kindref="member">circuit_breaker_max_recovery_delay_ms</ref><sp/>=<sp/>5000;</highlight></codeline>
+<codeline lineno="428"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a8a041d54e437f1f6e1d7f4c1b5c6c98e" kindref="member">circuit_breaker_recovery_attempts</ref><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="429"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a06c84e844883cb76c46a9358c5295c71" kindref="member">retry_config</ref>.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1_1_retry_config_1a16a4f56b8b8498a0763ef00df078604d" kindref="member">max_retries</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="430"><highlight class="normal"></highlight></codeline>
+<codeline lineno="431"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>das<sp/>=<sp/>std::make_unique&lt;DistributedAnalyticsSharding&gt;(cfg);</highlight></codeline>
+<codeline lineno="432"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>executor<sp/>=<sp/>std::make_shared&lt;ControlledExecutor&gt;(</highlight></codeline>
+<codeline lineno="433"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_controlled_executor_1ac9e98e0b4991c032eb203a8720270e1ca84d47cc4c667c97e9cc26e4cf92072f8" kindref="member">ControlledExecutor::Behavior::INTERMITTENT</ref>,<sp/>3);<sp/><sp/></highlight><highlight class="comment">//<sp/>Fail<sp/>3<sp/>times,<sp/>then<sp/>succeed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="434"><highlight class="normal"><sp/><sp/><sp/><sp/>das-&gt;addShard(</highlight><highlight class="stringliteral">&quot;transient_shard&quot;</highlight><highlight class="normal">,<sp/>executor);</highlight></codeline>
+<codeline lineno="435"><highlight class="normal"></highlight></codeline>
+<codeline lineno="436"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>query<sp/>=<sp/>makeSimpleQuery();</highlight></codeline>
+<codeline lineno="437"><highlight class="normal"></highlight></codeline>
+<codeline lineno="438"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Trigger<sp/>circuit<sp/>opening<sp/>(after<sp/>3<sp/>failures)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="439"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>3;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="440"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>das-&gt;executeDistributed(query);</highlight></codeline>
+<codeline lineno="441"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(result.successful_shards,<sp/>0u);</highlight></codeline>
+<codeline lineno="442"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="443"><highlight class="normal"></highlight></codeline>
+<codeline lineno="444"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Wait<sp/>for<sp/>recovery<sp/>delay</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="445"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(150));</highlight></codeline>
+<codeline lineno="446"><highlight class="normal"></highlight></codeline>
+<codeline lineno="447"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Recovery<sp/>attempt<sp/>(4th<sp/>call)<sp/>should<sp/>succeed.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="448"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>das-&gt;executeDistributed(query);</highlight></codeline>
+<codeline lineno="449"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.successful_shards,<sp/>1u);</highlight></codeline>
+<codeline lineno="450"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.shard_info.empty());</highlight></codeline>
+<codeline lineno="451"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="452"><highlight class="normal"></highlight></codeline>
+<codeline lineno="453"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="454"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Edge<sp/>Case<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="455"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="456"><highlight class="normal"></highlight></codeline>
+<codeline lineno="460"><highlight class="normal"><ref refid="namespacethemisdb_1_1analytics_1a42a80bd2a3884621fb37d3c81725c8a2" kindref="member">TEST_F</ref>(<ref refid="class_distributed_analytics_safety_test" kindref="compound">DistributedAnalyticsSafetyTest</ref>,<sp/>NoShardsRegistered)<sp/>{</highlight></codeline>
+<codeline lineno="461"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Don&apos;t<sp/>add<sp/>any<sp/>shards</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="462"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>query<sp/>=<sp/>makeSimpleQuery();</highlight></codeline>
+<codeline lineno="463"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>das_-&gt;executeDistributed(query);</highlight></codeline>
+<codeline lineno="464"><highlight class="normal"></highlight></codeline>
+<codeline lineno="465"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.total_shards,<sp/>0u);</highlight></codeline>
+<codeline lineno="466"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.successful_shards,<sp/>0u);</highlight></codeline>
+<codeline lineno="467"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="468"><highlight class="normal"></highlight></codeline>
+<codeline lineno="472"><highlight class="normal"><ref refid="namespacethemisdb_1_1analytics_1a42a80bd2a3884621fb37d3c81725c8a2" kindref="member">TEST_F</ref>(<ref refid="class_distributed_analytics_safety_test" kindref="compound">DistributedAnalyticsSafetyTest</ref>,<sp/>AllShardsCircuitOpen)<sp/>{</highlight></codeline>
+<codeline lineno="473"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>executor1<sp/>=<sp/>std::make_shared&lt;ControlledExecutor&gt;(</highlight></codeline>
+<codeline lineno="474"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_controlled_executor_1ac9e98e0b4991c032eb203a8720270e1cac2759effffc94bb9acc71d69fe3e8a1f" kindref="member">ControlledExecutor::Behavior::FAIL</ref>);</highlight></codeline>
+<codeline lineno="475"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>executor2<sp/>=<sp/>std::make_shared&lt;ControlledExecutor&gt;(</highlight></codeline>
+<codeline lineno="476"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_controlled_executor_1ac9e98e0b4991c032eb203a8720270e1cac2759effffc94bb9acc71d69fe3e8a1f" kindref="member">ControlledExecutor::Behavior::FAIL</ref>);</highlight></codeline>
+<codeline lineno="477"><highlight class="normal"><sp/><sp/><sp/><sp/>das_-&gt;addShard(</highlight><highlight class="stringliteral">&quot;failing_1&quot;</highlight><highlight class="normal">,<sp/>executor1);</highlight></codeline>
+<codeline lineno="478"><highlight class="normal"><sp/><sp/><sp/><sp/>das_-&gt;addShard(</highlight><highlight class="stringliteral">&quot;failing_2&quot;</highlight><highlight class="normal">,<sp/>executor2);</highlight></codeline>
+<codeline lineno="479"><highlight class="normal"></highlight></codeline>
+<codeline lineno="480"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>query<sp/>=<sp/>makeSimpleQuery();</highlight></codeline>
+<codeline lineno="481"><highlight class="normal"></highlight></codeline>
+<codeline lineno="482"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Trigger<sp/>circuit<sp/>opening<sp/>on<sp/>both</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="483"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>3;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="484"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>das_-&gt;executeDistributed(query);</highlight></codeline>
+<codeline lineno="485"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="486"><highlight class="normal"></highlight></codeline>
+<codeline lineno="487"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>healthy<sp/>shards<sp/>available</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="488"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>das_-&gt;executeDistributed(query);</highlight></codeline>
+<codeline lineno="489"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.total_shards,<sp/>0u);</highlight></codeline>
+<codeline lineno="490"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.successful_shards,<sp/>0u);</highlight></codeline>
+<codeline lineno="491"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/analytics/test_analytics_distributed_coordinator_safety.cpp"/>
+  </compounddef>
+</doxygen>

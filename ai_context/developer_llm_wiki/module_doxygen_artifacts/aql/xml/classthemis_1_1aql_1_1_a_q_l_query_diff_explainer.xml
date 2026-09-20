@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1_a_q_l_query_diff_explainer" kind="class" language="C++" prot="public">
+    <compoundname>themis::aql::AQLQueryDiffExplainer</compoundname>
+    <basecompoundref refid="classthemis_1_1aql_1_1_i_a_q_l_query_diff_explainer" prot="public" virt="non-virtual">themis::aql::IAQLQueryDiffExplainer</basecompoundref>
+    <includes refid="aql__query__diff__explainer_8h" local="no">aql_query_diff_explainer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_diff_explainer_1ad852e111bf6125be23914329d8ec672d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::AQLQueryDiffExplainer::AQLQueryDiffExplainer</definition>
+        <argsstring>()=default</argsstring>
+        <name>AQLQueryDiffExplainer</name>
+        <qualifiedname>themis::aql::AQLQueryDiffExplainer::AQLQueryDiffExplainer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_diff_explainer.h" line="79" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_diff_explainer_1ada0f31cd4449470e30e39c50906dc35e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::AQLQueryDiffExplainer::~AQLQueryDiffExplainer</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~AQLQueryDiffExplainer</name>
+        <qualifiedname>themis::aql::AQLQueryDiffExplainer::~AQLQueryDiffExplainer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_diff_explainer.h" line="80" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_diff_explainer_1a3d2ad4d72596480679b48f70a2a5a133" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1aql_1_1_query_diff_result" kindref="compound">QueryDiffResult</ref></type>
+        <definition>QueryDiffResult themis::aql::AQLQueryDiffExplainer::explain</definition>
+        <argsstring>(const std::string &amp;query_a, const std::string &amp;query_b) const override</argsstring>
+        <name>explain</name>
+        <qualifiedname>themis::aql::AQLQueryDiffExplainer::explain</qualifiedname>
+        <reimplements refid="classthemis_1_1aql_1_1_i_a_q_l_query_diff_explainer_1a4bc8171b6f51335de3dc30c0bbc9b750">explain</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_a</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_b</declname>
+        </param>
+        <briefdescription>
+<para>Explain. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query_b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_diff_explainer.h" line="82" column="21" bodyfile="src/aql/aql_query_diff_explainer.cpp" bodystart="208" bodyend="311"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::aql::AQLQueryDiffExplainer</label>
+        <link refid="classthemis_1_1aql_1_1_a_q_l_query_diff_explainer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::aql::IAQLQueryDiffExplainer</label>
+        <link refid="classthemis_1_1aql_1_1_i_a_q_l_query_diff_explainer"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::aql::AQLQueryDiffExplainer</label>
+        <link refid="classthemis_1_1aql_1_1_a_q_l_query_diff_explainer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::aql::IAQLQueryDiffExplainer</label>
+        <link refid="classthemis_1_1aql_1_1_i_a_q_l_query_diff_explainer"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/aql/aql_query_diff_explainer.h" line="77" column="1" bodyfile="include/aql/aql_query_diff_explainer.h" bodystart="77" bodyend="84"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_diff_explainer_1ad852e111bf6125be23914329d8ec672d" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryDiffExplainer</scope><name>AQLQueryDiffExplainer</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_diff_explainer_1a3d2ad4d72596480679b48f70a2a5a133" prot="public" virt="virtual"><scope>themis::aql::AQLQueryDiffExplainer</scope><name>explain</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_diff_explainer_1ada0f31cd4449470e30e39c50906dc35e" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryDiffExplainer</scope><name>~AQLQueryDiffExplainer</name></member>
+      <member refid="classthemis_1_1aql_1_1_i_a_q_l_query_diff_explainer_1ae9b2f642d3e8e833fcf42dbe44417b1c" prot="public" virt="virtual"><scope>themis::aql::AQLQueryDiffExplainer</scope><name>~IAQLQueryDiffExplainer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

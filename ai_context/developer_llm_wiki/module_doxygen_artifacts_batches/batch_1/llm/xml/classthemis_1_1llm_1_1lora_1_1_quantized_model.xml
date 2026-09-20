@@ -1,0 +1,408 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_quantized_model" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::QuantizedModel</compoundname>
+    <includes refid="quantized__model_8h" local="no">quantized_model.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_quantized_model_1a913267b06ca0ed98f722471118dace5c" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_quantized_model_config" kindref="compound">QuantizedModelConfig</ref></type>
+        <definition>QuantizedModelConfig themis::llm::lora::QuantizedModel::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::lora::QuantizedModel::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/quantized_model.h" line="120" column="26" bodyfile="include/llm/lora_framework/quantized_model.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_quantized_model_1aad78b6020040101d2e4da61bd1f76535" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="classthemis_1_1llm_1_1lora_1_1_quantized_layer_weights" kindref="compound">QuantizedLayerWeights</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, QuantizedLayerWeights&gt; themis::llm::lora::QuantizedModel::layers_</definition>
+        <argsstring></argsstring>
+        <name>layers_</name>
+        <qualifiedname>themis::llm::lora::QuantizedModel::layers_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/quantized_model.h" line="121" column="24" bodyfile="include/llm/lora_framework/quantized_model.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_quantized_model_1ac534ee12ef8eb5327fc7e27389ff34b2" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::llm::lora::QuantizedModel::embedding_dim</definition>
+        <argsstring></argsstring>
+        <name>embedding_dim</name>
+        <qualifiedname>themis::llm::lora::QuantizedModel::embedding_dim</qualifiedname>
+        <initializer>= 768</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/quantized_model.h" line="125" column="14" bodyfile="include/llm/lora_framework/quantized_model.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_quantized_model_1a3cf0fee8e03878a564c782f39cb4a662" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::llm::lora::QuantizedModel::metadata_num_layers</definition>
+        <argsstring></argsstring>
+        <name>metadata_num_layers</name>
+        <qualifiedname>themis::llm::lora::QuantizedModel::metadata_num_layers</qualifiedname>
+        <initializer>= 32</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/quantized_model.h" line="126" column="14" bodyfile="include/llm/lora_framework/quantized_model.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_quantized_model_1a6a225b4930e00dcd55846900d08c79b3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::QuantizedModel::model_type</definition>
+        <argsstring></argsstring>
+        <name>model_type</name>
+        <qualifiedname>themis::llm::lora::QuantizedModel::model_type</qualifiedname>
+        <initializer>= &quot;&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/quantized_model.h" line="127" column="17" bodyfile="include/llm/lora_framework/quantized_model.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_quantized_model_1a7069c4691586aa339db632e1b1073124" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::QuantizedModel::QuantizedModel</definition>
+        <argsstring>()=default</argsstring>
+        <name>QuantizedModel</name>
+        <qualifiedname>themis::llm::lora::QuantizedModel::QuantizedModel</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/quantized_model.h" line="65" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_quantized_model_1a1b0d7b54e9d883c3cfcc255c9c89a730" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::QuantizedModel::QuantizedModel</definition>
+        <argsstring>(const QuantizedModelConfig &amp;config)</argsstring>
+        <name>QuantizedModel</name>
+        <qualifiedname>themis::llm::lora::QuantizedModel::QuantizedModel</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_quantized_model_config" kindref="compound">QuantizedModelConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Quantized Model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/quantized_model.h" line="71" column="14" bodyfile="src/llm/lora_framework/quantized_model.cpp" bodystart="91" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_quantized_model_1ab3ff9dcc84bf6cfe46ff7d64d43bf0ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::QuantizedModel::add_layer</definition>
+        <argsstring>(const std::string &amp;layer_name, const Tensor &amp;weights)</argsstring>
+        <name>add_layer</name>
+        <qualifiedname>themis::llm::lora::QuantizedModel::add_layer</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>layer_name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>weights</declname>
+        </param>
+        <briefdescription>
+<para>Add layer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">layer_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the layer. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">weights</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">layer_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the layer. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">weights</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::debug(), emplace(), QuantizedLayerWeights(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/quantized_model.h" line="78" column="10" bodyfile="src/llm/lora_framework/quantized_model.cpp" bodystart="101" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_quantized_model_1a8d5e2227de70355864ece04cf5992ea7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::QuantizedModel::add_quantized_layer</definition>
+        <argsstring>(const std::string &amp;layer_name, QuantizedLayerWeights &amp;&amp;quantized_weights)</argsstring>
+        <name>add_quantized_layer</name>
+        <qualifiedname>themis::llm::lora::QuantizedModel::add_quantized_layer</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>layer_name</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1lora_1_1_quantized_layer_weights" kindref="compound">QuantizedLayerWeights</ref> &amp;&amp;</type>
+          <declname>quantized_weights</declname>
+        </param>
+        <briefdescription>
+<para>Add quantized layer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">layer_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the layer. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">quantized_weights</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">layer_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the layer. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">quantized_weights</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::debug(), emplace(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/quantized_model.h" line="85" column="10" bodyfile="src/llm/lora_framework/quantized_model.cpp" bodystart="112" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_quantized_model_1a50f48de3ca2bd35a7e5485f6d7c67341" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_quantized_layer_weights" kindref="compound">QuantizedLayerWeights</ref> *</type>
+        <definition>const QuantizedLayerWeights * themis::llm::lora::QuantizedModel::get_layer</definition>
+        <argsstring>(const std::string &amp;layer_name) const</argsstring>
+        <name>get_layer</name>
+        <qualifiedname>themis::llm::lora::QuantizedModel::get_layer</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>layer_name</declname>
+        </param>
+        <briefdescription>
+<para>Get layer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">layer_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the layer. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/quantized_model.h" line="92" column="33" bodyfile="src/llm/lora_framework/quantized_model.cpp" bodystart="118" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_quantized_model_1a0f89644a4d16ea414baafa8078dcdcf6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref></type>
+        <definition>Tensor themis::llm::lora::QuantizedModel::dequantize_layer</definition>
+        <argsstring>(const std::string &amp;layer_name) const</argsstring>
+        <name>dequantize_layer</name>
+        <qualifiedname>themis::llm::lora::QuantizedModel::dequantize_layer</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>layer_name</declname>
+        </param>
+        <briefdescription>
+<para>Dequantize layer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">layer_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the layer. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/quantized_model.h" line="99" column="12" bodyfile="src/llm/lora_framework/quantized_model.cpp" bodystart="126" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_quantized_model_1a9597f9b7768f9cdddb0e65a4ab4a4aee" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::QuantizedModel::num_layers</definition>
+        <argsstring>() const</argsstring>
+        <name>num_layers</name>
+        <qualifiedname>themis::llm::lora::QuantizedModel::num_layers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/quantized_model.h" line="101" column="12" bodyfile="include/llm/lora_framework/quantized_model.h" bodystart="101" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_quantized_model_1a79c1cffa0154a220a08d93e9f1060f43" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::llm::lora::QuantizedModel::layer_names</definition>
+        <argsstring>() const</argsstring>
+        <name>layer_names</name>
+        <qualifiedname>themis::llm::lora::QuantizedModel::layer_names</qualifiedname>
+        <briefdescription>
+<para>Layer names. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/quantized_model.h" line="107" column="17" bodyfile="src/llm/lora_framework/quantized_model.cpp" bodystart="134" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_quantized_model_1a1df2b784aa792e21b4c80476d2fb4826" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::QuantizedModel::memory_bytes</definition>
+        <argsstring>() const</argsstring>
+        <name>memory_bytes</name>
+        <qualifiedname>themis::llm::lora::QuantizedModel::memory_bytes</qualifiedname>
+        <briefdescription>
+<para>Memory bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/quantized_model.h" line="113" column="12" bodyfile="src/llm/lora_framework/quantized_model.cpp" bodystart="144" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_quantized_model_1a012730ece9631d754d7326f6230cc7f5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_quantized_model_config" kindref="compound">QuantizedModelConfig</ref> &amp;</type>
+        <definition>const QuantizedModelConfig &amp; themis::llm::lora::QuantizedModel::config</definition>
+        <argsstring>() const</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::llm::lora::QuantizedModel::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/quantized_model.h" line="115" column="32" bodyfile="include/llm/lora_framework/quantized_model.h" bodystart="115" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_quantized_model_1ab30bdc7c8801e97e223f84c2c66f9b18" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1a911424b03c1e9e0b9ba9fda73c55d843" kindref="member">QuantizationType</ref></type>
+        <definition>QuantizationType themis::llm::lora::QuantizedModel::quantization_type</definition>
+        <argsstring>() const</argsstring>
+        <name>quantization_type</name>
+        <qualifiedname>themis::llm::lora::QuantizedModel::quantization_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/quantized_model.h" line="117" column="22" bodyfile="include/llm/lora_framework/quantized_model.h" bodystart="117" bodyend="117"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/quantized_model.h" line="63" column="1" bodyfile="include/llm/lora_framework/quantized_model.h" bodystart="63" bodyend="128"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_quantized_model_1ab3ff9dcc84bf6cfe46ff7d64d43bf0ec" prot="public" virt="non-virtual"><scope>themis::llm::lora::QuantizedModel</scope><name>add_layer</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_quantized_model_1a8d5e2227de70355864ece04cf5992ea7" prot="public" virt="non-virtual"><scope>themis::llm::lora::QuantizedModel</scope><name>add_quantized_layer</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_quantized_model_1a012730ece9631d754d7326f6230cc7f5" prot="public" virt="non-virtual"><scope>themis::llm::lora::QuantizedModel</scope><name>config</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_quantized_model_1a913267b06ca0ed98f722471118dace5c" prot="private" virt="non-virtual"><scope>themis::llm::lora::QuantizedModel</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_quantized_model_1a0f89644a4d16ea414baafa8078dcdcf6" prot="public" virt="non-virtual"><scope>themis::llm::lora::QuantizedModel</scope><name>dequantize_layer</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_quantized_model_1ac534ee12ef8eb5327fc7e27389ff34b2" prot="public" virt="non-virtual"><scope>themis::llm::lora::QuantizedModel</scope><name>embedding_dim</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_quantized_model_1a50f48de3ca2bd35a7e5485f6d7c67341" prot="public" virt="non-virtual"><scope>themis::llm::lora::QuantizedModel</scope><name>get_layer</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_quantized_model_1a79c1cffa0154a220a08d93e9f1060f43" prot="public" virt="non-virtual"><scope>themis::llm::lora::QuantizedModel</scope><name>layer_names</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_quantized_model_1aad78b6020040101d2e4da61bd1f76535" prot="private" virt="non-virtual"><scope>themis::llm::lora::QuantizedModel</scope><name>layers_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_quantized_model_1a1df2b784aa792e21b4c80476d2fb4826" prot="public" virt="non-virtual"><scope>themis::llm::lora::QuantizedModel</scope><name>memory_bytes</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_quantized_model_1a3cf0fee8e03878a564c782f39cb4a662" prot="public" virt="non-virtual"><scope>themis::llm::lora::QuantizedModel</scope><name>metadata_num_layers</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_quantized_model_1a6a225b4930e00dcd55846900d08c79b3" prot="public" virt="non-virtual"><scope>themis::llm::lora::QuantizedModel</scope><name>model_type</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_quantized_model_1a9597f9b7768f9cdddb0e65a4ab4a4aee" prot="public" virt="non-virtual"><scope>themis::llm::lora::QuantizedModel</scope><name>num_layers</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_quantized_model_1ab30bdc7c8801e97e223f84c2c66f9b18" prot="public" virt="non-virtual"><scope>themis::llm::lora::QuantizedModel</scope><name>quantization_type</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_quantized_model_1a7069c4691586aa339db632e1b1073124" prot="public" virt="non-virtual"><scope>themis::llm::lora::QuantizedModel</scope><name>QuantizedModel</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_quantized_model_1a1b0d7b54e9d883c3cfcc255c9c89a730" prot="public" virt="non-virtual"><scope>themis::llm::lora::QuantizedModel</scope><name>QuantizedModel</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

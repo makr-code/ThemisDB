@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rcu_1_1_read_lock" kind="class" language="C++" prot="public">
+    <compoundname>themis::rcu::ReadLock</compoundname>
+    <includes refid="rcu_8h" local="no">rcu.h</includes>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rcu_1_1_read_lock_1aba8d39ecc768f8f9fbcee050afb998e3" prot="private" static="yes" mutable="no" thread_local="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt; uint64_t &gt; themis::rcu::ReadLock::read_count_</definition>
+        <argsstring></argsstring>
+        <name>read_count_</name>
+        <qualifiedname>themis::rcu::ReadLock::read_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rcu.h" line="52" column="37" bodyfile="include/performance/rcu.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rcu_1_1_read_lock_1a4c2c601b90b473d0418e65657341df46" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::rcu::ReadLock::ReadLock</definition>
+        <argsstring>()</argsstring>
+        <name>ReadLock</name>
+        <qualifiedname>themis::rcu::ReadLock::ReadLock</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rcu.h" line="45" column="5" bodyfile="include/performance/rcu.h" bodystart="208" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rcu_1_1_read_lock_1a453178780eee43e12a460c69d61f4045" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::rcu::ReadLock::~ReadLock</definition>
+        <argsstring>()</argsstring>
+        <name>~ReadLock</name>
+        <qualifiedname>themis::rcu::ReadLock::~ReadLock</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rcu.h" line="46" column="5" bodyfile="include/performance/rcu.h" bodystart="213" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rcu_1_1_read_lock_1ac7e4bfcb974d3bff999343e0a58d14bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rcu::ReadLock::ReadLock</definition>
+        <argsstring>(const ReadLock &amp;)=delete</argsstring>
+        <name>ReadLock</name>
+        <qualifiedname>themis::rcu::ReadLock::ReadLock</qualifiedname>
+        <param>
+          <type>const ReadLock &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rcu.h" line="48" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rcu_1_1_read_lock_1a2bfe185f1e52e1f6c1e89b14e96c5038" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rcu_1_1_read_lock_1a4c2c601b90b473d0418e65657341df46" kindref="member">ReadLock</ref> &amp;</type>
+        <definition>ReadLock &amp; themis::rcu::ReadLock::operator=</definition>
+        <argsstring>(const ReadLock &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::rcu::ReadLock::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1rcu_1_1_read_lock_1a4c2c601b90b473d0418e65657341df46" kindref="member">ReadLock</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rcu.h" line="49" column="14"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RCU read-side lock guard (RAII). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Marks the beginning and end of an RCU read-side critical section. Extremely lightweight - just increments/decrements a counter. </para>
+    </detaileddescription>
+    <location file="include/performance/rcu.h" line="43" column="1" bodyfile="include/performance/rcu.h" bodystart="43" bodyend="53"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rcu_1_1_read_lock_1a2bfe185f1e52e1f6c1e89b14e96c5038" prot="public" virt="non-virtual"><scope>themis::rcu::ReadLock</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1rcu_1_1_read_lock_1aba8d39ecc768f8f9fbcee050afb998e3" prot="private" virt="non-virtual"><scope>themis::rcu::ReadLock</scope><name>read_count_</name></member>
+      <member refid="classthemis_1_1rcu_1_1_read_lock_1a4c2c601b90b473d0418e65657341df46" prot="public" virt="non-virtual"><scope>themis::rcu::ReadLock</scope><name>ReadLock</name></member>
+      <member refid="classthemis_1_1rcu_1_1_read_lock_1ac7e4bfcb974d3bff999343e0a58d14bc" prot="public" virt="non-virtual"><scope>themis::rcu::ReadLock</scope><name>ReadLock</name></member>
+      <member refid="classthemis_1_1rcu_1_1_read_lock_1a453178780eee43e12a460c69d61f4045" prot="public" virt="non-virtual"><scope>themis::rcu::ReadLock</scope><name>~ReadLock</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,220 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="tensor__mmap__bridge_8h" kind="file" language="C++">
+    <compoundname>tensor_mmap_bridge.h</compoundname>
+    <includes local="yes">storage/tensor_train_decomposer.h</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="tensor__index__manager_8h" local="yes">include/tensor/tensor_index_manager.h</includedby>
+    <includedby refid="tensor__index__manager_8cpp" local="yes">src/tensor/tensor_index_manager.cpp</includedby>
+    <includedby refid="tensor__mmap__bridge_8cpp" local="yes">src/tensor/tensor_mmap_bridge.cpp</includedby>
+    <includedby refid="test__tensor__index__manager_8cpp" local="yes">tests/tensor/test_tensor_index_manager.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/tensor/tensor_mmap_bridge.h</label>
+        <link refid="tensor__mmap__bridge_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>cstddef</label>
+      </node>
+      <node id="4">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="2">
+        <label>storage/tensor_train_decomposer.h</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/tensor/tensor_index_manager.h</label>
+        <link refid="tensor__index__manager_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/tensor/tensor_mmap_bridge.h</label>
+        <link refid="tensor__mmap__bridge_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/tensor/tensor_index_manager.cpp</label>
+        <link refid="tensor__index__manager_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/tensor/tensor_mmap_bridge.cpp</label>
+        <link refid="tensor__mmap__bridge_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/tensor/test_tensor_index_manager.cpp</label>
+        <link refid="test__tensor__index__manager_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/tensor/test_tensor_index_manager_concurrent_focused.cpp</label>
+        <link refid="test__tensor__index__manager__concurrent__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1tensor_1_1_mmap_core_slice" prot="public">themis::tensor::MmapCoreSlice</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge" prot="public">themis::tensor::TensorMmapBridge</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_tensor_mmap_bridge_1_1_region" prot="private">themis::tensor::TensorMmapBridge::Region</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1tensor">themis::tensor</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 88/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/tensor_train_decomposer.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1tensor" kindref="compound">tensor</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MmapCoreSlice<sp/>—<sp/>a<sp/>single<sp/>page-pinned<sp/>TT-core<sp/>view</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1tensor_1_1_mmap_core_slice" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1tensor_1_1_mmap_core_slice" kindref="compound">MmapCoreSlice</ref><sp/>{</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1tensor_1_1_mmap_core_slice_1a83e8800c9a23dd619e1807dc815f265e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/><ref refid="structthemis_1_1tensor_1_1_mmap_core_slice_1a83e8800c9a23dd619e1807dc815f265e" kindref="member">data</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1tensor_1_1_mmap_core_slice_1a978e7ff92c409254d48ee6f7aa2bb4d3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><sp/><ref refid="structthemis_1_1tensor_1_1_mmap_core_slice_1a978e7ff92c409254d48ee6f7aa2bb4d3" kindref="member">bytes</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1tensor_1_1_mmap_core_slice_1aeb8343090470f0101f4deaae160f454a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><sp/><ref refid="structthemis_1_1tensor_1_1_mmap_core_slice_1aeb8343090470f0101f4deaae160f454a" kindref="member">core_idx</ref><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1tensor_1_1_mmap_core_slice_1af0a9966635a6fd40b9e29db71c4e04b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><sp/><ref refid="structthemis_1_1tensor_1_1_mmap_core_slice_1af0a9966635a6fd40b9e29db71c4e04b7" kindref="member">num_elems</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TensorMmapBridge</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1ada8a6b69e531577f2c5a0818ddb142a7" kindref="member">TensorMmapBridge</ref><sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Accessors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1aee05a714ba79d4cfe0dc034449bbd4b4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;MmapCoreSlice&gt;&amp;<sp/><ref refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1aee05a714ba79d4cfe0dc034449bbd4b4" kindref="member">slices</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>slices_;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1a19b8548a4538330f5561263331e8095f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::size_t<sp/><ref refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1a19b8548a4538330f5561263331e8095f" kindref="member">coreCount</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>slices_.size();</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1aa25f0ec241e96c20facd316144ac051b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::size_t<sp/><ref refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1aa25f0ec241e96c20facd316144ac051b" kindref="member">totalBytes</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>total_bytes_;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1a44721be045def6829c73c1432ec30af4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1a44721be045def6829c73c1432ec30af4" kindref="member">isLocked</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>locked_count_<sp/>&gt;<sp/>0;<sp/>}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1a7079cb9b0ad6742ccb48005898bdbb0d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::size_t<sp/><ref refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1a7079cb9b0ad6742ccb48005898bdbb0d" kindref="member">lockedRegions</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>locked_count_;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Explicit<sp/>release<sp/>(also<sp/>called<sp/>by<sp/>destructor)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1af2f9ad4d0cc7422247bc2cf25218be98" kindref="member">release</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Lifecycle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1ac46c197e74a0de575cd138839adf0208" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>~<ref refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1ada8a6b69e531577f2c5a0818ddb142a7" kindref="member">TensorMmapBridge</ref>()<sp/>noexcept<sp/>{<sp/><ref refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1af2f9ad4d0cc7422247bc2cf25218be98" kindref="member">release</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115" refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1ada8a6b69e531577f2c5a0818ddb142a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1ada8a6b69e531577f2c5a0818ddb142a7" kindref="member">TensorMmapBridge</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1ada8a6b69e531577f2c5a0818ddb142a7" kindref="member">TensorMmapBridge</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116" refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1a339eb48af61a535128ed33882fb33594" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1ada8a6b69e531577f2c5a0818ddb142a7" kindref="member">TensorMmapBridge</ref>&amp;<sp/><ref refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1a339eb48af61a535128ed33882fb33594" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1ada8a6b69e531577f2c5a0818ddb142a7" kindref="member">TensorMmapBridge</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1ada8a6b69e531577f2c5a0818ddb142a7" kindref="member">TensorMmapBridge</ref>(<ref refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1ada8a6b69e531577f2c5a0818ddb142a7" kindref="member">TensorMmapBridge</ref>&amp;&amp;)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1ada8a6b69e531577f2c5a0818ddb142a7" kindref="member">TensorMmapBridge</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1ada8a6b69e531577f2c5a0818ddb142a7" kindref="member">TensorMmapBridge</ref>&amp;&amp;)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----<sp/>private<sp/>construction<sp/>(factory<sp/>friend)<sp/>----</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124" refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1aefad485e166f3e4a30dfab8d4723c356" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>friend<sp/>class<sp/><ref refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1aefad485e166f3e4a30dfab8d4723c356" kindref="member">TensorIndexManager</ref>;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1ada8a6b69e531577f2c5a0818ddb142a7" kindref="member">TensorMmapBridge</ref>()<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>static<sp/>std::unique_ptr&lt;<ref refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1ada8a6b69e531577f2c5a0818ddb142a7" kindref="member">TensorMmapBridge</ref>&gt;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>buildFromTrain(const<sp/>storage::TTTrain&amp;<sp/>train);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>static<sp/>std::unique_ptr&lt;<ref refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1ada8a6b69e531577f2c5a0818ddb142a7" kindref="member">TensorMmapBridge</ref>&gt;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>buildFromFd(const<sp/>storage::TTTrain&amp;<sp/>train,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>fd,<sp/>std::</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>byte_offset<sp/>=<sp/>0);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal">public:</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Bridge<sp/>injection<sp/>API<sp/>(STUB<sp/>#270)<sp/>────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194" refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1ad72a420bd8d2635b98b75add7c503514" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>using<sp/><ref refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1ad72a420bd8d2635b98b75add7c503514" kindref="member">SstMapFn</ref><sp/>=<sp/>std::function&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*(std::</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>bytes,<sp/>std::</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>core_idx)&gt;;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1a306df8265797f185df6b40be00e45bba" kindref="member">setSstMapFn</ref>(<ref refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1ad72a420bd8d2635b98b75add7c503514" kindref="member">SstMapFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1a1f3e93eb6b3d1785a6cefb74e9509663" kindref="member">clearSstMapFn</ref>();</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----<sp/>internal<sp/>region<sp/>tracking<sp/>----</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>struct<sp/>Region<sp/>{</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/>ptr<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>bytes<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>locked<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>externally_owned<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Region&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>regions_;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MmapCoreSlice&gt;<sp/>slices_;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>total_bytes_<sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>locked_count_<sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>tensor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/tensor/tensor_mmap_bridge.h"/>
+  </compounddef>
+</doxygen>

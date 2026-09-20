@@ -1,0 +1,258 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1storage_1_1_storage_parquet_exporter" kind="class" language="C++" prot="public">
+    <compoundname>themis::storage::StorageParquetExporter</compoundname>
+    <includes refid="storage__parquet__exporter_8h" local="no">storage_parquet_exporter.h</includes>
+    <innerclass refid="structthemis_1_1storage_1_1_storage_parquet_exporter_1_1_export_stats" prot="public">themis::storage::StorageParquetExporter::ExportStats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_storage_parquet_exporter_1a773fc8fdaead21de1e9f912b8e104d1c" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1storage_1_1_storage_parquet_exporter_1_1_export_stats" kindref="compound">ExportStats</ref></type>
+        <definition>ExportStats themis::storage::StorageParquetExporter::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::storage::StorageParquetExporter::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_parquet_exporter.h" line="115" column="17" bodyfile="include/storage/storage_parquet_exporter.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_storage_parquet_exporter_1a32d84cbaf8067720353f027291d68cd8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::StorageParquetExporter::StorageParquetExporter</definition>
+        <argsstring>()=default</argsstring>
+        <name>StorageParquetExporter</name>
+        <qualifiedname>themis::storage::StorageParquetExporter::StorageParquetExporter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_parquet_exporter.h" line="83" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_storage_parquet_exporter_1a8e6c523e643a1d3e39b382447e15bae8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::storage::StorageParquetExporter::exportToFile</definition>
+        <argsstring>(const std::vector&lt; std::vector&lt; ColumnSegment &gt; &gt; &amp;column_segments, const ParquetExportConfig &amp;config, const std::string &amp;output_path)</argsstring>
+        <name>exportToFile</name>
+        <qualifiedname>themis::storage::StorageParquetExporter::exportToFile</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; <ref refid="structthemis_1_1storage_1_1_column_segment" kindref="compound">ColumnSegment</ref> &gt; &gt; &amp;</type>
+          <declname>column_segments</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_parquet_export_config" kindref="compound">ParquetExportConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>output_path</declname>
+        </param>
+        <briefdescription>
+<para>Export To File. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Export a table to a Parquet file on disk.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>column_segments</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>One entry per column; each entry is the ordered list of decoded ColumnSegments for that column (matching row partitioning across all columns). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Export configuration (column names, compression). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>output_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Destination file path. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Ok(void) on success, or an Error.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">column_segments</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">output_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the output. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1storage_1_1_storage_parquet_exporter_1a81f5bc4b63f9b5cc9e2b71d9f1d539f2" kindref="member">exportToBuffer()</ref>, tl::unexpected(), error(), out(), Error(), write(), data(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_parquet_exporter.h" line="93" column="12" bodyfile="src/storage/storage_parquet_exporter.cpp" bodystart="629" bodyend="656"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_storage_parquet_exporter_1a81f5bc4b63f9b5cc9e2b71d9f1d539f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; uint8_t &gt; &gt; themis::storage::StorageParquetExporter::exportToBuffer</definition>
+        <argsstring>(const std::vector&lt; std::vector&lt; ColumnSegment &gt; &gt; &amp;column_segments, const ParquetExportConfig &amp;config)</argsstring>
+        <name>exportToBuffer</name>
+        <qualifiedname>themis::storage::StorageParquetExporter::exportToBuffer</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; <ref refid="structthemis_1_1storage_1_1_column_segment" kindref="compound">ColumnSegment</ref> &gt; &gt; &amp;</type>
+          <declname>column_segments</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_parquet_export_config" kindref="compound">ParquetExportConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Export to an in-memory buffer (useful for testing and streaming). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Export To Buffer.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">column_segments</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), buildParquet(), size(), count(), empty(), metadata(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_parquet_exporter.h" line="99" column="12" bodyfile="src/storage/storage_parquet_exporter.cpp" bodystart="582" bodyend="619"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_storage_parquet_exporter_1a3eadb2c6b0cd809b41cbd50c1090a1c5" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1storage_1_1_storage_parquet_exporter_1_1_export_stats" kindref="compound">ExportStats</ref> &amp;</type>
+        <definition>const ExportStats &amp; themis::storage::StorageParquetExporter::lastStats</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>lastStats</name>
+        <qualifiedname>themis::storage::StorageParquetExporter::lastStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_parquet_exporter.h" line="112" column="23" bodyfile="include/storage/storage_parquet_exporter.h" bodystart="112" bodyend="112"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_storage_parquet_exporter_1a76f734e01750c1854fbcc53acaa070fb" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; uint8_t &gt; &gt; themis::storage::StorageParquetExporter::buildParquet</definition>
+        <argsstring>(const std::vector&lt; std::vector&lt; ColumnSegment &gt; &gt; &amp;column_segments, const ParquetExportConfig &amp;config)</argsstring>
+        <name>buildParquet</name>
+        <qualifiedname>themis::storage::StorageParquetExporter::buildParquet</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; <ref refid="structthemis_1_1storage_1_1_column_segment" kindref="compound">ColumnSegment</ref> &gt; &gt; &amp;</type>
+          <declname>column_segments</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_parquet_export_config" kindref="compound">ParquetExportConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>============================================================================ StorageParquetExporter::buildParquet (portable Parquet v2 path) ============================================================================ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">column_segments</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), tl::unexpected(), Error(), std::to_string(), metadata(), insert(), end(), reserve(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_parquet_exporter.h" line="118" column="12" bodyfile="src/storage/storage_parquet_exporter.cpp" bodystart="450" bodyend="569"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Exports a ColumnarFormat table to an Apache Parquet v2 file.</para>
+<para>When ARROW_ENABLED is defined at compile time the full Apache Arrow / Parquet C++ library is used, producing a standards-compliant file with proper native types and optional SNAPPY/ZSTD compression.</para>
+<para>When ARROW_ENABLED is NOT defined a portable Parquet v2 binary writer is used: all columns are stored as BYTE_ARRAY (UTF-8 string representation), PLAIN encoding, UNCOMPRESSED compression. Files are readable by pyarrow, Pandas, Spark, and any compliant Parquet reader.</para>
+<para>Error conditions:<itemizedlist>
+<listitem><para>ERR_EXPORT_FORMAT_INVALID — unknown <ref refid="namespacethemis_1_1storage_1a57463fe268e434865fe09aee81ab29f0" kindref="member">ColumnType</ref> encountered in schema (ExportError::UNSUPPORTED_TYPE equivalent).</para>
+</listitem><listitem><para>ERR_EXPORT_IO_ERROR — cannot open / write output file.</para>
+</listitem><listitem><para>ERR_EXPORT_CONFIG_INVALID — column count mismatch or empty schema.</para>
+</listitem></itemizedlist>
+</para>
+<para>Usage: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1storage_1_1_storage_parquet_exporter_1a32d84cbaf8067720353f027291d68cd8" kindref="member">StorageParquetExporter</ref><sp/>exporter;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">ParquetExportConfig<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.columns<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1storage_1a57463fe268e434865fe09aee81ab29f0a4e866b275c85fbb439f6484251cfb31c" kindref="member">ColumnType::INT64</ref>},<sp/>{</highlight><highlight class="stringliteral">&quot;price&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1storage_1a57463fe268e434865fe09aee81ab29f0a139882c654db8a57f7c3092de1dd0b02" kindref="member">ColumnType::FLOAT64</ref>}};</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>One<sp/>ColumnSegment<sp/>per<sp/>column<sp/>per<sp/>row-group.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>segments[c]<sp/>=<sp/>all<sp/>segments<sp/>for<sp/>column<sp/>c.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>exporter.exportToFile(segments,<sp/>cfg,<sp/></highlight><highlight class="stringliteral">&quot;/tmp/out.parquet&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!res)<sp/>{<sp/></highlight><highlight class="comment">/*<sp/>handle<sp/>error<sp/>*/</highlight><highlight class="normal"><sp/>}</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/storage/storage_parquet_exporter.h" line="81" column="1" bodyfile="include/storage/storage_parquet_exporter.h" bodystart="81" bodyend="121"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1storage_1_1_storage_parquet_exporter_1a76f734e01750c1854fbcc53acaa070fb" prot="private" virt="non-virtual"><scope>themis::storage::StorageParquetExporter</scope><name>buildParquet</name></member>
+      <member refid="classthemis_1_1storage_1_1_storage_parquet_exporter_1a81f5bc4b63f9b5cc9e2b71d9f1d539f2" prot="public" virt="non-virtual"><scope>themis::storage::StorageParquetExporter</scope><name>exportToBuffer</name></member>
+      <member refid="classthemis_1_1storage_1_1_storage_parquet_exporter_1a8e6c523e643a1d3e39b382447e15bae8" prot="public" virt="non-virtual"><scope>themis::storage::StorageParquetExporter</scope><name>exportToFile</name></member>
+      <member refid="classthemis_1_1storage_1_1_storage_parquet_exporter_1a3eadb2c6b0cd809b41cbd50c1090a1c5" prot="public" virt="non-virtual"><scope>themis::storage::StorageParquetExporter</scope><name>lastStats</name></member>
+      <member refid="classthemis_1_1storage_1_1_storage_parquet_exporter_1a773fc8fdaead21de1e9f912b8e104d1c" prot="private" virt="non-virtual"><scope>themis::storage::StorageParquetExporter</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1storage_1_1_storage_parquet_exporter_1a32d84cbaf8067720353f027291d68cd8" prot="public" virt="non-virtual"><scope>themis::storage::StorageParquetExporter</scope><name>StorageParquetExporter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,153 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1examples_1_1_index_example" kind="class" language="C++" prot="public">
+    <compoundname>themis::examples::IndexExample</compoundname>
+    <includes refid="feature__flags__examples_8h" local="no">feature_flags_examples.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename Key</type>
+      </param>
+      <param>
+        <type>typename Value</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1examples_1_1_index_example_1ad351be0fce23c29a49956dea01f78fc5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>Value</type>
+        <definition>Value themis::examples::IndexExample&lt; Key, Value &gt;::lookup</definition>
+        <argsstring>(const Key &amp;key)</argsstring>
+        <name>lookup</name>
+        <qualifiedname>themis::examples::IndexExample::lookup</qualifiedname>
+        <param>
+          <type>const Key &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/feature_flags_examples.h" line="119" column="11" bodyfile="include/performance/feature_flags_examples.h" bodystart="119" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1examples_1_1_index_example_1a4b0343e02ef11134b210073bb01d69d5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::examples::IndexExample&lt; Key, Value &gt;::insert</definition>
+        <argsstring>(const Key &amp;key, const Value &amp;value)</argsstring>
+        <name>insert</name>
+        <qualifiedname>themis::examples::IndexExample::insert</qualifiedname>
+        <param>
+          <type>const Key &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const Value &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/feature_flags_examples.h" line="129" column="10" bodyfile="include/performance/feature_flags_examples.h" bodystart="129" bodyend="135"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1examples_1_1_index_example_1ae21ecf9865c45a93c6642552c3ba4245" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>Value</type>
+        <definition>Value themis::examples::IndexExample&lt; Key, Value &gt;::lookup_locked</definition>
+        <argsstring>(const Key &amp;key)</argsstring>
+        <name>lookup_locked</name>
+        <qualifiedname>themis::examples::IndexExample::lookup_locked</qualifiedname>
+        <param>
+          <type>const Key &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/feature_flags_examples.h" line="138" column="11" bodyfile="include/performance/feature_flags_examples.h" bodystart="138" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1examples_1_1_index_example_1ab45136ace3ccdcdd6a4e2daef02513f5" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>Value</type>
+        <definition>Value themis::examples::IndexExample&lt; Key, Value &gt;::lookup_rcu</definition>
+        <argsstring>(const Key &amp;key)</argsstring>
+        <name>lookup_rcu</name>
+        <qualifiedname>themis::examples::IndexExample::lookup_rcu</qualifiedname>
+        <param>
+          <type>const Key &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/feature_flags_examples.h" line="145" column="11" bodyfile="include/performance/feature_flags_examples.h" bodystart="145" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1examples_1_1_index_example_1a1f325c90fe5e8053081163cfb4cbdaff" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::examples::IndexExample&lt; Key, Value &gt;::insert_locked</definition>
+        <argsstring>(const Key &amp;key, const Value &amp;value)</argsstring>
+        <name>insert_locked</name>
+        <qualifiedname>themis::examples::IndexExample::insert_locked</qualifiedname>
+        <param>
+          <type>const Key &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const Value &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/feature_flags_examples.h" line="152" column="10" bodyfile="include/performance/feature_flags_examples.h" bodystart="152" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1examples_1_1_index_example_1a91c7047236fa23d2cb7b49bd41ff3062" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::examples::IndexExample&lt; Key, Value &gt;::insert_rcu</definition>
+        <argsstring>(const Key &amp;key, const Value &amp;value)</argsstring>
+        <name>insert_rcu</name>
+        <qualifiedname>themis::examples::IndexExample::insert_rcu</qualifiedname>
+        <param>
+          <type>const Key &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const Value &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/feature_flags_examples.h" line="157" column="10" bodyfile="include/performance/feature_flags_examples.h" bodystart="157" bodyend="162"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Index usage example. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/feature_flags_examples.h" line="117" column="1" bodyfile="include/performance/feature_flags_examples.h" bodystart="117" bodyend="163"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1examples_1_1_index_example_1a4b0343e02ef11134b210073bb01d69d5" prot="public" virt="non-virtual"><scope>themis::examples::IndexExample</scope><name>insert</name></member>
+      <member refid="classthemis_1_1examples_1_1_index_example_1a1f325c90fe5e8053081163cfb4cbdaff" prot="private" virt="non-virtual"><scope>themis::examples::IndexExample</scope><name>insert_locked</name></member>
+      <member refid="classthemis_1_1examples_1_1_index_example_1a91c7047236fa23d2cb7b49bd41ff3062" prot="private" virt="non-virtual"><scope>themis::examples::IndexExample</scope><name>insert_rcu</name></member>
+      <member refid="classthemis_1_1examples_1_1_index_example_1ad351be0fce23c29a49956dea01f78fc5" prot="public" virt="non-virtual"><scope>themis::examples::IndexExample</scope><name>lookup</name></member>
+      <member refid="classthemis_1_1examples_1_1_index_example_1ae21ecf9865c45a93c6642552c3ba4245" prot="private" virt="non-virtual"><scope>themis::examples::IndexExample</scope><name>lookup_locked</name></member>
+      <member refid="classthemis_1_1examples_1_1_index_example_1ab45136ace3ccdcdd6a4e2daef02513f5" prot="private" virt="non-virtual"><scope>themis::examples::IndexExample</scope><name>lookup_rcu</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

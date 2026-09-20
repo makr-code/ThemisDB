@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_aql_predicate_filter_test" kind="class" language="C++" prot="public">
+    <compoundname>AqlPredicateFilterTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_aql_predicate_filter_test_1ab7a35b8de9ec64c3d57949c1b4db4a9d" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; BaseEntity &gt;</type>
+        <definition>std::vector&lt;BaseEntity&gt; AqlPredicateFilterTest::entities_</definition>
+        <argsstring></argsstring>
+        <name>entities_</name>
+        <qualifiedname>AqlPredicateFilterTest::entities_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_aql_predicate_filter.cpp" line="66" column="17" bodyfile="tests/exporters/test_aql_predicate_filter.cpp" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_aql_predicate_filter_test_1ad6213be863e690e965551e4dccd1a3c8" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AqlPredicateFilterTest::test_dir_</definition>
+        <argsstring></argsstring>
+        <name>test_dir_</name>
+        <qualifiedname>AqlPredicateFilterTest::test_dir_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_aql_predicate_filter.cpp" line="67" column="17" bodyfile="tests/exporters/test_aql_predicate_filter.cpp" bodystart="67" bodyend="67"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_aql_predicate_filter_test_1a0a4857b0fbc2954ca1bd0b9428b72e72" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AqlPredicateFilterTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>AqlPredicateFilterTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_aql_predicate_filter.cpp" line="15" column="10" bodyfile="tests/exporters/test_aql_predicate_filter.cpp" bodystart="15" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="class_aql_predicate_filter_test_1a3c0aaa09dad32ca7fa9fc03627b7d69d" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AqlPredicateFilterTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>AqlPredicateFilterTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_aql_predicate_filter.cpp" line="48" column="10" bodyfile="tests/exporters/test_aql_predicate_filter.cpp" bodystart="48" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="class_aql_predicate_filter_test_1ab4bdfb45fc4e9dbce6cf6e0e892092ad" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; AqlPredicateFilterTest::readLines</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>readLines</name>
+        <qualifiedname>AqlPredicateFilterTest::readLines</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_aql_predicate_filter.cpp" line="54" column="17" bodyfile="tests/exporters/test_aql_predicate_filter.cpp" bodystart="54" bodyend="64"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AqlPredicateFilterTest</label>
+        <link refid="class_aql_predicate_filter_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AqlPredicateFilterTest</label>
+        <link refid="class_aql_predicate_filter_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/exporters/test_aql_predicate_filter.cpp" line="13" column="1" bodyfile="tests/exporters/test_aql_predicate_filter.cpp" bodystart="13" bodyend="68"/>
+    <listofallmembers>
+      <member refid="class_aql_predicate_filter_test_1ab7a35b8de9ec64c3d57949c1b4db4a9d" prot="protected" virt="non-virtual"><scope>AqlPredicateFilterTest</scope><name>entities_</name></member>
+      <member refid="class_aql_predicate_filter_test_1ab4bdfb45fc4e9dbce6cf6e0e892092ad" prot="protected" virt="non-virtual"><scope>AqlPredicateFilterTest</scope><name>readLines</name></member>
+      <member refid="class_aql_predicate_filter_test_1a0a4857b0fbc2954ca1bd0b9428b72e72" prot="protected" virt="non-virtual"><scope>AqlPredicateFilterTest</scope><name>SetUp</name></member>
+      <member refid="class_aql_predicate_filter_test_1a3c0aaa09dad32ca7fa9fc03627b7d69d" prot="protected" virt="non-virtual"><scope>AqlPredicateFilterTest</scope><name>TearDown</name></member>
+      <member refid="class_aql_predicate_filter_test_1ad6213be863e690e965551e4dccd1a3c8" prot="protected" virt="non-virtual"><scope>AqlPredicateFilterTest</scope><name>test_dir_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

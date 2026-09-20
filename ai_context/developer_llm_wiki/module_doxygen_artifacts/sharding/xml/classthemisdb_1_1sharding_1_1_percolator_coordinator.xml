@@ -1,0 +1,451 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1_percolator_coordinator" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::PercolatorCoordinator</compoundname>
+    <includes refid="cross__shard__transaction_8h" local="no">cross_shard_transaction.h</includes>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_percolator_coordinator_1_1_config" prot="public">themisdb::sharding::PercolatorCoordinator::Config</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemisdb_1_1sharding_1_1_percolator_coordinator_1afa6d3a3d444973c9222474df4739369b" prot="public" static="no">
+        <type>std::function&lt; bool(const std::string &amp;shard_id, const std::string &amp;txn_id)&gt;</type>
+        <definition>using themisdb::sharding::PercolatorCoordinator::SendPrepareFn = std::function&lt;bool(const std::string&amp; shard_id,
+                                            const std::string&amp; txn_id)&gt;</definition>
+        <argsstring></argsstring>
+        <name>SendPrepareFn</name>
+        <qualifiedname>themisdb::sharding::PercolatorCoordinator::SendPrepareFn</qualifiedname>
+        <briefdescription>
+<para>Callback type: send a PREPARE (lock) to one shard. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="861" column="5" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="861" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemisdb_1_1sharding_1_1_percolator_coordinator_1a02565a2a694df0bb42c86376d34d93ab" prot="public" static="no">
+        <type>std::function&lt; bool(const std::string &amp;shard_id, const std::string &amp;txn_id)&gt;</type>
+        <definition>using themisdb::sharding::PercolatorCoordinator::SendCommitFn = std::function&lt;bool(const std::string&amp; shard_id,
+                                            const std::string&amp; txn_id)&gt;</definition>
+        <argsstring></argsstring>
+        <name>SendCommitFn</name>
+        <qualifiedname>themisdb::sharding::PercolatorCoordinator::SendCommitFn</qualifiedname>
+        <briefdescription>
+<para>Callback type: send a COMMIT to one shard. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="864" column="5" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="864" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemisdb_1_1sharding_1_1_percolator_coordinator_1adcc053f5375b6aceeedeb045614c5e9f" prot="public" static="no">
+        <type>std::function&lt; bool(const std::string &amp;shard_id, const std::string &amp;txn_id)&gt;</type>
+        <definition>using themisdb::sharding::PercolatorCoordinator::SendAbortFn = std::function&lt;bool(const std::string&amp; shard_id,
+                                            const std::string&amp; txn_id)&gt;</definition>
+        <argsstring></argsstring>
+        <name>SendAbortFn</name>
+        <qualifiedname>themisdb::sharding::PercolatorCoordinator::SendAbortFn</qualifiedname>
+        <briefdescription>
+<para>Callback type: send an ABORT to one shard. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="867" column="5" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="867" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_percolator_coordinator_1ad12451f762b4e5beba8a55a2a3bc489a" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_percolator_coordinator_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themisdb::sharding::PercolatorCoordinator::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::sharding::PercolatorCoordinator::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="933" column="12" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="933" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_percolator_coordinator_1a461c2942e28802e26fbedc5050cfe031" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_true_time" kindref="compound">themis::sharding::TrueTime</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;themis::sharding::TrueTime&gt; themisdb::sharding::PercolatorCoordinator::truetime_</definition>
+        <argsstring></argsstring>
+        <name>truetime_</name>
+        <qualifiedname>themisdb::sharding::PercolatorCoordinator::truetime_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="934" column="21" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="934" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_percolator_coordinator_1a5aac58acaab3ba5bef0807c18e7b0347" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1sharding_1a7fdc43d0237c4aef029746e88b2c0583" kindref="member">TransactionWAL</ref> *</type>
+        <definition>TransactionWAL* themisdb::sharding::PercolatorCoordinator::wal_</definition>
+        <argsstring></argsstring>
+        <name>wal_</name>
+        <qualifiedname>themisdb::sharding::PercolatorCoordinator::wal_</qualifiedname>
+        <briefdescription>
+<para>Non-owning pointer; lifetime managed by caller. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="935" column="20" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="935" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_percolator_coordinator_1ad180b23bcbb44b1bd1c75432b8642dae" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::PercolatorCoordinator::PercolatorCoordinator</definition>
+        <argsstring>(const Config &amp;config, std::shared_ptr&lt; themis::sharding::TrueTime &gt; truetime=nullptr, TransactionWAL *wal=nullptr)</argsstring>
+        <name>PercolatorCoordinator</name>
+        <qualifiedname>themisdb::sharding::PercolatorCoordinator::PercolatorCoordinator</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_percolator_coordinator_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_true_time" kindref="compound">themis::sharding::TrueTime</ref> &gt;</type>
+          <declname>truetime</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1sharding_1a7fdc43d0237c4aef029746e88b2c0583" kindref="member">TransactionWAL</ref> *</type>
+          <declname>wal</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Construct a <ref refid="classthemisdb_1_1sharding_1_1_percolator_coordinator" kindref="compound">PercolatorCoordinator</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Runtime parameters. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>truetime</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classthemis_1_1sharding_1_1_true_time" kindref="compound">TrueTime</ref> clock used for commit-timestamp generation and commit-wait (may be nullptr; falls back to wall clock). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>wal</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional non-owning pointer to a WAL for coordinator-state durability. The WAL must outlive this object. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="879" column="14" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="3422" bodyend="3431"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_percolator_coordinator_1a82633f4e1eb0644817d40b66973fd93a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::PercolatorCoordinator::~PercolatorCoordinator</definition>
+        <argsstring>()=default</argsstring>
+        <name>~PercolatorCoordinator</name>
+        <qualifiedname>themisdb::sharding::PercolatorCoordinator::~PercolatorCoordinator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="885" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_percolator_coordinator_1a3f44c673561d046735b99b954366dfb7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::PercolatorCoordinator::PercolatorCoordinator</definition>
+        <argsstring>(const PercolatorCoordinator &amp;)=delete</argsstring>
+        <name>PercolatorCoordinator</name>
+        <qualifiedname>themisdb::sharding::PercolatorCoordinator::PercolatorCoordinator</qualifiedname>
+        <param>
+          <type>const PercolatorCoordinator &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="888" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_percolator_coordinator_1a20cc8e0b3820e9d3e9508ff23c85a69c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1sharding_1_1_percolator_coordinator_1ad180b23bcbb44b1bd1c75432b8642dae" kindref="member">PercolatorCoordinator</ref> &amp;</type>
+        <definition>PercolatorCoordinator &amp; themisdb::sharding::PercolatorCoordinator::operator=</definition>
+        <argsstring>(const PercolatorCoordinator &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::sharding::PercolatorCoordinator::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1sharding_1_1_percolator_coordinator_1ad180b23bcbb44b1bd1c75432b8642dae" kindref="member">PercolatorCoordinator</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="889" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_percolator_coordinator_1ae61cb6c947a4790759129d6edf37f2ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::PercolatorCoordinator::execute</definition>
+        <argsstring>(CrossShardTransaction &amp;txn, SendPrepareFn prepare_fn, SendCommitFn commit_fn, SendAbortFn abort_fn)</argsstring>
+        <name>execute</name>
+        <qualifiedname>themisdb::sharding::PercolatorCoordinator::execute</qualifiedname>
+        <param>
+          <type><ref refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction" kindref="compound">CrossShardTransaction</ref> &amp;</type>
+          <declname>txn</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_percolator_coordinator_1afa6d3a3d444973c9222474df4739369b" kindref="member">SendPrepareFn</ref></type>
+          <declname>prepare_fn</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_percolator_coordinator_1a02565a2a694df0bb42c86376d34d93ab" kindref="member">SendCommitFn</ref></type>
+          <declname>commit_fn</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_percolator_coordinator_1adcc053f5375b6aceeedeb045614c5e9f" kindref="member">SendAbortFn</ref></type>
+          <declname>abort_fn</declname>
+        </param>
+        <briefdescription>
+<para>Execute the Percolator protocol for <computeroutput>txn</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Execute.</para>
+<para>Drives the full Percolator commit sequence: Phase 1 – PreWrite: lock secondaries first, then lock primary. Phase 2 – Assign <ref refid="classthemis_1_1sharding_1_1_true_time" kindref="compound">TrueTime</ref> commit timestamp, perform commit-wait. Phase 3 – Commit primary, then commit secondaries (lock release).</para>
+<para>The shard-level operations are performed via the supplied callbacks so this class is independent of the RPC transport layer and can be used without a live <ref refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator" kindref="compound">CrossShardTransactionCoordinator</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transaction to commit (state is mutated in-place). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>prepare_fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback: lock (prepare) one shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>commit_fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback: commit one shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>abort_fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback: abort / unlock one shard. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the transaction committed successfully.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">txn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">prepare_fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">commit_fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">abort_fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::info(), empty(), spdlog::error(), std::min(), std::chrono::milliseconds(), spdlog::debug(), count(), std::this_thread::sleep_for(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="909" column="10" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="3468" bodyend="3648"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_percolator_coordinator_1a5e569ed204b7e4c130c7ef41b3cac7ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::PercolatorCoordinator::cleanStaleLocks</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;stale_txn_ids, CrossShardTransactionCoordinator &amp;coordinator)</argsstring>
+        <name>cleanStaleLocks</name>
+        <qualifiedname>themisdb::sharding::PercolatorCoordinator::cleanStaleLocks</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>stale_txn_ids</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator" kindref="compound">CrossShardTransactionCoordinator</ref> &amp;</type>
+          <declname>coordinator</declname>
+        </param>
+        <briefdescription>
+<para>Reclaim stale Percolator locks left by a failed coordinator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clean Stale Locks.</para>
+<para>Iterates over <computeroutput>stale_txn_ids</computeroutput> and issues abort RPCs for every shard whose Percolator lock has exceeded the stale-lock threshold. Intended to be called from OrphanDetector on its cleanup interval.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stale_txn_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transaction IDs whose locks should be cleaned up. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>coordinator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Host coordinator used for getTransaction() / abort(). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of locks successfully released.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stale_txn_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">coordinator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getTransaction(), has_value(), std::chrono::system_clock::now(), spdlog::info(), count(), logAbort(), spdlog::warn(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="927" column="12" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="3657" bodyend="3710"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_percolator_coordinator_1a314714707a60781632a75a935f76e65a" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::sharding::PercolatorCoordinator::computeCommitTimestamp</definition>
+        <argsstring>() const</argsstring>
+        <name>computeCommitTimestamp</name>
+        <qualifiedname>themisdb::sharding::PercolatorCoordinator::computeCommitTimestamp</qualifiedname>
+        <briefdescription>
+<para>Compute a commit timestamp using <ref refid="classthemis_1_1sharding_1_1_true_time" kindref="compound">TrueTime</ref> if available, else wall clock. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="938" column="13" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="3433" bodyend="3445"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_percolator_coordinator_1a618d59512202752b31124603f2a85b6c" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::PercolatorCoordinator::commitWait</definition>
+        <argsstring>(int64_t commit_ts_ns) const</argsstring>
+        <name>commitWait</name>
+        <qualifiedname>themisdb::sharding::PercolatorCoordinator::commitWait</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>commit_ts_ns</declname>
+        </param>
+        <briefdescription>
+<para>Perform the <ref refid="classthemis_1_1sharding_1_1_true_time" kindref="compound">TrueTime</ref> commit-wait: spin until now().earliest &gt; deadline. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="941" column="10" bodyfile="src/sharding/cross_shard_transaction.cpp" bodystart="3447" bodyend="3457"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Standalone Percolator-style MVCC transaction coordinator. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implements the Google Percolator two-phase optimistic protocol for cross-shard transactions that favour snapshot-isolated, read-heavy workloads. Key properties:</para>
+<para><orderedlist>
+<listitem><para>Primary-lock model: one row/shard acts as the transaction&apos;s &quot;primary&quot;; secondary rows reference the primary lock.</para>
+</listitem><listitem><para><ref refid="classthemis_1_1sharding_1_1_true_time" kindref="compound">TrueTime</ref> commit-wait: commit timestamp is drawn from <ref refid="classthemis_1_1sharding_1_1_true_time_1a6f7dc701bd5145d4f9148d941a31854c" kindref="member">TrueTime::now_with_uncertainty()</ref>.latest; the coordinator then waits until TT.now().earliest &gt; commit_ts + max_uncertainty before sending the final COMMIT to participants.</para>
+</listitem><listitem><para>Coordinator-state durability: every phase transition is logged to the supplied <ref refid="namespacethemisdb_1_1sharding_1a7fdc43d0237c4aef029746e88b2c0583" kindref="member">TransactionWAL</ref> so that a replacement coordinator can resume in-flight transactions after a crash.</para>
+</listitem><listitem><para>Stale-lock cleanup: <ref refid="classthemisdb_1_1sharding_1_1_percolator_coordinator_1a5e569ed204b7e4c130c7ef41b3cac7ab" kindref="member">cleanStaleLocks()</ref> may be called by OrphanDetector to abort Percolator transactions that left locks behind after a coordinator failure.</para>
+</listitem></orderedlist>
+</para>
+<para>The class uses callbacks for the low-level shard operations so it can be used both standalone (e.g. in tests) and wired into CrossShardTransactionCoordinator::executePercolator().</para>
+<para>Usage example: <programlisting><codeline><highlight class="normal">PercolatorCoordinator::Config<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.lock_timeout<sp/><sp/><sp/>=<sp/>std::chrono::milliseconds(500);</highlight></codeline>
+<codeline><highlight class="normal">cfg.max_retries<sp/><sp/><sp/><sp/>=<sp/>3;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemisdb_1_1sharding_1_1_percolator_coordinator_1ad180b23bcbb44b1bd1c75432b8642dae" kindref="member">PercolatorCoordinator</ref><sp/>perc(cfg,<sp/>truetime_ptr,<sp/>std::move(wal_ptr));</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/>perc.execute(txn,<sp/>prepare_fn,<sp/>commit_fn,<sp/>abort_fn);</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/sharding/cross_shard_transaction.h" line="844" column="1" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="844" bodyend="942"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1_percolator_coordinator_1a5e569ed204b7e4c130c7ef41b3cac7ab" prot="public" virt="non-virtual"><scope>themisdb::sharding::PercolatorCoordinator</scope><name>cleanStaleLocks</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_percolator_coordinator_1a618d59512202752b31124603f2a85b6c" prot="private" virt="non-virtual"><scope>themisdb::sharding::PercolatorCoordinator</scope><name>commitWait</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_percolator_coordinator_1a314714707a60781632a75a935f76e65a" prot="private" virt="non-virtual"><scope>themisdb::sharding::PercolatorCoordinator</scope><name>computeCommitTimestamp</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_percolator_coordinator_1ad12451f762b4e5beba8a55a2a3bc489a" prot="private" virt="non-virtual"><scope>themisdb::sharding::PercolatorCoordinator</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_percolator_coordinator_1ae61cb6c947a4790759129d6edf37f2ca" prot="public" virt="non-virtual"><scope>themisdb::sharding::PercolatorCoordinator</scope><name>execute</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_percolator_coordinator_1a20cc8e0b3820e9d3e9508ff23c85a69c" prot="public" virt="non-virtual"><scope>themisdb::sharding::PercolatorCoordinator</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_percolator_coordinator_1ad180b23bcbb44b1bd1c75432b8642dae" prot="public" virt="non-virtual"><scope>themisdb::sharding::PercolatorCoordinator</scope><name>PercolatorCoordinator</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_percolator_coordinator_1a3f44c673561d046735b99b954366dfb7" prot="public" virt="non-virtual"><scope>themisdb::sharding::PercolatorCoordinator</scope><name>PercolatorCoordinator</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_percolator_coordinator_1adcc053f5375b6aceeedeb045614c5e9f" prot="public" virt="non-virtual"><scope>themisdb::sharding::PercolatorCoordinator</scope><name>SendAbortFn</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_percolator_coordinator_1a02565a2a694df0bb42c86376d34d93ab" prot="public" virt="non-virtual"><scope>themisdb::sharding::PercolatorCoordinator</scope><name>SendCommitFn</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_percolator_coordinator_1afa6d3a3d444973c9222474df4739369b" prot="public" virt="non-virtual"><scope>themisdb::sharding::PercolatorCoordinator</scope><name>SendPrepareFn</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_percolator_coordinator_1a461c2942e28802e26fbedc5050cfe031" prot="private" virt="non-virtual"><scope>themisdb::sharding::PercolatorCoordinator</scope><name>truetime_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_percolator_coordinator_1a5aac58acaab3ba5bef0807c18e7b0347" prot="private" virt="non-virtual"><scope>themisdb::sharding::PercolatorCoordinator</scope><name>wal_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_percolator_coordinator_1a82633f4e1eb0644817d40b66973fd93a" prot="public" virt="non-virtual"><scope>themisdb::sharding::PercolatorCoordinator</scope><name>~PercolatorCoordinator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

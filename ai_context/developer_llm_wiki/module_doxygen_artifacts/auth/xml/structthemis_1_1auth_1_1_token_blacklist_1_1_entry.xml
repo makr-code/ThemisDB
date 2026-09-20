@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_token_blacklist_1_1_entry" kind="struct" language="C++" prot="private">
+    <compoundname>themis::auth::TokenBlacklist::Entry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_token_blacklist_1_1_entry_1a645218ae33fb22316395cd51daaf6109" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::auth::TokenBlacklist::Entry::expires_at</definition>
+        <argsstring></argsstring>
+        <name>expires_at</name>
+        <qualifiedname>themis::auth::TokenBlacklist::Entry::expires_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/token_blacklist.h" line="172" column="47" bodyfile="include/auth/token_blacklist.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/token_blacklist.h" line="171" column="5" bodyfile="include/auth/token_blacklist.h" bodystart="171" bodyend="173"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_token_blacklist_1_1_entry_1a645218ae33fb22316395cd51daaf6109" prot="public" virt="non-virtual"><scope>themis::auth::TokenBlacklist::Entry</scope><name>expires_at</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

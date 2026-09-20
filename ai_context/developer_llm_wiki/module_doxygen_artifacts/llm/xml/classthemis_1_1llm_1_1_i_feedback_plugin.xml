@@ -1,0 +1,205 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_i_feedback_plugin" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::llm::IFeedbackPlugin</compoundname>
+    <derivedcompoundref refid="classthemis_1_1llm_1_1_basic_spam_detection_plugin" prot="public" virt="non-virtual">themis::llm::BasicSpamDetectionPlugin</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1llm_1_1_no_op_feedback_plugin" prot="public" virt="non-virtual">themis::llm::NoOpFeedbackPlugin</derivedcompoundref>
+    <includes refid="i__feedback__plugin_8h" local="no">i_feedback_plugin.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_feedback_plugin_1adaebb380e59375ea63b598a14fd62114" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::IFeedbackPlugin::~IFeedbackPlugin</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IFeedbackPlugin</name>
+        <qualifiedname>themis::llm::IFeedbackPlugin::~IFeedbackPlugin</qualifiedname>
+        <briefdescription>
+<para>IFeedback Plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/i_feedback_plugin.h" line="62" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_feedback_plugin_1ae7fd374a441b969ca56b76bd216dc39f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::llm::IFeedbackPlugin::getName</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::llm::IFeedbackPlugin::getName</qualifiedname>
+        <reimplementedby refid="classthemis_1_1llm_1_1_basic_spam_detection_plugin_1a0c71a57751337aabc587899c4842ada4">getName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_no_op_feedback_plugin_1ab2d5b9735b3a64ec5a8b64ea710a230e">getName</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/i_feedback_plugin.h" line="64" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_feedback_plugin_1a53e475397965c555df695c0ce066d722" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::llm::IFeedbackPlugin::getVersion</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getVersion</name>
+        <qualifiedname>themis::llm::IFeedbackPlugin::getVersion</qualifiedname>
+        <reimplementedby refid="classthemis_1_1llm_1_1_basic_spam_detection_plugin_1aa28a6340e3e848ac6895ff15b61aa2f4">getVersion</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_no_op_feedback_plugin_1a443e1d6e407aeff65b88b3c4173e05df">getVersion</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/i_feedback_plugin.h" line="66" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_feedback_plugin_1a764efb9d6a0fa4a29e169a7e7b0f5d91" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::llm::IFeedbackPlugin::getDescription</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getDescription</name>
+        <qualifiedname>themis::llm::IFeedbackPlugin::getDescription</qualifiedname>
+        <reimplementedby refid="classthemis_1_1llm_1_1_basic_spam_detection_plugin_1a25a3b7a75b9540d3c1eae3e4d628e1a0">getDescription</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_no_op_feedback_plugin_1a6ad2547d33d36883b9dd301a6e0e57c2">getDescription</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/i_feedback_plugin.h" line="68" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_feedback_plugin_1ac3658ec8235b2046c9008bafb1d5d8f2" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::llm::IFeedbackPlugin::initialize</definition>
+        <argsstring>(const json &amp;config)=0</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::llm::IFeedbackPlugin::initialize</qualifiedname>
+        <reimplementedby refid="classthemis_1_1llm_1_1_basic_spam_detection_plugin_1aee353b461233425d6654db7ee92039e6">initialize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_no_op_feedback_plugin_1aa3f756de2242a142fdb70b439a1c3b31">initialize</reimplementedby>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/i_feedback_plugin.h" line="70" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_feedback_plugin_1a45306b3fa9e87d4b928f8a91671ecfa4" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_validation_response" kindref="compound">ValidationResponse</ref></type>
+        <definition>virtual ValidationResponse themis::llm::IFeedbackPlugin::validate</definition>
+        <argsstring>(const FeedbackData &amp;feedback)=0</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::llm::IFeedbackPlugin::validate</qualifiedname>
+        <reimplementedby refid="classthemis_1_1llm_1_1_basic_spam_detection_plugin_1a19106eae1be7c0bcd5629f11457db6ef">validate</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_no_op_feedback_plugin_1a1810f1f2e4a6194a6028d2228fa48e17">validate</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_feedback_data" kindref="compound">FeedbackData</ref> &amp;</type>
+          <declname>feedback</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/i_feedback_plugin.h" line="72" column="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_feedback_plugin_1a1a4183af7a22e5a4ec0cdb32f78f0d51" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>virtual void themis::llm::IFeedbackPlugin::onFeedbackStored</definition>
+        <argsstring>(const std::string &amp;feedback_id, const FeedbackData &amp;feedback)</argsstring>
+        <name>onFeedbackStored</name>
+        <qualifiedname>themis::llm::IFeedbackPlugin::onFeedbackStored</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>feedback_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_feedback_data" kindref="compound">FeedbackData</ref> &amp;</type>
+          <declname>feedback</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/i_feedback_plugin.h" line="74" column="18" bodyfile="include/llm/i_feedback_plugin.h" bodystart="74" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_feedback_plugin_1a1da5cb2982be95fdabf08c6a54136ae4" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::llm::IFeedbackPlugin::shutdown</definition>
+        <argsstring>()=0</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::llm::IFeedbackPlugin::shutdown</qualifiedname>
+        <reimplementedby refid="classthemis_1_1llm_1_1_basic_spam_detection_plugin_1ae609756196839f9c414312a6652192d5">shutdown</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_no_op_feedback_plugin_1a9fa3ea61a1032d8ec918b73431ec939b">shutdown</reimplementedby>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/i_feedback_plugin.h" line="83" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_feedback_plugin_1a351c36ada383b5b363001ba2fbddcb5c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>virtual json themis::llm::IFeedbackPlugin::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::llm::IFeedbackPlugin::getStatistics</qualifiedname>
+        <reimplementedby refid="classthemis_1_1llm_1_1_basic_spam_detection_plugin_1a2d9f3c5917e5e194878877b4b8b0d815">getStatistics</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/i_feedback_plugin.h" line="85" column="18" bodyfile="include/llm/i_feedback_plugin.h" bodystart="85" bodyend="87"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::llm::BasicSpamDetectionPlugin</label>
+        <link refid="classthemis_1_1llm_1_1_basic_spam_detection_plugin"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::llm::IFeedbackPlugin</label>
+        <link refid="classthemis_1_1llm_1_1_i_feedback_plugin"/>
+      </node>
+      <node id="3">
+        <label>themis::llm::NoOpFeedbackPlugin</label>
+        <link refid="classthemis_1_1llm_1_1_no_op_feedback_plugin"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/llm/i_feedback_plugin.h" line="56" column="1" bodyfile="include/llm/i_feedback_plugin.h" bodystart="56" bodyend="88"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_i_feedback_plugin_1a764efb9d6a0fa4a29e169a7e7b0f5d91" prot="public" virt="pure-virtual"><scope>themis::llm::IFeedbackPlugin</scope><name>getDescription</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_feedback_plugin_1ae7fd374a441b969ca56b76bd216dc39f" prot="public" virt="pure-virtual"><scope>themis::llm::IFeedbackPlugin</scope><name>getName</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_feedback_plugin_1a351c36ada383b5b363001ba2fbddcb5c" prot="public" virt="virtual"><scope>themis::llm::IFeedbackPlugin</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_feedback_plugin_1a53e475397965c555df695c0ce066d722" prot="public" virt="pure-virtual"><scope>themis::llm::IFeedbackPlugin</scope><name>getVersion</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_feedback_plugin_1ac3658ec8235b2046c9008bafb1d5d8f2" prot="public" virt="pure-virtual"><scope>themis::llm::IFeedbackPlugin</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_feedback_plugin_1a1a4183af7a22e5a4ec0cdb32f78f0d51" prot="public" virt="virtual"><scope>themis::llm::IFeedbackPlugin</scope><name>onFeedbackStored</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_feedback_plugin_1a1da5cb2982be95fdabf08c6a54136ae4" prot="public" virt="pure-virtual"><scope>themis::llm::IFeedbackPlugin</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_feedback_plugin_1a45306b3fa9e87d4b928f8a91671ecfa4" prot="public" virt="pure-virtual"><scope>themis::llm::IFeedbackPlugin</scope><name>validate</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_feedback_plugin_1adaebb380e59375ea63b598a14fd62114" prot="public" virt="virtual"><scope>themis::llm::IFeedbackPlugin</scope><name>~IFeedbackPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

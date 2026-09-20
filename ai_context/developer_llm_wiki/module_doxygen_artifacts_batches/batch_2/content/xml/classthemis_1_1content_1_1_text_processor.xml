@@ -1,0 +1,469 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1content_1_1_text_processor" kind="class" language="C++" prot="public">
+    <compoundname>themis::content::TextProcessor</compoundname>
+    <basecompoundref refid="classthemis_1_1content_1_1_i_content_processor" prot="public" virt="non-virtual">themis::content::IContentProcessor</basecompoundref>
+    <includes refid="content__processor_8h" local="no">content_processor.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1content_1_1_text_processor_1a9538b78d043b0444242bee1e0b2914db" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; float &gt;(const std::string &amp;)&gt;</type>
+        <definition>using themis::content::TextProcessor::EmbeddingFn = std::function&lt;std::vector&lt;float&gt;(const std::string&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>EmbeddingFn</name>
+        <qualifiedname>themis::content::TextProcessor::EmbeddingFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_processor.h" line="100" column="5" bodyfile="include/content/content_processor.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_text_processor_1a3c6490cb6cb98fd7036ffa3627f60f00" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1content_1_1_text_processor_1a9538b78d043b0444242bee1e0b2914db" kindref="member">EmbeddingFn</ref></type>
+        <definition>EmbeddingFn themis::content::TextProcessor::embedding_fn_</definition>
+        <argsstring></argsstring>
+        <name>embedding_fn_</name>
+        <qualifiedname>themis::content::TextProcessor::embedding_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_processor.h" line="133" column="17" bodyfile="include/content/content_processor.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_text_processor_1a43bfb212a3faaed23375e1eb33261d72" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1content_1_1_extraction_result" kindref="compound">ExtractionResult</ref></type>
+        <definition>ExtractionResult themis::content::TextProcessor::extract</definition>
+        <argsstring>(const std::string &amp;blob, const ContentType &amp;content_type) override</argsstring>
+        <name>extract</name>
+        <qualifiedname>themis::content::TextProcessor::extract</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_1a638d82433a5fd1e4cc50bba304ffcd32">extract</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_content_type" kindref="compound">ContentType</ref> &amp;</type>
+          <declname>content_type</declname>
+        </param>
+        <briefdescription>
+<para>Extract. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">content_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: normalizeText(), json::object(), size(), find(), substr(), std::count(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_processor.h" line="92" column="22" bodyfile="src/content/text_processor.cpp" bodystart="34" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_text_processor_1ab4c14039fd053535a83f7f6da652d529" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref> &gt;</type>
+        <definition>std::vector&lt; json &gt; themis::content::TextProcessor::chunk</definition>
+        <argsstring>(const ExtractionResult &amp;extraction_result, int chunk_size, int overlap) override</argsstring>
+        <name>chunk</name>
+        <qualifiedname>themis::content::TextProcessor::chunk</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_1ad7a72eb8186023fc9ee450906d9fb632">chunk</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_extraction_result" kindref="compound">ExtractionResult</ref> &amp;</type>
+          <declname>extraction_result</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>chunk_size</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>overlap</declname>
+        </param>
+        <briefdescription>
+<para>Chunk. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">extraction_result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">chunk_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">overlap</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), splitIntoSentences(), size(), countTokens(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_processor.h" line="93" column="17" bodyfile="src/content/text_processor.cpp" bodystart="97" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_text_processor_1a3cf41392096a4c02d979e95c86fe3bd8" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::content::TextProcessor::generateEmbedding</definition>
+        <argsstring>(const std::string &amp;chunk_data) override</argsstring>
+        <name>generateEmbedding</name>
+        <qualifiedname>themis::content::TextProcessor::generateEmbedding</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_1a84aba018f92d394ed51094bba497de8c">generateEmbedding</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>chunk_data</declname>
+        </param>
+        <briefdescription>
+<para>Generate Embedding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">chunk_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: embedding_fn_(), embedding(), empty(), iss(), push_back(), size(), hasher(), std::sin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_processor.h" line="94" column="17" bodyfile="src/content/text_processor.cpp" bodystart="201" bodyend="276"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_text_processor_1a92aadbc041b8d788e2ed511002c354f8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::TextProcessor::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::content::TextProcessor::getName</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_1a893353e264c76ec1bcc9b4f4a375f37a">getName</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_processor.h" line="95" column="17" bodyfile="include/content/content_processor.h" bodystart="95" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_text_processor_1ab51fc145a18ad999e41ac1fe5955fa4a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1content_1_1_content_category" kindref="compound">ContentCategory</ref> &gt;</type>
+        <definition>std::vector&lt; ContentCategory &gt; themis::content::TextProcessor::getSupportedCategories</definition>
+        <argsstring>() const override</argsstring>
+        <name>getSupportedCategories</name>
+        <qualifiedname>themis::content::TextProcessor::getSupportedCategories</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_1ab2b446811cbac33cecb30d3fa55680f0">getSupportedCategories</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_processor.h" line="96" column="17" bodyfile="include/content/content_processor.h" bodystart="96" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_text_processor_1a82c1b1350b4dc0c2b3e06a2004740425" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::TextProcessor::setEmbeddingBackend</definition>
+        <argsstring>(EmbeddingFn fn)</argsstring>
+        <name>setEmbeddingBackend</name>
+        <qualifiedname>themis::content::TextProcessor::setEmbeddingBackend</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_text_processor_1a9538b78d043b0444242bee1e0b2914db" kindref="member">EmbeddingFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Embedding Backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_processor.h" line="106" column="10" bodyfile="src/content/text_processor.cpp" bodystart="287" bodyend="289"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_text_processor_1a1042d82b4c778cb4fa5158d9747b1eeb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint32_t &gt;</type>
+        <definition>std::vector&lt; uint32_t &gt; themis::content::TextProcessor::computeMinHash</definition>
+        <argsstring>(const std::string &amp;text, size_t num_hashes=128)</argsstring>
+        <name>computeMinHash</name>
+        <qualifiedname>themis::content::TextProcessor::computeMinHash</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>num_hashes</declname>
+          <defval>128</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Signature. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">num_hashes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">UINT32_MAX</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Iss. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/content/content_processor.h" line="108" column="24" bodyfile="src/content/text_processor.cpp" bodystart="390" bodyend="456"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_text_processor_1a12803916b66757abb2734b3761c3a26f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::TextProcessor::normalizeText</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>normalizeText</name>
+        <qualifiedname>themis::content::TextProcessor::normalizeText</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Normalize Text. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: erase(), std::remove(), begin(), end(), multi_space(), std::regex_replace(), find_first_not_of(), find_last_not_of(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_processor.h" line="119" column="17" bodyfile="src/content/text_processor.cpp" bodystart="301" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_text_processor_1ac1ebd1f71e2f6cae033a899904407f85" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::content::TextProcessor::countTokens</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>countTokens</name>
+        <qualifiedname>themis::content::TextProcessor::countTokens</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Count Tokens. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), iss(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_processor.h" line="125" column="9" bodyfile="src/content/text_processor.cpp" bodystart="328" bodyend="345"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_text_processor_1afe2a08018b0fc048586575fa66bffd67" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::content::TextProcessor::splitIntoSentences</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>splitIntoSentences</name>
+        <qualifiedname>themis::content::TextProcessor::splitIntoSentences</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Split Into Sentences. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: sentence_regex(), std::sregex_iterator(), begin(), end(), str(), find_first_not_of(), find_last_not_of(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_processor.h" line="131" column="17" bodyfile="src/content/text_processor.cpp" bodystart="353" bodyend="384"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::content::IContentProcessor</label>
+        <link refid="classthemis_1_1content_1_1_i_content_processor"/>
+      </node>
+      <node id="1">
+        <label>themis::content::TextProcessor</label>
+        <link refid="classthemis_1_1content_1_1_text_processor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::content::IContentProcessor</label>
+        <link refid="classthemis_1_1content_1_1_i_content_processor"/>
+      </node>
+      <node id="1">
+        <label>themis::content::TextProcessor</label>
+        <link refid="classthemis_1_1content_1_1_text_processor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/content/content_processor.h" line="90" column="1" bodyfile="include/content/content_processor.h" bodystart="90" bodyend="134"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1content_1_1_text_processor_1ab4c14039fd053535a83f7f6da652d529" prot="public" virt="virtual"><scope>themis::content::TextProcessor</scope><name>chunk</name></member>
+      <member refid="classthemis_1_1content_1_1_text_processor_1a1042d82b4c778cb4fa5158d9747b1eeb" prot="public" virt="non-virtual"><scope>themis::content::TextProcessor</scope><name>computeMinHash</name></member>
+      <member refid="classthemis_1_1content_1_1_text_processor_1ac1ebd1f71e2f6cae033a899904407f85" prot="private" virt="non-virtual"><scope>themis::content::TextProcessor</scope><name>countTokens</name></member>
+      <member refid="classthemis_1_1content_1_1_text_processor_1a3c6490cb6cb98fd7036ffa3627f60f00" prot="private" virt="non-virtual"><scope>themis::content::TextProcessor</scope><name>embedding_fn_</name></member>
+      <member refid="classthemis_1_1content_1_1_text_processor_1a9538b78d043b0444242bee1e0b2914db" prot="public" virt="non-virtual"><scope>themis::content::TextProcessor</scope><name>EmbeddingFn</name></member>
+      <member refid="classthemis_1_1content_1_1_text_processor_1a43bfb212a3faaed23375e1eb33261d72" prot="public" virt="virtual"><scope>themis::content::TextProcessor</scope><name>extract</name></member>
+      <member refid="classthemis_1_1content_1_1_text_processor_1a3cf41392096a4c02d979e95c86fe3bd8" prot="public" virt="virtual"><scope>themis::content::TextProcessor</scope><name>generateEmbedding</name></member>
+      <member refid="classthemis_1_1content_1_1_text_processor_1a92aadbc041b8d788e2ed511002c354f8" prot="public" virt="virtual"><scope>themis::content::TextProcessor</scope><name>getName</name></member>
+      <member refid="classthemis_1_1content_1_1_text_processor_1ab51fc145a18ad999e41ac1fe5955fa4a" prot="public" virt="virtual"><scope>themis::content::TextProcessor</scope><name>getSupportedCategories</name></member>
+      <member refid="classthemis_1_1content_1_1_text_processor_1a12803916b66757abb2734b3761c3a26f" prot="private" virt="non-virtual"><scope>themis::content::TextProcessor</scope><name>normalizeText</name></member>
+      <member refid="classthemis_1_1content_1_1_text_processor_1a82c1b1350b4dc0c2b3e06a2004740425" prot="public" virt="non-virtual"><scope>themis::content::TextProcessor</scope><name>setEmbeddingBackend</name></member>
+      <member refid="classthemis_1_1content_1_1_text_processor_1afe2a08018b0fc048586575fa66bffd67" prot="private" virt="non-virtual"><scope>themis::content::TextProcessor</scope><name>splitIntoSentences</name></member>
+      <member refid="classthemis_1_1content_1_1_i_content_processor_1a134e78148633727400cd4d1a1466eedc" prot="public" virt="virtual"><scope>themis::content::TextProcessor</scope><name>~IContentProcessor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

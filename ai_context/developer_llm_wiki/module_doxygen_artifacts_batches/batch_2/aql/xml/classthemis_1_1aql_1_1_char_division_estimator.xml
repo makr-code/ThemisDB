@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1_char_division_estimator" kind="class" language="C++" prot="public">
+    <compoundname>themis::aql::CharDivisionEstimator</compoundname>
+    <basecompoundref refid="classthemis_1_1aql_1_1_token_estimator" prot="public" virt="non-virtual">themis::aql::TokenEstimator</basecompoundref>
+    <includes refid="llm__token__estimator_8h" local="no">llm_token_estimator.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_char_division_estimator_1aabb0e5d3e3db568d9c3f8ae7d5af0981" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::aql::CharDivisionEstimator::chars_per_token_</definition>
+        <argsstring></argsstring>
+        <name>chars_per_token_</name>
+        <qualifiedname>themis::aql::CharDivisionEstimator::chars_per_token_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_token_estimator.h" line="51" column="17" bodyfile="include/aql/llm_token_estimator.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_char_division_estimator_1a30d062f5c499843dad1eaf63cb4b4ebe" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::CharDivisionEstimator::CharDivisionEstimator</definition>
+        <argsstring>(std::size_t chars_per_token=4)</argsstring>
+        <name>CharDivisionEstimator</name>
+        <qualifiedname>themis::aql::CharDivisionEstimator::CharDivisionEstimator</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>chars_per_token</declname>
+          <defval>4</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_token_estimator.h" line="39" column="14" bodyfile="include/aql/llm_token_estimator.h" bodystart="39" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_char_division_estimator_1a90445f27aeb6a94b4bad3c1a0358922d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::aql::CharDivisionEstimator::estimate</definition>
+        <argsstring>(const std::string &amp;text) const override</argsstring>
+        <name>estimate</name>
+        <qualifiedname>themis::aql::CharDivisionEstimator::estimate</qualifiedname>
+        <reimplements refid="classthemis_1_1aql_1_1_token_estimator_1ae02a80ce13a013cb25489512dad17cf8">estimate</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Estimate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_token_estimator.h" line="43" column="17" bodyfile="include/aql/llm_token_estimator.h" bodystart="43" bodyend="48"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::aql::CharDivisionEstimator</label>
+        <link refid="classthemis_1_1aql_1_1_char_division_estimator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::aql::TokenEstimator</label>
+        <link refid="classthemis_1_1aql_1_1_token_estimator"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::aql::CharDivisionEstimator</label>
+        <link refid="classthemis_1_1aql_1_1_char_division_estimator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::aql::TokenEstimator</label>
+        <link refid="classthemis_1_1aql_1_1_token_estimator"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/aql/llm_token_estimator.h" line="37" column="1" bodyfile="include/aql/llm_token_estimator.h" bodystart="37" bodyend="52"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1_char_division_estimator_1a30d062f5c499843dad1eaf63cb4b4ebe" prot="public" virt="non-virtual"><scope>themis::aql::CharDivisionEstimator</scope><name>CharDivisionEstimator</name></member>
+      <member refid="classthemis_1_1aql_1_1_char_division_estimator_1aabb0e5d3e3db568d9c3f8ae7d5af0981" prot="private" virt="non-virtual"><scope>themis::aql::CharDivisionEstimator</scope><name>chars_per_token_</name></member>
+      <member refid="classthemis_1_1aql_1_1_char_division_estimator_1a90445f27aeb6a94b4bad3c1a0358922d" prot="public" virt="virtual"><scope>themis::aql::CharDivisionEstimator</scope><name>estimate</name></member>
+      <member refid="classthemis_1_1aql_1_1_token_estimator_1a752f0f96b893717939f5a1439c3a9247" prot="public" virt="virtual"><scope>themis::aql::CharDivisionEstimator</scope><name>~TokenEstimator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

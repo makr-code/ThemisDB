@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_thread_pool_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::ThreadPool::Config</compoundname>
+    <includes refid="thread__pool__manager_8h" local="no">thread_pool_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_thread_pool_1_1_config_1a686b97572e3df31b6d212c7181bd029b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::ThreadPool::Config::min_threads</definition>
+        <argsstring></argsstring>
+        <name>min_threads</name>
+        <qualifiedname>themis::utils::ThreadPool::Config::min_threads</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_pool_manager.h" line="74" column="16" bodyfile="include/utils/thread_pool_manager.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_thread_pool_1_1_config_1a6ebad3fd893ac609fcfc774458bcbc45" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::ThreadPool::Config::max_threads</definition>
+        <argsstring></argsstring>
+        <name>max_threads</name>
+        <qualifiedname>themis::utils::ThreadPool::Config::max_threads</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_pool_manager.h" line="75" column="16" bodyfile="include/utils/thread_pool_manager.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_thread_pool_1_1_config_1a63b434976e97880c69c5db9c8fc45b5d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::ThreadPool::Config::queue_size</definition>
+        <argsstring></argsstring>
+        <name>queue_size</name>
+        <qualifiedname>themis::utils::ThreadPool::Config::queue_size</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_pool_manager.h" line="76" column="16" bodyfile="include/utils/thread_pool_manager.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_thread_pool_1_1_config_1a316f5d5fbe8d2f2644e8f69e8aaa3562" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::ThreadPool::Config::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::utils::ThreadPool::Config::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_pool_manager.h" line="77" column="21" bodyfile="include/utils/thread_pool_manager.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/thread_pool_manager.h" line="73" column="5" bodyfile="include/utils/thread_pool_manager.h" bodystart="73" bodyend="78"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_thread_pool_1_1_config_1a6ebad3fd893ac609fcfc774458bcbc45" prot="public" virt="non-virtual"><scope>themis::utils::ThreadPool::Config</scope><name>max_threads</name></member>
+      <member refid="structthemis_1_1utils_1_1_thread_pool_1_1_config_1a686b97572e3df31b6d212c7181bd029b" prot="public" virt="non-virtual"><scope>themis::utils::ThreadPool::Config</scope><name>min_threads</name></member>
+      <member refid="structthemis_1_1utils_1_1_thread_pool_1_1_config_1a316f5d5fbe8d2f2644e8f69e8aaa3562" prot="public" virt="non-virtual"><scope>themis::utils::ThreadPool::Config</scope><name>name</name></member>
+      <member refid="structthemis_1_1utils_1_1_thread_pool_1_1_config_1a63b434976e97880c69c5db9c8fc45b5d" prot="public" virt="non-virtual"><scope>themis::utils::ThreadPool::Config</scope><name>queue_size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

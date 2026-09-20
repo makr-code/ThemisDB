@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structsim_1_1_hardware_capability" kind="struct" language="C++" prot="public">
+    <compoundname>sim::HardwareCapability</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structsim_1_1_hardware_capability_1ad272859d7c54d3ee0de30ed2c14471f3" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int sim::HardwareCapability::num_devices</definition>
+        <argsstring></argsstring>
+        <name>num_devices</name>
+        <qualifiedname>sim::HardwareCapability::num_devices</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="299" column="10" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="299" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsim_1_1_hardware_capability_1a6f13646e05206664ac2fb5cca3db44e2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool sim::HardwareCapability::cuda_available</definition>
+        <argsstring></argsstring>
+        <name>cuda_available</name>
+        <qualifiedname>sim::HardwareCapability::cuda_available</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="300" column="10" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="300" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsim_1_1_hardware_capability_1adfa8d9c7aea74d5b366ff7b3e2243a50" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool sim::HardwareCapability::hip_available</definition>
+        <argsstring></argsstring>
+        <name>hip_available</name>
+        <qualifiedname>sim::HardwareCapability::hip_available</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="301" column="10" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="301" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsim_1_1_hardware_capability_1a24be4d71ccf16b3ad13b49a49fb82759" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool sim::HardwareCapability::nvlink_available</definition>
+        <argsstring></argsstring>
+        <name>nvlink_available</name>
+        <qualifiedname>sim::HardwareCapability::nvlink_available</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="302" column="10" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="302" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsim_1_1_hardware_capability_1a8244fc3a26ec8ee8eda3f54a58d6786d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool sim::HardwareCapability::p2p_hardware_available</definition>
+        <argsstring></argsstring>
+        <name>p2p_hardware_available</name>
+        <qualifiedname>sim::HardwareCapability::p2p_hardware_available</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="303" column="10" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="303" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsim_1_1_hardware_capability_1ad52674dba52faee95fa96b6b14863b46" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool sim::HardwareCapability::cpu_simulation_active</definition>
+        <argsstring></argsstring>
+        <name>cpu_simulation_active</name>
+        <qualifiedname>sim::HardwareCapability::cpu_simulation_active</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="304" column="10" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="304" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsim_1_1_hardware_capability_1a708e95b698cdc2db2c63b1b2c01830de" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string sim::HardwareCapability::note</definition>
+        <argsstring></argsstring>
+        <name>note</name>
+        <qualifiedname>sim::HardwareCapability::note</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="305" column="17" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="305" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="298" column="1" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="298" bodyend="306"/>
+    <listofallmembers>
+      <member refid="structsim_1_1_hardware_capability_1ad52674dba52faee95fa96b6b14863b46" prot="public" virt="non-virtual"><scope>sim::HardwareCapability</scope><name>cpu_simulation_active</name></member>
+      <member refid="structsim_1_1_hardware_capability_1a6f13646e05206664ac2fb5cca3db44e2" prot="public" virt="non-virtual"><scope>sim::HardwareCapability</scope><name>cuda_available</name></member>
+      <member refid="structsim_1_1_hardware_capability_1adfa8d9c7aea74d5b366ff7b3e2243a50" prot="public" virt="non-virtual"><scope>sim::HardwareCapability</scope><name>hip_available</name></member>
+      <member refid="structsim_1_1_hardware_capability_1a708e95b698cdc2db2c63b1b2c01830de" prot="public" virt="non-virtual"><scope>sim::HardwareCapability</scope><name>note</name></member>
+      <member refid="structsim_1_1_hardware_capability_1ad272859d7c54d3ee0de30ed2c14471f3" prot="public" virt="non-virtual"><scope>sim::HardwareCapability</scope><name>num_devices</name></member>
+      <member refid="structsim_1_1_hardware_capability_1a24be4d71ccf16b3ad13b49a49fb82759" prot="public" virt="non-virtual"><scope>sim::HardwareCapability</scope><name>nvlink_available</name></member>
+      <member refid="structsim_1_1_hardware_capability_1a8244fc3a26ec8ee8eda3f54a58d6786d" prot="public" virt="non-virtual"><scope>sim::HardwareCapability</scope><name>p2p_hardware_available</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

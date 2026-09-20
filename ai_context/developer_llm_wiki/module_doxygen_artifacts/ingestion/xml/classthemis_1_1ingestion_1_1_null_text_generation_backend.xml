@@ -1,0 +1,286 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1_null_text_generation_backend" kind="class" language="C++" prot="public">
+    <compoundname>themis::ingestion::NullTextGenerationBackend</compoundname>
+    <basecompoundref refid="classthemis_1_1ingestion_1_1_i_text_generation_backend" prot="public" virt="non-virtual">themis::ingestion::ITextGenerationBackend</basecompoundref>
+    <includes refid="inference__backend_8h" local="no">inference_backend.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1ingestion_1_1_null_text_generation_backend_1adb842d6b7596e9296da9a87cb4989156" prot="public" static="no">
+        <type>std::function&lt; std::string(const std::string &amp;prompt, int max_tokens, double temperature, const std::string &amp;lora_adapter)&gt;</type>
+        <definition>using themis::ingestion::NullTextGenerationBackend::GenerateFn = std::function&lt;std::string(const std::string&amp; prompt,
+                                                int max_tokens,
+                                                double temperature,
+                                                const std::string&amp; lora_adapter)&gt;</definition>
+        <argsstring></argsstring>
+        <name>GenerateFn</name>
+        <qualifiedname>themis::ingestion::NullTextGenerationBackend::GenerateFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/inference_backend.h" line="125" column="5" bodyfile="include/ingestion/inference_backend.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1ingestion_1_1_null_text_generation_backend_1a30bca9368e45a5a2df297acb409a5875" prot="public" static="no">
+        <type>std::function&lt; bool()&gt;</type>
+        <definition>using themis::ingestion::NullTextGenerationBackend::AvailabilityFn = std::function&lt;bool()&gt;</definition>
+        <argsstring></argsstring>
+        <name>AvailabilityFn</name>
+        <qualifiedname>themis::ingestion::NullTextGenerationBackend::AvailabilityFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/inference_backend.h" line="129" column="5" bodyfile="include/ingestion/inference_backend.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_null_text_generation_backend_1aa8e122d701133ad8fae8da6a6f29985f" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::ingestion::NullTextGenerationBackend::setGenerateFn</definition>
+        <argsstring>(GenerateFn fn)</argsstring>
+        <name>setGenerateFn</name>
+        <qualifiedname>themis::ingestion::NullTextGenerationBackend::setGenerateFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1ingestion_1_1_null_text_generation_backend_1adb842d6b7596e9296da9a87cb4989156" kindref="member">GenerateFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/inference_backend.h" line="131" column="17" bodyfile="include/ingestion/inference_backend.h" bodystart="131" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_null_text_generation_backend_1acd9f81e33c2556a675907808519499e7" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::ingestion::NullTextGenerationBackend::setAvailabilityFn</definition>
+        <argsstring>(AvailabilityFn fn)</argsstring>
+        <name>setAvailabilityFn</name>
+        <qualifiedname>themis::ingestion::NullTextGenerationBackend::setAvailabilityFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1ingestion_1_1_null_text_generation_backend_1a30bca9368e45a5a2df297acb409a5875" kindref="member">AvailabilityFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/inference_backend.h" line="135" column="17" bodyfile="include/ingestion/inference_backend.h" bodystart="135" bodyend="138"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_null_text_generation_backend_1acdee13e466782194980363e3c4ada458" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::NullTextGenerationBackend::generate</definition>
+        <argsstring>(const std::string &amp;prompt, int max_tokens, double temperature, const std::string &amp;lora_adapter) override</argsstring>
+        <name>generate</name>
+        <qualifiedname>themis::ingestion::NullTextGenerationBackend::generate</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_text_generation_backend_1a01b400d97ed57231d367aa2b6ed6f9f5">generate</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_tokens</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>temperature</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>lora_adapter</declname>
+        </param>
+        <briefdescription>
+<para>Generate text from a prompt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The full prompt string (already assembled by caller). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of tokens to generate. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>temperature</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Sampling temperature (lower = more deterministic). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>lora_adapter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional LoRA adapter identifier / path. Empty string means no adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Generated text. On unrecoverable error, implementations SHOULD return an empty string rather than throwing, so the ingestion pipeline can degrade gracefully. Exceptions are caught and wrapped by <computeroutput><ref refid="classthemis_1_1ingestion_1_1_legal_llm_adapter" kindref="compound">LegalLlmAdapter</ref></computeroutput>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/inference_backend.h" line="140" column="17" bodyfile="include/ingestion/inference_backend.h" bodystart="140" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_null_text_generation_backend_1afd75067549ed57907ec24c17451e7ae8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::NullTextGenerationBackend::isAvailable</definition>
+        <argsstring>() const override</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::ingestion::NullTextGenerationBackend::isAvailable</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_text_generation_backend_1adfb52bcdcfe752d7580e884926c74046">isAvailable</reimplements>
+        <briefdescription>
+<para>Check whether a real backend is available at this moment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns <computeroutput>true</computeroutput> when the underlying backend is configured and ready for inference (e.g. model loaded, GPU memory available). Returns <computeroutput>false</computeroutput> during warm-up or when the model has not been configured. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/inference_backend.h" line="159" column="17" bodyfile="include/ingestion/inference_backend.h" bodystart="159" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_null_text_generation_backend_1ae9d0d97a6c398c20d58c2f94eeb7308d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::NullTextGenerationBackend::description</definition>
+        <argsstring>() const override</argsstring>
+        <name>description</name>
+        <qualifiedname>themis::ingestion::NullTextGenerationBackend::description</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_text_generation_backend_1abcb7e4ed1be01bc9debb32afebde93ae">description</reimplements>
+        <briefdescription>
+<para>Human-readable description of the backend for logging. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Example: &quot;llama.cpp/mistral-7b-Q4_K_M + legal-lora-v2&quot; </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/inference_backend.h" line="174" column="17" bodyfile="include/ingestion/inference_backend.h" bodystart="174" bodyend="174"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_null_text_generation_backend_1a8be38669a244814863f91d8294b1a14f" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::mutex &amp;</type>
+        <definition>static std::mutex &amp; themis::ingestion::NullTextGenerationBackend::generateFnMutex</definition>
+        <argsstring>()</argsstring>
+        <name>generateFnMutex</name>
+        <qualifiedname>themis::ingestion::NullTextGenerationBackend::generateFnMutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/inference_backend.h" line="177" column="23" bodyfile="include/ingestion/inference_backend.h" bodystart="177" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_null_text_generation_backend_1a058fbdb67426f8c6a1178376aa9a0160" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1ingestion_1_1_null_text_generation_backend_1adb842d6b7596e9296da9a87cb4989156" kindref="member">GenerateFn</ref> &amp;</type>
+        <definition>static GenerateFn &amp; themis::ingestion::NullTextGenerationBackend::generateFnStorage</definition>
+        <argsstring>()</argsstring>
+        <name>generateFnStorage</name>
+        <qualifiedname>themis::ingestion::NullTextGenerationBackend::generateFnStorage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/inference_backend.h" line="181" column="23" bodyfile="include/ingestion/inference_backend.h" bodystart="181" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_null_text_generation_backend_1acd0e2c9f48cacbe1ccef6efbad54a8a1" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::mutex &amp;</type>
+        <definition>static std::mutex &amp; themis::ingestion::NullTextGenerationBackend::availabilityFnMutex</definition>
+        <argsstring>()</argsstring>
+        <name>availabilityFnMutex</name>
+        <qualifiedname>themis::ingestion::NullTextGenerationBackend::availabilityFnMutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/inference_backend.h" line="185" column="23" bodyfile="include/ingestion/inference_backend.h" bodystart="185" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_null_text_generation_backend_1ae5f2e1f86052162847322bbb3253a893" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1ingestion_1_1_null_text_generation_backend_1a30bca9368e45a5a2df297acb409a5875" kindref="member">AvailabilityFn</ref> &amp;</type>
+        <definition>static AvailabilityFn &amp; themis::ingestion::NullTextGenerationBackend::availabilityFnStorage</definition>
+        <argsstring>()</argsstring>
+        <name>availabilityFnStorage</name>
+        <qualifiedname>themis::ingestion::NullTextGenerationBackend::availabilityFnStorage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/inference_backend.h" line="189" column="27" bodyfile="include/ingestion/inference_backend.h" bodystart="189" bodyend="192"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>No-op backend that signals unavailability. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Used as the default when no real LLM is configured. <computeroutput><ref refid="classthemis_1_1ingestion_1_1_null_text_generation_backend_1afd75067549ed57907ec24c17451e7ae8" kindref="member">isAvailable()</ref></computeroutput> returns <computeroutput>false</computeroutput>, causing <computeroutput><ref refid="classthemis_1_1ingestion_1_1_legal_llm_adapter_1ac5fc3b43dd68e26994ab93213de37b88" kindref="member">LegalLlmAdapter::buildExtractorFn()</ref></computeroutput> to return an empty function so <computeroutput><ref refid="classthemis_1_1ingestion_1_1_deontic_extractor" kindref="compound">DeonticExtractor</ref></computeroutput> falls back to built-in regex. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::ingestion::ITextGenerationBackend</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_text_generation_backend"/>
+      </node>
+      <node id="1">
+        <label>themis::ingestion::NullTextGenerationBackend</label>
+        <link refid="classthemis_1_1ingestion_1_1_null_text_generation_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::ingestion::ITextGenerationBackend</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_text_generation_backend"/>
+      </node>
+      <node id="1">
+        <label>themis::ingestion::NullTextGenerationBackend</label>
+        <link refid="classthemis_1_1ingestion_1_1_null_text_generation_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/ingestion/inference_backend.h" line="123" column="1" bodyfile="include/ingestion/inference_backend.h" bodystart="123" bodyend="193"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1_null_text_generation_backend_1a30bca9368e45a5a2df297acb409a5875" prot="public" virt="non-virtual"><scope>themis::ingestion::NullTextGenerationBackend</scope><name>AvailabilityFn</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_null_text_generation_backend_1acd0e2c9f48cacbe1ccef6efbad54a8a1" prot="private" virt="non-virtual"><scope>themis::ingestion::NullTextGenerationBackend</scope><name>availabilityFnMutex</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_null_text_generation_backend_1ae5f2e1f86052162847322bbb3253a893" prot="private" virt="non-virtual"><scope>themis::ingestion::NullTextGenerationBackend</scope><name>availabilityFnStorage</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_null_text_generation_backend_1ae9d0d97a6c398c20d58c2f94eeb7308d" prot="public" virt="virtual"><scope>themis::ingestion::NullTextGenerationBackend</scope><name>description</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_null_text_generation_backend_1acdee13e466782194980363e3c4ada458" prot="public" virt="virtual"><scope>themis::ingestion::NullTextGenerationBackend</scope><name>generate</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_null_text_generation_backend_1adb842d6b7596e9296da9a87cb4989156" prot="public" virt="non-virtual"><scope>themis::ingestion::NullTextGenerationBackend</scope><name>GenerateFn</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_null_text_generation_backend_1a8be38669a244814863f91d8294b1a14f" prot="private" virt="non-virtual"><scope>themis::ingestion::NullTextGenerationBackend</scope><name>generateFnMutex</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_null_text_generation_backend_1a058fbdb67426f8c6a1178376aa9a0160" prot="private" virt="non-virtual"><scope>themis::ingestion::NullTextGenerationBackend</scope><name>generateFnStorage</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_null_text_generation_backend_1afd75067549ed57907ec24c17451e7ae8" prot="public" virt="virtual"><scope>themis::ingestion::NullTextGenerationBackend</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_null_text_generation_backend_1acd9f81e33c2556a675907808519499e7" prot="public" virt="non-virtual"><scope>themis::ingestion::NullTextGenerationBackend</scope><name>setAvailabilityFn</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_null_text_generation_backend_1aa8e122d701133ad8fae8da6a6f29985f" prot="public" virt="non-virtual"><scope>themis::ingestion::NullTextGenerationBackend</scope><name>setGenerateFn</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_text_generation_backend_1a79f5d95e68a8300ac610d45b26fce9bd" prot="public" virt="virtual"><scope>themis::ingestion::NullTextGenerationBackend</scope><name>~ITextGenerationBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

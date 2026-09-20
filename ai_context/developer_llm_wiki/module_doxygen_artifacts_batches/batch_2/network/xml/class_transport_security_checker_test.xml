@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_transport_security_checker_test" kind="class" language="C++" prot="public">
+    <compoundname>TransportSecurityCheckerTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_transport_security_checker_test_1ac202be7b44244484953cb6131ab24ece" prot="protected" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; TransportSecurityCheckerTest::saved_prod_mode_</definition>
+        <argsstring></argsstring>
+        <name>saved_prod_mode_</name>
+        <qualifiedname>TransportSecurityCheckerTest::saved_prod_mode_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_transport_security_checker.cpp" line="77" column="19" bodyfile="tests/network/test_transport_security_checker.cpp" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_transport_security_checker_test_1abd356bd5a8389497b24430b57dac22d2" prot="protected" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; TransportSecurityCheckerTest::saved_environment_</definition>
+        <argsstring></argsstring>
+        <name>saved_environment_</name>
+        <qualifiedname>TransportSecurityCheckerTest::saved_environment_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_transport_security_checker.cpp" line="78" column="19" bodyfile="tests/network/test_transport_security_checker.cpp" bodystart="78" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_transport_security_checker_test_1a994de94f80cb8db34c3cfb7093545e5c" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TransportSecurityCheckerTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>TransportSecurityCheckerTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_transport_security_checker.cpp" line="26" column="10" bodyfile="tests/network/test_transport_security_checker.cpp" bodystart="26" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="class_transport_security_checker_test_1a136097aa528486af49967f73e38dd7f6" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TransportSecurityCheckerTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>TransportSecurityCheckerTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_transport_security_checker.cpp" line="48" column="10" bodyfile="tests/network/test_transport_security_checker.cpp" bodystart="48" bodyend="75"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Test suite for TransportSecurityChecker</para>
+<para>Tests production mode detection and enforcement of TLS requirements for Wire Protocol transport security. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>TransportSecurityCheckerTest</label>
+        <link refid="class_transport_security_checker_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>TransportSecurityCheckerTest</label>
+        <link refid="class_transport_security_checker_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/network/test_transport_security_checker.cpp" line="24" column="1" bodyfile="tests/network/test_transport_security_checker.cpp" bodystart="24" bodyend="79"/>
+    <listofallmembers>
+      <member refid="class_transport_security_checker_test_1abd356bd5a8389497b24430b57dac22d2" prot="protected" virt="non-virtual"><scope>TransportSecurityCheckerTest</scope><name>saved_environment_</name></member>
+      <member refid="class_transport_security_checker_test_1ac202be7b44244484953cb6131ab24ece" prot="protected" virt="non-virtual"><scope>TransportSecurityCheckerTest</scope><name>saved_prod_mode_</name></member>
+      <member refid="class_transport_security_checker_test_1a994de94f80cb8db34c3cfb7093545e5c" prot="protected" virt="non-virtual"><scope>TransportSecurityCheckerTest</scope><name>SetUp</name></member>
+      <member refid="class_transport_security_checker_test_1a136097aa528486af49967f73e38dd7f6" prot="protected" virt="non-virtual"><scope>TransportSecurityCheckerTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

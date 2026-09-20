@@ -1,0 +1,362 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_deployment_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::DeploymentConfig</compoundname>
+    <includes refid="llm__deployment__plugin_8h" local="no">llm_deployment_plugin.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_deployment_config_1a6c4c00f4ecb39a4e7714e9b90e2ec869" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1af1d169819744663f2ca6b52c9840233f" kindref="member">DeploymentMode</ref></type>
+        <definition>DeploymentMode themis::llm::DeploymentConfig::mode</definition>
+        <argsstring></argsstring>
+        <name>mode</name>
+        <qualifiedname>themis::llm::DeploymentConfig::mode</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1llm_1af1d169819744663f2ca6b52c9840233fae1f2d5134ed2543d38a0de9751cf75d9" kindref="member">DeploymentMode::AUTO</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_deployment_plugin.h" line="53" column="20" bodyfile="include/llm/llm_deployment_plugin.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_deployment_config_1a24cf44cf653e0edceaf74c1b9fb75ec7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::DeploymentConfig::cache_directory</definition>
+        <argsstring></argsstring>
+        <name>cache_directory</name>
+        <qualifiedname>themis::llm::DeploymentConfig::cache_directory</qualifiedname>
+        <initializer>= &quot;./models&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_deployment_plugin.h" line="56" column="17" bodyfile="include/llm/llm_deployment_plugin.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_deployment_config_1adb6f2de44e425bd9d5987786111fd905" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::DeploymentConfig::enable_cache</definition>
+        <argsstring></argsstring>
+        <name>enable_cache</name>
+        <qualifiedname>themis::llm::DeploymentConfig::enable_cache</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_deployment_plugin.h" line="57" column="10" bodyfile="include/llm/llm_deployment_plugin.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_deployment_config_1a180ec073e9936c56c6743c252b122606" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::DeploymentConfig::max_cache_size_gb</definition>
+        <argsstring></argsstring>
+        <name>max_cache_size_gb</name>
+        <qualifiedname>themis::llm::DeploymentConfig::max_cache_size_gb</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_deployment_plugin.h" line="58" column="12" bodyfile="include/llm/llm_deployment_plugin.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_deployment_config_1ab6dfb51b8a39034f9f29161100cc5e50" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::DeploymentConfig::use_base_entity_storage</definition>
+        <argsstring></argsstring>
+        <name>use_base_entity_storage</name>
+        <qualifiedname>themis::llm::DeploymentConfig::use_base_entity_storage</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_deployment_plugin.h" line="61" column="10" bodyfile="include/llm/llm_deployment_plugin.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_deployment_config_1a8ca1389902256d6eec3663d26e76017e" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; themis::llm::DeploymentConfig::db</definition>
+        <argsstring></argsstring>
+        <name>db</name>
+        <qualifiedname>themis::llm::DeploymentConfig::db</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_deployment_plugin.h" line="62" column="21" bodyfile="include/llm/llm_deployment_plugin.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_deployment_config_1a52f25e35371623d168730d7d031a19d7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::DeploymentConfig::key_prefix</definition>
+        <argsstring></argsstring>
+        <name>key_prefix</name>
+        <qualifiedname>themis::llm::DeploymentConfig::key_prefix</qualifiedname>
+        <initializer>= &quot;llm_model::&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_deployment_plugin.h" line="65" column="17" bodyfile="include/llm/llm_deployment_plugin.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_deployment_config_1a847ab80b4bb23aa7320e55a43f9ca45f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::DeploymentConfig::store_weights_in_rocksdb</definition>
+        <argsstring></argsstring>
+        <name>store_weights_in_rocksdb</name>
+        <qualifiedname>themis::llm::DeploymentConfig::store_weights_in_rocksdb</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_deployment_plugin.h" line="68" column="10" bodyfile="include/llm/llm_deployment_plugin.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_deployment_config_1a6c60b83626578b990baa3b6f67cdc8f7" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_model_source" kindref="compound">ModelSource</ref> &gt;</type>
+        <definition>std::vector&lt;ModelSource&gt; themis::llm::DeploymentConfig::sources</definition>
+        <argsstring></argsstring>
+        <name>sources</name>
+        <qualifiedname>themis::llm::DeploymentConfig::sources</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_deployment_plugin.h" line="71" column="17" bodyfile="include/llm/llm_deployment_plugin.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_deployment_config_1a76a85a6616ece13e92011e29fdfd8b3e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::DeploymentConfig::ollama_url</definition>
+        <argsstring></argsstring>
+        <name>ollama_url</name>
+        <qualifiedname>themis::llm::DeploymentConfig::ollama_url</qualifiedname>
+        <initializer>= &quot;http://localhost:11434&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_deployment_plugin.h" line="74" column="17" bodyfile="include/llm/llm_deployment_plugin.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_deployment_config_1ad1e39c6fe0074966a0166f140ca719ea" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::DeploymentConfig::ollama_timeout_seconds</definition>
+        <argsstring></argsstring>
+        <name>ollama_timeout_seconds</name>
+        <qualifiedname>themis::llm::DeploymentConfig::ollama_timeout_seconds</qualifiedname>
+        <initializer>= 600</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_deployment_plugin.h" line="75" column="9" bodyfile="include/llm/llm_deployment_plugin.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_deployment_config_1af4cdcb4b15fbf266a43c6f55ade761f6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::DeploymentConfig::proxy_url</definition>
+        <argsstring></argsstring>
+        <name>proxy_url</name>
+        <qualifiedname>themis::llm::DeploymentConfig::proxy_url</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_deployment_plugin.h" line="78" column="17" bodyfile="include/llm/llm_deployment_plugin.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_deployment_config_1a6136fe07f295bf6c33cee3167001e3a3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::DeploymentConfig::proxy_username</definition>
+        <argsstring></argsstring>
+        <name>proxy_username</name>
+        <qualifiedname>themis::llm::DeploymentConfig::proxy_username</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_deployment_plugin.h" line="79" column="17" bodyfile="include/llm/llm_deployment_plugin.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_deployment_config_1a63e92765e9577754bf7a3f628bd3a207" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::DeploymentConfig::proxy_password</definition>
+        <argsstring></argsstring>
+        <name>proxy_password</name>
+        <qualifiedname>themis::llm::DeploymentConfig::proxy_password</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_deployment_plugin.h" line="80" column="17" bodyfile="include/llm/llm_deployment_plugin.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_deployment_config_1a7bc1d8562a2de7479917e8dc4e6f356b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::DeploymentConfig::auth_token</definition>
+        <argsstring></argsstring>
+        <name>auth_token</name>
+        <qualifiedname>themis::llm::DeploymentConfig::auth_token</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_deployment_plugin.h" line="83" column="17" bodyfile="include/llm/llm_deployment_plugin.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_deployment_config_1a73fa8ee1de813ae3d9412ab8eddff95e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::DeploymentConfig::verify_checksums</definition>
+        <argsstring></argsstring>
+        <name>verify_checksums</name>
+        <qualifiedname>themis::llm::DeploymentConfig::verify_checksums</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_deployment_plugin.h" line="86" column="10" bodyfile="include/llm/llm_deployment_plugin.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_deployment_config_1ad11fe896ff8c6ba6dcbfb7137ac4145a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::DeploymentConfig::allow_insecure</definition>
+        <argsstring></argsstring>
+        <name>allow_insecure</name>
+        <qualifiedname>themis::llm::DeploymentConfig::allow_insecure</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_deployment_plugin.h" line="87" column="10" bodyfile="include/llm/llm_deployment_plugin.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_deployment_config_1a9f75822140550015925ba4df7ce219cb" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::DeploymentConfig::enable_audit_log</definition>
+        <argsstring></argsstring>
+        <name>enable_audit_log</name>
+        <qualifiedname>themis::llm::DeploymentConfig::enable_audit_log</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_deployment_plugin.h" line="90" column="10" bodyfile="include/llm/llm_deployment_plugin.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_deployment_config_1a26f28503b52bac4e3221bec8ef6b7206" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::DeploymentConfig::audit_log_path</definition>
+        <argsstring></argsstring>
+        <name>audit_log_path</name>
+        <qualifiedname>themis::llm::DeploymentConfig::audit_log_path</qualifiedname>
+        <initializer>= &quot;./logs/model_deployment.log&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_deployment_plugin.h" line="91" column="17" bodyfile="include/llm/llm_deployment_plugin.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_deployment_config_1ade116618d52a492e556d9e02dbe6909e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::DeploymentConfig::auto_cleanup</definition>
+        <argsstring></argsstring>
+        <name>auto_cleanup</name>
+        <qualifiedname>themis::llm::DeploymentConfig::auto_cleanup</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_deployment_plugin.h" line="94" column="10" bodyfile="include/llm/llm_deployment_plugin.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_deployment_config_1a40ae51d9af22caa9a70af7881c8cbfc7" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::DeploymentConfig::max_model_age_days</definition>
+        <argsstring></argsstring>
+        <name>max_model_age_days</name>
+        <qualifiedname>themis::llm::DeploymentConfig::max_model_age_days</qualifiedname>
+        <initializer>= 90</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_deployment_plugin.h" line="95" column="9" bodyfile="include/llm/llm_deployment_plugin.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_deployment_config_1a2838d5742379ead3ba96e5c9232ba6d1" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::DeploymentConfig::keep_versions</definition>
+        <argsstring></argsstring>
+        <name>keep_versions</name>
+        <qualifiedname>themis::llm::DeploymentConfig::keep_versions</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_deployment_plugin.h" line="96" column="9" bodyfile="include/llm/llm_deployment_plugin.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/llm_deployment_plugin.h" line="52" column="1" bodyfile="include/llm/llm_deployment_plugin.h" bodystart="52" bodyend="97"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_deployment_config_1ad11fe896ff8c6ba6dcbfb7137ac4145a" prot="public" virt="non-virtual"><scope>themis::llm::DeploymentConfig</scope><name>allow_insecure</name></member>
+      <member refid="structthemis_1_1llm_1_1_deployment_config_1a26f28503b52bac4e3221bec8ef6b7206" prot="public" virt="non-virtual"><scope>themis::llm::DeploymentConfig</scope><name>audit_log_path</name></member>
+      <member refid="structthemis_1_1llm_1_1_deployment_config_1a7bc1d8562a2de7479917e8dc4e6f356b" prot="public" virt="non-virtual"><scope>themis::llm::DeploymentConfig</scope><name>auth_token</name></member>
+      <member refid="structthemis_1_1llm_1_1_deployment_config_1ade116618d52a492e556d9e02dbe6909e" prot="public" virt="non-virtual"><scope>themis::llm::DeploymentConfig</scope><name>auto_cleanup</name></member>
+      <member refid="structthemis_1_1llm_1_1_deployment_config_1a24cf44cf653e0edceaf74c1b9fb75ec7" prot="public" virt="non-virtual"><scope>themis::llm::DeploymentConfig</scope><name>cache_directory</name></member>
+      <member refid="structthemis_1_1llm_1_1_deployment_config_1a8ca1389902256d6eec3663d26e76017e" prot="public" virt="non-virtual"><scope>themis::llm::DeploymentConfig</scope><name>db</name></member>
+      <member refid="structthemis_1_1llm_1_1_deployment_config_1a9f75822140550015925ba4df7ce219cb" prot="public" virt="non-virtual"><scope>themis::llm::DeploymentConfig</scope><name>enable_audit_log</name></member>
+      <member refid="structthemis_1_1llm_1_1_deployment_config_1adb6f2de44e425bd9d5987786111fd905" prot="public" virt="non-virtual"><scope>themis::llm::DeploymentConfig</scope><name>enable_cache</name></member>
+      <member refid="structthemis_1_1llm_1_1_deployment_config_1a2838d5742379ead3ba96e5c9232ba6d1" prot="public" virt="non-virtual"><scope>themis::llm::DeploymentConfig</scope><name>keep_versions</name></member>
+      <member refid="structthemis_1_1llm_1_1_deployment_config_1a52f25e35371623d168730d7d031a19d7" prot="public" virt="non-virtual"><scope>themis::llm::DeploymentConfig</scope><name>key_prefix</name></member>
+      <member refid="structthemis_1_1llm_1_1_deployment_config_1a180ec073e9936c56c6743c252b122606" prot="public" virt="non-virtual"><scope>themis::llm::DeploymentConfig</scope><name>max_cache_size_gb</name></member>
+      <member refid="structthemis_1_1llm_1_1_deployment_config_1a40ae51d9af22caa9a70af7881c8cbfc7" prot="public" virt="non-virtual"><scope>themis::llm::DeploymentConfig</scope><name>max_model_age_days</name></member>
+      <member refid="structthemis_1_1llm_1_1_deployment_config_1a6c4c00f4ecb39a4e7714e9b90e2ec869" prot="public" virt="non-virtual"><scope>themis::llm::DeploymentConfig</scope><name>mode</name></member>
+      <member refid="structthemis_1_1llm_1_1_deployment_config_1ad1e39c6fe0074966a0166f140ca719ea" prot="public" virt="non-virtual"><scope>themis::llm::DeploymentConfig</scope><name>ollama_timeout_seconds</name></member>
+      <member refid="structthemis_1_1llm_1_1_deployment_config_1a76a85a6616ece13e92011e29fdfd8b3e" prot="public" virt="non-virtual"><scope>themis::llm::DeploymentConfig</scope><name>ollama_url</name></member>
+      <member refid="structthemis_1_1llm_1_1_deployment_config_1a63e92765e9577754bf7a3f628bd3a207" prot="public" virt="non-virtual"><scope>themis::llm::DeploymentConfig</scope><name>proxy_password</name></member>
+      <member refid="structthemis_1_1llm_1_1_deployment_config_1af4cdcb4b15fbf266a43c6f55ade761f6" prot="public" virt="non-virtual"><scope>themis::llm::DeploymentConfig</scope><name>proxy_url</name></member>
+      <member refid="structthemis_1_1llm_1_1_deployment_config_1a6136fe07f295bf6c33cee3167001e3a3" prot="public" virt="non-virtual"><scope>themis::llm::DeploymentConfig</scope><name>proxy_username</name></member>
+      <member refid="structthemis_1_1llm_1_1_deployment_config_1a6c60b83626578b990baa3b6f67cdc8f7" prot="public" virt="non-virtual"><scope>themis::llm::DeploymentConfig</scope><name>sources</name></member>
+      <member refid="structthemis_1_1llm_1_1_deployment_config_1a847ab80b4bb23aa7320e55a43f9ca45f" prot="public" virt="non-virtual"><scope>themis::llm::DeploymentConfig</scope><name>store_weights_in_rocksdb</name></member>
+      <member refid="structthemis_1_1llm_1_1_deployment_config_1ab6dfb51b8a39034f9f29161100cc5e50" prot="public" virt="non-virtual"><scope>themis::llm::DeploymentConfig</scope><name>use_base_entity_storage</name></member>
+      <member refid="structthemis_1_1llm_1_1_deployment_config_1a73fa8ee1de813ae3d9412ab8eddff95e" prot="public" virt="non-virtual"><scope>themis::llm::DeploymentConfig</scope><name>verify_checksums</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

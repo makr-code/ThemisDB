@@ -1,0 +1,387 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_circuit_breaker" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::CircuitBreaker</compoundname>
+    <includes refid="federation__resilience_8h" local="no">federation_resilience.h</includes>
+    <innerclass refid="structthemis_1_1query_1_1_circuit_breaker_1_1_config" prot="public">themis::query::CircuitBreaker::Config</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1query_1_1_circuit_breaker_1adc12d3ffabca4e0388eb341e610d538c" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>State</name>
+        <qualifiedname>themis::query::CircuitBreaker::State</qualifiedname>
+        <enumvalue id="classthemis_1_1query_1_1_circuit_breaker_1adc12d3ffabca4e0388eb341e610d538ca110ccf2f5d2ff4eda1fd1a494293467d" prot="public">
+          <name>CLOSED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1query_1_1_circuit_breaker_1adc12d3ffabca4e0388eb341e610d538caa38bd5138bf35514df41a1795ebbf5c3" prot="public">
+          <name>OPEN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1query_1_1_circuit_breaker_1adc12d3ffabca4e0388eb341e610d538ca5c1c0fca237f238d3c656d55a4db3ca4" prot="public">
+          <name>HALF_OPEN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="28" column="5" bodyfile="include/query/federation_resilience.h" bodystart="28" bodyend="32"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_circuit_breaker_1aa2c3d9b5ffefd754ee4b0eea861cd11d" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::CircuitBreaker::shard_id_</definition>
+        <argsstring></argsstring>
+        <name>shard_id_</name>
+        <qualifiedname>themis::query::CircuitBreaker::shard_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="83" column="17" bodyfile="include/query/federation_resilience.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_circuit_breaker_1ac0b5d89ef35755777545829035999778" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_circuit_breaker_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::query::CircuitBreaker::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::query::CircuitBreaker::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="84" column="12" bodyfile="include/query/federation_resilience.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_circuit_breaker_1ad31b0d13f111cfe44fadc4882bf215a5" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1query_1_1_circuit_breaker_1adc12d3ffabca4e0388eb341e610d538c" kindref="member">State</ref></type>
+        <definition>State themis::query::CircuitBreaker::state_</definition>
+        <argsstring></argsstring>
+        <name>state_</name>
+        <qualifiedname>themis::query::CircuitBreaker::state_</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1query_1_1_circuit_breaker_1adc12d3ffabca4e0388eb341e610d538ca110ccf2f5d2ff4eda1fd1a494293467d" kindref="member">State::CLOSED</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="85" column="11" bodyfile="include/query/federation_resilience.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_circuit_breaker_1adc9bba1e93716bd6270edf6066757195" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::query::CircuitBreaker::failure_count_</definition>
+        <argsstring></argsstring>
+        <name>failure_count_</name>
+        <qualifiedname>themis::query::CircuitBreaker::failure_count_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="86" column="9" bodyfile="include/query/federation_resilience.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_circuit_breaker_1a8306ff9210de15c00160f9d7c02cf094" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::query::CircuitBreaker::last_failure_time_</definition>
+        <argsstring></argsstring>
+        <name>last_failure_time_</name>
+        <qualifiedname>themis::query::CircuitBreaker::last_failure_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="87" column="43" bodyfile="include/query/federation_resilience.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_circuit_breaker_1a156bf9a914347ad5436e57fac6d9b14d" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::query::CircuitBreaker::open_time_</definition>
+        <argsstring></argsstring>
+        <name>open_time_</name>
+        <qualifiedname>themis::query::CircuitBreaker::open_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="88" column="43" bodyfile="include/query/federation_resilience.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_circuit_breaker_1af983fbbdb7927be54ef25487f881ece8" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::query::CircuitBreaker::half_open_requests_</definition>
+        <argsstring></argsstring>
+        <name>half_open_requests_</name>
+        <qualifiedname>themis::query::CircuitBreaker::half_open_requests_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="89" column="9" bodyfile="include/query/federation_resilience.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_circuit_breaker_1a74d19c3a193f89c4b11fcc31adaf385c" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::query::CircuitBreaker::last_failure_reason_</definition>
+        <argsstring></argsstring>
+        <name>last_failure_reason_</name>
+        <qualifiedname>themis::query::CircuitBreaker::last_failure_reason_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="90" column="19" bodyfile="include/query/federation_resilience.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_circuit_breaker_1a27d24d4c1880a15f590468aa087aec8e" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::CircuitBreaker::CircuitBreaker</definition>
+        <argsstring>(const std::string &amp;shard_id, const Config &amp;config)</argsstring>
+        <name>CircuitBreaker</name>
+        <qualifiedname>themis::query::CircuitBreaker::CircuitBreaker</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_circuit_breaker_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Circuit Breaker. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="54" column="14" bodyfile="src/query/federation_resilience.cpp" bodystart="20" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_circuit_breaker_1aebd20e31a7b675ba2075df461b4ce1f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::CircuitBreaker::recordSuccess</definition>
+        <argsstring>()</argsstring>
+        <name>recordSuccess</name>
+        <qualifiedname>themis::query::CircuitBreaker::recordSuccess</qualifiedname>
+        <briefdescription>
+<para>Record Success. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="59" column="10" bodyfile="src/query/federation_resilience.cpp" bodystart="33" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_circuit_breaker_1a012010357a4ef59a9795b230e83b99ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::CircuitBreaker::recordFailure</definition>
+        <argsstring>(const std::string &amp;failure_reason)</argsstring>
+        <name>recordFailure</name>
+        <qualifiedname>themis::query::CircuitBreaker::recordFailure</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>failure_reason</declname>
+        </param>
+        <briefdescription>
+<para>Record Failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">failure_reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">failure_reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::chrono::steady_clock::now(), spdlog::debug(), spdlog::warn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="65" column="10" bodyfile="src/query/federation_resilience.cpp" bodystart="50" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_circuit_breaker_1a6e561827856bd4e216c63ea22f0afa62" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::CircuitBreaker::allowRequest</definition>
+        <argsstring>() const</argsstring>
+        <name>allowRequest</name>
+        <qualifiedname>themis::query::CircuitBreaker::allowRequest</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="67" column="11" bodyfile="src/query/federation_resilience.cpp" bodystart="78" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_circuit_breaker_1a118ba8f7672f2464f8740a9b76198346" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1query_1_1_circuit_breaker_1adc12d3ffabca4e0388eb341e610d538c" kindref="member">State</ref></type>
+        <definition>CircuitBreaker::State themis::query::CircuitBreaker::getState</definition>
+        <argsstring>() const</argsstring>
+        <name>getState</name>
+        <qualifiedname>themis::query::CircuitBreaker::getState</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="69" column="12" bodyfile="src/query/federation_resilience.cpp" bodystart="111" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_circuit_breaker_1a92dd3950723f6dc1e5e631e797f8862a" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::query::CircuitBreaker::getShardId</definition>
+        <argsstring>() const</argsstring>
+        <name>getShardId</name>
+        <qualifiedname>themis::query::CircuitBreaker::getShardId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="71" column="24" bodyfile="src/query/federation_resilience.cpp" bodystart="115" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_circuit_breaker_1a75c6de65962cd94a464fd7718ca4ed9d" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::query::CircuitBreaker::getFailureReason</definition>
+        <argsstring>() const</argsstring>
+        <name>getFailureReason</name>
+        <qualifiedname>themis::query::CircuitBreaker::getFailureReason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="73" column="20" bodyfile="src/query/federation_resilience.cpp" bodystart="119" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_circuit_breaker_1ab90f352862f0631b1baaf73d4a1305aa" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::query::CircuitBreaker::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::query::CircuitBreaker::getStatistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="75" column="18" bodyfile="src/query/federation_resilience.cpp" bodystart="123" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_circuit_breaker_1ae1f11c9f2f165f3f0d02b2d0b274d5f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::CircuitBreaker::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::query::CircuitBreaker::reset</qualifiedname>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="80" column="10" bodyfile="src/query/federation_resilience.cpp" bodystart="152" bodyend="158"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_circuit_breaker_1a299838b7789deb120b96bd427b078282" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::CircuitBreaker::updateState</definition>
+        <argsstring>()</argsstring>
+        <name>updateState</name>
+        <qualifiedname>themis::query::CircuitBreaker::updateState</qualifiedname>
+        <briefdescription>
+<para>Update <ref refid="classthemis_1_1query_1_1_circuit_breaker_1adc12d3ffabca4e0388eb341e610d538c" kindref="member">State</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="95" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/federation_resilience.h" line="26" column="1" bodyfile="include/query/federation_resilience.h" bodystart="26" bodyend="96"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_circuit_breaker_1a6e561827856bd4e216c63ea22f0afa62" prot="public" virt="non-virtual"><scope>themis::query::CircuitBreaker</scope><name>allowRequest</name></member>
+      <member refid="classthemis_1_1query_1_1_circuit_breaker_1a27d24d4c1880a15f590468aa087aec8e" prot="public" virt="non-virtual"><scope>themis::query::CircuitBreaker</scope><name>CircuitBreaker</name></member>
+      <member refid="classthemis_1_1query_1_1_circuit_breaker_1ac0b5d89ef35755777545829035999778" prot="private" virt="non-virtual"><scope>themis::query::CircuitBreaker</scope><name>config_</name></member>
+      <member refid="classthemis_1_1query_1_1_circuit_breaker_1adc9bba1e93716bd6270edf6066757195" prot="private" virt="non-virtual"><scope>themis::query::CircuitBreaker</scope><name>failure_count_</name></member>
+      <member refid="classthemis_1_1query_1_1_circuit_breaker_1a75c6de65962cd94a464fd7718ca4ed9d" prot="public" virt="non-virtual"><scope>themis::query::CircuitBreaker</scope><name>getFailureReason</name></member>
+      <member refid="classthemis_1_1query_1_1_circuit_breaker_1a92dd3950723f6dc1e5e631e797f8862a" prot="public" virt="non-virtual"><scope>themis::query::CircuitBreaker</scope><name>getShardId</name></member>
+      <member refid="classthemis_1_1query_1_1_circuit_breaker_1a118ba8f7672f2464f8740a9b76198346" prot="public" virt="non-virtual"><scope>themis::query::CircuitBreaker</scope><name>getState</name></member>
+      <member refid="classthemis_1_1query_1_1_circuit_breaker_1ab90f352862f0631b1baaf73d4a1305aa" prot="public" virt="non-virtual"><scope>themis::query::CircuitBreaker</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1query_1_1_circuit_breaker_1af983fbbdb7927be54ef25487f881ece8" prot="private" virt="non-virtual"><scope>themis::query::CircuitBreaker</scope><name>half_open_requests_</name></member>
+      <member refid="classthemis_1_1query_1_1_circuit_breaker_1a74d19c3a193f89c4b11fcc31adaf385c" prot="private" virt="non-virtual"><scope>themis::query::CircuitBreaker</scope><name>last_failure_reason_</name></member>
+      <member refid="classthemis_1_1query_1_1_circuit_breaker_1a8306ff9210de15c00160f9d7c02cf094" prot="private" virt="non-virtual"><scope>themis::query::CircuitBreaker</scope><name>last_failure_time_</name></member>
+      <member refid="classthemis_1_1query_1_1_circuit_breaker_1a156bf9a914347ad5436e57fac6d9b14d" prot="private" virt="non-virtual"><scope>themis::query::CircuitBreaker</scope><name>open_time_</name></member>
+      <member refid="classthemis_1_1query_1_1_circuit_breaker_1a012010357a4ef59a9795b230e83b99ad" prot="public" virt="non-virtual"><scope>themis::query::CircuitBreaker</scope><name>recordFailure</name></member>
+      <member refid="classthemis_1_1query_1_1_circuit_breaker_1aebd20e31a7b675ba2075df461b4ce1f9" prot="public" virt="non-virtual"><scope>themis::query::CircuitBreaker</scope><name>recordSuccess</name></member>
+      <member refid="classthemis_1_1query_1_1_circuit_breaker_1ae1f11c9f2f165f3f0d02b2d0b274d5f3" prot="public" virt="non-virtual"><scope>themis::query::CircuitBreaker</scope><name>reset</name></member>
+      <member refid="classthemis_1_1query_1_1_circuit_breaker_1aa2c3d9b5ffefd754ee4b0eea861cd11d" prot="private" virt="non-virtual"><scope>themis::query::CircuitBreaker</scope><name>shard_id_</name></member>
+      <member refid="classthemis_1_1query_1_1_circuit_breaker_1adc12d3ffabca4e0388eb341e610d538c" prot="public" virt="non-virtual"><scope>themis::query::CircuitBreaker</scope><name>State</name></member>
+      <member refid="classthemis_1_1query_1_1_circuit_breaker_1ad31b0d13f111cfe44fadc4882bf215a5" prot="private" virt="non-virtual"><scope>themis::query::CircuitBreaker</scope><name>state_</name></member>
+      <member refid="classthemis_1_1query_1_1_circuit_breaker_1a299838b7789deb120b96bd427b078282" prot="private" virt="non-virtual"><scope>themis::query::CircuitBreaker</scope><name>updateState</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

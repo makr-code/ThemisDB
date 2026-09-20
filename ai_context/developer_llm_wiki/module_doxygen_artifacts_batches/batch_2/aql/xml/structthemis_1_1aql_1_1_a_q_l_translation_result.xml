@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1_a_q_l_translation_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::AQLTranslationResult</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_translation_result_1a73ed5147d86540889c4617d0ea673572" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::aql::AQLTranslationResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::aql::AQLTranslationResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_consistency_performance_gates.cpp" line="41" column="10" bodyfile="benchmarks/aql/bench_aql_consistency_performance_gates.cpp" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_translation_result_1a90ee2869549d760f2ba80c6145778c65" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::AQLTranslationResult::translated_aql</definition>
+        <argsstring></argsstring>
+        <name>translated_aql</name>
+        <qualifiedname>themis::aql::AQLTranslationResult::translated_aql</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_consistency_performance_gates.cpp" line="42" column="17" bodyfile="benchmarks/aql/bench_aql_consistency_performance_gates.cpp" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_translation_result_1a16a788fc3cbfebd75835515a2f3f924c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::AQLTranslationResult::error_tag</definition>
+        <argsstring></argsstring>
+        <name>error_tag</name>
+        <qualifiedname>themis::aql::AQLTranslationResult::error_tag</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_consistency_performance_gates.cpp" line="43" column="17" bodyfile="benchmarks/aql/bench_aql_consistency_performance_gates.cpp" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_translation_result_1a986183c0e5c9e8df702120a45c0aa647" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::aql::AQLTranslationResult::retry_count</definition>
+        <argsstring></argsstring>
+        <name>retry_count</name>
+        <qualifiedname>themis::aql::AQLTranslationResult::retry_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_consistency_performance_gates.cpp" line="44" column="14" bodyfile="benchmarks/aql/bench_aql_consistency_performance_gates.cpp" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_translation_result_1a979ad1b99b247526e5266491dd5e056e" prot="public" static="no" mutable="no">
+        <type>std::chrono::microseconds</type>
+        <definition>std::chrono::microseconds themis::aql::AQLTranslationResult::elapsed_us</definition>
+        <argsstring></argsstring>
+        <name>elapsed_us</name>
+        <qualifiedname>themis::aql::AQLTranslationResult::elapsed_us</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_consistency_performance_gates.cpp" line="45" column="31" bodyfile="benchmarks/aql/bench_aql_consistency_performance_gates.cpp" bodystart="45" bodyend="45"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/aql/bench_aql_consistency_performance_gates.cpp" line="40" column="1" bodyfile="benchmarks/aql/bench_aql_consistency_performance_gates.cpp" bodystart="40" bodyend="46"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_translation_result_1a979ad1b99b247526e5266491dd5e056e" prot="public" virt="non-virtual"><scope>themis::aql::AQLTranslationResult</scope><name>elapsed_us</name></member>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_translation_result_1a16a788fc3cbfebd75835515a2f3f924c" prot="public" virt="non-virtual"><scope>themis::aql::AQLTranslationResult</scope><name>error_tag</name></member>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_translation_result_1a986183c0e5c9e8df702120a45c0aa647" prot="public" virt="non-virtual"><scope>themis::aql::AQLTranslationResult</scope><name>retry_count</name></member>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_translation_result_1a73ed5147d86540889c4617d0ea673572" prot="public" virt="non-virtual"><scope>themis::aql::AQLTranslationResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_translation_result_1a90ee2869549d760f2ba80c6145778c65" prot="public" virt="non-virtual"><scope>themis::aql::AQLTranslationResult</scope><name>translated_aql</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

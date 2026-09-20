@@ -1,0 +1,223 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespaceanalytics__test_1_1integration__tests" kind="namespace" language="C++">
+    <compoundname>analytics_test::integration_tests</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespaceanalytics__test_1_1integration__tests_1a6a7a14bcb778932080365dca91a7c36a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::integration_tests::TEST</definition>
+        <argsstring>(Integration, IT_01_pm_query_integration)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::integration_tests::TEST</qualifiedname>
+        <param>
+          <type>Integration</type>
+        </param>
+        <param>
+          <type>IT_01_pm_query_integration</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>IT-01: ProcessMining → Query Expected: event log retrieval works </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="872" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="872" bodyend="876"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1integration__tests_1a61a7cf21e6f2b6cbe32bcdff5f47bd19" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::integration_tests::TEST</definition>
+        <argsstring>(Integration, IT_02_pm_olap_integration)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::integration_tests::TEST</qualifiedname>
+        <param>
+          <type>Integration</type>
+        </param>
+        <param>
+          <type>IT_02_pm_olap_integration</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>IT-02: ProcessMining → OLAP Expected: frequency aggregation works </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="882" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="882" bodyend="886"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1integration__tests_1a37499e8c332863d3ce52faabe8fdd0d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::integration_tests::TEST</definition>
+        <argsstring>(Integration, IT_03_automl_storage_integration)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::integration_tests::TEST</qualifiedname>
+        <param>
+          <type>Integration</type>
+        </param>
+        <param>
+          <type>IT_03_automl_storage_integration</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>IT-03: <ref refid="classthemisdb_1_1analytics_1_1_auto_m_l" kindref="compound">AutoML</ref> → Storage Expected: model serialization works </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="892" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="892" bodyend="896"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1integration__tests_1acedfcad1421caa398e37ddf406eed09f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::integration_tests::TEST</definition>
+        <argsstring>(Integration, IT_04_forecasting_olap_integration)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::integration_tests::TEST</qualifiedname>
+        <param>
+          <type>Integration</type>
+        </param>
+        <param>
+          <type>IT_04_forecasting_olap_integration</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>IT-04: Forecasting → OLAP Expected: multi-dim forecast works </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="902" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="902" bodyend="906"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1integration__tests_1a3566a1994be15d52155e61a5e978ae98" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::integration_tests::TEST</definition>
+        <argsstring>(Integration, IT_05_cep_streaming_integration)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::integration_tests::TEST</qualifiedname>
+        <param>
+          <type>Integration</type>
+        </param>
+        <param>
+          <type>IT_05_cep_streaming_integration</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>IT-05: CEP → Streaming Expected: alert publication works </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="912" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="912" bodyend="916"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1integration__tests_1afa99612af9cf8b7902e27b8f433956ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::integration_tests::TEST</definition>
+        <argsstring>(Integration, IT_06_kb_expert_system_integration)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::integration_tests::TEST</qualifiedname>
+        <param>
+          <type>Integration</type>
+        </param>
+        <param>
+          <type>IT_06_kb_expert_system_integration</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>IT-06: <ref refid="classthemisdb_1_1analytics_1_1_knowledge_base" kindref="compound">KnowledgeBase</ref> → ExpertSystem Expected: rule evaluation works </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="922" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="922" bodyend="926"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1integration__tests_1a6d88f62d8c59319c35f8b7a2ce188eeb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::integration_tests::TEST</definition>
+        <argsstring>(Integration, IT_07_end_to_end_dataflow)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::integration_tests::TEST</qualifiedname>
+        <param>
+          <type>Integration</type>
+        </param>
+        <param>
+          <type>IT_07_end_to_end_dataflow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>IT-07: End-to-End Dataflow Expected: all modules work together </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="932" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="932" bodyend="936"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1integration__tests_1a359a82f44f8dfe1d79e60d00fe26a99f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::integration_tests::TEST</definition>
+        <argsstring>(Integration, IT_08_error_propagation)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::integration_tests::TEST</qualifiedname>
+        <param>
+          <type>Integration</type>
+        </param>
+        <param>
+          <type>IT_08_error_propagation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>IT-08: Error Propagation Expected: exception safety maintained </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="942" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="942" bodyend="946"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1integration__tests_1a52963fa22b2dff86f5e51a5f7e5a96b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::integration_tests::TEST</definition>
+        <argsstring>(Integration, IT_09_performance_baseline)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::integration_tests::TEST</qualifiedname>
+        <param>
+          <type>Integration</type>
+        </param>
+        <param>
+          <type>IT_09_performance_baseline</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>IT-09: Performance Baseline Expected: no regressions </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="952" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="952" bodyend="956"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1integration__tests_1ad77ccf115290628d5ace11848727f8bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::integration_tests::TEST</definition>
+        <argsstring>(Integration, IT_10_memory_leak_detection)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::integration_tests::TEST</qualifiedname>
+        <param>
+          <type>Integration</type>
+        </param>
+        <param>
+          <type>IT_10_memory_leak_detection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>IT-10: Memory Leak Detection Expected: Valgrind clean </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="962" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="962" bodyend="966"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/analytics/test_analytics_gap_closure.cpp" line="866" column="1"/>
+  </compounddef>
+</doxygen>

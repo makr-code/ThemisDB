@@ -1,0 +1,153 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_checkpoint_resume_gpu_stress_test" kind="class" language="C++" prot="public">
+    <compoundname>CheckpointResumeGpuStressTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_checkpoint_resume_gpu_stress_test_1ada36e460059cdb1e54f1a5feb541b179" prot="protected" static="no" mutable="no">
+        <type>fs::path</type>
+        <definition>fs::path CheckpointResumeGpuStressTest::root_dir_</definition>
+        <argsstring></argsstring>
+        <name>root_dir_</name>
+        <qualifiedname>CheckpointResumeGpuStressTest::root_dir_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_resume_gpu_stress.cpp" line="71" column="14" bodyfile="tests/training/test_checkpoint_resume_gpu_stress.cpp" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_checkpoint_resume_gpu_stress_test_1a055c7d7884e7e2add39e53e5bb04f670" prot="protected" static="no" mutable="no">
+        <type>fs::path</type>
+        <definition>fs::path CheckpointResumeGpuStressTest::source_dir_</definition>
+        <argsstring></argsstring>
+        <name>source_dir_</name>
+        <qualifiedname>CheckpointResumeGpuStressTest::source_dir_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_resume_gpu_stress.cpp" line="72" column="14" bodyfile="tests/training/test_checkpoint_resume_gpu_stress.cpp" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_checkpoint_resume_gpu_stress_test_1a677d8bcbf4d1099ee147d7fc6876b73f" prot="protected" static="no" mutable="no">
+        <type>fs::path</type>
+        <definition>fs::path CheckpointResumeGpuStressTest::checkpoint_dir_</definition>
+        <argsstring></argsstring>
+        <name>checkpoint_dir_</name>
+        <qualifiedname>CheckpointResumeGpuStressTest::checkpoint_dir_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_resume_gpu_stress.cpp" line="73" column="14" bodyfile="tests/training/test_checkpoint_resume_gpu_stress.cpp" bodystart="73" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_checkpoint_resume_gpu_stress_test_1a0e46e4e15dc603212d6472cfff9a9720" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CheckpointResumeGpuStressTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>CheckpointResumeGpuStressTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_resume_gpu_stress.cpp" line="41" column="10" bodyfile="tests/training/test_checkpoint_resume_gpu_stress.cpp" bodystart="41" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="class_checkpoint_resume_gpu_stress_test_1a22efea9eaef4dd4103d3f4a7040570b1" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CheckpointResumeGpuStressTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>CheckpointResumeGpuStressTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_resume_gpu_stress.cpp" line="50" column="10" bodyfile="tests/training/test_checkpoint_resume_gpu_stress.cpp" bodystart="50" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="class_checkpoint_resume_gpu_stress_test_1aac1fd899dca8e8f5a48e09d4631f64ef" prot="protected" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_checkpoint_manager_config" kindref="compound">CheckpointManagerConfig</ref></type>
+        <definition>CheckpointManagerConfig CheckpointResumeGpuStressTest::makeConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>makeConfig</name>
+        <qualifiedname>CheckpointResumeGpuStressTest::makeConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_resume_gpu_stress.cpp" line="56" column="30" bodyfile="tests/training/test_checkpoint_resume_gpu_stress.cpp" bodystart="56" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="class_checkpoint_resume_gpu_stress_test_1af3d2bf3a0eb1ac1e33dc8a7df5b7135f" prot="protected" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>fs::path</type>
+        <definition>fs::path CheckpointResumeGpuStressTest::writeSourceCheckpoint</definition>
+        <argsstring>(size_t index, size_t bytes) const</argsstring>
+        <name>writeSourceCheckpoint</name>
+        <qualifiedname>CheckpointResumeGpuStressTest::writeSourceCheckpoint</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_resume_gpu_stress.cpp" line="65" column="15" bodyfile="tests/training/test_checkpoint_resume_gpu_stress.cpp" bodystart="65" bodyend="69"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>CheckpointResumeGpuStressTest</label>
+        <link refid="class_checkpoint_resume_gpu_stress_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>CheckpointResumeGpuStressTest</label>
+        <link refid="class_checkpoint_resume_gpu_stress_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/training/test_checkpoint_resume_gpu_stress.cpp" line="39" column="1" bodyfile="tests/training/test_checkpoint_resume_gpu_stress.cpp" bodystart="39" bodyend="74"/>
+    <listofallmembers>
+      <member refid="class_checkpoint_resume_gpu_stress_test_1a677d8bcbf4d1099ee147d7fc6876b73f" prot="protected" virt="non-virtual"><scope>CheckpointResumeGpuStressTest</scope><name>checkpoint_dir_</name></member>
+      <member refid="class_checkpoint_resume_gpu_stress_test_1aac1fd899dca8e8f5a48e09d4631f64ef" prot="protected" virt="non-virtual"><scope>CheckpointResumeGpuStressTest</scope><name>makeConfig</name></member>
+      <member refid="class_checkpoint_resume_gpu_stress_test_1ada36e460059cdb1e54f1a5feb541b179" prot="protected" virt="non-virtual"><scope>CheckpointResumeGpuStressTest</scope><name>root_dir_</name></member>
+      <member refid="class_checkpoint_resume_gpu_stress_test_1a0e46e4e15dc603212d6472cfff9a9720" prot="protected" virt="non-virtual"><scope>CheckpointResumeGpuStressTest</scope><name>SetUp</name></member>
+      <member refid="class_checkpoint_resume_gpu_stress_test_1a055c7d7884e7e2add39e53e5bb04f670" prot="protected" virt="non-virtual"><scope>CheckpointResumeGpuStressTest</scope><name>source_dir_</name></member>
+      <member refid="class_checkpoint_resume_gpu_stress_test_1a22efea9eaef4dd4103d3f4a7040570b1" prot="protected" virt="non-virtual"><scope>CheckpointResumeGpuStressTest</scope><name>TearDown</name></member>
+      <member refid="class_checkpoint_resume_gpu_stress_test_1af3d2bf3a0eb1ac1e33dc8a7df5b7135f" prot="protected" virt="non-virtual"><scope>CheckpointResumeGpuStressTest</scope><name>writeSourceCheckpoint</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

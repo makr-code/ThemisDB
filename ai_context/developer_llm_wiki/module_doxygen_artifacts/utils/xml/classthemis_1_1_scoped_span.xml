@@ -1,0 +1,234 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_scoped_span" kind="class" language="C++" prot="public">
+    <compoundname>themis::ScopedSpan</compoundname>
+    <includes refid="tracing_8h" local="no">tracing.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_scoped_span_1af8fbcb0dcccbf3443bbcb90066112460" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_tracer_1_1_span" kindref="compound">Tracer::Span</ref></type>
+        <definition>Tracer::Span themis::ScopedSpan::span_</definition>
+        <argsstring></argsstring>
+        <name>span_</name>
+        <qualifiedname>themis::ScopedSpan::span_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="543" column="18" bodyfile="include/utils/tracing.h" bodystart="543" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_scoped_span_1aba746890e0c8bb7c762988755dcf556e" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ScopedSpan::name_</definition>
+        <argsstring></argsstring>
+        <name>name_</name>
+        <qualifiedname>themis::ScopedSpan::name_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="544" column="17" bodyfile="include/utils/tracing.h" bodystart="544" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_scoped_span_1a0ce2a406e283a5cdaf7cc72cf95ac3ca" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::ScopedSpan::ScopedSpan</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>ScopedSpan</name>
+        <qualifiedname>themis::ScopedSpan::ScopedSpan</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="512" column="14" bodyfile="include/utils/tracing.h" bodystart="512" bodyend="512"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_scoped_span_1adf0d9f1c0a214fba3d1e4f899c2e488e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ScopedSpan::setAttribute</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;value)</argsstring>
+        <name>setAttribute</name>
+        <qualifiedname>themis::ScopedSpan::setAttribute</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="514" column="10" bodyfile="include/utils/tracing.h" bodystart="514" bodyend="516"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_scoped_span_1aa04e365ecfebb3f2b0b766b3451b7f33" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ScopedSpan::setAttribute</definition>
+        <argsstring>(const std::string &amp;key, int64_t value)</argsstring>
+        <name>setAttribute</name>
+        <qualifiedname>themis::ScopedSpan::setAttribute</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="518" column="10" bodyfile="include/utils/tracing.h" bodystart="518" bodyend="520"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_scoped_span_1a355cbc0152b58b568152a7d4889c712f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ScopedSpan::setAttribute</definition>
+        <argsstring>(const std::string &amp;key, double value)</argsstring>
+        <name>setAttribute</name>
+        <qualifiedname>themis::ScopedSpan::setAttribute</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="522" column="10" bodyfile="include/utils/tracing.h" bodystart="522" bodyend="524"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_scoped_span_1a2787fc525da80fc8d9e0968f96b9f778" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ScopedSpan::setAttribute</definition>
+        <argsstring>(const std::string &amp;key, bool value)</argsstring>
+        <name>setAttribute</name>
+        <qualifiedname>themis::ScopedSpan::setAttribute</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="526" column="10" bodyfile="include/utils/tracing.h" bodystart="526" bodyend="528"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_scoped_span_1abd55707e229a1ef6c87afc036473cdb1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ScopedSpan::recordError</definition>
+        <argsstring>(const std::string &amp;errorMessage)</argsstring>
+        <name>recordError</name>
+        <qualifiedname>themis::ScopedSpan::recordError</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>errorMessage</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="530" column="10" bodyfile="include/utils/tracing.h" bodystart="530" bodyend="532"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_scoped_span_1a0d71c8cb850b457576a4b8e55b44e079" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ScopedSpan::setStatus</definition>
+        <argsstring>(bool ok, const std::string &amp;description=&quot;&quot;)</argsstring>
+        <name>setStatus</name>
+        <qualifiedname>themis::ScopedSpan::setStatus</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>ok</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>description</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="534" column="10" bodyfile="include/utils/tracing.h" bodystart="534" bodyend="536"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_scoped_span_1ae9f581cf45847b670a612913094b5751" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_tracer_1_1_span" kindref="compound">Tracer::Span</ref> &amp;</type>
+        <definition>Tracer::Span &amp; themis::ScopedSpan::span</definition>
+        <argsstring>()</argsstring>
+        <name>span</name>
+        <qualifiedname>themis::ScopedSpan::span</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="538" column="18" bodyfile="include/utils/tracing.h" bodystart="538" bodyend="538"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_scoped_span_1a36bb8057f31df2640315008370bcf046" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ScopedSpan::~ScopedSpan</definition>
+        <argsstring>()</argsstring>
+        <name>~ScopedSpan</name>
+        <qualifiedname>themis::ScopedSpan::~ScopedSpan</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="540" column="5" bodyfile="src/utils/tracing.cpp" bodystart="1008" bodyend="1010"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>RAII helper for scoped spans</para>
+<para>Usage: void myFunction() { <ref refid="classthemis_1_1_scoped_span" kindref="compound">ScopedSpan</ref> span(&quot;myFunction&quot;); span.setAttribute(&quot;param&quot;, value); // ... work ... } // span ends automatically </para>
+    </detaileddescription>
+    <location file="include/utils/tracing.h" line="510" column="1" bodyfile="include/utils/tracing.h" bodystart="510" bodyend="545"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_scoped_span_1aba746890e0c8bb7c762988755dcf556e" prot="private" virt="non-virtual"><scope>themis::ScopedSpan</scope><name>name_</name></member>
+      <member refid="classthemis_1_1_scoped_span_1abd55707e229a1ef6c87afc036473cdb1" prot="public" virt="non-virtual"><scope>themis::ScopedSpan</scope><name>recordError</name></member>
+      <member refid="classthemis_1_1_scoped_span_1a0ce2a406e283a5cdaf7cc72cf95ac3ca" prot="public" virt="non-virtual"><scope>themis::ScopedSpan</scope><name>ScopedSpan</name></member>
+      <member refid="classthemis_1_1_scoped_span_1adf0d9f1c0a214fba3d1e4f899c2e488e" prot="public" virt="non-virtual"><scope>themis::ScopedSpan</scope><name>setAttribute</name></member>
+      <member refid="classthemis_1_1_scoped_span_1aa04e365ecfebb3f2b0b766b3451b7f33" prot="public" virt="non-virtual"><scope>themis::ScopedSpan</scope><name>setAttribute</name></member>
+      <member refid="classthemis_1_1_scoped_span_1a355cbc0152b58b568152a7d4889c712f" prot="public" virt="non-virtual"><scope>themis::ScopedSpan</scope><name>setAttribute</name></member>
+      <member refid="classthemis_1_1_scoped_span_1a2787fc525da80fc8d9e0968f96b9f778" prot="public" virt="non-virtual"><scope>themis::ScopedSpan</scope><name>setAttribute</name></member>
+      <member refid="classthemis_1_1_scoped_span_1a0d71c8cb850b457576a4b8e55b44e079" prot="public" virt="non-virtual"><scope>themis::ScopedSpan</scope><name>setStatus</name></member>
+      <member refid="classthemis_1_1_scoped_span_1ae9f581cf45847b670a612913094b5751" prot="public" virt="non-virtual"><scope>themis::ScopedSpan</scope><name>span</name></member>
+      <member refid="classthemis_1_1_scoped_span_1af8fbcb0dcccbf3443bbcb90066112460" prot="private" virt="non-virtual"><scope>themis::ScopedSpan</scope><name>span_</name></member>
+      <member refid="classthemis_1_1_scoped_span_1a36bb8057f31df2640315008370bcf046" prot="public" virt="non-virtual"><scope>themis::ScopedSpan</scope><name>~ScopedSpan</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

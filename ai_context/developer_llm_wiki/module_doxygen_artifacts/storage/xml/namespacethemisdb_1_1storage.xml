@@ -1,0 +1,636 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemisdb_1_1storage" kind="namespace" language="C++">
+    <compoundname>themisdb::storage</compoundname>
+    <innerclass refid="structthemisdb_1_1storage_1_1_blob_location" prot="public">themisdb::storage::BlobLocation</innerclass>
+    <innerclass refid="structthemisdb_1_1storage_1_1_blob_metadata" prot="public">themisdb::storage::BlobMetadata</innerclass>
+    <innerclass refid="structthemisdb_1_1storage_1_1_blob_redundancy_config" prot="public">themisdb::storage::BlobRedundancyConfig</innerclass>
+    <innerclass refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager" prot="public">themisdb::storage::BlobRedundancyManager</innerclass>
+    <innerclass refid="structthemisdb_1_1storage_1_1_blob_redundancy_stats" prot="public">themisdb::storage::BlobRedundancyStats</innerclass>
+    <innerclass refid="structthemisdb_1_1storage_1_1_collection_redundancy_config" prot="public">themisdb::storage::CollectionRedundancyConfig</innerclass>
+    <innerclass refid="structthemisdb_1_1storage_1_1_encoded_shard" prot="public">themisdb::storage::EncodedShard</innerclass>
+    <innerclass refid="classthemisdb_1_1storage_1_1_erasure_coding_backend" prot="public">themisdb::storage::ErasureCodingBackend</innerclass>
+    <innerclass refid="structthemisdb_1_1storage_1_1_erasure_coding_config" prot="public">themisdb::storage::ErasureCodingConfig</innerclass>
+    <innerclass refid="structthemisdb_1_1storage_1_1_geo_target" prot="public">themisdb::storage::GeoTarget</innerclass>
+    <innerclass refid="structthemisdb_1_1storage_1_1_retry_policy" prot="public">themisdb::storage::RetryPolicy</innerclass>
+    <innerclass refid="structthemisdb_1_1storage_1_1_retry_statistics" prot="public">themisdb::storage::RetryStatistics</innerclass>
+    <innerclass refid="classthemisdb_1_1storage_1_1_rocks_d_b_blob_listener" prot="public">themisdb::storage::RocksDBBlobListener</innerclass>
+    <innerclass refid="structthemisdb_1_1storage_1_1_tier_config" prot="public">themisdb::storage::TierConfig</innerclass>
+    <innerclass refid="structthemisdb_1_1storage_1_1_transaction_retry_config" prot="public">themisdb::storage::TransactionRetryConfig</innerclass>
+    <innerclass refid="classthemisdb_1_1storage_1_1_transaction_retry_manager" prot="public">themisdb::storage::TransactionRetryManager</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemisdb_1_1storage_1a1343b5d6b6d1f7ef10516e3d2403098b" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>BlobType</name>
+        <qualifiedname>themisdb::storage::BlobType</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1storage_1a1343b5d6b6d1f7ef10516e3d2403098ba9a2cd84c86481e1b1fc81955b86f05aa" prot="public">
+          <name>SST_L0</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1storage_1a1343b5d6b6d1f7ef10516e3d2403098ba3c1632bb752e87a30b3818120800a3c5" prot="public">
+          <name>SST_L1</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1storage_1a1343b5d6b6d1f7ef10516e3d2403098ba67a359a91d85389536d76de1d58a74a3" prot="public">
+          <name>SST_L2_PLUS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1storage_1a1343b5d6b6d1f7ef10516e3d2403098bafe5782c4a4d8160cf04ff71992b3f0c3" prot="public">
+          <name>WAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1storage_1a1343b5d6b6d1f7ef10516e3d2403098ba0bf22fc49ca50df354c7619caaaa96d2" prot="public">
+          <name>MANIFEST</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1storage_1a1343b5d6b6d1f7ef10516e3d2403098baa2770969c827f0f2910f6179418462df" prot="public">
+          <name>CURRENT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1storage_1a1343b5d6b6d1f7ef10516e3d2403098ba164dd62adb30ca051b5289672a572f9b" prot="public">
+          <name>OPTIONS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1storage_1a1343b5d6b6d1f7ef10516e3d2403098bade77ec92d0c5e0032b76d8401e209c4d" prot="public">
+          <name>INDEX_VECTOR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1storage_1a1343b5d6b6d1f7ef10516e3d2403098ba4825042f545887ede2dcd57f5eed0d70" prot="public">
+          <name>INDEX_GRAPH</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1storage_1a1343b5d6b6d1f7ef10516e3d2403098ba03fe444b3f291bf1f682a671be88deea" prot="public">
+          <name>INDEX_FTS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1storage_1a1343b5d6b6d1f7ef10516e3d2403098ba604ffa0c54d8390b5ad9f36e477172c3" prot="public">
+          <name>INDEX_SPATIAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1storage_1a1343b5d6b6d1f7ef10516e3d2403098bafc2930ffb70cd92312fdd3fd3d61000b" prot="public">
+          <name>BLOB_SMALL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1storage_1a1343b5d6b6d1f7ef10516e3d2403098bab612cccc22f1b990cbc1aa889cf4bc45" prot="public">
+          <name>BLOB_MEDIUM</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1storage_1a1343b5d6b6d1f7ef10516e3d2403098baecb546e6de2f2fea337c06188de32569" prot="public">
+          <name>BLOB_LARGE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1storage_1a1343b5d6b6d1f7ef10516e3d2403098ba8a9c0818e0622aadfcb2e59cfe5299b4" prot="public">
+          <name>METADATA</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1storage_1a1343b5d6b6d1f7ef10516e3d2403098bade41f160335180207e4ba33b56d433b2" prot="public">
+          <name>SCHEMA</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1storage_1a1343b5d6b6d1f7ef10516e3d2403098ba72baef04098f035e8a320b03ad197818" prot="public">
+          <name>CUSTOM</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Blob Type Classification </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="67" column="1" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="67" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1storage_1af621d748d6a2a85cbadefeb0dd4c3bd5" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>StorageTier</name>
+        <qualifiedname>themisdb::storage::StorageTier</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1storage_1af621d748d6a2a85cbadefeb0dd4c3bd5ac429fde8b1b986d42f84ba63dbfef6ac" prot="public">
+          <name>HOT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1storage_1af621d748d6a2a85cbadefeb0dd4c3bd5a11523c55fca0d056eda7dbbe810490ca" prot="public">
+          <name>WARM</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1storage_1af621d748d6a2a85cbadefeb0dd4c3bd5a3f7ff4daa99912d1b0c8c64340edb9fb" prot="public">
+          <name>COLD</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1storage_1af621d748d6a2a85cbadefeb0dd4c3bd5a71f01f32e90440fd6039511dde69e995" prot="public">
+          <name>ARCHIVE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Storage Tier </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="102" column="1" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="102" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1storage_1a2fe6e0e0e88f42e364f20f197d69ce39" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>BlobPriority</name>
+        <qualifiedname>themisdb::storage::BlobPriority</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1storage_1a2fe6e0e0e88f42e364f20f197d69ce39a99cd1c61610c76a57cb8d10d6df6b870" prot="public">
+          <name>CRITICAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1storage_1a2fe6e0e0e88f42e364f20f197d69ce39ab89de3b4b81c4facfac906edf29aec8c" prot="public">
+          <name>HIGH</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1storage_1a2fe6e0e0e88f42e364f20f197d69ce39a1e23852820b9154316c7c06e2b7ba051" prot="public">
+          <name>NORMAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1storage_1a2fe6e0e0e88f42e364f20f197d69ce39a41bc94cbd8eebea13ce0491b2ac11b88" prot="public">
+          <name>LOW</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1storage_1a2fe6e0e0e88f42e364f20f197d69ce39a39e1a59cea607af67bf1f6cbfd85adaa" prot="public">
+          <name>EPHEMERAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Blob Priority </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="112" column="1" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="112" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1storage_1ad4aae7bec607dcfe64c899caf46935c0" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>RedundancyMode</name>
+        <qualifiedname>themisdb::storage::RedundancyMode</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1storage_1ad4aae7bec607dcfe64c899caf46935c0ab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1storage_1ad4aae7bec607dcfe64c899caf46935c0a72a92ae9c1d172cdda196686278fbfc6" prot="public">
+          <name>MIRROR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1storage_1ad4aae7bec607dcfe64c899caf46935c0aaff0a57a9f35820e5136fdfca99dc809" prot="public">
+          <name>STRIPE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1storage_1ad4aae7bec607dcfe64c899caf46935c0ab17370a945fe060df7b5908fd3c2aff2" prot="public">
+          <name>STRIPE_MIRROR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1storage_1ad4aae7bec607dcfe64c899caf46935c0aaeef6f4aa155fd52d4dbea5ff3cd930a" prot="public">
+          <name>PARITY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1storage_1ad4aae7bec607dcfe64c899caf46935c0a009dec42009b366611789e7c4affa39c" prot="public">
+          <name>GEO_MIRROR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Redundancy Mode </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="123" column="1" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="123" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1storage_1a0fec41862a21197d7eecf37bf59b2eae" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ErasureCodingAlgorithm</name>
+        <qualifiedname>themisdb::storage::ErasureCodingAlgorithm</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1storage_1a0fec41862a21197d7eecf37bf59b2eaea5655e05ab6bf36148ebb3f9a12837992" prot="public">
+          <name>REED_SOLOMON</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1storage_1a0fec41862a21197d7eecf37bf59b2eaea9d0e3157464d10e95bff71bbcf0001ad" prot="public">
+          <name>CAUCHY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1storage_1a0fec41862a21197d7eecf37bf59b2eaea261fdbdd0135cfead1820d6ac05e4492" prot="public">
+          <name>LRC</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Erasure Coding Algorithm </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="135" column="1" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="135" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1storage_1a7cc2e22f4f843691ea1c1c3763645888" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ChecksumAlgorithm</name>
+        <qualifiedname>themisdb::storage::ChecksumAlgorithm</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1storage_1a7cc2e22f4f843691ea1c1c3763645888a19c122b00447f21a2938e2602d53ceab" prot="public">
+          <name>CRC32</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1storage_1a7cc2e22f4f843691ea1c1c3763645888ab505df5aa812b4f320420b8a952f20e5" prot="public">
+          <name>SHA256</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1storage_1a7cc2e22f4f843691ea1c1c3763645888aabab4cb25336efe010f46b805e93906b" prot="public">
+          <name>XXHASH64</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Checksum Algorithm </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="144" column="1" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="144" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1storage_1aa1bbc27d54dee43ebd1a19bfc069c30c" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>BackoffStrategy</name>
+        <qualifiedname>themisdb::storage::BackoffStrategy</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1storage_1aa1bbc27d54dee43ebd1a19bfc069c30cadcd5fc33e211f31cef0cd7cb36518d31" prot="public">
+          <name>EXPONENTIAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1storage_1aa1bbc27d54dee43ebd1a19bfc069c30caaac544aacc3615aada24897a215f5046" prot="public">
+          <name>LINEAR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1storage_1aa1bbc27d54dee43ebd1a19bfc069c30cac6e6dc18b53b4c2681394b9d8aefcec7" prot="public">
+          <name>FIXED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Backoff strategy for retry delays. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="34" column="1" bodyfile="include/storage/transaction_retry_manager.h" bodystart="34" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1storage_1aa92e93c3a8d202e21cf212c18020cf7e" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ErrorType</name>
+        <qualifiedname>themisdb::storage::ErrorType</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1storage_1aa92e93c3a8d202e21cf212c18020cf7ea854ac35d1978a2241b96c7ef0167a2f3" prot="public">
+          <name>WRITE_CONFLICT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1storage_1aa92e93c3a8d202e21cf212c18020cf7ea070a0fb40f6c308ab544b227660aadff" prot="public">
+          <name>TIMEOUT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1storage_1aa92e93c3a8d202e21cf212c18020cf7ea547ba52b62f9302ee1b6950111c36f9f" prot="public">
+          <name>NETWORK_ERROR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1storage_1aa92e93c3a8d202e21cf212c18020cf7ea4a739fa42dcdbdb8dfe5a5e4d9c5a627" prot="public">
+          <name>RESOURCE_EXHAUSTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1storage_1aa92e93c3a8d202e21cf212c18020cf7ea321504743197244f08c01a4fd2df88b5" prot="public">
+          <name>SERVICE_UNAVAILABLE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1storage_1aa92e93c3a8d202e21cf212c18020cf7ea1d67a525f6cada988939ffdd393cae45" prot="public">
+          <name>CONSTRAINT_VIOLATION</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1storage_1aa92e93c3a8d202e21cf212c18020cf7eaf295a0c3e37c94f078e1c5476479132d" prot="public">
+          <name>INVALID_ARGUMENT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1storage_1aa92e93c3a8d202e21cf212c18020cf7ea8c02547a8a3b02382bac3557bcb2280d" prot="public">
+          <name>NOT_FOUND</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1storage_1aa92e93c3a8d202e21cf212c18020cf7ea255df50c140519133f1489ab44a389d9" prot="public">
+          <name>PERMISSION_DENIED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1storage_1aa92e93c3a8d202e21cf212c18020cf7ea0fdcb1e357449521ad6742872f135806" prot="public">
+          <name>DATA_CORRUPTION</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1storage_1aa92e93c3a8d202e21cf212c18020cf7ea696b031073e74bf2cb98e5ef201d4aa3" prot="public">
+          <name>UNKNOWN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Error types for classification. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="43" column="1" bodyfile="include/storage/transaction_retry_manager.h" bodystart="43" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1storage_1a1fa74ff594fe4e4ac245040c9758b36f" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>CircuitState</name>
+        <qualifiedname>themisdb::storage::CircuitState</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1storage_1a1fa74ff594fe4e4ac245040c9758b36faf068ebe4133e3e6563080836268ea979" prot="public">
+          <name>HEALTHY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1storage_1a1fa74ff594fe4e4ac245040c9758b36fa0021017005f0e5134b204c2e69d3d4ed" prot="public">
+          <name>DEGRADED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1storage_1a1fa74ff594fe4e4ac245040c9758b36fa130389aec25aa182cd466b2a2a7890e0" prot="public">
+          <name>CIRCUIT_OPEN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Circuit breaker health state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="63" column="1" bodyfile="include/storage/transaction_retry_manager.h" bodystart="63" bodyend="67"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemisdb_1_1storage_1ac3706c076be13f184ab5a19cc8d1c3be" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::storage::MAX_JITTER_FACTOR</definition>
+        <argsstring></argsstring>
+        <name>MAX_JITTER_FACTOR</name>
+        <qualifiedname>themisdb::storage::MAX_JITTER_FACTOR</qualifiedname>
+        <initializer>= 0.999</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/transaction_retry_manager.cpp" line="33" column="25" bodyfile="src/storage/transaction_retry_manager.cpp" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemisdb_1_1storage_1aaccbd5e2420682d613b18835ac37e78b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themisdb::storage::ecShardId</definition>
+        <argsstring>(const BlobMetadata &amp;meta, uint32_t chunk_index)</argsstring>
+        <name>ecShardId</name>
+        <qualifiedname>themisdb::storage::ecShardId</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1storage_1_1_blob_metadata" kindref="compound">BlobMetadata</ref> &amp;</type>
+          <declname>meta</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>chunk_index</declname>
+        </param>
+        <briefdescription>
+<para>------------------------------------------------------------------------<mdash/> Erasure-coding shard helpers (file-local) ------------------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">meta</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">chunk_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/blob_redundancy_manager.cpp" line="1236" column="20" bodyfile="src/storage/blob_redundancy_manager.cpp" bodystart="1236" bodyend="1241"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1storage_1aa8494d1d7d0f40aad3dfe86fb4512b48" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themisdb::storage::ecChunkPath</definition>
+        <argsstring>(const std::string &amp;blob_id, uint32_t chunk_index)</argsstring>
+        <name>ecChunkPath</name>
+        <qualifiedname>themisdb::storage::ecChunkPath</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>chunk_index</declname>
+        </param>
+        <briefdescription>
+<para>Ec Chunk Path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the blob. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">chunk_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/blob_redundancy_manager.cpp" line="1250" column="20" bodyfile="src/storage/blob_redundancy_manager.cpp" bodystart="1250" bodyend="1252"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/blob_redundancy_manager.h" line="59" column="1"/>
+  </compounddef>
+</doxygen>

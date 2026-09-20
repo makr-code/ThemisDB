@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1core_1_1concerns_1_1_i_async_cache" kind="class" language="C++" prot="public">
+    <compoundname>themis::core::concerns::IAsyncCache</compoundname>
+    <basecompoundref refid="classthemis_1_1core_1_1concerns_1_1_i_cache" prot="public" virt="non-virtual">themis::core::concerns::ICache</basecompoundref>
+    <derivedcompoundref refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_cache" prot="public" virt="non-virtual">themis::core::concerns::NoOpAsyncCache</derivedcompoundref>
+    <includes refid="i__async__cache_8h" local="no">i_async_cache.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_async_cache_1ad87fad48f2c97d9a0c90cea3f44bfd15" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::future&lt; std::optional&lt; <ref refid="structthemis_1_1core_1_1concerns_1_1_cache_entry" kindref="compound">CacheEntry</ref> &gt; &gt;</type>
+        <definition>virtual std::future&lt; std::optional&lt; CacheEntry &gt; &gt; themis::core::concerns::IAsyncCache::getAsync</definition>
+        <argsstring>(std::string_view key)</argsstring>
+        <name>getAsync</name>
+        <qualifiedname>themis::core::concerns::IAsyncCache::getAsync</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_cache_1a51727133a3b94952c5130914a5e23f82">getAsync</reimplementedby>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Get Async. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::async(), std::string(), <ref refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1ada9afd8e5ee9f4621b796c58544d1bb3" kindref="member">get()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_async_cache.h" line="34" column="25" bodyfile="include/core/concerns/i_async_cache.h" bodystart="34" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_async_cache_1af0ef46f03b57e672c710532788084c49" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::future&lt; bool &gt;</type>
+        <definition>virtual std::future&lt; bool &gt; themis::core::concerns::IAsyncCache::putAsync</definition>
+        <argsstring>(std::string_view key, const CacheEntry &amp;entry, uint64_t ttl_ms=0)</argsstring>
+        <name>putAsync</name>
+        <qualifiedname>themis::core::concerns::IAsyncCache::putAsync</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_cache_1abf6a9449126e27a01f82834c4a5cae29">putAsync</reimplementedby>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1core_1_1concerns_1_1_cache_entry" kindref="compound">CacheEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>ttl_ms</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_async_cache.h" line="41" column="25" bodyfile="include/core/concerns/i_async_cache.h" bodystart="41" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_async_cache_1a8cb3b1617db71c25aff8312b80fc40bb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::future&lt; void &gt;</type>
+        <definition>virtual std::future&lt; void &gt; themis::core::concerns::IAsyncCache::invalidateAsync</definition>
+        <argsstring>(std::string_view key)</argsstring>
+        <name>invalidateAsync</name>
+        <qualifiedname>themis::core::concerns::IAsyncCache::invalidateAsync</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_cache_1a1a50506fe32f235921a890782978bc9f">invalidateAsync</reimplementedby>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Invalidate Async. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::async(), std::string(), <ref refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1adebcfb3ea7fb1ab1cfda88e7d0e6b64d" kindref="member">invalidate()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_async_cache.h" line="57" column="25" bodyfile="include/core/concerns/i_async_cache.h" bodystart="57" bodyend="62"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::core::concerns::IAsyncCache</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_i_async_cache"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::core::concerns::ICache</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_i_cache"/>
+      </node>
+      <node id="3">
+        <label>themis::core::concerns::NoOpAsyncCache</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_cache"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::core::concerns::IAsyncCache</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_i_async_cache"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::core::concerns::ICache</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_i_cache"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/core/concerns/i_async_cache.h" line="22" column="1" bodyfile="include/core/concerns/i_async_cache.h" bodystart="22" bodyend="63"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a21a0dc70a856099f2240af11fcd4d810" prot="public" virt="pure-virtual"><scope>themis::core::concerns::IAsyncCache</scope><name>clear</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a19c4449c6b947dca89fee7fd8078ba8c" prot="public" virt="virtual"><scope>themis::core::concerns::IAsyncCache</scope><name>flush</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1ada9afd8e5ee9f4621b796c58544d1bb3" prot="public" virt="pure-virtual"><scope>themis::core::concerns::IAsyncCache</scope><name>get</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_async_cache_1ad87fad48f2c97d9a0c90cea3f44bfd15" prot="public" virt="virtual"><scope>themis::core::concerns::IAsyncCache</scope><name>getAsync</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1ab84d955738a23363ba7646d37683ebb0" prot="public" virt="virtual"><scope>themis::core::concerns::IAsyncCache</scope><name>getEvictionStrategy</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a663b74b791bfde5c264d6a688097dc60" prot="public" virt="virtual"><scope>themis::core::concerns::IAsyncCache</scope><name>getEvictionStrategy</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a3c46dd5a19c9f1ebc0524853938f6fda" prot="public" virt="virtual"><scope>themis::core::concerns::IAsyncCache</scope><name>getMetrics</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a39f3a62b1ea790d4f0b962824ac4a755" prot="public" virt="pure-virtual"><scope>themis::core::concerns::IAsyncCache</scope><name>hitCount</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1ada9baa4a92166aef4abdfb36f65798e7" prot="public" virt="pure-virtual"><scope>themis::core::concerns::IAsyncCache</scope><name>hitRate</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1adebcfb3ea7fb1ab1cfda88e7d0e6b64d" prot="public" virt="pure-virtual"><scope>themis::core::concerns::IAsyncCache</scope><name>invalidate</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_async_cache_1a8cb3b1617db71c25aff8312b80fc40bb" prot="public" virt="virtual"><scope>themis::core::concerns::IAsyncCache</scope><name>invalidateAsync</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a423b02db998bc192f290913d0c511cda" prot="public" virt="pure-virtual"><scope>themis::core::concerns::IAsyncCache</scope><name>invalidatePattern</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a8c0af48ee34fc3c5eb315d4327cf5f23" prot="public" virt="virtual"><scope>themis::core::concerns::IAsyncCache</scope><name>isHealthy</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1aec7d668e283b4e5c0f5a0fc71abcff4f" prot="public" virt="pure-virtual"><scope>themis::core::concerns::IAsyncCache</scope><name>missCount</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1ae4365dc4004cc33911011ebadd84feae" prot="public" virt="pure-virtual"><scope>themis::core::concerns::IAsyncCache</scope><name>put</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_async_cache_1af0ef46f03b57e672c710532788084c49" prot="public" virt="virtual"><scope>themis::core::concerns::IAsyncCache</scope><name>putAsync</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1ab7e027321593460c3fe5119daa928d94" prot="public" virt="pure-virtual"><scope>themis::core::concerns::IAsyncCache</scope><name>setDefaultTTL</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a3c4b1a52af81c65319d391002a175e63" prot="public" virt="pure-virtual"><scope>themis::core::concerns::IAsyncCache</scope><name>setMaxSize</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a4853aa0742f4edd55c73b97cf3c36274" prot="public" virt="virtual"><scope>themis::core::concerns::IAsyncCache</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1afef40e36373226997465ed09da520686" prot="public" virt="pure-virtual"><scope>themis::core::concerns::IAsyncCache</scope><name>size</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a66b78d0f8e1b3c90aec75ce67ace3428" prot="public" virt="virtual"><scope>themis::core::concerns::IAsyncCache</scope><name>~ICache</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

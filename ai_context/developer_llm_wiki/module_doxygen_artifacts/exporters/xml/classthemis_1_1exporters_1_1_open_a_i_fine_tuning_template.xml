@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1exporters_1_1_open_a_i_fine_tuning_template" kind="class" language="C++" prot="public">
+    <compoundname>themis::exporters::OpenAIFineTuningTemplate</compoundname>
+    <basecompoundref refid="classthemis_1_1exporters_1_1_i_format_template" prot="public" virt="non-virtual">themis::exporters::IFormatTemplate</basecompoundref>
+    <includes refid="format__template_8h" local="no">format_template.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_open_a_i_fine_tuning_template_1a25ef6949e6a09a311ad240bb5f117aaa" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::OpenAIFineTuningTemplate::name</definition>
+        <argsstring>() const override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::exporters::OpenAIFineTuningTemplate::name</qualifiedname>
+        <reimplements refid="classthemis_1_1exporters_1_1_i_format_template_1a036e85e965e523fdd4892303e53d0e68">name</reimplements>
+        <briefdescription>
+<para>Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/format_template.h" line="125" column="17" bodyfile="include/exporters/format_template.h" bodystart="125" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_open_a_i_fine_tuning_template_1a04eb60b2bbb909eea29383fb2e984a35" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::exporters::OpenAIFineTuningTemplate::validateFields</definition>
+        <argsstring>(const BaseEntity &amp;entity, const FormatTemplateFieldMapping &amp;mapping, std::vector&lt; std::string &gt; *missing_fields=nullptr) const override</argsstring>
+        <name>validateFields</name>
+        <qualifiedname>themis::exporters::OpenAIFineTuningTemplate::validateFields</qualifiedname>
+        <reimplements refid="classthemis_1_1exporters_1_1_i_format_template_1afd350764346d9d06a68bce197421c54c">validateFields</reimplements>
+        <param>
+          <type>const BaseEntity &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1exporters_1_1_format_template_field_mapping" kindref="compound">FormatTemplateFieldMapping</ref> &amp;</type>
+          <declname>mapping</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt; *</type>
+          <declname>missing_fields</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/format_template.h" line="127" column="10" bodyfile="src/exporters/format_template.cpp" bodystart="160" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_open_a_i_fine_tuning_template_1a6795763598394556ef2d7851b3dfc065" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::OpenAIFineTuningTemplate::render</definition>
+        <argsstring>(const BaseEntity &amp;entity, const FormatTemplateFieldMapping &amp;mapping) const override</argsstring>
+        <name>render</name>
+        <qualifiedname>themis::exporters::OpenAIFineTuningTemplate::render</qualifiedname>
+        <reimplements refid="classthemis_1_1exporters_1_1_i_format_template_1a77d576ea0750a89ce3bd0a153346b63a">render</reimplements>
+        <param>
+          <type>const BaseEntity &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1exporters_1_1_format_template_field_mapping" kindref="compound">FormatTemplateFieldMapping</ref> &amp;</type>
+          <declname>mapping</declname>
+        </param>
+        <briefdescription>
+<para>Render. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mapping</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/format_template.h" line="133" column="17" bodyfile="src/exporters/format_template.cpp" bodystart="178" bodyend="200"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::exporters::IFormatTemplate</label>
+        <link refid="classthemis_1_1exporters_1_1_i_format_template"/>
+      </node>
+      <node id="1">
+        <label>themis::exporters::OpenAIFineTuningTemplate</label>
+        <link refid="classthemis_1_1exporters_1_1_open_a_i_fine_tuning_template"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::exporters::IFormatTemplate</label>
+        <link refid="classthemis_1_1exporters_1_1_i_format_template"/>
+      </node>
+      <node id="1">
+        <label>themis::exporters::OpenAIFineTuningTemplate</label>
+        <link refid="classthemis_1_1exporters_1_1_open_a_i_fine_tuning_template"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/exporters/format_template.h" line="123" column="1" bodyfile="include/exporters/format_template.h" bodystart="123" bodyend="137"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1exporters_1_1_open_a_i_fine_tuning_template_1a25ef6949e6a09a311ad240bb5f117aaa" prot="public" virt="virtual"><scope>themis::exporters::OpenAIFineTuningTemplate</scope><name>name</name></member>
+      <member refid="classthemis_1_1exporters_1_1_open_a_i_fine_tuning_template_1a6795763598394556ef2d7851b3dfc065" prot="public" virt="virtual"><scope>themis::exporters::OpenAIFineTuningTemplate</scope><name>render</name></member>
+      <member refid="classthemis_1_1exporters_1_1_open_a_i_fine_tuning_template_1a04eb60b2bbb909eea29383fb2e984a35" prot="public" virt="virtual"><scope>themis::exporters::OpenAIFineTuningTemplate</scope><name>validateFields</name></member>
+      <member refid="classthemis_1_1exporters_1_1_i_format_template_1a1e92f6ddcdab0087be403c7ffffad515" prot="public" virt="virtual"><scope>themis::exporters::OpenAIFineTuningTemplate</scope><name>~IFormatTemplate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

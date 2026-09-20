@@ -1,0 +1,403 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_open_a_i_compat_adapter" kind="class" language="C++" prot="public">
+    <compoundname>OpenAICompatAdapter</compoundname>
+    <includes refid="openai__compat__adapter_8h" local="no">openai_compat_adapter.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_open_a_i_compat_adapter_1ac2078b70f40ad9044448cb46605c1564" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::variant&lt; <ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref>, std::string &gt;</type>
+        <definition>std::variant&lt; InferenceRequest, std::string &gt; themis::llm::OpenAICompatAdapter::parseRequest</definition>
+        <argsstring>(const json &amp;body)</argsstring>
+        <name>parseRequest</name>
+        <qualifiedname>OpenAICompatAdapter::parseRequest</qualifiedname>
+        <param>
+          <type>const json &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/openai_compat_adapter.h" line="29" column="25" bodyfile="src/llm/openai_compat_adapter.cpp" bodystart="74" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="class_open_a_i_compat_adapter_1a4b4f4dfe4ffb2144607da490ca356f11" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>json</type>
+        <definition>json themis::llm::OpenAICompatAdapter::buildResponse</definition>
+        <argsstring>(const InferenceResponse &amp;response, const std::string &amp;model_id, const std::string &amp;completion_id=&quot;&quot;)</argsstring>
+        <name>buildResponse</name>
+        <qualifiedname>OpenAICompatAdapter::buildResponse</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_inference_response" kindref="compound">InferenceResponse</ref> &amp;</type>
+          <declname>response</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>completion_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Build Response. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">completion_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the completion. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), <ref refid="class_open_a_i_compat_adapter_1a6fc5b9c4980071d4810e91cdf50d9c50" kindref="member">generateCompletionId()</ref>, nowUnix(), json::array(), size(), push_back(), randomHex(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/openai_compat_adapter.h" line="32" column="17" bodyfile="src/llm/openai_compat_adapter.cpp" bodystart="192" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="class_open_a_i_compat_adapter_1a2a8ce40cc4b9cf797f3b5b95424fed99" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::OpenAICompatAdapter::buildStreamChunk</definition>
+        <argsstring>(const std::string &amp;token, const std::string &amp;completion_id, const std::string &amp;model_id, int64_t created=0)</argsstring>
+        <name>buildStreamChunk</name>
+        <qualifiedname>OpenAICompatAdapter::buildStreamChunk</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>token</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>completion_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>created</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Build Stream Chunk. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">completion_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the completion. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">created</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: nowUnix(), json::array(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/openai_compat_adapter.h" line="37" column="24" bodyfile="src/llm/openai_compat_adapter.cpp" bodystart="266" bodyend="291"/>
+      </memberdef>
+      <memberdef kind="function" id="class_open_a_i_compat_adapter_1aa78530f3956e3cc6b46f83911c6da58a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::OpenAICompatAdapter::buildStreamFinalChunk</definition>
+        <argsstring>(const std::string &amp;completion_id, const std::string &amp;model_id, int64_t created=0)</argsstring>
+        <name>buildStreamFinalChunk</name>
+        <qualifiedname>OpenAICompatAdapter::buildStreamFinalChunk</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>completion_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>created</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Build Stream Final Chunk. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">completion_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the completion. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">created</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: nowUnix(), json::array(), json::object(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/openai_compat_adapter.h" line="43" column="24" bodyfile="src/llm/openai_compat_adapter.cpp" bodystart="303" bodyend="327"/>
+      </memberdef>
+      <memberdef kind="function" id="class_open_a_i_compat_adapter_1a556c2f4560ad82a972deb95ac8150fc8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::OpenAICompatAdapter::buildStreamDone</definition>
+        <argsstring>()</argsstring>
+        <name>buildStreamDone</name>
+        <qualifiedname>OpenAICompatAdapter::buildStreamDone</qualifiedname>
+        <briefdescription>
+<para>Build Stream Done. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements buildStreamDone without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/openai_compat_adapter.h" line="52" column="24" bodyfile="src/llm/openai_compat_adapter.cpp" bodystart="336" bodyend="338"/>
+      </memberdef>
+      <memberdef kind="function" id="class_open_a_i_compat_adapter_1a8c5c8bab11bb2fefbfecbb8faafaee57" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>json</type>
+        <definition>json themis::llm::OpenAICompatAdapter::buildError</definition>
+        <argsstring>(const std::string &amp;message, const std::string &amp;type=&quot;invalid_request_error&quot;, const std::string &amp;code=&quot;&quot;)</argsstring>
+        <name>buildError</name>
+        <qualifiedname>OpenAICompatAdapter::buildError</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>type</declname>
+          <defval>&quot;invalid_request_error&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>code</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Build Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/openai_compat_adapter.h" line="54" column="17" bodyfile="src/llm/openai_compat_adapter.cpp" bodystart="350" bodyend="365"/>
+      </memberdef>
+      <memberdef kind="function" id="class_open_a_i_compat_adapter_1a6fc5b9c4980071d4810e91cdf50d9c50" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::OpenAICompatAdapter::generateCompletionId</definition>
+        <argsstring>()</argsstring>
+        <name>generateCompletionId</name>
+        <qualifiedname>OpenAICompatAdapter::generateCompletionId</qualifiedname>
+        <briefdescription>
+<para>Generate Completion Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: randomHex(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/openai_compat_adapter.h" line="63" column="24" bodyfile="src/llm/openai_compat_adapter.cpp" bodystart="67" bodyend="69"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="class_open_a_i_compat_adapter_1ab669aac5d2058853e38d574ee739685c" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::OpenAICompatAdapter::extractPrompts</definition>
+        <argsstring>(const json &amp;messages, std::optional&lt; std::string &gt; &amp;system_prompt, std::string &amp;prompt)</argsstring>
+        <name>extractPrompts</name>
+        <qualifiedname>OpenAICompatAdapter::extractPrompts</qualifiedname>
+        <param>
+          <type>const json &amp;</type>
+          <declname>messages</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; std::string &gt; &amp;</type>
+          <declname>system_prompt</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <briefdescription>
+<para>Extract Prompts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">messages</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">system_prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">messages</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">system_prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: is_object(), contains(), is_string(), is_array(), is_null(), has_value(), str(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/openai_compat_adapter.h" line="73" column="24" bodyfile="src/llm/openai_compat_adapter.cpp" bodystart="379" bodyend="462"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/openai_compat_adapter.h" line="27" column="1" bodyfile="include/llm/openai_compat_adapter.h" bodystart="27" bodyend="77"/>
+    <listofallmembers>
+      <member refid="class_open_a_i_compat_adapter_1a8c5c8bab11bb2fefbfecbb8faafaee57" prot="public" virt="non-virtual"><scope>OpenAICompatAdapter</scope><name>buildError</name></member>
+      <member refid="class_open_a_i_compat_adapter_1a4b4f4dfe4ffb2144607da490ca356f11" prot="public" virt="non-virtual"><scope>OpenAICompatAdapter</scope><name>buildResponse</name></member>
+      <member refid="class_open_a_i_compat_adapter_1a2a8ce40cc4b9cf797f3b5b95424fed99" prot="public" virt="non-virtual"><scope>OpenAICompatAdapter</scope><name>buildStreamChunk</name></member>
+      <member refid="class_open_a_i_compat_adapter_1a556c2f4560ad82a972deb95ac8150fc8" prot="public" virt="non-virtual"><scope>OpenAICompatAdapter</scope><name>buildStreamDone</name></member>
+      <member refid="class_open_a_i_compat_adapter_1aa78530f3956e3cc6b46f83911c6da58a" prot="public" virt="non-virtual"><scope>OpenAICompatAdapter</scope><name>buildStreamFinalChunk</name></member>
+      <member refid="class_open_a_i_compat_adapter_1ab669aac5d2058853e38d574ee739685c" prot="private" virt="non-virtual"><scope>OpenAICompatAdapter</scope><name>extractPrompts</name></member>
+      <member refid="class_open_a_i_compat_adapter_1a6fc5b9c4980071d4810e91cdf50d9c50" prot="public" virt="non-virtual"><scope>OpenAICompatAdapter</scope><name>generateCompletionId</name></member>
+      <member refid="class_open_a_i_compat_adapter_1ac2078b70f40ad9044448cb46605c1564" prot="public" virt="non-virtual"><scope>OpenAICompatAdapter</scope><name>parseRequest</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

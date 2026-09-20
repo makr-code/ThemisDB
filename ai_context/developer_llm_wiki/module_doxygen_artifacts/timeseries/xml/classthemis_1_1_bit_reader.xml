@@ -1,0 +1,235 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_bit_reader" kind="class" language="C++" prot="public">
+    <compoundname>themis::BitReader</compoundname>
+    <includes refid="gorilla_8h" local="no">gorilla.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_bit_reader_1a396bf308312ebe4c0325df1977ec1931" prot="private" static="no" mutable="no">
+        <type>const uint8_t *</type>
+        <definition>const uint8_t* themis::BitReader::ptr_</definition>
+        <argsstring></argsstring>
+        <name>ptr_</name>
+        <qualifiedname>themis::BitReader::ptr_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/gorilla.h" line="223" column="19" bodyfile="include/timeseries/gorilla.h" bodystart="223" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_bit_reader_1aa296c8111c336cf6e592dcf080b1d3af" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::BitReader::size_</definition>
+        <argsstring></argsstring>
+        <name>size_</name>
+        <qualifiedname>themis::BitReader::size_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/gorilla.h" line="224" column="20" bodyfile="include/timeseries/gorilla.h" bodystart="224" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_bit_reader_1a455b6f21b035d014ac2c3d84b69587c8" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::BitReader::idx_</definition>
+        <argsstring></argsstring>
+        <name>idx_</name>
+        <qualifiedname>themis::BitReader::idx_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/gorilla.h" line="225" column="20" bodyfile="include/timeseries/gorilla.h" bodystart="225" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_bit_reader_1a599bd9cacd686b22131b2bbf3ad7325e" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::BitReader::bitpos_</definition>
+        <argsstring></argsstring>
+        <name>bitpos_</name>
+        <qualifiedname>themis::BitReader::bitpos_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/gorilla.h" line="226" column="20" bodyfile="include/timeseries/gorilla.h" bodystart="226" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_bit_reader_1ae6dd6cc62ad5700a04c69c0c346aaba8" prot="private" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::BitReader::cur_</definition>
+        <argsstring></argsstring>
+        <name>cur_</name>
+        <qualifiedname>themis::BitReader::cur_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/gorilla.h" line="227" column="20" bodyfile="include/timeseries/gorilla.h" bodystart="227" bodyend="227"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_bit_reader_1afca2b2ee33e092747c86f052068e5c97" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::BitReader::BitReader</definition>
+        <argsstring>(const uint8_t *data, size_t size) noexcept</argsstring>
+        <name>BitReader</name>
+        <qualifiedname>themis::BitReader::BitReader</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/gorilla.h" line="96" column="5" bodyfile="include/timeseries/gorilla.h" bodystart="96" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_bit_reader_1a259d97ed14fd9424a8c6013808596753" prot="public" static="no" const="no" explicit="yes" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::BitReader::BitReader</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data) noexcept</argsstring>
+        <name>BitReader</name>
+        <qualifiedname>themis::BitReader::BitReader</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/gorilla.h" line="104" column="14" bodyfile="include/timeseries/gorilla.h" bodystart="104" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_bit_reader_1a6c0952c85984b4093309014dc3629e71" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::BitReader::readBit</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>readBit</name>
+        <qualifiedname>themis::BitReader::readBit</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/gorilla.h" line="107" column="17" bodyfile="include/timeseries/gorilla.h" bodystart="107" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_bit_reader_1a656957dd6f422897d69783584cec3eaa" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::BitReader::readBits</definition>
+        <argsstring>(int bits) noexcept</argsstring>
+        <name>readBits</name>
+        <qualifiedname>themis::BitReader::readBits</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>bits</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/gorilla.h" line="122" column="21" bodyfile="include/timeseries/gorilla.h" bodystart="122" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_bit_reader_1a7eeddc0d76df73a18824e32079ccae42" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::BitReader::readVarUInt</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>readVarUInt</name>
+        <qualifiedname>themis::BitReader::readVarUInt</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/gorilla.h" line="172" column="21" bodyfile="include/timeseries/gorilla.h" bodystart="172" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_bit_reader_1ac22d407571ee4ded0bde27b42779c2af" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::BitReader::readZigZag64</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>readZigZag64</name>
+        <qualifiedname>themis::BitReader::readZigZag64</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/gorilla.h" line="199" column="20" bodyfile="include/timeseries/gorilla.h" bodystart="199" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_bit_reader_1a5ab062ba9eb57b0bb1201c58ff125f76" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::BitReader::eof</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>eof</name>
+        <qualifiedname>themis::BitReader::eof</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/gorilla.h" line="208" column="17" bodyfile="include/timeseries/gorilla.h" bodystart="208" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_bit_reader_1a53e0daf6ad7ba7177a027b269e80a002" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::BitReader::alignToByte</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>alignToByte</name>
+        <qualifiedname>themis::BitReader::alignToByte</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/gorilla.h" line="210" column="17" bodyfile="include/timeseries/gorilla.h" bodystart="210" bodyend="220"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>full inlining and per-call-site optimization. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/timeseries/gorilla.h" line="93" column="1" bodyfile="include/timeseries/gorilla.h" bodystart="93" bodyend="228"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_bit_reader_1a53e0daf6ad7ba7177a027b269e80a002" prot="public" virt="non-virtual"><scope>themis::BitReader</scope><name>alignToByte</name></member>
+      <member refid="classthemis_1_1_bit_reader_1a599bd9cacd686b22131b2bbf3ad7325e" prot="private" virt="non-virtual"><scope>themis::BitReader</scope><name>bitpos_</name></member>
+      <member refid="classthemis_1_1_bit_reader_1afca2b2ee33e092747c86f052068e5c97" prot="public" virt="non-virtual"><scope>themis::BitReader</scope><name>BitReader</name></member>
+      <member refid="classthemis_1_1_bit_reader_1a259d97ed14fd9424a8c6013808596753" prot="public" virt="non-virtual"><scope>themis::BitReader</scope><name>BitReader</name></member>
+      <member refid="classthemis_1_1_bit_reader_1ae6dd6cc62ad5700a04c69c0c346aaba8" prot="private" virt="non-virtual"><scope>themis::BitReader</scope><name>cur_</name></member>
+      <member refid="classthemis_1_1_bit_reader_1a5ab062ba9eb57b0bb1201c58ff125f76" prot="public" virt="non-virtual"><scope>themis::BitReader</scope><name>eof</name></member>
+      <member refid="classthemis_1_1_bit_reader_1a455b6f21b035d014ac2c3d84b69587c8" prot="private" virt="non-virtual"><scope>themis::BitReader</scope><name>idx_</name></member>
+      <member refid="classthemis_1_1_bit_reader_1a396bf308312ebe4c0325df1977ec1931" prot="private" virt="non-virtual"><scope>themis::BitReader</scope><name>ptr_</name></member>
+      <member refid="classthemis_1_1_bit_reader_1a6c0952c85984b4093309014dc3629e71" prot="public" virt="non-virtual"><scope>themis::BitReader</scope><name>readBit</name></member>
+      <member refid="classthemis_1_1_bit_reader_1a656957dd6f422897d69783584cec3eaa" prot="public" virt="non-virtual"><scope>themis::BitReader</scope><name>readBits</name></member>
+      <member refid="classthemis_1_1_bit_reader_1a7eeddc0d76df73a18824e32079ccae42" prot="public" virt="non-virtual"><scope>themis::BitReader</scope><name>readVarUInt</name></member>
+      <member refid="classthemis_1_1_bit_reader_1ac22d407571ee4ded0bde27b42779c2af" prot="public" virt="non-virtual"><scope>themis::BitReader</scope><name>readZigZag64</name></member>
+      <member refid="classthemis_1_1_bit_reader_1aa296c8111c336cf6e592dcf080b1d3af" prot="private" virt="non-virtual"><scope>themis::BitReader</scope><name>size_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

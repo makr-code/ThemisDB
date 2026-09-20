@@ -1,0 +1,171 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_span_record" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::SpanRecord</compoundname>
+    <includes refid="tracer_8h" local="no">tracer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_span_record_1ade0173a3e8c328312ea2362e283b8983" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::SpanRecord::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::observability::SpanRecord::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/tracer.h" line="75" column="17" bodyfile="include/observability/tracer.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_span_record_1a841a0dd7ffb64a91b5fd1928e8f52e3f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::SpanRecord::trace_id</definition>
+        <argsstring></argsstring>
+        <name>trace_id</name>
+        <qualifiedname>themis::observability::SpanRecord::trace_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/tracer.h" line="76" column="17" bodyfile="include/observability/tracer.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_span_record_1ac9c4b70f2db2c9d9be2ba253368bfc7b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::SpanRecord::span_id</definition>
+        <argsstring></argsstring>
+        <name>span_id</name>
+        <qualifiedname>themis::observability::SpanRecord::span_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/tracer.h" line="77" column="17" bodyfile="include/observability/tracer.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_span_record_1a484fcb3eb42bfefa3ae042861d124c96" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::SpanRecord::parent_span_id</definition>
+        <argsstring></argsstring>
+        <name>parent_span_id</name>
+        <qualifiedname>themis::observability::SpanRecord::parent_span_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/tracer.h" line="78" column="17" bodyfile="include/observability/tracer.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_span_record_1a1e3bdb6df9af339beaf4ad8b44b505b8" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::observability::SpanRecord::start_time</definition>
+        <argsstring></argsstring>
+        <name>start_time</name>
+        <qualifiedname>themis::observability::SpanRecord::start_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/tracer.h" line="79" column="43" bodyfile="include/observability/tracer.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_span_record_1a58be3775ad0520fd62df293c3ba8dc5c" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::observability::SpanRecord::end_time</definition>
+        <argsstring></argsstring>
+        <name>end_time</name>
+        <qualifiedname>themis::observability::SpanRecord::end_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/tracer.h" line="80" column="43" bodyfile="include/observability/tracer.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_span_record_1ae0a5397c8b14e2eda60af99e6831efe2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::SpanRecord::ok</definition>
+        <argsstring></argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::observability::SpanRecord::ok</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/tracer.h" line="81" column="10" bodyfile="include/observability/tracer.h" bodystart="81" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_span_record_1ab4f31e43d0ba34d7090a35cf196abc51" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::SpanRecord::status_description</definition>
+        <argsstring></argsstring>
+        <name>status_description</name>
+        <qualifiedname>themis::observability::SpanRecord::status_description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/tracer.h" line="82" column="17" bodyfile="include/observability/tracer.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_span_record_1a535c81062349448d7f2532efb8fc7179" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::observability::SpanRecord::attributes</definition>
+        <argsstring></argsstring>
+        <name>attributes</name>
+        <qualifiedname>themis::observability::SpanRecord::attributes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/tracer.h" line="83" column="14" bodyfile="include/observability/tracer.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_span_record_1a429e4b0bd9d42e6d724fa2c715fa5e8e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::SpanRecord::cpu_profile_folded</definition>
+        <argsstring></argsstring>
+        <name>cpu_profile_folded</name>
+        <qualifiedname>themis::observability::SpanRecord::cpu_profile_folded</qualifiedname>
+        <briefdescription>
+<para>CPU profile snapshot attached when <computeroutput><ref refid="structthemis_1_1observability_1_1_observability_tracer_config_1a5e2dcd82badc91cd1225b95f9447d6e9" kindref="member">ObservabilityTracerConfig::attach_profile_on_span_end</ref></computeroutput> is true and a <computeroutput><ref refid="classthemis_1_1observability_1_1_continuous_profiler" kindref="compound">ContinuousProfiler</ref></computeroutput> is configured. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Contains the folded-stacks text (pprof format) captured at span end. Empty when profiling is not enabled. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/tracer.h" line="93" column="17" bodyfile="include/observability/tracer.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Lightweight in-process record of a completed span. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Retained in the ring buffer for testing and local diagnostics. </para>
+    </detaileddescription>
+    <location file="include/observability/tracer.h" line="74" column="1" bodyfile="include/observability/tracer.h" bodystart="74" bodyend="94"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_span_record_1a535c81062349448d7f2532efb8fc7179" prot="public" virt="non-virtual"><scope>themis::observability::SpanRecord</scope><name>attributes</name></member>
+      <member refid="structthemis_1_1observability_1_1_span_record_1a429e4b0bd9d42e6d724fa2c715fa5e8e" prot="public" virt="non-virtual"><scope>themis::observability::SpanRecord</scope><name>cpu_profile_folded</name></member>
+      <member refid="structthemis_1_1observability_1_1_span_record_1a58be3775ad0520fd62df293c3ba8dc5c" prot="public" virt="non-virtual"><scope>themis::observability::SpanRecord</scope><name>end_time</name></member>
+      <member refid="structthemis_1_1observability_1_1_span_record_1ade0173a3e8c328312ea2362e283b8983" prot="public" virt="non-virtual"><scope>themis::observability::SpanRecord</scope><name>name</name></member>
+      <member refid="structthemis_1_1observability_1_1_span_record_1ae0a5397c8b14e2eda60af99e6831efe2" prot="public" virt="non-virtual"><scope>themis::observability::SpanRecord</scope><name>ok</name></member>
+      <member refid="structthemis_1_1observability_1_1_span_record_1a484fcb3eb42bfefa3ae042861d124c96" prot="public" virt="non-virtual"><scope>themis::observability::SpanRecord</scope><name>parent_span_id</name></member>
+      <member refid="structthemis_1_1observability_1_1_span_record_1ac9c4b70f2db2c9d9be2ba253368bfc7b" prot="public" virt="non-virtual"><scope>themis::observability::SpanRecord</scope><name>span_id</name></member>
+      <member refid="structthemis_1_1observability_1_1_span_record_1a1e3bdb6df9af339beaf4ad8b44b505b8" prot="public" virt="non-virtual"><scope>themis::observability::SpanRecord</scope><name>start_time</name></member>
+      <member refid="structthemis_1_1observability_1_1_span_record_1ab4f31e43d0ba34d7090a35cf196abc51" prot="public" virt="non-virtual"><scope>themis::observability::SpanRecord</scope><name>status_description</name></member>
+      <member refid="structthemis_1_1observability_1_1_span_record_1a841a0dd7ffb64a91b5fd1928e8f52e3f" prot="public" virt="non-virtual"><scope>themis::observability::SpanRecord</scope><name>trace_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

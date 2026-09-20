@@ -1,0 +1,3533 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1process" kind="namespace" language="C++">
+    <compoundname>themis::process</compoundname>
+    <innerclass refid="classthemis_1_1process_1_1_application_custom_strategy" prot="public">themis::process::ApplicationCustomStrategy</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_aris_xml_manager_test" prot="public">themis::process::ArisXmlManagerTest</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_audit_entry" prot="public">themis::process::AuditEntry</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_audit_logger_config" prot="public">themis::process::AuditLoggerConfig</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_audit_logger_stats" prot="public">themis::process::AuditLoggerStats</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_audit_record" prot="public">themis::process::AuditRecord</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_audit_retention_policy" prot="public">themis::process::AuditRetentionPolicy</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_audit_trail_entry" prot="public">themis::process::AuditTrailEntry</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_batch_queue_entry" prot="public">themis::process::BatchQueueEntry</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_bpmn_parsing_determinism_spec" prot="public">themis::process::BpmnParsingDeterminismSpec</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_bpmn_serializer" prot="public">themis::process::BpmnSerializer</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_bpmn_serializer_concurrency_contract" prot="public">themis::process::BpmnSerializerConcurrencyContract</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_bpmn_validator" prot="public">themis::process::BpmnValidator</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_bulk_link_creation_stress" prot="public">themis::process::BulkLinkCreationStress</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_circular_reference_detection_stress" prot="public">themis::process::CircularReferenceDetectionStress</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_cmmn_parsing_determinism_spec" prot="public">themis::process::CmmnParsingDeterminismSpec</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_cmmn_serializer" prot="public">themis::process::CmmnSerializer</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_cmmn_serializer_concurrency_contract" prot="public">themis::process::CmmnSerializerConcurrencyContract</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_cmmn_validator" prot="public">themis::process::CmmnValidator</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_community_detection_timeout_stress" prot="public">themis::process::CommunityDetectionTimeoutStress</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_concurrent_query_churn_stress" prot="public">themis::process::ConcurrentQueryChurnStress</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_conflict_analysis" prot="public">themis::process::ConflictAnalysis</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_conflict_context" prot="public">themis::process::ConflictContext</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_conflict_info" prot="public">themis::process::ConflictInfo</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_conflict_metadata" prot="public">themis::process::ConflictMetadata</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_conflict_resolution_config" prot="public">themis::process::ConflictResolutionConfig</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_conflict_resolution_registry" prot="public">themis::process::ConflictResolutionRegistry</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_conflict_resolution_result" prot="public">themis::process::ConflictResolutionResult</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_conflict_resolver_config" prot="public">themis::process::ConflictResolverConfig</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_conflict_resolver_manager" prot="public">themis::process::ConflictResolverManager</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_conflict_resolver_stats" prot="public">themis::process::ConflictResolverStats</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_consensus_log_entry" prot="public">themis::process::ConsensusLogEntry</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_consensus_snapshot" prot="public">themis::process::ConsensusSnapshot</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_decision_table" prot="public">themis::process::DecisionTable</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_deep_nesting_stress" prot="public">themis::process::DeepNestingStress</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_delta_patch_codec" prot="public">themis::process::DeltaPatchCodec</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_diagnostic_context" prot="public">themis::process::DiagnosticContext</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_diagnostic_metrics_collector" prot="public">themis::process::DiagnosticMetricsCollector</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_diagnostic_record" prot="public">themis::process::DiagnosticRecord</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_distributed_span" prot="public">themis::process::DistributedSpan</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_dmn_evaluator" prot="public">themis::process::DmnEvaluator</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_dmn_evaluator_thread_safety_test" prot="public">themis::process::DmnEvaluatorThreadSafetyTest</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_dmn_rule" prot="public">themis::process::DmnRule</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_dmn_validator" prot="public">themis::process::DmnValidator</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_empty_graph_query_stress" prot="public">themis::process::EmptyGraphQueryStress</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_epk_aris_xml_importer" prot="public">themis::process::EpkArisXmlImporter</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_epk_serializer" prot="public">themis::process::EpkSerializer</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_epk_validator" prot="public">themis::process::EpkValidator</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_epoch_manager" prot="public">themis::process::EpochManager</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_extended_diagnostic_record" prot="public">themis::process::ExtendedDiagnosticRecord</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_extended_process_diagnostics" prot="public">themis::process::ExtendedProcessDiagnostics</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_federation_consensus_config" prot="public">themis::process::FederationConsensusConfig</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_federation_consensus_manager" prot="public">themis::process::FederationConsensusManager</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_federation_consensus_manager_impl" prot="public">themis::process::FederationConsensusManagerImpl</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_federation_replica_config" prot="public">themis::process::FederationReplicaConfig</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_federation_replica_manager" prot="public">themis::process::FederationReplicaManager</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_federation_replica_manager_impl" prot="public">themis::process::FederationReplicaManagerImpl</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_fim_importer" prot="public">themis::process::FimImporter</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_fim_model_result" prot="public">themis::process::FimModelResult</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_first_write_wins_resolver" prot="public">themis::process::FirstWriteWinsResolver</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_first_write_wins_strategy" prot="public">themis::process::FirstWriteWinsStrategy</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_gossip_message" prot="public">themis::process::GossipMessage</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_gossip_version_vector" prot="public">themis::process::GossipVersionVector</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_high_churn_scenario_guidelines" prot="public">themis::process::HighChurnScenarioGuidelines</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_history_snapshot" prot="public">themis::process::HistorySnapshot</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_i_conflict_resolution_plugin" prot="public">themis::process::IConflictResolutionPlugin</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_i_conflict_resolution_strategy" prot="public">themis::process::IConflictResolutionStrategy</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_i_l_l_m_process_adapter" prot="public">themis::process::ILLMProcessAdapter</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_i_process_tracer" prot="public">themis::process::IProcessTracer</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_i_span" prot="public">themis::process::ISpan</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_i_xpdl_importer" prot="public">themis::process::IXpdlImporter</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_large_context_size_stress" prot="public">themis::process::LargeContextSizeStress</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_large_element_count_stress" prot="public">themis::process::LargeElementCountStress</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_last_write_wins_resolver" prot="public">themis::process::LastWriteWinsResolver</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_last_write_wins_strategy" prot="public">themis::process::LastWriteWinsStrategy</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_light_retrieval_result" prot="public">themis::process::LightRetrievalResult</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_link_attribute_mutation_stress" prot="public">themis::process::LinkAttributeMutationStress</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_link_consistency_determinism_spec" prot="public">themis::process::LinkConsistencyDeterminismSpec</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_l_l_m_descriptor_config" prot="public">themis::process::LLMDescriptorConfig</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_llm_process_descriptor" prot="public">themis::process::LlmProcessDescriptor</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_lock_free_batch_queue" prot="public">themis::process::LockFreeBatchQueue</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_lock_free_hash_table" prot="public">themis::process::LockFreeHashTable</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_lock_free_link_entry" prot="public">themis::process::LockFreeLinkEntry</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_lock_free_linker_config" prot="public">themis::process::LockFreeLinkerConfig</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_lock_free_linker_metrics" prot="public">themis::process::LockFreeLinkerMetrics</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_l_w_w_resolution_strategy" prot="public">themis::process::LWWResolutionStrategy</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_malformed_xml_recovery_stress" prot="public">themis::process::MalformedXmlRecoveryStress</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_model_delta" prot="public">themis::process::ModelDelta</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_model_history_config" prot="public">themis::process::ModelHistoryConfig</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_model_update_determinism_spec" prot="public">themis::process::ModelUpdateDeterminismSpec</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_model_version" prot="public">themis::process::ModelVersion</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_object_centric_tracer" prot="public">themis::process::ObjectCentricTracer</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_ocel_event" prot="public">themis::process::OcelEvent</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_ocel_exporter" prot="public">themis::process::OcelExporter</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_operation_log_query" prot="public">themis::process::OperationLogQuery</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_operation_log_query_result" prot="public">themis::process::OperationLogQueryResult</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_orphaned_link_resolution_stress" prot="public">themis::process::OrphanedLinkResolutionStress</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_parser_state_tracker" prot="public">themis::process::ParserStateTracker</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_paxos_accept_request" prot="public">themis::process::PaxosAcceptRequest</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_paxos_accept_response" prot="public">themis::process::PaxosAcceptResponse</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_paxos_prepare_request" prot="public">themis::process::PaxosPrepareRequest</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_paxos_prepare_response" prot="public">themis::process::PaxosPrepareResponse</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_ppr_config" prot="public">themis::process::PprConfig</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_process_agentic_config" prot="public">themis::process::ProcessAgenticConfig</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_process_agentic_rag" prot="public">themis::process::ProcessAgenticRag</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_process_agentic_result" prot="public">themis::process::ProcessAgenticResult</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_process_attachment" prot="public">themis::process::ProcessAttachment</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_process_audit_logger" prot="public">themis::process::ProcessAuditLogger</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_process_audit_logger_impl" prot="public">themis::process::ProcessAuditLoggerImpl</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_process_community" prot="public">themis::process::ProcessCommunity</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_process_community_detector" prot="public">themis::process::ProcessCommunityDetector</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_process_conflict_resolver" prot="public">themis::process::ProcessConflictResolver</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_process_conflict_resolver_callback" prot="public">themis::process::ProcessConflictResolverCallback</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_process_conflict_resolver_impl" prot="public">themis::process::ProcessConflictResolverImpl</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_process_descriptor" prot="public">themis::process::ProcessDescriptor</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_process_diagnostics" prot="public">themis::process::ProcessDiagnostics</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_process_graph_rag" prot="public">themis::process::ProcessGraphRag</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_process_light_retriever" prot="public">themis::process::ProcessLightRetriever</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_process_light_retriever_concurrency_contract" prot="public">themis::process::ProcessLightRetrieverConcurrencyContract</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_process_link" prot="public">themis::process::ProcessLink</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_process_linker" prot="public">themis::process::ProcessLinker</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_process_linker_concurrency_contract" prot="public">themis::process::ProcessLinkerConcurrencyContract</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_process_model_generator" prot="public">themis::process::ProcessModelGenerator</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_process_model_manager" prot="public">themis::process::ProcessModelManager</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_process_model_manager_concurrency_contract" prot="public">themis::process::ProcessModelManagerConcurrencyContract</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_process_model_record" prot="public">themis::process::ProcessModelRecord</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_process_model_result" prot="public">themis::process::ProcessModelResult</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_process_rag_config" prot="public">themis::process::ProcessRagConfig</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_process_rag_context" prot="public">themis::process::ProcessRagContext</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_process_stress_scenarios" prot="public">themis::process::ProcessStressScenarios</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_process_telemetry_integration" prot="public">themis::process::ProcessTelemetryIntegration</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_process_telemetry_integration_impl" prot="public">themis::process::ProcessTelemetryIntegrationImpl</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_raft_append_entries_request" prot="public">themis::process::RaftAppendEntriesRequest</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_raft_append_entries_response" prot="public">themis::process::RaftAppendEntriesResponse</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_raft_vote_request" prot="public">themis::process::RaftVoteRequest</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_raft_vote_response" prot="public">themis::process::RaftVoteResponse</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_recover_model_request" prot="public">themis::process::RecoverModelRequest</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_recover_model_result" prot="public">themis::process::RecoverModelResult</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_replica_stats" prot="public">themis::process::ReplicaStats</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_reproducibility_guidelines" prot="public">themis::process::ReproducibilityGuidelines</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_retrieval_consistency_determinism_spec" prot="public">themis::process::RetrievalConsistencyDeterminismSpec</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_serializer_input_validator" prot="public">themis::process::SerializerInputValidator</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_serializer_validation_result" prot="public">themis::process::SerializerValidationResult</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_snapshot" prot="public">themis::process::Snapshot</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_span_attributes" prot="public">themis::process::SpanAttributes</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_span_event" prot="public">themis::process::SpanEvent</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_split_brain_config" prot="public">themis::process::SplitBrainConfig</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_state_transition_determinism_spec" prot="public">themis::process::StateTransitionDeterminismSpec</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_stress_scenario_result" prot="public">themis::process::StressScenarioResult</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_telemetry_config" prot="public">themis::process::TelemetryConfig</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_telemetry_stats" prot="public">themis::process::TelemetryStats</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_temporal_query" prot="public">themis::process::TemporalQuery</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_temporal_query_result" prot="public">themis::process::TemporalQueryResult</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_three_way_merge_strategy" prot="public">themis::process::ThreeWayMergeStrategy</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_trace_context" prot="public">themis::process::TraceContext</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_tracing_config" prot="public">themis::process::TracingConfig</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_unsupported_gateway_stress" prot="public">themis::process::UnsupportedGatewayStress</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_vcc_vpb_importer" prot="public">themis::process::VccVpbImporter</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_vcc_vpb_importer_resource_test" prot="public">themis::process::VccVpbImporterResourceTest</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_versioned_link_state" prot="public">themis::process::VersionedLinkState</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_version_info" prot="public">themis::process::VersionInfo</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_xpdl_import_result" prot="public">themis::process::XpdlImportResult</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_xpdl_package" prot="public">themis::process::XpdlPackage</innerclass>
+    <innernamespace refid="namespacethemis_1_1process_1_1benchmark">themis::process::benchmark</innernamespace>
+    <innernamespace refid="namespacethemis_1_1process_1_1test">themis::process::test</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1process_1a547777206cac89623abb9585547ff2ff" prot="public" static="no" strong="yes">
+        <type>int32_t</type>
+        <name>ConflictType</name>
+        <qualifiedname>themis::process::ConflictType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1process_1a547777206cac89623abb9585547ff2ffa077ad316e916b81bda3de11e749ca21b" prot="public">
+          <name>IMPORT_COLLISION</name>
+          <initializer>= 6200</initializer>
+          <briefdescription>
+<para>Same model ID imported on different shards with different content. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a547777206cac89623abb9585547ff2ffa1f3f1ef8c4cd9ab749dd93b23740edd8" prot="public">
+          <name>LINKING_COLLISION</name>
+          <initializer>= 6201</initializer>
+          <briefdescription>
+<para>Link created to same target from different sources concurrently. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a547777206cac89623abb9585547ff2ffa454998446963cf54d88bf67914c089c9" prot="public">
+          <name>CONCURRENT_MODIFICATION</name>
+          <initializer>= 6202</initializer>
+          <briefdescription>
+<para>Model modified concurrently on multiple shards. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a547777206cac89623abb9585547ff2ffac6ff07ce59eb49f40e8b510587052c48" prot="public">
+          <name>VERSION_DIVERGENCE</name>
+          <initializer>= 6203</initializer>
+          <briefdescription>
+<para>Replicas have diverged; version vector mismatch. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Type of conflict detected during federation sync or replication. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/conflict_resolution_plugin.h" line="120" column="1" bodyfile="include/process/conflict_resolution_plugin.h" bodystart="120" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1process_1a733ec522102040a4f444b075e11a1a22" prot="public" static="no" strong="yes">
+        <type>int32_t</type>
+        <name>ConflictResolutionStrategy</name>
+        <qualifiedname>themis::process::ConflictResolutionStrategy</qualifiedname>
+        <enumvalue id="namespacethemis_1_1process_1a733ec522102040a4f444b075e11a1a22ad9b768e81daf4b313c713a6e459a56dd" prot="public">
+          <name>LOCAL_WINS</name>
+          <initializer>= 6210</initializer>
+          <briefdescription>
+<para>Local version wins; remote version discarded. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a733ec522102040a4f444b075e11a1a22ac7cd87884a7a9eee79127c500b2d8b87" prot="public">
+          <name>REMOTE_WINS</name>
+          <initializer>= 6211</initializer>
+          <briefdescription>
+<para>Remote version wins; local version replaced. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a733ec522102040a4f444b075e11a1a22aa760dc5664932cf921b2940e502318e9" prot="public">
+          <name>MERGED</name>
+          <initializer>= 6212</initializer>
+          <briefdescription>
+<para>Merged version from 3-way merge (plugin-generated). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a733ec522102040a4f444b075e11a1a22a1bc1135786a78aab2926ed56e5f5801c" prot="public">
+          <name>UNRESOLVED</name>
+          <initializer>= 6213</initializer>
+          <briefdescription>
+<para>Conflict unresolved; fallback to deterministic LWW tiebreaker. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a733ec522102040a4f444b075e11a1a22ad06d3fbd380c4166873f14e779d23789" prot="public">
+          <name>kLastWriteWins</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Last-Write-Wins with tie-breaking by node ID. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a733ec522102040a4f444b075e11a1a22a7c300431fe7b71e0e09377bf6a2a1e6a" prot="public">
+          <name>kFirstWriteWins</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>First-Write-Wins (earliest timestamp). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a733ec522102040a4f444b075e11a1a22a369fb6ad51d970074d48946c7156d3bb" prot="public">
+          <name>kApplicationCallback</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Application-provided callback determines winner. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a733ec522102040a4f444b075e11a1a22a117a629c00950e8707e59c293738b1a7" prot="public">
+          <name>kUnconfigured</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>Error: no strategy configured (default to LWW). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Resolution strategy determined by conflict resolution plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/conflict_resolution_plugin.h" line="134" column="1" bodyfile="include/process/conflict_resolution_plugin.h" bodystart="134" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1process_1a732dc7de1ad56fd0c80a405a07489070" prot="public" static="no" strong="yes">
+        <type>int32_t</type>
+        <name>ConsensusType</name>
+        <qualifiedname>themis::process::ConsensusType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1process_1a732dc7de1ad56fd0c80a405a07489070af831d834df040618e0117917ac0dcb62" prot="public">
+          <name>RAFT</name>
+          <initializer>= 6100</initializer>
+          <briefdescription>
+<para>Raft (leader-based, strongly consistent). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a732dc7de1ad56fd0c80a405a07489070aaa1968070500759fe3e25480f899282b" prot="public">
+          <name>PAXOS</name>
+          <initializer>= 6101</initializer>
+          <briefdescription>
+<para>Paxos (quorum-based, strongly consistent). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a732dc7de1ad56fd0c80a405a07489070a3d35b67f7532ad5204628c67a94d08d6" prot="public">
+          <name>GOSSIP</name>
+          <initializer>= 6102</initializer>
+          <briefdescription>
+<para>Gossip (leaderless, eventual consistency, Byzantine-tolerant). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Supported consensus protocols for process federation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_consensus_contract.h" line="136" column="1" bodyfile="include/process/federated_consensus_contract.h" bodystart="136" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1process_1aef3ef3d0d56c42ba3307b8b3f1d7cf26" prot="public" static="no" strong="yes">
+        <type>int32_t</type>
+        <name>ConsensusNodeState</name>
+        <qualifiedname>themis::process::ConsensusNodeState</qualifiedname>
+        <enumvalue id="namespacethemis_1_1process_1aef3ef3d0d56c42ba3307b8b3f1d7cf26a8026987f2531b5fa5178a851c108397c" prot="public">
+          <name>FOLLOWER</name>
+          <initializer>= 6110</initializer>
+          <briefdescription>
+<para>Node is following a leader (Raft/Paxos) or gossiping (all). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1aef3ef3d0d56c42ba3307b8b3f1d7cf26abea4821516973214973a70aea8337c38" prot="public">
+          <name>CANDIDATE</name>
+          <initializer>= 6111</initializer>
+          <briefdescription>
+<para>Node is in election phase (Raft) or proposing (Paxos). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1aef3ef3d0d56c42ba3307b8b3f1d7cf26ab8058aa3ecd39b676ce80d6aaadc5e64" prot="public">
+          <name>LEADER</name>
+          <initializer>= 6112</initializer>
+          <briefdescription>
+<para>Node is the current leader (Raft) or consensus acceptor (Paxos). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1aef3ef3d0d56c42ba3307b8b3f1d7cf26aff728df6b722b64ac3eb9019959d716c" prot="public">
+          <name>OBSERVER</name>
+          <initializer>= 6113</initializer>
+          <briefdescription>
+<para>Node observes consensus but does not participate in voting. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1aef3ef3d0d56c42ba3307b8b3f1d7cf26a58fd3b3b1f27606728077423eb21d8d6" prot="public">
+          <name>UNREACHABLE</name>
+          <initializer>= 6114</initializer>
+          <briefdescription>
+<para>Node is offline or unresponsive. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Consensus state for a node in a federated cluster. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_consensus_contract.h" line="148" column="1" bodyfile="include/process/federated_consensus_contract.h" bodystart="148" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1process_1aacfcb7493363b25e737885d1e89bcaea" prot="public" static="no" strong="yes">
+        <type>int32_t</type>
+        <name>SplitBrainState</name>
+        <qualifiedname>themis::process::SplitBrainState</qualifiedname>
+        <enumvalue id="namespacethemis_1_1process_1aacfcb7493363b25e737885d1e89bcaeaae12ab2013376ab01a1cdf04277af2399" prot="public">
+          <name>UNIFIED</name>
+          <initializer>= 6130</initializer>
+          <briefdescription>
+<para>No split detected; cluster is unified. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1aacfcb7493363b25e737885d1e89bcaeaadf7965066d17ab3d75c2929dd4e9dade" prot="public">
+          <name>SPLIT_DETECTED</name>
+          <initializer>= 6131</initializer>
+          <briefdescription>
+<para>Split detected: two or more partitions with active leaders. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1aacfcb7493363b25e737885d1e89bcaeaad6c1942ed53f9fb0e986c163ff2e785e" prot="public">
+          <name>RECOVERY_IN_PROGRESS</name>
+          <initializer>= 6132</initializer>
+          <briefdescription>
+<para>Recovery in progress: higher-term leader invalidating lower-term. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Split-brain detection result. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_consensus_contract.h" line="496" column="1" bodyfile="include/process/federated_consensus_contract.h" bodystart="496" bodyend="503"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1process_1a9617c0fb0188a9a2dacfe5c1f84d5787" prot="public" static="no" strong="yes">
+        <type>int32_t</type>
+        <name>ProcessSpanType</name>
+        <qualifiedname>themis::process::ProcessSpanType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1process_1a9617c0fb0188a9a2dacfe5c1f84d5787ad9c89e6459f4fbd0b03b5bc093e87919" prot="public">
+          <name>IMPORT</name>
+          <initializer>= 6300</initializer>
+          <briefdescription>
+<para>Import operation span. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a9617c0fb0188a9a2dacfe5c1f84d5787a58c0a0e97e6d2f615bc264c2775fda44" prot="public">
+          <name>LINK</name>
+          <initializer>= 6301</initializer>
+          <briefdescription>
+<para>Link creation span. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a9617c0fb0188a9a2dacfe5c1f84d5787aa0dc19226febe43cdc37186a6dd002f5" prot="public">
+          <name>FEDERATION_SYNC</name>
+          <initializer>= 6302</initializer>
+          <briefdescription>
+<para>Federation sync span. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a9617c0fb0188a9a2dacfe5c1f84d5787a215589da58063b7fa50160ce2396c411" prot="public">
+          <name>CONFLICT_RESOLUTION</name>
+          <initializer>= 6303</initializer>
+          <briefdescription>
+<para>Conflict resolution span. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a9617c0fb0188a9a2dacfe5c1f84d5787a06328d7d894dce8ca70de7cecf561a16" prot="public">
+          <name>CONSENSUS_RPC</name>
+          <initializer>= 6304</initializer>
+          <briefdescription>
+<para>Consensus RPC call span. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a9617c0fb0188a9a2dacfe5c1f84d5787a96ad5e23faa67c0157a05e5237f857fc" prot="public">
+          <name>VALIDATION</name>
+          <initializer>= 6305</initializer>
+          <briefdescription>
+<para>Model validation span. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a9617c0fb0188a9a2dacfe5c1f84d5787a9c90eb3f9201a7df861d94e494aa9b0b" prot="public">
+          <name>RECOVERY</name>
+          <initializer>= 6306</initializer>
+          <briefdescription>
+<para>Point-in-time recovery span. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Type of process module span. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_span_contract.h" line="190" column="1" bodyfile="include/process/federated_span_contract.h" bodystart="190" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1process_1ad46c8698aedc17f8d0582dc1ce931106" prot="public" static="no" strong="yes">
+        <type>int32_t</type>
+        <name>SpanStatus</name>
+        <qualifiedname>themis::process::SpanStatus</qualifiedname>
+        <enumvalue id="namespacethemis_1_1process_1ad46c8698aedc17f8d0582dc1ce931106ae0aa021e21dddbd6d8cecec71e9cf564" prot="public">
+          <name>OK</name>
+          <initializer>= 6310</initializer>
+          <briefdescription>
+<para>Operation completed successfully. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1ad46c8698aedc17f8d0582dc1ce931106abb1ca97ec761fc37101737ba0aa2e7c5" prot="public">
+          <name>ERROR</name>
+          <initializer>= 6311</initializer>
+          <briefdescription>
+<para>Operation failed with error. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1ad46c8698aedc17f8d0582dc1ce931106a9f935beb31030ad0d4d26126c0f39bf2" prot="public">
+          <name>CANCELLED</name>
+          <initializer>= 6312</initializer>
+          <briefdescription>
+<para>Operation cancelled or timed out. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Span status indicating success/failure. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_span_contract.h" line="210" column="1" bodyfile="include/process/federated_span_contract.h" bodystart="210" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1process_1aac7b4c90bb37716643d811eb10c196cd" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ServerState</name>
+        <qualifiedname>themis::process::ServerState</qualifiedname>
+        <enumvalue id="namespacethemis_1_1process_1aac7b4c90bb37716643d811eb10c196cda8026987f2531b5fa5178a851c108397c" prot="public">
+          <name>FOLLOWER</name>
+          <briefdescription>
+<para>Following leader. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1aac7b4c90bb37716643d811eb10c196cdabea4821516973214973a70aea8337c38" prot="public">
+          <name>CANDIDATE</name>
+          <briefdescription>
+<para>Candidate in election. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1aac7b4c90bb37716643d811eb10c196cdab8058aa3ecd39b676ce80d6aaadc5e64" prot="public">
+          <name>LEADER</name>
+          <briefdescription>
+<para>Leader. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Server state machine state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federation_consensus_manager.h" line="35" column="1" bodyfile="include/process/federation_consensus_manager.h" bodystart="35" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1process_1a96139a60e89cdcfc981cb4013056a198" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>LLMDescriptorBackend</name>
+        <qualifiedname>themis::process::LLMDescriptorBackend</qualifiedname>
+        <enumvalue id="namespacethemis_1_1process_1a96139a60e89cdcfc981cb4013056a198a0ff10a09c8ab71e6e63db5b7c2d41463" prot="public">
+          <name>OPENAI</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a96139a60e89cdcfc981cb4013056a198ad25beee206afe743e05abf85a6a4465e" prot="public">
+          <name>ANTHROPIC</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a96139a60e89cdcfc981cb4013056a198a003b7834b373a4be97ec57306fc31cae" prot="public">
+          <name>GEMINI</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a96139a60e89cdcfc981cb4013056a198a38d563f733599b86c7f8acfe79ce0acb" prot="public">
+          <name>LLAMA_CPP</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a96139a60e89cdcfc981cb4013056a198a5d748776618fab1f16277452ce32edae" prot="public">
+          <name>THEMIS_NATIVE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/llm_process_adapter.h" line="20" column="1" bodyfile="include/process/llm_process_adapter.h" bodystart="20" bodyend="20"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1process_1a2aa962a0f0bab21681cfd4dbb1ddf44b" prot="public" static="no" strong="yes">
+        <type>uint32_t</type>
+        <name>LinkState</name>
+        <qualifiedname>themis::process::LinkState</qualifiedname>
+        <enumvalue id="namespacethemis_1_1process_1a2aa962a0f0bab21681cfd4dbb1ddf44bac69f06e1a9b016d133907b4e5f5864d2" prot="public">
+          <name>PENDING</name>
+          <initializer>= 6400</initializer>
+          <briefdescription>
+<para>Link created, not yet committed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2aa962a0f0bab21681cfd4dbb1ddf44ba18ff74f43da410c5529f7d6fca84f115" prot="public">
+          <name>ACTIVE</name>
+          <initializer>= 6401</initializer>
+          <briefdescription>
+<para>Link committed, active, accessible. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2aa962a0f0bab21681cfd4dbb1ddf44baa488109fd17a4edd100dc2f5a94408a3" prot="public">
+          <name>MARKED_FOR_DELETION</name>
+          <initializer>= 6402</initializer>
+          <briefdescription>
+<para>Link marked for deletion (epoch-based cleanup pending). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2aa962a0f0bab21681cfd4dbb1ddf44ba63c2867fdcae0e8e8413d7ac21b69b59" prot="public">
+          <name>DELETED</name>
+          <initializer>= 6403</initializer>
+          <briefdescription>
+<para>Link deleted, reclaimed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>State of a link in lock-free registry. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/lock_free_linker_contract.h" line="136" column="1" bodyfile="include/process/lock_free_linker_contract.h" bodystart="136" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1process_1aba823db106df48bd5bc22615f51835b1" prot="public" static="no" strong="yes">
+        <type>int32_t</type>
+        <name>LockFreeMode</name>
+        <qualifiedname>themis::process::LockFreeMode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1process_1aba823db106df48bd5bc22615f51835b1aab31bec9f225c267404c10484d05dd91" prot="public">
+          <name>LOCK_FREE_ENABLED</name>
+          <initializer>= 6410</initializer>
+          <briefdescription>
+<para>Lock-free mode enabled (use atomic operations). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1aba823db106df48bd5bc22615f51835b1ae1c76faed7826e10c1d4b37070914195" prot="public">
+          <name>LOCK_FREE_DISABLED</name>
+          <initializer>= 6411</initializer>
+          <briefdescription>
+<para>Lock-free mode disabled (use traditional mutex locking for safety). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Build-time flag to enable/disable lock-free code. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Can be set to LOCK_FREE_DISABLED for safety/testing to force traditional locking even when lock_free config is enabled. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/lock_free_linker_contract.h" line="534" column="1" bodyfile="include/process/lock_free_linker_contract.h" bodystart="534" bodyend="539"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7" prot="public" static="no" strong="yes">
+        <type>int32_t</type>
+        <name>ProcError</name>
+        <qualifiedname>themis::process::ProcError</qualifiedname>
+        <enumvalue id="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7a8c632159fa131f09d04f94e3cbcd8782" prot="public">
+          <name>kSuccess</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Operation completed successfully. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7a686191482703054dccb0dcb10756527d" prot="public">
+          <name>kUnsupportedElement</name>
+          <initializer>= 7600</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7a9aa96dad5ce68b8d3813b7641f664c18" prot="public">
+          <name>kInvalidTransition</name>
+          <initializer>= 7601</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7a4b60aca2ee1bb78b46307ea39eae7042" prot="public">
+          <name>kSerialiserFailed</name>
+          <initializer>= 7602</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7a6811861e69e4abb67fbe059223210c0b" prot="public">
+          <name>kDeserialiserFailed</name>
+          <initializer>= 7603</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7a7b53e5920b10cd9111864160d63d4551" prot="public">
+          <name>kExecutionTimeout</name>
+          <initializer>= 7604</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7ac207639b800282b33c02fd182df33b52" prot="public">
+          <name>kRetrievalFailed</name>
+          <initializer>= 7610</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7a7d0d7447539b3056ebe92da4b4b2bf74" prot="public">
+          <name>kLinkingStateInvalid</name>
+          <initializer>= 7611</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7ae29a5249b0da49807ed60f4232f937da" prot="public">
+          <name>kMaxDepthExceeded</name>
+          <initializer>= 7605</initializer>
+          <briefdescription>
+<para>Max nesting depth exceeded. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7a8e0e11194fb78b1085583dc23e4ff396" prot="public">
+          <name>kMaxElementsExceeded</name>
+          <initializer>= 7606</initializer>
+          <briefdescription>
+<para>Max elements in model exceeded. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7aadc0b8561a111ad40f9fc660b73b7f66" prot="public">
+          <name>kMaxContextSizeExceeded</name>
+          <initializer>= 7607</initializer>
+          <briefdescription>
+<para>Max retrieval context size exceeded. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7ad8f434f2bfdc5abac58b9c2b64d69e9b" prot="public">
+          <name>kValidationFailed</name>
+          <initializer>= 7608</initializer>
+          <briefdescription>
+<para>Model validation failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7a9fcd1532c11b8ef3b30f702300891625" prot="public">
+          <name>kLinkingFailed</name>
+          <initializer>= 7609</initializer>
+          <briefdescription>
+<para>Process linking operation failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_api_contract.h" line="57" column="1" bodyfile="include/process/process_api_contract.h" bodystart="57" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2" prot="public" static="no" strong="yes">
+        <type>int32_t</type>
+        <name>ProcessErrorCode</name>
+        <qualifiedname>themis::process::ProcessErrorCode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2a20606e65ec283b4492403894df6ff91c" prot="public">
+          <name>EMPTY_INPUT</name>
+          <initializer>= 7600</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2a96c1f0a4abe8a2d4a6e95697160d7adb" prot="public">
+          <name>INPUT_TOO_LARGE</name>
+          <initializer>= 7601</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2af88d9fd35ebaa1c03d36fd2c66dffcef" prot="public">
+          <name>MALFORMED_INPUT</name>
+          <initializer>= 7602</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2ab68cac8a3994ebabecd4fb63f7b9aba7" prot="public">
+          <name>MISSING_REQUIRED_ELEMENT</name>
+          <initializer>= 7603</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2a62ada69fa901257037d29509da899bef" prot="public">
+          <name>UNSUPPORTED_ELEMENT</name>
+          <initializer>= 7604</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2af315642a0783c192094235b4185a771e" prot="public">
+          <name>BROKEN_REFERENCE</name>
+          <initializer>= 7605</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2a99303a4659e8a1a5fe2193a7a5019258" prot="public">
+          <name>FILE_READ_ERROR</name>
+          <initializer>= 7606</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2a53f916dace26be529578501fc6432f64" prot="public">
+          <name>SEMANTIC_VIOLATION</name>
+          <initializer>= 7607</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2a143316308927631a545acc6e16b4c4c2" prot="public">
+          <name>ENCODING_ERROR</name>
+          <initializer>= 7608</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2ad5b6624d9afe6dea74d85aba4997d171" prot="public">
+          <name>RESOURCE_EXHAUSTION_IMPORT</name>
+          <initializer>= 7609</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2a7910c61dde2815d5f45995864ffb7f15" prot="public">
+          <name>MODEL_NOT_FOUND</name>
+          <initializer>= 7610</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2a514ca0796e343a370dc5833790b8a81a" prot="public">
+          <name>MODEL_ALREADY_EXISTS</name>
+          <initializer>= 7611</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2a518bfe85020c77b0b04bcd47dff41167" prot="public">
+          <name>INVALID_MODEL_STATE</name>
+          <initializer>= 7612</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2a2eeaefeeb95dcb9aba21d47a29e0c943" prot="public">
+          <name>MODEL_PERSISTENCE_FAILED</name>
+          <initializer>= 7613</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2a287583bef26d437d6d73a42eb0b912b5" prot="public">
+          <name>NORMALIZATION_FAILED</name>
+          <initializer>= 7614</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2a786c26df982a51e41f7226de9b017b68" prot="public">
+          <name>SNAPSHOT_FAILED</name>
+          <initializer>= 7615</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2a64ceb838f8aba611131e7afd5ac9311c" prot="public">
+          <name>EXPORT_FAILED</name>
+          <initializer>= 7616</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2a454998446963cf54d88bf67914c089c9" prot="public">
+          <name>CONCURRENT_MODIFICATION</name>
+          <initializer>= 7617</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2a5aa43248243c51c529f404975a0055da" prot="public">
+          <name>CONSISTENCY_ERROR</name>
+          <initializer>= 7618</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2a2fdd4d80609823ce5323ec19c13d8d1b" prot="public">
+          <name>RESOURCE_EXHAUSTION_LIFECYCLE</name>
+          <initializer>= 7619</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2aab73f4893267dacde4749f087a21557e" prot="public">
+          <name>RETRIEVAL_MODEL_NOT_FOUND</name>
+          <initializer>= 7620</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2a8059f37a3e4445e31eb01ba19badfb71" prot="public">
+          <name>GRAPH_TRAVERSAL_FAILED</name>
+          <initializer>= 7621</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2a6ad44e9b35659c2d78f069c5a78d1c8b" prot="public">
+          <name>SUBGRAPH_EXTRACTION_FAILED</name>
+          <initializer>= 7622</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2a4f09ae157666e7ce38cc2e82f7fcd4bd" prot="public">
+          <name>CONTEXT_ASSEMBLY_FAILED</name>
+          <initializer>= 7623</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2ad3b8553344b6cb10a8d3b44e8568a5f4" prot="public">
+          <name>SIMILARITY_COMPUTATION_FAILED</name>
+          <initializer>= 7624</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2ad5ee425748fe2b67a761ddb2f2cb2394" prot="public">
+          <name>COMMUNITY_DETECTION_FAILED</name>
+          <initializer>= 7625</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2a820dd4355fe3c436f32f71835f0324a1" prot="public">
+          <name>EMPTY_RETRIEVAL_RESULT</name>
+          <initializer>= 7626</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2a88a198222e80fcc244ac317d4b0a54ea" prot="public">
+          <name>RETRIEVAL_QUOTA_EXCEEDED</name>
+          <initializer>= 7627</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2aefb0c588313912a201427deafa4f3cee" prot="public">
+          <name>QUERY_ROUTING_FAILED</name>
+          <initializer>= 7628</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2a6f7f46e2282dab11145cafe09353c98f" prot="public">
+          <name>RESOURCE_EXHAUSTION_RETRIEVAL</name>
+          <initializer>= 7629</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2aa3d8d233a6575cf4640e6ff231fa9b60" prot="public">
+          <name>LINK_TARGET_NOT_FOUND</name>
+          <initializer>= 7630</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2ac837c5cc45226529fa4a668eed711d51" prot="public">
+          <name>LINK_ALREADY_EXISTS</name>
+          <initializer>= 7631</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2aa4e8124a32ff6c5bb2c7f34db838710d" prot="public">
+          <name>INVALID_LINK_STATE</name>
+          <initializer>= 7632</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2aae5b6d0841874e7055656fe0d289e491" prot="public">
+          <name>LINK_CREATION_FAILED</name>
+          <initializer>= 7633</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2a79b274c6abdd5dbdee1fc57599e4199b" prot="public">
+          <name>CIRCULAR_DEPENDENCY</name>
+          <initializer>= 7634</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2aca3fad778ae07620ac9f2f9a99cc1fb1" prot="public">
+          <name>LINK_VALIDATION_FAILED</name>
+          <initializer>= 7635</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2a14d540d57d0283127259d1a8d7aa3bf5" prot="public">
+          <name>LINK_RESOLUTION_FAILED</name>
+          <initializer>= 7636</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2a9acada0598b75d6d5785e5eeb7ab6314" prot="public">
+          <name>LINK_MODIFICATION_FAILED</name>
+          <initializer>= 7637</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2a4784a30e4a759f385a727bdb1d491c24" prot="public">
+          <name>LINK_DEPTH_EXCEEDED</name>
+          <initializer>= 7638</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2a968cce4d7dc6a9b89dfa766066c03252" prot="public">
+          <name>RESOURCE_EXHAUSTION_LINKING</name>
+          <initializer>= 7639</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2ae676047412b7304baf74c4d918debb75" prot="public">
+          <name>DMN_EVALUATION_FAILED</name>
+          <initializer>= 7640</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2a95dd4119e24b4c9daa2940b02bd2fce4" prot="public">
+          <name>CONFORMANCE_CHECK_FAILED</name>
+          <initializer>= 7641</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2acaf1c6e2d5a1124f81ccaca4c1231d30" prot="public">
+          <name>OCEL_VALIDATION_FAILED</name>
+          <initializer>= 7642</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2a78a9ddd9955969dfb509cf0e170939df" prot="public">
+          <name>SLA_VALIDATION_FAILED</name>
+          <initializer>= 7643</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2acdb9663ee8f671892ddcadf17ec77f8c" prot="public">
+          <name>COMPLIANCE_RULE_VIOLATION</name>
+          <initializer>= 7644</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2a1d67a525f6cada988939ffdd393cae45" prot="public">
+          <name>CONSTRAINT_VIOLATION</name>
+          <initializer>= 7645</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2ab09e09ab2119ab6badbc2fd6edc440eb" prot="public">
+          <name>INVALID_STATE_TRANSITION</name>
+          <initializer>= 7646</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2aaf6c5308aaa5fa09228a3e4b0df3c015" prot="public">
+          <name>VALIDATION_MODEL_NOT_FOUND</name>
+          <initializer>= 7647</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2a9430378a251f0be93004ad4c3981c059" prot="public">
+          <name>RESOURCE_EXHAUSTION_VALIDATION</name>
+          <initializer>= 7649</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2a4d68209e194ea80107daa642881de0b0" prot="public">
+          <name>DATABASE_ERROR</name>
+          <initializer>= 7650</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2a4bf6d054feb196d60c87437f75684bde" prot="public">
+          <name>MEMORY_ALLOCATION_FAILED</name>
+          <initializer>= 7651</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2adfc9603ed3b0a7672571abb598cee164" prot="public">
+          <name>OPERATION_TIMEOUT</name>
+          <initializer>= 7652</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2a7c03568c4ef879efa1cb6d87d5ca9c54" prot="public">
+          <name>CONCURRENCY_LIMIT_EXCEEDED</name>
+          <initializer>= 7653</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2a198489bd72edc2407c15917c5323cd93" prot="public">
+          <name>IO_ERROR</name>
+          <initializer>= 7654</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2a8c0d68af13898dae2b6cbbafd8fbac93" prot="public">
+          <name>INVALID_CONFIGURATION</name>
+          <initializer>= 7655</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2ae8c0c70879b5895c615677261d64a1ee" prot="public">
+          <name>INTERNAL_ERROR</name>
+          <initializer>= 7699</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Unified error codes for all process module operations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Error codes are partitioned by category with reserved ranges:<itemizedlist>
+<listitem><para>7600–7609: Import/Deserialization errors</para>
+</listitem><listitem><para>7610–7619: Lifecycle/Model management errors</para>
+</listitem><listitem><para>7620–7629: Retrieval/RAG errors</para>
+</listitem><listitem><para>7630–7639: Linking/Resolution errors</para>
+</listitem><listitem><para>7640–7649: Validation/Compliance errors</para>
+</listitem><listitem><para>7650–7699: System/Resource errors</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="note"><para>All error codes are actionable for operators and include enough context for troubleshooting production incidents. There are NO silent failures. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_common.h" line="46" column="1" bodyfile="include/process/process_common.h" bodystart="46" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1process_1a6a446f9d06bd108b513dab505e31a9da" prot="public" static="no" strong="yes">
+        <type>int32_t</type>
+        <name>ConcurrencyPattern</name>
+        <qualifiedname>themis::process::ConcurrencyPattern</qualifiedname>
+        <enumvalue id="namespacethemis_1_1process_1a6a446f9d06bd108b513dab505e31a9daac1cb56371c6ef5f518719691632ac912" prot="public">
+          <name>STATELESS</name>
+          <initializer>= 5700</initializer>
+          <briefdescription>
+<para>No shared mutable state; fully thread-safe without locks. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a6a446f9d06bd108b513dab505e31a9daa9eb39169b7db6ecee4ee0980284659bd" prot="public">
+          <name>SNAPSHOT_ISOLATION</name>
+          <initializer>= 5701</initializer>
+          <briefdescription>
+<para><ref refid="structthemis_1_1process_1_1_snapshot" kindref="compound">Snapshot</ref> isolation with version clocks; readers do not block writers. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a6a446f9d06bd108b513dab505e31a9daac8485cf88b4acb5dcf1f6d7b97931844" prot="public">
+          <name>FINE_GRAINED_LOCKING</name>
+          <initializer>= 5702</initializer>
+          <briefdescription>
+<para>Fine-grained per-entity locking; independent entities do not block each other. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a6a446f9d06bd108b513dab505e31a9daa79380125caa71dd11cf0856efb531ce7" prot="public">
+          <name>READ_ONLY_SNAPSHOT</name>
+          <initializer>= 5703</initializer>
+          <briefdescription>
+<para>Read-only; inherits thread-safety from underlying storage. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Concurrency pattern for a process module layer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_concurrency_contract.h" line="89" column="1" bodyfile="include/process/process_concurrency_contract.h" bodystart="89" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1process_1ae80706ebe0a10dbc12ba72eb6eb1403e" prot="public" static="no" strong="yes">
+        <type>int32_t</type>
+        <name>AtomicityScope</name>
+        <qualifiedname>themis::process::AtomicityScope</qualifiedname>
+        <enumvalue id="namespacethemis_1_1process_1ae80706ebe0a10dbc12ba72eb6eb1403eab51048a45735d4cb8579e7396b264483" prot="public">
+          <name>SINGLE_ENTITY</name>
+          <initializer>= 5710</initializer>
+          <briefdescription>
+<para>Single entity operation (model, link, or instance). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1ae80706ebe0a10dbc12ba72eb6eb1403eaf67eaf493a81934058299022a3dc8356" prot="public">
+          <name>ENTITY_GROUP</name>
+          <initializer>= 5711</initializer>
+          <briefdescription>
+<para>Group of independent entities (no ordering guarantees between them). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1ae80706ebe0a10dbc12ba72eb6eb1403ea47c7e7cb36a953a8c47e02000036bb44" prot="public">
+          <name>READ_ONLY</name>
+          <initializer>= 5712</initializer>
+          <briefdescription>
+<para>No atomicity guarantees; read-only operation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Atomicity scope for a concurrency operation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_concurrency_contract.h" line="103" column="1" bodyfile="include/process/process_concurrency_contract.h" bodystart="103" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1process_1a6b3c35ef0746d2097494942a53d39037" prot="public" static="no" strong="yes">
+        <type>int32_t</type>
+        <name>ConflictResolution</name>
+        <qualifiedname>themis::process::ConflictResolution</qualifiedname>
+        <enumvalue id="namespacethemis_1_1process_1a6b3c35ef0746d2097494942a53d39037a3247ad84b54dd5dd5cdf48354b0f4058" prot="public">
+          <name>LAST_WRITE_WINS</name>
+          <initializer>= 5720</initializer>
+          <briefdescription>
+<para>Last write wins; determined by monotonic version clock. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a6b3c35ef0746d2097494942a53d39037ac4a088b0ba26e94c35cf87c7ed22be12" prot="public">
+          <name>EXPLICIT_CONFLICT</name>
+          <initializer>= 5721</initializer>
+          <briefdescription>
+<para>Conflict reported to caller; retry required. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a6b3c35ef0746d2097494942a53d39037ab18ff9ed18b27a951714b14b79b2b687" prot="public">
+          <name>NO_CONFLICTS</name>
+          <initializer>= 5722</initializer>
+          <briefdescription>
+<para>No conflicts possible; stateless or read-only operation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Conflict resolution strategy for concurrent writes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_concurrency_contract.h" line="115" column="1" bodyfile="include/process/process_concurrency_contract.h" bodystart="115" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1process_1abe69a00f90ef111924983f58b6c5eb14" prot="public" static="no" strong="yes">
+        <type>std::uint8_t</type>
+        <name>ConflictResolutionStrategy</name>
+        <qualifiedname>themis::process::ConflictResolutionStrategy</qualifiedname>
+        <enumvalue id="namespacethemis_1_1process_1abe69a00f90ef111924983f58b6c5eb14ad9b768e81daf4b313c713a6e459a56dd" prot="public">
+          <name>LOCAL_WINS</name>
+          <initializer>= 6210</initializer>
+          <briefdescription>
+<para>Local version wins; remote version discarded. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1abe69a00f90ef111924983f58b6c5eb14ac7cd87884a7a9eee79127c500b2d8b87" prot="public">
+          <name>REMOTE_WINS</name>
+          <initializer>= 6211</initializer>
+          <briefdescription>
+<para>Remote version wins; local version replaced. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1abe69a00f90ef111924983f58b6c5eb14aa760dc5664932cf921b2940e502318e9" prot="public">
+          <name>MERGED</name>
+          <initializer>= 6212</initializer>
+          <briefdescription>
+<para>Merged version from 3-way merge (plugin-generated). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1abe69a00f90ef111924983f58b6c5eb14a1bc1135786a78aab2926ed56e5f5801c" prot="public">
+          <name>UNRESOLVED</name>
+          <initializer>= 6213</initializer>
+          <briefdescription>
+<para>Conflict unresolved; fallback to deterministic LWW tiebreaker. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1abe69a00f90ef111924983f58b6c5eb14ad06d3fbd380c4166873f14e779d23789" prot="public">
+          <name>kLastWriteWins</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Last-Write-Wins with tie-breaking by node ID. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1abe69a00f90ef111924983f58b6c5eb14a7c300431fe7b71e0e09377bf6a2a1e6a" prot="public">
+          <name>kFirstWriteWins</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>First-Write-Wins (earliest timestamp). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1abe69a00f90ef111924983f58b6c5eb14a369fb6ad51d970074d48946c7156d3bb" prot="public">
+          <name>kApplicationCallback</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Application-provided callback determines winner. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1abe69a00f90ef111924983f58b6c5eb14a117a629c00950e8707e59c293738b1a7" prot="public">
+          <name>kUnconfigured</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>Error: no strategy configured (default to LWW). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Conflict resolution strategy enumeration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_conflict_resolution_callback.h" line="121" column="1" bodyfile="include/process/process_conflict_resolution_callback.h" bodystart="121" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1process_1a47b3035d47c051fd0cea480c24aaf445" prot="public" static="no" strong="yes">
+        <type>int32_t</type>
+        <name>DeterminismClass</name>
+        <qualifiedname>themis::process::DeterminismClass</qualifiedname>
+        <enumvalue id="namespacethemis_1_1process_1a47b3035d47c051fd0cea480c24aaf445aa96d65db20752636785d8fc9bf721e92" prot="public">
+          <name>FULLY_DETERMINISTIC</name>
+          <initializer>= 5800</initializer>
+          <briefdescription>
+<para>Identical input always produces identical output. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a47b3035d47c051fd0cea480c24aaf445af51e7578fd437885e3d885c4ecd38cb6" prot="public">
+          <name>NON_DETERMINISTIC</name>
+          <initializer>= 5801</initializer>
+          <briefdescription>
+<para>Output varies due to timing, scheduling, or algorithm design (but is valid). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a47b3035d47c051fd0cea480c24aaf445a9ac2170a3d5d65991c224289038b75d5" prot="public">
+          <name>CONFLICT_RESOLVED_DETERMINISTIC</name>
+          <initializer>= 5802</initializer>
+          <briefdescription>
+<para>Conflict resolution is deterministic; outcome determined by version clock. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a47b3035d47c051fd0cea480c24aaf445ad2b5f349b8320dbb3216b8094969a8d4" prot="public">
+          <name>SNAPSHOT_DETERMINISTIC</name>
+          <initializer>= 5803</initializer>
+          <briefdescription>
+<para>Read-only operation; inherits determinism from snapshot isolation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Determinism classification for a process operation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_determinism_spec.h" line="99" column="1" bodyfile="include/process/process_determinism_spec.h" bodystart="99" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1process_1aa7825524477a7af2eba0fd35722ad1bb" prot="public" static="no" strong="yes">
+        <type>int32_t</type>
+        <name>ConflictScope</name>
+        <qualifiedname>themis::process::ConflictScope</qualifiedname>
+        <enumvalue id="namespacethemis_1_1process_1aa7825524477a7af2eba0fd35722ad1bba934fc420d3d028a136f8b01e891fc17d" prot="public">
+          <name>SINGLE_MODEL</name>
+          <initializer>= 5810</initializer>
+          <briefdescription>
+<para>Single model operation; no cross-model conflicts. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1aa7825524477a7af2eba0fd35722ad1bba32b57a949172af7d00a5d576d8c536e6" prot="public">
+          <name>MODEL_NAMESPACE</name>
+          <initializer>= 5811</initializer>
+          <briefdescription>
+<para>Entire model namespace; version clock governs all updates. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1aa7825524477a7af2eba0fd35722ad1bbab18ff9ed18b27a951714b14b79b2b687" prot="public">
+          <name>NO_CONFLICTS</name>
+          <initializer>= 5812</initializer>
+          <briefdescription>
+<para>No conflicts possible; read-only or stateless operation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Scope of conflict resolution in a model update. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_determinism_spec.h" line="113" column="1" bodyfile="include/process/process_determinism_spec.h" bodystart="113" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1d" prot="public" static="no" strong="yes">
+        <type>int32_t</type>
+        <name>DiagnosticIncidentType</name>
+        <qualifiedname>themis::process::DiagnosticIncidentType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1dacf8b649ab3b2e7f532f9d2e7ecb694cf" prot="public">
+          <name>IMPORT_INCIDENT</name>
+          <initializer>= 3600</initializer>
+          <briefdescription>
+<para>Process model import or deserialization failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1da78b080391f2d37aa20fe6fabe7400ceb" prot="public">
+          <name>VALIDATION_INCIDENT</name>
+          <initializer>= 3601</initializer>
+          <briefdescription>
+<para>Process model validation or constraint check failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1da92423e8501f12aa9efe4390d99ff372f" prot="public">
+          <name>RETRIEVAL_INCIDENT</name>
+          <initializer>= 3602</initializer>
+          <briefdescription>
+<para>Process retrieval, linking, or context lookup failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1daa952a82eab5f5ea7bf0f5e5a907451fd" prot="public">
+          <name>LINKING_INCIDENT</name>
+          <initializer>= 3603</initializer>
+          <briefdescription>
+<para>Process linking state transition or consistency check failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1da236c407f7415dca1a3525fbde64a36ce" prot="public">
+          <name>RESOURCE_INCIDENT</name>
+          <initializer>= 3604</initializer>
+          <briefdescription>
+<para>Parser resource limit exceeded (depth, element count, timeout). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1da9bcebf1672194436587e2d18857a4917" prot="public">
+          <name>CONCURRENCY_INCIDENT</name>
+          <initializer>= 3605</initializer>
+          <briefdescription>
+<para>Concurrent modification conflict detected during operation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1da8284c181b363e3adc4a0bc9ea0802422" prot="public">
+          <name>CYCLE_INCIDENT</name>
+          <initializer>= 3606</initializer>
+          <briefdescription>
+<para>Cyclic dependency detected in process graph or linking. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1da957d9268f98bcb2629609988916d362d" prot="public">
+          <name>MALFORMED_INPUT_INCIDENT</name>
+          <initializer>= 3607</initializer>
+          <briefdescription>
+<para>Malformed input detected (invalid schema, syntax error). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1da9d2a52da2c7b1a2bb48792b45e08924f" prot="public">
+          <name>MISSING_TARGET_INCIDENT</name>
+          <initializer>= 3608</initializer>
+          <briefdescription>
+<para>Referenced target not found (missing link target, model, etc.). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Incident classification for process module faults. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_diagnostics.h" line="51" column="1" bodyfile="include/process/process_diagnostics.h" bodystart="51" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1process_1a72f25f9fc3a352264176bf66bb9e0a79" prot="public" static="no" strong="yes">
+        <type>int32_t</type>
+        <name>IncidentContext</name>
+        <qualifiedname>themis::process::IncidentContext</qualifiedname>
+        <enumvalue id="namespacethemis_1_1process_1a72f25f9fc3a352264176bf66bb9e0a79acd8131a9f80b75b6cecfba9c73ad0933" prot="public">
+          <name>CHURN_DETECTION</name>
+          <initializer>= 3700</initializer>
+          <briefdescription>
+<para>High model update rate (&gt;100 updates/sec) detected. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a72f25f9fc3a352264176bf66bb9e0a79ae4298182e52c2b757c6e980a84a72acf" prot="public">
+          <name>RESOURCE_EXHAUSTION</name>
+          <initializer>= 3701</initializer>
+          <briefdescription>
+<para>Memory, file handles, or timeout limit exceeded. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a72f25f9fc3a352264176bf66bb9e0a79a6fbe56857871933947ed0c5ff31d13bc" prot="public">
+          <name>CONFLICT_DETECTED</name>
+          <initializer>= 3702</initializer>
+          <briefdescription>
+<para>Write-write conflict or link staleness detected. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a72f25f9fc3a352264176bf66bb9e0a79a34276cb9a780f23bf3ecf5ee6859d8e6" prot="public">
+          <name>VALIDATION_FAILURE</name>
+          <initializer>= 3703</initializer>
+          <briefdescription>
+<para>Constraint or schema validation failure. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a72f25f9fc3a352264176bf66bb9e0a79a5807be9100c611f90c884352bdd9a9af" prot="public">
+          <name>TIMEOUT_EXCEEDED</name>
+          <initializer>= 3704</initializer>
+          <briefdescription>
+<para>Operation deadline exceeded. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Incident context classification for high-churn scenarios. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Provides finer-grained classification of failure modes beyond the base <ref refid="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1d" kindref="member">DiagnosticIncidentType</ref> enum. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_diagnostics_api.h" line="84" column="1" bodyfile="include/process/process_diagnostics_api.h" bodystart="84" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1process_1a7928062cfe3d97550ff1320fbb86b95b" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>RetrievalMode</name>
+        <qualifiedname>themis::process::RetrievalMode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1process_1a7928062cfe3d97550ff1320fbb86b95ba54b4c4075463b2e02cd69f5cd139b5b2" prot="public">
+          <name>LOCAL</name>
+          <briefdescription>
+<para>Specific entity traversal. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a7928062cfe3d97550ff1320fbb86b95ba6eecfba72d12922ee1dead07a0ef3334" prot="public">
+          <name>GLOBAL</name>
+          <briefdescription>
+<para>Community report summarisation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a7928062cfe3d97550ff1320fbb86b95bae1f2d5134ed2543d38a0de9751cf75d9" prot="public">
+          <name>AUTO</name>
+          <briefdescription>
+<para>Classify query and route automatically. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Selects the retrieval strategy used by <computeroutput><ref refid="classthemis_1_1process_1_1_process_light_retriever" kindref="compound">ProcessLightRetriever</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><itemizedlist>
+<listitem><para><computeroutput>LOCAL</computeroutput> – entity-centric BFS/PPR traversal via <computeroutput><ref refid="classthemis_1_1process_1_1_process_graph_rag" kindref="compound">ProcessGraphRag</ref></computeroutput>.</para>
+</listitem><listitem><para><computeroutput>GLOBAL</computeroutput> – community-report-based lookup via <computeroutput><ref refid="classthemis_1_1process_1_1_process_community_detector" kindref="compound">ProcessCommunityDetector</ref></computeroutput>.</para>
+</listitem><listitem><para><computeroutput>AUTO</computeroutput> – heuristic keyword classification routes to LOCAL or GLOBAL. </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_light_retriever.h" line="47" column="1" bodyfile="include/process/process_light_retriever.h" bodystart="47" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1process_1a8d0ffb5cc058d2dd891e1252c3879939" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ProcessLinkType</name>
+        <qualifiedname>themis::process::ProcessLinkType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1process_1a8d0ffb5cc058d2dd891e1252c3879939ab0124d60e7a9b89b0540d568e6d5f10f" prot="public">
+          <name>HAS_DOCUMENT</name>
+          <briefdescription>
+<para>Instance has an attached document. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a8d0ffb5cc058d2dd891e1252c3879939a0893d6e44f5b8f42c8db57267b349777" prot="public">
+          <name>HAS_METADATA</name>
+          <briefdescription>
+<para>Instance has structured metadata. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a8d0ffb5cc058d2dd891e1252c3879939a1817ab12d4fb2a15faf51e977e9a441f" prot="public">
+          <name>REQUIRES_DOCUMENT</name>
+          <briefdescription>
+<para>Process node requires a document (model-level). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a8d0ffb5cc058d2dd891e1252c3879939a16ba1ec680ea4a98e502dcc0ce60cf22" prot="public">
+          <name>IS_INSTANCE_OF</name>
+          <briefdescription>
+<para>Instance created from a model definition. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a8d0ffb5cc058d2dd891e1252c3879939a4887c4be202a102059446b2a445b9493" prot="public">
+          <name>SUB_PROCESS</name>
+          <briefdescription>
+<para>Instance is a sub-process of another instance. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a8d0ffb5cc058d2dd891e1252c3879939a1b401b3cb564c9bee1e804c893d1d5b9" prot="public">
+          <name>CROSS_REFERENCE</name>
+          <briefdescription>
+<para>References another administrative case. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a8d0ffb5cc058d2dd891e1252c3879939a95d9cc18960ba3d3118f6bbfb82a9de5" prot="public">
+          <name>TRIGGERS</name>
+          <briefdescription>
+<para>Completion of one process triggers another. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a8d0ffb5cc058d2dd891e1252c3879939adb648d6fafc620b51d856e71bbd6fcb5" prot="public">
+          <name>EVIDENCE_FOR</name>
+          <briefdescription>
+<para>Document is evidence for a process decision. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Typed relationship between a process instance and a data object or between two process instances / models. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_linker.h" line="52" column="1" bodyfile="include/process/process_linker.h" bodystart="52" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1process_1ab94b6a0b17c791df3b72d4a68ab73dc6" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ProcessNotation</name>
+        <qualifiedname>themis::process::ProcessNotation</qualifiedname>
+        <enumvalue id="namespacethemis_1_1process_1ab94b6a0b17c791df3b72d4a68ab73dc6ac9ae3527cc4cdf79c04b9ef7e6a81bcb" prot="public">
+          <name>BPMN_2_0</name>
+          <briefdescription>
+<para>Business Process Model and Notation 2.0 (ISO/IEC 19510). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1ab94b6a0b17c791df3b72d4a68ab73dc6a9cd3f2518446501a2af3b5bbe27ce9f0" prot="public">
+          <name>EPK</name>
+          <briefdescription>
+<para>Ereignisgesteuerte Prozesskette (Event-driven Process Chain). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1ab94b6a0b17c791df3b72d4a68ab73dc6af32ae9fdea14c8b44788cbc8eea538a5" prot="public">
+          <name>VCC_VPB</name>
+          <briefdescription>
+<para>VCC-VPB YAML process definition format. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1ab94b6a0b17c791df3b72d4a68ab73dc6afd1f5e440cf351035d51de53d1ed7f81" prot="public">
+          <name>CMMN_1_1</name>
+          <briefdescription>
+<para>Case Management Model and Notation 1.1 (OMG). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1ab94b6a0b17c791df3b72d4a68ab73dc6ad24702c2905818746024fcf71fab7342" prot="public">
+          <name>DMN_1_5</name>
+          <briefdescription>
+<para>Decision Model and Notation 1.5 (OMG). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Supported process model notation formats. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="36" column="1" bodyfile="include/process/process_model_manager.h" bodystart="36" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ProcessDomain</name>
+        <qualifiedname>themis::process::ProcessDomain</qualifiedname>
+        <enumvalue id="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83adc71a1526c568b177031c8b1dd1fc3d5" prot="public">
+          <name>ADMINISTRATION</name>
+          <briefdescription>
+<para>Verwaltungsprozess (public administration). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83a124f71327e0b6686ec9acf8336784424" prot="public">
+          <name>BUSINESS</name>
+          <briefdescription>
+<para>Geschäftsprozess (general business). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83ad0503e80cd668b3b6e57030f2f131543" prot="public">
+          <name>IT_SERVICE</name>
+          <briefdescription>
+<para>IT-Service-Management (ITIL). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83af63b8cc961587d3925da55097fefe02c" prot="public">
+          <name>HEALTHCARE</name>
+          <briefdescription>
+<para>Gesundheitswesen. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83a65fe55e3801a7036f00d6e15acc72475" prot="public">
+          <name>FINANCE</name>
+          <briefdescription>
+<para>Finanzen / Rechnungswesen. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83a46dbfa3dc39836ba049082e13115a418" prot="public">
+          <name>CUSTOMER_SERVICE</name>
+          <briefdescription>
+<para>Kundenservice. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83a72baef04098f035e8a320b03ad197818" prot="public">
+          <name>CUSTOM</name>
+          <briefdescription>
+<para>Anwenderdefiniert. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Domain classification for a process model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Used for filtering, LLM context generation, and compliance tagging. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="49" column="1" bodyfile="include/process/process_model_manager.h" bodystart="49" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1process_1a3e3663b2db3b75c8007d61cc101a7f93" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ProcessModelState</name>
+        <qualifiedname>themis::process::ProcessModelState</qualifiedname>
+        <enumvalue id="namespacethemis_1_1process_1a3e3663b2db3b75c8007d61cc101a7f93a521019040a0f4f7773357aa6bc22180b" prot="public">
+          <name>DRAFT</name>
+          <briefdescription>
+<para>In Bearbeitung – not yet deployable. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a3e3663b2db3b75c8007d61cc101a7f93a18ff74f43da410c5529f7d6fca84f115" prot="public">
+          <name>ACTIVE</name>
+          <briefdescription>
+<para>Deployed and executable. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a3e3663b2db3b75c8007d61cc101a7f93af0d9e10417deacee308b91a46ddc1746" prot="public">
+          <name>DEPRECATED</name>
+          <briefdescription>
+<para>Superseded by a newer version. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a3e3663b2db3b75c8007d61cc101a7f93a75b8b0f4c0aee5b8df95a0541307c9f4" prot="public">
+          <name>ARCHIVED</name>
+          <briefdescription>
+<para>Read-only, retired model. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Lifecycle state of a process model stored in the DB. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="62" column="1" bodyfile="include/process/process_model_manager.h" bodystart="62" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1process_1a09d8afd9809fc8b12826ef55da354a7f" prot="public" static="no" strong="yes">
+        <type>int32_t</type>
+        <name>StressScenarioSeverity</name>
+        <qualifiedname>themis::process::StressScenarioSeverity</qualifiedname>
+        <enumvalue id="namespacethemis_1_1process_1a09d8afd9809fc8b12826ef55da354a7fa3c779acc6ab87ea09bd474a4eabab09f" prot="public">
+          <name>SHOULD_SUCCEED</name>
+          <initializer>= 5900</initializer>
+          <briefdescription>
+<para>Scenario should complete successfully (e.g., large model parsing). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a09d8afd9809fc8b12826ef55da354a7faed376b448d238e0578dff9b92f09f80f" prot="public">
+          <name>SHOULD_FAIL_GRACEFULLY</name>
+          <initializer>= 5901</initializer>
+          <briefdescription>
+<para>Scenario should fail with deterministic error (e.g., depth exceeded). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1a09d8afd9809fc8b12826ef55da354a7faed6b665adfe72a2a84487bf2d7287b66" prot="public">
+          <name>PERFORMANCE_BOUNDARY</name>
+          <initializer>= 5902</initializer>
+          <briefdescription>
+<para>Scenario is a performance boundary (latency may be at envelope limit). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Severity level for stress scenario expectations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="64" column="1" bodyfile="include/process/process_stress_scenarios.h" bodystart="64" bodyend="71"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1process_1a782d71c7360830f287a01bcc07b7d698" prot="public" static="no">
+        <type>std::function&lt; std::unique_ptr&lt; <ref refid="classthemis_1_1process_1_1_i_conflict_resolution_plugin" kindref="compound">IConflictResolutionPlugin</ref> &gt;() &gt;</type>
+        <definition>using themis::process::ConflictResolutionPluginFactory =  std::function&lt;
+    std::unique_ptr&lt;IConflictResolutionPlugin&gt;()
+&gt;</definition>
+        <argsstring></argsstring>
+        <name>ConflictResolutionPluginFactory</name>
+        <qualifiedname>themis::process::ConflictResolutionPluginFactory</qualifiedname>
+        <briefdescription>
+<para>Factory function type for creating plugin instances. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Called each time a conflict needs resolution; must be thread-safe and fast. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/conflict_resolution_plugin.h" line="330" column="1" bodyfile="include/process/conflict_resolution_plugin.h" bodystart="330" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1process_1af2af767b6a1134cb0bbfb5250485892f" prot="public" static="no">
+        <type>nlohmann::json</type>
+        <definition>using themis::process::json = nlohmann::json</definition>
+        <argsstring></argsstring>
+        <name>json</name>
+        <qualifiedname>themis::process::json</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/bpmn_serializer.cpp" line="44" column="1" bodyfile="src/process/bpmn_serializer.cpp" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1process_1a6f5928d1a93c1f54d721a83d7743dddb" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::process::kMaxModelNestingDepth</definition>
+        <argsstring></argsstring>
+        <name>kMaxModelNestingDepth</name>
+        <qualifiedname>themis::process::kMaxModelNestingDepth</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+<para>Maximum nesting depth for process model structures (e.g., sub-processes). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Prevents stack exhaustion during recursive model traversal and serialization. Typical administrative processes have depth &lt; 10. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_common.h" line="157" column="19" bodyfile="include/process/process_common.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1process_1a17a9819d699c52a566e29dc436618664" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::process::kMaxModelElements</definition>
+        <argsstring></argsstring>
+        <name>kMaxModelElements</name>
+        <qualifiedname>themis::process::kMaxModelElements</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+<para>Maximum number of elements (nodes, edges) in a single process model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Prevents unbounded memory consumption during model import and storage. Typical administrative processes have &lt; 500 elements. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_common.h" line="165" column="19" bodyfile="include/process/process_common.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1process_1ae1d5379dfe7ce12bfc7db2edf7847a94" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::process::kMaxModelInputBytes</definition>
+        <argsstring></argsstring>
+        <name>kMaxModelInputBytes</name>
+        <qualifiedname>themis::process::kMaxModelInputBytes</qualifiedname>
+        <initializer>= 10u * 1024u * 1024u</initializer>
+        <briefdescription>
+<para>Maximum size (bytes) of XML/JSON input for a single model import. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Prevents denial-of-service via large malformed inputs. Aligned with existing serializer limits (10 MiB). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_common.h" line="173" column="18" bodyfile="include/process/process_common.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1process_1a68c207431eada4cf182020440db1bb5a" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::process::kMaxRetrievalContextBytes</definition>
+        <argsstring></argsstring>
+        <name>kMaxRetrievalContextBytes</name>
+        <qualifiedname>themis::process::kMaxRetrievalContextBytes</qualifiedname>
+        <initializer>= 1u * 1024u * 1024u</initializer>
+        <briefdescription>
+<para>Maximum size (bytes) for process retrieval context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Prevents unbounded growth of LLM prompt context. Typical retrieval context is &lt; 100 KiB. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_common.h" line="181" column="18" bodyfile="include/process/process_common.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1process_1a48e486aa6f1ed1dbd02978993fec2556" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::process::kMaxRetrievalDepth</definition>
+        <argsstring></argsstring>
+        <name>kMaxRetrievalDepth</name>
+        <qualifiedname>themis::process::kMaxRetrievalDepth</qualifiedname>
+        <initializer>= 50</initializer>
+        <briefdescription>
+<para>Maximum depth for process retrieval (e.g., follow-parent depth in sub-process trees). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Prevents infinite loops in linked process hierarchies. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_common.h" line="188" column="19" bodyfile="include/process/process_common.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1process_1a9f1c77cc2bb82ea81177da5b3c56cfe6" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::process::kMaxOperationTimeoutMs</definition>
+        <argsstring></argsstring>
+        <name>kMaxOperationTimeoutMs</name>
+        <qualifiedname>themis::process::kMaxOperationTimeoutMs</qualifiedname>
+        <initializer>= 30000</initializer>
+        <briefdescription>
+<para>Maximum timeout (milliseconds) for long-running process operations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Serialization, validation, and retrieval operations must complete within this window. Conservative default for administrative process operations. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_common.h" line="196" column="19" bodyfile="include/process/process_common.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1process_1adc7c668e548939a4d29c196b685eb246" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string themis::process::kMinimalAml</definition>
+        <argsstring></argsstring>
+        <name>kMinimalAml</name>
+        <qualifiedname>themis::process::kMinimalAml</qualifiedname>
+        <initializer>                                     = R&quot;(&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;AML&gt;
+  &lt;Group Group.ID=&quot;g-001&quot;&gt;
+    &lt;Model Model.ID=&quot;m-bauantrag&quot; Model.Type=&quot;EPK&quot;&gt;
+      &lt;Model.Name LocaleId=&quot;19&quot;&gt;Bauantrag Standardprozess&lt;/Model.Name&gt;
+      &lt;ObjOcc ObjOcc.ID=&quot;occ-001&quot; SymbolNum=&quot;14&quot; ObjDef.IdRef=&quot;obj-001&quot;/&gt;
+      &lt;ObjOcc ObjOcc.ID=&quot;occ-002&quot; SymbolNum=&quot;1&quot;  ObjDef.IdRef=&quot;obj-002&quot;/&gt;
+      &lt;ObjOcc ObjOcc.ID=&quot;occ-003&quot; SymbolNum=&quot;14&quot; ObjDef.IdRef=&quot;obj-003&quot;/&gt;
+      &lt;CxnOcc CxnOcc.ID=&quot;cx-001&quot; CxnDef.IdRef=&quot;cd-001&quot;
+              FromObjOcc.IdRef=&quot;occ-001&quot; ToObjOcc.IdRef=&quot;occ-002&quot;/&gt;
+      &lt;CxnOcc CxnOcc.ID=&quot;cx-002&quot; CxnDef.IdRef=&quot;cd-002&quot;
+              FromObjOcc.IdRef=&quot;occ-002&quot; ToObjOcc.IdRef=&quot;occ-003&quot;/&gt;
+    &lt;/Model&gt;
+    &lt;ObjDef ObjDef.ID=&quot;obj-001&quot; TypeNum=&quot;14&quot;&gt;
+      &lt;ObjDef.Name&gt;Antrag eingegangen&lt;/ObjDef.Name&gt;
+    &lt;/ObjDef&gt;
+    &lt;ObjDef ObjDef.ID=&quot;obj-002&quot; TypeNum=&quot;1&quot;&gt;
+      &lt;ObjDef.Name&gt;Vollst&amp;#228;ndigkeit pr&amp;#252;fen&lt;/ObjDef.Name&gt;
+    &lt;/ObjDef&gt;
+    &lt;ObjDef ObjDef.ID=&quot;obj-003&quot; TypeNum=&quot;14&quot;&gt;
+      &lt;ObjDef.Name&gt;Pr&amp;#252;fung abgeschlossen&lt;/ObjDef.Name&gt;
+    &lt;/ObjDef&gt;
+    &lt;CxnDef CxnDef.ID=&quot;cd-001&quot; TypeNum=&quot;2&quot;/&gt;
+    &lt;CxnDef CxnDef.ID=&quot;cd-002&quot; TypeNum=&quot;2&quot;/&gt;
+  &lt;/Group&gt;
+&lt;/AML&gt;)&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_aris_xml.cpp" line="30" column="26" bodyfile="tests/process/test_process_aris_xml.cpp" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1process_1abe3abf176cfebf66a90e6dbf3bb98bd2" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string themis::process::kMultiModelAml</definition>
+        <argsstring></argsstring>
+        <name>kMultiModelAml</name>
+        <qualifiedname>themis::process::kMultiModelAml</qualifiedname>
+        <initializer>                                        = R&quot;(&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;AML&gt;
+  &lt;Group Group.ID=&quot;g-001&quot;&gt;
+    &lt;Model Model.ID=&quot;m-bpmn-ignored&quot; Model.Type=&quot;BPMN&quot;&gt;
+      &lt;Model.Name&gt;Ignored BPMN&lt;/Model.Name&gt;
+    &lt;/Model&gt;
+    &lt;Model Model.ID=&quot;m-epk-1&quot; Model.Type=&quot;EPK&quot;&gt;
+      &lt;Model.Name LocaleId=&quot;19&quot;&gt;EPK Prozess 1&lt;/Model.Name&gt;
+      &lt;ObjOcc ObjOcc.ID=&quot;occ-A&quot; SymbolNum=&quot;14&quot; ObjDef.IdRef=&quot;obj-A&quot;/&gt;
+      &lt;ObjOcc ObjOcc.ID=&quot;occ-B&quot; SymbolNum=&quot;1&quot;  ObjDef.IdRef=&quot;obj-B&quot;/&gt;
+      &lt;CxnOcc CxnOcc.ID=&quot;cx-AB&quot; FromObjOcc.IdRef=&quot;occ-A&quot; ToObjOcc.IdRef=&quot;occ-B&quot;/&gt;
+    &lt;/Model&gt;
+    &lt;Model Model.ID=&quot;m-epk-2&quot; Model.Type=&quot;EPK&quot;&gt;
+      &lt;Model.Name LocaleId=&quot;19&quot;&gt;EPK Prozess 2&lt;/Model.Name&gt;
+      &lt;ObjOcc ObjOcc.ID=&quot;occ-C&quot; SymbolNum=&quot;14&quot; ObjDef.IdRef=&quot;obj-C&quot;/&gt;
+    &lt;/Model&gt;
+    &lt;ObjDef ObjDef.ID=&quot;obj-A&quot; TypeNum=&quot;14&quot;&gt;&lt;ObjDef.Name&gt;Start Ereignis&lt;/ObjDef.Name&gt;&lt;/ObjDef&gt;
+    &lt;ObjDef ObjDef.ID=&quot;obj-B&quot; TypeNum=&quot;1&quot;&gt;&lt;ObjDef.Name&gt;Verarbeitung&lt;/ObjDef.Name&gt;&lt;/ObjDef&gt;
+    &lt;ObjDef ObjDef.ID=&quot;obj-C&quot; TypeNum=&quot;14&quot;&gt;&lt;ObjDef.Name&gt;Ende&lt;/ObjDef.Name&gt;&lt;/ObjDef&gt;
+  &lt;/Group&gt;
+&lt;/AML&gt;)&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_aris_xml.cpp" line="57" column="26" bodyfile="tests/process/test_process_aris_xml.cpp" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1process_1a147df66ac780400c6ada07f3404cba65" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string themis::process::kConnectorsAml</definition>
+        <argsstring></argsstring>
+        <name>kConnectorsAml</name>
+        <qualifiedname>themis::process::kConnectorsAml</qualifiedname>
+        <initializer>                                        = R&quot;(&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;AML&gt;
+  &lt;Group Group.ID=&quot;g-conn&quot;&gt;
+    &lt;Model Model.ID=&quot;m-conn&quot; Model.Type=&quot;EPK&quot;&gt;
+      &lt;Model.Name&gt;Konnektor Prozess&lt;/Model.Name&gt;
+      &lt;ObjOcc ObjOcc.ID=&quot;occ-and&quot; SymbolNum=&quot;13&quot; ObjDef.IdRef=&quot;obj-and&quot;/&gt;
+      &lt;ObjOcc ObjOcc.ID=&quot;occ-or&quot;  SymbolNum=&quot;12&quot; ObjDef.IdRef=&quot;obj-or&quot;/&gt;
+      &lt;ObjOcc ObjOcc.ID=&quot;occ-xor&quot; SymbolNum=&quot;11&quot; ObjDef.IdRef=&quot;obj-xor&quot;/&gt;
+    &lt;/Model&gt;
+    &lt;ObjDef ObjDef.ID=&quot;obj-and&quot; TypeNum=&quot;13&quot;&gt;&lt;ObjDef.Name&gt;UND Split&lt;/ObjDef.Name&gt;&lt;/ObjDef&gt;
+    &lt;ObjDef ObjDef.ID=&quot;obj-or&quot;  TypeNum=&quot;12&quot;&gt;&lt;ObjDef.Name&gt;ODER Split&lt;/ObjDef.Name&gt;&lt;/ObjDef&gt;
+    &lt;ObjDef ObjDef.ID=&quot;obj-xor&quot; TypeNum=&quot;11&quot;&gt;&lt;ObjDef.Name&gt;XOR Split&lt;/ObjDef.Name&gt;&lt;/ObjDef&gt;
+  &lt;/Group&gt;
+&lt;/AML&gt;)&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_aris_xml.cpp" line="79" column="26" bodyfile="tests/process/test_process_aris_xml.cpp" bodystart="79" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1process_1ac7d06da60d21966914c8222e27f82786" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::process::nowMs</definition>
+        <argsstring>()</argsstring>
+        <name>nowMs</name>
+        <qualifiedname>themis::process::nowMs</qualifiedname>
+        <briefdescription>
+<para>Get current wall-clock time in milliseconds since Unix epoch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Current time in milliseconds </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_common.h" line="22" column="16" bodyfile="include/process/process_common.h" bodystart="22" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1afbf0dcb39c2ddf22ac87d34426e1d8f9" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::process::errorCodeToString</definition>
+        <argsstring>(ProcessErrorCode code) noexcept</argsstring>
+        <name>errorCodeToString</name>
+        <qualifiedname>themis::process::errorCodeToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2" kindref="member">ProcessErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Convert <ref refid="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2" kindref="member">ProcessErrorCode</ref> to a human-readable string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error code to convert. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Short error name (e.g., &quot;MALFORMED_INPUT&quot;). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/process_common.cpp" line="20" column="13" bodyfile="src/process/process_common.cpp" bodystart="20" bodyend="96" declfile="include/process/process_common.h" declline="122" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1a9061c6f9e7b62b1ceb7e8558d791ded3" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::process::errorCodeCategory</definition>
+        <argsstring>(ProcessErrorCode code) noexcept</argsstring>
+        <name>errorCodeCategory</name>
+        <qualifiedname>themis::process::errorCodeCategory</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2" kindref="member">ProcessErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Get the error category for an error code. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error code. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Category name (e.g., &quot;IMPORT&quot;, &quot;RETRIEVAL&quot;, &quot;SYSTEM&quot;). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/process_common.cpp" line="102" column="13" bodyfile="src/process/process_common.cpp" bodystart="102" bodyend="120" declfile="include/process/process_common.h" declline="130" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1a1328c8d776c00aecb80f58f13b2ecaab" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::process::formatDiagnostic</definition>
+        <argsstring>(ProcessErrorCode code, std::string_view context, std::string_view detail=&quot;&quot;) noexcept</argsstring>
+        <name>formatDiagnostic</name>
+        <qualifiedname>themis::process::formatDiagnostic</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2" kindref="member">ProcessErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>detail</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Diagnostic message helper for structured error reporting. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Constructs an actionable diagnostic message suitable for operator triage.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error code. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Brief operational context (e.g., &quot;import BPMN from file&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>detail</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Additional detail (e.g., &quot;line 42: unexpected token&quot;). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Formatted diagnostic message. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/process_common.cpp" line="126" column="13" bodyfile="src/process/process_common.cpp" bodystart="126" bodyend="147" declfile="include/process/process_common.h" declline="142" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1afdd6ad749830546b40982fa05f307b18" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::isInputSizeValid</definition>
+        <argsstring>(size_t input_size)</argsstring>
+        <name>isInputSizeValid</name>
+        <qualifiedname>themis::process::isInputSizeValid</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>input_size</declname>
+        </param>
+        <briefdescription>
+<para>Validates that input size does not exceed the maximum model input size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>input_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Size of the input in bytes. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the input size is within limits. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_common.h" line="208" column="13" bodyfile="include/process/process_common.h" bodystart="208" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1a6f8b8efe810ff31625f7bbc24e8e1647" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::isNestingDepthValid</definition>
+        <argsstring>(int32_t depth)</argsstring>
+        <name>isNestingDepthValid</name>
+        <qualifiedname>themis::process::isNestingDepthValid</qualifiedname>
+        <param>
+          <type>int32_t</type>
+          <declname>depth</declname>
+        </param>
+        <briefdescription>
+<para>Validates that nesting depth is within the safe limit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current nesting depth. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if depth is within limits. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_common.h" line="218" column="13" bodyfile="include/process/process_common.h" bodystart="218" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1a9fb3ca94393e313fb15ebc355f14ee9b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::isElementCountValid</definition>
+        <argsstring>(int32_t element_count)</argsstring>
+        <name>isElementCountValid</name>
+        <qualifiedname>themis::process::isElementCountValid</qualifiedname>
+        <param>
+          <type>int32_t</type>
+          <declname>element_count</declname>
+        </param>
+        <briefdescription>
+<para>Validates that element count is within the safe limit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>element_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of elements in the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if element count is within limits. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_common.h" line="228" column="13" bodyfile="include/process/process_common.h" bodystart="228" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1abaf5d64d52f0ac9b4c8dd6652d8419ab" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::isContextSizeValid</definition>
+        <argsstring>(size_t context_size)</argsstring>
+        <name>isContextSizeValid</name>
+        <qualifiedname>themis::process::isContextSizeValid</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>context_size</declname>
+        </param>
+        <briefdescription>
+<para>Validates that context size does not exceed retrieval limits. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>context_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current context size in bytes. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if context size is within limits. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_common.h" line="238" column="13" bodyfile="include/process/process_common.h" bodystart="238" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1a20b1c9e44fa6e6e1793da640700b81d2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::isRetrievalDepthValid</definition>
+        <argsstring>(int32_t depth)</argsstring>
+        <name>isRetrievalDepthValid</name>
+        <qualifiedname>themis::process::isRetrievalDepthValid</qualifiedname>
+        <param>
+          <type>int32_t</type>
+          <declname>depth</declname>
+        </param>
+        <briefdescription>
+<para>Validates that traversal depth is within the safe retrieval limit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current traversal depth. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if depth is within limits. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_common.h" line="248" column="13" bodyfile="include/process/process_common.h" bodystart="248" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1ac5ee2b38952251a6c7306eb38312f21d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::hasOperationTimedOut</definition>
+        <argsstring>(int64_t start_time_ms)</argsstring>
+        <name>hasOperationTimedOut</name>
+        <qualifiedname>themis::process::hasOperationTimedOut</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>start_time_ms</declname>
+        </param>
+        <briefdescription>
+<para>Check if an operation has exceeded the timeout window. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>start_time_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Time when the operation started (from <ref refid="namespacethemis_1_1process_1ac7d06da60d21966914c8222e27f82786" kindref="member">nowMs()</ref>). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the operation has exceeded the timeout. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_common.h" line="258" column="13" bodyfile="include/process/process_common.h" bodystart="258" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1a408f5cd3a50b2b2639e022e126d9c93d" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::isPatternSuitable</definition>
+        <argsstring>(ConcurrencyPattern pattern, bool requires_atomicity, bool is_high_churn)</argsstring>
+        <name>isPatternSuitable</name>
+        <qualifiedname>themis::process::isPatternSuitable</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1process_1a6a446f9d06bd108b513dab505e31a9da" kindref="member">ConcurrencyPattern</ref></type>
+          <declname>pattern</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>requires_atomicity</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>is_high_churn</declname>
+        </param>
+        <briefdescription>
+<para>Validate that a concurrency pattern is compatible with a given use case. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pattern</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The concurrency pattern to validate. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>requires_atomicity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the use case requires atomic operations. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>is_high_churn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the use case involves high model churn. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the pattern is suitable for the use case. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_concurrency_contract.h" line="282" column="14" bodyfile="include/process/process_concurrency_contract.h" bodystart="282" bodyend="300"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1acf27877683535c8a3ce2e5c0fe276eb2" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::isDeterminismSufficient</definition>
+        <argsstring>(DeterminismClass required_determinism, DeterminismClass actual_determinism)</argsstring>
+        <name>isDeterminismSufficient</name>
+        <qualifiedname>themis::process::isDeterminismSufficient</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1process_1a47b3035d47c051fd0cea480c24aaf445" kindref="member">DeterminismClass</ref></type>
+          <declname>required_determinism</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1process_1a47b3035d47c051fd0cea480c24aaf445" kindref="member">DeterminismClass</ref></type>
+          <declname>actual_determinism</declname>
+        </param>
+        <briefdescription>
+<para>Validate determinism classification for a use case. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>required_determinism</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The required determinism level. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>actual_determinism</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The actual determinism level provided by operation. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if actual determinism satisfies requirement. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_determinism_spec.h" line="328" column="14" bodyfile="include/process/process_determinism_spec.h" bodystart="328" bodyend="350"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1a01a13e3b60f6dc7f775b149a5ccb5e73" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::process::toString</definition>
+        <argsstring>(DiagnosticIncidentType t)</argsstring>
+        <name>toString</name>
+        <qualifiedname>themis::process::toString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1d" kindref="member">DiagnosticIncidentType</ref></type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+<para>Convert incident type to human-readable name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>To String.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The incident type. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>String representation.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements toString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/process_diagnostics.cpp" line="31" column="18" bodyfile="src/process/process_diagnostics.cpp" bodystart="31" bodyend="53" declfile="include/process/process_diagnostics.h" declline="77" declcolumn="18"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1aa49aec938b7f71bd3b33d4ef93951291" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::process::toString</definition>
+        <argsstring>(IncidentContext c)</argsstring>
+        <name>toString</name>
+        <qualifiedname>themis::process::toString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1process_1a72f25f9fc3a352264176bf66bb9e0a79" kindref="member">IncidentContext</ref></type>
+          <declname>c</declname>
+        </param>
+        <briefdescription>
+<para>Convert <ref refid="namespacethemis_1_1process_1a72f25f9fc3a352264176bf66bb9e0a79" kindref="member">IncidentContext</ref> to human-readable name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>c</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The incident context. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>String representation. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_diagnostics_api.h" line="371" column="25" bodyfile="include/process/process_diagnostics_api.h" bodystart="371" bodyend="385" declfile="include/process/process_diagnostics_api.h" declline="102" declcolumn="18"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1a5395956038b2fc57735c3353b79f56a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::process::toString</definition>
+        <argsstring>(ProcessLinkType t)</argsstring>
+        <name>toString</name>
+        <qualifiedname>themis::process::toString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1process_1a8d0ffb5cc058d2dd891e1252c3879939" kindref="member">ProcessLinkType</ref></type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+<para>Human-readable name for <computeroutput>t</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>To String.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements toString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/process_linker.cpp" line="49" column="18" bodyfile="src/process/process_linker.cpp" bodystart="49" bodyend="61" declfile="include/process/process_linker.h" declline="64" declcolumn="18"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1afe0c3356eb7230184b169a2d21cc3f94" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1process_1a8d0ffb5cc058d2dd891e1252c3879939" kindref="member">ProcessLinkType</ref></type>
+        <definition>ProcessLinkType themis::process::processLinkTypeFromString</definition>
+        <argsstring>(std::string_view s)</argsstring>
+        <name>processLinkTypeFromString</name>
+        <qualifiedname>themis::process::processLinkTypeFromString</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Parse a <ref refid="namespacethemis_1_1process_1a8d0ffb5cc058d2dd891e1252c3879939" kindref="member">ProcessLinkType</ref> from its string representation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Process Link Type From String.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements processLinkTypeFromString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/process_linker.cpp" line="69" column="17" bodyfile="src/process/process_linker.cpp" bodystart="69" bodyend="95" declfile="include/process/process_linker.h" declline="67" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1a063267f8c97e6cb59f34cfdec24796c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::process::toString</definition>
+        <argsstring>(ProcessNotation n)</argsstring>
+        <name>toString</name>
+        <qualifiedname>themis::process::toString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1process_1ab94b6a0b17c791df3b72d4a68ab73dc6" kindref="member">ProcessNotation</ref></type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+<para>To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements toString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/process_model_manager.cpp" line="56" column="18" bodyfile="src/process/process_model_manager.cpp" bodystart="56" bodyend="65" declfile="include/process/process_model_manager.h" declline="547" declcolumn="18"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1a49685bff6eda47d903922e110b639698" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::process::toString</definition>
+        <argsstring>(ProcessDomain d)</argsstring>
+        <name>toString</name>
+        <qualifiedname>themis::process::toString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83" kindref="member">ProcessDomain</ref></type>
+          <declname>d</declname>
+        </param>
+        <briefdescription>
+<para>To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">d</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements toString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/process_model_manager.cpp" line="73" column="18" bodyfile="src/process/process_model_manager.cpp" bodystart="73" bodyend="84" declfile="include/process/process_model_manager.h" declline="548" declcolumn="18"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1a59b5e38693ee8214a0d5e421bd04b33f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::process::toString</definition>
+        <argsstring>(ProcessModelState s)</argsstring>
+        <name>toString</name>
+        <qualifiedname>themis::process::toString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1process_1a3e3663b2db3b75c8007d61cc101a7f93" kindref="member">ProcessModelState</ref></type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements toString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/process_model_manager.cpp" line="92" column="18" bodyfile="src/process/process_model_manager.cpp" bodystart="92" bodyend="100" declfile="include/process/process_model_manager.h" declline="549" declcolumn="18"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1a82cff8388bec86942ba3855e46acd2ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1process_1ab94b6a0b17c791df3b72d4a68ab73dc6" kindref="member">ProcessNotation</ref></type>
+        <definition>ProcessNotation themis::process::notationFromString</definition>
+        <argsstring>(std::string_view s)</argsstring>
+        <name>notationFromString</name>
+        <qualifiedname>themis::process::notationFromString</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Notation From String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements notationFromString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/process_model_manager.cpp" line="108" column="17" bodyfile="src/process/process_model_manager.cpp" bodystart="108" bodyend="125" declfile="include/process/process_model_manager.h" declline="551" declcolumn="19"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1a202ff5d7da898bafac8e22efed10b53a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83" kindref="member">ProcessDomain</ref></type>
+        <definition>ProcessDomain themis::process::domainFromString</definition>
+        <argsstring>(std::string_view s)</argsstring>
+        <name>domainFromString</name>
+        <qualifiedname>themis::process::domainFromString</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Domain From String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements domainFromString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/process_model_manager.cpp" line="133" column="15" bodyfile="src/process/process_model_manager.cpp" bodystart="133" bodyend="153" declfile="include/process/process_model_manager.h" declline="552" declcolumn="19"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1aac413c465affc211788974a771a11d73" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1process_1a3e3663b2db3b75c8007d61cc101a7f93" kindref="member">ProcessModelState</ref></type>
+        <definition>ProcessModelState themis::process::stateFromString</definition>
+        <argsstring>(std::string_view s)</argsstring>
+        <name>stateFromString</name>
+        <qualifiedname>themis::process::stateFromString</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>State From String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements stateFromString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/process_model_manager.cpp" line="161" column="19" bodyfile="src/process/process_model_manager.cpp" bodystart="161" bodyend="172" declfile="include/process/process_model_manager.h" declline="553" declcolumn="19"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1a23ef5e10140d936529dce85d8ccc2a22" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::TEST</definition>
+        <argsstring>(ProcessGraphRagBoundsTest, P23_03_PropertiesMapAccess)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::process::TEST</qualifiedname>
+        <param>
+          <type>ProcessGraphRagBoundsTest</type>
+        </param>
+        <param>
+          <type>P23_03_PropertiesMapAccess</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000001"><xreftitle>Test</xreftitle><xrefdescription><para>P23-03: Verify properties map access is bounds-safe</para>
+</xrefdescription></xrefsect></para>
+<para>Tests that accessing att_node.properties[&quot;collection&quot;] (line 244-245) is properly handled without bounds violations. The KGNode properties map should handle dynamic key creation safely. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_critical_batch1_fixes.cpp" line="38" column="1" bodyfile="tests/process/test_critical_batch1_fixes.cpp" bodystart="38" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1aa850d7ac6ab21898a59b430160ca0bb7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::TEST_F</definition>
+        <argsstring>(DmnEvaluatorThreadSafetyTest, P23_04_ConcurrentLoadsSafe)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::process::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1process_1_1_dmn_evaluator_thread_safety_test" kindref="compound">DmnEvaluatorThreadSafetyTest</ref></type>
+        </param>
+        <param>
+          <type>P23_04_ConcurrentLoadsSafe</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000002"><xreftitle>Test</xreftitle><xrefdescription><para>P23-04: Verify concurrent loads don&apos;t cause data races</para>
+</xrefdescription></xrefsect></para>
+<para>Tests that multiple threads can safely call loadFromJson/loadFromXml without causing data races. The fix adds mutex protection to tables_. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_critical_batch1_fixes.cpp" line="103" column="1" bodyfile="tests/process/test_critical_batch1_fixes.cpp" bodystart="103" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1a036a8a28241b0a308ced3e78b4b7e499" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::TEST_F</definition>
+        <argsstring>(DmnEvaluatorThreadSafetyTest, P23_05_ConcurrentEvaluateLoadSafe)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::process::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1process_1_1_dmn_evaluator_thread_safety_test" kindref="compound">DmnEvaluatorThreadSafetyTest</ref></type>
+        </param>
+        <param>
+          <type>P23_05_ConcurrentEvaluateLoadSafe</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000003"><xreftitle>Test</xreftitle><xrefdescription><para>P23-05: Verify concurrent evaluation and load calls are safe</para>
+</xrefdescription></xrefsect></para>
+<para>Tests that evaluate() and loadFromJson() can be called concurrently without causing data races. The mutex protects both read and write access. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_critical_batch1_fixes.cpp" line="145" column="1" bodyfile="tests/process/test_critical_batch1_fixes.cpp" bodystart="145" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1a8882795b9b71f434b4369419518b3a51" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::TEST_F</definition>
+        <argsstring>(VccVpbImporterResourceTest, P23_06_YamlImportResourceSafety)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::process::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1process_1_1_vcc_vpb_importer_resource_test" kindref="compound">VccVpbImporterResourceTest</ref></type>
+        </param>
+        <param>
+          <type>P23_06_YamlImportResourceSafety</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000004"><xreftitle>Test</xreftitle><xrefdescription><para>P23-06: Verify YAML list import has proper resource management</para>
+</xrefdescription></xrefsect></para>
+<para>Tests that importYamlList() properly manages string/vector allocations and doesn&apos;t leak resources even when exceptions occur. All allocations use RAII (std::string, std::vector). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_critical_batch1_fixes.cpp" line="218" column="1" bodyfile="tests/process/test_critical_batch1_fixes.cpp" bodystart="218" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1aa61937506ab2d58f0fe18314c90b8331" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::TEST_F</definition>
+        <argsstring>(VccVpbImporterResourceTest, P23_06_YamlImportExceptionSafety)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::process::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1process_1_1_vcc_vpb_importer_resource_test" kindref="compound">VccVpbImporterResourceTest</ref></type>
+        </param>
+        <param>
+          <type>P23_06_YamlImportExceptionSafety</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000005"><xreftitle>Test</xreftitle><xrefdescription><para>P23-06 Extended: Verify exception safety in YAML parsing</para>
+</xrefdescription></xrefsect></para>
+<para>Tests that even with large/malformed YAML, resources are properly cleaned up and no leaks occur. All string and vector allocations are RAII-managed. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_critical_batch1_fixes.cpp" line="238" column="1" bodyfile="tests/process/test_critical_batch1_fixes.cpp" bodystart="238" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1a2e1cb237fee863faddbf48c660188bec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::TEST</definition>
+        <argsstring>(EpkArisXmlImporterTest, EAX01_MinimalAml_Succeeds)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::process::TEST</qualifiedname>
+        <param>
+          <type>EpkArisXmlImporterTest</type>
+        </param>
+        <param>
+          <type>EAX01_MinimalAml_Succeeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_aris_xml.cpp" line="98" column="1" bodyfile="tests/process/test_process_aris_xml.cpp" bodystart="98" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1a926b3e1da6ee23edab0740b8c008e315" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::TEST</definition>
+        <argsstring>(EpkArisXmlImporterTest, EAX02_NodeTypesFromTypeNum)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::process::TEST</qualifiedname>
+        <param>
+          <type>EpkArisXmlImporterTest</type>
+        </param>
+        <param>
+          <type>EAX02_NodeTypesFromTypeNum</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_aris_xml.cpp" line="111" column="1" bodyfile="tests/process/test_process_aris_xml.cpp" bodystart="111" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1a0ffe23fa6821a0db82abe4ce0a0464f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::TEST</definition>
+        <argsstring>(EpkArisXmlImporterTest, EAX03_EdgeConnectivity)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::process::TEST</qualifiedname>
+        <param>
+          <type>EpkArisXmlImporterTest</type>
+        </param>
+        <param>
+          <type>EAX03_EdgeConnectivity</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_aris_xml.cpp" line="137" column="1" bodyfile="tests/process/test_process_aris_xml.cpp" bodystart="137" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1a8da86ec31688ed707feb81abdd17948c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::TEST</definition>
+        <argsstring>(EpkArisXmlImporterTest, EAX04_ImportAll_FiltersNonEpk)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::process::TEST</qualifiedname>
+        <param>
+          <type>EpkArisXmlImporterTest</type>
+        </param>
+        <param>
+          <type>EAX04_ImportAll_FiltersNonEpk</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_aris_xml.cpp" line="157" column="1" bodyfile="tests/process/test_process_aris_xml.cpp" bodystart="157" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1a7ebc787a94e184d9e837f24bb406fa36" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::TEST</definition>
+        <argsstring>(EpkArisXmlImporterTest, EAX05_ConnectorNodeTypes)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::process::TEST</qualifiedname>
+        <param>
+          <type>EpkArisXmlImporterTest</type>
+        </param>
+        <param>
+          <type>EAX05_ConnectorNodeTypes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_aris_xml.cpp" line="173" column="1" bodyfile="tests/process/test_process_aris_xml.cpp" bodystart="173" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1a552d28c85ed879e5d2275110cb7e85fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::TEST</definition>
+        <argsstring>(EpkArisXmlImporterTest, EAX06_TypeNumRoundTrip)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::process::TEST</qualifiedname>
+        <param>
+          <type>EpkArisXmlImporterTest</type>
+        </param>
+        <param>
+          <type>EAX06_TypeNumRoundTrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_aris_xml.cpp" line="203" column="1" bodyfile="tests/process/test_process_aris_xml.cpp" bodystart="203" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1a5685bf023c15cbbab7d111e46255f626" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::TEST</definition>
+        <argsstring>(EpkArisXmlImporterTest, EAX07_EmptyInput_Fails)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::process::TEST</qualifiedname>
+        <param>
+          <type>EpkArisXmlImporterTest</type>
+        </param>
+        <param>
+          <type>EAX07_EmptyInput_Fails</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_aris_xml.cpp" line="221" column="1" bodyfile="tests/process/test_process_aris_xml.cpp" bodystart="221" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1a5c8ba27e564bff799ede37ff10818727" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::TEST</definition>
+        <argsstring>(EpkArisXmlImporterTest, EAX08_NoEpkModel_Fails)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::process::TEST</qualifiedname>
+        <param>
+          <type>EpkArisXmlImporterTest</type>
+        </param>
+        <param>
+          <type>EAX08_NoEpkModel_Fails</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_aris_xml.cpp" line="231" column="1" bodyfile="tests/process/test_process_aris_xml.cpp" bodystart="231" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1ab989771fdf6c52aec82c37a98a8ca195" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::TEST</definition>
+        <argsstring>(EpkArisXmlImporterTest, EAX09_NodesWithoutEdges)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::process::TEST</qualifiedname>
+        <param>
+          <type>EpkArisXmlImporterTest</type>
+        </param>
+        <param>
+          <type>EAX09_NodesWithoutEdges</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_aris_xml.cpp" line="241" column="1" bodyfile="tests/process/test_process_aris_xml.cpp" bodystart="241" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1a8a2e45a8f27dc8017678dc1bdd423e55" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::TEST_F</definition>
+        <argsstring>(ArisXmlManagerTest, EAX10_ImportArisXml_StoresModel)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::process::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1process_1_1_aris_xml_manager_test" kindref="compound">ArisXmlManagerTest</ref></type>
+        </param>
+        <param>
+          <type>EAX10_ImportArisXml_StoresModel</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_aris_xml.cpp" line="282" column="1" bodyfile="tests/process/test_process_aris_xml.cpp" bodystart="282" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1a1e7d8294a94cc72e181c73f561419d12" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::TEST</definition>
+        <argsstring>(ProcessAgenticRagTest, PAR01_DefaultConfig)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::process::TEST</qualifiedname>
+        <param>
+          <type>ProcessAgenticRagTest</type>
+        </param>
+        <param>
+          <type>PAR01_DefaultConfig</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_aris_xml.cpp" line="305" column="1" bodyfile="tests/process/test_process_aris_xml.cpp" bodystart="305" bodyend="311"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1a53de7838c178e68eb1a60fdc5ce6719a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::TEST</definition>
+        <argsstring>(ProcessAgenticRagTest, PAR02_ResultDefaults)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::process::TEST</qualifiedname>
+        <param>
+          <type>ProcessAgenticRagTest</type>
+        </param>
+        <param>
+          <type>PAR02_ResultDefaults</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_aris_xml.cpp" line="317" column="1" bodyfile="tests/process/test_process_aris_xml.cpp" bodystart="317" bodyend="324"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1ac87c56c11a2b4c7e199654364ec8cf33" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::TEST</definition>
+        <argsstring>(ProcessAgenticRagTest, PAR03_TypeNumLabels)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::process::TEST</qualifiedname>
+        <param>
+          <type>ProcessAgenticRagTest</type>
+        </param>
+        <param>
+          <type>PAR03_TypeNumLabels</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_aris_xml.cpp" line="330" column="1" bodyfile="tests/process/test_process_aris_xml.cpp" bodystart="330" bodyend="335"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1a86130311ccd0482162264fcaf5e66ee7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::TEST</definition>
+        <argsstring>(ProcessAgenticRagTest, PAR04_ImportAllEmpty)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::process::TEST</qualifiedname>
+        <param>
+          <type>ProcessAgenticRagTest</type>
+        </param>
+        <param>
+          <type>PAR04_ImportAllEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_aris_xml.cpp" line="341" column="1" bodyfile="tests/process/test_process_aris_xml.cpp" bodystart="341" bodyend="344"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1a33a8b1d3f1b201ea36ac3d6a90fec900" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::TEST</definition>
+        <argsstring>(ProcessAgenticRagTest, PAR05_EntityEscapedNames)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::process::TEST</qualifiedname>
+        <param>
+          <type>ProcessAgenticRagTest</type>
+        </param>
+        <param>
+          <type>PAR05_EntityEscapedNames</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_aris_xml.cpp" line="350" column="1" bodyfile="tests/process/test_process_aris_xml.cpp" bodystart="350" bodyend="375"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1a9a3950a8eef0151cc2be822c560ce0dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::TEST_F</definition>
+        <argsstring>(ArisXmlManagerTest, PAR06_ImportArisXmlWithMetaOverride)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::process::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1process_1_1_aris_xml_manager_test" kindref="compound">ArisXmlManagerTest</ref></type>
+        </param>
+        <param>
+          <type>PAR06_ImportArisXmlWithMetaOverride</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_aris_xml.cpp" line="381" column="1" bodyfile="tests/process/test_process_aris_xml.cpp" bodystart="381" bodyend="397"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/process/bpmn_serializer.h" line="22" column="1"/>
+  </compounddef>
+</doxygen>

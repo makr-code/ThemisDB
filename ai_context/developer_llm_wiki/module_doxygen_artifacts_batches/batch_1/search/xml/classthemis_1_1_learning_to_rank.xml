@@ -1,0 +1,611 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_learning_to_rank" kind="class" language="C++" prot="public">
+    <compoundname>themis::LearningToRank</compoundname>
+    <includes refid="learning__to__rank_8h" local="no">learning_to_rank.h</includes>
+    <innerclass refid="structthemis_1_1_learning_to_rank_1_1_config" prot="public">themis::LearningToRank::Config</innerclass>
+    <innerclass refid="structthemis_1_1_learning_to_rank_1_1_variant" prot="public">themis::LearningToRank::Variant</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_learning_to_rank_1a9c59db35c28238dea5c31d553868a855" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_learning_to_rank_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::LearningToRank::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::LearningToRank::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/learning_to_rank.h" line="188" column="12" bodyfile="include/search/learning_to_rank.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_learning_to_rank_1a356a0d676fde833f6d83e11bcd364dbe" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_ranking_features" kindref="compound">RankingFeatures</ref></type>
+        <definition>RankingFeatures themis::LearningToRank::weights_</definition>
+        <argsstring></argsstring>
+        <name>weights_</name>
+        <qualifiedname>themis::LearningToRank::weights_</qualifiedname>
+        <briefdescription>
+<para>Current model weights. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/learning_to_rank.h" line="189" column="21" bodyfile="include/search/learning_to_rank.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_learning_to_rank_1ae6195a07e654697f0dceb721d44f4210" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_click_event" kindref="compound">ClickEvent</ref> &gt;</type>
+        <definition>std::vector&lt;ClickEvent&gt; themis::LearningToRank::clicks_</definition>
+        <argsstring></argsstring>
+        <name>clicks_</name>
+        <qualifiedname>themis::LearningToRank::clicks_</qualifiedname>
+        <briefdescription>
+<para>Pending click events. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/learning_to_rank.h" line="190" column="17" bodyfile="include/search/learning_to_rank.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_learning_to_rank_1a64a09718ef2ebff32700c93958d955e1" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1_learning_to_rank_1_1_variant" kindref="compound">Variant</ref> &gt;</type>
+        <definition>std::map&lt;std::string, Variant&gt; themis::LearningToRank::variants_</definition>
+        <argsstring></argsstring>
+        <name>variants_</name>
+        <qualifiedname>themis::LearningToRank::variants_</qualifiedname>
+        <briefdescription>
+<para>Named A/B variants. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/learning_to_rank.h" line="191" column="14" bodyfile="include/search/learning_to_rank.h" bodystart="191" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_learning_to_rank_1a6d78ae4af013bf326f53b0bcef68f6e8" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::LearningToRank::LearningToRank</definition>
+        <argsstring>(const Config &amp;config=Config::defaults())</argsstring>
+        <name>LearningToRank</name>
+        <qualifiedname>themis::LearningToRank::LearningToRank</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_learning_to_rank_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1_learning_to_rank_1_1_config_1ab08d7b49567c2cad3e0bb36d2b119feb" kindref="member">Config::defaults</ref>()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>LTR configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>on invalid config. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/learning_to_rank.h" line="105" column="14" bodyfile="src/search/learning_to_rank.cpp" bodystart="24" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_learning_to_rank_1a7766a90e4cdffafaa4a7e16edde0a6c4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_ranked_result" kindref="compound">RankedResult</ref> &gt;</type>
+        <definition>std::vector&lt; RankedResult &gt; themis::LearningToRank::rerank</definition>
+        <argsstring>(std::vector&lt; RankedResult &gt; candidates) const</argsstring>
+        <name>rerank</name>
+        <qualifiedname>themis::LearningToRank::rerank</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1_ranked_result" kindref="compound">RankedResult</ref> &gt;</type>
+          <declname>candidates</declname>
+        </param>
+        <briefdescription>
+<para>Re-rank a list of candidates using the current weight vector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Computes <computeroutput>final_score = w · features</computeroutput> for each candidate and returns the list sorted by <computeroutput>final_score</computeroutput> descending.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>candidates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Candidates with feature vectors populated. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Sorted copy of candidates with <computeroutput>final_score</computeroutput> filled in. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/learning_to_rank.h" line="120" column="17" bodyfile="src/search/learning_to_rank.cpp" bodystart="53" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_learning_to_rank_1a50338ada91233fd0e2cd33cc6ddfd150" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_ranked_result" kindref="compound">RankedResult</ref> &gt;</type>
+        <definition>std::vector&lt; RankedResult &gt; themis::LearningToRank::rerankWithVariant</definition>
+        <argsstring>(std::vector&lt; RankedResult &gt; candidates, const std::string &amp;variant_name) const</argsstring>
+        <name>rerankWithVariant</name>
+        <qualifiedname>themis::LearningToRank::rerankWithVariant</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1_ranked_result" kindref="compound">RankedResult</ref> &gt;</type>
+          <declname>candidates</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>variant_name</declname>
+        </param>
+        <briefdescription>
+<para>Apply a specific named variant&apos;s scoring function to candidates. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns the same sorted list as <computeroutput><ref refid="classthemis_1_1_learning_to_rank_1a7766a90e4cdffafaa4a7e16edde0a6c4" kindref="member">rerank()</ref></computeroutput> but uses the variant scorer. Falls back to the default linear model if the variant is not found.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>candidates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Candidates to score. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>variant_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the registered variant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Re-ranked candidates. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/learning_to_rank.h" line="132" column="17" bodyfile="src/search/learning_to_rank.cpp" bodystart="64" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_learning_to_rank_1a1ea11d2372dea500b1245339d7f463fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::LearningToRank::recordClick</definition>
+        <argsstring>(const ClickEvent &amp;event)</argsstring>
+        <name>recordClick</name>
+        <qualifiedname>themis::LearningToRank::recordClick</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_click_event" kindref="compound">ClickEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Record a click event for later training. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Click.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(), erase(), begin(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/learning_to_rank.h" line="142" column="10" bodyfile="src/search/learning_to_rank.cpp" bodystart="95" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_learning_to_rank_1abb9c6e88b3a0597ef6ccdad26eb391a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::LearningToRank::train</definition>
+        <argsstring>()</argsstring>
+        <name>train</name>
+        <qualifiedname>themis::LearningToRank::train</qualifiedname>
+        <briefdescription>
+<para>Update model weights using all buffered click events. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Train.</para>
+<para>Implements pairwise gradient descent: for each click event, the clicked document is treated as more relevant than documents ranked above it. Clears the click buffer after training.</para>
+<para><simplesect kind="return"><para>Number of click events used for training.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), size(), dot(), gradient(), addScaled(), regularize(), THEMIS_DEBUG(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/learning_to_rank.h" line="153" column="12" bodyfile="src/search/learning_to_rank.cpp" bodystart="108" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_learning_to_rank_1a51e9a0fdcee41159d94e128bba1135cd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_ranking_features" kindref="compound">RankingFeatures</ref></type>
+        <definition>RankingFeatures themis::LearningToRank::getWeights</definition>
+        <argsstring>() const</argsstring>
+        <name>getWeights</name>
+        <qualifiedname>themis::LearningToRank::getWeights</qualifiedname>
+        <briefdescription>
+<para>Return the current feature weight vector. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/learning_to_rank.h" line="158" column="21" bodyfile="include/search/learning_to_rank.h" bodystart="158" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_learning_to_rank_1ab8b76e514181b802f852f5cbcebb2203" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::LearningToRank::setWeights</definition>
+        <argsstring>(const RankingFeatures &amp;weights)</argsstring>
+        <name>setWeights</name>
+        <qualifiedname>themis::LearningToRank::setWeights</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_ranking_features" kindref="compound">RankingFeatures</ref> &amp;</type>
+          <declname>weights</declname>
+        </param>
+        <briefdescription>
+<para>Set feature weights directly (e.g. to load a pre-trained model). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/learning_to_rank.h" line="163" column="10" bodyfile="include/search/learning_to_rank.h" bodystart="163" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_learning_to_rank_1a7bc727d2d662712f0936e0d238b24b87" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::LearningToRank::registerVariant</definition>
+        <argsstring>(const Variant &amp;variant)</argsstring>
+        <name>registerVariant</name>
+        <qualifiedname>themis::LearningToRank::registerVariant</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_learning_to_rank_1_1_variant" kindref="compound">Variant</ref> &amp;</type>
+          <declname>variant</declname>
+        </param>
+        <briefdescription>
+<para>Register a named scoring variant for A/B experiments. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register <ref refid="structthemis_1_1_learning_to_rank_1_1_variant" kindref="compound">Variant</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">variant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/learning_to_rank.h" line="172" column="10" bodyfile="src/search/learning_to_rank.cpp" bodystart="171" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_learning_to_rank_1a49d636fee815be3ed9cb7c42dd7f422f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::LearningToRank::selectVariant</definition>
+        <argsstring>(const std::string &amp;request_key) const</argsstring>
+        <name>selectVariant</name>
+        <qualifiedname>themis::LearningToRank::selectVariant</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>request_key</declname>
+        </param>
+        <briefdescription>
+<para>Select a variant name for a given request key (deterministic hash). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Routes a fraction of requests to the variant based on <computeroutput><ref refid="structthemis_1_1_learning_to_rank_1_1_variant_1a76f5105a0afca52ce2702263648f5de6" kindref="member">Variant::traffic_fraction</ref></computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>request_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Any string uniquely identifying the request (e.g. session ID). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Name of the selected variant, or empty string for the default model. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/learning_to_rank.h" line="183" column="17" bodyfile="src/search/learning_to_rank.cpp" bodystart="176" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_learning_to_rank_1a0c338506024bd5255ed1c6ca0308f830" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1_learning_to_rank_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const Config &amp; themis::LearningToRank::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::LearningToRank::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/learning_to_rank.h" line="185" column="18" bodyfile="include/search/learning_to_rank.h" bodystart="185" bodyend="185"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_learning_to_rank_1a88abe5fa614c8602d414aae3edf66471" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::LearningToRank::score</definition>
+        <argsstring>(const RankingFeatures &amp;f) const</argsstring>
+        <name>score</name>
+        <qualifiedname>themis::LearningToRank::score</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_ranking_features" kindref="compound">RankingFeatures</ref> &amp;</type>
+          <declname>f</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/learning_to_rank.h" line="193" column="12" bodyfile="src/search/learning_to_rank.cpp" bodystart="49" bodyend="51"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1_learning_to_rank_1a7bb2f31140132e135a6855592a100657" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::LearningToRank::dot</definition>
+        <argsstring>(const RankingFeatures &amp;w, const RankingFeatures &amp;f)</argsstring>
+        <name>dot</name>
+        <qualifiedname>themis::LearningToRank::dot</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_ranking_features" kindref="compound">RankingFeatures</ref> &amp;</type>
+          <declname>w</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_ranking_features" kindref="compound">RankingFeatures</ref> &amp;</type>
+          <declname>f</declname>
+        </param>
+        <briefdescription>
+<para>Dot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">w</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">f</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements dot without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/learning_to_rank.h" line="194" column="19" bodyfile="src/search/learning_to_rank.cpp" bodystart="204" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_learning_to_rank_1acac25f267d31553d86e1691c22a85bb1" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_ranking_features" kindref="compound">RankingFeatures</ref></type>
+        <definition>RankingFeatures themis::LearningToRank::gradient</definition>
+        <argsstring>(const RankingFeatures &amp;f_pos, const RankingFeatures &amp;f_neg)</argsstring>
+        <name>gradient</name>
+        <qualifiedname>themis::LearningToRank::gradient</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_ranking_features" kindref="compound">RankingFeatures</ref> &amp;</type>
+          <declname>f_pos</declname>
+          <defname>pos</defname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_ranking_features" kindref="compound">RankingFeatures</ref> &amp;</type>
+          <declname>f_neg</declname>
+          <defname>neg</defname>
+        </param>
+        <briefdescription>
+<para>Gradient. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pos</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">neg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements gradient without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/learning_to_rank.h" line="195" column="28" bodyfile="src/search/learning_to_rank.cpp" bodystart="220" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_learning_to_rank_1a2053aa2f06249f786ace8bbee1126a19" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_ranking_features" kindref="compound">RankingFeatures</ref></type>
+        <definition>RankingFeatures themis::LearningToRank::addScaled</definition>
+        <argsstring>(const RankingFeatures &amp;w, const RankingFeatures &amp;g, double lr)</argsstring>
+        <name>addScaled</name>
+        <qualifiedname>themis::LearningToRank::addScaled</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_ranking_features" kindref="compound">RankingFeatures</ref> &amp;</type>
+          <declname>w</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_ranking_features" kindref="compound">RankingFeatures</ref> &amp;</type>
+          <declname>g</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>lr</declname>
+        </param>
+        <briefdescription>
+<para>Add Scaled. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">w</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">g</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements addScaled without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/learning_to_rank.h" line="197" column="28" bodyfile="src/search/learning_to_rank.cpp" bodystart="240" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_learning_to_rank_1a0d31178e08e1a92d87542646e2d77961" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_ranking_features" kindref="compound">RankingFeatures</ref></type>
+        <definition>RankingFeatures themis::LearningToRank::regularize</definition>
+        <argsstring>(const RankingFeatures &amp;w, double reg)</argsstring>
+        <name>regularize</name>
+        <qualifiedname>themis::LearningToRank::regularize</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_ranking_features" kindref="compound">RankingFeatures</ref> &amp;</type>
+          <declname>w</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>reg</declname>
+          <defname>decay</defname>
+        </param>
+        <briefdescription>
+<para>Regularize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">w</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">decay</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements regularize without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/learning_to_rank.h" line="199" column="28" bodyfile="src/search/learning_to_rank.cpp" bodystart="260" bodyend="269"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Linear feature-based Learning-to-Rank (LTR) re-ranker. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemis_1_1_learning_to_rank" kindref="compound">LearningToRank</ref> implements a supervised linear re-ranker trained from click-through data. It:</para>
+<para><orderedlist>
+<listitem><para>Accepts a list of pre-scored candidates (e.g. from <ref refid="classthemis_1_1_hybrid_search" kindref="compound">HybridSearch</ref>) together with their <computeroutput><ref refid="structthemis_1_1_ranking_features" kindref="compound">RankingFeatures</ref></computeroutput>.</para>
+</listitem><listitem><para>Applies a learned weight vector to produce a <computeroutput>final_score</computeroutput> per candidate.</para>
+</listitem><listitem><para>Provides a <computeroutput><ref refid="classthemis_1_1_learning_to_rank_1abb9c6e88b3a0597ef6ccdad26eb391a5" kindref="member">train()</ref></computeroutput> method that updates weights via online gradient descent using click-through events (position-based implicit feedback).</para>
+</listitem><listitem><para>Offers an A/B variant selector (<computeroutput><ref refid="classthemis_1_1_learning_to_rank_1a49d636fee815be3ed9cb7c42dd7f422f" kindref="member">selectVariant()</ref></computeroutput>) for controlled experiments.</para>
+</listitem></orderedlist>
+</para>
+<para><heading level="3">Workflow</heading>
+</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">LearningToRank::Config<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.learning_rate<sp/>=<sp/>0.01;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1_learning_to_rank_1a6d78ae4af013bf326f53b0bcef68f6e8" kindref="member">LearningToRank</ref><sp/>ltr(cfg);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Re-rank<sp/>results</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">std::vector&lt;RankedResult&gt;<sp/>candidates<sp/>=<sp/>buildCandidates(hs_results,<sp/>features);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ranked<sp/>=<sp/>ltr.rerank(candidates);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Collect<sp/>clicks<sp/>and<sp/>train</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">ltr.recordClick({</highlight><highlight class="stringliteral">&quot;machine<sp/>learning&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;doc_42&quot;</highlight><highlight class="normal">,<sp/>3});</highlight></codeline>
+<codeline><highlight class="normal">ltr.train();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="note"><para>Thread Safety: A single <ref refid="classthemis_1_1_learning_to_rank" kindref="compound">LearningToRank</ref> instance is NOT thread-safe. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception Safety: All methods are noexcept at runtime; the constructor throws <computeroutput>std::invalid_argument</computeroutput> on invalid config. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/search/learning_to_rank.h" line="83" column="1" bodyfile="include/search/learning_to_rank.h" bodystart="83" bodyend="200"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_learning_to_rank_1a2053aa2f06249f786ace8bbee1126a19" prot="private" virt="non-virtual"><scope>themis::LearningToRank</scope><name>addScaled</name></member>
+      <member refid="classthemis_1_1_learning_to_rank_1ae6195a07e654697f0dceb721d44f4210" prot="private" virt="non-virtual"><scope>themis::LearningToRank</scope><name>clicks_</name></member>
+      <member refid="classthemis_1_1_learning_to_rank_1a9c59db35c28238dea5c31d553868a855" prot="private" virt="non-virtual"><scope>themis::LearningToRank</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_learning_to_rank_1a7bb2f31140132e135a6855592a100657" prot="private" virt="non-virtual"><scope>themis::LearningToRank</scope><name>dot</name></member>
+      <member refid="classthemis_1_1_learning_to_rank_1a0c338506024bd5255ed1c6ca0308f830" prot="public" virt="non-virtual"><scope>themis::LearningToRank</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1_learning_to_rank_1a51e9a0fdcee41159d94e128bba1135cd" prot="public" virt="non-virtual"><scope>themis::LearningToRank</scope><name>getWeights</name></member>
+      <member refid="classthemis_1_1_learning_to_rank_1acac25f267d31553d86e1691c22a85bb1" prot="private" virt="non-virtual"><scope>themis::LearningToRank</scope><name>gradient</name></member>
+      <member refid="classthemis_1_1_learning_to_rank_1a6d78ae4af013bf326f53b0bcef68f6e8" prot="public" virt="non-virtual"><scope>themis::LearningToRank</scope><name>LearningToRank</name></member>
+      <member refid="classthemis_1_1_learning_to_rank_1a1ea11d2372dea500b1245339d7f463fe" prot="public" virt="non-virtual"><scope>themis::LearningToRank</scope><name>recordClick</name></member>
+      <member refid="classthemis_1_1_learning_to_rank_1a7bc727d2d662712f0936e0d238b24b87" prot="public" virt="non-virtual"><scope>themis::LearningToRank</scope><name>registerVariant</name></member>
+      <member refid="classthemis_1_1_learning_to_rank_1a0d31178e08e1a92d87542646e2d77961" prot="private" virt="non-virtual"><scope>themis::LearningToRank</scope><name>regularize</name></member>
+      <member refid="classthemis_1_1_learning_to_rank_1a7766a90e4cdffafaa4a7e16edde0a6c4" prot="public" virt="non-virtual"><scope>themis::LearningToRank</scope><name>rerank</name></member>
+      <member refid="classthemis_1_1_learning_to_rank_1a50338ada91233fd0e2cd33cc6ddfd150" prot="public" virt="non-virtual"><scope>themis::LearningToRank</scope><name>rerankWithVariant</name></member>
+      <member refid="classthemis_1_1_learning_to_rank_1a88abe5fa614c8602d414aae3edf66471" prot="private" virt="non-virtual"><scope>themis::LearningToRank</scope><name>score</name></member>
+      <member refid="classthemis_1_1_learning_to_rank_1a49d636fee815be3ed9cb7c42dd7f422f" prot="public" virt="non-virtual"><scope>themis::LearningToRank</scope><name>selectVariant</name></member>
+      <member refid="classthemis_1_1_learning_to_rank_1ab8b76e514181b802f852f5cbcebb2203" prot="public" virt="non-virtual"><scope>themis::LearningToRank</scope><name>setWeights</name></member>
+      <member refid="classthemis_1_1_learning_to_rank_1abb9c6e88b3a0597ef6ccdad26eb391a5" prot="public" virt="non-virtual"><scope>themis::LearningToRank</scope><name>train</name></member>
+      <member refid="classthemis_1_1_learning_to_rank_1a64a09718ef2ebff32700c93958d955e1" prot="private" virt="non-virtual"><scope>themis::LearningToRank</scope><name>variants_</name></member>
+      <member refid="classthemis_1_1_learning_to_rank_1a356a0d676fde833f6d83e11bcd364dbe" prot="private" virt="non-virtual"><scope>themis::LearningToRank</scope><name>weights_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

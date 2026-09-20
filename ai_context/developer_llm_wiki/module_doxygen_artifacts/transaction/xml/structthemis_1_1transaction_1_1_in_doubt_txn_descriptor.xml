@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1transaction_1_1_in_doubt_txn_descriptor" kind="struct" language="C++" prot="public">
+    <compoundname>themis::transaction::InDoubtTxnDescriptor</compoundname>
+    <includes refid="transaction__coordinator_8h" local="no">transaction_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_in_doubt_txn_descriptor_1a62046f7f032ebb07cc301b2a7c5b3c3b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::transaction::InDoubtTxnDescriptor::txn_id</definition>
+        <argsstring></argsstring>
+        <name>txn_id</name>
+        <qualifiedname>themis::transaction::InDoubtTxnDescriptor::txn_id</qualifiedname>
+        <briefdescription>
+<para>Coordinator-local transaction identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_coordinator.h" line="141" column="17" bodyfile="include/transaction/transaction_coordinator.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_in_doubt_txn_descriptor_1a2a71b531dbd513598e1e175b3bdc9b32" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::transaction::InDoubtTxnDescriptor::prepare_logged</definition>
+        <argsstring></argsstring>
+        <name>prepare_logged</name>
+        <qualifiedname>themis::transaction::InDoubtTxnDescriptor::prepare_logged</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when a durable PREPARE record exists. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_coordinator.h" line="142" column="17" bodyfile="include/transaction/transaction_coordinator.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_in_doubt_txn_descriptor_1a4719c19ff551dcca1dba52582e98dc38" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::transaction::InDoubtTxnDescriptor::commit_decided</definition>
+        <argsstring></argsstring>
+        <name>commit_decided</name>
+        <qualifiedname>themis::transaction::InDoubtTxnDescriptor::commit_decided</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when a durable COMMIT decision exists. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_coordinator.h" line="143" column="17" bodyfile="include/transaction/transaction_coordinator.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_in_doubt_txn_descriptor_1a3aa45a08b26114aa685b625701fcb053" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::transaction::InDoubtTxnDescriptor::detail</definition>
+        <argsstring></argsstring>
+        <name>detail</name>
+        <qualifiedname>themis::transaction::InDoubtTxnDescriptor::detail</qualifiedname>
+        <briefdescription>
+<para>Optional coordinator-provided diagnostic. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_coordinator.h" line="144" column="17" bodyfile="include/transaction/transaction_coordinator.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/transaction_coordinator.h" line="140" column="1" bodyfile="include/transaction/transaction_coordinator.h" bodystart="140" bodyend="145"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1transaction_1_1_in_doubt_txn_descriptor_1a4719c19ff551dcca1dba52582e98dc38" prot="public" virt="non-virtual"><scope>themis::transaction::InDoubtTxnDescriptor</scope><name>commit_decided</name></member>
+      <member refid="structthemis_1_1transaction_1_1_in_doubt_txn_descriptor_1a3aa45a08b26114aa685b625701fcb053" prot="public" virt="non-virtual"><scope>themis::transaction::InDoubtTxnDescriptor</scope><name>detail</name></member>
+      <member refid="structthemis_1_1transaction_1_1_in_doubt_txn_descriptor_1a2a71b531dbd513598e1e175b3bdc9b32" prot="public" virt="non-virtual"><scope>themis::transaction::InDoubtTxnDescriptor</scope><name>prepare_logged</name></member>
+      <member refid="structthemis_1_1transaction_1_1_in_doubt_txn_descriptor_1a62046f7f032ebb07cc301b2a7c5b3c3b" prot="public" virt="non-virtual"><scope>themis::transaction::InDoubtTxnDescriptor</scope><name>txn_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

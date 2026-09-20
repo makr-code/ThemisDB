@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_integration_test" kind="class" language="C++" prot="public">
+    <compoundname>IntegrationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <basecompoundref refid="class_g_p_u_foundations_test" prot="public" virt="non-virtual">GPUFoundationsTest</basecompoundref>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>GPUFoundationsTest</label>
+        <link refid="class_g_p_u_foundations_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>IntegrationTest</label>
+        <link refid="class_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>GPUFoundationsTest</label>
+        <link refid="class_g_p_u_foundations_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>IntegrationTest</label>
+        <link refid="class_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/gpu/test_gpu_error_handling.cpp" line="365" column="1" bodyfile="tests/gpu/test_gpu_error_handling.cpp" bodystart="365" bodyend="365"/>
+    <listofallmembers>
+      <member refid="class_g_p_u_foundations_test_1a0141f3aa002b931bc59b9237445fba24" prot="protected" virt="non-virtual"><scope>IntegrationTest</scope><name>GPUFoundationsTest</name></member>
+      <member refid="class_g_p_u_foundations_test_1a88eacf983f2f34d301c23b2bb92ef2da" prot="protected" virt="non-virtual"><scope>IntegrationTest</scope><name>handler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

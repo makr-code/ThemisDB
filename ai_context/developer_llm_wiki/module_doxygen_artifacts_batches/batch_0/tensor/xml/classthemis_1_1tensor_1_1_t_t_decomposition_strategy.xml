@@ -1,0 +1,250 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1tensor_1_1_t_t_decomposition_strategy" kind="class" language="C++" prot="public">
+    <compoundname>themis::tensor::TTDecompositionStrategy</compoundname>
+    <basecompoundref refid="classthemis_1_1tensor_1_1_i_compression_strategy" prot="public" virt="non-virtual">themis::tensor::ICompressionStrategy</basecompoundref>
+    <includes refid="compression__strategy_8h" local="no">compression_strategy.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_t_t_decomposition_strategy_1aaa65b758b2733d85383699c78de52334" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::TTDecompositionStrategy::TTDecompositionStrategy</definition>
+        <argsstring>()=default</argsstring>
+        <name>TTDecompositionStrategy</name>
+        <qualifiedname>themis::tensor::TTDecompositionStrategy::TTDecompositionStrategy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/compression_strategy.h" line="168" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_t_t_decomposition_strategy_1a395330e6c806443e7c71d99a025f57b6" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::TTDecompositionStrategy::name</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::tensor::TTDecompositionStrategy::name</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_compression_strategy_1a034e76cf7a13b1ec33b7ab264bd0faeb">name</reimplements>
+        <briefdescription>
+<para>Get the name of this compression strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Human-readable strategy name (e.g., &quot;TT_DECOMPOSITION&quot;, &quot;QUANTIZE_INT8&quot;). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/compression_strategy.h" line="170" column="17" bodyfile="src/tensor/compression_strategy.cpp" bodystart="20" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_t_t_decomposition_strategy_1ad518b19e25fa449b670e5257bac66188" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_compression_result" kindref="compound">CompressionResult</ref></type>
+        <definition>CompressionResult themis::tensor::TTDecompositionStrategy::compress</definition>
+        <argsstring>(const float *data, std::size_t dim, const std::vector&lt; size_t &gt; &amp;mode_sizes, const CompressionConfig &amp;config) const override</argsstring>
+        <name>compress</name>
+        <qualifiedname>themis::tensor::TTDecompositionStrategy::compress</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_compression_strategy_1aaa88d1aa11525f2666b42f855e626720">compress</reimplements>
+        <param>
+          <type>const float *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>dim</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; size_t &gt; &amp;</type>
+          <declname>mode_sizes</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_compression_config" kindref="compound">CompressionConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Compress a candidate represented as a flat vector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Flat vector data (dim elements of float). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector dimension. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mode_sizes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tensor mode sizes (for reshape operations). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Compression configuration parameters. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Compression result with success flag and metrics. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/compression_strategy.h" line="172" column="23" bodyfile="src/tensor/compression_strategy.cpp" bodystart="24" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_t_t_decomposition_strategy_1addad8f2e9964d7ab9e8055fa223c34ad" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_compression_result" kindref="compound">CompressionResult</ref></type>
+        <definition>CompressionResult themis::tensor::TTDecompositionStrategy::compressTTTrain</definition>
+        <argsstring>(const storage::TTTrain &amp;train, const CompressionConfig &amp;config) const override</argsstring>
+        <name>compressTTTrain</name>
+        <qualifiedname>themis::tensor::TTDecompositionStrategy::compressTTTrain</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_compression_strategy_1a6b0d38e0f14137d0a154dfddfdb57d56">compressTTTrain</reimplements>
+        <param>
+          <type>const storage::TTTrain &amp;</type>
+          <declname>train</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_compression_config" kindref="compound">CompressionConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Compress a Tensor-Train representation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>train</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>TT-format candidate. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Compression configuration parameters. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Compression result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/compression_strategy.h" line="178" column="23" bodyfile="src/tensor/compression_strategy.cpp" bodystart="59" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_t_t_decomposition_strategy_1a40ca4e40eac127f8adb515581f15f09f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>float</type>
+        <definition>float themis::tensor::TTDecompositionStrategy::estimateRatio</definition>
+        <argsstring>(const float *data, std::size_t dim, const CompressionConfig &amp;config) const override</argsstring>
+        <name>estimateRatio</name>
+        <qualifiedname>themis::tensor::TTDecompositionStrategy::estimateRatio</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_compression_strategy_1a701d7e2d1d0f7eac9ec6d9455b1b35a7">estimateRatio</reimplements>
+        <param>
+          <type>const float *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>dim</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_compression_config" kindref="compound">CompressionConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Estimate compression ratio without performing actual compression. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Sample data (may be partial). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector dimension. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Compression configuration parameters. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Estimated compression ratio. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/compression_strategy.h" line="182" column="11" bodyfile="src/tensor/compression_strategy.cpp" bodystart="76" bodyend="92"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Tensor-Train decomposition compression strategy. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Converts flat vectors or structured tensors into low-rank TT representations, achieving compression through rank reduction while preserving key information. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::tensor::ICompressionStrategy</label>
+        <link refid="classthemis_1_1tensor_1_1_i_compression_strategy"/>
+      </node>
+      <node id="1">
+        <label>themis::tensor::TTDecompositionStrategy</label>
+        <link refid="classthemis_1_1tensor_1_1_t_t_decomposition_strategy"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::tensor::ICompressionStrategy</label>
+        <link refid="classthemis_1_1tensor_1_1_i_compression_strategy"/>
+      </node>
+      <node id="1">
+        <label>themis::tensor::TTDecompositionStrategy</label>
+        <link refid="classthemis_1_1tensor_1_1_t_t_decomposition_strategy"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/tensor/compression_strategy.h" line="166" column="1" bodyfile="include/tensor/compression_strategy.h" bodystart="166" bodyend="186"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1tensor_1_1_t_t_decomposition_strategy_1ad518b19e25fa449b670e5257bac66188" prot="public" virt="virtual"><scope>themis::tensor::TTDecompositionStrategy</scope><name>compress</name></member>
+      <member refid="classthemis_1_1tensor_1_1_t_t_decomposition_strategy_1addad8f2e9964d7ab9e8055fa223c34ad" prot="public" virt="virtual"><scope>themis::tensor::TTDecompositionStrategy</scope><name>compressTTTrain</name></member>
+      <member refid="classthemis_1_1tensor_1_1_t_t_decomposition_strategy_1a40ca4e40eac127f8adb515581f15f09f" prot="public" virt="virtual"><scope>themis::tensor::TTDecompositionStrategy</scope><name>estimateRatio</name></member>
+      <member refid="classthemis_1_1tensor_1_1_t_t_decomposition_strategy_1a395330e6c806443e7c71d99a025f57b6" prot="public" virt="virtual"><scope>themis::tensor::TTDecompositionStrategy</scope><name>name</name></member>
+      <member refid="classthemis_1_1tensor_1_1_t_t_decomposition_strategy_1aaa65b758b2733d85383699c78de52334" prot="public" virt="non-virtual"><scope>themis::tensor::TTDecompositionStrategy</scope><name>TTDecompositionStrategy</name></member>
+      <member refid="classthemis_1_1tensor_1_1_i_compression_strategy_1a484c45d1998b33b907273eda4216678a" prot="public" virt="virtual"><scope>themis::tensor::TTDecompositionStrategy</scope><name>~ICompressionStrategy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

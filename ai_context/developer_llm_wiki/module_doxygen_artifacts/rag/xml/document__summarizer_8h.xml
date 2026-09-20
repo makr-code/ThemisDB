@@ -1,0 +1,274 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="document__summarizer_8h" kind="file" language="C++">
+    <compoundname>document_summarizer.h</compoundname>
+    <includes refid="rag__judge_8h" local="yes">rag/rag_judge.h</includes>
+    <includes refid="streaming__retriever_8h" local="yes">rag/streaming_retriever.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="document__summarizer_8cpp" local="yes">src/rag/document_summarizer.cpp</includedby>
+    <includedby refid="test__rag__document__summarizer_8cpp" local="yes">tests/rag/test_rag_document_summarizer.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/rag/document_summarizer.h</label>
+        <link refid="document__summarizer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>rag/rag_judge.h</label>
+        <link refid="rag__judge_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>rag/streaming_retriever.h</label>
+        <link refid="streaming__retriever_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>atomic</label>
+      </node>
+      <node id="8">
+        <label>chrono</label>
+      </node>
+      <node id="9">
+        <label>cmath</label>
+      </node>
+      <node id="7">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/rag/document_summarizer.h</label>
+        <link refid="document__summarizer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/rag/document_summarizer.cpp</label>
+        <link refid="document__summarizer_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/rag/test_rag_document_summarizer.cpp</label>
+        <link refid="test__rag__document__summarizer_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1rag_1_1_document_summarizer_config" prot="public">themis::rag::DocumentSummarizerConfig</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_document_summary" prot="public">themis::rag::DocumentSummary</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_multi_document_summary" prot="public">themis::rag::MultiDocumentSummary</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_document_summarizer" prot="public">themis::rag::DocumentSummarizer</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_document_summarizer_factory" prot="public">themis::rag::DocumentSummarizerFactory</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag">themis::rag</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="rag__judge_8h" kindref="compound">rag/rag_judge.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="streaming__retriever_8h" kindref="compound">rag/streaming_retriever.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag" kindref="compound">themis::rag</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1rag_1_1_document_summarizer_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1_document_summarizer_config" kindref="compound">DocumentSummarizerConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1rag_1_1_document_summarizer_config_1a11ebda516e34876c762b430999e57999" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_document_summarizer_config_1a11ebda516e34876c762b430999e57999" kindref="member">Strategy</ref><sp/>{</highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1rag_1_1_document_summarizer_config_1a11ebda516e34876c762b430999e57999a1184fc314b69e4f95e8065c460b2b60d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_document_summarizer_config_1a11ebda516e34876c762b430999e57999a1184fc314b69e4f95e8065c460b2b60d" kindref="member">EXTRACTIVE</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1rag_1_1_document_summarizer_config_1a11ebda516e34876c762b430999e57999aab0d4ca8119c255b94aa2ac648f2e1b8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_document_summarizer_config_1a11ebda516e34876c762b430999e57999aab0d4ca8119c255b94aa2ac648f2e1b8" kindref="member">ABSTRACTIVE</ref>,<sp/></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1rag_1_1_document_summarizer_config_1a11ebda516e34876c762b430999e57999ae1f2d5134ed2543d38a0de9751cf75d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_document_summarizer_config_1a11ebda516e34876c762b430999e57999ae1f2d5134ed2543d38a0de9751cf75d9" kindref="member">AUTO</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1rag_1_1_document_summarizer_config_1a3d5237d50762db41724c676fad2c1d00" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_document_summarizer_config_1a11ebda516e34876c762b430999e57999" kindref="member">Strategy</ref><sp/><ref refid="structthemis_1_1rag_1_1_document_summarizer_config_1a3d5237d50762db41724c676fad2c1d00" kindref="member">strategy</ref><sp/>=<sp/><ref refid="structthemis_1_1rag_1_1_document_summarizer_config_1a11ebda516e34876c762b430999e57999ae1f2d5134ed2543d38a0de9751cf75d9" kindref="member">Strategy::AUTO</ref>;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1rag_1_1_document_summarizer_config_1accfc6243e27f7055593d67e2ed464691" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_document_summarizer_config_1accfc6243e27f7055593d67e2ed464691" kindref="member">max_summary_chars</ref><sp/>=<sp/>2000;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1rag_1_1_document_summarizer_config_1a783b279893b772df65553ed87aed4006" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_document_summarizer_config_1a783b279893b772df65553ed87aed4006" kindref="member">max_sentences_per_doc</ref><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1rag_1_1_document_summarizer_config_1a1230d3167df0abc5ad6b327d4e89e994" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_document_summarizer_config_1a1230d3167df0abc5ad6b327d4e89e994" kindref="member">min_sentence_chars</ref><sp/>=<sp/>20;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1rag_1_1_document_summarizer_config_1a17699c7d3578e55ee4bb7a3fad68c3de" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_document_summarizer_config_1a17699c7d3578e55ee4bb7a3fad68c3de" kindref="member">include_source_attribution</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1rag_1_1_document_summarizer_config_1aa95d792f08bbc13463fafec570298aae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_document_summarizer_config_1aa95d792f08bbc13463fafec570298aae" kindref="member">temperature</ref><sp/>=<sp/>0.3;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1rag_1_1_document_summarizer_config_1a8a0bb1c51811c986a46432c852c7bbed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_document_summarizer_config_1a8a0bb1c51811c986a46432c852c7bbed" kindref="member">max_output_tokens</ref><sp/>=<sp/>512;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Result<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1rag_1_1_document_summary" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1_document_summary" kindref="compound">DocumentSummary</ref><sp/>{</highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1rag_1_1_document_summary_1a6438cd4cb8e1271fac81d0dc452a55f4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1_document_summary_1a6438cd4cb8e1271fac81d0dc452a55f4" kindref="member">document_id</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1rag_1_1_document_summary_1a2925a3f0c0e7a5c72d410c64f244b65a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1_document_summary_1a2925a3f0c0e7a5c72d410c64f244b65a" kindref="member">summary</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1rag_1_1_document_summary_1aeccf8c6390e6633bf9c6de48ba88dcb0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_document_summary_1aeccf8c6390e6633bf9c6de48ba88dcb0" kindref="member">coverage_score</ref>;<sp/></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1rag_1_1_document_summary_1a4e6885fcb77e2341fc121fd8707a261c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_document_summary_1a4e6885fcb77e2341fc121fd8707a261c" kindref="member">used_llm</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1rag_1_1_multi_document_summary" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1_multi_document_summary" kindref="compound">MultiDocumentSummary</ref><sp/>{</highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1rag_1_1_multi_document_summary_1a58cb5041ba1c10e5eaf9d00097666591" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1_multi_document_summary_1a58cb5041ba1c10e5eaf9d00097666591" kindref="member">combined_summary</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1rag_1_1_multi_document_summary_1afe26a0f5a57bbf6b1ceec3db8a41d5c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;DocumentSummary&gt;<sp/><ref refid="structthemis_1_1rag_1_1_multi_document_summary_1afe26a0f5a57bbf6b1ceec3db8a41d5c6" kindref="member">per_document_summaries</ref>;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1rag_1_1_multi_document_summary_1af8424e4cdb3f921beccd4102140f9349" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_multi_document_summary_1af8424e4cdb3f921beccd4102140f9349" kindref="member">total_input_chars</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1rag_1_1_multi_document_summary_1a77f1373649f5b295d7a848a1ef85b93d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_multi_document_summary_1a77f1373649f5b295d7a848a1ef85b93d" kindref="member">summary_chars</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1rag_1_1_multi_document_summary_1a1bea47755949944db028083f7cf9978e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_multi_document_summary_1a1bea47755949944db028083f7cf9978e" kindref="member">compression_ratio</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1rag_1_1_multi_document_summary_1ad4465e20199261a4519d1e32189cab6d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_multi_document_summary_1ad4465e20199261a4519d1e32189cab6d" kindref="member">used_llm</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1rag_1_1_multi_document_summary_1aeb4fe707ef89bfc96ec0f9bcd34dedac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_multi_document_summary_1aeb4fe707ef89bfc96ec0f9bcd34dedac" kindref="member">elapsed_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DocumentSummarizer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132" refid="classthemis_1_1rag_1_1_document_summarizer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1_document_summarizer_1a91e601d7076ffeab3ae1e4448186754f" kindref="member">DocumentSummarizer</ref><sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_document_summarizer_1a91e601d7076ffeab3ae1e4448186754f" kindref="member">DocumentSummarizer</ref>();</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_document_summarizer_1a91e601d7076ffeab3ae1e4448186754f" kindref="member">DocumentSummarizer</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_document_summarizer_config" kindref="compound">DocumentSummarizerConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145" refid="classthemis_1_1rag_1_1_document_summarizer_1a19321430b1646cc6539f5eb679ca3147" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_document_summarizer_1a19321430b1646cc6539f5eb679ca3147" kindref="member">~DocumentSummarizer</ref>();</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>movable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148" refid="classthemis_1_1rag_1_1_document_summarizer_1a4ff43c8e20dd34a07c5e31382578fc53" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_document_summarizer_1a4ff43c8e20dd34a07c5e31382578fc53" kindref="member">DocumentSummarizer</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_document_summarizer_1a91e601d7076ffeab3ae1e4448186754f" kindref="member">DocumentSummarizer</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="149" refid="classthemis_1_1rag_1_1_document_summarizer_1abe21e4d0d6c21a17bc0e8cd315404d4d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_document_summarizer_1a91e601d7076ffeab3ae1e4448186754f" kindref="member">DocumentSummarizer</ref>&amp;<sp/><ref refid="classthemis_1_1rag_1_1_document_summarizer_1abe21e4d0d6c21a17bc0e8cd315404d4d" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_document_summarizer_1a91e601d7076ffeab3ae1e4448186754f" kindref="member">DocumentSummarizer</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="150" refid="classthemis_1_1rag_1_1_document_summarizer_1af988ebe2c33f3d2bf54ef2083a9b2efd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_document_summarizer_1af988ebe2c33f3d2bf54ef2083a9b2efd" kindref="member">DocumentSummarizer</ref>(<ref refid="classthemis_1_1rag_1_1_document_summarizer_1a91e601d7076ffeab3ae1e4448186754f" kindref="member">DocumentSummarizer</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="151" refid="classthemis_1_1rag_1_1_document_summarizer_1a65c2d391f5b4ceb6df227d90484eac38" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_document_summarizer_1a91e601d7076ffeab3ae1e4448186754f" kindref="member">DocumentSummarizer</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1rag_1_1_document_summarizer_1a91e601d7076ffeab3ae1e4448186754f" kindref="member">DocumentSummarizer</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Single-document<sp/>summarization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_document_summary" kindref="compound">DocumentSummary</ref><sp/><ref refid="classthemis_1_1rag_1_1_document_summarizer_1afd90f6140ebb27beada6874da9392386" kindref="member">summarize</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>document_id,</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>content,</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)<sp/>const;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Multi-document<sp/>summarization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_multi_document_summary" kindref="compound">MultiDocumentSummary</ref><sp/><ref refid="classthemis_1_1rag_1_1_document_summarizer_1ab1b0d348e6652ee42579d691becd3e35" kindref="member">summarizeMultiple</ref>(</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;<ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref>::RetrievedDocument&gt;&amp;<sp/>documents,</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)<sp/>const;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_multi_document_summary" kindref="compound">MultiDocumentSummary</ref><sp/><ref refid="classthemis_1_1rag_1_1_document_summarizer_1ab1b0d348e6652ee42579d691becd3e35" kindref="member">summarizeMultiple</ref>(</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;<ref refid="namespacethemis_1_1rag_1_1streaming" kindref="compound">streaming</ref>::StreamedDocument&gt;&amp;<sp/>documents,</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)<sp/>const;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1rag_1_1_document_summarizer_config" kindref="compound">DocumentSummarizerConfig</ref>&amp;<sp/><ref refid="classthemis_1_1rag_1_1_document_summarizer_1a9b93e91650a58468c2111b01a364702b" kindref="member">getConfig</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_document_summarizer_1a2e6e0b4bf434694683f4fdf0e83e709a" kindref="member">setConfig</ref>(const<sp/><ref refid="structthemis_1_1rag_1_1_document_summarizer_config" kindref="compound">DocumentSummarizerConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>struct<sp/><ref refid="structthemis_1_1rag_1_1_document_summarizer_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;<ref refid="structthemis_1_1rag_1_1_document_summarizer_1_1_impl" kindref="compound">Impl</ref>&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Factory<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225" refid="classthemis_1_1rag_1_1_document_summarizer_factory" refkind="compound"><highlight class="normal">class<sp/><ref refid="classthemis_1_1rag_1_1_document_summarizer_factory" kindref="compound">DocumentSummarizerFactory</ref><sp/>{</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;DocumentSummarizer&gt;<sp/><ref refid="classthemis_1_1rag_1_1_document_summarizer_factory_1a9d91e3b09c23be43c7be7704be0fe745" kindref="member">createExtractive</ref>(</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>max_sentences<sp/>=<sp/>5);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;DocumentSummarizer&gt;<sp/><ref refid="classthemis_1_1rag_1_1_document_summarizer_factory_1abe8fb1ff6d059400d2cbdb374f1dd263" kindref="member">createAbstractive</ref>(</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>max_summary_chars<sp/>=<sp/>2000);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;DocumentSummarizer&gt;<sp/><ref refid="classthemis_1_1rag_1_1_document_summarizer_factory_1ac15a77a4b7cb62c5c917acf87d5e84ec" kindref="member">createAuto</ref>();</highlight></codeline>
+<codeline lineno="245"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::rag</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/rag/document_summarizer.h"/>
+  </compounddef>
+</doxygen>

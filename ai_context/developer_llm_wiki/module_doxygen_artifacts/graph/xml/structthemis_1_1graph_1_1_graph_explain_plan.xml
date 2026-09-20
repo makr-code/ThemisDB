@@ -1,0 +1,164 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_graph_explain_plan" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::GraphExplainPlan</compoundname>
+    <includes refid="explain__plan_8h" local="no">explain_plan.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_explain_plan_1a550b742c1376032c035153f7bc1ab1dd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::GraphExplainPlan::query</definition>
+        <argsstring></argsstring>
+        <name>query</name>
+        <qualifiedname>themis::graph::GraphExplainPlan::query</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/explain_plan.h" line="59" column="17" bodyfile="include/graph/explain_plan.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_explain_plan_1a29b35f57a2fd891e0de23f3db29c8aba" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::GraphExplainPlan::plan_id</definition>
+        <argsstring></argsstring>
+        <name>plan_id</name>
+        <qualifiedname>themis::graph::GraphExplainPlan::plan_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/explain_plan.h" line="60" column="17" bodyfile="include/graph/explain_plan.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_explain_plan_1abf350f9f8305dca4e7f098b909a88028" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1graph_1_1_graph_plan_node" kindref="compound">GraphPlanNode</ref> &gt;</type>
+        <definition>std::vector&lt;GraphPlanNode&gt; themis::graph::GraphExplainPlan::nodes</definition>
+        <argsstring></argsstring>
+        <name>nodes</name>
+        <qualifiedname>themis::graph::GraphExplainPlan::nodes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/explain_plan.h" line="61" column="17" bodyfile="include/graph/explain_plan.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_explain_plan_1ae177810d9fa308157b98a5d714dd60fb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::GraphExplainPlan::root_node_id</definition>
+        <argsstring></argsstring>
+        <name>root_node_id</name>
+        <qualifiedname>themis::graph::GraphExplainPlan::root_node_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/explain_plan.h" line="62" column="17" bodyfile="include/graph/explain_plan.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_explain_plan_1ad2f402de243fae04ac115da0d8d4c411" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::graph::GraphExplainPlan::total_estimated_cost</definition>
+        <argsstring></argsstring>
+        <name>total_estimated_cost</name>
+        <qualifiedname>themis::graph::GraphExplainPlan::total_estimated_cost</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/explain_plan.h" line="63" column="12" bodyfile="include/graph/explain_plan.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_explain_plan_1ac32063ec0e03a2e018edbc533089b213" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::graph::GraphExplainPlan::total_actual_ms</definition>
+        <argsstring></argsstring>
+        <name>total_actual_ms</name>
+        <qualifiedname>themis::graph::GraphExplainPlan::total_actual_ms</qualifiedname>
+        <initializer>= -1.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/explain_plan.h" line="64" column="12" bodyfile="include/graph/explain_plan.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_explain_plan_1acfb85cd17d16f865e4fce471a1d4c9cf" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::graph::GraphExplainPlan::is_analyzed</definition>
+        <argsstring></argsstring>
+        <name>is_analyzed</name>
+        <qualifiedname>themis::graph::GraphExplainPlan::is_analyzed</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/explain_plan.h" line="65" column="10" bodyfile="include/graph/explain_plan.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1graph_1_1_graph_explain_plan_1acd57046ce84a88f310d0664f0ad432c2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::graph::GraphExplainPlan::toDot</definition>
+        <argsstring>() const</argsstring>
+        <name>toDot</name>
+        <qualifiedname>themis::graph::GraphExplainPlan::toDot</qualifiedname>
+        <briefdescription>
+<para>To Dot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/explain_plan.h" line="71" column="17" bodyfile="src/graph/explain_plan.cpp" bodystart="69" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graph_1_1_graph_explain_plan_1a3248299153c970cef2e1fb56f666ada6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::graph::GraphExplainPlan::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::graph::GraphExplainPlan::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/explain_plan.h" line="77" column="17" bodyfile="src/graph/explain_plan.cpp" bodystart="93" bodyend="146"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/explain_plan.h" line="58" column="1" bodyfile="include/graph/explain_plan.h" bodystart="58" bodyend="78"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_graph_explain_plan_1acfb85cd17d16f865e4fce471a1d4c9cf" prot="public" virt="non-virtual"><scope>themis::graph::GraphExplainPlan</scope><name>is_analyzed</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_explain_plan_1abf350f9f8305dca4e7f098b909a88028" prot="public" virt="non-virtual"><scope>themis::graph::GraphExplainPlan</scope><name>nodes</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_explain_plan_1a29b35f57a2fd891e0de23f3db29c8aba" prot="public" virt="non-virtual"><scope>themis::graph::GraphExplainPlan</scope><name>plan_id</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_explain_plan_1a550b742c1376032c035153f7bc1ab1dd" prot="public" virt="non-virtual"><scope>themis::graph::GraphExplainPlan</scope><name>query</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_explain_plan_1ae177810d9fa308157b98a5d714dd60fb" prot="public" virt="non-virtual"><scope>themis::graph::GraphExplainPlan</scope><name>root_node_id</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_explain_plan_1acd57046ce84a88f310d0664f0ad432c2" prot="public" virt="non-virtual"><scope>themis::graph::GraphExplainPlan</scope><name>toDot</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_explain_plan_1a3248299153c970cef2e1fb56f666ada6" prot="public" virt="non-virtual"><scope>themis::graph::GraphExplainPlan</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_explain_plan_1ac32063ec0e03a2e018edbc533089b213" prot="public" virt="non-virtual"><scope>themis::graph::GraphExplainPlan</scope><name>total_actual_ms</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_explain_plan_1ad2f402de243fae04ac115da0d8d4c411" prot="public" virt="non-virtual"><scope>themis::graph::GraphExplainPlan</scope><name>total_estimated_cost</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

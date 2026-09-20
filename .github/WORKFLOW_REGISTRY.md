@@ -129,7 +129,7 @@ Der Zweck dieser Rollenaufteilung ist eine saubere Release-Kette:
 - `.github/workflows/gate-pr-version-targeting.yml`
   — PR gate: Target Version field and milestone assignment validation; PR-only (opened/edited/synchronize)
 - `.github/workflows/maintenance-ai-working.yml`
-  — AI Working cleanup (LLM Wiki stale files); schedule + push + dispatch
+  — Maintenance: AI Working Cleanup - LLM Wiki (LLM Wiki stale files); schedule + push + dispatch
 - `.github/workflows/maintenance-housekeeping.yml`
   — Weekly housekeeping (replaces maintenance-labels + maintenance-milestones + maintenance-issue-recommendations): label sync, milestone sync+assignment, issue closure recommendations; schedule Monday + push + issues/PR-target + dispatch
 - `.github/workflows/maintenance-build-issues.yml`

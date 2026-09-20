@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1fi__test_1_1_network_partition_guard" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::fi_test::NetworkPartitionGuard</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1fi__test_1_1_network_partition_guard_1a0499908c3948fb506a8c33cbb1b0da8e" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_sim_participant" kindref="compound">SimParticipant</ref> &amp;</type>
+        <definition>SimParticipant&amp; themisdb::sharding::fi_test::NetworkPartitionGuard::p_</definition>
+        <argsstring></argsstring>
+        <name>p_</name>
+        <qualifiedname>themisdb::sharding::fi_test::NetworkPartitionGuard::p_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="412" column="20" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="412" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1fi__test_1_1_network_partition_guard_1a7126d4f59524d97f8948c780da1f1db1" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::fi_test::NetworkPartitionGuard::NetworkPartitionGuard</definition>
+        <argsstring>(SimParticipant &amp;p)</argsstring>
+        <name>NetworkPartitionGuard</name>
+        <qualifiedname>themisdb::sharding::fi_test::NetworkPartitionGuard::NetworkPartitionGuard</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_sim_participant" kindref="compound">SimParticipant</ref> &amp;</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="403" column="14" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="403" bodyend="405"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1fi__test_1_1_network_partition_guard_1af713b030acdf31968605ed0291767bb5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::fi_test::NetworkPartitionGuard::~NetworkPartitionGuard</definition>
+        <argsstring>()</argsstring>
+        <name>~NetworkPartitionGuard</name>
+        <qualifiedname>themisdb::sharding::fi_test::NetworkPartitionGuard::~NetworkPartitionGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="406" column="5" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="406" bodyend="406"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1fi__test_1_1_network_partition_guard_1a56165401b078f4c68cff859e0f6928ac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::fi_test::NetworkPartitionGuard::NetworkPartitionGuard</definition>
+        <argsstring>(const NetworkPartitionGuard &amp;)=delete</argsstring>
+        <name>NetworkPartitionGuard</name>
+        <qualifiedname>themisdb::sharding::fi_test::NetworkPartitionGuard::NetworkPartitionGuard</qualifiedname>
+        <param>
+          <type>const NetworkPartitionGuard &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="408" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1fi__test_1_1_network_partition_guard_1ad7cdf0d3b5d34ee8c6b31e929914eeff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_network_partition_guard_1a7126d4f59524d97f8948c780da1f1db1" kindref="member">NetworkPartitionGuard</ref> &amp;</type>
+        <definition>NetworkPartitionGuard &amp; themisdb::sharding::fi_test::NetworkPartitionGuard::operator=</definition>
+        <argsstring>(const NetworkPartitionGuard &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::sharding::fi_test::NetworkPartitionGuard::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_network_partition_guard_1a7126d4f59524d97f8948c780da1f1db1" kindref="member">NetworkPartitionGuard</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="409" column="27"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RAII guard that partitions a <ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_sim_participant" kindref="compound">SimParticipant</ref> on construction and un-partitions it on destruction. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Modelled after std::lock_guard to ensure the participant is always restored even if an exception is thrown during the guarded block. </para>
+    </detaileddescription>
+    <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="401" column="1" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="401" bodyend="413"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_network_partition_guard_1a7126d4f59524d97f8948c780da1f1db1" prot="public" virt="non-virtual"><scope>themisdb::sharding::fi_test::NetworkPartitionGuard</scope><name>NetworkPartitionGuard</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_network_partition_guard_1a56165401b078f4c68cff859e0f6928ac" prot="public" virt="non-virtual"><scope>themisdb::sharding::fi_test::NetworkPartitionGuard</scope><name>NetworkPartitionGuard</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_network_partition_guard_1ad7cdf0d3b5d34ee8c6b31e929914eeff" prot="public" virt="non-virtual"><scope>themisdb::sharding::fi_test::NetworkPartitionGuard</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_network_partition_guard_1a0499908c3948fb506a8c33cbb1b0da8e" prot="private" virt="non-virtual"><scope>themisdb::sharding::fi_test::NetworkPartitionGuard</scope><name>p_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_network_partition_guard_1af713b030acdf31968605ed0291767bb5" prot="public" virt="non-virtual"><scope>themisdb::sharding::fi_test::NetworkPartitionGuard</scope><name>~NetworkPartitionGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

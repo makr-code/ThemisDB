@@ -1,0 +1,267 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="per__query__cost__model_8h" kind="file" language="C++">
+    <compoundname>per_query_cost_model.h</compoundname>
+    <includes refid="cycle__metrics_8h" local="yes">performance/cycle_metrics.h</includes>
+    <includes local="yes">query/optimizer_cost_model.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="per__query__cost__model_8cpp" local="yes">src/performance/phase3/per_query_cost_model.cpp</includedby>
+    <includedby refid="test__per__query__cost__model_8cpp" local="yes">tests/performance/phase3/test_per_query_cost_model.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>performance/cycle_metrics.h</label>
+        <link refid="cycle__metrics_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/performance/phase3/per_query_cost_model.h</label>
+        <link refid="per__query__cost__model_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>atomic</label>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="10">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>mutex</label>
+      </node>
+      <node id="9">
+        <label>query/optimizer_cost_model.h</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="11">
+        <label>unordered_map</label>
+      </node>
+      <node id="12">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/performance/phase3/per_query_cost_model.h</label>
+        <link refid="per__query__cost__model_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/performance/phase3/per_query_cost_model.cpp</label>
+        <link refid="per__query__cost__model_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/performance/phase3/test_per_query_cost_model.cpp</label>
+        <link refid="test__per__query__cost__model_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1performance_1_1phase3_1_1_query_cost_record" prot="public">themis::performance::phase3::QueryCostRecord</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model" prot="public">themis::performance::phase3::PerQueryCostModel</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_query_guard" prot="public">themis::performance::phase3::PerQueryCostModel::QueryGuard</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_stats" prot="public">themis::performance::phase3::PerQueryCostModel::Stats</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1performance">themis::performance</innernamespace>
+    <innernamespace refid="namespacethemis_1_1performance_1_1phase3">themis::performance::phase3</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Per-Query<sp/>Cost<sp/>Model<sp/>Integration<sp/>with<sp/>Query<sp/>Optimizer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Phase<sp/>3<sp/>performance<sp/>optimization:<sp/>integrates<sp/>hardware<sp/>cycle<sp/>measurement</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>(CycleMetrics)<sp/>with<sp/>the<sp/>OptimizerCostModel<sp/>to<sp/>calibrate<sp/>cost<sp/>estimates</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>from<sp/>actual<sp/>query<sp/>execution<sp/>feedback.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Key<sp/>idea:<sp/>record<sp/>actual<sp/>cycles<sp/>and<sp/>wall-clock<sp/>time<sp/>per<sp/>query<sp/>execution,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>accumulate<sp/>statistics,<sp/>and<sp/>periodically<sp/>calibrate<sp/>OptimizerCostModel</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>constants<sp/>so<sp/>that<sp/>future<sp/>plan<sp/>estimates<sp/>are<sp/>anchored<sp/>to<sp/>real<sp/>hardware.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Expected<sp/>gain:<sp/>~10-30%<sp/>better<sp/>plan<sp/>selection<sp/>accuracy<sp/>on<sp/>repeat<sp/>queries.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="cycle__metrics_8h" kindref="compound">performance/cycle_metrics.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;query/optimizer_cost_model.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1performance" kindref="compound">performance</ref><sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1performance_1_1phase3" kindref="compound">phase3</ref><sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1performance_1_1phase3_1_1_query_cost_record" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1performance_1_1phase3_1_1_query_cost_record" kindref="compound">QueryCostRecord</ref><sp/>{</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1performance_1_1phase3_1_1_query_cost_record_1ab0675932451a7ea8029cece733458f7b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_query_cost_record_1ab0675932451a7ea8029cece733458f7b" kindref="member">query_type</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1performance_1_1phase3_1_1_query_cost_record_1ab40c303b6f1f6a4876bc908935710bd3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_query_cost_record_1ab40c303b6f1f6a4876bc908935710bd3" kindref="member">cycles_elapsed</ref><sp/><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1performance_1_1phase3_1_1_query_cost_record_1ac56ff079b2c95ce729d04abeac25db9c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_query_cost_record_1ac56ff079b2c95ce729d04abeac25db9c" kindref="member">execution_time_ms</ref><sp/>=<sp/>0.0;<sp/></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1performance_1_1phase3_1_1_query_cost_record_1a06be519eab6c4c3c62cca1db53928521" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_query_cost_record_1a06be519eab6c4c3c62cca1db53928521" kindref="member">rows_processed</ref><sp/><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1performance_1_1phase3_1_1_query_cost_record_1a8be9df941bd66b45b39593294f84315e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_query_cost_record_1a8be9df941bd66b45b39593294f84315e" kindref="member">pages_read</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1performance_1_1phase3_1_1_query_cost_record_1a96ae841313d77d246312faad60ff18de" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_query_cost_record_1a96ae841313d77d246312faad60ff18de" kindref="member">estimated_cost</ref><sp/><sp/><sp/>=<sp/>0.0;<sp/></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1performance_1_1phase3_1_1_query_cost_record_1aae6b1ba15f1b53860dbfc6c848f09d68" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_query_cost_record_1aae6b1ba15f1b53860dbfc6c848f09d68" kindref="member">cost_ratio</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1.0;<sp/></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1performance_1_1phase3_1_1_query_cost_record_1a8d9b3207b98fd88ddd5596f04029b519" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>OptimizerCostModel::SerializationAdvice::ExecutionPath<sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_query_cost_record_1a8d9b3207b98fd88ddd5596f04029b519" kindref="member">exec_path_used</ref><sp/>=</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>OptimizerCostModel::SerializationAdvice::ExecutionPath::CPU_SINGLE;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1performance_1_1phase3_1_1_query_cost_record_1adeae5a36ce88ae8fa9e833e5a5df6c1c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_query_cost_record_1adeae5a36ce88ae8fa9e833e5a5df6c1c" kindref="member">serialization_time_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1a0635cad475ea83bbbcd893fffd85040c" kindref="member">PerQueryCostModel</ref><sp/>{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="96" refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1a20adccb1f320a4dc09e4ec8084d64eca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1a20adccb1f320a4dc09e4ec8084d64eca" kindref="member">MAX_RECORDS</ref><sp/>=<sp/>4096;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1a0635cad475ea83bbbcd893fffd85040c" kindref="member">PerQueryCostModel</ref>();</highlight></codeline>
+<codeline lineno="99" refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1a6e98f58914cbc38cf614c21d77887fd3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1a6e98f58914cbc38cf614c21d77887fd3" kindref="member">~PerQueryCostModel</ref>();</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable<sp/>(owns<sp/>mutable<sp/>state)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1a35b1d1a4ac12f8aedbc2ac0aedcb5009" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1a35b1d1a4ac12f8aedbc2ac0aedcb5009" kindref="member">PerQueryCostModel</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1a0635cad475ea83bbbcd893fffd85040c" kindref="member">PerQueryCostModel</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="103" refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1ade214f1e7ea3d9adf9fb267083e21cf7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1a0635cad475ea83bbbcd893fffd85040c" kindref="member">PerQueryCostModel</ref>&amp;<sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1ade214f1e7ea3d9adf9fb267083e21cf7" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1a0635cad475ea83bbbcd893fffd85040c" kindref="member">PerQueryCostModel</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RAII<sp/>query<sp/>timer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_query_guard" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_query_guard_1a9912bfab5073494d16cff9f70bb9ada6" kindref="member">QueryGuard</ref><sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1a211b89df3507cb720fcd7ae74bd9f173" kindref="member">QueryGuard</ref>(<ref refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1a0635cad475ea83bbbcd893fffd85040c" kindref="member">PerQueryCostModel</ref>&amp;<sp/>model,</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>query_type,</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>estimated_cost)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_query_guard_1a20527028e572ce37127465df19a845c3" kindref="member">~QueryGuard</ref>()<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122" refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_query_guard_1aab20c3cf25ad276a4ed6ec569f1f01dc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_query_guard_1aab20c3cf25ad276a4ed6ec569f1f01dc" kindref="member">QueryGuard</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_query_guard_1a9912bfab5073494d16cff9f70bb9ada6" kindref="member">QueryGuard</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="123" refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_query_guard_1a90652d8229fa9acc3041dedf4752f8fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_query_guard_1a9912bfab5073494d16cff9f70bb9ada6" kindref="member">QueryGuard</ref>&amp;<sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_query_guard_1a90652d8229fa9acc3041dedf4752f8fb" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_query_guard_1a9912bfab5073494d16cff9f70bb9ada6" kindref="member">QueryGuard</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Movable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1a211b89df3507cb720fcd7ae74bd9f173" kindref="member">QueryGuard</ref>(<ref refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_query_guard_1a9912bfab5073494d16cff9f70bb9ada6" kindref="member">QueryGuard</ref>&amp;&amp;)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="127" refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_query_guard_1a65d6d5beddf94949a033199d2b75f4cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_query_guard_1a9912bfab5073494d16cff9f70bb9ada6" kindref="member">QueryGuard</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_query_guard_1a9912bfab5073494d16cff9f70bb9ada6" kindref="member">QueryGuard</ref>&amp;&amp;)<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_query_guard_1a418cd367f915e3638020ec1e6686a629" kindref="member">end</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>rows_processed<sp/>=<sp/>0,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>pages_read<sp/>=<sp/>0)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>private:</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1a0635cad475ea83bbbcd893fffd85040c" kindref="member">PerQueryCostModel</ref>*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>model_;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>query_type_;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>estimated_cost_;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>start_cycles_;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/><sp/><sp/><sp/>start_wall_;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ended_;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_query_guard_1a9912bfab5073494d16cff9f70bb9ada6" kindref="member">QueryGuard</ref><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1aa2a744dc827dbac1b9d03f2a2b3bc6bb" kindref="member">beginQuery</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>query_type,</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>estimated_cost<sp/>=<sp/>0.0)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Calibration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&gt;<sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1a52bea5fa2d4a8f514c3d6b8424be2826" kindref="member">getCalibrationFactors</ref>(</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>OptimizerCostModel::CostConstants*<sp/>current<sp/>=<sp/></highlight><highlight class="keywordtype">nullptr</highlight><highlight class="normal">)<sp/>const;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1acb4f5c29d3701747354e9c52837bd189" kindref="member">calibrate</ref>(OptimizerCostModel&amp;<sp/>model)<sp/>const;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194" refid="structthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/>struct<sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_stats" kindref="compound">Stats</ref><sp/>{</highlight></codeline>
+<codeline lineno="195" refid="structthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_stats_1ad5cccb7d9dd46379569651b843e374b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_stats_1ad5cccb7d9dd46379569651b843e374b0" kindref="member">total_queries</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="196" refid="structthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_stats_1a01888797d51769f31f77ea329a072913" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_stats_1a01888797d51769f31f77ea329a072913" kindref="member">avg_execution_time_ms</ref>;</highlight></codeline>
+<codeline lineno="197" refid="structthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_stats_1ad9db9e8af9c5aff99c52a5586ef79ec9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_stats_1ad9db9e8af9c5aff99c52a5586ef79ec9" kindref="member">avg_cost_ratio</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="198" refid="structthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_stats_1ab3a93448d178d3460262eb962c4111d4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_stats_1ab3a93448d178d3460262eb962c4111d4" kindref="member">p50_execution_time_ms</ref>;</highlight></codeline>
+<codeline lineno="199" refid="structthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_stats_1a0c792eaa0a1f4fcb6a05a6367fc54af4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_stats_1a0c792eaa0a1f4fcb6a05a6367fc54af4" kindref="member">p95_execution_time_ms</ref>;</highlight></codeline>
+<codeline lineno="200" refid="structthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_stats_1a179d2298a82cdc6d48ed6a1a5b7476dc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>double&gt;<sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_stats_1a179d2298a82cdc6d48ed6a1a5b7476dc" kindref="member">per_type_avg_time_ms</ref>;</highlight></codeline>
+<codeline lineno="201" refid="structthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_stats_1aded7fc3da53629d066ed378e26189ca0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>size_t&gt;<sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_stats_1aded7fc3da53629d066ed378e26189ca0" kindref="member">per_type_count</ref>;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_stats" kindref="compound">Stats</ref><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1af6e1146de70be3f10780645188fcc13a" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;QueryCostRecord&gt;<sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1aff2f98dd0a6b5f1c48597b0b86e59da6" kindref="member">getRecentRecords</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>limit<sp/>=<sp/>100)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1a9bbd0e181c61436ea532e5fa31ea8f09" kindref="member">reset</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217" refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1a189bfe6864451e3735f9fda716d84f6c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1a189bfe6864451e3735f9fda716d84f6c" kindref="member">totalQueries</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>total_queries_.load(std::memory_order_relaxed);<sp/>}</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="220" refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1a211b89df3507cb720fcd7ae74bd9f173" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">friend</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_query_guard" kindref="compound">QueryGuard</ref>;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>pushRecord(<ref refid="structthemis_1_1performance_1_1phase3_1_1_query_cost_record" kindref="compound">QueryCostRecord</ref><sp/>record)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mutex_;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;QueryCostRecord&gt;<sp/><sp/><sp/><sp/>records_;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>total_queries_{0};</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>write_pos_{0};</highlight></codeline>
+<codeline lineno="233"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>phase3</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>performance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/performance/phase3/per_query_cost_model.h"/>
+  </compounddef>
+</doxygen>

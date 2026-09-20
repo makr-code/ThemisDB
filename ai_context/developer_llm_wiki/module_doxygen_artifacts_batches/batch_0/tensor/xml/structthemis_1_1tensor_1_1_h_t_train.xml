@@ -1,0 +1,363 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1tensor_1_1_h_t_train" kind="struct" language="C++" prot="public">
+    <compoundname>themis::tensor::HTTrain</compoundname>
+    <includes refid="ht__train_8h" local="no">ht_train.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_h_t_train_1a9b04db0c0410990e65291d3f4d2c64c7" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1tensor_1_1_h_t_node" kindref="compound">HTNode</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;HTNode&gt; themis::tensor::HTTrain::root</definition>
+        <argsstring></argsstring>
+        <name>root</name>
+        <qualifiedname>themis::tensor::HTTrain::root</qualifiedname>
+        <briefdescription>
+<para>Root of the HT binary tree. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/ht_train.h" line="100" column="21" bodyfile="include/tensor/ht_train.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_h_t_train_1a555ef5c3103682a04d115f04b3480af3" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::size_t &gt;</type>
+        <definition>std::vector&lt;std::size_t&gt; themis::tensor::HTTrain::shape</definition>
+        <argsstring></argsstring>
+        <name>shape</name>
+        <qualifiedname>themis::tensor::HTTrain::shape</qualifiedname>
+        <briefdescription>
+<para>Original tensor shape (length = d = order of the tensor). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/ht_train.h" line="103" column="17" bodyfile="include/tensor/ht_train.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_h_t_train_1a09935401f2ccca5dd8cf0a6ada824dfa" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::HTTrain::max_rank</definition>
+        <argsstring></argsstring>
+        <name>max_rank</name>
+        <qualifiedname>themis::tensor::HTTrain::max_rank</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Upper-bound rank used during decomposition. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/ht_train.h" line="106" column="17" bodyfile="include/tensor/ht_train.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_h_t_train_1aa44c02e7efdc1de711344b62a22db3b3" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::tensor::HTTrain::achieved_eps</definition>
+        <argsstring></argsstring>
+        <name>achieved_eps</name>
+        <qualifiedname>themis::tensor::HTTrain::achieved_eps</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Achieved relative reconstruction error ‖T − T̃‖_F / ‖T‖_F. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/ht_train.h" line="109" column="12" bodyfile="include/tensor/ht_train.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_h_t_train_1af001c3c45f9e27ccd60ca3855fd5e8f2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::tensor::HTTrain::original_norm</definition>
+        <argsstring></argsstring>
+        <name>original_norm</name>
+        <qualifiedname>themis::tensor::HTTrain::original_norm</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Frobenius norm of the original tensor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/ht_train.h" line="112" column="12" bodyfile="include/tensor/ht_train.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_h_t_train_1a0d3c27fa54bdc15ebb2587eb93122830" prot="public" static="no" mutable="yes">
+        <type>std::shared_ptr&lt; std::mutex &gt;</type>
+        <definition>std::shared_ptr&lt;std::mutex&gt; themis::tensor::HTTrain::tt_cache_mtx_</definition>
+        <argsstring></argsstring>
+        <name>tt_cache_mtx_</name>
+        <qualifiedname>themis::tensor::HTTrain::tt_cache_mtx_</qualifiedname>
+        <initializer>{std::make_shared&lt;std::mutex&gt;()}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/ht_train.h" line="119" column="35" bodyfile="include/tensor/ht_train.h" bodystart="119" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_h_t_train_1a382bdff1e3a9ae31f498d363d24fc312" prot="public" static="no" mutable="yes">
+        <type>std::shared_ptr&lt; storage::TTTrain &gt;</type>
+        <definition>std::shared_ptr&lt;storage::TTTrain&gt; themis::tensor::HTTrain::tt_cache_</definition>
+        <argsstring></argsstring>
+        <name>tt_cache_</name>
+        <qualifiedname>themis::tensor::HTTrain::tt_cache_</qualifiedname>
+        <briefdescription>
+<para>Lazily populated by <computeroutput><ref refid="structthemis_1_1tensor_1_1_h_t_train_1a8b6c827ddc1fa5534da3bc3a92721715" kindref="member">toTTTrain()</ref></computeroutput>; null until first call. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/ht_train.h" line="121" column="29" bodyfile="include/tensor/ht_train.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1tensor_1_1_h_t_train_1aff6d64baf1379cbb736f2c8f8e8f1511" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::HTTrain::order</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>order</name>
+        <qualifiedname>themis::tensor::HTTrain::order</qualifiedname>
+        <briefdescription>
+<para>Number of modes d. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/ht_train.h" line="126" column="17" bodyfile="include/tensor/ht_train.h" bodystart="126" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1tensor_1_1_h_t_train_1ac58d99b1ccb4cec663bc0c90d0f287b6" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::HTTrain::totalParams</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>totalParams</name>
+        <qualifiedname>themis::tensor::HTTrain::totalParams</qualifiedname>
+        <briefdescription>
+<para>Total float parameters stored in the HT tree. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/ht_train.h" line="129" column="17" bodyfile="include/tensor/ht_train.h" bodystart="129" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1tensor_1_1_h_t_train_1a51b99986f7247417ddf69ecbddf6e7a0" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::tensor::HTTrain::compressionRatio</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>compressionRatio</name>
+        <qualifiedname>themis::tensor::HTTrain::compressionRatio</qualifiedname>
+        <briefdescription>
+<para>Compression ratio: (∏ n_k) / totalParams. &gt; 1 means compressed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/ht_train.h" line="131" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1tensor_1_1_h_t_train_1a8b6c827ddc1fa5534da3bc3a92721715" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>storage::TTTrain</type>
+        <definition>storage::TTTrain themis::tensor::HTTrain::toTTTrain</definition>
+        <argsstring>() const</argsstring>
+        <name>toTTTrain</name>
+        <qualifiedname>themis::tensor::HTTrain::toTTTrain</qualifiedname>
+        <briefdescription>
+<para>Flatten the HT representation to a TT-train (memoized). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>On the first call, reconstructs the full dense tensor and re-decomposes it as a TT-train using <computeroutput>TensorTrainDecomposer</computeroutput>. The result is cached behind a mutex so subsequent calls return the cached value without recomputing.</para>
+<para>Intended for compatibility with <computeroutput><ref refid="classthemis_1_1tensor_1_1_i_tensor_index" kindref="compound">ITensorIndex</ref></computeroutput>; not efficient for large tensors on the initial call. Cache is invalidated when the <computeroutput><ref refid="structthemis_1_1tensor_1_1_h_t_train" kindref="compound">HTTrain</ref></computeroutput> is move-assigned.</para>
+<para><simplesect kind="note"><para>Stub #286 resolved: memoization behind <computeroutput><ref refid="structthemis_1_1tensor_1_1_h_t_train_1a0d3c27fa54bdc15ebb2587eb93122830" kindref="member">tt_cache_mtx_</ref></computeroutput> / <computeroutput><ref refid="structthemis_1_1tensor_1_1_h_t_train_1a382bdff1e3a9ae31f498d363d24fc312" kindref="member">tt_cache_</ref></computeroutput> eliminates repeated O(∏ n_k) reconstruction cost. The long-term removal plan (Q2 2028) is to extend <computeroutput><ref refid="classthemis_1_1tensor_1_1_i_tensor_index" kindref="compound">ITensorIndex</ref></computeroutput> to support <computeroutput><ref refid="classthemis_1_1tensor_1_1_i_hierarchical_tucker_index" kindref="compound">IHierarchicalTuckerIndex</ref></computeroutput> directly, removing the round-trip entirely. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/ht_train.h" line="150" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1tensor_1_1_h_t_train_1a1341ba3afb23e6b9d4074019dcfe7d39" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::tensor::HTTrain::reconstruct</definition>
+        <argsstring>() const</argsstring>
+        <name>reconstruct</name>
+        <qualifiedname>themis::tensor::HTTrain::reconstruct</qualifiedname>
+        <briefdescription>
+<para>Reconstruct the dense tensor (slow; for correctness testing only). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/ht_train.h" line="153" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1tensor_1_1_h_t_train_1adc5d600d78fed63211db13f88451b03d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::tensor::HTTrain::serialize</definition>
+        <argsstring>() const</argsstring>
+        <name>serialize</name>
+        <qualifiedname>themis::tensor::HTTrain::serialize</qualifiedname>
+        <briefdescription>
+<para>Serialise to a byte blob for persistent storage. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/ht_train.h" line="158" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1tensor_1_1_h_t_train_1ab939ff3a3a001d0369c610667305095b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::HTTrain::HTTrain</definition>
+        <argsstring>()=default</argsstring>
+        <name>HTTrain</name>
+        <qualifiedname>themis::tensor::HTTrain::HTTrain</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/ht_train.h" line="165" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1tensor_1_1_h_t_train_1a0a13340163b25b561363b612d3cc0930" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::HTTrain::HTTrain</definition>
+        <argsstring>(HTTrain &amp;&amp;other) noexcept</argsstring>
+        <name>HTTrain</name>
+        <qualifiedname>themis::tensor::HTTrain::HTTrain</qualifiedname>
+        <param>
+          <type>HTTrain &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/ht_train.h" line="169" column="5" bodyfile="include/tensor/ht_train.h" bodystart="169" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1tensor_1_1_h_t_train_1a3b101d17aaaa4180a77ab1eb85e0e71c" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_h_t_train_1ab939ff3a3a001d0369c610667305095b" kindref="member">HTTrain</ref> &amp;</type>
+        <definition>HTTrain &amp; themis::tensor::HTTrain::operator=</definition>
+        <argsstring>(HTTrain &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::tensor::HTTrain::operator=</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1tensor_1_1_h_t_train_1ab939ff3a3a001d0369c610667305095b" kindref="member">HTTrain</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/ht_train.h" line="180" column="13" bodyfile="include/tensor/ht_train.h" bodystart="180" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1tensor_1_1_h_t_train_1a803597209b69a34a28183f7be95074f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::HTTrain::HTTrain</definition>
+        <argsstring>(const HTTrain &amp;)=delete</argsstring>
+        <name>HTTrain</name>
+        <qualifiedname>themis::tensor::HTTrain::HTTrain</qualifiedname>
+        <param>
+          <type>const HTTrain &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/ht_train.h" line="194" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1tensor_1_1_h_t_train_1a290b502b97683bd9896d12dd726e0057" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_h_t_train_1ab939ff3a3a001d0369c610667305095b" kindref="member">HTTrain</ref> &amp;</type>
+        <definition>HTTrain &amp; themis::tensor::HTTrain::operator=</definition>
+        <argsstring>(const HTTrain &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::tensor::HTTrain::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_h_t_train_1ab939ff3a3a001d0369c610667305095b" kindref="member">HTTrain</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/ht_train.h" line="195" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1tensor_1_1_h_t_train_1a5cb1e3a158dd6f5307203c2b6c02011f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_h_t_train_1ab939ff3a3a001d0369c610667305095b" kindref="member">HTTrain</ref></type>
+        <definition>HTTrain themis::tensor::HTTrain::clone</definition>
+        <argsstring>() const</argsstring>
+        <name>clone</name>
+        <qualifiedname>themis::tensor::HTTrain::clone</qualifiedname>
+        <briefdescription>
+<para>Deep-copy the entire HT tree. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/ht_train.h" line="198" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1tensor_1_1_h_t_train_1a609df8e7087af243d5f47303cfa63a97" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1tensor_1_1_h_t_train_1ab939ff3a3a001d0369c610667305095b" kindref="member">HTTrain</ref> &gt;</type>
+        <definition>static std::optional&lt; HTTrain &gt; themis::tensor::HTTrain::deserialize</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;bytes)</argsstring>
+        <name>deserialize</name>
+        <qualifiedname>themis::tensor::HTTrain::deserialize</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+<para>Deserialise from bytes; returns std::nullopt on format error. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/ht_train.h" line="161" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A Hierarchical Tucker (HT) representation of a dense multi-dimensional tensor. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The tree is a balanced binary tree over d = shape.size() modes. <computeroutput><ref refid="structthemis_1_1tensor_1_1_h_t_train_1a555ef5c3103682a04d115f04b3480af3" kindref="member">shape</ref>[k]</computeroutput> gives n_k (the original size along mode k). </para>
+    </detaileddescription>
+    <location file="include/tensor/ht_train.h" line="98" column="1" bodyfile="include/tensor/ht_train.h" bodystart="98" bodyend="200"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1tensor_1_1_h_t_train_1aa44c02e7efdc1de711344b62a22db3b3" prot="public" virt="non-virtual"><scope>themis::tensor::HTTrain</scope><name>achieved_eps</name></member>
+      <member refid="structthemis_1_1tensor_1_1_h_t_train_1a5cb1e3a158dd6f5307203c2b6c02011f" prot="public" virt="non-virtual"><scope>themis::tensor::HTTrain</scope><name>clone</name></member>
+      <member refid="structthemis_1_1tensor_1_1_h_t_train_1a51b99986f7247417ddf69ecbddf6e7a0" prot="public" virt="non-virtual"><scope>themis::tensor::HTTrain</scope><name>compressionRatio</name></member>
+      <member refid="structthemis_1_1tensor_1_1_h_t_train_1a609df8e7087af243d5f47303cfa63a97" prot="public" virt="non-virtual"><scope>themis::tensor::HTTrain</scope><name>deserialize</name></member>
+      <member refid="structthemis_1_1tensor_1_1_h_t_train_1ab939ff3a3a001d0369c610667305095b" prot="public" virt="non-virtual"><scope>themis::tensor::HTTrain</scope><name>HTTrain</name></member>
+      <member refid="structthemis_1_1tensor_1_1_h_t_train_1a0a13340163b25b561363b612d3cc0930" prot="public" virt="non-virtual"><scope>themis::tensor::HTTrain</scope><name>HTTrain</name></member>
+      <member refid="structthemis_1_1tensor_1_1_h_t_train_1a803597209b69a34a28183f7be95074f4" prot="public" virt="non-virtual"><scope>themis::tensor::HTTrain</scope><name>HTTrain</name></member>
+      <member refid="structthemis_1_1tensor_1_1_h_t_train_1a09935401f2ccca5dd8cf0a6ada824dfa" prot="public" virt="non-virtual"><scope>themis::tensor::HTTrain</scope><name>max_rank</name></member>
+      <member refid="structthemis_1_1tensor_1_1_h_t_train_1a3b101d17aaaa4180a77ab1eb85e0e71c" prot="public" virt="non-virtual"><scope>themis::tensor::HTTrain</scope><name>operator=</name></member>
+      <member refid="structthemis_1_1tensor_1_1_h_t_train_1a290b502b97683bd9896d12dd726e0057" prot="public" virt="non-virtual"><scope>themis::tensor::HTTrain</scope><name>operator=</name></member>
+      <member refid="structthemis_1_1tensor_1_1_h_t_train_1aff6d64baf1379cbb736f2c8f8e8f1511" prot="public" virt="non-virtual"><scope>themis::tensor::HTTrain</scope><name>order</name></member>
+      <member refid="structthemis_1_1tensor_1_1_h_t_train_1af001c3c45f9e27ccd60ca3855fd5e8f2" prot="public" virt="non-virtual"><scope>themis::tensor::HTTrain</scope><name>original_norm</name></member>
+      <member refid="structthemis_1_1tensor_1_1_h_t_train_1a1341ba3afb23e6b9d4074019dcfe7d39" prot="public" virt="non-virtual"><scope>themis::tensor::HTTrain</scope><name>reconstruct</name></member>
+      <member refid="structthemis_1_1tensor_1_1_h_t_train_1a9b04db0c0410990e65291d3f4d2c64c7" prot="public" virt="non-virtual"><scope>themis::tensor::HTTrain</scope><name>root</name></member>
+      <member refid="structthemis_1_1tensor_1_1_h_t_train_1adc5d600d78fed63211db13f88451b03d" prot="public" virt="non-virtual"><scope>themis::tensor::HTTrain</scope><name>serialize</name></member>
+      <member refid="structthemis_1_1tensor_1_1_h_t_train_1a555ef5c3103682a04d115f04b3480af3" prot="public" virt="non-virtual"><scope>themis::tensor::HTTrain</scope><name>shape</name></member>
+      <member refid="structthemis_1_1tensor_1_1_h_t_train_1ac58d99b1ccb4cec663bc0c90d0f287b6" prot="public" virt="non-virtual"><scope>themis::tensor::HTTrain</scope><name>totalParams</name></member>
+      <member refid="structthemis_1_1tensor_1_1_h_t_train_1a8b6c827ddc1fa5534da3bc3a92721715" prot="public" virt="non-virtual"><scope>themis::tensor::HTTrain</scope><name>toTTTrain</name></member>
+      <member refid="structthemis_1_1tensor_1_1_h_t_train_1a382bdff1e3a9ae31f498d363d24fc312" prot="public" virt="non-virtual"><scope>themis::tensor::HTTrain</scope><name>tt_cache_</name></member>
+      <member refid="structthemis_1_1tensor_1_1_h_t_train_1a0d3c27fa54bdc15ebb2587eb93122830" prot="public" virt="non-virtual"><scope>themis::tensor::HTTrain</scope><name>tt_cache_mtx_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

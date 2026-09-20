@@ -1,0 +1,1505 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::attention::vulkan::InfiniAttentionVulkan</compoundname>
+    <includes refid="infini__attention__vulkan_8h" local="no">infini_attention_vulkan.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_config" prot="public">themis::llm::attention::vulkan::InfiniAttentionVulkan::Config</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_vulkan_pipeline" prot="public">themis::llm::attention::vulkan::InfiniAttentionVulkan::VulkanPipeline</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a6b403ecfc4cdb2e9be72bdfa896841e7" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::llm::attention::vulkan::InfiniAttentionVulkan::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::attention::vulkan::InfiniAttentionVulkan::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/infini_attention_vulkan.h" line="128" column="12" bodyfile="include/llm/attention/vulkan/infini_attention_vulkan.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a7009793bdc4918702b35c40b67f21eb3" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::attention::vulkan::InfiniAttentionVulkan::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::llm::attention::vulkan::InfiniAttentionVulkan::initialized_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/infini_attention_vulkan.h" line="129" column="10" bodyfile="include/llm/attention/vulkan/infini_attention_vulkan.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a8d1f1a6f569d9c1221189dbccf4f01ca" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_vulkan_pipeline" kindref="compound">VulkanPipeline</ref></type>
+        <definition>VulkanPipeline themis::llm::attention::vulkan::InfiniAttentionVulkan::pipeline_compressive_attention_</definition>
+        <argsstring></argsstring>
+        <name>pipeline_compressive_attention_</name>
+        <qualifiedname>themis::llm::attention::vulkan::InfiniAttentionVulkan::pipeline_compressive_attention_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/infini_attention_vulkan.h" line="139" column="20" bodyfile="include/llm/attention/vulkan/infini_attention_vulkan.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a661683cdf8d4814f81ee95cfb3caf700" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_vulkan_pipeline" kindref="compound">VulkanPipeline</ref></type>
+        <definition>VulkanPipeline themis::llm::attention::vulkan::InfiniAttentionVulkan::pipeline_memory_update_</definition>
+        <argsstring></argsstring>
+        <name>pipeline_memory_update_</name>
+        <qualifiedname>themis::llm::attention::vulkan::InfiniAttentionVulkan::pipeline_memory_update_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/infini_attention_vulkan.h" line="140" column="20" bodyfile="include/llm/attention/vulkan/infini_attention_vulkan.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1aaddcff68898410fbc0a4b406efdbf177" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_vulkan_pipeline" kindref="compound">VulkanPipeline</ref></type>
+        <definition>VulkanPipeline themis::llm::attention::vulkan::InfiniAttentionVulkan::pipeline_row_sums_</definition>
+        <argsstring></argsstring>
+        <name>pipeline_row_sums_</name>
+        <qualifiedname>themis::llm::attention::vulkan::InfiniAttentionVulkan::pipeline_row_sums_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/infini_attention_vulkan.h" line="141" column="20" bodyfile="include/llm/attention/vulkan/infini_attention_vulkan.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1ac52794178f7055c237a4a937ce73e68c" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_vulkan_pipeline" kindref="compound">VulkanPipeline</ref></type>
+        <definition>VulkanPipeline themis::llm::attention::vulkan::InfiniAttentionVulkan::pipeline_blend_</definition>
+        <argsstring></argsstring>
+        <name>pipeline_blend_</name>
+        <qualifiedname>themis::llm::attention::vulkan::InfiniAttentionVulkan::pipeline_blend_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/infini_attention_vulkan.h" line="142" column="20" bodyfile="include/llm/attention/vulkan/infini_attention_vulkan.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1ae8dbfe73c04ecae78889c04051860bf9" prot="private" static="no" mutable="no">
+        <type>VkBuffer</type>
+        <definition>VkBuffer themis::llm::attention::vulkan::InfiniAttentionVulkan::buffer_memory_</definition>
+        <argsstring></argsstring>
+        <name>buffer_memory_</name>
+        <qualifiedname>themis::llm::attention::vulkan::InfiniAttentionVulkan::buffer_memory_</qualifiedname>
+        <initializer>= VK_NULL_HANDLE</initializer>
+        <briefdescription>
+<para>M [memory_dim × memory_dim]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/infini_attention_vulkan.h" line="145" column="14" bodyfile="include/llm/attention/vulkan/infini_attention_vulkan.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1ae2e1b4220b83561349ee2a6cd06bb530" prot="private" static="no" mutable="no">
+        <type>VkBuffer</type>
+        <definition>VkBuffer themis::llm::attention::vulkan::InfiniAttentionVulkan::buffer_memory_update_</definition>
+        <argsstring></argsstring>
+        <name>buffer_memory_update_</name>
+        <qualifiedname>themis::llm::attention::vulkan::InfiniAttentionVulkan::buffer_memory_update_</qualifiedname>
+        <initializer>= VK_NULL_HANDLE</initializer>
+        <briefdescription>
+<para>M_update [memory_dim × memory_dim]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/infini_attention_vulkan.h" line="146" column="14" bodyfile="include/llm/attention/vulkan/infini_attention_vulkan.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a3f874a36fb703e595e62b5cc9247f4ca" prot="private" static="no" mutable="no">
+        <type>VkBuffer</type>
+        <definition>VkBuffer themis::llm::attention::vulkan::InfiniAttentionVulkan::buffer_rowsums_</definition>
+        <argsstring></argsstring>
+        <name>buffer_rowsums_</name>
+        <qualifiedname>themis::llm::attention::vulkan::InfiniAttentionVulkan::buffer_rowsums_</qualifiedname>
+        <initializer>= VK_NULL_HANDLE</initializer>
+        <briefdescription>
+<para>M_rowsum [memory_dim]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/infini_attention_vulkan.h" line="147" column="14" bodyfile="include/llm/attention/vulkan/infini_attention_vulkan.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a30e0c799d7850c8aadb667cdac980042" prot="private" static="no" mutable="no">
+        <type>VkDeviceMemory</type>
+        <definition>VkDeviceMemory themis::llm::attention::vulkan::InfiniAttentionVulkan::memory_gpu_</definition>
+        <argsstring></argsstring>
+        <name>memory_gpu_</name>
+        <qualifiedname>themis::llm::attention::vulkan::InfiniAttentionVulkan::memory_gpu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/infini_attention_vulkan.h" line="148" column="20" bodyfile="include/llm/attention/vulkan/infini_attention_vulkan.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a8389d9ec57e006c35941834ec0ea2104" prot="private" static="no" mutable="no">
+        <type>VkDescriptorPool</type>
+        <definition>VkDescriptorPool themis::llm::attention::vulkan::InfiniAttentionVulkan::descriptor_pool_</definition>
+        <argsstring></argsstring>
+        <name>descriptor_pool_</name>
+        <qualifiedname>themis::llm::attention::vulkan::InfiniAttentionVulkan::descriptor_pool_</qualifiedname>
+        <initializer>= VK_NULL_HANDLE</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/infini_attention_vulkan.h" line="151" column="22" bodyfile="include/llm/attention/vulkan/infini_attention_vulkan.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1aaca3b66880e14f4fcfff19233894060d" prot="private" static="no" mutable="no">
+        <type>VkDescriptorSet</type>
+        <definition>VkDescriptorSet themis::llm::attention::vulkan::InfiniAttentionVulkan::descriptor_set_</definition>
+        <argsstring></argsstring>
+        <name>descriptor_set_</name>
+        <qualifiedname>themis::llm::attention::vulkan::InfiniAttentionVulkan::descriptor_set_</qualifiedname>
+        <initializer>= VK_NULL_HANDLE</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/infini_attention_vulkan.h" line="152" column="21" bodyfile="include/llm/attention/vulkan/infini_attention_vulkan.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a6cc2e222ca7d691d656ed66f5f852059" prot="private" static="yes" mutable="no">
+        <type>VkInstance</type>
+        <definition>VkInstance themis::llm::attention::vulkan::InfiniAttentionVulkan::vulkan_instance_</definition>
+        <argsstring></argsstring>
+        <name>vulkan_instance_</name>
+        <qualifiedname>themis::llm::attention::vulkan::InfiniAttentionVulkan::vulkan_instance_</qualifiedname>
+        <initializer>= VK_NULL_HANDLE</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/infini_attention_vulkan.h" line="132" column="23" bodyfile="include/llm/attention/vulkan/infini_attention_vulkan.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1ae723230bd9403efe65bf57d295041bd5" prot="private" static="yes" mutable="no">
+        <type>VkPhysicalDevice</type>
+        <definition>VkPhysicalDevice themis::llm::attention::vulkan::InfiniAttentionVulkan::physical_device_</definition>
+        <argsstring></argsstring>
+        <name>physical_device_</name>
+        <qualifiedname>themis::llm::attention::vulkan::InfiniAttentionVulkan::physical_device_</qualifiedname>
+        <initializer>= VK_NULL_HANDLE</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/infini_attention_vulkan.h" line="133" column="29" bodyfile="include/llm/attention/vulkan/infini_attention_vulkan.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a740e737604e6cf4e3f7ab59f5f4253b9" prot="private" static="yes" mutable="no">
+        <type>VkDevice</type>
+        <definition>VkDevice themis::llm::attention::vulkan::InfiniAttentionVulkan::logical_device_</definition>
+        <argsstring></argsstring>
+        <name>logical_device_</name>
+        <qualifiedname>themis::llm::attention::vulkan::InfiniAttentionVulkan::logical_device_</qualifiedname>
+        <initializer>= VK_NULL_HANDLE</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/infini_attention_vulkan.h" line="134" column="21" bodyfile="include/llm/attention/vulkan/infini_attention_vulkan.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a40b3b59c5060fd4bdd6a6e79afd61fb0" prot="private" static="yes" mutable="no">
+        <type>VkQueue</type>
+        <definition>VkQueue themis::llm::attention::vulkan::InfiniAttentionVulkan::compute_queue_</definition>
+        <argsstring></argsstring>
+        <name>compute_queue_</name>
+        <qualifiedname>themis::llm::attention::vulkan::InfiniAttentionVulkan::compute_queue_</qualifiedname>
+        <initializer>= VK_NULL_HANDLE</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/infini_attention_vulkan.h" line="135" column="20" bodyfile="include/llm/attention/vulkan/infini_attention_vulkan.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1acee582c7a0eac152be8aa6d6aa30a134" prot="private" static="yes" mutable="no">
+        <type>VkCommandPool</type>
+        <definition>VkCommandPool themis::llm::attention::vulkan::InfiniAttentionVulkan::command_pool_</definition>
+        <argsstring></argsstring>
+        <name>command_pool_</name>
+        <qualifiedname>themis::llm::attention::vulkan::InfiniAttentionVulkan::command_pool_</qualifiedname>
+        <initializer>= VK_NULL_HANDLE</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/infini_attention_vulkan.h" line="136" column="26" bodyfile="include/llm/attention/vulkan/infini_attention_vulkan.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a369b3520e9f46c32f7f1dfd67efd6b82" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::attention::vulkan::InfiniAttentionVulkan::InfiniAttentionVulkan</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>InfiniAttentionVulkan</name>
+        <qualifiedname>themis::llm::attention::vulkan::InfiniAttentionVulkan::InfiniAttentionVulkan</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Infini Attention Vulkan. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/infini_attention_vulkan.h" line="48" column="14" bodyfile="src/llm/attention/vulkan/infini_attention_vulkan.cpp" bodystart="55" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1ac59538ade03228485a36e64ee1295960" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::attention::vulkan::InfiniAttentionVulkan::~InfiniAttentionVulkan</definition>
+        <argsstring>()</argsstring>
+        <name>~InfiniAttentionVulkan</name>
+        <qualifiedname>themis::llm::attention::vulkan::InfiniAttentionVulkan::~InfiniAttentionVulkan</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/infini_attention_vulkan.h" line="50" column="5" bodyfile="src/llm/attention/vulkan/infini_attention_vulkan.cpp" bodystart="60" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a9d5866feda9cc35bff677e471caa70cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388" kindref="member">Status</ref></type>
+        <definition>Status themis::llm::attention::vulkan::InfiniAttentionVulkan::initialize</definition>
+        <argsstring>()</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::llm::attention::vulkan::InfiniAttentionVulkan::initialize</qualifiedname>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a994b2a3d49e00b990ad06d00911cca6d" kindref="member">initializeVulkanRuntime()</ref>, allocateGPUBuffer(), releaseGPUBuffer(), loadShaderModule(), createComputePipeline(), vkDestroyShaderModule(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/infini_attention_vulkan.h" line="56" column="12" bodyfile="src/llm/attention/vulkan/infini_attention_vulkan.cpp" bodystart="100" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a7b065124aa8c11b1fca6c5067ffcf533" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388" kindref="member">Status</ref></type>
+        <definition>Status themis::llm::attention::vulkan::InfiniAttentionVulkan::forward</definition>
+        <argsstring>(const Tensor &amp;Q, const Tensor &amp;K, const Tensor &amp;V, Tensor &amp;O)</argsstring>
+        <name>forward</name>
+        <qualifiedname>themis::llm::attention::vulkan::InfiniAttentionVulkan::forward</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>Q</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>K</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>V</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>O</declname>
+        </param>
+        <briefdescription>
+<para>Forward. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">Q</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">O</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">Q</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">O</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a9d5866feda9cc35bff677e471caa70cf" kindref="member">initialize()</ref>, computeLocalAttention(), computeCompressiveAttention(), updateCompressiveMemory(), blendOutputs(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/infini_attention_vulkan.h" line="66" column="12" bodyfile="src/llm/attention/vulkan/infini_attention_vulkan.cpp" bodystart="169" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a6aca63f422c7cd5b317547108d7b3fd7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388" kindref="member">Status</ref></type>
+        <definition>Status themis::llm::attention::vulkan::InfiniAttentionVulkan::backward</definition>
+        <argsstring>(const Tensor &amp;dO, Tensor &amp;dQ, Tensor &amp;dK, Tensor &amp;dV)</argsstring>
+        <name>backward</name>
+        <qualifiedname>themis::llm::attention::vulkan::InfiniAttentionVulkan::backward</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>dO</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>dQ</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>dK</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>dV</declname>
+        </param>
+        <briefdescription>
+<para>Backward. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dO</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">dQ</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">dK</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">dV</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dO</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">dQ</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">dK</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">dV</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements backward without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/infini_attention_vulkan.h" line="81" column="12" bodyfile="src/llm/attention/vulkan/infini_attention_vulkan.cpp" bodystart="219" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1af0e270eb414796d6802998de132cc13e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1attention_1_1_attention_memory_stats" kindref="compound">AttentionMemoryStats</ref></type>
+        <definition>AttentionMemoryStats themis::llm::attention::vulkan::InfiniAttentionVulkan::getMemoryStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getMemoryStats</name>
+        <qualifiedname>themis::llm::attention::vulkan::InfiniAttentionVulkan::getMemoryStats</qualifiedname>
+        <briefdescription>
+<para>Get Memory Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/infini_attention_vulkan.h" line="92" column="26" bodyfile="src/llm/attention/vulkan/infini_attention_vulkan.cpp" bodystart="228" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a98a560ddf5ae4b930f62a30ac48b3d39" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::attention::vulkan::InfiniAttentionVulkan::getBackendName</definition>
+        <argsstring>() const</argsstring>
+        <name>getBackendName</name>
+        <qualifiedname>themis::llm::attention::vulkan::InfiniAttentionVulkan::getBackendName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/infini_attention_vulkan.h" line="94" column="17" bodyfile="include/llm/attention/vulkan/infini_attention_vulkan.h" bodystart="94" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a31e63161a940cb7d43c6ed162a5fd0dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388" kindref="member">Status</ref></type>
+        <definition>Status themis::llm::attention::vulkan::InfiniAttentionVulkan::resetMemory</definition>
+        <argsstring>()</argsstring>
+        <name>resetMemory</name>
+        <qualifiedname>themis::llm::attention::vulkan::InfiniAttentionVulkan::resetMemory</qualifiedname>
+        <briefdescription>
+<para>Reset Memory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: vkAllocateCommandBuffers(), vkBeginCommandBuffer(), vkCmdFillBuffer(), vkEndCommandBuffer(), vkQueueSubmit(), vkFreeCommandBuffers(), vkQueueWaitIdle(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/infini_attention_vulkan.h" line="112" column="12" bodyfile="src/llm/attention/vulkan/infini_attention_vulkan.cpp" bodystart="375" bodyend="419"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a3ff28b95eb1ae1e6a5df6185dd9cb3e7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::llm::attention::vulkan::InfiniAttentionVulkan::getCompressiveMemory</definition>
+        <argsstring>() const</argsstring>
+        <name>getCompressiveMemory</name>
+        <qualifiedname>themis::llm::attention::vulkan::InfiniAttentionVulkan::getCompressiveMemory</qualifiedname>
+        <briefdescription>
+<para>Get Compressive Memory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/infini_attention_vulkan.h" line="118" column="17" bodyfile="src/llm/attention/vulkan/infini_attention_vulkan.cpp" bodystart="421" bodyend="433"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a493aacee6c5f5c55704c56a1576571a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388" kindref="member">Status</ref></type>
+        <definition>Status themis::llm::attention::vulkan::InfiniAttentionVulkan::restoreCompressiveMemory</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;checkpoint)</argsstring>
+        <name>restoreCompressiveMemory</name>
+        <qualifiedname>themis::llm::attention::vulkan::InfiniAttentionVulkan::restoreCompressiveMemory</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>checkpoint</declname>
+        </param>
+        <briefdescription>
+<para>Restore Compressive Memory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">checkpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">checkpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/infini_attention_vulkan.h" line="125" column="12" bodyfile="src/llm/attention/vulkan/infini_attention_vulkan.cpp" bodystart="442" bodyend="455"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a479a55844cff0e5d1c896db28dc8cccd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::attention::vulkan::InfiniAttentionVulkan::isAvailable</definition>
+        <argsstring>()</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::llm::attention::vulkan::InfiniAttentionVulkan::isAvailable</qualifiedname>
+        <briefdescription>
+<para>Is Available. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: vkGetInstanceProcAddr(), vkEnumerateInstanceVersion(), VK_API_VERSION_MAJOR(), VK_API_VERSION_MINOR(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/infini_attention_vulkan.h" line="100" column="17" bodyfile="src/llm/attention/vulkan/infini_attention_vulkan.cpp" bodystart="242" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a994b2a3d49e00b990ad06d00911cca6d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388" kindref="member">Status</ref></type>
+        <definition>Status themis::llm::attention::vulkan::InfiniAttentionVulkan::initializeVulkanRuntime</definition>
+        <argsstring>()</argsstring>
+        <name>initializeVulkanRuntime</name>
+        <qualifiedname>themis::llm::attention::vulkan::InfiniAttentionVulkan::initializeVulkanRuntime</qualifiedname>
+        <briefdescription>
+<para>Initialize Vulkan Runtime. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: VK_MAKE_API_VERSION(), vkCreateInstance(), vkEnumeratePhysicalDevices(), vkDestroyInstance(), physical_devices(), data(), vkGetPhysicalDeviceProperties(), vkGetPhysicalDeviceQueueFamilyProperties(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/infini_attention_vulkan.h" line="106" column="19" bodyfile="src/llm/attention/vulkan/infini_attention_vulkan.cpp" bodystart="265" bodyend="368"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a4bed5e503020616da779422ff309f1c3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>VkBuffer</type>
+        <definition>VkBuffer themis::llm::attention::vulkan::InfiniAttentionVulkan::allocateGPUBuffer</definition>
+        <argsstring>(size_t size, VkBufferUsageFlags usage)</argsstring>
+        <name>allocateGPUBuffer</name>
+        <qualifiedname>themis::llm::attention::vulkan::InfiniAttentionVulkan::allocateGPUBuffer</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>VkBufferUsageFlags</type>
+          <declname>usage</declname>
+        </param>
+        <briefdescription>
+<para>Allocate GPUBuffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">usage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">usage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: vkCreateBuffer(), vkGetBufferMemoryRequirements(), vkGetPhysicalDeviceMemoryProperties(), vkAllocateMemory(), vkDestroyBuffer(), vkBindBufferMemory(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/infini_attention_vulkan.h" line="160" column="14" bodyfile="src/llm/attention/vulkan/infini_attention_vulkan.cpp" bodystart="464" bodyend="513"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1affd0a795c48b40791a800aa24d030be9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388" kindref="member">Status</ref></type>
+        <definition>Status themis::llm::attention::vulkan::InfiniAttentionVulkan::releaseGPUBuffer</definition>
+        <argsstring>(VkBuffer buffer)</argsstring>
+        <name>releaseGPUBuffer</name>
+        <qualifiedname>themis::llm::attention::vulkan::InfiniAttentionVulkan::releaseGPUBuffer</qualifiedname>
+        <param>
+          <type>VkBuffer</type>
+          <declname>buffer</declname>
+        </param>
+        <briefdescription>
+<para>Release GPUBuffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: vkDestroyBuffer(), vkFreeMemory(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/infini_attention_vulkan.h" line="167" column="12" bodyfile="src/llm/attention/vulkan/infini_attention_vulkan.cpp" bodystart="521" bodyend="532"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1aeab810d5f7b9886897c2a1b329053cee" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>VkShaderModule</type>
+        <definition>VkShaderModule themis::llm::attention::vulkan::InfiniAttentionVulkan::loadShaderModule</definition>
+        <argsstring>(const char *path) const</argsstring>
+        <name>loadShaderModule</name>
+        <qualifiedname>themis::llm::attention::vulkan::InfiniAttentionVulkan::loadShaderModule</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Load Shader Module. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Buffer. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/infini_attention_vulkan.h" line="174" column="20" bodyfile="src/llm/attention/vulkan/infini_attention_vulkan.cpp" bodystart="534" bodyend="563"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1abcd7bfb87f84d4996aa9134360c5bad8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388" kindref="member">Status</ref></type>
+        <definition>Status themis::llm::attention::vulkan::InfiniAttentionVulkan::createComputePipeline</definition>
+        <argsstring>(VkShaderModule shader_module, VulkanPipeline &amp;pipeline)</argsstring>
+        <name>createComputePipeline</name>
+        <qualifiedname>themis::llm::attention::vulkan::InfiniAttentionVulkan::createComputePipeline</qualifiedname>
+        <param>
+          <type>VkShaderModule</type>
+          <declname>shader_module</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_vulkan_pipeline" kindref="compound">VulkanPipeline</ref> &amp;</type>
+          <declname>pipeline</declname>
+        </param>
+        <briefdescription>
+<para>Create Compute Pipeline. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shader_module</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">pipeline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shader_module</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">pipeline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: vkCreateDescriptorSetLayout(), vkCreatePipelineLayout(), vkDestroyDescriptorSetLayout(), vkCreateComputePipelines(), vkDestroyPipelineLayout(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/infini_attention_vulkan.h" line="182" column="12" bodyfile="src/llm/attention/vulkan/infini_attention_vulkan.cpp" bodystart="572" bodyend="626"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a6ac5a978c99914ad39a99b4e2dfa700d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388" kindref="member">Status</ref></type>
+        <definition>Status themis::llm::attention::vulkan::InfiniAttentionVulkan::dispatchKernel</definition>
+        <argsstring>(const VulkanPipeline &amp;pipeline, uint32_t grid_x, uint32_t grid_y, uint32_t grid_z)</argsstring>
+        <name>dispatchKernel</name>
+        <qualifiedname>themis::llm::attention::vulkan::InfiniAttentionVulkan::dispatchKernel</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_vulkan_pipeline" kindref="compound">VulkanPipeline</ref> &amp;</type>
+          <declname>pipeline</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>grid_x</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>grid_y</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>grid_z</declname>
+        </param>
+        <briefdescription>
+<para>Dispatch Kernel. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pipeline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">grid_x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">grid_y</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">grid_z</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pipeline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">grid_x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">grid_y</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">grid_z</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: vkAllocateCommandBuffers(), vkBeginCommandBuffer(), vkCmdBindPipeline(), vkCmdDispatch(), vkEndCommandBuffer(), vkQueueSubmit(), vkFreeCommandBuffers(), vkQueueWaitIdle(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/infini_attention_vulkan.h" line="195" column="12" bodyfile="src/llm/attention/vulkan/infini_attention_vulkan.cpp" bodystart="637" bodyend="680"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a71aedbf03368a0da1107fcbe5fdf6abf" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388" kindref="member">Status</ref></type>
+        <definition>Status themis::llm::attention::vulkan::InfiniAttentionVulkan::computeLocalAttention</definition>
+        <argsstring>(const Tensor &amp;Q, const Tensor &amp;K, const Tensor &amp;V, Tensor &amp;O)</argsstring>
+        <name>computeLocalAttention</name>
+        <qualifiedname>themis::llm::attention::vulkan::InfiniAttentionVulkan::computeLocalAttention</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>Q</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>K</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>V</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>O</declname>
+        </param>
+        <briefdescription>
+<para>Compute Local Attention. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>These entry points currently return success after dispatch setup because the Vulkan kernels are not wired in yet.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">Q</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">O</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">Q</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">O</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements computeLocalAttention without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/infini_attention_vulkan.h" line="210" column="12" bodyfile="src/llm/attention/vulkan/infini_attention_vulkan.cpp" bodystart="691" bodyend="697"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1ada1751f3c2d17467c1b513c624dfcbc5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388" kindref="member">Status</ref></type>
+        <definition>Status themis::llm::attention::vulkan::InfiniAttentionVulkan::computeCompressiveAttention</definition>
+        <argsstring>(const Tensor &amp;Q, Tensor &amp;O)</argsstring>
+        <name>computeCompressiveAttention</name>
+        <qualifiedname>themis::llm::attention::vulkan::InfiniAttentionVulkan::computeCompressiveAttention</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>Q</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>O</declname>
+        </param>
+        <briefdescription>
+<para>Compute Compressive Attention. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">Q</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">O</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">Q</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">O</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements computeCompressiveAttention without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/infini_attention_vulkan.h" line="223" column="12" bodyfile="src/llm/attention/vulkan/infini_attention_vulkan.cpp" bodystart="706" bodyend="710"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1ab10015940b18eb281eb1dbb56989b25e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388" kindref="member">Status</ref></type>
+        <definition>Status themis::llm::attention::vulkan::InfiniAttentionVulkan::updateCompressiveMemory</definition>
+        <argsstring>(const Tensor &amp;K, const Tensor &amp;V)</argsstring>
+        <name>updateCompressiveMemory</name>
+        <qualifiedname>themis::llm::attention::vulkan::InfiniAttentionVulkan::updateCompressiveMemory</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>K</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>V</declname>
+        </param>
+        <briefdescription>
+<para>Update Compressive Memory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements updateCompressiveMemory without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/infini_attention_vulkan.h" line="234" column="12" bodyfile="src/llm/attention/vulkan/infini_attention_vulkan.cpp" bodystart="719" bodyend="723"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a20597d8b50f3ef150c3c3b354b71949e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388" kindref="member">Status</ref></type>
+        <definition>Status themis::llm::attention::vulkan::InfiniAttentionVulkan::blendOutputs</definition>
+        <argsstring>(const Tensor &amp;O_local, const Tensor &amp;O_comp, Tensor &amp;O_final)</argsstring>
+        <name>blendOutputs</name>
+        <qualifiedname>themis::llm::attention::vulkan::InfiniAttentionVulkan::blendOutputs</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>O_local</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>O_comp</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>O_final</declname>
+        </param>
+        <briefdescription>
+<para>Blend Outputs. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">O_local</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">O_comp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">O_final</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">O_local</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">O_comp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">O_final</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements blendOutputs without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/infini_attention_vulkan.h" line="246" column="12" bodyfile="src/llm/attention/vulkan/infini_attention_vulkan.cpp" bodystart="733" bodyend="738"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a81b0ad386c3b9fb1c720672c42af5a1d" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388" kindref="member">Status</ref></type>
+        <definition>Status themis::llm::attention::vulkan::InfiniAttentionVulkan::copyDeviceToHost</definition>
+        <argsstring>(VkBuffer device_buffer, void *host_data, size_t size) const</argsstring>
+        <name>copyDeviceToHost</name>
+        <qualifiedname>themis::llm::attention::vulkan::InfiniAttentionVulkan::copyDeviceToHost</qualifiedname>
+        <param>
+          <type>VkBuffer</type>
+          <declname>device_buffer</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>host_data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Copy Device To Host. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">device_buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">host_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/infini_attention_vulkan.h" line="259" column="12" bodyfile="src/llm/attention/vulkan/infini_attention_vulkan.cpp" bodystart="740" bodyend="746"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a26af5fd2c2f4ee9d464dc8203f9f8b6c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388" kindref="member">Status</ref></type>
+        <definition>Status themis::llm::attention::vulkan::InfiniAttentionVulkan::copyHostToDevice</definition>
+        <argsstring>(const void *host_data, VkBuffer device_buffer, size_t size)</argsstring>
+        <name>copyHostToDevice</name>
+        <qualifiedname>themis::llm::attention::vulkan::InfiniAttentionVulkan::copyHostToDevice</qualifiedname>
+        <param>
+          <type>const void *</type>
+          <declname>host_data</declname>
+        </param>
+        <param>
+          <type>VkBuffer</type>
+          <declname>device_buffer</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Copy Host To Device. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">host_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">device_buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">host_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">device_buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements copyHostToDevice without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/infini_attention_vulkan.h" line="272" column="12" bodyfile="src/llm/attention/vulkan/infini_attention_vulkan.cpp" bodystart="756" bodyend="762"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/attention/vulkan/infini_attention_vulkan.h" line="24" column="1" bodyfile="include/llm/attention/vulkan/infini_attention_vulkan.h" bodystart="24" bodyend="277"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a4bed5e503020616da779422ff309f1c3" prot="private" virt="non-virtual"><scope>themis::llm::attention::vulkan::InfiniAttentionVulkan</scope><name>allocateGPUBuffer</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a6aca63f422c7cd5b317547108d7b3fd7" prot="public" virt="non-virtual"><scope>themis::llm::attention::vulkan::InfiniAttentionVulkan</scope><name>backward</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a20597d8b50f3ef150c3c3b354b71949e" prot="private" virt="non-virtual"><scope>themis::llm::attention::vulkan::InfiniAttentionVulkan</scope><name>blendOutputs</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1ae8dbfe73c04ecae78889c04051860bf9" prot="private" virt="non-virtual"><scope>themis::llm::attention::vulkan::InfiniAttentionVulkan</scope><name>buffer_memory_</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1ae2e1b4220b83561349ee2a6cd06bb530" prot="private" virt="non-virtual"><scope>themis::llm::attention::vulkan::InfiniAttentionVulkan</scope><name>buffer_memory_update_</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a3f874a36fb703e595e62b5cc9247f4ca" prot="private" virt="non-virtual"><scope>themis::llm::attention::vulkan::InfiniAttentionVulkan</scope><name>buffer_rowsums_</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1acee582c7a0eac152be8aa6d6aa30a134" prot="private" virt="non-virtual"><scope>themis::llm::attention::vulkan::InfiniAttentionVulkan</scope><name>command_pool_</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a40b3b59c5060fd4bdd6a6e79afd61fb0" prot="private" virt="non-virtual"><scope>themis::llm::attention::vulkan::InfiniAttentionVulkan</scope><name>compute_queue_</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1ada1751f3c2d17467c1b513c624dfcbc5" prot="private" virt="non-virtual"><scope>themis::llm::attention::vulkan::InfiniAttentionVulkan</scope><name>computeCompressiveAttention</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a71aedbf03368a0da1107fcbe5fdf6abf" prot="private" virt="non-virtual"><scope>themis::llm::attention::vulkan::InfiniAttentionVulkan</scope><name>computeLocalAttention</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a6b403ecfc4cdb2e9be72bdfa896841e7" prot="private" virt="non-virtual"><scope>themis::llm::attention::vulkan::InfiniAttentionVulkan</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a81b0ad386c3b9fb1c720672c42af5a1d" prot="private" virt="non-virtual"><scope>themis::llm::attention::vulkan::InfiniAttentionVulkan</scope><name>copyDeviceToHost</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a26af5fd2c2f4ee9d464dc8203f9f8b6c" prot="private" virt="non-virtual"><scope>themis::llm::attention::vulkan::InfiniAttentionVulkan</scope><name>copyHostToDevice</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1abcd7bfb87f84d4996aa9134360c5bad8" prot="private" virt="non-virtual"><scope>themis::llm::attention::vulkan::InfiniAttentionVulkan</scope><name>createComputePipeline</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a8389d9ec57e006c35941834ec0ea2104" prot="private" virt="non-virtual"><scope>themis::llm::attention::vulkan::InfiniAttentionVulkan</scope><name>descriptor_pool_</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1aaca3b66880e14f4fcfff19233894060d" prot="private" virt="non-virtual"><scope>themis::llm::attention::vulkan::InfiniAttentionVulkan</scope><name>descriptor_set_</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a6ac5a978c99914ad39a99b4e2dfa700d" prot="private" virt="non-virtual"><scope>themis::llm::attention::vulkan::InfiniAttentionVulkan</scope><name>dispatchKernel</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a7b065124aa8c11b1fca6c5067ffcf533" prot="public" virt="non-virtual"><scope>themis::llm::attention::vulkan::InfiniAttentionVulkan</scope><name>forward</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a98a560ddf5ae4b930f62a30ac48b3d39" prot="public" virt="non-virtual"><scope>themis::llm::attention::vulkan::InfiniAttentionVulkan</scope><name>getBackendName</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a3ff28b95eb1ae1e6a5df6185dd9cb3e7" prot="public" virt="non-virtual"><scope>themis::llm::attention::vulkan::InfiniAttentionVulkan</scope><name>getCompressiveMemory</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1af0e270eb414796d6802998de132cc13e" prot="public" virt="non-virtual"><scope>themis::llm::attention::vulkan::InfiniAttentionVulkan</scope><name>getMemoryStats</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a369b3520e9f46c32f7f1dfd67efd6b82" prot="public" virt="non-virtual"><scope>themis::llm::attention::vulkan::InfiniAttentionVulkan</scope><name>InfiniAttentionVulkan</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a9d5866feda9cc35bff677e471caa70cf" prot="public" virt="non-virtual"><scope>themis::llm::attention::vulkan::InfiniAttentionVulkan</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a7009793bdc4918702b35c40b67f21eb3" prot="private" virt="non-virtual"><scope>themis::llm::attention::vulkan::InfiniAttentionVulkan</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a994b2a3d49e00b990ad06d00911cca6d" prot="public" virt="non-virtual"><scope>themis::llm::attention::vulkan::InfiniAttentionVulkan</scope><name>initializeVulkanRuntime</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a479a55844cff0e5d1c896db28dc8cccd" prot="public" virt="non-virtual"><scope>themis::llm::attention::vulkan::InfiniAttentionVulkan</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1aeab810d5f7b9886897c2a1b329053cee" prot="private" virt="non-virtual"><scope>themis::llm::attention::vulkan::InfiniAttentionVulkan</scope><name>loadShaderModule</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a740e737604e6cf4e3f7ab59f5f4253b9" prot="private" virt="non-virtual"><scope>themis::llm::attention::vulkan::InfiniAttentionVulkan</scope><name>logical_device_</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a30e0c799d7850c8aadb667cdac980042" prot="private" virt="non-virtual"><scope>themis::llm::attention::vulkan::InfiniAttentionVulkan</scope><name>memory_gpu_</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1ae723230bd9403efe65bf57d295041bd5" prot="private" virt="non-virtual"><scope>themis::llm::attention::vulkan::InfiniAttentionVulkan</scope><name>physical_device_</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1ac52794178f7055c237a4a937ce73e68c" prot="private" virt="non-virtual"><scope>themis::llm::attention::vulkan::InfiniAttentionVulkan</scope><name>pipeline_blend_</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a8d1f1a6f569d9c1221189dbccf4f01ca" prot="private" virt="non-virtual"><scope>themis::llm::attention::vulkan::InfiniAttentionVulkan</scope><name>pipeline_compressive_attention_</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a661683cdf8d4814f81ee95cfb3caf700" prot="private" virt="non-virtual"><scope>themis::llm::attention::vulkan::InfiniAttentionVulkan</scope><name>pipeline_memory_update_</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1aaddcff68898410fbc0a4b406efdbf177" prot="private" virt="non-virtual"><scope>themis::llm::attention::vulkan::InfiniAttentionVulkan</scope><name>pipeline_row_sums_</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1affd0a795c48b40791a800aa24d030be9" prot="private" virt="non-virtual"><scope>themis::llm::attention::vulkan::InfiniAttentionVulkan</scope><name>releaseGPUBuffer</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a31e63161a940cb7d43c6ed162a5fd0dd" prot="public" virt="non-virtual"><scope>themis::llm::attention::vulkan::InfiniAttentionVulkan</scope><name>resetMemory</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a493aacee6c5f5c55704c56a1576571a1" prot="public" virt="non-virtual"><scope>themis::llm::attention::vulkan::InfiniAttentionVulkan</scope><name>restoreCompressiveMemory</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1ab10015940b18eb281eb1dbb56989b25e" prot="private" virt="non-virtual"><scope>themis::llm::attention::vulkan::InfiniAttentionVulkan</scope><name>updateCompressiveMemory</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1a6cc2e222ca7d691d656ed66f5f852059" prot="private" virt="non-virtual"><scope>themis::llm::attention::vulkan::InfiniAttentionVulkan</scope><name>vulkan_instance_</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1ac59538ade03228485a36e64ee1295960" prot="public" virt="non-virtual"><scope>themis::llm::attention::vulkan::InfiniAttentionVulkan</scope><name>~InfiniAttentionVulkan</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

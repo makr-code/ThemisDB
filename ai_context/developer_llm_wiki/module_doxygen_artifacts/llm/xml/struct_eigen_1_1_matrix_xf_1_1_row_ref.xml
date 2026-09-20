@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_eigen_1_1_matrix_xf_1_1_row_ref" kind="struct" language="C++" prot="public">
+    <compoundname>Eigen::MatrixXf::RowRef</compoundname>
+    <includes refid="eigen__stub_8h" local="no">eigen_stub.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_eigen_1_1_matrix_xf_1_1_row_ref_1ab7d933cd67571b617a36df841a86ceaf" prot="public" static="no" mutable="no">
+        <type><ref refid="class_eigen_1_1_matrix_xf_1aaef2d2ba355bc3b4556dc3d9cdd8ac8e" kindref="member">MatrixXf</ref> &amp;</type>
+        <definition>MatrixXf&amp; Eigen::MatrixXf::RowRef::parent</definition>
+        <argsstring></argsstring>
+        <name>parent</name>
+        <qualifiedname>Eigen::MatrixXf::RowRef::parent</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/eigen_stub.h" line="83" column="22" bodyfile="include/llm/eigen_stub.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_eigen_1_1_matrix_xf_1_1_row_ref_1acc023ad6160a6e9f68e3bc5f07959179" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int Eigen::MatrixXf::RowRef::r</definition>
+        <argsstring></argsstring>
+        <name>r</name>
+        <qualifiedname>Eigen::MatrixXf::RowRef::r</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/eigen_stub.h" line="84" column="17" bodyfile="include/llm/eigen_stub.h" bodystart="84" bodyend="84"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_eigen_1_1_matrix_xf_1_1_row_ref_1ae85c4e5ab695fba01920b14a0c6d0a80" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="class_eigen_1_1_vector_xf" kindref="compound">VectorXf</ref></type>
+        <definition>VectorXf Eigen::MatrixXf::RowRef::transpose</definition>
+        <argsstring>() const</argsstring>
+        <name>transpose</name>
+        <qualifiedname>Eigen::MatrixXf::RowRef::transpose</qualifiedname>
+        <briefdescription>
+<para>Transpose. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/eigen_stub.h" line="89" column="22" bodyfile="include/llm/eigen_stub.h" bodystart="159" bodyend="165"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>Eigen::MatrixXf</label>
+        <link refid="class_eigen_1_1_matrix_xf"/>
+      </node>
+      <node id="1">
+        <label>Eigen::MatrixXf::RowRef</label>
+        <link refid="struct_eigen_1_1_matrix_xf_1_1_row_ref"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>parent</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/eigen_stub.h" line="82" column="9" bodyfile="include/llm/eigen_stub.h" bodystart="82" bodyend="90"/>
+    <listofallmembers>
+      <member refid="struct_eigen_1_1_matrix_xf_1_1_row_ref_1ab7d933cd67571b617a36df841a86ceaf" prot="public" virt="non-virtual"><scope>Eigen::MatrixXf::RowRef</scope><name>parent</name></member>
+      <member refid="struct_eigen_1_1_matrix_xf_1_1_row_ref_1acc023ad6160a6e9f68e3bc5f07959179" prot="public" virt="non-virtual"><scope>Eigen::MatrixXf::RowRef</scope><name>r</name></member>
+      <member refid="struct_eigen_1_1_matrix_xf_1_1_row_ref_1ae85c4e5ab695fba01920b14a0c6d0a80" prot="public" virt="non-virtual"><scope>Eigen::MatrixXf::RowRef</scope><name>transpose</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,476 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1_canonical_entity_resolver" kind="class" language="C++" prot="public">
+    <compoundname>themis::importers::CanonicalEntityResolver</compoundname>
+    <includes refid="canonical__resolver_8h" local="no">canonical_resolver.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_canonical_entity_resolver_1aa8a26dc2dde765beaa52a9a0bf7cdc23" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::CanonicalEntityResolver::CanonicalEntityResolver</definition>
+        <argsstring>()=default</argsstring>
+        <name>CanonicalEntityResolver</name>
+        <qualifiedname>themis::importers::CanonicalEntityResolver::CanonicalEntityResolver</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/canonical_resolver.h" line="67" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_canonical_entity_resolver_1a5af41b18d2fcbd6fcf38430ecb6b2cc5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1importers_1_1_golden_record" kindref="compound">GoldenRecord</ref></type>
+        <definition>GoldenRecord themis::importers::CanonicalEntityResolver::createGoldenRecord</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; std::string, json &gt; &gt; &amp;linked_entities, const std::string &amp;collection_name, ResolutionPolicy policy, const std::map&lt; std::string, FieldRule &gt; &amp;field_rules={}, const std::vector&lt; std::string &gt; &amp;protected_fields={}) const</argsstring>
+        <name>createGoldenRecord</name>
+        <qualifiedname>themis::importers::CanonicalEntityResolver::createGoldenRecord</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, <ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref> &gt; &gt; &amp;</type>
+          <declname>linked_entities</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection_name</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1a8aeb2d04c24dbc43d3714abe6b45c7b1" kindref="member">ResolutionPolicy</ref></type>
+          <declname>policy</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, <ref refid="namespacethemis_1_1importers_1a22df2595651be18209751b05c3a61aae" kindref="member">FieldRule</ref> &gt; &amp;</type>
+          <declname>field_rules</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>protected_fields</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/canonical_resolver.h" line="69" column="18" bodyfile="src/importers/canonical_resolver.cpp" bodystart="290" bodyend="426"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_canonical_entity_resolver_1a27c47bda140f5f56a3a8701c9728f13b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::importers::CanonicalEntityResolver::reconcileStringField</definition>
+        <argsstring>(const std::string &amp;value1, const std::string &amp;value2, FieldRule rule, const std::string &amp;separator=&quot; | &quot;)</argsstring>
+        <name>reconcileStringField</name>
+        <qualifiedname>themis::importers::CanonicalEntityResolver::reconcileStringField</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value1</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value2</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1a22df2595651be18209751b05c3a61aae" kindref="member">FieldRule</ref></type>
+          <declname>rule</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>separator</declname>
+          <defval>&quot; | &quot;</defval>
+        </param>
+        <briefdescription>
+<para>Reconcile String Field. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">separator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), size(), std::stod(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/canonical_resolver.h" line="81" column="24" bodyfile="src/importers/canonical_resolver.cpp" bodystart="114" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_canonical_entity_resolver_1a15e47034a79b0b01c51447813371971b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::importers::CanonicalEntityResolver::reconcileNumericField</definition>
+        <argsstring>(int64_t value1, int64_t value2, FieldRule rule)</argsstring>
+        <name>reconcileNumericField</name>
+        <qualifiedname>themis::importers::CanonicalEntityResolver::reconcileNumericField</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>value1</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>value2</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1a22df2595651be18209751b05c3a61aae" kindref="member">FieldRule</ref></type>
+          <declname>rule</declname>
+        </param>
+        <briefdescription>
+<para>Reconcile Numeric Field. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::max(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/canonical_resolver.h" line="95" column="20" bodyfile="src/importers/canonical_resolver.cpp" bodystart="160" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_canonical_entity_resolver_1af316bd0fb5707d1f4c56392be614622e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::CanonicalEntityResolver::reconcileObjectField</definition>
+        <argsstring>(const json &amp;obj1, const json &amp;obj2, ResolutionPolicy policy, int depth=-1)</argsstring>
+        <name>reconcileObjectField</name>
+        <qualifiedname>themis::importers::CanonicalEntityResolver::reconcileObjectField</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref> &amp;</type>
+          <declname>obj1</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref> &amp;</type>
+          <declname>obj2</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1a8aeb2d04c24dbc43d3714abe6b45c7b1" kindref="member">ResolutionPolicy</ref></type>
+          <declname>policy</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>depth</declname>
+          <defval>-1</defval>
+        </param>
+        <briefdescription>
+<para>Reconcile Object Field. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">obj1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">obj2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: is_object(), begin(), end(), key(), contains(), is_null(), value(), is_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/canonical_resolver.h" line="101" column="17" bodyfile="src/importers/canonical_resolver.cpp" bodystart="186" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_canonical_entity_resolver_1aff73b4ec070363bc285e944cf88c665f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::importers::CanonicalEntityResolver::scoreFieldQuality</definition>
+        <argsstring>(const std::string &amp;field_name, const std::string &amp;value, const FieldQualityPolicy &amp;policy={})</argsstring>
+        <name>scoreFieldQuality</name>
+        <qualifiedname>themis::importers::CanonicalEntityResolver::scoreFieldQuality</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>field_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1importers_1_1_field_quality_policy" kindref="compound">FieldQualityPolicy</ref> &amp;</type>
+          <declname>policy</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Score Field Quality. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), size(), std::all_of(), begin(), end(), std::isdigit(), std::any_of(), std::islower(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/canonical_resolver.h" line="108" column="19" bodyfile="src/importers/canonical_resolver.cpp" bodystart="226" bodyend="251"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_canonical_entity_resolver_1a2bf8a7e8e2b765bf3b3b69628ff37219" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::importers::CanonicalEntityResolver::computeCompleteness</definition>
+        <argsstring>(const json &amp;entity)</argsstring>
+        <name>computeCompleteness</name>
+        <qualifiedname>themis::importers::CanonicalEntityResolver::computeCompleteness</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref> &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <briefdescription>
+<para>Compute Completeness. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: is_object(), empty(), begin(), end(), value(), is_null(), is_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/canonical_resolver.h" line="120" column="19" bodyfile="src/importers/canonical_resolver.cpp" bodystart="82" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_canonical_entity_resolver_1a258866c74c4207fd3193b62816743ab3" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::importers::CanonicalEntityResolver::bestStringValue</definition>
+        <argsstring>(const std::string &amp;v1, const std::string &amp;v2, ResolutionPolicy policy)</argsstring>
+        <name>bestStringValue</name>
+        <qualifiedname>themis::importers::CanonicalEntityResolver::bestStringValue</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>v1</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>v2</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1a8aeb2d04c24dbc43d3714abe6b45c7b1" kindref="member">ResolutionPolicy</ref></type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+<para>Best String Value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">v1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">v2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">v1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">v2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/canonical_resolver.h" line="128" column="24" bodyfile="src/importers/canonical_resolver.cpp" bodystart="261" bodyend="283"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/canonical_resolver.h" line="65" column="1" bodyfile="include/importers/canonical_resolver.h" bodystart="65" bodyend="133"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1importers_1_1_canonical_entity_resolver_1a258866c74c4207fd3193b62816743ab3" prot="private" virt="non-virtual"><scope>themis::importers::CanonicalEntityResolver</scope><name>bestStringValue</name></member>
+      <member refid="classthemis_1_1importers_1_1_canonical_entity_resolver_1aa8a26dc2dde765beaa52a9a0bf7cdc23" prot="public" virt="non-virtual"><scope>themis::importers::CanonicalEntityResolver</scope><name>CanonicalEntityResolver</name></member>
+      <member refid="classthemis_1_1importers_1_1_canonical_entity_resolver_1a2bf8a7e8e2b765bf3b3b69628ff37219" prot="private" virt="non-virtual"><scope>themis::importers::CanonicalEntityResolver</scope><name>computeCompleteness</name></member>
+      <member refid="classthemis_1_1importers_1_1_canonical_entity_resolver_1a5af41b18d2fcbd6fcf38430ecb6b2cc5" prot="public" virt="non-virtual"><scope>themis::importers::CanonicalEntityResolver</scope><name>createGoldenRecord</name></member>
+      <member refid="classthemis_1_1importers_1_1_canonical_entity_resolver_1a15e47034a79b0b01c51447813371971b" prot="public" virt="non-virtual"><scope>themis::importers::CanonicalEntityResolver</scope><name>reconcileNumericField</name></member>
+      <member refid="classthemis_1_1importers_1_1_canonical_entity_resolver_1af316bd0fb5707d1f4c56392be614622e" prot="public" virt="non-virtual"><scope>themis::importers::CanonicalEntityResolver</scope><name>reconcileObjectField</name></member>
+      <member refid="classthemis_1_1importers_1_1_canonical_entity_resolver_1a27c47bda140f5f56a3a8701c9728f13b" prot="public" virt="non-virtual"><scope>themis::importers::CanonicalEntityResolver</scope><name>reconcileStringField</name></member>
+      <member refid="classthemis_1_1importers_1_1_canonical_entity_resolver_1aff73b4ec070363bc285e944cf88c665f" prot="public" virt="non-virtual"><scope>themis::importers::CanonicalEntityResolver</scope><name>scoreFieldQuality</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

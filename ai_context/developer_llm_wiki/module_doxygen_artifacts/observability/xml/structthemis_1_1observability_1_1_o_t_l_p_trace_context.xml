@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_o_t_l_p_trace_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::OTLPTraceContext</compoundname>
+    <includes refid="otlp__exemplar_8h" local="no">otlp_exemplar.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_o_t_l_p_trace_context_1a97ce88d0934e37acd3aa7c646001e1f1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::OTLPTraceContext::trace_id</definition>
+        <argsstring></argsstring>
+        <name>trace_id</name>
+        <qualifiedname>themis::observability::OTLPTraceContext::trace_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/otlp_exemplar.h" line="31" column="17" bodyfile="include/observability/otlp_exemplar.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_o_t_l_p_trace_context_1af22a964f3ed7d79f43e931bbde0ea1ec" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::OTLPTraceContext::span_id</definition>
+        <argsstring></argsstring>
+        <name>span_id</name>
+        <qualifiedname>themis::observability::OTLPTraceContext::span_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/otlp_exemplar.h" line="32" column="17" bodyfile="include/observability/otlp_exemplar.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_o_t_l_p_trace_context_1a8d672c2ddb3f54d590a4b52ae8cd27a8" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::observability::OTLPTraceContext::trace_flags</definition>
+        <argsstring></argsstring>
+        <name>trace_flags</name>
+        <qualifiedname>themis::observability::OTLPTraceContext::trace_flags</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/otlp_exemplar.h" line="33" column="13" bodyfile="include/observability/otlp_exemplar.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>OTLP-specific trace context for metric exemplars. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This struct represents trace context information for OpenTelemetry Protocol (OTLP) metric exemplars. It should not be confused with core::concerns::TraceContext, which is used for log correlation and includes a request_id field.</para>
+<para><simplesect kind="see"><para>core::concerns::TraceContext for log/request correlation </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/observability/otlp_exemplar.h" line="30" column="1" bodyfile="include/observability/otlp_exemplar.h" bodystart="30" bodyend="34"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_o_t_l_p_trace_context_1af22a964f3ed7d79f43e931bbde0ea1ec" prot="public" virt="non-virtual"><scope>themis::observability::OTLPTraceContext</scope><name>span_id</name></member>
+      <member refid="structthemis_1_1observability_1_1_o_t_l_p_trace_context_1a8d672c2ddb3f54d590a4b52ae8cd27a8" prot="public" virt="non-virtual"><scope>themis::observability::OTLPTraceContext</scope><name>trace_flags</name></member>
+      <member refid="structthemis_1_1observability_1_1_o_t_l_p_trace_context_1a97ce88d0934e37acd3aa7c646001e1f1" prot="public" virt="non-virtual"><scope>themis::observability::OTLPTraceContext</scope><name>trace_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

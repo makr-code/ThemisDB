@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structstubs_1_1_downsampling_engine" kind="struct" language="C++" prot="public">
+    <compoundname>stubs::DownsamplingEngine</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structstubs_1_1_downsampling_engine_1a31c2562d3e0f7795f811f75d660cd9d8" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; stubs::DownsamplingEngine::downsampled</definition>
+        <argsstring></argsstring>
+        <name>downsampled</name>
+        <qualifiedname>stubs::DownsamplingEngine::downsampled</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_highcardinality_stress.cpp" line="33" column="17" bodyfile="tests/timeseries/test_timeseries_highcardinality_stress.cpp" bodystart="33" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="variable" id="structstubs_1_1_downsampling_engine_1a46bdf64783857749ba9d7b65acda119c" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; stubs::DownsamplingEngine::errors</definition>
+        <argsstring></argsstring>
+        <name>errors</name>
+        <qualifiedname>stubs::DownsamplingEngine::errors</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_highcardinality_stress.cpp" line="34" column="17" bodyfile="tests/timeseries/test_timeseries_highcardinality_stress.cpp" bodystart="34" bodyend="34"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structstubs_1_1_downsampling_engine_1ad32ede0414532dd7df2904594f54986a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool stubs::DownsamplingEngine::downsample</definition>
+        <argsstring>(uint64_t series_id, int factor)</argsstring>
+        <name>downsample</name>
+        <qualifiedname>stubs::DownsamplingEngine::downsample</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>series_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>factor</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_highcardinality_stress.cpp" line="36" column="10" bodyfile="tests/timeseries/test_timeseries_highcardinality_stress.cpp" bodystart="36" bodyend="40"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/timeseries/test_timeseries_highcardinality_stress.cpp" line="32" column="1" bodyfile="tests/timeseries/test_timeseries_highcardinality_stress.cpp" bodystart="32" bodyend="41"/>
+    <listofallmembers>
+      <member refid="structstubs_1_1_downsampling_engine_1ad32ede0414532dd7df2904594f54986a" prot="public" virt="non-virtual"><scope>stubs::DownsamplingEngine</scope><name>downsample</name></member>
+      <member refid="structstubs_1_1_downsampling_engine_1a31c2562d3e0f7795f811f75d660cd9d8" prot="public" virt="non-virtual"><scope>stubs::DownsamplingEngine</scope><name>downsampled</name></member>
+      <member refid="structstubs_1_1_downsampling_engine_1a46bdf64783857749ba9d7b65acda119c" prot="public" virt="non-virtual"><scope>stubs::DownsamplingEngine</scope><name>errors</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

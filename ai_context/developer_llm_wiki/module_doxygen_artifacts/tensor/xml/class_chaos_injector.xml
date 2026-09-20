@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_chaos_injector" kind="class" language="C++" prot="public">
+    <compoundname>ChaosInjector</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_chaos_injector_1a0eca4a69602979f7b5925891d20b3734" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double ChaosInjector::failure_rate_</definition>
+        <argsstring></argsstring>
+        <name>failure_rate_</name>
+        <qualifiedname>ChaosInjector::failure_rate_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_stress_suite_focused.cpp" line="198" column="12" bodyfile="tests/tensor/test_tensor_stress_suite_focused.cpp" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_chaos_injector_1a730afa3c22176b769b851a86623e6aaf" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t ChaosInjector::delay_us_</definition>
+        <argsstring></argsstring>
+        <name>delay_us_</name>
+        <qualifiedname>ChaosInjector::delay_us_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_stress_suite_focused.cpp" line="199" column="14" bodyfile="tests/tensor/test_tensor_stress_suite_focused.cpp" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_chaos_injector_1a5d5ffefb7fb801e9449f8b5cf9f814da" prot="private" static="no" mutable="no">
+        <type>std::mt19937</type>
+        <definition>std::mt19937 ChaosInjector::rng_</definition>
+        <argsstring></argsstring>
+        <name>rng_</name>
+        <qualifiedname>ChaosInjector::rng_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_stress_suite_focused.cpp" line="200" column="18" bodyfile="tests/tensor/test_tensor_stress_suite_focused.cpp" bodystart="200" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_chaos_injector_1aaf22add0faa132986d88d269a8631da0" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>ChaosInjector::ChaosInjector</definition>
+        <argsstring>(double failure_rate=0.05, uint64_t delay_us=10)</argsstring>
+        <name>ChaosInjector</name>
+        <qualifiedname>ChaosInjector::ChaosInjector</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>failure_rate</declname>
+          <defval>0.05</defval>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>delay_us</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_stress_suite_focused.cpp" line="176" column="14" bodyfile="tests/tensor/test_tensor_stress_suite_focused.cpp" bodystart="176" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="class_chaos_injector_1a310b7a4aaee9ca26e4ccd205969e4994" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ChaosInjector::shouldFail</definition>
+        <argsstring>()</argsstring>
+        <name>shouldFail</name>
+        <qualifiedname>ChaosInjector::shouldFail</qualifiedname>
+        <briefdescription>
+<para>Returns true if this operation should fail. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_stress_suite_focused.cpp" line="181" column="10" bodyfile="tests/tensor/test_tensor_stress_suite_focused.cpp" bodystart="181" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="class_chaos_injector_1a7c851d370de46d6c08af6917da092fd4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ChaosInjector::injectDelay</definition>
+        <argsstring>()</argsstring>
+        <name>injectDelay</name>
+        <qualifiedname>ChaosInjector::injectDelay</qualifiedname>
+        <briefdescription>
+<para>Inject random delay. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_stress_suite_focused.cpp" line="187" column="10" bodyfile="tests/tensor/test_tensor_stress_suite_focused.cpp" bodystart="187" bodyend="195"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Injects controlled failures and delays into workload execution. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/tensor/test_tensor_stress_suite_focused.cpp" line="174" column="1" bodyfile="tests/tensor/test_tensor_stress_suite_focused.cpp" bodystart="174" bodyend="201"/>
+    <listofallmembers>
+      <member refid="class_chaos_injector_1aaf22add0faa132986d88d269a8631da0" prot="public" virt="non-virtual"><scope>ChaosInjector</scope><name>ChaosInjector</name></member>
+      <member refid="class_chaos_injector_1a730afa3c22176b769b851a86623e6aaf" prot="private" virt="non-virtual"><scope>ChaosInjector</scope><name>delay_us_</name></member>
+      <member refid="class_chaos_injector_1a0eca4a69602979f7b5925891d20b3734" prot="private" virt="non-virtual"><scope>ChaosInjector</scope><name>failure_rate_</name></member>
+      <member refid="class_chaos_injector_1a7c851d370de46d6c08af6917da092fd4" prot="public" virt="non-virtual"><scope>ChaosInjector</scope><name>injectDelay</name></member>
+      <member refid="class_chaos_injector_1a5d5ffefb7fb801e9449f8b5cf9f814da" prot="private" virt="non-virtual"><scope>ChaosInjector</scope><name>rng_</name></member>
+      <member refid="class_chaos_injector_1a310b7a4aaee9ca26e4ccd205969e4994" prot="public" virt="non-virtual"><scope>ChaosInjector</scope><name>shouldFail</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

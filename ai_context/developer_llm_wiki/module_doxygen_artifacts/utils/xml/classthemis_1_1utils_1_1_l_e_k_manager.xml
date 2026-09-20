@@ -1,0 +1,1000 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_l_e_k_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::utils::LEKManager</compoundname>
+    <includes refid="lek__manager_8h" local="no">lek_manager.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_l_e_k_manager_1afe005975d93829b881dc1b739552a92b" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;themis::RocksDBWrapper&gt; themis::utils::LEKManager::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::utils::LEKManager::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lek_manager.h" line="408" column="21" bodyfile="include/utils/lek_manager.h" bodystart="408" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_l_e_k_manager_1ae68ed38b59d9bbb3cae64b7e61565cc1" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1utils_1_1_v_c_c_p_k_i_client" kindref="compound">VCCPKIClient</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;VCCPKIClient&gt; themis::utils::LEKManager::pki_</definition>
+        <argsstring></argsstring>
+        <name>pki_</name>
+        <qualifiedname>themis::utils::LEKManager::pki_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lek_manager.h" line="409" column="21" bodyfile="include/utils/lek_manager.h" bodystart="409" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_l_e_k_manager_1acfeeb7909fb6379cee8274057e85759e" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; KeyProvider &gt;</type>
+        <definition>std::shared_ptr&lt;KeyProvider&gt; themis::utils::LEKManager::key_provider_</definition>
+        <argsstring></argsstring>
+        <name>key_provider_</name>
+        <qualifiedname>themis::utils::LEKManager::key_provider_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lek_manager.h" line="410" column="21" bodyfile="include/utils/lek_manager.h" bodystart="410" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_l_e_k_manager_1abdf36da63d60bbc538be725468294ad2" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::utils::LEKManager::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>themis::utils::LEKManager::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lek_manager.h" line="412" column="16" bodyfile="include/utils/lek_manager.h" bodystart="412" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_l_e_k_manager_1af3279b98c759c4f0bdde5908e7a08da6" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::utils::LEKManager::lek_cache_</definition>
+        <argsstring></argsstring>
+        <name>lek_cache_</name>
+        <qualifiedname>themis::utils::LEKManager::lek_cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lek_manager.h" line="413" column="24" bodyfile="include/utils/lek_manager.h" bodystart="413" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_l_e_k_manager_1a20d8cca0139b1bedefd4ba3a1509da54" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::LEKManager::kek_key_id_</definition>
+        <argsstring></argsstring>
+        <name>kek_key_id_</name>
+        <qualifiedname>themis::utils::LEKManager::kek_key_id_</qualifiedname>
+        <initializer>= &quot;lek_kek&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lek_manager.h" line="414" column="17" bodyfile="include/utils/lek_manager.h" bodystart="414" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_l_e_k_manager_1a838f2f6a27d7bd4249a2e241f25f9326" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::utils::LEKManager::revocation_mu_</definition>
+        <argsstring></argsstring>
+        <name>revocation_mu_</name>
+        <qualifiedname>themis::utils::LEKManager::revocation_mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lek_manager.h" line="417" column="24" bodyfile="include/utils/lek_manager.h" bodystart="417" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_l_e_k_manager_1a32f787bbf570a5bfc51ee2feec77e7d7" prot="private" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; themis::utils::LEKManager::revoked_keys_</definition>
+        <argsstring></argsstring>
+        <name>revoked_keys_</name>
+        <qualifiedname>themis::utils::LEKManager::revoked_keys_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lek_manager.h" line="418" column="24" bodyfile="include/utils/lek_manager.h" bodystart="418" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_l_e_k_manager_1a5152a107320f6e1f27ccb6bd9d3ea1e7" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::utils::LEKManager::rotation_running_</definition>
+        <argsstring></argsstring>
+        <name>rotation_running_</name>
+        <qualifiedname>themis::utils::LEKManager::rotation_running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lek_manager.h" line="421" column="23" bodyfile="include/utils/lek_manager.h" bodystart="421" bodyend="421"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_l_e_k_manager_1a48719ccdd0403eb5728876eea643b1ff" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::utils::LEKManager::rotation_thread_</definition>
+        <argsstring></argsstring>
+        <name>rotation_thread_</name>
+        <qualifiedname>themis::utils::LEKManager::rotation_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lek_manager.h" line="422" column="29" bodyfile="include/utils/lek_manager.h" bodystart="422" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_l_e_k_manager_1af4a6268f51e37cfcbbde3095106925a4" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::utils::LEKManager::rotation_cv_mu_</definition>
+        <argsstring></argsstring>
+        <name>rotation_cv_mu_</name>
+        <qualifiedname>themis::utils::LEKManager::rotation_cv_mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lek_manager.h" line="423" column="29" bodyfile="include/utils/lek_manager.h" bodystart="423" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_l_e_k_manager_1aef01faf96474361509fb52f9c7296d21" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::utils::LEKManager::rotation_cv_</definition>
+        <argsstring></argsstring>
+        <name>rotation_cv_</name>
+        <qualifiedname>themis::utils::LEKManager::rotation_cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lek_manager.h" line="424" column="29" bodyfile="include/utils/lek_manager.h" bodystart="424" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_l_e_k_manager_1af64f136a2183849c6563f2fcab71860c" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::utils::LEKManager::rotation_stop_</definition>
+        <argsstring></argsstring>
+        <name>rotation_stop_</name>
+        <qualifiedname>themis::utils::LEKManager::rotation_stop_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lek_manager.h" line="425" column="29" bodyfile="include/utils/lek_manager.h" bodystart="425" bodyend="425"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_l_e_k_manager_1a07e12fc8f79e9c120466bbc329238039" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::utils::LEKManager::audit_mu_</definition>
+        <argsstring></argsstring>
+        <name>audit_mu_</name>
+        <qualifiedname>themis::utils::LEKManager::audit_mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lek_manager.h" line="428" column="34" bodyfile="include/utils/lek_manager.h" bodystart="428" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_l_e_k_manager_1a98c3ee190e69e6a534023a2c501313e4" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1utils_1_1_audit_logger" kindref="compound">AuditLogger</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;AuditLogger&gt; themis::utils::LEKManager::audit_logger_</definition>
+        <argsstring></argsstring>
+        <name>audit_logger_</name>
+        <qualifiedname>themis::utils::LEKManager::audit_logger_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lek_manager.h" line="429" column="21" bodyfile="include/utils/lek_manager.h" bodystart="429" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_l_e_k_manager_1a6938c2bd4be86c6e74d9699977cfcf08" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::LEKManager::LEKManager</definition>
+        <argsstring>(std::shared_ptr&lt; themis::RocksDBWrapper &gt; db, std::shared_ptr&lt; VCCPKIClient &gt; pki, std::shared_ptr&lt; KeyProvider &gt; key_provider)</argsstring>
+        <name>LEKManager</name>
+        <qualifiedname>themis::utils::LEKManager::LEKManager</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; themis::RocksDBWrapper &gt;</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1utils_1_1_v_c_c_p_k_i_client" kindref="compound">VCCPKIClient</ref> &gt;</type>
+          <declname>pki</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; KeyProvider &gt;</type>
+          <declname>key_provider</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lek_manager.h" line="136" column="5" bodyfile="src/utils/lek_manager.cpp" bodystart="87" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_l_e_k_manager_1a0563985c26479592b73273cdb8465d2b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::LEKManager::~LEKManager</definition>
+        <argsstring>()</argsstring>
+        <name>~LEKManager</name>
+        <qualifiedname>themis::utils::LEKManager::~LEKManager</qualifiedname>
+        <briefdescription>
+<para>Destructor – stops the auto-rotation thread if running. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Gracefully stops the background key rotation worker thread (if active) and waits for it to exit. All cached keys are preserved (not wiped) to allow final operations if needed. If explicit zeroing is required, call clear() on consumers before destruction.</para>
+<para>@thread_safe Safe to call from any thread <simplesect kind="note"><para>Blocking: Waits for auto-rotation thread to join </para>
+</simplesect>
+<simplesect kind="note"><para>Exception-safe: Destructor does not throw </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lek_manager.h" line="152" column="5" bodyfile="src/utils/lek_manager.cpp" bodystart="126" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_l_e_k_manager_1ac4995fbdde92f62649fcd0f18cd62904" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::utils::LEKManager::getCurrentLEK</definition>
+        <argsstring>()</argsstring>
+        <name>getCurrentLEK</name>
+        <qualifiedname>themis::utils::LEKManager::getCurrentLEK</qualifiedname>
+        <briefdescription>
+<para>Get current LEK (creates if not exists). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Current LEK.</para>
+<para>Returns the key ID for today&apos;s Log Encryption Key. If today&apos;s LEK does not exist, it is automatically generated, encrypted, and stored. This is the primary API for obtaining a key for new log encryption.</para>
+<para><simplesect kind="return"><para>LEK key_id suitable for use with FieldEncryption::encryptField() Format: &quot;lek_&lt;YYYY-MM-DD&gt;&quot; </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if LEK generation or storage fails</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+@thread_safe Yes - internally synchronized <simplesect kind="note"><para>Automatic generation: If no LEK exists for today, one is created </para>
+</simplesect>
+<simplesect kind="note"><para>Idempotent: Calling multiple times returns the same key_id</para>
+</simplesect>
+Usage: <programlisting><codeline><highlight class="normal">std::string<sp/>lek_id<sp/>=<sp/>lek_mgr-&gt;getCurrentLEK();</highlight></codeline>
+<codeline><highlight class="normal">field_enc.encryptField(</highlight><highlight class="stringliteral">&quot;user_email&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;alice@example.com&quot;</highlight><highlight class="normal">,<sp/>lek_id);</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(), <ref refid="classthemis_1_1utils_1_1_l_e_k_manager_1ae14d8a1b060748d0a26471e706e99f52" kindref="member">getCurrentDateString()</ref>, find(), end(), ensureLEKExists(), lekKeyId(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lek_manager.h" line="175" column="17" bodyfile="src/utils/lek_manager.cpp" bodystart="254" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_l_e_k_manager_1a6321774a732ab2827148ff9fbef51056" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::utils::LEKManager::getLEKForDate</definition>
+        <argsstring>(const std::string &amp;date_str)</argsstring>
+        <name>getLEKForDate</name>
+        <qualifiedname>themis::utils::LEKManager::getLEKForDate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>date_str</declname>
+        </param>
+        <briefdescription>
+<para>Get LEK for specific date (for decrypting old logs). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get LEKFor Date.</para>
+<para>Retrieves the key ID for a historically-dated LEK. Useful when decrypting log messages created on a previous date. If the key has been revoked, returns empty string.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>date_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Date of desired LEK in format &quot;YYYY-MM-DD&quot; </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>LEK key_id if found and not revoked; empty string if key not found or revoked </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if key store (RocksDB) is unavailable</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+@error_contract <table rows="3" cols="5"><row>
+<entry thead="yes"><para>Condition  </para>
+</entry><entry thead="yes"><para><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7" kindref="member">ErrorCode</ref>  </para>
+</entry><entry thead="yes"><para>Severity  </para>
+</entry><entry thead="yes"><para>Logging  </para>
+</entry><entry thead="yes"><para>Recovery  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Key store (RocksDB) unavailable – cannot persist new LEK  </para>
+</entry><entry thead="no"><para>CRYPTO_KEY_NOT_FOUND (9053)  </para>
+</entry><entry thead="no"><para>Critical  </para>
+</entry><entry thead="no"><para>date_str, db_key  </para>
+</entry><entry thead="no"><para>Throw (fail-closed)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Key has been revoked  </para>
+</entry><entry thead="no"><para>CRYPTO_KEY_EXPIRED (9052)  </para>
+</entry><entry thead="no"><para>Info  </para>
+</entry><entry thead="no"><para>date_str  </para>
+</entry><entry thead="no"><para>Return empty string  </para>
+</entry></row>
+</table>
+</para>
+<para>@degradation fail-closed on key store unavailability; no plaintext fallback @thread_safe Yes - internally synchronized</para>
+<para>Usage: <programlisting><codeline><highlight class="normal">std::string<sp/>old_lek<sp/>=<sp/>lek_mgr-&gt;getLEKForDate(</highlight><highlight class="stringliteral">&quot;2026-08-01&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!old_lek.empty())<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>decrypted<sp/>=<sp/>field_enc.decryptField(encrypted_data,<sp/>old_lek);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">date_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(), find(), end(), ensureLEKExists(), lekKeyId(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lek_manager.h" line="205" column="17" bodyfile="src/utils/lek_manager.cpp" bodystart="278" bodyend="300"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_l_e_k_manager_1a0c92473dd098a70e7345527600dd07e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::LEKManager::rotate</definition>
+        <argsstring>()</argsstring>
+        <name>rotate</name>
+        <qualifiedname>themis::utils::LEKManager::rotate</qualifiedname>
+        <briefdescription>
+<para>Force immediate key rotation (creates new LEK for today). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Rotate.</para>
+<para>Triggers immediate key rotation, creating a new LEK for the current date. Used in security incidents or compliance scenarios where a key needs to be replaced outside the normal daily rotation schedule.</para>
+<para>@thread_safe Yes - internally synchronized <parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if LEK creation fails</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Effect: Next <ref refid="classthemis_1_1utils_1_1_l_e_k_manager_1ac4995fbdde92f62649fcd0f18cd62904" kindref="member">getCurrentLEK()</ref> returns the new key </para>
+</simplesect>
+<simplesect kind="note"><para>Audit: Rotation event is logged if <ref refid="classthemis_1_1utils_1_1_audit_logger" kindref="compound">AuditLogger</ref> is attached</para>
+</simplesect>
+Usage: <programlisting><codeline><highlight class="comment">//<sp/>Security<sp/>incident:<sp/>force<sp/>key<sp/>rotation</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">lek_mgr-&gt;rotate();</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>All<sp/>subsequent<sp/>encryptions<sp/>use<sp/>new<sp/>LEK</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), <ref refid="classthemis_1_1utils_1_1_l_e_k_manager_1ae14d8a1b060748d0a26471e706e99f52" kindref="member">getCurrentDateString()</ref>, erase(), del(), dbKey(), ensureLEKExists(), lekKeyId(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lek_manager.h" line="227" column="10" bodyfile="src/utils/lek_manager.cpp" bodystart="307" bodyend="322"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_l_e_k_manager_1af01de2dd078d001a911bb3f5f31cdd50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::LEKManager::setAuditLogger</definition>
+        <argsstring>(std::shared_ptr&lt; AuditLogger &gt; logger)</argsstring>
+        <name>setAuditLogger</name>
+        <qualifiedname>themis::utils::LEKManager::setAuditLogger</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1utils_1_1_audit_logger" kindref="compound">AuditLogger</ref> &gt;</type>
+          <declname>logger</declname>
+        </param>
+        <briefdescription>
+<para>Attach an <ref refid="classthemis_1_1utils_1_1_audit_logger" kindref="compound">AuditLogger</ref> so rotation events are recorded. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Audit <ref refid="classthemis_1_1utils_1_1_logger" kindref="compound">Logger</ref>.</para>
+<para>Call before <ref refid="classthemis_1_1utils_1_1_l_e_k_manager_1ac8768e4a11ba9964731f5d8083096687" kindref="member">startAutoRotation()</ref> if audit-trail integration is required. Thread-safe; may be called at any time.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>logger</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classthemis_1_1utils_1_1_audit_logger" kindref="compound">AuditLogger</ref> instance (may be nullptr to disable auditing).</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">logger</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lek_manager.h" line="249" column="10" bodyfile="src/utils/lek_manager.cpp" bodystart="454" bodyend="457"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_l_e_k_manager_1ac8768e4a11ba9964731f5d8083096687" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::LEKManager::startAutoRotation</definition>
+        <argsstring>(std::chrono::seconds check_interval=std::chrono::seconds(3600), int max_age_days=30)</argsstring>
+        <name>startAutoRotation</name>
+        <qualifiedname>themis::utils::LEKManager::startAutoRotation</qualifiedname>
+        <param>
+          <type>std::chrono::seconds</type>
+          <declname>check_interval</declname>
+          <defval>std::chrono::seconds(3600)</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_age_days</declname>
+          <defval>30</defval>
+        </param>
+        <briefdescription>
+<para>Start the background auto-rotation worker. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start Auto Rotation.</para>
+<para>The worker wakes up every <computeroutput>check_interval</computeroutput> and calls <ref refid="classthemis_1_1utils_1_1_l_e_k_manager_1ac4995fbdde92f62649fcd0f18cd62904" kindref="member">getCurrentLEK()</ref> to ensure today&apos;s key exists. When the calendar date changes past midnight the new LEK is created automatically without operator intervention. Additionally, any cached key whose date exceeds <computeroutput>max_age_days</computeroutput> is revoked and a KEY_ROTATED audit event is emitted.</para>
+<para>Calling <ref refid="classthemis_1_1utils_1_1_l_e_k_manager_1ac8768e4a11ba9964731f5d8083096687" kindref="member">startAutoRotation()</ref> while a worker is already running is a no-op; call <ref refid="classthemis_1_1utils_1_1_l_e_k_manager_1a6bebcd7952a332df0fce2cbddfa7c4b6" kindref="member">stopAutoRotation()</ref> first if you need to change parameters.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>check_interval</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>How often the worker polls (default: 1 hour). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_age_days</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum key age before forced revocation; must be &gt;= 1 (default: 30 days). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if max_age_days &lt; 1.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">check_interval</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_age_days</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: exchange(), lk(), std::thread(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lek_manager.h" line="268" column="10" bodyfile="src/utils/lek_manager.cpp" bodystart="466" bodyend="483"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_l_e_k_manager_1a6bebcd7952a332df0fce2cbddfa7c4b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::LEKManager::stopAutoRotation</definition>
+        <argsstring>()</argsstring>
+        <name>stopAutoRotation</name>
+        <qualifiedname>themis::utils::LEKManager::stopAutoRotation</qualifiedname>
+        <briefdescription>
+<para>Stop the background auto-rotation worker and join the thread. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stop Auto Rotation.</para>
+<para>Blocks until the worker thread has exited. Safe to call even if no worker is running.</para>
+<para>Calls: lk(), notify_all(), joinable(), join(), store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lek_manager.h" line="278" column="10" bodyfile="src/utils/lek_manager.cpp" bodystart="489" bodyend="499"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_l_e_k_manager_1ac0daa40a50455bfd859c763daf9aadbe" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::LEKManager::isAutoRotationRunning</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isAutoRotationRunning</name>
+        <qualifiedname>themis::utils::LEKManager::isAutoRotationRunning</qualifiedname>
+        <briefdescription>
+<para>Returns true when the auto-rotation worker is active. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lek_manager.h" line="283" column="10" bodyfile="src/utils/lek_manager.cpp" bodystart="501" bodyend="503"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_l_e_k_manager_1af1645de9cf404d4338a5cd2cb22aa741" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::LEKManager::revokeKey</definition>
+        <argsstring>(const std::string &amp;date_str)</argsstring>
+        <name>revokeKey</name>
+        <qualifiedname>themis::utils::LEKManager::revokeKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>date_str</declname>
+        </param>
+        <briefdescription>
+<para>Revoke Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">date_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: rlk(), insert(), put(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lek_manager.h" line="318" column="10" bodyfile="src/utils/lek_manager.cpp" bodystart="331" bodyend="351"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_l_e_k_manager_1ac47bcb2e1278d484829fd0a64fc088e9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::LEKManager::isRevoked</definition>
+        <argsstring>(const std::string &amp;date_str) const</argsstring>
+        <name>isRevoked</name>
+        <qualifiedname>themis::utils::LEKManager::isRevoked</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>date_str</declname>
+        </param>
+        <briefdescription>
+<para>Check whether a LEK for the given date has been revoked. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>date_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Date to check, format &quot;YYYY-MM-DD&quot; </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if key is on the revocation list</para>
+</simplesect>
+@thread_safe Yes <simplesect kind="note"><para>Non-throwing: Returns false if key not found (not same as &quot;not revoked&quot;) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Rlk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">revocation_mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/utils/lek_manager.h" line="329" column="10" bodyfile="src/utils/lek_manager.cpp" bodystart="353" bodyend="361"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_l_e_k_manager_1af4986149294c3352bd79a347478869ef" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::utils::LEKManager::getRevokedKeys</definition>
+        <argsstring>() const</argsstring>
+        <name>getRevokedKeys</name>
+        <qualifiedname>themis::utils::LEKManager::getRevokedKeys</qualifiedname>
+        <briefdescription>
+<para>Return all currently revoked date strings. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Vector of revoked dates in &quot;YYYY-MM-DD&quot; format @thread_safe Yes</para>
+</simplesect>
+Usage: <programlisting><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>revoked<sp/>=<sp/>lek_mgr-&gt;getRevokedKeys();</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>date<sp/>:<sp/>revoked)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>LOG(INFO)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Revoked:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>date;</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Rlk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">revocation_mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/utils/lek_manager.h" line="345" column="17" bodyfile="src/utils/lek_manager.cpp" bodystart="363" bodyend="371"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_l_e_k_manager_1a567423578436d7a2b2a7ac63c520b44b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::LEKManager::migrateKey</definition>
+        <argsstring>(const std::string &amp;old_date, const std::string &amp;new_date)</argsstring>
+        <name>migrateKey</name>
+        <qualifiedname>themis::utils::LEKManager::migrateKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>old_date</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>new_date</declname>
+        </param>
+        <briefdescription>
+<para>Migrate Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">old_date</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_date</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: dbKey(), get(), put(), lk(), count(), lekKeyId(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lek_manager.h" line="397" column="10" bodyfile="src/utils/lek_manager.cpp" bodystart="415" bodyend="446"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_l_e_k_manager_1ae14d8a1b060748d0a26471e706e99f52" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::utils::LEKManager::getCurrentDateString</definition>
+        <argsstring>()</argsstring>
+        <name>getCurrentDateString</name>
+        <qualifiedname>themis::utils::LEKManager::getCurrentDateString</qualifiedname>
+        <briefdescription>
+<para>Get current date string in ISO 8601 format. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Current Date String.</para>
+<para><simplesect kind="return"><para>Date string in format &quot;YYYY-MM-DD&quot; (UTC) </para>
+</simplesect>
+<simplesect kind="note"><para>Utility function - useful for testing and log formatting</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), std::chrono::system_clock::to_time_t(), localtime_s(), localtime_r(), std::put_time(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lek_manager.h" line="235" column="24" bodyfile="src/utils/lek_manager.cpp" bodystart="135" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_l_e_k_manager_1a64d668677f3c3fee21e4503b2bb01681" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::LEKManager::isExpired</definition>
+        <argsstring>(const std::string &amp;date_str, int max_age_days=30)</argsstring>
+        <name>isExpired</name>
+        <qualifiedname>themis::utils::LEKManager::isExpired</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>date_str</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_age_days</declname>
+          <defval>30</defval>
+        </param>
+        <briefdescription>
+<para>Is Expired. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">date_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_age_days</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: size(), std::stoi(), substr(), std::chrono::system_clock::from_time_t(), std::mktime(), std::chrono::system_clock::now(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lek_manager.h" line="369" column="17" bodyfile="src/utils/lek_manager.cpp" bodystart="380" bodyend="406"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_l_e_k_manager_1ae0d790041a34bbd81339c9f9c956396b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::LEKManager::ensureLEKExists</definition>
+        <argsstring>(const std::string &amp;date_str)</argsstring>
+        <name>ensureLEKExists</name>
+        <qualifiedname>themis::utils::LEKManager::ensureLEKExists</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>date_str</declname>
+        </param>
+        <briefdescription>
+<para>Ensure LEKExists. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">date_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lekKeyId(), hasKey(), dbKey(), get(), nlohmann::json::parse(), themis::EncryptedBlob::fromJson(), enc(), decrypt(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lek_manager.h" line="400" column="10" bodyfile="src/utils/lek_manager.cpp" bodystart="181" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_l_e_k_manager_1a952b7a69e4e049c947d473f9f26146e4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::utils::LEKManager::deriveKEK</definition>
+        <argsstring>()</argsstring>
+        <name>deriveKEK</name>
+        <qualifiedname>themis::utils::LEKManager::deriveKEK</qualifiedname>
+        <briefdescription>
+<para>Derive KEK. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1utils_1_1_h_k_d_f_helper_1a9a7623e930d575abc5c3eb04d394bb87" kindref="member">HKDFHelper::deriveFromString()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lek_manager.h" line="401" column="17" bodyfile="src/utils/lek_manager.cpp" bodystart="164" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_l_e_k_manager_1a24f4bae35adacca617741d1647e140b4" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::utils::LEKManager::lekKeyId</definition>
+        <argsstring>(const std::string &amp;date_str) const</argsstring>
+        <name>lekKeyId</name>
+        <qualifiedname>themis::utils::LEKManager::lekKeyId</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>date_str</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lek_manager.h" line="402" column="17" bodyfile="src/utils/lek_manager.cpp" bodystart="151" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_l_e_k_manager_1afd48010202db484ee6776d568e572bab" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::utils::LEKManager::dbKey</definition>
+        <argsstring>(const std::string &amp;date_str) const</argsstring>
+        <name>dbKey</name>
+        <qualifiedname>themis::utils::LEKManager::dbKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>date_str</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lek_manager.h" line="403" column="17" bodyfile="src/utils/lek_manager.cpp" bodystart="155" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_l_e_k_manager_1a6018ca8d8abd2d2054fc094623759536" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::LEKManager::autoRotationLoop</definition>
+        <argsstring>(std::chrono::seconds check_interval, int max_age_days)</argsstring>
+        <name>autoRotationLoop</name>
+        <qualifiedname>themis::utils::LEKManager::autoRotationLoop</qualifiedname>
+        <param>
+          <type>std::chrono::seconds</type>
+          <declname>check_interval</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_age_days</declname>
+        </param>
+        <briefdescription>
+<para>Auto Rotation Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">check_interval</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_age_days</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), wait_for(), <ref refid="classthemis_1_1utils_1_1_l_e_k_manager_1ae14d8a1b060748d0a26471e706e99f52" kindref="member">getCurrentDateString()</ref>, <ref refid="classthemis_1_1utils_1_1_l_e_k_manager_1ac4995fbdde92f62649fcd0f18cd62904" kindref="member">getCurrentLEK()</ref>, <ref refid="classthemis_1_1utils_1_1_l_e_k_manager_1a64d668677f3c3fee21e4503b2bb01681" kindref="member">isExpired()</ref>, push_back(), lekKeyId(), <ref refid="classthemis_1_1utils_1_1_l_e_k_manager_1af1645de9cf404d4338a5cd2cb22aa741" kindref="member">revokeKey()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lek_manager.h" line="406" column="10" bodyfile="src/utils/lek_manager.cpp" bodystart="511" bodyend="574"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Log Encryption Key Manager with daily rotation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Key Hierarchy:<orderedlist>
+<listitem><para>KEK (Key Encryption Key) - Derived from PKI certificate via HKDF</para>
+</listitem><listitem><para>LEK (Log Encryption Key) - Random 256-bit AES key, rotated daily</para>
+</listitem><listitem><para>LEK stored encrypted with KEK in RocksDB: lek:&lt;date&gt; = AES-GCM(KEK, LEK)</para>
+</listitem></orderedlist>
+</para>
+<para>Usage:<itemizedlist>
+<listitem><para>Encrypt logs with current LEK</para>
+</listitem><listitem><para>Decrypt historical logs by loading LEK for specific date</para>
+</listitem><listitem><para>Automatic rotation at midnight (configurable) </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/utils/lek_manager.h" line="103" column="1" bodyfile="include/utils/lek_manager.h" bodystart="103" bodyend="430"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1_l_e_k_manager_1a98c3ee190e69e6a534023a2c501313e4" prot="private" virt="non-virtual"><scope>themis::utils::LEKManager</scope><name>audit_logger_</name></member>
+      <member refid="classthemis_1_1utils_1_1_l_e_k_manager_1a07e12fc8f79e9c120466bbc329238039" prot="private" virt="non-virtual"><scope>themis::utils::LEKManager</scope><name>audit_mu_</name></member>
+      <member refid="classthemis_1_1utils_1_1_l_e_k_manager_1a6018ca8d8abd2d2054fc094623759536" prot="private" virt="non-virtual"><scope>themis::utils::LEKManager</scope><name>autoRotationLoop</name></member>
+      <member refid="classthemis_1_1utils_1_1_l_e_k_manager_1afe005975d93829b881dc1b739552a92b" prot="private" virt="non-virtual"><scope>themis::utils::LEKManager</scope><name>db_</name></member>
+      <member refid="classthemis_1_1utils_1_1_l_e_k_manager_1afd48010202db484ee6776d568e572bab" prot="private" virt="non-virtual"><scope>themis::utils::LEKManager</scope><name>dbKey</name></member>
+      <member refid="classthemis_1_1utils_1_1_l_e_k_manager_1a952b7a69e4e049c947d473f9f26146e4" prot="private" virt="non-virtual"><scope>themis::utils::LEKManager</scope><name>deriveKEK</name></member>
+      <member refid="classthemis_1_1utils_1_1_l_e_k_manager_1ae0d790041a34bbd81339c9f9c956396b" prot="private" virt="non-virtual"><scope>themis::utils::LEKManager</scope><name>ensureLEKExists</name></member>
+      <member refid="classthemis_1_1utils_1_1_l_e_k_manager_1ae14d8a1b060748d0a26471e706e99f52" prot="public" virt="non-virtual"><scope>themis::utils::LEKManager</scope><name>getCurrentDateString</name></member>
+      <member refid="classthemis_1_1utils_1_1_l_e_k_manager_1ac4995fbdde92f62649fcd0f18cd62904" prot="public" virt="non-virtual"><scope>themis::utils::LEKManager</scope><name>getCurrentLEK</name></member>
+      <member refid="classthemis_1_1utils_1_1_l_e_k_manager_1a6321774a732ab2827148ff9fbef51056" prot="public" virt="non-virtual"><scope>themis::utils::LEKManager</scope><name>getLEKForDate</name></member>
+      <member refid="classthemis_1_1utils_1_1_l_e_k_manager_1af4986149294c3352bd79a347478869ef" prot="public" virt="non-virtual"><scope>themis::utils::LEKManager</scope><name>getRevokedKeys</name></member>
+      <member refid="classthemis_1_1utils_1_1_l_e_k_manager_1ac0daa40a50455bfd859c763daf9aadbe" prot="public" virt="non-virtual"><scope>themis::utils::LEKManager</scope><name>isAutoRotationRunning</name></member>
+      <member refid="classthemis_1_1utils_1_1_l_e_k_manager_1a64d668677f3c3fee21e4503b2bb01681" prot="public" virt="non-virtual"><scope>themis::utils::LEKManager</scope><name>isExpired</name></member>
+      <member refid="classthemis_1_1utils_1_1_l_e_k_manager_1ac47bcb2e1278d484829fd0a64fc088e9" prot="public" virt="non-virtual"><scope>themis::utils::LEKManager</scope><name>isRevoked</name></member>
+      <member refid="classthemis_1_1utils_1_1_l_e_k_manager_1a20d8cca0139b1bedefd4ba3a1509da54" prot="private" virt="non-virtual"><scope>themis::utils::LEKManager</scope><name>kek_key_id_</name></member>
+      <member refid="classthemis_1_1utils_1_1_l_e_k_manager_1acfeeb7909fb6379cee8274057e85759e" prot="private" virt="non-virtual"><scope>themis::utils::LEKManager</scope><name>key_provider_</name></member>
+      <member refid="classthemis_1_1utils_1_1_l_e_k_manager_1af3279b98c759c4f0bdde5908e7a08da6" prot="private" virt="non-virtual"><scope>themis::utils::LEKManager</scope><name>lek_cache_</name></member>
+      <member refid="classthemis_1_1utils_1_1_l_e_k_manager_1a24f4bae35adacca617741d1647e140b4" prot="private" virt="non-virtual"><scope>themis::utils::LEKManager</scope><name>lekKeyId</name></member>
+      <member refid="classthemis_1_1utils_1_1_l_e_k_manager_1a6938c2bd4be86c6e74d9699977cfcf08" prot="public" virt="non-virtual"><scope>themis::utils::LEKManager</scope><name>LEKManager</name></member>
+      <member refid="classthemis_1_1utils_1_1_l_e_k_manager_1a567423578436d7a2b2a7ac63c520b44b" prot="public" virt="non-virtual"><scope>themis::utils::LEKManager</scope><name>migrateKey</name></member>
+      <member refid="classthemis_1_1utils_1_1_l_e_k_manager_1abdf36da63d60bbc538be725468294ad2" prot="private" virt="non-virtual"><scope>themis::utils::LEKManager</scope><name>mu_</name></member>
+      <member refid="classthemis_1_1utils_1_1_l_e_k_manager_1ae68ed38b59d9bbb3cae64b7e61565cc1" prot="private" virt="non-virtual"><scope>themis::utils::LEKManager</scope><name>pki_</name></member>
+      <member refid="classthemis_1_1utils_1_1_l_e_k_manager_1a838f2f6a27d7bd4249a2e241f25f9326" prot="private" virt="non-virtual"><scope>themis::utils::LEKManager</scope><name>revocation_mu_</name></member>
+      <member refid="classthemis_1_1utils_1_1_l_e_k_manager_1a32f787bbf570a5bfc51ee2feec77e7d7" prot="private" virt="non-virtual"><scope>themis::utils::LEKManager</scope><name>revoked_keys_</name></member>
+      <member refid="classthemis_1_1utils_1_1_l_e_k_manager_1af1645de9cf404d4338a5cd2cb22aa741" prot="public" virt="non-virtual"><scope>themis::utils::LEKManager</scope><name>revokeKey</name></member>
+      <member refid="classthemis_1_1utils_1_1_l_e_k_manager_1a0c92473dd098a70e7345527600dd07e1" prot="public" virt="non-virtual"><scope>themis::utils::LEKManager</scope><name>rotate</name></member>
+      <member refid="classthemis_1_1utils_1_1_l_e_k_manager_1aef01faf96474361509fb52f9c7296d21" prot="private" virt="non-virtual"><scope>themis::utils::LEKManager</scope><name>rotation_cv_</name></member>
+      <member refid="classthemis_1_1utils_1_1_l_e_k_manager_1af4a6268f51e37cfcbbde3095106925a4" prot="private" virt="non-virtual"><scope>themis::utils::LEKManager</scope><name>rotation_cv_mu_</name></member>
+      <member refid="classthemis_1_1utils_1_1_l_e_k_manager_1a5152a107320f6e1f27ccb6bd9d3ea1e7" prot="private" virt="non-virtual"><scope>themis::utils::LEKManager</scope><name>rotation_running_</name></member>
+      <member refid="classthemis_1_1utils_1_1_l_e_k_manager_1af64f136a2183849c6563f2fcab71860c" prot="private" virt="non-virtual"><scope>themis::utils::LEKManager</scope><name>rotation_stop_</name></member>
+      <member refid="classthemis_1_1utils_1_1_l_e_k_manager_1a48719ccdd0403eb5728876eea643b1ff" prot="private" virt="non-virtual"><scope>themis::utils::LEKManager</scope><name>rotation_thread_</name></member>
+      <member refid="classthemis_1_1utils_1_1_l_e_k_manager_1af01de2dd078d001a911bb3f5f31cdd50" prot="public" virt="non-virtual"><scope>themis::utils::LEKManager</scope><name>setAuditLogger</name></member>
+      <member refid="classthemis_1_1utils_1_1_l_e_k_manager_1ac8768e4a11ba9964731f5d8083096687" prot="public" virt="non-virtual"><scope>themis::utils::LEKManager</scope><name>startAutoRotation</name></member>
+      <member refid="classthemis_1_1utils_1_1_l_e_k_manager_1a6bebcd7952a332df0fce2cbddfa7c4b6" prot="public" virt="non-virtual"><scope>themis::utils::LEKManager</scope><name>stopAutoRotation</name></member>
+      <member refid="classthemis_1_1utils_1_1_l_e_k_manager_1a0563985c26479592b73273cdb8465d2b" prot="public" virt="non-virtual"><scope>themis::utils::LEKManager</scope><name>~LEKManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

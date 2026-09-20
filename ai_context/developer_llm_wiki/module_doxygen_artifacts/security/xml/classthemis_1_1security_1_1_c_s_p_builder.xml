@@ -1,0 +1,266 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1_c_s_p_builder" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::CSPBuilder</compoundname>
+    <includes refid="output__encoding_8h" local="no">output_encoding.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_c_s_p_builder_1aa0cd74cadadfe0480497191eb1a0c79b" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::security::CSPBuilder::directives_</definition>
+        <argsstring></argsstring>
+        <name>directives_</name>
+        <qualifiedname>themis::security::CSPBuilder::directives_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/output_encoding.h" line="311" column="24" bodyfile="include/security/output_encoding.h" bodystart="311" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_c_s_p_builder_1ad41c8ffedcabf2e925737562b3528515" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::CSPBuilder::CSPBuilder</definition>
+        <argsstring>()=default</argsstring>
+        <name>CSPBuilder</name>
+        <qualifiedname>themis::security::CSPBuilder::CSPBuilder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/output_encoding.h" line="209" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_c_s_p_builder_1abd6c4fa6f559bd02a7010857ac1b9b05" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1security_1_1_c_s_p_builder_1ad41c8ffedcabf2e925737562b3528515" kindref="member">CSPBuilder</ref> &amp;</type>
+        <definition>CSPBuilder &amp; themis::security::CSPBuilder::defaultSrc</definition>
+        <argsstring>(const std::string &amp;value)</argsstring>
+        <name>defaultSrc</name>
+        <qualifiedname>themis::security::CSPBuilder::defaultSrc</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Set default-src directive. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements defaultSrc without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/output_encoding.h" line="217" column="16" bodyfile="include/security/output_encoding.h" bodystart="217" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_c_s_p_builder_1ac95958d108c8cd14a8872f82aace1cc3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1security_1_1_c_s_p_builder_1ad41c8ffedcabf2e925737562b3528515" kindref="member">CSPBuilder</ref> &amp;</type>
+        <definition>CSPBuilder &amp; themis::security::CSPBuilder::scriptSrc</definition>
+        <argsstring>(const std::string &amp;value)</argsstring>
+        <name>scriptSrc</name>
+        <qualifiedname>themis::security::CSPBuilder::scriptSrc</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Set script-src directive. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements scriptSrc without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/output_encoding.h" line="228" column="16" bodyfile="include/security/output_encoding.h" bodystart="228" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_c_s_p_builder_1a07bd5e4576cd68b73e0147ea98f42f9f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1security_1_1_c_s_p_builder_1ad41c8ffedcabf2e925737562b3528515" kindref="member">CSPBuilder</ref> &amp;</type>
+        <definition>CSPBuilder &amp; themis::security::CSPBuilder::styleSrc</definition>
+        <argsstring>(const std::string &amp;value)</argsstring>
+        <name>styleSrc</name>
+        <qualifiedname>themis::security::CSPBuilder::styleSrc</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Set style-src directive. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements styleSrc without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/output_encoding.h" line="239" column="16" bodyfile="include/security/output_encoding.h" bodystart="239" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_c_s_p_builder_1ab146faf37987cf64c818d502266e5340" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1security_1_1_c_s_p_builder_1ad41c8ffedcabf2e925737562b3528515" kindref="member">CSPBuilder</ref> &amp;</type>
+        <definition>CSPBuilder &amp; themis::security::CSPBuilder::imgSrc</definition>
+        <argsstring>(const std::string &amp;value)</argsstring>
+        <name>imgSrc</name>
+        <qualifiedname>themis::security::CSPBuilder::imgSrc</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Set img-src directive. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements imgSrc without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/output_encoding.h" line="250" column="16" bodyfile="include/security/output_encoding.h" bodystart="250" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_c_s_p_builder_1a18815d6278b174207260292c65bcc495" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1security_1_1_c_s_p_builder_1ad41c8ffedcabf2e925737562b3528515" kindref="member">CSPBuilder</ref> &amp;</type>
+        <definition>CSPBuilder &amp; themis::security::CSPBuilder::connectSrc</definition>
+        <argsstring>(const std::string &amp;value)</argsstring>
+        <name>connectSrc</name>
+        <qualifiedname>themis::security::CSPBuilder::connectSrc</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Set connect-src directive. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements connectSrc without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/output_encoding.h" line="261" column="16" bodyfile="include/security/output_encoding.h" bodystart="261" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_c_s_p_builder_1ab6a612b9a6df311204863e7e89b189da" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::security::CSPBuilder::build</definition>
+        <argsstring>() const</argsstring>
+        <name>build</name>
+        <qualifiedname>themis::security::CSPBuilder::build</qualifiedname>
+        <briefdescription>
+<para>Build the CSP header value. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/output_encoding.h" line="269" column="17" bodyfile="include/security/output_encoding.h" bodystart="269" bodyend="282"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_c_s_p_builder_1a7c3397600471ee059b594eebc388f671" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::security::CSPBuilder::strictAPI</definition>
+        <argsstring>()</argsstring>
+        <name>strictAPI</name>
+        <qualifiedname>themis::security::CSPBuilder::strictAPI</qualifiedname>
+        <briefdescription>
+<para>Create a strict CSP for API endpoints. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1security_1_1_c_s_p_builder_1ad41c8ffedcabf2e925737562b3528515" kindref="member">CSPBuilder()</ref>, <ref refid="classthemis_1_1security_1_1_c_s_p_builder_1abd6c4fa6f559bd02a7010857ac1b9b05" kindref="member">defaultSrc()</ref>, <ref refid="classthemis_1_1security_1_1_c_s_p_builder_1ab6a612b9a6df311204863e7e89b189da" kindref="member">build()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/output_encoding.h" line="289" column="24" bodyfile="include/security/output_encoding.h" bodystart="289" bodyend="293"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_c_s_p_builder_1a92b4af0dd69650b4dd564554299e5c93" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::security::CSPBuilder::standard</definition>
+        <argsstring>()</argsstring>
+        <name>standard</name>
+        <qualifiedname>themis::security::CSPBuilder::standard</qualifiedname>
+        <briefdescription>
+<para>Create a standard CSP for web applications. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1security_1_1_c_s_p_builder_1ad41c8ffedcabf2e925737562b3528515" kindref="member">CSPBuilder()</ref>, <ref refid="classthemis_1_1security_1_1_c_s_p_builder_1abd6c4fa6f559bd02a7010857ac1b9b05" kindref="member">defaultSrc()</ref>, <ref refid="classthemis_1_1security_1_1_c_s_p_builder_1ac95958d108c8cd14a8872f82aace1cc3" kindref="member">scriptSrc()</ref>, <ref refid="classthemis_1_1security_1_1_c_s_p_builder_1a07bd5e4576cd68b73e0147ea98f42f9f" kindref="member">styleSrc()</ref>, <ref refid="classthemis_1_1security_1_1_c_s_p_builder_1ab146faf37987cf64c818d502266e5340" kindref="member">imgSrc()</ref>, <ref refid="classthemis_1_1security_1_1_c_s_p_builder_1a18815d6278b174207260292c65bcc495" kindref="member">connectSrc()</ref>, <ref refid="classthemis_1_1security_1_1_c_s_p_builder_1ab6a612b9a6df311204863e7e89b189da" kindref="member">build()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/output_encoding.h" line="300" column="24" bodyfile="include/security/output_encoding.h" bodystart="300" bodyend="308"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Content Security Policy (CSP) header builder. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Helps construct CSP headers for XSS protection. </para>
+    </detaileddescription>
+    <location file="include/security/output_encoding.h" line="207" column="1" bodyfile="include/security/output_encoding.h" bodystart="207" bodyend="312"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1_c_s_p_builder_1ab6a612b9a6df311204863e7e89b189da" prot="public" virt="non-virtual"><scope>themis::security::CSPBuilder</scope><name>build</name></member>
+      <member refid="classthemis_1_1security_1_1_c_s_p_builder_1a18815d6278b174207260292c65bcc495" prot="public" virt="non-virtual"><scope>themis::security::CSPBuilder</scope><name>connectSrc</name></member>
+      <member refid="classthemis_1_1security_1_1_c_s_p_builder_1ad41c8ffedcabf2e925737562b3528515" prot="public" virt="non-virtual"><scope>themis::security::CSPBuilder</scope><name>CSPBuilder</name></member>
+      <member refid="classthemis_1_1security_1_1_c_s_p_builder_1abd6c4fa6f559bd02a7010857ac1b9b05" prot="public" virt="non-virtual"><scope>themis::security::CSPBuilder</scope><name>defaultSrc</name></member>
+      <member refid="classthemis_1_1security_1_1_c_s_p_builder_1aa0cd74cadadfe0480497191eb1a0c79b" prot="private" virt="non-virtual"><scope>themis::security::CSPBuilder</scope><name>directives_</name></member>
+      <member refid="classthemis_1_1security_1_1_c_s_p_builder_1ab146faf37987cf64c818d502266e5340" prot="public" virt="non-virtual"><scope>themis::security::CSPBuilder</scope><name>imgSrc</name></member>
+      <member refid="classthemis_1_1security_1_1_c_s_p_builder_1ac95958d108c8cd14a8872f82aace1cc3" prot="public" virt="non-virtual"><scope>themis::security::CSPBuilder</scope><name>scriptSrc</name></member>
+      <member refid="classthemis_1_1security_1_1_c_s_p_builder_1a92b4af0dd69650b4dd564554299e5c93" prot="public" virt="non-virtual"><scope>themis::security::CSPBuilder</scope><name>standard</name></member>
+      <member refid="classthemis_1_1security_1_1_c_s_p_builder_1a7c3397600471ee059b594eebc388f671" prot="public" virt="non-virtual"><scope>themis::security::CSPBuilder</scope><name>strictAPI</name></member>
+      <member refid="classthemis_1_1security_1_1_c_s_p_builder_1a07bd5e4576cd68b73e0147ea98f42f9f" prot="public" virt="non-virtual"><scope>themis::security::CSPBuilder</scope><name>styleSrc</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_b8094e8acc57a04d6be879957457614b" kind="dir">
+    <compoundname>include/ingestion</compoundname>
+    <innerfile refid="adaptive__rate__limiter_8h">adaptive_rate_limiter.h</innerfile>
+    <innerfile refid="agentic__reference__validator_8h">agentic_reference_validator.h</innerfile>
+    <innerfile refid="api__connector_8h">api_connector.h</innerfile>
+    <innerfile refid="base__entity_8h">base_entity.h</innerfile>
+    <innerfile refid="bounded__queue_8h">bounded_queue.h</innerfile>
+    <innerfile refid="builtin__step__factories_8h">builtin_step_factories.h</innerfile>
+    <innerfile refid="cdc__connector_8h">cdc_connector.h</innerfile>
+    <innerfile refid="database__connector_8h">database_connector.h</innerfile>
+    <innerfile refid="deontic__extractor_8h">deontic_extractor.h</innerfile>
+    <innerfile refid="entity__assembler_8h">entity_assembler.h</innerfile>
+    <innerfile refid="extraction__context_8h">extraction_context.h</innerfile>
+    <innerfile refid="file__format_8h">file_format.h</innerfile>
+    <innerfile refid="file__manifest_8h">file_manifest.h</innerfile>
+    <innerfile refid="filesystem__ingester_8h">filesystem_ingester.h</innerfile>
+    <innerfile refid="format__extractor_8h">format_extractor.h</innerfile>
+    <innerfile refid="huggingface__connector_8h">huggingface_connector.h</innerfile>
+    <innerfile refid="inference__backend_8h">inference_backend.h</innerfile>
+    <innerfile refid="ingestion__api__contract_8h">ingestion_api_contract.h</innerfile>
+    <innerfile refid="ingestion__coordinator_8h">ingestion_coordinator.h</innerfile>
+    <innerfile refid="ingestion__diagnostic__emitter_8h">ingestion_diagnostic_emitter.h</innerfile>
+    <innerfile refid="ingestion__error__contract_8h">ingestion_error_contract.h</innerfile>
+    <innerfile refid="ingestion__manager_8h">ingestion_manager.h</innerfile>
+    <innerfile refid="ingestion__quality__judge_8h">ingestion_quality_judge.h</innerfile>
+    <innerfile refid="ingestion__sinks_8h">ingestion_sinks.h</innerfile>
+    <innerfile refid="ingestion__step_8h">ingestion_step.h</innerfile>
+    <innerfile refid="kafka__connector_8h">kafka_connector.h</innerfile>
+    <innerfile refid="legal__domain_8h">legal_domain.h</innerfile>
+    <innerfile refid="llm__adapter_8h">llm_adapter.h</innerfile>
+    <innerfile refid="oauth__token__manager_8h">oauth_token_manager.h</innerfile>
+    <innerfile refid="object__storage__connector_8h">object_storage_connector.h</innerfile>
+    <innerfile refid="resource__monitor_8h">resource_monitor.h</innerfile>
+    <innerfile refid="s3__connector_8h">s3_connector.h</innerfile>
+    <innerfile refid="semantic__validator_8h">semantic_validator.h</innerfile>
+    <innerfile refid="web__crawler__connector_8h">web_crawler_connector.h</innerfile>
+    <innerfile refid="workflow__engine_8h">workflow_engine.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ingestion/"/>
+  </compounddef>
+</doxygen>

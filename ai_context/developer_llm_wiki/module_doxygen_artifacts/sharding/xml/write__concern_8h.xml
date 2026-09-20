@@ -1,0 +1,282 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="write__concern_8h" kind="file" language="C++">
+    <compoundname>write_concern.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includes local="no">chrono</includes>
+    <includedby refid="multi__primary__coordinator_8h" local="yes">include/sharding/multi_primary_coordinator.h</includedby>
+    <includedby refid="redundancy__strategy_8h" local="yes">include/sharding/redundancy_strategy.h</includedby>
+    <includedby refid="replication__coordinator_8h" local="yes">include/sharding/replication_coordinator.h</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/sharding/write_concern.h</label>
+        <link refid="write__concern_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="7">
+        <label>include/sharding/auto_recovery_manager.h</label>
+        <link refid="auto__recovery__manager_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>include/sharding/gpu_erasure_coder.h</label>
+        <link refid="gpu__erasure__coder_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/sharding/health_monitor.h</label>
+        <link refid="health__monitor_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>include/sharding/hot_spare_manager.h</label>
+        <link refid="hot__spare__manager_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/sharding/multi_primary_coordinator.h</label>
+        <link refid="multi__primary__coordinator_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>include/sharding/predictive_detector.h</label>
+        <link refid="predictive__detector_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>include/sharding/raid_optimizations.h</label>
+        <link refid="raid__optimizations_8h"/>
+      </node>
+      <node id="6">
+        <label>include/sharding/redundancy_strategy.h</label>
+        <link refid="redundancy__strategy_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>include/sharding/replica_topology.h</label>
+        <link refid="replica__topology_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>include/sharding/replication_coordinator.h</label>
+        <link refid="replication__coordinator_8h"/>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>include/sharding/shard_repair_engine.h</label>
+        <link refid="shard__repair__engine_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/sharding/write_concern.h</label>
+        <link refid="write__concern_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>src/sharding/admin_api.cpp</label>
+        <link refid="admin__api_8cpp"/>
+      </node>
+      <node id="14">
+        <label>src/sharding/auto_rebalancer.cpp</label>
+        <link refid="auto__rebalancer_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/sharding/gpu_erasure_coder.cpp</label>
+        <link refid="gpu__erasure__coder_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/sharding/health_monitor.cpp</label>
+        <link refid="health__monitor_8cpp"/>
+      </node>
+      <node id="12">
+        <label>src/sharding/hot_spare_manager.cpp</label>
+        <link refid="hot__spare__manager_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/sharding/multi_primary_coordinator.cpp</label>
+        <link refid="multi__primary__coordinator_8cpp"/>
+      </node>
+      <node id="15">
+        <label>src/sharding/predictive_detector.cpp</label>
+        <link refid="predictive__detector_8cpp"/>
+      </node>
+      <node id="22">
+        <label>src/sharding/redundancy_strategy.cpp</label>
+        <link refid="redundancy__strategy_8cpp"/>
+      </node>
+      <node id="18">
+        <label>src/sharding/replica_topology.cpp</label>
+        <link refid="replica__topology_8cpp"/>
+      </node>
+      <node id="25">
+        <label>src/sharding/replication_coordinator.cpp</label>
+        <link refid="replication__coordinator_8cpp"/>
+      </node>
+      <node id="21">
+        <label>src/sharding/shard_repair_engine.cpp</label>
+        <link refid="shard__repair__engine_8cpp"/>
+      </node>
+      <node id="23">
+        <label>tests/sharding/test_redundancy_consistency.cpp</label>
+        <link refid="test__redundancy__consistency_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/sharding/test_sharding_repair.cpp</label>
+        <link refid="test__sharding__repair_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1sharding_1_1_write_concern_config" prot="public">themis::sharding::WriteConcernConfig</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1sharding">themis::sharding</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1sharding" kindref="compound">themis::sharding</ref><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24" refid="namespacethemis_1_1sharding_1ace46569833583f9fb89ad64715ab3164" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1sharding_1ace46569833583f9fb89ad64715ab3164" kindref="member">WriteConcern</ref><sp/>{</highlight></codeline>
+<codeline lineno="25" refid="namespacethemis_1_1sharding_1ace46569833583f9fb89ad64715ab3164abc21e6484530fc9d0313cb816b733396" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1ace46569833583f9fb89ad64715ab3164abc21e6484530fc9d0313cb816b733396" kindref="member">ONE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Only<sp/>primary<sp/>must<sp/>acknowledge<sp/>(fastest,<sp/>lowest<sp/>durability)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="namespacethemis_1_1sharding_1ace46569833583f9fb89ad64715ab3164a28e6444341e60a10ed454a48de251aa9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1ace46569833583f9fb89ad64715ab3164a28e6444341e60a10ed454a48de251aa9" kindref="member">MAJORITY</ref>,<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Majority<sp/>of<sp/>replicas<sp/>must<sp/>acknowledge<sp/>(balanced)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="namespacethemis_1_1sharding_1ace46569833583f9fb89ad64715ab3164a5fb1f955b45e38e31789286a1790398d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1ace46569833583f9fb89ad64715ab3164a5fb1f955b45e38e31789286a1790398d" kindref="member">ALL</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>replicas<sp/>must<sp/>acknowledge<sp/>(slowest,<sp/>highest<sp/>durability)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1sharding_1ace46569833583f9fb89ad64715ab3164a110e6608651150fbeb240b893c81e526" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1ace46569833583f9fb89ad64715ab3164a110e6608651150fbeb240b893c81e526" kindref="member">QUORUM</ref><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configurable<sp/>quorum<sp/>(use<sp/>write_quorum)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1sharding_1_1_write_concern_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_write_concern_config" kindref="compound">WriteConcernConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1sharding_1_1_write_concern_config_1a1bb1bc538f2740162d757dbd94950392" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1ace46569833583f9fb89ad64715ab3164" kindref="member">WriteConcern</ref><sp/><ref refid="structthemis_1_1sharding_1_1_write_concern_config_1a1bb1bc538f2740162d757dbd94950392" kindref="member">level</ref><sp/>=<sp/><ref refid="namespacethemis_1_1sharding_1ace46569833583f9fb89ad64715ab3164abc21e6484530fc9d0313cb816b733396" kindref="member">WriteConcern::ONE</ref>;</highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1sharding_1_1_write_concern_config_1a3830791c0a62760dafaec9e74e1a8f58" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1sharding_1_1_write_concern_config_1a3830791c0a62760dafaec9e74e1a8f58" kindref="member">timeout</ref>{5000};<sp/><sp/></highlight><highlight class="comment">//<sp/>5<sp/>second<sp/>default<sp/>timeout</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1sharding_1_1_write_concern_config_1a3c98b6da92688f6ce2be8e39fa066c20" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_write_concern_config_1a3c98b6da92688f6ce2be8e39fa066c20" kindref="member">wait_for_sync</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Wait<sp/>for<sp/>disk<sp/>sync<sp/>on<sp/>replicas</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="namespacethemis_1_1sharding_1af20fd8b57431badb23c47bc0b3aa0244" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1sharding_1ace46569833583f9fb89ad64715ab3164" kindref="member">WriteConcern</ref><sp/><ref refid="namespacethemis_1_1sharding_1af20fd8b57431badb23c47bc0b3aa0244" kindref="member">parseWriteConcern</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>str)<sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(str<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;ONE&quot;</highlight><highlight class="normal"><sp/>||<sp/>str<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;one&quot;</highlight><highlight class="normal"><sp/>||<sp/>str<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;1&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1sharding_1ace46569833583f9fb89ad64715ab3164abc21e6484530fc9d0313cb816b733396" kindref="member">WriteConcern::ONE</ref>;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(str<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;MAJORITY&quot;</highlight><highlight class="normal"><sp/>||<sp/>str<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;majority&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1sharding_1ace46569833583f9fb89ad64715ab3164a28e6444341e60a10ed454a48de251aa9" kindref="member">WriteConcern::MAJORITY</ref>;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(str<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;ALL&quot;</highlight><highlight class="normal"><sp/>||<sp/>str<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;all&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1sharding_1ace46569833583f9fb89ad64715ab3164a5fb1f955b45e38e31789286a1790398d" kindref="member">WriteConcern::ALL</ref>;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(str<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;QUORUM&quot;</highlight><highlight class="normal"><sp/>||<sp/>str<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;quorum&quot;</highlight><highlight class="normal"><sp/>||<sp/>str<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;Q&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1sharding_1ace46569833583f9fb89ad64715ab3164a110e6608651150fbeb240b893c81e526" kindref="member">WriteConcern::QUORUM</ref>;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1sharding_1ace46569833583f9fb89ad64715ab3164abc21e6484530fc9d0313cb816b733396" kindref="member">WriteConcern::ONE</ref>;<sp/></highlight><highlight class="comment">//<sp/>default</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="namespacethemis_1_1sharding_1a418fd26923ca2fdc8001374cb59865b1" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="namespacethemis_1_1sharding_1a0e0db9c66a1fab819f829d615f9cd5b2" kindref="member">toString</ref>(<ref refid="namespacethemis_1_1sharding_1ace46569833583f9fb89ad64715ab3164" kindref="member">WriteConcern</ref><sp/>wc)<sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(wc)<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1sharding_1ace46569833583f9fb89ad64715ab3164abc21e6484530fc9d0313cb816b733396" kindref="member">WriteConcern::ONE</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;ONE&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1sharding_1ace46569833583f9fb89ad64715ab3164a28e6444341e60a10ed454a48de251aa9" kindref="member">WriteConcern::MAJORITY</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;MAJORITY&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1sharding_1ace46569833583f9fb89ad64715ab3164a5fb1f955b45e38e31789286a1790398d" kindref="member">WriteConcern::ALL</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;ALL&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1sharding_1ace46569833583f9fb89ad64715ab3164a110e6608651150fbeb240b893c81e526" kindref="member">WriteConcern::QUORUM</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;QUORUM&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;ONE&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="namespacethemis_1_1sharding_1a6bbd515b55ccac5dbad88cbdbed6b424" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1sharding_1a6bbd515b55ccac5dbad88cbdbed6b424" kindref="member">calculateRequiredReplicas</ref>(<ref refid="namespacethemis_1_1sharding_1ace46569833583f9fb89ad64715ab3164" kindref="member">WriteConcern</ref><sp/>concern,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>total_replicas)<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(concern)<sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1sharding_1ace46569833583f9fb89ad64715ab3164abc21e6484530fc9d0313cb816b733396" kindref="member">WriteConcern::ONE</ref>:</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>1;<sp/></highlight><highlight class="comment">//<sp/>Primary<sp/>only</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1sharding_1ace46569833583f9fb89ad64715ab3164a28e6444341e60a10ed454a48de251aa9" kindref="member">WriteConcern::MAJORITY</ref>:</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(total_replicas<sp/>/<sp/>2)<sp/>+<sp/>1;<sp/></highlight><highlight class="comment">//<sp/>Quorum</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1sharding_1ace46569833583f9fb89ad64715ab3164a5fb1f955b45e38e31789286a1790398d" kindref="member">WriteConcern::ALL</ref>:</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>total_replicas;<sp/></highlight><highlight class="comment">//<sp/>All<sp/>replicas</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1sharding_1ace46569833583f9fb89ad64715ab3164a110e6608651150fbeb240b893c81e526" kindref="member">WriteConcern::QUORUM</ref>:</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(total_replicas<sp/>/<sp/>2)<sp/>+<sp/>1;<sp/></highlight><highlight class="comment">//<sp/>Default<sp/>quorum</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>1;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::sharding</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/sharding/write_concern.h"/>
+  </compounddef>
+</doxygen>

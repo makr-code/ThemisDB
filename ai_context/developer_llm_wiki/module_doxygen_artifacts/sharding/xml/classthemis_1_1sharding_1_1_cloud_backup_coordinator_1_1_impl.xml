@@ -1,0 +1,430 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_cloud_backup_coordinator_1_1_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::CloudBackupCoordinator::Impl</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_cloud_backup_coordinator_1_1_impl_1a25b4269943a61b232b63cfe37f2035f2" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_cloud_agent" kindref="compound">CloudAgent</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;CloudAgent&gt; themis::sharding::CloudBackupCoordinator::Impl::cloud_agent_</definition>
+        <argsstring></argsstring>
+        <name>cloud_agent_</name>
+        <qualifiedname>themis::sharding::CloudBackupCoordinator::Impl::cloud_agent_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/cloud_backup.cpp" line="1162" column="21" bodyfile="src/sharding/cloud_backup.cpp" bodystart="1162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_cloud_backup_coordinator_1_1_impl_1ad1020579b3a28b27bbc4db434a2ba256" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; BackupManager &gt;</type>
+        <definition>std::shared_ptr&lt;BackupManager&gt; themis::sharding::CloudBackupCoordinator::Impl::backup_manager_</definition>
+        <argsstring></argsstring>
+        <name>backup_manager_</name>
+        <qualifiedname>themis::sharding::CloudBackupCoordinator::Impl::backup_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/cloud_backup.cpp" line="1163" column="21" bodyfile="src/sharding/cloud_backup.cpp" bodystart="1163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_cloud_backup_coordinator_1_1_impl_1ae5b2311b1367f22cb3922dc2bc02ffcd" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_cloud_backup_config" kindref="compound">CloudBackupConfig</ref></type>
+        <definition>CloudBackupConfig themis::sharding::CloudBackupCoordinator::Impl::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::sharding::CloudBackupCoordinator::Impl::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/cloud_backup.cpp" line="1164" column="23" bodyfile="src/sharding/cloud_backup.cpp" bodystart="1164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_cloud_backup_coordinator_1_1_impl_1a429a3cae3462b35cc54f3e5881c03e13" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_i_cloud_storage_provider" kindref="compound">ICloudStorageProvider</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;ICloudStorageProvider&gt; themis::sharding::CloudBackupCoordinator::Impl::storage_provider_</definition>
+        <argsstring></argsstring>
+        <name>storage_provider_</name>
+        <qualifiedname>themis::sharding::CloudBackupCoordinator::Impl::storage_provider_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/cloud_backup.cpp" line="1165" column="21" bodyfile="src/sharding/cloud_backup.cpp" bodystart="1165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_cloud_backup_coordinator_1_1_impl_1a757ff25e8cac41309d87992552b23363" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1sharding_1_1_backup_info" kindref="compound">BackupInfo</ref> &gt;</type>
+        <definition>std::map&lt;std::string, BackupInfo&gt; themis::sharding::CloudBackupCoordinator::Impl::backup_catalog_</definition>
+        <argsstring></argsstring>
+        <name>backup_catalog_</name>
+        <qualifiedname>themis::sharding::CloudBackupCoordinator::Impl::backup_catalog_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/cloud_backup.cpp" line="1166" column="14" bodyfile="src/sharding/cloud_backup.cpp" bodystart="1166" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_cloud_backup_coordinator_1_1_impl_1a194d9c771af82f08769463b44d4ebffe" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1sharding_1_1_replication_target" kindref="compound">ReplicationTarget</ref> &gt;</type>
+        <definition>std::map&lt;std::string, ReplicationTarget&gt; themis::sharding::CloudBackupCoordinator::Impl::replication_targets_</definition>
+        <argsstring></argsstring>
+        <name>replication_targets_</name>
+        <qualifiedname>themis::sharding::CloudBackupCoordinator::Impl::replication_targets_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/cloud_backup.cpp" line="1167" column="14" bodyfile="src/sharding/cloud_backup.cpp" bodystart="1167" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_cloud_backup_coordinator_1_1_impl_1ac2d79bed6f286e330014d3a960d8c505" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::CloudBackupCoordinator::Impl::Impl</definition>
+        <argsstring>(std::shared_ptr&lt; CloudAgent &gt; cloud_agent, std::shared_ptr&lt; BackupManager &gt; backup_manager, const CloudBackupConfig &amp;config)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::sharding::CloudBackupCoordinator::Impl::Impl</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_cloud_agent" kindref="compound">CloudAgent</ref> &gt;</type>
+          <declname>cloud_agent</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; BackupManager &gt;</type>
+          <declname>backup_manager</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_cloud_backup_config" kindref="compound">CloudBackupConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/cloud_backup.cpp" line="715" column="5" bodyfile="src/sharding/cloud_backup.cpp" bodystart="715" bodyend="724"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_cloud_backup_coordinator_1_1_impl_1aaa61eab7d54e846561003bb49834c564" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::CloudBackupCoordinator::Impl::~Impl</definition>
+        <argsstring>()=default</argsstring>
+        <name>~Impl</name>
+        <qualifiedname>themis::sharding::CloudBackupCoordinator::Impl::~Impl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/cloud_backup.cpp" line="726" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_cloud_backup_coordinator_1_1_impl_1a472e012728c8613ce83ffbfdbab1363a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::CloudBackupCoordinator::Impl::createBackup</definition>
+        <argsstring>(const std::string &amp;backup_id, const std::vector&lt; std::string &gt; &amp;shard_ids)</argsstring>
+        <name>createBackup</name>
+        <qualifiedname>themis::sharding::CloudBackupCoordinator::Impl::createBackup</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>backup_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>shard_ids</declname>
+        </param>
+        <briefdescription>
+<para>Create Backup. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backup_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the backup. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: THEMIS_INFO(), size(), empty(), THEMIS_ERROR(), std::chrono::system_clock::now(), fs::create_directories(), createFullBackup(), error(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/cloud_backup.cpp" line="735" column="10" bodyfile="src/sharding/cloud_backup.cpp" bodystart="735" bodyend="834"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_cloud_backup_coordinator_1_1_impl_1a550cd911ceb43cafa07f022666e19904" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::CloudBackupCoordinator::Impl::restoreBackup</definition>
+        <argsstring>(const std::string &amp;backup_id, const std::vector&lt; std::string &gt; &amp;shard_ids)</argsstring>
+        <name>restoreBackup</name>
+        <qualifiedname>themis::sharding::CloudBackupCoordinator::Impl::restoreBackup</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>backup_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>shard_ids</declname>
+        </param>
+        <briefdescription>
+<para>Restore Backup. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backup_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the backup. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: THEMIS_INFO(), size(), empty(), THEMIS_ERROR(), find(), end(), fs::create_directories(), std::find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/cloud_backup.cpp" line="843" column="10" bodyfile="src/sharding/cloud_backup.cpp" bodystart="843" bodyend="914"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_cloud_backup_coordinator_1_1_impl_1a9ee77f7b04b8b32d0e887e695008e7fc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::CloudBackupCoordinator::Impl::deleteBackup</definition>
+        <argsstring>(const std::string &amp;backup_id)</argsstring>
+        <name>deleteBackup</name>
+        <qualifiedname>themis::sharding::CloudBackupCoordinator::Impl::deleteBackup</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>backup_id</declname>
+        </param>
+        <briefdescription>
+<para>Delete Backup. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backup_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the backup. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: THEMIS_INFO(), empty(), THEMIS_ERROR(), find(), end(), THEMIS_WARN(), deleteObject(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/cloud_backup.cpp" line="922" column="10" bodyfile="src/sharding/cloud_backup.cpp" bodystart="922" bodyend="955"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_cloud_backup_coordinator_1_1_impl_1a2c6ab3f74ee6eaa5b4b7eb85d3a0a225" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_backup_info" kindref="compound">BackupInfo</ref> &gt;</type>
+        <definition>std::vector&lt; BackupInfo &gt; themis::sharding::CloudBackupCoordinator::Impl::listBackups</definition>
+        <argsstring>() const</argsstring>
+        <name>listBackups</name>
+        <qualifiedname>themis::sharding::CloudBackupCoordinator::Impl::listBackups</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/cloud_backup.cpp" line="957" column="17" bodyfile="src/sharding/cloud_backup.cpp" bodystart="957" bodyend="973"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_cloud_backup_coordinator_1_1_impl_1ac0ba446106397891800c9ad7554ef79e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1sharding_1_1_backup_info" kindref="compound">BackupInfo</ref> &gt;</type>
+        <definition>std::optional&lt; BackupInfo &gt; themis::sharding::CloudBackupCoordinator::Impl::getBackupInfo</definition>
+        <argsstring>(const std::string &amp;backup_id) const</argsstring>
+        <name>getBackupInfo</name>
+        <qualifiedname>themis::sharding::CloudBackupCoordinator::Impl::getBackupInfo</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>backup_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/cloud_backup.cpp" line="975" column="19" bodyfile="src/sharding/cloud_backup.cpp" bodystart="975" bodyend="981"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_cloud_backup_coordinator_1_1_impl_1ad02d38260e9c337cae08e707081350a6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::CloudBackupCoordinator::Impl::setReplicationTarget</definition>
+        <argsstring>(const std::string &amp;datacenter_id, const std::vector&lt; std::string &gt; &amp;shard_endpoints)</argsstring>
+        <name>setReplicationTarget</name>
+        <qualifiedname>themis::sharding::CloudBackupCoordinator::Impl::setReplicationTarget</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>datacenter_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>shard_endpoints</declname>
+        </param>
+        <briefdescription>
+<para>Set Replication Target. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">datacenter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the datacenter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_endpoints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: THEMIS_INFO(), size(), empty(), THEMIS_ERROR(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/cloud_backup.cpp" line="990" column="10" bodyfile="src/sharding/cloud_backup.cpp" bodystart="990" bodyend="1014"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_cloud_backup_coordinator_1_1_impl_1ac63fc15b82c8f09de91724896fd323b4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::CloudBackupCoordinator::Impl::enableContinuousReplication</definition>
+        <argsstring>(const std::string &amp;datacenter_id)</argsstring>
+        <name>enableContinuousReplication</name>
+        <qualifiedname>themis::sharding::CloudBackupCoordinator::Impl::enableContinuousReplication</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>datacenter_id</declname>
+        </param>
+        <briefdescription>
+<para>Enable Continuous Replication. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">datacenter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the datacenter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), THEMIS_ERROR(), find(), end(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/cloud_backup.cpp" line="1022" column="10" bodyfile="src/sharding/cloud_backup.cpp" bodystart="1022" bodyend="1038"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_cloud_backup_coordinator_1_1_impl_1a200455fd4586bceee22ed3363fb5eeee" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::CloudBackupCoordinator::Impl::disableContinuousReplication</definition>
+        <argsstring>(const std::string &amp;datacenter_id)</argsstring>
+        <name>disableContinuousReplication</name>
+        <qualifiedname>themis::sharding::CloudBackupCoordinator::Impl::disableContinuousReplication</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>datacenter_id</declname>
+        </param>
+        <briefdescription>
+<para>Disable Continuous Replication. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">datacenter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the datacenter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), THEMIS_ERROR(), find(), end(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/cloud_backup.cpp" line="1046" column="10" bodyfile="src/sharding/cloud_backup.cpp" bodystart="1046" bodyend="1062"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_cloud_backup_coordinator_1_1_impl_1a308067b6bb77ec159f81e72715e50ef8" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::CloudBackupCoordinator::Impl::initializeStorageProvider</definition>
+        <argsstring>()</argsstring>
+        <name>initializeStorageProvider</name>
+        <qualifiedname>themis::sharding::CloudBackupCoordinator::Impl::initializeStorageProvider</qualifiedname>
+        <briefdescription>
+<para>Initialize Storage Provider. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), empty(), THEMIS_ERROR(), <ref refid="namespacethemis_1_1sharding_1aea13c4ca467bed2a45aac1f7cf102bce" kindref="member">initializeS3Provider()</ref>, <ref refid="namespacethemis_1_1sharding_1a1ac474cfba94d584b5d4feadd890f65c" kindref="member">initializeAzureProvider()</ref>, <ref refid="namespacethemis_1_1sharding_1a503854558a6fef650ba2bf3053edff5b" kindref="member">initializeGCSProvider()</ref>, has_s3_callbacks(), try_initialize_callbacks_from_sdk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/cloud_backup.cpp" line="1069" column="10" bodyfile="src/sharding/cloud_backup.cpp" bodystart="1069" bodyend="1160"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/sharding/cloud_backup.cpp" line="713" column="1" bodyfile="src/sharding/cloud_backup.cpp" bodystart="713" bodyend="1168"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_cloud_backup_coordinator_1_1_impl_1a757ff25e8cac41309d87992552b23363" prot="private" virt="non-virtual"><scope>themis::sharding::CloudBackupCoordinator::Impl</scope><name>backup_catalog_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_cloud_backup_coordinator_1_1_impl_1ad1020579b3a28b27bbc4db434a2ba256" prot="private" virt="non-virtual"><scope>themis::sharding::CloudBackupCoordinator::Impl</scope><name>backup_manager_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_cloud_backup_coordinator_1_1_impl_1a25b4269943a61b232b63cfe37f2035f2" prot="private" virt="non-virtual"><scope>themis::sharding::CloudBackupCoordinator::Impl</scope><name>cloud_agent_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_cloud_backup_coordinator_1_1_impl_1ae5b2311b1367f22cb3922dc2bc02ffcd" prot="private" virt="non-virtual"><scope>themis::sharding::CloudBackupCoordinator::Impl</scope><name>config_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_cloud_backup_coordinator_1_1_impl_1a472e012728c8613ce83ffbfdbab1363a" prot="public" virt="non-virtual"><scope>themis::sharding::CloudBackupCoordinator::Impl</scope><name>createBackup</name></member>
+      <member refid="classthemis_1_1sharding_1_1_cloud_backup_coordinator_1_1_impl_1a9ee77f7b04b8b32d0e887e695008e7fc" prot="public" virt="non-virtual"><scope>themis::sharding::CloudBackupCoordinator::Impl</scope><name>deleteBackup</name></member>
+      <member refid="classthemis_1_1sharding_1_1_cloud_backup_coordinator_1_1_impl_1a200455fd4586bceee22ed3363fb5eeee" prot="public" virt="non-virtual"><scope>themis::sharding::CloudBackupCoordinator::Impl</scope><name>disableContinuousReplication</name></member>
+      <member refid="classthemis_1_1sharding_1_1_cloud_backup_coordinator_1_1_impl_1ac63fc15b82c8f09de91724896fd323b4" prot="public" virt="non-virtual"><scope>themis::sharding::CloudBackupCoordinator::Impl</scope><name>enableContinuousReplication</name></member>
+      <member refid="classthemis_1_1sharding_1_1_cloud_backup_coordinator_1_1_impl_1ac0ba446106397891800c9ad7554ef79e" prot="public" virt="non-virtual"><scope>themis::sharding::CloudBackupCoordinator::Impl</scope><name>getBackupInfo</name></member>
+      <member refid="classthemis_1_1sharding_1_1_cloud_backup_coordinator_1_1_impl_1ac2d79bed6f286e330014d3a960d8c505" prot="public" virt="non-virtual"><scope>themis::sharding::CloudBackupCoordinator::Impl</scope><name>Impl</name></member>
+      <member refid="classthemis_1_1sharding_1_1_cloud_backup_coordinator_1_1_impl_1a308067b6bb77ec159f81e72715e50ef8" prot="private" virt="non-virtual"><scope>themis::sharding::CloudBackupCoordinator::Impl</scope><name>initializeStorageProvider</name></member>
+      <member refid="classthemis_1_1sharding_1_1_cloud_backup_coordinator_1_1_impl_1a2c6ab3f74ee6eaa5b4b7eb85d3a0a225" prot="public" virt="non-virtual"><scope>themis::sharding::CloudBackupCoordinator::Impl</scope><name>listBackups</name></member>
+      <member refid="classthemis_1_1sharding_1_1_cloud_backup_coordinator_1_1_impl_1a194d9c771af82f08769463b44d4ebffe" prot="private" virt="non-virtual"><scope>themis::sharding::CloudBackupCoordinator::Impl</scope><name>replication_targets_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_cloud_backup_coordinator_1_1_impl_1a550cd911ceb43cafa07f022666e19904" prot="public" virt="non-virtual"><scope>themis::sharding::CloudBackupCoordinator::Impl</scope><name>restoreBackup</name></member>
+      <member refid="classthemis_1_1sharding_1_1_cloud_backup_coordinator_1_1_impl_1ad02d38260e9c337cae08e707081350a6" prot="public" virt="non-virtual"><scope>themis::sharding::CloudBackupCoordinator::Impl</scope><name>setReplicationTarget</name></member>
+      <member refid="classthemis_1_1sharding_1_1_cloud_backup_coordinator_1_1_impl_1a429a3cae3462b35cc54f3e5881c03e13" prot="private" virt="non-virtual"><scope>themis::sharding::CloudBackupCoordinator::Impl</scope><name>storage_provider_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_cloud_backup_coordinator_1_1_impl_1aaa61eab7d54e846561003bb49834c564" prot="public" virt="non-virtual"><scope>themis::sharding::CloudBackupCoordinator::Impl</scope><name>~Impl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_wave4_b_audit_logger_new_events_test" kind="class" language="C++" prot="public">
+    <compoundname>Wave4BAuditLoggerNewEventsTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_wave4_b_audit_logger_new_events_test_1a314c520513fed24f64405cc838a0ea50" prot="protected" static="no" mutable="no">
+        <type>std::filesystem::path</type>
+        <definition>std::filesystem::path Wave4BAuditLoggerNewEventsTest::log_path_</definition>
+        <argsstring></argsstring>
+        <name>log_path_</name>
+        <qualifiedname>Wave4BAuditLoggerNewEventsTest::log_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_wave4b_auth_hardening.cpp" line="180" column="27" bodyfile="tests/auth/test_wave4b_auth_hardening.cpp" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_wave4_b_audit_logger_new_events_test_1ae82b0522cbc81e215a6c567af2830f86" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; AuditLogger &gt;</type>
+        <definition>std::unique_ptr&lt;AuditLogger&gt; Wave4BAuditLoggerNewEventsTest::ul_</definition>
+        <argsstring></argsstring>
+        <name>ul_</name>
+        <qualifiedname>Wave4BAuditLoggerNewEventsTest::ul_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_wave4b_auth_hardening.cpp" line="181" column="25" bodyfile="tests/auth/test_wave4b_auth_hardening.cpp" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_wave4_b_audit_logger_new_events_test_1af53999eb229e0e13fdf93825492e7814" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1auth_1_1_auth_audit_logger" kindref="compound">AuthAuditLogger</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;AuthAuditLogger&gt; Wave4BAuditLoggerNewEventsTest::al_</definition>
+        <argsstring></argsstring>
+        <name>al_</name>
+        <qualifiedname>Wave4BAuditLoggerNewEventsTest::al_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_wave4b_auth_hardening.cpp" line="182" column="21" bodyfile="tests/auth/test_wave4b_auth_hardening.cpp" bodystart="182" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_wave4_b_audit_logger_new_events_test_1a06c6cf79b89e9d61d5b9e6fde5e4572b" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void Wave4BAuditLoggerNewEventsTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>Wave4BAuditLoggerNewEventsTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_wave4b_auth_hardening.cpp" line="184" column="10" bodyfile="tests/auth/test_wave4b_auth_hardening.cpp" bodystart="184" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="class_wave4_b_audit_logger_new_events_test_1aff3d8ed0992eebf487e7817e7fe2dd39" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void Wave4BAuditLoggerNewEventsTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>Wave4BAuditLoggerNewEventsTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_wave4b_auth_hardening.cpp" line="190" column="10" bodyfile="tests/auth/test_wave4b_auth_hardening.cpp" bodystart="190" bodyend="192"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>Wave4BAuditLoggerNewEventsTest</label>
+        <link refid="class_wave4_b_audit_logger_new_events_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>Wave4BAuditLoggerNewEventsTest</label>
+        <link refid="class_wave4_b_audit_logger_new_events_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/auth/test_wave4b_auth_hardening.cpp" line="178" column="1" bodyfile="tests/auth/test_wave4b_auth_hardening.cpp" bodystart="178" bodyend="193"/>
+    <listofallmembers>
+      <member refid="class_wave4_b_audit_logger_new_events_test_1af53999eb229e0e13fdf93825492e7814" prot="protected" virt="non-virtual"><scope>Wave4BAuditLoggerNewEventsTest</scope><name>al_</name></member>
+      <member refid="class_wave4_b_audit_logger_new_events_test_1a314c520513fed24f64405cc838a0ea50" prot="protected" virt="non-virtual"><scope>Wave4BAuditLoggerNewEventsTest</scope><name>log_path_</name></member>
+      <member refid="class_wave4_b_audit_logger_new_events_test_1a06c6cf79b89e9d61d5b9e6fde5e4572b" prot="protected" virt="non-virtual"><scope>Wave4BAuditLoggerNewEventsTest</scope><name>SetUp</name></member>
+      <member refid="class_wave4_b_audit_logger_new_events_test_1aff3d8ed0992eebf487e7817e7fe2dd39" prot="protected" virt="non-virtual"><scope>Wave4BAuditLoggerNewEventsTest</scope><name>TearDown</name></member>
+      <member refid="class_wave4_b_audit_logger_new_events_test_1ae82b0522cbc81e215a6c567af2830f86" prot="protected" virt="non-virtual"><scope>Wave4BAuditLoggerNewEventsTest</scope><name>ul_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

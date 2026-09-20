@@ -1,0 +1,596 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger" kind="class" language="C++" prot="public">
+    <compoundname>themis::distributed_knowledge::FederatedRAGMerger</compoundname>
+    <includes refid="federated__rag__merger_8h" local="no">federated_rag_merger.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_1ad974dbbd4da6940a007f16fb36a8fa54" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config" kindref="compound">FederatedRAGMergerConfig</ref></type>
+        <definition>FederatedRAGMergerConfig themis::distributed_knowledge::FederatedRAGMerger::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedRAGMerger::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_rag_merger.h" line="380" column="30" bodyfile="include/distributed_knowledge/federated_rag_merger.h" bodystart="380" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_1a86789b97e8091a370d413291c1b1818d" prot="private" static="no" mutable="yes">
+        <type>size_t</type>
+        <definition>size_t themis::distributed_knowledge::FederatedRAGMerger::erase_count_</definition>
+        <argsstring></argsstring>
+        <name>erase_count_</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedRAGMerger::erase_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_rag_merger.h" line="383" column="20" bodyfile="include/distributed_knowledge/federated_rag_merger.h" bodystart="383" bodyend="383"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_1aa04210e240ecb08d2c0d4dd468b08908" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_knowledge::FederatedRAGMerger::FederatedRAGMerger</definition>
+        <argsstring>(FederatedRAGMergerConfig config={})</argsstring>
+        <name>FederatedRAGMerger</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedRAGMerger::FederatedRAGMerger</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config" kindref="compound">FederatedRAGMergerConfig</ref></type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_rag_merger.h" line="290" column="14" bodyfile="src/distributed_knowledge/federated_rag_merger.cpp" bodystart="65" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_1a4f931158ea80fa6ea9f067f5364d31f2" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context" kindref="compound">MergedRAGContext</ref></type>
+        <definition>MergedRAGContext themis::distributed_knowledge::FederatedRAGMerger::merge</definition>
+        <argsstring>(const std::vector&lt; ShardRetrievalResult &gt; &amp;shard_results) const</argsstring>
+        <name>merge</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedRAGMerger::merge</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result" kindref="compound">ShardRetrievalResult</ref> &gt; &amp;</type>
+          <declname>shard_results</declname>
+        </param>
+        <briefdescription>
+<para>Merge retrieval results from multiple shards using configured strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Orchestrates merge conflict resolution by:<orderedlist>
+<listitem><para>Filtering timed-out or failed shards</para>
+</listitem><listitem><para>Applying selected merge strategy (RRF, score-weighted, or round-robin)</para>
+</listitem><listitem><para>Optional deduplication by doc_id</para>
+</listitem><listitem><para>Truncation to top_k</para>
+</listitem></orderedlist>
+</para>
+<para><bold>Consistency Level: EVENTUAL</bold><itemizedlist>
+<listitem><para>Operation is stateless; no coordinator synchronization required</para>
+</listitem><listitem><para>Shard responses may be from different temporal snapshots (stale OK)</para>
+</listitem><listitem><para>Merge tolerates heterogeneous freshness: RRF/weighted/round-robin robust to rank shifts</para>
+</listitem><listitem><para>No version vector; timestamp in <ref refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result" kindref="compound">ShardRetrievalResult</ref> is informational only</para>
+</listitem><listitem><para>Rationale: Merge correctness depends only on input ranking, not absolute freshness</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Version Tracking:</bold><itemizedlist>
+<listitem><para><ref refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result_1a7a9f20c4153a91ed17c083cdac767d66" kindref="member">ShardRetrievalResult.latency_ms</ref> documents response age (informational)</para>
+</listitem><listitem><para>No causal ordering enforced; shards may respond in any order</para>
+</listitem><listitem><para>Deterministic: same inputs always produce same output</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Replication Lag:</bold><itemizedlist>
+<listitem><para>Max acceptable lag: unbounded (design intent: eventual consistency OK)</para>
+</listitem><listitem><para>Policy: Stale rankings accepted by merge strategies</para>
+</listitem><listitem><para>Correctness: Cross-shard score/rank bias naturally bounds stale-data impact</para>
+</listitem><listitem><para>Safe-read: Timestamp available but not enforced as guard</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Exception Semantics:</bold><itemizedlist>
+<listitem><para>std::runtime_error(&quot;all shards timed out&quot;): when shard_timeout_ms == 0 or all shards report timed_out == true</para>
+</listitem><listitem><para>std::invalid_argument: when config_ is invalid (checked in ctor)</para>
+</listitem><listitem><para>Strong exception safety: merge either completes or throws; no partial state change</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Idempotency:</bold><itemizedlist>
+<listitem><para>Same shard_results input always produces identical output</para>
+</listitem><listitem><para>Safe to retry; no internal state mutation beyond GDPR erase_count_</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Per-shard retrieval responses.<itemizedlist>
+<listitem><para>sr.ok == false → silently skipped (shard failure)</para>
+</listitem><listitem><para>sr.timed_out == true → silently skipped (shard timeout)</para>
+</listitem><listitem><para>sr.documents → ranked list per shard</para>
+</listitem><listitem><para>sr.adapter_accuracy_delta → shard specialisation weight (for RRF/weighted)</para>
+</listitem></itemizedlist>
+</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context" kindref="compound">MergedRAGContext</ref> with:<itemizedlist>
+<listitem><para>documents: ranked merged list (size ≤ top_k)</para>
+</listitem><listitem><para>total_candidate_count: sum of doc counts from responding shards</para>
+</listitem><listitem><para>unique_doc_count: size after dedup (if enabled)</para>
+</listitem><listitem><para>shards_queried: |shard_results|</para>
+</listitem><listitem><para>shards_responded: count with ok == true &amp;&amp; timed_out == false</para>
+</listitem><listitem><para>strategy_used: which algorithm was applied </para>
+</listitem></itemizedlist>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_rag_merger.h" line="343" column="23" bodyfile="src/distributed_knowledge/federated_rag_merger.cpp" bodystart="75" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_1a4c280d106e3f65d5b3cedd597e54d365" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_knowledge::FederatedRAGMerger::mergeAndBuildContext</definition>
+        <argsstring>(const std::vector&lt; ShardRetrievalResult &gt; &amp;shard_results, size_t max_docs=10, size_t max_chars=0) const</argsstring>
+        <name>mergeAndBuildContext</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedRAGMerger::mergeAndBuildContext</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result" kindref="compound">ShardRetrievalResult</ref> &gt; &amp;</type>
+          <declname>shard_results</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_docs</declname>
+          <defval>10</defval>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_chars</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Convenience overload: merge and directly build prompt context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Equivalent to: merge(shard_results).buildPromptContext(max_docs, max_chars)</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Per-shard results (see <ref refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_1a4f931158ea80fa6ea9f067f5364d31f2" kindref="member">merge()</ref> for details). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_docs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum documents to include in prompt (0 = all). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_chars</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Character budget (0 = unlimited). If specified, last document is truncated to fit budget. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Formatted prompt context string with &quot;[Shard: X] content&quot; per document.</para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>(see <ref refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_1a4f931158ea80fa6ea9f067f5364d31f2" kindref="member">merge()</ref> exception contract) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_rag_merger.h" line="359" column="18" bodyfile="src/distributed_knowledge/federated_rag_merger.cpp" bodystart="171" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_1a7df2b27cc3fdc42689bc90fe63ad5fbe" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config" kindref="compound">FederatedRAGMergerConfig</ref> &amp;</type>
+        <definition>const FederatedRAGMergerConfig &amp; themis::distributed_knowledge::FederatedRAGMerger::config</definition>
+        <argsstring>() const</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedRAGMerger::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_rag_merger.h" line="364" column="37" bodyfile="include/distributed_knowledge/federated_rag_merger.h" bodystart="364" bodyend="364"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_1a7659cc050765203374168f62645811bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>themis::governance::StoreErasureResult</type>
+        <definition>themis::governance::StoreErasureResult themis::distributed_knowledge::FederatedRAGMerger::erase</definition>
+        <argsstring>(const std::string &amp;subject_id=&quot;&quot;, themis::governance::Regulation regulation=themis::governance::Regulation::GDPR)</argsstring>
+        <name>erase</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedRAGMerger::erase</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>subject_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>themis::governance::Regulation</type>
+          <declname>regulation</declname>
+          <defval>themis::governance::Regulation::GDPR</defval>
+        </param>
+        <briefdescription>
+<para>Clear any cached merge context (DK-OR-H-2). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>───────────────────────────────────────────────────────────────────────────── DK-OR: GDPR erase (clears cached merge context) ─────────────────────────────────────────────────────────────────────────────</para>
+<para>Clears internal state and increments <computeroutput>erase_count_</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">Regulation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements erase without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_rag_merger.h" line="373" column="44" bodyfile="src/distributed_knowledge/federated_rag_merger.cpp" bodystart="412" bodyend="422"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_1a0f3596e0f80191c19f1a54b65b05cefa" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::distributed_knowledge::FederatedRAGMerger::eraseCount</definition>
+        <argsstring>() const</argsstring>
+        <name>eraseCount</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedRAGMerger::eraseCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_rag_merger.h" line="377" column="13" bodyfile="include/distributed_knowledge/federated_rag_merger.h" bodystart="377" bodyend="377"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_1aa058321446fff3717d4dac8378ee15aa" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> &gt;</type>
+        <definition>std::vector&lt; RetrievedDocument &gt; themis::distributed_knowledge::FederatedRAGMerger::mergeRRF</definition>
+        <argsstring>(const std::vector&lt; ShardRetrievalResult &gt; &amp;results) const</argsstring>
+        <name>mergeRRF</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedRAGMerger::mergeRRF</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result" kindref="compound">ShardRetrievalResult</ref> &gt; &amp;</type>
+          <declname>results</declname>
+        </param>
+        <briefdescription>
+<para>Merge using Reciprocal Rank Fusion (RRF). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><bold>Algorithm:</bold><orderedlist>
+<listitem><para>For each shard sr with sr.ok &amp;&amp; !sr.timed_out:</para>
+</listitem><listitem><para>For each document doc at rank r in sr.documents:</para>
+</listitem><listitem><para>rrf_score += 1.0 / (rrf_constant + r)</para>
+</listitem><listitem><para>Optionally boost score if sr.adapter_accuracy_delta &gt; 0</para>
+</listitem><listitem><para>Sort by rrf_score descending (stable sort for ties)</para>
+</listitem></orderedlist>
+</para>
+<para><bold>Conflict Resolution (multiple shards return same doc_id):</bold><itemizedlist>
+<listitem><para>RRF scores are accumulated: if shard1 ranks doc_id at position 3 and shard2 ranks same doc_id at position 5, their RRF contributions add</para>
+</listitem><listitem><para>Result: duplicates automatically ranked higher (due to accumulated score)</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Tie-Breaking (identical RRF scores):</bold><itemizedlist>
+<listitem><para>Stable sort preserves input order</para>
+</listitem><listitem><para>Later occurrences stay later in output (when scores equal)</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Specialisation Boost:</bold><itemizedlist>
+<listitem><para>If adapter_accuracy_delta &gt; 0 (specialised shard), multiply RRF by specialisation_boost</para>
+</listitem><listitem><para>Default boost = 1.2 (20% advantage for specialized shards)</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Failure Handling:</bold><itemizedlist>
+<listitem><para>Skips shards with sr.ok == false (malformed response, partial timeout)</para>
+</listitem><listitem><para>Skips shards with sr.timed_out == true (exceeded DK-OR deadline)</para>
+</listitem><listitem><para>Returns partial merge if some shards failed</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pre-filtered shard results (may include timed-out or failed entries) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Ranked document list by RRF score (ties stable-sorted by input order) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_rag_merger.h" line="416" column="18" bodyfile="src/distributed_knowledge/federated_rag_merger.cpp" bodystart="180" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_1a2fbb0550512e12c3c59fef42fcd4021b" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> &gt;</type>
+        <definition>std::vector&lt; RetrievedDocument &gt; themis::distributed_knowledge::FederatedRAGMerger::mergeScoreWeighted</definition>
+        <argsstring>(const std::vector&lt; ShardRetrievalResult &gt; &amp;results) const</argsstring>
+        <name>mergeScoreWeighted</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedRAGMerger::mergeScoreWeighted</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result" kindref="compound">ShardRetrievalResult</ref> &gt; &amp;</type>
+          <declname>results</declname>
+        </param>
+        <briefdescription>
+<para>Merge using score-weighted accumulation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><bold>Algorithm:</bold><orderedlist>
+<listitem><para>For each shard sr with sr.ok &amp;&amp; !sr.timed_out:</para>
+</listitem><listitem><para>weight = 1.0 + (boost_specialised ? sr.adapter_accuracy_delta : 0.0)</para>
+</listitem><listitem><para>For each document doc:</para>
+</listitem><listitem><para>weighted_score += doc.relevance_score * max(0.01, weight)</para>
+</listitem><listitem><para>Sort by weighted_score descending (stable sort for ties)</para>
+</listitem></orderedlist>
+</para>
+<para><bold>Conflict Resolution (multiple shards return same doc_id):</bold><itemizedlist>
+<listitem><para>Scores are weighted-summed: doc&apos;s final score = Σ_i (score_i × weight_i)</para>
+</listitem><listitem><para>Multi-occurrence docs automatically ranked higher</para>
+</listitem><listitem><para>Weights reflect shard accuracy (adapter_accuracy_delta from capability announcement)</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Tie-Breaking:</bold><itemizedlist>
+<listitem><para>When weighted scores equal, stable sort preserves input order</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Weight Clamping:</bold><itemizedlist>
+<listitem><para>Weight has minimum 0.01 to avoid score collapse for untrusted shards</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Failure Handling:</bold><itemizedlist>
+<listitem><para>Skips timed-out or failed shards (see mergeRRF)</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pre-filtered shard results </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Ranked document list by weighted score </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_rag_merger.h" line="446" column="18" bodyfile="src/distributed_knowledge/federated_rag_merger.cpp" bodystart="249" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_1a937d8c292edee696f5be77d72e041c8f" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> &gt;</type>
+        <definition>std::vector&lt; RetrievedDocument &gt; themis::distributed_knowledge::FederatedRAGMerger::mergeRoundRobin</definition>
+        <argsstring>(const std::vector&lt; ShardRetrievalResult &gt; &amp;results) const</argsstring>
+        <name>mergeRoundRobin</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedRAGMerger::mergeRoundRobin</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result" kindref="compound">ShardRetrievalResult</ref> &gt; &amp;</type>
+          <declname>results</declname>
+        </param>
+        <briefdescription>
+<para>Merge using round-robin interleaving for diversity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><bold>Algorithm:</bold><orderedlist>
+<listitem><para>Collect all non-empty, non-timed-out shard result lists</para>
+</listitem><listitem><para>pos = 0</para>
+</listitem><listitem><para>While (any shard has doc at pos):</para>
+</listitem><listitem><para>For each shard in order:</para>
+</listitem><listitem><para>If shard.documents[pos] exists: append to merged</para>
+</listitem><listitem><para>++pos</para>
+</listitem><listitem><para>Limit total size to ~top_k * 2 (before dedup/trim)</para>
+</listitem></orderedlist>
+</para>
+<para><bold>Conflict Resolution:</bold><itemizedlist>
+<listitem><para>Multiple shards at same position → both included (interleaved)</para>
+</listitem><listitem><para>No score computation; rank order from merge determines final ranking</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Tie-Breaking:</bold><itemizedlist>
+<listitem><para>Shard order in results determines interleave order</para>
+</listitem><listitem><para>Deterministic: same input always produces same output</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Failure Handling:</bold><itemizedlist>
+<listitem><para>Skips timed-out or failed shards (see mergeRRF)</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pre-filtered shard results </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Ranked document list (interleaved by position across shards) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_rag_merger.h" line="475" column="18" bodyfile="src/distributed_knowledge/federated_rag_merger.cpp" bodystart="310" bodyend="356"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_1a6498341ed13df36582cc5ec99303aa5e" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> &gt;</type>
+        <definition>std::vector&lt; RetrievedDocument &gt; themis::distributed_knowledge::FederatedRAGMerger::deduplicate</definition>
+        <argsstring>(std::vector&lt; RetrievedDocument &gt; docs) const</argsstring>
+        <name>deduplicate</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedRAGMerger::deduplicate</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> &gt;</type>
+          <declname>docs</declname>
+        </param>
+        <briefdescription>
+<para>Remove documents with duplicate doc_id, preserving order. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><bold>Deduplication Semantics:</bold><itemizedlist>
+<listitem><para>Iterates input in order</para>
+</listitem><listitem><para>For each doc_id: keeps first occurrence, discards later ones</para>
+</listitem><listitem><para>Result size ≤ input size (never grows)</para>
+</listitem><listitem><para>Order preserved: output documents in input order</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Determinism Contract:</bold><itemizedlist>
+<listitem><para>Uses std::set (ordered) instead of std::unordered_set to ensure DETERMINISTIC iteration order</para>
+</listitem><listitem><para>Identical input always produces identical output</para>
+</listitem><listitem><para>Enables reproducible testing and reliable debugging in distributed systems</para>
+</listitem><listitem><para>Performance: O(n log n) worst-case; negligible for typical dedup sets (&lt;100 docs)</para>
+</listitem><listitem><para>See DKRG-01..06 benchmarks for performance validation (&lt;5% regression expected &lt;1%)</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Conflict Resolution:</bold><itemizedlist>
+<listitem><para>When same doc_id appears multiple times (merged from different shards), the first (highest-ranked) version is kept</para>
+</listitem><listitem><para>Content from duplicate is discarded (shard_id, metadata unchanged from first)</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Use Case:</bold><itemizedlist>
+<listitem><para>After RRF/weighted/round-robin merge, removes same document from different shards</para>
+</listitem><listitem><para>Before top_k truncation (dedup may reduce count below top_k)</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>docs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input ranked document list (may contain duplicates by doc_id) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Deduplicated document list, order preserved, size ≤ input size Deterministic: same input → same output, reproducible across runs </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_rag_merger.h" line="508" column="18" bodyfile="src/distributed_knowledge/federated_rag_merger.cpp" bodystart="362" bodyend="402"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Merges retrieval results from N shards into a single ranked context. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implements three explicit merge strategies to resolve conflicts when multiple shards return overlapping or identical documents:</para>
+<para><bold>1. Reciprocal Rank Fusion (RRF)</bold> — default and most robust<itemizedlist>
+<listitem><para>Formula: RRF_score(d) = Σ_i 1 / (k + rank_i(d))</para>
+</listitem><listitem><para>where k = rrf_constant (default 60, per Cormack et al. 2009)</para>
+</listitem><listitem><para>Tie-breaking: Identical RRF scores result in stable sort order</para>
+</listitem><listitem><para>Conflict resolution: Multiple shards ranking same doc_id → scores added</para>
+</listitem><listitem><para>Specialisation boost: If adapter_accuracy_delta &gt; 0, multiply by specialisation_boost</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>2. Score-Weighted Merge</bold> — respects shard accuracy weights<itemizedlist>
+<listitem><para>Merges scores: weighted_score(d) = Σ_i score_i(d) × weight_i</para>
+</listitem><listitem><para>Weight = 1.0 + (boost_specialised ? adapter_accuracy_delta : 0.0)</para>
+</listitem><listitem><para>Tie-breaking: Identical weighted scores result in stable sort order</para>
+</listitem><listitem><para>Conflict resolution: Multiple shards ranking same doc_id → weighted scores added</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>3. Round-Robin Merge</bold> — interleaved diversity sampling<itemizedlist>
+<listitem><para>Interleaves documents across shards at each rank position</para>
+</listitem><listitem><para>Position 1: [shard_1_doc_1, shard_2_doc_1, shard_3_doc_1, ...]</para>
+</listitem><listitem><para>Position 2: [shard_1_doc_2, shard_2_doc_2, shard_3_doc_2, ...]</para>
+</listitem><listitem><para>Conflict resolution: Later shards&apos; docs for same position override earlier</para>
+</listitem><listitem><para>Use case: maximizing diversity across multi-specialized shards</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Deduplication Contract:</bold><itemizedlist>
+<listitem><para>After merge, if deduplicate == true, removes entries with duplicate doc_id</para>
+</listitem><listitem><para>Keeps first occurrence (highest score in final ranking)</para>
+</listitem><listitem><para>Dedup happens BEFORE top_k truncation</para>
+</listitem><listitem><para>Result: unique_doc_count reflects dedup&apos;d count</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Timeout &amp; Failure Handling (DK-OR-T):</bold><itemizedlist>
+<listitem><para>Shards with sr.ok == false are silently skipped</para>
+</listitem><listitem><para>Shards with sr.timed_out == true are silently skipped</para>
+</listitem><listitem><para>If shard_timeout_ms == 0 and results non-empty → throws std::runtime_error(&quot;all shards timed out&quot;)</para>
+</listitem><listitem><para>If shard_timeout_ms &gt; 0 and ALL shards timed_out → throws std::runtime_error(&quot;all shards timed out&quot;)</para>
+</listitem><listitem><para>If SOME shards timeout but others respond → those are merged normally</para>
+</listitem><listitem><para>Exception: strong guarantee (no state change on throw, idempotent retry safe)</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Top-K Truncation:</bold><itemizedlist>
+<listitem><para>Final results trimmed to config_.top_k documents</para>
+</listitem><listitem><para>Happens AFTER dedup; may result in &lt; top_k docs if dedup reduces count</para>
+</listitem><listitem><para>Deterministic: sort order preserved</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Stateless Design:</bold><itemizedlist>
+<listitem><para><ref refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger" kindref="compound">FederatedRAGMerger</ref> is stateless: create once, call <ref refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_1a4f931158ea80fa6ea9f067f5364d31f2" kindref="member">merge()</ref> repeatedly</para>
+</listitem><listitem><para>Each <ref refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_1a4f931158ea80fa6ea9f067f5364d31f2" kindref="member">merge()</ref> call is independent and thread-safe (read-only operations)</para>
+</listitem><listitem><para>GDPR <ref refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_1a7659cc050765203374168f62645811bf" kindref="member">erase()</ref> is a no-op for this component (no cached contexts)</para>
+</listitem></itemizedlist>
+</para>
+<para>Example: <programlisting><codeline><highlight class="normal">FederatedRAGMergerConfig<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.strategy<sp/>=<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a368bd326dd64b9132c94998235006fe9a8fdd94a3c07ad9e986d786268523affd" kindref="member">MergeStrategy::RECIPROCAL_RANK_FUSION</ref>;</highlight></codeline>
+<codeline><highlight class="normal">cfg.top_k<sp/>=<sp/>20;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_1aa04210e240ecb08d2c0d4dd468b08908" kindref="member">FederatedRAGMerger</ref><sp/>merger(cfg);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">std::vector&lt;ShardRetrievalResult&gt;<sp/>results<sp/>=<sp/>queryShards();</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>merged_ctx<sp/>=<sp/>merger.merge(results);</highlight></codeline>
+<codeline><highlight class="normal">std::string<sp/>prompt<sp/>=<sp/>merged_ctx.buildPromptContext(10,<sp/>4000);</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/distributed_knowledge/federated_rag_merger.h" line="288" column="1" bodyfile="include/distributed_knowledge/federated_rag_merger.h" bodystart="288" bodyend="510"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_1a7df2b27cc3fdc42689bc90fe63ad5fbe" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedRAGMerger</scope><name>config</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_1ad974dbbd4da6940a007f16fb36a8fa54" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedRAGMerger</scope><name>config_</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_1a6498341ed13df36582cc5ec99303aa5e" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedRAGMerger</scope><name>deduplicate</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_1a7659cc050765203374168f62645811bf" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedRAGMerger</scope><name>erase</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_1a86789b97e8091a370d413291c1b1818d" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedRAGMerger</scope><name>erase_count_</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_1a0f3596e0f80191c19f1a54b65b05cefa" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedRAGMerger</scope><name>eraseCount</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_1aa04210e240ecb08d2c0d4dd468b08908" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedRAGMerger</scope><name>FederatedRAGMerger</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_1a4f931158ea80fa6ea9f067f5364d31f2" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedRAGMerger</scope><name>merge</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_1a4c280d106e3f65d5b3cedd597e54d365" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedRAGMerger</scope><name>mergeAndBuildContext</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_1a937d8c292edee696f5be77d72e041c8f" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedRAGMerger</scope><name>mergeRoundRobin</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_1aa058321446fff3717d4dac8378ee15aa" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedRAGMerger</scope><name>mergeRRF</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_1a2fbb0550512e12c3c59fef42fcd4021b" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedRAGMerger</scope><name>mergeScoreWeighted</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_pseudonym_map_handle" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::PseudonymMapHandle</compoundname>
+    <includes refid="utils__interfaces_8h" local="no">utils_interfaces.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_pseudonym_map_handle_1a31587edb6f6b7c86ab129c908f15ea2b" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::utils::PseudonymMapHandle::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::utils::PseudonymMapHandle::id</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Opaque identifier — implementation-defined. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="68" column="14" bodyfile="include/utils/utils_interfaces.h" bodystart="68" bodyend="68"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Opaque handle for the pseudonym map produced by pseudonymise(). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Consumers may pass this handle back to the implementation for correlation or logging; raw pseudonym-to-original mappings are never exposed. </para>
+    </detaileddescription>
+    <location file="include/utils/utils_interfaces.h" line="67" column="1" bodyfile="include/utils/utils_interfaces.h" bodystart="67" bodyend="69"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_pseudonym_map_handle_1a31587edb6f6b7c86ab129c908f15ea2b" prot="public" virt="non-virtual"><scope>themis::utils::PseudonymMapHandle</scope><name>id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

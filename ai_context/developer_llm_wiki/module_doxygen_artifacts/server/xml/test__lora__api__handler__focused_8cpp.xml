@@ -1,0 +1,322 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__lora__api__handler__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_lora_api_handler_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="lora__api__handler_8h" local="yes">server/lora_api_handler.h</includes>
+    <includes local="yes">llm/lora_framework/lora_orchestrator.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>server/lora_api_handler.h</label>
+        <link refid="lora__api__handler_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/server/test_lora_api_handler_focused.cpp</label>
+        <link refid="test__lora__api__handler__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>auth/jwt_validator.h</label>
+      </node>
+      <node id="4">
+        <label>boost/beast.hpp</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="11">
+        <label>llm/lora_framework/lora_orchestrator.h</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="8">
+        <label>optional</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>string_view</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_lora_api_handler_test" prot="public">LoraApiHandlerTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__lora__api__handler__focused_8cpp_1aaaea916c2f15b6d7cf91a443565364ff" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::request&lt; http::string_body &gt;</type>
+        <definition>static http::request&lt; http::string_body &gt; makeRequest</definition>
+        <argsstring>(http::verb method, const std::string &amp;target, const std::string &amp;body=&quot;&quot;)</argsstring>
+        <name>makeRequest</name>
+        <param>
+          <type>http::verb</type>
+          <declname>method</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_lora_api_handler_focused.cpp" line="21" column="22" bodyfile="tests/server/test_lora_api_handler_focused.cpp" bodystart="21" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__api__handler__focused_8cpp_1a4a823f3819318e444cd03b52244c9bb7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LoraApiHandlerFocused, LA1_NullOrchestrator_ConstructDoesNotThrow)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LoraApiHandlerFocused</type>
+        </param>
+        <param>
+          <type>LA1_NullOrchestrator_ConstructDoesNotThrow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_lora_api_handler_focused.cpp" line="51" column="1" bodyfile="tests/server/test_lora_api_handler_focused.cpp" bodystart="51" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__api__handler__focused_8cpp_1aef3a4a14fa8a3525f0a183f34581f758" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LoraApiHandlerTest, LA2_HealthEndpoint_ReturnsResponse)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_lora_api_handler_test" kindref="compound">LoraApiHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>LA2_HealthEndpoint_ReturnsResponse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_lora_api_handler_focused.cpp" line="58" column="1" bodyfile="tests/server/test_lora_api_handler_focused.cpp" bodystart="58" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__api__handler__focused_8cpp_1a22b9d2fa540ab8e68e3f29054d2e1aaa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LoraApiHandlerTest, LA3_UnknownRoute_Returns4xx)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_lora_api_handler_test" kindref="compound">LoraApiHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>LA3_UnknownRoute_Returns4xx</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_lora_api_handler_focused.cpp" line="67" column="1" bodyfile="tests/server/test_lora_api_handler_focused.cpp" bodystart="67" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__api__handler__focused_8cpp_1a588bb39c00ce54d7cd564ac0827da51b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LoraApiHandlerTest, LA4_PostModelsNoJWT_Returns401)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_lora_api_handler_test" kindref="compound">LoraApiHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>LA4_PostModelsNoJWT_Returns401</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_lora_api_handler_focused.cpp" line="75" column="1" bodyfile="tests/server/test_lora_api_handler_focused.cpp" bodystart="75" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__api__handler__focused_8cpp_1a54fd2cf3401856e707488902282839cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LoraApiHandlerTest, LA5_QueryWithoutEngine_Returns501)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_lora_api_handler_test" kindref="compound">LoraApiHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>LA5_QueryWithoutEngine_Returns501</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_lora_api_handler_focused.cpp" line="87" column="1" bodyfile="tests/server/test_lora_api_handler_focused.cpp" bodystart="87" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__api__handler__focused_8cpp_1a7141430ffdb3edfc6d46562af8d05ec6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LoraApiHandlerTest, LA6_SetNullEngine_NoThrow)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_lora_api_handler_test" kindref="compound">LoraApiHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>LA6_SetNullEngine_NoThrow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_lora_api_handler_focused.cpp" line="100" column="1" bodyfile="tests/server/test_lora_api_handler_focused.cpp" bodystart="100" bodyend="102"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Group LA — <ref refid="classthemis_1_1server_1_1_lo_r_a_api_handler" kindref="compound">LoRAApiHandler</ref> HTTP-dispatch and LLM-adapter lifecycle path tests. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="lora__api__handler_8h" kindref="compound">server/lora_api_handler.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;llm/lora_framework/lora_orchestrator.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">beast<sp/>=<sp/>boost::beast;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">http<sp/><sp/>=<sp/>beast::http;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1server" kindref="compound">themis::server</ref>;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Helpers<sp/>───────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>http::request&lt;http::string_body&gt;<sp/>makeRequest(</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>http::verb<sp/>method,</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target,</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>body<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="25"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>http::request&lt;http::string_body&gt;<sp/>req;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>req.method(method);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>req.target(target);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>req.version(11);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>req.set(http::field::host,<sp/></highlight><highlight class="stringliteral">&quot;localhost&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>req.set(http::field::content_type,<sp/></highlight><highlight class="stringliteral">&quot;application/json&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>req.body()<sp/>=<sp/>body;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>req.prepare_payload();</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>req;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Fixture<sp/>───────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="class_lora_api_handler_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_lora_api_handler_test" kindref="compound">LoraApiHandlerTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_lora_api_handler_test_1ace9240e5f8c363667c8a3559f05804d8" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_lora_api_handler_test_1ace9286862e015a93696e4e89ac9e3851" kindref="member">orch_</ref><sp/><sp/><sp/><sp/>=<sp/>std::make_shared&lt;llm::lora::LoRAOrchestrator&gt;();</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_lora_api_handler_test_1a95f7bf169cbacfe0a423d7e7b763c14b" kindref="member">handler_</ref><sp/>=<sp/>std::make_unique&lt;LoRAApiHandler&gt;(<ref refid="class_lora_api_handler_test_1ace9286862e015a93696e4e89ac9e3851" kindref="member">orch_</ref>);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;llm::lora::LoRAOrchestrator&gt;<sp/><ref refid="class_lora_api_handler_test_1ace9286862e015a93696e4e89ac9e3851" kindref="member">orch_</ref>;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;LoRAApiHandler&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_lora_api_handler_test_1a95f7bf169cbacfe0a423d7e7b763c14b" kindref="member">handler_</ref>;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>LA1:<sp/>Construct<sp/>LoRAApiHandler<sp/>with<sp/>null<sp/>orchestrator<sp/>does<sp/>not<sp/>throw<sp/>───────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><ref refid="test__lora__api__handler__focused_8cpp_1a4a823f3819318e444cd03b52244c9bb7" kindref="member">TEST</ref>(LoraApiHandlerFocused,<sp/>LA1_NullOrchestrator_ConstructDoesNotThrow)<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1server_1_1_lo_r_a_api_handler" kindref="compound">LoRAApiHandler</ref><sp/>h(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="55"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>LA2:<sp/>GET<sp/>/api/v1/llm/lora/health<sp/>returns<sp/>a<sp/>response<sp/>without<sp/>crash<sp/>────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><ref refid="test__lora__api__handler__focused_8cpp_1aef3a4a14fa8a3525f0a183f34581f758" kindref="member">TEST_F</ref>(<ref refid="class_lora_api_handler_test" kindref="compound">LoraApiHandlerTest</ref>,<sp/>LA2_HealthEndpoint_ReturnsResponse)<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>req<sp/>=<sp/>makeRequest(http::verb::get,<sp/></highlight><highlight class="stringliteral">&quot;/api/v1/llm/lora/health&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>http::response&lt;http::string_body&gt;<sp/>resp;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({<sp/>resp<sp/>=<sp/>handler_-&gt;handleRequest(req);<sp/>});</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Any<sp/>valid<sp/>HTTP<sp/>status<sp/>is<sp/>acceptable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(resp.result_int()),<sp/>0u);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>LA3:<sp/>GET<sp/>to<sp/>unknown<sp/>route<sp/>returns<sp/>404<sp/>or<sp/>400<sp/>─────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><ref refid="test__lora__api__handler__focused_8cpp_1aef3a4a14fa8a3525f0a183f34581f758" kindref="member">TEST_F</ref>(<ref refid="class_lora_api_handler_test" kindref="compound">LoraApiHandlerTest</ref>,<sp/>LA3_UnknownRoute_Returns4xx)<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>req<sp/>=<sp/>makeRequest(http::verb::get,<sp/></highlight><highlight class="stringliteral">&quot;/api/v1/llm/lora/does-not-exist&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resp<sp/>=<sp/>handler_-&gt;handleRequest(req);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(resp.result_int(),<sp/>400);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(resp.result_int(),<sp/>500);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>LA4:<sp/>POST<sp/>to<sp/>/api/v1/llm/lora/models<sp/>without<sp/>JWT<sp/>returns<sp/>401<sp/>─────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><ref refid="test__lora__api__handler__focused_8cpp_1aef3a4a14fa8a3525f0a183f34581f758" kindref="member">TEST_F</ref>(<ref refid="class_lora_api_handler_test" kindref="compound">LoraApiHandlerTest</ref>,<sp/>LA4_PostModelsNoJWT_Returns401)<sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>req<sp/>=<sp/>makeRequest(</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>http::verb::post,</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;/api/v1/llm/lora/models&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;model_id&quot;:&quot;m1&quot;,&quot;base_model&quot;:&quot;llama&quot;})&quot;</highlight></codeline>
+<codeline lineno="80"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="81"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resp<sp/>=<sp/>handler_-&gt;handleRequest(req);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Without<sp/>a<sp/>valid<sp/>JWT<sp/>the<sp/>handler<sp/>should<sp/>deny<sp/>with<sp/>401<sp/>or<sp/>400/422</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(resp.result_int(),<sp/>400);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>LA5:<sp/>Without<sp/>inference<sp/>engine,<sp/>POST<sp/>/lora/query<sp/>returns<sp/>501<sp/>──────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><ref refid="test__lora__api__handler__focused_8cpp_1aef3a4a14fa8a3525f0a183f34581f758" kindref="member">TEST_F</ref>(<ref refid="class_lora_api_handler_test" kindref="compound">LoraApiHandlerTest</ref>,<sp/>LA5_QueryWithoutEngine_Returns501)<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>inference<sp/>engine<sp/>attached<sp/>→<sp/>501<sp/>Not<sp/>Implemented<sp/>expected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>req<sp/>=<sp/>makeRequest(</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>http::verb::post,</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;/api/v1/llm/lora/query&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;prompt&quot;:&quot;hello&quot;,&quot;adapter_id&quot;:&quot;test&quot;})&quot;</highlight></codeline>
+<codeline lineno="93"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="94"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resp<sp/>=<sp/>handler_-&gt;handleRequest(req);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>501<sp/>when<sp/>no<sp/>engine,<sp/>or<sp/>400/401<sp/>due<sp/>to<sp/>missing<sp/>auth</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(resp.result_int(),<sp/>400);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>LA6:<sp/>setInferenceEngine<sp/>with<sp/>null<sp/>does<sp/>not<sp/>crash<sp/>─────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><ref refid="test__lora__api__handler__focused_8cpp_1aef3a4a14fa8a3525f0a183f34581f758" kindref="member">TEST_F</ref>(<ref refid="class_lora_api_handler_test" kindref="compound">LoraApiHandlerTest</ref>,<sp/>LA6_SetNullEngine_NoThrow)<sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({<sp/>handler_-&gt;setInferenceEngine(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);<sp/>});</highlight></codeline>
+<codeline lineno="102"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/server/test_lora_api_handler_focused.cpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_m_t_l_s_authenticator_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::MTLSAuthenticator::Config</compoundname>
+    <includes refid="mtls__authenticator_8h" local="no">mtls_authenticator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_m_t_l_s_authenticator_1_1_config_1ade1df13ce9f3d8c55d4e0b3e1d8ca9f3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::MTLSAuthenticator::Config::ca_cert_pem</definition>
+        <argsstring></argsstring>
+        <name>ca_cert_pem</name>
+        <qualifiedname>themis::auth::MTLSAuthenticator::Config::ca_cert_pem</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mtls_authenticator.h" line="49" column="21" bodyfile="include/auth/mtls_authenticator.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_m_t_l_s_authenticator_1_1_config_1a98e8053f591eaf8e218bed5f7f3f0c0c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::MTLSAuthenticator::Config::crl_pem</definition>
+        <argsstring></argsstring>
+        <name>crl_pem</name>
+        <qualifiedname>themis::auth::MTLSAuthenticator::Config::crl_pem</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mtls_authenticator.h" line="51" column="21" bodyfile="include/auth/mtls_authenticator.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_m_t_l_s_authenticator_1_1_config_1a4e09ea0086a5ce30f56d508907a7b12b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::MTLSAuthenticator::Config::verify_chain</definition>
+        <argsstring></argsstring>
+        <name>verify_chain</name>
+        <qualifiedname>themis::auth::MTLSAuthenticator::Config::verify_chain</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mtls_authenticator.h" line="53" column="14" bodyfile="include/auth/mtls_authenticator.h" bodystart="53" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_m_t_l_s_authenticator_1_1_config_1a7d3c3fd5a63102a13fc94b3dda993f50" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::MTLSAuthenticator::Config::check_revocation</definition>
+        <argsstring></argsstring>
+        <name>check_revocation</name>
+        <qualifiedname>themis::auth::MTLSAuthenticator::Config::check_revocation</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mtls_authenticator.h" line="55" column="14" bodyfile="include/auth/mtls_authenticator.h" bodystart="55" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_m_t_l_s_authenticator_1_1_config_1ad4a40ef535260ae9308d55ea0ea88d95" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::MTLSAuthenticator::Config::require_client_cert</definition>
+        <argsstring></argsstring>
+        <name>require_client_cert</name>
+        <qualifiedname>themis::auth::MTLSAuthenticator::Config::require_client_cert</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mtls_authenticator.h" line="57" column="14" bodyfile="include/auth/mtls_authenticator.h" bodystart="57" bodyend="57"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/mtls_authenticator.h" line="48" column="5" bodyfile="include/auth/mtls_authenticator.h" bodystart="48" bodyend="58"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_m_t_l_s_authenticator_1_1_config_1ade1df13ce9f3d8c55d4e0b3e1d8ca9f3" prot="public" virt="non-virtual"><scope>themis::auth::MTLSAuthenticator::Config</scope><name>ca_cert_pem</name></member>
+      <member refid="structthemis_1_1auth_1_1_m_t_l_s_authenticator_1_1_config_1a7d3c3fd5a63102a13fc94b3dda993f50" prot="public" virt="non-virtual"><scope>themis::auth::MTLSAuthenticator::Config</scope><name>check_revocation</name></member>
+      <member refid="structthemis_1_1auth_1_1_m_t_l_s_authenticator_1_1_config_1a98e8053f591eaf8e218bed5f7f3f0c0c" prot="public" virt="non-virtual"><scope>themis::auth::MTLSAuthenticator::Config</scope><name>crl_pem</name></member>
+      <member refid="structthemis_1_1auth_1_1_m_t_l_s_authenticator_1_1_config_1ad4a40ef535260ae9308d55ea0ea88d95" prot="public" virt="non-virtual"><scope>themis::auth::MTLSAuthenticator::Config</scope><name>require_client_cert</name></member>
+      <member refid="structthemis_1_1auth_1_1_m_t_l_s_authenticator_1_1_config_1a4e09ea0086a5ce30f56d508907a7b12b" prot="public" virt="non-virtual"><scope>themis::auth::MTLSAuthenticator::Config</scope><name>verify_chain</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

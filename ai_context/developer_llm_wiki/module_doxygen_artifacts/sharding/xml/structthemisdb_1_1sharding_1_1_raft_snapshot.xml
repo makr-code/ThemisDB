@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_raft_snapshot" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::RaftSnapshot</compoundname>
+    <includes refid="raft__log_8h" local="no">raft_log.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_raft_snapshot_1a195441f21f6a229ee6ad5fc80393fa91" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::RaftSnapshot::snapshot_index</definition>
+        <argsstring></argsstring>
+        <name>snapshot_index</name>
+        <qualifiedname>themisdb::sharding::RaftSnapshot::snapshot_index</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Last Raft log index covered by this snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="248" column="14" bodyfile="include/sharding/raft_log.h" bodystart="248" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_raft_snapshot_1a1e1a22104d752a690a376375fd01ec48" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::RaftSnapshot::snapshot_term</definition>
+        <argsstring></argsstring>
+        <name>snapshot_term</name>
+        <qualifiedname>themisdb::sharding::RaftSnapshot::snapshot_term</qualifiedname>
+        <briefdescription>
+<para>Term of the entry at snapshot_index. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="249" column="14" bodyfile="include/sharding/raft_log.h" bodystart="249" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_raft_snapshot_1a323381af04efd587e6e8ba34fa6edc98" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themisdb::sharding::RaftSnapshot::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themisdb::sharding::RaftSnapshot::data</qualifiedname>
+        <briefdescription>
+<para>ZSTD-compressed state-machine data. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="250" column="17" bodyfile="include/sharding/raft_log.h" bodystart="250" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_raft_snapshot_1a16599be0f562845277b05278bc2fde6d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::RaftSnapshot::checksum</definition>
+        <argsstring></argsstring>
+        <name>checksum</name>
+        <qualifiedname>themisdb::sharding::RaftSnapshot::checksum</qualifiedname>
+        <briefdescription>
+<para>SHA-256 of the <emphasis>uncompressed</emphasis> state data. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="251" column="17" bodyfile="include/sharding/raft_log.h" bodystart="251" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_raft_snapshot_1a4bfcf804c0291ea1c5a7d742d864e68a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::RaftSnapshot::uncompressed_size</definition>
+        <argsstring></argsstring>
+        <name>uncompressed_size</name>
+        <qualifiedname>themisdb::sharding::RaftSnapshot::uncompressed_size</qualifiedname>
+        <briefdescription>
+<para>Size of the state data before compression. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="252" column="14" bodyfile="include/sharding/raft_log.h" bodystart="252" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_raft_snapshot_1aef0b37b21a87b9880f453bdad4721db9" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::RaftSnapshot::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themisdb::sharding::RaftSnapshot::timestamp</qualifiedname>
+        <briefdescription>
+<para>Creation timestamp (ms since epoch). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="253" column="14" bodyfile="include/sharding/raft_log.h" bodystart="253" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A ZSTD-compressed Raft snapshot ready for storage or transfer. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Follows the Raft paper §7: the snapshot records the last included index and term so that the log can be safely truncated up to that point. </para>
+    </detaileddescription>
+    <location file="include/sharding/raft_log.h" line="247" column="1" bodyfile="include/sharding/raft_log.h" bodystart="247" bodyend="254"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_raft_snapshot_1a16599be0f562845277b05278bc2fde6d" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftSnapshot</scope><name>checksum</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_raft_snapshot_1a323381af04efd587e6e8ba34fa6edc98" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftSnapshot</scope><name>data</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_raft_snapshot_1a195441f21f6a229ee6ad5fc80393fa91" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftSnapshot</scope><name>snapshot_index</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_raft_snapshot_1a1e1a22104d752a690a376375fd01ec48" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftSnapshot</scope><name>snapshot_term</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_raft_snapshot_1aef0b37b21a87b9880f453bdad4721db9" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftSnapshot</scope><name>timestamp</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_raft_snapshot_1a4bfcf804c0291ea1c5a7d742d864e68a" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftSnapshot</scope><name>uncompressed_size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

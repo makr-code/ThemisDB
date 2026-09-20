@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_adapter_merge_fault_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::AdapterMergeFaultContext</compoundname>
+    <includes refid="training__failsafe_8h" local="no">training_failsafe.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_adapter_merge_fault_context_1a6dcf558ac77fbef7400e6fed01b11620" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841b" kindref="member">TrainingErrorCode</ref></type>
+        <definition>TrainingErrorCode themis::training::AdapterMergeFaultContext::fault_code</definition>
+        <argsstring></argsstring>
+        <name>fault_code</name>
+        <qualifiedname>themis::training::AdapterMergeFaultContext::fault_code</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841bad0749aaba8b833466dfcbb0428e4f89c" kindref="member">TrainingErrorCode::SUCCESS</ref></initializer>
+        <briefdescription>
+<para>Error code that triggered the fault. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_failsafe.h" line="186" column="23" bodyfile="include/training/training_failsafe.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_adapter_merge_fault_context_1a67266c995a8a472e644df894136df091" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1training_1_1_adapter_merge_snapshot" kindref="compound">AdapterMergeSnapshot</ref></type>
+        <definition>AdapterMergeSnapshot themis::training::AdapterMergeFaultContext::pre_merge_snapshot</definition>
+        <argsstring></argsstring>
+        <name>pre_merge_snapshot</name>
+        <qualifiedname>themis::training::AdapterMergeFaultContext::pre_merge_snapshot</qualifiedname>
+        <briefdescription>
+<para>Snapshot taken before the merge operation started. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_failsafe.h" line="188" column="26" bodyfile="include/training/training_failsafe.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_adapter_merge_fault_context_1a3c3f5f08d84579a1219e34934749e9f7" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::AdapterMergeFaultContext::layers_merged_before_fault</definition>
+        <argsstring></argsstring>
+        <name>layers_merged_before_fault</name>
+        <qualifiedname>themis::training::AdapterMergeFaultContext::layers_merged_before_fault</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of layers successfully merged before the fault occurred. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_failsafe.h" line="190" column="12" bodyfile="include/training/training_failsafe.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_adapter_merge_fault_context_1ae69e5f871cfbb98fc3a878f57ad51dc1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::AdapterMergeFaultContext::total_layers</definition>
+        <argsstring></argsstring>
+        <name>total_layers</name>
+        <qualifiedname>themis::training::AdapterMergeFaultContext::total_layers</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total layers in the merge plan. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_failsafe.h" line="192" column="12" bodyfile="include/training/training_failsafe.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_adapter_merge_fault_context_1ac40ad4e6f35ccd8db9c547480c0cba67" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::AdapterMergeFaultContext::context_kv</definition>
+        <argsstring></argsstring>
+        <name>context_kv</name>
+        <qualifiedname>themis::training::AdapterMergeFaultContext::context_kv</qualifiedname>
+        <briefdescription>
+<para>Additional diagnostic context. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_failsafe.h" line="194" column="17" bodyfile="include/training/training_failsafe.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Context for an adapter merge fault decision. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::training::AdapterMergeFaultContext</label>
+        <link refid="structthemis_1_1training_1_1_adapter_merge_fault_context"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>pre_merge_snapshot</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::training::AdapterMergeSnapshot</label>
+        <link refid="structthemis_1_1training_1_1_adapter_merge_snapshot"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/training/training_failsafe.h" line="184" column="1" bodyfile="include/training/training_failsafe.h" bodystart="184" bodyend="195"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_adapter_merge_fault_context_1ac40ad4e6f35ccd8db9c547480c0cba67" prot="public" virt="non-virtual"><scope>themis::training::AdapterMergeFaultContext</scope><name>context_kv</name></member>
+      <member refid="structthemis_1_1training_1_1_adapter_merge_fault_context_1a6dcf558ac77fbef7400e6fed01b11620" prot="public" virt="non-virtual"><scope>themis::training::AdapterMergeFaultContext</scope><name>fault_code</name></member>
+      <member refid="structthemis_1_1training_1_1_adapter_merge_fault_context_1a3c3f5f08d84579a1219e34934749e9f7" prot="public" virt="non-virtual"><scope>themis::training::AdapterMergeFaultContext</scope><name>layers_merged_before_fault</name></member>
+      <member refid="structthemis_1_1training_1_1_adapter_merge_fault_context_1a67266c995a8a472e644df894136df091" prot="public" virt="non-virtual"><scope>themis::training::AdapterMergeFaultContext</scope><name>pre_merge_snapshot</name></member>
+      <member refid="structthemis_1_1training_1_1_adapter_merge_fault_context_1ae69e5f871cfbb98fc3a878f57ad51dc1" prot="public" virt="non-virtual"><scope>themis::training::AdapterMergeFaultContext</scope><name>total_layers</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

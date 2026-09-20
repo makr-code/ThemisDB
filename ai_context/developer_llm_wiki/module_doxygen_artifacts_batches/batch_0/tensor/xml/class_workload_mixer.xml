@@ -1,0 +1,198 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_workload_mixer" kind="class" language="C++" prot="public">
+    <compoundname>WorkloadMixer</compoundname>
+    <innerclass refid="struct_workload_mixer_1_1_execution_stats" prot="public">WorkloadMixer::ExecutionStats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_workload_mixer_1ab96a6064ced100c90ce1475c0ac7b768" prot="private" static="no" mutable="no">
+        <type>const <ref refid="struct_workload_profile" kindref="compound">WorkloadProfile</ref> &amp;</type>
+        <definition>const WorkloadProfile&amp; WorkloadMixer::profile_</definition>
+        <argsstring></argsstring>
+        <name>profile_</name>
+        <qualifiedname>WorkloadMixer::profile_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_stress_suite_focused.cpp" line="341" column="27" bodyfile="tests/tensor/test_tensor_stress_suite_focused.cpp" bodystart="341" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_workload_mixer_1aa396b0dc8b8a8cf0310021c80a8ba418" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1tensor_1_1_tensor_fingerprint_graph" kindref="compound">TensorFingerprintGraph</ref> &amp;</type>
+        <definition>TensorFingerprintGraph&amp; WorkloadMixer::graph_</definition>
+        <argsstring></argsstring>
+        <name>graph_</name>
+        <qualifiedname>WorkloadMixer::graph_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_stress_suite_focused.cpp" line="342" column="28" bodyfile="tests/tensor/test_tensor_stress_suite_focused.cpp" bodystart="342" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_workload_mixer_1a6e72d1620fc5d9684b5e3385300cfd9b" prot="private" static="no" mutable="no">
+        <type>std::mt19937</type>
+        <definition>std::mt19937 WorkloadMixer::rng_</definition>
+        <argsstring></argsstring>
+        <name>rng_</name>
+        <qualifiedname>WorkloadMixer::rng_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_stress_suite_focused.cpp" line="343" column="18" bodyfile="tests/tensor/test_tensor_stress_suite_focused.cpp" bodystart="343" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_workload_mixer_1abc814c37a2e4bae15b377c2443983c1d" prot="private" static="no" mutable="no">
+        <type><ref refid="class_chaos_injector" kindref="compound">ChaosInjector</ref></type>
+        <definition>ChaosInjector WorkloadMixer::chaos_</definition>
+        <argsstring></argsstring>
+        <name>chaos_</name>
+        <qualifiedname>WorkloadMixer::chaos_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_stress_suite_focused.cpp" line="344" column="19" bodyfile="tests/tensor/test_tensor_stress_suite_focused.cpp" bodystart="344" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_workload_mixer_1ab4405bde63820c3b3188e2e9dd1c25c3" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t WorkloadMixer::store_counter_</definition>
+        <argsstring></argsstring>
+        <name>store_counter_</name>
+        <qualifiedname>WorkloadMixer::store_counter_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_stress_suite_focused.cpp" line="345" column="12" bodyfile="tests/tensor/test_tensor_stress_suite_focused.cpp" bodystart="345" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_workload_mixer_1a4c6739539fb56511b9f40d68a1968a9e" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>WorkloadMixer::WorkloadMixer</definition>
+        <argsstring>(const WorkloadProfile &amp;profile, TensorFingerprintGraph &amp;graph)</argsstring>
+        <name>WorkloadMixer</name>
+        <qualifiedname>WorkloadMixer::WorkloadMixer</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_workload_profile" kindref="compound">WorkloadProfile</ref> &amp;</type>
+          <declname>profile</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1_tensor_fingerprint_graph" kindref="compound">TensorFingerprintGraph</ref> &amp;</type>
+          <declname>graph</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_stress_suite_focused.cpp" line="226" column="14" bodyfile="tests/tensor/test_tensor_stress_suite_focused.cpp" bodystart="226" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="class_workload_mixer_1af5cc5b8b7de6fe452e1bc22087eb1542" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="struct_workload_mixer_1_1_execution_stats" kindref="compound">ExecutionStats</ref></type>
+        <definition>ExecutionStats WorkloadMixer::execute</definition>
+        <argsstring>()</argsstring>
+        <name>execute</name>
+        <qualifiedname>WorkloadMixer::execute</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_stress_suite_focused.cpp" line="242" column="20" bodyfile="tests/tensor/test_tensor_stress_suite_focused.cpp" bodystart="242" bodyend="293"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_workload_mixer_1aca902effdf263d056ee4ceb390477cd8" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void WorkloadMixer::populateOperationSequence</definition>
+        <argsstring>(std::vector&lt; int &gt; &amp;seq)</argsstring>
+        <name>populateOperationSequence</name>
+        <qualifiedname>WorkloadMixer::populateOperationSequence</qualifiedname>
+        <param>
+          <type>std::vector&lt; int &gt; &amp;</type>
+          <declname>seq</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_stress_suite_focused.cpp" line="296" column="10" bodyfile="tests/tensor/test_tensor_stress_suite_focused.cpp" bodystart="296" bodyend="311"/>
+      </memberdef>
+      <memberdef kind="function" id="class_workload_mixer_1a5d26efba52cd8be25e030d547f55124f" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void WorkloadMixer::executeQuery</definition>
+        <argsstring>()</argsstring>
+        <name>executeQuery</name>
+        <qualifiedname>WorkloadMixer::executeQuery</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_stress_suite_focused.cpp" line="313" column="10" bodyfile="tests/tensor/test_tensor_stress_suite_focused.cpp" bodystart="313" bodyend="324"/>
+      </memberdef>
+      <memberdef kind="function" id="class_workload_mixer_1ae0f0c78b1017b1e396857ad680c404e6" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void WorkloadMixer::executeStore</definition>
+        <argsstring>()</argsstring>
+        <name>executeStore</name>
+        <qualifiedname>WorkloadMixer::executeStore</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_stress_suite_focused.cpp" line="326" column="10" bodyfile="tests/tensor/test_tensor_stress_suite_focused.cpp" bodystart="326" bodyend="330"/>
+      </memberdef>
+      <memberdef kind="function" id="class_workload_mixer_1a083ebec9709248a5c96e7e902b389554" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void WorkloadMixer::executeRemove</definition>
+        <argsstring>()</argsstring>
+        <name>executeRemove</name>
+        <qualifiedname>WorkloadMixer::executeRemove</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_stress_suite_focused.cpp" line="332" column="10" bodyfile="tests/tensor/test_tensor_stress_suite_focused.cpp" bodystart="332" bodyend="339"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/tensor/test_tensor_stress_suite_focused.cpp" line="224" column="1" bodyfile="tests/tensor/test_tensor_stress_suite_focused.cpp" bodystart="224" bodyend="346"/>
+    <listofallmembers>
+      <member refid="class_workload_mixer_1abc814c37a2e4bae15b377c2443983c1d" prot="private" virt="non-virtual"><scope>WorkloadMixer</scope><name>chaos_</name></member>
+      <member refid="class_workload_mixer_1af5cc5b8b7de6fe452e1bc22087eb1542" prot="public" virt="non-virtual"><scope>WorkloadMixer</scope><name>execute</name></member>
+      <member refid="class_workload_mixer_1a5d26efba52cd8be25e030d547f55124f" prot="private" virt="non-virtual"><scope>WorkloadMixer</scope><name>executeQuery</name></member>
+      <member refid="class_workload_mixer_1a083ebec9709248a5c96e7e902b389554" prot="private" virt="non-virtual"><scope>WorkloadMixer</scope><name>executeRemove</name></member>
+      <member refid="class_workload_mixer_1ae0f0c78b1017b1e396857ad680c404e6" prot="private" virt="non-virtual"><scope>WorkloadMixer</scope><name>executeStore</name></member>
+      <member refid="class_workload_mixer_1aa396b0dc8b8a8cf0310021c80a8ba418" prot="private" virt="non-virtual"><scope>WorkloadMixer</scope><name>graph_</name></member>
+      <member refid="class_workload_mixer_1aca902effdf263d056ee4ceb390477cd8" prot="private" virt="non-virtual"><scope>WorkloadMixer</scope><name>populateOperationSequence</name></member>
+      <member refid="class_workload_mixer_1ab96a6064ced100c90ce1475c0ac7b768" prot="private" virt="non-virtual"><scope>WorkloadMixer</scope><name>profile_</name></member>
+      <member refid="class_workload_mixer_1a6e72d1620fc5d9684b5e3385300cfd9b" prot="private" virt="non-virtual"><scope>WorkloadMixer</scope><name>rng_</name></member>
+      <member refid="class_workload_mixer_1ab4405bde63820c3b3188e2e9dd1c25c3" prot="private" virt="non-virtual"><scope>WorkloadMixer</scope><name>store_counter_</name></member>
+      <member refid="class_workload_mixer_1a4c6739539fb56511b9f40d68a1968a9e" prot="public" virt="non-virtual"><scope>WorkloadMixer</scope><name>WorkloadMixer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

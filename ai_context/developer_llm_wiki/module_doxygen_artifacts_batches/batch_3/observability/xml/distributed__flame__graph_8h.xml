@@ -1,0 +1,194 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="distributed__flame__graph_8h" kind="file" language="C++">
+    <compoundname>distributed_flame_graph.h</compoundname>
+    <includes refid="continuous__profiler_8h" local="yes">observability/continuous_profiler.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="distributed__flame__graph_8cpp" local="yes">src/observability/distributed_flame_graph.cpp</includedby>
+    <includedby refid="test__observability__block__a__focused_8cpp" local="yes">tests/observability/test_observability_block_a_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>observability/continuous_profiler.h</label>
+        <link refid="continuous__profiler_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/observability/distributed_flame_graph.h</label>
+        <link refid="distributed__flame__graph_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="9">
+        <label>map</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/observability/distributed_flame_graph.h</label>
+        <link refid="distributed__flame__graph_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/observability/distributed_flame_graph.cpp</label>
+        <link refid="distributed__flame__graph_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/observability/test_observability_block_a_focused.cpp</label>
+        <link refid="test__observability__block__a__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1observability_1_1_node_profile" prot="public">themis::observability::NodeProfile</innerclass>
+    <innerclass refid="structthemis_1_1observability_1_1_merged_flame_graph" prot="public">themis::observability::MergedFlameGraph</innerclass>
+    <innerclass refid="structthemis_1_1observability_1_1_distributed_flame_graph_config" prot="public">themis::observability::DistributedFlameGraphConfig</innerclass>
+    <innerclass refid="classthemis_1_1observability_1_1_distributed_flame_graph" prot="public">themis::observability::DistributedFlameGraph</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1observability">themis::observability</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="continuous__profiler_8h" kindref="compound">observability/continuous_profiler.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1observability" kindref="compound">observability</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1observability_1a75e021f6745639f5feec3d55bbf2899d" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1observability_1_1_node_profile" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_node_profile" kindref="compound">NodeProfile</ref><sp/>{</highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1observability_1_1_node_profile_1a3e4d37fbd1b51d058a9371eeb9d7bfa3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_node_profile_1a3e4d37fbd1b51d058a9371eeb9d7bfa3" kindref="member">node_id</ref>;</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1observability_1_1_node_profile_1a5391d4aaa9161bbb74436da27caf4ad3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_node_profile_1a5391d4aaa9161bbb74436da27caf4ad3" kindref="member">host</ref>;</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1observability_1_1_node_profile_1a4e4c8b52411a7a40cdc857121743ae7e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1observability_1_1_node_profile_1a4e4c8b52411a7a40cdc857121743ae7e" kindref="member">version</ref>{0};</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1observability_1_1_node_profile_1aaa6e5b45ebba6a41ba31ac37be7fa083" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1observability_1_1_profile_snapshot" kindref="compound">ProfileSnapshot</ref><sp/><ref refid="structthemis_1_1observability_1_1_node_profile_1aaa6e5b45ebba6a41ba31ac37be7fa083" kindref="member">snapshot</ref>;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1observability_1_1_merged_flame_graph" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_merged_flame_graph" kindref="compound">MergedFlameGraph</ref><sp/>{</highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1observability_1_1_merged_flame_graph_1aef35e2b630775f3169c4ab1858867178" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>uint64_t&gt;<sp/><ref refid="structthemis_1_1observability_1_1_merged_flame_graph_1aef35e2b630775f3169c4ab1858867178" kindref="member">stacks</ref>;</highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1observability_1_1_merged_flame_graph_1a73d1ae7de262ddd4a99918cb28390532" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1observability_1_1_merged_flame_graph_1a73d1ae7de262ddd4a99918cb28390532" kindref="member">node_ids</ref>;</highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1observability_1_1_merged_flame_graph_1ad16140632b43d92bc9838c6697506847" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>uint64_t&gt;<sp/><ref refid="structthemis_1_1observability_1_1_merged_flame_graph_1ad16140632b43d92bc9838c6697506847" kindref="member">node_versions</ref>;</highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1observability_1_1_merged_flame_graph_1afbd0572ce0eeb8ddf90980e71f85fbf1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1observability_1_1_merged_flame_graph_1afbd0572ce0eeb8ddf90980e71f85fbf1" kindref="member">generated_at</ref>;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_merged_flame_graph_1aa671f7e6c36370ca12c19d7ded9857cc" kindref="member">toFoldedText</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a75e021f6745639f5feec3d55bbf2899d" kindref="member">json</ref><sp/><ref refid="structthemis_1_1observability_1_1_merged_flame_graph_1ab4e382b67f3158957fb951af4d788478" kindref="member">toJSON</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1observability_1_1_distributed_flame_graph_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_distributed_flame_graph_config" kindref="compound">DistributedFlameGraphConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1observability_1_1_distributed_flame_graph_config_1a0ef21d36ca6be0d07b3416113dc6f905" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_distributed_flame_graph_config_1a0ef21d36ca6be0d07b3416113dc6f905" kindref="member">max_nodes</ref><sp/>=<sp/>128;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1observability_1_1_distributed_flame_graph_config_1a222a7f0e34dfaf62e2c98714e817394c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_distributed_flame_graph_config_1a222a7f0e34dfaf62e2c98714e817394c" kindref="member">normalize_per_node</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1observability_1_1_distributed_flame_graph_config_1a5ab1b84be00df47517700e1dedfff620" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_distributed_flame_graph_config_1a5ab1b84be00df47517700e1dedfff620" kindref="member">max_diff_hotspots</ref><sp/>=<sp/>20;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147" refid="classthemis_1_1observability_1_1_distributed_flame_graph" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_distributed_flame_graph_1adfd57daff8088c42b3ccb01144ce2027" kindref="member">DistributedFlameGraph</ref><sp/>{</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_distributed_flame_graph_1adfd57daff8088c42b3ccb01144ce2027" kindref="member">DistributedFlameGraph</ref>(</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_distributed_flame_graph_config" kindref="compound">DistributedFlameGraphConfig</ref>&amp;<sp/>config<sp/>=<sp/><ref refid="structthemis_1_1observability_1_1_distributed_flame_graph_config" kindref="compound">DistributedFlameGraphConfig</ref>{});</highlight></codeline>
+<codeline lineno="151" refid="classthemis_1_1observability_1_1_distributed_flame_graph_1ac456a7b816e4b3908b64303e9c104a14" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_distributed_flame_graph_1ac456a7b816e4b3908b64303e9c104a14" kindref="member">~DistributedFlameGraph</ref>();</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154" refid="classthemis_1_1observability_1_1_distributed_flame_graph_1adf8b47bc0387b7afeedcd9023267eab2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_distributed_flame_graph_1adf8b47bc0387b7afeedcd9023267eab2" kindref="member">DistributedFlameGraph</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_distributed_flame_graph_1adfd57daff8088c42b3ccb01144ce2027" kindref="member">DistributedFlameGraph</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="155" refid="classthemis_1_1observability_1_1_distributed_flame_graph_1ace2cf696dec89ae359925f62f2791f2b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_distributed_flame_graph_1adfd57daff8088c42b3ccb01144ce2027" kindref="member">DistributedFlameGraph</ref>&amp;<sp/><ref refid="classthemis_1_1observability_1_1_distributed_flame_graph_1ace2cf696dec89ae359925f62f2791f2b" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_distributed_flame_graph_1adfd57daff8088c42b3ccb01144ce2027" kindref="member">DistributedFlameGraph</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_distributed_flame_graph_1ae2227d31070ab22b9839033f2d88f5fe" kindref="member">addNodeProfile</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_node_profile" kindref="compound">NodeProfile</ref>&amp;<sp/>profile);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_distributed_flame_graph_1ad394dabe3e8161c12c5a10024094c0f9" kindref="member">clearProfiles</ref>();</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1observability_1_1_merged_flame_graph" kindref="compound">MergedFlameGraph</ref><sp/><ref refid="classthemis_1_1observability_1_1_distributed_flame_graph_1a8c4f106255e8a76422ed8dd426aae26c" kindref="member">merge</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1observability_1_1_merged_flame_graph" kindref="compound">MergedFlameGraph</ref><sp/><ref refid="classthemis_1_1observability_1_1_distributed_flame_graph_1a7746e6c0472cdba638d8fd4b503d53ab" kindref="member">mergeFiltered</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>node_ids)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1observability_1_1_profile_diff" kindref="compound">ProfileDiff</ref><sp/><ref refid="classthemis_1_1observability_1_1_distributed_flame_graph_1a31d402cf02f6c62d9855b0f9ea062bcb" kindref="member">diff</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_merged_flame_graph" kindref="compound">MergedFlameGraph</ref>&amp;<sp/>baseline,</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_merged_flame_graph" kindref="compound">MergedFlameGraph</ref>&amp;<sp/>current)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1observability_1_1_distributed_flame_graph_1abf44163c84e11ede1c8b66a31f8b5333" kindref="member">getNodeIds</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_distributed_flame_graph_1a2cdd63cf2871ce3ca525fa12979a2e60" kindref="member">nodeCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1observability_1_1_distributed_flame_graph_config" kindref="compound">DistributedFlameGraphConfig</ref><sp/><ref refid="classthemis_1_1observability_1_1_distributed_flame_graph_1ae48f604703a74d11739ec85839931de1" kindref="member">getConfig</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_distributed_flame_graph_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>observability</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/observability/distributed_flame_graph.h"/>
+  </compounddef>
+</doxygen>

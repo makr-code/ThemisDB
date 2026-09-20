@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_telephony_bridge_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::TelephonyBridgeConfig</compoundname>
+    <includes refid="voice__telephony_8h" local="no">voice_telephony.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_telephony_bridge_config_1a129a0a8b9d0d7159263d444cb893d505" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::voice::TelephonyBridgeConfig::max_concurrent_calls</definition>
+        <argsstring></argsstring>
+        <name>max_concurrent_calls</name>
+        <qualifiedname>themis::voice::TelephonyBridgeConfig::max_concurrent_calls</qualifiedname>
+        <initializer>= 200</initializer>
+        <briefdescription>
+<para>Soft limit across all protocols. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="555" column="14" bodyfile="include/voice/voice_telephony.h" bodystart="555" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_telephony_bridge_config_1ab596d93544d0ca5d65e80e95356d47bf" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::voice::TelephonyBridgeConfig::default_max_duration_s</definition>
+        <argsstring></argsstring>
+        <name>default_max_duration_s</name>
+        <qualifiedname>themis::voice::TelephonyBridgeConfig::default_max_duration_s</qualifiedname>
+        <initializer>= 3600</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="556" column="14" bodyfile="include/voice/voice_telephony.h" bodystart="556" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_telephony_bridge_config_1a1cb62eba840b48d751b9dd4f2a2b6cf8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::TelephonyBridgeConfig::enable_sip</definition>
+        <argsstring></argsstring>
+        <name>enable_sip</name>
+        <qualifiedname>themis::voice::TelephonyBridgeConfig::enable_sip</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="557" column="14" bodyfile="include/voice/voice_telephony.h" bodystart="557" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_telephony_bridge_config_1a29fe6edc0cce09a4d86176636922e1fa" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::TelephonyBridgeConfig::enable_webrtc</definition>
+        <argsstring></argsstring>
+        <name>enable_webrtc</name>
+        <qualifiedname>themis::voice::TelephonyBridgeConfig::enable_webrtc</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="558" column="14" bodyfile="include/voice/voice_telephony.h" bodystart="558" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_telephony_bridge_config_1a2dca976f53ca28a1419a1869bcac9313" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::TelephonyBridgeConfig::record_audio</definition>
+        <argsstring></argsstring>
+        <name>record_audio</name>
+        <qualifiedname>themis::voice::TelephonyBridgeConfig::record_audio</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Default recording policy. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="559" column="14" bodyfile="include/voice/voice_telephony.h" bodystart="559" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Global <ref refid="classthemis_1_1voice_1_1_telephony_bridge" kindref="compound">TelephonyBridge</ref> configuration. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_telephony.h" line="554" column="1" bodyfile="include/voice/voice_telephony.h" bodystart="554" bodyend="560"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_telephony_bridge_config_1ab596d93544d0ca5d65e80e95356d47bf" prot="public" virt="non-virtual"><scope>themis::voice::TelephonyBridgeConfig</scope><name>default_max_duration_s</name></member>
+      <member refid="structthemis_1_1voice_1_1_telephony_bridge_config_1a1cb62eba840b48d751b9dd4f2a2b6cf8" prot="public" virt="non-virtual"><scope>themis::voice::TelephonyBridgeConfig</scope><name>enable_sip</name></member>
+      <member refid="structthemis_1_1voice_1_1_telephony_bridge_config_1a29fe6edc0cce09a4d86176636922e1fa" prot="public" virt="non-virtual"><scope>themis::voice::TelephonyBridgeConfig</scope><name>enable_webrtc</name></member>
+      <member refid="structthemis_1_1voice_1_1_telephony_bridge_config_1a129a0a8b9d0d7159263d444cb893d505" prot="public" virt="non-virtual"><scope>themis::voice::TelephonyBridgeConfig</scope><name>max_concurrent_calls</name></member>
+      <member refid="structthemis_1_1voice_1_1_telephony_bridge_config_1a2dca976f53ca28a1419a1869bcac9313" prot="public" virt="non-virtual"><scope>themis::voice::TelephonyBridgeConfig</scope><name>record_audio</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

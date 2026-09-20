@@ -1,0 +1,480 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_response_transformer" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::ResponseTransformer</compoundname>
+    <includes refid="response__transformer_8h" local="no">response_transformer.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1server_1_1_response_transformer_1acafa78984993956771815bd0be087358" prot="public" static="no">
+        <type>std::function&lt; nlohmann::json(nlohmann::json)&gt;</type>
+        <definition>using themis::server::ResponseTransformer::TransformFn = std::function&lt;nlohmann::json(nlohmann::json)&gt;</definition>
+        <argsstring></argsstring>
+        <name>TransformFn</name>
+        <qualifiedname>themis::server::ResponseTransformer::TransformFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/response_transformer.h" line="26" column="5" bodyfile="include/server/response_transformer.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_response_transformer_1a550dacccd2168c1d152343c73d99daeb" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="classthemis_1_1server_1_1_response_transformer_1acafa78984993956771815bd0be087358" kindref="member">TransformFn</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, TransformFn&gt; themis::server::ResponseTransformer::transforms_</definition>
+        <argsstring></argsstring>
+        <name>transforms_</name>
+        <qualifiedname>themis::server::ResponseTransformer::transforms_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/response_transformer.h" line="93" column="24" bodyfile="include/server/response_transformer.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_response_transformer_1a4e079930cd5118ebc460ec8977e3714f" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;std::pair&lt;std::string, std::string&gt; &gt; &gt; themis::server::ResponseTransformer::field_renames_</definition>
+        <argsstring></argsstring>
+        <name>field_renames_</name>
+        <qualifiedname>themis::server::ResponseTransformer::field_renames_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/response_transformer.h" line="96" column="24" bodyfile="include/server/response_transformer.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_response_transformer_1a51f0c4639b7150f43e5adb5daa250110" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; std::pair&lt; std::string, nlohmann::json &gt; &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;std::pair&lt;std::string, nlohmann::json&gt; &gt; &gt; themis::server::ResponseTransformer::default_values_</definition>
+        <argsstring></argsstring>
+        <name>default_values_</name>
+        <qualifiedname>themis::server::ResponseTransformer::default_values_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/response_transformer.h" line="99" column="24" bodyfile="include/server/response_transformer.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_response_transformer_1af9df8d81ccc855a8de956b9c5e4ffe59" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::ResponseTransformer::ResponseTransformer</definition>
+        <argsstring>()=default</argsstring>
+        <name>ResponseTransformer</name>
+        <qualifiedname>themis::server::ResponseTransformer::ResponseTransformer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/response_transformer.h" line="28" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_response_transformer_1ab262759f5b67552671f8d856963eb4ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::ResponseTransformer::registerVersion</definition>
+        <argsstring>(const std::string &amp;version_key, TransformFn fn)</argsstring>
+        <name>registerVersion</name>
+        <qualifiedname>themis::server::ResponseTransformer::registerVersion</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version_key</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1_response_transformer_1acafa78984993956771815bd0be087358" kindref="member">TransformFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Register Version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">version_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/response_transformer.h" line="39" column="10" bodyfile="src/server/response_transformer.cpp" bodystart="23" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_response_transformer_1ade4f4fa4c7d824c35a550bad5897b432" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::ResponseTransformer::addFieldRename</definition>
+        <argsstring>(const std::string &amp;version_key, const std::string &amp;old_name, const std::string &amp;new_name)</argsstring>
+        <name>addFieldRename</name>
+        <qualifiedname>themis::server::ResponseTransformer::addFieldRename</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version_key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>old_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>new_name</declname>
+        </param>
+        <briefdescription>
+<para>Add Field Rename. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">version_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">old_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the old. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the new.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">old_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the old. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the new.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: emplace_back(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/response_transformer.h" line="51" column="10" bodyfile="src/server/response_transformer.cpp" bodystart="35" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_response_transformer_1afd9b268fda21374cce07c86e8a816105" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::ResponseTransformer::addDefaultValue</definition>
+        <argsstring>(const std::string &amp;version_key, const std::string &amp;field_name, const nlohmann::json &amp;default_value)</argsstring>
+        <name>addDefaultValue</name>
+        <qualifiedname>themis::server::ResponseTransformer::addDefaultValue</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version_key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>field_name</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>default_value</declname>
+        </param>
+        <briefdescription>
+<para>Add Default Value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">version_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">field_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the field. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">default_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">field_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the field. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">default_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: emplace_back(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/response_transformer.h" line="61" column="10" bodyfile="src/server/response_transformer.cpp" bodystart="50" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_response_transformer_1aa4f3f42f981780656d666650dd4e0225" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::ResponseTransformer::transform</definition>
+        <argsstring>(const nlohmann::json &amp;payload, const APIVersion &amp;version) const</argsstring>
+        <name>transform</name>
+        <qualifiedname>themis::server::ResponseTransformer::transform</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_a_p_i_version" kindref="compound">APIVersion</ref> &amp;</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Transform. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/response_transformer.h" line="75" column="20" bodyfile="src/server/response_transformer.cpp" bodystart="104" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_response_transformer_1a0a21be0df7c00aeb4a3c279e1829ab4e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::ResponseTransformer::hasVersion</definition>
+        <argsstring>(const APIVersion &amp;version) const</argsstring>
+        <name>hasVersion</name>
+        <qualifiedname>themis::server::ResponseTransformer::hasVersion</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_a_p_i_version" kindref="compound">APIVersion</ref> &amp;</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Has Version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/response_transformer.h" line="83" column="10" bodyfile="src/server/response_transformer.cpp" bodystart="129" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_response_transformer_1a16fe6c319cdcb2ddbeeb0b100e4c600c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::server::ResponseTransformer::registeredVersions</definition>
+        <argsstring>() const</argsstring>
+        <name>registeredVersions</name>
+        <qualifiedname>themis::server::ResponseTransformer::registeredVersions</qualifiedname>
+        <briefdescription>
+<para>Registered Versions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/response_transformer.h" line="89" column="17" bodyfile="src/server/response_transformer.cpp" bodystart="133" bodyend="152"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_response_transformer_1a256bfa4cfb9baea638b484cb3fb02a3e" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::server::ResponseTransformer::resolveKey</definition>
+        <argsstring>(const APIVersion &amp;version) const</argsstring>
+        <name>resolveKey</name>
+        <qualifiedname>themis::server::ResponseTransformer::resolveKey</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_a_p_i_version" kindref="compound">APIVersion</ref> &amp;</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Resolve Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/response_transformer.h" line="106" column="19" bodyfile="src/server/response_transformer.cpp" bodystart="58" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_response_transformer_1a4968c723926e6dd7e93965e427cebd4c" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::ResponseTransformer::applyFieldMappings</definition>
+        <argsstring>(nlohmann::json &amp;obj, const std::string &amp;version_key) const</argsstring>
+        <name>applyFieldMappings</name>
+        <qualifiedname>themis::server::ResponseTransformer::applyFieldMappings</qualifiedname>
+        <param>
+          <type>nlohmann::json &amp;</type>
+          <declname>obj</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version_key</declname>
+        </param>
+        <briefdescription>
+<para>Apply Field Mappings. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">obj</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/response_transformer.h" line="113" column="10" bodyfile="src/server/response_transformer.cpp" bodystart="80" bodyend="102"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/response_transformer.h" line="24" column="1" bodyfile="include/server/response_transformer.h" bodystart="24" bodyend="114"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_response_transformer_1afd9b268fda21374cce07c86e8a816105" prot="public" virt="non-virtual"><scope>themis::server::ResponseTransformer</scope><name>addDefaultValue</name></member>
+      <member refid="classthemis_1_1server_1_1_response_transformer_1ade4f4fa4c7d824c35a550bad5897b432" prot="public" virt="non-virtual"><scope>themis::server::ResponseTransformer</scope><name>addFieldRename</name></member>
+      <member refid="classthemis_1_1server_1_1_response_transformer_1a4968c723926e6dd7e93965e427cebd4c" prot="private" virt="non-virtual"><scope>themis::server::ResponseTransformer</scope><name>applyFieldMappings</name></member>
+      <member refid="classthemis_1_1server_1_1_response_transformer_1a51f0c4639b7150f43e5adb5daa250110" prot="private" virt="non-virtual"><scope>themis::server::ResponseTransformer</scope><name>default_values_</name></member>
+      <member refid="classthemis_1_1server_1_1_response_transformer_1a4e079930cd5118ebc460ec8977e3714f" prot="private" virt="non-virtual"><scope>themis::server::ResponseTransformer</scope><name>field_renames_</name></member>
+      <member refid="classthemis_1_1server_1_1_response_transformer_1a0a21be0df7c00aeb4a3c279e1829ab4e" prot="public" virt="non-virtual"><scope>themis::server::ResponseTransformer</scope><name>hasVersion</name></member>
+      <member refid="classthemis_1_1server_1_1_response_transformer_1a16fe6c319cdcb2ddbeeb0b100e4c600c" prot="public" virt="non-virtual"><scope>themis::server::ResponseTransformer</scope><name>registeredVersions</name></member>
+      <member refid="classthemis_1_1server_1_1_response_transformer_1ab262759f5b67552671f8d856963eb4ef" prot="public" virt="non-virtual"><scope>themis::server::ResponseTransformer</scope><name>registerVersion</name></member>
+      <member refid="classthemis_1_1server_1_1_response_transformer_1a256bfa4cfb9baea638b484cb3fb02a3e" prot="private" virt="non-virtual"><scope>themis::server::ResponseTransformer</scope><name>resolveKey</name></member>
+      <member refid="classthemis_1_1server_1_1_response_transformer_1af9df8d81ccc855a8de956b9c5e4ffe59" prot="public" virt="non-virtual"><scope>themis::server::ResponseTransformer</scope><name>ResponseTransformer</name></member>
+      <member refid="classthemis_1_1server_1_1_response_transformer_1aa4f3f42f981780656d666650dd4e0225" prot="public" virt="non-virtual"><scope>themis::server::ResponseTransformer</scope><name>transform</name></member>
+      <member refid="classthemis_1_1server_1_1_response_transformer_1acafa78984993956771815bd0be087358" prot="public" virt="non-virtual"><scope>themis::server::ResponseTransformer</scope><name>TransformFn</name></member>
+      <member refid="classthemis_1_1server_1_1_response_transformer_1a550dacccd2168c1d152343c73d99daeb" prot="private" virt="non-virtual"><scope>themis::server::ResponseTransformer</scope><name>transforms_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

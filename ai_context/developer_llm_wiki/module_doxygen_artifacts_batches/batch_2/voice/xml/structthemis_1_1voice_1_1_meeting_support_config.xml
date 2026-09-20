@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_meeting_support_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::MeetingSupportConfig</compoundname>
+    <includes refid="voice__meeting__support_8h" local="no">voice_meeting_support.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_meeting_support_config_1aca80b676ae7cfd3eb6abf521468d4f72" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::MeetingSupportConfig::action_item_confidence_threshold</definition>
+        <argsstring></argsstring>
+        <name>action_item_confidence_threshold</name>
+        <qualifiedname>themis::voice::MeetingSupportConfig::action_item_confidence_threshold</qualifiedname>
+        <initializer>= 0.4f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_meeting_support.h" line="96" column="11" bodyfile="include/voice/voice_meeting_support.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_meeting_support_config_1a0ea3f003c4f35325128682ef85b34d51" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::MeetingSupportConfig::decision_confidence_threshold</definition>
+        <argsstring></argsstring>
+        <name>decision_confidence_threshold</name>
+        <qualifiedname>themis::voice::MeetingSupportConfig::decision_confidence_threshold</qualifiedname>
+        <initializer>= 0.5f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_meeting_support.h" line="97" column="11" bodyfile="include/voice/voice_meeting_support.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_meeting_support_config_1a275fb28585011cfa634a28cef9b9f478" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::MeetingSupportConfig::auto_assign_action_items</definition>
+        <argsstring></argsstring>
+        <name>auto_assign_action_items</name>
+        <qualifiedname>themis::voice::MeetingSupportConfig::auto_assign_action_items</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_meeting_support.h" line="98" column="10" bodyfile="include/voice/voice_meeting_support.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_meeting_support_config_1a28946efeb1df25ffe2608129cae86d02" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::MeetingSupportConfig::detect_agenda_structure</definition>
+        <argsstring></argsstring>
+        <name>detect_agenda_structure</name>
+        <qualifiedname>themis::voice::MeetingSupportConfig::detect_agenda_structure</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_meeting_support.h" line="99" column="10" bodyfile="include/voice/voice_meeting_support.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_meeting_support_config_1a5e414cd409cb24a8d778b176cce52eef" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::voice::MeetingSupportConfig::max_action_items</definition>
+        <argsstring></argsstring>
+        <name>max_action_items</name>
+        <qualifiedname>themis::voice::MeetingSupportConfig::max_action_items</qualifiedname>
+        <initializer>= 50</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_meeting_support.h" line="100" column="12" bodyfile="include/voice/voice_meeting_support.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_meeting_support_config_1a30bd091a2f9ce302bed2fbf674e88ba2" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::voice::MeetingSupportConfig::action_item_triggers</definition>
+        <argsstring></argsstring>
+        <name>action_item_triggers</name>
+        <qualifiedname>themis::voice::MeetingSupportConfig::action_item_triggers</qualifiedname>
+        <initializer>                                 = {
+    &quot;will&quot;, &quot;should&quot;, &quot;needs to&quot;, &quot;must&quot;, &quot;action:&quot;, &quot;todo:&quot;, &quot;follow up&quot;,
+    &quot;by next&quot;, &quot;by end of&quot;, &quot;assigned to&quot;, &quot;take care of&quot;, &quot;responsible for&quot;
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_meeting_support.h" line="101" column="17" bodyfile="include/voice/voice_meeting_support.h" bodystart="101" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_meeting_support_config_1a2a10d008d18929c38e0b8d22c0abfe59" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::voice::MeetingSupportConfig::decision_triggers</definition>
+        <argsstring></argsstring>
+        <name>decision_triggers</name>
+        <qualifiedname>themis::voice::MeetingSupportConfig::decision_triggers</qualifiedname>
+        <initializer>                              = {
+    &quot;decided&quot;, &quot;agreed&quot;, &quot;resolved&quot;, &quot;approved&quot;, &quot;rejected&quot;,
+    &quot;we will&quot;, &quot;we have decided&quot;, &quot;the decision is&quot;, &quot;consensus&quot;
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_meeting_support.h" line="105" column="17" bodyfile="include/voice/voice_meeting_support.h" bodystart="105" bodyend="108"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_meeting_support.h" line="95" column="1" bodyfile="include/voice/voice_meeting_support.h" bodystart="95" bodyend="109"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_meeting_support_config_1aca80b676ae7cfd3eb6abf521468d4f72" prot="public" virt="non-virtual"><scope>themis::voice::MeetingSupportConfig</scope><name>action_item_confidence_threshold</name></member>
+      <member refid="structthemis_1_1voice_1_1_meeting_support_config_1a30bd091a2f9ce302bed2fbf674e88ba2" prot="public" virt="non-virtual"><scope>themis::voice::MeetingSupportConfig</scope><name>action_item_triggers</name></member>
+      <member refid="structthemis_1_1voice_1_1_meeting_support_config_1a275fb28585011cfa634a28cef9b9f478" prot="public" virt="non-virtual"><scope>themis::voice::MeetingSupportConfig</scope><name>auto_assign_action_items</name></member>
+      <member refid="structthemis_1_1voice_1_1_meeting_support_config_1a0ea3f003c4f35325128682ef85b34d51" prot="public" virt="non-virtual"><scope>themis::voice::MeetingSupportConfig</scope><name>decision_confidence_threshold</name></member>
+      <member refid="structthemis_1_1voice_1_1_meeting_support_config_1a2a10d008d18929c38e0b8d22c0abfe59" prot="public" virt="non-virtual"><scope>themis::voice::MeetingSupportConfig</scope><name>decision_triggers</name></member>
+      <member refid="structthemis_1_1voice_1_1_meeting_support_config_1a28946efeb1df25ffe2608129cae86d02" prot="public" virt="non-virtual"><scope>themis::voice::MeetingSupportConfig</scope><name>detect_agenda_structure</name></member>
+      <member refid="structthemis_1_1voice_1_1_meeting_support_config_1a5e414cd409cb24a8d778b176cce52eef" prot="public" virt="non-virtual"><scope>themis::voice::MeetingSupportConfig</scope><name>max_action_items</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

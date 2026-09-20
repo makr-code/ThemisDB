@@ -1,0 +1,154 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1_workflow_engine_1_1_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::ingestion::WorkflowEngine::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_workflow_engine_1_1_impl_1a3ac49dd5179338cd5bc8cf6768798e4c" prot="public" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::ingestion::WorkflowEngine::Impl::profiles_mutex_</definition>
+        <argsstring></argsstring>
+        <name>profiles_mutex_</name>
+        <qualifiedname>themis::ingestion::WorkflowEngine::Impl::profiles_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/workflow_engine.cpp" line="635" column="31" bodyfile="src/ingestion/workflow_engine.cpp" bodystart="635" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_workflow_engine_1_1_impl_1a8fc87f5b298705b805764d159b97914f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1ingestion_1_1_workflow_profile" kindref="compound">WorkflowProfile</ref> &gt;</type>
+        <definition>std::vector&lt;WorkflowProfile&gt; themis::ingestion::WorkflowEngine::Impl::profiles_</definition>
+        <argsstring></argsstring>
+        <name>profiles_</name>
+        <qualifiedname>themis::ingestion::WorkflowEngine::Impl::profiles_</qualifiedname>
+        <briefdescription>
+<para>In registration order. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/workflow_engine.cpp" line="636" column="17" bodyfile="src/ingestion/workflow_engine.cpp" bodystart="636" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_workflow_engine_1_1_impl_1a478b438d3becd42b8aa5d2fdb2c3d837" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1ingestion_1_1_step_registry" kindref="compound">StepRegistry</ref></type>
+        <definition>StepRegistry themis::ingestion::WorkflowEngine::Impl::step_registry_</definition>
+        <argsstring></argsstring>
+        <name>step_registry_</name>
+        <qualifiedname>themis::ingestion::WorkflowEngine::Impl::step_registry_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/workflow_engine.cpp" line="637" column="18" bodyfile="src/ingestion/workflow_engine.cpp" bodystart="637" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_workflow_engine_1_1_impl_1a917b733037764bbf04d487b3faf496ee" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::WorkflowEngine::Impl::Impl</definition>
+        <argsstring>()</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::ingestion::WorkflowEngine::Impl::Impl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/workflow_engine.cpp" line="639" column="5" bodyfile="src/ingestion/workflow_engine.cpp" bodystart="639" bodyend="642"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_workflow_engine_1_1_impl_1aba1e10880fd54e8ea4c75dbc8f96bc8f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1ingestion_1_1_workflow_profile" kindref="compound">WorkflowProfile</ref> *</type>
+        <definition>const WorkflowProfile * themis::ingestion::WorkflowEngine::Impl::findProfileByName</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>findProfileByName</name>
+        <qualifiedname>themis::ingestion::WorkflowEngine::Impl::findProfileByName</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/workflow_engine.cpp" line="644" column="27" bodyfile="src/ingestion/workflow_engine.cpp" bodystart="644" bodyend="650"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_workflow_engine_1_1_impl_1a7d70514d01385298fd18767fe46fbbd7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1ingestion_1_1_base_entity_set" kindref="compound">BaseEntitySet</ref> &gt;</type>
+        <definition>Result&lt; BaseEntitySet &gt; themis::ingestion::WorkflowEngine::Impl::runProfile</definition>
+        <argsstring>(const WorkflowProfile &amp;profile, ExtractionContext &amp;ctx)</argsstring>
+        <name>runProfile</name>
+        <qualifiedname>themis::ingestion::WorkflowEngine::Impl::runProfile</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_workflow_profile" kindref="compound">WorkflowProfile</ref> &amp;</type>
+          <declname>profile</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">ExtractionContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Run Profile. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">profile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getStep(), skipOnFailure(), push_back(), tl::make_unexpected(), canHandle(), <ref refid="classthemis_1_1ingestion_1_1_workflow_engine_1aa1bd0a39afd49a9e37bc83ae688331ae" kindref="member">execute()</ref>, error(), message(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/workflow_engine.cpp" line="659" column="12" bodyfile="src/ingestion/workflow_engine.cpp" bodystart="659" bodyend="734"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::ingestion::StepRegistry</label>
+        <link refid="classthemis_1_1ingestion_1_1_step_registry"/>
+      </node>
+      <node id="1">
+        <label>themis::ingestion::WorkflowEngine::Impl</label>
+        <link refid="classthemis_1_1ingestion_1_1_workflow_engine_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>step_registry_</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/ingestion/workflow_engine.cpp" line="633" column="1" bodyfile="src/ingestion/workflow_engine.cpp" bodystart="633" bodyend="735"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1_workflow_engine_1_1_impl_1aba1e10880fd54e8ea4c75dbc8f96bc8f" prot="public" virt="non-virtual"><scope>themis::ingestion::WorkflowEngine::Impl</scope><name>findProfileByName</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_workflow_engine_1_1_impl_1a917b733037764bbf04d487b3faf496ee" prot="public" virt="non-virtual"><scope>themis::ingestion::WorkflowEngine::Impl</scope><name>Impl</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_workflow_engine_1_1_impl_1a8fc87f5b298705b805764d159b97914f" prot="public" virt="non-virtual"><scope>themis::ingestion::WorkflowEngine::Impl</scope><name>profiles_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_workflow_engine_1_1_impl_1a3ac49dd5179338cd5bc8cf6768798e4c" prot="public" virt="non-virtual"><scope>themis::ingestion::WorkflowEngine::Impl</scope><name>profiles_mutex_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_workflow_engine_1_1_impl_1a7d70514d01385298fd18767fe46fbbd7" prot="public" virt="non-virtual"><scope>themis::ingestion::WorkflowEngine::Impl</scope><name>runProfile</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_workflow_engine_1_1_impl_1a478b438d3becd42b8aa5d2fdb2c3d837" prot="public" virt="non-virtual"><scope>themis::ingestion::WorkflowEngine::Impl</scope><name>step_registry_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

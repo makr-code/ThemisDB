@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_relational_join_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::RelationalJoinConfig</compoundname>
+    <includes refid="aql__train__parser_8h" local="no">aql_train_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_relational_join_config_1ab3a6fa35d430cbe25885470f21eff98b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::RelationalJoinConfig::collection</definition>
+        <argsstring></argsstring>
+        <name>collection</name>
+        <qualifiedname>themis::llm::RelationalJoinConfig::collection</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="103" column="17" bodyfile="include/llm/aql_train_parser.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_relational_join_config_1a1c0984711534d429fdb02aba2fea1dd5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::RelationalJoinConfig::local_field</definition>
+        <argsstring></argsstring>
+        <name>local_field</name>
+        <qualifiedname>themis::llm::RelationalJoinConfig::local_field</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="104" column="17" bodyfile="include/llm/aql_train_parser.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_relational_join_config_1a1de285fd79c0d48a9a458f4cf449649b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::RelationalJoinConfig::foreign_field</definition>
+        <argsstring></argsstring>
+        <name>foreign_field</name>
+        <qualifiedname>themis::llm::RelationalJoinConfig::foreign_field</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="105" column="17" bodyfile="include/llm/aql_train_parser.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_relational_join_config_1a743f2212a0f90c02c083c675155dc73d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::RelationalJoinConfig::join_type</definition>
+        <argsstring></argsstring>
+        <name>join_type</name>
+        <qualifiedname>themis::llm::RelationalJoinConfig::join_type</qualifiedname>
+        <initializer>= &quot;LEFT&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="106" column="17" bodyfile="include/llm/aql_train_parser.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_relational_join_config_1a2d76de70716621d676ca9b5cace132a9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::llm::RelationalJoinConfig::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::llm::RelationalJoinConfig::toJSON</qualifiedname>
+        <briefdescription>
+<para>To JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="112" column="20" bodyfile="src/llm/aql_train_parser.cpp" bodystart="361" bodyend="368"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_relational_join_config_1a3ee84958cb1a2025e458766b485ec10d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_relational_join_config" kindref="compound">RelationalJoinConfig</ref></type>
+        <definition>RelationalJoinConfig themis::llm::RelationalJoinConfig::fromJSON</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJSON</name>
+        <qualifiedname>themis::llm::RelationalJoinConfig::fromJSON</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: contains(), std::string(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="118" column="33" bodyfile="src/llm/aql_train_parser.cpp" bodystart="377" bodyend="397"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/aql_train_parser.h" line="102" column="1" bodyfile="include/llm/aql_train_parser.h" bodystart="102" bodyend="119"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_relational_join_config_1ab3a6fa35d430cbe25885470f21eff98b" prot="public" virt="non-virtual"><scope>themis::llm::RelationalJoinConfig</scope><name>collection</name></member>
+      <member refid="structthemis_1_1llm_1_1_relational_join_config_1a1de285fd79c0d48a9a458f4cf449649b" prot="public" virt="non-virtual"><scope>themis::llm::RelationalJoinConfig</scope><name>foreign_field</name></member>
+      <member refid="structthemis_1_1llm_1_1_relational_join_config_1a3ee84958cb1a2025e458766b485ec10d" prot="public" virt="non-virtual"><scope>themis::llm::RelationalJoinConfig</scope><name>fromJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1_relational_join_config_1a743f2212a0f90c02c083c675155dc73d" prot="public" virt="non-virtual"><scope>themis::llm::RelationalJoinConfig</scope><name>join_type</name></member>
+      <member refid="structthemis_1_1llm_1_1_relational_join_config_1a1c0984711534d429fdb02aba2fea1dd5" prot="public" virt="non-virtual"><scope>themis::llm::RelationalJoinConfig</scope><name>local_field</name></member>
+      <member refid="structthemis_1_1llm_1_1_relational_join_config_1a2d76de70716621d676ca9b5cace132a9" prot="public" virt="non-virtual"><scope>themis::llm::RelationalJoinConfig</scope><name>toJSON</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

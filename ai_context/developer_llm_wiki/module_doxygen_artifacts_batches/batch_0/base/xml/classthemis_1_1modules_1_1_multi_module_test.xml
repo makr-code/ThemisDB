@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1modules_1_1_multi_module_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::modules::MultiModuleTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_multi_module_test_1aeefd32d469f04e7f5879c1c79facbbfd" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; HotReloadManager &gt;</type>
+        <definition>std::unique_ptr&lt;HotReloadManager&gt; themis::modules::MultiModuleTest::mgr_</definition>
+        <argsstring></argsstring>
+        <name>mgr_</name>
+        <qualifiedname>themis::modules::MultiModuleTest::mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="482" column="21" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="482" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_multi_module_test_1a63d36152ef189f653fada9c7d2738920" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; ModuleLoader &gt;</type>
+        <definition>std::unique_ptr&lt;ModuleLoader&gt; themis::modules::MultiModuleTest::loader_</definition>
+        <argsstring></argsstring>
+        <name>loader_</name>
+        <qualifiedname>themis::modules::MultiModuleTest::loader_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="483" column="25" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="483" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_multi_module_test_1ab194456679b8ad9de02c144778c15fb3" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::MultiModuleTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::modules::MultiModuleTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="472" column="10" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="472" bodyend="480"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::modules::MultiModuleTest</label>
+        <link refid="classthemis_1_1modules_1_1_multi_module_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::modules::MultiModuleTest</label>
+        <link refid="classthemis_1_1modules_1_1_multi_module_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/base/test_base_reload_regression.cpp" line="470" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="470" bodyend="484"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1modules_1_1_multi_module_test_1a63d36152ef189f653fada9c7d2738920" prot="protected" virt="non-virtual"><scope>themis::modules::MultiModuleTest</scope><name>loader_</name></member>
+      <member refid="classthemis_1_1modules_1_1_multi_module_test_1aeefd32d469f04e7f5879c1c79facbbfd" prot="protected" virt="non-virtual"><scope>themis::modules::MultiModuleTest</scope><name>mgr_</name></member>
+      <member refid="classthemis_1_1modules_1_1_multi_module_test_1ab194456679b8ad9de02c144778c15fb3" prot="protected" virt="non-virtual"><scope>themis::modules::MultiModuleTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

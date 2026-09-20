@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_c32c4be4577c3d962eccdc30a4f27b26" kind="dir">
+    <compoundname>benchmarks/document</compoundname>
+    <innerfile refid="bench__document__diff__merge_8cpp">bench_document_diff_merge.cpp</innerfile>
+    <innerfile refid="bench__document__round__trip_8cpp">bench_document_round_trip.cpp</innerfile>
+    <innerfile refid="bench__document__serialization__gates_8cpp">bench_document_serialization_gates.cpp</innerfile>
+    <innerfile refid="bench__document__store_8cpp">bench_document_store.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/document/"/>
+  </compounddef>
+</doxygen>

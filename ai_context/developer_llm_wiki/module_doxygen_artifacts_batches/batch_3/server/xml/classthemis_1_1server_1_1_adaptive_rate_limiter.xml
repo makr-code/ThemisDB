@@ -1,0 +1,417 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_adaptive_rate_limiter" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::AdaptiveRateLimiter</compoundname>
+    <includes refid="adaptive__rate__limiter_8h" local="no">adaptive_rate_limiter.h</includes>
+    <innerclass refid="structthemis_1_1server_1_1_adaptive_rate_limiter_1_1_config" prot="public">themis::server::AdaptiveRateLimiter::Config</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_adaptive_rate_limiter_1_1_timed_sample" prot="private">themis::server::AdaptiveRateLimiter::TimedSample</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_adaptive_rate_limiter_1_1_tenant_state" prot="private">themis::server::AdaptiveRateLimiter::TenantState</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_adaptive_rate_limiter_1a03b9fff5f566c0347b38c9ed3d8fe8ec" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1server_1_1_adaptive_rate_limiter_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::server::AdaptiveRateLimiter::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::server::AdaptiveRateLimiter::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/adaptive_rate_limiter.h" line="138" column="12" bodyfile="include/server/adaptive_rate_limiter.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_adaptive_rate_limiter_1a6d5018ed38b4ba34836ec24554d32946" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::server::AdaptiveRateLimiter::tenants_mutex_</definition>
+        <argsstring></argsstring>
+        <name>tenants_mutex_</name>
+        <qualifiedname>themis::server::AdaptiveRateLimiter::tenants_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/adaptive_rate_limiter.h" line="140" column="31" bodyfile="include/server/adaptive_rate_limiter.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_adaptive_rate_limiter_1a91d116a7adf1163de7ce948da62adda6" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, TenantState &gt;</type>
+        <definition>std::unordered_map&lt;std::string, TenantState&gt; themis::server::AdaptiveRateLimiter::tenants_</definition>
+        <argsstring></argsstring>
+        <name>tenants_</name>
+        <qualifiedname>themis::server::AdaptiveRateLimiter::tenants_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/adaptive_rate_limiter.h" line="141" column="24" bodyfile="include/server/adaptive_rate_limiter.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_adaptive_rate_limiter_1ae8c16cd61d0180ba6f6bfc04e95fae1e" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::server::AdaptiveRateLimiter::total_requests_</definition>
+        <argsstring></argsstring>
+        <name>total_requests_</name>
+        <qualifiedname>themis::server::AdaptiveRateLimiter::total_requests_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/adaptive_rate_limiter.h" line="143" column="17" bodyfile="include/server/adaptive_rate_limiter.h" bodystart="143" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_adaptive_rate_limiter_1a778cb5e217aa5bd28798b3fe631c35da" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::server::AdaptiveRateLimiter::total_rejections_</definition>
+        <argsstring></argsstring>
+        <name>total_rejections_</name>
+        <qualifiedname>themis::server::AdaptiveRateLimiter::total_rejections_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/adaptive_rate_limiter.h" line="144" column="17" bodyfile="include/server/adaptive_rate_limiter.h" bodystart="144" bodyend="144"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_adaptive_rate_limiter_1ad5c18aaafb8228bc0e6e8b7e7efae0c3" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::AdaptiveRateLimiter::AdaptiveRateLimiter</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>AdaptiveRateLimiter</name>
+        <qualifiedname>themis::server::AdaptiveRateLimiter::AdaptiveRateLimiter</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_adaptive_rate_limiter_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Adaptive Rate Limiter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/adaptive_rate_limiter.h" line="57" column="14" bodyfile="src/server/adaptive_rate_limiter.cpp" bodystart="26" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_adaptive_rate_limiter_1ad680e63ef4309e8d8986f37eb613d193" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::AdaptiveRateLimiter::recordSample</definition>
+        <argsstring>(const std::string &amp;tenant_id, const BackendHealthSample &amp;sample)</argsstring>
+        <name>recordSample</name>
+        <qualifiedname>themis::server::AdaptiveRateLimiter::recordSample</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_backend_health_sample" kindref="compound">BackendHealthSample</ref> &amp;</type>
+          <declname>sample</declname>
+        </param>
+        <briefdescription>
+<para>Record Sample. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sample</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenants_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/adaptive_rate_limiter.h" line="64" column="10" bodyfile="src/server/adaptive_rate_limiter.cpp" bodystart="44" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_adaptive_rate_limiter_1af6489df6282a461ced73091dfd14645f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::AdaptiveRateLimiter::allowRequest</definition>
+        <argsstring>(const std::string &amp;tenant_id=&quot;&quot;)</argsstring>
+        <name>allowRequest</name>
+        <qualifiedname>themis::server::AdaptiveRateLimiter::allowRequest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Allow <ref refid="structthemis_1_1server_1_1_request" kindref="compound">Request</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenants_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/adaptive_rate_limiter.h" line="67" column="10" bodyfile="src/server/adaptive_rate_limiter.cpp" bodystart="78" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_adaptive_rate_limiter_1a61718d192ce90f616616735737bea1e1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::server::AdaptiveRateLimiter::getCurrentCapacity</definition>
+        <argsstring>(const std::string &amp;tenant_id=&quot;&quot;) const</argsstring>
+        <name>getCurrentCapacity</name>
+        <qualifiedname>themis::server::AdaptiveRateLimiter::getCurrentCapacity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenants_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/adaptive_rate_limiter.h" line="69" column="12" bodyfile="src/server/adaptive_rate_limiter.cpp" bodystart="117" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_adaptive_rate_limiter_1a56434e95674d9fc9a4ee00c867c07934" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::server::AdaptiveRateLimiter::getTotalRequests</definition>
+        <argsstring>() const</argsstring>
+        <name>getTotalRequests</name>
+        <qualifiedname>themis::server::AdaptiveRateLimiter::getTotalRequests</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/adaptive_rate_limiter.h" line="71" column="14" bodyfile="include/server/adaptive_rate_limiter.h" bodystart="71" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_adaptive_rate_limiter_1aa335850e59ec9c410dcc25e6bd7dfdd0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::server::AdaptiveRateLimiter::getTotalRejections</definition>
+        <argsstring>() const</argsstring>
+        <name>getTotalRejections</name>
+        <qualifiedname>themis::server::AdaptiveRateLimiter::getTotalRejections</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/adaptive_rate_limiter.h" line="75" column="14" bodyfile="include/server/adaptive_rate_limiter.h" bodystart="75" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_adaptive_rate_limiter_1ae760d2a4408d21bd30dd27b930fc33b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::AdaptiveRateLimiter::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::server::AdaptiveRateLimiter::reset</qualifiedname>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenants_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/adaptive_rate_limiter.h" line="82" column="10" bodyfile="src/server/adaptive_rate_limiter.cpp" bodystart="136" bodyend="148"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_adaptive_rate_limiter_1afd3711c8d1f9729ad4cf5a0d5d70f605" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::AdaptiveRateLimiter::pruneAndAdapt</definition>
+        <argsstring>(TenantState &amp;state)</argsstring>
+        <name>pruneAndAdapt</name>
+        <qualifiedname>themis::server::AdaptiveRateLimiter::pruneAndAdapt</qualifiedname>
+        <param>
+          <type>TenantState &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>Prune And Adapt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/adaptive_rate_limiter.h" line="119" column="10" bodyfile="src/server/adaptive_rate_limiter.cpp" bodystart="158" bodyend="216"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_adaptive_rate_limiter_1a13e06b835544407986403d3472b60ce7" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::server::AdaptiveRateLimiter::computeP99</definition>
+        <argsstring>(const std::vector&lt; TimedSample &gt; &amp;samples)</argsstring>
+        <name>computeP99</name>
+        <qualifiedname>themis::server::AdaptiveRateLimiter::computeP99</qualifiedname>
+        <param>
+          <type>const std::vector&lt; TimedSample &gt; &amp;</type>
+          <declname>samples</declname>
+        </param>
+        <briefdescription>
+<para>Compute P99. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/adaptive_rate_limiter.h" line="126" column="38" bodyfile="src/server/adaptive_rate_limiter.cpp" bodystart="223" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_adaptive_rate_limiter_1a6f485f745ec998d3595a89e35bde230b" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::server::AdaptiveRateLimiter::computeErrorRate</definition>
+        <argsstring>(const std::vector&lt; TimedSample &gt; &amp;samples)</argsstring>
+        <name>computeErrorRate</name>
+        <qualifiedname>themis::server::AdaptiveRateLimiter::computeErrorRate</qualifiedname>
+        <param>
+          <type>const std::vector&lt; TimedSample &gt; &amp;</type>
+          <declname>samples</declname>
+        </param>
+        <briefdescription>
+<para>Compute Error Rate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/adaptive_rate_limiter.h" line="134" column="19" bodyfile="src/server/adaptive_rate_limiter.cpp" bodystart="252" bodyend="265"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/adaptive_rate_limiter.h" line="32" column="1" bodyfile="include/server/adaptive_rate_limiter.h" bodystart="32" bodyend="145"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_adaptive_rate_limiter_1ad5c18aaafb8228bc0e6e8b7e7efae0c3" prot="public" virt="non-virtual"><scope>themis::server::AdaptiveRateLimiter</scope><name>AdaptiveRateLimiter</name></member>
+      <member refid="classthemis_1_1server_1_1_adaptive_rate_limiter_1af6489df6282a461ced73091dfd14645f" prot="public" virt="non-virtual"><scope>themis::server::AdaptiveRateLimiter</scope><name>allowRequest</name></member>
+      <member refid="classthemis_1_1server_1_1_adaptive_rate_limiter_1a6f485f745ec998d3595a89e35bde230b" prot="private" virt="non-virtual"><scope>themis::server::AdaptiveRateLimiter</scope><name>computeErrorRate</name></member>
+      <member refid="classthemis_1_1server_1_1_adaptive_rate_limiter_1a13e06b835544407986403d3472b60ce7" prot="private" virt="non-virtual"><scope>themis::server::AdaptiveRateLimiter</scope><name>computeP99</name></member>
+      <member refid="classthemis_1_1server_1_1_adaptive_rate_limiter_1a03b9fff5f566c0347b38c9ed3d8fe8ec" prot="private" virt="non-virtual"><scope>themis::server::AdaptiveRateLimiter</scope><name>config_</name></member>
+      <member refid="classthemis_1_1server_1_1_adaptive_rate_limiter_1a61718d192ce90f616616735737bea1e1" prot="public" virt="non-virtual"><scope>themis::server::AdaptiveRateLimiter</scope><name>getCurrentCapacity</name></member>
+      <member refid="classthemis_1_1server_1_1_adaptive_rate_limiter_1aa335850e59ec9c410dcc25e6bd7dfdd0" prot="public" virt="non-virtual"><scope>themis::server::AdaptiveRateLimiter</scope><name>getTotalRejections</name></member>
+      <member refid="classthemis_1_1server_1_1_adaptive_rate_limiter_1a56434e95674d9fc9a4ee00c867c07934" prot="public" virt="non-virtual"><scope>themis::server::AdaptiveRateLimiter</scope><name>getTotalRequests</name></member>
+      <member refid="classthemis_1_1server_1_1_adaptive_rate_limiter_1afd3711c8d1f9729ad4cf5a0d5d70f605" prot="private" virt="non-virtual"><scope>themis::server::AdaptiveRateLimiter</scope><name>pruneAndAdapt</name></member>
+      <member refid="classthemis_1_1server_1_1_adaptive_rate_limiter_1ad680e63ef4309e8d8986f37eb613d193" prot="public" virt="non-virtual"><scope>themis::server::AdaptiveRateLimiter</scope><name>recordSample</name></member>
+      <member refid="classthemis_1_1server_1_1_adaptive_rate_limiter_1ae760d2a4408d21bd30dd27b930fc33b1" prot="public" virt="non-virtual"><scope>themis::server::AdaptiveRateLimiter</scope><name>reset</name></member>
+      <member refid="classthemis_1_1server_1_1_adaptive_rate_limiter_1a91d116a7adf1163de7ce948da62adda6" prot="private" virt="non-virtual"><scope>themis::server::AdaptiveRateLimiter</scope><name>tenants_</name></member>
+      <member refid="classthemis_1_1server_1_1_adaptive_rate_limiter_1a6d5018ed38b4ba34836ec24554d32946" prot="private" virt="non-virtual"><scope>themis::server::AdaptiveRateLimiter</scope><name>tenants_mutex_</name></member>
+      <member refid="classthemis_1_1server_1_1_adaptive_rate_limiter_1a778cb5e217aa5bd28798b3fe631c35da" prot="private" virt="non-virtual"><scope>themis::server::AdaptiveRateLimiter</scope><name>total_rejections_</name></member>
+      <member refid="classthemis_1_1server_1_1_adaptive_rate_limiter_1ae8c16cd61d0180ba6f6bfc04e95fae1e" prot="private" virt="non-virtual"><scope>themis::server::AdaptiveRateLimiter</scope><name>total_requests_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

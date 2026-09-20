@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_guardrail_decision" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::GuardrailDecision</compoundname>
+    <includes refid="retrieval__guardrail_8h" local="no">retrieval_guardrail.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_guardrail_decision_1abd16ec9143beb8b176d10980e3055a8b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::GuardrailDecision::allow</definition>
+        <argsstring></argsstring>
+        <name>allow</name>
+        <qualifiedname>themis::rag::GuardrailDecision::allow</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>True if the query may proceed; false if it was denied. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/retrieval_guardrail.h" line="35" column="10" bodyfile="include/rag/retrieval_guardrail.h" bodystart="35" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_guardrail_decision_1a2b362ae917b9ba6f8ebc932b11d3710b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::GuardrailDecision::deny_reason</definition>
+        <argsstring></argsstring>
+        <name>deny_reason</name>
+        <qualifiedname>themis::rag::GuardrailDecision::deny_reason</qualifiedname>
+        <briefdescription>
+<para>Human-readable denial reason (empty when <computeroutput>allow</computeroutput> is true). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/retrieval_guardrail.h" line="38" column="17" bodyfile="include/rag/retrieval_guardrail.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_guardrail_decision_1ad2e31916b4b2f97f6344eaddf042969c" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::rag::GuardrailDecision::estimated_cost_ms</definition>
+        <argsstring></argsstring>
+        <name>estimated_cost_ms</name>
+        <qualifiedname>themis::rag::GuardrailDecision::estimated_cost_ms</qualifiedname>
+        <initializer>{0.0f}</initializer>
+        <briefdescription>
+<para>Estimated end-to-end cost in milliseconds used for the decision. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/retrieval_guardrail.h" line="41" column="11" bodyfile="include/rag/retrieval_guardrail.h" bodystart="41" bodyend="41"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result returned by <ref refid="classthemis_1_1rag_1_1_retrieval_guardrail_1a52ac879e4a8c639abdf6c412f0267c7b" kindref="member">RetrievalGuardrail::checkFederatedCost()</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>When <computeroutput>allow</computeroutput> is <computeroutput>false</computeroutput>, <computeroutput>deny_reason</computeroutput> carries a structured message suitable for surfacing in <computeroutput>SearchStats</computeroutput> or audit logs. </para>
+    </detaileddescription>
+    <location file="include/rag/retrieval_guardrail.h" line="33" column="1" bodyfile="include/rag/retrieval_guardrail.h" bodystart="33" bodyend="42"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_guardrail_decision_1abd16ec9143beb8b176d10980e3055a8b" prot="public" virt="non-virtual"><scope>themis::rag::GuardrailDecision</scope><name>allow</name></member>
+      <member refid="structthemis_1_1rag_1_1_guardrail_decision_1a2b362ae917b9ba6f8ebc932b11d3710b" prot="public" virt="non-virtual"><scope>themis::rag::GuardrailDecision</scope><name>deny_reason</name></member>
+      <member refid="structthemis_1_1rag_1_1_guardrail_decision_1ad2e31916b4b2f97f6344eaddf042969c" prot="public" virt="non-virtual"><scope>themis::rag::GuardrailDecision</scope><name>estimated_cost_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

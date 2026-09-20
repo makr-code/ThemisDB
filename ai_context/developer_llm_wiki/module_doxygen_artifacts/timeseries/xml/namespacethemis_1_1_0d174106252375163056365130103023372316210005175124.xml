@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1_0d174106252375163056365130103023372316210005175124" kind="namespace" language="C++">
+    <compoundname>themis::@174106252375163056365130103023372316210005175124</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/timeseries/test_timeseries_retention.cpp" line="20" column="1"/>
+  </compounddef>
+</doxygen>

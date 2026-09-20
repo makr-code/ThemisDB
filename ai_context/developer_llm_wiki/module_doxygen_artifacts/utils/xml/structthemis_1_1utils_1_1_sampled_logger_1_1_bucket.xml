@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_sampled_logger_1_1_bucket" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::SampledLogger::Bucket</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_sampled_logger_1_1_bucket_1ad3bebe3e0f5aa94ab041e73045469078" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::utils::SampledLogger::Bucket::tokens</definition>
+        <argsstring></argsstring>
+        <name>tokens</name>
+        <qualifiedname>themis::utils::SampledLogger::Bucket::tokens</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/sampled_logger.cpp" line="25" column="12" bodyfile="src/utils/sampled_logger.cpp" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_sampled_logger_1_1_bucket_1a6a4a331419775a9fecdbc8122fe93fa1" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::utils::SampledLogger::Bucket::last_refill</definition>
+        <argsstring></argsstring>
+        <name>last_refill</name>
+        <qualifiedname>themis::utils::SampledLogger::Bucket::last_refill</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/sampled_logger.cpp" line="26" column="43" bodyfile="src/utils/sampled_logger.cpp" bodystart="26" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1utils_1_1_sampled_logger_1_1_bucket_1a53cda6eb097e3e01837cef26e7aa3ea1" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::SampledLogger::Bucket::Bucket</definition>
+        <argsstring>(double initial)</argsstring>
+        <name>Bucket</name>
+        <qualifiedname>themis::utils::SampledLogger::Bucket::Bucket</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>initial</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/sampled_logger.cpp" line="28" column="14" bodyfile="src/utils/sampled_logger.cpp" bodystart="28" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1utils_1_1_sampled_logger_1_1_bucket_1a3aaf9949a86c803afcea3876d2baeff1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::SampledLogger::Bucket::try_consume</definition>
+        <argsstring>(double rate, double burst)</argsstring>
+        <name>try_consume</name>
+        <qualifiedname>themis::utils::SampledLogger::Bucket::try_consume</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>rate</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>burst</declname>
+        </param>
+        <briefdescription>
+<para>Try consume. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">burst</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), count(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/sampled_logger.cpp" line="37" column="10" bodyfile="src/utils/sampled_logger.cpp" bodystart="37" bodyend="48"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/utils/sampled_logger.cpp" line="24" column="1" bodyfile="src/utils/sampled_logger.cpp" bodystart="24" bodyend="49"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_sampled_logger_1_1_bucket_1a53cda6eb097e3e01837cef26e7aa3ea1" prot="public" virt="non-virtual"><scope>themis::utils::SampledLogger::Bucket</scope><name>Bucket</name></member>
+      <member refid="structthemis_1_1utils_1_1_sampled_logger_1_1_bucket_1a6a4a331419775a9fecdbc8122fe93fa1" prot="public" virt="non-virtual"><scope>themis::utils::SampledLogger::Bucket</scope><name>last_refill</name></member>
+      <member refid="structthemis_1_1utils_1_1_sampled_logger_1_1_bucket_1ad3bebe3e0f5aa94ab041e73045469078" prot="public" virt="non-virtual"><scope>themis::utils::SampledLogger::Bucket</scope><name>tokens</name></member>
+      <member refid="structthemis_1_1utils_1_1_sampled_logger_1_1_bucket_1a3aaf9949a86c803afcea3876d2baeff1" prot="public" virt="non-virtual"><scope>themis::utils::SampledLogger::Bucket</scope><name>try_consume</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

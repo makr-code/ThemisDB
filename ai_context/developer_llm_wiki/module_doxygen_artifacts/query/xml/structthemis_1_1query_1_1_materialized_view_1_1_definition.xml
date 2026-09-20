@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_materialized_view_1_1_definition" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::MaterializedView::Definition</compoundname>
+    <includes refid="materialized__view_8h" local="no">materialized_view.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_materialized_view_1_1_definition_1aaed5006603d8916c0efa9128f67bc956" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::MaterializedView::Definition::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::query::MaterializedView::Definition::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_view.h" line="60" column="21" bodyfile="include/query/materialized_view.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_materialized_view_1_1_definition_1a9b547825fb2c252c14fd159e00f3c940" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::MaterializedView::Definition::query_aql</definition>
+        <argsstring></argsstring>
+        <name>query_aql</name>
+        <qualifiedname>themis::query::MaterializedView::Definition::query_aql</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_view.h" line="62" column="21" bodyfile="include/query/materialized_view.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_materialized_view_1_1_definition_1afef687228fd69fa059891e8f48c8ab6c" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1query_1_1_materialized_view_1a4d3fd1f6ffc19d1f1b3eaec1dd4d20e4" kindref="member">RefreshStrategy</ref></type>
+        <definition>RefreshStrategy themis::query::MaterializedView::Definition::strategy</definition>
+        <argsstring></argsstring>
+        <name>strategy</name>
+        <qualifiedname>themis::query::MaterializedView::Definition::strategy</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1query_1_1_materialized_view_1a4d3fd1f6ffc19d1f1b3eaec1dd4d20e4ae3d9a2ed4146353ae729818f8bcc329d" kindref="member">RefreshStrategy::DEFERRED</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_view.h" line="64" column="25" bodyfile="include/query/materialized_view.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_materialized_view_1_1_definition_1ad57c506af04e1a35c715d8a5a50891ca" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::query::MaterializedView::Definition::staleness_tolerance</definition>
+        <argsstring></argsstring>
+        <name>staleness_tolerance</name>
+        <qualifiedname>themis::query::MaterializedView::Definition::staleness_tolerance</qualifiedname>
+        <initializer>{60000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_view.h" line="66" column="35" bodyfile="include/query/materialized_view.h" bodystart="66" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_materialized_view_1_1_definition_1acede68241dc363cf64027b44d813b35b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::query::MaterializedView::Definition::base_tables</definition>
+        <argsstring></argsstring>
+        <name>base_tables</name>
+        <qualifiedname>themis::query::MaterializedView::Definition::base_tables</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_view.h" line="68" column="21" bodyfile="include/query/materialized_view.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/materialized_view.h" line="59" column="5" bodyfile="include/query/materialized_view.h" bodystart="59" bodyend="69"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_materialized_view_1_1_definition_1acede68241dc363cf64027b44d813b35b" prot="public" virt="non-virtual"><scope>themis::query::MaterializedView::Definition</scope><name>base_tables</name></member>
+      <member refid="structthemis_1_1query_1_1_materialized_view_1_1_definition_1aaed5006603d8916c0efa9128f67bc956" prot="public" virt="non-virtual"><scope>themis::query::MaterializedView::Definition</scope><name>name</name></member>
+      <member refid="structthemis_1_1query_1_1_materialized_view_1_1_definition_1a9b547825fb2c252c14fd159e00f3c940" prot="public" virt="non-virtual"><scope>themis::query::MaterializedView::Definition</scope><name>query_aql</name></member>
+      <member refid="structthemis_1_1query_1_1_materialized_view_1_1_definition_1ad57c506af04e1a35c715d8a5a50891ca" prot="public" virt="non-virtual"><scope>themis::query::MaterializedView::Definition</scope><name>staleness_tolerance</name></member>
+      <member refid="structthemis_1_1query_1_1_materialized_view_1_1_definition_1afef687228fd69fa059891e8f48c8ab6c" prot="public" virt="non-virtual"><scope>themis::query::MaterializedView::Definition</scope><name>strategy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

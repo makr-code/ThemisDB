@@ -1,0 +1,313 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1_process_community_detector" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::ProcessCommunityDetector</compoundname>
+    <includes refid="process__community__detector_8h" local="no">process_community_detector.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_process_community_detector_1a952e950e9b3fe74459dbd936ff87f622" prot="private" static="no" mutable="no">
+        <type>RocksDBWrapper &amp;</type>
+        <definition>RocksDBWrapper&amp; themis::process::ProcessCommunityDetector::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::process::ProcessCommunityDetector::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_community_detector.h" line="164" column="20" bodyfile="include/process/process_community_detector.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_community_detector_1ae72d2de13cda52bf46ef3c67e76c3f29" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::ProcessCommunityDetector::ProcessCommunityDetector</definition>
+        <argsstring>(RocksDBWrapper &amp;db)</argsstring>
+        <name>ProcessCommunityDetector</name>
+        <qualifiedname>themis::process::ProcessCommunityDetector::ProcessCommunityDetector</qualifiedname>
+        <param>
+          <type>RocksDBWrapper &amp;</type>
+          <declname>db</declname>
+        </param>
+        <briefdescription>
+<para>Construct a <ref refid="classthemis_1_1process_1_1_process_community_detector" kindref="compound">ProcessCommunityDetector</ref> with a RocksDB backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Reference to a RocksDBWrapper instance that will be used for storing and retrieving detected community data. The <ref refid="classthemis_1_1process_1_1_process_community_detector" kindref="compound">ProcessCommunityDetector</ref> does not own this reference; the caller is responsible for keeping the RocksDBWrapper alive for the entire lifetime of this detector instance.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Thread-safe: Multiple <ref refid="classthemis_1_1process_1_1_process_community_detector" kindref="compound">ProcessCommunityDetector</ref> instances can be created with the same RocksDB backend, and their operations will properly synchronize via RocksDB&apos;s internal locking mechanisms.</para>
+</simplesect>
+<simplesect kind="note"><para>The constructor does not perform any I/O; community detection is triggered lazily when <ref refid="classthemis_1_1process_1_1_process_community_detector_1ae20bc13d403a59947a178be89c9d82c3" kindref="member">detect()</ref> is called.</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="classthemis_1_1process_1_1_process_community_detector_1ae20bc13d403a59947a178be89c9d82c3" kindref="member">detect()</ref> to run community detection on a <ref refid="namespacethemis_1_1process" kindref="compound">process</ref> model </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="classthemis_1_1process_1_1_process_community_detector_1a928711abb62659690879915de27512c3" kindref="member">generateReport()</ref> to create human-readable community descriptions </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_community_detector.h" line="94" column="14" bodyfile="src/process/process_community_detector.cpp" bodystart="200" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_community_detector_1ae20bc13d403a59947a178be89c9d82c3" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1process_1_1_process_community" kindref="compound">ProcessCommunity</ref> &gt;</type>
+        <definition>std::vector&lt; ProcessCommunity &gt; themis::process::ProcessCommunityDetector::detect</definition>
+        <argsstring>(std::string_view model_id, float resolution=1.0f) const</argsstring>
+        <name>detect</name>
+        <qualifiedname>themis::process::ProcessCommunityDetector::detect</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>resolution</declname>
+          <defval>1.0f</defval>
+        </param>
+        <briefdescription>
+<para>Run greedy modularity-based community detection on a process model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Loads the <computeroutput><ref refid="structthemis_1_1process_1_1_process_model_record" kindref="compound">ProcessModelRecord</ref></computeroutput> from RocksDB (key <computeroutput>proc:model:</computeroutput> &lt;model_id&gt;), extracts its <computeroutput>normalized</computeroutput>[&quot;nodes&quot;] and <computeroutput>normalized</computeroutput>[&quot;edges&quot;], builds an adjacency list, and runs the Louvain-style algorithm.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Process model identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>resolution</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Resolution parameter (default 1.0). Values &gt; 1.0 favour smaller communities; &lt; 1.0 favour larger ones. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Detected communities sorted by size descending. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Mgr. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">db_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Initialise: each node in its own community (community label = node index) <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Sg assign. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">comm_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/process/process_community_detector.h" line="108" column="18" bodyfile="src/process/process_community_detector.cpp" bodystart="204" bodyend="387"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_community_detector_1a928711abb62659690879915de27512c3" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::process::ProcessCommunityDetector::generateReport</definition>
+        <argsstring>(const ProcessCommunity &amp;community, std::string_view model_id, std::string_view llm_endpoint, std::string_view language=&quot;de&quot;) const</argsstring>
+        <name>generateReport</name>
+        <qualifiedname>themis::process::ProcessCommunityDetector::generateReport</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_process_community" kindref="compound">ProcessCommunity</ref> &amp;</type>
+          <declname>community</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>llm_endpoint</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>language</declname>
+          <defval>&quot;de&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Generate a text report for a community. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para><programlisting><codeline><highlight class="comment">//<sp/>STUB/SIMULATION<sp/>NOTE:</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Purpose:<sp/>Generates<sp/>community<sp/>report<sp/>without<sp/>a<sp/>real<sp/>LLM<sp/>call</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Activation:<sp/>Always<sp/>(LLM<sp/>endpoint<sp/>integration<sp/>not<sp/>yet<sp/>implemented)</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Production<sp/>Delta:<sp/>Real<sp/>implementation<sp/>calls<sp/>llm_endpoint<sp/>with<sp/>community</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>node<sp/>descriptions</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Removal<sp/>Plan:<sp/>Replace<sp/>with<sp/>HTTP<sp/>LLM<sp/>call<sp/>when<sp/>LLM<sp/>integration<sp/>is<sp/>wired<sp/>(Q4<sp/>2026)</highlight></codeline>
+</programlisting></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>community</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The community to describe. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Model the community belongs to. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>llm_endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Ignored in the stub – reserved for LLM URL. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>language</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output language (&quot;de&quot; or &quot;en&quot;). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Text report built from node names/descriptions. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_community_detector.h" line="132" column="18" bodyfile="src/process/process_community_detector.cpp" bodystart="389" bodyend="454"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_community_detector_1a033db0f47179df0efbb9570d8d6eaf51" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::ProcessCommunityDetector::persistCommunities</definition>
+        <argsstring>(std::string_view model_id, const std::vector&lt; ProcessCommunity &gt; &amp;communities)</argsstring>
+        <name>persistCommunities</name>
+        <qualifiedname>themis::process::ProcessCommunityDetector::persistCommunities</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1process_1_1_process_community" kindref="compound">ProcessCommunity</ref> &gt; &amp;</type>
+          <declname>communities</declname>
+        </param>
+        <briefdescription>
+<para>Persist a list of communities to RocksDB. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Persist Communities.</para>
+<para>Each community is stored under: <programlisting><codeline><highlight class="normal">proc:community:&lt;model_id&gt;:&lt;community_id&gt;</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>true if all communities were stored successfully.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">communities</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_community_detector.h" line="149" column="10" bodyfile="src/process/process_community_detector.cpp" bodystart="462" bodyend="484"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_community_detector_1a9eea28a10d8c573ee41e79ede469c65a" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1process_1_1_process_community" kindref="compound">ProcessCommunity</ref> &gt;</type>
+        <definition>std::vector&lt; ProcessCommunity &gt; themis::process::ProcessCommunityDetector::loadCommunities</definition>
+        <argsstring>(std::string_view model_id) const</argsstring>
+        <name>loadCommunities</name>
+        <qualifiedname>themis::process::ProcessCommunityDetector::loadCommunities</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+<para>Load all communities for a model from RocksDB. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>All communities for <computeroutput>model_id</computeroutput>; empty vector if none found. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_community_detector.h" line="159" column="18" bodyfile="src/process/process_community_detector.cpp" bodystart="486" bodyend="509"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Detects semantic communities in process model graphs. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Uses a two-phase Louvain-style greedy modularity optimisation algorithm:<itemizedlist>
+<listitem><para>Phase 1: Local node reassignment to maximise modularity gain.</para>
+</listitem><listitem><para>Phase 2: Coarsening – build super-nodes and repeat Phase 1.</para>
+</listitem></itemizedlist>
+</para>
+<para>The <computeroutput>resolution</computeroutput> parameter scales the null-model term <computeroutput>ki*kj/</computeroutput>(2m) to produce finer (resolution &gt; 1.0) or coarser (resolution &lt; 1.0) partitions.</para>
+<para><simplesect kind="par"><title>Performance target</title><para><computeroutput><ref refid="classthemis_1_1process_1_1_process_community_detector_1ae20bc13d403a59947a178be89c9d82c3" kindref="member">detect()</ref></computeroutput> must complete in &lt; 500 ms for 500-node graphs.</para>
+</simplesect>
+<simplesect kind="par"><title>Storage key scheme</title><para>Communities are persisted as: <programlisting><codeline><highlight class="normal">proc:community:&lt;model_id&gt;:&lt;community_id&gt;<sp/><sp/>→<sp/><sp/>JSON</highlight></codeline>
+</programlisting> </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/process/process_community_detector.h" line="74" column="1" bodyfile="include/process/process_community_detector.h" bodystart="74" bodyend="165"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1_process_community_detector_1a952e950e9b3fe74459dbd936ff87f622" prot="private" virt="non-virtual"><scope>themis::process::ProcessCommunityDetector</scope><name>db_</name></member>
+      <member refid="classthemis_1_1process_1_1_process_community_detector_1ae20bc13d403a59947a178be89c9d82c3" prot="public" virt="non-virtual"><scope>themis::process::ProcessCommunityDetector</scope><name>detect</name></member>
+      <member refid="classthemis_1_1process_1_1_process_community_detector_1a928711abb62659690879915de27512c3" prot="public" virt="non-virtual"><scope>themis::process::ProcessCommunityDetector</scope><name>generateReport</name></member>
+      <member refid="classthemis_1_1process_1_1_process_community_detector_1a9eea28a10d8c573ee41e79ede469c65a" prot="public" virt="non-virtual"><scope>themis::process::ProcessCommunityDetector</scope><name>loadCommunities</name></member>
+      <member refid="classthemis_1_1process_1_1_process_community_detector_1a033db0f47179df0efbb9570d8d6eaf51" prot="public" virt="non-virtual"><scope>themis::process::ProcessCommunityDetector</scope><name>persistCommunities</name></member>
+      <member refid="classthemis_1_1process_1_1_process_community_detector_1ae72d2de13cda52bf46ef3c67e76c3f29" prot="public" virt="non-virtual"><scope>themis::process::ProcessCommunityDetector</scope><name>ProcessCommunityDetector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

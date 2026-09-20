@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::kernels::KernelFusionManager::Config</compoundname>
+    <includes refid="kernel__fusion_8h" local="no">kernel_fusion.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1_1_config_1a54ddc22153fed7dcec97d0c9cd2527bf" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::kernels::KernelFusionManager::Config::enable_fusion</definition>
+        <argsstring></argsstring>
+        <name>enable_fusion</name>
+        <qualifiedname>themis::llm::kernels::KernelFusionManager::Config::enable_fusion</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kernel_fusion.h" line="142" column="14" bodyfile="include/llm/kernel_fusion.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1_1_config_1a8ad83e7e6e874b95280bb79136825b0b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::kernels::KernelFusionManager::Config::enable_ln_linear_fusion</definition>
+        <argsstring></argsstring>
+        <name>enable_ln_linear_fusion</name>
+        <qualifiedname>themis::llm::kernels::KernelFusionManager::Config::enable_ln_linear_fusion</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kernel_fusion.h" line="143" column="14" bodyfile="include/llm/kernel_fusion.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1_1_config_1a45ec824d42f84e53b0689410b088cca0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::kernels::KernelFusionManager::Config::enable_qkv_fusion</definition>
+        <argsstring></argsstring>
+        <name>enable_qkv_fusion</name>
+        <qualifiedname>themis::llm::kernels::KernelFusionManager::Config::enable_qkv_fusion</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kernel_fusion.h" line="144" column="14" bodyfile="include/llm/kernel_fusion.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1_1_config_1aed9c4dcdf2f2b669829b6e84daace2db" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::kernels::KernelFusionManager::Config::enable_rope_fusion</definition>
+        <argsstring></argsstring>
+        <name>enable_rope_fusion</name>
+        <qualifiedname>themis::llm::kernels::KernelFusionManager::Config::enable_rope_fusion</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kernel_fusion.h" line="145" column="14" bodyfile="include/llm/kernel_fusion.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1_1_config_1a37a607147822d52d23104ff26c5cdcaf" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::kernels::KernelFusionManager::Config::enable_ffn_fusion</definition>
+        <argsstring></argsstring>
+        <name>enable_ffn_fusion</name>
+        <qualifiedname>themis::llm::kernels::KernelFusionManager::Config::enable_ffn_fusion</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kernel_fusion.h" line="146" column="14" bodyfile="include/llm/kernel_fusion.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1_1_config_1a679fbb2b26abd1510eb3170d80e85818" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::kernels::KernelFusionManager::Config::enable_auto_tuning</definition>
+        <argsstring></argsstring>
+        <name>enable_auto_tuning</name>
+        <qualifiedname>themis::llm::kernels::KernelFusionManager::Config::enable_auto_tuning</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kernel_fusion.h" line="149" column="14" bodyfile="include/llm/kernel_fusion.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1_1_config_1a52867f8209e9aca1e380771cfca084ae" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::kernels::KernelFusionManager::Config::auto_tune_iterations</definition>
+        <argsstring></argsstring>
+        <name>auto_tune_iterations</name>
+        <qualifiedname>themis::llm::kernels::KernelFusionManager::Config::auto_tune_iterations</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kernel_fusion.h" line="150" column="16" bodyfile="include/llm/kernel_fusion.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/kernel_fusion.h" line="141" column="5" bodyfile="include/llm/kernel_fusion.h" bodystart="141" bodyend="151"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1_1_config_1a52867f8209e9aca1e380771cfca084ae" prot="public" virt="non-virtual"><scope>themis::llm::kernels::KernelFusionManager::Config</scope><name>auto_tune_iterations</name></member>
+      <member refid="structthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1_1_config_1a679fbb2b26abd1510eb3170d80e85818" prot="public" virt="non-virtual"><scope>themis::llm::kernels::KernelFusionManager::Config</scope><name>enable_auto_tuning</name></member>
+      <member refid="structthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1_1_config_1a37a607147822d52d23104ff26c5cdcaf" prot="public" virt="non-virtual"><scope>themis::llm::kernels::KernelFusionManager::Config</scope><name>enable_ffn_fusion</name></member>
+      <member refid="structthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1_1_config_1a54ddc22153fed7dcec97d0c9cd2527bf" prot="public" virt="non-virtual"><scope>themis::llm::kernels::KernelFusionManager::Config</scope><name>enable_fusion</name></member>
+      <member refid="structthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1_1_config_1a8ad83e7e6e874b95280bb79136825b0b" prot="public" virt="non-virtual"><scope>themis::llm::kernels::KernelFusionManager::Config</scope><name>enable_ln_linear_fusion</name></member>
+      <member refid="structthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1_1_config_1a45ec824d42f84e53b0689410b088cca0" prot="public" virt="non-virtual"><scope>themis::llm::kernels::KernelFusionManager::Config</scope><name>enable_qkv_fusion</name></member>
+      <member refid="structthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1_1_config_1aed9c4dcdf2f2b669829b6e84daace2db" prot="public" virt="non-virtual"><scope>themis::llm::kernels::KernelFusionManager::Config</scope><name>enable_rope_fusion</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

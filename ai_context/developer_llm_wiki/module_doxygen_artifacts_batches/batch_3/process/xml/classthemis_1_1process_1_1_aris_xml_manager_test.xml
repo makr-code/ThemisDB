@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1_aris_xml_manager_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::ArisXmlManagerTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_aris_xml_manager_test_1a263860961354e4d18a4017ad1c691dc1" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ArisXmlManagerTest::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>themis::process::ArisXmlManagerTest::db_path_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_aris_xml.cpp" line="255" column="17" bodyfile="tests/process/test_process_aris_xml.cpp" bodystart="255" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_aris_xml_manager_test_1ae13bcad0e50a13ef51342904a044a58f" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt;::themis::RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;::themis::RocksDBWrapper&gt; themis::process::ArisXmlManagerTest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::process::ArisXmlManagerTest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_aris_xml.cpp" line="256" column="21" bodyfile="tests/process/test_process_aris_xml.cpp" bodystart="256" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_aris_xml_manager_test_1a9a201242d941a3760446dc52754fa5cb" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1process_1_1_process_model_manager" kindref="compound">ProcessModelManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;ProcessModelManager&gt; themis::process::ArisXmlManagerTest::mgr_</definition>
+        <argsstring></argsstring>
+        <name>mgr_</name>
+        <qualifiedname>themis::process::ArisXmlManagerTest::mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_aris_xml.cpp" line="257" column="27" bodyfile="tests/process/test_process_aris_xml.cpp" bodystart="257" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_aris_xml_manager_test_1adb7a09b184c2f6b398938a997964cd13" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; ProcessGraphManager &gt;</type>
+        <definition>std::unique_ptr&lt;ProcessGraphManager&gt; themis::process::ArisXmlManagerTest::engine_</definition>
+        <argsstring></argsstring>
+        <name>engine_</name>
+        <qualifiedname>themis::process::ArisXmlManagerTest::engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_aris_xml.cpp" line="258" column="27" bodyfile="tests/process/test_process_aris_xml.cpp" bodystart="258" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_aris_xml_manager_test_1aedc2eb2219e0eaaa8db8ac51d9bcac14" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::process::ArisXmlManagerTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::process::ArisXmlManagerTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_aris_xml.cpp" line="260" column="10" bodyfile="tests/process/test_process_aris_xml.cpp" bodystart="260" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_aris_xml_manager_test_1ada3677dbf5529eb462a78f7a1c8d3d48" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::process::ArisXmlManagerTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::process::ArisXmlManagerTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_aris_xml.cpp" line="273" column="10" bodyfile="tests/process/test_process_aris_xml.cpp" bodystart="273" bodyend="279"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::process::ArisXmlManagerTest</label>
+        <link refid="classthemis_1_1process_1_1_aris_xml_manager_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::process::ArisXmlManagerTest</label>
+        <link refid="classthemis_1_1process_1_1_aris_xml_manager_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/process/test_process_aris_xml.cpp" line="253" column="1" bodyfile="tests/process/test_process_aris_xml.cpp" bodystart="253" bodyend="280"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1_aris_xml_manager_test_1ae13bcad0e50a13ef51342904a044a58f" prot="protected" virt="non-virtual"><scope>themis::process::ArisXmlManagerTest</scope><name>db_</name></member>
+      <member refid="classthemis_1_1process_1_1_aris_xml_manager_test_1a263860961354e4d18a4017ad1c691dc1" prot="protected" virt="non-virtual"><scope>themis::process::ArisXmlManagerTest</scope><name>db_path_</name></member>
+      <member refid="classthemis_1_1process_1_1_aris_xml_manager_test_1adb7a09b184c2f6b398938a997964cd13" prot="protected" virt="non-virtual"><scope>themis::process::ArisXmlManagerTest</scope><name>engine_</name></member>
+      <member refid="classthemis_1_1process_1_1_aris_xml_manager_test_1a9a201242d941a3760446dc52754fa5cb" prot="protected" virt="non-virtual"><scope>themis::process::ArisXmlManagerTest</scope><name>mgr_</name></member>
+      <member refid="classthemis_1_1process_1_1_aris_xml_manager_test_1aedc2eb2219e0eaaa8db8ac51d9bcac14" prot="protected" virt="non-virtual"><scope>themis::process::ArisXmlManagerTest</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1process_1_1_aris_xml_manager_test_1ada3677dbf5529eb462a78f7a1c8d3d48" prot="protected" virt="non-virtual"><scope>themis::process::ArisXmlManagerTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

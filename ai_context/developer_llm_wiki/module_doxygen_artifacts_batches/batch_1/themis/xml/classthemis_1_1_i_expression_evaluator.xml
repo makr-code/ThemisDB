@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_i_expression_evaluator" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::IExpressionEvaluator</compoundname>
+    <includes refid="query__interface_8h" local="no">query_interface.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_i_expression_evaluator_1a24567aa966771de93233540a91727d21" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::IExpressionEvaluator::~IExpressionEvaluator</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IExpressionEvaluator</name>
+        <qualifiedname>themis::IExpressionEvaluator::~IExpressionEvaluator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/query_interface.h" line="44" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_expression_evaluator_1a9e2e7cdc412691f9590d77d20df0f9f7" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::IExpressionEvaluator::evaluate</definition>
+        <argsstring>(const std::string &amp;expression, const void *context) const =0</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::IExpressionEvaluator::evaluate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>expression</declname>
+        </param>
+        <param>
+          <type>const void *</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate an expression against provided context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>expression</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The filter expression to evaluate </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Opaque context pointer (e.g., document, row data) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if expression evaluates to true, false otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/query_interface.h" line="53" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_expression_evaluator_1a92b4f298bfe70212d50bfe8eb369f2c4" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::IExpressionEvaluator::get_expression_type</definition>
+        <argsstring>() const =0</argsstring>
+        <name>get_expression_type</name>
+        <qualifiedname>themis::IExpressionEvaluator::get_expression_type</qualifiedname>
+        <briefdescription>
+<para>Get the type of expression language supported. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>String identifying the expression language (e.g., &quot;AQL&quot;, &quot;SQL&quot;) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/query_interface.h" line="60" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Interface for expression evaluation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides abstract interface for evaluating filter expressions and WHERE clauses without depending on concrete query engine implementations. </para>
+    </detaileddescription>
+    <location file="include/themis/base/interfaces/query_interface.h" line="42" column="1" bodyfile="include/themis/base/interfaces/query_interface.h" bodystart="42" bodyend="61"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_i_expression_evaluator_1a9e2e7cdc412691f9590d77d20df0f9f7" prot="public" virt="pure-virtual"><scope>themis::IExpressionEvaluator</scope><name>evaluate</name></member>
+      <member refid="classthemis_1_1_i_expression_evaluator_1a92b4f298bfe70212d50bfe8eb369f2c4" prot="public" virt="pure-virtual"><scope>themis::IExpressionEvaluator</scope><name>get_expression_type</name></member>
+      <member refid="classthemis_1_1_i_expression_evaluator_1a24567aa966771de93233540a91727d21" prot="public" virt="virtual"><scope>themis::IExpressionEvaluator</scope><name>~IExpressionEvaluator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

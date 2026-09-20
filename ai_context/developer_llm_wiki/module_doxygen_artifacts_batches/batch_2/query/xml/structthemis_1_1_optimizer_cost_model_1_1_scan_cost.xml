@@ -1,0 +1,147 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_optimizer_cost_model_1_1_scan_cost" kind="struct" language="C++" prot="public">
+    <compoundname>themis::OptimizerCostModel::ScanCost</compoundname>
+    <includes refid="optimizer__cost__model_8h" local="no">optimizer_cost_model.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1_optimizer_cost_model_1_1_scan_cost_1a507ddb36b043169cf7ab1630c907c227" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ScanType</name>
+        <qualifiedname>themis::OptimizerCostModel::ScanCost::ScanType</qualifiedname>
+        <enumvalue id="structthemis_1_1_optimizer_cost_model_1_1_scan_cost_1a507ddb36b043169cf7ab1630c907c227abfcac11bd9eb85fdadad132dc077cbe1" prot="public">
+          <name>TABLE_SCAN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_optimizer_cost_model_1_1_scan_cost_1a507ddb36b043169cf7ab1630c907c227afd6e2b3ea2d9a9fba7e559ba2da7ba20" prot="public">
+          <name>INDEX_SCAN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_optimizer_cost_model_1_1_scan_cost_1a507ddb36b043169cf7ab1630c907c227a6a19fc08fc3cb7b8f4a4ccf7a8386f8c" prot="public">
+          <name>INDEX_ONLY_SCAN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="148" column="9" bodyfile="include/query/optimizer_cost_model.h" bodystart="148" bodyend="148"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_scan_cost_1aec287f782a6b58f3b293d523cc13896e" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_optimizer_cost_model_1_1_scan_cost_1a507ddb36b043169cf7ab1630c907c227" kindref="member">ScanType</ref></type>
+        <definition>ScanType themis::OptimizerCostModel::ScanCost::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::OptimizerCostModel::ScanCost::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="150" column="18" bodyfile="include/query/optimizer_cost_model.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_scan_cost_1ae857490cb8febcac7ab524dd4e49aaed" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::OptimizerCostModel::ScanCost::cpuCost</definition>
+        <argsstring></argsstring>
+        <name>cpuCost</name>
+        <qualifiedname>themis::OptimizerCostModel::ScanCost::cpuCost</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="151" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_scan_cost_1a4c183859cccb438464e5acc429635a54" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::OptimizerCostModel::ScanCost::ioCost</definition>
+        <argsstring></argsstring>
+        <name>ioCost</name>
+        <qualifiedname>themis::OptimizerCostModel::ScanCost::ioCost</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="152" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_scan_cost_1a84cd4171565b7af010ead6fabe60546f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::OptimizerCostModel::ScanCost::totalCost</definition>
+        <argsstring></argsstring>
+        <name>totalCost</name>
+        <qualifiedname>themis::OptimizerCostModel::ScanCost::totalCost</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="153" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_scan_cost_1aca158b9fa548a5d1e7ae47672f54e369" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::OptimizerCostModel::ScanCost::estimatedRows</definition>
+        <argsstring></argsstring>
+        <name>estimatedRows</name>
+        <qualifiedname>themis::OptimizerCostModel::ScanCost::estimatedRows</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="154" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_scan_cost_1ac4761269ac2b7088775eb08ac3680d67" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::OptimizerCostModel::ScanCost::pagesRead</definition>
+        <argsstring></argsstring>
+        <name>pagesRead</name>
+        <qualifiedname>themis::OptimizerCostModel::ScanCost::pagesRead</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="155" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/optimizer_cost_model.h" line="147" column="5" bodyfile="include/query/optimizer_cost_model.h" bodystart="147" bodyend="156"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_scan_cost_1ae857490cb8febcac7ab524dd4e49aaed" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::ScanCost</scope><name>cpuCost</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_scan_cost_1aca158b9fa548a5d1e7ae47672f54e369" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::ScanCost</scope><name>estimatedRows</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_scan_cost_1a4c183859cccb438464e5acc429635a54" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::ScanCost</scope><name>ioCost</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_scan_cost_1ac4761269ac2b7088775eb08ac3680d67" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::ScanCost</scope><name>pagesRead</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_scan_cost_1a507ddb36b043169cf7ab1630c907c227" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::ScanCost</scope><name>ScanType</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_scan_cost_1a84cd4171565b7af010ead6fabe60546f" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::ScanCost</scope><name>totalCost</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_scan_cost_1aec287f782a6b58f3b293d523cc13896e" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::ScanCost</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

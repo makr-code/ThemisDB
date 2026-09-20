@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_l_l_m_interaction_store_1_1_list_options" kind="struct" language="C++" prot="public">
+    <compoundname>themis::LLMInteractionStore::ListOptions</compoundname>
+    <includes refid="llm__interaction__store_8h" local="no">llm_interaction_store.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_interaction_store_1_1_list_options_1a050fbbcd2563777883b1bfc5de463c90" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::LLMInteractionStore::ListOptions::limit</definition>
+        <argsstring></argsstring>
+        <name>limit</name>
+        <qualifiedname>themis::LLMInteractionStore::ListOptions::limit</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_interaction_store.h" line="58" column="16" bodyfile="include/llm/llm_interaction_store.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_interaction_store_1_1_list_options_1a21a26afd626f5affc006f2dd2118d05a" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::LLMInteractionStore::ListOptions::start_after_id</definition>
+        <argsstring></argsstring>
+        <name>start_after_id</name>
+        <qualifiedname>themis::LLMInteractionStore::ListOptions::start_after_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_interaction_store.h" line="59" column="23" bodyfile="include/llm/llm_interaction_store.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_interaction_store_1_1_list_options_1ac87af3e05f305d7645bf199c87182606" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::LLMInteractionStore::ListOptions::filter_model</definition>
+        <argsstring></argsstring>
+        <name>filter_model</name>
+        <qualifiedname>themis::LLMInteractionStore::ListOptions::filter_model</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_interaction_store.h" line="60" column="23" bodyfile="include/llm/llm_interaction_store.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_interaction_store_1_1_list_options_1aa3e9be0ae37bd32b8d4b3634a3859e4f" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; int64_t &gt;</type>
+        <definition>std::optional&lt;int64_t&gt; themis::LLMInteractionStore::ListOptions::since_timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>since_timestamp_ms</name>
+        <qualifiedname>themis::LLMInteractionStore::ListOptions::since_timestamp_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_interaction_store.h" line="61" column="23" bodyfile="include/llm/llm_interaction_store.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/llm_interaction_store.h" line="57" column="5" bodyfile="include/llm/llm_interaction_store.h" bodystart="57" bodyend="62"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_l_l_m_interaction_store_1_1_list_options_1ac87af3e05f305d7645bf199c87182606" prot="public" virt="non-virtual"><scope>themis::LLMInteractionStore::ListOptions</scope><name>filter_model</name></member>
+      <member refid="structthemis_1_1_l_l_m_interaction_store_1_1_list_options_1a050fbbcd2563777883b1bfc5de463c90" prot="public" virt="non-virtual"><scope>themis::LLMInteractionStore::ListOptions</scope><name>limit</name></member>
+      <member refid="structthemis_1_1_l_l_m_interaction_store_1_1_list_options_1aa3e9be0ae37bd32b8d4b3634a3859e4f" prot="public" virt="non-virtual"><scope>themis::LLMInteractionStore::ListOptions</scope><name>since_timestamp_ms</name></member>
+      <member refid="structthemis_1_1_l_l_m_interaction_store_1_1_list_options_1a21a26afd626f5affc006f2dd2118d05a" prot="public" virt="non-virtual"><scope>themis::LLMInteractionStore::ListOptions</scope><name>start_after_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

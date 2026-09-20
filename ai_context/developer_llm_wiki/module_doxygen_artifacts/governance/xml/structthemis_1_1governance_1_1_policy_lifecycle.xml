@@ -1,0 +1,185 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_policy_lifecycle" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::PolicyLifecycle</compoundname>
+    <includes refid="policy__manager_8h" local="no">policy_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_lifecycle_1a151ff577a5c4a1cbf6421a7bccb09e42" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1governance_1acb88cfc9e66af0bdb1994a955c0271e1" kindref="member">PolicyState</ref></type>
+        <definition>PolicyState themis::governance::PolicyLifecycle::current_state</definition>
+        <argsstring></argsstring>
+        <name>current_state</name>
+        <qualifiedname>themis::governance::PolicyLifecycle::current_state</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1governance_1acb88cfc9e66af0bdb1994a955c0271e1a521019040a0f4f7773357aa6bc22180b" kindref="member">PolicyState::DRAFT</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_manager.h" line="38" column="17" bodyfile="include/governance/policy_manager.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_lifecycle_1ad04275192d0486ec7e1855fcffd76859" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::PolicyLifecycle::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::governance::PolicyLifecycle::created_at</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Unix timestamp (ms) of creation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_manager.h" line="39" column="13" bodyfile="include/governance/policy_manager.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_lifecycle_1aab1197263a86654e4305e313a031d712" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::PolicyLifecycle::activated_at</definition>
+        <argsstring></argsstring>
+        <name>activated_at</name>
+        <qualifiedname>themis::governance::PolicyLifecycle::activated_at</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Unix timestamp (ms) of activation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_manager.h" line="40" column="13" bodyfile="include/governance/policy_manager.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_lifecycle_1ad9bdf8742b3d392ab95df165f5bf2193" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::PolicyLifecycle::deprecated_at</definition>
+        <argsstring></argsstring>
+        <name>deprecated_at</name>
+        <qualifiedname>themis::governance::PolicyLifecycle::deprecated_at</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Unix timestamp (ms) of deprecation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_manager.h" line="41" column="13" bodyfile="include/governance/policy_manager.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_lifecycle_1ac9443cc33c2ef90f8994a594ccd34ed0" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::PolicyLifecycle::retired_at</definition>
+        <argsstring></argsstring>
+        <name>retired_at</name>
+        <qualifiedname>themis::governance::PolicyLifecycle::retired_at</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Unix timestamp (ms) of retirement. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_manager.h" line="42" column="13" bodyfile="include/governance/policy_manager.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_lifecycle_1aa9398d77719edbe2737c8a0cf174e06c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicyLifecycle::created_by</definition>
+        <argsstring></argsstring>
+        <name>created_by</name>
+        <qualifiedname>themis::governance::PolicyLifecycle::created_by</qualifiedname>
+        <briefdescription>
+<para>User who created the rule. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_manager.h" line="43" column="17" bodyfile="include/governance/policy_manager.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_lifecycle_1aaf43a87c3af03266baddd03988e171f0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicyLifecycle::last_modified_by</definition>
+        <argsstring></argsstring>
+        <name>last_modified_by</name>
+        <qualifiedname>themis::governance::PolicyLifecycle::last_modified_by</qualifiedname>
+        <briefdescription>
+<para>User who last modified the rule. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_manager.h" line="44" column="17" bodyfile="include/governance/policy_manager.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_policy_lifecycle_1a754a964b4b005fcd02573ba25fd76e02" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::PolicyLifecycle::canTransitionTo</definition>
+        <argsstring>(PolicyState target_state) const</argsstring>
+        <name>canTransitionTo</name>
+        <qualifiedname>themis::governance::PolicyLifecycle::canTransitionTo</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1governance_1acb88cfc9e66af0bdb1994a955c0271e1" kindref="member">PolicyState</ref></type>
+          <declname>target_state</declname>
+        </param>
+        <briefdescription>
+<para>Can Transition To. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target_state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_manager.h" line="51" column="10" bodyfile="src/governance/policy_manager.cpp" bodystart="31" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_policy_lifecycle_1ab8b069c84184894bd920c8e4c9c5964c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicyLifecycle::getStateDescription</definition>
+        <argsstring>() const</argsstring>
+        <name>getStateDescription</name>
+        <qualifiedname>themis::governance::PolicyLifecycle::getStateDescription</qualifiedname>
+        <briefdescription>
+<para>Get State Description. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_manager.h" line="57" column="17" bodyfile="src/governance/policy_manager.cpp" bodystart="51" bodyend="64"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/policy_manager.h" line="37" column="1" bodyfile="include/governance/policy_manager.h" bodystart="37" bodyend="58"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_policy_lifecycle_1aab1197263a86654e4305e313a031d712" prot="public" virt="non-virtual"><scope>themis::governance::PolicyLifecycle</scope><name>activated_at</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_lifecycle_1a754a964b4b005fcd02573ba25fd76e02" prot="public" virt="non-virtual"><scope>themis::governance::PolicyLifecycle</scope><name>canTransitionTo</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_lifecycle_1ad04275192d0486ec7e1855fcffd76859" prot="public" virt="non-virtual"><scope>themis::governance::PolicyLifecycle</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_lifecycle_1aa9398d77719edbe2737c8a0cf174e06c" prot="public" virt="non-virtual"><scope>themis::governance::PolicyLifecycle</scope><name>created_by</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_lifecycle_1a151ff577a5c4a1cbf6421a7bccb09e42" prot="public" virt="non-virtual"><scope>themis::governance::PolicyLifecycle</scope><name>current_state</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_lifecycle_1ad9bdf8742b3d392ab95df165f5bf2193" prot="public" virt="non-virtual"><scope>themis::governance::PolicyLifecycle</scope><name>deprecated_at</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_lifecycle_1ab8b069c84184894bd920c8e4c9c5964c" prot="public" virt="non-virtual"><scope>themis::governance::PolicyLifecycle</scope><name>getStateDescription</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_lifecycle_1aaf43a87c3af03266baddd03988e171f0" prot="public" virt="non-virtual"><scope>themis::governance::PolicyLifecycle</scope><name>last_modified_by</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_lifecycle_1ac9443cc33c2ef90f8994a594ccd34ed0" prot="public" virt="non-virtual"><scope>themis::governance::PolicyLifecycle</scope><name>retired_at</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

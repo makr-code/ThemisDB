@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_transaction_manager_1_1_time_travel_record" kind="struct" language="C++" prot="public">
+    <compoundname>themis::TransactionManager::TimeTravelRecord</compoundname>
+    <includes refid="transaction__manager_8h" local="no">transaction_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_transaction_manager_1_1_time_travel_record_1a997761459e27ca19893e1615c4bda881" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::TransactionManager::TimeTravelRecord::base_key</definition>
+        <argsstring></argsstring>
+        <name>base_key</name>
+        <qualifiedname>themis::TransactionManager::TimeTravelRecord::base_key</qualifiedname>
+        <briefdescription>
+<para>Live storage key (e.g. &quot;entity:users:u1&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="744" column="21" bodyfile="include/transaction/transaction_manager.h" bodystart="744" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_transaction_manager_1_1_time_travel_record_1a68c19523ff67d0ea86bf7160cc36f0a2" prot="public" static="no" mutable="no">
+        <type>HLCTimestamp</type>
+        <definition>HLCTimestamp themis::TransactionManager::TimeTravelRecord::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::TransactionManager::TimeTravelRecord::timestamp</qualifiedname>
+        <briefdescription>
+<para>HLC timestamp of this version. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="745" column="22" bodyfile="include/transaction/transaction_manager.h" bodystart="745" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_transaction_manager_1_1_time_travel_record_1aa71314b2bf8a77863619acdb50c09055" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::TransactionManager::TimeTravelRecord::op</definition>
+        <argsstring></argsstring>
+        <name>op</name>
+        <qualifiedname>themis::TransactionManager::TimeTravelRecord::op</qualifiedname>
+        <briefdescription>
+<para>&quot;put&quot; (value present) or &quot;del&quot; (tombstone) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="746" column="21" bodyfile="include/transaction/transaction_manager.h" bodystart="746" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_transaction_manager_1_1_time_travel_record_1adb5c54941236323665c3d24f73ecd2a3" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::TransactionManager::TimeTravelRecord::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::TransactionManager::TimeTravelRecord::value</qualifiedname>
+        <briefdescription>
+<para>Serialized entity bytes; empty for &quot;del&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="747" column="21" bodyfile="include/transaction/transaction_manager.h" bodystart="747" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_transaction_manager_1_1_time_travel_record_1a274f5af707ab2669d0d5dc8b033ab640" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::TransactionManager::TimeTravelRecord::txn_id</definition>
+        <argsstring></argsstring>
+        <name>txn_id</name>
+        <qualifiedname>themis::TransactionManager::TimeTravelRecord::txn_id</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para><ref refid="classthemis_1_1_transaction_manager_1_1_transaction" kindref="compound">Transaction</ref> that produced this version. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="748" column="18" bodyfile="include/transaction/transaction_manager.h" bodystart="748" bodyend="748"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/transaction_manager.h" line="743" column="5" bodyfile="include/transaction/transaction_manager.h" bodystart="743" bodyend="749"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_transaction_manager_1_1_time_travel_record_1a997761459e27ca19893e1615c4bda881" prot="public" virt="non-virtual"><scope>themis::TransactionManager::TimeTravelRecord</scope><name>base_key</name></member>
+      <member refid="structthemis_1_1_transaction_manager_1_1_time_travel_record_1aa71314b2bf8a77863619acdb50c09055" prot="public" virt="non-virtual"><scope>themis::TransactionManager::TimeTravelRecord</scope><name>op</name></member>
+      <member refid="structthemis_1_1_transaction_manager_1_1_time_travel_record_1a68c19523ff67d0ea86bf7160cc36f0a2" prot="public" virt="non-virtual"><scope>themis::TransactionManager::TimeTravelRecord</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1_transaction_manager_1_1_time_travel_record_1a274f5af707ab2669d0d5dc8b033ab640" prot="public" virt="non-virtual"><scope>themis::TransactionManager::TimeTravelRecord</scope><name>txn_id</name></member>
+      <member refid="structthemis_1_1_transaction_manager_1_1_time_travel_record_1adb5c54941236323665c3d24f73ecd2a3" prot="public" virt="non-virtual"><scope>themis::TransactionManager::TimeTravelRecord</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1benchmark_1_1_directly_follows_graph" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::benchmark::DirectlyFollowsGraph</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_directly_follows_graph_1af802852187d3188af57e35d580903bb0" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;std::string, std::string&gt; &gt; themis::process::benchmark::DirectlyFollowsGraph::edges</definition>
+        <argsstring></argsstring>
+        <name>edges</name>
+        <qualifiedname>themis::process::benchmark::DirectlyFollowsGraph::edges</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_advanced_workflows.cpp" line="133" column="17" bodyfile="benchmarks/process/bench_process_advanced_workflows.cpp" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_directly_follows_graph_1af61d0e076107b7a800a65213bfcb32b5" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::process::benchmark::DirectlyFollowsGraph::start_activities</definition>
+        <argsstring></argsstring>
+        <name>start_activities</name>
+        <qualifiedname>themis::process::benchmark::DirectlyFollowsGraph::start_activities</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_advanced_workflows.cpp" line="134" column="17" bodyfile="benchmarks/process/bench_process_advanced_workflows.cpp" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_directly_follows_graph_1aec6b3d2be5d8bafa14940465d3e83f48" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::process::benchmark::DirectlyFollowsGraph::end_activities</definition>
+        <argsstring></argsstring>
+        <name>end_activities</name>
+        <qualifiedname>themis::process::benchmark::DirectlyFollowsGraph::end_activities</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_advanced_workflows.cpp" line="135" column="17" bodyfile="benchmarks/process/bench_process_advanced_workflows.cpp" bodystart="135" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>DFG (Directly-Follows Graph) for conformance checking. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/process/bench_process_advanced_workflows.cpp" line="132" column="1" bodyfile="benchmarks/process/bench_process_advanced_workflows.cpp" bodystart="132" bodyend="136"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_directly_follows_graph_1af802852187d3188af57e35d580903bb0" prot="public" virt="non-virtual"><scope>themis::process::benchmark::DirectlyFollowsGraph</scope><name>edges</name></member>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_directly_follows_graph_1aec6b3d2be5d8bafa14940465d3e83f48" prot="public" virt="non-virtual"><scope>themis::process::benchmark::DirectlyFollowsGraph</scope><name>end_activities</name></member>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_directly_follows_graph_1af61d0e076107b7a800a65213bfcb32b5" prot="public" virt="non-virtual"><scope>themis::process::benchmark::DirectlyFollowsGraph</scope><name>start_activities</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

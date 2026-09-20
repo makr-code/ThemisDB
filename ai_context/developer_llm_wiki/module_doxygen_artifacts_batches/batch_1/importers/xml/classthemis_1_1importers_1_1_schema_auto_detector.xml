@@ -1,0 +1,659 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1_schema_auto_detector" kind="class" language="C++" prot="public">
+    <compoundname>themis::importers::SchemaAutoDetector</compoundname>
+    <includes refid="schema__validator_8h" local="no">schema_validator.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_schema_auto_detector_1a1920174ac9e52433249e573dee259175" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::importers::SchemaAutoDetector::columns_</definition>
+        <argsstring></argsstring>
+        <name>columns_</name>
+        <qualifiedname>themis::importers::SchemaAutoDetector::columns_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_validator.h" line="280" column="33" bodyfile="include/importers/schema_validator.h" bodystart="280" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_schema_auto_detector_1ab0f99bbc871bc0ad35939ef1218ee590" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="namespacethemis_1_1importers_1a2630f499c7477f493ccfce1d7eff4cb3" kindref="member">DetectedFieldType</ref> &gt;</type>
+        <definition>std::map&lt;std::string, DetectedFieldType&gt; themis::importers::SchemaAutoDetector::widest_types_</definition>
+        <argsstring></argsstring>
+        <name>widest_types_</name>
+        <qualifiedname>themis::importers::SchemaAutoDetector::widest_types_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_validator.h" line="281" column="14" bodyfile="include/importers/schema_validator.h" bodystart="281" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_schema_auto_detector_1aac8bc9a4472e25950bba86f366dd7038" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::SchemaAutoDetector::SchemaAutoDetector</definition>
+        <argsstring>()=default</argsstring>
+        <name>SchemaAutoDetector</name>
+        <qualifiedname>themis::importers::SchemaAutoDetector::SchemaAutoDetector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_validator.h" line="166" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_schema_auto_detector_1ad0dae555de25eddf5615cb98810dd8e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::SchemaAutoDetector::feedRow</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;columns, const std::vector&lt; std::string &gt; &amp;values)</argsstring>
+        <name>feedRow</name>
+        <qualifiedname>themis::importers::SchemaAutoDetector::feedRow</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>columns</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <briefdescription>
+<para>Feed Row. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">columns</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">columns</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), std::min(), size(), <ref refid="classthemis_1_1importers_1_1_schema_auto_detector_1ae4fea4c9aec374176ce65dd2023fd547" kindref="member">inferType()</ref>, find(), end(), <ref refid="classthemis_1_1importers_1_1_schema_auto_detector_1ad9cd07e42cb74182376052c23d1fe143" kindref="member">widenType()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_validator.h" line="173" column="10" bodyfile="src/importers/schema_validator.cpp" bodystart="303" bodyend="329"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_schema_auto_detector_1aefab3653feb6bd56d977b06a618ea916" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1importers_1_1_detected_schema" kindref="compound">DetectedSchema</ref></type>
+        <definition>DetectedSchema themis::importers::SchemaAutoDetector::getSchema</definition>
+        <argsstring>(const std::string &amp;table_name) const</argsstring>
+        <name>getSchema</name>
+        <qualifiedname>themis::importers::SchemaAutoDetector::getSchema</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <briefdescription>
+<para>Get Schema. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_validator.h" line="181" column="20" bodyfile="src/importers/schema_validator.cpp" bodystart="331" bodyend="344"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_schema_auto_detector_1a1497a752aef206f7bdc0d33692327b17" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::SchemaAutoDetector::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::importers::SchemaAutoDetector::reset</qualifiedname>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_validator.h" line="186" column="10" bodyfile="src/importers/schema_validator.cpp" bodystart="350" bodyend="353"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_schema_auto_detector_1ae4fea4c9aec374176ce65dd2023fd547" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a2630f499c7477f493ccfce1d7eff4cb3" kindref="member">DetectedFieldType</ref></type>
+        <definition>DetectedFieldType themis::importers::SchemaAutoDetector::inferType</definition>
+        <argsstring>(const std::string &amp;value)</argsstring>
+        <name>inferType</name>
+        <qualifiedname>themis::importers::SchemaAutoDetector::inferType</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Infer Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), valueIsBoolean(), valueIsInteger(), valueIsDouble(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_validator.h" line="197" column="30" bodyfile="src/importers/schema_validator.cpp" bodystart="122" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_schema_auto_detector_1ad9cd07e42cb74182376052c23d1fe143" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a2630f499c7477f493ccfce1d7eff4cb3" kindref="member">DetectedFieldType</ref></type>
+        <definition>DetectedFieldType themis::importers::SchemaAutoDetector::widenType</definition>
+        <argsstring>(DetectedFieldType a, DetectedFieldType b)</argsstring>
+        <name>widenType</name>
+        <qualifiedname>themis::importers::SchemaAutoDetector::widenType</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1a2630f499c7477f493ccfce1d7eff4cb3" kindref="member">DetectedFieldType</ref></type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1a2630f499c7477f493ccfce1d7eff4cb3" kindref="member">DetectedFieldType</ref></type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>Widen Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: typeRank(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_validator.h" line="205" column="30" bodyfile="src/importers/schema_validator.cpp" bodystart="145" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_schema_auto_detector_1a3049d11f738694fd7f74d9a4bc177faf" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::importers::SchemaAutoDetector::typeName</definition>
+        <argsstring>(DetectedFieldType t)</argsstring>
+        <name>typeName</name>
+        <qualifiedname>themis::importers::SchemaAutoDetector::typeName</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1a2630f499c7477f493ccfce1d7eff4cb3" kindref="member">DetectedFieldType</ref></type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+<para>Type Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements typeName without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_validator.h" line="212" column="24" bodyfile="src/importers/schema_validator.cpp" bodystart="156" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_schema_auto_detector_1a01483a6028df3ae3d2f5c17064abe32a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a2630f499c7477f493ccfce1d7eff4cb3" kindref="member">DetectedFieldType</ref></type>
+        <definition>DetectedFieldType themis::importers::SchemaAutoDetector::parseTypeName</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>parseTypeName</name>
+        <qualifiedname>themis::importers::SchemaAutoDetector::parseTypeName</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Parse Type Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: toLowerSchema(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_validator.h" line="219" column="30" bodyfile="src/importers/schema_validator.cpp" bodystart="172" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_schema_auto_detector_1ac30535441f49deab539507a7cb8e0878" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::SchemaAutoDetector::schemaToJson</definition>
+        <argsstring>(const DetectedSchema &amp;schema)</argsstring>
+        <name>schemaToJson</name>
+        <qualifiedname>themis::importers::SchemaAutoDetector::schemaToJson</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1importers_1_1_detected_schema" kindref="compound">DetectedSchema</ref> &amp;</type>
+          <declname>schema</declname>
+        </param>
+        <briefdescription>
+<para>Schema To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: json::array(), json::object(), push_back(), find(), end(), <ref refid="classthemis_1_1importers_1_1_schema_auto_detector_1a3049d11f738694fd7f74d9a4bc177faf" kindref="member">typeName()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_validator.h" line="226" column="17" bodyfile="src/importers/schema_validator.cpp" bodystart="191" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_schema_auto_detector_1abf511c7f672b14c0055e0a9db1a9591f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1importers_1_1_schema_validation_error" kindref="compound">SchemaValidationError</ref> &gt;</type>
+        <definition>std::vector&lt; SchemaValidationError &gt; themis::importers::SchemaAutoDetector::validateRow</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;columns, const std::vector&lt; std::string &gt; &amp;values, const DetectedSchema &amp;schema)</argsstring>
+        <name>validateRow</name>
+        <qualifiedname>themis::importers::SchemaAutoDetector::validateRow</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>columns</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1importers_1_1_detected_schema" kindref="compound">DetectedSchema</ref> &amp;</type>
+          <declname>schema</declname>
+        </param>
+        <briefdescription>
+<para>Validate Row. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">columns</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_validator.h" line="235" column="24" bodyfile="src/importers/schema_validator.cpp" bodystart="216" bodyend="291"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_schema_auto_detector_1ad2b5e250a41695fc37af5c61171a76e3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; std::string, std::string &gt;</type>
+        <definition>std::pair&lt; std::string, std::string &gt; themis::importers::SchemaAutoDetector::mapViolationToErrorCode</definition>
+        <argsstring>(ConstraintViolationType violation_type)</argsstring>
+        <name>mapViolationToErrorCode</name>
+        <qualifiedname>themis::importers::SchemaAutoDetector::mapViolationToErrorCode</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1a327fa453c6e2856caf3d524cf0bc3089" kindref="member">ConstraintViolationType</ref></type>
+          <declname>violation_type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_validator.h" line="244" column="22" bodyfile="src/importers/schema_validator.cpp" bodystart="360" bodyend="377"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_schema_auto_detector_1a0ff43a69c22285998464128ae8b6a4f7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::importers::SchemaAutoDetector::checkNullHandling</definition>
+        <argsstring>(const std::string &amp;value, const std::string &amp;column_name, NullHandlingPolicy null_policy)</argsstring>
+        <name>checkNullHandling</name>
+        <qualifiedname>themis::importers::SchemaAutoDetector::checkNullHandling</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>column_name</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1a26bcacbeb12a9db973efa643001f113c" kindref="member">NullHandlingPolicy</ref></type>
+          <declname>null_policy</declname>
+        </param>
+        <briefdescription>
+<para>Check Null Handling. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">column_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the column. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">null_policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_validator.h" line="255" column="24" bodyfile="src/importers/schema_validator.cpp" bodystart="380" bodyend="395"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_schema_auto_detector_1a05823db4bf162d6b54a49f684000750f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::importers::SchemaAutoDetector::validateNumericCoercion</definition>
+        <argsstring>(const std::string &amp;value, const TypeCoercionConfig &amp;config)</argsstring>
+        <name>validateNumericCoercion</name>
+        <qualifiedname>themis::importers::SchemaAutoDetector::validateNumericCoercion</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1importers_1_1_type_coercion_config" kindref="compound">TypeCoercionConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Validate Numeric Coercion. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_validator.h" line="267" column="24" bodyfile="src/importers/schema_validator.cpp" bodystart="398" bodyend="429"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_schema_auto_detector_1a5870adf51c618c2b850d5bd0d00ef6d4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::importers::SchemaAutoDetector::validateStringCoercion</definition>
+        <argsstring>(const std::string &amp;value)</argsstring>
+        <name>validateStringCoercion</name>
+        <qualifiedname>themis::importers::SchemaAutoDetector::validateStringCoercion</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Validate String Coercion. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_validator.h" line="277" column="24" bodyfile="src/importers/schema_validator.cpp" bodystart="432" bodyend="440"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_schema_auto_detector_1aec6bca6b9b376bdf215b0a074d3f2bfd" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::importers::SchemaAutoDetector::typeRank</definition>
+        <argsstring>(DetectedFieldType t)</argsstring>
+        <name>typeRank</name>
+        <qualifiedname>themis::importers::SchemaAutoDetector::typeRank</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1a2630f499c7477f493ccfce1d7eff4cb3" kindref="member">DetectedFieldType</ref></type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+<para>Type Rank. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements typeRank without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_validator.h" line="288" column="16" bodyfile="src/importers/schema_validator.cpp" bodystart="106" bodyend="114"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/schema_validator.h" line="164" column="1" bodyfile="include/importers/schema_validator.h" bodystart="164" bodyend="289"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1importers_1_1_schema_auto_detector_1a0ff43a69c22285998464128ae8b6a4f7" prot="public" virt="non-virtual"><scope>themis::importers::SchemaAutoDetector</scope><name>checkNullHandling</name></member>
+      <member refid="classthemis_1_1importers_1_1_schema_auto_detector_1a1920174ac9e52433249e573dee259175" prot="private" virt="non-virtual"><scope>themis::importers::SchemaAutoDetector</scope><name>columns_</name></member>
+      <member refid="classthemis_1_1importers_1_1_schema_auto_detector_1ad0dae555de25eddf5615cb98810dd8e2" prot="public" virt="non-virtual"><scope>themis::importers::SchemaAutoDetector</scope><name>feedRow</name></member>
+      <member refid="classthemis_1_1importers_1_1_schema_auto_detector_1aefab3653feb6bd56d977b06a618ea916" prot="public" virt="non-virtual"><scope>themis::importers::SchemaAutoDetector</scope><name>getSchema</name></member>
+      <member refid="classthemis_1_1importers_1_1_schema_auto_detector_1ae4fea4c9aec374176ce65dd2023fd547" prot="public" virt="non-virtual"><scope>themis::importers::SchemaAutoDetector</scope><name>inferType</name></member>
+      <member refid="classthemis_1_1importers_1_1_schema_auto_detector_1ad2b5e250a41695fc37af5c61171a76e3" prot="public" virt="non-virtual"><scope>themis::importers::SchemaAutoDetector</scope><name>mapViolationToErrorCode</name></member>
+      <member refid="classthemis_1_1importers_1_1_schema_auto_detector_1a01483a6028df3ae3d2f5c17064abe32a" prot="public" virt="non-virtual"><scope>themis::importers::SchemaAutoDetector</scope><name>parseTypeName</name></member>
+      <member refid="classthemis_1_1importers_1_1_schema_auto_detector_1a1497a752aef206f7bdc0d33692327b17" prot="public" virt="non-virtual"><scope>themis::importers::SchemaAutoDetector</scope><name>reset</name></member>
+      <member refid="classthemis_1_1importers_1_1_schema_auto_detector_1aac8bc9a4472e25950bba86f366dd7038" prot="public" virt="non-virtual"><scope>themis::importers::SchemaAutoDetector</scope><name>SchemaAutoDetector</name></member>
+      <member refid="classthemis_1_1importers_1_1_schema_auto_detector_1ac30535441f49deab539507a7cb8e0878" prot="public" virt="non-virtual"><scope>themis::importers::SchemaAutoDetector</scope><name>schemaToJson</name></member>
+      <member refid="classthemis_1_1importers_1_1_schema_auto_detector_1a3049d11f738694fd7f74d9a4bc177faf" prot="public" virt="non-virtual"><scope>themis::importers::SchemaAutoDetector</scope><name>typeName</name></member>
+      <member refid="classthemis_1_1importers_1_1_schema_auto_detector_1aec6bca6b9b376bdf215b0a074d3f2bfd" prot="private" virt="non-virtual"><scope>themis::importers::SchemaAutoDetector</scope><name>typeRank</name></member>
+      <member refid="classthemis_1_1importers_1_1_schema_auto_detector_1a05823db4bf162d6b54a49f684000750f" prot="public" virt="non-virtual"><scope>themis::importers::SchemaAutoDetector</scope><name>validateNumericCoercion</name></member>
+      <member refid="classthemis_1_1importers_1_1_schema_auto_detector_1abf511c7f672b14c0055e0a9db1a9591f" prot="public" virt="non-virtual"><scope>themis::importers::SchemaAutoDetector</scope><name>validateRow</name></member>
+      <member refid="classthemis_1_1importers_1_1_schema_auto_detector_1a5870adf51c618c2b850d5bd0d00ef6d4" prot="public" virt="non-virtual"><scope>themis::importers::SchemaAutoDetector</scope><name>validateStringCoercion</name></member>
+      <member refid="classthemis_1_1importers_1_1_schema_auto_detector_1ad9cd07e42cb74182376052c23d1fe143" prot="public" virt="non-virtual"><scope>themis::importers::SchemaAutoDetector</scope><name>widenType</name></member>
+      <member refid="classthemis_1_1importers_1_1_schema_auto_detector_1ab0f99bbc871bc0ad35939ef1218ee590" prot="private" virt="non-virtual"><scope>themis::importers::SchemaAutoDetector</scope><name>widest_types_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

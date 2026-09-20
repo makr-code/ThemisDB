@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_encrypted_store_bench" kind="class" language="C++" prot="public">
+    <compoundname>StubEncryptedStoreBench</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_encrypted_store_bench_1a0fb938b13d472f5307a2ebbee6ea938c" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex StubEncryptedStoreBench::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>StubEncryptedStoreBench::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/user_storage_encrypted/bench_encrypted_storage_dedicated_gates.cpp" line="65" column="16" bodyfile="benchmarks/user_storage_encrypted/bench_encrypted_storage_dedicated_gates.cpp" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_encrypted_store_bench_1ab870cf66f4bc9e00a3fa902f418eaf0a" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; StubEncryptedStoreBench::store_</definition>
+        <argsstring></argsstring>
+        <name>store_</name>
+        <qualifiedname>StubEncryptedStoreBench::store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/user_storage_encrypted/bench_encrypted_storage_dedicated_gates.cpp" line="66" column="24" bodyfile="benchmarks/user_storage_encrypted/bench_encrypted_storage_dedicated_gates.cpp" bodystart="66" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_encrypted_store_bench_1ac0a9aec7ac804bab5a8de9d406e30d93" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StubEncryptedStoreBench::write</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;value)</argsstring>
+        <name>write</name>
+        <qualifiedname>StubEncryptedStoreBench::write</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/user_storage_encrypted/bench_encrypted_storage_dedicated_gates.cpp" line="37" column="10" bodyfile="benchmarks/user_storage_encrypted/bench_encrypted_storage_dedicated_gates.cpp" bodystart="37" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_encrypted_store_bench_1a95ba71c6718ddff915928b1b0c6d1379" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool StubEncryptedStoreBench::read</definition>
+        <argsstring>(const std::string &amp;key, std::string &amp;out)</argsstring>
+        <name>read</name>
+        <qualifiedname>StubEncryptedStoreBench::read</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/user_storage_encrypted/bench_encrypted_storage_dedicated_gates.cpp" line="41" column="10" bodyfile="benchmarks/user_storage_encrypted/bench_encrypted_storage_dedicated_gates.cpp" bodystart="41" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_encrypted_store_bench_1a59bd3e7c8ea7fdf84fcfca666399a765" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StubEncryptedStoreBench::rotateKey</definition>
+        <argsstring>()</argsstring>
+        <name>rotateKey</name>
+        <qualifiedname>StubEncryptedStoreBench::rotateKey</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/user_storage_encrypted/bench_encrypted_storage_dedicated_gates.cpp" line="48" column="10" bodyfile="benchmarks/user_storage_encrypted/bench_encrypted_storage_dedicated_gates.cpp" bodystart="48" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_encrypted_store_bench_1a662b49b10b2e5e120f3fabe7c73135ca" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string StubEncryptedStoreBench::encrypt</definition>
+        <argsstring>(const std::string &amp;pt)</argsstring>
+        <name>encrypt</name>
+        <qualifiedname>StubEncryptedStoreBench::encrypt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pt</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/user_storage_encrypted/bench_encrypted_storage_dedicated_gates.cpp" line="53" column="17" bodyfile="benchmarks/user_storage_encrypted/bench_encrypted_storage_dedicated_gates.cpp" bodystart="53" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_encrypted_store_bench_1a51af6ed1845b2d17243ce46117de2ae0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string StubEncryptedStoreBench::decrypt</definition>
+        <argsstring>(const std::string &amp;ct)</argsstring>
+        <name>decrypt</name>
+        <qualifiedname>StubEncryptedStoreBench::decrypt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ct</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/user_storage_encrypted/bench_encrypted_storage_dedicated_gates.cpp" line="54" column="17" bodyfile="benchmarks/user_storage_encrypted/bench_encrypted_storage_dedicated_gates.cpp" bodystart="54" bodyend="62"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/user_storage_encrypted/bench_encrypted_storage_dedicated_gates.cpp" line="35" column="1" bodyfile="benchmarks/user_storage_encrypted/bench_encrypted_storage_dedicated_gates.cpp" bodystart="35" bodyend="67"/>
+    <listofallmembers>
+      <member refid="class_stub_encrypted_store_bench_1a51af6ed1845b2d17243ce46117de2ae0" prot="public" virt="non-virtual"><scope>StubEncryptedStoreBench</scope><name>decrypt</name></member>
+      <member refid="class_stub_encrypted_store_bench_1a662b49b10b2e5e120f3fabe7c73135ca" prot="public" virt="non-virtual"><scope>StubEncryptedStoreBench</scope><name>encrypt</name></member>
+      <member refid="class_stub_encrypted_store_bench_1a0fb938b13d472f5307a2ebbee6ea938c" prot="private" virt="non-virtual"><scope>StubEncryptedStoreBench</scope><name>mu_</name></member>
+      <member refid="class_stub_encrypted_store_bench_1a95ba71c6718ddff915928b1b0c6d1379" prot="public" virt="non-virtual"><scope>StubEncryptedStoreBench</scope><name>read</name></member>
+      <member refid="class_stub_encrypted_store_bench_1a59bd3e7c8ea7fdf84fcfca666399a765" prot="public" virt="non-virtual"><scope>StubEncryptedStoreBench</scope><name>rotateKey</name></member>
+      <member refid="class_stub_encrypted_store_bench_1ab870cf66f4bc9e00a3fa902f418eaf0a" prot="private" virt="non-virtual"><scope>StubEncryptedStoreBench</scope><name>store_</name></member>
+      <member refid="class_stub_encrypted_store_bench_1ac0a9aec7ac804bab5a8de9d406e30d93" prot="public" virt="non-virtual"><scope>StubEncryptedStoreBench</scope><name>write</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

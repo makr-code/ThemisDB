@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_object_centric_tracer_1_1_convergence_divergence_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::ObjectCentricTracer::ConvergenceDivergenceResult</compoundname>
+    <includes refid="object__centric__tracer_8h" local="no">object_centric_tracer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_object_centric_tracer_1_1_convergence_divergence_result_1ac77931e13f8bb144880350b07c061536" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::process::ObjectCentricTracer::ConvergenceDivergenceResult::convergence_nodes</definition>
+        <argsstring></argsstring>
+        <name>convergence_nodes</name>
+        <qualifiedname>themis::process::ObjectCentricTracer::ConvergenceDivergenceResult::convergence_nodes</qualifiedname>
+        <briefdescription>
+<para>Nodes with &gt; 1 incoming object links. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/object_centric_tracer.h" line="148" column="21" bodyfile="include/process/object_centric_tracer.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_object_centric_tracer_1_1_convergence_divergence_result_1a313656189aa16639695f4a5f880fc32e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::process::ObjectCentricTracer::ConvergenceDivergenceResult::divergence_nodes</definition>
+        <argsstring></argsstring>
+        <name>divergence_nodes</name>
+        <qualifiedname>themis::process::ObjectCentricTracer::ConvergenceDivergenceResult::divergence_nodes</qualifiedname>
+        <briefdescription>
+<para>Nodes with &gt; 1 outgoing object links. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/object_centric_tracer.h" line="149" column="21" bodyfile="include/process/object_centric_tracer.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Find convergence and divergence nodes in a process model. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><itemizedlist>
+<listitem><para><bold>Convergence</bold> nodes: in-degree per object type &gt; 1 (many paths merge).</para>
+</listitem><listitem><para><bold>Divergence</bold> nodes: out-degree per object type &gt; 1 (one path splits). </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/process/object_centric_tracer.h" line="147" column="5" bodyfile="include/process/object_centric_tracer.h" bodystart="147" bodyend="150"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_object_centric_tracer_1_1_convergence_divergence_result_1ac77931e13f8bb144880350b07c061536" prot="public" virt="non-virtual"><scope>themis::process::ObjectCentricTracer::ConvergenceDivergenceResult</scope><name>convergence_nodes</name></member>
+      <member refid="structthemis_1_1process_1_1_object_centric_tracer_1_1_convergence_divergence_result_1a313656189aa16639695f4a5f880fc32e" prot="public" virt="non-virtual"><scope>themis::process::ObjectCentricTracer::ConvergenceDivergenceResult</scope><name>divergence_nodes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

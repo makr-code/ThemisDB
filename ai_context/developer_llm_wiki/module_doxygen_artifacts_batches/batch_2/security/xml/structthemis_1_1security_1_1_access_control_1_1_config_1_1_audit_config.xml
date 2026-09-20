@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_access_control_1_1_config_1_1_audit_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::AccessControl::Config::AuditConfig</compoundname>
+    <includes refid="access__control_8h" local="no">access_control.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_1_1_config_1_1_audit_config_1ae441d3d5acc4b119a89a08bdc22bcc40" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::AccessControl::Config::AuditConfig::enable_audit_logging</definition>
+        <argsstring></argsstring>
+        <name>enable_audit_logging</name>
+        <qualifiedname>themis::security::AccessControl::Config::AuditConfig::enable_audit_logging</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="97" column="18" bodyfile="include/security/access_control.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_1_1_config_1_1_audit_config_1a3bba29c5556a391ee92e3a943579b33e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::AccessControl::Config::AuditConfig::log_read_operations</definition>
+        <argsstring></argsstring>
+        <name>log_read_operations</name>
+        <qualifiedname>themis::security::AccessControl::Config::AuditConfig::log_read_operations</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="98" column="18" bodyfile="include/security/access_control.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_1_1_config_1_1_audit_config_1ac49f0ba2bef927a3182057cdbf21cb53" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::AccessControl::Config::AuditConfig::log_write_operations</definition>
+        <argsstring></argsstring>
+        <name>log_write_operations</name>
+        <qualifiedname>themis::security::AccessControl::Config::AuditConfig::log_write_operations</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="99" column="18" bodyfile="include/security/access_control.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_1_1_config_1_1_audit_config_1afda54b96925bf64c884d5066dce37d83" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::AccessControl::Config::AuditConfig::log_admin_operations</definition>
+        <argsstring></argsstring>
+        <name>log_admin_operations</name>
+        <qualifiedname>themis::security::AccessControl::Config::AuditConfig::log_admin_operations</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="100" column="18" bodyfile="include/security/access_control.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_1_1_config_1_1_audit_config_1aa7198c0795087b8b6cf25c87f5e9adcd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::AccessControl::Config::AuditConfig::log_failed_access</definition>
+        <argsstring></argsstring>
+        <name>log_failed_access</name>
+        <qualifiedname>themis::security::AccessControl::Config::AuditConfig::log_failed_access</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="101" column="18" bodyfile="include/security/access_control.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_1_1_config_1_1_audit_config_1a99a499a98facf6dc92e2175d28acadea" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::AccessControl::Config::AuditConfig::audit_log_path</definition>
+        <argsstring></argsstring>
+        <name>audit_log_path</name>
+        <qualifiedname>themis::security::AccessControl::Config::AuditConfig::audit_log_path</qualifiedname>
+        <initializer>= &quot;/var/log/themisdb/audit.log&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="102" column="25" bodyfile="include/security/access_control.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/access_control.h" line="96" column="9" bodyfile="include/security/access_control.h" bodystart="96" bodyend="103"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_access_control_1_1_config_1_1_audit_config_1a99a499a98facf6dc92e2175d28acadea" prot="public" virt="non-virtual"><scope>themis::security::AccessControl::Config::AuditConfig</scope><name>audit_log_path</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_1_1_config_1_1_audit_config_1ae441d3d5acc4b119a89a08bdc22bcc40" prot="public" virt="non-virtual"><scope>themis::security::AccessControl::Config::AuditConfig</scope><name>enable_audit_logging</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_1_1_config_1_1_audit_config_1afda54b96925bf64c884d5066dce37d83" prot="public" virt="non-virtual"><scope>themis::security::AccessControl::Config::AuditConfig</scope><name>log_admin_operations</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_1_1_config_1_1_audit_config_1aa7198c0795087b8b6cf25c87f5e9adcd" prot="public" virt="non-virtual"><scope>themis::security::AccessControl::Config::AuditConfig</scope><name>log_failed_access</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_1_1_config_1_1_audit_config_1a3bba29c5556a391ee92e3a943579b33e" prot="public" virt="non-virtual"><scope>themis::security::AccessControl::Config::AuditConfig</scope><name>log_read_operations</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_1_1_config_1_1_audit_config_1ac49f0ba2bef927a3182057cdbf21cb53" prot="public" virt="non-virtual"><scope>themis::security::AccessControl::Config::AuditConfig</scope><name>log_write_operations</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

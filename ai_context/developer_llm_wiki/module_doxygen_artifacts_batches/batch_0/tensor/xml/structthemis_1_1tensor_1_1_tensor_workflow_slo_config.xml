@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1tensor_1_1_tensor_workflow_slo_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::tensor::TensorWorkflowSloConfig</compoundname>
+    <includes refid="tensor__workflow__observability_8h" local="no">tensor_workflow_observability.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_workflow_slo_config_1aa966319396dc0d843c4098110fc39be8" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::tensor::TensorWorkflowSloConfig::max_p95_persistence_ms</definition>
+        <argsstring></argsstring>
+        <name>max_p95_persistence_ms</name>
+        <qualifiedname>themis::tensor::TensorWorkflowSloConfig::max_p95_persistence_ms</qualifiedname>
+        <initializer>= 10.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_workflow_observability.h" line="21" column="12" bodyfile="include/tensor/tensor_workflow_observability.h" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_workflow_slo_config_1a80f6380a829ca22868f5a17e4691b1cc" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::tensor::TensorWorkflowSloConfig::max_p95_training_ms</definition>
+        <argsstring></argsstring>
+        <name>max_p95_training_ms</name>
+        <qualifiedname>themis::tensor::TensorWorkflowSloConfig::max_p95_training_ms</qualifiedname>
+        <initializer>= 250.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_workflow_observability.h" line="22" column="12" bodyfile="include/tensor/tensor_workflow_observability.h" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_workflow_slo_config_1aca82cfe908e510f35eee3f2a7377591a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::tensor::TensorWorkflowSloConfig::max_p95_compression_ms</definition>
+        <argsstring></argsstring>
+        <name>max_p95_compression_ms</name>
+        <qualifiedname>themis::tensor::TensorWorkflowSloConfig::max_p95_compression_ms</qualifiedname>
+        <initializer>= 25.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_workflow_observability.h" line="23" column="12" bodyfile="include/tensor/tensor_workflow_observability.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_workflow_slo_config_1a69af2b0c8a57296f3c93a416d5505699" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::tensor::TensorWorkflowSloConfig::max_p95_routing_ms</definition>
+        <argsstring></argsstring>
+        <name>max_p95_routing_ms</name>
+        <qualifiedname>themis::tensor::TensorWorkflowSloConfig::max_p95_routing_ms</qualifiedname>
+        <initializer>= 10.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_workflow_observability.h" line="24" column="12" bodyfile="include/tensor/tensor_workflow_observability.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_workflow_slo_config_1a426f425efc7dd3fb8d7b1bbf44a7756b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::tensor::TensorWorkflowSloConfig::max_error_rate</definition>
+        <argsstring></argsstring>
+        <name>max_error_rate</name>
+        <qualifiedname>themis::tensor::TensorWorkflowSloConfig::max_error_rate</qualifiedname>
+        <initializer>= 0.01</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_workflow_observability.h" line="25" column="12" bodyfile="include/tensor/tensor_workflow_observability.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_workflow_slo_config_1a9b6748ed6af2cb55d20fbee5c684d7c2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::tensor::TensorWorkflowSloConfig::max_error_budget_burn</definition>
+        <argsstring></argsstring>
+        <name>max_error_budget_burn</name>
+        <qualifiedname>themis::tensor::TensorWorkflowSloConfig::max_error_budget_burn</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_workflow_observability.h" line="26" column="12" bodyfile="include/tensor/tensor_workflow_observability.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/tensor/tensor_workflow_observability.h" line="20" column="1" bodyfile="include/tensor/tensor_workflow_observability.h" bodystart="20" bodyend="27"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1tensor_1_1_tensor_workflow_slo_config_1a9b6748ed6af2cb55d20fbee5c684d7c2" prot="public" virt="non-virtual"><scope>themis::tensor::TensorWorkflowSloConfig</scope><name>max_error_budget_burn</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_workflow_slo_config_1a426f425efc7dd3fb8d7b1bbf44a7756b" prot="public" virt="non-virtual"><scope>themis::tensor::TensorWorkflowSloConfig</scope><name>max_error_rate</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_workflow_slo_config_1aca82cfe908e510f35eee3f2a7377591a" prot="public" virt="non-virtual"><scope>themis::tensor::TensorWorkflowSloConfig</scope><name>max_p95_compression_ms</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_workflow_slo_config_1aa966319396dc0d843c4098110fc39be8" prot="public" virt="non-virtual"><scope>themis::tensor::TensorWorkflowSloConfig</scope><name>max_p95_persistence_ms</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_workflow_slo_config_1a69af2b0c8a57296f3c93a416d5505699" prot="public" virt="non-virtual"><scope>themis::tensor::TensorWorkflowSloConfig</scope><name>max_p95_routing_ms</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_workflow_slo_config_1a80f6380a829ca22868f5a17e4691b1cc" prot="public" virt="non-virtual"><scope>themis::tensor::TensorWorkflowSloConfig</scope><name>max_p95_training_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

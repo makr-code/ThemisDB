@@ -1,0 +1,179 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1training_1_1_i_lo_r_a_checkpoint_manager" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::training::ILoRACheckpointManager</compoundname>
+    <includes refid="training__interfaces_8h" local="no">training_interfaces.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1training_1_1_i_lo_r_a_checkpoint_manager_1a0a4295d761996c6f766946422c04cd96" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::training::ILoRACheckpointManager::~ILoRACheckpointManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ILoRACheckpointManager</name>
+        <qualifiedname>themis::training::ILoRACheckpointManager::~ILoRACheckpointManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="230" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_i_lo_r_a_checkpoint_manager_1abc18a5fd1a8a74acb0241247916ec9c9" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1training_1a169ab41ac45ae0879c3fa6c99239c993" kindref="member">CheckpointId</ref></type>
+        <definition>virtual CheckpointId themis::training::ILoRACheckpointManager::save</definition>
+        <argsstring>(const LoRAWeights &amp;weights)=0</argsstring>
+        <name>save</name>
+        <qualifiedname>themis::training::ILoRACheckpointManager::save</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1training_1_1_lo_r_a_weights" kindref="compound">LoRAWeights</ref> &amp;</type>
+          <declname>weights</declname>
+        </param>
+        <briefdescription>
+<para>Persist LoRA weights and return their content-addressed ID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>weights</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Adapter weights to store. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>SHA-256-derived checkpoint identifier. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>on I/O failure. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="238" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_i_lo_r_a_checkpoint_manager_1a99470e28af5c6be008dce10d09ed7755" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::future&lt; <ref refid="structthemis_1_1training_1_1_lo_r_a_weights" kindref="compound">LoRAWeights</ref> &gt;</type>
+        <definition>virtual std::future&lt; LoRAWeights &gt; themis::training::ILoRACheckpointManager::load</definition>
+        <argsstring>(const CheckpointId &amp;checkpoint_id)=0</argsstring>
+        <name>load</name>
+        <qualifiedname>themis::training::ILoRACheckpointManager::load</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1training_1a169ab41ac45ae0879c3fa6c99239c993" kindref="member">CheckpointId</ref> &amp;</type>
+          <declname>checkpoint_id</declname>
+        </param>
+        <briefdescription>
+<para>Asynchronously load adapter weights by their content ID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>checkpoint_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier returned by <ref refid="classthemis_1_1training_1_1_i_lo_r_a_checkpoint_manager_1abc18a5fd1a8a74acb0241247916ec9c9" kindref="member">save()</ref>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Future resolving to the loaded weights. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="245" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_i_lo_r_a_checkpoint_manager_1aff622552460c0841263a81ac1248fdd9" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::training::ILoRACheckpointManager::verify</definition>
+        <argsstring>(const CheckpointId &amp;checkpoint_id) const =0</argsstring>
+        <name>verify</name>
+        <qualifiedname>themis::training::ILoRACheckpointManager::verify</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1training_1a169ab41ac45ae0879c3fa6c99239c993" kindref="member">CheckpointId</ref> &amp;</type>
+          <declname>checkpoint_id</declname>
+        </param>
+        <briefdescription>
+<para>Re-derive the content hash and confirm integrity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>checkpoint_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier to validate. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the stored file matches its SHA-256 digest. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="252" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_i_lo_r_a_checkpoint_manager_1a8f832661b601e3b916f23352240bafc6" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1training_1_1_checkpoint_descriptor" kindref="compound">CheckpointDescriptor</ref> &gt;</type>
+        <definition>virtual std::vector&lt; CheckpointDescriptor &gt; themis::training::ILoRACheckpointManager::listCheckpoints</definition>
+        <argsstring>(const std::string &amp;model_id) const =0</argsstring>
+        <name>listCheckpoints</name>
+        <qualifiedname>themis::training::ILoRACheckpointManager::listCheckpoints</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+<para>List all checkpoints associated with a base model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Base model identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Descriptors sorted newest-first. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="259" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Content-addressed LoRA checkpoint storage interface. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implementors must guarantee:<itemizedlist>
+<listitem><para><ref refid="classthemis_1_1training_1_1_i_lo_r_a_checkpoint_manager_1abc18a5fd1a8a74acb0241247916ec9c9" kindref="member">save()</ref> returns a deterministic SHA-256-derived <ref refid="namespacethemis_1_1training_1a169ab41ac45ae0879c3fa6c99239c993" kindref="member">CheckpointId</ref>.</para>
+</listitem><listitem><para><ref refid="classthemis_1_1training_1_1_i_lo_r_a_checkpoint_manager_1a99470e28af5c6be008dce10d09ed7755" kindref="member">load()</ref> is async to support large checkpoints from remote stores.</para>
+</listitem><listitem><para><ref refid="classthemis_1_1training_1_1_i_lo_r_a_checkpoint_manager_1aff622552460c0841263a81ac1248fdd9" kindref="member">verify()</ref> re-derives the content hash; returns false for tampered files.</para>
+</listitem><listitem><para><ref refid="classthemis_1_1training_1_1_i_lo_r_a_checkpoint_manager_1a8f832661b601e3b916f23352240bafc6" kindref="member">listCheckpoints()</ref> exposes the Ed25519 signature validity flag.</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="see"><para><ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager" kindref="compound">LoRACheckpointManager</ref> (concrete implementation) </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/training/training_interfaces.h" line="228" column="1" bodyfile="include/training/training_interfaces.h" bodystart="228" bodyend="261"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1training_1_1_i_lo_r_a_checkpoint_manager_1a8f832661b601e3b916f23352240bafc6" prot="public" virt="pure-virtual"><scope>themis::training::ILoRACheckpointManager</scope><name>listCheckpoints</name></member>
+      <member refid="classthemis_1_1training_1_1_i_lo_r_a_checkpoint_manager_1a99470e28af5c6be008dce10d09ed7755" prot="public" virt="pure-virtual"><scope>themis::training::ILoRACheckpointManager</scope><name>load</name></member>
+      <member refid="classthemis_1_1training_1_1_i_lo_r_a_checkpoint_manager_1abc18a5fd1a8a74acb0241247916ec9c9" prot="public" virt="pure-virtual"><scope>themis::training::ILoRACheckpointManager</scope><name>save</name></member>
+      <member refid="classthemis_1_1training_1_1_i_lo_r_a_checkpoint_manager_1aff622552460c0841263a81ac1248fdd9" prot="public" virt="pure-virtual"><scope>themis::training::ILoRACheckpointManager</scope><name>verify</name></member>
+      <member refid="classthemis_1_1training_1_1_i_lo_r_a_checkpoint_manager_1a0a4295d761996c6f766946422c04cd96" prot="public" virt="virtual"><scope>themis::training::ILoRACheckpointManager</scope><name>~ILoRACheckpointManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

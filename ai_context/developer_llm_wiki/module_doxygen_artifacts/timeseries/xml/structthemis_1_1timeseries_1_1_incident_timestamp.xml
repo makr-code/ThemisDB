@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1timeseries_1_1_incident_timestamp" kind="struct" language="C++" prot="public">
+    <compoundname>themis::timeseries::IncidentTimestamp</compoundname>
+    <includes refid="timeseries__incident__taxonomy_8h" local="no">timeseries_incident_taxonomy.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1timeseries_1_1_incident_timestamp_1a7514c0cc50d3fa11e77939fff649a8e8" prot="public" static="no" mutable="no">
+        <type>std::int64_t</type>
+        <definition>std::int64_t themis::timeseries::IncidentTimestamp::ns_since_epoch</definition>
+        <argsstring></argsstring>
+        <name>ns_since_epoch</name>
+        <qualifiedname>themis::timeseries::IncidentTimestamp::ns_since_epoch</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_incident_taxonomy.h" line="305" column="18" bodyfile="include/timeseries/timeseries_incident_taxonomy.h" bodystart="305" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1timeseries_1_1_incident_timestamp_1a3838069427a7f6280277f0858fb097db" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1timeseries_1_1_incident_timestamp" kindref="compound">IncidentTimestamp</ref></type>
+        <definition>static IncidentTimestamp themis::timeseries::IncidentTimestamp::now</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>now</name>
+        <qualifiedname>themis::timeseries::IncidentTimestamp::now</qualifiedname>
+        <briefdescription>
+<para>Constructs with current time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_incident_taxonomy.h" line="308" column="31" bodyfile="include/timeseries/timeseries_incident_taxonomy.h" bodystart="308" bodyend="313"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Timestamp of incident emission (nanoseconds since epoch). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/timeseries/timeseries_incident_taxonomy.h" line="304" column="1" bodyfile="include/timeseries/timeseries_incident_taxonomy.h" bodystart="304" bodyend="314"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1timeseries_1_1_incident_timestamp_1a3838069427a7f6280277f0858fb097db" prot="public" virt="non-virtual"><scope>themis::timeseries::IncidentTimestamp</scope><name>now</name></member>
+      <member refid="structthemis_1_1timeseries_1_1_incident_timestamp_1a7514c0cc50d3fa11e77939fff649a8e8" prot="public" virt="non-virtual"><scope>themis::timeseries::IncidentTimestamp</scope><name>ns_since_epoch</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

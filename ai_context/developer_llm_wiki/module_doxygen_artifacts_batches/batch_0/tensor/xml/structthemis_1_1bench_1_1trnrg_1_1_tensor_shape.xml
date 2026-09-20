@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1bench_1_1trnrg_1_1_tensor_shape" kind="struct" language="C++" prot="public">
+    <compoundname>themis::bench::trnrg::TensorShape</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1trnrg_1_1_tensor_shape_1ac962933b71e6341dfb72e90cdd5a41e0" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::size_t &gt;</type>
+        <definition>std::vector&lt;std::size_t&gt; themis::bench::trnrg::TensorShape::dims</definition>
+        <argsstring></argsstring>
+        <name>dims</name>
+        <qualifiedname>themis::bench::trnrg::TensorShape::dims</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_release_gates.cpp" line="109" column="17" bodyfile="benchmarks/tensor/bench_tensor_release_gates.cpp" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1trnrg_1_1_tensor_shape_1ad12cd7261e90bfc47a32a76c0e3d71e8" prot="public" static="no" mutable="no">
+        <type>const float *</type>
+        <definition>const float* themis::bench::trnrg::TensorShape::data_ptr</definition>
+        <argsstring></argsstring>
+        <name>data_ptr</name>
+        <qualifiedname>themis::bench::trnrg::TensorShape::data_ptr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_release_gates.cpp" line="110" column="17" bodyfile="benchmarks/tensor/bench_tensor_release_gates.cpp" bodystart="110" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Mock reshape: returns new shape descriptor (no data copy). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/tensor/bench_tensor_release_gates.cpp" line="108" column="1" bodyfile="benchmarks/tensor/bench_tensor_release_gates.cpp" bodystart="108" bodyend="111"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1bench_1_1trnrg_1_1_tensor_shape_1ad12cd7261e90bfc47a32a76c0e3d71e8" prot="public" virt="non-virtual"><scope>themis::bench::trnrg::TensorShape</scope><name>data_ptr</name></member>
+      <member refid="structthemis_1_1bench_1_1trnrg_1_1_tensor_shape_1ac962933b71e6341dfb72e90cdd5a41e0" prot="public" virt="non-virtual"><scope>themis::bench::trnrg::TensorShape</scope><name>dims</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

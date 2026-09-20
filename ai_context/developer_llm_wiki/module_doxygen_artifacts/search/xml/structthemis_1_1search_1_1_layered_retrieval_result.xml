@@ -1,0 +1,154 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1search_1_1_layered_retrieval_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::search::LayeredRetrievalResult</compoundname>
+    <includes refid="layered__retrieval__orchestrator_8h" local="no">layered_retrieval_orchestrator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1search_1_1_layered_retrieval_result_1a8ad760e1c7d6450a1676c5226ac37402" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1search_1_1_ann_layer_candidate" kindref="compound">AnnLayerCandidate</ref> &gt;</type>
+        <definition>std::vector&lt;AnnLayerCandidate&gt; themis::search::LayeredRetrievalResult::ann_candidates</definition>
+        <argsstring></argsstring>
+        <name>ann_candidates</name>
+        <qualifiedname>themis::search::LayeredRetrievalResult::ann_candidates</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="155" column="17" bodyfile="include/search/layered_retrieval_orchestrator.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1search_1_1_layered_retrieval_result_1a797f29fa8edb979a3351c6f36b5770c0" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1search_1_1_tensor_layer_candidate" kindref="compound">TensorLayerCandidate</ref> &gt;</type>
+        <definition>std::vector&lt;TensorLayerCandidate&gt; themis::search::LayeredRetrievalResult::tensor_candidates</definition>
+        <argsstring></argsstring>
+        <name>tensor_candidates</name>
+        <qualifiedname>themis::search::LayeredRetrievalResult::tensor_candidates</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="156" column="17" bodyfile="include/search/layered_retrieval_orchestrator.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1search_1_1_layered_retrieval_result_1a7bed776c5c7ae1f8fcad892a9b916daf" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1search_1_1_provenance_entry" kindref="compound">ProvenanceEntry</ref> &gt;</type>
+        <definition>std::vector&lt;ProvenanceEntry&gt; themis::search::LayeredRetrievalResult::provenance</definition>
+        <argsstring></argsstring>
+        <name>provenance</name>
+        <qualifiedname>themis::search::LayeredRetrievalResult::provenance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="157" column="17" bodyfile="include/search/layered_retrieval_orchestrator.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1search_1_1_layered_retrieval_result_1ace4075faa313768d9c24256864dfe8d8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::search::LayeredRetrievalResult::final_answer</definition>
+        <argsstring></argsstring>
+        <name>final_answer</name>
+        <qualifiedname>themis::search::LayeredRetrievalResult::final_answer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="158" column="17" bodyfile="include/search/layered_retrieval_orchestrator.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1search_1_1_layered_retrieval_result_1a778a817b64d5ceac0780e5ca04c11ef4" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1search_1_1_layer_decision_record" kindref="compound">LayerDecisionRecord</ref> &gt;</type>
+        <definition>std::vector&lt;LayerDecisionRecord&gt; themis::search::LayeredRetrievalResult::routing_decisions</definition>
+        <argsstring></argsstring>
+        <name>routing_decisions</name>
+        <qualifiedname>themis::search::LayeredRetrievalResult::routing_decisions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="160" column="17" bodyfile="include/search/layered_retrieval_orchestrator.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1search_1_1_layered_retrieval_result_1a798e024c5ac623c13408b9efcc866276" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::uint64_t &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::uint64_t&gt; themis::search::LayeredRetrievalResult::layer_latencies</definition>
+        <argsstring></argsstring>
+        <name>layer_latencies</name>
+        <qualifiedname>themis::search::LayeredRetrievalResult::layer_latencies</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="161" column="24" bodyfile="include/search/layered_retrieval_orchestrator.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1search_1_1_layered_retrieval_result_1aaa9a3165385b3fb22948bbb24d32f721" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::search::LayeredRetrievalResult::diagnostics</definition>
+        <argsstring></argsstring>
+        <name>diagnostics</name>
+        <qualifiedname>themis::search::LayeredRetrievalResult::diagnostics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="162" column="17" bodyfile="include/search/layered_retrieval_orchestrator.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1search_1_1_layered_retrieval_result_1af079d2c474489dcf239f4a80c2f0ebf9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::search::LayeredRetrievalResult::timed_out</definition>
+        <argsstring></argsstring>
+        <name>timed_out</name>
+        <qualifiedname>themis::search::LayeredRetrievalResult::timed_out</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="164" column="10" bodyfile="include/search/layered_retrieval_orchestrator.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1search_1_1_layered_retrieval_result_1a6279f681986650cedd9c79638d970035" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::search::LayeredRetrievalResult::guardrail_pruned</definition>
+        <argsstring></argsstring>
+        <name>guardrail_pruned</name>
+        <qualifiedname>themis::search::LayeredRetrievalResult::guardrail_pruned</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="165" column="10" bodyfile="include/search/layered_retrieval_orchestrator.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unified output returned by the layered retrieval chain. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/search/layered_retrieval_orchestrator.h" line="154" column="1" bodyfile="include/search/layered_retrieval_orchestrator.h" bodystart="154" bodyend="166"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1search_1_1_layered_retrieval_result_1a8ad760e1c7d6450a1676c5226ac37402" prot="public" virt="non-virtual"><scope>themis::search::LayeredRetrievalResult</scope><name>ann_candidates</name></member>
+      <member refid="structthemis_1_1search_1_1_layered_retrieval_result_1aaa9a3165385b3fb22948bbb24d32f721" prot="public" virt="non-virtual"><scope>themis::search::LayeredRetrievalResult</scope><name>diagnostics</name></member>
+      <member refid="structthemis_1_1search_1_1_layered_retrieval_result_1ace4075faa313768d9c24256864dfe8d8" prot="public" virt="non-virtual"><scope>themis::search::LayeredRetrievalResult</scope><name>final_answer</name></member>
+      <member refid="structthemis_1_1search_1_1_layered_retrieval_result_1a6279f681986650cedd9c79638d970035" prot="public" virt="non-virtual"><scope>themis::search::LayeredRetrievalResult</scope><name>guardrail_pruned</name></member>
+      <member refid="structthemis_1_1search_1_1_layered_retrieval_result_1a798e024c5ac623c13408b9efcc866276" prot="public" virt="non-virtual"><scope>themis::search::LayeredRetrievalResult</scope><name>layer_latencies</name></member>
+      <member refid="structthemis_1_1search_1_1_layered_retrieval_result_1a7bed776c5c7ae1f8fcad892a9b916daf" prot="public" virt="non-virtual"><scope>themis::search::LayeredRetrievalResult</scope><name>provenance</name></member>
+      <member refid="structthemis_1_1search_1_1_layered_retrieval_result_1a778a817b64d5ceac0780e5ca04c11ef4" prot="public" virt="non-virtual"><scope>themis::search::LayeredRetrievalResult</scope><name>routing_decisions</name></member>
+      <member refid="structthemis_1_1search_1_1_layered_retrieval_result_1a797f29fa8edb979a3351c6f36b5770c0" prot="public" virt="non-virtual"><scope>themis::search::LayeredRetrievalResult</scope><name>tensor_candidates</name></member>
+      <member refid="structthemis_1_1search_1_1_layered_retrieval_result_1af079d2c474489dcf239f4a80c2f0ebf9" prot="public" virt="non-virtual"><scope>themis::search::LayeredRetrievalResult</scope><name>timed_out</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

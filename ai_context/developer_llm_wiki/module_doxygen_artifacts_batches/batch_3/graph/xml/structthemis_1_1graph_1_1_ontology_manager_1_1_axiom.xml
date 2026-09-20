@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_ontology_manager_1_1_axiom" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::OntologyManager::Axiom</compoundname>
+    <includes refid="ontology__manager_8h" local="no">ontology_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_ontology_manager_1_1_axiom_1ad5f9a48ca609587e9fc8095cf63dbc56" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::OntologyManager::Axiom::source_class</definition>
+        <argsstring></argsstring>
+        <name>source_class</name>
+        <qualifiedname>themis::graph::OntologyManager::Axiom::source_class</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/ontology_manager.h" line="50" column="21" bodyfile="include/graph/ontology_manager.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_ontology_manager_1_1_axiom_1a0700cda171e718187970f17f0a7e72cd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::OntologyManager::Axiom::edge_type</definition>
+        <argsstring></argsstring>
+        <name>edge_type</name>
+        <qualifiedname>themis::graph::OntologyManager::Axiom::edge_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/ontology_manager.h" line="51" column="21" bodyfile="include/graph/ontology_manager.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_ontology_manager_1_1_axiom_1ab6b0578abbf571cc8f4dfaa8583f33c4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::OntologyManager::Axiom::target_class</definition>
+        <argsstring></argsstring>
+        <name>target_class</name>
+        <qualifiedname>themis::graph::OntologyManager::Axiom::target_class</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/ontology_manager.h" line="52" column="21" bodyfile="include/graph/ontology_manager.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/ontology_manager.h" line="49" column="5" bodyfile="include/graph/ontology_manager.h" bodystart="49" bodyend="53"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_ontology_manager_1_1_axiom_1a0700cda171e718187970f17f0a7e72cd" prot="public" virt="non-virtual"><scope>themis::graph::OntologyManager::Axiom</scope><name>edge_type</name></member>
+      <member refid="structthemis_1_1graph_1_1_ontology_manager_1_1_axiom_1ad5f9a48ca609587e9fc8095cf63dbc56" prot="public" virt="non-virtual"><scope>themis::graph::OntologyManager::Axiom</scope><name>source_class</name></member>
+      <member refid="structthemis_1_1graph_1_1_ontology_manager_1_1_axiom_1ab6b0578abbf571cc8f4dfaa8583f33c4" prot="public" virt="non-virtual"><scope>themis::graph::OntologyManager::Axiom</scope><name>target_class</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

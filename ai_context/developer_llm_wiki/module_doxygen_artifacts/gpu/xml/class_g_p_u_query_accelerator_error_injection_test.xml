@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_g_p_u_query_accelerator_error_injection_test" kind="class" language="C++" prot="public">
+    <compoundname>GPUQueryAcceleratorErrorInjectionTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_g_p_u_query_accelerator_error_injection_test_1a4b195cf7b760225ed0002f0ec556b3c2" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="test__gpu__query__accelerator_8cpp_1a667f168b285cadda99fc7449abd98843" kindref="member">Row</ref> &gt;</type>
+        <definition>static std::vector&lt; Row &gt; GPUQueryAcceleratorErrorInjectionTest::makeRows</definition>
+        <argsstring>(size_t n, double base_value=1.0)</argsstring>
+        <name>makeRows</name>
+        <qualifiedname>GPUQueryAcceleratorErrorInjectionTest::makeRows</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>base_value</declname>
+          <defval>1.0</defval>
+        </param>
+        <briefdescription>
+<para>Helper to build rows with sequential IDs and a float payload. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_query_accelerator_error_injection.cpp" line="39" column="24" bodyfile="tests/gpu/test_gpu_query_accelerator_error_injection.cpp" bodystart="39" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="class_g_p_u_query_accelerator_error_injection_test_1ac78d85642986233ef4274e304ef9584c" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>static double GPUQueryAcceleratorErrorInjectionTest::payloadVal</definition>
+        <argsstring>(const Row &amp;r)</argsstring>
+        <name>payloadVal</name>
+        <qualifiedname>GPUQueryAcceleratorErrorInjectionTest::payloadVal</qualifiedname>
+        <param>
+          <type>const <ref refid="test__gpu__query__accelerator_8cpp_1a667f168b285cadda99fc7449abd98843" kindref="member">Row</ref> &amp;</type>
+          <declname>r</declname>
+        </param>
+        <briefdescription>
+<para>Helper to extract the float payload as a double. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_query_accelerator_error_injection.cpp" line="51" column="19" bodyfile="tests/gpu/test_gpu_query_accelerator_error_injection.cpp" bodystart="51" bodyend="58"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_g_p_u_query_accelerator_error_injection_test_1ae1cb8ee315d18d4f37da12fabf427717" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>GPUQueryAccelerator::Config</type>
+        <definition>GPUQueryAccelerator::Config GPUQueryAcceleratorErrorInjectionTest::cpuOnlyConfig</definition>
+        <argsstring>()</argsstring>
+        <name>cpuOnlyConfig</name>
+        <qualifiedname>GPUQueryAcceleratorErrorInjectionTest::cpuOnlyConfig</qualifiedname>
+        <briefdescription>
+<para>Config that forces CPU path. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_query_accelerator_error_injection.cpp" line="61" column="33" bodyfile="tests/gpu/test_gpu_query_accelerator_error_injection.cpp" bodystart="61" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="class_g_p_u_query_accelerator_error_injection_test_1a9199c0a04f51bdfe42b040ee99018125" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>GPUQueryAccelerator::Config</type>
+        <definition>GPUQueryAccelerator::Config GPUQueryAcceleratorErrorInjectionTest::gpuEnabledConfig</definition>
+        <argsstring>()</argsstring>
+        <name>gpuEnabledConfig</name>
+        <qualifiedname>GPUQueryAcceleratorErrorInjectionTest::gpuEnabledConfig</qualifiedname>
+        <briefdescription>
+<para>Config that enables GPU but allows fallback. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_query_accelerator_error_injection.cpp" line="68" column="33" bodyfile="tests/gpu/test_gpu_query_accelerator_error_injection.cpp" bodystart="68" bodyend="72"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>GPUQueryAcceleratorErrorInjectionTest</label>
+        <link refid="class_g_p_u_query_accelerator_error_injection_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>GPUQueryAcceleratorErrorInjectionTest</label>
+        <link refid="class_g_p_u_query_accelerator_error_injection_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/gpu/test_gpu_query_accelerator_error_injection.cpp" line="36" column="1" bodyfile="tests/gpu/test_gpu_query_accelerator_error_injection.cpp" bodystart="36" bodyend="73"/>
+    <listofallmembers>
+      <member refid="class_g_p_u_query_accelerator_error_injection_test_1ae1cb8ee315d18d4f37da12fabf427717" prot="protected" virt="non-virtual"><scope>GPUQueryAcceleratorErrorInjectionTest</scope><name>cpuOnlyConfig</name></member>
+      <member refid="class_g_p_u_query_accelerator_error_injection_test_1a9199c0a04f51bdfe42b040ee99018125" prot="protected" virt="non-virtual"><scope>GPUQueryAcceleratorErrorInjectionTest</scope><name>gpuEnabledConfig</name></member>
+      <member refid="class_g_p_u_query_accelerator_error_injection_test_1a4b195cf7b760225ed0002f0ec556b3c2" prot="protected" virt="non-virtual"><scope>GPUQueryAcceleratorErrorInjectionTest</scope><name>makeRows</name></member>
+      <member refid="class_g_p_u_query_accelerator_error_injection_test_1ac78d85642986233ef4274e304ef9584c" prot="protected" virt="non-virtual"><scope>GPUQueryAcceleratorErrorInjectionTest</scope><name>payloadVal</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1_i_leader_election" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::ingestion::ILeaderElection</compoundname>
+    <derivedcompoundref refid="classthemis_1_1ingestion_1_1_in_process_leader_election" prot="public" virt="non-virtual">themis::ingestion::InProcessLeaderElection</derivedcompoundref>
+    <includes refid="ingestion__coordinator_8h" local="no">ingestion_coordinator.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_i_leader_election_1a22cd316544bfa73eb233552b0818b77d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::ingestion::ILeaderElection::~ILeaderElection</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ILeaderElection</name>
+        <qualifiedname>themis::ingestion::ILeaderElection::~ILeaderElection</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_coordinator.h" line="217" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_i_leader_election_1a78da6470ca907d05eaf3362b18a71ff4" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::ingestion::ILeaderElection::tryAcquireLease</definition>
+        <argsstring>(const std::string &amp;node_id, std::chrono::milliseconds ttl)=0</argsstring>
+        <name>tryAcquireLease</name>
+        <qualifiedname>themis::ingestion::ILeaderElection::tryAcquireLease</qualifiedname>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_in_process_leader_election_1afbf27225a6bf4c13539c3e13008df415">tryAcquireLease</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>ttl</declname>
+        </param>
+        <briefdescription>
+<para>Try to acquire (or renew) the leader lease. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Node requesting leadership </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ttl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Lease duration; must be renewed before expiry </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if this node is now the leader </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_coordinator.h" line="226" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_i_leader_election_1a0d6c53897e1605e571ef809d5236832b" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1ingestion_1_1_leader_lease" kindref="compound">LeaderLease</ref></type>
+        <definition>virtual LeaderLease themis::ingestion::ILeaderElection::getCurrentLease</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getCurrentLease</name>
+        <qualifiedname>themis::ingestion::ILeaderElection::getCurrentLease</qualifiedname>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_in_process_leader_election_1a3069143b3f8d169e9011437c9cc20310">getCurrentLease</reimplementedby>
+        <briefdescription>
+<para>Return the current lease snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_coordinator.h" line="230" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_i_leader_election_1a1ec97d70df172f9de4159a3edc4dc8a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::ingestion::ILeaderElection::revokeLease</definition>
+        <argsstring>(const std::string &amp;node_id)=0</argsstring>
+        <name>revokeLease</name>
+        <qualifiedname>themis::ingestion::ILeaderElection::revokeLease</qualifiedname>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_in_process_leader_election_1a3853efd47a568f1fd4484031a81ecbf9">revokeLease</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+<para>Voluntarily release the lease held by <computeroutput>node_id</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>A no-op when <computeroutput>node_id</computeroutput> does not currently hold the lease. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_coordinator.h" line="237" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Strategy interface for leader election. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>In production the default <computeroutput><ref refid="classthemis_1_1ingestion_1_1_in_process_leader_election" kindref="compound">InProcessLeaderElection</ref></computeroutput> stores the lease in shared memory. For multi-host deployments the caller can inject a Redis- or database-backed implementation via <computeroutput><ref refid="classthemis_1_1ingestion_1_1_ingestion_coordinator_1a9a0a85efa53d1cb0e6fd4086c3f7ade0" kindref="member">IngestionCoordinator::setLeaderElectionForTesting()</ref></computeroutput>. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::ingestion::ILeaderElection</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_leader_election"/>
+      </node>
+      <node id="2">
+        <label>themis::ingestion::InProcessLeaderElection</label>
+        <link refid="classthemis_1_1ingestion_1_1_in_process_leader_election"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/ingestion/ingestion_coordinator.h" line="215" column="1" bodyfile="include/ingestion/ingestion_coordinator.h" bodystart="215" bodyend="238"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1_i_leader_election_1a0d6c53897e1605e571ef809d5236832b" prot="public" virt="pure-virtual"><scope>themis::ingestion::ILeaderElection</scope><name>getCurrentLease</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_leader_election_1a1ec97d70df172f9de4159a3edc4dc8a3" prot="public" virt="pure-virtual"><scope>themis::ingestion::ILeaderElection</scope><name>revokeLease</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_leader_election_1a78da6470ca907d05eaf3362b18a71ff4" prot="public" virt="pure-virtual"><scope>themis::ingestion::ILeaderElection</scope><name>tryAcquireLease</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_leader_election_1a22cd316544bfa73eb233552b0818b77d" prot="public" virt="virtual"><scope>themis::ingestion::ILeaderElection</scope><name>~ILeaderElection</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

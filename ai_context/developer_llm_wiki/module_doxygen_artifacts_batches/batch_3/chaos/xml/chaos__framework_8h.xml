@@ -1,0 +1,336 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="chaos__framework_8h" kind="file" language="C++">
+    <compoundname>chaos_framework.h</compoundname>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">condition_variable</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="bench__chaos__microbenchmarks_8cpp" local="yes">benchmarks/chaos/bench_chaos_microbenchmarks.cpp</includedby>
+    <includedby refid="bench__chaos__release__gates_8cpp" local="yes">benchmarks/chaos/bench_chaos_release_gates.cpp</includedby>
+    <includedby refid="bench__chaos__stress_8cpp" local="yes">benchmarks/chaos/bench_chaos_stress.cpp</includedby>
+    <includedby refid="chaos__framework_8cpp" local="yes">src/chaos/chaos_framework.cpp</includedby>
+    <includedby refid="test__chaos__callback__determinism_8cpp" local="yes">tests/chaos/test_chaos_callback_determinism.cpp</includedby>
+    <includedby refid="test__chaos__concurrency__hardening_8cpp" local="yes">tests/chaos/test_chaos_concurrency_hardening.cpp</includedby>
+    <includedby refid="test__chaos__framework_8cpp" local="yes">tests/chaos/test_chaos_framework.cpp</includedby>
+    <includedby refid="test__chaos__scheduler__timing_8cpp" local="yes">tests/chaos/test_chaos_scheduler_timing.cpp</includedby>
+    <includedby refid="test__chaos__stress_8cpp" local="yes">tests/chaos/test_chaos_stress.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/chaos/chaos_framework.h</label>
+        <link refid="chaos__framework_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>condition_variable</label>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>thread</label>
+      </node>
+      <node id="9">
+        <label>unordered_map</label>
+      </node>
+      <node id="10">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/chaos/bench_chaos_microbenchmarks.cpp</label>
+        <link refid="bench__chaos__microbenchmarks_8cpp"/>
+      </node>
+      <node id="3">
+        <label>benchmarks/chaos/bench_chaos_release_gates.cpp</label>
+        <link refid="bench__chaos__release__gates_8cpp"/>
+      </node>
+      <node id="4">
+        <label>benchmarks/chaos/bench_chaos_stress.cpp</label>
+        <link refid="bench__chaos__stress_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/chaos/chaos_framework.h</label>
+        <link refid="chaos__framework_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>src/chaos/chaos_framework.cpp</label>
+        <link refid="chaos__framework_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/chaos/test_chaos_callback_determinism.cpp</label>
+        <link refid="test__chaos__callback__determinism_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/chaos/test_chaos_concurrency_hardening.cpp</label>
+        <link refid="test__chaos__concurrency__hardening_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/chaos/test_chaos_framework.cpp</label>
+        <link refid="test__chaos__framework_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/chaos/test_chaos_scheduler_timing.cpp</label>
+        <link refid="test__chaos__scheduler__timing_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/chaos/test_chaos_stress.cpp</label>
+        <link refid="test__chaos__stress_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1chaos_1_1_fault_spec" prot="public">themis::chaos::FaultSpec</innerclass>
+    <innerclass refid="structthemis_1_1chaos_1_1_active_fault" prot="public">themis::chaos::ActiveFault</innerclass>
+    <innerclass refid="classthemis_1_1chaos_1_1_fault_injector" prot="public">themis::chaos::FaultInjector</innerclass>
+    <innerclass refid="structthemis_1_1chaos_1_1_chaos_schedule_entry" prot="public">themis::chaos::ChaosScheduleEntry</innerclass>
+    <innerclass refid="structthemis_1_1chaos_1_1_chaos_scheduler_config" prot="public">themis::chaos::ChaosSchedulerConfig</innerclass>
+    <innerclass refid="classthemis_1_1chaos_1_1_chaos_scheduler" prot="public">themis::chaos::ChaosScheduler</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1chaos">themis::chaos</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.11 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;condition_variable&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1chaos" kindref="compound">themis::chaos</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>Fault<sp/>types<sp/>─────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bf" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bf" kindref="member">FaultType</ref><sp/>{</highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfa9addfe0b119bb98419945c37d862e910" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfa9addfe0b119bb98419945c37d862e910" kindref="member">NODE_FAILURE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfaf0fc848d79f32c305a5d9c0155192ba3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfaf0fc848d79f32c305a5d9c0155192ba3" kindref="member">NETWORK_PARTITION</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfad20e7ef27b6d223a5582e39c07323703" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfad20e7ef27b6d223a5582e39c07323703" kindref="member">LEADER_CRASH</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfac8186e2faedebbe67e5d6a9e6dbf0a5d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfac8186e2faedebbe67e5d6a9e6dbf0a5d" kindref="member">DELAYED_RESPONSE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfab49672cb2b97dddb873b72bde68c7180" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfab49672cb2b97dddb873b72bde68c7180" kindref="member">DISK_FAILURE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfa5b1c00d426f8c2fa9712859124a08656" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfa5b1c00d426f8c2fa9712859124a08656" kindref="member">RANDOM_FAILURE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfac6badc85aba3812bff0effd469655fe9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfac6badc85aba3812bff0effd469655fe9" kindref="member">DISASTER_RECOVERY_DRILL</ref><sp/></highlight></codeline>
+<codeline lineno="36"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>Fault<sp/>specification<sp/>─────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1chaos_1_1_fault_spec" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1chaos_1_1_fault_spec_1ab9d013fe105800f37c3493dde23d89e3" kindref="member">FaultSpec</ref><sp/>{</highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1chaos_1_1_fault_spec_1a29bdc99058f91b898bbd80ac1d006f74" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bf" kindref="member">FaultType</ref><sp/><sp/><sp/><ref refid="structthemis_1_1chaos_1_1_fault_spec_1a29bdc99058f91b898bbd80ac1d006f74" kindref="member">type</ref>;</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1chaos_1_1_fault_spec_1ae97597938f85504cb6483e9815f442ce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1chaos_1_1_fault_spec_1ae97597938f85504cb6483e9815f442ce" kindref="member">target_node_id</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1chaos_1_1_fault_spec_1a41833b93f57bbea54d6b24c93511af9a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1chaos_1_1_fault_spec_1a41833b93f57bbea54d6b24c93511af9a" kindref="member">duration</ref>{0};<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1chaos_1_1_fault_spec_1a5ea402919ffb8da55c0c470e4c37b304" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1chaos_1_1_fault_spec_1a5ea402919ffb8da55c0c470e4c37b304" kindref="member">probability</ref>{1.0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1chaos_1_1_fault_spec_1a25800786ad94756c59c6e7dbc7dbbe95" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1chaos_1_1_fault_spec_1a25800786ad94756c59c6e7dbc7dbbe95" kindref="member">description</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1chaos_1_1_fault_spec_1ab9d013fe105800f37c3493dde23d89e3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1chaos_1_1_fault_spec_1ab9d013fe105800f37c3493dde23d89e3" kindref="member">FaultSpec</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1chaos_1_1_fault_spec_1a24172b83337e19332d5b99fbf81cad08" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1chaos_1_1_fault_spec_1a24172b83337e19332d5b99fbf81cad08" kindref="member">FaultSpec</ref>(<ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bf" kindref="member">FaultType</ref><sp/>t,<sp/>std::string<sp/>node,<sp/>std::chrono::milliseconds<sp/>dur<sp/>=<sp/>{},</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>prob<sp/>=<sp/>1.0,<sp/>std::string<sp/>desc<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="structthemis_1_1chaos_1_1_fault_spec_1a29bdc99058f91b898bbd80ac1d006f74" kindref="member">type</ref>(t),<sp/><ref refid="structthemis_1_1chaos_1_1_fault_spec_1ae97597938f85504cb6483e9815f442ce" kindref="member">target_node_id</ref>(std::move(node)),<sp/><ref refid="structthemis_1_1chaos_1_1_fault_spec_1a41833b93f57bbea54d6b24c93511af9a" kindref="member">duration</ref>(dur),</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1chaos_1_1_fault_spec_1a5ea402919ffb8da55c0c470e4c37b304" kindref="member">probability</ref>(prob),<sp/><ref refid="structthemis_1_1chaos_1_1_fault_spec_1a25800786ad94756c59c6e7dbc7dbbe95" kindref="member">description</ref>(std::move(desc))<sp/>{}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>Active<sp/>fault<sp/>record<sp/>─────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1chaos_1_1_active_fault" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1chaos_1_1_active_fault" kindref="compound">ActiveFault</ref><sp/>{</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1chaos_1_1_active_fault_1acb3eeba477159124c85d2f4b0edae229" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1chaos_1_1_fault_spec" kindref="compound">FaultSpec</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1chaos_1_1_active_fault_1acb3eeba477159124c85d2f4b0edae229" kindref="member">spec</ref>;</highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1chaos_1_1_active_fault_1a54d46c01dae4887856c12191ee05fc31" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/><ref refid="structthemis_1_1chaos_1_1_active_fault_1a54d46c01dae4887856c12191ee05fc31" kindref="member">injected_at</ref>;</highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1chaos_1_1_active_fault_1acbb4774befef6d91a35f906a8feaf3ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/><ref refid="structthemis_1_1chaos_1_1_active_fault_1acbb4774befef6d91a35f906a8feaf3ef" kindref="member">expires_at</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1chaos_1_1_active_fault_1acd7209eafad3142f5e7580d4d2944459" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1chaos_1_1_active_fault_1acd7209eafad3142f5e7580d4d2944459" kindref="member">isExpired</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="structthemis_1_1chaos_1_1_active_fault_1acbb4774befef6d91a35f906a8feaf3ef" kindref="member">expires_at</ref><sp/>==<sp/>std::chrono::steady_clock::time_point::max())<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::chrono::steady_clock::now()<sp/>&gt;=<sp/><ref refid="structthemis_1_1chaos_1_1_active_fault_1acbb4774befef6d91a35f906a8feaf3ef" kindref="member">expires_at</ref>;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>FaultInjector<sp/>───────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>In-process<sp/>fault<sp/>registry:<sp/>tracks<sp/>which<sp/>nodes<sp/>are<sp/>currently<sp/>subject<sp/>to<sp/>which</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>faults.<sp/><sp/>Does<sp/>NOT<sp/>perform<sp/>real<sp/>network/disk<sp/>manipulation<sp/>—<sp/>designed<sp/>for<sp/>unit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>and<sp/>integration<sp/>tests<sp/>where<sp/>the<sp/>SUT<sp/>queries<sp/>isFaultActive()<sp/>before<sp/>performing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>cluster<sp/>operations.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="classthemis_1_1chaos_1_1_fault_injector" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1chaos_1_1_fault_injector_1aabd1ed1c53e4987424aa3f828800f561" kindref="member">FaultInjector</ref><sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="78" refid="classthemis_1_1chaos_1_1_fault_injector_1a2959c2e3d5ebce62f37ba83c144ec6b6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1chaos_1_1_fault_injector_1a2959c2e3d5ebce62f37ba83c144ec6b6" kindref="member">EventCallback</ref><sp/>=<sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1chaos_1_1_fault_spec" kindref="compound">FaultSpec</ref>&amp;,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">/*injected*/</highlight><highlight class="normal">)&gt;;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1chaos_1_1_fault_injector_1aabd1ed1c53e4987424aa3f828800f561" kindref="member">FaultInjector</ref>(std::string<sp/>injector_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;default&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1chaos_1_1_fault_injector_1ae35c6bea3335e791ab36692e5bbb0f2d" kindref="member">~FaultInjector</ref>();</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1chaos_1_1_fault_injector_1a043ebf32edf8f4ab47f2a9a21f570d68" kindref="member">injectFault</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1chaos_1_1_fault_spec" kindref="compound">FaultSpec</ref>&amp;<sp/>fault);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1chaos_1_1_fault_injector_1a98ac3681bb9b8be75d43578c17d526ab" kindref="member">recoverFault</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target_node_id);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1chaos_1_1_fault_injector_1a98ac3681bb9b8be75d43578c17d526ab" kindref="member">recoverFault</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target_node_id,<sp/><ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bf" kindref="member">FaultType</ref><sp/>type);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1chaos_1_1_fault_injector_1ab72429333054563501fe1677ecb15382" kindref="member">isFaultActive</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target_node_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1chaos_1_1_fault_injector_1ab72429333054563501fe1677ecb15382" kindref="member">isFaultActive</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target_node_id,<sp/><ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bf" kindref="member">FaultType</ref><sp/>type)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ActiveFault&gt;<sp/><ref refid="classthemis_1_1chaos_1_1_fault_injector_1a031717a45d9267e837cbae6f273380e9" kindref="member">getActiveFaults</ref>();</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1chaos_1_1_fault_injector_1a9af1e916334a2e89093e8641975ef4f9" kindref="member">activeFaultCount</ref>();</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1chaos_1_1_fault_injector_1a68e54a36ab8b4d8464b9489dc5063eef" kindref="member">clearAllFaults</ref>();</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1chaos_1_1_fault_injector_1af893a190973886a7554767373b73f29d" kindref="member">registerEventCallback</ref>(<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a2959c2e3d5ebce62f37ba83c144ec6b6" kindref="member">EventCallback</ref><sp/>cb);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145" refid="classthemis_1_1chaos_1_1_fault_injector_1a9ec7f3d8dc6fcbf24cbbc3a1472b198b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1chaos_1_1_fault_injector_1a9ec7f3d8dc6fcbf24cbbc3a1472b198b" kindref="member">id</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>injector_id_;<sp/>}</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>pruneExpired();</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/>injector_id_;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>fault_mutex_;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Key:<sp/>node_id+&quot;::&quot;+type_string</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>ActiveFault&gt;<sp/>active_faults_;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;EventCallback&gt;<sp/>callbacks_;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>makeKey(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id,<sp/><ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bf" kindref="member">FaultType</ref><sp/>type);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>faultTypeName(<ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bf" kindref="member">FaultType</ref><sp/>type)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>ChaosSchedule<sp/>entry<sp/>─────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179" refid="structthemis_1_1chaos_1_1_chaos_schedule_entry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1chaos_1_1_chaos_schedule_entry" kindref="compound">ChaosScheduleEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="180" refid="structthemis_1_1chaos_1_1_chaos_schedule_entry_1a366a54949944c46b7d3942493b8a66b4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/><ref refid="structthemis_1_1chaos_1_1_chaos_schedule_entry_1a366a54949944c46b7d3942493b8a66b4" kindref="member">trigger_at</ref>;</highlight></codeline>
+<codeline lineno="181" refid="structthemis_1_1chaos_1_1_chaos_schedule_entry_1aaa5ad79ac2120db0b2e06e8d58780723" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1chaos_1_1_fault_spec" kindref="compound">FaultSpec</ref><sp/><ref refid="structthemis_1_1chaos_1_1_chaos_schedule_entry_1aaa5ad79ac2120db0b2e06e8d58780723" kindref="member">fault</ref>;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>Wake<sp/>strategy<sp/>───────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186" refid="namespacethemis_1_1chaos_1a4d1da370dd98a3f6b217a7d91285901d" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1chaos_1a4d1da370dd98a3f6b217a7d91285901d" kindref="member">WakeStrategy</ref><sp/>{</highlight></codeline>
+<codeline lineno="187" refid="namespacethemis_1_1chaos_1a4d1da370dd98a3f6b217a7d91285901daf9c565eafc13190fdd19477b12955374" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1chaos_1a4d1da370dd98a3f6b217a7d91285901daf9c565eafc13190fdd19477b12955374" kindref="member">FIXED_TICK</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="188" refid="namespacethemis_1_1chaos_1a4d1da370dd98a3f6b217a7d91285901dae228a20504c75ccc411fe4d69bbf6653" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1chaos_1a4d1da370dd98a3f6b217a7d91285901dae228a20504c75ccc411fe4d69bbf6653" kindref="member">CONDVAR</ref><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="189"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>ChaosScheduler<sp/>configuration<sp/>───────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193" refid="structthemis_1_1chaos_1_1_chaos_scheduler_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1chaos_1_1_chaos_scheduler_config" kindref="compound">ChaosSchedulerConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="194" refid="structthemis_1_1chaos_1_1_chaos_scheduler_config_1a02066812e80a9a5b1ea75c0bd2cde95b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1chaos_1_1_chaos_scheduler_config_1a02066812e80a9a5b1ea75c0bd2cde95b" kindref="member">tick_interval</ref>{10};</highlight></codeline>
+<codeline lineno="195" refid="structthemis_1_1chaos_1_1_chaos_scheduler_config_1a0c404ca316c9b3f43c8ea5f095a8a32e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1chaos_1a4d1da370dd98a3f6b217a7d91285901d" kindref="member">WakeStrategy</ref><sp/><ref refid="structthemis_1_1chaos_1_1_chaos_scheduler_config_1a0c404ca316c9b3f43c8ea5f095a8a32e" kindref="member">wake_strategy</ref>{<ref refid="namespacethemis_1_1chaos_1a4d1da370dd98a3f6b217a7d91285901daf9c565eafc13190fdd19477b12955374" kindref="member">WakeStrategy::FIXED_TICK</ref>};</highlight></codeline>
+<codeline lineno="196"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>ChaosScheduler<sp/>──────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Time-driven<sp/>fault<sp/>scheduler:<sp/>fires<sp/>scheduled<sp/>faults<sp/>in<sp/>a<sp/>background<sp/>thread.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Designed<sp/>to<sp/>compose<sp/>with<sp/>FaultInjector<sp/>for<sp/>orchestrated<sp/>chaos<sp/>scenarios.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203" refid="classthemis_1_1chaos_1_1_chaos_scheduler" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1chaos_1_1_chaos_scheduler_1acfac19c15a1abfd137ec9307eeb2ccc1" kindref="member">ChaosScheduler</ref><sp/>{</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="205" refid="classthemis_1_1chaos_1_1_chaos_scheduler_1ab80415c38862302f842ef48e499b2138" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1chaos_1_1_chaos_scheduler_1ab80415c38862302f842ef48e499b2138" kindref="member">Config</ref><sp/>=<sp/><ref refid="structthemis_1_1chaos_1_1_chaos_scheduler_config" kindref="compound">ChaosSchedulerConfig</ref>;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1chaos_1_1_chaos_scheduler_1acfac19c15a1abfd137ec9307eeb2ccc1" kindref="member">ChaosScheduler</ref>(std::shared_ptr&lt;FaultInjector&gt;<sp/>injector,</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1chaos_1_1_chaos_scheduler_1ab80415c38862302f842ef48e499b2138" kindref="member">Config</ref><sp/>cfg<sp/>=<sp/><ref refid="classthemis_1_1chaos_1_1_chaos_scheduler_1ab80415c38862302f842ef48e499b2138" kindref="member">Config</ref>{});</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1chaos_1_1_chaos_scheduler_1abcc492be72cd2c86d2b4ee9b09262357" kindref="member">~ChaosScheduler</ref>();</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1chaos_1_1_chaos_scheduler_1a1b5d87468ea3b28284fca2ffa2a74166" kindref="member">schedule</ref>(<ref refid="structthemis_1_1chaos_1_1_chaos_schedule_entry" kindref="compound">ChaosScheduleEntry</ref><sp/>entry);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1chaos_1_1_chaos_scheduler_1a872c3ad2524b3d924ca91fd7caa5ed67" kindref="member">scheduleIn</ref>(std::chrono::milliseconds<sp/>delay,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1chaos_1_1_fault_spec" kindref="compound">FaultSpec</ref>&amp;<sp/>fault);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1chaos_1_1_chaos_scheduler_1ae29c056883827abc55611c908e9d75ec" kindref="member">start</ref>();</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1chaos_1_1_chaos_scheduler_1a11cb108025bcfb52135f9775f8605245" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1chaos_1_1_chaos_scheduler_1a476cb1896bd9413f4d66b13738ed8803" kindref="member">isRunning</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1chaos_1_1_chaos_scheduler_1a4950a82d3f47d589ac34ca710d98df8e" kindref="member">pendingCount</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1chaos_1_1_chaos_scheduler_1a2d66db68e751966d4b9dc7476619da91" kindref="member">clearPending</ref>();</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>runLoop();</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;<ref refid="classthemis_1_1chaos_1_1_fault_injector" kindref="compound">FaultInjector</ref>&gt;<sp/><sp/><sp/><sp/>injector_;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__chaos__network_8cpp_1abbae112e09a650b420da55146a2ca8b1" kindref="member">Config</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg_;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1chaos_1_1_chaos_schedule_entry" kindref="compound">ChaosScheduleEntry</ref>&gt;<sp/><sp/><sp/>pending_;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>mutable<sp/>std::mutex<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sched_mutex_;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Separate<sp/>mutex<sp/>for<sp/>the<sp/>condition<sp/>variable<sp/>so<sp/>that<sp/>schedule()<sp/>can<sp/>insert</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>entries<sp/>into<sp/>pending_<sp/>(using<sp/>sched_mutex_)<sp/>without<sp/>being<sp/>blocked<sp/>by<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>background<sp/>thread<sp/>holding<sp/>wake_mutex_<sp/>during<sp/>wait_for.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mutex<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>wake_mutex_;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>std::condition_variable<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sched_cv_;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>running_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>worker_;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::chaos</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/chaos/chaos_framework.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_memory_scaling_fixture" kind="class" language="C++" prot="public">
+    <compoundname>themis::bench::onnx_clip::OnnxClipMemoryScalingFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_memory_scaling_fixture_1a24a4ac05a0fcd6097eefdf66670f7d05" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_mock_onnx_clip_backend_model" kindref="compound">MockOnnxClipBackendModel</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;MockOnnxClipBackendModel&gt; themis::bench::onnx_clip::OnnxClipMemoryScalingFixture::model_</definition>
+        <argsstring></argsstring>
+        <name>model_</name>
+        <qualifiedname>themis::bench::onnx_clip::OnnxClipMemoryScalingFixture::model_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" line="324" column="21" bodyfile="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" bodystart="324" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_memory_scaling_fixture_1ad52cfefdf791e2df5e5948ac2e63dd89" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::onnx_clip::OnnxClipMemoryScalingFixture::SetUp</definition>
+        <argsstring>(::benchmark::State &amp;) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::bench::onnx_clip::OnnxClipMemoryScalingFixture::SetUp</qualifiedname>
+        <param>
+          <type>::benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" line="315" column="10" bodyfile="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" bodystart="315" bodyend="317"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_memory_scaling_fixture_1a79e50c526e360ed01a64f758d977d288" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::onnx_clip::OnnxClipMemoryScalingFixture::TearDown</definition>
+        <argsstring>(::benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::bench::onnx_clip::OnnxClipMemoryScalingFixture::TearDown</qualifiedname>
+        <param>
+          <type>::benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" line="319" column="10" bodyfile="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" bodystart="319" bodyend="321"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Fixture for memory scaling study across batch sizes. Measures RSS and peak memory for batch sizes 1-64. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+      <node id="1">
+        <label>themis::bench::onnx_clip::OnnxClipMemoryScalingFixture</label>
+        <link refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_memory_scaling_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+      <node id="1">
+        <label>themis::bench::onnx_clip::OnnxClipMemoryScalingFixture</label>
+        <link refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_memory_scaling_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" line="313" column="1" bodyfile="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" bodystart="313" bodyend="325"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_memory_scaling_fixture_1a24a4ac05a0fcd6097eefdf66670f7d05" prot="protected" virt="non-virtual"><scope>themis::bench::onnx_clip::OnnxClipMemoryScalingFixture</scope><name>model_</name></member>
+      <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_memory_scaling_fixture_1ad52cfefdf791e2df5e5948ac2e63dd89" prot="public" virt="non-virtual"><scope>themis::bench::onnx_clip::OnnxClipMemoryScalingFixture</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_memory_scaling_fixture_1a79e50c526e360ed01a64f758d977d288" prot="public" virt="non-virtual"><scope>themis::bench::onnx_clip::OnnxClipMemoryScalingFixture</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

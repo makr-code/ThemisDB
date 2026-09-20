@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1whisper_1_1_energy_threshold_vad" kind="class" language="C++" prot="public">
+    <compoundname>themis::whisper::EnergyThresholdVad</compoundname>
+    <basecompoundref refid="classthemis_1_1whisper_1_1_i_voice_activity_detector" prot="public" virt="non-virtual">themis::whisper::IVoiceActivityDetector</basecompoundref>
+    <includes refid="voice__activity__detector_8h" local="no">voice_activity_detector.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_energy_threshold_vad_1aa545e69295499699b1b985bdd940860c" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1whisper_1_1_speech_segment" kindref="compound">SpeechSegment</ref> &gt;</type>
+        <definition>std::vector&lt; SpeechSegment &gt; themis::whisper::EnergyThresholdVad::detect</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;pcm, float sample_rate, const VadConfig &amp;cfg) const override</argsstring>
+        <name>detect</name>
+        <qualifiedname>themis::whisper::EnergyThresholdVad::detect</qualifiedname>
+        <reimplements refid="classthemis_1_1whisper_1_1_i_voice_activity_detector_1ab011728d8f3893425386b9a4e537ad4c">detect</reimplements>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>pcm</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>sample_rate</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1whisper_1_1_vad_config" kindref="compound">VadConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Detect speech segments in a PCM buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pcm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Mono float32 samples, normalised to [-1, 1]. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sample_rate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Sampling rate of <computeroutput>pcm</computeroutput> (e.g. 16000.0f). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>VAD parameters. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>List of speech segments ordered by start_sample. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/voice_activity_detector.h" line="106" column="5" bodyfile="include/whisper/voice_activity_detector.h" bodystart="106" bodyend="140"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_energy_threshold_vad_1afbe3b8e914cebef02b8b18bd6b90a37d" prot="private" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>static float themis::whisper::EnergyThresholdVad::frameRms</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;pcm, std::size_t start, std::size_t end) noexcept</argsstring>
+        <name>frameRms</name>
+        <qualifiedname>themis::whisper::EnergyThresholdVad::frameRms</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>pcm</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>start</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>end</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/voice_activity_detector.h" line="143" column="18" bodyfile="include/whisper/voice_activity_detector.h" bodystart="143" bodyend="151"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Energy-threshold-based Voice Activity Detector. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Divides the PCM buffer into fixed-length frames and computes the root-mean-square (RMS) energy of each frame. Consecutive frames whose RMS exceeds <computeroutput><ref refid="structthemis_1_1whisper_1_1_vad_config_1affff38e953df857267a6500da44cc638" kindref="member">VadConfig::energy_threshold</ref></computeroutput> are merged into a single <ref refid="structthemis_1_1whisper_1_1_speech_segment" kindref="compound">SpeechSegment</ref>. Segments shorter than <computeroutput><ref refid="structthemis_1_1whisper_1_1_vad_config_1ac2e4c6e1fd75c8bdba5d777356d526b5" kindref="member">VadConfig::min_speech_ms</ref></computeroutput> are discarded.</para>
+<para>Performance: &lt; 5 ms per 1-second chunk at 16 kHz on a modern CPU. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::whisper::EnergyThresholdVad</label>
+        <link refid="classthemis_1_1whisper_1_1_energy_threshold_vad"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::whisper::IVoiceActivityDetector</label>
+        <link refid="classthemis_1_1whisper_1_1_i_voice_activity_detector"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::whisper::EnergyThresholdVad</label>
+        <link refid="classthemis_1_1whisper_1_1_energy_threshold_vad"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::whisper::IVoiceActivityDetector</label>
+        <link refid="classthemis_1_1whisper_1_1_i_voice_activity_detector"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/whisper/voice_activity_detector.h" line="103" column="1" bodyfile="include/whisper/voice_activity_detector.h" bodystart="103" bodyend="152"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1whisper_1_1_energy_threshold_vad_1aa545e69295499699b1b985bdd940860c" prot="public" virt="virtual"><scope>themis::whisper::EnergyThresholdVad</scope><name>detect</name></member>
+      <member refid="classthemis_1_1whisper_1_1_energy_threshold_vad_1afbe3b8e914cebef02b8b18bd6b90a37d" prot="private" virt="non-virtual"><scope>themis::whisper::EnergyThresholdVad</scope><name>frameRms</name></member>
+      <member refid="classthemis_1_1whisper_1_1_i_voice_activity_detector_1a24f1972cf6cc2b84887e438e0ce2e1e4" prot="public" virt="virtual"><scope>themis::whisper::EnergyThresholdVad</scope><name>~IVoiceActivityDetector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

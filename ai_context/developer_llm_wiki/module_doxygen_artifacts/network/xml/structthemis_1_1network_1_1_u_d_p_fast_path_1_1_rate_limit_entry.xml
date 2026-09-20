@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_rate_limit_entry" kind="struct" language="C++" prot="private">
+    <compoundname>themis::network::UDPFastPath::RateLimitEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_rate_limit_entry_1a06403aa206857ae83ee95ec6c7aa7db1" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::UDPFastPath::RateLimitEntry::window_start_ms</definition>
+        <argsstring></argsstring>
+        <name>window_start_ms</name>
+        <qualifiedname>themis::network::UDPFastPath::RateLimitEntry::window_start_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_fast_path.h" line="235" column="18" bodyfile="include/network/udp_fast_path.h" bodystart="235" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_rate_limit_entry_1a8e280de1b67abd015b1ef428d0c4ed4a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::UDPFastPath::RateLimitEntry::count</definition>
+        <argsstring></argsstring>
+        <name>count</name>
+        <qualifiedname>themis::network::UDPFastPath::RateLimitEntry::count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_fast_path.h" line="236" column="18" bodyfile="include/network/udp_fast_path.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/network/udp_fast_path.h" line="234" column="5" bodyfile="include/network/udp_fast_path.h" bodystart="234" bodyend="237"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_rate_limit_entry_1a8e280de1b67abd015b1ef428d0c4ed4a" prot="public" virt="non-virtual"><scope>themis::network::UDPFastPath::RateLimitEntry</scope><name>count</name></member>
+      <member refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_rate_limit_entry_1a06403aa206857ae83ee95ec6c7aa7db1" prot="public" virt="non-virtual"><scope>themis::network::UDPFastPath::RateLimitEntry</scope><name>window_start_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

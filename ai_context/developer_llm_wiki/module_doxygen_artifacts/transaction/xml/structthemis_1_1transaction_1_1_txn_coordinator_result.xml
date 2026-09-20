@@ -1,0 +1,195 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1transaction_1_1_txn_coordinator_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::transaction::TxnCoordinatorResult</compoundname>
+    <includes refid="transaction__coordinator_8h" local="no">transaction_coordinator.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1transaction_1_1_txn_coordinator_result_1af0a7b4c52b381b6dd33fef87fffd1322" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ErrorCode</name>
+        <qualifiedname>themis::transaction::TxnCoordinatorResult::ErrorCode</qualifiedname>
+        <enumvalue id="structthemis_1_1transaction_1_1_txn_coordinator_result_1af0a7b4c52b381b6dd33fef87fffd1322ab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Operation succeeded (ok == true). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1transaction_1_1_txn_coordinator_result_1af0a7b4c52b381b6dd33fef87fffd1322a3b7f0f59edf88d0c4520482c41e292ba" prot="public">
+          <name>UNKNOWN_TRANSACTION</name>
+          <briefdescription>
+<para>No active/recoverable transaction with the given ID. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1transaction_1_1_txn_coordinator_result_1af0a7b4c52b381b6dd33fef87fffd1322a5e6a8de74c8f7d4b04d91a3dc3bf7659" prot="public">
+          <name>INVALID_STATE</name>
+          <briefdescription>
+<para>Operation is not permitted in the current lifecycle state. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1transaction_1_1_txn_coordinator_result_1af0a7b4c52b381b6dd33fef87fffd1322ade6c0f000883f49324e9d21bb8a80c09" prot="public">
+          <name>PARTICIPANT_ABORT</name>
+          <briefdescription>
+<para>One or more participants voted ABORT during prepare. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1transaction_1_1_txn_coordinator_result_1af0a7b4c52b381b6dd33fef87fffd1322a070a0fb40f6c308ab544b227660aadff" prot="public">
+          <name>TIMEOUT</name>
+          <briefdescription>
+<para>Operation exceeded its deadline. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1transaction_1_1_txn_coordinator_result_1af0a7b4c52b381b6dd33fef87fffd1322ac47c13c9133c2a2d29a7eb1fedd81ddb" prot="public">
+          <name>RECOVERY_NEEDED</name>
+          <briefdescription>
+<para>Transaction is in-doubt; automatic resolution not possible. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1transaction_1_1_txn_coordinator_result_1af0a7b4c52b381b6dd33fef87fffd1322ae8c0c70879b5895c615677261d64a1ee" prot="public">
+          <name>INTERNAL_ERROR</name>
+          <briefdescription>
+<para>Coordinator-internal failure (WAL write failed, etc.). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_coordinator.h" line="101" column="5" bodyfile="include/transaction/transaction_coordinator.h" bodystart="101" bodyend="109"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_txn_coordinator_result_1ad028b78c646a36bc7452c15a079ac505" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::transaction::TxnCoordinatorResult::ok</definition>
+        <argsstring></argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::transaction::TxnCoordinatorResult::ok</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>True when the operation succeeded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_coordinator.h" line="111" column="17" bodyfile="include/transaction/transaction_coordinator.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_txn_coordinator_result_1a6140278ae16c0b62acf66421daba44e9" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1transaction_1_1_txn_coordinator_result_1af0a7b4c52b381b6dd33fef87fffd1322" kindref="member">ErrorCode</ref></type>
+        <definition>ErrorCode themis::transaction::TxnCoordinatorResult::code</definition>
+        <argsstring></argsstring>
+        <name>code</name>
+        <qualifiedname>themis::transaction::TxnCoordinatorResult::code</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1transaction_1_1_txn_coordinator_result_1af0a7b4c52b381b6dd33fef87fffd1322ab50339a10e1de285ac99d4c3990b8693" kindref="member">ErrorCode::NONE</ref></initializer>
+        <briefdescription>
+<para>Error category when ok == false. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_coordinator.h" line="112" column="17" bodyfile="include/transaction/transaction_coordinator.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_txn_coordinator_result_1a2c75ae265985ffefb4c01ee3fe704131" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::transaction::TxnCoordinatorResult::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::transaction::TxnCoordinatorResult::message</qualifiedname>
+        <briefdescription>
+<para>Human-readable diagnostic detail. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_coordinator.h" line="113" column="17" bodyfile="include/transaction/transaction_coordinator.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1transaction_1_1_txn_coordinator_result_1ae69da8de967d1c558f828da74bf4ce8e" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1transaction_1_1_txn_coordinator_result" kindref="compound">TxnCoordinatorResult</ref></type>
+        <definition>static TxnCoordinatorResult themis::transaction::TxnCoordinatorResult::OK</definition>
+        <argsstring>()</argsstring>
+        <name>OK</name>
+        <qualifiedname>themis::transaction::TxnCoordinatorResult::OK</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_coordinator.h" line="115" column="34" bodyfile="include/transaction/transaction_coordinator.h" bodystart="115" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1transaction_1_1_txn_coordinator_result_1a4b2e662ee73b3e7245b59c31cbb2c08b" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1transaction_1_1_txn_coordinator_result" kindref="compound">TxnCoordinatorResult</ref></type>
+        <definition>static TxnCoordinatorResult themis::transaction::TxnCoordinatorResult::Fail</definition>
+        <argsstring>(ErrorCode ec, std::string msg)</argsstring>
+        <name>Fail</name>
+        <qualifiedname>themis::transaction::TxnCoordinatorResult::Fail</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1transaction_1_1_txn_coordinator_result_1af0a7b4c52b381b6dd33fef87fffd1322" kindref="member">ErrorCode</ref></type>
+          <declname>ec</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_coordinator.h" line="117" column="34" bodyfile="include/transaction/transaction_coordinator.h" bodystart="117" bodyend="119"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1transaction_1_1_txn_coordinator_result_1a06805bbb81e2f8a325d844142752ca70" prot="public" static="no" nodiscard="yes" const="yes" explicit="yes" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::transaction::TxnCoordinatorResult::operator bool</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>operator bool</name>
+        <qualifiedname>themis::transaction::TxnCoordinatorResult::operator bool</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_coordinator.h" line="121" column="15" bodyfile="include/transaction/transaction_coordinator.h" bodystart="121" bodyend="121"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/transaction_coordinator.h" line="100" column="1" bodyfile="include/transaction/transaction_coordinator.h" bodystart="100" bodyend="122"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1transaction_1_1_txn_coordinator_result_1a6140278ae16c0b62acf66421daba44e9" prot="public" virt="non-virtual"><scope>themis::transaction::TxnCoordinatorResult</scope><name>code</name></member>
+      <member refid="structthemis_1_1transaction_1_1_txn_coordinator_result_1af0a7b4c52b381b6dd33fef87fffd1322" prot="public" virt="non-virtual"><scope>themis::transaction::TxnCoordinatorResult</scope><name>ErrorCode</name></member>
+      <member refid="structthemis_1_1transaction_1_1_txn_coordinator_result_1a4b2e662ee73b3e7245b59c31cbb2c08b" prot="public" virt="non-virtual"><scope>themis::transaction::TxnCoordinatorResult</scope><name>Fail</name></member>
+      <member refid="structthemis_1_1transaction_1_1_txn_coordinator_result_1a2c75ae265985ffefb4c01ee3fe704131" prot="public" virt="non-virtual"><scope>themis::transaction::TxnCoordinatorResult</scope><name>message</name></member>
+      <member refid="structthemis_1_1transaction_1_1_txn_coordinator_result_1ae69da8de967d1c558f828da74bf4ce8e" prot="public" virt="non-virtual"><scope>themis::transaction::TxnCoordinatorResult</scope><name>OK</name></member>
+      <member refid="structthemis_1_1transaction_1_1_txn_coordinator_result_1ad028b78c646a36bc7452c15a079ac505" prot="public" virt="non-virtual"><scope>themis::transaction::TxnCoordinatorResult</scope><name>ok</name></member>
+      <member refid="structthemis_1_1transaction_1_1_txn_coordinator_result_1a06805bbb81e2f8a325d844142752ca70" prot="public" virt="non-virtual"><scope>themis::transaction::TxnCoordinatorResult</scope><name>operator bool</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

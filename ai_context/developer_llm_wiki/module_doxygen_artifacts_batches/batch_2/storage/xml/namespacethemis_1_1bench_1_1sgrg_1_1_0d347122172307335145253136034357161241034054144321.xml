@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1bench_1_1sgrg_1_1_0d347122172307335145253136034357161241034054144321" kind="namespace" language="C++">
+    <compoundname>themis::bench::sgrg::@347122172307335145253136034357161241034054144321</compoundname>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1bench_1_1sgrg_1_1_0d347122172307335145253136034357161241034054144321_1a4a673112dda05c60fb56893e5b4026c9" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Tier</name>
+        <qualifiedname>themis::bench::sgrg::@347122172307335145253136034357161241034054144321::Tier</qualifiedname>
+        <enumvalue id="namespacethemis_1_1bench_1_1sgrg_1_1_0d347122172307335145253136034357161241034054144321_1a4a673112dda05c60fb56893e5b4026c9ac429fde8b1b986d42f84ba63dbfef6ac" prot="public">
+          <name>HOT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1bench_1_1sgrg_1_1_0d347122172307335145253136034357161241034054144321_1a4a673112dda05c60fb56893e5b4026c9a11523c55fca0d056eda7dbbe810490ca" prot="public">
+          <name>WARM</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1bench_1_1sgrg_1_1_0d347122172307335145253136034357161241034054144321_1a4a673112dda05c60fb56893e5b4026c9a3f7ff4daa99912d1b0c8c64340edb9fb" prot="public">
+          <name>COLD</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_storage_release_gates.cpp" line="153" column="1" bodyfile="benchmarks/storage/bench_storage_release_gates.cpp" bodystart="153" bodyend="153"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/storage/bench_storage_release_gates.cpp" line="67" column="1"/>
+  </compounddef>
+</doxygen>

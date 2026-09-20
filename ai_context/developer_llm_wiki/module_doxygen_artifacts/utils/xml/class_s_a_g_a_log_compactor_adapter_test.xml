@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_s_a_g_a_log_compactor_adapter_test" kind="class" language="C++" prot="public">
+    <compoundname>SAGALogCompactorAdapterTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="class_s_a_g_a_log_compactor_adapter_test_1a22c49664605c6c64b8cb6b2fd1d8cf02" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* SAGALogCompactorAdapterTest::kWAL</definition>
+        <argsstring></argsstring>
+        <name>kWAL</name>
+        <qualifiedname>SAGALogCompactorAdapterTest::kWAL</qualifiedname>
+        <initializer>= &quot;/tmp/test_saga_iface.jsonl&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_interfaces.cpp" line="434" column="33" bodyfile="tests/utils/test_utils_interfaces.cpp" bodystart="434" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_s_a_g_a_log_compactor_adapter_test_1a5140f0bbfb4f2132decd25797ca1e935" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* SAGALogCompactorAdapterTest::kSig</definition>
+        <argsstring></argsstring>
+        <name>kSig</name>
+        <qualifiedname>SAGALogCompactorAdapterTest::kSig</qualifiedname>
+        <initializer>= &quot;/tmp/test_saga_iface_sig.jsonl&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_interfaces.cpp" line="435" column="33" bodyfile="tests/utils/test_utils_interfaces.cpp" bodystart="435" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_s_a_g_a_log_compactor_adapter_test_1a80d1f59b38cc412f4eebeb54c9e5409e" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1utils_1_1_s_a_g_a_logger_config" kindref="compound">SAGALoggerConfig</ref></type>
+        <definition>SAGALoggerConfig SAGALogCompactorAdapterTest::sagaCfg</definition>
+        <argsstring></argsstring>
+        <name>sagaCfg</name>
+        <qualifiedname>SAGALogCompactorAdapterTest::sagaCfg</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_interfaces.cpp" line="437" column="22" bodyfile="tests/utils/test_utils_interfaces.cpp" bodystart="437" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_s_a_g_a_log_compactor_adapter_test_1a102a7e96b0f5af17f3dce8041cbf4711" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1utils_1_1_s_a_g_a_log_compactor_adapter" kindref="compound">SAGALogCompactorAdapter</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;SAGALogCompactorAdapter&gt; SAGALogCompactorAdapterTest::adapter_</definition>
+        <argsstring></argsstring>
+        <name>adapter_</name>
+        <qualifiedname>SAGALogCompactorAdapterTest::adapter_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_interfaces.cpp" line="438" column="21" bodyfile="tests/utils/test_utils_interfaces.cpp" bodystart="438" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_s_a_g_a_log_compactor_adapter_test_1a15d89790625e701057aa3558d82fc77a" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void SAGALogCompactorAdapterTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>SAGALogCompactorAdapterTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_interfaces.cpp" line="440" column="10" bodyfile="tests/utils/test_utils_interfaces.cpp" bodystart="440" bodyend="446"/>
+      </memberdef>
+      <memberdef kind="function" id="class_s_a_g_a_log_compactor_adapter_test_1a2504cc13da6558cbfc48f78404baefc6" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void SAGALogCompactorAdapterTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>SAGALogCompactorAdapterTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_interfaces.cpp" line="448" column="10" bodyfile="tests/utils/test_utils_interfaces.cpp" bodystart="448" bodyend="452"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>SAGALogCompactorAdapterTest</label>
+        <link refid="class_s_a_g_a_log_compactor_adapter_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>SAGALogCompactorAdapterTest</label>
+        <link refid="class_s_a_g_a_log_compactor_adapter_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>sagaCfg</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::utils::SAGALoggerConfig</label>
+        <link refid="structthemis_1_1utils_1_1_s_a_g_a_logger_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/utils/test_utils_interfaces.cpp" line="432" column="1" bodyfile="tests/utils/test_utils_interfaces.cpp" bodystart="432" bodyend="453"/>
+    <listofallmembers>
+      <member refid="class_s_a_g_a_log_compactor_adapter_test_1a102a7e96b0f5af17f3dce8041cbf4711" prot="protected" virt="non-virtual"><scope>SAGALogCompactorAdapterTest</scope><name>adapter_</name></member>
+      <member refid="class_s_a_g_a_log_compactor_adapter_test_1a5140f0bbfb4f2132decd25797ca1e935" prot="protected" virt="non-virtual"><scope>SAGALogCompactorAdapterTest</scope><name>kSig</name></member>
+      <member refid="class_s_a_g_a_log_compactor_adapter_test_1a22c49664605c6c64b8cb6b2fd1d8cf02" prot="protected" virt="non-virtual"><scope>SAGALogCompactorAdapterTest</scope><name>kWAL</name></member>
+      <member refid="class_s_a_g_a_log_compactor_adapter_test_1a80d1f59b38cc412f4eebeb54c9e5409e" prot="protected" virt="non-virtual"><scope>SAGALogCompactorAdapterTest</scope><name>sagaCfg</name></member>
+      <member refid="class_s_a_g_a_log_compactor_adapter_test_1a15d89790625e701057aa3558d82fc77a" prot="protected" virt="non-virtual"><scope>SAGALogCompactorAdapterTest</scope><name>SetUp</name></member>
+      <member refid="class_s_a_g_a_log_compactor_adapter_test_1a2504cc13da6558cbfc48f78404baefc6" prot="protected" virt="non-virtual"><scope>SAGALogCompactorAdapterTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

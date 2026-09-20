@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1gguf__blocks_1_1_q8__0_block" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::gguf_blocks::Q8_0Block</compoundname>
+    <includes refid="gguf__converter_8h" local="no">gguf_converter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1gguf__blocks_1_1_q8__0_block_1a9a39f18f1a0f8bbf129c16e09dc9b4f6" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t themis::llm::lora::gguf_blocks::Q8_0Block::d</definition>
+        <argsstring></argsstring>
+        <name>d</name>
+        <qualifiedname>themis::llm::lora::gguf_blocks::Q8_0Block::d</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gguf_converter.h" line="161" column="18" bodyfile="include/llm/lora_framework/gguf_converter.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1gguf__blocks_1_1_q8__0_block_1affeb978f0c35ce4bec02860f97dcc371" prot="public" static="no" mutable="no">
+        <type>int8_t</type>
+        <definition>int8_t themis::llm::lora::gguf_blocks::Q8_0Block::qs[32]</definition>
+        <argsstring>[32]</argsstring>
+        <name>qs</name>
+        <qualifiedname>themis::llm::lora::gguf_blocks::Q8_0Block::qs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gguf_converter.h" line="162" column="16" bodyfile="include/llm/lora_framework/gguf_converter.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/gguf_converter.h" line="160" column="5" bodyfile="include/llm/lora_framework/gguf_converter.h" bodystart="160" bodyend="163"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1gguf__blocks_1_1_q8__0_block_1a9a39f18f1a0f8bbf129c16e09dc9b4f6" prot="public" virt="non-virtual"><scope>themis::llm::lora::gguf_blocks::Q8_0Block</scope><name>d</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1gguf__blocks_1_1_q8__0_block_1affeb978f0c35ce4bec02860f97dcc371" prot="public" virt="non-virtual"><scope>themis::llm::lora::gguf_blocks::Q8_0Block</scope><name>qs</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

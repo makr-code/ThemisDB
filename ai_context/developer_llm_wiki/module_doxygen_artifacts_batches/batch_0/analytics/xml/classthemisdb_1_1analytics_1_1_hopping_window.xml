@@ -1,0 +1,711 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1analytics_1_1_hopping_window" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::analytics::HoppingWindow</compoundname>
+    <includes refid="streaming__window_8h" local="no">streaming_window.h</includes>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_hopping_window_1_1_internal_window" prot="private">themisdb::analytics::HoppingWindow::InternalWindow</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemisdb_1_1analytics_1_1_hopping_window_1a7017f20a36d69217382a9d464986cae3" prot="public" static="no">
+        <type>std::function&lt; void(<ref refid="structthemisdb_1_1analytics_1_1_window_result" kindref="compound">WindowResult</ref>)&gt;</type>
+        <definition>using themisdb::analytics::HoppingWindow::ResultCallback = std::function&lt;void(WindowResult)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ResultCallback</name>
+        <qualifiedname>themisdb::analytics::HoppingWindow::ResultCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="602" column="5" bodyfile="include/analytics/streaming_window.h" bodystart="602" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_hopping_window_1a8c24bc2ac9f352397a241de47d9c4353" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_hopping_window_config" kindref="compound">HoppingWindowConfig</ref></type>
+        <definition>HoppingWindowConfig themisdb::analytics::HoppingWindow::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::analytics::HoppingWindow::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="645" column="25" bodyfile="include/analytics/streaming_window.h" bodystart="645" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_hopping_window_1acce3cf78929e5b7d6159530117c5f844" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_hopping_window_1a7017f20a36d69217382a9d464986cae3" kindref="member">ResultCallback</ref></type>
+        <definition>ResultCallback themisdb::analytics::HoppingWindow::callback_</definition>
+        <argsstring></argsstring>
+        <name>callback_</name>
+        <qualifiedname>themisdb::analytics::HoppingWindow::callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="646" column="20" bodyfile="include/analytics/streaming_window.h" bodystart="646" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_hopping_window_1a4d111541adf83191b9d0f764b06f93cf" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec" kindref="compound">WindowAggregateSpec</ref> &gt;</type>
+        <definition>std::vector&lt;WindowAggregateSpec&gt; themisdb::analytics::HoppingWindow::agg_specs_</definition>
+        <argsstring></argsstring>
+        <name>agg_specs_</name>
+        <qualifiedname>themisdb::analytics::HoppingWindow::agg_specs_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="647" column="17" bodyfile="include/analytics/streaming_window.h" bodystart="647" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_hopping_window_1a160cafe5419be527cb12553fed5ef74f" prot="private" static="no" mutable="no">
+        <type>std::deque&lt; InternalWindow &gt;</type>
+        <definition>std::deque&lt;InternalWindow&gt; themisdb::analytics::HoppingWindow::windows_</definition>
+        <argsstring></argsstring>
+        <name>windows_</name>
+        <qualifiedname>themisdb::analytics::HoppingWindow::windows_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="657" column="16" bodyfile="include/analytics/streaming_window.h" bodystart="657" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_hopping_window_1a89dbe3c84f8aebb0b10464eb37efeeff" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::analytics::HoppingWindow::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themisdb::analytics::HoppingWindow::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="658" column="24" bodyfile="include/analytics/streaming_window.h" bodystart="658" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_hopping_window_1a005267dc16c5fb1952ed8897e4cba97d" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; int64_t &gt;</type>
+        <definition>std::atomic&lt;int64_t&gt; themisdb::analytics::HoppingWindow::watermark_us_</definition>
+        <argsstring></argsstring>
+        <name>watermark_us_</name>
+        <qualifiedname>themisdb::analytics::HoppingWindow::watermark_us_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="660" column="17" bodyfile="include/analytics/streaming_window.h" bodystart="660" bodyend="660"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_hopping_window_1ae38c6342067b0d501ceba286525f2098" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::analytics::HoppingWindow::windows_opened_</definition>
+        <argsstring></argsstring>
+        <name>windows_opened_</name>
+        <qualifiedname>themisdb::analytics::HoppingWindow::windows_opened_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="661" column="17" bodyfile="include/analytics/streaming_window.h" bodystart="661" bodyend="661"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_hopping_window_1a1e8e654e3dc33ba85b8c5e3097e494c3" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::analytics::HoppingWindow::windows_closed_</definition>
+        <argsstring></argsstring>
+        <name>windows_closed_</name>
+        <qualifiedname>themisdb::analytics::HoppingWindow::windows_closed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="662" column="17" bodyfile="include/analytics/streaming_window.h" bodystart="662" bodyend="662"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_hopping_window_1a445770e3270146eb259b92884e333450" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::analytics::HoppingWindow::records_ingested_</definition>
+        <argsstring></argsstring>
+        <name>records_ingested_</name>
+        <qualifiedname>themisdb::analytics::HoppingWindow::records_ingested_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="663" column="17" bodyfile="include/analytics/streaming_window.h" bodystart="663" bodyend="663"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_hopping_window_1a4baf1d7306b5cef5db4ab3ede24e7d1e" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::analytics::HoppingWindow::records_dropped_</definition>
+        <argsstring></argsstring>
+        <name>records_dropped_</name>
+        <qualifiedname>themisdb::analytics::HoppingWindow::records_dropped_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="664" column="17" bodyfile="include/analytics/streaming_window.h" bodystart="664" bodyend="664"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_hopping_window_1a73492ddcd949df31d048576fdb5cac44" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::analytics::HoppingWindow::late_records_</definition>
+        <argsstring></argsstring>
+        <name>late_records_</name>
+        <qualifiedname>themisdb::analytics::HoppingWindow::late_records_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="665" column="17" bodyfile="include/analytics/streaming_window.h" bodystart="665" bodyend="665"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_hopping_window_1a96c87e0180138958813ea772e7ec0ee6" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::analytics::HoppingWindow::results_emitted_</definition>
+        <argsstring></argsstring>
+        <name>results_emitted_</name>
+        <qualifiedname>themisdb::analytics::HoppingWindow::results_emitted_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="666" column="17" bodyfile="include/analytics/streaming_window.h" bodystart="666" bodyend="666"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_hopping_window_1a94f1f56dade4c075e858a7907eb8c98c" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::analytics::HoppingWindow::windows_evicted_</definition>
+        <argsstring></argsstring>
+        <name>windows_evicted_</name>
+        <qualifiedname>themisdb::analytics::HoppingWindow::windows_evicted_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="667" column="17" bodyfile="include/analytics/streaming_window.h" bodystart="667" bodyend="667"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_hopping_window_1a0c80a744fdab2f848286da34214ce8e2" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::analytics::HoppingWindow::partition_keys_rejected_</definition>
+        <argsstring></argsstring>
+        <name>partition_keys_rejected_</name>
+        <qualifiedname>themisdb::analytics::HoppingWindow::partition_keys_rejected_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="668" column="17" bodyfile="include/analytics/streaming_window.h" bodystart="668" bodyend="668"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_hopping_window_1adf6ccc4a53fd720a805aa33ac277ecda" prot="private" static="no" mutable="no">
+        <type>std::unordered_set&lt; int64_t &gt;</type>
+        <definition>std::unordered_set&lt;int64_t&gt; themisdb::analytics::HoppingWindow::window_start_set_</definition>
+        <argsstring></argsstring>
+        <name>window_start_set_</name>
+        <qualifiedname>themisdb::analytics::HoppingWindow::window_start_set_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="671" column="24" bodyfile="include/analytics/streaming_window.h" bodystart="671" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_hopping_window_1ae594a0c8582dc58286a30a1e7b175c11" prot="private" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; themisdb::analytics::HoppingWindow::seen_partition_keys_</definition>
+        <argsstring></argsstring>
+        <name>seen_partition_keys_</name>
+        <qualifiedname>themisdb::analytics::HoppingWindow::seen_partition_keys_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="672" column="24" bodyfile="include/analytics/streaming_window.h" bodystart="672" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_hopping_window_1a586d1446008ad901b1ff1eb1d2901cb3" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::HoppingWindow::HoppingWindow</definition>
+        <argsstring>(const HoppingWindowConfig &amp;config)</argsstring>
+        <name>HoppingWindow</name>
+        <qualifiedname>themisdb::analytics::HoppingWindow::HoppingWindow</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_hopping_window_config" kindref="compound">HoppingWindowConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Hopping Window. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="609" column="14" bodyfile="src/analytics/streaming_window.cpp" bodystart="1389" bodyend="1393"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_hopping_window_1af22f3830aec9a29e94caa3d5577db1f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::HoppingWindow::~HoppingWindow</definition>
+        <argsstring>()</argsstring>
+        <name>~HoppingWindow</name>
+        <qualifiedname>themisdb::analytics::HoppingWindow::~HoppingWindow</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="610" column="5" bodyfile="src/analytics/streaming_window.cpp" bodystart="1395" bodyend="1399"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_hopping_window_1aa0089582cc8efcd350ba2370a88f172f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::HoppingWindow::HoppingWindow</definition>
+        <argsstring>(const HoppingWindow &amp;)=delete</argsstring>
+        <name>HoppingWindow</name>
+        <qualifiedname>themisdb::analytics::HoppingWindow::HoppingWindow</qualifiedname>
+        <param>
+          <type>const HoppingWindow &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="612" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_hopping_window_1aa74d594304c436f437a9463fab159fd7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_hopping_window_1a586d1446008ad901b1ff1eb1d2901cb3" kindref="member">HoppingWindow</ref> &amp;</type>
+        <definition>HoppingWindow &amp; themisdb::analytics::HoppingWindow::operator=</definition>
+        <argsstring>(const HoppingWindow &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::analytics::HoppingWindow::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1analytics_1_1_hopping_window_1a586d1446008ad901b1ff1eb1d2901cb3" kindref="member">HoppingWindow</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="613" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_hopping_window_1a0e77e3abfb7d3c66fbf7c36d5f70baa9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::HoppingWindow::addAggregation</definition>
+        <argsstring>(const WindowAggregateSpec &amp;spec)</argsstring>
+        <name>addAggregation</name>
+        <qualifiedname>themisdb::analytics::HoppingWindow::addAggregation</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec" kindref="compound">WindowAggregateSpec</ref> &amp;</type>
+          <declname>spec</declname>
+        </param>
+        <briefdescription>
+<para>Add Aggregation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">spec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">spec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="619" column="10" bodyfile="src/analytics/streaming_window.cpp" bodystart="1416" bodyend="1419"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_hopping_window_1a93ba4b647bebaa7b18761fe730a395ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::HoppingWindow::setResultCallback</definition>
+        <argsstring>(ResultCallback cb)</argsstring>
+        <name>setResultCallback</name>
+        <qualifiedname>themisdb::analytics::HoppingWindow::setResultCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1_hopping_window_1a7017f20a36d69217382a9d464986cae3" kindref="member">ResultCallback</ref></type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+<para>Set Result Callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="624" column="10" bodyfile="src/analytics/streaming_window.cpp" bodystart="1426" bodyend="1429"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_hopping_window_1a35a260522b46b8856047c1dac0cef751" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::HoppingWindow::ingest</definition>
+        <argsstring>(const StreamRecord &amp;record)</argsstring>
+        <name>ingest</name>
+        <qualifiedname>themisdb::analytics::HoppingWindow::ingest</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_stream_record" kindref="compound">StreamRecord</ref> &amp;</type>
+          <declname>record</declname>
+        </param>
+        <briefdescription>
+<para>Ingest. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">record</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">record</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: updateWatermark(), load(), toMicros(), spdlog::debug(), lk(), empty(), count(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="631" column="10" bodyfile="src/analytics/streaming_window.cpp" bodystart="1548" bodyend="1621"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_hopping_window_1a475351ca53ab3be74847668482b9238c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::HoppingWindow::flush</definition>
+        <argsstring>()</argsstring>
+        <name>flush</name>
+        <qualifiedname>themisdb::analytics::HoppingWindow::flush</qualifiedname>
+        <briefdescription>
+<para>Flush. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lk(), closeExpiredWindows(), max(), cb(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="636" column="10" bodyfile="src/analytics/streaming_window.cpp" bodystart="1627" bodyend="1640"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_hopping_window_1ad62166ef7c69d1865aeb89bf38aafafa" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_window_stats" kindref="compound">WindowStats</ref></type>
+        <definition>WindowStats themisdb::analytics::HoppingWindow::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themisdb::analytics::HoppingWindow::getStats</qualifiedname>
+        <briefdescription>
+<para>Get Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="642" column="17" bodyfile="src/analytics/streaming_window.cpp" bodystart="1642" bodyend="1653"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_hopping_window_1a4505cd847219f48824fb52bb96b7327c" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_window_result" kindref="compound">WindowResult</ref></type>
+        <definition>WindowResult themisdb::analytics::HoppingWindow::computeResult</definition>
+        <argsstring>(const InternalWindow &amp;win, bool late) const</argsstring>
+        <name>computeResult</name>
+        <qualifiedname>themisdb::analytics::HoppingWindow::computeResult</qualifiedname>
+        <param>
+          <type>const InternalWindow &amp;</type>
+          <declname>win</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>late</declname>
+        </param>
+        <briefdescription>
+<para>Compute Result. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">win</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">late</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="680" column="18" bodyfile="src/analytics/streaming_window.cpp" bodystart="1531" bodyend="1540"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_hopping_window_1a8793cdb43db569b331278ddd6436a156" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::HoppingWindow::ensureWindowsExist</definition>
+        <argsstring>(const std::chrono::system_clock::time_point &amp;event_time)</argsstring>
+        <name>ensureWindowsExist</name>
+        <qualifiedname>themisdb::analytics::HoppingWindow::ensureWindowsExist</qualifiedname>
+        <param>
+          <type>const std::chrono::system_clock::time_point &amp;</type>
+          <declname>event_time</declname>
+        </param>
+        <briefdescription>
+<para>Ensure Windows Exist. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event_time</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">event_time</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: toMicros(), count(), load(), spdlog::debug(), genId(), fromMicros(), insert(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="685" column="10" bodyfile="src/analytics/streaming_window.cpp" bodystart="1461" bodyend="1502"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_hopping_window_1a0e0637f8753a29d490e02f922cf41693" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_window_result" kindref="compound">WindowResult</ref> &gt;</type>
+        <definition>std::vector&lt; WindowResult &gt; themisdb::analytics::HoppingWindow::closeExpiredWindows</definition>
+        <argsstring>(int64_t watermark_us)</argsstring>
+        <name>closeExpiredWindows</name>
+        <qualifiedname>themisdb::analytics::HoppingWindow::closeExpiredWindows</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>watermark_us</declname>
+        </param>
+        <briefdescription>
+<para>Close Expired Windows. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">watermark_us</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">watermark_us</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: toMicros(), push_back(), computeResult(), empty(), front(), erase(), pop_front(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="691" column="17" bodyfile="src/analytics/streaming_window.cpp" bodystart="1510" bodyend="1529"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_hopping_window_1a4ede29345be767109ff7b0e77039fa3d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::HoppingWindow::updateWatermark</definition>
+        <argsstring>(const std::chrono::system_clock::time_point &amp;event_time)</argsstring>
+        <name>updateWatermark</name>
+        <qualifiedname>themisdb::analytics::HoppingWindow::updateWatermark</qualifiedname>
+        <param>
+          <type>const std::chrono::system_clock::time_point &amp;</type>
+          <declname>event_time</declname>
+        </param>
+        <briefdescription>
+<para>Update Watermark. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event_time</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">event_time</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: toMicros(), count(), load(), compare_exchange_weak(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="696" column="10" bodyfile="src/analytics/streaming_window.cpp" bodystart="1445" bodyend="1454"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_hopping_window_1ab744ec3b705f8ee660d9a15ff2d285b9" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::HoppingWindow::generateId</definition>
+        <argsstring>()</argsstring>
+        <name>generateId</name>
+        <qualifiedname>themisdb::analytics::HoppingWindow::generateId</qualifiedname>
+        <briefdescription>
+<para>Generate Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: genId(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="701" column="24" bodyfile="src/analytics/streaming_window.cpp" bodystart="1436" bodyend="1438"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/streaming_window.h" line="600" column="1" bodyfile="include/analytics/streaming_window.h" bodystart="600" bodyend="702"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1analytics_1_1_hopping_window_1a0e77e3abfb7d3c66fbf7c36d5f70baa9" prot="public" virt="non-virtual"><scope>themisdb::analytics::HoppingWindow</scope><name>addAggregation</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_hopping_window_1a4d111541adf83191b9d0f764b06f93cf" prot="private" virt="non-virtual"><scope>themisdb::analytics::HoppingWindow</scope><name>agg_specs_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_hopping_window_1acce3cf78929e5b7d6159530117c5f844" prot="private" virt="non-virtual"><scope>themisdb::analytics::HoppingWindow</scope><name>callback_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_hopping_window_1a0e0637f8753a29d490e02f922cf41693" prot="private" virt="non-virtual"><scope>themisdb::analytics::HoppingWindow</scope><name>closeExpiredWindows</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_hopping_window_1a4505cd847219f48824fb52bb96b7327c" prot="private" virt="non-virtual"><scope>themisdb::analytics::HoppingWindow</scope><name>computeResult</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_hopping_window_1a8c24bc2ac9f352397a241de47d9c4353" prot="private" virt="non-virtual"><scope>themisdb::analytics::HoppingWindow</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_hopping_window_1a8793cdb43db569b331278ddd6436a156" prot="private" virt="non-virtual"><scope>themisdb::analytics::HoppingWindow</scope><name>ensureWindowsExist</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_hopping_window_1a475351ca53ab3be74847668482b9238c" prot="public" virt="non-virtual"><scope>themisdb::analytics::HoppingWindow</scope><name>flush</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_hopping_window_1ab744ec3b705f8ee660d9a15ff2d285b9" prot="private" virt="non-virtual"><scope>themisdb::analytics::HoppingWindow</scope><name>generateId</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_hopping_window_1ad62166ef7c69d1865aeb89bf38aafafa" prot="public" virt="non-virtual"><scope>themisdb::analytics::HoppingWindow</scope><name>getStats</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_hopping_window_1a586d1446008ad901b1ff1eb1d2901cb3" prot="public" virt="non-virtual"><scope>themisdb::analytics::HoppingWindow</scope><name>HoppingWindow</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_hopping_window_1aa0089582cc8efcd350ba2370a88f172f" prot="public" virt="non-virtual"><scope>themisdb::analytics::HoppingWindow</scope><name>HoppingWindow</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_hopping_window_1a35a260522b46b8856047c1dac0cef751" prot="public" virt="non-virtual"><scope>themisdb::analytics::HoppingWindow</scope><name>ingest</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_hopping_window_1a73492ddcd949df31d048576fdb5cac44" prot="private" virt="non-virtual"><scope>themisdb::analytics::HoppingWindow</scope><name>late_records_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_hopping_window_1a89dbe3c84f8aebb0b10464eb37efeeff" prot="private" virt="non-virtual"><scope>themisdb::analytics::HoppingWindow</scope><name>mutex_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_hopping_window_1aa74d594304c436f437a9463fab159fd7" prot="public" virt="non-virtual"><scope>themisdb::analytics::HoppingWindow</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_hopping_window_1a0c80a744fdab2f848286da34214ce8e2" prot="private" virt="non-virtual"><scope>themisdb::analytics::HoppingWindow</scope><name>partition_keys_rejected_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_hopping_window_1a4baf1d7306b5cef5db4ab3ede24e7d1e" prot="private" virt="non-virtual"><scope>themisdb::analytics::HoppingWindow</scope><name>records_dropped_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_hopping_window_1a445770e3270146eb259b92884e333450" prot="private" virt="non-virtual"><scope>themisdb::analytics::HoppingWindow</scope><name>records_ingested_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_hopping_window_1a7017f20a36d69217382a9d464986cae3" prot="public" virt="non-virtual"><scope>themisdb::analytics::HoppingWindow</scope><name>ResultCallback</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_hopping_window_1a96c87e0180138958813ea772e7ec0ee6" prot="private" virt="non-virtual"><scope>themisdb::analytics::HoppingWindow</scope><name>results_emitted_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_hopping_window_1ae594a0c8582dc58286a30a1e7b175c11" prot="private" virt="non-virtual"><scope>themisdb::analytics::HoppingWindow</scope><name>seen_partition_keys_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_hopping_window_1a93ba4b647bebaa7b18761fe730a395ba" prot="public" virt="non-virtual"><scope>themisdb::analytics::HoppingWindow</scope><name>setResultCallback</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_hopping_window_1a4ede29345be767109ff7b0e77039fa3d" prot="private" virt="non-virtual"><scope>themisdb::analytics::HoppingWindow</scope><name>updateWatermark</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_hopping_window_1a005267dc16c5fb1952ed8897e4cba97d" prot="private" virt="non-virtual"><scope>themisdb::analytics::HoppingWindow</scope><name>watermark_us_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_hopping_window_1adf6ccc4a53fd720a805aa33ac277ecda" prot="private" virt="non-virtual"><scope>themisdb::analytics::HoppingWindow</scope><name>window_start_set_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_hopping_window_1a160cafe5419be527cb12553fed5ef74f" prot="private" virt="non-virtual"><scope>themisdb::analytics::HoppingWindow</scope><name>windows_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_hopping_window_1a1e8e654e3dc33ba85b8c5e3097e494c3" prot="private" virt="non-virtual"><scope>themisdb::analytics::HoppingWindow</scope><name>windows_closed_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_hopping_window_1a94f1f56dade4c075e858a7907eb8c98c" prot="private" virt="non-virtual"><scope>themisdb::analytics::HoppingWindow</scope><name>windows_evicted_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_hopping_window_1ae38c6342067b0d501ceba286525f2098" prot="private" virt="non-virtual"><scope>themisdb::analytics::HoppingWindow</scope><name>windows_opened_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_hopping_window_1af22f3830aec9a29e94caa3d5577db1f2" prot="public" virt="non-virtual"><scope>themisdb::analytics::HoppingWindow</scope><name>~HoppingWindow</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1rpc" kind="namespace" language="C++">
+    <compoundname>themis::rpc</compoundname>
+    <innerclass refid="structthemis_1_1rpc_1_1_circuit_breaker_config" prot="public">themis::rpc::CircuitBreakerConfig</innerclass>
+    <innerclass refid="structthemis_1_1rpc_1_1_circuit_breaker_stats" prot="public">themis::rpc::CircuitBreakerStats</innerclass>
+    <innerclass refid="classthemis_1_1rpc_1_1_circuit_breaker" prot="public">themis::rpc::CircuitBreaker</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1rpc_1ae2a16d82f6f2880419fd7123fa341865" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>CircuitState</name>
+        <qualifiedname>themis::rpc::CircuitState</qualifiedname>
+        <enumvalue id="namespacethemis_1_1rpc_1ae2a16d82f6f2880419fd7123fa341865af9be16a4ac9fcc9b545ff52f0606eb09" prot="public">
+          <name>kClosed</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Normal; calls pass through. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rpc_1ae2a16d82f6f2880419fd7123fa341865ac76ad31b0ff1fcbb03eeae06f73420c8" prot="public">
+          <name>kOpen</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Tripped; calls are rejected. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rpc_1ae2a16d82f6f2880419fd7123fa341865a2af0fb7ffd07ff907dfb85bc8a9253f8" prot="public">
+          <name>kHalfOpen</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Probe mode; one request is admitted. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Observable circuit state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rpc_grpc/circuit_breaker.h" line="79" column="1" bodyfile="include/rpc_grpc/circuit_breaker.h" bodystart="79" bodyend="83"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1rpc_1a57bbbba36631f808b6027e99ee6fae8f" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::rpc::circuitStateToString</definition>
+        <argsstring>(CircuitState state) noexcept</argsstring>
+        <name>circuitStateToString</name>
+        <qualifiedname>themis::rpc::circuitStateToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1rpc_1ae2a16d82f6f2880419fd7123fa341865" kindref="member">CircuitState</ref></type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>Human-readable label for <computeroutput>state</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rpc_grpc/circuit_breaker.h" line="86" column="19" bodyfile="include/rpc_grpc/circuit_breaker.h" bodystart="86" bodyend="93"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rpc_grpc/circuit_breaker.h" line="41" column="1"/>
+  </compounddef>
+</doxygen>

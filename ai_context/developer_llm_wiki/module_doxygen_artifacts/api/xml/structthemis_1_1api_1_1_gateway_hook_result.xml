@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1api_1_1_gateway_hook_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::api::GatewayHookResult</compoundname>
+    <includes refid="api__gateway__hook_8h" local="no">api_gateway_hook.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_gateway_hook_result_1a89021f1159abc97a1b91118ab73d26ed" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::api::GatewayHookResult::proceed</definition>
+        <argsstring></argsstring>
+        <name>proceed</name>
+        <qualifiedname>themis::api::GatewayHookResult::proceed</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>false = abort request processing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_gateway_hook.h" line="56" column="10" bodyfile="include/api/api_gateway_hook.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_gateway_hook_result_1a7a5aca3e7b7d13ce7caefd66c1b3ff7c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::api::GatewayHookResult::override_status_code</definition>
+        <argsstring></argsstring>
+        <name>override_status_code</name>
+        <qualifiedname>themis::api::GatewayHookResult::override_status_code</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>0 = do not override HTTP status. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_gateway_hook.h" line="57" column="10" bodyfile="include/api/api_gateway_hook.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_gateway_hook_result_1a7bd0e8c811c9460291198aa147f2e624" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::api::GatewayHookResult::override_body</definition>
+        <argsstring></argsstring>
+        <name>override_body</name>
+        <qualifiedname>themis::api::GatewayHookResult::override_body</qualifiedname>
+        <briefdescription>
+<para>Empty = do not override response body. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_gateway_hook.h" line="58" column="17" bodyfile="include/api/api_gateway_hook.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_gateway_hook_result_1a4a0131a30f23761dce27d630b071700c" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::api::GatewayHookResult::add_headers</definition>
+        <argsstring></argsstring>
+        <name>add_headers</name>
+        <qualifiedname>themis::api::GatewayHookResult::add_headers</qualifiedname>
+        <briefdescription>
+<para>Headers to inject into response. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_gateway_hook.h" line="59" column="14" bodyfile="include/api/api_gateway_hook.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/api_gateway_hook.h" line="55" column="1" bodyfile="include/api/api_gateway_hook.h" bodystart="55" bodyend="60"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1api_1_1_gateway_hook_result_1a4a0131a30f23761dce27d630b071700c" prot="public" virt="non-virtual"><scope>themis::api::GatewayHookResult</scope><name>add_headers</name></member>
+      <member refid="structthemis_1_1api_1_1_gateway_hook_result_1a7bd0e8c811c9460291198aa147f2e624" prot="public" virt="non-virtual"><scope>themis::api::GatewayHookResult</scope><name>override_body</name></member>
+      <member refid="structthemis_1_1api_1_1_gateway_hook_result_1a7a5aca3e7b7d13ce7caefd66c1b3ff7c" prot="public" virt="non-virtual"><scope>themis::api::GatewayHookResult</scope><name>override_status_code</name></member>
+      <member refid="structthemis_1_1api_1_1_gateway_hook_result_1a89021f1159abc97a1b91118ab73d26ed" prot="public" virt="non-virtual"><scope>themis::api::GatewayHookResult</scope><name>proceed</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

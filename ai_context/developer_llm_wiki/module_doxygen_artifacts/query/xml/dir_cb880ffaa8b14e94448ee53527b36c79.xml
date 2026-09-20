@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_cb880ffaa8b14e94448ee53527b36c79" kind="dir">
+    <compoundname>benchmarks/query</compoundname>
+    <innerfile refid="bench__adaptive__query__cache_8cpp">bench_adaptive_query_cache.cpp</innerfile>
+    <innerfile refid="bench__adaptive__query__compilation_8cpp">bench_adaptive_query_compilation.cpp</innerfile>
+    <innerfile refid="bench__continuous__query_8cpp">bench_continuous_query.cpp</innerfile>
+    <innerfile refid="bench__geospatial__phase2_8cpp">bench_geospatial_phase2.cpp</innerfile>
+    <innerfile refid="bench__phase4__performance_8cpp">bench_phase4_performance.cpp</innerfile>
+    <innerfile refid="bench__query_8cpp">bench_query.cpp</innerfile>
+    <innerfile refid="bench__query__dedicated__gates_8cpp">bench_query_dedicated_gates.cpp</innerfile>
+    <innerfile refid="bench__query__lazy__eval_8cpp">bench_query_lazy_eval.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/query/"/>
+  </compounddef>
+</doxygen>

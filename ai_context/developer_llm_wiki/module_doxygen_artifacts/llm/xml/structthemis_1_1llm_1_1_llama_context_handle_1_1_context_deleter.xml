@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_llama_context_handle_1_1_context_deleter" kind="struct" language="C++" prot="private">
+    <compoundname>themis::llm::LlamaContextHandle::ContextDeleter</compoundname>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_llama_context_handle_1_1_context_deleter_1ac164461c45a5a962370dfe6fcde49967" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::LlamaContextHandle::ContextDeleter::operator()</definition>
+        <argsstring>(llama_context *ctx) const</argsstring>
+        <name>operator()</name>
+        <qualifiedname>themis::llm::LlamaContextHandle::ContextDeleter::operator()</qualifiedname>
+        <param>
+          <type>llama_context *</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="178" column="14" bodyfile="src/llm/llama_resource_manager.cpp" bodystart="136" bodyend="141"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/llama_resource_manager.h" line="177" column="5" bodyfile="include/llm/llama_resource_manager.h" bodystart="177" bodyend="179"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_llama_context_handle_1_1_context_deleter_1ac164461c45a5a962370dfe6fcde49967" prot="public" virt="non-virtual"><scope>themis::llm::LlamaContextHandle::ContextDeleter</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

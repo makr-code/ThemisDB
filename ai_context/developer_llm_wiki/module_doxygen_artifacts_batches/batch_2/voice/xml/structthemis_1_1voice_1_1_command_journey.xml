@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_command_journey" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::CommandJourney</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_command_journey_1a5429c18a3b08f10cf5e71cabc396eeba" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::CommandJourney::session_id</definition>
+        <argsstring></argsstring>
+        <name>session_id</name>
+        <qualifiedname>themis::voice::CommandJourney::session_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_e2e_journey_focused.cpp" line="53" column="17" bodyfile="tests/voice/test_voice_e2e_journey_focused.cpp" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_command_journey_1a17782849e24c02c4a2f66d85bceeb040" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::CommandJourney::user_id</definition>
+        <argsstring></argsstring>
+        <name>user_id</name>
+        <qualifiedname>themis::voice::CommandJourney::user_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_e2e_journey_focused.cpp" line="54" column="17" bodyfile="tests/voice/test_voice_e2e_journey_focused.cpp" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_command_journey_1a2940d980a3ab9bf4f96c9bbdadc52ec6" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1voice_1a6dfa91dd6dc7c178dda41c2204a1a32f" kindref="member">CommandState</ref></type>
+        <definition>CommandState themis::voice::CommandJourney::state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <qualifiedname>themis::voice::CommandJourney::state</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1voice_1a6dfa91dd6dc7c178dda41c2204a1a32fa23d7255c44bb7dbe3c5b6d1d253a31a1" kindref="member">CommandState::AUTHENTICATED</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_e2e_journey_focused.cpp" line="55" column="18" bodyfile="tests/voice/test_voice_e2e_journey_focused.cpp" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_command_journey_1a39d9526e5edd462d3fd96466a127231a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::voice::CommandJourney::transcript_turns</definition>
+        <argsstring></argsstring>
+        <name>transcript_turns</name>
+        <qualifiedname>themis::voice::CommandJourney::transcript_turns</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_e2e_journey_focused.cpp" line="56" column="17" bodyfile="tests/voice/test_voice_e2e_journey_focused.cpp" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_command_journey_1a3ef3b5123cf597167e187c68ad6977b1" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::voice::CommandJourney::error_count</definition>
+        <argsstring></argsstring>
+        <name>error_count</name>
+        <qualifiedname>themis::voice::CommandJourney::error_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_e2e_journey_focused.cpp" line="57" column="9" bodyfile="tests/voice/test_voice_e2e_journey_focused.cpp" bodystart="57" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/voice/test_voice_e2e_journey_focused.cpp" line="52" column="1" bodyfile="tests/voice/test_voice_e2e_journey_focused.cpp" bodystart="52" bodyend="58"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_command_journey_1a3ef3b5123cf597167e187c68ad6977b1" prot="public" virt="non-virtual"><scope>themis::voice::CommandJourney</scope><name>error_count</name></member>
+      <member refid="structthemis_1_1voice_1_1_command_journey_1a5429c18a3b08f10cf5e71cabc396eeba" prot="public" virt="non-virtual"><scope>themis::voice::CommandJourney</scope><name>session_id</name></member>
+      <member refid="structthemis_1_1voice_1_1_command_journey_1a2940d980a3ab9bf4f96c9bbdadc52ec6" prot="public" virt="non-virtual"><scope>themis::voice::CommandJourney</scope><name>state</name></member>
+      <member refid="structthemis_1_1voice_1_1_command_journey_1a39d9526e5edd462d3fd96466a127231a" prot="public" virt="non-virtual"><scope>themis::voice::CommandJourney</scope><name>transcript_turns</name></member>
+      <member refid="structthemis_1_1voice_1_1_command_journey_1a17782849e24c02c4a2f66d85bceeb040" prot="public" virt="non-virtual"><scope>themis::voice::CommandJourney</scope><name>user_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

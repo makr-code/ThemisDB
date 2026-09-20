@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1bench_1_1aql__translation_1_1_mock_a_q_l_validator" kind="class" language="C++" prot="public">
+    <compoundname>themis::bench::aql_translation::MockAQLValidator</compoundname>
+    <innerclass refid="structthemis_1_1bench_1_1aql__translation_1_1_mock_a_q_l_validator_1_1_validation_result" prot="public">themis::bench::aql_translation::MockAQLValidator::ValidationResult</innerclass>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1bench_1_1aql__translation_1_1_mock_a_q_l_validator_1ab93b1b33685a1add2aacb2f9e35db316" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1bench_1_1aql__translation_1_1_mock_a_q_l_validator_1_1_validation_result" kindref="compound">ValidationResult</ref></type>
+        <definition>static ValidationResult themis::bench::aql_translation::MockAQLValidator::validateSimple</definition>
+        <argsstring>(const std::string &amp;aql)</argsstring>
+        <name>validateSimple</name>
+        <qualifiedname>themis::bench::aql_translation::MockAQLValidator::validateSimple</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_translation.cpp" line="135" column="29" bodyfile="benchmarks/aql/bench_aql_translation.cpp" bodystart="135" bodyend="145"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/aql/bench_aql_translation.cpp" line="128" column="1" bodyfile="benchmarks/aql/bench_aql_translation.cpp" bodystart="128" bodyend="146"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1bench_1_1aql__translation_1_1_mock_a_q_l_validator_1ab93b1b33685a1add2aacb2f9e35db316" prot="public" virt="non-virtual"><scope>themis::bench::aql_translation::MockAQLValidator</scope><name>validateSimple</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

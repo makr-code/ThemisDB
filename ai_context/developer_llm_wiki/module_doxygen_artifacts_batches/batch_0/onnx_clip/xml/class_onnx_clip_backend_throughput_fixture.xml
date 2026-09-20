@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_onnx_clip_backend_throughput_fixture" kind="class" language="C++" prot="public">
+    <compoundname>OnnxClipBackendThroughputFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_onnx_clip_backend_throughput_fixture_1a9542c7a1ec438c3fda786140ece522ff" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_mock_onnx_clip_backend_model" kindref="compound">MockOnnxClipBackendModel</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;MockOnnxClipBackendModel&gt; themis::bench::onnx_clip::OnnxClipBackendThroughputFixture::model_</definition>
+        <argsstring></argsstring>
+        <name>model_</name>
+        <qualifiedname>OnnxClipBackendThroughputFixture::model_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" line="240" column="21" bodyfile="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" bodystart="240" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_onnx_clip_backend_throughput_fixture_1aa4e88b3da64febe1f0a0f44df1ece887" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::onnx_clip::OnnxClipBackendThroughputFixture::SetUp</definition>
+        <argsstring>(::benchmark::State &amp;state) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>OnnxClipBackendThroughputFixture::SetUp</qualifiedname>
+        <param>
+          <type>::benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" line="207" column="10" bodyfile="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" bodystart="207" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="class_onnx_clip_backend_throughput_fixture_1a1f0067c55d64c7a650ac102746cdd102" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::onnx_clip::OnnxClipBackendThroughputFixture::TearDown</definition>
+        <argsstring>(::benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>OnnxClipBackendThroughputFixture::TearDown</qualifiedname>
+        <param>
+          <type>::benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" line="235" column="10" bodyfile="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" bodystart="235" bodyend="237"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Fixture for backend throughput benchmarks. Pre-initializes model and performs 3-phase warmup. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>OnnxClipBackendThroughputFixture</label>
+        <link refid="class_onnx_clip_backend_throughput_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>OnnxClipBackendThroughputFixture</label>
+        <link refid="class_onnx_clip_backend_throughput_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" line="205" column="1" bodyfile="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" bodystart="205" bodyend="241"/>
+    <listofallmembers>
+      <member refid="class_onnx_clip_backend_throughput_fixture_1a9542c7a1ec438c3fda786140ece522ff" prot="protected" virt="non-virtual"><scope>OnnxClipBackendThroughputFixture</scope><name>model_</name></member>
+      <member refid="class_onnx_clip_backend_throughput_fixture_1aa4e88b3da64febe1f0a0f44df1ece887" prot="public" virt="non-virtual"><scope>OnnxClipBackendThroughputFixture</scope><name>SetUp</name></member>
+      <member refid="class_onnx_clip_backend_throughput_fixture_1a1f0067c55d64c7a650ac102746cdd102" prot="public" virt="non-virtual"><scope>OnnxClipBackendThroughputFixture</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

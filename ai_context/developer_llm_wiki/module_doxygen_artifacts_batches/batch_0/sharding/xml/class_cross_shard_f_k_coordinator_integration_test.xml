@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_cross_shard_f_k_coordinator_integration_test" kind="class" language="C++" prot="public">
+    <compoundname>CrossShardFKCoordinatorIntegrationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_cross_shard_f_k_coordinator_integration_test_1af022fb17cb91b5335aa445118bb5f470" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator" kindref="compound">CrossShardTransactionCoordinator</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;CrossShardTransactionCoordinator&gt; CrossShardFKCoordinatorIntegrationTest::coordinator_</definition>
+        <argsstring></argsstring>
+        <name>coordinator_</name>
+        <qualifiedname>CrossShardFKCoordinatorIntegrationTest::coordinator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_cross_shard_fk.cpp" line="423" column="21" bodyfile="tests/sharding/test_sharding_cross_shard_fk.cpp" bodystart="423" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_cross_shard_f_k_coordinator_integration_test_1a8d8b5052a4827c1d6015e707348a969f" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CrossShardFKCoordinatorIntegrationTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>CrossShardFKCoordinatorIntegrationTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_cross_shard_fk.cpp" line="413" column="10" bodyfile="tests/sharding/test_sharding_cross_shard_fk.cpp" bodystart="413" bodyend="417"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cross_shard_f_k_coordinator_integration_test_1a9bb0ea55b8075781f6dde7d048e2ac54" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CrossShardFKCoordinatorIntegrationTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>CrossShardFKCoordinatorIntegrationTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_cross_shard_fk.cpp" line="418" column="10" bodyfile="tests/sharding/test_sharding_cross_shard_fk.cpp" bodystart="418" bodyend="422"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>CrossShardFKCoordinatorIntegrationTest</label>
+        <link refid="class_cross_shard_f_k_coordinator_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>CrossShardFKCoordinatorIntegrationTest</label>
+        <link refid="class_cross_shard_f_k_coordinator_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/sharding/test_sharding_cross_shard_fk.cpp" line="411" column="1" bodyfile="tests/sharding/test_sharding_cross_shard_fk.cpp" bodystart="411" bodyend="424"/>
+    <listofallmembers>
+      <member refid="class_cross_shard_f_k_coordinator_integration_test_1af022fb17cb91b5335aa445118bb5f470" prot="protected" virt="non-virtual"><scope>CrossShardFKCoordinatorIntegrationTest</scope><name>coordinator_</name></member>
+      <member refid="class_cross_shard_f_k_coordinator_integration_test_1a8d8b5052a4827c1d6015e707348a969f" prot="protected" virt="non-virtual"><scope>CrossShardFKCoordinatorIntegrationTest</scope><name>SetUp</name></member>
+      <member refid="class_cross_shard_f_k_coordinator_integration_test_1a9bb0ea55b8075781f6dde7d048e2ac54" prot="protected" virt="non-virtual"><scope>CrossShardFKCoordinatorIntegrationTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

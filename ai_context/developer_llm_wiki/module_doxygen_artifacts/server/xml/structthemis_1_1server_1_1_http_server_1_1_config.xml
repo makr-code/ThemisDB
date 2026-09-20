@@ -1,0 +1,649 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_http_server_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::HttpServer::Config</compoundname>
+    <includes refid="http__server_8h" local="no">http_server.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http_server_1_1_config_1a4da025d55bc4b4f5b042d8c032ce8d03" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::HttpServer::Config::host</definition>
+        <argsstring></argsstring>
+        <name>host</name>
+        <qualifiedname>themis::server::HttpServer::Config::host</qualifiedname>
+        <initializer>= &quot;0.0.0.0&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="238" column="21" bodyfile="include/server/http_server.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http_server_1_1_config_1ada1b2e0fb4aab5df48e328b777e571c8" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t themis::server::HttpServer::Config::port</definition>
+        <argsstring></argsstring>
+        <name>port</name>
+        <qualifiedname>themis::server::HttpServer::Config::port</qualifiedname>
+        <initializer>= 8080</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="239" column="18" bodyfile="include/server/http_server.h" bodystart="239" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http_server_1_1_config_1ae0e8c70bec50a72ad241cc44dace6de2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::server::HttpServer::Config::num_threads</definition>
+        <argsstring></argsstring>
+        <name>num_threads</name>
+        <qualifiedname>themis::server::HttpServer::Config::num_threads</qualifiedname>
+        <initializer>= std::thread::hardware_concurrency()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="240" column="16" bodyfile="include/server/http_server.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http_server_1_1_config_1a7ec484b9a2860fbd96bf835254f88df8" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::server::HttpServer::Config::max_request_size_mb</definition>
+        <argsstring></argsstring>
+        <name>max_request_size_mb</name>
+        <qualifiedname>themis::server::HttpServer::Config::max_request_size_mb</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="241" column="16" bodyfile="include/server/http_server.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http_server_1_1_config_1aabb21ce74404aca4161a41de71453f6c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::server::HttpServer::Config::max_header_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_header_size_bytes</name>
+        <qualifiedname>themis::server::HttpServer::Config::max_header_size_bytes</qualifiedname>
+        <initializer>= 8192</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="242" column="16" bodyfile="include/server/http_server.h" bodystart="242" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http_server_1_1_config_1aaee2d6f5073574c8cd927681565e8a95" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::HttpServer::Config::request_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>request_timeout_ms</name>
+        <qualifiedname>themis::server::HttpServer::Config::request_timeout_ms</qualifiedname>
+        <initializer>= 30000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="243" column="18" bodyfile="include/server/http_server.h" bodystart="243" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http_server_1_1_config_1a9bea74ac1ef5edf92a629da2b165cd57" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::HttpServer::Config::graceful_shutdown_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>graceful_shutdown_timeout_ms</name>
+        <qualifiedname>themis::server::HttpServer::Config::graceful_shutdown_timeout_ms</qualifiedname>
+        <initializer>= 30000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="244" column="18" bodyfile="include/server/http_server.h" bodystart="244" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http_server_1_1_config_1a6f5f0c60b884a27464c0d3cf7bcb4cda" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::server::HttpServer::Config::max_connections</definition>
+        <argsstring></argsstring>
+        <name>max_connections</name>
+        <qualifiedname>themis::server::HttpServer::Config::max_connections</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="245" column="16" bodyfile="include/server/http_server.h" bodystart="245" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http_server_1_1_config_1a64b6b1e20afa09dc3cd169e92a036fbb" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::HttpServer::Config::feature_semantic_cache</definition>
+        <argsstring></argsstring>
+        <name>feature_semantic_cache</name>
+        <qualifiedname>themis::server::HttpServer::Config::feature_semantic_cache</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="247" column="14" bodyfile="include/server/http_server.h" bodystart="247" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http_server_1_1_config_1a637c3c04df09b5804e96598d7951655d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::HttpServer::Config::feature_llm_store</definition>
+        <argsstring></argsstring>
+        <name>feature_llm_store</name>
+        <qualifiedname>themis::server::HttpServer::Config::feature_llm_store</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="248" column="14" bodyfile="include/server/http_server.h" bodystart="248" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http_server_1_1_config_1af2d39f836f25998bcacfaf7922fcf339" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::HttpServer::Config::feature_llm_query_enhancement</definition>
+        <argsstring></argsstring>
+        <name>feature_llm_query_enhancement</name>
+        <qualifiedname>themis::server::HttpServer::Config::feature_llm_query_enhancement</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="249" column="14" bodyfile="include/server/http_server.h" bodystart="249" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http_server_1_1_config_1ad8b184bc87616955eab3bdc7874b3b65" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::HttpServer::Config::feature_cdc</definition>
+        <argsstring></argsstring>
+        <name>feature_cdc</name>
+        <qualifiedname>themis::server::HttpServer::Config::feature_cdc</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="250" column="14" bodyfile="include/server/http_server.h" bodystart="250" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http_server_1_1_config_1a22749045828f695df5b8374ac91fc733" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::HttpServer::Config::feature_timeseries</definition>
+        <argsstring></argsstring>
+        <name>feature_timeseries</name>
+        <qualifiedname>themis::server::HttpServer::Config::feature_timeseries</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="251" column="14" bodyfile="include/server/http_server.h" bodystart="251" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http_server_1_1_config_1ad582277812324b112e6c6db6d364e2e8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::HttpServer::Config::feature_pii_manager</definition>
+        <argsstring></argsstring>
+        <name>feature_pii_manager</name>
+        <qualifiedname>themis::server::HttpServer::Config::feature_pii_manager</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="252" column="10" bodyfile="include/server/http_server.h" bodystart="252" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http_server_1_1_config_1acb53eb20213723c2c00bc490e4df5c08" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::HttpServer::Config::feature_update_checker</definition>
+        <argsstring></argsstring>
+        <name>feature_update_checker</name>
+        <qualifiedname>themis::server::HttpServer::Config::feature_update_checker</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="253" column="10" bodyfile="include/server/http_server.h" bodystart="253" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http_server_1_1_config_1ac6ce41289814b3ed335753cd616b449e" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::HttpServer::Config::sse_max_events_per_second</definition>
+        <argsstring></argsstring>
+        <name>sse_max_events_per_second</name>
+        <qualifiedname>themis::server::HttpServer::Config::sse_max_events_per_second</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="255" column="18" bodyfile="include/server/http_server.h" bodystart="255" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http_server_1_1_config_1a99df345652ab44684963a332d83c85d0" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::HttpServer::Config::audit_rate_limit_per_minute</definition>
+        <argsstring></argsstring>
+        <name>audit_rate_limit_per_minute</name>
+        <qualifiedname>themis::server::HttpServer::Config::audit_rate_limit_per_minute</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="257" column="18" bodyfile="include/server/http_server.h" bodystart="257" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http_server_1_1_config_1a0d5ed43b5caedb08fc09a62a8e5cf8d8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::HttpServer::Config::enable_tls</definition>
+        <argsstring></argsstring>
+        <name>enable_tls</name>
+        <qualifiedname>themis::server::HttpServer::Config::enable_tls</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="260" column="14" bodyfile="include/server/http_server.h" bodystart="260" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http_server_1_1_config_1a3fcd077d3b555baa2318e7bc01d08a7d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::HttpServer::Config::tls_cert_path</definition>
+        <argsstring></argsstring>
+        <name>tls_cert_path</name>
+        <qualifiedname>themis::server::HttpServer::Config::tls_cert_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="261" column="21" bodyfile="include/server/http_server.h" bodystart="261" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http_server_1_1_config_1a6b371e14fceaf8ff0e60b9f4fdbef504" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::HttpServer::Config::tls_key_path</definition>
+        <argsstring></argsstring>
+        <name>tls_key_path</name>
+        <qualifiedname>themis::server::HttpServer::Config::tls_key_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="262" column="21" bodyfile="include/server/http_server.h" bodystart="262" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http_server_1_1_config_1a77d8adf2c549f8e51e0846cfba3e5ce9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::HttpServer::Config::tls_ca_cert_path</definition>
+        <argsstring></argsstring>
+        <name>tls_ca_cert_path</name>
+        <qualifiedname>themis::server::HttpServer::Config::tls_ca_cert_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="263" column="21" bodyfile="include/server/http_server.h" bodystart="263" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http_server_1_1_config_1ac612f4c58004d7b517b1f9a08437bb6a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::HttpServer::Config::tls_require_client_cert</definition>
+        <argsstring></argsstring>
+        <name>tls_require_client_cert</name>
+        <qualifiedname>themis::server::HttpServer::Config::tls_require_client_cert</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="264" column="14" bodyfile="include/server/http_server.h" bodystart="264" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http_server_1_1_config_1a1ea5bd2140469e440dd2ffb7342746fa" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::HttpServer::Config::tls_min_version</definition>
+        <argsstring></argsstring>
+        <name>tls_min_version</name>
+        <qualifiedname>themis::server::HttpServer::Config::tls_min_version</qualifiedname>
+        <initializer>= &quot;TLSv1.3&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="265" column="21" bodyfile="include/server/http_server.h" bodystart="265" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http_server_1_1_config_1a97e5042e1c54f11cae4f66e85d14bcc6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::HttpServer::Config::tls_cipher_list</definition>
+        <argsstring></argsstring>
+        <name>tls_cipher_list</name>
+        <qualifiedname>themis::server::HttpServer::Config::tls_cipher_list</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="266" column="21" bodyfile="include/server/http_server.h" bodystart="266" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http_server_1_1_config_1ae2f852dda6196fa941b5c73f940654f0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::HttpServer::Config::enable_http2</definition>
+        <argsstring></argsstring>
+        <name>enable_http2</name>
+        <qualifiedname>themis::server::HttpServer::Config::enable_http2</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="269" column="14" bodyfile="include/server/http_server.h" bodystart="269" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http_server_1_1_config_1ab39fd2104ac7b37ad3b8da853a08ed52" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::HttpServer::Config::enable_http3</definition>
+        <argsstring></argsstring>
+        <name>enable_http3</name>
+        <qualifiedname>themis::server::HttpServer::Config::enable_http3</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="270" column="14" bodyfile="include/server/http_server.h" bodystart="270" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http_server_1_1_config_1a71b7f6fe88448b651cc5d83ded618c5e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::HttpServer::Config::enable_websocket</definition>
+        <argsstring></argsstring>
+        <name>enable_websocket</name>
+        <qualifiedname>themis::server::HttpServer::Config::enable_websocket</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="271" column="14" bodyfile="include/server/http_server.h" bodystart="271" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http_server_1_1_config_1acbe263a57e7e8ab8573b79e634adb285" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t themis::server::HttpServer::Config::http3_port</definition>
+        <argsstring></argsstring>
+        <name>http3_port</name>
+        <qualifiedname>themis::server::HttpServer::Config::http3_port</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="272" column="18" bodyfile="include/server/http_server.h" bodystart="272" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http_server_1_1_config_1af7ecabc50c150fcb454eb066cf507436" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::HttpServer::Config::http2_max_concurrent_streams</definition>
+        <argsstring></argsstring>
+        <name>http2_max_concurrent_streams</name>
+        <qualifiedname>themis::server::HttpServer::Config::http2_max_concurrent_streams</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="273" column="18" bodyfile="include/server/http_server.h" bodystart="273" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http_server_1_1_config_1a3434f4d834f89c3b6de4e2cfe3a05b00" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::HttpServer::Config::http2_initial_window_size</definition>
+        <argsstring></argsstring>
+        <name>http2_initial_window_size</name>
+        <qualifiedname>themis::server::HttpServer::Config::http2_initial_window_size</qualifiedname>
+        <initializer>= 65535</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="274" column="18" bodyfile="include/server/http_server.h" bodystart="274" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http_server_1_1_config_1ae61ee0b5ad52d253a1d620fe04da9b00" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::HttpServer::Config::http3_max_idle_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>http3_max_idle_timeout_ms</name>
+        <qualifiedname>themis::server::HttpServer::Config::http3_max_idle_timeout_ms</qualifiedname>
+        <initializer>= 30000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="275" column="18" bodyfile="include/server/http_server.h" bodystart="275" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http_server_1_1_config_1ae596d2e623ec597778a78035db8ea434" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::HttpServer::Config::websocket_max_message_size</definition>
+        <argsstring></argsstring>
+        <name>websocket_max_message_size</name>
+        <qualifiedname>themis::server::HttpServer::Config::websocket_max_message_size</qualifiedname>
+        <initializer>= 1048576</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="276" column="18" bodyfile="include/server/http_server.h" bodystart="276" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http_server_1_1_config_1a266cb5e82c368e28bda44657ab62cb3d" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::HttpServer::Config::websocket_ping_interval_ms</definition>
+        <argsstring></argsstring>
+        <name>websocket_ping_interval_ms</name>
+        <qualifiedname>themis::server::HttpServer::Config::websocket_ping_interval_ms</qualifiedname>
+        <initializer>= 30000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="277" column="18" bodyfile="include/server/http_server.h" bodystart="277" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http_server_1_1_config_1a81bc49250716cce56339e4cdafc26687" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::HttpServer::Config::websocket_cdc_poll_interval_ms</definition>
+        <argsstring></argsstring>
+        <name>websocket_cdc_poll_interval_ms</name>
+        <qualifiedname>themis::server::HttpServer::Config::websocket_cdc_poll_interval_ms</qualifiedname>
+        <initializer>= 500</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="278" column="18" bodyfile="include/server/http_server.h" bodystart="278" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http_server_1_1_config_1ab36f4e7c32453e439574a6d614d1a96f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::HttpServer::Config::health_error_service_enabled</definition>
+        <argsstring></argsstring>
+        <name>health_error_service_enabled</name>
+        <qualifiedname>themis::server::HttpServer::Config::health_error_service_enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="281" column="14" bodyfile="include/server/http_server.h" bodystart="281" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http_server_1_1_config_1ab1a87986c7b1e460005786d8a502cc34" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::HttpServer::Config::health_error_service_bind_address</definition>
+        <argsstring></argsstring>
+        <name>health_error_service_bind_address</name>
+        <qualifiedname>themis::server::HttpServer::Config::health_error_service_bind_address</qualifiedname>
+        <initializer>= &quot;127.0.0.1&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="282" column="21" bodyfile="include/server/http_server.h" bodystart="282" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http_server_1_1_config_1a7392f627ac417722caec626c6df327f5" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t themis::server::HttpServer::Config::health_error_service_port</definition>
+        <argsstring></argsstring>
+        <name>health_error_service_port</name>
+        <qualifiedname>themis::server::HttpServer::Config::health_error_service_port</qualifiedname>
+        <initializer>= 9090</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="283" column="18" bodyfile="include/server/http_server.h" bodystart="283" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1server_1_1_http_server_1_1_config_1ac1d10dc2223e6f178206ba429312dc04" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::HttpServer::Config::Config</definition>
+        <argsstring>()=default</argsstring>
+        <name>Config</name>
+        <qualifiedname>themis::server::HttpServer::Config::Config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="285" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1server_1_1_http_server_1_1_config_1aa3816513e3147fe193e1b3a3e46c79bf" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::HttpServer::Config::Config</definition>
+        <argsstring>(std::string h, uint16_t p, size_t threads=0)</argsstring>
+        <name>Config</name>
+        <qualifiedname>themis::server::HttpServer::Config::Config</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>h</declname>
+        </param>
+        <param>
+          <type>uint16_t</type>
+          <declname>p</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>threads</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="286" column="9" bodyfile="include/server/http_server.h" bodystart="286" bodyend="291"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/http_server.h" line="237" column="5" bodyfile="include/server/http_server.h" bodystart="237" bodyend="292"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_http_server_1_1_config_1a99df345652ab44684963a332d83c85d0" prot="public" virt="non-virtual"><scope>themis::server::HttpServer::Config</scope><name>audit_rate_limit_per_minute</name></member>
+      <member refid="structthemis_1_1server_1_1_http_server_1_1_config_1ac1d10dc2223e6f178206ba429312dc04" prot="public" virt="non-virtual"><scope>themis::server::HttpServer::Config</scope><name>Config</name></member>
+      <member refid="structthemis_1_1server_1_1_http_server_1_1_config_1aa3816513e3147fe193e1b3a3e46c79bf" prot="public" virt="non-virtual"><scope>themis::server::HttpServer::Config</scope><name>Config</name></member>
+      <member refid="structthemis_1_1server_1_1_http_server_1_1_config_1ae2f852dda6196fa941b5c73f940654f0" prot="public" virt="non-virtual"><scope>themis::server::HttpServer::Config</scope><name>enable_http2</name></member>
+      <member refid="structthemis_1_1server_1_1_http_server_1_1_config_1ab39fd2104ac7b37ad3b8da853a08ed52" prot="public" virt="non-virtual"><scope>themis::server::HttpServer::Config</scope><name>enable_http3</name></member>
+      <member refid="structthemis_1_1server_1_1_http_server_1_1_config_1a0d5ed43b5caedb08fc09a62a8e5cf8d8" prot="public" virt="non-virtual"><scope>themis::server::HttpServer::Config</scope><name>enable_tls</name></member>
+      <member refid="structthemis_1_1server_1_1_http_server_1_1_config_1a71b7f6fe88448b651cc5d83ded618c5e" prot="public" virt="non-virtual"><scope>themis::server::HttpServer::Config</scope><name>enable_websocket</name></member>
+      <member refid="structthemis_1_1server_1_1_http_server_1_1_config_1ad8b184bc87616955eab3bdc7874b3b65" prot="public" virt="non-virtual"><scope>themis::server::HttpServer::Config</scope><name>feature_cdc</name></member>
+      <member refid="structthemis_1_1server_1_1_http_server_1_1_config_1af2d39f836f25998bcacfaf7922fcf339" prot="public" virt="non-virtual"><scope>themis::server::HttpServer::Config</scope><name>feature_llm_query_enhancement</name></member>
+      <member refid="structthemis_1_1server_1_1_http_server_1_1_config_1a637c3c04df09b5804e96598d7951655d" prot="public" virt="non-virtual"><scope>themis::server::HttpServer::Config</scope><name>feature_llm_store</name></member>
+      <member refid="structthemis_1_1server_1_1_http_server_1_1_config_1ad582277812324b112e6c6db6d364e2e8" prot="public" virt="non-virtual"><scope>themis::server::HttpServer::Config</scope><name>feature_pii_manager</name></member>
+      <member refid="structthemis_1_1server_1_1_http_server_1_1_config_1a64b6b1e20afa09dc3cd169e92a036fbb" prot="public" virt="non-virtual"><scope>themis::server::HttpServer::Config</scope><name>feature_semantic_cache</name></member>
+      <member refid="structthemis_1_1server_1_1_http_server_1_1_config_1a22749045828f695df5b8374ac91fc733" prot="public" virt="non-virtual"><scope>themis::server::HttpServer::Config</scope><name>feature_timeseries</name></member>
+      <member refid="structthemis_1_1server_1_1_http_server_1_1_config_1acb53eb20213723c2c00bc490e4df5c08" prot="public" virt="non-virtual"><scope>themis::server::HttpServer::Config</scope><name>feature_update_checker</name></member>
+      <member refid="structthemis_1_1server_1_1_http_server_1_1_config_1a9bea74ac1ef5edf92a629da2b165cd57" prot="public" virt="non-virtual"><scope>themis::server::HttpServer::Config</scope><name>graceful_shutdown_timeout_ms</name></member>
+      <member refid="structthemis_1_1server_1_1_http_server_1_1_config_1ab1a87986c7b1e460005786d8a502cc34" prot="public" virt="non-virtual"><scope>themis::server::HttpServer::Config</scope><name>health_error_service_bind_address</name></member>
+      <member refid="structthemis_1_1server_1_1_http_server_1_1_config_1ab36f4e7c32453e439574a6d614d1a96f" prot="public" virt="non-virtual"><scope>themis::server::HttpServer::Config</scope><name>health_error_service_enabled</name></member>
+      <member refid="structthemis_1_1server_1_1_http_server_1_1_config_1a7392f627ac417722caec626c6df327f5" prot="public" virt="non-virtual"><scope>themis::server::HttpServer::Config</scope><name>health_error_service_port</name></member>
+      <member refid="structthemis_1_1server_1_1_http_server_1_1_config_1a4da025d55bc4b4f5b042d8c032ce8d03" prot="public" virt="non-virtual"><scope>themis::server::HttpServer::Config</scope><name>host</name></member>
+      <member refid="structthemis_1_1server_1_1_http_server_1_1_config_1a3434f4d834f89c3b6de4e2cfe3a05b00" prot="public" virt="non-virtual"><scope>themis::server::HttpServer::Config</scope><name>http2_initial_window_size</name></member>
+      <member refid="structthemis_1_1server_1_1_http_server_1_1_config_1af7ecabc50c150fcb454eb066cf507436" prot="public" virt="non-virtual"><scope>themis::server::HttpServer::Config</scope><name>http2_max_concurrent_streams</name></member>
+      <member refid="structthemis_1_1server_1_1_http_server_1_1_config_1ae61ee0b5ad52d253a1d620fe04da9b00" prot="public" virt="non-virtual"><scope>themis::server::HttpServer::Config</scope><name>http3_max_idle_timeout_ms</name></member>
+      <member refid="structthemis_1_1server_1_1_http_server_1_1_config_1acbe263a57e7e8ab8573b79e634adb285" prot="public" virt="non-virtual"><scope>themis::server::HttpServer::Config</scope><name>http3_port</name></member>
+      <member refid="structthemis_1_1server_1_1_http_server_1_1_config_1a6f5f0c60b884a27464c0d3cf7bcb4cda" prot="public" virt="non-virtual"><scope>themis::server::HttpServer::Config</scope><name>max_connections</name></member>
+      <member refid="structthemis_1_1server_1_1_http_server_1_1_config_1aabb21ce74404aca4161a41de71453f6c" prot="public" virt="non-virtual"><scope>themis::server::HttpServer::Config</scope><name>max_header_size_bytes</name></member>
+      <member refid="structthemis_1_1server_1_1_http_server_1_1_config_1a7ec484b9a2860fbd96bf835254f88df8" prot="public" virt="non-virtual"><scope>themis::server::HttpServer::Config</scope><name>max_request_size_mb</name></member>
+      <member refid="structthemis_1_1server_1_1_http_server_1_1_config_1ae0e8c70bec50a72ad241cc44dace6de2" prot="public" virt="non-virtual"><scope>themis::server::HttpServer::Config</scope><name>num_threads</name></member>
+      <member refid="structthemis_1_1server_1_1_http_server_1_1_config_1ada1b2e0fb4aab5df48e328b777e571c8" prot="public" virt="non-virtual"><scope>themis::server::HttpServer::Config</scope><name>port</name></member>
+      <member refid="structthemis_1_1server_1_1_http_server_1_1_config_1aaee2d6f5073574c8cd927681565e8a95" prot="public" virt="non-virtual"><scope>themis::server::HttpServer::Config</scope><name>request_timeout_ms</name></member>
+      <member refid="structthemis_1_1server_1_1_http_server_1_1_config_1ac6ce41289814b3ed335753cd616b449e" prot="public" virt="non-virtual"><scope>themis::server::HttpServer::Config</scope><name>sse_max_events_per_second</name></member>
+      <member refid="structthemis_1_1server_1_1_http_server_1_1_config_1a77d8adf2c549f8e51e0846cfba3e5ce9" prot="public" virt="non-virtual"><scope>themis::server::HttpServer::Config</scope><name>tls_ca_cert_path</name></member>
+      <member refid="structthemis_1_1server_1_1_http_server_1_1_config_1a3fcd077d3b555baa2318e7bc01d08a7d" prot="public" virt="non-virtual"><scope>themis::server::HttpServer::Config</scope><name>tls_cert_path</name></member>
+      <member refid="structthemis_1_1server_1_1_http_server_1_1_config_1a97e5042e1c54f11cae4f66e85d14bcc6" prot="public" virt="non-virtual"><scope>themis::server::HttpServer::Config</scope><name>tls_cipher_list</name></member>
+      <member refid="structthemis_1_1server_1_1_http_server_1_1_config_1a6b371e14fceaf8ff0e60b9f4fdbef504" prot="public" virt="non-virtual"><scope>themis::server::HttpServer::Config</scope><name>tls_key_path</name></member>
+      <member refid="structthemis_1_1server_1_1_http_server_1_1_config_1a1ea5bd2140469e440dd2ffb7342746fa" prot="public" virt="non-virtual"><scope>themis::server::HttpServer::Config</scope><name>tls_min_version</name></member>
+      <member refid="structthemis_1_1server_1_1_http_server_1_1_config_1ac612f4c58004d7b517b1f9a08437bb6a" prot="public" virt="non-virtual"><scope>themis::server::HttpServer::Config</scope><name>tls_require_client_cert</name></member>
+      <member refid="structthemis_1_1server_1_1_http_server_1_1_config_1a81bc49250716cce56339e4cdafc26687" prot="public" virt="non-virtual"><scope>themis::server::HttpServer::Config</scope><name>websocket_cdc_poll_interval_ms</name></member>
+      <member refid="structthemis_1_1server_1_1_http_server_1_1_config_1ae596d2e623ec597778a78035db8ea434" prot="public" virt="non-virtual"><scope>themis::server::HttpServer::Config</scope><name>websocket_max_message_size</name></member>
+      <member refid="structthemis_1_1server_1_1_http_server_1_1_config_1a266cb5e82c368e28bda44657ab62cb3d" prot="public" virt="non-virtual"><scope>themis::server::HttpServer::Config</scope><name>websocket_ping_interval_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

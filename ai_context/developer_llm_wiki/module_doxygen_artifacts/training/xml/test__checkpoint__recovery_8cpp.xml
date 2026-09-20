@@ -1,0 +1,764 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__checkpoint__recovery_8cpp" kind="file" language="C++">
+    <compoundname>test_checkpoint_recovery.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="lora__checkpoint__manager_8h" local="yes">training/lora_checkpoint_manager.h</includes>
+    <includes refid="lora__adapter_8h" local="yes">training/lora_adapter.h</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">fstream</includes>
+    <includes local="no">random</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">cstring</includes>
+    <incdepgraph>
+      <node id="15">
+        <label>training/lora_adapter.h</label>
+        <link refid="lora__adapter_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>training/lora_checkpoint_manager.h</label>
+        <link refid="lora__checkpoint__manager_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>training/training_error_codes.h</label>
+        <link refid="training__error__codes_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>training/training_exceptions.h</label>
+        <link refid="training__exceptions_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/training/test_checkpoint_recovery.cpp</label>
+        <link refid="test__checkpoint__recovery_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>cstddef</label>
+      </node>
+      <node id="11">
+        <label>cstdint</label>
+      </node>
+      <node id="20">
+        <label>cstring</label>
+      </node>
+      <node id="9">
+        <label>ctime</label>
+      </node>
+      <node id="17">
+        <label>filesystem</label>
+      </node>
+      <node id="18">
+        <label>fstream</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="19">
+        <label>random</label>
+      </node>
+      <node id="14">
+        <label>stdexcept</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="12">
+        <label>unordered_map</label>
+      </node>
+      <node id="16">
+        <label>utility</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_checkpoint_recovery_test" prot="public">CheckpointRecoveryTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__checkpoint__recovery_8cpp_1aacea286265a6fd59c27253b356ee3fff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CheckpointRecoveryTest, SaveAndResume_Succeeds)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_checkpoint_recovery_test" kindref="compound">CheckpointRecoveryTest</ref></type>
+        </param>
+        <param>
+          <type>SaveAndResume_Succeeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_recovery.cpp" line="95" column="1" bodyfile="tests/training/test_checkpoint_recovery.cpp" bodystart="95" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="test__checkpoint__recovery_8cpp_1a402e2bbb73145f6a8786c3fbf44e9c48" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CheckpointRecoveryTest, ResumeEmpty_ReturnsNone)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_checkpoint_recovery_test" kindref="compound">CheckpointRecoveryTest</ref></type>
+        </param>
+        <param>
+          <type>ResumeEmpty_ReturnsNone</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_recovery.cpp" line="121" column="1" bodyfile="tests/training/test_checkpoint_recovery.cpp" bodystart="121" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="test__checkpoint__recovery_8cpp_1a9af055bf30efeef09432235a66c37180" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CheckpointRecoveryTest, CorruptedCheckpoint_DetectedOnLoad)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_checkpoint_recovery_test" kindref="compound">CheckpointRecoveryTest</ref></type>
+        </param>
+        <param>
+          <type>CorruptedCheckpoint_DetectedOnLoad</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_recovery.cpp" line="133" column="1" bodyfile="tests/training/test_checkpoint_recovery.cpp" bodystart="133" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="test__checkpoint__recovery_8cpp_1a52f573f6d861be5a7e336a7349e0509e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CheckpointRecoveryTest, AllCheckpointsCorrupted_ReturnsEmpty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_checkpoint_recovery_test" kindref="compound">CheckpointRecoveryTest</ref></type>
+        </param>
+        <param>
+          <type>AllCheckpointsCorrupted_ReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_recovery.cpp" line="175" column="1" bodyfile="tests/training/test_checkpoint_recovery.cpp" bodystart="175" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="test__checkpoint__recovery_8cpp_1a64b13ce6038d48629f267eed98195063" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CheckpointRecoveryTest, MaxCheckpoints_OldestPruned)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_checkpoint_recovery_test" kindref="compound">CheckpointRecoveryTest</ref></type>
+        </param>
+        <param>
+          <type>MaxCheckpoints_OldestPruned</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_recovery.cpp" line="208" column="1" bodyfile="tests/training/test_checkpoint_recovery.cpp" bodystart="208" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="test__checkpoint__recovery_8cpp_1a934f1378953251fdb54b25c4bc35e280" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CheckpointRecoveryTest, AtomicWrite_NoIncompleteFiles)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_checkpoint_recovery_test" kindref="compound">CheckpointRecoveryTest</ref></type>
+        </param>
+        <param>
+          <type>AtomicWrite_NoIncompleteFiles</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_recovery.cpp" line="240" column="1" bodyfile="tests/training/test_checkpoint_recovery.cpp" bodystart="240" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="test__checkpoint__recovery_8cpp_1a32ee0b3bfbc0cc00a6172d712f9e238f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CheckpointRecoveryTest, CorruptedManifest_RecoveryAttempted)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_checkpoint_recovery_test" kindref="compound">CheckpointRecoveryTest</ref></type>
+        </param>
+        <param>
+          <type>CorruptedManifest_RecoveryAttempted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_recovery.cpp" line="267" column="1" bodyfile="tests/training/test_checkpoint_recovery.cpp" bodystart="267" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="test__checkpoint__recovery_8cpp_1a7c5f908ab932504a181283407c99d087" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CheckpointRecoveryTest, UnderMinimumSize_Rejected)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_checkpoint_recovery_test" kindref="compound">CheckpointRecoveryTest</ref></type>
+        </param>
+        <param>
+          <type>UnderMinimumSize_Rejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_recovery.cpp" line="304" column="1" bodyfile="tests/training/test_checkpoint_recovery.cpp" bodystart="304" bodyend="323"/>
+      </memberdef>
+      <memberdef kind="function" id="test__checkpoint__recovery_8cpp_1abc02dd437efd09b66154e9f5632a2b08" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CheckpointRecoveryTest, RecoveryStats_Tracked)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_checkpoint_recovery_test" kindref="compound">CheckpointRecoveryTest</ref></type>
+        </param>
+        <param>
+          <type>RecoveryStats_Tracked</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_recovery.cpp" line="329" column="1" bodyfile="tests/training/test_checkpoint_recovery.cpp" bodystart="329" bodyend="347"/>
+      </memberdef>
+      <memberdef kind="function" id="test__checkpoint__recovery_8cpp_1a7e1e7da2545add42ae7e45dc616aa63c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CheckpointRecoveryTest, SequentialSaves_AllValid)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_checkpoint_recovery_test" kindref="compound">CheckpointRecoveryTest</ref></type>
+        </param>
+        <param>
+          <type>SequentialSaves_AllValid</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_recovery.cpp" line="353" column="1" bodyfile="tests/training/test_checkpoint_recovery.cpp" bodystart="353" bodyend="376"/>
+      </memberdef>
+      <memberdef kind="function" id="test__checkpoint__recovery_8cpp_1a50eb779d9d274a0cfb4623c274593905" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CheckpointRecoveryTest, ResumeSpecific_ByEpoch)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_checkpoint_recovery_test" kindref="compound">CheckpointRecoveryTest</ref></type>
+        </param>
+        <param>
+          <type>ResumeSpecific_ByEpoch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_recovery.cpp" line="382" column="1" bodyfile="tests/training/test_checkpoint_recovery.cpp" bodystart="382" bodyend="403"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Phase 4 checkpoint corruption detection and recovery tests. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tests verify:<itemizedlist>
+<listitem><para>Checkpoint corruption detection via SHA-256 validation</para>
+</listitem><listitem><para>Automatic rollback to previous valid checkpoint</para>
+</listitem><listitem><para>Partial checkpoint cleanup</para>
+</listitem><listitem><para>Manifest integrity verification</para>
+</listitem><listitem><para>Recovery from corrupted manifest</para>
+</listitem><listitem><para>Atomic write (write → .tmp → rename)</para>
+</listitem><listitem><para>Recovery statistics reporting </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="lora__checkpoint__manager_8h" kindref="compound">training/lora_checkpoint_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="lora__adapter_8h" kindref="compound">training/lora_adapter.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstring&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1training" kindref="compound">themis::training</ref>;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">fs<sp/>=<sp/>std::filesystem;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>fixture<sp/>with<sp/>temporary<sp/>directories</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="class_checkpoint_recovery_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_checkpoint_recovery_test" kindref="compound">CheckpointRecoveryTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_checkpoint_recovery_test_1a9345e89eff58275a7a8cbf4379ff3129" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>temporary<sp/>checkpoint<sp/>directory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_checkpoint_recovery_test_1a1f9be00a4fd76552eeeced8a419f20e8" kindref="member">tmpdir_</ref><sp/>=<sp/>fs::temp_directory_path()<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;themis_checkpoint_test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(fs::exists(<ref refid="class_checkpoint_recovery_test_1a1f9be00a4fd76552eeeced8a419f20e8" kindref="member">tmpdir_</ref>))<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="class_checkpoint_recovery_test_1a1f9be00a4fd76552eeeced8a419f20e8" kindref="member">tmpdir_</ref>);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::create_directories(<ref refid="class_checkpoint_recovery_test_1a1f9be00a4fd76552eeeced8a419f20e8" kindref="member">tmpdir_</ref>);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_checkpoint_recovery_test_1a3b45025fdfdf06abf4a4c4fd0fc5d268" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(fs::exists(<ref refid="class_checkpoint_recovery_test_1a1f9be00a4fd76552eeeced8a419f20e8" kindref="member">tmpdir_</ref>))<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="class_checkpoint_recovery_test_1a1f9be00a4fd76552eeeced8a419f20e8" kindref="member">tmpdir_</ref>);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_checkpoint_manager_config" kindref="compound">CheckpointManagerConfig</ref><sp/><ref refid="class_checkpoint_recovery_test_1ae87dc9527b7438489774e9f89a868fe9" kindref="member">makeConfig</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_checkpoint_manager_config" kindref="compound">CheckpointManagerConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1training_1_1_checkpoint_manager_config_1a42425c53068a8737abc12d6fc33029a1" kindref="member">checkpoint_dir</ref><sp/>=<sp/><ref refid="class_checkpoint_recovery_test_1a1f9be00a4fd76552eeeced8a419f20e8" kindref="member">tmpdir_</ref>.string();</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1training_1_1_checkpoint_manager_config_1a46d5449367a2d5cadbd36220b076cc92" kindref="member">max_checkpoints</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1training_1_1_checkpoint_manager_config_1a884ab1f324372747e79811f8cbe97856" kindref="member">validate_on_load</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1training_1_1_checkpoint_manager_config_1a298dfc1c7a82a8244c36ea2178f78dd0" kindref="member">auto_rollback</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1training_1_1_checkpoint_manager_config_1ab0f4dd57b039a1e538aea0e920c4032f" kindref="member">io_timeout_ms</ref><sp/>=<sp/>30000;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1training_1_1_checkpoint_manager_config_1a465f39a8284ca3e12d0979bcc2da0513" kindref="member">cleanup_partial</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1training_1_1_checkpoint_manager_config_1ae9805f792e1954cb3b587de954e2ee68" kindref="member">min_checkpoint_size</ref><sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cfg;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="class_checkpoint_recovery_test_1a2a6d433c92fc28ffd1edfcfd02831054" kindref="member">createDummyCheckpoint</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size)<sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>data(size);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::mt19937<sp/>rng(42);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::uniform_int_distribution&lt;int&gt;<sp/>dist(0,<sp/>255);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/></highlight><highlight class="keywordtype">byte</highlight><highlight class="normal"><sp/>:<sp/>data)<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">byte</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(dist(rng));</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>data;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_checkpoint_recovery_test_1a44a5852dacb6d6eeed9cbd3d2558a52c" kindref="member">writeCheckpointFile</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>filename)<sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>path<sp/>=<sp/><ref refid="class_checkpoint_recovery_test_1a1f9be00a4fd76552eeeced8a419f20e8" kindref="member">tmpdir_</ref><sp/>/<sp/>filename;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::ofstream<sp/>out(path,<sp/>std::ios::binary<sp/>|<sp/>std::ios::trunc);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!out.is_open())<sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;Failed<sp/>to<sp/>open<sp/>checkpoint<sp/>file<sp/>for<sp/>writing:<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>path.string());</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>out.write(</highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="keyword">const<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(data.data()),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">std::streamsize</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(data.size()));</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!out.good())<sp/>{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;Failed<sp/>to<sp/>write<sp/>checkpoint<sp/>file:<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>path.string());</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>path.string();</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::path<sp/><ref refid="class_checkpoint_recovery_test_1a1f9be00a4fd76552eeeced8a419f20e8" kindref="member">tmpdir_</ref>;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Basic<sp/>checkpoint<sp/>save<sp/>and<sp/>resume</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><ref refid="test__checkpoint__recovery_8cpp_1aacea286265a6fd59c27253b356ee3fff" kindref="member">TEST_F</ref>(<ref refid="class_checkpoint_recovery_test" kindref="compound">CheckpointRecoveryTest</ref>,<sp/>SaveAndResume_Succeeds)<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/>makeConfig();</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager" kindref="compound">LoRACheckpointManager</ref><sp/>mgr(cfg);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data<sp/>=<sp/>createDummyCheckpoint(1024);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>source_path<sp/>=<sp/>writeCheckpointFile(data,<sp/></highlight><highlight class="stringliteral">&quot;checkpoint_1.bin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry" kindref="compound">CheckpointManifestEntry</ref><sp/>entry;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1a15dfbd0132e9779f7abd23433fdb152f" kindref="member">checkpoint_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;checkpoint_1.bin&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1a60ff5caafbf7ca1e12d46f7e3ff3b01c" kindref="member">epoch</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1ad45c47f3fd88823499ba3ae389dfbc0f" kindref="member">step</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1abaf1eb32ef037b258470bddfb89fb3ba" kindref="member">loss</ref><sp/>=<sp/>0.42f;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1abaa841009ae39edc760771d8d63a2e6f" kindref="member">accuracy</ref><sp/>=<sp/>0.95f;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1adbe9da3cc0c544a791ba63459137cd32" kindref="member">adapter_version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test_v1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>saved<sp/>=<sp/>mgr.save(source_path,<sp/>entry);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(saved.checkpoint_path.empty());</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(saved.epoch,<sp/>1u);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(saved.step,<sp/>100u);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(saved.sha256.empty());</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>mgr.resume();</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result-&gt;epoch,<sp/>1u);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result-&gt;step,<sp/>100u);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><ref refid="test__checkpoint__recovery_8cpp_1aacea286265a6fd59c27253b356ee3fff" kindref="member">TEST_F</ref>(<ref refid="class_checkpoint_recovery_test" kindref="compound">CheckpointRecoveryTest</ref>,<sp/>ResumeEmpty_ReturnsNone)<sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/>makeConfig();</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager" kindref="compound">LoRACheckpointManager</ref><sp/>mgr(cfg);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>mgr.resume();</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.has_value());</highlight></codeline>
+<codeline lineno="127"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Corruption<sp/>detection<sp/>and<sp/>rollback</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><ref refid="test__checkpoint__recovery_8cpp_1aacea286265a6fd59c27253b356ee3fff" kindref="member">TEST_F</ref>(<ref refid="class_checkpoint_recovery_test" kindref="compound">CheckpointRecoveryTest</ref>,<sp/>CorruptedCheckpoint_DetectedOnLoad)<sp/>{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/>makeConfig();</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager" kindref="compound">LoRACheckpointManager</ref><sp/>mgr(cfg);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Save<sp/>first<sp/>checkpoint</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data1<sp/>=<sp/>createDummyCheckpoint(1024);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>path1<sp/>=<sp/>writeCheckpointFile(data1,<sp/></highlight><highlight class="stringliteral">&quot;checkpoint_1.bin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry" kindref="compound">CheckpointManifestEntry</ref><sp/>entry1;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>entry1.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1a15dfbd0132e9779f7abd23433fdb152f" kindref="member">checkpoint_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;checkpoint_1.bin&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>entry1.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1a60ff5caafbf7ca1e12d46f7e3ff3b01c" kindref="member">epoch</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>entry1.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1ad45c47f3fd88823499ba3ae389dfbc0f" kindref="member">step</ref><sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>entry1.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1abaf1eb32ef037b258470bddfb89fb3ba" kindref="member">loss</ref><sp/>=<sp/>0.5f;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>entry1.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1adbe9da3cc0c544a791ba63459137cd32" kindref="member">adapter_version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.save(path1,<sp/>entry1);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Save<sp/>second<sp/>checkpoint</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data2<sp/>=<sp/>createDummyCheckpoint(2048);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>path2<sp/>=<sp/>writeCheckpointFile(data2,<sp/></highlight><highlight class="stringliteral">&quot;checkpoint_2.bin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry" kindref="compound">CheckpointManifestEntry</ref><sp/>entry2;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>entry2.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1a15dfbd0132e9779f7abd23433fdb152f" kindref="member">checkpoint_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;checkpoint_2.bin&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>entry2.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1a60ff5caafbf7ca1e12d46f7e3ff3b01c" kindref="member">epoch</ref><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>entry2.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1ad45c47f3fd88823499ba3ae389dfbc0f" kindref="member">step</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>entry2.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1abaf1eb32ef037b258470bddfb89fb3ba" kindref="member">loss</ref><sp/>=<sp/>0.4f;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>entry2.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1adbe9da3cc0c544a791ba63459137cd32" kindref="member">adapter_version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;v2&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.save(path2,<sp/>entry2);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Corrupt<sp/>the<sp/>second<sp/>checkpoint<sp/>file</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>checkpoint_path<sp/>=<sp/>tmpdir_<sp/>/<sp/>entry2.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1a15dfbd0132e9779f7abd23433fdb152f" kindref="member">checkpoint_path</ref>;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(fs::exists(checkpoint_path))<sp/>{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::ofstream<sp/>f(checkpoint_path,<sp/>std::ios::binary);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>corrupted<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;CORRUPTED_DATA_MARKER&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>f.write(corrupted.c_str(),<sp/>corrupted.size());</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>f.close();</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Resume<sp/>should<sp/>rollback<sp/>to<sp/>first<sp/>checkpoint</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>mgr.resume();</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result-&gt;epoch,<sp/>1u);<sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>be<sp/>checkpoint_1,<sp/>not<sp/>checkpoint_2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result-&gt;step,<sp/>50u);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><ref refid="test__checkpoint__recovery_8cpp_1aacea286265a6fd59c27253b356ee3fff" kindref="member">TEST_F</ref>(<ref refid="class_checkpoint_recovery_test" kindref="compound">CheckpointRecoveryTest</ref>,<sp/>AllCheckpointsCorrupted_ReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/>makeConfig();</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.auto_rollback<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager" kindref="compound">LoRACheckpointManager</ref><sp/>mgr(cfg);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data<sp/>=<sp/>createDummyCheckpoint(1024);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>source_path<sp/>=<sp/>writeCheckpointFile(data,<sp/></highlight><highlight class="stringliteral">&quot;checkpoint_1.bin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry" kindref="compound">CheckpointManifestEntry</ref><sp/>entry;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1a15dfbd0132e9779f7abd23433fdb152f" kindref="member">checkpoint_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;checkpoint_1.bin&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1a60ff5caafbf7ca1e12d46f7e3ff3b01c" kindref="member">epoch</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1ad45c47f3fd88823499ba3ae389dfbc0f" kindref="member">step</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1abaf1eb32ef037b258470bddfb89fb3ba" kindref="member">loss</ref><sp/>=<sp/>1.0f;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1adbe9da3cc0c544a791ba63459137cd32" kindref="member">adapter_version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.save(source_path,<sp/>entry);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Corrupt<sp/>the<sp/>checkpoint</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>checkpoint_path<sp/>=<sp/>tmpdir_<sp/>/<sp/>entry.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1a15dfbd0132e9779f7abd23433fdb152f" kindref="member">checkpoint_path</ref>;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(fs::exists(checkpoint_path))<sp/>{</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::ofstream<sp/>f(checkpoint_path,<sp/>std::ios::binary);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>f.write(</highlight><highlight class="stringliteral">&quot;BAD&quot;</highlight><highlight class="normal">,<sp/>3);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>f.close();</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>mgr.resume();</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>With<sp/>auto_rollback=true<sp/>and<sp/>only<sp/>corrupted<sp/>checkpoints,<sp/>should<sp/>return<sp/>empty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>or<sp/>the<sp/>system<sp/>should<sp/>attempt<sp/>recovery</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(!result.has_value()<sp/>||<sp/>result-&gt;epoch<sp/>==<sp/>1);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Rolling<sp/>window<sp/>and<sp/>pruning</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><ref refid="test__checkpoint__recovery_8cpp_1aacea286265a6fd59c27253b356ee3fff" kindref="member">TEST_F</ref>(<ref refid="class_checkpoint_recovery_test" kindref="compound">CheckpointRecoveryTest</ref>,<sp/>MaxCheckpoints_OldestPruned)<sp/>{</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/>makeConfig();</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.max_checkpoints<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager" kindref="compound">LoRACheckpointManager</ref><sp/>mgr(cfg);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Save<sp/>three<sp/>checkpoints</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>1;<sp/>i<sp/>&lt;=<sp/>3;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data<sp/>=<sp/>createDummyCheckpoint(512<sp/>+<sp/>i<sp/>*<sp/>100);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>source_path<sp/>=<sp/>writeCheckpointFile(data,<sp/></highlight><highlight class="stringliteral">&quot;checkpoint_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.bin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry" kindref="compound">CheckpointManifestEntry</ref><sp/>entry;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1a15dfbd0132e9779f7abd23433fdb152f" kindref="member">checkpoint_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;checkpoint_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.bin&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1a60ff5caafbf7ca1e12d46f7e3ff3b01c" kindref="member">epoch</ref><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1ad45c47f3fd88823499ba3ae389dfbc0f" kindref="member">step</ref><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i<sp/>*<sp/>10);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1abaf1eb32ef037b258470bddfb89fb3ba" kindref="member">loss</ref><sp/>=<sp/>1.0f<sp/>/<sp/>i;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1adbe9da3cc0c544a791ba63459137cd32" kindref="member">adapter_version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr.save(source_path,<sp/>entry);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>checkpoint<sp/>should<sp/>be<sp/>pruned</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>path1<sp/>=<sp/>tmpdir_<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;checkpoint_1.bin&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(fs::exists(path1))<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Oldest<sp/>checkpoint<sp/>should<sp/>be<sp/>pruned&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Latest<sp/>two<sp/>should<sp/>exist</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>path2<sp/>=<sp/>tmpdir_<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;checkpoint_2.bin&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>path3<sp/>=<sp/>tmpdir_<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;checkpoint_3.bin&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(fs::exists(path2)<sp/>||<sp/>fs::exists(path3));</highlight></codeline>
+<codeline lineno="234"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Atomic<sp/>write<sp/>and<sp/>partial<sp/>cleanup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><ref refid="test__checkpoint__recovery_8cpp_1aacea286265a6fd59c27253b356ee3fff" kindref="member">TEST_F</ref>(<ref refid="class_checkpoint_recovery_test" kindref="compound">CheckpointRecoveryTest</ref>,<sp/>AtomicWrite_NoIncompleteFiles)<sp/>{</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/>makeConfig();</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.cleanup_partial<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager" kindref="compound">LoRACheckpointManager</ref><sp/>mgr(cfg);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data<sp/>=<sp/>createDummyCheckpoint(1024);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>source_path<sp/>=<sp/>writeCheckpointFile(data,<sp/></highlight><highlight class="stringliteral">&quot;atomic_test.bin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry" kindref="compound">CheckpointManifestEntry</ref><sp/>entry;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1a15dfbd0132e9779f7abd23433fdb152f" kindref="member">checkpoint_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;atomic_test.bin&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1a60ff5caafbf7ca1e12d46f7e3ff3b01c" kindref="member">epoch</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1ad45c47f3fd88823499ba3ae389dfbc0f" kindref="member">step</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1abaf1eb32ef037b258470bddfb89fb3ba" kindref="member">loss</ref><sp/>=<sp/>0.1f;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1adbe9da3cc0c544a791ba63459137cd32" kindref="member">adapter_version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;atomic_v1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.save(source_path,<sp/>entry);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>for<sp/>.tmp<sp/>or<sp/>partial<sp/>files</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>file<sp/>:<sp/>fs::directory_iterator(tmpdir_))<sp/>{</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(file.path().extension()<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;.tmp&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Partial<sp/>.tmp<sp/>files<sp/>should<sp/>not<sp/>remain&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="261"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Manifest<sp/>integrity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><ref refid="test__checkpoint__recovery_8cpp_1aacea286265a6fd59c27253b356ee3fff" kindref="member">TEST_F</ref>(<ref refid="class_checkpoint_recovery_test" kindref="compound">CheckpointRecoveryTest</ref>,<sp/>CorruptedManifest_RecoveryAttempted)<sp/>{</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/>makeConfig();</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager" kindref="compound">LoRACheckpointManager</ref><sp/>mgr(cfg);</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Save<sp/>a<sp/>valid<sp/>checkpoint</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data<sp/>=<sp/>createDummyCheckpoint(1024);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>source_path<sp/>=<sp/>writeCheckpointFile(data,<sp/></highlight><highlight class="stringliteral">&quot;checkpoint_1.bin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry" kindref="compound">CheckpointManifestEntry</ref><sp/>entry;</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1a15dfbd0132e9779f7abd23433fdb152f" kindref="member">checkpoint_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;checkpoint_1.bin&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1a60ff5caafbf7ca1e12d46f7e3ff3b01c" kindref="member">epoch</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1ad45c47f3fd88823499ba3ae389dfbc0f" kindref="member">step</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1abaf1eb32ef037b258470bddfb89fb3ba" kindref="member">loss</ref><sp/>=<sp/>0.1f;</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1adbe9da3cc0c544a791ba63459137cd32" kindref="member">adapter_version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.save(source_path,<sp/>entry);</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Corrupt<sp/>the<sp/>manifest<sp/>file</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>manifest_path<sp/>=<sp/>tmpdir_<sp/>/<sp/>cfg.manifest_filename;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(fs::exists(manifest_path))<sp/>{</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::ofstream<sp/>f(manifest_path,<sp/>std::ios::binary);</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>f.write(</highlight><highlight class="stringliteral">&quot;INVALID_JSON{{{&quot;</highlight><highlight class="normal">,<sp/>15);</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>f.close();</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Manager<sp/>should<sp/>attempt<sp/>recovery</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>should<sp/>either:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>1.<sp/>Detect<sp/>corruption<sp/>and<sp/>rebuild</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>2.<sp/>Fallback<sp/>to<sp/>filesystem<sp/>scan</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>3.<sp/>Return<sp/>valid<sp/>entries<sp/>despite<sp/>corrupted<sp/>manifest</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>mgr.resume();</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>that<sp/>recovery<sp/>attempted<sp/>(either<sp/>succeeds<sp/>or<sp/>gracefully<sp/>fails)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="298"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Minimum<sp/>checkpoint<sp/>size<sp/>validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><ref refid="test__checkpoint__recovery_8cpp_1aacea286265a6fd59c27253b356ee3fff" kindref="member">TEST_F</ref>(<ref refid="class_checkpoint_recovery_test" kindref="compound">CheckpointRecoveryTest</ref>,<sp/>UnderMinimumSize_Rejected)<sp/>{</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/>makeConfig();</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.min_checkpoint_size<sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager" kindref="compound">LoRACheckpointManager</ref><sp/>mgr(cfg);</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>checkpoint<sp/>smaller<sp/>than<sp/>minimum</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data<sp/>=<sp/>createDummyCheckpoint(100);</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>source_path<sp/>=<sp/>writeCheckpointFile(data,<sp/></highlight><highlight class="stringliteral">&quot;too_small.bin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry" kindref="compound">CheckpointManifestEntry</ref><sp/>entry;</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1a15dfbd0132e9779f7abd23433fdb152f" kindref="member">checkpoint_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;too_small.bin&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1a60ff5caafbf7ca1e12d46f7e3ff3b01c" kindref="member">epoch</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1ad45c47f3fd88823499ba3ae389dfbc0f" kindref="member">step</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1abaf1eb32ef037b258470bddfb89fb3ba" kindref="member">loss</ref><sp/>=<sp/>0.1f;</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1adbe9da3cc0c544a791ba63459137cd32" kindref="member">adapter_version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>mgr.save(source_path,<sp/>entry);</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.checkpoint_path.empty());</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="323"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Recovery<sp/>statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><ref refid="test__checkpoint__recovery_8cpp_1aacea286265a6fd59c27253b356ee3fff" kindref="member">TEST_F</ref>(<ref refid="class_checkpoint_recovery_test" kindref="compound">CheckpointRecoveryTest</ref>,<sp/>RecoveryStats_Tracked)<sp/>{</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/>makeConfig();</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager" kindref="compound">LoRACheckpointManager</ref><sp/>mgr(cfg);</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data<sp/>=<sp/>createDummyCheckpoint(1024);</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>source_path<sp/>=<sp/>writeCheckpointFile(data,<sp/></highlight><highlight class="stringliteral">&quot;stats_test.bin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry" kindref="compound">CheckpointManifestEntry</ref><sp/>entry;</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1a15dfbd0132e9779f7abd23433fdb152f" kindref="member">checkpoint_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;stats_test.bin&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1a60ff5caafbf7ca1e12d46f7e3ff3b01c" kindref="member">epoch</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1ad45c47f3fd88823499ba3ae389dfbc0f" kindref="member">step</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1abaf1eb32ef037b258470bddfb89fb3ba" kindref="member">loss</ref><sp/>=<sp/>0.1f;</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1adbe9da3cc0c544a791ba63459137cd32" kindref="member">adapter_version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>mgr.save(source_path,<sp/>entry);</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.checkpoint_path.empty());</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>stats<sp/>are<sp/>available<sp/>(implementation-specific)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(result.saved_at),<sp/>0LL);</highlight></codeline>
+<codeline lineno="347"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Multiple<sp/>sequential<sp/>saves</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><ref refid="test__checkpoint__recovery_8cpp_1aacea286265a6fd59c27253b356ee3fff" kindref="member">TEST_F</ref>(<ref refid="class_checkpoint_recovery_test" kindref="compound">CheckpointRecoveryTest</ref>,<sp/>SequentialSaves_AllValid)<sp/>{</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/>makeConfig();</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager" kindref="compound">LoRACheckpointManager</ref><sp/>mgr(cfg);</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>epoch<sp/>=<sp/>1;<sp/>epoch<sp/>&lt;=<sp/>5;<sp/>++epoch)<sp/>{</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data<sp/>=<sp/>createDummyCheckpoint(1024<sp/>+<sp/>epoch<sp/>*<sp/>256);</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>source_path<sp/>=<sp/>writeCheckpointFile(data,<sp/></highlight><highlight class="stringliteral">&quot;checkpoint_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(epoch)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.bin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry" kindref="compound">CheckpointManifestEntry</ref><sp/>entry;</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1a15dfbd0132e9779f7abd23433fdb152f" kindref="member">checkpoint_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;checkpoint_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(epoch)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.bin&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1a60ff5caafbf7ca1e12d46f7e3ff3b01c" kindref="member">epoch</ref><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(epoch);</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1ad45c47f3fd88823499ba3ae389dfbc0f" kindref="member">step</ref><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(epoch<sp/>*<sp/>100);</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1abaf1eb32ef037b258470bddfb89fb3ba" kindref="member">loss</ref><sp/>=<sp/>1.0f<sp/>/<sp/>epoch;</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1abaa841009ae39edc760771d8d63a2e6f" kindref="member">accuracy</ref><sp/>=<sp/>0.8f<sp/>+<sp/>epoch<sp/>*<sp/>0.02f;</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1adbe9da3cc0c544a791ba63459137cd32" kindref="member">adapter_version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(epoch);</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"></highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>mgr.save(source_path,<sp/>entry);</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.checkpoint_path.empty());</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"></highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Resume<sp/>should<sp/>get<sp/>the<sp/>latest</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>mgr.resume();</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result-&gt;epoch,<sp/>5u);</highlight></codeline>
+<codeline lineno="376"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"></highlight></codeline>
+<codeline lineno="378"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="379"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Resume<sp/>with<sp/>specific<sp/>checkpoint<sp/>selection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="380"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="381"><highlight class="normal"></highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><ref refid="test__checkpoint__recovery_8cpp_1aacea286265a6fd59c27253b356ee3fff" kindref="member">TEST_F</ref>(<ref refid="class_checkpoint_recovery_test" kindref="compound">CheckpointRecoveryTest</ref>,<sp/>ResumeSpecific_ByEpoch)<sp/>{</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/>makeConfig();</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager" kindref="compound">LoRACheckpointManager</ref><sp/>mgr(cfg);</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"></highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Save<sp/>multiple<sp/>checkpoints</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>1;<sp/>i<sp/>&lt;=<sp/>3;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data<sp/>=<sp/>createDummyCheckpoint(512<sp/>+<sp/>i<sp/>*<sp/>256);</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>source_path<sp/>=<sp/>writeCheckpointFile(data,<sp/></highlight><highlight class="stringliteral">&quot;checkpoint_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.bin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry" kindref="compound">CheckpointManifestEntry</ref><sp/>entry;</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1a15dfbd0132e9779f7abd23433fdb152f" kindref="member">checkpoint_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;checkpoint_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.bin&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1a60ff5caafbf7ca1e12d46f7e3ff3b01c" kindref="member">epoch</ref><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i);</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1ad45c47f3fd88823499ba3ae389dfbc0f" kindref="member">step</ref><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i<sp/>*<sp/>50);</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1abaf1eb32ef037b258470bddfb89fb3ba" kindref="member">loss</ref><sp/>=<sp/>1.0f<sp/>/<sp/>i;</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1adbe9da3cc0c544a791ba63459137cd32" kindref="member">adapter_version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr.save(source_path,<sp/>entry);</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"></highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Resume<sp/>latest</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>mgr.resume();</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result-&gt;epoch,<sp/>3u);</highlight></codeline>
+<codeline lineno="403"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/training/test_checkpoint_recovery.cpp"/>
+  </compounddef>
+</doxygen>

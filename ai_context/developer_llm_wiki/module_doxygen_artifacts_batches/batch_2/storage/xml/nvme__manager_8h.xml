@@ -1,0 +1,510 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="nvme__manager_8h" kind="file" language="C++">
+    <compoundname>nvme_manager.h</compoundname>
+    <includes local="no">atomic</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="rocksdb__wrapper_8h" local="yes">include/storage/rocksdb_wrapper.h</includedby>
+    <includedby refid="nvme__manager_8cpp" local="yes">src/storage/nvme_manager.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/storage/nvme_manager.h</label>
+        <link refid="nvme__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>cstddef</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="3">
+        <label>benchmarks/storage/bench_batch_insert.cpp</label>
+        <link refid="bench__batch__insert_8cpp"/>
+      </node>
+      <node id="4">
+        <label>benchmarks/storage/bench_crud.cpp</label>
+        <link refid="bench__crud_8cpp"/>
+      </node>
+      <node id="5">
+        <label>benchmarks/storage/bench_insert_profiling.cpp</label>
+        <link refid="bench__insert__profiling_8cpp"/>
+      </node>
+      <node id="6">
+        <label>benchmarks/storage/bench_mvcc.cpp</label>
+        <link refid="bench__mvcc_8cpp"/>
+      </node>
+      <node id="7">
+        <label>benchmarks/storage/bench_simple_insert_test.cpp</label>
+        <link refid="bench__simple__insert__test_8cpp"/>
+      </node>
+      <node id="8">
+        <label>benchmarks/storage/bench_storage_performance.cpp</label>
+        <link refid="bench__storage__performance_8cpp"/>
+      </node>
+      <node id="9">
+        <label>benchmarks/storage/bench_wal_stress.cpp</label>
+        <link refid="bench__wal__stress_8cpp"/>
+      </node>
+      <node id="11">
+        <label>include/storage/adaptive_compaction.h</label>
+        <link refid="adaptive__compaction_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>include/storage/compaction_manager.h</label>
+        <link refid="compaction__manager_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>include/storage/examples/schema_layout_advisor_example.cpp</label>
+        <link refid="schema__layout__advisor__example_8cpp"/>
+      </node>
+      <node id="16">
+        <label>include/storage/history_manager.h</label>
+        <link refid="history__manager_8h"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>include/storage/mvcc_chain_pruner.h</label>
+        <link refid="mvcc__chain__pruner_8h"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>include/storage/mvcc_store.h</label>
+        <link refid="mvcc__store_8h"/>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/storage/nvme_manager.h</label>
+        <link refid="nvme__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>include/storage/raft_mvcc_bridge.h</label>
+        <link refid="raft__mvcc__bridge_8h"/>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/storage/rocksdb_wrapper.h</label>
+        <link refid="rocksdb__wrapper_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>include/storage/security_signature_manager.h</label>
+        <link refid="security__signature__manager_8h"/>
+        <childnode refid="26" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>include/storage/storage_engine.h</label>
+        <link refid="storage__engine_8h"/>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+      </node>
+      <node id="34">
+        <label>include/storage/streaming_ingest_manager.h</label>
+        <link refid="streaming__ingest__manager_8h"/>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>src/storage/adaptive_compaction.cpp</label>
+        <link refid="adaptive__compaction_8cpp"/>
+      </node>
+      <node id="36">
+        <label>src/storage/backup_manager.cpp</label>
+        <link refid="backup__manager_8cpp"/>
+      </node>
+      <node id="13">
+        <label>src/storage/compaction_manager.cpp</label>
+        <link refid="compaction__manager_8cpp"/>
+      </node>
+      <node id="17">
+        <label>src/storage/history_manager.cpp</label>
+        <link refid="history__manager_8cpp"/>
+      </node>
+      <node id="37">
+        <label>src/storage/index_analyzer.cpp</label>
+        <link refid="index__analyzer_8cpp"/>
+      </node>
+      <node id="38">
+        <label>src/storage/index_maintenance.cpp</label>
+        <link refid="index__maintenance_8cpp"/>
+      </node>
+      <node id="20">
+        <label>src/storage/mvcc_chain_pruner.cpp</label>
+        <link refid="mvcc__chain__pruner_8cpp"/>
+      </node>
+      <node id="24">
+        <label>src/storage/mvcc_store.cpp</label>
+        <link refid="mvcc__store_8cpp"/>
+      </node>
+      <node id="42">
+        <label>src/storage/nvme_manager.cpp</label>
+        <link refid="nvme__manager_8cpp"/>
+      </node>
+      <node id="39">
+        <label>src/storage/pitr_manager.cpp</label>
+        <link refid="pitr__manager_8cpp"/>
+      </node>
+      <node id="23">
+        <label>src/storage/raft_mvcc_bridge.cpp</label>
+        <link refid="raft__mvcc__bridge_8cpp"/>
+      </node>
+      <node id="40">
+        <label>src/storage/rocksdb_wrapper.cpp</label>
+        <link refid="rocksdb__wrapper_8cpp"/>
+      </node>
+      <node id="26">
+        <label>src/storage/security_signature_manager.cpp</label>
+        <link refid="security__signature__manager_8cpp"/>
+      </node>
+      <node id="29">
+        <label>src/storage/storage_engine.cpp</label>
+        <link refid="storage__engine_8cpp"/>
+      </node>
+      <node id="35">
+        <label>src/storage/streaming_ingest_manager.cpp</label>
+        <link refid="streaming__ingest__manager_8cpp"/>
+      </node>
+      <node id="41">
+        <label>src/storage/tensor_network_storage_engine.cpp</label>
+        <link refid="tensor__network__storage__engine_8cpp"/>
+      </node>
+      <node id="21">
+        <label>tests/storage/test_mvcc_chain_pruner.cpp</label>
+        <link refid="test__mvcc__chain__pruner_8cpp"/>
+      </node>
+      <node id="30">
+        <label>tests/storage/test_storage_engine_di.cpp</label>
+        <link refid="test__storage__engine__di_8cpp"/>
+      </node>
+      <node id="31">
+        <label>tests/storage/test_storage_engine_move_semantics.cpp</label>
+        <link refid="test__storage__engine__move__semantics_8cpp"/>
+      </node>
+      <node id="32">
+        <label>tests/storage/test_storage_engine_prod.cpp</label>
+        <link refid="test__storage__engine__prod_8cpp"/>
+      </node>
+      <node id="14">
+        <label>tests/storage/test_storage_latency_bench.cpp</label>
+        <link refid="test__storage__latency__bench_8cpp"/>
+      </node>
+      <node id="33">
+        <label>tests/storage/test_storage_query_index_explicit_di.cpp</label>
+        <link refid="test__storage__query__index__explicit__di_8cpp"/>
+      </node>
+      <node id="15">
+        <label>tests/storage/test_wave1_critical_fixes.cpp</label>
+        <link refid="test__wave1__critical__fixes_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1storage_1_1_n_v_me_config" prot="public">themis::storage::NVMeConfig</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_n_v_me_capabilities" prot="public">themis::storage::NVMeCapabilities</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_n_v_me_i_o_request" prot="public">themis::storage::NVMeIORequest</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_n_v_me_i_o_result" prot="public">themis::storage::NVMeIOResult</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_n_v_me_manager" prot="public">themis::storage::NVMeManager</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1storage">themis::storage</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.13 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1storage" kindref="compound">storage</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1storage_1_1_n_v_me_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1storage_1_1_n_v_me_config" kindref="compound">NVMeConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>io_uring<sp/>(Linux<sp/>≥<sp/>5.1)<sp/>───────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1storage_1_1_n_v_me_config_1acfd43e543fe067949c2d2025be0bbf1b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_n_v_me_config_1acfd43e543fe067949c2d2025be0bbf1b" kindref="member">enable_io_uring</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1storage_1_1_n_v_me_config_1a5f2ce460476c307b92d2840df33c68b4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1storage_1_1_n_v_me_config_1a5f2ce460476c307b92d2840df33c68b4" kindref="member">io_uring_queue_depth</ref><sp/>=<sp/>128;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1storage_1_1_n_v_me_config_1a7961d76c80dfa43b5b9d23faea30f912" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_n_v_me_config_1a7961d76c80dfa43b5b9d23faea30f912" kindref="member">io_uring_register_files</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1storage_1_1_n_v_me_config_1a6592c9b6498129d816125e252bb59acd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_n_v_me_config_1a6592c9b6498129d816125e252bb59acd" kindref="member">io_uring_register_buffers</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Multi-queue<sp/>parallel<sp/>I/O<sp/>─────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1storage_1_1_n_v_me_config_1ac26f656610a49e56c554d56cc5137d10" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1storage_1_1_n_v_me_config_1ac26f656610a49e56c554d56cc5137d10" kindref="member">num_io_queues</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1storage_1_1_n_v_me_config_1a0553b095771602e11f5c80ccc74e8c33" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1storage_1_1_n_v_me_config_1a0553b095771602e11f5c80ccc74e8c33" kindref="member">queue_depth</ref><sp/>=<sp/>256;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Zone<sp/>Namespace<sp/>(ZNS)<sp/>support<sp/>─────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1storage_1_1_n_v_me_config_1aa50da50180f9ff5c2e90d550b377e680" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_n_v_me_config_1aa50da50180f9ff5c2e90d550b377e680" kindref="member">enable_zns</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1storage_1_1_n_v_me_config_1ad1b80c64d582a44d8ca23ecf3276c2d3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1storage_1_1_n_v_me_config_1ad1b80c64d582a44d8ca23ecf3276c2d3" kindref="member">zone_capacity_bytes</ref><sp/>=<sp/>536&apos;870&apos;912ULL;<sp/><sp/></highlight><highlight class="comment">//<sp/>512<sp/>MiB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1storage_1_1_n_v_me_config_1aa6527b36572ae0b5ed2bdfb7b742664b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1storage_1_1_n_v_me_config_1aa6527b36572ae0b5ed2bdfb7b742664b" kindref="member">max_open_zones</ref><sp/>=<sp/>14;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Direct<sp/>I/O<sp/>───────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1storage_1_1_n_v_me_config_1a51ae9f04e13ab66a45ebde1f56f5648d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_n_v_me_config_1a51ae9f04e13ab66a45ebde1f56f5648d" kindref="member">use_direct_reads</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1storage_1_1_n_v_me_config_1a62981edfc401376f3c39cfd55ccfacda" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_n_v_me_config_1a62981edfc401376f3c39cfd55ccfacda" kindref="member">use_direct_io_for_flush_and_compaction</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1storage_1_1_n_v_me_config_1a38a2814d45c7030a2c17bea5289203a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1storage_1_1_n_v_me_config_1a38a2814d45c7030a2c17bea5289203a5" kindref="member">direct_io_alignment_bytes</ref><sp/>=<sp/>4096;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Device<sp/>path<sp/>──────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1storage_1_1_n_v_me_config_1a1fafb94e62b21500eec46ea18e03515a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1storage_1_1_n_v_me_config_1a1fafb94e62b21500eec46ea18e03515a" kindref="member">device_path</ref>;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Capability<sp/>report</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1storage_1_1_n_v_me_capabilities" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1storage_1_1_n_v_me_capabilities" kindref="compound">NVMeCapabilities</ref><sp/>{</highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1storage_1_1_n_v_me_capabilities_1a0a5dac7294d4bd91a23bba4a0598534a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_n_v_me_capabilities_1a0a5dac7294d4bd91a23bba4a0598534a" kindref="member">io_uring_available</ref><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1storage_1_1_n_v_me_capabilities_1a4ea3ec0b94d8cad523fe868554c413b3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_n_v_me_capabilities_1a4ea3ec0b94d8cad523fe868554c413b3" kindref="member">zns_available</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1storage_1_1_n_v_me_capabilities_1ac508259abdf28a4baf1d6a85db6ec400" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_n_v_me_capabilities_1ac508259abdf28a4baf1d6a85db6ec400" kindref="member">direct_io_available</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1storage_1_1_n_v_me_capabilities_1a560c9612e22e97267e7b10921f9dc440" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1storage_1_1_n_v_me_capabilities_1a560c9612e22e97267e7b10921f9dc440" kindref="member">hw_queue_count</ref><sp/><sp/>=<sp/>1;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1storage_1_1_n_v_me_capabilities_1ac7aa2cde6832b40d2e37a68066b0ba9d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1storage_1_1_n_v_me_capabilities_1ac7aa2cde6832b40d2e37a68066b0ba9d" kindref="member">kernel_major</ref><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1storage_1_1_n_v_me_capabilities_1ab854092920b4eb41ee1a887ff7c122a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1storage_1_1_n_v_me_capabilities_1ab854092920b4eb41ee1a887ff7c122a7" kindref="member">kernel_minor</ref><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1storage_1_1_n_v_me_capabilities_1a50ed917ff350bc5150f1f1986cda29d2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1storage_1_1_n_v_me_capabilities_1a50ed917ff350bc5150f1f1986cda29d2" kindref="member">device_model</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="105"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/>NVMe<sp/>async<sp/>I/O<sp/>request<sp/>handle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1storage_1_1_n_v_me_i_o_request" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1storage_1_1_n_v_me_i_o_request" kindref="compound">NVMeIORequest</ref><sp/>{</highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1storage_1_1_n_v_me_i_o_request_1a1f474c443f759d35bb60d208aee33f05" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_n_v_me_i_o_request_1a1f474c443f759d35bb60d208aee33f05" kindref="member">fd</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>-1;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1storage_1_1_n_v_me_i_o_request_1a281fec75781f698f30d2b2e252d8fa3a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_n_v_me_i_o_request_1a281fec75781f698f30d2b2e252d8fa3a" kindref="member">buf</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1storage_1_1_n_v_me_i_o_request_1a007cee65fb7be37168fe3ae23da297ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1storage_1_1_n_v_me_i_o_request_1a007cee65fb7be37168fe3ae23da297ef" kindref="member">len</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1storage_1_1_n_v_me_i_o_request_1a060d77f63c884989b8210e7531eb7172" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1storage_1_1_n_v_me_i_o_request_1a060d77f63c884989b8210e7531eb7172" kindref="member">offset</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="122" refid="structthemis_1_1storage_1_1_n_v_me_i_o_request_1a3a158daf570eb5792c399313f37c984f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_n_v_me_i_o_request_1a3a158daf570eb5792c399313f37c984f" kindref="member">is_write</ref><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1storage_1_1_n_v_me_i_o_request_1a949e28de86619f812d74f4a8e5730bf6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1storage_1_1_n_v_me_i_o_request_1a949e28de86619f812d74f4a8e5730bf6" kindref="member">user_data</ref><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="124"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129" refid="structthemis_1_1storage_1_1_n_v_me_i_o_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1storage_1_1_n_v_me_i_o_result" kindref="compound">NVMeIOResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1storage_1_1_n_v_me_i_o_result_1a0621178dfda43b6633f8dff02e877fb8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1storage_1_1_n_v_me_i_o_result_1a0621178dfda43b6633f8dff02e877fb8" kindref="member">user_data</ref><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1storage_1_1_n_v_me_i_o_result_1a84e866dc1d978953d9017c5ccbabdfc9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int32_t<sp/><ref refid="structthemis_1_1storage_1_1_n_v_me_i_o_result_1a84e866dc1d978953d9017c5ccbabdfc9" kindref="member">result</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="132"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/>NVMeManager</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154" refid="classthemis_1_1storage_1_1_n_v_me_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1storage_1_1_n_v_me_manager_1aeed25206b881c957f10199d5a82cfb11" kindref="member">NVMeManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_n_v_me_manager_1aeed25206b881c957f10199d5a82cfb11" kindref="member">NVMeManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_n_v_me_config" kindref="compound">NVMeConfig</ref>&amp;<sp/><ref refid="classthemis_1_1storage_1_1_n_v_me_manager_1a688735b4bbc8593bb088b419d5892b09" kindref="member">config</ref><sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_n_v_me_manager_1ae3f0386171db5e1d0a6387f2f7f236d0" kindref="member">~NVMeManager</ref>();</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159" refid="classthemis_1_1storage_1_1_n_v_me_manager_1ae68acae9ab4f006c6923f6e1b76c2d17" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_n_v_me_manager_1ae68acae9ab4f006c6923f6e1b76c2d17" kindref="member">NVMeManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_n_v_me_manager_1aeed25206b881c957f10199d5a82cfb11" kindref="member">NVMeManager</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="160" refid="classthemis_1_1storage_1_1_n_v_me_manager_1abf0e1065adff2b62d8abc42b598802bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_n_v_me_manager_1aeed25206b881c957f10199d5a82cfb11" kindref="member">NVMeManager</ref>&amp;<sp/><ref refid="classthemis_1_1storage_1_1_n_v_me_manager_1abf0e1065adff2b62d8abc42b598802bd" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_n_v_me_manager_1aeed25206b881c957f10199d5a82cfb11" kindref="member">NVMeManager</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="161" refid="classthemis_1_1storage_1_1_n_v_me_manager_1a85edb7c0aa4d2590f9fadc47373ab4e3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_n_v_me_manager_1a85edb7c0aa4d2590f9fadc47373ab4e3" kindref="member">NVMeManager</ref>(<ref refid="classthemis_1_1storage_1_1_n_v_me_manager_1aeed25206b881c957f10199d5a82cfb11" kindref="member">NVMeManager</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="162" refid="classthemis_1_1storage_1_1_n_v_me_manager_1a87a07ded9b6a148fbf6d71cd218bc760" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_n_v_me_manager_1aeed25206b881c957f10199d5a82cfb11" kindref="member">NVMeManager</ref>&amp;<sp/><ref refid="classthemis_1_1storage_1_1_n_v_me_manager_1a87a07ded9b6a148fbf6d71cd218bc760" kindref="member">operator=</ref>(<ref refid="classthemis_1_1storage_1_1_n_v_me_manager_1aeed25206b881c957f10199d5a82cfb11" kindref="member">NVMeManager</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Lifecycle<sp/>────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_n_v_me_manager_1a365e520c3a977067a8122e9b6a0db5fc" kindref="member">initialize</ref>();</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_n_v_me_manager_1aca2780b917ca1d321b17293ff6dd8ec8" kindref="member">shutdown</ref>();</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Capability<sp/>detection<sp/>─────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_n_v_me_capabilities" kindref="compound">NVMeCapabilities</ref><sp/><ref refid="classthemis_1_1storage_1_1_n_v_me_manager_1ae2fdb9d57327925a3de61abd5a723a62" kindref="member">detectCapabilities</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_n_v_me_manager_1a9020052b226ffd616d228aa668a4e6ca" kindref="member">isIoUringActive</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="classthemis_1_1storage_1_1_n_v_me_manager_1a357af4e0e06a4a4591bea609b68cf8d4" kindref="member">detectedQueueCount</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>io_uring<sp/>async<sp/>I/O<sp/>───────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_n_v_me_manager_1a9abbeb06e1208a758cd7ece4421f7718" kindref="member">submitRead</ref>(const<sp/><ref refid="structthemis_1_1storage_1_1_n_v_me_i_o_request" kindref="compound">NVMeIORequest</ref>&amp;<sp/>req);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_n_v_me_manager_1a698db8916d7ed437c9e61ac34dfff252" kindref="member">submitWrite</ref>(const<sp/><ref refid="structthemis_1_1storage_1_1_n_v_me_i_o_request" kindref="compound">NVMeIORequest</ref>&amp;<sp/>req);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_n_v_me_manager_1af8fed69e5aa38823c2fd8a73236b0263" kindref="member">pollCompletions</ref>(<ref refid="namespacestd" kindref="compound">std</ref>::vector&lt;<ref refid="structthemis_1_1storage_1_1_n_v_me_i_o_result" kindref="compound">NVMeIOResult</ref>&gt;&amp;<sp/>results,</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>min_complete<sp/>=<sp/>0);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>ZNS<sp/>zone<sp/>management<sp/>──────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_n_v_me_manager_1afb7f70a02c9e2bb886970c856a752433" kindref="member">resetZone</ref>(uint64_t<sp/>zone_offset);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_n_v_me_manager_1a4ef41a9ad1e296564298d50040a43da9" kindref="member">finishZone</ref>(uint64_t<sp/>zone_offset);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1storage_1_1_n_v_me_manager_1a2687238d6660d9f5db27cf9504eb9982" kindref="member">getZoneWritePointer</ref>(uint64_t<sp/>zone_offset)<sp/>const;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>RocksDB<sp/>integration<sp/>helpers<sp/>──────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::pair&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">&gt;<sp/><ref refid="classthemis_1_1storage_1_1_n_v_me_manager_1af4184b3579e386852b750c9439d2cf79" kindref="member">recommendedDirectIOFlags</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="classthemis_1_1storage_1_1_n_v_me_manager_1ab7f68921ec0b80120fc301a4c6d0b6ac" kindref="member">recommendedBackgroundThreads</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278" refid="classthemis_1_1storage_1_1_n_v_me_manager_1a688735b4bbc8593bb088b419d5892b09" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1storage_1_1_n_v_me_config" kindref="compound">NVMeConfig</ref>&amp;<sp/><ref refid="classthemis_1_1storage_1_1_n_v_me_manager_1a688735b4bbc8593bb088b419d5892b09" kindref="member">config</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_n_v_me_config" kindref="compound">NVMeConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>io_uring<sp/>state<sp/>(Linux<sp/>only;<sp/>opaque<sp/>to<sp/>avoid<sp/>platform-specific<sp/>headers)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">IoUringState;</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;IoUringState&gt;<sp/>ring_;</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_n_v_me_capabilities" kindref="compound">NVMeCapabilities</ref><sp/>capabilities_;</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::once_flag<sp/><sp/><sp/>capabilities_once_;<sp/><sp/></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/><sp/><sp/><sp/><sp/><sp/><sp/>state_mutex_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/><sp/><sp/><sp/><sp/><sp/><sp/>zone_mutex_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/><sp/><sp/><sp/><sp/><sp/><sp/>ring_mutex_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>initialized_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Internal<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/>setupIoUring();</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><sp/><sp/><sp/>teardownIoUring();</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/>probeIoUringKernel()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>readHwQueueCount()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="300"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>storage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/storage/nvme_manager.h"/>
+  </compounddef>
+</doxygen>

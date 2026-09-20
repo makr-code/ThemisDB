@@ -1,0 +1,313 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="voice__batch__processor_8h" kind="file" language="C++">
+    <compoundname>voice_batch_processor.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">map</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">future</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes refid="audio__preprocessing_8h" local="yes">voice/audio_preprocessing.h</includes>
+    <includes local="yes">content/stt_processor.h</includes>
+    <includedby refid="bench__voice__wake__word__batch_8cpp" local="yes">benchmarks/voice/bench_voice_wake_word_batch.cpp</includedby>
+    <includedby refid="voice__batch__processor_8cpp" local="yes">src/voice/voice_batch_processor.cpp</includedby>
+    <includedby refid="test__voice__assistant_8cpp" local="yes">tests/voice/test_voice_assistant.cpp</includedby>
+    <includedby refid="test__voice__production_8cpp" local="yes">tests/voice/test_voice_production.cpp</includedby>
+    <incdepgraph>
+      <node id="11">
+        <label>voice/audio_preprocessing.h</label>
+        <link refid="audio__preprocessing_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/voice/voice_batch_processor.h</label>
+        <link refid="voice__batch__processor_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>atomic</label>
+      </node>
+      <node id="13">
+        <label>content/stt_processor.h</label>
+      </node>
+      <node id="12">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="6">
+        <label>future</label>
+      </node>
+      <node id="4">
+        <label>map</label>
+      </node>
+      <node id="9">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>mutex</label>
+      </node>
+      <node id="10">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/voice/bench_voice_wake_word_batch.cpp</label>
+        <link refid="bench__voice__wake__word__batch_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/voice/voice_batch_processor.h</label>
+        <link refid="voice__batch__processor_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/voice/voice_batch_processor.cpp</label>
+        <link refid="voice__batch__processor_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/voice/test_voice_assistant.cpp</label>
+        <link refid="test__voice__assistant_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/voice/test_voice_production.cpp</label>
+        <link refid="test__voice__production_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1voice_1_1_batch_audio_item" prot="public">themis::voice::BatchAudioItem</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_batch_item_result" prot="public">themis::voice::BatchItemResult</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_batch_job" prot="public">themis::voice::BatchJob</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_batch_summary" prot="public">themis::voice::BatchSummary</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_audio_quality_metrics" prot="public">themis::voice::AudioQualityMetrics</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_batch_processor_config" prot="public">themis::voice::BatchProcessorConfig</innerclass>
+    <innerclass refid="classthemis_1_1voice_1_1_voice_batch_processor" prot="public">themis::voice::VoiceBatchProcessor</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1voice">themis::voice</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.42 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Batch<sp/>audio<sp/>processing<sp/>+<sp/>quality<sp/>metrics<sp/>–<sp/>Phase<sp/>10<sp/>production<sp/>readiness</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;future&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="audio__preprocessing_8h" kindref="compound">voice/audio_preprocessing.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;content/stt_processor.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{<sp/></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1voice" kindref="compound">voice</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Batch<sp/>job<sp/>item</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1voice_1_1_batch_audio_item" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_batch_audio_item" kindref="compound">BatchAudioItem</ref><sp/>{</highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1voice_1_1_batch_audio_item_1a6d6b45a91956d992406336c28543e11c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_batch_audio_item_1a6d6b45a91956d992406336c28543e11c" kindref="member">item_id</ref>;</highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1voice_1_1_batch_audio_item_1a039f8592f344199f70278f72edf09222" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="structthemis_1_1voice_1_1_batch_audio_item_1a039f8592f344199f70278f72edf09222" kindref="member">audio_data</ref>;</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1voice_1_1_batch_audio_item_1a5616f60c3e6011b78f83056f609c2a6e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_batch_audio_item_1a5616f60c3e6011b78f83056f609c2a6e" kindref="member">sample_rate</ref><sp/>=<sp/>16000;</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1voice_1_1_batch_audio_item_1ac5437fe34681497f9c67bfe1f7687027" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_batch_audio_item_1ac5437fe34681497f9c67bfe1f7687027" kindref="member">transcript_reference</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Reference<sp/>text<sp/>for<sp/>WER<sp/>calculation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1voice_1_1_batch_audio_item_1af6c3ea575baf0fc90d3596169ee18b54" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref><sp/><ref refid="structthemis_1_1voice_1_1_batch_audio_item_1af6c3ea575baf0fc90d3596169ee18b54" kindref="member">metadata</ref>;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Batch<sp/>job<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1voice_1_1_batch_item_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_batch_item_result" kindref="compound">BatchItemResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1voice_1_1_batch_item_result_1a4e46083be46964259bc61fed944cce13" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_batch_item_result_1a4e46083be46964259bc61fed944cce13" kindref="member">item_id</ref>;</highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1voice_1_1_batch_item_result_1a7d3b966c286265fe5bfd221e5d001212" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_batch_item_result_1a7d3b966c286265fe5bfd221e5d001212" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1voice_1_1_batch_item_result_1a489fc4ebda7c7ca4a21c41e13e28d9a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_batch_item_result_1a489fc4ebda7c7ca4a21c41e13e28d9a7" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1voice_1_1_batch_item_result_1a571a5aa2888586c187cb87bc0189899a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_batch_item_result_1a571a5aa2888586c187cb87bc0189899a" kindref="member">transcript</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Produced<sp/>transcript<sp/>(empty<sp/>if<sp/>no<sp/>STT)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1voice_1_1_batch_item_result_1abb9d3d4c119c5cf54753144e18e89998" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_batch_item_result_1abb9d3d4c119c5cf54753144e18e89998" kindref="member">wer_score</ref><sp/>=<sp/>-1.0f;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Word<sp/>Error<sp/>Rate<sp/>(0–1),<sp/>-1<sp/>if<sp/>no<sp/>reference</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1voice_1_1_batch_item_result_1ae423abca506f678d8c208e2735ce2a4b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_batch_item_result_1ae423abca506f678d8c208e2735ce2a4b" kindref="member">pesq_score</ref><sp/>=<sp/>-1.0f;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>PESQ-like<sp/>score<sp/>(1–5),<sp/>-1<sp/>if<sp/>not<sp/>computed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1voice_1_1_batch_item_result_1a7fb5be2f52057d2787c7d8ab9a407761" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1voice_1_1_batch_item_result_1a7fb5be2f52057d2787c7d8ab9a407761" kindref="member">processing_time_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1voice_1_1_batch_item_result_1a66bf774ad3c5e664a10aa4f0a5b6f79e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_preprocessing_result" kindref="compound">PreprocessingResult</ref><sp/><ref refid="structthemis_1_1voice_1_1_batch_item_result_1a66bf774ad3c5e664a10aa4f0a5b6f79e" kindref="member">preprocessing</ref>;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Batch<sp/>job</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1voice_1_1_batch_job" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_batch_job" kindref="compound">BatchJob</ref><sp/>{</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1voice_1_1_batch_job_1a1f4aa2a68dc6d57b37aa103b611dbc22" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_batch_job_1a1f4aa2a68dc6d57b37aa103b611dbc22" kindref="member">job_id</ref>;</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1voice_1_1_batch_job_1aab4c49a445b28fee0aba8808c5632d21" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;BatchAudioItem&gt;<sp/><ref refid="structthemis_1_1voice_1_1_batch_job_1aab4c49a445b28fee0aba8808c5632d21" kindref="member">items</ref>;</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1voice_1_1_batch_job_1a0bcc2ae59a4428a35ee6dc15335e9baf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_batch_job_1a0bcc2ae59a4428a35ee6dc15335e9baf" kindref="member">batch_size</ref><sp/>=<sp/>8;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Items<sp/>per<sp/>parallel<sp/>batch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Batch<sp/>job<sp/>status</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="namespacethemis_1_1voice_1ac9fc25c02868c5bfd8e21fb951817821" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1voice_1ac9fc25c02868c5bfd8e21fb951817821" kindref="member">BatchJobStatus</ref><sp/>{</highlight></codeline>
+<codeline lineno="59" refid="namespacethemis_1_1voice_1ac9fc25c02868c5bfd8e21fb951817821a8f7afecbc8fbc4cd0f50a57d1172482e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1ac9fc25c02868c5bfd8e21fb951817821ac69f06e1a9b016d133907b4e5f5864d2" kindref="member">PENDING</ref>,<sp/><ref refid="namespacethemis_1_1voice_1ac9fc25c02868c5bfd8e21fb951817821a43491564ebcfd38568918efbd6e840fd" kindref="member">RUNNING</ref>,<sp/><ref refid="namespacethemis_1_1voice_1ac9fc25c02868c5bfd8e21fb951817821a8f7afecbc8fbc4cd0f50a57d1172482e" kindref="member">COMPLETED</ref>,<sp/><ref refid="namespacethemis_1_1voice_1ac9fc25c02868c5bfd8e21fb951817821ab9e14d9b2886bcff408b85aefa780419" kindref="member">FAILED</ref></highlight></codeline>
+<codeline lineno="60"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="61"><highlight class="normal">std::string<sp/><ref refid="namespacethemis_1_1voice_1a5a6cd325b7601f4d50514cdb61cce84f" kindref="member">batchJobStatusToString</ref>(<ref refid="namespacethemis_1_1voice_1ac9fc25c02868c5bfd8e21fb951817821" kindref="member">BatchJobStatus</ref><sp/>s);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Batch<sp/>summary</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1voice_1_1_batch_summary" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_batch_summary" kindref="compound">BatchSummary</ref><sp/>{</highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1voice_1_1_batch_summary_1ab17500ef9f3457df9eb44c4fbf9135c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_batch_summary_1ab17500ef9f3457df9eb44c4fbf9135c6" kindref="member">job_id</ref>;</highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1voice_1_1_batch_summary_1a1e80838dd890e9bbbf193422765cda27" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1ac9fc25c02868c5bfd8e21fb951817821" kindref="member">BatchJobStatus</ref><sp/><ref refid="structthemis_1_1voice_1_1_batch_summary_1a1e80838dd890e9bbbf193422765cda27" kindref="member">status</ref><sp/>=<sp/><ref refid="namespacethemis_1_1voice_1ac9fc25c02868c5bfd8e21fb951817821ac69f06e1a9b016d133907b4e5f5864d2" kindref="member">BatchJobStatus::PENDING</ref>;</highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1voice_1_1_batch_summary_1ab3d330edd7221647363cf0714ea3561d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_batch_summary_1ab3d330edd7221647363cf0714ea3561d" kindref="member">total_items</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1voice_1_1_batch_summary_1aaf75319ea22cf357f5d336df1bb192da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_batch_summary_1aaf75319ea22cf357f5d336df1bb192da" kindref="member">completed_items</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1voice_1_1_batch_summary_1a2f1279a6d2a22de3b36c65638ad8e712" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_batch_summary_1a2f1279a6d2a22de3b36c65638ad8e712" kindref="member">failed_items</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1voice_1_1_batch_summary_1aef589bccd49880979f27d6f25a447a80" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_batch_summary_1aef589bccd49880979f27d6f25a447a80" kindref="member">avg_wer</ref><sp/>=<sp/>-1.0f;</highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1voice_1_1_batch_summary_1a2b4b0262517bf2ba88c79803f2cfa3c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_batch_summary_1a2b4b0262517bf2ba88c79803f2cfa3c2" kindref="member">avg_pesq</ref><sp/>=<sp/>-1.0f;</highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1voice_1_1_batch_summary_1a3ba794f99ccb70105d596c3f23a73bfc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1voice_1_1_batch_summary_1a3ba794f99ccb70105d596c3f23a73bfc" kindref="member">total_processing_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1voice_1_1_batch_summary_1af6a70d42337ff1637088910120234e45" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1voice_1_1_batch_summary_1af6a70d42337ff1637088910120234e45" kindref="member">elapsed_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Audio<sp/>quality<sp/>metrics<sp/>(PESQ-inspired<sp/>approximation,<sp/>no<sp/>external<sp/>lib)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1voice_1_1_audio_quality_metrics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_audio_quality_metrics" kindref="compound">AudioQualityMetrics</ref><sp/>{</highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1voice_1_1_audio_quality_metrics_1adc5a88210dcf134cc7b39a1b6a4b1164" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_audio_quality_metrics_1adc5a88210dcf134cc7b39a1b6a4b1164" kindref="member">pesq_mos</ref><sp/>=<sp/>-1.0f;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Estimated<sp/>MOS<sp/>from<sp/>PESQ<sp/>(1–5)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1voice_1_1_audio_quality_metrics_1a5f86d1e575fce81432f0f2612f19f5f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_audio_quality_metrics_1a5f86d1e575fce81432f0f2612f19f5f7" kindref="member">wer</ref><sp/>=<sp/>-1.0f;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Word<sp/>Error<sp/>Rate<sp/>(0–1)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1voice_1_1_audio_quality_metrics_1a30bfd71a051aaf06e7490e5403dd26a0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_audio_quality_metrics_1a30bfd71a051aaf06e7490e5403dd26a0" kindref="member">snr_db</ref><sp/>=<sp/>0.0f;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Signal-to-Noise<sp/>Ratio<sp/>in<sp/>dB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1voice_1_1_audio_quality_metrics_1a015852f297e10fdd37d935453f5be710" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_audio_quality_metrics_1a015852f297e10fdd37d935453f5be710" kindref="member">rms_energy</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1voice_1_1_audio_quality_metrics_1ac804a78f8e52f58c3ce149e4802f9d30" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_audio_quality_metrics_1ac804a78f8e52f58c3ce149e4802f9d30" kindref="member">clipping_ratio</ref><sp/>=<sp/>0.0f;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Fraction<sp/>of<sp/>clipped<sp/>samples</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1voice_1_1_audio_quality_metrics_1aa2b8593ec2d1cb58ccbdd5533fb6bb41" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_audio_quality_metrics_1aa2b8593ec2d1cb58ccbdd5533fb6bb41" kindref="member">quality_label</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;poor&quot;/&quot;fair&quot;/&quot;good&quot;/&quot;excellent&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Batch<sp/>processor<sp/>config</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1voice_1_1_batch_processor_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_batch_processor_config" kindref="compound">BatchProcessorConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1voice_1_1_batch_processor_config_1ae3bd44bb74a76f075e3f59340911c9a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_batch_processor_config_1ae3bd44bb74a76f075e3f59340911c9a8" kindref="member">max_concurrent_jobs</ref><sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1voice_1_1_batch_processor_config_1a561dd45e0832c8cd5b88b7ecf569ac6f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_batch_processor_config_1a561dd45e0832c8cd5b88b7ecf569ac6f" kindref="member">default_batch_size</ref><sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1voice_1_1_batch_processor_config_1a9a467cda4b7a7599863a57c39da63c39" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_batch_processor_config_1a9a467cda4b7a7599863a57c39da63c39" kindref="member">compute_quality_metrics</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1voice_1_1_batch_processor_config_1a86cf9f12380e2e3e73d1e56f6238d532" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_batch_processor_config_1a86cf9f12380e2e3e73d1e56f6238d532" kindref="member">compute_wer</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>WER<sp/>only<sp/>if<sp/>reference<sp/>text<sp/>provided</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1voice_1_1_batch_processor_config_1a2185b26e71bf70f40109785228924ed1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1voice_1_1_batch_processor_config_1a2185b26e71bf70f40109785228924ed1" kindref="member">item_timeout_ms</ref><sp/>=<sp/>30000;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Progress<sp/>callback:<sp/>called<sp/>with<sp/>(job_id,<sp/>completed,<sp/>total)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="namespacethemis_1_1voice_1a68e1e0fdcbf6ef6b4baca1e8013cd171" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1voice_1a68e1e0fdcbf6ef6b4baca1e8013cd171" kindref="member">BatchProgressCallback</ref><sp/>=<sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal">)&gt;;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/>VoiceBatchProcessor:<sp/>Phase<sp/>10<sp/>production<sp/>component</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="classthemis_1_1voice_1_1_voice_batch_processor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1voice_1_1_voice_batch_processor_1ab984442da51683a1d5b642d0acc0cbac" kindref="member">VoiceBatchProcessor</ref><sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_batch_processor_1ab984442da51683a1d5b642d0acc0cbac" kindref="member">VoiceBatchProcessor</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_batch_processor_config" kindref="compound">BatchProcessorConfig</ref>&amp;<sp/>config<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="103" refid="classthemis_1_1voice_1_1_voice_batch_processor_1a9b0c72f0fd072c936cfec7da99a0aead" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_batch_processor_1a9b0c72f0fd072c936cfec7da99a0aead" kindref="member">~VoiceBatchProcessor</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Submit<sp/>a<sp/>batch<sp/>job,<sp/>returns<sp/>job<sp/>ID</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1voice_1_1_voice_batch_processor_1a481ede58c4b38325e0028e3e28c03051" kindref="member">submitBatch</ref>(</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;BatchAudioItem&gt;&amp;<sp/>items,</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a68e1e0fdcbf6ef6b4baca1e8013cd171" kindref="member">BatchProgressCallback</ref><sp/>progress_cb<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Process<sp/>batch<sp/>synchronously<sp/>and<sp/>return<sp/>all<sp/>results</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;BatchItemResult&gt;<sp/><ref refid="classthemis_1_1voice_1_1_voice_batch_processor_1ab80075368b5db4969569d5d3f4c8dee2" kindref="member">processBatchSync</ref>(</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;BatchAudioItem&gt;&amp;<sp/>items,</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a68e1e0fdcbf6ef6b4baca1e8013cd171" kindref="member">BatchProgressCallback</ref><sp/>progress_cb<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Process<sp/>a<sp/>single<sp/>item<sp/>(used<sp/>internally)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_batch_item_result" kindref="compound">BatchItemResult</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_batch_processor_1a1ff3aa23aa4888e59dee3cc6c82af8f0" kindref="member">processItem</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_batch_audio_item" kindref="compound">BatchAudioItem</ref>&amp;<sp/>item);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Quality<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_audio_quality_metrics" kindref="compound">AudioQualityMetrics</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_batch_processor_1a7826c475ffc175206149b26a2b40b340" kindref="member">computeQualityMetrics</ref>(</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>audio_data,</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>sample_rate<sp/>=<sp/>16000</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>WER<sp/>computation<sp/>(pure<sp/>text<sp/>comparison)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_batch_processor_1a13a8ef8f302d25c5f80587dc4565eb02" kindref="member">computeWER</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>reference,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>hypothesis)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>PESQ-like<sp/>estimation<sp/>from<sp/>SNR<sp/>(approximation,<sp/>no<sp/>external<sp/>lib<sp/>required)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_batch_processor_1ab5a6b37ee2e3235422c660f8ad35da96" kindref="member">estimatePESQ</ref>(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>snr_db)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>SNR<sp/>estimation<sp/>from<sp/>audio</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_batch_processor_1a8e030eab47cac389328cdc691deb5a52" kindref="member">estimateSNR</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>audio_data,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>sample_rate)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Load<sp/>test<sp/>helper:<sp/>simulate<sp/>N<sp/>concurrent<sp/>requests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_batch_summary" kindref="compound">BatchSummary</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_batch_processor_1aa559a02fa4a6040dedfcb785d5c27825" kindref="member">runLoadTest</ref>(</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>num_concurrent,</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_batch_audio_item" kindref="compound">BatchAudioItem</ref>&amp;<sp/>template_item</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_batch_processor_1a1a5c95d00ba38c152b575157e2181306" kindref="member">getStatistics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_batch_summary" kindref="compound">BatchSummary</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_batch_processor_1a9a932a9701ad03d86f197ba5eb82062f" kindref="member">getJobSummary</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>job_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_batch_processor_1af32099d2b5bf60b7181d4f912850306a" kindref="member">setSTTProcessor</ref>(std::shared_ptr&lt;content::STTProcessor&gt;<sp/>stt);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_batch_processor_config" kindref="compound">BatchProcessorConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_audio_preprocessing_pipeline" kindref="compound">AudioPreprocessingPipeline</ref><sp/>preprocessor_;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;content::STTProcessor&gt;<sp/>stt_processor_;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>jobs_submitted_{0};</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>items_processed_{0};</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>items_failed_{0};</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>BatchSummary&gt;<sp/>job_summaries_;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>generateJobId();</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>tokenize(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>computeRMS(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>samples)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>computeNoiseFloor(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>samples,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>window_size<sp/>=<sp/>800)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>rawToFloat(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal">}}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::voice</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/voice/voice_batch_processor.h"/>
+  </compounddef>
+</doxygen>

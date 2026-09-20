@@ -1,0 +1,266 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="streaming__retriever_8h" kind="file" language="C++">
+    <compoundname>streaming_retriever.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">optional</includes>
+    <includedby refid="document__summarizer_8h" local="yes">include/rag/document_summarizer.h</includedby>
+    <includedby refid="streaming__retriever_8cpp" local="yes">src/rag/streaming_retriever.cpp</includedby>
+    <includedby refid="test__rag__streaming__retriever_8cpp" local="yes">tests/rag/test_rag_streaming_retriever.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/rag/streaming_retriever.h</label>
+        <link refid="streaming__retriever_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>atomic</label>
+      </node>
+      <node id="4">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/rag/document_summarizer.h</label>
+        <link refid="document__summarizer_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/rag/streaming_retriever.h</label>
+        <link refid="streaming__retriever_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/rag/document_summarizer.cpp</label>
+        <link refid="document__summarizer_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/rag/streaming_retriever.cpp</label>
+        <link refid="streaming__retriever_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/rag/test_rag_document_summarizer.cpp</label>
+        <link refid="test__rag__document__summarizer_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/rag/test_rag_streaming_retriever.cpp</label>
+        <link refid="test__rag__streaming__retriever_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1rag_1_1streaming_1_1_streamed_document" prot="public">themis::rag::streaming::StreamedDocument</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1streaming_1_1_context_window_state" prot="public">themis::rag::streaming::ContextWindowState</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1streaming_1_1_streaming_result" prot="public">themis::rag::streaming::StreamingResult</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_config" prot="public">themis::rag::streaming::StreamingRetrieverConfig</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1streaming_1_1_context_window_filler" prot="public">themis::rag::streaming::ContextWindowFiller</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever" prot="public">themis::rag::streaming::StreamingRetriever</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag">themis::rag</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag_1_1streaming">themis::rag::streaming</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.18 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20" refid="namespacethemis_1_1rag_1_1streaming" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag_1_1streaming" kindref="compound">themis::rag::streaming</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Supporting<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1rag_1_1streaming_1_1_streamed_document" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1streaming_1_1_streamed_document" kindref="compound">StreamedDocument</ref><sp/>{</highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1rag_1_1streaming_1_1_streamed_document_1a14a83b6e67452367e9789a3c01f1d46a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1streaming_1_1_streamed_document_1a14a83b6e67452367e9789a3c01f1d46a" kindref="member">id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1rag_1_1streaming_1_1_streamed_document_1abfb01d594950da1559fee2ed6c240475" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1streaming_1_1_streamed_document_1abfb01d594950da1559fee2ed6c240475" kindref="member">content</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1rag_1_1streaming_1_1_streamed_document_1ae85379e31b5c488299f0cd1392d1bd89" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1streaming_1_1_streamed_document_1ae85379e31b5c488299f0cd1392d1bd89" kindref="member">relevance_score</ref>;<sp/></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1rag_1_1streaming_1_1_streamed_document_1a9882582fd6617a9d93ceea5daa417dc5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1streaming_1_1_streamed_document_1a9882582fd6617a9d93ceea5daa417dc5" kindref="member">token_count</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="34"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1rag_1_1streaming_1_1_context_window_state" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1streaming_1_1_context_window_state" kindref="compound">ContextWindowState</ref><sp/>{</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1rag_1_1streaming_1_1_context_window_state_1ae4872ef65f97f9eb0d7252040a691596" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;StreamedDocument&gt;<sp/><ref refid="structthemis_1_1rag_1_1streaming_1_1_context_window_state_1ae4872ef65f97f9eb0d7252040a691596" kindref="member">documents</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1rag_1_1streaming_1_1_context_window_state_1aca6226dea762cc95853d5f1ad038891f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1streaming_1_1_context_window_state_1aca6226dea762cc95853d5f1ad038891f" kindref="member">total_tokens_used</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1rag_1_1streaming_1_1_context_window_state_1a7bf4b879a2469f3513e0eda333b128ea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1streaming_1_1_context_window_state_1a7bf4b879a2469f3513e0eda333b128ea" kindref="member">max_tokens</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1rag_1_1streaming_1_1_context_window_state_1a13487a19f1090f72668526a58abcdb69" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1streaming_1_1_context_window_state_1a13487a19f1090f72668526a58abcdb69" kindref="member">fill_ratio</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1rag_1_1streaming_1_1_context_window_state_1a236d8bd2672bd85c0c4470ec6b4ac897" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1streaming_1_1_context_window_state_1a236d8bd2672bd85c0c4470ec6b4ac897" kindref="member">is_full</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1rag_1_1streaming_1_1_streaming_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1streaming_1_1_streaming_result" kindref="compound">StreamingResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1rag_1_1streaming_1_1_streaming_result_1a956b7e3c707bc2a312ebea66b0bcd03c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;StreamedDocument&gt;<sp/><ref refid="structthemis_1_1rag_1_1streaming_1_1_streaming_result_1a956b7e3c707bc2a312ebea66b0bcd03c" kindref="member">selected_documents</ref>;<sp/></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1rag_1_1streaming_1_1_streaming_result_1a528e4cfec67c046e1291e74ce167e93a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;StreamedDocument&gt;<sp/><ref refid="structthemis_1_1rag_1_1streaming_1_1_streaming_result_1a528e4cfec67c046e1291e74ce167e93a" kindref="member">skipped_documents</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1rag_1_1streaming_1_1_streaming_result_1ae193a447d384f7a054541865edd92d68" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1streaming_1_1_streaming_result_1ae193a447d384f7a054541865edd92d68" kindref="member">total_tokens_used</ref>;</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1rag_1_1streaming_1_1_streaming_result_1a1b218e7c9f18c04f740d478f7dc07992" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1streaming_1_1_streaming_result_1a1b218e7c9f18c04f740d478f7dc07992" kindref="member">documents_considered</ref>;</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1rag_1_1streaming_1_1_streaming_result_1af3f67887b1b8a76c34bace942ddacd23" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1streaming_1_1_streaming_result_1af3f67887b1b8a76c34bace942ddacd23" kindref="member">documents_added</ref>;</highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1rag_1_1streaming_1_1_streaming_result_1ad24702e1d95680239c04c2bf2cd053a6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1streaming_1_1_streaming_result_1ad24702e1d95680239c04c2bf2cd053a6" kindref="member">elapsed_ms</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1rag_1_1streaming_1_1_streaming_result_1a17867441da2adb09d30a05609bcc5e4d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1streaming_1_1_streaming_result_1a17867441da2adb09d30a05609bcc5e4d" kindref="member">cancelled</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Callback<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="namespacethemis_1_1rag_1_1streaming_1a52e9951aebaf27cf24478acd2d9002c2" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag_1_1streaming_1a52e9951aebaf27cf24478acd2d9002c2" kindref="member">DocumentAcceptedCallback</ref><sp/>=</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1streaming_1_1_streamed_document" kindref="compound">StreamedDocument</ref>&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1streaming_1_1_context_window_state" kindref="compound">ContextWindowState</ref>&amp;)&gt;;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="namespacethemis_1_1rag_1_1streaming_1ac27063e57798dd34b0f31abbe866c085" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag_1_1streaming_1ac27063e57798dd34b0f31abbe866c085" kindref="member">DocumentSkippedCallback</ref><sp/>=</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1streaming_1_1_streamed_document" kindref="compound">StreamedDocument</ref>&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1streaming_1_1_context_window_state" kindref="compound">ContextWindowState</ref>&amp;)&gt;;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="namespacethemis_1_1rag_1_1streaming_1ad37cc7fac053b34cff9cf72ac1de3aec" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag_1_1streaming_1ad37cc7fac053b34cff9cf72ac1de3aec" kindref="member">WindowFullCallback</ref><sp/>=<sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1streaming_1_1_context_window_state" kindref="compound">ContextWindowState</ref>&amp;)&gt;;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_config" kindref="compound">StreamingRetrieverConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_config_1aa71149e334756e23c06055cf98c254fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_config_1aa71149e334756e23c06055cf98c254fb" kindref="member">max_context_tokens</ref><sp/>=<sp/>4096;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_config_1ab322c590af209543d59b427fd4fb7ff6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_config_1ab322c590af209543d59b427fd4fb7ff6" kindref="member">chars_per_token</ref><sp/>=<sp/>4.0;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_config_1a51ce3b8c0e27392d115433ee7e3c82f6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_config_1a51ce3b8c0e27392d115433ee7e3c82f6" kindref="member">max_documents_to_consider</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_config_1adcd96d9c6e39708708c32a4e0dc42965" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_config_1adcd96d9c6e39708708c32a4e0dc42965" kindref="member">min_relevance_score</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_config_1a7fc65ec71b07284bd6ea3fbefbc48643" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_config_1a7fc65ec71b07284bd6ea3fbefbc48643" kindref="member">enable_mmr_deduplication</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_config_1a0ecf2a9ff2af307c39af106db12cc572" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_config_1a0ecf2a9ff2af307c39af106db12cc572" kindref="member">mmr_similarity_threshold</ref><sp/>=<sp/>0.85;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_config_1ab89fe9f7a7dfc8299c1304900fcf192f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_config_1ab89fe9f7a7dfc8299c1304900fcf192f" kindref="member">sort_by_relevance</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ContextWindowFiller</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128" refid="classthemis_1_1rag_1_1streaming_1_1_context_window_filler" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1streaming_1_1_context_window_filler_1a4223c924916aa162784bcfe1ab6ca98c" kindref="member">ContextWindowFiller</ref><sp/>{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1streaming_1_1_context_window_filler_1a4223c924916aa162784bcfe1ab6ca98c" kindref="member">ContextWindowFiller</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>max_tokens,</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>chars_per_token<sp/>=<sp/>4.0);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1streaming_1_1_context_window_filler_1a5785aec64b81d21672e52e963b1d88f7" kindref="member">tryAdd</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1streaming_1_1_streamed_document" kindref="compound">StreamedDocument</ref>&amp;<sp/>doc);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1streaming_1_1_context_window_filler_1a069f1df70a55b17936c4c579a8c951d6" kindref="member">hasCapacity</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>min_tokens<sp/>=<sp/>1)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1streaming_1_1_context_window_state" kindref="compound">ContextWindowState</ref><sp/><ref refid="classthemis_1_1rag_1_1streaming_1_1_context_window_filler_1a429f7b77b90a9b90c42aaf54f1f12de5" kindref="member">snapshot</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;StreamedDocument&gt;&amp;<sp/><ref refid="classthemis_1_1rag_1_1streaming_1_1_context_window_filler_1a86c71fee1195f3853d422f962ea57145" kindref="member">documents</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1streaming_1_1_context_window_filler_1acfca5ece7fe2c805b94f6abb6a4903d6" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1streaming_1_1_context_window_filler_1a1b319b18ec706a550b86cdd8cdeda513" kindref="member">estimateTokens</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>max_tokens_;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>chars_per_token_;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>tokens_used_{0};</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;StreamedDocument&gt;<sp/>documents_;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="comment">//<sp/>StreamingRetriever</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204" refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1a6e26298f7556eb871550b1f220f9b17c" kindref="member">StreamingRetriever</ref><sp/>{</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1a6e26298f7556eb871550b1f220f9b17c" kindref="member">StreamingRetriever</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_config" kindref="compound">StreamingRetrieverConfig</ref>&amp;<sp/>config<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="211" refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1ad9588515743a5aff3f1229796a89a640" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1ad9588515743a5aff3f1229796a89a640" kindref="member">~StreamingRetriever</ref>();</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>movable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214" refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1a1f1f062e63fcd980fd8e2fe55cbed0d5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1a1f1f062e63fcd980fd8e2fe55cbed0d5" kindref="member">StreamingRetriever</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1a6e26298f7556eb871550b1f220f9b17c" kindref="member">StreamingRetriever</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="215" refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1a9c40709d8c055178441a1989534a266d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1a6e26298f7556eb871550b1f220f9b17c" kindref="member">StreamingRetriever</ref>&amp;<sp/><ref refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1a9c40709d8c055178441a1989534a266d" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1a6e26298f7556eb871550b1f220f9b17c" kindref="member">StreamingRetriever</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="216" refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1a08abba7d2117bf86ae93588247f8f7d1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1a08abba7d2117bf86ae93588247f8f7d1" kindref="member">StreamingRetriever</ref>(<ref refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1a6e26298f7556eb871550b1f220f9b17c" kindref="member">StreamingRetriever</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="217" refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1ad1f7018e9608ff7f3361c526532a98f3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1a6e26298f7556eb871550b1f220f9b17c" kindref="member">StreamingRetriever</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1a6e26298f7556eb871550b1f220f9b17c" kindref="member">StreamingRetriever</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Callbacks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1a46697cfaa54194d381b4979c7c9f5135" kindref="member">setDocumentAcceptedCallback</ref>(<ref refid="namespacethemis_1_1rag_1_1streaming_1a52e9951aebaf27cf24478acd2d9002c2" kindref="member">DocumentAcceptedCallback</ref><sp/>cb);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1ac2efd64ddc9a4ee474b339de036f6a5d" kindref="member">setDocumentSkippedCallback</ref>(<ref refid="namespacethemis_1_1rag_1_1streaming_1ac27063e57798dd34b0f31abbe866c085" kindref="member">DocumentSkippedCallback</ref><sp/>cb);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1aa86f837522a1d212bd89337ebe2dcc75" kindref="member">setWindowFullCallback</ref>(<ref refid="namespacethemis_1_1rag_1_1streaming_1ad37cc7fac053b34cff9cf72ac1de3aec" kindref="member">WindowFullCallback</ref><sp/>cb);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Streaming</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1streaming_1_1_streaming_result" kindref="compound">StreamingResult</ref><sp/><ref refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1ac2b4e381df0f323ef69f5892e8efa850" kindref="member">stream</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1rag_1_1streaming_1_1_streamed_document" kindref="compound">StreamedDocument</ref>&gt;<sp/>candidates);</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1a993e2f34a591f13a802caed8de766289" kindref="member">cancel</ref>();</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1ac95e762fecac18773cfec12b0a0abf53" kindref="member">isStreaming</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configuration<sp/>access</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_config" kindref="compound">StreamingRetrieverConfig</ref><sp/><ref refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1a467655a9febc07dff99c1440c7641d81" kindref="member">getConfig</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1a0f47c06b126a8497a671e084465298e7" kindref="member">setConfig</ref>(const<sp/><ref refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_config" kindref="compound">StreamingRetrieverConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>struct<sp/><ref refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;<ref refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_1_1_impl" kindref="compound">Impl</ref>&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::rag::streaming</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/rag/streaming_retriever.h"/>
+  </compounddef>
+</doxygen>

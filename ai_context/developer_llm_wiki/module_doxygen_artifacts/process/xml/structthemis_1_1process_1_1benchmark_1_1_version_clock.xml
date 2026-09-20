@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1benchmark_1_1_version_clock" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::benchmark::VersionClock</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_version_clock_1a53edf0a86c6443e2e922a2117ba24a4e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::benchmark::VersionClock::logical_clock</definition>
+        <argsstring></argsstring>
+        <name>logical_clock</name>
+        <qualifiedname>themis::process::benchmark::VersionClock::logical_clock</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_determinism_gates.cpp" line="508" column="14" bodyfile="benchmarks/process/bench_process_determinism_gates.cpp" bodystart="508" bodyend="508"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_version_clock_1ac2f43bc02d0903b1b4b69a9306c8a7ea" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::process::benchmark::VersionClock::wall_clock_ms</definition>
+        <argsstring></argsstring>
+        <name>wall_clock_ms</name>
+        <qualifiedname>themis::process::benchmark::VersionClock::wall_clock_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_determinism_gates.cpp" line="509" column="13" bodyfile="benchmarks/process/bench_process_determinism_gates.cpp" bodystart="509" bodyend="509"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_version_clock_1aadee73564d9276f5a28442a919b20c26" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::benchmark::VersionClock::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themis::process::benchmark::VersionClock::node_id</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_determinism_gates.cpp" line="510" column="17" bodyfile="benchmarks/process/bench_process_determinism_gates.cpp" bodystart="510" bodyend="510"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1process_1_1benchmark_1_1_version_clock_1aa858522ac4fecf59ba3a245674e1f9da" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::process::benchmark::VersionClock::increment</definition>
+        <argsstring>()</argsstring>
+        <name>increment</name>
+        <qualifiedname>themis::process::benchmark::VersionClock::increment</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_determinism_gates.cpp" line="512" column="10" bodyfile="benchmarks/process/bench_process_determinism_gates.cpp" bodystart="512" bodyend="515"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1benchmark_1_1_version_clock_1aca0e02cb834017f2c32ddf25ea118462" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::benchmark::VersionClock::isAfter</definition>
+        <argsstring>(const VersionClock &amp;other) const</argsstring>
+        <name>isAfter</name>
+        <qualifiedname>themis::process::benchmark::VersionClock::isAfter</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1benchmark_1_1_version_clock" kindref="compound">VersionClock</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_determinism_gates.cpp" line="517" column="10" bodyfile="benchmarks/process/bench_process_determinism_gates.cpp" bodystart="517" bodyend="522"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/process/bench_process_determinism_gates.cpp" line="507" column="1" bodyfile="benchmarks/process/bench_process_determinism_gates.cpp" bodystart="507" bodyend="523"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_version_clock_1aa858522ac4fecf59ba3a245674e1f9da" prot="public" virt="non-virtual"><scope>themis::process::benchmark::VersionClock</scope><name>increment</name></member>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_version_clock_1aca0e02cb834017f2c32ddf25ea118462" prot="public" virt="non-virtual"><scope>themis::process::benchmark::VersionClock</scope><name>isAfter</name></member>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_version_clock_1a53edf0a86c6443e2e922a2117ba24a4e" prot="public" virt="non-virtual"><scope>themis::process::benchmark::VersionClock</scope><name>logical_clock</name></member>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_version_clock_1aadee73564d9276f5a28442a919b20c26" prot="public" virt="non-virtual"><scope>themis::process::benchmark::VersionClock</scope><name>node_id</name></member>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_version_clock_1ac2f43bc02d0903b1b4b69a9306c8a7ea" prot="public" virt="non-virtual"><scope>themis::process::benchmark::VersionClock</scope><name>wall_clock_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

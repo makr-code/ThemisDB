@@ -1,0 +1,189 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_occ_test" kind="class" language="C++" prot="public">
+    <compoundname>OccTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="class_occ_test_1ade0d7afb9e327088e978ef52cad51952" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* OccTest::DB_PATH</definition>
+        <argsstring></argsstring>
+        <name>DB_PATH</name>
+        <qualifiedname>OccTest::DB_PATH</qualifiedname>
+        <initializer>= &quot;/tmp/themis_occ_test_db&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_occ.cpp" line="18" column="33" bodyfile="tests/transaction/test_transaction_occ.cpp" bodystart="18" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_occ_test_1ac7fc5e8bc23e8cc5c09d0c4c19c03260" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; OccTest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>OccTest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_occ.cpp" line="51" column="29" bodyfile="tests/transaction/test_transaction_occ.cpp" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_occ_test_1a9e04b5884be59524b51bc95e79e19e66" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; SecondaryIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;SecondaryIndexManager&gt; OccTest::sec_idx_</definition>
+        <argsstring></argsstring>
+        <name>sec_idx_</name>
+        <qualifiedname>OccTest::sec_idx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_occ.cpp" line="52" column="22" bodyfile="tests/transaction/test_transaction_occ.cpp" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_occ_test_1a4ac764dbc36b982267cb48828b691fa5" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; GraphIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;GraphIndexManager&gt; OccTest::graph_idx_</definition>
+        <argsstring></argsstring>
+        <name>graph_idx_</name>
+        <qualifiedname>OccTest::graph_idx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_occ.cpp" line="53" column="26" bodyfile="tests/transaction/test_transaction_occ.cpp" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_occ_test_1a6e1371cd2f5a19222b371e6b8f215907" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; VectorIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;VectorIndexManager&gt; OccTest::vec_idx_</definition>
+        <argsstring></argsstring>
+        <name>vec_idx_</name>
+        <qualifiedname>OccTest::vec_idx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_occ.cpp" line="54" column="25" bodyfile="tests/transaction/test_transaction_occ.cpp" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_occ_test_1a95cb41674ba0612bf02c8c091991568f" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1_transaction_manager" kindref="compound">TransactionManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;TransactionManager&gt; OccTest::mgr_</definition>
+        <argsstring></argsstring>
+        <name>mgr_</name>
+        <qualifiedname>OccTest::mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_occ.cpp" line="55" column="25" bodyfile="tests/transaction/test_transaction_occ.cpp" bodystart="55" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_occ_test_1aa796ec4700b3f67df3779e72ea52cfaa" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void OccTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>OccTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_occ.cpp" line="20" column="10" bodyfile="tests/transaction/test_transaction_occ.cpp" bodystart="20" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="class_occ_test_1a5a6a174a59aae9855c7fa8b10cee7073" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void OccTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>OccTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_occ.cpp" line="34" column="10" bodyfile="tests/transaction/test_transaction_occ.cpp" bodystart="34" bodyend="41"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_occ_test_1a4c81c844189358fc4d946bd643aa2860" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>BaseEntity</type>
+        <definition>static BaseEntity OccTest::makeEntity</definition>
+        <argsstring>(const std::string &amp;pk, const std::string &amp;name=&quot;&quot;)</argsstring>
+        <name>makeEntity</name>
+        <qualifiedname>OccTest::makeEntity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pk</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_occ.cpp" line="44" column="23" bodyfile="tests/transaction/test_transaction_occ.cpp" bodystart="44" bodyend="49"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>OccTest</label>
+        <link refid="class_occ_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>OccTest</label>
+        <link refid="class_occ_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/transaction/test_transaction_occ.cpp" line="16" column="1" bodyfile="tests/transaction/test_transaction_occ.cpp" bodystart="16" bodyend="56"/>
+    <listofallmembers>
+      <member refid="class_occ_test_1ac7fc5e8bc23e8cc5c09d0c4c19c03260" prot="protected" virt="non-virtual"><scope>OccTest</scope><name>db_</name></member>
+      <member refid="class_occ_test_1ade0d7afb9e327088e978ef52cad51952" prot="protected" virt="non-virtual"><scope>OccTest</scope><name>DB_PATH</name></member>
+      <member refid="class_occ_test_1a4ac764dbc36b982267cb48828b691fa5" prot="protected" virt="non-virtual"><scope>OccTest</scope><name>graph_idx_</name></member>
+      <member refid="class_occ_test_1a4c81c844189358fc4d946bd643aa2860" prot="protected" virt="non-virtual"><scope>OccTest</scope><name>makeEntity</name></member>
+      <member refid="class_occ_test_1a95cb41674ba0612bf02c8c091991568f" prot="protected" virt="non-virtual"><scope>OccTest</scope><name>mgr_</name></member>
+      <member refid="class_occ_test_1a9e04b5884be59524b51bc95e79e19e66" prot="protected" virt="non-virtual"><scope>OccTest</scope><name>sec_idx_</name></member>
+      <member refid="class_occ_test_1aa796ec4700b3f67df3779e72ea52cfaa" prot="protected" virt="non-virtual"><scope>OccTest</scope><name>SetUp</name></member>
+      <member refid="class_occ_test_1a5a6a174a59aae9855c7fa8b10cee7073" prot="protected" virt="non-virtual"><scope>OccTest</scope><name>TearDown</name></member>
+      <member refid="class_occ_test_1a6e1371cd2f5a19222b371e6b8f215907" prot="protected" virt="non-virtual"><scope>OccTest</scope><name>vec_idx_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

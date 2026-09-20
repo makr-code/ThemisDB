@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_tenant_workload_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::TenantWorkloadStats</compoundname>
+    <includes refid="workload__fingerprint__engine_8h" local="no">workload_fingerprint_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_tenant_workload_stats_1a91be52e9cd68bc6e928ff4baceb4e02e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::TenantWorkloadStats::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>themis::server::TenantWorkloadStats::tenant_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/workload_fingerprint_engine.h" line="26" column="17" bodyfile="include/server/workload_fingerprint_engine.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_tenant_workload_stats_1a03ad706420b08521416ce1ba0c2513d4" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::server::TenantWorkloadStats::query_count</definition>
+        <argsstring></argsstring>
+        <name>query_count</name>
+        <qualifiedname>themis::server::TenantWorkloadStats::query_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/workload_fingerprint_engine.h" line="28" column="14" bodyfile="include/server/workload_fingerprint_engine.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_tenant_workload_stats_1aeaf05c0f4e02c716cf4afd9208c8ebca" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::server::TenantWorkloadStats::write_ratio</definition>
+        <argsstring></argsstring>
+        <name>write_ratio</name>
+        <qualifiedname>themis::server::TenantWorkloadStats::write_ratio</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/workload_fingerprint_engine.h" line="30" column="12" bodyfile="include/server/workload_fingerprint_engine.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_tenant_workload_stats_1aeb5cc305f855ab7bc4f738e24eb31527" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::server::TenantWorkloadStats::avg_p99_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_p99_ms</name>
+        <qualifiedname>themis::server::TenantWorkloadStats::avg_p99_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/workload_fingerprint_engine.h" line="32" column="12" bodyfile="include/server/workload_fingerprint_engine.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_tenant_workload_stats_1af41fa554a1b22aad4d10d8526dd5d099" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::server::TenantWorkloadStats::avg_rows_per_query</definition>
+        <argsstring></argsstring>
+        <name>avg_rows_per_query</name>
+        <qualifiedname>themis::server::TenantWorkloadStats::avg_rows_per_query</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/workload_fingerprint_engine.h" line="34" column="14" bodyfile="include/server/workload_fingerprint_engine.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_tenant_workload_stats_1a18d07a6dbae26b4f68c204a8beccd0a3" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::TenantWorkloadStats::bulk_insert_count</definition>
+        <argsstring></argsstring>
+        <name>bulk_insert_count</name>
+        <qualifiedname>themis::server::TenantWorkloadStats::bulk_insert_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/workload_fingerprint_engine.h" line="36" column="14" bodyfile="include/server/workload_fingerprint_engine.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_tenant_workload_stats_1a32cfd01081da7f11ba8de316c154f2f4" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::TenantWorkloadStats::window_seconds</definition>
+        <argsstring></argsstring>
+        <name>window_seconds</name>
+        <qualifiedname>themis::server::TenantWorkloadStats::window_seconds</qualifiedname>
+        <initializer>= 60</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/workload_fingerprint_engine.h" line="38" column="14" bodyfile="include/server/workload_fingerprint_engine.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/workload_fingerprint_engine.h" line="25" column="1" bodyfile="include/server/workload_fingerprint_engine.h" bodystart="25" bodyend="39"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_tenant_workload_stats_1aeb5cc305f855ab7bc4f738e24eb31527" prot="public" virt="non-virtual"><scope>themis::server::TenantWorkloadStats</scope><name>avg_p99_ms</name></member>
+      <member refid="structthemis_1_1server_1_1_tenant_workload_stats_1af41fa554a1b22aad4d10d8526dd5d099" prot="public" virt="non-virtual"><scope>themis::server::TenantWorkloadStats</scope><name>avg_rows_per_query</name></member>
+      <member refid="structthemis_1_1server_1_1_tenant_workload_stats_1a18d07a6dbae26b4f68c204a8beccd0a3" prot="public" virt="non-virtual"><scope>themis::server::TenantWorkloadStats</scope><name>bulk_insert_count</name></member>
+      <member refid="structthemis_1_1server_1_1_tenant_workload_stats_1a03ad706420b08521416ce1ba0c2513d4" prot="public" virt="non-virtual"><scope>themis::server::TenantWorkloadStats</scope><name>query_count</name></member>
+      <member refid="structthemis_1_1server_1_1_tenant_workload_stats_1a91be52e9cd68bc6e928ff4baceb4e02e" prot="public" virt="non-virtual"><scope>themis::server::TenantWorkloadStats</scope><name>tenant_id</name></member>
+      <member refid="structthemis_1_1server_1_1_tenant_workload_stats_1a32cfd01081da7f11ba8de316c154f2f4" prot="public" virt="non-virtual"><scope>themis::server::TenantWorkloadStats</scope><name>window_seconds</name></member>
+      <member refid="structthemis_1_1server_1_1_tenant_workload_stats_1aeaf05c0f4e02c716cf4afd9208c8ebca" prot="public" virt="non-virtual"><scope>themis::server::TenantWorkloadStats</scope><name>write_ratio</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

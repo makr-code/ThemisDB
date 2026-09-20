@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_m_l_serving_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::MLServingConfig</compoundname>
+    <includes refid="ml__serving_8h" local="no">ml_serving.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_m_l_serving_config_1ad90f6fff255863025bf29e883ac932c1" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1analytics_1a731a5529ba88659925aef562d5e7fa20" kindref="member">MLBackendType</ref></type>
+        <definition>MLBackendType themisdb::analytics::MLServingConfig::backend</definition>
+        <argsstring></argsstring>
+        <name>backend</name>
+        <qualifiedname>themisdb::analytics::MLServingConfig::backend</qualifiedname>
+        <initializer>= <ref refid="namespacethemisdb_1_1analytics_1a731a5529ba88659925aef562d5e7fa20ae1f2d5134ed2543d38a0de9751cf75d9" kindref="member">MLBackendType::AUTO</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/ml_serving.h" line="206" column="23" bodyfile="include/analytics/ml_serving.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_m_l_serving_config_1a92b650d9cfeb2ef1c9884c19b3f2db39" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_o_n_n_x_backend_config" kindref="compound">ONNXBackendConfig</ref></type>
+        <definition>ONNXBackendConfig themisdb::analytics::MLServingConfig::onnx_config</definition>
+        <argsstring></argsstring>
+        <name>onnx_config</name>
+        <qualifiedname>themisdb::analytics::MLServingConfig::onnx_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/ml_serving.h" line="207" column="23" bodyfile="include/analytics/ml_serving.h" bodystart="207" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_m_l_serving_config_1ac9215da32ce67ae528afa72f24fec2a7" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_t_f_serving_config" kindref="compound">TFServingConfig</ref></type>
+        <definition>TFServingConfig themisdb::analytics::MLServingConfig::tf_config</definition>
+        <argsstring></argsstring>
+        <name>tf_config</name>
+        <qualifiedname>themisdb::analytics::MLServingConfig::tf_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/ml_serving.h" line="208" column="23" bodyfile="include/analytics/ml_serving.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_m_l_serving_config_1a04df004bc1ac246e838a60a928d29211" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1analytics_1_1_bounded_execution_policy" kindref="compound">::themis::analytics::BoundedExecutionPolicy</ref></type>
+        <definition>::themis::analytics::BoundedExecutionPolicy themisdb::analytics::MLServingConfig::default_policy</definition>
+        <argsstring></argsstring>
+        <name>default_policy</name>
+        <qualifiedname>themisdb::analytics::MLServingConfig::default_policy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/ml_serving.h" line="210" column="49" bodyfile="include/analytics/ml_serving.h" bodystart="210" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="4">
+        <label>themis::analytics::BoundedExecutionPolicy</label>
+        <link refid="structthemis_1_1analytics_1_1_bounded_execution_policy"/>
+      </node>
+      <node id="1">
+        <label>themisdb::analytics::MLServingConfig</label>
+        <link refid="structthemisdb_1_1analytics_1_1_m_l_serving_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>onnx_config</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>tf_config</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>default_policy</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themisdb::analytics::ONNXBackendConfig</label>
+        <link refid="structthemisdb_1_1analytics_1_1_o_n_n_x_backend_config"/>
+      </node>
+      <node id="3">
+        <label>themisdb::analytics::TFServingConfig</label>
+        <link refid="structthemisdb_1_1analytics_1_1_t_f_serving_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/analytics/ml_serving.h" line="205" column="1" bodyfile="include/analytics/ml_serving.h" bodystart="205" bodyend="211"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_m_l_serving_config_1ad90f6fff255863025bf29e883ac932c1" prot="public" virt="non-virtual"><scope>themisdb::analytics::MLServingConfig</scope><name>backend</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_m_l_serving_config_1a04df004bc1ac246e838a60a928d29211" prot="public" virt="non-virtual"><scope>themisdb::analytics::MLServingConfig</scope><name>default_policy</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_m_l_serving_config_1a92b650d9cfeb2ef1c9884c19b3f2db39" prot="public" virt="non-virtual"><scope>themisdb::analytics::MLServingConfig</scope><name>onnx_config</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_m_l_serving_config_1ac9215da32ce67ae528afa72f24fec2a7" prot="public" virt="non-virtual"><scope>themisdb::analytics::MLServingConfig</scope><name>tf_config</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

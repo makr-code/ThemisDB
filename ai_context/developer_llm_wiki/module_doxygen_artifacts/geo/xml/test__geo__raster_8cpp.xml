@@ -1,0 +1,871 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__geo__raster_8cpp" kind="file" language="C++">
+    <compoundname>test_geo_raster.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="raster_8h" local="yes">geo/raster.h</includes>
+    <includes local="yes">utils/geo/ewkb.h</includes>
+    <includes local="no">cmath</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>geo/raster.h</label>
+        <link refid="raster_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/geo/test_geo_raster.cpp</label>
+        <link refid="test__geo__raster_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>cmath</label>
+      </node>
+      <node id="5">
+        <label>cstddef</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>limits</label>
+      </node>
+      <node id="4">
+        <label>utils/geo/ewkb.h</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__geo__raster_8cpp_1a4f5527a6c7fb012e9cc99bd1f84df97b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void fillSequential</definition>
+        <argsstring>(RasterGrid &amp;g)</argsstring>
+        <name>fillSequential</name>
+        <param>
+          <type><ref refid="structthemis_1_1geo_1_1_raster_grid" kindref="compound">RasterGrid</ref> &amp;</type>
+          <declname>g</declname>
+        </param>
+        <briefdescription>
+<para>Fill a grid row-major with consecutive integers 0, 1, 2, ... </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_raster.cpp" line="15" column="13" bodyfile="tests/geo/test_geo_raster.cpp" bodystart="15" bodyend="19"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__raster_8cpp_1aea200e9a806f9edbcda9faa137daaa22" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RasterGrid, DefaultConstructed_IsEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="structthemis_1_1geo_1_1_raster_grid" kindref="compound">RasterGrid</ref></type>
+        </param>
+        <param>
+          <type>DefaultConstructed_IsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_raster.cpp" line="25" column="1" bodyfile="tests/geo/test_geo_raster.cpp" bodystart="25" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__raster_8cpp_1a5a5912bc0bcf1378a5388dab7c3bc2c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RasterGrid, Constructor_SetsExpectedFields)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="structthemis_1_1geo_1_1_raster_grid" kindref="compound">RasterGrid</ref></type>
+        </param>
+        <param>
+          <type>Constructor_SetsExpectedFields</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_raster.cpp" line="30" column="1" bodyfile="tests/geo/test_geo_raster.cpp" bodystart="30" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__raster_8cpp_1a25cad6d0eff254d82522bf53934cdf3d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RasterGrid, At_OutOfBounds_ReturnsNoData)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="structthemis_1_1geo_1_1_raster_grid" kindref="compound">RasterGrid</ref></type>
+        </param>
+        <param>
+          <type>At_OutOfBounds_ReturnsNoData</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_raster.cpp" line="40" column="1" bodyfile="tests/geo/test_geo_raster.cpp" bodystart="40" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__raster_8cpp_1afbb137ca640010fb7a927449a3746a9b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RasterGrid, SetAndAt_RoundTrip)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="structthemis_1_1geo_1_1_raster_grid" kindref="compound">RasterGrid</ref></type>
+        </param>
+        <param>
+          <type>SetAndAt_RoundTrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_raster.cpp" line="47" column="1" bodyfile="tests/geo/test_geo_raster.cpp" bodystart="47" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__raster_8cpp_1a4ff88113b906337db9e9fe54c14963bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RasterGrid, Set_OutOfBounds_IsNoOp)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="structthemis_1_1geo_1_1_raster_grid" kindref="compound">RasterGrid</ref></type>
+        </param>
+        <param>
+          <type>Set_OutOfBounds_IsNoOp</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_raster.cpp" line="53" column="1" bodyfile="tests/geo/test_geo_raster.cpp" bodystart="53" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__raster_8cpp_1a12782efa4d72898bbebaec4e08b68e5e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RasterGrid, IsNoData_NaN)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="structthemis_1_1geo_1_1_raster_grid" kindref="compound">RasterGrid</ref></type>
+        </param>
+        <param>
+          <type>IsNoData_NaN</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_raster.cpp" line="59" column="1" bodyfile="tests/geo/test_geo_raster.cpp" bodystart="59" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__raster_8cpp_1a62c216ae83f8eff9861b4f192c672f0e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SampleAt, EmptyGrid_ReturnsInvalid)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SampleAt</type>
+        </param>
+        <param>
+          <type>EmptyGrid_ReturnsInvalid</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_raster.cpp" line="70" column="1" bodyfile="tests/geo/test_geo_raster.cpp" bodystart="70" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__raster_8cpp_1a4a8d90b7fcd2126a4a7e0b1e4981fe2f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SampleAt, PointOutsideGrid_ReturnsInvalid)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SampleAt</type>
+        </param>
+        <param>
+          <type>PointOutsideGrid_ReturnsInvalid</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_raster.cpp" line="76" column="1" bodyfile="tests/geo/test_geo_raster.cpp" bodystart="76" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__raster_8cpp_1a053a284f298a5984e932ef889e75b8d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SampleAt, ExactCellCentre_ReturnsExactValue)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SampleAt</type>
+        </param>
+        <param>
+          <type>ExactCellCentre_ReturnsExactValue</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_raster.cpp" line="84" column="1" bodyfile="tests/geo/test_geo_raster.cpp" bodystart="84" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__raster_8cpp_1aaea5d2efa772e92834c6db2533ecf3da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SampleAt, Midpoint_IsBilinearAverage)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SampleAt</type>
+        </param>
+        <param>
+          <type>Midpoint_IsBilinearAverage</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_raster.cpp" line="110" column="1" bodyfile="tests/geo/test_geo_raster.cpp" bodystart="110" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__raster_8cpp_1a3cac4f01b1a582d16f3d6cb112c8c284" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SampleAt, LinearInterpolation_Horizontal)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SampleAt</type>
+        </param>
+        <param>
+          <type>LinearInterpolation_Horizontal</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_raster.cpp" line="123" column="1" bodyfile="tests/geo/test_geo_raster.cpp" bodystart="123" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__raster_8cpp_1a089b07a44f85587761525724c7e1974e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SampleAt, NoDataCells_ExcludedFromBlend)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SampleAt</type>
+        </param>
+        <param>
+          <type>NoDataCells_ExcludedFromBlend</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_raster.cpp" line="135" column="1" bodyfile="tests/geo/test_geo_raster.cpp" bodystart="135" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__raster_8cpp_1a8f6f01252901427f305b8b5f67424521" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SampleAt, AllNoData_ReturnsInvalid)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SampleAt</type>
+        </param>
+        <param>
+          <type>AllNoData_ReturnsInvalid</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_raster.cpp" line="150" column="1" bodyfile="tests/geo/test_geo_raster.cpp" bodystart="150" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__raster_8cpp_1a16c68a3ed4ea02a61c2a826c4bda75fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QueryBBox, EmptyGrid_ReturnsEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>QueryBBox</type>
+        </param>
+        <param>
+          <type>EmptyGrid_ReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_raster.cpp" line="161" column="1" bodyfile="tests/geo/test_geo_raster.cpp" bodystart="161" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__raster_8cpp_1a56c030b73768c930a200d39a62551160" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QueryBBox, BboxOutsideGrid_ReturnsEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>QueryBBox</type>
+        </param>
+        <param>
+          <type>BboxOutsideGrid_ReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_raster.cpp" line="167" column="1" bodyfile="tests/geo/test_geo_raster.cpp" bodystart="167" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__raster_8cpp_1a5c160712d33fdf6174032e4ca9e8ad82" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QueryBBox, FullExtent_ReturnsSameSize)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>QueryBBox</type>
+        </param>
+        <param>
+          <type>FullExtent_ReturnsSameSize</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_raster.cpp" line="173" column="1" bodyfile="tests/geo/test_geo_raster.cpp" bodystart="173" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__raster_8cpp_1a41d49fca594e6daccc534a8c59fc208c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QueryBBox, HalfExtent_ReturnsCells)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>QueryBBox</type>
+        </param>
+        <param>
+          <type>HalfExtent_ReturnsCells</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_raster.cpp" line="188" column="1" bodyfile="tests/geo/test_geo_raster.cpp" bodystart="188" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__raster_8cpp_1a71942375bfca46d81ce4773351cb8690" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QueryBBox, PreservesNoDataSentinel)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>QueryBBox</type>
+        </param>
+        <param>
+          <type>PreservesNoDataSentinel</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_raster.cpp" line="205" column="1" bodyfile="tests/geo/test_geo_raster.cpp" bodystart="205" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__raster_8cpp_1a298db630949c7495b4c7b722b46d59f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GenerateHeatmap, EmptyPoints_ReturnsEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GenerateHeatmap</type>
+        </param>
+        <param>
+          <type>EmptyPoints_ReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_raster.cpp" line="217" column="1" bodyfile="tests/geo/test_geo_raster.cpp" bodystart="217" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__raster_8cpp_1a1fd59bca24e02041b924aa58bf171f16" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GenerateHeatmap, ZeroWidthConfig_ReturnsEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GenerateHeatmap</type>
+        </param>
+        <param>
+          <type>ZeroWidthConfig_ReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_raster.cpp" line="224" column="1" bodyfile="tests/geo/test_geo_raster.cpp" bodystart="224" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__raster_8cpp_1a979ff7ae9db776745f62922366b92f0a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GenerateHeatmap, InvalidBbox_ReturnsEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GenerateHeatmap</type>
+        </param>
+        <param>
+          <type>InvalidBbox_ReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_raster.cpp" line="232" column="1" bodyfile="tests/geo/test_geo_raster.cpp" bodystart="232" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__raster_8cpp_1ab243f21afb4e5aeaacce55d9dd040d1f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GenerateHeatmap, SinglePoint_PeakAtCellNearest)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GenerateHeatmap</type>
+        </param>
+        <param>
+          <type>SinglePoint_PeakAtCellNearest</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_raster.cpp" line="238" column="1" bodyfile="tests/geo/test_geo_raster.cpp" bodystart="238" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__raster_8cpp_1aef34cf9473e40782feae6f5896f65f33" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GenerateHeatmap, Normalize_MaxIsOne)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GenerateHeatmap</type>
+        </param>
+        <param>
+          <type>Normalize_MaxIsOne</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_raster.cpp" line="266" column="1" bodyfile="tests/geo/test_geo_raster.cpp" bodystart="266" bodyend="283"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__raster_8cpp_1a0773e842adbdc4e9f76e6e6b24d2070c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GenerateHeatmap, PointOutsideBbox_Ignored)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GenerateHeatmap</type>
+        </param>
+        <param>
+          <type>PointOutsideBbox_Ignored</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_raster.cpp" line="285" column="1" bodyfile="tests/geo/test_geo_raster.cpp" bodystart="285" bodyend="297"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__raster_8cpp_1afd432ce5135aaa539c1bb57d4c3985cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GenerateHeatmap, TwoPoints_BothContribute)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GenerateHeatmap</type>
+        </param>
+        <param>
+          <type>TwoPoints_BothContribute</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_raster.cpp" line="299" column="1" bodyfile="tests/geo/test_geo_raster.cpp" bodystart="299" bodyend="313"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="raster_8h" kindref="compound">geo/raster.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/geo/ewkb.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1geo" kindref="compound">themis::geo</ref>;</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>fillSequential(<ref refid="structthemis_1_1geo_1_1_raster_grid" kindref="compound">RasterGrid</ref>&amp;<sp/>g)<sp/>{</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>g.<ref refid="structthemis_1_1geo_1_1_raster_grid_1a9d7c0b2c38a308a8bcf821d0fd2de2a1" kindref="member">data</ref>.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g.<ref refid="structthemis_1_1geo_1_1_raster_grid_1a9d7c0b2c38a308a8bcf821d0fd2de2a1" kindref="member">data</ref>[i]<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">float</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i);</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="19"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RasterGrid<sp/>construction<sp/>and<sp/>accessors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><ref refid="test__geo__raster_8cpp_1aea200e9a806f9edbcda9faa137daaa22" kindref="member">TEST</ref>(<ref refid="structthemis_1_1geo_1_1_raster_grid" kindref="compound">RasterGrid</ref>,<sp/>DefaultConstructed_IsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_raster_grid" kindref="compound">RasterGrid</ref><sp/>g;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(g.<ref refid="structthemis_1_1geo_1_1_raster_grid_1a37c374a1049ee1cbf3c5f2e6bb3a1bf1" kindref="member">empty</ref>());</highlight></codeline>
+<codeline lineno="28"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><ref refid="test__geo__raster_8cpp_1aea200e9a806f9edbcda9faa137daaa22" kindref="member">TEST</ref>(<ref refid="structthemis_1_1geo_1_1_raster_grid" kindref="compound">RasterGrid</ref>,<sp/>Constructor_SetsExpectedFields)<sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_raster_grid" kindref="compound">RasterGrid</ref><sp/>g(0.0,<sp/>0.0,<sp/>1.0,<sp/>1.0,<sp/>4,<sp/>4,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(g.<ref refid="structthemis_1_1geo_1_1_raster_grid_1a4a4c183f3af53199558e6584feb086a1" kindref="member">width</ref>,<sp/><sp/>4u);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(g.<ref refid="structthemis_1_1geo_1_1_raster_grid_1a6b22fec4d3f8fba271ef5004addac50a" kindref="member">height</ref>,<sp/>4u);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(g.<ref refid="structthemis_1_1geo_1_1_raster_grid_1a9d7c0b2c38a308a8bcf821d0fd2de2a1" kindref="member">data</ref>.size(),<sp/>16u);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(g.<ref refid="structthemis_1_1geo_1_1_raster_grid_1afb0d0c47fe5506e4e6dfbabd05b612ea" kindref="member">cell_size_x</ref>,<sp/>0.25);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(g.<ref refid="structthemis_1_1geo_1_1_raster_grid_1aa8dd2ab87b26fbfdb35e7fb44c97b765" kindref="member">cell_size_y</ref>,<sp/>0.25);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(g.<ref refid="structthemis_1_1geo_1_1_raster_grid_1a37c374a1049ee1cbf3c5f2e6bb3a1bf1" kindref="member">empty</ref>());</highlight></codeline>
+<codeline lineno="38"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><ref refid="test__geo__raster_8cpp_1aea200e9a806f9edbcda9faa137daaa22" kindref="member">TEST</ref>(<ref refid="structthemis_1_1geo_1_1_raster_grid" kindref="compound">RasterGrid</ref>,<sp/>At_OutOfBounds_ReturnsNoData)<sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_raster_grid" kindref="compound">RasterGrid</ref><sp/>g(0.0,<sp/>0.0,<sp/>1.0,<sp/>1.0,<sp/>3,<sp/>3,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(g.<ref refid="structthemis_1_1geo_1_1_raster_grid_1a3e4d67ab1dd6fa5b4aea17a8c4defff2" kindref="member">isNoData</ref>(g.<ref refid="structthemis_1_1geo_1_1_raster_grid_1afd3595f51da588caca58f2f1849119ef" kindref="member">at</ref>(3,<sp/>0)));</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(g.<ref refid="structthemis_1_1geo_1_1_raster_grid_1a3e4d67ab1dd6fa5b4aea17a8c4defff2" kindref="member">isNoData</ref>(g.<ref refid="structthemis_1_1geo_1_1_raster_grid_1afd3595f51da588caca58f2f1849119ef" kindref="member">at</ref>(0,<sp/>3)));</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(g.<ref refid="structthemis_1_1geo_1_1_raster_grid_1a3e4d67ab1dd6fa5b4aea17a8c4defff2" kindref="member">isNoData</ref>(g.<ref refid="structthemis_1_1geo_1_1_raster_grid_1afd3595f51da588caca58f2f1849119ef" kindref="member">at</ref>(99,<sp/>99)));</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><ref refid="test__geo__raster_8cpp_1aea200e9a806f9edbcda9faa137daaa22" kindref="member">TEST</ref>(<ref refid="structthemis_1_1geo_1_1_raster_grid" kindref="compound">RasterGrid</ref>,<sp/>SetAndAt_RoundTrip)<sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_raster_grid" kindref="compound">RasterGrid</ref><sp/>g(0.0,<sp/>0.0,<sp/>1.0,<sp/>1.0,<sp/>3,<sp/>3,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>g.<ref refid="structthemis_1_1geo_1_1_raster_grid_1aa00608ce15a0e6b026af367317a23a67" kindref="member">set</ref>(1,<sp/>2,<sp/>42.0f);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(g.<ref refid="structthemis_1_1geo_1_1_raster_grid_1afd3595f51da588caca58f2f1849119ef" kindref="member">at</ref>(1,<sp/>2),<sp/>42.0f);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><ref refid="test__geo__raster_8cpp_1aea200e9a806f9edbcda9faa137daaa22" kindref="member">TEST</ref>(<ref refid="structthemis_1_1geo_1_1_raster_grid" kindref="compound">RasterGrid</ref>,<sp/>Set_OutOfBounds_IsNoOp)<sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_raster_grid" kindref="compound">RasterGrid</ref><sp/>g(0.0,<sp/>0.0,<sp/>1.0,<sp/>1.0,<sp/>2,<sp/>2,<sp/>5.0f);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>g.<ref refid="structthemis_1_1geo_1_1_raster_grid_1aa00608ce15a0e6b026af367317a23a67" kindref="member">set</ref>(99,<sp/>0,<sp/>-1.0f);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(g.<ref refid="structthemis_1_1geo_1_1_raster_grid_1afd3595f51da588caca58f2f1849119ef" kindref="member">at</ref>(0,<sp/>0),<sp/>5.0f);<sp/></highlight><highlight class="comment">//<sp/>unchanged</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><ref refid="test__geo__raster_8cpp_1aea200e9a806f9edbcda9faa137daaa22" kindref="member">TEST</ref>(<ref refid="structthemis_1_1geo_1_1_raster_grid" kindref="compound">RasterGrid</ref>,<sp/>IsNoData_NaN)<sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_raster_grid" kindref="compound">RasterGrid</ref><sp/>g;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(g.<ref refid="structthemis_1_1geo_1_1_raster_grid_1a3e4d67ab1dd6fa5b4aea17a8c4defff2" kindref="member">isNoData</ref>(std::numeric_limits&lt;float&gt;::quiet_NaN()));</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(g.<ref refid="structthemis_1_1geo_1_1_raster_grid_1a3e4d67ab1dd6fa5b4aea17a8c4defff2" kindref="member">isNoData</ref>(0.0f));</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(g.<ref refid="structthemis_1_1geo_1_1_raster_grid_1a3e4d67ab1dd6fa5b4aea17a8c4defff2" kindref="member">isNoData</ref>(-1.0f));</highlight></codeline>
+<codeline lineno="64"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>sampleAt<sp/>—<sp/>exact<sp/>cell<sp/>centres</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><ref refid="test__geo__raster_8cpp_1aea200e9a806f9edbcda9faa137daaa22" kindref="member">TEST</ref>(SampleAt,<sp/>EmptyGrid_ReturnsInvalid)<sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_raster_grid" kindref="compound">RasterGrid</ref><sp/>g;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a7840bd25f36dc5ff612dfc97135263eb" kindref="member">sampleAt</ref>(g,<sp/>0.5,<sp/>0.5);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.valid);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><ref refid="test__geo__raster_8cpp_1aea200e9a806f9edbcda9faa137daaa22" kindref="member">TEST</ref>(SampleAt,<sp/>PointOutsideGrid_ReturnsInvalid)<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_raster_grid" kindref="compound">RasterGrid</ref><sp/>g(0.0,<sp/>0.0,<sp/>1.0,<sp/>1.0,<sp/>4,<sp/>4,<sp/>1.0f);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1geo_1a7840bd25f36dc5ff612dfc97135263eb" kindref="member">sampleAt</ref>(g,<sp/>-0.1,<sp/>0.5).valid);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1geo_1a7840bd25f36dc5ff612dfc97135263eb" kindref="member">sampleAt</ref>(g,<sp/><sp/>1.1,<sp/>0.5).valid);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1geo_1a7840bd25f36dc5ff612dfc97135263eb" kindref="member">sampleAt</ref>(g,<sp/><sp/>0.5,<sp/>-0.1).valid);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1geo_1a7840bd25f36dc5ff612dfc97135263eb" kindref="member">sampleAt</ref>(g,<sp/><sp/>0.5,<sp/><sp/>1.1).valid);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><ref refid="test__geo__raster_8cpp_1aea200e9a806f9edbcda9faa137daaa22" kindref="member">TEST</ref>(SampleAt,<sp/>ExactCellCentre_ReturnsExactValue)<sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>2×2<sp/>grid<sp/>covering<sp/>[0,1]×[0,1];<sp/>cell<sp/>size<sp/>=<sp/>0.5</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cell<sp/>centres:<sp/>(0.25,<sp/>0.25),<sp/>(0.75,<sp/>0.25),<sp/>(0.25,<sp/>0.75),<sp/>(0.75,<sp/>0.75)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_raster_grid" kindref="compound">RasterGrid</ref><sp/>g(0.0,<sp/>0.0,<sp/>1.0,<sp/>1.0,<sp/>2,<sp/>2,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>g.<ref refid="structthemis_1_1geo_1_1_raster_grid_1aa00608ce15a0e6b026af367317a23a67" kindref="member">set</ref>(0,<sp/>0,<sp/>10.0f);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>g.<ref refid="structthemis_1_1geo_1_1_raster_grid_1aa00608ce15a0e6b026af367317a23a67" kindref="member">set</ref>(1,<sp/>0,<sp/>20.0f);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>g.<ref refid="structthemis_1_1geo_1_1_raster_grid_1aa00608ce15a0e6b026af367317a23a67" kindref="member">set</ref>(0,<sp/>1,<sp/>30.0f);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>g.<ref refid="structthemis_1_1geo_1_1_raster_grid_1aa00608ce15a0e6b026af367317a23a67" kindref="member">set</ref>(1,<sp/>1,<sp/>40.0f);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r00<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a7840bd25f36dc5ff612dfc97135263eb" kindref="member">sampleAt</ref>(g,<sp/>0.25,<sp/>0.25);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r00.valid);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(r00.value,<sp/>10.0f,<sp/>1e-4f);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r10<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a7840bd25f36dc5ff612dfc97135263eb" kindref="member">sampleAt</ref>(g,<sp/>0.75,<sp/>0.25);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r10.valid);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(r10.value,<sp/>20.0f,<sp/>1e-4f);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r01<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a7840bd25f36dc5ff612dfc97135263eb" kindref="member">sampleAt</ref>(g,<sp/>0.25,<sp/>0.75);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r01.valid);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(r01.value,<sp/>30.0f,<sp/>1e-4f);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r11<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a7840bd25f36dc5ff612dfc97135263eb" kindref="member">sampleAt</ref>(g,<sp/>0.75,<sp/>0.75);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r11.valid);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(r11.value,<sp/>40.0f,<sp/>1e-4f);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><ref refid="test__geo__raster_8cpp_1aea200e9a806f9edbcda9faa137daaa22" kindref="member">TEST</ref>(SampleAt,<sp/>Midpoint_IsBilinearAverage)<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sample<sp/>at<sp/>the<sp/>centre<sp/>of<sp/>a<sp/>2×2<sp/>grid<sp/>→<sp/>average<sp/>of<sp/>all<sp/>four<sp/>cells.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_raster_grid" kindref="compound">RasterGrid</ref><sp/>g(0.0,<sp/>0.0,<sp/>1.0,<sp/>1.0,<sp/>2,<sp/>2,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>g.<ref refid="structthemis_1_1geo_1_1_raster_grid_1aa00608ce15a0e6b026af367317a23a67" kindref="member">set</ref>(0,<sp/>0,<sp/>10.0f);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>g.<ref refid="structthemis_1_1geo_1_1_raster_grid_1aa00608ce15a0e6b026af367317a23a67" kindref="member">set</ref>(1,<sp/>0,<sp/>20.0f);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>g.<ref refid="structthemis_1_1geo_1_1_raster_grid_1aa00608ce15a0e6b026af367317a23a67" kindref="member">set</ref>(0,<sp/>1,<sp/>30.0f);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>g.<ref refid="structthemis_1_1geo_1_1_raster_grid_1aa00608ce15a0e6b026af367317a23a67" kindref="member">set</ref>(1,<sp/>1,<sp/>40.0f);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a7840bd25f36dc5ff612dfc97135263eb" kindref="member">sampleAt</ref>(g,<sp/>0.5,<sp/>0.5);<sp/></highlight><highlight class="comment">//<sp/>geometric<sp/>centre<sp/>of<sp/>the<sp/>2×2<sp/>grid</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r.valid);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(r.value,<sp/>25.0f,<sp/>1e-3f);<sp/></highlight><highlight class="comment">//<sp/>(10+20+30+40)/4<sp/>=<sp/>25</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><ref refid="test__geo__raster_8cpp_1aea200e9a806f9edbcda9faa137daaa22" kindref="member">TEST</ref>(SampleAt,<sp/>LinearInterpolation_Horizontal)<sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>1×1<sp/>grid<sp/>not<sp/>useful;<sp/>use<sp/>1-row<sp/>/<sp/>2-col:<sp/>interpolate<sp/>along<sp/>longitude.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_raster_grid" kindref="compound">RasterGrid</ref><sp/>g(0.0,<sp/>0.0,<sp/>1.0,<sp/>0.5,<sp/>2,<sp/>1,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>g.<ref refid="structthemis_1_1geo_1_1_raster_grid_1aa00608ce15a0e6b026af367317a23a67" kindref="member">set</ref>(0,<sp/>0,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>g.<ref refid="structthemis_1_1geo_1_1_raster_grid_1aa00608ce15a0e6b026af367317a23a67" kindref="member">set</ref>(1,<sp/>0,<sp/>100.0f);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>At<sp/>the<sp/>midpoint<sp/>between<sp/>the<sp/>two<sp/>column<sp/>centres<sp/>the<sp/>value<sp/>should<sp/>be<sp/>~50.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a7840bd25f36dc5ff612dfc97135263eb" kindref="member">sampleAt</ref>(g,<sp/>0.5,<sp/>0.25);<sp/></highlight><highlight class="comment">//<sp/>lon=0.5<sp/>sits<sp/>between<sp/>centres<sp/>0.25<sp/>and<sp/>0.75</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r.valid);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(r.value,<sp/>50.0f,<sp/>1.0f);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><ref refid="test__geo__raster_8cpp_1aea200e9a806f9edbcda9faa137daaa22" kindref="member">TEST</ref>(SampleAt,<sp/>NoDataCells_ExcludedFromBlend)<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_raster_grid" kindref="compound">RasterGrid</ref><sp/>g(0.0,<sp/>0.0,<sp/>1.0,<sp/>1.0,<sp/>2,<sp/>2,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>g.<ref refid="structthemis_1_1geo_1_1_raster_grid_1aa00608ce15a0e6b026af367317a23a67" kindref="member">set</ref>(0,<sp/>0,<sp/>10.0f);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>g.<ref refid="structthemis_1_1geo_1_1_raster_grid_1aa00608ce15a0e6b026af367317a23a67" kindref="member">set</ref>(1,<sp/>0,<sp/>20.0f);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Mark<sp/>the<sp/>top<sp/>two<sp/>cells<sp/>as<sp/>no-data.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>g.<ref refid="structthemis_1_1geo_1_1_raster_grid_1aa00608ce15a0e6b026af367317a23a67" kindref="member">set</ref>(0,<sp/>1,<sp/>g.<ref refid="structthemis_1_1geo_1_1_raster_grid_1a146e113fa8b2b738d763ced1b4f938f3" kindref="member">no_data_value</ref>);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>g.<ref refid="structthemis_1_1geo_1_1_raster_grid_1aa00608ce15a0e6b026af367317a23a67" kindref="member">set</ref>(1,<sp/>1,<sp/>g.<ref refid="structthemis_1_1geo_1_1_raster_grid_1a146e113fa8b2b738d763ced1b4f938f3" kindref="member">no_data_value</ref>);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sampling<sp/>near<sp/>the<sp/>top<sp/>should<sp/>still<sp/>produce<sp/>a<sp/>valid<sp/>result<sp/>from<sp/>the<sp/>two</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>valid<sp/>bottom<sp/>cells.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a7840bd25f36dc5ff612dfc97135263eb" kindref="member">sampleAt</ref>(g,<sp/>0.5,<sp/>0.5);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r.valid);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(r.value,<sp/>15.0f,<sp/>1.0f);<sp/></highlight><highlight class="comment">//<sp/>average<sp/>of<sp/>10<sp/>and<sp/>20</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><ref refid="test__geo__raster_8cpp_1aea200e9a806f9edbcda9faa137daaa22" kindref="member">TEST</ref>(SampleAt,<sp/>AllNoData_ReturnsInvalid)<sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_raster_grid" kindref="compound">RasterGrid</ref><sp/>g(0.0,<sp/>0.0,<sp/>1.0,<sp/>1.0,<sp/>2,<sp/>2);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Default-fill<sp/>is<sp/>NaN<sp/>(no-data),<sp/>so<sp/>all<sp/>cells<sp/>are<sp/>no-data.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a7840bd25f36dc5ff612dfc97135263eb" kindref="member">sampleAt</ref>(g,<sp/>0.5,<sp/>0.5);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.valid);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="comment">//<sp/>queryBBox<sp/>—<sp/>sub-raster<sp/>extraction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><ref refid="test__geo__raster_8cpp_1aea200e9a806f9edbcda9faa137daaa22" kindref="member">TEST</ref>(QueryBBox,<sp/>EmptyGrid_ReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_raster_grid" kindref="compound">RasterGrid</ref><sp/>g;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>MBR<sp/>bbox(0.0,<sp/>0.0,<sp/>1.0,<sp/>1.0);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1geo_1a9f1f13c5dca3b2fc2b2c203388c92d7f" kindref="member">queryBBox</ref>(g,<sp/>bbox).empty());</highlight></codeline>
+<codeline lineno="165"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><ref refid="test__geo__raster_8cpp_1aea200e9a806f9edbcda9faa137daaa22" kindref="member">TEST</ref>(QueryBBox,<sp/>BboxOutsideGrid_ReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_raster_grid" kindref="compound">RasterGrid</ref><sp/>g(0.0,<sp/>0.0,<sp/>1.0,<sp/>1.0,<sp/>4,<sp/>4,<sp/>1.0f);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>MBR<sp/>outside(2.0,<sp/>2.0,<sp/>3.0,<sp/>3.0);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1geo_1a9f1f13c5dca3b2fc2b2c203388c92d7f" kindref="member">queryBBox</ref>(g,<sp/>outside).empty());</highlight></codeline>
+<codeline lineno="171"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><ref refid="test__geo__raster_8cpp_1aea200e9a806f9edbcda9faa137daaa22" kindref="member">TEST</ref>(QueryBBox,<sp/>FullExtent_ReturnsSameSize)<sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_raster_grid" kindref="compound">RasterGrid</ref><sp/>g(0.0,<sp/>0.0,<sp/>1.0,<sp/>1.0,<sp/>4,<sp/>4,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>fillSequential(g);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>MBR<sp/>full(0.0,<sp/>0.0,<sp/>1.0,<sp/>1.0);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sub<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a9f1f13c5dca3b2fc2b2c203388c92d7f" kindref="member">queryBBox</ref>(g,<sp/>full);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sub.width,<sp/><sp/>g.<ref refid="structthemis_1_1geo_1_1_raster_grid_1a4a4c183f3af53199558e6584feb086a1" kindref="member">width</ref>);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sub.height,<sp/>g.<ref refid="structthemis_1_1geo_1_1_raster_grid_1a6b22fec4d3f8fba271ef5004addac50a" kindref="member">height</ref>);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Values<sp/>should<sp/>match.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>r<sp/>=<sp/>0;<sp/>r<sp/>&lt;<sp/>g.<ref refid="structthemis_1_1geo_1_1_raster_grid_1a6b22fec4d3f8fba271ef5004addac50a" kindref="member">height</ref>;<sp/>++r)<sp/>{</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>c<sp/>=<sp/>0;<sp/>c<sp/>&lt;<sp/>g.<ref refid="structthemis_1_1geo_1_1_raster_grid_1a4a4c183f3af53199558e6584feb086a1" kindref="member">width</ref>;<sp/>++c)<sp/>{</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(sub.at(c,<sp/>r),<sp/>g.<ref refid="structthemis_1_1geo_1_1_raster_grid_1afd3595f51da588caca58f2f1849119ef" kindref="member">at</ref>(c,<sp/>r));</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="186"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><ref refid="test__geo__raster_8cpp_1aea200e9a806f9edbcda9faa137daaa22" kindref="member">TEST</ref>(QueryBBox,<sp/>HalfExtent_ReturnsCells)<sp/>{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>4×4<sp/>grid<sp/>[0,1]×[0,1];<sp/>cell<sp/>size<sp/>=<sp/>0.25</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cell<sp/>centres:<sp/>col<sp/>0→0.125,<sp/>1→0.375,<sp/>2→0.625,<sp/>3→0.875</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>row<sp/>0→0.125,<sp/>1→0.375,<sp/>2→0.625,<sp/>3→0.875</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_raster_grid" kindref="compound">RasterGrid</ref><sp/>g(0.0,<sp/>0.0,<sp/>1.0,<sp/>1.0,<sp/>4,<sp/>4,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>fillSequential(g);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Query<sp/>the<sp/>right<sp/>half:<sp/>lon<sp/>∈<sp/>[0.5,<sp/>1.0]<sp/>→<sp/>columns<sp/>2<sp/>and<sp/>3</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lat<sp/>∈<sp/>[0.0,<sp/>1.0]<sp/>→<sp/>rows<sp/><sp/><sp/>0-3</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>MBR<sp/>right(0.5,<sp/>0.0,<sp/>1.0,<sp/>1.0);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sub<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a9f1f13c5dca3b2fc2b2c203388c92d7f" kindref="member">queryBBox</ref>(g,<sp/>right);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sub.width,<sp/><sp/>2u);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sub.height,<sp/>4u);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(sub.at(0,<sp/>0),<sp/>g.<ref refid="structthemis_1_1geo_1_1_raster_grid_1afd3595f51da588caca58f2f1849119ef" kindref="member">at</ref>(2,<sp/>0));</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(sub.at(1,<sp/>3),<sp/>g.<ref refid="structthemis_1_1geo_1_1_raster_grid_1afd3595f51da588caca58f2f1849119ef" kindref="member">at</ref>(3,<sp/>3));</highlight></codeline>
+<codeline lineno="203"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><ref refid="test__geo__raster_8cpp_1aea200e9a806f9edbcda9faa137daaa22" kindref="member">TEST</ref>(QueryBBox,<sp/>PreservesNoDataSentinel)<sp/>{</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_raster_grid" kindref="compound">RasterGrid</ref><sp/>g(0.0,<sp/>0.0,<sp/>1.0,<sp/>1.0,<sp/>2,<sp/>2,<sp/>1.0f);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>g.<ref refid="structthemis_1_1geo_1_1_raster_grid_1aa00608ce15a0e6b026af367317a23a67" kindref="member">set</ref>(1,<sp/>1,<sp/>g.<ref refid="structthemis_1_1geo_1_1_raster_grid_1a146e113fa8b2b738d763ced1b4f938f3" kindref="member">no_data_value</ref>);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>MBR<sp/>full(0.0,<sp/>0.0,<sp/>1.0,<sp/>1.0);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sub<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a9f1f13c5dca3b2fc2b2c203388c92d7f" kindref="member">queryBBox</ref>(g,<sp/>full);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(sub.isNoData(sub.at(1,<sp/>1)));</highlight></codeline>
+<codeline lineno="211"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight><highlight class="comment">//<sp/>generateHeatmap</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><ref refid="test__geo__raster_8cpp_1aea200e9a806f9edbcda9faa137daaa22" kindref="member">TEST</ref>(GenerateHeatmap,<sp/>EmptyPoints_ReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Coordinate&gt;<sp/>pts;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>MBR<sp/>bbox(0.0,<sp/>0.0,<sp/>1.0,<sp/>1.0);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>h<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a09a2e06308730e6efa9ccb75b44da9cf" kindref="member">generateHeatmap</ref>(pts,<sp/>bbox);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(h.empty());</highlight></codeline>
+<codeline lineno="222"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><ref refid="test__geo__raster_8cpp_1aea200e9a806f9edbcda9faa137daaa22" kindref="member">TEST</ref>(GenerateHeatmap,<sp/>ZeroWidthConfig_ReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Coordinate&gt;<sp/>pts{{0.5,<sp/>0.5}};</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>MBR<sp/>bbox(0.0,<sp/>0.0,<sp/>1.0,<sp/>1.0);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_heatmap_config" kindref="compound">HeatmapConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1geo_1_1_heatmap_config_1a2b899ea058c50ea829514dc5d25a4d2f" kindref="member">width</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1geo_1a09a2e06308730e6efa9ccb75b44da9cf" kindref="member">generateHeatmap</ref>(pts,<sp/>bbox,<sp/>cfg).empty());</highlight></codeline>
+<codeline lineno="230"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><ref refid="test__geo__raster_8cpp_1aea200e9a806f9edbcda9faa137daaa22" kindref="member">TEST</ref>(GenerateHeatmap,<sp/>InvalidBbox_ReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Coordinate&gt;<sp/>pts{{0.5,<sp/>0.5}};</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>MBR<sp/>bad(1.0,<sp/>1.0,<sp/>0.0,<sp/>0.0);<sp/></highlight><highlight class="comment">//<sp/>inverted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1geo_1a09a2e06308730e6efa9ccb75b44da9cf" kindref="member">generateHeatmap</ref>(pts,<sp/>bad).empty());</highlight></codeline>
+<codeline lineno="236"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><ref refid="test__geo__raster_8cpp_1aea200e9a806f9edbcda9faa137daaa22" kindref="member">TEST</ref>(GenerateHeatmap,<sp/>SinglePoint_PeakAtCellNearest)<sp/>{</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Coordinate&gt;<sp/>pts{{0.5,<sp/>0.5}};</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>MBR<sp/>bbox(0.0,<sp/>0.0,<sp/>1.0,<sp/>1.0);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_heatmap_config" kindref="compound">HeatmapConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1geo_1_1_heatmap_config_1a2b899ea058c50ea829514dc5d25a4d2f" kindref="member">width</ref><sp/><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1geo_1_1_heatmap_config_1af1d9adb0649ca690c4fedc24b1d753b0" kindref="member">height</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1geo_1_1_heatmap_config_1adae58a702a6ce6266aee488618344f5c" kindref="member">bandwidth_m</ref><sp/>=<sp/>50000.0;<sp/></highlight><highlight class="comment">//<sp/>large<sp/>bandwidth<sp/>to<sp/>spread<sp/>across<sp/>cells</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>h<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a09a2e06308730e6efa9ccb75b44da9cf" kindref="member">generateHeatmap</ref>(pts,<sp/>bbox,<sp/>cfg);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(h.empty());</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(h.width,<sp/><sp/>10u);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(h.height,<sp/>10u);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>peak<sp/>should<sp/>be<sp/>in<sp/>the<sp/>centre<sp/>cell<sp/>(col<sp/>4<sp/>or<sp/>5,<sp/>row<sp/>4<sp/>or<sp/>5<sp/>for<sp/>10×10).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>max_val<sp/>=<sp/>-1.0f;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>max_c<sp/>=<sp/>0,<sp/>max_r<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>r<sp/>=<sp/>0;<sp/>r<sp/>&lt;<sp/>h.height;<sp/>++r)<sp/>{</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>c<sp/>=<sp/>0;<sp/>c<sp/>&lt;<sp/>h.width;<sp/>++c)<sp/>{</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>v<sp/>=<sp/>h.at(c,<sp/>r);</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(v<sp/>&gt;<sp/>max_val)<sp/>{<sp/>max_val<sp/>=<sp/>v;<sp/>max_c<sp/>=<sp/>c;<sp/>max_r<sp/>=<sp/>r;<sp/>}</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(max_c,<sp/>4u);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(max_c,<sp/>5u);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(max_r,<sp/>4u);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(max_r,<sp/>5u);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><ref refid="test__geo__raster_8cpp_1aea200e9a806f9edbcda9faa137daaa22" kindref="member">TEST</ref>(GenerateHeatmap,<sp/>Normalize_MaxIsOne)<sp/>{</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Coordinate&gt;<sp/>pts{{0.5,<sp/>0.5},<sp/>{0.2,<sp/>0.2}};</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>MBR<sp/>bbox(0.0,<sp/>0.0,<sp/>1.0,<sp/>1.0);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_heatmap_config" kindref="compound">HeatmapConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1geo_1_1_heatmap_config_1a2b899ea058c50ea829514dc5d25a4d2f" kindref="member">width</ref><sp/><sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1geo_1_1_heatmap_config_1af1d9adb0649ca690c4fedc24b1d753b0" kindref="member">height</ref><sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1geo_1_1_heatmap_config_1adae58a702a6ce6266aee488618344f5c" kindref="member">bandwidth_m</ref><sp/>=<sp/>30000.0;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1geo_1_1_heatmap_config_1a4962b47a9a6daaf19bc93c57935e74da" kindref="member">normalize</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>h<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a09a2e06308730e6efa9ccb75b44da9cf" kindref="member">generateHeatmap</ref>(pts,<sp/>bbox,<sp/>cfg);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>max_val<sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>v<sp/>:<sp/>h.data)<sp/>{</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!std::isnan(v)<sp/>&amp;&amp;<sp/>v<sp/>&gt;<sp/>max_val)<sp/>{</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>max_val<sp/>=<sp/>v;</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(max_val,<sp/>1.0f,<sp/>1e-5f);</highlight></codeline>
+<codeline lineno="283"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><ref refid="test__geo__raster_8cpp_1aea200e9a806f9edbcda9faa137daaa22" kindref="member">TEST</ref>(GenerateHeatmap,<sp/>PointOutsideBbox_Ignored)<sp/>{</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Place<sp/>only<sp/>a<sp/>point<sp/>outside<sp/>the<sp/>grid;<sp/>density<sp/>should<sp/>be<sp/>all<sp/>zeros.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Coordinate&gt;<sp/>pts{{5.0,<sp/>5.0}};<sp/></highlight><highlight class="comment">//<sp/>outside<sp/>[0,1]×[0,1]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>MBR<sp/>bbox(0.0,<sp/>0.0,<sp/>1.0,<sp/>1.0);</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_heatmap_config" kindref="compound">HeatmapConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1geo_1_1_heatmap_config_1a2b899ea058c50ea829514dc5d25a4d2f" kindref="member">width</ref><sp/><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1geo_1_1_heatmap_config_1af1d9adb0649ca690c4fedc24b1d753b0" kindref="member">height</ref><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1geo_1_1_heatmap_config_1adae58a702a6ce6266aee488618344f5c" kindref="member">bandwidth_m</ref><sp/>=<sp/>1000.0;</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>h<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a09a2e06308730e6efa9ccb75b44da9cf" kindref="member">generateHeatmap</ref>(pts,<sp/>bbox,<sp/>cfg);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>v<sp/>:<sp/>h.data)<sp/>{</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(v,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="297"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><ref refid="test__geo__raster_8cpp_1aea200e9a806f9edbcda9faa137daaa22" kindref="member">TEST</ref>(GenerateHeatmap,<sp/>TwoPoints_BothContribute)<sp/>{</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Place<sp/>two<sp/>well-separated<sp/>points;<sp/>both<sp/>should<sp/>produce<sp/>positive<sp/>density.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Coordinate&gt;<sp/>pts{{0.1,<sp/>0.1},<sp/>{0.9,<sp/>0.9}};</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>MBR<sp/>bbox(0.0,<sp/>0.0,<sp/>1.0,<sp/>1.0);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_heatmap_config" kindref="compound">HeatmapConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1geo_1_1_heatmap_config_1a2b899ea058c50ea829514dc5d25a4d2f" kindref="member">width</ref><sp/><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1geo_1_1_heatmap_config_1af1d9adb0649ca690c4fedc24b1d753b0" kindref="member">height</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1geo_1_1_heatmap_config_1adae58a702a6ce6266aee488618344f5c" kindref="member">bandwidth_m</ref><sp/>=<sp/>100000.0;<sp/></highlight><highlight class="comment">//<sp/>very<sp/>wide<sp/>kernel<sp/>to<sp/>ensure<sp/>overlap<sp/>with<sp/>grid<sp/>cells</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1geo_1_1_heatmap_config_1a4962b47a9a6daaf19bc93c57935e74da" kindref="member">normalize</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>h<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a09a2e06308730e6efa9ccb75b44da9cf" kindref="member">generateHeatmap</ref>(pts,<sp/>bbox,<sp/>cfg);</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Corner<sp/>cells<sp/>should<sp/>have<sp/>positive<sp/>density<sp/>for<sp/>a<sp/>wide-enough<sp/>kernel.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(h.at(0,<sp/>0),<sp/>0.0f);</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(h.at(9,<sp/>9),<sp/>0.0f);</highlight></codeline>
+<codeline lineno="313"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/geo/test_geo_raster.cpp"/>
+  </compounddef>
+</doxygen>

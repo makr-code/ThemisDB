@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="task__execution__result_8cpp" kind="file" language="C++">
+    <compoundname>task_execution_result.cpp</compoundname>
+    <includes refid="task__result__store_8h" local="yes">scheduler/task_result_store.h</includes>
+    <incdepgraph>
+      <node id="10">
+        <label>scheduler/scheduler_api_contract.h</label>
+        <link refid="scheduler__api__contract_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>scheduler/task_result_store.h</label>
+        <link refid="task__result__store_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>src/scheduler/task_execution_result.cpp</label>
+        <link refid="task__execution__result_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>chrono</label>
+      </node>
+      <node id="8">
+        <label>cstdint</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="9">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="7">
+        <label>shared_mutex</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1scheduler">themis::scheduler</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Implementation<sp/>of<sp/>JSON<sp/>(de)serialization<sp/>for<sp/>TaskExecutionResult</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="task__result__store_8h" kindref="compound">scheduler/task_result_store.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1scheduler" kindref="compound">scheduler</ref><sp/>{</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal">nlohmann::json<sp/><ref refid="structthemis_1_1scheduler_1_1_task_execution_result_1abefd7d1f018a995706fbdb25ba5efa78" kindref="member">TaskExecutionResult::toJson</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>j;</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;task_id&quot;</highlight><highlight class="normal">]<sp/>=<sp/><ref refid="structthemis_1_1scheduler_1_1_task_execution_result_1aeb1950fee1effd23bfa81fb8994c0227" kindref="member">task_id</ref>;</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;task_name&quot;</highlight><highlight class="normal">]<sp/>=<sp/><ref refid="structthemis_1_1scheduler_1_1_task_execution_result_1ab8d3076671f45ba1be74f29a874c6627" kindref="member">task_name</ref>;</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;timestamp_ms&quot;</highlight><highlight class="normal">]<sp/>=<sp/><ref refid="structthemis_1_1scheduler_1_1_task_execution_result_1af12a85e824c413acb5b6da344c646341" kindref="member">timestamp_ms</ref>;</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;duration_ms&quot;</highlight><highlight class="normal">]<sp/>=<sp/><ref refid="structthemis_1_1scheduler_1_1_task_execution_result_1a74acfcf150ab5d7b35780ae06bbbb6e1" kindref="member">duration_ms</ref>;</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;success&quot;</highlight><highlight class="normal">]<sp/>=<sp/><ref refid="structthemis_1_1scheduler_1_1_task_execution_result_1a8ef049353690f205f5678d47b45223b9" kindref="member">success</ref>;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;output&quot;</highlight><highlight class="normal">]<sp/>=<sp/><ref refid="structthemis_1_1scheduler_1_1_task_execution_result_1ab5907d8bb5c260e6ad8da930ca168602" kindref="member">output</ref>;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;error&quot;</highlight><highlight class="normal">]<sp/>=<sp/><ref refid="structthemis_1_1scheduler_1_1_task_execution_result_1ac7b695aa65105d9911e9cb3b45f1ba82" kindref="member">error</ref>;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>j;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><ref refid="structthemis_1_1scheduler_1_1_task_execution_result" kindref="compound">TaskExecutionResult</ref><sp/><ref refid="structthemis_1_1scheduler_1_1_task_execution_result_1a17bac6f7a9e61b9cf510323b4d90610c" kindref="member">TaskExecutionResult::fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j)<sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>TaskExecutionResult<sp/>r<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(j.contains(</highlight><highlight class="stringliteral">&quot;task_id&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>r.task_id<sp/>=<sp/>j.at(</highlight><highlight class="stringliteral">&quot;task_id&quot;</highlight><highlight class="normal">).get&lt;std::string&gt;();</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(j.contains(</highlight><highlight class="stringliteral">&quot;task_name&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>r.task_name<sp/>=<sp/>j.at(</highlight><highlight class="stringliteral">&quot;task_name&quot;</highlight><highlight class="normal">).get&lt;std::string&gt;();</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(j.contains(</highlight><highlight class="stringliteral">&quot;timestamp_ms&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>r.timestamp_ms<sp/>=<sp/>j.at(</highlight><highlight class="stringliteral">&quot;timestamp_ms&quot;</highlight><highlight class="normal">).get&lt;int64_t&gt;();</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(j.contains(</highlight><highlight class="stringliteral">&quot;duration_ms&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>r.duration_ms<sp/>=<sp/>j.at(</highlight><highlight class="stringliteral">&quot;duration_ms&quot;</highlight><highlight class="normal">).get&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&gt;();</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(j.contains(</highlight><highlight class="stringliteral">&quot;success&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>r.success<sp/>=<sp/>j.at(</highlight><highlight class="stringliteral">&quot;success&quot;</highlight><highlight class="normal">).get&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">&gt;();</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(j.contains(</highlight><highlight class="stringliteral">&quot;output&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>r.output<sp/>=<sp/>j.at(</highlight><highlight class="stringliteral">&quot;output&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(j.contains(</highlight><highlight class="stringliteral">&quot;error&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>r.error<sp/>=<sp/>j.at(</highlight><highlight class="stringliteral">&quot;error&quot;</highlight><highlight class="normal">).get&lt;std::string&gt;();</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>r;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>scheduler</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="src/scheduler/task_execution_result.cpp"/>
+  </compounddef>
+</doxygen>

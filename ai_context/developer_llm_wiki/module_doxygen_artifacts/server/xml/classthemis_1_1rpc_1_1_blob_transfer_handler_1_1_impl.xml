@@ -1,0 +1,628 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::rpc::BlobTransferHandler::Impl</compoundname>
+    <innerclass refid="structthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1_1_checkpoint" prot="private">themis::rpc::BlobTransferHandler::Impl::Checkpoint</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1ac1adbd011ab9abbac1edac5301a2db97" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rpc_1_1_blob_config" kindref="compound">BlobConfig</ref></type>
+        <definition>BlobConfig themis::rpc::BlobTransferHandler::Impl::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::rpc::BlobTransferHandler::Impl::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/rpc/blob_transfer_handler.cpp" line="644" column="16" bodyfile="src/server/rpc/blob_transfer_handler.cpp" bodystart="644" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1a2280705aa3e41f77260d53b774737705" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::rpc::BlobTransferHandler::Impl::total_bytes_</definition>
+        <argsstring></argsstring>
+        <name>total_bytes_</name>
+        <qualifiedname>themis::rpc::BlobTransferHandler::Impl::total_bytes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/rpc/blob_transfer_handler.cpp" line="645" column="14" bodyfile="src/server/rpc/blob_transfer_handler.cpp" bodystart="645" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1ad1ca9adddf46c750b8cdd84b99839f23" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::rpc::BlobTransferHandler::Impl::transferred_bytes_</definition>
+        <argsstring></argsstring>
+        <name>transferred_bytes_</name>
+        <qualifiedname>themis::rpc::BlobTransferHandler::Impl::transferred_bytes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/rpc/blob_transfer_handler.cpp" line="646" column="14" bodyfile="src/server/rpc/blob_transfer_handler.cpp" bodystart="646" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1a505a0c77581ff50d4659f7a8890a48e8" prot="private" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::rpc::BlobTransferHandler::Impl::total_chunks_</definition>
+        <argsstring></argsstring>
+        <name>total_chunks_</name>
+        <qualifiedname>themis::rpc::BlobTransferHandler::Impl::total_chunks_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/rpc/blob_transfer_handler.cpp" line="647" column="14" bodyfile="src/server/rpc/blob_transfer_handler.cpp" bodystart="647" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1a0d00984ee8f61e6d71847f58ab7a999b" prot="private" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::rpc::BlobTransferHandler::Impl::transferred_chunks_</definition>
+        <argsstring></argsstring>
+        <name>transferred_chunks_</name>
+        <qualifiedname>themis::rpc::BlobTransferHandler::Impl::transferred_chunks_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/rpc/blob_transfer_handler.cpp" line="648" column="14" bodyfile="src/server/rpc/blob_transfer_handler.cpp" bodystart="648" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1a3fb4c6e3be8bb0f38f75cdd927756352" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::rpc::BlobTransferHandler::Impl::cancelled_</definition>
+        <argsstring></argsstring>
+        <name>cancelled_</name>
+        <qualifiedname>themis::rpc::BlobTransferHandler::Impl::cancelled_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/rpc/blob_transfer_handler.cpp" line="649" column="17" bodyfile="src/server/rpc/blob_transfer_handler.cpp" bodystart="649" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1af8f642f65290b0d1032419c0175664d7" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::rpc::BlobTransferHandler::Impl::start_time_</definition>
+        <argsstring></argsstring>
+        <name>start_time_</name>
+        <qualifiedname>themis::rpc::BlobTransferHandler::Impl::start_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/rpc/blob_transfer_handler.cpp" line="650" column="43" bodyfile="src/server/rpc/blob_transfer_handler.cpp" bodystart="650" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1ad7ca52efd24d952c864318c75992636d" prot="private" static="no" mutable="no">
+        <type>std::ofstream</type>
+        <definition>std::ofstream themis::rpc::BlobTransferHandler::Impl::output_file_</definition>
+        <argsstring></argsstring>
+        <name>output_file_</name>
+        <qualifiedname>themis::rpc::BlobTransferHandler::Impl::output_file_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/rpc/blob_transfer_handler.cpp" line="651" column="19" bodyfile="src/server/rpc/blob_transfer_handler.cpp" bodystart="651" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1af2629ff5131454346925df777839419e" prot="private" static="no" mutable="no">
+        <type>Checkpoint</type>
+        <definition>Checkpoint themis::rpc::BlobTransferHandler::Impl::checkpoint_</definition>
+        <argsstring></argsstring>
+        <name>checkpoint_</name>
+        <qualifiedname>themis::rpc::BlobTransferHandler::Impl::checkpoint_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/rpc/blob_transfer_handler.cpp" line="652" column="16" bodyfile="src/server/rpc/blob_transfer_handler.cpp" bodystart="652" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1a2868069d28cf0561132e5485262cbb1b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::rpc::BlobTransferHandler::Impl::Impl</definition>
+        <argsstring>()</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::rpc::BlobTransferHandler::Impl::Impl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/rpc/blob_transfer_handler.cpp" line="128" column="5" bodyfile="src/server/rpc/blob_transfer_handler.cpp" bodystart="128" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1a579d4a57b8e927c4c8874a95877e4e8b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1rpc_1a205e9cac7cef3ee4d3803c3f6a4ace48" kindref="member">BlobStatus</ref></type>
+        <definition>BlobStatus themis::rpc::BlobTransferHandler::Impl::StartTransfer</definition>
+        <argsstring>(const BlobConfig &amp;config)</argsstring>
+        <name>StartTransfer</name>
+        <qualifiedname>themis::rpc::BlobTransferHandler::Impl::StartTransfer</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rpc_1_1_blob_config" kindref="compound">BlobConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Start Transfer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: fs::exists(), fs::file_size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/rpc/blob_transfer_handler.cpp" line="142" column="16" bodyfile="src/server/rpc/blob_transfer_handler.cpp" bodystart="142" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1a49e77c2e6332c3b40667bfe091bbe451" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1rpc_1a205e9cac7cef3ee4d3803c3f6a4ace48" kindref="member">BlobStatus</ref></type>
+        <definition>BlobStatus themis::rpc::BlobTransferHandler::Impl::StreamChunks</definition>
+        <argsstring>(BlobChunkCallback callback)</argsstring>
+        <name>StreamChunks</name>
+        <qualifiedname>themis::rpc::BlobTransferHandler::Impl::StreamChunks</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1rpc_1a3f6df784ec8f560594925bc145cce106" kindref="member">BlobChunkCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Stream Chunks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: file(), buffer(), seekg(), read(), data(), size(), gcount(), set_blob_id(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/rpc/blob_transfer_handler.cpp" line="162" column="16" bodyfile="src/server/rpc/blob_transfer_handler.cpp" bodystart="162" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1a7aa4abdd3ea45cfd99358da172ad6453" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1rpc_1a205e9cac7cef3ee4d3803c3f6a4ace48" kindref="member">BlobStatus</ref></type>
+        <definition>BlobStatus themis::rpc::BlobTransferHandler::Impl::VerifyBlob</definition>
+        <argsstring>(const std::string &amp;expected_hash)</argsstring>
+        <name>VerifyBlob</name>
+        <qualifiedname>themis::rpc::BlobTransferHandler::Impl::VerifyBlob</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>expected_hash</declname>
+        </param>
+        <briefdescription>
+<para>Verify Blob. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">expected_hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: CalculateBlobHash(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/rpc/blob_transfer_handler.cpp" line="251" column="16" bodyfile="src/server/rpc/blob_transfer_handler.cpp" bodystart="251" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1afef907401e98ce74807d773bfff6a8ef" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1rpc_1a205e9cac7cef3ee4d3803c3f6a4ace48" kindref="member">BlobStatus</ref></type>
+        <definition>BlobStatus themis::rpc::BlobTransferHandler::Impl::ReceiveChunk</definition>
+        <argsstring>(const themis::sharding::proto::BlobChunk &amp;chunk)</argsstring>
+        <name>ReceiveChunk</name>
+        <qualifiedname>themis::rpc::BlobTransferHandler::Impl::ReceiveChunk</qualifiedname>
+        <param>
+          <type>const themis::sharding::proto::BlobChunk &amp;</type>
+          <declname>chunk</declname>
+        </param>
+        <briefdescription>
+<para>Receive Chunk. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">chunk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: CalculateChecksum(), data(), checksum_crc32(), DecompressData(), is_open(), open(), write(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/rpc/blob_transfer_handler.cpp" line="264" column="16" bodyfile="src/server/rpc/blob_transfer_handler.cpp" bodystart="264" bodyend="288"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1a133dde743143f479844ba8a6af1e2cb6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1rpc_1a205e9cac7cef3ee4d3803c3f6a4ace48" kindref="member">BlobStatus</ref></type>
+        <definition>BlobStatus themis::rpc::BlobTransferHandler::Impl::FinalizeBlob</definition>
+        <argsstring>()</argsstring>
+        <name>FinalizeBlob</name>
+        <qualifiedname>themis::rpc::BlobTransferHandler::Impl::FinalizeBlob</qualifiedname>
+        <briefdescription>
+<para>Finalize Blob. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: is_open(), close(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/rpc/blob_transfer_handler.cpp" line="295" column="16" bodyfile="src/server/rpc/blob_transfer_handler.cpp" bodystart="295" bodyend="300"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1abbc512fa043dff69ae77718a8abee3f2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rpc_1_1_blob_progress" kindref="compound">BlobProgress</ref></type>
+        <definition>BlobProgress themis::rpc::BlobTransferHandler::Impl::GetProgress</definition>
+        <argsstring>() const</argsstring>
+        <name>GetProgress</name>
+        <qualifiedname>themis::rpc::BlobTransferHandler::Impl::GetProgress</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/rpc/blob_transfer_handler.cpp" line="302" column="18" bodyfile="src/server/rpc/blob_transfer_handler.cpp" bodystart="302" bodyend="326"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1a8396cfbe7640e32b345ae4384aaa33f3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::rpc::BlobTransferHandler::Impl::CreateCheckpoint</definition>
+        <argsstring>()</argsstring>
+        <name>CreateCheckpoint</name>
+        <qualifiedname>themis::rpc::BlobTransferHandler::Impl::CreateCheckpoint</qualifiedname>
+        <briefdescription>
+<para>Create Checkpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: GenerateCheckpointId(), SaveCheckpoint(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/rpc/blob_transfer_handler.cpp" line="333" column="17" bodyfile="src/server/rpc/blob_transfer_handler.cpp" bodystart="333" bodyend="347"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1ad4f25866ffc908dd9002d5e394b4f53a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1rpc_1a205e9cac7cef3ee4d3803c3f6a4ace48" kindref="member">BlobStatus</ref></type>
+        <definition>BlobStatus themis::rpc::BlobTransferHandler::Impl::ResumeTransfer</definition>
+        <argsstring>(const std::string &amp;checkpoint_id)</argsstring>
+        <name>ResumeTransfer</name>
+        <qualifiedname>themis::rpc::BlobTransferHandler::Impl::ResumeTransfer</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>checkpoint_id</declname>
+        </param>
+        <briefdescription>
+<para>Resume Transfer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">checkpoint_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the checkpoint. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: LoadCheckpoint(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/rpc/blob_transfer_handler.cpp" line="355" column="16" bodyfile="src/server/rpc/blob_transfer_handler.cpp" bodystart="355" bodyend="372"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1af9047e28ce0b63f5817aab505cb9444f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rpc::BlobTransferHandler::Impl::Cancel</definition>
+        <argsstring>()</argsstring>
+        <name>Cancel</name>
+        <qualifiedname>themis::rpc::BlobTransferHandler::Impl::Cancel</qualifiedname>
+        <briefdescription>
+<para>Cancel. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements Cancel without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/rpc/blob_transfer_handler.cpp" line="378" column="10" bodyfile="src/server/rpc/blob_transfer_handler.cpp" bodystart="378" bodyend="380"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1a82e58ab9f7464951163958a9d1d5c1a5" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1rpc_1a205e9cac7cef3ee4d3803c3f6a4ace48" kindref="member">BlobStatus</ref></type>
+        <definition>BlobStatus themis::rpc::BlobTransferHandler::Impl::CompressData</definition>
+        <argsstring>(const std::string &amp;input, std::string *output)</argsstring>
+        <name>CompressData</name>
+        <qualifiedname>themis::rpc::BlobTransferHandler::Impl::CompressData</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>std::string *</type>
+          <declname>output</declname>
+        </param>
+        <briefdescription>
+<para>Compress Data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), ZSTD_compressBound(), resize(), ZSTD_compress(), data(), ZSTD_isError(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/rpc/blob_transfer_handler.cpp" line="390" column="16" bodyfile="src/server/rpc/blob_transfer_handler.cpp" bodystart="390" bodyend="419"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1a635956bc6eacc8876ca4ad7aa081915d" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1rpc_1a205e9cac7cef3ee4d3803c3f6a4ace48" kindref="member">BlobStatus</ref></type>
+        <definition>BlobStatus themis::rpc::BlobTransferHandler::Impl::DecompressData</definition>
+        <argsstring>(const std::string &amp;input, std::string *output)</argsstring>
+        <name>DecompressData</name>
+        <qualifiedname>themis::rpc::BlobTransferHandler::Impl::DecompressData</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>std::string *</type>
+          <declname>output</declname>
+        </param>
+        <briefdescription>
+<para>Decompress Data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: ZSTD_getFrameContentSize(), data(), size(), resize(), ZSTD_decompress(), ZSTD_isError(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/rpc/blob_transfer_handler.cpp" line="428" column="16" bodyfile="src/server/rpc/blob_transfer_handler.cpp" bodystart="428" bodyend="450"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1a5c4c74571a26e026e32079a97c8b6ef7" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::rpc::BlobTransferHandler::Impl::CalculateChecksum</definition>
+        <argsstring>(const std::string &amp;data)</argsstring>
+        <name>CalculateChecksum</name>
+        <qualifiedname>themis::rpc::BlobTransferHandler::Impl::CalculateChecksum</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Checksum. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(), fn(), empty(), data(), crc32_table(), size(), std::to_string(), SHA256(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/rpc/blob_transfer_handler.cpp" line="458" column="17" bodyfile="src/server/rpc/blob_transfer_handler.cpp" bodystart="458" bodyend="503"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1a33bf46621ab13927f93359a6fe3486ed" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::rpc::BlobTransferHandler::Impl::CalculateBlobHash</definition>
+        <argsstring>()</argsstring>
+        <name>CalculateBlobHash</name>
+        <qualifiedname>themis::rpc::BlobTransferHandler::Impl::CalculateBlobHash</qualifiedname>
+        <briefdescription>
+<para>Calculate Blob Hash. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: file(), SHA256_Init(), buffer(), read(), data(), size(), gcount(), SHA256_Update(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/rpc/blob_transfer_handler.cpp" line="510" column="17" bodyfile="src/server/rpc/blob_transfer_handler.cpp" bodystart="510" bodyend="529"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1adb5e49c08c741708416b94960a44e551" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::rpc::BlobTransferHandler::Impl::GenerateCheckpointId</definition>
+        <argsstring>()</argsstring>
+        <name>GenerateCheckpointId</name>
+        <qualifiedname>themis::rpc::BlobTransferHandler::Impl::GenerateCheckpointId</qualifiedname>
+        <briefdescription>
+<para>Generate Checkpoint Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/rpc/blob_transfer_handler.cpp" line="536" column="17" bodyfile="src/server/rpc/blob_transfer_handler.cpp" bodystart="536" bodyend="541"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1a8af1605b3919dddacf5d1740bb3e9235" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::rpc::BlobTransferHandler::Impl::GetCheckpointPath</definition>
+        <argsstring>(const std::string &amp;checkpoint_id) const</argsstring>
+        <name>GetCheckpointPath</name>
+        <qualifiedname>themis::rpc::BlobTransferHandler::Impl::GetCheckpointPath</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>checkpoint_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/rpc/blob_transfer_handler.cpp" line="543" column="17" bodyfile="src/server/rpc/blob_transfer_handler.cpp" bodystart="543" bodyend="545"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1a5ae321c51c600b6751d2700d3da4ef8b" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1rpc_1a205e9cac7cef3ee4d3803c3f6a4ace48" kindref="member">BlobStatus</ref></type>
+        <definition>BlobStatus themis::rpc::BlobTransferHandler::Impl::SaveCheckpoint</definition>
+        <argsstring>()</argsstring>
+        <name>SaveCheckpoint</name>
+        <qualifiedname>themis::rpc::BlobTransferHandler::Impl::SaveCheckpoint</qualifiedname>
+        <briefdescription>
+<para>Save Checkpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), GetCheckpointPath(), checkpoint_file(), THEMIS_ERROR(), dump(), close(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/rpc/blob_transfer_handler.cpp" line="552" column="16" bodyfile="src/server/rpc/blob_transfer_handler.cpp" bodystart="552" bodyend="581"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1ae8fc593a5c5ac9464747c4d3fdc4859a" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1rpc_1a205e9cac7cef3ee4d3803c3f6a4ace48" kindref="member">BlobStatus</ref></type>
+        <definition>BlobStatus themis::rpc::BlobTransferHandler::Impl::LoadCheckpoint</definition>
+        <argsstring>(const std::string &amp;checkpoint_id)</argsstring>
+        <name>LoadCheckpoint</name>
+        <qualifiedname>themis::rpc::BlobTransferHandler::Impl::LoadCheckpoint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>checkpoint_id</declname>
+        </param>
+        <briefdescription>
+<para>Load Checkpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">checkpoint_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the checkpoint. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: GetCheckpointPath(), fs::exists(), THEMIS_ERROR(), checkpoint_file(), close(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/rpc/blob_transfer_handler.cpp" line="589" column="16" bodyfile="src/server/rpc/blob_transfer_handler.cpp" bodystart="589" bodyend="636"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/server/rpc/blob_transfer_handler.cpp" line="126" column="1" bodyfile="src/server/rpc/blob_transfer_handler.cpp" bodystart="126" bodyend="653"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1a33bf46621ab13927f93359a6fe3486ed" prot="private" virt="non-virtual"><scope>themis::rpc::BlobTransferHandler::Impl</scope><name>CalculateBlobHash</name></member>
+      <member refid="classthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1a5c4c74571a26e026e32079a97c8b6ef7" prot="private" virt="non-virtual"><scope>themis::rpc::BlobTransferHandler::Impl</scope><name>CalculateChecksum</name></member>
+      <member refid="classthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1af9047e28ce0b63f5817aab505cb9444f" prot="public" virt="non-virtual"><scope>themis::rpc::BlobTransferHandler::Impl</scope><name>Cancel</name></member>
+      <member refid="classthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1a3fb4c6e3be8bb0f38f75cdd927756352" prot="private" virt="non-virtual"><scope>themis::rpc::BlobTransferHandler::Impl</scope><name>cancelled_</name></member>
+      <member refid="classthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1af2629ff5131454346925df777839419e" prot="private" virt="non-virtual"><scope>themis::rpc::BlobTransferHandler::Impl</scope><name>checkpoint_</name></member>
+      <member refid="classthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1a82e58ab9f7464951163958a9d1d5c1a5" prot="private" virt="non-virtual"><scope>themis::rpc::BlobTransferHandler::Impl</scope><name>CompressData</name></member>
+      <member refid="classthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1ac1adbd011ab9abbac1edac5301a2db97" prot="private" virt="non-virtual"><scope>themis::rpc::BlobTransferHandler::Impl</scope><name>config_</name></member>
+      <member refid="classthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1a8396cfbe7640e32b345ae4384aaa33f3" prot="public" virt="non-virtual"><scope>themis::rpc::BlobTransferHandler::Impl</scope><name>CreateCheckpoint</name></member>
+      <member refid="classthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1a635956bc6eacc8876ca4ad7aa081915d" prot="private" virt="non-virtual"><scope>themis::rpc::BlobTransferHandler::Impl</scope><name>DecompressData</name></member>
+      <member refid="classthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1a133dde743143f479844ba8a6af1e2cb6" prot="public" virt="non-virtual"><scope>themis::rpc::BlobTransferHandler::Impl</scope><name>FinalizeBlob</name></member>
+      <member refid="classthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1adb5e49c08c741708416b94960a44e551" prot="private" virt="non-virtual"><scope>themis::rpc::BlobTransferHandler::Impl</scope><name>GenerateCheckpointId</name></member>
+      <member refid="classthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1a8af1605b3919dddacf5d1740bb3e9235" prot="private" virt="non-virtual"><scope>themis::rpc::BlobTransferHandler::Impl</scope><name>GetCheckpointPath</name></member>
+      <member refid="classthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1abbc512fa043dff69ae77718a8abee3f2" prot="public" virt="non-virtual"><scope>themis::rpc::BlobTransferHandler::Impl</scope><name>GetProgress</name></member>
+      <member refid="classthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1a2868069d28cf0561132e5485262cbb1b" prot="public" virt="non-virtual"><scope>themis::rpc::BlobTransferHandler::Impl</scope><name>Impl</name></member>
+      <member refid="classthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1ae8fc593a5c5ac9464747c4d3fdc4859a" prot="private" virt="non-virtual"><scope>themis::rpc::BlobTransferHandler::Impl</scope><name>LoadCheckpoint</name></member>
+      <member refid="classthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1ad7ca52efd24d952c864318c75992636d" prot="private" virt="non-virtual"><scope>themis::rpc::BlobTransferHandler::Impl</scope><name>output_file_</name></member>
+      <member refid="classthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1afef907401e98ce74807d773bfff6a8ef" prot="public" virt="non-virtual"><scope>themis::rpc::BlobTransferHandler::Impl</scope><name>ReceiveChunk</name></member>
+      <member refid="classthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1ad4f25866ffc908dd9002d5e394b4f53a" prot="public" virt="non-virtual"><scope>themis::rpc::BlobTransferHandler::Impl</scope><name>ResumeTransfer</name></member>
+      <member refid="classthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1a5ae321c51c600b6751d2700d3da4ef8b" prot="private" virt="non-virtual"><scope>themis::rpc::BlobTransferHandler::Impl</scope><name>SaveCheckpoint</name></member>
+      <member refid="classthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1af8f642f65290b0d1032419c0175664d7" prot="private" virt="non-virtual"><scope>themis::rpc::BlobTransferHandler::Impl</scope><name>start_time_</name></member>
+      <member refid="classthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1a579d4a57b8e927c4c8874a95877e4e8b" prot="public" virt="non-virtual"><scope>themis::rpc::BlobTransferHandler::Impl</scope><name>StartTransfer</name></member>
+      <member refid="classthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1a49e77c2e6332c3b40667bfe091bbe451" prot="public" virt="non-virtual"><scope>themis::rpc::BlobTransferHandler::Impl</scope><name>StreamChunks</name></member>
+      <member refid="classthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1a2280705aa3e41f77260d53b774737705" prot="private" virt="non-virtual"><scope>themis::rpc::BlobTransferHandler::Impl</scope><name>total_bytes_</name></member>
+      <member refid="classthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1a505a0c77581ff50d4659f7a8890a48e8" prot="private" virt="non-virtual"><scope>themis::rpc::BlobTransferHandler::Impl</scope><name>total_chunks_</name></member>
+      <member refid="classthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1ad1ca9adddf46c750b8cdd84b99839f23" prot="private" virt="non-virtual"><scope>themis::rpc::BlobTransferHandler::Impl</scope><name>transferred_bytes_</name></member>
+      <member refid="classthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1a0d00984ee8f61e6d71847f58ab7a999b" prot="private" virt="non-virtual"><scope>themis::rpc::BlobTransferHandler::Impl</scope><name>transferred_chunks_</name></member>
+      <member refid="classthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1a7aa4abdd3ea45cfd99358da172ad6453" prot="public" virt="non-virtual"><scope>themis::rpc::BlobTransferHandler::Impl</scope><name>VerifyBlob</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

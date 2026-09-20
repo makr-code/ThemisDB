@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_i_compression_selector" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::ICompressionSelector</compoundname>
+    <derivedcompoundref refid="classthemis_1_1_heuristic_compression_selector" prot="public" virt="non-virtual">themis::HeuristicCompressionSelector</derivedcompoundref>
+    <includes refid="compression__selector_8h" local="no">compression_selector.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_i_compression_selector_1a647534bfe18aa352418a8914ce5bc7e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::ICompressionSelector::~ICompressionSelector</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ICompressionSelector</name>
+        <qualifiedname>themis::ICompressionSelector::~ICompressionSelector</qualifiedname>
+        <briefdescription>
+<para>ICompression Selector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/compression_selector.h" line="93" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_compression_selector_1a6efa7e7e611cf3798fe711ce8cdaa838" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1a8d703d274585c059c53eb99e50403e39" kindref="member">CompressionStrategy</ref></type>
+        <definition>virtual CompressionStrategy themis::ICompressionSelector::select</definition>
+        <argsstring>(const SeriesProfile &amp;profile) const =0</argsstring>
+        <name>select</name>
+        <qualifiedname>themis::ICompressionSelector::select</qualifiedname>
+        <reimplementedby refid="classthemis_1_1_heuristic_compression_selector_1a86b7305bb796223a51491f5ebaeebc80">select</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1_series_profile" kindref="compound">SeriesProfile</ref> &amp;</type>
+          <declname>profile</declname>
+        </param>
+        <briefdescription>
+<para>Select a compression strategy from a pre-computed profile. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">profile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/compression_selector.h" line="100" column="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_compression_selector_1a1660275f8d30d4d60094864195a2b4ae" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1a8d703d274585c059c53eb99e50403e39" kindref="member">CompressionStrategy</ref></type>
+        <definition>virtual CompressionStrategy themis::ICompressionSelector::selectForPoints</definition>
+        <argsstring>(const std::vector&lt; TSStore::DataPoint &gt; &amp;points) const =0</argsstring>
+        <name>selectForPoints</name>
+        <qualifiedname>themis::ICompressionSelector::selectForPoints</qualifiedname>
+        <reimplementedby refid="classthemis_1_1_heuristic_compression_selector_1ac61b5639173d8b7b191805789f19aace">selectForPoints</reimplementedby>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1_t_s_store_1_1_data_point" kindref="compound">TSStore::DataPoint</ref> &gt; &amp;</type>
+          <declname>points</declname>
+        </param>
+        <briefdescription>
+<para>Convenience overload: profile the points internally and select. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">points</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/compression_selector.h" line="107" column="33"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Strategy interface for adaptive compression selection. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implementations receive a <ref refid="structthemis_1_1_series_profile" kindref="compound">SeriesProfile</ref> (or raw DataPoints) and return the <ref refid="namespacethemis_1a8d703d274585c059c53eb99e50403e39" kindref="member">CompressionStrategy</ref> that is expected to yield the best trade-off between compression ratio and CPU cost for that series. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::HeuristicCompressionSelector</label>
+        <link refid="classthemis_1_1_heuristic_compression_selector"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::ICompressionSelector</label>
+        <link refid="classthemis_1_1_i_compression_selector"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/timeseries/compression_selector.h" line="87" column="1" bodyfile="include/timeseries/compression_selector.h" bodystart="87" bodyend="109"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_i_compression_selector_1a6efa7e7e611cf3798fe711ce8cdaa838" prot="public" virt="pure-virtual"><scope>themis::ICompressionSelector</scope><name>select</name></member>
+      <member refid="classthemis_1_1_i_compression_selector_1a1660275f8d30d4d60094864195a2b4ae" prot="public" virt="pure-virtual"><scope>themis::ICompressionSelector</scope><name>selectForPoints</name></member>
+      <member refid="classthemis_1_1_i_compression_selector_1a647534bfe18aa352418a8914ce5bc7e4" prot="public" virt="virtual"><scope>themis::ICompressionSelector</scope><name>~ICompressionSelector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

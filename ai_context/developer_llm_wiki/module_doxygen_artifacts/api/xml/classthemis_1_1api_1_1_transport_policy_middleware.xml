@@ -1,0 +1,365 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1api_1_1_transport_policy_middleware" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::api::TransportPolicyMiddleware</compoundname>
+    <basecompoundref refid="classthemis_1_1api_1_1_i_http_handler" prot="public" virt="non-virtual">themis::api::IHttpHandler</basecompoundref>
+    <basecompoundref refid="classthemis_1_1api_1_1_i_transport_contract" prot="public" virt="non-virtual">themis::api::ITransportContract</basecompoundref>
+    <includes refid="api__transport__policy_8h" local="no">api_transport_policy.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1api_1_1_transport_policy_middleware_1a31ccdaa7268e37f40444163e2f1e57a6" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1api_1_1_i_http_handler" kindref="compound">IHttpHandler</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;IHttpHandler&gt; themis::api::TransportPolicyMiddleware::inner_</definition>
+        <argsstring></argsstring>
+        <name>inner_</name>
+        <qualifiedname>themis::api::TransportPolicyMiddleware::inner_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_transport_policy.h" line="127" column="21" bodyfile="include/api/api_transport_policy.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1api_1_1_transport_policy_middleware_1a1a3eef35a2a6dd57852b3349e7bc5f80" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1api_1_1_transport_policy_config" kindref="compound">TransportPolicyConfig</ref></type>
+        <definition>TransportPolicyConfig themis::api::TransportPolicyMiddleware::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::api::TransportPolicyMiddleware::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_transport_policy.h" line="128" column="35" bodyfile="include/api/api_transport_policy.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1api_1_1_transport_policy_middleware_1a8836e76b0eb68cf06fcce082fa64fc2b" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::api::TransportPolicyMiddleware::TransportPolicyMiddleware</definition>
+        <argsstring>(std::shared_ptr&lt; IHttpHandler &gt; inner)</argsstring>
+        <name>TransportPolicyMiddleware</name>
+        <qualifiedname>themis::api::TransportPolicyMiddleware::TransportPolicyMiddleware</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1api_1_1_i_http_handler" kindref="compound">IHttpHandler</ref> &gt;</type>
+          <declname>inner</declname>
+        </param>
+        <briefdescription>
+<para>Transport Policy Middleware. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">inner</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_transport_policy.h" line="86" column="14" bodyfile="src/api/api_transport_policy.cpp" bodystart="25" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_transport_policy_middleware_1ad669a7ee989da390d1302f597b95f095" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::api::TransportPolicyMiddleware::TransportPolicyMiddleware</definition>
+        <argsstring>(std::shared_ptr&lt; IHttpHandler &gt; inner, const TransportPolicyConfig &amp;config)</argsstring>
+        <name>TransportPolicyMiddleware</name>
+        <qualifiedname>themis::api::TransportPolicyMiddleware::TransportPolicyMiddleware</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1api_1_1_i_http_handler" kindref="compound">IHttpHandler</ref> &gt;</type>
+          <declname>inner</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1api_1_1_transport_policy_config" kindref="compound">TransportPolicyConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_transport_policy.h" line="88" column="5" bodyfile="src/api/api_transport_policy.cpp" bodystart="30" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_transport_policy_middleware_1acb05c23754a6e910b32985a1d1e36c92" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::api::TransportPolicyMiddleware::~TransportPolicyMiddleware</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~TransportPolicyMiddleware</name>
+        <qualifiedname>themis::api::TransportPolicyMiddleware::~TransportPolicyMiddleware</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_transport_policy.h" line="91" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_transport_policy_middleware_1acf48384fecae7048b360bd697d291795" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::api::TransportPolicyMiddleware::TransportPolicyMiddleware</definition>
+        <argsstring>(const TransportPolicyMiddleware &amp;)=delete</argsstring>
+        <name>TransportPolicyMiddleware</name>
+        <qualifiedname>themis::api::TransportPolicyMiddleware::TransportPolicyMiddleware</qualifiedname>
+        <param>
+          <type>const TransportPolicyMiddleware &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_transport_policy.h" line="94" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_transport_policy_middleware_1a7553bfd0a76e376971cff3f7c33d73b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1api_1_1_transport_policy_middleware_1a8836e76b0eb68cf06fcce082fa64fc2b" kindref="member">TransportPolicyMiddleware</ref> &amp;</type>
+        <definition>TransportPolicyMiddleware &amp; themis::api::TransportPolicyMiddleware::operator=</definition>
+        <argsstring>(const TransportPolicyMiddleware &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::api::TransportPolicyMiddleware::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1api_1_1_transport_policy_middleware_1a8836e76b0eb68cf06fcce082fa64fc2b" kindref="member">TransportPolicyMiddleware</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_transport_policy.h" line="95" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_transport_policy_middleware_1aa77f1085a989f0c3a855369b5355b8f7" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::api::TransportPolicyMiddleware::TransportPolicyMiddleware</definition>
+        <argsstring>(TransportPolicyMiddleware &amp;&amp;) noexcept=default</argsstring>
+        <name>TransportPolicyMiddleware</name>
+        <qualifiedname>themis::api::TransportPolicyMiddleware::TransportPolicyMiddleware</qualifiedname>
+        <param>
+          <type>TransportPolicyMiddleware &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_transport_policy.h" line="96" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_transport_policy_middleware_1a4ded41511803c85f2ea1ace302a1bc6c" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1api_1_1_transport_policy_middleware_1a8836e76b0eb68cf06fcce082fa64fc2b" kindref="member">TransportPolicyMiddleware</ref> &amp;</type>
+        <definition>TransportPolicyMiddleware &amp; themis::api::TransportPolicyMiddleware::operator=</definition>
+        <argsstring>(TransportPolicyMiddleware &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::api::TransportPolicyMiddleware::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1api_1_1_transport_policy_middleware_1a8836e76b0eb68cf06fcce082fa64fc2b" kindref="member">TransportPolicyMiddleware</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_transport_policy.h" line="97" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_transport_policy_middleware_1aa1055c46c1a5139c837e3d41aa1c905b" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="virtual">
+        <type>themis::Result&lt; <ref refid="structthemis_1_1api_1_1_http_response" kindref="compound">HttpResponse</ref> &gt;</type>
+        <definition>themis::Result&lt; HttpResponse &gt; themis::api::TransportPolicyMiddleware::handle</definition>
+        <argsstring>(const HttpRequest &amp;request) override</argsstring>
+        <name>handle</name>
+        <qualifiedname>themis::api::TransportPolicyMiddleware::handle</qualifiedname>
+        <reimplements refid="classthemis_1_1api_1_1_i_http_handler_1abb4f14c9e049df893aa53d9c2ad902ec">handle</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1api_1_1_http_request" kindref="compound">HttpRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+<para>Handle. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: applyPolicy(), <ref refid="classthemis_1_1api_1_1_api_error_taxonomy_1a9f8b22006de70fd4f1197074be27d7f5" kindref="member">ApiErrorTaxonomy::toErrorCode()</ref>, <ref refid="classthemis_1_1api_1_1_api_error_taxonomy_1a611cc652d122d129671d7e55993898f2" kindref="member">ApiErrorTaxonomy::toMessage()</ref>, <ref refid="classthemis_1_1api_1_1_transport_policy_middleware_1a5e3499732e2ba234db2f5606560e54fc" kindref="member">adapterName()</ref>, tl::unexpected(), themis::Error(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_transport_policy.h" line="103" column="21" bodyfile="src/api/api_transport_policy.cpp" bodystart="51" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_transport_policy_middleware_1a4e123c6573c05488697245b67d604d09" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::api::TransportPolicyMiddleware::requiresAuthentication</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>requiresAuthentication</name>
+        <qualifiedname>themis::api::TransportPolicyMiddleware::requiresAuthentication</qualifiedname>
+        <reimplements refid="classthemis_1_1api_1_1_i_http_handler_1a64f3952e037b08e2633f0a7b4f1b7c4e">requiresAuthentication</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_transport_policy.h" line="106" column="11" bodyfile="src/api/api_transport_policy.cpp" bodystart="64" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_transport_policy_middleware_1a385257d97abf265ec936e25dd93496f1" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::api::TransportPolicyMiddleware::handlerName</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>handlerName</name>
+        <qualifiedname>themis::api::TransportPolicyMiddleware::handlerName</qualifiedname>
+        <reimplements refid="classthemis_1_1api_1_1_i_http_handler_1a5346bc63057ac9e8a9f1d753a094029f">handlerName</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_transport_policy.h" line="108" column="23" bodyfile="src/api/api_transport_policy.cpp" bodystart="68" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_transport_policy_middleware_1a87694d0ff51bfab1998783b9a873c76f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1api_1a0343d99372edab7f45df75439b391937" kindref="member">TransportCapability</ref></type>
+        <definition>TransportCapability themis::api::TransportPolicyMiddleware::capabilities</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>capabilities</name>
+        <qualifiedname>themis::api::TransportPolicyMiddleware::capabilities</qualifiedname>
+        <reimplements refid="classthemis_1_1api_1_1_i_transport_contract_1afc6afe0e7a76f61e603a309e1427dcb5">capabilities</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_transport_policy.h" line="114" column="26" bodyfile="src/api/api_transport_policy.cpp" bodystart="76" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_transport_policy_middleware_1a5e3499732e2ba234db2f5606560e54fc" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::api::TransportPolicyMiddleware::adapterName</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>adapterName</name>
+        <qualifiedname>themis::api::TransportPolicyMiddleware::adapterName</qualifiedname>
+        <reimplements refid="classthemis_1_1api_1_1_i_transport_contract_1a84c59ece96da7bbdfc92b482ef9c12f6">adapterName</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_transport_policy.h" line="116" column="23" bodyfile="src/api/api_transport_policy.cpp" bodystart="84" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_transport_policy_middleware_1a7d6c3d722d5ec5be53b393298f5162ac" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1api_1_1_transport_policy_config" kindref="compound">TransportPolicyConfig</ref> &amp;</type>
+        <definition>const TransportPolicyConfig &amp; themis::api::TransportPolicyMiddleware::config</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::api::TransportPolicyMiddleware::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_transport_policy.h" line="122" column="34" bodyfile="include/api/api_transport_policy.h" bodystart="122" bodyend="124"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1api_1_1_transport_policy_middleware_1af4130c1852ac016f55e0132763b82fbc" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1api_1a7725be3f5528117fdb79ccf1d6af0fe5" kindref="member">TransportFailureClass</ref></type>
+        <definition>TransportFailureClass themis::api::TransportPolicyMiddleware::applyPolicy</definition>
+        <argsstring>(const HttpRequest &amp;request) const noexcept</argsstring>
+        <name>applyPolicy</name>
+        <qualifiedname>themis::api::TransportPolicyMiddleware::applyPolicy</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1api_1_1_http_request" kindref="compound">HttpRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_transport_policy.h" line="130" column="28" bodyfile="src/api/api_transport_policy.cpp" bodystart="92" bodyend="143"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::api::IHttpHandler</label>
+        <link refid="classthemis_1_1api_1_1_i_http_handler"/>
+      </node>
+      <node id="3">
+        <label>themis::api::ITransportContract</label>
+        <link refid="classthemis_1_1api_1_1_i_transport_contract"/>
+      </node>
+      <node id="1">
+        <label>themis::api::TransportPolicyMiddleware</label>
+        <link refid="classthemis_1_1api_1_1_transport_policy_middleware"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::api::IHttpHandler</label>
+        <link refid="classthemis_1_1api_1_1_i_http_handler"/>
+      </node>
+      <node id="3">
+        <label>themis::api::ITransportContract</label>
+        <link refid="classthemis_1_1api_1_1_i_transport_contract"/>
+      </node>
+      <node id="1">
+        <label>themis::api::TransportPolicyMiddleware</label>
+        <link refid="classthemis_1_1api_1_1_transport_policy_middleware"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/api/api_transport_policy.h" line="78" column="1" bodyfile="include/api/api_transport_policy.h" bodystart="79" bodyend="132"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1api_1_1_transport_policy_middleware_1a5e3499732e2ba234db2f5606560e54fc" prot="public" virt="virtual"><scope>themis::api::TransportPolicyMiddleware</scope><name>adapterName</name></member>
+      <member refid="classthemis_1_1api_1_1_transport_policy_middleware_1af4130c1852ac016f55e0132763b82fbc" prot="private" virt="non-virtual"><scope>themis::api::TransportPolicyMiddleware</scope><name>applyPolicy</name></member>
+      <member refid="classthemis_1_1api_1_1_transport_policy_middleware_1a87694d0ff51bfab1998783b9a873c76f" prot="public" virt="virtual"><scope>themis::api::TransportPolicyMiddleware</scope><name>capabilities</name></member>
+      <member refid="classthemis_1_1api_1_1_i_transport_contract_1a70d7c4be9fda6a6f42264fc140ac9768" prot="public" virt="virtual"><scope>themis::api::TransportPolicyMiddleware</scope><name>classifyFailure</name></member>
+      <member refid="classthemis_1_1api_1_1_transport_policy_middleware_1a7d6c3d722d5ec5be53b393298f5162ac" prot="public" virt="non-virtual"><scope>themis::api::TransportPolicyMiddleware</scope><name>config</name></member>
+      <member refid="classthemis_1_1api_1_1_transport_policy_middleware_1a1a3eef35a2a6dd57852b3349e7bc5f80" prot="private" virt="non-virtual"><scope>themis::api::TransportPolicyMiddleware</scope><name>config_</name></member>
+      <member refid="classthemis_1_1api_1_1_transport_policy_middleware_1aa1055c46c1a5139c837e3d41aa1c905b" prot="public" virt="virtual"><scope>themis::api::TransportPolicyMiddleware</scope><name>handle</name></member>
+      <member refid="classthemis_1_1api_1_1_transport_policy_middleware_1a385257d97abf265ec936e25dd93496f1" prot="public" virt="virtual"><scope>themis::api::TransportPolicyMiddleware</scope><name>handlerName</name></member>
+      <member refid="classthemis_1_1api_1_1_transport_policy_middleware_1a31ccdaa7268e37f40444163e2f1e57a6" prot="private" virt="non-virtual"><scope>themis::api::TransportPolicyMiddleware</scope><name>inner_</name></member>
+      <member refid="classthemis_1_1api_1_1_transport_policy_middleware_1a7553bfd0a76e376971cff3f7c33d73b2" prot="public" virt="non-virtual"><scope>themis::api::TransportPolicyMiddleware</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1api_1_1_transport_policy_middleware_1a4ded41511803c85f2ea1ace302a1bc6c" prot="public" virt="non-virtual"><scope>themis::api::TransportPolicyMiddleware</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1api_1_1_transport_policy_middleware_1a4e123c6573c05488697245b67d604d09" prot="public" virt="virtual"><scope>themis::api::TransportPolicyMiddleware</scope><name>requiresAuthentication</name></member>
+      <member refid="classthemis_1_1api_1_1_i_transport_contract_1a32bf3bada220e2f644c616d16ed4a618" prot="public" virt="virtual"><scope>themis::api::TransportPolicyMiddleware</scope><name>supportedVersions</name></member>
+      <member refid="classthemis_1_1api_1_1_transport_policy_middleware_1a8836e76b0eb68cf06fcce082fa64fc2b" prot="public" virt="non-virtual"><scope>themis::api::TransportPolicyMiddleware</scope><name>TransportPolicyMiddleware</name></member>
+      <member refid="classthemis_1_1api_1_1_transport_policy_middleware_1ad669a7ee989da390d1302f597b95f095" prot="public" virt="non-virtual"><scope>themis::api::TransportPolicyMiddleware</scope><name>TransportPolicyMiddleware</name></member>
+      <member refid="classthemis_1_1api_1_1_transport_policy_middleware_1acf48384fecae7048b360bd697d291795" prot="public" virt="non-virtual"><scope>themis::api::TransportPolicyMiddleware</scope><name>TransportPolicyMiddleware</name></member>
+      <member refid="classthemis_1_1api_1_1_transport_policy_middleware_1aa77f1085a989f0c3a855369b5355b8f7" prot="public" virt="non-virtual"><scope>themis::api::TransportPolicyMiddleware</scope><name>TransportPolicyMiddleware</name></member>
+      <member refid="classthemis_1_1api_1_1_i_http_handler_1ae5b094331b6466ed851080010ef82257" prot="public" virt="virtual"><scope>themis::api::TransportPolicyMiddleware</scope><name>~IHttpHandler</name></member>
+      <member refid="classthemis_1_1api_1_1_i_transport_contract_1a9840c1492b1578552d6010fe3c1b74ad" prot="public" virt="virtual"><scope>themis::api::TransportPolicyMiddleware</scope><name>~ITransportContract</name></member>
+      <member refid="classthemis_1_1api_1_1_transport_policy_middleware_1acb05c23754a6e910b32985a1d1e36c92" prot="public" virt="non-virtual"><scope>themis::api::TransportPolicyMiddleware</scope><name>~TransportPolicyMiddleware</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

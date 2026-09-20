@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="config__hot__reloader_8h" kind="file" language="C++">
+    <compoundname>config_hot_reloader.h</compoundname>
+    <includes local="no">chrono</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>include/core/config_hot_reloader.h</label>
+        <link refid="config__hot__reloader_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="structthemis_1_1core_1_1_config_change" prot="public">themis::core::ConfigChange</innerclass>
+    <innerclass refid="structthemis_1_1core_1_1_hot_reload_result" prot="public">themis::core::HotReloadResult</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1_i_config_hot_reloader" prot="public">themis::core::IConfigHotReloader</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1core">themis::core</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.1.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 94/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18" refid="namespacethemis" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="19" refid="namespacethemis_1_1core" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacecore" kindref="compound">core</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ConfigChangeType<sp/>—<sp/>type<sp/>of<sp/>change<sp/>detected<sp/>in<sp/>a<sp/>config<sp/>source</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25" refid="namespacethemis_1_1core_1afd438f16b6cfdc373bc6e460aad74005" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1core_1afd438f16b6cfdc373bc6e460aad74005" kindref="member">ConfigChangeType</ref><sp/>{</highlight></codeline>
+<codeline lineno="26" refid="namespacethemis_1_1core_1afd438f16b6cfdc373bc6e460aad74005a98690bf632c29c17c9e4c5a64069903c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1core_1afd438f16b6cfdc373bc6e460aad74005a98690bf632c29c17c9e4c5a64069903c" kindref="member">CREATED</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="27" refid="namespacethemis_1_1core_1afd438f16b6cfdc373bc6e460aad74005a40e3819215b52841e19a7cac06b5f065" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1core_1afd438f16b6cfdc373bc6e460aad74005a40e3819215b52841e19a7cac06b5f065" kindref="member">MODIFIED</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1core_1afd438f16b6cfdc373bc6e460aad74005a63c2867fdcae0e8e8413d7ac21b69b59" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1core_1afd438f16b6cfdc373bc6e460aad74005a63c2867fdcae0e8e8413d7ac21b69b59" kindref="member">DELETED</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1core_1afd438f16b6cfdc373bc6e460aad74005aa3a5811879f61b8ac4cab7cf8f0d8c77" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1core_1afd438f16b6cfdc373bc6e460aad74005aa3a5811879f61b8ac4cab7cf8f0d8c77" kindref="member">RELOADED</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="30"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ConfigChange<sp/>—<sp/>a<sp/>single<sp/>key-level<sp/>change<sp/>record</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1core_1_1_config_change" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1core_1_1_config_change" kindref="compound">ConfigChange</ref><sp/>{</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1core_1_1_config_change_1a8d468fefa935e230387ac55f2b6991a2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1core_1_1_config_change_1a8d468fefa935e230387ac55f2b6991a2" kindref="member">config_key</ref>;</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1core_1_1_config_change_1a438886e963b98096ada1ea5a3d65ab3f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1core_1afd438f16b6cfdc373bc6e460aad74005" kindref="member">ConfigChangeType</ref><sp/><ref refid="structthemis_1_1core_1_1_config_change_1a438886e963b98096ada1ea5a3d65ab3f" kindref="member">change_type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1core_1afd438f16b6cfdc373bc6e460aad74005a40e3819215b52841e19a7cac06b5f065" kindref="member">ConfigChangeType::MODIFIED</ref>;</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1core_1_1_config_change_1ad301432a3e0b9b9dce68f8e1fb7b5852" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1core_1_1_config_change_1ad301432a3e0b9b9dce68f8e1fb7b5852" kindref="member">old_value_json</ref>;</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1core_1_1_config_change_1ab98219b47f9da060ef96cc40b8db81f3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1core_1_1_config_change_1ab98219b47f9da060ef96cc40b8db81f3" kindref="member">new_value_json</ref>;</highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1core_1_1_config_change_1a3afeb4504576199d22c6c609b4a7c3bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1core_1_1_config_change_1a3afeb4504576199d22c6c609b4a7c3bd" kindref="member">changed_at</ref>;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ConfigChangeCallback<sp/>—<sp/>callback<sp/>type<sp/>invoked<sp/>when<sp/>a<sp/>watched<sp/>key<sp/>changes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="namespacethemis_1_1core_1a92727d38d64981c6adfb1132a2dca5d8" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1core_1a92727d38d64981c6adfb1132a2dca5d8" kindref="member">ConfigChangeCallback</ref><sp/>=<sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1core_1_1_config_change" kindref="compound">ConfigChange</ref>&amp;)&gt;;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>HotReloadResult<sp/>—<sp/>outcome<sp/>of<sp/>a<sp/>reload()<sp/>invocation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1core_1_1_hot_reload_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1core_1_1_hot_reload_result" kindref="compound">HotReloadResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1core_1_1_hot_reload_result_1abb9db019d01cb8199616566e75f2a9ac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1core_1_1_hot_reload_result_1abb9db019d01cb8199616566e75f2a9ac" kindref="member">success</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1core_1_1_hot_reload_result_1a0be58ff97e66b11e374e8bfd7f97d609" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ConfigChange&gt;<sp/><ref refid="structthemis_1_1core_1_1_hot_reload_result_1a0be58ff97e66b11e374e8bfd7f97d609" kindref="member">applied_changes</ref>;</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1core_1_1_hot_reload_result_1ad79a51f371afe0c95f309bba1ac70f09" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><sp/><ref refid="structthemis_1_1core_1_1_hot_reload_result_1ad79a51f371afe0c95f309bba1ac70f09" kindref="member">errors</ref>;</highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1core_1_1_hot_reload_result_1adebdbe447bdb030b9320b7a5bee22153" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1core_1_1_hot_reload_result_1adebdbe447bdb030b9320b7a5bee22153" kindref="member">reload_duration_ms</ref><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IConfigHotReloader<sp/>—<sp/>runtime<sp/>config<sp/>hot-reload<sp/>interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="classthemis_1_1core_1_1_i_config_hot_reloader" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1core_1_1_i_config_hot_reloader" kindref="compound">IConfigHotReloader</ref><sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="71" refid="classthemis_1_1core_1_1_i_config_hot_reloader_1ab9b7830d256d2a2727052487144f140b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1_i_config_hot_reloader_1ab9b7830d256d2a2727052487144f140b" kindref="member">~IConfigHotReloader</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="classthemis_1_1core_1_1_i_config_hot_reloader_1a161fe0b6831345c529b034d838d7cd86" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1_i_config_hot_reloader_1a161fe0b6831345c529b034d838d7cd86" kindref="member">watch</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>config_path_or_key)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="classthemis_1_1core_1_1_i_config_hot_reloader_1a8b231abd28a830868e900da41aaf6180" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1_i_config_hot_reloader_1a8b231abd28a830868e900da41aaf6180" kindref="member">unwatch</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>config_path_or_key)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="classthemis_1_1core_1_1_i_config_hot_reloader_1a55703f1f3e7d437e231441618a9db96c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1core_1_1_hot_reload_result" kindref="compound">HotReloadResult</ref><sp/><ref refid="classthemis_1_1core_1_1_i_config_hot_reloader_1a55703f1f3e7d437e231441618a9db96c" kindref="member">reload</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="classthemis_1_1core_1_1_i_config_hot_reloader_1ab688dfdb0376934ccc5a83330ea5b6e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1_i_config_hot_reloader_1ab688dfdb0376934ccc5a83330ea5b6e0" kindref="member">onConfigChange</ref>(</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/>key_prefix,</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1core_1a92727d38d64981c6adfb1132a2dca5d8" kindref="member">ConfigChangeCallback</ref><sp/>callback</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="classthemis_1_1core_1_1_i_config_hot_reloader_1a7fee6a81e9c04b8ef83e224fda00831c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1core_1_1_hot_reload_result" kindref="compound">HotReloadResult</ref><sp/><ref refid="classthemis_1_1core_1_1_i_config_hot_reloader_1a7fee6a81e9c04b8ef83e224fda00831c" kindref="member">lastReloadResult</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="classthemis_1_1core_1_1_i_config_hot_reloader_1ade6a5b14f75be21aeb7990b6324c2530" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::chrono::milliseconds<sp/><ref refid="classthemis_1_1core_1_1_i_config_hot_reloader_1ade6a5b14f75be21aeb7990b6324c2530" kindref="member">reloadInterval</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120" refid="classthemis_1_1core_1_1_i_config_hot_reloader_1a5b7992c0e56a54117774b74df4a8b589" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1_i_config_hot_reloader_1a5b7992c0e56a54117774b74df4a8b589" kindref="member">setReloadInterval</ref>(std::chrono::milliseconds<sp/>interval)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>core</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/core/config_hot_reloader.h"/>
+  </compounddef>
+</doxygen>

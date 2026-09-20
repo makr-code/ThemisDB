@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1geo_1_1_approximate_cpu_backend" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::geo::ApproximateCpuBackend</compoundname>
+    <basecompoundref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend" prot="public" virt="non-virtual">themis::geo::ISpatialComputeBackend</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_approximate_cpu_backend_1a52497cdaf64dfbfb4be608352713a0c8" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>const char *</type>
+        <definition>const char * themis::geo::ApproximateCpuBackend::name</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::geo::ApproximateCpuBackend::name</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a1c4449a6016a5eb97a9103d5db3d3e48">name</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/cpu_backend.cpp" line="1240" column="16" bodyfile="src/geo/cpu_backend.cpp" bodystart="1240" bodyend="1242"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_approximate_cpu_backend_1aadd6b4e16df7427e03229bbff9ace96e" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::geo::ApproximateCpuBackend::isAvailable</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::geo::ApproximateCpuBackend::isAvailable</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a9425c0b8acfa7591052b641da875de6b">isAvailable</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/cpu_backend.cpp" line="1243" column="10" bodyfile="src/geo/cpu_backend.cpp" bodystart="1243" bodyend="1245"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_approximate_cpu_backend_1a22fb9df18fd57b4cd7e2df41e9ddb451" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1geo_1_1_spatial_batch_results" kindref="compound">SpatialBatchResults</ref></type>
+        <definition>SpatialBatchResults themis::geo::ApproximateCpuBackend::batchIntersects</definition>
+        <argsstring>(const SpatialBatchInputs &amp;in) override</argsstring>
+        <name>batchIntersects</name>
+        <qualifiedname>themis::geo::ApproximateCpuBackend::batchIntersects</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1af47ef704007f683b97adc804495d41ca">batchIntersects</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1geo_1_1_spatial_batch_inputs" kindref="compound">SpatialBatchInputs</ref> &amp;</type>
+          <declname>in</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/cpu_backend.cpp" line="1247" column="25" bodyfile="src/geo/cpu_backend.cpp" bodystart="1247" bodyend="1255"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_approximate_cpu_backend_1a940a2a5f36ad3639fd7fe791f7e7b6f6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::geo::ApproximateCpuBackend::exactIntersects</definition>
+        <argsstring>(const GeometryInfo &amp;geom1, const GeometryInfo &amp;geom2) override</argsstring>
+        <name>exactIntersects</name>
+        <qualifiedname>themis::geo::ApproximateCpuBackend::exactIntersects</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a84c6d241e0607e0fae2033d7a94489f8">exactIntersects</reimplements>
+        <param>
+          <type>const GeometryInfo &amp;</type>
+          <declname>geom1</declname>
+        </param>
+        <param>
+          <type>const GeometryInfo &amp;</type>
+          <declname>geom2</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/cpu_backend.cpp" line="1259" column="10" bodyfile="src/geo/cpu_backend.cpp" bodystart="1259" bodyend="1263"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_approximate_cpu_backend_1a7e4ab5346334de36cee1e76816643286" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>GeometryInfo</type>
+        <definition>GeometryInfo themis::geo::ApproximateCpuBackend::stBuffer</definition>
+        <argsstring>(const GeometryInfo &amp;geom, double distance_m, int arc_points) override</argsstring>
+        <name>stBuffer</name>
+        <qualifiedname>themis::geo::ApproximateCpuBackend::stBuffer</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a6cee7527b53f693b1f8eeb255488d19e">stBuffer</reimplements>
+        <param>
+          <type>const GeometryInfo &amp;</type>
+          <declname>geom</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>distance_m</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>arc_points</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/cpu_backend.cpp" line="1267" column="18" bodyfile="src/geo/cpu_backend.cpp" bodystart="1267" bodyend="1269"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::geo::ApproximateCpuBackend</label>
+        <link refid="classthemis_1_1geo_1_1_approximate_cpu_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::geo::ISpatialComputeBackend</label>
+        <link refid="classthemis_1_1geo_1_1_i_spatial_compute_backend"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::geo::ApproximateCpuBackend</label>
+        <link refid="classthemis_1_1geo_1_1_approximate_cpu_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::geo::ISpatialComputeBackend</label>
+        <link refid="classthemis_1_1geo_1_1_i_spatial_compute_backend"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/geo/cpu_backend.cpp" line="1238" column="1" bodyfile="src/geo/cpu_backend.cpp" bodystart="1238" bodyend="1270"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1geo_1_1_approximate_cpu_backend_1a22fb9df18fd57b4cd7e2df41e9ddb451" prot="public" virt="virtual"><scope>themis::geo::ApproximateCpuBackend</scope><name>batchIntersects</name></member>
+      <member refid="classthemis_1_1geo_1_1_approximate_cpu_backend_1a940a2a5f36ad3639fd7fe791f7e7b6f6" prot="public" virt="virtual"><scope>themis::geo::ApproximateCpuBackend</scope><name>exactIntersects</name></member>
+      <member refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a6f7d1da128cc4b93dd3d1345f56b329e" prot="public" virt="virtual"><scope>themis::geo::ApproximateCpuBackend</scope><name>geodesicDistance</name></member>
+      <member refid="classthemis_1_1geo_1_1_approximate_cpu_backend_1aadd6b4e16df7427e03229bbff9ace96e" prot="public" virt="virtual"><scope>themis::geo::ApproximateCpuBackend</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1geo_1_1_approximate_cpu_backend_1a52497cdaf64dfbfb4be608352713a0c8" prot="public" virt="virtual"><scope>themis::geo::ApproximateCpuBackend</scope><name>name</name></member>
+      <member refid="classthemis_1_1geo_1_1_approximate_cpu_backend_1a7e4ab5346334de36cee1e76816643286" prot="public" virt="virtual"><scope>themis::geo::ApproximateCpuBackend</scope><name>stBuffer</name></member>
+      <member refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a1e4ba225af0b839f94b1f4877b9af33b" prot="public" virt="virtual"><scope>themis::geo::ApproximateCpuBackend</scope><name>stDifference</name></member>
+      <member refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a75a0a61492e8bf2755c3307e901206d7" prot="public" virt="virtual"><scope>themis::geo::ApproximateCpuBackend</scope><name>stUnion</name></member>
+      <member refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1ac73e2531ea40978af133460e88a1a242" prot="public" virt="virtual"><scope>themis::geo::ApproximateCpuBackend</scope><name>~ISpatialComputeBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

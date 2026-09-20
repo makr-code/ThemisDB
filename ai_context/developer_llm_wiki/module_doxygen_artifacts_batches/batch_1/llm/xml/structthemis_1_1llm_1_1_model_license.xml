@@ -1,0 +1,238 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_model_license" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::ModelLicense</compoundname>
+    <includes refid="vision__config_8h" local="no">vision_config.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_license_1a28e00fd16fd15ae924b1cd7f912e570b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ModelLicense::license_id</definition>
+        <argsstring></argsstring>
+        <name>license_id</name>
+        <qualifiedname>themis::llm::ModelLicense::license_id</qualifiedname>
+        <briefdescription>
+<para>License identifier (e.g., &quot;MIT&quot;, &quot;Apache-2.0&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="34" column="17" bodyfile="include/llm/vision_config.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_license_1a5260758ba148ed3acb2d5cb0c82c4b47" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ModelLicense::license_name</definition>
+        <argsstring></argsstring>
+        <name>license_name</name>
+        <qualifiedname>themis::llm::ModelLicense::license_name</qualifiedname>
+        <briefdescription>
+<para>Human-readable license name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="35" column="17" bodyfile="include/llm/vision_config.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_license_1a1eb884a05cfacd5bb935155f3e4be1f8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ModelLicense::license_url</definition>
+        <argsstring></argsstring>
+        <name>license_url</name>
+        <qualifiedname>themis::llm::ModelLicense::license_url</qualifiedname>
+        <briefdescription>
+<para>URL to full license text. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="36" column="17" bodyfile="include/llm/vision_config.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_license_1a905e1991b171be2e15f3026b1f6acd78" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::ModelLicense::commercial_use</definition>
+        <argsstring></argsstring>
+        <name>commercial_use</name>
+        <qualifiedname>themis::llm::ModelLicense::commercial_use</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Allowed for commercial use. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="37" column="10" bodyfile="include/llm/vision_config.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_license_1a3382499abaec7255c26e2f1ea706ef92" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::ModelLicense::modification</definition>
+        <argsstring></argsstring>
+        <name>modification</name>
+        <qualifiedname>themis::llm::ModelLicense::modification</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Allowed to modify. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="38" column="10" bodyfile="include/llm/vision_config.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_license_1add390e8d957261ddbc68a4b4393bf9cd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::ModelLicense::distribution</definition>
+        <argsstring></argsstring>
+        <name>distribution</name>
+        <qualifiedname>themis::llm::ModelLicense::distribution</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Allowed to distribute. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="39" column="10" bodyfile="include/llm/vision_config.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_license_1a4d6cc7adb3ef9e044f5f3f30b3090573" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::ModelLicense::attribution_required</definition>
+        <argsstring></argsstring>
+        <name>attribution_required</name>
+        <qualifiedname>themis::llm::ModelLicense::attribution_required</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Attribution required. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="40" column="10" bodyfile="include/llm/vision_config.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_license_1adb56acf2159e291fc26cef67bb368503" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::ModelLicense::restrictions</definition>
+        <argsstring></argsstring>
+        <name>restrictions</name>
+        <qualifiedname>themis::llm::ModelLicense::restrictions</qualifiedname>
+        <briefdescription>
+<para>Additional restrictions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="41" column="17" bodyfile="include/llm/vision_config.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_model_license_1af143c7afa445b18e075f719f9b5d2638" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::ModelLicense::isCompatibleWith</definition>
+        <argsstring>(const std::string &amp;other_license_id) const</argsstring>
+        <name>isCompatibleWith</name>
+        <qualifiedname>themis::llm::ModelLicense::isCompatibleWith</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>other_license_id</declname>
+        </param>
+        <briefdescription>
+<para>Is Compatible With. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">other_license_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the other license. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="48" column="10" bodyfile="src/llm/vision_config.cpp" bodystart="45" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_model_license_1a4cdf1f549d6e67b8b100dca79e2f3d27" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::ModelLicense::validateUsage</definition>
+        <argsstring>(bool is_commercial, bool will_modify, bool will_distribute) const</argsstring>
+        <name>validateUsage</name>
+        <qualifiedname>themis::llm::ModelLicense::validateUsage</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>is_commercial</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>will_modify</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>will_distribute</declname>
+        </param>
+        <briefdescription>
+<para>Validate Usage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">is_commercial</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">will_modify</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">will_distribute</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="57" column="10" bodyfile="src/llm/vision_config.cpp" bodystart="66" bodyend="83"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/vision_config.h" line="33" column="1" bodyfile="include/llm/vision_config.h" bodystart="33" bodyend="58"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_model_license_1a4d6cc7adb3ef9e044f5f3f30b3090573" prot="public" virt="non-virtual"><scope>themis::llm::ModelLicense</scope><name>attribution_required</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_license_1a905e1991b171be2e15f3026b1f6acd78" prot="public" virt="non-virtual"><scope>themis::llm::ModelLicense</scope><name>commercial_use</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_license_1add390e8d957261ddbc68a4b4393bf9cd" prot="public" virt="non-virtual"><scope>themis::llm::ModelLicense</scope><name>distribution</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_license_1af143c7afa445b18e075f719f9b5d2638" prot="public" virt="non-virtual"><scope>themis::llm::ModelLicense</scope><name>isCompatibleWith</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_license_1a28e00fd16fd15ae924b1cd7f912e570b" prot="public" virt="non-virtual"><scope>themis::llm::ModelLicense</scope><name>license_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_license_1a5260758ba148ed3acb2d5cb0c82c4b47" prot="public" virt="non-virtual"><scope>themis::llm::ModelLicense</scope><name>license_name</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_license_1a1eb884a05cfacd5bb935155f3e4be1f8" prot="public" virt="non-virtual"><scope>themis::llm::ModelLicense</scope><name>license_url</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_license_1a3382499abaec7255c26e2f1ea706ef92" prot="public" virt="non-virtual"><scope>themis::llm::ModelLicense</scope><name>modification</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_license_1adb56acf2159e291fc26cef67bb368503" prot="public" virt="non-virtual"><scope>themis::llm::ModelLicense</scope><name>restrictions</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_license_1a4cdf1f549d6e67b8b100dca79e2f3d27" prot="public" virt="non-virtual"><scope>themis::llm::ModelLicense</scope><name>validateUsage</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

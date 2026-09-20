@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1bench_1_1aql__helpers_1_1_mock_confidence_scorer_1_1_score_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::bench::aql_helpers::MockConfidenceScorer::ScoreResult</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1aql__helpers_1_1_mock_confidence_scorer_1_1_score_result_1afcb9754132664c8061720b55ae8af3aa" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::bench::aql_helpers::MockConfidenceScorer::ScoreResult::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::bench::aql_helpers::MockConfidenceScorer::ScoreResult::confidence</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_helper_paths.cpp" line="50" column="17" bodyfile="benchmarks/aql/bench_aql_helper_paths.cpp" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1aql__helpers_1_1_mock_confidence_scorer_1_1_score_result_1a91cf04688e95432e096860e68a21b15b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::aql_helpers::MockConfidenceScorer::ScoreResult::matching_tokens</definition>
+        <argsstring></argsstring>
+        <name>matching_tokens</name>
+        <qualifiedname>themis::bench::aql_helpers::MockConfidenceScorer::ScoreResult::matching_tokens</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_helper_paths.cpp" line="51" column="17" bodyfile="benchmarks/aql/bench_aql_helper_paths.cpp" bodystart="51" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1aql__helpers_1_1_mock_confidence_scorer_1_1_score_result_1ab3688c3df7723dc2b8baa33de1aa0301" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::aql_helpers::MockConfidenceScorer::ScoreResult::total_nl_tokens</definition>
+        <argsstring></argsstring>
+        <name>total_nl_tokens</name>
+        <qualifiedname>themis::bench::aql_helpers::MockConfidenceScorer::ScoreResult::total_nl_tokens</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_helper_paths.cpp" line="52" column="17" bodyfile="benchmarks/aql/bench_aql_helper_paths.cpp" bodystart="52" bodyend="52"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/aql/bench_aql_helper_paths.cpp" line="49" column="5" bodyfile="benchmarks/aql/bench_aql_helper_paths.cpp" bodystart="49" bodyend="53"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1bench_1_1aql__helpers_1_1_mock_confidence_scorer_1_1_score_result_1afcb9754132664c8061720b55ae8af3aa" prot="public" virt="non-virtual"><scope>themis::bench::aql_helpers::MockConfidenceScorer::ScoreResult</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1bench_1_1aql__helpers_1_1_mock_confidence_scorer_1_1_score_result_1a91cf04688e95432e096860e68a21b15b" prot="public" virt="non-virtual"><scope>themis::bench::aql_helpers::MockConfidenceScorer::ScoreResult</scope><name>matching_tokens</name></member>
+      <member refid="structthemis_1_1bench_1_1aql__helpers_1_1_mock_confidence_scorer_1_1_score_result_1ab3688c3df7723dc2b8baa33de1aa0301" prot="public" virt="non-virtual"><scope>themis::bench::aql_helpers::MockConfidenceScorer::ScoreResult</scope><name>total_nl_tokens</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

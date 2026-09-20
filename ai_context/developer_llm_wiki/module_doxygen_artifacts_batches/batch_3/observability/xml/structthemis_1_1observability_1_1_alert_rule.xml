@@ -1,0 +1,185 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_alert_rule" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::AlertRule</compoundname>
+    <includes refid="alertmanager_8h" local="no">alertmanager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_alert_rule_1a7dc3f8d21c0a50967e47bd62812118c8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::AlertRule::rule_id</definition>
+        <argsstring></argsstring>
+        <name>rule_id</name>
+        <qualifiedname>themis::observability::AlertRule::rule_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="232" column="17" bodyfile="include/observability/alertmanager.h" bodystart="232" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_alert_rule_1ad407e17ee39eff3893f30d95f5229c1c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::AlertRule::rule_name</definition>
+        <argsstring></argsstring>
+        <name>rule_name</name>
+        <qualifiedname>themis::observability::AlertRule::rule_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="233" column="17" bodyfile="include/observability/alertmanager.h" bodystart="233" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_alert_rule_1a9514e54b54436338db494f2a7de6a940" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::AlertRule::metric_name</definition>
+        <argsstring></argsstring>
+        <name>metric_name</name>
+        <qualifiedname>themis::observability::AlertRule::metric_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="234" column="17" bodyfile="include/observability/alertmanager.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_alert_rule_1a895fcc99e95643c7e3aabaebbdd31bca" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1observability_1a2dfb6da99b532b521f591d84bf6e68c3" kindref="member">AlertRuleOperator</ref></type>
+        <definition>AlertRuleOperator themis::observability::AlertRule::op</definition>
+        <argsstring></argsstring>
+        <name>op</name>
+        <qualifiedname>themis::observability::AlertRule::op</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="235" column="23" bodyfile="include/observability/alertmanager.h" bodystart="235" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_alert_rule_1aff1da09771216720ee8ececccd3fd35a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::AlertRule::threshold</definition>
+        <argsstring></argsstring>
+        <name>threshold</name>
+        <qualifiedname>themis::observability::AlertRule::threshold</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="236" column="12" bodyfile="include/observability/alertmanager.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_alert_rule_1ac0995d9738fcf96e8279c837ab252ddb" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1observability_1a8ee1043d756365fbf3e4632ae5371c2f" kindref="member">AlertSeverity</ref></type>
+        <definition>AlertSeverity themis::observability::AlertRule::severity</definition>
+        <argsstring></argsstring>
+        <name>severity</name>
+        <qualifiedname>themis::observability::AlertRule::severity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="237" column="19" bodyfile="include/observability/alertmanager.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_alert_rule_1a68c310bfbdbf963042c0b5c15200ab9c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::AlertRule::message_template</definition>
+        <argsstring></argsstring>
+        <name>message_template</name>
+        <qualifiedname>themis::observability::AlertRule::message_template</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="238" column="17" bodyfile="include/observability/alertmanager.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_alert_rule_1a7ed12bf6fe1fc8dffcea0c3c253f25ec" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::observability::AlertRule::labels</definition>
+        <argsstring></argsstring>
+        <name>labels</name>
+        <qualifiedname>themis::observability::AlertRule::labels</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="239" column="14" bodyfile="include/observability/alertmanager.h" bodystart="239" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_alert_rule_1afa7b208823d90aedf17b0a66467087a7" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::observability::AlertRule::annotations</definition>
+        <argsstring></argsstring>
+        <name>annotations</name>
+        <qualifiedname>themis::observability::AlertRule::annotations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="240" column="14" bodyfile="include/observability/alertmanager.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_alert_rule_1ab92dc9187f790cc7134e97c7e017e436" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::AlertRule::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::observability::AlertRule::enabled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="241" column="10" bodyfile="include/observability/alertmanager.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1observability_1_1_alert_rule_1a433d42eb1732d6199b07efe65aee1389" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::AlertRule::AlertRule</definition>
+        <argsstring>()</argsstring>
+        <name>AlertRule</name>
+        <qualifiedname>themis::observability::AlertRule::AlertRule</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="243" column="5" bodyfile="include/observability/alertmanager.h" bodystart="243" bodyend="247"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>A user-defined alert rule that fires when a named metric satisfies a threshold condition.</para>
+<para>Rules are evaluated by <ref refid="classthemis_1_1observability_1_1_alert_rule_manager_1a8c8d5ed3e87c2098821fa7120cc33bf7" kindref="member">AlertRuleManager::evaluateRules()</ref> against a metric snapshot and translated into <ref refid="structthemis_1_1observability_1_1_alert" kindref="compound">Alert</ref> objects that are dispatched via <ref refid="classthemis_1_1observability_1_1_alertmanager" kindref="compound">Alertmanager</ref>. </para>
+    </detaileddescription>
+    <location file="include/observability/alertmanager.h" line="231" column="1" bodyfile="include/observability/alertmanager.h" bodystart="231" bodyend="248"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_alert_rule_1a433d42eb1732d6199b07efe65aee1389" prot="public" virt="non-virtual"><scope>themis::observability::AlertRule</scope><name>AlertRule</name></member>
+      <member refid="structthemis_1_1observability_1_1_alert_rule_1afa7b208823d90aedf17b0a66467087a7" prot="public" virt="non-virtual"><scope>themis::observability::AlertRule</scope><name>annotations</name></member>
+      <member refid="structthemis_1_1observability_1_1_alert_rule_1ab92dc9187f790cc7134e97c7e017e436" prot="public" virt="non-virtual"><scope>themis::observability::AlertRule</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1observability_1_1_alert_rule_1a7ed12bf6fe1fc8dffcea0c3c253f25ec" prot="public" virt="non-virtual"><scope>themis::observability::AlertRule</scope><name>labels</name></member>
+      <member refid="structthemis_1_1observability_1_1_alert_rule_1a68c310bfbdbf963042c0b5c15200ab9c" prot="public" virt="non-virtual"><scope>themis::observability::AlertRule</scope><name>message_template</name></member>
+      <member refid="structthemis_1_1observability_1_1_alert_rule_1a9514e54b54436338db494f2a7de6a940" prot="public" virt="non-virtual"><scope>themis::observability::AlertRule</scope><name>metric_name</name></member>
+      <member refid="structthemis_1_1observability_1_1_alert_rule_1a895fcc99e95643c7e3aabaebbdd31bca" prot="public" virt="non-virtual"><scope>themis::observability::AlertRule</scope><name>op</name></member>
+      <member refid="structthemis_1_1observability_1_1_alert_rule_1a7dc3f8d21c0a50967e47bd62812118c8" prot="public" virt="non-virtual"><scope>themis::observability::AlertRule</scope><name>rule_id</name></member>
+      <member refid="structthemis_1_1observability_1_1_alert_rule_1ad407e17ee39eff3893f30d95f5229c1c" prot="public" virt="non-virtual"><scope>themis::observability::AlertRule</scope><name>rule_name</name></member>
+      <member refid="structthemis_1_1observability_1_1_alert_rule_1ac0995d9738fcf96e8279c837ab252ddb" prot="public" virt="non-virtual"><scope>themis::observability::AlertRule</scope><name>severity</name></member>
+      <member refid="structthemis_1_1observability_1_1_alert_rule_1aff1da09771216720ee8ececccd3fd35a" prot="public" virt="non-virtual"><scope>themis::observability::AlertRule</scope><name>threshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

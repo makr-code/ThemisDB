@@ -1,0 +1,462 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_workload_capture" kind="class" language="C++" prot="public">
+    <compoundname>themis::WorkloadCapture</compoundname>
+    <includes refid="workload__replay_8h" local="no">workload_replay.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_workload_capture_1a979d7ac6d38abac28b00b333925b003b" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::WorkloadCapture::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::WorkloadCapture::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/workload_replay.h" line="115" column="30" bodyfile="include/index/workload_replay.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_workload_capture_1a9ecec407c7044a8652cd05ae0a2bdd94" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_workload_event" kindref="compound">WorkloadEvent</ref> &gt;</type>
+        <definition>std::vector&lt;WorkloadEvent&gt; themis::WorkloadCapture::events_</definition>
+        <argsstring></argsstring>
+        <name>events_</name>
+        <qualifiedname>themis::WorkloadCapture::events_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/workload_replay.h" line="116" column="17" bodyfile="include/index/workload_replay.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_workload_capture_1a2cc58833ffb9c88ad969adc6712bf0e2" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::WorkloadCapture::total_queries_</definition>
+        <argsstring></argsstring>
+        <name>total_queries_</name>
+        <qualifiedname>themis::WorkloadCapture::total_queries_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/workload_replay.h" line="117" column="30" bodyfile="include/index/workload_replay.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_workload_capture_1ab19cb7dc4d508072fea82b5f751c64b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::WorkloadCapture::WorkloadCapture</definition>
+        <argsstring>()=default</argsstring>
+        <name>WorkloadCapture</name>
+        <qualifiedname>themis::WorkloadCapture::WorkloadCapture</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/workload_replay.h" line="73" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_workload_capture_1a93002d6a2354c08d1a46bb5da852defd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::WorkloadCapture::~WorkloadCapture</definition>
+        <argsstring>()=default</argsstring>
+        <name>~WorkloadCapture</name>
+        <qualifiedname>themis::WorkloadCapture::~WorkloadCapture</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/workload_replay.h" line="74" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_workload_capture_1a7995778cd445363dd2c48c7bf4174e98" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::WorkloadCapture::WorkloadCapture</definition>
+        <argsstring>(const WorkloadCapture &amp;)=delete</argsstring>
+        <name>WorkloadCapture</name>
+        <qualifiedname>themis::WorkloadCapture::WorkloadCapture</qualifiedname>
+        <param>
+          <type>const WorkloadCapture &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/workload_replay.h" line="77" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_workload_capture_1a9eba77ed083136026b48852d57fae48e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_workload_capture_1ab19cb7dc4d508072fea82b5f751c64b8" kindref="member">WorkloadCapture</ref> &amp;</type>
+        <definition>WorkloadCapture &amp; themis::WorkloadCapture::operator=</definition>
+        <argsstring>(const WorkloadCapture &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::WorkloadCapture::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_workload_capture_1ab19cb7dc4d508072fea82b5f751c64b8" kindref="member">WorkloadCapture</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/workload_replay.h" line="78" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_workload_capture_1ab38f7cbe039f6e987c8caf40b9309b43" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::WorkloadCapture::WorkloadCapture</definition>
+        <argsstring>(WorkloadCapture &amp;&amp;other) noexcept</argsstring>
+        <name>WorkloadCapture</name>
+        <qualifiedname>themis::WorkloadCapture::WorkloadCapture</qualifiedname>
+        <param>
+          <type>WorkloadCapture &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/workload_replay.h" line="81" column="5" bodyfile="src/index/workload_replay.cpp" bodystart="55" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_workload_capture_1a6f3bf2600378af87aa50612a32599dd9" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_workload_capture_1ab19cb7dc4d508072fea82b5f751c64b8" kindref="member">WorkloadCapture</ref> &amp;</type>
+        <definition>WorkloadCapture &amp; themis::WorkloadCapture::operator=</definition>
+        <argsstring>(WorkloadCapture &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::WorkloadCapture::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_workload_capture_1ab19cb7dc4d508072fea82b5f751c64b8" kindref="member">WorkloadCapture</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/workload_replay.h" line="82" column="21" bodyfile="src/index/workload_replay.cpp" bodystart="62" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_workload_capture_1a59fd7234aec54662e3b4cd36ac8a2cb2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::WorkloadCapture::recordEvent</definition>
+        <argsstring>(const WorkloadEvent &amp;event)</argsstring>
+        <name>recordEvent</name>
+        <qualifiedname>themis::WorkloadCapture::recordEvent</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_workload_event" kindref="compound">WorkloadEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Record one column access event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Event.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/workload_replay.h" line="85" column="10" bodyfile="src/index/workload_replay.cpp" bodystart="79" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_workload_capture_1a5827b4fce58abdef74245b479510d6de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::WorkloadCapture::recordEvent</definition>
+        <argsstring>(std::string_view table_name, std::string_view column_name, IndexRecommender::AccessType access_type, double selectivity=1.0)</argsstring>
+        <name>recordEvent</name>
+        <qualifiedname>themis::WorkloadCapture::recordEvent</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>column_name</declname>
+        </param>
+        <param>
+          <type>IndexRecommender::AccessType</type>
+          <declname>access_type</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>selectivity</declname>
+          <defval>1.0</defval>
+        </param>
+        <briefdescription>
+<para>Convenience overload that constructs the event in-place. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Event.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">column_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the column. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">access_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">selectivity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/workload_replay.h" line="88" column="10" bodyfile="src/index/workload_replay.cpp" bodystart="92" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_workload_capture_1acc4a3b8c1620d8b2cd5016e69a866042" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::WorkloadCapture::recordQuery</definition>
+        <argsstring>()</argsstring>
+        <name>recordQuery</name>
+        <qualifiedname>themis::WorkloadCapture::recordQuery</qualifiedname>
+        <briefdescription>
+<para>Increment the total query counter (called once per logical query). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Query.</para>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/workload_replay.h" line="94" column="10" bodyfile="src/index/workload_replay.cpp" bodystart="108" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_workload_capture_1ae16f9a719d669d2eadc8f5cf984ba173" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::WorkloadCapture::eventCount</definition>
+        <argsstring>() const</argsstring>
+        <name>eventCount</name>
+        <qualifiedname>themis::WorkloadCapture::eventCount</qualifiedname>
+        <briefdescription>
+<para>Number of recorded events. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/workload_replay.h" line="97" column="12" bodyfile="src/index/workload_replay.cpp" bodystart="113" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_workload_capture_1ac7dcf08e8739cd2b4eec19c9cbdae8f2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::WorkloadCapture::totalQueries</definition>
+        <argsstring>() const</argsstring>
+        <name>totalQueries</name>
+        <qualifiedname>themis::WorkloadCapture::totalQueries</qualifiedname>
+        <briefdescription>
+<para>Total number of recorded queries (used for benefit normalisation). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/workload_replay.h" line="100" column="14" bodyfile="src/index/workload_replay.cpp" bodystart="123" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_workload_capture_1ae70d20ff9ceb1821e9ea9a2ed0c07ab4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_workload_event" kindref="compound">WorkloadEvent</ref> &gt;</type>
+        <definition>std::vector&lt; WorkloadEvent &gt; themis::WorkloadCapture::events</definition>
+        <argsstring>() const</argsstring>
+        <name>events</name>
+        <qualifiedname>themis::WorkloadCapture::events</qualifiedname>
+        <briefdescription>
+<para>Return a snapshot of all recorded events. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/workload_replay.h" line="103" column="17" bodyfile="src/index/workload_replay.cpp" bodystart="133" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_workload_capture_1afe07eb7bdbcf1f1eba19027cf79862e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::WorkloadCapture::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::WorkloadCapture::clear</qualifiedname>
+        <briefdescription>
+<para>Clear all recorded data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear.</para>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/workload_replay.h" line="106" column="10" bodyfile="src/index/workload_replay.cpp" bodystart="147" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_workload_capture_1ad06aaaf63309bcf71ec396d29f761871" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref></type>
+        <definition>json themis::WorkloadCapture::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::WorkloadCapture::toJSON</qualifiedname>
+        <briefdescription>
+<para>Serialise to JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/workload_replay.h" line="109" column="10" bodyfile="src/index/workload_replay.cpp" bodystart="153" bodyend="168"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1_workload_capture_1a27c518f53cd01160eacede0bfaf45b8e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_workload_capture_1ab19cb7dc4d508072fea82b5f751c64b8" kindref="member">WorkloadCapture</ref></type>
+        <definition>WorkloadCapture themis::WorkloadCapture::fromJSON</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJSON</name>
+        <qualifiedname>themis::WorkloadCapture::fromJSON</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>Deserialise from JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>From JSON.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: at(), reserve(), size(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/workload_replay.h" line="112" column="28" bodyfile="src/index/workload_replay.cpp" bodystart="176" bodyend="185"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Records and serialises a sequence of workload events. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Captures column access observations and the total query count so that the same workload can be replayed through the index advisor later.</para>
+<para>Thread-safety: all public methods are thread-safe.</para>
+<para>Usage: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1_workload_capture_1ab19cb7dc4d508072fea82b5f751c64b8" kindref="member">WorkloadCapture</ref><sp/>capture;</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>During<sp/>normal<sp/>query<sp/>execution:</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">capture.recordQuery();</highlight></codeline>
+<codeline><highlight class="normal">capture.recordEvent({</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">,<sp/>IndexRecommender::AccessType::FILTER,<sp/>0.01});</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Persist:</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref><sp/>j<sp/>=<sp/>capture.toJSON();</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Load<sp/>later:</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>loaded<sp/>=<sp/><ref refid="classthemis_1_1_workload_capture_1a27c518f53cd01160eacede0bfaf45b8e" kindref="member">WorkloadCapture::fromJSON</ref>(j);</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/index/workload_replay.h" line="71" column="1" bodyfile="include/index/workload_replay.h" bodystart="71" bodyend="118"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_workload_capture_1afe07eb7bdbcf1f1eba19027cf79862e9" prot="public" virt="non-virtual"><scope>themis::WorkloadCapture</scope><name>clear</name></member>
+      <member refid="classthemis_1_1_workload_capture_1ae16f9a719d669d2eadc8f5cf984ba173" prot="public" virt="non-virtual"><scope>themis::WorkloadCapture</scope><name>eventCount</name></member>
+      <member refid="classthemis_1_1_workload_capture_1ae70d20ff9ceb1821e9ea9a2ed0c07ab4" prot="public" virt="non-virtual"><scope>themis::WorkloadCapture</scope><name>events</name></member>
+      <member refid="classthemis_1_1_workload_capture_1a9ecec407c7044a8652cd05ae0a2bdd94" prot="private" virt="non-virtual"><scope>themis::WorkloadCapture</scope><name>events_</name></member>
+      <member refid="classthemis_1_1_workload_capture_1a27c518f53cd01160eacede0bfaf45b8e" prot="public" virt="non-virtual"><scope>themis::WorkloadCapture</scope><name>fromJSON</name></member>
+      <member refid="classthemis_1_1_workload_capture_1a979d7ac6d38abac28b00b333925b003b" prot="private" virt="non-virtual"><scope>themis::WorkloadCapture</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1_workload_capture_1a9eba77ed083136026b48852d57fae48e" prot="public" virt="non-virtual"><scope>themis::WorkloadCapture</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_workload_capture_1a6f3bf2600378af87aa50612a32599dd9" prot="public" virt="non-virtual"><scope>themis::WorkloadCapture</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_workload_capture_1a59fd7234aec54662e3b4cd36ac8a2cb2" prot="public" virt="non-virtual"><scope>themis::WorkloadCapture</scope><name>recordEvent</name></member>
+      <member refid="classthemis_1_1_workload_capture_1a5827b4fce58abdef74245b479510d6de" prot="public" virt="non-virtual"><scope>themis::WorkloadCapture</scope><name>recordEvent</name></member>
+      <member refid="classthemis_1_1_workload_capture_1acc4a3b8c1620d8b2cd5016e69a866042" prot="public" virt="non-virtual"><scope>themis::WorkloadCapture</scope><name>recordQuery</name></member>
+      <member refid="classthemis_1_1_workload_capture_1ad06aaaf63309bcf71ec396d29f761871" prot="public" virt="non-virtual"><scope>themis::WorkloadCapture</scope><name>toJSON</name></member>
+      <member refid="classthemis_1_1_workload_capture_1a2cc58833ffb9c88ad969adc6712bf0e2" prot="private" virt="non-virtual"><scope>themis::WorkloadCapture</scope><name>total_queries_</name></member>
+      <member refid="classthemis_1_1_workload_capture_1ac7dcf08e8739cd2b4eec19c9cbdae8f2" prot="public" virt="non-virtual"><scope>themis::WorkloadCapture</scope><name>totalQueries</name></member>
+      <member refid="classthemis_1_1_workload_capture_1ab19cb7dc4d508072fea82b5f751c64b8" prot="public" virt="non-virtual"><scope>themis::WorkloadCapture</scope><name>WorkloadCapture</name></member>
+      <member refid="classthemis_1_1_workload_capture_1a7995778cd445363dd2c48c7bf4174e98" prot="public" virt="non-virtual"><scope>themis::WorkloadCapture</scope><name>WorkloadCapture</name></member>
+      <member refid="classthemis_1_1_workload_capture_1ab38f7cbe039f6e987c8caf40b9309b43" prot="public" virt="non-virtual"><scope>themis::WorkloadCapture</scope><name>WorkloadCapture</name></member>
+      <member refid="classthemis_1_1_workload_capture_1a93002d6a2354c08d1a46bb5da852defd" prot="public" virt="non-virtual"><scope>themis::WorkloadCapture</scope><name>~WorkloadCapture</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

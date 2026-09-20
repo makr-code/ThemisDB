@@ -1,0 +1,247 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_i_s_s_m_plugin" kind="struct" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::llm::ISSMPlugin</compoundname>
+    <basecompoundref refid="classthemis_1_1llm_1_1_i_l_l_m_plugin" prot="public" virt="non-virtual">themis::llm::ILLMPlugin</basecompoundref>
+    <derivedcompoundref refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub" prot="public" virt="non-virtual">themis::llm::SyntheticSSMStub</derivedcompoundref>
+    <includes refid="i__ssm__plugin_8h" local="no">i_ssm_plugin.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_i_s_s_m_plugin_1a10e4234c07a92de2b2b273035deb68d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::ISSMPlugin::~ISSMPlugin</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ISSMPlugin</name>
+        <qualifiedname>themis::llm::ISSMPlugin::~ISSMPlugin</qualifiedname>
+        <briefdescription>
+<para><ref refid="structthemis_1_1llm_1_1_i_s_s_m_plugin" kindref="compound">ISSMPlugin</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/i_ssm_plugin.h" line="45" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_i_s_s_m_plugin_1a3904072af7da13c3ed5e94183763d4d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::llm::ISSMPlugin::updateState</definition>
+        <argsstring>(const std::vector&lt; int32_t &gt; &amp;tokens)=0</argsstring>
+        <name>updateState</name>
+        <qualifiedname>themis::llm::ISSMPlugin::updateState</qualifiedname>
+        <reimplementedby refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1aa589a2888ccc212edc263eb1bf5c6b3e">updateState</reimplementedby>
+        <param>
+          <type>const std::vector&lt; int32_t &gt; &amp;</type>
+          <declname>tokens</declname>
+        </param>
+        <briefdescription>
+<para>Update State. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/i_ssm_plugin.h" line="52" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_i_s_s_m_plugin_1a42b62bdfedcf5b33191174b255a0cf1c" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_s_s_m_state_snapshot" kindref="compound">SSMStateSnapshot</ref></type>
+        <definition>virtual SSMStateSnapshot themis::llm::ISSMPlugin::getStateSnapshot</definition>
+        <argsstring>(core::HLCTimestamp snapshot_ts)=0</argsstring>
+        <name>getStateSnapshot</name>
+        <qualifiedname>themis::llm::ISSMPlugin::getStateSnapshot</qualifiedname>
+        <reimplementedby refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a5de94386da6d348601f25dc84223f268">getStateSnapshot</reimplementedby>
+        <param>
+          <type>core::HLCTimestamp</type>
+          <declname>snapshot_ts</declname>
+        </param>
+        <briefdescription>
+<para>Get State Snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot_ts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/i_ssm_plugin.h" line="59" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_i_s_s_m_plugin_1a82d80bc5f09aed75e7637f694b00b8de" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::llm::ISSMPlugin::restoreState</definition>
+        <argsstring>(const SSMStateSnapshot &amp;snapshot)=0</argsstring>
+        <name>restoreState</name>
+        <qualifiedname>themis::llm::ISSMPlugin::restoreState</qualifiedname>
+        <reimplementedby refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a5fcde9dc2fd4224ad645eb1789e1086b">restoreState</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_s_s_m_state_snapshot" kindref="compound">SSMStateSnapshot</ref> &amp;</type>
+          <declname>snapshot</declname>
+        </param>
+        <briefdescription>
+<para>Restore State. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/i_ssm_plugin.h" line="66" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_i_s_s_m_plugin_1ac048a73a985eac0405381ab3e450ef0f" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::llm::ISSMPlugin::resetState</definition>
+        <argsstring>()=0</argsstring>
+        <name>resetState</name>
+        <qualifiedname>themis::llm::ISSMPlugin::resetState</qualifiedname>
+        <reimplementedby refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a6a23a32ddbbbc62b3167caf8c7c036bd">resetState</reimplementedby>
+        <briefdescription>
+<para>Reset State. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/i_ssm_plugin.h" line="71" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_i_s_s_m_plugin_1a93ef7bec1b969cf52daffd6b8dcdb470" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>double</type>
+        <definition>virtual double themis::llm::ISSMPlugin::getStateRetentionScore</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getStateRetentionScore</name>
+        <qualifiedname>themis::llm::ISSMPlugin::getStateRetentionScore</qualifiedname>
+        <reimplementedby refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a761c2711872066cef9622b48e64858cc">getStateRetentionScore</reimplementedby>
+        <briefdescription>
+<para>Get State Retention Score. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/i_ssm_plugin.h" line="77" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_i_s_s_m_plugin_1a90bfdf2b2731ab00761c7d46f4a316cd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::llm::ISSMPlugin::getStateFingerprint</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getStateFingerprint</name>
+        <qualifiedname>themis::llm::ISSMPlugin::getStateFingerprint</qualifiedname>
+        <reimplementedby refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a6d9cb40e9d3a5e06eab4fabee5abb5b2">getStateFingerprint</reimplementedby>
+        <briefdescription>
+<para>Get State Fingerprint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/i_ssm_plugin.h" line="83" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::llm::ILLMPlugin</label>
+        <link refid="classthemis_1_1llm_1_1_i_l_l_m_plugin"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::ISSMPlugin</label>
+        <link refid="structthemis_1_1llm_1_1_i_s_s_m_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::llm::SyntheticSSMStub</label>
+        <link refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::llm::ILLMPlugin</label>
+        <link refid="classthemis_1_1llm_1_1_i_l_l_m_plugin"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::ISSMPlugin</label>
+        <link refid="structthemis_1_1llm_1_1_i_s_s_m_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/i_ssm_plugin.h" line="40" column="1" bodyfile="include/llm/i_ssm_plugin.h" bodystart="40" bodyend="84"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a14195e7bc658ae90b32b7374169ee239" prot="public" virt="pure-virtual"><scope>themis::llm::ISSMPlugin</scope><name>embed</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a5bceecb2024467d70f4e67c951111d9a" prot="public" virt="pure-virtual"><scope>themis::llm::ISSMPlugin</scope><name>exportLoRA</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a0554007ed2a748e84472f01a30369a1d" prot="public" virt="pure-virtual"><scope>themis::llm::ISSMPlugin</scope><name>generate</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1aa5297bc971b879d93360f913a76e9469" prot="public" virt="virtual"><scope>themis::llm::ISSMPlugin</scope><name>generateDraftTokens</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a113e6f344509f115a632b0ee1614b6c2" prot="public" virt="non-virtual"><scope>themis::llm::ISSMPlugin</scope><name>GenerateDraftTokensFn</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a6166ce75f4c3572cab7b4b1c487dfc94" prot="public" virt="pure-virtual"><scope>themis::llm::ISSMPlugin</scope><name>generateRAG</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a66a14a28b9ddc624c8886eaaaf6abbfa" prot="public" virt="pure-virtual"><scope>themis::llm::ISSMPlugin</scope><name>getCapabilities</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1afbc46d4815c236a390d9f17789bb9a99" prot="public" virt="pure-virtual"><scope>themis::llm::ISSMPlugin</scope><name>getMemoryStats</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a3bfc697aeb24baf7fc2fdf4d697d389c" prot="public" virt="pure-virtual"><scope>themis::llm::ISSMPlugin</scope><name>getModelInfo</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a8817d5900eff52785e71a314d39f0b47" prot="public" virt="pure-virtual"><scope>themis::llm::ISSMPlugin</scope><name>getPerformanceStats</name></member>
+      <member refid="structthemis_1_1llm_1_1_i_s_s_m_plugin_1a90bfdf2b2731ab00761c7d46f4a316cd" prot="public" virt="pure-virtual"><scope>themis::llm::ISSMPlugin</scope><name>getStateFingerprint</name></member>
+      <member refid="structthemis_1_1llm_1_1_i_s_s_m_plugin_1a93ef7bec1b969cf52daffd6b8dcdb470" prot="public" virt="pure-virtual"><scope>themis::llm::ISSMPlugin</scope><name>getStateRetentionScore</name></member>
+      <member refid="structthemis_1_1llm_1_1_i_s_s_m_plugin_1a42b62bdfedcf5b33191174b255a0cf1c" prot="public" virt="pure-virtual"><scope>themis::llm::ISSMPlugin</scope><name>getStateSnapshot</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a5570aa4f4dec749da0d2d0b9a5d7e549" prot="public" virt="non-virtual"><scope>themis::llm::ISSMPlugin</scope><name>ILLMPlugin</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1ae20ccb33c21564f563810ed78f50c6cf" prot="public" virt="non-virtual"><scope>themis::llm::ISSMPlugin</scope><name>ILLMPlugin</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a617f63576be5c553550530c3a72c5f53" prot="protected" virt="non-virtual"><scope>themis::llm::ISSMPlugin</scope><name>ILLMPlugin</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1aca1ef263bd70ffc0d1c04c92a1cd00fc" prot="public" virt="pure-virtual"><scope>themis::llm::ISSMPlugin</scope><name>importLoRA</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a016365da7a906c3a2c6c81a440591698" prot="public" virt="pure-virtual"><scope>themis::llm::ISSMPlugin</scope><name>isModelLoaded</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1aa4a9a794e561f78c5ed77d2d59343d12" prot="public" virt="pure-virtual"><scope>themis::llm::ISSMPlugin</scope><name>listLoRAs</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a2c33ddf52b0dc03bc395d8346c805e6b" prot="public" virt="pure-virtual"><scope>themis::llm::ISSMPlugin</scope><name>loadLoRA</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1ab2f6318ca437d31318a0beca0c5d4742" prot="public" virt="pure-virtual"><scope>themis::llm::ISSMPlugin</scope><name>loadModel</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a06828a4415efeab05bd0d69c7d54828c" prot="public" virt="non-virtual"><scope>themis::llm::ISSMPlugin</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a379dc1e0152b9197835c0a05f95d234c" prot="public" virt="non-virtual"><scope>themis::llm::ISSMPlugin</scope><name>operator=</name></member>
+      <member refid="structthemis_1_1llm_1_1_i_s_s_m_plugin_1ac048a73a985eac0405381ab3e450ef0f" prot="public" virt="pure-virtual"><scope>themis::llm::ISSMPlugin</scope><name>resetState</name></member>
+      <member refid="structthemis_1_1llm_1_1_i_s_s_m_plugin_1a82d80bc5f09aed75e7637f694b00b8de" prot="public" virt="pure-virtual"><scope>themis::llm::ISSMPlugin</scope><name>restoreState</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1abbcb81e46949a1afe9c567de3f8f6d61" prot="public" virt="non-virtual"><scope>themis::llm::ISSMPlugin</scope><name>setDefaultGenerateDraftTokensFn</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1ab72da450bc0dc2904fe7eff875d71667" prot="public" virt="pure-virtual"><scope>themis::llm::ISSMPlugin</scope><name>unloadLoRA</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a20a8a402b6aca0e9a79b87e5a6c2fd20" prot="public" virt="pure-virtual"><scope>themis::llm::ISSMPlugin</scope><name>unloadModel</name></member>
+      <member refid="structthemis_1_1llm_1_1_i_s_s_m_plugin_1a3904072af7da13c3ed5e94183763d4d4" prot="public" virt="pure-virtual"><scope>themis::llm::ISSMPlugin</scope><name>updateState</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a9c52c9bc3ec16061fceacc8963da3176" prot="public" virt="virtual"><scope>themis::llm::ISSMPlugin</scope><name>~ILLMPlugin</name></member>
+      <member refid="structthemis_1_1llm_1_1_i_s_s_m_plugin_1a10e4234c07a92de2b2b273035deb68d7" prot="public" virt="virtual"><scope>themis::llm::ISSMPlugin</scope><name>~ISSMPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

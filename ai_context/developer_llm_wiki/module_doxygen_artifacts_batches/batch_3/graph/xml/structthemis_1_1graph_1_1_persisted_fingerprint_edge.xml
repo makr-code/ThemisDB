@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_persisted_fingerprint_edge" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::PersistedFingerprintEdge</compoundname>
+    <includes refid="tensor__fingerprint__graph_8h" local="no">tensor_fingerprint_graph.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_persisted_fingerprint_edge_1a7e59166faa6a360c6bf4da819967e6e7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::PersistedFingerprintEdge::from</definition>
+        <argsstring></argsstring>
+        <name>from</name>
+        <qualifiedname>themis::graph::PersistedFingerprintEdge::from</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_fingerprint_graph.h" line="73" column="17" bodyfile="include/graph/tensor_fingerprint_graph.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_persisted_fingerprint_edge_1a3a1c77b7b50a9b6d8e4685e5bf63d31c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::PersistedFingerprintEdge::to</definition>
+        <argsstring></argsstring>
+        <name>to</name>
+        <qualifiedname>themis::graph::PersistedFingerprintEdge::to</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_fingerprint_graph.h" line="74" column="17" bodyfile="include/graph/tensor_fingerprint_graph.h" bodystart="74" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_persisted_fingerprint_edge_1a15b62f7e9f251fa02ac1bc38ff99aa3d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::graph::PersistedFingerprintEdge::similarity</definition>
+        <argsstring></argsstring>
+        <name>similarity</name>
+        <qualifiedname>themis::graph::PersistedFingerprintEdge::similarity</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_fingerprint_graph.h" line="75" column="12" bodyfile="include/graph/tensor_fingerprint_graph.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/tensor_fingerprint_graph.h" line="72" column="1" bodyfile="include/graph/tensor_fingerprint_graph.h" bodystart="72" bodyend="76"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_persisted_fingerprint_edge_1a7e59166faa6a360c6bf4da819967e6e7" prot="public" virt="non-virtual"><scope>themis::graph::PersistedFingerprintEdge</scope><name>from</name></member>
+      <member refid="structthemis_1_1graph_1_1_persisted_fingerprint_edge_1a15b62f7e9f251fa02ac1bc38ff99aa3d" prot="public" virt="non-virtual"><scope>themis::graph::PersistedFingerprintEdge</scope><name>similarity</name></member>
+      <member refid="structthemis_1_1graph_1_1_persisted_fingerprint_edge_1a3a1c77b7b50a9b6d8e4685e5bf63d31c" prot="public" virt="non-virtual"><scope>themis::graph::PersistedFingerprintEdge</scope><name>to</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

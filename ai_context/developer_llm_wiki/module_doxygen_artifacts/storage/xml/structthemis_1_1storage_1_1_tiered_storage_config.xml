@@ -1,0 +1,222 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_tiered_storage_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::TieredStorageConfig</compoundname>
+    <includes refid="tiered__storage_8h" local="no">tiered_storage.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tiered_storage_config_1ab1bcf6f7ed8ca3d2670854d4bba19569" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::TieredStorageConfig::hot_tier_path</definition>
+        <argsstring></argsstring>
+        <name>hot_tier_path</name>
+        <qualifiedname>themis::storage::TieredStorageConfig::hot_tier_path</qualifiedname>
+        <initializer>= &quot;./data/hot&quot;</initializer>
+        <briefdescription>
+<para>Directory for hot-tier data. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="53" column="17" bodyfile="include/storage/tiered_storage.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tiered_storage_config_1a69c1a673b36aca94eec434bed7329b5a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::TieredStorageConfig::warm_tier_path</definition>
+        <argsstring></argsstring>
+        <name>warm_tier_path</name>
+        <qualifiedname>themis::storage::TieredStorageConfig::warm_tier_path</qualifiedname>
+        <initializer>= &quot;./data/warm&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Directory for warm-tier data </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="54" column="17" bodyfile="include/storage/tiered_storage.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tiered_storage_config_1a2b934f5a15c451483f9d93c0b45f4e62" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::TieredStorageConfig::cold_tier_path</definition>
+        <argsstring></argsstring>
+        <name>cold_tier_path</name>
+        <qualifiedname>themis::storage::TieredStorageConfig::cold_tier_path</qualifiedname>
+        <initializer>= &quot;./data/cold&quot;</initializer>
+        <briefdescription>
+<para>Cold-tier backend URI, e.g. &quot;s3://archive-bucket/prefix&quot; or a path. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="56" column="17" bodyfile="include/storage/tiered_storage.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tiered_storage_config_1a9c2784f0fc0032f3d24a4c020dfe921f" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::storage::TieredStorageConfig::hot_to_warm_days</definition>
+        <argsstring></argsstring>
+        <name>hot_to_warm_days</name>
+        <qualifiedname>themis::storage::TieredStorageConfig::hot_to_warm_days</qualifiedname>
+        <initializer>= 30</initializer>
+        <briefdescription>
+<para>Days since last write before hot→warm migration (0 = disabled). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="60" column="14" bodyfile="include/storage/tiered_storage.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tiered_storage_config_1abae053ec310fe8720110253912509d2f" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::storage::TieredStorageConfig::warm_to_cold_days</definition>
+        <argsstring></argsstring>
+        <name>warm_to_cold_days</name>
+        <qualifiedname>themis::storage::TieredStorageConfig::warm_to_cold_days</qualifiedname>
+        <initializer>= 90</initializer>
+        <briefdescription>
+<para>Days since last write before warm→cold migration (0 = disabled). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="62" column="14" bodyfile="include/storage/tiered_storage.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tiered_storage_config_1a16dd03adce5415c5fbe0060972c3565b" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::storage::TieredStorageConfig::hot_zero_access_days</definition>
+        <argsstring></argsstring>
+        <name>hot_zero_access_days</name>
+        <qualifiedname>themis::storage::TieredStorageConfig::hot_zero_access_days</qualifiedname>
+        <initializer>= 14</initializer>
+        <briefdescription>
+<para>Demote hot→warm if the key has zero reads within this window (0 = disabled). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="66" column="14" bodyfile="include/storage/tiered_storage.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tiered_storage_config_1a773c7dde6dd7676a418b539ca4a78b37" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::storage::TieredStorageConfig::warm_zero_access_days</definition>
+        <argsstring></argsstring>
+        <name>warm_zero_access_days</name>
+        <qualifiedname>themis::storage::TieredStorageConfig::warm_zero_access_days</qualifiedname>
+        <initializer>= 45</initializer>
+        <briefdescription>
+<para>Demote warm→cold if the key has zero reads within this window (0 = disabled). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="68" column="14" bodyfile="include/storage/tiered_storage.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tiered_storage_config_1a5d0a1096edec9ef170869570a095b0ed" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::storage::TieredStorageConfig::migration_check_interval_secs</definition>
+        <argsstring></argsstring>
+        <name>migration_check_interval_secs</name>
+        <qualifiedname>themis::storage::TieredStorageConfig::migration_check_interval_secs</qualifiedname>
+        <initializer>= 3600</initializer>
+        <briefdescription>
+<para>How often the migration worker scans for candidates (seconds). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="72" column="14" bodyfile="include/storage/tiered_storage.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tiered_storage_config_1a1a9600e6fa4822e7d625c4dd437fef2a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::storage::TieredStorageConfig::max_migrations_per_cycle</definition>
+        <argsstring></argsstring>
+        <name>max_migrations_per_cycle</name>
+        <qualifiedname>themis::storage::TieredStorageConfig::max_migrations_per_cycle</qualifiedname>
+        <initializer>= 500</initializer>
+        <briefdescription>
+<para>Maximum keys migrated per worker cycle (0 = unlimited). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="74" column="14" bodyfile="include/storage/tiered_storage.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tiered_storage_config_1ab36364ea01b7dccb4545e6f74fdadf19" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::storage::TieredStorageConfig::large_blob_bytes</definition>
+        <argsstring></argsstring>
+        <name>large_blob_bytes</name>
+        <qualifiedname>themis::storage::TieredStorageConfig::large_blob_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Migrate any key whose stored value meets or exceeds this size (bytes) to <computeroutput><ref refid="structthemis_1_1storage_1_1_tiered_storage_config_1a799a8b069738cd3eebcca536555b2378" kindref="member">large_blob_tier</ref></computeroutput>, regardless of age or access frequency. Set to 0 to disable size-based migration (default). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="80" column="14" bodyfile="include/storage/tiered_storage.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tiered_storage_config_1a799a8b069738cd3eebcca536555b2378" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1storage_1a3c530ac7dba036fbcb9a1094749b56ee" kindref="member">StorageTierLevel</ref></type>
+        <definition>StorageTierLevel themis::storage::TieredStorageConfig::large_blob_tier</definition>
+        <argsstring></argsstring>
+        <name>large_blob_tier</name>
+        <qualifiedname>themis::storage::TieredStorageConfig::large_blob_tier</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1storage_1a3c530ac7dba036fbcb9a1094749b56eea3f7ff4daa99912d1b0c8c64340edb9fb" kindref="member">StorageTierLevel::COLD</ref></initializer>
+        <briefdescription>
+<para>Destination tier for oversized blobs (default: COLD). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="82" column="22" bodyfile="include/storage/tiered_storage.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tiered_storage_config_1a61bb18fe7e8ecd39cff21e53cae75bc6" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::storage::TieredStorageConfig::migration_abort_disk_usage_ratio</definition>
+        <argsstring></argsstring>
+        <name>migration_abort_disk_usage_ratio</name>
+        <qualifiedname>themis::storage::TieredStorageConfig::migration_abort_disk_usage_ratio</qualifiedname>
+        <initializer>= 0.95</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Abort a migration and retry if foreground I/O on the destination tier exceeds this ratio of free space (0.0–1.0). Default 95%. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="87" column="12" bodyfile="include/storage/tiered_storage.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for <ref refid="classthemis_1_1storage_1_1_tiered_storage_manager" kindref="compound">TieredStorageManager</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Migration policy is evaluated by the background TierMigrationWorker at intervals of <computeroutput>migration_check_interval</computeroutput>. Both age-based and access-frequency-based rules are checked; a key is demoted when <emphasis>either</emphasis> condition is satisfied. </para>
+    </detaileddescription>
+    <location file="include/storage/tiered_storage.h" line="51" column="1" bodyfile="include/storage/tiered_storage.h" bodystart="51" bodyend="88"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_tiered_storage_config_1a2b934f5a15c451483f9d93c0b45f4e62" prot="public" virt="non-virtual"><scope>themis::storage::TieredStorageConfig</scope><name>cold_tier_path</name></member>
+      <member refid="structthemis_1_1storage_1_1_tiered_storage_config_1ab1bcf6f7ed8ca3d2670854d4bba19569" prot="public" virt="non-virtual"><scope>themis::storage::TieredStorageConfig</scope><name>hot_tier_path</name></member>
+      <member refid="structthemis_1_1storage_1_1_tiered_storage_config_1a9c2784f0fc0032f3d24a4c020dfe921f" prot="public" virt="non-virtual"><scope>themis::storage::TieredStorageConfig</scope><name>hot_to_warm_days</name></member>
+      <member refid="structthemis_1_1storage_1_1_tiered_storage_config_1a16dd03adce5415c5fbe0060972c3565b" prot="public" virt="non-virtual"><scope>themis::storage::TieredStorageConfig</scope><name>hot_zero_access_days</name></member>
+      <member refid="structthemis_1_1storage_1_1_tiered_storage_config_1ab36364ea01b7dccb4545e6f74fdadf19" prot="public" virt="non-virtual"><scope>themis::storage::TieredStorageConfig</scope><name>large_blob_bytes</name></member>
+      <member refid="structthemis_1_1storage_1_1_tiered_storage_config_1a799a8b069738cd3eebcca536555b2378" prot="public" virt="non-virtual"><scope>themis::storage::TieredStorageConfig</scope><name>large_blob_tier</name></member>
+      <member refid="structthemis_1_1storage_1_1_tiered_storage_config_1a1a9600e6fa4822e7d625c4dd437fef2a" prot="public" virt="non-virtual"><scope>themis::storage::TieredStorageConfig</scope><name>max_migrations_per_cycle</name></member>
+      <member refid="structthemis_1_1storage_1_1_tiered_storage_config_1a61bb18fe7e8ecd39cff21e53cae75bc6" prot="public" virt="non-virtual"><scope>themis::storage::TieredStorageConfig</scope><name>migration_abort_disk_usage_ratio</name></member>
+      <member refid="structthemis_1_1storage_1_1_tiered_storage_config_1a5d0a1096edec9ef170869570a095b0ed" prot="public" virt="non-virtual"><scope>themis::storage::TieredStorageConfig</scope><name>migration_check_interval_secs</name></member>
+      <member refid="structthemis_1_1storage_1_1_tiered_storage_config_1a69c1a673b36aca94eec434bed7329b5a" prot="public" virt="non-virtual"><scope>themis::storage::TieredStorageConfig</scope><name>warm_tier_path</name></member>
+      <member refid="structthemis_1_1storage_1_1_tiered_storage_config_1abae053ec310fe8720110253912509d2f" prot="public" virt="non-virtual"><scope>themis::storage::TieredStorageConfig</scope><name>warm_to_cold_days</name></member>
+      <member refid="structthemis_1_1storage_1_1_tiered_storage_config_1a773c7dde6dd7676a418b539ca4a78b37" prot="public" virt="non-virtual"><scope>themis::storage::TieredStorageConfig</scope><name>warm_zero_access_days</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1fts_1_1_fts_executor_1_1_cache_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::fts::FtsExecutor::CacheStats</compoundname>
+    <includes refid="fts__executor_8h" local="no">fts_executor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1fts_1_1_fts_executor_1_1_cache_stats_1af2aa75c8f39d6d725cbbd3f1e7ea2cba" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::query::fts::FtsExecutor::CacheStats::hits</definition>
+        <argsstring></argsstring>
+        <name>hits</name>
+        <qualifiedname>themis::query::fts::FtsExecutor::CacheStats::hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_executor.h" line="124" column="14" bodyfile="include/query/fts_executor.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1fts_1_1_fts_executor_1_1_cache_stats_1ad6f1dc86edae1656765d04a532059d1f" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::query::fts::FtsExecutor::CacheStats::misses</definition>
+        <argsstring></argsstring>
+        <name>misses</name>
+        <qualifiedname>themis::query::fts::FtsExecutor::CacheStats::misses</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_executor.h" line="125" column="14" bodyfile="include/query/fts_executor.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1fts_1_1_fts_executor_1_1_cache_stats_1a40f5bb3b8e9ef8d3e7cf2f57aac3052c" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::query::fts::FtsExecutor::CacheStats::evictions</definition>
+        <argsstring></argsstring>
+        <name>evictions</name>
+        <qualifiedname>themis::query::fts::FtsExecutor::CacheStats::evictions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_executor.h" line="126" column="14" bodyfile="include/query/fts_executor.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1fts_1_1_fts_executor_1_1_cache_stats_1aebc2d5d27bdda1d18a2802c9f6dceda7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::query::fts::FtsExecutor::CacheStats::hitRate</definition>
+        <argsstring>() const</argsstring>
+        <name>hitRate</name>
+        <qualifiedname>themis::query::fts::FtsExecutor::CacheStats::hitRate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_executor.h" line="128" column="11" bodyfile="include/query/fts_executor.h" bodystart="128" bodyend="131"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/fts_executor.h" line="123" column="3" bodyfile="include/query/fts_executor.h" bodystart="123" bodyend="132"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1fts_1_1_fts_executor_1_1_cache_stats_1a40f5bb3b8e9ef8d3e7cf2f57aac3052c" prot="public" virt="non-virtual"><scope>themis::query::fts::FtsExecutor::CacheStats</scope><name>evictions</name></member>
+      <member refid="structthemis_1_1query_1_1fts_1_1_fts_executor_1_1_cache_stats_1aebc2d5d27bdda1d18a2802c9f6dceda7" prot="public" virt="non-virtual"><scope>themis::query::fts::FtsExecutor::CacheStats</scope><name>hitRate</name></member>
+      <member refid="structthemis_1_1query_1_1fts_1_1_fts_executor_1_1_cache_stats_1af2aa75c8f39d6d725cbbd3f1e7ea2cba" prot="public" virt="non-virtual"><scope>themis::query::fts::FtsExecutor::CacheStats</scope><name>hits</name></member>
+      <member refid="structthemis_1_1query_1_1fts_1_1_fts_executor_1_1_cache_stats_1ad6f1dc86edae1656765d04a532059d1f" prot="public" virt="non-virtual"><scope>themis::query::fts::FtsExecutor::CacheStats</scope><name>misses</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

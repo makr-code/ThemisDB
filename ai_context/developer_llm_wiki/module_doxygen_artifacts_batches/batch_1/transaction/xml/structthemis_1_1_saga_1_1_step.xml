@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_saga_1_1_step" kind="struct" language="C++" prot="public">
+    <compoundname>themis::Saga::Step</compoundname>
+    <includes refid="saga_8h" local="no">saga.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_saga_1_1_step_1a0810cf7461465f9ac65fcbb93717870f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::Saga::Step::operation_name</definition>
+        <argsstring></argsstring>
+        <name>operation_name</name>
+        <qualifiedname>themis::Saga::Step::operation_name</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga.h" line="37" column="21" bodyfile="include/transaction/saga.h" bodystart="37" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_saga_1_1_step_1a29bef38ef0ed5738b64872071d8dfc99" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_saga_1a7394921ffd05b8d51c3bcae615fd4875" kindref="member">CompensatingAction</ref></type>
+        <definition>CompensatingAction themis::Saga::Step::compensate</definition>
+        <argsstring></argsstring>
+        <name>compensate</name>
+        <qualifiedname>themis::Saga::Step::compensate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga.h" line="38" column="28" bodyfile="include/transaction/saga.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_saga_1_1_step_1a97375f7f2a1ef64c242442e7d6c63fa9" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::Saga::Step::executed_at</definition>
+        <argsstring></argsstring>
+        <name>executed_at</name>
+        <qualifiedname>themis::Saga::Step::executed_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga.h" line="39" column="47" bodyfile="include/transaction/saga.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_saga_1_1_step_1adaac26c570fd9eeb089728f390b8a740" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::Saga::Step::compensated</definition>
+        <argsstring></argsstring>
+        <name>compensated</name>
+        <qualifiedname>themis::Saga::Step::compensated</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga.h" line="40" column="14" bodyfile="include/transaction/saga.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_saga_1_1_step_1acc396fc5de13ac53c650d49986101b07" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::Saga::Step::Step</definition>
+        <argsstring>(std::string name, CompensatingAction action)</argsstring>
+        <name>Step</name>
+        <qualifiedname>themis::Saga::Step::Step</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1_saga_1a7394921ffd05b8d51c3bcae615fd4875" kindref="member">CompensatingAction</ref></type>
+          <declname>action</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga.h" line="42" column="9" bodyfile="include/transaction/saga.h" bodystart="42" bodyend="45"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/saga.h" line="36" column="5" bodyfile="include/transaction/saga.h" bodystart="36" bodyend="46"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_saga_1_1_step_1a29bef38ef0ed5738b64872071d8dfc99" prot="public" virt="non-virtual"><scope>themis::Saga::Step</scope><name>compensate</name></member>
+      <member refid="structthemis_1_1_saga_1_1_step_1adaac26c570fd9eeb089728f390b8a740" prot="public" virt="non-virtual"><scope>themis::Saga::Step</scope><name>compensated</name></member>
+      <member refid="structthemis_1_1_saga_1_1_step_1a97375f7f2a1ef64c242442e7d6c63fa9" prot="public" virt="non-virtual"><scope>themis::Saga::Step</scope><name>executed_at</name></member>
+      <member refid="structthemis_1_1_saga_1_1_step_1a0810cf7461465f9ac65fcbb93717870f" prot="public" virt="non-virtual"><scope>themis::Saga::Step</scope><name>operation_name</name></member>
+      <member refid="structthemis_1_1_saga_1_1_step_1acc396fc5de13ac53c650d49986101b07" prot="public" virt="non-virtual"><scope>themis::Saga::Step</scope><name>Step</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

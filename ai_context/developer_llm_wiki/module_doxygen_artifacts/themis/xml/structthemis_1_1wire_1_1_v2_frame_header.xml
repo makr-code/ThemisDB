@@ -1,0 +1,164 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1wire_1_1_v2_frame_header" kind="struct" language="C++" prot="public">
+    <compoundname>themis::wire::V2FrameHeader</compoundname>
+    <includes refid="wire__protocol__v2_8hpp" local="no">wire_protocol_v2.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1wire_1_1_v2_frame_header_1a657f39c27221329993eadcf6bc5a6d27" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::wire::V2FrameHeader::magic</definition>
+        <argsstring></argsstring>
+        <name>magic</name>
+        <qualifiedname>themis::wire::V2FrameHeader::magic</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Must equal WIRE_V2_MAGIC. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="89" column="14" bodyfile="include/themis/network/wire_protocol_v2.hpp" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1wire_1_1_v2_frame_header_1a46ee39b7f41ca83c84f84549c998f6de" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::wire::V2FrameHeader::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::wire::V2FrameHeader::version</qualifiedname>
+        <briefdescription>
+<para>Must equal WIRE_VERSION_2. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="90" column="14" bodyfile="include/themis/network/wire_protocol_v2.hpp" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1wire_1_1_v2_frame_header_1a5b1810f02751f44894300313084c414c" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::wire::V2FrameHeader::frame_type</definition>
+        <argsstring></argsstring>
+        <name>frame_type</name>
+        <qualifiedname>themis::wire::V2FrameHeader::frame_type</qualifiedname>
+        <briefdescription>
+<para><ref refid="namespacethemis_1_1wire_1ae67e3fcbf9d825e89a1d079b22a51064" kindref="member">V2FrameType</ref> cast to uint8_t. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="91" column="14" bodyfile="include/themis/network/wire_protocol_v2.hpp" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1wire_1_1_v2_frame_header_1a9f9cc6da6f7f234b895b7ed2c16c9547" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t themis::wire::V2FrameHeader::flags</definition>
+        <argsstring></argsstring>
+        <name>flags</name>
+        <qualifiedname>themis::wire::V2FrameHeader::flags</qualifiedname>
+        <briefdescription>
+<para>Bitfield of <ref refid="namespacethemis_1_1wire_1a6b25212a6158923df2bd06758f0e2c27" kindref="member">V2FrameFlags</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="92" column="14" bodyfile="include/themis/network/wire_protocol_v2.hpp" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1wire_1_1_v2_frame_header_1ad96138e20c3c4c7bf9d0630331b35b12" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::wire::V2FrameHeader::stream_id</definition>
+        <argsstring></argsstring>
+        <name>stream_id</name>
+        <qualifiedname>themis::wire::V2FrameHeader::stream_id</qualifiedname>
+        <briefdescription>
+<para>0 = connection-level frame; &gt;0 = stream frame </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="93" column="14" bodyfile="include/themis/network/wire_protocol_v2.hpp" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1wire_1_1_v2_frame_header_1a9d3992cd48bc6ff545e064c9e2752a5c" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::wire::V2FrameHeader::payload_length</definition>
+        <argsstring></argsstring>
+        <name>payload_length</name>
+        <qualifiedname>themis::wire::V2FrameHeader::payload_length</qualifiedname>
+        <briefdescription>
+<para>Length of payload in bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="94" column="14" bodyfile="include/themis/network/wire_protocol_v2.hpp" bodystart="94" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1wire_1_1_v2_frame_header_1af9c485a45b6ff5581a856d45dc58717f" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::wire::V2FrameHeader::is_valid</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>is_valid</name>
+        <qualifiedname>themis::wire::V2FrameHeader::is_valid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="96" column="10" bodyfile="include/themis/network/wire_protocol_v2.hpp" bodystart="96" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1wire_1_1_v2_frame_header_1ae68d7528ce5af4e6df19c9c99dccdf1e" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1wire_1ae67e3fcbf9d825e89a1d079b22a51064" kindref="member">V2FrameType</ref></type>
+        <definition>V2FrameType themis::wire::V2FrameHeader::get_type</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>get_type</name>
+        <qualifiedname>themis::wire::V2FrameHeader::get_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="100" column="17" bodyfile="include/themis/network/wire_protocol_v2.hpp" bodystart="100" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1wire_1_1_v2_frame_header_1aa13b2e9c87fe928f629809f7674d8bb8" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::wire::V2FrameHeader::has_flag</definition>
+        <argsstring>(V2FrameFlags f) const noexcept</argsstring>
+        <name>has_flag</name>
+        <qualifiedname>themis::wire::V2FrameHeader::has_flag</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1wire_1a6b25212a6158923df2bd06758f0e2c27" kindref="member">V2FrameFlags</ref></type>
+          <declname>f</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="104" column="10" bodyfile="include/themis/network/wire_protocol_v2.hpp" bodystart="104" bodyend="106"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/network/wire_protocol_v2.hpp" line="88" column="1" bodyfile="include/themis/network/wire_protocol_v2.hpp" bodystart="88" bodyend="107"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1wire_1_1_v2_frame_header_1a9f9cc6da6f7f234b895b7ed2c16c9547" prot="public" virt="non-virtual"><scope>themis::wire::V2FrameHeader</scope><name>flags</name></member>
+      <member refid="structthemis_1_1wire_1_1_v2_frame_header_1a5b1810f02751f44894300313084c414c" prot="public" virt="non-virtual"><scope>themis::wire::V2FrameHeader</scope><name>frame_type</name></member>
+      <member refid="structthemis_1_1wire_1_1_v2_frame_header_1ae68d7528ce5af4e6df19c9c99dccdf1e" prot="public" virt="non-virtual"><scope>themis::wire::V2FrameHeader</scope><name>get_type</name></member>
+      <member refid="structthemis_1_1wire_1_1_v2_frame_header_1aa13b2e9c87fe928f629809f7674d8bb8" prot="public" virt="non-virtual"><scope>themis::wire::V2FrameHeader</scope><name>has_flag</name></member>
+      <member refid="structthemis_1_1wire_1_1_v2_frame_header_1af9c485a45b6ff5581a856d45dc58717f" prot="public" virt="non-virtual"><scope>themis::wire::V2FrameHeader</scope><name>is_valid</name></member>
+      <member refid="structthemis_1_1wire_1_1_v2_frame_header_1a657f39c27221329993eadcf6bc5a6d27" prot="public" virt="non-virtual"><scope>themis::wire::V2FrameHeader</scope><name>magic</name></member>
+      <member refid="structthemis_1_1wire_1_1_v2_frame_header_1a9d3992cd48bc6ff545e064c9e2752a5c" prot="public" virt="non-virtual"><scope>themis::wire::V2FrameHeader</scope><name>payload_length</name></member>
+      <member refid="structthemis_1_1wire_1_1_v2_frame_header_1ad96138e20c3c4c7bf9d0630331b35b12" prot="public" virt="non-virtual"><scope>themis::wire::V2FrameHeader</scope><name>stream_id</name></member>
+      <member refid="structthemis_1_1wire_1_1_v2_frame_header_1a46ee39b7f41ca83c84f84549c998f6de" prot="public" virt="non-virtual"><scope>themis::wire::V2FrameHeader</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

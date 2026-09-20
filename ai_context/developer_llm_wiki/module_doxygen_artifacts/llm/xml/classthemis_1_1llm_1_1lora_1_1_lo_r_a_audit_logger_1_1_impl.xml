@@ -1,0 +1,869 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::LoRAAuditLogger::Impl</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl_1a5dc8c1cce596ba84d43a161bccc04e97" prot="private" static="no" mutable="no">
+        <type>utils::AuditLoggerConfig</type>
+        <definition>utils::AuditLoggerConfig themis::llm::lora::LoRAAuditLogger::Impl::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::lora::LoRAAuditLogger::Impl::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_audit_logger.cpp" line="453" column="30" bodyfile="src/llm/lora_framework/lora_audit_logger.cpp" bodystart="453" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl_1adc190109e663abeb085aa454394a334b" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; utils::AuditLogger &gt;</type>
+        <definition>std::unique_ptr&lt;utils::AuditLogger&gt; themis::llm::lora::LoRAAuditLogger::Impl::audit_logger_</definition>
+        <argsstring></argsstring>
+        <name>audit_logger_</name>
+        <qualifiedname>themis::llm::lora::LoRAAuditLogger::Impl::audit_logger_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_audit_logger.cpp" line="454" column="21" bodyfile="src/llm/lora_framework/lora_audit_logger.cpp" bodystart="454" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl_1a3795bbd36e4d303c46a30da61f0b7cf4" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAAuditLogger::Impl::lora_log_path_</definition>
+        <argsstring></argsstring>
+        <name>lora_log_path_</name>
+        <qualifiedname>themis::llm::lora::LoRAAuditLogger::Impl::lora_log_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_audit_logger.cpp" line="455" column="17" bodyfile="src/llm/lora_framework/lora_audit_logger.cpp" bodystart="455" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl_1a17ba0f7a696432faa393cd41c7fb432f" prot="private" static="no" mutable="no">
+        <type>std::ofstream</type>
+        <definition>std::ofstream themis::llm::lora::LoRAAuditLogger::Impl::log_file_</definition>
+        <argsstring></argsstring>
+        <name>log_file_</name>
+        <qualifiedname>themis::llm::lora::LoRAAuditLogger::Impl::log_file_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_audit_logger.cpp" line="456" column="19" bodyfile="src/llm/lora_framework/lora_audit_logger.cpp" bodystart="456" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl_1a3b6e4f8fb495876ba23343fa1828f062" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::lora::LoRAAuditLogger::Impl::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::llm::lora::LoRAAuditLogger::Impl::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_audit_logger.cpp" line="457" column="24" bodyfile="src/llm/lora_framework/lora_audit_logger.cpp" bodystart="457" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl_1a102644e2b2cf9832de2a1e1f471e20a2" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRAAuditLogger::Impl::enabled_</definition>
+        <argsstring></argsstring>
+        <name>enabled_</name>
+        <qualifiedname>themis::llm::lora::LoRAAuditLogger::Impl::enabled_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_audit_logger.cpp" line="458" column="10" bodyfile="src/llm/lora_framework/lora_audit_logger.cpp" bodystart="458" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl_1a698e82951655ff0222cbb702e2b6d15b" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager" kindref="compound">LoRAProvenanceManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;LoRAProvenanceManager&gt; themis::llm::lora::LoRAAuditLogger::Impl::provenance_mgr_</definition>
+        <argsstring></argsstring>
+        <name>provenance_mgr_</name>
+        <qualifiedname>themis::llm::lora::LoRAAuditLogger::Impl::provenance_mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_audit_logger.cpp" line="461" column="21" bodyfile="src/llm/lora_framework/lora_audit_logger.cpp" bodystart="461" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl_1ab8c6175d634f8c16a316e5106a8e6100" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::lora::LoRAAuditLogger::Impl::inference_count_</definition>
+        <argsstring></argsstring>
+        <name>inference_count_</name>
+        <qualifiedname>themis::llm::lora::LoRAAuditLogger::Impl::inference_count_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_audit_logger.cpp" line="464" column="14" bodyfile="src/llm/lora_framework/lora_audit_logger.cpp" bodystart="464" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl_1a0bcc20d402846d6215e044d501645d1b" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::lora::LoRAAuditLogger::Impl::event_count_</definition>
+        <argsstring></argsstring>
+        <name>event_count_</name>
+        <qualifiedname>themis::llm::lora::LoRAAuditLogger::Impl::event_count_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_audit_logger.cpp" line="465" column="14" bodyfile="src/llm/lora_framework/lora_audit_logger.cpp" bodystart="465" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl_1af97ecde34b9076b8b41abcf81015f4dc" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::LoRAAuditLogger::Impl::Impl</definition>
+        <argsstring>(const utils::AuditLoggerConfig &amp;config)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::llm::lora::LoRAAuditLogger::Impl::Impl</qualifiedname>
+        <param>
+          <type>const utils::AuditLoggerConfig &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl" kindref="compound">Impl</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_audit_logger.cpp" line="32" column="14" bodyfile="src/llm/lora_framework/lora_audit_logger.cpp" bodystart="32" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl_1a6d703e1db9780cc7089fd5e92c9fb3a9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::LoRAAuditLogger::Impl::setProvenanceMgr</definition>
+        <argsstring>(std::shared_ptr&lt; LoRAProvenanceManager &gt; mgr)</argsstring>
+        <name>setProvenanceMgr</name>
+        <qualifiedname>themis::llm::lora::LoRAAuditLogger::Impl::setProvenanceMgr</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager" kindref="compound">LoRAProvenanceManager</ref> &gt;</type>
+          <declname>mgr</declname>
+        </param>
+        <briefdescription>
+<para>Set Provenance Mgr. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_audit_logger.cpp" line="53" column="10" bodyfile="src/llm/lora_framework/lora_audit_logger.cpp" bodystart="53" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl_1a090e28b5d86c182c5d6b7f7453bf0dbd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::LoRAAuditLogger::Impl::logInference</definition>
+        <argsstring>(const LoRAInferenceAudit &amp;audit)</argsstring>
+        <name>logInference</name>
+        <qualifiedname>themis::llm::lora::LoRAAuditLogger::Impl::logInference</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit" kindref="compound">LoRAInferenceAudit</ref> &amp;</type>
+          <declname>audit</declname>
+        </param>
+        <briefdescription>
+<para>Log Inference. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">audit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), toJSON(), writeToLog(), <ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl_1aae4a195e64bd66fa81f0b417370778ed" kindref="member">logEvent()</ref>, <ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager_1ad2b3d9c9c71838ee36e9dbe55e6a93bd" kindref="member">LoRAProvenanceManager::sha256Hex()</ref>, appendAuditEntry(), std::move(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_audit_logger.cpp" line="63" column="10" bodyfile="src/llm/lora_framework/lora_audit_logger.cpp" bodystart="63" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl_1aae4a195e64bd66fa81f0b417370778ed" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::LoRAAuditLogger::Impl::logEvent</definition>
+        <argsstring>(LoRAAuditEventType event_type, const std::string &amp;adapter_id, const json &amp;details)</argsstring>
+        <name>logEvent</name>
+        <qualifiedname>themis::llm::lora::LoRAAuditLogger::Impl::logEvent</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1_1lora_1a93c6c75678a70d2bd825246a3e9c439f" kindref="member">LoRAAuditEventType</ref></type>
+          <declname>event_type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref> &amp;</type>
+          <declname>details</declname>
+        </param>
+        <briefdescription>
+<para>Log Event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">details</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::chrono::system_clock::to_time_t(), std::chrono::system_clock::now(), eventTypeToString(), writeToLog(), spdlog::error(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_audit_logger.cpp" line="125" column="10" bodyfile="src/llm/lora_framework/lora_audit_logger.cpp" bodystart="125" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl_1a39b7482ec2738a4fdf13e717fce2d2d6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::LoRAAuditLogger::Impl::logAdapterLifecycle</definition>
+        <argsstring>(LoRAAuditEventType event_type, const std::string &amp;adapter_id, const std::string &amp;version, const json &amp;metadata)</argsstring>
+        <name>logAdapterLifecycle</name>
+        <qualifiedname>themis::llm::lora::LoRAAuditLogger::Impl::logAdapterLifecycle</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1_1lora_1a93c6c75678a70d2bd825246a3e9c439f" kindref="member">LoRAAuditEventType</ref></type>
+          <declname>event_type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref> &amp;</type>
+          <declname>metadata</declname>
+        </param>
+        <briefdescription>
+<para>Log Adapter Lifecycle. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl_1aae4a195e64bd66fa81f0b417370778ed" kindref="member">logEvent()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_audit_logger.cpp" line="163" column="10" bodyfile="src/llm/lora_framework/lora_audit_logger.cpp" bodystart="163" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl_1a44d45e7177cee2060302ec0bb8707cd6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::LoRAAuditLogger::Impl::logTraining</definition>
+        <argsstring>(LoRAAuditEventType event_type, const std::string &amp;adapter_id, int num_samples, float final_loss, float validation_accuracy, const json &amp;hyperparameters)</argsstring>
+        <name>logTraining</name>
+        <qualifiedname>themis::llm::lora::LoRAAuditLogger::Impl::logTraining</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1_1lora_1a93c6c75678a70d2bd825246a3e9c439f" kindref="member">LoRAAuditEventType</ref></type>
+          <declname>event_type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>num_samples</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>final_loss</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>validation_accuracy</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref> &amp;</type>
+          <declname>hyperparameters</declname>
+        </param>
+        <briefdescription>
+<para>Log Training. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">num_samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">final_loss</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">validation_accuracy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hyperparameters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl_1aae4a195e64bd66fa81f0b417370778ed" kindref="member">logEvent()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_audit_logger.cpp" line="185" column="10" bodyfile="src/llm/lora_framework/lora_audit_logger.cpp" bodystart="185" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl_1a8f383070305c1f3c3f243af558cf4108" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::LoRAAuditLogger::Impl::logFeedback</definition>
+        <argsstring>(LoRAAuditEventType event_type, const std::string &amp;adapter_id, const std::string &amp;question, const std::string &amp;answer, const std::string &amp;correction, const std::string &amp;user_id)</argsstring>
+        <name>logFeedback</name>
+        <qualifiedname>themis::llm::lora::LoRAAuditLogger::Impl::logFeedback</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1_1lora_1a93c6c75678a70d2bd825246a3e9c439f" kindref="member">LoRAAuditEventType</ref></type>
+          <declname>event_type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>question</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>answer</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>correction</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Log <ref refid="structthemis_1_1llm_1_1lora_1_1_feedback" kindref="compound">Feedback</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">question</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">correction</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), <ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl_1aae4a195e64bd66fa81f0b417370778ed" kindref="member">logEvent()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_audit_logger.cpp" line="211" column="10" bodyfile="src/llm/lora_framework/lora_audit_logger.cpp" bodystart="211" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl_1a017100bef86788c03ae3a57427ea67b0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::LoRAAuditLogger::Impl::logVersioning</definition>
+        <argsstring>(LoRAAuditEventType event_type, const std::string &amp;adapter_id, const std::string &amp;from_version, const std::string &amp;to_version, const std::string &amp;reason)</argsstring>
+        <name>logVersioning</name>
+        <qualifiedname>themis::llm::lora::LoRAAuditLogger::Impl::logVersioning</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1_1lora_1a93c6c75678a70d2bd825246a3e9c439f" kindref="member">LoRAAuditEventType</ref></type>
+          <declname>event_type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>from_version</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>to_version</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+<para>Log Versioning. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">from_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), <ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl_1aae4a195e64bd66fa81f0b417370778ed" kindref="member">logEvent()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_audit_logger.cpp" line="240" column="10" bodyfile="src/llm/lora_framework/lora_audit_logger.cpp" bodystart="240" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl_1a994d8ff3fa719fada371d51d2ff85a2f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref> &gt;</type>
+        <definition>std::vector&lt; json &gt; themis::llm::lora::LoRAAuditLogger::Impl::queryLogs</definition>
+        <argsstring>(const std::string &amp;adapter_id, std::optional&lt; std::chrono::system_clock::time_point &gt; start_time, std::optional&lt; std::chrono::system_clock::time_point &gt; end_time)</argsstring>
+        <name>queryLogs</name>
+        <qualifiedname>themis::llm::lora::LoRAAuditLogger::Impl::queryLogs</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; std::chrono::system_clock::time_point &gt;</type>
+          <declname>start_time</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; std::chrono::system_clock::time_point &gt;</type>
+          <declname>end_time</declname>
+        </param>
+        <briefdescription>
+<para>Query Logs. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">start_time</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">end_time</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), file(), is_open(), std::getline(), empty(), json::parse(), contains(), std::chrono::system_clock::from_time_t(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_audit_logger.cpp" line="264" column="17" bodyfile="src/llm/lora_framework/lora_audit_logger.cpp" bodystart="264" bodyend="319"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl_1aeb3647dcd2637b6caeda69cec9298523" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit" kindref="compound">LoRAInferenceAudit</ref> &gt;</type>
+        <definition>std::vector&lt; LoRAInferenceAudit &gt; themis::llm::lora::LoRAAuditLogger::Impl::getInferenceHistory</definition>
+        <argsstring>(const std::string &amp;adapter_id, int limit)</argsstring>
+        <name>getInferenceHistory</name>
+        <qualifiedname>themis::llm::lora::LoRAAuditLogger::Impl::getInferenceHistory</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>limit</declname>
+        </param>
+        <briefdescription>
+<para>Get Inference History. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">limit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl_1a994d8ff3fa719fada371d51d2ff85a2f" kindref="member">queryLogs()</ref>, contains(), push_back(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_audit_logger.cpp" line="328" column="17" bodyfile="src/llm/lora_framework/lora_audit_logger.cpp" bodystart="328" bodyend="371"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl_1aa0104db8990c4580cee1ab23f7aaaf4b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref></type>
+        <definition>json themis::llm::lora::LoRAAuditLogger::Impl::getAdapterStats</definition>
+        <argsstring>(const std::string &amp;adapter_id)</argsstring>
+        <name>getAdapterStats</name>
+        <qualifiedname>themis::llm::lora::LoRAAuditLogger::Impl::getAdapterStats</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Adapter Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl_1a994d8ff3fa719fada371d51d2ff85a2f" kindref="member">queryLogs()</ref>, size(), contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_audit_logger.cpp" line="379" column="10" bodyfile="src/llm/lora_framework/lora_audit_logger.cpp" bodystart="379" bodyend="426"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl_1aadbb500b50c78c2e56f80c966d7628fe" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::LoRAAuditLogger::Impl::setEnabled</definition>
+        <argsstring>(bool enabled)</argsstring>
+        <name>setEnabled</name>
+        <qualifiedname>themis::llm::lora::LoRAAuditLogger::Impl::setEnabled</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+        </param>
+        <briefdescription>
+<para>Set Enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">enabled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_audit_logger.cpp" line="433" column="10" bodyfile="src/llm/lora_framework/lora_audit_logger.cpp" bodystart="433" bodyend="436"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl_1a3c16a9c89f63ea8b87bcce6612332fe4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::LoRAAuditLogger::Impl::flush</definition>
+        <argsstring>()</argsstring>
+        <name>flush</name>
+        <qualifiedname>themis::llm::lora::LoRAAuditLogger::Impl::flush</qualifiedname>
+        <briefdescription>
+<para>Flush. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), is_open(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_audit_logger.cpp" line="442" column="10" bodyfile="src/llm/lora_framework/lora_audit_logger.cpp" bodystart="442" bodyend="450"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl_1a7affdfaacd98f30f31263d915f242784" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::LoRAAuditLogger::Impl::writeToLog</definition>
+        <argsstring>(const json &amp;entry)</argsstring>
+        <name>writeToLog</name>
+        <qualifiedname>themis::llm::lora::LoRAAuditLogger::Impl::writeToLog</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Write To Log. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: is_open(), open(), spdlog::error(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_audit_logger.cpp" line="472" column="10" bodyfile="src/llm/lora_framework/lora_audit_logger.cpp" bodystart="472" bodyend="484"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl_1ac0e1ca60034c32aa66cfcbee01a9e8fe" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::llm::lora::LoRAAuditLogger::Impl::eventTypeToString</definition>
+        <argsstring>(LoRAAuditEventType type)</argsstring>
+        <name>eventTypeToString</name>
+        <qualifiedname>themis::llm::lora::LoRAAuditLogger::Impl::eventTypeToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1_1lora_1a93c6c75678a70d2bd825246a3e9c439f" kindref="member">LoRAAuditEventType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Event Type To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements eventTypeToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_audit_logger.cpp" line="492" column="24" bodyfile="src/llm/lora_framework/lora_audit_logger.cpp" bodystart="492" bodyend="533"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/llm/lora_framework/lora_audit_logger.cpp" line="25" column="1" bodyfile="src/llm/lora_framework/lora_audit_logger.cpp" bodystart="25" bodyend="534"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl_1adc190109e663abeb085aa454394a334b" prot="private" virt="non-virtual"><scope>themis::llm::lora::LoRAAuditLogger::Impl</scope><name>audit_logger_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl_1a5dc8c1cce596ba84d43a161bccc04e97" prot="private" virt="non-virtual"><scope>themis::llm::lora::LoRAAuditLogger::Impl</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl_1a102644e2b2cf9832de2a1e1f471e20a2" prot="private" virt="non-virtual"><scope>themis::llm::lora::LoRAAuditLogger::Impl</scope><name>enabled_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl_1a0bcc20d402846d6215e044d501645d1b" prot="private" virt="non-virtual"><scope>themis::llm::lora::LoRAAuditLogger::Impl</scope><name>event_count_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl_1ac0e1ca60034c32aa66cfcbee01a9e8fe" prot="private" virt="non-virtual"><scope>themis::llm::lora::LoRAAuditLogger::Impl</scope><name>eventTypeToString</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl_1a3c16a9c89f63ea8b87bcce6612332fe4" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAAuditLogger::Impl</scope><name>flush</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl_1aa0104db8990c4580cee1ab23f7aaaf4b" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAAuditLogger::Impl</scope><name>getAdapterStats</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl_1aeb3647dcd2637b6caeda69cec9298523" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAAuditLogger::Impl</scope><name>getInferenceHistory</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl_1af97ecde34b9076b8b41abcf81015f4dc" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAAuditLogger::Impl</scope><name>Impl</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl_1ab8c6175d634f8c16a316e5106a8e6100" prot="private" virt="non-virtual"><scope>themis::llm::lora::LoRAAuditLogger::Impl</scope><name>inference_count_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl_1a17ba0f7a696432faa393cd41c7fb432f" prot="private" virt="non-virtual"><scope>themis::llm::lora::LoRAAuditLogger::Impl</scope><name>log_file_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl_1a39b7482ec2738a4fdf13e717fce2d2d6" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAAuditLogger::Impl</scope><name>logAdapterLifecycle</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl_1aae4a195e64bd66fa81f0b417370778ed" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAAuditLogger::Impl</scope><name>logEvent</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl_1a8f383070305c1f3c3f243af558cf4108" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAAuditLogger::Impl</scope><name>logFeedback</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl_1a090e28b5d86c182c5d6b7f7453bf0dbd" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAAuditLogger::Impl</scope><name>logInference</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl_1a44d45e7177cee2060302ec0bb8707cd6" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAAuditLogger::Impl</scope><name>logTraining</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl_1a017100bef86788c03ae3a57427ea67b0" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAAuditLogger::Impl</scope><name>logVersioning</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl_1a3795bbd36e4d303c46a30da61f0b7cf4" prot="private" virt="non-virtual"><scope>themis::llm::lora::LoRAAuditLogger::Impl</scope><name>lora_log_path_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl_1a3b6e4f8fb495876ba23343fa1828f062" prot="private" virt="non-virtual"><scope>themis::llm::lora::LoRAAuditLogger::Impl</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl_1a698e82951655ff0222cbb702e2b6d15b" prot="private" virt="non-virtual"><scope>themis::llm::lora::LoRAAuditLogger::Impl</scope><name>provenance_mgr_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl_1a994d8ff3fa719fada371d51d2ff85a2f" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAAuditLogger::Impl</scope><name>queryLogs</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl_1aadbb500b50c78c2e56f80c966d7628fe" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAAuditLogger::Impl</scope><name>setEnabled</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl_1a6d703e1db9780cc7089fd5e92c9fb3a9" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAAuditLogger::Impl</scope><name>setProvenanceMgr</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger_1_1_impl_1a7affdfaacd98f30f31263d915f242784" prot="private" virt="non-virtual"><scope>themis::llm::lora::LoRAAuditLogger::Impl</scope><name>writeToLog</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

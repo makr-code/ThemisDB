@@ -1,0 +1,196 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_verification_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::VerificationResult</compoundname>
+    <includes refid="zero__trust__policy__enforcer_8h" local="no">zero_trust_policy_enforcer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_verification_result_1a84fa7fe60e0092fe95f22610d7dfc9f7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::VerificationResult::verified</definition>
+        <argsstring></argsstring>
+        <name>verified</name>
+        <qualifiedname>themis::security::VerificationResult::verified</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Overall verification result. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/zero_trust_policy_enforcer.h" line="61" column="10" bodyfile="include/security/zero_trust_policy_enforcer.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_verification_result_1addde0847df46d3e71d4fb8d7b4f6d1fd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::VerificationResult::identity_verified</definition>
+        <argsstring></argsstring>
+        <name>identity_verified</name>
+        <qualifiedname>themis::security::VerificationResult::identity_verified</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Token/credential check passed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/zero_trust_policy_enforcer.h" line="62" column="10" bodyfile="include/security/zero_trust_policy_enforcer.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_verification_result_1a52e7e156246efc0ce041fd64b119ac79" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::VerificationResult::network_policy_passed</definition>
+        <argsstring></argsstring>
+        <name>network_policy_passed</name>
+        <qualifiedname>themis::security::VerificationResult::network_policy_passed</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Source IP is within allowed networks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/zero_trust_policy_enforcer.h" line="63" column="10" bodyfile="include/security/zero_trust_policy_enforcer.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_verification_result_1a88efb8866a87461d10e076cb2d044249" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::security::VerificationResult::trust_score</definition>
+        <argsstring></argsstring>
+        <name>trust_score</name>
+        <qualifiedname>themis::security::VerificationResult::trust_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Composite trust score [0.0, 1.0]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/zero_trust_policy_enforcer.h" line="64" column="12" bodyfile="include/security/zero_trust_policy_enforcer.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_verification_result_1a49a71bb5728a7aa62aa1b33f6c62d86e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::VerificationResult::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::security::VerificationResult::reason</qualifiedname>
+        <briefdescription>
+<para>Human-readable explanation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/zero_trust_policy_enforcer.h" line="65" column="17" bodyfile="include/security/zero_trust_policy_enforcer.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_verification_result_1ab318212cd7d2250bc7ccf624495a29c5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::VerificationResult::request_id</definition>
+        <argsstring></argsstring>
+        <name>request_id</name>
+        <qualifiedname>themis::security::VerificationResult::request_id</qualifiedname>
+        <briefdescription>
+<para>Echo of <ref refid="structthemis_1_1security_1_1_zero_trust_context_1a74cebbe156e63342d0df5eb3e2254b76" kindref="member">ZeroTrustContext::request_id</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/zero_trust_policy_enforcer.h" line="66" column="17" bodyfile="include/security/zero_trust_policy_enforcer.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_verification_result_1a0be4c6d7e72a2c830075434a5dc296ba" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::VerificationResult::policy_id</definition>
+        <argsstring></argsstring>
+        <name>policy_id</name>
+        <qualifiedname>themis::security::VerificationResult::policy_id</qualifiedname>
+        <briefdescription>
+<para>Policy that made the decision (if any). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/zero_trust_policy_enforcer.h" line="67" column="17" bodyfile="include/security/zero_trust_policy_enforcer.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1security_1_1_verification_result_1ab95ef482491f1bbd25651124336de2a5" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_verification_result" kindref="compound">VerificationResult</ref></type>
+        <definition>static VerificationResult themis::security::VerificationResult::Allow</definition>
+        <argsstring>(const std::string &amp;request_id, double trust_score=1.0, const std::string &amp;reason=&quot;Zero-trust verification passed&quot;)</argsstring>
+        <name>Allow</name>
+        <qualifiedname>themis::security::VerificationResult::Allow</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>request_id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>trust_score</declname>
+          <defval>1.0</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+          <defval>&quot;Zero-trust verification passed&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/zero_trust_policy_enforcer.h" line="69" column="31" bodyfile="include/security/zero_trust_policy_enforcer.h" bodystart="69" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1security_1_1_verification_result_1a06f3faf2cdbc994ba4bd86c5e2237961" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_verification_result" kindref="compound">VerificationResult</ref></type>
+        <definition>static VerificationResult themis::security::VerificationResult::Deny</definition>
+        <argsstring>(const std::string &amp;request_id, const std::string &amp;reason, double trust_score=0.0, const std::string &amp;policy_id=&quot;&quot;)</argsstring>
+        <name>Deny</name>
+        <qualifiedname>themis::security::VerificationResult::Deny</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>request_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>trust_score</declname>
+          <defval>0.0</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>policy_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/zero_trust_policy_enforcer.h" line="77" column="31" bodyfile="include/security/zero_trust_policy_enforcer.h" bodystart="77" bodyend="84"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/zero_trust_policy_enforcer.h" line="60" column="1" bodyfile="include/security/zero_trust_policy_enforcer.h" bodystart="60" bodyend="85"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_verification_result_1ab95ef482491f1bbd25651124336de2a5" prot="public" virt="non-virtual"><scope>themis::security::VerificationResult</scope><name>Allow</name></member>
+      <member refid="structthemis_1_1security_1_1_verification_result_1a06f3faf2cdbc994ba4bd86c5e2237961" prot="public" virt="non-virtual"><scope>themis::security::VerificationResult</scope><name>Deny</name></member>
+      <member refid="structthemis_1_1security_1_1_verification_result_1addde0847df46d3e71d4fb8d7b4f6d1fd" prot="public" virt="non-virtual"><scope>themis::security::VerificationResult</scope><name>identity_verified</name></member>
+      <member refid="structthemis_1_1security_1_1_verification_result_1a52e7e156246efc0ce041fd64b119ac79" prot="public" virt="non-virtual"><scope>themis::security::VerificationResult</scope><name>network_policy_passed</name></member>
+      <member refid="structthemis_1_1security_1_1_verification_result_1a0be4c6d7e72a2c830075434a5dc296ba" prot="public" virt="non-virtual"><scope>themis::security::VerificationResult</scope><name>policy_id</name></member>
+      <member refid="structthemis_1_1security_1_1_verification_result_1a49a71bb5728a7aa62aa1b33f6c62d86e" prot="public" virt="non-virtual"><scope>themis::security::VerificationResult</scope><name>reason</name></member>
+      <member refid="structthemis_1_1security_1_1_verification_result_1ab318212cd7d2250bc7ccf624495a29c5" prot="public" virt="non-virtual"><scope>themis::security::VerificationResult</scope><name>request_id</name></member>
+      <member refid="structthemis_1_1security_1_1_verification_result_1a88efb8866a87461d10e076cb2d044249" prot="public" virt="non-virtual"><scope>themis::security::VerificationResult</scope><name>trust_score</name></member>
+      <member refid="structthemis_1_1security_1_1_verification_result_1a84fa7fe60e0092fe95f22610d7dfc9f7" prot="public" virt="non-virtual"><scope>themis::security::VerificationResult</scope><name>verified</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

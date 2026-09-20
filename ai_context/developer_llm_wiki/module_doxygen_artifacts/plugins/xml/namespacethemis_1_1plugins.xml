@@ -1,0 +1,1922 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1plugins" kind="namespace" language="C++">
+    <compoundname>themis::plugins</compoundname>
+    <innerclass refid="structthemis_1_1plugins_1_1_component_model_config" prot="public">themis::plugins::ComponentModelConfig</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1_cosign_verify_config" prot="public">themis::plugins::CosignVerifyConfig</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1_cosign_verify_report" prot="public">themis::plugins::CosignVerifyReport</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1_file_descriptor_deleter" prot="public">themis::plugins::FileDescriptorDeleter</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1_health_monitor_config" prot="public">themis::plugins::HealthMonitorConfig</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1_hot_plug_config" prot="public">themis::plugins::HotPlugConfig</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin" prot="public">themis::plugins::HuggingFaceIngestionPlugin</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin" prot="public">themis::plugins::IEditionPolicyPlugin</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1_i_oci_manifest_verifier" prot="public">themis::plugins::IOciManifestVerifier</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1_i_self_healing_plugin" prot="public">themis::plugins::ISelfHealingPlugin</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1_i_stateful_plugin" prot="public">themis::plugins::IStatefulPlugin</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1_i_themis_plugin" prot="public">themis::plugins::IThemisPlugin</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1_i_wasm_component_instance" prot="public">themis::plugins::IWasmComponentInstance</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1_i_wasm_component_loader" prot="public">themis::plugins::IWasmComponentLoader</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1_manifest_schema_validator" prot="public">themis::plugins::ManifestSchemaValidator</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1_marketplace_manifest" prot="public">themis::plugins::MarketplaceManifest</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1_monitored_plugin" prot="public">themis::plugins::MonitoredPlugin</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1_monitoring_event_data" prot="public">themis::plugins::MonitoringEventData</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1_oci_auth_config" prot="public">themis::plugins::OciAuthConfig</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1_oci_image_ref" prot="public">themis::plugins::OciImageRef</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1_oci_manifest" prot="public">themis::plugins::OciManifest</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1_oci_manifest_layer" prot="public">themis::plugins::OciManifestLayer</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1_oci_reference" prot="public">themis::plugins::OciReference</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1_oci_registry_client" prot="public">themis::plugins::OciRegistryClient</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1_pinned_key" prot="public">themis::plugins::PinnedKey</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1_plugin_a_p_i" prot="public">themis::plugins::PluginAPI</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1_plugin_auto_register" prot="public">themis::plugins::PluginAutoRegister</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1_plugin_capabilities" prot="public">themis::plugins::PluginCapabilities</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1_plugin_capability_negotiator" prot="public">themis::plugins::PluginCapabilityNegotiator</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1_plugin_capability_requirement" prot="public">themis::plugins::PluginCapabilityRequirement</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1_plugin_dependency_resolver" prot="public">themis::plugins::PluginDependencyResolver</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1_plugin_diagnostics" prot="public">themis::plugins::PluginDiagnostics</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1_plugin_health_monitor" prot="public">themis::plugins::PluginHealthMonitor</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1_plugin_hot_plug_monitor" prot="public">themis::plugins::PluginHotPlugMonitor</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1_plugin_manager" prot="public">themis::plugins::PluginManager</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1_plugin_manager_registrar" prot="public">themis::plugins::PluginManagerRegistrar</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1_plugin_manager_registry" prot="public">themis::plugins::PluginManagerRegistry</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1_plugin_manager_test_access" prot="public">themis::plugins::PluginManagerTestAccess</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1_plugin_manifest" prot="public">themis::plugins::PluginManifest</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1_plugin_metrics" prot="public">themis::plugins::PluginMetrics</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1_plugin_metrics_collector" prot="public">themis::plugins::PluginMetricsCollector</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1_plugin_negotiation_result" prot="public">themis::plugins::PluginNegotiationResult</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1_plugin_registration_descriptor" prot="public">themis::plugins::PluginRegistrationDescriptor</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1_plugin_registry" prot="public">themis::plugins::PluginRegistry</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1_plugin_signature_info" prot="public">themis::plugins::PluginSignatureInfo</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1_plugin_version_range" prot="public">themis::plugins::PluginVersionRange</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1_recovery_result" prot="public">themis::plugins::RecoveryResult</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1_repository_entry" prot="public">themis::plugins::RepositoryEntry</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1_signed_plugin_repository" prot="public">themis::plugins::SignedPluginRepository</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1_w_i_t_interface" prot="public">themis::plugins::WITInterface</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1_w_i_t_value" prot="public">themis::plugins::WITValue</innerclass>
+    <innernamespace refid="namespacethemis_1_1plugins_1_1boundary__enforcement">themis::plugins::boundary_enforcement</innernamespace>
+    <innernamespace refid="namespacethemis_1_1plugins_1_1image">themis::plugins::image</innernamespace>
+    <innernamespace refid="namespacethemis_1_1plugins_1_1rpc">themis::plugins::rpc</innernamespace>
+    <innernamespace refid="namespacethemis_1_1plugins_1_1test">themis::plugins::test</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1plugins_1a2d134ea28ffdadec6076d156bdd761d0" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>SignatureVerifyResult</name>
+        <qualifiedname>themis::plugins::SignatureVerifyResult</qualifiedname>
+        <enumvalue id="namespacethemis_1_1plugins_1a2d134ea28ffdadec6076d156bdd761d0ac9f1a6384b1c466d4612f513bd8e13ea" prot="public">
+          <name>VALID</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a2d134ea28ffdadec6076d156bdd761d0ad0eb6b378baae0b4b64c2933674e61fc" prot="public">
+          <name>INVALID_SIGNATURE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a2d134ea28ffdadec6076d156bdd761d0a3fd2a994bc75e60bb92f59b0d4c0c405" prot="public">
+          <name>NO_SIGNATURE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a2d134ea28ffdadec6076d156bdd761d0a888160e15a46b8dad2f046398139f7c4" prot="public">
+          <name>CERT_EXPIRED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a2d134ea28ffdadec6076d156bdd761d0a35a8a8287736d2bf785703ccb28f68f3" prot="public">
+          <name>REKOR_NOT_FOUND</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a2d134ea28ffdadec6076d156bdd761d0aac2240ac9695d7d703c3e823391e4b5a" prot="public">
+          <name>IDENTITY_MISMATCH</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a2d134ea28ffdadec6076d156bdd761d0a169cb04bda558347b02294770e4b9e0c" prot="public">
+          <name>POLICY_VIOLATION</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/oci_manifest_signing.h" line="35" column="1" bodyfile="include/plugins/oci_manifest_signing.h" bodystart="35" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763" prot="public" static="no" strong="yes">
+        <type>int32_t</type>
+        <name>PluginsError</name>
+        <qualifiedname>themis::plugins::PluginsError</qualifiedname>
+        <enumvalue id="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a8c632159fa131f09d04f94e3cbcd8782" prot="public">
+          <name>kSuccess</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a559c87fdbb96a69c664825c6a237b6c3" prot="public">
+          <name>kPluginNotFound</name>
+          <initializer>= 8200</initializer>
+          <briefdescription>
+<para>Plugin ID not present in registry. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763abf66672239b9934d0ad967723ab1f1d2" prot="public">
+          <name>kManifestInvalid</name>
+          <initializer>= 8201</initializer>
+          <briefdescription>
+<para>Manifest fails schema or semantic checks. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a84d19a0e5cdcf37ecdd50dd11bbfae24" prot="public">
+          <name>kSignatureVerifyFailed</name>
+          <initializer>= 8202</initializer>
+          <briefdescription>
+<para>Cryptographic signature check failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a99ca79d1b0d765beeb154c8adb34864d" prot="public">
+          <name>kLifecycleTransition</name>
+          <initializer>= 8203</initializer>
+          <briefdescription>
+<para>Invalid lifecycle state transition. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a0f0ea7e69e89a3b0ec9de2af653a549a" prot="public">
+          <name>kCapabilityDenied</name>
+          <initializer>= 8204</initializer>
+          <briefdescription>
+<para>Requested capability not granted. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763ae75d61ab1df56cb487d4e8e77f09d737" prot="public">
+          <name>kRegistryConflict</name>
+          <initializer>= 8205</initializer>
+          <briefdescription>
+<para>Duplicate plugin ID on registration. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a84c0f992ce2f465361d388cf8c4ec778" prot="public">
+          <name>kHealthCheckFailed</name>
+          <initializer>= 8206</initializer>
+          <briefdescription>
+<para>Health check returned unhealthy status. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763afcd417a134c251034b0d61b07c826394" prot="public">
+          <name>kInternalError</name>
+          <initializer>= 8207</initializer>
+          <briefdescription>
+<para>Unclassified internal error. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Canonical error codes for the plugins module. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>All plugin operations return or throw with one of these codes. Values are in the reserved range [8200, 8299]. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugins_api_contract.h" line="77" column="1" bodyfile="include/plugins/plugins_api_contract.h" bodystart="77" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1plugins_1afc659d10fcf5173c9f430f9bebff73bc" prot="public" static="no" strong="yes">
+        <type>int32_t</type>
+        <name>PluginState</name>
+        <qualifiedname>themis::plugins::PluginState</qualifiedname>
+        <enumvalue id="namespacethemis_1_1plugins_1afc659d10fcf5173c9f430f9bebff73bcaa5ae20aa7fda5bd38bf0dce98e65bd2d" prot="public">
+          <name>Unloaded</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Plugin not present in memory. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1afc659d10fcf5173c9f430f9bebff73bca16bfbf9c462762cf1cba4134ec53c504" prot="public">
+          <name>Loading</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Plugin load in progress (transient). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1afc659d10fcf5173c9f430f9bebff73bca4d3d769b812b6faa6b76e1a8abaece2d" prot="public">
+          <name>Active</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Plugin loaded and accepting requests. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1afc659d10fcf5173c9f430f9bebff73bcaaa95669cd5732a57e8f6467705f06642" prot="public">
+          <name>Degraded</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>Plugin loaded but health check failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1afc659d10fcf5173c9f430f9bebff73bca62168dff2fc801c4ff6ee24619bc314c" prot="public">
+          <name>Unloading</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+<para>Plugin unload in progress (transient). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Canonical lifecycle states for a managed plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Valid transitions: Unloaded → Loading → Active → Unloading → Unloaded. Any deviation produces kLifecycleTransition. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugins_api_contract.h" line="115" column="1" bodyfile="include/plugins/plugins_api_contract.h" bodystart="115" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1plugins_1a8d8d15fd925fd078d883553ea49649e3" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>MonitoringEvent</name>
+        <qualifiedname>themis::plugins::MonitoringEvent</qualifiedname>
+        <enumvalue id="namespacethemis_1_1plugins_1a8d8d15fd925fd078d883553ea49649e3a6748096aa39a46fe2681a74366cb3cc8" prot="public">
+          <name>PLUGIN_REGISTERED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a8d8d15fd925fd078d883553ea49649e3afbed9892b6d2596bb15602d60f478bf0" prot="public">
+          <name>PLUGIN_UNREGISTERED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a8d8d15fd925fd078d883553ea49649e3a952314b4ea392e0e96980cf7d58cf8fe" prot="public">
+          <name>HEALTH_CHECK_STARTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a8d8d15fd925fd078d883553ea49649e3ab33855a7f93cdc2cb8980d831b4bdf00" prot="public">
+          <name>HEALTH_CHECK_COMPLETED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a8d8d15fd925fd078d883553ea49649e3a60aa272283adc6e0fba42b681e0d77ba" prot="public">
+          <name>HEALTH_CHECK_FAILED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a8d8d15fd925fd078d883553ea49649e3a9a9a599d514a4c238444def873897363" prot="public">
+          <name>PLUGIN_UNHEALTHY_DETECTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a8d8d15fd925fd078d883553ea49649e3a4b610a4613fcf11d25506c94d47f6d9b" prot="public">
+          <name>RECOVERY_STARTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a8d8d15fd925fd078d883553ea49649e3ac60119117eb531c3ca46a0eb3fcc21dd" prot="public">
+          <name>RECOVERY_SUCCESSFUL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a8d8d15fd925fd078d883553ea49649e3aa5ae556eafda7b1b2942433cd519c000" prot="public">
+          <name>RECOVERY_FAILED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a8d8d15fd925fd078d883553ea49649e3ac017f127d9bf5fc6ca6438c5953c0b8b" prot="public">
+          <name>PLUGIN_DISABLED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a8d8d15fd925fd078d883553ea49649e3a8447ede7f521486f1f1c6bad34b078ec" prot="public">
+          <name>ADMIN_NOTIFIED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Health monitoring event types. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="84" column="1" bodyfile="include/plugins/plugin_health_monitor.h" bodystart="84" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1plugins_1ae88b8b7186ccfb516a9f1f81cd7d6e58" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>FileEvent</name>
+        <qualifiedname>themis::plugins::FileEvent</qualifiedname>
+        <enumvalue id="namespacethemis_1_1plugins_1ae88b8b7186ccfb516a9f1f81cd7d6e58a98690bf632c29c17c9e4c5a64069903c" prot="public">
+          <name>CREATED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1ae88b8b7186ccfb516a9f1f81cd7d6e58a40e3819215b52841e19a7cac06b5f065" prot="public">
+          <name>MODIFIED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1ae88b8b7186ccfb516a9f1f81cd7d6e58a63c2867fdcae0e8e8413d7ac21b69b59" prot="public">
+          <name>DELETED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Event types for plugin file system changes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_hot_plug_monitor.h" line="40" column="1" bodyfile="include/plugins/plugin_hot_plug_monitor.h" bodystart="40" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1plugins_1a69594568f8b761bc4ddc46b693ffcd12" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>PluginType</name>
+        <qualifiedname>themis::plugins::PluginType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1plugins_1a69594568f8b761bc4ddc46b693ffcd12a5fe2e4c95e3ef787bcea82cf95483129" prot="public">
+          <name>COMPUTE_BACKEND</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a69594568f8b761bc4ddc46b693ffcd12ac72373dc49b23f08a227bebd50be7bed" prot="public">
+          <name>BLOB_STORAGE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a69594568f8b761bc4ddc46b693ffcd12a716bcf049a2b1e127feffcabfad2a81b" prot="public">
+          <name>IMPORTER</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a69594568f8b761bc4ddc46b693ffcd12a71050229885f317e10b5fc02c1ee00aa" prot="public">
+          <name>EXPORTER</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a69594568f8b761bc4ddc46b693ffcd12a75aca3e9c58d0430f9b580ed12c52f78" prot="public">
+          <name>HSM_PROVIDER</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a69594568f8b761bc4ddc46b693ffcd12a7f2699c7a1e80cc61c1873b896421176" prot="public">
+          <name>EMBEDDING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a69594568f8b761bc4ddc46b693ffcd12ac5e5fbfc2cb8e9f8ce103db99a881127" prot="public">
+          <name>LLM_BACKEND</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a69594568f8b761bc4ddc46b693ffcd12ac976abd003ab5b114f76a80351e1bd6f" prot="public">
+          <name>AUDIO_PROCESSING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a69594568f8b761bc4ddc46b693ffcd12acdf8b014310be735f92dd15335c19e51" prot="public">
+          <name>IMAGE_GENERATION</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a69594568f8b761bc4ddc46b693ffcd12a6f70ebba6dd6921ca935d03182dbace4" prot="public">
+          <name>AGENTIC_TOOL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a69594568f8b761bc4ddc46b693ffcd12a284f3da82f64048f33e54343dbcd9c31" prot="public">
+          <name>INGESTION_STEP</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a69594568f8b761bc4ddc46b693ffcd12ad9792a8eb0e05c9ce9b251fe31003079" prot="public">
+          <name>RESOURCE_LIMIT_POLICY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a69594568f8b761bc4ddc46b693ffcd12a72baef04098f035e8a320b03ad197818" prot="public">
+          <name>CUSTOM</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Plugin Type Categories. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Maps to existing plugin systems:<itemizedlist>
+<listitem><para>COMPUTE_BACKEND -&gt; acceleration::BackendPlugin</para>
+</listitem><listitem><para>BLOB_STORAGE -&gt; New blob storage backends</para>
+</listitem><listitem><para>IMPORTER -&gt; New data importers</para>
+</listitem><listitem><para>HSM_PROVIDER -&gt; security::HSMProvider (PKCS#11)</para>
+</listitem><listitem><para>LLM_BACKEND -&gt; llm::ILLMPlugin (v1.5.0+)</para>
+</listitem><listitem><para>AUDIO_PROCESSING -&gt; whisper::WhisperPlugin (v2.0.0+)</para>
+</listitem><listitem><para>IMAGE_GENERATION -&gt; stable_diffusion::SDPlugin (v2.0.0+)</para>
+</listitem><listitem><para>RESOURCE_LIMIT_POLICY -&gt; <ref refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin" kindref="compound">plugins::IEditionPolicyPlugin</ref> (v2.2.0+) </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_interface.h" line="69" column="1" bodyfile="include/plugins/plugin_interface.h" bodystart="69" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1plugins_1a8e1f547c93c2fcdf65a1fe4a45ac71cc" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>PluginLifecycleState</name>
+        <qualifiedname>themis::plugins::PluginLifecycleState</qualifiedname>
+        <enumvalue id="namespacethemis_1_1plugins_1a8e1f547c93c2fcdf65a1fe4a45ac71cca795b8a51556d0b2cf4fbc11a896f6269" prot="public">
+          <name>UNLOADED</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Initial state: plugin has never been loaded or has been unloaded. Operations allowed: load </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a8e1f547c93c2fcdf65a1fe4a45ac71ccaf9f6955ebca09a484157c05f80acd65e" prot="public">
+          <name>LOADING</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Intermediate state: plugin is being loaded. Duration: synchronous operation; transitions to LOADED or UNLOADED. Operations allowed: none (loading in progress) </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a8e1f547c93c2fcdf65a1fe4a45ac71ccab638272ceeff54912f043465e9a28c9b" prot="public">
+          <name>LOADED</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Steady state: plugin is fully initialized and available. Operations allowed: query, reload, unload </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a8e1f547c93c2fcdf65a1fe4a45ac71cca47a9a5e95b0b32bb9f2c74187c02bddd" prot="public">
+          <name>UNLOADING</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Intermediate state: plugin is being unloaded. Duration: synchronous operation; transitions to UNLOADED. Operations allowed: none (unloading in progress) </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a8e1f547c93c2fcdf65a1fe4a45ac71cca696b031073e74bf2cb98e5ef201d4aa3" prot="public">
+          <name>UNKNOWN</name>
+          <initializer>= 255</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Error/unknown state. Should not occur in production; indicates an internal consistency failure. </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Plugin Lifecycle State Machine (Phase 2 Hardening). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Explicit state transitions for plugin lifecycle management. Enforced during load, unload, and reload operations.</para>
+<para>State machine invariants:<itemizedlist>
+<listitem><para>A plugin starts in UNLOADED state</para>
+</listitem><listitem><para>Transitions must follow explicit paths; no direct jumps allowed</para>
+</listitem><listitem><para>Failed transitions leave the plugin in a consistent state</para>
+</listitem><listitem><para>UNLOADING transitions are atomic (no partial unload)</para>
+</listitem></itemizedlist>
+</para>
+<para>Valid transitions:<itemizedlist>
+<listitem><para>UNLOADED → LOADING (load operation initiates)</para>
+</listitem><listitem><para>LOADING → LOADED (successful load)</para>
+</listitem><listitem><para>LOADING → UNLOADED (load failure or rollback)</para>
+</listitem><listitem><para>LOADED → UNLOADING (unload operation initiates)</para>
+</listitem><listitem><para>UNLOADING → UNLOADED (unload successful)</para>
+</listitem><listitem><para>LOADED → LOADED (reload without state change)</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="see"><para>src/plugins/ROADMAP.md — Phase 2A implementation </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_interface.h" line="107" column="1" bodyfile="include/plugins/plugin_interface.h" bodystart="107" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1plugins_1a2b4140078f14706c0b9f133ede3b222b" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ManifestErrorCode</name>
+        <qualifiedname>themis::plugins::ManifestErrorCode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1plugins_1a2b4140078f14706c0b9f133ede3b222bad79fcf0f524e425f727383d4e2de362c" prot="public">
+          <name>MANIFEST_OK</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a2b4140078f14706c0b9f133ede3b222ba9434d1da5ca118e68ec3e3164f797f40" prot="public">
+          <name>PLUGIN_EDITION_MISMATCH</name>
+          <initializer>= 8700</initializer>
+          <briefdescription>
+<para>Plugin&apos;s allowed_editions does not include current edition. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a2b4140078f14706c0b9f133ede3b222ba4b53015e7b3b9fdf3af7ca4bc10455e2" prot="public">
+          <name>PLUGIN_LICENSE_DENIED</name>
+          <initializer>= 8701</initializer>
+          <briefdescription>
+<para>license_feature required but not granted by license gate </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a2b4140078f14706c0b9f133ede3b222baa8476d8a9f1d657b722103b73a664f88" prot="public">
+          <name>PLUGIN_LICENSE_FEATURE_INVALID</name>
+          <initializer>= 8702</initializer>
+          <briefdescription>
+<para>license_feature field format invalid </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a2b4140078f14706c0b9f133ede3b222bad8e241dca7c6caf607f1daa2ad24fb22" prot="public">
+          <name>PLUGIN_ALLOWED_EDITIONS_MALFORMED</name>
+          <initializer>= 8703</initializer>
+          <briefdescription>
+<para>allowed_editions not an array or invalid values </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a2b4140078f14706c0b9f133ede3b222ba0961c6c4031800b2d7199c8810e865a0" prot="public">
+          <name>PLUGIN_PRIVATE_IN_COMMUNITY</name>
+          <initializer>= 8720</initializer>
+          <briefdescription>
+<para>visibility=&quot;private&quot; but edition=&quot;community&quot; (fail-closed) </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a2b4140078f14706c0b9f133ede3b222baf7abfa0642b939fd8d346d121f6016f8" prot="public">
+          <name>PLUGIN_PATH_VISIBILITY_MISMATCH</name>
+          <initializer>= 8721</initializer>
+          <briefdescription>
+<para>Plugin path contains &quot;private/&quot; but not marked private. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a2b4140078f14706c0b9f133ede3b222bace7f14d92c95079c10c7e0566965520f" prot="public">
+          <name>PLUGIN_RESTRICTED_NO_CONTEXT</name>
+          <initializer>= 8722</initializer>
+          <briefdescription>
+<para>visibility=&quot;restricted&quot; without scoped checkout context </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a2b4140078f14706c0b9f133ede3b222ba28e7d1353bee961f2409290d44295913" prot="public">
+          <name>PLUGIN_MANIFEST_VALIDATION_ERROR</name>
+          <initializer>= 8799</initializer>
+          <briefdescription>
+<para>Generic manifest validation error. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Manifest Validation Error Codes (Wave C Batch 2). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Error codes [8700-8799] reserved for plugin manifest edition/license/boundary validation. These codes enable fail-closed validation of edition restrictions, license gates, and public/private visibility boundaries.</para>
+<para>Usage: Check against these codes when manifest validation fails during plugin load. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_interface.h" line="606" column="1" bodyfile="include/plugins/plugin_interface.h" bodystart="606" bodyend="623"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1plugins_1a9c78b2d33a3f0b52923a8e8784c68279" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>PluginReloadPhase</name>
+        <qualifiedname>themis::plugins::PluginReloadPhase</qualifiedname>
+        <enumvalue id="namespacethemis_1_1plugins_1a9c78b2d33a3f0b52923a8e8784c68279ad0d9b71c9f72a11f6c391ba59c14e5bc" prot="public">
+          <name>BEFORE_UNLOAD</name>
+          <briefdescription>
+<para>About to unload plugin. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a9c78b2d33a3f0b52923a8e8784c68279a7f569ab702ed26cd5cd2468bfe905c31" prot="public">
+          <name>AFTER_UNLOAD</name>
+          <briefdescription>
+<para>Plugin unloaded successfully. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a9c78b2d33a3f0b52923a8e8784c68279a36ff68bd5e4444b29a609826379210d1" prot="public">
+          <name>AFTER_LOAD</name>
+          <briefdescription>
+<para>Plugin reloaded successfully. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Plugin Reload Phase. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Used for event notifications during hot-reload operations </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="50" column="1" bodyfile="include/plugins/plugin_manager.h" bodystart="50" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1plugins_1a4983d42b198325e2b99195e4cafdc606" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>PluginHealthStatus</name>
+        <qualifiedname>themis::plugins::PluginHealthStatus</qualifiedname>
+        <enumvalue id="namespacethemis_1_1plugins_1a4983d42b198325e2b99195e4cafdc606af068ebe4133e3e6563080836268ea979" prot="public">
+          <name>HEALTHY</name>
+          <briefdescription>
+<para>Plugin is functioning normally. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a4983d42b198325e2b99195e4cafdc606a0021017005f0e5134b204c2e69d3d4ed" prot="public">
+          <name>DEGRADED</name>
+          <briefdescription>
+<para>Plugin has reduced functionality but is operational. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a4983d42b198325e2b99195e4cafdc606a7438a7e4e4f36f04fda32fa100121e47" prot="public">
+          <name>UNHEALTHY</name>
+          <briefdescription>
+<para>Plugin has errors but may recover. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a4983d42b198325e2b99195e4cafdc606a99cd1c61610c76a57cb8d10d6df6b870" prot="public">
+          <name>CRITICAL</name>
+          <briefdescription>
+<para>Plugin requires immediate reload or replacement. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a4983d42b198325e2b99195e4cafdc606abdfbb6f2aa06fd5d4c2cc0072f960254" prot="public">
+          <name>RECOVERING</name>
+          <briefdescription>
+<para>Plugin is attempting self-repair. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Health status of a plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/self_healing_plugin.h" line="19" column="1" bodyfile="include/plugins/self_healing_plugin.h" bodystart="19" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1plugins_1a8eeee246c798f0d40ad1cd4bda660f1d" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>RecoveryAction</name>
+        <qualifiedname>themis::plugins::RecoveryAction</qualifiedname>
+        <enumvalue id="namespacethemis_1_1plugins_1a8eeee246c798f0d40ad1cd4bda660f1dab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <briefdescription>
+<para>No recovery needed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a8eeee246c798f0d40ad1cd4bda660f1da97c72aba842ef984c5a90c3687130f1a" prot="public">
+          <name>CLEANUP_RESOURCES</name>
+          <briefdescription>
+<para>Free resources and clear caches. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a8eeee246c798f0d40ad1cd4bda660f1da435d743b35551ea7106af41c4a308c01" prot="public">
+          <name>RECONNECT</name>
+          <briefdescription>
+<para>Reconnect to external services. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a8eeee246c798f0d40ad1cd4bda660f1da27ae90752d293413c2806d8f288cc0a9" prot="public">
+          <name>RELOAD_CONFIG</name>
+          <briefdescription>
+<para>Reload configuration. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a8eeee246c798f0d40ad1cd4bda660f1da13f74f892031cea0f5fe3c2acd763105" prot="public">
+          <name>ROLLBACK_STATE</name>
+          <briefdescription>
+<para>Rollback to last checkpoint. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a8eeee246c798f0d40ad1cd4bda660f1dadb95e162e0f51597da37aaf2d9c15e41" prot="public">
+          <name>RESTART_PLUGIN</name>
+          <briefdescription>
+<para>Full plugin restart. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a8eeee246c798f0d40ad1cd4bda660f1da1a3060e1f7e261bab90c7d6491d2afb9" prot="public">
+          <name>SWITCH_TO_BACKUP</name>
+          <briefdescription>
+<para>Switch to backup/fallback plugin. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a8eeee246c798f0d40ad1cd4bda660f1daf1492e72efda601f128ce505dad7ef3d" prot="public">
+          <name>NOTIFY_ADMIN</name>
+          <briefdescription>
+<para>Escalate to administrator. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Recovery action types. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/self_healing_plugin.h" line="83" column="1" bodyfile="include/plugins/self_healing_plugin.h" bodystart="83" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1plugins_1a1df90127a4d41e385335a19460870a36" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>WITValueKind</name>
+        <qualifiedname>themis::plugins::WITValueKind</qualifiedname>
+        <enumvalue id="namespacethemis_1_1plugins_1a1df90127a4d41e385335a19460870a36aa97b2c144243b2b9d2c593ec268b62f5" prot="public">
+          <name>BOOL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a1df90127a4d41e385335a19460870a36a6669348b484e3008dca2bfa8e85e40b5" prot="public">
+          <name>U8</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a1df90127a4d41e385335a19460870a36aef9ef3ebca4d2b64b6ec83808bafa5f2" prot="public">
+          <name>U16</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a1df90127a4d41e385335a19460870a36ac8bd5bedff8ef192d39a962afc0e19ee" prot="public">
+          <name>U32</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a1df90127a4d41e385335a19460870a36a31d65cccd6593e4101db93fb878abcaa" prot="public">
+          <name>U64</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a1df90127a4d41e385335a19460870a36aafb0fced528eaac5fe170b763cda5975" prot="public">
+          <name>S8</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a1df90127a4d41e385335a19460870a36a6e0b0886efb94aec797f6b830329b72c" prot="public">
+          <name>S16</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a1df90127a4d41e385335a19460870a36aa1e28eee0339658d39a8b4d325b56e9c" prot="public">
+          <name>S32</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a1df90127a4d41e385335a19460870a36a115dca124dc6423c7a400b8a8a0270cc" prot="public">
+          <name>S64</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a1df90127a4d41e385335a19460870a36a44ad4ef5a76e6aa6fb3e3fa079a54fda" prot="public">
+          <name>F32</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a1df90127a4d41e385335a19460870a36a1ad5f6f3069070ec4cbbdc94d5e61e0e" prot="public">
+          <name>F64</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a1df90127a4d41e385335a19460870a36a63b588d5559f64f89a416e656880b949" prot="public">
+          <name>STRING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a1df90127a4d41e385335a19460870a36a298cb25408234de02baf2085803a464a" prot="public">
+          <name>LIST</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a1df90127a4d41e385335a19460870a36a921df56002ee5dc960debedc8ae06072" prot="public">
+          <name>RECORD</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a1df90127a4d41e385335a19460870a36acda7182af4cc0451672a1cd50d36f3a2" prot="public">
+          <name>VARIANT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a1df90127a4d41e385335a19460870a36ae1c4a02aed2e485ae96bc5a5b1d01ee5" prot="public">
+          <name>OPTION</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a1df90127a4d41e385335a19460870a36a928d65c3e1f4f9738e635729274f126e" prot="public">
+          <name>RESULT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1a1df90127a4d41e385335a19460870a36a5f6f02198ea426cd88e552e6a59ba307" prot="public">
+          <name>TUPLE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/wasm_component_model.h" line="22" column="1" bodyfile="include/plugins/wasm_component_model.h" bodystart="22" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1plugins_1ae66efa333daacacede99903659a42a3f" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>WasmPluginRuntime</name>
+        <qualifiedname>themis::plugins::WasmPluginRuntime</qualifiedname>
+        <enumvalue id="namespacethemis_1_1plugins_1ae66efa333daacacede99903659a42a3fab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <briefdescription>
+<para>Not a WASM plugin (native dlopen path). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1ae66efa333daacacede99903659a42a3fa1f5366f0b5242eb27d61744c9f04d27f" prot="public">
+          <name>WASMTIME</name>
+          <briefdescription>
+<para>Wasmtime (Bytecode Alliance). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1ae66efa333daacacede99903659a42a3fa606a57c283eb9ddaba55113cc06ae29f" prot="public">
+          <name>WASMEDGE</name>
+          <briefdescription>
+<para>WasmEdge (CNCF). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Identifies the WASM execution backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Populated from PluginManifest::runtime at load time. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/wasm_host_api.h" line="31" column="1" bodyfile="include/plugins/wasm_host_api.h" bodystart="31" bodyend="35"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1plugins_1ab547de4562831812e9d0c228715ff0b5" prot="public" static="no">
+        <type>nlohmann::json</type>
+        <definition>using themis::plugins::json = nlohmann::json</definition>
+        <argsstring></argsstring>
+        <name>json</name>
+        <qualifiedname>themis::plugins::json</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/huggingface_ingestion_plugin.h" line="27" column="1" bodyfile="include/plugins/huggingface_ingestion_plugin.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1plugins_1a9398bc6ef55878f4d1182169be93c382" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1plugins_1_1_monitoring_event_data" kindref="compound">MonitoringEventData</ref> &amp;event)&gt;</type>
+        <definition>using themis::plugins::MonitoringEventCallback = std::function&lt;void(const MonitoringEventData&amp; event)&gt;</definition>
+        <argsstring></argsstring>
+        <name>MonitoringEventCallback</name>
+        <qualifiedname>themis::plugins::MonitoringEventCallback</qualifiedname>
+        <briefdescription>
+<para>Callback for monitoring events. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="113" column="1" bodyfile="include/plugins/plugin_health_monitor.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1plugins_1a8df2c0a2823c42581dcf2c89e582d0a4" prot="public" static="no">
+        <type><ref refid="classthemis_1_1plugins_1_1_i_themis_plugin" kindref="compound">IThemisPlugin</ref> *(*</type>
+        <definition>typedef IThemisPlugin *(* themis::plugins::CreatePluginFunc) ()</definition>
+        <argsstring>)()</argsstring>
+        <name>CreatePluginFunc</name>
+        <qualifiedname>themis::plugins::CreatePluginFunc</qualifiedname>
+        <briefdescription>
+<para>Plugin Entry Points. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Every plugin DLL must export these two functions: </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_interface.h" line="493" column="9" bodyfile="include/plugins/plugin_interface.h" bodystart="493" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1plugins_1afa91b7df271675caa080c716226c0c9b" prot="public" static="no">
+        <type>void(*</type>
+        <definition>typedef void(* themis::plugins::DestroyPluginFunc) (IThemisPlugin *)</definition>
+        <argsstring>)(IThemisPlugin *)</argsstring>
+        <name>DestroyPluginFunc</name>
+        <qualifiedname>themis::plugins::DestroyPluginFunc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_interface.h" line="494" column="9" bodyfile="include/plugins/plugin_interface.h" bodystart="494" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1plugins_1af1290a82c12885cd665259c4f3e5185a" prot="public" static="no">
+        <type>std::function&lt; void(const std::string &amp;plugin_name, <ref refid="namespacethemis_1_1plugins_1a9c78b2d33a3f0b52923a8e8784c68279" kindref="member">PluginReloadPhase</ref> phase)&gt;</type>
+        <definition>using themis::plugins::PluginReloadListener = std::function&lt;void(const std::string&amp; plugin_name, PluginReloadPhase phase)&gt;</definition>
+        <argsstring></argsstring>
+        <name>PluginReloadListener</name>
+        <qualifiedname>themis::plugins::PluginReloadListener</qualifiedname>
+        <briefdescription>
+<para>Plugin Reload Event Listener. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Callback type for reload event notifications. Listeners are notified during different phases of plugin reload.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>plugin_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the plugin being reloaded </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>phase</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current reload phase </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="65" column="1" bodyfile="include/plugins/plugin_manager.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1plugins_1a37e5bef1af84b5ff1b61d20e05e79fe5" prot="public" static="no">
+        <type>std::function&lt; void( const std::string &amp;plugin_name, const <ref refid="structthemis_1_1plugins_1_1_recovery_result" kindref="compound">RecoveryResult</ref> &amp;result)&gt;</type>
+        <definition>using themis::plugins::RecoveryEventCallback =  std::function&lt;void(
+    const std::string&amp; plugin_name,
+    const RecoveryResult&amp; result
+)&gt;</definition>
+        <argsstring></argsstring>
+        <name>RecoveryEventCallback</name>
+        <qualifiedname>themis::plugins::RecoveryEventCallback</qualifiedname>
+        <briefdescription>
+<para>Callback for recovery events. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/self_healing_plugin.h" line="253" column="1" bodyfile="include/plugins/self_healing_plugin.h" bodystart="253" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1plugins_1a9efaf4dd7e8e9198f76187296b7425d0" prot="public" static="no">
+        <type>std::function&lt; std::unique_ptr&lt; <ref refid="classthemis_1_1plugins_1_1_i_themis_plugin" kindref="compound">IThemisPlugin</ref> &gt;( const std::string &amp;wasm_path, const std::string &amp;expected_sha256, <ref refid="namespacethemis_1_1plugins_1ae66efa333daacacede99903659a42a3f" kindref="member">WasmPluginRuntime</ref> runtime, const std::string &amp;module_name, std::string &amp;error_out)&gt;</type>
+        <definition>using themis::plugins::WasmPluginLoadFn = std::function&lt;std::unique_ptr&lt;IThemisPlugin&gt;(
+   const std::string&amp; wasm_path,
+   const std::string&amp; expected_sha256,
+   WasmPluginRuntime runtime,
+   const std::string&amp; module_name,
+   std::string&amp; error_out)&gt;</definition>
+        <argsstring></argsstring>
+        <name>WasmPluginLoadFn</name>
+        <qualifiedname>themis::plugins::WasmPluginLoadFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/wasm_host_api.h" line="37" column="1" bodyfile="include/plugins/wasm_host_api.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1plugins_1aa66e1896f029979e3d73e4800d7ba1b3" prot="public" static="no">
+        <type>std::unique_ptr&lt; int, <ref refid="structthemis_1_1plugins_1_1_file_descriptor_deleter" kindref="compound">FileDescriptorDeleter</ref> &gt;</type>
+        <definition>using themis::plugins::UniqueFileDescriptor = std::unique_ptr&lt;int, FileDescriptorDeleter&gt;</definition>
+        <argsstring></argsstring>
+        <name>UniqueFileDescriptor</name>
+        <qualifiedname>themis::plugins::UniqueFileDescriptor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/plugins/plugin_hot_plug_monitor.cpp" line="77" column="1" bodyfile="src/plugins/plugin_hot_plug_monitor.cpp" bodystart="77" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1plugins_1af4b3eba1a6f36a52d6234e1dc364eb06" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::plugins::THEMIS_PLUGIN_LAYER_MEDIA_TYPE</definition>
+        <argsstring></argsstring>
+        <name>THEMIS_PLUGIN_LAYER_MEDIA_TYPE</name>
+        <qualifiedname>themis::plugins::THEMIS_PLUGIN_LAYER_MEDIA_TYPE</qualifiedname>
+        <initializer>                                                       =
+&quot;application/vnd.themisdb.plugin.v1.binary&quot;</initializer>
+        <briefdescription>
+<para>Media type used for ThemisDB plugin binary layers in OCI images. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When packaging a plugin as an OCI artifact, the binary layer MUST carry this media type so that <ref refid="classthemis_1_1plugins_1_1_oci_registry_client" kindref="compound">OciRegistryClient</ref> can identify and download the correct layer. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/oci_registry_client.h" line="98" column="29" bodyfile="include/plugins/oci_registry_client.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1plugins_1a9426ae8684b27f81f5ecd5e8fc1105b0" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::plugins::kMaxPluginIdBytes</definition>
+        <argsstring></argsstring>
+        <name>kMaxPluginIdBytes</name>
+        <qualifiedname>themis::plugins::kMaxPluginIdBytes</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+<para>Maximum plugin identifier length in bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugins_api_contract.h" line="94" column="30" bodyfile="include/plugins/plugins_api_contract.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1plugins_1a310bb651f137144de2943bc71b6e7e7e" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::plugins::kMaxPluginVersionBytes</definition>
+        <argsstring></argsstring>
+        <name>kMaxPluginVersionBytes</name>
+        <qualifiedname>themis::plugins::kMaxPluginVersionBytes</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+<para>Maximum plugin version string length in bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugins_api_contract.h" line="97" column="30" bodyfile="include/plugins/plugins_api_contract.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1plugins_1ab2d85277241c022ea80c8086a4a44987" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::plugins::kMaxCapabilitiesPerPlugin</definition>
+        <argsstring></argsstring>
+        <name>kMaxCapabilitiesPerPlugin</name>
+        <qualifiedname>themis::plugins::kMaxCapabilitiesPerPlugin</qualifiedname>
+        <initializer>= 32</initializer>
+        <briefdescription>
+<para>Maximum number of capability tokens per plugin manifest. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugins_api_contract.h" line="100" column="30" bodyfile="include/plugins/plugins_api_contract.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1plugins_1aff70d93ec8fc688bca02929afb3160e4" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::plugins::kDefaultHealthCheckInterval</definition>
+        <argsstring></argsstring>
+        <name>kDefaultHealthCheckInterval</name>
+        <qualifiedname>themis::plugins::kDefaultHealthCheckInterval</qualifiedname>
+        <initializer>{30}</initializer>
+        <briefdescription>
+<para>Default health-check interval for monitored plugins. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugins_api_contract.h" line="103" column="39" bodyfile="include/plugins/plugins_api_contract.h" bodystart="103" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1plugins_1ac0672dbb9346734179f9ebc00c0cd5fc" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::plugins::RELOAD_UNLOAD_DELAY_MS</definition>
+        <argsstring></argsstring>
+        <name>RELOAD_UNLOAD_DELAY_MS</name>
+        <qualifiedname>themis::plugins::RELOAD_UNLOAD_DELAY_MS</qualifiedname>
+        <initializer>= std::chrono::milliseconds(50)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/plugins/plugin_manager.cpp" line="145" column="16" bodyfile="src/plugins/plugin_manager.cpp" bodystart="145" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1a72f51c6c1cafcb7a59858a28e9ee0e98" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::isPluginsFailClosed</definition>
+        <argsstring>(PluginsError e) noexcept</argsstring>
+        <name>isPluginsFailClosed</name>
+        <qualifiedname>themis::plugins::isPluginsFailClosed</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763" kindref="member">PluginsError</ref></type>
+          <declname>e</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when the given error mandates fail-closed denial. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugins_api_contract.h" line="147" column="24" bodyfile="include/plugins/plugins_api_contract.h" bodystart="147" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1a3e2ad9ac929dcdf91edcb84bf6575b9f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::plugins::lifecycleStateToString</definition>
+        <argsstring>(PluginLifecycleState state)</argsstring>
+        <name>lifecycleStateToString</name>
+        <qualifiedname>themis::plugins::lifecycleStateToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1a8e1f547c93c2fcdf65a1fe4a45ac71cc" kindref="member">PluginLifecycleState</ref></type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>Convert <ref refid="namespacethemis_1_1plugins_1a8e1f547c93c2fcdf65a1fe4a45ac71cc" kindref="member">PluginLifecycleState</ref> to human-readable string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The lifecycle state. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>String representation of the state (never nullptr). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_interface.h" line="146" column="19" bodyfile="include/plugins/plugin_interface.h" bodystart="146" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1a747d5dbd259d608892be0cb99faeb801" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::isValidLifecycleTransition</definition>
+        <argsstring>(PluginLifecycleState from_state, PluginLifecycleState to_state)</argsstring>
+        <name>isValidLifecycleTransition</name>
+        <qualifiedname>themis::plugins::isValidLifecycleTransition</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1a8e1f547c93c2fcdf65a1fe4a45ac71cc" kindref="member">PluginLifecycleState</ref></type>
+          <declname>from_state</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1a8e1f547c93c2fcdf65a1fe4a45ac71cc" kindref="member">PluginLifecycleState</ref></type>
+          <declname>to_state</declname>
+        </param>
+        <briefdescription>
+<para>Validate a plugin lifecycle state transition. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Checks if transitioning from <emphasis>from_state</emphasis> to <emphasis>to_state</emphasis> is allowed according to the plugin lifecycle state machine rules.</para>
+<para>Valid transitions:<itemizedlist>
+<listitem><para>UNLOADED → LOADING</para>
+</listitem><listitem><para>LOADING → LOADED | UNLOADED</para>
+</listitem><listitem><para>LOADED → LOADED (reload) | UNLOADING</para>
+</listitem><listitem><para>UNLOADING → UNLOADED</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>from_state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current state. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>to_state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Desired next state. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if transition is allowed; false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_interface.h" line="173" column="13" bodyfile="include/plugins/plugin_interface.h" bodystart="173" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1a7063a3b3ee74840312fcdfa021b2e833" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::setWasmPluginLoadFn</definition>
+        <argsstring>(WasmPluginLoadFn fn)</argsstring>
+        <name>setWasmPluginLoadFn</name>
+        <qualifiedname>themis::plugins::setWasmPluginLoadFn</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1a9efaf4dd7e8e9198f76187296b7425d0" kindref="member">WasmPluginLoadFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Wasm Plugin Load Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), wasmPluginLoadFnMutex(), wasmPluginLoadFnStorage(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/plugins/wasm_plugin_loader.cpp" line="156" column="6" bodyfile="src/plugins/wasm_plugin_loader.cpp" bodystart="156" bodyend="159" declfile="include/plugins/wasm_host_api.h" declline="44" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1a33b0504e87160ad8ec26073d4e3970e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1plugins_1_1_i_themis_plugin" kindref="compound">IThemisPlugin</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; IThemisPlugin &gt; themis::plugins::loadWasmPlugin</definition>
+        <argsstring>(const std::string &amp;wasm_path, const std::string &amp;expected_sha256, WasmPluginRuntime runtime, const std::string &amp;module_name, std::string &amp;error_out)</argsstring>
+        <name>loadWasmPlugin</name>
+        <qualifiedname>themis::plugins::loadWasmPlugin</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>wasm_path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>expected_sha256</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1ae66efa333daacacede99903659a42a3f" kindref="member">WasmPluginRuntime</ref></type>
+          <declname>runtime</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>module_name</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>error_out</declname>
+        </param>
+        <briefdescription>
+<para>Load and instantiate a WASM plugin module with cryptographic validation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load Wasm Plugin.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>wasm_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Filesystem path to the .wasm binary file. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>expected_sha256</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Expected SHA-256 hash (lowercase hex, 64 chars). Must be non-empty. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>runtime</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Which WASM runtime backend to use (Wasmtime or WasmEdge). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>module_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Human-readable plugin name for diagnostics. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>error_out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Receives human-readable error message on failure. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Owning pointer to IThemisPlugin-compatible WASM bridge, or nullptr on failure.</para>
+</simplesect>
+<simplesect kind="note"><para>QW-44 Fail-Closed Guard: Empty or malformed hashes are rejected (fail-closed). Unsigned WASM modules cannot be loaded. Hash must be provided in manifest and match the actual SHA-256 of the binary file. This prevents unsigned code execution in production.</para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>none</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Returns nullptr with error_out populated on any validation failure.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">wasm_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the wasm. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">expected_sha256</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">runtime</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">module_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the module. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">error_out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/plugins/wasm_plugin_loader.cpp" line="579" column="17" bodyfile="src/plugins/wasm_plugin_loader.cpp" bodystart="579" bodyend="598" declfile="include/plugins/wasm_host_api.h" declline="62" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1ab008ebd8e70e39cdc8f9e3b0f7ccd370" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::plugins::themis_plugin_get_name</definition>
+        <argsstring>(char *buf, uint32_t buf_len)</argsstring>
+        <name>themis_plugin_get_name</name>
+        <qualifiedname>themis::plugins::themis_plugin_get_name</qualifiedname>
+        <param>
+          <type>char *</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>buf_len</declname>
+        </param>
+        <briefdescription>
+<para>Host import: return the plugin&apos;s null-terminated name. Writes up to <computeroutput>buf_len - 1</computeroutput> bytes into <computeroutput>buf</computeroutput> and null-terminates. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Themis plugin get name.</para>
+<para><simplesect kind="return"><para>Number of bytes written (excluding null terminator).</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">buf_len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements themis_plugin_get_name without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/plugins/wasm_plugin_loader.cpp" line="608" column="10" bodyfile="src/plugins/wasm_plugin_loader.cpp" bodystart="608" bodyend="613" declfile="include/plugins/wasm_host_api.h" declline="80" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1a0ed086de061c8ff987adfdae0e94af5f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::plugins::themis_plugin_get_version</definition>
+        <argsstring>(char *buf, uint32_t buf_len)</argsstring>
+        <name>themis_plugin_get_version</name>
+        <qualifiedname>themis::plugins::themis_plugin_get_version</qualifiedname>
+        <param>
+          <type>char *</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>buf_len</declname>
+        </param>
+        <briefdescription>
+<para>Host import: return the plugin&apos;s null-terminated version string. Writes up to <computeroutput>buf_len - 1</computeroutput> bytes into <computeroutput>buf</computeroutput> and null-terminates. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Themis plugin get version.</para>
+<para><simplesect kind="return"><para>Number of bytes written (excluding null terminator).</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">buf_len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements themis_plugin_get_version without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/plugins/wasm_plugin_loader.cpp" line="621" column="10" bodyfile="src/plugins/wasm_plugin_loader.cpp" bodystart="621" bodyend="626" declfile="include/plugins/wasm_host_api.h" declline="87" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1aef39042a2016d986b31c429688e05207" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int32_t</type>
+        <definition>int32_t themis::plugins::themis_plugin_initialize</definition>
+        <argsstring>(const char *config_json)</argsstring>
+        <name>themis_plugin_initialize</name>
+        <qualifiedname>themis::plugins::themis_plugin_initialize</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>config_json</declname>
+        </param>
+        <briefdescription>
+<para>Host import: initialize the plugin with a JSON config string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Themis plugin initialize.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config_json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer into WASM linear memory; null-terminated. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>1 on success, 0 on failure.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements themis_plugin_initialize without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/plugins/wasm_plugin_loader.cpp" line="633" column="9" bodyfile="src/plugins/wasm_plugin_loader.cpp" bodystart="633" bodyend="633" declfile="include/plugins/wasm_host_api.h" declline="94" declcolumn="9"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1a37553342bd6d72f9469235817f4be02a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::themis_plugin_shutdown</definition>
+        <argsstring>(void)</argsstring>
+        <name>themis_plugin_shutdown</name>
+        <qualifiedname>themis::plugins::themis_plugin_shutdown</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Host import: shut down the plugin and release resources. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Themis plugin shutdown.</para>
+<para>Implements themis_plugin_shutdown without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/plugins/wasm_plugin_loader.cpp" line="638" column="9" bodyfile="src/plugins/wasm_plugin_loader.cpp" bodystart="638" bodyend="638" declfile="include/plugins/wasm_host_api.h" declline="99" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1abf5fd59d0e7863601a13f13f9e7d62c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::plugins::themis_plugin_get_instance</definition>
+        <argsstring>(int32_t capability_id)</argsstring>
+        <name>themis_plugin_get_instance</name>
+        <qualifiedname>themis::plugins::themis_plugin_get_instance</qualifiedname>
+        <param>
+          <type>int32_t</type>
+          <declname>capability_id</declname>
+        </param>
+        <briefdescription>
+<para>Host import: obtain a typed instance pointer (capability-gated). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Themis plugin get instance.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>capability_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Numeric capability identifier from the manifest. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Opaque pointer; null if the capability was not declared.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">int32_t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Implements themis_plugin_get_instance without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/plugins/wasm_plugin_loader.cpp" line="645" column="8" bodyfile="src/plugins/wasm_plugin_loader.cpp" bodystart="645" bodyend="645" declfile="include/plugins/wasm_host_api.h" declline="106" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1aba9f47111fa6a2e303e89d31b6daacbc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int32_t</type>
+        <definition>int32_t themis::plugins::themis_plugin_save_state</definition>
+        <argsstring>(char *buf, uint32_t buf_len)</argsstring>
+        <name>themis_plugin_save_state</name>
+        <qualifiedname>themis::plugins::themis_plugin_save_state</qualifiedname>
+        <param>
+          <type>char *</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>buf_len</declname>
+        </param>
+        <briefdescription>
+<para>Host import: serialise plugin state to a JSON string. Writes to <computeroutput>buf</computeroutput>; caller must supply a buffer of at least <computeroutput>buf_len</computeroutput> bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Themis plugin save state.</para>
+<para><simplesect kind="return"><para>Actual bytes written (0 on empty state, negative on error).</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">buf_len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements themis_plugin_save_state without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/plugins/wasm_plugin_loader.cpp" line="653" column="9" bodyfile="src/plugins/wasm_plugin_loader.cpp" bodystart="653" bodyend="658" declfile="include/plugins/wasm_host_api.h" declline="113" declcolumn="9"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1a5b6a1ef6583fce86b98bf1cbcef536d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int32_t</type>
+        <definition>int32_t themis::plugins::themis_plugin_restore_state</definition>
+        <argsstring>(const char *state_json)</argsstring>
+        <name>themis_plugin_restore_state</name>
+        <qualifiedname>themis::plugins::themis_plugin_restore_state</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>state_json</declname>
+        </param>
+        <briefdescription>
+<para>Host import: restore plugin state from a JSON string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Themis plugin restore state.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>state_json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer into WASM linear memory; null-terminated. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>1 on success, 0 on failure.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements themis_plugin_restore_state without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/plugins/wasm_plugin_loader.cpp" line="665" column="9" bodyfile="src/plugins/wasm_plugin_loader.cpp" bodystart="665" bodyend="665" declfile="include/plugins/wasm_host_api.h" declline="120" declcolumn="9"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1a00a13f1ad4b80e9b96d5d6d7954a0a70" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1plugins_1aa66e1896f029979e3d73e4800d7ba1b3" kindref="member">UniqueFileDescriptor</ref></type>
+        <definition>UniqueFileDescriptor themis::plugins::makeUniqueFileDescriptor</definition>
+        <argsstring>(int fd)</argsstring>
+        <name>makeUniqueFileDescriptor</name>
+        <qualifiedname>themis::plugins::makeUniqueFileDescriptor</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>fd</declname>
+        </param>
+        <briefdescription>
+<para>Helper function to create RAII-wrapped file descriptor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="namespacethemis_1_1plugins_1aa66e1896f029979e3d73e4800d7ba1b3" kindref="member">UniqueFileDescriptor()</ref>, release(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/plugins/plugin_hot_plug_monitor.cpp" line="85" column="29" bodyfile="src/plugins/plugin_hot_plug_monitor.cpp" bodystart="85" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1a7bcfe69c2c88981d872725c08a80f563" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::verifyWasmModuleHash</definition>
+        <argsstring>(const std::string &amp;wasm_path, const std::string &amp;expected_sha256, std::string &amp;error_out)</argsstring>
+        <name>verifyWasmModuleHash</name>
+        <qualifiedname>themis::plugins::verifyWasmModuleHash</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>wasm_path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>expected_sha256</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>error_out</declname>
+        </param>
+        <briefdescription>
+<para>Verify Wasm Module Hash. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">wasm_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the wasm. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">expected_sha256</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">error_out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), length(), std::to_string(), computeFileHash(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/plugins/wasm_plugin_loader.cpp" line="173" column="6" bodyfile="src/plugins/wasm_plugin_loader.cpp" bodystart="173" bodyend="204"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/plugins/edition_policy_plugin.h" line="48" column="1"/>
+  </compounddef>
+</doxygen>

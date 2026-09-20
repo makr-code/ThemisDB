@@ -1,0 +1,167 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1access__model_1_1_eviction_event_log" kind="struct" language="C++" prot="public">
+    <compoundname>themis::access_model::EvictionEventLog</compoundname>
+    <includes refid="access__model__logging_8h" local="no">access_model_logging.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1_eviction_event_log_1a74ef92b8c4b5cda6cf18a84b0a24d2ca" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::access_model::EvictionEventLog::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>themis::access_model::EvictionEventLog::key</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_model_logging.h" line="62" column="17" bodyfile="include/access_model/access_model_logging.h" bodystart="62" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1_eviction_event_log_1aaf234e4c49f67361b68c1653582728ca" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref></type>
+        <definition>TierLevel themis::access_model::EvictionEventLog::from_tier</definition>
+        <argsstring></argsstring>
+        <name>from_tier</name>
+        <qualifiedname>themis::access_model::EvictionEventLog::from_tier</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_model_logging.h" line="64" column="15" bodyfile="include/access_model/access_model_logging.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1_eviction_event_log_1a3921e3b4b6d6281b30c9f5acb93be3ad" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::access_model::EvictionEventLog::eviction_reason</definition>
+        <argsstring></argsstring>
+        <name>eviction_reason</name>
+        <qualifiedname>themis::access_model::EvictionEventLog::eviction_reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_model_logging.h" line="66" column="17" bodyfile="include/access_model/access_model_logging.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1_eviction_event_log_1ac4bdebd66cfd8e84d1caeb997247f903" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::access_model::EvictionEventLog::size_bytes</definition>
+        <argsstring></argsstring>
+        <name>size_bytes</name>
+        <qualifiedname>themis::access_model::EvictionEventLog::size_bytes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_model_logging.h" line="68" column="12" bodyfile="include/access_model/access_model_logging.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1_eviction_event_log_1af628e82827d66d9f23ab5ff601c29787" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::access_model::EvictionEventLog::access_count</definition>
+        <argsstring></argsstring>
+        <name>access_count</name>
+        <qualifiedname>themis::access_model::EvictionEventLog::access_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_model_logging.h" line="70" column="14" bodyfile="include/access_model/access_model_logging.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1_eviction_event_log_1a1050b3c0c7ae5be6ea309bed7fa9d397" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::access_model::EvictionEventLog::last_access_age</definition>
+        <argsstring></argsstring>
+        <name>last_access_age</name>
+        <qualifiedname>themis::access_model::EvictionEventLog::last_access_age</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_model_logging.h" line="72" column="26" bodyfile="include/access_model/access_model_logging.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1_eviction_event_log_1a9256e9fe84c4d61567b2796e266f4d49" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::access_model::EvictionEventLog::decision</definition>
+        <argsstring></argsstring>
+        <name>decision</name>
+        <qualifiedname>themis::access_model::EvictionEventLog::decision</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_model_logging.h" line="74" column="17" bodyfile="include/access_model/access_model_logging.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1_eviction_event_log_1ab2528428ac0495978c99b5d1bf7bd6f0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::access_model::EvictionEventLog::correlation_id</definition>
+        <argsstring></argsstring>
+        <name>correlation_id</name>
+        <qualifiedname>themis::access_model::EvictionEventLog::correlation_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_model_logging.h" line="76" column="17" bodyfile="include/access_model/access_model_logging.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1_eviction_event_log_1a1bdbede181bee1bf1ff1bcee20f38089" prot="public" static="no" mutable="no">
+        <type>std::thread::id</type>
+        <definition>std::thread::id themis::access_model::EvictionEventLog::thread_id</definition>
+        <argsstring></argsstring>
+        <name>thread_id</name>
+        <qualifiedname>themis::access_model::EvictionEventLog::thread_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_model_logging.h" line="78" column="21" bodyfile="include/access_model/access_model_logging.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1_eviction_event_log_1af649c877c6111b66dc50dd49df1ec93e" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::access_model::EvictionEventLog::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::access_model::EvictionEventLog::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_model_logging.h" line="80" column="43" bodyfile="include/access_model/access_model_logging.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/access_model/access_model_logging.h" line="61" column="1" bodyfile="include/access_model/access_model_logging.h" bodystart="61" bodyend="81"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1access__model_1_1_eviction_event_log_1af628e82827d66d9f23ab5ff601c29787" prot="public" virt="non-virtual"><scope>themis::access_model::EvictionEventLog</scope><name>access_count</name></member>
+      <member refid="structthemis_1_1access__model_1_1_eviction_event_log_1ab2528428ac0495978c99b5d1bf7bd6f0" prot="public" virt="non-virtual"><scope>themis::access_model::EvictionEventLog</scope><name>correlation_id</name></member>
+      <member refid="structthemis_1_1access__model_1_1_eviction_event_log_1a9256e9fe84c4d61567b2796e266f4d49" prot="public" virt="non-virtual"><scope>themis::access_model::EvictionEventLog</scope><name>decision</name></member>
+      <member refid="structthemis_1_1access__model_1_1_eviction_event_log_1a3921e3b4b6d6281b30c9f5acb93be3ad" prot="public" virt="non-virtual"><scope>themis::access_model::EvictionEventLog</scope><name>eviction_reason</name></member>
+      <member refid="structthemis_1_1access__model_1_1_eviction_event_log_1aaf234e4c49f67361b68c1653582728ca" prot="public" virt="non-virtual"><scope>themis::access_model::EvictionEventLog</scope><name>from_tier</name></member>
+      <member refid="structthemis_1_1access__model_1_1_eviction_event_log_1a74ef92b8c4b5cda6cf18a84b0a24d2ca" prot="public" virt="non-virtual"><scope>themis::access_model::EvictionEventLog</scope><name>key</name></member>
+      <member refid="structthemis_1_1access__model_1_1_eviction_event_log_1a1050b3c0c7ae5be6ea309bed7fa9d397" prot="public" virt="non-virtual"><scope>themis::access_model::EvictionEventLog</scope><name>last_access_age</name></member>
+      <member refid="structthemis_1_1access__model_1_1_eviction_event_log_1ac4bdebd66cfd8e84d1caeb997247f903" prot="public" virt="non-virtual"><scope>themis::access_model::EvictionEventLog</scope><name>size_bytes</name></member>
+      <member refid="structthemis_1_1access__model_1_1_eviction_event_log_1a1bdbede181bee1bf1ff1bcee20f38089" prot="public" virt="non-virtual"><scope>themis::access_model::EvictionEventLog</scope><name>thread_id</name></member>
+      <member refid="structthemis_1_1access__model_1_1_eviction_event_log_1af649c877c6111b66dc50dd49df1ec93e" prot="public" virt="non-virtual"><scope>themis::access_model::EvictionEventLog</scope><name>timestamp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

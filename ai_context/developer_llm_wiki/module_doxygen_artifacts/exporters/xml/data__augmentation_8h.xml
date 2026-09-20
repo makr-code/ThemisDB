@@ -1,0 +1,188 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="data__augmentation_8h" kind="file" language="C++">
+    <compoundname>data_augmentation.h</compoundname>
+    <includes local="yes">storage/base_entity.h</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">map</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="data__augmentation_8cpp" local="yes">src/exporters/data_augmentation.cpp</includedby>
+    <includedby refid="test__data__augmentation_8cpp" local="yes">tests/exporters/test_data_augmentation.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/exporters/data_augmentation.h</label>
+        <link refid="data__augmentation_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>map</label>
+      </node>
+      <node id="2">
+        <label>storage/base_entity.h</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/exporters/data_augmentation.h</label>
+        <link refid="data__augmentation_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/exporters/data_augmentation.cpp</label>
+        <link refid="data__augmentation_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/exporters/test_data_augmentation.cpp</label>
+        <link refid="test__data__augmentation_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1exporters_1_1_augmentation_strategy_config" prot="public">themis::exporters::AugmentationStrategyConfig</innerclass>
+    <innerclass refid="structthemis_1_1exporters_1_1_augmentation_config" prot="public">themis::exporters::AugmentationConfig</innerclass>
+    <innerclass refid="structthemis_1_1exporters_1_1_augmentation_stats" prot="public">themis::exporters::AugmentationStats</innerclass>
+    <innerclass refid="classthemis_1_1exporters_1_1_data_augmentation_pipeline" prot="public">themis::exporters::DataAugmentationPipeline</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1exporters">themis::exporters</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/base_entity.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1exporters" kindref="compound">exporters</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="namespacethemis_1_1exporters_1a5f45db58d9e4a101eeda699e0ed18aee" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1exporters_1a5f45db58d9e4a101eeda699e0ed18aee" kindref="member">AugmentationStrategy</ref><sp/>{</highlight></codeline>
+<codeline lineno="24" refid="namespacethemis_1_1exporters_1a5f45db58d9e4a101eeda699e0ed18aeeabbe42f9616aa20cf80eb47f324b30022" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1exporters_1a5f45db58d9e4a101eeda699e0ed18aeeabbe42f9616aa20cf80eb47f324b30022" kindref="member">SYNONYM_REPLACEMENT</ref>,</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="namespacethemis_1_1exporters_1a5f45db58d9e4a101eeda699e0ed18aeea1e7119d7dd19aa1dd693bc3c730f507d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1exporters_1a5f45db58d9e4a101eeda699e0ed18aeea1e7119d7dd19aa1dd693bc3c730f507d" kindref="member">QUESTION_REFORMULATION</ref>,</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1exporters_1a5f45db58d9e4a101eeda699e0ed18aeea2eafdf94c5d642e45814513663495568" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1exporters_1a5f45db58d9e4a101eeda699e0ed18aeea2eafdf94c5d642e45814513663495568" kindref="member">WHITESPACE_NORMALIZATION</ref>,</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1exporters_1a5f45db58d9e4a101eeda699e0ed18aeea13740c53e0080fab7e5d80ac3cb5d6c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1exporters_1a5f45db58d9e4a101eeda699e0ed18aeea13740c53e0080fab7e5d80ac3cb5d6c7" kindref="member">LOWERCASE</ref>,</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1exporters_1a5f45db58d9e4a101eeda699e0ed18aeeae70fa403933d6b78a5b8b27813baa4df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1exporters_1a5f45db58d9e4a101eeda699e0ed18aeeae70fa403933d6b78a5b8b27813baa4df" kindref="member">SENTENCE_CASING</ref>,</highlight></codeline>
+<codeline lineno="33"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1exporters_1_1_augmentation_strategy_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1exporters_1_1_augmentation_strategy_config" kindref="compound">AugmentationStrategyConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1exporters_1_1_augmentation_strategy_config_1a481393e0889c7647e99d8dcaab10009a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1exporters_1a5f45db58d9e4a101eeda699e0ed18aee" kindref="member">AugmentationStrategy</ref><sp/><ref refid="structthemis_1_1exporters_1_1_augmentation_strategy_config_1a481393e0889c7647e99d8dcaab10009a" kindref="member">strategy</ref>;</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1exporters_1_1_augmentation_strategy_config_1aa5b3e4720911fd1bb8caf2477f1dc48f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1exporters_1_1_augmentation_strategy_config_1aa5b3e4720911fd1bb8caf2477f1dc48f" kindref="member">count</ref><sp/>=<sp/>1;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1exporters_1_1_augmentation_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1exporters_1_1_augmentation_config" kindref="compound">AugmentationConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1exporters_1_1_augmentation_config_1ab2f88a6668928bc757005847cb64cd40" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;AugmentationStrategyConfig&gt;<sp/><ref refid="structthemis_1_1exporters_1_1_augmentation_config_1ab2f88a6668928bc757005847cb64cd40" kindref="member">strategies</ref>;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1exporters_1_1_augmentation_config_1a1dc9ebb6088546caf563b7265d435d84" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1exporters_1_1_augmentation_config_1a1dc9ebb6088546caf563b7265d435d84" kindref="member">instruction_field</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;question&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1exporters_1_1_augmentation_config_1a9b2e584b28a105144c32d67dead41e77" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1exporters_1_1_augmentation_config_1a9b2e584b28a105144c32d67dead41e77" kindref="member">augment_fields</ref>;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1exporters_1_1_augmentation_config_1a0e2cfca0367cf40bcd846b6ad300c47a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1exporters_1_1_augmentation_config_1a0e2cfca0367cf40bcd846b6ad300c47a" kindref="member">include_originals</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1exporters_1_1_augmentation_config_1a2fc193e734d12370e7554244c5c46260" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1exporters_1_1_augmentation_config_1a2fc193e734d12370e7554244c5c46260" kindref="member">augmented_key_prefix</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;aug_&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1exporters_1_1_augmentation_config_1aaa2091dd98192f341bd02a11d041bed4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1exporters_1_1_augmentation_config_1aaa2091dd98192f341bd02a11d041bed4" kindref="member">custom_synonyms</ref>;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1exporters_1_1_augmentation_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1exporters_1_1_augmentation_stats" kindref="compound">AugmentationStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1exporters_1_1_augmentation_stats_1a8d4fcf65334a946e55c0ad46a0d2a3d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1exporters_1_1_augmentation_stats_1a8d4fcf65334a946e55c0ad46a0d2a3d6" kindref="member">input_entities</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1exporters_1_1_augmentation_stats_1aceb4c534f592f8a8d49b2b748431380f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1exporters_1_1_augmentation_stats_1aceb4c534f592f8a8d49b2b748431380f" kindref="member">augmented_entities</ref><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1exporters_1_1_augmentation_stats_1a1a9df392e52326c05a1aa5217c600b4b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1exporters_1_1_augmentation_stats_1a1a9df392e52326c05a1aa5217c600b4b" kindref="member">output_entities</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1exporters_1_1_augmentation_stats_1afe597c627d7a086923130ff1d1be7180" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1exporters_1_1_augmentation_stats_1afe597c627d7a086923130ff1d1be7180" kindref="member">fields_augmented</ref><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1exporters_1_1_augmentation_stats_1a079d922148e0f25e3768ba23d2a29ef4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1exporters_1_1_augmentation_stats_1a079d922148e0f25e3768ba23d2a29ef4" kindref="member">strategies_applied</ref><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="60"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="classthemis_1_1exporters_1_1_data_augmentation_pipeline" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1exporters_1_1_data_augmentation_pipeline_1ae2f4aea0e92dd56d147958e16cbdc980" kindref="member">DataAugmentationPipeline</ref><sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_data_augmentation_pipeline_1ae2f4aea0e92dd56d147958e16cbdc980" kindref="member">DataAugmentationPipeline</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1exporters_1_1_augmentation_config" kindref="compound">AugmentationConfig</ref>&amp;<sp/>config<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;BaseEntity&gt;<sp/><ref refid="classthemis_1_1exporters_1_1_data_augmentation_pipeline_1a7b27b5f1ca9b826afbae78dbf4e28c51" kindref="member">augment</ref>(</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;BaseEntity&gt;&amp;<sp/>entities,</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1exporters_1_1_augmentation_stats" kindref="compound">AugmentationStats</ref>*<sp/>stats<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;BaseEntity&gt;<sp/><ref refid="classthemis_1_1exporters_1_1_data_augmentation_pipeline_1aec16b97c857053559e0b4637bc3db9ac" kindref="member">applyStrategy</ref>(</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>BaseEntity&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/>entity,</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1exporters_1a5f45db58d9e4a101eeda699e0ed18aee" kindref="member">AugmentationStrategy</ref><sp/><sp/><sp/><sp/>strategy,</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>count</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="classthemis_1_1exporters_1_1_data_augmentation_pipeline_1a1ed379f84b130479cb6601ffd30a0b54" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1exporters_1_1_augmentation_config" kindref="compound">AugmentationConfig</ref>&amp;<sp/><ref refid="classthemis_1_1exporters_1_1_data_augmentation_pipeline_1a1ed379f84b130479cb6601ffd30a0b54" kindref="member">getConfig</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="90" refid="classthemis_1_1exporters_1_1_data_augmentation_pipeline_1a869e4f5bb814f2632fd5db20116e157b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_data_augmentation_pipeline_1a869e4f5bb814f2632fd5db20116e157b" kindref="member">setConfig</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1exporters_1_1_augmentation_config" kindref="compound">AugmentationConfig</ref>&amp;<sp/>config)<sp/>{<sp/>config_<sp/>=<sp/>config;<sp/>}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1exporters_1_1_augmentation_config" kindref="compound">AugmentationConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity<sp/>applySynonymReplacement(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>BaseEntity&amp;<sp/>entity,<sp/>uint32_t<sp/>variant)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity<sp/>applyQuestionReformulation(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>BaseEntity&amp;<sp/>entity,<sp/>uint32_t<sp/>variant)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity<sp/>applyWhitespaceNormalization(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>BaseEntity&amp;<sp/>entity)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity<sp/>applyLowercase(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>BaseEntity&amp;<sp/>entity)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity<sp/>applySentenceCasing(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>BaseEntity&amp;<sp/>entity)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>selectFields(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>BaseEntity&amp;<sp/>entity)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>replaceSynonyms(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text,<sp/>uint32_t<sp/>variant)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>reformulateQuestion(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text,<sp/>uint32_t<sp/>variant);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>normalizeWhitespace(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>toLowercase(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>toSentenceCasing(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Synonym<sp/>data<sp/>──────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::vector&lt;std::string&gt;&gt;&amp;<sp/>builtinSynonyms();</highlight></codeline>
+<codeline lineno="177"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>exporters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/exporters/data_augmentation.h"/>
+  </compounddef>
+</doxygen>

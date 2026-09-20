@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_query_filter" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::AIDecisionAuditor::QueryFilter</compoundname>
+    <includes refid="ai__decision__auditor_8h" local="no">ai_decision_auditor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_query_filter_1a039b4c57532f427dd77a7cd47537e513" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::llm::AIDecisionAuditor::QueryFilter::user_id</definition>
+        <argsstring></argsstring>
+        <name>user_id</name>
+        <qualifiedname>themis::llm::AIDecisionAuditor::QueryFilter::user_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="104" column="23" bodyfile="include/llm/ai_decision_auditor.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_query_filter_1a5e949cb3d711bdaca9ee3360f6803ac4" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::chrono::system_clock::time_point &gt;</type>
+        <definition>std::optional&lt;std::chrono::system_clock::time_point&gt; themis::llm::AIDecisionAuditor::QueryFilter::start_time</definition>
+        <argsstring></argsstring>
+        <name>start_time</name>
+        <qualifiedname>themis::llm::AIDecisionAuditor::QueryFilter::start_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="105" column="23" bodyfile="include/llm/ai_decision_auditor.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_query_filter_1a80c7ebf03d8921674d24dd24532c36a8" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::chrono::system_clock::time_point &gt;</type>
+        <definition>std::optional&lt;std::chrono::system_clock::time_point&gt; themis::llm::AIDecisionAuditor::QueryFilter::end_time</definition>
+        <argsstring></argsstring>
+        <name>end_time</name>
+        <qualifiedname>themis::llm::AIDecisionAuditor::QueryFilter::end_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="106" column="23" bodyfile="include/llm/ai_decision_auditor.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_query_filter_1a07646740eae06920c4ab5f72692d0768" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; float &gt;</type>
+        <definition>std::optional&lt;float&gt; themis::llm::AIDecisionAuditor::QueryFilter::min_confidence</definition>
+        <argsstring></argsstring>
+        <name>min_confidence</name>
+        <qualifiedname>themis::llm::AIDecisionAuditor::QueryFilter::min_confidence</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="107" column="23" bodyfile="include/llm/ai_decision_auditor.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_query_filter_1a0663b0d6a33d33616b6893d9ebae0eb4" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; float &gt;</type>
+        <definition>std::optional&lt;float&gt; themis::llm::AIDecisionAuditor::QueryFilter::max_confidence</definition>
+        <argsstring></argsstring>
+        <name>max_confidence</name>
+        <qualifiedname>themis::llm::AIDecisionAuditor::QueryFilter::max_confidence</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="108" column="23" bodyfile="include/llm/ai_decision_auditor.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_query_filter_1a217912e56a18d52c6626e173369a6431" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; bool &gt;</type>
+        <definition>std::optional&lt;bool&gt; themis::llm::AIDecisionAuditor::QueryFilter::requires_review</definition>
+        <argsstring></argsstring>
+        <name>requires_review</name>
+        <qualifiedname>themis::llm::AIDecisionAuditor::QueryFilter::requires_review</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="109" column="23" bodyfile="include/llm/ai_decision_auditor.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_query_filter_1abf4665969604e81959cd29c05a3b702d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::AIDecisionAuditor::QueryFilter::limit</definition>
+        <argsstring></argsstring>
+        <name>limit</name>
+        <qualifiedname>themis::llm::AIDecisionAuditor::QueryFilter::limit</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="110" column="16" bodyfile="include/llm/ai_decision_auditor.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/ai_decision_auditor.h" line="103" column="5" bodyfile="include/llm/ai_decision_auditor.h" bodystart="103" bodyend="111"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_query_filter_1a80c7ebf03d8921674d24dd24532c36a8" prot="public" virt="non-virtual"><scope>themis::llm::AIDecisionAuditor::QueryFilter</scope><name>end_time</name></member>
+      <member refid="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_query_filter_1abf4665969604e81959cd29c05a3b702d" prot="public" virt="non-virtual"><scope>themis::llm::AIDecisionAuditor::QueryFilter</scope><name>limit</name></member>
+      <member refid="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_query_filter_1a0663b0d6a33d33616b6893d9ebae0eb4" prot="public" virt="non-virtual"><scope>themis::llm::AIDecisionAuditor::QueryFilter</scope><name>max_confidence</name></member>
+      <member refid="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_query_filter_1a07646740eae06920c4ab5f72692d0768" prot="public" virt="non-virtual"><scope>themis::llm::AIDecisionAuditor::QueryFilter</scope><name>min_confidence</name></member>
+      <member refid="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_query_filter_1a217912e56a18d52c6626e173369a6431" prot="public" virt="non-virtual"><scope>themis::llm::AIDecisionAuditor::QueryFilter</scope><name>requires_review</name></member>
+      <member refid="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_query_filter_1a5e949cb3d711bdaca9ee3360f6803ac4" prot="public" virt="non-virtual"><scope>themis::llm::AIDecisionAuditor::QueryFilter</scope><name>start_time</name></member>
+      <member refid="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_query_filter_1a039b4c57532f427dd77a7cd47537e513" prot="public" virt="non-virtual"><scope>themis::llm::AIDecisionAuditor::QueryFilter</scope><name>user_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

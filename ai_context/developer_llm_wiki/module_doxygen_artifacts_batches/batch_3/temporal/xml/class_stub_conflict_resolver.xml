@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_conflict_resolver" kind="class" language="C++" prot="public">
+    <compoundname>StubConflictResolver</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_conflict_resolver_1abfb313a4bf43b9b36c2e3c51ec692c33" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubConflictResolver::ops_</definition>
+        <argsstring></argsstring>
+        <name>ops_</name>
+        <qualifiedname>StubConflictResolver::ops_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_highcardinality_stress.cpp" line="74" column="17" bodyfile="tests/temporal/test_temporal_highcardinality_stress.cpp" bodystart="74" bodyend="74"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_conflict_resolver_1a7c072938ff60b2c997861039bc01a08d" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="struct_conflict_resolution_result" kindref="compound">ConflictResolutionResult</ref></type>
+        <definition>ConflictResolutionResult StubConflictResolver::resolve</definition>
+        <argsstring>(uint64_t ver_a, uint64_t ver_b) noexcept</argsstring>
+        <name>resolve</name>
+        <qualifiedname>StubConflictResolver::resolve</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>ver_a</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>ver_b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_highcardinality_stress.cpp" line="67" column="30" bodyfile="tests/temporal/test_temporal_highcardinality_stress.cpp" bodystart="67" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_conflict_resolver_1a4fdfffc56530d2a80dca64cddd90d2ac" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubConflictResolver::totalOps</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>totalOps</name>
+        <qualifiedname>StubConflictResolver::totalOps</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_highcardinality_stress.cpp" line="72" column="14" bodyfile="tests/temporal/test_temporal_highcardinality_stress.cpp" bodystart="72" bodyend="72"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/temporal/test_temporal_highcardinality_stress.cpp" line="65" column="1" bodyfile="tests/temporal/test_temporal_highcardinality_stress.cpp" bodystart="65" bodyend="75"/>
+    <listofallmembers>
+      <member refid="class_stub_conflict_resolver_1abfb313a4bf43b9b36c2e3c51ec692c33" prot="private" virt="non-virtual"><scope>StubConflictResolver</scope><name>ops_</name></member>
+      <member refid="class_stub_conflict_resolver_1a7c072938ff60b2c997861039bc01a08d" prot="public" virt="non-virtual"><scope>StubConflictResolver</scope><name>resolve</name></member>
+      <member refid="class_stub_conflict_resolver_1a4fdfffc56530d2a80dca64cddd90d2ac" prot="public" virt="non-virtual"><scope>StubConflictResolver</scope><name>totalOps</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

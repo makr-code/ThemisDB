@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_mime_detector_test" kind="class" language="C++" prot="public">
+    <compoundname>MimeDetectorTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_mime_detector_test_1ad89dc9d56f5a165150237e3d1c6b32d5" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1content_1_1_mime_detector" kindref="compound">MimeDetector</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;MimeDetector&gt; MimeDetectorTest::detector_</definition>
+        <argsstring></argsstring>
+        <name>detector_</name>
+        <qualifiedname>MimeDetectorTest::detector_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_policy.cpp" line="168" column="21" bodyfile="tests/content/test_content_policy.cpp" bodystart="168" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_mime_detector_test_1a00da79e6b6b2b5c4d18cb913bc51d0d2" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void MimeDetectorTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>MimeDetectorTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_policy.cpp" line="160" column="10" bodyfile="tests/content/test_content_policy.cpp" bodystart="160" bodyend="166"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>MimeDetectorTest</label>
+        <link refid="class_mime_detector_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>MimeDetectorTest</label>
+        <link refid="class_mime_detector_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/content/test_content_policy.cpp" line="158" column="1" bodyfile="tests/content/test_content_policy.cpp" bodystart="158" bodyend="169"/>
+    <listofallmembers>
+      <member refid="class_mime_detector_test_1ad89dc9d56f5a165150237e3d1c6b32d5" prot="protected" virt="non-virtual"><scope>MimeDetectorTest</scope><name>detector_</name></member>
+      <member refid="class_mime_detector_test_1a00da79e6b6b2b5c4d18cb913bc51d0d2" prot="protected" virt="non-virtual"><scope>MimeDetectorTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

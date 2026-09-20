@@ -1,0 +1,231 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_prompt_version" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::PromptVersion</compoundname>
+    <includes refid="prompt__version__control_8h" local="no">prompt_version_control.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_version_1a8b26beb26efd3d89beae4cd8136315f2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::PromptVersion::version_id</definition>
+        <argsstring></argsstring>
+        <name>version_id</name>
+        <qualifiedname>themis::prompt_engineering::PromptVersion::version_id</qualifiedname>
+        <briefdescription>
+<para>Unique version identifier (SHA-like hash). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="32" column="17" bodyfile="include/prompt_engineering/prompt_version_control.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_version_1a52906de639957c596365a00446844705" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::PromptVersion::prompt_id</definition>
+        <argsstring></argsstring>
+        <name>prompt_id</name>
+        <qualifiedname>themis::prompt_engineering::PromptVersion::prompt_id</qualifiedname>
+        <briefdescription>
+<para>Associated prompt template ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="33" column="17" bodyfile="include/prompt_engineering/prompt_version_control.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_version_1aaab02cb23fba0c21c407d5546d3ac103" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::PromptVersion::branch</definition>
+        <argsstring></argsstring>
+        <name>branch</name>
+        <qualifiedname>themis::prompt_engineering::PromptVersion::branch</qualifiedname>
+        <briefdescription>
+<para>Branch name (e.g., &quot;main&quot;, &quot;experiment&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="34" column="17" bodyfile="include/prompt_engineering/prompt_version_control.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_version_1ab07b37dc110241c6d514418f90569c34" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::PromptVersion::content</definition>
+        <argsstring></argsstring>
+        <name>content</name>
+        <qualifiedname>themis::prompt_engineering::PromptVersion::content</qualifiedname>
+        <briefdescription>
+<para>Prompt content at this version. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="35" column="17" bodyfile="include/prompt_engineering/prompt_version_control.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_version_1adfe9983c50e9e5777bfa5d4dbe28e8ba" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::PromptVersion::commit_message</definition>
+        <argsstring></argsstring>
+        <name>commit_message</name>
+        <qualifiedname>themis::prompt_engineering::PromptVersion::commit_message</qualifiedname>
+        <briefdescription>
+<para>Description of changes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="36" column="17" bodyfile="include/prompt_engineering/prompt_version_control.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_version_1a2d52b1bbb9b0534465f13160784d6548" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::PromptVersion::author</definition>
+        <argsstring></argsstring>
+        <name>author</name>
+        <qualifiedname>themis::prompt_engineering::PromptVersion::author</qualifiedname>
+        <briefdescription>
+<para>Who created this version. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="37" column="17" bodyfile="include/prompt_engineering/prompt_version_control.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_version_1a7a9384692a94a4b0ec1ee4a5fdb06727" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::PromptVersion::parent_version</definition>
+        <argsstring></argsstring>
+        <name>parent_version</name>
+        <qualifiedname>themis::prompt_engineering::PromptVersion::parent_version</qualifiedname>
+        <briefdescription>
+<para>Parent version ID (empty for initial). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="38" column="17" bodyfile="include/prompt_engineering/prompt_version_control.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_version_1a1b4b5de3e6715937eddcf230dc28f2a9" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::prompt_engineering::PromptVersion::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::prompt_engineering::PromptVersion::timestamp</qualifiedname>
+        <briefdescription>
+<para>When created. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="39" column="43" bodyfile="include/prompt_engineering/prompt_version_control.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_version_1a4d703022eca47020a152add06d8134dc" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::prompt_engineering::PromptVersion::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::prompt_engineering::PromptVersion::metadata</qualifiedname>
+        <briefdescription>
+<para>Additional version metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="40" column="20" bodyfile="include/prompt_engineering/prompt_version_control.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_version_1a79014d26c857d6ffb3f68561ed62a538" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::PromptVersion::performance_score</definition>
+        <argsstring></argsstring>
+        <name>performance_score</name>
+        <qualifiedname>themis::prompt_engineering::PromptVersion::performance_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Performance metrics at this version. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="41" column="12" bodyfile="include/prompt_engineering/prompt_version_control.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1prompt__engineering_1_1_prompt_version_1a68720b0b68cd9e2743998d7d2efa3412" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::prompt_engineering::PromptVersion::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::prompt_engineering::PromptVersion::toJson</qualifiedname>
+        <briefdescription>
+<para>Convert to JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="46" column="20" bodyfile="src/prompt_engineering/prompt_version_control.cpp" bodystart="29" bodyend="45"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1prompt__engineering_1_1_prompt_version_1aff081c29fb20e9e7f88c5e68835c1d3f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_version" kindref="compound">PromptVersion</ref></type>
+        <definition>PromptVersion themis::prompt_engineering::PromptVersion::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::prompt_engineering::PromptVersion::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>Parse from JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>From Json.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: value(), nlohmann::json::object(), contains(), std::chrono::system_clock::from_time_t(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="51" column="26" bodyfile="src/prompt_engineering/prompt_version_control.cpp" bodystart="53" bodyend="71"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single prompt version. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/prompt_version_control.h" line="31" column="1" bodyfile="include/prompt_engineering/prompt_version_control.h" bodystart="31" bodyend="52"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_version_1a2d52b1bbb9b0534465f13160784d6548" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptVersion</scope><name>author</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_version_1aaab02cb23fba0c21c407d5546d3ac103" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptVersion</scope><name>branch</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_version_1adfe9983c50e9e5777bfa5d4dbe28e8ba" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptVersion</scope><name>commit_message</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_version_1ab07b37dc110241c6d514418f90569c34" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptVersion</scope><name>content</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_version_1aff081c29fb20e9e7f88c5e68835c1d3f" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptVersion</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_version_1a4d703022eca47020a152add06d8134dc" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptVersion</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_version_1a7a9384692a94a4b0ec1ee4a5fdb06727" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptVersion</scope><name>parent_version</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_version_1a79014d26c857d6ffb3f68561ed62a538" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptVersion</scope><name>performance_score</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_version_1a52906de639957c596365a00446844705" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptVersion</scope><name>prompt_id</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_version_1a1b4b5de3e6715937eddcf230dc28f2a9" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptVersion</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_version_1a68720b0b68cd9e2743998d7d2efa3412" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptVersion</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_version_1a8b26beb26efd3d89beae4cd8136315f2" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptVersion</scope><name>version_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_selection_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::SelectionResult</compoundname>
+    <includes refid="fewshot__optimizer_8h" local="no">fewshot_optimizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_selection_result_1a5b91ca82173a7b642f9af44dead96384" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_few_shot_example" kindref="compound">FewShotExample</ref> &gt;</type>
+        <definition>std::vector&lt;FewShotExample&gt; themis::llm::SelectionResult::selected_examples</definition>
+        <argsstring></argsstring>
+        <name>selected_examples</name>
+        <qualifiedname>themis::llm::SelectionResult::selected_examples</qualifiedname>
+        <briefdescription>
+<para>Selected examples. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/fewshot_optimizer.h" line="41" column="17" bodyfile="include/llm/fewshot_optimizer.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_selection_result_1a0d62e1002b7624a0f830382933d05168" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::SelectionResult::avg_relevance</definition>
+        <argsstring></argsstring>
+        <name>avg_relevance</name>
+        <qualifiedname>themis::llm::SelectionResult::avg_relevance</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Average relevance score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/fewshot_optimizer.h" line="42" column="12" bodyfile="include/llm/fewshot_optimizer.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_selection_result_1af24d5138821668a4cefb357fb364d05d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::SelectionResult::avg_diversity</definition>
+        <argsstring></argsstring>
+        <name>avg_diversity</name>
+        <qualifiedname>themis::llm::SelectionResult::avg_diversity</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Average diversity score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/fewshot_optimizer.h" line="43" column="12" bodyfile="include/llm/fewshot_optimizer.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_selection_result_1a9fc85ae41eaf83878b0bf6f511f1b16a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::SelectionResult::selection_score</definition>
+        <argsstring></argsstring>
+        <name>selection_score</name>
+        <qualifiedname>themis::llm::SelectionResult::selection_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Overall selection quality. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/fewshot_optimizer.h" line="44" column="12" bodyfile="include/llm/fewshot_optimizer.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_selection_result_1a137a2ab8e91ce1e108c5603e69acd0ed" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::llm::SelectionResult::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::llm::SelectionResult::metadata</qualifiedname>
+        <briefdescription>
+<para>Additional metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/fewshot_optimizer.h" line="45" column="20" bodyfile="include/llm/fewshot_optimizer.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/fewshot_optimizer.h" line="40" column="1" bodyfile="include/llm/fewshot_optimizer.h" bodystart="40" bodyend="46"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_selection_result_1af24d5138821668a4cefb357fb364d05d" prot="public" virt="non-virtual"><scope>themis::llm::SelectionResult</scope><name>avg_diversity</name></member>
+      <member refid="structthemis_1_1llm_1_1_selection_result_1a0d62e1002b7624a0f830382933d05168" prot="public" virt="non-virtual"><scope>themis::llm::SelectionResult</scope><name>avg_relevance</name></member>
+      <member refid="structthemis_1_1llm_1_1_selection_result_1a137a2ab8e91ce1e108c5603e69acd0ed" prot="public" virt="non-virtual"><scope>themis::llm::SelectionResult</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1llm_1_1_selection_result_1a5b91ca82173a7b642f9af44dead96384" prot="public" virt="non-virtual"><scope>themis::llm::SelectionResult</scope><name>selected_examples</name></member>
+      <member refid="structthemis_1_1llm_1_1_selection_result_1a9fc85ae41eaf83878b0bf6f511f1b16a" prot="public" virt="non-virtual"><scope>themis::llm::SelectionResult</scope><name>selection_score</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

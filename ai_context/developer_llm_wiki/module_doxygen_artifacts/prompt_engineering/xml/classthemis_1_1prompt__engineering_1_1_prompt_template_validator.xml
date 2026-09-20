@@ -1,0 +1,212 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_prompt_template_validator" kind="class" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::PromptTemplateValidator</compoundname>
+    <includes refid="prompt__template__validator_8h" local="no">prompt_template_validator.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_template_validator_1a6641944fe76ce8017a9b98af24f6cb6c" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::PromptTemplateValidator::PromptTemplateValidator</definition>
+        <argsstring>(bool require_id=true)</argsstring>
+        <name>PromptTemplateValidator</name>
+        <qualifiedname>themis::prompt_engineering::PromptTemplateValidator::PromptTemplateValidator</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>require_id</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Construct a validator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>require_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>When true (default), an empty or missing <computeroutput>id</computeroutput> field is an error. Set to false for pre-persist validation. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_template_validator.h" line="64" column="14" bodyfile="src/prompt_engineering/prompt_template_validator.cpp" bodystart="45" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_template_validator_1aeb91242db7fd6986e7d70427ae2925ba" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_template_validation_result" kindref="compound">TemplateValidationResult</ref></type>
+        <definition>TemplateValidationResult themis::prompt_engineering::PromptTemplateValidator::validate</definition>
+        <argsstring>(const nlohmann::json &amp;templateJson) const</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::prompt_engineering::PromptTemplateValidator::validate</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>templateJson</declname>
+        </param>
+        <briefdescription>
+<para>Validate <computeroutput>templateJson</computeroutput> against the built-in field rules. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para><computeroutput><ref refid="structthemis_1_1prompt__engineering_1_1_template_validation_result" kindref="compound">TemplateValidationResult</ref></computeroutput> with zero errors when the document is structurally valid. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_template_validator.h" line="71" column="30" bodyfile="src/prompt_engineering/prompt_template_validator.cpp" bodystart="50" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_template_validator_1a6ff09b272d0498ed0b75e79a90bf6934" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_template_validation_result" kindref="compound">TemplateValidationResult</ref></type>
+        <definition>TemplateValidationResult themis::prompt_engineering::PromptTemplateValidator::validate</definition>
+        <argsstring>(const std::string &amp;json_str) const</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::prompt_engineering::PromptTemplateValidator::validate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>json_str</declname>
+        </param>
+        <briefdescription>
+<para>Convenience overload — parse <computeroutput>json_str</computeroutput> before validating. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns an invalid result with a single error entry on parse failure. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_template_validator.h" line="78" column="30" bodyfile="src/prompt_engineering/prompt_template_validator.cpp" bodystart="137" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_template_validator_1a00a82d3d5754eb6ab8d650dd78fb4c4a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::PromptTemplateValidator::hasSQLInjectionPattern</definition>
+        <argsstring>(const std::string &amp;content) const</argsstring>
+        <name>hasSQLInjectionPattern</name>
+        <qualifiedname>themis::prompt_engineering::PromptTemplateValidator::hasSQLInjectionPattern</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+        </param>
+        <briefdescription>
+<para>Detect injection attack patterns in template content. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Checks for:<itemizedlist>
+<listitem><para>SQL injection patterns (UNION, DROP, INSERT, DELETE, SELECT with quotes)</para>
+</listitem><listitem><para>Command injection patterns (|, &amp;, ;, `, $(), backticks)</para>
+</listitem><listitem><para>Path traversal patterns (../, ., ..)</para>
+</listitem><listitem><para>Template injection patterns ({{{, }}}, malformed variables)</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The template content to check for injection patterns </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput><ref refid="structthemis_1_1prompt__engineering_1_1_template_validation_result" kindref="compound">TemplateValidationResult</ref></computeroutput> with warnings/errors for detected patterns */ <ref refid="structthemis_1_1prompt__engineering_1_1_template_validation_result" kindref="compound">TemplateValidationResult</ref> detectInjectionPatterns(const std::string&amp; content) const;</para>
+</simplesect>
+private: bool require_id_;</para>
+<para>/ ====== INJECTION DETECTION HELPERS (Phase 3 Hardening) ======</para>
+<para>/** Check for SQL injection patterns in the given string. <simplesect kind="return"><para>true if SQL injection pattern detected </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_template_validator.h" line="103" column="10" bodyfile="src/prompt_engineering/prompt_template_validator.cpp" bodystart="198" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_template_validator_1afa61e1ae6936cb9d22cb674901ff3cd0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::PromptTemplateValidator::hasCommandInjectionPattern</definition>
+        <argsstring>(const std::string &amp;content) const</argsstring>
+        <name>hasCommandInjectionPattern</name>
+        <qualifiedname>themis::prompt_engineering::PromptTemplateValidator::hasCommandInjectionPattern</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Check for command injection patterns. <simplesect kind="return"><para>true if command injection pattern detected </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_template_validator.h" line="109" column="10" bodyfile="src/prompt_engineering/prompt_template_validator.cpp" bodystart="220" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_template_validator_1a6804560ffc44ac43f2e279118f94d90a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::PromptTemplateValidator::hasPathTraversalPattern</definition>
+        <argsstring>(const std::string &amp;content) const</argsstring>
+        <name>hasPathTraversalPattern</name>
+        <qualifiedname>themis::prompt_engineering::PromptTemplateValidator::hasPathTraversalPattern</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Check for path traversal patterns. <simplesect kind="return"><para>true if path traversal pattern detected </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_template_validator.h" line="115" column="10" bodyfile="src/prompt_engineering/prompt_template_validator.cpp" bodystart="236" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_template_validator_1a8839e078ed842a006dd1952cbb808dd5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::PromptTemplateValidator::hasTemplateInjectionPattern</definition>
+        <argsstring>(const std::string &amp;content) const</argsstring>
+        <name>hasTemplateInjectionPattern</name>
+        <qualifiedname>themis::prompt_engineering::PromptTemplateValidator::hasTemplateInjectionPattern</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Check for template injection patterns. <simplesect kind="return"><para>true if template injection pattern detected </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_template_validator.h" line="121" column="10" bodyfile="src/prompt_engineering/prompt_template_validator.cpp" bodystart="255" bodyend="279"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Validates a serialised <computeroutput>PromptTemplate</computeroutput> JSON document. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The default constructor enforces the built-in field rules described above. Pass <computeroutput>require_id = false</computeroutput> to skip the <computeroutput>id</computeroutput> check when validating templates that have not been persisted yet (i.e., before <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_manager_1a95e1205d5cd546f043442898a712a67b" kindref="member">PromptManager::createTemplate</ref></computeroutput> assigns an id).</para>
+<sect1 id="classthemis_1_1prompt__engineering_1_1_prompt_template_validator_1autotoc_md2_1s1"><sect2 id="classthemis_1_1prompt__engineering_1_1_prompt_template_validator_1autotoc_md2">
+<title>Injection Detection (Phase 3 Hardening)</title><para>The validator detects common injection patterns:<itemizedlist>
+<listitem><para>SQL injection: quoted SQL keywords, common SQL injection syntax</para>
+</listitem><listitem><para>Command injection: shell metacharacters, command separators</para>
+</listitem><listitem><para>Path traversal: &quot;../&quot; sequences, absolute path markers</para>
+</listitem><listitem><para>Template injection: malformed variable references, escape sequences</para>
+</listitem></itemizedlist>
+</para>
+<para>All injection patterns are logged as warnings or errors depending on severity. </para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/prompt_engineering/prompt_template_validator.h" line="57" column="1" bodyfile="include/prompt_engineering/prompt_template_validator.h" bodystart="57" bodyend="122"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_template_validator_1afa61e1ae6936cb9d22cb674901ff3cd0" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptTemplateValidator</scope><name>hasCommandInjectionPattern</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_template_validator_1a6804560ffc44ac43f2e279118f94d90a" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptTemplateValidator</scope><name>hasPathTraversalPattern</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_template_validator_1a00a82d3d5754eb6ab8d650dd78fb4c4a" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptTemplateValidator</scope><name>hasSQLInjectionPattern</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_template_validator_1a8839e078ed842a006dd1952cbb808dd5" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptTemplateValidator</scope><name>hasTemplateInjectionPattern</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_template_validator_1a6641944fe76ce8017a9b98af24f6cb6c" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptTemplateValidator</scope><name>PromptTemplateValidator</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_template_validator_1aeb91242db7fd6986e7d70427ae2925ba" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptTemplateValidator</scope><name>validate</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_template_validator_1a6ff09b272d0498ed0b75e79a90bf6934" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptTemplateValidator</scope><name>validate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

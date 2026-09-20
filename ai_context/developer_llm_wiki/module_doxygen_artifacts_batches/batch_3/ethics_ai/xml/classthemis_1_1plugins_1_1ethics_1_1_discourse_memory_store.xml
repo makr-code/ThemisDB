@@ -1,0 +1,401 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1ethics_1_1_discourse_memory_store" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::DiscourseMemoryStore</compoundname>
+    <includes refid="discourse__memory__store_8h" local="no">discourse_memory_store.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1ethics_1_1_discourse_memory_store_1a3d32eb6814d44cc2be284cd6f18137c9" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_memory_config" kindref="compound">DiscourseMemoryConfig</ref></type>
+        <definition>DiscourseMemoryConfig themis::plugins::ethics::DiscourseMemoryStore::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseMemoryStore::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/discourse_memory_store.h" line="74" column="27" bodyfile="include/ethics_ai/discourse_memory_store.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1ethics_1_1_discourse_memory_store_1a421b4c55ec691e0121d3f4519a03fef2" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::plugins::ethics::DiscourseMemoryStore::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseMemoryStore::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/discourse_memory_store.h" line="75" column="27" bodyfile="include/ethics_ai/discourse_memory_store.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1ethics_1_1_discourse_memory_store_1aae5be9eb561b843f7a0ec5b8be7238e9" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::vector&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_episodic_memory_entry" kindref="compound">EpisodicMemoryEntry</ref> &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::vector&lt;EpisodicMemoryEntry&gt; &gt; themis::plugins::ethics::DiscourseMemoryStore::episodes_</definition>
+        <argsstring></argsstring>
+        <name>episodes_</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseMemoryStore::episodes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/discourse_memory_store.h" line="77" column="14" bodyfile="include/ethics_ai/discourse_memory_store.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_discourse_memory_store_1a8384004978b28a4ed25abdbe57d08b41" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::ethics::DiscourseMemoryStore::DiscourseMemoryStore</definition>
+        <argsstring>(DiscourseMemoryConfig config=DiscourseMemoryConfig{})</argsstring>
+        <name>DiscourseMemoryStore</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseMemoryStore::DiscourseMemoryStore</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_memory_config" kindref="compound">DiscourseMemoryConfig</ref></type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_memory_config" kindref="compound">DiscourseMemoryConfig</ref>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/discourse_memory_store.h" line="32" column="14" bodyfile="src/ethics_ai/discourse_memory_store.cpp" bodystart="42" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_discourse_memory_store_1a142452510194500663a7ff62ce9eee49" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::ethics::DiscourseMemoryStore::storeEpisode</definition>
+        <argsstring>(const DiscourseRoundOutput &amp;output)</argsstring>
+        <name>storeEpisode</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseMemoryStore::storeEpisode</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output" kindref="compound">DiscourseRoundOutput</ref> &amp;</type>
+          <declname>output</declname>
+        </param>
+        <briefdescription>
+<para>Store Episode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: compressPosition(), lock(), push_back(), std::move(), size(), erase(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/discourse_memory_store.h" line="39" column="10" bodyfile="src/ethics_ai/discourse_memory_store.cpp" bodystart="53" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_discourse_memory_store_1a9b33e3c8daace60cde9579e5ba12f0a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::ethics::DiscourseMemoryStore::storeEpisode</definition>
+        <argsstring>(const EpisodicMemoryEntry &amp;entry)</argsstring>
+        <name>storeEpisode</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseMemoryStore::storeEpisode</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1ethics_1_1_episodic_memory_entry" kindref="compound">EpisodicMemoryEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Store Episode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: compressPosition(), lock(), push_back(), std::move(), size(), erase(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/discourse_memory_store.h" line="45" column="10" bodyfile="src/ethics_ai/discourse_memory_store.cpp" bodystart="78" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_discourse_memory_store_1aa086bb3d7a97eb969d28ae8a3f837caa" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_episodic_memory_entry" kindref="compound">EpisodicMemoryEntry</ref> &gt;</type>
+        <definition>std::vector&lt; EpisodicMemoryEntry &gt; themis::plugins::ethics::DiscourseMemoryStore::getEpisodesForSchool</definition>
+        <argsstring>(const std::string &amp;school_id, int max_episodes=3) const</argsstring>
+        <name>getEpisodesForSchool</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseMemoryStore::getEpisodesForSchool</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>school_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_episodes</declname>
+          <defval>3</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/ethics_ai/discourse_memory_store.h" line="47" column="17" bodyfile="src/ethics_ai/discourse_memory_store.cpp" bodystart="94" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_discourse_memory_store_1a1587959813c8e12bf766f622c0595acc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::DiscourseMemoryStore::buildEpisodicContext</definition>
+        <argsstring>(const std::string &amp;school_id, int max_episodes=3) const</argsstring>
+        <name>buildEpisodicContext</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseMemoryStore::buildEpisodicContext</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>school_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_episodes</declname>
+          <defval>3</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/discourse_memory_store.h" line="51" column="17" bodyfile="src/ethics_ai/discourse_memory_store.cpp" bodystart="129" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_discourse_memory_store_1a020a6dac7472969eeb77144f8815e563" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt; std::string, std::string &gt; themis::plugins::ethics::DiscourseMemoryStore::buildAllEpisodicContexts</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;school_ids, int max_episodes=3) const</argsstring>
+        <name>buildAllEpisodicContexts</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseMemoryStore::buildAllEpisodicContexts</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>school_ids</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_episodes</declname>
+          <defval>3</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/discourse_memory_store.h" line="55" column="14" bodyfile="src/ethics_ai/discourse_memory_store.cpp" bodystart="148" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_discourse_memory_store_1af482172ba920a2f537af388a33021b42" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::ethics::DiscourseMemoryStore::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseMemoryStore::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/discourse_memory_store.h" line="62" column="10" bodyfile="src/ethics_ai/discourse_memory_store.cpp" bodystart="165" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_discourse_memory_store_1a2651c13af62e66557505452cd1d3544d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::plugins::ethics::DiscourseMemoryStore::episodeCount</definition>
+        <argsstring>(const std::string &amp;school_id) const</argsstring>
+        <name>episodeCount</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseMemoryStore::episodeCount</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>school_id</declname>
+        </param>
+        <briefdescription>
+<para>Episode Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">school_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the school. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/ethics_ai/discourse_memory_store.h" line="69" column="12" bodyfile="src/ethics_ai/discourse_memory_store.cpp" bodystart="174" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_discourse_memory_store_1ab737312198989605c978f4c7bf711def" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_memory_config" kindref="compound">DiscourseMemoryConfig</ref> &amp;</type>
+        <definition>const DiscourseMemoryConfig &amp; themis::plugins::ethics::DiscourseMemoryStore::config</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseMemoryStore::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/discourse_memory_store.h" line="71" column="33" bodyfile="include/ethics_ai/discourse_memory_store.h" bodystart="71" bodyend="71"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_discourse_memory_store_1a7d1621777d5891b420b9b1dfdb18fed3" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::plugins::ethics::DiscourseMemoryStore::countTokens</definition>
+        <argsstring>(const std::string &amp;text) noexcept</argsstring>
+        <name>countTokens</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseMemoryStore::countTokens</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Count Tokens. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/discourse_memory_store.h" line="85" column="24" bodyfile="src/ethics_ai/discourse_memory_store.cpp" bodystart="26" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_discourse_memory_store_1a598b39698dae26f21669f664470f0372" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::DiscourseMemoryStore::compressPosition</definition>
+        <argsstring>(const std::string &amp;position_abstract, int max_tokens) noexcept</argsstring>
+        <name>compressPosition</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseMemoryStore::compressPosition</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>position_abstract</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_tokens</declname>
+        </param>
+        <briefdescription>
+<para>Compress Position. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">position_abstract</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/discourse_memory_store.h" line="93" column="24" bodyfile="src/ethics_ai/discourse_memory_store.cpp" bodystart="30" bodyend="36"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ethics_ai/discourse_memory_store.h" line="30" column="1" bodyfile="include/ethics_ai/discourse_memory_store.h" bodystart="30" bodyend="96"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_memory_store_1a020a6dac7472969eeb77144f8815e563" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DiscourseMemoryStore</scope><name>buildAllEpisodicContexts</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_memory_store_1a1587959813c8e12bf766f622c0595acc" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DiscourseMemoryStore</scope><name>buildEpisodicContext</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_memory_store_1af482172ba920a2f537af388a33021b42" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DiscourseMemoryStore</scope><name>clear</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_memory_store_1a598b39698dae26f21669f664470f0372" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::DiscourseMemoryStore</scope><name>compressPosition</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_memory_store_1ab737312198989605c978f4c7bf711def" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DiscourseMemoryStore</scope><name>config</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_memory_store_1a3d32eb6814d44cc2be284cd6f18137c9" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::DiscourseMemoryStore</scope><name>config_</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_memory_store_1a7d1621777d5891b420b9b1dfdb18fed3" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::DiscourseMemoryStore</scope><name>countTokens</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_memory_store_1a8384004978b28a4ed25abdbe57d08b41" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DiscourseMemoryStore</scope><name>DiscourseMemoryStore</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_memory_store_1a2651c13af62e66557505452cd1d3544d" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DiscourseMemoryStore</scope><name>episodeCount</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_memory_store_1aae5be9eb561b843f7a0ec5b8be7238e9" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::DiscourseMemoryStore</scope><name>episodes_</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_memory_store_1aa086bb3d7a97eb969d28ae8a3f837caa" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DiscourseMemoryStore</scope><name>getEpisodesForSchool</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_memory_store_1a421b4c55ec691e0121d3f4519a03fef2" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::DiscourseMemoryStore</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_memory_store_1a142452510194500663a7ff62ce9eee49" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DiscourseMemoryStore</scope><name>storeEpisode</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_memory_store_1a9b33e3c8daace60cde9579e5ba12f0a1" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DiscourseMemoryStore</scope><name>storeEpisode</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

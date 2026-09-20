@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_changefeed_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>Changefeed::Stats</compoundname>
+    <includes refid="changefeed_8h" local="no">changefeed.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_changefeed_1_1_stats_1a6d59655c0c79551c0956951d8dfcdb99" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::Changefeed::Stats::total_events</definition>
+        <argsstring></argsstring>
+        <name>total_events</name>
+        <qualifiedname>Changefeed::Stats::total_events</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="115" column="18" bodyfile="include/cdc/changefeed.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_changefeed_1_1_stats_1a004ae3a2d1a5c3a82edf337331ab9be0" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::Changefeed::Stats::latest_sequence</definition>
+        <argsstring></argsstring>
+        <name>latest_sequence</name>
+        <qualifiedname>Changefeed::Stats::latest_sequence</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="116" column="18" bodyfile="include/cdc/changefeed.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_changefeed_1_1_stats_1a96e85b8940b7b819c54e8ea010a3ff91" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::Changefeed::Stats::total_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>total_size_bytes</name>
+        <qualifiedname>Changefeed::Stats::total_size_bytes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="117" column="16" bodyfile="include/cdc/changefeed.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_changefeed_1_1_stats_1ae46bead9b53f3a49790a3b570bc537b8" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_changefeed_1_1_watermarks" kindref="compound">Watermarks</ref></type>
+        <definition>Watermarks themis::Changefeed::Stats::watermarks</definition>
+        <argsstring></argsstring>
+        <name>watermarks</name>
+        <qualifiedname>Changefeed::Stats::watermarks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="118" column="20" bodyfile="include/cdc/changefeed.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>Changefeed::Stats</label>
+        <link refid="struct_changefeed_1_1_stats"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>watermarks</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::Changefeed::Watermarks</label>
+        <link refid="structthemis_1_1_changefeed_1_1_watermarks"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/cdc/changefeed.h" line="114" column="5" bodyfile="include/cdc/changefeed.h" bodystart="114" bodyend="119"/>
+    <listofallmembers>
+      <member refid="struct_changefeed_1_1_stats_1a004ae3a2d1a5c3a82edf337331ab9be0" prot="public" virt="non-virtual"><scope>Changefeed::Stats</scope><name>latest_sequence</name></member>
+      <member refid="struct_changefeed_1_1_stats_1a6d59655c0c79551c0956951d8dfcdb99" prot="public" virt="non-virtual"><scope>Changefeed::Stats</scope><name>total_events</name></member>
+      <member refid="struct_changefeed_1_1_stats_1a96e85b8940b7b819c54e8ea010a3ff91" prot="public" virt="non-virtual"><scope>Changefeed::Stats</scope><name>total_size_bytes</name></member>
+      <member refid="struct_changefeed_1_1_stats_1ae46bead9b53f3a49790a3b570bc537b8" prot="public" virt="non-virtual"><scope>Changefeed::Stats</scope><name>watermarks</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

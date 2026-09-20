@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_search_event" kind="struct" language="C++" prot="public">
+    <compoundname>themis::SearchEvent</compoundname>
+    <includes refid="search__analytics_8h" local="no">search_analytics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_search_event_1a7c1edfc7b621a733fbe7587fe82c870a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::SearchEvent::query</definition>
+        <argsstring></argsstring>
+        <name>query</name>
+        <qualifiedname>themis::SearchEvent::query</qualifiedname>
+        <briefdescription>
+<para>Original query text. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/search_analytics.h" line="27" column="17" bodyfile="include/search/search_analytics.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_search_event_1a27d10743caea04bf4cbae0a0d424ef91" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::SearchEvent::ts</definition>
+        <argsstring></argsstring>
+        <name>ts</name>
+        <qualifiedname>themis::SearchEvent::ts</qualifiedname>
+        <briefdescription>
+<para>Timestamp of the search. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/search_analytics.h" line="28" column="43" bodyfile="include/search/search_analytics.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_search_event_1a949d53eadfa8cb4cb84ab96b21c5e54c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::SearchEvent::result_count</definition>
+        <argsstring></argsstring>
+        <name>result_count</name>
+        <qualifiedname>themis::SearchEvent::result_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of results returned. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/search_analytics.h" line="29" column="12" bodyfile="include/search/search_analytics.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_search_event_1adb5d52e60725c16cd3b466c1110f9572" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::SearchEvent::latency_ms</definition>
+        <argsstring></argsstring>
+        <name>latency_ms</name>
+        <qualifiedname>themis::SearchEvent::latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Search latency in milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/search_analytics.h" line="30" column="12" bodyfile="include/search/search_analytics.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_search_event_1adc77a3f3ab6019bd30ff3d97a1954eca" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::SearchEvent::is_zero_result</definition>
+        <argsstring></argsstring>
+        <name>is_zero_result</name>
+        <qualifiedname>themis::SearchEvent::is_zero_result</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when result_count == 0. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/search_analytics.h" line="31" column="10" bodyfile="include/search/search_analytics.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single recorded search event. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/search/search_analytics.h" line="26" column="1" bodyfile="include/search/search_analytics.h" bodystart="26" bodyend="32"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_search_event_1adc77a3f3ab6019bd30ff3d97a1954eca" prot="public" virt="non-virtual"><scope>themis::SearchEvent</scope><name>is_zero_result</name></member>
+      <member refid="structthemis_1_1_search_event_1adb5d52e60725c16cd3b466c1110f9572" prot="public" virt="non-virtual"><scope>themis::SearchEvent</scope><name>latency_ms</name></member>
+      <member refid="structthemis_1_1_search_event_1a7c1edfc7b621a733fbe7587fe82c870a" prot="public" virt="non-virtual"><scope>themis::SearchEvent</scope><name>query</name></member>
+      <member refid="structthemis_1_1_search_event_1a949d53eadfa8cb4cb84ab96b21c5e54c" prot="public" virt="non-virtual"><scope>themis::SearchEvent</scope><name>result_count</name></member>
+      <member refid="structthemis_1_1_search_event_1a27d10743caea04bf4cbae0a0d424ef91" prot="public" virt="non-virtual"><scope>themis::SearchEvent</scope><name>ts</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

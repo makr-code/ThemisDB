@@ -1,0 +1,220 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_lo_r_a_router_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::LoRARouter::Config</compoundname>
+    <includes refid="lora__router_8h" local="no">lora_router.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_router_1_1_config_1a9364056e1fde043c061fa4ecd0f1184e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LoRARouter::Config::enable_semantic_routing</definition>
+        <argsstring></argsstring>
+        <name>enable_semantic_routing</name>
+        <qualifiedname>themis::llm::LoRARouter::Config::enable_semantic_routing</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_router.h" line="104" column="14" bodyfile="include/llm/lora_router.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_router_1_1_config_1afc17bf55c82091da4d9fe8e268651de5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LoRARouter::Config::top_k_candidates</definition>
+        <argsstring></argsstring>
+        <name>top_k_candidates</name>
+        <qualifiedname>themis::llm::LoRARouter::Config::top_k_candidates</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_router.h" line="105" column="16" bodyfile="include/llm/lora_router.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_router_1_1_config_1afb503ca3ccb10cb83362796e34a85a1f" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::LoRARouter::Config::min_similarity_threshold</definition>
+        <argsstring></argsstring>
+        <name>min_similarity_threshold</name>
+        <qualifiedname>themis::llm::LoRARouter::Config::min_similarity_threshold</qualifiedname>
+        <initializer>= 0.3f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_router.h" line="106" column="15" bodyfile="include/llm/lora_router.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_router_1_1_config_1a224dc59b576a354c993dbf8fcd90a858" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LoRARouter::Config::enable_load_aware</definition>
+        <argsstring></argsstring>
+        <name>enable_load_aware</name>
+        <qualifiedname>themis::llm::LoRARouter::Config::enable_load_aware</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_router.h" line="109" column="14" bodyfile="include/llm/lora_router.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_router_1_1_config_1aff81b6c2cd1e6db4c2ec0de6d8700bcd" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::LoRARouter::Config::load_weight</definition>
+        <argsstring></argsstring>
+        <name>load_weight</name>
+        <qualifiedname>themis::llm::LoRARouter::Config::load_weight</qualifiedname>
+        <initializer>= 0.3f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_router.h" line="110" column="15" bodyfile="include/llm/lora_router.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_router_1_1_config_1a2f3f97f701e225609ddf61a97f13f97e" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1a5934ba2f806de7dfa3643af4a1c49d69" kindref="member">RoutingPolicy</ref></type>
+        <definition>RoutingPolicy themis::llm::LoRARouter::Config::default_policy</definition>
+        <argsstring></argsstring>
+        <name>default_policy</name>
+        <qualifiedname>themis::llm::LoRARouter::Config::default_policy</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1llm_1a5934ba2f806de7dfa3643af4a1c49d69acc94beddb3a86a10499c0e01c5a9ff97" kindref="member">RoutingPolicy::LOAD_AWARE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_router.h" line="113" column="23" bodyfile="include/llm/lora_router.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_router_1_1_config_1a7265c8edfc92137c168e9c46a0513c19" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_fallback_config" kindref="compound">FallbackConfig</ref></type>
+        <definition>FallbackConfig themis::llm::LoRARouter::Config::fallback</definition>
+        <argsstring></argsstring>
+        <name>fallback</name>
+        <qualifiedname>themis::llm::LoRARouter::Config::fallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_router.h" line="116" column="24" bodyfile="include/llm/lora_router.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_router_1_1_config_1a3a2cc77a718491c33ca5885bd3937714" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LoRARouter::Config::enable_metrics</definition>
+        <argsstring></argsstring>
+        <name>enable_metrics</name>
+        <qualifiedname>themis::llm::LoRARouter::Config::enable_metrics</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_router.h" line="119" column="14" bodyfile="include/llm/lora_router.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_router_1_1_config_1a240e6ee64be93299e21313bfddddb060" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LoRARouter::Config::metrics_window_size</definition>
+        <argsstring></argsstring>
+        <name>metrics_window_size</name>
+        <qualifiedname>themis::llm::LoRARouter::Config::metrics_window_size</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_router.h" line="120" column="16" bodyfile="include/llm/lora_router.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_router_1_1_config_1a1a2f622b228431a2571a6ab45bb7b05a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LoRARouter::Config::enable_decision_cache</definition>
+        <argsstring></argsstring>
+        <name>enable_decision_cache</name>
+        <qualifiedname>themis::llm::LoRARouter::Config::enable_decision_cache</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_router.h" line="123" column="14" bodyfile="include/llm/lora_router.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_router_1_1_config_1a8c3ee124e501562684bad6334759a551" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LoRARouter::Config::decision_cache_size</definition>
+        <argsstring></argsstring>
+        <name>decision_cache_size</name>
+        <qualifiedname>themis::llm::LoRARouter::Config::decision_cache_size</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_router.h" line="124" column="16" bodyfile="include/llm/lora_router.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_router_1_1_config_1ae76793e4ff8e0df0bad28765e6358891" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::llm::LoRARouter::Config::decision_cache_ttl</definition>
+        <argsstring></argsstring>
+        <name>decision_cache_ttl</name>
+        <qualifiedname>themis::llm::LoRARouter::Config::decision_cache_ttl</qualifiedname>
+        <initializer>{300}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_router.h" line="125" column="30" bodyfile="include/llm/lora_router.h" bodystart="125" bodyend="125"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::llm::FallbackConfig</label>
+        <link refid="structthemis_1_1llm_1_1_fallback_config"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::LoRARouter::Config</label>
+        <link refid="structthemis_1_1llm_1_1_lo_r_a_router_1_1_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>fallback</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/lora_router.h" line="102" column="5" bodyfile="include/llm/lora_router.h" bodystart="102" bodyend="126"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_router_1_1_config_1a8c3ee124e501562684bad6334759a551" prot="public" virt="non-virtual"><scope>themis::llm::LoRARouter::Config</scope><name>decision_cache_size</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_router_1_1_config_1ae76793e4ff8e0df0bad28765e6358891" prot="public" virt="non-virtual"><scope>themis::llm::LoRARouter::Config</scope><name>decision_cache_ttl</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_router_1_1_config_1a2f3f97f701e225609ddf61a97f13f97e" prot="public" virt="non-virtual"><scope>themis::llm::LoRARouter::Config</scope><name>default_policy</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_router_1_1_config_1a1a2f622b228431a2571a6ab45bb7b05a" prot="public" virt="non-virtual"><scope>themis::llm::LoRARouter::Config</scope><name>enable_decision_cache</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_router_1_1_config_1a224dc59b576a354c993dbf8fcd90a858" prot="public" virt="non-virtual"><scope>themis::llm::LoRARouter::Config</scope><name>enable_load_aware</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_router_1_1_config_1a3a2cc77a718491c33ca5885bd3937714" prot="public" virt="non-virtual"><scope>themis::llm::LoRARouter::Config</scope><name>enable_metrics</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_router_1_1_config_1a9364056e1fde043c061fa4ecd0f1184e" prot="public" virt="non-virtual"><scope>themis::llm::LoRARouter::Config</scope><name>enable_semantic_routing</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_router_1_1_config_1a7265c8edfc92137c168e9c46a0513c19" prot="public" virt="non-virtual"><scope>themis::llm::LoRARouter::Config</scope><name>fallback</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_router_1_1_config_1aff81b6c2cd1e6db4c2ec0de6d8700bcd" prot="public" virt="non-virtual"><scope>themis::llm::LoRARouter::Config</scope><name>load_weight</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_router_1_1_config_1a240e6ee64be93299e21313bfddddb060" prot="public" virt="non-virtual"><scope>themis::llm::LoRARouter::Config</scope><name>metrics_window_size</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_router_1_1_config_1afb503ca3ccb10cb83362796e34a85a1f" prot="public" virt="non-virtual"><scope>themis::llm::LoRARouter::Config</scope><name>min_similarity_threshold</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_router_1_1_config_1afc17bf55c82091da4d9fe8e268651de5" prot="public" virt="non-virtual"><scope>themis::llm::LoRARouter::Config</scope><name>top_k_candidates</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

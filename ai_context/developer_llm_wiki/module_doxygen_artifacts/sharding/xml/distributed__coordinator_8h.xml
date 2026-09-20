@@ -1,0 +1,617 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="distributed__coordinator_8h" kind="file" language="C++">
+    <compoundname>distributed_coordinator.h</compoundname>
+    <includes refid="gossip__config__manager_8h" local="yes">sharding/gossip_config_manager.h</includes>
+    <includes refid="shard__topology_8h" local="yes">sharding/shard_topology.h</includes>
+    <includes refid="cross__shard__transaction_8h" local="yes">sharding/cross_shard_transaction.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">shared_mutex</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">chrono</includes>
+    <includedby refid="bench__distributed__coordinator_8cpp" local="yes">benchmarks/sharding/bench_distributed_coordinator.cpp</includedby>
+    <includedby refid="gossip__consensus__adapter_8h" local="yes">include/sharding/gossip_consensus_adapter.h</includedby>
+    <includedby refid="distributed__coordinator_8cpp" local="yes">src/sharding/distributed_coordinator.cpp</includedby>
+    <includedby refid="orphan__detector_8cpp" local="yes">src/sharding/orphan_detector.cpp</includedby>
+    <includedby refid="test__sharding__phase2__hardening_8cpp" local="yes">tests/sharding/test_sharding_phase2_hardening.cpp</includedby>
+    <incdepgraph>
+      <node id="18">
+        <label>sharding/consensus_module.h</label>
+        <link refid="consensus__module_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>sharding/cross_shard_fk_validator.h</label>
+        <link refid="cross__shard__fk__validator_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>sharding/cross_shard_ssi_manager.h</label>
+        <link refid="cross__shard__ssi__manager_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>sharding/cross_shard_transaction.h</label>
+        <link refid="cross__shard__transaction_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/sharding/distributed_coordinator.h</label>
+        <link refid="distributed__coordinator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>sharding/distributed_transaction.h</label>
+        <link refid="distributed__transaction_8h"/>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sharding/gossip_config_manager.h</label>
+        <link refid="gossip__config__manager_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>sharding/shard_capabilities.h</label>
+        <link refid="shard__capabilities_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>sharding/shard_topology.h</label>
+        <link refid="shard__topology_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>sharding/truetime.h</label>
+        <link refid="truetime_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>sharding/wal_manager.h</label>
+        <link refid="wal__manager_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>algorithm</label>
+      </node>
+      <node id="8">
+        <label>atomic</label>
+      </node>
+      <node id="11">
+        <label>chrono</label>
+      </node>
+      <node id="24">
+        <label>cstdint</label>
+      </node>
+      <node id="27">
+        <label>filesystem</label>
+      </node>
+      <node id="26">
+        <label>fstream</label>
+      </node>
+      <node id="9">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>map</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>mutex</label>
+      </node>
+      <node id="19">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="16">
+        <label>set</label>
+      </node>
+      <node id="31">
+        <label>shared_mutex</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="29">
+        <label>string_view</label>
+      </node>
+      <node id="12">
+        <label>thread</label>
+      </node>
+      <node id="28">
+        <label>transaction/recoverable_two_phase_coordinator.h</label>
+      </node>
+      <node id="30">
+        <label>unordered_map</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/sharding/bench_distributed_coordinator.cpp</label>
+        <link refid="bench__distributed__coordinator_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/sharding/distributed_coordinator.h</label>
+        <link refid="distributed__coordinator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/sharding/gossip_consensus_adapter.h</label>
+        <link refid="gossip__consensus__adapter_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/sharding/consensus_factory.cpp</label>
+        <link refid="consensus__factory_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/sharding/distributed_coordinator.cpp</label>
+        <link refid="distributed__coordinator_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/sharding/gossip_consensus_adapter.cpp</label>
+        <link refid="gossip__consensus__adapter_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/sharding/orphan_detector.cpp</label>
+        <link refid="orphan__detector_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/sharding/test_sharding_phase2_hardening.cpp</label>
+        <link refid="test__sharding__phase2__hardening_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1sharding_1_1_distributed_coordinator" prot="public">themis::sharding::DistributedCoordinator</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task" prot="public">themis::sharding::DistributedCoordinator::CoordinatorTask</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_config" prot="public">themis::sharding::DistributedCoordinator::Config</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_leader_info" prot="public">themis::sharding::DistributedCoordinator::LeaderInfo</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics" prot="public">themis::sharding::DistributedCoordinator::Statistics</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1sharding">themis::sharding</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.9.0-beta </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gossip__config__manager_8h" kindref="compound">sharding/gossip_config_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="shard__topology_8h" kindref="compound">sharding/shard_topology.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="cross__shard__transaction_8h" kindref="compound">sharding/cross_shard_transaction.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;shared_mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1sharding" kindref="compound">themis::sharding</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="classthemis_1_1sharding_1_1_distributed_coordinator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a76a81c695618145010217e33edeba4a5" kindref="member">DistributedCoordinator</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="29" refid="classthemis_1_1sharding_1_1_distributed_coordinator_1aa5d9ff1b732af4baec5dd7a03d55262b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1aa5d9ff1b732af4baec5dd7a03d55262b" kindref="member">CoordinatorRole</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="30" refid="classthemis_1_1sharding_1_1_distributed_coordinator_1aa5d9ff1b732af4baec5dd7a03d55262ba8026987f2531b5fa5178a851c108397c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1aa5d9ff1b732af4baec5dd7a03d55262ba8026987f2531b5fa5178a851c108397c" kindref="member">FOLLOWER</ref><sp/>=<sp/>0,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31" refid="classthemis_1_1sharding_1_1_distributed_coordinator_1aa5d9ff1b732af4baec5dd7a03d55262babea4821516973214973a70aea8337c38" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1aa5d9ff1b732af4baec5dd7a03d55262babea4821516973214973a70aea8337c38" kindref="member">CANDIDATE</ref><sp/>=<sp/>1,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32" refid="classthemis_1_1sharding_1_1_distributed_coordinator_1aa5d9ff1b732af4baec5dd7a03d55262bab8058aa3ecd39b676ce80d6aaadc5e64" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1aa5d9ff1b732af4baec5dd7a03d55262bab8058aa3ecd39b676ce80d6aaadc5e64" kindref="member">LEADER</ref><sp/>=<sp/>2<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a2b9ef6cb297b3b43527e95073db6c768" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a2b9ef6cb297b3b43527e95073db6c768" kindref="member">TaskType</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="37" refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a2b9ef6cb297b3b43527e95073db6c768a4de776532ea0cedb1321093084572a80" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a2b9ef6cb297b3b43527e95073db6c768a4de776532ea0cedb1321093084572a80" kindref="member">REBALANCE</ref><sp/>=<sp/>0,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38" refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a2b9ef6cb297b3b43527e95073db6c768ace70d07e3ba9842e96c4e4b961445f60" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a2b9ef6cb297b3b43527e95073db6c768ace70d07e3ba9842e96c4e4b961445f60" kindref="member">REPAIR</ref><sp/>=<sp/>1,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39" refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a2b9ef6cb297b3b43527e95073db6c768aa49182544bf417d2e02cae1f35c9c8b8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a2b9ef6cb297b3b43527e95073db6c768aa49182544bf417d2e02cae1f35c9c8b8" kindref="member">MAINTENANCE</ref><sp/>=<sp/>2,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40" refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a2b9ef6cb297b3b43527e95073db6c768a43c60cd87539b6d655a4ed5a12199e64" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a2b9ef6cb297b3b43527e95073db6c768a43c60cd87539b6d655a4ed5a12199e64" kindref="member">SCHEMA_MIGRATION</ref><sp/>=<sp/>3,<sp/></highlight></codeline>
+<codeline lineno="41" refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a2b9ef6cb297b3b43527e95073db6c768abfdf97ae01c73d83a58ec41f78a4291f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a2b9ef6cb297b3b43527e95073db6c768abfdf97ae01c73d83a58ec41f78a4291f" kindref="member">BACKUP</ref><sp/>=<sp/>4,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42" refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a2b9ef6cb297b3b43527e95073db6c768ac95fa04340c629ddfa2d38e285e59245" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a2b9ef6cb297b3b43527e95073db6c768ac95fa04340c629ddfa2d38e285e59245" kindref="member">RESTORE</ref><sp/>=<sp/>5<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task" kindref="compound">CoordinatorTask</ref><sp/>{</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1a87819076cf42608cf17a8df684759093" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1a87819076cf42608cf17a8df684759093" kindref="member">task_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1ae38c6d1d57e8de3943323ae7e93aba36" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a2b9ef6cb297b3b43527e95073db6c768" kindref="member">TaskType</ref><sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1ae38c6d1d57e8de3943323ae7e93aba36" kindref="member">type</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1ae3477b8d7034a75154d15c5d841a616b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1ae3477b8d7034a75154d15c5d841a616b" kindref="member">payload</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1a870ed1bd1a7c28524adf5c0003e050cf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1a870ed1bd1a7c28524adf5c0003e050cf" kindref="member">ttl</ref>{600};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1ad9b985c0823642f9e677fcaa7e6f3b84" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1ad9b985c0823642f9e677fcaa7e6f3b84" kindref="member">created_at</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1a269628d0dbb3d645fe40f9c683032d97" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1a269628d0dbb3d645fe40f9c683032d97" kindref="member">started_at</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1a92be3da54ed01728e91a7e7e54d12c93" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1a92be3da54ed01728e91a7e7e54d12c93" kindref="member">assigned_leader</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1a716da07227124d6d89ce67c95cfb4b36" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task" kindref="compound">CoordinatorTask</ref><sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1a1e78fadd9fb3f48f157f594b97ff99cd" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_config_1a93a2287b331115082f9f6c8e224d06ce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_config_1a93a2287b331115082f9f6c8e224d06ce" kindref="member">leader_lease_seconds</ref><sp/>=<sp/>30;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_config_1a0d4ebda3940e8ba1dcd1edf783db41b9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_config_1a0d4ebda3940e8ba1dcd1edf783db41b9" kindref="member">heartbeat_interval_ms</ref><sp/>=<sp/>5000;<sp/></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_config_1a5085249841ce6580090becdd13648acd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_config_1a5085249841ce6580090becdd13648acd" kindref="member">election_timeout_ms</ref><sp/>=<sp/>10000;<sp/><sp/></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_config_1a2502484a5d4cf628e6019b86bca057de" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_config_1a2502484a5d4cf628e6019b86bca057de" kindref="member">enable_automatic_failover</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_config_1ac668f8effbf268a4d1ac1d1ef639e1d5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_config_1ac668f8effbf268a4d1ac1d1ef639e1d5" kindref="member">enable_leader_stickiness</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_config_1a8ec5fb69e20d2e07ecd7196085a72b76" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_config_1a8ec5fb69e20d2e07ecd7196085a72b76" kindref="member">leader_stickiness_bonus</ref><sp/>=<sp/>0.3f;<sp/><sp/></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_leader_info" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_leader_info" kindref="compound">LeaderInfo</ref><sp/>{</highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_leader_info_1a4a0c39ac8af92e395e0cc698d94f308e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_leader_info_1a4a0c39ac8af92e395e0cc698d94f308e" kindref="member">shard_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_leader_info_1ad1242496bc97ad6a0661c7487fcb55a2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1aa5d9ff1b732af4baec5dd7a03d55262b" kindref="member">CoordinatorRole</ref><sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_leader_info_1ad1242496bc97ad6a0661c7487fcb55a2" kindref="member">role</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_leader_info_1a3b1940a578ae0756017011ebc8cbc5f1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_leader_info_1a3b1940a578ae0756017011ebc8cbc5f1" kindref="member">lease_expires_at</ref>;<sp/></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_leader_info_1af18689d8403eaac5fca47f042b4d7cc1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_leader_info_1af18689d8403eaac5fca47f042b4d7cc1" kindref="member">last_heartbeat</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_leader_info_1a49d28b76725bf7f401ffddd7f54ced67" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_leader_info_1a49d28b76725bf7f401ffddd7f54ced67" kindref="member">term</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_leader_info_1a7ea5b6888cecdb0ae5e57eb266cd7cee" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1a0a5fb46db8e26e0e14893be76937e8d9" kindref="member">Statistics</ref><sp/>{</highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1a17ae7124d1b5b27ac53f4e8d0fc5fd2c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1a17ae7124d1b5b27ac53f4e8d0fc5fd2c" kindref="member">elections_started</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1ae96a9180b7feab6ce74a2f410b73ec80" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1ae96a9180b7feab6ce74a2f410b73ec80" kindref="member">elections_won</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1acd7765ec87eca0a94deb53efe253c8f6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1acd7765ec87eca0a94deb53efe253c8f6" kindref="member">elections_lost</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1ab20337b561cdc913d6c471da7a246c77" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1ab20337b561cdc913d6c471da7a246c77" kindref="member">leader_failures_detected</ref>{0};<sp/><sp/></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1a5f065e57f3fe26617be8598f3638578a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1a5f065e57f3fe26617be8598f3638578a" kindref="member">tasks_coordinated</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1a393ec392da64f6e10a3a7df22c15651b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;double&gt;<sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1a393ec392da64f6e10a3a7df22c15651b" kindref="member">avg_lease_duration_seconds</ref>{0.0};<sp/></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1a0a5fb46db8e26e0e14893be76937e8d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1a0a5fb46db8e26e0e14893be76937e8d9" kindref="member">Statistics</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1a1392f63e019abce87c0423024b594bf0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1a1392f63e019abce87c0423024b594bf0" kindref="member">Statistics</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1a0a5fb46db8e26e0e14893be76937e8d9" kindref="member">Statistics</ref>&amp;<sp/>other)<sp/>{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1a17ae7124d1b5b27ac53f4e8d0fc5fd2c" kindref="member">elections_started</ref>.store(other.<ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1a17ae7124d1b5b27ac53f4e8d0fc5fd2c" kindref="member">elections_started</ref>.load());</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1ae96a9180b7feab6ce74a2f410b73ec80" kindref="member">elections_won</ref>.store(other.<ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1ae96a9180b7feab6ce74a2f410b73ec80" kindref="member">elections_won</ref>.load());</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1acd7765ec87eca0a94deb53efe253c8f6" kindref="member">elections_lost</ref>.store(other.<ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1acd7765ec87eca0a94deb53efe253c8f6" kindref="member">elections_lost</ref>.load());</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1ab20337b561cdc913d6c471da7a246c77" kindref="member">leader_failures_detected</ref>.store(other.<ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1ab20337b561cdc913d6c471da7a246c77" kindref="member">leader_failures_detected</ref>.load());</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1a5f065e57f3fe26617be8598f3638578a" kindref="member">tasks_coordinated</ref>.store(other.<ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1a5f065e57f3fe26617be8598f3638578a" kindref="member">tasks_coordinated</ref>.load());</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1a393ec392da64f6e10a3a7df22c15651b" kindref="member">avg_lease_duration_seconds</ref>.store(other.<ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1a393ec392da64f6e10a3a7df22c15651b" kindref="member">avg_lease_duration_seconds</ref>.load());</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1a1aeffd5b842703ac92a9188b1fe05930" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1a0a5fb46db8e26e0e14893be76937e8d9" kindref="member">Statistics</ref>&amp;<sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1a1aeffd5b842703ac92a9188b1fe05930" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1a0a5fb46db8e26e0e14893be76937e8d9" kindref="member">Statistics</ref>&amp;<sp/>other)<sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">this</highlight><highlight class="normal"><sp/>!=<sp/>&amp;other)<sp/>{</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1a17ae7124d1b5b27ac53f4e8d0fc5fd2c" kindref="member">elections_started</ref>.store(other.<ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1a17ae7124d1b5b27ac53f4e8d0fc5fd2c" kindref="member">elections_started</ref>.load());</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1ae96a9180b7feab6ce74a2f410b73ec80" kindref="member">elections_won</ref>.store(other.<ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1ae96a9180b7feab6ce74a2f410b73ec80" kindref="member">elections_won</ref>.load());</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1acd7765ec87eca0a94deb53efe253c8f6" kindref="member">elections_lost</ref>.store(other.<ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1acd7765ec87eca0a94deb53efe253c8f6" kindref="member">elections_lost</ref>.load());</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1ab20337b561cdc913d6c471da7a246c77" kindref="member">leader_failures_detected</ref>.store(other.<ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1ab20337b561cdc913d6c471da7a246c77" kindref="member">leader_failures_detected</ref>.load());</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1a5f065e57f3fe26617be8598f3638578a" kindref="member">tasks_coordinated</ref>.store(other.<ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1a5f065e57f3fe26617be8598f3638578a" kindref="member">tasks_coordinated</ref>.load());</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1a393ec392da64f6e10a3a7df22c15651b" kindref="member">avg_lease_duration_seconds</ref>.store(other.<ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics_1a393ec392da64f6e10a3a7df22c15651b" kindref="member">avg_lease_duration_seconds</ref>.load());</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115" refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a4b1c68b97a215d7a59aede7300f257f6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a4b1c68b97a215d7a59aede7300f257f6" kindref="member">TaskExecutor</ref><sp/>=<sp/>std::function&lt;bool(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task" kindref="compound">CoordinatorTask</ref>&amp;)&gt;;</highlight></codeline>
+<codeline lineno="117" refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a1861e46eae50ce7f2676bf8fea0ccc3c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a1861e46eae50ce7f2676bf8fea0ccc3c" kindref="member">LeaderElectedCallback</ref><sp/>=<sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>leader_id)&gt;;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a76a81c695618145010217e33edeba4a5" kindref="member">DistributedCoordinator</ref>(</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>local_shard_id,</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ShardTopology&gt;<sp/>topology,</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;GossipConfigManager&gt;<sp/>gossip_mgr,</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a76a81c695618145010217e33edeba4a5" kindref="member">DistributedCoordinator</ref>(</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>local_shard_id,</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ShardTopology&gt;<sp/>topology,</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;GossipConfigManager&gt;<sp/>gossip_mgr</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a387ad20fa9a3d1aa5680923a69a49296" kindref="member">~DistributedCoordinator</ref>();</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Lifecycle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1ac996dfe1610509ef0e9c18fa702ab87e" kindref="member">start</ref>();</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a25d74845d87d65058e3609b8593c00ad" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="154" refid="classthemis_1_1sharding_1_1_distributed_coordinator_1ad0edc46fb6d10a1de9b8582f4cde6943" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1ad0edc46fb6d10a1de9b8582f4cde6943" kindref="member">isRunning</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>running_.load();<sp/>}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Role<sp/>management</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158" refid="classthemis_1_1sharding_1_1_distributed_coordinator_1aded0ec195c17f2b58434d17f2f5053d5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1aa5d9ff1b732af4baec5dd7a03d55262b" kindref="member">CoordinatorRole</ref><sp/><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1aded0ec195c17f2b58434d17f2f5053d5" kindref="member">getRole</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>role_.load();<sp/>}</highlight></codeline>
+<codeline lineno="160" refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a6d6ad2a9de3431d51750eec8dc3116a6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a6d6ad2a9de3431d51750eec8dc3116a6" kindref="member">isLeader</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>role_.load()<sp/>==<sp/><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1aa5d9ff1b732af4baec5dd7a03d55262bab8058aa3ecd39b676ce80d6aaadc5e64" kindref="member">CoordinatorRole::LEADER</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a4a6d29d467860c3661dbe597fe444c74" kindref="member">getCurrentLeader</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Local<sp/>node<sp/>identity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166" refid="classthemis_1_1sharding_1_1_distributed_coordinator_1ae47aea16a056d81d1140d3cb53f1ff65" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1ae47aea16a056d81d1140d3cb53f1ff65" kindref="member">getLocalShardId</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>local_shard_id_;<sp/>}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Leader<sp/>election<sp/>(Gossip-based,<sp/>no<sp/>centralized<sp/>coordination)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a15ca2c1a73f35c2888f1ba486d884729" kindref="member">startElection</ref>();</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1adab91104b93db2108bda83503bd9dbe4" kindref="member">becomeLeader</ref>();</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a3eacff705dd7b375a6d0d14e96d315be" kindref="member">stepDown</ref>();</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Task<sp/>coordination<sp/>(only<sp/>if<sp/>leader)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1ad4c303b0fd905f5308e379c8c4536c04" kindref="member">scheduleTask</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>CoordinatorTask&amp;<sp/>task);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a72034bf6b1a87f1914c154859c3c6bc7" kindref="member">cancelTask</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>task_id);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;CoordinatorTask&gt;<sp/><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a83408a1a68cae2db864a89f821df53fd" kindref="member">getPendingTasks</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Task<sp/>execution<sp/>callback</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a4dd7cd3e8f6d3cfce8d5c3a8020b0e01" kindref="member">setTaskExecutor</ref>(<ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a4b1c68b97a215d7a59aede7300f257f6" kindref="member">TaskExecutor</ref><sp/>executor);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Leader<sp/>info</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>LeaderInfo<sp/><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a0bc619bfa17f87c6f26225c8d5fe72da" kindref="member">getLeaderInfo</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Callbacks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a34327b5f12b3c013c1d0a3114f563d5d" kindref="member">setLeaderElectedCallback</ref>(<ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a1861e46eae50ce7f2676bf8fea0ccc3c" kindref="member">LeaderElectedCallback</ref><sp/>callback);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>Statistics<sp/><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1ae48f6a6fb3841f0212214ddf3cd6ceb2" kindref="member">getStatistics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a880ede0ad1efdd5b020ee8e17a5f9929" kindref="member">getStatisticsJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Transaction<sp/>visibility<sp/>–<sp/>wired<sp/>to<sp/>a<sp/>CrossShardTransactionCoordinator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>so<sp/>that<sp/>OrphanDetector<sp/>can<sp/>query<sp/>in-flight<sp/>transactions<sp/>via<sp/>this<sp/>class.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1ade42f0c4d74e79f30ed8ab2335e383c9" kindref="member">setTransactionCoordinator</ref>(</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator" kindref="compound">themisdb::sharding::CrossShardTransactionCoordinator</ref>*<sp/>txn_coordinator);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;themisdb::sharding::CrossShardTransaction&gt;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1ad8bb00d509f208e2f6083c348b97d31d" kindref="member">listInFlightTransactions</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;themisdb::sharding::CrossShardTransaction&gt;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1ad8816ef4351feac0fca2668479ce0481" kindref="member">getTransaction</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>txn_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a264c7605b89bd8baf5f7c86062c97467" kindref="member">isHealthy</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>local_shard_id_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ShardTopology&gt;<sp/>topology_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;GossipConfigManager&gt;<sp/>gossip_mgr_;<sp/></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>Config<sp/>config_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>running_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;CoordinatorRole&gt;<sp/>role_{<ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1aa5d9ff1b732af4baec5dd7a03d55262ba8026987f2531b5fa5178a851c108397c" kindref="member">CoordinatorRole::FOLLOWER</ref>};<sp/></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint32_t&gt;<sp/>current_term_{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Leader<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/>current_leader_;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/>leader_lease_expires_;<sp/></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/>last_leader_heartbeat_;<sp/></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::shared_mutex<sp/>leader_mutex_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Tasks<sp/>(only<sp/>used<sp/>if<sp/>leader)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;CoordinatorTask&gt;<sp/>pending_tasks_;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::shared_mutex<sp/>tasks_mutex_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Threads</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>election_thread_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>heartbeat_thread_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>task_executor_thread_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Callbacks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a4b1c68b97a215d7a59aede7300f257f6" kindref="member">TaskExecutor</ref><sp/>task_executor_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a1861e46eae50ce7f2676bf8fea0ccc3c" kindref="member">LeaderElectedCallback</ref><sp/>leader_elected_callback_;<sp/></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>callback_mutex_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics" kindref="compound">Statistics</ref><sp/>stats_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optional<sp/>wired<sp/>transaction<sp/>coordinator<sp/>(non-owning<sp/>pointer).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>themisdb::sharding::CrossShardTransactionCoordinator*<sp/>txn_coordinator_{</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">};<sp/></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::shared_mutex<sp/>txn_coordinator_mutex_;</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Election<sp/>logic<sp/>(Raft-inspired<sp/>but<sp/>gossip-based)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>electionLoop();</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>heartbeatLoop();</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>taskExecutorLoop();</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Leader<sp/>detection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>detectLeaderFailure();</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isLeaderHealthy()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Heartbeats</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>sendHeartbeat();</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>receiveHeartbeat(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>leader_id,<sp/>uint32_t<sp/>term);</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Election</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>requestVotes();</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>receiveVoteRequest(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>candidate_id,<sp/>uint32_t<sp/>term);</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>sendVote(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>candidate_id,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>granted);</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Task<sp/>distribution<sp/>(gossip-based)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>broadcastTask(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task" kindref="compound">CoordinatorTask</ref>&amp;<sp/>task);</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>receiveTask(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task" kindref="compound">CoordinatorTask</ref>&amp;<sp/>task);</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Lease<sp/>management</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>hasValidLease()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>renewLease();</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Graceful<sp/>handoff</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>transferLeadership(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>new_leader);</highlight></codeline>
+<codeline lineno="331"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::sharding</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/sharding/distributed_coordinator.h"/>
+  </compounddef>
+</doxygen>

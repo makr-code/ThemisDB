@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_ingestion_manager_schema_e2_e_test" kind="class" language="C++" prot="public">
+    <compoundname>IngestionManagerSchemaE2ETest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_ingestion_manager_schema_e2_e_test_1ae24dacd6e19400b4af7dffb0036412bf" prot="protected" static="no" mutable="no">
+        <type>fs::path</type>
+        <definition>fs::path IngestionManagerSchemaE2ETest::tmp_dir_</definition>
+        <argsstring></argsstring>
+        <name>tmp_dir_</name>
+        <qualifiedname>IngestionManagerSchemaE2ETest::tmp_dir_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_schema_validation.cpp" line="304" column="14" bodyfile="tests/ingestion/test_ingestion_schema_validation.cpp" bodystart="304" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_ingestion_manager_schema_e2_e_test_1afb3c3147e13e3ddc90cecaedd041ba97" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void IngestionManagerSchemaE2ETest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>IngestionManagerSchemaE2ETest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_schema_validation.cpp" line="306" column="10" bodyfile="tests/ingestion/test_ingestion_schema_validation.cpp" bodystart="306" bodyend="310"/>
+      </memberdef>
+      <memberdef kind="function" id="class_ingestion_manager_schema_e2_e_test_1a67c57a8c1b889be13b634a5771edb8db" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void IngestionManagerSchemaE2ETest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>IngestionManagerSchemaE2ETest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_schema_validation.cpp" line="311" column="10" bodyfile="tests/ingestion/test_ingestion_schema_validation.cpp" bodystart="311" bodyend="313"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>IngestionManagerSchemaE2ETest</label>
+        <link refid="class_ingestion_manager_schema_e2_e_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>IngestionManagerSchemaE2ETest</label>
+        <link refid="class_ingestion_manager_schema_e2_e_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/ingestion/test_ingestion_schema_validation.cpp" line="302" column="1" bodyfile="tests/ingestion/test_ingestion_schema_validation.cpp" bodystart="302" bodyend="314"/>
+    <listofallmembers>
+      <member refid="class_ingestion_manager_schema_e2_e_test_1afb3c3147e13e3ddc90cecaedd041ba97" prot="protected" virt="non-virtual"><scope>IngestionManagerSchemaE2ETest</scope><name>SetUp</name></member>
+      <member refid="class_ingestion_manager_schema_e2_e_test_1a67c57a8c1b889be13b634a5771edb8db" prot="protected" virt="non-virtual"><scope>IngestionManagerSchemaE2ETest</scope><name>TearDown</name></member>
+      <member refid="class_ingestion_manager_schema_e2_e_test_1ae24dacd6e19400b4af7dffb0036412bf" prot="protected" virt="non-virtual"><scope>IngestionManagerSchemaE2ETest</scope><name>tmp_dir_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

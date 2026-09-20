@@ -1,0 +1,347 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_l_l_m_process_analyzer" kind="class" language="C++" prot="public">
+    <compoundname>themis::LLMProcessAnalyzer</compoundname>
+    <includes refid="llm__process__analyzer_8h" local="no">llm_process_analyzer.h</includes>
+    <innerclass refid="structthemis_1_1_l_l_m_process_analyzer_1_1_cache_stats" prot="public">themis::LLMProcessAnalyzer::CacheStats</innerclass>
+    <innerclass refid="structthemis_1_1_l_l_m_process_analyzer_1_1_impl" prot="public">themis::LLMProcessAnalyzer::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_l_l_m_process_analyzer_1a19430a73084ef73ea97295731a99c066" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1_l_l_m_process_analyzer_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::LLMProcessAnalyzer::pImpl</definition>
+        <argsstring></argsstring>
+        <name>pImpl</name>
+        <qualifiedname>themis::LLMProcessAnalyzer::pImpl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="224" column="21" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="224" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_l_l_m_process_analyzer_1a67a57878148f030625a2d75d45e30852" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::LLMProcessAnalyzer::LLMProcessAnalyzer</definition>
+        <argsstring>(const LLMConfig &amp;config)</argsstring>
+        <name>LLMProcessAnalyzer</name>
+        <qualifiedname>themis::LLMProcessAnalyzer::LLMProcessAnalyzer</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_l_l_m_config" kindref="compound">LLMConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>LLMProcess Analyzer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="174" column="14" bodyfile="src/analytics/llm_process_analyzer.cpp" bodystart="287" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_l_l_m_process_analyzer_1ab7b8e930eaedd169f021f32c457b4b22" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::LLMProcessAnalyzer::~LLMProcessAnalyzer</definition>
+        <argsstring>()</argsstring>
+        <name>~LLMProcessAnalyzer</name>
+        <qualifiedname>themis::LLMProcessAnalyzer::~LLMProcessAnalyzer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="175" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_l_l_m_process_analyzer_1aebfb09338940c57b1a4a431ee181e114" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; bool, <ref refid="structthemis_1_1_l_l_m_response" kindref="compound">LLMResponse</ref> &gt;</type>
+        <definition>std::pair&lt; bool, LLMResponse &gt; themis::LLMProcessAnalyzer::analyze</definition>
+        <argsstring>(const LLMRequest &amp;request)</argsstring>
+        <name>analyze</name>
+        <qualifiedname>themis::LLMProcessAnalyzer::analyze</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_l_l_m_request" kindref="compound">LLMRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="177" column="15" bodyfile="src/analytics/llm_process_analyzer.cpp" bodystart="295" bodyend="472"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_l_l_m_process_analyzer_1a6b6725c2c3a05a71c56a3fbc9410b79f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::LLMProcessAnalyzer::generatePrompt</definition>
+        <argsstring>(TaskType task_type, const nlohmann::json &amp;data, const std::string &amp;domain) const</argsstring>
+        <name>generatePrompt</name>
+        <qualifiedname>themis::LLMProcessAnalyzer::generatePrompt</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1a9e438139a3e8867a7736ee076fddc7af" kindref="member">TaskType</ref></type>
+          <declname>task_type</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>domain</declname>
+        </param>
+        <briefdescription>
+<para>Generate Prompt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">domain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="186" column="17" bodyfile="src/analytics/llm_process_analyzer.cpp" bodystart="478" bodyend="550"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_l_l_m_process_analyzer_1ab619bad285e9716a8e75529440aa4587" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::LLMProcessAnalyzer::validateResponse</definition>
+        <argsstring>(const nlohmann::json &amp;response, TaskType task_type) const</argsstring>
+        <name>validateResponse</name>
+        <qualifiedname>themis::LLMProcessAnalyzer::validateResponse</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>response</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1a9e438139a3e8867a7736ee076fddc7af" kindref="member">TaskType</ref></type>
+          <declname>task_type</declname>
+        </param>
+        <briefdescription>
+<para>Validate Response. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">task_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="198" column="10" bodyfile="src/analytics/llm_process_analyzer.cpp" bodystart="647" bodyend="740"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_l_l_m_process_analyzer_1a4d2035a2eb59dbd5cbb98cd8e7263a02" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_l_l_m_process_analyzer_1_1_cache_stats" kindref="compound">CacheStats</ref></type>
+        <definition>LLMProcessAnalyzer::CacheStats themis::LLMProcessAnalyzer::getCacheStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getCacheStats</name>
+        <qualifiedname>themis::LLMProcessAnalyzer::getCacheStats</qualifiedname>
+        <briefdescription>
+<para>Get Cache Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="215" column="16" bodyfile="src/analytics/llm_process_analyzer.cpp" bodystart="778" bodyend="781"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_l_l_m_process_analyzer_1af3be1fe93ff55c16e0d70f1a305eb958" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::LLMProcessAnalyzer::clearCache</definition>
+        <argsstring>()</argsstring>
+        <name>clearCache</name>
+        <qualifiedname>themis::LLMProcessAnalyzer::clearCache</qualifiedname>
+        <briefdescription>
+<para>Clear Cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="220" column="10" bodyfile="src/analytics/llm_process_analyzer.cpp" bodystart="787" bodyend="792"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_l_l_m_process_analyzer_1a803adb9e5965a55a095154ec5dc8e2f0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::LLMProcessAnalyzer::callLLM</definition>
+        <argsstring>(const std::string &amp;prompt, const std::map&lt; std::string, std::string &gt; &amp;params)</argsstring>
+        <name>callLLM</name>
+        <qualifiedname>themis::LLMProcessAnalyzer::callLLM</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="227" column="17" bodyfile="src/analytics/llm_process_analyzer.cpp" bodystart="556" bodyend="619"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_l_l_m_process_analyzer_1af55df678661135f18da56e2f88f1d59c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::LLMProcessAnalyzer::parseResponse</definition>
+        <argsstring>(const std::string &amp;raw_response, TaskType task_type)</argsstring>
+        <name>parseResponse</name>
+        <qualifiedname>themis::LLMProcessAnalyzer::parseResponse</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>raw_response</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1a9e438139a3e8867a7736ee076fddc7af" kindref="member">TaskType</ref></type>
+          <declname>task_type</declname>
+        </param>
+        <briefdescription>
+<para>Parse Response. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">raw_response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">task_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: nlohmann::json::parse(), std::string(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="228" column="20" bodyfile="src/analytics/llm_process_analyzer.cpp" bodystart="633" bodyend="641"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_l_l_m_process_analyzer_1a8a8e10c413293ded75997abc9ba5f435" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::LLMProcessAnalyzer::getCacheKey</definition>
+        <argsstring>(const LLMRequest &amp;request) const</argsstring>
+        <name>getCacheKey</name>
+        <qualifiedname>themis::LLMProcessAnalyzer::getCacheKey</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_l_l_m_request" kindref="compound">LLMRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+<para>Get Cache Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="234" column="17" bodyfile="src/analytics/llm_process_analyzer.cpp" bodystart="746" bodyend="776"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/llm_process_analyzer.h" line="167" column="1" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="167" bodyend="235"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_l_l_m_process_analyzer_1aebfb09338940c57b1a4a431ee181e114" prot="public" virt="non-virtual"><scope>themis::LLMProcessAnalyzer</scope><name>analyze</name></member>
+      <member refid="classthemis_1_1_l_l_m_process_analyzer_1a803adb9e5965a55a095154ec5dc8e2f0" prot="private" virt="non-virtual"><scope>themis::LLMProcessAnalyzer</scope><name>callLLM</name></member>
+      <member refid="classthemis_1_1_l_l_m_process_analyzer_1af3be1fe93ff55c16e0d70f1a305eb958" prot="public" virt="non-virtual"><scope>themis::LLMProcessAnalyzer</scope><name>clearCache</name></member>
+      <member refid="classthemis_1_1_l_l_m_process_analyzer_1a6b6725c2c3a05a71c56a3fbc9410b79f" prot="public" virt="non-virtual"><scope>themis::LLMProcessAnalyzer</scope><name>generatePrompt</name></member>
+      <member refid="classthemis_1_1_l_l_m_process_analyzer_1a8a8e10c413293ded75997abc9ba5f435" prot="private" virt="non-virtual"><scope>themis::LLMProcessAnalyzer</scope><name>getCacheKey</name></member>
+      <member refid="classthemis_1_1_l_l_m_process_analyzer_1a4d2035a2eb59dbd5cbb98cd8e7263a02" prot="public" virt="non-virtual"><scope>themis::LLMProcessAnalyzer</scope><name>getCacheStats</name></member>
+      <member refid="classthemis_1_1_l_l_m_process_analyzer_1a67a57878148f030625a2d75d45e30852" prot="public" virt="non-virtual"><scope>themis::LLMProcessAnalyzer</scope><name>LLMProcessAnalyzer</name></member>
+      <member refid="classthemis_1_1_l_l_m_process_analyzer_1af55df678661135f18da56e2f88f1d59c" prot="private" virt="non-virtual"><scope>themis::LLMProcessAnalyzer</scope><name>parseResponse</name></member>
+      <member refid="classthemis_1_1_l_l_m_process_analyzer_1a19430a73084ef73ea97295731a99c066" prot="private" virt="non-virtual"><scope>themis::LLMProcessAnalyzer</scope><name>pImpl</name></member>
+      <member refid="classthemis_1_1_l_l_m_process_analyzer_1ab619bad285e9716a8e75529440aa4587" prot="public" virt="non-virtual"><scope>themis::LLMProcessAnalyzer</scope><name>validateResponse</name></member>
+      <member refid="classthemis_1_1_l_l_m_process_analyzer_1ab7b8e930eaedd169f021f32c457b4b22" prot="public" virt="non-virtual"><scope>themis::LLMProcessAnalyzer</scope><name>~LLMProcessAnalyzer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

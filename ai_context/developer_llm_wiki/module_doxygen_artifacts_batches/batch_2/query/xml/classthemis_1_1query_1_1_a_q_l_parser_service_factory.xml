@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_a_q_l_parser_service_factory" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::AQLParserServiceFactory</compoundname>
+    <includes refid="aql__parser__service_8h" local="no">aql_parser_service.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_a_q_l_parser_service_factory_1a9d24efd4f1d7dec18bbd3e73eacbc217" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1query_1_1_a_q_l_parser_service" kindref="compound">AQLParserService</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; AQLParserService &gt; themis::query::AQLParserServiceFactory::create</definition>
+        <argsstring>()</argsstring>
+        <name>create</name>
+        <qualifiedname>themis::query::AQLParserServiceFactory::create</qualifiedname>
+        <briefdescription>
+<para>Create. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements create without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser_service.h" line="100" column="28" bodyfile="src/query/aql_parser_service.cpp" bodystart="135" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_a_q_l_parser_service_factory_1ac462b7b5c8e29eec48c1d62e312f2b8a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1query_1_1_a_q_l_parser_service" kindref="compound">AQLParserService</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; AQLParserService &gt; themis::query::AQLParserServiceFactory::createWithFeatures</definition>
+        <argsstring>(bool enable_mutations, bool enable_ddl, bool enable_geospatial)</argsstring>
+        <name>createWithFeatures</name>
+        <qualifiedname>themis::query::AQLParserServiceFactory::createWithFeatures</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enable_mutations</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>enable_ddl</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>enable_geospatial</declname>
+        </param>
+        <briefdescription>
+<para>Create With Features. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">enable_mutations</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">enable_ddl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">enable_geospatial</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">enable_mutations</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">enable_ddl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">enable_geospatial</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createWithFeatures without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser_service.h" line="109" column="28" bodyfile="src/query/aql_parser_service.cpp" bodystart="147" bodyend="156"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/aql_parser_service.h" line="94" column="1" bodyfile="include/query/aql_parser_service.h" bodystart="94" bodyend="114"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_a_q_l_parser_service_factory_1a9d24efd4f1d7dec18bbd3e73eacbc217" prot="public" virt="non-virtual"><scope>themis::query::AQLParserServiceFactory</scope><name>create</name></member>
+      <member refid="classthemis_1_1query_1_1_a_q_l_parser_service_factory_1ac462b7b5c8e29eec48c1d62e312f2b8a" prot="public" virt="non-virtual"><scope>themis::query::AQLParserServiceFactory</scope><name>createWithFeatures</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

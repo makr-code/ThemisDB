@@ -1,0 +1,197 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1document_1_1_i_document_store" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::document::IDocumentStore</compoundname>
+    <derivedcompoundref refid="class_failing_document_store" prot="public" virt="non-virtual">FailingDocumentStore</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1document_1_1_in_memory_document_store" prot="public" virt="non-virtual">themis::document::InMemoryDocumentStore</derivedcompoundref>
+    <includes refid="document__store_8h" local="no">document_store.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1document_1_1_i_document_store_1a50b63cfe26b577de827c9cc48f765a06" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::document::IDocumentStore::~IDocumentStore</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IDocumentStore</name>
+        <qualifiedname>themis::document::IDocumentStore::~IDocumentStore</qualifiedname>
+        <briefdescription>
+<para>IDocument Store. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_store.h" line="71" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_i_document_store_1a142a6a946ee1d6105ce28012dfdc4e88" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; <ref refid="namespacethemis_1_1document_1a3c6c1b6d9d76b5429342187edefbc1f5" kindref="member">DocumentId</ref> &gt;</type>
+        <definition>virtual Result&lt; DocumentId &gt; themis::document::IDocumentStore::put</definition>
+        <argsstring>(const DocumentRecord &amp;record)=0</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::document::IDocumentStore::put</qualifiedname>
+        <reimplementedby refid="class_failing_document_store_1a0ff3040c14d3fe425c8283c84673a1c0">put</reimplementedby>
+        <reimplementedby refid="classthemis_1_1document_1_1_in_memory_document_store_1a706575442e947591dc97515958330fb7">put</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1document_1_1_document_record" kindref="compound">DocumentRecord</ref> &amp;</type>
+          <declname>record</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_store.h" line="73" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_i_document_store_1a5ec9719451012ae85e1439f4b02a7e15" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; std::optional&lt; <ref refid="structthemis_1_1document_1_1_document_record" kindref="compound">DocumentRecord</ref> &gt; &gt;</type>
+        <definition>virtual Result&lt; std::optional&lt; DocumentRecord &gt; &gt; themis::document::IDocumentStore::get</definition>
+        <argsstring>(const CollectionId &amp;collection, const DocumentId &amp;id) const =0</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::document::IDocumentStore::get</qualifiedname>
+        <reimplementedby refid="class_failing_document_store_1a16f2a52167b499a51d52babc3eaea0a1">get</reimplementedby>
+        <reimplementedby refid="classthemis_1_1document_1_1_in_memory_document_store_1a21169003764d7b64a2c46e174bde68b8">get</reimplementedby>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref> &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1document_1a3c6c1b6d9d76b5429342187edefbc1f5" kindref="member">DocumentId</ref> &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_store.h" line="75" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_i_document_store_1acba2770c0a5bb980218f59e216a9bf0f" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>virtual Result&lt; void &gt; themis::document::IDocumentStore::update</definition>
+        <argsstring>(const CollectionId &amp;collection, const DocumentId &amp;id, const nlohmann::json &amp;body)=0</argsstring>
+        <name>update</name>
+        <qualifiedname>themis::document::IDocumentStore::update</qualifiedname>
+        <reimplementedby refid="class_failing_document_store_1a71bf3900e496378f18dc5aeb69d26543">update</reimplementedby>
+        <reimplementedby refid="classthemis_1_1document_1_1_in_memory_document_store_1a082b9931b441d7e61ade6d54780eee04">update</reimplementedby>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref> &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1document_1a3c6c1b6d9d76b5429342187edefbc1f5" kindref="member">DocumentId</ref> &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_store.h" line="78" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_i_document_store_1ab5b20361bdb06d902e637e43cf0434f3" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>virtual Result&lt; void &gt; themis::document::IDocumentStore::remove</definition>
+        <argsstring>(const CollectionId &amp;collection, const DocumentId &amp;id)=0</argsstring>
+        <name>remove</name>
+        <qualifiedname>themis::document::IDocumentStore::remove</qualifiedname>
+        <reimplementedby refid="class_failing_document_store_1a2b531de2a29267580d2185bc4fea5373">remove</reimplementedby>
+        <reimplementedby refid="classthemis_1_1document_1_1_in_memory_document_store_1a4ab55d158eb9c6d4a773662e44914a76">remove</reimplementedby>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref> &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1document_1a3c6c1b6d9d76b5429342187edefbc1f5" kindref="member">DocumentId</ref> &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_store.h" line="82" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_i_document_store_1a446952d7f303a554ff6993a70eab8612" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; std::vector&lt; <ref refid="namespacethemis_1_1document_1a3c6c1b6d9d76b5429342187edefbc1f5" kindref="member">DocumentId</ref> &gt; &gt;</type>
+        <definition>virtual Result&lt; std::vector&lt; DocumentId &gt; &gt; themis::document::IDocumentStore::list</definition>
+        <argsstring>(const CollectionId &amp;collection) const =0</argsstring>
+        <name>list</name>
+        <qualifiedname>themis::document::IDocumentStore::list</qualifiedname>
+        <reimplementedby refid="class_failing_document_store_1ae342a86dbccf89e8020d2f0694f4d10f">list</reimplementedby>
+        <reimplementedby refid="classthemis_1_1document_1_1_in_memory_document_store_1a5d743760f5305c5d3331aa8f0099bf9d">list</reimplementedby>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref> &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_store.h" line="85" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_i_document_store_1a86d3bb0031e19bfd52fe1fc17c3d758f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; std::size_t &gt;</type>
+        <definition>virtual Result&lt; std::size_t &gt; themis::document::IDocumentStore::count</definition>
+        <argsstring>(const CollectionId &amp;collection) const =0</argsstring>
+        <name>count</name>
+        <qualifiedname>themis::document::IDocumentStore::count</qualifiedname>
+        <reimplementedby refid="class_failing_document_store_1aac2d8900ca1a44fbf532b35daf654c6e">count</reimplementedby>
+        <reimplementedby refid="classthemis_1_1document_1_1_in_memory_document_store_1a49422163c52731182f88e249e14c1fee">count</reimplementedby>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref> &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_store.h" line="88" column="21"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>FailingDocumentStore</label>
+        <link refid="class_failing_document_store"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::document::IDocumentStore</label>
+        <link refid="classthemis_1_1document_1_1_i_document_store"/>
+      </node>
+      <node id="3">
+        <label>themis::document::InMemoryDocumentStore</label>
+        <link refid="classthemis_1_1document_1_1_in_memory_document_store"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/document/document_store.h" line="65" column="1" bodyfile="include/document/document_store.h" bodystart="65" bodyend="90"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1document_1_1_i_document_store_1a86d3bb0031e19bfd52fe1fc17c3d758f" prot="public" virt="pure-virtual"><scope>themis::document::IDocumentStore</scope><name>count</name></member>
+      <member refid="classthemis_1_1document_1_1_i_document_store_1a5ec9719451012ae85e1439f4b02a7e15" prot="public" virt="pure-virtual"><scope>themis::document::IDocumentStore</scope><name>get</name></member>
+      <member refid="classthemis_1_1document_1_1_i_document_store_1a446952d7f303a554ff6993a70eab8612" prot="public" virt="pure-virtual"><scope>themis::document::IDocumentStore</scope><name>list</name></member>
+      <member refid="classthemis_1_1document_1_1_i_document_store_1a142a6a946ee1d6105ce28012dfdc4e88" prot="public" virt="pure-virtual"><scope>themis::document::IDocumentStore</scope><name>put</name></member>
+      <member refid="classthemis_1_1document_1_1_i_document_store_1ab5b20361bdb06d902e637e43cf0434f3" prot="public" virt="pure-virtual"><scope>themis::document::IDocumentStore</scope><name>remove</name></member>
+      <member refid="classthemis_1_1document_1_1_i_document_store_1acba2770c0a5bb980218f59e216a9bf0f" prot="public" virt="pure-virtual"><scope>themis::document::IDocumentStore</scope><name>update</name></member>
+      <member refid="classthemis_1_1document_1_1_i_document_store_1a50b63cfe26b577de827c9cc48f765a06" prot="public" virt="virtual"><scope>themis::document::IDocumentStore</scope><name>~IDocumentStore</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

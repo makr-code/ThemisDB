@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_converged_s_l_o_monitor_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::ConvergedSLOMonitor::Config</compoundname>
+    <includes refid="converged__slo__metrics_8h" local="no">converged_slo_metrics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_monitor_1_1_config_1a31cc1117c0be09d43ac5a9330c20308e" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_target" kindref="compound">ConvergedSLOTarget</ref></type>
+        <definition>ConvergedSLOTarget themisdb::sharding::ConvergedSLOMonitor::Config::targets</definition>
+        <argsstring></argsstring>
+        <name>targets</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMonitor::Config::targets</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="451" column="28" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="451" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_monitor_1_1_config_1a0b0059ef9ed4f735107ceaeef53fa967" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themisdb::sharding::ConvergedSLOMonitor::Config::window_duration</definition>
+        <argsstring></argsstring>
+        <name>window_duration</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMonitor::Config::window_duration</qualifiedname>
+        <initializer>= std::chrono::hours(1)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="452" column="30" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="452" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_monitor_1_1_config_1adb15ad42e09410a45b7650fd111a0ac8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::ConvergedSLOMonitor::Config::enable_alerting</definition>
+        <argsstring></argsstring>
+        <name>enable_alerting</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMonitor::Config::enable_alerting</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="453" column="14" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="453" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_monitor_1_1_config_1abcd4946c833151cb7bd5af7c6d9fd2dd" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::ConvergedSLOMonitor::Config::alert_threshold</definition>
+        <argsstring></argsstring>
+        <name>alert_threshold</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMonitor::Config::alert_threshold</qualifiedname>
+        <initializer>= 0.9</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="454" column="16" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="454" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_monitor_1_1_config_1abaa5679c834967c3d11ffab1618af6f9" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_monitor_1_1_config" kindref="compound">Config</ref></type>
+        <definition>static Config themisdb::sharding::ConvergedSLOMonitor::Config::defaults</definition>
+        <argsstring>()</argsstring>
+        <name>defaults</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMonitor::Config::defaults</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="456" column="23" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="456" bodyend="456"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for Converged SLO Monitor. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themisdb::sharding::ConvergedSLOMonitor::Config</label>
+        <link refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_monitor_1_1_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>targets</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themisdb::sharding::ConvergedSLOTarget</label>
+        <link refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_target"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/sharding/converged_slo_metrics.h" line="450" column="5" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="450" bodyend="457"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_monitor_1_1_config_1abcd4946c833151cb7bd5af7c6d9fd2dd" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMonitor::Config</scope><name>alert_threshold</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_monitor_1_1_config_1abaa5679c834967c3d11ffab1618af6f9" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMonitor::Config</scope><name>defaults</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_monitor_1_1_config_1adb15ad42e09410a45b7650fd111a0ac8" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMonitor::Config</scope><name>enable_alerting</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_monitor_1_1_config_1a31cc1117c0be09d43ac5a9330c20308e" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMonitor::Config</scope><name>targets</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_monitor_1_1_config_1a0b0059ef9ed4f735107ceaeef53fa967" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMonitor::Config</scope><name>window_duration</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

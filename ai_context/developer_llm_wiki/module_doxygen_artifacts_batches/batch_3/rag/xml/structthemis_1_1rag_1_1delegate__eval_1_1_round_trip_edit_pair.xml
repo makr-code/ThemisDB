@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1delegate__eval_1_1_round_trip_edit_pair" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::delegate_eval::RoundTripEditPair</compoundname>
+    <includes refid="delegate__evaluator_8h" local="no">delegate_evaluator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1delegate__eval_1_1_round_trip_edit_pair_1ab5819fc24408ab3d03af310c7c9e1875" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::delegate_eval::RoundTripEditPair::forward_instruction</definition>
+        <argsstring></argsstring>
+        <name>forward_instruction</name>
+        <qualifiedname>themis::rag::delegate_eval::RoundTripEditPair::forward_instruction</qualifiedname>
+        <briefdescription>
+<para>Instruction for the forward edit. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/delegate_evaluator.h" line="110" column="17" bodyfile="include/rag/delegate_evaluator.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1delegate__eval_1_1_round_trip_edit_pair_1a45a72dafd143f5a23731ffefbb9b9c36" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::delegate_eval::RoundTripEditPair::backward_instruction</definition>
+        <argsstring></argsstring>
+        <name>backward_instruction</name>
+        <qualifiedname>themis::rag::delegate_eval::RoundTripEditPair::backward_instruction</qualifiedname>
+        <briefdescription>
+<para>Instruction for the backward edit. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/delegate_evaluator.h" line="111" column="17" bodyfile="include/rag/delegate_evaluator.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1delegate__eval_1_1_round_trip_edit_pair_1ab148d93139c9bde6dd3cd64314448247" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::delegate_eval::RoundTripEditPair::seed_document</definition>
+        <argsstring></argsstring>
+        <name>seed_document</name>
+        <qualifiedname>themis::rag::delegate_eval::RoundTripEditPair::seed_document</qualifiedname>
+        <briefdescription>
+<para>Informational: origin seed identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/delegate_evaluator.h" line="112" column="17" bodyfile="include/rag/delegate_evaluator.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1delegate__eval_1_1_round_trip_edit_pair_1ae5abb36693c153954772e4950c94b089" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a27a27b5e82f6b11343ccd146bb8cba8b" kindref="member">DomainType</ref></type>
+        <definition>DomainType themis::rag::delegate_eval::RoundTripEditPair::domain_type</definition>
+        <argsstring></argsstring>
+        <name>domain_type</name>
+        <qualifiedname>themis::rag::delegate_eval::RoundTripEditPair::domain_type</qualifiedname>
+        <briefdescription>
+<para>Target domain for score computation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/delegate_evaluator.h" line="113" column="17" bodyfile="include/rag/delegate_evaluator.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A paired forward + backward edit instruction for one round trip. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The pair captures the two natural-language (or prompt-style) instructions passed to the <computeroutput><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a77690185c5e7ffb2644027fe860989b4" kindref="member">EditFn</ref></computeroutput> lambda:<orderedlist>
+<listitem><para><computeroutput><ref refid="structthemis_1_1rag_1_1delegate__eval_1_1_round_trip_edit_pair_1ab5819fc24408ab3d03af310c7c9e1875" kindref="member">forward_instruction</ref></computeroutput> — transforms the document toward a target state.</para>
+</listitem><listitem><para><computeroutput><ref refid="structthemis_1_1rag_1_1delegate__eval_1_1_round_trip_edit_pair_1a45a72dafd143f5a23731ffefbb9b9c36" kindref="member">backward_instruction</ref></computeroutput> — attempts to undo the forward transformation.</para>
+</listitem></orderedlist>
+</para>
+<para>The <computeroutput><ref refid="structthemis_1_1rag_1_1delegate__eval_1_1_round_trip_edit_pair_1ab148d93139c9bde6dd3cd64314448247" kindref="member">seed_document</ref></computeroutput> field is informational metadata that identifies which seed was used to derive this pair; it is <bold>not</bold> used by <computeroutput><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator" kindref="compound">RoundTripSimulator</ref></computeroutput> directly (the simulator operates on its own current-document state). </para>
+    </detaileddescription>
+    <location file="include/rag/delegate_evaluator.h" line="109" column="1" bodyfile="include/rag/delegate_evaluator.h" bodystart="109" bodyend="114"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1delegate__eval_1_1_round_trip_edit_pair_1a45a72dafd143f5a23731ffefbb9b9c36" prot="public" virt="non-virtual"><scope>themis::rag::delegate_eval::RoundTripEditPair</scope><name>backward_instruction</name></member>
+      <member refid="structthemis_1_1rag_1_1delegate__eval_1_1_round_trip_edit_pair_1ae5abb36693c153954772e4950c94b089" prot="public" virt="non-virtual"><scope>themis::rag::delegate_eval::RoundTripEditPair</scope><name>domain_type</name></member>
+      <member refid="structthemis_1_1rag_1_1delegate__eval_1_1_round_trip_edit_pair_1ab5819fc24408ab3d03af310c7c9e1875" prot="public" virt="non-virtual"><scope>themis::rag::delegate_eval::RoundTripEditPair</scope><name>forward_instruction</name></member>
+      <member refid="structthemis_1_1rag_1_1delegate__eval_1_1_round_trip_edit_pair_1ab148d93139c9bde6dd3cd64314448247" prot="public" virt="non-virtual"><scope>themis::rag::delegate_eval::RoundTripEditPair</scope><name>seed_document</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

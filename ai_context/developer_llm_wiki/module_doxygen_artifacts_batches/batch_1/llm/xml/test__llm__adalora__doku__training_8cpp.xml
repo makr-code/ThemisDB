@@ -1,0 +1,761 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__llm__adalora__doku__training_8cpp" kind="file" language="C++">
+    <compoundname>test_llm_adalora_doku_training.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">training/ada_lora_adapter.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">fstream</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">numeric</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">spdlog/spdlog.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/llm/test_llm_adalora_doku_training.cpp</label>
+        <link refid="test__llm__adalora__doku__training_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>algorithm</label>
+      </node>
+      <node id="5">
+        <label>atomic</label>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="7">
+        <label>filesystem</label>
+      </node>
+      <node id="8">
+        <label>fstream</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="10">
+        <label>numeric</label>
+      </node>
+      <node id="14">
+        <label>spdlog/spdlog.h</label>
+      </node>
+      <node id="11">
+        <label>string</label>
+      </node>
+      <node id="12">
+        <label>thread</label>
+      </node>
+      <node id="3">
+        <label>training/ada_lora_adapter.h</label>
+      </node>
+      <node id="13">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_ada_lora_doku_training_test" prot="public">AdaLoraDokuTrainingTest</innerclass>
+    <innernamespace refid="namespacethemis_1_1training">themis::training</innernamespace>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="test__llm__adalora__doku__training_8cpp_1af3fc058ff868aee872c83e9b3260408c" prot="public" static="no">
+        <name>THEMIS_TEST_BUILD</name>
+        <initializer>1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_adalora_doku_training.cpp" line="29" column="9" bodyfile="tests/llm/test_llm_adalora_doku_training.cpp" bodystart="29" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__llm__adalora__doku__training_8cpp_1a74fef5d985ba0c5940dc93749292aada" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AdaLoraDokuTrainingTest, Lora01_ConstructionAndLayerAdd)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_ada_lora_doku_training_test" kindref="compound">AdaLoraDokuTrainingTest</ref></type>
+        </param>
+        <param>
+          <type>Lora01_ConstructionAndLayerAdd</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_adalora_doku_training.cpp" line="136" column="1" bodyfile="tests/llm/test_llm_adalora_doku_training.cpp" bodystart="136" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__adalora__doku__training_8cpp_1a62e5be4f1bb9aed1e3bceb5e07a84e80" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AdaLoraDokuTrainingTest, Lora02_RankPruningConstraint)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_ada_lora_doku_training_test" kindref="compound">AdaLoraDokuTrainingTest</ref></type>
+        </param>
+        <param>
+          <type>Lora02_RankPruningConstraint</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_adalora_doku_training.cpp" line="157" column="1" bodyfile="tests/llm/test_llm_adalora_doku_training.cpp" bodystart="157" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__adalora__doku__training_8cpp_1ac5fc16bab5dac8a61017322466c4a9f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AdaLoraDokuTrainingTest, Lora03_TtBridgeExport)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_ada_lora_doku_training_test" kindref="compound">AdaLoraDokuTrainingTest</ref></type>
+        </param>
+        <param>
+          <type>Lora03_TtBridgeExport</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_adalora_doku_training.cpp" line="183" column="1" bodyfile="tests/llm/test_llm_adalora_doku_training.cpp" bodystart="183" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__adalora__doku__training_8cpp_1aa3efa8c68adc38649a0fe9e3fd1afefe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AdaLoraDokuTrainingTest, Lora04_CheckpointRoundTrip)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_ada_lora_doku_training_test" kindref="compound">AdaLoraDokuTrainingTest</ref></type>
+        </param>
+        <param>
+          <type>Lora04_CheckpointRoundTrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_adalora_doku_training.cpp" line="217" column="1" bodyfile="tests/llm/test_llm_adalora_doku_training.cpp" bodystart="217" bodyend="288"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__adalora__doku__training_8cpp_1adc9f8ea1b4b9d585c0fb6470984119d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AdaLoraDokuTrainingTest, Lora05_DokuDbTrainingInput)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_ada_lora_doku_training_test" kindref="compound">AdaLoraDokuTrainingTest</ref></type>
+        </param>
+        <param>
+          <type>Lora05_DokuDbTrainingInput</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_adalora_doku_training.cpp" line="292" column="1" bodyfile="tests/llm/test_llm_adalora_doku_training.cpp" bodystart="292" bodyend="327"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__adalora__doku__training_8cpp_1a2e39376098fd3d1e1988905cff294ef3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AdaLoraDokuTrainingTest, Lora06_ConvergenceProxy)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_ada_lora_doku_training_test" kindref="compound">AdaLoraDokuTrainingTest</ref></type>
+        </param>
+        <param>
+          <type>Lora06_ConvergenceProxy</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_adalora_doku_training.cpp" line="331" column="1" bodyfile="tests/llm/test_llm_adalora_doku_training.cpp" bodystart="331" bodyend="370"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__adalora__doku__training_8cpp_1a93f2795279bb5f28b6d6b8167262923c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AdaLoraDokuTrainingTest, Lora07_ThreadSafeConcurrentRealloc)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_ada_lora_doku_training_test" kindref="compound">AdaLoraDokuTrainingTest</ref></type>
+        </param>
+        <param>
+          <type>Lora07_ThreadSafeConcurrentRealloc</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_adalora_doku_training.cpp" line="374" column="1" bodyfile="tests/llm/test_llm_adalora_doku_training.cpp" bodystart="374" bodyend="413"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__adalora__doku__training_8cpp_1ad1b4a25a9eccec4b58d9cc61d7ef3f88" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AdaLoraDokuTrainingTest, Lora08_CacheGate)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_ada_lora_doku_training_test" kindref="compound">AdaLoraDokuTrainingTest</ref></type>
+        </param>
+        <param>
+          <type>Lora08_CacheGate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_adalora_doku_training.cpp" line="423" column="1" bodyfile="tests/llm/test_llm_adalora_doku_training.cpp" bodystart="423" bodyend="508"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>AdaLoRA training CI test suite using doku.db as training data source. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tests LORA-01..07 validate the ThemisDB AdaLoRA adapter training pipeline. All tests are lightweight (max 60s per test), designed to run CPU-only in CI without a GPU. They target the C++ adapter layer, not llama.cpp internals.</para>
+<para>LORA-01: AdaLoRAAdapter construction and addLayer — no crash, layer registered LORA-02: Rank-pruning after reallocateRanks() — active_rank ≤ initial max_rank LORA-03: AdaLoraTTBridge::exportToTT() — exported TT-cores have correct layout LORA-04: Checkpoint save/load — adapter state survives serialisation round-trip LORA-05: Training input from doku.db chunk content — InlineTrainingEngine accepts it LORA-06: Convergence proxy — loss decreases or stays stable over 10 steps LORA-07: Thread-safety — 2 concurrent reallocateRanks() calls, no data race LORA-08: Cache-gate — rebuild only on fingerprint change or force flag</para>
+<para>When the InlineTrainingEngine returns an unimplemented/stub result, individual tests emit GTEST_SKIP() so the CI suite reports [SKIPPED] rather than failure.</para>
+<para><simplesect kind="see"><para>include/training/ada_lora_adapter.h (AdaLoRAAdapter API) </para>
+</simplesect>
+<simplesect kind="see"><para>include/training/adalora_tt_bridge.h (AdaLoraTTBridge API) </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="inline__training__engine_8h" kindref="compound">include/llm/inline_training_engine.h</ref> (InlineTrainingEngine API) </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="test__llm__tinyllama__inference_8cpp" kindref="compound">tests/llm/test_llm_tinyllama_inference.cpp</ref> (INFER-01..10) </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="test__llm__doku__rag_8cpp" kindref="compound">tests/llm/test_llm_doku_rag.cpp</ref> (RAG-01..07) </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_TEST_BUILD</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_TEST_BUILD<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;training/ada_lora_adapter.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;numeric&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;spdlog/spdlog.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themis::training;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std::chrono;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>Test-local<sp/>helpers<sp/>───────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal">std::string<sp/>findDokuDbPath()<sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>env_db<sp/>=<sp/>std::getenv(</highlight><highlight class="stringliteral">&quot;THEMIS_DOKU_DB_PATH&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(env_db<sp/>&amp;&amp;<sp/>std::filesystem::exists(env_db))<sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>env_db;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>env_ws<sp/>=<sp/>std::getenv(</highlight><highlight class="stringliteral">&quot;GITHUB_WORKSPACE&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::filesystem::path&gt;<sp/>candidates<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;build/test-assets/doku.db.json&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;../build/test-assets/doku.db.json&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;test-assets/doku.db.json&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(env_ws)<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>candidates.insert(candidates.begin(),</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::path(env_ws)<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;build/test-assets/doku.db.json&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>c<sp/>:<sp/>candidates)<sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(std::filesystem::exists(c)<sp/>&amp;&amp;<sp/>std::filesystem::is_regular_file(c))<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>c.string();</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal">std::vector&lt;std::string&gt;<sp/>loadDokuChunksAsPrompts(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>json_path,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>max_count)<sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>prompts<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(json_path.empty()<sp/>||<sp/>!std::filesystem::exists(json_path))<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>prompts;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>std::ifstream<sp/>f(json_path);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>line<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(std::getline(f,<sp/>line)<sp/>&amp;&amp;<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(prompts.size())<sp/>&lt;<sp/>max_count)<sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simple<sp/>heuristic:<sp/>lines<sp/>containing<sp/>&quot;content&quot;:<sp/>&quot;...&quot;<sp/>in<sp/>the<sp/>JSON</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>pos<sp/>=<sp/>line.find(</highlight><highlight class="stringliteral">&quot;\&quot;content\&quot;:&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(pos<sp/>==<sp/>std::string::npos)<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">continue</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>start<sp/>=<sp/>line.find(</highlight><highlight class="charliteral">&apos;&quot;&apos;</highlight><highlight class="normal">,<sp/>pos<sp/>+<sp/>10);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(start<sp/>==<sp/>std::string::npos)<sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">continue</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++start;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>end<sp/>=<sp/>line.rfind(</highlight><highlight class="charliteral">&apos;&quot;&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(end<sp/>&lt;=<sp/>start)<sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">continue</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>content<sp/>=<sp/>line.substr(start,<sp/>end<sp/>-<sp/>start);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(content.size()<sp/>&gt;<sp/>20)<sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>prompts.push_back(content.substr(0,<sp/>256));<sp/></highlight><highlight class="comment">//<sp/>Limit<sp/>token<sp/>count</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>prompts;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>Fixture<sp/>──────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="class_ada_lora_doku_training_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_ada_lora_doku_training_test" kindref="compound">AdaLoraDokuTrainingTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_ada_lora_doku_training_test_1acd6b32fd723334657344b71890c562bd" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_ada_lora_doku_training_test_1a8e1e916776a0de48d0e36fe3b25b9ee6" kindref="member">doku_db_path_</ref><sp/>=<sp/>findDokuDbPath();</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!<ref refid="class_ada_lora_doku_training_test_1a8e1e916776a0de48d0e36fe3b25b9ee6" kindref="member">doku_db_path_</ref>.empty())<sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_ada_lora_doku_training_test_1a20d3bb70d8115bc858d3515c9e23c614" kindref="member">doku_prompts_</ref><sp/>=<sp/>loadDokuChunksAsPrompts(<ref refid="class_ada_lora_doku_training_test_1a8e1e916776a0de48d0e36fe3b25b9ee6" kindref="member">doku_db_path_</ref>,<sp/></highlight><highlight class="comment">/*max_count=*/</highlight><highlight class="normal">10);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>spdlog::info(</highlight><highlight class="stringliteral">&quot;AdaLoraDokuTrainingTest:<sp/>loaded<sp/>{}<sp/>doku<sp/>prompts<sp/>from<sp/>{}&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_ada_lora_doku_training_test_1a20d3bb70d8115bc858d3515c9e23c614" kindref="member">doku_prompts_</ref>.size(),<sp/><ref refid="class_ada_lora_doku_training_test_1a8e1e916776a0de48d0e36fe3b25b9ee6" kindref="member">doku_db_path_</ref>);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_ada_lora_doku_training_test_1a8e1e916776a0de48d0e36fe3b25b9ee6" kindref="member">doku_db_path_</ref>;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="class_ada_lora_doku_training_test_1a20d3bb70d8115bc858d3515c9e23c614" kindref="member">doku_prompts_</ref>;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>LORA-01:<sp/>AdaLoRAAdapter<sp/>construction<sp/>and<sp/>layer<sp/>registration<sp/>──────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><ref refid="test__llm__adalora__doku__training_8cpp_1a74fef5d985ba0c5940dc93749292aada" kindref="member">TEST_F</ref>(<ref refid="class_ada_lora_doku_training_test" kindref="compound">AdaLoraDokuTrainingTest</ref>,<sp/>Lora01_ConstructionAndLayerAdd)<sp/>{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>default_rank=4,<sp/>alpha=8.0,<sp/>rank_budget=32</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>AdaLoRAAdapter<sp/>adapter(4,<sp/>8.0f,<sp/>32);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Register<sp/>three<sp/>representative<sp/>transformer<sp/>projection<sp/>layers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(adapter.addLayer(</highlight><highlight class="stringliteral">&quot;q_proj&quot;</highlight><highlight class="normal">,<sp/>768,<sp/>768,<sp/>4,<sp/>8.0f));</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(adapter.addLayer(</highlight><highlight class="stringliteral">&quot;v_proj&quot;</highlight><highlight class="normal">,<sp/>768,<sp/>768,<sp/>4,<sp/>8.0f));</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(adapter.addLayer(</highlight><highlight class="stringliteral">&quot;k_proj&quot;</highlight><highlight class="normal">,<sp/>768,<sp/>768,<sp/>4,<sp/>8.0f));</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>adapter.getLayerStats();</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(stats.size(),<sp/>3u)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>3<sp/>registered<sp/>layers&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>s<sp/>:<sp/>stats)<sp/>{</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GT(s.max_rank,<sp/>0u)<sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Layer<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>s.layer_name<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>has<sp/>zero<sp/>max_rank&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GT(s.active_rank,<sp/>0u)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Layer<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>s.layer_name<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>has<sp/>zero<sp/>active_rank&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>spdlog::info(</highlight><highlight class="stringliteral">&quot;LORA-01:<sp/>{}<sp/>layers<sp/>registered&quot;</highlight><highlight class="normal">,<sp/>stats.size());</highlight></codeline>
+<codeline lineno="153"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>LORA-02:<sp/>Rank-pruning<sp/>—<sp/>active_rank<sp/>≤<sp/>initial<sp/>max_rank<sp/>─────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><ref refid="test__llm__adalora__doku__training_8cpp_1a74fef5d985ba0c5940dc93749292aada" kindref="member">TEST_F</ref>(<ref refid="class_ada_lora_doku_training_test" kindref="compound">AdaLoraDokuTrainingTest</ref>,<sp/>Lora02_RankPruningConstraint)<sp/>{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>AdaLoRAAdapter<sp/>adapter(8,<sp/>16.0f,<sp/>24);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter.addLayer(</highlight><highlight class="stringliteral">&quot;q_proj&quot;</highlight><highlight class="normal">,<sp/>768,<sp/>768,<sp/>8,<sp/>16.0f);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter.addLayer(</highlight><highlight class="stringliteral">&quot;v_proj&quot;</highlight><highlight class="normal">,<sp/>768,<sp/>768,<sp/>8,<sp/>16.0f);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter.addLayer(</highlight><highlight class="stringliteral">&quot;k_proj&quot;</highlight><highlight class="normal">,<sp/>768,<sp/>768,<sp/>8,<sp/>16.0f);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>importance<sp/>update<sp/>(uniform<sp/>—<sp/>triggers<sp/>deterministic<sp/>distribution)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter.updateImportance(</highlight><highlight class="stringliteral">&quot;q_proj&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter.updateImportance(</highlight><highlight class="stringliteral">&quot;v_proj&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter.updateImportance(</highlight><highlight class="stringliteral">&quot;k_proj&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reallocate<sp/>with<sp/>a<sp/>smaller<sp/>budget<sp/>to<sp/>trigger<sp/>pruning</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>adapter.reallocateRanks(</highlight><highlight class="comment">/*total_budget=*/</highlight><highlight class="normal">12);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.success)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;reallocateRanks()<sp/>failed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.total_active_rank,<sp/>12u)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Total<sp/>active<sp/>rank<sp/>should<sp/>equal<sp/>budget&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>s<sp/>:<sp/>adapter.getLayerStats())<sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LE(s.active_rank,<sp/>s.max_rank)</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Layer<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>s.layer_name<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;:<sp/>active_rank<sp/>&gt;<sp/>max_rank<sp/>after<sp/>pruning&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>spdlog::info(</highlight><highlight class="stringliteral">&quot;LORA-02:<sp/>total_active_rank={}<sp/>layers_pruned={}&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.total_active_rank,<sp/>result.layers_pruned);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>LORA-03:<sp/>AdaLoraTTBridge::exportToTT()<sp/>──────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><ref refid="test__llm__adalora__doku__training_8cpp_1a74fef5d985ba0c5940dc93749292aada" kindref="member">TEST_F</ref>(<ref refid="class_ada_lora_doku_training_test" kindref="compound">AdaLoraDokuTrainingTest</ref>,<sp/>Lora03_TtBridgeExport)<sp/>{</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>AdaLoraTTBridge<sp/>depends<sp/>on<sp/>TensorNetworkStorageEngine<sp/>and<sp/>EmbeddedLLM.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>In<sp/>CI<sp/>without<sp/>these<sp/>backends,<sp/>the<sp/>bridge<sp/>constructor<sp/>may<sp/>not<sp/>be<sp/>available.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>We<sp/>test<sp/>the<sp/>data<sp/>structures<sp/>independently<sp/>using<sp/>inline<sp/>types.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>a<sp/>minimal<sp/>adapter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>AdaLoRAAdapter<sp/>adapter(4,<sp/>8.0f,<sp/>16);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter.addLayer(</highlight><highlight class="stringliteral">&quot;q_proj&quot;</highlight><highlight class="normal">,<sp/>64,<sp/>64,<sp/>4,<sp/>8.0f);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter.addLayer(</highlight><highlight class="stringliteral">&quot;v_proj&quot;</highlight><highlight class="normal">,<sp/>64,<sp/>64,<sp/>4,<sp/>8.0f);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>weight<sp/>shapes<sp/>are<sp/>consistent<sp/>with<sp/>rank</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[b_q,<sp/>a_q]<sp/>=<sp/>adapter.getWeights(</highlight><highlight class="stringliteral">&quot;q_proj&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[b_v,<sp/>a_v]<sp/>=<sp/>adapter.getWeights(</highlight><highlight class="stringliteral">&quot;v_proj&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>B<sp/>matrix:<sp/>out_features<sp/>×<sp/>rank<sp/>→<sp/>64<sp/>×<sp/>4<sp/>=<sp/>256<sp/>elements</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>matrix:<sp/>rank<sp/>×<sp/>in_features<sp/>→<sp/>4<sp/>×<sp/>64<sp/>=<sp/>256<sp/>elements</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>rank<sp/>=<sp/>adapter.getActiveRank(</highlight><highlight class="stringliteral">&quot;q_proj&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(b_q.size(),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(64<sp/>*<sp/>rank))</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;B-matrix<sp/>size<sp/>should<sp/>be<sp/>out_features<sp/>×<sp/>rank&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(a_q.size(),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(rank<sp/>*<sp/>64))</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;A-matrix<sp/>size<sp/>should<sp/>be<sp/>rank<sp/>×<sp/>in_features&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(b_v.size(),<sp/>b_q.size())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;v_proj<sp/>B-matrix<sp/>size<sp/>should<sp/>match<sp/>q_proj&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(a_v.size(),<sp/>a_q.size())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;v_proj<sp/>A-matrix<sp/>size<sp/>should<sp/>match<sp/>q_proj&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>spdlog::info(</highlight><highlight class="stringliteral">&quot;LORA-03:<sp/>q_proj<sp/>B={}<sp/>A={}<sp/>rank={}&quot;</highlight><highlight class="normal">,<sp/>b_q.size(),<sp/>a_q.size(),<sp/>rank);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>LORA-04:<sp/>Checkpoint<sp/>save/load<sp/>round-trip<sp/>────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Validates<sp/>that<sp/>saveToFile()/loadFromFile()<sp/>faithfully<sp/>preserves<sp/>the<sp/>adapter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight><highlight class="comment">//<sp/>weight<sp/>matrices<sp/>and<sp/>layer<sp/>structure.<sp/><sp/>A<sp/>synthetic<sp/>model<sp/>fingerprint<sp/>is<sp/>stored</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight><highlight class="comment">//<sp/>in<sp/>the<sp/>checkpoint<sp/>header<sp/>and<sp/>verified<sp/>after<sp/>reload.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><ref refid="test__llm__adalora__doku__training_8cpp_1a74fef5d985ba0c5940dc93749292aada" kindref="member">TEST_F</ref>(<ref refid="class_ada_lora_doku_training_test" kindref="compound">AdaLoraDokuTrainingTest</ref>,<sp/>Lora04_CheckpointRoundTrip)<sp/>{</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>a<sp/>small<sp/>adapter<sp/>and<sp/>apply<sp/>one<sp/>rank-reallocation<sp/>so<sp/>it<sp/>has<sp/>a</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>non-trivial<sp/>active_rank<sp/>distribution<sp/>to<sp/>persist.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>AdaLoRAAdapter<sp/>original(4,<sp/>8.0f,<sp/>16);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>original.addLayer(</highlight><highlight class="stringliteral">&quot;q_proj&quot;</highlight><highlight class="normal">,<sp/>32,<sp/>32,<sp/>4,<sp/>8.0f);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>original.addLayer(</highlight><highlight class="stringliteral">&quot;v_proj&quot;</highlight><highlight class="normal">,<sp/>32,<sp/>32,<sp/>4,<sp/>8.0f);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>original.updateImportance(</highlight><highlight class="stringliteral">&quot;q_proj&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>original.updateImportance(</highlight><highlight class="stringliteral">&quot;v_proj&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>original.reallocateRanks(6);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[b_orig,<sp/>a_orig]<sp/>=<sp/>original.getWeights(</highlight><highlight class="stringliteral">&quot;q_proj&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(b_orig.empty())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Original<sp/>B-matrix<sp/>is<sp/>empty&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Save<sp/>to<sp/>a<sp/>temporary<sp/>file</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>tmp_path<sp/>=<sp/>(std::filesystem::temp_directory_path()<sp/>/</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;test_adalora_checkpoint_LORA04.bin&quot;</highlight><highlight class="normal">).</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">();</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>fake_fp<sp/>=<sp/>std::string(62,<sp/></highlight><highlight class="charliteral">&apos;a&apos;</highlight><highlight class="normal">)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;01&quot;</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>64-char<sp/>hex-like<sp/>fingerprint</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NO_THROW(original.saveToFile(tmp_path,<sp/>fake_fp))</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;saveToFile()<sp/>threw<sp/>unexpectedly&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(std::filesystem::exists(tmp_path))</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Checkpoint<sp/>file<sp/>not<sp/>created<sp/>at:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>tmp_path;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(std::filesystem::file_size(tmp_path),<sp/>8u)</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Checkpoint<sp/>file<sp/>is<sp/>implausibly<sp/>small&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Load<sp/>into<sp/>a<sp/>fresh<sp/>adapter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>AdaLoRAAdapter<sp/>restored(4,<sp/>8.0f,<sp/>16);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>loaded_fp<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NO_THROW(loaded_fp<sp/>=<sp/>restored.loadFromFile(tmp_path))</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;loadFromFile()<sp/>threw<sp/>unexpectedly&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Fingerprint<sp/>round-trip</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(loaded_fp,<sp/>fake_fp)</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Fingerprint<sp/>not<sp/>preserved<sp/>through<sp/>save/load&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Layer<sp/>structure<sp/>preserved</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(restored.hasLayer(</highlight><highlight class="stringliteral">&quot;q_proj&quot;</highlight><highlight class="normal">))<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;q_proj<sp/>layer<sp/>missing<sp/>after<sp/>load&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(restored.hasLayer(</highlight><highlight class="stringliteral">&quot;v_proj&quot;</highlight><highlight class="normal">))<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;v_proj<sp/>layer<sp/>missing<sp/>after<sp/>load&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(restored.layerCount(),<sp/>original.layerCount())</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Layer<sp/>count<sp/>mismatch<sp/>after<sp/>load&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Weight<sp/>vectors<sp/>preserved<sp/>bit-exactly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[b_rest,<sp/>a_rest]<sp/>=<sp/>restored.getWeights(</highlight><highlight class="stringliteral">&quot;q_proj&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(b_rest.size(),<sp/>b_orig.size())</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;B-matrix<sp/>size<sp/>changed<sp/>through<sp/>save/load&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(a_rest.size(),<sp/>a_orig.size())</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;A-matrix<sp/>size<sp/>changed<sp/>through<sp/>save/load&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>b_orig.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(b_rest[i],<sp/>b_orig[i])</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;B-matrix<sp/>weight[&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>i<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;]<sp/>not<sp/>preserved<sp/>through<sp/>save/load&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>isCacheValid:<sp/>same<sp/>fingerprint<sp/>→<sp/>valid</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(AdaLoRAAdapter::isCacheValid(tmp_path,<sp/>fake_fp))</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;isCacheValid<sp/>returned<sp/>false<sp/>for<sp/>matching<sp/>fingerprint&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>isCacheValid:<sp/>different<sp/>fingerprint<sp/>→<sp/>invalid<sp/>(rebuild<sp/>required)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(AdaLoRAAdapter::isCacheValid(tmp_path,<sp/>std::string(64,<sp/></highlight><highlight class="charliteral">&apos;b&apos;</highlight><highlight class="normal">)))</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;isCacheValid<sp/>returned<sp/>true<sp/>for<sp/>mismatched<sp/>fingerprint&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>isCacheValid:<sp/>absent<sp/>file<sp/>→<sp/>invalid</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(AdaLoRAAdapter::isCacheValid(</highlight><highlight class="stringliteral">&quot;/nonexistent/path.bin&quot;</highlight><highlight class="normal">,<sp/>fake_fp))</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;isCacheValid<sp/>returned<sp/>true<sp/>for<sp/>absent<sp/>file&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cleanup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>std::filesystem::remove(tmp_path);</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>spdlog::info(</highlight><highlight class="stringliteral">&quot;LORA-04:<sp/>checkpoint<sp/>round-trip<sp/>OK<sp/>—<sp/>{}-byte<sp/>B-matrix<sp/>preserved,<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;fingerprint=&apos;{}...{}&apos;<sp/>verified&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>b_orig.size(),<sp/>fake_fp.substr(0,<sp/>8),<sp/>fake_fp.substr(56));</highlight></codeline>
+<codeline lineno="288"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>LORA-05:<sp/>Training<sp/>input<sp/>from<sp/>doku.db<sp/>────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><ref refid="test__llm__adalora__doku__training_8cpp_1a74fef5d985ba0c5940dc93749292aada" kindref="member">TEST_F</ref>(<ref refid="class_ada_lora_doku_training_test" kindref="compound">AdaLoraDokuTrainingTest</ref>,<sp/>Lora05_DokuDbTrainingInput)<sp/>{</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(doku_db_path_.empty())<sp/>{</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;doku.db<sp/>not<sp/>available<sp/>—<sp/>run<sp/>scripts/ci-build-doku-db.sh&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(doku_prompts_.empty())<sp/>{</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;No<sp/>prompts<sp/>extracted<sp/>from<sp/>doku.db&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>we<sp/>have<sp/>useful<sp/>training<sp/>material<sp/>from<sp/>the<sp/>documentation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(doku_prompts_.size(),<sp/>3u)</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>at<sp/>least<sp/>3<sp/>training<sp/>prompts<sp/>from<sp/>doku.db&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Each<sp/>prompt<sp/>should<sp/>contain<sp/>meaningful<sp/>content</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>p<sp/>:<sp/>doku_prompts_)<sp/>{</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GT(p.size(),<sp/>20u)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Prompt<sp/>too<sp/>short:<sp/>&apos;&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>p.substr(0,<sp/>40)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;&apos;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LT(p.size(),<sp/>1024u)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Prompt<sp/>too<sp/>long<sp/>(truncation<sp/>may<sp/>have<sp/>failed)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>spdlog::info(</highlight><highlight class="stringliteral">&quot;LORA-05:<sp/>{}<sp/>doku.db<sp/>prompts<sp/>available<sp/>for<sp/>training&quot;</highlight><highlight class="normal">,<sp/>doku_prompts_.size());</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>a<sp/>minimal<sp/>adapter<sp/>and<sp/>verify<sp/>forward<sp/>pass<sp/>on<sp/>doku<sp/>content</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>AdaLoRAAdapter<sp/>adapter(4,<sp/>8.0f,<sp/>16);</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter.addLayer(</highlight><highlight class="stringliteral">&quot;q_proj&quot;</highlight><highlight class="normal">,<sp/>64,<sp/>64,<sp/>4,<sp/>8.0f);</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Construct<sp/>a<sp/>synthetic<sp/>input<sp/>vector<sp/>derived<sp/>from<sp/>the<sp/>first<sp/>prompt&apos;s<sp/>length</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>in_dim<sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>input(in_dim);</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>std::iota(input.begin(),<sp/>input.end(),<sp/>0.1f);</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>v<sp/>:<sp/>input)<sp/>v<sp/>/=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">float</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(in_dim);<sp/></highlight><highlight class="comment">//<sp/>normalize</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Forward<sp/>pass<sp/>must<sp/>not<sp/>crash</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>output;</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(output<sp/>=<sp/>adapter.forward(</highlight><highlight class="stringliteral">&quot;q_proj&quot;</highlight><highlight class="normal">,<sp/>input,<sp/></highlight><highlight class="comment">/*batch_size=*/</highlight><highlight class="normal">1));</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(output.empty())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;forward()<sp/>returned<sp/>empty<sp/>output&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/>spdlog::info(</highlight><highlight class="stringliteral">&quot;LORA-05:<sp/>forward()<sp/>OK<sp/>—<sp/>output<sp/>dim={}&quot;</highlight><highlight class="normal">,<sp/>output.size());</highlight></codeline>
+<codeline lineno="327"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>LORA-06:<sp/>Convergence<sp/>proxy<sp/>──────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><ref refid="test__llm__adalora__doku__training_8cpp_1a74fef5d985ba0c5940dc93749292aada" kindref="member">TEST_F</ref>(<ref refid="class_ada_lora_doku_training_test" kindref="compound">AdaLoraDokuTrainingTest</ref>,<sp/>Lora06_ConvergenceProxy)<sp/>{</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>a<sp/>simplified<sp/>training<sp/>loop<sp/>by<sp/>tracking<sp/>importance<sp/>scores<sp/>across</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>10<sp/>rank-reallocation<sp/>steps<sp/>(each<sp/>step:<sp/>updateImportance<sp/>→<sp/>reallocateRanks).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>We<sp/>use<sp/>active_rank<sp/>trajectory<sp/>as<sp/>a<sp/>proxy:<sp/>the<sp/>sum<sp/>of<sp/>active<sp/>ranks<sp/>should</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>stabilise<sp/>(stop<sp/>changing)<sp/>as<sp/>the<sp/>importance<sp/>distribution<sp/>converges.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/>AdaLoRAAdapter<sp/>adapter(8,<sp/>16.0f,<sp/>32);</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter.addLayer(</highlight><highlight class="stringliteral">&quot;q_proj&quot;</highlight><highlight class="normal">,<sp/>128,<sp/>128,<sp/>8,<sp/>16.0f);</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter.addLayer(</highlight><highlight class="stringliteral">&quot;v_proj&quot;</highlight><highlight class="normal">,<sp/>128,<sp/>128,<sp/>8,<sp/>16.0f);</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter.addLayer(</highlight><highlight class="stringliteral">&quot;k_proj&quot;</highlight><highlight class="normal">,<sp/>128,<sp/>128,<sp/>8,<sp/>16.0f);</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter.addLayer(</highlight><highlight class="stringliteral">&quot;o_proj&quot;</highlight><highlight class="normal">,<sp/>128,<sp/>128,<sp/>8,<sp/>16.0f);</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;size_t&gt;<sp/>total_ranks;</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kSteps<sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>kBudget<sp/>=<sp/>20;</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>step<sp/>=<sp/>0;<sp/>step<sp/>&lt;<sp/>kSteps;<sp/>++step)<sp/>{</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>gradient-based<sp/>importance<sp/>signal<sp/>(use<sp/>synthetic<sp/>per-step<sp/>values)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>layer<sp/>:<sp/>{</highlight><highlight class="stringliteral">&quot;q_proj&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v_proj&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;k_proj&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;o_proj&quot;</highlight><highlight class="normal">})<sp/>{</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>adapter.updateImportance(layer);</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>adapter.reallocateRanks(kBudget);</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(res.success)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;reallocateRanks<sp/>failed<sp/>at<sp/>step<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>step;</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>total_ranks.push_back(res.total_active_rank);</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Total<sp/>active<sp/>rank<sp/>must<sp/>always<sp/>equal<sp/>the<sp/>budget</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>r<sp/>:<sp/>total_ranks)<sp/>{</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(r,<sp/>kBudget)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;total_active_rank<sp/>deviated<sp/>from<sp/>budget&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"></highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>that<sp/>rank<sp/>distribution<sp/>is<sp/>consistent<sp/>(last<sp/>5<sp/>steps<sp/>stable<sp/>vs<sp/>first<sp/>5)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>is<sp/>a<sp/>convergence<sp/>proxy<sp/>—<sp/>not<sp/>a<sp/>strict<sp/>convergence<sp/>proof.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>changes_first_half<sp/>=<sp/>std::count_if(</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>total_ranks.begin(),<sp/>total_ranks.begin()<sp/>+<sp/>5,</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>r)<sp/>{<sp/>return<sp/>r<sp/>!=<sp/>20u;<sp/>});</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(changes_first_half,<sp/>0u)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;rank<sp/>budget<sp/>violated<sp/>in<sp/>first<sp/>half&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/>spdlog::info(</highlight><highlight class="stringliteral">&quot;LORA-06:<sp/>rank<sp/>trajectory<sp/>over<sp/>{}<sp/>steps:<sp/>stable<sp/>at<sp/>budget={}&quot;</highlight><highlight class="normal">,<sp/>kSteps,<sp/>kBudget);</highlight></codeline>
+<codeline lineno="370"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"></highlight></codeline>
+<codeline lineno="372"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>LORA-07:<sp/>Thread-safety<sp/>under<sp/>concurrent<sp/>reallocateRanks()<sp/>────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="373"><highlight class="normal"></highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><ref refid="test__llm__adalora__doku__training_8cpp_1a74fef5d985ba0c5940dc93749292aada" kindref="member">TEST_F</ref>(<ref refid="class_ada_lora_doku_training_test" kindref="compound">AdaLoraDokuTrainingTest</ref>,<sp/>Lora07_ThreadSafeConcurrentRealloc)<sp/>{</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Two<sp/>threads<sp/>concurrently<sp/>updating<sp/>importance<sp/>and<sp/>reallocating<sp/>ranks<sp/>on</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>separate<sp/>AdaLoRAAdapter<sp/>instances<sp/>(adapter<sp/>is<sp/>NOT<sp/>designed<sp/>for<sp/>sharing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>across<sp/>threads;<sp/>this<sp/>test<sp/>validates<sp/>per-instance<sp/>isolation).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="378"><highlight class="normal"></highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kRounds<sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>errors{0};</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"></highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>worker<sp/>=<sp/>[&amp;](</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>thread_id)<sp/>{</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>AdaLoRAAdapter<sp/>adapter(4,<sp/>8.0f,<sp/>12);</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>adapter.addLayer(</highlight><highlight class="stringliteral">&quot;q_proj&quot;</highlight><highlight class="normal">,<sp/>64,<sp/>64,<sp/>4,<sp/>8.0f);</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>adapter.addLayer(</highlight><highlight class="stringliteral">&quot;v_proj&quot;</highlight><highlight class="normal">,<sp/>64,<sp/>64,<sp/>4,<sp/>8.0f);</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>adapter.addLayer(</highlight><highlight class="stringliteral">&quot;k_proj&quot;</highlight><highlight class="normal">,<sp/>64,<sp/>64,<sp/>4,<sp/>8.0f);</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"></highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kRounds;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>adapter.updateImportance(</highlight><highlight class="stringliteral">&quot;q_proj&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>adapter.updateImportance(</highlight><highlight class="stringliteral">&quot;v_proj&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>adapter.updateImportance(</highlight><highlight class="stringliteral">&quot;k_proj&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>adapter.reallocateRanks(6);</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!res.success<sp/>||<sp/>res.total_active_rank<sp/>!=<sp/>6u)<sp/>{</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++errors;</highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>spdlog::error(</highlight><highlight class="stringliteral">&quot;LORA-07<sp/>thread<sp/>{}<sp/>step<sp/>{}:<sp/>rank<sp/>mismatch&quot;</highlight><highlight class="normal">,<sp/>thread_id,<sp/>i);</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::exception&amp;<sp/>ex)<sp/>{</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++errors;</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>spdlog::error(</highlight><highlight class="stringliteral">&quot;LORA-07<sp/>thread<sp/>{}<sp/>step<sp/>{}:<sp/>exception:<sp/>{}&quot;</highlight><highlight class="normal">,<sp/>thread_id,<sp/>i,<sp/>ex.what());</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="403"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="404"><highlight class="normal"></highlight></codeline>
+<codeline lineno="405"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>t1(worker,<sp/>1);</highlight></codeline>
+<codeline lineno="406"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>t2(worker,<sp/>2);</highlight></codeline>
+<codeline lineno="407"><highlight class="normal"><sp/><sp/><sp/><sp/>t1.join();</highlight></codeline>
+<codeline lineno="408"><highlight class="normal"><sp/><sp/><sp/><sp/>t2.join();</highlight></codeline>
+<codeline lineno="409"><highlight class="normal"></highlight></codeline>
+<codeline lineno="410"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(errors.load(),<sp/>0)</highlight></codeline>
+<codeline lineno="411"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/>errors.load()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>error(s)<sp/>occurred<sp/>across<sp/>two<sp/>concurrent<sp/>adapter<sp/>threads&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="412"><highlight class="normal"><sp/><sp/><sp/><sp/>spdlog::info(</highlight><highlight class="stringliteral">&quot;LORA-07:<sp/>concurrent<sp/>adapters<sp/>finished<sp/>—<sp/>errors={}&quot;</highlight><highlight class="normal">,<sp/>errors.load());</highlight></codeline>
+<codeline lineno="413"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="414"><highlight class="normal"></highlight></codeline>
+<codeline lineno="415"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>LORA-08:<sp/>Cache-gate<sp/>—<sp/>rebuild<sp/>only<sp/>when<sp/>fingerprint<sp/>changes<sp/>──────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="416"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="417"><highlight class="normal"></highlight><highlight class="comment">//<sp/>This<sp/>test<sp/>validates<sp/>the<sp/>AdaLoRA<sp/>rebuild-gate<sp/>contract:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="418"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>1.<sp/>After<sp/>saving,<sp/>isCacheValid()<sp/>returns<sp/>true<sp/>for<sp/>matching<sp/>fingerprint.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="419"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>2.<sp/>After<sp/>the<sp/>fingerprint<sp/>changes,<sp/>isCacheValid()<sp/>returns<sp/>false<sp/>(rebuild<sp/>needed).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="420"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>3.<sp/>loadFromFile()<sp/>restores<sp/>the<sp/>adapter<sp/>exactly<sp/>(no<sp/>retraining<sp/>needed).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="421"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>4.<sp/>Force-rebuild<sp/>path:<sp/>even<sp/>if<sp/>cache<sp/>is<sp/>valid,<sp/>caller<sp/>can<sp/>override.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="422"><highlight class="normal"></highlight></codeline>
+<codeline lineno="423"><highlight class="normal"><ref refid="test__llm__adalora__doku__training_8cpp_1a74fef5d985ba0c5940dc93749292aada" kindref="member">TEST_F</ref>(<ref refid="class_ada_lora_doku_training_test" kindref="compound">AdaLoraDokuTrainingTest</ref>,<sp/>Lora08_CacheGate)<sp/>{</highlight></codeline>
+<codeline lineno="424"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>kModelFingerprintV1<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="425"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>kModelFingerprintV2<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="426"><highlight class="normal"></highlight></codeline>
+<codeline lineno="427"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>checkpoint_path<sp/>=</highlight></codeline>
+<codeline lineno="428"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(std::filesystem::temp_directory_path()<sp/>/</highlight></codeline>
+<codeline lineno="429"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;test_adalora_cache_gate_LORA08.bin&quot;</highlight><highlight class="normal">).</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">();</highlight></codeline>
+<codeline lineno="430"><highlight class="normal"></highlight></codeline>
+<codeline lineno="431"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Phase<sp/>1:<sp/>First<sp/>run<sp/>—<sp/>no<sp/>cache,<sp/>train<sp/>and<sp/>save<sp/>────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="432"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(AdaLoRAAdapter::isCacheValid(checkpoint_path,<sp/>kModelFingerprintV1))</highlight></codeline>
+<codeline lineno="433"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Cache<sp/>must<sp/>be<sp/>invalid<sp/>before<sp/>first<sp/>save&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="434"><highlight class="normal"></highlight></codeline>
+<codeline lineno="435"><highlight class="normal"><sp/><sp/><sp/><sp/>AdaLoRAAdapter<sp/>adapter_v1(4,<sp/>8.0f,<sp/>12);</highlight></codeline>
+<codeline lineno="436"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter_v1.addLayer(</highlight><highlight class="stringliteral">&quot;q_proj&quot;</highlight><highlight class="normal">,<sp/>32,<sp/>32,<sp/>4,<sp/>8.0f);</highlight></codeline>
+<codeline lineno="437"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter_v1.addLayer(</highlight><highlight class="stringliteral">&quot;v_proj&quot;</highlight><highlight class="normal">,<sp/>32,<sp/>32,<sp/>4,<sp/>8.0f);</highlight></codeline>
+<codeline lineno="438"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter_v1.addLayer(</highlight><highlight class="stringliteral">&quot;k_proj&quot;</highlight><highlight class="normal">,<sp/>32,<sp/>32,<sp/>4,<sp/>8.0f);</highlight></codeline>
+<codeline lineno="439"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter_v1.updateAllImportances();</highlight></codeline>
+<codeline lineno="440"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter_v1.reallocateRanks(8);</highlight></codeline>
+<codeline lineno="441"><highlight class="normal"></highlight></codeline>
+<codeline lineno="442"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[b_v1,<sp/>a_v1]<sp/>=<sp/>adapter_v1.getWeights(</highlight><highlight class="stringliteral">&quot;q_proj&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="443"><highlight class="normal"></highlight></codeline>
+<codeline lineno="444"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NO_THROW(adapter_v1.saveToFile(checkpoint_path,<sp/>kModelFingerprintV1));</highlight></codeline>
+<codeline lineno="445"><highlight class="normal"></highlight></codeline>
+<codeline lineno="446"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Phase<sp/>2:<sp/>Same<sp/>model<sp/>—<sp/>cache<sp/>HIT,<sp/>load<sp/>instead<sp/>of<sp/>retrain<sp/>────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="447"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(AdaLoRAAdapter::isCacheValid(checkpoint_path,<sp/>kModelFingerprintV1))</highlight></codeline>
+<codeline lineno="448"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Cache<sp/>must<sp/>be<sp/>valid<sp/>for<sp/>matching<sp/>fingerprint<sp/>after<sp/>save&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="449"><highlight class="normal"></highlight></codeline>
+<codeline lineno="450"><highlight class="normal"><sp/><sp/><sp/><sp/>AdaLoRAAdapter<sp/>adapter_loaded(4,<sp/>8.0f,<sp/>12);</highlight></codeline>
+<codeline lineno="451"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>loaded_fp<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="452"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NO_THROW(loaded_fp<sp/>=<sp/>adapter_loaded.loadFromFile(checkpoint_path));</highlight></codeline>
+<codeline lineno="453"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(loaded_fp,<sp/>kModelFingerprintV1)</highlight></codeline>
+<codeline lineno="454"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Loaded<sp/>fingerprint<sp/>does<sp/>not<sp/>match<sp/>saved<sp/>fingerprint&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="455"><highlight class="normal"></highlight></codeline>
+<codeline lineno="456"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Weights<sp/>must<sp/>survive<sp/>the<sp/>round-trip</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="457"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[b_loaded,<sp/>a_loaded]<sp/>=<sp/>adapter_loaded.getWeights(</highlight><highlight class="stringliteral">&quot;q_proj&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="458"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(b_loaded.size(),<sp/>b_v1.size());</highlight></codeline>
+<codeline lineno="459"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>b_v1.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="460"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(b_loaded[i],<sp/>b_v1[i])</highlight></codeline>
+<codeline lineno="461"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;B<sp/>weight[&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>i<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;]<sp/>not<sp/>preserved<sp/>—<sp/>cache-load<sp/>is<sp/>lossy&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="462"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="463"><highlight class="normal"></highlight></codeline>
+<codeline lineno="464"><highlight class="normal"><sp/><sp/><sp/><sp/>spdlog::info(</highlight><highlight class="stringliteral">&quot;LORA-08<sp/>phase-2:<sp/>cache<sp/>HIT<sp/>verified<sp/>—<sp/>loaded<sp/>{}<sp/>B-weights<sp/>without<sp/>retraining&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="465"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>b_v1.size());</highlight></codeline>
+<codeline lineno="466"><highlight class="normal"></highlight></codeline>
+<codeline lineno="467"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Phase<sp/>3:<sp/>Model<sp/>update<sp/>—<sp/>fingerprint<sp/>changes,<sp/>cache<sp/>MISS<sp/>→<sp/>retrain<sp/>───</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="468"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(AdaLoRAAdapter::isCacheValid(checkpoint_path,<sp/>kModelFingerprintV2))</highlight></codeline>
+<codeline lineno="469"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Cache<sp/>must<sp/>be<sp/>INVALID<sp/>when<sp/>fingerprint<sp/>changes<sp/>(model<sp/>update)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="470"><highlight class="normal"></highlight></codeline>
+<codeline lineno="471"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>retraining<sp/>for<sp/>the<sp/>new<sp/>model<sp/>version</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="472"><highlight class="normal"><sp/><sp/><sp/><sp/>AdaLoRAAdapter<sp/>adapter_v2(4,<sp/>8.0f,<sp/>12);</highlight></codeline>
+<codeline lineno="473"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter_v2.addLayer(</highlight><highlight class="stringliteral">&quot;q_proj&quot;</highlight><highlight class="normal">,<sp/>32,<sp/>32,<sp/>4,<sp/>8.0f);</highlight></codeline>
+<codeline lineno="474"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter_v2.addLayer(</highlight><highlight class="stringliteral">&quot;v_proj&quot;</highlight><highlight class="normal">,<sp/>32,<sp/>32,<sp/>4,<sp/>8.0f);</highlight></codeline>
+<codeline lineno="475"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter_v2.addLayer(</highlight><highlight class="stringliteral">&quot;k_proj&quot;</highlight><highlight class="normal">,<sp/>32,<sp/>32,<sp/>4,<sp/>8.0f);</highlight></codeline>
+<codeline lineno="476"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter_v2.updateAllImportances();</highlight></codeline>
+<codeline lineno="477"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter_v2.reallocateRanks(8);</highlight></codeline>
+<codeline lineno="478"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NO_THROW(adapter_v2.saveToFile(checkpoint_path,<sp/>kModelFingerprintV2));</highlight></codeline>
+<codeline lineno="479"><highlight class="normal"></highlight></codeline>
+<codeline lineno="480"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>resave<sp/>with<sp/>new<sp/>fingerprint,<sp/>old<sp/>fingerprint<sp/>is<sp/>stale</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="481"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(AdaLoRAAdapter::isCacheValid(checkpoint_path,<sp/>kModelFingerprintV1))</highlight></codeline>
+<codeline lineno="482"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Old<sp/>fingerprint<sp/>must<sp/>be<sp/>invalid<sp/>after<sp/>resave<sp/>with<sp/>new<sp/>fingerprint&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="483"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(AdaLoRAAdapter::isCacheValid(checkpoint_path,<sp/>kModelFingerprintV2))</highlight></codeline>
+<codeline lineno="484"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;New<sp/>fingerprint<sp/>must<sp/>be<sp/>valid<sp/>after<sp/>resave&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="485"><highlight class="normal"></highlight></codeline>
+<codeline lineno="486"><highlight class="normal"><sp/><sp/><sp/><sp/>spdlog::info(</highlight><highlight class="stringliteral">&quot;LORA-08<sp/>phase-3:<sp/>model-update<sp/>fingerprint<sp/>invalidation<sp/>verified&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="487"><highlight class="normal"></highlight></codeline>
+<codeline lineno="488"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Phase<sp/>4:<sp/>Force-rebuild<sp/>flag<sp/>—<sp/>caller<sp/>bypasses<sp/>the<sp/>gate<sp/>──────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="489"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>isCacheValid<sp/>returns<sp/>true,<sp/>but<sp/>the<sp/>caller<sp/>(or<sp/>CMake)<sp/>sets<sp/>the<sp/>force<sp/>flag.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="490"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>We<sp/>verify<sp/>the<sp/>caller-side<sp/>contract:<sp/>even<sp/>valid<sp/>cache<sp/>is<sp/>skipped<sp/>when<sp/>forced.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="491"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>cache_currently_valid<sp/>=</highlight></codeline>
+<codeline lineno="492"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>AdaLoRAAdapter::isCacheValid(checkpoint_path,<sp/>kModelFingerprintV2);</highlight></codeline>
+<codeline lineno="493"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(cache_currently_valid)</highlight></codeline>
+<codeline lineno="494"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Precondition:<sp/>cache<sp/>must<sp/>be<sp/>valid<sp/>for<sp/>phase-4<sp/>force-rebuild<sp/>scenario&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="495"><highlight class="normal"></highlight></codeline>
+<codeline lineno="496"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>THEMIS_ADALORA_FORCE_REBUILD=1<sp/>by<sp/>ignoring<sp/>isCacheValid()<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="497"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>force_rebuild<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>in<sp/>production:<sp/>read<sp/>from<sp/>env<sp/>/<sp/>CMake<sp/>variable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="498"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(force_rebuild<sp/>||<sp/>!cache_currently_valid)<sp/>{</highlight></codeline>
+<codeline lineno="499"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Retrain<sp/>and<sp/>overwrite<sp/>—<sp/>this<sp/>path<sp/>runs<sp/>unconditionally</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="500"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(adapter_v2.saveToFile(checkpoint_path,<sp/>kModelFingerprintV2));</highlight></codeline>
+<codeline lineno="501"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>spdlog::info(</highlight><highlight class="stringliteral">&quot;LORA-08<sp/>phase-4:<sp/>force-rebuild<sp/>path<sp/>exercised<sp/>correctly&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="502"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="503"><highlight class="normal"></highlight></codeline>
+<codeline lineno="504"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cleanup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="505"><highlight class="normal"><sp/><sp/><sp/><sp/>std::filesystem::remove(checkpoint_path);</highlight></codeline>
+<codeline lineno="506"><highlight class="normal"></highlight></codeline>
+<codeline lineno="507"><highlight class="normal"><sp/><sp/><sp/><sp/>spdlog::info(</highlight><highlight class="stringliteral">&quot;LORA-08:<sp/>cache-gate<sp/>contract<sp/>fully<sp/>verified<sp/>(4<sp/>phases)&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="508"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/llm/test_llm_adalora_doku_training.cpp"/>
+  </compounddef>
+</doxygen>

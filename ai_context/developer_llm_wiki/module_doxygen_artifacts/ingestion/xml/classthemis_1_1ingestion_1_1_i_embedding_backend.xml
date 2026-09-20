@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1_i_embedding_backend" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::ingestion::IEmbeddingBackend</compoundname>
+    <derivedcompoundref refid="class_stub_embedding_backend" prot="public" virt="non-virtual">StubEmbeddingBackend</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1ingestion_1_1_null_embedding_backend" prot="public" virt="non-virtual">themis::ingestion::NullEmbeddingBackend</derivedcompoundref>
+    <includes refid="inference__backend_8h" local="no">inference_backend.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_i_embedding_backend_1a4c03a603c5e4add5c45fa3cacdc5eaad" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::ingestion::IEmbeddingBackend::~IEmbeddingBackend</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IEmbeddingBackend</name>
+        <qualifiedname>themis::ingestion::IEmbeddingBackend::~IEmbeddingBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/inference_backend.h" line="211" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_i_embedding_backend_1a95f1d0489a60aba4155f01dfacaf6dd3" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>virtual std::vector&lt; float &gt; themis::ingestion::IEmbeddingBackend::embed</definition>
+        <argsstring>(const std::string &amp;text)=0</argsstring>
+        <name>embed</name>
+        <qualifiedname>themis::ingestion::IEmbeddingBackend::embed</qualifiedname>
+        <reimplementedby refid="class_stub_embedding_backend_1a3c80536681d2ccf558f759c5cd41e59b">embed</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_null_embedding_backend_1a02f81f046d595e6b654c5c5d20d458f3">embed</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Compute a dense embedding for <computeroutput>text</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input text snippet (UTF-8). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Dense embedding vector of <computeroutput><ref refid="classthemis_1_1ingestion_1_1_i_embedding_backend_1a09cd2b75ab5d9d5554b1c55116ef4ce7" kindref="member">dimensions()</ref></computeroutput> floats. Returns an empty vector on error; callers should check <computeroutput><ref refid="classthemis_1_1ingestion_1_1_i_embedding_backend_1a9f4676d5dd4acbc5d2b15d7e16496dfe" kindref="member">isAvailable()</ref></computeroutput> before calling. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/inference_backend.h" line="221" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_i_embedding_backend_1a09cd2b75ab5d9d5554b1c55116ef4ce7" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>int</type>
+        <definition>virtual int themis::ingestion::IEmbeddingBackend::dimensions</definition>
+        <argsstring>() const =0</argsstring>
+        <name>dimensions</name>
+        <qualifiedname>themis::ingestion::IEmbeddingBackend::dimensions</qualifiedname>
+        <reimplementedby refid="class_stub_embedding_backend_1a909e4b0b85442667fb5a971d9f179497">dimensions</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_null_embedding_backend_1a12decbd7efd90a2d4762b1109e170127">dimensions</reimplementedby>
+        <briefdescription>
+<para>Number of dimensions in the embedding vector. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/inference_backend.h" line="226" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_i_embedding_backend_1a9f4676d5dd4acbc5d2b15d7e16496dfe" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::ingestion::IEmbeddingBackend::isAvailable</definition>
+        <argsstring>() const =0</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::ingestion::IEmbeddingBackend::isAvailable</qualifiedname>
+        <reimplementedby refid="class_stub_embedding_backend_1a8ac8c3c951a5f6d9b9ea2c6a0a634118">isAvailable</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_null_embedding_backend_1a7fc0dadd7a81d6733a451b9290126267">isAvailable</reimplementedby>
+        <briefdescription>
+<para>Return true when the backend is ready for inference. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/inference_backend.h" line="231" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_i_embedding_backend_1aae20992657e8f1a600ae5ec38a1e194a" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::ingestion::IEmbeddingBackend::description</definition>
+        <argsstring>() const =0</argsstring>
+        <name>description</name>
+        <qualifiedname>themis::ingestion::IEmbeddingBackend::description</qualifiedname>
+        <reimplementedby refid="class_stub_embedding_backend_1a2e18df54e71d5c5cce8f253834eda2aa">description</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_null_embedding_backend_1acd001917a5487938b9f104c338563697">description</reimplementedby>
+        <briefdescription>
+<para>Human-readable backend description for logging. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Example: &quot;multilingual-E5-base ONNX (768-d)&quot; </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/inference_backend.h" line="238" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Produces a dense embedding vector from a text snippet. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implementations include:<itemizedlist>
+<listitem><para>ONNX-CLIP sentence encoder (when THEMIS_ENABLE_ONNX_CLIP is ON)</para>
+</listitem><listitem><para>multilingual-E5 via llama.cpp embeddings API</para>
+</listitem><listitem><para><ref refid="classthemis_1_1ingestion_1_1_null_embedding_backend" kindref="compound">NullEmbeddingBackend</ref> (zero-vector stub, <ref refid="classthemis_1_1ingestion_1_1_i_embedding_backend_1a9f4676d5dd4acbc5d2b15d7e16496dfe" kindref="member">isAvailable()</ref> == false)</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread safety: implementations MUST be thread-safe. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>StubEmbeddingBackend</label>
+        <link refid="class_stub_embedding_backend"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::ingestion::IEmbeddingBackend</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_embedding_backend"/>
+      </node>
+      <node id="3">
+        <label>themis::ingestion::NullEmbeddingBackend</label>
+        <link refid="classthemis_1_1ingestion_1_1_null_embedding_backend"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/ingestion/inference_backend.h" line="209" column="1" bodyfile="include/ingestion/inference_backend.h" bodystart="209" bodyend="239"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1_i_embedding_backend_1aae20992657e8f1a600ae5ec38a1e194a" prot="public" virt="pure-virtual"><scope>themis::ingestion::IEmbeddingBackend</scope><name>description</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_embedding_backend_1a09cd2b75ab5d9d5554b1c55116ef4ce7" prot="public" virt="pure-virtual"><scope>themis::ingestion::IEmbeddingBackend</scope><name>dimensions</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_embedding_backend_1a95f1d0489a60aba4155f01dfacaf6dd3" prot="public" virt="pure-virtual"><scope>themis::ingestion::IEmbeddingBackend</scope><name>embed</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_embedding_backend_1a9f4676d5dd4acbc5d2b15d7e16496dfe" prot="public" virt="pure-virtual"><scope>themis::ingestion::IEmbeddingBackend</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_embedding_backend_1a4c03a603c5e4add5c45fa3cacdc5eaad" prot="public" virt="virtual"><scope>themis::ingestion::IEmbeddingBackend</scope><name>~IEmbeddingBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

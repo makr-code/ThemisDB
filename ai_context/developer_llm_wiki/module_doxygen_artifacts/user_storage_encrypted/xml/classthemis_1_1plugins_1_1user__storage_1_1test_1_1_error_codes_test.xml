@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1user__storage_1_1test_1_1_error_codes_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::user_storage::test::ErrorCodesTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1user__storage_1_1test_1_1_error_codes_test_1a2a5e62a2faf9d2ed091e1f00a9071e82" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event" kindref="compound">DiagnosticEvent</ref> &gt;</type>
+        <definition>std::vector&lt;DiagnosticEvent&gt; themis::plugins::user_storage::test::ErrorCodesTest::captured_events</definition>
+        <argsstring></argsstring>
+        <name>captured_events</name>
+        <qualifiedname>themis::plugins::user_storage::test::ErrorCodesTest::captured_events</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_phase2_error_codes_focused.cpp" line="28" column="17" bodyfile="tests/user_storage_encrypted/test_phase2_error_codes_focused.cpp" bodystart="28" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1test_1_1_error_codes_test_1a6b5a86de212529584877e0f2d7c3869b" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::user_storage::test::ErrorCodesTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::plugins::user_storage::test::ErrorCodesTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_phase2_error_codes_focused.cpp" line="21" column="10" bodyfile="tests/user_storage_encrypted/test_phase2_error_codes_focused.cpp" bodystart="21" bodyend="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::plugins::user_storage::test::ErrorCodesTest</label>
+        <link refid="classthemis_1_1plugins_1_1user__storage_1_1test_1_1_error_codes_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::plugins::user_storage::test::ErrorCodesTest</label>
+        <link refid="classthemis_1_1plugins_1_1user__storage_1_1test_1_1_error_codes_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/user_storage_encrypted/test_phase2_error_codes_focused.cpp" line="19" column="1" bodyfile="tests/user_storage_encrypted/test_phase2_error_codes_focused.cpp" bodystart="19" bodyend="29"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1test_1_1_error_codes_test_1a2a5e62a2faf9d2ed091e1f00a9071e82" prot="protected" virt="non-virtual"><scope>themis::plugins::user_storage::test::ErrorCodesTest</scope><name>captured_events</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1test_1_1_error_codes_test_1a6b5a86de212529584877e0f2d7c3869b" prot="protected" virt="non-virtual"><scope>themis::plugins::user_storage::test::ErrorCodesTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

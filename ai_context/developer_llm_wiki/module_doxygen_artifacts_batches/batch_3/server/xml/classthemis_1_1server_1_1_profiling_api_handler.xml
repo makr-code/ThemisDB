@@ -1,0 +1,803 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_profiling_api_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::ProfilingApiHandler</compoundname>
+    <includes refid="profiling__api__handler_8h" local="no">profiling_api_handler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_profiling_api_handler_1ac48a1d0e07ec58783db5f0ca35854956" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; observability::QueryProfiler &gt;</type>
+        <definition>std::shared_ptr&lt;observability::QueryProfiler&gt; themis::server::ProfilingApiHandler::query_profiler_</definition>
+        <argsstring></argsstring>
+        <name>query_profiler_</name>
+        <qualifiedname>themis::server::ProfilingApiHandler::query_profiler_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/profiling_api_handler.h" line="45" column="21" bodyfile="include/server/profiling_api_handler.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_profiling_api_handler_1a41f9940d403a57a26b5b4f069421bcf7" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; observability::StorageProfiler &gt;</type>
+        <definition>std::shared_ptr&lt;observability::StorageProfiler&gt; themis::server::ProfilingApiHandler::storage_profiler_</definition>
+        <argsstring></argsstring>
+        <name>storage_profiler_</name>
+        <qualifiedname>themis::server::ProfilingApiHandler::storage_profiler_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/profiling_api_handler.h" line="46" column="21" bodyfile="include/server/profiling_api_handler.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_profiling_api_handler_1ae96399bc27e32bc102be155a5a8556f9" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; observability::PerformanceAnalyzer &gt;</type>
+        <definition>std::shared_ptr&lt;observability::PerformanceAnalyzer&gt; themis::server::ProfilingApiHandler::analyzer_</definition>
+        <argsstring></argsstring>
+        <name>analyzer_</name>
+        <qualifiedname>themis::server::ProfilingApiHandler::analyzer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/profiling_api_handler.h" line="47" column="21" bodyfile="include/server/profiling_api_handler.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_profiling_api_handler_1aeedb2746e40125ba45dcad18ca9e7f89" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::ProfilingApiHandler::ProfilingApiHandler</definition>
+        <argsstring>(std::shared_ptr&lt; observability::QueryProfiler &gt; query_profiler, std::shared_ptr&lt; observability::StorageProfiler &gt; storage_profiler, std::shared_ptr&lt; observability::PerformanceAnalyzer &gt; analyzer)</argsstring>
+        <name>ProfilingApiHandler</name>
+        <qualifiedname>themis::server::ProfilingApiHandler::ProfilingApiHandler</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; observability::QueryProfiler &gt;</type>
+          <declname>query_profiler</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; observability::StorageProfiler &gt;</type>
+          <declname>storage_profiler</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; observability::PerformanceAnalyzer &gt;</type>
+          <declname>analyzer</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/profiling_api_handler.h" line="30" column="5" bodyfile="src/server/profiling_api_handler.cpp" bodystart="25" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_profiling_api_handler_1aef9e139cb2ce4dc171280daf7b419676" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ProfilingApiHandler::handle_request</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handle_request</name>
+        <qualifiedname>themis::server::ProfilingApiHandler::handle_request</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), target(), method(), handle_enable(), handle_disable(), find(), handle_get_queries(), handle_get_slow_queries(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/profiling_api_handler.h" line="41" column="20" bodyfile="src/server/profiling_api_handler.cpp" bodystart="39" bodyend="79"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_profiling_api_handler_1af77cd014079fa07d499554ebc183f94d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ProfilingApiHandler::handle_enable</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handle_enable</name>
+        <qualifiedname>themis::server::ProfilingApiHandler::handle_enable</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle enable. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), enable(), make_response(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/profiling_api_handler.h" line="55" column="20" bodyfile="src/server/profiling_api_handler.cpp" bodystart="87" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_profiling_api_handler_1a443c675d75d358362648bacb788ed395" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ProfilingApiHandler::handle_disable</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handle_disable</name>
+        <qualifiedname>themis::server::ProfilingApiHandler::handle_disable</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle disable. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), disable(), make_response(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/profiling_api_handler.h" line="63" column="20" bodyfile="src/server/profiling_api_handler.cpp" bodystart="108" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_profiling_api_handler_1a2ff4565997ee6c5098b6a580835bca53" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ProfilingApiHandler::handle_get_queries</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handle_get_queries</name>
+        <qualifiedname>themis::server::ProfilingApiHandler::handle_get_queries</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle get queries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), get_query_param_int(), std::string(), target(), make_error_response(), get_all_profiles(), std::sort(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/profiling_api_handler.h" line="71" column="20" bodyfile="src/server/profiling_api_handler.cpp" bodystart="129" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_profiling_api_handler_1a7386788f04172e6def91441ff076d0f3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ProfilingApiHandler::handle_get_slow_queries</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handle_get_slow_queries</name>
+        <qualifiedname>themis::server::ProfilingApiHandler::handle_get_slow_queries</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle get slow queries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), get_query_param_int(), std::string(), target(), make_error_response(), get_slow_queries(), std::chrono::milliseconds(), json::array(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/profiling_api_handler.h" line="79" column="20" bodyfile="src/server/profiling_api_handler.cpp" bodystart="167" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_profiling_api_handler_1ad5661610501c64cd1cbd8ccc0b4cabd7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ProfilingApiHandler::handle_get_storage</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handle_get_storage</name>
+        <qualifiedname>themis::server::ProfilingApiHandler::handle_get_storage</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle get storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), get_operation_summary(), get_cache_metrics(), get_amplification_metrics(), get_latest_rocksdb_stats(), has_value(), toJSON(), make_response(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/profiling_api_handler.h" line="87" column="20" bodyfile="src/server/profiling_api_handler.cpp" bodystart="196" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_profiling_api_handler_1a405e393da22533a2d5c32ba5132ffcf9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ProfilingApiHandler::handle_analyze</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handle_analyze</name>
+        <qualifiedname>themis::server::ProfilingApiHandler::handle_analyze</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle analyze. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), analyze(), make_response(), toJSON(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/profiling_api_handler.h" line="95" column="20" bodyfile="src/server/profiling_api_handler.cpp" bodystart="220" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_profiling_api_handler_1af46036ad5e6d2098de8b81fba32336de" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ProfilingApiHandler::handle_export</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handle_export</name>
+        <qualifiedname>themis::server::ProfilingApiHandler::handle_export</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle export. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), get_all_profiles(), get_rocksdb_stats_history(), json::array(), push_back(), toJSON(), get_statistics(), get_operation_summary(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/profiling_api_handler.h" line="103" column="20" bodyfile="src/server/profiling_api_handler.cpp" bodystart="235" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_profiling_api_handler_1a012cd0c37068b06eef00829fbcf757d7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ProfilingApiHandler::handle_clear</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handle_clear</name>
+        <qualifiedname>themis::server::ProfilingApiHandler::handle_clear</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), clear(), make_response(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/profiling_api_handler.h" line="111" column="20" bodyfile="src/server/profiling_api_handler.cpp" bodystart="268" bodyend="281"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_profiling_api_handler_1a16127f28042d89f25b89fd2f3b46cae4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ProfilingApiHandler::handle_get_config</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handle_get_config</name>
+        <qualifiedname>themis::server::ProfilingApiHandler::handle_get_config</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle get config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), get_config(), count(), make_response(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/profiling_api_handler.h" line="119" column="20" bodyfile="src/server/profiling_api_handler.cpp" bodystart="289" bodyend="319"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_profiling_api_handler_1a043dc12386c760832326c3fcce0ff1b4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ProfilingApiHandler::handle_set_config</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handle_set_config</name>
+        <qualifiedname>themis::server::ProfilingApiHandler::handle_set_config</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle set config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: Tracer::startSpan(), json::parse(), body(), contains(), get_config(), std::chrono::milliseconds(), set_config(), make_response(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/profiling_api_handler.h" line="127" column="20" bodyfile="src/server/profiling_api_handler.cpp" bodystart="328" bodyend="412"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_profiling_api_handler_1a9f92e370e77cbc95b859e7391265b351" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ProfilingApiHandler::make_response</definition>
+        <argsstring>(http::status status, const nlohmann::json &amp;body)</argsstring>
+        <name>make_response</name>
+        <qualifiedname>themis::server::ProfilingApiHandler::make_response</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+<para>Make response. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), set(), body(), dump(), prepare_payload(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/profiling_api_handler.h" line="137" column="20" bodyfile="src/server/profiling_api_handler.cpp" bodystart="421" bodyend="431"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_profiling_api_handler_1a19926cb63b26bbe0461bd8ed26612247" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ProfilingApiHandler::make_error_response</definition>
+        <argsstring>(http::status status, const std::string &amp;message)</argsstring>
+        <name>make_error_response</name>
+        <qualifiedname>themis::server::ProfilingApiHandler::make_error_response</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Make error response. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), make_response(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/profiling_api_handler.h" line="147" column="20" bodyfile="src/server/profiling_api_handler.cpp" bodystart="440" bodyend="449"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_profiling_api_handler_1ac1febdb8561b4b900f5e4299596166a6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::ProfilingApiHandler::get_query_param_int</definition>
+        <argsstring>(const std::string &amp;target, const std::string &amp;param_name, int default_value, int &amp;value)</argsstring>
+        <name>get_query_param_int</name>
+        <qualifiedname>themis::server::ProfilingApiHandler::get_query_param_int</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>param_name</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>default_value</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Get query param int. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the param. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">default_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the param. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">default_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: find(), size(), substr(), std::stoi(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/profiling_api_handler.h" line="159" column="10" bodyfile="src/server/profiling_api_handler.cpp" bodystart="460" bodyend="507"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/profiling_api_handler.h" line="28" column="1" bodyfile="include/server/profiling_api_handler.h" bodystart="28" bodyend="163"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_profiling_api_handler_1ae96399bc27e32bc102be155a5a8556f9" prot="private" virt="non-virtual"><scope>themis::server::ProfilingApiHandler</scope><name>analyzer_</name></member>
+      <member refid="classthemis_1_1server_1_1_profiling_api_handler_1ac1febdb8561b4b900f5e4299596166a6" prot="private" virt="non-virtual"><scope>themis::server::ProfilingApiHandler</scope><name>get_query_param_int</name></member>
+      <member refid="classthemis_1_1server_1_1_profiling_api_handler_1a405e393da22533a2d5c32ba5132ffcf9" prot="private" virt="non-virtual"><scope>themis::server::ProfilingApiHandler</scope><name>handle_analyze</name></member>
+      <member refid="classthemis_1_1server_1_1_profiling_api_handler_1a012cd0c37068b06eef00829fbcf757d7" prot="private" virt="non-virtual"><scope>themis::server::ProfilingApiHandler</scope><name>handle_clear</name></member>
+      <member refid="classthemis_1_1server_1_1_profiling_api_handler_1a443c675d75d358362648bacb788ed395" prot="private" virt="non-virtual"><scope>themis::server::ProfilingApiHandler</scope><name>handle_disable</name></member>
+      <member refid="classthemis_1_1server_1_1_profiling_api_handler_1af77cd014079fa07d499554ebc183f94d" prot="private" virt="non-virtual"><scope>themis::server::ProfilingApiHandler</scope><name>handle_enable</name></member>
+      <member refid="classthemis_1_1server_1_1_profiling_api_handler_1af46036ad5e6d2098de8b81fba32336de" prot="private" virt="non-virtual"><scope>themis::server::ProfilingApiHandler</scope><name>handle_export</name></member>
+      <member refid="classthemis_1_1server_1_1_profiling_api_handler_1a16127f28042d89f25b89fd2f3b46cae4" prot="private" virt="non-virtual"><scope>themis::server::ProfilingApiHandler</scope><name>handle_get_config</name></member>
+      <member refid="classthemis_1_1server_1_1_profiling_api_handler_1a2ff4565997ee6c5098b6a580835bca53" prot="private" virt="non-virtual"><scope>themis::server::ProfilingApiHandler</scope><name>handle_get_queries</name></member>
+      <member refid="classthemis_1_1server_1_1_profiling_api_handler_1a7386788f04172e6def91441ff076d0f3" prot="private" virt="non-virtual"><scope>themis::server::ProfilingApiHandler</scope><name>handle_get_slow_queries</name></member>
+      <member refid="classthemis_1_1server_1_1_profiling_api_handler_1ad5661610501c64cd1cbd8ccc0b4cabd7" prot="private" virt="non-virtual"><scope>themis::server::ProfilingApiHandler</scope><name>handle_get_storage</name></member>
+      <member refid="classthemis_1_1server_1_1_profiling_api_handler_1aef9e139cb2ce4dc171280daf7b419676" prot="public" virt="non-virtual"><scope>themis::server::ProfilingApiHandler</scope><name>handle_request</name></member>
+      <member refid="classthemis_1_1server_1_1_profiling_api_handler_1a043dc12386c760832326c3fcce0ff1b4" prot="private" virt="non-virtual"><scope>themis::server::ProfilingApiHandler</scope><name>handle_set_config</name></member>
+      <member refid="classthemis_1_1server_1_1_profiling_api_handler_1a19926cb63b26bbe0461bd8ed26612247" prot="private" virt="non-virtual"><scope>themis::server::ProfilingApiHandler</scope><name>make_error_response</name></member>
+      <member refid="classthemis_1_1server_1_1_profiling_api_handler_1a9f92e370e77cbc95b859e7391265b351" prot="private" virt="non-virtual"><scope>themis::server::ProfilingApiHandler</scope><name>make_response</name></member>
+      <member refid="classthemis_1_1server_1_1_profiling_api_handler_1aeedb2746e40125ba45dcad18ca9e7f89" prot="public" virt="non-virtual"><scope>themis::server::ProfilingApiHandler</scope><name>ProfilingApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_profiling_api_handler_1ac48a1d0e07ec58783db5f0ca35854956" prot="private" virt="non-virtual"><scope>themis::server::ProfilingApiHandler</scope><name>query_profiler_</name></member>
+      <member refid="classthemis_1_1server_1_1_profiling_api_handler_1a41f9940d403a57a26b5b4f069421bcf7" prot="private" virt="non-virtual"><scope>themis::server::ProfilingApiHandler</scope><name>storage_profiler_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

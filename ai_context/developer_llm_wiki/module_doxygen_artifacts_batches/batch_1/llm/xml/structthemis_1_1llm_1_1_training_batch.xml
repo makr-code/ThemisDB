@@ -1,0 +1,194 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_training_batch" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::TrainingBatch</compoundname>
+    <includes refid="batch__generator_8h" local="no">batch_generator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_training_batch_1ad412f3cfe25ba96e4e96e8e7f66c5712" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; TrainingSample &gt;</type>
+        <definition>std::vector&lt;TrainingSample&gt; themis::llm::TrainingBatch::examples</definition>
+        <argsstring></argsstring>
+        <name>examples</name>
+        <qualifiedname>themis::llm::TrainingBatch::examples</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/batch_generator.h" line="73" column="17" bodyfile="include/llm/batch_generator.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_training_batch_1a36560305f45c25fd14aa16f29d7acf63" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; int &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;int&gt; &gt; themis::llm::TrainingBatch::input_ids</definition>
+        <argsstring></argsstring>
+        <name>input_ids</name>
+        <qualifiedname>themis::llm::TrainingBatch::input_ids</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/batch_generator.h" line="76" column="17" bodyfile="include/llm/batch_generator.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_training_batch_1a7754b1430c7d1d89474d166f7d17e9a8" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; int &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;int&gt; &gt; themis::llm::TrainingBatch::attention_mask</definition>
+        <argsstring></argsstring>
+        <name>attention_mask</name>
+        <qualifiedname>themis::llm::TrainingBatch::attention_mask</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/batch_generator.h" line="77" column="17" bodyfile="include/llm/batch_generator.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_training_batch_1afda319eb8eaf30b3e6bc16827edd85ab" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; int &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;int&gt; &gt; themis::llm::TrainingBatch::labels</definition>
+        <argsstring></argsstring>
+        <name>labels</name>
+        <qualifiedname>themis::llm::TrainingBatch::labels</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/batch_generator.h" line="78" column="17" bodyfile="include/llm/batch_generator.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_training_batch_1aaeb61c947a7b3894dd6f68a7dd7f4c2f" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::TrainingBatch::batch_id</definition>
+        <argsstring></argsstring>
+        <name>batch_id</name>
+        <qualifiedname>themis::llm::TrainingBatch::batch_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/batch_generator.h" line="81" column="9" bodyfile="include/llm/batch_generator.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_training_batch_1a04075e88a5945a8cc42ef4808064fb14" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::TrainingBatch::num_tokens</definition>
+        <argsstring></argsstring>
+        <name>num_tokens</name>
+        <qualifiedname>themis::llm::TrainingBatch::num_tokens</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/batch_generator.h" line="82" column="9" bodyfile="include/llm/batch_generator.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_training_batch_1a314defc3fa565a69a1776a5a33c9a41d" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::TrainingBatch::avg_quality_score</definition>
+        <argsstring></argsstring>
+        <name>avg_quality_score</name>
+        <qualifiedname>themis::llm::TrainingBatch::avg_quality_score</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/batch_generator.h" line="83" column="11" bodyfile="include/llm/batch_generator.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_training_batch_1a1c91d798af13b56206f02204b3980b5d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::TrainingBatch::graph_contexts</definition>
+        <argsstring></argsstring>
+        <name>graph_contexts</name>
+        <qualifiedname>themis::llm::TrainingBatch::graph_contexts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/batch_generator.h" line="86" column="17" bodyfile="include/llm/batch_generator.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_training_batch_1a5df3fccbfad0a1809d9f11f8e1d80ab8" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::TrainingBatch::vector_similarities</definition>
+        <argsstring></argsstring>
+        <name>vector_similarities</name>
+        <qualifiedname>themis::llm::TrainingBatch::vector_similarities</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/batch_generator.h" line="87" column="17" bodyfile="include/llm/batch_generator.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_training_batch_1a2031198dcae89afe6eb41edd4db2c499" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::TrainingBatch::~TrainingBatch</definition>
+        <argsstring>()=default</argsstring>
+        <name>~TrainingBatch</name>
+        <qualifiedname>themis::llm::TrainingBatch::~TrainingBatch</qualifiedname>
+        <briefdescription>
+<para>Training Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/batch_generator.h" line="72" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_training_batch_1ab0d0890cfba938bb2d507d21abaa2291" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::llm::TrainingBatch::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::llm::TrainingBatch::toJSON</qualifiedname>
+        <briefdescription>
+<para>To JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/batch_generator.h" line="93" column="20"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/batch_generator.h" line="67" column="1" bodyfile="include/llm/batch_generator.h" bodystart="67" bodyend="94"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_training_batch_1a7754b1430c7d1d89474d166f7d17e9a8" prot="public" virt="non-virtual"><scope>themis::llm::TrainingBatch</scope><name>attention_mask</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_batch_1a314defc3fa565a69a1776a5a33c9a41d" prot="public" virt="non-virtual"><scope>themis::llm::TrainingBatch</scope><name>avg_quality_score</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_batch_1aaeb61c947a7b3894dd6f68a7dd7f4c2f" prot="public" virt="non-virtual"><scope>themis::llm::TrainingBatch</scope><name>batch_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_batch_1ad412f3cfe25ba96e4e96e8e7f66c5712" prot="public" virt="non-virtual"><scope>themis::llm::TrainingBatch</scope><name>examples</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_batch_1a1c91d798af13b56206f02204b3980b5d" prot="public" virt="non-virtual"><scope>themis::llm::TrainingBatch</scope><name>graph_contexts</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_batch_1a36560305f45c25fd14aa16f29d7acf63" prot="public" virt="non-virtual"><scope>themis::llm::TrainingBatch</scope><name>input_ids</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_batch_1afda319eb8eaf30b3e6bc16827edd85ab" prot="public" virt="non-virtual"><scope>themis::llm::TrainingBatch</scope><name>labels</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_batch_1a04075e88a5945a8cc42ef4808064fb14" prot="public" virt="non-virtual"><scope>themis::llm::TrainingBatch</scope><name>num_tokens</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_batch_1ab0d0890cfba938bb2d507d21abaa2291" prot="public" virt="non-virtual"><scope>themis::llm::TrainingBatch</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_batch_1a5df3fccbfad0a1809d9f11f8e1d80ab8" prot="public" virt="non-virtual"><scope>themis::llm::TrainingBatch</scope><name>vector_similarities</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_batch_1a2031198dcae89afe6eb41edd4db2c499" prot="public" virt="virtual"><scope>themis::llm::TrainingBatch</scope><name>~TrainingBatch</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

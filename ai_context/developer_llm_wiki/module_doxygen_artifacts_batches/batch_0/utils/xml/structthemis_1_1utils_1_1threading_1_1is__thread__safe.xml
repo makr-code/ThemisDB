@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1threading_1_1is__thread__safe" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::threading::is_thread_safe</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">std::false_type</basecompoundref>
+    <includes refid="thread__safety_8h" local="no">thread_safety.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+    </templateparamlist>
+    <briefdescription>
+<para>Helper to check if a type is thread-safe. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Use this trait to check if a type has thread-safe operations. By default, only std::atomic types are considered thread-safe. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>std::false_type</label>
+      </node>
+      <node id="1">
+        <label>themis::utils::threading::is_thread_safe&lt; T &gt;</label>
+        <link refid="structthemis_1_1utils_1_1threading_1_1is__thread__safe"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>std::false_type</label>
+      </node>
+      <node id="1">
+        <label>themis::utils::threading::is_thread_safe&lt; T &gt;</label>
+        <link refid="structthemis_1_1utils_1_1threading_1_1is__thread__safe"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/utils/thread_safety.h" line="143" column="1" bodyfile="include/utils/thread_safety.h" bodystart="143" bodyend="143"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

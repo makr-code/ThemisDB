@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1modules_1_1_wasm_sandbox_validation_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::modules::WasmSandboxValidationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_wasm_sandbox_validation_test_1aafc960cc3a67c09ae3b7c92a05e5a87c" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>static std::vector&lt; uint8_t &gt; themis::modules::WasmSandboxValidationTest::minimalWasm</definition>
+        <argsstring>()</argsstring>
+        <name>minimalWasm</name>
+        <qualifiedname>themis::modules::WasmSandboxValidationTest::minimalWasm</qualifiedname>
+        <briefdescription>
+<para>Minimal valid WASM binary (magic + version, no sections). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_future_enhancements.cpp" line="155" column="24" bodyfile="tests/base/test_base_future_enhancements.cpp" bodystart="155" bodyend="159"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::modules::WasmSandboxValidationTest</label>
+        <link refid="classthemis_1_1modules_1_1_wasm_sandbox_validation_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::modules::WasmSandboxValidationTest</label>
+        <link refid="classthemis_1_1modules_1_1_wasm_sandbox_validation_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/base/test_base_future_enhancements.cpp" line="152" column="1" bodyfile="tests/base/test_base_future_enhancements.cpp" bodystart="152" bodyend="160"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1modules_1_1_wasm_sandbox_validation_test_1aafc960cc3a67c09ae3b7c92a05e5a87c" prot="protected" virt="non-virtual"><scope>themis::modules::WasmSandboxValidationTest</scope><name>minimalWasm</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,168 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1threading_1_1_synchronized" kind="class" language="C++" prot="public">
+    <compoundname>themis::utils::threading::Synchronized</compoundname>
+    <includes refid="thread__safety_8h" local="no">thread_safety.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1threading_1_1_synchronized_1a3d67cd2e80f989d83f6650e33deb28ec" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::utils::threading::Synchronized&lt; T &gt;::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::utils::threading::Synchronized::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_safety.h" line="74" column="24" bodyfile="include/utils/thread_safety.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1threading_1_1_synchronized_1a01b6cfed800045d127ff3f0ad3aa0aa1" prot="private" static="no" mutable="no">
+        <type>T</type>
+        <definition>T themis::utils::threading::Synchronized&lt; T &gt;::value_</definition>
+        <argsstring></argsstring>
+        <name>value_</name>
+        <qualifiedname>themis::utils::threading::Synchronized::value_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_safety.h" line="75" column="7" bodyfile="include/utils/thread_safety.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1threading_1_1_synchronized_1a112710d41a77e4b0565c71af7b4fa011" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename...</type>
+            <declname>Args</declname>
+            <defname>Args</defname>
+          </param>
+        </templateparamlist>
+        <type></type>
+        <definition>themis::utils::threading::Synchronized&lt; T &gt;::Synchronized</definition>
+        <argsstring>(Args &amp;&amp;... args)</argsstring>
+        <name>Synchronized</name>
+        <qualifiedname>themis::utils::threading::Synchronized::Synchronized</qualifiedname>
+        <param>
+          <type>Args &amp;&amp;...</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+<para>Construct with forwarded arguments to T&apos;s constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_safety.h" line="38" column="14" bodyfile="include/utils/thread_safety.h" bodystart="38" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1threading_1_1_synchronized_1ac917abd4bbdc5bfe47be3eaeb8b9823d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Func</type>
+          </param>
+        </templateparamlist>
+        <type>decltype(func(std::declval&lt; const T &amp; &gt;()))</type>
+        <definition>decltype(func(std::declval&lt; const T &amp; &gt;())) themis::utils::threading::Synchronized&lt; T &gt;::with_lock</definition>
+        <argsstring>(Func &amp;&amp;func) const</argsstring>
+        <name>with_lock</name>
+        <qualifiedname>themis::utils::threading::Synchronized::with_lock</qualifiedname>
+        <param>
+          <type>Func &amp;&amp;</type>
+          <declname>func</declname>
+        </param>
+        <briefdescription>
+<para>Thread-safe read access (const). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Executes the provided function with the protected value under lock. The lock is held for the duration of the function execution.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>func</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Function to execute with const reference to value </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whatever <computeroutput>func</computeroutput> returns when called with a const reference to the protected value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_safety.h" line="52" column="10" bodyfile="include/utils/thread_safety.h" bodystart="52" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1threading_1_1_synchronized_1a3ecbd838b938d62c36bf637f46dab204" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Func</type>
+          </param>
+        </templateparamlist>
+        <type>decltype(func(std::declval&lt; T &amp; &gt;()))</type>
+        <definition>decltype(func(std::declval&lt; T &amp; &gt;())) themis::utils::threading::Synchronized&lt; T &gt;::with_lock</definition>
+        <argsstring>(Func &amp;&amp;func)</argsstring>
+        <name>with_lock</name>
+        <qualifiedname>themis::utils::threading::Synchronized::with_lock</qualifiedname>
+        <param>
+          <type>Func &amp;&amp;</type>
+          <declname>func</declname>
+        </param>
+        <briefdescription>
+<para>Thread-safe modify access (non-const). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Executes the provided function with the protected value under lock. The lock is held for the duration of the function execution.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>func</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Function to execute with mutable reference to value </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whatever <computeroutput>func</computeroutput> returns when called with a mutable reference to the protected value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_safety.h" line="68" column="10" bodyfile="include/utils/thread_safety.h" bodystart="68" bodyend="71"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RAII wrapper for thread-safe access with exclusive locking. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides thread-safe access to a value using a mutex. All accesses are protected by the mutex, preventing data races.</para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of value to protect </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <location file="include/utils/thread_safety.h" line="32" column="1" bodyfile="include/utils/thread_safety.h" bodystart="32" bodyend="76"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1threading_1_1_synchronized_1a3d67cd2e80f989d83f6650e33deb28ec" prot="private" virt="non-virtual"><scope>themis::utils::threading::Synchronized</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1utils_1_1threading_1_1_synchronized_1a112710d41a77e4b0565c71af7b4fa011" prot="public" virt="non-virtual"><scope>themis::utils::threading::Synchronized</scope><name>Synchronized</name></member>
+      <member refid="classthemis_1_1utils_1_1threading_1_1_synchronized_1a01b6cfed800045d127ff3f0ad3aa0aa1" prot="private" virt="non-virtual"><scope>themis::utils::threading::Synchronized</scope><name>value_</name></member>
+      <member refid="classthemis_1_1utils_1_1threading_1_1_synchronized_1ac917abd4bbdc5bfe47be3eaeb8b9823d" prot="public" virt="non-virtual"><scope>themis::utils::threading::Synchronized</scope><name>with_lock</name></member>
+      <member refid="classthemis_1_1utils_1_1threading_1_1_synchronized_1a3ecbd838b938d62c36bf637f46dab204" prot="public" virt="non-virtual"><scope>themis::utils::threading::Synchronized</scope><name>with_lock</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

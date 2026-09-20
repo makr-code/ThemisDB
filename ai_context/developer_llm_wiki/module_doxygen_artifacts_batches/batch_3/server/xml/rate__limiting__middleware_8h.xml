@@ -1,0 +1,271 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="rate__limiting__middleware_8h" kind="file" language="C++">
+    <compoundname>rate_limiting_middleware.h</compoundname>
+    <includes refid="rate__limiter__v2_8h" local="yes">server/rate_limiter_v2.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">unordered_set</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="http__server_8h" local="yes">include/server/http_server.h</includedby>
+    <includedby refid="rate__limiting__middleware_8cpp" local="yes">src/server/rate_limiting_middleware.cpp</includedby>
+    <includedby refid="test__server__integration__complete_8cpp" local="yes">tests/server/test_server_integration_complete.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>server/rate_limiter_v2.h</label>
+        <link refid="rate__limiter__v2_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/server/rate_limiting_middleware.h</label>
+        <link refid="rate__limiting__middleware_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>atomic</label>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>condition_variable</label>
+      </node>
+      <node id="6">
+        <label>deque</label>
+      </node>
+      <node id="12">
+        <label>functional</label>
+      </node>
+      <node id="11">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>mutex</label>
+      </node>
+      <node id="10">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>unordered_map</label>
+      </node>
+      <node id="13">
+        <label>unordered_set</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="3">
+        <label>benchmarks/server/bench_api_endpoints.cpp</label>
+        <link refid="bench__api__endpoints_8cpp"/>
+      </node>
+      <node id="2">
+        <label>include/server/http_server.h</label>
+        <link refid="http__server_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/server/rate_limiting_middleware.h</label>
+        <link refid="rate__limiting__middleware_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/server/http_server.cpp</label>
+        <link refid="http__server_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/server/rate_limiting_middleware.cpp</label>
+        <link refid="rate__limiting__middleware_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/server/test_api_integration.cpp</label>
+        <link refid="test__api__integration_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/server/test_server_integration_complete.cpp</label>
+        <link refid="test__server__integration__complete_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1server_1_1_rate_limiting_middleware" prot="public">themis::server::RateLimitingMiddleware</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_endpoint_limit" prot="public">themis::server::RateLimitingMiddleware::EndpointLimit</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_config" prot="public">themis::server::RateLimitingMiddleware::Config</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_check_result" prot="public">themis::server::RateLimitingMiddleware::CheckResult</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_stats" prot="public">themis::server::RateLimitingMiddleware::Stats</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1server">themis::server</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="rate__limiter__v2_8h" kindref="compound">server/rate_limiter_v2.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1server" kindref="compound">server</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="classthemis_1_1server_1_1_rate_limiting_middleware" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1server_1_1_rate_limiting_middleware_1ab72cf73df39d51271a0aee5e99f3ba37" kindref="member">RateLimitingMiddleware</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_endpoint_limit" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_endpoint_limit" kindref="compound">EndpointLimit</ref><sp/>{</highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_endpoint_limit_1a0d74051436865fd4a001b9b395f5a6c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_endpoint_limit_1a0d74051436865fd4a001b9b395f5a6c6" kindref="member">path_prefix</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_endpoint_limit_1a008624815170a5ae088557cf280f204e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_endpoint_limit_1a008624815170a5ae088557cf280f204e" kindref="member">capacity</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_endpoint_limit_1a432e5f22a8817e57ad31bec30df0b133" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_endpoint_limit_1a432e5f22a8817e57ad31bec30df0b133" kindref="member">refill_rate</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_config_1aa619494290495f75afd406bcee5f7aec" kindref="member">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_config_1add5db50a987786b14ed35643b5738849" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_config_1add5db50a987786b14ed35643b5738849" kindref="member">default_capacity</ref><sp/><sp/><sp/><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_config_1a84f2b858e7cce61be1e7364af1685778" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_config_1a84f2b858e7cce61be1e7364af1685778" kindref="member">default_refill_rate</ref><sp/>=<sp/>100.0<sp/>/<sp/>60.0;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_config_1ab42e62cee4b6673ab85daaee0f667c7c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;EndpointLimit&gt;<sp/><ref refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_config_1ab42e62cee4b6673ab85daaee0f667c7c" kindref="member">endpoint_overrides</ref>;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_config_1af924f08bdc906d91efa039ee31f1b8ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_config_1af924f08bdc906d91efa039ee31f1b8ca" kindref="member">whitelist_ips</ref>;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_config_1aab122da8946527636ae36879d789f390" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_config_1aab122da8946527636ae36879d789f390" kindref="member">max_clients</ref><sp/>=<sp/>10000;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_config_1a739f5ad9e51551c143bb0b648d02553c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_config_1a739f5ad9e51551c143bb0b648d02553c" kindref="member">send_rate_limit_headers</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_config_1aa619494290495f75afd406bcee5f7aec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_config_1aa619494290495f75afd406bcee5f7aec" kindref="member">Config</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_check_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_check_result" kindref="compound">CheckResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_check_result_1a4e1594783ddff8fe58c32e3b7b763bd1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_check_result_1a4e1594783ddff8fe58c32e3b7b763bd1" kindref="member">allowed</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_check_result_1a1589390542faa484fd45859189d7b072" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_check_result_1a1589390542faa484fd45859189d7b072" kindref="member">retry_after_seconds</ref><sp/><sp/>=<sp/>0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_check_result_1abfaa6ff3eb140cd7a0df063050eec460" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_check_result_1abfaa6ff3eb140cd7a0df063050eec460" kindref="member">remaining_tokens</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_check_result_1a758a3b6f8bea8876ffb603f9f9cb054b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_check_result_1a758a3b6f8bea8876ffb603f9f9cb054b" kindref="member">limit</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_check_result_1ad4f352332cfe88ddc2b48872dcb3f5b6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_check_result_1ad4f352332cfe88ddc2b48872dcb3f5b6" kindref="member">headers</ref>;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1server_1_1_rate_limiting_middleware_1ab72cf73df39d51271a0aee5e99f3ba37" kindref="member">RateLimitingMiddleware</ref>();</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_rate_limiting_middleware_1ab72cf73df39d51271a0aee5e99f3ba37" kindref="member">RateLimitingMiddleware</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_check_result" kindref="compound">CheckResult</ref><sp/><ref refid="classthemis_1_1server_1_1_rate_limiting_middleware_1ad4a9fa6b5ac3545154f7f7f5e42e4ce1" kindref="member">check</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>client_key,</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path,</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>cost<sp/>=<sp/>1);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_rate_limiting_middleware_1afe585f4ef70a8c5a36185708a3997a30" kindref="member">updateConfig</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_config" kindref="compound">Config</ref><sp/><ref refid="classthemis_1_1server_1_1_rate_limiting_middleware_1a5e81c635d2debadf39909e6eef0d6bef" kindref="member">getConfig</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_stats" kindref="compound">Stats</ref><sp/>{</highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_stats_1a0f703b56e8ea8b1366bad38eff0ade18" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_stats_1a0f703b56e8ea8b1366bad38eff0ade18" kindref="member">total_requests</ref><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_stats_1a8f50e7ef8de072f1ca7eb3b69d0a5185" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_stats_1a8f50e7ef8de072f1ca7eb3b69d0a5185" kindref="member">allowed_requests</ref><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_stats_1a0e20300db1377af1c637599c7f086e15" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_stats_1a0e20300db1377af1c637599c7f086e15" kindref="member">rejected_requests</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_stats_1a4ca4d4c8653c759bb599d183c04244d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_stats_1a4ca4d4c8653c759bb599d183c04244d9" kindref="member">active_clients</ref><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_stats" kindref="compound">Stats</ref><sp/><ref refid="classthemis_1_1server_1_1_rate_limiting_middleware_1a02af4f904ffef9d319ead9f69c7d15e9" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_rate_limiting_middleware_1ad8920003badfc3024678faf2667fb8d2" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>findOverrideIndex(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>std::pair&lt;size_t,<sp/>double&gt;<sp/>limitForPath(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>rebuildLimiters();</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>State<sp/>────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>config_mutex_;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_config" kindref="compound">Config</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Whitelist<sp/>set<sp/>for<sp/>O(1)<sp/>lookup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_set&lt;std::string&gt;<sp/>whitelist_set_;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Default<sp/>per-client<sp/>limiter<sp/>(for<sp/>requests<sp/>that<sp/>don&apos;t<sp/>match<sp/>any<sp/>override).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;PerClientRateLimiter&gt;<sp/>default_limiter_;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-endpoint<sp/>override<sp/>limiters,<sp/>parallel<sp/>to<sp/>config_.endpoint_overrides.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::unique_ptr&lt;PerClientRateLimiter&gt;&gt;<sp/>override_limiters_;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Aggregate<sp/>counters<sp/>(updated<sp/>without<sp/>the<sp/>config_mutex_<sp/>held).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>total_requests_{0};</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>allowed_requests_{0};</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>rejected_requests_{0};</highlight></codeline>
+<codeline lineno="135"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>server</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/server/rate_limiting_middleware.h"/>
+  </compounddef>
+</doxygen>

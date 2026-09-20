@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::network::UDPFastPath::Stats</compoundname>
+    <includes refid="udp__fast__path_8h" local="no">udp_fast_path.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_stats_1aca0991606b52f7de5081976e5cdc10a8" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::UDPFastPath::Stats::packets_received</definition>
+        <argsstring></argsstring>
+        <name>packets_received</name>
+        <qualifiedname>themis::network::UDPFastPath::Stats::packets_received</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_fast_path.h" line="131" column="18" bodyfile="include/network/udp_fast_path.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_stats_1a0ccbe1b48012c0b7b553f4327d6eb6bf" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::UDPFastPath::Stats::packets_dropped</definition>
+        <argsstring></argsstring>
+        <name>packets_dropped</name>
+        <qualifiedname>themis::network::UDPFastPath::Stats::packets_dropped</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Oversized, malformed, or rate-limited. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_fast_path.h" line="132" column="18" bodyfile="include/network/udp_fast_path.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_stats_1abee178ae2f2ad062bf0523f2efc2d435" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::UDPFastPath::Stats::packets_sent</definition>
+        <argsstring></argsstring>
+        <name>packets_sent</name>
+        <qualifiedname>themis::network::UDPFastPath::Stats::packets_sent</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_fast_path.h" line="133" column="18" bodyfile="include/network/udp_fast_path.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_stats_1a03309c036696340d66e5ddf3b227e113" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::UDPFastPath::Stats::bytes_received</definition>
+        <argsstring></argsstring>
+        <name>bytes_received</name>
+        <qualifiedname>themis::network::UDPFastPath::Stats::bytes_received</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_fast_path.h" line="134" column="18" bodyfile="include/network/udp_fast_path.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_stats_1aa37194010a97e9a54e87857503f0f2e0" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::UDPFastPath::Stats::bytes_sent</definition>
+        <argsstring></argsstring>
+        <name>bytes_sent</name>
+        <qualifiedname>themis::network::UDPFastPath::Stats::bytes_sent</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_fast_path.h" line="135" column="18" bodyfile="include/network/udp_fast_path.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_stats_1ad19d34470d1a933a221ad96abe5b8dfa" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::UDPFastPath::Stats::parse_errors</definition>
+        <argsstring></argsstring>
+        <name>parse_errors</name>
+        <qualifiedname>themis::network::UDPFastPath::Stats::parse_errors</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_fast_path.h" line="136" column="18" bodyfile="include/network/udp_fast_path.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_stats_1a21526aa27e6a09987497eb117a7d9a1e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::UDPFastPath::Stats::write_op_rejections</definition>
+        <argsstring></argsstring>
+        <name>write_op_rejections</name>
+        <qualifiedname>themis::network::UDPFastPath::Stats::write_op_rejections</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Write opcodes refused. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_fast_path.h" line="137" column="18" bodyfile="include/network/udp_fast_path.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_stats_1ae67ef7937319e5aa86e55330d538a3d9" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::UDPFastPath::Stats::rate_limit_drops</definition>
+        <argsstring></argsstring>
+        <name>rate_limit_drops</name>
+        <qualifiedname>themis::network::UDPFastPath::Stats::rate_limit_drops</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_fast_path.h" line="138" column="18" bodyfile="include/network/udp_fast_path.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/network/udp_fast_path.h" line="130" column="5" bodyfile="include/network/udp_fast_path.h" bodystart="130" bodyend="139"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_stats_1a03309c036696340d66e5ddf3b227e113" prot="public" virt="non-virtual"><scope>themis::network::UDPFastPath::Stats</scope><name>bytes_received</name></member>
+      <member refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_stats_1aa37194010a97e9a54e87857503f0f2e0" prot="public" virt="non-virtual"><scope>themis::network::UDPFastPath::Stats</scope><name>bytes_sent</name></member>
+      <member refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_stats_1a0ccbe1b48012c0b7b553f4327d6eb6bf" prot="public" virt="non-virtual"><scope>themis::network::UDPFastPath::Stats</scope><name>packets_dropped</name></member>
+      <member refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_stats_1aca0991606b52f7de5081976e5cdc10a8" prot="public" virt="non-virtual"><scope>themis::network::UDPFastPath::Stats</scope><name>packets_received</name></member>
+      <member refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_stats_1abee178ae2f2ad062bf0523f2efc2d435" prot="public" virt="non-virtual"><scope>themis::network::UDPFastPath::Stats</scope><name>packets_sent</name></member>
+      <member refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_stats_1ad19d34470d1a933a221ad96abe5b8dfa" prot="public" virt="non-virtual"><scope>themis::network::UDPFastPath::Stats</scope><name>parse_errors</name></member>
+      <member refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_stats_1ae67ef7937319e5aa86e55330d538a3d9" prot="public" virt="non-virtual"><scope>themis::network::UDPFastPath::Stats</scope><name>rate_limit_drops</name></member>
+      <member refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_stats_1a21526aa27e6a09987497eb117a7d9a1e" prot="public" virt="non-virtual"><scope>themis::network::UDPFastPath::Stats</scope><name>write_op_rejections</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

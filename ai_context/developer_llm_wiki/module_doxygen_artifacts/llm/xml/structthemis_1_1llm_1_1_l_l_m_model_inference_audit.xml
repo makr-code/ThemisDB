@@ -1,0 +1,469 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_l_l_m_model_inference_audit" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::LLMModelInferenceAudit</compoundname>
+    <includes refid="llm__model__audit__logger_8h" local="no">llm_model_audit_logger.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1a45cb882ffc00857b30910ad0a46897d8" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::llm::LLMModelInferenceAudit::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::llm::LLMModelInferenceAudit::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_audit_logger.h" line="85" column="43" bodyfile="include/llm/llm_model_audit_logger.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1a70bb67a69dbc470800684612de601527" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::llm::LLMModelInferenceAudit::duration_ms</definition>
+        <argsstring></argsstring>
+        <name>duration_ms</name>
+        <qualifiedname>themis::llm::LLMModelInferenceAudit::duration_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_audit_logger.h" line="86" column="31" bodyfile="include/llm/llm_model_audit_logger.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1ad1d14344da0cd9db2e1fc9af285c08ed" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LLMModelInferenceAudit::request_id</definition>
+        <argsstring></argsstring>
+        <name>request_id</name>
+        <qualifiedname>themis::llm::LLMModelInferenceAudit::request_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_audit_logger.h" line="89" column="17" bodyfile="include/llm/llm_model_audit_logger.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1a452a8aa9024f418264ce3b2d3a221993" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LLMModelInferenceAudit::session_id</definition>
+        <argsstring></argsstring>
+        <name>session_id</name>
+        <qualifiedname>themis::llm::LLMModelInferenceAudit::session_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_audit_logger.h" line="90" column="17" bodyfile="include/llm/llm_model_audit_logger.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1a728cb6555e98a74156ebab7f92726fb1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LLMModelInferenceAudit::user_id</definition>
+        <argsstring></argsstring>
+        <name>user_id</name>
+        <qualifiedname>themis::llm::LLMModelInferenceAudit::user_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_audit_logger.h" line="91" column="17" bodyfile="include/llm/llm_model_audit_logger.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1a38c3312a9d47ec75fd08c7d42239dae9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LLMModelInferenceAudit::model_id</definition>
+        <argsstring></argsstring>
+        <name>model_id</name>
+        <qualifiedname>themis::llm::LLMModelInferenceAudit::model_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_audit_logger.h" line="94" column="17" bodyfile="include/llm/llm_model_audit_logger.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1a511993da35790fbd823737ce139165f4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LLMModelInferenceAudit::model_version</definition>
+        <argsstring></argsstring>
+        <name>model_version</name>
+        <qualifiedname>themis::llm::LLMModelInferenceAudit::model_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_audit_logger.h" line="95" column="17" bodyfile="include/llm/llm_model_audit_logger.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1acea58e77c5094edfad1b2ba5ee5411a9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LLMModelInferenceAudit::model_checksum</definition>
+        <argsstring></argsstring>
+        <name>model_checksum</name>
+        <qualifiedname>themis::llm::LLMModelInferenceAudit::model_checksum</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_audit_logger.h" line="96" column="17" bodyfile="include/llm/llm_model_audit_logger.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1a4c81979a6ccca46b8a4369749200e47d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LLMModelInferenceAudit::quantization</definition>
+        <argsstring></argsstring>
+        <name>quantization</name>
+        <qualifiedname>themis::llm::LLMModelInferenceAudit::quantization</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_audit_logger.h" line="97" column="17" bodyfile="include/llm/llm_model_audit_logger.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1addc6b834b7502a57d6e0c13426a159e2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LLMModelInferenceAudit::lora_adapter_id</definition>
+        <argsstring></argsstring>
+        <name>lora_adapter_id</name>
+        <qualifiedname>themis::llm::LLMModelInferenceAudit::lora_adapter_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_audit_logger.h" line="100" column="17" bodyfile="include/llm/llm_model_audit_logger.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1af8ef71659a1d78eb0eb4e72f77633c0d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LLMModelInferenceAudit::lora_version</definition>
+        <argsstring></argsstring>
+        <name>lora_version</name>
+        <qualifiedname>themis::llm::LLMModelInferenceAudit::lora_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_audit_logger.h" line="101" column="17" bodyfile="include/llm/llm_model_audit_logger.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1af7f6329b489d3e7f7267472cf452eac5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LLMModelInferenceAudit::prompt</definition>
+        <argsstring></argsstring>
+        <name>prompt</name>
+        <qualifiedname>themis::llm::LLMModelInferenceAudit::prompt</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_audit_logger.h" line="104" column="17" bodyfile="include/llm/llm_model_audit_logger.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1ac86945c4cc9d78f46bcb47852901e7fe" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LLMModelInferenceAudit::response</definition>
+        <argsstring></argsstring>
+        <name>response</name>
+        <qualifiedname>themis::llm::LLMModelInferenceAudit::response</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_audit_logger.h" line="105" column="17" bodyfile="include/llm/llm_model_audit_logger.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1a49e7b3907fe67edf1d035e0e4af50a93" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::LLMModelInferenceAudit::input_tokens</definition>
+        <argsstring></argsstring>
+        <name>input_tokens</name>
+        <qualifiedname>themis::llm::LLMModelInferenceAudit::input_tokens</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_audit_logger.h" line="106" column="9" bodyfile="include/llm/llm_model_audit_logger.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1a51a8e96b9219b2811ced9e2e8209562c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::LLMModelInferenceAudit::output_tokens</definition>
+        <argsstring></argsstring>
+        <name>output_tokens</name>
+        <qualifiedname>themis::llm::LLMModelInferenceAudit::output_tokens</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_audit_logger.h" line="107" column="9" bodyfile="include/llm/llm_model_audit_logger.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1a476b1424e6a74b84401d334e79655223" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::LLMModelInferenceAudit::confidence_score</definition>
+        <argsstring></argsstring>
+        <name>confidence_score</name>
+        <qualifiedname>themis::llm::LLMModelInferenceAudit::confidence_score</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_audit_logger.h" line="110" column="11" bodyfile="include/llm/llm_model_audit_logger.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1ac9446cebef67332180e508637f81f6be" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::LLMModelInferenceAudit::perplexity</definition>
+        <argsstring></argsstring>
+        <name>perplexity</name>
+        <qualifiedname>themis::llm::LLMModelInferenceAudit::perplexity</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_audit_logger.h" line="111" column="11" bodyfile="include/llm/llm_model_audit_logger.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1a5f0ac32a2769bfed3603f473e20fe053" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMModelInferenceAudit::hallucination_detected</definition>
+        <argsstring></argsstring>
+        <name>hallucination_detected</name>
+        <qualifiedname>themis::llm::LLMModelInferenceAudit::hallucination_detected</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_audit_logger.h" line="112" column="10" bodyfile="include/llm/llm_model_audit_logger.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1a1f71b7d6d34c58204a92c6b7710033d2" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::LLMModelInferenceAudit::temperature</definition>
+        <argsstring></argsstring>
+        <name>temperature</name>
+        <qualifiedname>themis::llm::LLMModelInferenceAudit::temperature</qualifiedname>
+        <initializer>= 0.7f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_audit_logger.h" line="115" column="11" bodyfile="include/llm/llm_model_audit_logger.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1aebbd11283273f17d700b30d771993cb0" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::LLMModelInferenceAudit::top_p</definition>
+        <argsstring></argsstring>
+        <name>top_p</name>
+        <qualifiedname>themis::llm::LLMModelInferenceAudit::top_p</qualifiedname>
+        <initializer>= 0.9f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_audit_logger.h" line="116" column="11" bodyfile="include/llm/llm_model_audit_logger.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1a88c72d6f07f288d1019874c150f4327e" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::LLMModelInferenceAudit::max_tokens</definition>
+        <argsstring></argsstring>
+        <name>max_tokens</name>
+        <qualifiedname>themis::llm::LLMModelInferenceAudit::max_tokens</qualifiedname>
+        <initializer>= 512</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_audit_logger.h" line="117" column="9" bodyfile="include/llm/llm_model_audit_logger.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1a595262e4bf042ab70ba37ba865ccd657" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LLMModelInferenceAudit::vram_used_mb</definition>
+        <argsstring></argsstring>
+        <name>vram_used_mb</name>
+        <qualifiedname>themis::llm::LLMModelInferenceAudit::vram_used_mb</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_audit_logger.h" line="120" column="12" bodyfile="include/llm/llm_model_audit_logger.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1abb022eb750d6d7448ca06911f79b5cec" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LLMModelInferenceAudit::ram_used_mb</definition>
+        <argsstring></argsstring>
+        <name>ram_used_mb</name>
+        <qualifiedname>themis::llm::LLMModelInferenceAudit::ram_used_mb</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_audit_logger.h" line="121" column="12" bodyfile="include/llm/llm_model_audit_logger.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1a98605a02427069762e54baecac0c7451" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::LLMModelInferenceAudit::tokens_per_second</definition>
+        <argsstring></argsstring>
+        <name>tokens_per_second</name>
+        <qualifiedname>themis::llm::LLMModelInferenceAudit::tokens_per_second</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_audit_logger.h" line="122" column="11" bodyfile="include/llm/llm_model_audit_logger.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1aa7c5b037998ad79dff834184aef94428" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMModelInferenceAudit::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::llm::LLMModelInferenceAudit::success</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_audit_logger.h" line="125" column="10" bodyfile="include/llm/llm_model_audit_logger.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1a22c6880a220ecce0f54320ce7a8ccb24" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LLMModelInferenceAudit::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::llm::LLMModelInferenceAudit::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_audit_logger.h" line="126" column="17" bodyfile="include/llm/llm_model_audit_logger.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1ad389a49984a622be60b4ff3865d5c911" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json themis::llm::LLMModelInferenceAudit::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::llm::LLMModelInferenceAudit::metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_audit_logger.h" line="129" column="10" bodyfile="include/llm/llm_model_audit_logger.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1afea36a31de3f3a1c9c05f106e12f09bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::LLMModelInferenceAudit::~LLMModelInferenceAudit</definition>
+        <argsstring>()=default</argsstring>
+        <name>~LLMModelInferenceAudit</name>
+        <qualifiedname>themis::llm::LLMModelInferenceAudit::~LLMModelInferenceAudit</qualifiedname>
+        <briefdescription>
+<para>LLMModel Inference Audit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_audit_logger.h" line="83" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1acf9b004884f9e46bbcca6c86c89c4e46" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json themis::llm::LLMModelInferenceAudit::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::llm::LLMModelInferenceAudit::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_audit_logger.h" line="131" column="10" bodyfile="include/llm/llm_model_audit_logger.h" bodystart="131" bodyend="178"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/llm_model_audit_logger.h" line="78" column="1" bodyfile="include/llm/llm_model_audit_logger.h" bodystart="78" bodyend="179"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1a476b1424e6a74b84401d334e79655223" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelInferenceAudit</scope><name>confidence_score</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1a70bb67a69dbc470800684612de601527" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelInferenceAudit</scope><name>duration_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1a22c6880a220ecce0f54320ce7a8ccb24" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelInferenceAudit</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1a5f0ac32a2769bfed3603f473e20fe053" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelInferenceAudit</scope><name>hallucination_detected</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1a49e7b3907fe67edf1d035e0e4af50a93" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelInferenceAudit</scope><name>input_tokens</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1addc6b834b7502a57d6e0c13426a159e2" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelInferenceAudit</scope><name>lora_adapter_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1af8ef71659a1d78eb0eb4e72f77633c0d" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelInferenceAudit</scope><name>lora_version</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1a88c72d6f07f288d1019874c150f4327e" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelInferenceAudit</scope><name>max_tokens</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1ad389a49984a622be60b4ff3865d5c911" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelInferenceAudit</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1acea58e77c5094edfad1b2ba5ee5411a9" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelInferenceAudit</scope><name>model_checksum</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1a38c3312a9d47ec75fd08c7d42239dae9" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelInferenceAudit</scope><name>model_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1a511993da35790fbd823737ce139165f4" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelInferenceAudit</scope><name>model_version</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1a51a8e96b9219b2811ced9e2e8209562c" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelInferenceAudit</scope><name>output_tokens</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1ac9446cebef67332180e508637f81f6be" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelInferenceAudit</scope><name>perplexity</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1af7f6329b489d3e7f7267472cf452eac5" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelInferenceAudit</scope><name>prompt</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1a4c81979a6ccca46b8a4369749200e47d" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelInferenceAudit</scope><name>quantization</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1abb022eb750d6d7448ca06911f79b5cec" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelInferenceAudit</scope><name>ram_used_mb</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1ad1d14344da0cd9db2e1fc9af285c08ed" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelInferenceAudit</scope><name>request_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1ac86945c4cc9d78f46bcb47852901e7fe" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelInferenceAudit</scope><name>response</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1a452a8aa9024f418264ce3b2d3a221993" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelInferenceAudit</scope><name>session_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1aa7c5b037998ad79dff834184aef94428" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelInferenceAudit</scope><name>success</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1a1f71b7d6d34c58204a92c6b7710033d2" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelInferenceAudit</scope><name>temperature</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1a45cb882ffc00857b30910ad0a46897d8" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelInferenceAudit</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1acf9b004884f9e46bbcca6c86c89c4e46" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelInferenceAudit</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1a98605a02427069762e54baecac0c7451" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelInferenceAudit</scope><name>tokens_per_second</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1aebbd11283273f17d700b30d771993cb0" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelInferenceAudit</scope><name>top_p</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1a728cb6555e98a74156ebab7f92726fb1" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelInferenceAudit</scope><name>user_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1a595262e4bf042ab70ba37ba865ccd657" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelInferenceAudit</scope><name>vram_used_mb</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1afea36a31de3f3a1c9c05f106e12f09bc" prot="public" virt="virtual"><scope>themis::llm::LLMModelInferenceAudit</scope><name>~LLMModelInferenceAudit</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

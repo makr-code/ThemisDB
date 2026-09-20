@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_prefix_cache_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::PrefixCacheStatistics</compoundname>
+    <includes refid="llm__prefix__cache_8h" local="no">llm_prefix_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_prefix_cache_statistics_1a92facb40c9fae6c10f70e24dcb698a15" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::PrefixCacheStatistics::hits</definition>
+        <argsstring></argsstring>
+        <name>hits</name>
+        <qualifiedname>themis::llm::PrefixCacheStatistics::hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_prefix_cache.h" line="51" column="12" bodyfile="include/llm/llm_prefix_cache.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_prefix_cache_statistics_1a4523c61b3dd0172fb5b5efbff88a4cb2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::PrefixCacheStatistics::misses</definition>
+        <argsstring></argsstring>
+        <name>misses</name>
+        <qualifiedname>themis::llm::PrefixCacheStatistics::misses</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_prefix_cache.h" line="52" column="12" bodyfile="include/llm/llm_prefix_cache.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_prefix_cache_statistics_1a6acaa9e6476dfc69c75504ab09b89efc" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::PrefixCacheStatistics::total_entries</definition>
+        <argsstring></argsstring>
+        <name>total_entries</name>
+        <qualifiedname>themis::llm::PrefixCacheStatistics::total_entries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_prefix_cache.h" line="53" column="12" bodyfile="include/llm/llm_prefix_cache.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_prefix_cache_statistics_1ad6d5046799810fbdc63ad2658e66e22e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::PrefixCacheStatistics::total_tokens_saved</definition>
+        <argsstring></argsstring>
+        <name>total_tokens_saved</name>
+        <qualifiedname>themis::llm::PrefixCacheStatistics::total_tokens_saved</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_prefix_cache.h" line="54" column="12" bodyfile="include/llm/llm_prefix_cache.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_prefix_cache_statistics_1ae86559360192c7cc0dd3a9d27cde0b76" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::PrefixCacheStatistics::avg_similarity</definition>
+        <argsstring></argsstring>
+        <name>avg_similarity</name>
+        <qualifiedname>themis::llm::PrefixCacheStatistics::avg_similarity</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_prefix_cache.h" line="55" column="12" bodyfile="include/llm/llm_prefix_cache.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_prefix_cache_statistics_1a04b4b51528c449c9ab36677dcb08ca7d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::PrefixCacheStatistics::avg_lookup_time_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_lookup_time_ms</name>
+        <qualifiedname>themis::llm::PrefixCacheStatistics::avg_lookup_time_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_prefix_cache.h" line="56" column="12" bodyfile="include/llm/llm_prefix_cache.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_prefix_cache_statistics_1a2b2b18b89cb4ff109fbad98e81fb9aa2" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::PrefixCacheStatistics::~PrefixCacheStatistics</definition>
+        <argsstring>()=default</argsstring>
+        <name>~PrefixCacheStatistics</name>
+        <qualifiedname>themis::llm::PrefixCacheStatistics::~PrefixCacheStatistics</qualifiedname>
+        <briefdescription>
+<para>Prefix Cache Statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_prefix_cache.h" line="50" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_prefix_cache_statistics_1a7d06ae2105f0b7b23613deab3645fc3f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::llm::PrefixCacheStatistics::getHitRate</definition>
+        <argsstring>() const</argsstring>
+        <name>getHitRate</name>
+        <qualifiedname>themis::llm::PrefixCacheStatistics::getHitRate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_prefix_cache.h" line="58" column="12" bodyfile="include/llm/llm_prefix_cache.h" bodystart="58" bodyend="63"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/llm_prefix_cache.h" line="45" column="1" bodyfile="include/llm/llm_prefix_cache.h" bodystart="45" bodyend="64"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_prefix_cache_statistics_1a04b4b51528c449c9ab36677dcb08ca7d" prot="public" virt="non-virtual"><scope>themis::llm::PrefixCacheStatistics</scope><name>avg_lookup_time_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_prefix_cache_statistics_1ae86559360192c7cc0dd3a9d27cde0b76" prot="public" virt="non-virtual"><scope>themis::llm::PrefixCacheStatistics</scope><name>avg_similarity</name></member>
+      <member refid="structthemis_1_1llm_1_1_prefix_cache_statistics_1a7d06ae2105f0b7b23613deab3645fc3f" prot="public" virt="non-virtual"><scope>themis::llm::PrefixCacheStatistics</scope><name>getHitRate</name></member>
+      <member refid="structthemis_1_1llm_1_1_prefix_cache_statistics_1a92facb40c9fae6c10f70e24dcb698a15" prot="public" virt="non-virtual"><scope>themis::llm::PrefixCacheStatistics</scope><name>hits</name></member>
+      <member refid="structthemis_1_1llm_1_1_prefix_cache_statistics_1a4523c61b3dd0172fb5b5efbff88a4cb2" prot="public" virt="non-virtual"><scope>themis::llm::PrefixCacheStatistics</scope><name>misses</name></member>
+      <member refid="structthemis_1_1llm_1_1_prefix_cache_statistics_1a6acaa9e6476dfc69c75504ab09b89efc" prot="public" virt="non-virtual"><scope>themis::llm::PrefixCacheStatistics</scope><name>total_entries</name></member>
+      <member refid="structthemis_1_1llm_1_1_prefix_cache_statistics_1ad6d5046799810fbdc63ad2658e66e22e" prot="public" virt="non-virtual"><scope>themis::llm::PrefixCacheStatistics</scope><name>total_tokens_saved</name></member>
+      <member refid="structthemis_1_1llm_1_1_prefix_cache_statistics_1a2b2b18b89cb4ff109fbad98e81fb9aa2" prot="public" virt="virtual"><scope>themis::llm::PrefixCacheStatistics</scope><name>~PrefixCacheStatistics</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d373102320317006062071043034270015235270331247047" kind="namespace" language="C++">
+    <compoundname>@373102320317006062071043034270015235270331247047</compoundname>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespace_0d373102320317006062071043034270015235270331247047_1aef0232fffcf59ce2d6a5c05b794c274c" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>TransportKind</name>
+        <qualifiedname>@373102320317006062071043034270015235270331247047::TransportKind</qualifiedname>
+        <enumvalue id="namespace_0d373102320317006062071043034270015235270331247047_1aef0232fffcf59ce2d6a5c05b794c274cab136ef5f6a01d816991fe3cf7a6ac763" prot="public">
+          <name>TCP</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d373102320317006062071043034270015235270331247047_1aef0232fffcf59ce2d6a5c05b794c274cafc07a52f432282cead75b799ea8ab8b0" prot="public">
+          <name>WEBSOCKET</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d373102320317006062071043034270015235270331247047_1aef0232fffcf59ce2d6a5c05b794c274caf5ef036b4d8b630721e51fe23489fbc9" prot="public">
+          <name>UDP</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d373102320317006062071043034270015235270331247047_1aef0232fffcf59ce2d6a5c05b794c274ca7b29f92724524ca2b8d74a0f2c39c438" prot="public">
+          <name>QUIC</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_hardening_phase2_focused.cpp" line="76" column="1" bodyfile="tests/network/test_network_hardening_phase2_focused.cpp" bodystart="76" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespace_0d373102320317006062071043034270015235270331247047_1a644686b1b94c8f09df40c9c7296ab64f" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>TransportPhase</name>
+        <qualifiedname>@373102320317006062071043034270015235270331247047::TransportPhase</qualifiedname>
+        <enumvalue id="namespace_0d373102320317006062071043034270015235270331247047_1a644686b1b94c8f09df40c9c7296ab64faa5afd6edd5336d91316964e493936858" prot="public">
+          <name>CONNECTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d373102320317006062071043034270015235270331247047_1a644686b1b94c8f09df40c9c7296ab64faabb166aeee725020a7b183612ace2a94" prot="public">
+          <name>FALLBACK_ACTIVE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d373102320317006062071043034270015235270331247047_1a644686b1b94c8f09df40c9c7296ab64fa110ccf2f5d2ff4eda1fd1a494293467d" prot="public">
+          <name>CLOSED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d373102320317006062071043034270015235270331247047_1a644686b1b94c8f09df40c9c7296ab64fa084f4ca2c0fe703e46514a144b4d6ead" prot="public">
+          <name>UNAVAILABLE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_hardening_phase2_focused.cpp" line="78" column="1" bodyfile="tests/network/test_network_hardening_phase2_focused.cpp" bodystart="78" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespace_0d373102320317006062071043034270015235270331247047_1a07659fc981428794922af38f68662f8e" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>SessionState</name>
+        <qualifiedname>@373102320317006062071043034270015235270331247047::SessionState</qualifiedname>
+        <enumvalue id="namespace_0d373102320317006062071043034270015235270331247047_1a07659fc981428794922af38f68662f8ea18ff74f43da410c5529f7d6fca84f115" prot="public">
+          <name>ACTIVE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d373102320317006062071043034270015235270331247047_1a07659fc981428794922af38f68662f8ea38afd7ae34bd5e3e6fc170d8b09178a3" prot="public">
+          <name>EXPIRED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d373102320317006062071043034270015235270331247047_1a07659fc981428794922af38f68662f8ea727e10d767d9a626c3d8a6a921447323" prot="public">
+          <name>REVOKED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d373102320317006062071043034270015235270331247047_1a07659fc981428794922af38f68662f8ea10d1208b485425756fcc932229386b02" prot="public">
+          <name>MISSING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_hardening_phase2_focused.cpp" line="124" column="1" bodyfile="tests/network/test_network_hardening_phase2_focused.cpp" bodystart="124" bodyend="124"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/network/test_network_hardening_phase2_focused.cpp" line="71" column="1"/>
+  </compounddef>
+</doxygen>

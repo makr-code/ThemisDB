@@ -1,0 +1,449 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1_consensus_factory" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::ConsensusFactory</compoundname>
+    <includes refid="consensus__factory_8h" local="no">consensus_factory.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_consensus_factory_1a310c611ef0d43d5f9e684645f1e95dc1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemisdb_1_1sharding_1_1_consensus_module" kindref="compound">ConsensusModule</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; ConsensusModule &gt; themisdb::sharding::ConsensusFactory::create</definition>
+        <argsstring>(const ConsensusConfig &amp;config)</argsstring>
+        <name>create</name>
+        <qualifiedname>themisdb::sharding::ConsensusFactory::create</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_consensus_config" kindref="compound">ConsensusConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Create a consensus module based on configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Consensus configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Unique pointer to the consensus module, or nullptr if creation failed</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: initialize(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_factory.h" line="42" column="28" bodyfile="src/sharding/consensus_factory.cpp" bodystart="34" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_consensus_factory_1a131b51cd76d562931fce739dbbaa1b69" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemisdb_1_1sharding_1_1_consensus_module" kindref="compound">ConsensusModule</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; ConsensusModule &gt; themisdb::sharding::ConsensusFactory::create</definition>
+        <argsstring>(ConsensusType type, const std::string &amp;node_id, const std::vector&lt; std::string &gt; &amp;cluster_nodes)</argsstring>
+        <name>create</name>
+        <qualifiedname>themisdb::sharding::ConsensusFactory::create</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1sharding_1ac79adee074eab49343ada346bcc78dcf" kindref="member">ConsensusType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>cluster_nodes</declname>
+        </param>
+        <briefdescription>
+<para>Create a consensus module by type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Type of consensus module to create </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>This node&apos;s unique identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cluster_nodes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>List of all nodes in the cluster </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Unique pointer to the consensus module, or nullptr if creation failed</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cluster_nodes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements create without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_factory.h" line="51" column="28" bodyfile="src/sharding/consensus_factory.cpp" bodystart="87" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_consensus_factory_1a4839d1c121d35e506d27ca2e6d7be0bb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_consensus" kindref="compound">RAIDPaxosConsensus</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; RAIDPaxosConsensus &gt; themisdb::sharding::ConsensusFactory::createRAIDPaxos</definition>
+        <argsstring>(const RAIDPaxosConfig &amp;raid_config, const std::string &amp;node_id, const std::vector&lt; std::string &gt; &amp;cluster_nodes)</argsstring>
+        <name>createRAIDPaxos</name>
+        <qualifiedname>themisdb::sharding::ConsensusFactory::createRAIDPaxos</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config" kindref="compound">RAIDPaxosConfig</ref> &amp;</type>
+          <declname>raid_config</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>cluster_nodes</declname>
+        </param>
+        <briefdescription>
+<para>Create a RAID-Paxos consensus module with RAID configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create RAIDPaxos.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>raid_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RAID-specific Paxos configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>This node&apos;s unique identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cluster_nodes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>List of all nodes in the cluster </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Unique pointer to RAID-Paxos consensus module</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">raid_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cluster_nodes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: initialize(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_factory.h" line="64" column="28" bodyfile="src/sharding/consensus_factory.cpp" bodystart="108" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_consensus_factory_1a40d213f9522d6a27fc85c705f1c47396" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemisdb_1_1sharding_1_1_dual_consensus_orchestrator" kindref="compound">DualConsensusOrchestrator</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; DualConsensusOrchestrator &gt; themisdb::sharding::ConsensusFactory::createDualConsensus</definition>
+        <argsstring>(const std::string &amp;node_id, const std::vector&lt; std::string &gt; &amp;cluster_nodes, bool use_raid_paxos=false, const RAIDPaxosConfig &amp;raid_config=RAIDPaxosConfig())</argsstring>
+        <name>createDualConsensus</name>
+        <qualifiedname>themisdb::sharding::ConsensusFactory::createDualConsensus</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>cluster_nodes</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>use_raid_paxos</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config" kindref="compound">RAIDPaxosConfig</ref> &amp;</type>
+          <declname>raid_config</declname>
+          <defval><ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config" kindref="compound">RAIDPaxosConfig</ref>()</defval>
+        </param>
+        <briefdescription>
+<para>Create a Dual-Consensus Orchestrator for Converged Storage-Inference. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Dual Consensus.</para>
+<para>Creates a <ref refid="classthemisdb_1_1sharding_1_1_dual_consensus_orchestrator" kindref="compound">DualConsensusOrchestrator</ref> with default consensus layers:<itemizedlist>
+<listitem><para>Storage: Paxos (for durability)</para>
+</listitem><listitem><para>Cache: Raft (for performance)</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>This node&apos;s unique identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cluster_nodes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>List of all nodes in the cluster </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>use_raid_paxos</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If true, use RAID-Paxos for storage layer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>raid_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RAID configuration (used if use_raid_paxos is true) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Unique pointer to <ref refid="classthemisdb_1_1sharding_1_1_dual_consensus_orchestrator" kindref="compound">DualConsensusOrchestrator</ref>, or nullptr on failure</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cluster_nodes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">use_raid_paxos</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">raid_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: initialize(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_factory.h" line="83" column="28" bodyfile="src/sharding/consensus_factory.cpp" bodystart="129" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_consensus_factory_1a8b3e3d0676977c1d4a047284bfd2c052" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::ConsensusFactory::getTypeName</definition>
+        <argsstring>(ConsensusType type)</argsstring>
+        <name>getTypeName</name>
+        <qualifiedname>themisdb::sharding::ConsensusFactory::getTypeName</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1sharding_1ac79adee074eab49343ada346bcc78dcf" kindref="member">ConsensusType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Get the name of a consensus type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Type Name.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Consensus type </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Human-readable name</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements getTypeName without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_factory.h" line="95" column="24" bodyfile="src/sharding/consensus_factory.cpp" bodystart="186" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_consensus_factory_1a73eab6a903c761e16ed8cde90859c9e6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespacethemisdb_1_1sharding_1ac79adee074eab49343ada346bcc78dcf" kindref="member">ConsensusType</ref> &gt;</type>
+        <definition>std::optional&lt; ConsensusType &gt; themisdb::sharding::ConsensusFactory::parseType</definition>
+        <argsstring>(const std::string &amp;type_str)</argsstring>
+        <name>parseType</name>
+        <qualifiedname>themisdb::sharding::ConsensusFactory::parseType</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>type_str</declname>
+        </param>
+        <briefdescription>
+<para>Parse consensus type from string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Parse Type.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>type_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>String representation (e.g., &quot;raft&quot;, &quot;gossip&quot;, &quot;paxos&quot;, &quot;raid_paxos&quot;, &quot;dual_consensus&quot;) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Consensus type, or nullopt if invalid</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::transform(), begin(), end(), std::tolower(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_factory.h" line="102" column="26" bodyfile="src/sharding/consensus_factory.cpp" bodystart="211" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_consensus_factory_1a5dca6242be4c48fc6e8a92ce710e8355" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="namespacethemisdb_1_1sharding_1ac79adee074eab49343ada346bcc78dcf" kindref="member">ConsensusType</ref> &gt;</type>
+        <definition>std::vector&lt; ConsensusType &gt; themisdb::sharding::ConsensusFactory::getSupportedTypes</definition>
+        <argsstring>()</argsstring>
+        <name>getSupportedTypes</name>
+        <qualifiedname>themisdb::sharding::ConsensusFactory::getSupportedTypes</qualifiedname>
+        <briefdescription>
+<para>Get list of supported consensus types. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Supported Types.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements getSupportedTypes without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_factory.h" line="107" column="24" bodyfile="src/sharding/consensus_factory.cpp" bodystart="238" bodyend="247"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Factory for creating consensus module instances. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides a centralized way to create different types of consensus modules based on configuration. Supports Raft, Gossip, and Paxos. </para>
+    </detaileddescription>
+    <location file="include/sharding/consensus_factory.h" line="35" column="1" bodyfile="include/sharding/consensus_factory.h" bodystart="35" bodyend="108"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1_consensus_factory_1a310c611ef0d43d5f9e684645f1e95dc1" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConsensusFactory</scope><name>create</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_consensus_factory_1a131b51cd76d562931fce739dbbaa1b69" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConsensusFactory</scope><name>create</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_consensus_factory_1a40d213f9522d6a27fc85c705f1c47396" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConsensusFactory</scope><name>createDualConsensus</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_consensus_factory_1a4839d1c121d35e506d27ca2e6d7be0bb" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConsensusFactory</scope><name>createRAIDPaxos</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_consensus_factory_1a5dca6242be4c48fc6e8a92ce710e8355" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConsensusFactory</scope><name>getSupportedTypes</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_consensus_factory_1a8b3e3d0676977c1d4a047284bfd2c052" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConsensusFactory</scope><name>getTypeName</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_consensus_factory_1a73eab6a903c761e16ed8cde90859c9e6" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConsensusFactory</scope><name>parseType</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

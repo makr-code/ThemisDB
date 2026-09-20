@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_mock_gdpr_purge_hook" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>MockGdprPurgeHook</compoundname>
+    <basecompoundref refid="structthemis_1_1cache_1_1_i_g_d_p_r_purge_hook" prot="public" virt="non-virtual">themis::cache::IGDPRPurgeHook</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_mock_gdpr_purge_hook_1a29105da2a5cbc076d05facfda3d649aa" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1cache_1_1_purge_descriptor" kindref="compound">PurgeDescriptor</ref> &gt;</type>
+        <definition>std::vector&lt;PurgeDescriptor&gt; MockGdprPurgeHook::received</definition>
+        <argsstring></argsstring>
+        <name>received</name>
+        <qualifiedname>MockGdprPurgeHook::received</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_interfaces.cpp" line="148" column="17" bodyfile="tests/cache/test_cache_interfaces.cpp" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_gdpr_purge_hook_1aa1e951a6167faaa5d8a04c866623829d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool MockGdprPurgeHook::throw_on_empty_subject</definition>
+        <argsstring></argsstring>
+        <name>throw_on_empty_subject</name>
+        <qualifiedname>MockGdprPurgeHook::throw_on_empty_subject</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_interfaces.cpp" line="149" column="10" bodyfile="tests/cache/test_cache_interfaces.cpp" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_gdpr_purge_hook_1ab57b7ff2cb7956a4fc1554e54a2d1e3d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t MockGdprPurgeHook::purge_count_per_call</definition>
+        <argsstring></argsstring>
+        <name>purge_count_per_call</name>
+        <qualifiedname>MockGdprPurgeHook::purge_count_per_call</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_interfaces.cpp" line="150" column="12" bodyfile="tests/cache/test_cache_interfaces.cpp" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_gdpr_purge_hook_1acad10fbd79e9468ac949b92e4753592e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string MockGdprPurgeHook::audit_id_prefix</definition>
+        <argsstring></argsstring>
+        <name>audit_id_prefix</name>
+        <qualifiedname>MockGdprPurgeHook::audit_id_prefix</qualifiedname>
+        <initializer>= &quot;audit-&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_interfaces.cpp" line="151" column="17" bodyfile="tests/cache/test_cache_interfaces.cpp" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_gdpr_purge_hook_1a75cffc8abb9490e00e30d56bb5f1fbbb" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int MockGdprPurgeHook::call_index</definition>
+        <argsstring></argsstring>
+        <name>call_index</name>
+        <qualifiedname>MockGdprPurgeHook::call_index</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_interfaces.cpp" line="152" column="9" bodyfile="tests/cache/test_cache_interfaces.cpp" bodystart="152" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_mock_gdpr_purge_hook_1a45b7237c239fc436b050114f4bde4dae" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1cache_1_1_purge_result" kindref="compound">PurgeResult</ref></type>
+        <definition>PurgeResult MockGdprPurgeHook::purge</definition>
+        <argsstring>(const PurgeDescriptor &amp;descriptor) override</argsstring>
+        <name>purge</name>
+        <qualifiedname>MockGdprPurgeHook::purge</qualifiedname>
+        <reimplements refid="structthemis_1_1cache_1_1_i_g_d_p_r_purge_hook_1a309076f0a837998098cad545a177a45e">purge</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1cache_1_1_purge_descriptor" kindref="compound">PurgeDescriptor</ref> &amp;</type>
+          <declname>descriptor</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_interfaces.cpp" line="154" column="17" bodyfile="tests/cache/test_cache_interfaces.cpp" bodystart="154" bodyend="164"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="structthemis_1_1cache_1_1_i_g_d_p_r_purge_hook" kindref="compound">IGDPRPurgeHook</ref> mock. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>MockGdprPurgeHook</label>
+        <link refid="class_mock_gdpr_purge_hook"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::cache::IGDPRPurgeHook</label>
+        <link refid="structthemis_1_1cache_1_1_i_g_d_p_r_purge_hook"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>MockGdprPurgeHook</label>
+        <link refid="class_mock_gdpr_purge_hook"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::cache::IGDPRPurgeHook</label>
+        <link refid="structthemis_1_1cache_1_1_i_g_d_p_r_purge_hook"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/cache/test_cache_interfaces.cpp" line="146" column="1" bodyfile="tests/cache/test_cache_interfaces.cpp" bodystart="146" bodyend="165"/>
+    <listofallmembers>
+      <member refid="class_mock_gdpr_purge_hook_1acad10fbd79e9468ac949b92e4753592e" prot="public" virt="non-virtual"><scope>MockGdprPurgeHook</scope><name>audit_id_prefix</name></member>
+      <member refid="class_mock_gdpr_purge_hook_1a75cffc8abb9490e00e30d56bb5f1fbbb" prot="public" virt="non-virtual"><scope>MockGdprPurgeHook</scope><name>call_index</name></member>
+      <member refid="class_mock_gdpr_purge_hook_1a45b7237c239fc436b050114f4bde4dae" prot="public" virt="virtual"><scope>MockGdprPurgeHook</scope><name>purge</name></member>
+      <member refid="class_mock_gdpr_purge_hook_1ab57b7ff2cb7956a4fc1554e54a2d1e3d" prot="public" virt="non-virtual"><scope>MockGdprPurgeHook</scope><name>purge_count_per_call</name></member>
+      <member refid="class_mock_gdpr_purge_hook_1a29105da2a5cbc076d05facfda3d649aa" prot="public" virt="non-virtual"><scope>MockGdprPurgeHook</scope><name>received</name></member>
+      <member refid="class_mock_gdpr_purge_hook_1aa1e951a6167faaa5d8a04c866623829d" prot="public" virt="non-virtual"><scope>MockGdprPurgeHook</scope><name>throw_on_empty_subject</name></member>
+      <member refid="structthemis_1_1cache_1_1_i_g_d_p_r_purge_hook_1ad62fabe7fba5dd37aeb8c331ad7a1151" prot="public" virt="virtual"><scope>MockGdprPurgeHook</scope><name>~IGDPRPurgeHook</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

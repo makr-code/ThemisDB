@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_vision_security_config_1_1_model_verification_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::VisionSecurityConfig::ModelVerificationConfig</compoundname>
+    <includes refid="vision__config_8h" local="no">vision_config.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_security_config_1_1_model_verification_config_1adc9b846d8ad63d44f1a0cff5ca11da3a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::VisionSecurityConfig::ModelVerificationConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::llm::VisionSecurityConfig::ModelVerificationConfig::enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="195" column="14" bodyfile="include/llm/vision_config.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_security_config_1_1_model_verification_config_1a1c3a01474a5fa094b748c16e01d2d457" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::VisionSecurityConfig::ModelVerificationConfig::verify_signatures</definition>
+        <argsstring></argsstring>
+        <name>verify_signatures</name>
+        <qualifiedname>themis::llm::VisionSecurityConfig::ModelVerificationConfig::verify_signatures</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="196" column="14" bodyfile="include/llm/vision_config.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_security_config_1_1_model_verification_config_1aa7e6dc9fece4527f44335ba453d9c57d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::VisionSecurityConfig::ModelVerificationConfig::trusted_publishers</definition>
+        <argsstring></argsstring>
+        <name>trusted_publishers</name>
+        <qualifiedname>themis::llm::VisionSecurityConfig::ModelVerificationConfig::trusted_publishers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="197" column="21" bodyfile="include/llm/vision_config.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_security_config_1_1_model_verification_config_1af90e42cd37bf8dde979c446e6d69b7c2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::VisionSecurityConfig::ModelVerificationConfig::verify_checksums</definition>
+        <argsstring></argsstring>
+        <name>verify_checksums</name>
+        <qualifiedname>themis::llm::VisionSecurityConfig::ModelVerificationConfig::verify_checksums</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="198" column="14" bodyfile="include/llm/vision_config.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_security_config_1_1_model_verification_config_1a49ba7956b1a6973cde4d99da33ac27b0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::VisionSecurityConfig::ModelVerificationConfig::checksum_algorithm</definition>
+        <argsstring></argsstring>
+        <name>checksum_algorithm</name>
+        <qualifiedname>themis::llm::VisionSecurityConfig::ModelVerificationConfig::checksum_algorithm</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="199" column="21" bodyfile="include/llm/vision_config.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_security_config_1_1_model_verification_config_1adb1fa93b02895c3db95a75c2d344fbff" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::VisionSecurityConfig::ModelVerificationConfig::scan_models</definition>
+        <argsstring></argsstring>
+        <name>scan_models</name>
+        <qualifiedname>themis::llm::VisionSecurityConfig::ModelVerificationConfig::scan_models</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="200" column="14" bodyfile="include/llm/vision_config.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/vision_config.h" line="194" column="5" bodyfile="include/llm/vision_config.h" bodystart="194" bodyend="201"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_vision_security_config_1_1_model_verification_config_1a49ba7956b1a6973cde4d99da33ac27b0" prot="public" virt="non-virtual"><scope>themis::llm::VisionSecurityConfig::ModelVerificationConfig</scope><name>checksum_algorithm</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_security_config_1_1_model_verification_config_1adc9b846d8ad63d44f1a0cff5ca11da3a" prot="public" virt="non-virtual"><scope>themis::llm::VisionSecurityConfig::ModelVerificationConfig</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_security_config_1_1_model_verification_config_1adb1fa93b02895c3db95a75c2d344fbff" prot="public" virt="non-virtual"><scope>themis::llm::VisionSecurityConfig::ModelVerificationConfig</scope><name>scan_models</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_security_config_1_1_model_verification_config_1aa7e6dc9fece4527f44335ba453d9c57d" prot="public" virt="non-virtual"><scope>themis::llm::VisionSecurityConfig::ModelVerificationConfig</scope><name>trusted_publishers</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_security_config_1_1_model_verification_config_1af90e42cd37bf8dde979c446e6d69b7c2" prot="public" virt="non-virtual"><scope>themis::llm::VisionSecurityConfig::ModelVerificationConfig</scope><name>verify_checksums</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_security_config_1_1_model_verification_config_1a1c3a01474a5fa094b748c16e01d2d457" prot="public" virt="non-virtual"><scope>themis::llm::VisionSecurityConfig::ModelVerificationConfig</scope><name>verify_signatures</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

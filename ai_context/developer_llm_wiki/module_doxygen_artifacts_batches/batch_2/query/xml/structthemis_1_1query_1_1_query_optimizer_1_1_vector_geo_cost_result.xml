@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::QueryOptimizer::VectorGeoCostResult</compoundname>
+    <includes refid="query__optimizer_8h" local="no">query_optimizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_result_1ad9155f919531fcb6b309162351c9de76" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1query_1_1_query_optimizer_1a46d3742f97904f300007684dce924354" kindref="member">VectorGeoPlan</ref></type>
+        <definition>VectorGeoPlan themis::query::QueryOptimizer::VectorGeoCostResult::plan</definition>
+        <argsstring></argsstring>
+        <name>plan</name>
+        <qualifiedname>themis::query::QueryOptimizer::VectorGeoCostResult::plan</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="156" column="23" bodyfile="include/query/query_optimizer.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_result_1a77c5cb5a13b38cdda684aa449af787d1" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::QueryOptimizer::VectorGeoCostResult::costSpatialFirst</definition>
+        <argsstring></argsstring>
+        <name>costSpatialFirst</name>
+        <qualifiedname>themis::query::QueryOptimizer::VectorGeoCostResult::costSpatialFirst</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="157" column="16" bodyfile="include/query/query_optimizer.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_result_1a4f764c85fb4fa7da9d7885a0b853ffb4" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::QueryOptimizer::VectorGeoCostResult::costVectorFirst</definition>
+        <argsstring></argsstring>
+        <name>costVectorFirst</name>
+        <qualifiedname>themis::query::QueryOptimizer::VectorGeoCostResult::costVectorFirst</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="158" column="16" bodyfile="include/query/query_optimizer.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_optimizer.h" line="155" column="5" bodyfile="include/query/query_optimizer.h" bodystart="155" bodyend="159"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_result_1a77c5cb5a13b38cdda684aa449af787d1" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer::VectorGeoCostResult</scope><name>costSpatialFirst</name></member>
+      <member refid="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_result_1a4f764c85fb4fa7da9d7885a0b853ffb4" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer::VectorGeoCostResult</scope><name>costVectorFirst</name></member>
+      <member refid="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_result_1ad9155f919531fcb6b309162351c9de76" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer::VectorGeoCostResult</scope><name>plan</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

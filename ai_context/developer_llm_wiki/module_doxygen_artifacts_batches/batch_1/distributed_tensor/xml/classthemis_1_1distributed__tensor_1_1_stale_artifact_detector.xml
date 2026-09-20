@@ -1,0 +1,602 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector" kind="class" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::StaleArtifactDetector</compoundname>
+    <includes refid="stale__artifact__detector_8h" local="no">stale_artifact_detector.h</includes>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1_1_staleness_history" prot="public">themis::distributed_tensor::StaleArtifactDetector::StalenessHistory</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1_1_stats" prot="public">themis::distributed_tensor::StaleArtifactDetector::Stats</innerclass>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1a32fd4b4fc4fa2378b6fd8d734d56bbda" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1distributed__tensor_1_1_staleness_policy" kindref="compound">StalenessPolicy</ref></type>
+        <definition>StalenessPolicy themis::distributed_tensor::StaleArtifactDetector::policy_</definition>
+        <argsstring></argsstring>
+        <name>policy_</name>
+        <qualifiedname>themis::distributed_tensor::StaleArtifactDetector::policy_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/stale_artifact_detector.h" line="178" column="19" bodyfile="src/distributed_tensor/include/stale_artifact_detector.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1a6ca3168ffeb7f139c8544b4430bc80a2" prot="protected" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1_1_staleness_history" kindref="compound">StalenessHistory</ref> &gt;</type>
+        <definition>std::map&lt;std::string, StalenessHistory&gt; themis::distributed_tensor::StaleArtifactDetector::history_</definition>
+        <argsstring></argsstring>
+        <name>history_</name>
+        <qualifiedname>themis::distributed_tensor::StaleArtifactDetector::history_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/stale_artifact_detector.h" line="179" column="12" bodyfile="src/distributed_tensor/include/stale_artifact_detector.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1afeb00fbb0092d1f5c541ae1444fb7718" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Stats themis::distributed_tensor::StaleArtifactDetector::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::distributed_tensor::StaleArtifactDetector::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/stale_artifact_detector.h" line="180" column="9" bodyfile="src/distributed_tensor/include/stale_artifact_detector.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1acf42f959ce18c6b76645398882aa6c3e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_tensor::StaleArtifactDetector::StaleArtifactDetector</definition>
+        <argsstring>()</argsstring>
+        <name>StaleArtifactDetector</name>
+        <qualifiedname>themis::distributed_tensor::StaleArtifactDetector::StaleArtifactDetector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/stale_artifact_detector.h" line="87" column="3" bodyfile="src/distributed_tensor/src/stale_artifact_detector.cc" bodystart="14" bodyend="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1ae3cf2942449873f4485dc25f33641251" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::distributed_tensor::StaleArtifactDetector::~StaleArtifactDetector</definition>
+        <argsstring>()=default</argsstring>
+        <name>~StaleArtifactDetector</name>
+        <qualifiedname>themis::distributed_tensor::StaleArtifactDetector::~StaleArtifactDetector</qualifiedname>
+        <briefdescription>
+<para>Stale Artifact Detector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/stale_artifact_detector.h" line="93" column="11"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1a3a079139b65645ee4be9a883132dd0bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_tensor::StaleArtifactDetector::StaleArtifactDetector</definition>
+        <argsstring>(const StaleArtifactDetector &amp;)=delete</argsstring>
+        <name>StaleArtifactDetector</name>
+        <qualifiedname>themis::distributed_tensor::StaleArtifactDetector::StaleArtifactDetector</qualifiedname>
+        <param>
+          <type>const StaleArtifactDetector &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/stale_artifact_detector.h" line="96" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1aa768ce7a42ccd9d1197f80e20af84d9d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1acf42f959ce18c6b76645398882aa6c3e" kindref="member">StaleArtifactDetector</ref> &amp;</type>
+        <definition>StaleArtifactDetector &amp; themis::distributed_tensor::StaleArtifactDetector::operator=</definition>
+        <argsstring>(const StaleArtifactDetector &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::distributed_tensor::StaleArtifactDetector::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1acf42f959ce18c6b76645398882aa6c3e" kindref="member">StaleArtifactDetector</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/stale_artifact_detector.h" line="97" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1a906b9bd8db013b9cf0fa230d42474709" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_tensor::StaleArtifactDetector::StaleArtifactDetector</definition>
+        <argsstring>(StaleArtifactDetector &amp;&amp;)=delete</argsstring>
+        <name>StaleArtifactDetector</name>
+        <qualifiedname>themis::distributed_tensor::StaleArtifactDetector::StaleArtifactDetector</qualifiedname>
+        <param>
+          <type>StaleArtifactDetector &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/stale_artifact_detector.h" line="98" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1aced444af5b3848eb708dbf07d1280269" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1acf42f959ce18c6b76645398882aa6c3e" kindref="member">StaleArtifactDetector</ref> &amp;</type>
+        <definition>StaleArtifactDetector &amp; themis::distributed_tensor::StaleArtifactDetector::operator=</definition>
+        <argsstring>(const StaleArtifactDetector &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::distributed_tensor::StaleArtifactDetector::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1acf42f959ce18c6b76645398882aa6c3e" kindref="member">StaleArtifactDetector</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/stale_artifact_detector.h" line="99" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1a6c55d6848cc043f6224c51118ae95800" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_metrics" kindref="compound">StaleArtifactMetrics</ref></type>
+        <definition>StaleArtifactMetrics themis::distributed_tensor::StaleArtifactDetector::analyzeArtifactStaleness</definition>
+        <argsstring>(const std::string &amp;artifact_id, const ArtifactManifest &amp;manifest, uint64_t current_source_seq, double worker_throughput=0.0, double delta_arrival_rate=0.0)</argsstring>
+        <name>analyzeArtifactStaleness</name>
+        <qualifiedname>themis::distributed_tensor::StaleArtifactDetector::analyzeArtifactStaleness</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>artifact_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref> &amp;</type>
+          <declname>manifest</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>current_source_seq</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>worker_throughput</declname>
+          <defval>0.0</defval>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>delta_arrival_rate</declname>
+          <defval>0.0</defval>
+        </param>
+        <briefdescription>
+<para>Analyze Artifact Staleness. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">current_source_seq</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">worker_throughput</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">delta_arrival_rate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1a0a5d06a53680a21db9c7a7f8b5047e38" kindref="member">getCurrentTimeUnixSec()</ref>, <ref refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1ab19946c82c2bcdc867d9e74b4148acaa" kindref="member">classifyStaleness()</ref>, <ref refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1a0a545fb9bb0e125624ded0895d5f14b5" kindref="member">shouldFallback()</ref>, std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/stale_artifact_detector.h" line="101" column="32" bodyfile="src/distributed_tensor/src/stale_artifact_detector.cc" bodystart="46" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1a0a545fb9bb0e125624ded0895d5f14b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::StaleArtifactDetector::shouldFallback</definition>
+        <argsstring>(const StaleArtifactMetrics &amp;metrics)</argsstring>
+        <name>shouldFallback</name>
+        <qualifiedname>themis::distributed_tensor::StaleArtifactDetector::shouldFallback</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_metrics" kindref="compound">StaleArtifactMetrics</ref> &amp;</type>
+          <declname>metrics</declname>
+        </param>
+        <briefdescription>
+<para>Should Fallback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements shouldFallback without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/stale_artifact_detector.h" line="113" column="16" bodyfile="src/distributed_tensor/src/stale_artifact_detector.cc" bodystart="143" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1af0b8366838531f90c05ce27822da8197" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::StaleArtifactDetector::shouldInvalidate</definition>
+        <argsstring>(const StaleArtifactMetrics &amp;metrics)</argsstring>
+        <name>shouldInvalidate</name>
+        <qualifiedname>themis::distributed_tensor::StaleArtifactDetector::shouldInvalidate</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_metrics" kindref="compound">StaleArtifactMetrics</ref> &amp;</type>
+          <declname>metrics</declname>
+        </param>
+        <briefdescription>
+<para>Should Invalidate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements shouldInvalidate without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/stale_artifact_detector.h" line="120" column="16" bodyfile="src/distributed_tensor/src/stale_artifact_detector.cc" bodystart="165" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1a5e8d38180c24bb61fc38866b4c82d86b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1distributed__tensor_1_1_staleness_policy" kindref="compound">StalenessPolicy</ref></type>
+        <definition>StalenessPolicy themis::distributed_tensor::StaleArtifactDetector::getPolicy</definition>
+        <argsstring>() const</argsstring>
+        <name>getPolicy</name>
+        <qualifiedname>themis::distributed_tensor::StaleArtifactDetector::getPolicy</qualifiedname>
+        <briefdescription>
+<para>Look up a retention policy by name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to the stored policy on success, or an error if it is missing. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/stale_artifact_detector.h" line="126" column="19" bodyfile="src/distributed_tensor/src/stale_artifact_detector.cc" bodystart="174" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1a95b5416bb33d129b9a4d81b681a446dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::distributed_tensor::StaleArtifactDetector::setPolicy</definition>
+        <argsstring>(const StalenessPolicy &amp;policy)</argsstring>
+        <name>setPolicy</name>
+        <qualifiedname>themis::distributed_tensor::StaleArtifactDetector::setPolicy</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1distributed__tensor_1_1_staleness_policy" kindref="compound">StalenessPolicy</ref> &amp;</type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+<para>Set Policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setPolicy without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/stale_artifact_detector.h" line="132" column="8" bodyfile="src/distributed_tensor/src/stale_artifact_detector.cc" bodystart="183" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1afa46153ab576dd970a33aa6e1a0546b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::distributed_tensor::StaleArtifactDetector::updateStalenessHistory</definition>
+        <argsstring>(const std::string &amp;artifact_id, const StaleArtifactMetrics &amp;metrics)</argsstring>
+        <name>updateStalenessHistory</name>
+        <qualifiedname>themis::distributed_tensor::StaleArtifactDetector::updateStalenessHistory</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>artifact_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_metrics" kindref="compound">StaleArtifactMetrics</ref> &amp;</type>
+          <declname>metrics</declname>
+        </param>
+        <briefdescription>
+<para>Update Staleness History. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: find(), end(), <ref refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1a0a5d06a53680a21db9c7a7f8b5047e38" kindref="member">getCurrentTimeUnixSec()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/stale_artifact_detector.h" line="151" column="16" bodyfile="src/distributed_tensor/src/stale_artifact_detector.cc" bodystart="193" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1a6f0d309b8f0b5561184c794dab32c557" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1_1_staleness_history" kindref="compound">StalenessHistory</ref> &gt;</type>
+        <definition>std::optional&lt; StaleArtifactDetector::StalenessHistory &gt; themis::distributed_tensor::StaleArtifactDetector::getStalenessHistory</definition>
+        <argsstring>(const std::string &amp;artifact_id)</argsstring>
+        <name>getStalenessHistory</name>
+        <qualifiedname>themis::distributed_tensor::StaleArtifactDetector::getStalenessHistory</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>artifact_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Staleness History. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/stale_artifact_detector.h" line="159" column="25" bodyfile="src/distributed_tensor/src/stale_artifact_detector.cc" bodystart="248" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1a8d0d8248260170038c250176cb96bb66" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>StaleArtifactDetector::Stats themis::distributed_tensor::StaleArtifactDetector::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::distributed_tensor::StaleArtifactDetector::getStats</qualifiedname>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1_1_stats" kindref="compound">Stats</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/stale_artifact_detector.h" line="175" column="17" bodyfile="src/distributed_tensor/src/stale_artifact_detector.cc" bodystart="259" bodyend="261"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1ab19946c82c2bcdc867d9e74b4148acaa" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1distributed__tensor_1a699ef27ff600de9b8037ff6fa89fd6ee" kindref="member">StalenessLevel</ref></type>
+        <definition>StalenessLevel themis::distributed_tensor::StaleArtifactDetector::classifyStaleness</definition>
+        <argsstring>(const StaleArtifactMetrics &amp;metrics)</argsstring>
+        <name>classifyStaleness</name>
+        <qualifiedname>themis::distributed_tensor::StaleArtifactDetector::classifyStaleness</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_metrics" kindref="compound">StaleArtifactMetrics</ref> &amp;</type>
+          <declname>metrics</declname>
+        </param>
+        <briefdescription>
+<para>Classify Staleness. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements classifyStaleness without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/stale_artifact_detector.h" line="187" column="18" bodyfile="src/distributed_tensor/src/stale_artifact_detector.cc" bodystart="100" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1a0a5d06a53680a21db9c7a7f8b5047e38" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::distributed_tensor::StaleArtifactDetector::getCurrentTimeUnixSec</definition>
+        <argsstring>()</argsstring>
+        <name>getCurrentTimeUnixSec</name>
+        <qualifiedname>themis::distributed_tensor::StaleArtifactDetector::getCurrentTimeUnixSec</qualifiedname>
+        <briefdescription>
+<para>Get Current Time Unix Sec. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/stale_artifact_detector.h" line="193" column="11" bodyfile="src/distributed_tensor/src/stale_artifact_detector.cc" bodystart="31" bodyend="34"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::distributed_tensor::StaleArtifactDetector</label>
+        <link refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>policy_</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>stats_</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::distributed_tensor::StaleArtifactDetector::Stats</label>
+        <link refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1_1_stats"/>
+      </node>
+      <node id="2">
+        <label>themis::distributed_tensor::StalenessPolicy</label>
+        <link refid="structthemis_1_1distributed__tensor_1_1_staleness_policy"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/distributed_tensor/include/stale_artifact_detector.h" line="85" column="1" bodyfile="src/distributed_tensor/include/stale_artifact_detector.h" bodystart="85" bodyend="194"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1a6c55d6848cc043f6224c51118ae95800" prot="public" virt="virtual"><scope>themis::distributed_tensor::StaleArtifactDetector</scope><name>analyzeArtifactStaleness</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1ab19946c82c2bcdc867d9e74b4148acaa" prot="protected" virt="non-virtual"><scope>themis::distributed_tensor::StaleArtifactDetector</scope><name>classifyStaleness</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1a0a5d06a53680a21db9c7a7f8b5047e38" prot="protected" virt="non-virtual"><scope>themis::distributed_tensor::StaleArtifactDetector</scope><name>getCurrentTimeUnixSec</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1a5e8d38180c24bb61fc38866b4c82d86b" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StaleArtifactDetector</scope><name>getPolicy</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1a6f0d309b8f0b5561184c794dab32c557" prot="public" virt="virtual"><scope>themis::distributed_tensor::StaleArtifactDetector</scope><name>getStalenessHistory</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1a8d0d8248260170038c250176cb96bb66" prot="public" virt="virtual"><scope>themis::distributed_tensor::StaleArtifactDetector</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1a6ca3168ffeb7f139c8544b4430bc80a2" prot="protected" virt="non-virtual"><scope>themis::distributed_tensor::StaleArtifactDetector</scope><name>history_</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1aa768ce7a42ccd9d1197f80e20af84d9d" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StaleArtifactDetector</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1aced444af5b3848eb708dbf07d1280269" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StaleArtifactDetector</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1a32fd4b4fc4fa2378b6fd8d734d56bbda" prot="protected" virt="non-virtual"><scope>themis::distributed_tensor::StaleArtifactDetector</scope><name>policy_</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1a95b5416bb33d129b9a4d81b681a446dd" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StaleArtifactDetector</scope><name>setPolicy</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1a0a545fb9bb0e125624ded0895d5f14b5" prot="public" virt="virtual"><scope>themis::distributed_tensor::StaleArtifactDetector</scope><name>shouldFallback</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1af0b8366838531f90c05ce27822da8197" prot="public" virt="virtual"><scope>themis::distributed_tensor::StaleArtifactDetector</scope><name>shouldInvalidate</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1acf42f959ce18c6b76645398882aa6c3e" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StaleArtifactDetector</scope><name>StaleArtifactDetector</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1a3a079139b65645ee4be9a883132dd0bc" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StaleArtifactDetector</scope><name>StaleArtifactDetector</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1a906b9bd8db013b9cf0fa230d42474709" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StaleArtifactDetector</scope><name>StaleArtifactDetector</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1afeb00fbb0092d1f5c541ae1444fb7718" prot="protected" virt="non-virtual"><scope>themis::distributed_tensor::StaleArtifactDetector</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1afa46153ab576dd970a33aa6e1a0546b1" prot="public" virt="virtual"><scope>themis::distributed_tensor::StaleArtifactDetector</scope><name>updateStalenessHistory</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1ae3cf2942449873f4485dc25f33641251" prot="public" virt="virtual"><scope>themis::distributed_tensor::StaleArtifactDetector</scope><name>~StaleArtifactDetector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

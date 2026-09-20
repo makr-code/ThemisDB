@@ -1,0 +1,248 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1test_1_1_chaos_scenario" kind="class" language="C++" prot="public">
+    <compoundname>themis::test::ChaosScenario</compoundname>
+    <includes refid="fault__injector_8h" local="no">fault_injector.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_chaos_scenario_1ab5929ca26998720bbe2057bf1dfb7151" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1test_1_1_fault_orchestrator" kindref="compound">FaultOrchestrator</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;FaultOrchestrator&gt; themis::test::ChaosScenario::orchestrator_</definition>
+        <argsstring></argsstring>
+        <name>orchestrator_</name>
+        <qualifiedname>themis::test::ChaosScenario::orchestrator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="599" column="21" bodyfile="tests/utils/fault_injector.h" bodystart="599" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1test_1_1_chaos_scenario_1a1053a7153e643d9ccdc4328e5d17bdbc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::ChaosScenario::ChaosScenario</definition>
+        <argsstring>()</argsstring>
+        <name>ChaosScenario</name>
+        <qualifiedname>themis::test::ChaosScenario::ChaosScenario</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="539" column="5" bodyfile="tests/utils/fault_injector.h" bodystart="539" bodyend="539"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_chaos_scenario_1ad643f39a55a4c2aa31ce6542faa8d06f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1test_1_1_chaos_scenario_1a1053a7153e643d9ccdc4328e5d17bdbc" kindref="member">ChaosScenario</ref> &amp;</type>
+        <definition>ChaosScenario &amp; themis::test::ChaosScenario::crash</definition>
+        <argsstring>(const std::string &amp;target, std::chrono::milliseconds duration=std::chrono::milliseconds{0}, CrashInjector::CrashPoint point=CrashInjector::CrashPoint::IMMEDIATE)</argsstring>
+        <name>crash</name>
+        <qualifiedname>themis::test::ChaosScenario::crash</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>duration</declname>
+          <defval>std::chrono::milliseconds{0}</defval>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_crash_injector_1afe5ae840ba41bfa3ce7e32e14bf03130" kindref="member">CrashInjector::CrashPoint</ref></type>
+          <declname>point</declname>
+          <defval><ref refid="classthemis_1_1test_1_1_crash_injector_1afe5ae840ba41bfa3ce7e32e14bf03130ae35884a2445bc4ae2df52f188763273c" kindref="member">CrashInjector::CrashPoint::IMMEDIATE</ref></defval>
+        </param>
+        <briefdescription>
+<para>Add crash injection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="544" column="19" bodyfile="tests/utils/fault_injector.cpp" bodystart="444" bodyend="459"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_chaos_scenario_1adff2874cd54efe0f45d5da14528bd42f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1test_1_1_chaos_scenario_1a1053a7153e643d9ccdc4328e5d17bdbc" kindref="member">ChaosScenario</ref> &amp;</type>
+        <definition>ChaosScenario &amp; themis::test::ChaosScenario::networkPartition</definition>
+        <argsstring>(const std::string &amp;target_node, const std::vector&lt; std::string &gt; &amp;partition_members, std::chrono::milliseconds duration)</argsstring>
+        <name>networkPartition</name>
+        <qualifiedname>themis::test::ChaosScenario::networkPartition</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_node</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>partition_members</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>duration</declname>
+        </param>
+        <briefdescription>
+<para>Add network partition. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="552" column="19" bodyfile="tests/utils/fault_injector.cpp" bodystart="461" bodyend="478"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_chaos_scenario_1ad30764e2d9e5f44ad72e69591597e552" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1test_1_1_chaos_scenario_1a1053a7153e643d9ccdc4328e5d17bdbc" kindref="member">ChaosScenario</ref> &amp;</type>
+        <definition>ChaosScenario &amp; themis::test::ChaosScenario::networkDelay</definition>
+        <argsstring>(const std::string &amp;target_node, std::chrono::milliseconds latency, std::chrono::milliseconds duration)</argsstring>
+        <name>networkDelay</name>
+        <qualifiedname>themis::test::ChaosScenario::networkDelay</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_node</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>latency</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>duration</declname>
+        </param>
+        <briefdescription>
+<para>Add network delay. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="560" column="19" bodyfile="tests/utils/fault_injector.cpp" bodystart="480" bodyend="497"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_chaos_scenario_1aef61ed0286ecfc7dd9b5c752a2669a21" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1test_1_1_chaos_scenario_1a1053a7153e643d9ccdc4328e5d17bdbc" kindref="member">ChaosScenario</ref> &amp;</type>
+        <definition>ChaosScenario &amp; themis::test::ChaosScenario::packetLoss</definition>
+        <argsstring>(const std::string &amp;target_node, float loss_rate, std::chrono::milliseconds duration)</argsstring>
+        <name>packetLoss</name>
+        <qualifiedname>themis::test::ChaosScenario::packetLoss</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_node</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>loss_rate</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>duration</declname>
+        </param>
+        <briefdescription>
+<para>Add packet loss. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="568" column="19" bodyfile="tests/utils/fault_injector.cpp" bodystart="499" bodyend="516"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_chaos_scenario_1ab6e9dc6cf70c10dbf535c56b33fca5a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1test_1_1_chaos_scenario_1a1053a7153e643d9ccdc4328e5d17bdbc" kindref="member">ChaosScenario</ref> &amp;</type>
+        <definition>ChaosScenario &amp; themis::test::ChaosScenario::timeout</definition>
+        <argsstring>(const std::string &amp;target, std::chrono::milliseconds duration)</argsstring>
+        <name>timeout</name>
+        <qualifiedname>themis::test::ChaosScenario::timeout</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>duration</declname>
+        </param>
+        <briefdescription>
+<para>Add timeout injection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="576" column="19" bodyfile="tests/utils/fault_injector.cpp" bodystart="518" bodyend="532"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_chaos_scenario_1a7d6e58414961600a926c3d8db063c6fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1test_1_1_chaos_scenario_1a1053a7153e643d9ccdc4328e5d17bdbc" kindref="member">ChaosScenario</ref> &amp;</type>
+        <definition>ChaosScenario &amp; themis::test::ChaosScenario::corruption</definition>
+        <argsstring>(const std::string &amp;target, const std::string &amp;field, float corruption_rate)</argsstring>
+        <name>corruption</name>
+        <qualifiedname>themis::test::ChaosScenario::corruption</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>field</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>corruption_rate</declname>
+        </param>
+        <briefdescription>
+<para>Add data corruption. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="583" column="19" bodyfile="tests/utils/fault_injector.cpp" bodystart="534" bodyend="549"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_chaos_scenario_1a3ce1f67af9693fbb04a52130f1e0fe9b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1test_1_1_fault_orchestrator" kindref="compound">FaultOrchestrator</ref> *</type>
+        <definition>FaultOrchestrator * themis::test::ChaosScenario::build</definition>
+        <argsstring>()</argsstring>
+        <name>build</name>
+        <qualifiedname>themis::test::ChaosScenario::build</qualifiedname>
+        <briefdescription>
+<para>Build and inject scenario. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="591" column="23" bodyfile="tests/utils/fault_injector.cpp" bodystart="551" bodyend="554"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_chaos_scenario_1aff024277d2ced8db4b11b8c578e4cab6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1test_1_1_fault_orchestrator" kindref="compound">FaultOrchestrator</ref> *</type>
+        <definition>FaultOrchestrator * themis::test::ChaosScenario::getOrchestrator</definition>
+        <argsstring>()</argsstring>
+        <name>getOrchestrator</name>
+        <qualifiedname>themis::test::ChaosScenario::getOrchestrator</qualifiedname>
+        <briefdescription>
+<para>Get orchestrator for direct access. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="596" column="23" bodyfile="tests/utils/fault_injector.h" bodystart="596" bodyend="596"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Fluent builder for complex chaos scenarios. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Usage: <ref refid="classthemis_1_1test_1_1_chaos_scenario_1a1053a7153e643d9ccdc4328e5d17bdbc" kindref="member">ChaosScenario()</ref> .crash(&quot;coordinator&quot;, 5s) .networkPartition(&quot;node-1&quot;, {&quot;node-2&quot;, &quot;node-3&quot;}, 10s) .timeout(&quot;prepare_phase&quot;, 100ms) .<ref refid="classthemis_1_1test_1_1_chaos_scenario_1a3ce1f67af9693fbb04a52130f1e0fe9b" kindref="member">build()</ref> </para>
+    </detaileddescription>
+    <location file="tests/utils/fault_injector.h" line="537" column="1" bodyfile="tests/utils/fault_injector.h" bodystart="537" bodyend="600"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1test_1_1_chaos_scenario_1a3ce1f67af9693fbb04a52130f1e0fe9b" prot="public" virt="non-virtual"><scope>themis::test::ChaosScenario</scope><name>build</name></member>
+      <member refid="classthemis_1_1test_1_1_chaos_scenario_1a1053a7153e643d9ccdc4328e5d17bdbc" prot="public" virt="non-virtual"><scope>themis::test::ChaosScenario</scope><name>ChaosScenario</name></member>
+      <member refid="classthemis_1_1test_1_1_chaos_scenario_1a7d6e58414961600a926c3d8db063c6fe" prot="public" virt="non-virtual"><scope>themis::test::ChaosScenario</scope><name>corruption</name></member>
+      <member refid="classthemis_1_1test_1_1_chaos_scenario_1ad643f39a55a4c2aa31ce6542faa8d06f" prot="public" virt="non-virtual"><scope>themis::test::ChaosScenario</scope><name>crash</name></member>
+      <member refid="classthemis_1_1test_1_1_chaos_scenario_1aff024277d2ced8db4b11b8c578e4cab6" prot="public" virt="non-virtual"><scope>themis::test::ChaosScenario</scope><name>getOrchestrator</name></member>
+      <member refid="classthemis_1_1test_1_1_chaos_scenario_1ad30764e2d9e5f44ad72e69591597e552" prot="public" virt="non-virtual"><scope>themis::test::ChaosScenario</scope><name>networkDelay</name></member>
+      <member refid="classthemis_1_1test_1_1_chaos_scenario_1adff2874cd54efe0f45d5da14528bd42f" prot="public" virt="non-virtual"><scope>themis::test::ChaosScenario</scope><name>networkPartition</name></member>
+      <member refid="classthemis_1_1test_1_1_chaos_scenario_1ab5929ca26998720bbe2057bf1dfb7151" prot="private" virt="non-virtual"><scope>themis::test::ChaosScenario</scope><name>orchestrator_</name></member>
+      <member refid="classthemis_1_1test_1_1_chaos_scenario_1aef61ed0286ecfc7dd9b5c752a2669a21" prot="public" virt="non-virtual"><scope>themis::test::ChaosScenario</scope><name>packetLoss</name></member>
+      <member refid="classthemis_1_1test_1_1_chaos_scenario_1ab6e9dc6cf70c10dbf535c56b33fca5a7" prot="public" virt="non-virtual"><scope>themis::test::ChaosScenario</scope><name>timeout</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_sealed_blob" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::SealedBlob</compoundname>
+    <includes refid="confidential__computing_8h" local="no">confidential_computing.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_sealed_blob_1a212aeb2826c3994868fda5ce4bc384f5" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1security_1a5839a34a29cd06daa704afb85c01824d" kindref="member">TeeType</ref></type>
+        <definition>TeeType themis::security::SealedBlob::tee_type</definition>
+        <argsstring></argsstring>
+        <name>tee_type</name>
+        <qualifiedname>themis::security::SealedBlob::tee_type</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1security_1a5839a34a29cd06daa704afb85c01824dab50339a10e1de285ac99d4c3990b8693" kindref="member">TeeType::NONE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/confidential_computing.h" line="77" column="13" bodyfile="include/security/confidential_computing.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_sealed_blob_1a611876710c8753cf0f07dafa64d73171" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::security::SealedBlob::iv</definition>
+        <argsstring></argsstring>
+        <name>iv</name>
+        <qualifiedname>themis::security::SealedBlob::iv</qualifiedname>
+        <briefdescription>
+<para>12-byte AES-GCM IV </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/confidential_computing.h" line="78" column="17" bodyfile="include/security/confidential_computing.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_sealed_blob_1a26311e902e9dca9673ca1d8fce4c8614" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::security::SealedBlob::ciphertext</definition>
+        <argsstring></argsstring>
+        <name>ciphertext</name>
+        <qualifiedname>themis::security::SealedBlob::ciphertext</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/confidential_computing.h" line="79" column="17" bodyfile="include/security/confidential_computing.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_sealed_blob_1a38cf2f977f06ce11046391c98f1c04fd" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::security::SealedBlob::tag</definition>
+        <argsstring></argsstring>
+        <name>tag</name>
+        <qualifiedname>themis::security::SealedBlob::tag</qualifiedname>
+        <briefdescription>
+<para>16-byte AES-GCM tag </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/confidential_computing.h" line="80" column="17" bodyfile="include/security/confidential_computing.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_sealed_blob_1ac23a97a934042c7eda3388fccd24c1df" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::security::SealedBlob::measurement_binding</definition>
+        <argsstring></argsstring>
+        <name>measurement_binding</name>
+        <qualifiedname>themis::security::SealedBlob::measurement_binding</qualifiedname>
+        <briefdescription>
+<para>TEE measurement at seal time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/confidential_computing.h" line="81" column="17" bodyfile="include/security/confidential_computing.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Sealed blob — data bound to the current TEE measurement. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Unsealing will fail if the enclave measurement changes (e.g. after a software update), providing &quot;measured-boot&quot; style binding.</para>
+<para>In software-fallback mode the blob is AES-256-GCM encrypted with a process-lifetime key derived from OpenSSL RAND_bytes; it will NOT survive process restart. Real TDX/SEV implementations should persist measurement-bound key material through a remote KMS. </para>
+    </detaileddescription>
+    <location file="include/security/confidential_computing.h" line="76" column="1" bodyfile="include/security/confidential_computing.h" bodystart="76" bodyend="82"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_sealed_blob_1a26311e902e9dca9673ca1d8fce4c8614" prot="public" virt="non-virtual"><scope>themis::security::SealedBlob</scope><name>ciphertext</name></member>
+      <member refid="structthemis_1_1security_1_1_sealed_blob_1a611876710c8753cf0f07dafa64d73171" prot="public" virt="non-virtual"><scope>themis::security::SealedBlob</scope><name>iv</name></member>
+      <member refid="structthemis_1_1security_1_1_sealed_blob_1ac23a97a934042c7eda3388fccd24c1df" prot="public" virt="non-virtual"><scope>themis::security::SealedBlob</scope><name>measurement_binding</name></member>
+      <member refid="structthemis_1_1security_1_1_sealed_blob_1a38cf2f977f06ce11046391c98f1c04fd" prot="public" virt="non-virtual"><scope>themis::security::SealedBlob</scope><name>tag</name></member>
+      <member refid="structthemis_1_1security_1_1_sealed_blob_1a212aeb2826c3994868fda5ce4bc384f5" prot="public" virt="non-virtual"><scope>themis::security::SealedBlob</scope><name>tee_type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

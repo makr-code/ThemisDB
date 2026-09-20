@@ -1,0 +1,368 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="delegate__evaluator_8h" kind="file" language="C++">
+    <compoundname>delegate_evaluator.h</compoundname>
+    <includes local="no">algorithm</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="bench__delegate__evaluator_8cpp" local="yes">benchmarks/rag/bench_delegate_evaluator.cpp</includedby>
+    <includedby refid="agentic__rag_8h" local="yes">include/rag/agentic_rag.h</includedby>
+    <includedby refid="delegate__evaluator_8cpp" local="yes">src/rag/delegate_evaluator.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/rag/delegate_evaluator.h</label>
+        <link refid="delegate__evaluator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>algorithm</label>
+      </node>
+      <node id="3">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>stdexcept</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/rag/bench_delegate_evaluator.cpp</label>
+        <link refid="bench__delegate__evaluator_8cpp"/>
+      </node>
+      <node id="3">
+        <label>include/rag/agentic_rag.h</label>
+        <link refid="agentic__rag_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/rag/delegate_evaluator.h</label>
+        <link refid="delegate__evaluator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/rag/agentic_rag.cpp</label>
+        <link refid="agentic__rag_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/rag/delegate_evaluator.cpp</label>
+        <link refid="delegate__evaluator_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/rag/test_rag_agentic.cpp</label>
+        <link refid="test__rag__agentic_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1rag_1_1delegate__eval_1_1_i_domain_evaluator" prot="public">themis::rag::delegate_eval::IDomainEvaluator</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1delegate__eval_1_1_round_trip_edit_pair" prot="public">themis::rag::delegate_eval::RoundTripEditPair</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1delegate__eval_1_1_delegate_evaluator_config" prot="public">themis::rag::delegate_eval::DelegateEvaluatorConfig</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1delegate__eval_1_1_reconstruction_score_at_k" prot="public">themis::rag::delegate_eval::ReconstructionScoreAtK</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1delegate__eval_1_1_relay_result" prot="public">themis::rag::delegate_eval::RelayResult</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator" prot="public">themis::rag::delegate_eval::RoundTripSimulator</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1delegate__eval_1_1_json_document_evaluator" prot="public">themis::rag::delegate_eval::JsonDocumentEvaluator</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1delegate__eval_1_1_aql_query_evaluator" prot="public">themis::rag::delegate_eval::AqlQueryEvaluator</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1delegate__eval_1_1_plain_text_evaluator" prot="public">themis::rag::delegate_eval::PlainTextEvaluator</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1delegate__eval_1_1_xml_process_evaluator" prot="public">themis::rag::delegate_eval::XmlProcessEvaluator</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1delegate__eval_1_1_markdown_evaluator" prot="public">themis::rag::delegate_eval::MarkdownEvaluator</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1delegate__eval_1_1_delegate_evaluator_factory" prot="public">themis::rag::delegate_eval::DelegateEvaluatorFactory</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1document">themis::document</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag">themis::rag</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag_1_1delegate__eval">themis::rag::delegate_eval</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.1.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 96/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20" refid="namespacethemis_1_1document" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1document" kindref="compound">themis::document</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">IRoundTripEditor;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24" refid="namespacethemis_1_1rag_1_1delegate__eval" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag_1_1delegate__eval" kindref="compound">themis::rag::delegate_eval</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Domain<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1rag_1_1delegate__eval_1a27a27b5e82f6b11343ccd146bb8cba8b" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a27a27b5e82f6b11343ccd146bb8cba8b" kindref="member">DomainType</ref><sp/>{</highlight></codeline>
+<codeline lineno="37" refid="namespacethemis_1_1rag_1_1delegate__eval_1a27a27b5e82f6b11343ccd146bb8cba8bafb1dcfa4a7110c5721a6e9ed2118b124" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a27a27b5e82f6b11343ccd146bb8cba8bafb1dcfa4a7110c5721a6e9ed2118b124" kindref="member">JSON_DOCUMENT</ref>,<sp/></highlight></codeline>
+<codeline lineno="38" refid="namespacethemis_1_1rag_1_1delegate__eval_1a27a27b5e82f6b11343ccd146bb8cba8ba3725a574ca60a9701ffcae5b6827641a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a27a27b5e82f6b11343ccd146bb8cba8ba3725a574ca60a9701ffcae5b6827641a" kindref="member">AQL_QUERY</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1rag_1_1delegate__eval_1a27a27b5e82f6b11343ccd146bb8cba8baae7d3557f5e0b4e9cca075db3dfa7e9d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a27a27b5e82f6b11343ccd146bb8cba8baae7d3557f5e0b4e9cca075db3dfa7e9d" kindref="member">PLAIN_TEXT</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40" refid="namespacethemis_1_1rag_1_1delegate__eval_1a27a27b5e82f6b11343ccd146bb8cba8ba06d53571201b4c2aa16554971af6365e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a27a27b5e82f6b11343ccd146bb8cba8ba06d53571201b4c2aa16554971af6365e" kindref="member">MARKDOWN</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41" refid="namespacethemis_1_1rag_1_1delegate__eval_1a27a27b5e82f6b11343ccd146bb8cba8ba40937993531243c9a7f88360de27df05" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a27a27b5e82f6b11343ccd146bb8cba8ba40937993531243c9a7f88360de27df05" kindref="member">XML_PROCESS</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ReconstructionScore</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="namespacethemis_1_1rag_1_1delegate__eval_1a212cf6ebc69c48af30ae907d14e8567f" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a212cf6ebc69c48af30ae907d14e8567f" kindref="member">ReconstructionScore</ref><sp/>=<sp/>double;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IDomainEvaluator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="classthemis_1_1rag_1_1delegate__eval_1_1_i_domain_evaluator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_i_domain_evaluator" kindref="compound">IDomainEvaluator</ref><sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="75" refid="classthemis_1_1rag_1_1delegate__eval_1_1_i_domain_evaluator_1a38a888ec22474c19255361a3dafff5ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_i_domain_evaluator_1a38a888ec22474c19255361a3dafff5ed" kindref="member">~IDomainEvaluator</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="classthemis_1_1rag_1_1delegate__eval_1_1_i_domain_evaluator_1ac2fea1fc81006d87b26d15705ed42f73" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a212cf6ebc69c48af30ae907d14e8567f" kindref="member">ReconstructionScore</ref><sp/><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_i_domain_evaluator_1ac2fea1fc81006d87b26d15705ed42f73" kindref="member">evaluate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>original,</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>recovered)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="classthemis_1_1rag_1_1delegate__eval_1_1_i_domain_evaluator_1a3ece17ca6928803268fe59fd4380be8c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a27a27b5e82f6b11343ccd146bb8cba8b" kindref="member">DomainType</ref><sp/><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_i_domain_evaluator_1a3ece17ca6928803268fe59fd4380be8c" kindref="member">domain</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RoundTripEditPair</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1rag_1_1delegate__eval_1_1_round_trip_edit_pair" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1delegate__eval_1_1_round_trip_edit_pair" kindref="compound">RoundTripEditPair</ref><sp/>{</highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1rag_1_1delegate__eval_1_1_round_trip_edit_pair_1ab5819fc24408ab3d03af310c7c9e1875" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1delegate__eval_1_1_round_trip_edit_pair_1ab5819fc24408ab3d03af310c7c9e1875" kindref="member">forward_instruction</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1rag_1_1delegate__eval_1_1_round_trip_edit_pair_1a45a72dafd143f5a23731ffefbb9b9c36" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1delegate__eval_1_1_round_trip_edit_pair_1a45a72dafd143f5a23731ffefbb9b9c36" kindref="member">backward_instruction</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1rag_1_1delegate__eval_1_1_round_trip_edit_pair_1ab148d93139c9bde6dd3cd64314448247" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1delegate__eval_1_1_round_trip_edit_pair_1ab148d93139c9bde6dd3cd64314448247" kindref="member">seed_document</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1rag_1_1delegate__eval_1_1_round_trip_edit_pair_1ae5abb36693c153954772e4950c94b089" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a27a27b5e82f6b11343ccd146bb8cba8b" kindref="member">DomainType</ref><sp/><sp/><ref refid="structthemis_1_1rag_1_1delegate__eval_1_1_round_trip_edit_pair_1ae5abb36693c153954772e4950c94b089" kindref="member">domain_type</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="114"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EditFn</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134" refid="namespacethemis_1_1rag_1_1delegate__eval_1a77690185c5e7ffb2644027fe860989b4" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a77690185c5e7ffb2644027fe860989b4" kindref="member">EditFn</ref><sp/>=<sp/>std::function&lt;std::string(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>current_doc,</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>instruction)&gt;;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="comment">//<sp/>StopReason</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144" refid="namespacethemis_1_1rag_1_1delegate__eval_1a108125b3ca005e1e3b5f6b4763ca770a" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a108125b3ca005e1e3b5f6b4763ca770a" kindref="member">StopReason</ref><sp/>{</highlight></codeline>
+<codeline lineno="145" refid="namespacethemis_1_1rag_1_1delegate__eval_1a108125b3ca005e1e3b5f6b4763ca770aa2aa4029d1e4c1e0f0d8febd58c9afe33" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a108125b3ca005e1e3b5f6b4763ca770aa2aa4029d1e4c1e0f0d8febd58c9afe33" kindref="member">COMPLETED_NORMALLY</ref>,<sp/></highlight></codeline>
+<codeline lineno="146" refid="namespacethemis_1_1rag_1_1delegate__eval_1a108125b3ca005e1e3b5f6b4763ca770aac4f16930bbe97be0ecda8ae843de8c03" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a108125b3ca005e1e3b5f6b4763ca770aac4f16930bbe97be0ecda8ae843de8c03" kindref="member">EDIT_FAILED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="147" refid="namespacethemis_1_1rag_1_1delegate__eval_1a108125b3ca005e1e3b5f6b4763ca770aa70d0ec1955c6bc7e6686692afbb3ee12" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a108125b3ca005e1e3b5f6b4763ca770aa70d0ec1955c6bc7e6686692afbb3ee12" kindref="member">BUDGET_EXCEEDED</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="148"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DelegateEvaluatorConfig</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157" refid="structthemis_1_1rag_1_1delegate__eval_1_1_delegate_evaluator_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1delegate__eval_1_1_delegate_evaluator_config" kindref="compound">DelegateEvaluatorConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="159" refid="structthemis_1_1rag_1_1delegate__eval_1_1_delegate_evaluator_config_1a534c8f621d0b1c1dcb084778718df8a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1delegate__eval_1_1_delegate_evaluator_config_1a534c8f621d0b1c1dcb084778718df8a5" kindref="member">num_round_trips</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163" refid="structthemis_1_1rag_1_1delegate__eval_1_1_delegate_evaluator_config_1af4d15f4d380c4a3744a86af5c8a4c3cf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1delegate__eval_1_1_delegate_evaluator_config_1af4d15f4d380c4a3744a86af5c8a4c3cf" kindref="member">catastrophic_threshold</ref><sp/>=<sp/>0.80;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166" refid="structthemis_1_1rag_1_1delegate__eval_1_1_delegate_evaluator_config_1af1c5b7313769c7e680bf7d5111abac9c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1delegate__eval_1_1_delegate_evaluator_config_1af1c5b7313769c7e680bf7d5111abac9c" kindref="member">success_threshold</ref><sp/>=<sp/>0.98;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ReconstructionScoreAtK</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184" refid="structthemis_1_1rag_1_1delegate__eval_1_1_reconstruction_score_at_k" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1delegate__eval_1_1_reconstruction_score_at_k" kindref="compound">ReconstructionScoreAtK</ref><sp/>{</highlight></codeline>
+<codeline lineno="186" refid="structthemis_1_1rag_1_1delegate__eval_1_1_reconstruction_score_at_k_1a2ae3295c3b9f1032698a1c3078bdd534" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ReconstructionScore&gt;<sp/><ref refid="structthemis_1_1rag_1_1delegate__eval_1_1_reconstruction_score_at_k_1a2ae3295c3b9f1032698a1c3078bdd534" kindref="member">rs_per_interaction</ref>;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198" refid="structthemis_1_1rag_1_1delegate__eval_1_1_reconstruction_score_at_k_1a9a2a7ce109dd1c65a3d2273f6bdd9073" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a212cf6ebc69c48af30ae907d14e8567f" kindref="member">ReconstructionScore</ref><sp/><ref refid="structthemis_1_1rag_1_1delegate__eval_1_1_reconstruction_score_at_k_1a9a2a7ce109dd1c65a3d2273f6bdd9073" kindref="member">rs_at</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>k)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(k<sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>1.0;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="structthemis_1_1rag_1_1delegate__eval_1_1_reconstruction_score_at_k_1a2ae3295c3b9f1032698a1c3078bdd534" kindref="member">rs_per_interaction</ref>.empty())<sp/>{</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>1.0;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>idx<sp/>=<sp/>std::min(k,<sp/><ref refid="structthemis_1_1rag_1_1delegate__eval_1_1_reconstruction_score_at_k_1a2ae3295c3b9f1032698a1c3078bdd534" kindref="member">rs_per_interaction</ref>.size())<sp/>-<sp/>1;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1delegate__eval_1_1_reconstruction_score_at_k_1a2ae3295c3b9f1032698a1c3078bdd534" kindref="member">rs_per_interaction</ref>[idx];</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214" refid="structthemis_1_1rag_1_1delegate__eval_1_1_reconstruction_score_at_k_1a7e5466b9fb45cc1c84978a46a27a4eaa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1delegate__eval_1_1_reconstruction_score_at_k_1a7e5466b9fb45cc1c84978a46a27a4eaa" kindref="member">hasCatastrophicEvent</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>threshold<sp/>=<sp/>0.80)<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::any_of(<ref refid="structthemis_1_1rag_1_1delegate__eval_1_1_reconstruction_score_at_k_1a2ae3295c3b9f1032698a1c3078bdd534" kindref="member">rs_per_interaction</ref>.begin(),<sp/><ref refid="structthemis_1_1rag_1_1delegate__eval_1_1_reconstruction_score_at_k_1a2ae3295c3b9f1032698a1c3078bdd534" kindref="member">rs_per_interaction</ref>.end(),</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[threshold](</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>s)<sp/>{<sp/>return<sp/>s<sp/>&lt;<sp/>threshold;<sp/>});</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="218"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RelayResult</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227" refid="structthemis_1_1rag_1_1delegate__eval_1_1_relay_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1delegate__eval_1_1_relay_result" kindref="compound">RelayResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="229" refid="structthemis_1_1rag_1_1delegate__eval_1_1_relay_result_1a4d4139f3ad2fe4825b1acebf5fbb1cd7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1delegate__eval_1_1_reconstruction_score_at_k" kindref="compound">ReconstructionScoreAtK</ref><sp/><ref refid="structthemis_1_1rag_1_1delegate__eval_1_1_relay_result_1a4d4139f3ad2fe4825b1acebf5fbb1cd7" kindref="member">scores</ref>;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232" refid="structthemis_1_1rag_1_1delegate__eval_1_1_relay_result_1a8a05577ad3d9b914d7480a14eb89de2b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1delegate__eval_1_1_relay_result_1a8a05577ad3d9b914d7480a14eb89de2b" kindref="member">catastrophic_corruption_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235" refid="structthemis_1_1rag_1_1delegate__eval_1_1_relay_result_1a2436db325836ab9e83cd9d50337994e5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1delegate__eval_1_1_relay_result_1a2436db325836ab9e83cd9d50337994e5" kindref="member">fully_catastrophic</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238" refid="structthemis_1_1rag_1_1delegate__eval_1_1_relay_result_1a545c85a027e737d932ce9e7dcceb70a6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1delegate__eval_1_1_relay_result_1a545c85a027e737d932ce9e7dcceb70a6" kindref="member">final_doc</ref>;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241" refid="structthemis_1_1rag_1_1delegate__eval_1_1_relay_result_1a1754a2bc8afc87ba270a63b7da551b5c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a108125b3ca005e1e3b5f6b4763ca770a" kindref="member">StopReason</ref><sp/><ref refid="structthemis_1_1rag_1_1delegate__eval_1_1_relay_result_1a1754a2bc8afc87ba270a63b7da551b5c" kindref="member">stop_reason</ref><sp/>=<sp/><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a108125b3ca005e1e3b5f6b4763ca770aa2aa4029d1e4c1e0f0d8febd58c9afe33" kindref="member">StopReason::COMPLETED_NORMALLY</ref>;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244" refid="structthemis_1_1rag_1_1delegate__eval_1_1_relay_result_1a1954b4b981109534ef7ee2e5c93168df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1delegate__eval_1_1_relay_result_1a1954b4b981109534ef7ee2e5c93168df" kindref="member">total_interactions</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247" refid="structthemis_1_1rag_1_1delegate__eval_1_1_relay_result_1ade53d6a643d47ae22ae7b647c0faf54f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1delegate__eval_1_1_relay_result_1ade53d6a643d47ae22ae7b647c0faf54f" kindref="member">persistence_write_failures</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RoundTripSimulator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270" refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1ad9374fc340c475c16b92038a9c9f3da1" kindref="member">RoundTripSimulator</ref><sp/>{</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="275" refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1ad9374fc340c475c16b92038a9c9f3da1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1ad9374fc340c475c16b92038a9c9f3da1" kindref="member">RoundTripSimulator</ref>();</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1ad9374fc340c475c16b92038a9c9f3da1" kindref="member">RoundTripSimulator</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1delegate__eval_1_1_delegate_evaluator_config" kindref="compound">DelegateEvaluatorConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283" refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1a550d8ceca8d5b56cac2066df51b47996" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1a550d8ceca8d5b56cac2066df51b47996" kindref="member">~RoundTripSimulator</ref>();</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>movable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="286" refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1a309133f442ac92d47ed573045967eca1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1a309133f442ac92d47ed573045967eca1" kindref="member">RoundTripSimulator</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1ad9374fc340c475c16b92038a9c9f3da1" kindref="member">RoundTripSimulator</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="287" refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1aa89ac505d90dcc6da0b7578f8018c5ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1ad9374fc340c475c16b92038a9c9f3da1" kindref="member">RoundTripSimulator</ref>&amp;<sp/><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1aa89ac505d90dcc6da0b7578f8018c5ef" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1ad9374fc340c475c16b92038a9c9f3da1" kindref="member">RoundTripSimulator</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="288" refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1a28bf5c354a1434fe03e9fc410e7535db" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1a28bf5c354a1434fe03e9fc410e7535db" kindref="member">RoundTripSimulator</ref>(<ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1ad9374fc340c475c16b92038a9c9f3da1" kindref="member">RoundTripSimulator</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="289" refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1a41a48b8cc224da155720cece481d24a9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1ad9374fc340c475c16b92038a9c9f3da1" kindref="member">RoundTripSimulator</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1ad9374fc340c475c16b92038a9c9f3da1" kindref="member">RoundTripSimulator</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Primary<sp/>entry<sp/>point</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1delegate__eval_1_1_relay_result" kindref="compound">RelayResult</ref><sp/><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1a85db3c77bc8ecad82219e25faf4044f4" kindref="member">run</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>seed_doc,</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;<ref refid="structthemis_1_1rag_1_1delegate__eval_1_1_round_trip_edit_pair" kindref="compound">RoundTripEditPair</ref>&gt;&amp;<sp/>edit_pairs,</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_i_domain_evaluator" kindref="compound">IDomainEvaluator</ref>&amp;<sp/><sp/><sp/><sp/><sp/><sp/>evaluator,</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a77690185c5e7ffb2644027fe860989b4" kindref="member">EditFn</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>edit_fn);</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1delegate__eval_1_1_delegate_evaluator_config" kindref="compound">DelegateEvaluatorConfig</ref><sp/><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1a589b0ce4ba39a753886295ba557719ee" kindref="member">getConfig</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1a8c9f0f5211a6aa99188fa783521db931" kindref="member">setConfig</ref>(const<sp/><ref refid="structthemis_1_1rag_1_1delegate__eval_1_1_delegate_evaluator_config" kindref="compound">DelegateEvaluatorConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1ac9e780fc07cfdb3e9e76da56171590c3" kindref="member">setRoundTripEditor</ref>(<ref refid="namespacethemis" kindref="compound">themis</ref>::<ref refid="namespacethemis_1_1document" kindref="compound">document</ref>::IRoundTripEditor*<sp/>editor)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="namespacethemis" kindref="compound">themis</ref>::<ref refid="namespacethemis_1_1document" kindref="compound">document</ref>::IRoundTripEditor*<sp/><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1aa16d4759e3ca40e5ad2981b9b1e6d977" kindref="member">getRoundTripEditor</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1a9359a6b0539a39064807dd9b892357e1" kindref="member">getLastRelayId</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1delegate__eval_1_1_delegate_evaluator_config" kindref="compound">DelegateEvaluatorConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis" kindref="compound">themis</ref>::<ref refid="namespacethemis_1_1document" kindref="compound">document</ref>::IRoundTripEditor*<sp/>round_trip_editor_{</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>last_relay_id_;</highlight></codeline>
+<codeline lineno="357"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"></highlight></codeline>
+<codeline lineno="359"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="360"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Concrete<sp/>evaluators</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="362"><highlight class="normal"></highlight></codeline>
+<codeline lineno="374" refid="classthemis_1_1rag_1_1delegate__eval_1_1_json_document_evaluator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_json_document_evaluator_1a2ed8fad9bab89e278fe4748ea6ed14da" kindref="member">JsonDocumentEvaluator</ref><sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_i_domain_evaluator" kindref="compound">IDomainEvaluator</ref><sp/>{</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="376" refid="classthemis_1_1rag_1_1delegate__eval_1_1_json_document_evaluator_1a2ed8fad9bab89e278fe4748ea6ed14da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_json_document_evaluator_1a2ed8fad9bab89e278fe4748ea6ed14da" kindref="member">JsonDocumentEvaluator</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"></highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a212cf6ebc69c48af30ae907d14e8567f" kindref="member">ReconstructionScore</ref><sp/><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_json_document_evaluator_1acd0ffd5716d1529207adb0c78f5a9217" kindref="member">evaluate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>original,</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>recovered)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"></highlight></codeline>
+<codeline lineno="387" refid="classthemis_1_1rag_1_1delegate__eval_1_1_json_document_evaluator_1a58ce78bb52760c992d466b70c6702143" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a27a27b5e82f6b11343ccd146bb8cba8b" kindref="member">DomainType</ref><sp/><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_json_document_evaluator_1a58ce78bb52760c992d466b70c6702143" kindref="member">domain</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a27a27b5e82f6b11343ccd146bb8cba8bafb1dcfa4a7110c5721a6e9ed2118b124" kindref="member">DomainType::JSON_DOCUMENT</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="388"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"></highlight></codeline>
+<codeline lineno="398" refid="classthemis_1_1rag_1_1delegate__eval_1_1_aql_query_evaluator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_aql_query_evaluator_1a3eb55db62b337a2632c26c3371a1f4e3" kindref="member">AqlQueryEvaluator</ref><sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_i_domain_evaluator" kindref="compound">IDomainEvaluator</ref><sp/>{</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="400" refid="classthemis_1_1rag_1_1delegate__eval_1_1_aql_query_evaluator_1a3eb55db62b337a2632c26c3371a1f4e3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_aql_query_evaluator_1a3eb55db62b337a2632c26c3371a1f4e3" kindref="member">AqlQueryEvaluator</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"></highlight></codeline>
+<codeline lineno="414"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a212cf6ebc69c48af30ae907d14e8567f" kindref="member">ReconstructionScore</ref><sp/><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_aql_query_evaluator_1ad4cb368a76c2de6009e40124d6937e57" kindref="member">evaluate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>original,</highlight></codeline>
+<codeline lineno="415"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>recovered)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="416"><highlight class="normal"></highlight></codeline>
+<codeline lineno="417" refid="classthemis_1_1rag_1_1delegate__eval_1_1_aql_query_evaluator_1ad8e573a4e6a54d4f99d36aa64892af82" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a27a27b5e82f6b11343ccd146bb8cba8b" kindref="member">DomainType</ref><sp/><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_aql_query_evaluator_1ad8e573a4e6a54d4f99d36aa64892af82" kindref="member">domain</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a27a27b5e82f6b11343ccd146bb8cba8ba3725a574ca60a9701ffcae5b6827641a" kindref="member">DomainType::AQL_QUERY</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="418"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="419"><highlight class="normal"></highlight></codeline>
+<codeline lineno="428" refid="classthemis_1_1rag_1_1delegate__eval_1_1_plain_text_evaluator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_plain_text_evaluator_1a83bd3d7ba274e002f51779f568bb7c69" kindref="member">PlainTextEvaluator</ref><sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_i_domain_evaluator" kindref="compound">IDomainEvaluator</ref><sp/>{</highlight></codeline>
+<codeline lineno="429"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="430" refid="classthemis_1_1rag_1_1delegate__eval_1_1_plain_text_evaluator_1a83bd3d7ba274e002f51779f568bb7c69" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_plain_text_evaluator_1a83bd3d7ba274e002f51779f568bb7c69" kindref="member">PlainTextEvaluator</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="431"><highlight class="normal"></highlight></codeline>
+<codeline lineno="446"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a212cf6ebc69c48af30ae907d14e8567f" kindref="member">ReconstructionScore</ref><sp/><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_plain_text_evaluator_1a28d874d480dc1f06d7292118751e651a" kindref="member">evaluate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>original,</highlight></codeline>
+<codeline lineno="447"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>recovered)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="448"><highlight class="normal"></highlight></codeline>
+<codeline lineno="449" refid="classthemis_1_1rag_1_1delegate__eval_1_1_plain_text_evaluator_1a694ec4e431d245c26d95bfc2147ff654" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a27a27b5e82f6b11343ccd146bb8cba8b" kindref="member">DomainType</ref><sp/><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_plain_text_evaluator_1a694ec4e431d245c26d95bfc2147ff654" kindref="member">domain</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a27a27b5e82f6b11343ccd146bb8cba8baae7d3557f5e0b4e9cca075db3dfa7e9d" kindref="member">DomainType::PLAIN_TEXT</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="450"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="451"><highlight class="normal"></highlight></codeline>
+<codeline lineno="465" refid="classthemis_1_1rag_1_1delegate__eval_1_1_xml_process_evaluator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_xml_process_evaluator_1a25d1ce70cbc4d48dc85aeca76d43dfb4" kindref="member">XmlProcessEvaluator</ref><sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_i_domain_evaluator" kindref="compound">IDomainEvaluator</ref><sp/>{</highlight></codeline>
+<codeline lineno="466"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="467" refid="classthemis_1_1rag_1_1delegate__eval_1_1_xml_process_evaluator_1a25d1ce70cbc4d48dc85aeca76d43dfb4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_xml_process_evaluator_1a25d1ce70cbc4d48dc85aeca76d43dfb4" kindref="member">XmlProcessEvaluator</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="468"><highlight class="normal"></highlight></codeline>
+<codeline lineno="475"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a212cf6ebc69c48af30ae907d14e8567f" kindref="member">ReconstructionScore</ref><sp/><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_xml_process_evaluator_1a2377ba032a8f0ba49a9ded714b45701e" kindref="member">evaluate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>original,</highlight></codeline>
+<codeline lineno="476"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>recovered)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="477"><highlight class="normal"></highlight></codeline>
+<codeline lineno="478" refid="classthemis_1_1rag_1_1delegate__eval_1_1_xml_process_evaluator_1af15480a739f95fdb95758fd31cb237a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a27a27b5e82f6b11343ccd146bb8cba8b" kindref="member">DomainType</ref><sp/><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_xml_process_evaluator_1af15480a739f95fdb95758fd31cb237a5" kindref="member">domain</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a27a27b5e82f6b11343ccd146bb8cba8ba40937993531243c9a7f88360de27df05" kindref="member">DomainType::XML_PROCESS</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="479"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="480"><highlight class="normal"></highlight></codeline>
+<codeline lineno="487" refid="classthemis_1_1rag_1_1delegate__eval_1_1_markdown_evaluator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_markdown_evaluator_1a48c97ec7fb28b7d508af1faebc9a58e7" kindref="member">MarkdownEvaluator</ref><sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_i_domain_evaluator" kindref="compound">IDomainEvaluator</ref><sp/>{</highlight></codeline>
+<codeline lineno="488"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="489" refid="classthemis_1_1rag_1_1delegate__eval_1_1_markdown_evaluator_1a48c97ec7fb28b7d508af1faebc9a58e7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_markdown_evaluator_1a48c97ec7fb28b7d508af1faebc9a58e7" kindref="member">MarkdownEvaluator</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="490"><highlight class="normal"></highlight></codeline>
+<codeline lineno="497"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a212cf6ebc69c48af30ae907d14e8567f" kindref="member">ReconstructionScore</ref><sp/><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_markdown_evaluator_1ad3977ca301bc32235043b4f25a9319fb" kindref="member">evaluate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>original,</highlight></codeline>
+<codeline lineno="498"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>recovered)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="499"><highlight class="normal"></highlight></codeline>
+<codeline lineno="500" refid="classthemis_1_1rag_1_1delegate__eval_1_1_markdown_evaluator_1a43a0717e726b84f146b30285466297dc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a27a27b5e82f6b11343ccd146bb8cba8b" kindref="member">DomainType</ref><sp/><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_markdown_evaluator_1a43a0717e726b84f146b30285466297dc" kindref="member">domain</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a27a27b5e82f6b11343ccd146bb8cba8ba06d53571201b4c2aa16554971af6365e" kindref="member">DomainType::MARKDOWN</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="501"><highlight class="normal"></highlight></codeline>
+<codeline lineno="502"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="503"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_plain_text_evaluator" kindref="compound">PlainTextEvaluator</ref><sp/>text_eval_;</highlight></codeline>
+<codeline lineno="504"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="505"><highlight class="normal"></highlight></codeline>
+<codeline lineno="506"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="507"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DelegateEvaluatorFactory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="508"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="509"><highlight class="normal"></highlight></codeline>
+<codeline lineno="516" refid="classthemis_1_1rag_1_1delegate__eval_1_1_delegate_evaluator_factory" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_delegate_evaluator_factory" kindref="compound">DelegateEvaluatorFactory</ref><sp/>{</highlight></codeline>
+<codeline lineno="517"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="527"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;IDomainEvaluator&gt;<sp/><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_delegate_evaluator_factory_1ad2670771dad50f8a14e2f17f104ad106" kindref="member">createForDomain</ref>(<ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a27a27b5e82f6b11343ccd146bb8cba8b" kindref="member">DomainType</ref><sp/>domain);</highlight></codeline>
+<codeline lineno="528"><highlight class="normal"></highlight></codeline>
+<codeline lineno="534"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;RoundTripSimulator&gt;<sp/><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_delegate_evaluator_factory_1aa0bd93f1c526b45315b63cd0f7d27e1b" kindref="member">createSimulator</ref>(</highlight></codeline>
+<codeline lineno="535"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1delegate__eval_1_1_delegate_evaluator_config" kindref="compound">DelegateEvaluatorConfig</ref>&amp;<sp/>config<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="536"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="537"><highlight class="normal"></highlight></codeline>
+<codeline lineno="538"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::rag::delegate_eval</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/rag/delegate_evaluator.h"/>
+  </compounddef>
+</doxygen>

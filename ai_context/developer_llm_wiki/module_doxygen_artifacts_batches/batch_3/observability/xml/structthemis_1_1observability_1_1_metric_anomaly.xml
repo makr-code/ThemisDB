@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_metric_anomaly" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::MetricAnomaly</compoundname>
+    <includes refid="metric__anomaly__detector_8h" local="no">metric_anomaly_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_metric_anomaly_1a2efbdff0930b116b350ab3b0951b00df" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::MetricAnomaly::metric_name</definition>
+        <argsstring></argsstring>
+        <name>metric_name</name>
+        <qualifiedname>themis::observability::MetricAnomaly::metric_name</qualifiedname>
+        <briefdescription>
+<para><ref refid="structthemis_1_1observability_1_1_metric" kindref="compound">Metric</ref> name this anomaly was detected on (matches <computeroutput><ref refid="structthemis_1_1observability_1_1_monitored_metric_1a02f8511adb68e5af06b4514e3abfda28" kindref="member">MonitoredMetric::name</ref></computeroutput>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_anomaly_detector.h" line="54" column="17" bodyfile="include/observability/metric_anomaly_detector.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_metric_anomaly_1ac2d6cecc1a84d886a2bd6cb941ae97e0" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::MetricAnomaly::score</definition>
+        <argsstring></argsstring>
+        <name>score</name>
+        <qualifiedname>themis::observability::MetricAnomaly::score</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Score in [0, 1]: 0 = definitely normal, 1 = definite anomaly. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_anomaly_detector.h" line="57" column="12" bodyfile="include/observability/metric_anomaly_detector.h" bodystart="57" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_metric_anomaly_1a193a45afe666eae00c0b3a70b80a2002" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::MetricAnomaly::is_anomaly</definition>
+        <argsstring></argsstring>
+        <name>is_anomaly</name>
+        <qualifiedname>themis::observability::MetricAnomaly::is_anomaly</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>true when score &gt;= configured threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_anomaly_detector.h" line="60" column="10" bodyfile="include/observability/metric_anomaly_detector.h" bodystart="60" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_metric_anomaly_1aa58f2648325e2b1c16a6fb2ac108411f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::MetricAnomaly::observed_value</definition>
+        <argsstring></argsstring>
+        <name>observed_value</name>
+        <qualifiedname>themis::observability::MetricAnomaly::observed_value</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>The observed value that triggered this result. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_anomaly_detector.h" line="63" column="12" bodyfile="include/observability/metric_anomaly_detector.h" bodystart="63" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_metric_anomaly_1aa20b0a222e6ef62703b4e6501bc6b9e0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::MetricAnomaly::severity</definition>
+        <argsstring></argsstring>
+        <name>severity</name>
+        <qualifiedname>themis::observability::MetricAnomaly::severity</qualifiedname>
+        <briefdescription>
+<para>Severity bucket: &quot;low&quot; / &quot;medium&quot; / &quot;high&quot; / &quot;critical&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_anomaly_detector.h" line="66" column="17" bodyfile="include/observability/metric_anomaly_detector.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_metric_anomaly_1a191a5feebc12c04018f0b5f2ef015628" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::observability::MetricAnomaly::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::observability::MetricAnomaly::timestamp</qualifiedname>
+        <briefdescription>
+<para>When the observation was recorded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_anomaly_detector.h" line="69" column="43" bodyfile="include/observability/metric_anomaly_detector.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_metric_anomaly_1a148e834540e473ebe67eb25e9981f5fd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::MetricAnomaly::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::observability::MetricAnomaly::description</qualifiedname>
+        <briefdescription>
+<para>Human-readable explanation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_anomaly_detector.h" line="72" column="17" bodyfile="include/observability/metric_anomaly_detector.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1observability_1_1_metric_anomaly_1aa3bc2f8bcc58df364190d2382dab241d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1observability_1a75e021f6745639f5feec3d55bbf2899d" kindref="member">json</ref></type>
+        <definition>json themis::observability::MetricAnomaly::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::observability::MetricAnomaly::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Serialize to JSON. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_anomaly_detector.h" line="75" column="10" bodyfile="src/observability/metric_anomaly_detector.cpp" bodystart="26" bodyend="39"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single anomaly observation attributed to a named metric. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Extends the analytics-layer <computeroutput><ref refid="namespacethemis_1_1observability_1ab777031693a7ddb5fa6698d6dae3801d" kindref="member">AnomalyResult</ref></computeroutput> with the originating metric name and a human-readable severity label. </para>
+    </detaileddescription>
+    <location file="include/observability/metric_anomaly_detector.h" line="52" column="1" bodyfile="include/observability/metric_anomaly_detector.h" bodystart="52" bodyend="76"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_metric_anomaly_1a148e834540e473ebe67eb25e9981f5fd" prot="public" virt="non-virtual"><scope>themis::observability::MetricAnomaly</scope><name>description</name></member>
+      <member refid="structthemis_1_1observability_1_1_metric_anomaly_1a193a45afe666eae00c0b3a70b80a2002" prot="public" virt="non-virtual"><scope>themis::observability::MetricAnomaly</scope><name>is_anomaly</name></member>
+      <member refid="structthemis_1_1observability_1_1_metric_anomaly_1a2efbdff0930b116b350ab3b0951b00df" prot="public" virt="non-virtual"><scope>themis::observability::MetricAnomaly</scope><name>metric_name</name></member>
+      <member refid="structthemis_1_1observability_1_1_metric_anomaly_1aa58f2648325e2b1c16a6fb2ac108411f" prot="public" virt="non-virtual"><scope>themis::observability::MetricAnomaly</scope><name>observed_value</name></member>
+      <member refid="structthemis_1_1observability_1_1_metric_anomaly_1ac2d6cecc1a84d886a2bd6cb941ae97e0" prot="public" virt="non-virtual"><scope>themis::observability::MetricAnomaly</scope><name>score</name></member>
+      <member refid="structthemis_1_1observability_1_1_metric_anomaly_1aa20b0a222e6ef62703b4e6501bc6b9e0" prot="public" virt="non-virtual"><scope>themis::observability::MetricAnomaly</scope><name>severity</name></member>
+      <member refid="structthemis_1_1observability_1_1_metric_anomaly_1a191a5feebc12c04018f0b5f2ef015628" prot="public" virt="non-virtual"><scope>themis::observability::MetricAnomaly</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1observability_1_1_metric_anomaly_1aa3bc2f8bcc58df364190d2382dab241d" prot="public" virt="non-virtual"><scope>themis::observability::MetricAnomaly</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

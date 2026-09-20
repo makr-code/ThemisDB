@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_quantization_pipeline_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::QuantizationPipelineConfig</compoundname>
+    <includes refid="model__quantization__pipeline_8h" local="no">model_quantization_pipeline.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_quantization_pipeline_config_1aa12375baedb90533b3c6267e9463caa1" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1a911424b03c1e9e0b9ba9fda73c55d843" kindref="member">lora::QuantizationType</ref></type>
+        <definition>lora::QuantizationType themis::llm::QuantizationPipelineConfig::target_type</definition>
+        <argsstring></argsstring>
+        <name>target_type</name>
+        <qualifiedname>themis::llm::QuantizationPipelineConfig::target_type</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1llm_1_1lora_1a911424b03c1e9e0b9ba9fda73c55d843ab50339a10e1de285ac99d4c3990b8693" kindref="member">lora::QuantizationType::NONE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_quantization_pipeline.h" line="36" column="28" bodyfile="include/llm/model_quantization_pipeline.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_quantization_pipeline_config_1a3a5d5059827b71981955a08d0d4d10e5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::QuantizationPipelineConfig::block_size</definition>
+        <argsstring></argsstring>
+        <name>block_size</name>
+        <qualifiedname>themis::llm::QuantizationPipelineConfig::block_size</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_quantization_pipeline.h" line="37" column="12" bodyfile="include/llm/model_quantization_pipeline.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_quantization_pipeline_config_1a70f85b492afe10714649acd95cf3eab5" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::QuantizationPipelineConfig::bits</definition>
+        <argsstring></argsstring>
+        <name>bits</name>
+        <qualifiedname>themis::llm::QuantizationPipelineConfig::bits</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_quantization_pipeline.h" line="38" column="9" bodyfile="include/llm/model_quantization_pipeline.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_quantization_pipeline_config_1a31380374d75d5b308a572432923da679" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::QuantizationPipelineConfig::group_size</definition>
+        <argsstring></argsstring>
+        <name>group_size</name>
+        <qualifiedname>themis::llm::QuantizationPipelineConfig::group_size</qualifiedname>
+        <initializer>= 128</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_quantization_pipeline.h" line="39" column="9" bodyfile="include/llm/model_quantization_pipeline.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_quantization_pipeline_config_1ae67ea7762cd15d28a7346a7cbdd7944c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::QuantizationPipelineConfig::max_tensors</definition>
+        <argsstring></argsstring>
+        <name>max_tensors</name>
+        <qualifiedname>themis::llm::QuantizationPipelineConfig::max_tensors</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_quantization_pipeline.h" line="40" column="12" bodyfile="include/llm/model_quantization_pipeline.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_quantization_pipeline_config_1a6a05120ef2ce503cf6646a02262fcf4c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::QuantizationPipelineConfig::~QuantizationPipelineConfig</definition>
+        <argsstring>()=default</argsstring>
+        <name>~QuantizationPipelineConfig</name>
+        <qualifiedname>themis::llm::QuantizationPipelineConfig::~QuantizationPipelineConfig</qualifiedname>
+        <briefdescription>
+<para>Quantization Pipeline Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_quantization_pipeline.h" line="35" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/model_quantization_pipeline.h" line="30" column="1" bodyfile="include/llm/model_quantization_pipeline.h" bodystart="30" bodyend="41"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_quantization_pipeline_config_1a70f85b492afe10714649acd95cf3eab5" prot="public" virt="non-virtual"><scope>themis::llm::QuantizationPipelineConfig</scope><name>bits</name></member>
+      <member refid="structthemis_1_1llm_1_1_quantization_pipeline_config_1a3a5d5059827b71981955a08d0d4d10e5" prot="public" virt="non-virtual"><scope>themis::llm::QuantizationPipelineConfig</scope><name>block_size</name></member>
+      <member refid="structthemis_1_1llm_1_1_quantization_pipeline_config_1a31380374d75d5b308a572432923da679" prot="public" virt="non-virtual"><scope>themis::llm::QuantizationPipelineConfig</scope><name>group_size</name></member>
+      <member refid="structthemis_1_1llm_1_1_quantization_pipeline_config_1ae67ea7762cd15d28a7346a7cbdd7944c" prot="public" virt="non-virtual"><scope>themis::llm::QuantizationPipelineConfig</scope><name>max_tensors</name></member>
+      <member refid="structthemis_1_1llm_1_1_quantization_pipeline_config_1aa12375baedb90533b3c6267e9463caa1" prot="public" virt="non-virtual"><scope>themis::llm::QuantizationPipelineConfig</scope><name>target_type</name></member>
+      <member refid="structthemis_1_1llm_1_1_quantization_pipeline_config_1a6a05120ef2ce503cf6646a02262fcf4c" prot="public" virt="virtual"><scope>themis::llm::QuantizationPipelineConfig</scope><name>~QuantizationPipelineConfig</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

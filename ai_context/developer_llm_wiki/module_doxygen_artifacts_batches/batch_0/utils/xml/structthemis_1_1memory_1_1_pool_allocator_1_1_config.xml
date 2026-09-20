@@ -1,0 +1,155 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1memory_1_1_pool_allocator_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::memory::PoolAllocator::Config</compoundname>
+    <includes refid="pool__allocator_8h" local="no">pool_allocator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1memory_1_1_pool_allocator_1_1_config_1a0241df9ed864a6ac6e8644a73f373bc2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::memory::PoolAllocator::Config::buddy_pool_size</definition>
+        <argsstring></argsstring>
+        <name>buddy_pool_size</name>
+        <qualifiedname>themis::memory::PoolAllocator::Config::buddy_pool_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/memory/pool_allocator.h" line="311" column="16" bodyfile="include/utils/memory/pool_allocator.h" bodystart="311" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1memory_1_1_pool_allocator_1_1_config_1a54b50bca8e5190d00090ddff8ff0ee0c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::memory::PoolAllocator::Config::buddy_min_block</definition>
+        <argsstring></argsstring>
+        <name>buddy_min_block</name>
+        <qualifiedname>themis::memory::PoolAllocator::Config::buddy_min_block</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/memory/pool_allocator.h" line="312" column="16" bodyfile="include/utils/memory/pool_allocator.h" bodystart="312" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1memory_1_1_pool_allocator_1_1_config_1af0845ed215e0c4bfa77a3f2821c2445f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; size_t &gt;</type>
+        <definition>std::vector&lt;size_t&gt; themis::memory::PoolAllocator::Config::slab_sizes</definition>
+        <argsstring></argsstring>
+        <name>slab_sizes</name>
+        <qualifiedname>themis::memory::PoolAllocator::Config::slab_sizes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/memory/pool_allocator.h" line="315" column="21" bodyfile="include/utils/memory/pool_allocator.h" bodystart="315" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1memory_1_1_pool_allocator_1_1_config_1a82fa570155079df79bf5014799e73ac7" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::memory::PoolAllocator::Config::slab_objects_per_slab</definition>
+        <argsstring></argsstring>
+        <name>slab_objects_per_slab</name>
+        <qualifiedname>themis::memory::PoolAllocator::Config::slab_objects_per_slab</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/memory/pool_allocator.h" line="316" column="16" bodyfile="include/utils/memory/pool_allocator.h" bodystart="316" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1memory_1_1_pool_allocator_1_1_config_1ae4544b07d833bd8190277dadd3017869" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::memory::PoolAllocator::Config::slab_max_slabs</definition>
+        <argsstring></argsstring>
+        <name>slab_max_slabs</name>
+        <qualifiedname>themis::memory::PoolAllocator::Config::slab_max_slabs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/memory/pool_allocator.h" line="317" column="16" bodyfile="include/utils/memory/pool_allocator.h" bodystart="317" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1memory_1_1_pool_allocator_1_1_config_1a3232600c0a465ba82711935ca5ac6355" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::memory::PoolAllocator::Config::stack_capacity</definition>
+        <argsstring></argsstring>
+        <name>stack_capacity</name>
+        <qualifiedname>themis::memory::PoolAllocator::Config::stack_capacity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/memory/pool_allocator.h" line="319" column="16" bodyfile="include/utils/memory/pool_allocator.h" bodystart="319" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1memory_1_1_pool_allocator_1_1_config_1acd00532b2319cc89fa2b2a6571f5173f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::memory::PoolAllocator::Config::enable_thread_local_cache</definition>
+        <argsstring></argsstring>
+        <name>enable_thread_local_cache</name>
+        <qualifiedname>themis::memory::PoolAllocator::Config::enable_thread_local_cache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/memory/pool_allocator.h" line="321" column="14" bodyfile="include/utils/memory/pool_allocator.h" bodystart="321" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1memory_1_1_pool_allocator_1_1_config_1a3a9617723671b94051eba900f59a51ae" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::memory::PoolAllocator::Config::enable_statistics</definition>
+        <argsstring></argsstring>
+        <name>enable_statistics</name>
+        <qualifiedname>themis::memory::PoolAllocator::Config::enable_statistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/memory/pool_allocator.h" line="322" column="14" bodyfile="include/utils/memory/pool_allocator.h" bodystart="322" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1memory_1_1_pool_allocator_1_1_config_1ae616fcfe7db05646bd26731f8f13f3c2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::memory::PoolAllocator::Config::Config</definition>
+        <argsstring>()</argsstring>
+        <name>Config</name>
+        <qualifiedname>themis::memory::PoolAllocator::Config::Config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/memory/pool_allocator.h" line="324" column="9" bodyfile="include/utils/memory/pool_allocator.h" bodystart="324" bodyend="332"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for pool allocator. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/memory/pool_allocator.h" line="310" column="5" bodyfile="include/utils/memory/pool_allocator.h" bodystart="310" bodyend="333"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1memory_1_1_pool_allocator_1_1_config_1a54b50bca8e5190d00090ddff8ff0ee0c" prot="public" virt="non-virtual"><scope>themis::memory::PoolAllocator::Config</scope><name>buddy_min_block</name></member>
+      <member refid="structthemis_1_1memory_1_1_pool_allocator_1_1_config_1a0241df9ed864a6ac6e8644a73f373bc2" prot="public" virt="non-virtual"><scope>themis::memory::PoolAllocator::Config</scope><name>buddy_pool_size</name></member>
+      <member refid="structthemis_1_1memory_1_1_pool_allocator_1_1_config_1ae616fcfe7db05646bd26731f8f13f3c2" prot="public" virt="non-virtual"><scope>themis::memory::PoolAllocator::Config</scope><name>Config</name></member>
+      <member refid="structthemis_1_1memory_1_1_pool_allocator_1_1_config_1a3a9617723671b94051eba900f59a51ae" prot="public" virt="non-virtual"><scope>themis::memory::PoolAllocator::Config</scope><name>enable_statistics</name></member>
+      <member refid="structthemis_1_1memory_1_1_pool_allocator_1_1_config_1acd00532b2319cc89fa2b2a6571f5173f" prot="public" virt="non-virtual"><scope>themis::memory::PoolAllocator::Config</scope><name>enable_thread_local_cache</name></member>
+      <member refid="structthemis_1_1memory_1_1_pool_allocator_1_1_config_1ae4544b07d833bd8190277dadd3017869" prot="public" virt="non-virtual"><scope>themis::memory::PoolAllocator::Config</scope><name>slab_max_slabs</name></member>
+      <member refid="structthemis_1_1memory_1_1_pool_allocator_1_1_config_1a82fa570155079df79bf5014799e73ac7" prot="public" virt="non-virtual"><scope>themis::memory::PoolAllocator::Config</scope><name>slab_objects_per_slab</name></member>
+      <member refid="structthemis_1_1memory_1_1_pool_allocator_1_1_config_1af0845ed215e0c4bfa77a3f2821c2445f" prot="public" virt="non-virtual"><scope>themis::memory::PoolAllocator::Config</scope><name>slab_sizes</name></member>
+      <member refid="structthemis_1_1memory_1_1_pool_allocator_1_1_config_1a3232600c0a465ba82711935ca5ac6355" prot="public" virt="non-virtual"><scope>themis::memory::PoolAllocator::Config</scope><name>stack_capacity</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

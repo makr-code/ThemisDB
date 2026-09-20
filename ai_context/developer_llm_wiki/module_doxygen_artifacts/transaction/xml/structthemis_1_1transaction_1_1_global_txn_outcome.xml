@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1transaction_1_1_global_txn_outcome" kind="struct" language="C++" prot="public">
+    <compoundname>themis::transaction::GlobalTxnOutcome</compoundname>
+    <includes refid="global__transaction__manager_8h" local="no">global_transaction_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_global_txn_outcome_1a229ec583923cbcb505a63dccc0280cbf" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1transaction_1a9a51580dd0bf0b80647ac83bbb401ae3" kindref="member">GlobalTxnResult</ref></type>
+        <definition>GlobalTxnResult themis::transaction::GlobalTxnOutcome::result</definition>
+        <argsstring></argsstring>
+        <name>result</name>
+        <qualifiedname>themis::transaction::GlobalTxnOutcome::result</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1transaction_1a9a51580dd0bf0b80647ac83bbb401ae3abb1ca97ec761fc37101737ba0aa2e7c5" kindref="member">GlobalTxnResult::ERROR</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/global_transaction_manager.h" line="103" column="21" bodyfile="include/transaction/global_transaction_manager.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_global_txn_outcome_1ae29ceb52d6cb879dd14387df7afc1fae" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::transaction::GlobalTxnOutcome::transaction_id</definition>
+        <argsstring></argsstring>
+        <name>transaction_id</name>
+        <qualifiedname>themis::transaction::GlobalTxnOutcome::transaction_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/global_transaction_manager.h" line="104" column="21" bodyfile="include/transaction/global_transaction_manager.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_global_txn_outcome_1af7bcc92e4c816df92ac1bf421796b4b7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::transaction::GlobalTxnOutcome::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::transaction::GlobalTxnOutcome::reason</qualifiedname>
+        <briefdescription>
+<para>Populated on ABORTED / ERROR. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/global_transaction_manager.h" line="105" column="21" bodyfile="include/transaction/global_transaction_manager.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_global_txn_outcome_1a51d7491f3537d3365aa317bafb3b1588" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::transaction::GlobalTxnOutcome::commit_timestamp_ns</definition>
+        <argsstring></argsstring>
+        <name>commit_timestamp_ns</name>
+        <qualifiedname>themis::transaction::GlobalTxnOutcome::commit_timestamp_ns</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>TrueTime commit timestamp (0 if not committed). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/global_transaction_manager.h" line="106" column="21" bodyfile="include/transaction/global_transaction_manager.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1transaction_1_1_global_txn_outcome_1a443b8197a57177f03cfc8fa1949cfcb5" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::transaction::GlobalTxnOutcome::committed</definition>
+        <argsstring>() const</argsstring>
+        <name>committed</name>
+        <qualifiedname>themis::transaction::GlobalTxnOutcome::committed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/global_transaction_manager.h" line="108" column="11" bodyfile="include/transaction/global_transaction_manager.h" bodystart="108" bodyend="110"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/global_transaction_manager.h" line="102" column="1" bodyfile="include/transaction/global_transaction_manager.h" bodystart="102" bodyend="111"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1transaction_1_1_global_txn_outcome_1a51d7491f3537d3365aa317bafb3b1588" prot="public" virt="non-virtual"><scope>themis::transaction::GlobalTxnOutcome</scope><name>commit_timestamp_ns</name></member>
+      <member refid="structthemis_1_1transaction_1_1_global_txn_outcome_1a443b8197a57177f03cfc8fa1949cfcb5" prot="public" virt="non-virtual"><scope>themis::transaction::GlobalTxnOutcome</scope><name>committed</name></member>
+      <member refid="structthemis_1_1transaction_1_1_global_txn_outcome_1af7bcc92e4c816df92ac1bf421796b4b7" prot="public" virt="non-virtual"><scope>themis::transaction::GlobalTxnOutcome</scope><name>reason</name></member>
+      <member refid="structthemis_1_1transaction_1_1_global_txn_outcome_1a229ec583923cbcb505a63dccc0280cbf" prot="public" virt="non-virtual"><scope>themis::transaction::GlobalTxnOutcome</scope><name>result</name></member>
+      <member refid="structthemis_1_1transaction_1_1_global_txn_outcome_1ae29ceb52d6cb879dd14387df7afc1fae" prot="public" virt="non-virtual"><scope>themis::transaction::GlobalTxnOutcome</scope><name>transaction_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

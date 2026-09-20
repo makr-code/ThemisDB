@@ -1,0 +1,495 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__retrieval__lora__trust__boundary__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_retrieval_lora_trust_boundary_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">llm/lora_framework/adapter_consistency_checker.h</includes>
+    <includes local="yes">llm/lora_framework/lora_config.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_set</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/retrieval/test_retrieval_lora_trust_boundary_focused.cpp</label>
+        <link refid="test__retrieval__lora__trust__boundary__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="3">
+        <label>llm/lora_framework/adapter_consistency_checker.h</label>
+      </node>
+      <node id="4">
+        <label>llm/lora_framework/lora_config.h</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>unordered_set</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__retrieval__lora__trust__boundary__focused_8cpp_1a36df12470ee570ec12e90be9184f744e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LoRATrustBoundaryTest, LTB01a_CorrectChecksumAccepted)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LoRATrustBoundaryTest</type>
+        </param>
+        <param>
+          <type>LTB01a_CorrectChecksumAccepted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000001"><xreftitle>Test</xreftitle><xrefdescription><para>LTB-01a: Adapter with matching checksum → verifyChecksum returns true. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_lora_trust_boundary_focused.cpp" line="106" column="1" bodyfile="tests/retrieval/test_retrieval_lora_trust_boundary_focused.cpp" bodystart="106" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="test__retrieval__lora__trust__boundary__focused_8cpp_1a981781801af5837cca568f7589886cab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LoRATrustBoundaryTest, LTB01b_FullCheckAdapterPipelineAccepted)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LoRATrustBoundaryTest</type>
+        </param>
+        <param>
+          <type>LTB01b_FullCheckAdapterPipelineAccepted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000002"><xreftitle>Test</xreftitle><xrefdescription><para>LTB-01b: Full checkAdapter pipeline with correct checksum → is_valid. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_lora_trust_boundary_focused.cpp" line="122" column="1" bodyfile="tests/retrieval/test_retrieval_lora_trust_boundary_focused.cpp" bodystart="122" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="test__retrieval__lora__trust__boundary__focused_8cpp_1ac67d975d40013bda2e3146cfd7e7fe5d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LoRATrustBoundaryTest, LTB02a_TamperedDataRejectedByVerifyChecksum)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LoRATrustBoundaryTest</type>
+        </param>
+        <param>
+          <type>LTB02a_TamperedDataRejectedByVerifyChecksum</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000003"><xreftitle>Test</xreftitle><xrefdescription><para>LTB-02a: verifyChecksum with tampered data → returns false. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_lora_trust_boundary_focused.cpp" line="153" column="1" bodyfile="tests/retrieval/test_retrieval_lora_trust_boundary_focused.cpp" bodystart="153" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="test__retrieval__lora__trust__boundary__focused_8cpp_1a6d23395f8c7618851d10ea19753d3304" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LoRATrustBoundaryTest, LTB02b_FullCheckAdapterRejectedOnMismatch)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LoRATrustBoundaryTest</type>
+        </param>
+        <param>
+          <type>LTB02b_FullCheckAdapterRejectedOnMismatch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000004"><xreftitle>Test</xreftitle><xrefdescription><para>LTB-02b: checkAdapter with mismatched checksum in metadata → is_valid=false. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_lora_trust_boundary_focused.cpp" line="170" column="1" bodyfile="tests/retrieval/test_retrieval_lora_trust_boundary_focused.cpp" bodystart="170" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="test__retrieval__lora__trust__boundary__focused_8cpp_1adac1480ad54e5438bf61499e86d35d44" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LoRATrustBoundaryTest, LTB02c_EmptyDataWithChecksumRejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LoRATrustBoundaryTest</type>
+        </param>
+        <param>
+          <type>LTB02c_EmptyDataWithChecksumRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000005"><xreftitle>Test</xreftitle><xrefdescription><para>LTB-02c: Empty adapter data with non-empty checksum → rejected. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_lora_trust_boundary_focused.cpp" line="197" column="1" bodyfile="tests/retrieval/test_retrieval_lora_trust_boundary_focused.cpp" bodystart="197" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="test__retrieval__lora__trust__boundary__focused_8cpp_1a9521fd898fbde1b5fdaf3df7a669a431" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LoRATrustBoundaryTest, LTB03a_UnknownSignerRejectedUnderStrictPolicy)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LoRATrustBoundaryTest</type>
+        </param>
+        <param>
+          <type>LTB03a_UnknownSignerRejectedUnderStrictPolicy</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000006"><xreftitle>Test</xreftitle><xrefdescription><para>LTB-03a: STRICT trust registry + unknown signer → adapter rejected.</para>
+</xrefdescription></xrefsect></para>
+<para>Governance requirement: an adapter from an unrecognised signer must NOT be loaded under a strict trust policy. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_lora_trust_boundary_focused.cpp" line="219" column="1" bodyfile="tests/retrieval/test_retrieval_lora_trust_boundary_focused.cpp" bodystart="219" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="test__retrieval__lora__trust__boundary__focused_8cpp_1a035282442e525894c07660270dd2e969" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LoRATrustBoundaryTest, LTB03b_UnknownSignerAcceptedWithWarningUnderLenientPolicy)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LoRATrustBoundaryTest</type>
+        </param>
+        <param>
+          <type>LTB03b_UnknownSignerAcceptedWithWarningUnderLenientPolicy</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000007"><xreftitle>Test</xreftitle><xrefdescription><para>LTB-03b: LENIENT trust registry + unknown signer → loaded with warning.</para>
+</xrefdescription></xrefsect></para>
+<para>Documented behaviour: lenient policy accepts unknown signers but MUST emit a warning so operators can detect and remediate.</para>
+<para>Governance note: lenient mode must only be used in development environments. Production deployments must use STRICT mode (see ROADMAP.md §LoRA Trust). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_lora_trust_boundary_focused.cpp" line="238" column="1" bodyfile="tests/retrieval/test_retrieval_lora_trust_boundary_focused.cpp" bodystart="238" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="test__retrieval__lora__trust__boundary__focused_8cpp_1a933f934e98d4124fca91ce83eb11a1c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LoRATrustBoundaryTest, LTB03c_KnownSignerAcceptedWithoutWarningUnderStrictPolicy)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LoRATrustBoundaryTest</type>
+        </param>
+        <param>
+          <type>LTB03c_KnownSignerAcceptedWithoutWarningUnderStrictPolicy</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000008"><xreftitle>Test</xreftitle><xrefdescription><para>LTB-03c: Known signer under STRICT policy → no warning, accepted.</para>
+</xrefdescription></xrefsect></para>
+<para>Confirms the positive path: registered signers load without warnings under the strict policy. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_lora_trust_boundary_focused.cpp" line="261" column="1" bodyfile="tests/retrieval/test_retrieval_lora_trust_boundary_focused.cpp" bodystart="261" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="function" id="test__retrieval__lora__trust__boundary__focused_8cpp_1aa24683c2f47dce5a0db117129a5022fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LoRATrustBoundaryTest, LTB03d_UnknownSignerStopsBeforeChecksumValidation)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LoRATrustBoundaryTest</type>
+        </param>
+        <param>
+          <type>LTB03d_UnknownSignerStopsBeforeChecksumValidation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000009"><xreftitle>Test</xreftitle><xrefdescription><para>LTB-03d: End-to-end load simulation — unknown signer under strict policy prevents the adapter from reaching checkAdapter.</para>
+</xrefdescription></xrefsect></para>
+<para>This test models the complete trust chain:<orderedlist>
+<listitem><para>Check signer trust (registry gate).</para>
+</listitem><listitem><para>Only proceed to checksum/checkAdapter when signer is trusted. </para>
+</listitem></orderedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_lora_trust_boundary_focused.cpp" line="282" column="1" bodyfile="tests/retrieval/test_retrieval_lora_trust_boundary_focused.cpp" bodystart="282" bodyend="314"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Block 3 — LoRA Adapter Trust Boundary (GA-Blocking). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Acceptance criteria: LTB-01 Adapter with correct checksum → AdapterConsistencyChecker accepts the adapter (is_valid == true). LTB-02 Adapter with tampered data (wrong checksum) → checker rejects it (is_valid == false). LTB-03 Adapter from an unknown signer_id without a registered verifier → the loading behaviour is clearly defined: the adapter is rejected when the trust policy is strict, or accepted-with-warning when lenient. Both outcomes are explicitly documented; no silent pass.</para>
+<para>All infrastructure is fully in-process; no real model files are required. The AdapterConsistencyChecker is used directly; signer_id enforcement is layered via a thin in-test trust registry.</para>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="note"><para>CTest labels: retrieval;security;lora;trust;GA-blocking </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;llm/lora_framework/adapter_consistency_checker.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;llm/lora_framework/lora_config.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">lora<sp/>=<sp/>themis::llm::lora;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>In-test<sp/>trust<sp/>registry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">AdapterTrustRegistry<sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/>Policy<sp/>{<sp/>STRICT,<sp/>LENIENT<sp/>};</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/>AdapterTrustRegistry(Policy<sp/>policy<sp/>=<sp/>Policy::STRICT)</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>policy_(policy)<sp/>{}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>registerSigner(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>signer_id)<sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>known_signers_.insert(signer_id);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isTrusted(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>signer_id,<sp/>std::string*<sp/>warning_out<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(known_signers_.count(signer_id))<sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(policy_<sp/>==<sp/>Policy::LENIENT)<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(warning_out)<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*warning_out<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;WARNING:<sp/>signer_id<sp/>&apos;&quot;</highlight><highlight class="normal"><sp/>+<sp/>signer_id<sp/>+</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&apos;<sp/>is<sp/>not<sp/>in<sp/>the<sp/>trust<sp/>registry;<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;adapter<sp/>loaded<sp/>under<sp/>lenient<sp/>policy.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>STRICT:<sp/>unknown<sp/>signer<sp/>→<sp/>reject</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_set&lt;std::string&gt;<sp/>known_signers_;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>Policy<sp/>policy_;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal">std::vector&lt;uint8_t&gt;<sp/>makePayload(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size,<sp/>uint8_t<sp/>seed<sp/>=<sp/>0xAB)<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>data(size);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>size;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>data[i]<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">((seed<sp/>+<sp/>i)<sp/>&amp;<sp/>0xFF);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>data;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>anonymous<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LTB-01<sp/>—<sp/>Correct<sp/>checksum:<sp/>adapter<sp/>accepted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><ref refid="test__retrieval__lora__trust__boundary__focused_8cpp_1a36df12470ee570ec12e90be9184f744e" kindref="member">TEST</ref>(LoRATrustBoundaryTest,<sp/>LTB01a_CorrectChecksumAccepted)<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>lora::AdapterConsistencyChecker<sp/>checker;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data<sp/>=<sp/>makePayload(1024);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>expected_checksum<sp/>=<sp/>checker.calculateChecksum(data);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(expected_checksum.empty())</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;calculateChecksum<sp/>must<sp/>produce<sp/>a<sp/>non-empty<sp/>hex<sp/>digest.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(checker.verifyChecksum(data,<sp/>expected_checksum))</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Adapter<sp/>data<sp/>with<sp/>correct<sp/>checksum<sp/>must<sp/>be<sp/>accepted.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><ref refid="test__retrieval__lora__trust__boundary__focused_8cpp_1a36df12470ee570ec12e90be9184f744e" kindref="member">TEST</ref>(LoRATrustBoundaryTest,<sp/>LTB01b_FullCheckAdapterPipelineAccepted)<sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>lora::AdapterConsistencyChecker::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enable_checksums<sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enable_signatures<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>signature<sp/>not<sp/>exercised<sp/>in<sp/>this<sp/>sub-test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.strict_mode<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>lora::AdapterConsistencyChecker<sp/>checker(cfg);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data<sp/>=<sp/>makePayload(2048,<sp/>0x7F);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>lora::AdapterMetadata<sp/>meta;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>meta.adapter_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test-adapter-v1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>meta.version<sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>meta.checksum<sp/><sp/><sp/>=<sp/>checker.calculateChecksum(data);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>meta.base_model<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;qwen2.5-coder:14b&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>checker.checkAdapter(meta.adapter_id,<sp/>data,<sp/>meta);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.is_valid)</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;checkAdapter<sp/>must<sp/>succeed<sp/>when<sp/>the<sp/>checksum<sp/>matches.<sp/><sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;error_message:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>result.error_message;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.checksum,<sp/>meta.checksum)</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Result<sp/>checksum<sp/>must<sp/>match<sp/>the<sp/>expected<sp/>checksum.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LTB-02<sp/>—<sp/>Tampered<sp/>data:<sp/>adapter<sp/>rejected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><ref refid="test__retrieval__lora__trust__boundary__focused_8cpp_1a36df12470ee570ec12e90be9184f744e" kindref="member">TEST</ref>(LoRATrustBoundaryTest,<sp/>LTB02a_TamperedDataRejectedByVerifyChecksum)<sp/>{</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>lora::AdapterConsistencyChecker<sp/>checker;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>original<sp/><sp/>=<sp/>makePayload(512,<sp/>0x11);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>cs<sp/>=<sp/>checker.calculateChecksum(original);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Tamper:<sp/>flip<sp/>one<sp/>byte<sp/>in<sp/>the<sp/>payload.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tampered<sp/>=<sp/>original;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>tampered[42]<sp/>^=<sp/>0xFF;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(checker.verifyChecksum(tampered,<sp/>cs))</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Tampered<sp/>adapter<sp/>data<sp/>must<sp/>NOT<sp/>pass<sp/>checksum<sp/>verification.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><ref refid="test__retrieval__lora__trust__boundary__focused_8cpp_1a36df12470ee570ec12e90be9184f744e" kindref="member">TEST</ref>(LoRATrustBoundaryTest,<sp/>LTB02b_FullCheckAdapterRejectedOnMismatch)<sp/>{</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>lora::AdapterConsistencyChecker::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enable_checksums<sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enable_signatures<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.strict_mode<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>lora::AdapterConsistencyChecker<sp/>checker(cfg);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>original_data<sp/>=<sp/>makePayload(1024,<sp/>0x55);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tampered_data<sp/>=<sp/>makePayload(1024,<sp/>0x56);<sp/><sp/></highlight><highlight class="comment">//<sp/>different<sp/>seed<sp/>→<sp/>different<sp/>content</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>lora::AdapterMetadata<sp/>meta;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>meta.adapter_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;tampered-adapter&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>meta.version<sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Checksum<sp/>computed<sp/>from<sp/>ORIGINAL<sp/>data,<sp/>but<sp/>we<sp/>submit<sp/>TAMPERED<sp/>data.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>meta.checksum<sp/><sp/><sp/>=<sp/>checker.calculateChecksum(original_data);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>meta.base_model<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;mistral-7b&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>checker.checkAdapter(meta.adapter_id,<sp/>tampered_data,<sp/>meta);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.is_valid)</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;checkAdapter<sp/>must<sp/>reject<sp/>an<sp/>adapter<sp/>whose<sp/>data<sp/>does<sp/>not<sp/>match<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;the<sp/>stored<sp/>checksum.<sp/><sp/>error_message:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>result.error_message;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><ref refid="test__retrieval__lora__trust__boundary__focused_8cpp_1a36df12470ee570ec12e90be9184f744e" kindref="member">TEST</ref>(LoRATrustBoundaryTest,<sp/>LTB02c_EmptyDataWithChecksumRejected)<sp/>{</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>lora::AdapterConsistencyChecker<sp/>checker;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>real_data<sp/>=<sp/>makePayload(256);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>real_checksum<sp/>=<sp/>checker.calculateChecksum(real_data);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;<sp/>empty_data;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(checker.verifyChecksum(empty_data,<sp/>real_checksum))</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Empty<sp/>data<sp/>submitted<sp/>with<sp/>a<sp/>non-empty<sp/>checksum<sp/>must<sp/>be<sp/>rejected.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LTB-03<sp/>—<sp/>Unknown<sp/>signer_id:<sp/>behaviour<sp/>clearly<sp/>defined</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><ref refid="test__retrieval__lora__trust__boundary__focused_8cpp_1a36df12470ee570ec12e90be9184f744e" kindref="member">TEST</ref>(LoRATrustBoundaryTest,<sp/>LTB03a_UnknownSignerRejectedUnderStrictPolicy)<sp/>{</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>AdapterTrustRegistry<sp/>registry(AdapterTrustRegistry::Policy::STRICT);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>registry.registerSigner(</highlight><highlight class="stringliteral">&quot;known-signer-org&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>unknown_signer<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;rogue-signer-unknown&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(registry.isTrusted(unknown_signer))</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;LTB-03a:<sp/>Unknown<sp/>signer<sp/>must<sp/>be<sp/>REJECTED<sp/>under<sp/>STRICT<sp/>trust<sp/>policy.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><ref refid="test__retrieval__lora__trust__boundary__focused_8cpp_1a36df12470ee570ec12e90be9184f744e" kindref="member">TEST</ref>(LoRATrustBoundaryTest,<sp/>LTB03b_UnknownSignerAcceptedWithWarningUnderLenientPolicy)<sp/>{</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>AdapterTrustRegistry<sp/>registry(AdapterTrustRegistry::Policy::LENIENT);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>registry.registerSigner(</highlight><highlight class="stringliteral">&quot;known-signer-org&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>unknown_signer<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;external-contributor-unverified&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>warning<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>trusted<sp/>=<sp/>registry.isTrusted(unknown_signer,<sp/>&amp;warning);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(trusted)</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;LTB-03b:<sp/>Unknown<sp/>signer<sp/>is<sp/>accepted<sp/>under<sp/>LENIENT<sp/>policy<sp/>(dev-only<sp/>mode).&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(warning.empty())</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;LTB-03b:<sp/>A<sp/>non-empty<sp/>warning<sp/>MUST<sp/>be<sp/>emitted<sp/>when<sp/>an<sp/>unknown<sp/>signer<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;is<sp/>accepted<sp/>under<sp/>lenient<sp/>policy<sp/>so<sp/>operators<sp/>can<sp/>detect<sp/>the<sp/>gap.\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;warning=&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>warning;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><ref refid="test__retrieval__lora__trust__boundary__focused_8cpp_1a36df12470ee570ec12e90be9184f744e" kindref="member">TEST</ref>(LoRATrustBoundaryTest,<sp/>LTB03c_KnownSignerAcceptedWithoutWarningUnderStrictPolicy)<sp/>{</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>AdapterTrustRegistry<sp/>registry(AdapterTrustRegistry::Policy::STRICT);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>registry.registerSigner(</highlight><highlight class="stringliteral">&quot;trusted-org-prod&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>warning<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>trusted<sp/>=<sp/>registry.isTrusted(</highlight><highlight class="stringliteral">&quot;trusted-org-prod&quot;</highlight><highlight class="normal">,<sp/>&amp;warning);</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(trusted)</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;LTB-03c:<sp/>Registered<sp/>signer<sp/>must<sp/>be<sp/>trusted<sp/>under<sp/>STRICT<sp/>policy.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(warning.empty())</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;LTB-03c:<sp/>No<sp/>warning<sp/>expected<sp/>for<sp/>a<sp/>registered<sp/>signer.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><ref refid="test__retrieval__lora__trust__boundary__focused_8cpp_1a36df12470ee570ec12e90be9184f744e" kindref="member">TEST</ref>(LoRATrustBoundaryTest,<sp/>LTB03d_UnknownSignerStopsBeforeChecksumValidation)<sp/>{</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>AdapterTrustRegistry<sp/>registry(AdapterTrustRegistry::Policy::STRICT);</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>signers<sp/>registered.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>lora::AdapterConsistencyChecker<sp/>checker;</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data<sp/>=<sp/>makePayload(512);</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>checksum<sp/>=<sp/>checker.calculateChecksum(data);</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>lora::AdapterMetadata<sp/>meta;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>meta.adapter_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;rogue-adapter&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>meta.version<sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;0.0.1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>meta.checksum<sp/><sp/><sp/>=<sp/>checksum;</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>meta.base_model<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;any-model&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>signer<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;rogue-org&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Gate<sp/>1:<sp/>trust<sp/>check</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>signer_trusted<sp/>=<sp/>registry.isTrusted(signer);</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(signer_trusted)</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;LTB-03d:<sp/>Adapter<sp/>from<sp/>unknown<sp/>signer<sp/>must<sp/>be<sp/>stopped<sp/>at<sp/>the<sp/>trust<sp/>gate.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Gate<sp/>2:<sp/>only<sp/>call<sp/>checkAdapter<sp/>when<sp/>signer<sp/>is<sp/>trusted.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(signer_trusted)<sp/>{</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>checker.checkAdapter(meta.adapter_id,<sp/>data,<sp/>meta);</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>branch<sp/>must<sp/>NOT<sp/>be<sp/>taken.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FAIL()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;LTB-03d:<sp/>checkAdapter<sp/>must<sp/>NOT<sp/>be<sp/>called<sp/>when<sp/>signer<sp/>is<sp/>untrusted.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)result;</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>we<sp/>reach<sp/>here<sp/>without<sp/>calling<sp/>checkAdapter,<sp/>the<sp/>test<sp/>passes:<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>trust<sp/>boundary<sp/>correctly<sp/>stops<sp/>the<sp/>adapter<sp/>before<sp/>checksum<sp/>validation.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="314"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/retrieval/test_retrieval_lora_trust_boundary_focused.cpp"/>
+  </compounddef>
+</doxygen>

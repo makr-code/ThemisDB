@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_confidence_detector_factory" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::ConfidenceDetectorFactory</compoundname>
+    <includes refid="ethics__aware__confidence__detector_8h" local="no">ethics_aware_confidence_detector.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_confidence_detector_factory_1ac8eb9482dcf454ca4c5e44bba9b904ea" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1_ethics_aware_confidence_detector" kindref="compound">EthicsAwareConfidenceDetector</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; EthicsAwareConfidenceDetector &gt; themis::llm::ConfidenceDetectorFactory::createDefault</definition>
+        <argsstring>()</argsstring>
+        <name>createDefault</name>
+        <qualifiedname>themis::llm::ConfidenceDetectorFactory::createDefault</qualifiedname>
+        <briefdescription>
+<para>Create Default. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════ Factory methods ═══════════════════════════════════════════════════════════</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createDefault without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="297" column="28" bodyfile="src/llm/ethics_aware_confidence_detector.cpp" bodystart="751" bodyend="753"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_confidence_detector_factory_1a9aa02653e313a89d25c3361f4d2ac453" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1_ethics_aware_confidence_detector" kindref="compound">EthicsAwareConfidenceDetector</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; EthicsAwareConfidenceDetector &gt; themis::llm::ConfidenceDetectorFactory::createStrict</definition>
+        <argsstring>()</argsstring>
+        <name>createStrict</name>
+        <qualifiedname>themis::llm::ConfidenceDetectorFactory::createStrict</qualifiedname>
+        <briefdescription>
+<para>Create Strict. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createStrict without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="303" column="28" bodyfile="src/llm/ethics_aware_confidence_detector.cpp" bodystart="760" bodyend="766"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_confidence_detector_factory_1a41fedb22ff3ee103884549d706cd5a64" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1_ethics_aware_confidence_detector" kindref="compound">EthicsAwareConfidenceDetector</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; EthicsAwareConfidenceDetector &gt; themis::llm::ConfidenceDetectorFactory::createLenient</definition>
+        <argsstring>()</argsstring>
+        <name>createLenient</name>
+        <qualifiedname>themis::llm::ConfidenceDetectorFactory::createLenient</qualifiedname>
+        <briefdescription>
+<para>Create Lenient. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createLenient without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="309" column="28" bodyfile="src/llm/ethics_aware_confidence_detector.cpp" bodystart="773" bodyend="779"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_confidence_detector_factory_1a348ff0ef78bd37b1e472480720b682f6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1_ethics_aware_confidence_detector" kindref="compound">EthicsAwareConfidenceDetector</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; EthicsAwareConfidenceDetector &gt; themis::llm::ConfidenceDetectorFactory::create</definition>
+        <argsstring>(const EthicsAwareConfidenceConfig &amp;config)</argsstring>
+        <name>create</name>
+        <qualifiedname>themis::llm::ConfidenceDetectorFactory::create</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_ethics_aware_confidence_config" kindref="compound">EthicsAwareConfidenceConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Create. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements create without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="316" column="28" bodyfile="src/llm/ethics_aware_confidence_detector.cpp" bodystart="787" bodyend="791"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/ethics_aware_confidence_detector.h" line="291" column="1" bodyfile="include/llm/ethics_aware_confidence_detector.h" bodystart="291" bodyend="319"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_confidence_detector_factory_1a348ff0ef78bd37b1e472480720b682f6" prot="public" virt="non-virtual"><scope>themis::llm::ConfidenceDetectorFactory</scope><name>create</name></member>
+      <member refid="classthemis_1_1llm_1_1_confidence_detector_factory_1ac8eb9482dcf454ca4c5e44bba9b904ea" prot="public" virt="non-virtual"><scope>themis::llm::ConfidenceDetectorFactory</scope><name>createDefault</name></member>
+      <member refid="classthemis_1_1llm_1_1_confidence_detector_factory_1a41fedb22ff3ee103884549d706cd5a64" prot="public" virt="non-virtual"><scope>themis::llm::ConfidenceDetectorFactory</scope><name>createLenient</name></member>
+      <member refid="classthemis_1_1llm_1_1_confidence_detector_factory_1a9aa02653e313a89d25c3361f4d2ac453" prot="public" virt="non-virtual"><scope>themis::llm::ConfidenceDetectorFactory</scope><name>createStrict</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

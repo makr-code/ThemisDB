@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_instruction_data_sample" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::InstructionDataSample</compoundname>
+    <includes refid="data__loader_8h" local="no">data_loader.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_instruction_data_sample_1a3e217e237cf44145fcae44f836c5b1e0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::InstructionDataSample::instruction</definition>
+        <argsstring></argsstring>
+        <name>instruction</name>
+        <qualifiedname>themis::llm::lora::InstructionDataSample::instruction</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="26" column="17" bodyfile="include/llm/lora_framework/data_loader.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_instruction_data_sample_1a1db0b31c9364f03b86d82f711121db59" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::InstructionDataSample::input</definition>
+        <argsstring></argsstring>
+        <name>input</name>
+        <qualifiedname>themis::llm::lora::InstructionDataSample::input</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="27" column="17" bodyfile="include/llm/lora_framework/data_loader.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_instruction_data_sample_1ad93b93596a1d7bfdc81443b93fea3a5b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::InstructionDataSample::output</definition>
+        <argsstring></argsstring>
+        <name>output</name>
+        <qualifiedname>themis::llm::lora::InstructionDataSample::output</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="28" column="17" bodyfile="include/llm/lora_framework/data_loader.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_instruction_data_sample_1adc814c474287ef1a59ddfebed8ed59c4" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; themis::llm::lora::InstructionDataSample::input_ids</definition>
+        <argsstring></argsstring>
+        <name>input_ids</name>
+        <qualifiedname>themis::llm::lora::InstructionDataSample::input_ids</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="31" column="17" bodyfile="include/llm/lora_framework/data_loader.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_instruction_data_sample_1a8d6a6f2ea79a156ed4113c42f932b319" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; themis::llm::lora::InstructionDataSample::label_ids</definition>
+        <argsstring></argsstring>
+        <name>label_ids</name>
+        <qualifiedname>themis::llm::lora::InstructionDataSample::label_ids</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="32" column="17" bodyfile="include/llm/lora_framework/data_loader.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_instruction_data_sample_1a7af3aef261e07748dc9dc233ab9499db" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::InstructionDataSample::getFullPrompt</definition>
+        <argsstring>() const</argsstring>
+        <name>getFullPrompt</name>
+        <qualifiedname>themis::llm::lora::InstructionDataSample::getFullPrompt</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="35" column="17" bodyfile="include/llm/lora_framework/data_loader.h" bodystart="35" bodyend="40"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/data_loader.h" line="25" column="1" bodyfile="include/llm/lora_framework/data_loader.h" bodystart="25" bodyend="41"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_instruction_data_sample_1a7af3aef261e07748dc9dc233ab9499db" prot="public" virt="non-virtual"><scope>themis::llm::lora::InstructionDataSample</scope><name>getFullPrompt</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_instruction_data_sample_1a1db0b31c9364f03b86d82f711121db59" prot="public" virt="non-virtual"><scope>themis::llm::lora::InstructionDataSample</scope><name>input</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_instruction_data_sample_1adc814c474287ef1a59ddfebed8ed59c4" prot="public" virt="non-virtual"><scope>themis::llm::lora::InstructionDataSample</scope><name>input_ids</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_instruction_data_sample_1a3e217e237cf44145fcae44f836c5b1e0" prot="public" virt="non-virtual"><scope>themis::llm::lora::InstructionDataSample</scope><name>instruction</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_instruction_data_sample_1a8d6a6f2ea79a156ed4113c42f932b319" prot="public" virt="non-virtual"><scope>themis::llm::lora::InstructionDataSample</scope><name>label_ids</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_instruction_data_sample_1ad93b93596a1d7bfdc81443b93fea3a5b" prot="public" virt="non-virtual"><scope>themis::llm::lora::InstructionDataSample</scope><name>output</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_block_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::PagedKVCacheManager::BlockInfo</compoundname>
+    <includes refid="paged__kv__cache__manager_8h" local="no">paged_kv_cache_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_block_info_1a49bd5fbf7bfbe6f099b506da0975cb84" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::PagedKVCacheManager::BlockInfo::block_id</definition>
+        <argsstring></argsstring>
+        <name>block_id</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::BlockInfo::block_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="178" column="13" bodyfile="include/llm/paged_kv_cache_manager.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_block_info_1abb4af067dabebe59177128cf8a5cd78a" prot="public" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::llm::PagedKVCacheManager::BlockInfo::device_ptr</definition>
+        <argsstring></argsstring>
+        <name>device_ptr</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::BlockInfo::device_ptr</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="179" column="14" bodyfile="include/llm/paged_kv_cache_manager.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_block_info_1a2e34bc46d043862a8c0fcede96b65616" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::PagedKVCacheManager::BlockInfo::ref_count</definition>
+        <argsstring></argsstring>
+        <name>ref_count</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::BlockInfo::ref_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="180" column="13" bodyfile="include/llm/paged_kv_cache_manager.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_block_info_1ad4f8ba722cd062f0cf8c3c90321d2ff8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::PagedKVCacheManager::BlockInfo::is_pinned</definition>
+        <argsstring></argsstring>
+        <name>is_pinned</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::BlockInfo::is_pinned</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="181" column="14" bodyfile="include/llm/paged_kv_cache_manager.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_block_info_1a6df29dcbea3f04413efcfd595f938ed1" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::PagedKVCacheManager::BlockInfo::parent_sequence_id</definition>
+        <argsstring></argsstring>
+        <name>parent_sequence_id</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::BlockInfo::parent_sequence_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="182" column="18" bodyfile="include/llm/paged_kv_cache_manager.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/paged_kv_cache_manager.h" line="177" column="5" bodyfile="include/llm/paged_kv_cache_manager.h" bodystart="177" bodyend="183"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_block_info_1a49bd5fbf7bfbe6f099b506da0975cb84" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager::BlockInfo</scope><name>block_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_block_info_1abb4af067dabebe59177128cf8a5cd78a" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager::BlockInfo</scope><name>device_ptr</name></member>
+      <member refid="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_block_info_1ad4f8ba722cd062f0cf8c3c90321d2ff8" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager::BlockInfo</scope><name>is_pinned</name></member>
+      <member refid="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_block_info_1a6df29dcbea3f04413efcfd595f938ed1" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager::BlockInfo</scope><name>parent_sequence_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_block_info_1a2e34bc46d043862a8c0fcede96b65616" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager::BlockInfo</scope><name>ref_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

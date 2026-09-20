@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_column_histogram" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::ColumnHistogram</compoundname>
+    <includes refid="optimizer__cost__model__enhancements_8h" local="no">optimizer_cost_model_enhancements.h</includes>
+    <innerclass refid="structthemis_1_1query_1_1_column_histogram_1_1_bucket" prot="public">themis::query::ColumnHistogram::Bucket</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_column_histogram_1ab7dab40dc7a53ded83f7dfc150ccab0a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::ColumnHistogram::columnName</definition>
+        <argsstring></argsstring>
+        <name>columnName</name>
+        <qualifiedname>themis::query::ColumnHistogram::columnName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/optimizer_cost_model_enhancements.h" line="31" column="17" bodyfile="src/query/optimizer_cost_model_enhancements.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_column_histogram_1aaf377f348728d40aa002b0400c9371e6" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_column_histogram_1_1_bucket" kindref="compound">Bucket</ref> &gt;</type>
+        <definition>std::vector&lt;Bucket&gt; themis::query::ColumnHistogram::buckets</definition>
+        <argsstring></argsstring>
+        <name>buckets</name>
+        <qualifiedname>themis::query::ColumnHistogram::buckets</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/optimizer_cost_model_enhancements.h" line="32" column="17" bodyfile="src/query/optimizer_cost_model_enhancements.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_column_histogram_1acb1826b88804355f79e22367051eb8bf" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::ColumnHistogram::totalRows</definition>
+        <argsstring></argsstring>
+        <name>totalRows</name>
+        <qualifiedname>themis::query::ColumnHistogram::totalRows</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/optimizer_cost_model_enhancements.h" line="33" column="12" bodyfile="src/query/optimizer_cost_model_enhancements.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_column_histogram_1ab64bd3060dd3d8cb374c64ac928c9844" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::ColumnHistogram::isNumeric</definition>
+        <argsstring></argsstring>
+        <name>isNumeric</name>
+        <qualifiedname>themis::query::ColumnHistogram::isNumeric</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/optimizer_cost_model_enhancements.h" line="34" column="10" bodyfile="src/query/optimizer_cost_model_enhancements.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_column_histogram_1a21cf008128fc581bf17e18f3e0832086" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::query::ColumnHistogram::estimateSelectivity</definition>
+        <argsstring>(const std::string &amp;predicateType, const std::vector&lt; double &gt; &amp;values) const</argsstring>
+        <name>estimateSelectivity</name>
+        <qualifiedname>themis::query::ColumnHistogram::estimateSelectivity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>predicateType</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <briefdescription>
+<para>Estimate Selectivity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">predicateType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/optimizer_cost_model_enhancements.h" line="42" column="12" bodyfile="src/query/optimizer_cost_model_enhancements.cpp" bodystart="24" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_column_histogram_1ac2b5fdb5acebc63d87ad63fc41c8f9cb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::query::ColumnHistogram::getDistinctValues</definition>
+        <argsstring>() const</argsstring>
+        <name>getDistinctValues</name>
+        <qualifiedname>themis::query::ColumnHistogram::getDistinctValues</qualifiedname>
+        <briefdescription>
+<para>Get Distinct Values. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/optimizer_cost_model_enhancements.h" line="49" column="12" bodyfile="src/query/optimizer_cost_model_enhancements.cpp" bodystart="116" bodyend="122"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/query/optimizer_cost_model_enhancements.h" line="23" column="1" bodyfile="src/query/optimizer_cost_model_enhancements.h" bodystart="23" bodyend="50"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_column_histogram_1aaf377f348728d40aa002b0400c9371e6" prot="public" virt="non-virtual"><scope>themis::query::ColumnHistogram</scope><name>buckets</name></member>
+      <member refid="structthemis_1_1query_1_1_column_histogram_1ab7dab40dc7a53ded83f7dfc150ccab0a" prot="public" virt="non-virtual"><scope>themis::query::ColumnHistogram</scope><name>columnName</name></member>
+      <member refid="structthemis_1_1query_1_1_column_histogram_1a21cf008128fc581bf17e18f3e0832086" prot="public" virt="non-virtual"><scope>themis::query::ColumnHistogram</scope><name>estimateSelectivity</name></member>
+      <member refid="structthemis_1_1query_1_1_column_histogram_1ac2b5fdb5acebc63d87ad63fc41c8f9cb" prot="public" virt="non-virtual"><scope>themis::query::ColumnHistogram</scope><name>getDistinctValues</name></member>
+      <member refid="structthemis_1_1query_1_1_column_histogram_1ab64bd3060dd3d8cb374c64ac928c9844" prot="public" virt="non-virtual"><scope>themis::query::ColumnHistogram</scope><name>isNumeric</name></member>
+      <member refid="structthemis_1_1query_1_1_column_histogram_1acb1826b88804355f79e22367051eb8bf" prot="public" virt="non-virtual"><scope>themis::query::ColumnHistogram</scope><name>totalRows</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

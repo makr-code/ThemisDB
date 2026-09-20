@@ -1,0 +1,874 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1server_1_1test" kind="namespace" language="C++">
+    <compoundname>themis::server::test</compoundname>
+    <innerclass refid="classthemis_1_1server_1_1test_1_1_model_integrity_verifier_test" prot="public">themis::server::test::ModelIntegrityVerifierTest</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1test_1_1_parent_info" prot="public">themis::server::test::ParentInfo</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1test_1_1_wave4a_server_hardening_test" prot="public">themis::server::test::Wave4aServerHardeningTest</innerclass>
+    <innernamespace refid="namespacethemis_1_1server_1_1test_1_1wave7">themis::server::test::wave7</innernamespace>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1server_1_1test_1a7ae390124fb203d4aa845750b5f6a1e7" prot="public" static="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1server_1_1test_1_1_parent_info" kindref="compound">ParentInfo</ref> &gt;</type>
+        <definition>using themis::server::test::ParentMap = std::unordered_map&lt;std::string, ParentInfo&gt;</definition>
+        <argsstring></argsstring>
+        <name>ParentMap</name>
+        <qualifiedname>themis::server::test::ParentMap</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_query_iterator_safety.cpp" line="32" column="1" bodyfile="tests/server/test_query_iterator_safety.cpp" bodystart="32" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1test_1a25a5e47795a4968fd59440f53865437c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::server::test::writeTempFile</definition>
+        <argsstring>(const std::string &amp;content, const std::string &amp;suffix=&quot;.bin&quot;)</argsstring>
+        <name>writeTempFile</name>
+        <qualifiedname>themis::server::test::writeTempFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>suffix</declname>
+          <defval>&quot;.bin&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Schreibt <computeroutput>content</computeroutput> in eine temporäre Datei und gibt den Pfad zurück. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_model_integrity_wave2.cpp" line="24" column="20" bodyfile="tests/server/test_model_integrity_wave2.cpp" bodystart="24" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1test_1a44e0fefd4cac7f07bbead61e22dd11f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::test::TEST_F</definition>
+        <argsstring>(ModelIntegrityVerifierTest, ComputeSha256KnownValue)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::server::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1test_1_1_model_integrity_verifier_test" kindref="compound">ModelIntegrityVerifierTest</ref></type>
+        </param>
+        <param>
+          <type>ComputeSha256KnownValue</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_model_integrity_wave2.cpp" line="51" column="1" bodyfile="tests/server/test_model_integrity_wave2.cpp" bodystart="51" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1test_1a4bd675ae649c129752c25d0ad1249a9c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::test::TEST_F</definition>
+        <argsstring>(ModelIntegrityVerifierTest, ComputeSha256NonEmptyFile)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::server::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1test_1_1_model_integrity_verifier_test" kindref="compound">ModelIntegrityVerifierTest</ref></type>
+        </param>
+        <param>
+          <type>ComputeSha256NonEmptyFile</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_model_integrity_wave2.cpp" line="60" column="1" bodyfile="tests/server/test_model_integrity_wave2.cpp" bodystart="60" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1test_1a6e11e18b2207f915d37ec38782c6bbd5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::test::TEST_F</definition>
+        <argsstring>(ModelIntegrityVerifierTest, VerifyModelCorrectHash)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::server::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1test_1_1_model_integrity_verifier_test" kindref="compound">ModelIntegrityVerifierTest</ref></type>
+        </param>
+        <param>
+          <type>VerifyModelCorrectHash</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_model_integrity_wave2.cpp" line="73" column="1" bodyfile="tests/server/test_model_integrity_wave2.cpp" bodystart="73" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1test_1a947b9a29a956afe2b62306e6d240dfc7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::test::TEST_F</definition>
+        <argsstring>(ModelIntegrityVerifierTest, VerifyModelWrongHashFails)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::server::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1test_1_1_model_integrity_verifier_test" kindref="compound">ModelIntegrityVerifierTest</ref></type>
+        </param>
+        <param>
+          <type>VerifyModelWrongHashFails</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_model_integrity_wave2.cpp" line="84" column="1" bodyfile="tests/server/test_model_integrity_wave2.cpp" bodystart="84" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1test_1a5262540ad5914183541bcb0fbec3e4ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::test::TEST_F</definition>
+        <argsstring>(ModelIntegrityVerifierTest, LoadManifestAndGetHash)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::server::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1test_1_1_model_integrity_verifier_test" kindref="compound">ModelIntegrityVerifierTest</ref></type>
+        </param>
+        <param>
+          <type>LoadManifestAndGetHash</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_model_integrity_wave2.cpp" line="95" column="1" bodyfile="tests/server/test_model_integrity_wave2.cpp" bodystart="95" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1test_1a680a5e2d8af3335720707ccf1053e833" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::test::TEST_F</definition>
+        <argsstring>(ModelIntegrityVerifierTest, MissingManifestGracefulDegradation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::server::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1test_1_1_model_integrity_verifier_test" kindref="compound">ModelIntegrityVerifierTest</ref></type>
+        </param>
+        <param>
+          <type>MissingManifestGracefulDegradation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_model_integrity_wave2.cpp" line="112" column="1" bodyfile="tests/server/test_model_integrity_wave2.cpp" bodystart="112" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1test_1a0e71b41f26bab8b34ba4dd11316c6ac0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::test::TEST_F</definition>
+        <argsstring>(ModelIntegrityVerifierTest, VerifyModelEmptyPathReturnsFalse)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::server::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1test_1_1_model_integrity_verifier_test" kindref="compound">ModelIntegrityVerifierTest</ref></type>
+        </param>
+        <param>
+          <type>VerifyModelEmptyPathReturnsFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_model_integrity_wave2.cpp" line="125" column="1" bodyfile="tests/server/test_model_integrity_wave2.cpp" bodystart="125" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1test_1a4f10f7f93aba8d742df67bd26ce94912" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::server::test::reconstructPathSafe</definition>
+        <argsstring>(const std::string &amp;start, const ParentMap &amp;parent, std::vector&lt; std::string &gt; &amp;nodes_out, std::vector&lt; std::string &gt; &amp;edges_out)</argsstring>
+        <name>reconstructPathSafe</name>
+        <qualifiedname>themis::server::test::reconstructPathSafe</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>start</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1_1test_1a7ae390124fb203d4aa845750b5f6a1e7" kindref="member">ParentMap</ref> &amp;</type>
+          <declname>parent</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt; &amp;</type>
+          <declname>nodes_out</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt; &amp;</type>
+          <declname>edges_out</declname>
+        </param>
+        <briefdescription>
+<para>Rekonstruiert den Pfad von <computeroutput>start</computeroutput> zurück zum Ursprung, geschützt durch Zyklenerkennung. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Spiegelt die gesicherzte Implementierung aus <ref refid="query__api__handler_8cpp" kindref="compound">query_api_handler.cpp</ref> wider.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>start</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Startknoten für die Rückverfolgung. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>parent</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Elternzeiger-Map (node → {parent, edgeId}). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>nodes_out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Ausgabe: Knoten vom Ursprung bis <computeroutput>start</computeroutput> (umgekehrt). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>edges_out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Ausgabe: Kanten entsprechend. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_query_iterator_safety.cpp" line="45" column="13" bodyfile="tests/server/test_query_iterator_safety.cpp" bodystart="45" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1test_1ad6e5a6e80f1beffb08b25f96fcab937c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::test::TEST</definition>
+        <argsstring>(QueryIteratorSafetyTest, AcyclicPathReconstructedCorrectly)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::server::test::TEST</qualifiedname>
+        <param>
+          <type>QueryIteratorSafetyTest</type>
+        </param>
+        <param>
+          <type>AcyclicPathReconstructedCorrectly</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_query_iterator_safety.cpp" line="81" column="1" bodyfile="tests/server/test_query_iterator_safety.cpp" bodystart="81" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1test_1a8a1da213c28fc385fcf055c37e497c0b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::test::TEST</definition>
+        <argsstring>(QueryIteratorSafetyTest, CyclicParentMapTerminatesSafely)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::server::test::TEST</qualifiedname>
+        <param>
+          <type>QueryIteratorSafetyTest</type>
+        </param>
+        <param>
+          <type>CyclicParentMapTerminatesSafely</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_query_iterator_safety.cpp" line="110" column="1" bodyfile="tests/server/test_query_iterator_safety.cpp" bodystart="110" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1test_1ac7f2f366dd3016bb944679c5171c5413" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::test::TEST</definition>
+        <argsstring>(QueryIteratorSafetyTest, MissingParentEntryTerminatesGracefully)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::server::test::TEST</qualifiedname>
+        <param>
+          <type>QueryIteratorSafetyTest</type>
+        </param>
+        <param>
+          <type>MissingParentEntryTerminatesGracefully</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_query_iterator_safety.cpp" line="130" column="1" bodyfile="tests/server/test_query_iterator_safety.cpp" bodystart="130" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1test_1ad7abfd574d08b7780f659c5da6dbbbb2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>static std::optional&lt; std::string &gt; themis::server::test::canonicalizePath</definition>
+        <argsstring>(const std::string &amp;path, const char *base_env=nullptr)</argsstring>
+        <name>canonicalizePath</name>
+        <qualifiedname>themis::server::test::canonicalizePath</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>base_env</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return value mirrors the handler: std::nullopt → accepted path string, non-empty string → error reason. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_wave4a_server_hardening.cpp" line="41" column="22" bodyfile="tests/server/test_wave4a_server_hardening.cpp" bodystart="41" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1test_1a32b647fd740fc892625564f17ad02796" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::server::test::makeAuditLog</definition>
+        <argsstring>(bool authorized, std::string_view method, std::string_view endpoint, std::string_view path)</argsstring>
+        <name>makeAuditLog</name>
+        <qualifiedname>themis::server::test::makeAuditLog</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>authorized</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>method</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>endpoint</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Simulates the THEMIS_INFO(&quot;[AUDIT] ... result=ALLOW/DENY&quot;) emission and captures the formatted string so tests can assert on it. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_wave4a_server_hardening.cpp" line="76" column="20" bodyfile="tests/server/test_wave4a_server_hardening.cpp" bodystart="76" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1test_1a721ad74954419faafe47260f0e9e239a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::test::TEST_F</definition>
+        <argsstring>(Wave4aServerHardeningTest, S1_EmptyPathReturnsError)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::server::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1test_1_1_wave4a_server_hardening_test" kindref="compound">Wave4aServerHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>S1_EmptyPathReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_wave4a_server_hardening.cpp" line="122" column="1" bodyfile="tests/server/test_wave4a_server_hardening.cpp" bodystart="122" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1test_1aa3301b1c000df06bb3ff12c13be21078" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::test::TEST_F</definition>
+        <argsstring>(Wave4aServerHardeningTest, S2a_PathTraversalRejectedWithBase)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::server::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1test_1_1_wave4a_server_hardening_test" kindref="compound">Wave4aServerHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>S2a_PathTraversalRejectedWithBase</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_wave4a_server_hardening.cpp" line="135" column="1" bodyfile="tests/server/test_wave4a_server_hardening.cpp" bodystart="135" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1test_1a3d564d5394e76ef5a06f8b068df7c5b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::test::TEST_F</definition>
+        <argsstring>(Wave4aServerHardeningTest, S2b_ValidPathUnderBaseAccepted)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::server::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1test_1_1_wave4a_server_hardening_test" kindref="compound">Wave4aServerHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>S2b_ValidPathUnderBaseAccepted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_wave4a_server_hardening.cpp" line="148" column="1" bodyfile="tests/server/test_wave4a_server_hardening.cpp" bodystart="148" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1test_1aafc3d5e4b5492b916e2c89a3bd25d6d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::test::TEST_F</definition>
+        <argsstring>(Wave4aServerHardeningTest, S2c_EnvBaseBlocksOutsidePaths)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::server::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1test_1_1_wave4a_server_hardening_test" kindref="compound">Wave4aServerHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>S2c_EnvBaseBlocksOutsidePaths</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_wave4a_server_hardening.cpp" line="161" column="1" bodyfile="tests/server/test_wave4a_server_hardening.cpp" bodystart="161" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1test_1ae4899948b8f50e187f8d2a67cca27056" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::test::TEST_F</definition>
+        <argsstring>(Wave4aServerHardeningTest, S3_AuditLogAllowOnAuthSuccess)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::server::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1test_1_1_wave4a_server_hardening_test" kindref="compound">Wave4aServerHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>S3_AuditLogAllowOnAuthSuccess</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_wave4a_server_hardening.cpp" line="174" column="1" bodyfile="tests/server/test_wave4a_server_hardening.cpp" bodystart="174" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1test_1acd0dbb53c05d547aad5442cefc9201a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::test::TEST_F</definition>
+        <argsstring>(Wave4aServerHardeningTest, S4_AuditLogDenyOnAuthFailure)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::server::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1test_1_1_wave4a_server_hardening_test" kindref="compound">Wave4aServerHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>S4_AuditLogDenyOnAuthFailure</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_wave4a_server_hardening.cpp" line="188" column="1" bodyfile="tests/server/test_wave4a_server_hardening.cpp" bodystart="188" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1test_1a175ebdc9837fc134dd1523bb1c6f495b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::test::TEST_F</definition>
+        <argsstring>(Wave4aServerHardeningTest, S7_GrpcWebProxyReturnsUnimplemented)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::server::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1test_1_1_wave4a_server_hardening_test" kindref="compound">Wave4aServerHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>S7_GrpcWebProxyReturnsUnimplemented</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_wave4a_server_hardening.cpp" line="201" column="1" bodyfile="tests/server/test_wave4a_server_hardening.cpp" bodystart="201" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1test_1afd1d83f8b7d5bf312737154d5c352042" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::test::TEST_F</definition>
+        <argsstring>(Wave4aServerHardeningTest, S6_McpStdioPlatformStubDocumentationPresent)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::server::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1test_1_1_wave4a_server_hardening_test" kindref="compound">Wave4aServerHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>S6_McpStdioPlatformStubDocumentationPresent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_wave4a_server_hardening.cpp" line="234" column="1" bodyfile="tests/server/test_wave4a_server_hardening.cpp" bodystart="234" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1test_1ad7abfd574d08b7780f659c5da6dbbbb2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>static std::optional&lt; std::string &gt; themis::server::test::canonicalizePath</definition>
+        <argsstring>(const std::string &amp;path, const char *base_env=nullptr)</argsstring>
+        <name>canonicalizePath</name>
+        <qualifiedname>themis::server::test::canonicalizePath</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>base_env</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return value: std::nullopt → accepted (canonical path string returned via out param), non-empty string → error reason (HTTP 400 territory). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_wave4a_server_hardening2.cpp" line="46" column="22" bodyfile="tests/server/test_wave4a_server_hardening2.cpp" bodystart="46" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1test_1a15dc8dfaa62969422cade6c46a7322fe" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::filesystem::path</type>
+        <definition>static std::filesystem::path themis::server::test::repoRoot</definition>
+        <argsstring>()</argsstring>
+        <name>repoRoot</name>
+        <qualifiedname>themis::server::test::repoRoot</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_wave4a_server_hardening2.cpp" line="80" column="30" bodyfile="tests/server/test_wave4a_server_hardening2.cpp" bodystart="80" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1test_1ae51ebc2f49e9ea53e04a035436ea86ba" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::server::test::readSourceFile</definition>
+        <argsstring>(const std::string &amp;rel_path)</argsstring>
+        <name>readSourceFile</name>
+        <qualifiedname>themis::server::test::readSourceFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rel_path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_wave4a_server_hardening2.cpp" line="89" column="20" bodyfile="tests/server/test_wave4a_server_hardening2.cpp" bodystart="89" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1test_1a8b240d08e29bae456d4c060c6071b14f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::test::TEST</definition>
+        <argsstring>(Wave4AHardening2, T01_IntegrityGateBypass_EmptyPath_Rejected)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::server::test::TEST</qualifiedname>
+        <param>
+          <type>Wave4AHardening2</type>
+        </param>
+        <param>
+          <type>T01_IntegrityGateBypass_EmptyPath_Rejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_wave4a_server_hardening2.cpp" line="101" column="1" bodyfile="tests/server/test_wave4a_server_hardening2.cpp" bodystart="101" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1test_1aae5dc72c0244af7590d54a2bd1ff723d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::test::TEST</definition>
+        <argsstring>(Wave4AHardening2, T02_IntegrityGateBypass_NonEmptyPath_Proceeds)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::server::test::TEST</qualifiedname>
+        <param>
+          <type>Wave4AHardening2</type>
+        </param>
+        <param>
+          <type>T02_IntegrityGateBypass_NonEmptyPath_Proceeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_wave4a_server_hardening2.cpp" line="111" column="1" bodyfile="tests/server/test_wave4a_server_hardening2.cpp" bodystart="111" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1test_1add2fa449c8ef1fdf21f07f69b55c52ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::test::TEST</definition>
+        <argsstring>(Wave4AHardening2, T03_PathTraversal_RelativeEscape_Rejected)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::server::test::TEST</qualifiedname>
+        <param>
+          <type>Wave4AHardening2</type>
+        </param>
+        <param>
+          <type>T03_PathTraversal_RelativeEscape_Rejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_wave4a_server_hardening2.cpp" line="129" column="1" bodyfile="tests/server/test_wave4a_server_hardening2.cpp" bodystart="129" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1test_1a2a1f9e1582cd06acc16bd00435cbe364" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::test::TEST</definition>
+        <argsstring>(Wave4AHardening2, T04_PathTraversal_AbsoluteOutsideRoot_Rejected)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::server::test::TEST</qualifiedname>
+        <param>
+          <type>Wave4AHardening2</type>
+        </param>
+        <param>
+          <type>T04_PathTraversal_AbsoluteOutsideRoot_Rejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_wave4a_server_hardening2.cpp" line="148" column="1" bodyfile="tests/server/test_wave4a_server_hardening2.cpp" bodystart="148" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1test_1a7ae87c107dd8e40a008006bb334ee34a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::test::TEST</definition>
+        <argsstring>(Wave4AHardening2, T05_PathTraversal_ValidInsideRoot_Allowed)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::server::test::TEST</qualifiedname>
+        <param>
+          <type>Wave4AHardening2</type>
+        </param>
+        <param>
+          <type>T05_PathTraversal_ValidInsideRoot_Allowed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_wave4a_server_hardening2.cpp" line="167" column="1" bodyfile="tests/server/test_wave4a_server_hardening2.cpp" bodystart="167" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1test_1ac0872fd6f001e9c4c7dc1d9951d566e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::test::TEST</definition>
+        <argsstring>(Wave4AHardening2, T06_LoraAudit_Allow_LogPresent)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::server::test::TEST</qualifiedname>
+        <param>
+          <type>Wave4AHardening2</type>
+        </param>
+        <param>
+          <type>T06_LoraAudit_Allow_LogPresent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_wave4a_server_hardening2.cpp" line="186" column="1" bodyfile="tests/server/test_wave4a_server_hardening2.cpp" bodystart="186" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1test_1a30e3b81064b4c7a2be00655b820d358b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::test::TEST</definition>
+        <argsstring>(Wave4AHardening2, T07_LoraAudit_Deny_LogPresent)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::server::test::TEST</qualifiedname>
+        <param>
+          <type>Wave4AHardening2</type>
+        </param>
+        <param>
+          <type>T07_LoraAudit_Deny_LogPresent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_wave4a_server_hardening2.cpp" line="201" column="1" bodyfile="tests/server/test_wave4a_server_hardening2.cpp" bodystart="201" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1test_1ac7071f3cca3369fd85798f4735b7f944" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::test::TEST</definition>
+        <argsstring>(Wave4AHardening2, T08_ImportAudit_Allow_LogPresent)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::server::test::TEST</qualifiedname>
+        <param>
+          <type>Wave4AHardening2</type>
+        </param>
+        <param>
+          <type>T08_ImportAudit_Allow_LogPresent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_wave4a_server_hardening2.cpp" line="214" column="1" bodyfile="tests/server/test_wave4a_server_hardening2.cpp" bodystart="214" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1test_1a187e1b89fa6d424ddc86cbba37da91d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::test::TEST</definition>
+        <argsstring>(Wave4AHardening2, T09_ImportAudit_Deny_RejectPathCovered)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::server::test::TEST</qualifiedname>
+        <param>
+          <type>Wave4AHardening2</type>
+        </param>
+        <param>
+          <type>T09_ImportAudit_Deny_RejectPathCovered</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_wave4a_server_hardening2.cpp" line="229" column="1" bodyfile="tests/server/test_wave4a_server_hardening2.cpp" bodystart="229" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1test_1a6a73f433fcfaf1c37a908d1c7601f4f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::test::TEST</definition>
+        <argsstring>(Wave4AHardening2, T10_McpStubNote_FourFieldFormat_Present)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::server::test::TEST</qualifiedname>
+        <param>
+          <type>Wave4AHardening2</type>
+        </param>
+        <param>
+          <type>T10_McpStubNote_FourFieldFormat_Present</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_wave4a_server_hardening2.cpp" line="251" column="1" bodyfile="tests/server/test_wave4a_server_hardening2.cpp" bodystart="251" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1test_1a7592cdc99de44d9bd42e73f13c57a255" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::test::TEST</definition>
+        <argsstring>(Wave4AHardening2, T11_BpmnHandler_AuditAllow_Present)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::server::test::TEST</qualifiedname>
+        <param>
+          <type>Wave4AHardening2</type>
+        </param>
+        <param>
+          <type>T11_BpmnHandler_AuditAllow_Present</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_wave4a_server_hardening2.cpp" line="270" column="1" bodyfile="tests/server/test_wave4a_server_hardening2.cpp" bodystart="270" bodyend="278"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1test_1a7927e592f0f2343837c4fa624bf8f95d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::test::TEST</definition>
+        <argsstring>(Wave4AHardening2, T12_BpmnHandler_AuditDeny_Present)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::server::test::TEST</qualifiedname>
+        <param>
+          <type>Wave4AHardening2</type>
+        </param>
+        <param>
+          <type>T12_BpmnHandler_AuditDeny_Present</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_wave4a_server_hardening2.cpp" line="283" column="1" bodyfile="tests/server/test_wave4a_server_hardening2.cpp" bodystart="283" bodyend="291"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1test_1aa0563535be7e63e75b457050362e332e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::test::TEST</definition>
+        <argsstring>(Wave4AHardening2, T13_CacheAdminHandler_AuditAllow_Present)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::server::test::TEST</qualifiedname>
+        <param>
+          <type>Wave4AHardening2</type>
+        </param>
+        <param>
+          <type>T13_CacheAdminHandler_AuditAllow_Present</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_wave4a_server_hardening2.cpp" line="296" column="1" bodyfile="tests/server/test_wave4a_server_hardening2.cpp" bodystart="296" bodyend="306"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1test_1a392fb9855a50dcf1d78fb4a3c2d843e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::test::TEST</definition>
+        <argsstring>(Wave4AHardening2, T14_EntityHandler_AuditAllowDeny_Present)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::server::test::TEST</qualifiedname>
+        <param>
+          <type>Wave4AHardening2</type>
+        </param>
+        <param>
+          <type>T14_EntityHandler_AuditAllowDeny_Present</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_wave4a_server_hardening2.cpp" line="311" column="1" bodyfile="tests/server/test_wave4a_server_hardening2.cpp" bodystart="311" bodyend="321"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/server/test_model_integrity_wave2.cpp" line="17" column="1"/>
+  </compounddef>
+</doxygen>

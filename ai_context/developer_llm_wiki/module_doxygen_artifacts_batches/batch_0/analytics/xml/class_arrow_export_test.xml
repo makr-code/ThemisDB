@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_arrow_export_test" kind="class" language="C++" prot="public">
+    <compoundname>ArrowExportTest</compoundname>
+    <basecompoundref refid="classtesting_1_1_test" prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_arrow_export_test_1a231818ccbbc9725113b73c3227368b18" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string ArrowExportTest::test_dir_</definition>
+        <argsstring></argsstring>
+        <name>test_dir_</name>
+        <qualifiedname>ArrowExportTest::test_dir_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_arrow_export.cpp" line="25" column="17" bodyfile="tests/analytics/test_arrow_export.cpp" bodystart="25" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_arrow_export_test_1a013f63c16cf1eaea80d9486e39cc138c" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ArrowExportTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ArrowExportTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_arrow_export.cpp" line="12" column="10" bodyfile="tests/analytics/test_arrow_export.cpp" bodystart="12" bodyend="16"/>
+      </memberdef>
+      <memberdef kind="function" id="class_arrow_export_test_1a99fd50323ccb66369f2e3585a02e2da4" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ArrowExportTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>ArrowExportTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_arrow_export.cpp" line="18" column="10" bodyfile="tests/analytics/test_arrow_export.cpp" bodystart="18" bodyend="23"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ArrowExportTest</label>
+        <link refid="class_arrow_export_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+        <link refid="classtesting_1_1_test"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ArrowExportTest</label>
+        <link refid="class_arrow_export_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+        <link refid="classtesting_1_1_test"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/analytics/test_arrow_export.cpp" line="10" column="1" bodyfile="tests/analytics/test_arrow_export.cpp" bodystart="10" bodyend="26"/>
+    <listofallmembers>
+      <member refid="class_arrow_export_test_1a013f63c16cf1eaea80d9486e39cc138c" prot="protected" virt="non-virtual"><scope>ArrowExportTest</scope><name>SetUp</name></member>
+      <member refid="class_arrow_export_test_1a99fd50323ccb66369f2e3585a02e2da4" prot="protected" virt="non-virtual"><scope>ArrowExportTest</scope><name>TearDown</name></member>
+      <member refid="class_arrow_export_test_1a231818ccbbc9725113b73c3227368b18" prot="protected" virt="non-virtual"><scope>ArrowExportTest</scope><name>test_dir_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

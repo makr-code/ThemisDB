@@ -1,0 +1,290 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1analytics_1_1_materialized_view_1_1_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::analytics::MaterializedView::Impl</compoundname>
+    <innerclass refid="structthemis_1_1analytics_1_1_materialized_view_1_1_impl_1_1_agg_state" prot="public">themis::analytics::MaterializedView::Impl::AggState</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1analytics_1_1_materialized_view_1_1_impl_1a39d6fe6e8434d93e44533feb51fbfb61" prot="public" static="no">
+        <type>std::unordered_map&lt; std::string, std::variant&lt; std::nullptr_t, bool, int64_t, double, std::string &gt; &gt;</type>
+        <definition>using themis::analytics::MaterializedView::Impl::Row = std::unordered_map&lt;std::string, std::variant&lt;std::nullptr_t, bool, int64_t, double, std::string&gt;&gt;</definition>
+        <argsstring></argsstring>
+        <name>Row</name>
+        <qualifiedname>themis::analytics::MaterializedView::Impl::Row</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/olap.cpp" line="1641" column="5" bodyfile="src/analytics/olap.cpp" bodystart="1641" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1_materialized_view_1_1_impl_1a0fbcd28cc95080177465eed359ab2a68" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result" kindref="compound">OLAPResult</ref></type>
+        <definition>OLAPResult themis::analytics::MaterializedView::Impl::cached_result</definition>
+        <argsstring></argsstring>
+        <name>cached_result</name>
+        <qualifiedname>themis::analytics::MaterializedView::Impl::cached_result</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/olap.cpp" line="1634" column="16" bodyfile="src/analytics/olap.cpp" bodystart="1634" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1_materialized_view_1_1_impl_1a391045718d15ed8bdb944dce1ce29736" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::analytics::MaterializedView::Impl::last_refresh</definition>
+        <argsstring></argsstring>
+        <name>last_refresh</name>
+        <qualifiedname>themis::analytics::MaterializedView::Impl::last_refresh</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/olap.cpp" line="1635" column="43" bodyfile="src/analytics/olap.cpp" bodystart="1635" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1_materialized_view_1_1_impl_1a95ee6efe7975b914d11c6998538a86c2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::analytics::MaterializedView::Impl::is_initialized</definition>
+        <argsstring></argsstring>
+        <name>is_initialized</name>
+        <qualifiedname>themis::analytics::MaterializedView::Impl::is_initialized</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/olap.cpp" line="1636" column="10" bodyfile="src/analytics/olap.cpp" bodystart="1636" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1_materialized_view_1_1_impl_1a9126331363ac876f6be14f9716352f35" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::analytics::MaterializedView::Impl::view_mutex_</definition>
+        <argsstring></argsstring>
+        <name>view_mutex_</name>
+        <qualifiedname>themis::analytics::MaterializedView::Impl::view_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/olap.cpp" line="1637" column="24" bodyfile="src/analytics/olap.cpp" bodystart="1637" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1_materialized_view_1_1_impl_1abf705f3b4583e065736dbf02818d7930" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::unordered_map&lt; std::string, <ref refid="structthemis_1_1analytics_1_1_materialized_view_1_1_impl_1_1_agg_state" kindref="compound">AggState</ref> &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::unordered_map&lt;std::string, AggState&gt; &gt; themis::analytics::MaterializedView::Impl::groups</definition>
+        <argsstring></argsstring>
+        <name>groups</name>
+        <qualifiedname>themis::analytics::MaterializedView::Impl::groups</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/olap.cpp" line="1710" column="14" bodyfile="src/analytics/olap.cpp" bodystart="1710" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_materialized_view_1_1_impl_1ae9962b647711f13a25f2fae438de8b76" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::analytics::MaterializedView::Impl::makeGroupKey</definition>
+        <argsstring>(const Row &amp;row, const std::vector&lt; Dimension &gt; &amp;dims)</argsstring>
+        <name>makeGroupKey</name>
+        <qualifiedname>themis::analytics::MaterializedView::Impl::makeGroupKey</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1analytics_1_1_materialized_view_1_1_impl_1a39d6fe6e8434d93e44533feb51fbfb61" kindref="member">Row</ref> &amp;</type>
+          <declname>row</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1analytics_1_1_dimension" kindref="compound">Dimension</ref> &gt; &amp;</type>
+          <declname>dims</declname>
+        </param>
+        <briefdescription>
+<para>Make Group Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">row</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dims</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), end(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/olap.cpp" line="1719" column="24" bodyfile="src/analytics/olap.cpp" bodystart="1719" bodyend="1735"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_materialized_view_1_1_impl_1aa19f6d2dd39ba4f04f80895c6c53303b" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>static double themis::analytics::MaterializedView::Impl::fieldToDouble</definition>
+        <argsstring>(const std::variant&lt; std::nullptr_t, bool, int64_t, double, std::string &gt; &amp;v)</argsstring>
+        <name>fieldToDouble</name>
+        <qualifiedname>themis::analytics::MaterializedView::Impl::fieldToDouble</qualifiedname>
+        <param>
+          <type>const std::variant&lt; std::nullptr_t, bool, int64_t, double, std::string &gt; &amp;</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/olap.cpp" line="1737" column="19" bodyfile="src/analytics/olap.cpp" bodystart="1737" bodyend="1748"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_materialized_view_1_1_impl_1ab1b2a1956027c79e98bd17f4a4cd9835" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::analytics::MaterializedView::Impl::applyDelta</definition>
+        <argsstring>(const Row &amp;row, int sign, const std::vector&lt; Dimension &gt; &amp;dims, const std::vector&lt; Measure &gt; &amp;measures)</argsstring>
+        <name>applyDelta</name>
+        <qualifiedname>themis::analytics::MaterializedView::Impl::applyDelta</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1analytics_1_1_materialized_view_1_1_impl_1a39d6fe6e8434d93e44533feb51fbfb61" kindref="member">Row</ref> &amp;</type>
+          <declname>row</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>sign</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1analytics_1_1_dimension" kindref="compound">Dimension</ref> &gt; &amp;</type>
+          <declname>dims</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1analytics_1_1_measure" kindref="compound">Measure</ref> &gt; &amp;</type>
+          <declname>measures</declname>
+        </param>
+        <briefdescription>
+<para>Apply Delta. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">row</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sign</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dims</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">measures</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1analytics_1_1_materialized_view_1_1_impl_1ae9962b647711f13a25f2fae438de8b76" kindref="member">makeGroupKey()</ref>, find(), end(), <ref refid="classthemis_1_1analytics_1_1_materialized_view_1_1_impl_1aa19f6d2dd39ba4f04f80895c6c53303b" kindref="member">fieldToDouble()</ref>, add(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/olap.cpp" line="1758" column="10" bodyfile="src/analytics/olap.cpp" bodystart="1758" bodyend="1787"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_materialized_view_1_1_impl_1aa83bfee31eb9deb7ee0a7b835350c5c9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result" kindref="compound">OLAPResult</ref></type>
+        <definition>OLAPResult themis::analytics::MaterializedView::Impl::buildResult</definition>
+        <argsstring>(const std::vector&lt; Dimension &gt; &amp;dims, const std::vector&lt; Measure &gt; &amp;measures) const</argsstring>
+        <name>buildResult</name>
+        <qualifiedname>themis::analytics::MaterializedView::Impl::buildResult</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1analytics_1_1_dimension" kindref="compound">Dimension</ref> &gt; &amp;</type>
+          <declname>dims</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1analytics_1_1_measure" kindref="compound">Measure</ref> &gt; &amp;</type>
+          <declname>measures</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Iss. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/analytics/olap.cpp" line="1790" column="16" bodyfile="src/analytics/olap.cpp" bodystart="1790" bodyend="1823"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::analytics::MaterializedView::Impl</label>
+        <link refid="classthemis_1_1analytics_1_1_materialized_view_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>cached_result</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::analytics::OLAPResult</label>
+        <link refid="structthemis_1_1analytics_1_1_o_l_a_p_result"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/analytics/olap.cpp" line="1632" column="1" bodyfile="src/analytics/olap.cpp" bodystart="1632" bodyend="1824"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1analytics_1_1_materialized_view_1_1_impl_1ab1b2a1956027c79e98bd17f4a4cd9835" prot="public" virt="non-virtual"><scope>themis::analytics::MaterializedView::Impl</scope><name>applyDelta</name></member>
+      <member refid="classthemis_1_1analytics_1_1_materialized_view_1_1_impl_1aa83bfee31eb9deb7ee0a7b835350c5c9" prot="public" virt="non-virtual"><scope>themis::analytics::MaterializedView::Impl</scope><name>buildResult</name></member>
+      <member refid="classthemis_1_1analytics_1_1_materialized_view_1_1_impl_1a0fbcd28cc95080177465eed359ab2a68" prot="public" virt="non-virtual"><scope>themis::analytics::MaterializedView::Impl</scope><name>cached_result</name></member>
+      <member refid="classthemis_1_1analytics_1_1_materialized_view_1_1_impl_1aa19f6d2dd39ba4f04f80895c6c53303b" prot="public" virt="non-virtual"><scope>themis::analytics::MaterializedView::Impl</scope><name>fieldToDouble</name></member>
+      <member refid="classthemis_1_1analytics_1_1_materialized_view_1_1_impl_1abf705f3b4583e065736dbf02818d7930" prot="public" virt="non-virtual"><scope>themis::analytics::MaterializedView::Impl</scope><name>groups</name></member>
+      <member refid="classthemis_1_1analytics_1_1_materialized_view_1_1_impl_1a95ee6efe7975b914d11c6998538a86c2" prot="public" virt="non-virtual"><scope>themis::analytics::MaterializedView::Impl</scope><name>is_initialized</name></member>
+      <member refid="classthemis_1_1analytics_1_1_materialized_view_1_1_impl_1a391045718d15ed8bdb944dce1ce29736" prot="public" virt="non-virtual"><scope>themis::analytics::MaterializedView::Impl</scope><name>last_refresh</name></member>
+      <member refid="classthemis_1_1analytics_1_1_materialized_view_1_1_impl_1ae9962b647711f13a25f2fae438de8b76" prot="public" virt="non-virtual"><scope>themis::analytics::MaterializedView::Impl</scope><name>makeGroupKey</name></member>
+      <member refid="classthemis_1_1analytics_1_1_materialized_view_1_1_impl_1a39d6fe6e8434d93e44533feb51fbfb61" prot="public" virt="non-virtual"><scope>themis::analytics::MaterializedView::Impl</scope><name>Row</name></member>
+      <member refid="classthemis_1_1analytics_1_1_materialized_view_1_1_impl_1a9126331363ac876f6be14f9716352f35" prot="public" virt="non-virtual"><scope>themis::analytics::MaterializedView::Impl</scope><name>view_mutex_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

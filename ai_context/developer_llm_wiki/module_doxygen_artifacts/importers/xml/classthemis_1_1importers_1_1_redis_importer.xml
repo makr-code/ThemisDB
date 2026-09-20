@@ -1,0 +1,681 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1_redis_importer" kind="class" language="C++" prot="public">
+    <compoundname>themis::importers::RedisImporter</compoundname>
+    <basecompoundref refid="classthemis_1_1importers_1_1_i_importer" prot="public" virt="non-virtual">themis::importers::IImporter</basecompoundref>
+    <includes refid="redis__importer_8h" local="no">redis_importer.h</includes>
+    <innerclass refid="structthemis_1_1importers_1_1_redis_importer_1_1_config" prot="private">themis::importers::RedisImporter::Config</innerclass>
+    <sectiondef kind="private-type">
+      <memberdef kind="enum" id="classthemis_1_1importers_1_1_redis_importer_1a30a09536ac387879d91dafe14cc2a12c" prot="private" static="no" strong="yes">
+        <type></type>
+        <name>RedisValueType</name>
+        <qualifiedname>themis::importers::RedisImporter::RedisValueType</qualifiedname>
+        <enumvalue id="classthemis_1_1importers_1_1_redis_importer_1a30a09536ac387879d91dafe14cc2a12ca27118326006d3829667a400ad23d5d98" prot="private">
+          <name>String</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1importers_1_1_redis_importer_1a30a09536ac387879d91dafe14cc2a12cafae8a9257e154175da4193dbf6552ef6" prot="private">
+          <name>Hash</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1importers_1_1_redis_importer_1a30a09536ac387879d91dafe14cc2a12ca4ee29ca12c7d126654bd0e5275de6135" prot="private">
+          <name>List</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1importers_1_1_redis_importer_1a30a09536ac387879d91dafe14cc2a12ca5d5b78699e57104f2fa03bbdf7b9197b" prot="private">
+          <name>Set</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1importers_1_1_redis_importer_1a30a09536ac387879d91dafe14cc2a12cae53b9d34dac3ff7577164bc010d91373" prot="private">
+          <name>ZSet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1importers_1_1_redis_importer_1a30a09536ac387879d91dafe14cc2a12ca88183b946cc5f0e8c96b2e66e1c74a7e" prot="private">
+          <name>Unknown</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/redis_importer.h" line="64" column="5" bodyfile="include/importers/redis_importer.h" bodystart="64" bodyend="64"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1importers_1_1_redis_importer_1a65357ebf51b468e7031c5c1d158b2b18" prot="public" static="no">
+        <type>std::function&lt; std::string( const std::vector&lt; std::string &gt; &amp;cmd)&gt;</type>
+        <definition>using themis::importers::RedisImporter::MockCommandFn = std::function&lt;std::string(
+       const std::vector&lt;std::string&gt;&amp; cmd)&gt;</definition>
+        <argsstring></argsstring>
+        <name>MockCommandFn</name>
+        <qualifiedname>themis::importers::RedisImporter::MockCommandFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/redis_importer.h" line="55" column="5" bodyfile="include/importers/redis_importer.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_redis_importer_1a90c24efac7e7b4f4d8bc6c7acf2de623" prot="private" static="no" mutable="no">
+        <type>Config</type>
+        <definition>Config themis::importers::RedisImporter::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::importers::RedisImporter::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/redis_importer.h" line="98" column="12" bodyfile="include/importers/redis_importer.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_redis_importer_1a8c8f681cfa9ae6410b450b4e45e83d2c" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::importers::RedisImporter::cancelled_</definition>
+        <argsstring></argsstring>
+        <name>cancelled_</name>
+        <qualifiedname>themis::importers::RedisImporter::cancelled_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/redis_importer.h" line="99" column="17" bodyfile="include/importers/redis_importer.h" bodystart="99" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_redis_importer_1a5f718893cc3f06f00456d5ac45939bbe" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1importers_1_1_redis_importer_1a65357ebf51b468e7031c5c1d158b2b18" kindref="member">MockCommandFn</ref></type>
+        <definition>MockCommandFn themis::importers::RedisImporter::mock_command_fn_</definition>
+        <argsstring></argsstring>
+        <name>mock_command_fn_</name>
+        <qualifiedname>themis::importers::RedisImporter::mock_command_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/redis_importer.h" line="100" column="19" bodyfile="include/importers/redis_importer.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_redis_importer_1a912215da440d71901bdfa2dfdec30077" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::RedisImporter::RedisImporter</definition>
+        <argsstring>()</argsstring>
+        <name>RedisImporter</name>
+        <qualifiedname>themis::importers::RedisImporter::RedisImporter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/redis_importer.h" line="22" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_redis_importer_1aa29b68a8b3584db44454880c04836b3f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::RedisImporter::~RedisImporter</definition>
+        <argsstring>() override</argsstring>
+        <name>~RedisImporter</name>
+        <qualifiedname>themis::importers::RedisImporter::~RedisImporter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/redis_importer.h" line="23" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_redis_importer_1a3dd7ab1e7e9b732857c953f9a92d8269" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>const char *</type>
+        <definition>const char * themis::importers::RedisImporter::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::importers::RedisImporter::getName</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1aa17b5c532ea2e9928379e77fe1385212">getName</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/redis_importer.h" line="29" column="16" bodyfile="include/importers/redis_importer.h" bodystart="29" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_redis_importer_1a8c06c1ba4396390cf7d62cd1bd20b016" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::importers::RedisImporter::getSupportedTypes</definition>
+        <argsstring>() const override</argsstring>
+        <name>getSupportedTypes</name>
+        <qualifiedname>themis::importers::RedisImporter::getSupportedTypes</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1a26a442906fade935ddfe41f8e91a15e6">getSupportedTypes</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/redis_importer.h" line="31" column="17" bodyfile="src/importers/redis_importer.cpp" bodystart="76" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_redis_importer_1ab4001391b2634bf7d81fb2c3b81a6bc5" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::RedisImporter::initialize</definition>
+        <argsstring>(const std::string &amp;config) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::importers::RedisImporter::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1ae57ccf0cf0c3b0dbe9647f43be339afc">initialize</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>config</declname>
+          <defname>config_json</defname>
+        </param>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config_json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: json::parse(), value(), THEMIS_WARN(), std::string(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/redis_importer.h" line="33" column="10" bodyfile="src/importers/redis_importer.cpp" bodystart="90" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_redis_importer_1aa51c1937039560bb6f3ade0528c4544a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::RedisImporter::validateSource</definition>
+        <argsstring>(const std::string &amp;source_path, std::vector&lt; std::string &gt; &amp;errors) override</argsstring>
+        <name>validateSource</name>
+        <qualifiedname>themis::importers::RedisImporter::validateSource</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1af2e09c4be51c0440e2ab1717ceeb2de5">validateSource</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_path</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt; &amp;</type>
+          <declname>errors</declname>
+        </param>
+        <briefdescription>
+<para>Validate Source. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the source. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">errors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: push_back(), empty(), rfind(), substr(), std::stoi(), mock_command_fn_(), find(), sanitiseEndpoint(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/redis_importer.h" line="35" column="10" bodyfile="src/importers/redis_importer.cpp" bodystart="125" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_redis_importer_1ab612fc89f092c77ca0cc62c0cdf61e10" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="struct_import_stats" kindref="compound">ImportStats</ref></type>
+        <definition>ImportStats themis::importers::RedisImporter::importData</definition>
+        <argsstring>(const std::string &amp;source_path, const ImportOptions &amp;options, ProgressCallback progress_callback=nullptr) override</argsstring>
+        <name>importData</name>
+        <qualifiedname>themis::importers::RedisImporter::importData</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1a93d10ab9f3f1d941d17ac2a54a5ddc02">importData</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1af0b9616504935ed9689a3c01900b05e9" kindref="member">ProgressCallback</ref></type>
+          <declname>progress_callback</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Import Data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the source. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">progress_callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), empty(), rfind(), substr(), std::stoi(), sanitiseEndpoint(), push_back(), std::chrono::milliseconds(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/redis_importer.h" line="38" column="17" bodyfile="src/importers/redis_importer.cpp" bodystart="331" bodyend="477"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_redis_importer_1a0cd9e0c99968f537ee166bef27ededbf" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::shared_ptr&lt; <ref refid="struct_import_handle" kindref="compound">ImportHandle</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; ImportHandle &gt; themis::importers::RedisImporter::importDataAsync</definition>
+        <argsstring>(const std::string &amp;source_path, const ImportOptions &amp;options) override</argsstring>
+        <name>importDataAsync</name>
+        <qualifiedname>themis::importers::RedisImporter::importDataAsync</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1af837fb18957347a51357191ee61a04a8">importDataAsync</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Import Data Async. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the source. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::to_string(), std::chrono::steady_clock::now(), time_since_epoch(), count(), std::async(), <ref refid="classthemis_1_1importers_1_1_redis_importer_1ab612fc89f092c77ca0cc62c0cdf61e10" kindref="member">importData()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/redis_importer.h" line="43" column="21" bodyfile="src/importers/redis_importer.cpp" bodystart="490" bodyend="504"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_redis_importer_1a3917eebfc73f5d3ce7e852c428b8d26a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::importers::RedisImporter::cancel</definition>
+        <argsstring>() override</argsstring>
+        <name>cancel</name>
+        <qualifiedname>themis::importers::RedisImporter::cancel</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1abda4e925d1f832cbf0e07f294b96c526">cancel</reimplements>
+        <briefdescription>
+<para>Cancel. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/redis_importer.h" line="47" column="10" bodyfile="src/importers/redis_importer.cpp" bodystart="514" bodyend="516"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_redis_importer_1a0044e37cc708bc7fb4190059342c52df" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::RedisImporter::getSourceSchema</definition>
+        <argsstring>(const std::string &amp;source_path) override</argsstring>
+        <name>getSourceSchema</name>
+        <qualifiedname>themis::importers::RedisImporter::getSourceSchema</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1a45b011aef76cd697e53d1e847dac430a">getSourceSchema</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_path</declname>
+        </param>
+        <briefdescription>
+<para>Get Source Schema. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the source. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: mock_command_fn_(), sendCmd(), json::parse(), is_array(), size(), contains(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/redis_importer.h" line="49" column="10" bodyfile="src/importers/redis_importer.cpp" bodystart="528" bodyend="571"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_redis_importer_1a8e0fc676dad5bc736265d6235bc882ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::RedisImporter::setMockCommandForTesting</definition>
+        <argsstring>(MockCommandFn fn)</argsstring>
+        <name>setMockCommandForTesting</name>
+        <qualifiedname>themis::importers::RedisImporter::setMockCommandForTesting</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1importers_1_1_redis_importer_1a65357ebf51b468e7031c5c1d158b2b18" kindref="member">MockCommandFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Mock Command For Testing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/redis_importer.h" line="61" column="10" bodyfile="src/importers/redis_importer.cpp" bodystart="582" bodyend="584"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_redis_importer_1a32c8bb622fc4c9fc9705915eeeacb860" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>RedisValueType</type>
+        <definition>RedisImporter::RedisValueType themis::importers::RedisImporter::parseRedisType</definition>
+        <argsstring>(const std::string &amp;type_str)</argsstring>
+        <name>parseRedisType</name>
+        <qualifiedname>themis::importers::RedisImporter::parseRedisType</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>type_str</declname>
+        </param>
+        <briefdescription>
+<para>Parse Redis Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements parseRedisType without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/redis_importer.h" line="83" column="27" bodyfile="src/importers/redis_importer.cpp" bodystart="202" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_redis_importer_1a374814e6307efef53a092c533a4994cb" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::importers::RedisImporter::sanitiseEndpoint</definition>
+        <argsstring>(const std::string &amp;host, int port)</argsstring>
+        <name>sanitiseEndpoint</name>
+        <qualifiedname>themis::importers::RedisImporter::sanitiseEndpoint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>host</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>port</declname>
+        </param>
+        <briefdescription>
+<para>Sanitise Endpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">host</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">port</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">host</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">port</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/redis_importer.h" line="91" column="24" bodyfile="src/importers/redis_importer.cpp" bodystart="188" bodyend="190"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_redis_importer_1ae76fbaf1954f20b1a0e432dd0fe4a230" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::RedisImporter::fetchKeyDocument</definition>
+        <argsstring>(const std::string &amp;key, RedisValueType vtype, std::string &amp;error_out, void *conn=nullptr)</argsstring>
+        <name>fetchKeyDocument</name>
+        <qualifiedname>themis::importers::RedisImporter::fetchKeyDocument</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>RedisValueType</type>
+          <declname>vtype</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>error_out</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>conn</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>============================================================================ fetchKeyDocument – builds a ThemisDB document from one Redis key ============================================================================ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vtype</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">error_out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">conn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: mock_command_fn_(), executeHiredisCommand(), sendCmd(), std::stoll(), json::parse(), json::object(), is_array(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/redis_importer.h" line="93" column="10" bodyfile="src/importers/redis_importer.cpp" bodystart="232" bodyend="317"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::importers::IImporter</label>
+        <link refid="classthemis_1_1importers_1_1_i_importer"/>
+      </node>
+      <node id="1">
+        <label>themis::importers::RedisImporter</label>
+        <link refid="classthemis_1_1importers_1_1_redis_importer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::importers::IImporter</label>
+        <link refid="classthemis_1_1importers_1_1_i_importer"/>
+      </node>
+      <node id="1">
+        <label>themis::importers::RedisImporter</label>
+        <link refid="classthemis_1_1importers_1_1_redis_importer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/importers/redis_importer.h" line="20" column="1" bodyfile="include/importers/redis_importer.h" bodystart="20" bodyend="118"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1importers_1_1_redis_importer_1a3917eebfc73f5d3ce7e852c428b8d26a" prot="public" virt="virtual"><scope>themis::importers::RedisImporter</scope><name>cancel</name></member>
+      <member refid="classthemis_1_1importers_1_1_redis_importer_1a8c8f681cfa9ae6410b450b4e45e83d2c" prot="private" virt="non-virtual"><scope>themis::importers::RedisImporter</scope><name>cancelled_</name></member>
+      <member refid="classthemis_1_1importers_1_1_redis_importer_1a90c24efac7e7b4f4d8bc6c7acf2de623" prot="private" virt="non-virtual"><scope>themis::importers::RedisImporter</scope><name>config_</name></member>
+      <member refid="classthemis_1_1importers_1_1_redis_importer_1ae76fbaf1954f20b1a0e432dd0fe4a230" prot="private" virt="non-virtual"><scope>themis::importers::RedisImporter</scope><name>fetchKeyDocument</name></member>
+      <member refid="classthemis_1_1importers_1_1_redis_importer_1a3dd7ab1e7e9b732857c953f9a92d8269" prot="public" virt="virtual"><scope>themis::importers::RedisImporter</scope><name>getName</name></member>
+      <member refid="classthemis_1_1importers_1_1_redis_importer_1a0044e37cc708bc7fb4190059342c52df" prot="public" virt="virtual"><scope>themis::importers::RedisImporter</scope><name>getSourceSchema</name></member>
+      <member refid="classthemis_1_1importers_1_1_redis_importer_1a8c06c1ba4396390cf7d62cd1bd20b016" prot="public" virt="virtual"><scope>themis::importers::RedisImporter</scope><name>getSupportedTypes</name></member>
+      <member refid="classthemis_1_1importers_1_1_redis_importer_1ab612fc89f092c77ca0cc62c0cdf61e10" prot="public" virt="virtual"><scope>themis::importers::RedisImporter</scope><name>importData</name></member>
+      <member refid="classthemis_1_1importers_1_1_redis_importer_1a0cd9e0c99968f537ee166bef27ededbf" prot="public" virt="virtual"><scope>themis::importers::RedisImporter</scope><name>importDataAsync</name></member>
+      <member refid="classthemis_1_1importers_1_1_i_importer_1a0790bcc7450b9294f9d9d7ae891eed52" prot="public" virt="virtual"><scope>themis::importers::RedisImporter</scope><name>importDataStreaming</name></member>
+      <member refid="classthemis_1_1importers_1_1_redis_importer_1ab4001391b2634bf7d81fb2c3b81a6bc5" prot="public" virt="virtual"><scope>themis::importers::RedisImporter</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1importers_1_1_redis_importer_1a5f718893cc3f06f00456d5ac45939bbe" prot="private" virt="non-virtual"><scope>themis::importers::RedisImporter</scope><name>mock_command_fn_</name></member>
+      <member refid="classthemis_1_1importers_1_1_redis_importer_1a65357ebf51b468e7031c5c1d158b2b18" prot="public" virt="non-virtual"><scope>themis::importers::RedisImporter</scope><name>MockCommandFn</name></member>
+      <member refid="classthemis_1_1importers_1_1_redis_importer_1a32c8bb622fc4c9fc9705915eeeacb860" prot="private" virt="non-virtual"><scope>themis::importers::RedisImporter</scope><name>parseRedisType</name></member>
+      <member refid="classthemis_1_1importers_1_1_redis_importer_1a912215da440d71901bdfa2dfdec30077" prot="public" virt="non-virtual"><scope>themis::importers::RedisImporter</scope><name>RedisImporter</name></member>
+      <member refid="classthemis_1_1importers_1_1_redis_importer_1a30a09536ac387879d91dafe14cc2a12c" prot="private" virt="non-virtual"><scope>themis::importers::RedisImporter</scope><name>RedisValueType</name></member>
+      <member refid="classthemis_1_1importers_1_1_redis_importer_1a374814e6307efef53a092c533a4994cb" prot="private" virt="non-virtual"><scope>themis::importers::RedisImporter</scope><name>sanitiseEndpoint</name></member>
+      <member refid="classthemis_1_1importers_1_1_redis_importer_1a8e0fc676dad5bc736265d6235bc882ad" prot="public" virt="non-virtual"><scope>themis::importers::RedisImporter</scope><name>setMockCommandForTesting</name></member>
+      <member refid="classthemis_1_1importers_1_1_redis_importer_1aa51c1937039560bb6f3ade0528c4544a" prot="public" virt="virtual"><scope>themis::importers::RedisImporter</scope><name>validateSource</name></member>
+      <member refid="classthemis_1_1importers_1_1_i_importer_1a72b3cba1bf78aee41b2dfb19c8b91629" prot="public" virt="virtual"><scope>themis::importers::RedisImporter</scope><name>~IImporter</name></member>
+      <member refid="classthemis_1_1importers_1_1_redis_importer_1aa29b68a8b3584db44454880c04836b3f" prot="public" virt="non-virtual"><scope>themis::importers::RedisImporter</scope><name>~RedisImporter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

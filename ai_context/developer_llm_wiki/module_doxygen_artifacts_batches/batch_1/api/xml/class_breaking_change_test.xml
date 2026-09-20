@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_breaking_change_test" kind="class" language="C++" prot="public">
+    <compoundname>BreakingChangeTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_breaking_change_test_1a69b86ac35e550e4ac1cbb02a9761fb3b" prot="protected" static="no" mutable="no">
+        <type>APIVersionManager</type>
+        <definition>APIVersionManager BreakingChangeTest::manager</definition>
+        <argsstring></argsstring>
+        <name>manager</name>
+        <qualifiedname>BreakingChangeTest::manager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_version.cpp" line="618" column="23" bodyfile="tests/api/test_api_version.cpp" bodystart="618" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>BreakingChangeTest</label>
+        <link refid="class_breaking_change_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>BreakingChangeTest</label>
+        <link refid="class_breaking_change_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/api/test_api_version.cpp" line="616" column="1" bodyfile="tests/api/test_api_version.cpp" bodystart="616" bodyend="619"/>
+    <listofallmembers>
+      <member refid="class_breaking_change_test_1a69b86ac35e550e4ac1cbb02a9761fb3b" prot="protected" virt="non-virtual"><scope>BreakingChangeTest</scope><name>manager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

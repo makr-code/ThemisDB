@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_lineage_record" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::LineageRecord</compoundname>
+    <includes refid="data__lineage_8h" local="no">data_lineage.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_lineage_record_1a4a1ce1c35cfa25f36412a7f0413d2a9d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::LineageRecord::dataset_id</definition>
+        <argsstring></argsstring>
+        <name>dataset_id</name>
+        <qualifiedname>themis::governance::LineageRecord::dataset_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/data_lineage.h" line="71" column="17" bodyfile="include/governance/data_lineage.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_lineage_record_1af9394483f5c7a32da3d51b4c4e17ff54" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_lineage_event" kindref="compound">LineageEvent</ref> &gt;</type>
+        <definition>std::vector&lt;LineageEvent&gt; themis::governance::LineageRecord::events</definition>
+        <argsstring></argsstring>
+        <name>events</name>
+        <qualifiedname>themis::governance::LineageRecord::events</qualifiedname>
+        <briefdescription>
+<para>Ordered chronologically (oldest first). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/data_lineage.h" line="72" column="17" bodyfile="include/governance/data_lineage.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_lineage_record_1a8739d202eea389a508e18028228f7331" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::LineageRecord::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::governance::LineageRecord::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/data_lineage.h" line="78" column="20" bodyfile="src/governance/data_lineage.cpp" bodystart="82" bodyend="92"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/data_lineage.h" line="70" column="1" bodyfile="include/governance/data_lineage.h" bodystart="70" bodyend="79"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_lineage_record_1a4a1ce1c35cfa25f36412a7f0413d2a9d" prot="public" virt="non-virtual"><scope>themis::governance::LineageRecord</scope><name>dataset_id</name></member>
+      <member refid="structthemis_1_1governance_1_1_lineage_record_1af9394483f5c7a32da3d51b4c4e17ff54" prot="public" virt="non-virtual"><scope>themis::governance::LineageRecord</scope><name>events</name></member>
+      <member refid="structthemis_1_1governance_1_1_lineage_record_1a8739d202eea389a508e18028228f7331" prot="public" virt="non-virtual"><scope>themis::governance::LineageRecord</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

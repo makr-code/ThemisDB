@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_transaction_auditor_1_1_operation" kind="struct" language="C++" prot="public">
+    <compoundname>themis::TransactionAuditor::Operation</compoundname>
+    <includes refid="transaction__auditor_8h" local="no">transaction_auditor.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1_transaction_auditor_1_1_operation_1a6411862a3fee844a747385eccfd1f164" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Type</name>
+        <qualifiedname>themis::TransactionAuditor::Operation::Type</qualifiedname>
+        <enumvalue id="structthemis_1_1_transaction_auditor_1_1_operation_1a6411862a3fee844a747385eccfd1f164a3e75383a5992a6d15fb81e872e46e256" prot="public">
+          <name>PUT</name>
+          <briefdescription>
+<para>Insert or update an entity. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_transaction_auditor_1_1_operation_1a6411862a3fee844a747385eccfd1f164a32f68a60cef40faedbc6af20298c1a1e" prot="public">
+          <name>DELETE</name>
+          <briefdescription>
+<para>Delete an entity. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_transaction_auditor_1_1_operation_1a6411862a3fee844a747385eccfd1f164ac4236be10303e8dfb087bd31e6f2a875" prot="public">
+          <name>ADD_EDGE</name>
+          <briefdescription>
+<para>Add a graph edge. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_transaction_auditor_1_1_operation_1a6411862a3fee844a747385eccfd1f164ac4076f895fd64e133dd859975d55b332" prot="public">
+          <name>DELETE_EDGE</name>
+          <briefdescription>
+<para>Remove a graph edge. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_transaction_auditor_1_1_operation_1a6411862a3fee844a747385eccfd1f164ae5a19eff293396cdccc5adad264a6d47" prot="public">
+          <name>ADD_VECTOR</name>
+          <briefdescription>
+<para>Insert or update a vector embedding. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_auditor.h" line="53" column="9" bodyfile="include/transaction/transaction_auditor.h" bodystart="53" bodyend="59"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_transaction_auditor_1_1_operation_1aec191e0eaee5b302ffc31520bd46b84b" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_transaction_auditor_1_1_operation_1a6411862a3fee844a747385eccfd1f164" kindref="member">Type</ref></type>
+        <definition>Type themis::TransactionAuditor::Operation::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::TransactionAuditor::Operation::type</qualifiedname>
+        <initializer>{<ref refid="structthemis_1_1_transaction_auditor_1_1_operation_1a6411862a3fee844a747385eccfd1f164a3e75383a5992a6d15fb81e872e46e256" kindref="member">Type::PUT</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_auditor.h" line="61" column="21" bodyfile="include/transaction/transaction_auditor.h" bodystart="61" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_transaction_auditor_1_1_operation_1a0c807d53ffc0a71aea87630d755438fe" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::TransactionAuditor::Operation::table</definition>
+        <argsstring></argsstring>
+        <name>table</name>
+        <qualifiedname>themis::TransactionAuditor::Operation::table</qualifiedname>
+        <briefdescription>
+<para>Table (or collection) name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_auditor.h" line="62" column="21" bodyfile="include/transaction/transaction_auditor.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_transaction_auditor_1_1_operation_1a945197f75f2e3b30557453009b1d0e5e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::TransactionAuditor::Operation::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>themis::TransactionAuditor::Operation::key</qualifiedname>
+        <briefdescription>
+<para>Storage key of the affected row. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_auditor.h" line="63" column="21" bodyfile="include/transaction/transaction_auditor.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_transaction_auditor_1_1_operation_1aa8b04b17a327c1d864149dab1f1da415" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::TransactionAuditor::Operation::old_value</definition>
+        <argsstring></argsstring>
+        <name>old_value</name>
+        <qualifiedname>themis::TransactionAuditor::Operation::old_value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_auditor.h" line="65" column="23" bodyfile="include/transaction/transaction_auditor.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_transaction_auditor_1_1_operation_1a039724ada076778b618baf0c6683a4a2" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::TransactionAuditor::Operation::new_value</definition>
+        <argsstring></argsstring>
+        <name>new_value</name>
+        <qualifiedname>themis::TransactionAuditor::Operation::new_value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_auditor.h" line="67" column="23" bodyfile="include/transaction/transaction_auditor.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/transaction_auditor.h" line="52" column="5" bodyfile="include/transaction/transaction_auditor.h" bodystart="52" bodyend="68"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_transaction_auditor_1_1_operation_1a945197f75f2e3b30557453009b1d0e5e" prot="public" virt="non-virtual"><scope>themis::TransactionAuditor::Operation</scope><name>key</name></member>
+      <member refid="structthemis_1_1_transaction_auditor_1_1_operation_1a039724ada076778b618baf0c6683a4a2" prot="public" virt="non-virtual"><scope>themis::TransactionAuditor::Operation</scope><name>new_value</name></member>
+      <member refid="structthemis_1_1_transaction_auditor_1_1_operation_1aa8b04b17a327c1d864149dab1f1da415" prot="public" virt="non-virtual"><scope>themis::TransactionAuditor::Operation</scope><name>old_value</name></member>
+      <member refid="structthemis_1_1_transaction_auditor_1_1_operation_1a0c807d53ffc0a71aea87630d755438fe" prot="public" virt="non-virtual"><scope>themis::TransactionAuditor::Operation</scope><name>table</name></member>
+      <member refid="structthemis_1_1_transaction_auditor_1_1_operation_1a6411862a3fee844a747385eccfd1f164" prot="public" virt="non-virtual"><scope>themis::TransactionAuditor::Operation</scope><name>Type</name></member>
+      <member refid="structthemis_1_1_transaction_auditor_1_1_operation_1aec191e0eaee5b302ffc31520bd46b84b" prot="public" virt="non-virtual"><scope>themis::TransactionAuditor::Operation</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

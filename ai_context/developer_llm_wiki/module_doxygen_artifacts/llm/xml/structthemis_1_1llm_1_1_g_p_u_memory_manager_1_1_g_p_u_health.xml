@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_health" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::GPUMemoryManager::GPUHealth</compoundname>
+    <includes refid="gpu__memory__manager_8h" local="no">gpu_memory_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_health_1a4b25182818ef61aa525d0feb828da397" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::GPUMemoryManager::GPUHealth::device_id</definition>
+        <argsstring></argsstring>
+        <name>device_id</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::GPUHealth::device_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="147" column="13" bodyfile="include/llm/gpu_memory_manager.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_health_1ab495ada795747614228f0b9a69c99d92" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::GPUMemoryManager::GPUHealth::is_available</definition>
+        <argsstring></argsstring>
+        <name>is_available</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::GPUHealth::is_available</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="148" column="14" bodyfile="include/llm/gpu_memory_manager.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_health_1ad5a6cba906470cb7f281134043adb5db" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::GPUMemoryManager::GPUHealth::is_healthy</definition>
+        <argsstring></argsstring>
+        <name>is_healthy</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::GPUHealth::is_healthy</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="149" column="14" bodyfile="include/llm/gpu_memory_manager.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_health_1a98e6b7aac7314943f9f48b7983474635" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::GPUMemoryManager::GPUHealth::temperature_celsius</definition>
+        <argsstring></argsstring>
+        <name>temperature_celsius</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::GPUHealth::temperature_celsius</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="150" column="15" bodyfile="include/llm/gpu_memory_manager.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_health_1ae9230e9559dbaf43a8dc5a9e4f71de7b" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::GPUMemoryManager::GPUHealth::utilization_percent</definition>
+        <argsstring></argsstring>
+        <name>utilization_percent</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::GPUHealth::utilization_percent</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="151" column="15" bodyfile="include/llm/gpu_memory_manager.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_health_1a1269a2be7717edd87995d17182f52c85" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::GPUMemoryManager::GPUHealth::error_count</definition>
+        <argsstring></argsstring>
+        <name>error_count</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::GPUHealth::error_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="152" column="16" bodyfile="include/llm/gpu_memory_manager.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_health_1ab269afaffbc08d96a100c91e61be7a9d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::GPUMemoryManager::GPUHealth::last_error</definition>
+        <argsstring></argsstring>
+        <name>last_error</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::GPUHealth::last_error</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="153" column="21" bodyfile="include/llm/gpu_memory_manager.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_health_1a7976eb94406e1c7fd6c3c046df012898" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::llm::GPUMemoryManager::GPUHealth::last_check_timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>last_check_timestamp_ms</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::GPUHealth::last_check_timestamp_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="154" column="17" bodyfile="include/llm/gpu_memory_manager.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/gpu_memory_manager.h" line="146" column="5" bodyfile="include/llm/gpu_memory_manager.h" bodystart="146" bodyend="155"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_health_1a4b25182818ef61aa525d0feb828da397" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager::GPUHealth</scope><name>device_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_health_1a1269a2be7717edd87995d17182f52c85" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager::GPUHealth</scope><name>error_count</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_health_1ab495ada795747614228f0b9a69c99d92" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager::GPUHealth</scope><name>is_available</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_health_1ad5a6cba906470cb7f281134043adb5db" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager::GPUHealth</scope><name>is_healthy</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_health_1a7976eb94406e1c7fd6c3c046df012898" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager::GPUHealth</scope><name>last_check_timestamp_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_health_1ab269afaffbc08d96a100c91e61be7a9d" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager::GPUHealth</scope><name>last_error</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_health_1a98e6b7aac7314943f9f48b7983474635" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager::GPUHealth</scope><name>temperature_celsius</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_health_1ae9230e9559dbaf43a8dc5a9e4f71de7b" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager::GPUHealth</scope><name>utilization_percent</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

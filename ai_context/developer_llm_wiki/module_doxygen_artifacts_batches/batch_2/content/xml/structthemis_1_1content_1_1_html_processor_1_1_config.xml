@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_html_processor_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::HtmlProcessor::Config</compoundname>
+    <includes refid="html__processor_8h" local="no">html_processor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_html_processor_1_1_config_1a8bc080be81c616c93d5590fec3067f76" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::HtmlProcessor::Config::remove_boilerplate</definition>
+        <argsstring></argsstring>
+        <name>remove_boilerplate</name>
+        <qualifiedname>themis::content::HtmlProcessor::Config::remove_boilerplate</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/html_processor.h" line="23" column="14" bodyfile="include/content/html_processor.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_html_processor_1_1_config_1a496a7eab2a2ff9ff2896da479c80a0d2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::HtmlProcessor::Config::remove_scripts_styles</definition>
+        <argsstring></argsstring>
+        <name>remove_scripts_styles</name>
+        <qualifiedname>themis::content::HtmlProcessor::Config::remove_scripts_styles</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/html_processor.h" line="24" column="14" bodyfile="include/content/html_processor.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_html_processor_1_1_config_1aecb0005abceb590a868d657e311ceb7e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::HtmlProcessor::Config::decode_entities</definition>
+        <argsstring></argsstring>
+        <name>decode_entities</name>
+        <qualifiedname>themis::content::HtmlProcessor::Config::decode_entities</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/html_processor.h" line="25" column="14" bodyfile="include/content/html_processor.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_html_processor_1_1_config_1afd316ab7eb68c5e706bcb71e2d5ccffb" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::HtmlProcessor::Config::preserve_heading_markers</definition>
+        <argsstring></argsstring>
+        <name>preserve_heading_markers</name>
+        <qualifiedname>themis::content::HtmlProcessor::Config::preserve_heading_markers</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/html_processor.h" line="26" column="14" bodyfile="include/content/html_processor.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_html_processor_1_1_config_1ac21e72fcb0bcf7af6f70002e04c1924a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::content::HtmlProcessor::Config::max_text_length</definition>
+        <argsstring></argsstring>
+        <name>max_text_length</name>
+        <qualifiedname>themis::content::HtmlProcessor::Config::max_text_length</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/html_processor.h" line="27" column="16" bodyfile="include/content/html_processor.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/html_processor.h" line="22" column="5" bodyfile="include/content/html_processor.h" bodystart="22" bodyend="28"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_html_processor_1_1_config_1aecb0005abceb590a868d657e311ceb7e" prot="public" virt="non-virtual"><scope>themis::content::HtmlProcessor::Config</scope><name>decode_entities</name></member>
+      <member refid="structthemis_1_1content_1_1_html_processor_1_1_config_1ac21e72fcb0bcf7af6f70002e04c1924a" prot="public" virt="non-virtual"><scope>themis::content::HtmlProcessor::Config</scope><name>max_text_length</name></member>
+      <member refid="structthemis_1_1content_1_1_html_processor_1_1_config_1afd316ab7eb68c5e706bcb71e2d5ccffb" prot="public" virt="non-virtual"><scope>themis::content::HtmlProcessor::Config</scope><name>preserve_heading_markers</name></member>
+      <member refid="structthemis_1_1content_1_1_html_processor_1_1_config_1a8bc080be81c616c93d5590fec3067f76" prot="public" virt="non-virtual"><scope>themis::content::HtmlProcessor::Config</scope><name>remove_boilerplate</name></member>
+      <member refid="structthemis_1_1content_1_1_html_processor_1_1_config_1a496a7eab2a2ff9ff2896da479c80a0d2" prot="public" virt="non-virtual"><scope>themis::content::HtmlProcessor::Config</scope><name>remove_scripts_styles</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

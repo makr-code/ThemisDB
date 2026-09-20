@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::AdaptiveRateLimiter::Stats</compoundname>
+    <includes refid="adaptive__rate__limiter_8h" local="no">adaptive_rate_limiter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_1_1_stats_1acc8031701ae71aab94eabef5ddb26e07" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::AdaptiveRateLimiter::Stats::current_rate_limit</definition>
+        <argsstring></argsstring>
+        <name>current_rate_limit</name>
+        <qualifiedname>themis::ingestion::AdaptiveRateLimiter::Stats::current_rate_limit</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Current rate limit (req/sec). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/adaptive_rate_limiter.h" line="185" column="16" bodyfile="include/ingestion/adaptive_rate_limiter.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_1_1_stats_1a62a13cdb3960481b2fd2007af8801ed8" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::AdaptiveRateLimiter::Stats::observed_success_rate</definition>
+        <argsstring></argsstring>
+        <name>observed_success_rate</name>
+        <qualifiedname>themis::ingestion::AdaptiveRateLimiter::Stats::observed_success_rate</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Fraction of requests that succeeded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/adaptive_rate_limiter.h" line="186" column="16" bodyfile="include/ingestion/adaptive_rate_limiter.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_1_1_stats_1a468b647ecfd0b118ce9b01eae526b083" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::ingestion::AdaptiveRateLimiter::Stats::total_requests</definition>
+        <argsstring></argsstring>
+        <name>total_requests</name>
+        <qualifiedname>themis::ingestion::AdaptiveRateLimiter::Stats::total_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total requests tracked. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/adaptive_rate_limiter.h" line="187" column="23" bodyfile="include/ingestion/adaptive_rate_limiter.h" bodystart="187" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_1_1_stats_1ad9c10687884028a0eb25f5bd73c9cd8e" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::ingestion::AdaptiveRateLimiter::Stats::successful_requests</definition>
+        <argsstring></argsstring>
+        <name>successful_requests</name>
+        <qualifiedname>themis::ingestion::AdaptiveRateLimiter::Stats::successful_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Successful requests (not 429). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/adaptive_rate_limiter.h" line="188" column="23" bodyfile="include/ingestion/adaptive_rate_limiter.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_1_1_stats_1a8d745454b10152ff9387a915c9808b08" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::ingestion::AdaptiveRateLimiter::Stats::throttled_requests</definition>
+        <argsstring></argsstring>
+        <name>throttled_requests</name>
+        <qualifiedname>themis::ingestion::AdaptiveRateLimiter::Stats::throttled_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Requests blocked due to rate limit. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/adaptive_rate_limiter.h" line="189" column="23" bodyfile="include/ingestion/adaptive_rate_limiter.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_1_1_stats_1a8da3d0dc87126f9a595aa2c657aaf7f0" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::ingestion::AdaptiveRateLimiter::Stats::consecutive_throttles</definition>
+        <argsstring></argsstring>
+        <name>consecutive_throttles</name>
+        <qualifiedname>themis::ingestion::AdaptiveRateLimiter::Stats::consecutive_throttles</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Current streak of 429 responses. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/adaptive_rate_limiter.h" line="190" column="13" bodyfile="include/ingestion/adaptive_rate_limiter.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Statistics for a rate limiter instance. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ingestion/adaptive_rate_limiter.h" line="184" column="5" bodyfile="include/ingestion/adaptive_rate_limiter.h" bodystart="184" bodyend="191"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_1_1_stats_1a8da3d0dc87126f9a595aa2c657aaf7f0" prot="public" virt="non-virtual"><scope>themis::ingestion::AdaptiveRateLimiter::Stats</scope><name>consecutive_throttles</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_1_1_stats_1acc8031701ae71aab94eabef5ddb26e07" prot="public" virt="non-virtual"><scope>themis::ingestion::AdaptiveRateLimiter::Stats</scope><name>current_rate_limit</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_1_1_stats_1a62a13cdb3960481b2fd2007af8801ed8" prot="public" virt="non-virtual"><scope>themis::ingestion::AdaptiveRateLimiter::Stats</scope><name>observed_success_rate</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_1_1_stats_1ad9c10687884028a0eb25f5bd73c9cd8e" prot="public" virt="non-virtual"><scope>themis::ingestion::AdaptiveRateLimiter::Stats</scope><name>successful_requests</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_1_1_stats_1a8d745454b10152ff9387a915c9808b08" prot="public" virt="non-virtual"><scope>themis::ingestion::AdaptiveRateLimiter::Stats</scope><name>throttled_requests</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_1_1_stats_1a468b647ecfd0b118ce9b01eae526b083" prot="public" virt="non-virtual"><scope>themis::ingestion::AdaptiveRateLimiter::Stats</scope><name>total_requests</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

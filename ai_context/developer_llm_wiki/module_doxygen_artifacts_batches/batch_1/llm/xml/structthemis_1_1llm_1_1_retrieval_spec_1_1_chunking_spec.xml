@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_retrieval_spec_1_1_chunking_spec" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::RetrievalSpec::ChunkingSpec</compoundname>
+    <includes refid="ai__orchestrator_8h" local="no">ai_orchestrator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_retrieval_spec_1_1_chunking_spec_1a12c9878398f6adf041984478e55f8c86" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::RetrievalSpec::ChunkingSpec::size</definition>
+        <argsstring></argsstring>
+        <name>size</name>
+        <qualifiedname>themis::llm::RetrievalSpec::ChunkingSpec::size</qualifiedname>
+        <initializer>= 512</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="70" column="16" bodyfile="include/llm/ai_orchestrator.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_retrieval_spec_1_1_chunking_spec_1ac5e074173aeb65a8d08d719df2953b9a" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::RetrievalSpec::ChunkingSpec::overlap</definition>
+        <argsstring></argsstring>
+        <name>overlap</name>
+        <qualifiedname>themis::llm::RetrievalSpec::ChunkingSpec::overlap</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="71" column="16" bodyfile="include/llm/ai_orchestrator.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_retrieval_spec_1_1_chunking_spec_1aba8e649da91edea68a346292396a891d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::RetrievalSpec::ChunkingSpec::strategy</definition>
+        <argsstring></argsstring>
+        <name>strategy</name>
+        <qualifiedname>themis::llm::RetrievalSpec::ChunkingSpec::strategy</qualifiedname>
+        <initializer>= &quot;fixed&quot;</initializer>
+        <briefdescription>
+<para>&quot;fixed&quot;, &quot;sentence&quot;, &quot;paragraph&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="72" column="21" bodyfile="include/llm/ai_orchestrator.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/ai_orchestrator.h" line="69" column="5" bodyfile="include/llm/ai_orchestrator.h" bodystart="69" bodyend="73"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_retrieval_spec_1_1_chunking_spec_1ac5e074173aeb65a8d08d719df2953b9a" prot="public" virt="non-virtual"><scope>themis::llm::RetrievalSpec::ChunkingSpec</scope><name>overlap</name></member>
+      <member refid="structthemis_1_1llm_1_1_retrieval_spec_1_1_chunking_spec_1a12c9878398f6adf041984478e55f8c86" prot="public" virt="non-virtual"><scope>themis::llm::RetrievalSpec::ChunkingSpec</scope><name>size</name></member>
+      <member refid="structthemis_1_1llm_1_1_retrieval_spec_1_1_chunking_spec_1aba8e649da91edea68a346292396a891d" prot="public" virt="non-virtual"><scope>themis::llm::RetrievalSpec::ChunkingSpec</scope><name>strategy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

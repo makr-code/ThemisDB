@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1updates_1_1_diagnostic_emitter_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::updates::DiagnosticEmitterTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_diagnostic_emitter_test_1afe99761306e082fa99fe62d5b8cd44d4" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1updates_1_1_diagnostic_emitter" kindref="compound">DiagnosticEmitter</ref></type>
+        <definition>DiagnosticEmitter themis::updates::DiagnosticEmitterTest::emitter_</definition>
+        <argsstring></argsstring>
+        <name>emitter_</name>
+        <qualifiedname>themis::updates::DiagnosticEmitterTest::emitter_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_diagnostics_focused.cpp" line="56" column="23" bodyfile="tests/updates/test_updates_diagnostics_focused.cpp" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_diagnostic_emitter_test_1a5cd939e828c6bd5d18d4ee45e6a6a7c9" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; RecordingListener &gt;</type>
+        <definition>std::shared_ptr&lt;RecordingListener&gt; themis::updates::DiagnosticEmitterTest::listener_</definition>
+        <argsstring></argsstring>
+        <name>listener_</name>
+        <qualifiedname>themis::updates::DiagnosticEmitterTest::listener_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_diagnostics_focused.cpp" line="57" column="21" bodyfile="tests/updates/test_updates_diagnostics_focused.cpp" bodystart="57" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_diagnostic_emitter_test_1ac7874afbe9ac8223fc4f7c41c75db0bc" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::DiagnosticEmitterTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::updates::DiagnosticEmitterTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_diagnostics_focused.cpp" line="51" column="10" bodyfile="tests/updates/test_updates_diagnostics_focused.cpp" bodystart="51" bodyend="54"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::updates::DiagnosticEmitterTest</label>
+        <link refid="classthemis_1_1updates_1_1_diagnostic_emitter_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::updates::DiagnosticEmitter</label>
+        <link refid="classthemis_1_1updates_1_1_diagnostic_emitter"/>
+      </node>
+      <node id="1">
+        <label>themis::updates::DiagnosticEmitterTest</label>
+        <link refid="classthemis_1_1updates_1_1_diagnostic_emitter_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>emitter_</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/updates/test_updates_diagnostics_focused.cpp" line="49" column="1" bodyfile="tests/updates/test_updates_diagnostics_focused.cpp" bodystart="49" bodyend="58"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1updates_1_1_diagnostic_emitter_test_1afe99761306e082fa99fe62d5b8cd44d4" prot="protected" virt="non-virtual"><scope>themis::updates::DiagnosticEmitterTest</scope><name>emitter_</name></member>
+      <member refid="classthemis_1_1updates_1_1_diagnostic_emitter_test_1a5cd939e828c6bd5d18d4ee45e6a6a7c9" prot="protected" virt="non-virtual"><scope>themis::updates::DiagnosticEmitterTest</scope><name>listener_</name></member>
+      <member refid="classthemis_1_1updates_1_1_diagnostic_emitter_test_1ac7874afbe9ac8223fc4f7c41c75db0bc" prot="protected" virt="non-virtual"><scope>themis::updates::DiagnosticEmitterTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

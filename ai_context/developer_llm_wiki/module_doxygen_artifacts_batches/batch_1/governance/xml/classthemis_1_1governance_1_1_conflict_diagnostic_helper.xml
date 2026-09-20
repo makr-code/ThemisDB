@@ -1,0 +1,504 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1governance_1_1_conflict_diagnostic_helper" kind="class" language="C++" prot="public">
+    <compoundname>themis::governance::ConflictDiagnosticHelper</compoundname>
+    <includes refid="governance__diagnostics_8h" local="no">governance_diagnostics.h</includes>
+    <innerclass refid="structthemis_1_1governance_1_1_conflict_diagnostic_helper_1_1_conflict_detection_result" prot="public">themis::governance::ConflictDiagnosticHelper::ConflictDetectionResult</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1governance_1_1_conflict_diagnostic_helper_1a14e2d3d737ea25665ae2e144a8151b05" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ResolutionStrategy</name>
+        <qualifiedname>themis::governance::ConflictDiagnosticHelper::ResolutionStrategy</qualifiedname>
+        <enumvalue id="classthemis_1_1governance_1_1_conflict_diagnostic_helper_1a14e2d3d737ea25665ae2e144a8151b05ad128835ad6b2a8249e89f317e5f40fbb" prot="public">
+          <name>EXPLICIT_DENY</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1governance_1_1_conflict_diagnostic_helper_1a14e2d3d737ea25665ae2e144a8151b05a1c3ef6fdecb799b5c7ed01851c493265" prot="public">
+          <name>EXPLICIT_ALLOW</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1governance_1_1_conflict_diagnostic_helper_1a14e2d3d737ea25665ae2e144a8151b05a32e994468020663a98ddc43d788ebb67" prot="public">
+          <name>FIRST_MATCH</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1governance_1_1_conflict_diagnostic_helper_1a14e2d3d737ea25665ae2e144a8151b05adbb5fe1bcd1218a0f1cdfb60d93935f2" prot="public">
+          <name>MOST_RESTRICTIVE</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1governance_1_1_conflict_diagnostic_helper_1a14e2d3d737ea25665ae2e144a8151b05adae9872c1b9c27810241dd18aedfc173" prot="public">
+          <name>WHITELIST</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_diagnostics.h" line="134" column="5" bodyfile="include/governance/governance_diagnostics.h" bodystart="134" bodyend="140"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_conflict_diagnostic_helper_1a64ea9844f3a0c645633403b3e262b6de" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1governance_1_1_conflict_diagnostic_helper_1a14e2d3d737ea25665ae2e144a8151b05" kindref="member">ResolutionStrategy</ref></type>
+        <definition>ResolutionStrategy themis::governance::ConflictDiagnosticHelper::strategy_</definition>
+        <argsstring></argsstring>
+        <name>strategy_</name>
+        <qualifiedname>themis::governance::ConflictDiagnosticHelper::strategy_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_diagnostics.h" line="226" column="24" bodyfile="include/governance/governance_diagnostics.h" bodystart="226" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_conflict_diagnostic_helper_1aa3e3826e85216bec50016a80386f49e5" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1governance_1_1_diagnostic_aggregator" kindref="compound">DiagnosticAggregator</ref> *</type>
+        <definition>DiagnosticAggregator* themis::governance::ConflictDiagnosticHelper::aggregator_</definition>
+        <argsstring></argsstring>
+        <name>aggregator_</name>
+        <qualifiedname>themis::governance::ConflictDiagnosticHelper::aggregator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_diagnostics.h" line="227" column="26" bodyfile="include/governance/governance_diagnostics.h" bodystart="227" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_conflict_diagnostic_helper_1a485bbc5c0a18e19a4907e26808416f8a" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::ConflictDiagnosticHelper::owns_aggregator_</definition>
+        <argsstring></argsstring>
+        <name>owns_aggregator_</name>
+        <qualifiedname>themis::governance::ConflictDiagnosticHelper::owns_aggregator_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_diagnostics.h" line="228" column="10" bodyfile="include/governance/governance_diagnostics.h" bodystart="228" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_conflict_diagnostic_helper_1a064ea4c9963853b5f6e122aa932a484d" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::governance::ConflictDiagnosticHelper::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::governance::ConflictDiagnosticHelper::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_diagnostics.h" line="229" column="24" bodyfile="include/governance/governance_diagnostics.h" bodystart="229" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_conflict_diagnostic_helper_1ab69369b04cf24d216a4f9939738ce441" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_conflict_diagnostic_helper_1_1_conflict_detection_result" kindref="compound">ConflictDetectionResult</ref> &gt;</type>
+        <definition>std::vector&lt;ConflictDetectionResult&gt; themis::governance::ConflictDiagnosticHelper::conflict_history_</definition>
+        <argsstring></argsstring>
+        <name>conflict_history_</name>
+        <qualifiedname>themis::governance::ConflictDiagnosticHelper::conflict_history_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_diagnostics.h" line="230" column="17" bodyfile="include/governance/governance_diagnostics.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_conflict_diagnostic_helper_1a1c93d4b33cca8f7d1dd938e969db47a8" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::ConflictDiagnosticHelper::ConflictDiagnosticHelper</definition>
+        <argsstring>(ResolutionStrategy strategy=ResolutionStrategy::EXPLICIT_DENY, DiagnosticAggregator *aggregator=nullptr)</argsstring>
+        <name>ConflictDiagnosticHelper</name>
+        <qualifiedname>themis::governance::ConflictDiagnosticHelper::ConflictDiagnosticHelper</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1_conflict_diagnostic_helper_1a14e2d3d737ea25665ae2e144a8151b05" kindref="member">ResolutionStrategy</ref></type>
+          <declname>strategy</declname>
+          <defval><ref refid="classthemis_1_1governance_1_1_conflict_diagnostic_helper_1a14e2d3d737ea25665ae2e144a8151b05ad128835ad6b2a8249e89f317e5f40fbb" kindref="member">ResolutionStrategy::EXPLICIT_DENY</ref></defval>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1_diagnostic_aggregator" kindref="compound">DiagnosticAggregator</ref> *</type>
+          <declname>aggregator</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_diagnostics.h" line="154" column="14" bodyfile="src/governance/governance_diagnostics.cpp" bodystart="182" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_conflict_diagnostic_helper_1a88d0a034a6e1b5cda9ff3b0502e1ee93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_conflict_diagnostic_helper_1_1_conflict_detection_result" kindref="compound">ConflictDetectionResult</ref></type>
+        <definition>ConflictDiagnosticHelper::ConflictDetectionResult themis::governance::ConflictDiagnosticHelper::detectConflict</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;policy_ids)</argsstring>
+        <name>detectConflict</name>
+        <qualifiedname>themis::governance::ConflictDiagnosticHelper::detectConflict</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>policy_ids</declname>
+        </param>
+        <briefdescription>
+<para>Detect Conflict. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/governance_diagnostics.h" line="164" column="29" bodyfile="src/governance/governance_diagnostics.cpp" bodystart="193" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_conflict_diagnostic_helper_1a306ce376999457c239ff6492ba8143c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::ConflictDiagnosticHelper::recordConflict</definition>
+        <argsstring>(const ConflictDetectionResult &amp;result, const std::unordered_map&lt; std::string, std::string &gt; &amp;additional_context={})</argsstring>
+        <name>recordConflict</name>
+        <qualifiedname>themis::governance::ConflictDiagnosticHelper::recordConflict</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_conflict_diagnostic_helper_1_1_conflict_detection_result" kindref="compound">ConflictDetectionResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>additional_context</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/governance_diagnostics.h" line="168" column="10" bodyfile="src/governance/governance_diagnostics.cpp" bodystart="227" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_conflict_diagnostic_helper_1a9b1ca8da6ce8ef7ef86ded0c1aab7c7d" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_governance_diagnostic" kindref="compound">GovernanceDiagnostic</ref> &gt;</type>
+        <definition>std::vector&lt; GovernanceDiagnostic &gt; themis::governance::ConflictDiagnosticHelper::getConflictDiagnostics</definition>
+        <argsstring>() const</argsstring>
+        <name>getConflictDiagnostics</name>
+        <qualifiedname>themis::governance::ConflictDiagnosticHelper::getConflictDiagnostics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/governance_diagnostics.h" line="173" column="18" bodyfile="src/governance/governance_diagnostics.cpp" bodystart="273" bodyend="285"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_conflict_diagnostic_helper_1a68c4a31878d0a728680190b017b8c45f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::ConflictDiagnosticHelper::clearConflictHistory</definition>
+        <argsstring>()</argsstring>
+        <name>clearConflictHistory</name>
+        <qualifiedname>themis::governance::ConflictDiagnosticHelper::clearConflictHistory</qualifiedname>
+        <briefdescription>
+<para>Clear Conflict History. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_diagnostics.h" line="178" column="10" bodyfile="src/governance/governance_diagnostics.cpp" bodystart="291" bodyend="294"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_conflict_diagnostic_helper_1ab10ef6482b1e5579999b09b8250e26e4" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1governance_1_1_conflict_diagnostic_helper_1a14e2d3d737ea25665ae2e144a8151b05" kindref="member">ResolutionStrategy</ref></type>
+        <definition>ConflictDiagnosticHelper::ResolutionStrategy themis::governance::ConflictDiagnosticHelper::getCurrentStrategy</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentStrategy</name>
+        <qualifiedname>themis::governance::ConflictDiagnosticHelper::getCurrentStrategy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_diagnostics.h" line="180" column="25" bodyfile="src/governance/governance_diagnostics.cpp" bodystart="297" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_conflict_diagnostic_helper_1a2992027b06103649f6bf02e5e13e247e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::ConflictDiagnosticHelper::setResolutionStrategy</definition>
+        <argsstring>(ResolutionStrategy strategy)</argsstring>
+        <name>setResolutionStrategy</name>
+        <qualifiedname>themis::governance::ConflictDiagnosticHelper::setResolutionStrategy</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1_conflict_diagnostic_helper_1a14e2d3d737ea25665ae2e144a8151b05" kindref="member">ResolutionStrategy</ref></type>
+          <declname>strategy</declname>
+        </param>
+        <briefdescription>
+<para>Set Resolution Strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">strategy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">strategy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setResolutionStrategy without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_diagnostics.h" line="186" column="10" bodyfile="src/governance/governance_diagnostics.cpp" bodystart="306" bodyend="308"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_conflict_diagnostic_helper_1a4e2e4716cab4b425a59f684ef7f4fcfe" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::ConflictDiagnosticHelper::hasConflictingClassifications</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;classifications) const</argsstring>
+        <name>hasConflictingClassifications</name>
+        <qualifiedname>themis::governance::ConflictDiagnosticHelper::hasConflictingClassifications</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>classifications</declname>
+        </param>
+        <briefdescription>
+<para>Has Conflicting Classifications. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">classifications</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_diagnostics.h" line="194" column="10" bodyfile="src/governance/governance_diagnostics.cpp" bodystart="312" bodyend="340"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_conflict_diagnostic_helper_1a6be52ceaa013ecadb2558487218a3113" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::ConflictDiagnosticHelper::validateCCPACompliancePath</definition>
+        <argsstring>(const std::unordered_map&lt; std::string, std::string &gt; &amp;context) const</argsstring>
+        <name>validateCCPACompliancePath</name>
+        <qualifiedname>themis::governance::ConflictDiagnosticHelper::validateCCPACompliancePath</qualifiedname>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_diagnostics.h" line="198" column="10" bodyfile="src/governance/governance_diagnostics.cpp" bodystart="342" bodyend="354"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_conflict_diagnostic_helper_1a58db513c588a75ece6291efb823ea7b1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::ConflictDiagnosticHelper::detectPrivilegeEscalation</definition>
+        <argsstring>(const std::string &amp;user_tier, const std::string &amp;required_tier) const</argsstring>
+        <name>detectPrivilegeEscalation</name>
+        <qualifiedname>themis::governance::ConflictDiagnosticHelper::detectPrivilegeEscalation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_tier</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>required_tier</declname>
+        </param>
+        <briefdescription>
+<para>Detect Privilege Escalation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_tier</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">required_tier</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_diagnostics.h" line="208" column="10" bodyfile="src/governance/governance_diagnostics.cpp" bodystart="356" bodyend="382"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_conflict_diagnostic_helper_1a2968b3bc3e64f1b7146ebc47fa3762d8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; struct <ref refid="structthemis_1_1governance_1_1_temporal_issue" kindref="compound">TemporalIssue</ref> &gt;</type>
+        <definition>std::vector&lt; TemporalIssue &gt; themis::governance::ConflictDiagnosticHelper::detectTemporalViolations</definition>
+        <argsstring>(const std::unordered_map&lt; std::string, std::string &gt; &amp;policy) const</argsstring>
+        <name>detectTemporalViolations</name>
+        <qualifiedname>themis::governance::ConflictDiagnosticHelper::detectTemporalViolations</qualifiedname>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_diagnostics.h" line="213" column="17" bodyfile="src/governance/governance_diagnostics.cpp" bodystart="384" bodyend="427"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_conflict_diagnostic_helper_1a9fdf899575b7bca4dc415ace1c3d0433" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; struct <ref refid="structthemis_1_1governance_1_1_masking_rule_violation" kindref="compound">MaskingRuleViolation</ref> &gt;</type>
+        <definition>std::vector&lt; MaskingRuleViolation &gt; themis::governance::ConflictDiagnosticHelper::validateMaskingRuleConsistency</definition>
+        <argsstring>(const std::vector&lt; std::unordered_map&lt; std::string, std::string &gt; &gt; &amp;mask_rules) const</argsstring>
+        <name>validateMaskingRuleConsistency</name>
+        <qualifiedname>themis::governance::ConflictDiagnosticHelper::validateMaskingRuleConsistency</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::unordered_map&lt; std::string, std::string &gt; &gt; &amp;</type>
+          <declname>mask_rules</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_diagnostics.h" line="217" column="17" bodyfile="src/governance/governance_diagnostics.cpp" bodystart="429" bodyend="472"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_conflict_diagnostic_helper_1a4a14df10b956298b07f64c4a716cc32d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::ConflictDiagnosticHelper::validateWhitelistPolicy</definition>
+        <argsstring>(const std::unordered_map&lt; std::string, std::string &gt; &amp;whitelist_policy) const</argsstring>
+        <name>validateWhitelistPolicy</name>
+        <qualifiedname>themis::governance::ConflictDiagnosticHelper::validateWhitelistPolicy</qualifiedname>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>whitelist_policy</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_diagnostics.h" line="221" column="10" bodyfile="src/governance/governance_diagnostics.cpp" bodystart="474" bodyend="488"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/governance_diagnostics.h" line="132" column="1" bodyfile="include/governance/governance_diagnostics.h" bodystart="132" bodyend="231"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1governance_1_1_conflict_diagnostic_helper_1aa3e3826e85216bec50016a80386f49e5" prot="private" virt="non-virtual"><scope>themis::governance::ConflictDiagnosticHelper</scope><name>aggregator_</name></member>
+      <member refid="classthemis_1_1governance_1_1_conflict_diagnostic_helper_1a68c4a31878d0a728680190b017b8c45f" prot="public" virt="non-virtual"><scope>themis::governance::ConflictDiagnosticHelper</scope><name>clearConflictHistory</name></member>
+      <member refid="classthemis_1_1governance_1_1_conflict_diagnostic_helper_1ab69369b04cf24d216a4f9939738ce441" prot="private" virt="non-virtual"><scope>themis::governance::ConflictDiagnosticHelper</scope><name>conflict_history_</name></member>
+      <member refid="classthemis_1_1governance_1_1_conflict_diagnostic_helper_1a1c93d4b33cca8f7d1dd938e969db47a8" prot="public" virt="non-virtual"><scope>themis::governance::ConflictDiagnosticHelper</scope><name>ConflictDiagnosticHelper</name></member>
+      <member refid="classthemis_1_1governance_1_1_conflict_diagnostic_helper_1a88d0a034a6e1b5cda9ff3b0502e1ee93" prot="public" virt="non-virtual"><scope>themis::governance::ConflictDiagnosticHelper</scope><name>detectConflict</name></member>
+      <member refid="classthemis_1_1governance_1_1_conflict_diagnostic_helper_1a58db513c588a75ece6291efb823ea7b1" prot="public" virt="non-virtual"><scope>themis::governance::ConflictDiagnosticHelper</scope><name>detectPrivilegeEscalation</name></member>
+      <member refid="classthemis_1_1governance_1_1_conflict_diagnostic_helper_1a2968b3bc3e64f1b7146ebc47fa3762d8" prot="public" virt="non-virtual"><scope>themis::governance::ConflictDiagnosticHelper</scope><name>detectTemporalViolations</name></member>
+      <member refid="classthemis_1_1governance_1_1_conflict_diagnostic_helper_1a9b1ca8da6ce8ef7ef86ded0c1aab7c7d" prot="public" virt="non-virtual"><scope>themis::governance::ConflictDiagnosticHelper</scope><name>getConflictDiagnostics</name></member>
+      <member refid="classthemis_1_1governance_1_1_conflict_diagnostic_helper_1ab10ef6482b1e5579999b09b8250e26e4" prot="public" virt="non-virtual"><scope>themis::governance::ConflictDiagnosticHelper</scope><name>getCurrentStrategy</name></member>
+      <member refid="classthemis_1_1governance_1_1_conflict_diagnostic_helper_1a4e2e4716cab4b425a59f684ef7f4fcfe" prot="public" virt="non-virtual"><scope>themis::governance::ConflictDiagnosticHelper</scope><name>hasConflictingClassifications</name></member>
+      <member refid="classthemis_1_1governance_1_1_conflict_diagnostic_helper_1a064ea4c9963853b5f6e122aa932a484d" prot="private" virt="non-virtual"><scope>themis::governance::ConflictDiagnosticHelper</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1governance_1_1_conflict_diagnostic_helper_1a485bbc5c0a18e19a4907e26808416f8a" prot="private" virt="non-virtual"><scope>themis::governance::ConflictDiagnosticHelper</scope><name>owns_aggregator_</name></member>
+      <member refid="classthemis_1_1governance_1_1_conflict_diagnostic_helper_1a306ce376999457c239ff6492ba8143c6" prot="public" virt="non-virtual"><scope>themis::governance::ConflictDiagnosticHelper</scope><name>recordConflict</name></member>
+      <member refid="classthemis_1_1governance_1_1_conflict_diagnostic_helper_1a14e2d3d737ea25665ae2e144a8151b05" prot="public" virt="non-virtual"><scope>themis::governance::ConflictDiagnosticHelper</scope><name>ResolutionStrategy</name></member>
+      <member refid="classthemis_1_1governance_1_1_conflict_diagnostic_helper_1a2992027b06103649f6bf02e5e13e247e" prot="public" virt="non-virtual"><scope>themis::governance::ConflictDiagnosticHelper</scope><name>setResolutionStrategy</name></member>
+      <member refid="classthemis_1_1governance_1_1_conflict_diagnostic_helper_1a64ea9844f3a0c645633403b3e262b6de" prot="private" virt="non-virtual"><scope>themis::governance::ConflictDiagnosticHelper</scope><name>strategy_</name></member>
+      <member refid="classthemis_1_1governance_1_1_conflict_diagnostic_helper_1a6be52ceaa013ecadb2558487218a3113" prot="public" virt="non-virtual"><scope>themis::governance::ConflictDiagnosticHelper</scope><name>validateCCPACompliancePath</name></member>
+      <member refid="classthemis_1_1governance_1_1_conflict_diagnostic_helper_1a9fdf899575b7bca4dc415ace1c3d0433" prot="public" virt="non-virtual"><scope>themis::governance::ConflictDiagnosticHelper</scope><name>validateMaskingRuleConsistency</name></member>
+      <member refid="classthemis_1_1governance_1_1_conflict_diagnostic_helper_1a4a14df10b956298b07f64c4a716cc32d" prot="public" virt="non-virtual"><scope>themis::governance::ConflictDiagnosticHelper</scope><name>validateWhitelistPolicy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

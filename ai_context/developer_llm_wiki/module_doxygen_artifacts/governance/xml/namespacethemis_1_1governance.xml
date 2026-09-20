@@ -1,0 +1,2629 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1governance" kind="namespace" language="C++">
+    <compoundname>themis::governance</compoundname>
+    <innerclass refid="classthemis_1_1governance_1_1_access_control_least_privilege" prot="public">themis::governance::AccessControlLeastPrivilege</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_access_request" prot="public">themis::governance::AccessRequest</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_approval_record" prot="public">themis::governance::ApprovalRecord</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_approval_status" prot="public">themis::governance::ApprovalStatus</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_atomic_update_result" prot="public">themis::governance::AtomicUpdateResult</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_audit_batch_checkpoint" prot="public">themis::governance::AuditBatchCheckpoint</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_audit_batch_writer" prot="public">themis::governance::AuditBatchWriter</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_audit_integrity_manager" prot="public">themis::governance::AuditIntegrityManager</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_audit_integrity_test" prot="public">themis::governance::AuditIntegrityTest</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_audit_log_entry" prot="public">themis::governance::AuditLogEntry</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_audit_retention_manager" prot="public">themis::governance::AuditRetentionManager</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_audit_retention_policy" prot="public">themis::governance::AuditRetentionPolicy</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_audit_signer" prot="public">themis::governance::AuditSigner</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_audit_tamper_detector" prot="public">themis::governance::AuditTamperDetector</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_bias_audit_report" prot="public">themis::governance::BiasAuditReport</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_bias_field_stats" prot="public">themis::governance::BiasFieldStats</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_cardholder_data_audit_trail" prot="public">themis::governance::CardholderDataAuditTrail</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_cardholder_data_encryption" prot="public">themis::governance::CardholderDataEncryption</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_cardholder_data_isolation" prot="public">themis::governance::CardholderDataIsolation</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_ccpa_query_context" prot="public">themis::governance::CcpaQueryContext</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_ccpa_rule_eval_result" prot="public">themis::governance::CcpaRuleEvalResult</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_ccpa_rule_set" prot="public">themis::governance::CcpaRuleSet</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_ccpa_validator" prot="public">themis::governance::CcpaValidator</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_classification_profile" prot="public">themis::governance::ClassificationProfile</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_compliance_check_result" prot="public">themis::governance::ComplianceCheckResult</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_compliance_context" prot="public">themis::governance::ComplianceContext</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_compliance_control" prot="public">themis::governance::ComplianceControl</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_compliance_control_builder" prot="public">themis::governance::ComplianceControlBuilder</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_compliance_evidence" prot="public">themis::governance::ComplianceEvidence</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_compliance_evidence_collector" prot="public">themis::governance::ComplianceEvidenceCollector</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_compliance_framework_loader" prot="public">themis::governance::ComplianceFrameworkLoader</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_compliance_framework_registry" prot="public">themis::governance::ComplianceFrameworkRegistry</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_compliance_gap" prot="public">themis::governance::ComplianceGap</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_compliance_gap_detector" prot="public">themis::governance::ComplianceGapDetector</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_compliance_report" prot="public">themis::governance::ComplianceReport</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_compliance_reporter" prot="public">themis::governance::ComplianceReporter</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_compliance_reporter_result" prot="public">themis::governance::ComplianceReporterResult</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_compliance_requirement" prot="public">themis::governance::ComplianceRequirement</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_compliance_requirement_builder" prot="public">themis::governance::ComplianceRequirementBuilder</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_compliance_status_report" prot="public">themis::governance::ComplianceStatusReport</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_compliance_template" prot="public">themis::governance::ComplianceTemplate</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_compliance_validation_engine" prot="public">themis::governance::ComplianceValidationEngine</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_compliance_validation_result" prot="public">themis::governance::ComplianceValidationResult</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_compliance_violation" prot="public">themis::governance::ComplianceViolation</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_conflict_diagnostic_helper" prot="public">themis::governance::ConflictDiagnosticHelper</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_conflict_info" prot="public">themis::governance::ConflictInfo</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_correlation_group" prot="public">themis::governance::CorrelationGroup</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_coverage_analysis" prot="public">themis::governance::CoverageAnalysis</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_cross_border_transfer_policy" prot="public">themis::governance::CrossBorderTransferPolicy</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_cross_framework_mapping" prot="public">themis::governance::CrossFrameworkMapping</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_cross_tenant_policy_inheritance" prot="public">themis::governance::CrossTenantPolicyInheritance</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_data_lifecycle_template" prot="public">themis::governance::DataLifecycleTemplate</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_data_lineage_tracker" prot="public">themis::governance::DataLineageTracker</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_data_masker" prot="public">themis::governance::DataMasker</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_data_portability" prot="public">themis::governance::DataPortability</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_data_subject_request" prot="public">themis::governance::DataSubjectRequest</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_diagnostic_aggregator" prot="public">themis::governance::DiagnosticAggregator</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_erasure_report" prot="public">themis::governance::ErasureReport</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_eu_ai_act_validator" prot="public">themis::governance::EuAiActValidator</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_event_correlation_engine" prot="public">themis::governance::EventCorrelationEngine</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_field_masking_policy" prot="public">themis::governance::FieldMaskingPolicy</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_field_masking_rule" prot="public">themis::governance::FieldMaskingRule</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_gdpr_subject_rights_manager" prot="public">themis::governance::GdprSubjectRightsManager</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_gdpr_validator" prot="public">themis::governance::GdprValidator</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_governance_diagnostic" prot="public">themis::governance::GovernanceDiagnostic</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_hipaa_access_control" prot="public">themis::governance::HipaaAccessControl</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_hipaa_audit_controls" prot="public">themis::governance::HipaaAuditControls</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_hipaa_encryption" prot="public">themis::governance::HipaaEncryption</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_hipaa_integrity_controls" prot="public">themis::governance::HipaaIntegrityControls</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_hipaa_retention" prot="public">themis::governance::HipaaRetention</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_hipaa_rule_eval_result" prot="public">themis::governance::HipaaRuleEvalResult</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_hipaa_rule_set" prot="public">themis::governance::HipaaRuleSet</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_hipaa_transmission_security" prot="public">themis::governance::HipaaTransmissionSecurity</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_hipaa_validator" prot="public">themis::governance::HipaaValidator</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_i_compliance_report" prot="public">themis::governance::IComplianceReport</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_i_compliance_rule" prot="public">themis::governance::IComplianceRule</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_i_compliance_validator" prot="public">themis::governance::IComplianceValidator</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_idempotency_token" prot="public">themis::governance::IdempotencyToken</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_i_gdpr_erase_target" prot="public">themis::governance::IGdprEraseTarget</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_i_iso27001_control" prot="public">themis::governance::IIso27001Control</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_immutable_audit_entry" prot="public">themis::governance::ImmutableAuditEntry</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_inference_permission_result" prot="public">themis::governance::InferencePermissionResult</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_iso27001_a1011_control" prot="public">themis::governance::Iso27001A1011Control</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_iso27001_a1241_control" prot="public">themis::governance::Iso27001A1241Control</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_iso27001_a1242_control" prot="public">themis::governance::Iso27001A1242Control</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_iso27001_a1323_control" prot="public">themis::governance::Iso27001A1323Control</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_iso27001_a1813_control" prot="public">themis::governance::Iso27001A1813Control</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_iso27001_a912_control" prot="public">themis::governance::Iso27001A912Control</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_iso27001_audit_report" prot="public">themis::governance::Iso27001AuditReport</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_iso27001_control_result" prot="public">themis::governance::Iso27001ControlResult</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_iso27001_control_set" prot="public">themis::governance::Iso27001ControlSet</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_iso27001_evidence_item" prot="public">themis::governance::Iso27001EvidenceItem</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_iso27001_validator" prot="public">themis::governance::Iso27001Validator</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_i_soc2_control" prot="public">themis::governance::ISoc2Control</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_least_privilege_template" prot="public">themis::governance::LeastPrivilegeTemplate</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_legal_hold" prot="public">themis::governance::LegalHold</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_lineage_event" prot="public">themis::governance::LineageEvent</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_lineage_record" prot="public">themis::governance::LineageRecord</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_lineage_record_result" prot="public">themis::governance::LineageRecordResult</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_lineage_statistics" prot="public">themis::governance::LineageStatistics</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_masking_rule_violation" prot="public">themis::governance::MaskingRuleViolation</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_model_governance_decision" prot="public">themis::governance::ModelGovernanceDecision</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_model_governance_policy" prot="public">themis::governance::ModelGovernancePolicy</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_model_training_export_request" prot="public">themis::governance::ModelTrainingExportRequest</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_notification_manager" prot="public">themis::governance::NotificationManager</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_opa_adapter" prot="public">themis::governance::OpaAdapter</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_opa_error" prot="public">themis::governance::OpaError</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_operational_audit_logger" prot="public">themis::governance::OperationalAuditLogger</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_operational_event" prot="public">themis::governance::OperationalEvent</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_opt_out_of_sale" prot="public">themis::governance::OptOutOfSale</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_pci_dss_rule_eval_result" prot="public">themis::governance::PciDssRuleEvalResult</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_pci_dss_rule_set" prot="public">themis::governance::PciDssRuleSet</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_pci_dss_validator" prot="public">themis::governance::PciDssValidator</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_policy_approval_workflow" prot="public">themis::governance::PolicyApprovalWorkflow</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_policy_change_manager" prot="public">themis::governance::PolicyChangeManager</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_policy_conflict" prot="public">themis::governance::PolicyConflict</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_policy_conflict_detector" prot="public">themis::governance::PolicyConflictDetector</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_policy_coordinator" prot="public">themis::governance::PolicyCoordinator</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_policy_coverage_analyzer" prot="public">themis::governance::PolicyCoverageAnalyzer</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_policy_decision" prot="public">themis::governance::PolicyDecision</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_policy_dependency" prot="public">themis::governance::PolicyDependency</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_policy_engine" prot="public">themis::governance::PolicyEngine</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_policy_expiration" prot="public">themis::governance::PolicyExpiration</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_policy_file_watcher" prot="public">themis::governance::PolicyFileWatcher</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_policy_lifecycle" prot="public">themis::governance::PolicyLifecycle</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_policy_manager" prot="public">themis::governance::PolicyManager</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_policy_manager_with_versioning" prot="public">themis::governance::PolicyManagerWithVersioning</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_policy_metrics_collector" prot="public">themis::governance::PolicyMetricsCollector</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_policy_optimizer" prot="public">themis::governance::PolicyOptimizer</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_policy_review" prot="public">themis::governance::PolicyReview</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_policy_rule" prot="public">themis::governance::PolicyRule</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_policy_rule_version" prot="public">themis::governance::PolicyRuleVersion</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_policy_set" prot="public">themis::governance::PolicySet</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_policy_template" prot="public">themis::governance::PolicyTemplate</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_policy_template_manager" prot="public">themis::governance::PolicyTemplateManager</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_policy_validator" prot="public">themis::governance::PolicyValidator</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_policy_version_history" prot="public">themis::governance::PolicyVersionHistory</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_portability_package" prot="public">themis::governance::PortabilityPackage</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_precedence_evaluation" prot="public">themis::governance::PrecedenceEvaluation</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_query_permission_result" prot="public">themis::governance::QueryPermissionResult</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_review_request" prot="public">themis::governance::ReviewRequest</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_review_schedule" prot="public">themis::governance::ReviewSchedule</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_review_scheduler" prot="public">themis::governance::ReviewScheduler</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_review_workflow" prot="public">themis::governance::ReviewWorkflow</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_right_to_delete" prot="public">themis::governance::RightToDelete</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_right_to_know" prot="public">themis::governance::RightToKnow</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_rollback_operation" prot="public">themis::governance::RollbackOperation</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_rollback_safety_report" prot="public">themis::governance::RollbackSafetyReport</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_rule_effectiveness" prot="public">themis::governance::RuleEffectiveness</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_rule_evaluation_entry" prot="public">themis::governance::RuleEvaluationEntry</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_safe_access_result" prot="public">themis::governance::SafeAccessResult</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_safe_access_validator" prot="public">themis::governance::SafeAccessValidator</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_safety_violation" prot="public">themis::governance::SafetyViolation</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_security_violation" prot="public">themis::governance::SecurityViolation</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_separation_of_duties_template" prot="public">themis::governance::SeparationOfDutiesTemplate</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_signature_info" prot="public">themis::governance::SignatureInfo</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_simulation_request" prot="public">themis::governance::SimulationRequest</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_simulation_result" prot="public">themis::governance::SimulationResult</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_soc2_a1_control" prot="public">themis::governance::Soc2A1Control</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_soc2_audit_report" prot="public">themis::governance::Soc2AuditReport</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_soc2_c1_control" prot="public">themis::governance::Soc2C1Control</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_soc2_cc6_control" prot="public">themis::governance::Soc2Cc6Control</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_soc2_cc7_control" prot="public">themis::governance::Soc2Cc7Control</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_soc2_cc8_control" prot="public">themis::governance::Soc2Cc8Control</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_soc2_compliance_template" prot="public">themis::governance::Soc2ComplianceTemplate</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_soc2_control_result" prot="public">themis::governance::Soc2ControlResult</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_soc2_control_set" prot="public">themis::governance::Soc2ControlSet</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_soc2_evidence_item" prot="public">themis::governance::Soc2EvidenceItem</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_soc2_pi1_control" prot="public">themis::governance::Soc2Pi1Control</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_soc2_validator" prot="public">themis::governance::Soc2Validator</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_store_erasure_result" prot="public">themis::governance::StoreErasureResult</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_tamper_incident" prot="public">themis::governance::TamperIncident</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_template_parameter" prot="public">themis::governance::TemplateParameter</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_temporal_issue" prot="public">themis::governance::TemporalIssue</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_time_based_access_template" prot="public">themis::governance::TimeBasedAccessTemplate</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_time_window_report" prot="public">themis::governance::TimeWindowReport</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_transfer_decision" prot="public">themis::governance::TransferDecision</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_transmission_encryption" prot="public">themis::governance::TransmissionEncryption</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_unified_policy_decision" prot="public">themis::governance::UnifiedPolicyDecision</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_validation_report" prot="public">themis::governance::ValidationReport</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_version_diff" prot="public">themis::governance::VersionDiff</innerclass>
+    <innernamespace refid="namespacethemis_1_1governance_1_1benchmarks">themis::governance::benchmarks</innernamespace>
+    <innernamespace refid="namespacethemis_1_1governance_1_1ccpa">themis::governance::ccpa</innernamespace>
+    <innernamespace refid="namespacethemis_1_1governance_1_1eu__ai__act">themis::governance::eu_ai_act</innernamespace>
+    <innernamespace refid="namespacethemis_1_1governance_1_1gdpr">themis::governance::gdpr</innernamespace>
+    <innernamespace refid="namespacethemis_1_1governance_1_1hipaa">themis::governance::hipaa</innernamespace>
+    <innernamespace refid="namespacethemis_1_1governance_1_1iso27001">themis::governance::iso27001</innernamespace>
+    <innernamespace refid="namespacethemis_1_1governance_1_1pci__dss">themis::governance::pci_dss</innernamespace>
+    <innernamespace refid="namespacethemis_1_1governance_1_1soc2">themis::governance::soc2</innernamespace>
+    <innernamespace refid="namespacethemis_1_1governance_1_1test">themis::governance::test</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1governance_1a915bac8f38536fcb97c0297cf999c3c8" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ComplianceFramework</name>
+        <qualifiedname>themis::governance::ComplianceFramework</qualifiedname>
+        <enumvalue id="namespacethemis_1_1governance_1a915bac8f38536fcb97c0297cf999c3c8ab44743a4293333aab00c01e953e53108" prot="public">
+          <name>kEuAiAct</name>
+          <briefdescription>
+<para>EU AI Act (2024). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a915bac8f38536fcb97c0297cf999c3c8a212a1d98e3e16c57ce52783f923ca89e" prot="public">
+          <name>kSoc2TypeI</name>
+          <briefdescription>
+<para>SOC 2 Type I. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a915bac8f38536fcb97c0297cf999c3c8a4190fe4b9bce492e59eb6b34cc5a29eb" prot="public">
+          <name>kSoc2TypeII</name>
+          <briefdescription>
+<para>SOC 2 Type II. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a915bac8f38536fcb97c0297cf999c3c8af55f90dc7cda686fea66a4d5ddf99e25" prot="public">
+          <name>kIso27001</name>
+          <briefdescription>
+<para>ISO 27001:2022. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a915bac8f38536fcb97c0297cf999c3c8a3afd6449d378c732f77af97c322a5c2f" prot="public">
+          <name>kGdpr</name>
+          <briefdescription>
+<para>General Data Protection <ref refid="namespacethemis_1_1governance_1aac79dbe2cfa9b0df836725c2cf67e2bd" kindref="member">Regulation</ref>. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a915bac8f38536fcb97c0297cf999c3c8aa9d4b9164db77efadf4c42a849e201a0" prot="public">
+          <name>kCcpa</name>
+          <briefdescription>
+<para>California Consumer Privacy Act. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a915bac8f38536fcb97c0297cf999c3c8abd91ee38e715dc271b391760d17f6eef" prot="public">
+          <name>kHipaa</name>
+          <briefdescription>
+<para>Health Insurance Portability and Accountability Act. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a915bac8f38536fcb97c0297cf999c3c8ad6463a99d056364595a2ecbde75190ae" prot="public">
+          <name>kPciDss</name>
+          <briefdescription>
+<para>Payment Card Industry Data Security Standard. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_framework.h" line="51" column="1" bodyfile="include/governance/compliance_framework.h" bodystart="51" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1governance_1a320138f8db931f9c7432ade21d5a0345" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ComplianceStatus</name>
+        <qualifiedname>themis::governance::ComplianceStatus</qualifiedname>
+        <enumvalue id="namespacethemis_1_1governance_1a320138f8db931f9c7432ade21d5a0345a9b6989da09c9afd26b0c7505975e5008" prot="public">
+          <name>kCompliant</name>
+          <briefdescription>
+<para>Requirement fully met. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a320138f8db931f9c7432ade21d5a0345aed2544a42c4f749f3a4027942ce24e1c" prot="public">
+          <name>kNonCompliant</name>
+          <briefdescription>
+<para>Requirement not met. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a320138f8db931f9c7432ade21d5a0345a8941704db7a971ae3f6c75c477790f1b" prot="public">
+          <name>kPartiallyCompliant</name>
+          <briefdescription>
+<para>Partially implemented. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a320138f8db931f9c7432ade21d5a0345a81f25bd691c2879e4a5bd0d68cff4107" prot="public">
+          <name>kNotApplicable</name>
+          <briefdescription>
+<para>Not applicable to system. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a320138f8db931f9c7432ade21d5a0345a90043168414912ac6d8b8173c088f25e" prot="public">
+          <name>kPendingReview</name>
+          <briefdescription>
+<para>Awaiting assessment. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_framework.h" line="62" column="1" bodyfile="include/governance/compliance_framework.h" bodystart="62" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1governance_1afe4c21ca0a6085dc3625f62c9e539a39" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ComplianceSeverity</name>
+        <qualifiedname>themis::governance::ComplianceSeverity</qualifiedname>
+        <enumvalue id="namespacethemis_1_1governance_1afe4c21ca0a6085dc3625f62c9e539a39a5a20548c220f372fc701cae6de94040b" prot="public">
+          <name>kCritical</name>
+          <briefdescription>
+<para>Must fix immediately. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1afe4c21ca0a6085dc3625f62c9e539a39aa022f15e910eb36278094efb6e808a07" prot="public">
+          <name>kHigh</name>
+          <briefdescription>
+<para>Should fix soon. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1afe4c21ca0a6085dc3625f62c9e539a39a3ce9d817402b59f65fb01ea044bb1ee9" prot="public">
+          <name>kMedium</name>
+          <briefdescription>
+<para>Address in regular maintenance. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1afe4c21ca0a6085dc3625f62c9e539a39acd8fe42741a3bbc973bbf1d404afeff4" prot="public">
+          <name>kLow</name>
+          <briefdescription>
+<para>Consider for improvement. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_framework.h" line="70" column="1" bodyfile="include/governance/compliance_framework.h" bodystart="70" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1governance_1af5c05979b5b67acf7185fa4e312a03f6" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ComplianceError</name>
+        <qualifiedname>themis::governance::ComplianceError</qualifiedname>
+        <enumvalue id="namespacethemis_1_1governance_1af5c05979b5b67acf7185fa4e312a03f6a8c632159fa131f09d04f94e3cbcd8782" prot="public">
+          <name>kSuccess</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1af5c05979b5b67acf7185fa4e312a03f6a1155bcd42527d8baa325221fab8e7b68" prot="public">
+          <name>kConflictDetected</name>
+          <initializer>= 7350</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1af5c05979b5b67acf7185fa4e312a03f6a8d38fe2575b50c5e3c1b66d43e499ed5" prot="public">
+          <name>kReportingFailed</name>
+          <initializer>= 7351</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1af5c05979b5b67acf7185fa4e312a03f6a662aa95e54845dd86dad99233c3a220e" prot="public">
+          <name>kStateInvalid</name>
+          <initializer>= 7352</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1af5c05979b5b67acf7185fa4e312a03f6a70b1deeb4d30d0e807ebaf0b14d63246" prot="public">
+          <name>kResourceExhausted</name>
+          <initializer>= 7353</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1af5c05979b5b67acf7185fa4e312a03f6a3da2bea210bf399d7f0b15250f88b433" prot="public">
+          <name>kHtmlGenerationFailed</name>
+          <initializer>= 7354</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="29" column="1" bodyfile="include/governance/compliance_reporting.h" bodystart="29" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1governance_1af63b912f5852c7e7e5384e1c4f7b332d" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>TransferMechanism</name>
+        <qualifiedname>themis::governance::TransferMechanism</qualifiedname>
+        <enumvalue id="namespacethemis_1_1governance_1af63b912f5852c7e7e5384e1c4f7b332dab497c2b4ff8c59162ee6e303db7c2f9f" prot="public">
+          <name>ADEQUACY_DECISION</name>
+          <briefdescription>
+<para>EU Commission adequacy decision (Art. 45). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1af63b912f5852c7e7e5384e1c4f7b332dae68815c859dc99a2c68861665b506837" prot="public">
+          <name>STANDARD_CONTRACTUAL_CLAUSES</name>
+          <briefdescription>
+<para>SCCs (Art. 46(2)(c/d)). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1af63b912f5852c7e7e5384e1c4f7b332dad614ec3468917cd9c539c85ce8bfd388" prot="public">
+          <name>BINDING_CORPORATE_RULES</name>
+          <briefdescription>
+<para>BCR (Art. 46(2)(b) / Art. 47). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1af63b912f5852c7e7e5384e1c4f7b332dafc6ac6b5df280af3a1fa35b77cbee204" prot="public">
+          <name>DEROGATION</name>
+          <briefdescription>
+<para>Specific derogations (Art. 49). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1af63b912f5852c7e7e5384e1c4f7b332da9c97cc48e1af96b435ac506f909e084c" prot="public">
+          <name>PROHIBITED</name>
+          <briefdescription>
+<para>No valid transfer mechanism — deny transfer. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/cross_border_transfer.h" line="28" column="1" bodyfile="include/governance/cross_border_transfer.h" bodystart="28" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1governance_1a493d488dd3176f381e697059970568c3" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>LineageEventType</name>
+        <qualifiedname>themis::governance::LineageEventType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1governance_1a493d488dd3176f381e697059970568c3ab943eabf1abeb8d7c6b3787604d74242" prot="public">
+          <name>INGESTION</name>
+          <briefdescription>
+<para>Data first entered the system. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a493d488dd3176f381e697059970568c3a7c9cb569785ae44f42a6a7cae0ba1082" prot="public">
+          <name>ENRICHMENT</name>
+          <briefdescription>
+<para>Data was augmented with additional attributes. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a493d488dd3176f381e697059970568c3a0a5d774452fc707b70a657fec29b2bc4" prot="public">
+          <name>ANONYMIZATION</name>
+          <briefdescription>
+<para>PII/PHI was anonymized or pseudonymized. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a493d488dd3176f381e697059970568c3ac4bd4daef9a9217247c24768d88c40e6" prot="public">
+          <name>TRANSFORMATION</name>
+          <briefdescription>
+<para>Schema or structural change. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a493d488dd3176f381e697059970568c3a5662080872eece1e1ceeec5750198283" prot="public">
+          <name>QUERY</name>
+          <briefdescription>
+<para>Data was accessed via a read query. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a493d488dd3176f381e697059970568c3a0ceefc7f4aa071a30dd85c5b5bd14852" prot="public">
+          <name>EXPORT</name>
+          <briefdescription>
+<para>Data was exported outside the system. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a493d488dd3176f381e697059970568c3ae570769137fbed1ec0cf402f5eb66607" prot="public">
+          <name>DELETION</name>
+          <briefdescription>
+<para>Data (or a version of it) was deleted. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a493d488dd3176f381e697059970568c3a9ff4d115ff35d05909a2109c0d45397d" prot="public">
+          <name>MODEL_TRAINING</name>
+          <briefdescription>
+<para>Data was used as training data for an AI/ML model. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/data_lineage.h" line="30" column="1" bodyfile="include/governance/data_lineage.h" bodystart="30" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1governance_1a157b33165249d34cb8771ced41da1670" prot="public" static="no" strong="yes">
+        <type>int32_t</type>
+        <name>CircuitBreakerState</name>
+        <qualifiedname>themis::governance::CircuitBreakerState</qualifiedname>
+        <enumvalue id="namespacethemis_1_1governance_1a157b33165249d34cb8771ced41da1670a110ccf2f5d2ff4eda1fd1a494293467d" prot="public">
+          <name>CLOSED</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Normal operation, forwarding to audit. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a157b33165249d34cb8771ced41da1670aa38bd5138bf35514df41a1795ebbf5c3" prot="public">
+          <name>OPEN</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Audit failing, recording locally only. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a157b33165249d34cb8771ced41da1670a5c1c0fca237f238d3c656d55a4db3ca4" prot="public">
+          <name>HALF_OPEN</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Attempting recovery, one request in flight. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/data_lineage.h" line="83" column="1" bodyfile="include/governance/data_lineage.h" bodystart="83" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1governance_1ae407164fcd838e5961c1f27627ab9ffb" prot="public" static="no" strong="yes">
+        <type>int32_t</type>
+        <name>LineageError</name>
+        <qualifiedname>themis::governance::LineageError</qualifiedname>
+        <enumvalue id="namespacethemis_1_1governance_1ae407164fcd838e5961c1f27627ab9ffba8c632159fa131f09d04f94e3cbcd8782" prot="public">
+          <name>kSuccess</name>
+          <initializer>= 7360</initializer>
+          <briefdescription>
+<para>Operation succeeded. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1ae407164fcd838e5961c1f27627ab9ffba5ea16ddb75c2f0138001ef86d7b04972" prot="public">
+          <name>kAuditLoggerFailure</name>
+          <initializer>= 7361</initializer>
+          <briefdescription>
+<para>Audit logger encountered an error. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1ae407164fcd838e5961c1f27627ab9ffba0cfa7689d0b92c20d0f67b1909141b33" prot="public">
+          <name>kSizeLimitExceeded</name>
+          <initializer>= 7362</initializer>
+          <briefdescription>
+<para>Dataset or total size limit exceeded. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1ae407164fcd838e5961c1f27627ab9ffba7c3d0f91cf7bcf4ee998851e63769161" prot="public">
+          <name>kMemoryPressure</name>
+          <initializer>= 7363</initializer>
+          <briefdescription>
+<para>System memory pressure detected. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1ae407164fcd838e5961c1f27627ab9ffba7c11c158c7146c2b00419ea216c840cd" prot="public">
+          <name>kCircuitBreakerOpen</name>
+          <initializer>= 7364</initializer>
+          <briefdescription>
+<para>Circuit breaker is open, audit unavailable. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1ae407164fcd838e5961c1f27627ab9ffba2340391451c7e420fd22d42f2feb9e53" prot="public">
+          <name>kEventSequenceViolation</name>
+          <initializer>= 7365</initializer>
+          <briefdescription>
+<para>Event ordering or consistency violation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/data_lineage.h" line="89" column="1" bodyfile="include/governance/data_lineage.h" bodystart="89" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1governance_1adb8bb12e215ae91a3e7ea830d1fb1ab5" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>MaskingStrategy</name>
+        <qualifiedname>themis::governance::MaskingStrategy</qualifiedname>
+        <enumvalue id="namespacethemis_1_1governance_1adb8bb12e215ae91a3e7ea830d1fb1ab5a1178e0e6eefd4b409a712395a1c0e163" prot="public">
+          <name>REDACT</name>
+          <briefdescription>
+<para>&quot;[REDACTED]&quot; </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1adb8bb12e215ae91a3e7ea830d1fb1ab5a0552a7280fd804c1fcd306ed05680d4c" prot="public">
+          <name>TOKENIZE</name>
+          <briefdescription>
+<para>Stable HMAC-SHA256 pseudonym. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1adb8bb12e215ae91a3e7ea830d1fb1ab5a0a83d15fde12983f199bdeb76667660f" prot="public">
+          <name>TRUNCATE</name>
+          <briefdescription>
+<para>First N characters + &quot;...&quot;. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1adb8bb12e215ae91a3e7ea830d1fb1ab5a50b7748612b28db487d115f220bb77ab" prot="public">
+          <name>HASH</name>
+          <briefdescription>
+<para>SHA-256 hex digest. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/data_masker.h" line="22" column="1" bodyfile="include/governance/data_masker.h" bodystart="22" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1governance_1aac79dbe2cfa9b0df836725c2cf67e2bd" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Regulation</name>
+        <qualifiedname>themis::governance::Regulation</qualifiedname>
+        <enumvalue id="namespacethemis_1_1governance_1aac79dbe2cfa9b0df836725c2cf67e2bda4e94c8ad46c8aef1ca637841dfbe2159" prot="public">
+          <name>GDPR</name>
+          <briefdescription>
+<para>EU General Data Protection <ref refid="namespacethemis_1_1governance_1aac79dbe2cfa9b0df836725c2cf67e2bd" kindref="member">Regulation</ref>. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1aac79dbe2cfa9b0df836725c2cf67e2bdabbacba025c5700fcfc49b21015cfa98d" prot="public">
+          <name>CCPA</name>
+          <briefdescription>
+<para>California Consumer Privacy Act / CPRA. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1aac79dbe2cfa9b0df836725c2cf67e2bda485ed52d2e7c68ae3d948fe8da72fac2" prot="public">
+          <name>kGDPR</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1aac79dbe2cfa9b0df836725c2cf67e2bdaeadd6578aeef2b4066f2edbedc3eaa3e" prot="public">
+          <name>kCCPA</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1aac79dbe2cfa9b0df836725c2cf67e2bdab682740d6c3587319f97ba34751f64b2" prot="public">
+          <name>kLGPD</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1aac79dbe2cfa9b0df836725c2cf67e2bda4200eaa896d2e2605db76fbce52d7295" prot="public">
+          <name>kHIPAA</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/gdpr_subject_rights.h" line="29" column="1" bodyfile="include/governance/gdpr_subject_rights.h" bodystart="29" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1governance_1a21fc602a360f1aeed8329c53d5b208eb" prot="public" static="no" strong="yes">
+        <type>int32_t</type>
+        <name>GovError</name>
+        <qualifiedname>themis::governance::GovError</qualifiedname>
+        <enumvalue id="namespacethemis_1_1governance_1a21fc602a360f1aeed8329c53d5b208eba79969bf6b1b23569ac3ff8acb83aa885" prot="public">
+          <name>kRegulationUnknown</name>
+          <initializer>= 7200</initializer>
+          <briefdescription>
+<para>Requested regulation not configured. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a21fc602a360f1aeed8329c53d5b208ebabe42b1da01dca65f80397cd01bac91cc" prot="public">
+          <name>kConsentMissing</name>
+          <initializer>= 7201</initializer>
+          <briefdescription>
+<para>Required consent record absent. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a21fc602a360f1aeed8329c53d5b208eba7b07840a176e2737cb26ae7f0da3bd87" prot="public">
+          <name>kJurisdictionBlocked</name>
+          <initializer>= 7202</initializer>
+          <briefdescription>
+<para>Destination jurisdiction not allowed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a21fc602a360f1aeed8329c53d5b208ebae802a13736a3d8109a1a231621eb8e35" prot="public">
+          <name>kExportLimitExceeded</name>
+          <initializer>= 7203</initializer>
+          <briefdescription>
+<para>Export exceeds record limit. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a21fc602a360f1aeed8329c53d5b208ebafb3629b9154a14f7a98a36c2ff335500" prot="public">
+          <name>kAuditWriteFailed</name>
+          <initializer>= 7204</initializer>
+          <briefdescription>
+<para>Audit log write failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a21fc602a360f1aeed8329c53d5b208eba486b4b2a718b8a9fb11abab085da1310" prot="public">
+          <name>kRuleConflict</name>
+          <initializer>= 7205</initializer>
+          <briefdescription>
+<para>Conflicting compliance rules. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Error codes for the governance module. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_api_contract.h" line="66" column="1" bodyfile="include/governance/governance_api_contract.h" bodystart="66" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1governance_1aa9853906cc8033c8e399abcf6cc916ec" prot="public" static="no" strong="yes">
+        <type>int32_t</type>
+        <name>Regulation</name>
+        <qualifiedname>themis::governance::Regulation</qualifiedname>
+        <enumvalue id="namespacethemis_1_1governance_1aa9853906cc8033c8e399abcf6cc916eca4e94c8ad46c8aef1ca637841dfbe2159" prot="public">
+          <name>GDPR</name>
+          <briefdescription>
+<para>EU General Data Protection <ref refid="namespacethemis_1_1governance_1aac79dbe2cfa9b0df836725c2cf67e2bd" kindref="member">Regulation</ref>. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1aa9853906cc8033c8e399abcf6cc916ecabbacba025c5700fcfc49b21015cfa98d" prot="public">
+          <name>CCPA</name>
+          <briefdescription>
+<para>California Consumer Privacy Act / CPRA. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1aa9853906cc8033c8e399abcf6cc916eca485ed52d2e7c68ae3d948fe8da72fac2" prot="public">
+          <name>kGDPR</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1aa9853906cc8033c8e399abcf6cc916ecaeadd6578aeef2b4066f2edbedc3eaa3e" prot="public">
+          <name>kCCPA</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1aa9853906cc8033c8e399abcf6cc916ecab682740d6c3587319f97ba34751f64b2" prot="public">
+          <name>kLGPD</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1aa9853906cc8033c8e399abcf6cc916eca4200eaa896d2e2605db76fbce52d7295" prot="public">
+          <name>kHIPAA</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Supported regulations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_api_contract.h" line="83" column="1" bodyfile="include/governance/governance_api_contract.h" bodystart="83" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1governance_1a2e0faacc52d0f584917b1c4a248ba0a1" prot="public" static="no" strong="yes">
+        <type>int32_t</type>
+        <name>GovDiagnosticCode</name>
+        <qualifiedname>themis::governance::GovDiagnosticCode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1governance_1a2e0faacc52d0f584917b1c4a248ba0a1a1155bcd42527d8baa325221fab8e7b68" prot="public">
+          <name>kConflictDetected</name>
+          <initializer>= 7300</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a2e0faacc52d0f584917b1c4a248ba0a1af07b186bae654d906c7d4608d3f66a8b" prot="public">
+          <name>kFallbackActivated</name>
+          <initializer>= 7301</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a2e0faacc52d0f584917b1c4a248ba0a1a6c8041d16aea96f50755253db0ea1104" prot="public">
+          <name>kComplianceViolation</name>
+          <initializer>= 7302</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a2e0faacc52d0f584917b1c4a248ba0a1adc12c11c63354b4dd090d6473af2e110" prot="public">
+          <name>kAuditLogFailure</name>
+          <initializer>= 7303</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a2e0faacc52d0f584917b1c4a248ba0a1a6c0e5bec66dc45df011768ffcb4e9bf9" prot="public">
+          <name>kOpaUnavailable</name>
+          <initializer>= 7304</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a2e0faacc52d0f584917b1c4a248ba0a1a77d09941d53e9fa4b63e1ac8ead483df" prot="public">
+          <name>kStateTransitionInvalid</name>
+          <initializer>= 7305</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a2e0faacc52d0f584917b1c4a248ba0a1ac9226eefbb143dc4e00c15e688b9050f" prot="public">
+          <name>kLineageBackpressure</name>
+          <initializer>= 7306</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a2e0faacc52d0f584917b1c4a248ba0a1a09977345f76ab9b2e72eb32a24637ed5" prot="public">
+          <name>kPolicyNotFound</name>
+          <initializer>= 7307</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a2e0faacc52d0f584917b1c4a248ba0a1ae10d053bd5e814796abb01eb58f0fc9f" prot="public">
+          <name>kDenyByDefault</name>
+          <initializer>= 7308</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a2e0faacc52d0f584917b1c4a248ba0a1ae10bff20210f3d420d4194fcbb8621db" prot="public">
+          <name>kLineageAuditFailure</name>
+          <initializer>= 7360</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a2e0faacc52d0f584917b1c4a248ba0a1ae9539bb04799a000a5d2703234088748" prot="public">
+          <name>kLineageSizeLimitExceeded</name>
+          <initializer>= 7361</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a2e0faacc52d0f584917b1c4a248ba0a1a0262aa72e6deb2015666b9cdd6ea444d" prot="public">
+          <name>kLineageMemoryPressure</name>
+          <initializer>= 7362</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a2e0faacc52d0f584917b1c4a248ba0a1a10202e2ddf272feb744887d1fc98b0b4" prot="public">
+          <name>kLineageCircuitBreakerOpen</name>
+          <initializer>= 7363</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a2e0faacc52d0f584917b1c4a248ba0a1aba6660b87d5d7364b5a3a4483cedfa6f" prot="public">
+          <name>kLineageEventSequence</name>
+          <initializer>= 7364</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_diagnostics.h" line="23" column="1" bodyfile="include/governance/governance_diagnostics.h" bodystart="23" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1governance_1ac8586520a720ccd11148687ecffb9665" prot="public" static="no" strong="yes">
+        <type>int32_t</type>
+        <name>UnsafeAccessScenario</name>
+        <qualifiedname>themis::governance::UnsafeAccessScenario</qualifiedname>
+        <enumvalue id="namespacethemis_1_1governance_1ac8586520a720ccd11148687ecffb9665af63c101f31c904af9de3ab7d4132fc48" prot="public">
+          <name>S1_CONFLICTING_CLASSIFICATIONS</name>
+          <initializer>= 7381</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1ac8586520a720ccd11148687ecffb9665a27c231ef06b075231fb8bfef11514373" prot="public">
+          <name>S2_CCPA_OVERRIDE_MISSING</name>
+          <initializer>= 7382</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1ac8586520a720ccd11148687ecffb9665ae7ba209b9faad9db0fdb4995e0afb2b1" prot="public">
+          <name>S3_PRIVILEGE_ESCALATION</name>
+          <initializer>= 7383</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1ac8586520a720ccd11148687ecffb9665a2dce1ed59ce1cbd6742757cf0264311f" prot="public">
+          <name>S4_TEMPORAL_VIOLATION</name>
+          <initializer>= 7384</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1ac8586520a720ccd11148687ecffb9665a4a44e320a7a629c096d906d77fa44f9c" prot="public">
+          <name>S5_CROSS_BORDER_CONFLICT</name>
+          <initializer>= 7385</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1ac8586520a720ccd11148687ecffb9665a6777fe77bf1d3c35002314a3a728a045" prot="public">
+          <name>S6_MASKING_BYPASS_ATTEMPT</name>
+          <initializer>= 7386</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1ac8586520a720ccd11148687ecffb9665a7ff06be69f72d339a254f8382e6a1ed6" prot="public">
+          <name>S7_WHITELIST_EXHAUSTION</name>
+          <initializer>= 7387</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1ac8586520a720ccd11148687ecffb9665a5f4002e7b693ce1238324a179d2c7ea1" prot="public">
+          <name>S8_CASCADING_DENIALS</name>
+          <initializer>= 7388</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_diagnostics.h" line="234" column="1" bodyfile="include/governance/governance_diagnostics.h" bodystart="234" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1governance_1a22ad2640eb0f567525668c594ecc21f7" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>OpaErrorType</name>
+        <qualifiedname>themis::governance::OpaErrorType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1governance_1a22ad2640eb0f567525668c594ecc21f7a7f27861ff1d3f550c6aa77150d7edabd" prot="public">
+          <name>kTimeout</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a22ad2640eb0f567525668c594ecc21f7a9b048bce6b492d0ac767dd0387716c4c" prot="public">
+          <name>kMalformedResponse</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a22ad2640eb0f567525668c594ecc21f7ab27d53d170bc6b3a21f586a562a99578" prot="public">
+          <name>kNetworkError</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a22ad2640eb0f567525668c594ecc21f7aedd3e1cd435cb21705b2dccbc8a5e6f1" prot="public">
+          <name>kInvalidPolicy</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a22ad2640eb0f567525668c594ecc21f7a25c2dc47991b3df171ed5192bcf70390" prot="public">
+          <name>kUnknown</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/opa_adapter.h" line="24" column="1" bodyfile="include/governance/opa_adapter.h" bodystart="24" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1governance_1a168a91c036fca841d82568b134b2c103" prot="public" static="no" strong="yes">
+        <type>int32_t</type>
+        <name>OperationalEventType</name>
+        <qualifiedname>themis::governance::OperationalEventType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1governance_1a168a91c036fca841d82568b134b2c103a516c2aa25703fcc84785d9e257773c90" prot="public">
+          <name>POLICY_EVALUATION_PERMIT</name>
+          <initializer>= 5010</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a168a91c036fca841d82568b134b2c103a970e177773d527ed8326119090e886f0" prot="public">
+          <name>POLICY_EVALUATION_DENY</name>
+          <initializer>= 5011</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a168a91c036fca841d82568b134b2c103a68cf5a9e3f533600234b73b3717ae777" prot="public">
+          <name>POLICY_EVALUATION_ERROR</name>
+          <initializer>= 5012</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a168a91c036fca841d82568b134b2c103a1cbb0f0a1399d0d020d3a5ec8e49c62d" prot="public">
+          <name>COMPLIANCE_CHECK_PASS</name>
+          <initializer>= 5020</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a168a91c036fca841d82568b134b2c103ac50e50d50b7dc5ef26ff20f710b0926f" prot="public">
+          <name>COMPLIANCE_CHECK_FAIL</name>
+          <initializer>= 5021</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a168a91c036fca841d82568b134b2c103a54e3016db0a8c6d9a0243168572ce8fd" prot="public">
+          <name>COMPLIANCE_CHECK_ERROR</name>
+          <initializer>= 5022</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a168a91c036fca841d82568b134b2c103a0c5bf2ddd074b6b6eb6bb59f18f68613" prot="public">
+          <name>DATA_MASKING_APPLIED</name>
+          <initializer>= 5030</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a168a91c036fca841d82568b134b2c103a6e1277a58dde46ad62464bb6a750e5aa" prot="public">
+          <name>DATA_LINEAGE_RECORDED</name>
+          <initializer>= 5031</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a168a91c036fca841d82568b134b2c103a309e3749a8506534c53a1abedb6df314" prot="public">
+          <name>DATA_LINEAGE_ERROR</name>
+          <initializer>= 5032</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a168a91c036fca841d82568b134b2c103a6d1ba3c55e6dd8370193ae20e68eaaf4" prot="public">
+          <name>POLICY_CREATED</name>
+          <initializer>= 5040</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a168a91c036fca841d82568b134b2c103a2a3002193f53659e481dd493c6525fcb" prot="public">
+          <name>POLICY_UPDATED</name>
+          <initializer>= 5041</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a168a91c036fca841d82568b134b2c103a44639d9aa2559378fb54f2ed896b5fb3" prot="public">
+          <name>POLICY_DELETED</name>
+          <initializer>= 5042</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a168a91c036fca841d82568b134b2c103a1b93e41f5538c65f2573ecd044e11684" prot="public">
+          <name>POLICY_ACTIVATED</name>
+          <initializer>= 5043</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a168a91c036fca841d82568b134b2c103ad21767d473e74b0ff34d9b781d10427e" prot="public">
+          <name>POLICY_DEPRECATED</name>
+          <initializer>= 5044</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a168a91c036fca841d82568b134b2c103a5ee90b44fa6ec6f038c8196e1763521d" prot="public">
+          <name>ACCESS_GRANTED</name>
+          <initializer>= 5050</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a168a91c036fca841d82568b134b2c103a2eaec33b2d6224f90e7222e4b7a49183" prot="public">
+          <name>ACCESS_DENIED</name>
+          <initializer>= 5051</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a168a91c036fca841d82568b134b2c103aaf64dd116117500ffc2ce83224899766" prot="public">
+          <name>ACCESS_REVOKED</name>
+          <initializer>= 5052</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a168a91c036fca841d82568b134b2c103a387f27c4ebc74293506c54c44628d4b5" prot="public">
+          <name>AUDIT_LOG_FAILURE</name>
+          <initializer>= 5060</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a168a91c036fca841d82568b134b2c103a07ca9b5eade9df60d84c232b1d649ba8" prot="public">
+          <name>CORRELATION_CREATED</name>
+          <initializer>= 5061</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a168a91c036fca841d82568b134b2c103a9ccd31596d4a1afb22524857e1cb0453" prot="public">
+          <name>EVIDENCE_COLLECTED</name>
+          <initializer>= 5062</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="41" column="1" bodyfile="include/governance/operational_audit.h" bodystart="41" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1governance_1a0eeabe83c7b993ef039398f75f130c9f" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ApprovalState</name>
+        <qualifiedname>themis::governance::ApprovalState</qualifiedname>
+        <enumvalue id="namespacethemis_1_1governance_1a0eeabe83c7b993ef039398f75f130c9fa521019040a0f4f7773357aa6bc22180b" prot="public">
+          <name>DRAFT</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Policy drafted, pending review. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a0eeabe83c7b993ef039398f75f130c9fa50e13ee63f086c2fe84229348bc91b5b" prot="public">
+          <name>REVIEW</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Policy under review. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a0eeabe83c7b993ef039398f75f130c9fa21e5b3f076cbce27a9926a00c82a6c55" prot="public">
+          <name>APPROVED</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Policy approved but not active. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a0eeabe83c7b993ef039398f75f130c9fa18ff74f43da410c5529f7d6fca84f115" prot="public">
+          <name>ACTIVE</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>Policy approved and active. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a0eeabe83c7b993ef039398f75f130c9faf0d9e10417deacee308b91a46ddc1746" prot="public">
+          <name>DEPRECATED</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+<para>Policy deprecated (approval rolled back). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_approval_workflow.h" line="35" column="1" bodyfile="include/governance/policy_approval_workflow.h" bodystart="35" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1governance_1aade23a4589a24ee8bea2bd895634c94e" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ApprovalAction</name>
+        <qualifiedname>themis::governance::ApprovalAction</qualifiedname>
+        <enumvalue id="namespacethemis_1_1governance_1aade23a4589a24ee8bea2bd895634c94ea08c48a353ab354ad710e8db46002ca41" prot="public">
+          <name>SUBMIT_FOR_REVIEW</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Move from DRAFT to REVIEW. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1aade23a4589a24ee8bea2bd895634c94eaed36b4a24e02a8786f52126de566cf69" prot="public">
+          <name>APPROVE</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Move from REVIEW to APPROVED. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1aade23a4589a24ee8bea2bd895634c94eaa9409daa2beb494ef861efb51d5cd6bb" prot="public">
+          <name>ACTIVATE</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Move from APPROVED to ACTIVE. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1aade23a4589a24ee8bea2bd895634c94ea59b228d9fec9b88833bfe5d812ed8ad4" prot="public">
+          <name>REJECT</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>Move from REVIEW back to DRAFT. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1aade23a4589a24ee8bea2bd895634c94ea2805522dd41e1b57da11967ac5fa258c" prot="public">
+          <name>ROLLBACK</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+<para>Move from ACTIVE to DEPRECATED. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1aade23a4589a24ee8bea2bd895634c94eaf179d833b7ebc3bcfcb0ac82c26377ec" prot="public">
+          <name>EMERGENCY_OVERRIDE</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+<para>Force ACTIVE without full approval (audit trail). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_approval_workflow.h" line="43" column="1" bodyfile="include/governance/policy_approval_workflow.h" bodystart="43" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1governance_1a61586ef0b3e4fa0d9c8bcc39ae65542d" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>RollbackSafetyLevel</name>
+        <qualifiedname>themis::governance::RollbackSafetyLevel</qualifiedname>
+        <enumvalue id="namespacethemis_1_1governance_1a61586ef0b3e4fa0d9c8bcc39ae65542dab18288babd4636cff34b15e0d1340fc2" prot="public">
+          <name>SAFE</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Rollback is safe with no conflicts. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a61586ef0b3e4fa0d9c8bcc39ae65542da059e9861e0400dfbe05c98a841f3f96b" prot="public">
+          <name>WARNING</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Rollback has minor concerns. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a61586ef0b3e4fa0d9c8bcc39ae65542daeecba0068950a2df17c47e851e1eef14" prot="public">
+          <name>BLOCKED</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Rollback is unsafe and cannot proceed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_change_manager.h" line="36" column="1" bodyfile="include/governance/policy_change_manager.h" bodystart="36" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1governance_1a46755033d4d222a4f4347b7d4f0494c3" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ConflictSeverity</name>
+        <qualifiedname>themis::governance::ConflictSeverity</qualifiedname>
+        <enumvalue id="namespacethemis_1_1governance_1a46755033d4d222a4f4347b7d4f0494c3a41bc94cbd8eebea13ce0491b2ac11b88" prot="public">
+          <name>LOW</name>
+          <briefdescription>
+<para>Informational, no impact on functionality. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a46755033d4d222a4f4347b7d4f0494c3ac87f3be66ffc3c0d4249f1c2cc5f3cce" prot="public">
+          <name>MEDIUM</name>
+          <briefdescription>
+<para>May cause unexpected behavior, review recommended. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a46755033d4d222a4f4347b7d4f0494c3ab89de3b4b81c4facfac906edf29aec8c" prot="public">
+          <name>HIGH</name>
+          <briefdescription>
+<para>Will cause security issues or access control failures. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1a46755033d4d222a4f4347b7d4f0494c3a99cd1c61610c76a57cb8d10d6df6b870" prot="public">
+          <name>CRITICAL</name>
+          <briefdescription>
+<para>Immediate risk to data security or compliance. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_conflict_detector.h" line="49" column="1" bodyfile="include/governance/policy_conflict_detector.h" bodystart="49" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1governance_1adb963c34ad179c05ed5f5251cbae62f4" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ConflictType</name>
+        <qualifiedname>themis::governance::ConflictType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1governance_1adb963c34ad179c05ed5f5251cbae62f4a18a5844de9b772540cbbb158b7a8c9a8" prot="public">
+          <name>PERMIT_DENY</name>
+          <briefdescription>
+<para>Contradictory access decisions (allow vs deny). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1adb963c34ad179c05ed5f5251cbae62f4a63cbe58e7309f03c6c6d5f13925e383a" prot="public">
+          <name>OVERLAPPING</name>
+          <briefdescription>
+<para>Partially overlapping with no precedence. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1adb963c34ad179c05ed5f5251cbae62f4a79b274c6abdd5dbdee1fc57599e4199b" prot="public">
+          <name>CIRCULAR_DEPENDENCY</name>
+          <briefdescription>
+<para>Policy chains forming cycles. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1adb963c34ad179c05ed5f5251cbae62f4a2f93918ef99e03b7b8e7230b2a28fb52" prot="public">
+          <name>TYPE_MISMATCH</name>
+          <briefdescription>
+<para>Incompatible rule types. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1adb963c34ad179c05ed5f5251cbae62f4a37bf3a5004440ec891a553bfa8222ba3" prot="public">
+          <name>ENCRYPTION_CONFLICT</name>
+          <briefdescription>
+<para>Encryption requirement conflicts. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1adb963c34ad179c05ed5f5251cbae62f4af8e3eb95bb1d6903178b61f6010b062d" prot="public">
+          <name>EXPORT_CONFLICT</name>
+          <briefdescription>
+<para>Export permission conflicts. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1adb963c34ad179c05ed5f5251cbae62f4aa0137f8a5a555908ee8c9e099428ad3d" prot="public">
+          <name>RETENTION_CONFLICT</name>
+          <briefdescription>
+<para>Data retention conflicts. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1adb963c34ad179c05ed5f5251cbae62f4a2ac8277a2f46cd0fa91b01728679a1e6" prot="public">
+          <name>COMPLIANCE_CONFLICT</name>
+          <briefdescription>
+<para>Cross-framework compliance conflicts. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_conflict_detector.h" line="56" column="1" bodyfile="include/governance/policy_conflict_detector.h" bodystart="56" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1governance_1acb88cfc9e66af0bdb1994a955c0271e1" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>PolicyState</name>
+        <qualifiedname>themis::governance::PolicyState</qualifiedname>
+        <enumvalue id="namespacethemis_1_1governance_1acb88cfc9e66af0bdb1994a955c0271e1a521019040a0f4f7773357aa6bc22180b" prot="public">
+          <name>DRAFT</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Policy created but not yet activated. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1acb88cfc9e66af0bdb1994a955c0271e1a18ff74f43da410c5529f7d6fca84f115" prot="public">
+          <name>ACTIVE</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Policy is actively enforced. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1acb88cfc9e66af0bdb1994a955c0271e1af0d9e10417deacee308b91a46ddc1746" prot="public">
+          <name>DEPRECATED</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Policy retained for audit but not enforced. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1governance_1acb88cfc9e66af0bdb1994a955c0271e1af509be1cc64421d5b60cb6458f99c352" prot="public">
+          <name>RETIRED</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>Policy archived, no longer used. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_manager.h" line="30" column="1" bodyfile="include/governance/policy_manager.h" bodystart="30" bodyend="35"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1governance_1aeb0b63b9a5e3a40fddfb3fabd5538903" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::lineageEventTypeToString</definition>
+        <argsstring>(LineageEventType type)</argsstring>
+        <name>lineageEventTypeToString</name>
+        <qualifiedname>themis::governance::lineageEventTypeToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1governance_1a493d488dd3176f381e697059970568c3" kindref="member">LineageEventType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Lineage Event Type To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>─── Helpers ────────────────────────────────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements lineageEventTypeToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/governance/data_lineage.cpp" line="33" column="13" bodyfile="src/governance/data_lineage.cpp" bodystart="33" bodyend="53" declfile="include/governance/data_lineage.h" declline="46" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1ad7d10c7f5129c149609a3a513f6f45e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>THEMIS_SECURITY_API <ref refid="classthemis_1_1governance_1_1_diagnostic_aggregator" kindref="compound">DiagnosticAggregator</ref> &amp;</type>
+        <definition>DiagnosticAggregator &amp; themis::governance::getGlobalDiagnosticAggregator</definition>
+        <argsstring>()</argsstring>
+        <name>getGlobalDiagnosticAggregator</name>
+        <qualifiedname>themis::governance::getGlobalDiagnosticAggregator</qualifiedname>
+        <briefdescription>
+<para>Get Global Diagnostic Aggregator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements getGlobalDiagnosticAggregator without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/governance/governance_diagnostics.cpp" line="175" column="22" bodyfile="src/governance/governance_diagnostics.cpp" bodystart="175" bodyend="178" declfile="include/governance/governance_diagnostics.h" declline="130" declcolumn="42"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1adfd09f4d7146c3873d9b8fb904983c9d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>THEMIS_SECURITY_API <ref refid="classthemis_1_1governance_1_1_operational_audit_logger" kindref="compound">OperationalAuditLogger</ref> &amp;</type>
+        <definition>OperationalAuditLogger &amp; themis::governance::getGlobalAuditLogger</definition>
+        <argsstring>()</argsstring>
+        <name>getGlobalAuditLogger</name>
+        <qualifiedname>themis::governance::getGlobalAuditLogger</qualifiedname>
+        <briefdescription>
+<para>Get Global Audit Logger. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: logger(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/governance/operational_audit.cpp" line="1396" column="24" bodyfile="src/governance/operational_audit.cpp" bodystart="1396" bodyend="1399" declfile="include/governance/operational_audit.h" declline="602" declcolumn="44"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1a86084c4be7abe07233b174c7df115d7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>THEMIS_SECURITY_API <ref refid="classthemis_1_1governance_1_1_event_correlation_engine" kindref="compound">EventCorrelationEngine</ref> &amp;</type>
+        <definition>EventCorrelationEngine &amp; themis::governance::getGlobalCorrelationEngine</definition>
+        <argsstring>()</argsstring>
+        <name>getGlobalCorrelationEngine</name>
+        <qualifiedname>themis::governance::getGlobalCorrelationEngine</qualifiedname>
+        <briefdescription>
+<para>Get Global Correlation Engine. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements getGlobalCorrelationEngine without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/governance/operational_audit.cpp" line="1406" column="24" bodyfile="src/governance/operational_audit.cpp" bodystart="1406" bodyend="1409" declfile="include/governance/operational_audit.h" declline="608" declcolumn="44"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1ace30a007913b2cd7f1e20b7943e7d918" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>THEMIS_SECURITY_API <ref refid="classthemis_1_1governance_1_1_compliance_evidence_collector" kindref="compound">ComplianceEvidenceCollector</ref> &amp;</type>
+        <definition>ComplianceEvidenceCollector &amp; themis::governance::getGlobalEvidenceCollector</definition>
+        <argsstring>()</argsstring>
+        <name>getGlobalEvidenceCollector</name>
+        <qualifiedname>themis::governance::getGlobalEvidenceCollector</qualifiedname>
+        <briefdescription>
+<para>Get Global Evidence Collector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: collector(), <ref refid="namespacethemis_1_1governance_1adfd09f4d7146c3873d9b8fb904983c9d" kindref="member">getGlobalAuditLogger()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/governance/operational_audit.cpp" line="1416" column="29" bodyfile="src/governance/operational_audit.cpp" bodystart="1416" bodyend="1419" declfile="include/governance/operational_audit.h" declline="614" declcolumn="49"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1a9060cfd660600201900ba18aa13c7cac" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>static int64_t themis::governance::iso27001NowMs</definition>
+        <argsstring>()</argsstring>
+        <name>iso27001NowMs</name>
+        <qualifiedname>themis::governance::iso27001NowMs</qualifiedname>
+        <briefdescription>
+<para>============================================================================ Helper – current time in milliseconds ============================================================================ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/governance/iso27001_rules.cpp" line="29" column="16" bodyfile="src/governance/iso27001_rules.cpp" bodystart="29" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1a8245551429a6a166ab4244ad2c772cbe" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::governance::iso27001IsSensitiveResource</definition>
+        <argsstring>(const PolicyRule &amp;rule)</argsstring>
+        <name>iso27001IsSensitiveResource</name>
+        <qualifiedname>themis::governance::iso27001IsSensitiveResource</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref> &amp;</type>
+          <declname>rule</declname>
+        </param>
+        <briefdescription>
+<para>============================================================================ Helper – determine if a resource is classified/sensitive ============================================================================ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/governance/iso27001_rules.cpp" line="41" column="13" bodyfile="src/governance/iso27001_rules.cpp" bodystart="41" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1a4d2afef3aeffe15f4a4d693f22af35af" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_iso27001_evidence_item" kindref="compound">Iso27001EvidenceItem</ref></type>
+        <definition>static Iso27001EvidenceItem themis::governance::makeIso27001Evidence</definition>
+        <argsstring>(const std::string &amp;evidence_id, const std::string &amp;control_id, const PolicyRule &amp;rule, bool control_met, const std::string &amp;detail)</argsstring>
+        <name>makeIso27001Evidence</name>
+        <qualifiedname>themis::governance::makeIso27001Evidence</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>evidence_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>control_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref> &amp;</type>
+          <declname>rule</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>control_met</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>detail</declname>
+        </param>
+        <briefdescription>
+<para>============================================================================ Helper – build evidence item for a policy-rule evaluation ============================================================================ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">evidence_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the evidence. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">control_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the control. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">control_met</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">detail</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: iso27001NowMs(), empty(), front(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/governance/iso27001_rules.cpp" line="133" column="29" bodyfile="src/governance/iso27001_rules.cpp" bodystart="133" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1a8a03ce99c1d7710851b4f4b3fb2eab81" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::governance::generateUUID</definition>
+        <argsstring>()</argsstring>
+        <name>generateUUID</name>
+        <qualifiedname>themis::governance::generateUUID</qualifiedname>
+        <briefdescription>
+<para>============================================================================ Helper Functions: UUID Generation &amp; Fingerprinting ============================================================================ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: RAND_bytes(), std::chrono::high_resolution_clock::now(), time_since_epoch(), count(), snprintf(), std::string(), std::setw(), std::setfill(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/governance/operational_audit.cpp" line="35" column="20" bodyfile="src/governance/operational_audit.cpp" bodystart="35" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1a9160ee85233b3c212a266040357d1be9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::governance::computeSHA256</definition>
+        <argsstring>(const std::string &amp;data)</argsstring>
+        <name>computeSHA256</name>
+        <qualifiedname>themis::governance::computeSHA256</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Compute SHA256. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: EVP_MD_CTX_new(), EVP_DigestInit_ex(), EVP_sha256(), EVP_MD_CTX_free(), EVP_DigestUpdate(), c_str(), length(), EVP_DigestFinal_ex(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/governance/operational_audit.cpp" line="72" column="20" bodyfile="src/governance/operational_audit.cpp" bodystart="72" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1a55dd558074207f5271b76fcdcea3039f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::governance::rulesOverlap</definition>
+        <argsstring>(const PolicyRule &amp;a, const PolicyRule &amp;b)</argsstring>
+        <name>rulesOverlap</name>
+        <qualifiedname>themis::governance::rulesOverlap</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref> &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref> &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>========== Helpers ========== </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements rulesOverlap without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/governance/policy_manager_versioned.cpp" line="43" column="13" bodyfile="src/governance/policy_manager_versioned.cpp" bodystart="43" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1a13fecd5c530adbcd2971a5885b6e3492" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_conflict_info" kindref="compound">ConflictInfo</ref></type>
+        <definition>static ConflictInfo themis::governance::makeContradictoryConflict</definition>
+        <argsstring>(const PolicyRule &amp;new_rule, const PolicyRule &amp;existing)</argsstring>
+        <name>makeContradictoryConflict</name>
+        <qualifiedname>themis::governance::makeContradictoryConflict</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref> &amp;</type>
+          <declname>new_rule</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref> &amp;</type>
+          <declname>existing</declname>
+        </param>
+        <briefdescription>
+<para>Make Contradictory Conflict. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">new_rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">existing</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/governance/policy_manager_versioned.cpp" line="77" column="21" bodyfile="src/governance/policy_manager_versioned.cpp" bodystart="77" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1a637558dca65d56680accf9dbc11926d3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_conflict_info" kindref="compound">ConflictInfo</ref></type>
+        <definition>static ConflictInfo themis::governance::makeOverlappingConflict</definition>
+        <argsstring>(const PolicyRule &amp;new_rule, const PolicyRule &amp;existing)</argsstring>
+        <name>makeOverlappingConflict</name>
+        <qualifiedname>themis::governance::makeOverlappingConflict</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref> &amp;</type>
+          <declname>new_rule</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref> &amp;</type>
+          <declname>existing</declname>
+        </param>
+        <briefdescription>
+<para>Make Overlapping Conflict. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">new_rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">existing</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/governance/policy_manager_versioned.cpp" line="117" column="21" bodyfile="src/governance/policy_manager_versioned.cpp" bodystart="117" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1a6e110fbd50ba47b4571e4b8cc65be182" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>static int64_t themis::governance::getCurrentTimeMs</definition>
+        <argsstring>()</argsstring>
+        <name>getCurrentTimeMs</name>
+        <qualifiedname>themis::governance::getCurrentTimeMs</qualifiedname>
+        <briefdescription>
+<para>Helper function to get current time in milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/governance/policy_review.cpp" line="31" column="16" bodyfile="src/governance/policy_review.cpp" bodystart="31" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1a306952d8f746b17fa4e73a30159cec9b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>long long</type>
+        <definition>static long long themis::governance::nowSeconds</definition>
+        <argsstring>()</argsstring>
+        <name>nowSeconds</name>
+        <qualifiedname>themis::governance::nowSeconds</qualifiedname>
+        <briefdescription>
+<para>Now Seconds. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/governance/policy_template.cpp" line="145" column="18" bodyfile="src/governance/policy_template.cpp" bodystart="145" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1a7f0c4083240de3292cdcc39b161c2ce5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>static int64_t themis::governance::nowMs</definition>
+        <argsstring>()</argsstring>
+        <name>nowMs</name>
+        <qualifiedname>themis::governance::nowMs</qualifiedname>
+        <briefdescription>
+<para>============================================================================ Helper – current time in milliseconds ============================================================================ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/governance/soc2_controls.cpp" line="29" column="16" bodyfile="src/governance/soc2_controls.cpp" bodystart="29" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1a107566aa2ef8c25d17a05df3b4785b4f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::governance::isSensitiveResource</definition>
+        <argsstring>(const PolicyRule &amp;rule)</argsstring>
+        <name>isSensitiveResource</name>
+        <qualifiedname>themis::governance::isSensitiveResource</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref> &amp;</type>
+          <declname>rule</declname>
+        </param>
+        <briefdescription>
+<para>============================================================================ Helpers shared by control evaluators ============================================================================ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::transform(), begin(), end(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/governance/soc2_controls.cpp" line="105" column="13" bodyfile="src/governance/soc2_controls.cpp" bodystart="105" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1a9d38723ac701eba86e3f671b1c12f955" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_soc2_evidence_item" kindref="compound">Soc2EvidenceItem</ref></type>
+        <definition>static Soc2EvidenceItem themis::governance::makeRuleEvidence</definition>
+        <argsstring>(const std::string &amp;evidence_id, const std::string &amp;control_id, const PolicyRule &amp;rule, bool control_met, const std::string &amp;detail)</argsstring>
+        <name>makeRuleEvidence</name>
+        <qualifiedname>themis::governance::makeRuleEvidence</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>evidence_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>control_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref> &amp;</type>
+          <declname>rule</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>control_met</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>detail</declname>
+        </param>
+        <briefdescription>
+<para>Make Rule Evidence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">evidence_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the evidence. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">control_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the control. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">control_met</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">detail</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: nowMs(), empty(), front(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/governance/soc2_controls.cpp" line="137" column="25" bodyfile="src/governance/soc2_controls.cpp" bodystart="137" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1a0a458ed7ede83c3395173ffc67c6f15f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::TEST_F</definition>
+        <argsstring>(AuditIntegrityTest, SignEntryWithHmacSha256)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1_audit_integrity_test" kindref="compound">AuditIntegrityTest</ref></type>
+        </param>
+        <param>
+          <type>SignEntryWithHmacSha256</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_audit_integrity.cpp" line="75" column="1" bodyfile="tests/governance/test_audit_integrity.cpp" bodystart="75" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1ad834fa98fedd1023d9fa512cf2b30e49" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::TEST_F</definition>
+        <argsstring>(AuditIntegrityTest, SignEntryWithChainOfCustody)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1_audit_integrity_test" kindref="compound">AuditIntegrityTest</ref></type>
+        </param>
+        <param>
+          <type>SignEntryWithChainOfCustody</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_audit_integrity.cpp" line="88" column="1" bodyfile="tests/governance/test_audit_integrity.cpp" bodystart="88" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1acd0edbf4a0f45dd6c2e3f6150eae10ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::TEST_F</definition>
+        <argsstring>(AuditIntegrityTest, VerifyValidSignature)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1_audit_integrity_test" kindref="compound">AuditIntegrityTest</ref></type>
+        </param>
+        <param>
+          <type>VerifyValidSignature</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_audit_integrity.cpp" line="101" column="1" bodyfile="tests/governance/test_audit_integrity.cpp" bodystart="101" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1ac0922e50baa2c49c33319e532d88586b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::TEST_F</definition>
+        <argsstring>(AuditIntegrityTest, DetectTamperedContent)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1_audit_integrity_test" kindref="compound">AuditIntegrityTest</ref></type>
+        </param>
+        <param>
+          <type>DetectTamperedContent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_audit_integrity.cpp" line="110" column="1" bodyfile="tests/governance/test_audit_integrity.cpp" bodystart="110" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1a2f5bba93c65eca284fcbb3a1659c179c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::TEST_F</definition>
+        <argsstring>(AuditIntegrityTest, VerifyWrongKey)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1_audit_integrity_test" kindref="compound">AuditIntegrityTest</ref></type>
+        </param>
+        <param>
+          <type>VerifyWrongKey</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_audit_integrity.cpp" line="122" column="1" bodyfile="tests/governance/test_audit_integrity.cpp" bodystart="122" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1ad70e5a5484f0da9a9905c7e35242bd01" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::TEST_F</definition>
+        <argsstring>(AuditIntegrityTest, VerifyChainOfCustody)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1_audit_integrity_test" kindref="compound">AuditIntegrityTest</ref></type>
+        </param>
+        <param>
+          <type>VerifyChainOfCustody</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_audit_integrity.cpp" line="142" column="1" bodyfile="tests/governance/test_audit_integrity.cpp" bodystart="142" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1a532d715ab156ccc1e02f06283205f350" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::TEST_F</definition>
+        <argsstring>(AuditIntegrityTest, DetectBrokenChain)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1_audit_integrity_test" kindref="compound">AuditIntegrityTest</ref></type>
+        </param>
+        <param>
+          <type>DetectBrokenChain</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_audit_integrity.cpp" line="160" column="1" bodyfile="tests/governance/test_audit_integrity.cpp" bodystart="160" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1a8aa034242efaffef54e505044f3a4489" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::TEST_F</definition>
+        <argsstring>(AuditIntegrityTest, DetectAlteredEntry)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1_audit_integrity_test" kindref="compound">AuditIntegrityTest</ref></type>
+        </param>
+        <param>
+          <type>DetectAlteredEntry</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_audit_integrity.cpp" line="186" column="1" bodyfile="tests/governance/test_audit_integrity.cpp" bodystart="186" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1acadffc059a51af98e158c340d82e2123" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::TEST_F</definition>
+        <argsstring>(AuditIntegrityTest, DetectMissingEntries)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1_audit_integrity_test" kindref="compound">AuditIntegrityTest</ref></type>
+        </param>
+        <param>
+          <type>DetectMissingEntries</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_audit_integrity.cpp" line="201" column="1" bodyfile="tests/governance/test_audit_integrity.cpp" bodystart="201" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1ac9d437d789ef7c472eb16529157e076a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::TEST_F</definition>
+        <argsstring>(AuditIntegrityTest, VerifyAuditTrail)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1_audit_integrity_test" kindref="compound">AuditIntegrityTest</ref></type>
+        </param>
+        <param>
+          <type>VerifyAuditTrail</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_audit_integrity.cpp" line="220" column="1" bodyfile="tests/governance/test_audit_integrity.cpp" bodystart="220" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1a4be847ada6ef4d3c5978976bef9f1dd3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::TEST_F</definition>
+        <argsstring>(AuditIntegrityTest, ShouldArchiveOldEntry)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1_audit_integrity_test" kindref="compound">AuditIntegrityTest</ref></type>
+        </param>
+        <param>
+          <type>ShouldArchiveOldEntry</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_audit_integrity.cpp" line="249" column="1" bodyfile="tests/governance/test_audit_integrity.cpp" bodystart="249" bodyend="263"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1a3f4c1e3292c0155e2a727b3aaf66ad15" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::TEST_F</definition>
+        <argsstring>(AuditIntegrityTest, ShouldNotArchiveRecentEntry)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1_audit_integrity_test" kindref="compound">AuditIntegrityTest</ref></type>
+        </param>
+        <param>
+          <type>ShouldNotArchiveRecentEntry</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_audit_integrity.cpp" line="265" column="1" bodyfile="tests/governance/test_audit_integrity.cpp" bodystart="265" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1aa29e6a945198a2e899466e2d6445e4ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::TEST_F</definition>
+        <argsstring>(AuditIntegrityTest, LegalHoldPreventsDelete)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1_audit_integrity_test" kindref="compound">AuditIntegrityTest</ref></type>
+        </param>
+        <param>
+          <type>LegalHoldPreventsDelete</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_audit_integrity.cpp" line="281" column="1" bodyfile="tests/governance/test_audit_integrity.cpp" bodystart="281" bodyend="309"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1a50e6e75a8f247ced08f9547d7029124c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::TEST_F</definition>
+        <argsstring>(AuditIntegrityTest, KeyRotation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1_audit_integrity_test" kindref="compound">AuditIntegrityTest</ref></type>
+        </param>
+        <param>
+          <type>KeyRotation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_audit_integrity.cpp" line="315" column="1" bodyfile="tests/governance/test_audit_integrity.cpp" bodystart="315" bodyend="340"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1ae71d0acc129f4674bd41afd94a7d42f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::TEST_F</definition>
+        <argsstring>(AuditIntegrityTest, SigningLatency_LessThan1ms)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1_audit_integrity_test" kindref="compound">AuditIntegrityTest</ref></type>
+        </param>
+        <param>
+          <type>SigningLatency_LessThan1ms</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_audit_integrity.cpp" line="346" column="1" bodyfile="tests/governance/test_audit_integrity.cpp" bodystart="346" bodyend="365"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1a5899510c52f28378ae8625f224124eeb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::TEST_F</definition>
+        <argsstring>(AuditIntegrityTest, VerificationLatency_LessThan10ms)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1_audit_integrity_test" kindref="compound">AuditIntegrityTest</ref></type>
+        </param>
+        <param>
+          <type>VerificationLatency_LessThan10ms</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_audit_integrity.cpp" line="367" column="1" bodyfile="tests/governance/test_audit_integrity.cpp" bodystart="367" bodyend="392"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1a1b9700c33b490497d328ee888e2dea34" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::TEST_F</definition>
+        <argsstring>(AuditIntegrityTest, TamperDetectionAccuracy_GreaterThan99Percent)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1_audit_integrity_test" kindref="compound">AuditIntegrityTest</ref></type>
+        </param>
+        <param>
+          <type>TamperDetectionAccuracy_GreaterThan99Percent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_audit_integrity.cpp" line="394" column="1" bodyfile="tests/governance/test_audit_integrity.cpp" bodystart="394" bodyend="430"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1a8392f6517bc932c00b42234aa09b4cd7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::TEST_F</definition>
+        <argsstring>(AuditIntegrityTest, IntegrationFullWorkflow)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1_audit_integrity_test" kindref="compound">AuditIntegrityTest</ref></type>
+        </param>
+        <param>
+          <type>IntegrationFullWorkflow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_audit_integrity.cpp" line="436" column="1" bodyfile="tests/governance/test_audit_integrity.cpp" bodystart="436" bodyend="468"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1ad998d49dc8eeb12965396353687a4da8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::TEST_F</definition>
+        <argsstring>(AuditIntegrityTest, JsonSerialization)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::governance::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1_audit_integrity_test" kindref="compound">AuditIntegrityTest</ref></type>
+        </param>
+        <param>
+          <type>JsonSerialization</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_audit_integrity.cpp" line="470" column="1" bodyfile="tests/governance/test_audit_integrity.cpp" bodystart="470" bodyend="490"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/audit_batch_writer.h" line="40" column="1"/>
+  </compounddef>
+</doxygen>

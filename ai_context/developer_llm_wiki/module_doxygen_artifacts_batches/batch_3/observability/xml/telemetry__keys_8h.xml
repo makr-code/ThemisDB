@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="telemetry__keys_8h" kind="file" language="C++">
+    <compoundname>telemetry_keys.h</compoundname>
+    <includes local="no">string_view</includes>
+    <includedby refid="layer__decision__log_8h" local="yes">include/observability/layer_decision_log.h</includedby>
+    <includedby refid="retrieval__provenance_8h" local="yes">include/observability/retrieval_provenance.h</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/observability/telemetry_keys.h</label>
+        <link refid="telemetry__keys_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>string_view</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/observability/layer_decision_log.h</label>
+        <link refid="layer__decision__log_8h"/>
+      </node>
+      <node id="3">
+        <label>include/observability/retrieval_provenance.h</label>
+        <link refid="retrieval__provenance_8h"/>
+      </node>
+      <node id="1">
+        <label>include/observability/telemetry_keys.h</label>
+        <link refid="telemetry__keys_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1observability">themis::observability</innernamespace>
+    <innernamespace refid="namespacethemis_1_1observability_1_1telemetry">themis::observability::telemetry</innernamespace>
+    <innernamespace refid="namespacethemis_1_1observability_1_1telemetry_1_1fields">themis::observability::telemetry::fields</innernamespace>
+    <innernamespace refid="namespacethemis_1_1observability_1_1telemetry_1_1events">themis::observability::telemetry::events</innernamespace>
+    <innernamespace refid="namespacethemis_1_1observability_1_1telemetry_1_1layers">themis::observability::telemetry::layers</innernamespace>
+    <innernamespace refid="namespacethemis_1_1observability_1_1telemetry_1_1defaults">themis::observability::telemetry::defaults</innernamespace>
+    <innernamespace refid="namespacethemis_1_1observability_1_1telemetry_1_1metadata__keys">themis::observability::telemetry::metadata_keys</innernamespace>
+    <briefdescription>
+<para>Canonical telemetry attribute key constants. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Defines string constants for OpenTelemetry span and metric attribute keys used throughout the ThemisDB observability layer. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13" refid="namespacethemis_1_1observability_1_1telemetry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1observability_1_1telemetry" kindref="compound">themis::observability::telemetry</ref><sp/>{</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15" refid="namespacethemis_1_1observability_1_1telemetry_1_1fields" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1observability_1_1telemetry_1_1fields" kindref="compound">fields</ref><sp/>{</highlight></codeline>
+<codeline lineno="16" refid="namespacethemis_1_1observability_1_1telemetry_1_1fields_1a1fcbd1a0b2a23d36baade11aa7d0a178" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="namespacethemis_1_1observability_1_1telemetry_1_1fields_1a1fcbd1a0b2a23d36baade11aa7d0a178" kindref="member">kEvent</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;event&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="17" refid="namespacethemis_1_1observability_1_1telemetry_1_1fields_1ae67b64faec2c4fcd053c05caae2f24e6" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="namespacethemis_1_1observability_1_1telemetry_1_1fields_1ae67b64faec2c4fcd053c05caae2f24e6" kindref="member">kLayerName</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;layer_name&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="18" refid="namespacethemis_1_1observability_1_1telemetry_1_1fields_1a8f85e850648da3e9449e6d0b358ad98e" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="namespacethemis_1_1observability_1_1telemetry_1_1fields_1a8f85e850648da3e9449e6d0b358ad98e" kindref="member">kCorrelationId</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;correlation_id&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="19" refid="namespacethemis_1_1observability_1_1telemetry_1_1fields_1ac0b23e816a543f68f88a1976637da8c9" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="namespacethemis_1_1observability_1_1telemetry_1_1fields_1ac0b23e816a543f68f88a1976637da8c9" kindref="member">kRoutingReasonCode</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;routing_reason_code&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="20" refid="namespacethemis_1_1observability_1_1telemetry_1_1fields_1ac30e570dc3ae91f4adef8cddabb299da" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="namespacethemis_1_1observability_1_1telemetry_1_1fields_1ac30e570dc3ae91f4adef8cddabb299da" kindref="member">kConfidencePolicyVersion</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;confidence_policy_version&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="21" refid="namespacethemis_1_1observability_1_1telemetry_1_1fields_1aee76d0e9b96c52ec8a3b7a91553daf42" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="namespacethemis_1_1observability_1_1telemetry_1_1fields_1aee76d0e9b96c52ec8a3b7a91553daf42" kindref="member">kConfidenceThresholdKey</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;confidence_threshold_key&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="22" refid="namespacethemis_1_1observability_1_1telemetry_1_1fields_1a5bbf7e83c4008336a2df60594c3dfc1b" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="namespacethemis_1_1observability_1_1telemetry_1_1fields_1a5bbf7e83c4008336a2df60594c3dfc1b" kindref="member">kFallbackMode</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;fallback_mode&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="23" refid="namespacethemis_1_1observability_1_1telemetry_1_1fields_1a0a7560894c653e550a6b86215a17ae2f" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="namespacethemis_1_1observability_1_1telemetry_1_1fields_1a0a7560894c653e550a6b86215a17ae2f" kindref="member">kFallbackReasonCode</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;fallback_reason_code&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="24" refid="namespacethemis_1_1observability_1_1telemetry_1_1fields_1afd251a60adbbea23db08613d57e22390" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="namespacethemis_1_1observability_1_1telemetry_1_1fields_1afd251a60adbbea23db08613d57e22390" kindref="member">kEscalationSourceLayer</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;escalation_source_layer&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="25" refid="namespacethemis_1_1observability_1_1telemetry_1_1fields_1a9e01cd2998dd8e1929cab4dceb5b7975" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="namespacethemis_1_1observability_1_1telemetry_1_1fields_1a9e01cd2998dd8e1929cab4dceb5b7975" kindref="member">kResolved</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;resolved&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>fields</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1observability_1_1telemetry_1_1events" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1observability_1_1telemetry_1_1events" kindref="compound">events</ref><sp/>{</highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1observability_1_1telemetry_1_1events_1a2b9f1a56ab835c615149b1a3aa28bae0" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="namespacethemis_1_1observability_1_1telemetry_1_1events_1a2b9f1a56ab835c615149b1a3aa28bae0" kindref="member">kLayerHandoffDecision</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;layer_handoff_decision&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>events</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1observability_1_1telemetry_1_1layers" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1observability_1_1telemetry_1_1layers" kindref="compound">layers</ref><sp/>{</highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1observability_1_1telemetry_1_1layers_1a77f878031a4ad61f4723bb53307a9d59" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="namespacethemis_1_1observability_1_1telemetry_1_1layers_1a77f878031a4ad61f4723bb53307a9d59" kindref="member">kAnn</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ann&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1observability_1_1telemetry_1_1layers_1a12855f0af03a472d3e41411ead991669" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="namespacethemis_1_1observability_1_1telemetry_1_1layers_1a12855f0af03a472d3e41411ead991669" kindref="member">kTensor</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;tensor&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1observability_1_1telemetry_1_1layers_1a815fd49bac56fed6048c6cb7f757c66f" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="namespacethemis_1_1observability_1_1telemetry_1_1layers_1a815fd49bac56fed6048c6cb7f757c66f" kindref="member">kGraph</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;graph&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1observability_1_1telemetry_1_1layers_1a831a0bcc06ff5be07e47d23d92c8b501" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="namespacethemis_1_1observability_1_1telemetry_1_1layers_1a831a0bcc06ff5be07e47d23d92c8b501" kindref="member">kFinalLayer</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;final_layer&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>layers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1observability_1_1telemetry_1_1defaults" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1observability_1_1telemetry_1_1defaults" kindref="compound">defaults</ref><sp/>{</highlight></codeline>
+<codeline lineno="40" refid="namespacethemis_1_1observability_1_1telemetry_1_1defaults_1a2d2e47825fae12789c9965ed2e486a44" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="namespacethemis_1_1observability_1_1telemetry_1_1defaults_1a2d2e47825fae12789c9965ed2e486a44" kindref="member">kAnnNoCorrelation</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ann-frontdoor:no-correlation&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="41" refid="namespacethemis_1_1observability_1_1telemetry_1_1defaults_1a591350c97e317fd30c2fa532d122d0a9" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="namespacethemis_1_1observability_1_1telemetry_1_1defaults_1a591350c97e317fd30c2fa532d122d0a9" kindref="member">kTensorRagNoSessionCorrelation</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;tensor-rag:no-session&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>defaults</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="namespacethemis_1_1observability_1_1telemetry_1_1metadata__keys" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1observability_1_1telemetry_1_1metadata__keys" kindref="compound">metadata_keys</ref><sp/>{</highlight></codeline>
+<codeline lineno="45" refid="namespacethemis_1_1observability_1_1telemetry_1_1metadata__keys_1a00e7249465d529131ab39fadffbab806" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="namespacethemis_1_1observability_1_1telemetry_1_1metadata__keys_1a00e7249465d529131ab39fadffbab806" kindref="member">kReasoningChain</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;reasoning_chain&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>metadata_keys</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::observability::telemetry</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/observability/telemetry_keys.h"/>
+  </compounddef>
+</doxygen>

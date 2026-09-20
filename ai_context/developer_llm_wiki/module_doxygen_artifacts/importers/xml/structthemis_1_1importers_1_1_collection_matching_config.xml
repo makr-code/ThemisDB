@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_collection_matching_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::CollectionMatchingConfig</compoundname>
+    <includes refid="importer__interface_8h" local="no">importer_interface.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_collection_matching_config_1a6e45cf81abf9adb9a005db24cf8d8917" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::importers::CollectionMatchingConfig::primary_key_fields</definition>
+        <argsstring></argsstring>
+        <name>primary_key_fields</name>
+        <qualifiedname>themis::importers::CollectionMatchingConfig::primary_key_fields</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="153" column="17" bodyfile="include/importers/importer_interface.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_collection_matching_config_1aaf1a478deb80d430ae8665bf4520c5d3" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::importers::CollectionMatchingConfig::unique_fields</definition>
+        <argsstring></argsstring>
+        <name>unique_fields</name>
+        <qualifiedname>themis::importers::CollectionMatchingConfig::unique_fields</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="155" column="17" bodyfile="include/importers/importer_interface.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_collection_matching_config_1a88aca3815a578c272342a06fb6f24686" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::importers::CollectionMatchingConfig::field_algorithms</definition>
+        <argsstring></argsstring>
+        <name>field_algorithms</name>
+        <qualifiedname>themis::importers::CollectionMatchingConfig::field_algorithms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="157" column="14" bodyfile="include/importers/importer_interface.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_collection_matching_config_1ad822dd556af1e00390453536a7a0e4d4" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, double &gt;</type>
+        <definition>std::map&lt;std::string, double&gt; themis::importers::CollectionMatchingConfig::field_weights</definition>
+        <argsstring></argsstring>
+        <name>field_weights</name>
+        <qualifiedname>themis::importers::CollectionMatchingConfig::field_weights</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="159" column="14" bodyfile="include/importers/importer_interface.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_collection_matching_config_1aabc9273bf3b7400b62291caf1ead0ab8" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::importers::CollectionMatchingConfig::semantic_threshold</definition>
+        <argsstring></argsstring>
+        <name>semantic_threshold</name>
+        <qualifiedname>themis::importers::CollectionMatchingConfig::semantic_threshold</qualifiedname>
+        <initializer>= 0.85</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="161" column="12" bodyfile="include/importers/importer_interface.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/importer_interface.h" line="152" column="1" bodyfile="include/importers/importer_interface.h" bodystart="152" bodyend="162"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_collection_matching_config_1a88aca3815a578c272342a06fb6f24686" prot="public" virt="non-virtual"><scope>themis::importers::CollectionMatchingConfig</scope><name>field_algorithms</name></member>
+      <member refid="structthemis_1_1importers_1_1_collection_matching_config_1ad822dd556af1e00390453536a7a0e4d4" prot="public" virt="non-virtual"><scope>themis::importers::CollectionMatchingConfig</scope><name>field_weights</name></member>
+      <member refid="structthemis_1_1importers_1_1_collection_matching_config_1a6e45cf81abf9adb9a005db24cf8d8917" prot="public" virt="non-virtual"><scope>themis::importers::CollectionMatchingConfig</scope><name>primary_key_fields</name></member>
+      <member refid="structthemis_1_1importers_1_1_collection_matching_config_1aabc9273bf3b7400b62291caf1ead0ab8" prot="public" virt="non-virtual"><scope>themis::importers::CollectionMatchingConfig</scope><name>semantic_threshold</name></member>
+      <member refid="structthemis_1_1importers_1_1_collection_matching_config_1aaf1a478deb80d430ae8665bf4520c5d3" prot="public" virt="non-virtual"><scope>themis::importers::CollectionMatchingConfig</scope><name>unique_fields</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

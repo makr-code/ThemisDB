@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1_postgre_s_q_l_c_d_c" kind="class" language="C++" prot="public">
+    <compoundname>themis::importers::PostgreSQLCDC</compoundname>
+    <includes refid="postgres__cdc_8h" local="no">postgres_cdc.h</includes>
+    <innerclass refid="structthemis_1_1importers_1_1_postgre_s_q_l_c_d_c_1_1_change_event" prot="public">themis::importers::PostgreSQLCDC::ChangeEvent</innerclass>
+    <innerclass refid="classthemis_1_1importers_1_1_postgre_s_q_l_c_d_c_1_1_logical_decoder" prot="public">themis::importers::PostgreSQLCDC::LogicalDecoder</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1importers_1_1_postgre_s_q_l_c_d_c_1aa4a1927034fff082368518d0a5016f2a" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1importers_1_1_postgre_s_q_l_c_d_c_1_1_change_event" kindref="compound">ChangeEvent</ref> &amp;)&gt;</type>
+        <definition>using themis::importers::PostgreSQLCDC::ChangeCallback = std::function&lt;void(const ChangeEvent&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ChangeCallback</name>
+        <qualifiedname>themis::importers::PostgreSQLCDC::ChangeCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_cdc.h" line="50" column="5" bodyfile="include/importers/postgres_cdc.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_c_d_c_1a37eae2dd95f1297af3d2392d1482d764" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1importers_1_1_postgre_s_q_l_c_d_c_1_1_logical_decoder" kindref="compound">LogicalDecoder</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; PostgreSQLCDC::LogicalDecoder &gt; themis::importers::PostgreSQLCDC::createDecoder</definition>
+        <argsstring>(const std::string &amp;connection_string, const CDCOptions &amp;opts=CDCOptions{})</argsstring>
+        <name>createDecoder</name>
+        <qualifiedname>themis::importers::PostgreSQLCDC::createDecoder</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>connection_string</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1importers_1_1_c_d_c_options" kindref="compound">CDCOptions</ref> &amp;</type>
+          <declname>opts</declname>
+          <defval><ref refid="structthemis_1_1importers_1_1_c_d_c_options" kindref="compound">CDCOptions</ref>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_cdc.h" line="106" column="28" bodyfile="src/importers/postgres_cdc.cpp" bodystart="114" bodyend="119"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/postgres_cdc.h" line="35" column="1" bodyfile="include/importers/postgres_cdc.h" bodystart="35" bodyend="110"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_c_d_c_1aa4a1927034fff082368518d0a5016f2a" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLCDC</scope><name>ChangeCallback</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_c_d_c_1a37eae2dd95f1297af3d2392d1482d764" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLCDC</scope><name>createDecoder</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

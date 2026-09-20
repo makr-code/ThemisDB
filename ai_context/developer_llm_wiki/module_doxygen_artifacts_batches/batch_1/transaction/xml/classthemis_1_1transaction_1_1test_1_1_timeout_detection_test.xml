@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1transaction_1_1test_1_1_timeout_detection_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::transaction::test::TimeoutDetectionTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1test_1_1_timeout_detection_test_1ae3c2f74836f977d4f4a820d4a478d8de" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1_transaction_manager" kindref="compound">TransactionManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;TransactionManager&gt; themis::transaction::test::TimeoutDetectionTest::tx_manager_</definition>
+        <argsstring></argsstring>
+        <name>tx_manager_</name>
+        <qualifiedname>themis::transaction::test::TimeoutDetectionTest::tx_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_timeout_determinism.cpp" line="66" column="19" bodyfile="tests/transaction/test_transaction_timeout_determinism.cpp" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1test_1_1_timeout_detection_test_1a1b5b4a97c24c884f35c441eef8da313b" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; TimeoutCoordinator &gt;</type>
+        <definition>std::unique_ptr&lt;TimeoutCoordinator&gt; themis::transaction::test::TimeoutDetectionTest::timeout_coord_</definition>
+        <argsstring></argsstring>
+        <name>timeout_coord_</name>
+        <qualifiedname>themis::transaction::test::TimeoutDetectionTest::timeout_coord_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_timeout_determinism.cpp" line="67" column="19" bodyfile="tests/transaction/test_transaction_timeout_determinism.cpp" bodystart="67" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1test_1_1_timeout_detection_test_1a6b884c6c8ac57b386490678e9f5c1250" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::transaction::test::TimeoutDetectionTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::transaction::test::TimeoutDetectionTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_timeout_determinism.cpp" line="56" column="8" bodyfile="tests/transaction/test_transaction_timeout_determinism.cpp" bodystart="56" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1test_1_1_timeout_detection_test_1a7eb99b424afc18c33c62d5f7077a2197" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::transaction::test::TimeoutDetectionTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::transaction::test::TimeoutDetectionTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_timeout_determinism.cpp" line="61" column="8" bodyfile="tests/transaction/test_transaction_timeout_determinism.cpp" bodystart="61" bodyend="64"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::transaction::test::TimeoutDetectionTest</label>
+        <link refid="classthemis_1_1transaction_1_1test_1_1_timeout_detection_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::transaction::test::TimeoutDetectionTest</label>
+        <link refid="classthemis_1_1transaction_1_1test_1_1_timeout_detection_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/transaction/test_transaction_timeout_determinism.cpp" line="54" column="1" bodyfile="tests/transaction/test_transaction_timeout_determinism.cpp" bodystart="54" bodyend="68"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_timeout_detection_test_1a6b884c6c8ac57b386490678e9f5c1250" prot="protected" virt="non-virtual"><scope>themis::transaction::test::TimeoutDetectionTest</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_timeout_detection_test_1a7eb99b424afc18c33c62d5f7077a2197" prot="protected" virt="non-virtual"><scope>themis::transaction::test::TimeoutDetectionTest</scope><name>TearDown</name></member>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_timeout_detection_test_1a1b5b4a97c24c884f35c441eef8da313b" prot="protected" virt="non-virtual"><scope>themis::transaction::test::TimeoutDetectionTest</scope><name>timeout_coord_</name></member>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_timeout_detection_test_1ae3c2f74836f977d4f4a820d4a478d8de" prot="protected" virt="non-virtual"><scope>themis::transaction::test::TimeoutDetectionTest</scope><name>tx_manager_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

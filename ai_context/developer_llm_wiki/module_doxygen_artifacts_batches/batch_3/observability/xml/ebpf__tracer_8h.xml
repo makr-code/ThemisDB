@@ -1,0 +1,175 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="ebpf__tracer_8h" kind="file" language="C++">
+    <compoundname>ebpf_tracer.h</compoundname>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="ebpf__tracer_8cpp" local="yes">src/observability/ebpf_tracer.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/observability/ebpf_tracer.h</label>
+        <link refid="ebpf__tracer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/observability/ebpf_tracer.h</label>
+        <link refid="ebpf__tracer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/observability/ebpf_tracer.cpp</label>
+        <link refid="ebpf__tracer_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1observability_1_1_kernel_event" prot="public">themis::observability::KernelEvent</innerclass>
+    <innerclass refid="structthemis_1_1observability_1_1_ebpf_tracer_stats" prot="public">themis::observability::EbpfTracerStats</innerclass>
+    <innerclass refid="structthemis_1_1observability_1_1_ebpf_tracer_config" prot="public">themis::observability::EbpfTracerConfig</innerclass>
+    <innerclass refid="classthemis_1_1observability_1_1_ebpf_tracer" prot="public">themis::observability::EbpfTracer</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1observability">themis::observability</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1observability" kindref="compound">observability</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1observability_1a774d11946aec58b20be06de975d92bcc" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1observability_1a774d11946aec58b20be06de975d92bcc" kindref="member">EbpfProbeType</ref><sp/>{</highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1observability_1a774d11946aec58b20be06de975d92bcca4794ee974c66bd7334830e29bd5debcb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a774d11946aec58b20be06de975d92bcca4794ee974c66bd7334830e29bd5debcb" kindref="member">CONTEXT_SWITCH</ref>,<sp/></highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1observability_1a774d11946aec58b20be06de975d92bcca84ec0a3ff6aea921d3fe97604180eb3c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a774d11946aec58b20be06de975d92bcca84ec0a3ff6aea921d3fe97604180eb3c" kindref="member">PAGE_FAULT</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1observability_1a774d11946aec58b20be06de975d92bcca9c21583f3a713d371ac3cc0293902136" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a774d11946aec58b20be06de975d92bcca9c21583f3a713d371ac3cc0293902136" kindref="member">CPU_MIGRATION</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1observability_1a774d11946aec58b20be06de975d92bccae72d2720935e6e687d760eacd02dff28" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a774d11946aec58b20be06de975d92bccae72d2720935e6e687d760eacd02dff28" kindref="member">TASK_CLOCK</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1observability_1a774d11946aec58b20be06de975d92bccab50339a10e1de285ac99d4c3990b8693" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a774d11946aec58b20be06de975d92bccab50339a10e1de285ac99d4c3990b8693" kindref="member">NONE</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1observability_1_1_kernel_event" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_kernel_event" kindref="compound">KernelEvent</ref><sp/>{</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1observability_1_1_kernel_event_1a26f62c0fe804e938082d19d134040949" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a774d11946aec58b20be06de975d92bcc" kindref="member">EbpfProbeType</ref><sp/><ref refid="structthemis_1_1observability_1_1_kernel_event_1a26f62c0fe804e938082d19d134040949" kindref="member">type</ref>{<ref refid="namespacethemis_1_1observability_1a774d11946aec58b20be06de975d92bccab50339a10e1de285ac99d4c3990b8693" kindref="member">EbpfProbeType::NONE</ref>};</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1observability_1_1_kernel_event_1aab6c9e6ea31f0d26bad95372006a6547" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1observability_1_1_kernel_event_1aab6c9e6ea31f0d26bad95372006a6547" kindref="member">timestamp</ref>;</highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1observability_1_1_kernel_event_1aa5b4853b0828253688672edda26bac0f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1observability_1_1_kernel_event_1aa5b4853b0828253688672edda26bac0f" kindref="member">delta</ref>{0};</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1observability_1_1_kernel_event_1a9a06f44d9d7738460cdc85d1be8ce324" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_kernel_event_1a9a06f44d9d7738460cdc85d1be8ce324" kindref="member">description</ref>;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1observability_1_1_ebpf_tracer_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_ebpf_tracer_stats" kindref="compound">EbpfTracerStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1observability_1_1_ebpf_tracer_stats_1a53975f45a56c81a24bfcd5e30a70e58c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1observability_1_1_ebpf_tracer_stats_1a53975f45a56c81a24bfcd5e30a70e58c" kindref="member">context_switches_total</ref>{0};<sp/></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1observability_1_1_ebpf_tracer_stats_1a714b8b13d886000a7273067015220b3c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1observability_1_1_ebpf_tracer_stats_1a714b8b13d886000a7273067015220b3c" kindref="member">page_faults_total</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1observability_1_1_ebpf_tracer_stats_1a636a0efb7b5e8383d76643e734f4fdde" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1observability_1_1_ebpf_tracer_stats_1a636a0efb7b5e8383d76643e734f4fdde" kindref="member">cpu_migrations_total</ref>{0};<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1observability_1_1_ebpf_tracer_stats_1ae0bf47159c51789d7331a1d6a03a1e38" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1observability_1_1_ebpf_tracer_stats_1ae0bf47159c51789d7331a1d6a03a1e38" kindref="member">task_clock_ns_total</ref>{0};<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1observability_1_1_ebpf_tracer_stats_1aafaf5320f681d87a6d8a0240ca502fdd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1observability_1_1_ebpf_tracer_stats_1aafaf5320f681d87a6d8a0240ca502fdd" kindref="member">collection_cycles</ref>{0};<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="60"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1observability_1_1_ebpf_tracer_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_ebpf_tracer_config" kindref="compound">EbpfTracerConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1observability_1_1_ebpf_tracer_config_1a72a108b500cc729b935ae02719ccd218" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_ebpf_tracer_config_1a72a108b500cc729b935ae02719ccd218" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1observability_1_1_ebpf_tracer_config_1af76ce034fadde3b31aea064238224da7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1observability_1_1_ebpf_tracer_config_1af76ce034fadde3b31aea064238224da7" kindref="member">collection_interval</ref>{1000};</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1observability_1_1_ebpf_tracer_config_1ae3d6f5ddaf2d15acefec2c32b264c945" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_ebpf_tracer_config_1ae3d6f5ddaf2d15acefec2c32b264c945" kindref="member">max_events_retained</ref><sp/>=<sp/>3600;<sp/></highlight><highlight class="comment">//<sp/>1<sp/>h<sp/>at<sp/>1-second<sp/>intervals</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1observability_1_1_ebpf_tracer_config_1a756e109808ea469599bd9d7b9738e26f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_ebpf_tracer_config_1a756e109808ea469599bd9d7b9738e26f" kindref="member">probe_context_switches</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1observability_1_1_ebpf_tracer_config_1a009abe51fcf2bc6de43c996655c23758" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_ebpf_tracer_config_1a009abe51fcf2bc6de43c996655c23758" kindref="member">probe_page_faults</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1observability_1_1_ebpf_tracer_config_1aeeb229184210cadc8714696ecd36ac8f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_ebpf_tracer_config_1aeeb229184210cadc8714696ecd36ac8f" kindref="member">probe_cpu_migrations</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1observability_1_1_ebpf_tracer_config_1a24319e336ac65e9c149d8e5867835d82" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_ebpf_tracer_config_1a24319e336ac65e9c149d8e5867835d82" kindref="member">probe_task_clock</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138" refid="classthemis_1_1observability_1_1_ebpf_tracer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_ebpf_tracer_1af36d258bf00e55b8227e282d41544f2f" kindref="member">EbpfTracer</ref><sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_ebpf_tracer_1af36d258bf00e55b8227e282d41544f2f" kindref="member">EbpfTracer</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_ebpf_tracer_config" kindref="compound">EbpfTracerConfig</ref>&amp;<sp/>config<sp/>=<sp/><ref refid="structthemis_1_1observability_1_1_ebpf_tracer_config" kindref="compound">EbpfTracerConfig</ref>{});</highlight></codeline>
+<codeline lineno="141" refid="classthemis_1_1observability_1_1_ebpf_tracer_1a4ed10aea8f4890a6dadf87a09f174b00" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_ebpf_tracer_1a4ed10aea8f4890a6dadf87a09f174b00" kindref="member">~EbpfTracer</ref>();</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>non-movable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144" refid="classthemis_1_1observability_1_1_ebpf_tracer_1aebf628f929a28efe3365c668169796f6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_ebpf_tracer_1aebf628f929a28efe3365c668169796f6" kindref="member">EbpfTracer</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_ebpf_tracer_1af36d258bf00e55b8227e282d41544f2f" kindref="member">EbpfTracer</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="145" refid="classthemis_1_1observability_1_1_ebpf_tracer_1a3019fc74dfff90bd91cdfc072a96fd5b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_ebpf_tracer_1af36d258bf00e55b8227e282d41544f2f" kindref="member">EbpfTracer</ref>&amp;<sp/><ref refid="classthemis_1_1observability_1_1_ebpf_tracer_1a3019fc74dfff90bd91cdfc072a96fd5b" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_ebpf_tracer_1af36d258bf00e55b8227e282d41544f2f" kindref="member">EbpfTracer</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_ebpf_tracer_1a34595b1e0a81590324cb2da8a47680a9" kindref="member">start</ref>();</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_ebpf_tracer_1a48fb4a7c748d0dccd4084ab7570e9411" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_ebpf_tracer_1a5957fa98863a5173de5552f78227afe0" kindref="member">isEnabled</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_ebpf_tracer_1a453b6cd9f90b73c329f55b47fd9a18f3" kindref="member">enable</ref>();</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_ebpf_tracer_1a775e565c8627052b15d8c41b74334c12" kindref="member">disable</ref>();</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1observability_1_1_ebpf_tracer_stats" kindref="compound">EbpfTracerStats</ref><sp/><ref refid="classthemis_1_1observability_1_1_ebpf_tracer_1aeff966ec0b580b41c0c1ec807ff52015" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;KernelEvent&gt;<sp/><ref refid="classthemis_1_1observability_1_1_ebpf_tracer_1aa062bc5474f48886210a0a86d62fa720" kindref="member">getRecentEvents</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_ebpf_tracer_1a4424fd16e4fab7c1461fa66fd53e4c1f" kindref="member">registerEventCallback</ref>(</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;KernelEvent&gt;&amp;)&gt;<sp/>cb);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_ebpf_tracer_1a5b15799ee86d1cb2d61555648be396bf" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1observability_1_1_ebpf_tracer_config" kindref="compound">EbpfTracerConfig</ref><sp/><ref refid="classthemis_1_1observability_1_1_ebpf_tracer_1a230f2dfabb9cee71952551061210bded" kindref="member">getConfig</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_ebpf_tracer_1ade7aec74fdf7c21139cd74196fdfddf9" kindref="member">isPlatformSupported</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>class<sp/><ref refid="classthemis_1_1observability_1_1_ebpf_tracer_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;<ref refid="classthemis_1_1observability_1_1_ebpf_tracer_1_1_impl" kindref="compound">Impl</ref>&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>observability</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/observability/ebpf_tracer.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,331 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.17.0" xml:lang="en-US">
+  <compound refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter" kind="class"><name>themis::plugins::rpc::grpc_plugin::BidiStreamAdapter</name>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1aa1b23ab7bb3b0e492596df0e14ba7b66" kind="typedef"><name>MessageHandler</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1ad62323c747a70dc7817d3aaee2720723" kind="variable"><name>stream_</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1aa226c04eff375243e9eb1ac34bf1536f" kind="variable"><name>max_queue_depth_</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1a81295dc50622ba1f28ea1a23f630fc20" kind="variable"><name>finished_</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1a95fca3c6e1dd93e0b448abcfa760ced2" kind="variable"><name>queue_mutex_</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1aa46c77ef6f42f0e231022cb011e07170" kind="variable"><name>queue_not_full_</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1a031bf9805121ac9e9188b2e0ed4cd588" kind="variable"><name>queue_</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1a545e31041ef1e7f43d5ec9366c1b0826" kind="variable"><name>handler_</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1a6212cdc7da606ddb97ff5d171d52c3f2" kind="variable"><name>finish_status_</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1af8ec2bf327ab17e57b5e7f51b80e54f2" kind="function"><name>BidiStreamAdapter</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1aa170ccf125011c738063ecbeaa06a73f" kind="function"><name>BidiStreamAdapter</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1aff0b7b01af705afeb1641fc4cd563294" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1a3550aa0bcfa4032bee8a283a39df7ae7" kind="function"><name>BidiStreamAdapter</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1a129bac402c4be1e35d0782265e4ad6be" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1abe9b63518a8ca15cb976989b7a29cf77" kind="function"><name>~BidiStreamAdapter</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1ac25010951d904c5adcfe00cafd68a8b7" kind="function"><name>onMessage</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1a45b483e4bef118a3f438f1eaead4df69" kind="function"><name>run</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1a433b4c5253a83e789b250b135159d12b" kind="function"><name>write</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1a3893f4d0d75c2f5587e0059379a0e29b" kind="function"><name>finish</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1a3695d5b074172be1c5d01c7d6223ae9c" kind="function"><name>finishStatus</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1a224c3f9b99fd7e8f77c6792c7514eced" kind="function"><name>queueDepth</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1a99e41783b2a1c40d5406502987fe36c8" kind="function"><name>isFinished</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter_1af71ecc8d406bac231df3255f6a0048c9" kind="function"><name>flush</name></member>
+  </compound>
+  <compound refid="classthemis_1_1rpc_1_1_circuit_breaker" kind="class"><name>themis::rpc::CircuitBreaker</name>
+    <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1a54bc09b292ae81d45664f00cb76d4b78" kind="variable"><name>config_</name></member>
+    <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1a67a531dca908809ad5db5b2ca329cbad" kind="variable"><name>mutex_</name></member>
+    <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1a254e60735db4ad3df97604c4fef03d4d" kind="variable"><name>state_</name></member>
+    <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1a6121387b048abf14cd9c8f65f955d92a" kind="variable"><name>consecutive_failures_</name></member>
+    <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1a1dc6f0e82f9202420b8c2d1f67482d26" kind="variable"><name>consecutive_successes_</name></member>
+    <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1a75a773de3824c6386d0f1264eaf490fc" kind="variable"><name>total_calls_</name></member>
+    <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1adb4ea0c8cc994aab09d442f80b797215" kind="variable"><name>successful_calls_</name></member>
+    <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1adf26f987e77844b797d8c1d0bfa917ec" kind="variable"><name>failed_calls_</name></member>
+    <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1a80e8479d8e088a529be23206968e41a2" kind="variable"><name>rejected_calls_</name></member>
+    <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1a0ed0e03232949039908cb5b680e06dd2" kind="variable"><name>state_transitions_</name></member>
+    <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1a34de08d13309e43bc2b805e76ebd7766" kind="variable"><name>open_since_</name></member>
+    <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1a575b980f5b9014d7ed429179564684ec" kind="variable"><name>probe_in_flight_</name></member>
+    <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1a72187679c356da47fe68453dcf8c2cdd" kind="variable"><name>transition_cb_</name></member>
+    <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1abbfa610a8bd2a827123fe2d43b81508a" kind="function"><name>CircuitBreaker</name></member>
+    <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1a7e31b32c96102fb6a1addfa3d6c82821" kind="function"><name>CircuitBreaker</name></member>
+    <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1a8e151cb48f8d46b3419f65ea875c7f18" kind="function"><name>CircuitBreaker</name></member>
+    <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1a9afac75df83beb57e41b16a429d3a192" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1ad20c579e7ec3f093a2f34bf97d44844d" kind="function"><name>CircuitBreaker</name></member>
+    <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1acdd2163f53ff15c511da1d32a7c4c6a4" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1a13433f3ba6d657a1fbf40c317025616c" kind="function"><name>~CircuitBreaker</name></member>
+    <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1a62709c0e29338e8ae397818ac82491ca" kind="function"><name>allowRequest</name></member>
+    <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1a4ff8de4ba6346cfaeb66fbc4fff3409a" kind="function"><name>recordResult</name></member>
+    <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1a8762dd9adfed3045d558fe1f70b2bc25" kind="function"><name>forceState</name></member>
+    <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1a0b357e2cb4653dab4825ab796b1688c6" kind="function"><name>reset</name></member>
+    <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1a545049aa03933563aa60ff5680984bb3" kind="function"><name>state</name></member>
+    <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1a5d0dc7708255761bbe80566702c68272" kind="function"><name>stats</name></member>
+    <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1aefd30413af92cf36185915e1099827cc" kind="function"><name>name</name></member>
+    <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1a2d826d99c4c0a80f7698d5fa0f0e719c" kind="function"><name>setTransitionCallback</name></member>
+    <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1aa26fe6d9e1f13b9a7e7727ea6270756a" kind="function"><name>transitionTo</name></member>
+  </compound>
+  <compound refid="structthemis_1_1rpc_1_1_circuit_breaker_config" kind="struct"><name>themis::rpc::CircuitBreakerConfig</name>
+    <member refid="structthemis_1_1rpc_1_1_circuit_breaker_config_1aa92e5c7b6b1993e5e33c134f4ade59d6" kind="variable"><name>failure_threshold</name></member>
+    <member refid="structthemis_1_1rpc_1_1_circuit_breaker_config_1a2cf57401c5eb3d1187e680072f606f60" kind="variable"><name>min_calls_in_window</name></member>
+    <member refid="structthemis_1_1rpc_1_1_circuit_breaker_config_1a3d11aa339db33169bfe0157dc7785862" kind="variable"><name>recovery_window</name></member>
+    <member refid="structthemis_1_1rpc_1_1_circuit_breaker_config_1af16681db71e44412a9aa278cf996192c" kind="variable"><name>half_open_success_threshold</name></member>
+    <member refid="structthemis_1_1rpc_1_1_circuit_breaker_config_1a215cc6510821b65af76ceb9eb2a96137" kind="variable"><name>name</name></member>
+  </compound>
+  <compound refid="structthemis_1_1rpc_1_1_circuit_breaker_stats" kind="struct"><name>themis::rpc::CircuitBreakerStats</name>
+    <member refid="structthemis_1_1rpc_1_1_circuit_breaker_stats_1a642f1d309c79e97e853759d983d6cf5b" kind="variable"><name>state</name></member>
+    <member refid="structthemis_1_1rpc_1_1_circuit_breaker_stats_1a324d26ee07b6e5983b4902e749c6c996" kind="variable"><name>total_calls</name></member>
+    <member refid="structthemis_1_1rpc_1_1_circuit_breaker_stats_1a568189477a309d0cf02ef5bd365e8c63" kind="variable"><name>successful_calls</name></member>
+    <member refid="structthemis_1_1rpc_1_1_circuit_breaker_stats_1a3f08dc4d9339b39206c115f13e371457" kind="variable"><name>failed_calls</name></member>
+    <member refid="structthemis_1_1rpc_1_1_circuit_breaker_stats_1ad286b516b4356c55f4f20799115f1b43" kind="variable"><name>rejected_calls</name></member>
+    <member refid="structthemis_1_1rpc_1_1_circuit_breaker_stats_1a2c3a6899490a992c8538f54c90255095" kind="variable"><name>state_transitions</name></member>
+    <member refid="structthemis_1_1rpc_1_1_circuit_breaker_stats_1aec19aaebb31e51f95bbf218d95ef2a3a" kind="variable"><name>name</name></member>
+  </compound>
+  <compound refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_plugin" kind="class"><name>themis::plugins::rpc::grpc_plugin::GRPCPlugin</name>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_plugin_1a73b2ca0497b4ecdec095ac22b5e3cf8a" kind="variable"><name>initialized_</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_plugin_1a1aa9f15d37c3171c5f5f9c554d657298" kind="function"><name>GRPCPlugin</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_plugin_1a4bb1414faa31dcc87785651e247f73e7" kind="function"><name>~GRPCPlugin</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_plugin_1af8953cde0b6c4d09084d171fc4158d2c" kind="function"><name>getName</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_plugin_1afcca03b282dc86092e7f74f71b298788" kind="function"><name>getVersion</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_plugin_1a524bb4466a0e41229877aa43717d8e01" kind="function"><name>getType</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_plugin_1abf59e760dc59889aec2b381ab8b27b36" kind="function"><name>getCapabilities</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_plugin_1a813e8dbde95a5881488a98db5326648a" kind="function"><name>initialize</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_plugin_1acbde2ff6a2d184e92484ff7e71fea2bf" kind="function"><name>shutdown</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_plugin_1abe327f8f7b06d6ae1a5dce2daeb8456d" kind="function"><name>getInstance</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_plugin_1af81ce32b955f42cc0cf9f61db78f5d76" kind="function"><name>createServer</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_plugin_1a1183135ae2cd51491dd8a751d3bc5976" kind="function"><name>getProtocol</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_plugin_1afdabb4baaf4881d1354fdd6648efcac5" kind="function"><name>getDefaultPort</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_plugin_1a3e333f1298bb85a2d44da92135d9e671" kind="function"><name>getProtocolDescription</name></member>
+  </compound>
+  <compound refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server" kind="class"><name>themis::plugins::rpc::grpc_plugin::GRPCServer</name>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a80635116afa7556260c0a745176254ea" kind="variable"><name>config_</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a9a119e2600f0edc2f5450f0668121b6d" kind="variable"><name>server_</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a0734f27797d8110c26d31462b2c48d7d" kind="variable"><name>running_</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1ad7647d31d3c41f17224c625b22c4c36f" kind="variable"><name>stats_mutex_</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a42be86b4f9528236bc0bd252d4d02300" kind="variable"><name>stats_</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a932b2a3e7753467672369cae34bb09c8" kind="variable"><name>server_address_</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1af1f404c90f59abc1b20e3be7d1656d16" kind="variable"><name>admin_address_</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1ab3361bc4382e33581b4a7cff4ee4bd28" kind="variable"><name>start_time_</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a4ffa0bdd36be39483b86b0d169a37b57" kind="variable"><name>tls_mutex_</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a205735a0d62a2f99e1438b4c76c469ec" kind="variable"><name>credentials_</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a1689e764b5f9d1011fbc4f818ecc458a" kind="variable"><name>services_</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a584526e389fdd41c697a59559288422a" kind="variable"><name>idle_cq_</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a6c85658dbaf2b1fb4110687223a5125a" kind="variable"><name>metrics_mutex_</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1ab1e7e655d8ff75fa5292411eb70f5096" kind="variable"><name>method_metrics_</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1afafa1e7991631fe42b8bd5f0204f4d07" kind="variable"><name>health_mutex_</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1acd6cc431e1cd39ac0a75346fc9214f77" kind="variable"><name>health_states_</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a0ea716631eecfc3f5d830fefda5f60c1" kind="variable"><name>log_sink_mutex_</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1ac5db382dfb5b020aec4690782f1a530e" kind="variable"><name>access_log_sink_</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a7ddfa861dc12e86da170e6e76a765562" kind="function"><name>GRPCServer</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a857bb8320624e94390f08a2ecf4e1ad5" kind="function"><name>~GRPCServer</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1aad37538b1e04a23d405aa686a42f4f6b" kind="function"><name>getProtocol</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1afff74513b7b6bc5484127b2062d42309" kind="function"><name>initialize</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a189c67ab2820f04817ee979f95b82188" kind="function"><name>start</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a9d21c8a638542208d940a5ea8bfcf94b" kind="function"><name>stop</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a5d02ac591fb6b2b64e47df24c5e20468" kind="function"><name>isRunning</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a719dbaa66828f5bdcc77ba720bdfe383" kind="function"><name>getStats</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a9f9eeded462b4d97bd5068c2afc24bc7" kind="function"><name>registerService</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a86d0cc1b224cb24ad2bfa2262d4c78d1" kind="function"><name>getAddress</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1acb2aa417de59c34df08c124716b591f8" kind="function"><name>resetStats</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1ad9c14e3a998b7be6e1df686eee2bdf41" kind="function"><name>reloadTls</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a69e4ed4cacf3f18f748027f7a7279824" kind="function"><name>getAdminAddress</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a36d8eb32f671e7771e0425cb081e9538" kind="function"><name>setServiceHealth</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a40196402c32ea4118e3791c37873eeb9" kind="function"><name>isServiceHealthy</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a8a4ddc1fa04b792623d8eafd6c5029c6" kind="function"><name>recordRPC</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a06dbc492bf5c13951cebc88fe9766d21" kind="function"><name>getMetricsText</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1aecc982c382780dd981b81fcb3d594694" kind="function"><name>setAccessLogSink</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1af46b780c993f879dc197abd225bb4863" kind="function"><name>logAccess</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a2b4aaa6b3de3128db8e81bd4718c5413" kind="function"><name>loadFile</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a03695b9e845380df38d5d0f2e35dc080" kind="function"><name>configureCredentials</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1af10404861c4a819cca285cf8f2975d17" kind="function"><name>buildSslCredentials</name></member>
+    <member refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1afced9c6bbce6e9df49877c79be947ee5" kind="function"><name>methodMetricsLocked</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1_1_method_metrics" kind="struct"><name>themis::plugins::rpc::grpc_plugin::GRPCServer::MethodMetrics</name>
+    <member refid="structthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1_1_method_metrics_1adf73ee30e17ad0824a5278044786c0c1" kind="variable"><name>requests</name></member>
+    <member refid="structthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1_1_method_metrics_1a2db68a2b8a67992a9761a449b1c8ad98" kind="variable"><name>errors</name></member>
+    <member refid="structthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1_1_method_metrics_1a8e0f6de904e05dc9647509f8f5c8168e" kind="variable"><name>latency_ms</name></member>
+    <member refid="structthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1_1_method_metrics_1a94ad57a8566bb5b92b3783154b26eb3d" kind="function"><name>MethodMetrics</name></member>
+    <member refid="structthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1_1_method_metrics_1a38fef45ffee5026bf09cc0dbbd42ea3d" kind="function"><name>MethodMetrics</name></member>
+    <member refid="structthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1_1_method_metrics_1ad3f4b5b916ae469507ed6a95673d4880" kind="function"><name>operator=</name></member>
+  </compound>
+  <compound refid="structthemis_1_1rpc__grpc_1_1_rpc_service_descriptor" kind="struct"><name>themis::rpc_grpc::RpcServiceDescriptor</name>
+    <member refid="structthemis_1_1rpc__grpc_1_1_rpc_service_descriptor_1ad6b9ef0b957e0a4a5a19b7206d05aff8" kind="variable"><name>service_name</name></member>
+    <member refid="structthemis_1_1rpc__grpc_1_1_rpc_service_descriptor_1a436c9b987c45f8caffbea3016d90ad2d" kind="variable"><name>proto_file</name></member>
+    <member refid="structthemis_1_1rpc__grpc_1_1_rpc_service_descriptor_1ab7a3906640cd36fea645ac301d527c13" kind="variable"><name>require_auth</name></member>
+    <member refid="structthemis_1_1rpc__grpc_1_1_rpc_service_descriptor_1acf63a57d2ba90313e9dcf7a661ca7867" kind="variable"><name>max_concurrent_streams</name></member>
+  </compound>
+  <compound refid="class_stub_service_registry" kind="class"><name>StubServiceRegistry</name>
+    <member refid="class_stub_service_registry_1a1827b9586347c77981546093cd445bf9" kind="variable"><name>registrations_</name></member>
+    <member refid="class_stub_service_registry_1a07a7c7cb3ec1c6264ce58193bad971fa" kind="variable"><name>deregistrations_</name></member>
+    <member refid="class_stub_service_registry_1a89de250f1f98f84659e1f29a0b94c22a" kind="function"><name>registerService</name></member>
+    <member refid="class_stub_service_registry_1a43e97886b1c1bf9516b137343968f022" kind="function"><name>deregisterService</name></member>
+    <member refid="class_stub_service_registry_1ae22eb77fdeac39ce777d1d444565e04e" kind="function"><name>registrations</name></member>
+    <member refid="class_stub_service_registry_1aa3af06044b991da02236d385e3c25f01" kind="function"><name>deregistrations</name></member>
+  </compound>
+  <compound refid="class_stub_service_reloader" kind="class"><name>StubServiceReloader</name>
+    <member refid="class_stub_service_reloader_1a7427f5be5312e7a2ef9ab60f98c90ba0" kind="variable"><name>reloads_</name></member>
+    <member refid="class_stub_service_reloader_1ade07c5c9c2ed936f83883f9bf5c61c51" kind="function"><name>reload</name></member>
+    <member refid="class_stub_service_reloader_1aed7eace9d90082ed3689ecf5d9e3cdba" kind="function"><name>reloads</name></member>
+  </compound>
+  <compound refid="class_stub_stream_adapter_pool" kind="class"><name>StubStreamAdapterPool</name>
+    <member refid="class_stub_stream_adapter_pool_1acca828afb3d3382b03dd70204c7fb243" kind="variable"><name>sends_</name></member>
+    <member refid="class_stub_stream_adapter_pool_1af42c026644043ab5bcd95fb13a334e4f" kind="function"><name>send</name></member>
+    <member refid="class_stub_stream_adapter_pool_1aa90e419d240149abcea4edbe7c325969" kind="function"><name>totalSends</name></member>
+  </compound>
+  <compound refid="namespace_0d324323103062272117361231050006144204341245210332" kind="namespace"><name>@324323103062272117361231050006144204341245210332</name>
+  </compound>
+  <compound refid="namespacestd_1_1chrono__literals" kind="namespace"><name>std::chrono_literals</name>
+  </compound>
+  <compound refid="namespacethemis" kind="namespace"><name>themis</name>
+  </compound>
+  <compound refid="namespacethemis_1_1bench" kind="namespace"><name>themis::bench</name>
+  </compound>
+  <compound refid="namespacethemis_1_1bench_1_1rpc" kind="namespace"><name>themis::bench::rpc</name>
+    <member refid="namespacethemis_1_1bench_1_1rpc_1a1dc9f77c56ed564acd32d80e5449a712" kind="variable"><name>kCanonicalSeed</name></member>
+    <member refid="namespacethemis_1_1bench_1_1rpc_1a8827941c561e717902312d68a274684c" kind="variable"><name>kRepetitions</name></member>
+    <member refid="namespacethemis_1_1bench_1_1rpc_1a9adc1328d3a13794542da50bfcbec61f" kind="function"><name>BM_RPC01_ErrorEnumCast</name></member>
+    <member refid="namespacethemis_1_1bench_1_1rpc_1a1b1a2d62923c6342d4a4d6c15ed0089d" kind="function"><name>Repetitions</name></member>
+    <member refid="namespacethemis_1_1bench_1_1rpc_1aedfd643822c5c10e8990bbf6e16dfc29" kind="function"><name>BM_RPC02_SwitchDispatch</name></member>
+    <member refid="namespacethemis_1_1bench_1_1rpc_1acf3dc18eaa3f09a2bbae1100129f6737" kind="function"><name>BM_RPC03_StructAlloc</name></member>
+    <member refid="namespacethemis_1_1bench_1_1rpc_1a99e91236ba234d3c673d9fd02d9c7b87" kind="function"><name>BM_RPC04_BatchCast</name></member>
+    <member refid="namespacethemis_1_1bench_1_1rpc_1a78ec0d5d1182edd2de629b2efc973ed1" kind="function"><name>BM_RPC05_ConcurrentDispatch</name></member>
+    <member refid="namespacethemis_1_1bench_1_1rpc_1a3657f3509f8f9cfbb42f8e52a5cc10bb" kind="function"><name>Threads</name></member>
+    <member refid="namespacethemis_1_1bench_1_1rpc_1a07826ddf7ae634569b0c67be062b9238" kind="function"><name>BM_RPC06_StateConstruction</name></member>
+    <member refid="namespacethemis_1_1bench_1_1rpc_1ac5c9cebbbf93a5005ea2155d8c60073d" kind="function"><name>BM_RPC07_BulkDescriptorOps</name></member>
+    <member refid="namespacethemis_1_1bench_1_1rpc_1ac908798874f9230d95163dc6b153e534" kind="function"><name>BM_RPC08_FailClosedThroughput</name></member>
+  </compound>
+  <compound refid="namespacethemis_1_1bench_1_1rpc__dedicated" kind="namespace"><name>themis::bench::rpc_dedicated</name>
+    <member refid="namespacethemis_1_1bench_1_1rpc__dedicated_1a2a6b6b713bd18ca5943306cd5e1818dc" kind="variable"><name>kCanonicalSeed</name></member>
+    <member refid="namespacethemis_1_1bench_1_1rpc__dedicated_1a1643c850b0e2f4a8f3bb2e6873163a5b" kind="variable"><name>kRepetitions</name></member>
+    <member refid="namespacethemis_1_1bench_1_1rpc__dedicated_1af16b5f94ff6cfaefe2b2fe2722023f2c" kind="variable"><name>g_stub_reg_count</name></member>
+    <member refid="namespacethemis_1_1bench_1_1rpc__dedicated_1a056cd9ecb7cadf186906c98230c6d11a" kind="function"><name>stubRegisterService</name></member>
+    <member refid="namespacethemis_1_1bench_1_1rpc__dedicated_1a7a2b51d307b22fe87e89e3bff66b5ad3" kind="function"><name>stubStreamSend</name></member>
+    <member refid="namespacethemis_1_1bench_1_1rpc__dedicated_1a81e6ab99358e32822c1526c76d6a8c03" kind="function"><name>stubReloadCredential</name></member>
+    <member refid="namespacethemis_1_1bench_1_1rpc__dedicated_1ad05a5e3f9f9833f8d9cc221fbe50ee12" kind="function"><name>stubServiceCall</name></member>
+    <member refid="namespacethemis_1_1bench_1_1rpc__dedicated_1ae62457d4e129166769027555cd56a501" kind="function"><name>BM_GRPC_ServiceRegistration</name></member>
+    <member refid="namespacethemis_1_1bench_1_1rpc__dedicated_1aa5e6205661254b397f9d693d466cf8dd" kind="function"><name>Name</name></member>
+    <member refid="namespacethemis_1_1bench_1_1rpc__dedicated_1a26407c0c63c741ef3d3ab91018d311a2" kind="function"><name>BM_GRPC_StreamAdapterSend</name></member>
+    <member refid="namespacethemis_1_1bench_1_1rpc__dedicated_1a405354ba74249f618ab49696faa28ea7" kind="function"><name>Name</name></member>
+    <member refid="namespacethemis_1_1bench_1_1rpc__dedicated_1a87130e32b0dc9b4d97be7c6c5b1bc142" kind="function"><name>BM_GRPC_CredentialReload</name></member>
+    <member refid="namespacethemis_1_1bench_1_1rpc__dedicated_1a00d6848fae0a328401ff5a6e21d06ce9" kind="function"><name>Name</name></member>
+    <member refid="namespacethemis_1_1bench_1_1rpc__dedicated_1ae5fbe65ad6ba76adbe12fb57b0be8ba7" kind="function"><name>BM_GRPC_BatchServiceCall</name></member>
+    <member refid="namespacethemis_1_1bench_1_1rpc__dedicated_1af843ab6be55b013ca337e8b1c8fe6433" kind="function"><name>Name</name></member>
+  </compound>
+  <compound refid="namespacethemis_1_1plugins" kind="namespace"><name>themis::plugins</name>
+  </compound>
+  <compound refid="namespacethemis_1_1plugins_1_1rpc" kind="namespace"><name>themis::plugins::rpc</name>
+  </compound>
+  <compound refid="namespacethemis_1_1plugins_1_1rpc_1_1grpc__plugin" kind="namespace"><name>themis::plugins::rpc::grpc_plugin</name>
+  </compound>
+  <compound refid="namespacethemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_0d165306217175100040331337374364355040176263222271" kind="namespace"><name>themis::plugins::rpc::grpc_plugin::@165306217175100040331337374364355040176263222271</name>
+  </compound>
+  <compound refid="namespacethemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1test" kind="namespace"><name>themis::plugins::rpc::grpc_plugin::test</name>
+    <member refid="namespacethemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1test_1a3dde38cd7861c2b1f96f9a6200cbf8ae" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1test_1afada47e0b16be53b3836e443949d375a" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1test_1ac5bcffb83c6111d460d49f93a8221b84" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1test_1a4361f8dd03f6a6b6bb5b66c0f64a1b96" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1test_1a4ecb1ea7cafe194ba5e4dd0039a50824" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1test_1a1e5577ba8603c0acc03ad631dbd2cd8f" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1test_1a2569b5864edc620152772bf5803e42bc" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1test_1a3c9c766f4ea081404f8abd8f9ba38384" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="namespacethemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1test_1_1_0d260005254017274226247134331042220325105170105003" kind="namespace"><name>themis::plugins::rpc::grpc_plugin::test::@260005254017274226247134331042220325105170105003</name>
+  </compound>
+  <compound refid="namespacethemis_1_1rpc" kind="namespace"><name>themis::rpc</name>
+    <member refid="namespacethemis_1_1rpc_1ae2a16d82f6f2880419fd7123fa341865" kind="enum"><name>CircuitState</name></member>
+    <member refid="namespacethemis_1_1rpc_1ae2a16d82f6f2880419fd7123fa341865af9be16a4ac9fcc9b545ff52f0606eb09" kind="enumvalue"><name>kClosed</name></member>
+    <member refid="namespacethemis_1_1rpc_1ae2a16d82f6f2880419fd7123fa341865ac76ad31b0ff1fcbb03eeae06f73420c8" kind="enumvalue"><name>kOpen</name></member>
+    <member refid="namespacethemis_1_1rpc_1ae2a16d82f6f2880419fd7123fa341865a2af0fb7ffd07ff907dfb85bc8a9253f8" kind="enumvalue"><name>kHalfOpen</name></member>
+    <member refid="namespacethemis_1_1rpc_1a57bbbba36631f808b6027e99ee6fae8f" kind="function"><name>circuitStateToString</name></member>
+  </compound>
+  <compound refid="namespacethemis_1_1rpc__grpc" kind="namespace"><name>themis::rpc_grpc</name>
+    <member refid="namespacethemis_1_1rpc__grpc_1a9d60fc7ffbc597e5e27b0e3ddbb43ef7" kind="enum"><name>RpcGrpcError</name></member>
+    <member refid="namespacethemis_1_1rpc__grpc_1a9d60fc7ffbc597e5e27b0e3ddbb43ef7a8c632159fa131f09d04f94e3cbcd8782" kind="enumvalue"><name>kSuccess</name></member>
+    <member refid="namespacethemis_1_1rpc__grpc_1a9d60fc7ffbc597e5e27b0e3ddbb43ef7a02eb6ba78dea555b7bbf430f6e1644a4" kind="enumvalue"><name>kServerNotRunning</name></member>
+    <member refid="namespacethemis_1_1rpc__grpc_1a9d60fc7ffbc597e5e27b0e3ddbb43ef7aa2044cdc44fa2dfeb4f55da1187020fb" kind="enumvalue"><name>kServiceRegistration</name></member>
+    <member refid="namespacethemis_1_1rpc__grpc_1a9d60fc7ffbc597e5e27b0e3ddbb43ef7ae075bdc8d1d07b0fddae4fae3691bbc2" kind="enumvalue"><name>kCredentialLoadFailed</name></member>
+    <member refid="namespacethemis_1_1rpc__grpc_1a9d60fc7ffbc597e5e27b0e3ddbb43ef7ac1697e5aa7b390c96a51a1662e0ec3a5" kind="enumvalue"><name>kStreamAborted</name></member>
+    <member refid="namespacethemis_1_1rpc__grpc_1a9d60fc7ffbc597e5e27b0e3ddbb43ef7aa0fcc6e288e7806a406405f780cdaf0f" kind="enumvalue"><name>kMethodNotFound</name></member>
+    <member refid="namespacethemis_1_1rpc__grpc_1a9d60fc7ffbc597e5e27b0e3ddbb43ef7adbe4fbec4b2cb2c2709a455206fed67f" kind="enumvalue"><name>kTransportError</name></member>
+    <member refid="namespacethemis_1_1rpc__grpc_1a9d60fc7ffbc597e5e27b0e3ddbb43ef7afcd417a134c251034b0d61b07c826394" kind="enumvalue"><name>kInternalError</name></member>
+    <member refid="namespacethemis_1_1rpc__grpc_1a68ab76b0d0c9daf9b7525a59166c7177" kind="enum"><name>RpcServerState</name></member>
+    <member refid="namespacethemis_1_1rpc__grpc_1a68ab76b0d0c9daf9b7525a59166c7177ac23e2b09ebe6bf4cb5e2a9abe85c0be2" kind="enumvalue"><name>Stopped</name></member>
+    <member refid="namespacethemis_1_1rpc__grpc_1a68ab76b0d0c9daf9b7525a59166c7177ac2efe4bbd13e6cb0db293e72884273c0" kind="enumvalue"><name>Starting</name></member>
+    <member refid="namespacethemis_1_1rpc__grpc_1a68ab76b0d0c9daf9b7525a59166c7177a4d3d769b812b6faa6b76e1a8abaece2d" kind="enumvalue"><name>Active</name></member>
+    <member refid="namespacethemis_1_1rpc__grpc_1a68ab76b0d0c9daf9b7525a59166c7177a7b7ecb39b9e110c2a31409a1672bad23" kind="enumvalue"><name>Stopping</name></member>
+    <member refid="namespacethemis_1_1rpc__grpc_1a2bcf5a5e6698fd52bfd02e2ab5ecf940" kind="variable"><name>kDefaultKeepaliveTime</name></member>
+    <member refid="namespacethemis_1_1rpc__grpc_1a78a90ccd64e8ef4d5bccd1e88f052117" kind="variable"><name>kDefaultMaxReceiveMessageBytes</name></member>
+    <member refid="namespacethemis_1_1rpc__grpc_1a7f279e7fdf758d2d425107995435c72a" kind="variable"><name>kMaxServiceNameBytes</name></member>
+    <member refid="namespacethemis_1_1rpc__grpc_1ae8c715d4b4ba470fb30a2840048721ce" kind="variable"><name>kMaxMethodNameBytes</name></member>
+    <member refid="namespacethemis_1_1rpc__grpc_1aa7ccf3625f2291445b80bd628ea2b649" kind="function"><name>isRpcGrpcFailClosed</name></member>
+  </compound>
+  <compound refid="namespacethemis_1_1rpc__grpc_1_1test" kind="namespace"><name>themis::rpc_grpc::test</name>
+    <member refid="namespacethemis_1_1rpc__grpc_1_1test_1a33190d32e43af259a6edd7654480a6ad" kind="variable"><name>kSeed</name></member>
+    <member refid="namespacethemis_1_1rpc__grpc_1_1test_1afa61125a8dc25e8bbb6e58c306fa86cd" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1rpc__grpc_1_1test_1a0b7490d7f0bec481b064c9fdf90b799e" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1rpc__grpc_1_1test_1a7fd70e96186fcb15965f99875c19b8cf" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1rpc__grpc_1_1test_1a2272ef691f4bdc8554f19516d14aa849" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1rpc__grpc_1_1test_1a9ff9dbd7dc876357840253506b117789" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1rpc__grpc_1_1test_1ac0db1850f63b910355a80f3f26a50a82" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1rpc__grpc_1_1test_1a66d1a128e75d92ee6e0af1a3ae3db4c4" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1rpc__grpc_1_1test_1a0ebba93647c5146d150818b720044c66" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1rpc__grpc_1_1test_1aab984ddfbe63cbadaa0e9d68d374b7e2" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1rpc__grpc_1_1test_1a941e13f5b1d79783cda6908762fe2338" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1rpc__grpc_1_1test_1acc4685ac97d2e48f11d000c2ce46d069" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1rpc__grpc_1_1test_1afb47227c1e44880ecd0979fc36a91b50" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1rpc__grpc_1_1test_1a8e60de1899f5f225e62ec8af1df0ebf0" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1rpc__grpc_1_1test_1a4b2491b1be4f4de77b91c734381b3e16" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1rpc__grpc_1_1test_1ad2b5dbd3bbf3c18c7d5f54d89030b8ba" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1rpc__grpc_1_1test_1adbdf604459392d48fbe551d7ee0a5c7c" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="bench__rpc__grpc__dedicated__gates_8cpp" kind="file"><name>bench_rpc_grpc_dedicated_gates.cpp</name>
+    <member refid="bench__rpc__grpc__dedicated__gates_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kind="function"><name>BENCHMARK_MAIN</name></member>
+  </compound>
+  <compound refid="bench__rpc__grpc__release__gates_8cpp" kind="file"><name>bench_rpc_grpc_release_gates.cpp</name>
+    <member refid="bench__rpc__grpc__release__gates_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kind="function"><name>BENCHMARK_MAIN</name></member>
+  </compound>
+  <compound refid="circuit__breaker_8h" kind="file"><name>circuit_breaker.h</name>
+  </compound>
+  <compound refid="rpc__grpc__api__contract_8h" kind="file"><name>rpc_grpc_api_contract.h</name>
+  </compound>
+  <compound refid="bidi__stream__adapter_8h" kind="file"><name>bidi_stream_adapter.h</name>
+  </compound>
+  <compound refid="circuit__breaker_8cpp" kind="file"><name>circuit_breaker.cpp</name>
+  </compound>
+  <compound refid="grpc__plugin_8cpp" kind="file"><name>grpc_plugin.cpp</name>
+    <member refid="grpc__plugin_8cpp_1a4c4117bcb7b41e06cf72cf0b4fc2d633" kind="function"><name>createPlugin</name></member>
+    <member refid="grpc__plugin_8cpp_1a5457835fdd13167f5a87d6671128a18a" kind="function"><name>destroyPlugin</name></member>
+  </compound>
+  <compound refid="grpc__plugin_8h" kind="file"><name>grpc_plugin.h</name>
+  </compound>
+  <compound refid="test__rpc__grpc__circuit__breaker__focused_8cpp" kind="file"><name>test_rpc_grpc_circuit_breaker_focused.cpp</name>
+    <member refid="test__rpc__grpc__circuit__breaker__focused_8cpp_1a6e9bf67566668d470873850b1a146d69" kind="function"><name>TEST</name></member>
+    <member refid="test__rpc__grpc__circuit__breaker__focused_8cpp_1a9f1ef591399e1e095aeab83d4062e097" kind="function"><name>TEST</name></member>
+    <member refid="test__rpc__grpc__circuit__breaker__focused_8cpp_1adf401ddeac19fa0a08d048ac49a230a9" kind="function"><name>TEST</name></member>
+    <member refid="test__rpc__grpc__circuit__breaker__focused_8cpp_1a1a8035e945e7e6f1aee074609c3cb497" kind="function"><name>TEST</name></member>
+    <member refid="test__rpc__grpc__circuit__breaker__focused_8cpp_1a5e03b4bcd81d661e01846c014c35cafe" kind="function"><name>TEST</name></member>
+    <member refid="test__rpc__grpc__circuit__breaker__focused_8cpp_1a3cb70829b1d64619057e0c8f595f8b02" kind="function"><name>TEST</name></member>
+    <member refid="test__rpc__grpc__circuit__breaker__focused_8cpp_1abc54b7f059560691f829c033daabe2b9" kind="function"><name>TEST</name></member>
+    <member refid="test__rpc__grpc__circuit__breaker__focused_8cpp_1ac4993f7d6cff7cd1a65f722613788831" kind="function"><name>TEST</name></member>
+    <member refid="test__rpc__grpc__circuit__breaker__focused_8cpp_1a9824ad2a8ff08ab2f48bbbb7f6c90f88" kind="function"><name>TEST</name></member>
+    <member refid="test__rpc__grpc__circuit__breaker__focused_8cpp_1a5e4e97ba25f957da293328b34d8c2347" kind="function"><name>TEST</name></member>
+    <member refid="test__rpc__grpc__circuit__breaker__focused_8cpp_1acf4fe04cadd627ebe966bb68eab85a85" kind="function"><name>TEST</name></member>
+    <member refid="test__rpc__grpc__circuit__breaker__focused_8cpp_1a2a35616741643f2a5dd449c996da06db" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__rpc__grpc__contract__hardening__focused_8cpp" kind="file"><name>test_rpc_grpc_contract_hardening_focused.cpp</name>
+  </compound>
+  <compound refid="test__rpc__grpc__highcardinality__stress_8cpp" kind="file"><name>test_rpc_grpc_highcardinality_stress.cpp</name>
+    <member refid="test__rpc__grpc__highcardinality__stress_8cpp_1a2e4711b6e68a718c7235922922e2fc93" kind="function"><name>TEST</name></member>
+    <member refid="test__rpc__grpc__highcardinality__stress_8cpp_1ad08e186cf1da338cae1847e453d625cd" kind="function"><name>TEST</name></member>
+    <member refid="test__rpc__grpc__highcardinality__stress_8cpp_1a8923422abb1dbddc2b1ea79a2ab1baf2" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__rpc__grpc__integration__focused_8cpp" kind="file"><name>test_rpc_grpc_integration_focused.cpp</name>
+  </compound>
+  <compound refid="dir_13a41d9ad64fb9ae396cb953294783cf" kind="dir"><name>benchmarks</name>
+  </compound>
+  <compound refid="dir_d44c64559bbebec7f509842c48db8b23" kind="dir"><name>include</name>
+  </compound>
+  <compound refid="dir_669f9394955d1b4a0ec314e3bf31bb7d" kind="dir"><name>benchmarks/rpc_grpc</name>
+  </compound>
+  <compound refid="dir_6044ecd5fdbc31953bbf89c15b0a81b4" kind="dir"><name>include/rpc_grpc</name>
+  </compound>
+  <compound refid="dir_22c81137e033911479436f8f7fc4d3d5" kind="dir"><name>src/rpc_grpc</name>
+  </compound>
+  <compound refid="dir_24a5f33577d98ba260d019f64619f8af" kind="dir"><name>tests/rpc_grpc</name>
+  </compound>
+  <compound refid="dir_68267d1309a1af8e8297ef4c3efbcdba" kind="dir"><name>src</name>
+  </compound>
+  <compound refid="dir_59425e443f801f1f2fd8bbe4959a3ccf" kind="dir"><name>tests</name>
+  </compound>
+</doxygenindex>

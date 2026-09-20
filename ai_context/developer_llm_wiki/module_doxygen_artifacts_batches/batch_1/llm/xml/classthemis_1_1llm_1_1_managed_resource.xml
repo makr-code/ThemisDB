@@ -1,0 +1,316 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_managed_resource" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::ManagedResource</compoundname>
+    <includes refid="llm__memory__safety__utils_8h" local="no">llm_memory_safety_utils.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename Resource</type>
+      </param>
+      <param>
+        <type>typename Deleter</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1llm_1_1_managed_resource_1ace727f17f75b290bcb8c088e07b44753" prot="public" static="no">
+        <type>Resource</type>
+        <definition>using themis::llm::ManagedResource&lt; Resource, Deleter &gt;::value_type = Resource</definition>
+        <argsstring></argsstring>
+        <name>value_type</name>
+        <qualifiedname>themis::llm::ManagedResource::value_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="345" column="3" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="345" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_managed_resource_1ad48d230e42b967562ba1bf98640c64fa" prot="private" static="no" mutable="no">
+        <type>Resource</type>
+        <definition>Resource themis::llm::ManagedResource&lt; Resource, Deleter &gt;::resource_</definition>
+        <argsstring></argsstring>
+        <name>resource_</name>
+        <qualifiedname>themis::llm::ManagedResource::resource_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="416" column="12" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="416" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_managed_resource_1aacf6c99e309b12cc89ad07a009cc7574" prot="private" static="no" mutable="no">
+        <type>Deleter</type>
+        <definition>Deleter themis::llm::ManagedResource&lt; Resource, Deleter &gt;::deleter_</definition>
+        <argsstring></argsstring>
+        <name>deleter_</name>
+        <qualifiedname>themis::llm::ManagedResource::deleter_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="417" column="11" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="417" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_managed_resource_1ab61488e24e1a436462f966cbab784d18" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ManagedResource&lt; Resource, Deleter &gt;::ManagedResource</definition>
+        <argsstring>(Resource resource, Deleter deleter)</argsstring>
+        <name>ManagedResource</name>
+        <qualifiedname>themis::llm::ManagedResource::ManagedResource</qualifiedname>
+        <param>
+          <type>Resource</type>
+          <declname>resource</declname>
+        </param>
+        <param>
+          <type>Deleter</type>
+          <declname>deleter</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="347" column="3" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="347" bodyend="348"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_managed_resource_1a75ace9fe91d0c99a68c7e4a817b4ade8" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ManagedResource&lt; Resource, Deleter &gt;::ManagedResource</definition>
+        <argsstring>(ManagedResource &amp;&amp;other) noexcept</argsstring>
+        <name>ManagedResource</name>
+        <qualifiedname>themis::llm::ManagedResource::ManagedResource</qualifiedname>
+        <param>
+          <type>ManagedResource &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="351" column="3" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="351" bodyend="356"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_managed_resource_1a6b6d3b9dddb00108d9ace8512a2f43ab" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_managed_resource_1ab61488e24e1a436462f966cbab784d18" kindref="member">ManagedResource</ref> &amp;</type>
+        <definition>ManagedResource &amp; themis::llm::ManagedResource&lt; Resource, Deleter &gt;::operator=</definition>
+        <argsstring>(ManagedResource &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::ManagedResource::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_managed_resource_1ab61488e24e1a436462f966cbab784d18" kindref="member">ManagedResource</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="358" column="19" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="358" bodyend="367"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_managed_resource_1a84b66d01e03587a35a9de91565936f1e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ManagedResource&lt; Resource, Deleter &gt;::ManagedResource</definition>
+        <argsstring>(const ManagedResource &amp;)=delete</argsstring>
+        <name>ManagedResource</name>
+        <qualifiedname>themis::llm::ManagedResource::ManagedResource</qualifiedname>
+        <param>
+          <type>const ManagedResource &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="370" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_managed_resource_1ae969466a4881ebd78c5e704cc63cda58" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_managed_resource_1ab61488e24e1a436462f966cbab784d18" kindref="member">ManagedResource</ref> &amp;</type>
+        <definition>ManagedResource &amp; themis::llm::ManagedResource&lt; Resource, Deleter &gt;::operator=</definition>
+        <argsstring>(const ManagedResource &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::ManagedResource::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1_managed_resource_1ab61488e24e1a436462f966cbab784d18" kindref="member">ManagedResource</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="371" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_managed_resource_1a4336306a0c023335ecefb0625f4509af" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ManagedResource&lt; Resource, Deleter &gt;::~ManagedResource</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~ManagedResource</name>
+        <qualifiedname>themis::llm::ManagedResource::~ManagedResource</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="374" column="3" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="374" bodyend="376"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_managed_resource_1a599215f436c44cff7a1a55b53ae7ebc0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>Resource</type>
+        <definition>Resource themis::llm::ManagedResource&lt; Resource, Deleter &gt;::get</definition>
+        <argsstring>() const</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::llm::ManagedResource::get</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="379" column="12" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="379" bodyend="379"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_managed_resource_1a793dee67d3377a38e80c7c29e7847fbb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>Resource *</type>
+        <definition>Resource * themis::llm::ManagedResource&lt; Resource, Deleter &gt;::operator-&gt;</definition>
+        <argsstring>()</argsstring>
+        <name>operator-&gt;</name>
+        <qualifiedname>themis::llm::ManagedResource::operator-&gt;</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="380" column="12" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="380" bodyend="380"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_managed_resource_1a303d3982818c67b41640236715457407" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const Resource *</type>
+        <definition>const Resource * themis::llm::ManagedResource&lt; Resource, Deleter &gt;::operator-&gt;</definition>
+        <argsstring>() const</argsstring>
+        <name>operator-&gt;</name>
+        <qualifiedname>themis::llm::ManagedResource::operator-&gt;</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="381" column="18" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="381" bodyend="381"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_managed_resource_1afc7982070622a48b4bdbe1c0cf91e543" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>Resource &amp;</type>
+        <definition>Resource &amp; themis::llm::ManagedResource&lt; Resource, Deleter &gt;::operator*</definition>
+        <argsstring>()</argsstring>
+        <name>operator*</name>
+        <qualifiedname>themis::llm::ManagedResource::operator*</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="382" column="12" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="382" bodyend="382"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_managed_resource_1a22a98ac743cf6ab32ccc58e23120bec6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const Resource &amp;</type>
+        <definition>const Resource &amp; themis::llm::ManagedResource&lt; Resource, Deleter &gt;::operator*</definition>
+        <argsstring>() const</argsstring>
+        <name>operator*</name>
+        <qualifiedname>themis::llm::ManagedResource::operator*</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="383" column="18" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="383" bodyend="383"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_managed_resource_1a70c455289a8ec6ca7f94706516e2b82b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>Resource</type>
+        <definition>Resource themis::llm::ManagedResource&lt; Resource, Deleter &gt;::release</definition>
+        <argsstring>()</argsstring>
+        <name>release</name>
+        <qualifiedname>themis::llm::ManagedResource::release</qualifiedname>
+        <briefdescription>
+<para>Release ownership without cleanup. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="390" column="12" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="390" bodyend="395"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_managed_resource_1ae1e06f270b4a52ea605757a11d1aff29" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::ManagedResource&lt; Resource, Deleter &gt;::reset</definition>
+        <argsstring>(Resource new_resource=nullptr)</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::llm::ManagedResource::reset</qualifiedname>
+        <param>
+          <type>Resource</type>
+          <declname>new_resource</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="398" column="8" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="398" bodyend="401"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_managed_resource_1aa1fb3035fe820ddb9a20bc6741ee6c97" prot="private" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::ManagedResource&lt; Resource, Deleter &gt;::cleanup</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>cleanup</name>
+        <qualifiedname>themis::llm::ManagedResource::cleanup</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="404" column="8" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="404" bodyend="414"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/llm_memory_safety_utils.h" line="343" column="1" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="343" bodyend="418"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_managed_resource_1aa1fb3035fe820ddb9a20bc6741ee6c97" prot="private" virt="non-virtual"><scope>themis::llm::ManagedResource</scope><name>cleanup</name></member>
+      <member refid="classthemis_1_1llm_1_1_managed_resource_1aacf6c99e309b12cc89ad07a009cc7574" prot="private" virt="non-virtual"><scope>themis::llm::ManagedResource</scope><name>deleter_</name></member>
+      <member refid="classthemis_1_1llm_1_1_managed_resource_1a599215f436c44cff7a1a55b53ae7ebc0" prot="public" virt="non-virtual"><scope>themis::llm::ManagedResource</scope><name>get</name></member>
+      <member refid="classthemis_1_1llm_1_1_managed_resource_1ab61488e24e1a436462f966cbab784d18" prot="public" virt="non-virtual"><scope>themis::llm::ManagedResource</scope><name>ManagedResource</name></member>
+      <member refid="classthemis_1_1llm_1_1_managed_resource_1a75ace9fe91d0c99a68c7e4a817b4ade8" prot="public" virt="non-virtual"><scope>themis::llm::ManagedResource</scope><name>ManagedResource</name></member>
+      <member refid="classthemis_1_1llm_1_1_managed_resource_1a84b66d01e03587a35a9de91565936f1e" prot="public" virt="non-virtual"><scope>themis::llm::ManagedResource</scope><name>ManagedResource</name></member>
+      <member refid="classthemis_1_1llm_1_1_managed_resource_1afc7982070622a48b4bdbe1c0cf91e543" prot="public" virt="non-virtual"><scope>themis::llm::ManagedResource</scope><name>operator*</name></member>
+      <member refid="classthemis_1_1llm_1_1_managed_resource_1a22a98ac743cf6ab32ccc58e23120bec6" prot="public" virt="non-virtual"><scope>themis::llm::ManagedResource</scope><name>operator*</name></member>
+      <member refid="classthemis_1_1llm_1_1_managed_resource_1a793dee67d3377a38e80c7c29e7847fbb" prot="public" virt="non-virtual"><scope>themis::llm::ManagedResource</scope><name>operator-&gt;</name></member>
+      <member refid="classthemis_1_1llm_1_1_managed_resource_1a303d3982818c67b41640236715457407" prot="public" virt="non-virtual"><scope>themis::llm::ManagedResource</scope><name>operator-&gt;</name></member>
+      <member refid="classthemis_1_1llm_1_1_managed_resource_1a6b6d3b9dddb00108d9ace8512a2f43ab" prot="public" virt="non-virtual"><scope>themis::llm::ManagedResource</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_managed_resource_1ae969466a4881ebd78c5e704cc63cda58" prot="public" virt="non-virtual"><scope>themis::llm::ManagedResource</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_managed_resource_1a70c455289a8ec6ca7f94706516e2b82b" prot="public" virt="non-virtual"><scope>themis::llm::ManagedResource</scope><name>release</name></member>
+      <member refid="classthemis_1_1llm_1_1_managed_resource_1ae1e06f270b4a52ea605757a11d1aff29" prot="public" virt="non-virtual"><scope>themis::llm::ManagedResource</scope><name>reset</name></member>
+      <member refid="classthemis_1_1llm_1_1_managed_resource_1ad48d230e42b967562ba1bf98640c64fa" prot="private" virt="non-virtual"><scope>themis::llm::ManagedResource</scope><name>resource_</name></member>
+      <member refid="classthemis_1_1llm_1_1_managed_resource_1ace727f17f75b290bcb8c088e07b44753" prot="public" virt="non-virtual"><scope>themis::llm::ManagedResource</scope><name>value_type</name></member>
+      <member refid="classthemis_1_1llm_1_1_managed_resource_1a4336306a0c023335ecefb0625f4509af" prot="public" virt="non-virtual"><scope>themis::llm::ManagedResource</scope><name>~ManagedResource</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

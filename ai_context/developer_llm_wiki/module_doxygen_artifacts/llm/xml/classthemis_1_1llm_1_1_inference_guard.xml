@@ -1,0 +1,307 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_inference_guard" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::InferenceGuard</compoundname>
+    <includes refid="inference__guard_8h" local="no">inference_guard.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_inference_guard_1a3bced56dbce35e0cbe22b41a86609da3" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1_inference_engine_enhanced" kindref="compound">InferenceEngineEnhanced</ref> *</type>
+        <definition>InferenceEngineEnhanced* themis::llm::InferenceGuard::engine_</definition>
+        <argsstring></argsstring>
+        <name>engine_</name>
+        <qualifiedname>themis::llm::InferenceGuard::engine_</qualifiedname>
+        <briefdescription>
+<para>Engine reference (not owned). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_guard.h" line="72" column="29" bodyfile="include/llm/inference_guard.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_inference_guard_1a182233578dcb53ed41b9e7f94f09b18b" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_inference_context" kindref="compound">InferenceContext</ref> *</type>
+        <definition>InferenceContext* themis::llm::InferenceGuard::context_</definition>
+        <argsstring></argsstring>
+        <name>context_</name>
+        <qualifiedname>themis::llm::InferenceGuard::context_</qualifiedname>
+        <briefdescription>
+<para>Managed context (owned by engine). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_guard.h" line="73" column="22" bodyfile="include/llm/inference_guard.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_guard_1af5c40675a493604422bebd1a741c5be4" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::InferenceGuard::InferenceGuard</definition>
+        <argsstring>(InferenceEngineEnhanced &amp;engine)</argsstring>
+        <name>InferenceGuard</name>
+        <qualifiedname>themis::llm::InferenceGuard::InferenceGuard</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_inference_engine_enhanced" kindref="compound">InferenceEngineEnhanced</ref> &amp;</type>
+          <declname>engine</declname>
+        </param>
+        <briefdescription>
+<para>Inference Guard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_guard.h" line="34" column="14" bodyfile="src/llm/inference_guard.cpp" bodystart="23" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_guard_1ab708a84e0112d81053d87c2a8a18e2f8" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::InferenceGuard::~InferenceGuard</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~InferenceGuard</name>
+        <qualifiedname>themis::llm::InferenceGuard::~InferenceGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_guard.h" line="36" column="5" bodyfile="src/llm/inference_guard.cpp" bodystart="52" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_guard_1a17cf0bf02dde8dc6bdbf7247cbe8b4f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::InferenceGuard::InferenceGuard</definition>
+        <argsstring>(const InferenceGuard &amp;)=delete</argsstring>
+        <name>InferenceGuard</name>
+        <qualifiedname>themis::llm::InferenceGuard::InferenceGuard</qualifiedname>
+        <param>
+          <type>const InferenceGuard &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_guard.h" line="39" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_guard_1afd1af42710e87828f7bd6f5018666265" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_inference_guard_1af5c40675a493604422bebd1a741c5be4" kindref="member">InferenceGuard</ref> &amp;</type>
+        <definition>InferenceGuard &amp; themis::llm::InferenceGuard::operator=</definition>
+        <argsstring>(const InferenceGuard &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::InferenceGuard::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1_inference_guard_1af5c40675a493604422bebd1a741c5be4" kindref="member">InferenceGuard</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_guard.h" line="40" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_guard_1a241772768b6aa166bb749d4cf53af32f" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::InferenceGuard::InferenceGuard</definition>
+        <argsstring>(InferenceGuard &amp;&amp;other) noexcept</argsstring>
+        <name>InferenceGuard</name>
+        <qualifiedname>themis::llm::InferenceGuard::InferenceGuard</qualifiedname>
+        <param>
+          <type>InferenceGuard &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_guard.h" line="43" column="5" bodyfile="src/llm/inference_guard.cpp" bodystart="61" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_guard_1a49e0d49109ab280f643129844494ed14" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_inference_guard_1af5c40675a493604422bebd1a741c5be4" kindref="member">InferenceGuard</ref> &amp;</type>
+        <definition>InferenceGuard &amp; themis::llm::InferenceGuard::operator=</definition>
+        <argsstring>(InferenceGuard &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::InferenceGuard::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_inference_guard_1af5c40675a493604422bebd1a741c5be4" kindref="member">InferenceGuard</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_guard.h" line="45" column="20" bodyfile="src/llm/inference_guard.cpp" bodystart="68" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_guard_1a495b7e2d8f5895ca101b79c7e5b12508" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_inference_context" kindref="compound">InferenceContext</ref> &amp;</type>
+        <definition>InferenceContext &amp; themis::llm::InferenceGuard::Get</definition>
+        <argsstring>()</argsstring>
+        <name>Get</name>
+        <qualifiedname>themis::llm::InferenceGuard::Get</qualifiedname>
+        <briefdescription>
+<para>Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::logic_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements Get without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_guard.h" line="51" column="22" bodyfile="src/llm/inference_guard.cpp" bodystart="94" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_guard_1a0e52db5400baf022a10e0eda3008b003" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1llm_1_1_inference_context" kindref="compound">InferenceContext</ref> &amp;</type>
+        <definition>const InferenceContext &amp; themis::llm::InferenceGuard::Get</definition>
+        <argsstring>() const</argsstring>
+        <name>Get</name>
+        <qualifiedname>themis::llm::InferenceGuard::Get</qualifiedname>
+        <briefdescription>
+<para>Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_guard.h" line="57" column="28" bodyfile="src/llm/inference_guard.cpp" bodystart="104" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_guard_1aaeef6555a287de956f48211fd935513e" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_inference_context" kindref="compound">InferenceContext</ref> *</type>
+        <definition>InferenceContext * themis::llm::InferenceGuard::GetPtr</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>GetPtr</name>
+        <qualifiedname>themis::llm::InferenceGuard::GetPtr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_guard.h" line="59" column="22" bodyfile="include/llm/inference_guard.h" bodystart="59" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_guard_1aa4231e457f854408901ec66424775d87" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1llm_1_1_inference_context" kindref="compound">InferenceContext</ref> *</type>
+        <definition>const InferenceContext * themis::llm::InferenceGuard::GetPtr</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>GetPtr</name>
+        <qualifiedname>themis::llm::InferenceGuard::GetPtr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_guard.h" line="60" column="28" bodyfile="include/llm/inference_guard.h" bodystart="60" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_guard_1a71e63f1fb88ca5656ad4e7eadcdf3584" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::InferenceGuard::IsValid</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>IsValid</name>
+        <qualifiedname>themis::llm::InferenceGuard::IsValid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_guard.h" line="62" column="10" bodyfile="include/llm/inference_guard.h" bodystart="62" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_guard_1a3ee96f8bd61f396582df27aec02ca05b" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_inference_context" kindref="compound">InferenceContext</ref> *</type>
+        <definition>InferenceContext * themis::llm::InferenceGuard::Release</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>Release</name>
+        <qualifiedname>themis::llm::InferenceGuard::Release</qualifiedname>
+        <briefdescription>
+<para>Release. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_guard.h" line="69" column="22" bodyfile="src/llm/inference_guard.cpp" bodystart="114" bodyend="120"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_guard_1af13f662b84d6da47dee9f8a1de98deda" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::InferenceGuard::Cleanup</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>Cleanup</name>
+        <qualifiedname>themis::llm::InferenceGuard::Cleanup</qualifiedname>
+        <briefdescription>
+<para>Cleanup. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_guard.h" line="79" column="10" bodyfile="src/llm/inference_guard.cpp" bodystart="122" bodyend="134"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/inference_guard.h" line="27" column="1" bodyfile="include/llm/inference_guard.h" bodystart="27" bodyend="80"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_inference_guard_1af13f662b84d6da47dee9f8a1de98deda" prot="private" virt="non-virtual"><scope>themis::llm::InferenceGuard</scope><name>Cleanup</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_guard_1a182233578dcb53ed41b9e7f94f09b18b" prot="private" virt="non-virtual"><scope>themis::llm::InferenceGuard</scope><name>context_</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_guard_1a3bced56dbce35e0cbe22b41a86609da3" prot="private" virt="non-virtual"><scope>themis::llm::InferenceGuard</scope><name>engine_</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_guard_1a495b7e2d8f5895ca101b79c7e5b12508" prot="public" virt="non-virtual"><scope>themis::llm::InferenceGuard</scope><name>Get</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_guard_1a0e52db5400baf022a10e0eda3008b003" prot="public" virt="non-virtual"><scope>themis::llm::InferenceGuard</scope><name>Get</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_guard_1aaeef6555a287de956f48211fd935513e" prot="public" virt="non-virtual"><scope>themis::llm::InferenceGuard</scope><name>GetPtr</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_guard_1aa4231e457f854408901ec66424775d87" prot="public" virt="non-virtual"><scope>themis::llm::InferenceGuard</scope><name>GetPtr</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_guard_1af5c40675a493604422bebd1a741c5be4" prot="public" virt="non-virtual"><scope>themis::llm::InferenceGuard</scope><name>InferenceGuard</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_guard_1a17cf0bf02dde8dc6bdbf7247cbe8b4f7" prot="public" virt="non-virtual"><scope>themis::llm::InferenceGuard</scope><name>InferenceGuard</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_guard_1a241772768b6aa166bb749d4cf53af32f" prot="public" virt="non-virtual"><scope>themis::llm::InferenceGuard</scope><name>InferenceGuard</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_guard_1a71e63f1fb88ca5656ad4e7eadcdf3584" prot="public" virt="non-virtual"><scope>themis::llm::InferenceGuard</scope><name>IsValid</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_guard_1afd1af42710e87828f7bd6f5018666265" prot="public" virt="non-virtual"><scope>themis::llm::InferenceGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_guard_1a49e0d49109ab280f643129844494ed14" prot="public" virt="non-virtual"><scope>themis::llm::InferenceGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_guard_1a3ee96f8bd61f396582df27aec02ca05b" prot="public" virt="non-virtual"><scope>themis::llm::InferenceGuard</scope><name>Release</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_guard_1ab708a84e0112d81053d87c2a8a18e2f8" prot="public" virt="non-virtual"><scope>themis::llm::InferenceGuard</scope><name>~InferenceGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,629 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::auth::JWTKeyRotationManager</compoundname>
+    <includes refid="jwt__key__rotation__manager_8h" local="no">jwt_key_rotation_manager.h</includes>
+    <innerclass refid="structthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1_1_config" prot="public">themis::auth::JWTKeyRotationManager::Config</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1_1_statistics" prot="public">themis::auth::JWTKeyRotationManager::Statistics</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a3bb446d7b5e48e6c60d9b1c71895109d" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1auth_1_1_j_w_t_validator" kindref="compound">JWTValidator</ref> &amp;</type>
+        <definition>JWTValidator&amp; themis::auth::JWTKeyRotationManager::validator_</definition>
+        <argsstring></argsstring>
+        <name>validator_</name>
+        <qualifiedname>themis::auth::JWTKeyRotationManager::validator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_key_rotation_manager.h" line="176" column="21" bodyfile="include/auth/jwt_key_rotation_manager.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a9aa75465f0ae9fbe1a7bccc0e1b63ca3" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1auth_1_1_token_blacklist" kindref="compound">TokenBlacklist</ref> *</type>
+        <definition>TokenBlacklist* themis::auth::JWTKeyRotationManager::blacklist_</definition>
+        <argsstring></argsstring>
+        <name>blacklist_</name>
+        <qualifiedname>themis::auth::JWTKeyRotationManager::blacklist_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_key_rotation_manager.h" line="177" column="21" bodyfile="include/auth/jwt_key_rotation_manager.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a769c1b8826148b9969369e3cb7fe631d" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::auth::JWTKeyRotationManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::auth::JWTKeyRotationManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_key_rotation_manager.h" line="178" column="22" bodyfile="include/auth/jwt_key_rotation_manager.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a2a4f62785d63347d376eabad39113912" prot="private" static="no" mutable="no">
+        <type>utils::AuditLogger *</type>
+        <definition>utils::AuditLogger* themis::auth::JWTKeyRotationManager::audit_logger_</definition>
+        <argsstring></argsstring>
+        <name>audit_logger_</name>
+        <qualifiedname>themis::auth::JWTKeyRotationManager::audit_logger_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_key_rotation_manager.h" line="179" column="24" bodyfile="include/auth/jwt_key_rotation_manager.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a515aff12e356cc9b1036280ab0f93a12" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::auth::JWTKeyRotationManager::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::auth::JWTKeyRotationManager::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_key_rotation_manager.h" line="181" column="24" bodyfile="include/auth/jwt_key_rotation_manager.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a1869d82f13ff1868c7f50c706bb3cc2a" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1auth_1_1_j_w_k_key_info" kindref="compound">JWKKeyInfo</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, JWKKeyInfo&gt; themis::auth::JWTKeyRotationManager::keys_</definition>
+        <argsstring></argsstring>
+        <name>keys_</name>
+        <qualifiedname>themis::auth::JWTKeyRotationManager::keys_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_key_rotation_manager.h" line="182" column="24" bodyfile="include/auth/jwt_key_rotation_manager.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a479c49ae7907f2fbce57078b86b0f65a" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::auth::JWTKeyRotationManager::rotation_count_</definition>
+        <argsstring></argsstring>
+        <name>rotation_count_</name>
+        <qualifiedname>themis::auth::JWTKeyRotationManager::rotation_count_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_key_rotation_manager.h" line="183" column="14" bodyfile="include/auth/jwt_key_rotation_manager.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a11b358bcea653c1275d4f9c5e67b21e8" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::auth::JWTKeyRotationManager::revocation_count_</definition>
+        <argsstring></argsstring>
+        <name>revocation_count_</name>
+        <qualifiedname>themis::auth::JWTKeyRotationManager::revocation_count_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_key_rotation_manager.h" line="184" column="14" bodyfile="include/auth/jwt_key_rotation_manager.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a7b65d783b08e6031bbba2f4fe5e4214a" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::JWTKeyRotationManager::JWTKeyRotationManager</definition>
+        <argsstring>(JWTValidator &amp;validator, TokenBlacklist *blacklist=nullptr)</argsstring>
+        <name>JWTKeyRotationManager</name>
+        <qualifiedname>themis::auth::JWTKeyRotationManager::JWTKeyRotationManager</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1auth_1_1_j_w_t_validator" kindref="compound">JWTValidator</ref> &amp;</type>
+          <declname>validator</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1auth_1_1_token_blacklist" kindref="compound">TokenBlacklist</ref> *</type>
+          <declname>blacklist</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_key_rotation_manager.h" line="70" column="14" bodyfile="src/auth/jwt_key_rotation_manager.cpp" bodystart="23" bodyend="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a432daf1e5e6a32222d10eb5ca170d169" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::JWTKeyRotationManager::JWTKeyRotationManager</definition>
+        <argsstring>(JWTValidator &amp;validator, TokenBlacklist *blacklist, const Config &amp;config)</argsstring>
+        <name>JWTKeyRotationManager</name>
+        <qualifiedname>themis::auth::JWTKeyRotationManager::JWTKeyRotationManager</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1auth_1_1_j_w_t_validator" kindref="compound">JWTValidator</ref> &amp;</type>
+          <declname>validator</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1auth_1_1_token_blacklist" kindref="compound">TokenBlacklist</ref> *</type>
+          <declname>blacklist</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_key_rotation_manager.h" line="73" column="5" bodyfile="src/auth/jwt_key_rotation_manager.cpp" bodystart="26" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a64a16d65cf43d0f58173fd173e22016b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::JWTKeyRotationManager::JWTKeyRotationManager</definition>
+        <argsstring>(const JWTKeyRotationManager &amp;)=delete</argsstring>
+        <name>JWTKeyRotationManager</name>
+        <qualifiedname>themis::auth::JWTKeyRotationManager::JWTKeyRotationManager</qualifiedname>
+        <param>
+          <type>const JWTKeyRotationManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_key_rotation_manager.h" line="79" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a3554dbdcf6e9bd84e343d7440f9af611" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a7b65d783b08e6031bbba2f4fe5e4214a" kindref="member">JWTKeyRotationManager</ref> &amp;</type>
+        <definition>JWTKeyRotationManager &amp; themis::auth::JWTKeyRotationManager::operator=</definition>
+        <argsstring>(const JWTKeyRotationManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::auth::JWTKeyRotationManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a7b65d783b08e6031bbba2f4fe5e4214a" kindref="member">JWTKeyRotationManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_key_rotation_manager.h" line="80" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a880f48e9cac373118b41a127daa75b47" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::JWTKeyRotationManager::~JWTKeyRotationManager</definition>
+        <argsstring>()</argsstring>
+        <name>~JWTKeyRotationManager</name>
+        <qualifiedname>themis::auth::JWTKeyRotationManager::~JWTKeyRotationManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_key_rotation_manager.h" line="82" column="5" bodyfile="src/auth/jwt_key_rotation_manager.cpp" bodystart="29" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a227f6e751adaf2f23435ead3171c3517" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::JWTKeyRotationManager::rotateActiveKey</definition>
+        <argsstring>(const std::string &amp;new_kid, std::optional&lt; std::chrono::seconds &gt; max_age=std::nullopt)</argsstring>
+        <name>rotateActiveKey</name>
+        <qualifiedname>themis::auth::JWTKeyRotationManager::rotateActiveKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>new_kid</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; std::chrono::seconds &gt;</type>
+          <declname>max_age</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Rotate Active Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">new_kid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_age</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::length_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), size(), find(), end(), logSecurityEvent(), std::to_string(), std::chrono::system_clock::now(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_key_rotation_manager.h" line="88" column="10" bodyfile="src/auth/jwt_key_rotation_manager.cpp" bodystart="52" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a61a47b7bb11dcbdb1daa7847a6bdcf4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::JWTKeyRotationManager::revokeKey</definition>
+        <argsstring>(const std::string &amp;kid)</argsstring>
+        <name>revokeKey</name>
+        <qualifiedname>themis::auth::JWTKeyRotationManager::revokeKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>kid</declname>
+        </param>
+        <briefdescription>
+<para>Revoke Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">kid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">kid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), THEMIS_WARN(), <ref refid="namespacethemis_1_1auth_1ab9effd55423626bbba5d05f86b6de424" kindref="member">redact()</ref>, logSecurityEvent(), revokeKid(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_key_rotation_manager.h" line="96" column="10" bodyfile="src/auth/jwt_key_rotation_manager.cpp" bodystart="114" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a83d3c1fd6026acb50fcdac9af5efca2f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::JWTKeyRotationManager::reactivateKey</definition>
+        <argsstring>(const std::string &amp;kid)</argsstring>
+        <name>reactivateKey</name>
+        <qualifiedname>themis::auth::JWTKeyRotationManager::reactivateKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>kid</declname>
+        </param>
+        <briefdescription>
+<para>Reactivate Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">kid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">kid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), THEMIS_WARN(), <ref refid="namespacethemis_1_1auth_1ab9effd55423626bbba5d05f86b6de424" kindref="member">redact()</ref>, std::chrono::system_clock::now(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_key_rotation_manager.h" line="103" column="10" bodyfile="src/auth/jwt_key_rotation_manager.cpp" bodystart="168" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1ae9c83f6d20e74fa4deab1dbfb4d669ba" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::JWTKeyRotationManager::isRotationDue</definition>
+        <argsstring>() const</argsstring>
+        <name>isRotationDue</name>
+        <qualifiedname>themis::auth::JWTKeyRotationManager::isRotationDue</qualifiedname>
+        <briefdescription>
+<para>Is Rotation Due. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/jwt_key_rotation_manager.h" line="113" column="10" bodyfile="src/auth/jwt_key_rotation_manager.cpp" bodystart="194" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a41c74d683c773dd8af50c5ee649ef80a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::JWTKeyRotationManager::checkAndRotate</definition>
+        <argsstring>()</argsstring>
+        <name>checkAndRotate</name>
+        <qualifiedname>themis::auth::JWTKeyRotationManager::checkAndRotate</qualifiedname>
+        <briefdescription>
+<para>Check And Rotate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), std::chrono::system_clock::now(), push_back(), revokeKid(), THEMIS_WARN(), <ref refid="namespacethemis_1_1auth_1ab9effd55423626bbba5d05f86b6de424" kindref="member">redact()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_key_rotation_manager.h" line="118" column="10" bodyfile="src/auth/jwt_key_rotation_manager.cpp" bodystart="215" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a9af85918efb5c505cc2893138a2e588b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::JWTKeyRotationManager::activeKeyId</definition>
+        <argsstring>() const</argsstring>
+        <name>activeKeyId</name>
+        <qualifiedname>themis::auth::JWTKeyRotationManager::activeKeyId</qualifiedname>
+        <briefdescription>
+<para>Active Key Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/jwt_key_rotation_manager.h" line="128" column="17" bodyfile="src/auth/jwt_key_rotation_manager.cpp" bodystart="245" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1ace03d6f2219f24d9c08014b4db01697b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::auth::JWTKeyRotationManager::passiveKeyIds</definition>
+        <argsstring>() const</argsstring>
+        <name>passiveKeyIds</name>
+        <qualifiedname>themis::auth::JWTKeyRotationManager::passiveKeyIds</qualifiedname>
+        <briefdescription>
+<para>Passive Key Ids. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/jwt_key_rotation_manager.h" line="134" column="17" bodyfile="src/auth/jwt_key_rotation_manager.cpp" bodystart="260" bodyend="275"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a36e291f500423c6ce043bf332f59ca98" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::auth::JWTKeyRotationManager::revokedKeyIds</definition>
+        <argsstring>() const</argsstring>
+        <name>revokedKeyIds</name>
+        <qualifiedname>themis::auth::JWTKeyRotationManager::revokedKeyIds</qualifiedname>
+        <briefdescription>
+<para>Revoked Key Ids. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/jwt_key_rotation_manager.h" line="140" column="17" bodyfile="src/auth/jwt_key_rotation_manager.cpp" bodystart="277" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a06e6a9e5d712866aeb3e652d68496024" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1auth_1_1_j_w_k_key_info" kindref="compound">JWKKeyInfo</ref> &gt;</type>
+        <definition>std::optional&lt; JWKKeyInfo &gt; themis::auth::JWTKeyRotationManager::getKeyInfo</definition>
+        <argsstring>(const std::string &amp;kid) const</argsstring>
+        <name>getKeyInfo</name>
+        <qualifiedname>themis::auth::JWTKeyRotationManager::getKeyInfo</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>kid</declname>
+        </param>
+        <briefdescription>
+<para>Get Key Info. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">kid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/jwt_key_rotation_manager.h" line="147" column="19" bodyfile="src/auth/jwt_key_rotation_manager.cpp" bodystart="294" bodyend="306"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a5bf88a4e3a208f0b4020e2722a91aa24" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1_1_statistics" kindref="compound">Statistics</ref></type>
+        <definition>JWTKeyRotationManager::Statistics themis::auth::JWTKeyRotationManager::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::auth::JWTKeyRotationManager::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Return access control statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Access control statistics. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/jwt_key_rotation_manager.h" line="166" column="16" bodyfile="src/auth/jwt_key_rotation_manager.cpp" bodystart="308" bodyend="333"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1accf72339d9a23be81f4658436a04bdd8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::JWTKeyRotationManager::setAuditLogger</definition>
+        <argsstring>(utils::AuditLogger *logger)</argsstring>
+        <name>setAuditLogger</name>
+        <qualifiedname>themis::auth::JWTKeyRotationManager::setAuditLogger</qualifiedname>
+        <param>
+          <type>utils::AuditLogger *</type>
+          <declname>logger</declname>
+        </param>
+        <briefdescription>
+<para>Set Audit Logger. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">logger</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setAuditLogger without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_key_rotation_manager.h" line="173" column="10" bodyfile="include/auth/jwt_key_rotation_manager.h" bodystart="173" bodyend="173"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/jwt_key_rotation_manager.h" line="58" column="1" bodyfile="include/auth/jwt_key_rotation_manager.h" bodystart="58" bodyend="185"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a9af85918efb5c505cc2893138a2e588b" prot="public" virt="non-virtual"><scope>themis::auth::JWTKeyRotationManager</scope><name>activeKeyId</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a2a4f62785d63347d376eabad39113912" prot="private" virt="non-virtual"><scope>themis::auth::JWTKeyRotationManager</scope><name>audit_logger_</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a9aa75465f0ae9fbe1a7bccc0e1b63ca3" prot="private" virt="non-virtual"><scope>themis::auth::JWTKeyRotationManager</scope><name>blacklist_</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a41c74d683c773dd8af50c5ee649ef80a" prot="public" virt="non-virtual"><scope>themis::auth::JWTKeyRotationManager</scope><name>checkAndRotate</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a769c1b8826148b9969369e3cb7fe631d" prot="private" virt="non-virtual"><scope>themis::auth::JWTKeyRotationManager</scope><name>config_</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a06e6a9e5d712866aeb3e652d68496024" prot="public" virt="non-virtual"><scope>themis::auth::JWTKeyRotationManager</scope><name>getKeyInfo</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a5bf88a4e3a208f0b4020e2722a91aa24" prot="public" virt="non-virtual"><scope>themis::auth::JWTKeyRotationManager</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1ae9c83f6d20e74fa4deab1dbfb4d669ba" prot="public" virt="non-virtual"><scope>themis::auth::JWTKeyRotationManager</scope><name>isRotationDue</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a7b65d783b08e6031bbba2f4fe5e4214a" prot="public" virt="non-virtual"><scope>themis::auth::JWTKeyRotationManager</scope><name>JWTKeyRotationManager</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a432daf1e5e6a32222d10eb5ca170d169" prot="public" virt="non-virtual"><scope>themis::auth::JWTKeyRotationManager</scope><name>JWTKeyRotationManager</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a64a16d65cf43d0f58173fd173e22016b" prot="public" virt="non-virtual"><scope>themis::auth::JWTKeyRotationManager</scope><name>JWTKeyRotationManager</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a1869d82f13ff1868c7f50c706bb3cc2a" prot="private" virt="non-virtual"><scope>themis::auth::JWTKeyRotationManager</scope><name>keys_</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a515aff12e356cc9b1036280ab0f93a12" prot="private" virt="non-virtual"><scope>themis::auth::JWTKeyRotationManager</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a3554dbdcf6e9bd84e343d7440f9af611" prot="public" virt="non-virtual"><scope>themis::auth::JWTKeyRotationManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1ace03d6f2219f24d9c08014b4db01697b" prot="public" virt="non-virtual"><scope>themis::auth::JWTKeyRotationManager</scope><name>passiveKeyIds</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a83d3c1fd6026acb50fcdac9af5efca2f" prot="public" virt="non-virtual"><scope>themis::auth::JWTKeyRotationManager</scope><name>reactivateKey</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a11b358bcea653c1275d4f9c5e67b21e8" prot="private" virt="non-virtual"><scope>themis::auth::JWTKeyRotationManager</scope><name>revocation_count_</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a36e291f500423c6ce043bf332f59ca98" prot="public" virt="non-virtual"><scope>themis::auth::JWTKeyRotationManager</scope><name>revokedKeyIds</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a61a47b7bb11dcbdb1daa7847a6bdcf4e" prot="public" virt="non-virtual"><scope>themis::auth::JWTKeyRotationManager</scope><name>revokeKey</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a227f6e751adaf2f23435ead3171c3517" prot="public" virt="non-virtual"><scope>themis::auth::JWTKeyRotationManager</scope><name>rotateActiveKey</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a479c49ae7907f2fbce57078b86b0f65a" prot="private" virt="non-virtual"><scope>themis::auth::JWTKeyRotationManager</scope><name>rotation_count_</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1accf72339d9a23be81f4658436a04bdd8" prot="public" virt="non-virtual"><scope>themis::auth::JWTKeyRotationManager</scope><name>setAuditLogger</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a3bb446d7b5e48e6c60d9b1c71895109d" prot="private" virt="non-virtual"><scope>themis::auth::JWTKeyRotationManager</scope><name>validator_</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a880f48e9cac373118b41a127daa75b47" prot="public" virt="non-virtual"><scope>themis::auth::JWTKeyRotationManager</scope><name>~JWTKeyRotationManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

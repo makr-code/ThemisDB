@@ -1,0 +1,283 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="aql__syntax__highlighter_8h" kind="file" language="C++">
+    <compoundname>aql_syntax_highlighter.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">cstddef</includes>
+    <includedby refid="bench__hybrid__aql__sugar_8cpp" local="yes">benchmarks/aql/bench_hybrid_aql_sugar.cpp</includedby>
+    <includedby refid="llm__aql__handler_8h" local="yes">include/aql/llm_aql_handler.h</includedby>
+    <includedby refid="aql__syntax__highlighter_8cpp" local="yes">src/aql/aql_syntax_highlighter.cpp</includedby>
+    <includedby refid="test__aql__syntax__highlighter_8cpp" local="yes">tests/aql/test_aql_syntax_highlighter.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/aql/aql_syntax_highlighter.h</label>
+        <link refid="aql__syntax__highlighter_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>cstddef</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/aql/bench_hybrid_aql_sugar.cpp</label>
+        <link refid="bench__hybrid__aql__sugar_8cpp"/>
+      </node>
+      <node id="4">
+        <label>include/aql/aql_agent.h</label>
+        <link refid="aql__agent_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>include/aql/aql_conversation_context.h</label>
+        <link refid="aql__conversation__context_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/aql/aql_syntax_highlighter.h</label>
+        <link refid="aql__syntax__highlighter_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/aql/llm_aql_handler.h</label>
+        <link refid="llm__aql__handler_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>include/aql/llm_extractive_compressor.h</label>
+        <link refid="llm__extractive__compressor_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>src/aql/aql_agent.cpp</label>
+        <link refid="aql__agent_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/aql/aql_conversation_context.cpp</label>
+        <link refid="aql__conversation__context_8cpp"/>
+      </node>
+      <node id="15">
+        <label>src/aql/aql_query_builder.cpp</label>
+        <link refid="aql__query__builder_8cpp"/>
+      </node>
+      <node id="24">
+        <label>src/aql/aql_syntax_highlighter.cpp</label>
+        <link refid="aql__syntax__highlighter_8cpp"/>
+      </node>
+      <node id="16">
+        <label>src/aql/llm_aql_embedding_bridge.cpp</label>
+        <link refid="llm__aql__embedding__bridge_8cpp"/>
+      </node>
+      <node id="17">
+        <label>src/aql/llm_aql_handler.cpp</label>
+        <link refid="llm__aql__handler_8cpp"/>
+      </node>
+      <node id="13">
+        <label>src/aql/llm_extractive_compressor.cpp</label>
+        <link refid="llm__extractive__compressor_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/aql/test_aql_agent.cpp</label>
+        <link refid="test__aql__agent_8cpp"/>
+      </node>
+      <node id="18">
+        <label>tests/aql/test_aql_api_stability.cpp</label>
+        <link refid="test__aql__api__stability_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/aql/test_aql_conversation_context.cpp</label>
+        <link refid="test__aql__conversation__context_8cpp"/>
+      </node>
+      <node id="19">
+        <label>tests/aql/test_aql_llm_validation_pipeline_phase04.cpp</label>
+        <link refid="test__aql__llm__validation__pipeline__phase04_8cpp"/>
+      </node>
+      <node id="20">
+        <label>tests/aql/test_aql_query_builder.cpp</label>
+        <link refid="test__aql__query__builder_8cpp"/>
+      </node>
+      <node id="21">
+        <label>tests/aql/test_aql_query_validator.cpp</label>
+        <link refid="test__aql__query__validator_8cpp"/>
+      </node>
+      <node id="22">
+        <label>tests/aql/test_aql_schema_aware.cpp</label>
+        <link refid="test__aql__schema__aware_8cpp"/>
+      </node>
+      <node id="25">
+        <label>tests/aql/test_aql_syntax_highlighter.cpp</label>
+        <link refid="test__aql__syntax__highlighter_8cpp"/>
+      </node>
+      <node id="14">
+        <label>tests/aql/test_episodic_compaction.cpp</label>
+        <link refid="test__episodic__compaction_8cpp"/>
+      </node>
+      <node id="23">
+        <label>tests/aql/test_llm_aql_handler_phase03.cpp</label>
+        <link refid="test__llm__aql__handler__phase03_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/aql/test_p2_d05_runtime_integration.cpp</label>
+        <link refid="test__p2__d05__runtime__integration_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/aql/test_p2_d06_benchmarks.cpp</label>
+        <link refid="test__p2__d06__benchmarks_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1aql_1_1_a_q_l_token" prot="public">themis::aql::AQLToken</innerclass>
+    <innerclass refid="structthemis_1_1aql_1_1_a_q_l_annotation" prot="public">themis::aql::AQLAnnotation</innerclass>
+    <innerclass refid="structthemis_1_1aql_1_1_highlighted_response" prot="public">themis::aql::HighlightedResponse</innerclass>
+    <innerclass refid="classthemis_1_1aql_1_1_a_q_l_syntax_highlighter" prot="public">themis::aql::AQLSyntaxHighlighter</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1aql">themis::aql</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.36 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21" refid="namespacethemis_1_1aql_1a90899a1774887166e80358dcafae40ec" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a90899a1774887166e80358dcafae40ec" kindref="member">AQLTokenType</ref><sp/>{</highlight></codeline>
+<codeline lineno="22" refid="namespacethemis_1_1aql_1a90899a1774887166e80358dcafae40eca780bc0722dd01d4a8d9869f060734be6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a90899a1774887166e80358dcafae40eca780bc0722dd01d4a8d9869f060734be6" kindref="member">KEYWORD</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="23" refid="namespacethemis_1_1aql_1a90899a1774887166e80358dcafae40eca2fd62d534dbd85c8b0f5df663ef99562" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a90899a1774887166e80358dcafae40eca2fd62d534dbd85c8b0f5df663ef99562" kindref="member">LLM_KEYWORD</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="24" refid="namespacethemis_1_1aql_1a90899a1774887166e80358dcafae40eca6a72a6a776662a244f82d31e9274a07b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a90899a1774887166e80358dcafae40eca6a72a6a776662a244f82d31e9274a07b" kindref="member">FUNCTION</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="25" refid="namespacethemis_1_1aql_1a90899a1774887166e80358dcafae40eca6fcc416051346daca31c571646af127a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a90899a1774887166e80358dcafae40eca6fcc416051346daca31c571646af127a" kindref="member">IDENTIFIER</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="26" refid="namespacethemis_1_1aql_1a90899a1774887166e80358dcafae40eca63b588d5559f64f89a416e656880b949" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a90899a1774887166e80358dcafae40eca63b588d5559f64f89a416e656880b949" kindref="member">STRING</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="27" refid="namespacethemis_1_1aql_1a90899a1774887166e80358dcafae40eca34f55eca38e0605a84f169ff61a2a396" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a90899a1774887166e80358dcafae40eca34f55eca38e0605a84f169ff61a2a396" kindref="member">NUMBER</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1aql_1a90899a1774887166e80358dcafae40eca986496ca5b23669b8661171566a167c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a90899a1774887166e80358dcafae40eca986496ca5b23669b8661171566a167c3" kindref="member">OPERATOR</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1aql_1a90899a1774887166e80358dcafae40eca960f97209f43a4a31e959e7fb9ec573e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a90899a1774887166e80358dcafae40eca960f97209f43a4a31e959e7fb9ec573e" kindref="member">PUNCTUATION</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1aql_1a90899a1774887166e80358dcafae40ecaf2cd320b55767434dd48d81b165ea956" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a90899a1774887166e80358dcafae40ecaf2cd320b55767434dd48d81b165ea956" kindref="member">COMMENT</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1aql_1a90899a1774887166e80358dcafae40eca696b031073e74bf2cb98e5ef201d4aa3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">UNKNOWN</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1aql_1_1_a_q_l_token" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1aql_1_1_a_q_l_token" kindref="compound">AQLToken</ref><sp/>{</highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1aql_1_1_a_q_l_token_1af4c94b8db1edfbd008459d297bd1c0c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a90899a1774887166e80358dcafae40ec" kindref="member">AQLTokenType</ref><sp/><ref refid="structthemis_1_1aql_1_1_a_q_l_token_1af4c94b8db1edfbd008459d297bd1c0c5" kindref="member">type</ref>;</highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1aql_1_1_a_q_l_token_1a3de31e02465fe8a54ffa6da38e8805c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><ref refid="structthemis_1_1aql_1_1_a_q_l_token_1a3de31e02465fe8a54ffa6da38e8805c8" kindref="member">value</ref>;</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1aql_1_1_a_q_l_token_1a28e8524d977f75d6c919a21688acfd82" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><sp/><ref refid="structthemis_1_1aql_1_1_a_q_l_token_1a28e8524d977f75d6c919a21688acfd82" kindref="member">line</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1aql_1_1_a_q_l_token_1aba832ce4d663842df47d020f7ffd5f5f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><sp/><ref refid="structthemis_1_1aql_1_1_a_q_l_token_1aba832ce4d663842df47d020f7ffd5f5f" kindref="member">column</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="39"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1aql_1_1_a_q_l_annotation" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1aql_1_1_a_q_l_annotation" kindref="compound">AQLAnnotation</ref><sp/>{</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1aql_1_1_a_q_l_annotation_1aa809febc7887edb070623ab456c0308b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1aql_1_1_a_q_l_annotation_1aa809febc7887edb070623ab456c0308b" kindref="member">line</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1aql_1_1_a_q_l_annotation_1a3aa8e2f422d25062966b9aaeafc744ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1aql_1_1_a_q_l_annotation_1a3aa8e2f422d25062966b9aaeafc744ec" kindref="member">column</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1aql_1_1_a_q_l_annotation_1a415839525c3c156c928a55c99098c566" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1aql_1_1_a_q_l_annotation_1a415839525c3c156c928a55c99098c566" kindref="member">message</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="45"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1aql_1_1_highlighted_response" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1aql_1_1_highlighted_response" kindref="compound">HighlightedResponse</ref><sp/>{</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1aql_1_1_highlighted_response_1a668631683ef6046a13c8fca53604e0be" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_highlighted_response_1a668631683ef6046a13c8fca53604e0be" kindref="member">text</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1aql_1_1_highlighted_response_1a4cdb1f11742c65b719031867668ffc2c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;AQLAnnotation&gt;<sp/><ref refid="structthemis_1_1aql_1_1_highlighted_response_1a4cdb1f11742c65b719031867668ffc2c" kindref="member">annotations</ref>;<sp/></highlight></codeline>
+<codeline lineno="50"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="classthemis_1_1aql_1_1_a_q_l_syntax_highlighter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1aql_1_1_a_q_l_syntax_highlighter_1aaf48cb5db87951ff7e28169bfdb7274b" kindref="member">AQLSyntaxHighlighter</ref><sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_syntax_highlighter_1aaf48cb5db87951ff7e28169bfdb7274b" kindref="member">AQLSyntaxHighlighter</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>use_ansi<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;AQLToken&gt;<sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_syntax_highlighter_1a4d4bcc67f5e2fc8eacabd0c4b1312438" kindref="member">tokenize</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>aql_code)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_syntax_highlighter_1a0b50e6fc840c58ea72ecb59cb0f2d294" kindref="member">highlightBlock</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>aql_code)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;AQLAnnotation&gt;<sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_syntax_highlighter_1affeea2c06875152db46d485f1acff803" kindref="member">annotateErrors</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>aql_code)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_highlighted_response" kindref="compound">HighlightedResponse</ref><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_syntax_highlighter_1aacc25782a4c6e3c509d3db29226a0812" kindref="member">formatLLMResponse</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>llm_response)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>use_ansi_;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>colorize(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1aql_1_1_a_q_l_token" kindref="compound">AQLToken</ref>&amp;<sp/>tok)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>ansiReset()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>aql</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/aql/aql_syntax_highlighter.h"/>
+  </compounddef>
+</doxygen>

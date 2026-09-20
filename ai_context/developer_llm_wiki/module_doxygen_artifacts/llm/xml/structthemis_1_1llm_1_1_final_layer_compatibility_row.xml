@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_final_layer_compatibility_row" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::FinalLayerCompatibilityRow</compoundname>
+    <includes refid="final__layer__orchestrator_8h" local="no">final_layer_orchestrator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_final_layer_compatibility_row_1a2546b0a1d5ae419230c9af9f45bcede2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::FinalLayerCompatibilityRow::adapter_id</definition>
+        <argsstring></argsstring>
+        <name>adapter_id</name>
+        <qualifiedname>themis::llm::FinalLayerCompatibilityRow::adapter_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/final_layer_orchestrator.h" line="75" column="17" bodyfile="include/llm/final_layer_orchestrator.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_final_layer_compatibility_row_1abe5ce172ed7128585217cc9da3ba696a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::FinalLayerCompatibilityRow::target_model_id</definition>
+        <argsstring></argsstring>
+        <name>target_model_id</name>
+        <qualifiedname>themis::llm::FinalLayerCompatibilityRow::target_model_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/final_layer_orchestrator.h" line="76" column="17" bodyfile="include/llm/final_layer_orchestrator.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_final_layer_compatibility_row_1aa3d90795031c4e6933efc46ccdf060f6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::FinalLayerCompatibilityRow::compatible</definition>
+        <argsstring></argsstring>
+        <name>compatible</name>
+        <qualifiedname>themis::llm::FinalLayerCompatibilityRow::compatible</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/final_layer_orchestrator.h" line="77" column="10" bodyfile="include/llm/final_layer_orchestrator.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_final_layer_compatibility_row_1ad0625331c56a0a60d57d0a27d518df78" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::FinalLayerCompatibilityRow::errors</definition>
+        <argsstring></argsstring>
+        <name>errors</name>
+        <qualifiedname>themis::llm::FinalLayerCompatibilityRow::errors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/final_layer_orchestrator.h" line="78" column="17" bodyfile="include/llm/final_layer_orchestrator.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_final_layer_compatibility_row_1aaace8dfd78ef670c46f4210ef2920e9d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::FinalLayerCompatibilityRow::warnings</definition>
+        <argsstring></argsstring>
+        <name>warnings</name>
+        <qualifiedname>themis::llm::FinalLayerCompatibilityRow::warnings</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/final_layer_orchestrator.h" line="79" column="17" bodyfile="include/llm/final_layer_orchestrator.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/final_layer_orchestrator.h" line="74" column="1" bodyfile="include/llm/final_layer_orchestrator.h" bodystart="74" bodyend="80"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_final_layer_compatibility_row_1a2546b0a1d5ae419230c9af9f45bcede2" prot="public" virt="non-virtual"><scope>themis::llm::FinalLayerCompatibilityRow</scope><name>adapter_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_final_layer_compatibility_row_1aa3d90795031c4e6933efc46ccdf060f6" prot="public" virt="non-virtual"><scope>themis::llm::FinalLayerCompatibilityRow</scope><name>compatible</name></member>
+      <member refid="structthemis_1_1llm_1_1_final_layer_compatibility_row_1ad0625331c56a0a60d57d0a27d518df78" prot="public" virt="non-virtual"><scope>themis::llm::FinalLayerCompatibilityRow</scope><name>errors</name></member>
+      <member refid="structthemis_1_1llm_1_1_final_layer_compatibility_row_1abe5ce172ed7128585217cc9da3ba696a" prot="public" virt="non-virtual"><scope>themis::llm::FinalLayerCompatibilityRow</scope><name>target_model_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_final_layer_compatibility_row_1aaace8dfd78ef670c46f4210ef2920e9d" prot="public" virt="non-virtual"><scope>themis::llm::FinalLayerCompatibilityRow</scope><name>warnings</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__knowledge_1_1_feedback_sync_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_knowledge::FeedbackSyncConfig</compoundname>
+    <includes refid="cross__shard__feedback__sync_8h" local="no">cross_shard_feedback_sync.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_feedback_sync_config_1aad201301214f1daa10b47603cdaf0dd1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::distributed_knowledge::FeedbackSyncConfig::max_embedding_dim</definition>
+        <argsstring></argsstring>
+        <name>max_embedding_dim</name>
+        <qualifiedname>themis::distributed_knowledge::FeedbackSyncConfig::max_embedding_dim</qualifiedname>
+        <initializer>= 384</initializer>
+        <briefdescription>
+<para>Fixed embedding dimension (validated on publish). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/cross_shard_feedback_sync.h" line="73" column="12" bodyfile="include/distributed_knowledge/cross_shard_feedback_sync.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_feedback_sync_config_1a944091d74bd3df81d6bf951c3effe11c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::distributed_knowledge::FeedbackSyncConfig::dedup_cache_size</definition>
+        <argsstring></argsstring>
+        <name>dedup_cache_size</name>
+        <qualifiedname>themis::distributed_knowledge::FeedbackSyncConfig::dedup_cache_size</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+<para>Max summary_ids retained for dedup. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/cross_shard_feedback_sync.h" line="74" column="12" bodyfile="include/distributed_knowledge/cross_shard_feedback_sync.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_feedback_sync_config_1a3cfc57e6934115d3e03d20fc34eb1de7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::distributed_knowledge::FeedbackSyncConfig::validate_embedding_dim</definition>
+        <argsstring></argsstring>
+        <name>validate_embedding_dim</name>
+        <qualifiedname>themis::distributed_knowledge::FeedbackSyncConfig::validate_embedding_dim</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Reject summaries with wrong dim. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/cross_shard_feedback_sync.h" line="75" column="12" bodyfile="include/distributed_knowledge/cross_shard_feedback_sync.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1distributed__knowledge_1_1_feedback_sync_config_1af6c09035292933873e3a365d13b5b2e2" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_knowledge::FeedbackSyncConfig::isValid</definition>
+        <argsstring>() const</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themis::distributed_knowledge::FeedbackSyncConfig::isValid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/cross_shard_feedback_sync.h" line="77" column="11" bodyfile="include/distributed_knowledge/cross_shard_feedback_sync.h" bodystart="77" bodyend="79"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/distributed_knowledge/cross_shard_feedback_sync.h" line="72" column="1" bodyfile="include/distributed_knowledge/cross_shard_feedback_sync.h" bodystart="72" bodyend="80"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_feedback_sync_config_1a944091d74bd3df81d6bf951c3effe11c" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FeedbackSyncConfig</scope><name>dedup_cache_size</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_feedback_sync_config_1af6c09035292933873e3a365d13b5b2e2" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FeedbackSyncConfig</scope><name>isValid</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_feedback_sync_config_1aad201301214f1daa10b47603cdaf0dd1" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FeedbackSyncConfig</scope><name>max_embedding_dim</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_feedback_sync_config_1a3cfc57e6934115d3e03d20fc34eb1de7" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FeedbackSyncConfig</scope><name>validate_embedding_dim</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

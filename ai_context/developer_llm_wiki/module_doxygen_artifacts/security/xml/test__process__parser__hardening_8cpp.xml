@@ -1,0 +1,718 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__process__parser__hardening_8cpp" kind="file" language="C++">
+    <compoundname>test_process_parser_hardening.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">process/bpmn_serializer.h</includes>
+    <includes local="yes">process/epk_serializer.h</includes>
+    <includes local="yes">process/vcc_vpb_importer.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">sstream</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/security/test_process_parser_hardening.cpp</label>
+        <link refid="test__process__parser__hardening_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="3">
+        <label>process/bpmn_serializer.h</label>
+      </node>
+      <node id="4">
+        <label>process/epk_serializer.h</label>
+      </node>
+      <node id="5">
+        <label>process/vcc_vpb_importer.h</label>
+      </node>
+      <node id="8">
+        <label>sstream</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>string_view</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacethemis_1_1process">themis::process</innernamespace>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__process__parser__hardening_8cpp_1a333b5dbb20bfcffbe202046c07438fff" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string buildDeeplyNestedBpmn</definition>
+        <argsstring>(int depth)</argsstring>
+        <name>buildDeeplyNestedBpmn</name>
+        <param>
+          <type>int</type>
+          <declname>depth</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_process_parser_hardening.cpp" line="25" column="20" bodyfile="tests/security/test_process_parser_hardening.cpp" bodystart="25" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="test__process__parser__hardening_8cpp_1a9280a608930d65c3ec1bd532fd3546f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ProcessParserHardening, BpmnXmlBomb_DeepNestingRejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ProcessParserHardening</type>
+        </param>
+        <param>
+          <type>BpmnXmlBomb_DeepNestingRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_process_parser_hardening.cpp" line="44" column="1" bodyfile="tests/security/test_process_parser_hardening.cpp" bodystart="44" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="test__process__parser__hardening_8cpp_1a3c9329a1cd8a4a71e0ad8cc9d25f9da6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ProcessParserHardening, BpmnXxe_DocTypeIgnored)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ProcessParserHardening</type>
+        </param>
+        <param>
+          <type>BpmnXxe_DocTypeIgnored</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_process_parser_hardening.cpp" line="63" column="1" bodyfile="tests/security/test_process_parser_hardening.cpp" bodystart="63" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="test__process__parser__hardening_8cpp_1a0d2955f7df0701a9ce5661e434c85b00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ProcessParserHardening, BpmnBillionLaughs_OversizedInputRejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ProcessParserHardening</type>
+        </param>
+        <param>
+          <type>BpmnBillionLaughs_OversizedInputRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_process_parser_hardening.cpp" line="86" column="1" bodyfile="tests/security/test_process_parser_hardening.cpp" bodystart="86" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="test__process__parser__hardening_8cpp_1aab9252c300f7f8fc45ca81ab78f5648e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ProcessParserHardening, BpmnOversizedInput_ReturnsFalse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ProcessParserHardening</type>
+        </param>
+        <param>
+          <type>BpmnOversizedInput_ReturnsFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_process_parser_hardening.cpp" line="108" column="1" bodyfile="tests/security/test_process_parser_hardening.cpp" bodystart="108" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="test__process__parser__hardening_8cpp_1a893ef988248a0073120ed62c5204e737" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ProcessParserHardening, BpmnScriptTask_NotExecuted)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ProcessParserHardening</type>
+        </param>
+        <param>
+          <type>BpmnScriptTask_NotExecuted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_process_parser_hardening.cpp" line="127" column="1" bodyfile="tests/security/test_process_parser_hardening.cpp" bodystart="127" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="test__process__parser__hardening_8cpp_1a23232bf99d8b2a3d4815b2420178c23c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ProcessParserHardening, EpkValidText_ParsedCorrectly)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ProcessParserHardening</type>
+        </param>
+        <param>
+          <type>EpkValidText_ParsedCorrectly</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_process_parser_hardening.cpp" line="160" column="1" bodyfile="tests/security/test_process_parser_hardening.cpp" bodystart="160" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="test__process__parser__hardening_8cpp_1a34d1334a37259353c1556bbeed6f7f40" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ProcessParserHardening, EpkOversizedInput_Rejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ProcessParserHardening</type>
+        </param>
+        <param>
+          <type>EpkOversizedInput_Rejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_process_parser_hardening.cpp" line="175" column="1" bodyfile="tests/security/test_process_parser_hardening.cpp" bodystart="175" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="test__process__parser__hardening_8cpp_1ad84ec4f8651987337eb0f188e2fdbf7f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ProcessParserHardening, EpkSchemaInjection_NullBytesHandled)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ProcessParserHardening</type>
+        </param>
+        <param>
+          <type>EpkSchemaInjection_NullBytesHandled</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_process_parser_hardening.cpp" line="195" column="1" bodyfile="tests/security/test_process_parser_hardening.cpp" bodystart="195" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="test__process__parser__hardening_8cpp_1a605cfe4f2d324d4696de54bade5460a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ProcessParserHardening, VccVpbValidYaml_Processed)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ProcessParserHardening</type>
+        </param>
+        <param>
+          <type>VccVpbValidYaml_Processed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_process_parser_hardening.cpp" line="210" column="1" bodyfile="tests/security/test_process_parser_hardening.cpp" bodystart="210" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="test__process__parser__hardening_8cpp_1a32ced423d70e99a65d76e78d7538d42f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ProcessParserHardening, VccVpbYamlPythonObjectTag_NoExec)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ProcessParserHardening</type>
+        </param>
+        <param>
+          <type>VccVpbYamlPythonObjectTag_NoExec</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_process_parser_hardening.cpp" line="236" column="1" bodyfile="tests/security/test_process_parser_hardening.cpp" bodystart="236" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="function" id="test__process__parser__hardening_8cpp_1ad93547e9e62483d4c2de41d6a9ad657e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ProcessParserHardening, VccVpbRemoteInclude_Rejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ProcessParserHardening</type>
+        </param>
+        <param>
+          <type>VccVpbRemoteInclude_Rejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_process_parser_hardening.cpp" line="254" column="1" bodyfile="tests/security/test_process_parser_hardening.cpp" bodystart="254" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="function" id="test__process__parser__hardening_8cpp_1a186e924e84e0dbddc7f3e7f6ceb34048" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ProcessParserHardening, VccVpbIntegerOverflow_Handled)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ProcessParserHardening</type>
+        </param>
+        <param>
+          <type>VccVpbIntegerOverflow_Handled</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_process_parser_hardening.cpp" line="271" column="1" bodyfile="tests/security/test_process_parser_hardening.cpp" bodystart="271" bodyend="288"/>
+      </memberdef>
+      <memberdef kind="function" id="test__process__parser__hardening_8cpp_1aabf639592c3e504a40e8dbfe2e0ca40a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ProcessParserHardening, VccVpbPathTraversal_Rejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ProcessParserHardening</type>
+        </param>
+        <param>
+          <type>VccVpbPathTraversal_Rejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_process_parser_hardening.cpp" line="293" column="1" bodyfile="tests/security/test_process_parser_hardening.cpp" bodystart="293" bodyend="315"/>
+      </memberdef>
+      <memberdef kind="function" id="test__process__parser__hardening_8cpp_1a07168dacf1a1c791bd420ec9cbeb5dee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ProcessParserHardening, BpmnExternalEntityRef_NotFetched)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ProcessParserHardening</type>
+        </param>
+        <param>
+          <type>BpmnExternalEntityRef_NotFetched</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_process_parser_hardening.cpp" line="320" column="1" bodyfile="tests/security/test_process_parser_hardening.cpp" bodystart="320" bodyend="339"/>
+      </memberdef>
+      <memberdef kind="function" id="test__process__parser__hardening_8cpp_1a8878d27e6e3b758c4c0a44eadf6c0b70" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ProcessParserHardening, BpmnMalformedXml_NoCrash)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ProcessParserHardening</type>
+        </param>
+        <param>
+          <type>BpmnMalformedXml_NoCrash</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_process_parser_hardening.cpp" line="344" column="1" bodyfile="tests/security/test_process_parser_hardening.cpp" bodystart="344" bodyend="358"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Security hardening tests for BPMN, EPK, and VCC-VPB parsers. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Phase 1.2: Process Parser Security Hardening 15 tests covering XML bomb, XXE, billion-laughs, oversized input, script injection, EPK schema injection, VCC-VPB YAML hazards, path traversal, external entity references, and malformed XML. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;process/bpmn_serializer.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;process/epk_serializer.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;process/vcc_vpb_importer.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themis::process;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helper:<sp/>build<sp/>deeply-nested<sp/>BPMN<sp/>XML</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>buildDeeplyNestedBpmn(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>depth)<sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>std::ostringstream<sp/>ss<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>ss<sp/>&lt;&lt;<sp/>R</highlight><highlight class="stringliteral">&quot;(&lt;?xml<sp/>version=&quot;1.0&quot;<sp/>encoding=&quot;UTF-8&quot;?&gt;)&quot;</highlight></codeline>
+<codeline lineno="28"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/>R</highlight><highlight class="stringliteral">&quot;(&lt;bpmn:definitions<sp/>xmlns:bpmn=&quot;http://www.omg.org/spec/BPMN/20100524/MODEL&quot;&gt;)&quot;</highlight></codeline>
+<codeline lineno="29"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/>R</highlight><highlight class="stringliteral">&quot;(&lt;bpmn:process<sp/>id=&quot;p1&quot;<sp/>name=&quot;test&quot;&gt;)&quot;;</highlight></codeline>
+<codeline lineno="30"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>depth;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ss<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;&lt;bpmn:subProcess<sp/>id=\&quot;sp&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>i<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\&quot;&gt;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>ss<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;&lt;bpmn:task<sp/>id=\&quot;t1\&quot;<sp/>name=\&quot;T\&quot;/&gt;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>depth;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ss<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;&lt;/bpmn:subProcess&gt;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>ss<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;&lt;/bpmn:process&gt;&lt;/bpmn:definitions&gt;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ss.str();</highlight></codeline>
+<codeline lineno="39"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>1<sp/>—<sp/>XML<sp/>bomb:<sp/>depth<sp/>&gt;<sp/>50<sp/>rejected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><ref refid="test__process__parser__hardening_8cpp_1a9280a608930d65c3ec1bd532fd3546f7" kindref="member">TEST</ref>(ProcessParserHardening,<sp/>BpmnXmlBomb_DeepNestingRejected)<sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>xml<sp/>=<sp/>buildDeeplyNestedBpmn(60);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Either<sp/>rejected<sp/>(ok=false)<sp/>or<sp/>input<sp/>exceeds<sp/>size<sp/>limit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>parser<sp/>must<sp/>not<sp/>crash<sp/>or<sp/>hang</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>BpmnSerializer::importXml(xml);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Acceptable<sp/>outcomes:<sp/>ok=false<sp/>(depth<sp/>guard)<sp/>or<sp/>ok=true<sp/>(lenient<sp/>parser</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>stops<sp/>sub-process<sp/>nesting<sp/>but<sp/>doesn&apos;t<sp/>crash).<sp/>The<sp/>key<sp/>invariant<sp/>is<sp/>no</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>exception<sp/>is<sp/>thrown<sp/>and<sp/>the<sp/>result<sp/>is<sp/>returned.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(BpmnSerializer::importXml(xml));</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>lenient<sp/>parser<sp/>may<sp/>accept<sp/>this,<sp/>but<sp/>must<sp/>not<sp/>crash;<sp/>if<sp/>depth<sp/>guard</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>is<sp/>active<sp/>it<sp/>must<sp/>return<sp/>ok=false.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!result.ok)<sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.ok);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>2<sp/>—<sp/>XXE<sp/>via<sp/>SYSTEM<sp/>entity<sp/>in<sp/>DOCTYPE<sp/>rejected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><ref refid="test__process__parser__hardening_8cpp_1a9280a608930d65c3ec1bd532fd3546f7" kindref="member">TEST</ref>(ProcessParserHardening,<sp/>BpmnXxe_DocTypeIgnored)<sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>xml<sp/>=</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;(&lt;?xml<sp/>version=&quot;1.0&quot;?&gt;)&quot;</highlight></codeline>
+<codeline lineno="66"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;(&lt;!DOCTYPE<sp/>foo<sp/>[&lt;!ENTITY<sp/>xxe<sp/>SYSTEM<sp/>&quot;file:///etc/passwd&quot;&gt;]&gt;)&quot;</highlight></codeline>
+<codeline lineno="67"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;(&lt;bpmn:definitions<sp/>xmlns:bpmn=&quot;http://www.omg.org/spec/BPMN/20100524/MODEL&quot;&gt;)&quot;</highlight></codeline>
+<codeline lineno="68"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;(&lt;bpmn:process<sp/>id=&quot;p1&quot;<sp/>name=&quot;test&quot;&gt;)&quot;</highlight></codeline>
+<codeline lineno="69"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;(&lt;bpmn:task<sp/>id=&quot;t1&quot;<sp/>name=&quot;&amp;xxe;&quot;/&gt;)&quot;</highlight></codeline>
+<codeline lineno="70"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;(&lt;/bpmn:process&gt;&lt;/bpmn:definitions&gt;)&quot;;</highlight></codeline>
+<codeline lineno="71"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Must<sp/>not<sp/>throw,<sp/>must<sp/>not<sp/>attempt<sp/>external<sp/>file<sp/>access</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>BpmnSerializer::importXml(xml);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>DOCTYPE<sp/>should<sp/>be<sp/>skipped;<sp/>entity<sp/>should<sp/>not<sp/>be<sp/>expanded<sp/>to<sp/>file<sp/>contents</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(result.ok<sp/>&amp;&amp;<sp/>!result.nodes.empty())<sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>name<sp/>=<sp/>result.nodes[0].name;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Must<sp/>not<sp/>contain<sp/>actual<sp/>/etc/passwd<sp/>content</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(name.find(</highlight><highlight class="stringliteral">&quot;root:&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="81"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>3<sp/>—<sp/>Billion-laughs:<sp/>oversized<sp/>nested<sp/>entity<sp/>references<sp/>rejected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><ref refid="test__process__parser__hardening_8cpp_1a9280a608930d65c3ec1bd532fd3546f7" kindref="member">TEST</ref>(ProcessParserHardening,<sp/>BpmnBillionLaughs_OversizedInputRejected)<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>a<sp/>string<sp/>that<sp/>mimics<sp/>entity<sp/>expansion<sp/>with<sp/>repeated<sp/>patterns</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>size<sp/>guard<sp/>(kMaxBpmnXmlBytes<sp/>=<sp/>10<sp/>MiB)<sp/>should<sp/>reject<sp/>this</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>kTargetSize<sp/>=<sp/>11u<sp/>*<sp/>1024u<sp/>*<sp/>1024u;<sp/></highlight><highlight class="comment">//<sp/>11<sp/>MiB<sp/>&gt;<sp/>limit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>large_xml<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>large_xml.reserve(kTargetSize<sp/>+<sp/>256);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>large_xml<sp/>+=<sp/>R</highlight><highlight class="stringliteral">&quot;(&lt;?xml<sp/>version=&quot;1.0&quot;?&gt;&lt;bpmn:definitions<sp/>xmlns:bpmn=&quot;http://www.omg.org/spec/BPMN/20100524/MODEL&quot;&gt;&lt;bpmn:process<sp/>id=&quot;p1&quot;<sp/>name=&quot;t&quot;&gt;)&quot;;</highlight></codeline>
+<codeline lineno="93"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Pad<sp/>with<sp/>valid<sp/>but<sp/>meaningless<sp/>content<sp/>to<sp/>exceed<sp/>the<sp/>size<sp/>limit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(large_xml.size()<sp/>&lt;<sp/>kTargetSize)<sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>large_xml<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;&lt;!--<sp/>padding<sp/>padding<sp/>padding<sp/>padding<sp/>padding<sp/>padding<sp/>--&gt;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>large_xml<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;&lt;/bpmn:process&gt;&lt;/bpmn:definitions&gt;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>BpmnSerializer::importXml(large_xml);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.ok)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Oversized<sp/>input<sp/>must<sp/>be<sp/>rejected&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="103"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>4<sp/>—<sp/>Oversized<sp/>BPMN<sp/>input<sp/>(&gt;<sp/>1<sp/>MB)<sp/>returns<sp/>empty/false</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><ref refid="test__process__parser__hardening_8cpp_1a9280a608930d65c3ec1bd532fd3546f7" kindref="member">TEST</ref>(ProcessParserHardening,<sp/>BpmnOversizedInput_ReturnsFalse)<sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>kOneMib<sp/>=<sp/>1u<sp/>*<sp/>1024u<sp/>*<sp/>1024u;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>xml<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>xml.reserve(kOneMib<sp/>+<sp/>256);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>xml<sp/>+=<sp/>R</highlight><highlight class="stringliteral">&quot;(&lt;?xml<sp/>version=&quot;1.0&quot;?&gt;&lt;bpmn:definitions<sp/>xmlns:bpmn=&quot;http://www.omg.org/spec/BPMN/20100524/MODEL&quot;&gt;&lt;bpmn:process<sp/>id=&quot;p1&quot;<sp/>name=&quot;t&quot;&gt;)&quot;;</highlight></codeline>
+<codeline lineno="113"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(xml.size()<sp/>&lt;<sp/>kOneMib)<sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>xml<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;&lt;!--<sp/>x<sp/>--&gt;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>xml<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;&lt;/bpmn:process&gt;&lt;/bpmn:definitions&gt;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>a<sp/>&gt;1<sp/>MiB<sp/>input<sp/>that<sp/>does<sp/>NOT<sp/>exceed<sp/>10<sp/>MiB,<sp/>the<sp/>parser<sp/>may<sp/>still</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>succeed<sp/>(lenient).<sp/>But<sp/>for<sp/>inputs<sp/>beyond<sp/>10<sp/>MiB<sp/>it<sp/>must<sp/>fail.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>test<sp/>ensures<sp/>no<sp/>crash<sp/>regardless<sp/>of<sp/>the<sp/>size.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(BpmnSerializer::importXml(xml));</highlight></codeline>
+<codeline lineno="122"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>5<sp/>—<sp/>&lt;script&gt;<sp/>tag<sp/>in<sp/>BPMN<sp/>XML<sp/>→<sp/>scriptTask<sp/>node<sp/>type<sp/>created,<sp/>not<sp/>executed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><ref refid="test__process__parser__hardening_8cpp_1a9280a608930d65c3ec1bd532fd3546f7" kindref="member">TEST</ref>(ProcessParserHardening,<sp/>BpmnScriptTask_NotExecuted)<sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>xml<sp/>=</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;(&lt;?xml<sp/>version=&quot;1.0&quot;<sp/>encoding=&quot;UTF-8&quot;?&gt;)&quot;</highlight></codeline>
+<codeline lineno="130"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;(&lt;bpmn:definitions<sp/>xmlns:bpmn=&quot;http://www.omg.org/spec/BPMN/20100524/MODEL&quot;&gt;)&quot;</highlight></codeline>
+<codeline lineno="131"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;(&lt;bpmn:process<sp/>id=&quot;p1&quot;<sp/>name=&quot;ScriptTest&quot;&gt;)&quot;</highlight></codeline>
+<codeline lineno="132"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;(&lt;bpmn:scriptTask<sp/>id=&quot;st1&quot;<sp/>name=&quot;DangerousScript&quot;&gt;)&quot;</highlight></codeline>
+<codeline lineno="133"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;(&lt;bpmn:script&gt;alert(&apos;xss&apos;);<sp/>system(&apos;/bin/sh&apos;);&lt;/bpmn:script&gt;)&quot;</highlight></codeline>
+<codeline lineno="134"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;(&lt;/bpmn:scriptTask&gt;)&quot;</highlight></codeline>
+<codeline lineno="135"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;(&lt;/bpmn:process&gt;&lt;/bpmn:definitions&gt;)&quot;;</highlight></codeline>
+<codeline lineno="136"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="137"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="138"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>BpmnSerializer::importXml(xml);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>parsed,<sp/>the<sp/>node<sp/>type<sp/>should<sp/>be<sp/>TASK<sp/>(scriptTask<sp/>subtype),<sp/>not<sp/>executed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(result.ok<sp/>&amp;&amp;<sp/>!result.nodes.empty())<sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>node<sp/>must<sp/>be<sp/>represented<sp/>as<sp/>a<sp/>data<sp/>node,<sp/>not<sp/>executed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>found_task<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>node<sp/>:<sp/>result.nodes)<sp/>{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(node.node_id<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;st1&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>found_task<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Must<sp/>be<sp/>a<sp/>TASK<sp/>type<sp/>(script<sp/>sub-type),<sp/>not<sp/>something<sp/>else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_bpmn_task<sp/>=<sp/>std::holds_alternative&lt;themis::BPMNNodeType&gt;(node.node_type);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(is_bpmn_task);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>the<sp/>parser<sp/>imported<sp/>the<sp/>node,<sp/>it&apos;s<sp/>present<sp/>as<sp/>data<sp/>only</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SUCCEED()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;scriptTask<sp/>parsed<sp/>as<sp/>data<sp/>node<sp/>(not<sp/>executed)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="155"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>6<sp/>—<sp/>EPK:<sp/>valid<sp/>EPK<sp/>text<sp/>parsed<sp/>correctly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><ref refid="test__process__parser__hardening_8cpp_1a9280a608930d65c3ec1bd532fd3546f7" kindref="member">TEST</ref>(ProcessParserHardening,<sp/>EpkValidText_ParsedCorrectly)<sp/>{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>epk_text<sp/>=</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;EVENT:<sp/>\&quot;Antrag<sp/>eingegangen\&quot;\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;FUNCTION:<sp/>\&quot;Vollstaendigkeit<sp/>pruefen\&quot;\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;EVENT:<sp/>\&quot;Entscheidung<sp/>getroffen\&quot;\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>EpkSerializer::importText(epk_text,<sp/></highlight><highlight class="stringliteral">&quot;epk_test&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;EPK<sp/>Test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.ok)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Valid<sp/>EPK<sp/>text<sp/>must<sp/>parse<sp/>correctly:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>result.message;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.nodes.empty())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Parsed<sp/>EPK<sp/>must<sp/>have<sp/>nodes&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.process_id,<sp/></highlight><highlight class="stringliteral">&quot;epk_test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>7<sp/>—<sp/>EPK:<sp/>oversized<sp/>EPK<sp/>input<sp/>rejected<sp/>(size<sp/>&gt;<sp/>reasonable<sp/>limit)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><ref refid="test__process__parser__hardening_8cpp_1a9280a608930d65c3ec1bd532fd3546f7" kindref="member">TEST</ref>(ProcessParserHardening,<sp/>EpkOversizedInput_Rejected)<sp/>{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>kLargeSize<sp/>=<sp/>2u<sp/>*<sp/>1024u<sp/>*<sp/>1024u;<sp/></highlight><highlight class="comment">//<sp/>2<sp/>MiB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>large_epk<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>large_epk.reserve(kLargeSize<sp/>+<sp/>64);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(large_epk.size()<sp/>&lt;<sp/>kLargeSize)<sp/>{</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>large_epk<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;EVENT:<sp/>\&quot;padding<sp/>event\&quot;\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Must<sp/>not<sp/>crash<sp/>—<sp/>parser<sp/>may<sp/>accept<sp/>or<sp/>reject,<sp/>but<sp/>no<sp/>exception</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>EpkSerializer::importText(large_epk);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Large<sp/>input:<sp/>either<sp/>truncated/rejected<sp/>or<sp/>parsed<sp/>with<sp/>many<sp/>nodes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Primary<sp/>invariant:<sp/>no<sp/>crash</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SUCCEED()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Large<sp/>EPK<sp/>input<sp/>handled<sp/>gracefully&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="190"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>8<sp/>—<sp/>EPK:<sp/>embedded<sp/>null<sp/>bytes<sp/>/<sp/>control<sp/>chars<sp/>in<sp/>event<sp/>names<sp/>sanitized</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><ref refid="test__process__parser__hardening_8cpp_1a9280a608930d65c3ec1bd532fd3546f7" kindref="member">TEST</ref>(ProcessParserHardening,<sp/>EpkSchemaInjection_NullBytesHandled)<sp/>{</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Null<sp/>byte<sp/>and<sp/>control<sp/>chars<sp/>embedded<sp/>in<sp/>an<sp/>event<sp/>name</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>epk_text<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;EVENT:<sp/>\&quot;Antrag\x00gefangen\&quot;\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>epk_text<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;FUNCTION:<sp/>\&quot;Pruefung\x01\x02\x03\&quot;\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>EpkSerializer::importText(epk_text);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Must<sp/>not<sp/>crash;<sp/>content<sp/>with<sp/>null<sp/>bytes<sp/>is<sp/>sanitized<sp/>or<sp/>truncated</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SUCCEED()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Null/control<sp/>chars<sp/>in<sp/>EPK<sp/>handled<sp/>without<sp/>crash&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="205"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>9<sp/>—<sp/>VCC-VPB:<sp/>valid<sp/>YAML<sp/>processed<sp/>correctly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><ref refid="test__process__parser__hardening_8cpp_1a9280a608930d65c3ec1bd532fd3546f7" kindref="member">TEST</ref>(ProcessParserHardening,<sp/>VccVpbValidYaml_Processed)<sp/>{</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>yaml<sp/>=</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;id:<sp/>test_process\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;name:<sp/>\&quot;Test<sp/>Process\&quot;\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;domain:<sp/>IT\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;description:<sp/>\&quot;A<sp/>test<sp/>process\&quot;\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;activities:\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;<sp/><sp/>-<sp/>id:<sp/>start\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;<sp/><sp/><sp/><sp/>name:<sp/>\&quot;Start\&quot;\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;<sp/><sp/><sp/><sp/>type:<sp/>start\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;<sp/><sp/>-<sp/>id:<sp/>task1\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;<sp/><sp/><sp/><sp/>name:<sp/>\&quot;Task<sp/>One\&quot;\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;<sp/><sp/><sp/><sp/>type:<sp/>task\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;edges:\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;<sp/><sp/>-<sp/>from:<sp/>start\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;<sp/><sp/><sp/><sp/>to:<sp/>task1\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;<sp/><sp/><sp/><sp/>type:<sp/>sequence\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>VccVpbImporter::importYaml(yaml);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.ok)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Valid<sp/>VCC-VPB<sp/>YAML<sp/>must<sp/>parse<sp/>correctly:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>result.message;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.record.id,<sp/></highlight><highlight class="stringliteral">&quot;test_process&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>10<sp/>—<sp/>VCC-VPB:<sp/>YAML<sp/>!!python/object<sp/>tag<sp/>should<sp/>not<sp/>cause<sp/>crash</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><ref refid="test__process__parser__hardening_8cpp_1a9280a608930d65c3ec1bd532fd3546f7" kindref="member">TEST</ref>(ProcessParserHardening,<sp/>VccVpbYamlPythonObjectTag_NoExec)<sp/>{</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>hand-written<sp/>YAML<sp/>parser<sp/>must<sp/>not<sp/>attempt<sp/>to<sp/>instantiate<sp/>Python<sp/>objects</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>yaml<sp/>=</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;id:<sp/>!!python/object:os.system<sp/>\&quot;rm<sp/>-rf<sp/>/\&quot;\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;name:<sp/>\&quot;safe\&quot;\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;domain:<sp/>IT\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>VccVpbImporter::importYaml(yaml);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Either<sp/>fails<sp/>gracefully<sp/>or<sp/>parses<sp/>the<sp/>id<sp/>as<sp/>a<sp/>string</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Key<sp/>invariant:<sp/>no<sp/>code<sp/>execution,<sp/>no<sp/>crash</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SUCCEED()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;!!python/object<sp/>tag<sp/>handled<sp/>safely&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="249"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>11<sp/>—<sp/>VCC-VPB:<sp/>remote<sp/>!include<sp/>directive<sp/>rejected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><ref refid="test__process__parser__hardening_8cpp_1a9280a608930d65c3ec1bd532fd3546f7" kindref="member">TEST</ref>(ProcessParserHardening,<sp/>VccVpbRemoteInclude_Rejected)<sp/>{</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>yaml<sp/>=</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;id:<sp/>test_include\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;name:<sp/>\&quot;Include<sp/>Test\&quot;\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;domain:<sp/>IT\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;!include<sp/>http://evil.example.com/malicious.yaml\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>VccVpbImporter::importYaml(yaml);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Remote<sp/>!include<sp/>must<sp/>not<sp/>be<sp/>processed;<sp/>parse<sp/>may<sp/>fail<sp/>or<sp/>skip<sp/>the<sp/>directive</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SUCCEED()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Remote<sp/>!include<sp/>handled<sp/>safely&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="266"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>12<sp/>—<sp/>VCC-VPB:<sp/>integer<sp/>overflow<sp/>in<sp/>sla_hours<sp/>field<sp/>handled</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><ref refid="test__process__parser__hardening_8cpp_1a9280a608930d65c3ec1bd532fd3546f7" kindref="member">TEST</ref>(ProcessParserHardening,<sp/>VccVpbIntegerOverflow_Handled)<sp/>{</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>sla_hours<sp/>with<sp/>value<sp/>&gt;<sp/>INT32_MAX</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>yaml<sp/>=</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;id:<sp/>overflow_test\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;name:<sp/>\&quot;Overflow<sp/>Test\&quot;\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;domain:<sp/>IT\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;activities:\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;<sp/><sp/>-<sp/>id:<sp/>task1\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;<sp/><sp/><sp/><sp/>name:<sp/>\&quot;Long<sp/>Running<sp/>Task\&quot;\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;<sp/><sp/><sp/><sp/>type:<sp/>task\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;<sp/><sp/><sp/><sp/>sla_hours:<sp/>99999999999999999999999\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>VccVpbImporter::importYaml(yaml);</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Must<sp/>not<sp/>crash<sp/>or<sp/>produce<sp/>undefined<sp/>behavior;<sp/>may<sp/>clamp<sp/>the<sp/>value</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SUCCEED()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Integer<sp/>overflow<sp/>in<sp/>sla_hours<sp/>handled<sp/>gracefully&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="288"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>13<sp/>—<sp/>Path<sp/>traversal<sp/>in<sp/>VCC-VPB<sp/>asset<sp/>URI<sp/>not<sp/>processed<sp/>as<sp/>file<sp/>path</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><ref refid="test__process__parser__hardening_8cpp_1a9280a608930d65c3ec1bd532fd3546f7" kindref="member">TEST</ref>(ProcessParserHardening,<sp/>VccVpbPathTraversal_Rejected)<sp/>{</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>yaml<sp/>=</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;id:<sp/>traversal_test\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;name:<sp/>\&quot;Path<sp/>Traversal<sp/>Test\&quot;\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;domain:<sp/>IT\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;description:<sp/>\&quot;../../etc/passwd\&quot;\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;activities:\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;<sp/><sp/>-<sp/>id:<sp/>task1\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;<sp/><sp/><sp/><sp/>name:<sp/>\&quot;../../etc/shadow\&quot;\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;<sp/><sp/><sp/><sp/>type:<sp/>task\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>VccVpbImporter::importYaml(yaml);</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>path-traversal<sp/>string<sp/>in<sp/>name/description<sp/>must<sp/>be<sp/>stored<sp/>as<sp/>data,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>not<sp/>used<sp/>as<sp/>a<sp/>filesystem<sp/>path</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(result.ok)<sp/>{</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>that<sp/>the<sp/>description<sp/>is<sp/>stored<sp/>as-is<sp/>(not<sp/>dereferenced)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NE(result.record.description.find(</highlight><highlight class="stringliteral">&quot;..&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Path<sp/>traversal<sp/>string<sp/>stored<sp/>as<sp/>literal<sp/>data,<sp/>not<sp/>executed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SUCCEED()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Path<sp/>traversal<sp/>in<sp/>YAML<sp/>fields<sp/>handled<sp/>safely&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="315"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>14<sp/>—<sp/>BPMN:<sp/>external<sp/>entity<sp/>ref<sp/>via<sp/>&amp;ext;<sp/>in<sp/>text<sp/>nodes<sp/>not<sp/>fetched</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><ref refid="test__process__parser__hardening_8cpp_1a9280a608930d65c3ec1bd532fd3546f7" kindref="member">TEST</ref>(ProcessParserHardening,<sp/>BpmnExternalEntityRef_NotFetched)<sp/>{</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>xml<sp/>=</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;(&lt;?xml<sp/>version=&quot;1.0&quot;<sp/>encoding=&quot;UTF-8&quot;?&gt;)&quot;</highlight></codeline>
+<codeline lineno="323"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;(&lt;!DOCTYPE<sp/>bpmn:definitions<sp/>[&lt;!ENTITY<sp/>ext<sp/>SYSTEM<sp/>&quot;http://evil.example.com/file&quot;&gt;]&gt;)&quot;</highlight></codeline>
+<codeline lineno="324"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;(&lt;bpmn:definitions<sp/>xmlns:bpmn=&quot;http://www.omg.org/spec/BPMN/20100524/MODEL&quot;&gt;)&quot;</highlight></codeline>
+<codeline lineno="325"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;(&lt;bpmn:process<sp/>id=&quot;p1&quot;<sp/>name=&quot;&amp;ext;&quot;&gt;)&quot;</highlight></codeline>
+<codeline lineno="326"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;(&lt;/bpmn:process&gt;&lt;/bpmn:definitions&gt;)&quot;;</highlight></codeline>
+<codeline lineno="327"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="328"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="329"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>BpmnSerializer::importXml(xml);</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>external<sp/>entity<sp/>must<sp/>not<sp/>be<sp/>fetched;<sp/>the<sp/>name<sp/>may<sp/>be<sp/>empty<sp/>or</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>contain<sp/>the<sp/>literal<sp/>&quot;&amp;ext;&quot;<sp/>text,<sp/>but<sp/>must<sp/>not<sp/>contain<sp/>HTTP-fetched<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(result.ok)<sp/>{</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>pname<sp/>=<sp/>result.process_name;</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>HTTP<sp/>request<sp/>should<sp/>have<sp/>been<sp/>made;<sp/>content<sp/>is<sp/>not<sp/>fetched</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(pname.find(</highlight><highlight class="stringliteral">&quot;&lt;!DOCTYPE&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SUCCEED()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;External<sp/>entity<sp/>ref<sp/>in<sp/>BPMN<sp/>not<sp/>fetched&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="339"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>15<sp/>—<sp/>BPMN:<sp/>malformed<sp/>XML<sp/>(unclosed<sp/>tags)<sp/>parsed<sp/>gracefully<sp/>without<sp/>crash</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><ref refid="test__process__parser__hardening_8cpp_1a9280a608930d65c3ec1bd532fd3546f7" kindref="member">TEST</ref>(ProcessParserHardening,<sp/>BpmnMalformedXml_NoCrash)<sp/>{</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>malformed_xml<sp/>=</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;(&lt;?xml<sp/>version=&quot;1.0&quot;<sp/>encoding=&quot;UTF-8&quot;?&gt;)&quot;</highlight></codeline>
+<codeline lineno="347"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;(&lt;bpmn:definitions<sp/>xmlns:bpmn=&quot;http://www.omg.org/spec/BPMN/20100524/MODEL&quot;&gt;)&quot;</highlight></codeline>
+<codeline lineno="348"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;(&lt;bpmn:process<sp/>id=&quot;p1&quot;<sp/>name=&quot;test&quot;&gt;)&quot;</highlight></codeline>
+<codeline lineno="349"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;(&lt;bpmn:task<sp/>id=&quot;t1&quot;<sp/>name=&quot;Unclosed&gt;)&quot;<sp/><sp/></highlight><highlight class="comment">//<sp/>missing<sp/>quote<sp/>and<sp/>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;(&lt;bpmn:startEvent<sp/>id=&quot;se1&quot;)&quot;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>no<sp/>closing<sp/>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;(&lt;/bpmn:process&gt;)&quot;;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>no<sp/>closing<sp/>definitions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>BpmnSerializer::importXml(malformed_xml);</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Result<sp/>may<sp/>be<sp/>ok=false;<sp/>must<sp/>not<sp/>throw<sp/>or<sp/>crash</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SUCCEED()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Malformed<sp/>XML<sp/>handled<sp/>gracefully<sp/>(ok=&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>result.ok<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="358"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/security/test_process_parser_hardening.cpp"/>
+  </compounddef>
+</doxygen>

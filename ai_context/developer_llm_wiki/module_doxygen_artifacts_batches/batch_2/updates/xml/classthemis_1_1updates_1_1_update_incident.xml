@@ -1,0 +1,193 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1updates_1_1_update_incident" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::updates::UpdateIncident</compoundname>
+    <derivedcompoundref refid="classthemis_1_1updates_1_1_migration_error" prot="public" virt="non-virtual">themis::updates::MigrationError</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1updates_1_1_patch_apply_error" prot="public" virt="non-virtual">themis::updates::PatchApplyError</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1updates_1_1_rollout_error" prot="public" virt="non-virtual">themis::updates::RolloutError</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1updates_1_1_state_transition_error" prot="public" virt="non-virtual">themis::updates::StateTransitionError</derivedcompoundref>
+    <includes refid="updates__diagnostics_8h" local="no">updates_diagnostics.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_update_incident_1ab2f0f7a3da7b96172dc1864d79bafa04" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::updates::UpdateIncident::~UpdateIncident</definition>
+        <argsstring>()=default</argsstring>
+        <name>~UpdateIncident</name>
+        <qualifiedname>themis::updates::UpdateIncident::~UpdateIncident</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="277" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_update_incident_1a4393ffce81ca6200cc85e05c04470786" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465" kindref="member">DiagnosticErrorCode</ref></type>
+        <definition>virtual DiagnosticErrorCode themis::updates::UpdateIncident::errorCode</definition>
+        <argsstring>() const =0</argsstring>
+        <name>errorCode</name>
+        <qualifiedname>themis::updates::UpdateIncident::errorCode</qualifiedname>
+        <reimplementedby refid="classthemis_1_1updates_1_1_migration_error_1a04b3cffc4962e847007a289dfb88060d">errorCode</reimplementedby>
+        <reimplementedby refid="classthemis_1_1updates_1_1_patch_apply_error_1a1a3d7e31f032e47e251010392b932af3">errorCode</reimplementedby>
+        <reimplementedby refid="classthemis_1_1updates_1_1_rollout_error_1af470a2a40a06abbddfc3d85603e42f69">errorCode</reimplementedby>
+        <reimplementedby refid="classthemis_1_1updates_1_1_state_transition_error_1a502f7aa95c751dc2e6223254f642e0c3">errorCode</reimplementedby>
+        <briefdescription>
+<para>Get the primary error code. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="280" column="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_update_incident_1ad365305eb6fb912f5167d4ff33f20814" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1updates_1af6168213612402069ae83cc1231c7a7a" kindref="member">RootCauseClass</ref></type>
+        <definition>virtual RootCauseClass themis::updates::UpdateIncident::rootCause</definition>
+        <argsstring>() const =0</argsstring>
+        <name>rootCause</name>
+        <qualifiedname>themis::updates::UpdateIncident::rootCause</qualifiedname>
+        <reimplementedby refid="classthemis_1_1updates_1_1_migration_error_1ae3159d7a0ce480e772562fed4f5e95db">rootCause</reimplementedby>
+        <reimplementedby refid="classthemis_1_1updates_1_1_patch_apply_error_1a63067b4be1f2798a07fd19293e1bb2b3">rootCause</reimplementedby>
+        <reimplementedby refid="classthemis_1_1updates_1_1_rollout_error_1a6029e1a097a42690c41cbbdefa123f29">rootCause</reimplementedby>
+        <reimplementedby refid="classthemis_1_1updates_1_1_state_transition_error_1a11184e947b77d718e77a5cda4c4d97ea">rootCause</reimplementedby>
+        <briefdescription>
+<para>Get the root cause. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="283" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_update_incident_1ac10ab2dbbe11b905a6868ee61a68524a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1updates_1a76a19f06c0d0177d4ee1be662fbcb57d" kindref="member">DiagnosticSeverity</ref></type>
+        <definition>virtual DiagnosticSeverity themis::updates::UpdateIncident::severity</definition>
+        <argsstring>() const =0</argsstring>
+        <name>severity</name>
+        <qualifiedname>themis::updates::UpdateIncident::severity</qualifiedname>
+        <reimplementedby refid="classthemis_1_1updates_1_1_migration_error_1aa70fd4d08f7f2243edf7a60fb335c25f">severity</reimplementedby>
+        <reimplementedby refid="classthemis_1_1updates_1_1_patch_apply_error_1ab09de5a694a255006b8e860bc0da09ad">severity</reimplementedby>
+        <reimplementedby refid="classthemis_1_1updates_1_1_rollout_error_1a89b93c36a5670ca79a5dd5c8a9c0df53">severity</reimplementedby>
+        <reimplementedby refid="classthemis_1_1updates_1_1_state_transition_error_1aea1de42d5ab5e43ad25244d3de6deb8b">severity</reimplementedby>
+        <briefdescription>
+<para>Get the severity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="286" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_update_incident_1a02ca63e45939a24aad69384110833676" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::updates::UpdateIncident::message</definition>
+        <argsstring>() const =0</argsstring>
+        <name>message</name>
+        <qualifiedname>themis::updates::UpdateIncident::message</qualifiedname>
+        <reimplementedby refid="classthemis_1_1updates_1_1_migration_error_1ad608f15c87af37a9b83e5cd8fd215d20">message</reimplementedby>
+        <reimplementedby refid="classthemis_1_1updates_1_1_patch_apply_error_1afb99208ec34b9f39e13ca87e94388953">message</reimplementedby>
+        <reimplementedby refid="classthemis_1_1updates_1_1_rollout_error_1a97036818d4fb925dc2366629da8e6a9e">message</reimplementedby>
+        <reimplementedby refid="classthemis_1_1updates_1_1_state_transition_error_1a7731a3a7d19f2f295748f6c987642b41">message</reimplementedby>
+        <briefdescription>
+<para>Get human-readable message. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="289" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_update_incident_1aec14a3dd0a687ecd8ddfe7f030c32599" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::updates::UpdateIncident::operationContext</definition>
+        <argsstring>() const =0</argsstring>
+        <name>operationContext</name>
+        <qualifiedname>themis::updates::UpdateIncident::operationContext</qualifiedname>
+        <reimplementedby refid="classthemis_1_1updates_1_1_migration_error_1a72cf96fb434aef5a8b68eff71a2e2bdb">operationContext</reimplementedby>
+        <reimplementedby refid="classthemis_1_1updates_1_1_patch_apply_error_1a370700e125aaed6998575e4bfec91805">operationContext</reimplementedby>
+        <reimplementedby refid="classthemis_1_1updates_1_1_rollout_error_1aa63b2fef4050f15da6249dc8fa93b11a">operationContext</reimplementedby>
+        <reimplementedby refid="classthemis_1_1updates_1_1_state_transition_error_1a15c572433b0c69719acd67f04f34884d">operationContext</reimplementedby>
+        <briefdescription>
+<para>Get operation context. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="292" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_update_incident_1a2d00f3951ecee42abad5b1c0389416e2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1updates_1a13a155834bfa40c77e92bfa6f6efdb7e" kindref="member">json</ref></type>
+        <definition>virtual json themis::updates::UpdateIncident::toJson</definition>
+        <argsstring>() const =0</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::updates::UpdateIncident::toJson</qualifiedname>
+        <reimplementedby refid="classthemis_1_1updates_1_1_migration_error_1a3cfb4d3c499bcf9d04945ca3b9f9eb72">toJson</reimplementedby>
+        <reimplementedby refid="classthemis_1_1updates_1_1_patch_apply_error_1a6be730bebaada0343e15c5650b41168e">toJson</reimplementedby>
+        <reimplementedby refid="classthemis_1_1updates_1_1_rollout_error_1a3697d4b71742760c35d84ef0b6faafc2">toJson</reimplementedby>
+        <reimplementedby refid="classthemis_1_1updates_1_1_state_transition_error_1a1fe4dd2f5f9484850e683486962489b5">toJson</reimplementedby>
+        <briefdescription>
+<para>Convert to structured JSON for logging. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="295" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Base class for unified error taxonomy. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Defines the interface for standardized error reporting across:<itemizedlist>
+<listitem><para>State transitions</para>
+</listitem><listitem><para>Patch application</para>
+</listitem><listitem><para>Migration operations</para>
+</listitem><listitem><para>Rollout coordination </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::updates::MigrationError</label>
+        <link refid="classthemis_1_1updates_1_1_migration_error"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::updates::PatchApplyError</label>
+        <link refid="classthemis_1_1updates_1_1_patch_apply_error"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::updates::RolloutError</label>
+        <link refid="classthemis_1_1updates_1_1_rollout_error"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>themis::updates::StateTransitionError</label>
+        <link refid="classthemis_1_1updates_1_1_state_transition_error"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::updates::UpdateIncident</label>
+        <link refid="classthemis_1_1updates_1_1_update_incident"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/updates/updates_diagnostics.h" line="275" column="1" bodyfile="include/updates/updates_diagnostics.h" bodystart="275" bodyend="296"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1updates_1_1_update_incident_1a4393ffce81ca6200cc85e05c04470786" prot="public" virt="pure-virtual"><scope>themis::updates::UpdateIncident</scope><name>errorCode</name></member>
+      <member refid="classthemis_1_1updates_1_1_update_incident_1a02ca63e45939a24aad69384110833676" prot="public" virt="pure-virtual"><scope>themis::updates::UpdateIncident</scope><name>message</name></member>
+      <member refid="classthemis_1_1updates_1_1_update_incident_1aec14a3dd0a687ecd8ddfe7f030c32599" prot="public" virt="pure-virtual"><scope>themis::updates::UpdateIncident</scope><name>operationContext</name></member>
+      <member refid="classthemis_1_1updates_1_1_update_incident_1ad365305eb6fb912f5167d4ff33f20814" prot="public" virt="pure-virtual"><scope>themis::updates::UpdateIncident</scope><name>rootCause</name></member>
+      <member refid="classthemis_1_1updates_1_1_update_incident_1ac10ab2dbbe11b905a6868ee61a68524a" prot="public" virt="pure-virtual"><scope>themis::updates::UpdateIncident</scope><name>severity</name></member>
+      <member refid="classthemis_1_1updates_1_1_update_incident_1a2d00f3951ecee42abad5b1c0389416e2" prot="public" virt="pure-virtual"><scope>themis::updates::UpdateIncident</scope><name>toJson</name></member>
+      <member refid="classthemis_1_1updates_1_1_update_incident_1ab2f0f7a3da7b96172dc1864d79bafa04" prot="public" virt="virtual"><scope>themis::updates::UpdateIncident</scope><name>~UpdateIncident</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

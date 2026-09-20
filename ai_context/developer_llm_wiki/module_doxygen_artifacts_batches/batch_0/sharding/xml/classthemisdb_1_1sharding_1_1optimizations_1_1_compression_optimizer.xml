@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1optimizations_1_1_compression_optimizer" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::optimizations::CompressionOptimizer</compoundname>
+    <includes refid="raid__optimizations_8h" local="no">raid_optimizations.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1optimizations_1_1_compression_optimizer_1aa4374d0db793f1b6ab6d38c849fa17e9" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>static std::vector&lt; uint8_t &gt; themisdb::sharding::optimizations::CompressionOptimizer::compress</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>compress</name>
+        <qualifiedname>themisdb::sharding::optimizations::CompressionOptimizer::compress</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Compress data before writing to reduce network/storage overhead </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raid_optimizations.h" line="236" column="24" bodyfile="include/sharding/raid_optimizations.h" bodystart="236" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1optimizations_1_1_compression_optimizer_1a971e4acabd8ea5c9ec796940cf4ba768" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>static std::vector&lt; uint8_t &gt; themisdb::sharding::optimizations::CompressionOptimizer::decompress</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;compressed)</argsstring>
+        <name>decompress</name>
+        <qualifiedname>themisdb::sharding::optimizations::CompressionOptimizer::decompress</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>compressed</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raid_optimizations.h" line="242" column="24" bodyfile="include/sharding/raid_optimizations.h" bodystart="242" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1optimizations_1_1_compression_optimizer_1aefda3802f77c2ab7dda89fb4e98e7508" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themisdb::sharding::optimizations::CompressionOptimizer::shouldCompress</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>shouldCompress</name>
+        <qualifiedname>themisdb::sharding::optimizations::CompressionOptimizer::shouldCompress</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Adaptive compression based on data characteristics </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raid_optimizations.h" line="250" column="17" bodyfile="include/sharding/raid_optimizations.h" bodystart="250" bodyend="272"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Compression Integration. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/raid_optimizations.h" line="231" column="1" bodyfile="include/sharding/raid_optimizations.h" bodystart="231" bodyend="273"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1optimizations_1_1_compression_optimizer_1aa4374d0db793f1b6ab6d38c849fa17e9" prot="public" virt="non-virtual"><scope>themisdb::sharding::optimizations::CompressionOptimizer</scope><name>compress</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1optimizations_1_1_compression_optimizer_1a971e4acabd8ea5c9ec796940cf4ba768" prot="public" virt="non-virtual"><scope>themisdb::sharding::optimizations::CompressionOptimizer</scope><name>decompress</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1optimizations_1_1_compression_optimizer_1aefda3802f77c2ab7dda89fb4e98e7508" prot="public" virt="non-virtual"><scope>themisdb::sharding::optimizations::CompressionOptimizer</scope><name>shouldCompress</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

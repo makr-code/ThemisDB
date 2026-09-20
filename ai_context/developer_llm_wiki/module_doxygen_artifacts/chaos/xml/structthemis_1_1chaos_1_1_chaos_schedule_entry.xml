@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1chaos_1_1_chaos_schedule_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::chaos::ChaosScheduleEntry</compoundname>
+    <includes refid="chaos__framework_8h" local="no">chaos_framework.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1chaos_1_1_chaos_schedule_entry_1a366a54949944c46b7d3942493b8a66b4" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::chaos::ChaosScheduleEntry::trigger_at</definition>
+        <argsstring></argsstring>
+        <name>trigger_at</name>
+        <qualifiedname>themis::chaos::ChaosScheduleEntry::trigger_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chaos/chaos_framework.h" line="180" column="43" bodyfile="include/chaos/chaos_framework.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1chaos_1_1_chaos_schedule_entry_1aaa5ad79ac2120db0b2e06e8d58780723" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1chaos_1_1_fault_spec" kindref="compound">FaultSpec</ref></type>
+        <definition>FaultSpec themis::chaos::ChaosScheduleEntry::fault</definition>
+        <argsstring></argsstring>
+        <name>fault</name>
+        <qualifiedname>themis::chaos::ChaosScheduleEntry::fault</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chaos/chaos_framework.h" line="181" column="15" bodyfile="include/chaos/chaos_framework.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::chaos::ChaosScheduleEntry</label>
+        <link refid="structthemis_1_1chaos_1_1_chaos_schedule_entry"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>fault</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::chaos::FaultSpec</label>
+        <link refid="structthemis_1_1chaos_1_1_fault_spec"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/chaos/chaos_framework.h" line="179" column="1" bodyfile="include/chaos/chaos_framework.h" bodystart="179" bodyend="182"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1chaos_1_1_chaos_schedule_entry_1aaa5ad79ac2120db0b2e06e8d58780723" prot="public" virt="non-virtual"><scope>themis::chaos::ChaosScheduleEntry</scope><name>fault</name></member>
+      <member refid="structthemis_1_1chaos_1_1_chaos_schedule_entry_1a366a54949944c46b7d3942493b8a66b4" prot="public" virt="non-virtual"><scope>themis::chaos::ChaosScheduleEntry</scope><name>trigger_at</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

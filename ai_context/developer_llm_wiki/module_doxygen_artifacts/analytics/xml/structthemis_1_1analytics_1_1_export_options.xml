@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1analytics_1_1_export_options" kind="struct" language="C++" prot="public">
+    <compoundname>themis::analytics::ExportOptions</compoundname>
+    <includes refid="analytics__export_8h" local="no">analytics_export.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_export_options_1a7a4a4484d2686dbd6cc3e2f08309b291" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1analytics_1a4256541223492e653650ca8abdba4191" kindref="member">ExportFormat</ref></type>
+        <definition>ExportFormat themis::analytics::ExportOptions::format</definition>
+        <argsstring></argsstring>
+        <name>format</name>
+        <qualifiedname>themis::analytics::ExportOptions::format</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1analytics_1a4256541223492e653650ca8abdba4191a9831a9a78157affd18960d81cac86c14" kindref="member">ExportFormat::FMT_ARROW_IPC</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_export.h" line="43" column="18" bodyfile="include/analytics/analytics_export.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_export_options_1a648cfa01b374684d994b5f892c613c7f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::analytics::ExportOptions::compress</definition>
+        <argsstring></argsstring>
+        <name>compress</name>
+        <qualifiedname>themis::analytics::ExportOptions::compress</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_export.h" line="44" column="10" bodyfile="include/analytics/analytics_export.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_export_options_1a213bed853fa5f64abc29301f1a29f1d9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::analytics::ExportOptions::compression_codec</definition>
+        <argsstring></argsstring>
+        <name>compression_codec</name>
+        <qualifiedname>themis::analytics::ExportOptions::compression_codec</qualifiedname>
+        <initializer>= &quot;zstd&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_export.h" line="45" column="17" bodyfile="include/analytics/analytics_export.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_export_options_1ac6f8953dae930812cd9eef31c17f9422" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::analytics::ExportOptions::compression_level</definition>
+        <argsstring></argsstring>
+        <name>compression_level</name>
+        <qualifiedname>themis::analytics::ExportOptions::compression_level</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_export.h" line="46" column="9" bodyfile="include/analytics/analytics_export.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_export_options_1a3393f027be62fc8d1a5f00015d7c8f73" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::analytics::ExportOptions::batch_size</definition>
+        <argsstring></argsstring>
+        <name>batch_size</name>
+        <qualifiedname>themis::analytics::ExportOptions::batch_size</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_export.h" line="47" column="12" bodyfile="include/analytics/analytics_export.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_export_options_1a8dd1868db76fa8f70e7ff0cb798040ae" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::analytics::ExportOptions::include_metadata</definition>
+        <argsstring></argsstring>
+        <name>include_metadata</name>
+        <qualifiedname>themis::analytics::ExportOptions::include_metadata</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_export.h" line="48" column="10" bodyfile="include/analytics/analytics_export.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_export_options_1a0f1207113b684da92f02e54bce95f271" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1analytics_1_1_bounded_execution_policy" kindref="compound">BoundedExecutionPolicy</ref></type>
+        <definition>BoundedExecutionPolicy themis::analytics::ExportOptions::policy</definition>
+        <argsstring></argsstring>
+        <name>policy</name>
+        <qualifiedname>themis::analytics::ExportOptions::policy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_export.h" line="50" column="28" bodyfile="include/analytics/analytics_export.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::analytics::BoundedExecutionPolicy</label>
+        <link refid="structthemis_1_1analytics_1_1_bounded_execution_policy"/>
+      </node>
+      <node id="1">
+        <label>themis::analytics::ExportOptions</label>
+        <link refid="structthemis_1_1analytics_1_1_export_options"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>policy</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/analytics/analytics_export.h" line="42" column="1" bodyfile="include/analytics/analytics_export.h" bodystart="42" bodyend="51"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1analytics_1_1_export_options_1a3393f027be62fc8d1a5f00015d7c8f73" prot="public" virt="non-virtual"><scope>themis::analytics::ExportOptions</scope><name>batch_size</name></member>
+      <member refid="structthemis_1_1analytics_1_1_export_options_1a648cfa01b374684d994b5f892c613c7f" prot="public" virt="non-virtual"><scope>themis::analytics::ExportOptions</scope><name>compress</name></member>
+      <member refid="structthemis_1_1analytics_1_1_export_options_1a213bed853fa5f64abc29301f1a29f1d9" prot="public" virt="non-virtual"><scope>themis::analytics::ExportOptions</scope><name>compression_codec</name></member>
+      <member refid="structthemis_1_1analytics_1_1_export_options_1ac6f8953dae930812cd9eef31c17f9422" prot="public" virt="non-virtual"><scope>themis::analytics::ExportOptions</scope><name>compression_level</name></member>
+      <member refid="structthemis_1_1analytics_1_1_export_options_1a7a4a4484d2686dbd6cc3e2f08309b291" prot="public" virt="non-virtual"><scope>themis::analytics::ExportOptions</scope><name>format</name></member>
+      <member refid="structthemis_1_1analytics_1_1_export_options_1a8dd1868db76fa8f70e7ff0cb798040ae" prot="public" virt="non-virtual"><scope>themis::analytics::ExportOptions</scope><name>include_metadata</name></member>
+      <member refid="structthemis_1_1analytics_1_1_export_options_1a0f1207113b684da92f02e54bce95f271" prot="public" virt="non-virtual"><scope>themis::analytics::ExportOptions</scope><name>policy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

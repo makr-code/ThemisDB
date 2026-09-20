@@ -1,0 +1,298 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1gpu_1_1batch__a9" kind="namespace" language="C++">
+    <compoundname>themis::gpu::batch_a9</compoundname>
+    <innerclass refid="structthemis_1_1gpu_1_1batch__a9_1_1_kernel_execution_config" prot="public">themis::gpu::batch_a9::KernelExecutionConfig</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1batch__a9_1_1_kernel_execution_result" prot="public">themis::gpu::batch_a9::KernelExecutionResult</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1batch__a9_1ad50c9cb26dcb4d45e1b5e4a31b20b7a1" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1batch__a9_1_1_kernel_execution_result" kindref="compound">KernelExecutionResult</ref></type>
+        <definition>KernelExecutionResult themis::gpu::batch_a9::executeKernelWithTimeout</definition>
+        <argsstring>(const std::function&lt; void()&gt; &amp;gpu_kernel, const std::function&lt; void()&gt; &amp;cpu_kernel, const KernelExecutionConfig &amp;config) noexcept</argsstring>
+        <name>executeKernelWithTimeout</name>
+        <qualifiedname>themis::gpu::batch_a9::executeKernelWithTimeout</qualifiedname>
+        <param>
+          <type>const std::function&lt; void()&gt; &amp;</type>
+          <declname>gpu_kernel</declname>
+        </param>
+        <param>
+          <type>const std::function&lt; void()&gt; &amp;</type>
+          <declname>cpu_kernel</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1gpu_1_1batch__a9_1_1_kernel_execution_config" kindref="compound">KernelExecutionConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_batch_a9_safety.hpp" line="67" column="30" bodyfile="include/gpu/gpu_batch_a9_safety.hpp" bodystart="67" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1batch__a9_1a77ff2edbe52e18ecae82e0491c6318f7" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::batch_a9::safeMemcpyHostToDevice</definition>
+        <argsstring>(void *device_ptr, const void *host_ptr, size_t size) noexcept</argsstring>
+        <name>safeMemcpyHostToDevice</name>
+        <qualifiedname>themis::gpu::batch_a9::safeMemcpyHostToDevice</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>device_ptr</declname>
+        </param>
+        <param>
+          <type>const void *</type>
+          <declname>host_ptr</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_batch_a9_safety.hpp" line="276" column="13" bodyfile="include/gpu/gpu_batch_a9_safety.hpp" bodystart="276" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1batch__a9_1ae3002171ef8f48aec956b7ff231dbf2b" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::batch_a9::safeMemcpyDeviceToHost</definition>
+        <argsstring>(void *host_ptr, const void *device_ptr, size_t size) noexcept</argsstring>
+        <name>safeMemcpyDeviceToHost</name>
+        <qualifiedname>themis::gpu::batch_a9::safeMemcpyDeviceToHost</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>host_ptr</declname>
+        </param>
+        <param>
+          <type>const void *</type>
+          <declname>device_ptr</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_batch_a9_safety.hpp" line="301" column="13" bodyfile="include/gpu/gpu_batch_a9_safety.hpp" bodystart="301" bodyend="324"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1batch__a9_1a79f2ede14fe73615d08e352f09580009" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::batch_a9::isGPUAvailable</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>isGPUAvailable</name>
+        <qualifiedname>themis::gpu::batch_a9::isGPUAvailable</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_batch_a9_safety.hpp" line="326" column="13" bodyfile="include/gpu/gpu_batch_a9_safety.hpp" bodystart="326" bodyend="334"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1batch__a9_1a8762d3f82e1d999fadb9a353ddf4982f" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::batch_a9::isAllocationValid</definition>
+        <argsstring>(size_t size) noexcept</argsstring>
+        <name>isAllocationValid</name>
+        <qualifiedname>themis::gpu::batch_a9::isAllocationValid</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_batch_a9_safety.hpp" line="336" column="13" bodyfile="include/gpu/gpu_batch_a9_safety.hpp" bodystart="336" bodyend="339"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1batch__a9_1ae435592f56d9f2d15b1cf73e935ad1a7" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::batch_a9::streamSynchronizeWithTimeout</definition>
+        <argsstring>(cudaStream_t stream, std::uint32_t timeout_ms) noexcept</argsstring>
+        <name>streamSynchronizeWithTimeout</name>
+        <qualifiedname>themis::gpu::batch_a9::streamSynchronizeWithTimeout</qualifiedname>
+        <param>
+          <type><ref refid="gpu__batch__a9__safety_8hpp_1a17334a718f9e33ac9e3b937c3212c492" kindref="member">cudaStream_t</ref></type>
+          <declname>stream</declname>
+        </param>
+        <param>
+          <type>std::uint32_t</type>
+          <declname>timeout_ms</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_batch_a9_safety.hpp" line="341" column="13" bodyfile="include/gpu/gpu_batch_a9_safety.hpp" bodystart="341" bodyend="369"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1batch__a9_1aa83379a7d600ef661f16c5d0130c444f" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::batch_a9::getAvailableDeviceMemory</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>getAvailableDeviceMemory</name>
+        <qualifiedname>themis::gpu::batch_a9::getAvailableDeviceMemory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gpu/gpu_batch_a9_hardening.cpp" line="57" column="8" bodyfile="src/gpu/gpu_batch_a9_hardening.cpp" bodystart="57" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1batch__a9_1ac43ac961448ef62e5bbcddc4a6e27dec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_stream_handle" kindref="compound">GPUStreamHandle</ref></type>
+        <definition>GPUStreamHandle themis::gpu::batch_a9::createStreamSafe</definition>
+        <argsstring>()</argsstring>
+        <name>createStreamSafe</name>
+        <qualifiedname>themis::gpu::batch_a9::createStreamSafe</qualifiedname>
+        <briefdescription>
+<para>Create Stream Safe. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: GPUStreamHandle(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gpu/gpu_batch_a9_hardening.cpp" line="112" column="17" bodyfile="src/gpu/gpu_batch_a9_hardening.cpp" bodystart="112" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1batch__a9_1a52aff8c40b9e60410856eb298a9beb1c" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::batch_a9::streamSynchronizeWithTimeout</definition>
+        <argsstring>(cudaStream_t stream, uint32_t timeout_ms) noexcept</argsstring>
+        <name>streamSynchronizeWithTimeout</name>
+        <qualifiedname>themis::gpu::batch_a9::streamSynchronizeWithTimeout</qualifiedname>
+        <param>
+          <type><ref refid="gpu__batch__a9__safety_8hpp_1a17334a718f9e33ac9e3b937c3212c492" kindref="member">cudaStream_t</ref></type>
+          <declname>stream</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>timeout_ms</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gpu/gpu_batch_a9_hardening.cpp" line="116" column="6" bodyfile="src/gpu/gpu_batch_a9_hardening.cpp" bodystart="116" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1batch__a9_1ad280ad5e36abe33fb2a4796aba8a695f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_memory_handle" kindref="compound">GPUMemoryHandle</ref>&lt; T &gt;</type>
+        <definition>GPUMemoryHandle&lt; T &gt; themis::gpu::batch_a9::allocateGPUMemorySafe</definition>
+        <argsstring>(size_t count)</argsstring>
+        <name>allocateGPUMemorySafe</name>
+        <qualifiedname>themis::gpu::batch_a9::allocateGPUMemorySafe</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Allocate GPUMemory Safe. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="namespacethemis_1_1gpu_1_1batch__a9_1a8762d3f82e1d999fadb9a353ddf4982f" kindref="member">isAllocationValid()</ref>, spdlog::get(), debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gpu/gpu_batch_a9_hardening.cpp" line="168" column="17" bodyfile="src/gpu/gpu_batch_a9_hardening.cpp" bodystart="168" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1batch__a9_1afb840e51533bb6a2efe2882936927f89" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::batch_a9::copyToGPUSafe</definition>
+        <argsstring>(void *device_ptr, const void *host_ptr, size_t size) noexcept</argsstring>
+        <name>copyToGPUSafe</name>
+        <qualifiedname>themis::gpu::batch_a9::copyToGPUSafe</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>device_ptr</declname>
+        </param>
+        <param>
+          <type>const void *</type>
+          <declname>host_ptr</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gpu/gpu_batch_a9_hardening.cpp" line="181" column="6" bodyfile="src/gpu/gpu_batch_a9_hardening.cpp" bodystart="181" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1batch__a9_1a9ab61c624d612bb51c28fc8131f03111" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::batch_a9::copyFromGPUSafe</definition>
+        <argsstring>(void *host_ptr, const void *device_ptr, size_t size) noexcept</argsstring>
+        <name>copyFromGPUSafe</name>
+        <qualifiedname>themis::gpu::batch_a9::copyFromGPUSafe</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>host_ptr</declname>
+        </param>
+        <param>
+          <type>const void *</type>
+          <declname>device_ptr</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gpu/gpu_batch_a9_hardening.cpp" line="194" column="6" bodyfile="src/gpu/gpu_batch_a9_hardening.cpp" bodystart="194" bodyend="205"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/gpu/gpu_batch_a9_safety.hpp" line="39" column="1"/>
+  </compounddef>
+</doxygen>

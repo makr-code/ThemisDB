@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1test_1_1_mock_diagnostic_listener" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::test::MockDiagnosticListener</compoundname>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1test_1_1_mock_diagnostic_listener_1a5e277f48071dbc86603478d0cbf31894" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::test::MockDiagnosticListener::MOCK_METHOD</definition>
+        <argsstring>(void, onDiagnostic,(GPUDispatchEventType, GPUDispatchErrorCode, int, const std::string &amp;))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themis::gpu::test::MockDiagnosticListener::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <param>
+          <type>onDiagnostic</type>
+        </param>
+        <param>
+          <type>(<ref refid="namespacethemis_1_1gpu_1a5601df17f0cef5f13fa7ee19965dde78" kindref="member">GPUDispatchEventType</ref>, <ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6b" kindref="member">GPUDispatchErrorCode</ref>, int, const std::string &amp;)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_cuda_error_hardening.cpp" line="36" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Mock for capturing diagnostic events. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/gpu/test_cuda_error_hardening.cpp" line="34" column="1" bodyfile="tests/gpu/test_cuda_error_hardening.cpp" bodystart="34" bodyend="38"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1test_1_1_mock_diagnostic_listener_1a5e277f48071dbc86603478d0cbf31894" prot="public" virt="non-virtual"><scope>themis::gpu::test::MockDiagnosticListener</scope><name>MOCK_METHOD</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

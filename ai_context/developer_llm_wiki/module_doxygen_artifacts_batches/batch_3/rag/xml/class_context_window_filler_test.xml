@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_context_window_filler_test" kind="class" language="C++" prot="public">
+    <compoundname>ContextWindowFillerTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_context_window_filler_test_1a1f6205574b0abfd0ef09468c106fad71" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1rag_1_1streaming_1_1_context_window_filler" kindref="compound">ContextWindowFiller</ref></type>
+        <definition>ContextWindowFiller ContextWindowFillerTest::filler</definition>
+        <argsstring></argsstring>
+        <name>filler</name>
+        <qualifiedname>ContextWindowFillerTest::filler</qualifiedname>
+        <initializer>{1000, 4.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_streaming_retriever.cpp" line="42" column="25" bodyfile="tests/rag/test_rag_streaming_retriever.cpp" bodystart="42" bodyend="42"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ContextWindowFillerTest</label>
+        <link refid="class_context_window_filler_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ContextWindowFillerTest</label>
+        <link refid="class_context_window_filler_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>filler</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::rag::streaming::ContextWindowFiller</label>
+        <link refid="classthemis_1_1rag_1_1streaming_1_1_context_window_filler"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/rag/test_rag_streaming_retriever.cpp" line="39" column="1" bodyfile="tests/rag/test_rag_streaming_retriever.cpp" bodystart="39" bodyend="43"/>
+    <listofallmembers>
+      <member refid="class_context_window_filler_test_1a1f6205574b0abfd0ef09468c106fad71" prot="protected" virt="non-virtual"><scope>ContextWindowFillerTest</scope><name>filler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

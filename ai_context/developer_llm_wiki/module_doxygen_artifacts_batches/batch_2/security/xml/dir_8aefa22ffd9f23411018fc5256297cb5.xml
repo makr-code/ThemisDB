@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_8aefa22ffd9f23411018fc5256297cb5" kind="dir">
+    <compoundname>tests/security/attack-vectors/authentication</compoundname>
+    <innerfile refid="test__authentication__attack__vectors_8cpp">test_authentication_attack_vectors.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/security/attack-vectors/authentication/"/>
+  </compounddef>
+</doxygen>

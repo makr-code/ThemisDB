@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1_i_tensor_core_bridge" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::ingestion::ITensorCoreBridge</compoundname>
+    <derivedcompoundref refid="classthemis_1_1ingestion_1_1_in_memory_tensor_core_bridge" prot="public" virt="non-virtual">themis::ingestion::InMemoryTensorCoreBridge</derivedcompoundref>
+    <includes refid="ingestion__sinks_8h" local="no">ingestion_sinks.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_i_tensor_core_bridge_1ae8ce4f0c77859766bc852357138dca95" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::ingestion::ITensorCoreBridge::~ITensorCoreBridge</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ITensorCoreBridge</name>
+        <qualifiedname>themis::ingestion::ITensorCoreBridge::~ITensorCoreBridge</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_sinks.h" line="419" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_i_tensor_core_bridge_1aa1861fd84e098d789cae8a968176cba4" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>virtual Result&lt; void &gt; themis::ingestion::ITensorCoreBridge::write</definition>
+        <argsstring>(const TensorCoreRecord &amp;record, const std::string &amp;tenant_id)=0</argsstring>
+        <name>write</name>
+        <qualifiedname>themis::ingestion::ITensorCoreBridge::write</qualifiedname>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_in_memory_tensor_core_bridge_1ab0fcce4fc95cb190ec90f5af4afae257">write</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_tensor_core_record" kindref="compound">TensorCoreRecord</ref> &amp;</type>
+          <declname>record</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Persist one Tensor-Train core record. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>record</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pre-computed <computeroutput><ref refid="structthemis_1_1ingestion_1_1_tensor_core_record" kindref="compound">TensorCoreRecord</ref></computeroutput> from the decompose step. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tenant scope for isolation (validated: non-empty, no &apos;/&apos;). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Error on invalid input or I/O failure. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_sinks.h" line="428" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_i_tensor_core_bridge_1aa22ca3c5ff2055097ee7b0c157555e92" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::size_t</type>
+        <definition>virtual std::size_t themis::ingestion::ITensorCoreBridge::writeCount</definition>
+        <argsstring>() const =0</argsstring>
+        <name>writeCount</name>
+        <qualifiedname>themis::ingestion::ITensorCoreBridge::writeCount</qualifiedname>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_in_memory_tensor_core_bridge_1abd824b7de6d5246ce45552f8c5abc698">writeCount</reimplementedby>
+        <briefdescription>
+<para>Number of records successfully written since construction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_sinks.h" line="434" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstract interface for persisting <computeroutput><ref refid="structthemis_1_1ingestion_1_1_tensor_core_record" kindref="compound">TensorCoreRecord</ref></computeroutput>s. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The <computeroutput>builtin.tensor_core_bridge</computeroutput> ingestion step calls this interface for every <computeroutput><ref refid="structthemis_1_1ingestion_1_1_tensor_core_record" kindref="compound">TensorCoreRecord</ref></computeroutput> in <computeroutput><ref refid="structthemis_1_1ingestion_1_1_extraction_context_1ae2b1322b9d6f511ce639b0056c071bac" kindref="member">ExtractionContext::tensor_cores</ref></computeroutput>.</para>
+<para>Implementations:<itemizedlist>
+<listitem><para><computeroutput><ref refid="classthemis_1_1ingestion_1_1_in_memory_tensor_core_bridge" kindref="compound">InMemoryTensorCoreBridge</ref></computeroutput> — in-memory map, for unit tests</para>
+</listitem><listitem><para><computeroutput>TensorCoreStorageBridge</computeroutput> — writes to <computeroutput>ITensorStorageBackend</computeroutput> (in <computeroutput>tensor/</computeroutput>)</para>
+</listitem></itemizedlist>
+</para>
+<para>Key contract (implemented by all concrete bridges):<itemizedlist>
+<listitem><para>Upsert semantics: re-ingesting the same <computeroutput>chunk_id</computeroutput> under the same <computeroutput>tenant_id</computeroutput> replaces the existing record rather than creating a duplicate.</para>
+</listitem><listitem><para><computeroutput><ref refid="classthemis_1_1ingestion_1_1_i_tensor_core_bridge_1aa1861fd84e098d789cae8a968176cba4" kindref="member">write()</ref></computeroutput> MUST be thread-safe.</para>
+</listitem><listitem><para>A non-empty <computeroutput><ref refid="structthemis_1_1ingestion_1_1_tensor_core_record_1a482fc76aa32529a2a8266f14c5a39fe3" kindref="member">TensorCoreRecord::serialized_train</ref></computeroutput> is required; records with empty train bytes are rejected with ERR_DOC_INVALID_ARGUMENT. </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::ingestion::ITensorCoreBridge</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_tensor_core_bridge"/>
+      </node>
+      <node id="2">
+        <label>themis::ingestion::InMemoryTensorCoreBridge</label>
+        <link refid="classthemis_1_1ingestion_1_1_in_memory_tensor_core_bridge"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/ingestion/ingestion_sinks.h" line="417" column="1" bodyfile="include/ingestion/ingestion_sinks.h" bodystart="417" bodyend="435"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1_i_tensor_core_bridge_1aa1861fd84e098d789cae8a968176cba4" prot="public" virt="pure-virtual"><scope>themis::ingestion::ITensorCoreBridge</scope><name>write</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_tensor_core_bridge_1aa22ca3c5ff2055097ee7b0c157555e92" prot="public" virt="pure-virtual"><scope>themis::ingestion::ITensorCoreBridge</scope><name>writeCount</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_tensor_core_bridge_1ae8ce4f0c77859766bc852357138dca95" prot="public" virt="virtual"><scope>themis::ingestion::ITensorCoreBridge</scope><name>~ITensorCoreBridge</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

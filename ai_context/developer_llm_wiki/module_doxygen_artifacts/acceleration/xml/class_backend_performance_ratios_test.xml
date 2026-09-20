@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_backend_performance_ratios_test" kind="class" language="C++" prot="public">
+    <compoundname>BackendPerformanceRatiosTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="class_backend_performance_ratios_test_1ada0fa1d945929682e082b4ad7c13e05e" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double BackendPerformanceRatiosTest::MIN_CUDA_SPEEDUP</definition>
+        <argsstring></argsstring>
+        <name>MIN_CUDA_SPEEDUP</name>
+        <qualifiedname>BackendPerformanceRatiosTest::MIN_CUDA_SPEEDUP</qualifiedname>
+        <initializer>= 35.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/acceleration/test_acceleration_performance_gates.cpp" line="351" column="29" bodyfile="tests/acceleration/test_acceleration_performance_gates.cpp" bodystart="351" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_backend_performance_ratios_test_1adee4cbe189e0bdb7f6472f1583874875" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double BackendPerformanceRatiosTest::TARGET_CUDA_SPEEDUP</definition>
+        <argsstring></argsstring>
+        <name>TARGET_CUDA_SPEEDUP</name>
+        <qualifiedname>BackendPerformanceRatiosTest::TARGET_CUDA_SPEEDUP</qualifiedname>
+        <initializer>= 40.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/acceleration/test_acceleration_performance_gates.cpp" line="352" column="29" bodyfile="tests/acceleration/test_acceleration_performance_gates.cpp" bodystart="352" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>BackendPerformanceRatiosTest</label>
+        <link refid="class_backend_performance_ratios_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>BackendPerformanceRatiosTest</label>
+        <link refid="class_backend_performance_ratios_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/acceleration/test_acceleration_performance_gates.cpp" line="349" column="1" bodyfile="tests/acceleration/test_acceleration_performance_gates.cpp" bodystart="349" bodyend="353"/>
+    <listofallmembers>
+      <member refid="class_backend_performance_ratios_test_1ada0fa1d945929682e082b4ad7c13e05e" prot="protected" virt="non-virtual"><scope>BackendPerformanceRatiosTest</scope><name>MIN_CUDA_SPEEDUP</name></member>
+      <member refid="class_backend_performance_ratios_test_1adee4cbe189e0bdb7f6472f1583874875" prot="protected" virt="non-virtual"><scope>BackendPerformanceRatiosTest</scope><name>TARGET_CUDA_SPEEDUP</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

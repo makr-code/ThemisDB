@@ -1,0 +1,317 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="adapter__compatibility_8h" kind="file" language="C++">
+    <compoundname>adapter_compatibility.h</compoundname>
+    <includes refid="adapter__registry_8h" local="yes">llm/adapter_registry.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">optional</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>include/llm/adapter_compatibility.h</label>
+        <link refid="adapter__compatibility_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>llm/adapter_registry.h</label>
+        <link refid="adapter__registry_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>llm/lora_framework/lora_provenance.h</label>
+        <link refid="lora__provenance_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>functional</label>
+      </node>
+      <node id="8">
+        <label>map</label>
+      </node>
+      <node id="9">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="12">
+        <label>shared_mutex</label>
+      </node>
+      <node id="3">
+        <label>storage/security_signature_manager.h</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classthemis_1_1llm_1_1_adapter_compatibility_validator" prot="public">themis::llm::AdapterCompatibilityValidator</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check" prot="public">themis::llm::AdapterCompatibilityValidator::CompatibilityCheck</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_validation_result" prot="public">themis::llm::AdapterCompatibilityValidator::ValidationResult</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_model_spec" prot="public">themis::llm::AdapterCompatibilityValidator::ModelSpec</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_version_parts" prot="private">themis::llm::AdapterCompatibilityValidator::VersionParts</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_model_migration_assistant" prot="public">themis::llm::ModelMigrationAssistant</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_model_migration_assistant_1_1_migration_plan" prot="public">themis::llm::ModelMigrationAssistant::MigrationPlan</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten.</para>
+</simplesect>
+<simplesect kind="note"><para><bold>Configuration/Metadata</bold>: Defines configuration and tracking structures. No .cpp implementation needed. Used by consumers for configuration. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="adapter__registry_8h" kindref="compound">llm/adapter_registry.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25" refid="classthemis_1_1llm_1_1_adapter_compatibility_validator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1ad63c563c44eaa45f79c65869813ce5c3" kindref="member">AdapterCompatibilityValidator</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="31" refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1ab0fb0a6cf1e38cf0a13ea03ae0727b4c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1ab0fb0a6cf1e38cf0a13ea03ae0727b4c" kindref="member">~AdapterCompatibilityValidator</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="32" refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1acd18503e70cc4847894981348028a753" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1acd18503e70cc4847894981348028a753" kindref="member">ValidationLevel</ref><sp/>{</highlight></codeline>
+<codeline lineno="33" refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1acd18503e70cc4847894981348028a753a4c50b1af679a751969aaad2881a34bef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1acd18503e70cc4847894981348028a753a4c50b1af679a751969aaad2881a34bef" kindref="member">STRICT</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>checks<sp/>must<sp/>pass</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1acd18503e70cc4847894981348028a753a5137485eff3ff278d233d993c8539599" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1acd18503e70cc4847894981348028a753a5137485eff3ff278d233d993c8539599" kindref="member">MODERATE</ref>,<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Critical<sp/>checks<sp/>only</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1acd18503e70cc4847894981348028a753a57676e0bedd941be2b5a7138f24bfd97" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1acd18503e70cc4847894981348028a753a57676e0bedd941be2b5a7138f24bfd97" kindref="member">PERMISSIVE</ref><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Warnings<sp/>only,<sp/>no<sp/>errors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check" kindref="compound">CompatibilityCheck</ref><sp/>{</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check_1a0b37ea7a888701bcf899ca12fb4f726c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check_1a0b37ea7a888701bcf899ca12fb4f726c" kindref="member">CheckType</ref><sp/>{</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check_1a0b37ea7a888701bcf899ca12fb4f726cab6d0f8d357d5cd694c66d1cbce68a714" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check_1a0b37ea7a888701bcf899ca12fb4f726cab6d0f8d357d5cd694c66d1cbce68a714" kindref="member">MODEL_NAME_MATCH</ref>,</highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check_1a0b37ea7a888701bcf899ca12fb4f726ca3e2e56d3447cba6bb69d5f3f07763a7b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check_1a0b37ea7a888701bcf899ca12fb4f726ca3e2e56d3447cba6bb69d5f3f07763a7b" kindref="member">ARCHITECTURE_MATCH</ref>,</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check_1a0b37ea7a888701bcf899ca12fb4f726cab696021087b689143ae7629606025989" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check_1a0b37ea7a888701bcf899ca12fb4f726cab696021087b689143ae7629606025989" kindref="member">DIMENSION_COMPATIBILITY</ref>,</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check_1a0b37ea7a888701bcf899ca12fb4f726ca8bf54a8b4ae6cb21066c80cca1717b20" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check_1a0b37ea7a888701bcf899ca12fb4f726ca8bf54a8b4ae6cb21066c80cca1717b20" kindref="member">TOKENIZER_COMPATIBILITY</ref>,</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check_1a0b37ea7a888701bcf899ca12fb4f726cae757360f233676b297eea67d9e0f3a26" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check_1a0b37ea7a888701bcf899ca12fb4f726cae757360f233676b297eea67d9e0f3a26" kindref="member">VERSION_COMPATIBILITY</ref>,</highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check_1a0b37ea7a888701bcf899ca12fb4f726ca800c0d77ba661122e9c4a512fe574a76" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check_1a0b37ea7a888701bcf899ca12fb4f726ca800c0d77ba661122e9c4a512fe574a76" kindref="member">QUANTIZATION_COMPATIBILITY</ref></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check_1a01e7679e1e4a1bf493c332a23784fc8b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check_1a0b37ea7a888701bcf899ca12fb4f726c" kindref="member">CheckType</ref><sp/><ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check_1a01e7679e1e4a1bf493c332a23784fc8b" kindref="member">type</ref>;</highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check_1a56bd70a44863b09651728348a0442819" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check_1a56bd70a44863b09651728348a0442819" kindref="member">passed</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check_1ae8d36a21686393b60c2c7c5b9368cc13" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check_1ae8d36a21686393b60c2c7c5b9368cc13" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check_1ae840c31d70186ab6d591844fee1c9b50" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check_1ae840c31d70186ab6d591844fee1c9b50" kindref="member">is_critical</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>true,<sp/>failure<sp/>blocks<sp/>deployment</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check_1aa16c4219c738aa7445fd2fc1906d6787" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check_1aa16c4219c738aa7445fd2fc1906d6787" kindref="member">toString</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_validation_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_validation_result" kindref="compound">ValidationResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_validation_result_1a1c4db3b7c07094a71581ee4d9d15ab5c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_validation_result_1a1c4db3b7c07094a71581ee4d9d15ab5c" kindref="member">compatible</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_validation_result_1a3c6cbbec7ccf8c26e45b57b902eb0d5a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;CompatibilityCheck&gt;<sp/><ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_validation_result_1a3c6cbbec7ccf8c26e45b57b902eb0d5a" kindref="member">checks</ref>;</highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_validation_result_1a100026199c988cbb262864db571b347b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_validation_result_1a100026199c988cbb262864db571b347b" kindref="member">errors</ref>;</highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_validation_result_1a7d451adedd2acbcc4fc7d4a48da912a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_validation_result_1a7d451adedd2acbcc4fc7d4a48da912a8" kindref="member">warnings</ref>;</highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_validation_result_1a33d7bc5f1c141de74167549f280f3601" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_validation_result_1a33d7bc5f1c141de74167549f280f3601" kindref="member">suggestions</ref>;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Summary</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_validation_result_1ad01577fcb254613264f0c82c8c29872a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_validation_result_1ad01577fcb254613264f0c82c8c29872a" kindref="member">total_checks</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_validation_result_1a65818dea742d910ef7b893c3d177de18" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_validation_result_1a65818dea742d910ef7b893c3d177de18" kindref="member">passed_checks</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_validation_result_1ad5c9eb2d57e426c24c4a1024c1ecc012" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_validation_result_1ad5c9eb2d57e426c24c4a1024c1ecc012" kindref="member">failed_critical_checks</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_validation_result_1a8bf8cbe7100a67ec1af165e8a256c23b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_validation_result_1a8bf8cbe7100a67ec1af165e8a256c23b" kindref="member">toFormattedString</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_validation_result_1a7c838364de6bea87b8f48851339a8a67" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_validation_result_1a7c838364de6bea87b8f48851339a8a67" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="84" refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1ad63c563c44eaa45f79c65869813ce5c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1ad63c563c44eaa45f79c65869813ce5c3" kindref="member">AdapterCompatibilityValidator</ref>(</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1acd18503e70cc4847894981348028a753" kindref="member">ValidationLevel</ref><sp/>level<sp/>=<sp/><ref refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1acd18503e70cc4847894981348028a753a4c50b1af679a751969aaad2881a34bef" kindref="member">ValidationLevel::STRICT</ref></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Validation<sp/>Operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="90" refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1afe90e1e89cfd2121c2271dae87ef045c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_validation_result" kindref="compound">ValidationResult</ref><sp/><ref refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1afe90e1e89cfd2121c2271dae87ef045c" kindref="member">validate</ref>(</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref>&amp;<sp/>adapter,</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>base_model_name,</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>base_model_version<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="102" refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1a494730992e93deeaf1d8f37fa95b3405" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1a494730992e93deeaf1d8f37fa95b3405" kindref="member">isCompatible</ref>(</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref>&amp;<sp/>adapter,</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>base_model_name</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="113" refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1a4410f41059a8c50e5808d9d1d9cefeaf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_validation_result" kindref="compound">ValidationResult</ref><sp/><ref refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1a4410f41059a8c50e5808d9d1d9cefeaf" kindref="member">validateAdapterPair</ref>(</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref>&amp;<sp/>adapter1,</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref>&amp;<sp/>adapter2</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Model<sp/>Information</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_model_spec" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_model_spec" kindref="compound">ModelSpec</ref><sp/>{</highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_model_spec_1abcbded77f73438cb781d6e487b2682cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_model_spec_1abcbded77f73438cb781d6e487b2682cd" kindref="member">architecture</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>e.g.,<sp/>&quot;llama&quot;,<sp/>&quot;mistral&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122" refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_model_spec_1a3493d44c56603b7b3df1c47376a1195d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_model_spec_1a3493d44c56603b7b3df1c47376a1195d" kindref="member">hidden_size</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_model_spec_1ae79e9eced055518d4665fcfe2c131edb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_model_spec_1ae79e9eced055518d4665fcfe2c131edb" kindref="member">ffn_dimension</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_model_spec_1a8c55f28e019dd0d9d14ef7f419d669ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_model_spec_1a8c55f28e019dd0d9d14ef7f419d669ad" kindref="member">supported_versions</ref>;</highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_model_spec_1a0fd13f02be4e80760f283c5dc20b7d09" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_model_spec_1a0fd13f02be4e80760f283c5dc20b7d09" kindref="member">tokenizer_type</ref>;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_model_spec_1a35d0cf0774afa158d1aa55fa738cfa05" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_model_spec_1a35d0cf0774afa158d1aa55fa738cfa05" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="139" refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1a1bc89fe6e67443e01a5df34b1b29994f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;ModelSpec&gt;<sp/><ref refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1a1bc89fe6e67443e01a5df34b1b29994f" kindref="member">getModelSpec</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_name);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="146" refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1ad86c617b5841bc7ca620f5ea03f5fea8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1ad86c617b5841bc7ca620f5ea03f5fea8" kindref="member">registerModelSpec</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_name,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_model_spec" kindref="compound">ModelSpec</ref>&amp;<sp/>spec);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="155" refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1a506bf3810a89ad6468e7a65d1bf336df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1a506bf3810a89ad6468e7a65d1bf336df" kindref="member">setValidationLevel</ref>(<ref refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1acd18503e70cc4847894981348028a753" kindref="member">ValidationLevel</ref><sp/>level)<sp/>{<sp/>validation_level_<sp/>=<sp/>level;<sp/>}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="157" refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1a5435c9da6b62a0eac6ee53c225114093" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1acd18503e70cc4847894981348028a753" kindref="member">ValidationLevel</ref><sp/><ref refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1a5435c9da6b62a0eac6ee53c225114093" kindref="member">getValidationLevel</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>validation_level_;<sp/>}</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="159" refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1aaccf1a8109f3f35bf863f61c3546835f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1aaccf1a8109f3f35bf863f61c3546835f" kindref="member">enableCheck</ref>(<ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check_1a0b37ea7a888701bcf899ca12fb4f726c" kindref="member">CompatibilityCheck::CheckType</ref><sp/>type,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enabled<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="166" refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1a009f35d6bb30d090ba419dbcb36f7757" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1a009f35d6bb30d090ba419dbcb36f7757" kindref="member">isCheckEnabled</ref>(<ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check_1a0b37ea7a888701bcf899ca12fb4f726c" kindref="member">CompatibilityCheck::CheckType</ref><sp/>type)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1acd18503e70cc4847894981348028a753" kindref="member">ValidationLevel</ref><sp/>validation_level_;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;CompatibilityCheck::CheckType,<sp/>bool&gt;<sp/>enabled_checks_;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>ModelSpec&gt;<sp/>known_models_;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Individual<sp/>check<sp/>implementations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check" kindref="compound">CompatibilityCheck</ref><sp/>checkModelNameMatch(</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref>&amp;<sp/>adapter,</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>base_model_name</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check" kindref="compound">CompatibilityCheck</ref><sp/>checkArchitectureMatch(</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref>&amp;<sp/>adapter,</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>base_model_name</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check" kindref="compound">CompatibilityCheck</ref><sp/>checkDimensionCompatibility(</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref>&amp;<sp/>adapter,</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>base_model_name</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check" kindref="compound">CompatibilityCheck</ref><sp/>checkTokenizerCompatibility(</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref>&amp;<sp/>adapter,</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>base_model_name</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check" kindref="compound">CompatibilityCheck</ref><sp/>checkVersionCompatibility(</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref>&amp;<sp/>adapter,</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>base_model_version</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check" kindref="compound">CompatibilityCheck</ref><sp/>checkQuantizationCompatibility(</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref>&amp;<sp/>adapter,</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>base_model_name</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>initializeKnownModels();</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>normalizeModelName(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_name)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper:<sp/>Parse<sp/>version<sp/>string</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">VersionParts<sp/>{</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;int&gt;<sp/>major;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;int&gt;<sp/>minor;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;int&gt;<sp/>patch;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>variant;<sp/><sp/></highlight><highlight class="comment">//<sp/>e.g.,<sp/>&quot;instruct&quot;,<sp/>&quot;chat&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>VersionParts<sp/>parseVersion(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>version_str)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>areVersionsCompatible(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>VersionParts&amp;<sp/>v1,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>VersionParts&amp;<sp/>v2)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275" refid="classthemis_1_1llm_1_1_model_migration_assistant" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_model_migration_assistant" kindref="compound">ModelMigrationAssistant</ref><sp/>{</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="277" refid="classthemis_1_1llm_1_1_model_migration_assistant_1af967b0a86cbd210087c057ee73be12ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_model_migration_assistant_1af967b0a86cbd210087c057ee73be12ad" kindref="member">MigrationStrategy</ref><sp/>{</highlight></codeline>
+<codeline lineno="278" refid="classthemis_1_1llm_1_1_model_migration_assistant_1af967b0a86cbd210087c057ee73be12ada687c71a58ef0f54a3a90263fddcf7009" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_model_migration_assistant_1af967b0a86cbd210087c057ee73be12ada687c71a58ef0f54a3a90263fddcf7009" kindref="member">RETRAIN</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Full<sp/>retraining<sp/>required</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279" refid="classthemis_1_1llm_1_1_model_migration_assistant_1af967b0a86cbd210087c057ee73be12ada5665bf9ccd5bc0163bf755e0767c97b5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_model_migration_assistant_1af967b0a86cbd210087c057ee73be12ada5665bf9ccd5bc0163bf755e0767c97b5" kindref="member">FINE_TUNE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Fine-tune<sp/>existing<sp/>adapter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="280" refid="classthemis_1_1llm_1_1_model_migration_assistant_1af967b0a86cbd210087c057ee73be12adab484063bf424edcd26232cfe6b31e05a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_model_migration_assistant_1af967b0a86cbd210087c057ee73be12adab484063bf424edcd26232cfe6b31e05a" kindref="member">DIMENSION_ADAPT</ref>,<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Adapt<sp/>dimensions<sp/>(if<sp/>possible)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281" refid="classthemis_1_1llm_1_1_model_migration_assistant_1af967b0a86cbd210087c057ee73be12adac91864551a545713eff49778925d69fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_model_migration_assistant_1af967b0a86cbd210087c057ee73be12adac91864551a545713eff49778925d69fb" kindref="member">NO_MIGRATION</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Not<sp/>possible<sp/>to<sp/>migrate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="284" refid="structthemis_1_1llm_1_1_model_migration_assistant_1_1_migration_plan" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_model_migration_assistant_1_1_migration_plan" kindref="compound">MigrationPlan</ref><sp/>{</highlight></codeline>
+<codeline lineno="285" refid="structthemis_1_1llm_1_1_model_migration_assistant_1_1_migration_plan_1a1c2e25cb1b43b3879fe63a83b8581230" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_model_migration_assistant_1af967b0a86cbd210087c057ee73be12ad" kindref="member">MigrationStrategy</ref><sp/><ref refid="structthemis_1_1llm_1_1_model_migration_assistant_1_1_migration_plan_1a1c2e25cb1b43b3879fe63a83b8581230" kindref="member">strategy</ref>;</highlight></codeline>
+<codeline lineno="286" refid="structthemis_1_1llm_1_1_model_migration_assistant_1_1_migration_plan_1ad923d4424e0559241b6d19208239a9eb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_model_migration_assistant_1_1_migration_plan_1ad923d4424e0559241b6d19208239a9eb" kindref="member">feasible</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="287" refid="structthemis_1_1llm_1_1_model_migration_assistant_1_1_migration_plan_1ab79f2743302116f52e4a928cb635d5ff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_model_migration_assistant_1_1_migration_plan_1ab79f2743302116f52e4a928cb635d5ff" kindref="member">steps</ref>;</highlight></codeline>
+<codeline lineno="288" refid="structthemis_1_1llm_1_1_model_migration_assistant_1_1_migration_plan_1a07f1baf768eda90f8bffcd1b43e1d431" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_model_migration_assistant_1_1_migration_plan_1a07f1baf768eda90f8bffcd1b43e1d431" kindref="member">warnings</ref>;</highlight></codeline>
+<codeline lineno="289" refid="structthemis_1_1llm_1_1_model_migration_assistant_1_1_migration_plan_1a40992fcd6ff248ad4c788261aff246d8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_model_migration_assistant_1_1_migration_plan_1a40992fcd6ff248ad4c788261aff246d8" kindref="member">estimated_effort</ref><sp/>=<sp/>0.0;<sp/><sp/></highlight><highlight class="comment">//<sp/>0.0-1.0<sp/>(training<sp/>time<sp/>ratio)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="290" refid="structthemis_1_1llm_1_1_model_migration_assistant_1_1_migration_plan_1afc616257e9388fc71c2901ec109105ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_model_migration_assistant_1_1_migration_plan_1afc616257e9388fc71c2901ec109105ed" kindref="member">recommendation</ref>;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="296" refid="structthemis_1_1llm_1_1_model_migration_assistant_1_1_migration_plan_1a80b6aab62703091170b82f45c0d36af6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1llm_1_1_model_migration_assistant_1_1_migration_plan_1a80b6aab62703091170b82f45c0d36af6" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="306" refid="classthemis_1_1llm_1_1_model_migration_assistant_1ae7d4c11bbcfaa909ffe9435aed2c2e9b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_model_migration_assistant_1_1_migration_plan" kindref="compound">MigrationPlan</ref><sp/><ref refid="classthemis_1_1llm_1_1_model_migration_assistant_1ae7d4c11bbcfaa909ffe9435aed2c2e9b" kindref="member">analyzeMigration</ref>(</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref>&amp;<sp/>adapter,</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>source_model,</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target_model</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="318" refid="classthemis_1_1llm_1_1_model_migration_assistant_1a276f3478c46e8010ae0d69bc6110c8e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_model_migration_assistant_1af967b0a86cbd210087c057ee73be12ad" kindref="member">MigrationStrategy</ref><sp/><ref refid="classthemis_1_1llm_1_1_model_migration_assistant_1a276f3478c46e8010ae0d69bc6110c8e9" kindref="member">recommendStrategy</ref>(</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>source_model,</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target_model</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="329" refid="classthemis_1_1llm_1_1_model_migration_assistant_1a823b1d4c1d791559424224ec5eee5357" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_model_migration_assistant_1a823b1d4c1d791559424224ec5eee5357" kindref="member">estimateRetrainingEffort</ref>(</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>source_model,</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target_model</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="333"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/adapter_compatibility.h"/>
+  </compounddef>
+</doxygen>

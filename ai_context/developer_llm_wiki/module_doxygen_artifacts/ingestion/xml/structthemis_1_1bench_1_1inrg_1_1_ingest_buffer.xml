@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1bench_1_1inrg_1_1_ingest_buffer" kind="struct" language="C++" prot="public">
+    <compoundname>themis::bench::inrg::IngestBuffer</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1inrg_1_1_ingest_buffer_1aa9aede3efcdacb57837e3f642ff644e2" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; std::size_t &gt;</type>
+        <definition>std::atomic&lt;std::size_t&gt; themis::bench::inrg::IngestBuffer::used</definition>
+        <argsstring></argsstring>
+        <name>used</name>
+        <qualifiedname>themis::bench::inrg::IngestBuffer::used</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_release_gates.cpp" line="134" column="17" bodyfile="benchmarks/ingestion/bench_ingestion_release_gates.cpp" bodystart="134" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1inrg_1_1_ingest_buffer_1ac0643a5f133616271478a970c90feee3" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::bench::inrg::IngestBuffer::capacity</definition>
+        <argsstring></argsstring>
+        <name>capacity</name>
+        <qualifiedname>themis::bench::inrg::IngestBuffer::capacity</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1ingestion_1ae1fc31b23ba597bf0cbbf1de7370e101" kindref="member">kDefaultBufferCapacity</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_release_gates.cpp" line="135" column="30" bodyfile="benchmarks/ingestion/bench_ingestion_release_gates.cpp" bodystart="135" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1bench_1_1inrg_1_1_ingest_buffer_1afd7ef17b51c149f295638b6f28d2f668" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::bench::inrg::IngestBuffer::isFull</definition>
+        <argsstring>(std::size_t n=1) const noexcept</argsstring>
+        <name>isFull</name>
+        <qualifiedname>themis::bench::inrg::IngestBuffer::isFull</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>n</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_release_gates.cpp" line="137" column="10" bodyfile="benchmarks/ingestion/bench_ingestion_release_gates.cpp" bodystart="137" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1bench_1_1inrg_1_1_ingest_buffer_1a47ce81171998aad56a9ea1ca597cbdfa" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::inrg::IngestBuffer::push</definition>
+        <argsstring>(std::size_t n=1) noexcept</argsstring>
+        <name>push</name>
+        <qualifiedname>themis::bench::inrg::IngestBuffer::push</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>n</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_release_gates.cpp" line="141" column="10" bodyfile="benchmarks/ingestion/bench_ingestion_release_gates.cpp" bodystart="141" bodyend="143"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/ingestion/bench_ingestion_release_gates.cpp" line="133" column="1" bodyfile="benchmarks/ingestion/bench_ingestion_release_gates.cpp" bodystart="133" bodyend="144"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1bench_1_1inrg_1_1_ingest_buffer_1ac0643a5f133616271478a970c90feee3" prot="public" virt="non-virtual"><scope>themis::bench::inrg::IngestBuffer</scope><name>capacity</name></member>
+      <member refid="structthemis_1_1bench_1_1inrg_1_1_ingest_buffer_1afd7ef17b51c149f295638b6f28d2f668" prot="public" virt="non-virtual"><scope>themis::bench::inrg::IngestBuffer</scope><name>isFull</name></member>
+      <member refid="structthemis_1_1bench_1_1inrg_1_1_ingest_buffer_1a47ce81171998aad56a9ea1ca597cbdfa" prot="public" virt="non-virtual"><scope>themis::bench::inrg::IngestBuffer</scope><name>push</name></member>
+      <member refid="structthemis_1_1bench_1_1inrg_1_1_ingest_buffer_1aa9aede3efcdacb57837e3f642ff644e2" prot="public" virt="non-virtual"><scope>themis::bench::inrg::IngestBuffer</scope><name>used</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

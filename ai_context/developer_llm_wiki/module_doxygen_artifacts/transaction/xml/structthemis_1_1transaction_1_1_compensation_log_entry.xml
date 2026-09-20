@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1transaction_1_1_compensation_log_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::transaction::CompensationLogEntry</compoundname>
+    <includes refid="compensation__log_8h" local="no">compensation_log.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_compensation_log_entry_1abe65f06ca6709e9d50451184040b7d59" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::transaction::CompensationLogEntry::saga_id</definition>
+        <argsstring></argsstring>
+        <name>saga_id</name>
+        <qualifiedname>themis::transaction::CompensationLogEntry::saga_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/compensation_log.h" line="23" column="17" bodyfile="include/transaction/compensation_log.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_compensation_log_entry_1acee809b97f9d6172faa582abf6b5022b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::transaction::CompensationLogEntry::step_name</definition>
+        <argsstring></argsstring>
+        <name>step_name</name>
+        <qualifiedname>themis::transaction::CompensationLogEntry::step_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/compensation_log.h" line="25" column="17" bodyfile="include/transaction/compensation_log.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_compensation_log_entry_1a225618306572234dc4afd0f7badaf88f" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::transaction::CompensationLogEntry::sequence_number</definition>
+        <argsstring></argsstring>
+        <name>sequence_number</name>
+        <qualifiedname>themis::transaction::CompensationLogEntry::sequence_number</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/compensation_log.h" line="27" column="14" bodyfile="include/transaction/compensation_log.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_compensation_log_entry_1a1be98a869ef7b14744dc953a7ba3a7b1" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::transaction::CompensationLogEntry::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::transaction::CompensationLogEntry::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/compensation_log.h" line="29" column="43" bodyfile="include/transaction/compensation_log.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_compensation_log_entry_1ac3bc3ae890d0336011197207f74713a5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::transaction::CompensationLogEntry::succeeded</definition>
+        <argsstring></argsstring>
+        <name>succeeded</name>
+        <qualifiedname>themis::transaction::CompensationLogEntry::succeeded</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/compensation_log.h" line="31" column="10" bodyfile="include/transaction/compensation_log.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_compensation_log_entry_1a313b3d03cdaf632bbe470d0e0406a956" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::transaction::CompensationLogEntry::error_detail</definition>
+        <argsstring></argsstring>
+        <name>error_detail</name>
+        <qualifiedname>themis::transaction::CompensationLogEntry::error_detail</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/compensation_log.h" line="33" column="17" bodyfile="include/transaction/compensation_log.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/compensation_log.h" line="22" column="1" bodyfile="include/transaction/compensation_log.h" bodystart="22" bodyend="34"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1transaction_1_1_compensation_log_entry_1a313b3d03cdaf632bbe470d0e0406a956" prot="public" virt="non-virtual"><scope>themis::transaction::CompensationLogEntry</scope><name>error_detail</name></member>
+      <member refid="structthemis_1_1transaction_1_1_compensation_log_entry_1abe65f06ca6709e9d50451184040b7d59" prot="public" virt="non-virtual"><scope>themis::transaction::CompensationLogEntry</scope><name>saga_id</name></member>
+      <member refid="structthemis_1_1transaction_1_1_compensation_log_entry_1a225618306572234dc4afd0f7badaf88f" prot="public" virt="non-virtual"><scope>themis::transaction::CompensationLogEntry</scope><name>sequence_number</name></member>
+      <member refid="structthemis_1_1transaction_1_1_compensation_log_entry_1acee809b97f9d6172faa582abf6b5022b" prot="public" virt="non-virtual"><scope>themis::transaction::CompensationLogEntry</scope><name>step_name</name></member>
+      <member refid="structthemis_1_1transaction_1_1_compensation_log_entry_1ac3bc3ae890d0336011197207f74713a5" prot="public" virt="non-virtual"><scope>themis::transaction::CompensationLogEntry</scope><name>succeeded</name></member>
+      <member refid="structthemis_1_1transaction_1_1_compensation_log_entry_1a1be98a869ef7b14744dc953a7ba3a7b1" prot="public" virt="non-virtual"><scope>themis::transaction::CompensationLogEntry</scope><name>timestamp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

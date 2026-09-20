@@ -1,0 +1,172 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_distributed_saga_step" kind="struct" language="C++" prot="public">
+    <compoundname>themis::DistributedSagaStep</compoundname>
+    <includes refid="distributed__saga_8h" local="no">distributed_saga.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="structthemis_1_1_distributed_saga_step_1a70b979da7d6306224b9b4819eb90c631" prot="public" static="no">
+        <type>std::function&lt; <ref refid="structthemis_1_1_distributed_saga_status" kindref="compound">DistributedSagaStatus</ref>()&gt;</type>
+        <definition>using themis::DistributedSagaStep::Action = std::function&lt;DistributedSagaStatus()&gt;</definition>
+        <argsstring></argsstring>
+        <name>Action</name>
+        <qualifiedname>themis::DistributedSagaStep::Action</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="73" column="5" bodyfile="include/transaction/distributed_saga.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_distributed_saga_step_1a2c88d2ec5b021e545b5c00b607404b07" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::DistributedSagaStep::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::DistributedSagaStep::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="75" column="17" bodyfile="include/transaction/distributed_saga.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_distributed_saga_step_1aac9f17468abc47764a0cd6fa46d839cd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::DistributedSagaStep::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themis::DistributedSagaStep::node_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="77" column="17" bodyfile="include/transaction/distributed_saga.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_distributed_saga_step_1acc90dcb7195fbf6b45f84e3b0bcd45b8" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_distributed_saga_step_1a70b979da7d6306224b9b4819eb90c631" kindref="member">Action</ref></type>
+        <definition>Action themis::DistributedSagaStep::forward</definition>
+        <argsstring></argsstring>
+        <name>forward</name>
+        <qualifiedname>themis::DistributedSagaStep::forward</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="79" column="12" bodyfile="include/transaction/distributed_saga.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_distributed_saga_step_1a3c0c04f727e4cc47c9050a19fb18072f" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_distributed_saga_step_1a70b979da7d6306224b9b4819eb90c631" kindref="member">Action</ref></type>
+        <definition>Action themis::DistributedSagaStep::compensate</definition>
+        <argsstring></argsstring>
+        <name>compensate</name>
+        <qualifiedname>themis::DistributedSagaStep::compensate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="81" column="12" bodyfile="include/transaction/distributed_saga.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_distributed_saga_step_1a30ceef9c6465288126af68615fc87daa" prot="public" static="no" mutable="no">
+        <type>std::set&lt; std::string &gt;</type>
+        <definition>std::set&lt;std::string&gt; themis::DistributedSagaStep::depends_on</definition>
+        <argsstring></argsstring>
+        <name>depends_on</name>
+        <qualifiedname>themis::DistributedSagaStep::depends_on</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="83" column="14" bodyfile="include/transaction/distributed_saga.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_distributed_saga_step_1a329984b47001f19c024170923bbd1c7c" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::DistributedSagaStep::forward_timeout</definition>
+        <argsstring></argsstring>
+        <name>forward_timeout</name>
+        <qualifiedname>themis::DistributedSagaStep::forward_timeout</qualifiedname>
+        <initializer>{5000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="85" column="31" bodyfile="include/transaction/distributed_saga.h" bodystart="85" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_distributed_saga_step_1a1283050147d235f15a5a07c3850e3533" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::DistributedSagaStep::compensate_timeout</definition>
+        <argsstring></argsstring>
+        <name>compensate_timeout</name>
+        <qualifiedname>themis::DistributedSagaStep::compensate_timeout</qualifiedname>
+        <initializer>{10000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="87" column="31" bodyfile="include/transaction/distributed_saga.h" bodystart="87" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_distributed_saga_step_1a7694e7fca2a28153ec52ecc5cd7fdc8b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::DistributedSagaStep::max_retries</definition>
+        <argsstring></argsstring>
+        <name>max_retries</name>
+        <qualifiedname>themis::DistributedSagaStep::max_retries</qualifiedname>
+        <initializer>{3}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="89" column="12" bodyfile="include/transaction/distributed_saga.h" bodystart="89" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_distributed_saga_step_1a42d5d5e1328ba0e3c5427e8d99271c87" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::DistributedSagaStep::retry_backoff</definition>
+        <argsstring></argsstring>
+        <name>retry_backoff</name>
+        <qualifiedname>themis::DistributedSagaStep::retry_backoff</qualifiedname>
+        <initializer>{std::chrono::milliseconds(100)}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="91" column="31" bodyfile="include/transaction/distributed_saga.h" bodystart="91" bodyend="91"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/distributed_saga.h" line="72" column="1" bodyfile="include/transaction/distributed_saga.h" bodystart="72" bodyend="92"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_distributed_saga_step_1a70b979da7d6306224b9b4819eb90c631" prot="public" virt="non-virtual"><scope>themis::DistributedSagaStep</scope><name>Action</name></member>
+      <member refid="structthemis_1_1_distributed_saga_step_1a3c0c04f727e4cc47c9050a19fb18072f" prot="public" virt="non-virtual"><scope>themis::DistributedSagaStep</scope><name>compensate</name></member>
+      <member refid="structthemis_1_1_distributed_saga_step_1a1283050147d235f15a5a07c3850e3533" prot="public" virt="non-virtual"><scope>themis::DistributedSagaStep</scope><name>compensate_timeout</name></member>
+      <member refid="structthemis_1_1_distributed_saga_step_1a30ceef9c6465288126af68615fc87daa" prot="public" virt="non-virtual"><scope>themis::DistributedSagaStep</scope><name>depends_on</name></member>
+      <member refid="structthemis_1_1_distributed_saga_step_1acc90dcb7195fbf6b45f84e3b0bcd45b8" prot="public" virt="non-virtual"><scope>themis::DistributedSagaStep</scope><name>forward</name></member>
+      <member refid="structthemis_1_1_distributed_saga_step_1a329984b47001f19c024170923bbd1c7c" prot="public" virt="non-virtual"><scope>themis::DistributedSagaStep</scope><name>forward_timeout</name></member>
+      <member refid="structthemis_1_1_distributed_saga_step_1a7694e7fca2a28153ec52ecc5cd7fdc8b" prot="public" virt="non-virtual"><scope>themis::DistributedSagaStep</scope><name>max_retries</name></member>
+      <member refid="structthemis_1_1_distributed_saga_step_1a2c88d2ec5b021e545b5c00b607404b07" prot="public" virt="non-virtual"><scope>themis::DistributedSagaStep</scope><name>name</name></member>
+      <member refid="structthemis_1_1_distributed_saga_step_1aac9f17468abc47764a0cd6fa46d839cd" prot="public" virt="non-virtual"><scope>themis::DistributedSagaStep</scope><name>node_id</name></member>
+      <member refid="structthemis_1_1_distributed_saga_step_1a42d5d5e1328ba0e3c5427e8d99271c87" prot="public" virt="non-virtual"><scope>themis::DistributedSagaStep</scope><name>retry_backoff</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

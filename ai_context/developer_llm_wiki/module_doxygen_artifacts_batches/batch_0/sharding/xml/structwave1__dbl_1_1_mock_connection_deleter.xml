@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structwave1__dbl_1_1_mock_connection_deleter" kind="struct" language="C++" prot="public">
+    <compoundname>wave1_dbl::MockConnectionDeleter</compoundname>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structwave1__dbl_1_1_mock_connection_deleter_1a0639c55ed8b7175a7b7f4b018b60691b" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void wave1_dbl::MockConnectionDeleter::operator()</definition>
+        <argsstring>(int *p) const noexcept</argsstring>
+        <name>operator()</name>
+        <qualifiedname>wave1_dbl::MockConnectionDeleter::operator()</qualifiedname>
+        <param>
+          <type>int *</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="348" column="10" bodyfile="tests/sharding/test_sharding_wave1_critical_closure.cpp" bodystart="348" bodyend="353"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="347" column="1" bodyfile="tests/sharding/test_sharding_wave1_critical_closure.cpp" bodystart="347" bodyend="354"/>
+    <listofallmembers>
+      <member refid="structwave1__dbl_1_1_mock_connection_deleter_1a0639c55ed8b7175a7b7f4b018b60691b" prot="public" virt="non-virtual"><scope>wave1_dbl::MockConnectionDeleter</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

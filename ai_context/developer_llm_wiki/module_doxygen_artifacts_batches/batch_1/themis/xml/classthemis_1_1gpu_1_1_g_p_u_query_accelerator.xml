@@ -1,0 +1,851 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1_g_p_u_query_accelerator" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUQueryAccelerator</compoundname>
+    <includes refid="query__accelerator_8h" local="no">query_accelerator.h</includes>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_row" prot="public">themis::gpu::GPUQueryAccelerator::Row</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_scan_result" prot="public">themis::gpu::GPUQueryAccelerator::ScanResult</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_sort_result" prot="public">themis::gpu::GPUQueryAccelerator::SortResult</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_agg_result" prot="public">themis::gpu::GPUQueryAccelerator::AggResult</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_join_result" prot="public">themis::gpu::GPUQueryAccelerator::JoinResult</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_dot_product_result" prot="public">themis::gpu::GPUQueryAccelerator::DotProductResult</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_ann_neighbor" prot="public">themis::gpu::GPUQueryAccelerator::AnnNeighbor</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_ann_result" prot="public">themis::gpu::GPUQueryAccelerator::AnnResult</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_top_k_result" prot="public">themis::gpu::GPUQueryAccelerator::TopKResult</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_stats" prot="public">themis::gpu::GPUQueryAccelerator::Stats</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_config" prot="public">themis::gpu::GPUQueryAccelerator::Config</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1a6c1590ebf9239ce5c1340b0c77c19698" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>PrecisionMode</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::PrecisionMode</qualifiedname>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1a6c1590ebf9239ce5c1340b0c77c19698a693aa0bef84c25fe81c7e62e72f9313d" prot="public">
+          <name>FP32</name>
+          <briefdescription>
+<para>Full 32-bit float (default). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1a6c1590ebf9239ce5c1340b0c77c19698aa4bf99d6945c25077fd6660d536af8a0" prot="public">
+          <name>FP16</name>
+          <briefdescription>
+<para>IEEE 754 half-precision (16-bit); lossy, ~3.3 decimal digits. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1a6c1590ebf9239ce5c1340b0c77c19698af656bbf613964dcf710b771b0918ab30" prot="public">
+          <name>BF16</name>
+          <briefdescription>
+<para>bfloat16 (top 16 bits of FP32); same exponent range as FP32 </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="90" column="5" bodyfile="include/themis/gpu/query_accelerator.h" bodystart="90" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="enum" id="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1abda319859ddaec37cfe21f2ac1875ab5" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>AggFunc</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::AggFunc</qualifiedname>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1abda319859ddaec37cfe21f2ac1875ab5a6970bdc2201030b9c03fbdcf3973858a" prot="public">
+          <name>SUM</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1abda319859ddaec37cfe21f2ac1875ab5a4905ac9d6a22bdfc1ae096094ce6248d" prot="public">
+          <name>COUNT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1abda319859ddaec37cfe21f2ac1875ab5ace31e2a082d17e038fcc6e3006166653" prot="public">
+          <name>MIN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1abda319859ddaec37cfe21f2ac1875ab5a26a4b44a837bf97b972628509912b4a5" prot="public">
+          <name>MAX</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1abda319859ddaec37cfe21f2ac1875ab5afcefd647d6a866603c627b11347c707a" prot="public">
+          <name>AVG</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="99" column="5" bodyfile="include/themis/gpu/query_accelerator.h" bodystart="99" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="enum" id="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1a0cd5ea68ee22b0da324367642e75b38e" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>SortOrder</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::SortOrder</qualifiedname>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1a0cd5ea68ee22b0da324367642e75b38eac6e421eaad140c1bc1a39980502df80c" prot="public">
+          <name>ASC</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1a0cd5ea68ee22b0da324367642e75b38ea65a6d757dbb571ccc3af9706e9a5f607" prot="public">
+          <name>DESC</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="104" column="5" bodyfile="include/themis/gpu/query_accelerator.h" bodystart="104" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1a8981bfb0dab4706795c5f25564551676" prot="public" static="no">
+        <type>std::function&lt; bool(const <ref refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_row" kindref="compound">Row</ref> &amp;)&gt;</type>
+        <definition>using themis::gpu::GPUQueryAccelerator::FilterFn = std::function&lt;bool(const Row&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>FilterFn</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::FilterFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="109" column="5" bodyfile="include/themis/gpu/query_accelerator.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1aaefd5e209bbca24edd519a115a448daf" prot="public" static="no">
+        <type>std::function&lt; double(const <ref refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_row" kindref="compound">Row</ref> &amp;)&gt;</type>
+        <definition>using themis::gpu::GPUQueryAccelerator::KeyFn = std::function&lt;double(const Row&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>KeyFn</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::KeyFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="110" column="5" bodyfile="include/themis/gpu/query_accelerator.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1ac9336ccbc64438bb1aefb4a656d8ced5" prot="public" static="no">
+        <type>std::function&lt; uint64_t(const <ref refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_row" kindref="compound">Row</ref> &amp;)&gt;</type>
+        <definition>using themis::gpu::GPUQueryAccelerator::JoinKeyFn = std::function&lt;uint64_t(const Row&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>JoinKeyFn</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::JoinKeyFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="111" column="5" bodyfile="include/themis/gpu/query_accelerator.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1af7c83192b2f980f7b49b67daaf65ae2f" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::gpu::GPUQueryAccelerator::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="375" column="26" bodyfile="include/themis/gpu/query_accelerator.h" bodystart="375" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1a075203f0457be88e6792561fbc4ff49c" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::gpu::GPUQueryAccelerator::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="376" column="26" bodyfile="include/themis/gpu/query_accelerator.h" bodystart="376" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1ae44af181b52a1adac9e651fba8e789dc" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Stats themis::gpu::GPUQueryAccelerator::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="377" column="26" bodyfile="include/themis/gpu/query_accelerator.h" bodystart="377" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1a97b6bc670e792bd3425046369152a535" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_graph_cache" kindref="compound">GPUGraphCache</ref></type>
+        <definition>GPUGraphCache themis::gpu::GPUQueryAccelerator::graph_cache_</definition>
+        <argsstring></argsstring>
+        <name>graph_cache_</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::graph_cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="378" column="26" bodyfile="include/themis/gpu/query_accelerator.h" bodystart="378" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1aa844e2b2ec2f428caa38f4dfd97460f3" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::gpu::GPUQueryAccelerator::graph_cache_enabled_</definition>
+        <argsstring></argsstring>
+        <name>graph_cache_enabled_</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::graph_cache_enabled_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="379" column="20" bodyfile="include/themis/gpu/query_accelerator.h" bodystart="379" bodyend="379"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1a523033e76fb16b28466a76564b8e72d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUQueryAccelerator::GPUQueryAccelerator</definition>
+        <argsstring>()</argsstring>
+        <name>GPUQueryAccelerator</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::GPUQueryAccelerator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="209" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1a4d64ea8e8a23ad08d363bf256cbf2909" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUQueryAccelerator::GPUQueryAccelerator</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>GPUQueryAccelerator</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::GPUQueryAccelerator</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="210" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1abeb19298ddd2aea9cee8d2becf10e4c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_scan_result" kindref="compound">ScanResult</ref></type>
+        <definition>ScanResult themis::gpu::GPUQueryAccelerator::scan</definition>
+        <argsstring>(const std::vector&lt; Row &gt; &amp;rows, FilterFn filter=nullptr)</argsstring>
+        <name>scan</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::scan</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_row" kindref="compound">Row</ref> &gt; &amp;</type>
+          <declname>rows</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1a8981bfb0dab4706795c5f25564551676" kindref="member">FilterFn</ref></type>
+          <declname>filter</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Parallel row scan with optional filter predicate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When <computeroutput>filter</computeroutput> is nullptr every row passes. GPU path would use a Thrust/cub parallel select; CPU path is a sequential scan. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="222" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1a080602673a11cda301d2f3a3993520bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_sort_result" kindref="compound">SortResult</ref></type>
+        <definition>SortResult themis::gpu::GPUQueryAccelerator::sort</definition>
+        <argsstring>(std::vector&lt; Row &gt; rows, KeyFn key_fn, SortOrder order=SortOrder::ASC)</argsstring>
+        <name>sort</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::sort</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_row" kindref="compound">Row</ref> &gt;</type>
+          <declname>rows</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1aaefd5e209bbca24edd519a115a448daf" kindref="member">KeyFn</ref></type>
+          <declname>key_fn</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1a0cd5ea68ee22b0da324367642e75b38e" kindref="member">SortOrder</ref></type>
+          <declname>order</declname>
+          <defval><ref refid="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1a0cd5ea68ee22b0da324367642e75b38eac6e421eaad140c1bc1a39980502df80c" kindref="member">SortOrder::ASC</ref></defval>
+        </param>
+        <briefdescription>
+<para>Sort <computeroutput>rows</computeroutput> by <computeroutput>key_fn</computeroutput> in <computeroutput>order</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GPU path would use Thrust sort; CPU path uses std::stable_sort. Rows with equal keys retain their original relative order. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="231" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1aa1facb21f4e45cda4da1be996ebf4585" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_agg_result" kindref="compound">AggResult</ref></type>
+        <definition>AggResult themis::gpu::GPUQueryAccelerator::aggregate</definition>
+        <argsstring>(const std::vector&lt; Row &gt; &amp;rows, AggFunc func, KeyFn value_fn)</argsstring>
+        <name>aggregate</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::aggregate</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_row" kindref="compound">Row</ref> &gt; &amp;</type>
+          <declname>rows</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1abda319859ddaec37cfe21f2ac1875ab5" kindref="member">AggFunc</ref></type>
+          <declname>func</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1aaefd5e209bbca24edd519a115a448daf" kindref="member">KeyFn</ref></type>
+          <declname>value_fn</declname>
+        </param>
+        <briefdescription>
+<para>Compute an aggregate over <computeroutput>rows</computeroutput> using <computeroutput>value_fn</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GPU path would use a reduction kernel; CPU path is a sequential pass. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="240" column="15"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1a167cdc5aaee8a6de772488b01176005c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_join_result" kindref="compound">JoinResult</ref></type>
+        <definition>JoinResult themis::gpu::GPUQueryAccelerator::hashJoin</definition>
+        <argsstring>(const std::vector&lt; Row &gt; &amp;left, const std::vector&lt; Row &gt; &amp;right, JoinKeyFn left_key, JoinKeyFn right_key)</argsstring>
+        <name>hashJoin</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::hashJoin</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_row" kindref="compound">Row</ref> &gt; &amp;</type>
+          <declname>left</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_row" kindref="compound">Row</ref> &gt; &amp;</type>
+          <declname>right</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1ac9336ccbc64438bb1aefb4a656d8ced5" kindref="member">JoinKeyFn</ref></type>
+          <declname>left_key</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1ac9336ccbc64438bb1aefb4a656d8ced5" kindref="member">JoinKeyFn</ref></type>
+          <declname>right_key</declname>
+        </param>
+        <briefdescription>
+<para>Hash join <computeroutput>left</computeroutput> and <computeroutput>right</computeroutput> on matching join keys. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Builds a hash table on the smaller side then probes with the larger side. GPU path would use a parallel hash join; CPU path uses std::unordered_multimap. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="251" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1ad4fbb7058a1ced276193057fb08c8018" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_dot_product_result" kindref="compound">DotProductResult</ref></type>
+        <definition>DotProductResult themis::gpu::GPUQueryAccelerator::dotProduct</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;a, const std::vector&lt; float &gt; &amp;b)</argsstring>
+        <name>dotProduct</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::dotProduct</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>Compute the dot product of two float vectors using the configured precision mode (FP32, FP16, or BF16). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>In FP16/BF16 modes inputs are first quantised to the target precision then de-quantised back to float before accumulation, simulating the precision loss of Tensor Core operations on hardware that does not accumulate FP32 internally. On real hardware this call would be replaced by a cuBLAS <computeroutput>cublasSgemv</computeroutput> (FP32), <computeroutput>cublasHgemm</computeroutput> (FP16), or <computeroutput>cublasGemmEx</computeroutput> with <computeroutput>CUBLAS_COMPUTE_16F</computeroutput> / <computeroutput>CUDA_R_16BF</computeroutput> (BF16).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>First operand; must be the same length as <computeroutput>b</computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Second operand. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_dot_product_result" kindref="compound">DotProductResult</ref> with <computeroutput>value</computeroutput> and the precision actually used. Returns 0.0 on empty or size-mismatch input. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="272" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1a853b8f113c0219cd4c7a3583c1cd90dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_ann_result" kindref="compound">AnnResult</ref></type>
+        <definition>AnnResult themis::gpu::GPUQueryAccelerator::annSearch</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;queries, size_t numQueries, size_t dim, const std::vector&lt; float &gt; &amp;database, size_t numVectors, size_t k, bool useL2=true)</argsstring>
+        <name>annSearch</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::annSearch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>queries</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numQueries</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>dim</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>database</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numVectors</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>useL2</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Approximate k-nearest-neighbor vector similarity search. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Searches <computeroutput>database</computeroutput> (a flat array of <computeroutput>numVectors</computeroutput> vectors each of length <computeroutput>dim</computeroutput>) for the <computeroutput>k</computeroutput> nearest neighbors of each query in <computeroutput>queries</computeroutput> (a flat array of <computeroutput>numQueries</computeroutput> vectors each of length <computeroutput>dim</computeroutput>).</para>
+<sect1 id="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1autotoc_md43_1s1"><sect2 id="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1autotoc_md43">
+<title>Distance metric</title><para>When <computeroutput>useL2</computeroutput> is true (default), squared Euclidean (L2) distance is used. When false, negative inner product is used as a distance metric (lower value = higher similarity). For unit-normalized vectors this is equivalent to cosine distance; for unnormalized vectors callers performing maximum inner product search (MIPS) should normalize their vectors beforehand.</para>
+<para>GPU path (when THEMIS_ENABLE_CUDA is defined and vector count ≥ <computeroutput><ref refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_config_1a614cce42c8b5136a7ca914179af9ed59" kindref="member">Config::gpu_threshold_rows</ref></computeroutput>) — stub for production cuVS/RAFT wiring:<orderedlist>
+<listitem><para>Allocate device memory and copy <computeroutput>database</computeroutput> + <computeroutput>queries</computeroutput>.</para>
+</listitem><listitem><para>Build an IVF-Flat index: <computeroutput>cuvs::neighbors::ivf_flat::build()</computeroutput></para>
+</listitem><listitem><para>Search: <computeroutput>cuvs::neighbors::ivf_flat::search()</computeroutput></para>
+</listitem><listitem><para>Copy results back to host and populate <computeroutput><ref refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_ann_result" kindref="compound">AnnResult</ref></computeroutput>.</para>
+</listitem></orderedlist>
+</para>
+<para>CPU fallback — brute-force exact k-NN using a max-heap per query.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>queries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Flat float array of <computeroutput>numQueries</computeroutput> × <computeroutput>dim</computeroutput> elements. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>numQueries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of query vectors. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector dimensionality; must match for queries and database. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>database</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Flat float array of <computeroutput>numVectors</computeroutput> × <computeroutput>dim</computeroutput> elements. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>numVectors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of database vectors. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of nearest neighbors to return per query. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>useL2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If true use L2 distance; if false use inner-product distance. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_ann_result" kindref="compound">AnnResult</ref> where <computeroutput>results[i]</computeroutput> holds the <computeroutput>k</computeroutput> nearest neighbors for query <computeroutput>i</computeroutput>, sorted ascending by distance. Returns empty results if inputs are invalid (dim=0, k=0, etc.). </para>
+</simplesect>
+</para>
+</sect2></sect1>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="310" column="15"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1a6ac0ee7ef4395168b0dca578599aac61" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_top_k_result" kindref="compound">TopKResult</ref></type>
+        <definition>TopKResult themis::gpu::GPUQueryAccelerator::topK</definition>
+        <argsstring>(std::vector&lt; Row &gt; rows, KeyFn key_fn, size_t k, SortOrder order=SortOrder::ASC)</argsstring>
+        <name>topK</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::topK</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_row" kindref="compound">Row</ref> &gt;</type>
+          <declname>rows</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1aaefd5e209bbca24edd519a115a448daf" kindref="member">KeyFn</ref></type>
+          <declname>key_fn</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1a0cd5ea68ee22b0da324367642e75b38e" kindref="member">SortOrder</ref></type>
+          <declname>order</declname>
+          <defval><ref refid="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1a0cd5ea68ee22b0da324367642e75b38eac6e421eaad140c1bc1a39980502df80c" kindref="member">SortOrder::ASC</ref></defval>
+        </param>
+        <briefdescription>
+<para>GPU-accelerated partial sort — return the top <computeroutput>k</computeroutput> rows by <computeroutput>key_fn</computeroutput> in <computeroutput>order</computeroutput> without fully sorting the input. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Uses <computeroutput>thrust::partial_sort_copy</computeroutput> on GPU (CUDA/HIP) and <computeroutput>std::partial_sort</computeroutput> on the CPU fallback path. When <computeroutput>k &gt;= rows.size()</computeroutput> the result is equivalent to a full sort.</para>
+<para>Fail-closed: any GPU allocation failure or SLA timeout causes an immediate CPU fallback; <computeroutput>used_gpu</computeroutput> reflects the path actually taken.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input row set. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>key_fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Numeric key extractor (host callable). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of rows to return. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>order</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ASC returns the k rows with the smallest keys; DESC returns the k rows with the largest keys. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_top_k_result" kindref="compound">TopKResult</ref> with at most k rows sorted in <computeroutput>order</computeroutput>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="336" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1a4b43fd42b77627e21b47a4aabe43821c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Stats themis::gpu::GPUQueryAccelerator::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::getStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="344" column="11"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1ade632bf69d6a8e18a7987e5061c82015" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUQueryAccelerator::resetStats</definition>
+        <argsstring>()</argsstring>
+        <name>resetStats</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::resetStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="345" column="11"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1a07d04ea1c5296abaaa4be5d4132f9e46" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUQueryAccelerator::enableGraphCache</definition>
+        <argsstring>()</argsstring>
+        <name>enableGraphCache</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::enableGraphCache</qualifiedname>
+        <briefdescription>
+<para>Enable CUDA graph capture for recurring query patterns. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When enabled, each operation checks the graph cache before executing. On a cache miss the shape is captured; on a hit the cached graph is replayed and the <computeroutput>graph_cache_hits</computeroutput> stat is incremented.</para>
+<para>In a production CUDA build, replaying a cached graph eliminates per-launch kernel-setup overhead via <computeroutput>cudaGraphLaunch</computeroutput>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="361" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1ac917d2c4b769aa7c09d4cdaadbd496b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUQueryAccelerator::disableGraphCache</definition>
+        <argsstring>()</argsstring>
+        <name>disableGraphCache</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::disableGraphCache</qualifiedname>
+        <briefdescription>
+<para>Disable CUDA graph capture. The existing cache is preserved but will not be consulted until re-enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="367" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1a88fd925ab9a2411e14158c0374f2f850" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_g_p_u_graph_cache_1_1_stats" kindref="compound">GPUGraphCache::Stats</ref></type>
+        <definition>GPUGraphCache::Stats themis::gpu::GPUQueryAccelerator::getGraphCacheStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getGraphCacheStats</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::getGraphCacheStats</qualifiedname>
+        <briefdescription>
+<para>Return statistics from the underlying <ref refid="classthemis_1_1gpu_1_1_g_p_u_graph_cache" kindref="compound">GPUGraphCache</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="372" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1a6eb90b7d021d50c67cd86a03c0e2cfe6" prot="private" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUQueryAccelerator::shouldUseGPU</definition>
+        <argsstring>(size_t num_rows) const noexcept</argsstring>
+        <name>shouldUseGPU</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::shouldUseGPU</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>num_rows</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="381" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1a1a858759d9747399c0f62b31c04c66b1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUQueryAccelerator::recordOp</definition>
+        <argsstring>(size_t rows, uint64_t bytes, bool gpu_used)</argsstring>
+        <name>recordOp</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::recordOp</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>rows</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>bytes</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>gpu_used</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="382" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1a0500cc73246fd65484655a05ea1cfc46" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_query_shape" kindref="compound">QueryShape</ref></type>
+        <definition>static QueryShape themis::gpu::GPUQueryAccelerator::makeShape</definition>
+        <argsstring>(QueryShape::OpType op, size_t row_count, uint64_t param_hash=0) noexcept</argsstring>
+        <name>makeShape</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::makeShape</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1gpu_1_1_query_shape_1a50a93251a7353259d7280133b97e7954" kindref="member">QueryShape::OpType</ref></type>
+          <declname>op</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>row_count</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>param_hash</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Build a <ref refid="structthemis_1_1gpu_1_1_query_shape" kindref="compound">QueryShape</ref> for a single-sided operation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="385" column="23"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>GPU-accelerated database query operations. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides the infrastructure layer for GPU query acceleration described in <computeroutput>src/gpu/FUTURE_ENHANCEMENTS.md</computeroutput> v1.2.0. Operations are dispatched to the GPU path when the row count exceeds <computeroutput><ref refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_config_1a614cce42c8b5136a7ca914179af9ed59" kindref="member">Config::gpu_threshold_rows</ref></computeroutput>; otherwise they fall back to a CPU implementation so the interface is always usable without real GPU hardware. GPU-side launch, synchronization, or timeout failures are fail-closed: the operation degrades to CPU and <computeroutput>used_gpu</computeroutput> remains <computeroutput>false</computeroutput> unless the GPU path completed successfully.</para>
+<sect1 id="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1autotoc_md41_1s1"><sect2 id="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1autotoc_md41">
+<title>Supported operations</title><para><itemizedlist>
+<listitem><para><bold>scan</bold> — parallel row scan with optional filter predicate</para>
+</listitem><listitem><para><bold>sort</bold> — sort rows by a numeric key extractor (ASC / DESC)</para>
+</listitem><listitem><para><bold>aggregate</bold> — SUM / COUNT / MIN / MAX / AVG over a numeric column</para>
+</listitem><listitem><para><bold>hashJoin</bold> — hash join two row sets on matching uint64_t keys</para>
+</listitem><listitem><para><bold>dotProduct</bold> — dot product of two float vectors (FP32/FP16/BF16 precision)</para>
+</listitem><listitem><para><bold>annSearch</bold> — approximate k-nearest-neighbor vector similarity search (GPU stub: cuVS/RAFT <computeroutput>ivf_flat</computeroutput> on CUDA; CPU brute-force fallback)</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1autotoc_md42_1s1"><sect2 id="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1autotoc_md42">
+<title>Result Parity &amp; Precision Guarantees</title><para><bold>Deterministic CPU Fallback</bold>: All GPU operations include deterministic CPU fallback paths that execute when:<itemizedlist>
+<listitem><para>No GPU device is available (returns same result as CPU-forced mode)</para>
+</listitem><listitem><para>CUDA/HIP memory allocation fails (automatic fallback via CHECKED_CUDA macro)</para>
+</listitem><listitem><para>CUDA/HIP memory copy operations fail (fallback triggered by exception)</para>
+</listitem><listitem><para>Kernel execution times out (exceeds 5-second SLA enforced by <ref refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard" kindref="compound">KernelSLAGuard</ref>)</para>
+</listitem></itemizedlist>
+</para>
+<para>When fallback occurs:<itemizedlist>
+<listitem><para><computeroutput>used_gpu</computeroutput> field in result is set to <computeroutput>false</computeroutput></para>
+</listitem><listitem><para>Result value matches CPU implementation within precision tolerance (see below)</para>
+</listitem><listitem><para>No partial/corrupted results are returned (fail-closed design)</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Floating-Point Result Tolerance</bold>: GPU and CPU paths produce results within the following tolerances:<itemizedlist>
+<listitem><para><bold>FP32 (exact)</bold>: Relative error &lt; 1e-5 (no quantization)</para>
+</listitem><listitem><para><bold>FP16 (quantized)</bold>: Relative error &lt; 1e-3 (due to 10-bit mantissa quantization)</para>
+</listitem><listitem><para><bold>BF16 (quantized)</bold>: Relative error &lt; 5e-3 (due to 7-bit mantissa quantization)</para>
+</listitem><listitem><para><bold>Integer operations</bold> (scan, sort, aggregate COUNT, hashJoin): Exact match</para>
+</listitem></itemizedlist>
+</para>
+<para>These tolerances account for:<orderedlist>
+<listitem><para>Host-side FP16/BF16 quantization simulation (CPU path)</para>
+</listitem><listitem><para>GPU Tensor Core precision loss (GPU path)</para>
+</listitem><listitem><para>Floating-point rounding differences between platforms</para>
+</listitem><listitem><para>Order-dependent accumulation (e.g., dot product, SUM may differ by 1 ULP)</para>
+</listitem></orderedlist>
+</para>
+<para>Thread safety: all public methods are protected by an internal mutex. </para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/themis/gpu/query_accelerator.h" line="77" column="1" bodyfile="include/themis/gpu/query_accelerator.h" bodystart="77" bodyend="388"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1abda319859ddaec37cfe21f2ac1875ab5" prot="public" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator</scope><name>AggFunc</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1aa1facb21f4e45cda4da1be996ebf4585" prot="public" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator</scope><name>aggregate</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1a853b8f113c0219cd4c7a3583c1cd90dc" prot="public" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator</scope><name>annSearch</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1af7c83192b2f980f7b49b67daaf65ae2f" prot="private" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator</scope><name>config_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1ac917d2c4b769aa7c09d4cdaadbd496b2" prot="public" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator</scope><name>disableGraphCache</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1ad4fbb7058a1ced276193057fb08c8018" prot="public" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator</scope><name>dotProduct</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1a07d04ea1c5296abaaa4be5d4132f9e46" prot="public" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator</scope><name>enableGraphCache</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1a8981bfb0dab4706795c5f25564551676" prot="public" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator</scope><name>FilterFn</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1a88fd925ab9a2411e14158c0374f2f850" prot="public" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator</scope><name>getGraphCacheStats</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1a4b43fd42b77627e21b47a4aabe43821c" prot="public" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1a523033e76fb16b28466a76564b8e72d8" prot="public" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator</scope><name>GPUQueryAccelerator</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1a4d64ea8e8a23ad08d363bf256cbf2909" prot="public" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator</scope><name>GPUQueryAccelerator</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1a97b6bc670e792bd3425046369152a535" prot="private" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator</scope><name>graph_cache_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1aa844e2b2ec2f428caa38f4dfd97460f3" prot="private" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator</scope><name>graph_cache_enabled_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1a167cdc5aaee8a6de772488b01176005c" prot="public" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator</scope><name>hashJoin</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1ac9336ccbc64438bb1aefb4a656d8ced5" prot="public" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator</scope><name>JoinKeyFn</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1aaefd5e209bbca24edd519a115a448daf" prot="public" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator</scope><name>KeyFn</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1a0500cc73246fd65484655a05ea1cfc46" prot="private" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator</scope><name>makeShape</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1a075203f0457be88e6792561fbc4ff49c" prot="private" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1a6c1590ebf9239ce5c1340b0c77c19698" prot="public" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator</scope><name>PrecisionMode</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1a1a858759d9747399c0f62b31c04c66b1" prot="private" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator</scope><name>recordOp</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1ade632bf69d6a8e18a7987e5061c82015" prot="public" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator</scope><name>resetStats</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1abeb19298ddd2aea9cee8d2becf10e4c0" prot="public" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator</scope><name>scan</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1a6eb90b7d021d50c67cd86a03c0e2cfe6" prot="private" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator</scope><name>shouldUseGPU</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1a080602673a11cda301d2f3a3993520bb" prot="public" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator</scope><name>sort</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1a0cd5ea68ee22b0da324367642e75b38e" prot="public" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator</scope><name>SortOrder</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1ae44af181b52a1adac9e651fba8e789dc" prot="private" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_query_accelerator_1a6ac0ee7ef4395168b0dca578599aac61" prot="public" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator</scope><name>topK</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

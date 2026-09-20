@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_fe54dc04435a8a07d17c69f6fd3e4cdd" kind="dir">
+    <compoundname>include/acceleration</compoundname>
+    <innerdir refid="dir_ad0af5b367fb3080bdd018536b057dda">include/acceleration/metrics</innerdir>
+    <innerdir refid="dir_517ff9b1bbc5142ebef24826b9b992a4">include/acceleration/raii</innerdir>
+    <innerfile refid="ai__hardware__dispatcher_8h">ai_hardware_dispatcher.h</innerfile>
+    <innerfile refid="batch__validator_8h">batch_validator.h</innerfile>
+    <innerfile refid="break__even__validator_8h">break_even_validator.h</innerfile>
+    <innerfile refid="compute__backend_8h">compute_backend.h</innerfile>
+    <innerfile refid="compute__future_8h">compute_future.h</innerfile>
+    <innerfile refid="compute__graph_8h">compute_graph.h</innerfile>
+    <innerfile refid="cpu__backend_8h">cpu_backend.h</innerfile>
+    <innerfile refid="cuda__backend_8h">cuda_backend.h</innerfile>
+    <innerfile refid="device__manager_8h">device_manager.h</innerfile>
+    <innerfile refid="error__codes_8h">error_codes.h</innerfile>
+    <innerfile refid="error__context_8h">error_context.h</innerfile>
+    <innerfile refid="faiss__gpu__backend_8h">faiss_gpu_backend.h</innerfile>
+    <innerfile refid="fp16__vector__kernels_8h">fp16_vector_kernels.h</innerfile>
+    <innerfile refid="geo__acceleration__bridge_8h">geo_acceleration_bridge.h</innerfile>
+    <innerfile refid="graph__kernel__classification_8h">graph_kernel_classification.h</innerfile>
+    <innerfile refid="graphics__backends_8h">graphics_backends.h</innerfile>
+    <innerfile refid="hip__backend_8h">hip_backend.h</innerfile>
+    <innerfile refid="kernel__fallback__dispatcher_8h">kernel_fallback_dispatcher.h</innerfile>
+    <innerfile refid="kernel__invocation_8h">kernel_invocation.h</innerfile>
+    <innerfile refid="kernel__registry_8h">kernel_registry.h</innerfile>
+    <innerfile refid="multi__gpu__backend_8h">multi_gpu_backend.h</innerfile>
+    <innerfile refid="nccl__vector__backend_8h">nccl_vector_backend.h</innerfile>
+    <innerfile refid="opencl__backend_8h">opencl_backend.h</innerfile>
+    <innerfile refid="plugin__loader_8h">plugin_loader.h</innerfile>
+    <innerfile refid="plugin__security_8h">plugin_security.h</innerfile>
+    <innerfile refid="quantized__backend_8h">quantized_backend.h</innerfile>
+    <innerfile refid="rccl__vector__backend_8h">rccl_vector_backend.h</innerfile>
+    <innerfile refid="shader__integrity_8h">shader_integrity.h</innerfile>
+    <innerfile refid="tensor__core__matmul_8h">tensor_core_matmul.h</innerfile>
+    <innerfile refid="vec__knn_8h">vec_knn.h</innerfile>
+    <innerfile refid="vllm__resource__manager_8h">vllm_resource_manager.h</innerfile>
+    <innerfile refid="vulkan__backend_8h">vulkan_backend.h</innerfile>
+    <innerfile refid="zluda__backend_8h">zluda_backend.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/"/>
+  </compounddef>
+</doxygen>

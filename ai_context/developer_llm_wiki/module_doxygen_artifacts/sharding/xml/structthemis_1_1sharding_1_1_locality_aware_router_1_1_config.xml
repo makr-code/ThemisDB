@@ -1,0 +1,192 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_locality_aware_router_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::LocalityAwareRouter::Config</compoundname>
+    <includes refid="locality__aware__router_8h" local="no">locality_aware_router.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_locality_aware_router_1_1_config_1a61863bc6a3922198a8301db878d41f77" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::sharding::LocalityAwareRouter::Config::locality_weight</definition>
+        <argsstring></argsstring>
+        <name>locality_weight</name>
+        <qualifiedname>themis::sharding::LocalityAwareRouter::Config::locality_weight</qualifiedname>
+        <initializer>= 0.50f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/locality_aware_router.h" line="48" column="15" bodyfile="include/sharding/locality_aware_router.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_locality_aware_router_1_1_config_1aec5fb367629876174094995f202e9a21" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::sharding::LocalityAwareRouter::Config::load_weight</definition>
+        <argsstring></argsstring>
+        <name>load_weight</name>
+        <qualifiedname>themis::sharding::LocalityAwareRouter::Config::load_weight</qualifiedname>
+        <initializer>= 0.30f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/locality_aware_router.h" line="49" column="15" bodyfile="include/sharding/locality_aware_router.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_locality_aware_router_1_1_config_1a9951f7a1ce8974ccf62103ea130d267d" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::sharding::LocalityAwareRouter::Config::network_weight</definition>
+        <argsstring></argsstring>
+        <name>network_weight</name>
+        <qualifiedname>themis::sharding::LocalityAwareRouter::Config::network_weight</qualifiedname>
+        <initializer>= 0.20f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/locality_aware_router.h" line="50" column="15" bodyfile="include/sharding/locality_aware_router.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_locality_aware_router_1_1_config_1a1d12e28ecd30c1d33702bcbd4caf8f6a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::LocalityAwareRouter::Config::enable_cross_shard_optimization</definition>
+        <argsstring></argsstring>
+        <name>enable_cross_shard_optimization</name>
+        <qualifiedname>themis::sharding::LocalityAwareRouter::Config::enable_cross_shard_optimization</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/locality_aware_router.h" line="53" column="14" bodyfile="include/sharding/locality_aware_router.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_locality_aware_router_1_1_config_1a2ad9d35a88ec012084511f3dbea4db4a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::LocalityAwareRouter::Config::max_cross_shard_hops</definition>
+        <argsstring></argsstring>
+        <name>max_cross_shard_hops</name>
+        <qualifiedname>themis::sharding::LocalityAwareRouter::Config::max_cross_shard_hops</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/locality_aware_router.h" line="54" column="18" bodyfile="include/sharding/locality_aware_router.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_locality_aware_router_1_1_config_1ab81969872a8d341de95b9ef6d6ed827e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::LocalityAwareRouter::Config::prefer_local_shard</definition>
+        <argsstring></argsstring>
+        <name>prefer_local_shard</name>
+        <qualifiedname>themis::sharding::LocalityAwareRouter::Config::prefer_local_shard</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/locality_aware_router.h" line="55" column="14" bodyfile="include/sharding/locality_aware_router.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_locality_aware_router_1_1_config_1a27b1f67560765a49e56b14b301f6cebb" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::sharding::LocalityAwareRouter::Config::local_shard_bonus</definition>
+        <argsstring></argsstring>
+        <name>local_shard_bonus</name>
+        <qualifiedname>themis::sharding::LocalityAwareRouter::Config::local_shard_bonus</qualifiedname>
+        <initializer>= 0.2f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/locality_aware_router.h" line="56" column="15" bodyfile="include/sharding/locality_aware_router.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_locality_aware_router_1_1_config_1aaf46fd48b3298506f999fbb8524a846a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::LocalityAwareRouter::Config::enable_placement_cache</definition>
+        <argsstring></argsstring>
+        <name>enable_placement_cache</name>
+        <qualifiedname>themis::sharding::LocalityAwareRouter::Config::enable_placement_cache</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/locality_aware_router.h" line="59" column="14" bodyfile="include/sharding/locality_aware_router.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_locality_aware_router_1_1_config_1a8d844900986aeffd3e11dc23c25f3197" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::LocalityAwareRouter::Config::max_cache_entries</definition>
+        <argsstring></argsstring>
+        <name>max_cache_entries</name>
+        <qualifiedname>themis::sharding::LocalityAwareRouter::Config::max_cache_entries</qualifiedname>
+        <initializer>= 100000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/locality_aware_router.h" line="60" column="16" bodyfile="include/sharding/locality_aware_router.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_locality_aware_router_1_1_config_1a7e739d9032a33ce7f339f9cdc835130e" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::LocalityAwareRouter::Config::cache_ttl_seconds</definition>
+        <argsstring></argsstring>
+        <name>cache_ttl_seconds</name>
+        <qualifiedname>themis::sharding::LocalityAwareRouter::Config::cache_ttl_seconds</qualifiedname>
+        <initializer>= 300</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/locality_aware_router.h" line="61" column="18" bodyfile="include/sharding/locality_aware_router.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_locality_aware_router_1_1_config_1aeac17785431fc6cccbd0062dd2e42401" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::LocalityAwareRouter::Config::use_bloom_filter</definition>
+        <argsstring></argsstring>
+        <name>use_bloom_filter</name>
+        <qualifiedname>themis::sharding::LocalityAwareRouter::Config::use_bloom_filter</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/locality_aware_router.h" line="62" column="14" bodyfile="include/sharding/locality_aware_router.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/locality_aware_router.h" line="46" column="5" bodyfile="include/sharding/locality_aware_router.h" bodystart="46" bodyend="63"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_config_1a7e739d9032a33ce7f339f9cdc835130e" prot="public" virt="non-virtual"><scope>themis::sharding::LocalityAwareRouter::Config</scope><name>cache_ttl_seconds</name></member>
+      <member refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_config_1a1d12e28ecd30c1d33702bcbd4caf8f6a" prot="public" virt="non-virtual"><scope>themis::sharding::LocalityAwareRouter::Config</scope><name>enable_cross_shard_optimization</name></member>
+      <member refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_config_1aaf46fd48b3298506f999fbb8524a846a" prot="public" virt="non-virtual"><scope>themis::sharding::LocalityAwareRouter::Config</scope><name>enable_placement_cache</name></member>
+      <member refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_config_1aec5fb367629876174094995f202e9a21" prot="public" virt="non-virtual"><scope>themis::sharding::LocalityAwareRouter::Config</scope><name>load_weight</name></member>
+      <member refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_config_1a27b1f67560765a49e56b14b301f6cebb" prot="public" virt="non-virtual"><scope>themis::sharding::LocalityAwareRouter::Config</scope><name>local_shard_bonus</name></member>
+      <member refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_config_1a61863bc6a3922198a8301db878d41f77" prot="public" virt="non-virtual"><scope>themis::sharding::LocalityAwareRouter::Config</scope><name>locality_weight</name></member>
+      <member refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_config_1a8d844900986aeffd3e11dc23c25f3197" prot="public" virt="non-virtual"><scope>themis::sharding::LocalityAwareRouter::Config</scope><name>max_cache_entries</name></member>
+      <member refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_config_1a2ad9d35a88ec012084511f3dbea4db4a" prot="public" virt="non-virtual"><scope>themis::sharding::LocalityAwareRouter::Config</scope><name>max_cross_shard_hops</name></member>
+      <member refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_config_1a9951f7a1ce8974ccf62103ea130d267d" prot="public" virt="non-virtual"><scope>themis::sharding::LocalityAwareRouter::Config</scope><name>network_weight</name></member>
+      <member refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_config_1ab81969872a8d341de95b9ef6d6ed827e" prot="public" virt="non-virtual"><scope>themis::sharding::LocalityAwareRouter::Config</scope><name>prefer_local_shard</name></member>
+      <member refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_config_1aeac17785431fc6cccbd0062dd2e42401" prot="public" virt="non-virtual"><scope>themis::sharding::LocalityAwareRouter::Config</scope><name>use_bloom_filter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_821002d4f10779a80d4fb17bc32f21f1" kind="dir">
+    <compoundname>include/utils</compoundname>
+    <innerdir refid="dir_48b9032521a340f2a85ded752a51f850">include/utils/geo</innerdir>
+    <innerdir refid="dir_95bba22d2918a6575eeb46f6ac598ebb">include/utils/memory</innerdir>
+    <innerfile refid="audit__logger_8h">audit_logger.h</innerfile>
+    <innerfile refid="batch__operation__manager_8h">batch_operation_manager.h</innerfile>
+    <innerfile refid="bloom__filter_8h">bloom_filter.h</innerfile>
+    <innerfile refid="capability__auto__generator_8h">capability_auto_generator.h</innerfile>
+    <innerfile refid="checksum__utils_8h">checksum_utils.h</innerfile>
+    <innerfile refid="cli__parser__utils_8h">cli_parser_utils.h</innerfile>
+    <innerfile refid="clock_8h">clock.h</innerfile>
+    <innerfile refid="compression__metrics_8h">compression_metrics.h</innerfile>
+    <innerfile refid="concurrent__cache_8h">concurrent_cache.h</innerfile>
+    <innerfile refid="consistent__hash_8h">consistent_hash.h</innerfile>
+    <innerfile refid="cron__parser_8h">cron_parser.h</innerfile>
+    <innerfile refid="cursor_8h">cursor.h</innerfile>
+    <innerfile refid="error__contracts_8h">error_contracts.h</innerfile>
+    <innerfile refid="error__registry_8h">error_registry.h</innerfile>
+    <innerfile refid="expected_8h">expected.h</innerfile>
+    <innerfile refid="field__diagnostics__schema_8h">field_diagnostics_schema.h</innerfile>
+    <innerfile refid="file__utils_8h">file_utils.h</innerfile>
+    <innerfile refid="geometric__distances_8h">geometric_distances.h</innerfile>
+    <innerfile refid="grpc__channel__pool_8h">grpc_channel_pool.h</innerfile>
+    <innerfile refid="hash__util_8h">hash_util.h</innerfile>
+    <innerfile refid="hkdf__cache_8h">hkdf_cache.h</innerfile>
+    <innerfile refid="hkdf__helper_8h">hkdf_helper.h</innerfile>
+    <innerfile refid="http__client__pool_8h">http_client_pool.h</innerfile>
+    <innerfile refid="input__validator_8h">input_validator.h</innerfile>
+    <innerfile refid="json__helpers_8h">json_helpers.h</innerfile>
+    <innerfile refid="lek__manager_8h">lek_manager.h</innerfile>
+    <innerfile refid="logger_8h">logger.h</innerfile>
+    <innerfile refid="logger__impl_8h">logger_impl.h</innerfile>
+    <innerfile refid="lossless__vector__compression_8h">lossless_vector_compression.h</innerfile>
+    <innerfile refid="lossless__vector__integration_8h">lossless_vector_integration.h</innerfile>
+    <innerfile refid="lz4__codec_8h">lz4_codec.h</innerfile>
+    <innerfile refid="memory__utils_8h">memory_utils.h</innerfile>
+    <innerfile refid="ner__detection__engine_8h">ner_detection_engine.h</innerfile>
+    <innerfile refid="normalizer_8h">normalizer.h</innerfile>
+    <innerfile refid="openssl__deleter_8h">openssl_deleter.h</innerfile>
+    <innerfile refid="pii__detection__engine_8h">pii_detection_engine.h</innerfile>
+    <innerfile refid="pii__detector_8h">pii_detector.h</innerfile>
+    <innerfile refid="pii__pseudonymizer_8h">pii_pseudonymizer.h</innerfile>
+    <innerfile refid="pii__redacting__sink_8h">pii_redacting_sink.h</innerfile>
+    <innerfile refid="pki__client_8h">pki_client.h</innerfile>
+    <innerfile refid="pointer__utils_8h">pointer_utils.h</innerfile>
+    <innerfile refid="rate__limiter_8h">rate_limiter.h</innerfile>
+    <innerfile refid="regex__detection__engine_8h">regex_detection_engine.h</innerfile>
+    <innerfile refid="resource__leak__detector_8h">resource_leak_detector.h</innerfile>
+    <innerfile refid="retention__manager_8h">retention_manager.h</innerfile>
+    <innerfile refid="retry__contract_8h">retry_contract.h</innerfile>
+    <innerfile refid="retry__policy_8h">retry_policy.h</innerfile>
+    <innerfile refid="safe__access_8h">safe_access.h</innerfile>
+    <innerfile refid="safe__arithmetic_8h">safe_arithmetic.h</innerfile>
+    <innerfile refid="safe__cast_8h">safe_cast.h</innerfile>
+    <innerfile refid="saga__logger_8h">saga_logger.h</innerfile>
+    <innerfile refid="self__awareness_8h">self_awareness.h</innerfile>
+    <innerfile refid="serialization_8h">serialization.h</innerfile>
+    <innerfile refid="simd__distance_8h">simd_distance.h</innerfile>
+    <innerfile refid="stemmer_8h">stemmer.h</innerfile>
+    <innerfile refid="stopwords_8h">stopwords.h</innerfile>
+    <innerfile refid="string__utils_8h">string_utils.h</innerfile>
+    <innerfile refid="tbb__compat_8h">tbb_compat.h</innerfile>
+    <innerfile refid="thread__guard_8h">thread_guard.h</innerfile>
+    <innerfile refid="thread__join__utils_8h">thread_join_utils.h</innerfile>
+    <innerfile refid="thread__pool__manager_8h">thread_pool_manager.h</innerfile>
+    <innerfile refid="thread__safety_8h">thread_safety.h</innerfile>
+    <innerfile refid="timestamp__utils_8h">timestamp_utils.h</innerfile>
+    <innerfile refid="tracing_8h">tracing.h</innerfile>
+    <innerfile refid="type__conversion_8h">type_conversion.h</innerfile>
+    <innerfile refid="unaligned__access_8h">unaligned_access.h</innerfile>
+    <innerfile refid="update__checker_8h">update_checker.h</innerfile>
+    <innerfile refid="utils__adapters_8h">utils_adapters.h</innerfile>
+    <innerfile refid="utils__api__contract_8h">utils_api_contract.h</innerfile>
+    <innerfile refid="utils__interfaces_8h">utils_interfaces.h</innerfile>
+    <innerfile refid="uuid_8h">uuid.h</innerfile>
+    <innerfile refid="zstd__codec_8h">zstd_codec.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/"/>
+  </compounddef>
+</doxygen>

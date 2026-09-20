@@ -1,0 +1,400 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_cross_lingual_search" kind="class" language="C++" prot="public">
+    <compoundname>themis::CrossLingualSearch</compoundname>
+    <includes refid="cross__lingual__search_8h" local="no">cross_lingual_search.h</includes>
+    <innerclass refid="structthemis_1_1_cross_lingual_search_1_1_config" prot="public">themis::CrossLingualSearch::Config</innerclass>
+    <innerclass refid="structthemis_1_1_cross_lingual_search_1_1_language_hint" prot="public">themis::CrossLingualSearch::LanguageHint</innerclass>
+    <innerclass refid="structthemis_1_1_cross_lingual_search_1_1_embedding_query" prot="public">themis::CrossLingualSearch::EmbeddingQuery</innerclass>
+    <innerclass refid="structthemis_1_1_cross_lingual_search_1_1_result" prot="public">themis::CrossLingualSearch::Result</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_cross_lingual_search_1a211df67e5cbd4671231958044132adcb" prot="private" static="no" mutable="no">
+        <type>VectorIndexManager *</type>
+        <definition>VectorIndexManager* themis::CrossLingualSearch::vec_index_</definition>
+        <argsstring></argsstring>
+        <name>vec_index_</name>
+        <qualifiedname>themis::CrossLingualSearch::vec_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/cross_lingual_search.h" line="213" column="24" bodyfile="include/search/cross_lingual_search.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_cross_lingual_search_1a07f56ba4777dac23e9938b0c12dbf8a9" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_cross_lingual_search_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::CrossLingualSearch::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::CrossLingualSearch::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/cross_lingual_search.h" line="214" column="12" bodyfile="include/search/cross_lingual_search.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_cross_lingual_search_1a4da672c75a9344024f05de04bd79d6a2" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::CrossLingualSearch::lang_map_</definition>
+        <argsstring></argsstring>
+        <name>lang_map_</name>
+        <qualifiedname>themis::CrossLingualSearch::lang_map_</qualifiedname>
+        <briefdescription>
+<para>doc_id → language_code </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/cross_lingual_search.h" line="215" column="24" bodyfile="include/search/cross_lingual_search.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_cross_lingual_search_1af9722cf7dc7904b0923ad86e93f7f6d5" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::CrossLingualSearch::CrossLingualSearch</definition>
+        <argsstring>(VectorIndexManager *vec_index)</argsstring>
+        <name>CrossLingualSearch</name>
+        <qualifiedname>themis::CrossLingualSearch::CrossLingualSearch</qualifiedname>
+        <param>
+          <type>VectorIndexManager *</type>
+          <declname>vec_index</declname>
+        </param>
+        <briefdescription>
+<para>Construct a <ref refid="classthemis_1_1_cross_lingual_search" kindref="compound">CrossLingualSearch</ref> engine. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>vec_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Non-owning pointer to a VectorIndexManager. May be null; all searches will return empty results. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>when config contains invalid values. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/cross_lingual_search.h" line="136" column="14" bodyfile="src/search/cross_lingual_search.cpp" bodystart="24" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_cross_lingual_search_1a8b6cc0b416bbb61a7967d228c82e4011" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::CrossLingualSearch::CrossLingualSearch</definition>
+        <argsstring>(VectorIndexManager *vec_index, const Config &amp;config)</argsstring>
+        <name>CrossLingualSearch</name>
+        <qualifiedname>themis::CrossLingualSearch::CrossLingualSearch</qualifiedname>
+        <param>
+          <type>VectorIndexManager *</type>
+          <declname>vec_index</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_cross_lingual_search_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct a <ref refid="classthemis_1_1_cross_lingual_search" kindref="compound">CrossLingualSearch</ref> engine. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>vec_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Non-owning pointer to a VectorIndexManager. May be null; all searches will return empty results. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Engine configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>when config contains invalid values. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/cross_lingual_search.h" line="145" column="5" bodyfile="src/search/cross_lingual_search.cpp" bodystart="27" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_cross_lingual_search_1a8150dc026f6ee766d3f584cb526e2bdd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::CrossLingualSearch::setLanguageMap</definition>
+        <argsstring>(std::unordered_map&lt; std::string, std::string &gt; lang_map)</argsstring>
+        <name>setLanguageMap</name>
+        <qualifiedname>themis::CrossLingualSearch::setLanguageMap</qualifiedname>
+        <param>
+          <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+          <declname>lang_map</declname>
+        </param>
+        <briefdescription>
+<para>Supply a document-language map for result annotation and boosts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Maps document primary keys to ISO 639-1 language codes (e.g. &quot;en&quot;, &quot;de&quot;, &quot;fr&quot;). Replaces any previously set map.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>lang_map</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Map of doc_id → language_code. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/cross_lingual_search.h" line="160" column="10" bodyfile="src/search/cross_lingual_search.cpp" bodystart="48" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_cross_lingual_search_1a78f0a64eed3578b170e56044fd914e1e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_cross_lingual_search_1_1_result" kindref="compound">Result</ref> &gt;</type>
+        <definition>std::vector&lt; CrossLingualSearch::Result &gt; themis::CrossLingualSearch::search</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;query_embedding, const std::vector&lt; LanguageHint &gt; &amp;language_hints={}) const</argsstring>
+        <name>search</name>
+        <qualifiedname>themis::CrossLingualSearch::search</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>query_embedding</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1_cross_lingual_search_1_1_language_hint" kindref="compound">LanguageHint</ref> &gt; &amp;</type>
+          <declname>language_hints</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Search with a single multilingual embedding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Issues a kNN query on the vector index, converts distances to similarity scores via <computeroutput>1 / (1 + distance)</computeroutput>, applies language boost factors from <computeroutput>language_hints</computeroutput>, filters candidates below <computeroutput><ref refid="structthemis_1_1_cross_lingual_search_1_1_config_1a137b6afc14c13cbaea7bf461d0de31c2" kindref="member">Config::score_threshold</ref></computeroutput>, and returns the top-k results.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query_embedding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pre-computed multilingual embedding vector. Empty vector returns empty results immediately. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>language_hints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional per-language boost factors. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Results sorted by score descending, capped at <ref refid="structthemis_1_1_cross_lingual_search_1_1_config_1ad1679f31c14dcd3102649dd898dc50fd" kindref="member">Config::k</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/cross_lingual_search.h" line="179" column="17" bodyfile="src/search/cross_lingual_search.cpp" bodystart="57" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_cross_lingual_search_1ae9594d54f85da5d3b60b69c646e5db14" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_cross_lingual_search_1_1_result" kindref="compound">Result</ref> &gt;</type>
+        <definition>std::vector&lt; CrossLingualSearch::Result &gt; themis::CrossLingualSearch::searchMultiEmbedding</definition>
+        <argsstring>(const std::vector&lt; EmbeddingQuery &gt; &amp;queries, const std::vector&lt; LanguageHint &gt; &amp;language_hints={}) const</argsstring>
+        <name>searchMultiEmbedding</name>
+        <qualifiedname>themis::CrossLingualSearch::searchMultiEmbedding</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1_cross_lingual_search_1_1_embedding_query" kindref="compound">EmbeddingQuery</ref> &gt; &amp;</type>
+          <declname>queries</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1_cross_lingual_search_1_1_language_hint" kindref="compound">LanguageHint</ref> &gt; &amp;</type>
+          <declname>language_hints</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Fuse results from multiple embeddings via Reciprocal Rank Fusion. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Executes an independent kNN query for each <computeroutput><ref refid="structthemis_1_1_cross_lingual_search_1_1_embedding_query" kindref="compound">EmbeddingQuery</ref></computeroutput>, merges the ranked lists using weighted RRF, then applies language boosts and score threshold filtering. Queries with empty embeddings are skipped silently.</para>
+<para>RRF formula (per query list i): <programlisting><codeline><highlight class="normal">score(doc)<sp/>+=<sp/>weight_i<sp/>/<sp/>(rrf_k<sp/>+<sp/>rank_i(doc))</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>queries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>One or more (embedding, weight) pairs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>language_hints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional per-language boost factors. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Fused results sorted by score descending, capped at <ref refid="structthemis_1_1_cross_lingual_search_1_1_config_1ad1679f31c14dcd3102649dd898dc50fd" kindref="member">Config::k</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/cross_lingual_search.h" line="200" column="17" bodyfile="src/search/cross_lingual_search.cpp" bodystart="71" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_cross_lingual_search_1ad957adcff999f9ed5a05a7e6675b7656" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1_cross_lingual_search_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const Config &amp; themis::CrossLingualSearch::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::CrossLingualSearch::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/cross_lingual_search.h" line="209" column="18" bodyfile="include/search/cross_lingual_search.h" bodystart="209" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_cross_lingual_search_1aa29a008e81b767f042350de02d7ee095" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::CrossLingualSearch::setConfig</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::CrossLingualSearch::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_cross_lingual_search_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/cross_lingual_search.h" line="210" column="10" bodyfile="include/search/cross_lingual_search.h" bodystart="210" bodyend="210"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_cross_lingual_search_1a80dbbcdb1d0748e813e387b0e5461a8f" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; std::string, double &gt; &gt;</type>
+        <definition>std::vector&lt; std::pair&lt; std::string, double &gt; &gt; themis::CrossLingualSearch::executeKnn</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;embedding) const</argsstring>
+        <name>executeKnn</name>
+        <qualifiedname>themis::CrossLingualSearch::executeKnn</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>embedding</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/cross_lingual_search.h" line="218" column="17" bodyfile="src/search/cross_lingual_search.cpp" bodystart="129" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_cross_lingual_search_1aab5e5651cc2185e81530f561937776a7" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_cross_lingual_search_1_1_result" kindref="compound">Result</ref> &gt;</type>
+        <definition>std::vector&lt; CrossLingualSearch::Result &gt; themis::CrossLingualSearch::applyHintsAndFinalize</definition>
+        <argsstring>(std::vector&lt; std::pair&lt; std::string, double &gt; &gt; scored, const std::vector&lt; LanguageHint &gt; &amp;hints) const</argsstring>
+        <name>applyHintsAndFinalize</name>
+        <qualifiedname>themis::CrossLingualSearch::applyHintsAndFinalize</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::pair&lt; std::string, double &gt; &gt;</type>
+          <declname>scored</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1_cross_lingual_search_1_1_language_hint" kindref="compound">LanguageHint</ref> &gt; &amp;</type>
+          <declname>hints</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/cross_lingual_search.h" line="223" column="17" bodyfile="src/search/cross_lingual_search.cpp" bodystart="160" bodyend="215"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Cross-lingual semantic search using multilingual embeddings. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemis_1_1_cross_lingual_search" kindref="compound">CrossLingualSearch</ref> enables retrieving documents across language boundaries by leveraging multilingual embedding models (e.g. paraphrase-multilingual-mpnet-base-v2, LaBSE) that project text from different languages into a shared vector space. The class is model-agnostic: callers are responsible for generating the embeddings and supply pre-computed float vectors.</para>
+<para><heading level="3">Core operations</heading>
+</para>
+<para><orderedlist>
+<listitem><para><bold>Single-embedding search</bold> (<computeroutput><ref refid="namespacethemis_1_1search" kindref="compound">search()</ref></computeroutput>): issues a kNN query against the multilingual vector index and optionally applies per-language boost factors.</para>
+</listitem><listitem><para><bold>Multi-embedding fusion</bold> (<computeroutput><ref refid="classthemis_1_1_cross_lingual_search_1ae9594d54f85da5d3b60b69c646e5db14" kindref="member">searchMultiEmbedding()</ref></computeroutput>): issues kNN queries for several embeddings (e.g. query expressed in EN + DE + FR) and merges the ranked lists via Reciprocal Rank Fusion (RRF), enabling ensemble retrieval across language variants.</para>
+</listitem></orderedlist>
+</para>
+<para><heading level="3">Language enrichment</heading>
+</para>
+<para>When a <computeroutput>lang_map</computeroutput> (<computeroutput>doc_id → language_code</computeroutput>) is supplied via <computeroutput><ref refid="classthemis_1_1_cross_lingual_search_1a8150dc026f6ee766d3f584cb526e2bdd" kindref="member">setLanguageMap()</ref></computeroutput>, results are annotated with the document language. The same map is used to apply <computeroutput><ref refid="structthemis_1_1_cross_lingual_search_1_1_language_hint" kindref="compound">LanguageHint</ref></computeroutput> boosts: results whose language matches a hint are multiplied by <computeroutput>hint.boost</computeroutput> after fusion.</para>
+<para><heading level="3">Typical usage</heading>
+</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">CrossLingualSearch::Config<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.k<sp/>=<sp/>10;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1_cross_lingual_search_1af9722cf7dc7904b0923ad86e93f7f6d5" kindref="member">CrossLingualSearch</ref><sp/>cls(&amp;vec_index,<sp/>cfg);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Optional:<sp/>annotate<sp/>results<sp/>with<sp/>per-document<sp/>language<sp/>information</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">cls.setLanguageMap({{</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;en&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;doc2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;de&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;doc3&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;fr&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Search<sp/>with<sp/>a<sp/>multilingual<sp/>embedding<sp/>(model<sp/>output<sp/>for<sp/>&quot;machine<sp/>learning&quot;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">std::vector&lt;CrossLingualSearch::LanguageHint&gt;<sp/>hints<sp/>=<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;en&quot;</highlight><highlight class="normal">,<sp/>1.2},<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>slight<sp/>preference<sp/>for<sp/>English<sp/>results</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>cls.search(query_embedding,<sp/>hints);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Multi-embedding<sp/>fusion<sp/>across<sp/>language<sp/>variants</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results2<sp/>=<sp/>cls.searchMultiEmbedding({</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{en_embedding,<sp/>1.0},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{de_embedding,<sp/>0.8},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{fr_embedding,<sp/>0.8},</highlight></codeline>
+<codeline><highlight class="normal">},<sp/>hints);</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="note"><para>Thread Safety: A single <ref refid="classthemis_1_1_cross_lingual_search" kindref="compound">CrossLingualSearch</ref> instance is NOT thread-safe. Create separate instances per thread or provide external synchronisation. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception Safety: <computeroutput><ref refid="namespacethemis_1_1search" kindref="compound">search()</ref></computeroutput> and <computeroutput><ref refid="classthemis_1_1_cross_lingual_search_1ae9594d54f85da5d3b60b69c646e5db14" kindref="member">searchMultiEmbedding()</ref></computeroutput> never throw. All exceptions from the vector backend are caught internally and result in an empty result vector. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/search/cross_lingual_search.h" line="79" column="1" bodyfile="include/search/cross_lingual_search.h" bodystart="79" bodyend="227"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_cross_lingual_search_1aab5e5651cc2185e81530f561937776a7" prot="private" virt="non-virtual"><scope>themis::CrossLingualSearch</scope><name>applyHintsAndFinalize</name></member>
+      <member refid="classthemis_1_1_cross_lingual_search_1a07f56ba4777dac23e9938b0c12dbf8a9" prot="private" virt="non-virtual"><scope>themis::CrossLingualSearch</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_cross_lingual_search_1af9722cf7dc7904b0923ad86e93f7f6d5" prot="public" virt="non-virtual"><scope>themis::CrossLingualSearch</scope><name>CrossLingualSearch</name></member>
+      <member refid="classthemis_1_1_cross_lingual_search_1a8b6cc0b416bbb61a7967d228c82e4011" prot="public" virt="non-virtual"><scope>themis::CrossLingualSearch</scope><name>CrossLingualSearch</name></member>
+      <member refid="classthemis_1_1_cross_lingual_search_1a80dbbcdb1d0748e813e387b0e5461a8f" prot="private" virt="non-virtual"><scope>themis::CrossLingualSearch</scope><name>executeKnn</name></member>
+      <member refid="classthemis_1_1_cross_lingual_search_1ad957adcff999f9ed5a05a7e6675b7656" prot="public" virt="non-virtual"><scope>themis::CrossLingualSearch</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1_cross_lingual_search_1a4da672c75a9344024f05de04bd79d6a2" prot="private" virt="non-virtual"><scope>themis::CrossLingualSearch</scope><name>lang_map_</name></member>
+      <member refid="classthemis_1_1_cross_lingual_search_1a78f0a64eed3578b170e56044fd914e1e" prot="public" virt="non-virtual"><scope>themis::CrossLingualSearch</scope><name>search</name></member>
+      <member refid="classthemis_1_1_cross_lingual_search_1ae9594d54f85da5d3b60b69c646e5db14" prot="public" virt="non-virtual"><scope>themis::CrossLingualSearch</scope><name>searchMultiEmbedding</name></member>
+      <member refid="classthemis_1_1_cross_lingual_search_1aa29a008e81b767f042350de02d7ee095" prot="public" virt="non-virtual"><scope>themis::CrossLingualSearch</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1_cross_lingual_search_1a8150dc026f6ee766d3f584cb526e2bdd" prot="public" virt="non-virtual"><scope>themis::CrossLingualSearch</scope><name>setLanguageMap</name></member>
+      <member refid="classthemis_1_1_cross_lingual_search_1a211df67e5cbd4671231958044132adcb" prot="private" virt="non-virtual"><scope>themis::CrossLingualSearch</scope><name>vec_index_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

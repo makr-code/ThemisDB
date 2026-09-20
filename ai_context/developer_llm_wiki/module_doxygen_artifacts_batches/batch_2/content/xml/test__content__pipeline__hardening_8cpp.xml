@@ -1,0 +1,605 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__content__pipeline__hardening_8cpp" kind="file" language="C++">
+    <compoundname>test_content_pipeline_hardening.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="processor__chain__config_8h" local="yes">content/processor_chain_config.h</includes>
+    <includes refid="content__type_8h" local="yes">content/content_type.h</includes>
+    <incdepgraph>
+      <node id="7">
+        <label>content/content_type.h</label>
+        <link refid="content__type_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>content/processor_chain_config.h</label>
+        <link refid="processor__chain__config_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/content/test_content_pipeline_hardening.cpp</label>
+        <link refid="test__content__pipeline__hardening_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="9">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="11">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>unordered_map</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__content__pipeline__hardening_8cpp_1a984f0193550117bc4fefbf37ab330ad3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PipelineHardeningTest, StageConfig_Defaults)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PipelineHardeningTest</type>
+        </param>
+        <param>
+          <type>StageConfig_Defaults</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_pipeline_hardening.cpp" line="27" column="1" bodyfile="tests/content/test_content_pipeline_hardening.cpp" bodystart="27" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__pipeline__hardening_8cpp_1a1ad5317fde5ef8bf06fe7c71372a3cda" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PipelineHardeningTest, StageConfig_CanBeModified)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PipelineHardeningTest</type>
+        </param>
+        <param>
+          <type>StageConfig_CanBeModified</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_pipeline_hardening.cpp" line="35" column="1" bodyfile="tests/content/test_content_pipeline_hardening.cpp" bodystart="35" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__pipeline__hardening_8cpp_1a270c06f81cf55367ef118d85d8b6e28e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PipelineHardeningTest, ContentTypePipelineConfig_HasStorageStage)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PipelineHardeningTest</type>
+        </param>
+        <param>
+          <type>ContentTypePipelineConfig_HasStorageStage</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_pipeline_hardening.cpp" line="52" column="1" bodyfile="tests/content/test_content_pipeline_hardening.cpp" bodystart="52" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__pipeline__hardening_8cpp_1a065950acaeb510257ebc5c9cc302e9ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PipelineHardeningTest, ContentTypePipelineConfig_AllStagesDefaultEnabled)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PipelineHardeningTest</type>
+        </param>
+        <param>
+          <type>ContentTypePipelineConfig_AllStagesDefaultEnabled</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_pipeline_hardening.cpp" line="60" column="1" bodyfile="tests/content/test_content_pipeline_hardening.cpp" bodystart="60" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__pipeline__hardening_8cpp_1ad1105041a87635a94b6a7a2be30e55f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PipelineHardeningTest, JsonRoundTrip_StorageStage_Default)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PipelineHardeningTest</type>
+        </param>
+        <param>
+          <type>JsonRoundTrip_StorageStage_Default</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_pipeline_hardening.cpp" line="73" column="1" bodyfile="tests/content/test_content_pipeline_hardening.cpp" bodystart="73" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__pipeline__hardening_8cpp_1ad35a165bf7ee8ff0b8a7510eed3a2ef1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PipelineHardeningTest, JsonRoundTrip_RetryFields)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PipelineHardeningTest</type>
+        </param>
+        <param>
+          <type>JsonRoundTrip_RetryFields</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_pipeline_hardening.cpp" line="84" column="1" bodyfile="tests/content/test_content_pipeline_hardening.cpp" bodystart="84" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__pipeline__hardening_8cpp_1a0374f112734a5b35193b44ec8dea5dc4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PipelineHardeningTest, JsonRoundTrip_MimeTypeOverrideWithRetry)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PipelineHardeningTest</type>
+        </param>
+        <param>
+          <type>JsonRoundTrip_MimeTypeOverrideWithRetry</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_pipeline_hardening.cpp" line="103" column="1" bodyfile="tests/content/test_content_pipeline_hardening.cpp" bodystart="103" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__pipeline__hardening_8cpp_1a18a905fac5007d622039c51e1d8d9abf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PipelineHardeningTest, JsonRoundTrip_CategoryOverrideWithRetry)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PipelineHardeningTest</type>
+        </param>
+        <param>
+          <type>JsonRoundTrip_CategoryOverrideWithRetry</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_pipeline_hardening.cpp" line="125" column="1" bodyfile="tests/content/test_content_pipeline_hardening.cpp" bodystart="125" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__pipeline__hardening_8cpp_1af82d38a3fe8c965c04f5e32fdc5d4cbd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PipelineHardeningTest, BackwardCompat_BooleanStagesStillParse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PipelineHardeningTest</type>
+        </param>
+        <param>
+          <type>BackwardCompat_BooleanStagesStillParse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_pipeline_hardening.cpp" line="144" column="1" bodyfile="tests/content/test_content_pipeline_hardening.cpp" bodystart="144" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__pipeline__hardening_8cpp_1a1ddedec203f356581854b154ca224022" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PipelineHardeningTest, BackwardCompat_MixedBoolAndObjectPerStage)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PipelineHardeningTest</type>
+        </param>
+        <param>
+          <type>BackwardCompat_MixedBoolAndObjectPerStage</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_pipeline_hardening.cpp" line="170" column="1" bodyfile="tests/content/test_content_pipeline_hardening.cpp" bodystart="170" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__pipeline__hardening_8cpp_1a57ce47199680c9f8212816cfe126ed3f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PipelineHardeningTest, PriorityOrder_MimeOverrideTrumpsCategory)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PipelineHardeningTest</type>
+        </param>
+        <param>
+          <type>PriorityOrder_MimeOverrideTrumpsCategory</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_pipeline_hardening.cpp" line="205" column="1" bodyfile="tests/content/test_content_pipeline_hardening.cpp" bodystart="205" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__pipeline__hardening_8cpp_1a031ad2e5c8b475ee9449b33c41af3ebd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PipelineHardeningTest, PriorityOrder_CategoryTrumpsDefault)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PipelineHardeningTest</type>
+        </param>
+        <param>
+          <type>PriorityOrder_CategoryTrumpsDefault</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_pipeline_hardening.cpp" line="220" column="1" bodyfile="tests/content/test_content_pipeline_hardening.cpp" bodystart="220" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__pipeline__hardening_8cpp_1ae356d162435cc5edc2934e86c9015666" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PipelineHardeningTest, ToJson_NonDefaultRetryProducesObject)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PipelineHardeningTest</type>
+        </param>
+        <param>
+          <type>ToJson_NonDefaultRetryProducesObject</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_pipeline_hardening.cpp" line="239" column="1" bodyfile="tests/content/test_content_pipeline_hardening.cpp" bodystart="239" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__pipeline__hardening_8cpp_1abd96ea8daf7255e462cad004015bbfa8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PipelineHardeningTest, ToJson_DefaultRetryProducesBoolean)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PipelineHardeningTest</type>
+        </param>
+        <param>
+          <type>ToJson_DefaultRetryProducesBoolean</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_pipeline_hardening.cpp" line="250" column="1" bodyfile="tests/content/test_content_pipeline_hardening.cpp" bodystart="250" bodyend="260"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unit tests for per-stage error recovery and retry logic in the content ingestion pipeline (Issue #1701 / roadmap Phase 2). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Covers:<itemizedlist>
+<listitem><para><ref refid="structthemis_1_1content_1_1_stage_config" kindref="compound">StageConfig</ref> default values and retry field round-trip via JSON</para>
+</listitem><listitem><para><ref refid="structthemis_1_1content_1_1_content_type_pipeline_config" kindref="compound">ContentTypePipelineConfig</ref> now includes a storage stage</para>
+</listitem><listitem><para><ref refid="classthemis_1_1content_1_1_processor_chain_config" kindref="compound">ProcessorChainConfig</ref> serialisation with retry object syntax</para>
+</listitem><listitem><para>Backward compatibility: old boolean stage values still parse correctly</para>
+</listitem><listitem><para>continue_on_error and max_retries fields survive JSON round-trip </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2024<sp/>ThemisDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>MIT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="processor__chain__config_8h" kindref="compound">content/processor_chain_config.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="content__type_8h" kindref="compound">content/content_type.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1content" kindref="compound">themis::content</ref>;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>StageConfig<sp/>–<sp/>default<sp/>values</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><ref refid="test__content__pipeline__hardening_8cpp_1a984f0193550117bc4fefbf37ab330ad3" kindref="member">TEST</ref>(PipelineHardeningTest,<sp/>StageConfig_Defaults)<sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_stage_config" kindref="compound">StageConfig</ref><sp/>s;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(s.<ref refid="structthemis_1_1content_1_1_stage_config_1ad397917fb389512940b1b100a771f59b" kindref="member">enabled</ref>);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.<ref refid="structthemis_1_1content_1_1_stage_config_1a8016bd814fe5b94615605a9d34a3263d" kindref="member">max_retries</ref>,<sp/>0);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.<ref refid="structthemis_1_1content_1_1_stage_config_1a80c95007784f61253620bc265cb61562" kindref="member">retry_delay_ms</ref>,<sp/>100);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(s.<ref refid="structthemis_1_1content_1_1_stage_config_1aee685e78fcfd99536737dd604c4fe1a6" kindref="member">continue_on_error</ref>);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><ref refid="test__content__pipeline__hardening_8cpp_1a984f0193550117bc4fefbf37ab330ad3" kindref="member">TEST</ref>(PipelineHardeningTest,<sp/>StageConfig_CanBeModified)<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_stage_config" kindref="compound">StageConfig</ref><sp/>s;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>s.<ref refid="structthemis_1_1content_1_1_stage_config_1ad397917fb389512940b1b100a771f59b" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>s.<ref refid="structthemis_1_1content_1_1_stage_config_1a8016bd814fe5b94615605a9d34a3263d" kindref="member">max_retries</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>s.<ref refid="structthemis_1_1content_1_1_stage_config_1a80c95007784f61253620bc265cb61562" kindref="member">retry_delay_ms</ref><sp/>=<sp/>250;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>s.<ref refid="structthemis_1_1content_1_1_stage_config_1aee685e78fcfd99536737dd604c4fe1a6" kindref="member">continue_on_error</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(s.<ref refid="structthemis_1_1content_1_1_stage_config_1ad397917fb389512940b1b100a771f59b" kindref="member">enabled</ref>);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.<ref refid="structthemis_1_1content_1_1_stage_config_1a8016bd814fe5b94615605a9d34a3263d" kindref="member">max_retries</ref>,<sp/>3);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.<ref refid="structthemis_1_1content_1_1_stage_config_1a80c95007784f61253620bc265cb61562" kindref="member">retry_delay_ms</ref>,<sp/>250);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(s.<ref refid="structthemis_1_1content_1_1_stage_config_1aee685e78fcfd99536737dd604c4fe1a6" kindref="member">continue_on_error</ref>);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ContentTypePipelineConfig<sp/>–<sp/>storage<sp/>stage<sp/>present</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><ref refid="test__content__pipeline__hardening_8cpp_1a984f0193550117bc4fefbf37ab330ad3" kindref="member">TEST</ref>(PipelineHardeningTest,<sp/>ContentTypePipelineConfig_HasStorageStage)<sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_content_type_pipeline_config" kindref="compound">ContentTypePipelineConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>storage<sp/>stage<sp/>must<sp/>exist<sp/>and<sp/>default<sp/>to<sp/>enabled<sp/>with<sp/>no<sp/>retries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cfg.<ref refid="structthemis_1_1content_1_1_content_type_pipeline_config_1aa7ca11c2dbe8e286d5dd2b114671ca91" kindref="member">storage</ref>.<ref refid="structthemis_1_1content_1_1_stage_config_1ad397917fb389512940b1b100a771f59b" kindref="member">enabled</ref>);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="structthemis_1_1content_1_1_content_type_pipeline_config_1aa7ca11c2dbe8e286d5dd2b114671ca91" kindref="member">storage</ref>.<ref refid="structthemis_1_1content_1_1_stage_config_1a8016bd814fe5b94615605a9d34a3263d" kindref="member">max_retries</ref>,<sp/>0);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(cfg.<ref refid="structthemis_1_1content_1_1_content_type_pipeline_config_1aa7ca11c2dbe8e286d5dd2b114671ca91" kindref="member">storage</ref>.<ref refid="structthemis_1_1content_1_1_stage_config_1aee685e78fcfd99536737dd604c4fe1a6" kindref="member">continue_on_error</ref>);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><ref refid="test__content__pipeline__hardening_8cpp_1a984f0193550117bc4fefbf37ab330ad3" kindref="member">TEST</ref>(PipelineHardeningTest,<sp/>ContentTypePipelineConfig_AllStagesDefaultEnabled)<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_content_type_pipeline_config" kindref="compound">ContentTypePipelineConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cfg.<ref refid="structthemis_1_1content_1_1_content_type_pipeline_config_1a01d6ed67752d9884b9ff089d45b2cd57" kindref="member">extraction</ref>.<ref refid="structthemis_1_1content_1_1_stage_config_1ad397917fb389512940b1b100a771f59b" kindref="member">enabled</ref>);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cfg.<ref refid="structthemis_1_1content_1_1_content_type_pipeline_config_1a7f0ace61760bfbd4b1f12db86234840a" kindref="member">chunking</ref>.<ref refid="structthemis_1_1content_1_1_stage_config_1ad397917fb389512940b1b100a771f59b" kindref="member">enabled</ref>);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cfg.<ref refid="structthemis_1_1content_1_1_content_type_pipeline_config_1a67714b0370a25c6b8767c45915dd6e93" kindref="member">embedding</ref>.<ref refid="structthemis_1_1content_1_1_stage_config_1ad397917fb389512940b1b100a771f59b" kindref="member">enabled</ref>);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cfg.<ref refid="structthemis_1_1content_1_1_content_type_pipeline_config_1a2995d940aad95557b902932cf58b2c52" kindref="member">deduplication</ref>.<ref refid="structthemis_1_1content_1_1_stage_config_1ad397917fb389512940b1b100a771f59b" kindref="member">enabled</ref>);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cfg.<ref refid="structthemis_1_1content_1_1_content_type_pipeline_config_1aa7ca11c2dbe8e286d5dd2b114671ca91" kindref="member">storage</ref>.<ref refid="structthemis_1_1content_1_1_stage_config_1ad397917fb389512940b1b100a771f59b" kindref="member">enabled</ref>);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ProcessorChainConfig<sp/>JSON<sp/>round-trip<sp/>with<sp/>retry<sp/>fields</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><ref refid="test__content__pipeline__hardening_8cpp_1a984f0193550117bc4fefbf37ab330ad3" kindref="member">TEST</ref>(PipelineHardeningTest,<sp/>JsonRoundTrip_StorageStage_Default)<sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_processor_chain_config" kindref="compound">ProcessorChainConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/><sp/><sp/>=<sp/>cfg.<ref refid="classthemis_1_1content_1_1_processor_chain_config_1a853fb71ff645b0de2c2bcd472d7a3071" kindref="member">toJson</ref>();</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg2<sp/>=<sp/><ref refid="classthemis_1_1content_1_1_processor_chain_config_1a296f205aae81d234eb8b629274748e7f" kindref="member">ProcessorChainConfig::fromJson</ref>(j);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>eff<sp/>=<sp/>cfg2.getEffectiveConfig(</highlight><highlight class="stringliteral">&quot;text/plain&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5a61a96ffcb251bb9bf0abf8fec19d0ea8" kindref="member">ContentCategory::TEXT</ref>);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(eff.storage.enabled);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(eff.storage.max_retries,<sp/>0);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(eff.storage.continue_on_error);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><ref refid="test__content__pipeline__hardening_8cpp_1a984f0193550117bc4fefbf37ab330ad3" kindref="member">TEST</ref>(PipelineHardeningTest,<sp/>JsonRoundTrip_RetryFields)<sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_processor_chain_config" kindref="compound">ProcessorChainConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="classthemis_1_1content_1_1_processor_chain_config_1a6993f7d530aeffb8251f976e435ba60f" kindref="member">default_config</ref>.<ref refid="structthemis_1_1content_1_1_content_type_pipeline_config_1a01d6ed67752d9884b9ff089d45b2cd57" kindref="member">extraction</ref>.<ref refid="structthemis_1_1content_1_1_stage_config_1a8016bd814fe5b94615605a9d34a3263d" kindref="member">max_retries</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="classthemis_1_1content_1_1_processor_chain_config_1a6993f7d530aeffb8251f976e435ba60f" kindref="member">default_config</ref>.<ref refid="structthemis_1_1content_1_1_content_type_pipeline_config_1a01d6ed67752d9884b9ff089d45b2cd57" kindref="member">extraction</ref>.<ref refid="structthemis_1_1content_1_1_stage_config_1a80c95007784f61253620bc265cb61562" kindref="member">retry_delay_ms</ref><sp/><sp/><sp/>=<sp/>200;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="classthemis_1_1content_1_1_processor_chain_config_1a6993f7d530aeffb8251f976e435ba60f" kindref="member">default_config</ref>.<ref refid="structthemis_1_1content_1_1_content_type_pipeline_config_1a01d6ed67752d9884b9ff089d45b2cd57" kindref="member">extraction</ref>.<ref refid="structthemis_1_1content_1_1_stage_config_1aee685e78fcfd99536737dd604c4fe1a6" kindref="member">continue_on_error</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="classthemis_1_1content_1_1_processor_chain_config_1a6993f7d530aeffb8251f976e435ba60f" kindref="member">default_config</ref>.<ref refid="structthemis_1_1content_1_1_content_type_pipeline_config_1aa7ca11c2dbe8e286d5dd2b114671ca91" kindref="member">storage</ref>.<ref refid="structthemis_1_1content_1_1_stage_config_1a8016bd814fe5b94615605a9d34a3263d" kindref="member">max_retries</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="classthemis_1_1content_1_1_processor_chain_config_1a6993f7d530aeffb8251f976e435ba60f" kindref="member">default_config</ref>.<ref refid="structthemis_1_1content_1_1_content_type_pipeline_config_1aa7ca11c2dbe8e286d5dd2b114671ca91" kindref="member">storage</ref>.<ref refid="structthemis_1_1content_1_1_stage_config_1a80c95007784f61253620bc265cb61562" kindref="member">retry_delay_ms</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>500;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/><sp/><sp/><sp/>=<sp/>cfg.<ref refid="classthemis_1_1content_1_1_processor_chain_config_1a853fb71ff645b0de2c2bcd472d7a3071" kindref="member">toJson</ref>();</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg2<sp/><sp/>=<sp/><ref refid="classthemis_1_1content_1_1_processor_chain_config_1a296f205aae81d234eb8b629274748e7f" kindref="member">ProcessorChainConfig::fromJson</ref>(j);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>eff<sp/><sp/><sp/>=<sp/>cfg2.getEffectiveConfig(</highlight><highlight class="stringliteral">&quot;text/html&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5a61a96ffcb251bb9bf0abf8fec19d0ea8" kindref="member">ContentCategory::TEXT</ref>);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(eff.extraction.max_retries,<sp/>2);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(eff.extraction.retry_delay_ms,<sp/>200);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(eff.extraction.continue_on_error);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(eff.storage.max_retries,<sp/>3);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(eff.storage.retry_delay_ms,<sp/>500);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><ref refid="test__content__pipeline__hardening_8cpp_1a984f0193550117bc4fefbf37ab330ad3" kindref="member">TEST</ref>(PipelineHardeningTest,<sp/>JsonRoundTrip_MimeTypeOverrideWithRetry)<sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_processor_chain_config" kindref="compound">ProcessorChainConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_content_type_pipeline_config" kindref="compound">ContentTypePipelineConfig</ref><sp/>html_cfg;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>html_cfg.<ref refid="structthemis_1_1content_1_1_content_type_pipeline_config_1a01d6ed67752d9884b9ff089d45b2cd57" kindref="member">extraction</ref>.<ref refid="structthemis_1_1content_1_1_stage_config_1a8016bd814fe5b94615605a9d34a3263d" kindref="member">max_retries</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>html_cfg.<ref refid="structthemis_1_1content_1_1_content_type_pipeline_config_1a01d6ed67752d9884b9ff089d45b2cd57" kindref="member">extraction</ref>.<ref refid="structthemis_1_1content_1_1_stage_config_1aee685e78fcfd99536737dd604c4fe1a6" kindref="member">continue_on_error</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>html_cfg.<ref refid="structthemis_1_1content_1_1_content_type_pipeline_config_1aa7ca11c2dbe8e286d5dd2b114671ca91" kindref="member">storage</ref>.<ref refid="structthemis_1_1content_1_1_stage_config_1a8016bd814fe5b94615605a9d34a3263d" kindref="member">max_retries</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="classthemis_1_1content_1_1_processor_chain_config_1a262b13cb4badf4592c860d6952a9c20f" kindref="member">mime_type_configs</ref>[</highlight><highlight class="stringliteral">&quot;text/html&quot;</highlight><highlight class="normal">]<sp/>=<sp/>html_cfg;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/><sp/><sp/><sp/>=<sp/>cfg.<ref refid="classthemis_1_1content_1_1_processor_chain_config_1a853fb71ff645b0de2c2bcd472d7a3071" kindref="member">toJson</ref>();</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg2<sp/><sp/>=<sp/><ref refid="classthemis_1_1content_1_1_processor_chain_config_1a296f205aae81d234eb8b629274748e7f" kindref="member">ProcessorChainConfig::fromJson</ref>(j);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>eff<sp/>=<sp/>cfg2.getEffectiveConfig(</highlight><highlight class="stringliteral">&quot;text/html&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5a61a96ffcb251bb9bf0abf8fec19d0ea8" kindref="member">ContentCategory::TEXT</ref>);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(eff.extraction.max_retries,<sp/>1);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(eff.extraction.continue_on_error);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(eff.storage.max_retries,<sp/>2);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Other<sp/>MIME<sp/>types<sp/>fall<sp/>back<sp/>to<sp/>default<sp/>(no<sp/>retry)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plain<sp/>=<sp/>cfg2.getEffectiveConfig(</highlight><highlight class="stringliteral">&quot;text/plain&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5a61a96ffcb251bb9bf0abf8fec19d0ea8" kindref="member">ContentCategory::TEXT</ref>);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(plain.extraction.max_retries,<sp/>0);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(plain.extraction.continue_on_error);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><ref refid="test__content__pipeline__hardening_8cpp_1a984f0193550117bc4fefbf37ab330ad3" kindref="member">TEST</ref>(PipelineHardeningTest,<sp/>JsonRoundTrip_CategoryOverrideWithRetry)<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_processor_chain_config" kindref="compound">ProcessorChainConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_content_type_pipeline_config" kindref="compound">ContentTypePipelineConfig</ref><sp/>img_cfg;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>img_cfg.<ref refid="structthemis_1_1content_1_1_content_type_pipeline_config_1aa7ca11c2dbe8e286d5dd2b114671ca91" kindref="member">storage</ref>.<ref refid="structthemis_1_1content_1_1_stage_config_1a8016bd814fe5b94615605a9d34a3263d" kindref="member">max_retries</ref><sp/><sp/><sp/><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>img_cfg.<ref refid="structthemis_1_1content_1_1_content_type_pipeline_config_1aa7ca11c2dbe8e286d5dd2b114671ca91" kindref="member">storage</ref>.<ref refid="structthemis_1_1content_1_1_stage_config_1a80c95007784f61253620bc265cb61562" kindref="member">retry_delay_ms</ref><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="classthemis_1_1content_1_1_processor_chain_config_1a5cfbbc033156bc0ac8b8720b23a47d08" kindref="member">category_configs</ref>[<ref refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5a23a12f67f614b5518c7f1c2465bf95e3" kindref="member">ContentCategory::IMAGE</ref>]<sp/>=<sp/>img_cfg;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/><sp/><sp/><sp/>=<sp/>cfg.<ref refid="classthemis_1_1content_1_1_processor_chain_config_1a853fb71ff645b0de2c2bcd472d7a3071" kindref="member">toJson</ref>();</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg2<sp/><sp/>=<sp/><ref refid="classthemis_1_1content_1_1_processor_chain_config_1a296f205aae81d234eb8b629274748e7f" kindref="member">ProcessorChainConfig::fromJson</ref>(j);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>eff<sp/>=<sp/>cfg2.getEffectiveConfig(</highlight><highlight class="stringliteral">&quot;image/jpeg&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5a23a12f67f614b5518c7f1c2465bf95e3" kindref="member">ContentCategory::IMAGE</ref>);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(eff.storage.max_retries,<sp/>5);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(eff.storage.retry_delay_ms,<sp/>1000);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Backward<sp/>compatibility:<sp/>old<sp/>boolean<sp/>JSON<sp/>values<sp/>still<sp/>parse<sp/>correctly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><ref refid="test__content__pipeline__hardening_8cpp_1a984f0193550117bc4fefbf37ab330ad3" kindref="member">TEST</ref>(PipelineHardeningTest,<sp/>BackwardCompat_BooleanStagesStillParse)<sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Old-format<sp/>JSON<sp/>(booleans<sp/>only,<sp/>no<sp/>storage<sp/>key)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>j<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;default&quot;</highlight><highlight class="normal">,<sp/>{</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;extraction&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;chunking&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;embedding&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;deduplication&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}},</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;mime_types&quot;</highlight><highlight class="normal">,<sp/>nlohmann::json::object()},</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;categories&quot;</highlight><highlight class="normal">,<sp/>nlohmann::json::object()}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/><ref refid="classthemis_1_1content_1_1_processor_chain_config_1a296f205aae81d234eb8b629274748e7f" kindref="member">ProcessorChainConfig::fromJson</ref>(j);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>eff<sp/>=<sp/>cfg.<ref refid="classthemis_1_1content_1_1_processor_chain_config_1a12d00e4abcfadfa59a699f8b41807c67" kindref="member">getEffectiveConfig</ref>(</highlight><highlight class="stringliteral">&quot;text/plain&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5a61a96ffcb251bb9bf0abf8fec19d0ea8" kindref="member">ContentCategory::TEXT</ref>);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(eff.extraction.enabled);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(eff.chunking.enabled);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(eff.embedding.enabled);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(eff.deduplication.enabled);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>storage<sp/>not<sp/>in<sp/>old<sp/>JSON<sp/>→<sp/>defaults<sp/>to<sp/>enabled,<sp/>0<sp/>retries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(eff.storage.enabled);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(eff.storage.max_retries,<sp/>0);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="168"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><ref refid="test__content__pipeline__hardening_8cpp_1a984f0193550117bc4fefbf37ab330ad3" kindref="member">TEST</ref>(PipelineHardeningTest,<sp/>BackwardCompat_MixedBoolAndObjectPerStage)<sp/>{</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Mixed:<sp/>some<sp/>stages<sp/>as<sp/>booleans,<sp/>one<sp/>as<sp/>full<sp/>object</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>j<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;default&quot;</highlight><highlight class="normal">,<sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;extraction&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;enabled&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;max_retries&quot;</highlight><highlight class="normal">,<sp/>2},<sp/>{</highlight><highlight class="stringliteral">&quot;continue_on_error&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">}}},</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;chunking&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;embedding&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;deduplication&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;storage&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;enabled&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;max_retries&quot;</highlight><highlight class="normal">,<sp/>3},<sp/>{</highlight><highlight class="stringliteral">&quot;retry_delay_ms&quot;</highlight><highlight class="normal">,<sp/>300}}}</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}},</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;mime_types&quot;</highlight><highlight class="normal">,<sp/>nlohmann::json::object()},</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;categories&quot;</highlight><highlight class="normal">,<sp/>nlohmann::json::object()}</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/><ref refid="classthemis_1_1content_1_1_processor_chain_config_1a296f205aae81d234eb8b629274748e7f" kindref="member">ProcessorChainConfig::fromJson</ref>(j);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>eff<sp/><sp/>=<sp/>cfg.<ref refid="classthemis_1_1content_1_1_processor_chain_config_1a12d00e4abcfadfa59a699f8b41807c67" kindref="member">getEffectiveConfig</ref>(</highlight><highlight class="stringliteral">&quot;text/plain&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5a61a96ffcb251bb9bf0abf8fec19d0ea8" kindref="member">ContentCategory::TEXT</ref>);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(eff.extraction.enabled);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(eff.extraction.max_retries,<sp/>2);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(eff.extraction.continue_on_error);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(eff.chunking.enabled);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(eff.chunking.max_retries,<sp/>0);<sp/><sp/></highlight><highlight class="comment">//<sp/>boolean<sp/>→<sp/>defaults<sp/>apply</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(eff.embedding.enabled);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(eff.storage.enabled);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(eff.storage.max_retries,<sp/>3);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(eff.storage.retry_delay_ms,<sp/>300);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="comment">//<sp/>getEffectiveConfig<sp/>priority<sp/>still<sp/>respected<sp/>with<sp/>retry<sp/>fields</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><ref refid="test__content__pipeline__hardening_8cpp_1a984f0193550117bc4fefbf37ab330ad3" kindref="member">TEST</ref>(PipelineHardeningTest,<sp/>PriorityOrder_MimeOverrideTrumpsCategory)<sp/>{</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_processor_chain_config" kindref="compound">ProcessorChainConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_content_type_pipeline_config" kindref="compound">ContentTypePipelineConfig</ref><sp/>cat_cfg;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>cat_cfg.<ref refid="structthemis_1_1content_1_1_content_type_pipeline_config_1aa7ca11c2dbe8e286d5dd2b114671ca91" kindref="member">storage</ref>.<ref refid="structthemis_1_1content_1_1_stage_config_1a8016bd814fe5b94615605a9d34a3263d" kindref="member">max_retries</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="classthemis_1_1content_1_1_processor_chain_config_1a5cfbbc033156bc0ac8b8720b23a47d08" kindref="member">category_configs</ref>[<ref refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5a61a96ffcb251bb9bf0abf8fec19d0ea8" kindref="member">ContentCategory::TEXT</ref>]<sp/>=<sp/>cat_cfg;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_content_type_pipeline_config" kindref="compound">ContentTypePipelineConfig</ref><sp/>mime_cfg;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>mime_cfg.<ref refid="structthemis_1_1content_1_1_content_type_pipeline_config_1aa7ca11c2dbe8e286d5dd2b114671ca91" kindref="member">storage</ref>.<ref refid="structthemis_1_1content_1_1_stage_config_1a8016bd814fe5b94615605a9d34a3263d" kindref="member">max_retries</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="classthemis_1_1content_1_1_processor_chain_config_1a262b13cb4badf4592c860d6952a9c20f" kindref="member">mime_type_configs</ref>[</highlight><highlight class="stringliteral">&quot;text/plain&quot;</highlight><highlight class="normal">]<sp/>=<sp/>mime_cfg;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>eff<sp/>=<sp/>cfg.<ref refid="classthemis_1_1content_1_1_processor_chain_config_1a12d00e4abcfadfa59a699f8b41807c67" kindref="member">getEffectiveConfig</ref>(</highlight><highlight class="stringliteral">&quot;text/plain&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5a61a96ffcb251bb9bf0abf8fec19d0ea8" kindref="member">ContentCategory::TEXT</ref>);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(eff.storage.max_retries,<sp/>1);<sp/><sp/></highlight><highlight class="comment">//<sp/>MIME<sp/>wins</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><ref refid="test__content__pipeline__hardening_8cpp_1a984f0193550117bc4fefbf37ab330ad3" kindref="member">TEST</ref>(PipelineHardeningTest,<sp/>PriorityOrder_CategoryTrumpsDefault)<sp/>{</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_processor_chain_config" kindref="compound">ProcessorChainConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="classthemis_1_1content_1_1_processor_chain_config_1a6993f7d530aeffb8251f976e435ba60f" kindref="member">default_config</ref>.<ref refid="structthemis_1_1content_1_1_content_type_pipeline_config_1a01d6ed67752d9884b9ff089d45b2cd57" kindref="member">extraction</ref>.<ref refid="structthemis_1_1content_1_1_stage_config_1a8016bd814fe5b94615605a9d34a3263d" kindref="member">max_retries</ref><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_content_type_pipeline_config" kindref="compound">ContentTypePipelineConfig</ref><sp/>cat_cfg;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>cat_cfg.<ref refid="structthemis_1_1content_1_1_content_type_pipeline_config_1a01d6ed67752d9884b9ff089d45b2cd57" kindref="member">extraction</ref>.<ref refid="structthemis_1_1content_1_1_stage_config_1a8016bd814fe5b94615605a9d34a3263d" kindref="member">max_retries</ref><sp/>=<sp/>0;<sp/><sp/></highlight><highlight class="comment">//<sp/>no<sp/>retry<sp/>for<sp/>this<sp/>category</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="classthemis_1_1content_1_1_processor_chain_config_1a5cfbbc033156bc0ac8b8720b23a47d08" kindref="member">category_configs</ref>[<ref refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5a98ad0e8750ae10ad556ed7a62affb452" kindref="member">ContentCategory::BINARY</ref>]<sp/>=<sp/>cat_cfg;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>eff_binary<sp/>=<sp/>cfg.<ref refid="classthemis_1_1content_1_1_processor_chain_config_1a12d00e4abcfadfa59a699f8b41807c67" kindref="member">getEffectiveConfig</ref>(</highlight><highlight class="stringliteral">&quot;application/octet-stream&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5a98ad0e8750ae10ad556ed7a62affb452" kindref="member">ContentCategory::BINARY</ref>);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(eff_binary.extraction.max_retries,<sp/>0);<sp/><sp/></highlight><highlight class="comment">//<sp/>category<sp/>wins</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>eff_text<sp/>=<sp/>cfg.<ref refid="classthemis_1_1content_1_1_processor_chain_config_1a12d00e4abcfadfa59a699f8b41807c67" kindref="member">getEffectiveConfig</ref>(</highlight><highlight class="stringliteral">&quot;text/plain&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5a61a96ffcb251bb9bf0abf8fec19d0ea8" kindref="member">ContentCategory::TEXT</ref>);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(eff_text.extraction.max_retries,<sp/>5);<sp/><sp/></highlight><highlight class="comment">//<sp/>default<sp/>applies</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Serialisation:<sp/>stages<sp/>with<sp/>non-default<sp/>retry<sp/>fields<sp/>produce<sp/>object<sp/>JSON</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><ref refid="test__content__pipeline__hardening_8cpp_1a984f0193550117bc4fefbf37ab330ad3" kindref="member">TEST</ref>(PipelineHardeningTest,<sp/>ToJson_NonDefaultRetryProducesObject)<sp/>{</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_processor_chain_config" kindref="compound">ProcessorChainConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="classthemis_1_1content_1_1_processor_chain_config_1a6993f7d530aeffb8251f976e435ba60f" kindref="member">default_config</ref>.<ref refid="structthemis_1_1content_1_1_content_type_pipeline_config_1aa7ca11c2dbe8e286d5dd2b114671ca91" kindref="member">storage</ref>.<ref refid="structthemis_1_1content_1_1_stage_config_1a8016bd814fe5b94615605a9d34a3263d" kindref="member">max_retries</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>cfg.<ref refid="classthemis_1_1content_1_1_processor_chain_config_1a853fb71ff645b0de2c2bcd472d7a3071" kindref="member">toJson</ref>();</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>storage<sp/>should<sp/>be<sp/>serialized<sp/>as<sp/>an<sp/>object<sp/>(not<sp/>just<sp/>a<sp/>boolean)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(j[</highlight><highlight class="stringliteral">&quot;default&quot;</highlight><highlight class="normal">].contains(</highlight><highlight class="stringliteral">&quot;storage&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(j[</highlight><highlight class="stringliteral">&quot;default&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;storage&quot;</highlight><highlight class="normal">].is_object());</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;default&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;storage&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;max_retries&quot;</highlight><highlight class="normal">],<sp/>3);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><ref refid="test__content__pipeline__hardening_8cpp_1a984f0193550117bc4fefbf37ab330ad3" kindref="member">TEST</ref>(PipelineHardeningTest,<sp/>ToJson_DefaultRetryProducesBoolean)<sp/>{</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_processor_chain_config" kindref="compound">ProcessorChainConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>default:<sp/>max_retries=0,<sp/>retry_delay_ms=100,<sp/>continue_on_error=false</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>cfg.<ref refid="classthemis_1_1content_1_1_processor_chain_config_1a853fb71ff645b0de2c2bcd472d7a3071" kindref="member">toJson</ref>();</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>stage<sp/>values<sp/>should<sp/>be<sp/>simple<sp/>booleans<sp/>(backward-compatible)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(j[</highlight><highlight class="stringliteral">&quot;default&quot;</highlight><highlight class="normal">].contains(</highlight><highlight class="stringliteral">&quot;extraction&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(j[</highlight><highlight class="stringliteral">&quot;default&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;extraction&quot;</highlight><highlight class="normal">].is_boolean());</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(j[</highlight><highlight class="stringliteral">&quot;default&quot;</highlight><highlight class="normal">].contains(</highlight><highlight class="stringliteral">&quot;storage&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(j[</highlight><highlight class="stringliteral">&quot;default&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;storage&quot;</highlight><highlight class="normal">].is_boolean());</highlight></codeline>
+<codeline lineno="260"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/content/test_content_pipeline_hardening.cpp"/>
+  </compounddef>
+</doxygen>

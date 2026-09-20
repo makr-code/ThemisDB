@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1plugins_1_1llm__wiki" kind="namespace" language="C++">
+    <compoundname>themis::plugins::llm_wiki</compoundname>
+    <innerclass refid="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin" prot="public">themis::plugins::llm_wiki::ILLMWikiPlugin</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status" prot="public">themis::plugins::llm_wiki::Status</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_dump_ingest_options" prot="public">themis::plugins::llm_wiki::WikiDumpIngestOptions</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_options" prot="public">themis::plugins::llm_wiki::WikiIngestOptions</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_result" prot="public">themis::plugins::llm_wiki::WikiIngestResult</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_lint_result" prot="public">themis::plugins::llm_wiki::WikiLintResult</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_query_options" prot="public">themis::plugins::llm_wiki::WikiQueryOptions</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_query_result" prot="public">themis::plugins::llm_wiki::WikiQueryResult</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_workspace_stats" prot="public">themis::plugins::llm_wiki::WikiWorkspaceStats</innerclass>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1plugins_1_1llm__wiki_1a93f882bc49e6ef6f55f9675cf08df184" prot="public" static="no">
+        <type><ref refid="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin" kindref="compound">ILLMWikiPlugin</ref> *(*)()</type>
+        <definition>using themis::plugins::llm_wiki::LLMWikiPluginFactory = ILLMWikiPlugin* (*)()</definition>
+        <argsstring></argsstring>
+        <name>LLMWikiPluginFactory</name>
+        <qualifiedname>themis::plugins::llm_wiki::LLMWikiPluginFactory</qualifiedname>
+        <briefdescription>
+<para>Shared-library entry point symbol for the LLM Wiki plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Every shared library built from the private plugin repository MUST export this function with C linkage and return a raw plugin instance pointer; the PluginManager owns the resulting object and deletes it through the matching destroy function.</para>
+<para><programlisting><codeline><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal"><sp/>THEMIS_PLUGIN_EXPORT</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin" kindref="compound">themis::plugins::llm_wiki::ILLMWikiPlugin</ref>*<sp/>themisdb_llm_wiki_create();</highlight></codeline>
+</programlisting> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="455" column="1" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="455" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1plugins_1_1llm__wiki_1a6257a24ccac7dfd256332e2702f7af5a" prot="public" static="no">
+        <type>void(*)(<ref refid="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin" kindref="compound">ILLMWikiPlugin</ref> *)</type>
+        <definition>using themis::plugins::llm_wiki::LLMWikiPluginDestroyFunc = void (*)(ILLMWikiPlugin*)</definition>
+        <argsstring></argsstring>
+        <name>LLMWikiPluginDestroyFunc</name>
+        <qualifiedname>themis::plugins::llm_wiki::LLMWikiPluginDestroyFunc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="456" column="1" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="456" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1plugins_1_1llm__wiki_1a79b95256c372db86be938444c3857f65" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::plugins::llm_wiki::kLLMWikiPluginFactorySymbol</definition>
+        <argsstring></argsstring>
+        <name>kLLMWikiPluginFactorySymbol</name>
+        <qualifiedname>themis::plugins::llm_wiki::kLLMWikiPluginFactorySymbol</qualifiedname>
+        <initializer>                                                    =
+&quot;themisdb_llm_wiki_create&quot;</initializer>
+        <briefdescription>
+<para>Canonical export symbol name expected by the plugin loader. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="459" column="29" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="459" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1plugins_1_1llm__wiki_1a4d7d2e02cb47d76277c8a1c07f21044c" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::plugins::llm_wiki::kLLMWikiPluginDestroySymbol</definition>
+        <argsstring></argsstring>
+        <name>kLLMWikiPluginDestroySymbol</name>
+        <qualifiedname>themis::plugins::llm_wiki::kLLMWikiPluginDestroySymbol</qualifiedname>
+        <initializer>                                                    =
+&quot;themisdb_llm_wiki_destroy&quot;</initializer>
+        <briefdescription>
+<para>Canonical destroy symbol name expected by the plugin loader. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="463" column="29" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="463" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1plugins_1_1llm__wiki_1ad8e0ce1bb51e61062d7f9af7e3ae4fde" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::plugins::llm_wiki::kLLMWikiPluginId</definition>
+        <argsstring></argsstring>
+        <name>kLLMWikiPluginId</name>
+        <qualifiedname>themis::plugins::llm_wiki::kLLMWikiPluginId</qualifiedname>
+        <initializer>= &quot;llm_wiki&quot;</initializer>
+        <briefdescription>
+<para>Canonical plugin identifier passed to <computeroutput>PluginManager::load()</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="467" column="29" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="467" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="69" column="1"/>
+  </compounddef>
+</doxygen>

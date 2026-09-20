@@ -1,0 +1,1565 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.17.0" xml:lang="en-US">
+  <compound refid="class_api_auth_config_test" kind="class"><name>ApiAuthConfigTest</name>
+    <member refid="class_api_auth_config_test_1a8cf917f108a1fb1da9f2a1946fa87c41" kind="function"><name>SetUp</name></member>
+    <member refid="class_api_auth_config_test_1ae5afc372af9ced8ba7d7ebae91f45106" kind="function"><name>TearDown</name></member>
+  </compound>
+  <compound refid="classthemis_1_1api_1_1_api_error_taxonomy" kind="class"><name>themis::api::ApiErrorTaxonomy</name>
+    <member refid="classthemis_1_1api_1_1_api_error_taxonomy_1a7edd316ac2f37fc139f69b814a529353" kind="function"><name>ApiErrorTaxonomy</name></member>
+    <member refid="classthemis_1_1api_1_1_api_error_taxonomy_1a9f8b22006de70fd4f1197074be27d7f5" kind="function"><name>toErrorCode</name></member>
+    <member refid="classthemis_1_1api_1_1_api_error_taxonomy_1a0afb2086489342df90c7c794317515d5" kind="function"><name>toHttpStatus</name></member>
+    <member refid="classthemis_1_1api_1_1_api_error_taxonomy_1a611cc652d122d129671d7e55993898f2" kind="function"><name>toMessage</name></member>
+    <member refid="classthemis_1_1api_1_1_api_error_taxonomy_1a1415a611b14847a2b66c9179250fbc33" kind="function"><name>isClientError</name></member>
+  </compound>
+  <compound refid="class_api_key_mgmt_handler_test" kind="class"><name>ApiKeyMgmtHandlerTest</name>
+    <member refid="class_api_key_mgmt_handler_test_1ae0091893e3a43d8f513c3c0a04c37678" kind="variable"><name>auth_</name></member>
+    <member refid="class_api_key_mgmt_handler_test_1a1bbe5361bff698de8eb64636a40a075a" kind="variable"><name>handler_</name></member>
+    <member refid="class_api_key_mgmt_handler_test_1a03fa989d1b498036f6f7a65c4d9cc050" kind="function"><name>SetUp</name></member>
+  </compound>
+  <compound refid="class_api_security_audit_test" kind="class"><name>ApiSecurityAuditTest</name>
+    <member refid="class_api_security_audit_test_1a4cf39af581694d8e5e1d1fd413f7059b" kind="function"><name>SetUp</name></member>
+    <member refid="class_api_security_audit_test_1ad787abda99f7d32de4dd1d25f20f1824" kind="function"><name>TearDown</name></member>
+  </compound>
+  <compound refid="class_a_p_i_version_comparison_test" kind="class"><name>APIVersionComparisonTest</name>
+  </compound>
+  <compound refid="class_a_p_i_version_manager_routing_test" kind="class"><name>APIVersionManagerRoutingTest</name>
+    <member refid="class_a_p_i_version_manager_routing_test_1addb3247cae12a5160df59b92b80c7790" kind="variable"><name>mgr_</name></member>
+  </compound>
+  <compound refid="class_a_p_i_version_manager_test" kind="class"><name>APIVersionManagerTest</name>
+    <member refid="class_a_p_i_version_manager_test_1aab44ab81e1b7c74bc1f4269540d7dbc4" kind="variable"><name>manager</name></member>
+  </compound>
+  <compound refid="class_a_p_i_version_parsing_test" kind="class"><name>APIVersionParsingTest</name>
+  </compound>
+  <compound refid="class_a_p_i_version_range_resolution_test" kind="class"><name>APIVersionRangeResolutionTest</name>
+    <member refid="class_a_p_i_version_range_resolution_test_1a314eefc3fc46005c9600c8cfe7976ff2" kind="variable"><name>manager</name></member>
+  </compound>
+  <compound refid="class_a_p_i_version_test" kind="class"><name>APIVersionTest</name>
+    <member refid="class_a_p_i_version_test_1a74ffa73c8e0160d3c99ec21bb655f8f6" kind="function"><name>SetUp</name></member>
+    <member refid="class_a_p_i_version_test_1a510eaae64879570a60dc442ba206f5bf" kind="function"><name>TearDown</name></member>
+  </compound>
+  <compound refid="classthemis_1_1graphql_1_1_audit_log_builder" kind="class"><name>themis::graphql::AuditLogBuilder</name>
+    <member refid="classthemis_1_1graphql_1_1_audit_log_builder_1abe09e06d3ded98796a0ea62caff457cf" kind="variable"><name>entry_</name></member>
+    <member refid="classthemis_1_1graphql_1_1_audit_log_builder_1a2d1db96d792dc500ffc7296636a1e0ab" kind="function"><name>AuditLogBuilder</name></member>
+    <member refid="classthemis_1_1graphql_1_1_audit_log_builder_1a128e4aea7c24aa22903528a775dad3e5" kind="function"><name>operationName</name></member>
+    <member refid="classthemis_1_1graphql_1_1_audit_log_builder_1ae8813fb0006e47a9e2dd2a8fa34d2444" kind="function"><name>operationType</name></member>
+    <member refid="classthemis_1_1graphql_1_1_audit_log_builder_1a9b448e004321d68a3a47db505be17f57" kind="function"><name>user</name></member>
+    <member refid="classthemis_1_1graphql_1_1_audit_log_builder_1af2c7ca3c3a19715fe63cb04d0c34db02" kind="function"><name>tenant</name></member>
+    <member refid="classthemis_1_1graphql_1_1_audit_log_builder_1ab3fbc6b110dd69fe801c940206592db6" kind="function"><name>ipAddress</name></member>
+    <member refid="classthemis_1_1graphql_1_1_audit_log_builder_1a080f0fad3a27cfb30899a71e4c1ff394" kind="function"><name>success</name></member>
+    <member refid="classthemis_1_1graphql_1_1_audit_log_builder_1a236ab7609723df26192bda1503c82a5c" kind="function"><name>error</name></member>
+    <member refid="classthemis_1_1graphql_1_1_audit_log_builder_1aeaf4346349e0f9116bb80ac5e3a6773a" kind="function"><name>queryHash</name></member>
+    <member refid="classthemis_1_1graphql_1_1_audit_log_builder_1a5cb968da600dcb153e28028524fa6bb2" kind="function"><name>complexity</name></member>
+    <member refid="classthemis_1_1graphql_1_1_audit_log_builder_1af91b4b9e0013b152d511ee92180c4483" kind="function"><name>metadata</name></member>
+    <member refid="classthemis_1_1graphql_1_1_audit_log_builder_1ab9eb2b64775f931012e0374652a66720" kind="function"><name>log</name></member>
+    <member refid="classthemis_1_1graphql_1_1_audit_log_builder_1ae948c2ca63bec629bacd136a213cf6d8" kind="function"><name>build</name></member>
+  </compound>
+  <compound refid="structthemis_1_1graphql_1_1_audit_log_entry" kind="struct"><name>themis::graphql::AuditLogEntry</name>
+    <member refid="structthemis_1_1graphql_1_1_audit_log_entry_1a8771772794df7186c021c9fbc82035bf" kind="enum"><name>EventType</name></member>
+    <member refid="structthemis_1_1graphql_1_1_audit_log_entry_1a8771772794df7186c021c9fbc82035bfa87f3234eaea75cc0883e9b5fc50f444c" kind="enumvalue"><name>QueryExecution</name></member>
+    <member refid="structthemis_1_1graphql_1_1_audit_log_entry_1a8771772794df7186c021c9fbc82035bfaacc05a977459bcfd91836131775fa36e" kind="enumvalue"><name>MutationExecution</name></member>
+    <member refid="structthemis_1_1graphql_1_1_audit_log_entry_1a8771772794df7186c021c9fbc82035bfa26b2307a6ca8175d1ea9a35f87f53815" kind="enumvalue"><name>SubscriptionCreated</name></member>
+    <member refid="structthemis_1_1graphql_1_1_audit_log_entry_1a8771772794df7186c021c9fbc82035bfabbfe21fc78bf10eb314764e7a2f0e8d2" kind="enumvalue"><name>AuthenticationAttempt</name></member>
+    <member refid="structthemis_1_1graphql_1_1_audit_log_entry_1a8771772794df7186c021c9fbc82035bfa61063732a53bca53b189c030b68c99f7" kind="enumvalue"><name>AuthorizationFailure</name></member>
+    <member refid="structthemis_1_1graphql_1_1_audit_log_entry_1a8771772794df7186c021c9fbc82035bfac7433990fc11e0ae16d6974bbf8b2f44" kind="enumvalue"><name>RateLimitExceeded</name></member>
+    <member refid="structthemis_1_1graphql_1_1_audit_log_entry_1a8771772794df7186c021c9fbc82035bfa3c1862b16a903ed116ee2ed115f7570b" kind="enumvalue"><name>ValidationFailure</name></member>
+    <member refid="structthemis_1_1graphql_1_1_audit_log_entry_1a8771772794df7186c021c9fbc82035bfa6d52441da3acb1a45c93063f6e6445e5" kind="enumvalue"><name>DeprecatedFeatureUsed</name></member>
+    <member refid="structthemis_1_1graphql_1_1_audit_log_entry_1a08b04beb2468afc34e3e886a48a18541" kind="variable"><name>event_type</name></member>
+    <member refid="structthemis_1_1graphql_1_1_audit_log_entry_1a1ed22962c024a423f8800873d8a377a9" kind="variable"><name>operation_name</name></member>
+    <member refid="structthemis_1_1graphql_1_1_audit_log_entry_1a3f65e4ab578b10e6d6cb68e59bfc5ebb" kind="variable"><name>operation_type</name></member>
+    <member refid="structthemis_1_1graphql_1_1_audit_log_entry_1acad4e6ec483f1dd4d096bbe5e776b231" kind="variable"><name>user_id</name></member>
+    <member refid="structthemis_1_1graphql_1_1_audit_log_entry_1ad3107919634ee0ebdcdfdc8f0bd5ecd8" kind="variable"><name>tenant_id</name></member>
+    <member refid="structthemis_1_1graphql_1_1_audit_log_entry_1ac0c6bd9e3a958dec059bc817ff76b6c5" kind="variable"><name>ip_address</name></member>
+    <member refid="structthemis_1_1graphql_1_1_audit_log_entry_1a58e8d1a9efe2b9743eaa5161fb4adbd6" kind="variable"><name>timestamp</name></member>
+    <member refid="structthemis_1_1graphql_1_1_audit_log_entry_1a89cf0d014c85e1f7f2de1adf07d2e590" kind="variable"><name>success</name></member>
+    <member refid="structthemis_1_1graphql_1_1_audit_log_entry_1a1a55238a7877bb98e97517f5edceea5c" kind="variable"><name>error_message</name></member>
+    <member refid="structthemis_1_1graphql_1_1_audit_log_entry_1a20438dc3fea7bb75014c4deba3c57c91" kind="variable"><name>query_hash</name></member>
+    <member refid="structthemis_1_1graphql_1_1_audit_log_entry_1a21f77fae7dc76900a351c4cf6dc4696e" kind="variable"><name>query_complexity</name></member>
+    <member refid="structthemis_1_1graphql_1_1_audit_log_entry_1a955fce22deab00d5337264a254f4cf23" kind="variable"><name>metadata</name></member>
+    <member refid="structthemis_1_1graphql_1_1_audit_log_entry_1a5dfbd387890ce37d8138f9e0d1c72667" kind="function"><name>eventTypeToString</name></member>
+    <member refid="structthemis_1_1graphql_1_1_audit_log_entry_1a95a8d7e8b232efeaaf78366a1612abe3" kind="function"><name>toJSON</name></member>
+    <member refid="structthemis_1_1graphql_1_1_audit_log_entry_1aa6f511f3b8759faf020e7dc741f381b8" kind="function"><name>formatTimestamp</name></member>
+  </compound>
+  <compound refid="classthemis_1_1graphql_1_1_audit_logger" kind="class"><name>themis::graphql::AuditLogger</name>
+    <member refid="classthemis_1_1graphql_1_1_audit_logger_1a0cf2a9ebf7e8ca4189cb0d4c793083df" kind="typedef"><name>LogHandler</name></member>
+    <member refid="classthemis_1_1graphql_1_1_audit_logger_1a84ed5714c1a6a29946e33248dcb85cb5" kind="variable"><name>mutex_</name></member>
+    <member refid="classthemis_1_1graphql_1_1_audit_logger_1a5880f1c983018b57d1a2485e0cb85b76" kind="variable"><name>handlers_</name></member>
+    <member refid="classthemis_1_1graphql_1_1_audit_logger_1a6ecd0815b0c34e4cf173522267b2a28d" kind="variable"><name>buffer_</name></member>
+    <member refid="classthemis_1_1graphql_1_1_audit_logger_1a028cbcd426d29af50c0bd5d242fc2f72" kind="variable"><name>buffer_capacity_</name></member>
+    <member refid="classthemis_1_1graphql_1_1_audit_logger_1aba1f1a7d333ddae0ee07cbc435312d98" kind="variable"><name>stats_</name></member>
+    <member refid="classthemis_1_1graphql_1_1_audit_logger_1a6f9308ac92a502ccfa5bdfcac2f1c7a1" kind="function"><name>log</name></member>
+    <member refid="classthemis_1_1graphql_1_1_audit_logger_1a965e6691dc178592454acd5d45814c7d" kind="function"><name>addHandler</name></member>
+    <member refid="classthemis_1_1graphql_1_1_audit_logger_1a590986e42b9245580ab263a1c92a6815" kind="function"><name>clearHandlers</name></member>
+    <member refid="classthemis_1_1graphql_1_1_audit_logger_1a81cf67504daf6cce397440b8a35e5e5c" kind="function"><name>addFileHandler</name></member>
+    <member refid="classthemis_1_1graphql_1_1_audit_logger_1a40e9a3174a0d19e2e0a614a05c9df6a3" kind="function"><name>getRecent</name></member>
+    <member refid="classthemis_1_1graphql_1_1_audit_logger_1ae94da41a121e3689e7b1f3fba27fd78d" kind="function"><name>searchByUser</name></member>
+    <member refid="classthemis_1_1graphql_1_1_audit_logger_1adfaedcbeb7b930378ff075c67dc607d6" kind="function"><name>searchByEventType</name></member>
+    <member refid="classthemis_1_1graphql_1_1_audit_logger_1a90be21b51a515d5b12be91603cca8c65" kind="function"><name>clear</name></member>
+    <member refid="classthemis_1_1graphql_1_1_audit_logger_1af68fc96763d62b234df2dbb14468f466" kind="function"><name>setBufferCapacity</name></member>
+    <member refid="classthemis_1_1graphql_1_1_audit_logger_1a4952e76cb9134f7b3b88c81f2cf9e7ee" kind="function"><name>getStats</name></member>
+    <member refid="classthemis_1_1graphql_1_1_audit_logger_1af08329f0f1a6c9c1daf10d5728a195c5" kind="function"><name>instance</name></member>
+    <member refid="classthemis_1_1graphql_1_1_audit_logger_1afa36f41eeca2e828b2820435d496bcbd" kind="function"><name>AuditLogger</name></member>
+  </compound>
+  <compound refid="class_breaking_change_test" kind="class"><name>BreakingChangeTest</name>
+    <member refid="class_breaking_change_test_1a69b86ac35e550e4ac1cbb02a9761fb3b" kind="variable"><name>manager</name></member>
+  </compound>
+  <compound refid="structthemis_1_1graphql_1_1_rate_limiter_1_1_bucket" kind="struct"><name>themis::graphql::RateLimiter::Bucket</name>
+    <member refid="structthemis_1_1graphql_1_1_rate_limiter_1_1_bucket_1aa6fdc9a7c1459896045f60f254689c7f" kind="variable"><name>tokens</name></member>
+    <member refid="structthemis_1_1graphql_1_1_rate_limiter_1_1_bucket_1a8e5f5b22d3d435976e88c5524bfb5e74" kind="variable"><name>last_refill</name></member>
+    <member refid="structthemis_1_1graphql_1_1_rate_limiter_1_1_bucket_1a964a527dada8359c986e32e073289bd3" kind="variable"><name>capacity</name></member>
+    <member refid="structthemis_1_1graphql_1_1_rate_limiter_1_1_bucket_1a5d454d98ac4bb8d208901d512bbcedc9" kind="variable"><name>refill_rate</name></member>
+    <member refid="structthemis_1_1graphql_1_1_rate_limiter_1_1_bucket_1a8ce8862c43f6d3f924bbc58e9b9bd879" kind="function"><name>Bucket</name></member>
+    <member refid="structthemis_1_1graphql_1_1_rate_limiter_1_1_bucket_1a43f3bad2ff2fbc053859209ba1b1a4cb" kind="function"><name>refill</name></member>
+    <member refid="structthemis_1_1graphql_1_1_rate_limiter_1_1_bucket_1a9443fbdfefaa1a609ee722b7f70b87bb" kind="function"><name>consume</name></member>
+    <member refid="structthemis_1_1graphql_1_1_rate_limiter_1_1_bucket_1a6e6acee1da4b1f744bbef0d91b08e9d9" kind="function"><name>available</name></member>
+  </compound>
+  <compound refid="classthemis_1_1graphql_1_1_cache" kind="class"><name>themis::graphql::Cache</name>
+    <member refid="classthemis_1_1graphql_1_1_cache_1a81e8c8c8619e2313a5050df89a1c0809" kind="variable"><name>max_size_</name></member>
+    <member refid="classthemis_1_1graphql_1_1_cache_1aaba05074dcc1941621fd646c2b377f47" kind="variable"><name>ttl_</name></member>
+    <member refid="classthemis_1_1graphql_1_1_cache_1aeea435687c2fa97e3bfe2bdaff7c5197" kind="variable"><name>mutex_</name></member>
+    <member refid="classthemis_1_1graphql_1_1_cache_1a1f286cf8c74b6ac2569bbe3db130b219" kind="variable"><name>cache_</name></member>
+    <member refid="classthemis_1_1graphql_1_1_cache_1a5e972f34aa1a3a3204cd579fefa59e77" kind="variable"><name>lru_order_</name></member>
+    <member refid="classthemis_1_1graphql_1_1_cache_1a96782e3710c69091b7a3d0c72f8f2ad6" kind="variable"><name>stats_</name></member>
+    <member refid="classthemis_1_1graphql_1_1_cache_1a03de66ed215c3eb2fcabddc7d78ce12f" kind="function"><name>Cache</name></member>
+    <member refid="classthemis_1_1graphql_1_1_cache_1a9a27b81b63d705e29e2d145467b40574" kind="function"><name>get</name></member>
+    <member refid="classthemis_1_1graphql_1_1_cache_1aef555a6ae0f2085115ee15e875ab28f0" kind="function"><name>put</name></member>
+    <member refid="classthemis_1_1graphql_1_1_cache_1a2d23745e1f5dc5c82572fd675d0ec165" kind="function"><name>invalidate</name></member>
+    <member refid="classthemis_1_1graphql_1_1_cache_1aca774deb350df659b8c38fe1bfb5e606" kind="function"><name>eraseIf</name></member>
+    <member refid="classthemis_1_1graphql_1_1_cache_1ab8d06d486d9d6fbc8cc1d3fd7797b742" kind="function"><name>clear</name></member>
+    <member refid="classthemis_1_1graphql_1_1_cache_1ad9e1737afc526895f0634a2a442a2dac" kind="function"><name>getStats</name></member>
+    <member refid="classthemis_1_1graphql_1_1_cache_1ab47edf6333913fa75fe4c4fa1bb69f41" kind="function"><name>size</name></member>
+    <member refid="classthemis_1_1graphql_1_1_cache_1aea9390a9bbe474d7df41e6c0a9fc305c" kind="function"><name>evictLRU</name></member>
+  </compound>
+  <compound refid="structthemis_1_1graphql_1_1_response_cache_1_1_cached_response" kind="struct"><name>themis::graphql::ResponseCache::CachedResponse</name>
+    <member refid="structthemis_1_1graphql_1_1_response_cache_1_1_cached_response_1a5c42982a2cd4e9299286ca8ed5577363" kind="variable"><name>data</name></member>
+    <member refid="structthemis_1_1graphql_1_1_response_cache_1_1_cached_response_1af4a31a9ba0fdda1341787082b682b5ca" kind="variable"><name>etag</name></member>
+    <member refid="structthemis_1_1graphql_1_1_response_cache_1_1_cached_response_1a4beae366aa8ca5d57e3ebaad9ac76e1b" kind="variable"><name>last_modified</name></member>
+    <member refid="structthemis_1_1graphql_1_1_response_cache_1_1_cached_response_1acfd85e457e382aa24acbb5fc7a995b70" kind="variable"><name>collections</name></member>
+  </compound>
+  <compound refid="structthemis_1_1graphql_1_1_cache_1_1_cache_entry" kind="struct"><name>themis::graphql::Cache::CacheEntry</name>
+    <member refid="structthemis_1_1graphql_1_1_cache_1_1_cache_entry_1a0a443dc0842f6b3d44f1f1d54e1d52ee" kind="variable"><name>value</name></member>
+    <member refid="structthemis_1_1graphql_1_1_cache_1_1_cache_entry_1a9e32c68a99ab6de00c8be76617d6a754" kind="variable"><name>created_at</name></member>
+    <member refid="structthemis_1_1graphql_1_1_cache_1_1_cache_entry_1aa8aada39ba02a5f911e74f087b94a0d3" kind="variable"><name>access_count</name></member>
+    <member refid="structthemis_1_1graphql_1_1_cache_1_1_cache_entry_1a01119f7d428035eb1256706a868de01a" kind="function"><name>isExpired</name></member>
+  </compound>
+  <compound refid="structthemis_1_1graphql_1_1_cache_1_1_cache_stats" kind="struct"><name>themis::graphql::Cache::CacheStats</name>
+    <member refid="structthemis_1_1graphql_1_1_cache_1_1_cache_stats_1aca654cd5be5239d23828618334d16b4e" kind="variable"><name>hits</name></member>
+    <member refid="structthemis_1_1graphql_1_1_cache_1_1_cache_stats_1ad1e0e3b281782164c3217dfc2f7082d4" kind="variable"><name>misses</name></member>
+    <member refid="structthemis_1_1graphql_1_1_cache_1_1_cache_stats_1a38a59d84da3ec3cf0144bac2fc75d003" kind="function"><name>hitRate</name></member>
+  </compound>
+  <compound refid="structthemis_1_1graphql_1_1_rate_limiter_1_1_config" kind="struct"><name>themis::graphql::RateLimiter::Config</name>
+    <member refid="structthemis_1_1graphql_1_1_rate_limiter_1_1_config_1a521eea3a41f54bc9a8e154f43613e1fc" kind="variable"><name>capacity</name></member>
+    <member refid="structthemis_1_1graphql_1_1_rate_limiter_1_1_config_1a7eb974bc8707ef0d6ab164dba43bb911" kind="variable"><name>refill_rate</name></member>
+    <member refid="structthemis_1_1graphql_1_1_rate_limiter_1_1_config_1a734f1d40e95ee0ca5f502fc799880dfb" kind="variable"><name>window</name></member>
+    <member refid="structthemis_1_1graphql_1_1_rate_limiter_1_1_config_1aee757b58ee5ca7c5af787268f088c70f" kind="function"><name>defaults</name></member>
+    <member refid="structthemis_1_1graphql_1_1_rate_limiter_1_1_config_1a412f9f292dd6d702912d120ff4ff7a1e" kind="function"><name>strict</name></member>
+    <member refid="structthemis_1_1graphql_1_1_rate_limiter_1_1_config_1a6659f8ea99090e0fefae0bf48b677d2f" kind="function"><name>permissive</name></member>
+  </compound>
+  <compound refid="classthemis_1_1api_1_1_correlation_id" kind="class"><name>themis::api::CorrelationId</name>
+    <member refid="classthemis_1_1api_1_1_correlation_id_1abbb3f29a4cc0a5d81648d292ff6823a6" kind="variable"><name>kByteSize</name></member>
+    <member refid="classthemis_1_1api_1_1_correlation_id_1a9534462833c2225c92bac2b12cb251dc" kind="variable"><name>bytes_</name></member>
+    <member refid="classthemis_1_1api_1_1_correlation_id_1a65323b1d383c0e44b677583b499259df" kind="function"><name>CorrelationId</name></member>
+    <member refid="classthemis_1_1api_1_1_correlation_id_1afa4be5b4c9fe7ccd932ead0e4b868191" kind="function"><name>CorrelationId</name></member>
+    <member refid="classthemis_1_1api_1_1_correlation_id_1a276aba83dbd3dd78bbfa0c2236bbb6a0" kind="function"><name>CorrelationId</name></member>
+    <member refid="classthemis_1_1api_1_1_correlation_id_1abfc97fc0ec86eddd817364c01db3cb63" kind="function"><name>toString</name></member>
+    <member refid="classthemis_1_1api_1_1_correlation_id_1a6de954d8600804ffb0554324115e513a" kind="function"><name>bytes</name></member>
+    <member refid="classthemis_1_1api_1_1_correlation_id_1a104fc9a1aa4e0fe1033fc36e91a372a1" kind="function"><name>isNil</name></member>
+    <member refid="classthemis_1_1api_1_1_correlation_id_1aff085a83c147e1195eea33ecc2400620" kind="function"><name>operator==</name></member>
+    <member refid="classthemis_1_1api_1_1_correlation_id_1a7f0a374dd37a8e71286bd72a69a070f0" kind="function"><name>operator!=</name></member>
+    <member refid="classthemis_1_1api_1_1_correlation_id_1ad45ea0deaf31a40f1e3dcf7007eb9e62" kind="function"><name>parse</name></member>
+  </compound>
+  <compound refid="structthemis_1_1graphql_1_1_document" kind="struct"><name>themis::graphql::Document</name>
+    <member refid="structthemis_1_1graphql_1_1_document_1a7aed5c9562dc1e3d422327dd7549962a" kind="variable"><name>operations</name></member>
+    <member refid="structthemis_1_1graphql_1_1_document_1a7d58dad7c0cd967eb680a0920e5238df" kind="function"><name>getOperation</name></member>
+  </compound>
+  <compound refid="structthemis_1_1graphql_1_1_execution_context" kind="struct"><name>themis::graphql::ExecutionContext</name>
+    <member refid="structthemis_1_1graphql_1_1_execution_context_1af0393bce614745d17f8175871e51988a" kind="typedef"><name>Resolver</name></member>
+    <member refid="structthemis_1_1graphql_1_1_execution_context_1a84eb125a94869508c7f6539c358e94c1" kind="variable"><name>variables</name></member>
+    <member refid="structthemis_1_1graphql_1_1_execution_context_1a003e8ea3d2f519f659b3d449dca6b5d6" kind="variable"><name>tenant_id</name></member>
+    <member refid="structthemis_1_1graphql_1_1_execution_context_1aa8c36ff07e97f31f50f59672a6f9b7fe" kind="variable"><name>user_id</name></member>
+    <member refid="structthemis_1_1graphql_1_1_execution_context_1a438e1df645d2195f876b93e5e8b1717c" kind="variable"><name>mask_errors</name></member>
+    <member refid="structthemis_1_1graphql_1_1_execution_context_1a422947cb6e8b2a21aea0ee213d49d7c0" kind="variable"><name>resolvers</name></member>
+  </compound>
+  <compound refid="classthemis_1_1graphql_1_1_executor" kind="class"><name>themis::graphql::Executor</name>
+    <member refid="classthemis_1_1graphql_1_1_executor_1a30b38eae4af1bdcdf31d8be6c89fa8d8" kind="function"><name>execute</name></member>
+    <member refid="classthemis_1_1graphql_1_1_executor_1aecdf44868ba94cdf67d4e8ccf9a9bf77" kind="function"><name>executeOperation</name></member>
+    <member refid="classthemis_1_1graphql_1_1_executor_1aa137d63411787b72dac8a7147637911f" kind="function"><name>executeSelections</name></member>
+    <member refid="classthemis_1_1graphql_1_1_executor_1a32fffd65f4a2919e21d18303955da0eb" kind="function"><name>executeField</name></member>
+    <member refid="classthemis_1_1graphql_1_1_executor_1abbd29e0aafb48986c0277a95ac8644eb" kind="function"><name>resolveValue</name></member>
+  </compound>
+  <compound refid="classthemis_1_1query_1_1expected" kind="class"><name>themis::query::expected</name>
+  </compound>
+  <compound refid="classthemis_1_1api_1_1_federation_admin_handler" kind="class"><name>themis::api::FederationAdminHandler</name>
+    <member refid="classthemis_1_1api_1_1_federation_admin_handler_1a824811a95eccffa4439c08b091604c43" kind="variable"><name>coordinator_</name></member>
+    <member refid="classthemis_1_1api_1_1_federation_admin_handler_1abe1906be51d9506a38b0998b9399667d" kind="variable"><name>merger_</name></member>
+    <member refid="classthemis_1_1api_1_1_federation_admin_handler_1a0979ab7498e046194af1336be1a056b6" kind="function"><name>FederationAdminHandler</name></member>
+    <member refid="classthemis_1_1api_1_1_federation_admin_handler_1a3c4c0c998f3d2826ff28b8d8a71292e7" kind="function"><name>getStats</name></member>
+    <member refid="classthemis_1_1api_1_1_federation_admin_handler_1a6ce8798f1f27eacaf5fe24a2f10f1648" kind="function"><name>getRagStats</name></member>
+    <member refid="classthemis_1_1api_1_1_federation_admin_handler_1a8e7ed4429cb3cc0a5e5b74dccfe3e2c7" kind="function"><name>triggerRound</name></member>
+  </compound>
+  <compound refid="structthemis_1_1graphql_1_1_field" kind="struct"><name>themis::graphql::Field</name>
+    <member refid="structthemis_1_1graphql_1_1_field_1a9a70a75818cdc7e30b4971ec01a4bd88" kind="variable"><name>name</name></member>
+    <member refid="structthemis_1_1graphql_1_1_field_1a3627e07af92c84a47be717bb03bae1c6" kind="variable"><name>alias</name></member>
+    <member refid="structthemis_1_1graphql_1_1_field_1a95490e068b04ba900426fbfb16e804ca" kind="variable"><name>arguments</name></member>
+    <member refid="structthemis_1_1graphql_1_1_field_1a595216af3b8935250509b2afb4673657" kind="variable"><name>selections</name></member>
+    <member refid="structthemis_1_1graphql_1_1_field_1a08b8f404ab93cc26ecf5bdd853b0e74a" kind="function"><name>responseName</name></member>
+  </compound>
+  <compound refid="structthemis_1_1graphql_1_1_field_definition" kind="struct"><name>themis::graphql::FieldDefinition</name>
+    <member refid="structthemis_1_1graphql_1_1_field_definition_1ac7d48ecf8d79de7349d5ee2f2dba4688" kind="variable"><name>name</name></member>
+    <member refid="structthemis_1_1graphql_1_1_field_definition_1ae8053bd0654cfb780381b49a21282517" kind="variable"><name>description</name></member>
+    <member refid="structthemis_1_1graphql_1_1_field_definition_1ae222f956be56060435eac4df486f8340" kind="variable"><name>type</name></member>
+    <member refid="structthemis_1_1graphql_1_1_field_definition_1adf85bf658f2196577fb913271ad830fa" kind="variable"><name>arguments</name></member>
+  </compound>
+  <compound refid="classthemis_1_1graphql_1_1_file_audit_log_handler" kind="class"><name>themis::graphql::FileAuditLogHandler</name>
+    <member refid="classthemis_1_1graphql_1_1_file_audit_log_handler_1a7a7757ac54506ea8ec9b7d7a80de6b71" kind="variable"><name>path_</name></member>
+    <member refid="classthemis_1_1graphql_1_1_file_audit_log_handler_1a82df3b59f551d1f191350ce3238ce740" kind="variable"><name>mutex_</name></member>
+    <member refid="classthemis_1_1graphql_1_1_file_audit_log_handler_1a355183247b92e33b56c9032938dac126" kind="function"><name>FileAuditLogHandler</name></member>
+    <member refid="classthemis_1_1graphql_1_1_file_audit_log_handler_1a77e2e93189fb4a02a33e52975dcbe076" kind="function"><name>operator()</name></member>
+    <member refid="classthemis_1_1graphql_1_1_file_audit_log_handler_1a80e717f631aef915fd7641687cbfdc35" kind="function"><name>path</name></member>
+  </compound>
+  <compound refid="structthemis_1_1api_1_1_gateway_hook_context" kind="struct"><name>themis::api::GatewayHookContext</name>
+    <member refid="structthemis_1_1api_1_1_gateway_hook_context_1a577505f900a61434bad5efcabdf3ebdd" kind="variable"><name>request_id</name></member>
+    <member refid="structthemis_1_1api_1_1_gateway_hook_context_1a8ecb573c30f5268297b99ff139c5120c" kind="variable"><name>method</name></member>
+    <member refid="structthemis_1_1api_1_1_gateway_hook_context_1a871cd0008872b351af372b26ec9a6040" kind="variable"><name>path</name></member>
+    <member refid="structthemis_1_1api_1_1_gateway_hook_context_1a97da6282bbf7074e170f4f5d5f008e13" kind="variable"><name>headers</name></member>
+    <member refid="structthemis_1_1api_1_1_gateway_hook_context_1a74c918b51127c4f74142740d78dfde97" kind="variable"><name>body</name></member>
+    <member refid="structthemis_1_1api_1_1_gateway_hook_context_1abe5a90ffb023a9028355abb6ee46e741" kind="variable"><name>client_ip</name></member>
+    <member refid="structthemis_1_1api_1_1_gateway_hook_context_1ad10e080f250fb5852efca42b2e5ae156" kind="variable"><name>metadata</name></member>
+  </compound>
+  <compound refid="structthemis_1_1api_1_1_gateway_hook_result" kind="struct"><name>themis::api::GatewayHookResult</name>
+    <member refid="structthemis_1_1api_1_1_gateway_hook_result_1a89021f1159abc97a1b91118ab73d26ed" kind="variable"><name>proceed</name></member>
+    <member refid="structthemis_1_1api_1_1_gateway_hook_result_1a7a5aca3e7b7d13ce7caefd66c1b3ff7c" kind="variable"><name>override_status_code</name></member>
+    <member refid="structthemis_1_1api_1_1_gateway_hook_result_1a7bd0e8c811c9460291198aa147f2e624" kind="variable"><name>override_body</name></member>
+    <member refid="structthemis_1_1api_1_1_gateway_hook_result_1a4a0131a30f23761dce27d630b071700c" kind="variable"><name>add_headers</name></member>
+  </compound>
+  <compound refid="classthemis_1_1api_1_1_geo_index_hooks" kind="class"><name>themis::api::GeoIndexHooks</name>
+    <member refid="classthemis_1_1api_1_1_geo_index_hooks_1ac535b53ab4ba533a42362d6780814345" kind="function"><name>onEntityPut</name></member>
+    <member refid="classthemis_1_1api_1_1_geo_index_hooks_1a51160eb34717d30ea61556669b0b2322" kind="function"><name>onEntityPutAtomic</name></member>
+    <member refid="classthemis_1_1api_1_1_geo_index_hooks_1a09a6fe9fb636bd04491cd49e4b6e6020" kind="function"><name>onEntityDeleteAtomic</name></member>
+    <member refid="classthemis_1_1api_1_1_geo_index_hooks_1ab1ad7a00a9cb1ed320f6aa4418df1681" kind="function"><name>onEntityDelete</name></member>
+  </compound>
+  <compound refid="classthemis_1_1graphql_1_1_graph_q_l_aql_resolver_factory" kind="class"><name>themis::graphql::GraphQLAqlResolverFactory</name>
+    <member refid="classthemis_1_1graphql_1_1_graph_q_l_aql_resolver_factory_1a9753c8c3861f8b554d3ff3d886edce7d" kind="variable"><name>engine_</name></member>
+    <member refid="classthemis_1_1graphql_1_1_graph_q_l_aql_resolver_factory_1ace04d3d451b45b6ab7253f0c62ebfd99" kind="function"><name>GraphQLAqlResolverFactory</name></member>
+    <member refid="classthemis_1_1graphql_1_1_graph_q_l_aql_resolver_factory_1a28b00b2ca3a3b91bbe000b8246549291" kind="function"><name>makeAqlQueryResolver</name></member>
+    <member refid="classthemis_1_1graphql_1_1_graph_q_l_aql_resolver_factory_1aa04e43a8ff5c9a92c8d37f45b51e0a0d" kind="function"><name>makeAqlMutationResolver</name></member>
+    <member refid="classthemis_1_1graphql_1_1_graph_q_l_aql_resolver_factory_1a50d17d92b922510fb07cb8ffe23ff46c" kind="function"><name>makeApiVersionResolver</name></member>
+    <member refid="classthemis_1_1graphql_1_1_graph_q_l_aql_resolver_factory_1ad96344d7b3c46daaf5785156ff24a8bc" kind="function"><name>makeSchemaVersionResolver</name></member>
+    <member refid="classthemis_1_1graphql_1_1_graph_q_l_aql_resolver_factory_1ada917448436f3786d924a6c434b9c719" kind="function"><name>injectResolvers</name></member>
+    <member refid="classthemis_1_1graphql_1_1_graph_q_l_aql_resolver_factory_1abb0b32766330b326b57062fa87a53378" kind="function"><name>extractStringArg</name></member>
+    <member refid="classthemis_1_1graphql_1_1_graph_q_l_aql_resolver_factory_1aeb6ef73d800c5168815845a68f056e18" kind="function"><name>executeAqlWithLimits</name></member>
+  </compound>
+  <compound refid="classthemis_1_1graphql_1_1_graph_q_l_complexity_estimator" kind="class"><name>themis::graphql::GraphQLComplexityEstimator</name>
+    <member refid="classthemis_1_1graphql_1_1_graph_q_l_complexity_estimator_1a1ba0071ea7be09c570739fb980d5a3dc" kind="function"><name>estimate</name></member>
+    <member refid="classthemis_1_1graphql_1_1_graph_q_l_complexity_estimator_1ab429dabfcea39d62ad811d46e643b38b" kind="function"><name>limitsFor</name></member>
+    <member refid="classthemis_1_1graphql_1_1_graph_q_l_complexity_estimator_1aeca9e7c4ad8f1964123ad587e078721f" kind="function"><name>scoreSelectionSet</name></member>
+  </compound>
+  <compound refid="structthemis_1_1api_1_1_graph_q_l_field_descriptor" kind="struct"><name>themis::api::GraphQLFieldDescriptor</name>
+    <member refid="structthemis_1_1api_1_1_graph_q_l_field_descriptor_1a2afca354fd73bf871e00914f75b0d996" kind="variable"><name>name</name></member>
+    <member refid="structthemis_1_1api_1_1_graph_q_l_field_descriptor_1a5a6b05738d086c8f303f052d6a261f2e" kind="variable"><name>type_string</name></member>
+    <member refid="structthemis_1_1api_1_1_graph_q_l_field_descriptor_1ae7b590fc2b78f9ab29c56aad41f8de68" kind="variable"><name>description</name></member>
+    <member refid="structthemis_1_1api_1_1_graph_q_l_field_descriptor_1a64b923b720a544188532be5b5cd7bd31" kind="variable"><name>deprecated</name></member>
+    <member refid="structthemis_1_1api_1_1_graph_q_l_field_descriptor_1a9dc5195719da2df9cc013a13ccbb79a7" kind="variable"><name>deprecation_reason</name></member>
+  </compound>
+  <compound refid="structthemis_1_1api_1_1_graph_q_l_type_descriptor" kind="struct"><name>themis::api::GraphQLTypeDescriptor</name>
+    <member refid="structthemis_1_1api_1_1_graph_q_l_type_descriptor_1a69b0b28d26b708f1d028ac34a7baa2b0" kind="variable"><name>name</name></member>
+    <member refid="structthemis_1_1api_1_1_graph_q_l_type_descriptor_1a913247a8ea3c8be9bddbc2f3476527ed" kind="variable"><name>description</name></member>
+    <member refid="structthemis_1_1api_1_1_graph_q_l_type_descriptor_1a7ee7e77650d36e79caffc8678ef0c085" kind="variable"><name>fields</name></member>
+    <member refid="structthemis_1_1api_1_1_graph_q_l_type_descriptor_1ad55bff1947283fff679ab21454a55e8d" kind="variable"><name>is_interface</name></member>
+  </compound>
+  <compound refid="structthemis_1_1api_1_1_g_r_p_c_metadata" kind="struct"><name>themis::api::GRPCMetadata</name>
+    <member refid="structthemis_1_1api_1_1_g_r_p_c_metadata_1a4580c6e184a96fb940245a7220743396" kind="variable"><name>authority</name></member>
+    <member refid="structthemis_1_1api_1_1_g_r_p_c_metadata_1a04bb914c0887b8d2e8d181a3c5e3b6b6" kind="variable"><name>method_path</name></member>
+    <member refid="structthemis_1_1api_1_1_g_r_p_c_metadata_1a2ce88647d4c081a6a1eadc2dc7624da5" kind="variable"><name>content_type</name></member>
+    <member refid="structthemis_1_1api_1_1_g_r_p_c_metadata_1aa4a1951f0e5747185979a4cab881f14d" kind="variable"><name>deadline</name></member>
+    <member refid="structthemis_1_1api_1_1_g_r_p_c_metadata_1a0f4717d6309b48c14cbc75d10ba1135e" kind="variable"><name>user_metadata</name></member>
+    <member refid="structthemis_1_1api_1_1_g_r_p_c_metadata_1a280e618cc884204cea759e8ff035d196" kind="function"><name>hasDeadline</name></member>
+  </compound>
+  <compound refid="structthemis_1_1api_1_1_g_r_p_c_request" kind="struct"><name>themis::api::GRPCRequest</name>
+    <member refid="structthemis_1_1api_1_1_g_r_p_c_request_1adfb36deb9ea7ef2de615f18ac117ba64" kind="variable"><name>metadata</name></member>
+    <member refid="structthemis_1_1api_1_1_g_r_p_c_request_1aa9e1111a117d619295a266a30f803b42" kind="variable"><name>service_name</name></member>
+    <member refid="structthemis_1_1api_1_1_g_r_p_c_request_1ad0120d419b00c6f115d74f39a2f2b5b6" kind="variable"><name>method_name</name></member>
+    <member refid="structthemis_1_1api_1_1_g_r_p_c_request_1a1ffb5ed820803c7edd69185a628ea8dd" kind="variable"><name>request_bytes</name></member>
+  </compound>
+  <compound refid="structstd_1_1hash_3_01themis_1_1api_1_1_correlation_id_01_4" kind="struct"><name>std::hash&lt; themis::api::CorrelationId &gt;</name>
+    <member refid="structstd_1_1hash_3_01themis_1_1api_1_1_correlation_id_01_4_1a91859c6b63606094e8955520b85e7f13" kind="function"><name>operator()</name></member>
+  </compound>
+  <compound refid="structthemis_1_1api_1_1_http_error" kind="struct"><name>themis::api::HttpError</name>
+    <member refid="structthemis_1_1api_1_1_http_error_1a80d997d354578c8494ea81323948304f" kind="variable"><name>status_code</name></member>
+    <member refid="structthemis_1_1api_1_1_http_error_1ac6efaa057feaeebd9b8ff902be9fa5f5" kind="variable"><name>message</name></member>
+  </compound>
+  <compound refid="structthemis_1_1api_1_1_http_request" kind="struct"><name>themis::api::HttpRequest</name>
+    <member refid="structthemis_1_1api_1_1_http_request_1a3d0bb728d05f727621f2337b57cbe568" kind="variable"><name>method</name></member>
+    <member refid="structthemis_1_1api_1_1_http_request_1a6f6f4db194645a41adb44216577a1415" kind="variable"><name>path</name></member>
+    <member refid="structthemis_1_1api_1_1_http_request_1acb55e007306b2db44321d8afcc38710a" kind="variable"><name>query_string</name></member>
+    <member refid="structthemis_1_1api_1_1_http_request_1a4fc7a132f4fd32f465b98ebd598b5cb3" kind="variable"><name>headers</name></member>
+    <member refid="structthemis_1_1api_1_1_http_request_1ab8e4235fb26ec414654294be92e2eb49" kind="variable"><name>body</name></member>
+    <member refid="structthemis_1_1api_1_1_http_request_1a290d9d9964daf3e2edaddc848c8f633d" kind="variable"><name>tenant_id</name></member>
+    <member refid="structthemis_1_1api_1_1_http_request_1ac0c4c9b2b9d07fd8dcb4f3f9e8525c29" kind="variable"><name>correlation_id</name></member>
+    <member refid="structthemis_1_1api_1_1_http_request_1aded28dc4bb7acf365b146b37b8fe9b08" kind="function"><name>hasAuth</name></member>
+    <member refid="structthemis_1_1api_1_1_http_request_1a8ea3c37ef97436231bfcdaf6982147f6" kind="function"><name>header</name></member>
+  </compound>
+  <compound refid="structthemis_1_1api_1_1_http_response" kind="struct"><name>themis::api::HttpResponse</name>
+    <member refid="structthemis_1_1api_1_1_http_response_1acff4ec6b8eceaf15e5edbd0fb6519c84" kind="variable"><name>status_code</name></member>
+    <member refid="structthemis_1_1api_1_1_http_response_1ad5b5314e3b957451c2e6f2cdb887ee45" kind="variable"><name>headers</name></member>
+    <member refid="structthemis_1_1api_1_1_http_response_1a0da27ab24080058d5ca4ffba268f4c36" kind="variable"><name>body</name></member>
+    <member refid="structthemis_1_1api_1_1_http_response_1a1a23e86743f248802bc9cbf8aecb9893" kind="function"><name>ok</name></member>
+    <member refid="structthemis_1_1api_1_1_http_response_1a140adfe86a0d0ecc515f2fb6b99b26fb" kind="function"><name>created</name></member>
+    <member refid="structthemis_1_1api_1_1_http_response_1aa7adde838dfd8e8bf0a32b88074e5b56" kind="function"><name>noContent</name></member>
+    <member refid="structthemis_1_1api_1_1_http_response_1a4f192eeb6dba49328fefe28e6bfd2aca" kind="function"><name>badRequest</name></member>
+    <member refid="structthemis_1_1api_1_1_http_response_1ab5f976970056248d73bfc03a0b51925a" kind="function"><name>unauthorized</name></member>
+    <member refid="structthemis_1_1api_1_1_http_response_1ae8a28e41f0e2c7f5accaea6327f42910" kind="function"><name>forbidden</name></member>
+    <member refid="structthemis_1_1api_1_1_http_response_1a9f41eb7c02d6f0dba058fc0ae42e44da" kind="function"><name>notFound</name></member>
+    <member refid="structthemis_1_1api_1_1_http_response_1a751b97c1de732550f7044667ca2f313a" kind="function"><name>internalError</name></member>
+  </compound>
+  <compound refid="classthemis_1_1api_1_1_i_a_p_i_gateway_hook" kind="class"><name>themis::api::IAPIGatewayHook</name>
+    <member refid="classthemis_1_1api_1_1_i_a_p_i_gateway_hook_1abb0393a2b37b3d5457113c509b03b877" kind="function"><name>~IAPIGatewayHook</name></member>
+    <member refid="classthemis_1_1api_1_1_i_a_p_i_gateway_hook_1ac659e6c9bea0755449be4f28c42c87a9" kind="function"><name>hookId</name></member>
+    <member refid="classthemis_1_1api_1_1_i_a_p_i_gateway_hook_1a06d7d125ae57110725a6f7ae072d0605" kind="function"><name>phase</name></member>
+    <member refid="classthemis_1_1api_1_1_i_a_p_i_gateway_hook_1a381da03ba3449ca4c86361e6124101c0" kind="function"><name>priority</name></member>
+    <member refid="classthemis_1_1api_1_1_i_a_p_i_gateway_hook_1a5b08fab9d896181615b6a9ba830a624f" kind="function"><name>execute</name></member>
+    <member refid="classthemis_1_1api_1_1_i_a_p_i_gateway_hook_1a5f5ee2fd00a1c6ab771fbf97f4cb8d5d" kind="function"><name>isEnabled</name></member>
+  </compound>
+  <compound refid="classthemis_1_1api_1_1_i_a_p_i_version_router" kind="class"><name>themis::api::IAPIVersionRouter</name>
+    <member refid="classthemis_1_1api_1_1_i_a_p_i_version_router_1a032ae7ef31dbed08bd73a15e0df77b52" kind="function"><name>~IAPIVersionRouter</name></member>
+    <member refid="classthemis_1_1api_1_1_i_a_p_i_version_router_1a9ae0702a5d8d7a09ddf8b8b879289922" kind="function"><name>registerVersion</name></member>
+    <member refid="classthemis_1_1api_1_1_i_a_p_i_version_router_1af6fda8146979caf3ed286243810b84f0" kind="function"><name>route</name></member>
+    <member refid="classthemis_1_1api_1_1_i_a_p_i_version_router_1abe1e2137f4dfb49fbfe35d57fe1ecbc3" kind="function"><name>registeredVersions</name></member>
+  </compound>
+  <compound refid="classthemis_1_1api_1_1_i_correlation_i_d_provider" kind="class"><name>themis::api::ICorrelationIDProvider</name>
+    <member refid="classthemis_1_1api_1_1_i_correlation_i_d_provider_1a1d02adea0d27c9ec2c89f93915db3a73" kind="variable"><name>kHeaderName</name></member>
+    <member refid="classthemis_1_1api_1_1_i_correlation_i_d_provider_1ac014fc3d0593f99eb22de1d562834155" kind="function"><name>~ICorrelationIDProvider</name></member>
+    <member refid="classthemis_1_1api_1_1_i_correlation_i_d_provider_1a06ea5294f8952938d0098ba9d2deeb4d" kind="function"><name>generate</name></member>
+    <member refid="classthemis_1_1api_1_1_i_correlation_i_d_provider_1a64a63e2da43ee7e683d6385f8c3a4f6d" kind="function"><name>extract</name></member>
+    <member refid="classthemis_1_1api_1_1_i_correlation_i_d_provider_1aef9d5354128c869fe194541f1882f3d8" kind="function"><name>serialize</name></member>
+  </compound>
+  <compound refid="classthemis_1_1api_1_1_i_gateway_hook_registry" kind="class"><name>themis::api::IGatewayHookRegistry</name>
+    <member refid="classthemis_1_1api_1_1_i_gateway_hook_registry_1aa68cef425f0547f023399b12fdd201ec" kind="function"><name>~IGatewayHookRegistry</name></member>
+    <member refid="classthemis_1_1api_1_1_i_gateway_hook_registry_1a6214af65a4d945183e295e93ad8b3c5a" kind="function"><name>registerHook</name></member>
+    <member refid="classthemis_1_1api_1_1_i_gateway_hook_registry_1ae1de807e422d499b55c8d76f600c4b60" kind="function"><name>unregisterHook</name></member>
+    <member refid="classthemis_1_1api_1_1_i_gateway_hook_registry_1a0399da098b4ba43f7ed1f8b266bf3700" kind="function"><name>getHooks</name></member>
+  </compound>
+  <compound refid="classthemis_1_1api_1_1_i_graph_q_l_schema_builder" kind="class"><name>themis::api::IGraphQLSchemaBuilder</name>
+    <member refid="classthemis_1_1api_1_1_i_graph_q_l_schema_builder_1a61576ddcf1118358cba93d15e796068e" kind="function"><name>~IGraphQLSchemaBuilder</name></member>
+    <member refid="classthemis_1_1api_1_1_i_graph_q_l_schema_builder_1a1bccbd84311d4691d3ea1678e499e241" kind="function"><name>addType</name></member>
+    <member refid="classthemis_1_1api_1_1_i_graph_q_l_schema_builder_1a641a9ace2a832916f8b19ebc90318755" kind="function"><name>addQuery</name></member>
+    <member refid="classthemis_1_1api_1_1_i_graph_q_l_schema_builder_1af178cd5a5a39f4e4e056bad56ceb2a99" kind="function"><name>addMutation</name></member>
+    <member refid="classthemis_1_1api_1_1_i_graph_q_l_schema_builder_1aaabd87ea3c7b517416b898614078a937" kind="function"><name>build</name></member>
+    <member refid="classthemis_1_1api_1_1_i_graph_q_l_schema_builder_1ac3c81be9a9ee20b6ae174229019af6e2" kind="function"><name>isBuilt</name></member>
+  </compound>
+  <compound refid="classthemis_1_1api_1_1_i_g_r_p_c_bridge" kind="class"><name>themis::api::IGRPCBridge</name>
+    <member refid="classthemis_1_1api_1_1_i_g_r_p_c_bridge_1a230cc370bb2a9ab79ecde9be8e2447ba" kind="function"><name>~IGRPCBridge</name></member>
+    <member refid="classthemis_1_1api_1_1_i_g_r_p_c_bridge_1ae27c7f2878a2cb7f1d75c9784589efeb" kind="function"><name>registerService</name></member>
+    <member refid="classthemis_1_1api_1_1_i_g_r_p_c_bridge_1a4ce0f69d56f1d745ce9c8d3e8aaac8eb" kind="function"><name>dispatch</name></member>
+    <member refid="classthemis_1_1api_1_1_i_g_r_p_c_bridge_1a3255f151e6615bb8d80686108f789f9c" kind="function"><name>registeredServices</name></member>
+  </compound>
+  <compound refid="classthemis_1_1api_1_1_i_http_handler" kind="class"><name>themis::api::IHttpHandler</name>
+    <member refid="classthemis_1_1api_1_1_i_http_handler_1ae5b094331b6466ed851080010ef82257" kind="function"><name>~IHttpHandler</name></member>
+    <member refid="classthemis_1_1api_1_1_i_http_handler_1abb4f14c9e049df893aa53d9c2ad902ec" kind="function"><name>handle</name></member>
+    <member refid="classthemis_1_1api_1_1_i_http_handler_1a64f3952e037b08e2633f0a7b4f1b7c4e" kind="function"><name>requiresAuthentication</name></member>
+    <member refid="classthemis_1_1api_1_1_i_http_handler_1a5346bc63057ac9e8a9f1d753a094029f" kind="function"><name>handlerName</name></member>
+  </compound>
+  <compound refid="classthemis_1_1api_1_1_themis_d_b_grpc_service_1_1_impl" kind="class"><name>themis::api::ThemisDBGrpcService::Impl</name>
+  </compound>
+  <compound refid="classthemis_1_1api_1_1_i_subscription_multiplexer" kind="class"><name>themis::api::ISubscriptionMultiplexer</name>
+    <member refid="classthemis_1_1api_1_1_i_subscription_multiplexer_1a84c097bb200fa5bd5c6cc76b89d2e911" kind="function"><name>~ISubscriptionMultiplexer</name></member>
+    <member refid="classthemis_1_1api_1_1_i_subscription_multiplexer_1aeffe6f7349951e50d373d13c50d9a1de" kind="function"><name>subscribe</name></member>
+    <member refid="classthemis_1_1api_1_1_i_subscription_multiplexer_1a85d33d8e6aad644971d6be3c0a6be1d9" kind="function"><name>unsubscribe</name></member>
+    <member refid="classthemis_1_1api_1_1_i_subscription_multiplexer_1a9c03facd59f2f10ecb3762141961c6a7" kind="function"><name>publish</name></member>
+    <member refid="classthemis_1_1api_1_1_i_subscription_multiplexer_1aead2765296a69f228451eb88acd3a02f" kind="function"><name>subscriberCount</name></member>
+    <member refid="classthemis_1_1api_1_1_i_subscription_multiplexer_1ae97be07a9c4f6cecfba3dc94a840910b" kind="function"><name>activeTopics</name></member>
+    <member refid="classthemis_1_1api_1_1_i_subscription_multiplexer_1a6eb9971e93eeb4073751593e770169a2" kind="function"><name>connectionCount</name></member>
+  </compound>
+  <compound refid="classthemis_1_1api_1_1_i_transport_contract" kind="class"><name>themis::api::ITransportContract</name>
+    <member refid="classthemis_1_1api_1_1_i_transport_contract_1a9840c1492b1578552d6010fe3c1b74ad" kind="function"><name>~ITransportContract</name></member>
+    <member refid="classthemis_1_1api_1_1_i_transport_contract_1afc6afe0e7a76f61e603a309e1427dcb5" kind="function"><name>capabilities</name></member>
+    <member refid="classthemis_1_1api_1_1_i_transport_contract_1a32bf3bada220e2f644c616d16ed4a618" kind="function"><name>supportedVersions</name></member>
+    <member refid="classthemis_1_1api_1_1_i_transport_contract_1a70d7c4be9fda6a6f42264fc140ac9768" kind="function"><name>classifyFailure</name></member>
+    <member refid="classthemis_1_1api_1_1_i_transport_contract_1a84c59ece96da7bbdfc92b482ef9c12f6" kind="function"><name>adapterName</name></member>
+  </compound>
+  <compound refid="classthemis_1_1api_1_1_i_web_socket_frame_callback" kind="class"><name>themis::api::IWebSocketFrameCallback</name>
+    <member refid="classthemis_1_1api_1_1_i_web_socket_frame_callback_1a98bcf570d587db5718b305d1bb61c95f" kind="function"><name>~IWebSocketFrameCallback</name></member>
+    <member refid="classthemis_1_1api_1_1_i_web_socket_frame_callback_1a533aafa106dc06aff32eda718ca4c0bb" kind="function"><name>onFrame</name></member>
+    <member refid="classthemis_1_1api_1_1_i_web_socket_frame_callback_1a572d24f699b2c7da69d2ed7177d3fe7b" kind="function"><name>onClose</name></member>
+  </compound>
+  <compound refid="classthemis_1_1api_1_1_i_web_socket_handler" kind="class"><name>themis::api::IWebSocketHandler</name>
+    <member refid="classthemis_1_1api_1_1_i_web_socket_handler_1a48230883133412bd5d0caae0a7317876" kind="function"><name>~IWebSocketHandler</name></member>
+    <member refid="classthemis_1_1api_1_1_i_web_socket_handler_1a3bc1db992c9c4216e3502c9b8b5e7b7b" kind="function"><name>upgrade</name></member>
+    <member refid="classthemis_1_1api_1_1_i_web_socket_handler_1ac221e0f302b74e08c24ac4795d09f08c" kind="function"><name>handlerName</name></member>
+  </compound>
+  <compound refid="structthemis_1_1graphql_1_1_masked_error" kind="struct"><name>themis::graphql::MaskedError</name>
+    <member refid="structthemis_1_1graphql_1_1_masked_error_1ae77a7d14e0c0de97c6b724bf7034cbf3" kind="variable"><name>message</name></member>
+    <member refid="structthemis_1_1graphql_1_1_masked_error_1aafa00ea97be3edd596112b15e3df919f" kind="variable"><name>code</name></member>
+    <member refid="structthemis_1_1graphql_1_1_masked_error_1abae45648e51b53f06925be88fdde4944" kind="variable"><name>path</name></member>
+    <member refid="structthemis_1_1graphql_1_1_masked_error_1abafb5aa1f08f7cf3f126fecec88c679e" kind="function"><name>fromInternalError</name></member>
+    <member refid="structthemis_1_1graphql_1_1_masked_error_1a5bdcd024e5180e50bc4ca3f4230eb838" kind="function"><name>toString</name></member>
+  </compound>
+  <compound refid="classthemis_1_1graphql_1_1_metrics" kind="class"><name>themis::graphql::Metrics</name>
+    <member refid="classthemis_1_1graphql_1_1_metrics_1a2ddde1db9d38cbd8b43ebc98fd0d2cbb" kind="variable"><name>mutex_</name></member>
+    <member refid="classthemis_1_1graphql_1_1_metrics_1a42a423da0c13cb0fda56eb2c2c9f2960" kind="variable"><name>metrics_</name></member>
+    <member refid="classthemis_1_1graphql_1_1_metrics_1a24ffa992559215e495184a2f75aecf8d" kind="function"><name>recordQuery</name></member>
+    <member refid="classthemis_1_1graphql_1_1_metrics_1a1d5afe4de6db59b1a627c723c271a73c" kind="function"><name>getMetrics</name></member>
+    <member refid="classthemis_1_1graphql_1_1_metrics_1a0d11a0f383e411c64a9708af48d238e1" kind="function"><name>getAllMetrics</name></member>
+    <member refid="classthemis_1_1graphql_1_1_metrics_1a2f00430582d512be6a778136ffd28f52" kind="function"><name>reset</name></member>
+    <member refid="classthemis_1_1graphql_1_1_metrics_1a1ca34ab9c4884f79a22e6a475a43f113" kind="function"><name>instance</name></member>
+    <member refid="classthemis_1_1graphql_1_1_metrics_1a59c50d62634e766b1a72e99cce031a92" kind="function"><name>Metrics</name></member>
+    <member refid="classthemis_1_1graphql_1_1_metrics_1aebeffe2df8dcf6a7177e7f0947e8cb97" kind="function"><name>getMetricsForType</name></member>
+  </compound>
+  <compound refid="classthemis_1_1api_1_1_middleware_chain" kind="class"><name>themis::api::MiddlewareChain</name>
+    <member refid="classthemis_1_1api_1_1_middleware_chain_1a14392644a193296938820fac841197fb" kind="variable"><name>links_</name></member>
+    <member refid="classthemis_1_1api_1_1_middleware_chain_1a703044435e5879f9ff25edd4ee27aa71" kind="function"><name>append</name></member>
+    <member refid="classthemis_1_1api_1_1_middleware_chain_1a7a1631a8927f1d4d03c99b072cc6312c" kind="function"><name>handle</name></member>
+    <member refid="classthemis_1_1api_1_1_middleware_chain_1af5326702530ffe7e396f5b2a6fee720b" kind="function"><name>requiresAuthentication</name></member>
+    <member refid="classthemis_1_1api_1_1_middleware_chain_1a6b9449cf75773a182e8a5f32b445151c" kind="function"><name>handlerName</name></member>
+    <member refid="classthemis_1_1api_1_1_middleware_chain_1a6e0fd390e9933d963631dae8bc664f2e" kind="function"><name>size</name></member>
+    <member refid="classthemis_1_1api_1_1_middleware_chain_1aa511b78585c13f905faa9c68a31533b9" kind="function"><name>invokeAt</name></member>
+  </compound>
+  <compound refid="structthemis_1_1graphql_1_1_operation" kind="struct"><name>themis::graphql::Operation</name>
+    <member refid="structthemis_1_1graphql_1_1_operation_1a6e2bebda986868ab5d78308e73530c13" kind="variable"><name>type</name></member>
+    <member refid="structthemis_1_1graphql_1_1_operation_1a449a0514993fdc3bfec557ac2278b649" kind="variable"><name>name</name></member>
+    <member refid="structthemis_1_1graphql_1_1_operation_1abbc672a0c25b66ccaea55919629880fb" kind="variable"><name>variables</name></member>
+    <member refid="structthemis_1_1graphql_1_1_operation_1a632ac21ed51fc296c6918feccad60723" kind="variable"><name>selections</name></member>
+  </compound>
+  <compound refid="classthemis_1_1graphql_1_1_operation_rate_limiter" kind="class"><name>themis::graphql::OperationRateLimiter</name>
+    <member refid="classthemis_1_1graphql_1_1_operation_rate_limiter_1a7049ed5b7f9c3ac8a0d8d866c5cd833a" kind="variable"><name>mutex_</name></member>
+    <member refid="classthemis_1_1graphql_1_1_operation_rate_limiter_1a71f2c930380033a9ed3ba27634a2fadd" kind="variable"><name>limiters_</name></member>
+    <member refid="classthemis_1_1graphql_1_1_operation_rate_limiter_1a4f265c2d3dacb93a09247c87f564c24d" kind="function"><name>setLimit</name></member>
+    <member refid="classthemis_1_1graphql_1_1_operation_rate_limiter_1a2df0037f764cef90b6b50d771a105f77" kind="function"><name>allow</name></member>
+    <member refid="classthemis_1_1graphql_1_1_operation_rate_limiter_1a511039325132194d219e53c07aa362c0" kind="function"><name>remaining</name></member>
+    <member refid="classthemis_1_1graphql_1_1_operation_rate_limiter_1a448e8278ccb3d6f2b99dd594d5b40f26" kind="function"><name>getHeaders</name></member>
+    <member refid="classthemis_1_1graphql_1_1_operation_rate_limiter_1a80f2ac01f09647d6fc60ee0e58cea5a2" kind="function"><name>clear</name></member>
+    <member refid="classthemis_1_1graphql_1_1_operation_rate_limiter_1affdb8e4cff75eaa14a7c39e1d3698b30" kind="function"><name>instance</name></member>
+    <member refid="classthemis_1_1graphql_1_1_operation_rate_limiter_1a0cd614206cf62e20bb97f6d751c96ec0" kind="function"><name>OperationRateLimiter</name></member>
+  </compound>
+  <compound refid="classthemis_1_1api_1_1_otlp_exporter" kind="class"><name>themis::api::OtlpExporter</name>
+    <member refid="classthemis_1_1api_1_1_otlp_exporter_1aec8d50bd484fe8b137edcb689b2a04f2" kind="variable"><name>config_</name></member>
+    <member refid="classthemis_1_1api_1_1_otlp_exporter_1afd52e4789e10f76e5a4e83d669e1df40" kind="variable"><name>queue_</name></member>
+    <member refid="classthemis_1_1api_1_1_otlp_exporter_1a258a1b63679e3af271590ff3759de99f" kind="variable"><name>queue_mutex_</name></member>
+    <member refid="classthemis_1_1api_1_1_otlp_exporter_1a078e0b7d1251bdc77777ad9fc2d63ba4" kind="variable"><name>queue_cv_</name></member>
+    <member refid="classthemis_1_1api_1_1_otlp_exporter_1a50a5c15919ef6e8468b5378131231cfc" kind="variable"><name>flush_thread_</name></member>
+    <member refid="classthemis_1_1api_1_1_otlp_exporter_1adb152368cb0ae3901c7532200603d5c7" kind="variable"><name>stop_</name></member>
+    <member refid="classthemis_1_1api_1_1_otlp_exporter_1aa9027220d9e2d71103dbb381cd79d29a" kind="variable"><name>exported_count_</name></member>
+    <member refid="classthemis_1_1api_1_1_otlp_exporter_1afe7b61e6300feed308d30434f30fb4fb" kind="variable"><name>dropped_count_</name></member>
+    <member refid="classthemis_1_1api_1_1_otlp_exporter_1ad4618706028a097a5f700a4029393b57" kind="variable"><name>curl_handle_</name></member>
+    <member refid="classthemis_1_1api_1_1_otlp_exporter_1afc54b9df6848e8a70f34698f30160c37" kind="variable"><name>curl_headers_</name></member>
+    <member refid="classthemis_1_1api_1_1_otlp_exporter_1ac3ea74b87b45e85161121adc832aa390" kind="function"><name>OtlpExporter</name></member>
+    <member refid="classthemis_1_1api_1_1_otlp_exporter_1a6e43bbc630f0a06fd3ab8a60591893e2" kind="function"><name>~OtlpExporter</name></member>
+    <member refid="classthemis_1_1api_1_1_otlp_exporter_1aecc79249476ac0e6b3ea504bde01d9ce" kind="function"><name>OtlpExporter</name></member>
+    <member refid="classthemis_1_1api_1_1_otlp_exporter_1ac26fc16a5918495e248ef70adc36865b" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1api_1_1_otlp_exporter_1a8b38a4fe2144eb5ff5ce19b6a10a1cc0" kind="function"><name>OtlpExporter</name></member>
+    <member refid="classthemis_1_1api_1_1_otlp_exporter_1a57efab6837c4ec7a2013de5a8d73be02" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1api_1_1_otlp_exporter_1a9fa8fdd660bb5bac387bc75e19118699" kind="function"><name>start</name></member>
+    <member refid="classthemis_1_1api_1_1_otlp_exporter_1ac817c82970a96034031ce63408ae1544" kind="function"><name>stop</name></member>
+    <member refid="classthemis_1_1api_1_1_otlp_exporter_1a77e94b194c8703da082004487c9839e3" kind="function"><name>enqueue</name></member>
+    <member refid="classthemis_1_1api_1_1_otlp_exporter_1a69cc9eb89e4e573864f40a571e70b459" kind="function"><name>exportedSpanCount</name></member>
+    <member refid="classthemis_1_1api_1_1_otlp_exporter_1a67bd140505509733c17d4a402553887b" kind="function"><name>droppedSpanCount</name></member>
+    <member refid="classthemis_1_1api_1_1_otlp_exporter_1a8f05e7fca41943ed2b568c97ce7ad4cd" kind="function"><name>config</name></member>
+    <member refid="classthemis_1_1api_1_1_otlp_exporter_1a899224657ab179d8ddf3b89967b9c231" kind="function"><name>flushLoop</name></member>
+    <member refid="classthemis_1_1api_1_1_otlp_exporter_1a3ff511f668712cd92e0bfc601eea8ed4" kind="function"><name>flushBatch</name></member>
+    <member refid="classthemis_1_1api_1_1_otlp_exporter_1aa3c282f4b70c3619e5ee9ef9c28ba16c" kind="function"><name>buildOtlpJson</name></member>
+  </compound>
+  <compound refid="structthemis_1_1api_1_1_otlp_exporter_config" kind="struct"><name>themis::api::OtlpExporterConfig</name>
+    <member refid="structthemis_1_1api_1_1_otlp_exporter_config_1a2130b040095f3fd0f726d533e328224c" kind="variable"><name>enabled</name></member>
+    <member refid="structthemis_1_1api_1_1_otlp_exporter_config_1abc3749c19a4e030f6d9143e003969819" kind="variable"><name>endpoint</name></member>
+    <member refid="structthemis_1_1api_1_1_otlp_exporter_config_1afbe4610f84f36caebbc5bc0da73b71be" kind="variable"><name>service_name</name></member>
+    <member refid="structthemis_1_1api_1_1_otlp_exporter_config_1a038722d9a707db652fe6bb7a742996a6" kind="variable"><name>service_version</name></member>
+    <member refid="structthemis_1_1api_1_1_otlp_exporter_config_1a969098c4baccbec16b32e4e32c3dc993" kind="variable"><name>timeout_ms</name></member>
+    <member refid="structthemis_1_1api_1_1_otlp_exporter_config_1aafe189c0f5dc5183579489a72eaf9a9a" kind="variable"><name>max_queue_size</name></member>
+    <member refid="structthemis_1_1api_1_1_otlp_exporter_config_1a386aedd7d5de47dd8d15890ead3ae444" kind="variable"><name>batch_size</name></member>
+    <member refid="structthemis_1_1api_1_1_otlp_exporter_config_1a54025853487e6e797f84ed604e50ad98" kind="variable"><name>flush_interval_ms</name></member>
+    <member refid="structthemis_1_1api_1_1_otlp_exporter_config_1aab5bdf6a9e8b6bed7692ccadd9443763" kind="variable"><name>tls_ca_cert</name></member>
+    <member refid="structthemis_1_1api_1_1_otlp_exporter_config_1a0d1a852153a3abd2d8bd3368bdd7c2de" kind="variable"><name>tls_client_cert</name></member>
+    <member refid="structthemis_1_1api_1_1_otlp_exporter_config_1a4d4c43161975d47535d15e5a4b653763" kind="variable"><name>tls_client_key</name></member>
+    <member refid="structthemis_1_1api_1_1_otlp_exporter_config_1a6919985f3960bb5854910932d680feda" kind="variable"><name>auth_header</name></member>
+    <member refid="structthemis_1_1api_1_1_otlp_exporter_config_1a56b3df8d20d412bc8bcef21865f8b284" kind="variable"><name>extra_headers</name></member>
+    <member refid="structthemis_1_1api_1_1_otlp_exporter_config_1acf38e5a39764655f97470fd4dd00eaec" kind="variable"><name>max_export_retries</name></member>
+    <member refid="structthemis_1_1api_1_1_otlp_exporter_config_1a4916c7f02ef9779232d9d1cd6dd26993" kind="variable"><name>retry_initial_delay_ms</name></member>
+  </compound>
+  <compound refid="structthemis_1_1graphql_1_1_parse_error" kind="struct"><name>themis::graphql::ParseError</name>
+    <member refid="structthemis_1_1graphql_1_1_parse_error_1a1900b895d79ee53041a25942c9846ada" kind="variable"><name>message</name></member>
+    <member refid="structthemis_1_1graphql_1_1_parse_error_1a8137edfeae1680fa2e446679651f1caa" kind="variable"><name>line</name></member>
+    <member refid="structthemis_1_1graphql_1_1_parse_error_1a6f6e0720ce19b9c9620a442a5e8bd626" kind="variable"><name>column</name></member>
+    <member refid="structthemis_1_1graphql_1_1_parse_error_1ac19b9e440bc6ef01f399b1bc26dad948" kind="function"><name>toString</name></member>
+  </compound>
+  <compound refid="classthemis_1_1graphql_1_1_parser" kind="class"><name>themis::graphql::Parser</name>
+    <member refid="classthemis_1_1graphql_1_1_parser_1abca5e617cdfa67fd64f2caa26f896cf3" kind="variable"><name>source_</name></member>
+    <member refid="classthemis_1_1graphql_1_1_parser_1a70deeddd16a1d29d7b17df561c172f6d" kind="variable"><name>limits_</name></member>
+    <member refid="classthemis_1_1graphql_1_1_parser_1a56c6762a98e261a6672223d415bded73" kind="variable"><name>pos_</name></member>
+    <member refid="classthemis_1_1graphql_1_1_parser_1a181f473a60f4a7e66fea8fb556b84e5e" kind="variable"><name>line_</name></member>
+    <member refid="classthemis_1_1graphql_1_1_parser_1a7b595569651fefe9960f4144405f6dfd" kind="variable"><name>column_</name></member>
+    <member refid="classthemis_1_1graphql_1_1_parser_1a022dbb84a2d9e260f2382b95a5332937" kind="variable"><name>field_count_</name></member>
+    <member refid="classthemis_1_1graphql_1_1_parser_1a097851881857ceadcf6b34c7f55ac7bc" kind="variable"><name>ast_node_count_</name></member>
+    <member refid="classthemis_1_1graphql_1_1_parser_1a439273ed2d6af208c9210e9e37bf79c8" kind="variable"><name>max_depth_reached_</name></member>
+    <member refid="classthemis_1_1graphql_1_1_parser_1ac431003e0c6784c4cbe98cf6edcd4e03" kind="variable"><name>errors_</name></member>
+    <member refid="classthemis_1_1graphql_1_1_parser_1a59bae9bdb3b7aa26480cbe02962b768d" kind="function"><name>parse</name></member>
+    <member refid="classthemis_1_1graphql_1_1_parser_1ae5a8537bd01423bec4803ee92599d4e4" kind="function"><name>parse</name></member>
+    <member refid="classthemis_1_1graphql_1_1_parser_1a233598c3fe1cee694ce83c34ed8a6c1d" kind="function"><name>Parser</name></member>
+    <member refid="classthemis_1_1graphql_1_1_parser_1a5640e760443dfce21c7379fb102cc7fb" kind="function"><name>parseDocument</name></member>
+    <member refid="classthemis_1_1graphql_1_1_parser_1a2e0614f8312fd1a2ea918f55a097b297" kind="function"><name>parseOperation</name></member>
+    <member refid="classthemis_1_1graphql_1_1_parser_1a354e9730ed99363665b9fa2f984a1d62" kind="function"><name>parseField</name></member>
+    <member refid="classthemis_1_1graphql_1_1_parser_1ad6ac664252d09c656288c26561ae9093" kind="function"><name>parseValue</name></member>
+    <member refid="classthemis_1_1graphql_1_1_parser_1a6cc46722dea58a3272d5f39a8dbaadb3" kind="function"><name>parseVariableDefinition</name></member>
+    <member refid="classthemis_1_1graphql_1_1_parser_1aa64400cdd4955f2652ca56cf2069fe2a" kind="function"><name>checkQuerySize</name></member>
+    <member refid="classthemis_1_1graphql_1_1_parser_1aeb69d43646aabfe35260641a012dec99" kind="function"><name>checkDepthLimit</name></member>
+    <member refid="classthemis_1_1graphql_1_1_parser_1a305072b48bd43682f05081c44753900b" kind="function"><name>checkFieldLimit</name></member>
+    <member refid="classthemis_1_1graphql_1_1_parser_1a5fc52b47e28308067b2ee0db5786043d" kind="function"><name>checkASTNodeLimit</name></member>
+    <member refid="classthemis_1_1graphql_1_1_parser_1a083649a36fc7be517299273a9017d10e" kind="function"><name>incrementFieldCount</name></member>
+    <member refid="classthemis_1_1graphql_1_1_parser_1a1876d7f265010ea0a122324fb58c5a5c" kind="function"><name>incrementASTNodeCount</name></member>
+    <member refid="classthemis_1_1graphql_1_1_parser_1aeb84ce4177bd221e58b745385ea0b38b" kind="function"><name>skipWhitespace</name></member>
+    <member refid="classthemis_1_1graphql_1_1_parser_1ac8ce28da525091272cc0096562404d61" kind="function"><name>skipComment</name></member>
+    <member refid="classthemis_1_1graphql_1_1_parser_1ad942b285db636da1fd28f92b456b77df" kind="function"><name>match</name></member>
+    <member refid="classthemis_1_1graphql_1_1_parser_1a60ef8d4dd54bb834b725ab1d460469b3" kind="function"><name>match</name></member>
+    <member refid="classthemis_1_1graphql_1_1_parser_1ac298b6d00cc62ec9f4b05d4b13283297" kind="function"><name>peek</name></member>
+    <member refid="classthemis_1_1graphql_1_1_parser_1ad336243200f3ebee2c5487e7bc184e7a" kind="function"><name>parseName</name></member>
+    <member refid="classthemis_1_1graphql_1_1_parser_1a990ecf4b77ec7380e1f0fd9089d3a1d3" kind="function"><name>parseString</name></member>
+    <member refid="classthemis_1_1graphql_1_1_parser_1a36d0bb6c0902505552db753650882ea6" kind="function"><name>parseInt</name></member>
+    <member refid="classthemis_1_1graphql_1_1_parser_1a0b873ca29159ddb6ac282aff904a6168" kind="function"><name>parseFloat</name></member>
+    <member refid="classthemis_1_1graphql_1_1_parser_1a304763b1506fcd5be2cb59214e5d46a6" kind="function"><name>getLocationContext</name></member>
+    <member refid="classthemis_1_1graphql_1_1_parser_1a12746774f398fce4f7eade75eae2f0cd" kind="function"><name>convertToParseError</name></member>
+    <member refid="classthemis_1_1graphql_1_1_parser_1ae34dcb397a8dbd2995e7198ef390864f" kind="function"><name>error</name></member>
+    <member refid="classthemis_1_1graphql_1_1_parser_1a02b0b5b262108fb662ecbd35c8316a05" kind="function"><name>isIntrospectionFieldName</name></member>
+  </compound>
+  <compound refid="structthemis_1_1graphql_1_1_persisted_query_registry_1_1_persisted_query" kind="struct"><name>themis::graphql::PersistedQueryRegistry::PersistedQuery</name>
+    <member refid="structthemis_1_1graphql_1_1_persisted_query_registry_1_1_persisted_query_1a4b2bd37259637bf58b415799d116c794" kind="variable"><name>query_id</name></member>
+    <member refid="structthemis_1_1graphql_1_1_persisted_query_registry_1_1_persisted_query_1a829675b122a05d0edbbc73c149837fff" kind="variable"><name>query_text</name></member>
+    <member refid="structthemis_1_1graphql_1_1_persisted_query_registry_1_1_persisted_query_1a1d4c0d502dcdc11d9633cb4b7cb9184f" kind="variable"><name>description</name></member>
+    <member refid="structthemis_1_1graphql_1_1_persisted_query_registry_1_1_persisted_query_1a9b38799d5476394db869d3b0448d19f0" kind="variable"><name>deprecated</name></member>
+    <member refid="structthemis_1_1graphql_1_1_persisted_query_registry_1_1_persisted_query_1a54829862a241c039817d0a5ca48e19b6" kind="variable"><name>deprecation_reason</name></member>
+  </compound>
+  <compound refid="classthemis_1_1graphql_1_1_persisted_query_registry" kind="class"><name>themis::graphql::PersistedQueryRegistry</name>
+    <member refid="classthemis_1_1graphql_1_1_persisted_query_registry_1a449711091ae1e9049c0ef630b562de52" kind="variable"><name>mutex_</name></member>
+    <member refid="classthemis_1_1graphql_1_1_persisted_query_registry_1ad77b23a079473fd0d4c488305d356446" kind="variable"><name>queries_</name></member>
+    <member refid="classthemis_1_1graphql_1_1_persisted_query_registry_1ad0f9bbf212a0d380c48aca2dff9e9a7b" kind="function"><name>registerQuery</name></member>
+    <member refid="classthemis_1_1graphql_1_1_persisted_query_registry_1a3fd295c27153943fcb9dcaf0752bf5de" kind="function"><name>getQuery</name></member>
+    <member refid="classthemis_1_1graphql_1_1_persisted_query_registry_1a58da4d9babbdb91b6f97ec7ac7883315" kind="function"><name>deprecateQuery</name></member>
+    <member refid="classthemis_1_1graphql_1_1_persisted_query_registry_1af7bba916663194501392d1c1d14a4c5b" kind="function"><name>isRegistered</name></member>
+    <member refid="classthemis_1_1graphql_1_1_persisted_query_registry_1adc6c04758611fb4db7be9ebdf1a187c4" kind="function"><name>getAllQueryIds</name></member>
+    <member refid="classthemis_1_1graphql_1_1_persisted_query_registry_1a41fd739d3dd0d8e467ab0c936b14b4e8" kind="function"><name>clear</name></member>
+    <member refid="classthemis_1_1graphql_1_1_persisted_query_registry_1a01830614e5383cfe50071d5383ac1f14" kind="function"><name>size</name></member>
+    <member refid="classthemis_1_1graphql_1_1_persisted_query_registry_1a0a6dfc4a843a6ac1dcde8e47c6500881" kind="function"><name>instance</name></member>
+    <member refid="classthemis_1_1graphql_1_1_persisted_query_registry_1af60b20d61a2e6319a6a80ab95aca867e" kind="function"><name>PersistedQueryRegistry</name></member>
+  </compound>
+  <compound refid="classthemis_1_1graphql_1_1_query_allow_list" kind="class"><name>themis::graphql::QueryAllowList</name>
+    <member refid="classthemis_1_1graphql_1_1_query_allow_list_1a62db9bd28fd3afad973fa397f7eda5d2" kind="variable"><name>mutex_</name></member>
+    <member refid="classthemis_1_1graphql_1_1_query_allow_list_1a9e483dc1af24f26921778b19e83e2c21" kind="variable"><name>allowed_queries_</name></member>
+    <member refid="classthemis_1_1graphql_1_1_query_allow_list_1a2e60be2867ee429714ff4c3bfa58a830" kind="variable"><name>enabled_</name></member>
+    <member refid="classthemis_1_1graphql_1_1_query_allow_list_1aa8ff03926d70915e4e333643ca78da21" kind="function"><name>allow</name></member>
+    <member refid="classthemis_1_1graphql_1_1_query_allow_list_1a97c88cc9a670cef5a239a42f3936d862" kind="function"><name>isAllowed</name></member>
+    <member refid="classthemis_1_1graphql_1_1_query_allow_list_1ab0345b029be6ed9341b94ebbc799765e" kind="function"><name>remove</name></member>
+    <member refid="classthemis_1_1graphql_1_1_query_allow_list_1ad14a4e788d9a1f1491c436a30052c314" kind="function"><name>clear</name></member>
+    <member refid="classthemis_1_1graphql_1_1_query_allow_list_1acb27247490b49083001a382d6d7369c0" kind="function"><name>size</name></member>
+    <member refid="classthemis_1_1graphql_1_1_query_allow_list_1a8a71b56dba94769f13b416dfb44245d7" kind="function"><name>setEnabled</name></member>
+    <member refid="classthemis_1_1graphql_1_1_query_allow_list_1a5068d48215aad2e84d55f0e3aab55cc2" kind="function"><name>isEnabled</name></member>
+    <member refid="classthemis_1_1graphql_1_1_query_allow_list_1acaea6cdcaad0f2503d127a09bb602f9d" kind="function"><name>instance</name></member>
+    <member refid="classthemis_1_1graphql_1_1_query_allow_list_1ac4f47e6aadf7056ee56e548dc7f91cfe" kind="function"><name>QueryAllowList</name></member>
+  </compound>
+  <compound refid="classthemis_1_1graphql_1_1_query_hasher" kind="class"><name>themis::graphql::QueryHasher</name>
+    <member refid="classthemis_1_1graphql_1_1_query_hasher_1a7408d8e1b0135d667d0644024e612241" kind="function"><name>hash</name></member>
+    <member refid="classthemis_1_1graphql_1_1_query_hasher_1a51164fd552bee11eb2b6f2e44afdaa58" kind="function"><name>normalize</name></member>
+  </compound>
+  <compound refid="structthemis_1_1graphql_1_1_query_limits" kind="struct"><name>themis::graphql::QueryLimits</name>
+    <member refid="structthemis_1_1graphql_1_1_query_limits_1a23acc1a4412a3a3439ba27d8c5f74b21" kind="variable"><name>max_query_size_bytes</name></member>
+    <member refid="structthemis_1_1graphql_1_1_query_limits_1ab358750ba7af447ddb7aab7a82555fb3" kind="variable"><name>max_depth</name></member>
+    <member refid="structthemis_1_1graphql_1_1_query_limits_1a04971f0846e69b463a9f4791490651bd" kind="variable"><name>max_fields</name></member>
+    <member refid="structthemis_1_1graphql_1_1_query_limits_1ab3e759bb8c2240c795c7ecd7160d8752" kind="variable"><name>max_ast_nodes</name></member>
+    <member refid="structthemis_1_1graphql_1_1_query_limits_1a128c70fd68bdc48c2f41d2ce82aed3e7" kind="variable"><name>max_subscriptions</name></member>
+    <member refid="structthemis_1_1graphql_1_1_query_limits_1afff6e754661d9001a0db15fafd47c855" kind="variable"><name>allow_introspection</name></member>
+    <member refid="structthemis_1_1graphql_1_1_query_limits_1ac121768cfaf48c82f4ec5384291fba1f" kind="function"><name>defaults</name></member>
+    <member refid="structthemis_1_1graphql_1_1_query_limits_1aac80874899a7674df1040e42a181cbac" kind="function"><name>permissive</name></member>
+    <member refid="structthemis_1_1graphql_1_1_query_limits_1a017764a8ba476d10d95802e98432e4b0" kind="function"><name>production</name></member>
+  </compound>
+  <compound refid="structthemis_1_1graphql_1_1_metrics_1_1_query_metrics" kind="struct"><name>themis::graphql::Metrics::QueryMetrics</name>
+    <member refid="structthemis_1_1graphql_1_1_metrics_1_1_query_metrics_1a4f160f07c2ad0f4694cd5d196403879c" kind="variable"><name>total_queries</name></member>
+    <member refid="structthemis_1_1graphql_1_1_metrics_1_1_query_metrics_1a810e1ffdb8a2b3aa30ab631907582764" kind="variable"><name>failed_queries</name></member>
+    <member refid="structthemis_1_1graphql_1_1_metrics_1_1_query_metrics_1ac85eb55c8cbe70c0cabbc0f2abbb05b9" kind="variable"><name>total_execution_time_ms</name></member>
+    <member refid="structthemis_1_1graphql_1_1_metrics_1_1_query_metrics_1a02f96475379426da36a3d0b789ac898b" kind="variable"><name>max_execution_time_ms</name></member>
+    <member refid="structthemis_1_1graphql_1_1_metrics_1_1_query_metrics_1a8c7ed615fd78cef8671067cb0c678f4f" kind="variable"><name>query_depth_sum</name></member>
+    <member refid="structthemis_1_1graphql_1_1_metrics_1_1_query_metrics_1ad9413a92f11a92b5c8d25150b343ba2d" kind="variable"><name>field_count_sum</name></member>
+    <member refid="structthemis_1_1graphql_1_1_metrics_1_1_query_metrics_1a16b5b394381f4e059531ebf0cce80c53" kind="function"><name>QueryMetrics</name></member>
+    <member refid="structthemis_1_1graphql_1_1_metrics_1_1_query_metrics_1ab8e69e06e92c9731b550b459d275eb97" kind="function"><name>QueryMetrics</name></member>
+    <member refid="structthemis_1_1graphql_1_1_metrics_1_1_query_metrics_1a9fe79d9cd96cdcfdce2cbdd4c41c2ef9" kind="function"><name>operator=</name></member>
+    <member refid="structthemis_1_1graphql_1_1_metrics_1_1_query_metrics_1a0ed00f648ce5ffb9ecd0b06ee40d0a9c" kind="function"><name>avgExecutionTimeMs</name></member>
+    <member refid="structthemis_1_1graphql_1_1_metrics_1_1_query_metrics_1a8dd36ebe680edb72cb7cb61b0b561d5b" kind="function"><name>avgQueryDepth</name></member>
+    <member refid="structthemis_1_1graphql_1_1_metrics_1_1_query_metrics_1ae887f8b7ae2b045bb94f4ed0678dd38b" kind="function"><name>avgFieldCount</name></member>
+    <member refid="structthemis_1_1graphql_1_1_metrics_1_1_query_metrics_1a338ae943f1332eaa1cd93511f90c9a0c" kind="function"><name>errorRate</name></member>
+  </compound>
+  <compound refid="structthemis_1_1graphql_1_1_query_plan_cache_1_1_query_plan" kind="struct"><name>themis::graphql::QueryPlanCache::QueryPlan</name>
+    <member refid="structthemis_1_1graphql_1_1_query_plan_cache_1_1_query_plan_1a4edb7f4f0f1f55f6c3a18521918c6a3b" kind="variable"><name>query_hash</name></member>
+    <member refid="structthemis_1_1graphql_1_1_query_plan_cache_1_1_query_plan_1ac883364cf3f794108faaa232488f19e3" kind="variable"><name>depth</name></member>
+    <member refid="structthemis_1_1graphql_1_1_query_plan_cache_1_1_query_plan_1a0bb2693db6f176906328c3ad52ff2711" kind="variable"><name>field_count</name></member>
+    <member refid="structthemis_1_1graphql_1_1_query_plan_cache_1_1_query_plan_1ae1b8695b316aaf650538c0c53541dfda" kind="variable"><name>ast_node_count</name></member>
+    <member refid="structthemis_1_1graphql_1_1_query_plan_cache_1_1_query_plan_1a804684962111b661ebaa600fcf1762ee" kind="variable"><name>validation_passed</name></member>
+    <member refid="structthemis_1_1graphql_1_1_query_plan_cache_1_1_query_plan_1aa386dae73d45252f1e75349cfdb278e0" kind="variable"><name>parsed_document</name></member>
+  </compound>
+  <compound refid="classthemis_1_1graphql_1_1_query_plan_cache" kind="class"><name>themis::graphql::QueryPlanCache</name>
+    <member refid="classthemis_1_1graphql_1_1_query_plan_cache_1a1eafbd49ee1699efbe7d2a2c8b85e3af" kind="variable"><name>cache_</name></member>
+    <member refid="classthemis_1_1graphql_1_1_query_plan_cache_1a52ff5aad3d86bcdd9d37cf61b82feecf" kind="function"><name>instance</name></member>
+    <member refid="classthemis_1_1graphql_1_1_query_plan_cache_1a6a21b81cd588dea1b874131f520cbe7b" kind="function"><name>get</name></member>
+    <member refid="classthemis_1_1graphql_1_1_query_plan_cache_1a398bf92d96943ee73ac1de45177ea398" kind="function"><name>put</name></member>
+    <member refid="classthemis_1_1graphql_1_1_query_plan_cache_1af4de8b334434c89680a6fed5d152aa80" kind="function"><name>getStats</name></member>
+    <member refid="classthemis_1_1graphql_1_1_query_plan_cache_1a8e095c3ff23877264ec50449236546b4" kind="function"><name>clear</name></member>
+    <member refid="classthemis_1_1graphql_1_1_query_plan_cache_1aa6868e8389bce7c87d9ae20d9abb9a77" kind="function"><name>QueryPlanCache</name></member>
+  </compound>
+  <compound refid="classthemis_1_1graphql_1_1_query_timer" kind="class"><name>themis::graphql::QueryTimer</name>
+    <member refid="classthemis_1_1graphql_1_1_query_timer_1a5bc9ac700cbf9ece3eca4fd80bff6e87" kind="variable"><name>operation_type_</name></member>
+    <member refid="classthemis_1_1graphql_1_1_query_timer_1a34f76e01794fdc986088ff10a9168095" kind="variable"><name>depth_</name></member>
+    <member refid="classthemis_1_1graphql_1_1_query_timer_1af8d2e2a65f44bebb999ab6648d333451" kind="variable"><name>field_count_</name></member>
+    <member refid="classthemis_1_1graphql_1_1_query_timer_1a03621882997d2806b5daa18668f53493" kind="variable"><name>start_</name></member>
+    <member refid="classthemis_1_1graphql_1_1_query_timer_1a27a0c1c5f070f96f723ea76938b19fcb" kind="variable"><name>success_</name></member>
+    <member refid="classthemis_1_1graphql_1_1_query_timer_1af920b124b28f029edbecb9cd8096db68" kind="function"><name>QueryTimer</name></member>
+    <member refid="classthemis_1_1graphql_1_1_query_timer_1af39ce0d753bd74e7cd03649d524e2ee0" kind="function"><name>~QueryTimer</name></member>
+    <member refid="classthemis_1_1graphql_1_1_query_timer_1a35f5bd5ed2a84cd47ba4a85a9afef92b" kind="function"><name>setSuccess</name></member>
+  </compound>
+  <compound refid="classthemis_1_1graphql_1_1_rate_limiter" kind="class"><name>themis::graphql::RateLimiter</name>
+    <member refid="classthemis_1_1graphql_1_1_rate_limiter_1a8b89b1be2bfe6935a9dbc7dec76aced2" kind="variable"><name>config_</name></member>
+    <member refid="classthemis_1_1graphql_1_1_rate_limiter_1aa342bf0e777b896e94234316a77e8e5c" kind="variable"><name>mutex_</name></member>
+    <member refid="classthemis_1_1graphql_1_1_rate_limiter_1a8765fdc2351eac6924b7c0a348150676" kind="variable"><name>buckets_</name></member>
+    <member refid="classthemis_1_1graphql_1_1_rate_limiter_1ab73116b8e129189e835f3f08953d2e04" kind="variable"><name>stats_</name></member>
+    <member refid="classthemis_1_1graphql_1_1_rate_limiter_1aeb20082f85060f94a216a40989839730" kind="variable"><name>evict_counter_</name></member>
+    <member refid="classthemis_1_1graphql_1_1_rate_limiter_1ad188712a9f6ce46e54dae0158141c9ff" kind="function"><name>allow</name></member>
+    <member refid="classthemis_1_1graphql_1_1_rate_limiter_1a83d9bc57a5719657bc1073ef9ae3eceb" kind="function"><name>remaining</name></member>
+    <member refid="classthemis_1_1graphql_1_1_rate_limiter_1a476507f9383d8ea867ad70578fff4264" kind="function"><name>reset</name></member>
+    <member refid="classthemis_1_1graphql_1_1_rate_limiter_1aadf736b1a259d392cae90810ff3701be" kind="function"><name>clear</name></member>
+    <member refid="classthemis_1_1graphql_1_1_rate_limiter_1a8d58c5de9f45030f74b3c6718a10ac14" kind="function"><name>getStats</name></member>
+    <member refid="classthemis_1_1graphql_1_1_rate_limiter_1adeecc8090fdc8528c3263d5501aba3bf" kind="function"><name>setConfig</name></member>
+    <member refid="classthemis_1_1graphql_1_1_rate_limiter_1a397f3eda6e6b9e177ba35dc469c50b2e" kind="function"><name>getConfig</name></member>
+    <member refid="classthemis_1_1graphql_1_1_rate_limiter_1ac4684d7a0cdb061b11563dce1631e61c" kind="function"><name>RateLimiter</name></member>
+  </compound>
+  <compound refid="structthemis_1_1graphql_1_1_rate_limit_headers" kind="struct"><name>themis::graphql::RateLimitHeaders</name>
+    <member refid="structthemis_1_1graphql_1_1_rate_limit_headers_1a977c14893204b11fcdfc06eca6b4a9f6" kind="variable"><name>limit</name></member>
+    <member refid="structthemis_1_1graphql_1_1_rate_limit_headers_1a445a1cec57a4b3ce203f91f8b176904f" kind="variable"><name>remaining</name></member>
+    <member refid="structthemis_1_1graphql_1_1_rate_limit_headers_1ab3ad7eaadc5b5a93b3ee44a7b44f76d1" kind="variable"><name>reset</name></member>
+    <member refid="structthemis_1_1graphql_1_1_rate_limit_headers_1a86282f40b514703323dddc836ebb837c" kind="function"><name>toHeaders</name></member>
+  </compound>
+  <compound refid="classthemis_1_1graphql_1_1_response_cache" kind="class"><name>themis::graphql::ResponseCache</name>
+    <member refid="classthemis_1_1graphql_1_1_response_cache_1a6f09000397623fc9d215713f751d1251" kind="variable"><name>cache_</name></member>
+    <member refid="classthemis_1_1graphql_1_1_response_cache_1abc49af41e6f488418fb22018892da81b" kind="function"><name>instance</name></member>
+    <member refid="classthemis_1_1graphql_1_1_response_cache_1a5db10a99a2c712be5ae7d7f16e97b4d7" kind="function"><name>get</name></member>
+    <member refid="classthemis_1_1graphql_1_1_response_cache_1aa987d5d9dfdc29f62e8958bd82996c89" kind="function"><name>put</name></member>
+    <member refid="classthemis_1_1graphql_1_1_response_cache_1aba77376d1cd6b725d2ec73ca622b9fcf" kind="function"><name>invalidatePattern</name></member>
+    <member refid="classthemis_1_1graphql_1_1_response_cache_1aecc0df88d1e1d7a30504de985aabfa8e" kind="function"><name>getStats</name></member>
+    <member refid="classthemis_1_1graphql_1_1_response_cache_1abe9a92ae30341c55ea5129591206b677" kind="function"><name>clear</name></member>
+    <member refid="classthemis_1_1graphql_1_1_response_cache_1a99e51e413bc11b9c0298482c203f0b0d" kind="function"><name>ResponseCache</name></member>
+  </compound>
+  <compound refid="structthemis_1_1graphql_1_1_executor_1_1_result" kind="struct"><name>themis::graphql::Executor::Result</name>
+    <member refid="structthemis_1_1graphql_1_1_executor_1_1_result_1a1b65593812220c3951ead006ff543b5a" kind="variable"><name>data</name></member>
+    <member refid="structthemis_1_1graphql_1_1_executor_1_1_result_1ae6b7ac548493020ae99bf85e25142bbc" kind="variable"><name>errors</name></member>
+    <member refid="structthemis_1_1graphql_1_1_executor_1_1_result_1af213503a435a61ef6fd35a0b4fbb4ec6" kind="function"><name>hasErrors</name></member>
+    <member refid="structthemis_1_1graphql_1_1_executor_1_1_result_1aa0e6c102b9fd427f3ad0b8259529ff46" kind="function"><name>addError</name></member>
+  </compound>
+  <compound refid="structthemis_1_1graphql_1_1_parser_1_1_result" kind="struct"><name>themis::graphql::Parser::Result</name>
+    <member refid="structthemis_1_1graphql_1_1_parser_1_1_result_1ab7191df73670cdbb3c4d52bade822edc" kind="variable"><name>success</name></member>
+    <member refid="structthemis_1_1graphql_1_1_parser_1_1_result_1a100faf3451f4ebf5649696962829c8e7" kind="variable"><name>document</name></member>
+    <member refid="structthemis_1_1graphql_1_1_parser_1_1_result_1abc4265b3e5f3cac552dabeb4c2fa3641" kind="variable"><name>errors</name></member>
+  </compound>
+  <compound refid="structthemis_1_1api_1_1_route_entry" kind="struct"><name>themis::api::RouteEntry</name>
+    <member refid="structthemis_1_1api_1_1_route_entry_1a50962fc2da7a5243181e0d5ef8abde7c" kind="variable"><name>method</name></member>
+    <member refid="structthemis_1_1api_1_1_route_entry_1a675c860a048ed44b14639ea2a7336420" kind="variable"><name>path</name></member>
+    <member refid="structthemis_1_1api_1_1_route_entry_1a2ee856000d25241cc9cd9035f02de997" kind="variable"><name>handler</name></member>
+  </compound>
+  <compound refid="classthemis_1_1graphql_1_1_schema" kind="class"><name>themis::graphql::Schema</name>
+    <member refid="classthemis_1_1graphql_1_1_schema_1af1aea4b35d32ee83a4122465a3b220fb" kind="variable"><name>types_</name></member>
+    <member refid="classthemis_1_1graphql_1_1_schema_1a6ca3e9de39832c84472730751d04907f" kind="variable"><name>query_type_</name></member>
+    <member refid="classthemis_1_1graphql_1_1_schema_1a91293c6e4720b104f22c48ba315a646b" kind="variable"><name>mutation_type_</name></member>
+    <member refid="classthemis_1_1graphql_1_1_schema_1a7406742b7e429b0c88cd8600539e1cfa" kind="variable"><name>subscription_type_</name></member>
+    <member refid="classthemis_1_1graphql_1_1_schema_1a7d6180303ea61b673239188ff074f16b" kind="variable"><name>introspection_enabled_</name></member>
+    <member refid="classthemis_1_1graphql_1_1_schema_1a5fd6258386d217ddb415c465d7c357ee" kind="function"><name>Schema</name></member>
+    <member refid="classthemis_1_1graphql_1_1_schema_1af74fe74bca54850777eb8784b220f5e2" kind="function"><name>addType</name></member>
+    <member refid="classthemis_1_1graphql_1_1_schema_1ac0e37039f2805dc2017224a8a17ad18a" kind="function"><name>getType</name></member>
+    <member refid="classthemis_1_1graphql_1_1_schema_1a347b14989a0072a3e2cfd835a0f5bdf1" kind="function"><name>setQueryType</name></member>
+    <member refid="classthemis_1_1graphql_1_1_schema_1a6ba85e901522247af76e2cb52d2ee5ec" kind="function"><name>setMutationType</name></member>
+    <member refid="classthemis_1_1graphql_1_1_schema_1a6d76322c3e9a5c254773170c73333544" kind="function"><name>setSubscriptionType</name></member>
+    <member refid="classthemis_1_1graphql_1_1_schema_1abd55b1d2aabf86dfa34884c384d2a128" kind="function"><name>queryType</name></member>
+    <member refid="classthemis_1_1graphql_1_1_schema_1ac178d96aa108ab22fd40782d806a9c4f" kind="function"><name>mutationType</name></member>
+    <member refid="classthemis_1_1graphql_1_1_schema_1a8adcbe3f95a2684aef9fbb8b3bcf075d" kind="function"><name>subscriptionType</name></member>
+    <member refid="classthemis_1_1graphql_1_1_schema_1a93914db4b76bf5a09427e6ecadd896a3" kind="function"><name>setIntrospectionEnabled</name></member>
+    <member refid="classthemis_1_1graphql_1_1_schema_1a8313e86d6c4d2095ef246d74e85f762b" kind="function"><name>isIntrospectionEnabled</name></member>
+    <member refid="classthemis_1_1graphql_1_1_schema_1a948e0a4da99613424b658a9fcfbfa3c9" kind="function"><name>toSDL</name></member>
+    <member refid="classthemis_1_1graphql_1_1_schema_1ac120916bf5cfaa658bffc5359f692d2d" kind="function"><name>introspect</name></member>
+  </compound>
+  <compound refid="structthemis_1_1api_1_1_schema_validation_error" kind="struct"><name>themis::api::SchemaValidationError</name>
+    <member refid="structthemis_1_1api_1_1_schema_validation_error_1adf6cd271748f3323ad73e844d09b34c1" kind="variable"><name>type_name</name></member>
+    <member refid="structthemis_1_1api_1_1_schema_validation_error_1a4d8d4d55118d10577f5607aafa65880f" kind="variable"><name>field_name</name></member>
+    <member refid="structthemis_1_1api_1_1_schema_validation_error_1a9cc7c412a49627ad5243e1011bc1a2f7" kind="variable"><name>message</name></member>
+  </compound>
+  <compound refid="structthemis_1_1api_1_1_schema_validation_result" kind="struct"><name>themis::api::SchemaValidationResult</name>
+    <member refid="structthemis_1_1api_1_1_schema_validation_result_1a92c0d130f65d64ce2ba37bf4d833b10d" kind="variable"><name>valid</name></member>
+    <member refid="structthemis_1_1api_1_1_schema_validation_result_1a9937ed7515f66ecbb1f555d08a2d873a" kind="variable"><name>errors</name></member>
+    <member refid="structthemis_1_1api_1_1_schema_validation_result_1aad79065a1745199fc53c54b373e021ad" kind="function"><name>ok</name></member>
+    <member refid="structthemis_1_1api_1_1_schema_validation_result_1a6a214daf9d3baabc08b124d318eb3bb1" kind="function"><name>fail</name></member>
+    <member refid="structthemis_1_1api_1_1_schema_validation_result_1a5523f9687cf744087b201f703b2dea41" kind="function"><name>fail</name></member>
+  </compound>
+  <compound refid="structthemis_1_1api_1_1_service_descriptor" kind="struct"><name>themis::api::ServiceDescriptor</name>
+    <member refid="structthemis_1_1api_1_1_service_descriptor_1a28597b4dbc388aa1c2d2745a6a9c42d8" kind="variable"><name>service_name</name></member>
+    <member refid="structthemis_1_1api_1_1_service_descriptor_1a3ed002f508071cef2d6cf5490be0b89a" kind="variable"><name>package</name></member>
+    <member refid="structthemis_1_1api_1_1_service_descriptor_1a86e21008d20a65c98ee0f6cda3a8d948" kind="variable"><name>method_names</name></member>
+    <member refid="structthemis_1_1api_1_1_service_descriptor_1a83037003fcbccec2d4f23a20fa4927d5" kind="variable"><name>serialization_format</name></member>
+  </compound>
+  <compound refid="structthemis_1_1api_1_1_span_data" kind="struct"><name>themis::api::SpanData</name>
+    <member refid="structthemis_1_1api_1_1_span_data_1aa84de767aeb415e69e64cdfa21dbf1fc" kind="variable"><name>trace_id</name></member>
+    <member refid="structthemis_1_1api_1_1_span_data_1a91b5663f289f374f7f9ac9ac0e95fb29" kind="variable"><name>span_id</name></member>
+    <member refid="structthemis_1_1api_1_1_span_data_1a60b0aba89a118b6e307818b3b104da4d" kind="variable"><name>parent_span_id</name></member>
+    <member refid="structthemis_1_1api_1_1_span_data_1af1708276a2e64196250eb70ac6d9cff3" kind="variable"><name>name</name></member>
+    <member refid="structthemis_1_1api_1_1_span_data_1a8314b622c6e3f2912086add8b8fb30c3" kind="variable"><name>start_time_unix_nano</name></member>
+    <member refid="structthemis_1_1api_1_1_span_data_1a2cb97833e281e7cbd67180b8f3900226" kind="variable"><name>end_time_unix_nano</name></member>
+    <member refid="structthemis_1_1api_1_1_span_data_1a3720836b9e428639e774e18321b9142a" kind="variable"><name>status_code</name></member>
+    <member refid="structthemis_1_1api_1_1_span_data_1afad036445344dcac766cc2350dbf5793" kind="variable"><name>status_message</name></member>
+    <member refid="structthemis_1_1api_1_1_span_data_1a72841f8e6058d77c4da05c5215e8cb6a" kind="variable"><name>attributes</name></member>
+  </compound>
+  <compound refid="structthemis_1_1graphql_1_1_audit_logger_1_1_stats" kind="struct"><name>themis::graphql::AuditLogger::Stats</name>
+    <member refid="structthemis_1_1graphql_1_1_audit_logger_1_1_stats_1afa793ab204512525d459239d59bd371e" kind="variable"><name>total_entries</name></member>
+    <member refid="structthemis_1_1graphql_1_1_audit_logger_1_1_stats_1a39a4241c16523fc26c35d5950a7d7ad8" kind="variable"><name>failure_entries</name></member>
+    <member refid="structthemis_1_1graphql_1_1_audit_logger_1_1_stats_1a8c133a43c9f7d618e8a5ebe8f448933e" kind="function"><name>failureRate</name></member>
+  </compound>
+  <compound refid="structthemis_1_1graphql_1_1_rate_limiter_1_1_stats" kind="struct"><name>themis::graphql::RateLimiter::Stats</name>
+    <member refid="structthemis_1_1graphql_1_1_rate_limiter_1_1_stats_1a384a082bad2174531c9304bc91cfa9ec" kind="variable"><name>allowed_requests</name></member>
+    <member refid="structthemis_1_1graphql_1_1_rate_limiter_1_1_stats_1ab35f68f6e3a2809652e1616edb797ef9" kind="variable"><name>rejected_requests</name></member>
+    <member refid="structthemis_1_1graphql_1_1_rate_limiter_1_1_stats_1a8509d161f9af31ffaf99c80af6ae4389" kind="function"><name>Stats</name></member>
+    <member refid="structthemis_1_1graphql_1_1_rate_limiter_1_1_stats_1a521b8c5b84b99254704c66fdfd68e899" kind="function"><name>Stats</name></member>
+    <member refid="structthemis_1_1graphql_1_1_rate_limiter_1_1_stats_1a408ed304a97516cdd71361c3198e787e" kind="function"><name>operator=</name></member>
+    <member refid="structthemis_1_1graphql_1_1_rate_limiter_1_1_stats_1a8a040d13f820204ee1278c3e60fe90ae" kind="function"><name>total</name></member>
+    <member refid="structthemis_1_1graphql_1_1_rate_limiter_1_1_stats_1ada54f660134cb40648666de90834d304" kind="function"><name>rejectRate</name></member>
+  </compound>
+  <compound refid="structthemis_1_1api_1_1_subscription_event" kind="struct"><name>themis::api::SubscriptionEvent</name>
+    <member refid="structthemis_1_1api_1_1_subscription_event_1aa551c53164c27397935fac31930f83bd" kind="variable"><name>event_id</name></member>
+    <member refid="structthemis_1_1api_1_1_subscription_event_1a2349410127e0702078955022d34f9bec" kind="variable"><name>topic</name></member>
+    <member refid="structthemis_1_1api_1_1_subscription_event_1a3cc98d6e78800c5c7ef22e8a3096e03f" kind="variable"><name>payload_json</name></member>
+    <member refid="structthemis_1_1api_1_1_subscription_event_1ac7922d71ad59741dd6751b67692b6b1d" kind="variable"><name>timestamp</name></member>
+  </compound>
+  <compound refid="structthemis_1_1api_1_1_subscription_filter" kind="struct"><name>themis::api::SubscriptionFilter</name>
+    <member refid="structthemis_1_1api_1_1_subscription_filter_1ae856bbc1d2d858216f464ecc88d17a15" kind="variable"><name>topic</name></member>
+    <member refid="structthemis_1_1api_1_1_subscription_filter_1a2e7d18f932c2c06f77170d8d46965b8b" kind="variable"><name>filter_expr</name></member>
+    <member refid="structthemis_1_1api_1_1_subscription_filter_1a5ad84d79e98f1a4b7b4efacd38360131" kind="variable"><name>last_event_id</name></member>
+  </compound>
+  <compound refid="classthemis_1_1api_1_1_themis_d_b_grpc_service" kind="class"><name>themis::api::ThemisDBGrpcService</name>
+    <member refid="classthemis_1_1api_1_1_themis_d_b_grpc_service_1acf55dc2677c9cc891daab3d809b3e84e" kind="typedef"><name>ServiceFn</name></member>
+    <member refid="classthemis_1_1api_1_1_themis_d_b_grpc_service_1aa4b2904a9934f0702743805b27f7ba54" kind="variable"><name>db_</name></member>
+    <member refid="classthemis_1_1api_1_1_themis_d_b_grpc_service_1a3844f97ee8719a2bdf55ee04098af688" kind="variable"><name>txn_mgr_</name></member>
+    <member refid="classthemis_1_1api_1_1_themis_d_b_grpc_service_1a250c126b6e7f4191eb43d030823916ab" kind="variable"><name>aql_engine_</name></member>
+    <member refid="classthemis_1_1api_1_1_themis_d_b_grpc_service_1aec56bc6711042081c607faed5c047ab4" kind="variable"><name>vector_index_</name></member>
+    <member refid="classthemis_1_1api_1_1_themis_d_b_grpc_service_1ac6c7a918dacc806dc2799c8b0bf3ae34" kind="variable"><name>service_ptr_</name></member>
+    <member refid="classthemis_1_1api_1_1_themis_d_b_grpc_service_1a144069f3811a5e9fa9a3ea8cfc60148e" kind="variable"><name>impl_</name></member>
+    <member refid="classthemis_1_1api_1_1_themis_d_b_grpc_service_1ae19e31a242a079ffed5992b3a2abaa68" kind="function"><name>ThemisDBGrpcService</name></member>
+    <member refid="classthemis_1_1api_1_1_themis_d_b_grpc_service_1a344b1ee6f8b2ea59e0e86d11abff3245" kind="function"><name>ThemisDBGrpcService</name></member>
+    <member refid="classthemis_1_1api_1_1_themis_d_b_grpc_service_1a82858cc2326a52a0617b17aac61f4b73" kind="function"><name>~ThemisDBGrpcService</name></member>
+    <member refid="classthemis_1_1api_1_1_themis_d_b_grpc_service_1a38638c64fc80ecb025650f7663547f8b" kind="function"><name>service</name></member>
+    <member refid="classthemis_1_1api_1_1_themis_d_b_grpc_service_1a228d0516de332811905d5a8c5e844fd5" kind="function"><name>setServiceFn</name></member>
+    <member refid="classthemis_1_1api_1_1_themis_d_b_grpc_service_1a183a996419885188523829de5b6e63bd" kind="function"><name>buildImpl</name></member>
+  </compound>
+  <compound refid="classthemis_1_1api_1_1_themis_d_b_grpc_service_factory" kind="class"><name>themis::api::ThemisDBGrpcServiceFactory</name>
+    <member refid="classthemis_1_1api_1_1_themis_d_b_grpc_service_factory_1ae46137d78c5fe08f722ae79100e0c08d" kind="variable"><name>db_</name></member>
+    <member refid="classthemis_1_1api_1_1_themis_d_b_grpc_service_factory_1aae704a1e10bc9524d62a0fa4578dbfbd" kind="variable"><name>txn_mgr_</name></member>
+    <member refid="classthemis_1_1api_1_1_themis_d_b_grpc_service_factory_1ad03ddc74cab3e6787135d7e6d0e145cf" kind="variable"><name>aql_engine_</name></member>
+    <member refid="classthemis_1_1api_1_1_themis_d_b_grpc_service_factory_1a3fe518bf07cf18f76e365469dae0aa88" kind="variable"><name>vector_index_</name></member>
+    <member refid="classthemis_1_1api_1_1_themis_d_b_grpc_service_factory_1a89ea21e5b8b316bf1b6d0422066c1e3f" kind="function"><name>ThemisDBGrpcServiceFactory</name></member>
+    <member refid="classthemis_1_1api_1_1_themis_d_b_grpc_service_factory_1a6ff1ee3a27e7a9d5faad8b7133de3f4b" kind="function"><name>withDb</name></member>
+    <member refid="classthemis_1_1api_1_1_themis_d_b_grpc_service_factory_1ae751f5c10c42a45756707832ed97876f" kind="function"><name>withTxnMgr</name></member>
+    <member refid="classthemis_1_1api_1_1_themis_d_b_grpc_service_factory_1ac4b867c5036733a613a968df1260a47d" kind="function"><name>withQueryEngine</name></member>
+    <member refid="classthemis_1_1api_1_1_themis_d_b_grpc_service_factory_1a2a3b3b620f095851c61f09dde119a72b" kind="function"><name>withVectorIndex</name></member>
+    <member refid="classthemis_1_1api_1_1_themis_d_b_grpc_service_factory_1ab858c6beaa54008d7761680200273710" kind="function"><name>build</name></member>
+  </compound>
+  <compound refid="classthemis_1_1graphql_1_1_themis_schema_builder" kind="class"><name>themis::graphql::ThemisSchemaBuilder</name>
+    <member refid="classthemis_1_1graphql_1_1_themis_schema_builder_1a6a7eeff9d2881b7106621eb5c321ae40" kind="function"><name>build</name></member>
+    <member refid="classthemis_1_1graphql_1_1_themis_schema_builder_1ab2c34e911ffadc566ce61e61f8771b72" kind="function"><name>addGeoScalarTypes</name></member>
+    <member refid="classthemis_1_1graphql_1_1_themis_schema_builder_1a826e0b334c5501f974e8bdcfcc92b5f3" kind="function"><name>addDocumentTypes</name></member>
+    <member refid="classthemis_1_1graphql_1_1_themis_schema_builder_1a3339f2eee2f0ec4dfc54565c1a830436" kind="function"><name>addGraphTypes</name></member>
+    <member refid="classthemis_1_1graphql_1_1_themis_schema_builder_1a7a959c5f4d6eae7dad95a82648ac3383" kind="function"><name>addVectorTypes</name></member>
+    <member refid="classthemis_1_1graphql_1_1_themis_schema_builder_1a19c61e751b26b8ee99c716d91bc83e05" kind="function"><name>addTimeseriesTypes</name></member>
+    <member refid="classthemis_1_1graphql_1_1_themis_schema_builder_1ad1b846e6161ad45fd5f13879eebc62a0" kind="function"><name>addQueryType</name></member>
+    <member refid="classthemis_1_1graphql_1_1_themis_schema_builder_1ac28d970f4e180d8347a733a769eb963b" kind="function"><name>addMutationType</name></member>
+    <member refid="classthemis_1_1graphql_1_1_themis_schema_builder_1ac236b9d1d2eaabbcf8faed467a4c1dbf" kind="function"><name>addSubscriptionType</name></member>
+  </compound>
+  <compound refid="classthemis_1_1api_1_1_tracing_middleware" kind="class"><name>themis::api::TracingMiddleware</name>
+    <member refid="classthemis_1_1api_1_1_tracing_middleware_1abb320c27793fbe8762a8cdbd259a886c" kind="variable"><name>kCorrelationIdHeader</name></member>
+    <member refid="classthemis_1_1api_1_1_tracing_middleware_1a5ee9f35c9ea42b03718771768ce5e9c4" kind="variable"><name>exporter_</name></member>
+    <member refid="classthemis_1_1api_1_1_tracing_middleware_1a29686feae6be075c85d74d2ccfefa82b" kind="function"><name>TracingMiddleware</name></member>
+    <member refid="classthemis_1_1api_1_1_tracing_middleware_1afa90f11f71c4d748cb4ad8138b308da8" kind="function"><name>TracingMiddleware</name></member>
+    <member refid="classthemis_1_1api_1_1_tracing_middleware_1a86d194831ba3e2e679ff654b0d440bd5" kind="function"><name>~TracingMiddleware</name></member>
+    <member refid="classthemis_1_1api_1_1_tracing_middleware_1ab37afa0a03fc339752e207d0b78522a8" kind="function"><name>TracingMiddleware</name></member>
+    <member refid="classthemis_1_1api_1_1_tracing_middleware_1a8d3926d1a1c83134c40e4a9018674c01" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1api_1_1_tracing_middleware_1a792262d66c182f8d43df132548e05af9" kind="function"><name>TracingMiddleware</name></member>
+    <member refid="classthemis_1_1api_1_1_tracing_middleware_1ad25cb054dcfce67dc131df9f017a9a9f" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1api_1_1_tracing_middleware_1aabf2b066603ba65923fcd8868544ef05" kind="function"><name>processRequest</name></member>
+    <member refid="classthemis_1_1api_1_1_tracing_middleware_1a7748e339e39ca56ee99bda8e40b66528" kind="function"><name>finishSpan</name></member>
+    <member refid="classthemis_1_1api_1_1_tracing_middleware_1a94c50546eff315fb40c7548853d1a290" kind="function"><name>currentCorrelationId</name></member>
+    <member refid="classthemis_1_1api_1_1_tracing_middleware_1a571943b72010a175b7a0b3c0a9e1d6fe" kind="function"><name>clearContext</name></member>
+    <member refid="classthemis_1_1api_1_1_tracing_middleware_1a35c94f911d444862dfc2e471dcd6e11a" kind="function"><name>generateUuidV4</name></member>
+  </compound>
+  <compound refid="classthemis_1_1api_1_1_transport_contract_validator" kind="class"><name>themis::api::TransportContractValidator</name>
+    <member refid="classthemis_1_1api_1_1_transport_contract_validator_1a97301ed43e09391c772566d1c93dcc68" kind="function"><name>isSupportedVersion</name></member>
+    <member refid="classthemis_1_1api_1_1_transport_contract_validator_1a0e6a7461197db015fc95f2cc1cc59389" kind="function"><name>isPayloadWithinLimit</name></member>
+    <member refid="classthemis_1_1api_1_1_transport_contract_validator_1a7b37c1f4f0b5696272107ba9c768db9f" kind="function"><name>requiresContentType</name></member>
+    <member refid="classthemis_1_1api_1_1_transport_contract_validator_1aebce03204d3c3ade8f60107fac40041e" kind="function"><name>isPathLengthValid</name></member>
+    <member refid="classthemis_1_1api_1_1_transport_contract_validator_1a207650e893fd3449f1bf3b26cd838ebf" kind="function"><name>validate</name></member>
+  </compound>
+  <compound refid="structthemis_1_1api_1_1_transport_policy_config" kind="struct"><name>themis::api::TransportPolicyConfig</name>
+    <member refid="structthemis_1_1api_1_1_transport_policy_config_1a9cae71cdc373f486c2c68156d9ca637d" kind="variable"><name>max_payload_bytes</name></member>
+    <member refid="structthemis_1_1api_1_1_transport_policy_config_1a04ddbca1ea90d4d1ea5376842b5937bc" kind="variable"><name>max_path_bytes</name></member>
+    <member refid="structthemis_1_1api_1_1_transport_policy_config_1aefaec0f29db11bfa35fae2e89843be60" kind="variable"><name>enforce_content_type</name></member>
+    <member refid="structthemis_1_1api_1_1_transport_policy_config_1a87ad6ef374ee80d1ec64cb26e63e1454" kind="variable"><name>enforce_api_version</name></member>
+    <member refid="structthemis_1_1api_1_1_transport_policy_config_1ae5de10e8d2e87ba320d526a10fef07d9" kind="function"><name>normalized</name></member>
+  </compound>
+  <compound refid="classthemis_1_1api_1_1_transport_policy_middleware" kind="class"><name>themis::api::TransportPolicyMiddleware</name>
+    <member refid="classthemis_1_1api_1_1_transport_policy_middleware_1a31ccdaa7268e37f40444163e2f1e57a6" kind="variable"><name>inner_</name></member>
+    <member refid="classthemis_1_1api_1_1_transport_policy_middleware_1a1a3eef35a2a6dd57852b3349e7bc5f80" kind="variable"><name>config_</name></member>
+    <member refid="classthemis_1_1api_1_1_transport_policy_middleware_1a8836e76b0eb68cf06fcce082fa64fc2b" kind="function"><name>TransportPolicyMiddleware</name></member>
+    <member refid="classthemis_1_1api_1_1_transport_policy_middleware_1ad669a7ee989da390d1302f597b95f095" kind="function"><name>TransportPolicyMiddleware</name></member>
+    <member refid="classthemis_1_1api_1_1_transport_policy_middleware_1acb05c23754a6e910b32985a1d1e36c92" kind="function"><name>~TransportPolicyMiddleware</name></member>
+    <member refid="classthemis_1_1api_1_1_transport_policy_middleware_1acf48384fecae7048b360bd697d291795" kind="function"><name>TransportPolicyMiddleware</name></member>
+    <member refid="classthemis_1_1api_1_1_transport_policy_middleware_1a7553bfd0a76e376971cff3f7c33d73b2" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1api_1_1_transport_policy_middleware_1aa77f1085a989f0c3a855369b5355b8f7" kind="function"><name>TransportPolicyMiddleware</name></member>
+    <member refid="classthemis_1_1api_1_1_transport_policy_middleware_1a4ded41511803c85f2ea1ace302a1bc6c" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1api_1_1_transport_policy_middleware_1aa1055c46c1a5139c837e3d41aa1c905b" kind="function"><name>handle</name></member>
+    <member refid="classthemis_1_1api_1_1_transport_policy_middleware_1a4e123c6573c05488697245b67d604d09" kind="function"><name>requiresAuthentication</name></member>
+    <member refid="classthemis_1_1api_1_1_transport_policy_middleware_1a385257d97abf265ec936e25dd93496f1" kind="function"><name>handlerName</name></member>
+    <member refid="classthemis_1_1api_1_1_transport_policy_middleware_1a87694d0ff51bfab1998783b9a873c76f" kind="function"><name>capabilities</name></member>
+    <member refid="classthemis_1_1api_1_1_transport_policy_middleware_1a5e3499732e2ba234db2f5606560e54fc" kind="function"><name>adapterName</name></member>
+    <member refid="classthemis_1_1api_1_1_transport_policy_middleware_1a7d6c3d722d5ec5be53b393298f5162ac" kind="function"><name>config</name></member>
+    <member refid="classthemis_1_1api_1_1_transport_policy_middleware_1af4130c1852ac016f55e0132763b82fbc" kind="function"><name>applyPolicy</name></member>
+  </compound>
+  <compound refid="structthemis_1_1graphql_1_1_type_definition" kind="struct"><name>themis::graphql::TypeDefinition</name>
+    <member refid="structthemis_1_1graphql_1_1_type_definition_1a2ccd94f7f46f75e910ad95849fabf350" kind="enum"><name>Kind</name></member>
+    <member refid="structthemis_1_1graphql_1_1_type_definition_1a2ccd94f7f46f75e910ad95849fabf350af60357a8d17e45793298323f1b372a74" kind="enumvalue"><name>Scalar</name></member>
+    <member refid="structthemis_1_1graphql_1_1_type_definition_1a2ccd94f7f46f75e910ad95849fabf350a497031794414a552435f90151ac3b54b" kind="enumvalue"><name>Object</name></member>
+    <member refid="structthemis_1_1graphql_1_1_type_definition_1a2ccd94f7f46f75e910ad95849fabf350a3c1aac82863ed9e5a9aca8ce687f711d" kind="enumvalue"><name>Interface</name></member>
+    <member refid="structthemis_1_1graphql_1_1_type_definition_1a2ccd94f7f46f75e910ad95849fabf350aaef12e903e606a4895a16b393bfdec8c" kind="enumvalue"><name>Union</name></member>
+    <member refid="structthemis_1_1graphql_1_1_type_definition_1a2ccd94f7f46f75e910ad95849fabf350acf20423ed48998082c20099488a0917c" kind="enumvalue"><name>Enum</name></member>
+    <member refid="structthemis_1_1graphql_1_1_type_definition_1a2ccd94f7f46f75e910ad95849fabf350a0bd965605200bd66296c5988ee1ca689" kind="enumvalue"><name>InputObject</name></member>
+    <member refid="structthemis_1_1graphql_1_1_type_definition_1a8f5af97e7d936ab418740ca83cc76250" kind="variable"><name>kind</name></member>
+    <member refid="structthemis_1_1graphql_1_1_type_definition_1aa88802b3165818d8cdc179565fd988a4" kind="variable"><name>name</name></member>
+    <member refid="structthemis_1_1graphql_1_1_type_definition_1a4b126ecb41381a8f661f816b3f5cf589" kind="variable"><name>description</name></member>
+    <member refid="structthemis_1_1graphql_1_1_type_definition_1afec61af6eba0fb5b6a2cf85a6dafd518" kind="variable"><name>fields</name></member>
+    <member refid="structthemis_1_1graphql_1_1_type_definition_1ae620ece5911ee75df8d986d2f2d04484" kind="variable"><name>enum_values</name></member>
+    <member refid="structthemis_1_1graphql_1_1_type_definition_1a32d7dfd5414f9d704a5a10ef65a3b4bc" kind="variable"><name>interfaces</name></member>
+  </compound>
+  <compound refid="structthemis_1_1graphql_1_1_type_ref" kind="struct"><name>themis::graphql::TypeRef</name>
+    <member refid="structthemis_1_1graphql_1_1_type_ref_1a5ce4d707879f757cd6b3835e5d6907fd" kind="variable"><name>name</name></member>
+    <member refid="structthemis_1_1graphql_1_1_type_ref_1a7b24c022ad878b92048a1eaf263dbf6a" kind="variable"><name>is_non_null</name></member>
+    <member refid="structthemis_1_1graphql_1_1_type_ref_1aa9913f0826fe7d94f275895a834c607e" kind="variable"><name>is_list</name></member>
+    <member refid="structthemis_1_1graphql_1_1_type_ref_1a218ec2623a9337c461c008c1e1e19449" kind="variable"><name>of_type</name></member>
+  </compound>
+  <compound refid="structthemis_1_1graphql_1_1_value" kind="struct"><name>themis::graphql::Value</name>
+    <member refid="structthemis_1_1graphql_1_1_value_1ac2b54c3c38370136d0f061911d6f120c" kind="enum"><name>Type</name></member>
+    <member refid="structthemis_1_1graphql_1_1_value_1ac2b54c3c38370136d0f061911d6f120cabbb93ef26e3c101ff11cdd21cab08a94" kind="enumvalue"><name>Null</name></member>
+    <member refid="structthemis_1_1graphql_1_1_value_1ac2b54c3c38370136d0f061911d6f120ca27226c864bac7454a8504f8edb15d95b" kind="enumvalue"><name>Boolean</name></member>
+    <member refid="structthemis_1_1graphql_1_1_value_1ac2b54c3c38370136d0f061911d6f120ca1686a6c336b71b36d77354cea19a8b52" kind="enumvalue"><name>Int</name></member>
+    <member refid="structthemis_1_1graphql_1_1_value_1ac2b54c3c38370136d0f061911d6f120ca22ae0e2b89e5e3d477f988cc36d3272b" kind="enumvalue"><name>Float</name></member>
+    <member refid="structthemis_1_1graphql_1_1_value_1ac2b54c3c38370136d0f061911d6f120ca27118326006d3829667a400ad23d5d98" kind="enumvalue"><name>String</name></member>
+    <member refid="structthemis_1_1graphql_1_1_value_1ac2b54c3c38370136d0f061911d6f120cacf20423ed48998082c20099488a0917c" kind="enumvalue"><name>Enum</name></member>
+    <member refid="structthemis_1_1graphql_1_1_value_1ac2b54c3c38370136d0f061911d6f120ca4ee29ca12c7d126654bd0e5275de6135" kind="enumvalue"><name>List</name></member>
+    <member refid="structthemis_1_1graphql_1_1_value_1ac2b54c3c38370136d0f061911d6f120ca497031794414a552435f90151ac3b54b" kind="enumvalue"><name>Object</name></member>
+    <member refid="structthemis_1_1graphql_1_1_value_1ac2b54c3c38370136d0f061911d6f120ca8ab1135951e3438bda9948542e8a5369" kind="enumvalue"><name>VariableRef</name></member>
+    <member refid="structthemis_1_1graphql_1_1_value_1a427bc7c7e005e166ac36f0fad4a2afad" kind="variable"><name>type</name></member>
+    <member refid="structthemis_1_1graphql_1_1_value_1ac5119c0bae16ac2aa091f53eec1c740d" kind="variable"><name>data</name></member>
+    <member refid="structthemis_1_1graphql_1_1_value_1a310d9dd8825f23b2546227479eeb88e5" kind="function"><name>null</name></member>
+    <member refid="structthemis_1_1graphql_1_1_value_1a24be87faa42bded3541ec1d46b18013e" kind="function"><name>boolean</name></member>
+    <member refid="structthemis_1_1graphql_1_1_value_1ab29943cc1bb1f841516d4e8d2bab3819" kind="function"><name>integer</name></member>
+    <member refid="structthemis_1_1graphql_1_1_value_1aa20b44e2c556d145d0ba33a72610491a" kind="function"><name>floating</name></member>
+    <member refid="structthemis_1_1graphql_1_1_value_1a32d5b925c4f37868563e4cf9b308cd4e" kind="function"><name>string</name></member>
+    <member refid="structthemis_1_1graphql_1_1_value_1a616a92a77774b3db2c82a7dc24c57651" kind="function"><name>enumValue</name></member>
+    <member refid="structthemis_1_1graphql_1_1_value_1a7d4d0d908c22c1d3bb7700e0f852dc5c" kind="function"><name>list</name></member>
+    <member refid="structthemis_1_1graphql_1_1_value_1ac0ed4cfb1ca65934bd26826373d03e82" kind="function"><name>object</name></member>
+    <member refid="structthemis_1_1graphql_1_1_value_1ad960d891dea77f21ed5bcd171bd9e006" kind="function"><name>variableRef</name></member>
+    <member refid="structthemis_1_1graphql_1_1_value_1a4d33732345f0219ddc9ee610f2de8353" kind="function"><name>isNull</name></member>
+    <member refid="structthemis_1_1graphql_1_1_value_1abc4c1fb70835b2ef7f9e82d5df867712" kind="function"><name>isBool</name></member>
+    <member refid="structthemis_1_1graphql_1_1_value_1a3170d1cd7564136d2ee67761a9ade135" kind="function"><name>isInt</name></member>
+    <member refid="structthemis_1_1graphql_1_1_value_1a9db7eaddf72f51902fe131c3115faa01" kind="function"><name>isFloat</name></member>
+    <member refid="structthemis_1_1graphql_1_1_value_1adf121e214f59c99ba70ce6eaca290d92" kind="function"><name>isString</name></member>
+    <member refid="structthemis_1_1graphql_1_1_value_1aeb56649073f433f81ab09fe8a7e59ae1" kind="function"><name>isEnum</name></member>
+    <member refid="structthemis_1_1graphql_1_1_value_1a5fba46783d33aafc11fca5bf15ed5f92" kind="function"><name>isList</name></member>
+    <member refid="structthemis_1_1graphql_1_1_value_1af234db68c1ca15416b39c7aebbe59e8a" kind="function"><name>isObject</name></member>
+    <member refid="structthemis_1_1graphql_1_1_value_1a68b2ec02d5cc51383b621764980e3459" kind="function"><name>isVariableRef</name></member>
+    <member refid="structthemis_1_1graphql_1_1_value_1a6c22556bf5fe1e99e63942cbea9880c3" kind="function"><name>asBool</name></member>
+    <member refid="structthemis_1_1graphql_1_1_value_1a617d10cb0f205d33c400a4faf15f2f9c" kind="function"><name>asInt</name></member>
+    <member refid="structthemis_1_1graphql_1_1_value_1aebbc2358481027c30ecb5eda9a9be0e1" kind="function"><name>asFloat</name></member>
+    <member refid="structthemis_1_1graphql_1_1_value_1a482e166e53b46efb249d72374e5692ec" kind="function"><name>asString</name></member>
+    <member refid="structthemis_1_1graphql_1_1_value_1a44841e1507172e85a97f28fd5259a645" kind="function"><name>asList</name></member>
+    <member refid="structthemis_1_1graphql_1_1_value_1ae2f5e01740399e4819a0c30028b8e42d" kind="function"><name>asObject</name></member>
+    <member refid="structthemis_1_1graphql_1_1_value_1a5dc88e8d2ebadb9dc05376909ecf3cfc" kind="function"><name>asVariableRef</name></member>
+  </compound>
+  <compound refid="structthemis_1_1graphql_1_1_variable_definition" kind="struct"><name>themis::graphql::VariableDefinition</name>
+    <member refid="structthemis_1_1graphql_1_1_variable_definition_1a3d1899036f393c4853542583be52e394" kind="variable"><name>name</name></member>
+    <member refid="structthemis_1_1graphql_1_1_variable_definition_1afc9fce20f209ce3ee67b2cf600a7f845" kind="variable"><name>type_name</name></member>
+    <member refid="structthemis_1_1graphql_1_1_variable_definition_1ad89750be803d8b4b3f7046a3504e6679" kind="variable"><name>is_non_null</name></member>
+    <member refid="structthemis_1_1graphql_1_1_variable_definition_1a88c11b3fa8fd74be26981f1db5d51390" kind="variable"><name>is_list</name></member>
+    <member refid="structthemis_1_1graphql_1_1_variable_definition_1a31fbf9f987d18b7ea293b4317520a6fe" kind="variable"><name>default_value</name></member>
+  </compound>
+  <compound refid="structthemis_1_1api_1_1_version_descriptor" kind="struct"><name>themis::api::VersionDescriptor</name>
+    <member refid="structthemis_1_1api_1_1_version_descriptor_1a48504b6da32f0a846b8e059e4d3f43ce" kind="variable"><name>major_version</name></member>
+    <member refid="structthemis_1_1api_1_1_version_descriptor_1a167a6bafa35f6d910b649096c60a61ca" kind="variable"><name>minor_version</name></member>
+    <member refid="structthemis_1_1api_1_1_version_descriptor_1a86bf03cad3a4d0781c219b74aded5d95" kind="variable"><name>label</name></member>
+    <member refid="structthemis_1_1api_1_1_version_descriptor_1af14adba452cbe164e13b3c7498489ed8" kind="variable"><name>deprecation_date</name></member>
+    <member refid="structthemis_1_1api_1_1_version_descriptor_1a47c806d5c24ecdc606b59e13f5773a48" kind="variable"><name>sunset_date</name></member>
+    <member refid="structthemis_1_1api_1_1_version_descriptor_1a0a330e0b94d1ae51786d0cf62cf5851a" kind="variable"><name>successor_url</name></member>
+    <member refid="structthemis_1_1api_1_1_version_descriptor_1a14eb2d730aadfb660d452e8665eca519" kind="function"><name>current</name></member>
+    <member refid="structthemis_1_1api_1_1_version_descriptor_1aabc6813ada4131caf46c7476f501b3bc" kind="function"><name>deprecated</name></member>
+  </compound>
+  <compound refid="structthemis_1_1api_1_1_web_socket_frame" kind="struct"><name>themis::api::WebSocketFrame</name>
+    <member refid="structthemis_1_1api_1_1_web_socket_frame_1a206694c7cac8ab958cc23ebb6f540487" kind="enum"><name>Type</name></member>
+    <member refid="structthemis_1_1api_1_1_web_socket_frame_1a206694c7cac8ab958cc23ebb6f540487a9dffbf69ffba8bc38bc4e01abf4b1675" kind="enumvalue"><name>Text</name></member>
+    <member refid="structthemis_1_1api_1_1_web_socket_frame_1a206694c7cac8ab958cc23ebb6f540487a6ce976e8f061b2b5cfe4d0c50c3405dd" kind="enumvalue"><name>Binary</name></member>
+    <member refid="structthemis_1_1api_1_1_web_socket_frame_1a206694c7cac8ab958cc23ebb6f540487ab85815d04cec053ce6deb8021f2df1b8" kind="enumvalue"><name>Ping</name></member>
+    <member refid="structthemis_1_1api_1_1_web_socket_frame_1a206694c7cac8ab958cc23ebb6f540487a4d94412495a32342e1b8c78f7960f2bc" kind="enumvalue"><name>Pong</name></member>
+    <member refid="structthemis_1_1api_1_1_web_socket_frame_1a206694c7cac8ab958cc23ebb6f540487ad3d2e617335f08df83599665eef8a418" kind="enumvalue"><name>Close</name></member>
+    <member refid="structthemis_1_1api_1_1_web_socket_frame_1a3bd57ae0553c97665654a8f2678f22fb" kind="variable"><name>type</name></member>
+    <member refid="structthemis_1_1api_1_1_web_socket_frame_1a39aef7314846d44ae32ed7838988bffb" kind="variable"><name>payload</name></member>
+    <member refid="structthemis_1_1api_1_1_web_socket_frame_1a3bebcef22b5d63476bda1fa475989816" kind="function"><name>text</name></member>
+    <member refid="structthemis_1_1api_1_1_web_socket_frame_1a53c7840b1b22771d9adc359937ea1e23" kind="function"><name>binary</name></member>
+  </compound>
+  <compound refid="classthemis_1_1api_1_1_web_socket_session" kind="class"><name>themis::api::WebSocketSession</name>
+    <member refid="classthemis_1_1api_1_1_web_socket_session_1a3caa4be9f7a1aaeeca41234731f8a090" kind="function"><name>~WebSocketSession</name></member>
+    <member refid="classthemis_1_1api_1_1_web_socket_session_1adc3eb3150828d593659d11e76c44c2e9" kind="function"><name>WebSocketSession</name></member>
+    <member refid="classthemis_1_1api_1_1_web_socket_session_1aa41f4f6c6cbf214cd0a2453a4afc7164" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1api_1_1_web_socket_session_1a4227d1a3df25adfba40fc059432b258b" kind="function"><name>send</name></member>
+    <member refid="classthemis_1_1api_1_1_web_socket_session_1a95046b4bbb4e709a13ff2db3813eb170" kind="function"><name>close</name></member>
+    <member refid="classthemis_1_1api_1_1_web_socket_session_1a78e7a6b0a8b286d163441205f72a893d" kind="function"><name>remoteAddress</name></member>
+    <member refid="classthemis_1_1api_1_1_web_socket_session_1a40f466825dcd7646e210005b6d80d89c" kind="function"><name>sessionId</name></member>
+    <member refid="classthemis_1_1api_1_1_web_socket_session_1af05fe339438796149702958f086d2971" kind="function"><name>isOpen</name></member>
+    <member refid="classthemis_1_1api_1_1_web_socket_session_1a9b99006fda92143e78257d6eea142359" kind="function"><name>WebSocketSession</name></member>
+  </compound>
+  <compound refid="namespace_0d013166054137260065331272061365140172175247000067" kind="namespace"><name>@013166054137260065331272061365140172175247000067</name>
+  </compound>
+  <compound refid="namespace_0d056016377065004074217277155321144017364216266343" kind="namespace"><name>@056016377065004074217277155321144017364216266343</name>
+  </compound>
+  <compound refid="namespace_0d112005004346367211230114071103212073102327227147" kind="namespace"><name>@112005004346367211230114071103212073102327227147</name>
+  </compound>
+  <compound refid="namespace_0d152047334047241147326340346102311243244361027371" kind="namespace"><name>@152047334047241147326340346102311243244361027371</name>
+  </compound>
+  <compound refid="namespace_0d167111040355276364274143321371140333155304235206" kind="namespace"><name>@167111040355276364274143321371140333155304235206</name>
+  </compound>
+  <compound refid="namespace_0d216272156133270174214220347310333063105152165211" kind="namespace"><name>@216272156133270174214220347310333063105152165211</name>
+  </compound>
+  <compound refid="namespace_0d225204144111052343010135254031321311001324167171" kind="namespace"><name>@225204144111052343010135254031321311001324167171</name>
+  </compound>
+  <compound refid="namespace_0d272025310350240050144270052350101266203210077067" kind="namespace"><name>@272025310350240050144270052350101266203210077067</name>
+  </compound>
+  <compound refid="namespace_0d305077063170374030137034050073140214342131063304" kind="namespace"><name>@305077063170374030137034050073140214342131063304</name>
+  </compound>
+  <compound refid="namespace_0d310230072370013212102216156170250052374324312001" kind="namespace"><name>@310230072370013212102216156170250052374324312001</name>
+  </compound>
+  <compound refid="namespace_0d333067054346374133170362000024134227105305105230" kind="namespace"><name>@333067054346374133170362000024134227105305105230</name>
+  </compound>
+  <compound refid="namespace_0d377247222244162004265045036140270171362023015166" kind="namespace"><name>@377247222244162004265045036140270171362023015166</name>
+  </compound>
+  <compound refid="namespacestd" kind="namespace"><name>std</name>
+  </compound>
+  <compound refid="namespacetesting" kind="namespace"><name>testing</name>
+  </compound>
+  <compound refid="namespacethemis" kind="namespace"><name>themis</name>
+    <member refid="namespacethemis_1a2fc17512a57c687fa92b431087cbecd2" kind="typedef"><name>QueryEngine</name></member>
+    <member refid="namespacethemis_1a4495a00daed741d574aacee334acfb7e" kind="typedef"><name>IQueryEnginePtr</name></member>
+  </compound>
+  <compound refid="namespacethemis_1_1api" kind="namespace"><name>themis::api</name>
+    <member refid="namespacethemis_1_1api_1ae65977156a3b07e5cc8ae3623a79f87a" kind="enum"><name>GatewayHookPhase</name></member>
+    <member refid="namespacethemis_1_1api_1ae65977156a3b07e5cc8ae3623a79f87aac051d6347bb8c9a858ff7b2463fd9698" kind="enumvalue"><name>PRE_AUTH</name></member>
+    <member refid="namespacethemis_1_1api_1ae65977156a3b07e5cc8ae3623a79f87aa6481afd9ed5b00854e6e543dffc18323" kind="enumvalue"><name>POST_AUTH</name></member>
+    <member refid="namespacethemis_1_1api_1ae65977156a3b07e5cc8ae3623a79f87aaa510f5e56aa043a0c2d08a480c8696a2" kind="enumvalue"><name>PRE_HANDLER</name></member>
+    <member refid="namespacethemis_1_1api_1ae65977156a3b07e5cc8ae3623a79f87aaec8e96fd5da2a38a1f698f64deb24c5f" kind="enumvalue"><name>POST_HANDLER</name></member>
+    <member refid="namespacethemis_1_1api_1ae65977156a3b07e5cc8ae3623a79f87aa2fff466d401e302c7dfff289fc66ee39" kind="enumvalue"><name>ON_ERROR</name></member>
+    <member refid="namespacethemis_1_1api_1a0343d99372edab7f45df75439b391937" kind="enum"><name>TransportCapability</name></member>
+    <member refid="namespacethemis_1_1api_1a0343d99372edab7f45df75439b391937a6adf97f83acf6453d4a6a4b1070f3754" kind="enumvalue"><name>None</name></member>
+    <member refid="namespacethemis_1_1api_1a0343d99372edab7f45df75439b391937afffb60d88e63f0a08ce31713b1eb594b" kind="enumvalue"><name>TlsSupport</name></member>
+    <member refid="namespacethemis_1_1api_1a0343d99372edab7f45df75439b391937a8e80f520d87b406853e56dd67fb50530" kind="enumvalue"><name>CompressionSupport</name></member>
+    <member refid="namespacethemis_1_1api_1a0343d99372edab7f45df75439b391937a650dbe1b42a95d4fc1e2b35047daf52e" kind="enumvalue"><name>StreamingSupport</name></member>
+    <member refid="namespacethemis_1_1api_1a0343d99372edab7f45df75439b391937a8fa50161f6e724647e44d56232ab21c4" kind="enumvalue"><name>ReflectionSupport</name></member>
+    <member refid="namespacethemis_1_1api_1a0343d99372edab7f45df75439b391937a1af2b2cc5da7fc23ff7f1e74cafcb2d9" kind="enumvalue"><name>RateLimitSupport</name></member>
+    <member refid="namespacethemis_1_1api_1a0343d99372edab7f45df75439b391937a61dbd92f5d04630b04a92f3c2b20c71a" kind="enumvalue"><name>SubscriptionSupport</name></member>
+    <member refid="namespacethemis_1_1api_1a7725be3f5528117fdb79ccf1d6af0fe5" kind="enum"><name>TransportFailureClass</name></member>
+    <member refid="namespacethemis_1_1api_1a7725be3f5528117fdb79ccf1d6af0fe5a6adf97f83acf6453d4a6a4b1070f3754" kind="enumvalue"><name>None</name></member>
+    <member refid="namespacethemis_1_1api_1a7725be3f5528117fdb79ccf1d6af0fe5aa069c5410264cc9d679bd8806391041b" kind="enumvalue"><name>MalformedRequest</name></member>
+    <member refid="namespacethemis_1_1api_1a7725be3f5528117fdb79ccf1d6af0fe5a0234a767e9c5c06cdaf290cc9b690b34" kind="enumvalue"><name>PayloadTooLarge</name></member>
+    <member refid="namespacethemis_1_1api_1a7725be3f5528117fdb79ccf1d6af0fe5a0f89bc98e9b12bdeda0604e57bdc0518" kind="enumvalue"><name>UnsupportedVersion</name></member>
+    <member refid="namespacethemis_1_1api_1a7725be3f5528117fdb79ccf1d6af0fe5a2f1218ea7a673274d25667cfb221befc" kind="enumvalue"><name>ContentTypeMissing</name></member>
+    <member refid="namespacethemis_1_1api_1a7725be3f5528117fdb79ccf1d6af0fe5a77c4380e5cf5c0deb710c546b4289cb3" kind="enumvalue"><name>ContentTypeMismatch</name></member>
+    <member refid="namespacethemis_1_1api_1a7725be3f5528117fdb79ccf1d6af0fe5ae06d1ba70f1331e9f9a113cc2f887d3f" kind="enumvalue"><name>Unauthorized</name></member>
+    <member refid="namespacethemis_1_1api_1a7725be3f5528117fdb79ccf1d6af0fe5ac7433990fc11e0ae16d6974bbf8b2f44" kind="enumvalue"><name>RateLimitExceeded</name></member>
+    <member refid="namespacethemis_1_1api_1a7725be3f5528117fdb79ccf1d6af0fe5a31185f98fd6ab437092e213cd22aec68" kind="enumvalue"><name>CapabilityUnavailable</name></member>
+    <member refid="namespacethemis_1_1api_1a7725be3f5528117fdb79ccf1d6af0fe5a8462b58246e70e5c83e5b939a9332cb5" kind="enumvalue"><name>InternalError</name></member>
+    <member refid="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453" kind="enum"><name>WebSocketCloseCode</name></member>
+    <member refid="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453acb398181d3e3294eaaabe45596512747" kind="enumvalue"><name>NormalClosure</name></member>
+    <member refid="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453ab16f53879e8cacc9f1040facec98b2b8" kind="enumvalue"><name>GoingAway</name></member>
+    <member refid="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453aca3da8f495e4e628912a7798655da6c2" kind="enumvalue"><name>ProtocolError</name></member>
+    <member refid="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453aa63d4c1207867216c93e257bfa05e818" kind="enumvalue"><name>UnsupportedData</name></member>
+    <member refid="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453a5bf8ff15f1501074bed95401c41ae356" kind="enumvalue"><name>NoStatusReceived</name></member>
+    <member refid="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453a2b30f3b5089eda6904c45a3a56b897cb" kind="enumvalue"><name>AbnormalClosure</name></member>
+    <member refid="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453a2d730f4aa6a660e8825d5294008a4ef7" kind="enumvalue"><name>InvalidPayload</name></member>
+    <member refid="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453aaee43f65108573ca863298db0692a4f1" kind="enumvalue"><name>PolicyViolation</name></member>
+    <member refid="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453a27b656394c5563311cf8421c85a3d39b" kind="enumvalue"><name>MessageTooBig</name></member>
+    <member refid="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453aea01a47c39d4e19f699528308a4930a5" kind="enumvalue"><name>MissingExtension</name></member>
+    <member refid="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453a8462b58246e70e5c83e5b939a9332cb5" kind="enumvalue"><name>InternalError</name></member>
+    <member refid="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453a5ea32b9182206cbe3cb62dd52882b358" kind="enumvalue"><name>ServiceRestart</name></member>
+    <member refid="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453adec7a474edaa7a2f9b22f6adfdec3882" kind="enumvalue"><name>TryAgainLater</name></member>
+    <member refid="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453a0e7c9ad08be0653518bf456c9994ace5" kind="enumvalue"><name>BadGateway</name></member>
+    <member refid="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453a01ba6a034abdc6cd416818d1c6f21d48" kind="enumvalue"><name>TlsHandshakeFailed</name></member>
+    <member refid="namespacethemis_1_1api_1a59b6f9c3d9332fe3972c73c9e5009e8f" kind="typedef"><name>HandlerSet</name></member>
+    <member refid="namespacethemis_1_1api_1a5427044a10d0bbba55f0cdfe68b8565c" kind="typedef"><name>json</name></member>
+    <member refid="namespacethemis_1_1api_1ad960941897310e2744b3a5dbb6c871e2" kind="variable"><name>kApiMajorVersion</name></member>
+    <member refid="namespacethemis_1_1api_1a5578854b7f77c19e9a7541b2261f21d0" kind="variable"><name>kSupportedApiVersions</name></member>
+    <member refid="namespacethemis_1_1api_1a6b221e453135400e65ad9b6077acc01b" kind="variable"><name>kMaxPayloadBytes</name></member>
+    <member refid="namespacethemis_1_1api_1aa317a48d974bae0126f64073b1fb5316" kind="variable"><name>kMaxPathBytes</name></member>
+    <member refid="namespacethemis_1_1api_1a3bfb4a93bf50e412ece637e39fe855ad" kind="variable"><name>kMaxHeaderValueBytes</name></member>
+    <member refid="namespacethemis_1_1api_1a8255fea67a45aa9e0470c322fe452caf" kind="function"><name>operator|</name></member>
+    <member refid="namespacethemis_1_1api_1ac4c71dc1ed42003e677b7ab11aaad166" kind="function"><name>operator&amp;</name></member>
+    <member refid="namespacethemis_1_1api_1a634394f8e535a8dbf24285049893e832" kind="function"><name>hasCapability</name></member>
+    <member refid="namespacethemis_1_1api_1a0b3f452f7822c3276e672189986d17a7" kind="function"><name>aqlEscapeLiteral</name></member>
+    <member refid="namespacethemis_1_1api_1af44acea52b5298daa7f9c0513d3800fa" kind="function"><name>isValidAqlIdentifier</name></member>
+    <member refid="namespacethemis_1_1api_1a0668632f6ed15e7aae2c2325aae765d4" kind="function"><name>validateGeoJSONBasic</name></member>
+    <member refid="namespacethemis_1_1api_1aada2e107017031e53b8b39b00699992d" kind="function"><name>validateCoordinatePair</name></member>
+  </compound>
+  <compound refid="namespacethemis_1_1api_1_1_0d161235063250017223205041261046035003125364166346" kind="namespace"><name>themis::api::@161235063250017223205041261046035003125364166346</name>
+  </compound>
+  <compound refid="namespacethemis_1_1api_1_1_0d221140247254077056060203363235103375206061050177" kind="namespace"><name>themis::api::@221140247254077056060203363235103375206061050177</name>
+  </compound>
+  <compound refid="namespacethemis_1_1auth" kind="namespace"><name>themis::auth</name>
+  </compound>
+  <compound refid="namespacethemis_1_1errors" kind="namespace"><name>themis::errors</name>
+  </compound>
+  <compound refid="namespacethemis_1_1graphql" kind="namespace"><name>themis::graphql</name>
+    <member refid="namespacethemis_1_1graphql_1a8a76cdefa7d815d00cdf88b5834a1931" kind="enum"><name>OperationType</name></member>
+    <member refid="namespacethemis_1_1graphql_1a8a76cdefa7d815d00cdf88b5834a1931a66c1b4c7f3dc385b68a9fa903ccd016d" kind="enumvalue"><name>Query</name></member>
+    <member refid="namespacethemis_1_1graphql_1a8a76cdefa7d815d00cdf88b5834a1931a59016373e3e4440ecf76c1d4b6bcd97d" kind="enumvalue"><name>Mutation</name></member>
+    <member refid="namespacethemis_1_1graphql_1a8a76cdefa7d815d00cdf88b5834a1931a787ad0b7a17de4ad6b1711bbf8d79fcb" kind="enumvalue"><name>Subscription</name></member>
+    <member refid="namespacethemis_1_1graphql_1acbd82cfdf8723d4e36855c04927a1f7e" kind="typedef"><name>ValueMap</name></member>
+    <member refid="namespacethemis_1_1graphql_1aa6464615b9c9cfb6ba66e0ceb88cf540" kind="typedef"><name>ValueList</name></member>
+    <member refid="namespacethemis_1_1graphql_1a741fbf5bb9b268f70edcc3d922bb3303" kind="variable"><name>kGraphQLMaxComplexity</name></member>
+    <member refid="namespacethemis_1_1graphql_1a30d569ff68714998912abc8fa837918c" kind="function"><name>makeComplexityErrorMessage</name></member>
+    <member refid="namespacethemis_1_1graphql_1ac12974aab198f5ba53e4f4c4be355964" kind="function"><name>jsonToGqlValue</name></member>
+    <member refid="namespacethemis_1_1graphql_1a0c6d638886c559e37fadbbd7c3c0a09b" kind="function"><name>gqlValueToJson</name></member>
+    <member refid="namespacethemis_1_1graphql_1a11e761d6a18e822af3cb3424443c708e" kind="function"><name>computeSelectionDepth</name></member>
+  </compound>
+  <compound refid="namespacethemis_1_1graphql_1_1_0d220224305067110044252171250305110031310040063175" kind="namespace"><name>themis::graphql::@220224305067110044252171250305110031310040063175</name>
+  </compound>
+  <compound refid="namespacethemis_1_1index" kind="namespace"><name>themis::index</name>
+  </compound>
+  <compound refid="namespacethemis_1_1query" kind="namespace"><name>themis::query</name>
+  </compound>
+  <compound refid="namespacethemis_1_1server" kind="namespace"><name>themis::server</name>
+  </compound>
+  <compound refid="bench__api__release__gates_8cpp" kind="file"><name>bench_api_release_gates.cpp</name>
+    <member refid="bench__api__release__gates_8cpp_1ace86d8b943dcf9248370d4dc9218689d" kind="function"><name>BM_PolicyGetRequestHappyPath</name></member>
+    <member refid="bench__api__release__gates_8cpp_1adcb4847e26b515b54cc6a34d02822740" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__api__release__gates_8cpp_1a8a8fb5a5be3c99c2b5fe064e3715d827" kind="function"><name>BM_PolicyGetRequestWithVersionHeader</name></member>
+    <member refid="bench__api__release__gates_8cpp_1af4ea2bc7d03b53b119f22bad67d157c2" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__api__release__gates_8cpp_1a80e35c8cfa12d6b6c77466073ca5bf87" kind="function"><name>BM_PolicyPostSmallBody</name></member>
+    <member refid="bench__api__release__gates_8cpp_1a68cf4e911cb4c0147274a1d41fad330d" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__api__release__gates_8cpp_1af2bb4beefde4914d2c50d08c4c5af8cd" kind="function"><name>BM_PolicyPostMediumBody</name></member>
+    <member refid="bench__api__release__gates_8cpp_1a49e5ee97a7198133896c8fdb5407d1d9" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__api__release__gates_8cpp_1ab99627ef244d9f362d071cb811ee11d4" kind="function"><name>BM_PolicyPayloadRejection</name></member>
+    <member refid="bench__api__release__gates_8cpp_1a6303dc1ddef656b80e5ccd5b379d3dbb" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__api__release__gates_8cpp_1a13b2bdd89a40558611354ddd8e555584" kind="function"><name>BM_PolicyVersionRejection</name></member>
+    <member refid="bench__api__release__gates_8cpp_1a033c5d5eea4e515f11d4afe7693d000d" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__api__release__gates_8cpp_1aa9405b0ac042c6af52ea8e3ecfcfadd3" kind="function"><name>BM_ErrorTaxonomyToErrorCode</name></member>
+    <member refid="bench__api__release__gates_8cpp_1af71be91ab329cb83ac918191d0dd6853" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__api__release__gates_8cpp_1a845c526687e75ae5eb921429d0bde0f4" kind="function"><name>BM_ErrorTaxonomyToHttpStatus</name></member>
+    <member refid="bench__api__release__gates_8cpp_1abe3af6a1eb262f29fee8c1d7f6df88b8" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__api__release__gates_8cpp_1a090d83274c7d8ba3cc1ca2bc4d42207b" kind="function"><name>BM_ContractValidateGetValid</name></member>
+    <member refid="bench__api__release__gates_8cpp_1a9efd12d2d0f17b8adbe1b709c7a1cc4b" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__api__release__gates_8cpp_1a4fdf681501c9721c1267939b463c9053" kind="function"><name>BM_ContractValidatePostValid</name></member>
+    <member refid="bench__api__release__gates_8cpp_1a49879e51e2df38fd0f6eb8344d790355" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__api__release__gates_8cpp_1a72ac8467f1a7b51d53115e5741ade935" kind="function"><name>BM_ContractValidateUnsupportedVersion</name></member>
+    <member refid="bench__api__release__gates_8cpp_1a4559afa7e81fe542187263b54f8fafae" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__api__release__gates_8cpp_1a3f70dfb443a991648dd290d350e72628" kind="function"><name>BM_PolicySustainedGetThroughput</name></member>
+    <member refid="bench__api__release__gates_8cpp_1a60cea23754a6c3100a0e9273e4d4ba54" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__api__release__gates_8cpp_1a0546ae74aa6454b0654b2d5be1a4e61f" kind="function"><name>BM_PolicySustainedPostThroughput</name></member>
+    <member refid="bench__api__release__gates_8cpp_1abe55e381ddcc8f97515d90ff9224bb97" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__api__release__gates_8cpp_1a47ebb166946e5e0b80ae6edaf612e3a3" kind="function"><name>BM_PolicyMixedRequestTypes</name></member>
+    <member refid="bench__api__release__gates_8cpp_1a5ec90212a3e1d96838c3a7fac3466c88" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__api__release__gates_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kind="function"><name>BENCHMARK_MAIN</name></member>
+  </compound>
+  <compound refid="bench__api__transport_8cpp" kind="file"><name>bench_api_transport.cpp</name>
+    <member refid="bench__api__transport_8cpp_1a916a87b96fe42831f9cb0166fdf43d57" kind="function"><name>BM_TransportHandleGetRequest</name></member>
+    <member refid="bench__api__transport_8cpp_1aac7d40a053fc2897640216390a04ee8d" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__api__transport_8cpp_1a52942e4e01f7a8d2bfe205367aff8aab" kind="function"><name>BM_TransportHandlePostSmall</name></member>
+    <member refid="bench__api__transport_8cpp_1aa7f14f66a137acf03433ad958a76e655" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__api__transport_8cpp_1a1d5b4877245644cc51a15236e76ee067" kind="function"><name>BM_TransportHandlePostMedium</name></member>
+    <member refid="bench__api__transport_8cpp_1af7961e047fd793f02e326a141937fbdb" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__api__transport_8cpp_1a3a290c24ebfcc74d2c7d2831ebc5ad5b" kind="function"><name>BM_TransportHandleWithManyHeaders</name></member>
+    <member refid="bench__api__transport_8cpp_1af1ad66a8c000235e1de3714a4101e8a0" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__api__transport_8cpp_1aaf4af040fa0ce4efa3beb5e33a5ad700" kind="function"><name>BM_TransportSerializeSmallResponse</name></member>
+    <member refid="bench__api__transport_8cpp_1a6a7c3ee9e9c72a5aaa3507cac03920cc" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__api__transport_8cpp_1a588bf10e614273c2f7b0bb08875e07f7" kind="function"><name>BM_TransportResponseHeaderConstruction</name></member>
+    <member refid="bench__api__transport_8cpp_1a52256d9e96aa048a3a99c07925685fbc" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__api__transport_8cpp_1a5e32bc908cdf282778ba9473223f952f" kind="function"><name>BM_TransportValidateMalformedRequest</name></member>
+    <member refid="bench__api__transport_8cpp_1a20e1365e954c8b81465494de1d9745e4" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__api__transport_8cpp_1ad88d85e98c8e4cba712de398aa48fa42" kind="function"><name>BM_TransportErrorMessageConstruction</name></member>
+    <member refid="bench__api__transport_8cpp_1ab4a488ca6534e37d3df6007e82260af5" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__api__transport_8cpp_1a705912eee4c5ae4b55c2511bf68d9ac2" kind="function"><name>BM_TransportCorrelationIdPropagation</name></member>
+    <member refid="bench__api__transport_8cpp_1ac93ebd26962182a4b2044abaefd26d4c" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__api__transport_8cpp_1abb6fe2cff18744f017cdcdbaed871387" kind="function"><name>BM_TransportHeaderLookup</name></member>
+    <member refid="bench__api__transport_8cpp_1a4d734902d7a207586e86b19ea865e44d" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__api__transport_8cpp_1a9a62663d0941a7a507419995fa714400" kind="function"><name>BM_TransportSequentialRequests</name></member>
+    <member refid="bench__api__transport_8cpp_1a42f2edc51249003c939ac05151c0e101" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__api__transport_8cpp_1a69b136993078db562c2fba2c97a34417" kind="function"><name>BM_TransportLongPath</name></member>
+    <member refid="bench__api__transport_8cpp_1a222d5e05c128e44883d0bd3bf32769cc" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__api__transport_8cpp_1a71eb4896a2b83255a3f0b3ca15182904" kind="function"><name>BM_TransportVersionNegotiation</name></member>
+    <member refid="bench__api__transport_8cpp_1a0130f4786d08754bce475f1edffcfa65" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__api__transport_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kind="function"><name>BENCHMARK_MAIN</name></member>
+  </compound>
+  <compound refid="api__error__taxonomy_8h" kind="file"><name>api_error_taxonomy.h</name>
+  </compound>
+  <compound refid="api__gateway__hook_8h" kind="file"><name>api_gateway_hook.h</name>
+  </compound>
+  <compound refid="api__transport__contracts_8h" kind="file"><name>api_transport_contracts.h</name>
+  </compound>
+  <compound refid="api__transport__policy_8h" kind="file"><name>api_transport_policy.h</name>
+  </compound>
+  <compound refid="api__version__router_8h" kind="file"><name>api_version_router.h</name>
+  </compound>
+  <compound refid="aql__utils_8h" kind="file"><name>aql_utils.h</name>
+  </compound>
+  <compound refid="correlation__id_8h" kind="file"><name>correlation_id.h</name>
+  </compound>
+  <compound refid="federation__admin__handler_8h" kind="file"><name>federation_admin_handler.h</name>
+  </compound>
+  <compound refid="geo__index__hooks_8h" kind="file"><name>geo_index_hooks.h</name>
+  </compound>
+  <compound refid="graphql_8h" kind="file"><name>graphql.h</name>
+  </compound>
+  <compound refid="graphql__aql__resolver_8h" kind="file"><name>graphql_aql_resolver.h</name>
+  </compound>
+  <compound refid="graphql__audit__logger_8h" kind="file"><name>graphql_audit_logger.h</name>
+  </compound>
+  <compound refid="graphql__cache_8h" kind="file"><name>graphql_cache.h</name>
+  </compound>
+  <compound refid="graphql__metrics_8h" kind="file"><name>graphql_metrics.h</name>
+  </compound>
+  <compound refid="graphql__schema__builder_8h" kind="file"><name>graphql_schema_builder.h</name>
+  </compound>
+  <compound refid="graphql__ws__handler_8h" kind="file"><name>graphql_ws_handler.h</name>
+  </compound>
+  <compound refid="grpc__bridge_8h" kind="file"><name>grpc_bridge.h</name>
+  </compound>
+  <compound refid="grpc__server_8h" kind="file"><name>grpc_server.h</name>
+  </compound>
+  <compound refid="http__handler_8h" kind="file"><name>http_handler.h</name>
+  </compound>
+  <compound refid="otlp__exporter_8h" kind="file"><name>otlp_exporter.h</name>
+  </compound>
+  <compound refid="persisted__queries_8h" kind="file"><name>persisted_queries.h</name>
+  </compound>
+  <compound refid="rate__limiter_8h" kind="file"><name>rate_limiter.h</name>
+  </compound>
+  <compound refid="subscription__multiplexer_8h" kind="file"><name>subscription_multiplexer.h</name>
+  </compound>
+  <compound refid="themisdb__grpc__service_8h" kind="file"><name>themisdb_grpc_service.h</name>
+  </compound>
+  <compound refid="themisdb__grpc__service__factory_8h" kind="file"><name>themisdb_grpc_service_factory.h</name>
+  </compound>
+  <compound refid="tracing__middleware_8h" kind="file"><name>tracing_middleware.h</name>
+  </compound>
+  <compound refid="websocket__handler_8h" kind="file"><name>websocket_handler.h</name>
+  </compound>
+  <compound refid="ws__handler_8h" kind="file"><name>ws_handler.h</name>
+  </compound>
+  <compound refid="api__transport__policy_8cpp" kind="file"><name>api_transport_policy.cpp</name>
+  </compound>
+  <compound refid="federation__admin__handler_8cpp" kind="file"><name>federation_admin_handler.cpp</name>
+  </compound>
+  <compound refid="geo__index__hooks_8cpp" kind="file"><name>geo_index_hooks.cpp</name>
+  </compound>
+  <compound refid="graphql_8cpp" kind="file"><name>graphql.cpp</name>
+  </compound>
+  <compound refid="graphql__aql__resolver_8cpp" kind="file"><name>graphql_aql_resolver.cpp</name>
+  </compound>
+  <compound refid="graphql__ws__handler_8cpp" kind="file"><name>graphql_ws_handler.cpp</name>
+  </compound>
+  <compound refid="grpc__server_8cpp" kind="file"><name>grpc_server.cpp</name>
+  </compound>
+  <compound refid="otlp__exporter_8cpp" kind="file"><name>otlp_exporter.cpp</name>
+  </compound>
+  <compound refid="themisdb__grpc__service_8cpp" kind="file"><name>themisdb_grpc_service.cpp</name>
+    <member refid="themisdb__grpc__service_8cpp_1a32a9bf346fa3945b33a2168c715ca35f" kind="define"><name>THEMIS_HAS_API_GRPC</name></member>
+    <member refid="themisdb__grpc__service_8cpp_1a7413a758bfe3934e41fefe523c58975b" kind="define"><name>THEMIS_HAS_JSON</name></member>
+  </compound>
+  <compound refid="tracing__middleware_8cpp" kind="file"><name>tracing_middleware.cpp</name>
+  </compound>
+  <compound refid="ws__handler_8cpp" kind="file"><name>ws_handler.cpp</name>
+  </compound>
+  <compound refid="test__api__auth__config_8cpp" kind="file"><name>test_api_auth_config.cpp</name>
+    <member refid="test__api__auth__config_8cpp_1a08e312263c890e646ad9382ebef38d58" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__auth__config_8cpp_1ac853268c0b2c63a6fb4f3b5c2f8b75a2" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__auth__config_8cpp_1a3120e7971236f612d777b13abbf8ccaa" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__auth__config_8cpp_1a4745b3638e7b693e26cddab7b88dbdaa" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__auth__config_8cpp_1a9518339700c3bb043d6dc11ff7c5ca11" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__auth__config_8cpp_1abd6c3520e8855297bc2e61d56a393644" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__auth__config_8cpp_1aba7d38d147dad1d9c004e5a1c42d4973" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__auth__config_8cpp_1ae203ffb40628de64c6eec768affc186b" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__auth__config_8cpp_1a86a0aae06a7b04fe5c675bbcb5f4fa83" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__auth__config_8cpp_1abf1fee62977357cad74577c434169d51" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__auth__config_8cpp_1abc68182e68cf3e7d6010733825ea4246" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__auth__config_8cpp_1ad733028ffce54f9b29c566ae0f70acb4" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__auth__config_8cpp_1a2567dfa32bbb088b5a32da6df0e85712" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__auth__config_8cpp_1a62859ddffb4cf525196a7a0ffe837e5e" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__auth__config_8cpp_1a4e1ddd00ef0a9485ff38351e7e721e65" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__auth__config_8cpp_1a94b16b2008fb4975db5613314270a252" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__auth__config_8cpp_1aca0d4ea04cce9a3f46336d93754e623c" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__auth__config_8cpp_1af57e45e4516fb5941cd4f18b8926ff22" kind="function"><name>TEST_F</name></member>
+  </compound>
+  <compound refid="test__api__contracts_8cpp" kind="file"><name>test_api_contracts.cpp</name>
+    <member refid="test__api__contracts_8cpp_1a51bc30d31cf25b729275f6ee16723b0f" kind="function"><name>TEST</name></member>
+    <member refid="test__api__contracts_8cpp_1a21d6116129b1139c076f195b88408fc9" kind="function"><name>TEST</name></member>
+    <member refid="test__api__contracts_8cpp_1ae384848767c679feec938b1070e7deaf" kind="function"><name>TEST</name></member>
+    <member refid="test__api__contracts_8cpp_1afb2a4c0896b01e6b236a89cd6fe2319c" kind="function"><name>TEST</name></member>
+    <member refid="test__api__contracts_8cpp_1a4e770b86ea14d8b56b11bba04947e765" kind="function"><name>TEST</name></member>
+    <member refid="test__api__contracts_8cpp_1a6d981a5530074150a22a8655d7228ddd" kind="function"><name>TEST</name></member>
+    <member refid="test__api__contracts_8cpp_1af0783482659c270c9ccc9789f1602201" kind="function"><name>TEST</name></member>
+    <member refid="test__api__contracts_8cpp_1a9d920dd4dd9bcca66304c8c8cbfa9ff1" kind="function"><name>TEST</name></member>
+    <member refid="test__api__contracts_8cpp_1ae1b57537b5ffb268cab0b4a001579418" kind="function"><name>TEST</name></member>
+    <member refid="test__api__contracts_8cpp_1ac1715ff2ec622e3d403245a69fa8337b" kind="function"><name>TEST</name></member>
+    <member refid="test__api__contracts_8cpp_1aca26828e2d86d38cdd3e66bcee362b30" kind="function"><name>TEST</name></member>
+    <member refid="test__api__contracts_8cpp_1ae26d53fd3f54aa86be0c69c8fb24de7f" kind="function"><name>TEST</name></member>
+    <member refid="test__api__contracts_8cpp_1ac096e6f68ce3af7e6b675d5c1ded07d0" kind="function"><name>TEST</name></member>
+    <member refid="test__api__contracts_8cpp_1a73af9c475632ce4d7cf521d596c13a30" kind="function"><name>TEST</name></member>
+    <member refid="test__api__contracts_8cpp_1a306d51c019b46e47ba18c1538c36d6e8" kind="function"><name>TEST</name></member>
+    <member refid="test__api__contracts_8cpp_1a64754e76b8a300e82050e9dc6f7847ab" kind="function"><name>TEST</name></member>
+    <member refid="test__api__contracts_8cpp_1ac97d0be68f0d1e2a6f0f61fc3d53ae43" kind="function"><name>TEST</name></member>
+    <member refid="test__api__contracts_8cpp_1a8d86f2fe75e1b94c364c7b6a90084fb9" kind="function"><name>TEST</name></member>
+    <member refid="test__api__contracts_8cpp_1a424052573599818327e593b3acbc638c" kind="function"><name>TEST</name></member>
+    <member refid="test__api__contracts_8cpp_1a6e4162f06e8945aa34d296bfbbb91d9f" kind="function"><name>TEST</name></member>
+    <member refid="test__api__contracts_8cpp_1ad30913ecb73fdddc77e9be831929ae81" kind="function"><name>TEST</name></member>
+    <member refid="test__api__contracts_8cpp_1a08b981b20d35259fd8dbe1f49f8be996" kind="function"><name>TEST</name></member>
+    <member refid="test__api__contracts_8cpp_1a102af42782ca8d49549fc51c239fb3d7" kind="function"><name>TEST</name></member>
+    <member refid="test__api__contracts_8cpp_1a4b66b69e12e3627635224ed4044bceff" kind="function"><name>TEST</name></member>
+    <member refid="test__api__contracts_8cpp_1ab0c96fb11fff3ffd3dafcdf8f7adafe8" kind="function"><name>TEST</name></member>
+    <member refid="test__api__contracts_8cpp_1a571b3d768701ee7b514c7102ec08fb2b" kind="function"><name>TEST</name></member>
+    <member refid="test__api__contracts_8cpp_1a7dc26e6e10bed986b26eb6cbdf8c4654" kind="function"><name>TEST</name></member>
+    <member refid="test__api__contracts_8cpp_1af9dd8bb287bb5b30e2c76ce8d6cf5a8f" kind="function"><name>TEST</name></member>
+    <member refid="test__api__contracts_8cpp_1ab21842f6bf3538f0415aa9fee6eefad3" kind="function"><name>TEST</name></member>
+    <member refid="test__api__contracts_8cpp_1ab78a50a010be1409b6c2e5ecee6dad64" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__api__degraded__mode_8cpp" kind="file"><name>test_api_degraded_mode.cpp</name>
+    <member refid="test__api__degraded__mode_8cpp_1a91d677840b7d8a52b848f74d417a59ad" kind="function"><name>TEST</name></member>
+    <member refid="test__api__degraded__mode_8cpp_1aa38419e5ee2a494c246cdcc44e4e0e17" kind="function"><name>TEST</name></member>
+    <member refid="test__api__degraded__mode_8cpp_1a14e5773abb4bc8a7db7ad5c62d27d978" kind="function"><name>TEST</name></member>
+    <member refid="test__api__degraded__mode_8cpp_1a0c485647ee964534adbac172d9e52993" kind="function"><name>TEST</name></member>
+    <member refid="test__api__degraded__mode_8cpp_1aa73ab892665ba3671a5d492882ba3d7a" kind="function"><name>TEST</name></member>
+    <member refid="test__api__degraded__mode_8cpp_1a57c5d6c0f7f4cf5615a1f9e591d8ab25" kind="function"><name>TEST</name></member>
+    <member refid="test__api__degraded__mode_8cpp_1ad4cb4a4c23fac1241c682c389281cb89" kind="function"><name>TEST</name></member>
+    <member refid="test__api__degraded__mode_8cpp_1a5f0c5db8a184bbd3e41feaa881b089f7" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__api__error__handling_8cpp" kind="file"><name>test_api_error_handling.cpp</name>
+    <member refid="test__api__error__handling_8cpp_1ae42d3808b566ad45d4b26951f5b98dbf" kind="function"><name>TEST</name></member>
+    <member refid="test__api__error__handling_8cpp_1a58bef21653b984751f82678f89c61ca5" kind="function"><name>TEST</name></member>
+    <member refid="test__api__error__handling_8cpp_1a2cfa1a5a565b4d1651cae2ddc41ea0ec" kind="function"><name>TEST</name></member>
+    <member refid="test__api__error__handling_8cpp_1a00c92923bec2fdb8f5e281a6378cc5e0" kind="function"><name>TEST</name></member>
+    <member refid="test__api__error__handling_8cpp_1a77da94498b7c8ef34924e0af1e1a91d4" kind="function"><name>TEST</name></member>
+    <member refid="test__api__error__handling_8cpp_1ab48af86a99df4c328881906e6678fbfa" kind="function"><name>TEST</name></member>
+    <member refid="test__api__error__handling_8cpp_1a2eefb953dfd0e5f18c5c7349a8b05b5d" kind="function"><name>TEST</name></member>
+    <member refid="test__api__error__handling_8cpp_1ac37f7d351d5bf6df4f9ae40eaedab171" kind="function"><name>TEST</name></member>
+    <member refid="test__api__error__handling_8cpp_1a0a1b71a7678fa37906a5dee7e3bd52b2" kind="function"><name>TEST</name></member>
+    <member refid="test__api__error__handling_8cpp_1a3b86ef88f94a4aa73840130e1edfe5fd" kind="function"><name>TEST</name></member>
+    <member refid="test__api__error__handling_8cpp_1a9368afb825cf57c160e06499e0388744" kind="function"><name>TEST</name></member>
+    <member refid="test__api__error__handling_8cpp_1a742c79a9836172bd151620a8f92720be" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__api__grpc__server_8cpp" kind="file"><name>test_api_grpc_server.cpp</name>
+    <member refid="test__api__grpc__server_8cpp_1a28d6c0bb3c25701d7d90ff50cdbfa9d0" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__api__interfaces_8cpp" kind="file"><name>test_api_interfaces.cpp</name>
+    <member refid="test__api__interfaces_8cpp_1a9b1e1eebf94fff5b240ad3b824d09121" kind="function"><name>TEST</name></member>
+    <member refid="test__api__interfaces_8cpp_1a6ed42f8b0e25916f039f1922e78c7b0e" kind="function"><name>TEST</name></member>
+    <member refid="test__api__interfaces_8cpp_1a68301ff4b2deebdcf1b1f3a0cf619dc7" kind="function"><name>TEST</name></member>
+    <member refid="test__api__interfaces_8cpp_1a5d632d20c5b4b2b52a212a730f7041f3" kind="function"><name>TEST</name></member>
+    <member refid="test__api__interfaces_8cpp_1ad1234fa502c87c50906ad5cedd2277ec" kind="function"><name>TEST</name></member>
+    <member refid="test__api__interfaces_8cpp_1a10a1cefa9702327a351d8ae3f9df1b6f" kind="function"><name>TEST</name></member>
+    <member refid="test__api__interfaces_8cpp_1a7a956403c7ced138ba010fd6f3087ac8" kind="function"><name>TEST</name></member>
+    <member refid="test__api__interfaces_8cpp_1aae3a8b0d1c803716494621d56e4014ee" kind="function"><name>TEST</name></member>
+    <member refid="test__api__interfaces_8cpp_1a5b1e93f40a6d68aac41e1b8dffe407ee" kind="function"><name>TEST</name></member>
+    <member refid="test__api__interfaces_8cpp_1a1aa0f86eef057c3a37954d39a73ed864" kind="function"><name>TEST</name></member>
+    <member refid="test__api__interfaces_8cpp_1ace5d77a5bf475e1b20141101107f433b" kind="function"><name>TEST</name></member>
+    <member refid="test__api__interfaces_8cpp_1a42339b1e52ab8e9351acb6010b3a3e20" kind="function"><name>TEST</name></member>
+    <member refid="test__api__interfaces_8cpp_1a38845f39e756b078d839396a092a9070" kind="function"><name>TEST</name></member>
+    <member refid="test__api__interfaces_8cpp_1ac42e5937703c697147fa45be7ef29eaa" kind="function"><name>TEST</name></member>
+    <member refid="test__api__interfaces_8cpp_1abe9b9445935e4d1397f4eb6ff8b14223" kind="function"><name>TEST</name></member>
+    <member refid="test__api__interfaces_8cpp_1a03e75257ed02d21460b80b15c0fbfa78" kind="function"><name>TEST</name></member>
+    <member refid="test__api__interfaces_8cpp_1a5462c3ff1ca69ebcd6126ba78f66e388" kind="function"><name>TEST</name></member>
+    <member refid="test__api__interfaces_8cpp_1a4a98064f7c8287b367c555495af996ca" kind="function"><name>TEST</name></member>
+    <member refid="test__api__interfaces_8cpp_1a234a5db7075ab145bd008bada1454f42" kind="function"><name>TEST</name></member>
+    <member refid="test__api__interfaces_8cpp_1aab3d23f90921ae8e683110c947bbd4ba" kind="function"><name>TEST</name></member>
+    <member refid="test__api__interfaces_8cpp_1a72b393bd63cdfeb155cc2e15908297f9" kind="function"><name>TEST</name></member>
+    <member refid="test__api__interfaces_8cpp_1af1dc797315d7e8e200502b3c715362d2" kind="function"><name>TEST</name></member>
+    <member refid="test__api__interfaces_8cpp_1a8fdc780f8100123aa002366de233beca" kind="function"><name>TEST</name></member>
+    <member refid="test__api__interfaces_8cpp_1ae635c7b7fdfafc100c277ccf66935376" kind="function"><name>TEST</name></member>
+    <member refid="test__api__interfaces_8cpp_1a59b4a256ed12b95f6ad0ebc0964b5031" kind="function"><name>TEST</name></member>
+    <member refid="test__api__interfaces_8cpp_1a7b9a4427548cd5609067cbd1e0467e89" kind="function"><name>TEST</name></member>
+    <member refid="test__api__interfaces_8cpp_1a85758e4a9af72ec1b0dc282b2fe4e210" kind="function"><name>TEST</name></member>
+    <member refid="test__api__interfaces_8cpp_1ad6640bf570dc0f564d7f186cfab036b3" kind="function"><name>TEST</name></member>
+    <member refid="test__api__interfaces_8cpp_1ab0a6e093db920e302164e58c11b155fa" kind="function"><name>TEST</name></member>
+    <member refid="test__api__interfaces_8cpp_1aeef1b8cc423f1a9a8036b7e3d3910164" kind="function"><name>TEST</name></member>
+    <member refid="test__api__interfaces_8cpp_1afecbd011fb80da64397b3b1e78a48afa" kind="function"><name>TEST</name></member>
+    <member refid="test__api__interfaces_8cpp_1a3ac2d93081212a89d52607af7e845951" kind="function"><name>TEST</name></member>
+    <member refid="test__api__interfaces_8cpp_1a3d6cbd2f3e6df64a86be3d245242df66" kind="function"><name>TEST</name></member>
+    <member refid="test__api__interfaces_8cpp_1ae5b0fe9c4a19cf9f5f2ca54a449a72b6" kind="function"><name>TEST</name></member>
+    <member refid="test__api__interfaces_8cpp_1aa15bfdf789175dd1f8a034c064491c8d" kind="function"><name>TEST</name></member>
+    <member refid="test__api__interfaces_8cpp_1abf9ff7fdc9dd6831681e55754a65b4d8" kind="function"><name>TEST</name></member>
+    <member refid="test__api__interfaces_8cpp_1a45317a37daa98af606a3ba97bc7a8c90" kind="function"><name>TEST</name></member>
+    <member refid="test__api__interfaces_8cpp_1aa7d896d736d0cd580f4264cbc223d090" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__api__key__authenticator_8cpp" kind="file"><name>test_api_key_authenticator.cpp</name>
+    <member refid="test__api__key__authenticator_8cpp_1a5c729c2f0baa7be0a87862e54d73d4aa" kind="function"><name>TEST</name></member>
+    <member refid="test__api__key__authenticator_8cpp_1a5d824c948a7dc24687c523914b390c21" kind="function"><name>TEST</name></member>
+    <member refid="test__api__key__authenticator_8cpp_1a40b74e7f8c19d0ed7746d47fb2f9f346" kind="function"><name>TEST</name></member>
+    <member refid="test__api__key__authenticator_8cpp_1a62e70a0adbaaffaa9cec1b126272a975" kind="function"><name>TEST</name></member>
+    <member refid="test__api__key__authenticator_8cpp_1a2eab071a31ec12ca4f77f322a1b00571" kind="function"><name>TEST</name></member>
+    <member refid="test__api__key__authenticator_8cpp_1a7d33a7eadd86fa9135f2ad183bef3c03" kind="function"><name>TEST</name></member>
+    <member refid="test__api__key__authenticator_8cpp_1afa108806f754ed5653ebd686f1439ee6" kind="function"><name>TEST</name></member>
+    <member refid="test__api__key__authenticator_8cpp_1a10863a10f734cc12356e52fcc57ebcf2" kind="function"><name>TEST</name></member>
+    <member refid="test__api__key__authenticator_8cpp_1a48a29d6de9e514d947c62f071dbb2751" kind="function"><name>TEST</name></member>
+    <member refid="test__api__key__authenticator_8cpp_1a7b52119d5b601a6d7abae7c934bcd4a9" kind="function"><name>TEST</name></member>
+    <member refid="test__api__key__authenticator_8cpp_1a2318e23af2ffa449cda8633d3d8f0efe" kind="function"><name>TEST</name></member>
+    <member refid="test__api__key__authenticator_8cpp_1a945141d3b134653372b1475d51a6d072" kind="function"><name>TEST</name></member>
+    <member refid="test__api__key__authenticator_8cpp_1afd489eb3c8e0620d8dc8459cca21487c" kind="function"><name>TEST</name></member>
+    <member refid="test__api__key__authenticator_8cpp_1af6a5acdf40f59391865622949505c163" kind="function"><name>TEST</name></member>
+    <member refid="test__api__key__authenticator_8cpp_1a1b9e568ac66d818d33c1698a1c999453" kind="function"><name>TEST</name></member>
+    <member refid="test__api__key__authenticator_8cpp_1aa7f0a2744666829cc3d9ee252380597e" kind="function"><name>TEST</name></member>
+    <member refid="test__api__key__authenticator_8cpp_1ab4e8c7911d69c0ca463635a24c7b9121" kind="function"><name>TEST</name></member>
+    <member refid="test__api__key__authenticator_8cpp_1a771d7d4862dc9668f679353ab63155d0" kind="function"><name>TEST</name></member>
+    <member refid="test__api__key__authenticator_8cpp_1a15c956337cd7dd574c1512d098d565f5" kind="function"><name>TEST</name></member>
+    <member refid="test__api__key__authenticator_8cpp_1a35e2d967d3be9c51eabcf9ab48f167e5" kind="function"><name>TEST</name></member>
+    <member refid="test__api__key__authenticator_8cpp_1ae87c1da0e0de91d190b7805d243a68bf" kind="function"><name>TEST</name></member>
+    <member refid="test__api__key__authenticator_8cpp_1a268e2714430df2dbd576a2c84052d919" kind="function"><name>TEST</name></member>
+    <member refid="test__api__key__authenticator_8cpp_1a525c6ef3fc60c9729805ca4a8ebe895b" kind="function"><name>TEST</name></member>
+    <member refid="test__api__key__authenticator_8cpp_1a304c43220bf47406ad4b25071b09907c" kind="function"><name>TEST</name></member>
+    <member refid="test__api__key__authenticator_8cpp_1a7d5c5d70fb801305dbbde906326db9fe" kind="function"><name>TEST</name></member>
+    <member refid="test__api__key__authenticator_8cpp_1abd0808bf1e2a813038a8b46ad63f0221" kind="function"><name>TEST</name></member>
+    <member refid="test__api__key__authenticator_8cpp_1ab8e808eeea04cf04e77c7a703a83b1cd" kind="function"><name>TEST</name></member>
+    <member refid="test__api__key__authenticator_8cpp_1af529e3d68f775eb04897516c33abe6df" kind="function"><name>TEST</name></member>
+    <member refid="test__api__key__authenticator_8cpp_1a21d35c87183b9008635ef89784784fcd" kind="function"><name>TEST</name></member>
+    <member refid="test__api__key__authenticator_8cpp_1a569b178376615a288830f766e490ad9f" kind="function"><name>TEST</name></member>
+    <member refid="test__api__key__authenticator_8cpp_1a7541fc621e1e8fd2875138a2f83ee548" kind="function"><name>TEST</name></member>
+    <member refid="test__api__key__authenticator_8cpp_1af833ba3619fcbeacbea66966463e3885" kind="function"><name>TEST</name></member>
+    <member refid="test__api__key__authenticator_8cpp_1a13823983dec3613eb837731940121f62" kind="function"><name>TEST</name></member>
+    <member refid="test__api__key__authenticator_8cpp_1ab332734781abbf65e0c4906b42538b4d" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__api__key__mgmt__handler_8cpp" kind="file"><name>test_api_key_mgmt_handler.cpp</name>
+    <member refid="test__api__key__mgmt__handler_8cpp_1a7a18f945ad009789cb904cadc7994002" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__key__mgmt__handler_8cpp_1ab48a18fc708635121c5303d0a98b83fd" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__key__mgmt__handler_8cpp_1a85ed1e9d55f01db6ba46f1e4b4f05fb7" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__key__mgmt__handler_8cpp_1aa8b5617599395131a41ab9d73e0a5f9d" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__key__mgmt__handler_8cpp_1ab6918a381c0345af95224acb845a9c1e" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__key__mgmt__handler_8cpp_1a8be9eede90d8ce754992f199595abf02" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__key__mgmt__handler_8cpp_1acf961e14972c545634921dee7c891c4c" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__key__mgmt__handler_8cpp_1abf96a3b09dc84dae87ae9fb5ab87cabb" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__key__mgmt__handler_8cpp_1a7e856558132c69772e512ef44cfd0006" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__key__mgmt__handler_8cpp_1a7db549ced6e372c52fd7765fa7dc6ca2" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__key__mgmt__handler_8cpp_1a7c2284c7a230beabf6138caaaa2446a7" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__key__mgmt__handler_8cpp_1aa2a772fae8848193515a6990d124b345" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__key__mgmt__handler_8cpp_1a58108a6d809bd09a37b2077d5e59f7bb" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__key__mgmt__handler_8cpp_1ae2b0654aa9b6075a9847093b34ad8da7" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__key__mgmt__handler_8cpp_1a07a8b4b8ff9c89e8cbfa31bf63705042" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__key__mgmt__handler_8cpp_1ae5145a853cd9a33dae0749642080d633" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__key__mgmt__handler_8cpp_1a69b23bdabcef2afe2151df68dd4f5069" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__key__mgmt__handler_8cpp_1a17f9578846a0517fe4805d5b9408d146" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__key__mgmt__handler_8cpp_1ae9dbc8a46c4feb2a9fc1f668f4411a95" kind="function"><name>TEST_F</name></member>
+  </compound>
+  <compound refid="test__api__llm__grpc__focused_8cpp" kind="file"><name>test_api_llm_grpc_focused.cpp</name>
+    <member refid="test__api__llm__grpc__focused_8cpp_1a794da8419a322124593537967108d482" kind="function"><name>TEST</name></member>
+    <member refid="test__api__llm__grpc__focused_8cpp_1a395238f702bf0a796b8145b892aadf56" kind="function"><name>TEST</name></member>
+    <member refid="test__api__llm__grpc__focused_8cpp_1a183435fea5ae07ddaf388d5cae90d18b" kind="function"><name>TEST</name></member>
+    <member refid="test__api__llm__grpc__focused_8cpp_1aecce590418c0b61a3c29581c880d63fd" kind="function"><name>TEST</name></member>
+    <member refid="test__api__llm__grpc__focused_8cpp_1a8f24824a6a82031d11f42e363560fd96" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__api__observability_8cpp" kind="file"><name>test_api_observability.cpp</name>
+    <member refid="test__api__observability_8cpp_1a4fd06e5d8fa41e7eb7e5667d1de12b5f" kind="typedef"><name>RequestMetrics</name></member>
+    <member refid="test__api__observability_8cpp_1a647f2d95674ad84fe1ec82dbd374e543" kind="function"><name>TEST</name></member>
+    <member refid="test__api__observability_8cpp_1aeff88349cc776d9ecd68fc66712c2daa" kind="function"><name>TEST</name></member>
+    <member refid="test__api__observability_8cpp_1a2ea5c8827fb80d02ecacf789cd36c426" kind="function"><name>TEST</name></member>
+    <member refid="test__api__observability_8cpp_1a7b346d0207a8ccb0fb66fbf271e21cf9" kind="function"><name>TEST</name></member>
+    <member refid="test__api__observability_8cpp_1a73d480273c347a6d451191540710e9de" kind="function"><name>TEST</name></member>
+    <member refid="test__api__observability_8cpp_1a01f8453c4d881cffcb60c4b91c790e8a" kind="function"><name>TEST</name></member>
+    <member refid="test__api__observability_8cpp_1a35bfdb8a761298a042d23eea99a866a0" kind="function"><name>TEST</name></member>
+    <member refid="test__api__observability_8cpp_1aa7d96ec37f2825ca04712af31f07df1f" kind="function"><name>TEST</name></member>
+    <member refid="test__api__observability_8cpp_1a97f4733000aff414013c219181224cbd" kind="function"><name>TEST</name></member>
+    <member refid="test__api__observability_8cpp_1a259700a5fc80063000f2444df69d3c09" kind="function"><name>TEST</name></member>
+    <member refid="test__api__observability_8cpp_1a784905ac0d7a40392f943b81403101b8" kind="function"><name>TEST</name></member>
+    <member refid="test__api__observability_8cpp_1a0835e4f17e30ed17b2847c1ced39808e" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__api__phase4__concurrency_8cpp" kind="file"><name>test_api_phase4_concurrency.cpp</name>
+    <member refid="test__api__phase4__concurrency_8cpp_1a94d28f65ec51b2353d7e1ad86bd2fc54" kind="function"><name>TEST</name></member>
+    <member refid="test__api__phase4__concurrency_8cpp_1ad92c05797aa0358848b3207abc7dc6a1" kind="function"><name>TEST</name></member>
+    <member refid="test__api__phase4__concurrency_8cpp_1a408df68fe92f01810ee5275ac06ca7c2" kind="function"><name>TEST</name></member>
+    <member refid="test__api__phase4__concurrency_8cpp_1ae126e804862ee9c2e56593a86eaad0fe" kind="function"><name>TEST</name></member>
+    <member refid="test__api__phase4__concurrency_8cpp_1a22092f0186b52256e153ad7384685480" kind="function"><name>TEST</name></member>
+    <member refid="test__api__phase4__concurrency_8cpp_1af9b77351ef46ab23bbba20887e57bb13" kind="function"><name>TEST</name></member>
+    <member refid="test__api__phase4__concurrency_8cpp_1a044cd7283f9823ce4c908092b6415f27" kind="function"><name>TEST</name></member>
+    <member refid="test__api__phase4__concurrency_8cpp_1aa874b55ae5180700d01be14b15be5852" kind="function"><name>TEST</name></member>
+    <member refid="test__api__phase4__concurrency_8cpp_1a032a17d529f9300dbe96654e2d3d53c1" kind="function"><name>TEST</name></member>
+    <member refid="test__api__phase4__concurrency_8cpp_1a5423d0a94005f1932440786b889fcf97" kind="function"><name>TEST</name></member>
+    <member refid="test__api__phase4__concurrency_8cpp_1ae3d17411e10a2ae51e022dd7b7102526" kind="function"><name>TEST</name></member>
+    <member refid="test__api__phase4__concurrency_8cpp_1aa8fdd2ef02260c1a98175a7392d7271c" kind="function"><name>TEST</name></member>
+    <member refid="test__api__phase4__concurrency_8cpp_1a2b325abee4ebaf7950849776bfdcbcca" kind="function"><name>TEST</name></member>
+    <member refid="test__api__phase4__concurrency_8cpp_1a7cab0e98b7e8831a065993d6e13812da" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__api__routing_8cpp" kind="file"><name>test_api_routing.cpp</name>
+    <member refid="test__api__routing_8cpp_1a2cdda4288a03caa4beebadd1e73c1131" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__routing_8cpp_1aec4ab254462cb826f95682db477be181" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__routing_8cpp_1a96373b02429f74110d6a3e9105ce7c66" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__routing_8cpp_1a206a3dce821ed924e48348227c4ea396" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__routing_8cpp_1a568c40241338e084d952676829b51085" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__routing_8cpp_1a31c8248d62825b3fef892a36d4974c81" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__routing_8cpp_1ab21e67d8437e7ec062808c516623ba36" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__routing_8cpp_1ace2e1235bd65f2be520d1c8ca29bb89d" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__routing_8cpp_1a82097bff6889b21b1912f7860a561a64" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__routing_8cpp_1a11472a3b1156ea3bcd268733992d1932" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__routing_8cpp_1a29dd8f12c550bc2342af25e7fce9132c" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__routing_8cpp_1a1c6d89f2bc385d7457531096bcd0721e" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__routing_8cpp_1a6736fb7b3a2dd966e873878d84efd43c" kind="function"><name>TEST</name></member>
+    <member refid="test__api__routing_8cpp_1aa66478e564c12863d670686bc363910e" kind="function"><name>TEST</name></member>
+    <member refid="test__api__routing_8cpp_1a03331b8bae7cb1ab17a8d1d771e08027" kind="function"><name>TEST</name></member>
+    <member refid="test__api__routing_8cpp_1afa4be2516596407e0e50bb16a2d61a63" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__routing_8cpp_1a7a721acdf6ef89d94eeb7282ebe9937b" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__routing_8cpp_1a17d13c27d46b29738818a54173ebb13a" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__routing_8cpp_1adec42d6a34fb85bc996cfe94af81c54f" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__routing_8cpp_1a068e0f06f61bc97c090492ece9a1ad6f" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__routing_8cpp_1a5d569a78a5c216bbfd6640fc421b108c" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__routing_8cpp_1abfd0f4978c231b4352b46964db92f52e" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__routing_8cpp_1a6a2073f87c1827cf14ede46a1038efe4" kind="function"><name>TEST</name></member>
+    <member refid="test__api__routing_8cpp_1a5803b16049c12f49bd2e975de4e41ade" kind="function"><name>TEST</name></member>
+    <member refid="test__api__routing_8cpp_1aa84348c025f50f5c98413effc229d2e3" kind="function"><name>TEST</name></member>
+    <member refid="test__api__routing_8cpp_1a72ab1a65c60af9ad2d8cf8e8298afc9f" kind="function"><name>TEST</name></member>
+    <member refid="test__api__routing_8cpp_1a86c098fcaeb7571701d465549ebfb156" kind="function"><name>TEST</name></member>
+    <member refid="test__api__routing_8cpp_1ae1e5da01d2e7627dd5252df5917e81bf" kind="function"><name>TEST</name></member>
+    <member refid="test__api__routing_8cpp_1a359ceebbe34d5027cb918093fb3d85b7" kind="function"><name>TEST</name></member>
+    <member refid="test__api__routing_8cpp_1a599a4a70171c439c0c39422899d80b49" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__api__security__audit_8cpp" kind="file"><name>test_api_security_audit.cpp</name>
+    <member refid="test__api__security__audit_8cpp_1a767242ce8f29705b0ab8556fd82b58ba" kind="function"><name>has_finding_containing</name></member>
+    <member refid="test__api__security__audit_8cpp_1ae290f1962c20e62e097820980b664a4d" kind="function"><name>count_severity</name></member>
+    <member refid="test__api__security__audit_8cpp_1af3c1d2cc4aec34a10573a4ad3a1681dd" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__security__audit_8cpp_1a4c6a4299cec76c651f1342e27921f108" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__security__audit_8cpp_1af34af8bd939b1040f321f6f8f9fb5e0e" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__security__audit_8cpp_1a9373d0298d90d2a4b2ac19c8e7418174" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__security__audit_8cpp_1a90ea3773dcdb35d08d44b1b12fa41b10" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__security__audit_8cpp_1a2e6f233f0aff959b50f2a05ea4a8c123" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__security__audit_8cpp_1a9803546240759e40ff00b2c8ef3a41de" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__security__audit_8cpp_1a79cdf7f41898414f72f181ece4ad0f37" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__security__audit_8cpp_1a6fec870653e92f78981b9f358e67625d" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__security__audit_8cpp_1af5ba14d7e365b64c8c080010260ebde2" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__security__audit_8cpp_1ab0ae8df4a6e43b2b6b8d8ecbcb116189" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__security__audit_8cpp_1af2e3e865b080e4ae5aa68164ccdabc30" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__security__audit_8cpp_1a7eaf4f801e55eb60b935aca5d1901de9" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__security__audit_8cpp_1a262c066de950b0c115a40a7a2e8133fe" kind="function"><name>TEST_F</name></member>
+  </compound>
+  <compound refid="test__api__transport__hardening_8cpp" kind="file"><name>test_api_transport_hardening.cpp</name>
+    <member refid="test__api__transport__hardening_8cpp_1a04788433ac5a156cf12ef94f9c84288c" kind="function"><name>TEST</name></member>
+    <member refid="test__api__transport__hardening_8cpp_1aa4b889e8ee62758126caf67f9ff4b73f" kind="function"><name>TEST</name></member>
+    <member refid="test__api__transport__hardening_8cpp_1ad7db8e75641dcbf79d76ef909f4bbe71" kind="function"><name>TEST</name></member>
+    <member refid="test__api__transport__hardening_8cpp_1af24100a0b27d32b3867646488b05137c" kind="function"><name>TEST</name></member>
+    <member refid="test__api__transport__hardening_8cpp_1a4f658812383f89beaf801a37b30ce826" kind="function"><name>TEST</name></member>
+    <member refid="test__api__transport__hardening_8cpp_1a3ec8ecd74b7b8acfb417c2ea6d99c46a" kind="function"><name>TEST</name></member>
+    <member refid="test__api__transport__hardening_8cpp_1ac801f88ff975076bbbdb55051cf2b9eb" kind="function"><name>TEST</name></member>
+    <member refid="test__api__transport__hardening_8cpp_1a55926408caf97aa8ea4ae7202ed308d4" kind="function"><name>TEST</name></member>
+    <member refid="test__api__transport__hardening_8cpp_1a8520377fa6726f4a75e2bee17d60c09d" kind="function"><name>TEST</name></member>
+    <member refid="test__api__transport__hardening_8cpp_1abd3e8b2b4b9960955b4dcebfd998a1ce" kind="function"><name>TEST</name></member>
+    <member refid="test__api__transport__hardening_8cpp_1a129bfbbb3ede1dada962f8563fa5c3b7" kind="function"><name>TEST</name></member>
+    <member refid="test__api__transport__hardening_8cpp_1ae4884fb58de68896d10a68cf07c329c9" kind="function"><name>TEST</name></member>
+    <member refid="test__api__transport__hardening_8cpp_1a4b1ba306f0dd982e594f05e400c79c19" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__api__version_8cpp" kind="file"><name>test_api_version.cpp</name>
+    <member refid="test__api__version_8cpp_1aede1ee2e82ba2e4720f942e30d785385" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__version_8cpp_1a284dbf3adc45643c3f43223d5c2cb837" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__version_8cpp_1a56531e8a9c081cb06271865d216e934c" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__version_8cpp_1a25f70811707c0839a99fe47b93ab4792" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__version_8cpp_1a387edcde02bf7df0ac4f23f00aeba8fc" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__version_8cpp_1a5cd06ee648229298a6847625c1021368" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__version_8cpp_1a19135ac8d924ea842a2f9fe100f31b31" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__version_8cpp_1afe1878f0396ce576633ce74ffdc66600" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__version_8cpp_1a629450603e9e19602789b2996ad4ee03" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__version_8cpp_1acaee7919bd1f9cc818352ee13f893bc7" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__version_8cpp_1a2480f08f8bd5d3cd41f39cf479800483" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__version_8cpp_1a4c57f583886e1aca1340866f809a0655" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__version_8cpp_1a4fecfe5118218107d6378821897df54d" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__version_8cpp_1add896782dc07d1d5b31c4d4fabfd5458" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__version_8cpp_1ace0ba2bfd5ef49c4112d58386ab24634" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__version_8cpp_1a73537578b76a53bbeb1bf0e16d37966f" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__version_8cpp_1a28c9a7e8c1ca66a3683eeb2fdb6d8afd" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__version_8cpp_1ac5699fe5f4701af27284c3e78df62b8c" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__version_8cpp_1a2f4ac985de51b21e81442fc67a049f46" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__version_8cpp_1a5769e17ff34584b908ec57b13752a23a" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__version_8cpp_1ab2d2cfbb46e265535c751296342c6858" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__version_8cpp_1a720625ecd2a5c158ff7fc9850e8398fd" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__version_8cpp_1ab1282aabd0e119905ec71c0203698002" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__version_8cpp_1af669ff36ff62573dc6b4534b5c56ed45" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__version_8cpp_1aafd053cf7e76492d4ed9fb3596f9c147" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__version_8cpp_1ac0d7d302f6babae5ee72daf3c73eec84" kind="function"><name>TEST</name></member>
+    <member refid="test__api__version_8cpp_1a24aad961ccec1b0f4dbe23defbe1d949" kind="function"><name>TEST</name></member>
+    <member refid="test__api__version_8cpp_1a25921c4d9a4e9345307466e9bed9a204" kind="function"><name>TEST</name></member>
+    <member refid="test__api__version_8cpp_1a17416c01d83a07e163547678b7fece7e" kind="function"><name>TEST</name></member>
+    <member refid="test__api__version_8cpp_1a554b7a58a133a87fd271041fb94ffbcd" kind="function"><name>TEST</name></member>
+    <member refid="test__api__version_8cpp_1af6ca8fa0d48df3dbd9c2228926e10279" kind="function"><name>TEST</name></member>
+    <member refid="test__api__version_8cpp_1ad31be1c0d2331bf996096b5684ab17a4" kind="function"><name>TEST</name></member>
+    <member refid="test__api__version_8cpp_1a503122e1232dd6b767a72d837ffd40de" kind="function"><name>TEST</name></member>
+    <member refid="test__api__version_8cpp_1aececa592875c2754e32e726cce89ada6" kind="function"><name>TEST</name></member>
+    <member refid="test__api__version_8cpp_1a3e89989f8fd082e5f636353b2c872dea" kind="function"><name>TEST</name></member>
+    <member refid="test__api__version_8cpp_1a9e149775258803e13d19dc66a06b5aa7" kind="function"><name>TEST</name></member>
+    <member refid="test__api__version_8cpp_1a5318ce216d6f7890fcc8a375b32fc156" kind="function"><name>TEST</name></member>
+    <member refid="test__api__version_8cpp_1ab1a44167b1d4ec1e4765f0b418653556" kind="function"><name>TEST</name></member>
+    <member refid="test__api__version_8cpp_1a7d7120cc5b400402af5bfea90d2ff994" kind="function"><name>TEST</name></member>
+    <member refid="test__api__version_8cpp_1a2d5709d2a126db8abc04b04ec49d81d0" kind="function"><name>TEST</name></member>
+    <member refid="test__api__version_8cpp_1a1413ab29c63283df2cfdb84ae57f8381" kind="function"><name>TEST</name></member>
+    <member refid="test__api__version_8cpp_1a772174e6f2b74386a017f541481c9ced" kind="function"><name>TEST</name></member>
+    <member refid="test__api__version_8cpp_1a55b2db5c40785150497d01817eaaa9e9" kind="function"><name>TEST</name></member>
+    <member refid="test__api__version_8cpp_1af715e35a9a07401fc779c0b28ba97c9b" kind="function"><name>TEST</name></member>
+    <member refid="test__api__version_8cpp_1a7da8b1b3857a98bbb9a06dc245776825" kind="function"><name>TEST</name></member>
+    <member refid="test__api__version_8cpp_1a6aaddde22fd776a48e0a9457f1ed7589" kind="function"><name>TEST</name></member>
+    <member refid="test__api__version_8cpp_1a8f807da62d8a2647ae98e57fec0f6934" kind="function"><name>TEST</name></member>
+    <member refid="test__api__version_8cpp_1a55745d74604cfe6fdaf307e0ecc8f20d" kind="function"><name>TEST</name></member>
+    <member refid="test__api__version_8cpp_1a0c7d480b177a0ca3f42573cb7850f894" kind="function"><name>TEST</name></member>
+    <member refid="test__api__version_8cpp_1abc017231cd752b6aa78c0fdb78862410" kind="function"><name>TEST</name></member>
+    <member refid="test__api__version_8cpp_1a5765ef10ff03491e9fbd2c015a081119" kind="function"><name>TEST</name></member>
+    <member refid="test__api__version_8cpp_1a1a3f2c61eeb6fb7caced8f225fafd2ac" kind="function"><name>TEST</name></member>
+    <member refid="test__api__version_8cpp_1adf87b74a549bf819b2309281d6e4a74e" kind="function"><name>TEST</name></member>
+    <member refid="test__api__version_8cpp_1a1eb5b0e540354bc3d46d56d04f941ed7" kind="function"><name>TEST</name></member>
+    <member refid="test__api__version_8cpp_1a0baadd9fe9bcfd6396eb86ab22266387" kind="function"><name>TEST</name></member>
+    <member refid="test__api__version_8cpp_1a08d1494773265d8445e83b49eeb76157" kind="function"><name>TEST</name></member>
+    <member refid="test__api__version_8cpp_1a5af76095e49a02f7782ec6336fbcd855" kind="function"><name>TEST</name></member>
+    <member refid="test__api__version_8cpp_1a3702eb6b375353d1d23f3d5c168b5018" kind="function"><name>TEST</name></member>
+    <member refid="test__api__version_8cpp_1a775206763c19e337bc1f5e3960cef29a" kind="function"><name>TEST</name></member>
+    <member refid="test__api__version_8cpp_1a2979dc9a4b7f343dac94a36ce4401782" kind="function"><name>TEST</name></member>
+    <member refid="test__api__version_8cpp_1a9f2d2c72f4b7ff0a803e9273f381fbe3" kind="function"><name>TEST</name></member>
+    <member refid="test__api__version_8cpp_1a43e15ca3bc88a5cf8425fd7f21c061f9" kind="function"><name>TEST</name></member>
+    <member refid="test__api__version_8cpp_1aaaa8532d1c40e60b6c7261d9603df92f" kind="function"><name>TEST</name></member>
+    <member refid="test__api__version_8cpp_1a6425c0909036e5559e274544268bec96" kind="function"><name>TEST</name></member>
+    <member refid="test__api__version_8cpp_1aded2dd7245cdc5e4a0305549a498875a" kind="function"><name>TEST</name></member>
+    <member refid="test__api__version_8cpp_1a88446abde26c8bf80b358704c53cca06" kind="function"><name>TEST</name></member>
+    <member refid="test__api__version_8cpp_1a9e87e57224bf271ac2ec942f3c6284f6" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__version_8cpp_1a3c05386312a50012ea8811c63ed76f22" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__version_8cpp_1a0f3d7311ae9c546b07c15340e1a0e278" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__version_8cpp_1a793da7271746e3e9847c59a379a16c0a" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__version_8cpp_1a0d5f1ca045d60924d21e44ba82fbfc6d" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__version_8cpp_1a7d560bebbf4c4d940b1c3216f0b9d85a" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__version_8cpp_1ac927abb1d631f47ed233892b684ba559" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__version_8cpp_1a19c5a0d929f9337041b44027951f6b65" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__version_8cpp_1af899c55f2814369fa4458bff6861709d" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__version_8cpp_1ae1179e0bcde9d9c0827febd7b245baf5" kind="function"><name>TEST_F</name></member>
+    <member refid="test__api__version_8cpp_1adbde4b33d5c6211e1b0b038049d1b160" kind="function"><name>TEST_F</name></member>
+  </compound>
+  <compound refid="test__api__wave__d__stress_8cpp" kind="file"><name>test_api_wave_d_stress.cpp</name>
+    <member refid="test__api__wave__d__stress_8cpp_1a30020d24d7cc72d8e908b190004aad44" kind="function"><name>TEST</name></member>
+    <member refid="test__api__wave__d__stress_8cpp_1a7d22a20be99da30a02818f7b86e34cbe" kind="function"><name>TEST</name></member>
+    <member refid="test__api__wave__d__stress_8cpp_1adbc0f7f5dd1f389c1833063b660a0754" kind="function"><name>TEST</name></member>
+    <member refid="test__api__wave__d__stress_8cpp_1abcbc8e152c71b848af4e45749d3353c5" kind="function"><name>TEST</name></member>
+    <member refid="test__api__wave__d__stress_8cpp_1a830bd21193b9719c911f3544efb089d5" kind="function"><name>TEST</name></member>
+    <member refid="test__api__wave__d__stress_8cpp_1a7ec409d13935f963bdf027f11552c7f1" kind="function"><name>TEST</name></member>
+    <member refid="test__api__wave__d__stress_8cpp_1ad3ba0f4a1c4baf06f39ec4d01d2515c4" kind="function"><name>TEST</name></member>
+    <member refid="test__api__wave__d__stress_8cpp_1a7b0b895110e321f40321d61253a3b135" kind="function"><name>TEST</name></member>
+    <member refid="test__api__wave__d__stress_8cpp_1a7207f5e0e95c2b0b5431cdd094a986dd" kind="function"><name>TEST</name></member>
+    <member refid="test__api__wave__d__stress_8cpp_1a5f1c88a62e4598d9d44c3d36c679dbb0" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test" kind="page"><name>test</name>
+  </compound>
+  <compound refid="dir_29bd76d9cd78a5edcc03a784e9018719" kind="dir"><name>benchmarks/api</name>
+  </compound>
+  <compound refid="dir_2d52abcd54c181b91d630da402923092" kind="dir"><name>include/api</name>
+  </compound>
+  <compound refid="dir_da61e3e9a357748887e3ca8d7c5a0c16" kind="dir"><name>src/api</name>
+  </compound>
+  <compound refid="dir_4cc68d6eae4e00982321ac175f69e749" kind="dir"><name>tests/api</name>
+  </compound>
+  <compound refid="dir_13a41d9ad64fb9ae396cb953294783cf" kind="dir"><name>benchmarks</name>
+  </compound>
+  <compound refid="dir_d44c64559bbebec7f509842c48db8b23" kind="dir"><name>include</name>
+  </compound>
+  <compound refid="dir_68267d1309a1af8e8297ef4c3efbcdba" kind="dir"><name>src</name>
+  </compound>
+  <compound refid="dir_59425e443f801f1f2fd8bbe4959a3ccf" kind="dir"><name>tests</name>
+  </compound>
+</doxygenindex>

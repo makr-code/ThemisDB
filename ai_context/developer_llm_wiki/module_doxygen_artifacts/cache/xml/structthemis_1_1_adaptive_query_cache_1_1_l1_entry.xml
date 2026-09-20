@@ -1,0 +1,231 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_adaptive_query_cache_1_1_l1_entry" kind="struct" language="C++" prot="private">
+    <compoundname>themis::AdaptiveQueryCache::L1Entry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_query_cache_1_1_l1_entry_1a0ca633915f95fcc5a1612e32da691aef" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::AdaptiveQueryCache::L1Entry::result</definition>
+        <argsstring></argsstring>
+        <name>result</name>
+        <qualifiedname>themis::AdaptiveQueryCache::L1Entry::result</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="401" column="24" bodyfile="include/cache/adaptive_query_cache.h" bodystart="401" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_query_cache_1_1_l1_entry_1a7a6da04ba941031dce58c9fbbcc00c55" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int64_t &gt;</type>
+        <definition>std::atomic&lt;int64_t&gt; themis::AdaptiveQueryCache::L1Entry::created_at_ms</definition>
+        <argsstring></argsstring>
+        <name>created_at_ms</name>
+        <qualifiedname>themis::AdaptiveQueryCache::L1Entry::created_at_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="402" column="21" bodyfile="include/cache/adaptive_query_cache.h" bodystart="402" bodyend="402"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_query_cache_1_1_l1_entry_1adfea4f1642c9d51eec7b4be74f1c1692" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int64_t &gt;</type>
+        <definition>std::atomic&lt;int64_t&gt; themis::AdaptiveQueryCache::L1Entry::last_accessed_ms</definition>
+        <argsstring></argsstring>
+        <name>last_accessed_ms</name>
+        <qualifiedname>themis::AdaptiveQueryCache::L1Entry::last_accessed_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="403" column="21" bodyfile="include/cache/adaptive_query_cache.h" bodystart="403" bodyend="403"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_query_cache_1_1_l1_entry_1a6084dc24296e8e06ce79b31b82b54b9a" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int64_t &gt;</type>
+        <definition>std::atomic&lt;int64_t&gt; themis::AdaptiveQueryCache::L1Entry::access_count</definition>
+        <argsstring></argsstring>
+        <name>access_count</name>
+        <qualifiedname>themis::AdaptiveQueryCache::L1Entry::access_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="404" column="21" bodyfile="include/cache/adaptive_query_cache.h" bodystart="404" bodyend="404"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_query_cache_1_1_l1_entry_1aacbdec0fe6e89530aaadaffee4703a3e" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; themis::AdaptiveQueryCache::L1Entry::ttl_seconds</definition>
+        <argsstring></argsstring>
+        <name>ttl_seconds</name>
+        <qualifiedname>themis::AdaptiveQueryCache::L1Entry::ttl_seconds</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="405" column="21" bodyfile="include/cache/adaptive_query_cache.h" bodystart="405" bodyend="405"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_query_cache_1_1_l1_entry_1a997af118e88c269664eb2fc4b9e0dd5b" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int64_t &gt;</type>
+        <definition>std::atomic&lt;int64_t&gt; themis::AdaptiveQueryCache::L1Entry::window_start_ms</definition>
+        <argsstring></argsstring>
+        <name>window_start_ms</name>
+        <qualifiedname>themis::AdaptiveQueryCache::L1Entry::window_start_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="406" column="21" bodyfile="include/cache/adaptive_query_cache.h" bodystart="406" bodyend="406"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_query_cache_1_1_l1_entry_1abc5ad3785a5d59848f854d23a0bb6def" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint32_t &gt;</type>
+        <definition>std::atomic&lt;uint32_t&gt; themis::AdaptiveQueryCache::L1Entry::window_count</definition>
+        <argsstring></argsstring>
+        <name>window_count</name>
+        <qualifiedname>themis::AdaptiveQueryCache::L1Entry::window_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="407" column="21" bodyfile="include/cache/adaptive_query_cache.h" bodystart="407" bodyend="407"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_query_cache_1_1_l1_entry_1aeb9b464e231c8f9207a0db052220edf5" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::AdaptiveQueryCache::L1Entry::expired_flag</definition>
+        <argsstring></argsstring>
+        <name>expired_flag</name>
+        <qualifiedname>themis::AdaptiveQueryCache::L1Entry::expired_flag</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="408" column="21" bodyfile="include/cache/adaptive_query_cache.h" bodystart="408" bodyend="408"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_adaptive_query_cache_1_1_l1_entry_1a67f3d353c3797b3428d10d21275b5ded" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::AdaptiveQueryCache::L1Entry::L1Entry</definition>
+        <argsstring>()=default</argsstring>
+        <name>L1Entry</name>
+        <qualifiedname>themis::AdaptiveQueryCache::L1Entry::L1Entry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="410" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_adaptive_query_cache_1_1_l1_entry_1a18d3d60d18f13fa650b5bb47a9dab99e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::AdaptiveQueryCache::L1Entry::L1Entry</definition>
+        <argsstring>(const L1Entry &amp;)=delete</argsstring>
+        <name>L1Entry</name>
+        <qualifiedname>themis::AdaptiveQueryCache::L1Entry::L1Entry</qualifiedname>
+        <param>
+          <type>const L1Entry &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="411" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_adaptive_query_cache_1_1_l1_entry_1ab7dfb4bf8b8d1009d0e414852c997107" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>L1Entry &amp;</type>
+        <definition>L1Entry &amp; themis::AdaptiveQueryCache::L1Entry::operator=</definition>
+        <argsstring>(const L1Entry &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::AdaptiveQueryCache::L1Entry::operator=</qualifiedname>
+        <param>
+          <type>const L1Entry &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="412" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_adaptive_query_cache_1_1_l1_entry_1ab15411c538212fa5d5f3c6390003c311" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::AdaptiveQueryCache::L1Entry::L1Entry</definition>
+        <argsstring>(L1Entry &amp;&amp;)=delete</argsstring>
+        <name>L1Entry</name>
+        <qualifiedname>themis::AdaptiveQueryCache::L1Entry::L1Entry</qualifiedname>
+        <param>
+          <type>L1Entry &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="413" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_adaptive_query_cache_1_1_l1_entry_1ab09d65ab48898ecd70233512748423ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>L1Entry &amp;</type>
+        <definition>L1Entry &amp; themis::AdaptiveQueryCache::L1Entry::operator=</definition>
+        <argsstring>(L1Entry &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::AdaptiveQueryCache::L1Entry::operator=</qualifiedname>
+        <param>
+          <type>L1Entry &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="414" column="17"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/adaptive_query_cache.h" line="400" column="5" bodyfile="include/cache/adaptive_query_cache.h" bodystart="400" bodyend="415"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_adaptive_query_cache_1_1_l1_entry_1a6084dc24296e8e06ce79b31b82b54b9a" prot="public" virt="non-virtual"><scope>themis::AdaptiveQueryCache::L1Entry</scope><name>access_count</name></member>
+      <member refid="structthemis_1_1_adaptive_query_cache_1_1_l1_entry_1a7a6da04ba941031dce58c9fbbcc00c55" prot="public" virt="non-virtual"><scope>themis::AdaptiveQueryCache::L1Entry</scope><name>created_at_ms</name></member>
+      <member refid="structthemis_1_1_adaptive_query_cache_1_1_l1_entry_1aeb9b464e231c8f9207a0db052220edf5" prot="public" virt="non-virtual"><scope>themis::AdaptiveQueryCache::L1Entry</scope><name>expired_flag</name></member>
+      <member refid="structthemis_1_1_adaptive_query_cache_1_1_l1_entry_1a67f3d353c3797b3428d10d21275b5ded" prot="public" virt="non-virtual"><scope>themis::AdaptiveQueryCache::L1Entry</scope><name>L1Entry</name></member>
+      <member refid="structthemis_1_1_adaptive_query_cache_1_1_l1_entry_1a18d3d60d18f13fa650b5bb47a9dab99e" prot="public" virt="non-virtual"><scope>themis::AdaptiveQueryCache::L1Entry</scope><name>L1Entry</name></member>
+      <member refid="structthemis_1_1_adaptive_query_cache_1_1_l1_entry_1ab15411c538212fa5d5f3c6390003c311" prot="public" virt="non-virtual"><scope>themis::AdaptiveQueryCache::L1Entry</scope><name>L1Entry</name></member>
+      <member refid="structthemis_1_1_adaptive_query_cache_1_1_l1_entry_1adfea4f1642c9d51eec7b4be74f1c1692" prot="public" virt="non-virtual"><scope>themis::AdaptiveQueryCache::L1Entry</scope><name>last_accessed_ms</name></member>
+      <member refid="structthemis_1_1_adaptive_query_cache_1_1_l1_entry_1ab7dfb4bf8b8d1009d0e414852c997107" prot="public" virt="non-virtual"><scope>themis::AdaptiveQueryCache::L1Entry</scope><name>operator=</name></member>
+      <member refid="structthemis_1_1_adaptive_query_cache_1_1_l1_entry_1ab09d65ab48898ecd70233512748423ff" prot="public" virt="non-virtual"><scope>themis::AdaptiveQueryCache::L1Entry</scope><name>operator=</name></member>
+      <member refid="structthemis_1_1_adaptive_query_cache_1_1_l1_entry_1a0ca633915f95fcc5a1612e32da691aef" prot="public" virt="non-virtual"><scope>themis::AdaptiveQueryCache::L1Entry</scope><name>result</name></member>
+      <member refid="structthemis_1_1_adaptive_query_cache_1_1_l1_entry_1aacbdec0fe6e89530aaadaffee4703a3e" prot="public" virt="non-virtual"><scope>themis::AdaptiveQueryCache::L1Entry</scope><name>ttl_seconds</name></member>
+      <member refid="structthemis_1_1_adaptive_query_cache_1_1_l1_entry_1abc5ad3785a5d59848f854d23a0bb6def" prot="public" virt="non-virtual"><scope>themis::AdaptiveQueryCache::L1Entry</scope><name>window_count</name></member>
+      <member refid="structthemis_1_1_adaptive_query_cache_1_1_l1_entry_1a997af118e88c269664eb2fc4b9e0dd5b" prot="public" virt="non-virtual"><scope>themis::AdaptiveQueryCache::L1Entry</scope><name>window_start_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

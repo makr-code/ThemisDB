@@ -1,0 +1,227 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1geo_1_1_spatial_join_iterator" kind="class" language="C++" prot="public">
+    <compoundname>themis::geo::SpatialJoinIterator</compoundname>
+    <includes refid="spatial__join_8h" local="no">spatial_join.h</includes>
+    <innerclass refid="structthemis_1_1geo_1_1_spatial_join_iterator_1_1_impl" prot="public">themis::geo::SpatialJoinIterator::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_spatial_join_iterator_1a10018914f3a27d73de5a9adcca25101a" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1geo_1_1_spatial_join_iterator_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::geo::SpatialJoinIterator::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::geo::SpatialJoinIterator::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/spatial_join.h" line="75" column="21" bodyfile="include/geo/spatial_join.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_spatial_join_iterator_1ab718ed6849c03cba53b4c489ae6770e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::SpatialJoinIterator::SpatialJoinIterator</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; std::string, GeometryInfo &gt; &gt; &amp;outer, const std::vector&lt; std::pair&lt; std::string, GeometryInfo &gt; &gt; &amp;inner, double threshold_m, const SpatialJoinConfig &amp;config=SpatialJoinConfig{})</argsstring>
+        <name>SpatialJoinIterator</name>
+        <qualifiedname>themis::geo::SpatialJoinIterator::SpatialJoinIterator</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, GeometryInfo &gt; &gt; &amp;</type>
+          <declname>outer</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, GeometryInfo &gt; &gt; &amp;</type>
+          <declname>inner</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>threshold_m</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1geo_1_1_spatial_join_config" kindref="compound">SpatialJoinConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1geo_1_1_spatial_join_config" kindref="compound">SpatialJoinConfig</ref>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/spatial_join.h" line="38" column="5" bodyfile="src/geo/spatial_join.cpp" bodystart="252" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_spatial_join_iterator_1a867bd74c231cdae3f5477767302a602d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::SpatialJoinIterator::~SpatialJoinIterator</definition>
+        <argsstring>()</argsstring>
+        <name>~SpatialJoinIterator</name>
+        <qualifiedname>themis::geo::SpatialJoinIterator::~SpatialJoinIterator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/spatial_join.h" line="44" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_spatial_join_iterator_1a812719a1151bf5acd4b9c9c137978d50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::SpatialJoinIterator::SpatialJoinIterator</definition>
+        <argsstring>(const SpatialJoinIterator &amp;)=delete</argsstring>
+        <name>SpatialJoinIterator</name>
+        <qualifiedname>themis::geo::SpatialJoinIterator::SpatialJoinIterator</qualifiedname>
+        <param>
+          <type>const SpatialJoinIterator &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/spatial_join.h" line="47" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_spatial_join_iterator_1a5106c4261555341d5c645763bf500d23" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1geo_1_1_spatial_join_iterator_1ab718ed6849c03cba53b4c489ae6770e1" kindref="member">SpatialJoinIterator</ref> &amp;</type>
+        <definition>SpatialJoinIterator &amp; themis::geo::SpatialJoinIterator::operator=</definition>
+        <argsstring>(const SpatialJoinIterator &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::geo::SpatialJoinIterator::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1geo_1_1_spatial_join_iterator_1ab718ed6849c03cba53b4c489ae6770e1" kindref="member">SpatialJoinIterator</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/spatial_join.h" line="48" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_spatial_join_iterator_1addbfe7870b807516f697803b899ce5f4" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::SpatialJoinIterator::SpatialJoinIterator</definition>
+        <argsstring>(SpatialJoinIterator &amp;&amp;) noexcept</argsstring>
+        <name>SpatialJoinIterator</name>
+        <qualifiedname>themis::geo::SpatialJoinIterator::SpatialJoinIterator</qualifiedname>
+        <param>
+          <type>SpatialJoinIterator &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/spatial_join.h" line="49" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_spatial_join_iterator_1af141cdf161deaaa16e89c6626853a002" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1geo_1_1_spatial_join_iterator_1ab718ed6849c03cba53b4c489ae6770e1" kindref="member">SpatialJoinIterator</ref> &amp;</type>
+        <definition>SpatialJoinIterator &amp; themis::geo::SpatialJoinIterator::operator=</definition>
+        <argsstring>(SpatialJoinIterator &amp;&amp;) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::geo::SpatialJoinIterator::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1geo_1_1_spatial_join_iterator_1ab718ed6849c03cba53b4c489ae6770e1" kindref="member">SpatialJoinIterator</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/spatial_join.h" line="50" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_spatial_join_iterator_1a3fba456c51441742e1fa7beb11260fb8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::geo::SpatialJoinIterator::advance</definition>
+        <argsstring>()</argsstring>
+        <name>advance</name>
+        <qualifiedname>themis::geo::SpatialJoinIterator::advance</qualifiedname>
+        <briefdescription>
+<para>Advance an iterator within the validated range. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>None.</para>
+</simplesect>
+<simplesect kind="return"><para>None.</para>
+</simplesect>
+Implements advance without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/spatial_join.h" line="56" column="10" bodyfile="src/geo/spatial_join.cpp" bodystart="272" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_spatial_join_iterator_1aeba92704aa46509abe748fe82535a7cf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1geo_1_1_spatial_join_pair" kindref="compound">SpatialJoinPair</ref> &amp;</type>
+        <definition>const SpatialJoinPair &amp; themis::geo::SpatialJoinIterator::current</definition>
+        <argsstring>() const</argsstring>
+        <name>current</name>
+        <qualifiedname>themis::geo::SpatialJoinIterator::current</qualifiedname>
+        <briefdescription>
+<para>Current. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/spatial_join.h" line="62" column="27" bodyfile="src/geo/spatial_join.cpp" bodystart="276" bodyend="278"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_spatial_join_iterator_1a731601ec966115bef58be41f968ada3a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::geo::SpatialJoinIterator::done</definition>
+        <argsstring>() const</argsstring>
+        <name>done</name>
+        <qualifiedname>themis::geo::SpatialJoinIterator::done</qualifiedname>
+        <briefdescription>
+<para>Done. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/spatial_join.h" line="68" column="10" bodyfile="src/geo/spatial_join.cpp" bodystart="280" bodyend="282"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_spatial_join_iterator_1a63c19084d8ab8de6b9e6ca6074065d4a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::geo::SpatialJoinIterator::exhausted</definition>
+        <argsstring>() const</argsstring>
+        <name>exhausted</name>
+        <qualifiedname>themis::geo::SpatialJoinIterator::exhausted</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/spatial_join.h" line="71" column="10" bodyfile="include/geo/spatial_join.h" bodystart="71" bodyend="71"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/geo/spatial_join.h" line="36" column="1" bodyfile="include/geo/spatial_join.h" bodystart="36" bodyend="76"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1geo_1_1_spatial_join_iterator_1a3fba456c51441742e1fa7beb11260fb8" prot="public" virt="non-virtual"><scope>themis::geo::SpatialJoinIterator</scope><name>advance</name></member>
+      <member refid="classthemis_1_1geo_1_1_spatial_join_iterator_1aeba92704aa46509abe748fe82535a7cf" prot="public" virt="non-virtual"><scope>themis::geo::SpatialJoinIterator</scope><name>current</name></member>
+      <member refid="classthemis_1_1geo_1_1_spatial_join_iterator_1a731601ec966115bef58be41f968ada3a" prot="public" virt="non-virtual"><scope>themis::geo::SpatialJoinIterator</scope><name>done</name></member>
+      <member refid="classthemis_1_1geo_1_1_spatial_join_iterator_1a63c19084d8ab8de6b9e6ca6074065d4a" prot="public" virt="non-virtual"><scope>themis::geo::SpatialJoinIterator</scope><name>exhausted</name></member>
+      <member refid="classthemis_1_1geo_1_1_spatial_join_iterator_1a10018914f3a27d73de5a9adcca25101a" prot="private" virt="non-virtual"><scope>themis::geo::SpatialJoinIterator</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1geo_1_1_spatial_join_iterator_1a5106c4261555341d5c645763bf500d23" prot="public" virt="non-virtual"><scope>themis::geo::SpatialJoinIterator</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1geo_1_1_spatial_join_iterator_1af141cdf161deaaa16e89c6626853a002" prot="public" virt="non-virtual"><scope>themis::geo::SpatialJoinIterator</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1geo_1_1_spatial_join_iterator_1ab718ed6849c03cba53b4c489ae6770e1" prot="public" virt="non-virtual"><scope>themis::geo::SpatialJoinIterator</scope><name>SpatialJoinIterator</name></member>
+      <member refid="classthemis_1_1geo_1_1_spatial_join_iterator_1a812719a1151bf5acd4b9c9c137978d50" prot="public" virt="non-virtual"><scope>themis::geo::SpatialJoinIterator</scope><name>SpatialJoinIterator</name></member>
+      <member refid="classthemis_1_1geo_1_1_spatial_join_iterator_1addbfe7870b807516f697803b899ce5f4" prot="public" virt="non-virtual"><scope>themis::geo::SpatialJoinIterator</scope><name>SpatialJoinIterator</name></member>
+      <member refid="classthemis_1_1geo_1_1_spatial_join_iterator_1a867bd74c231cdae3f5477767302a602d" prot="public" virt="non-virtual"><scope>themis::geo::SpatialJoinIterator</scope><name>~SpatialJoinIterator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

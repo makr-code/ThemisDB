@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1_expected_cycles_1_1_r_a_g_pipeline" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::ExpectedCycles::RAGPipeline</compoundname>
+    <includes refid="expected__cycles_8h" local="no">expected_cycles.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_expected_cycles_1_1_r_a_g_pipeline_1a85c60c97fbecba007493f97239a5728c" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::ExpectedCycles::RAGPipeline::HNSW_10K_SEARCH</definition>
+        <argsstring></argsstring>
+        <name>HNSW_10K_SEARCH</name>
+        <qualifiedname>themis::performance::ExpectedCycles::RAGPipeline::HNSW_10K_SEARCH</qualifiedname>
+        <initializer>= 4&apos;500&apos;000</initializer>
+        <briefdescription>
+<para>HNSW search: 10K vectors. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/expected_cycles.h" line="108" column="35" bodyfile="include/performance/expected_cycles.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_expected_cycles_1_1_r_a_g_pipeline_1a54a834f3ec081d8915fb9213a1ac0ada" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::ExpectedCycles::RAGPipeline::POINTER_PASSING_OVERHEAD</definition>
+        <argsstring></argsstring>
+        <name>POINTER_PASSING_OVERHEAD</name>
+        <qualifiedname>themis::performance::ExpectedCycles::RAGPipeline::POINTER_PASSING_OVERHEAD</qualifiedname>
+        <initializer>= 150</initializer>
+        <briefdescription>
+<para>Pointer passing overhead. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/expected_cycles.h" line="111" column="35" bodyfile="include/performance/expected_cycles.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_expected_cycles_1_1_r_a_g_pipeline_1ac86430b95e789162db70c55dc4c2cde7" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::ExpectedCycles::RAGPipeline::LLM_10_TOKENS_7B</definition>
+        <argsstring></argsstring>
+        <name>LLM_10_TOKENS_7B</name>
+        <qualifiedname>themis::performance::ExpectedCycles::RAGPipeline::LLM_10_TOKENS_7B</qualifiedname>
+        <initializer>= 800&apos;000&apos;000</initializer>
+        <briefdescription>
+<para>LLM inference: 10 tokens with 7B model. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/expected_cycles.h" line="114" column="35" bodyfile="include/performance/expected_cycles.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_expected_cycles_1_1_r_a_g_pipeline_1a6232c05073c0a0f35abe6e174f22aa46" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::ExpectedCycles::RAGPipeline::TOTAL</definition>
+        <argsstring></argsstring>
+        <name>TOTAL</name>
+        <qualifiedname>themis::performance::ExpectedCycles::RAGPipeline::TOTAL</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1performance_1_1_expected_cycles_1_1_r_a_g_pipeline_1a85c60c97fbecba007493f97239a5728c" kindref="member">HNSW_10K_SEARCH</ref> + <ref refid="structthemis_1_1performance_1_1_expected_cycles_1_1_r_a_g_pipeline_1a54a834f3ec081d8915fb9213a1ac0ada" kindref="member">POINTER_PASSING_OVERHEAD</ref> + <ref refid="structthemis_1_1performance_1_1_expected_cycles_1_1_r_a_g_pipeline_1ac86430b95e789162db70c55dc4c2cde7" kindref="member">LLM_10_TOKENS_7B</ref></initializer>
+        <briefdescription>
+<para>Total cycles. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/expected_cycles.h" line="117" column="35" bodyfile="include/performance/expected_cycles.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_expected_cycles_1_1_r_a_g_pipeline_1ae33c9a8db6361f56139f50be126f797e" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::ExpectedCycles::RAGPipeline::POINTER_OVERHEAD_PERCENT</definition>
+        <argsstring></argsstring>
+        <name>POINTER_OVERHEAD_PERCENT</name>
+        <qualifiedname>themis::performance::ExpectedCycles::RAGPipeline::POINTER_OVERHEAD_PERCENT</qualifiedname>
+        <initializer>                                             = 
+(double)<ref refid="structthemis_1_1performance_1_1_expected_cycles_1_1_r_a_g_pipeline_1a54a834f3ec081d8915fb9213a1ac0ada" kindref="member">POINTER_PASSING_OVERHEAD</ref> / (double)<ref refid="structthemis_1_1performance_1_1_expected_cycles_1_1_r_a_g_pipeline_1a6232c05073c0a0f35abe6e174f22aa46" kindref="member">TOTAL</ref> * 100.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Pointer passing overhead as percentage of total Expected: 0.000019% (negligible!) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/expected_cycles.h" line="121" column="33" bodyfile="include/performance/expected_cycles.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_expected_cycles_1_1_r_a_g_pipeline_1ac6443ad646d8598a48bf9b30ba5d5535" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::ExpectedCycles::RAGPipeline::HNSW_PERCENT</definition>
+        <argsstring></argsstring>
+        <name>HNSW_PERCENT</name>
+        <qualifiedname>themis::performance::ExpectedCycles::RAGPipeline::HNSW_PERCENT</qualifiedname>
+        <initializer>                                 = 
+(double)<ref refid="structthemis_1_1performance_1_1_expected_cycles_1_1_r_a_g_pipeline_1a85c60c97fbecba007493f97239a5728c" kindref="member">HNSW_10K_SEARCH</ref> / (double)<ref refid="structthemis_1_1performance_1_1_expected_cycles_1_1_r_a_g_pipeline_1a6232c05073c0a0f35abe6e174f22aa46" kindref="member">TOTAL</ref> * 100.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/expected_cycles.h" line="125" column="33" bodyfile="include/performance/expected_cycles.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_expected_cycles_1_1_r_a_g_pipeline_1a9ecfe8574b6f9806baeb9185cab3cffd" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::ExpectedCycles::RAGPipeline::LLM_PERCENT</definition>
+        <argsstring></argsstring>
+        <name>LLM_PERCENT</name>
+        <qualifiedname>themis::performance::ExpectedCycles::RAGPipeline::LLM_PERCENT</qualifiedname>
+        <initializer>                                = 
+(double)<ref refid="structthemis_1_1performance_1_1_expected_cycles_1_1_r_a_g_pipeline_1ac86430b95e789162db70c55dc4c2cde7" kindref="member">LLM_10_TOKENS_7B</ref> / (double)<ref refid="structthemis_1_1performance_1_1_expected_cycles_1_1_r_a_g_pipeline_1a6232c05073c0a0f35abe6e174f22aa46" kindref="member">TOTAL</ref> * 100.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/expected_cycles.h" line="128" column="33" bodyfile="include/performance/expected_cycles.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Expected cycle counts for a complete RAG pipeline. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Scenario: 10K vector search + pointer passing + 10 token generation (7B model) </para>
+    </detaileddescription>
+    <location file="include/performance/expected_cycles.h" line="106" column="5" bodyfile="include/performance/expected_cycles.h" bodystart="106" bodyend="130"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1_expected_cycles_1_1_r_a_g_pipeline_1a85c60c97fbecba007493f97239a5728c" prot="public" virt="non-virtual"><scope>themis::performance::ExpectedCycles::RAGPipeline</scope><name>HNSW_10K_SEARCH</name></member>
+      <member refid="structthemis_1_1performance_1_1_expected_cycles_1_1_r_a_g_pipeline_1ac6443ad646d8598a48bf9b30ba5d5535" prot="public" virt="non-virtual"><scope>themis::performance::ExpectedCycles::RAGPipeline</scope><name>HNSW_PERCENT</name></member>
+      <member refid="structthemis_1_1performance_1_1_expected_cycles_1_1_r_a_g_pipeline_1ac86430b95e789162db70c55dc4c2cde7" prot="public" virt="non-virtual"><scope>themis::performance::ExpectedCycles::RAGPipeline</scope><name>LLM_10_TOKENS_7B</name></member>
+      <member refid="structthemis_1_1performance_1_1_expected_cycles_1_1_r_a_g_pipeline_1a9ecfe8574b6f9806baeb9185cab3cffd" prot="public" virt="non-virtual"><scope>themis::performance::ExpectedCycles::RAGPipeline</scope><name>LLM_PERCENT</name></member>
+      <member refid="structthemis_1_1performance_1_1_expected_cycles_1_1_r_a_g_pipeline_1ae33c9a8db6361f56139f50be126f797e" prot="public" virt="non-virtual"><scope>themis::performance::ExpectedCycles::RAGPipeline</scope><name>POINTER_OVERHEAD_PERCENT</name></member>
+      <member refid="structthemis_1_1performance_1_1_expected_cycles_1_1_r_a_g_pipeline_1a54a834f3ec081d8915fb9213a1ac0ada" prot="public" virt="non-virtual"><scope>themis::performance::ExpectedCycles::RAGPipeline</scope><name>POINTER_PASSING_OVERHEAD</name></member>
+      <member refid="structthemis_1_1performance_1_1_expected_cycles_1_1_r_a_g_pipeline_1a6232c05073c0a0f35abe6e174f22aa46" prot="public" virt="non-virtual"><scope>themis::performance::ExpectedCycles::RAGPipeline</scope><name>TOTAL</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

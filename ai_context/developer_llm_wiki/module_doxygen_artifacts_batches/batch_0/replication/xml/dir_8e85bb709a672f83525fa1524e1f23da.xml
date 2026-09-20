@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_8e85bb709a672f83525fa1524e1f23da" kind="dir">
+    <compoundname>src/replication</compoundname>
+    <innerfile refid="async__wal__shipper_8cpp">async_wal_shipper.cpp</innerfile>
+    <innerfile refid="conflict__resolution_8cpp">conflict_resolution.cpp</innerfile>
+    <innerfile refid="event__stream_8cpp">event_stream.cpp</innerfile>
+    <innerfile refid="geo__placement_8cpp">geo_placement.cpp</innerfile>
+    <innerfile refid="lag__alert__manager_8cpp">lag_alert_manager.cpp</innerfile>
+    <innerfile refid="logical__replication_8cpp">logical_replication.cpp</innerfile>
+    <innerfile refid="multi__tier__replication_8cpp">multi_tier_replication.cpp</innerfile>
+    <innerfile refid="observability_8cpp">observability.cpp</innerfile>
+    <innerfile refid="policy_8cpp">policy.cpp</innerfile>
+    <innerfile refid="raft__v2_8cpp">raft_v2.cpp</innerfile>
+    <innerfile refid="replication__manager_8cpp">replication_manager.cpp</innerfile>
+    <innerfile refid="replication__slot_8cpp">replication_slot.cpp</innerfile>
+    <innerfile refid="schema__cdc_8cpp">schema_cdc.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/replication/"/>
+  </compounddef>
+</doxygen>

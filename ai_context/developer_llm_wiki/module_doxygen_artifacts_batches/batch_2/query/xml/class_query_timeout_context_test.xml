@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_query_timeout_context_test" kind="class" language="C++" prot="public">
+    <compoundname>QueryTimeoutContextTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_query_timeout_context_test_1a8a271b2b517a7413cd2a9143dcf6fee7" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1query_1_1_timeout_policy" kindref="compound">TimeoutPolicy</ref></type>
+        <definition>TimeoutPolicy QueryTimeoutContextTest::policy</definition>
+        <argsstring></argsstring>
+        <name>policy</name>
+        <qualifiedname>QueryTimeoutContextTest::policy</qualifiedname>
+        <initializer>{<ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder" kindref="compound">TimeoutPolicy::Builder</ref>{}.build()}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_hardness.cpp" line="167" column="19" bodyfile="tests/query/test_query_federation_hardness.cpp" bodystart="167" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_query_timeout_context_test_1a1975fd08c0cbcc9394b02bfb57faa5f8" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1query_1_1_query_timeout_context" kindref="compound">QueryTimeoutContext</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;QueryTimeoutContext&gt; QueryTimeoutContextTest::context</definition>
+        <argsstring></argsstring>
+        <name>context</name>
+        <qualifiedname>QueryTimeoutContextTest::context</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_hardness.cpp" line="168" column="21" bodyfile="tests/query/test_query_federation_hardness.cpp" bodystart="168" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_query_timeout_context_test_1a9776b50462411d5ddda41eee4822098d" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void QueryTimeoutContextTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>QueryTimeoutContextTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_hardness.cpp" line="157" column="10" bodyfile="tests/query/test_query_federation_hardness.cpp" bodystart="157" bodyend="165"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>QueryTimeoutContextTest</label>
+        <link refid="class_query_timeout_context_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>QueryTimeoutContextTest</label>
+        <link refid="class_query_timeout_context_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>policy</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::query::TimeoutPolicy</label>
+        <link refid="classthemis_1_1query_1_1_timeout_policy"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/query/test_query_federation_hardness.cpp" line="155" column="1" bodyfile="tests/query/test_query_federation_hardness.cpp" bodystart="155" bodyend="169"/>
+    <listofallmembers>
+      <member refid="class_query_timeout_context_test_1a1975fd08c0cbcc9394b02bfb57faa5f8" prot="protected" virt="non-virtual"><scope>QueryTimeoutContextTest</scope><name>context</name></member>
+      <member refid="class_query_timeout_context_test_1a8a271b2b517a7413cd2a9143dcf6fee7" prot="protected" virt="non-virtual"><scope>QueryTimeoutContextTest</scope><name>policy</name></member>
+      <member refid="class_query_timeout_context_test_1a9776b50462411d5ddda41eee4822098d" prot="protected" virt="non-virtual"><scope>QueryTimeoutContextTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

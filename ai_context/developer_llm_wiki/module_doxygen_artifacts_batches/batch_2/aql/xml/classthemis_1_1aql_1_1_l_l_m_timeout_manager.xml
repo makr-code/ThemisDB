@@ -1,0 +1,549 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1_l_l_m_timeout_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::aql::LLMTimeoutManager</compoundname>
+    <includes refid="llm__timeout__manager_8h" local="no">llm_timeout_manager.h</includes>
+    <innerclass refid="structthemis_1_1aql_1_1_l_l_m_timeout_manager_1_1_timeout_config" prot="public">themis::aql::LLMTimeoutManager::TimeoutConfig</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1a325ee395500a91ee65e55f9106cfd881" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1aql_1_1_l_l_m_timeout_manager_1_1_timeout_config" kindref="compound">TimeoutConfig</ref></type>
+        <definition>TimeoutConfig themis::aql::LLMTimeoutManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::aql::LLMTimeoutManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_timeout_manager.h" line="249" column="19" bodyfile="include/aql/llm_timeout_manager.h" bodystart="249" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1adec56933802cc5eea98c522a40e8fcc4" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::LLMTimeoutManager::LLMTimeoutManager</definition>
+        <argsstring>(const TimeoutConfig &amp;config=TimeoutConfig::defaults())</argsstring>
+        <name>LLMTimeoutManager</name>
+        <qualifiedname>themis::aql::LLMTimeoutManager::LLMTimeoutManager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1aql_1_1_l_l_m_timeout_manager_1_1_timeout_config" kindref="compound">TimeoutConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1aql_1_1_l_l_m_timeout_manager_1_1_timeout_config_1ad87bf593572930cf63eb0c9c90f2ac45" kindref="member">TimeoutConfig::defaults</ref>()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_timeout_manager.h" line="41" column="14" bodyfile="include/aql/llm_timeout_manager.h" bodystart="41" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1abadedd05861955a00f1d22eb307e96b2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Func</type>
+          </param>
+          <param>
+            <type>typename Duration</type>
+          </param>
+          <param>
+            <type>typename Result</type>
+            <defval>std::invoke_result_t&lt;Func&gt;</defval>
+          </param>
+        </templateparamlist>
+        <type>Result</type>
+        <definition>Result themis::aql::LLMTimeoutManager::executeWithTimeout</definition>
+        <argsstring>(Func &amp;&amp;func, Duration timeout, const std::string &amp;operation_name)</argsstring>
+        <name>executeWithTimeout</name>
+        <qualifiedname>themis::aql::LLMTimeoutManager::executeWithTimeout</qualifiedname>
+        <param>
+          <type>Func &amp;&amp;</type>
+          <declname>func</declname>
+        </param>
+        <param>
+          <type>Duration</type>
+          <declname>timeout</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation_name</declname>
+        </param>
+        <briefdescription>
+<para>Execute With Timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">func</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">operation_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the operation. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>LLMException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: Result(), task(), get_future(), worker(), std::move(), t(), wait_for(), request_stop(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_timeout_manager.h" line="54" column="12" bodyfile="include/aql/llm_timeout_manager.h" bodystart="54" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1ac0ef2b51317370aa314fdfac9b5c5811" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Func</type>
+          </param>
+        </templateparamlist>
+        <type>auto</type>
+        <definition>auto themis::aql::LLMTimeoutManager::executeInferWithTimeout</definition>
+        <argsstring>(Func &amp;&amp;func)</argsstring>
+        <name>executeInferWithTimeout</name>
+        <qualifiedname>themis::aql::LLMTimeoutManager::executeInferWithTimeout</qualifiedname>
+        <param>
+          <type>Func &amp;&amp;</type>
+          <declname>func</declname>
+        </param>
+        <briefdescription>
+<para>Execute Infer With Timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">func</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1abadedd05861955a00f1d22eb307e96b2" kindref="member">executeWithTimeout()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_timeout_manager.h" line="101" column="10" bodyfile="include/aql/llm_timeout_manager.h" bodystart="101" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1adfb8fca5999eee3c45ec7f8a97c1310d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Func</type>
+          </param>
+        </templateparamlist>
+        <type>auto</type>
+        <definition>auto themis::aql::LLMTimeoutManager::executeRAGWithTimeout</definition>
+        <argsstring>(Func &amp;&amp;func)</argsstring>
+        <name>executeRAGWithTimeout</name>
+        <qualifiedname>themis::aql::LLMTimeoutManager::executeRAGWithTimeout</qualifiedname>
+        <param>
+          <type>Func &amp;&amp;</type>
+          <declname>func</declname>
+        </param>
+        <briefdescription>
+<para>Execute RAGWith Timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">func</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1abadedd05861955a00f1d22eb307e96b2" kindref="member">executeWithTimeout()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_timeout_manager.h" line="112" column="10" bodyfile="include/aql/llm_timeout_manager.h" bodystart="112" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1aebce260cfb6bedd0d5992c05fd07f200" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Func</type>
+          </param>
+        </templateparamlist>
+        <type>auto</type>
+        <definition>auto themis::aql::LLMTimeoutManager::executeEmbedWithTimeout</definition>
+        <argsstring>(Func &amp;&amp;func)</argsstring>
+        <name>executeEmbedWithTimeout</name>
+        <qualifiedname>themis::aql::LLMTimeoutManager::executeEmbedWithTimeout</qualifiedname>
+        <param>
+          <type>Func &amp;&amp;</type>
+          <declname>func</declname>
+        </param>
+        <briefdescription>
+<para>Execute Embed With Timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">func</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1abadedd05861955a00f1d22eb307e96b2" kindref="member">executeWithTimeout()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_timeout_manager.h" line="123" column="10" bodyfile="include/aql/llm_timeout_manager.h" bodystart="123" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1adc520fdc79f96650523d388e3a78a0af" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Func</type>
+          </param>
+        </templateparamlist>
+        <type>auto</type>
+        <definition>auto themis::aql::LLMTimeoutManager::executeModelLoadWithTimeout</definition>
+        <argsstring>(Func &amp;&amp;func)</argsstring>
+        <name>executeModelLoadWithTimeout</name>
+        <qualifiedname>themis::aql::LLMTimeoutManager::executeModelLoadWithTimeout</qualifiedname>
+        <param>
+          <type>Func &amp;&amp;</type>
+          <declname>func</declname>
+        </param>
+        <briefdescription>
+<para>Execute Model Load With Timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">func</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1abadedd05861955a00f1d22eb307e96b2" kindref="member">executeWithTimeout()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_timeout_manager.h" line="134" column="10" bodyfile="include/aql/llm_timeout_manager.h" bodystart="134" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1a3b7abb84c440c2d9e74c5dcdc6930e62" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Func</type>
+          </param>
+          <param>
+            <type>typename Duration</type>
+          </param>
+          <param>
+            <type>typename Result</type>
+            <defval>std::invoke_result_t&lt;std::decay_t&lt;Func&gt;, std::shared_ptr&lt;std::atomic&lt;bool&gt;&gt;&gt;</defval>
+          </param>
+        </templateparamlist>
+        <type>Result</type>
+        <definition>Result themis::aql::LLMTimeoutManager::executeWithCancelToken</definition>
+        <argsstring>(Func &amp;&amp;func, Duration timeout, const std::string &amp;operation_name)</argsstring>
+        <name>executeWithCancelToken</name>
+        <qualifiedname>themis::aql::LLMTimeoutManager::executeWithCancelToken</qualifiedname>
+        <param>
+          <type>Func &amp;&amp;</type>
+          <declname>func</declname>
+        </param>
+        <param>
+          <type>Duration</type>
+          <declname>timeout</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation_name</declname>
+        </param>
+        <briefdescription>
+<para>Execute With Cancel Token. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">func</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">operation_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the operation. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>LLMException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: Result(), task(), f(), get_future(), worker(), std::move(), t(), wait_for(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_timeout_manager.h" line="150" column="12" bodyfile="include/aql/llm_timeout_manager.h" bodystart="150" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1aa029f7d9ccb4e44cd20a55e0dc582cb5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Func</type>
+          </param>
+        </templateparamlist>
+        <type>auto</type>
+        <definition>auto themis::aql::LLMTimeoutManager::executeInferWithCancelToken</definition>
+        <argsstring>(Func &amp;&amp;func)</argsstring>
+        <name>executeInferWithCancelToken</name>
+        <qualifiedname>themis::aql::LLMTimeoutManager::executeInferWithCancelToken</qualifiedname>
+        <param>
+          <type>Func &amp;&amp;</type>
+          <declname>func</declname>
+        </param>
+        <briefdescription>
+<para>Execute Infer With Cancel Token. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">func</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1a3b7abb84c440c2d9e74c5dcdc6930e62" kindref="member">executeWithCancelToken()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_timeout_manager.h" line="198" column="10" bodyfile="include/aql/llm_timeout_manager.h" bodystart="198" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1a368704e878d38b47fe50550eac80055e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Func</type>
+          </param>
+        </templateparamlist>
+        <type>auto</type>
+        <definition>auto themis::aql::LLMTimeoutManager::executeRAGWithCancelToken</definition>
+        <argsstring>(Func &amp;&amp;func)</argsstring>
+        <name>executeRAGWithCancelToken</name>
+        <qualifiedname>themis::aql::LLMTimeoutManager::executeRAGWithCancelToken</qualifiedname>
+        <param>
+          <type>Func &amp;&amp;</type>
+          <declname>func</declname>
+        </param>
+        <briefdescription>
+<para>Execute RAGWith Cancel Token. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">func</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1a3b7abb84c440c2d9e74c5dcdc6930e62" kindref="member">executeWithCancelToken()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_timeout_manager.h" line="210" column="10" bodyfile="include/aql/llm_timeout_manager.h" bodystart="210" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1a9d9e5628e23bd04e63603c9412798952" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Func</type>
+          </param>
+        </templateparamlist>
+        <type>auto</type>
+        <definition>auto themis::aql::LLMTimeoutManager::executeEmbedWithCancelToken</definition>
+        <argsstring>(Func &amp;&amp;func)</argsstring>
+        <name>executeEmbedWithCancelToken</name>
+        <qualifiedname>themis::aql::LLMTimeoutManager::executeEmbedWithCancelToken</qualifiedname>
+        <param>
+          <type>Func &amp;&amp;</type>
+          <declname>func</declname>
+        </param>
+        <briefdescription>
+<para>Execute Embed With Cancel Token. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">func</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1a3b7abb84c440c2d9e74c5dcdc6930e62" kindref="member">executeWithCancelToken()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_timeout_manager.h" line="222" column="10" bodyfile="include/aql/llm_timeout_manager.h" bodystart="222" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1aef3b7a1271be3cb868c67d1ed9442610" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Func</type>
+          </param>
+        </templateparamlist>
+        <type>auto</type>
+        <definition>auto themis::aql::LLMTimeoutManager::executeModelLoadWithCancelToken</definition>
+        <argsstring>(Func &amp;&amp;func)</argsstring>
+        <name>executeModelLoadWithCancelToken</name>
+        <qualifiedname>themis::aql::LLMTimeoutManager::executeModelLoadWithCancelToken</qualifiedname>
+        <param>
+          <type>Func &amp;&amp;</type>
+          <declname>func</declname>
+        </param>
+        <briefdescription>
+<para>Execute Model Load With Cancel Token. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">func</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1a3b7abb84c440c2d9e74c5dcdc6930e62" kindref="member">executeWithCancelToken()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_timeout_manager.h" line="234" column="10" bodyfile="include/aql/llm_timeout_manager.h" bodystart="234" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1a07d6d5dbf91ba67566e0bc80683241de" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1aql_1_1_l_l_m_timeout_manager_1_1_timeout_config" kindref="compound">TimeoutConfig</ref> &amp;</type>
+        <definition>const TimeoutConfig &amp; themis::aql::LLMTimeoutManager::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::aql::LLMTimeoutManager::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_timeout_manager.h" line="239" column="25" bodyfile="include/aql/llm_timeout_manager.h" bodystart="239" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1ac9502fde3871f6d2bbcfcab9c7f6f2aa" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::LLMTimeoutManager::setConfig</definition>
+        <argsstring>(const TimeoutConfig &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::aql::LLMTimeoutManager::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1aql_1_1_l_l_m_timeout_manager_1_1_timeout_config" kindref="compound">TimeoutConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Set Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setConfig without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_timeout_manager.h" line="246" column="10" bodyfile="include/aql/llm_timeout_manager.h" bodystart="246" bodyend="246"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/llm_timeout_manager.h" line="26" column="1" bodyfile="include/aql/llm_timeout_manager.h" bodystart="26" bodyend="250"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1a325ee395500a91ee65e55f9106cfd881" prot="private" virt="non-virtual"><scope>themis::aql::LLMTimeoutManager</scope><name>config_</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1a9d9e5628e23bd04e63603c9412798952" prot="public" virt="non-virtual"><scope>themis::aql::LLMTimeoutManager</scope><name>executeEmbedWithCancelToken</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1aebce260cfb6bedd0d5992c05fd07f200" prot="public" virt="non-virtual"><scope>themis::aql::LLMTimeoutManager</scope><name>executeEmbedWithTimeout</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1aa029f7d9ccb4e44cd20a55e0dc582cb5" prot="public" virt="non-virtual"><scope>themis::aql::LLMTimeoutManager</scope><name>executeInferWithCancelToken</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1ac0ef2b51317370aa314fdfac9b5c5811" prot="public" virt="non-virtual"><scope>themis::aql::LLMTimeoutManager</scope><name>executeInferWithTimeout</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1aef3b7a1271be3cb868c67d1ed9442610" prot="public" virt="non-virtual"><scope>themis::aql::LLMTimeoutManager</scope><name>executeModelLoadWithCancelToken</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1adc520fdc79f96650523d388e3a78a0af" prot="public" virt="non-virtual"><scope>themis::aql::LLMTimeoutManager</scope><name>executeModelLoadWithTimeout</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1a368704e878d38b47fe50550eac80055e" prot="public" virt="non-virtual"><scope>themis::aql::LLMTimeoutManager</scope><name>executeRAGWithCancelToken</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1adfb8fca5999eee3c45ec7f8a97c1310d" prot="public" virt="non-virtual"><scope>themis::aql::LLMTimeoutManager</scope><name>executeRAGWithTimeout</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1a3b7abb84c440c2d9e74c5dcdc6930e62" prot="public" virt="non-virtual"><scope>themis::aql::LLMTimeoutManager</scope><name>executeWithCancelToken</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1abadedd05861955a00f1d22eb307e96b2" prot="public" virt="non-virtual"><scope>themis::aql::LLMTimeoutManager</scope><name>executeWithTimeout</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1a07d6d5dbf91ba67566e0bc80683241de" prot="public" virt="non-virtual"><scope>themis::aql::LLMTimeoutManager</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1adec56933802cc5eea98c522a40e8fcc4" prot="public" virt="non-virtual"><scope>themis::aql::LLMTimeoutManager</scope><name>LLMTimeoutManager</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_timeout_manager_1ac9502fde3871f6d2bbcfcab9c7f6f2aa" prot="public" virt="non-virtual"><scope>themis::aql::LLMTimeoutManager</scope><name>setConfig</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

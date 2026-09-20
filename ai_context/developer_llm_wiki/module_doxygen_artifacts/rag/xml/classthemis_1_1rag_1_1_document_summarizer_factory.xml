@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1_document_summarizer_factory" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::DocumentSummarizerFactory</compoundname>
+    <includes refid="document__summarizer_8h" local="no">document_summarizer.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_document_summarizer_factory_1a9d91e3b09c23be43c7be7704be0fe745" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1_document_summarizer" kindref="compound">DocumentSummarizer</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; DocumentSummarizer &gt; themis::rag::DocumentSummarizerFactory::createExtractive</definition>
+        <argsstring>(size_t max_sentences=5)</argsstring>
+        <name>createExtractive</name>
+        <qualifiedname>themis::rag::DocumentSummarizerFactory::createExtractive</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>max_sentences</declname>
+          <defval>5</defval>
+        </param>
+        <briefdescription>
+<para>Fast extractive summarizer (no LLM required). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Extractive.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>max_sentences</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum sentences extracted per document</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_sentences</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_summarizer.h" line="231" column="28" bodyfile="src/rag/document_summarizer.cpp" bodystart="499" bodyend="506"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_document_summarizer_factory_1abe8fb1ff6d059400d2cbdb374f1dd263" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1_document_summarizer" kindref="compound">DocumentSummarizer</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; DocumentSummarizer &gt; themis::rag::DocumentSummarizerFactory::createAbstractive</definition>
+        <argsstring>(size_t max_summary_chars=2000)</argsstring>
+        <name>createAbstractive</name>
+        <qualifiedname>themis::rag::DocumentSummarizerFactory::createAbstractive</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>max_summary_chars</declname>
+          <defval>2000</defval>
+        </param>
+        <briefdescription>
+<para>Abstractive summarizer backed by the configured LLM engine. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Abstractive.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>max_summary_chars</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum characters in the combined output</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_summary_chars</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_summarizer.h" line="238" column="28" bodyfile="src/rag/document_summarizer.cpp" bodystart="513" bodyend="520"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_document_summarizer_factory_1ac15a77a4b7cb62c5c917acf87d5e84ec" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1_document_summarizer" kindref="compound">DocumentSummarizer</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; DocumentSummarizer &gt; themis::rag::DocumentSummarizerFactory::createAuto</definition>
+        <argsstring>()</argsstring>
+        <name>createAuto</name>
+        <qualifiedname>themis::rag::DocumentSummarizerFactory::createAuto</qualifiedname>
+        <briefdescription>
+<para>Auto-selecting summarizer (abstractive when LLM is available). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Auto.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createAuto without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_summarizer.h" line="244" column="28" bodyfile="src/rag/document_summarizer.cpp" bodystart="527" bodyend="529"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Factory helpers for common <ref refid="classthemis_1_1rag_1_1_document_summarizer" kindref="compound">DocumentSummarizer</ref> configurations. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/document_summarizer.h" line="225" column="1" bodyfile="include/rag/document_summarizer.h" bodystart="225" bodyend="245"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1_document_summarizer_factory_1abe8fb1ff6d059400d2cbdb374f1dd263" prot="public" virt="non-virtual"><scope>themis::rag::DocumentSummarizerFactory</scope><name>createAbstractive</name></member>
+      <member refid="classthemis_1_1rag_1_1_document_summarizer_factory_1ac15a77a4b7cb62c5c917acf87d5e84ec" prot="public" virt="non-virtual"><scope>themis::rag::DocumentSummarizerFactory</scope><name>createAuto</name></member>
+      <member refid="classthemis_1_1rag_1_1_document_summarizer_factory_1a9d91e3b09c23be43c7be7704be0fe745" prot="public" virt="non-virtual"><scope>themis::rag::DocumentSummarizerFactory</scope><name>createExtractive</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>
